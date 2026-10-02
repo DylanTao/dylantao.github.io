@@ -18,6 +18,7 @@ from coastal_sculpt import build_cave, build_bluff, refine_character, render_por
 from coastal_craft import potted_plant, furnish
 from coastal_interiors import gym
 from coastal_bedding import duvet
+from coastal_hands import install_hand_rig, grip_offset, pose_grip, write_grip_manifest
 
 OUT = ROOT / "assets/models/home"
 SOURCE = ROOT / "artwork/coastal-home"
@@ -1158,6 +1159,7 @@ def character(style):
     from coastal_anatomy import fit_adult_rest
 
     fit_adult_rest(arm)
+    install_hand_rig(arm, style)
     head_z += 0.24
     arm.animation_data_create()
     # Solve the authored hand contacts in Blender, then bake the resulting
@@ -1233,7 +1235,7 @@ def character(style):
         arm.animation_data.action = action
         prior_angles={}
         fixed_contact=clip in ('pullup','dip')
-        for frame in range(1, 98, 4 if fixed_contact else 8):
+        for frame in range(1, 98, (1 if style == 'ghibli' else 4) if fixed_contact else 8):
             bpy.context.scene.frame_set(frame)
             phase = (frame - 1) / 96 * math.tau
             for p in arm.pose.bones:
@@ -1343,7 +1345,12 @@ def character(style):
                     solve_grip(side, (x, -0.36, 1.0))
             elif clip in ('pullup','dip'):
                 for side,sign in (('L',-1),('R',1)):
-                    solve_fixed_grip(side,(sign*(.30 if clip=='pullup' else .43),-.01,2.37-.048 if clip=='pullup' else 1.24-.048))
+                    goal = Vector((sign*(.30 if clip=='pullup' else .43),-.01,2.37-.048 if clip=='pullup' else 1.24-.048))
+                    if style == 'ghibli':
+                        goal += grip_offset(side, clip)
+                    solve_fixed_grip(side, goal)
+                    if style == 'ghibli':
+                        pose_grip(arm, side, clip)
             elif clip=='coffee-prep':
                 solve_grip('R',(.13,-.49,1.06+.035*math.sin(phase)))
             elif clip=='carry':
@@ -1370,6 +1377,8 @@ def character(style):
     arm["avatar"] = style
     bpy.context.scene.frame_set(1)
     export("sirui-" + style, animations=True)
+    if style == "ghibli":
+        write_grip_manifest(OUT / "manifest.json")
     for track in arm.animation_data.nla_tracks:
         track.mute = track.name != "idle"
     bpy.context.scene.frame_set(1)

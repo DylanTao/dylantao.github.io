@@ -9,12 +9,15 @@ import hashlib
 import json
 import math
 import struct
+import sys
 from pathlib import Path
 import bpy
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "bin"))
+from coastal_hands import grip_offset
 OUT = ROOT / "artwork/coastal-home/reviews"
 AVATARS = ("lizard", "south-park", "simpsons", "ghibli", "rick-and-morty")
 
@@ -58,6 +61,9 @@ for avatar in AVATARS:
             elif clip in ("pullup", "dip"):
                 x, z = (.30, 2.322) if clip == "pullup" else (.43, 1.192)
                 goals = {"L": (-x, -.01, z), "R": (x, -.01, z)}
+                if arm.data.bones.get("Hand.Finger.0.0.L"):
+                    goals = {side: Vector(goal) + grip_offset(side, clip)
+                             for side, goal in goals.items()}
             elif clip == "coffee-prep":
                 goals = {"R": (.13, -.49, 1.06 + .035 * math.sin(phase))}
             elif clip == "carry":
@@ -65,6 +71,8 @@ for avatar in AVATARS:
             hands = {side: list(arm.pose.bones["Hand." + side].head) for side in ("L", "R")}
             drift = {side: (Vector(hands[side]) - Vector(goal)).length for side, goal in goals.items()}
             sample = {"frame": frame, "wristDriftMeters": drift, "wrist": hands}
+            if clip in ("pullup", "dip") and arm.data.bones.get("Hand.Finger.0.0.L"):
+                sample["contactReference"] = "Anatomical wrist offset from cylinder center"
             if clip in ("typing", "soak"):
                 sample["feet"] = {side: bounds(mesh, "Foot." + side) for side in ("L", "R")}
             if clip == "typing":

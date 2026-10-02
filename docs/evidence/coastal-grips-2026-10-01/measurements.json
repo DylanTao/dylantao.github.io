@@ -1,0 +1,222 @@
+{
+  "baselineCommit": "0f948c5bab7b9804cdb45caf860650338130a95d",
+  "gltfByteTotal": 7259564,
+  "baselineGltfByteTotal": 7077116,
+  "selectedCompleteGeometryComputedGzipBytes": 3776633,
+  "baselineSelectedCompleteGeometryComputedGzipBytes": 3744542,
+  "compressionQualifier": "Computed gzip-equivalent GLB bytes only, not measured HTTP compression or full page payload",
+  "human": {
+    "file": "sirui-ghibli.glb",
+    "bytes": 816236,
+    "baselineBytes": 633788,
+    "computedGzipBytes": 486627,
+    "baselineComputedGzipBytes": 454536,
+    "triangles": 166110,
+    "sha256": "ac1da1972cb98cf3b9ad580c454e619665d947c53c00e6266b4db8b60cc3d25e",
+    "baselineSha256": "a6f84f0b06165db6b27c12d214d22cbd4f37a66497635ed5e8e6b40d8e983ea3",
+    "byteIdentical": false
+  },
+  "assets": [
+    {
+      "file": "BrushRabbit.glb",
+      "bytes": 70608,
+      "baselineBytes": 70608,
+      "computedGzipBytes": 24307,
+      "baselineComputedGzipBytes": 24307,
+      "triangles": 11232,
+      "sha256": "00c20e5e7486ce6a56528d76de384511b62789477c3ea6f06fd9022da1a2b297",
+      "baselineSha256": "00c20e5e7486ce6a56528d76de384511b62789477c3ea6f06fd9022da1a2b297",
+      "byteIdentical": true
+    },
+    {
+      "file": "CaliforniaSeaLion.glb",
+      "bytes": 59004,
+      "baselineBytes": 59004,
+      "computedGzipBytes": 17933,
+      "baselineComputedGzipBytes": 17933,
+      "triangles": 9360,
+      "sha256": "94126291afa3e8d39dd528fa691a71b0999a8ad62d5d994497fe21fd2a16db39",
+      "baselineSha256": "94126291afa3e8d39dd528fa691a71b0999a8ad62d5d994497fe21fd2a16db39",
+      "byteIdentical": true
+    },
+    {
+      "file": "coast.glb",
+      "bytes": 169708,
+      "baselineBytes": 169708,
+      "computedGzipBytes": 137305,
+      "baselineComputedGzipBytes": 137305,
+      "triangles": 99884,
+      "sha256": "02e7d5d93233b62b0902ebb89743061c087aec4ff5ce343577c8e10d136960ae",
+      "baselineSha256": "02e7d5d93233b62b0902ebb89743061c087aec4ff5ce343577c8e10d136960ae",
+      "byteIdentical": true
+    },
+    {
+      "file": "HarborSeal.glb",
+      "bytes": 181544,
+      "baselineBytes": 181544,
+      "computedGzipBytes": 46916,
+      "baselineComputedGzipBytes": 46916,
+      "triangles": 29328,
+      "sha256": "ee14ca76bc74ccec69903ccad186747aad1b120239d598de56acc55ab134eaa1",
+      "baselineSha256": "ee14ca76bc74ccec69903ccad186747aad1b120239d598de56acc55ab134eaa1",
+      "byteIdentical": true
+    },
+    {
+      "file": "home-shell.glb",
+      "bytes": 1646588,
+      "baselineBytes": 1646588,
+      "computedGzipBytes": 1518332,
+      "baselineComputedGzipBytes": 1518332,
+      "triangles": 267410,
+      "sha256": "d179c5ba94ca18101ed0040abf1af75961230a7618451a2df4f550aa05c705f3",
+      "baselineSha256": "d179c5ba94ca18101ed0040abf1af75961230a7618451a2df4f550aa05c705f3",
+      "byteIdentical": true
+    },
+    {
+      "file": "room-gym.glb",
+      "bytes": 686928,
+      "baselineBytes": 686928,
+      "computedGzipBytes": 510331,
+      "baselineComputedGzipBytes": 510331,
+      "triangles": 58084,
+      "sha256": "525395e32ba096e453188831efa1ee920adaca05bc3b6b6e0ad53cdeddc54d49",
+      "baselineSha256": "525395e32ba096e453188831efa1ee920adaca05bc3b6b6e0ad53cdeddc54d49",
+      "byteIdentical": true
+    },
+    {
+      "file": "room-kitchen.glb",
+      "bytes": 470204,
+      "baselineBytes": 470204,
+      "computedGzipBytes": 394180,
+      "baselineComputedGzipBytes": 394180,
+      "triangles": 60668,
+      "sha256": "dc6c2fbd5ae2f1b2106c5cad7b04a59cb37e8cd38ebb89a89e137b24af83347b",
+      "baselineSha256": "dc6c2fbd5ae2f1b2106c5cad7b04a59cb37e8cd38ebb89a89e137b24af83347b",
+      "byteIdentical": true
+    },
+    {
+      "file": "room-lounge.glb",
+      "bytes": 262396,
+      "baselineBytes": 262396,
+      "computedGzipBytes": 226808,
+      "baselineComputedGzipBytes": 226808,
+      "triangles": 31507,
+      "sha256": "bf1156629ee60b6716866d19d636282d9e4a07e38776dd919f7b3243b162f312",
+      "baselineSha256": "bf1156629ee60b6716866d19d636282d9e4a07e38776dd919f7b3243b162f312",
+      "byteIdentical": true
+    },
+    {
+      "file": "room-onsen.glb",
+      "bytes": 84412,
+      "baselineBytes": 84412,
+      "computedGzipBytes": 69973,
+      "baselineComputedGzipBytes": 69973,
+      "triangles": 7792,
+      "sha256": "2c9b468d29326b050deb6d72a7606205696e8b225b8251129060da45309bebab",
+      "baselineSha256": "2c9b468d29326b050deb6d72a7606205696e8b225b8251129060da45309bebab",
+      "byteIdentical": true
+    },
+    {
+      "file": "room-sleep.glb",
+      "bytes": 56932,
+      "baselineBytes": 56932,
+      "computedGzipBytes": 45368,
+      "baselineComputedGzipBytes": 45368,
+      "triangles": 9248,
+      "sha256": "de5dca6376dc0b598505a5ed732e62a49c2965b38cb57876401091918cad6fb3",
+      "baselineSha256": "de5dca6376dc0b598505a5ed732e62a49c2965b38cb57876401091918cad6fb3",
+      "byteIdentical": true
+    },
+    {
+      "file": "room-study.glb",
+      "bytes": 357520,
+      "baselineBytes": 357520,
+      "computedGzipBytes": 298553,
+      "baselineComputedGzipBytes": 298553,
+      "triangles": 38912,
+      "sha256": "32a13265d9b0bcc776afca269883c54f2727cdf4369e1c7352214ea339206e67",
+      "baselineSha256": "32a13265d9b0bcc776afca269883c54f2727cdf4369e1c7352214ea339206e67",
+      "byteIdentical": true
+    },
+    {
+      "file": "sirui-ghibli.glb",
+      "bytes": 816236,
+      "baselineBytes": 633788,
+      "computedGzipBytes": 486627,
+      "baselineComputedGzipBytes": 454536,
+      "triangles": 166110,
+      "sha256": "ac1da1972cb98cf3b9ad580c454e619665d947c53c00e6266b4db8b60cc3d25e",
+      "baselineSha256": "a6f84f0b06165db6b27c12d214d22cbd4f37a66497635ed5e8e6b40d8e983ea3",
+      "byteIdentical": false
+    },
+    {
+      "file": "sirui-lizard.glb",
+      "bytes": 463080,
+      "baselineBytes": 463080,
+      "computedGzipBytes": 287058,
+      "baselineComputedGzipBytes": 287058,
+      "triangles": 97470,
+      "sha256": "b1a38357cffc570641994776190f4a0d8c8349881755d5cde62d22f2807b951e",
+      "baselineSha256": "b1a38357cffc570641994776190f4a0d8c8349881755d5cde62d22f2807b951e",
+      "byteIdentical": true
+    },
+    {
+      "file": "sirui-rick-and-morty.glb",
+      "bytes": 618384,
+      "baselineBytes": 618384,
+      "computedGzipBytes": 440302,
+      "baselineComputedGzipBytes": 440302,
+      "triangles": 153396,
+      "sha256": "7f419bb51d4f8f55d081d6359f924d929e121594ce6d64be72de4b27235c88fa",
+      "baselineSha256": "7f419bb51d4f8f55d081d6359f924d929e121594ce6d64be72de4b27235c88fa",
+      "byteIdentical": true
+    },
+    {
+      "file": "sirui-simpsons.glb",
+      "bytes": 634376,
+      "baselineBytes": 634376,
+      "computedGzipBytes": 456207,
+      "baselineComputedGzipBytes": 456207,
+      "triangles": 159498,
+      "sha256": "844e1c55e5f7f84aba8b5e101bb275b4d8c1c8a0687db713abb5637de16e71d7",
+      "baselineSha256": "844e1c55e5f7f84aba8b5e101bb275b4d8c1c8a0687db713abb5637de16e71d7",
+      "byteIdentical": true
+    },
+    {
+      "file": "sirui-south-park.glb",
+      "bytes": 681644,
+      "baselineBytes": 681644,
+      "computedGzipBytes": 501730,
+      "baselineComputedGzipBytes": 501730,
+      "triangles": 181490,
+      "sha256": "900eafa5b13def0e028c9d525cbceb47ef781ac999891ee7a5ac2cb0816dfb81",
+      "baselineSha256": "900eafa5b13def0e028c9d525cbceb47ef781ac999891ee7a5ac2cb0816dfb81",
+      "byteIdentical": true
+    }
+  ],
+  "restTopologySha256": "215b91e643d3cd2bce2b31107979d9db68b914bc303471afb4f8b50d1c8fd328",
+  "rigBones": 38,
+  "unchangedPoseMaximumMeters": 3.591767189858541e-7,
+  "handMinimumSignedMeters": -0.00208634440043063,
+  "wristTargetMaximumMeters": 0.00032680358684734103,
+  "contactSamples": 132,
+  "halfFrameContactSamples": 128,
+  "baselineContactMinimumMeters": {
+    "pullup": -0.02388052438438617,
+    "dip": -0.03375965689635533
+  },
+  "nativeContactMinimumMeters": {
+    "pullup": -0.0020460960990494916,
+    "dip": -0.00208634440043063
+  },
+  "gripWristOffsets": {
+    "pullup": [
+      [-0.05, -0.055, 0],
+      [0.05, -0.055, 0]
+    ],
+    "dip": [
+      [0.055, 0.058, 0],
+      [-0.055, 0.058, 0]
+    ]
+  }
+}

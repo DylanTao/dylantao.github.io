@@ -13,6 +13,7 @@ from mathutils import Vector
 from coastal_sculpt import surface
 from coastal_interiors import curved_wall
 from coastal_objects import wave_worn_rock, sandstone_bedding
+from coastal_hands import update_manifest_grips
 from coastal_landscape import shoreline, cliff_surface, beach_width, beach_point, top_height, export_contacts, web
 
 
@@ -536,5 +537,6 @@ def coast(mats, h):
         objects.append(surface('coast_tide_pool_water',points,[tuple(range(64))],pool_water))
         CONFIG['terrain']['tidePools'].append({'center':web((cx,cy,cz+.018)),'radii':[rx*.77,ry*.77]})
     manifest = Path(__file__).resolve().parents[1] / "assets/models/home/manifest.json"
+    update_manifest_grips(CONFIG)
     manifest.write_text(json.dumps(CONFIG, indent=2) + "\n", encoding="utf-8")
     return objects

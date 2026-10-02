@@ -1,0 +1,4447 @@
+{
+  "reference": "Anatomical Hand.L/R wrist, cylinder surface measured separately",
+  "surfaceMethod": "Original deformed source vertices versus signed finite-cylinder distance",
+  "limitations": "Authored FK/IK grip with bounded skin compression, not a contact dynamics solver or continuous mesh collision proof",
+  "topologySha256": "215b91e643d3cd2bce2b31107979d9db68b914bc303471afb4f8b50d1c8fd328",
+  "rigBones": 38,
+  "gripWristOffsets": {
+    "pullup": [
+      [-0.05, -0.055, -0.0],
+      [0.05, -0.055, -0.0]
+    ],
+    "dip": [
+      [0.055, 0.058, -0.0],
+      [-0.055, 0.058, -0.0]
+    ]
+  },
+  "unchangedPoses": [
+    {
+      "clip": "idle",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 1.8852324677824966e-7
+    },
+    {
+      "clip": "walk",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 1.8852324677824966e-7
+    },
+    {
+      "clip": "typing",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 2.5288109106536417e-7
+    },
+    {
+      "clip": "reading",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 2.7314279645418166e-7
+    },
+    {
+      "clip": "eat",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 3.591767189858541e-7
+    },
+    {
+      "clip": "drink",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 3.591767189858541e-7
+    },
+    {
+      "clip": "workout",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 3.1680303253932744e-7
+    },
+    {
+      "clip": "coffee-prep",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 2.7314279645418166e-7
+    },
+    {
+      "clip": "carry",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 1.9082797281243946e-7
+    },
+    {
+      "clip": "soak",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 2.682209014892578e-7
+    },
+    {
+      "clip": "lounge",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 2.682209014892578e-7
+    },
+    {
+      "clip": "sleep",
+      "samples": 5,
+      "maximumVertexDifferenceMeters": 1.97686242482388e-7
+    }
+  ],
+  "baseline": [
+    {
+      "clip": "pullup",
+      "frame": 1,
+      "side": "L",
+      "minimumSignedMeters": -0.023322243158217803,
+      "verticesInsideBeyond3mm": 152
+    },
+    {
+      "clip": "pullup",
+      "frame": 1,
+      "side": "R",
+      "minimumSignedMeters": -0.023181956605180742,
+      "verticesInsideBeyond3mm": 153
+    },
+    {
+      "clip": "pullup",
+      "frame": 25,
+      "side": "L",
+      "minimumSignedMeters": -0.022246997273675934,
+      "verticesInsideBeyond3mm": 185
+    },
+    {
+      "clip": "pullup",
+      "frame": 25,
+      "side": "R",
+      "minimumSignedMeters": -0.020613303073279826,
+      "verticesInsideBeyond3mm": 184
+    },
+    {
+      "clip": "pullup",
+      "frame": 49,
+      "side": "L",
+      "minimumSignedMeters": -0.02388052438438617,
+      "verticesInsideBeyond3mm": 169
+    },
+    {
+      "clip": "pullup",
+      "frame": 49,
+      "side": "R",
+      "minimumSignedMeters": -0.02152402149166954,
+      "verticesInsideBeyond3mm": 169
+    },
+    {
+      "clip": "pullup",
+      "frame": 73,
+      "side": "L",
+      "minimumSignedMeters": -0.022246997273675934,
+      "verticesInsideBeyond3mm": 185
+    },
+    {
+      "clip": "pullup",
+      "frame": 73,
+      "side": "R",
+      "minimumSignedMeters": -0.020613303073279826,
+      "verticesInsideBeyond3mm": 184
+    },
+    {
+      "clip": "pullup",
+      "frame": 97,
+      "side": "L",
+      "minimumSignedMeters": -0.023322243158217803,
+      "verticesInsideBeyond3mm": 152
+    },
+    {
+      "clip": "pullup",
+      "frame": 97,
+      "side": "R",
+      "minimumSignedMeters": -0.023181956605180742,
+      "verticesInsideBeyond3mm": 153
+    },
+    {
+      "clip": "dip",
+      "frame": 1,
+      "side": "L",
+      "minimumSignedMeters": -0.03280585739718027,
+      "verticesInsideBeyond3mm": 437
+    },
+    {
+      "clip": "dip",
+      "frame": 1,
+      "side": "R",
+      "minimumSignedMeters": -0.03375965689635533,
+      "verticesInsideBeyond3mm": 444
+    },
+    {
+      "clip": "dip",
+      "frame": 25,
+      "side": "L",
+      "minimumSignedMeters": -0.03151665265484646,
+      "verticesInsideBeyond3mm": 581
+    },
+    {
+      "clip": "dip",
+      "frame": 25,
+      "side": "R",
+      "minimumSignedMeters": -0.032032384584014306,
+      "verticesInsideBeyond3mm": 572
+    },
+    {
+      "clip": "dip",
+      "frame": 49,
+      "side": "L",
+      "minimumSignedMeters": -0.031589728977500946,
+      "verticesInsideBeyond3mm": 478
+    },
+    {
+      "clip": "dip",
+      "frame": 49,
+      "side": "R",
+      "minimumSignedMeters": -0.032212059000178254,
+      "verticesInsideBeyond3mm": 482
+    },
+    {
+      "clip": "dip",
+      "frame": 73,
+      "side": "L",
+      "minimumSignedMeters": -0.03151665265484646,
+      "verticesInsideBeyond3mm": 581
+    },
+    {
+      "clip": "dip",
+      "frame": 73,
+      "side": "R",
+      "minimumSignedMeters": -0.032032384584014306,
+      "verticesInsideBeyond3mm": 572
+    },
+    {
+      "clip": "dip",
+      "frame": 97,
+      "side": "L",
+      "minimumSignedMeters": -0.03280585739718027,
+      "verticesInsideBeyond3mm": 437
+    },
+    {
+      "clip": "dip",
+      "frame": 97,
+      "side": "R",
+      "minimumSignedMeters": -0.03375965689635533,
+      "verticesInsideBeyond3mm": 444
+    }
+  ],
+  "contacts": [
+    {
+      "clip": "pullup",
+      "frame": 1,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020319328002822608,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.3955274982151795e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006222723993665573,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9205081740109042e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047976578624800426,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010544637564279431,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020319328002822608,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 1,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001984292274977942,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.3955274982151795e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005745031449090228,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012661255009514122,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044472992272478334,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013117098275059746,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001984292274977942,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 3.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020320809849492145,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 3.011961136862212e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006226627850302695,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9309273530946497e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.000479619428238251,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010545099201298529,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020320809849492145,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 3.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019844401128732946,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 3.011961136862212e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005743763299533057,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012681255534812905,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004446648846296482,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.001311890042845782,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019844401128732946,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 6.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020325159342083794,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.4578447942743725e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006225943314541148,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.89882899645534e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047943124620016334,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010546063823548973,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020325159342083794,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 6.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019847439072600975,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.4578447942743725e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005748936153810065,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001267423254597451,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004442117995806065,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013122963875397686,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019847439072600975,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 9.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020318587077920794,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 3.003425057343598e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006227724090672633,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9253339715735035e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004796310402128655,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010544637564279431,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020318587077920794,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 9.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001984218355872272,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 3.003425057343598e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005747154861573817,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001267747695401257,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044436282634100627,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013125269588747622,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001984218355872272,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 12.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020322590124158373,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.9276729145861573e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006227039544954259,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9036548239859813e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.000479463771140682,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010547140989065826,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020322590124158373,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 12.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019846207067450994,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.9276729145861573e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.000574629957702643,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012644498943274393,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004446439328073537,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013123971090779583,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019846207067450994,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 15.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020323924440328184,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 3.2842295335327266e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006229162581058954,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9285511820434087e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047941498376523686,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010547797829979048,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020323924440328184,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 15.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019847548204667553,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 3.2842295335327266e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005750717435819529,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012639098577610364,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044407703467240836,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013122124522491584,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019847548204667553,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 18.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002028884700978839,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 3.648532586990061e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006194961989857209,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 2.1873986953580005e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004822191668022689,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010522815504384955,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002028884700978839,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 18.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019812453424716617,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 3.648532586990061e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.00057187471862492,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012949440341154805,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044732941194125866,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013092341818036445,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019812453424716617,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 21.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020432797682904784,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 128,
+      "wristTargetErrorMeters": 1.5177260154747739e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006324365069515295,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.01698662184381e-5,
+          "verticesWithin2mm": 16
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004703771257330881,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010637571073026063,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020432797682904784,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 21.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019956285938906616,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 1.5177260154747739e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005841629369253039,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00011760090525160874,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004350707882607961,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013218313865166718,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019956285938906616,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 24.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002031809312740586,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 6.176599843633805e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006219403010582492,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9735181498961585e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004800956786586673,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010541826380258794,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002031809312740586,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 24.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019841690764099765,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 6.176599843633805e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005746812748457578,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012722344376199166,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044530839535334224,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013117221783708437,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019841690764099765,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 27.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002031661127307533,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 4.81067551891742e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006219301329975918,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.979185500750047e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00048002598297625446,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010542021576780414,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002031661127307533,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 27.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001984021237742207,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 4.81067551891742e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005741610297349577,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012769922212340148,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.000445470992380112,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013113864420524687,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001984021237742207,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 30.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020460960990494916,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 128,
+      "wristTargetErrorMeters": 2.8870999813079834e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006361189697923,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 5.528241762566e-6,
+          "verticesWithin2mm": 16
+        },
+        "2": {
+          "minimumSignedMeters": 0.00046601610939372984,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010681627012872202,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020460960990494916,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 30.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.00199847291632943,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.8870999813079834e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005885013436335677,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00011292446950509835,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00043104606952672556,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013259147875467996,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.00199847291632943,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 33.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020314436462553556,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 1.2293457984924316e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006220397548497222,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9462460125903996e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004798587150571937,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010540287572761015,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020314436462553556,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 33.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019838022769913637,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 1.2293457984924316e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005745102168821861,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001271856607918606,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044500633883970755,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.001311684161552567,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019838022769913637,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 36.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.00203144906983058,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.590232277588575e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006198380830878224,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 2.104508996118512e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00048090881674141966,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.00105394877411474,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.00203144906983058,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 36.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001983681538556971,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.590232277588575e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005741479885655737,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001283156818551283,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044657447172256545,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013093572109185887,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001983681538556971,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 39.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002032407199766703,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 4.850644121564045e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006227724090672633,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.865122561805349e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047943124620016334,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010550455131144582,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002032407199766703,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 39.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019846344311627087,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 4.850644121564045e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005749862135794453,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012629365218829944,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044417927951284283,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013127743170708688,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019846344311627087,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 42.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020323379102808146,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 5.978626700380457e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006228922036648384,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.8956117901969965e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047946841815059774,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010546679348268188,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020323379102808146,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 42.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019846974312996007,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 5.978626700380457e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005747668029491317,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012650987761177526,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044459515333669306,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013126108939754758,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019846974312996007,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 45.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020307867609671675,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.8501666318792645e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006214851726904398,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 2.0531078425603533e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004809297119652521,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010533783142636366,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020307867609671675,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 45.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019831479231192627,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.8501666318792645e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005731647852644343,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012842367290839124,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004461260808556189,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013109499701512602,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019831479231192627,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 48.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020320809849492145,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.961781503304982e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006221697204411014,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9703009745443423e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047993305810823186,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010542749652223647,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020320809849492145,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 48.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019843059914413826,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.961781503304982e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005744347226237824,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001274558922643651,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004447577523978355,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013119695378213739,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019843059914413826,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 51.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020322984634096007,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 1.1926748300777466e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.000622943543854778,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.8707154173524393e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.000479549728887297,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010550259932296281,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020322984634096007,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 51.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019846590710812934,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 1.1926748300777466e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005752599075260975,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012662877193198724,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044384939313854566,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013125773200088758,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019846590710812934,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 54.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002031735220076294,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 4.6503594997689227e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006224745367927054,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9317684021899484e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004803233513863865,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.001054590994171635,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002031735220076294,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 54.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001984095157128756,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 4.6503594997689227e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005742636652709826,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012732077551771276,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044483905281297864,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013117848833991454,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001984095157128756,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 57.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020324713470804,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 1.8013088368297144e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006226456716714214,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.8707154173524393e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047902004141473983,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.001054995217316241,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020324713470804,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 57.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001984831550183693,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 1.8013088368297144e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005743421193076248,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012658010649322163,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044446507578617053,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013121665369410195,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001984831550183693,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 60.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.00203231800335622,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.488496707761938e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006230119971129475,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9044223393750725e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047977043991327337,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010545365538407146,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.00203231800335622,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 60.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019846755822723154,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.488496707761938e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005749549627151705,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001267638903536747,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.000444518550295564,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013120702571626543,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019846755822723154,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 63.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002032525874020946,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 5.780805570265896e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.000622508763956111,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.890018861862644e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047961013453894433,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010549531824251036,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002032525874020946,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 63.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019847548204667553,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 5.780805570265896e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005748664705921246,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012707210562149657,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044500633883970755,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013119023911026088,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019847548204667553,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 66.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002024349590458347,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 4.824799270954364e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006147749104443052,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 2.6478878009883466e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00048712138730638843,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010471340254959091,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002024349590458347,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 66.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019765777811684426,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 125,
+      "wristTargetErrorMeters": 4.824799270954364e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005673049094401215,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001339605054390576,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004522151560873988,
+          "verticesWithin2mm": 14
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013042220975181505,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019765777811684426,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 69.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020348574085914777,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.5626775324556534e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006249665893366882,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.6456645306556217e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004771034644841278,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010573548126625483,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020348574085914777,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 69.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019872160052170837,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.5626775324556534e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005769090519345578,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012456885738539036,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044190045111470316,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.001314414928282874,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019872160052170837,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 72.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002032189725137093,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 3.2313538256587746e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006223237385125924,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9622580784982996e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047974952415270194,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010542903529970477,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002032189725137093,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 72.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001984415473253325,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 3.2313538256587746e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005748352250101868,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012689366415067835,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044456263380752634,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013116426826447827,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001984415473253325,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 75.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002029255473963116,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 4.041420738874418e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006201982198515907,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 2.1617397467706134e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00048184752889899457,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010523472035956598,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002029255473963116,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 75.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001981620218983352,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 4.041420738874418e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005723818798032826,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012890535377512238,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004468763915824493,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013096191688572838,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001981620218983352,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 78.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020418862892588874,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 128,
+      "wristTargetErrorMeters": 1.3262211354407377e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006314373901336219,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.0796839556799498e-5,
+          "verticesWithin2mm": 16
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004712644147794251,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.00106255574322614,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020418862892588874,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 78.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019942324092583757,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 1.3262211354407377e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005834034194648445,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00011870366541901975,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004359531660651679,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.001320795505068046,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019942324092583757,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 81.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002032026787920648,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 3.3922649734712273e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006217178282572622,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9229583518222404e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047967518555058417,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010546063823548973,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002032026787920648,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 81.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019842539149260083,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 3.3922649734712273e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005744246870219953,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012696943603189917,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044480653257615577,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013119315198307155,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019842539149260083,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 84.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020318587077920794,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.8421212376871263e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006219403010582492,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9293187856678218e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047989588385839027,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.001054479144354692,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020318587077920794,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 84.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019842429955858644,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.8421212376871263e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005742565922834952,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001268449987973791,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044514110653535305,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.001311852030805638,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019842429955858644,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 87.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020320415395755007,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 3.332000937312528e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006227724090672633,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.9269425755988334e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00047941498376523686,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.001054698710906108,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020320415395755007,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 87.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001984401754138519,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 3.332000937312528e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005745031449090228,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012649365553113467,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.00044417927951284283,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013119023911026088,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001984401754138519,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 90.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020321255791700375,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.8266982623766144e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006226868407938208,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.871557141324906e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.000479463771140682,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010549182770757982,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020321255791700375,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 90.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001984486591405446,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.8266982623766144e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005747567683341247,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012657476617357333,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004444278659851107,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013123467484193914,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001984486591405446,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 93.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.002032189725137093,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.443972150513042e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006225943314541148,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.89882899645534e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004792314528266721,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010550916781066136,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.002032189725137093,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 93.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0019845495929297213,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.443972150513042e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005747738742969723,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001265423218448289,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004442117995806065,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013125146164216055,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019845495929297213,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 96.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0020319574977557715,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 127,
+      "wristTargetErrorMeters": 2.898568521705959e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006221868336539899,
+          "verticesWithin2mm": 20
+        },
+        "1": {
+          "minimumSignedMeters": 1.923725369966725e-5,
+          "verticesWithin2mm": 15
+        },
+        "2": {
+          "minimumSignedMeters": 0.00048001436808901843,
+          "verticesWithin2mm": 13
+        },
+        "3": {
+          "minimumSignedMeters": -0.0010543868164025125,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0020319574977557715,
+          "verticesWithin2mm": 38
+        }
+      }
+    },
+    {
+      "clip": "pullup",
+      "frame": 96.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.001984182793912541,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 126,
+      "wristTargetErrorMeters": 2.898568521705959e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005744689338132505,
+          "verticesWithin2mm": 18
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012692610783916064,
+          "verticesWithin2mm": 13
+        },
+        "2": {
+          "minimumSignedMeters": 0.0004444813353974217,
+          "verticesWithin2mm": 15
+        },
+        "3": {
+          "minimumSignedMeters": -0.0013117221783708437,
+          "verticesWithin2mm": 25
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001984182793912541,
+          "verticesWithin2mm": 40
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 1,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018382070862797625,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.9832579281147e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005910589675062819,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016791797517192592,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.836591476271938e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018382070862797625,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017491433844442905,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 1,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020200266719863427,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.9832579281147e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005834308812103228,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.000357446977513394,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.225924567941101e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020200266719863427,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017274197989469095,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 3.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.00183835077910411,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.1656423819331699e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005913021375619845,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016762877786766217,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.824663226597135e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.00183835077910411,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017492046336687397,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 3.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020201640856356076,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.1656423819331699e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005835981665895107,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003574566973255158,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.242611483532775e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020201640856356076,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001727481168106837,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 6.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018383977818996339,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.8394269226362224e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005913256563864835,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016785539705972685,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8103529980207098e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018383977818996339,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017494091759215,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 6.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020202632678872068,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.8394269226362224e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005837184025588166,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.000357446977513394,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2688273946490367e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020202632678872068,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001727685566511268,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 9.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018384696283675825,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 9.650317601396075e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.000591155703576346,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.000167880762952613,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8127349873119378e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018384696283675825,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017493681539476474,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 9.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020201182811313417,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 9.650317601396075e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005837184025588166,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035763691743042475,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.254526457571432e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020201182811313417,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001727511852565436,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 12.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.001838183137441468,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.836595508777886e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005909675534439829,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016798222659578782,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8485014055737445e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.001838183137441468,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017491537806984953,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 12.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020200418162780245,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.836595508777886e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005833603071688231,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003578420956890996,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.242581634131352e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020200418162780245,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017272970596561368,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 15.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018384678373208896,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.8721437036289013e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005912315810282995,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016788243776148098,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8151169775461615e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018384678373208896,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017492762801844808,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 15.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020199808673456235,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.8721437036289013e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005836243036450375,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035767711304905,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2711834444015533e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020199808673456235,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017274504835673304,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 18.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018381840322250556,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.3563139423081977e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005912524394745822,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016779281924882844,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8318275111502422e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018381840322250556,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017491023623678811,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 18.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020201182811313417,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.3563139423081977e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005836687405751939,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035783237725270367,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2592834948730045e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020201182811313417,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017273789687295774,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 21.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.001838639056918348,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 7.231628338192679e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005912209357350554,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016765247017450774,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8104266925281507e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.001838639056918348,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017490301355973514,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 21.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020203014988754778,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 168,
+      "wristTargetErrorMeters": 7.231628338192679e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005837549964776215,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035716272790902587,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2569567670237267e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020203014988754778,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017272770061401224,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 24.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018336007493549855,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.120304799244418e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005880651547503085,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001723105384730736,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 3.247866900112084e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018336007493549855,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017491723183937144,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 24.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.002017396679163022,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.120304799244418e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005790215263077395,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00036254623226471966,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -1.8743149163107098e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.002017396679163022,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017274012150371512,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 27.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018490126323015485,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.7959187646159277e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005982349019362232,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00015819765456096674,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 1.88533044554115e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018490126323015485,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017528895040854198,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 27.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020266915182145795,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 168,
+      "wristTargetErrorMeters": 1.7959187646159277e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005937691108736237,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003471394529807256,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -3.090144769739289e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020266915182145795,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017310591672705516,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 30.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.00184075976489987,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 2.5247273815940368e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005914144089603571,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016679337688720736,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.6673608329162712e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.00184075976489987,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017517076801787448,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 30.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020203014988754778,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 2.5247273815940368e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005858094733041733,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035606328385239666,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.340376695699614e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020203014988754778,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017298839197203639,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 33.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018188058303319418,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 172,
+      "wristTargetErrorMeters": 9.858545324011975e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005712246821569442,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00018689907498519592,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 4.793055848690414e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018188058303319418,
+          "verticesWithin2mm": 40
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017299763313336353,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 33.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020000648673342974,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 168,
+      "wristTargetErrorMeters": 9.858545324011975e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005640560336901551,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003767109533356211,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.9565239474324545e-6,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020000648673342974,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017082229080936095,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 36.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018308624829237938,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 8.819808117485157e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005843780681872857,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016807241783103888,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 3.5612767878501206e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018308624829237938,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017073541517434246,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 36.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.002011304918456157,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 168,
+      "wristTargetErrorMeters": 8.819808117485157e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005741439817604568,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003596761560009723,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -1.596744416823559e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.002011304918456157,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0016856185376120242,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 39.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.001856511142361246,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 175,
+      "wristTargetErrorMeters": 5.543578445337518e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006037147194080453,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00015765749254425393,
+          "verticesWithin2mm": 20
+        },
+        "2": {
+          "minimumSignedMeters": 1.2080889224948266e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.001856511142361246,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017882383138307853,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 39.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.002034222812286629,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 5.543578445337518e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.000602697414902098,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003443569262453136,
+          "verticesWithin2mm": 20
+        },
+        "2": {
+          "minimumSignedMeters": -3.648653721714107e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.002034222812286629,
+          "verticesWithin2mm": 38
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017663604411333397,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 42.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018383471953670877,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.9126608696561159e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005908969969788749,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016808369035357235,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.831790935580586e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018383471953670877,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017492456554346059,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 42.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020199960112823392,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.9126608696561159e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005835066797774124,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003576965521525713,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2235237116786932e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020199960112823392,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001727389114245581,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 45.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018382992971406609,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 2.6407552657197836e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005911139866049339,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016793316982620377,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8341729333559995e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018382992971406609,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017494091759215,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 45.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020199960112823392,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 2.6407552657197836e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005832897330371664,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003577464671730632,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.259253493712421e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020199960112823392,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001727685566511268,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 48.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018382540886995938,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 2.0267770452403194e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005909884114063957,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016793149475987507,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8437374310248675e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018382540886995938,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017491023623678811,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 48.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020200495742896535,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 2.0267770452403194e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005834073565398404,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003576119600176911,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2378395462006873e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020200495742896535,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017273789687295774,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 51.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018383986766339552,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 3.494843027352059e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005911738986488294,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016747658227520001,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.791297117628322e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018383986766339552,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017494906511634142,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 51.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020202785966972614,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 3.494843027352059e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005837628390825203,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035737210527222313,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2712282306429354e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020202785966972614,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017276652736447767,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 54.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018379969086735823,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.1041578357636366e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005910274618223937,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016805331115398586,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8605407695649065e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018379969086735823,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001748672473768767,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 54.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020199810483063907,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 168,
+      "wristTargetErrorMeters": 1.1041578357636366e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005831773343985824,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035777826874536234,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.221226138680865e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020199810483063907,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017268169874184378,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 57.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.001840593027585713,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.9839859512174915e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005919607586034534,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016512903745935503,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.6599626858497816e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.001840593027585713,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017438381364675778,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 57.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.002020410711361033,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 168,
+      "wristTargetErrorMeters": 1.9839859512174915e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005853190112409604,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035455381771246075,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.3819393114389575e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.002020410711361033,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017221362908393933,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 60.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0019464907856839159,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 183,
+      "wristTargetErrorMeters": 0.00032680358684734103,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006497961928001034,
+          "verticesWithin2mm": 31
+        },
+        "1": {
+          "minimumSignedMeters": 0.00012978311430197897,
+          "verticesWithin2mm": 20
+        },
+        "2": {
+          "minimumSignedMeters": -3.9540246123501155e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0019103752581514089,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019464907856839159,
+          "verticesWithin2mm": 54
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 60.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.00208634440043063,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 0.00032680358684734103,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.000662714509739086,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00030820889854760863,
+          "verticesWithin2mm": 20
+        },
+        "2": {
+          "minimumSignedMeters": -8.326753492392952e-5,
+          "verticesWithin2mm": 19
+        },
+        "3": {
+          "minimumSignedMeters": -0.00208634440043063,
+          "verticesWithin2mm": 38
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0019244159118812984,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 63.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.001833642064064181,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.5773414064191652e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005878099263031469,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00017038510418519032,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 3.270074208305135e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.001833642064064181,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017383973337914624,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 63.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020165338482400832,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 168,
+      "wristTargetErrorMeters": 1.5773414064191652e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005782811033429522,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00036103375857933495,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -1.8907530952169682e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020165338482400832,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001716586412739196,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 66.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.001835578167175285,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 3.215443486816716e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005886479959233831,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00017001188136944734,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 3.099207960925027e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.001835578167175285,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017454413406813238,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 66.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.002017738160944478,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 168,
+      "wristTargetErrorMeters": 3.215443486816716e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.000580566011553367,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003602363256853189,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.0068357126638847e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.002017738160944478,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017236893508039697,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 69.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018302698599143366,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.5506582535882058e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005848370892711299,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001759928409260647,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 3.574250960316355e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018302698599143366,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017468223266541086,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 69.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.002014326246624558,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.5506582535882058e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005756042616803861,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003660106846203742,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -1.5258163444283046e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.002014326246624558,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017250778794819371,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 72.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.001866442826929507,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 175,
+      "wristTargetErrorMeters": 6.073179608737471e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006106997391128813,
+          "verticesWithin2mm": 31
+        },
+        "1": {
+          "minimumSignedMeters": 0.00014043196037168831,
+          "verticesWithin2mm": 20
+        },
+        "2": {
+          "minimumSignedMeters": 2.9532022655584522e-6,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.001866442826929507,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001751951755889783,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 72.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.002037987101469546,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 168,
+      "wristTargetErrorMeters": 6.073179608737471e-5,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0006100579659489291,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003286781173107295,
+          "verticesWithin2mm": 20
+        },
+        "2": {
+          "minimumSignedMeters": -4.5253842554209e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.002037987101469546,
+          "verticesWithin2mm": 38
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017303152853611892,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 75.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018381253497435357,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.451773877003026e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005908397317965497,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016820371480215368,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8865054763627107e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018381253497435357,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017492877691438757,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 75.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020199575822016994,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.451773877003026e-6,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005832922966570522,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035798923156216134,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.201958765338935e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020199575822016994,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017273987184721618,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 78.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.001838279827190821,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 5.295451348956488e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005912262597105103,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.000167880762952613,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8318275111502422e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.001838279827190821,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017493069048532817,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 78.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020199657206387903,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 5.295451348956488e-8,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005835249797920689,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035757728366466596,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2592834948730045e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020199657206387903,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001727481168106837,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 81.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018384687331894287,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.3698042370318153e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005913256563864835,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016757972155241607,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.7936243489484758e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018384687331894287,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017493785511555823,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 81.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.002020247938195753,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.3698042370318153e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005836948778454032,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035757176473646263,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2568975175829564e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.002020247938195753,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001727654881777417,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 84.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018385157352460019,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 2.1696418193818683e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005913753541574376,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016786891708835128,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.817480731757971e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018385157352460019,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017494704252100854,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 84.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.002020225035805942,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 2.1696418193818683e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005836478283885102,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003575468072764057,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.247368540748973e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.002020225035805942,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017277162511642047,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 87.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.001838421730732065,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.3329305248569582e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005912027410091558,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.0001679061288526601,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.805589022265853e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.001838421730732065,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017492046336687397,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 87.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020201640856356076,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.3329305248569582e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005837157898488932,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003575523263378705,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2616991953203214e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020201640856356076,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017273789687295774,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 90.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018385157352460019,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 1.6744133545435297e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005912759582375124,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016773024173923762,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8103347375262044e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018385157352460019,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.001749501049732767,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 90.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020204692039086578,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 1.6744133545435297e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005835746419075791,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.0003574067823493565,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2735694317238542e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020204692039086578,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017277469357362407,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 93.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.0018385636331319857,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 2.5735696935294464e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005914250515503747,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016752898943079436,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8103529980207098e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.0018385636331319857,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017495316741743677,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 93.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020204233989673664,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 2.5735696935294464e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005837184025588166,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.000357446977513394,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2735694317238542e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020204233989673664,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017277061051050244,
+          "verticesWithin2mm": 47
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 96.5,
+      "side": "L",
+      "sampledHandVertices": 3395,
+      "minimumSignedMeters": -0.001838279827190821,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 173,
+      "wristTargetErrorMeters": 2.565333061151985e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005911268615224827,
+          "verticesWithin2mm": 30
+        },
+        "1": {
+          "minimumSignedMeters": 0.00016770320185283127,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": 2.8390102497687086e-5,
+          "verticesWithin2mm": 17
+        },
+        "3": {
+          "minimumSignedMeters": -0.001838279827190821,
+          "verticesWithin2mm": 41
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017491023623678811,
+          "verticesWithin2mm": 49
+        }
+      }
+    },
+    {
+      "clip": "dip",
+      "frame": 96.5,
+      "side": "R",
+      "sampledHandVertices": 3386,
+      "minimumSignedMeters": -0.0020200802312678873,
+      "verticesInsideBeyond3mm": 0,
+      "verticesWithin2mm": 169,
+      "wristTargetErrorMeters": 2.565333061151985e-7,
+      "digits": {
+        "0": {
+          "minimumSignedMeters": -0.0005835929399925985,
+          "verticesWithin2mm": 29
+        },
+        "1": {
+          "minimumSignedMeters": 0.00035756756536016454,
+          "verticesWithin2mm": 19
+        },
+        "2": {
+          "minimumSignedMeters": -2.2330972557667306e-5,
+          "verticesWithin2mm": 18
+        },
+        "3": {
+          "minimumSignedMeters": -0.0020200802312678873,
+          "verticesWithin2mm": 39
+        },
+        "thumb": {
+          "minimumSignedMeters": -0.0017273789687295774,
+          "verticesWithin2mm": 47
+        }
+      }
+    }
+  ]
+}

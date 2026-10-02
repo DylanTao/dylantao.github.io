@@ -25,7 +25,17 @@
     {
       "id": "ghibli",
       "label": "Ghibli",
-      "file": "sirui-ghibli.glb"
+      "file": "sirui-ghibli.glb",
+      "gripWristOffsets": {
+        "pullup": [
+          [-0.05, -0.055, 0],
+          [0.05, -0.055, 0]
+        ],
+        "dip": [
+          [0.055, 0.058, 0],
+          [-0.055, 0.058, 0]
+        ]
+      }
     },
     {
       "id": "rick-and-morty",
