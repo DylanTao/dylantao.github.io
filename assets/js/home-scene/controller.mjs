@@ -440,6 +440,7 @@ export function createCoastalHome(container, records, artifacts) {
       ui.querySelector("[data-world-avatar]").value = avatarId;
       updateRoutine(true);
     } catch (error) {
+      if (disposed) return;
       status.textContent = "This character couldn’t load. Try another.";
       ui.querySelector("[data-world-avatar]").value = avatarId;
       if (!actor) throw error;
@@ -628,7 +629,7 @@ export function createCoastalHome(container, records, artifacts) {
       const room = config.rooms.find((r) => r.id === routine.room);
       const goal = new THREE.Vector3(...room.actor);
       loadRoom(room.id).catch(() => {
-        status.textContent = "Room detail unavailable. You can still explore.";
+        if (!disposed) status.textContent = "Room detail unavailable. You can still explore.";
       });
       if (actorGoal && !force && actor.position.distanceTo(goal) > 0.5 && !reduced && !paused && visible && inViewport) {
         const priorRoom = config.rooms.find((r) => actorGoal && new THREE.Vector3(...r.actor).distanceTo(actorGoal) < 0.1);
@@ -1011,10 +1012,12 @@ export function createCoastalHome(container, records, artifacts) {
         requestFrame();
       }
     });
-    listen(window, "pagehide", () => {
+    listen(window, "pagehide", (event) => {
       visible = false;
       cancelFrame();
-      modelRequests.forEach((request) => request.abort());
+      // A cached document retains its controller and pending first-room load.
+      // Aborting that load would turn a normal return into the 2D failure path.
+      if (!event.persisted) modelRequests.forEach((request) => request.abort());
     });
     listen(window, "pageshow", (event) => {
       if (event.persisted && stage.dataset.deskMode === "3d") {
@@ -1348,6 +1351,7 @@ export function createCoastalHome(container, records, artifacts) {
       }, 1800);
       requestFrame();
     })().catch((error) => {
+      if (disposed) return;
       fail("3D couldn’t load. The 2D desk is ready.");
       throw error;
     });
@@ -1462,6 +1466,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (value) {
         try {
           await initialize();
+          if (disposed) return;
           resize();
           updateRoutine(true);
           requestFrame();
