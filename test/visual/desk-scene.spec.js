@@ -1178,6 +1178,124 @@ for (const persisted of [true, false]) {
   });
 }
 
+for (const activity of ["breakfast", "workout"]) {
+  test(`coastal home: ${activity} choreography resumes through visibility and mode recovery`, async ({ page }, testInfo) => {
+    const errors = collectRuntimeErrors(page);
+    const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T11:45:00-07:00" });
+    await settleRoomModels(scene);
+    await explore(ui);
+    await ui.locator("[data-world-avatar]").selectOption("ghibli");
+    await expect(scene).toHaveAttribute("data-avatar", "ghibli");
+    await ui.locator("[data-world-activity]").selectOption(activity);
+    await canvas.scrollIntoViewIfNeeded();
+    await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 2000);
+    await page.clock.fastForward(activity === "breakfast" ? 43000 : 55000);
+    await page.clock.runFor(700);
+    const expectedPhase = activity === "breakfast" ? "coffee by the ocean" : "dumbbell set";
+    await expect.poll(async () => (await evidence(scene)).activityPhase).toBe(expectedPhase);
+    const before = await evidence(scene);
+    await canvas.screenshot({ path: testInfo.outputPath("before-recovery.png") });
+    const samples = [];
+    for (const recovery of ["offscreen", "mode", "hidden", "retained"]) {
+      const frozen = await evidence(scene);
+      if (recovery === "offscreen") {
+        await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+        await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
+        await page.clock.runFor(1000);
+        expect((await evidence(scene)).animationSeconds).toBe(frozen.animationSeconds);
+        await canvas.scrollIntoViewIfNeeded();
+      } else if (recovery === "mode") {
+        await page.locator('[data-home-desk-mode="2d"]').click();
+        await page.clock.runFor(1000);
+        expect((await evidence(scene)).animationSeconds).toBe(frozen.animationSeconds);
+        await page.locator('[data-home-desk-mode="3d"]').click();
+        await canvas.scrollIntoViewIfNeeded();
+      } else if (recovery === "hidden") {
+        await page.evaluate(() => {
+          Object.defineProperty(document, "hidden", { configurable: true, get: () => true });
+          document.dispatchEvent(new Event("visibilitychange"));
+        });
+        await page.clock.runFor(1000);
+        expect((await evidence(scene)).animationSeconds).toBe(frozen.animationSeconds);
+        await page.evaluate(() => {
+          delete document.hidden;
+          document.dispatchEvent(new Event("visibilitychange"));
+        });
+      } else {
+        await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: true })));
+        await page.clock.runFor(1000);
+        expect((await evidence(scene)).animationSeconds).toBe(frozen.animationSeconds);
+        await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true })));
+      }
+      await page.clock.runFor(700);
+      const after = await evidence(scene);
+      samples.push({ recovery, before: frozen, after });
+      await canvas.screenshot({ path: testInfo.outputPath(`after-${recovery}.png`) });
+      fs.writeFileSync(testInfo.outputPath("activity-continuity.json"), JSON.stringify({ activity, before, samples, errors }, null, 2));
+      expect(after.activityPhase).toBe(expectedPhase);
+      expect(after.activity).toBe(activity);
+      expect(after.traveling).toBe(false);
+      expect(after.animationSeconds - frozen.animationSeconds).toBeLessThan(1);
+      expect(after.cupOwner).toBe(before.cupOwner);
+      expect(after.weightOwner).toBe(before.weightOwner);
+      expect(after.joints.Root).toEqual(before.joints.Root);
+    }
+    expect(errors).toEqual([]);
+  });
+}
+
+test("coastal home: recovery preserves a stair journey and composes a changed clock activity", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas } = await openHome(page, { motion: "no-preference" });
+  await settleRoomModels(scene);
+  await page.clock.setSystemTime(new Date("2026-09-11T18:15:01-07:00"));
+  await page.clock.fastForward(30001);
+  await expect(scene).toHaveAttribute("data-animation", "walk");
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 100);
+  let walking = await evidence(scene);
+  for (let i = 0; i < 40 && !(walking.navigation?.position[1] > 0.45 && walking.navigation.position[1] < 2); i++) {
+    await page.clock.fastForward(500);
+    walking = await evidence(scene);
+  }
+  expect(walking.traveling).toBe(true);
+  expect(walking.navigation.position[1]).toBeGreaterThan(0.45);
+  expect(walking.navigation.position[1]).toBeLessThan(2);
+  await canvas.screenshot({ path: testInfo.outputPath("before-stair-recovery.png") });
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+  await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
+  await page.clock.runFor(1000);
+  expect((await evidence(scene)).animationSeconds).toBe(walking.animationSeconds);
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(100);
+  const resumed = await evidence(scene);
+  fs.writeFileSync(testInfo.outputPath("journey-continuity.json"), JSON.stringify({ walking, resumed }, null, 2));
+  expect(resumed.traveling).toBe(true);
+  expect(resumed.navigation.progress).toBeGreaterThanOrEqual(walking.navigation.progress);
+  expect(resumed.navigation.progress - walking.navigation.progress).toBeLessThan(0.015);
+  expect(Math.hypot(...resumed.navigation.position.map((value, i) => value - walking.navigation.position[i]))).toBeLessThan(0.3);
+  await canvas.screenshot({ path: testInfo.outputPath("after-stair-recovery.png") });
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, get: () => true });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await page.clock.setSystemTime(new Date("2026-09-11T19:00:01-07:00"));
+  await page.clock.runFor(1000);
+  expect((await evidence(scene)).animationSeconds).toBe(resumed.animationSeconds);
+  await page.evaluate(() => {
+    delete document.hidden;
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await page.clock.runFor(100);
+  const changed = await evidence(scene);
+  fs.writeFileSync(testInfo.outputPath("journey-continuity.json"), JSON.stringify({ walking, resumed, changed, errors }, null, 2));
+  expect(changed.activity).toBe("dinner");
+  expect(changed.traveling).toBe(false);
+  expect(changed.navigation).toBe(null);
+  expect(changed.animation).toBe("eat");
+  expect(Math.abs(changed.joints.Root[1])).toBeLessThan(0.1);
+  expect(errors).toEqual([]);
+});
+
 test("coastal home: live animation pauses offscreen and recovers after a hidden tab", async ({ page }) => {
   const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });
   // A newly streamed room legitimately requests one still redraw while paused.
@@ -1301,6 +1419,7 @@ test("coastal home: a routine boundary walks through the home before settling in
   await page.waitForTimeout(600);
   const moved = (await evidence(scene)).joints.Root;
   expect(Math.hypot(moved[0] - start[0], moved[2] - start[2])).toBeGreaterThan(0.1);
+  await explore(ui);
   await ui.locator('[data-world-room="overview"]').click();
   await canvas.scrollIntoViewIfNeeded();
   await capture(testInfo, "walking-between-rooms", await canvas.screenshot());

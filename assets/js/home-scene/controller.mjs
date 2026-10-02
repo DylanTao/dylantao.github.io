@@ -616,10 +616,17 @@ export function createCoastalHome(container, records, artifacts) {
     });
   }
 
-  function updateRoutine(force = false) {
+  function resumeRoutine() {
+    // Preserve an unchanged performance or journey. A new clock activity
+    // composes on return instead of rerouting from an obsolete destination.
+    updateRoutine(false, true);
+  }
+
+  function updateRoutine(force = false, composeOnChange = false) {
     if (!config) return;
     const next = resolveRoutine(config, new Date(), explore.preview);
     const changed = !routine || routine.id !== next.id || routine.prop !== next.prop || routine.clip !== next.clip;
+    const compose = force || (composeOnChange && changed);
     routine = next;
     clockLabel.textContent = `${routine.live ? "" : "Preview · "}${formatMinute(routine.minute)} · La Jolla`;
     ui.querySelector("[data-world-now]").setAttribute("aria-pressed", String(explore.following && followClock));
@@ -638,7 +645,7 @@ export function createCoastalHome(container, records, artifacts) {
       loadRoom(room.id).catch(() => {
         if (!disposed) status.textContent = "Room detail unavailable. You can still explore.";
       });
-      if (actorGoal && !force && actor.position.distanceTo(goal) > 0.5 && !reduced && !paused && visible && inViewport) {
+      if (actorGoal && !compose && actor.position.distanceTo(goal) > 0.5 && !reduced && !paused && visible && inViewport) {
         const priorRoom = config.rooms.find((r) => actorGoal && new THREE.Vector3(...r.actor).distanceTo(actorGoal) < 0.1);
         const route = roomRoute(config, priorRoom, room, actor.position.toArray());
         travel = {
@@ -1185,7 +1192,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (document.hidden) cancelFrame();
       else {
         lastFrame = 0;
-        updateRoutine(true);
+        resumeRoutine();
         requestFrame();
       }
     });
@@ -1200,7 +1207,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (event.persisted && stage.dataset.deskMode === "3d") {
         visible = true;
         resize();
-        updateRoutine(true);
+        resumeRoutine();
         requestFrame();
       }
     });
@@ -1515,7 +1522,7 @@ export function createCoastalHome(container, records, artifacts) {
         inViewport = entries[0].isIntersecting;
         if (inViewport) {
           lastFrame = 0;
-          updateRoutine(true);
+          resumeRoutine();
           requestFrame();
         } else cancelFrame();
       });
@@ -1666,7 +1673,7 @@ export function createCoastalHome(container, records, artifacts) {
           await initialize();
           if (disposed) return;
           resize();
-          updateRoutine(true);
+          resumeRoutine();
           requestFrame();
         } catch {
           /* The 2D recovery event handles this. */

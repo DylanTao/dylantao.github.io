@@ -1,0 +1,381 @@
+{
+  "baselineCommit": "8ff5986c806ddb68721a33c7d15c03f5638d78e0",
+  "integratedStudioCommit": "6f9c52ffb02fec40b6f6a80a4c415d78a537eacd",
+  "capturedAt": "2026-10-02T13:33:27.750Z",
+  "originalNativeCoffeeFailure": {
+    "beforePhase": "coffee by the ocean",
+    "beforeCup": "hand",
+    "afterPhase": "at the table",
+    "afterCup": "counter"
+  },
+  "modules": [
+    {
+      "file": "assets/js/home-scene/controller.mjs",
+      "normalization": "LF line endings",
+      "sourceSha256": "2152bb87f8dd2ffdf75f8835e92edead982f35cd45e8172ed507c34b8c7f33c1",
+      "servedSha256": "2152bb87f8dd2ffdf75f8835e92edead982f35cd45e8172ed507c34b8c7f33c1",
+      "productionSha256": "2152bb87f8dd2ffdf75f8835e92edead982f35cd45e8172ed507c34b8c7f33c1",
+      "allMatch": true
+    },
+    {
+      "file": "assets/js/companion/studio.mjs",
+      "normalization": "LF line endings",
+      "sourceSha256": "77da10f4f16f5ce3aa8e968af0913384dc4fcf93f7ef44d4d594c70a84bba9fd",
+      "servedSha256": "77da10f4f16f5ce3aa8e968af0913384dc4fcf93f7ef44d4d594c70a84bba9fd",
+      "productionSha256": "77da10f4f16f5ce3aa8e968af0913384dc4fcf93f7ef44d4d594c70a84bba9fd",
+      "allMatch": true
+    }
+  ],
+  "newContinuityTests": {
+    "passed": 7,
+    "viewports": ["1440x1000", "390x1000"],
+    "engines": ["Chromium desktop and phone emulation", "WebKit iPhone emulation (coffee recovery)"],
+    "outputs": ["scene-recovery-desktop", "scene-recovery-mobile", "scene-recovery-webkit"],
+    "observations": [
+      {
+        "case": "desk-scene-coastal-home-br-c9a9a-isibility-and-mode-recovery-desktop-1440",
+        "activity": "breakfast",
+        "before": {
+          "phase": "coffee by the ocean",
+          "cup": "hand",
+          "weight": "rack",
+          "seconds": 53.45666666666659
+        },
+        "recoveries": [
+          {
+            "path": "offscreen",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.6726666666665935,
+            "rootUnchanged": true
+          },
+          {
+            "path": "mode",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.70466666666659,
+            "rootUnchanged": true
+          },
+          {
+            "path": "hidden",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.6886666666665917,
+            "rootUnchanged": true
+          },
+          {
+            "path": "retained",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.70466666666659,
+            "rootUnchanged": true
+          }
+        ],
+        "runtimeErrors": []
+      },
+      {
+        "case": "desk-scene-coastal-home-re-d97c0-es-a-changed-clock-activity-desktop-1440",
+        "walking": {
+          "progress": 0.6135118041531081,
+          "duration": 11.65095757182228,
+          "position": [-1.3788430673541636, 0.5007749862597056, 4.65]
+        },
+        "resumed": {
+          "progress": 0.6190621347819876,
+          "duration": 11.65095757182228,
+          "position": [-1.298129413165478, 0.5545737411477796, 4.65]
+        },
+        "afterChangedClock": {
+          "activity": "dinner",
+          "animation": "eat",
+          "traveling": false,
+          "root": [-3.45, -0.05257769122477196, -3.04]
+        },
+        "runtimeErrors": []
+      },
+      {
+        "case": "desk-scene-coastal-home-wo-a36ee-isibility-and-mode-recovery-desktop-1440",
+        "activity": "workout",
+        "before": {
+          "phase": "dumbbell set",
+          "cup": "counter",
+          "weight": "hand",
+          "seconds": 61.06133333333326
+        },
+        "recoveries": [
+          {
+            "path": "offscreen",
+            "phase": "dumbbell set",
+            "cup": "counter",
+            "weight": "hand",
+            "activeDeltaSeconds": 0.6726666666665935,
+            "rootUnchanged": true
+          },
+          {
+            "path": "mode",
+            "phase": "dumbbell set",
+            "cup": "counter",
+            "weight": "hand",
+            "activeDeltaSeconds": 0.70466666666659,
+            "rootUnchanged": true
+          },
+          {
+            "path": "hidden",
+            "phase": "dumbbell set",
+            "cup": "counter",
+            "weight": "hand",
+            "activeDeltaSeconds": 0.6886666666665917,
+            "rootUnchanged": true
+          },
+          {
+            "path": "retained",
+            "phase": "dumbbell set",
+            "cup": "counter",
+            "weight": "hand",
+            "activeDeltaSeconds": 0.70466666666659,
+            "rootUnchanged": true
+          }
+        ],
+        "runtimeErrors": []
+      },
+      {
+        "case": "desk-scene-coastal-home-br-c9a9a-isibility-and-mode-recovery-mobile-390",
+        "activity": "breakfast",
+        "before": {
+          "phase": "coffee by the ocean",
+          "cup": "hand",
+          "weight": "rack",
+          "seconds": 49.25233333333326
+        },
+        "recoveries": [
+          {
+            "path": "offscreen",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.6726666666665935,
+            "rootUnchanged": true
+          },
+          {
+            "path": "mode",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.70466666666659,
+            "rootUnchanged": true
+          },
+          {
+            "path": "hidden",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.70466666666659,
+            "rootUnchanged": true
+          },
+          {
+            "path": "retained",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.6886666666665917,
+            "rootUnchanged": true
+          }
+        ],
+        "runtimeErrors": []
+      },
+      {
+        "case": "desk-scene-coastal-home-re-d97c0-es-a-changed-clock-activity-mobile-390",
+        "walking": {
+          "progress": 0.6145449932472887,
+          "duration": 11.657405200138477,
+          "position": [-1.3669202814041315, 0.5087219816640924, 4.65]
+        },
+        "resumed": {
+          "progress": 0.6200922540275773,
+          "duration": 11.657405200138477,
+          "position": [-1.2862066272154442, 0.5625207365521674, 4.65]
+        },
+        "afterChangedClock": {
+          "activity": "dinner",
+          "animation": "eat",
+          "traveling": false,
+          "root": [-3.45, -0.04511128053620222, -3.04]
+        },
+        "runtimeErrors": []
+      },
+      {
+        "case": "desk-scene-coastal-home-wo-a36ee-isibility-and-mode-recovery-mobile-390",
+        "activity": "workout",
+        "before": {
+          "phase": "dumbbell set",
+          "cup": "counter",
+          "weight": "hand",
+          "seconds": 61.078333333333255
+        },
+        "recoveries": [
+          {
+            "path": "offscreen",
+            "phase": "dumbbell set",
+            "cup": "counter",
+            "weight": "hand",
+            "activeDeltaSeconds": 0.6726666666665935,
+            "rootUnchanged": true
+          },
+          {
+            "path": "mode",
+            "phase": "dumbbell set",
+            "cup": "counter",
+            "weight": "hand",
+            "activeDeltaSeconds": 0.70466666666659,
+            "rootUnchanged": true
+          },
+          {
+            "path": "hidden",
+            "phase": "dumbbell set",
+            "cup": "counter",
+            "weight": "hand",
+            "activeDeltaSeconds": 0.6886666666665917,
+            "rootUnchanged": true
+          },
+          {
+            "path": "retained",
+            "phase": "dumbbell set",
+            "cup": "counter",
+            "weight": "hand",
+            "activeDeltaSeconds": 0.70466666666659,
+            "rootUnchanged": true
+          }
+        ],
+        "runtimeErrors": []
+      },
+      {
+        "case": "desk-scene-coastal-home-br-c9a9a-isibility-and-mode-recovery-webkit-390",
+        "activity": "breakfast",
+        "before": {
+          "phase": "coffee by the ocean",
+          "cup": "hand",
+          "weight": "rack",
+          "seconds": 54.7456666666666
+        },
+        "recoveries": [
+          {
+            "path": "offscreen",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.6886666666665917,
+            "rootUnchanged": true
+          },
+          {
+            "path": "mode",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.70466666666659,
+            "rootUnchanged": true
+          },
+          {
+            "path": "hidden",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.70466666666659,
+            "rootUnchanged": true
+          },
+          {
+            "path": "retained",
+            "phase": "coffee by the ocean",
+            "cup": "hand",
+            "weight": "rack",
+            "activeDeltaSeconds": 0.6886666666665917,
+            "rootUnchanged": true
+          }
+        ],
+        "runtimeErrors": []
+      }
+    ]
+  },
+  "integrationTests": {
+    "passed": 5,
+    "skipped": 1,
+    "skipReason": "Existing live routine transition uses one representative desktop case",
+    "output": "scene-recovery-integration-final",
+    "note": "An initial integration attempt was interrupted after tracing a closed lab-menu click in the older transition fixture; corrected with explicit explore(ui) before the final run."
+  },
+  "nativeStudioMeasurement": {
+    "intervalRequestedMs": 500,
+    "initialSettleMs": 1000,
+    "ownershipReturnSettleMs": 250,
+    "instrumentation": "Wrap requestAnimationFrame before page scripts. Classify studio requests by a scheduling-call stack containing /companion/studio.mjs; count those scheduled requests and their executed callbacks separately.",
+    "state": "Actual studio visible to IntersectionObserver with its bottom at 12.1875px; shared companion owner is page.",
+    "beforeRequests": 31,
+    "beforeCallbacks": 31,
+    "afterRequests": 0,
+    "afterCallbacks": 0,
+    "drawCounter": {
+      "before": [3, 3, 4],
+      "after": [3, 3, 4],
+      "meaning": "Studio portrait compose/draw counter; unchanged while unowned, increments after owner return."
+    },
+    "runtimeErrors": {
+      "before": [],
+      "after": []
+    }
+  },
+  "nativeStudioBrowser": {
+    "engine": "Chromium Headless Shell",
+    "playwrightVersion": "1.58.2",
+    "manifestBrowserVersion": "145.0.7632.6",
+    "manifestRevision": "1208",
+    "binaryPath": "C:/Users/dylan/AppData/Local/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-win64/chrome-headless-shell.exe",
+    "versionProvenance": "Recovered read-only from installed Playwright manifest and executable registry. The original native script did not record browser.version(); the executable has no FileVersion/ProductVersion resource. No browser was launched during metadata recovery.",
+    "headless": true,
+    "args": ["--use-angle=d3d11", "--ignore-gpu-blocklist"],
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "deviceScaleFactor": 1,
+    "reducedMotion": "reduce",
+    "theme": "light",
+    "mathRandom": "Native, not seeded"
+  },
+  "nativeStudioArtifactHashes": {
+    "native-scheduler.json": "522f416e22f4391ff997e890ebd162b7053700e05fee55197d2ab8db2fc2ddb8",
+    "capture-scheduler.cjs": "386601a7329997ac3100180f55538e21e0a3047179dff9feba3ff24111d1a52d",
+    "baseline-studio.mjs": "4b7b8bc4bf699c4f1c9bfb28696ebbb9253d2b5b47eaec174e79692ecad8d7ce",
+    "served-studio.mjs": "77da10f4f16f5ce3aa8e968af0913384dc4fcf93f7ef44d4d594c70a84bba9fd",
+    "served-page.html": "f866ab77d1bdcc258ad099ae271018814a6029eb4cfc60164898ec584b9e2e7e",
+    "before-unowned.png": "b83eaab46e067e0bc1375296135e0e01d23edf7c8988172d12ad130b97663214",
+    "after-unowned.png": "1361b634e94500199b9523c6dfb193c2e954dd332e6a8553eb6289c5f4b37e0c",
+    "before-owned-still.png": "20b260a9ae161623e188bd9633150a394deeb034354af09f2d446ba83c1c8f64",
+    "after-owned-still.png": "20b260a9ae161623e188bd9633150a394deeb034354af09f2d446ba83c1c8f64"
+  },
+  "productionBuild": {
+    "passed": true,
+    "baseurl": "/al-folio",
+    "elapsedSeconds": 63.23
+  },
+  "nodeTests": {
+    "focusedP": 38,
+    "routine": 7
+  },
+  "pythonTestsPassed": 166,
+  "styleContractPassed": true,
+  "existingOverrides": 80,
+  "reviewImage": {
+    "file": ".jekyll-cache/visual-qa/scene-recovery-review/comparison.png",
+    "sha256": "f7239cb5441ea68d8d9672e15dac776964308de5bb7921de0cd63f478992e4f6"
+  },
+  "limits": [
+    "Controlled animation clocks establish continuity, not frame-rate performance.",
+    "Hidden-document and persisted-page handlers are exercised with synthetic events; native BFCache admission is not established.",
+    "Phone-size captures use browser emulation on a desktop, not physical-phone performance.",
+    "31-to-zero is an idle scheduling observation over one 500 ms window, not measured energy savings or rendering FPS.",
+    "The original P capture did not record browser.version(); installed-runtime provenance is explicit in nativeStudioBrowser."
+  ]
+}
