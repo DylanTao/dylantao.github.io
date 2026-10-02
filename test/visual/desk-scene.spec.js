@@ -1242,6 +1242,122 @@ for (const persisted of [true, false]) {
   });
 }
 
+test("coastal home: the gym frames the face and full exercise poses, then restores the normal lens", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T13:20:00-07:00" });
+  await settleRoomModels(scene);
+  await explore(ui);
+  await ui.locator("[data-world-avatar]").selectOption("ghibli");
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 2000);
+  await ui.locator("[data-world-pause]").click();
+  const rows = [];
+  for (const [seconds, phase] of [
+    [12, "pull-ups"],
+    [26, "rest"],
+    [38, "dips"],
+    [60, "dumbbell set"],
+  ]) {
+    // Compose at the gym while paused, then advance the actual rig. This
+    // isolates camera/pose framing from an incidental journey out of study.
+    await ui.locator("[data-world-activity]").selectOption("reading");
+    await ui.locator("[data-world-activity]").selectOption("workout");
+    await ui.locator("[data-world-pause]").click();
+    await canvas.scrollIntoViewIfNeeded();
+    await page.clock.runFor(100);
+    await page.clock.fastForward(seconds * 1000 - 100);
+    await page.clock.runFor(500);
+    await ui.locator("[data-world-pause]").click();
+    await canvas.scrollIntoViewIfNeeded();
+    await page.clock.runFor(100);
+    const pose = await evidence(scene);
+    expect(pose.activityPhase).toBe(phase);
+    expect(pose.cameraFov).toBe(44);
+    const framed = await scene.evaluate(async (element) => {
+      const state = element.getSceneEvidence(),
+        THREE = await import("/assets/js/three.module.min.js"),
+        camera = new THREE.PerspectiveCamera(state.cameraFov, state.canvasWidth / state.canvasHeight, 0.05, 300);
+      camera.position.fromArray(state.camera);
+      camera.lookAt(new THREE.Vector3(...state.target));
+      camera.updateMatrixWorld(true);
+      return Object.fromEntries(
+        ["Head", "HandL", "HandR", "FootL", "FootR"].map((name) => {
+          const p = new THREE.Vector3(...state.joints[name]).project(camera);
+          return [name, { x: (p.x + 1) / 2, y: (1 - p.y) / 2, depth: p.z }];
+        })
+      );
+    });
+    for (const point of Object.values(framed)) {
+      expect(point.x).toBeGreaterThan(0.075);
+      expect(point.x).toBeLessThan(0.925);
+      expect(point.y).toBeGreaterThan(0.075);
+      expect(point.y).toBeLessThan(0.925);
+      expect(point.depth).toBeLessThan(1);
+    }
+    const front = (pose.camera[2] - pose.joints.Head[2]) / Math.hypot(pose.camera[0] - pose.joints.Head[0], pose.camera[2] - pose.joints.Head[2]);
+    expect(front).toBeGreaterThan(0.25);
+    const image = await canvas.screenshot({ path: testInfo.outputPath(`gym-${phase.replaceAll(" ", "-")}.png`) });
+    const metrics = screenshotMetrics(image);
+    expect(metrics.uniqueColors).toBeGreaterThan(60);
+    expect(metrics.luminanceVariance).toBeGreaterThan(80);
+    rows.push({ seconds, phase, pose, framed });
+  }
+  const beforeDrag = await canvas.screenshot();
+  const orbitRows = [{ key: "arrival", state: await evidence(scene) }];
+  for (const key of [
+    "ArrowLeft",
+    "ArrowLeft",
+    "ArrowLeft",
+    "ArrowRight",
+    "ArrowRight",
+    "ArrowRight",
+    "ArrowRight",
+    "ArrowRight",
+    "ArrowRight",
+    "ArrowLeft",
+    "ArrowLeft",
+    "ArrowLeft",
+    "ArrowLeft",
+    "ArrowLeft",
+  ]) {
+    await canvas.press(key);
+    await page.clock.runFor(100);
+    const state = await evidence(scene),
+      previous = orbitRows.at(-1).state;
+    expect(state.framePending).toBe(false);
+    const displacement = Math.hypot(...state.camera.map((v, index) => v - previous.camera[index]));
+    orbitRows.push({ key, displacement, state });
+    fs.writeFileSync(testInfo.outputPath("gym-orbit-continuity.json"), JSON.stringify(orbitRows, null, 2));
+    if (displacement >= 1.5) await canvas.screenshot({ path: testInfo.outputPath("gym-orbit-jump.png") });
+    expect(displacement).toBeLessThan(1.5);
+    if (orbitRows.length === 7) {
+      expect(state.cameraOrbit.radius).toBeCloseTo(orbitRows[0].state.cameraOrbit.radius, 8);
+      expect(state.cameraOrbit.yaw).toBeCloseTo(orbitRows[0].state.cameraOrbit.yaw, 8);
+    }
+  }
+  await canvas.press("ArrowLeft");
+  await page.clock.runFor(100);
+  const afterDrag = await canvas.screenshot({ path: testInfo.outputPath("gym-orbit.png") });
+  expect(screenshotDiffRatio(beforeDrag, afterDrag)).toBeGreaterThan(0.01);
+  await ui.locator('[data-world-room="gym"]').click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(100);
+  const beforeZoom = await canvas.screenshot();
+  await canvas.press("+");
+  await page.clock.runFor(100);
+  const afterZoom = await canvas.screenshot({ path: testInfo.outputPath("gym-zoom.png") });
+  expect(screenshotDiffRatio(beforeZoom, afterZoom)).toBeGreaterThan(0.01);
+  await ui.locator('[data-world-room="study"]').click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(100);
+  expect((await evidence(scene)).cameraFov).toBe(38);
+  await page.locator("[data-world-view]").click();
+  await page.clock.runFor(100);
+  expect((await evidence(scene)).cameraFov).toBe(38);
+  fs.writeFileSync(testInfo.outputPath("gym-framing.json"), JSON.stringify({ rows, errors }, null, 2));
+  expect(errors).toEqual([]);
+});
+
 for (const activity of ["breakfast", "workout"]) {
   test(`coastal home: ${activity} choreography resumes through visibility and mode recovery`, async ({ page }, testInfo) => {
     const errors = collectRuntimeErrors(page);

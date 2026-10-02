@@ -98,18 +98,20 @@
       "id": "gym",
       "label": "Gym",
       "file": "room-gym.glb",
-      "target": [0, 1.02, -1.22],
+      "target": [-0.3, 1.2, -1.8],
       "actor": [0, 0.048, -1.45],
       "facing": 0,
       "egress": [-1.62, 0, -1.95],
       "camera": {
         "radius": 5.2,
-        "yaw": 3.45,
+        "yaw": 1.15,
         "pitch": 0.3,
+        "fov": 44,
         "envelope": {
-          "yaw": [2.9, 4.0],
+          "yaw": [0.85, 1.7],
           "pitch": [0.12, 0.62],
-          "radius": [4.056, 6.136]
+          "radius": [4.056, 6.136],
+          "clearance": { "origin": [-0.3, 1.2, -1.8], "maxX": 4.3, "maxZ": 0.9 }
         }
       },
       "offset": [0, 0, -3],

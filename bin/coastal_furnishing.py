@@ -131,8 +131,10 @@ def furnish_final(mats, h, config):
         tube('gym_dip_arm',[(side*.81,.94,1.24),(side*.43,1.10,1.24),(side*.43,1.72,1.24)],.031,steelGym)
         tube('gym_dip_grip',[(side*.43,1.40,1.24),(side*.43,1.70,1.24)],.034,rubber)
     gym=next(r for r in config['rooms'] if r['id']=='gym')
-    gym.update(actor=web((0,1.45,.048)),facing=0,egress=web((-1.62,1.95,0)),exitPath=[web((-1.35,1.95,0)),web((-1.62,1.95,0))])
-    gym['camera']={'radius':5.2,'yaw':3.45,'pitch':.30}
+    gym.update(target=[-.3,1.2,-1.8],actor=web((0,1.45,.048)),facing=0,egress=web((-1.62,1.95,0)),exitPath=[web((-1.35,1.95,0)),web((-1.62,1.95,0))])
+    # Front three-quarter framing shows the face and weight without changing
+    # equipment contacts; the wider lens leaves room for raised pull-up hands.
+    gym['camera']={'radius':5.2,'yaw':1.15,'pitch':.30,'fov':44}
     # The front top-tray dumbbell remains a separate prop for real transfers.
     for obj in bpy.context.scene.objects:
         if obj.name.startswith('gym_stored_dumbbell') and abs(obj.location.y-2.32)<.13 and .60<obj.location.z<.85:

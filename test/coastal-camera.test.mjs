@@ -4,6 +4,54 @@ import fs from "node:fs";
 import { envelopeFor, wildlifeEnvelope, constrainOrbit, keepCameraClear, cameraTerrainHeight } from "../assets/js/home-scene/camera.mjs";
 import { activityPose } from "../assets/js/home-scene/activities.mjs";
 const c = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+
+test("the gym arrival shows the front of steady exercise poses without a clearance correction", () => {
+  const room = c.rooms.find((r) => r.id === "gym"),
+    { yaw, pitch, radius } = room.camera,
+    position = {
+      x: room.target[0] + Math.sin(yaw) * Math.cos(pitch) * radius,
+      y: room.target[1] + Math.sin(pitch) * radius,
+      z: room.target[2] + Math.cos(yaw) * Math.cos(pitch) * radius,
+    };
+  const original = { ...position };
+  keepCameraClear(position, c, "gym");
+  assert.deepEqual(position, original, "arrival should not jump behind a wall or the upstairs floor");
+  for (const seconds of [12, 26, 38, 60, 75]) {
+    const pose = activityPose("strength", seconds, c.equipment, room),
+      dx = position.x - pose.position[0],
+      dz = position.z - pose.position[2],
+      front = (Math.sin(pose.facing) * dx + Math.cos(pose.facing) * dz) / Math.hypot(dx, dz);
+    assert.ok(front > 0.25, `${pose.phase} should show a front three-quarter view, got ${front}`);
+  }
+});
+
+test("gym orbit rays dolly before the physical wall and slab without a discontinuous clearance jump", () => {
+  const room = c.rooms.find((r) => r.id === "gym"),
+    envelope = envelopeFor(c, "gym");
+  for (let yaw = envelope.yaw[0]; yaw <= envelope.yaw[1]; yaw += 0.01) {
+    for (const pitch of [0.12, 0.3, 0.62]) {
+      for (const requestedRadius of [4.056, 5.2, 6.136, 100]) {
+        const orbit = constrainOrbit({ yaw, pitch, radius: requestedRadius }, envelope),
+          position = {
+            x: room.target[0] + Math.sin(orbit.yaw) * Math.cos(orbit.pitch) * orbit.radius,
+            y: room.target[1] + Math.sin(orbit.pitch) * orbit.radius,
+            z: room.target[2] + Math.cos(orbit.yaw) * Math.cos(orbit.pitch) * orbit.radius,
+          },
+          before = { ...position };
+        keepCameraClear(position, c, "gym");
+        assert.deepEqual(position, before, `clearance should never relocate yaw ${yaw}`);
+        assert.ok(orbit.radius >= envelope.radius[0]);
+        const next = constrainOrbit({ yaw: yaw + 0.001, pitch, radius: requestedRadius }, envelope),
+          distance = Math.hypot(
+            Math.sin(next.yaw) * Math.cos(next.pitch) * next.radius - (position.x - room.target[0]),
+            Math.sin(next.pitch) * next.radius - (position.y - room.target[1]),
+            Math.cos(next.yaw) * Math.cos(next.pitch) * next.radius - (position.z - room.target[2])
+          );
+        assert.ok(distance < 0.012, `nearby orbit rays stay continuous, got ${distance}`);
+      }
+    }
+  }
+});
 test("exterior retains a full orbit, interior input extremes stay in authored arcs", () => {
   for (const id of ["outside", "overview", ...c.rooms.map((r) => r.id)]) {
     const envelope = envelopeFor(c, id);

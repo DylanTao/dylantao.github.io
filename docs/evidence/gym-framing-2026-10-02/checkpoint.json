@@ -1,0 +1,916 @@
+{
+  "generatedAt": "2026-10-02T15:54:39.968Z",
+  "baselineCommit": "932441273",
+  "scope": "Gym camera framing and orbit clearance; equipment, models and animations unchanged.",
+  "verification": {
+    "sourceServedAssets": 26,
+    "sceneBrowsers": 5,
+    "integration": "Existing full exterior/interior camera boundary case passes; three other viewport copies intentionally skip shared geometry.",
+    "nodeTests": 24,
+    "pythonTests": 166,
+    "formatting": "pass",
+    "styleContract": "pass",
+    "diffCheck": "pass",
+    "production": {
+      "baseurl": "/al-folio",
+      "seconds": 63.846
+    },
+    "overrideAudit": {
+      "count": 80,
+      "change": "none"
+    }
+  },
+  "hashes": [
+    {
+      "file": "assets/js/home-scene/controller.mjs",
+      "method": "LF-normalized UTF-8",
+      "source": "1716cde68c988976b26b1b5fced8477f1d514fd325a90f3d8251f36a900a94e3",
+      "served": "1716cde68c988976b26b1b5fced8477f1d514fd325a90f3d8251f36a900a94e3",
+      "production": "1716cde68c988976b26b1b5fced8477f1d514fd325a90f3d8251f36a900a94e3"
+    },
+    {
+      "file": "assets/js/home-scene/camera.mjs",
+      "method": "LF-normalized UTF-8",
+      "source": "cd84427d000a0429084db533aa8fe7050f599965b3f822f642d1896679d9fe3b",
+      "served": "cd84427d000a0429084db533aa8fe7050f599965b3f822f642d1896679d9fe3b",
+      "production": "cd84427d000a0429084db533aa8fe7050f599965b3f822f642d1896679d9fe3b"
+    },
+    {
+      "file": "assets/models/home/manifest.json",
+      "method": "Canonical parsed JSON",
+      "source": "482bd88d0a86500c88009a2b8506e285252fbd99f18c34905156c7470e048a51",
+      "served": "482bd88d0a86500c88009a2b8506e285252fbd99f18c34905156c7470e048a51",
+      "production": "482bd88d0a86500c88009a2b8506e285252fbd99f18c34905156c7470e048a51"
+    }
+  ],
+  "originalOrbitJump": {
+    "key": "ArrowLeft",
+    "meters": 5.057586722766145,
+    "before": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+    "after": [4.524422105272214, 2.736705074638966, -4.82]
+  },
+  "native": [
+    {
+      "case": "desk-scene-coastal-home-th-570fd-en-restores-the-normal-lens-desktop-1440",
+      "phases": [
+        {
+          "phase": "pull-ups",
+          "seconds": 12,
+          "fov": 44,
+          "canvas": [544, 460],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.35830007824688614,
+              "y": 0.41748616992284526,
+              "depth": 0.9780053993455663
+            },
+            "HandL": {
+              "x": 0.3330405728182,
+              "y": 0.2890262940702174,
+              "depth": 0.9787663047784154
+            },
+            "HandR": {
+              "x": 0.3780447189882359,
+              "y": 0.312950840196598,
+              "depth": 0.9757636702778328
+            },
+            "FootL": {
+              "x": 0.39690601470620834,
+              "y": 0.7078961014214842,
+              "depth": 0.9803749611071674
+            },
+            "FootR": {
+              "x": 0.37953872442826053,
+              "y": 0.7368468399544768,
+              "depth": 0.9792989745947865
+            }
+          }
+        },
+        {
+          "phase": "rest",
+          "seconds": 26,
+          "fov": 44,
+          "canvas": [544, 460],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.45652880952135716,
+              "y": 0.4802797969182908,
+              "depth": 0.979234373644876
+            },
+            "HandL": {
+              "x": 0.43033037121554685,
+              "y": 0.5985947294110415,
+              "depth": 0.9809948853353374
+            },
+            "HandR": {
+              "x": 0.4785404985091458,
+              "y": 0.6537829040065444,
+              "depth": 0.9787779542720547
+            },
+            "FootL": {
+              "x": 0.45147835152202864,
+              "y": 0.7662987416919412,
+              "depth": 0.9811584537763375
+            },
+            "FootR": {
+              "x": 0.46834350125901014,
+              "y": 0.7910840949610286,
+              "depth": 0.9804262921189983
+            }
+          }
+        },
+        {
+          "phase": "dips",
+          "seconds": 38,
+          "fov": 44,
+          "canvas": [544, 460],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.4583899466985847,
+              "y": 0.47164392730898835,
+              "depth": 0.9792070733322634
+            },
+            "HandL": {
+              "x": 0.43584923362497086,
+              "y": 0.48150943872539437,
+              "depth": 0.9807815602827491
+            },
+            "HandR": {
+              "x": 0.4983046963711206,
+              "y": 0.5349154240725013,
+              "depth": 0.9779154917362697
+            },
+            "FootL": {
+              "x": 0.4575461406700791,
+              "y": 0.751507478504515,
+              "depth": 0.9811387611716534
+            },
+            "FootR": {
+              "x": 0.49473194966973527,
+              "y": 0.7704550036249791,
+              "depth": 0.9805670505502477
+            }
+          }
+        },
+        {
+          "phase": "dumbbell set",
+          "seconds": 60,
+          "fov": 44,
+          "canvas": [544, 460],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.7490219518830938,
+              "y": 0.502918291932789,
+              "depth": 0.9779188844971636
+            },
+            "HandL": {
+              "x": 0.6800842830911047,
+              "y": 0.6237650312027586,
+              "depth": 0.9797095623186065
+            },
+            "HandR": {
+              "x": 0.7392190995058426,
+              "y": 0.6128428759326373,
+              "depth": 0.9764729663041378
+            },
+            "FootL": {
+              "x": 0.7155108106269872,
+              "y": 0.8028714130561861,
+              "depth": 0.9800780939732263
+            },
+            "FootR": {
+              "x": 0.7440371947325033,
+              "y": 0.8305880015963731,
+              "depth": 0.9792593433649337
+            }
+          }
+        }
+      ],
+      "errors": [],
+      "orbitSteps": 14,
+      "maxOrbitStepMeters": 1.2243009005826022,
+      "pausedOrbitFramesIdle": true,
+      "requestedZoomRestored": {
+        "before": 5.2,
+        "after": 5.2
+      },
+      "fovRestorationPassed": true
+    },
+    {
+      "case": "desk-scene-coastal-home-th-570fd-en-restores-the-normal-lens-laptop-1280",
+      "phases": [
+        {
+          "phase": "pull-ups",
+          "seconds": 12,
+          "fov": 44,
+          "canvas": [496, 409],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.3618177380256663,
+              "y": 0.4174862369473372,
+              "depth": 0.9780053997278576
+            },
+            "HandL": {
+              "x": 0.3371852923024375,
+              "y": 0.2890263609472894,
+              "depth": 0.9787663050273627
+            },
+            "HandR": {
+              "x": 0.3810722212223874,
+              "y": 0.3129509141304966,
+              "depth": 0.9757636708443262
+            },
+            "FootL": {
+              "x": 0.39946530108016776,
+              "y": 0.7078961607888197,
+              "depth": 0.9803749615038828
+            },
+            "FootR": {
+              "x": 0.3825291286630994,
+              "y": 0.7368469087830829,
+              "depth": 0.9792989748720276
+            }
+          }
+        },
+        {
+          "phase": "rest",
+          "seconds": 26,
+          "fov": 44,
+          "canvas": [496, 409],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.4576079681068718,
+              "y": 0.4802797969182908,
+              "depth": 0.979234373644876
+            },
+            "HandL": {
+              "x": 0.4320598977646139,
+              "y": 0.5985947294110415,
+              "depth": 0.9809948853353374
+            },
+            "HandR": {
+              "x": 0.47907322386172385,
+              "y": 0.6537829040065444,
+              "depth": 0.9787779542720547
+            },
+            "FootL": {
+              "x": 0.4526828861336136,
+              "y": 0.7662987416919412,
+              "depth": 0.9811584537763375
+            },
+            "FootR": {
+              "x": 0.46912936385047654,
+              "y": 0.7910840949610286,
+              "depth": 0.9804262921189983
+            }
+          }
+        },
+        {
+          "phase": "dips",
+          "seconds": 38,
+          "fov": 44,
+          "canvas": [496, 409],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.4594228935559892,
+              "y": 0.47164390983057947,
+              "depth": 0.9792070731516528
+            },
+            "HandL": {
+              "x": 0.43744175615626896,
+              "y": 0.48150943872531515,
+              "depth": 0.9807815602827484
+            },
+            "HandR": {
+              "x": 0.4983467817486781,
+              "y": 0.534915424072405,
+              "depth": 0.9779154917362689
+            },
+            "FootL": {
+              "x": 0.4586000719376108,
+              "y": 0.7515074342736996,
+              "depth": 0.9811387612041149
+            },
+            "FootR": {
+              "x": 0.49486272201283926,
+              "y": 0.770454968600693,
+              "depth": 0.9805670503132473
+            }
+          }
+        },
+        {
+          "phase": "dumbbell set",
+          "seconds": 60,
+          "fov": 44,
+          "canvas": [496, 409],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.7428400605109611,
+              "y": 0.502918291932789,
+              "depth": 0.9779188844971636
+            },
+            "HandL": {
+              "x": 0.6756137475922092,
+              "y": 0.6237650312027586,
+              "depth": 0.9797095623186065
+            },
+            "HandR": {
+              "x": 0.7332805608505083,
+              "y": 0.6128428759326373,
+              "depth": 0.9764729663041378
+            },
+            "FootL": {
+              "x": 0.7101608227614926,
+              "y": 0.8028714130561861,
+              "depth": 0.9800780939732263
+            },
+            "FootR": {
+              "x": 0.737979048383604,
+              "y": 0.8305880015963731,
+              "depth": 0.9792593433649337
+            }
+          }
+        }
+      ],
+      "errors": [],
+      "orbitSteps": 14,
+      "maxOrbitStepMeters": 1.2243009005826022,
+      "pausedOrbitFramesIdle": true,
+      "requestedZoomRestored": {
+        "before": 5.2,
+        "after": 5.2
+      },
+      "fovRestorationPassed": true
+    },
+    {
+      "case": "desk-scene-coastal-home-th-570fd-en-restores-the-normal-lens-mobile-390",
+      "phases": [
+        {
+          "phase": "pull-ups",
+          "seconds": 12,
+          "fov": 44,
+          "canvas": [350, 352],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.3314549661980083,
+              "y": 0.4173127338368538,
+              "depth": 0.9780044141893087
+            },
+            "HandL": {
+              "x": 0.30141030628170135,
+              "y": 0.28885329263461823,
+              "depth": 0.9787656617904252
+            },
+            "HandR": {
+              "x": 0.3549478664134855,
+              "y": 0.3127595812669026,
+              "depth": 0.9757622055401719
+            },
+            "FootL": {
+              "x": 0.37735254530399587,
+              "y": 0.7077434210526079,
+              "depth": 0.9803739612811935
+            },
+            "FootR": {
+              "x": 0.35675215311070574,
+              "y": 0.7366714764903283,
+              "depth": 0.9792982447005069
+            }
+          }
+        },
+        {
+          "phase": "rest",
+          "seconds": 26,
+          "fov": 44,
+          "canvas": [350, 352],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.4482968240846313,
+              "y": 0.4802797969182908,
+              "depth": 0.979234373644876
+            },
+            "HandL": {
+              "x": 0.41713728026908464,
+              "y": 0.5985947294110415,
+              "depth": 0.9809948853353374
+            },
+            "HandR": {
+              "x": 0.4744767886864554,
+              "y": 0.6537829040065444,
+              "depth": 0.9787779542720547
+            },
+            "FootL": {
+              "x": 0.4422899787344734,
+              "y": 0.7662987416919412,
+              "depth": 0.9811584537763375
+            },
+            "FootR": {
+              "x": 0.4623488221682319,
+              "y": 0.7910840949610286,
+              "depth": 0.9804262921189983
+            }
+          }
+        },
+        {
+          "phase": "dips",
+          "seconds": 38,
+          "fov": 44,
+          "canvas": [350, 352],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.45050028802994835,
+              "y": 0.47163649781169453,
+              "depth": 0.9792069567062774
+            },
+            "HandL": {
+              "x": 0.42370123077260446,
+              "y": 0.48150943847758804,
+              "depth": 0.9807815602857441
+            },
+            "HandR": {
+              "x": 0.4979836634306813,
+              "y": 0.5349154237633315,
+              "depth": 0.9779154917412362
+            },
+            "FootL": {
+              "x": 0.4495362849326094,
+              "y": 0.7514754675600782,
+              "depth": 0.9811388232998144
+            },
+            "FootR": {
+              "x": 0.4937286757703102,
+              "y": 0.770431190857899,
+              "depth": 0.9805668794622944
+            }
+          }
+        },
+        {
+          "phase": "dumbbell set",
+          "seconds": 60,
+          "fov": 44,
+          "canvas": [350, 352],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.7961783572806824,
+              "y": 0.502918291932789,
+              "depth": 0.9779188844971636
+            },
+            "HandL": {
+              "x": 0.7141442462069585,
+              "y": 0.6237498175861419,
+              "depth": 0.9797090731512879
+            },
+            "HandR": {
+              "x": 0.7845009858860419,
+              "y": 0.6129062627590999,
+              "depth": 0.9764731872767519
+            },
+            "FootL": {
+              "x": 0.7563213298468356,
+              "y": 0.8028714130561861,
+              "depth": 0.9800780939732263
+            },
+            "FootR": {
+              "x": 0.7902496543163826,
+              "y": 0.8305880015963731,
+              "depth": 0.9792593433649337
+            }
+          }
+        }
+      ],
+      "errors": [],
+      "orbitSteps": 14,
+      "maxOrbitStepMeters": 1.2243009005826022,
+      "pausedOrbitFramesIdle": true,
+      "requestedZoomRestored": {
+        "before": 5.2,
+        "after": 5.2
+      },
+      "fovRestorationPassed": true
+    },
+    {
+      "case": "desk-scene-coastal-home-th-570fd-en-restores-the-normal-lens-tablet-768",
+      "phases": [
+        {
+          "phase": "pull-ups",
+          "seconds": 12,
+          "fov": 44,
+          "canvas": [672, 416],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.3963359012763555,
+              "y": 0.41921677685434755,
+              "depth": 0.9780152304131869
+            },
+            "HandL": {
+              "x": 0.3778548584046347,
+              "y": 0.290752953510295,
+              "depth": 0.9787727484786072
+            },
+            "HandR": {
+              "x": 0.41073417668639234,
+              "y": 0.3148595560406157,
+              "depth": 0.9757782573041077
+            },
+            "FootL": {
+              "x": 0.42471588741243615,
+              "y": 0.7094176465745383,
+              "depth": 0.9803849294796497
+            },
+            "FootR": {
+              "x": 0.4116586218177589,
+              "y": 0.7385964911160969,
+              "depth": 0.9793062475346164
+            }
+          }
+        },
+        {
+          "phase": "rest",
+          "seconds": 26,
+          "fov": 44,
+          "canvas": [672, 416],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.46817512846118403,
+              "y": 0.4802797969182908,
+              "depth": 0.979234373644876
+            },
+            "HandL": {
+              "x": 0.4489954850141146,
+              "y": 0.5985947294110415,
+              "depth": 0.9809948853353374
+            },
+            "HandR": {
+              "x": 0.4842896900058674,
+              "y": 0.6537829040065444,
+              "depth": 0.9787779542720547
+            },
+            "FootL": {
+              "x": 0.4644777331225452,
+              "y": 0.7662987416919412,
+              "depth": 0.9811584537763375
+            },
+            "FootR": {
+              "x": 0.47682455909976396,
+              "y": 0.7910840949610286,
+              "depth": 0.9804262921189983
+            }
+          }
+        },
+        {
+          "phase": "dips",
+          "seconds": 38,
+          "fov": 44,
+          "canvas": [672, 416],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.4695999463208442,
+              "y": 0.47172013355603065,
+              "depth": 0.979208250245839
+            },
+            "HandL": {
+              "x": 0.45303579471698513,
+              "y": 0.4815094387127735,
+              "depth": 0.9807815603200275
+            },
+            "HandR": {
+              "x": 0.4987588826953823,
+              "y": 0.5349154244782389,
+              "depth": 0.9779154917526068
+            },
+            "FootL": {
+              "x": 0.4702276835750585,
+              "y": 0.7523927124738221,
+              "depth": 0.9811592568571734
+            },
+            "FootR": {
+              "x": 0.49208682076198706,
+              "y": 0.7729798667608836,
+              "depth": 0.9805279446113601
+            }
+          }
+        },
+        {
+          "phase": "dumbbell set",
+          "seconds": 60,
+          "fov": 44,
+          "canvas": [672, 416],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.6823067540079959,
+              "y": 0.502918291932789,
+              "depth": 0.9779188844971636
+            },
+            "HandL": {
+              "x": 0.6316833251046152,
+              "y": 0.6236730380177651,
+              "depth": 0.9797066256895859
+            },
+            "HandR": {
+              "x": 0.675063450712096,
+              "y": 0.613223266002052,
+              "depth": 0.97647429960693
+            },
+            "FootL": {
+              "x": 0.6577735458337529,
+              "y": 0.8028714130561861,
+              "depth": 0.9800780939732263
+            },
+            "FootR": {
+              "x": 0.6786574576758037,
+              "y": 0.8305880015963731,
+              "depth": 0.9792593433649337
+            }
+          }
+        }
+      ],
+      "errors": [],
+      "orbitSteps": 14,
+      "maxOrbitStepMeters": 1.2243009005826022,
+      "pausedOrbitFramesIdle": true,
+      "requestedZoomRestored": {
+        "before": 5.2,
+        "after": 5.2
+      },
+      "fovRestorationPassed": true
+    },
+    {
+      "case": "desk-scene-coastal-home-th-570fd-en-restores-the-normal-lens-webkit-390",
+      "phases": [
+        {
+          "phase": "pull-ups",
+          "seconds": 12,
+          "fov": 44,
+          "canvas": [350, 352],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.33151445331051044,
+              "y": 0.418179466577455,
+              "depth": 0.9780093375837774
+            },
+            "HandL": {
+              "x": 0.3014789975096245,
+              "y": 0.2897179248950966,
+              "depth": 0.9787688801678522
+            },
+            "HandR": {
+              "x": 0.354961074089578,
+              "y": 0.3137154318381975,
+              "depth": 0.975769520165317
+            },
+            "FootL": {
+              "x": 0.37750713913812317,
+              "y": 0.7085060745822043,
+              "depth": 0.9803789563677167
+            },
+            "FootR": {
+              "x": 0.3566282319593969,
+              "y": 0.7375478107913597,
+              "depth": 0.979301890414216
+            }
+          }
+        },
+        {
+          "phase": "rest",
+          "seconds": 26,
+          "fov": 44,
+          "canvas": [350, 352],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.4482968240846313,
+              "y": 0.4802797969182908,
+              "depth": 0.979234373644876
+            },
+            "HandL": {
+              "x": 0.41713728026908464,
+              "y": 0.5985947294110415,
+              "depth": 0.9809948853353374
+            },
+            "HandR": {
+              "x": 0.4744767886864554,
+              "y": 0.6537829040065444,
+              "depth": 0.9787779542720547
+            },
+            "FootL": {
+              "x": 0.4422899787344734,
+              "y": 0.7662987416919412,
+              "depth": 0.9811584537763375
+            },
+            "FootR": {
+              "x": 0.4623488221682319,
+              "y": 0.7910840949610286,
+              "depth": 0.9804262921189983
+            }
+          }
+        },
+        {
+          "phase": "dips",
+          "seconds": 38,
+          "fov": 44,
+          "canvas": [350, 352],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.45055086810405437,
+              "y": 0.47167400772527973,
+              "depth": 0.9792075419278807
+            },
+            "HandL": {
+              "x": 0.4237012298463842,
+              "y": 0.48150943840668664,
+              "depth": 0.980781560313748
+            },
+            "HandR": {
+              "x": 0.4979836616858578,
+              "y": 0.5349154238777046,
+              "depth": 0.9779154917582312
+            },
+            "FootL": {
+              "x": 0.45178846673068657,
+              "y": 0.752204242979368,
+              "depth": 0.9811594976275625
+            },
+            "FootR": {
+              "x": 0.4871702494649494,
+              "y": 0.7728165139750067,
+              "depth": 0.9805272890903054
+            }
+          }
+        },
+        {
+          "phase": "dumbbell set",
+          "seconds": 60,
+          "fov": 44,
+          "canvas": [350, 352],
+          "camera": [4.234382830062491, 2.736705074638966, 0.2292633796561072],
+          "framed": {
+            "Head": {
+              "x": 0.7961783572806824,
+              "y": 0.502918291932789,
+              "depth": 0.9779188844971636
+            },
+            "HandL": {
+              "x": 0.7143542515492052,
+              "y": 0.6238254110556314,
+              "depth": 0.9797115178917983
+            },
+            "HandR": {
+              "x": 0.7845924080916673,
+              "y": 0.6125893765401844,
+              "depth": 0.9764720873986151
+            },
+            "FootL": {
+              "x": 0.7563213298468356,
+              "y": 0.8028714130561861,
+              "depth": 0.9800780939732263
+            },
+            "FootR": {
+              "x": 0.7902496543163826,
+              "y": 0.8305880015963731,
+              "depth": 0.9792593433649337
+            }
+          }
+        }
+      ],
+      "errors": [],
+      "orbitSteps": 14,
+      "maxOrbitStepMeters": 1.2243009005826022,
+      "pausedOrbitFramesIdle": true,
+      "requestedZoomRestored": {
+        "before": 5.2,
+        "after": 5.2
+      },
+      "fovRestorationPassed": true
+    }
+  ],
+  "projection": {
+    "method": {
+      "coordinateSystem": "Delivered GLB and Three Y-up, meters; same actor/equipment anchors as runtime",
+      "browser": false,
+      "gpu": false,
+      "meshNodes": "Disabled; retained only as hierarchy transform containers",
+      "samplesPerClip": [0, 0.25, 0.5, 0.75, 0.98],
+      "clipCountPerAvatar": 4,
+      "avatarCount": 5,
+      "animation": "Read original binary GLB skeleton transform accessors; native STEP/LINEAR tracks sampled by Three AnimationMixer",
+      "handContacts": "Current runtime createHandContacts and resolveWristTargets; weight=1 in steady grip clips",
+      "baselineInterpretation": "Original camera with the SAME current native delivered skeletons and sampled contact clips",
+      "limitations": [
+        "Skeleton points only: Draco meshes, skinned surface vertices, skin width, hair, shoes and eyelid morphs are not decoded",
+        "No occlusion, mask/fade, lighting, framebuffer or pixel-size acceptance evidence",
+        "Five authored key times per clip; no complete continuous clip or crossfade proof",
+        "Default camera clearance proxy only; no orbit-envelope collision claim",
+        "Actual root-owned Docker screenshots remain the visual acceptance evidence"
+      ]
+    },
+    "inputs": [
+      {
+        "path": "assets/models/home/manifest.json",
+        "bytes": 90090,
+        "sha256": "10af035998a178bf6a1f88825b65fc887689c98205753cebda63ce87e95937d2"
+      },
+      {
+        "path": "assets/js/three.module.min.js",
+        "bytes": 674428,
+        "sha256": "d08334115492bd88100491499f9dc9c830759154e524ec536739d1dacb2bce18"
+      },
+      {
+        "path": "assets/js/home-scene/activities.mjs",
+        "bytes": 6660,
+        "sha256": "637d85c7210b79ce6e5ed5bd5f6c056a1f261cf7ec7741493ef08674f7fbde19"
+      },
+      {
+        "path": "assets/js/home-scene/grip-targets.mjs",
+        "bytes": 701,
+        "sha256": "048cc2f10a01353e0245bb28b5f4dacfd9e311a6bd7ab50206fc356d02fb7416"
+      },
+      {
+        "path": "assets/js/home-scene/camera.mjs",
+        "bytes": 2960,
+        "sha256": "cd84427d000a0429084db533aa8fe7050f599965b3f822f642d1896679d9fe3b"
+      },
+      {
+        "path": "assets/models/home/sirui-lizard.glb",
+        "bytes": 499996,
+        "sha256": "3ac88825c77493b6e00bd5721cba51b166d8051d8585eef583e75a73093caac6"
+      },
+      {
+        "path": "assets/models/home/sirui-south-park.glb",
+        "bytes": 718608,
+        "sha256": "b971576f8232e7f523b6b45ce2a53527b603aedbd4a031a8ec22fca4d26a7642"
+      },
+      {
+        "path": "assets/models/home/sirui-simpsons.glb",
+        "bytes": 671740,
+        "sha256": "16af9103ef80599c1dc898a5c845927fe8da88b667e8fc07a47d2fcef2bcb47c"
+      },
+      {
+        "path": "assets/models/home/sirui-ghibli.glb",
+        "bytes": 854348,
+        "sha256": "d5fb167789795f68f3abcee005976c48f17231a080ba031ff0147b8f44b7138a"
+      },
+      {
+        "path": "assets/models/home/sirui-rick-and-morty.glb",
+        "bytes": 655740,
+        "sha256": "c6b4e09125000d3b2d2a6243c42ca62a728920e3266ecd3c82ec593d743f09b7"
+      }
+    ],
+    "beforeAnglesDegrees": [
+      {
+        "phase": "rest",
+        "degrees": 161.48725148055908
+      },
+      {
+        "phase": "pullup",
+        "degrees": 163.03625045320246
+      },
+      {
+        "phase": "dip",
+        "degrees": 161.37163890940033
+      },
+      {
+        "phase": "dumbbell",
+        "degrees": 146.62693769319353
+      }
+    ],
+    "afterDefaultProxyCorrectionMeters": 0,
+    "afterMinMargins": {
+      "desktop": {
+        "left": 0.2885166081423325,
+        "right": 0.1774255166001968,
+        "top": 0.12543533713567273,
+        "bottom": 0.1667570794973824
+      },
+      "mobile": {
+        "left": 0.2484687469562668,
+        "right": 0.11634072871266132,
+        "top": 0.12543533713567273,
+        "bottom": 0.1667570794973824
+      }
+    }
+  },
+  "limits": [
+    "Native joint projection probes disable meshes; visible Ghibli captures retain all actual models/furniture/shading.",
+    "Controlled clocks are continuity/framing checks. Mobile uses desktop Chromium/WebKit emulation.",
+    "Camera ray bounds cover settled gym targets; the existing global near-plane fallback remains during room transitions.",
+    "No new model geometry, physical-phone, film-quality or universal collision claim."
+  ]
+}

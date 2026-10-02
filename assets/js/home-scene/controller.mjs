@@ -59,7 +59,8 @@ export function createCoastalHome(container, records, artifacts) {
   let yaw = 0.36,
     pitch = 0.75,
     radius = 8.0,
-    desiredRadius = radius;
+    desiredRadius = radius,
+    desiredFov = perspective.fov;
   let cameraYaw = yaw,
     cameraPitch = pitch;
   let config,
@@ -911,6 +912,7 @@ export function createCoastalHome(container, records, artifacts) {
       followClock = false;
     }
     currentRoom = id;
+    desiredFov = 38;
     const shadowExtent = id === "outside" ? 36 : 10;
     Object.assign(sun.shadow.camera, { left: -shadowExtent, right: shadowExtent, top: shadowExtent, bottom: -shadowExtent, far: 160 });
     sun.shadow.normalBias = id === "outside" ? 0.12 : 0.04;
@@ -937,6 +939,7 @@ export function createCoastalHome(container, records, artifacts) {
       desiredRadius = room.camera?.radius || 4.4;
       yaw = room.camera?.yaw ?? 0.65;
       pitch = room.camera?.pitch ?? 0.24;
+      desiredFov = room.camera?.fov ?? 38;
       loadRoom(id).catch(() => {});
     }
     if (reduced) {
@@ -1235,10 +1238,13 @@ export function createCoastalHome(container, records, artifacts) {
   }
   function requestFrame() {
     if (config) {
-      const orbit = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope());
+      const envelope = cameraEnvelope(),
+        orbit = constrainOrbit({ yaw, pitch, radius: desiredRadius }, envelope);
       yaw = orbit.yaw;
       pitch = orbit.pitch;
-      desiredRadius = orbit.radius;
+      // Retain the visitor's zoom request while a narrow room angle dollies
+      // inward. Returning to the open angle then restores that requested zoom.
+      desiredRadius = envelope?.clearance ? clamp(desiredRadius, ...envelope.radius) : orbit.radius;
     }
     if (!frame && renderer && visible && inViewport && !document.hidden && !disposed) frame = requestAnimationFrame(render);
   }
@@ -1267,6 +1273,11 @@ export function createCoastalHome(container, records, artifacts) {
     }
     target.lerp(desiredTarget, cameraEase);
     radius = THREE.MathUtils.lerp(radius, desiredRadius, cameraEase);
+    const fov = THREE.MathUtils.lerp(perspective.fov, desiredFov, cameraEase);
+    if (Math.abs(fov - perspective.fov) > 0.00001) {
+      perspective.fov = fov;
+      perspective.updateProjectionMatrix();
+    }
     const yawDelta = Math.atan2(Math.sin(yaw - cameraYaw), Math.cos(yaw - cameraYaw));
     cameraYaw += yawDelta * orbitEase;
     cameraPitch = THREE.MathUtils.lerp(cameraPitch, pitch, orbitEase);
@@ -1420,10 +1431,11 @@ export function createCoastalHome(container, records, artifacts) {
       if (frameTimings.length > 120) frameTimings.shift();
     }
     frames++;
+    const settledRadius = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope()).radius;
     if (
       moving ||
       target.distanceTo(desiredTarget) > 0.003 ||
-      Math.abs(radius - desiredRadius) > 0.003 ||
+      Math.abs(radius - settledRadius) > 0.003 ||
       Math.abs(yawDelta * (1 - orbitEase)) > 0.003 ||
       Math.abs(cameraPitch - pitch) > 0.003
     )
@@ -1601,6 +1613,7 @@ export function createCoastalHome(container, records, artifacts) {
     backdropImages: 0,
     camera: camera.position.toArray(),
     cameraOrbit: { yaw: cameraYaw, pitch: cameraPitch, radius },
+    cameraFov: perspective.fov,
     cameraEnvelope: config ? cameraEnvelope() : null,
     target: target.toArray(),
     currentRecord,

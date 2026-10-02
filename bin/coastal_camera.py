@@ -79,6 +79,11 @@ def camera_manifest(config, height):
         camera = room['camera']; yaw = camera['yaw']; r = camera['radius']
         camera['envelope'] = {'yaw':[round(yaw-.55,3),round(yaw+.55,3)],
             'pitch':[.12,.62], 'radius':[round(r*.78,3),round(r*1.18,3)]}
+        if room['id']=='gym':
+            # Keep the orbit inside the side wall and in front of the upper
+            # floor, with 8 cm beyond the existing near-plane proxy padding.
+            camera['envelope']['yaw']=[.85,1.7]
+            camera['envelope']['clearance']={'origin':room['target'][:], 'maxX':4.3, 'maxZ':.9}
     config['version'] = 5
 
 

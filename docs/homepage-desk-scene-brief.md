@@ -13,6 +13,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 ## Known Inspection Targets
 
 - Study hand/keyboard contact, chair back orientation, supported feet, and a camera that shows Sirui's profile. In the gym, keep the rack, bench, and exercising character readable together; the study bookshelf must not block its camera.
+- The gym arrives from the front three-quarter side with a 44° lens, leaving room for raised hands and showing the glasses and held weight. Other destinations retain 38°. Its orbit dollies within the side-wall/gallery clearance bounds and restores the requested zoom when turning back. Preserve equipment facing and contact anchors. See `docs/evidence/gym-framing-2026-10-02/` for native renders, framing and movement proof.
 - Kitchen utensil/cup contact; onsen waterline; pillow/duvet occlusion; tail clearance.
 - Five distinct male interpretations: Lizard, South Park, Simpsons, Ghibli, Rick and Morty. One character at a time, independent of the selected album.
 - Unobstructed record and paper focus, visible camera changes, and a clear outside/return route.

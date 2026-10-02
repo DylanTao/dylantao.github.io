@@ -18,7 +18,20 @@ export function constrainOrbit(orbit, envelope) {
     yaw = middle + Math.atan2(Math.sin(yaw - middle), Math.cos(yaw - middle));
     yaw = clamp(yaw, a, b);
   }
-  return { yaw, pitch: clamp(orbit.pitch, ...envelope.pitch), radius: clamp(orbit.radius, ...envelope.radius) };
+  const pitch = clamp(orbit.pitch, ...envelope.pitch);
+  let maxRadius = envelope.radius[1];
+  if (envelope.clearance) {
+    const { origin, maxX, maxZ } = envelope.clearance;
+    // A front room orbit must dolly before reaching the side wall or gallery
+    // slab. Bound the orbit ray continuously instead of jumping behind them.
+    for (const [direction, distance] of [
+      [Math.sin(yaw) * Math.cos(pitch), maxX - origin[0]],
+      [Math.cos(yaw) * Math.cos(pitch), maxZ - origin[2]],
+    ]) {
+      if (direction > 0.000001) maxRadius = Math.min(maxRadius, distance / direction);
+    }
+  }
+  return { yaw, pitch, radius: clamp(orbit.radius, envelope.radius[0], Math.max(envelope.radius[0], maxRadius)) };
 }
 export function cameraTerrainHeight(x, z, collision) {
   if (!collision) return -Infinity;
