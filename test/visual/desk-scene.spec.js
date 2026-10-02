@@ -768,6 +768,10 @@ test("character performance: attention settles and eyelids respect pause and red
   await expect
     .poll(async () => ["glance", "acknowledge"].includes((await evidence(scene)).characterPerformance?.phase), { intervals: [30] })
     .toBe(true);
+  const attention = (await evidence(scene)).characterPerformance;
+  expect(attention.attentionTarget.direction[2]).toBeGreaterThan(0);
+  expect(attention.attentionTarget.worldDirection.every(Number.isFinite)).toBe(true);
+  expect(Math.sign(attention.eye[0] + attention.head[0])).toBe(Math.sign(attention.attentionTarget.angles[0]));
   expect(Math.hypot(...(await evidence(scene)).camera.map((value, i) => value - start.camera[i]))).toBeLessThan(0.03);
   await expect.poll(async () => (await evidence(scene)).characterPerformance?.phase).toBe("routine");
   await expect.poll(async () => (await evidence(scene)).characterPerformance?.blinkCount, { timeout: 10000 }).toBeGreaterThan(0);
@@ -805,7 +809,8 @@ test("character performance: P acknowledges a visitor without changing the room 
   await page.waitForTimeout(1400);
   const start = await evidence(scene);
   const point = start.companion.projected;
-  await page.mouse.move(point.x, point.y);
+  if (testInfo.project.name === "mobile-390") await page.touchscreen.tap(point.x + 32, point.y);
+  else await page.mouse.move(point.x, point.y);
   await expect.poll(async () => (await evidence(scene)).companion?.attention?.greetings).toBeGreaterThan(start.companion.attention.greetings);
   await expect.poll(async () => (await evidence(scene)).companion?.attention?.phase).toBe("listen");
   const listen = await evidence(scene);
@@ -820,7 +825,7 @@ test("character performance: P acknowledges a visitor without changing the room 
   expect((await evidence(scene)).companion.attention.greetings).toBe(greetings);
   // Observe the streamed turntable during the active encounter, before the
   // deliberate 30-second pause crosses the separate page-excursion schedule.
-  await expect.poll(async () => (await evidence(scene)).companion?.attention?.target).toBe("record");
+  await expect.poll(async () => (await evidence(scene)).companion?.attention?.target, { timeout: 27000 }).toBe("record");
 
   await ui.locator("[data-world-pause]").click();
   await expect.poll(async () => (await evidence(scene)).companion?.attention?.phase).toBe("still");
@@ -845,7 +850,10 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
   const wide = await canvas.screenshot();
   await canvas.press("n");
   await expect(scene).toHaveAttribute("data-coastal-neighbour", "rabbit-0");
-  await expect.poll(async () => (await evidence(scene)).neighbours.length).toBe(8);
+  await expect.poll(async () => (await evidence(scene)).neighbours.length).toBe(17);
+  const rabbitArrival = (await evidence(scene)).inspection.arrival;
+  expect(rabbitArrival.visibleFaceSamples).toBe(rabbitArrival.faceSamples);
+  expect(rabbitArrival.visibleBody).toBe(true);
   await expect
     .poll(async () => {
       const view = await evidence(scene),
@@ -889,6 +897,70 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
   expect((await evidence(scene)).inspection).toBeNull();
   expect((await evidence(scene)).currentRecord).toBe(initial.currentRecord);
   await expect(canvas).toHaveAttribute("aria-label", /Sirui’s coastal home/);
+  expect(errors).toEqual([]);
+});
+
+test("coastal neighbours: new raccoon and birds expose real close views without extra public controls", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, { time: "2026-10-01T13:20:00-07:00" });
+  await expect.poll(async () => (await evidence(scene)).ecology.wildlife.modelsReady, { timeout: 45000 }).toBe(true);
+  await ui.locator("[data-world-view]").click();
+  await canvas.scrollIntoViewIfNeeded();
+  const neighbours = (await evidence(scene)).neighbours;
+  expect(neighbours).toHaveLength(17);
+  expect(neighbours.every((animal) => animal.faceAnchorSource === "named acting pivots")).toBe(true);
+  await settleRoomModels(scene);
+  await ui.locator("[data-world-view]").click();
+  await settle(page);
+  // Deliver the gallery selection before any exterior frame can update the
+  // cutaway. A slow renderer or rapid key burst must score the final roof.
+  await canvas.evaluate(
+    (element, presses) => {
+      for (let index = 0; index < presses; index++) element.dispatchEvent(new KeyboardEvent("keydown", { key: "n", bubbles: true }));
+    },
+    neighbours.findIndex((animal) => animal.id === "balcony-gull-0") + 1
+  );
+  await expect(scene).toHaveAttribute("data-coastal-neighbour", "balcony-gull-0");
+  await settle(page);
+  const burst = await evidence(scene);
+  expect(burst.inspection.arrival.visibleFaceSamples).toBe(burst.inspection.arrival.faceSamples);
+  expect(burst.inspection.arrival.visibleBody).toBe(true);
+  const gallery = await canvas.screenshot(),
+    image = PNG.sync.read(gallery),
+    center = new PNG({ width: Math.floor(image.width * 0.4), height: Math.floor(image.height * 0.4) });
+  PNG.bitblt(image, center, Math.floor(image.width * 0.3), Math.floor(image.height * 0.3), center.width, center.height, 0, 0);
+  // Exclude the feathered border: a sandstone-filled frame has variance <1
+  // despite a centered target, whereas the real gull/rail/ocean are distinct.
+  expect(screenshotMetrics(PNG.sync.write(center)).luminanceVariance).toBeGreaterThan(80);
+  await capture(testInfo, "gallery-gull-after-synchronous-cutaway-transition", gallery);
+  await canvas.press("Enter");
+  const expected = new Set(["raccoon-0", "gull-0", "balcony-gull-0", "sandpiper-0"]),
+    visited = new Set();
+  for (let i = 0; i < neighbours.length; i++) {
+    await canvas.press("n");
+    const view = await evidence(scene);
+    expect(view.inspection.arrival.faceSamples).toBeGreaterThanOrEqual(2);
+    expect(view.camera.every(Number.isFinite)).toBe(true);
+    const selected = view.neighbours.find((animal) => animal.id === view.inspection.id);
+    expect(Math.hypot(...view.target.map((value, axis) => value - selected.worldCenter[axis]))).toBeLessThan(0.01);
+    if (expected.has(view.inspection.id)) {
+      visited.add(view.inspection.id);
+      // A projected target can remain centered while opaque scenery fills
+      // the rendered frame. Require an actual unobstructed arrival as well.
+      expect(view.inspection.arrival.visibleFaceSamples).toBe(view.inspection.arrival.faceSamples);
+      expect(view.inspection.arrival.visibleBody).toBe(true);
+      expect(selected.projected.x).toBeGreaterThan(0);
+      expect(selected.projected.x).toBeLessThan(1);
+      expect(selected.projected.y).toBeGreaterThan(0);
+      expect(selected.projected.y).toBeLessThan(1);
+      await canvas.evaluate((element) => element.blur());
+      await capture(testInfo, `${view.inspection.id}-actual-arrival`, await canvas.screenshot());
+    }
+  }
+  expect(visited).toEqual(expected);
+  await canvas.press("Enter");
+  expect((await evidence(scene)).inspection).toBeNull();
+  expect(await ui.locator("button:visible").count()).toBe(1);
   expect(errors).toEqual([]);
 });
 

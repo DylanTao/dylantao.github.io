@@ -16,6 +16,7 @@ import { createRecordMotion } from "./record-motion.mjs";
 import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
 import { bindContactLighting, withoutContactLighting } from "./contact-occlusion.mjs";
 import { createCharacterPerformance } from "./character-performance.mjs";
+import { createOcclusionRegion } from "./occlusion-region.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -746,13 +747,17 @@ export function createCoastalHome(container, records, artifacts) {
     {
       // Choose a readable initial angle through the actual coast. This runs
       // only on selection; orbiting and tracking never raycast the whole coast.
+      const selectionStarted = performance.now();
+      // A burst of selections can precede the first exterior frame. Score
+      // against the final cutaway now, not the preceding inside roof state.
+      syncCutaway();
       world.updateMatrixWorld(true);
       const occluders = [];
       world.traverse((object) => {
-        if (!object.isMesh || object.userData.action || object.userData.noOcclusion) return;
+        if (!object.isMesh || object.userData.noOcclusion) return;
         let parent = object;
         while (parent) {
-          if (!parent.visible) return;
+          if (!parent.visible || parent === neighbour.root) return;
           parent = parent.parent;
         }
         const materials = Array.isArray(object.material) ? object.material : [object.material];
@@ -761,40 +766,72 @@ export function createCoastalHome(container, records, artifacts) {
       const visibilityRay = new THREE.Raycaster(),
         origin = new THREE.Vector3(),
         direction = new THREE.Vector3(),
-        head = new THREE.Vector3(...(neighbour.headAnchor || neighbour.worldCenter));
-      head.y += neighbour.radius * 0.12;
-      const samples = [head, desiredTarget.clone()];
+        head = new THREE.Vector3(...(neighbour.eyeAnchor || neighbour.headAnchor || neighbour.worldCenter));
+      if (!neighbour.eyeAnchor) head.y += neighbour.radius * 0.12;
+      const samples = (neighbour.faceAnchors?.length ? neighbour.faceAnchors : [head.toArray()]).map((point) => new THREE.Vector3(...point));
+      samples.push(desiredTarget.clone());
       const facing = Math.atan2(front[0], front[2]);
-      let best = -Infinity;
+      let best = -Infinity,
+        rays = 0,
+        selectedVisibility = null;
       const elevations = neighbour.id.startsWith("rabbit-") ? [0.46, 0.72] : [0.2, 0.4];
-      for (const offset of [0.4, -0.4, 0.85, -0.85, 1.25, -1.25, 1.7, -1.7]) {
+      // Include the actual frontal gap. Side-only candidates missed a narrow
+      // clear opening in the authored scrub even after a full orbit found it.
+      const candidates = [],
+        arrivalBounds = new THREE.Box3();
+      samples.forEach((point) => arrivalBounds.expandByPoint(point));
+      // The balcony bird faces inland. Its front semicircle lies above the
+      // cliff or behind the house; retain Pacific-side and rear arrivals too.
+      for (const offset of [0, 0.4, -0.4, 0.85, -0.85, 1.25, -1.25, 1.7, -1.7, 2.3, -2.3, Math.PI]) {
         for (const elevation of elevations) {
           const angle = facing + offset;
-          origin.set(
+          const position = new THREE.Vector3(
             desiredTarget.x + Math.sin(angle) * Math.cos(elevation) * desiredRadius,
             desiredTarget.y + Math.sin(elevation) * desiredRadius,
             desiredTarget.z + Math.cos(angle) * Math.cos(elevation) * desiredRadius
           );
-          keepCameraClear(origin, config, "outside");
+          keepCameraClear(position, config, neighbour.id === "balcony-gull-0" ? "study" : "outside");
+          candidates.push({ offset, elevation, angle, position });
+          arrivalBounds.expandByPoint(position);
+        }
+      }
+      const region = createOcclusionRegion(occluders, arrivalBounds.expandByScalar(0.05));
+      try {
+        for (const { offset, elevation, angle, position } of candidates) {
+          origin.copy(position);
           // A clear camera lifted onto the cliff can make the animal tiny.
           // Prefer a nearby side angle over that distant overhead composition.
           let score =
             -Math.abs(offset) * 0.02 -
             Math.abs(elevation - elevations[0]) * 0.01 -
             Math.max(0, origin.distanceTo(desiredTarget) / desiredRadius - 1) * 2;
+          let visibleFaceSamples = 0,
+            visibleBody = false;
           samples.forEach((point, i) => {
             direction.copy(point).sub(origin);
             visibilityRay.far = Math.max(0.01, direction.length() - 0.05);
             visibilityRay.set(origin, direction.normalize());
-            if (!visibilityRay.intersectObjects(occluders, false).length) score += i === 0 ? 3 : 1;
+            rays++;
+            if (!visibilityRay.intersectObjects(region.objects, false).length) {
+              score += i < samples.length - 1 ? 3 / (samples.length - 1) : 1;
+              if (i < samples.length - 1) visibleFaceSamples++;
+              else visibleBody = true;
+            }
           });
           if (score > best) {
             best = score;
             yaw = angle;
             pitch = elevation;
+            selectedVisibility = { visibleFaceSamples, faceSamples: samples.length - 1, visibleBody };
           }
+          // Prefer the first readable nearby arrival over marginal scoring
+          // differences. Repeated full-coast traversals otherwise stall input.
+          if (visibleFaceSamples === samples.length - 1 && visibleBody && origin.distanceTo(desiredTarget) <= desiredRadius * 1.12) break;
         }
+      } finally {
+        region.dispose();
       }
+      animalFocus.arrival = { ...selectedVisibility, rays, ...region.evidence, milliseconds: performance.now() - selectionStarted };
     }
     container.dataset.coastalNeighbour = neighbour.id;
     renderer.domElement.setAttribute(
@@ -813,6 +850,12 @@ export function createCoastalHome(container, records, artifacts) {
 
   function cameraEnvelope() {
     return animalFocus ? wildlifeEnvelope(animalFocus.radius) : envelopeFor(config, currentRoom);
+  }
+
+  function syncCutaway() {
+    world.traverse((object) => {
+      if (object.userData.caveRoof) object.visible = currentRoom === "outside";
+    });
   }
 
   function focusObject(o) {
@@ -1046,7 +1089,7 @@ export function createCoastalHome(container, records, artifacts) {
     listen(canvas, "pointermove", (e) => {
       if (!pointer && !reduced && !paused && e.pointerType !== "touch") {
         const rect = canvas.getBoundingClientRect();
-        characterPerformance?.notice(((e.clientX - rect.left) / rect.width) * 2 - 1, 1 - ((e.clientY - rect.top) / rect.height) * 2);
+        characterPerformance?.notice(((e.clientX - rect.left) / rect.width) * 2 - 1, 1 - ((e.clientY - rect.top) / rect.height) * 2, camera);
       }
       if (touches.has(e.pointerId)) touches.set(e.pointerId, [e.clientX, e.clientY]);
       if (pinch && touches.size === 2) {
@@ -1225,7 +1268,9 @@ export function createCoastalHome(container, records, artifacts) {
       target.y + Math.sin(cameraPitch) * radius,
       target.z + Math.cos(cameraYaw) * Math.cos(cameraPitch) * radius
     );
-    keepCameraClear(camera.position, config, currentRoom);
+    // The gallery rail is inside the carved home. A mainland height field
+    // would lift its inspection camera onto the cliff and into the sandstone.
+    keepCameraClear(camera.position, config, animalFocus?.id === "balcony-gull-0" ? "study" : currentRoom);
     if (camera.isOrthographicCamera) {
       const half = radius * Math.tan((38 * Math.PI) / 360);
       camera.left = -half * aspect;
@@ -1235,9 +1280,7 @@ export function createCoastalHome(container, records, artifacts) {
       camera.updateProjectionMatrix();
     }
     camera.lookAt(target);
-    world.traverse((o) => {
-      if (o.userData.caveRoof) o.visible = currentRoom === "outside";
-    });
+    syncCutaway();
     characterPerformance?.restore();
     if (moving && mixer) {
       if (style === "illustrated") {
@@ -1550,10 +1593,17 @@ export function createCoastalHome(container, records, artifacts) {
     vinylTransfer,
     dropped: [...dropped],
     focused: container.dataset.focusedDeskObject || null,
-    inspection: animalFocus ? { id: animalFocus.id, name: animalFocus.name, radius: animalFocus.radius } : null,
-    neighbours: (pacific?.neighbours() || []).map(({ id, name, worldCenter, radius }) => {
+    inspection: animalFocus ? { id: animalFocus.id, name: animalFocus.name, radius: animalFocus.radius, arrival: animalFocus.arrival } : null,
+    neighbours: (pacific?.neighbours() || []).map(({ id, name, worldCenter, radius, faceAnchorSource }) => {
       const projected = new THREE.Vector3(...worldCenter).project(camera);
-      return { id, name, worldCenter, radius, projected: { x: (projected.x + 1) / 2, y: (1 - projected.y) / 2, depth: projected.z } };
+      return {
+        id,
+        name,
+        worldCenter,
+        radius,
+        faceAnchorSource,
+        projected: { x: (projected.x + 1) / 2, y: (1 - projected.y) / 2, depth: projected.z },
+      };
     }),
     canvasWidth: renderer?.domElement.width,
     canvasHeight: renderer?.domElement.height,

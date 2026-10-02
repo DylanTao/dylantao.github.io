@@ -78,6 +78,7 @@ def web(point):
 
 
 def export_contacts(config):
+    from rabbit_habitats import RABBIT_HABITAT_LOOPS
     samples = []
     for i in range(225):
         x = -36 + i * .5
@@ -88,8 +89,8 @@ def export_contacts(config):
     def path(points):
         return [web((x, y, top_height(x, y) + .025)) for x, y in points]
     habitats = {
-        "rabbitWest": {"kind": "clifftop", "path": path([(-7.6,-3.0),(-8.2,-3.5),(-9.0,-3.2),(-8.5,-2.4)])},
-        "rabbitEast": {"kind": "clifftop", "path": path([(8.0,-2.0),(8.7,-2.4),(9.4,-3.0),(8.6,-3.1)])},
+        "rabbitWest": {"kind": "clifftop", "path": path(RABBIT_HABITAT_LOOPS['rabbitWest'])},
+        "rabbitEast": {"kind": "clifftop", "path": path(RABBIT_HABITAT_LOOPS['rabbitEast'])},
         "raccoon": {"kind": "clifftop", "path": path([(-5.5,-7.0),(-6.4,-7.7),(-7.6,-8.3),(-7.0,-7.2)])},
         "seal": {"kind": "sand", "path": [web(beach_point(x,.32)) for x in (-5,-4,-3)]},
         "seaLion": {"kind": "rock", "path": []},
