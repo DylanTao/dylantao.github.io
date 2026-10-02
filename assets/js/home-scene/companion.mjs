@@ -77,6 +77,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
     inputKind = typeof matchMedia !== "undefined" && matchMedia("(pointer: coarse)").matches ? "touch" : "mouse",
     aim = null;
   let room = null,
+    pendingRoom = null,
     route = null,
     routeStart = 0,
     nextWander = 0,
@@ -149,6 +150,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
   function startFlight(points, endHover = away ? 0.72 : config.companion.hover[room.id] || 0.72) {
     route = createPipClearanceFlight(points, hoverHeight ?? endHover, endHover);
     routeStart = now;
+    flightPose = samplePipClearanceFlight(route, 0);
   }
   function roomGoal(id, instant = false) {
     const next = config.rooms.find((r) => r.id === id) || config.rooms[0];
@@ -173,6 +175,12 @@ export async function createWorldCompanion(scene, config, container, loader) {
     returning = false;
     outing = null;
   }
+  function dispatchPendingRoom() {
+    if (!pendingRoom || route || away || paused) return;
+    const destination = pendingRoom;
+    pendingRoom = null;
+    roomGoal(destination);
+  }
   function update(dt, time, camera, id, moving) {
     paused = !moving || companion.napping || companion.reduced || companion.paused;
     const inWorld = companion.owner === "world";
@@ -195,7 +203,12 @@ export async function createWorldCompanion(scene, config, container, loader) {
       needsMotorReset = false;
     }
     const actualRoom = config.rooms.some((r) => r.id === id) ? id : room?.id || "study";
-    if (!room || actualRoom !== room.id) roomGoal(actualRoom, paused);
+    if (!room) roomGoal(actualRoom, paused);
+    // Camera/human selection is immediate; P keeps its current safe journey.
+    // Its logical destination is not a physical floor until arrival. Starting
+    // a new roomRoute early would reset that floor and teleport the robot.
+    pendingRoom = actualRoom !== room.id ? actualRoom : null;
+    dispatchPendingRoom();
     // The occupied room streams after P. Resolve its turntable when it arrives.
     if (!record && room.id === "study")
       scene.traverse((o) => {
@@ -248,7 +261,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
     }
     performancePose = director.update(activeDelta, { near, traveling: Boolean(route), still: paused });
     if (!paused && !performancePose.hold && now > nextWander && !away && !route) roomGoal(actualRoom);
-    if (!paused && !performancePose.hold && now > nextTrip && !route) {
+    if (!paused && !performancePose.hold && now > nextTrip && !route && !away) {
       nextTrip = now + 65 + random() * 50;
       if (random() < 0.45) {
         const lounge = config.rooms.find((r) => r.id === "lounge");
@@ -276,7 +289,9 @@ export async function createWorldCompanion(scene, config, container, loader) {
         if (returning) {
           away = returning = false;
           outing = null;
-          goal.fromArray(perches[actualRoom][0]);
+          // The reversed outing ends at its actual departure perch, even if
+          // a different room was selected while P was at the beach.
+          goal.copy(position);
           nextWander = now + 8;
         } else if (away) {
           nextWander = now + 9;
@@ -289,6 +304,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
       flightPose = null;
       if (position.distanceTo(goal) > 0.02) startFlight([position.toArray(), goal.toArray()]);
     }
+    dispatchPendingRoom();
     const bob = paused ? 0 : Math.sin(now * 2.05) * 0.012;
     group.position.copy(position);
     const hover = away ? 0.72 : config.companion.hover[room.id] || 0.72;
@@ -385,6 +401,9 @@ export async function createWorldCompanion(scene, config, container, loader) {
       model: "blender-pip",
       gesture: pose.gesture,
       room: away ? "beach" : room?.id,
+      destinationRoom: room?.id,
+      pendingRoom,
+      outing: returning ? "returning" : away ? "outbound-or-rest" : "home",
       traveling: Boolean(route),
       flight: {
         phase: flightPose?.phase || "rest",
