@@ -5,6 +5,82 @@ const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetric
 const { publicRouteUrl } = require("./public-routes");
 const { PNG } = require("pngjs");
 
+test("record: a discovered card keeps its source link keyboard activation", async ({ page, context }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await context.route("https://open.spotify.com/**", (route) =>
+    route.fulfill({ status: 200, contentType: "text/html", body: "<!doctype html><title>Record source</title>" })
+  );
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const play = page.locator("[data-home-record-play]"),
+    card = page.locator("[data-home-record-card]").first();
+  await play.focus();
+  await play.press("d");
+  await expect(card).toBeVisible();
+  await card.focus();
+  await card.press("Enter");
+  await expect(card).toHaveAttribute("aria-expanded", "true");
+  const source = card.getByRole("link", { name: "Listen on Spotify" });
+  // Mobile WebKit's default Tab policy skips anchors; focus the same native
+  // link explicitly there before exercising its actual Enter activation.
+  if (testInfo.project.use.browserName === "webkit" && testInfo.project.use.isMobile) await source.focus();
+  else await card.press("Tab");
+  await expect(source).toBeFocused();
+  const href = await source.getAttribute("href"),
+    stage = page.locator("[data-home-artifact-stage]"),
+    title = page.locator("[data-home-record-title]"),
+    selected = await title.textContent(),
+    discovered = await stage.getAttribute("data-dropped-records");
+  await page.locator(".home-hero-media").screenshot({ path: testInfo.outputPath("record-source-keyboard.png") });
+  const popupPromise = page.waitForEvent("popup", { timeout: 5000 });
+  await source.press("Enter");
+  const popup = await popupPromise;
+  await expect(popup).toHaveURL(href);
+  await popup.close();
+  await expect(card).toHaveAttribute("aria-expanded", "true");
+  await expect(title).toHaveText(selected);
+  await expect(stage).toHaveAttribute("data-dropped-records", discovered);
+  expect(errors).toEqual([]);
+});
+
+test("coastal transport: cold onsen arrival waits for a delayed avatar before filling its footprint", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.setFixedTime(new Date("2026-10-02T18:35:00-07:00"));
+  let releaseAvatar;
+  const avatarHeld = new Promise((resolve) => (releaseAvatar = resolve));
+  await page.route("**/assets/models/home/sirui-*.glb", async (route) => {
+    await avatarHeld;
+    await route.continue();
+  });
+  try {
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    const scene = page.locator("[data-home-desk-scene]");
+    await expect.poll(() => scene.evaluate((e) => Boolean(e.getSceneEvidence?.()?.simulation.onsen)), { timeout: 30000 }).toBe(true);
+    await expect(scene).toHaveAttribute("data-scene-state", "loading");
+    const waiting = await evidence(scene);
+    expect(waiting.activity).toBe("soak");
+    expect(waiting.actorCount).toBe(0);
+    await scene.locator("canvas").screenshot({ path: testInfo.outputPath("onsen-awaiting-avatar.png") });
+    expect(errors).toEqual([]);
+    releaseAvatar();
+    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+    await expect.poll(async () => (await evidence(scene)).simulation.onsen.obstacle).not.toBeNull();
+    const arrived = await evidence(scene);
+    expect(arrived.actorCount).toBe(1);
+    expect(arrived.simulation.onsen.obstacle.radius).toBe(0.17);
+    expect(Math.abs(arrived.simulation.onsen.relativeMassError)).toBeLessThan(1e-10);
+    expect(arrived.animationSeconds).toBe(0);
+    await scene.locator("canvas").screenshot({ path: testInfo.outputPath("onsen-avatar-arrived.png") });
+    expect(errors).toEqual([]);
+  } finally {
+    releaseAvatar();
+  }
+});
+
 test("record: on-disc controls, continuous rotation, and offscreen suspension", async ({ page }, testInfo) => {
   await preparePage(page, "afternoon");
   await page.emulateMedia({ reducedMotion: "no-preference" });

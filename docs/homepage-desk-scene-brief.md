@@ -166,6 +166,8 @@ Keep original and comparable new captures, including live cinematic states. Insp
 
 The realistic room now uses local normalized skin diffusion, a conservative closed-basin height field, and one curl-potential wind field for rooted plants and advected particles. Public controls remain unchanged. The Pacific retains its authored spectrum. See [the implementation checkpoint](coastal-transport-checkpoint.md) for primary sources, numerical and native rendering evidence, cost, and omitted transport. Preserve paused/offscreen/reduced-motion state; authored pool forcing is not sensed hand contact. These bounded browser adaptations are not a claim of film-quality rendering or current SOTA.
 
+Cold onsen loading keeps the pool unoccupied until an actor exists. Discovered record cards preserve their source links' native keyboard activation. [Input and delayed-load evidence](evidence/scene-input-load-2026-10-02/README.md) records both reproduced defects and responsive browser acceptance.
+
 ## Future Model Handoff Prompt
 
 Improve Sirui's inhabited coastal home from the current Blender source and extracted runtime. Read the active brief, asset provenance, and latest implementation evidence first. Preserve the five adult male identities, shared album state, authored Pacific routine, and Now/Explore camera boundary. Inspect a comparable rendered state before editing. Improve one visible problem, rebuild the relevant assets, then test contact, camera, fallback, and performance. Historical single-room experiments are reference material, not current constraints.

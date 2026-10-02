@@ -1450,7 +1450,8 @@ export function createCoastalHome(container, records, artifacts) {
       }
     }
     if (onsenWater) {
-      const occupied = routine?.id === "soak" && !travel;
+      // The room can finish loading before the parallel avatar request.
+      const occupied = Boolean(actor) && routine?.id === "soak" && !travel;
       // Explicit arrivals may compose a still frame; unchanged paused/hiding
       // frames never advance the solver or add another impulse.
       if (occupied !== poolOccupied) {

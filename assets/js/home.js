@@ -1485,6 +1485,7 @@
         openRecordCard(card);
       });
       card.addEventListener("keydown", (event) => {
+        if (event.target !== card) return;
         if (event.key !== "Enter" && event.key !== " ") return;
         event.preventDefault();
         openRecordCard(card);
