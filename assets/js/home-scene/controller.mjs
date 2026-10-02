@@ -15,6 +15,7 @@ import { companion, pipProjectUrl } from "../companion/bridge.mjs";
 import { createRecordMotion } from "./record-motion.mjs";
 import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
 import { bindContactLighting, withoutContactLighting } from "./contact-occlusion.mjs";
+import { createCharacterPerformance } from "./character-performance.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -92,6 +93,7 @@ export function createCoastalHome(container, records, artifacts) {
     travel = null,
     footContacts,
     handContacts,
+    characterPerformance,
     sequenceStart = 0,
     sequencePose = null,
     coffeeCup = null,
@@ -420,6 +422,7 @@ export function createCoastalHome(container, records, artifacts) {
         return;
       }
       if (actor) {
+        characterPerformance?.dispose();
         mixer.stopAllAction();
         mixer.uncacheRoot(actor);
         release(actor);
@@ -429,6 +432,7 @@ export function createCoastalHome(container, records, artifacts) {
       activeGripOffsets = entry.gripWristOffsets;
       footContacts = createFootContacts(actor, config.terrain);
       handContacts = createHandContacts(actor);
+      characterPerformance = createCharacterPerformance(actor, entry.id);
       world.add(actor);
       mixer = new THREE.AnimationMixer(actor);
       actions = new Map(gltf.animations.map((clip) => [clip.name, mixer.clipAction(clip)]));
@@ -450,6 +454,7 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   function playClip(name) {
+    characterPerformance?.restore();
     const next = actions?.get(name) || actions?.get("idle");
     if (!next || next === currentAction) return;
     next
@@ -925,6 +930,10 @@ export function createCoastalHome(container, records, artifacts) {
       followClock = false;
     });
     listen(canvas, "pointermove", (e) => {
+      if (!pointer && !reduced && !paused && e.pointerType !== "touch") {
+        const rect = canvas.getBoundingClientRect();
+        characterPerformance?.notice(((e.clientX - rect.left) / rect.width) * 2 - 1, 1 - ((e.clientY - rect.top) / rect.height) * 2);
+      }
       if (touches.has(e.pointerId)) touches.set(e.pointerId, [e.clientX, e.clientY]);
       if (pinch && touches.size === 2) {
         const [a, b] = [...touches.values()];
@@ -1048,6 +1057,8 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   function cancelFrame() {
+    characterPerformance?.restore();
+    characterPerformance?.update(0, { active: false, clip: container.dataset.animation });
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
     lastFrame = 0;
@@ -1107,6 +1118,7 @@ export function createCoastalHome(container, records, artifacts) {
     world.traverse((o) => {
       if (o.userData.caveRoof) o.visible = currentRoom === "outside";
     });
+    characterPerformance?.restore();
     if (moving && mixer) {
       if (style === "illustrated") {
         const step = Math.floor(elapsed * 12) / 12;
@@ -1153,6 +1165,7 @@ export function createCoastalHome(container, records, artifacts) {
         container.dataset.activityPhase = pose.phase;
       }
     } else sequencePose = null;
+    characterPerformance?.update(delta, { active: moving && !travel, clip: container.dataset.animation });
     // Move the authored cup itself; there is never a second coffee cup in a hand.
     if (!coffeeCup && config?.equipment?.coffee) {
       const pieces = [];
@@ -1384,6 +1397,7 @@ export function createCoastalHome(container, records, artifacts) {
     weightPosition: exerciseWeight?.position.toArray() || null,
     gripDrift: handContacts?.evidence() || [],
     gripTargetMode: activeGripOffsets?.[sequencePose?.clip] ? "anatomical-wrist" : "equipment-anchor",
+    characterPerformance: characterPerformance?.evidence(),
     animations: actions ? [...actions.keys()] : [],
     roomCount: rooms.size,
     actorCount: actor ? 1 : 0,
@@ -1523,6 +1537,7 @@ export function createCoastalHome(container, records, artifacts) {
       cleanup.forEach((fn) => fn());
       modelRequests.forEach((request) => request.abort());
       mixer?.stopAllAction();
+      characterPerformance?.dispose();
       [...world.children].forEach(release);
       resources.forEach((r) => r.dispose());
       art.dispose();

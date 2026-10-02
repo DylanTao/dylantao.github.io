@@ -1376,6 +1376,8 @@ def character(style):
     arm["identity"] = "Sirui Tao, adult man; long black hair, glasses, clean-shaven"
     arm["avatar"] = style
     bpy.context.scene.frame_set(1)
+    from coastal_expression import install_expression
+    install_expression(arm)
     export("sirui-" + style, animations=True)
     if style == "ghibli":
         write_grip_manifest(OUT / "manifest.json")

@@ -1,0 +1,55 @@
+{
+  "baselineRef": "4767b7805",
+  "reports": [
+    {
+      "avatar": "ghibli",
+      "exactRetained": {
+        "vertices": "923350d3ffe565d0cb1c4abb9ae5fb8718edafe3f7fcaf5d3a9300675e2faaf2",
+        "faces": "ec43434c0f43ea0801b93071f504e11fb6caa57e54d6ebaf7d9d99b925a54e81",
+        "limbWeights": "22fa34508bb9bb6f09ba00f815e2bffd48a9fc7270ab8bf8e968bdd3fbe8d043",
+        "keys": "2e01017edfb70eca5be980a345864cbf7860144bb957815a1920367f26eba584",
+        "bones": "75c679aa4ec3ed7608d99175ff9133b42f1288ea7f4d8b8a734378772bdfffa5"
+      }
+    },
+    {
+      "avatar": "south-park",
+      "exactRetained": {
+        "vertices": "d9842a906bd2f91912a83a4973370b39b05c75095f98ffc28c3c5e4cc6632b08",
+        "faces": "b465966251e1fd4311d0189d057d01d3cd9c3023aa6fbd87c98f5a905b00e8ae",
+        "limbWeights": "b8d201807fc389a13dbee775aaadb00bb1251c5fc304b9e80cc2e11a371f21d0",
+        "keys": "9dbaaa0a1f9e4db509b160f30725c13a1fdc66f6d5fba549d1150970d80057c6",
+        "bones": "f775732bb2d0eebece7aaaabe38dc281d4f76686d855f6b94759f44ab9538377"
+      }
+    },
+    {
+      "avatar": "simpsons",
+      "exactRetained": {
+        "vertices": "e589be64024b517ecccf8416be6091f642d67aea25fb0176c222920f4a06d6fc",
+        "faces": "80193df269eb1aedfcf1d666d1e1913a2b1d53a66e40535f9ab0d8b1eac622e9",
+        "limbWeights": "7214f314f1c2c0fb4849699a324a47c717d13428ffd57ef6702be6eb502cb9c4",
+        "keys": "a4687650fc2818102c3d74a0f7dda32121318e7e2eb14b206a75620e94306c92",
+        "bones": "62d04a11bb2330edbbff22e265b01c83cd760fcf1507539bd1214200cc944be6"
+      }
+    },
+    {
+      "avatar": "rick-and-morty",
+      "exactRetained": {
+        "vertices": "60c86c8797911a5bbfc35ff70a73663ab6aaed42408599aac2f4585c0eb6bed0",
+        "faces": "95a01adc8c4c7838d1b49c290bcdb3955f10c6845582b47def022b479fa04105",
+        "limbWeights": "d82e7d91fb8ac03145174ef9acf9352c31c0ed35a48693269c63ffe98bcebabf",
+        "keys": "2f434b9d692c1a18c49e124fe77a2780d1aa8f6a8ee3e47ecc39d24a961acdc9",
+        "bones": "49bd3c9cb9b8d6a3ee0f89a75aa61767d9398f32425dcbc06ae0a315ef45a024"
+      }
+    },
+    {
+      "avatar": "lizard",
+      "exactRetained": {
+        "vertices": "d0156a14bcfdfec7471725884db3538522221e7b90d060fd521a3d24b3f460c0",
+        "faces": "e1f78c5e99313f104072be51faacfb948d2a60512dc8b28b735f77f90a9c40aa",
+        "limbWeights": "f09d8c90e92925812c82a31c2398ab5b5006a03d69ce461cd8c8d1a88c8b1adf",
+        "keys": "31800afcc1dba4bf5ce564ced591d290fc02973c0d3c488c94cad9584d506ea9",
+        "bones": "1701705bcc114828284a62b0ddf69bd4f979e27660ad89c71a9b4b64e5a107bb"
+      }
+    }
+  ]
+}
