@@ -2,13 +2,62 @@
 import math
 
 
+def camera_support_meshes(objects):
+    """Finished physical coast, including retained material-batched sources.
+
+    Foliage and deferred treatments are not ground. Sandstone shell masses,
+    beach, talus, haul-outs and tidal basins retain their true support heights.
+    """
+    return [obj for obj in objects if obj.type == 'MESH'
+            and obj.get('renderStyle') in (None, 'realistic')
+            and (obj.name.startswith('coast_') or obj.get('caveRoof')
+                 or (obj.name.startswith('core_') and
+                     ('mainland' in obj.name or any(material and
+                         material.name.startswith('golden coastal sandstone')
+                         for material in obj.data.materials))))]
+
+
+def create_camera_height(objects, sea_level=-7.35):
+    """Raycast the final authored surfaces; misses are sea, never fake land.
+
+    The renderer's mean Pacific level is -7.35 m. Underwater sand uses that water
+    floor too; this static proxy does not sample the animated wave surface.
+    """
+    import bpy
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+    bpy.context.view_layer.update()
+    vertices, faces = [], []
+    meshes = camera_support_meshes(objects)
+    if not meshes:
+        raise ValueError('No finished physical coastal meshes for camera collision')
+    for obj in meshes:
+        offset = len(vertices)
+        vertices.extend(obj.matrix_world @ vertex.co for vertex in obj.data.vertices)
+        faces.extend(tuple(offset + index for index in face.vertices) for face in obj.data.polygons)
+    support = BVHTree.FromPolygons(vertices, faces)
+    def height(x, y):
+        hit, _, _, _ = support.ray_cast(Vector((x, y, 30)), Vector((0, 0, -1)))
+        return max(hit.z, sea_level) if hit is not None else sea_level
+    return height
+
+
+def sample_camera_elevations(collision, height):
+    """Row-major Three X/Z grid sampled from the Blender X/Y surface."""
+    x0, z0 = collision['origin']
+    step = collision['step']
+    return [round(height(x0 + i * step, -(z0 + j * step)), 3)
+            for j in range(collision['height']) for i in range(collision['width'])]
+
+
 def camera_manifest(config, height):
-    # Outside collision samples come from the final Boolean mesh's BVH.
+    # Outside collision samples come from all final coast surfaces, not an
+    # analytic mainland fallback or an unfinished pre-beach section.
     xs = [-36 + i * 2 for i in range(57)]
     ys = [-32 + i * 2 for i in range(32)]
     config['cameraCollision'] = {
         'origin': [-36, -30], 'step': 2, 'width': len(xs), 'height': len(ys),
-        'elevations': [round(height(x,y),3) for y in reversed(ys) for x in xs],
+        'elevations': [],
         'clearance': .32,
         'walls': [
             {'min':[-5.2,-.26,-4.5], 'max':[-4.7,6,5.55]},
@@ -17,6 +66,7 @@ def camera_manifest(config, height):
             {'min':[-4.7,2.34,1.30], 'max':[4.7,2.60,4.08]},
         ],
     }
+    config['cameraCollision']['elevations'] = sample_camera_elevations(config['cameraCollision'], height)
     config['cutawaySections'] = [{'id':'inhabited-roof','tag':'caveRoof','closed':True}]
     for key in ('outside','overview'):
         view = config['views'][key]

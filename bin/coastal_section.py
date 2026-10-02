@@ -459,8 +459,7 @@ def coast(mats, h):
     def support_height(x, y):
         hit, _, _, _ = supports.ray_cast(Vector((x, y, 30)), Vector((0, 0, -1)))
         return hit.z if hit is not None else top_height(x, y)
-    from coastal_camera import camera_manifest, landward_entry
-    camera_manifest(CONFIG, support_height)
+    from coastal_camera import camera_manifest, landward_entry, create_camera_height
     landward_entry(mats, h, support_height)
     bpy.data.objects.remove(roof, do_unlink=True)
     # Beach is one long sloping shore. It joins the foot of the very same cliff
@@ -536,6 +535,10 @@ def coast(mats, h):
         points=[(cx+rx*.77*math.cos(j/64*math.tau),cy+ry*.77*math.sin(j/64*math.tau),cz+.018) for j in range(64)]
         objects.append(surface('coast_tide_pool_water',points,[tuple(range(64))],pool_water))
         CONFIG['terrain']['tidePools'].append({'center':web((cx,cy,cz+.018)),'radii':[rx*.77,ry*.77]})
+    # The plant callback may use its analytic inland fallback, but camera
+    # collision must include the completed beach, rocks, basins and solids.
+    # Sampling before these existed turned offshore BVH misses into high land.
+    camera_manifest(CONFIG, create_camera_height(objects + solids))
     manifest = Path(__file__).resolve().parents[1] / "assets/models/home/manifest.json"
     update_manifest_grips(CONFIG)
     manifest.write_text(json.dumps(CONFIG, indent=2) + "\n", encoding="utf-8")
