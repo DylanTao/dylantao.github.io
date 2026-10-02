@@ -766,13 +766,17 @@
     return {
       setRecord(record) {
         const cue = currentRecord && currentRecord.src !== record.src && isPlaying && recordMotion && !reduceMotionQuery.matches;
+        const hold = pendingRecordTexture && !reduceMotionQuery.matches;
         if (cue) {
           recordMotion?.cue(true);
-          pendingRecordTexture = record;
         }
         currentRecord = record;
         updateAccent();
-        if (!cue) {
+        if (cue || hold) {
+          // Pause and repeated selection must retain an unfinished raised-arm
+          // transfer. The latest record still waits for physical clearance.
+          pendingRecordTexture = record;
+        } else {
           pendingRecordTexture = null;
           applyRecordTexture(record);
         }
@@ -1050,6 +1054,7 @@
         stage.classList.toggle("is-desk-3d", is3D);
         stage.setAttribute("data-desk-mode", is3D ? "3d" : "2d");
       }
+      recordPlayer.inert = is3D;
       if (deskControls) {
         deskControls.setAttribute("aria-hidden", String(!is3D));
       }
@@ -1147,9 +1152,8 @@
       const { image, record } = selectRecord(nextIndex);
       portrait.style.setProperty("--record-image", `url("${record.src}")`);
       hoverLayer.style.backgroundImage = `url("${record.src}")`;
-      if (recordFallbackArt) recordFallbackArt.style.backgroundImage = `url("${record.src}")`;
       recordScene.setRecord(record);
-      recordScene.setVisible(showVinyl);
+      recordScene.setVisible(stage?.dataset.deskMode !== "3d" && showVinyl);
 
       if (showVinyl) {
         setPreviewing(false);

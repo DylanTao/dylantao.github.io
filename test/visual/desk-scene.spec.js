@@ -162,6 +162,7 @@ for (const graphics of ["delayed", "unavailable"]) {
     await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().mechanics.phase)).toBe("tracking");
     await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
     const before = await record.evaluate((e) => e.getRecordEvidence());
+    const beforeBackground = await record.locator(".home-record-art").evaluate((e) => getComputedStyle(e).backgroundImage);
     expect(before.fallback).toBe(true);
     expect(before.mechanics.rpm).toBeCloseTo(33 + 1 / 3, 1);
     await page.locator("[data-home-record-next]").click();
@@ -170,6 +171,7 @@ for (const graphics of ["delayed", "unavailable"]) {
     expect(first.mechanics.velocity).toBe(before.mechanics.velocity);
     await page.clock.runFor(100);
     expect((await record.evaluate((e) => e.getRecordEvidence())).artwork).toBe(before.artwork);
+    expect(await record.locator(".home-record-art").evaluate((e) => getComputedStyle(e).backgroundImage)).toBe(beforeBackground);
     await page.locator("[data-home-record-next]").click();
     await page.clock.runFor(1300);
     const cued = await record.evaluate((e) => e.getRecordEvidence());
@@ -214,6 +216,54 @@ for (const graphics of ["delayed", "unavailable"]) {
     expect((await record.evaluate((e) => e.getRecordEvidence())).running).toBe(false);
     await page.locator("[data-home-record-next]").click();
     expect((await record.evaluate((e) => e.getRecordEvidence())).cuePending).toBe(false);
+    expect(errors).toEqual([]);
+  });
+}
+
+for (const graphics of ["native", "unavailable"]) {
+  test(`record physics: ${graphics} skip then pause retains artwork until the needle clears`, async ({ page }, testInfo) => {
+    const errors = collectRuntimeErrors(page);
+    await preparePage(page, "light");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.clock.install({ time: new Date("2026-10-01T13:00:00-07:00") });
+    if (graphics === "unavailable")
+      await page.route("**/three.module.min.js", (route) =>
+        route.fulfill({ contentType: "application/javascript", body: "throw new Error('Deliberate graphics-unavailable fixture');" })
+      );
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    const record = page.locator("[data-home-record-scene]"),
+      play = page.locator("[data-home-record-play]"),
+      art = record.locator(".home-record-art");
+    await play.click();
+    await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().mechanics?.phase)).toBe("tracking");
+    if (graphics === "native") await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().loaded)).toBe(true);
+    await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+    const before = await record.evaluate((e) => e.getRecordEvidence());
+    const beforeBackground = await art.evaluate((e) => getComputedStyle(e).backgroundImage);
+    await page.locator("[data-home-record-next]").click();
+    expect(await art.evaluate((e) => getComputedStyle(e).backgroundImage)).toBe(beforeBackground);
+    await page.clock.runFor(50);
+    const lifting = await record.evaluate((e) => e.getRecordEvidence().mechanics);
+    expect(lifting.lift).toBeLessThan(0.44);
+    await play.click();
+    const paused = await record.evaluate((e) => e.getRecordEvidence());
+    expect(paused.cuePending).toBe(true);
+    expect(paused.playing).toBe(false);
+    for (const key of ["angle", "velocity", "yaw", "lift"]) expect(paused.mechanics[key]).toBe(lifting[key]);
+    expect(paused.artwork).toBe(before.artwork);
+    expect(await art.evaluate((e) => getComputedStyle(e).backgroundImage)).toBe(beforeBackground);
+    // A second choice while paused replaces the queue, rather than bypassing it.
+    await page.locator("[data-home-record-next]").click();
+    expect(await art.evaluate((e) => getComputedStyle(e).backgroundImage)).toBe(beforeBackground);
+    await page.clock.runFor(1000);
+    const selected = (await page.locator("#home-profile-image-container").getAttribute("data-record-images")).split("|")[2];
+    await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().artwork)).toContain(new URL(selected, page.url()).pathname);
+    const final = await record.evaluate((e) => e.getRecordEvidence());
+    expect(final.cuePending).toBe(false);
+    expect(final.recordTransfer.lift).toBeGreaterThan(0.44);
+    expect(final.playing).toBe(false);
+    expect(await art.evaluate((e) => getComputedStyle(e).backgroundImage)).not.toBe(beforeBackground);
+    await capture(testInfo, `pause-cue-${graphics}`, await page.locator(".home-record-player").screenshot());
     expect(errors).toEqual([]);
   });
 }
@@ -787,8 +837,12 @@ test("coastal home: composed activities and previews survive clock changes until
   await expect(scene).toHaveAttribute("data-room", "gym");
 });
 
-test("coastal home: album focus, playback, discovery, mode sharing, and paper navigation", async ({ page }) => {
-  const { scene, canvas, stage, ui } = await openHome(page);
+test("coastal home: album focus, playback, discovery, mode sharing, and paper navigation", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, stage, ui } = await openHome(page, { motion: "no-preference" });
+  const player = page.locator(".home-record-player"),
+    playerScene = page.locator("[data-home-record-scene]"),
+    source = page.locator("[data-home-record-source]");
   await explore(ui);
   await ui.locator(".home-world-objects > summary").click();
   const record = ui.locator('[data-world-record="0"]');
@@ -796,6 +850,13 @@ test("coastal home: album focus, playback, discovery, mode sharing, and paper na
   await expect(scene).toHaveAttribute("data-focused-desk-object", "record-0");
   await record.click();
   await expect(scene).toHaveAttribute("data-record-spinning", "true");
+  await page.waitForTimeout(250);
+  expect((await playerScene.evaluate((e) => e.getRecordEvidence())).running).toBe(false);
+  expect(await player.evaluate((e) => e.inert)).toBe(true);
+  await expect(source).toBeHidden();
+  await source.evaluate((e) => e.focus({ preventScroll: true }));
+  expect(await source.evaluate((e) => e === document.activeElement)).toBe(false);
+  await capture(testInfo, "record-caption-hidden-in-3d", await page.locator(".home-hero-media").screenshot());
   await ui.locator("[data-world-avatar]").selectOption("simpsons");
   await expect(scene).toHaveAttribute("data-avatar", "simpsons");
   for (let i = 0; i < 4; i++) {
@@ -805,6 +866,9 @@ test("coastal home: album focus, playback, discovery, mode sharing, and paper na
   await expect(stage).toHaveAttribute("data-dropped-records", "0,1,2,3");
   await page.locator('[data-home-desk-mode="2d"]').click();
   await expect(stage.locator("[data-home-record-card]")).toHaveCount(4);
+  expect(await player.evaluate((e) => e.inert)).toBe(false);
+  await expect(source).toBeVisible();
+  await expect.poll(() => playerScene.evaluate((e) => e.getRecordEvidence().running)).toBe(true);
   await page.locator('[data-home-desk-mode="3d"]').click();
   expect((await evidence(scene)).avatarId).toBe("simpsons");
   expect((await evidence(scene)).dropped).toEqual([0, 1, 2, 3]);
@@ -812,7 +876,64 @@ test("coastal home: album focus, playback, discovery, mode sharing, and paper na
   await expect(scene).toHaveAttribute("data-focused-desk-object", "artifact-0");
   await ui.locator('[data-world-paper="0"]').click();
   await expect(page).toHaveURL(/\/projects\/designweaver\//);
+  expect(errors).toEqual([]);
 });
+
+for (const persisted of [true, false]) {
+  test(`coastal home: an initial room load ${persisted ? "survives a persisted return" : "aborts quietly on teardown"}`, async ({
+    page,
+  }, testInfo) => {
+    const errors = collectRuntimeErrors(page);
+    await preparePage(page, "light");
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.clock.setSystemTime(new Date("2026-10-01T13:20:00-07:00"));
+    let releaseRoom, roomRequested;
+    const gate = new Promise((resolve) => (releaseRoom = resolve));
+    const request = new Promise((resolve) => (roomRequested = resolve));
+    const failed = [];
+    page.on("requestfailed", (request) => failed.push(request.url()));
+    await page.route("**/models/home/room-study.glb", async (route) => {
+      roomRequested();
+      await gate;
+      await route.continue().catch(() => {});
+    });
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    await page.evaluate(() => {
+      window.__coastalUnavailableEvents = 0;
+      document.addEventListener("home-scene-unavailable", () => window.__coastalUnavailableEvents++);
+    });
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    await request;
+    const scene = page.locator("[data-home-desk-scene]"),
+      stage = page.locator("[data-home-artifact-stage]");
+    await expect.poll(() => evidence(scene).then((e) => e.actorCount)).toBe(1);
+    const before = await evidence(scene);
+    await expect(scene).toHaveAttribute("data-scene-state", "loading");
+    await page.evaluate((persisted) => {
+      window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted }));
+      if (persisted) window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true }));
+    }, persisted);
+    releaseRoom();
+    if (persisted) {
+      await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+      await expect(stage).toHaveAttribute("data-desk-mode", "3d");
+      await expect(scene.locator("canvas")).toHaveCount(1);
+      const after = await evidence(scene);
+      expect(after.actorCount).toBe(1);
+      expect(after.avatarId).toBe(before.avatarId);
+      expect(after.currentRecord).toBe(before.currentRecord);
+      expect(failed.some((url) => url.includes("room-study.glb"))).toBe(false);
+      await capture(testInfo, "initial-load-cached-return", await page.locator(".home-hero-media").screenshot());
+    } else {
+      await expect(scene.locator("canvas")).toHaveCount(0);
+      await expect.poll(() => failed.some((url) => url.includes("room-study.glb"))).toBe(true);
+      await page.waitForTimeout(250);
+      expect(await scene.evaluate((e) => Boolean(e.getSceneEvidence))).toBe(false);
+    }
+    expect(await page.evaluate(() => window.__coastalUnavailableEvents)).toBe(0);
+    expect(errors).toEqual([]);
+  });
+}
 
 test("coastal home: live animation pauses offscreen and recovers after a hidden tab", async ({ page }) => {
   const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });

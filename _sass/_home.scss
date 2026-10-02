@@ -1220,6 +1220,10 @@ html.home-desk-outside-active .home-story-rail {
   visibility: visible;
 }
 
+.home-hero-media.is-desk-3d .home-record-player .home-record-console {
+  visibility: hidden;
+}
+
 .home-record-caption {
   display: grid;
   gap: 0.1rem;
