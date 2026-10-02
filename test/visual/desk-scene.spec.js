@@ -868,6 +868,38 @@ test("character performance: rapid room changes preserve P's airborne floor and 
   expect(errors).toEqual([]);
 });
 
+test("character performance: P finishes a wave without listening to a departed visitor", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "Pointer departure; bounded touch invitations retain their separate expiry contract.");
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas } = await openHome(page, { motion: "no-preference", time: "2026-10-02T13:20:00-07:00" });
+  await settleRoomModels(scene);
+  await canvas.scrollIntoViewIfNeeded();
+  await expect.poll(async () => (await evidence(scene)).companion?.visible).toBe(true);
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 2000);
+  const start = await evidence(scene);
+  const point = start.companion.projected;
+  await page.mouse.move(point.x + 32, point.y);
+  await page.clock.runFor(500);
+  const wave = await evidence(scene);
+  expect(wave.companion.attention.phase).toBe("greet");
+  await page.mouse.move(0, 0);
+  await page.clock.runFor(2700);
+  const returning = await evidence(scene);
+  await canvas.screenshot({ path: testInfo.outputPath("departed-visitor-return.png") });
+  fs.writeFileSync(testInfo.outputPath("departed-visitor.json"), JSON.stringify({ start, wave, returning, errors }, null, 2));
+  expect(returning.companion.attention.phase).toBe("return");
+  expect(returning.companion.gesture).toBe("rest");
+  await page.clock.runFor(1300);
+  const quiet = await evidence(scene);
+  fs.writeFileSync(testInfo.outputPath("departed-visitor.json"), JSON.stringify({ start, wave, returning, quiet, errors }, null, 2));
+  expect(quiet.companion.attention.phase).toBe("task");
+  expect(quiet.companion.gesture).toBe("rest");
+  expect(quiet.companion.attention.greetings).toBe(start.companion.attention.greetings + 1);
+  expect(quiet.currentRoom).toBe(start.currentRoom);
+  expect(quiet.currentRecord).toBe(start.currentRecord);
+  expect(errors).toEqual([]);
+});
+
 test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back inside preserve the room state", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const { scene, canvas, ui } = await openHome(page, { time: "2026-10-01T13:20:00-07:00" });
@@ -926,6 +958,38 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
   expect((await evidence(scene)).inspection).toBeNull();
   expect((await evidence(scene)).currentRecord).toBe(initial.currentRecord);
   await expect(canvas).toHaveAttribute("aria-label", /Sirui’s coastal home/);
+  expect(errors).toEqual([]);
+});
+
+test("coastal home: modified and composing canvas shortcuts preserve the view", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas } = await openHome(page);
+  await settleRoomModels(scene);
+  await page.locator("[data-world-view]").click();
+  await canvas.scrollIntoViewIfNeeded();
+  const before = await evidence(scene);
+  const delivered = await canvas.evaluate((element) => {
+    const samples = [];
+    for (const modifier of ["ctrlKey", "metaKey", "altKey", "isComposing"]) {
+      for (const key of ["ArrowLeft", "n", "d", "+", "-"]) {
+        const event = new KeyboardEvent("keydown", { key, [modifier]: true, bubbles: true, cancelable: true });
+        element.dispatchEvent(event);
+        samples.push({ modifier, key, prevented: event.defaultPrevented });
+      }
+    }
+    return samples;
+  });
+  expect(delivered.every((sample) => !sample.prevented)).toBe(true);
+  const after = await evidence(scene);
+  fs.writeFileSync(testInfo.outputPath("canvas-shortcuts.json"), JSON.stringify({ before, after, delivered, errors }, null, 2));
+  expect(after.currentRoom).toBe(before.currentRoom);
+  expect(after.inspection).toEqual(before.inspection);
+  expect(after.cameraOrbit).toEqual(before.cameraOrbit);
+  expect(after.dropped).toEqual(before.dropped);
+  await canvas.press("N");
+  await expect.poll(async () => (await evidence(scene)).inspection?.id).toBe("rabbit-0");
+  await canvas.press("Enter");
+  expect((await evidence(scene)).inspection).toBe(null);
   expect(errors).toEqual([]);
 });
 
@@ -1244,6 +1308,59 @@ for (const activity of ["breakfast", "workout"]) {
   });
 }
 
+for (const activity of ["breakfast", "workout"]) {
+  test(`coastal home: pausing ${activity} keeps the held object and resumes its phase`, async ({ page }, testInfo) => {
+    const errors = collectRuntimeErrors(page);
+    const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T11:45:00-07:00" });
+    await settleRoomModels(scene);
+    await explore(ui);
+    await ui.locator("[data-world-avatar]").selectOption("ghibli");
+    await expect(scene).toHaveAttribute("data-avatar", "ghibli");
+    await ui.locator("[data-world-activity]").selectOption(activity);
+    await canvas.scrollIntoViewIfNeeded();
+    await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 2000);
+    await page.clock.fastForward(activity === "breakfast" ? 43000 : 55000);
+    await page.clock.runFor(700);
+    const before = await evidence(scene);
+    const key = activity === "breakfast" ? "cupPosition" : "weightPosition";
+    const owner = activity === "breakfast" ? "cupOwner" : "weightOwner";
+    expect(before[owner]).toBe("hand");
+    await canvas.screenshot({ path: testInfo.outputPath("before-pause.png") });
+    await ui.locator("[data-world-pause]").click();
+    await canvas.scrollIntoViewIfNeeded();
+    await page.clock.runFor(500);
+    const paused = await evidence(scene);
+    await canvas.screenshot({ path: testInfo.outputPath("paused.png") });
+    fs.writeFileSync(testInfo.outputPath("held-object-pause.json"), JSON.stringify({ activity, before, paused, errors }, null, 2));
+    expect(paused.activityPhase).toBe(before.activityPhase);
+    expect(paused[owner]).toBe("hand");
+    expect(paused[key]).toEqual(before[key]);
+    expect(paused.joints.HandR).toEqual(before.joints.HandR);
+    expect(paused.animationSeconds).toBe(before.animationSeconds);
+    await ui.locator("[data-world-pause]").click();
+    await canvas.scrollIntoViewIfNeeded();
+    await page.clock.runFor(500);
+    const resumed = await evidence(scene);
+    fs.writeFileSync(testInfo.outputPath("held-object-pause.json"), JSON.stringify({ activity, before, paused, resumed, errors }, null, 2));
+    expect(resumed.activityPhase).toBe(before.activityPhase);
+    expect(resumed[owner]).toBe("hand");
+    expect(resumed.animationSeconds - before.animationSeconds).toBeLessThan(0.6);
+    expect(Math.hypot(...resumed[key].map((v, i) => v - resumed.joints.HandR[i]))).toBeLessThan(0.07);
+    await ui.locator("[data-world-pause]").click();
+    await ui.locator("[data-world-activity]").selectOption("reading");
+    await canvas.scrollIntoViewIfNeeded();
+    await page.clock.runFor(100);
+    const composed = await evidence(scene);
+    const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../assets/models/home/manifest.json"), "utf8"));
+    const rest = activity === "breakfast" ? config.equipment.coffee.cup : config.equipment.dumbbell.rest;
+    expect(composed.activity).toBe("reading");
+    expect(composed[owner]).toBe(activity === "breakfast" ? "counter" : "rack");
+    expect(composed[key]).toEqual(rest);
+    fs.writeFileSync(testInfo.outputPath("held-object-pause.json"), JSON.stringify({ activity, before, paused, resumed, composed, errors }, null, 2));
+    expect(errors).toEqual([]);
+  });
+}
+
 test("coastal home: recovery preserves a stair journey and composes a changed clock activity", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const { scene, canvas } = await openHome(page, { motion: "no-preference" });
@@ -1260,6 +1377,18 @@ test("coastal home: recovery preserves a stair journey and composes a changed cl
   expect(walking.traveling).toBe(true);
   expect(walking.navigation.position[1]).toBeGreaterThan(0.45);
   expect(walking.navigation.position[1]).toBeLessThan(2);
+  await explore(page.locator("[data-home-world-controls]"));
+  await page.locator("[data-world-pause]").click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(1000);
+  const pausedJourney = await evidence(scene);
+  expect(pausedJourney.traveling).toBe(true);
+  expect(pausedJourney.navigation.position).toEqual(walking.navigation.position);
+  expect(pausedJourney.animationSeconds).toBe(walking.animationSeconds);
+  await page.locator("[data-world-pause]").click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(100);
+  walking = await evidence(scene);
   await canvas.screenshot({ path: testInfo.outputPath("before-stair-recovery.png") });
   await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
   await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);

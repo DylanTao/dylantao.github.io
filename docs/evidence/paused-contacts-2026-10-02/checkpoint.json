@@ -1,0 +1,658 @@
+{
+  "baselineCommit": "ca029b29c9c58ba782e8a547f406811788e24f98",
+  "integratedWorkerCommits": ["9b791f3cf", "068da33ad"],
+  "capturedAt": "2026-10-02T14:31:37.485Z",
+  "modules": [
+    {
+      "file": "assets/js/home-scene/controller.mjs",
+      "normalization": "LF line endings",
+      "sourceSha256": "793c0e7f87a2964b1df0b9e31cb0a6811a1f6ead4afd2b95cef0f420c519f8a5",
+      "servedSha256": "793c0e7f87a2964b1df0b9e31cb0a6811a1f6ead4afd2b95cef0f420c519f8a5",
+      "productionSha256": "793c0e7f87a2964b1df0b9e31cb0a6811a1f6ead4afd2b95cef0f420c519f8a5",
+      "allMatch": true
+    },
+    {
+      "file": "assets/js/companion/performance.mjs",
+      "normalization": "LF line endings",
+      "sourceSha256": "9ae4bbb677961c51d23c7aa271b8826a5e0fe5f922f12b4d6f7b6a30fdfbba11",
+      "servedSha256": "9ae4bbb677961c51d23c7aa271b8826a5e0fe5f922f12b4d6f7b6a30fdfbba11",
+      "productionSha256": "9ae4bbb677961c51d23c7aa271b8826a5e0fe5f922f12b4d6f7b6a30fdfbba11",
+      "allMatch": true
+    },
+    {
+      "file": "assets/js/home.js",
+      "sourceSha256": "4e03a5af398d0479dc2d3be4c0ac2e8d69c154c56cf0cdf64f5a277b64477daf",
+      "compiledExpectedSha256": "ae0b34ed821a502cd42e729922d0ff4aa317a671c3c0d86842d6005b62f3d47f",
+      "servedSha256": "ae0b34ed821a502cd42e729922d0ff4aa317a671c3c0d86842d6005b62f3d47f",
+      "productionSha256": "ae0b34ed821a502cd42e729922d0ff4aa317a671c3c0d86842d6005b62f3d47f",
+      "allMatch": true,
+      "minifier": "Same Docker Terser.new(compress: {drop_console: true}) used by jekyll-terser"
+    }
+  ],
+  "originalPauseFailures": [
+    {
+      "case": "desk-scene-coastal-home-pa-0eb5b-bject-and-resumes-its-phase-desktop-1440",
+      "activity": "breakfast",
+      "before": {
+        "phase": "coffee by the ocean",
+        "owner": "hand"
+      },
+      "paused": {
+        "phase": null,
+        "owner": "counter",
+        "propMovement": 0.7475472368353897,
+        "wristMovement": 0,
+        "activeTimeFrozen": true
+      },
+      "runtimeErrors": []
+    },
+    {
+      "case": "desk-scene-coastal-home-pa-bd75a-bject-and-resumes-its-phase-desktop-1440",
+      "activity": "workout",
+      "before": {
+        "phase": "dumbbell set",
+        "owner": "hand"
+      },
+      "paused": {
+        "phase": null,
+        "owner": "rack",
+        "propMovement": 0.1085782543484979,
+        "wristMovement": 0,
+        "activeTimeFrozen": true
+      },
+      "runtimeErrors": []
+    }
+  ],
+  "correctedPauses": [
+    {
+      "case": "desk-scene-coastal-home-pa-0eb5b-bject-and-resumes-its-phase-desktop-1440",
+      "activity": "breakfast",
+      "before": {
+        "phase": "coffee by the ocean",
+        "owner": "hand"
+      },
+      "paused": {
+        "phase": "coffee by the ocean",
+        "owner": "hand",
+        "propMovement": 0,
+        "wristMovement": 0,
+        "activeTimeFrozen": true
+      },
+      "resumedContactGap": 0.019948172058744783,
+      "composedActivity": "reading",
+      "composedOwner": "counter",
+      "runtimeErrors": []
+    },
+    {
+      "case": "desk-scene-coastal-home-pa-0eb5b-bject-and-resumes-its-phase-mobile-390",
+      "activity": "breakfast",
+      "before": {
+        "phase": "coffee by the ocean",
+        "owner": "hand"
+      },
+      "paused": {
+        "phase": "coffee by the ocean",
+        "owner": "hand",
+        "propMovement": 0,
+        "wristMovement": 0,
+        "activeTimeFrozen": true
+      },
+      "resumedContactGap": 0.019912628511627617,
+      "composedActivity": "reading",
+      "composedOwner": "counter",
+      "runtimeErrors": []
+    },
+    {
+      "case": "desk-scene-coastal-home-pa-bd75a-bject-and-resumes-its-phase-desktop-1440",
+      "activity": "workout",
+      "before": {
+        "phase": "dumbbell set",
+        "owner": "hand"
+      },
+      "paused": {
+        "phase": "dumbbell set",
+        "owner": "hand",
+        "propMovement": 0,
+        "wristMovement": 0,
+        "activeTimeFrozen": true
+      },
+      "resumedContactGap": 0.014957591779628908,
+      "composedActivity": "reading",
+      "composedOwner": "rack",
+      "runtimeErrors": []
+    },
+    {
+      "case": "desk-scene-coastal-home-pa-bd75a-bject-and-resumes-its-phase-mobile-390",
+      "activity": "workout",
+      "before": {
+        "phase": "dumbbell set",
+        "owner": "hand"
+      },
+      "paused": {
+        "phase": "dumbbell set",
+        "owner": "hand",
+        "propMovement": 0,
+        "wristMovement": 0,
+        "activeTimeFrozen": true
+      },
+      "resumedContactGap": 0.014938370481661394,
+      "composedActivity": "reading",
+      "composedOwner": "rack",
+      "runtimeErrors": []
+    },
+    {
+      "case": "desk-scene-coastal-home-pa-0eb5b-bject-and-resumes-its-phase-webkit-390",
+      "activity": "breakfast",
+      "before": {
+        "phase": "coffee by the ocean",
+        "owner": "hand"
+      },
+      "paused": {
+        "phase": "coffee by the ocean",
+        "owner": "hand",
+        "propMovement": 0,
+        "wristMovement": 0,
+        "activeTimeFrozen": true
+      },
+      "resumedContactGap": 0.01957273570512568,
+      "composedActivity": "reading",
+      "composedOwner": "counter",
+      "runtimeErrors": []
+    }
+  ],
+  "P": {
+    "original": {
+      "phase": "return",
+      "gesture": "listen"
+    },
+    "corrected": {
+      "phase": "return",
+      "gesture": "rest",
+      "quietPhase": "task",
+      "quietGesture": "rest"
+    }
+  },
+  "sceneBrowserChecks": {
+    "passed": 10,
+    "skipped": 1,
+    "skipReason": "Pointer departure is desktop-only; bounded touch invitation has a distinct tested contract",
+    "chromiumOutput": "paused-contacts-final",
+    "webkitOutput": "paused-contacts-webkit"
+  },
+  "recordBrowserChecks": {
+    "passed": 6,
+    "proof": {
+      "sourceCommit": "ca029b29c9c58ba782e8a547f406811788e24f98",
+      "sourceServed": {
+        "url": "http://127.0.0.1:8082/assets/js/home.js?v=108c113d791261df14491aa6a4530959",
+        "sourceSha256": "4e03a5af398d0479dc2d3be4c0ac2e8d69c154c56cf0cdf64f5a277b64477daf",
+        "compiledAfterSha256": "ae0b34ed821a502cd42e729922d0ff4aa317a671c3c0d86842d6005b62f3d47f",
+        "servedSha256": "ae0b34ed821a502cd42e729922d0ff4aa317a671c3c0d86842d6005b62f3d47f",
+        "baselineCompiledSha256": "ecc77aa5e17ab6f94a58049c586747a78c927e6e84236178d31dee61656a65b3",
+        "compiledEqualsServed": true,
+        "minifier": "Same Docker Terser.new(compress: {drop_console: true}) used by jekyll-terser",
+        "servedGuardFragment": "EventListener(\"keydown\",e=>{if(!(e.ctrlKey||e.metaKey||e.altKey||e.isComposing))return e.target===l&&[\"ArrowLeft\",\"ArrowRight\"].includes(e.key)?(e.preventDefault(),void Te(\"ArrowLeft\"===e.key?-1:1)):void(\"d\"===e.key.toLowe"
+      },
+      "engines": {
+        "chromium": {
+          "browserVersion": "145.0.7632.6",
+          "context": {
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "deviceScaleFactor": 1
+          },
+          "cases": {
+            "before": {
+              "initial": {
+                "title": "Yellow Submarine",
+                "cards": 0,
+                "pressed": "false"
+              },
+              "modifiedKeys": [
+                {
+                  "key": "d",
+                  "property": "ctrlKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "d",
+                  "property": "metaKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "d",
+                  "property": "altKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "d",
+                  "property": "isComposing",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "D",
+                  "property": "ctrlKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "D",
+                  "property": "metaKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "D",
+                  "property": "altKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "D",
+                  "property": "isComposing",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "ctrlKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "metaKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "altKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "isComposing",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "ctrlKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "metaKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "altKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "isComposing",
+                  "defaultPrevented": true
+                }
+              ],
+              "observed": {
+                "title": "Yellow Submarine",
+                "cards": 1,
+                "pressed": "false",
+                "dropped": "0",
+                "focusOnDisc": true
+              },
+              "errors": []
+            },
+            "after": {
+              "initial": {
+                "title": "Yellow Submarine",
+                "cards": 0,
+                "pressed": "false"
+              },
+              "modifiedKeys": [
+                {
+                  "key": "d",
+                  "property": "ctrlKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "d",
+                  "property": "metaKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "d",
+                  "property": "altKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "d",
+                  "property": "isComposing",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "D",
+                  "property": "ctrlKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "D",
+                  "property": "metaKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "D",
+                  "property": "altKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "D",
+                  "property": "isComposing",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "ctrlKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "metaKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "altKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "isComposing",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "ctrlKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "metaKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "altKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "isComposing",
+                  "defaultPrevented": false
+                }
+              ],
+              "observed": {
+                "title": "Yellow Submarine",
+                "cards": 0,
+                "pressed": "false",
+                "dropped": null,
+                "focusOnDisc": true
+              },
+              "errors": [],
+              "positiveControls": {
+                "right": "Hey Jude",
+                "left": "Yellow Submarine",
+                "space": "true",
+                "enter": "false",
+                "discoveries": "0,1"
+              }
+            }
+          }
+        },
+        "webkit": {
+          "browserVersion": "26.0",
+          "context": {
+            "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1",
+            "viewport": {
+              "width": 390,
+              "height": 664
+            },
+            "screen": {
+              "width": 390,
+              "height": 844
+            },
+            "deviceScaleFactor": 3,
+            "isMobile": true,
+            "hasTouch": true,
+            "defaultBrowserType": "webkit"
+          },
+          "cases": {
+            "before": {
+              "initial": {
+                "title": "Yellow Submarine",
+                "cards": 0,
+                "pressed": "false"
+              },
+              "modifiedKeys": [
+                {
+                  "key": "d",
+                  "property": "ctrlKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "d",
+                  "property": "metaKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "d",
+                  "property": "altKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "d",
+                  "property": "isComposing",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "D",
+                  "property": "ctrlKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "D",
+                  "property": "metaKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "D",
+                  "property": "altKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "D",
+                  "property": "isComposing",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "ctrlKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "metaKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "altKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "isComposing",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "ctrlKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "metaKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "altKey",
+                  "defaultPrevented": true
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "isComposing",
+                  "defaultPrevented": true
+                }
+              ],
+              "observed": {
+                "title": "Yellow Submarine",
+                "cards": 1,
+                "pressed": "false",
+                "dropped": "0",
+                "focusOnDisc": true
+              },
+              "errors": []
+            },
+            "after": {
+              "initial": {
+                "title": "Yellow Submarine",
+                "cards": 0,
+                "pressed": "false"
+              },
+              "modifiedKeys": [
+                {
+                  "key": "d",
+                  "property": "ctrlKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "d",
+                  "property": "metaKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "d",
+                  "property": "altKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "d",
+                  "property": "isComposing",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "D",
+                  "property": "ctrlKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "D",
+                  "property": "metaKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "D",
+                  "property": "altKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "D",
+                  "property": "isComposing",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "ctrlKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "metaKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "altKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowLeft",
+                  "property": "isComposing",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "ctrlKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "metaKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "altKey",
+                  "defaultPrevented": false
+                },
+                {
+                  "key": "ArrowRight",
+                  "property": "isComposing",
+                  "defaultPrevented": false
+                }
+              ],
+              "observed": {
+                "title": "Yellow Submarine",
+                "cards": 0,
+                "pressed": "false",
+                "dropped": null,
+                "focusOnDisc": true
+              },
+              "errors": [],
+              "positiveControls": {
+                "right": "Hey Jude",
+                "left": "Yellow Submarine",
+                "space": "true",
+                "enter": "false",
+                "discoveries": "0,1"
+              }
+            }
+          }
+        }
+      },
+      "limits": [
+        "Modified/composing keys are DOM KeyboardEvents in native engines, not OS/browser accelerator delivery. Plain arrows, Space, Enter, d and Shift+D use Playwright keyboard input.",
+        "Before overrides only compiled home.js; after uses the actual served compiled script. Reduced motion keeps this probe in the 2D SVG player.",
+        "Native Math.random remains unchanged; no 3D scene is activated."
+      ]
+    }
+  },
+  "nodeTestsPassed": 52,
+  "pythonTestsPassed": 166,
+  "styleContractPassed": true,
+  "productionBuild": {
+    "passed": true,
+    "baseurl": "/al-folio",
+    "elapsedSeconds": 59.07
+  },
+  "existingOverrides": 80,
+  "review": {
+    "file": ".jekyll-cache/visual-qa/pause-performance-review/comparison.png",
+    "sha256": "6b502e8303e17ce0eeaf1e94f92f32d2955714b4452ccaa60c91b733c2be1bff"
+  },
+  "limits": [
+    "Modified/composing keys are delivered DOM events; native browser/OS accelerator routing is not measured.",
+    "Mobile captures are desktop emulation; controlled clocks establish continuity rather than performance.",
+    "No geometry/material/control redesign or new taste concept is integrated.",
+    "P flight interruption remains outside this bounded departure fix."
+  ]
+}

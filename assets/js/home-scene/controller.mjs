@@ -669,7 +669,8 @@ export function createCoastalHome(container, records, artifacts) {
       actorGoal = goal;
       if (explore.following && followClock) setRoom(room.id, false);
     }
-    if (reduced || paused) mixer?.update(0);
+    // An unchanged clip evaluation would erase the paused wrist correction.
+    if ((reduced || paused) && (changed || force)) mixer?.update(0);
     requestFrame();
   }
 
@@ -1045,13 +1046,6 @@ export function createCoastalHome(container, records, artifacts) {
         lastFrame = 0;
         b.setAttribute("aria-pressed", String(paused));
         syncMotionPreference();
-        if (paused && travel) {
-          actor.position.copy(travel.goal);
-          actor.rotation.y = travel.facing;
-          travel = null;
-          playClip(routine.clip);
-          propFor(routine.prop);
-        }
         requestFrame();
       }
       if (b.dataset.worldRecord != null) focusObject(sleeves[Number(b.dataset.worldRecord)]);
@@ -1158,6 +1152,7 @@ export function createCoastalHome(container, records, artifacts) {
       { passive: false }
     );
     listen(canvas, "keydown", (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey || e.isComposing) return;
       const keys = {
         ArrowLeft: () => (yaw += 0.18),
         ArrowRight: () => (yaw -= 0.18),
@@ -1343,8 +1338,11 @@ export function createCoastalHome(container, records, artifacts) {
         handContacts?.solve(resolveWristTargets(contacts, pose.clip, activeGripOffsets, actor.rotation.y), pose.contactBlend ?? 1);
         container.dataset.activityPhase = pose.phase;
       }
-    } else sequencePose = null;
+    } else if (!paused || reduced || !actor || travel || !routine?.sequence) sequencePose = null;
     characterPerformance?.update(delta, { active: moving && !travel, clip: container.dataset.animation });
+    const holdActivityProps = paused && !reduced && Boolean(sequencePose);
+    let cupCreated = false,
+      weightCreated = false;
     // Move the authored cup itself; there is never a second coffee cup in a hand.
     if (!coffeeCup && config?.equipment?.coffee) {
       const pieces = [];
@@ -1353,13 +1351,14 @@ export function createCoastalHome(container, records, artifacts) {
       });
       if (pieces.length) {
         coffeeCup = new THREE.Group();
+        cupCreated = true;
         coffeeCup.position.fromArray(config.equipment.coffee.cup);
         world.add(coffeeCup);
         world.updateMatrixWorld(true);
         pieces.forEach((o) => coffeeCup.attach(o));
       }
     }
-    if (coffeeCup) {
+    if (coffeeCup && (!holdActivityProps || cupCreated)) {
       const cupTarget = new THREE.Vector3(...config.equipment.coffee.cup);
       if (sequencePose?.cup) {
         actor.updateMatrixWorld(true);
@@ -1367,7 +1366,8 @@ export function createCoastalHome(container, records, artifacts) {
           if (o.isBone && o.name.replaceAll(".", "") === "HandR") o.getWorldPosition(cupTarget);
         });
       }
-      coffeeCup.position.lerp(cupTarget, 1 - Math.exp(-frameDelta * 16));
+      if (moving) coffeeCup.position.lerp(cupTarget, 1 - Math.exp(-frameDelta * 16));
+      else coffeeCup.position.copy(cupTarget);
     }
     // The selected top-tray weight keeps one identity through pickup and return.
     if (!exerciseWeight && config?.equipment?.dumbbell?.rest) {
@@ -1377,13 +1377,14 @@ export function createCoastalHome(container, records, artifacts) {
       });
       if (pieces.length) {
         exerciseWeight = new THREE.Group();
+        weightCreated = true;
         exerciseWeight.position.fromArray(config.equipment.dumbbell.rest);
         world.add(exerciseWeight);
         world.updateMatrixWorld(true);
         pieces.forEach((o) => exerciseWeight.attach(o));
       }
     }
-    if (exerciseWeight) {
+    if (exerciseWeight && (!holdActivityProps || weightCreated)) {
       const destination = new THREE.Vector3(...config.equipment.dumbbell.rest);
       if (sequencePose?.weight) {
         actor.updateMatrixWorld(true);
@@ -1391,7 +1392,8 @@ export function createCoastalHome(container, records, artifacts) {
           if (o.isBone && o.name.replaceAll(".", "") === "HandR") o.getWorldPosition(destination);
         });
       }
-      exerciseWeight.position.lerp(destination, 1 - Math.exp(-frameDelta * 20));
+      if (moving) exerciseWeight.position.lerp(destination, 1 - Math.exp(-frameDelta * 20));
+      else exerciseWeight.position.copy(destination);
     }
     if (vinyl) {
       if (moving) recordMotion.advance(delta);
