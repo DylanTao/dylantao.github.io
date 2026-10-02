@@ -3,7 +3,8 @@ import { companion, companionLights } from "../companion/bridge.mjs";
 import { randomSource } from "../companion/behaviour.mjs";
 import { roomRoute } from "./navigation.mjs";
 import { beachPoint } from "./shore.mjs";
-import { createPipDirector, createPipFlight, samplePipFlight } from "../companion/performance.mjs";
+import { createPipDirector } from "../companion/performance.mjs";
+import { createPipClearanceFlight, samplePipClearanceFlight } from "../companion/clearance.mjs";
 import { pipLocalAim, advancePipHeading, createPipTouchInvitation } from "../companion/attention.mjs";
 
 export async function createWorldCompanion(scene, config, container, loader) {
@@ -145,8 +146,8 @@ export async function createWorldCompanion(scene, config, container, loader) {
   }
   const ownerEvents = typeof window === "undefined" ? null : window;
   ownerEvents?.addEventListener("pip:change", releaseOwnership);
-  function startFlight(points) {
-    route = createPipFlight(points);
+  function startFlight(points, endHover = away ? 0.72 : config.companion.hover[room.id] || 0.72) {
+    route = createPipClearanceFlight(points, hoverHeight ?? endHover, endHover);
     routeStart = now;
   }
   function roomGoal(id, instant = false) {
@@ -158,12 +159,13 @@ export async function createWorldCompanion(scene, config, container, loader) {
     if (room && room.id !== next.id && !instant) {
       const corridor = roomRoute(config, room, next, position.toArray());
       // The robot's endpoint is its safe perch, not the human activity anchor.
-      startFlight([...corridor.points.slice(0, -1), goal.toArray()]);
-    } else if (room && !instant) startFlight([position.toArray(), goal.toArray()]);
+      startFlight([...corridor.points.slice(0, -1), goal.toArray()], config.companion.hover[next.id] || 0.72);
+    } else if (room && !instant) startFlight([position.toArray(), goal.toArray()], config.companion.hover[next.id] || 0.72);
     else route = null;
     if (!room || instant) {
       position.copy(goal);
       flightPose = null;
+      hoverHeight = config.companion.hover[next.id] || 0.72;
     }
     room = next;
     nextWander = now + 7 + random() * 8;
@@ -254,20 +256,21 @@ export async function createWorldCompanion(scene, config, container, loader) {
         outing = [
           ...corridor.points.slice(0, -1),
           perches.lounge[0],
-          [3.8, 0, -4.4],
+          [3.4, 0, -4.4],
           [3.8, 0, -7.4],
           [3.8, -5.8, -10.5],
           beachPoint(6, 0.35, config.beach),
         ];
-        startFlight(outing);
+        startFlight(outing, 0.72);
         away = true;
         returning = false;
         goal.fromArray(route.points.at(-1));
       }
     }
     if (route && !paused) {
-      flightPose = samplePipFlight(route, now - routeStart);
+      flightPose = samplePipClearanceFlight(route, now - routeStart);
       position.fromArray(flightPose.position);
+      hoverHeight = flightPose.hover;
       if (flightPose.done) {
         route = null;
         if (returning) {
@@ -280,7 +283,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
         }
       }
     } else if (away && now > nextWander && !paused) {
-      startFlight([...outing].reverse());
+      startFlight([...outing].reverse(), config.companion.hover[room.id] || 0.72);
       returning = true;
     } else if (!route && !paused) {
       flightPose = null;
@@ -289,7 +292,10 @@ export async function createWorldCompanion(scene, config, container, loader) {
     const bob = paused ? 0 : Math.sin(now * 2.05) * 0.012;
     group.position.copy(position);
     const hover = away ? 0.72 : config.companion.hover[room.id] || 0.72;
-    hoverHeight = hoverHeight === null || paused ? hover : THREE.MathUtils.lerp(hoverHeight, hover, 1 - Math.exp(-dt * 3));
+    // Absolute active flight age owns altitude too. Capped spring integration
+    // cannot leave P at cabinet height while translation crosses the room;
+    // pause and page ownership retain the same airborne center on resume.
+    if (hoverHeight === null) hoverHeight = hover;
     group.position.y += hoverHeight + (flightPose?.lift || 0);
     toCamera.copy(camera.position).sub(group.position);
     const facing = Math.atan2(toCamera.x, toCamera.z);
@@ -385,6 +391,8 @@ export async function createWorldCompanion(scene, config, container, loader) {
         bank,
         velocity: flightPose?.velocity || [0, 0, 0],
         progress: route ? Math.min(1, (now - routeStart) / route.duration) : 1,
+        hover: hoverHeight,
+        cruise: route?.clearance.cruise,
       },
       attention: { phase: performancePose.phase, greetings: performancePose.greetings, cooldown: performancePose.cooldown, target: taskObject },
       aim: {
