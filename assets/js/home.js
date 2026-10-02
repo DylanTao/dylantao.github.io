@@ -1826,6 +1826,7 @@
     }
 
     portrait.addEventListener("keydown", (event) => {
+      if (event.ctrlKey || event.metaKey || event.altKey || event.isComposing) return;
       if (event.target === spinButton && ["ArrowLeft", "ArrowRight"].includes(event.key)) {
         event.preventDefault();
         advanceRecord(event.key === "ArrowLeft" ? -1 : 1);

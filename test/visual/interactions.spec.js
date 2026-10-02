@@ -856,6 +856,52 @@ test("home keyboard record playback survives shake suppression", async ({ page }
   await expect(spinButton).toHaveAttribute("aria-pressed", "false");
 });
 
+test("home record shortcuts yield modified and composing keys while plain controls work", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  await page.locator('[data-home-desk-mode="2d"]').click();
+  const play = page.locator("[data-home-record-play]");
+  const title = page.locator("[data-home-record-title]");
+  const cards = page.locator("[data-home-record-card]");
+  await play.focus();
+  const initialTitle = await title.textContent();
+  // Dispatch DOM keys to inspect default cancellation without opening native
+  // browser chrome. This does not test delivery of an OS/browser accelerator.
+  const modifiedKeys = await play.evaluate((element) =>
+    ["d", "D", "ArrowLeft", "ArrowRight"].flatMap((key) =>
+      ["ctrlKey", "metaKey", "altKey", "isComposing"].map((property) => {
+        const event = new KeyboardEvent("keydown", { key, [property]: true, bubbles: true, cancelable: true });
+        element.dispatchEvent(event);
+        return { key, property, defaultPrevented: event.defaultPrevented };
+      })
+    )
+  );
+  fs.writeFileSync(testInfo.outputPath("record-shortcuts.json"), JSON.stringify({ modifiedKeys, initialTitle }, null, 2));
+  expect(modifiedKeys.filter((event) => event.defaultPrevented)).toEqual([]);
+  await expect(title).toHaveText(initialTitle);
+  await expect(cards).toHaveCount(0);
+  await expect(play).toHaveAttribute("aria-pressed", "false");
+  await play.press("ArrowRight");
+  await expect(title).not.toHaveText(initialTitle);
+  await play.press("ArrowLeft");
+  await expect(title).toHaveText(initialTitle);
+  await play.press("Space");
+  await expect(play).toHaveAttribute("aria-pressed", "true");
+  await play.press("Enter");
+  await expect(play).toHaveAttribute("aria-pressed", "false");
+  await play.press("d");
+  await expect(cards).toHaveCount(1);
+  await play.press("ArrowRight");
+  await expect(title).not.toHaveText(initialTitle);
+  await play.press("Shift+D");
+  await expect(cards).toHaveCount(2);
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-dropped-records", "0,1");
+  await page.locator(".home-record-player").screenshot({ path: testInfo.outputPath("record-shortcuts.png") });
+  expect(errors).toEqual([]);
+});
+
 test("home portrait offers a keyboard-equivalent record-card discovery", async ({ page }) => {
   await preparePage(page, "dark");
   const homeRoute = publicRouteUrl("/");
