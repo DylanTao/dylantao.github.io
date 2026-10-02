@@ -31,7 +31,7 @@ export function createPipDirector(seed = 1037) {
         phase = "task";
         entered = time;
         armed = false;
-        return { phase: "still", gaze: [0, 0], gesture, hold: true, blink: 0, time, greetings, cooldown: Math.max(0, cooldown - time) };
+        return { phase: "still", gaze: [0, 0], attention: 0, gesture, hold: true, blink: 0, time, greetings, cooldown: Math.max(0, cooldown - time) };
       }
       time += Math.max(0, dt);
       absent = near ? 0 : absent + Math.max(0, dt);
@@ -69,6 +69,7 @@ export function createPipDirector(seed = 1037) {
         phase,
         phaseAge: time - entered,
         gaze: mix(task, pointer, attention),
+        attention,
         gesture,
         hold: phase !== "task",
         blink,

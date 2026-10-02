@@ -4,6 +4,7 @@ import { randomSource } from "../companion/behaviour.mjs";
 import { roomRoute } from "./navigation.mjs";
 import { beachPoint } from "./shore.mjs";
 import { createPipDirector, createPipFlight, samplePipFlight } from "../companion/performance.mjs";
+import { pipLocalAim, advancePipHeading, createPipTouchInvitation } from "../companion/attention.mjs";
 
 export async function createWorldCompanion(scene, config, container, loader) {
   const gltf = await loader.loadAsync(new URL("../../models/pip/pip.glb", import.meta.url).href);
@@ -61,8 +62,19 @@ export async function createWorldCompanion(scene, config, container, loader) {
     position = new THREE.Vector3(),
     projected = new THREE.Vector3(),
     taskTarget = new THREE.Vector3(),
-    toCamera = new THREE.Vector3();
-  let record = null;
+    pointerTarget = new THREE.Vector3(),
+    aimTarget = new THREE.Vector3(),
+    opticalOrigin = new THREE.Vector3(),
+    toCamera = new THREE.Vector3(),
+    pointerNdc = new THREE.Vector2(),
+    pointerRay = new THREE.Raycaster(),
+    visitorPlane = new THREE.Plane(),
+    touchInvitation = createPipTouchInvitation();
+  let record = null,
+    human = null,
+    humanHead = null,
+    inputKind = typeof matchMedia !== "undefined" && matchMedia("(pointer: coarse)").matches ? "touch" : "mouse",
+    aim = null;
   let room = null,
     route = null,
     routeStart = 0,
@@ -81,11 +93,51 @@ export async function createWorldCompanion(scene, config, container, loader) {
     needsMotorReset = true,
     taskObject = "Sirui";
   const perches = config.companion.perches;
+  function closeToP(x, y) {
+    const rect = container.getBoundingClientRect(),
+      p = companion.projected;
+    return Boolean(
+      p &&
+      x >= rect.left &&
+      x <= rect.right &&
+      y >= rect.top &&
+      y <= rect.bottom &&
+      Math.hypot(x - p.x, y - p.y) < Math.max(36, Math.min(70, rect.width * 0.085))
+    );
+  }
+  const touchEvents = [
+    [
+      "pointerdown",
+      (e) => {
+        inputKind = e.pointerType || "mouse";
+        if (inputKind === "touch" && companion.owner === "world") touchInvitation.down(e.pointerId, e.clientX, e.clientY);
+      },
+    ],
+    [
+      "pointermove",
+      (e) => {
+        inputKind = e.pointerType || "mouse";
+        if (inputKind === "touch") touchInvitation.move(e.pointerId, e.clientX, e.clientY);
+      },
+    ],
+    [
+      "pointerup",
+      (e) => {
+        if (e.pointerType === "touch")
+          touchInvitation.up(e.pointerId, e.clientX, e.clientY, now, !paused && companion.owner === "world" && closeToP(e.clientX, e.clientY));
+      },
+    ],
+    ["pointercancel", () => touchInvitation.cancel()],
+  ];
+  // Observe the existing canvas gesture without consuming it. Model taps
+  // still use the controller's project link; drags still orbit the camera.
+  for (const [type, handler] of touchEvents) container.addEventListener?.(type, handler, { passive: true, capture: true });
   function releaseOwnership() {
     if (companion.owner === "world") return;
     // The page can replace the shared gesture while this renderer is stopped.
     // Interrupt only our director now; never reset a motor owned by the page.
     performancePose = director.update(0, { still: true });
+    touchInvitation.cancel();
     needsMotorReset = true;
     wasWorld = false;
     fade = 0;
@@ -154,28 +206,45 @@ export async function createWorldCompanion(scene, config, container, loader) {
     projected.project(camera);
     const screenX = rect.left + (projected.x + 1) * rect.width * 0.5;
     const screenY = rect.top + (1 - projected.y) * rect.height * 0.5;
-    const recent = pointer.at > 0 && performance.now() - pointer.at < 4500;
-    const inside = recent && pointer.x >= rect.left && pointer.x <= rect.right && pointer.y >= rect.top && pointer.y <= rect.bottom;
-    const near = inside && Math.hypot(pointer.x - screenX, pointer.y - screenY) < Math.max(36, Math.min(70, rect.width * 0.085));
-    const pointerGaze = inside
-      ? [THREE.MathUtils.clamp((pointer.x - screenX) / 105, -1, 1), THREE.MathUtils.clamp((screenY - pointer.y) / 100, -1, 1)]
-      : [0, 0];
-    taskObject = away ? "Pacific" : room.id === "study" && record && Math.floor(now / 9) % 3 === 1 ? "record" : "Sirui";
+    if (paused) touchInvitation.cancel();
+    const tap = inputKind === "touch" ? touchInvitation.sample(now) : null;
+    const activePointer = tap || pointer;
+    const recent = inputKind === "touch" ? Boolean(tap) : pointer.at > 0 && performance.now() - pointer.at < 4500;
+    const inside =
+      recent && activePointer.x >= rect.left && activePointer.x <= rect.right && activePointer.y >= rect.top && activePointer.y <= rect.bottom;
+    const near =
+      Boolean(tap) || (inside && Math.hypot(activePointer.x - screenX, activePointer.y - screenY) < Math.max(36, Math.min(70, rect.width * 0.085)));
+    // From the study's safe perch Sirui is behind the visitor-facing lenses.
+    // Make that a bounded, purposeful glance rather than permanently showing
+    // the back of P's head. Quiet composed beats keep its face readable.
+    const taskGlance = now % 18 >= 6.5 && now % 18 < 10;
+    taskObject = away
+      ? "Pacific"
+      : !taskGlance
+        ? "visitor-ready"
+        : room.id === "study" && record && Math.floor(now / 18) % 2 === 1
+          ? "record"
+          : "Sirui";
     if (taskObject === "Pacific") {
       taskTarget.copy(position);
       taskTarget.y += 0.9;
       taskTarget.z -= 3;
     } else if (taskObject === "record") record.getWorldPosition(taskTarget);
+    else if (taskObject === "visitor-ready") taskTarget.copy(camera.position);
     else {
-      taskTarget.fromArray(room.actor);
-      taskTarget.y += room.id === "sleep" ? 0.4 : 1.05;
+      if (!human?.parent) {
+        human = scene.getObjectByName("active-Sirui");
+        humanHead = human?.getObjectByName("Head");
+      }
+      if (humanHead) {
+        humanHead.getWorldPosition(taskTarget);
+        taskTarget.y += 0.06;
+      } else {
+        taskTarget.fromArray(room.actor);
+        taskTarget.y += room.id === "sleep" ? 0.4 : 1.05;
+      }
     }
-    taskTarget.project(camera);
-    const taskGaze = [
-      THREE.MathUtils.clamp((taskTarget.x - projected.x) * 1.3, -0.65, 0.65),
-      THREE.MathUtils.clamp((taskTarget.y - projected.y) * 1.3, -0.5, 0.5),
-    ];
-    performancePose = director.update(activeDelta, { near, pointer: pointerGaze, task: taskGaze, traveling: Boolean(route), still: paused });
+    performancePose = director.update(activeDelta, { near, traveling: Boolean(route), still: paused });
     if (!paused && !performancePose.hold && now > nextWander && !away && !route) roomGoal(actualRoom);
     if (!paused && !performancePose.hold && now > nextTrip && !route) {
       nextTrip = now + 65 + random() * 50;
@@ -225,15 +294,30 @@ export async function createWorldCompanion(scene, config, container, loader) {
     toCamera.copy(camera.position).sub(group.position);
     const facing = Math.atan2(toCamera.x, toCamera.z);
     heading ??= facing;
+    opticalOrigin.copy(group.position);
+    opticalOrigin.y += 0.4 * 0.46;
+    pointerTarget.copy(camera.position);
+    if (inside) {
+      // Map the pointer onto a visitor plane in front of P, not onto P's
+      // image plane. This works with both orthographic and perspective views.
+      toCamera.normalize();
+      aimTarget.copy(opticalOrigin).addScaledVector(toCamera, 1.4);
+      visitorPlane.setFromNormalAndCoplanarPoint(toCamera, aimTarget);
+      pointerNdc.set(((activePointer.x - rect.left) / rect.width) * 2 - 1, 1 - ((activePointer.y - rect.top) / rect.height) * 2);
+      pointerRay.setFromCamera(pointerNdc, camera);
+      pointerRay.ray.intersectPlane(visitorPlane, pointerTarget);
+    }
+    aimTarget.copy(taskTarget).lerp(pointerTarget, performancePose.attention || 0);
     const velocity = flightPose?.velocity || [0, 0, 0];
     const lateral = velocity[0] * Math.cos(heading) - velocity[2] * Math.sin(heading);
     const targetBank = paused ? 0 : THREE.MathUtils.clamp(-lateral * 0.13, -0.16, 0.16);
     bank = paused ? 0 : THREE.MathUtils.lerp(bank, targetBank, 1 - Math.exp(-dt * 4));
-    const gaze = [...performancePose.gaze];
     if (flightPose?.phase === "anticipate" || flightPose?.phase === "fly") {
       const direction = flightPose.direction;
-      gaze[0] = THREE.MathUtils.clamp((direction[0] * Math.cos(heading) - direction[2] * Math.sin(heading)) * 2.2, -0.85, 0.85);
+      aimTarget.copy(opticalOrigin).add(new THREE.Vector3(...direction).normalize());
     }
+    aim = pipLocalAim(opticalOrigin.toArray(), aimTarget.toArray(), heading);
+    const gaze = aim.gaze;
     const motionInput = {
       gaze,
       still: paused,
@@ -248,9 +332,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
       companion.motion.play(performancePose.gesture, { elapsed: performancePose.phaseAge });
       pose = companion.motion.update(0, { ...motionInput, elapsed: 0 });
     }
-    const desiredHeading = facing + pose.bodyYaw;
-    const headingError = Math.atan2(Math.sin(desiredHeading - heading), Math.cos(desiredHeading - heading));
-    if (!paused) heading += headingError * (1 - Math.exp(-dt * 2.5));
+    if (!paused) heading = advancePipHeading(heading, aim.yaw, dt);
     group.rotation.y = heading;
     head.rotation.set(...pose.head);
     head.rotation.order = "ZYX";
@@ -305,6 +387,22 @@ export async function createWorldCompanion(scene, config, container, loader) {
         progress: route ? Math.min(1, (now - routeStart) / route.duration) : 1,
       },
       attention: { phase: performancePose.phase, greetings: performancePose.greetings, cooldown: performancePose.cooldown, target: taskObject },
+      aim: {
+        heading,
+        target: aimTarget.toArray(),
+        origin: opticalOrigin.toArray(),
+        yaw: aim?.yaw,
+        pitch: aim?.pitch,
+        taskSource:
+          taskObject === "visitor-ready"
+            ? "visitor-plane"
+            : taskObject === "record"
+              ? "live-record"
+              : taskObject === "Sirui" && humanHead
+                ? "live-head"
+                : "room-anchor",
+      },
+      input: { kind: inputKind, touchInvitation: Boolean(touchInvitation.sample(now)), touchPending: touchInvitation.pending() },
       gaze: pose.gaze,
       eyes: pose.eyes,
       arms: pose.arms,
@@ -314,6 +412,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
     }),
     dispose() {
       ownerEvents?.removeEventListener("pip:change", releaseOwnership);
+      for (const [type, handler] of touchEvents) container.removeEventListener?.(type, handler, { capture: true });
       group.removeFromParent();
       shadow.removeFromParent();
       geometries.forEach((g) => g.dispose());
