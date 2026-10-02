@@ -180,3 +180,7 @@ for root in masters:
 for i,root in enumerate(masters):root.location.x=i*1.8
 bpy.context.preferences.filepaths.save_version=0
 bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE/'neighbors.blend'))
+# Contact data is authored from the retained physical surfaces and these exact
+# deployed soles. The helper reads the coast, but never saves or changes it.
+from runpy import run_path
+run_path(str(ROOT/'bin/build_coastal_perch_support.py'),run_name='__main__')

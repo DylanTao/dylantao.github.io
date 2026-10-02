@@ -3,6 +3,7 @@ import { beachPoint, habitatPoint } from "./shore.mjs";
 import { createModelLoader } from "./model-loader.mjs";
 import { rabbitActing, pinnipedActing } from "./wildlife-motion.mjs";
 import { createHabitatRoute, plantedFoot, raccoonMotion, shorebirdMotion, gullMotion } from "./wildlife-neighbor-motion.mjs";
+import { solvePerchLanding, samplePerchActing, perchContactWeight } from "./wildlife-perch-contact.mjs";
 
 export function createWildlife(parent, config) {
   const beach = config.beach,
@@ -182,9 +183,14 @@ export function createWildlife(parent, config) {
     loadMaster("Raccoon"),
     loadMaster("WesternGull"),
     loadMaster("Sandpiper"),
+    fetch(new URL("../../models/home/wildlife-perch-support.json", import.meta.url)).then((response) => {
+      if (!response.ok) throw new Error("The coastal perch supports could not load.");
+      return response.json();
+    }),
   ])
-    .then(([rabbitMaster, lionMaster, sealMaster, raccoonMaster, gullMaster, shorebirdMaster]) => {
+    .then(([rabbitMaster, lionMaster, sealMaster, raccoonMaster, gullMaster, shorebirdMaster, supportData]) => {
       if (disposed) return;
+      perchData = supportData;
       for (const [i, rabbit] of rabbits.entries()) {
         rabbit.group.clear();
         const model = rabbitMaster.scene.clone(true);
@@ -240,6 +246,7 @@ export function createWildlife(parent, config) {
   };
   const gulls = Array.from({ length: 4 }, () => birdGroup("Pacific gull", 1.55));
   const perch = birdGroup("Balcony visitor", 1.1);
+  let perchData = null;
   const shorebirds = Array.from({ length: 3 }, () => birdGroup("Sandpiper", 1.35));
   const shoreRoutes = shorebirds.map((bird, index) => {
     const x = -6 + index * 4.1;
@@ -349,6 +356,32 @@ export function createWildlife(parent, config) {
       bird.parts[`WingTip${label}`].object.scale.x = 1 - fold * 0.32;
       bird.parts[`WingTip${label}`].object.rotation.set(0, side * fold * 0.15, side * beat * 0.22 * (1 - fold));
       for (const key of [`Leg${label}`, `Foot${label}`]) bird.parts[key].object.visible = footDeploy > 0.05;
+    }
+  }
+  function applyBirdSupport(bird, landing, weight) {
+    const group = bird.group;
+    group.updateWorldMatrix(true, true);
+    const quaternion = group.getWorldQuaternion(new THREE.Quaternion()),
+      inverseQuaternion = quaternion.clone().invert();
+    const acting = samplePerchActing(perchData, landing, group.getWorldPosition(new THREE.Vector3()), quaternion, weight);
+    bird.contacts = [];
+    for (const side of ["L", "R"]) {
+      const pose = acting.feet[side],
+        foot = bird.parts[`Foot${side}`].object,
+        leg = bird.parts[`Leg${side}`].object;
+      foot.position.copy(group.worldToLocal(pose.position.clone()));
+      foot.quaternion.copy(inverseQuaternion.clone().multiply(pose.quaternion));
+      leg.position.copy(group.worldToLocal(pose.hip.clone()));
+      leg.quaternion.copy(inverseQuaternion.clone().multiply(pose.legQuaternion));
+      // Native decoded tarsus length is preserved; its hidden hip articulates.
+      leg.scale.set(1, 1, 1);
+      bird.contacts.push({
+        foot: `Foot${side}`,
+        position: pose.position.toArray(),
+        hipAccommodation: pose.hipAccommodation,
+        surfaceLift: pose.surfaceLift,
+        weight,
+      });
     }
   }
   function update(t, palette = "afternoon") {
@@ -461,7 +494,8 @@ export function createWildlife(parent, config) {
         if (a.parts[name]) a.parts[name].object.rotation.x = a.parts[name].rotation.x + pose.flipper;
     });
     gulls.forEach((bird, index) => {
-      const pose = gullMotion(t, index, config.terrain.perches[index % config.terrain.perches.length]);
+      const point = perchData ? perchData.patches[index % 3].origin : config.terrain.perches[index % config.terrain.perches.length];
+      const pose = gullMotion(t, index, point);
       bird.group.position.fromArray(pose.position);
       bird.group.rotation.order = "YXZ";
       bird.group.rotation.set(pose.pitch, pose.yaw, pose.bank);
@@ -469,6 +503,14 @@ export function createWildlife(parent, config) {
       bird.pose = pose;
       birdWings(bird, pose.wingFold, pose.wingBeat, pose.footDeploy);
       if (bird.parts) {
+        if (perchData && pose.footDeploy > 0.05) {
+          const cycle = Math.floor((Math.max(0, t) + index * 19) / 90);
+          if (bird.landingCycle !== cycle) {
+            bird.landing = solvePerchLanding(perchData, index % 3, gullMotion(cycle * 90 - index * 19 + 72, index, point).yaw, bird.group.scale.x);
+            bird.landingCycle = cycle;
+          }
+          applyBirdSupport(bird, bird.landing, perchContactWeight(t, index));
+        } else bird.contacts = [];
         bird.parts.Head.object.rotation.set(-pose.pitch * 0.35, pose.headYaw, 0);
         for (const label of ["L", "R"]) bird.parts[`Eye${label}`].object.scale.y = 1 - pose.blink * 0.85;
       }
@@ -477,7 +519,13 @@ export function createWildlife(parent, config) {
     perch.group.rotation.y = 0.4;
     perch.group.userData.state = "perch";
     birdWings(perch, 1, 0);
-    if (perch.parts) perch.parts.Head.object.rotation.y = Math.sin(t * 0.25) * 0.18;
+    if (perch.parts) {
+      if (perchData) {
+        perch.landing ||= solvePerchLanding(perchData, 3, 0.4, perch.group.scale.x);
+        applyBirdSupport(perch, perch.landing, 1);
+      }
+      perch.parts.Head.object.rotation.y = Math.sin(t * 0.25) * 0.18;
+    }
     shorebirds.forEach((bird, index) => {
       const pose = shorebirdMotion(t, index),
         route = shoreRoutes[index];
@@ -533,7 +581,13 @@ export function createWildlife(parent, config) {
         bodyAccommodation: raccoon.userData.bodyAccommodation || 0,
         contacts: raccoon.contacts,
       },
-      birds: gulls.map((bird) => ({ position: bird.group.position.toArray(), state: bird.group.userData.state, velocity: bird.pose.velocity })),
+      birds: gulls.map((bird) => ({
+        position: bird.group.position.toArray(),
+        state: bird.group.userData.state,
+        velocity: bird.pose.velocity,
+        contacts: bird.contacts || [],
+      })),
+      balconyGullContacts: perch.contacts || [],
       shorebirdContacts: shorebirds.map((bird) => ({
         position: bird.group.position.toArray(),
         state: bird.group.userData.state,
