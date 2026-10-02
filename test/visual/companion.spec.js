@@ -267,8 +267,18 @@ test("P: 2D greeting, shaded companion, pointer curiosity and clear page bounds"
       before
     )
   ).toBe(true);
-  await page.mouse.move(Math.max(10, before.x - 140), Math.max(100, before.y - 75));
-  await page.waitForTimeout(500);
+  // An autonomous arrival has a bounded quiet interval. Keep the visitor cue
+  // fresh and observe a response after that interval instead of one 500ms pose.
+  let pointerSample = 0;
+  await expect
+    .poll(
+      async () => {
+        await page.mouse.move(Math.max(10, before.x - 140) + (pointerSample++ % 2), Math.max(100, before.y - 75));
+        return Math.abs((await evidence(page)).gaze[0] - before.gaze[0]);
+      },
+      { timeout: 10000, intervals: [100, 250] }
+    )
+    .toBeGreaterThan(0.03);
   const after = await evidence(page);
   expect(Math.abs(after.gaze[0] - before.gaze[0])).toBeGreaterThan(0.03);
   expect(await page.evaluate(() => performance.getEntriesByType("resource").filter((r) => /three\.module|models\/home/.test(r.name)).length)).toBe(0);

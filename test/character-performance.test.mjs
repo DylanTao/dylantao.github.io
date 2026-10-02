@@ -46,7 +46,7 @@ test("a complete blink closes and reopens both sides with bounded asymmetric tim
   }
 });
 
-test("strength, sleep, walking and cup contacts suppress head and breathing offsets", () => {
+test("strength, sleep, walking, coffee preparation and carrying suppress head and breathing offsets", () => {
   for (const clip of ["pullup", "dip", "workout", "coffee-prep", "carry", "walk", "sleep"]) {
     const motion = createCharacterMotion(4);
     motion.notice(1, 1);
@@ -90,4 +90,22 @@ test("the additive rig restores exactly, does not accumulate and leaves wrists u
   performance.dispose();
   assert.ok(head.position.equals(startPosition));
   assert.equal(performance.evidence().eyelidMeshes, 0);
+});
+
+test("exported +Z optics look right and up through yaw and pitch, rather than rolling", () => {
+  const actor = new THREE.Group(),
+    head = new THREE.Bone(),
+    eye = new THREE.Bone();
+  head.name = "Head";
+  eye.name = "EyeL";
+  actor.add(head);
+  head.add(eye);
+  const performance = createCharacterPerformance(actor, "ghibli");
+  performance.notice(1, 1);
+  performance.update(0.7, { active: true, clip: "typing" });
+  actor.updateMatrixWorld(true);
+  const opticalDirection = new THREE.Vector3(0, 0, 1).transformDirection(eye.matrixWorld);
+  assert.ok(opticalDirection.x > 0.08, "horizontal invitation turns the optical forward direction right");
+  assert.ok(opticalDirection.y > 0.04, "screen-up invitation lifts optical forward");
+  performance.dispose();
 });

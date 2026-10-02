@@ -331,6 +331,9 @@ export function createPacific(scene, renderer, config) {
     setPalette,
     update,
     dispose,
+    pick: (raycaster) => wildlife.pick?.(raycaster) || null,
+    neighbours: () => wildlife.targets?.() || [],
+    neighbour: (id) => wildlife.target?.(id) || null,
     evidence: () => ({
       wildlife: wildlife.evidence(),
       beachWidth: beach.width,

@@ -3,6 +3,12 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 export function envelopeFor(config, room) {
   return (config.views[room] || config.rooms.find((r) => r.id === room)?.camera)?.envelope;
 }
+// An explicitly selected coastal neighbour needs a nearer, model-sized orbit.
+// Terrain clearance still uses the same finished mainland/beach height grid.
+export function wildlifeEnvelope(modelRadius) {
+  const size = clamp(Number.isFinite(modelRadius) ? modelRadius : 0.6, 0.2, 2);
+  return { pitch: [0.12, 0.95], radius: [Math.max(1.8, size * 2.9), Math.max(5, size * 7)] };
+}
 export function constrainOrbit(orbit, envelope) {
   if (!envelope) return orbit;
   let yaw = orbit.yaw;

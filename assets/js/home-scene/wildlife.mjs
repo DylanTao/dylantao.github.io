@@ -78,12 +78,12 @@ export function createWildlife(parent, config) {
   function describeTarget({ group, id, name, center, radius, head }) {
     group.updateWorldMatrix(true, false);
     const worldCenter = center.clone().applyMatrix4(group.matrixWorld),
-      headPoint = new THREE.Vector3(),
-      origin = new THREE.Vector3();
+      headPoint = new THREE.Vector3();
     if (head) head.getWorldPosition(headPoint);
-    group.getWorldPosition(origin);
+    // Use the anatomical head relative to the body, rather than the floor/root
+    // origin, to establish the actual animal's forward direction.
     const front = head
-      ? headPoint.clone().sub(origin).setY(0).normalize()
+      ? headPoint.clone().sub(worldCenter).setY(0).normalize()
       : new THREE.Vector3(Math.sin(group.rotation.y), 0, Math.cos(group.rotation.y));
     return {
       id,

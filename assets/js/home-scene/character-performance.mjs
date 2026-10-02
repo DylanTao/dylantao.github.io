@@ -116,9 +116,10 @@ export function createCharacterPerformance(actor, avatarId = "") {
         position.copy(bone.position);
         const isHead = bone.name === "Head";
         const [yaw, pitch] = isHead ? pose.head : pose.eye;
-        euler.set(pitch, 0, -yaw, "XYZ");
+        // Exported optical forward is Three +Z: screen-up is negative X,
+        // horizontal attention turns about Y, and only the head rolls about Z.
+        euler.set(-pitch, yaw, isHead ? pose.head[2] : 0, "XYZ");
         if (isHead) {
-          euler.y = pose.head[2];
           bone.position.y += pose.breath;
         }
         bone.quaternion.multiply(offset.setFromEuler(euler));

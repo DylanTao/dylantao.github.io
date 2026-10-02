@@ -6,7 +6,7 @@ import { createFinish, physicalTime } from "./realism.mjs";
 import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
-import { envelopeFor, constrainOrbit, keepCameraClear } from "./camera.mjs";
+import { envelopeFor, wildlifeEnvelope, constrainOrbit, keepCameraClear } from "./camera.mjs";
 import { activityPose, createHandContacts } from "./activities.mjs";
 import { resolveWristTargets } from "./grip-targets.mjs";
 import { roomRoute, sampleRoute } from "./navigation.mjs";
@@ -90,6 +90,7 @@ export function createCoastalHome(container, records, artifacts) {
   let dropped = [],
     callbacks = {},
     focused = null,
+    animalFocus = null,
     travel = null,
     footContacts,
     handContacts,
@@ -715,8 +716,103 @@ export function createCoastalHome(container, records, artifacts) {
       focused.scale.copy(home.scale);
     }
     focused = null;
+    animalFocus = null;
     container.removeAttribute("data-focused-desk-object");
+    container.removeAttribute("data-coastal-neighbour");
     container.dataset.deskView = currentRoom === "outside" ? "outside" : "room";
+    renderer?.domElement.setAttribute(
+      "aria-label",
+      "Sirui’s coastal home. Drag or use arrow keys to look around, plus and minus to zoom, N to visit a coastal neighbour, D to discover a record, Escape to return inside."
+    );
+  }
+
+  function inspectNeighbour(id) {
+    const neighbour = pacific?.neighbours().find((item) => item.id === id);
+    if (!neighbour) return;
+    if (animalFocus?.id === id) {
+      setRoom("outside");
+      return;
+    }
+    if (currentRoom !== "outside") setRoom("outside");
+    clearFocus();
+    animalFocus = neighbour;
+    explore.explore();
+    followClock = false;
+    desiredTarget.fromArray(neighbour.worldCenter);
+    desiredRadius = Math.max(2.6, neighbour.radius * 3.6);
+    const front = neighbour.front || [0, 0, -1];
+    yaw = Math.atan2(front[0], front[2]) + 0.4;
+    pitch = neighbour.id.startsWith("rabbit-") ? 0.46 : 0.2;
+    {
+      // Choose a readable initial angle through the actual coast. This runs
+      // only on selection; orbiting and tracking never raycast the whole coast.
+      world.updateMatrixWorld(true);
+      const occluders = [];
+      world.traverse((object) => {
+        if (!object.isMesh || object.userData.action || object.userData.noOcclusion) return;
+        let parent = object;
+        while (parent) {
+          if (!parent.visible) return;
+          parent = parent.parent;
+        }
+        const materials = Array.isArray(object.material) ? object.material : [object.material];
+        if (materials.some((mat) => mat && (!mat.transparent || mat.opacity > 0.9))) occluders.push(object);
+      });
+      const visibilityRay = new THREE.Raycaster(),
+        origin = new THREE.Vector3(),
+        direction = new THREE.Vector3(),
+        head = new THREE.Vector3(...(neighbour.headAnchor || neighbour.worldCenter));
+      head.y += neighbour.radius * 0.12;
+      const samples = [head, desiredTarget.clone()];
+      const facing = Math.atan2(front[0], front[2]);
+      let best = -Infinity;
+      const elevations = neighbour.id.startsWith("rabbit-") ? [0.46, 0.72] : [0.2, 0.4];
+      for (const offset of [0.4, -0.4, 0.85, -0.85, 1.25, -1.25, 1.7, -1.7]) {
+        for (const elevation of elevations) {
+          const angle = facing + offset;
+          origin.set(
+            desiredTarget.x + Math.sin(angle) * Math.cos(elevation) * desiredRadius,
+            desiredTarget.y + Math.sin(elevation) * desiredRadius,
+            desiredTarget.z + Math.cos(angle) * Math.cos(elevation) * desiredRadius
+          );
+          keepCameraClear(origin, config, "outside");
+          // A clear camera lifted onto the cliff can make the animal tiny.
+          // Prefer a nearby side angle over that distant overhead composition.
+          let score =
+            -Math.abs(offset) * 0.02 -
+            Math.abs(elevation - elevations[0]) * 0.01 -
+            Math.max(0, origin.distanceTo(desiredTarget) / desiredRadius - 1) * 2;
+          samples.forEach((point, i) => {
+            direction.copy(point).sub(origin);
+            visibilityRay.far = Math.max(0.01, direction.length() - 0.05);
+            visibilityRay.set(origin, direction.normalize());
+            if (!visibilityRay.intersectObjects(occluders, false).length) score += i === 0 ? 3 : 1;
+          });
+          if (score > best) {
+            best = score;
+            yaw = angle;
+            pitch = elevation;
+          }
+        }
+      }
+    }
+    container.dataset.coastalNeighbour = neighbour.id;
+    renderer.domElement.setAttribute(
+      "aria-label",
+      `${neighbour.name}. Drag or use arrow keys to look around, plus and minus to zoom, N for the next coastal neighbour, Enter for the coastline, Escape to return inside.`
+    );
+    requestFrame();
+  }
+
+  function nextNeighbour() {
+    const neighbours = pacific?.neighbours() || [];
+    if (!neighbours.length) return;
+    const index = neighbours.findIndex((item) => item.id === animalFocus?.id);
+    inspectNeighbour(neighbours[(index + 1) % neighbours.length].id);
+  }
+
+  function cameraEnvelope() {
+    return animalFocus ? wildlifeEnvelope(animalFocus.radius) : envelopeFor(config, currentRoom);
   }
 
   function focusObject(o) {
@@ -806,7 +902,7 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   const ray = new THREE.Raycaster();
-  function pick(event) {
+  function pick(event, selecting = false) {
     const rect = renderer.domElement.getBoundingClientRect();
     ray.setFromCamera(
       new THREE.Vector2(((event.clientX - rect.left) / rect.width) * 2 - 1, 1 - ((event.clientY - rect.top) / rect.height) * 2),
@@ -820,7 +916,24 @@ export function createCoastalHome(container, records, artifacts) {
     // clicks from the papers or album sleeves seen through its projected area.
     const hit = hits.find((entry) => entry.object.userData.action?.type !== "window") || hits[0];
     const bot = worldCompanion?.pick(ray);
-    return bot && (!hit || bot.distance < hit.distance) ? bot.object : hit?.object;
+    const animal = currentRoom === "outside" ? pacific?.pick(ray) : null;
+    const interactive = [hit, bot, animal].filter(Boolean).sort((a, b) => a.distance - b.distance);
+    const first = interactive.find((entry) => entry.object.userData.action?.type !== "window") || interactive[0];
+    if (selecting && first === animal) {
+      // Reject clicks through opaque scenery; hover keeps the cheaper pick path.
+      const blocker = ray.intersectObject(world, true).find((entry) => {
+        if (entry.distance >= animal.distance - 0.015 || entry.object.userData.action) return false;
+        let node = entry.object;
+        while (node) {
+          if (!node.visible) return false;
+          node = node.parent;
+        }
+        const materials = Array.isArray(entry.object.material) ? entry.object.material : [entry.object.material];
+        return materials.some((mat) => mat && (!mat.transparent || mat.opacity > 0.9));
+      });
+      if (blocker) return null;
+    }
+    return first?.object;
   }
 
   function activate(o) {
@@ -830,6 +943,7 @@ export function createCoastalHome(container, records, artifacts) {
     else if (a.type === "record" || a.type === "artifact") focusObject(o);
     else if (a.type === "spin") callbacks.toggleSpin?.();
     else if (a.type === "window") setRoom("outside");
+    else if (a.type === "wildlife") inspectNeighbour(a.id);
     else if (a.type === "source" && records[a.index].source) window.open(records[a.index].source, "_blank", "noopener,noreferrer");
   }
 
@@ -910,7 +1024,7 @@ export function createCoastalHome(container, records, artifacts) {
     canvas.tabIndex = 0;
     canvas.setAttribute(
       "aria-label",
-      "Sirui’s coastal home. Drag or use arrow keys to look around, plus and minus to zoom, D to discover a record, Escape to return inside."
+      "Sirui’s coastal home. Drag or use arrow keys to look around, plus and minus to zoom, N to visit a coastal neighbour, D to discover a record, Escape to return inside."
     );
     listen(canvas, "pointerdown", (e) => {
       if (e.button !== 0) return;
@@ -924,7 +1038,7 @@ export function createCoastalHome(container, records, artifacts) {
           return;
         }
       }
-      pointer = { id: e.pointerId, x: e.clientX, y: e.clientY, lastX: e.clientX, lastY: e.clientY, object: pick(e), moved: 0 };
+      pointer = { id: e.pointerId, x: e.clientX, y: e.clientY, lastX: e.clientX, lastY: e.clientY, object: pick(e, true), moved: 0 };
       canvas.setPointerCapture(e.pointerId);
       explore.explore();
       followClock = false;
@@ -994,13 +1108,15 @@ export function createCoastalHome(container, records, artifacts) {
         "=": () => (desiredRadius -= 0.5),
         "-": () => (desiredRadius += 0.5),
         Escape: () => setRoom("study"),
-        Enter: () => focused && activate(focused),
+        Enter: () => (animalFocus ? setRoom("outside") : focused && activate(focused)),
+        n: nextNeighbour,
         d: () => {
           if (dropped.length === records.length) records.forEach((_, i) => callbacks.dropRecord?.(i));
           else dropRecord(records.findIndex((_, i) => !dropped.includes(i)));
         },
       };
       keys.D = keys.d;
+      keys.N = keys.n;
       if (keys[e.key]) {
         e.preventDefault();
         explore.explore();
@@ -1065,7 +1181,7 @@ export function createCoastalHome(container, records, artifacts) {
   }
   function requestFrame() {
     if (config) {
-      const orbit = constrainOrbit({ yaw, pitch, radius: desiredRadius }, envelopeFor(config, currentRoom));
+      const orbit = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope());
       yaw = orbit.yaw;
       pitch = orbit.pitch;
       desiredRadius = orbit.radius;
@@ -1091,12 +1207,16 @@ export function createCoastalHome(container, records, artifacts) {
     // Pausing leaves a composed still instead of an unfinished camera journey.
     const cameraEase = reduced || paused ? 1 : 1 - Math.exp(-frameDelta * 9);
     const orbitEase = reduced || paused ? 1 : 1 - Math.exp(-frameDelta * 15);
+    if (animalFocus) {
+      const current = pacific.neighbour(animalFocus.id);
+      if (current) desiredTarget.fromArray(current.worldCenter);
+    }
     target.lerp(desiredTarget, cameraEase);
     radius = THREE.MathUtils.lerp(radius, desiredRadius, cameraEase);
     const yawDelta = Math.atan2(Math.sin(yaw - cameraYaw), Math.cos(yaw - cameraYaw));
     cameraYaw += yawDelta * orbitEase;
     cameraPitch = THREE.MathUtils.lerp(cameraPitch, pitch, orbitEase);
-    const safeOrbit = constrainOrbit({ yaw: cameraYaw, pitch: cameraPitch, radius }, envelopeFor(config, currentRoom));
+    const safeOrbit = constrainOrbit({ yaw: cameraYaw, pitch: cameraPitch, radius }, cameraEnvelope());
     cameraYaw = safeOrbit.yaw;
     cameraPitch = safeOrbit.pitch;
     radius = safeOrbit.radius;
@@ -1420,7 +1540,7 @@ export function createCoastalHome(container, records, artifacts) {
     backdropImages: 0,
     camera: camera.position.toArray(),
     cameraOrbit: { yaw: cameraYaw, pitch: cameraPitch, radius },
-    cameraEnvelope: config ? envelopeFor(config, currentRoom) : null,
+    cameraEnvelope: config ? cameraEnvelope() : null,
     target: target.toArray(),
     currentRecord,
     spinning,
@@ -1430,6 +1550,11 @@ export function createCoastalHome(container, records, artifacts) {
     vinylTransfer,
     dropped: [...dropped],
     focused: container.dataset.focusedDeskObject || null,
+    inspection: animalFocus ? { id: animalFocus.id, name: animalFocus.name, radius: animalFocus.radius } : null,
+    neighbours: (pacific?.neighbours() || []).map(({ id, name, worldCenter, radius }) => {
+      const projected = new THREE.Vector3(...worldCenter).project(camera);
+      return { id, name, worldCenter, radius, projected: { x: (projected.x + 1) / 2, y: (1 - projected.y) / 2, depth: projected.z } };
+    }),
     canvasWidth: renderer?.domElement.width,
     canvasHeight: renderer?.domElement.height,
     prop: selectedProp

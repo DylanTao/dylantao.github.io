@@ -691,6 +691,8 @@ test("coastal home: all five avatars retain one actor, shared wall art and album
     const info = await evidence(scene);
     expect(info.actorCount).toBe(1);
     expect(info.animations).toHaveLength(14);
+    expect(info.characterPerformance.eyelidMeshes).toBeGreaterThan(0);
+    expect(info.characterPerformance.blink).toEqual([0, 0]);
     expect(info.joints.FootR[1]).toBeGreaterThan(0.06);
     expect(info.joints.FootR[1]).toBeLessThan(0.16);
     await capture(testInfo, avatar, await canvas.screenshot());
@@ -747,6 +749,146 @@ test("coastal home: compiled avatar replacements release their bone textures", a
   fs.mkdirSync(path.dirname(report), { recursive: true });
   fs.writeFileSync(report, JSON.stringify({ samples, disposals }, null, 2));
   await testInfo.attach("compiled-avatar-resource-cycles", { path: report, contentType: "application/json" });
+  expect(errors).toEqual([]);
+});
+
+test("character performance: attention settles and eyelids respect pause and reduced motion", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-01T13:20:00-07:00" });
+  await explore(ui);
+  await ui.locator("[data-world-activity]").selectOption("work");
+  await ui.locator("[data-world-avatar]").selectOption("ghibli");
+  await expect(scene).toHaveAttribute("data-avatar", "ghibli");
+  await expect.poll(async () => (await evidence(scene)).characterPerformance?.eyelidMeshes).toBeGreaterThan(0);
+  await canvas.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1400);
+  const start = await evidence(scene);
+  const rect = await canvas.boundingBox();
+  await page.mouse.move(rect.x + rect.width * 0.76, rect.y + rect.height * 0.3);
+  await expect
+    .poll(async () => ["glance", "acknowledge"].includes((await evidence(scene)).characterPerformance?.phase), { intervals: [30] })
+    .toBe(true);
+  expect(Math.hypot(...(await evidence(scene)).camera.map((value, i) => value - start.camera[i]))).toBeLessThan(0.03);
+  await expect.poll(async () => (await evidence(scene)).characterPerformance?.phase).toBe("routine");
+  await expect.poll(async () => (await evidence(scene)).characterPerformance?.blinkCount, { timeout: 10000 }).toBeGreaterThan(0);
+
+  await ui.locator("[data-world-pause]").click();
+  await expect.poll(async () => (await evidence(scene)).characterPerformance?.phase).toBe("still");
+  const paused = await evidence(scene);
+  expect(paused.characterPerformance.blink).toEqual([0, 0]);
+  expect(paused.characterPerformance.head).toEqual([0, 0, 0]);
+  await page.clock.fastForward(30000);
+  expect((await evidence(scene)).characterPerformance.seconds).toBe(paused.characterPerformance.seconds);
+
+  await ui.locator("[data-world-pause]").click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await ui.locator("[data-world-activity]").selectOption("sleep");
+  await expect.poll(async () => (await evidence(scene)).characterPerformance?.blink).toEqual([1, 1]);
+  await ui.locator("[data-world-activity]").selectOption("work");
+  await expect.poll(async () => (await evidence(scene)).characterPerformance?.blink).toEqual([0, 0]);
+  const still = await evidence(scene);
+  expect(still.actorCount).toBe(1);
+  expect(still.characterPerformance.headOnly).toBe(true);
+  expect(still.animations).toHaveLength(14);
+  await capture(testInfo, "character-composed-return", await canvas.screenshot());
+  expect(errors).toEqual([]);
+});
+
+test("character performance: P acknowledges a visitor without changing the room or camera", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-01T13:20:00-07:00" });
+  await explore(ui);
+  await ui.locator("[data-world-activity]").selectOption("work");
+  await canvas.scrollIntoViewIfNeeded();
+  await expect.poll(async () => (await evidence(scene)).companion?.visible).toBe(true);
+  await expect.poll(async () => (await evidence(scene)).companion?.attention?.phase).toBe("task");
+  await page.waitForTimeout(1400);
+  const start = await evidence(scene);
+  const point = start.companion.projected;
+  await page.mouse.move(point.x, point.y);
+  await expect.poll(async () => (await evidence(scene)).companion?.attention?.greetings).toBeGreaterThan(start.companion.attention.greetings);
+  await expect.poll(async () => (await evidence(scene)).companion?.attention?.phase).toBe("listen");
+  const listen = await evidence(scene);
+  expect(listen.currentRoom).toBe(start.currentRoom);
+  expect(listen.currentRecord).toBe(start.currentRecord);
+  expect(Math.hypot(...listen.camera.map((value, i) => value - start.camera[i]))).toBeLessThan(0.03);
+  expect(listen.companion.eyes.every(Number.isFinite)).toBe(true);
+  await capture(testInfo, "P-listens-to-a-visitor", await canvas.screenshot());
+  await expect.poll(async () => (await evidence(scene)).companion?.attention?.phase).toBe("task");
+  const greetings = (await evidence(scene)).companion.attention.greetings;
+  await page.waitForTimeout(600);
+  expect((await evidence(scene)).companion.attention.greetings).toBe(greetings);
+  // Observe the streamed turntable during the active encounter, before the
+  // deliberate 30-second pause crosses the separate page-excursion schedule.
+  await expect.poll(async () => (await evidence(scene)).companion?.attention?.target).toBe("record");
+
+  await ui.locator("[data-world-pause]").click();
+  await expect.poll(async () => (await evidence(scene)).companion?.attention?.phase).toBe("still");
+  const paused = await evidence(scene);
+  await page.clock.fastForward(30000);
+  expect((await evidence(scene)).companion.activeSeconds).toBe(paused.companion.activeSeconds);
+  expect((await evidence(scene)).companion.position).toEqual(paused.companion.position);
+  expect(await page.locator(".pip-companion").evaluate((element) => element.getCompanionEvidence().visible)).toBe(false);
+  await page.locator('[data-home-desk-mode="2d"]').click();
+  await expect(page.locator(".pip-companion")).toHaveCount(1);
+  expect(errors).toEqual([]);
+});
+
+test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back inside preserve the room state", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, { time: "2026-10-01T13:20:00-07:00" });
+  await expect.poll(async () => (await evidence(scene)).ecology.wildlife.modelsReady, { timeout: 45000 }).toBe(true);
+  const initial = await evidence(scene);
+  await ui.locator("[data-world-view]").click();
+  await canvas.scrollIntoViewIfNeeded();
+  const coastline = await evidence(scene);
+  const wide = await canvas.screenshot();
+  await canvas.press("n");
+  await expect(scene).toHaveAttribute("data-coastal-neighbour", "rabbit-0");
+  await expect.poll(async () => (await evidence(scene)).neighbours.length).toBe(8);
+  await expect
+    .poll(async () => {
+      const view = await evidence(scene),
+        point = view.neighbours.find((item) => item.id === "rabbit-0").worldCenter;
+      return Math.hypot(...view.target.map((value, i) => value - point[i]));
+    })
+    .toBeLessThan(0.01);
+  await capture(testInfo, "rabbit-inspection", await canvas.screenshot());
+  for (let i = 0; i < 7 && (await evidence(scene)).inspection.id !== "seaLion-0"; i++) await canvas.press("n");
+  await expect(scene).toHaveAttribute("data-coastal-neighbour", "seaLion-0");
+  await expect(canvas).toHaveAttribute("aria-label", /California sea lion/);
+  await expect
+    .poll(async () => {
+      const view = await evidence(scene),
+        point = view.neighbours.find((item) => item.id === "seaLion-0").worldCenter;
+      return Math.hypot(...view.target.map((value, i) => value - point[i]));
+    })
+    .toBeLessThan(0.01);
+  const near = await evidence(scene);
+  expect(near.currentRoom).toBe("outside");
+  expect(near.activity).toBe(initial.activity);
+  expect(near.currentRecord).toBe(initial.currentRecord);
+  expect(near.cameraOrbit.radius).toBeLessThan(coastline.cameraOrbit.radius * 0.5);
+  expect(Math.hypot(...near.camera.map((value, i) => value - near.target[i]))).toBeLessThan(near.cameraOrbit.radius * 1.6);
+  const before = await canvas.screenshot();
+  expect(screenshotDiffRatio(wide, before)).toBeGreaterThan(0.05);
+  await capture(testInfo, "sea-lion-inspection", before);
+  await canvas.press("ArrowRight");
+  await canvas.press("+");
+  expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.015);
+  const after = await evidence(scene);
+  const point = after.neighbours.find((item) => item.id === "seaLion-0").projected;
+  const rect = await canvas.boundingBox();
+  if (testInfo.project.name === "mobile-390") await page.touchscreen.tap(rect.x + point.x * rect.width, rect.y + point.y * rect.height);
+  else await page.mouse.click(rect.x + point.x * rect.width, rect.y + point.y * rect.height);
+  await expect(scene).not.toHaveAttribute("data-coastal-neighbour", /.+/);
+  expect((await evidence(scene)).currentRoom).toBe("outside");
+  await canvas.press("n");
+  await ui.locator("[data-world-view]").click();
+  await expect(scene).toHaveAttribute("data-room", "study");
+  expect((await evidence(scene)).inspection).toBeNull();
+  expect((await evidence(scene)).currentRecord).toBe(initial.currentRecord);
+  await expect(canvas).toHaveAttribute("aria-label", /Sirui’s coastal home/);
   expect(errors).toEqual([]);
 });
 

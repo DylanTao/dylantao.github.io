@@ -63,9 +63,6 @@ export async function createWorldCompanion(scene, config, container, loader) {
     taskTarget = new THREE.Vector3(),
     toCamera = new THREE.Vector3();
   let record = null;
-  scene.traverse((o) => {
-    if (o.userData.action?.type === "spin") record = o;
-  });
   let room = null,
     route = null,
     routeStart = 0,
@@ -81,8 +78,21 @@ export async function createWorldCompanion(scene, config, container, loader) {
     wasWorld = false,
     heading = null,
     bank = 0,
+    needsMotorReset = true,
     taskObject = "Sirui";
   const perches = config.companion.perches;
+  function releaseOwnership() {
+    if (companion.owner === "world") return;
+    // The page can replace the shared gesture while this renderer is stopped.
+    // Interrupt only our director now; never reset a motor owned by the page.
+    performancePose = director.update(0, { still: true });
+    needsMotorReset = true;
+    wasWorld = false;
+    fade = 0;
+    group.visible = shadow.visible = false;
+  }
+  const ownerEvents = typeof window === "undefined" ? null : window;
+  ownerEvents?.addEventListener("pip:change", releaseOwnership);
   function startFlight(points) {
     route = createPipFlight(points);
     routeStart = now;
@@ -121,11 +131,22 @@ export async function createWorldCompanion(scene, config, container, loader) {
     group.visible = inWorld;
     shadow.visible = inWorld;
     if (!inWorld) {
-      fade = 0;
+      releaseOwnership();
       return;
+    }
+    if (needsMotorReset) {
+      // The world owns the motor again and starts from a quiet composed pose.
+      // The existing zero-scale arrival fade hides that change of embodiment.
+      companion.motion.update(0, { still: true, autonomous: false });
+      needsMotorReset = false;
     }
     const actualRoom = config.rooms.some((r) => r.id === id) ? id : room?.id || "study";
     if (!room || actualRoom !== room.id) roomGoal(actualRoom, paused);
+    // The occupied room streams after P. Resolve its turntable when it arrives.
+    if (!record && room.id === "study")
+      scene.traverse((o) => {
+        if (o.userData.action?.type === "spin") record = o;
+      });
     const rect = container.getBoundingClientRect(),
       pointer = companion.pointer;
     projected.copy(position);
@@ -196,7 +217,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
       flightPose = null;
       if (position.distanceTo(goal) > 0.02) startFlight([position.toArray(), goal.toArray()]);
     }
-    const bob = paused ? 0 : Math.sin(time * 2.05) * 0.012;
+    const bob = paused ? 0 : Math.sin(now * 2.05) * 0.012;
     group.position.copy(position);
     const hover = away ? 0.72 : config.companion.hover[room.id] || 0.72;
     hoverHeight = hoverHeight === null || paused ? hover : THREE.MathUtils.lerp(hoverHeight, hover, 1 - Math.exp(-dt * 3));
@@ -292,6 +313,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
       opticalCatchlights: catchlights.filter(Boolean).length,
     }),
     dispose() {
+      ownerEvents?.removeEventListener("pip:change", releaseOwnership);
       group.removeFromParent();
       shadow.removeFromParent();
       geometries.forEach((g) => g.dispose());

@@ -1,0 +1,242 @@
+[
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperL",
+    "bodyYaw": -0.045,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.017466869903728366,
+    "minRootSignedDistance": -0.0839938297867775,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperR",
+    "bodyYaw": -0.045,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.007848784094676375,
+    "minRootSignedDistance": -0.07622352056205273,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperL",
+    "bodyYaw": -0.045,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.01698272069916129,
+    "minRootSignedDistance": -0.08354989252984524,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperR",
+    "bodyYaw": -0.045,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.007325269747525454,
+    "minRootSignedDistance": -0.07579675037413836,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperL",
+    "bodyYaw": 0,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.012875665910542011,
+    "minRootSignedDistance": -0.08055927511304617,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperR",
+    "bodyYaw": 0,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.012743469094857574,
+    "minRootSignedDistance": -0.08004339970648289,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperL",
+    "bodyYaw": 0,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.012380865402519703,
+    "minRootSignedDistance": -0.08013645466417074,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperR",
+    "bodyYaw": 0,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.012261987198144197,
+    "minRootSignedDistance": -0.07963013835251331,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperL",
+    "bodyYaw": 0.045,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.008471581852063537,
+    "minRootSignedDistance": -0.07690276857465506,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperR",
+    "bodyYaw": 0.045,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.01662796549499035,
+    "minRootSignedDistance": -0.08343743067234755,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperL",
+    "bodyYaw": 0.045,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.00796058017294854,
+    "minRootSignedDistance": -0.07646983582526445,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "CaliforniaSeaLion",
+    "flipper": "FrontFlipperR",
+    "bodyYaw": 0.045,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.016154924174770713,
+    "minRootSignedDistance": -0.08300355728715658,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperL.001",
+    "bodyYaw": -0.045,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.040787286299746484,
+    "minRootSignedDistance": -0.0887514395872131,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperR.001",
+    "bodyYaw": -0.045,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.0296157548436895,
+    "minRootSignedDistance": -0.07980176282580942,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperL.001",
+    "bodyYaw": -0.045,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.04041903658071533,
+    "minRootSignedDistance": -0.08841005084104836,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperR.001",
+    "bodyYaw": -0.045,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.02924026781693101,
+    "minRootSignedDistance": -0.07942494913004339,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperL.001",
+    "bodyYaw": 0,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.03562396700726822,
+    "minRootSignedDistance": -0.08423187839798629,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperR.001",
+    "bodyYaw": 0,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.03558967832941562,
+    "minRootSignedDistance": -0.08419370360206813,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperL.001",
+    "bodyYaw": 0,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.03523585229413584,
+    "minRootSignedDistance": -0.0838728288654238,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperR.001",
+    "bodyYaw": 0,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.03519954060902819,
+    "minRootSignedDistance": -0.08383449050597847,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperL.001",
+    "bodyYaw": 0.045,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.029728336725383997,
+    "minRootSignedDistance": -0.07986053638160229,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperR.001",
+    "bodyYaw": 0.045,
+    "breath": -0.0028,
+    "maxRootSignedDistance": -0.040750445681624115,
+    "minRootSignedDistance": -0.08863570867106318,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperL.001",
+    "bodyYaw": 0.045,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.029349616612307727,
+    "minRootSignedDistance": -0.07948422140907496,
+    "insideVertices": 16,
+    "samples": 16
+  },
+  {
+    "species": "HarborSeal",
+    "flipper": "FrontFlipperR.001",
+    "bodyYaw": 0.045,
+    "breath": 0.0028,
+    "maxRootSignedDistance": -0.04038181452779099,
+    "minRootSignedDistance": -0.08829390117898583,
+    "insideVertices": 16,
+    "samples": 16
+  }
+]

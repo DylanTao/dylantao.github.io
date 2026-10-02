@@ -1,0 +1,154 @@
+{
+  "method": "Serial headless Chromium with ANGLE D3D11 on Windows, native randomness/performance clock/RAF, Date-only override at 13:20 Pacific, 2-second warmup and 4-second live sample per view. No CPU/network throttling. Phone is 390px touch/viewport emulation on the same GPU, not a physical-phone benchmark. Only development livereload is blocked; product assets are unchanged. Background authoring may affect these local observations.",
+  "limits": "These are separate bounded local observations, not a controlled speed comparison; baseline authoring and capture activity differed. Phone measurements emulate the viewport and touch on the same Windows GPU.",
+  "captures": {
+    "before": "2026-10-02T07:01:32.288Z",
+    "after": "2026-10-02T08:43:06.375Z"
+  },
+  "views": [
+    {
+      "width": 1440,
+      "room": "study",
+      "before": {
+        "sceneFps": 61.1,
+        "timing": {
+          "samples": 120,
+          "medianFrameMs": 16.69999999999709,
+          "p95FrameMs": 16.700000000000728,
+          "medianSubmitMs": 8.799999952316284
+        },
+        "drawCalls": 518,
+        "triangles": 2129014,
+        "resources": {
+          "geometries": 192,
+          "textures": 18
+        },
+        "errors": []
+      },
+      "after": {
+        "sceneFps": 60.6,
+        "timing": {
+          "samples": 120,
+          "medianFrameMs": 16.700000000000728,
+          "p95FrameMs": 16.700000000000728,
+          "medianSubmitMs": 6
+        },
+        "drawCalls": 522,
+        "triangles": 2136492,
+        "resources": {
+          "geometries": 194,
+          "textures": 19
+        },
+        "errors": []
+      }
+    },
+    {
+      "width": 1440,
+      "room": "outside",
+      "before": {
+        "sceneFps": 42.5,
+        "timing": {
+          "samples": 120,
+          "medianFrameMs": 16.80000000000291,
+          "p95FrameMs": 33.400000000001455,
+          "medianSubmitMs": 21.600000023841858
+        },
+        "drawCalls": 1528,
+        "triangles": 2837256,
+        "resources": {
+          "geometries": 252,
+          "textures": 19
+        },
+        "errors": []
+      },
+      "after": {
+        "sceneFps": 60.7,
+        "timing": {
+          "samples": 120,
+          "medianFrameMs": 16.700000000000728,
+          "p95FrameMs": 16.799999999999272,
+          "medianSubmitMs": 10.100000023841858
+        },
+        "drawCalls": 1216,
+        "triangles": 2667860,
+        "resources": {
+          "geometries": 219,
+          "textures": 20
+        },
+        "errors": []
+      }
+    },
+    {
+      "width": 390,
+      "room": "study",
+      "before": {
+        "sceneFps": 61.1,
+        "timing": {
+          "samples": 120,
+          "medianFrameMs": 16.69999999999891,
+          "p95FrameMs": 16.700000000000728,
+          "medianSubmitMs": 8
+        },
+        "drawCalls": 513,
+        "triangles": 2125174,
+        "resources": {
+          "geometries": 192,
+          "textures": 18
+        },
+        "errors": []
+      },
+      "after": {
+        "sceneFps": 60.4,
+        "timing": {
+          "samples": 120,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999272,
+          "medianSubmitMs": 4.5
+        },
+        "drawCalls": 520,
+        "triangles": 2133156,
+        "resources": {
+          "geometries": 194,
+          "textures": 19
+        },
+        "errors": []
+      }
+    },
+    {
+      "width": 390,
+      "room": "outside",
+      "before": {
+        "sceneFps": 50.1,
+        "timing": {
+          "samples": 120,
+          "medianFrameMs": 16.69999999999891,
+          "p95FrameMs": 33.399999999999636,
+          "medianSubmitMs": 16.700000047683716
+        },
+        "drawCalls": 1521,
+        "triangles": 2836368,
+        "resources": {
+          "geometries": 252,
+          "textures": 19
+        },
+        "errors": []
+      },
+      "after": {
+        "sceneFps": 60.5,
+        "timing": {
+          "samples": 120,
+          "medianFrameMs": 16.69999999999891,
+          "p95FrameMs": 16.700000000000728,
+          "medianSubmitMs": 9.899999976158142
+        },
+        "drawCalls": 1208,
+        "triangles": 2666804,
+        "resources": {
+          "geometries": 219,
+          "textures": 20
+        },
+        "errors": []
+      }
+    }
+  ]
+}

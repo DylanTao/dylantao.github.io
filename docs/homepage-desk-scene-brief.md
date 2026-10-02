@@ -151,6 +151,12 @@ The September 14 follow-up replaces repeated stop/start travel with an arc-lengt
 
 ## Acceptance Checklist
 
+The October 2 character checkpoint adds independent native eyelids to all five Sirui models, short eyes-first pointer attention, and a quiet return to the routine. Sleeping closes the lids; pause, reduced motion and hidden views compose a still pose. The additive layer affects the head and eye joints only, with at most 0.65 mm of Head-joint breathing translation and a small pitch; it preserves the fitted hands, feet and fourteen activity clips.
+
+P's room performance now notices, greets once, listens and returns to an authored task. A repeat greeting requires absence plus cooldown. Eyes, neck, shell and antennae have different response rates. Flights anticipate departure, round authored circulation corners, ease through distance and settle at safe perches. Its active clock also owns the hover shadow across page/world handoff. The turntable task is discovered after room streaming. [Disney's gaze research](https://la.disneyresearch.com/wp-content/uploads/root.pdf) informs these original authored principles; listening is a visual pose without audio understanding.
+
+Brush rabbits, California sea lions and harbor seals have continuous bodies and articulated acting pivots. Rabbit travel holds during takeoff and landing, with tuck and clearance in flight; marine flipper roots overlap the torso through sampled acting extremes. Marine coat marks use vertex colors. All eight instances have cached inspection bounds. Click an animal outside to visit it; N cycles the coastal neighbours, Enter restores the coastline and Escape returns inside. Drag, zoom and terrain clearance remain available in the close view. The animals stay in their actual habitats. The public control row remains minimal and Realistic is the only treatment. [Character acceptance and render evidence](evidence/character-performance-2026-10-02/README.md) records measured costs, actual images and limits.
+
 Keep original and comparable new captures, including live cinematic states. Inspect the images directly. Confirm a nonblank WebGL canvas and actual changed pixels after drag/zoom; source attributes are supporting evidence, not a substitute. Verify one active avatar, sane contact points, room connectivity, deterministic previews, failure recovery, and repeated avatar/mode switches. Run formatting, style contract, Python tests, production build, and override audit. Report measured limitations honestly.
 
 ## Future Model Handoff Prompt

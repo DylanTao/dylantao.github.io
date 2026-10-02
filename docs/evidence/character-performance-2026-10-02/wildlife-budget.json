@@ -1,0 +1,44 @@
+[
+  {
+    "mode": "before",
+    "animal": "BrushRabbit",
+    "bytes": 70608,
+    "primitives": 18,
+    "triangles": 11232
+  },
+  {
+    "mode": "before",
+    "animal": "CaliforniaSeaLion",
+    "bytes": 59004,
+    "primitives": 15,
+    "triangles": 9360
+  },
+  {
+    "mode": "before",
+    "animal": "HarborSeal",
+    "bytes": 181544,
+    "primitives": 47,
+    "triangles": 29328
+  },
+  {
+    "mode": "after",
+    "animal": "BrushRabbit",
+    "bytes": 83108,
+    "primitives": 22,
+    "triangles": 15374
+  },
+  {
+    "mode": "after",
+    "animal": "CaliforniaSeaLion",
+    "bytes": 53172,
+    "primitives": 12,
+    "triangles": 7800
+  },
+  {
+    "mode": "after",
+    "animal": "HarborSeal",
+    "bytes": 49368,
+    "primitives": 12,
+    "triangles": 8624
+  }
+]

@@ -1,0 +1,60 @@
+{
+  "source": "C:\\Users\\dylan\\.codex\\worktrees\\site-review-september\\dylantao.github.io\\artwork\\coastal-home\\coastal-home.blend",
+  "sourceSha256": "a14543ba1a4e5bf08c94abe7c49bbe458c482c46d64259ebe8a344e3d8fb5cf5",
+  "meshes": [
+    "coast_shared_golden coastal sandstone",
+    "core_liftaway_cave_ceiling",
+    "core__golden coastal sandstone",
+    "coast_shared_dry beach sand",
+    "coast_shared_tide pool sea glass"
+  ],
+  "vertices": 86451,
+  "gridSize": [57, 32],
+  "meanSeaLevel": -7.35,
+  "changedSamples": 608,
+  "onlyElevationsChanged": true,
+  "nonElevationSha256Before": "11202c4a8aef8209a2a354afbfee22efd6570703cca44832a800ac2df7a383df",
+  "nonElevationSha256After": "11202c4a8aef8209a2a354afbfee22efd6570703cca44832a800ac2df7a383df",
+  "directRays": [
+    {
+      "x": -10,
+      "threeZ": -14.596,
+      "height": -6.6132659912109375
+    },
+    {
+      "x": -10,
+      "threeZ": -14,
+      "height": -6.665752410888672
+    },
+    {
+      "x": -10,
+      "threeZ": -16,
+      "height": -7.325801849365234
+    },
+    {
+      "x": -8,
+      "threeZ": -14,
+      "height": -6.719215393066406
+    },
+    {
+      "x": -10,
+      "threeZ": 5,
+      "height": 10.29841423034668
+    },
+    {
+      "x": 25,
+      "threeZ": 5,
+      "height": 13.674930572509766
+    },
+    {
+      "x": 0,
+      "threeZ": 0,
+      "height": 7.100589752197266
+    },
+    {
+      "x": 0,
+      "threeZ": -27,
+      "height": -7.35
+    }
+  ]
+}
