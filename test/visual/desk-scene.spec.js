@@ -446,6 +446,118 @@ async function settle(page) {
   await page.waitForTimeout(200);
 }
 
+// Project a clear front-side patch of the native onsen into its actual camera.
+// It excludes the bather, moving vapor and room foliage from the pixel proof.
+function onsenRegion(buffer, info) {
+  const source = PNG.sync.read(buffer),
+    sub = (a, b) => a.map((v, i) => v - b[i]),
+    dot = (a, b) => a.reduce((sum, v, i) => sum + v * b[i], 0),
+    cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]],
+    unit = (v) => v.map((a) => a / Math.hypot(...v)),
+    forward = unit(sub(info.target, info.camera)),
+    right = unit(cross(forward, [0, 1, 0])),
+    up = cross(right, forward),
+    pool = info.simulation.onsen,
+    offset = sub([pool.center[0] + 0.3, pool.surfaceY, pool.center[1] + 0.35], info.camera),
+    scale = Math.tan((info.cameraFov * Math.PI) / 360) * dot(offset, forward),
+    x = Math.round(source.width * (0.5 + dot(offset, right) / scale / (source.width / source.height) / 2)),
+    y = Math.round(source.height * (0.5 - dot(offset, up) / scale / 2)),
+    width = Math.max(12, Math.floor(source.width * 0.09)),
+    height = Math.max(10, Math.floor(source.height * 0.05)),
+    crop = new PNG({ width, height });
+  for (let row = 0; row < height; row++) {
+    const start = ((y - Math.floor(height / 2) + row) * source.width + x - Math.floor(width / 2)) * 4;
+    source.data.copy(crop.data, row * width * 4, start, start + width * 4);
+  }
+  return PNG.sync.write(crop);
+}
+
+test("coastal transport: native skin, rooted wind and conserved onsen waves survive pause and recovery", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T13:20:00-07:00" });
+  await settleRoomModels(scene);
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 1000);
+  await explore(ui);
+  await ui.locator("[data-world-pause]").click();
+  await ui.locator("[data-world-avatar]").selectOption("ghibli");
+  await expect(scene).toHaveAttribute("data-avatar", "ghibli");
+  await ui.locator("[data-world-activity]").selectOption("soak");
+  await ui.locator("[data-world-lab]>summary").click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(100);
+  const still = await evidence(scene);
+  expect(still.projection).toBe("perspective");
+  expect(still.simulation.skin.incompatibleMaterials).toBe(0);
+  expect(still.simulation.skin.compiledMaterials).toBeGreaterThanOrEqual(2);
+  expect(still.simulation.skin.extraPasses).toBe(0);
+  expect(still.simulation.onsen.obstacle).not.toBeNull();
+  expect(still.simulation.onsen.optics.opaqueShadow).toBe(false);
+  expect(still.simulation.onsen.optics.normalDepthOccluder).toBe(false);
+  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.enabled, 0)).toBe(110);
+  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.disabled, 0)).toBe(22);
+  const before = await canvas.screenshot();
+  await explore(ui);
+  await ui.locator("[data-world-pause]").click();
+  await ui.locator("[data-world-lab]>summary").click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(3300);
+  const moving = await evidence(scene),
+    after = await canvas.screenshot();
+  expect(moving.simulation.onsen.energy).toBeGreaterThan(1e-7);
+  expect(Math.abs(moving.simulation.onsen.relativeMassError)).toBeLessThan(1e-10);
+  expect(moving.simulation.onsen.boundarySpeed).toBe(0);
+  expect(moving.simulation.onsen.finite).toBe(true);
+  expect(moving.simulation.onsen.maximumDepth - moving.simulation.onsen.minimumDepth).toBeGreaterThan(0.0001);
+  const waterDiff = screenshotDiffRatio(onsenRegion(before, still), onsenRegion(after, moving));
+  expect(waterDiff).toBeGreaterThan(0.0001);
+  await capture(testInfo, "simulated-onsen-water-patch", onsenRegion(after, moving));
+  await capture(testInfo, "simulated-onsen", after);
+  await explore(ui);
+  await ui.locator("[data-world-pause]").click();
+  await ui.locator("[data-world-lab]>summary").click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(100);
+  const paused = await evidence(scene);
+  await page.clock.runFor(2000);
+  const frozen = await evidence(scene);
+  expect(frozen.simulation.onsen).toEqual(paused.simulation.onsen);
+  expect(frozen.simulation.wind.seconds).toBe(paused.simulation.wind.seconds);
+  expect(frozen.ecology.particleMotion).toEqual(paused.ecology.particleMotion);
+  await explore(ui);
+  await ui.locator("[data-world-pause]").click();
+  await ui.locator("[data-world-lab]>summary").click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(200);
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await page.clock.runFor(100);
+  await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
+  const hidden = await evidence(scene);
+  await page.clock.runFor(5000);
+  expect((await evidence(scene)).simulation.onsen.simulationTime).toBe(hidden.simulation.onsen.simulationTime);
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(100);
+  const recovered = await evidence(scene);
+  expect(recovered.simulation.onsen.simulationTime - hidden.simulation.onsen.simulationTime).toBeLessThan(0.2);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.runFor(100);
+  const reduced = await evidence(scene);
+  expect(reduced.simulation.wind.enabled).toBe(false);
+  await page.clock.runFor(1000);
+  expect((await evidence(scene)).simulation.onsen).toEqual(reduced.simulation.onsen);
+  await explore(ui);
+  await ui.locator("[data-world-activity]").selectOption("reading");
+  await page.clock.runFor(100);
+  const departed = await evidence(scene);
+  expect(departed.simulation.skin.activeMaterials).toBeLessThan(reduced.simulation.skin.activeMaterials);
+  expect(departed.simulation.onsen.obstacle).toBeNull();
+  expect(Math.abs(departed.simulation.onsen.relativeMassError)).toBeLessThan(1e-10);
+  expect(errors).toEqual([]);
+  fs.writeFileSync(
+    testInfo.outputPath("coastal-transport-evidence.json"),
+    JSON.stringify({ still, moving, paused, hidden, recovered, reduced, departed, waterDiff }, null, 2)
+  );
+});
+
 test("coastal physics: dispersive water changes visible pixels, shares La Jolla light, and suspends cleanly", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });

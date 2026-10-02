@@ -17,6 +17,9 @@ import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
 import { bindContactLighting, withoutContactLighting } from "./contact-occlusion.mjs";
 import { createCharacterPerformance } from "./character-performance.mjs";
 import { createOcclusionRegion } from "./occlusion-region.mjs";
+import { createSkinDiffusion } from "./skin-diffusion.mjs";
+import { createOnsenWater } from "./onsen-water.mjs";
+import { createCoastalWind } from "./coastal-wind.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -53,6 +56,9 @@ export function createCoastalHome(container, records, artifacts) {
     aspect = 1,
     pacific,
     finish,
+    skinDiffusion,
+    onsenWater,
+    coastalWind,
     daylight;
   const target = new THREE.Vector3(0, 0.7, 0),
     desiredTarget = target.clone();
@@ -115,6 +121,8 @@ export function createCoastalHome(container, records, artifacts) {
     tonearm,
     water,
     portraitMaterial;
+  let poolOccupied = false,
+    nextPoolStroke = 0;
   const touches = new Map();
   let pinch;
   const rooms = new Map(),
@@ -362,6 +370,14 @@ export function createCoastalHome(container, records, artifacts) {
       if (o.userData.renderStyle) o.visible = o.userData.renderStyle === style;
     });
     art.apply(root, style);
+    coastalWind?.bind(root);
+    root.traverse((o) => {
+      if (!o.isMesh || o.userData.outline) return;
+      for (const m of [o.material].flat()) {
+        const handle = skinDiffusion?.bind(m, m.name === "Sirui shirt" ? { surface: true, enabled: false } : {});
+        if (handle) m.userData.skinDiffusion = handle;
+      }
+    });
     return root;
   }
 
@@ -383,7 +399,21 @@ export function createCoastalHome(container, records, artifacts) {
         root.traverse((o) => {
           if (o.isMesh && o.name.startsWith("onsen_water")) {
             water = o;
-            water.userData.restY = water.position.y;
+            water.updateWorldMatrix(true, false);
+            const bounds = new THREE.Box3().setFromObject(water),
+              center = bounds.getCenter(new THREE.Vector3()),
+              size = bounds.getSize(new THREE.Vector3());
+            onsenWater = createOnsenWater({ center: [center.x, center.z], surfaceY: bounds.max.y, radius: Math.min(size.x, size.z) / 2 });
+            const geometry = onsenWater.surfaceGeometry().applyMatrix4(water.matrixWorld.clone().invert());
+            water.geometry.dispose();
+            water.geometry = geometry;
+            water.geometry.boundingSphere.radius += 0.035;
+            for (const m of [water.material].flat()) onsenWater.bindMaterial(m, water);
+            // A transmissive interface must not cast an opaque shadow across
+            // the bath floor or become an opaque normal-depth AO occluder.
+            // Refractive caustics and transmitted shadow transport are omitted.
+            water.castShadow = false;
+            water.userData.noContactOcclusion = true;
           }
         });
         requestFrame();
@@ -613,6 +643,7 @@ export function createCoastalHome(container, records, artifacts) {
         if (m.name !== "Sirui shirt") return;
         m.color.copy(routine?.id === "soak" ? skin.color : base.find((b) => b.name === "Sirui shirt").color);
         if (m.isMeshStandardMaterial) m.roughness = routine?.id === "soak" ? 0.48 : 0.9;
+        m.userData.skinDiffusion?.setEnabled(routine?.id === "soak");
       });
     });
   }
@@ -1263,6 +1294,7 @@ export function createCoastalHome(container, records, artifacts) {
     const moving = !reduced && !paused;
     if (moving) elapsed += delta;
     physicalTime.value = elapsed;
+    coastalWind?.update(elapsed, { reduced });
     // Camera settling follows elapsed time, including on software renderers.
     // Pausing leaves a composed still instead of an unfinished camera journey.
     const cameraEase = reduced || paused ? 1 : 1 - Math.exp(-frameDelta * 9);
@@ -1417,8 +1449,24 @@ export function createCoastalHome(container, records, artifacts) {
         tonearm.position.y = tonearm.userData.restY + (pose.lift - 0.1) * 0.06;
       }
     }
-    if (water && moving) water.position.y = water.userData.restY + Math.sin(elapsed * 0.7) * 0.006;
-    if (moving) pacific?.update(elapsed);
+    if (onsenWater) {
+      const occupied = routine?.id === "soak" && !travel;
+      // Explicit arrivals may compose a still frame; unchanged paused/hiding
+      // frames never advance the solver or add another impulse.
+      if (occupied !== poolOccupied) {
+        onsenWater.setBather(occupied ? { x: actor.position.x, z: actor.position.z, radius: 0.17 } : null);
+        poolOccupied = occupied;
+        nextPoolStroke = elapsed + 3;
+      }
+      if (moving) {
+        if (occupied && elapsed >= nextPoolStroke) {
+          onsenWater.disturb({ x: actor.position.x + 0.25, z: actor.position.z - 0.06, amplitude: 0.003, spread: 0.12 });
+          nextPoolStroke = elapsed + 3;
+        }
+        onsenWater.advance(delta);
+      }
+    }
+    if (moving) pacific?.update(elapsed, delta);
     companion.paused = paused;
     worldCompanion?.update(Math.min(delta, 0.25), elapsed, camera, currentRoom, moving);
     orientProp();
@@ -1466,6 +1514,8 @@ export function createCoastalHome(container, records, artifacts) {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.info.autoReset = false;
       finish = createFinish(renderer, scene, perspective, { profileGPU: labEnabled });
+      skinDiffusion = createSkinDiffusion();
+      coastalWind = createCoastalWind();
       art.setContactLighting(finish.contactLighting);
       container.append(renderer.domElement);
       const shell = await loadModel(new URL(config.shell, manifestUrl).href);
@@ -1610,6 +1660,25 @@ export function createCoastalHome(container, records, artifacts) {
     companion: worldCompanion?.evidence(),
     ecology: pacific?.evidence(),
     rendering: finish?.evidence,
+    simulation: {
+      skin: skinDiffusion?.evidence,
+      onsen: onsenWater
+        ? {
+            ...onsenWater.evidence(),
+            optics: {
+              ior: water.material.ior,
+              transmission: water.material.transmission,
+              thicknessMeters: water.material.thickness,
+              attenuationDistanceMeters: water.material.attenuationDistance,
+              method: "Three r164 screen-space refracted background / Beer-Lambert attenuation",
+              extraBackgroundPass: true,
+              opaqueShadow: water.castShadow,
+              normalDepthOccluder: !water.userData.noContactOcclusion,
+            },
+          }
+        : null,
+      wind: coastalWind?.evidence(),
+    },
     backdropImages: 0,
     camera: camera.position.toArray(),
     cameraOrbit: { yaw: cameraYaw, pitch: cameraPitch, radius },
@@ -1744,6 +1813,9 @@ export function createCoastalHome(container, records, artifacts) {
       modelRequests.forEach((request) => request.abort());
       mixer?.stopAllAction();
       characterPerformance?.dispose();
+      onsenWater?.dispose();
+      skinDiffusion?.dispose();
+      coastalWind?.dispose();
       [...world.children].forEach(release);
       resources.forEach((r) => r.dispose());
       art.dispose();

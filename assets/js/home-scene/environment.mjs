@@ -3,8 +3,9 @@ import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.
 import { surfaceNoise } from "./realism.mjs";
 import { createSeaReflection } from "./reflection.mjs";
 import { createWildlife } from "./wildlife.mjs";
-import { beachPoint, beachWidth } from "./shore.mjs";
+import { beachPoint } from "./shore.mjs";
 import { OCEAN_WAVES, oceanFieldGLSL, sampleOcean } from "./ocean-spectrum.mjs";
+import { createWindParticles } from "./wind-particles.mjs";
 
 // Geometry, light, and a procedural sky. No photograph or illustration is
 // placed behind the home. Blender supplies the connected coastal headlands.
@@ -125,36 +126,50 @@ export function createPacific(scene, renderer, config) {
   ocean.userData.noContactOcclusion = true;
   root.add(ocean);
   const reflection = createSeaReflection(renderer, scene, ocean, physicalWater);
-  const steamGeometry = new THREE.BufferGeometry();
-  steamGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(
-      Array.from({ length: 18 }, (_, i) => {
-        const angle = i * 2.399,
-          radius = 0.63 + (i % 3) * 0.055;
-        return [Math.cos(angle) * radius, (i * 0.173) % 1, Math.sin(angle) * radius];
-      }).flat(),
-      3
-    )
+  const particleSystems = [];
+  function particles(kind, emitters, bounds, warmSeconds, size, maxSize, glow, color, falloff) {
+    const started = performance.now(),
+      population = createWindParticles({ kind, emitters: new Float32Array(emitters), bounds, timeOffset: -warmSeconds }),
+      geometry = new THREE.BufferGeometry();
+    // Deterministic active-time prewarm supplies a mature still composition,
+    // including reduced motion. The history ends at scene time zero.
+    for (let i = 0; i < Math.round(warmSeconds * 60); i++) population.advance(1 / 60);
+    geometry.setAttribute("position", new THREE.BufferAttribute(population.positions, 3).setUsage(THREE.DynamicDrawUsage));
+    geometry.setAttribute("particleOpacity", new THREE.BufferAttribute(population.opacity, 1).setUsage(THREE.DynamicDrawUsage));
+    const material = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      vertexShader: `attribute float particleOpacity; varying float alpha;
+        void main(){ vec4 eye=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*eye;
+        gl_PointSize=clamp(${size.toFixed(1)}/-eye.z,1.,${maxSize.toFixed(1)});alpha=particleOpacity*${glow.toFixed(3)}; }`,
+      fragmentShader: `varying float alpha;void main(){vec2 p=gl_PointCoord-.5;
+        gl_FragColor=vec4(vec3(${color.join(",")}),exp(-dot(p,p)*${falloff.toFixed(1)})*alpha);}`,
+    });
+    const object = new THREE.Points(geometry, material);
+    // Bounds are fixed emitter volumes; their particles cannot leave them.
+    const box = new THREE.Box3(new THREE.Vector3(...bounds.min), new THREE.Vector3(...bounds.max));
+    geometry.boundingSphere = box.getBoundingSphere(new THREE.Sphere());
+    root.add(object);
+    particleSystems.push({ population, geometry, material, prewarmMilliseconds: performance.now() - started });
+    return object;
+  }
+  const steam = particles(
+    "steam",
+    Array.from({ length: 18 }, (_, i) => {
+      const angle = i * 2.399,
+        radius = 0.63 + (i % 3) * 0.055;
+      return [3.17 + Math.cos(angle) * radius, 3.03, 3.18 + Math.sin(angle) * radius];
+    }).flat(),
+    { min: [2.3, 3.02, 2.31], max: [4.03, 3.97, 4.05] },
+    9,
+    145,
+    55,
+    0.045,
+    [0.78, 0.85, 0.83],
+    17
   );
-  const steamMaterial = new THREE.ShaderMaterial({
-    transparent: true,
-    depthWrite: false,
-    uniforms: { steamTime: time },
-    vertexShader: `uniform float steamTime; varying float veil;
-      void main(){ float rise=fract(position.y+steamTime*.085); vec3 p=position;
-        p.y=rise*.75; p.x+=sin(rise*5.0+position.z*3.0)*.06;
-        vec4 eye=modelViewMatrix*vec4(p,1.0); gl_Position=projectionMatrix*eye;
-        gl_PointSize=clamp(145.0/-eye.z,2.0,55.0); veil=sin(rise*3.14159)*.045; }`,
-    fragmentShader: `varying float veil;
-      void main(){ float falloff=exp(-dot(gl_PointCoord-.5,gl_PointCoord-.5)*17.0);
-        gl_FragColor=vec4(.78,.85,.83,falloff*veil); }`,
-  });
-  const steam = new THREE.Points(steamGeometry, steamMaterial);
   steam.name = "Warm onsen vapor";
-  steam.position.set(3.17, 3.03, 3.18);
   steam.visible = false;
-  root.add(steam);
 
   // Advected surf droplets and sunlit dust: bounded particle lifetimes, not
   // an image overlay. The same clock pauses with the inhabited world.
@@ -162,48 +177,22 @@ export function createPacific(scene, renderer, config) {
   for (let i = 0; i < 140; i++) {
     const x = -22 + ((i * 3.719) % 67),
       p = beachPoint(x, 0.47, beach);
-    mistPositions.push(x, p[2], (i * 0.618) % 1, beachWidth(x, beach));
+    mistPositions.push(x, -7.3, p[2] - 1.4);
   }
-  const sprayGeometry = new THREE.BufferGeometry();
-  sprayGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(
-      mistPositions.flatMap((_, i, a) => (i % 4 === 0 ? [a[i], a[i + 1], a[i + 2]] : [])),
-      3
-    )
-  );
-  const sprayMaterial = new THREE.ShaderMaterial({
-    transparent: true,
-    depthWrite: false,
-    uniforms: { age: time },
-    vertexShader: `uniform float age;varying float alpha;
-    void main(){float life=fract(position.z+age*.09);vec3 p=vec3(position.x+sin(life*5.+position.x)*.35,-7.30+sin(life*3.14159)*.23,position.y-1.4+life*2.2);
-    vec4 v=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*v;gl_PointSize=clamp(36./-v.z,1.,7.);alpha=sin(life*3.14159)*.17;}`,
-    fragmentShader: "varying float alpha;void main(){vec2 p=gl_PointCoord-.5;gl_FragColor=vec4(.86,.91,.85,exp(-dot(p,p)*15.)*alpha);}",
-  });
-  const spray = new THREE.Points(sprayGeometry, sprayMaterial);
+  const spray = particles("spray", mistPositions, { min: [-23, -7.34, -100], max: [46, -6.8, 20] }, 1, 36, 7, 0.17, [0.86, 0.91, 0.85], 15);
   spray.name = "Breaking-wave spray";
-  root.add(spray);
-  const dustGeometry = new THREE.BufferGeometry();
-  dustGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(
-      Array.from({ length: 42 }, (_, i) => [-1.2 + ((i * 0.719) % 2.4), 3 + ((i * 0.31) % 2.2), 2.4 + ((i * 0.437) % 2)]).flat(),
-      3
-    )
+  const dust = particles(
+    "dust",
+    Array.from({ length: 42 }, (_, i) => [-1.2 + ((i * 0.719) % 2.4), 3 + ((i * 0.31) % 2.2), 2.4 + ((i * 0.437) % 2)]).flat(),
+    { min: [-1.45, 2.85, 2.25], max: [1.45, 5.35, 4.55] },
+    18,
+    6,
+    3,
+    0.25,
+    [1.0, 0.86, 0.62],
+    20
   );
-  const dustMaterial = new THREE.ShaderMaterial({
-    transparent: true,
-    depthWrite: false,
-    uniforms: { age: time, glow: { value: 0.25 } },
-    vertexShader: `uniform float age,glow;varying float alpha;void main(){vec3 p=position;
-    p.y+=sin(age*.23+p.x*2.)*.06;p.x+=sin(age*.17+p.z)*.04;p.z+=cos(age*.21+p.y)*.035;
-    vec4 v=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*v;gl_PointSize=clamp(6./-v.z,1.,3.);alpha=(.5+.5*sin(age*.5+p.x*7.))*glow;}`,
-    fragmentShader: "varying float alpha;void main(){gl_FragColor=vec4(1.,.86,.62,exp(-dot(gl_PointCoord-.5,gl_PointCoord-.5)*20.)*alpha);}",
-  });
-  const dust = new THREE.Points(dustGeometry, dustMaterial);
   dust.name = "Dust in the study light";
-  root.add(dust);
 
   // The modeled sky also supplies a physically useful environment reflection.
   const skyMaterial = new THREE.ShaderMaterial({
@@ -311,8 +300,14 @@ export function createPacific(scene, renderer, config) {
     // The first palette update builds the sky environment for the actual hour.
     // Building a default environment here compiled and captured the sky twice.
   }
-  function update(elapsed) {
+  function update(elapsed, delta = 0) {
     time.value = elapsed;
+    for (const { population, geometry } of particleSystems) {
+      if (population.advance(delta, { fieldTime: elapsed })) {
+        geometry.getAttribute("position").needsUpdate = true;
+        geometry.getAttribute("particleOpacity").needsUpdate = true;
+      }
+    }
     caps.position.x = Math.sin(elapsed * 0.18) * 0.16;
     wildlife.update(elapsed, palette);
   }
@@ -325,9 +320,7 @@ export function createPacific(scene, renderer, config) {
     });
     [physicalWater, modelWater, printWater, skyMaterial, capMaterial, printSun.material].forEach((m) => m.dispose());
     environment?.dispose();
-    steamMaterial.dispose();
-    sprayMaterial.dispose();
-    dustMaterial.dispose();
+    particleSystems.forEach(({ material }) => material.dispose());
     root.removeFromParent();
   }
   setStyle(style);
@@ -343,6 +336,7 @@ export function createPacific(scene, renderer, config) {
       wildlife: wildlife.evidence(),
       beachWidth: beach.width,
       particles: 140 + 42 + 18,
+      particleMotion: particleSystems.map(({ population, prewarmMilliseconds }) => ({ ...population.evidence(), prewarmMilliseconds })),
       water: {
         waves: OCEAN_WAVES.length,
         vertices: waterPositions.count,

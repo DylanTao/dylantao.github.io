@@ -162,6 +162,10 @@ Gull soles fit bounded retained-source perch triangles matching native export te
 
 Keep original and comparable new captures, including live cinematic states. Inspect the images directly. Confirm a nonblank WebGL canvas and actual changed pixels after drag/zoom; source attributes are supporting evidence, not a substitute. Verify one active avatar, sane contact points, room connectivity, deterministic previews, failure recovery, and repeated avatar/mode switches. Run formatting, style contract, Python tests, production build, and override audit. Report measured limitations honestly.
 
+## October 2 light and fluid transport
+
+The realistic room now uses local normalized skin diffusion, a conservative closed-basin height field, and one curl-potential wind field for rooted plants and advected particles. Public controls remain unchanged. The Pacific retains its authored spectrum. See [the implementation checkpoint](coastal-transport-checkpoint.md) for primary sources, numerical and native rendering evidence, cost, and omitted transport. Preserve paused/offscreen/reduced-motion state; authored pool forcing is not sensed hand contact. These bounded browser adaptations are not a claim of film-quality rendering or current SOTA.
+
 ## Future Model Handoff Prompt
 
 Improve Sirui's inhabited coastal home from the current Blender source and extracted runtime. Read the active brief, asset provenance, and latest implementation evidence first. Preserve the five adult male identities, shared album state, authored Pacific routine, and Now/Explore camera boundary. Inspect a comparable rendered state before editing. Improve one visible problem, rebuild the relevant assets, then test contact, camera, fallback, and performance. Historical single-room experiments are reference material, not current constraints.

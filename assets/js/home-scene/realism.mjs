@@ -31,7 +31,17 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
   const name = source.name;
   const m =
     /water|turquoise/i.test(name) && !mesh.isSkinnedMesh
-      ? new THREE.MeshPhysicalMaterial({ name, color: source.color, roughness: 0.12, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.1 })
+      ? new THREE.MeshPhysicalMaterial({
+          name,
+          color: 0xffffff,
+          roughness: 0.065,
+          metalness: 0,
+          ior: 1.333,
+          transmission: 0.86,
+          thickness: 0.24,
+          attenuationColor: new THREE.Color(0x93c8c1),
+          attenuationDistance: 1.5,
+        })
       : source.clone();
   if (mesh.isSkinnedMesh) {
     m.roughness = /hair/i.test(name) ? 0.7 : /skin/i.test(name) ? 0.68 : 0.9;
@@ -42,27 +52,6 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     m.side = THREE.DoubleSide;
     m.roughness = 0.56;
     m.envMapIntensity = 0.6;
-    m.onBeforeCompile = (shader) => {
-      shader.uniforms.leafTime = physicalTime;
-      shader.vertexShader = "uniform float leafTime;\n" + shader.vertexShader;
-      shader.vertexShader = shader.vertexShader.replace(
-        "#include <begin_vertex>",
-        `
-        vec3 transformed=position;
-        float phase=position.x*.7+position.z*.9+leafTime*.65;
-        transformed.x+=sin(phase)*.008+sin(phase*2.3)*.003;
-        transformed.z+=cos(phase*.83)*.006;
-      `
-      );
-      shader.fragmentShader = shader.fragmentShader.replace(
-        "#include <opaque_fragment>",
-        `
-        outgoingLight+=diffuseColor.rgb*vec3(.16,.23,.065)*pow(max(0.,-dot(normal,normalize(vec3(-.4,.8,.3)))),2.);
-        #include <opaque_fragment>
-      `
-      );
-    };
-    m.customProgramCacheKey = () => "coastal-botanical-v1";
     return bindContactLighting(m, contactLighting);
   }
   const wood = /wood|oak|ash|walnut/i.test(name);
@@ -70,27 +59,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
   const rock = /sandstone|sediment|limestone|stone|sand|plaster/i.test(name);
   const water = /water|turquoise/i.test(name);
   if (water) {
-    m.color.multiplyScalar(0.56);
     m.envMapIntensity = 1.2;
-    m.onBeforeCompile = (shader) => {
-      shader.uniforms.waterTime = physicalTime;
-      shader.vertexShader = "varying vec3 poolPoint;\n" + shader.vertexShader;
-      shader.vertexShader = shader.vertexShader.replace(
-        "#include <project_vertex>",
-        "#include <project_vertex>\npoolPoint = (modelMatrix * vec4(transformed,1.0)).xyz;"
-      );
-      shader.fragmentShader = `uniform float waterTime; varying vec3 poolPoint;\n${surfaceNoise}\n` + shader.fragmentShader;
-      shader.fragmentShader = shader.fragmentShader.replace(
-        "#include <normal_fragment_maps>",
-        `
-        #include <normal_fragment_maps>
-        vec2 ripple = poolPoint.xz * 15.0;
-        float a = sin(ripple.x + ripple.y*.71 + waterTime*.65);
-        float b = cos(ripple.y*.93-ripple.x*.6-waterTime*.4);
-        normal = normalize(mat3(viewMatrix)*vec3(a*.075,1.0,b*.075));
-      `
-      );
-    };
     return bindContactLighting(m, contactLighting);
   }
   m.roughness = wood ? 0.48 : cloth ? 0.96 : rock ? 0.89 : m.roughness;
