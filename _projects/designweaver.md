@@ -202,9 +202,11 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
 <div class="row justify-content-sm-center">
     <div class="col-sm-8 mt-3 mt-md-0">
         {% include figure.liquid path="assets/img/project_pics/designweaver/finding_survey_average_ratings_comparison.jpg" width="1993" height="653" title="finding_survey_average_ratings_comparison" alt="Bar chart comparing average survey ratings between DesignWeaver and baseline conditions" class="img-fluid rounded z-depth-1" %}
+        <a class="research-lens__open" href="{{ '/assets/img/project_pics/designweaver/finding_survey_average_ratings_comparison.jpg' | relative_url }}">Open original survey chart ↗</a>
     </div>
     <div class="col-sm-4 mt-3 mt-md-0">
         {% include figure.liquid path="assets/img/project_pics/designweaver/finding_image_similarity_scores_distribution.jpg" width="989" height="590" title="finding_image_similarity_scores_distribution" alt="Distribution plot comparing image similarity scores for generated chair concepts" class="img-fluid rounded z-depth-1" %}
+        <a class="research-lens__open" href="{{ '/assets/img/project_pics/designweaver/finding_image_similarity_scores_distribution.jpg' | relative_url }}">Open original similarity plot ↗</a>
     </div>
 </div>
 <div class="caption">
@@ -214,6 +216,7 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/finding_novelty_gallery_.jpg" width="6019" height="6243" title="finding_novelty_gallery_" alt="Gallery comparing the novelty and diversity of chair concepts created with DesignWeaver and baseline workflows" class="img-fluid rounded z-depth-1" %}
+        <a class="research-lens__open" href="{{ '/assets/img/project_pics/designweaver/finding_novelty_gallery_.jpg' | relative_url }}">Open original chair gallery ↗</a>
     </div>
 </div>
 <div class="caption">
