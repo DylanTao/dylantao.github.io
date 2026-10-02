@@ -1,6 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { beachPoint, habitatPoint } from "./shore.mjs";
 import { createModelLoader } from "./model-loader.mjs";
+import { rabbitActing, pinnipedActing } from "./wildlife-motion.mjs";
 
 export function createWildlife(parent, config) {
   const beach = config.beach,
@@ -54,6 +55,73 @@ export function createWildlife(parent, config) {
     lastTime = 0,
     lastPalette = "afternoon";
   const loadedResources = new Set();
+  const inspectable = [];
+  const bounds = new THREE.Box3();
+  function animalTarget(group, id, name) {
+    group.traverse((object) => {
+      if (object.isMesh) object.userData.action = { type: "wildlife", id, name };
+    });
+    group.updateWorldMatrix(true, true);
+    const inverse = group.matrixWorld.clone().invert(),
+      localBounds = new THREE.Box3();
+    group.traverse((object) => {
+      if (!object.isMesh) return;
+      if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
+      const localMatrix = new THREE.Matrix4().multiplyMatrices(inverse, object.matrixWorld);
+      localBounds.union(bounds.copy(object.geometry.boundingBox).applyMatrix4(localMatrix));
+    });
+    const sphere = localBounds.getBoundingSphere(new THREE.Sphere());
+    // Conservative acting clearance is cached once, not all eight subtrees on
+    // every focus-camera frame. Root motion and the selected head stay live.
+    inspectable.push({ group, id, name, center: sphere.center.clone(), radius: sphere.radius + 0.13, head: group.getObjectByName("Head") });
+  }
+  function describeTarget({ group, id, name, center, radius, head }) {
+    group.updateWorldMatrix(true, false);
+    const worldCenter = center.clone().applyMatrix4(group.matrixWorld),
+      headPoint = new THREE.Vector3(),
+      origin = new THREE.Vector3();
+    if (head) head.getWorldPosition(headPoint);
+    group.getWorldPosition(origin);
+    const front = head
+      ? headPoint.clone().sub(origin).setY(0).normalize()
+      : new THREE.Vector3(Math.sin(group.rotation.y), 0, Math.cos(group.rotation.y));
+    return {
+      id,
+      name,
+      root: group,
+      worldCenter: worldCenter.toArray(),
+      radius: radius * group.matrixWorld.getMaxScaleOnAxis(),
+      headAnchor: head ? headPoint.toArray() : null,
+      front: front.toArray(),
+    };
+  }
+  function actingParts(model) {
+    const parts = {};
+    for (const name of [
+      "Head",
+      "BodyPose",
+      "EarL",
+      "EarR",
+      "EyeL",
+      "EyeR",
+      "ForelegL",
+      "ForelegR",
+      "HindlegL",
+      "HindlegR",
+      "FrontPawL",
+      "FrontPawR",
+      "HindPawL",
+      "HindPawR",
+      "FrontFlipperL",
+      "FrontFlipperR",
+      "RearFlipperL",
+      "RearFlipperR",
+    ]) {
+      const object = model.getObjectByName(name);
+      if (object) parts[name] = { object, position: object.position.clone(), rotation: object.rotation.clone() };
+    }
+    return parts;
+  }
   function retain(master) {
     master.scene.traverse((o) => {
       if (o.geometry) loadedResources.add(o.geometry);
@@ -66,19 +134,26 @@ export function createWildlife(parent, config) {
   const loadMaster = (name) =>
     loader.loadAsync(new URL(`../../models/home/${name}.glb`, import.meta.url).href).then((master) => {
       retain(master);
-      if (disposed) loadedResources.forEach((r) => r.dispose());
+      if (disposed) {
+        loadedResources.forEach((r) => r.dispose());
+        loadedResources.clear();
+      }
       return master;
     });
   Promise.all([loadMaster("BrushRabbit"), loadMaster("CaliforniaSeaLion"), loadMaster("HarborSeal")])
     .then(([rabbitMaster, lionMaster, sealMaster]) => {
       if (disposed) return;
-      for (const rabbit of rabbits) {
+      for (const [i, rabbit] of rabbits.entries()) {
         rabbit.group.clear();
         const model = rabbitMaster.scene.clone(true);
-        model.rotation.y = Math.PI;
+        // Blender -Y becomes GLB +Z. A former half-turn made rabbits face
+        // backwards while traversing their +Z-forward authored hop heading.
+        model.rotation.y = 0;
         rabbit.group.add(model);
         rabbit.head = model.getObjectByName("Head");
         rabbit.ears = [];
+        rabbit.parts = actingParts(model);
+        animalTarget(rabbit.group, `rabbit-${i}`, "Brush rabbit");
       }
       for (const [master, key] of [
         [lionMaster, "seaLion"],
@@ -90,7 +165,8 @@ export function createWildlife(parent, config) {
           model.position.fromArray(p);
           model.rotation.y = 0.4 + i * 1.8;
           root.add(model);
-          marine.push({ model, head: model.getObjectByName("Head"), point: p, key, phase: i * 6 });
+          marine.push({ model, head: model.getObjectByName("Head"), parts: actingParts(model), point: p, key, index: i });
+          animalTarget(model, `${key}-${i}`, key === "seaLion" ? "California sea lion" : "Harbor seal");
         });
       }
       root.traverse((o) => {
@@ -150,23 +226,54 @@ export function createWildlife(parent, config) {
     lastTime = t;
     lastPalette = palette;
     for (const r of rabbits) {
-      const cycle = (t + r.seed * 7) % 34,
-        lap = Math.floor((t + r.seed * 7) / 34);
-      const moving = cycle < 6,
-        u = moving ? cycle / 6 : 1;
-      const hop = moving ? Math.abs(Math.sin(cycle * Math.PI * 2)) * 0.11 : 0;
-      const p = habitatPoint(habitats[r.seed === 1 ? "rabbitWest" : "rabbitEast"].path, (lap + u) * 0.22 + r.seed * 0.2);
-      r.group.position.set(p[0], p[1] + hop, p[2]);
-      r.group.userData.state = moving ? "hop" : cycle < 13 ? "look" : cycle < 18 ? "groom" : "rest";
-      if (moving) {
-        const next = habitatPoint(habitats[r.seed === 1 ? "rabbitWest" : "rabbitEast"].path, (lap + u) * 0.22 + r.seed * 0.2 + 0.001);
-        r.group.rotation.y = Math.atan2(next[0] - p[0], next[2] - p[2]);
-      }
+      const pose = rabbitActing(t, r.seed),
+        path = habitats[r.seed === 1 ? "rabbitWest" : "rabbitEast"].path;
+      const p = habitatPoint(path, pose.progress),
+        previous = habitatPoint(path, pose.progress - 0.012),
+        next = habitatPoint(path, pose.progress + 0.012);
+      r.group.position.set(p[0], p[1] + pose.lift, p[2]);
+      r.group.userData.state = pose.state;
+      r.group.rotation.order = "YXZ";
+      r.group.rotation.y = Math.atan2(next[0] - previous[0], next[2] - previous[2]);
+      r.group.rotation.x = -Math.atan2(next[1] - previous[1], Math.hypot(next[0] - previous[0], next[2] - previous[2]));
+      r.pose = pose;
       if (r.head) {
-        r.head.rotation.x = cycle > 13 && cycle < 18 ? -0.2 + Math.sin(t * 3) * 0.08 : 0;
-        r.head.rotation.y = cycle > 6 && cycle < 13 ? Math.sin(t * 0.6) * 0.3 : 0;
+        r.head.rotation.x = pose.headPitch;
+        r.head.rotation.y = pose.headYaw;
       }
-      r.ears.forEach((e, i) => (e.rotation.z = (i ? 1 : -1) * (0.12 + Math.sin(t * 0.7 + r.seed) * 0.08)));
+      if (r.parts) {
+        const body = r.parts.BodyPose;
+        if (body) {
+          body.object.scale.y = 1 - pose.compression * 0.075;
+          body.object.rotation.x = pose.bodyPitch;
+        }
+        for (const [name, amount] of [
+          ["EarL", pose.earLeft],
+          ["EarR", pose.earRight],
+        ]) {
+          const part = r.parts[name];
+          if (part) part.object.rotation.z = part.rotation.z + amount;
+        }
+        for (const label of ["L", "R"]) {
+          for (const [name, angle] of [
+            [`Foreleg${label}`, -pose.tuck * 0.62],
+            [`Hindleg${label}`, pose.tuck * 0.45],
+          ]) {
+            const part = r.parts[name];
+            if (part) part.object.rotation.x = part.rotation.x + angle;
+          }
+          for (const [name, lift, angle] of [
+            [`FrontPaw${label}`, 0.058, -0.7],
+            [`HindPaw${label}`, 0.037, 0.42],
+          ]) {
+            const part = r.parts[name];
+            if (part) {
+              part.object.position.y = part.position.y + pose.tuck * lift;
+              part.object.rotation.x = part.rotation.x + pose.tuck * angle;
+            }
+          }
+        }
+      } else r.ears.forEach((ear, i) => (ear.rotation.z = (i ? 1 : -1) * 0.12 + (i ? pose.earRight : pose.earLeft)));
     }
     const rc = t % 48,
       walking = rc < (palette === "evening" ? 18 : 5);
@@ -180,13 +287,20 @@ export function createWildlife(parent, config) {
     }
     tail.rotation.y = Math.sin(t * 0.6) * 0.1;
     marine.forEach((a) => {
-      const cycle = (t + a.phase) % 45;
+      const pose = pinnipedActing(t, a.index, a.key === "seaLion");
       a.model.position.fromArray(a.point);
-      a.model.userData.state = cycle < 25 ? "rest" : cycle < 36 ? "look" : "groom";
+      a.model.userData.state = pose.state;
       if (a.head) {
-        a.head.rotation.x = cycle > 36 ? Math.sin(t * 0.9) * 0.1 : 0;
-        a.head.rotation.y = cycle > 25 && cycle < 36 ? Math.sin(t * 0.36) * 0.28 : 0;
+        a.head.rotation.x = pose.headPitch;
+        a.head.rotation.y = pose.headYaw;
       }
+      if (a.parts.BodyPose) {
+        a.parts.BodyPose.object.scale.y = 1 + pose.breath;
+        a.parts.BodyPose.object.rotation.y = pose.neckFollow;
+      }
+      for (const name of ["EyeL", "EyeR"]) if (a.parts[name]) a.parts[name].object.scale.y = 1 - pose.blink * 0.9;
+      for (const name of ["FrontFlipperL", "FrontFlipperR"])
+        if (a.parts[name]) a.parts[name].object.rotation.x = a.parts[name].rotation.x + pose.flipper;
     });
     gulls.forEach((b, i) => {
       const a = t * (0.06 + i * 0.008) + i * 1.5;
@@ -225,6 +339,21 @@ export function createWildlife(parent, config) {
   update(0);
   return {
     update,
+    targets: () => inspectable.map(describeTarget),
+    target(id) {
+      const record = inspectable.find((item) => item.id === id);
+      return record ? describeTarget(record) : null;
+    },
+    pick(raycaster) {
+      return (
+        raycaster
+          .intersectObjects(
+            inspectable.map(({ group }) => group),
+            true
+          )
+          .find((hit) => hit.object.visible && hit.object.userData.action?.type === "wildlife") || null
+      );
+    },
     evidence: () => ({
       rabbits: rabbits.length,
       raccoons: 1,
@@ -234,14 +363,24 @@ export function createWildlife(parent, config) {
       seaLions: marine.filter((a) => a.key === "seaLion").length,
       harborSeals: marine.filter((a) => a.key === "seal").length,
       contacts: marine.map((a) => ({ habitat: a.key, position: a.model.position.toArray(), state: a.model.userData.state })),
-      rabbitHabitats: rabbits.map((r) => ({ position: r.group.position.toArray(), state: r.group.userData.state })),
+      rabbitHabitats: rabbits.map((r) => ({
+        position: r.group.position.toArray(),
+        state: r.group.userData.state,
+        airborne: r.pose.airborne,
+        contact: r.pose.contact,
+        lift: r.pose.lift,
+        progress: r.pose.progress,
+      })),
     }),
     dispose() {
+      if (disposed) return;
       disposed = true;
       sphere.dispose();
       wingGeo.dispose();
       Object.values(materials).forEach((m) => m.dispose());
       loadedResources.forEach((r) => r.dispose());
+      loadedResources.clear();
+      inspectable.length = 0;
       root.removeFromParent();
     },
   };
