@@ -951,6 +951,8 @@
     let activeCard = null;
     let recordIndex = 0;
     let imageTicket = 0;
+    let pendingRecordAdvance = 0;
+    let recordIntentRevision = 0;
     let isPreviewing = false;
     let isRecordEngaged = false;
     let isSpinning = false;
@@ -971,6 +973,12 @@
     const compactPileQuery = window.matchMedia("(max-width: 767px)");
 
     const getCurrentRecord = () => records[Math.max(0, recordIndex)] || records[0];
+
+    const cancelPendingRecordAdvance = () => {
+      recordIntentRevision += 1;
+      if (pendingRecordAdvance) window.clearTimeout(pendingRecordAdvance);
+      pendingRecordAdvance = 0;
+    };
 
     const syncDroppedRecordsToDesk = (options = {}) => {
       deskScene.setDroppedRecords(droppedRecordOrder, options);
@@ -1009,6 +1017,7 @@
 
     const replayAllDroppedRecordCards = (options = {}) => {
       if (!pile || droppedRecords.size < records.length) return false;
+      cancelPendingRecordAdvance();
       clearDroppedRecordCards();
       pile.hidden = false;
 
@@ -1043,6 +1052,7 @@
         if (lockedUntil && Date.now() < lockedUntil) return;
       }
       if (userInitiated) {
+        cancelPendingRecordAdvance();
         try {
           sessionStorage.setItem("sirui-scene-mode", mode);
         } catch {
@@ -1072,11 +1082,6 @@
       deskScene.setVisible(is3D);
       recordScene.setVisible(!is3D && (isRecordEngaged || isSpinning));
       if (is3D) syncDroppedRecordsToDesk({ immediate: true });
-      if (is3D && userInitiated && stage && compactPileQuery.matches) {
-        window.requestAnimationFrame(() => {
-          stage.scrollIntoView({ block: "center", inline: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
-        });
-      }
     };
 
     const syncPileState = () => {
@@ -1215,6 +1220,7 @@
     };
 
     const startRecord = async () => {
+      cancelPendingRecordAdvance();
       isRecordEngaged = true;
       isSpinning = true;
       updateSpinState();
@@ -1222,6 +1228,7 @@
     };
 
     const pauseRecord = () => {
+      cancelPendingRecordAdvance();
       isRecordEngaged = true;
       isSpinning = false;
       updateSpinState();
@@ -1229,6 +1236,7 @@
     };
 
     const resetRecord = () => {
+      cancelPendingRecordAdvance();
       isRecordEngaged = false;
       isSpinning = false;
       shakeCount = 0;
@@ -1380,6 +1388,7 @@
     };
 
     const openRecordCard = (card) => {
+      cancelPendingRecordAdvance();
       if (activeCard && activeCard !== card) closeActiveCard();
       activeCard = card;
       card.classList.add("is-open");
@@ -1490,8 +1499,6 @@
       window.setTimeout(() => portrait.classList.remove("is-record-card-found"), 520);
     };
 
-    let pendingRecordAdvance = 0;
-
     const dropRecordCard = async (options = {}) => {
       const hasExplicitIndex = Number.isInteger(options.index);
       let targetIndex = hasExplicitIndex ? ((options.index % records.length) + records.length) % records.length : recordIndex;
@@ -1499,10 +1506,14 @@
       // record it just dropped moves on to the next unfound record instead of
       // reporting the current one as already found.
       if (!hasExplicitIndex && pendingRecordAdvance && droppedRecords.has(targetIndex)) {
-        window.clearTimeout(pendingRecordAdvance);
-        pendingRecordAdvance = 0;
+        cancelPendingRecordAdvance();
         targetIndex = getNextUndroppedRecordIndex(targetIndex);
       }
+      // Image decoding may finish after a visitor plays, skips or changes mode.
+      // That discovery still earns its card, but cannot replace their selection.
+      const intentRevision = recordIntentRevision;
+      const canAutoAdvance = () =>
+        intentRevision === recordIntentRevision && recordIndex === targetIndex && !isRecordEngaged && !isSpinning && stage?.dataset.deskMode === "2d";
       const record = records[targetIndex] || getCurrentRecord();
       const showVinyl = isRecordEngaged || isSpinning;
       if (options.reveal !== false) {
@@ -1531,14 +1542,14 @@
         window.setTimeout(clearDropState, 1080);
       }
 
-      if (options.autoAdvance !== false && options.reveal !== false && !isRecordEngaged && !isSpinning) {
+      if (options.autoAdvance !== false && options.reveal !== false && canAutoAdvance()) {
         const nextIndex = getNextUndroppedRecordIndex(targetIndex);
         if (nextIndex !== targetIndex) {
           if (pendingRecordAdvance) window.clearTimeout(pendingRecordAdvance);
           pendingRecordAdvance = window.setTimeout(
             () => {
               pendingRecordAdvance = 0;
-              showRecord(nextIndex, { vinyl: false });
+              if (canAutoAdvance()) showRecord(nextIndex, { vinyl: false });
             },
             reduceMotion ? 0 : 460
           );
@@ -1547,6 +1558,7 @@
     };
 
     const advanceRecord = async (direction = 1) => {
+      cancelPendingRecordAdvance();
       const nextIndex = recordIndex + direction;
       await showRecord(nextIndex);
     };
@@ -1569,11 +1581,13 @@
 
     deskScene.setCallbacks({
       selectRecord(index) {
+        cancelPendingRecordAdvance();
         isRecordEngaged = true;
         showRecord(index, { vinyl: true });
         syncRecordVisualState();
       },
       playRecord(index) {
+        cancelPendingRecordAdvance();
         selectRecord(index);
         isRecordEngaged = true;
         isSpinning = true;
@@ -1688,6 +1702,22 @@
       deskScene.dispose();
     });
     setDeskMode(initialDeskMode);
+    // Keep a canceled mode press from becoming an outside-player dismissal.
+    // A subsequent pointer gesture always starts with its own origin.
+    document.addEventListener(
+      "pointerdown",
+      () => {
+        deskModePointerTarget = null;
+      },
+      true
+    );
+    document.addEventListener(
+      "pointercancel",
+      () => {
+        deskModePointerTarget = null;
+      },
+      true
+    );
     deskModeButtons.forEach((button) => {
       button.addEventListener(
         "pointerdown",
@@ -1811,11 +1841,14 @@
     });
 
     document.addEventListener("click", (event) => {
-      const clickedInsidePortrait = portrait.contains(event.target);
+      const clickedInsidePlayer = recordPlayer.contains(event.target);
+      const clickedInsideModeControl =
+        deskModeButtons.some((button) => button.contains(event.target)) || (event.detail > 0 && Boolean(deskModePointerTarget));
       const clickedInsidePile = Boolean(pile && pile.contains(event.target));
+      deskModePointerTarget = null;
 
       if (activeCard && !clickedInsidePile) closeActiveCard();
-      if (!isSpinning && isRecordEngaged && !clickedInsidePortrait && !clickedInsidePile) resetRecord();
+      if (!isSpinning && isRecordEngaged && !clickedInsidePlayer && !clickedInsideModeControl && !clickedInsidePile) resetRecord();
     });
 
     document.addEventListener("keydown", (event) => {
@@ -1835,6 +1868,7 @@
     bindRecordNav(nextButton, 1);
 
     window.addEventListener("pagehide", (event) => {
+      cancelPendingRecordAdvance();
       if (event.persisted) {
         recordScene.setVisible(false);
         return;

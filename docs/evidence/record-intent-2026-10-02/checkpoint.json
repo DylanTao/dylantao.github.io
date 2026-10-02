@@ -1,0 +1,310 @@
+{
+  "baseline_commit": "5c171c4c0",
+  "original_defect_cases_failed": 5,
+  "final_interactions": {
+    "engines": ["Chromium desktop", "WebKit iPhone emulation"],
+    "output": ".jekyll-cache/visual-qa/record-intent-final",
+    "passed": 22
+  },
+  "homepage_checkpoint": {
+    "viewports": ["1440x1000", "1280x800", "768x1024", "390x1000"],
+    "output": ".jekyll-cache/visual-qa/checkpoint",
+    "passed": 4,
+    "themes": ["light", "dark"]
+  },
+  "record_mechanics": {
+    "skip_reason": "Touch-only transport case intentionally skips desktop",
+    "skipped": 1,
+    "output": ".jekyll-cache/visual-qa/record-mechanics-final",
+    "passed": 9
+  },
+  "production_build": {
+    "elapsed_seconds": 61.923,
+    "passed": true,
+    "baseurl": "/al-folio"
+  },
+  "python_tests_passed": 166,
+  "style_contract_passed": true,
+  "existing_overrides": 80,
+  "hashes": {
+    "source_sha256": "299d1e0459bbc7e2b3d4651ff8fe292e152b3005a4450d2514bc299635b5823a",
+    "expected_minified_sha256": "ecc77aa5e17ab6f94a58049c586747a78c927e6e84236178d31dee61656a65b3",
+    "served_sha256": "ecc77aa5e17ab6f94a58049c586747a78c927e6e84236178d31dee61656a65b3",
+    "production_sha256": "ecc77aa5e17ab6f94a58049c586747a78c927e6e84236178d31dee61656a65b3",
+    "served_matches_source": true,
+    "production_matches_source": true,
+    "prefixed_production_script": true
+  },
+  "native_observations": [
+    {
+      "case": "interactions-home-record-i-0e02d--cannot-override-skip-twice-desktop",
+      "evidence": {
+        "action": "skip twice",
+        "selected": "Blowin' in the Wind",
+        "observed": "Blowin' in the Wind",
+        "record": {
+          "angle": 5.774253756116564,
+          "playing": false,
+          "running": false,
+          "inViewport": true,
+          "loaded": true,
+          "fallback": false,
+          "mechanicsLoaded": true,
+          "mechanics": {
+            "angle": 5.774253756116564,
+            "velocity": 2.7026852338888023,
+            "rpm": 25.808742875692694,
+            "yaw": 1.3100781482057303e-15,
+            "lift": 0.21518528179638274,
+            "yawVelocity": 1.706847919529355e-15,
+            "liftVelocity": 2.3589581750764577,
+            "phase": "lifting",
+            "playing": false,
+            "energy": 0.013148113452265027
+          },
+          "artwork": "http://127.0.0.1:8080/assets/img/sirui_pic_ghbili.png",
+          "cuePending": false,
+          "recordTransfer": {
+            "angle": 5.774253756116564,
+            "velocity": 2.7026852338888023,
+            "rpm": 25.808742875692694,
+            "yaw": 1.3100781482057303e-15,
+            "lift": 0.21518528179638274,
+            "yawVelocity": 1.706847919529355e-15,
+            "liftVelocity": 2.3589581750764577,
+            "phase": "lifting",
+            "playing": false,
+            "energy": 0.013148113452265027
+          },
+          "drawCalls": 33
+        }
+      }
+    },
+    {
+      "case": "interactions-home-record-i-0e02d--cannot-override-skip-twice-mobile",
+      "evidence": {
+        "action": "skip twice",
+        "selected": "Blowin' in the Wind",
+        "observed": "Blowin' in the Wind",
+        "record": {
+          "angle": 1.8303802756008043,
+          "playing": false,
+          "running": false,
+          "inViewport": true,
+          "loaded": true,
+          "fallback": false,
+          "mechanicsLoaded": true,
+          "mechanics": {
+            "angle": 8.11356558278039,
+            "velocity": 0.9543346055580358,
+            "rpm": 9.113224190292936,
+            "yaw": 0.010024062412001267,
+            "lift": 0.45711879961202606,
+            "yawVelocity": 1.1065915747208,
+            "liftVelocity": 0.045291856922276524,
+            "phase": "swinging",
+            "playing": false,
+            "energy": 0.0016393581708581014
+          },
+          "artwork": "http://127.0.0.1:8080/assets/img/sirui_pic_ghbili.png",
+          "cuePending": false,
+          "recordTransfer": {
+            "angle": 8.11356558278039,
+            "velocity": 0.9543346055580358,
+            "rpm": 9.113224190292936,
+            "yaw": 0.010024062412001267,
+            "lift": 0.45711879961202606,
+            "yawVelocity": 1.1065915747208,
+            "liftVelocity": 0.045291856922276524,
+            "phase": "swinging",
+            "playing": false,
+            "energy": 0.0016393581708581014
+          },
+          "drawCalls": 33
+        }
+      }
+    },
+    {
+      "case": "interactions-home-record-i-6b51a-covery-cannot-override-play-desktop",
+      "evidence": {
+        "action": "play",
+        "selected": "Yellow Submarine",
+        "observed": "Yellow Submarine",
+        "record": {
+          "angle": 2.4441934005411152,
+          "playing": true,
+          "running": true,
+          "inViewport": true,
+          "loaded": true,
+          "fallback": false,
+          "mechanicsLoaded": true,
+          "mechanics": {
+            "angle": 8.727378707720701,
+            "velocity": 3.349316287452141,
+            "rpm": 31.983614587572223,
+            "yaw": 2.4481296195027684e-19,
+            "lift": 0.1003764429905553,
+            "yawVelocity": -4.066328935672048e-18,
+            "liftVelocity": -0.004752187336362481,
+            "phase": "lowering",
+            "playing": true,
+            "energy": 0.02019225526810595
+          },
+          "artwork": "http://127.0.0.1:8080/assets/img/sirui_pic_south_park.png",
+          "cuePending": false,
+          "recordTransfer": {
+            "angle": 5.566492572373559,
+            "velocity": 2.9300842032721235,
+            "rpm": 27.98024307757418,
+            "yaw": 2.934539631969745e-15,
+            "lift": 0.15634018097975477,
+            "yawVelocity": -1.1465983411558498e-14,
+            "liftVelocity": 2.254433291597001,
+            "phase": "lifting",
+            "playing": true,
+            "energy": 0.0154537081888767
+          },
+          "drawCalls": 33
+        }
+      }
+    },
+    {
+      "case": "interactions-home-record-i-6b51a-covery-cannot-override-play-mobile",
+      "evidence": {
+        "action": "play",
+        "selected": "Yellow Submarine",
+        "observed": "Yellow Submarine",
+        "record": {
+          "angle": 5.608804431082152,
+          "playing": true,
+          "running": true,
+          "inViewport": true,
+          "loaded": true,
+          "fallback": false,
+          "mechanicsLoaded": true,
+          "mechanics": {
+            "angle": 11.891989738261739,
+            "velocity": 3.0043758802084657,
+            "rpm": 28.68967633447448,
+            "yaw": 2.7418120163440393e-28,
+            "lift": 0.1000397911055254,
+            "yawVelocity": -4.629228142928331e-27,
+            "liftVelocity": -0.0005129950043024968,
+            "phase": "tracking",
+            "playing": true,
+            "energy": 0.01624729397324111
+          },
+          "artwork": "http://127.0.0.1:8080/assets/img/sirui_pic_south_park.png",
+          "cuePending": false,
+          "recordTransfer": {
+            "angle": 9.49308291197593,
+            "velocity": 1.6044093890874436,
+            "rpm": 15.320981100978878,
+            "yaw": 6.238248665038397e-23,
+            "lift": 0.43053635557605163,
+            "yawVelocity": 5.89309549909874e-23,
+            "liftVelocity": 0.42716552188183493,
+            "phase": "lifting",
+            "playing": true,
+            "energy": 0.0046334330780254986
+          },
+          "drawCalls": 33
+        }
+      }
+    },
+    {
+      "case": "interactions-home-record-i-a8a16-ry-cannot-override-previous-desktop",
+      "evidence": {
+        "action": "previous",
+        "selected": "Sunday Bloody Sunday",
+        "observed": "Sunday Bloody Sunday",
+        "record": {
+          "angle": 5.808839304616405,
+          "playing": false,
+          "running": false,
+          "inViewport": true,
+          "loaded": true,
+          "fallback": false,
+          "mechanicsLoaded": true,
+          "mechanics": {
+            "angle": 5.808839304616405,
+            "velocity": 2.825899483938893,
+            "rpm": 26.985352292982657,
+            "yaw": 9.300037892855658e-16,
+            "lift": 0.1842796832888139,
+            "yawVelocity": -8.294945529962617e-16,
+            "liftVelocity": 2.3753923408028665,
+            "phase": "lifting",
+            "playing": false,
+            "energy": 0.014374274207986985
+          },
+          "artwork": "http://127.0.0.1:8080/assets/img/sirui_pic_rick_and_morty.png",
+          "cuePending": false,
+          "recordTransfer": {
+            "angle": 5.808839304616405,
+            "velocity": 2.825899483938893,
+            "rpm": 26.985352292982657,
+            "yaw": 9.300037892855658e-16,
+            "lift": 0.1842796832888139,
+            "yawVelocity": -8.294945529962617e-16,
+            "liftVelocity": 2.3753923408028665,
+            "phase": "lifting",
+            "playing": false,
+            "energy": 0.014374274207986985
+          },
+          "drawCalls": 33
+        }
+      }
+    },
+    {
+      "case": "interactions-home-record-i-a8a16-ry-cannot-override-previous-mobile",
+      "evidence": {
+        "action": "previous",
+        "selected": "Sunday Bloody Sunday",
+        "observed": "Sunday Bloody Sunday",
+        "record": {
+          "angle": 3.370980192330464,
+          "playing": false,
+          "running": false,
+          "inViewport": true,
+          "loaded": true,
+          "fallback": false,
+          "mechanicsLoaded": true,
+          "mechanics": {
+            "angle": 9.65416549951005,
+            "velocity": 3.185130526463004,
+            "rpm": 30.415756060768683,
+            "yaw": 1.8599068997286847e-24,
+            "lift": 0.12715810485343443,
+            "yawVelocity": -1.6070364328916014e-23,
+            "liftVelocity": 1.8593236901290897,
+            "phase": "lifting",
+            "playing": false,
+            "energy": 0.018261101647091688
+          },
+          "artwork": "http://127.0.0.1:8080/assets/img/sirui_pic_rick_and_morty.png",
+          "cuePending": false,
+          "recordTransfer": {
+            "angle": 9.65416549951005,
+            "velocity": 3.185130526463004,
+            "rpm": 30.415756060768683,
+            "yaw": 1.8599068997286847e-24,
+            "lift": 0.12715810485343443,
+            "yawVelocity": -1.6070364328916014e-23,
+            "liftVelocity": 1.8593236901290897,
+            "phase": "lifting",
+            "playing": false,
+            "energy": 0.018261101647091688
+          },
+          "drawCalls": 33
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Desktop and mobile emulation; no physical phone benchmark",
+    "Synthetic retained-page lifecycle events do not prove browser back/forward cache eligibility",
+    "Clock-controlled race is an input-state check, not a performance measurement",
+    "Review image crops actual product captures; incidental animation poses vary"
+  ]
+}

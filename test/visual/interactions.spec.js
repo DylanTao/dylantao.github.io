@@ -1,3 +1,4 @@
+const fs = require("node:fs");
 const { test, expect } = require("@playwright/test");
 const { collectRuntimeErrors, preparePage, stabilizeVisuals } = require("./helpers");
 const { getPublicBaseURL, publicRouteUrl } = require("./public-routes");
@@ -877,6 +878,177 @@ test("home portrait offers a keyboard-equivalent record-card discovery", async (
   await page.keyboard.press("D");
   await expect(cards).toHaveCount(2);
   await expect(stage).toHaveAttribute("data-dropped-records", "0,1");
+});
+
+for (const action of ["play", "previous", "skip twice"]) {
+  test(`home record intent: discovery cannot override ${action}`, async ({ page }, testInfo) => {
+    const errors = collectRuntimeErrors(page);
+    await preparePage(page, "light");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.clock.install({ time: new Date("2026-10-02T13:20:00-07:00") });
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    const play = page.locator("[data-home-record-play]");
+    const record = page.locator("[data-home-record-scene]");
+    const title = page.locator("[data-home-record-title]");
+    // Warm the real player, then hold browser time so IPC cannot accidentally
+    // let the 460 ms discovery timer expire before the deliberate input.
+    await play.click();
+    await expect.poll(() => record.evaluate((element) => element.getRecordEvidence().loaded)).toBe(true);
+    await expect.poll(() => record.evaluate((element) => element.getRecordEvidence().mechanics?.phase)).toBe("tracking");
+    await play.click();
+    await play.press("Escape");
+    await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+    await play.press("d");
+    await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
+    if (action === "play") await play.press("Enter");
+    else if (action === "previous") await play.press("ArrowLeft");
+    else {
+      await play.press("ArrowRight");
+      await play.press("ArrowRight");
+    }
+    const selected = await title.textContent();
+    await page.clock.runFor(1000);
+    await page.locator("[data-home-artifact-stage]").screenshot({ path: testInfo.outputPath("record-intent.png") });
+    fs.writeFileSync(
+      testInfo.outputPath("record-intent.json"),
+      JSON.stringify(
+        { action, selected, observed: await title.textContent(), record: await record.evaluate((element) => element.getRecordEvidence()) },
+        null,
+        2
+      )
+    );
+    await expect(title).toHaveText(selected);
+    if (action === "play") {
+      await expect(play).toHaveAttribute("aria-pressed", "true");
+      expect(await record.evaluate((element) => element.getRecordEvidence().running)).toBe(true);
+    }
+    expect(errors).toEqual([]);
+  });
+}
+
+test("home record intent: a discovery finishing image decode cannot queue a stale advance", async ({ page }) => {
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.install({ time: new Date("2026-10-02T13:20:00-07:00") });
+  await page.addInitScript(() => {
+    const decode = HTMLImageElement.prototype.decode;
+    HTMLImageElement.prototype.decode = function () {
+      if (window.deferDiscoveryDecode) {
+        window.deferDiscoveryDecode = false;
+        return new Promise((resolve) => {
+          window.finishDiscoveryDecode = resolve;
+        });
+      }
+      return decode.call(this);
+    };
+  });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const play = page.locator("[data-home-record-play]");
+  await play.focus();
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  await page.evaluate(() => {
+    window.deferDiscoveryDecode = true;
+  });
+  await play.press("d");
+  await expect.poll(() => page.evaluate(() => typeof window.finishDiscoveryDecode)).toBe("function");
+  await play.press("ArrowLeft");
+  const selected = await page.locator("[data-home-record-title]").textContent();
+  await page.evaluate(() => window.finishDiscoveryDecode());
+  await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
+  await page.clock.runFor(1000);
+  await expect(page.locator("[data-home-record-title]")).toHaveText(selected);
+});
+
+test("home record intent: unclaimed discovery still advances and rapid discovery keeps four-card replay", async ({ page }) => {
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.install({ time: new Date("2026-10-02T13:20:00-07:00") });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const play = page.locator("[data-home-record-play]");
+  const cards = page.locator("[data-home-record-card]");
+  const title = page.locator("[data-home-record-title]");
+  await play.focus();
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  await play.press("d");
+  await expect(cards).toHaveCount(1);
+  await expect(title).toHaveText("Yellow Submarine");
+  await page.clock.runFor(450);
+  await expect(title).toHaveText("Yellow Submarine");
+  await page.clock.runFor(20);
+  await expect(title).toHaveText("Hey Jude");
+  for (let count = 2; count <= 4; count += 1) {
+    await play.press("d");
+    await expect(cards).toHaveCount(count);
+  }
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-dropped-records", "0,1,2,3");
+  await page.clock.runFor(1000);
+  await expect(title).toHaveText("Sunday Bloody Sunday");
+  const firstCard = await cards.first().elementHandle();
+  await play.press("d");
+  await expect(cards).toHaveCount(4);
+  expect(await firstCard.evaluate((element) => element.isConnected)).toBe(false);
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-dropped-records", "0,1,2,3");
+});
+
+test("home record intent: retained-page lifecycle events cancel stale discovery", async ({ page }) => {
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.install({ time: new Date("2026-10-02T13:20:00-07:00") });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const play = page.locator("[data-home-record-play]");
+  await play.focus();
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  await play.press("d");
+  await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
+  await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: true })));
+  await page.clock.runFor(1000);
+  await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true })));
+  await expect(page.locator("[data-home-record-title]")).toHaveText("Yellow Submarine");
+  await play.press("Enter");
+  await expect(play).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("[data-home-record-title]")).toHaveText("Yellow Submarine");
+});
+
+test("home record intent: a paused disc survives modes and its artwork source", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const play = page.locator("[data-home-record-play]");
+  const portrait = page.locator("#home-profile-image-container");
+  const title = page.locator("[data-home-record-title]");
+  await play.click();
+  await expect.poll(() => page.locator("[data-home-record-scene]").evaluate((element) => element.getRecordEvidence().loaded)).toBe(true);
+  await play.click();
+  await expect(portrait).toHaveAttribute("data-record-visual", "paused");
+  const selected = await title.textContent();
+  await page.locator('[data-home-desk-mode="3d"]').click();
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "3d");
+  await page.locator('[data-home-desk-mode="2d"]').click();
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");
+  await page.locator("[data-home-artifact-stage]").screenshot({ path: testInfo.outputPath("paused-mode-return.png") });
+  await expect(portrait).toHaveAttribute("data-record-visual", "paused");
+  await expect(title).toHaveText(selected);
+  await page.context().route("https://open.spotify.com/**", (route) => route.fulfill({ contentType: "text/html", body: "Artwork source fixture" }));
+  const popupPromise = page.waitForEvent("popup");
+  await page.locator("[data-home-record-source]").click();
+  const popup = await popupPromise;
+  await popup.close();
+  await expect(portrait).toHaveAttribute("data-record-visual", "paused");
+  await expect(title).toHaveText(selected);
+  // Dragging off a mode button cancels the native activation, while preserving
+  // the paused record. The next independent outside click still dismisses it.
+  const modeBox = await page.locator('[data-home-desk-mode="3d"]').boundingBox();
+  await page.mouse.move(modeBox.x + modeBox.width / 2, modeBox.y + modeBox.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(modeBox.x - 70, modeBox.y + modeBox.height + 24);
+  await page.mouse.up();
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");
+  await expect(portrait).toHaveAttribute("data-record-visual", "paused");
+  // A deliberate click elsewhere still dismisses the paused player.
+  await page.locator("h1").first().click();
+  await expect(portrait).toHaveAttribute("data-record-visual", "portrait");
+  expect(errors).toEqual([]);
 });
 
 test("home disc clicks only toggle playback after card discovery", async ({ page }) => {
