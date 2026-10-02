@@ -34,6 +34,19 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 - **Sirui decision:** Pending. The user requested renderable options to judge while away and asked to reduce the workshop paper's prominence.
 - **Revisit trigger:** Sirui's yes/no/revise feedback on D.
 
+### October 1 away review: process and comparison case-study pages
+
+- **Hypothesis:** A process beside its system diagram and a direct condition comparison will make DesignWeaver easier to inspect than figures separated from their explanation.
+- **Route:** Unlisted `/design-lab/case-process/` (E) and `/design-lab/case-comparison/` (F); the public case-study layout remains unchanged pending feedback.
+- **Reference:** [027 Paper Crane](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/027-origami-crane.html), for stages with clear actions; [040 Lemon Tart](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/040-lemon-tart-recipe.html), for method and supporting material; [056 Architectural Blueprint](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/056-architectural-blueprint.html), for drawings with notes; [071 Palette Studio](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/071-palette-studio.html), for labeled comparisons.
+- **Licensing:** Original Liquid/SCSS with existing DesignWeaver research figures, captions and all six author credits. No reference code, screenshots, fonts or illustrations imported.
+- **Visitor benefit:** Follow the four actions, compare the actual study conditions, and open the original image when a phone-size plot is too small.
+- **Budget:** Static pages; native scrolling and links; whole scientific figures with original colors; existing time/theme tokens; no animation or new runtime dependency. Keep survey ratings distinct from objective prompt or semantic-diversity measures.
+- **Status:** `prototype`; E/F may be combined after review.
+- **Evidence:** The [case-preview record](case-study-previews-2026-10-01.md) documents actual desktop/phone captures, four-size light/dark checks, original-image links, keyboard access, no-JavaScript rendering and measurement boundaries. Visitor comprehension has not been measured.
+- **Sirui decision:** Pending. Requested concrete screenshots and ongoing reference-informed iteration while away.
+- **Revisit trigger:** Sirui's E/F feedback or a mismatch between a margin claim and its adjacent figure.
+
 ### October 1 working previews: selected work and a quieter conversation note
 
 - **Hypothesis:** A larger original figure beside a short explanation lets a visitor inspect the strongest work earlier; a small margin photograph or text acknowledgement can connect the thesis to people without making one encounter dominate it.
