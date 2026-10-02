@@ -94,12 +94,14 @@
 .design-work-row {
   display: grid;
   grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  grid-template-areas: "figure story";
   align-items: center;
   gap: clamp(1.5rem, 4vw, 4rem);
   padding-block: 2rem;
   border-top: 1px solid var(--home-line);
 
   figure {
+    grid-area: figure;
     margin: 0;
   }
 
@@ -112,6 +114,7 @@
 }
 
 .design-work-copy {
+  grid-area: story;
   h3 {
     margin: 0.35rem 0 0.85rem;
     font-size: clamp(1.4rem, 2.3vw, 1.75rem);
@@ -231,6 +234,49 @@
   margin: 1rem 0 0;
 }
 
+.design-reading-row {
+  display: grid;
+  grid-template-columns: minmax(11rem, 0.35fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.25rem, 4vw, 3.5rem);
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--home-line);
+
+  h3 {
+    margin: 0;
+    font-size: var(--type-subheading);
+    font-weight: 500;
+  }
+
+  h3 a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 44px;
+  }
+}
+
+.design-reading-meta {
+  margin: 0.25rem 0 0;
+  color: var(--home-muted);
+  font-size: var(--type-compact);
+  line-height: 1.65;
+}
+
+.design-reading-purpose {
+  max-width: 65ch;
+  margin: 0;
+  font-size: var(--type-reading);
+  line-height: 1.75;
+}
+
+.design-reading-archive {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 0.75rem;
+}
+
 @media (max-width: 767px) {
   .design-lab {
     margin-top: 1.5rem;
@@ -248,7 +294,13 @@
   }
 
   .design-work-row {
+    grid-template-areas: "story" "figure";
     padding-block: 1.5rem;
+  }
+
+  .design-reading-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.65rem;
   }
 
   .design-conversation-margin {

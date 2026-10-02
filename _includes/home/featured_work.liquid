@@ -16,6 +16,15 @@
             href="{% if work.url contains '://' %}{{ work.url }}{% else %}{{ work.url | relative_url }}{% endif %}"
             aria-label="Open {{ work.title }}"
           >
+            <div class="home-work-body">
+              <div class="home-work-meta">
+                <span>{{ work.venue }}</span>
+                <span>{{ work.theme }}</span>
+              </div>
+              <h3>{{ work.title }}</h3>
+              <p>{{ work.description }}</p>
+              <span class="home-work-cta">Read the case study <span aria-hidden="true">↗</span></span>
+            </div>
             <div
               class="home-work-image-wrap"
               {% if work.image_aspect %}
@@ -29,15 +38,6 @@
                 height="{{ work.image_height }}"
                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
               >
-            </div>
-            <div class="home-work-body">
-              <div class="home-work-meta">
-                <span>{{ work.venue }}</span>
-                <span>{{ work.theme }}</span>
-              </div>
-              <h3>{{ work.title }}</h3>
-              <p>{{ work.description }}</p>
-              <span class="home-work-cta">Read the case study <span aria-hidden="true">↗</span></span>
             </div>
           </a>
         </article>

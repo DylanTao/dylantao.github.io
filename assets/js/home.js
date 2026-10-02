@@ -536,13 +536,17 @@
       const platterStrobeMaterial = armMaterial.clone();
       platterStrobeMaterial.transparent = true;
       platterStrobeMaterial.opacity = 0.28;
+      const platterStrobes = new THREE.InstancedMesh(new THREE.BoxGeometry(0.052, 0.012, 0.012), platterStrobeMaterial, 30);
+      const strobePose = new THREE.Object3D();
       for (let index = 0; index < 30; index += 1) {
         const angle = (index / 30) * Math.PI * 2;
-        const tick = new THREE.Mesh(new THREE.BoxGeometry(0.052, 0.012, 0.012), platterStrobeMaterial);
-        tick.position.set(Math.cos(angle) * 2.55, Math.sin(angle) * 2.55, -0.004);
-        tick.rotation.z = angle;
-        baseGroup.add(tick);
+        strobePose.position.set(Math.cos(angle) * 2.55, Math.sin(angle) * 2.55, -0.004);
+        strobePose.rotation.z = angle;
+        strobePose.updateMatrix();
+        platterStrobes.setMatrixAt(index, strobePose.matrix);
       }
+      platterStrobes.instanceMatrix.needsUpdate = true;
+      baseGroup.add(platterStrobes);
 
       const recordShadow = new THREE.Mesh(
         new THREE.RingGeometry(0.7, 2.5, 160),
@@ -808,6 +812,7 @@
         textureCache.forEach((texture) => texture.dispose());
         const materials = new Set();
         scene?.traverse((object) => {
+          if (object.isInstancedMesh) object.dispose();
           object.geometry?.dispose();
           if (object.material) (Array.isArray(object.material) ? object.material : [object.material]).forEach((material) => materials.add(material));
         });

@@ -1237,6 +1237,12 @@ html.home-desk-outside-active .home-story-rail {
   }
 
   a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    min-height: 44px;
+    padding-inline: 0.5rem;
     font-size: var(--type-compact);
     color: var(--home-muted);
     text-decoration: underline;
@@ -1325,6 +1331,12 @@ html.home-desk-outside-active .home-story-rail {
 
 @media (hover: none), (pointer: coarse) {
   .home-record-nav {
+    opacity: 1;
+  }
+
+  // A touch on either skip button removes the play button's sticky hover.
+  // Keep playback state readable, including the composed reduced-motion disc.
+  .home-profile-recordable.is-vinyl-mode .home-record-play-cue {
     opacity: 1;
   }
 }

@@ -21,6 +21,19 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### October 1 away review: a compact research reading list
+
+- **Hypothesis:** Three short paper entries with a reason to open each will orient homepage readers faster than a full bibliography with many equal resource buttons.
+- **Route:** Unlisted `/design-lab/#d`; the public homepage bibliography is unchanged until Sirui reviews this proposal.
+- **Reference:** [071 Palette Studio](https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/071-palette-studio.html), for clearly labeled choices that can be compared at a glance.
+- **Licensing:** Original Liquid/CSS, existing publication guides and canonical role labels. No imported reference code or assets.
+- **Visitor benefit:** DesignWeaver, HotSpot and Physion lead with their reading purpose. The workshop paper remains in the full bibliography and chronological updates.
+- **Budget:** No new runtime, media, motion, or citation totals. Every paper retains its authoritative authors and resource links in the bibliography; this preview is a routing summary.
+- **Status:** `prototype`.
+- **Evidence:** Eight light/dark viewport states at 1440×1000, 1280×800, 768×1024 and 390×1000; three nonempty canonical purpose/role rows and 44-pixel links, zero overflow, broken images or runtime errors. Actual HTML captures are under `.jekyll-cache/visual-qa/october-design-previews-away/`.
+- **Sirui decision:** Pending. The user requested renderable options to judge while away and asked to reduce the workshop paper's prominence.
+- **Revisit trigger:** Sirui's yes/no/revise feedback on D.
+
 ### October 1 working previews: selected work and a quieter conversation note
 
 - **Hypothesis:** A larger original figure beside a short explanation lets a visitor inspect the strongest work earlier; a small margin photograph or text acknowledgement can connect the thesis to people without making one encounter dominate it.

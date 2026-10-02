@@ -66,12 +66,14 @@ html[data-theme="dark"] .home-cred-item {
 }
 .home-work-card:only-child .home-work-link {
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  grid-template-areas: "figure story";
   align-items: center;
   gap: clamp(1.5rem, 4vw, 4rem);
 }
 .home-work-link {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "story" "figure";
   align-items: start;
   gap: 1.2rem;
   padding-block: 1.4rem;
@@ -88,6 +90,7 @@ html[data-theme="dark"] .home-cred-item {
   transform: none;
 }
 .home-work-image-wrap {
+  grid-area: figure;
   aspect-ratio: var(--home-work-image-aspect, 16 / 9);
   width: 100%;
   border: 0;
@@ -116,6 +119,7 @@ html[data-theme="evening"] img[src*="-transparent.png"] {
   transform: none;
 }
 .home-work-body {
+  grid-area: story;
   padding: 0;
 }
 .home-work-body h3 {
@@ -228,6 +232,7 @@ html[data-theme="evening"] img[src*="-transparent.png"] {
   .home-work-link,
   .home-work-card:only-child .home-work-link {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "story" "figure";
     gap: 0.85rem;
   }
   .home-work-meta {

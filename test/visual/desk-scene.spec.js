@@ -320,6 +320,34 @@ test("record physics: reduced motion composes the SVG player without requesting 
   expect(errors).toEqual([]);
 });
 
+test("record: touch skip retains a visible play/pause cue with reduced motion", async ({ page, isMobile }, testInfo) => {
+  test.skip(!isMobile, "touch-only playback state");
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const play = page.locator("[data-home-record-play]");
+  const next = page.locator("[data-home-record-next]");
+  const cue = page.locator(".home-record-play-cue");
+  const scene = page.locator("[data-home-record-scene]");
+  await play.tap();
+  await expect.poll(() => scene.evaluate((e) => e.getRecordEvidence().mechanicsLoaded)).toBe(true);
+  await next.tap();
+  await expect(play).toHaveAttribute("aria-pressed", "true");
+  await expect(cue).toHaveCSS("opacity", "1");
+  await expect(play.locator("[data-home-record-pause-icon]")).toBeVisible();
+  await play.tap();
+  await next.tap();
+  await expect(play).toHaveAttribute("aria-pressed", "false");
+  await expect(cue).toHaveCSS("opacity", "1");
+  await expect(play.locator("[data-home-record-play-icon]")).toBeVisible();
+  const source = await page.locator("[data-home-record-source]").boundingBox();
+  expect(source.height).toBeGreaterThanOrEqual(44);
+  expect((await scene.evaluate((e) => e.getRecordEvidence())).running).toBe(false);
+  await capture(testInfo, "touch-record-state", await page.locator(".home-record-player").screenshot());
+  expect(errors).toEqual([]);
+});
+
 async function capture(testInfo, name, buffer) {
   const file = testInfo.outputPath(name + ".png");
   fs.mkdirSync(path.dirname(file), { recursive: true });

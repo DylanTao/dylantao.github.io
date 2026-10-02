@@ -15,7 +15,7 @@ The live reference inspection included 087's work/process navigation, 096's mate
 
 ## Local refinements
 
-- DesignWeaver now leads selected work alone, with its original diagram beside the summary on desktop and above it on mobile. The figure retains its color and labels and declares intrinsic dimensions. The workshop paper's case study and publication record remain available.
+- DesignWeaver now leads selected work alone, with its original diagram beside the summary on desktop. The October 1 away-review follow-up puts the name and question before the whole diagram on mobile and in the DOM reading order. The figure retains its color and labels and declares intrinsic dimensions. The workshop paper's case study and publication record remain available.
 - The thesis acknowledgement now credits work with Steven P. Dow and conversations with Don Norman and many others. Its reading link labels the specific Don Norman talk note separately. The main research question and design principle retain their existing words.
 - B1 is integrated into the existing thesis section, with a 208-pixel margin image on desktop and a 192-pixel image below the copy on mobile. The existing responsive-image include uses build-generated WebPs and keeps the original photograph as fallback; the 480-pixel WebP is 21,162 bytes, versus the 1,269,588-byte original.
 - Updates use a quiet list with aligned dates and complete, unclamped sentences.
@@ -47,3 +47,22 @@ The existing on-disc case in `test/visual/desk-scene.spec.js` now checks caption
 - Served assets: the Ghibli, study, kitchen and shell GLBs match their source SHA-256 values. The model/contact checkpoint and its explicit rendering limits remain in the linked evidence document.
 
 This is a local design checkpoint, not a release-scale route matrix. Visitor comprehension is not measured. Sirui's actual feedback is recorded: less workshop-paper prominence, broader credit, then B1's small margin photograph.
+
+## Away-review follow-up
+
+Sirui requested actual screenshots or renders because localhost is unavailable while away. Images below are actual Docker-served HTML or WebGL captures, rather than generated mockups. Proposal D on `/design-lab/` shows a compact research reading list using the existing publication-context data and role labels. This proposal has not replaced the public homepage bibliography.
+
+The touch-record baseline exposed a disappearing center cue after tapping either skip button: CSS hover moved off the play button, including when reduced motion prevented rotation from conveying state. The composed disc now keeps its play/pause cue on coarse pointers. The source link's hit target grows from 18.89 to 44 pixels, with no extra transport below the record. The dedicated touch test uses actual taps and checks both playing and paused states after skipping; native accessibility labels continue to match state.
+
+The record's thirty static strobe marks now share one instanced mesh, with its instance resources disposed alongside geometry and materials. Same-size desktop and mobile WebGL runs reduce draw calls from 62 to 33, while measured frame intervals remain about 16.7 ms median and p95. This is a submission-cost reduction, not a measured frame-rate gain. The implementation uses the site's pinned [Three.js r164 instancing API](https://github.com/mrdoob/three.js/blob/r164/src/objects/InstancedMesh.js).
+
+Comparable evidence:
+
+- Mobile work order: `.jekyll-cache/visual-qa/iteration-october-mobile-work-before/` and `iteration-october-mobile-work-after/`.
+- Touch playback: `.jekyll-cache/visual-qa/october-touch-record/baseline-after-skip/` and `after/`; both themes report visible cues, 44-pixel source targets and zero overflow after the fix.
+- Record graphics: `.jekyll-cache/visual-qa/october-record-draws/before/` and `after/`, including rendered desktop/mobile discs and measured draw submissions.
+- Review gallery: `.jekyll-cache/visual-qa/october-design-previews-away/` contains forty section captures across eight viewport/theme states, including D. Canonical purpose and role rows, complete images/updates, small B1 photo and overflow/error checks pass.
+
+The longer room-lighting, hand-contact and case-story passes run in separate worktrees. Their proposals and verified integration evidence are recorded when those checkpoints finish.
+
+The public homepage checkpoint passes all four standard sizes with light/dark captures. Seven targeted record checks pass across desktop/mobile; the touch-only case intentionally skips desktop. The Docker production `/al-folio` build succeeds in 210.505 seconds. Changed-path Prettier, style-contract, JavaScript syntax and diff checks pass.
