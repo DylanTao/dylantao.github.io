@@ -25,6 +25,25 @@ test("P notices before greeting, listens once, and returns to its task while the
   assert.equal(p.greetings, 2, "a new encounter can happen after absence and cooldown");
 });
 
+test("leaving during a wave finishes hello without starting an absent-visitor listening cue", () => {
+  const director = createPipDirector();
+  director.update(0.016, { near: true });
+  const greeting = director.update(0.3, { near: true });
+  assert.equal(greeting.gesture, "hello");
+  const cooldownDeadline = greeting.time + greeting.cooldown;
+  assert.equal(director.update(2.5, { near: false }).phase, "greet", "finish the existing wave gently");
+  const returning = director.update(0.11, { near: false });
+  assert.equal(returning.phase, "return");
+  assert.equal(returning.gesture, null, "an immediate return cannot emit the discarded listening cue");
+  assert.equal(returning.greetings, 1);
+  assert.ok(Math.abs(returning.time + returning.cooldown - cooldownDeadline) < 1e-9);
+  const task = director.update(1.3, { near: false });
+  assert.equal(task.phase, "task");
+  assert.equal(task.gesture, null);
+  assert.equal(task.greetings, 1);
+  assert.ok(Math.abs(task.time + task.cooldown - cooldownDeadline) < 1e-9);
+});
+
 test("travel, brief flybys, cooldown and system stillness cannot trigger an intrusive greeting", () => {
   const director = createPipDirector();
   assert.equal(director.update(2, { near: true, traveling: true }).phase, "task");

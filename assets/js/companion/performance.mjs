@@ -55,6 +55,9 @@ export function createPipDirector(seed = 1037) {
       if (!near && (phase === "notice" || phase === "listen")) {
         phase = "return";
         entered = time;
+        // The visitor may leave before hello ends. Discard a listen cue
+        // emitted by that same transition instead of starting it on return.
+        gesture = null;
       }
       if (time >= nextBlink) {
         blinkStart = time;
