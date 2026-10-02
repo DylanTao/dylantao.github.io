@@ -70,13 +70,14 @@ test("CPU field agrees with a float32 shader arithmetic reference at local scene
       t = i * 317;
     const uniforms = createWindUniforms(t),
       expected = sampleWind(p, t),
-      actual = Array.from(uniforms.coastalWindMean.value);
+      actual = [0, 0, 0];
     for (let j = 0; j < WIND_MODES.length; j++) {
       const m = WIND_MODES[j];
       const phase = f(f(f(f(p[0]) * f(m.k[0])) + f(f(p[1]) * f(m.k[1]))) + f(f(p[2]) * f(m.k[2])));
       const sine = f(Math.sin(f(phase + uniforms.coastalWindPhase.value[j])));
-      for (let a = 0; a < 3; a++) actual[a] = f(actual[a] + f(f(f(m.velocity[a]) * sine) * f(DEFAULT_WIND.gust)));
+      for (let a = 0; a < 3; a++) actual[a] = f(actual[a] + f(f(m.velocity[a]) * sine));
     }
+    for (let a = 0; a < 3; a++) actual[a] = f(uniforms.coastalWindMean.value[a] + f(f(DEFAULT_WIND.gust) * actual[a]));
     for (let a = 0; a < 3; a++) assert.ok(Math.abs(actual[a] - expected[a]) < 2e-5);
   }
   assert.equal((windFieldGLSL.match(/v \+=/g) ?? []).length, 6);
