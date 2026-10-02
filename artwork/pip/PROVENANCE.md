@@ -48,3 +48,13 @@ The public name is **P**, for Prototype / ProtoLab. `/projects/pip/` redirects t
 Page entry clears the obsolete persistent nap key. The first journey starts after 4–8 seconds and later journeys use 12–24-second intervals. Temporary rests end automatically. Gaze, head, body, antennae, and travel settle at different rates. Shared ownership transfers one character among the page, room, and motion playground. There are no ambient lighting/motion controls; system reduced motion retains a still greeting pose. Project gesture controls are deliberate demonstrations and do not create another persistent preference.
 
 The new implementation and automatic recovery tests are recorded in [the refinement evidence](../../docs/evidence/coastal-refinement-2026-09-14/README.md).
+
+## October visitor performance
+
+The room now directs P through notice, greeting, listening and a quiet return to the room. A nearby pointer is the only visitor signal; there is no camera, microphone, person detection or conversation understanding. A cooldown and a required departure prevent a stationary pointer from repeatedly summoning waves. Eyes lead the neck, the shell follows later, and the antennae settle independently. Task attention alternates between Sirui's activity and the study record. The optical catchlights follow the pupils in the actual GLB, matching the analytic portrait.
+
+[Disney Research's 2020 _Realistic and Interactive Robot Gaze_](https://la.disneyresearch.com/wp-content/uploads/root.pdf) informed attention habituation, layered movement bandwidth and a return to an authored task. This is a small original browser adaptation of those principles, not an implementation of Disney's perception system, hardware controller or animatronics. No code, recorded motion, character asset or proprietary system is bundled.
+
+Original flights pause briefly to look toward departure, use a minimum-jerk distance trajectory, round circulation corners inside a 12-centimeter envelope, bank within a bounded tilt, and finish with a small settling beat. The authored corridor and safe perches remain the source of positions. Progress consumes active room time while P owns the world; motor springs are bounded separately. Page handoffs, nap and system stillness cannot fast-forward the flight. Stillness ends the encounter while preserving its cooldown, so resuming does not produce a phantom wave.
+
+The editable model and 848,688-byte GLB are unchanged. This pass improves performance direction and optical rig behavior without adding geometry, textures, downloaded robot software or a new public control. The verification and actual browser recordings are described in [the performance evidence](../../docs/evidence/pip-performance-october.md).
