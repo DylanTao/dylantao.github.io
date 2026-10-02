@@ -13,6 +13,7 @@ import { createWorldCompanion } from "./companion.mjs";
 import { companion, pipProjectUrl } from "../companion/bridge.mjs";
 import { createRecordMotion } from "./record-motion.mjs";
 import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
+import { bindContactLighting, withoutContactLighting } from "./contact-occlusion.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -172,7 +173,7 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   function material(color, extra = {}) {
-    return own(new THREE.MeshStandardMaterial({ color, roughness: 0.72, ...extra }));
+    return own(bindContactLighting(new THREE.MeshStandardMaterial({ color, roughness: 0.72, ...extra }), finish?.contactLighting));
   }
 
   function mesh(geometry, mat, position, action) {
@@ -1208,7 +1209,7 @@ export function createCoastalHome(container, records, artifacts) {
     worldCompanion?.update(Math.min(delta, 0.25), elapsed, camera, currentRoom, moving);
     orientProp();
     renderer.info.reset();
-    pacific?.reflect(camera, style === "realistic" && currentRoom === "outside");
+    withoutContactLighting(finish?.contactLighting, () => pacific?.reflect(camera, style === "realistic" && currentRoom === "outside"));
     if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside");
     else renderer.render(scene, camera);
     if (moving && consecutive && delta < 0.5) {
@@ -1249,7 +1250,8 @@ export function createCoastalHome(container, records, artifacts) {
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.info.autoReset = false;
-      finish = createFinish(renderer, scene, perspective);
+      finish = createFinish(renderer, scene, perspective, { profileGPU: labEnabled });
+      art.setContactLighting(finish.contactLighting);
       container.append(renderer.domElement);
       const shell = await loadModel(new URL(config.shell, manifestUrl).href);
       if (disposed) {

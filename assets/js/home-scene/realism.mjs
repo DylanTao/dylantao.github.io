@@ -3,6 +3,8 @@ import { EffectComposer } from "../vendor/three-r164/postprocessing/EffectCompos
 import { RenderPass } from "../vendor/three-r164/postprocessing/RenderPass.js";
 import { SSAOPass } from "../vendor/three-r164/postprocessing/SSAOPass.js";
 import { OutputPass } from "../vendor/three-r164/postprocessing/OutputPass.js";
+import { CONTACT_RADIUS, CONTACT_SLICES, CONTACT_STEPS, horizonFragment, bilateralFragment, bindContactLighting } from "./contact-occlusion.mjs";
+import { createGpuTimer } from "./gpu-timer.mjs";
 
 // Physical scale survives batching and the many different UV layouts in glTF.
 // No scenic image, texture download, or screen-space grain is involved.
@@ -25,7 +27,7 @@ float stoneNoise(vec3 p) {
 
 export const physicalTime = { value: 0 };
 
-export function finishPhysicalMaterial(source, mesh) {
+export function finishPhysicalMaterial(source, mesh, contactLighting) {
   const name = source.name;
   const m =
     /water|turquoise/i.test(name) && !mesh.isSkinnedMesh
@@ -34,7 +36,7 @@ export function finishPhysicalMaterial(source, mesh) {
   if (mesh.isSkinnedMesh) {
     m.roughness = /hair/i.test(name) ? 0.7 : /skin/i.test(name) ? 0.68 : 0.9;
     m.envMapIntensity = /hair/i.test(name) ? 0.28 : 0.5;
-    return m;
+    return bindContactLighting(m, contactLighting);
   }
   if (/leaf|foliage/i.test(name)) {
     m.side = THREE.DoubleSide;
@@ -61,7 +63,7 @@ export function finishPhysicalMaterial(source, mesh) {
       );
     };
     m.customProgramCacheKey = () => "coastal-botanical-v1";
-    return m;
+    return bindContactLighting(m, contactLighting);
   }
   const wood = /wood|oak|ash|walnut/i.test(name);
   const cloth = /linen|textile|cotton|trousers|woven/i.test(name);
@@ -89,11 +91,11 @@ export function finishPhysicalMaterial(source, mesh) {
       `
       );
     };
-    return m;
+    return bindContactLighting(m, contactLighting);
   }
   m.roughness = wood ? 0.48 : cloth ? 0.96 : rock ? 0.89 : m.roughness;
   m.envMapIntensity = cloth ? 0.35 : 0.7;
-  if (!wood && !cloth && !rock) return m;
+  if (!wood && !cloth && !rock) return bindContactLighting(m, contactLighting);
   const kind = wood ? 1 : cloth ? 2 : /sandstone|sediment/i.test(name) ? 3 : /beach|tideline/i.test(name) ? 4 : 0;
   m.onBeforeCompile = (shader) => {
     shader.vertexShader = "varying vec3 surfacePoint;\n" + shader.vertexShader;
@@ -167,10 +169,12 @@ export function finishPhysicalMaterial(source, mesh) {
     );
   };
   m.customProgramCacheKey = () => `coastal-physical-${kind}`;
-  return m;
+  return bindContactLighting(m, contactLighting);
 }
 
-export function createFinish(renderer, scene, camera, { transparentOutput = false } = {}) {
+// The transparent footer retains its existing pipeline. It has its own scene,
+// authored fade and budget; this room-lighting change does not modify it.
+export function createLegacyFinish(renderer, scene, camera, { transparentOutput = false } = {}) {
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
   const composer = new EffectComposer(renderer, target);
   const beauty = new RenderPass(scene, camera);
@@ -240,6 +244,108 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
       output.dispose();
       composer.dispose();
       // r164's upstream dispose omits these two allocations.
+      contact.ssaoMaterial.dispose();
+      contact.noiseTexture.dispose();
+    },
+  };
+}
+
+export function createFinish(renderer, scene, camera, { transparentOutput = false, profileGPU = false } = {}) {
+  if (transparentOutput) return createLegacyFinish(renderer, scene, camera, { transparentOutput });
+  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
+  const composer = new EffectComposer(renderer, target);
+  const beauty = new RenderPass(scene, camera),
+    contact = new SSAOPass(scene, camera, 1, 1, 1),
+    output = new OutputPass(),
+    gpuTimer = createGpuTimer(renderer.getContext(), profileGPU);
+  const lighting = {
+    contactTexture: { value: contact.blurRenderTarget.texture },
+    contactResolution: { value: new THREE.Vector2(1, 1) },
+    contactEnabled: { value: true },
+  };
+  contact.ssaoMaterial.fragmentShader = horizonFragment;
+  contact.ssaoMaterial.uniforms.kernelRadius.value = CONTACT_RADIUS;
+  contact.blurMaterial.fragmentShader = bilateralFragment;
+  Object.assign(contact.blurMaterial.uniforms, {
+    tDepth: { value: contact.normalRenderTarget.depthTexture },
+    tNormal: { value: contact.normalRenderTarget.texture },
+    cameraInverseProjectionMatrix: { value: camera.projectionMatrixInverse.clone() },
+  });
+  // This pass produces only a visibility texture. Beauty materials consume it
+  // before tone mapping; it never multiplies sunlight, emission or reflection.
+  contact.needsSwap = false;
+  contact.render = (activeRenderer) => {
+    const updateShadows = activeRenderer.shadowMap.autoUpdate,
+      overrideMaterial = scene.overrideMaterial;
+    activeRenderer.shadowMap.autoUpdate = false;
+    contact.overrideVisibility();
+    scene.traverse((object) => {
+      if (object.userData.noOcclusion) object.visible = false;
+    });
+    try {
+      contact.renderOverride(activeRenderer, contact.normalMaterial, contact.normalRenderTarget, 0x7777ff, 1);
+      contact.renderPass(activeRenderer, contact.ssaoMaterial, contact.ssaoRenderTarget);
+      contact.renderPass(activeRenderer, contact.blurMaterial, contact.blurRenderTarget);
+    } finally {
+      scene.overrideMaterial = overrideMaterial;
+      contact.restoreVisibility();
+      activeRenderer.shadowMap.autoUpdate = updateShadows;
+    }
+  };
+  composer.addPass(contact);
+  composer.addPass(beauty);
+  composer.addPass(output);
+  let width = 1,
+    height = 1;
+  return {
+    contactLighting: lighting,
+    resize(w, h) {
+      width = w;
+      height = h;
+      composer.setSize(w, h);
+      lighting.contactResolution.value.set(Math.floor(composer.renderTarget1.width), Math.floor(composer.renderTarget1.height));
+      const scale = Math.min(1, 480 / Math.max(w, h));
+      contact.setSize(Math.max(1, Math.round(w * scale)), Math.max(1, Math.round(h * scale)));
+    },
+    render(activeCamera, exterior) {
+      beauty.camera = contact.camera = activeCamera;
+      lighting.contactEnabled.value = contact.enabled = !exterior;
+      const perspective = activeCamera.isPerspectiveCamera ? 1 : 0;
+      if (contact.ssaoMaterial.defines.PERSPECTIVE_CAMERA !== perspective) {
+        contact.ssaoMaterial.defines.PERSPECTIVE_CAMERA = perspective;
+        contact.ssaoMaterial.needsUpdate = true;
+      }
+      contact.ssaoMaterial.uniforms.cameraProjectionMatrix.value.copy(activeCamera.projectionMatrix);
+      contact.ssaoMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
+      contact.blurMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
+      gpuTimer.begin();
+      try {
+        composer.render();
+      } finally {
+        gpuTimer.end();
+      }
+    },
+    get evidence() {
+      return {
+        contactShadows: true,
+        method: "cosine-weighted horizons / indirect diffuse",
+        slices: CONTACT_SLICES,
+        samples: CONTACT_SLICES * CONTACT_STEPS * 2,
+        radiusMeters: CONTACT_RADIUS,
+        aoWidth: contact.width,
+        aoHeight: contact.height,
+        width,
+        height,
+        gpu: gpuTimer.evidence,
+      };
+    },
+    dispose() {
+      lighting.contactEnabled.value = false;
+      gpuTimer.dispose();
+      beauty.dispose();
+      contact.dispose();
+      output.dispose();
+      composer.dispose();
       contact.ssaoMaterial.dispose();
       contact.noiseTexture.dispose();
     },

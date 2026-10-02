@@ -2,6 +2,7 @@ import * as THREE from "../three.module.min.js";
 import { finishPhysicalMaterial } from "./realism.mjs";
 
 export function createArtDirection() {
+  let contactLighting;
   const textures = new Map();
   const outlines = new Set();
   const gradient = new THREE.DataTexture(new Uint8Array([65, 155, 245]), 3, 1, THREE.RedFormat);
@@ -60,7 +61,7 @@ export function createArtDirection() {
       const cache = (mesh.userData.styleMaterials ||= {});
       if (!cache[style]) {
         const make = (source) => {
-          if (style === "realistic") return finishPhysicalMaterial(source, mesh);
+          if (style === "realistic") return finishPhysicalMaterial(source, mesh, contactLighting);
           if (style === "illustrated") {
             const color = source.color.clone();
             const printPalette = {
@@ -146,6 +147,9 @@ export function createArtDirection() {
 
   return {
     apply,
+    setContactLighting(uniforms) {
+      contactLighting = uniforms;
+    },
     forget(root) {
       root.traverse((o) => {
         if (o.userData.outline) outlines.delete(o);

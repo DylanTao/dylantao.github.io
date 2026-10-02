@@ -8,6 +8,8 @@ The previous sea already had analytic vertical waves, procedural foam, a live re
 
 The record previously used prescribed rotation and a simple arm interpolation. Both the rendered player and its CSS/SVG fallback now use the same driven-rotor integral and staged lift/swing/lower mechanism. The study platter uses that same mathematical model with its own continuous state. Selection and the requested spin state remain shared between the two views. The public arrival remains a stationary portrait; nothing plays audio or pretends to advance a music track.
 
+A subsequent [contact-lighting pass](./CONTACT-LIGHTING.md) replaces the room's whole-image SSAO composite with cosine-weighted horizon visibility applied to indirect diffuse light. That note records its separate equations, primary source, controlled comparisons, costs and limits. It does not change the water or mechanical models below.
+
 ## Ocean field and scale transition
 
 `ocean-spectrum.mjs` authors ten bounded wave components, with wavelengths from 24.7 m to 0.061 m. Units are meters and seconds. For component direction **d**, amplitude _a_, wavenumber _k_, choppiness _q_ and phase _φ_:
