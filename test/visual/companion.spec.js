@@ -46,7 +46,7 @@ test("P: reading surfaces stay clear after content reflows", async ({ page }, te
   await page.emulateMedia({ reducedMotion: "reduce" });
   await preparePage(page, "light");
   for (const [route, ready, protectedSelector] of [
-    ["/", ".home-record-console", ".home-record-console"],
+    ["/", ".home-hero-copy h1", ".home-hero-copy h1, .home-hero-copy p, .home-record-console"],
     ["/projects/", ".project-browser-origin", ".projects [data-project-card]"],
     ["/projects/designweaver/", ".project-case-facts", ".project-case-facts"],
     ["/projects/what-happened-and-why/", ".trace-caption", ".trace-caption"],
@@ -303,7 +303,7 @@ test("P: playground respects reduced motion and a failed model keeps the room us
     const room = page.locator("[data-home-desk-scene]");
     await expect(room).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
     await expect.poll(async () => (await evidence(page)).owner).toBe("page");
-    await expect(page.locator(".home-world-pip-link")).toHaveAttribute("href", /\/projects\/p\/$/);
+    await expect(page.locator(".pip-hit")).toHaveAttribute("href", /\/projects\/p\/$/);
     await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: false })));
     await page.waitForTimeout(100);
   }
@@ -391,7 +391,10 @@ test("P: reduced motion is a still pose; hidden controls leave the tab order", a
     await capture(page, testInfo, "pip-reduced-focus");
   }
   await page.locator('[data-home-desk-mode="3d"]').click();
-  await expect(page.locator("[data-home-desk-scene]")).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  const scene = page.locator("[data-home-desk-scene]");
+  // Mode changes preserve scroll position; center the scene for room ownership.
+  await scene.evaluate((element) => element.scrollIntoView({ block: "center", behavior: "instant" }));
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
   await expect.poll(async () => (await evidence(page)).owner).toBe("world");
   expect(await page.locator(".pip-companion").evaluate((e) => e.inert)).toBe(true);
   expect(errors).toEqual([]);
@@ -401,6 +404,7 @@ test("P: one companion transfers between room and reading surface", async ({ pag
   const errors = await open(page);
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
+  await scene.evaluate((element) => element.scrollIntoView({ block: "center", behavior: "instant" }));
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
   await expect.poll(async () => (await scene.evaluate((e) => e.getSceneEvidence())).companion?.visible).toBe(true);
   const rect = await scene.boundingBox();

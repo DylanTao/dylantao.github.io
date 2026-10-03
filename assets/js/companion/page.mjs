@@ -337,24 +337,27 @@ function start() {
     );
     refreshLayout();
     const size = innerWidth < 600 ? 68 : 82;
+    const paintWidth = innerWidth < 600 ? 72 : 88;
+    const paintHeight = innerWidth < 600 ? 92 : 112;
     // Narrow layouts often have room above a card, but none beside it.
+    // Approach outside the painted footprint protected by refreshLayout().
     const approaches = candidates.flatMap((card) => {
       const rect = card.getBoundingClientRect();
       const sides = [
-        { x: rect.right + size * 0.39 + 7, y: rect.top + Math.min(rect.height / 2, 65) },
-        { x: rect.left - size * 0.39 - 7, y: rect.top + Math.min(rect.height / 2, 65) },
+        { x: rect.right + paintWidth / 2 + 7, y: rect.top + Math.min(rect.height / 2, 65) },
+        { x: rect.left - paintWidth / 2 - 7, y: rect.top + Math.min(rect.height / 2, 65) },
       ];
       for (const fraction of [0.85, 0.15, 0.5])
-        for (const y of [rect.top - size * 0.48 - 7, rect.bottom + size * 0.48 + 7]) sides.push({ x: rect.left + rect.width * fraction, y });
+        for (const y of [rect.top - paintHeight / 2 - 7, rect.bottom + paintHeight / 2 + 7]) sides.push({ x: rect.left + rect.width * fraction, y });
       return sides.map((p) => ({ ...p, card }));
     });
     const destination = approaches
       .filter(
         (p) =>
-          p.x > size * 0.5 + 5 &&
-          p.x < innerWidth - size * 0.5 - 5 &&
+          p.x > paintWidth / 2 + 5 &&
+          p.x < innerWidth - paintWidth / 2 - 5 &&
           p.y > 100 &&
-          p.y < innerHeight - size * 0.5 - 5 &&
+          p.y < innerHeight - paintHeight / 2 - 5 &&
           clearAt(p.x, p.y, obstacles, size)
       )
       .sort((a, b) => Math.hypot(a.x - x, a.y - y) - Math.hypot(b.x - x, b.y - y))[0];
