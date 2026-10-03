@@ -1,9 +1,9 @@
 metadata:
-  totals_last_synced: 2026-10-01
+  totals_last_synced: 2026-10-03
   yearly_snapshot_as_of: 2026-06-17
   scholar_profile: https://scholar.google.com/citations?user=W6vF-VcAAAAJ
   yearly_note: Annual per-paper bars are a Jun 17, 2026 snapshot; lifetime totals above sync separately.
-  total_citations: 275
+  total_citations: 280
   credits:
     tool:
       label: Google Scholar Author Highlighter
@@ -23,7 +23,7 @@ papers:
     work_type: full-paper
     work_group: full-paper
     role: first-author
-    citation_total: 47
+    citation_total: 48
   wang2025hotspot:
     scholar_pub_id: W6vF-VcAAAAJ:roLk4NBRz8UC
     work_type: full-paper
@@ -41,7 +41,7 @@ papers:
     work_type: full-paper
     work_group: full-paper
     role: coauthor
-    citation_total: 209
+    citation_total: 213
 citation_years:
   - year: 2020
     total: 1
