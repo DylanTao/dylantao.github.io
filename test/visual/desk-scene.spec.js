@@ -567,6 +567,13 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(still.simulation.skin.compiledMaterials).toBeGreaterThanOrEqual(2);
   expect(still.simulation.skin.extraPasses).toBe(0);
   expect(still.simulation.onsen.obstacle).not.toBeNull();
+  expect(still.simulation.onsen.depthSource).toBe("five native basin ray hits");
+  expect(still.simulation.onsen.depth).toBeCloseTo(0.127487, 5);
+  expect(still.simulation.onsen.surfaceY - still.simulation.onsen.bottomY).toBe(still.simulation.onsen.depth);
+  expect(still.simulation.onsen.optics.thicknessMeters).toBe(still.simulation.onsen.depth);
+  expect(still.simulation.onsen.stroke.available).toBe(true);
+  expect(still.simulation.onsen.stroke.seconds).toBe(0);
+  expect(still.simulation.onsen.coupling.velocityChange).toBe(0);
   expect(still.simulation.onsen.optics.opaqueShadow).toBe(false);
   expect(still.simulation.onsen.optics.normalDepthOccluder).toBe(false);
   expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.enabled, 0)).toBe(110);
@@ -576,7 +583,12 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   await ui.locator("[data-world-pause]").click();
   await ui.locator("[data-world-lab]>summary").click();
   await canvas.scrollIntoViewIfNeeded();
-  await page.clock.runFor(3300);
+  await page.clock.runFor(900);
+  const resting = await evidence(scene);
+  expect(resting.simulation.onsen.stroke.phase).toBe("rest");
+  expect(resting.simulation.onsen.coupling.velocityChange).toBe(0);
+  expect(resting.simulation.onsen.energy).toBeLessThan(1e-12);
+  await page.clock.runFor(2400);
   const moving = await evidence(scene),
     after = await canvas.screenshot();
   expect(moving.simulation.onsen.energy).toBeGreaterThan(1e-7);
@@ -584,6 +596,12 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(moving.simulation.onsen.boundarySpeed).toBe(0);
   expect(moving.simulation.onsen.finite).toBe(true);
   expect(moving.simulation.onsen.maximumDepth - moving.simulation.onsen.minimumDepth).toBeGreaterThan(0.0001);
+  expect(moving.simulation.onsen.stroke.phase).toBe("skim");
+  expect(moving.simulation.onsen.stroke.sampledContacts).toBeGreaterThan(0);
+  expect(moving.simulation.onsen.stroke.maximumSpeed).toBeLessThan(0.4);
+  expect(moving.simulation.onsen.stroke.wristError).toBeLessThan(0.001);
+  expect(moving.simulation.onsen.coupling.velocityChange).toBeGreaterThan(0);
+  expect(Math.hypot(...moving.joints.HandL.map((v, i) => v - still.joints.HandL[i]))).toBeGreaterThan(0.03);
   const waterDiff = screenshotDiffRatio(onsenRegion(before, still), onsenRegion(after, moving));
   expect(waterDiff).toBeGreaterThan(0.0001);
   await capture(testInfo, "simulated-onsen-water-patch", onsenRegion(after, moving));
@@ -630,7 +648,7 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(errors).toEqual([]);
   fs.writeFileSync(
     testInfo.outputPath("coastal-transport-evidence.json"),
-    JSON.stringify({ still, moving, paused, hidden, recovered, reduced, departed, waterDiff }, null, 2)
+    JSON.stringify({ still, resting, moving, paused, hidden, recovered, reduced, departed, waterDiff }, null, 2)
   );
 });
 

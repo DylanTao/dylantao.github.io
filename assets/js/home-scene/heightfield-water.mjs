@@ -56,7 +56,11 @@ export function createHeightfieldWater({
     fluxV = new Float64Array(v.length),
     outgoing = new Float64Array(count),
     limiter = new Float64Array(count),
-    impulse = new Float64Array(count);
+    impulse = new Float64Array(count),
+    contactRateU = new Float64Array(u.length),
+    contactRateV = new Float64Array(v.length),
+    contactTargetU = new Float64Array(u.length),
+    contactTargetV = new Float64Array(v.length);
   let wetCount = 0,
     referenceMass = 0,
     accumulator = 0,
@@ -67,7 +71,13 @@ export function createHeightfieldWater({
     maxCourant = 0,
     limitedFluxes = 0,
     limitedVelocities = 0,
-    currentObstacle = null;
+    currentObstacle = null,
+    contactCount = 0,
+    coupledFaces = 0,
+    contactBoundU = 0,
+    contactBoundV = 0,
+    couplingSteps = 0,
+    velocityChange = 0;
   const xAt = (i) => (i + 0.5) * dx - width / 2,
     zAt = (j) => (j + 0.5) * dz - length / 2;
   const mass = () => h.reduce((sum, value) => sum + value, 0) * area;
@@ -140,8 +150,81 @@ export function createHeightfieldWater({
     );
   }
 
+  function validateContacts(contacts) {
+    if (!Array.isArray(contacts) || contacts.length > 2) throw new RangeError("at most two finite palm contacts required");
+    for (const c of contacts)
+      if (
+        !c ||
+        ![c.x, c.z, c.vx, c.vz, c.submergence, c.spread].every(Number.isFinite) ||
+        c.submergence < 0 ||
+        c.submergence > 0.2 ||
+        c.spread < 2 * Math.max(dx, dz) ||
+        c.spread > 0.25 ||
+        Math.hypot(c.vx, c.vz) > 0.4
+      )
+        throw new RangeError("palm contact exceeds bounded speed, submergence or resolved spread");
+  }
+
+  // One-way prescribed solid-to-fluid drag, informed by Chentanez/Mueller
+  // section 2.3.2. Gaussian contact proxies replace their triangle samples.
+  // Only staggered velocities change: mass still flows through shared faces.
+  function prepareContacts(contacts) {
+    if (!contacts.length && !contactCount) return;
+    contactRateU.fill(0);
+    contactRateV.fill(0);
+    contactTargetU.fill(0);
+    contactTargetV.fill(0);
+    contactCount = contacts.length;
+    coupledFaces = 0;
+    contactBoundU = contactBoundV = 0;
+    for (const c of contacts) {
+      const sigma2 = c.spread * c.spread,
+        submersion = Math.min(1, c.submergence / 0.025),
+        rate = 7 * submersion * Math.exp(-c.submergence / 0.18);
+      if (rate === 0) continue;
+      for (let j = 0; j < nz; j++)
+        for (let i = 1; i < nx; i++) {
+          const k = j * (nx + 1) + i,
+            r2 = ((i * dx - width / 2 - c.x) ** 2 + (zAt(j) - c.z) ** 2) / sigma2;
+          if (!openU[k] || r2 > 9) continue;
+          const weight = rate * Math.exp(-r2 / 2);
+          contactRateU[k] += weight;
+          contactTargetU[k] += weight * c.vx;
+        }
+      for (let j = 1; j < nz; j++)
+        for (let i = 0; i < nx; i++) {
+          const k = j * nx + i,
+            r2 = ((xAt(i) - c.x) ** 2 + (j * dz - length / 2 - c.z) ** 2) / sigma2;
+          if (!openV[k] || r2 > 9) continue;
+          const weight = rate * Math.exp(-r2 / 2);
+          contactRateV[k] += weight;
+          contactTargetV[k] += weight * c.vz;
+        }
+    }
+    for (let k = 0; k < u.length; k++)
+      if (contactRateU[k] > 0) {
+        contactTargetU[k] /= contactRateU[k];
+        contactBoundU = Math.max(contactBoundU, Math.abs(contactTargetU[k]));
+        coupledFaces++;
+      }
+    for (let k = 0; k < v.length; k++)
+      if (contactRateV[k] > 0) {
+        contactTargetV[k] /= contactRateV[k];
+        contactBoundV = Math.max(contactBoundV, Math.abs(contactTargetV[k]));
+        coupledFaces++;
+      }
+  }
+
+  const coupledSpeed = (speed, rate, target, dt) => {
+    if (rate === 0) return speed;
+    const change = (target - speed) * -Math.expm1(-rate * dt);
+    velocityChange += Math.abs(change);
+    return speed + change;
+  };
+
   function integrate(dt) {
     const drag = Math.exp(-damping * dt);
+    if (coupledFaces) couplingSteps++;
     for (let j = 0; j < nz; j++)
       for (let i = 0; i <= nx; i++) {
         const k = j * (nx + 1) + i;
@@ -152,7 +235,7 @@ export function createHeightfieldWater({
         const cross = sample(v, nx, nz + 1, i - 0.5, j + 0.5),
           advected = sample(u, nx + 1, nz, i - (u[k] * dt) / dx, j - (cross * dt) / dz),
           pressure = (-gravity * (h[j * nx + i] - h[j * nx + i - 1]) * dt) / dx;
-        const speed = (advected + pressure) * drag;
+        const speed = coupledSpeed((advected + pressure) * drag, contactRateU[k], contactTargetU[k], dt);
         nextU[k] = clamp(speed, -2, 2);
         if (speed !== nextU[k]) limitedVelocities++;
         fluxU[k] = nextU[k] * h[j * nx + i - (nextU[k] > 0 ? 1 : 0)];
@@ -167,7 +250,7 @@ export function createHeightfieldWater({
         const cross = sample(u, nx + 1, nz, i + 0.5, j - 0.5),
           advected = sample(v, nx, nz + 1, i - (cross * dt) / dx, j - (v[k] * dt) / dz),
           pressure = (-gravity * (h[j * nx + i] - h[(j - 1) * nx + i]) * dt) / dz;
-        const speed = (advected + pressure) * drag;
+        const speed = coupledSpeed((advected + pressure) * drag, contactRateV[k], contactTargetV[k], dt);
         nextV[k] = clamp(speed, -2, 2);
         if (speed !== nextV[k]) limitedVelocities++;
         fluxV[k] = nextV[k] * h[(j - (nextV[k] > 0 ? 1 : 0)) * nx + i];
@@ -211,16 +294,18 @@ export function createHeightfieldWater({
     steps++;
   }
 
-  function advance(delta) {
+  function advance(delta, { contacts = [] } = {}) {
     if (!Number.isFinite(delta) || delta < 0) throw new RangeError("finite nonnegative active delta required");
+    validateContacts(contacts);
     const accepted = Math.min(delta, maxFrame);
     droppedTime += delta - accepted;
     accumulator += accepted;
     const ticks = Math.floor((accumulator + 1e-12) / tick);
+    if (ticks > 0) prepareContacts(contacts);
     for (let t = 0; t < ticks; t++) {
       let maxH = depth,
-        maxU = 0,
-        maxV = 0;
+        maxU = contactBoundU,
+        maxV = contactBoundV;
       for (let k = 0; k < count; k++) maxH = Math.max(maxH, h[k]);
       for (const speed of u) maxU = Math.max(maxU, Math.abs(speed));
       for (const speed of v) maxV = Math.max(maxV, Math.abs(speed));
@@ -312,11 +397,27 @@ export function createHeightfieldWater({
       maxCourant,
       limitedFluxes,
       limitedVelocities,
-      storageBytes: [h, wet, u, v, openU, openV, nextU, nextV, fluxU, fluxV, outgoing, limiter, impulse].reduce(
-        (sum, array) => sum + array.byteLength,
-        0
-      ),
+      storageBytes: [
+        h,
+        wet,
+        u,
+        v,
+        openU,
+        openV,
+        nextU,
+        nextV,
+        fluxU,
+        fluxV,
+        outgoing,
+        limiter,
+        impulse,
+        contactRateU,
+        contactRateV,
+        contactTargetU,
+        contactTargetV,
+      ].reduce((sum, array) => sum + array.byteLength, 0),
       obstacle: currentObstacle,
+      coupling: { method: "Gaussian submerged palm / exponential face drag", contactCount, coupledFaces, couplingSteps, velocityChange },
     };
   }
 

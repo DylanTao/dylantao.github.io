@@ -25,7 +25,15 @@ vec3 samplePool(vec2 point) {
 }
 `;
 
-export function createOnsenWater({ center = [3.02, -1.82], surfaceY = 3.0075, radius = 0.86, depth = 0.24, ...solverOptions } = {}) {
+export function createOnsenWater({
+  center = [3.02, -1.82],
+  surfaceY = 3.0075,
+  radius = 0.86,
+  depth = 0.24,
+  bottomY = null,
+  depthSource = "illustrative parameter",
+  ...solverOptions
+} = {}) {
   if (!Array.isArray(center) || center.length !== 2 || ![...center, surfaceY, radius].every(Number.isFinite))
     throw new RangeError("finite world-space pool geometry required");
   const solver = createHeightfieldWater({ ...solverOptions, width: radius * 2, length: radius * 2, radius, depth }),
@@ -159,14 +167,17 @@ export function createOnsenWater({ center = [3.02, -1.82], surfaceY = 3.0075, ra
 
   return {
     solver,
+    surfaceY,
+    depth,
     texture,
     uniforms,
     bindMaterial,
     surfaceGeometry,
     setBather,
-    advance(delta) {
+    advance(delta, { contacts = [] } = {}) {
       if (disposed) return false;
-      const changed = solver.advance(delta);
+      const localContacts = contacts.map((contact) => ({ ...contact, x: contact.x - center[0], z: contact.z - center[1] }));
+      const changed = solver.advance(delta, { contacts: localContacts });
       if (changed) upload();
       return changed;
     },
@@ -176,7 +187,18 @@ export function createOnsenWater({ center = [3.02, -1.82], surfaceY = 3.0075, ra
       upload();
     },
     evidence() {
-      return { ...solver.evidence(), center: [...center], surfaceY, radius, uploads, textureBytes: data.byteLength, disposed };
+      return {
+        ...solver.evidence(),
+        center: [...center],
+        surfaceY,
+        radius,
+        depth,
+        bottomY,
+        depthSource,
+        uploads,
+        textureBytes: data.byteLength,
+        disposed,
+      };
     },
     dispose() {
       if (disposed) return;
