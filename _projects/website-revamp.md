@@ -91,6 +91,7 @@ research_motion:
     <p class="project-design-question"><span>Design question</span> How can the site show both the work and the judgment that shaped it without asking people to read a development log?</p>
     <div class="project-case-actions">
       <a href="{{ '/' | relative_url }}">Open the live homepage</a>
+      <a href="{{ '/design-lab/' | relative_url }}">Open the design notebook</a>
       <a href="{{ '/WEBSITE_DESIGN_HEURISTICS.md' | relative_url }}" download>Download the heuristics</a>
       <a href="https://web.archive.org/web/20260209013429/https://dylantao.github.io/" target="_blank" rel="noopener noreferrer">Open the old site</a>
     </div>

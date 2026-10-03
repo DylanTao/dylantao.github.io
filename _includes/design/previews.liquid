@@ -1,48 +1,31 @@
 {% assign home = site.pages | where: 'permalink', '/' | first %}
 {% assign origin_photo = home.thesis.origin.photo %}
+{% assign notebook_root_url = '/' | relative_url %}
+{% assign notebook_news_href = 'href="' | append: notebook_root_url %}
 <link rel="stylesheet" href="{{ '/assets/css/design-lab.css' | relative_url }}">
 
 <div class="home-page design-lab">
   <header class="design-lab-opening">
-    <p class="home-kicker">Local design review · October 1</p>
-    <h1>Ideas, in your site.</h1>
-    <p>Working previews with your research and photographs. Revised after your October 1 feedback.</p>
-    <nav aria-label="Design previews">
-      <a href="#a">A · Work spread</a>
-      <a href="#b1">B1 · Small margin photo</a>
-      <a href="#b2">B2 · Text only</a>
-      <a href="#c">C · Quiet updates</a>
-      <a href="#d">D · Research reading list</a>
-      <a href="{{ '/design-lab/case-process/' | relative_url }}">E · Case process</a>
-      <a href="{{ '/design-lab/case-comparison/' | relative_url }}">F · Case comparison</a>
-      <a href="{{ '/design-lab/coastal-process/' | relative_url }}">G · La Jolla process</a>
-      <a href="{{ '/' | relative_url }}">Current homepage ↗</a>
+    <p class="home-kicker">Research and design</p>
+    <h1>Design notebook.</h1>
+    <p>DesignWeaver, papers I return to, and a little La Jolla.</p>
+    <nav aria-label="In the design notebook">
+      <a href="#work">Work</a>
+      <a href="#thesis">The research thread</a>
+      <a href="#updates">Updates</a>
+      <a href="#papers">Papers</a>
+      <a href="#designweaver">Inside DesignWeaver</a>
+      <a href="#miniature">Making the miniature</a>
+      <a href="{{ '/' | relative_url }}">About me ↗</a>
     </nav>
   </header>
 
-  <section id="a" class="design-preview" aria-labelledby="preview-a-title">
-    <header class="design-preview-brief">
-      <div>
-        <p class="design-preview-label">A · Homepage selected work</p>
-        <h2 id="preview-a-title">Let DesignWeaver lead.</h2>
-        <p>One selected research project, with its question close to the original interface figure before opening the case study.</p>
-      </div>
-      <p class="design-preview-reference">
-        Learn from
-        <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/087-sketchbook-portfolio.html" target="_blank" rel="noopener noreferrer"
-          >087 · Sketchbook ↗</a
-        >
-        and
-        <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/008-lighthouse-longform.html" target="_blank" rel="noopener noreferrer"
-          >008 · Editorial ↗</a
-        >.
-      </p>
-    </header>
+  <section id="work" class="design-preview" aria-labelledby="notebook-work-title">
     <div class="design-preview-surface design-work-spread">
       <div class="home-section-heading home-section-heading-row">
         <div>
           <p class="home-kicker">Selected work</p>
-          <h2>Questions made tangible.</h2>
+          <h2 id="notebook-work-title">Questions made tangible.</h2>
         </div>
         <a class="home-text-link" href="{{ '/projects/' | relative_url }}">All projects</a>
       </div>
@@ -72,97 +55,43 @@
         </article>
       {% endfor %}
     </div>
-    <p class="design-preview-tradeoff">
-      DesignWeaver now leads the local homepage. The workshop paper remains in the project and publication archives.
-    </p>
   </section>
 
-  <section id="b" class="design-preview" aria-labelledby="preview-b-title">
-    <header class="design-preview-brief">
-      <div>
-        <p class="design-preview-label">B · Revised thesis note</p>
-        <h2 id="preview-b-title">Keep the question at the center.</h2>
-        <p>B1 is now on the local homepage. Steven, Don, and other conversations share the acknowledgement; B2 remains here for comparison.</p>
-      </div>
-      <p class="design-preview-reference">
-        Learn from
-        <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/008-lighthouse-longform.html" target="_blank" rel="noopener noreferrer"
-          >008 · Margin notes ↗</a
-        >
-        and the
-        <a href="https://zcnofdpgpxud.feishuapp.com/app/app_17exzr8eka4/" target="_blank" rel="noopener noreferrer">editorial collection ↗</a>.
-      </p>
-    </header>
-    <article id="b1" class="design-notebook-variant" aria-labelledby="preview-b1-title">
-      <p id="preview-b1-title" class="design-variant-label">B1 · A small photograph in the margin</p>
-      <div class="design-preview-surface design-conversation">
-        <div class="design-conversation-copy">
-          <p class="home-kicker">{{ home.thesis.eyebrow }}</p>
-          <h2>{{ home.thesis.title }}</h2>
-          <p class="design-thesis-lead">{{ home.thesis.lead }}</p>
-          <aside class="design-principle" aria-label="Sirui's design principle">
-            <p class="design-preview-label">{{ home.thesis.principle_label }}</p>
-            <p>{{ home.thesis.principle }}</p>
-          </aside>
-          <p class="design-conversation-credit">{{ home.thesis.origin.text }}</p>
-        </div>
-        <aside class="design-conversation-margin" aria-label="One of the conversations behind this work">
-          {% capture origin_caption %}{{ origin_photo.caption }}<br>{{ origin_photo.date_label }}{% endcapture %}
-          {%
-            include figure.liquid
-            path=origin_photo.image
-            alt=origin_photo.alt
-            width=origin_photo.width
-            height=origin_photo.height
-            caption=origin_caption
-            sizes='(max-width: 767px) 192px, 208px'
-            loading='lazy'
-          %}
-          <a class="home-text-link" href="{{ home.thesis.origin.url | relative_url }}">Read the talk note ↗</a>
-        </aside>
-      </div>
-      <p class="design-preview-tradeoff">Keeps a personal detail at the edge of the research story. The image stays small on mobile too.</p>
-    </article>
-    <article id="b2" class="design-notebook-variant" aria-labelledby="preview-b2-title">
-      <p id="preview-b2-title" class="design-variant-label">B2 · A quiet acknowledgement, without a photograph</p>
-      <div class="design-preview-surface design-text-note">
+  <section id="thesis" class="design-preview" aria-labelledby="notebook-thesis-title">
+    <div class="design-preview-surface design-conversation">
+      <div class="design-conversation-copy">
         <p class="home-kicker">{{ home.thesis.eyebrow }}</p>
-        <h2>{{ home.thesis.title }}</h2>
+        <h2 id="notebook-thesis-title">{{ home.thesis.title }}</h2>
         <p class="design-thesis-lead">{{ home.thesis.lead }}</p>
         <aside class="design-principle" aria-label="Sirui's design principle">
           <p class="design-preview-label">{{ home.thesis.principle_label }}</p>
           <p>{{ home.thesis.principle }}</p>
         </aside>
-        <div class="design-conversation-footer">
-          <p>{{ home.thesis.origin.text }}</p>
-          <a class="home-text-link" href="{{ home.thesis.origin.url | relative_url }}">{{ home.thesis.origin.link_label }} ↗</a>
-        </div>
+        <p class="design-conversation-credit">{{ home.thesis.origin.text }}</p>
       </div>
-      <p class="design-preview-tradeoff">
-        The lightest treatment. Keeps the people and a reading link in the story, with less emphasis on any single encounter.
-      </p>
-    </article>
+      <aside class="design-conversation-margin" aria-label="One of the conversations behind this work">
+        {% capture origin_caption %}{{ origin_photo.caption }}<br>{{ origin_photo.date_label }}{% endcapture %}
+        {%
+          include figure.liquid
+          path=origin_photo.image
+          alt=origin_photo.alt
+          width=origin_photo.width
+          height=origin_photo.height
+          caption=origin_caption
+          sizes='(max-width: 767px) 192px, 208px'
+          loading='lazy'
+        %}
+        <a class="home-text-link" href="{{ home.thesis.origin.url | relative_url }}">Read the talk note ↗</a>
+      </aside>
+    </div>
   </section>
 
-  <section id="c" class="design-preview" aria-labelledby="preview-c-title">
-    <header class="design-preview-brief">
-      <div>
-        <p class="design-preview-label">C · Homepage updates</p>
-        <h2 id="preview-c-title">Let updates read like dated notes.</h2>
-        <p>Quiet rules, aligned dates, complete sentences. This refinement is already on the local homepage.</p>
-      </div>
-      <p class="design-preview-reference">
-        Learn from the clear alignment in
-        <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/003-swiss-poster-machine.html" target="_blank" rel="noopener noreferrer"
-          >003 · Swiss grid ↗</a
-        >.
-      </p>
-    </header>
+  <section id="updates" class="design-preview" aria-labelledby="notebook-updates-title">
     <div class="design-preview-surface">
       <div class="home-section-heading home-section-heading-row">
         <div>
           <p class="home-kicker">Updates</p>
-          <h2>Recent signals.</h2>
+          <h2 id="notebook-updates-title">Recent signals.</h2>
         </div>
         <a class="home-text-link" href="{{ '/news/' | relative_url }}">Full timeline</a>
       </div>
@@ -178,7 +107,7 @@
                 <span class="home-news-pin" aria-label="Pinned">Pinned</span>
               {%- endif %}
               {% if item.inline -%}
-                {{- item.content | remove: '<p>' | remove: '</p>' | emojify -}}
+                {{- item.content | remove: '<p>' | remove: '</p>' | emojify | replace: 'href="/', notebook_news_href -}}
               {%- else -%}
                 <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
               {%- endif %}
@@ -189,30 +118,14 @@
     </div>
   </section>
 
-  <section id="d" class="design-preview" aria-labelledby="preview-d-title">
-    <header class="design-preview-brief">
-      <div>
-        <p class="design-preview-label">D · Proposed homepage reading list</p>
-        <h2 id="preview-d-title">Lead with the work you want people to open.</h2>
-        <p>
-          Three full papers, each with one reason to read it and one clear destination. The complete bibliography keeps every paper, author, and
-          resource.
-        </p>
-      </div>
-      <p class="design-preview-reference">
-        Learn from the labeled, easy-to-compare choices in
-        <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/071-palette-studio.html" target="_blank" rel="noopener noreferrer"
-          >071 · Palette studio ↗</a
-        >. This is a layout proposal using the existing publication guides.
-      </p>
-    </header>
+  <section id="papers" class="design-preview" aria-labelledby="notebook-papers-title">
     <div class="design-preview-surface">
       <div class="home-section-heading">
         <p class="home-kicker">Selected publications</p>
-        <h2>Papers worth opening first.</h2>
+        <h2 id="notebook-papers-title">Papers worth opening first.</h2>
       </div>
       <div class="design-reading-list">
-        {% for paper in page.reading_preview %}
+        {% for paper in page.reading_list %}
           {% assign context = site.data.publication_context.papers[paper.key] %}
           <article class="design-reading-row">
             <div>
@@ -239,66 +152,56 @@
       </div>
       <a class="home-text-link design-reading-archive" href="{{ '/publications/' | relative_url }}">Full bibliography, authors &amp; resources ↗</a>
     </div>
-    <p class="design-preview-tradeoff">Proposed only. The workshop paper stays in the full bibliography and chronological updates.</p>
   </section>
 
-  <section id="case-previews" class="design-preview" aria-labelledby="case-previews-title">
+  <section id="designweaver" class="design-preview" aria-labelledby="notebook-designweaver-title">
     <header class="design-preview-brief">
       <div>
-        <p class="design-preview-label">E and F · Proposed DesignWeaver case study</p>
-        <h2 id="case-previews-title">Make the interface decision easier to inspect.</h2>
-        <p>Two working pages using the original study figures, authors, and research resources. These ideas can be combined.</p>
+        <p class="design-preview-label">Research notes</p>
+        <h2 id="notebook-designweaver-title">Inside DesignWeaver.</h2>
+        <p>Follow the design process and inspect the evidence from the study.</p>
       </div>
-      <p class="design-preview-reference">Both remain unlisted previews while you decide. The current case study keeps its layout.</p>
     </header>
     <div class="design-preview-surface design-reading-list">
       <article class="design-reading-row">
         <div>
           <h3>
-            <a href="{{ '/design-lab/case-process/' | relative_url }}">E · Follow the process <span aria-hidden="true">↗</span></a>
+            <a href="{{ '/design-lab/case-process/' | relative_url }}">Follow the process <span aria-hidden="true">↗</span></a>
           </h3>
           <p class="design-reading-meta">Numbered steps beside the full diagram</p>
         </div>
-        <p class="design-reading-purpose">Keep each action close to the system it explains, with the complete original diagram available to open.</p>
+        <p class="design-reading-purpose">From the design brief to generated images, with the full system diagram.</p>
       </article>
       <article class="design-reading-row">
         <div>
           <h3>
-            <a href="{{ '/design-lab/case-comparison/' | relative_url }}">F · Compare the interfaces <span aria-hidden="true">↗</span></a>
+            <a href="{{ '/design-lab/case-comparison/' | relative_url }}">Compare the interfaces <span aria-hidden="true">↗</span></a>
           </h3>
           <p class="design-reading-meta">Baseline, DesignWeaver, and study evidence</p>
         </div>
-        <p class="design-reading-purpose">
-          Put the two conditions beside one another, then give each result its own figure, caption, and original-image link.
-        </p>
+        <p class="design-reading-purpose">Compare the study interfaces and inspect participant ratings and image-diversity results.</p>
       </article>
     </div>
   </section>
 
-  <section id="g" class="design-preview" aria-labelledby="preview-g-title">
+  <section id="miniature" class="design-preview" aria-labelledby="notebook-coastal-title">
     <header class="design-preview-brief">
       <div>
-        <p class="design-preview-label">G · Proposed La Jolla case study</p>
-        <h2 id="preview-g-title">Show what was recovered and what was rebuilt.</h2>
-        <p>Keep the generated studies, reconstructed shape, and authored miniature close to their explanation.</p>
+        <p class="design-preview-label">Making the miniature</p>
+        <h2 id="notebook-coastal-title">A little La Jolla.</h2>
+        <p>Generated studies, a reconstructed shape, and the architecture I built for the miniature.</p>
       </div>
-      <p class="design-preview-reference">An unlisted process preview using the existing complete figures, sources, and license credits.</p>
     </header>
     <div class="design-preview-surface">
       <article class="design-reading-row">
         <div>
           <h3>
-            <a href="{{ '/design-lab/coastal-process/' | relative_url }}">G · Compare the process <span aria-hidden="true">↗</span></a>
+            <a href="{{ '/design-lab/coastal-process/' | relative_url }}">From reference to geometry <span aria-hidden="true">↗</span></a>
           </h3>
           <p class="design-reading-meta">Generated studies → reconstruction → authored geometry</p>
         </div>
-        <p class="design-reading-purpose">
-          Place the reconstruction beside the production miniature, so readers can inspect the modeling decision without scrolling back.
-        </p>
+        <p class="design-reading-purpose">See what the reconstruction recovered and which architectural details needed deliberate modeling.</p>
       </article>
     </div>
-    <p class="design-preview-tradeoff">Proposed only. Different viewpoints support a qualitative process comparison.</p>
   </section>
-
-  <p class="design-lab-credit">Original site implementation and existing Sirui assets. Reference sites are linked for the ideas they illustrate.</p>
 </div>

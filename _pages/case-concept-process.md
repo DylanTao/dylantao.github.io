@@ -1,8 +1,8 @@
 ---
 layout: default
-title: DesignWeaver process preview
+title: How DesignWeaver works
 permalink: /design-lab/case-process/
-description: An unlisted DesignWeaver case-study preview that keeps the process beside the full system diagram.
+description: Follow DesignWeaver from the design brief through dimensions, prompts, generated images, and iteration.
 panel_wide: true
 nav: false
 sitemap: false
@@ -13,11 +13,11 @@ robots: noindex, nofollow
 <link rel="stylesheet" href="{{ '/assets/css/case-concepts.css' | relative_url }}">
 
 <article class="case-concept case-concept--process" aria-labelledby="concept-title">
-  <div class="case-concept__review">
-    <p>Concept E · Unlisted review</p>
-    <nav aria-label="Case-study previews">
-      <a href="{{ '/design-lab/case-comparison/' | relative_url }}">Concept F: comparison <span aria-hidden="true">→</span></a>
-      <a href="{{ '/projects/designweaver/' | relative_url }}">Current case study</a>
+  <div class="case-concept__navigation">
+    <a href="{{ '/design-lab/' | relative_url }}"><span aria-hidden="true">←</span> Design notebook</a>
+    <nav aria-label="DesignWeaver reading paths">
+      <a href="{{ '/design-lab/case-comparison/' | relative_url }}">Study comparison <span aria-hidden="true">→</span></a>
+      <a href="{{ '/projects/designweaver/' | relative_url }}">Full case study</a>
     </nav>
   </div>
 
@@ -72,15 +72,7 @@ robots: noindex, nofollow
     <h2 id="process-evidence">DesignWeaver Research Results</h2>
     <p>In a controlled study, participants wrote richer prompts and produced more diverse, expert-aligned chair concepts.</p>
     <p>52 novice designers took part. With DesignWeaver their prompts were longer and more specific, and experts rated their chairs more novel than the baseline's.</p>
-    <a href="{{ '/design-lab/case-comparison/' | relative_url }}">See the comparison preview <span aria-hidden="true">→</span></a>
+    <a href="{{ '/design-lab/case-comparison/' | relative_url }}">Inspect the study comparison <span aria-hidden="true">→</span></a>
   </section>
 
-  <aside class="case-concept__review-note" aria-label="Preview intent and references">
-    <p><strong>Review question:</strong> Is the four-stage explanation easier to follow beside the complete system diagram?</p>
-    <details>
-      <summary>About this preview</summary>
-      <p>This is an unlisted layout study. Research wording and the original diagram come from the <a href="{{ '/projects/designweaver/' | relative_url }}">DesignWeaver case study</a> and the credited paper above.</p>
-      <p>The persistent artifact and numbered sequence draw on <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/027-origami-crane.html">027: Senbazuru</a>. The placement of supporting material beside instructions draws on <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/040-lemon-tart-recipe.html">040: Lemon Ricotta Tart</a>. This preview uses original HTML/CSS and existing research assets.</p>
-    </details>
-  </aside>
 </article>

@@ -1,8 +1,8 @@
 ---
 layout: default
-title: DesignWeaver comparison preview
+title: DesignWeaver study comparison
 permalink: /design-lab/case-comparison/
-description: An unlisted DesignWeaver case-study preview that places the baseline, scaffolded interface, and study evidence together.
+description: Compare the baseline and DesignWeaver interfaces, participant ratings, and image-diversity results from the CHI 2025 study.
 panel_wide: true
 nav: false
 sitemap: false
@@ -13,11 +13,11 @@ robots: noindex, nofollow
 <link rel="stylesheet" href="{{ '/assets/css/case-concepts.css' | relative_url }}">
 
 <article class="case-concept case-concept--comparison" aria-labelledby="concept-title">
-  <div class="case-concept__review">
-    <p>Concept F · Unlisted review</p>
-    <nav aria-label="Case-study previews">
-      <a href="{{ '/design-lab/case-process/' | relative_url }}"><span aria-hidden="true">←</span> Concept E: process</a>
-      <a href="{{ '/projects/designweaver/' | relative_url }}">Current case study</a>
+  <div class="case-concept__navigation">
+    <a href="{{ '/design-lab/' | relative_url }}"><span aria-hidden="true">←</span> Design notebook</a>
+    <nav aria-label="DesignWeaver reading paths">
+      <a href="{{ '/design-lab/case-process/' | relative_url }}">Design process</a>
+      <a href="{{ '/projects/designweaver/' | relative_url }}">Full case study</a>
     </nav>
   </div>
 
@@ -67,7 +67,7 @@ robots: noindex, nofollow
     <div class="case-concept__evidence-row">
       <div class="case-concept__evidence-note">
         <h3>Creative Exploration</h3>
-        <p>Rated higher on creative exploration and continuous improvement of design ideas.</p>
+        <p>Participants rated DesignWeaver higher on creative exploration and continuous improvement of design ideas.</p>
       </div>
       <div class="case-concept__evidence-figure">
         {% include figure.liquid path="assets/img/project_pics/designweaver/finding_survey_average_ratings_comparison.jpg" width="1993" height="653" sizes="(min-width: 1080px) 850px, 95vw" title="DesignWeaver participant survey ratings" alt="Bar chart comparing average survey ratings between DesignWeaver and baseline conditions" class="case-concept__image" caption="Figure 6, left. Participants rated DesignWeaver higher than the Baseline on ease of idea-to-prompt conversion, design space exploration, prompt generation, concept refinement, and iterative design improvement." %}
@@ -88,12 +88,4 @@ robots: noindex, nofollow
 
   </section>
 
-  <aside class="case-concept__review-note" aria-label="Preview intent and references">
-    <p><strong>Review question:</strong> Does seeing the baseline beside DesignWeaver make the contribution and study results easier to understand?</p>
-    <details>
-      <summary>About this preview</summary>
-      <p>This is an unlisted layout study. The two interface figures describe the study conditions; the results below are the paper's original figures. Research wording, figure labels, and credit come from the <a href="{{ '/projects/designweaver/' | relative_url }}">DesignWeaver case study</a> and the credited paper above.</p>
-      <p>Keeping notes beside the artifact draws on <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/056-architectural-blueprint.html">056: Casa Lumen</a>. Labeling both sides and placing evidence beside a comparison draws on <a href="https://miaai-lab.github.io/Claude-Opus-5.5-100-HTML-Files/071-palette-studio.html">071: Chroma</a>. This preview uses original HTML/CSS and existing research assets.</p>
-    </details>
-  </aside>
 </article>

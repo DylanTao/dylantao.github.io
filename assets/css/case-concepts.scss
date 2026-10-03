@@ -1,7 +1,7 @@
 ---
 ---
 
-// Unlisted case-study experiments; no public-route selectors or scene runtime.
+// DesignWeaver process and study notes; no scene runtime.
 .case-concept {
   max-width: 1160px;
   margin: var(--md-lite-space-5) auto var(--md-lite-space-8);
@@ -53,7 +53,7 @@
   }
 }
 
-.case-concept__review {
+.case-concept__navigation {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -223,21 +223,6 @@
 
 .case-concept__evidence-row--distribution .case-concept__evidence-figure {
   max-width: 34rem;
-}
-
-.case-concept__review-note {
-  max-width: var(--measure-prose);
-  margin-top: var(--md-lite-space-7);
-  padding-top: var(--md-lite-space-5);
-  border-top: 1px solid var(--global-divider-color);
-  color: var(--global-text-color-light);
-  font-size: var(--type-meta);
-
-  summary {
-    min-height: 44px;
-    padding-block: var(--md-lite-space-3);
-    cursor: pointer;
-  }
 }
 
 @media (min-width: 1080px) and (min-height: 900px) {

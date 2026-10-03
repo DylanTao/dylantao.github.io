@@ -1,7 +1,7 @@
 ---
 ---
 
-// Local review surface. Experiments remain separate from the public homepage.
+// Research and design notebook, sharing the homepage's reading surfaces.
 .design-lab {
   margin-block: 3rem;
 
@@ -52,10 +52,7 @@
 }
 
 .design-preview-brief {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.35fr);
-  align-items: end;
-  gap: 1.5rem;
+  display: block;
   margin-bottom: 2.5rem;
 
   h2 {
@@ -68,10 +65,7 @@
   }
 }
 
-.design-preview-label,
-.design-preview-reference,
-.design-preview-tradeoff,
-.design-lab-credit {
+.design-preview-label {
   color: var(--home-muted);
   font-size: var(--type-compact);
   line-height: 1.6;
@@ -80,11 +74,6 @@
 .design-preview-label {
   margin: 0;
   color: var(--home-accent-strong);
-}
-
-.design-preview-reference a {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
 }
 
 .design-preview-surface {
@@ -132,17 +121,6 @@
   }
 }
 
-.design-notebook-variant {
-  padding-block: 1.75rem 2rem;
-  border-top: 1px solid var(--home-line);
-  scroll-margin-top: 6rem;
-}
-
-.design-variant-label {
-  color: var(--home-muted);
-  font-size: var(--type-reading);
-}
-
 .design-conversation {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 13rem;
@@ -181,8 +159,7 @@
   }
 }
 
-.design-conversation-copy,
-.design-text-note {
+.design-conversation-copy {
   h2 {
     margin-block: 0.5rem 1rem;
     max-width: 30ch;
@@ -209,29 +186,11 @@
   }
 }
 
-.design-conversation-credit,
-.design-conversation-footer {
+.design-conversation-credit {
   max-width: 65ch;
   color: var(--home-muted);
   font-size: var(--type-compact);
   line-height: 1.75;
-}
-
-.design-text-note {
-  max-width: 62rem;
-}
-
-.design-conversation-footer {
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--home-line);
-
-  p {
-    margin-bottom: 0.5rem;
-  }
-}
-
-.design-preview-tradeoff {
-  margin: 1rem 0 0;
 }
 
 .design-reading-row {
@@ -282,7 +241,6 @@
     margin-top: 1.5rem;
   }
 
-  .design-preview-brief,
   .design-work-row,
   .design-conversation {
     grid-template-columns: minmax(0, 1fr);

@@ -1,14 +1,14 @@
 ---
 layout: default
-title: Design previews
+title: Design notebook
 permalink: /design-lab/
-description: Working design previews using Sirui's own research and photographs.
+description: Research interfaces, papers I return to, and the process behind a little La Jolla.
 panel_wide: true
 nav: false
 sitemap: false
 search: false
 robots: noindex, nofollow
-reading_preview:
+reading_list:
   - key: tao2024designweaver
     title: DesignWeaver
     venue: CHI 2025

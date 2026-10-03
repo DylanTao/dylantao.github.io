@@ -83,6 +83,8 @@ cinematic: true
   </div>
 </section>
 
+<p>For a closer look, <a href="{{ '/design-lab/case-process/' | relative_url }}">follow the design process</a> or <a href="{{ '/design-lab/case-comparison/' | relative_url }}">compare the study interfaces and results</a>.</p>
+
 <div class="project-author-strip" aria-label="DesignWeaver authors">
   <a href="https://dylantao.github.io/">Sirui Tao</a>
   <a href="https://www.linkedin.com/in/ivan-liang-537967155">Ivan Liang</a>

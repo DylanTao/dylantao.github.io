@@ -1,7 +1,7 @@
 ---
 ---
 
-// Isolated, unlisted comparison. Existing process assets remain whole.
+// La Jolla process notes. Existing process assets remain whole.
 .coastal-process-preview {
   max-width: 1160px;
   margin: var(--md-lite-space-5) auto var(--md-lite-space-8);
@@ -69,7 +69,7 @@
   }
 }
 
-.coastal-process-preview__review {
+.coastal-process-preview__navigation {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -153,17 +153,11 @@
   }
 }
 
-.coastal-process-preview__provenance,
-.coastal-process-preview__review-note {
+.coastal-process-preview__provenance {
   max-width: var(--measure-prose);
   margin-top: var(--md-lite-space-7);
   padding-top: var(--md-lite-space-5);
   border-top: 1px solid var(--global-divider-color);
-}
-
-.coastal-process-preview__review-note {
-  color: var(--global-text-color-light);
-  font-size: var(--type-meta);
 }
 
 @media (max-width: 767px) {

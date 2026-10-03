@@ -42,6 +42,8 @@ The selected site theme changes the light and the little activities: a quiet mor
 
 ## From reference to geometry
 
+<p><a href="{{ '/design-lab/coastal-process/' | relative_url }}">Open the illustrated process notes</a> to compare the design studies, reconstructed shape, and production miniature.</p>
+
 I started with coordinated generated views, then ran Tencent's Hunyuan3D-2mv locally to see what shape it could recover. The raw reconstruction is retained alongside the editable Blender composition. It is useful to compare the silhouette with the architecture that needs deliberate modeling: the folded DIB bays, Geisel's stepped crown, the Salk courtyard, and the thin structure of the pier.
 
 <div class="studio-print-pair">
