@@ -41,7 +41,9 @@ function start() {
     const dt = last ? Math.min(0.25, Math.max(0, (now - last) / 1000)) : 1 / 60;
     last = now;
     if (companion.owner !== "studio") {
-      request();
+      // Ownership, visibility and input events wake this controller. A studio
+      // peeking into the viewport must not poll while the page owns P.
+      last = 0;
       return;
     }
     const still = reduced.matches || companion.napping;
@@ -152,6 +154,14 @@ function start() {
     last = 0;
     request();
   });
-  studio.getPipEvidence = () => ({ renderer: renderer ? "webgl" : "poster", pose: sample, visible, time, frames, owner: companion.owner });
+  studio.getPipEvidence = () => ({
+    renderer: renderer ? "webgl" : "poster",
+    pose: sample,
+    visible,
+    time,
+    frames,
+    running: Boolean(raf),
+    owner: companion.owner,
+  });
   syncRest();
 }

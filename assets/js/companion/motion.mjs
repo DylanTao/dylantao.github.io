@@ -91,31 +91,32 @@ export function createPipMotion(seed = 61) {
     gy = 0,
     hx = 0,
     hy = 0,
+    bx = 0,
     bodyLean = 0,
     al = 0,
     ar = 0,
     vl = 0,
     vr = 0;
   return {
-    play(gesture) {
+    play(gesture, { elapsed = 0 } = {}) {
       if (!gestures[gesture]) return false;
       start = { ...pose };
       name = gesture;
-      started = time;
+      started = time - Math.max(0, elapsed);
       next = time + 13 + random() * 15;
       return true;
     },
-    update(dt, { gaze = [0, 0], still = false, nap = false, blink = 0, flight = 0, squeeze = 0, autonomous = true } = {}) {
+    update(dt, { gaze = [0, 0], still = false, nap = false, blink = 0, flight = 0, squeeze = 0, autonomous = true, elapsed = null } = {}) {
       // Choreography follows the real frame interval down to 4 fps. Substeps
       // keep the antenna springs stable; long suspension gaps remain bounded.
       const step = Math.min(0.25, Math.max(0, dt));
       if (still || nap) {
         pose = { ...rest };
         name = null;
-        gx = gy = hx = hy = bodyLean = al = ar = vl = vr = 0;
+        gx = gy = hx = hy = bx = bodyLean = al = ar = vl = vr = 0;
         next = time + 12;
       } else {
-        time += step;
+        time += Number.isFinite(elapsed) ? Math.max(0, elapsed) : step;
         if (autonomous && time > next && !name) this.play(["curious", "nod", "peek", "listen", "stretch", "delight"][Math.floor(random() * 6)]);
         pose = name ? sampleGesture(name, time - started, start) : { ...rest };
         if (name && time - started >= gestures[name].at(-1)[0]) name = null;
@@ -127,6 +128,7 @@ export function createPipMotion(seed = 61) {
           ty = Math.min(1, Math.max(-1, gaze[1]));
         hx = tx + (hx - tx) * eh + (5 * (gx - tx) * (eg - eh)) / (5 - 12);
         hy = ty + (hy - ty) * eh + (5 * (gy - ty) * (eg - eh)) / (5 - 12);
+        bx += (hx - bx) * (1 - Math.exp(-step * 2.2));
         gx = tx + (gx - tx) * eg;
         gy = ty + (gy - ty) * eg;
         bodyLean += (Math.min(0.12, Math.max(-0.12, flight)) - bodyLean) * (1 - Math.exp(-step * 3));
@@ -143,6 +145,7 @@ export function createPipMotion(seed = 61) {
         lift: nap ? -0.055 : pose.lift + Math.sin(time * 1.32) * 0.018 * idle,
         lean: pose.lean + bodyLean * idle,
         bodyPitch: -Math.abs(bodyLean) * 0.6 + pose.pitch * 0.16,
+        bodyYaw: bx * 0.09 * idle,
         armPitch: [pose.armL * 0.3 + bodyLean * 1.4, -pose.armR * 0.3 + bodyLean * 1.4],
         antennas: nap ? [0.34, -0.34] : [al, ar],
         arms: [

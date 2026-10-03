@@ -1,6 +1,9 @@
 import * as THREE from "../three.module.min.js";
 import { beachPoint, habitatPoint } from "./shore.mjs";
 import { createModelLoader } from "./model-loader.mjs";
+import { rabbitActing, pinnipedActing } from "./wildlife-motion.mjs";
+import { createHabitatRoute, plantedFoot, raccoonMotion, shorebirdMotion, gullMotion } from "./wildlife-neighbor-motion.mjs";
+import { solvePerchLanding, samplePerchActing, perchContactWeight } from "./wildlife-perch-contact.mjs";
 
 export function createWildlife(parent, config) {
   const beach = config.beach,
@@ -54,6 +57,107 @@ export function createWildlife(parent, config) {
     lastTime = 0,
     lastPalette = "afternoon";
   const loadedResources = new Set();
+  const inspectable = [];
+  const bounds = new THREE.Box3();
+  function animalTarget(group, id, name) {
+    group.traverse((object) => {
+      if (object.isMesh) object.userData.action = { type: "wildlife", id, name };
+    });
+    group.updateWorldMatrix(true, true);
+    const inverse = group.matrixWorld.clone().invert(),
+      localBounds = new THREE.Box3();
+    group.traverse((object) => {
+      if (!object.isMesh) return;
+      if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
+      const localMatrix = new THREE.Matrix4().multiplyMatrices(inverse, object.matrixWorld);
+      localBounds.union(bounds.copy(object.geometry.boundingBox).applyMatrix4(localMatrix));
+    });
+    const sphere = localBounds.getBoundingSphere(new THREE.Sphere());
+    // Conservative acting clearance is cached once, not all eight subtrees on
+    // every focus-camera frame. Root motion and the selected head stay live.
+    inspectable.push({
+      group,
+      id,
+      name,
+      center: sphere.center.clone(),
+      radius: sphere.radius + 0.13,
+      head: group.getObjectByName("Head"),
+      eyes: [group.getObjectByName("EyeL"), group.getObjectByName("EyeR")].filter(Boolean),
+      muzzle: group.getObjectByName("Muzzle"),
+    });
+  }
+  function describeTarget({ group, id, name, center, radius, head, eyes, muzzle }) {
+    group.updateWorldMatrix(true, false);
+    const worldCenter = center.clone().applyMatrix4(group.matrixWorld),
+      headPoint = new THREE.Vector3();
+    if (head) head.getWorldPosition(headPoint);
+    // Use the anatomical head relative to the body, rather than the floor/root
+    // origin, to establish the actual animal's forward direction.
+    const front = head
+      ? headPoint.clone().sub(worldCenter).setY(0).normalize()
+      : new THREE.Vector3(Math.sin(group.rotation.y), 0, Math.cos(group.rotation.y));
+    const eyePoints = eyes.map((eye) => eye.getWorldPosition(new THREE.Vector3())),
+      faceAnchors = eyePoints.map((point) => point.toArray());
+    if (muzzle) faceAnchors.push(muzzle.getWorldPosition(new THREE.Vector3()).toArray());
+    const eyeAnchor = eyePoints.length
+      ? eyePoints
+          .reduce((sum, point) => sum.add(point), new THREE.Vector3())
+          .multiplyScalar(1 / eyePoints.length)
+          .toArray()
+      : null;
+    return {
+      id,
+      name,
+      root: group,
+      worldCenter: worldCenter.toArray(),
+      radius: radius * group.matrixWorld.getMaxScaleOnAxis(),
+      headAnchor: head ? headPoint.toArray() : null,
+      eyeAnchor,
+      faceAnchors,
+      faceAnchorSource: "named acting pivots",
+      front: front.toArray(),
+    };
+  }
+  function actingParts(model) {
+    const parts = {};
+    for (const name of [
+      "Head",
+      "BodyPose",
+      "EarL",
+      "EarR",
+      "EyeL",
+      "EyeR",
+      "ForelegL",
+      "ForelegR",
+      "HindlegL",
+      "HindlegR",
+      "FrontPawL",
+      "FrontPawR",
+      "HindPawL",
+      "HindPawR",
+      "FrontFlipperL",
+      "FrontFlipperR",
+      "RearFlipperL",
+      "RearFlipperR",
+      "Tail",
+      "LowerForelegL",
+      "LowerForelegR",
+      "LowerHindlegL",
+      "LowerHindlegR",
+      "WingL",
+      "WingR",
+      "WingTipL",
+      "WingTipR",
+      "LegL",
+      "LegR",
+      "FootL",
+      "FootR",
+    ]) {
+      const object = model.getObjectByName(name);
+      if (object) parts[name] = { object, position: object.position.clone(), rotation: object.rotation.clone() };
+    }
+    return parts;
+  }
   function retain(master) {
     master.scene.traverse((o) => {
       if (o.geometry) loadedResources.add(o.geometry);
@@ -66,19 +170,38 @@ export function createWildlife(parent, config) {
   const loadMaster = (name) =>
     loader.loadAsync(new URL(`../../models/home/${name}.glb`, import.meta.url).href).then((master) => {
       retain(master);
-      if (disposed) loadedResources.forEach((r) => r.dispose());
+      if (disposed) {
+        loadedResources.forEach((r) => r.dispose());
+        loadedResources.clear();
+      }
       return master;
     });
-  Promise.all([loadMaster("BrushRabbit"), loadMaster("CaliforniaSeaLion"), loadMaster("HarborSeal")])
-    .then(([rabbitMaster, lionMaster, sealMaster]) => {
+  Promise.all([
+    loadMaster("BrushRabbit"),
+    loadMaster("CaliforniaSeaLion"),
+    loadMaster("HarborSeal"),
+    loadMaster("Raccoon"),
+    loadMaster("WesternGull"),
+    loadMaster("Sandpiper"),
+    fetch(new URL("../../models/home/wildlife-perch-support.json", import.meta.url)).then((response) => {
+      if (!response.ok) throw new Error("The coastal perch supports could not load.");
+      return response.json();
+    }),
+  ])
+    .then(([rabbitMaster, lionMaster, sealMaster, raccoonMaster, gullMaster, shorebirdMaster, supportData]) => {
       if (disposed) return;
-      for (const rabbit of rabbits) {
+      perchData = supportData;
+      for (const [i, rabbit] of rabbits.entries()) {
         rabbit.group.clear();
         const model = rabbitMaster.scene.clone(true);
-        model.rotation.y = Math.PI;
+        // Blender -Y becomes GLB +Z. A former half-turn made rabbits face
+        // backwards while traversing their +Z-forward authored hop heading.
+        model.rotation.y = 0;
         rabbit.group.add(model);
         rabbit.head = model.getObjectByName("Head");
         rabbit.ears = [];
+        rabbit.parts = actingParts(model);
+        animalTarget(rabbit.group, `rabbit-${i}`, "Brush rabbit");
       }
       for (const [master, key] of [
         [lionMaster, "seaLion"],
@@ -90,9 +213,14 @@ export function createWildlife(parent, config) {
           model.position.fromArray(p);
           model.rotation.y = 0.4 + i * 1.8;
           root.add(model);
-          marine.push({ model, head: model.getObjectByName("Head"), point: p, key, phase: i * 6 });
+          marine.push({ model, head: model.getObjectByName("Head"), parts: actingParts(model), point: p, key, index: i });
+          animalTarget(model, `${key}-${i}`, key === "seaLion" ? "California sea lion" : "Harbor seal");
         });
       }
+      installNeighbor(raccoon, raccoonMaster, "raccoon-0", "Raccoon");
+      gulls.forEach((bird, index) => installNeighbor(bird.group, gullMaster, `gull-${index}`, "Western gull", bird));
+      installNeighbor(perch.group, gullMaster, "balcony-gull-0", "Balcony gull", perch);
+      shorebirds.forEach((bird, index) => installNeighbor(bird.group, shorebirdMaster, `sandpiper-${index}`, "Sandpiper", bird));
       root.traverse((o) => {
         if (o.isMesh) {
           o.castShadow = o.receiveShadow = true;
@@ -106,125 +234,339 @@ export function createWildlife(parent, config) {
   const raccoon = new THREE.Group();
   raccoon.name = "Curious raccoon";
   root.add(raccoon);
-  ellipsoid(raccoon, "gray", [0, 0.26, 0], [0.26, 0.27, 0.41]);
-  ellipsoid(raccoon, "gray", [0, 0.47, 0.29], [0.23, 0.22, 0.22]);
-  for (const side of [-1, 1]) {
-    ellipsoid(raccoon, "cream", [side * 0.1, 0.49, 0.47], [0.12, 0.105, 0.035]);
-    ellipsoid(raccoon, "ink", [side * 0.1, 0.49, 0.493], [0.107, 0.059, 0.025]);
-    ellipsoid(raccoon, "ink", [side * 0.12, 0.64, 0.24], [0.086, 0.098, 0.052]);
-    ellipsoid(raccoon, "cream", [side * 0.115, 0.5, 0.518], [0.022, 0.022, 0.012]);
-    for (const z of [-0.23, 0.24]) ellipsoid(raccoon, "ink", [side * 0.18, 0.065, z], [0.071, 0.075, 0.11]);
+  // coastal_section exports clifftop paths 25 mm above the retained soil.
+  // The articulated master already accounts for its paw thickness.
+  const raccoonRoute = createHabitatRoute(habitats.raccoon.path.map(([x, y, z]) => [x, y - 0.025, z]));
+  const birdGroup = (name, scale) => {
+    const group = new THREE.Group();
+    group.name = name;
+    group.scale.setScalar(scale);
+    root.add(group);
+    return { group, parts: null };
+  };
+  const gulls = Array.from({ length: 4 }, () => birdGroup("Pacific gull", 1.55));
+  const perch = birdGroup("Balcony visitor", 1.1);
+  let perchData = null;
+  const shorebirds = Array.from({ length: 3 }, () => birdGroup("Sandpiper", 1.35));
+  const shoreRoutes = shorebirds.map((bird, index) => {
+    const x = -6 + index * 4.1;
+    return createHabitatRoute([beachPoint(x, 0.38, beach), beachPoint(x + 1.3, 0.38, beach), beachPoint(x - 1.3, 0.38, beach)]);
+  });
+  function installNeighbor(group, master, id, name, bird) {
+    group.clear();
+    const model = master.scene.clone(true);
+    group.add(model);
+    const parts = actingParts(model);
+    if (bird) bird.parts = parts;
+    else raccoon.parts = parts;
+    animalTarget(group, id, name);
   }
-  ellipsoid(raccoon, "cream", [0, 0.38, 0.49], [0.12, 0.085, 0.12]);
-  ellipsoid(raccoon, "ink", [0, 0.41, 0.58], [0.045, 0.029, 0.03]);
-  const tail = new THREE.Group();
-  tail.position.set(0, 0.28, -0.35);
-  tail.rotation.x = -0.4;
-  raccoon.add(tail);
-  for (let i = 0; i < 7; i++) ellipsoid(tail, i % 2 ? "gray" : "ink", [0, -0.035 * i, -0.08 * i], [0.095 - i * 0.004, 0.085, 0.07]);
-  function bird(name, material, scale) {
-    const g = new THREE.Group();
-    g.name = name;
-    root.add(g);
-    g.scale.setScalar(scale);
-    ellipsoid(g, material, [0, 0.14, 0], [0.1, 0.125, 0.25]);
-    ellipsoid(g, material, [0, 0.27, 0.2], [0.102, 0.103, 0.112]);
-    ellipsoid(g, "beak", [0, 0.26, 0.34], [0.036, 0.03, 0.1]);
-    for (const side of [-1, 1]) ellipsoid(g, "ink", [side * 0.086, 0.287, 0.246], [0.019, 0.019, 0.016]);
-    const wings = [-1, 1].map((side) => {
-      const pivot = new THREE.Group();
-      pivot.position.set(side * 0.067, 0.19, 0);
-      g.add(pivot);
-      ellipsoid(pivot, material, [side * 0.24, 0, -0.04], [0.31, 0.027, 0.14], wingGeo);
-      ellipsoid(pivot, "ink", [side * 0.48, -0.006, -0.073], [0.105, 0.022, 0.098], wingGeo);
-      return pivot;
-    });
-    const feet = [-1, 1].map((side) => ellipsoid(g, "beak", [side * 0.055, 0.05, 0.05], [0.021, 0.06, 0.045]));
-    return { group: g, wings, feet };
+  const down = new THREE.Vector3(0, -1, 0);
+  function groundOrientation(yaw, gradient) {
+    const forward = new THREE.Vector3(Math.sin(yaw), gradient[0] * Math.sin(yaw) + gradient[1] * Math.cos(yaw), Math.cos(yaw)).normalize();
+    const up = new THREE.Vector3(-gradient[0], 1, -gradient[1]).normalize();
+    const right = up.clone().cross(forward).normalize();
+    return new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(right, up, forward));
   }
-  const gulls = Array.from({ length: 4 }, () => bird("Pacific gull", "cream", 1.55));
-  const perch = bird("Balcony visitor", "cream", 1.1);
-  const shorebirds = Array.from({ length: 3 }, () => bird("Sandpiper", "brown", 1.35));
-  const scratch = new THREE.Vector3();
+  function plantedOrientation(group, foot, gait) {
+    const ground = groundOrientation(gait.yaw, gait.gradient);
+    foot.quaternion.copy(group.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(ground));
+  }
+  function legToFoot(group, upper, lower, paw, worldPoint, fore) {
+    const localFoot = group.worldToLocal(new THREE.Vector3(...worldPoint));
+    paw.object.position.copy(localFoot);
+    if (!lower) {
+      const vector = localFoot.clone().sub(upper.position);
+      upper.object.quaternion.setFromUnitVectors(down, vector.clone().normalize());
+      upper.object.scale.y = vector.length() / 0.121;
+      return;
+    }
+    const hip = upper.position.clone(),
+      target = localFoot.clone().add(new THREE.Vector3(0, 0.012, 0));
+    hip.y -= group.userData.bodyAccommodation || 0;
+    upper.object.position.copy(hip);
+    const vector = target.clone().sub(hip),
+      distance = Math.max(0.001, vector.length()),
+      direction = vector.clone().normalize();
+    const a = 0.15,
+      b = 0.143,
+      stretch = Math.max(1, distance / (a + b - 0.001)),
+      upperLength = a * stretch,
+      lowerLength = b * stretch,
+      reach = Math.min(upperLength + lowerLength - 0.001, distance);
+    const along = (upperLength * upperLength - lowerLength * lowerLength + reach * reach) / (2 * reach),
+      bend = Math.sqrt(Math.max(0, upperLength * upperLength - along * along));
+    const pole = new THREE.Vector3(0, 0, fore ? 1 : -1).addScaledVector(direction, -direction.z * (fore ? 1 : -1)).normalize();
+    const knee = hip.clone().addScaledVector(direction, along).addScaledVector(pole, bend);
+    upper.object.quaternion.setFromUnitVectors(down, knee.clone().sub(hip).normalize());
+    upper.object.scale.y = stretch;
+    lower.object.position.copy(knee);
+    const lowerVector = target.sub(knee);
+    lower.object.quaternion.setFromUnitVectors(down, lowerVector.clone().normalize());
+    lower.object.scale.y = lowerVector.length() / b;
+  }
+  function placeFoot(group, route, distance, span, lateral, phase, activity, lift, height) {
+    const gait = plantedFoot(distance, phase, group === raccoon ? 0.16 : 0.105);
+    // Limb span follows the landing support plane. Advancing the span along
+    // the closed centreline put hind paws in front at the loop's sharp turn.
+    const at = route.sample(group === raccoon && gait.anchorDistance < 0 ? 0 : gait.anchorDistance),
+      point = at.position;
+    const dx = Math.sin(at.yaw) * span + Math.cos(at.yaw) * lateral,
+      dz = Math.cos(at.yaw) * span - Math.sin(at.yaw) * lateral;
+    const position = [point[0] + dx, point[1] + at.gradient[0] * dx + at.gradient[1] * dz + height + gait.lift * lift * activity, point[2] + dz];
+    if (group !== raccoon) {
+      const support = beachPoint(position[0], 0.38, beach);
+      position[1] = support[1] + height + gait.lift * lift * activity;
+      position[2] = support[2] - Math.sin(at.yaw) * lateral;
+    }
+    return {
+      position,
+      yaw: at.yaw,
+      slope: group === raccoon ? at.slope : 0,
+      gradient: group === raccoon ? at.gradient : [0, 0],
+      contact: gait.contact || activity === 0,
+      lift: gait.lift * lift * activity,
+    };
+  }
+  function settleRaccoonBody() {
+    // Accommodate a planted paw at a steep turn with a small body crouch,
+    // along the support normal. The root route and world foot anchors stay fixed.
+    const reach = (0.15 + 0.143 - 0.001) * 1.045;
+    let accommodation = 0;
+    for (const contact of raccoon.contacts) {
+      const leg = contact.foot.replace("FrontPaw", "Foreleg").replace("HindPaw", "Hindleg");
+      const hip = raccoon.parts[leg].position,
+        target = raccoon.worldToLocal(new THREE.Vector3(...contact.position));
+      target.y += 0.012;
+      const horizontal = (target.x - hip.x) ** 2 + (target.z - hip.z) ** 2;
+      accommodation = Math.max(accommodation, hip.y - target.y - Math.sqrt(Math.max(0, reach ** 2 - horizontal)));
+    }
+    raccoon.userData.bodyAccommodation = Math.min(0.065, accommodation);
+    raccoon.parts.BodyPose.object.position.y = raccoon.parts.BodyPose.position.y - raccoon.userData.bodyAccommodation;
+    raccoon.updateWorldMatrix(true, true);
+  }
+  function birdWings(bird, fold, beat, footDeploy = 1) {
+    if (!bird.parts) return;
+    for (const [label, side] of [
+      ["L", -1],
+      ["R", 1],
+    ]) {
+      bird.parts[`Wing${label}`].object.rotation.set(0, side * fold * 1.42, side * (0.07 + beat) * (1 - fold));
+      bird.parts[`Wing${label}`].object.scale.set(1 - fold * 0.3, 1, 1 - fold * 0.35);
+      bird.parts[`WingTip${label}`].object.scale.x = 1 - fold * 0.32;
+      bird.parts[`WingTip${label}`].object.rotation.set(0, side * fold * 0.15, side * beat * 0.22 * (1 - fold));
+      for (const key of [`Leg${label}`, `Foot${label}`]) bird.parts[key].object.visible = footDeploy > 0.05;
+    }
+  }
+  function applyBirdSupport(bird, landing, weight) {
+    const group = bird.group;
+    group.updateWorldMatrix(true, true);
+    const quaternion = group.getWorldQuaternion(new THREE.Quaternion()),
+      inverseQuaternion = quaternion.clone().invert();
+    const acting = samplePerchActing(perchData, landing, group.getWorldPosition(new THREE.Vector3()), quaternion, weight);
+    bird.contacts = [];
+    for (const side of ["L", "R"]) {
+      const pose = acting.feet[side],
+        foot = bird.parts[`Foot${side}`].object,
+        leg = bird.parts[`Leg${side}`].object;
+      foot.position.copy(group.worldToLocal(pose.position.clone()));
+      foot.quaternion.copy(inverseQuaternion.clone().multiply(pose.quaternion));
+      leg.position.copy(group.worldToLocal(pose.hip.clone()));
+      leg.quaternion.copy(inverseQuaternion.clone().multiply(pose.legQuaternion));
+      // Native decoded tarsus length is preserved; its hidden hip articulates.
+      leg.scale.set(1, 1, 1);
+      bird.contacts.push({
+        foot: `Foot${side}`,
+        position: pose.position.toArray(),
+        hipAccommodation: pose.hipAccommodation,
+        surfaceLift: pose.surfaceLift,
+        weight,
+      });
+    }
+  }
   function update(t, palette = "afternoon") {
     lastTime = t;
     lastPalette = palette;
     for (const r of rabbits) {
-      const cycle = (t + r.seed * 7) % 34,
-        lap = Math.floor((t + r.seed * 7) / 34);
-      const moving = cycle < 6,
-        u = moving ? cycle / 6 : 1;
-      const hop = moving ? Math.abs(Math.sin(cycle * Math.PI * 2)) * 0.11 : 0;
-      const p = habitatPoint(habitats[r.seed === 1 ? "rabbitWest" : "rabbitEast"].path, (lap + u) * 0.22 + r.seed * 0.2);
-      r.group.position.set(p[0], p[1] + hop, p[2]);
-      r.group.userData.state = moving ? "hop" : cycle < 13 ? "look" : cycle < 18 ? "groom" : "rest";
-      if (moving) {
-        const next = habitatPoint(habitats[r.seed === 1 ? "rabbitWest" : "rabbitEast"].path, (lap + u) * 0.22 + r.seed * 0.2 + 0.001);
-        r.group.rotation.y = Math.atan2(next[0] - p[0], next[2] - p[2]);
-      }
+      const pose = rabbitActing(t, r.seed),
+        path = habitats[r.seed === 1 ? "rabbitWest" : "rabbitEast"].path;
+      const p = habitatPoint(path, pose.progress),
+        previous = habitatPoint(path, pose.progress - 0.012),
+        next = habitatPoint(path, pose.progress + 0.012);
+      r.group.position.set(p[0], p[1] + pose.lift, p[2]);
+      r.group.userData.state = pose.state;
+      r.group.rotation.order = "YXZ";
+      r.group.rotation.y = Math.atan2(next[0] - previous[0], next[2] - previous[2]);
+      r.group.rotation.x = -Math.atan2(next[1] - previous[1], Math.hypot(next[0] - previous[0], next[2] - previous[2]));
+      r.pose = pose;
       if (r.head) {
-        r.head.rotation.x = cycle > 13 && cycle < 18 ? -0.2 + Math.sin(t * 3) * 0.08 : 0;
-        r.head.rotation.y = cycle > 6 && cycle < 13 ? Math.sin(t * 0.6) * 0.3 : 0;
+        r.head.rotation.x = pose.headPitch;
+        r.head.rotation.y = pose.headYaw;
       }
-      r.ears.forEach((e, i) => (e.rotation.z = (i ? 1 : -1) * (0.12 + Math.sin(t * 0.7 + r.seed) * 0.08)));
+      if (r.parts) {
+        const body = r.parts.BodyPose;
+        if (body) {
+          body.object.scale.y = 1 - pose.compression * 0.075;
+          body.object.rotation.x = pose.bodyPitch;
+        }
+        for (const [name, amount] of [
+          ["EarL", pose.earLeft],
+          ["EarR", pose.earRight],
+        ]) {
+          const part = r.parts[name];
+          if (part) part.object.rotation.z = part.rotation.z + amount;
+        }
+        for (const label of ["L", "R"]) {
+          for (const [name, angle] of [
+            [`Foreleg${label}`, -pose.tuck * 0.62],
+            [`Hindleg${label}`, pose.tuck * 0.45],
+          ]) {
+            const part = r.parts[name];
+            if (part) part.object.rotation.x = part.rotation.x + angle;
+          }
+          for (const [name, lift, angle] of [
+            [`FrontPaw${label}`, 0.058, -0.7],
+            [`HindPaw${label}`, 0.037, 0.42],
+          ]) {
+            const part = r.parts[name];
+            if (part) {
+              part.object.position.y = part.position.y + pose.tuck * lift;
+              part.object.rotation.x = part.rotation.x + pose.tuck * angle;
+            }
+          }
+        }
+      } else r.ears.forEach((ear, i) => (ear.rotation.z = (i ? 1 : -1) * 0.12 + (i ? pose.earRight : pose.earLeft)));
     }
-    const rc = t % 48,
-      walking = rc < (palette === "evening" ? 18 : 5);
-    const ru = (Math.floor(t / 48) + Math.min(1, rc / (palette === "evening" ? 18 : 5))) * 0.25;
-    const rp = habitatPoint(habitats.raccoon.path, ru);
-    raccoon.position.set(...rp);
-    raccoon.userData.state = walking ? "walk" : rc < 26 ? "look" : rc < 33 ? "groom" : "rest";
-    if (walking) {
-      const next = habitatPoint(habitats.raccoon.path, ru + 0.001);
-      raccoon.rotation.y = Math.atan2(next[0] - rp[0], next[2] - rp[2]);
+    const raccoonPose = raccoonMotion(t, palette === "evening", raccoonRoute.length),
+      raccoonPoint = raccoonRoute.sample(raccoonPose.distance);
+    raccoon.position.fromArray(raccoonPoint.position);
+    raccoon.rotation.order = "YXZ";
+    raccoon.quaternion.copy(groundOrientation(raccoonPoint.yaw, raccoonPoint.gradient));
+    raccoon.userData.state = raccoonPose.state;
+    raccoon.updateWorldMatrix(true, true);
+    raccoon.contacts = [];
+    if (raccoon.parts) {
+      raccoon.parts.Head.object.rotation.set(raccoonPose.headPitch, raccoonPose.headYaw, 0);
+      raccoon.parts.Tail.object.rotation.y = raccoonPose.tailYaw;
+      raccoon.parts.EarL.object.rotation.z = raccoonPose.earAnswer;
+      raccoon.parts.EarR.object.rotation.z = -raccoonPose.earAnswer * 0.6;
+      for (const [label, side] of [
+        ["L", -1],
+        ["R", 1],
+      ])
+        for (const fore of [true, false]) {
+          const gait = placeFoot(
+            raccoon,
+            raccoonRoute,
+            raccoonPose.distance,
+            fore ? 0.24 : -0.21,
+            side * (fore ? 0.15 : 0.17),
+            (side === 1 ? 0.5 : 0) + (fore ? 0 : 0.25),
+            raccoonPose.activity,
+            0.064,
+            0.025
+          );
+          const paw = `${fore ? "FrontPaw" : "HindPaw"}${label}`;
+          raccoon.contacts.push({ foot: paw, ...gait });
+        }
+      settleRaccoonBody();
+      for (const gait of raccoon.contacts) {
+        const leg = gait.foot.replace("FrontPaw", "Foreleg").replace("HindPaw", "Hindleg"),
+          fore = gait.foot.startsWith("Front");
+        legToFoot(raccoon, raccoon.parts[leg], raccoon.parts[`Lower${leg}`], raccoon.parts[gait.foot], gait.position, fore);
+        plantedOrientation(raccoon, raccoon.parts[gait.foot].object, gait);
+      }
     }
-    tail.rotation.y = Math.sin(t * 0.6) * 0.1;
     marine.forEach((a) => {
-      const cycle = (t + a.phase) % 45;
+      const pose = pinnipedActing(t, a.index, a.key === "seaLion");
       a.model.position.fromArray(a.point);
-      a.model.userData.state = cycle < 25 ? "rest" : cycle < 36 ? "look" : "groom";
+      a.model.userData.state = pose.state;
       if (a.head) {
-        a.head.rotation.x = cycle > 36 ? Math.sin(t * 0.9) * 0.1 : 0;
-        a.head.rotation.y = cycle > 25 && cycle < 36 ? Math.sin(t * 0.36) * 0.28 : 0;
+        a.head.rotation.x = pose.headPitch;
+        a.head.rotation.y = pose.headYaw;
       }
+      if (a.parts.BodyPose) {
+        a.parts.BodyPose.object.scale.y = 1 + pose.breath;
+        a.parts.BodyPose.object.rotation.y = pose.neckFollow;
+      }
+      for (const name of ["EyeL", "EyeR"]) if (a.parts[name]) a.parts[name].object.scale.y = 1 - pose.blink * 0.9;
+      for (const name of ["FrontFlipperL", "FrontFlipperR"])
+        if (a.parts[name]) a.parts[name].object.rotation.x = a.parts[name].rotation.x + pose.flipper;
     });
-    gulls.forEach((b, i) => {
-      const a = t * (0.06 + i * 0.008) + i * 1.5;
-      b.group.position.set(Math.cos(a) * (12 + i * 1.8), 8 + i * 0.85 + Math.sin(a * 2) * 0.3, -26 - Math.sin(a) * (5 + i));
-      scratch.set(-Math.sin(a) * (7 + i * 1.8), 0, -Math.cos(a) * (3 + i));
-      b.group.rotation.y = Math.atan2(scratch.x, scratch.z);
-      const bc = (t + i * 19) % 90,
-        perched = bc >= 68 && bc <= 86;
-      const blend = bc < 48 ? 0 : bc < 68 ? (bc - 48) / 20 : bc < 86 ? 1 : 1 - (bc - 86) / 4;
-      const perchPoint = new THREE.Vector3().fromArray(config.terrain.perches[i % config.terrain.perches.length]);
-      b.group.position.lerp(perchPoint, blend * blend * (3 - 2 * blend));
-      if (perched) {
-        b.group.userData.state = "perch";
-      } else b.group.userData.state = (t + i) % 12 < 3 ? "flap" : "glide";
-      b.wings.forEach((w, j) => {
-        w.rotation.y = perched ? (j ? 1 : -1) * 1.28 : 0;
-        w.rotation.z = (j ? 1 : -1) * (0.12 + (!perched && (t + i) % 12 < 3 ? Math.sin(t * 2.8 + i) * 0.32 : 0));
-      });
-      b.feet.forEach((f) => (f.visible = blend > 0.85));
+    gulls.forEach((bird, index) => {
+      const point = perchData ? perchData.patches[index % 3].origin : config.terrain.perches[index % config.terrain.perches.length];
+      const pose = gullMotion(t, index, point);
+      bird.group.position.fromArray(pose.position);
+      bird.group.rotation.order = "YXZ";
+      bird.group.rotation.set(pose.pitch, pose.yaw, pose.bank);
+      bird.group.userData.state = pose.state;
+      bird.pose = pose;
+      birdWings(bird, pose.wingFold, pose.wingBeat, pose.footDeploy);
+      if (bird.parts) {
+        if (perchData && pose.footDeploy > 0.05) {
+          const cycle = Math.floor((Math.max(0, t) + index * 19) / 90);
+          if (bird.landingCycle !== cycle) {
+            bird.landing = solvePerchLanding(perchData, index % 3, gullMotion(cycle * 90 - index * 19 + 72, index, point).yaw, bird.group.scale.x);
+            bird.landingCycle = cycle;
+          }
+          applyBirdSupport(bird, bird.landing, perchContactWeight(t, index));
+        } else bird.contacts = [];
+        bird.parts.Head.object.rotation.set(-pose.pitch * 0.35, pose.headYaw, 0);
+        for (const label of ["L", "R"]) bird.parts[`Eye${label}`].object.scale.y = 1 - pose.blink * 0.85;
+      }
     });
     perch.group.position.set(4.2, 3.46, 1.31);
-    perch.group.rotation.y = 0.4 + Math.sin(t * 0.25) * 0.35;
-    perch.wings.forEach((w, j) => w.rotation.set(0, (j ? 1 : -1) * 1.28, (j ? -1 : 1) * 0.2));
-    shorebirds.forEach((b, i) => {
-      const cycle = (t + i * 4) % 24,
-        walking = cycle < 5;
-      const phase = Math.floor((t + i * 4) / 24) + Math.min(1, cycle / 5);
-      const x = -6 + i * 4.1 + Math.sin(phase) * 1.3,
-        p = beachPoint(x, 0.38, beach);
-      b.group.position.set(...p);
-      b.group.userData.state = walking ? "walk" : cycle < 11 ? "look" : cycle < 16 ? "groom" : "rest";
-      if (walking) b.group.rotation.y = Math.cos(phase) > 0 ? Math.PI * 0.5 : -Math.PI * 0.5;
-      b.wings.forEach((w, j) => w.rotation.set(0, (j ? 1 : -1) * 1.28, (j ? -1 : 1) * 0.2));
+    perch.group.rotation.y = 0.4;
+    perch.group.userData.state = "perch";
+    birdWings(perch, 1, 0);
+    if (perch.parts) {
+      if (perchData) {
+        perch.landing ||= solvePerchLanding(perchData, 3, 0.4, perch.group.scale.x);
+        applyBirdSupport(perch, perch.landing, 1);
+      }
+      perch.parts.Head.object.rotation.y = Math.sin(t * 0.25) * 0.18;
+    }
+    shorebirds.forEach((bird, index) => {
+      const pose = shorebirdMotion(t, index),
+        route = shoreRoutes[index];
+      bird.group.position.fromArray(beachPoint(pose.x, 0.38, beach));
+      bird.group.rotation.y = pose.yaw;
+      bird.group.userData.state = pose.state;
+      bird.group.updateWorldMatrix(true, true);
+      bird.contacts = [];
+      birdWings(bird, 1, 0);
+      if (bird.parts) {
+        bird.parts.Head.object.rotation.set(pose.headPitch, pose.headYaw, 0);
+        for (const [label, side] of [
+          ["L", -1],
+          ["R", 1],
+        ]) {
+          const gait = placeFoot(bird.group, route, pose.distance, 0, side * 0.043 * 1.35, side === -1 ? 0 : 0.5, pose.activity, 0.043, 0.009 * 1.35);
+          legToFoot(bird.group, bird.parts[`Leg${label}`], null, bird.parts[`Foot${label}`], gait.position);
+          plantedOrientation(bird.group, bird.parts[`Foot${label}`].object, gait);
+          bird.contacts.push({ foot: `Foot${label}`, ...gait });
+        }
+      }
     });
   }
   update(0);
   return {
     update,
+    targets: () => inspectable.map(describeTarget),
+    target(id) {
+      const record = inspectable.find((item) => item.id === id);
+      return record ? describeTarget(record) : null;
+    },
+    pick(raycaster) {
+      return (
+        raycaster
+          .intersectObjects(
+            inspectable.map(({ group }) => group),
+            true
+          )
+          .find((hit) => hit.object.visible && hit.object.userData.action?.type === "wildlife") || null
+      );
+    },
     evidence: () => ({
       rabbits: rabbits.length,
       raccoons: 1,
@@ -233,15 +575,43 @@ export function createWildlife(parent, config) {
       modelsReady,
       seaLions: marine.filter((a) => a.key === "seaLion").length,
       harborSeals: marine.filter((a) => a.key === "seal").length,
+      raccoon: {
+        position: raccoon.position.toArray(),
+        state: raccoon.userData.state,
+        bodyAccommodation: raccoon.userData.bodyAccommodation || 0,
+        contacts: raccoon.contacts,
+      },
+      birds: gulls.map((bird) => ({
+        position: bird.group.position.toArray(),
+        state: bird.group.userData.state,
+        velocity: bird.pose.velocity,
+        contacts: bird.contacts || [],
+      })),
+      balconyGullContacts: perch.contacts || [],
+      shorebirdContacts: shorebirds.map((bird) => ({
+        position: bird.group.position.toArray(),
+        state: bird.group.userData.state,
+        contacts: bird.contacts,
+      })),
       contacts: marine.map((a) => ({ habitat: a.key, position: a.model.position.toArray(), state: a.model.userData.state })),
-      rabbitHabitats: rabbits.map((r) => ({ position: r.group.position.toArray(), state: r.group.userData.state })),
+      rabbitHabitats: rabbits.map((r) => ({
+        position: r.group.position.toArray(),
+        state: r.group.userData.state,
+        airborne: r.pose.airborne,
+        contact: r.pose.contact,
+        lift: r.pose.lift,
+        progress: r.pose.progress,
+      })),
     }),
     dispose() {
+      if (disposed) return;
       disposed = true;
       sphere.dispose();
       wingGeo.dispose();
       Object.values(materials).forEach((m) => m.dispose());
       loadedResources.forEach((r) => r.dispose());
+      loadedResources.clear();
+      inspectable.length = 0;
       root.removeFromParent();
     },
   };

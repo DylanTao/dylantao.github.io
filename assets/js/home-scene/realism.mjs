@@ -3,6 +3,9 @@ import { EffectComposer } from "../vendor/three-r164/postprocessing/EffectCompos
 import { RenderPass } from "../vendor/three-r164/postprocessing/RenderPass.js";
 import { SSAOPass } from "../vendor/three-r164/postprocessing/SSAOPass.js";
 import { OutputPass } from "../vendor/three-r164/postprocessing/OutputPass.js";
+import { CONTACT_RADIUS, CONTACT_SLICES, CONTACT_STEPS, horizonFragment, bilateralFragment, bindContactLighting } from "./contact-occlusion.mjs";
+import { createGpuTimer } from "./gpu-timer.mjs";
+import { createVolumeDepth } from "./volume-depth.mjs";
 
 // Physical scale survives batching and the many different UV layouts in glTF.
 // No scenic image, texture download, or screen-space grain is involved.
@@ -25,75 +28,81 @@ float stoneNoise(vec3 p) {
 
 export const physicalTime = { value: 0 };
 
-export function finishPhysicalMaterial(source, mesh) {
+export function finishPhysicalMaterial(source, mesh, contactLighting) {
   const name = source.name;
   const m =
     /water|turquoise/i.test(name) && !mesh.isSkinnedMesh
-      ? new THREE.MeshPhysicalMaterial({ name, color: source.color, roughness: 0.12, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.1 })
-      : source.clone();
+      ? new THREE.MeshPhysicalMaterial({
+          name,
+          color: 0xffffff,
+          roughness: 0.065,
+          metalness: 0,
+          ior: 1.333,
+          transmission: 0.86,
+          thickness: 0.24,
+          attenuationColor: new THREE.Color(0x93c8c1),
+          attenuationDistance: 1.5,
+        })
+      : name === "coffee hopper glass" && !mesh.isSkinnedMesh
+        ? new THREE.MeshPhysicalMaterial({
+            name,
+            color: 0xffffff,
+            roughness: source.roughness,
+            metalness: 0,
+            ior: 1.5,
+            transmission: 0.96,
+            thickness: 0.008,
+            attenuationColor: source.color.clone(),
+            attenuationDistance: 2,
+            side: source.side,
+          })
+        : source.clone();
   if (mesh.isSkinnedMesh) {
     m.roughness = /hair/i.test(name) ? 0.7 : /skin/i.test(name) ? 0.68 : 0.9;
     m.envMapIntensity = /hair/i.test(name) ? 0.28 : 0.5;
-    return m;
+    if (name === "Sirui shirt") {
+      m.onBeforeCompile = (shader) => {
+        shader.vertexShader = "varying vec3 clothPoint;\n" + shader.vertexShader;
+        shader.vertexShader = shader.vertexShader.replace("#include <project_vertex>", "#include <project_vertex>\nclothPoint = position;");
+        shader.fragmentShader = "varying vec3 clothPoint;\n" + shader.fragmentShader;
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <color_fragment>",
+          `#include <color_fragment>
+          float clothFootprint=max(length(dFdx(clothPoint)),length(dFdy(clothPoint)));
+          float clothFilter=exp(-.5*pow(clothFootprint*480.,2.));
+          float clothWeave=sin(clothPoint.x*480.)*sin((clothPoint.y+clothPoint.z)*480.);
+          diffuseColor.rgb *= .96+.04*clothWeave*clothFilter;`
+        );
+      };
+      m.customProgramCacheKey = () => "coastal-woven-garment-v1";
+    }
+    return bindContactLighting(m, contactLighting);
   }
   if (/leaf|foliage/i.test(name)) {
     m.side = THREE.DoubleSide;
     m.roughness = 0.56;
     m.envMapIntensity = 0.6;
-    m.onBeforeCompile = (shader) => {
-      shader.uniforms.leafTime = physicalTime;
-      shader.vertexShader = "uniform float leafTime;\n" + shader.vertexShader;
-      shader.vertexShader = shader.vertexShader.replace(
-        "#include <begin_vertex>",
-        `
-        vec3 transformed=position;
-        float phase=position.x*.7+position.z*.9+leafTime*.65;
-        transformed.x+=sin(phase)*.008+sin(phase*2.3)*.003;
-        transformed.z+=cos(phase*.83)*.006;
-      `
-      );
-      shader.fragmentShader = shader.fragmentShader.replace(
-        "#include <opaque_fragment>",
-        `
-        outgoingLight+=diffuseColor.rgb*vec3(.16,.23,.065)*pow(max(0.,-dot(normal,normalize(vec3(-.4,.8,.3)))),2.);
-        #include <opaque_fragment>
-      `
-      );
-    };
-    m.customProgramCacheKey = () => "coastal-botanical-v1";
-    return m;
+    return bindContactLighting(m, contactLighting);
+  }
+  if (name === "coffee hopper glass") {
+    // Raster transmission uses an illustrative local pane thickness. It does
+    // not solve paths through the actual hollow hopper or multiple interfaces.
+    m.envMapIntensity = 0.7;
+    mesh.castShadow = false;
+    mesh.userData.noContactOcclusion = true;
+    return bindContactLighting(m, contactLighting);
   }
   const wood = /wood|oak|ash|walnut/i.test(name);
   const cloth = /linen|textile|cotton|trousers|woven/i.test(name);
   const rock = /sandstone|sediment|limestone|stone|sand|plaster/i.test(name);
   const water = /water|turquoise/i.test(name);
   if (water) {
-    m.color.multiplyScalar(0.56);
     m.envMapIntensity = 1.2;
-    m.onBeforeCompile = (shader) => {
-      shader.uniforms.waterTime = physicalTime;
-      shader.vertexShader = "varying vec3 poolPoint;\n" + shader.vertexShader;
-      shader.vertexShader = shader.vertexShader.replace(
-        "#include <project_vertex>",
-        "#include <project_vertex>\npoolPoint = (modelMatrix * vec4(transformed,1.0)).xyz;"
-      );
-      shader.fragmentShader = `uniform float waterTime; varying vec3 poolPoint;\n${surfaceNoise}\n` + shader.fragmentShader;
-      shader.fragmentShader = shader.fragmentShader.replace(
-        "#include <normal_fragment_maps>",
-        `
-        #include <normal_fragment_maps>
-        vec2 ripple = poolPoint.xz * 15.0;
-        float a = sin(ripple.x + ripple.y*.71 + waterTime*.65);
-        float b = cos(ripple.y*.93-ripple.x*.6-waterTime*.4);
-        normal = normalize(mat3(viewMatrix)*vec3(a*.075,1.0,b*.075));
-      `
-      );
-    };
-    return m;
+    return bindContactLighting(m, contactLighting);
   }
   m.roughness = wood ? 0.48 : cloth ? 0.96 : rock ? 0.89 : m.roughness;
   m.envMapIntensity = cloth ? 0.35 : 0.7;
-  if (!wood && !cloth && !rock) return m;
+  if (!wood && !cloth && !rock) return bindContactLighting(m, contactLighting);
   const kind = wood ? 1 : cloth ? 2 : /sandstone|sediment/i.test(name) ? 3 : /beach|tideline/i.test(name) ? 4 : 0;
   m.onBeforeCompile = (shader) => {
     shader.vertexShader = "varying vec3 surfacePoint;\n" + shader.vertexShader;
@@ -123,7 +132,9 @@ export function finishPhysicalMaterial(source, mesh) {
           : kind === 2
             ? `
         float weave = sin(p.x*590.0) * sin(p.z*590.0 + p.y*590.0);
-        diffuseColor.rgb *= .90 + .07*weave + .10*pores;
+        float weaveFootprint=max(length(dFdx(p)),length(dFdy(p)));
+        float weaveFilter=exp(-.5*pow(weaveFootprint*590.,2.));
+        diffuseColor.rgb *= .90 + .07*weave*weaveFilter + .10*pores;
       `
             : kind === 3
               ? `
@@ -165,10 +176,12 @@ export function finishPhysicalMaterial(source, mesh) {
     );
   };
   m.customProgramCacheKey = () => `coastal-physical-${kind}`;
-  return m;
+  return bindContactLighting(m, contactLighting);
 }
 
-export function createFinish(renderer, scene, camera, { transparentOutput = false } = {}) {
+// The transparent footer retains its existing pipeline. It has its own scene,
+// authored fade and budget; this room-lighting change does not modify it.
+export function createLegacyFinish(renderer, scene, camera, { transparentOutput = false } = {}) {
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
   const composer = new EffectComposer(renderer, target);
   const beauty = new RenderPass(scene, camera);
@@ -238,6 +251,118 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
       output.dispose();
       composer.dispose();
       // r164's upstream dispose omits these two allocations.
+      contact.ssaoMaterial.dispose();
+      contact.noiseTexture.dispose();
+    },
+  };
+}
+
+export function createFinish(renderer, scene, camera, { transparentOutput = false, profileGPU = false } = {}) {
+  if (transparentOutput) return createLegacyFinish(renderer, scene, camera, { transparentOutput });
+  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
+  const composer = new EffectComposer(renderer, target);
+  const beauty = new RenderPass(scene, camera),
+    contact = new SSAOPass(scene, camera, 1, 1, 1),
+    output = new OutputPass(),
+    gpuTimer = createGpuTimer(renderer.getContext(), profileGPU),
+    volumeDepth = createVolumeDepth(renderer, scene);
+  let volume;
+  const lighting = {
+    contactTexture: { value: contact.blurRenderTarget.texture },
+    contactResolution: { value: new THREE.Vector2(1, 1) },
+    contactEnabled: { value: true },
+  };
+  contact.ssaoMaterial.fragmentShader = horizonFragment;
+  contact.ssaoMaterial.uniforms.kernelRadius.value = CONTACT_RADIUS;
+  contact.blurMaterial.fragmentShader = bilateralFragment;
+  Object.assign(contact.blurMaterial.uniforms, {
+    tDepth: { value: contact.normalRenderTarget.depthTexture },
+    tNormal: { value: contact.normalRenderTarget.texture },
+    cameraInverseProjectionMatrix: { value: camera.projectionMatrixInverse.clone() },
+  });
+  // This pass produces only a visibility texture. Beauty materials consume it
+  // before tone mapping; it never multiplies sunlight, emission or reflection.
+  contact.needsSwap = false;
+  contact.render = (activeRenderer) => {
+    const updateShadows = activeRenderer.shadowMap.autoUpdate,
+      overrideMaterial = scene.overrideMaterial;
+    activeRenderer.shadowMap.autoUpdate = false;
+    contact.overrideVisibility();
+    scene.traverse((object) => {
+      if (object.userData.noOcclusion || object.userData.noContactOcclusion) object.visible = false;
+    });
+    try {
+      contact.renderOverride(activeRenderer, contact.normalMaterial, contact.normalRenderTarget, 0x7777ff, 1);
+      contact.renderPass(activeRenderer, contact.ssaoMaterial, contact.ssaoRenderTarget);
+      contact.renderPass(activeRenderer, contact.blurMaterial, contact.blurRenderTarget);
+    } finally {
+      scene.overrideMaterial = overrideMaterial;
+      contact.restoreVisibility();
+      activeRenderer.shadowMap.autoUpdate = updateShadows;
+    }
+  };
+  composer.addPass(contact);
+  composer.addPass(beauty);
+  composer.addPass(output);
+  let width = 1,
+    height = 1;
+  return {
+    contactLighting: lighting,
+    setVolume(next) {
+      volume = next;
+    },
+    resize(w, h) {
+      width = w;
+      height = h;
+      composer.setSize(w, h);
+      volumeDepth.resize(composer.renderTarget1.width, composer.renderTarget1.height);
+      lighting.contactResolution.value.set(Math.floor(composer.renderTarget1.width), Math.floor(composer.renderTarget1.height));
+      const scale = Math.min(1, 480 / Math.max(w, h));
+      contact.setSize(Math.max(1, Math.round(w * scale)), Math.max(1, Math.round(h * scale)));
+    },
+    render(activeCamera, exterior) {
+      beauty.camera = contact.camera = activeCamera;
+      lighting.contactEnabled.value = contact.enabled = !exterior;
+      const perspective = activeCamera.isPerspectiveCamera ? 1 : 0;
+      if (contact.ssaoMaterial.defines.PERSPECTIVE_CAMERA !== perspective) {
+        contact.ssaoMaterial.defines.PERSPECTIVE_CAMERA = perspective;
+        contact.ssaoMaterial.needsUpdate = true;
+      }
+      contact.ssaoMaterial.uniforms.cameraProjectionMatrix.value.copy(activeCamera.projectionMatrix);
+      contact.ssaoMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
+      contact.blurMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
+      gpuTimer.begin();
+      try {
+        if (volume?.object.visible) volumeDepth.render(activeCamera, volume);
+        composer.render();
+      } finally {
+        gpuTimer.end();
+      }
+    },
+    get evidence() {
+      return {
+        contactShadows: true,
+        contactActive: contact.enabled,
+        method: "cosine-weighted horizons / indirect diffuse",
+        slices: CONTACT_SLICES,
+        samples: CONTACT_SLICES * CONTACT_STEPS * 2,
+        radiusMeters: CONTACT_RADIUS,
+        aoWidth: contact.width,
+        aoHeight: contact.height,
+        width,
+        height,
+        gpu: gpuTimer.evidence,
+        volumeDepth: volume?.object.visible ? volumeDepth.evidence() : null,
+      };
+    },
+    dispose() {
+      lighting.contactEnabled.value = false;
+      gpuTimer.dispose();
+      volumeDepth.dispose();
+      beauty.dispose();
+      contact.dispose();
+      output.dispose();
+      composer.dispose();
       contact.ssaoMaterial.dispose();
       contact.noiseTexture.dispose();
     },
