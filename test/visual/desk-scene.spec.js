@@ -5,6 +5,90 @@ const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetric
 const { publicRouteUrl } = require("./public-routes");
 const { PNG } = require("pngjs");
 
+test("coastal steam: native GPU extinction, opaque clipping and nearest glass segmentation", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one native GPU fixture tests the integrator independently of page layout");
+  const errors = collectRuntimeErrors(page),
+    url = publicRouteUrl("/volume-fixture/");
+  await page.route(url, (route) => route.fulfill({ contentType: "text/html", body: "<!doctype html><title>Steam transport fixture</title>" }));
+  await page.goto(url);
+  const result = await page.evaluate(
+    async (base) => {
+      const THREE = await import(base + "assets/js/three.module.min.js"),
+        { createSteamDensity } = await import(base + "assets/js/home-scene/steam-density.mjs"),
+        { createSteamVolume } = await import(base + "assets/js/home-scene/steam-volume.mjs"),
+        { createVolumeDepth } = await import(base + "assets/js/home-scene/volume-depth.mjs"),
+        renderer = new THREE.WebGLRenderer({ antialias: false, preserveDrawingBuffer: true }),
+        scene = new THREE.Scene(),
+        camera = new THREE.PerspectiveCamera(40, 1, 0.05, 10),
+        target = new THREE.WebGLRenderTarget(96, 96),
+        depth = createVolumeDepth(renderer, scene),
+        field = createSteamDensity({ bounds: { min: [-1, -1, -0.5], max: [1, 1, 1] }, grid: [8, 8, 8], surfaceY: -1, center: [0, 0], radius: 1 }),
+        volume = createSteamVolume(field, { extinction: 1 }),
+        incident = [0.7, 0.45, 0.2],
+        backing = new THREE.Mesh(new THREE.PlaneGeometry(4, 4), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.2, 0.3, 0.4) })),
+        glass = new THREE.Mesh(
+          new THREE.PlaneGeometry(4, 4),
+          new THREE.MeshPhysicalMaterial({ transmission: 1, ior: 1.5, thickness: 0.01, roughness: 0, metalness: 0 })
+        );
+      field.state.density.fill(0.4);
+      field.writeAtlas();
+      volume.uniforms.steamAtlas.value.needsUpdate = true;
+      volume.setLighting({ ambient: incident, directional: [0, 0, 0] });
+      renderer.setSize(96, 96);
+      renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
+      renderer.toneMapping = THREE.NoToneMapping;
+      document.body.append(renderer.domElement);
+      camera.position.set(0, 0, 3);
+      camera.lookAt(0, 0, 0);
+      camera.updateMatrixWorld(true);
+      backing.position.z = -0.6;
+      scene.add(backing, glass, volume.object);
+      depth.resize(96, 96);
+      function sample({ steam = true, pane = false, opaqueZ = -0.6 } = {}) {
+        glass.visible = pane;
+        volume.object.visible = steam;
+        backing.position.z = opaqueZ;
+        scene.updateMatrixWorld(true);
+        depth.render(camera, volume);
+        renderer.setRenderTarget(target);
+        renderer.clear();
+        renderer.render(scene, camera);
+        const pixel = new Uint8Array(4);
+        renderer.readRenderTargetPixels(target, 48, 48, 1, 1, pixel);
+        renderer.setRenderTarget(null);
+        renderer.render(scene, camera);
+        return [...pixel].slice(0, 3).map((c) => c / 255);
+      }
+      const clear = sample({ steam: false }),
+        fog = sample(),
+        throughGlass = sample({ pane: true }),
+        opaqueInFront = sample({ opaqueZ: 1.2 }),
+        // Each end's 8% support taper integrates to half its length. This
+        // analytic optical depth accounts for the rendered bounded medium.
+        opticalDepth = 0.4 * 1.5 * 0.92,
+        expected = clear.map((c, i) => c * Math.exp(-opticalDepth) + incident[i] * 0.94 * (1 - Math.exp(-opticalDepth))),
+        evidence = volume.evidence();
+      // Keep the final native fixture visible for the captured acceptance image.
+      sample({ pane: true });
+      return { clear, fog, throughGlass, opaqueInFront, expected, evidence, depth: depth.evidence() };
+    },
+    publicRouteUrl("/").replace(/\/?$/, "/")
+  );
+  fs.writeFileSync(testInfo.outputPath("steam-native-gpu-fixture.json"), JSON.stringify(result, null, 2));
+  for (let i = 0; i < 3; i++) {
+    expect(Math.abs(result.fog[i] - result.expected[i])).toBeLessThan(0.012);
+    expect(Math.abs(result.opaqueInFront[i] - result.clear[i])).toBeLessThan(0.008);
+    // Dielectric Fresnel/refraction change the backing slightly; a whole
+    // interval of missing or duplicated fog exceeds this measured tolerance.
+    expect(Math.abs(result.throughGlass[i] - result.fog[i])).toBeLessThan(0.035);
+  }
+  expect(result.evidence.depthBound).toBe(true);
+  expect(result.depth.passes).toBe(2);
+  expect(errors).toEqual([]);
+  await page.locator("canvas").screenshot({ path: testInfo.outputPath("steam-native-gpu-fixture.png") });
+  fs.writeFileSync(testInfo.outputPath("steam-native-gpu-fixture.json"), JSON.stringify(result, null, 2));
+});
+
 test("record: a discovered card keeps its source link keyboard activation", async ({ page, context }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
@@ -523,7 +607,8 @@ async function settle(page) {
 }
 
 // Project a clear front-side patch of the native onsen into its actual camera.
-// It excludes the bather, moving vapor and room foliage from the pixel proof.
+// It excludes the bather and foliage. Volume compositing can affect this patch;
+// conserved water state and measured palm coupling supply the independent proof.
 function onsenRegion(buffer, info) {
   const source = PNG.sync.read(buffer),
     sub = (a, b) => a.map((v, i) => v - b[i]),
@@ -552,6 +637,10 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   const errors = collectRuntimeErrors(page);
   const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T13:20:00-07:00" });
   await settleRoomModels(scene);
+  await page.waitForFunction(() => {
+    const sim = document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.()?.simulation;
+    return sim?.steam?.ready && sim?.lightField?.ready;
+  });
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 1000);
   await explore(ui);
   await ui.locator("[data-world-pause]").click();
@@ -562,10 +651,26 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   await canvas.scrollIntoViewIfNeeded();
   await page.clock.runFor(100);
   const still = await evidence(scene);
+  expect(still.simulation.lightField.error).toBeNull();
+  expect(still.simulation.lightField.triangles).toBeGreaterThan(100000);
+  expect(still.simulation.lightField.acceleratorRetainedBytes).toBe(0);
+  expect(still.simulation.lightField.practicalEnergy.every((light) => light.unitDC > 0)).toBe(true);
+  expect(still.simulation.steam.scalar.finite).toBe(true);
+  expect(still.simulation.steam.scalar.grid).toEqual([18, 18, 18]);
+  expect(still.simulation.steam.depthBound).toBe(true);
   expect(still.projection).toBe("perspective");
   expect(still.simulation.skin.incompatibleMaterials).toBe(0);
   expect(still.simulation.skin.compiledMaterials).toBeGreaterThanOrEqual(2);
   expect(still.simulation.skin.extraPasses).toBe(0);
+  expect(still.garment.kind).toBe("opaque spa textile");
+  expect(still.garment.materials.length).toBeGreaterThan(0);
+  for (const garment of still.garment.materials) {
+    expect(garment.color).toBe(0x5d8078);
+    expect(garment.opacity).toBe(1);
+    expect(garment.transparent).toBe(false);
+    expect(garment.roughness).toBeGreaterThan(0.9);
+    expect(garment.skinDiffusion).toBe(false);
+  }
   expect(still.simulation.onsen.obstacle).not.toBeNull();
   expect(still.simulation.onsen.depthSource).toBe("five native basin ray hits");
   expect(still.simulation.onsen.depth).toBeCloseTo(0.127487, 5);
@@ -592,6 +697,10 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   const moving = await evidence(scene),
     after = await canvas.screenshot();
   expect(moving.simulation.onsen.energy).toBeGreaterThan(1e-7);
+  expect(moving.simulation.steam.scalar.simulationTime).toBeGreaterThan(still.simulation.steam.scalar.simulationTime + 3);
+  expect(moving.simulation.steam.scalar.finite).toBe(true);
+  expect(moving.simulation.steam.scalar.maximumDensity).toBeGreaterThan(0);
+  expect(moving.simulation.steam.uploads).toBeGreaterThan(still.simulation.steam.uploads);
   expect(Math.abs(moving.simulation.onsen.relativeMassError)).toBeLessThan(1e-10);
   expect(moving.simulation.onsen.boundarySpeed).toBe(0);
   expect(moving.simulation.onsen.finite).toBe(true);
@@ -615,6 +724,8 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   await page.clock.runFor(2000);
   const frozen = await evidence(scene);
   expect(frozen.simulation.onsen).toEqual(paused.simulation.onsen);
+  expect(frozen.simulation.steam.scalar).toEqual(paused.simulation.steam.scalar);
+  expect(frozen.simulation.steam.uploads).toBe(paused.simulation.steam.uploads);
   expect(frozen.simulation.wind.seconds).toBe(paused.simulation.wind.seconds);
   expect(frozen.ecology.particleMotion).toEqual(paused.ecology.particleMotion);
   await explore(ui);
@@ -628,22 +739,29 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   const hidden = await evidence(scene);
   await page.clock.runFor(5000);
   expect((await evidence(scene)).simulation.onsen.simulationTime).toBe(hidden.simulation.onsen.simulationTime);
+  expect((await evidence(scene)).simulation.steam.scalar).toEqual(hidden.simulation.steam.scalar);
   await canvas.scrollIntoViewIfNeeded();
   await page.clock.runFor(100);
   const recovered = await evidence(scene);
   expect(recovered.simulation.onsen.simulationTime - hidden.simulation.onsen.simulationTime).toBeLessThan(0.2);
+  expect(recovered.simulation.steam.scalar.simulationTime - hidden.simulation.steam.scalar.simulationTime).toBeLessThan(0.2);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.clock.runFor(100);
   const reduced = await evidence(scene);
   expect(reduced.simulation.wind.enabled).toBe(false);
   await page.clock.runFor(1000);
   expect((await evidence(scene)).simulation.onsen).toEqual(reduced.simulation.onsen);
+  expect((await evidence(scene)).simulation.steam.scalar).toEqual(reduced.simulation.steam.scalar);
   await explore(ui);
   await ui.locator("[data-world-activity]").selectOption("reading");
   await page.clock.runFor(100);
   const departed = await evidence(scene);
-  expect(departed.simulation.skin.activeMaterials).toBeLessThan(reduced.simulation.skin.activeMaterials);
+  expect(departed.simulation.skin.activeMaterials).toBe(reduced.simulation.skin.activeMaterials);
+  expect(departed.garment.kind).toBe("authored shirt");
+  expect(departed.garment.materials.every((m) => m.color !== 0x5d8078)).toBe(true);
   expect(departed.simulation.onsen.obstacle).toBeNull();
+  expect(departed.simulation.steam.visible).toBe(false);
+  expect(departed.simulation.lightField.trace).toEqual(still.simulation.lightField.trace);
   expect(Math.abs(departed.simulation.onsen.relativeMassError)).toBeLessThan(1e-10);
   expect(errors).toEqual([]);
   fs.writeFileSync(

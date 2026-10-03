@@ -1,0 +1,3095 @@
+{
+  "method": "Actual native RAF and performance.now; Date-only Pacific override. New page per activity; 120 warm frames and 180 measured frames. Local desktop/emulation observation, no physical phone or isolated GPU benchmark claim.",
+  "label": "verified-profile",
+  "width": 1440,
+  "rows": [
+    {
+      "activity": "reading",
+      "rawRafIntervalsMs": [
+        4.1999999761574145, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728,
+        16.700000000000728, 16.599999999998545, 16.700000000000728, 16.600000000002183, 16.799999999999272, 16.599999999998545, 16.700000000000728,
+        16.599999999998545, 16.600000000002183, 16.700000000000728, 16.799999999999272, 16.599999999998545, 16.700000000000728, 33.29999999999927,
+        16.600000000002183, 16.69999999999709, 16.700000000000728, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728,
+        16.599999999998545, 16.600000000002183, 16.799999999999272, 16.700000000000728, 16.5, 16.700000000000728, 16.69999999999709,
+        16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728,
+        16.600000000002183, 16.69999999999709, 16.600000000002183, 16.700000000000728, 16.69999999999709, 16.600000000002183, 16.799999999999272,
+        16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.600000000002183, 16.69999999999709,
+        16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.600000000002183,
+        16.799999999999272, 16.599999999998545, 16.600000000002183, 16.700000000000728, 16.69999999999709, 16.600000000002183, 16.700000000000728,
+        16.69999999999709, 16.700000000000728, 16.600000000002183, 16.69999999999709, 16.600000000002183, 16.700000000000728, 16.69999999999709,
+        16.600000000002183, 16.700000000000728, 16.69999999999709, 16.700000000000728, 16.600000000002183, 16.599999999998545, 16.700000000000728,
+        16.700000000000728, 16.69999999999709, 16.600000000002183, 16.700000000000728, 16.69999999999709, 16.700000000000728, 16.600000000002183,
+        16.599999999998545, 16.700000000000728, 16.700000000000728, 16.69999999999709, 16.600000000002183, 16.700000000000728, 16.69999999999709,
+        16.600000000002183, 16.700000000000728, 16.69999999999709, 16.700000000000728, 16.600000000002183, 16.69999999999709, 16.700000000000728,
+        16.600000000002183, 16.69999999999709, 16.600000000002183, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728,
+        16.69999999999709, 16.700000000000728, 16.5, 16.700000000000728, 16.700000000000728, 16.700000000000728, 16.69999999999709,
+        16.600000000002183, 16.700000000000728, 16.69999999999709, 16.700000000000728, 16.5, 16.700000000000728, 16.700000000000728,
+        16.700000000000728, 16.69999999999709, 16.600000000002183, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728,
+        16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.599999999998545, 16.799999999999272,
+        16.600000000002183, 16.599999999998545, 16.799999999999272, 16.600000000002183, 16.700000000000728, 16.69999999999709, 16.600000000002183,
+        16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728,
+        16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545,
+        16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728,
+        16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.799999999999272, 16.600000000002183, 16.599999999998545,
+        16.700000000000728, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728
+      ],
+      "medianRafMs": 16.700000000000728,
+      "p95RafMs": 16.799999999999272,
+      "evidence": {
+        "ready": true,
+        "style": "realistic",
+        "avatarId": "ghibli",
+        "portrait": "http://127.0.0.1:8080/assets/img/home/sirui_capy.jpg",
+        "currentRoom": "study",
+        "activity": "reading",
+        "activityFloor": 2.6,
+        "activityOffset": [-0.35, 2.6, 5],
+        "traveling": false,
+        "navigation": null,
+        "animationSeconds": 22.332499999999786,
+        "palette": "noon",
+        "daylight": {
+          "minute": 795,
+          "offset": -7,
+          "altitude": 52.86265796135347,
+          "daylight": 1,
+          "sunlight": 1,
+          "direction": [-0.5823181373137293, 0.7971906237662997, -0.15935085922130018],
+          "keyDirection": [-0.5823181373137293, 0.7971906237662997, -0.15935085922130018],
+          "location": {
+            "latitude": 32.83,
+            "longitude": -117.27,
+            "timeZone": "America/Los_Angeles"
+          }
+        },
+        "clockMode": "preview",
+        "following": false,
+        "animation": "reading",
+        "activityPhase": null,
+        "cupOwner": "counter",
+        "weightOwner": "rack",
+        "cupPosition": [-3.91, 1.065, -0.22],
+        "weightPosition": [1.14, 0.723, -2.32],
+        "gripDrift": [],
+        "gripTargetMode": "equipment-anchor",
+        "characterPerformance": {
+          "blink": [0, 0],
+          "eye": [0, 0],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "still",
+          "seconds": 5.433166666666681,
+          "blinkCount": 1,
+          "cooldownRemaining": 0,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "garment": {
+          "kind": "authored shirt",
+          "materials": [
+            {
+              "color": 2830384,
+              "opacity": 1,
+              "transparent": false,
+              "roughness": 0.9,
+              "skinDiffusion": false
+            }
+          ]
+        },
+        "animations": [
+          "idle",
+          "walk",
+          "typing",
+          "reading",
+          "eat",
+          "drink",
+          "workout",
+          "pullup",
+          "dip",
+          "coffee-prep",
+          "carry",
+          "soak",
+          "lounge",
+          "sleep"
+        ],
+        "roomCount": 6,
+        "actorCount": 1,
+        "frames": 693,
+        "frameTiming": {
+          "samples": 120,
+          "medianFrameMs": 16.700000000000728,
+          "p95FrameMs": 16.700000000000728,
+          "medianSubmitMs": 9.299999952316284
+        },
+        "framePending": false,
+        "drawCalls": 540,
+        "triangles": 2120408,
+        "resources": {
+          "geometries": 239,
+          "textures": 22
+        },
+        "projection": "perspective",
+        "coastDetail": "realistic",
+        "companion": {
+          "visible": true,
+          "position": [0.35, 3.73, 3.6],
+          "head": [0, 0, 0],
+          "model": "blender-pip",
+          "gesture": "rest",
+          "room": "study",
+          "destinationRoom": "study",
+          "pendingRoom": null,
+          "outing": "home",
+          "traveling": false,
+          "flight": {
+            "phase": "rest",
+            "bank": 0,
+            "velocity": [0, 0, 0],
+            "progress": 1,
+            "hover": 1.13
+          },
+          "attention": {
+            "phase": "still",
+            "greetings": 0,
+            "cooldown": 0,
+            "target": "visitor-ready"
+          },
+          "aim": {
+            "heading": 8.816347107792446,
+            "target": [2.2360660652392, 4.530654253316283, 0.8338161904533838],
+            "origin": [0.35, 3.914, 3.6],
+            "yaw": 2.54316594950864,
+            "pitch": 0.18214513470033658,
+            "taskSource": "visitor-plane"
+          },
+          "input": {
+            "kind": "mouse",
+            "touchInvitation": false,
+            "touchPending": false
+          },
+          "gaze": [0, 0],
+          "eyes": [1, 1],
+          "arms": [0, 0],
+          "activeSeconds": 15.266166666666454,
+          "projected": {
+            "x": 978.6514731047857,
+            "y": 413.95347212799555
+          },
+          "opticalCatchlights": 2
+        },
+        "ecology": {
+          "wildlife": {
+            "rabbits": 2,
+            "raccoons": 1,
+            "gulls": 5,
+            "shorebirds": 3,
+            "modelsReady": true,
+            "seaLions": 3,
+            "harborSeals": 3,
+            "raccoon": {
+              "position": [-6.553704044935196, 8.876266893926841, 7.776852022467597],
+              "state": "look",
+              "bodyAccommodation": 0,
+              "contacts": [
+                {
+                  "foot": "FrontPawL",
+                  "position": [-6.855837666039738, 9.092564112675598, 7.764289225997256],
+                  "yaw": -1.092031100810383,
+                  "slope": 0.526136581191318,
+                  "gradient": [-0.6339601459132042, 0.03919935826115657],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "HindPawL",
+                  "position": [-6.432834159498635, 8.814427741176203, 7.5200692567045575],
+                  "yaw": -1.0800927981018744,
+                  "slope": 0.5238167742407576,
+                  "gradient": [-0.6341182498903636, 0.038934392209993986],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FrontPawR",
+                  "position": [-6.639739836262806, 8.96378419388641, 7.998756820820873],
+                  "yaw": -1.0649064875715923,
+                  "slope": 0.5207572514188439,
+                  "gradient": [-0.6342749230265028, 0.038671824101639565],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "HindPawR",
+                  "position": [-6.3409765269117955, 8.770323258797456, 7.858755196245542],
+                  "yaw": -1.0995106565145956,
+                  "slope": 0.5275034668415712,
+                  "gradient": [-0.6337603096191151, 0.039418355144397614],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            "birds": [
+              {
+                "position": [2.745617780995146, 8.133639253023636, -30.867365514190375],
+                "state": "glide",
+                "velocity": [-0.700900634043414, -0.03223079150034164, -0.06864044452487865],
+                "contacts": []
+              },
+              {
+                "position": [-13.695770811015429, 8.776952192352304, -26.73603724788342],
+                "state": "glide",
+                "velocity": [-0.11511622556896706, 0.039572031451383924, 0.40491844136915184],
+                "contacts": []
+              },
+              {
+                "position": [7.952852130989703, 9.933260471867285, -7.718645422778998],
+                "state": "approach",
+                "velocity": [1.8164500459708735, -0.25461573588017616, 1.3897509180016392],
+                "contacts": []
+              },
+              {
+                "position": [-8, 8.7668409, 1],
+                "state": "perch",
+                "velocity": [0, 0, 0],
+                "contacts": [
+                  {
+                    "foot": "FootL",
+                    "position": [-8.067857676824065, 8.814491555756614, 1.005671040119809],
+                    "hipAccommodation": 0.02445543894916951,
+                    "surfaceLift": 0,
+                    "weight": 1
+                  },
+                  {
+                    "foot": "FootR",
+                    "position": [-7.935563856125552, 8.75926661349117, 1.0220183642124387],
+                    "hipAccommodation": 0.028154779346354776,
+                    "surfaceLift": 0,
+                    "weight": 1
+                  }
+                ]
+              }
+            ],
+            "balconyGullContacts": [
+              {
+                "foot": "FootL",
+                "position": [4.16028905657252, 3.4610869561891344, 1.3375379914318273],
+                "hipAccommodation": 0.015586657044901803,
+                "surfaceLift": 0,
+                "weight": 1
+              },
+              {
+                "foot": "FootR",
+                "position": [4.247421426605192, 3.465932084947367, 1.3006990162494287],
+                "hipAccommodation": 0.01094335512389863,
+                "surfaceLift": 0,
+                "weight": 1
+              }
+            ],
+            "shorebirdContacts": [
+              {
+                "position": [-4.906087719749735, -7.253460623156161, -13.09781954125949],
+                "state": "rest",
+                "contacts": [
+                  {
+                    "foot": "FootL",
+                    "position": [-4.9379581831983685, -7.241188240576518, -13.034796645512747],
+                    "yaw": 1.479911638261943,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  },
+                  {
+                    "foot": "FootR",
+                    "position": [-4.894062179103036, -7.241356801232244, -13.157811997080902],
+                    "yaw": 1.5997589266451129,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  }
+                ]
+              },
+              {
+                "position": [-0.6115536197023963, -7.2365874084229125, -13.035028099631738],
+                "state": "walk",
+                "contacts": [
+                  {
+                    "foot": "FootL",
+                    "position": [-0.747456798401146, -7.2260301936772615, -13.080314164339555],
+                    "yaw": 0.5449416646090806,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  },
+                  {
+                    "foot": "FootR",
+                    "position": [-0.6903693249177717, -7.19928733791219, -13.118548059673788],
+                    "yaw": 0.7555822863156603,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": false,
+                    "lift": 0.02607379057584566
+                  }
+                ]
+              },
+              {
+                "position": [3.3820866548733854, -7.22979297691194, -13.345292198042813],
+                "state": "look",
+                "contacts": [
+                  {
+                    "foot": "FootL",
+                    "position": [3.3644428261616204, -7.2174114898792405, -13.386201501048534],
+                    "yaw": -0.6458864931854371,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  },
+                  {
+                    "foot": "FootR",
+                    "position": [3.392113006388201, -7.217774522643813, -13.29425864289395],
+                    "yaw": -0.9626400918579645,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  }
+                ]
+              }
+            ],
+            "contacts": [
+              {
+                "habitat": "seaLion",
+                "position": [-10, -6.6084, -14.5115],
+                "state": "look"
+              },
+              {
+                "habitat": "seaLion",
+                "position": [-8.6, -6.6737, -14.2179],
+                "state": "rest"
+              },
+              {
+                "habitat": "seaLion",
+                "position": [11, -6.7453, -13.3577],
+                "state": "rest"
+              },
+              {
+                "habitat": "seal",
+                "position": [-5, -7.1295, -12.0849],
+                "state": "look"
+              },
+              {
+                "habitat": "seal",
+                "position": [-4, -7.1329, -12.1697],
+                "state": "groom"
+              },
+              {
+                "habitat": "seal",
+                "position": [-3, -7.1308, -11.9844],
+                "state": "rest"
+              }
+            ],
+            "rabbitHabitats": [
+              {
+                "position": [-6.764028000000001, 8.215568, 0.46002800000000016],
+                "state": "rest",
+                "airborne": false,
+                "contact": true,
+                "lift": 0,
+                "progress": 0.42000000000000004
+              },
+              {
+                "position": [8.35129866916946, 8.181582510223201, 5.7],
+                "state": "hop",
+                "airborne": true,
+                "contact": false,
+                "lift": 0.06486952353150519,
+                "progress": 0.6976461105896961
+              }
+            ]
+          },
+          "beachWidth": 13.5,
+          "particles": 182,
+          "particleMotion": [
+            {
+              "kind": "spray",
+              "count": 140,
+              "seconds": 13.4,
+              "fieldSeconds": 22.332499999999786,
+              "droppedTime": 9.9163,
+              "ticks": 804,
+              "backlogSeconds": 0.016200000000002584,
+              "step": 0.016666666666666666,
+              "maxSteps": 30,
+              "integrator": "midpoint",
+              "windSamplesPerTick": 280,
+              "prewarmMilliseconds": 12.600000023841858
+            },
+            {
+              "kind": "dust",
+              "count": 42,
+              "seconds": 30.4,
+              "fieldSeconds": 22.332499999999786,
+              "droppedTime": 9.9163,
+              "ticks": 1824,
+              "backlogSeconds": 0.016200000000002584,
+              "step": 0.016666666666666666,
+              "maxSteps": 30,
+              "integrator": "midpoint",
+              "windSamplesPerTick": 84,
+              "prewarmMilliseconds": 62.10000002384186
+            }
+          ],
+          "water": {
+            "waves": 10,
+            "vertices": 25921,
+            "triangles": 51200,
+            "seconds": 22.332499999999786,
+            "sample": {
+              "displacement": [-0.022009197905033605, 0.23220476315028168, -0.09942449663095808],
+              "tangentX": [0.985454479582473, 0.054445595396476316, 0.014341882747268971],
+              "tangentZ": [0.014341882747268971, -0.08780989460884255, 0.939437850501253],
+              "normal": [-0.05628250664074333, 0.9940018135878799, 0.09376925951632872],
+              "jacobian": 0.9255675484650528,
+              "lostVariance": 0.002534119297229181
+            },
+            "reflection": {
+              "width": 384,
+              "height": 384,
+              "linear": true,
+              "fresnelIOR": 1.333,
+              "active": false
+            }
+          }
+        },
+        "rendering": {
+          "contactShadows": true,
+          "contactActive": true,
+          "method": "cosine-weighted horizons / indirect diffuse",
+          "slices": 4,
+          "samples": 32,
+          "radiusMeters": 0.36,
+          "aoWidth": 480,
+          "aoHeight": 406,
+          "width": 544.859375,
+          "height": 460.796875,
+          "gpu": {
+            "available": true,
+            "samples": 64,
+            "medianMs": 6.329344,
+            "p95Ms": 14.18752
+          },
+          "volumeDepth": null
+        },
+        "simulation": {
+          "skin": {
+            "method": "normalized local curved-patch diffuse preintegration",
+            "enabled": true,
+            "strength": 0.7,
+            "distancesMeters": [0.0032, 0.0012, 0.00065],
+            "maxCurvature": 160,
+            "width": 257,
+            "height": 49,
+            "storage": "half-float",
+            "textureBytes": 100744,
+            "totalBindings": 6,
+            "boundMaterials": 3,
+            "compiledMaterials": 3,
+            "incompatibleMaterials": 0,
+            "activeMaterials": 2,
+            "extraRenderTargets": 0,
+            "extraPasses": 0,
+            "disposed": false
+          },
+          "onsen": {
+            "nx": 40,
+            "nz": 40,
+            "dx": 0.04300000071525574,
+            "dz": 0.04300000071525574,
+            "wetCells": 1264,
+            "density": 1000,
+            "volume": 0.2979539264345162,
+            "mass": 297.9539264345162,
+            "relativeMassError": 0,
+            "minimumDepth": 0.12748676864430308,
+            "maximumDepth": 0.12748676864430308,
+            "potential": 0,
+            "kinetic": 0,
+            "energy": 0,
+            "finite": true,
+            "boundarySpeed": 0,
+            "simulationTime": 11.39166666666666,
+            "retainedTime": 0.0080000000000023,
+            "droppedTime": 0,
+            "steps": 1367,
+            "maxSubsteps": 1,
+            "maxCourant": 0.4333843069778461,
+            "limitedFluxes": 0,
+            "limitedVelocities": 0,
+            "storageBytes": 187280,
+            "obstacle": null,
+            "coupling": {
+              "method": "Gaussian submerged palm / exponential face drag",
+              "contactCount": 0,
+              "coupledFaces": 0,
+              "couplingSteps": 0,
+              "velocityChange": 0
+            },
+            "center": [3.1700000762939453, 3.179999828338623],
+            "surfaceY": 3.0075131240300834,
+            "radius": 0.8600000143051147,
+            "depth": 0.12748676864430308,
+            "bottomY": 2.8800263553857803,
+            "depthSource": "five native basin ray hits",
+            "uploads": 669,
+            "textureBytes": 25600,
+            "disposed": false,
+            "stroke": {
+              "method": "prescribed anatomical IK / measured submerged palm velocity",
+              "available": true,
+              "side": "L",
+              "phase": "rest",
+              "seconds": 0,
+              "restPalm": null,
+              "palm": null,
+              "wristError": 0,
+              "contacts": [],
+              "sampledContacts": 0,
+              "suppressedSamples": 0,
+              "maximumSpeed": 0,
+              "applied": false
+            },
+            "optics": {
+              "ior": 1.333,
+              "transmission": 0.86,
+              "thicknessMeters": 0.12748676864430308,
+              "attenuationDistanceMeters": 1.5,
+              "method": "Three r164 screen-space refracted background / Beer-Lambert attenuation",
+              "extraBackgroundPass": true,
+              "opaqueShadow": false,
+              "normalDepthOccluder": false
+            }
+          },
+          "wind": {
+            "method": "six-mode curl-potential wind / critically damped rooted bends",
+            "seconds": 22.332499999999786,
+            "enabled": true,
+            "meanMetersPerSecond": [0.18, 0, -0.08],
+            "gustBoundMetersPerSecond": 0.45,
+            "complianceSeconds": 0.018,
+            "beautyAndShadowMatched": true,
+            "contactNormalApproximation": "static leaves; displacement bounded below 12 mm",
+            "plants": [
+              {
+                "name": "core__olive_leaf",
+                "vertices": 1188,
+                "components": 22,
+                "enabled": 22,
+                "disabled": 0,
+                "buildMilliseconds": 11.800000071525574
+              },
+              {
+                "name": "study__olive_leaf",
+                "vertices": 5842,
+                "components": 44,
+                "enabled": 22,
+                "disabled": 22,
+                "buildMilliseconds": 65
+              },
+              {
+                "name": "lounge__olive_leaf",
+                "vertices": 1188,
+                "components": 22,
+                "enabled": 22,
+                "disabled": 0,
+                "buildMilliseconds": 16.100000023841858
+              },
+              {
+                "name": "kitchen__olive_leaf",
+                "vertices": 1188,
+                "components": 22,
+                "enabled": 22,
+                "disabled": 0,
+                "buildMilliseconds": 12.299999952316284
+              },
+              {
+                "name": "onsen__olive_leaf",
+                "vertices": 594,
+                "components": 11,
+                "enabled": 11,
+                "disabled": 0,
+                "buildMilliseconds": 5.299999952316284
+              },
+              {
+                "name": "sleep__olive_leaf",
+                "vertices": 594,
+                "components": 11,
+                "enabled": 11,
+                "disabled": 0,
+                "buildMilliseconds": 3.100000023841858
+              }
+            ]
+          },
+          "practicals": {
+            "nightMix": 0,
+            "pointLights": 8,
+            "newFixtures": 4,
+            "fixtureDraws": 2,
+            "sources": [
+              {
+                "position": [-0.99, 4.06, 2.64],
+                "intensity": 0.9
+              },
+              {
+                "position": [-4.13, 3.47, 2.47],
+                "intensity": 0.7
+              },
+              {
+                "position": [-3.3, 1.95, -0.04],
+                "intensity": 0.7
+              },
+              {
+                "position": [2.14, 0.79, -1.58],
+                "intensity": 0.7
+              },
+              {
+                "position": [3.68, 3.388, 2.2],
+                "intensity": 0.6
+              },
+              {
+                "position": [0, 2.18, 0.25],
+                "intensity": 0.5
+              },
+              {
+                "position": [-3.9, 0.170405, -4.3],
+                "intensity": 0.15
+              },
+              {
+                "position": [3.9, 0.170405, -4.3],
+                "intensity": 0.15
+              }
+            ]
+          },
+          "lightField": {
+            "ready": true,
+            "triangles": 417123,
+            "meshes": 98,
+            "skippedMeshes": 45,
+            "skippedTriangles": 134072,
+            "geometryMs": 1301.2000000476837,
+            "acceleratorMs": 2271,
+            "transportMs": 1900.2000000476837,
+            "bakeMs": 5472.5,
+            "maxTaskMs": 14.899999976158142,
+            "relocatedProbes": 4,
+            "rejectedProbes": 1,
+            "acceleratorBytes": 35038752,
+            "trace": {
+              "rays": 37956,
+              "triangleTests": 1823760,
+              "boxTests": 7454475
+            },
+            "regions": ["study", "sleep", "onsen", "kitchen", "gym", "lounge", "nearhouse"],
+            "probes": [
+              {
+                "region": "study",
+                "nominal": [-0.9124999999999999, 3.0875, 2.825],
+                "position": [-0.9124999999999999, 3.0875, 2.825],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [0.5625000000000004, 3.0875, 2.825],
+                "position": [0.5625000000000004, 3.0875, 2.825],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [-0.9124999999999999, 4.1625, 2.825],
+                "position": [-0.9124999999999999, 4.1625, 2.825],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [0.5625000000000004, 4.1625, 2.825],
+                "position": [0.5625000000000004, 4.1625, 2.825],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [-0.9124999999999999, 3.0875, 3.9749999999999996],
+                "position": [-0.9124999999999999, 3.0875, 3.9749999999999996],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [0.5625000000000004, 3.0875, 3.9749999999999996],
+                "position": [0.5625000000000004, 3.0875, 3.9749999999999996],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [-0.9124999999999999, 4.1625, 3.9749999999999996],
+                "position": [-0.9124999999999999, 4.1625, 3.9749999999999996],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [0.5625000000000004, 4.1625, 3.9749999999999996],
+                "position": [0.5625000000000004, 4.1625, 3.9749999999999996],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "sleep",
+                "nominal": [-3.6875, 3.0125, 2.7],
+                "position": [-3.6875, 3.0125, 2.7],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "sleep",
+                "nominal": [-2.4625, 3.0125, 2.7],
+                "position": [-2.34053640157268, 2.939321840943608, 2.7],
+                "valid": true,
+                "relocation": 0.14223277507038637
+              },
+              {
+                "region": "sleep",
+                "nominal": [-3.6875, 3.9375, 2.7],
+                "position": [-3.6875, 3.9375, 2.7],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "sleep",
+                "nominal": [-2.4625, 3.9375, 2.7],
+                "position": [-2.4625, 3.9375, 2.7],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "sleep",
+                "nominal": [-3.6875, 3.0125, 4.1],
+                "position": [-3.7120719606688275, 3.1845037246817935, 4.1],
+                "valid": true,
+                "relocation": 0.17375000015977143
+              },
+              {
+                "region": "sleep",
+                "nominal": [-2.4625, 3.0125, 4.1],
+                "position": [-2.34053640157268, 2.939321840943608, 4.1],
+                "valid": true,
+                "relocation": 0.14223277507038637
+              },
+              {
+                "region": "sleep",
+                "nominal": [-3.6875, 3.9375, 4.1],
+                "position": [-3.6875, 3.9375, 4.1],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "sleep",
+                "nominal": [-2.4625, 3.9375, 4.1],
+                "position": [-2.4625, 3.9375, 4.1],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [2.6125, 3.1375, 2.525],
+                "position": [2.6125, 3.1375, 2.525],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [3.8375000000000004, 3.1375, 2.525],
+                "position": [3.8375000000000004, 3.1375, 2.525],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [2.6125, 4.3125, 2.525],
+                "position": [2.6125, 4.3125, 2.525],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [3.8375000000000004, 4.3125, 2.525],
+                "position": [3.8375000000000004, 4.3125, 2.525],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [2.6125, 3.1375, 3.7750000000000004],
+                "position": [2.6125, 3.1375, 3.7750000000000004],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [3.8375000000000004, 3.1375, 3.7750000000000004],
+                "position": [3.8375000000000004, 3.1375, 3.7750000000000004],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [2.6125, 4.3125, 3.7750000000000004],
+                "position": [2.6125, 4.3125, 3.7750000000000004],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [3.8375000000000004, 4.3125, 3.7750000000000004],
+                "position": [3.8375000000000004, 4.3125, 3.7750000000000004],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-3.4749999999999996, 0.49999999999999994, -3.025],
+                "position": [-3.4827918328710195, 0.5545428300971378, -3.025],
+                "valid": true,
+                "relocation": 0.05509657860970271
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-2.225, 0.49999999999999994, -3.025],
+                "position": [-2.225, 0.49999999999999994, -3.025],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-3.4749999999999996, 1.5999999999999999, -3.025],
+                "position": [-3.4749999999999996, 1.5999999999999999, -3.025],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-2.225, 1.5999999999999999, -3.025],
+                "position": [-2.225, 1.5999999999999999, -3.025],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-3.4749999999999996, 0.49999999999999994, -1.0750000000000002],
+                "position": [-3.4749999999999996, 0.49999999999999994, -1.0750000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-2.225, 0.49999999999999994, -1.0750000000000002],
+                "position": [-2.0204671119576108, 0.47078101599394434, -1.0750000000000002],
+                "valid": false,
+                "relocation": 0.20660941730063204
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-3.4749999999999996, 1.5999999999999999, -1.0750000000000002],
+                "position": [-3.4749999999999996, 1.5999999999999999, -1.0750000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-2.225, 1.5999999999999999, -1.0750000000000002],
+                "position": [-2.225, 1.5999999999999999, -1.0750000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [-0.55, 0.5125, -2.3125],
+                "position": [-0.55, 0.5125, -2.3125],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [0.55, 0.5125, -2.3125],
+                "position": [0.55, 0.5125, -2.3125],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [-0.55, 1.6375, -2.3125],
+                "position": [-0.55, 1.6375, -2.3125],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [0.55, 1.6375, -2.3125],
+                "position": [0.55, 1.6375, -2.3125],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [-0.55, 0.5125, -1.1375000000000002],
+                "position": [-0.55, 0.5125, -1.1375000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [0.55, 0.5125, -1.1375000000000002],
+                "position": [0.55, 0.5125, -1.1375000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [-0.55, 1.6375, -1.1375000000000002],
+                "position": [-0.55, 1.6375, -1.1375000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [0.55, 1.6375, -1.1375000000000002],
+                "position": [0.55, 1.6375, -1.1375000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [2.525, 0.4875, -3.0875],
+                "position": [2.525, 0.4875, -3.0875],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [3.7750000000000004, 0.4875, -3.0875],
+                "position": [3.7750000000000004, 0.4875, -3.0875],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [2.525, 1.5624999999999998, -3.0875],
+                "position": [2.525, 1.5624999999999998, -3.0875],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [3.7750000000000004, 1.5624999999999998, -3.0875],
+                "position": [3.7750000000000004, 1.5624999999999998, -3.0875],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [2.525, 0.4875, -1.1625],
+                "position": [2.525, 0.4875, -1.1625],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [3.7750000000000004, 0.4875, -1.1625],
+                "position": [3.7750000000000004, 0.4875, -1.1625],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [2.525, 1.5624999999999998, -1.1625],
+                "position": [2.525, 1.5624999999999998, -1.1625],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [3.7750000000000004, 1.5624999999999998, -1.1625],
+                "position": [3.7750000000000004, 1.5624999999999998, -1.1625],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [-2.5, 0.9624999999999999, -5.2],
+                "position": [-2.5, 0.9624999999999999, -5.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [2.5, 0.9624999999999999, -5.2],
+                "position": [2.5, 0.9624999999999999, -5.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [-2.5, 2.9875, -5.2],
+                "position": [-2.5, 2.9875, -5.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [2.5, 2.9875, -5.2],
+                "position": [2.5, 2.9875, -5.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [-2.5, 0.9624999999999999, -4.2],
+                "position": [-2.5, 0.9624999999999999, -4.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [2.5, 0.9624999999999999, -4.2],
+                "position": [2.5, 0.9624999999999999, -4.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [-2.5, 2.9875, -4.2],
+                "position": [-2.5, 2.9875, -4.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [2.5, 2.9875, -4.2],
+                "position": [2.5, 2.9875, -4.2],
+                "valid": true,
+                "relocation": 0
+              }
+            ],
+            "raysPerProbe": 64,
+            "skyRaysPerHit": 8,
+            "maxTraceDistance": 16,
+            "triangleBudget": 750000,
+            "acceleratorRetainedBytes": 0,
+            "retainedCpuBytes": 120960,
+            "textureBytes": 61824,
+            "transportBytes": 59136,
+            "practicalEnergy": [
+              {
+                "id": "study",
+                "unitDC": 0.9787440679830239
+              },
+              {
+                "id": "sleep",
+                "unitDC": 0.6913040408759881
+              },
+              {
+                "id": "kitchen",
+                "unitDC": 0.8343429347667146
+              },
+              {
+                "id": "lounge",
+                "unitDC": 0.246721896697552
+              },
+              {
+                "id": "bath",
+                "unitDC": 1.2056444809915785
+              },
+              {
+                "id": "gym",
+                "unitDC": 0.02541199289646735
+              },
+              {
+                "id": "terrace-west",
+                "unitDC": 0.18028311839883607
+              },
+              {
+                "id": "terrace-east",
+                "unitDC": 0.11907143997918104
+              }
+            ],
+            "disposed": false,
+            "limits": [
+              "Static opaque geometry and one Lambertian bounce; no dynamic actor/leaf/coast displacement visibility",
+              "First-order directional irradiance; sparse moment visibility is approximate and may leak across unsampled thin walls",
+              "Material base color/metalness only; texture, vertex color and procedural detail are not baked",
+              "Actual sky gradient plus authored far-ground boundary; solar disk/cloud/stars and direct-sun bounce omitted",
+              "Final .18m practical emitter segment is unoccluded to model a diffuse bulb within its shade",
+              "Transparent, refracted, volumetric and specular transport remain native approximations; no ray-traced caustics",
+              "Native direct practical lights remain unshadowed; only cached indirect bounce includes traced visibility",
+              "Outside the bounded regions uses unoccluded actual-sky diffuse fallback"
+            ],
+            "error": null
+          },
+          "steam": {
+            "ready": true,
+            "setupMilliseconds": 4315.5,
+            "visible": false,
+            "method": "Beer–Lambert emission-free single scattering / nearest transmission-interface split",
+            "steps": 40,
+            "densityTapsPerStep": 6,
+            "texture": {
+              "width": 90,
+              "height": 72,
+              "type": "RGBA8",
+              "bytes": 25920,
+              "floatLinearRequired": false
+            },
+            "extinction": 0.7,
+            "albedo": 0.94,
+            "uploads": 181,
+            "draws": 0,
+            "depthBound": false,
+            "segments": [
+              {
+                "transparent": false,
+                "renderOrder": 10000,
+                "depthWrite": false
+              },
+              {
+                "transparent": true,
+                "renderOrder": 10000,
+                "depthWrite": false
+              }
+            ],
+            "scalar": {
+              "method": "prescribed curl wind / temperature rise / RK2 semi-Lagrangian scalars / positive diffusion",
+              "grid": [18, 18, 18],
+              "cells": 5832,
+              "fixedStep": 0.03333333333333333,
+              "ticks": 180,
+              "sourceTicks": 180,
+              "simulationTime": 0,
+              "fieldEndTime": 0,
+              "pending": 0,
+              "droppedTime": 0,
+              "revision": 180,
+              "prewarming": false,
+              "finite": true,
+              "maximumDensity": 0.9001238346099854,
+              "maximumTemperature": 12.21655559539795,
+              "meanDensity": 0.21600952995260328,
+              "meanTemperature": 2.5465990775201988,
+              "densityIntegral": 0.5733342395631305,
+              "centroid": [3.2038315285348182, 3.200570912057074, 3.1672924011970065],
+              "topFraction": 0.0009910388445270235,
+              "maximumSpeed": 0.26739767336971637,
+              "diffusionWeight": 0.037369791422194515,
+              "storageBytes": 241584,
+              "conservedMass": false,
+              "ownedFrameLoops": 0
+            },
+            "disposed": false
+          }
+        },
+        "backdropImages": 0,
+        "camera": [2.2360660652392, 4.530654253316283, 0.8338161904533838],
+        "cameraOrbit": {
+          "yaw": 2.34,
+          "pitch": 0.25,
+          "radius": 3.6
+        },
+        "cameraFov": 38,
+        "cameraEnvelope": {
+          "yaw": [1.79, 2.89],
+          "pitch": [0.12, 0.62],
+          "radius": [2.808, 4.248]
+        },
+        "target": [-0.27, 3.64, 3.26],
+        "currentRecord": 0,
+        "spinning": false,
+        "recordMechanics": {
+          "angle": 0,
+          "velocity": 0,
+          "rpm": 0,
+          "yaw": 0.28,
+          "lift": 0.36,
+          "yawVelocity": 0,
+          "liftVelocity": 0,
+          "phase": "parked",
+          "playing": false,
+          "energy": 0
+        },
+        "displayedVinylRecord": 0,
+        "vinylCuePending": false,
+        "vinylTransfer": {
+          "angle": 0,
+          "velocity": 0,
+          "rpm": 0,
+          "yaw": 0.28,
+          "lift": 0.36,
+          "yawVelocity": 0,
+          "liftVelocity": 0,
+          "phase": "parked",
+          "playing": false,
+          "energy": 0,
+          "index": 0
+        },
+        "dropped": [],
+        "focused": null,
+        "inspection": null,
+        "neighbours": [
+          {
+            "id": "rabbit-0",
+            "name": "Brush rabbit",
+            "worldCenter": [-6.727346869566672, 8.498474701872567, 0.36831548046660706],
+            "radius": 0.6704269597460005,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 2.1316245182675013,
+              "y": -1.0734878186352126,
+              "depth": 0.9801047967566209
+            }
+          },
+          {
+            "id": "rabbit-1",
+            "name": "Brush rabbit",
+            "worldCenter": [8.33087910224372, 8.480540592268113, 5.700000193715095],
+            "radius": 0.6704269597460011,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 5.39556590745746,
+              "y": 3.179842203826326,
+              "depth": 1.0518756030853547
+            }
+          },
+          {
+            "id": "seaLion-0",
+            "name": "California sea lion",
+            "worldCenter": [-10.03586467311988, -6.105536697173118, -14.596327928950515],
+            "radius": 1.403389257611431,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 31.581087765113086,
+              "y": 20.68959994584999,
+              "depth": 0.8713291912053722
+            }
+          },
+          {
+            "id": "seaLion-1",
+            "name": "California sea lion",
+            "worldCenter": [-8.674460948782444, -6.170836697173119, -14.163700189903949],
+            "radius": 1.4033892576114315,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 167.1785752602815,
+              "y": 118.6634011880098,
+              "depth": 0.2611399762915093
+            }
+          },
+          {
+            "id": "seaLion-2",
+            "name": "California sea lion",
+            "worldCenter": [11.069700040192291, -6.242436697173119, -13.297500691821064],
+            "radius": 1.403389257611431,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.12155340061633901,
+              "y": -1.1120161444179466,
+              "depth": 1.0080224207565693
+            }
+          },
+          {
+            "id": "seal-0",
+            "name": "Harbor seal",
+            "worldCenter": [-5.029782801495117, -6.864136723995209, -12.155342949827826],
+            "radius": 1.2042014532157541,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -19.649003536686816,
+              "y": -19.34710296296278,
+              "depth": 1.114400196997039
+            }
+          },
+          {
+            "id": "seal-1",
+            "name": "Harbor seal",
+            "worldCenter": [-4.061833984916381, -6.867536723995209, -12.124691303565823],
+            "radius": 1.2042014532157546,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -10.495226328311505,
+              "y": -11.042014339214106,
+              "depth": 1.0657403333291189
+            }
+          },
+          {
+            "id": "seal-2",
+            "name": "Harbor seal",
+            "worldCenter": [-2.9421195767124373, -6.8654367239952085, -11.934409190390676],
+            "radius": 1.2042014532157546,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -6.693818750297519,
+              "y": -7.702112436243192,
+              "depth": 1.0461938402053734
+            }
+          },
+          {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-6.246754687444769, 9.004994358086503, 7.683839514095624],
+            "radius": 0.9606006212788366,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.627681761805802,
+              "y": -0.583041212761674,
+              "depth": 0.9897099042751828
+            }
+          },
+          {
+            "id": "gull-0",
+            "name": "Western gull",
+            "worldCenter": [2.6373538074659497, 8.458712338931623, -30.893564649549827],
+            "radius": 1.4124159178377365,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -0.7216879007564776,
+              "y": 0.3893161148869659,
+              "depth": 1.0047523521363624
+            }
+          },
+          {
+            "id": "gull-1",
+            "name": "Western gull",
+            "worldCenter": [-13.770263136848483, 9.109255300355937, -26.690151175456545],
+            "radius": 1.4124159178377347,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -3.9448072736144333,
+              "y": 0.932741531996985,
+              "depth": 1.0120452337212555
+            }
+          },
+          {
+            "id": "gull-2",
+            "name": "Western gull",
+            "worldCenter": [8.057106002485682, 10.250827573817016, -7.638881647310392],
+            "radius": 1.4124159178377342,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.2760372387798663,
+              "y": 0.8961875259596583,
+              "depth": 1.009281440275041
+            }
+          },
+          {
+            "id": "gull-3",
+            "name": "Western gull",
+            "worldCenter": [-8.011690237060638, 9.096981989670361, 1.094605460246174],
+            "radius": 1.412415917837734,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 1.8792595522792161,
+              "y": -0.9781890054110058,
+              "depth": 0.9841489218831159
+            }
+          },
+          {
+            "id": "balcony-gull-0",
+            "name": "Balcony gull",
+            "worldCenter": [4.226344149590142, 3.6942936765402554, 1.3723097732474676],
+            "radius": 1.0023596836267792,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 3.1668263404715415,
+              "y": -1.4075150530727956,
+              "depth": 1.1229539348839483
+            }
+          },
+          {
+            "id": "sandpiper-0",
+            "name": "Sandpiper",
+            "worldCenter": [-4.813196032166334, -6.992621882557749, -13.080459113443654],
+            "radius": 1.2299389511347585,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -10.800312801177826,
+              "y": -10.535931676742797,
+              "depth": 1.0620994190401851
+            }
+          },
+          {
+            "id": "sandpiper-1",
+            "name": "Sandpiper",
+            "worldCenter": [-0.5411047920181308, -6.975748667824502, -12.972042285721356],
+            "radius": 1.22993895113476,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -2.7167312586998724,
+              "y": -3.68231868810264,
+              "depth": 1.0224398451013297
+            }
+          },
+          {
+            "id": "sandpiper-2",
+            "name": "Sandpiper",
+            "worldCenter": [3.2906767046404153, -6.96895423631353, -13.321324071823879],
+            "radius": 1.2299389511347603,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -1.0599520462021286,
+              "y": -2.1907266004069177,
+              "depth": 1.0137967365017324
+            }
+          }
+        ],
+        "canvasWidth": 544,
+        "canvasHeight": 460,
+        "prop": {
+          "kind": "book",
+          "position": [-0.42522950203778304, 3.6401747919716803, 2.935397559897482],
+          "size": [0.30107969157079667, 0.14811962229394426, 0.21902102851538308],
+          "ancestorsVisible": true
+        },
+        "targets": [
+          {
+            "type": "spin",
+            "x": 0.40699152305433833,
+            "y": 0.6492477792102973
+          },
+          {
+            "type": "record",
+            "index": 0,
+            "x": 0.8589334646910287,
+            "y": 0.2213553467412377
+          },
+          {
+            "type": "record",
+            "index": 1,
+            "x": 0.7652409449494302,
+            "y": 0.21618028926530464
+          },
+          {
+            "type": "record",
+            "index": 2,
+            "x": 0.6815133878491766,
+            "y": 0.2115556413050585
+          },
+          {
+            "type": "record",
+            "index": 3,
+            "x": 0.606241285216348,
+            "y": 0.20739802596358242
+          },
+          {
+            "type": "artifact",
+            "index": 0,
+            "x": 0.7693807879426029,
+            "y": 0.5301467954719005
+          },
+          {
+            "type": "artifact",
+            "index": 1,
+            "x": 0.7057804347213601,
+            "y": 0.5567726133703952
+          },
+          {
+            "type": "window",
+            "x": 0.9877471967577443,
+            "y": 0.4852639097134357
+          }
+        ],
+        "joints": {
+          "Root": [-0.27, 2.390000006556511, 3.38],
+          "Hips": [-0.27, 3.2500000208616258, 3.38],
+          "Head": [-0.27, 3.7500000208616258, 3.38],
+          "HandL": [-0.1100008242685984, 3.599999808918328, 3.0200003180816033],
+          "HandFinger00L": [-0.10808799354610293, 3.6427535942281284, 2.9482666765542174],
+          "HandFinger01L": [-0.11331608353664012, 3.6674884408487824, 2.933901389731477],
+          "HandFinger10L": [-0.1255462652692869, 3.6434015326049685, 2.9557362121506103],
+          "HandFinger11L": [-0.1321923812461213, 3.670074264672148, 2.9378886137568747],
+          "HandFinger20L": [-0.14300450422885808, 3.644049572194187, 2.9632057492256245],
+          "HandFinger21L": [-0.1490203624648764, 3.6698609825941277, 2.9469058073499985],
+          "HandFinger30L": [-0.1604627549377392, 3.6446974147478066, 2.970675313813449],
+          "HandFinger31L": [-0.16474550093301288, 3.6681406473366174, 2.9586316772761023],
+          "HandFingerthumb0L": [-0.14491283859814375, 3.61824431973059, 3.0054989012342825],
+          "HandFingerthumb1L": [-0.17335636246776048, 3.6465595091168854, 2.997611222330759],
+          "HandR": [-0.4299995361701202, 3.600000192080878, 3.020000547884112],
+          "HandFinger00R": [-0.37953688680933445, 3.6446864964791894, 2.970666154244092],
+          "HandFinger01R": [-0.37430433872463914, 3.6694215048912517, 2.956303017574205],
+          "HandFinger10R": [-0.3969976873686081, 3.644046183635996, 2.9632019293616545],
+          "HandFinger11R": [-0.3903474727644617, 3.6707189124759547, 2.9453560690012974],
+          "HandFinger20R": [-0.4144586016148216, 3.6434055835192702, 2.9557378291057272],
+          "HandFinger21R": [-0.40843841045476575, 3.669217098011136, 2.9394397994187695],
+          "HandFinger30R": [-0.4319194855260785, 3.642765273397469, 2.9482737847693286],
+          "HandFinger31R": [-0.4276320287741867, 3.666208484772084, 2.936232261118891],
+          "HandFingerthumb0R": [-0.39508543264950563, 3.61823414632504, 3.005490721868302],
+          "HandFingerthumb1R": [-0.36663407427375433, 3.646540054134731, 2.9975981956487376],
+          "FootL": [-0.1600002390889306, 2.8864184570961857, 2.9527027550260914],
+          "FootR": [-0.38000024534738935, 2.8864184369528503, 2.9527028713697434]
+        }
+      },
+      "errors": []
+    },
+    {
+      "activity": "soak",
+      "rawRafIntervalsMs": [
+        1.4000000238411303, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545,
+        16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728,
+        16.700000000000728, 16.599999999998545, 16.700000000000728, 16.600000000000364, 16.69999999999891, 16.700000000000728, 16.600000000000364,
+        16.69999999999891, 16.700000000000728, 16.600000000000364, 16.69999999999891, 16.600000000000364, 16.700000000000728, 16.69999999999891,
+        16.700000000000728, 16.600000000000364, 16.69999999999891, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728,
+        16.600000000000364, 16.69999999999891, 16.700000000000728, 16.600000000000364, 16.69999999999891, 16.700000000000728, 16.700000000000728,
+        16.599999999998545, 16.600000000000364, 16.700000000000728, 16.69999999999891, 16.700000000000728, 16.700000000000728, 16.599999999998545,
+        16.700000000000728, 16.600000000000364, 16.69999999999891, 16.600000000000364, 16.700000000000728, 16.69999999999891, 16.600000000000364,
+        16.700000000000728, 16.69999999999891, 16.700000000000728, 16.700000000000728, 16.5, 16.69999999999891, 16.700000000000728, 16.69999999999891,
+        16.700000000000728, 16.600000000000364, 16.600000000000364, 16.69999999999891, 16.700000000000728, 16.69999999999891, 16.600000000000364,
+        16.700000000000728, 16.69999999999891, 16.600000000000364, 16.700000000000728, 16.69999999999891, 16.700000000000728, 16.600000000000364,
+        16.69999999999891, 16.600000000000364, 16.700000000000728, 16.600000000000364, 16.69999999999891, 16.700000000000728, 16.600000000000364,
+        16.799999999999272, 16.600000000000364, 16.600000000000364, 16.69999999999891, 16.700000000000728, 16.69999999999891, 16.700000000000728,
+        16.600000000000364, 16.69999999999891, 16.700000000000728, 16.600000000000364, 16.69999999999891, 16.600000000000364, 16.700000000000728,
+        16.69999999999891, 16.600000000000364, 16.600000000000364, 16.799999999999272, 16.700000000000728, 16.600000000000364, 16.600000000000364,
+        16.69999999999891, 16.700000000000728, 16.600000000000364, 16.69999999999891, 16.700000000000728, 16.600000000000364, 16.799999999999272,
+        16.600000000000364, 16.600000000000364, 16.69999999999891, 16.700000000000728, 16.600000000000364, 16.799999999999272, 16.600000000000364,
+        16.69999999999891, 16.700000000000728, 16.5, 16.799999999999272, 16.600000000002183, 16.599999999998545, 16.799999999999272,
+        16.600000000002183, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.69999999999709, 16.600000000002183, 16.700000000000728,
+        16.69999999999709, 16.600000000002183, 16.700000000000728, 16.69999999999709, 16.700000000000728, 16.600000000002183, 16.69999999999709,
+        16.600000000002183, 16.700000000000728, 16.599999999998545, 16.799999999999272, 16.600000000002183, 16.69999999999709, 16.600000000002183,
+        16.700000000000728, 16.599999999998545, 16.799999999999272, 16.600000000002183, 16.599999999998545, 16.700000000000728, 16.700000000000728,
+        16.599999999998545, 16.700000000000728, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.69999999999709,
+        16.600000000002183, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.700000000000728, 16.69999999999709, 16.700000000000728,
+        16.600000000002183, 16.69999999999709, 16.600000000002183, 16.700000000000728, 16.599999999998545, 16.700000000000728, 16.599999999998545,
+        16.799999999999272, 16.600000000002183, 16.700000000000728, 16.599999999998545
+      ],
+      "medianRafMs": 16.69999999999891,
+      "p95RafMs": 16.799999999999272,
+      "evidence": {
+        "ready": true,
+        "style": "realistic",
+        "avatarId": "ghibli",
+        "portrait": "http://127.0.0.1:8080/assets/img/home/sirui_capy.jpg",
+        "currentRoom": "onsen",
+        "activity": "soak",
+        "activityFloor": 2.6,
+        "activityOffset": [0.15, 2.6, 5],
+        "traveling": false,
+        "navigation": null,
+        "animationSeconds": 14.282699999999956,
+        "palette": "afternoon",
+        "daylight": {
+          "minute": 1115,
+          "offset": -7,
+          "altitude": -1.1520052838518953,
+          "daylight": 0.557883502698642,
+          "sunlight": 0,
+          "direction": [-0.05678923402051085, -0.020104930527430374, -0.998183737929972],
+          "keyDirection": [-0.45, 0.7, -0.55],
+          "location": {
+            "latitude": 32.83,
+            "longitude": -117.27,
+            "timeZone": "America/Los_Angeles"
+          }
+        },
+        "clockMode": "preview",
+        "following": false,
+        "animation": "soak",
+        "activityPhase": null,
+        "cupOwner": "counter",
+        "weightOwner": "rack",
+        "cupPosition": [-3.91, 1.065, -0.22],
+        "weightPosition": [1.14, 0.723, -2.32],
+        "gripDrift": [],
+        "gripTargetMode": "equipment-anchor",
+        "characterPerformance": {
+          "blink": [0, 0],
+          "eye": [0, 0],
+          "head": [0, 0, 0],
+          "breath": 0,
+          "phase": "still",
+          "seconds": 5.399766666666675,
+          "blinkCount": 1,
+          "cooldownRemaining": 0,
+          "eyelidMeshes": 1,
+          "headOnly": true,
+          "attentionTarget": null
+        },
+        "garment": {
+          "kind": "opaque spa textile",
+          "materials": [
+            {
+              "color": 6127736,
+              "opacity": 1,
+              "transparent": false,
+              "roughness": 0.96,
+              "skinDiffusion": false
+            }
+          ]
+        },
+        "animations": [
+          "idle",
+          "walk",
+          "typing",
+          "reading",
+          "eat",
+          "drink",
+          "workout",
+          "pullup",
+          "dip",
+          "coffee-prep",
+          "carry",
+          "soak",
+          "lounge",
+          "sleep"
+        ],
+        "roomCount": 6,
+        "actorCount": 1,
+        "frames": 817,
+        "frameTiming": {
+          "samples": 120,
+          "medianFrameMs": 16.69999999999891,
+          "p95FrameMs": 16.799999999999272,
+          "medianSubmitMs": 12.399999976158142
+        },
+        "framePending": false,
+        "drawCalls": 531,
+        "triangles": 3297388,
+        "resources": {
+          "geometries": 234,
+          "textures": 30
+        },
+        "projection": "perspective",
+        "coastDetail": "realistic",
+        "companion": {
+          "visible": true,
+          "position": [2.3739649871901487, 4.25, 2.193262772435318],
+          "head": [0, 0, 0],
+          "model": "blender-pip",
+          "gesture": "rest",
+          "room": "onsen",
+          "destinationRoom": "onsen",
+          "pendingRoom": null,
+          "outing": "home",
+          "traveling": true,
+          "flight": {
+            "phase": "fly",
+            "bank": 0,
+            "velocity": [-0.4100069169179636, 0, 0.022282984615097062],
+            "progress": 0.7342998675066118,
+            "hover": 1.65,
+            "cruise": 1.65
+          },
+          "attention": {
+            "phase": "still",
+            "greetings": 0,
+            "cooldown": 0,
+            "target": "visitor-ready"
+          },
+          "aim": {
+            "heading": -0.032406182710333034,
+            "target": [1.3754385667239948, 4.434, 2.2475305126780203],
+            "origin": [2.3739649871901487, 4.434, 2.193262772435318],
+            "yaw": -1.5165019148866143,
+            "pitch": 0,
+            "taskSource": "visitor-plane"
+          },
+          "input": {
+            "kind": "mouse",
+            "touchInvitation": false,
+            "touchPending": false
+          },
+          "gaze": [0, 0],
+          "eyes": [1, 1],
+          "arms": [0, 0],
+          "activeSeconds": 13.665966666666623,
+          "projected": {
+            "x": 1247.938893927441,
+            "y": 282.4149681278766
+          },
+          "opticalCatchlights": 2
+        },
+        "ecology": {
+          "wildlife": {
+            "rabbits": 2,
+            "raccoons": 1,
+            "gulls": 5,
+            "shorebirds": 3,
+            "modelsReady": true,
+            "seaLions": 3,
+            "harborSeals": 3,
+            "raccoon": {
+              "position": [-6.553704044935196, 8.876266893926841, 7.776852022467597],
+              "state": "look",
+              "bodyAccommodation": 0,
+              "contacts": [
+                {
+                  "foot": "FrontPawL",
+                  "position": [-6.855837666039738, 9.092564112675598, 7.764289225997256],
+                  "yaw": -1.092031100810383,
+                  "slope": 0.526136581191318,
+                  "gradient": [-0.6339601459132042, 0.03919935826115657],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "HindPawL",
+                  "position": [-6.432834159498635, 8.814427741176203, 7.5200692567045575],
+                  "yaw": -1.0800927981018744,
+                  "slope": 0.5238167742407576,
+                  "gradient": [-0.6341182498903636, 0.038934392209993986],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "FrontPawR",
+                  "position": [-6.639739836262806, 8.96378419388641, 7.998756820820873],
+                  "yaw": -1.0649064875715923,
+                  "slope": 0.5207572514188439,
+                  "gradient": [-0.6342749230265028, 0.038671824101639565],
+                  "contact": true,
+                  "lift": 0
+                },
+                {
+                  "foot": "HindPawR",
+                  "position": [-6.3409765269117955, 8.770323258797456, 7.858755196245542],
+                  "yaw": -1.0995106565145956,
+                  "slope": 0.5275034668415712,
+                  "gradient": [-0.6337603096191151, 0.039418355144397614],
+                  "contact": true,
+                  "lift": 0
+                }
+              ]
+            },
+            "birds": [
+              {
+                "position": [7.856841354160537, 8.296932412505875, -29.779284818429442],
+                "state": "glide",
+                "velocity": [-0.5442170138538396, -0.005135021967776415, -0.1964210338540134],
+                "contacts": []
+              },
+              {
+                "position": [-10.813575608517949, 8.55790406382254, -29.72765130164138],
+                "state": "glide",
+                "velocity": [-0.5830046635767119, 0.00930379575297501, 0.3197057136431394],
+                "contacts": []
+              },
+              {
+                "position": [-8.185239787632447, 10.245018112893538, -19.252700533976967],
+                "state": "approach",
+                "velocity": [1.539171495015092, 0.1110956272714622, 0.9740278155318407],
+                "contacts": []
+              },
+              {
+                "position": [-8, 8.7668409, 1],
+                "state": "perch",
+                "velocity": [0, 0, 0],
+                "contacts": [
+                  {
+                    "foot": "FootL",
+                    "position": [-8.067857676828185, 8.814491555763684, 1.0056710400705344],
+                    "hipAccommodation": 0.024455438955811457,
+                    "surfaceLift": 7.069900220812997e-12,
+                    "weight": 1
+                  },
+                  {
+                    "foot": "FootR",
+                    "position": [-7.93556385614154, 8.759266613505256, 1.0220183642592289],
+                    "hipAccommodation": 0.028154779332732274,
+                    "surfaceLift": 1.4086509736443986e-11,
+                    "weight": 1
+                  }
+                ]
+              }
+            ],
+            "balconyGullContacts": [
+              {
+                "foot": "FootL",
+                "position": [4.16028905657252, 3.4610869561891344, 1.3375379914318273],
+                "hipAccommodation": 0.015586657044901803,
+                "surfaceLift": 0,
+                "weight": 1
+              },
+              {
+                "foot": "FootR",
+                "position": [4.247421426605192, 3.465932084947367, 1.3006990162494287],
+                "hipAccommodation": 0.01094335512389863,
+                "surfaceLift": 0,
+                "weight": 1
+              }
+            ],
+            "shorebirdContacts": [
+              {
+                "position": [-4.906087719749735, -7.253460623156161, -13.09781954125949],
+                "state": "probe",
+                "contacts": [
+                  {
+                    "foot": "FootL",
+                    "position": [-4.9379581831983685, -7.241188240576518, -13.034796645512747],
+                    "yaw": 1.479911638261943,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  },
+                  {
+                    "foot": "FootR",
+                    "position": [-4.894062179103036, -7.241356801232244, -13.157811997080902],
+                    "yaw": 1.5997589266451129,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  }
+                ]
+              },
+              {
+                "position": [-0.8060877197497349, -7.238867348075467, -13.142924492881992],
+                "state": "rest",
+                "contacts": [
+                  {
+                    "foot": "FootL",
+                    "position": [-0.9144771323176955, -7.227987671990763, -13.1492480046574],
+                    "yaw": 1.1854727580651896,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  },
+                  {
+                    "foot": "FootR",
+                    "position": [-0.8313969230097954, -7.227013971937675, -13.210166587010253],
+                    "yaw": 1.1593179756922443,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  }
+                ]
+              },
+              {
+                "position": [3.2939122802502645, -7.228636129116883, -13.375120178187817],
+                "state": "rest",
+                "contacts": [
+                  {
+                    "foot": "FootL",
+                    "position": [3.2627815172010672, -7.216077693505678, -13.329393085637367],
+                    "yaw": 1.3216867315884646,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  },
+                  {
+                    "foot": "FootR",
+                    "position": [3.33961215132188, -7.2170857114253435, -13.413445147162971],
+                    "yaw": 1.1850564534852808,
+                    "slope": 0,
+                    "gradient": [0, 0],
+                    "contact": true,
+                    "lift": 0
+                  }
+                ]
+              }
+            ],
+            "contacts": [
+              {
+                "habitat": "seaLion",
+                "position": [-10, -6.6084, -14.5115],
+                "state": "rest"
+              },
+              {
+                "habitat": "seaLion",
+                "position": [-8.6, -6.6737, -14.2179],
+                "state": "look"
+              },
+              {
+                "habitat": "seaLion",
+                "position": [11, -6.7453, -13.3577],
+                "state": "groom"
+              },
+              {
+                "habitat": "seal",
+                "position": [-5, -7.1295, -12.0849],
+                "state": "rest"
+              },
+              {
+                "habitat": "seal",
+                "position": [-4, -7.1329, -12.1697],
+                "state": "look"
+              },
+              {
+                "habitat": "seal",
+                "position": [-3, -7.1308, -11.9844],
+                "state": "groom"
+              }
+            ],
+            "rabbitHabitats": [
+              {
+                "position": [-6.764028000000001, 8.215568, 0.46002800000000016],
+                "state": "rest",
+                "airborne": false,
+                "contact": true,
+                "lift": 0,
+                "progress": 0.42000000000000004
+              },
+              {
+                "position": [8.723999999999998, 8.121500000000001, 5.7],
+                "state": "rest",
+                "airborne": false,
+                "contact": true,
+                "lift": 0,
+                "progress": 0.62
+              }
+            ]
+          },
+          "beachWidth": 13.5,
+          "particles": 182,
+          "particleMotion": [
+            {
+              "kind": "spray",
+              "count": 140,
+              "seconds": 15.15,
+              "fieldSeconds": 14.282699999999956,
+              "droppedTime": 0.1166999999999998,
+              "ticks": 909,
+              "backlogSeconds": 0.01600000000000223,
+              "step": 0.016666666666666666,
+              "maxSteps": 30,
+              "integrator": "midpoint",
+              "windSamplesPerTick": 280,
+              "prewarmMilliseconds": 11.700000047683716
+            },
+            {
+              "kind": "dust",
+              "count": 42,
+              "seconds": 32.15,
+              "fieldSeconds": 14.282699999999956,
+              "droppedTime": 0.1166999999999998,
+              "ticks": 1929,
+              "backlogSeconds": 0.01600000000000223,
+              "step": 0.016666666666666666,
+              "maxSteps": 30,
+              "integrator": "midpoint",
+              "windSamplesPerTick": 84,
+              "prewarmMilliseconds": 45.300000071525574
+            }
+          ],
+          "water": {
+            "waves": 10,
+            "vertices": 25921,
+            "triangles": 51200,
+            "seconds": 14.282699999999956,
+            "sample": {
+              "displacement": [-0.024203146258079757, -0.193551895929416, -0.1233629614397787],
+              "tangentX": [1.0075062374623658, 0.022146105600614408, -0.012994354426244175],
+              "tangentZ": [-0.012994354426244175, 0.08654667051077489, 1.0642241649381534],
+              "normal": [-0.02295125265138719, 0.9964243112024637, -0.08131317265011812],
+              "jacobian": 1.0720436309864123,
+              "lostVariance": 0.002534119297229181
+            },
+            "reflection": {
+              "width": 384,
+              "height": 384,
+              "linear": true,
+              "fresnelIOR": 1.333,
+              "active": false
+            }
+          }
+        },
+        "rendering": {
+          "contactShadows": true,
+          "contactActive": true,
+          "method": "cosine-weighted horizons / indirect diffuse",
+          "slices": 4,
+          "samples": 32,
+          "radiusMeters": 0.36,
+          "aoWidth": 480,
+          "aoHeight": 406,
+          "width": 544.859375,
+          "height": 460.796875,
+          "gpu": {
+            "available": true,
+            "samples": 64,
+            "medianMs": 7.74656,
+            "p95Ms": 18.374656
+          },
+          "volumeDepth": {
+            "method": "opaque / nearest transmissive raster depth",
+            "width": 544.859375,
+            "height": 460.796875,
+            "captures": 327,
+            "passes": 2
+          }
+        },
+        "simulation": {
+          "skin": {
+            "method": "normalized local curved-patch diffuse preintegration",
+            "enabled": true,
+            "strength": 0.7,
+            "distancesMeters": [0.0032, 0.0012, 0.00065],
+            "maxCurvature": 160,
+            "width": 257,
+            "height": 49,
+            "storage": "half-float",
+            "textureBytes": 100744,
+            "totalBindings": 6,
+            "boundMaterials": 3,
+            "compiledMaterials": 3,
+            "incompatibleMaterials": 0,
+            "activeMaterials": 2,
+            "extraRenderTargets": 0,
+            "extraPasses": 0,
+            "disposed": false
+          },
+          "onsen": {
+            "nx": 40,
+            "nz": 40,
+            "dx": 0.04300000071525574,
+            "dz": 0.04300000071525574,
+            "wetCells": 1214,
+            "density": 1000,
+            "volume": 0.29795392643451674,
+            "mass": 297.95392643451675,
+            "relativeMassError": 1.8630783589776917e-15,
+            "minimumDepth": 0.1315925715041693,
+            "maximumDepth": 0.1339103318607413,
+            "potential": 0.005705425266918911,
+            "kinetic": 0.017891925482723565,
+            "energy": 0.023597350749642476,
+            "finite": true,
+            "boundarySpeed": 0,
+            "simulationTime": 11.658333333333312,
+            "retainedTime": 0.0077333333333337445,
+            "droppedTime": 0,
+            "steps": 1713,
+            "maxSubsteps": 2,
+            "maxCourant": 0.4496623945596993,
+            "limitedFluxes": 0,
+            "limitedVelocities": 0,
+            "storageBytes": 187280,
+            "obstacle": {
+              "x": -7.629394538355427e-8,
+              "z": -0.09999982833862298,
+              "radius": 0.17
+            },
+            "coupling": {
+              "method": "Gaussian submerged palm / exponential face drag",
+              "contactCount": 1,
+              "coupledFaces": 280,
+              "couplingSteps": 674,
+              "velocityChange": 26.71981253126535
+            },
+            "center": [3.1700000762939453, 3.179999828338623],
+            "surfaceY": 3.0075131240300834,
+            "radius": 0.8600000143051147,
+            "depth": 0.12748676864430308,
+            "bottomY": 2.8800263553857803,
+            "depthSource": "five native basin ray hits",
+            "uploads": 693,
+            "textureBytes": 25600,
+            "disposed": false,
+            "stroke": {
+              "method": "prescribed anatomical IK / measured submerged palm velocity",
+              "available": true,
+              "side": "L",
+              "phase": "return",
+              "seconds": 5.39976666666659,
+              "restPalm": [3.4392881169009253, 2.9402358078656596, 2.7222865452031093],
+              "palm": [3.2650095416962985, 3.0047633848833395, 2.7367057639278976],
+              "wristError": 8.564638400478932e-7,
+              "contacts": [],
+              "sampledContacts": 180,
+              "suppressedSamples": 0,
+              "maximumSpeed": 0.12979393994456428,
+              "applied": true
+            },
+            "optics": {
+              "ior": 1.333,
+              "transmission": 0.86,
+              "thicknessMeters": 0.12748676864430308,
+              "attenuationDistanceMeters": 1.5,
+              "method": "Three r164 screen-space refracted background / Beer-Lambert attenuation",
+              "extraBackgroundPass": true,
+              "opaqueShadow": false,
+              "normalDepthOccluder": false
+            }
+          },
+          "wind": {
+            "method": "six-mode curl-potential wind / critically damped rooted bends",
+            "seconds": 14.282699999999956,
+            "enabled": true,
+            "meanMetersPerSecond": [0.18, 0, -0.08],
+            "gustBoundMetersPerSecond": 0.45,
+            "complianceSeconds": 0.018,
+            "beautyAndShadowMatched": true,
+            "contactNormalApproximation": "static leaves; displacement bounded below 12 mm",
+            "plants": [
+              {
+                "name": "core__olive_leaf",
+                "vertices": 1188,
+                "components": 22,
+                "enabled": 22,
+                "disabled": 0,
+                "buildMilliseconds": 17.299999952316284
+              },
+              {
+                "name": "study__olive_leaf",
+                "vertices": 5842,
+                "components": 44,
+                "enabled": 22,
+                "disabled": 22,
+                "buildMilliseconds": 48.199999928474426
+              },
+              {
+                "name": "kitchen__olive_leaf",
+                "vertices": 1188,
+                "components": 22,
+                "enabled": 22,
+                "disabled": 0,
+                "buildMilliseconds": 16.600000023841858
+              },
+              {
+                "name": "lounge__olive_leaf",
+                "vertices": 1188,
+                "components": 22,
+                "enabled": 22,
+                "disabled": 0,
+                "buildMilliseconds": 16
+              },
+              {
+                "name": "onsen__olive_leaf",
+                "vertices": 594,
+                "components": 11,
+                "enabled": 11,
+                "disabled": 0,
+                "buildMilliseconds": 4.300000071525574
+              },
+              {
+                "name": "sleep__olive_leaf",
+                "vertices": 594,
+                "components": 11,
+                "enabled": 11,
+                "disabled": 0,
+                "buildMilliseconds": 3.600000023841858
+              }
+            ]
+          },
+          "practicals": {
+            "nightMix": 0,
+            "pointLights": 8,
+            "newFixtures": 4,
+            "fixtureDraws": 2,
+            "sources": [
+              {
+                "position": [-0.99, 4.06, 2.64],
+                "intensity": 0.9
+              },
+              {
+                "position": [-4.13, 3.47, 2.47],
+                "intensity": 0.7
+              },
+              {
+                "position": [-3.3, 1.95, -0.04],
+                "intensity": 0.7
+              },
+              {
+                "position": [2.14, 0.79, -1.58],
+                "intensity": 0.7
+              },
+              {
+                "position": [3.68, 3.388, 2.2],
+                "intensity": 0.6
+              },
+              {
+                "position": [0, 2.18, 0.25],
+                "intensity": 0.5
+              },
+              {
+                "position": [-3.9, 0.170405, -4.3],
+                "intensity": 0.15
+              },
+              {
+                "position": [3.9, 0.170405, -4.3],
+                "intensity": 0.15
+              }
+            ]
+          },
+          "lightField": {
+            "ready": true,
+            "triangles": 417123,
+            "meshes": 98,
+            "skippedMeshes": 45,
+            "skippedTriangles": 134072,
+            "geometryMs": 1156.1999999284744,
+            "acceleratorMs": 2632.7000000476837,
+            "transportMs": 2061.100000023842,
+            "bakeMs": 5850.100000023842,
+            "maxTaskMs": 23.199999928474426,
+            "relocatedProbes": 4,
+            "rejectedProbes": 1,
+            "acceleratorBytes": 35038752,
+            "trace": {
+              "rays": 37956,
+              "triangleTests": 1803372,
+              "boxTests": 7452159
+            },
+            "regions": ["study", "sleep", "onsen", "kitchen", "gym", "lounge", "nearhouse"],
+            "probes": [
+              {
+                "region": "study",
+                "nominal": [-0.9124999999999999, 3.0875, 2.825],
+                "position": [-0.9124999999999999, 3.0875, 2.825],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [0.5625000000000004, 3.0875, 2.825],
+                "position": [0.5625000000000004, 3.0875, 2.825],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [-0.9124999999999999, 4.1625, 2.825],
+                "position": [-0.9124999999999999, 4.1625, 2.825],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [0.5625000000000004, 4.1625, 2.825],
+                "position": [0.5625000000000004, 4.1625, 2.825],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [-0.9124999999999999, 3.0875, 3.9749999999999996],
+                "position": [-0.9124999999999999, 3.0875, 3.9749999999999996],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [0.5625000000000004, 3.0875, 3.9749999999999996],
+                "position": [0.5625000000000004, 3.0875, 3.9749999999999996],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [-0.9124999999999999, 4.1625, 3.9749999999999996],
+                "position": [-0.9124999999999999, 4.1625, 3.9749999999999996],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "study",
+                "nominal": [0.5625000000000004, 4.1625, 3.9749999999999996],
+                "position": [0.5625000000000004, 4.1625, 3.9749999999999996],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "sleep",
+                "nominal": [-3.6875, 3.0125, 2.7],
+                "position": [-3.6875, 3.0125, 2.7],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "sleep",
+                "nominal": [-2.4625, 3.0125, 2.7],
+                "position": [-2.34053640157268, 2.939321840943608, 2.7],
+                "valid": true,
+                "relocation": 0.14223277507038637
+              },
+              {
+                "region": "sleep",
+                "nominal": [-3.6875, 3.9375, 2.7],
+                "position": [-3.6875, 3.9375, 2.7],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "sleep",
+                "nominal": [-2.4625, 3.9375, 2.7],
+                "position": [-2.4625, 3.9375, 2.7],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "sleep",
+                "nominal": [-3.6875, 3.0125, 4.1],
+                "position": [-3.7120719606688275, 3.1845037246817935, 4.1],
+                "valid": true,
+                "relocation": 0.17375000015977143
+              },
+              {
+                "region": "sleep",
+                "nominal": [-2.4625, 3.0125, 4.1],
+                "position": [-2.34053640157268, 2.939321840943608, 4.1],
+                "valid": true,
+                "relocation": 0.14223277507038637
+              },
+              {
+                "region": "sleep",
+                "nominal": [-3.6875, 3.9375, 4.1],
+                "position": [-3.6875, 3.9375, 4.1],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "sleep",
+                "nominal": [-2.4625, 3.9375, 4.1],
+                "position": [-2.4625, 3.9375, 4.1],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [2.6125, 3.1375, 2.525],
+                "position": [2.6125, 3.1375, 2.525],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [3.8375000000000004, 3.1375, 2.525],
+                "position": [3.8375000000000004, 3.1375, 2.525],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [2.6125, 4.3125, 2.525],
+                "position": [2.6125, 4.3125, 2.525],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [3.8375000000000004, 4.3125, 2.525],
+                "position": [3.8375000000000004, 4.3125, 2.525],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [2.6125, 3.1375, 3.7750000000000004],
+                "position": [2.6125, 3.1375, 3.7750000000000004],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [3.8375000000000004, 3.1375, 3.7750000000000004],
+                "position": [3.8375000000000004, 3.1375, 3.7750000000000004],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [2.6125, 4.3125, 3.7750000000000004],
+                "position": [2.6125, 4.3125, 3.7750000000000004],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "onsen",
+                "nominal": [3.8375000000000004, 4.3125, 3.7750000000000004],
+                "position": [3.8375000000000004, 4.3125, 3.7750000000000004],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-3.4749999999999996, 0.49999999999999994, -3.025],
+                "position": [-3.4827918328710195, 0.5545428300971378, -3.025],
+                "valid": true,
+                "relocation": 0.05509657860970271
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-2.225, 0.49999999999999994, -3.025],
+                "position": [-2.225, 0.49999999999999994, -3.025],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-3.4749999999999996, 1.5999999999999999, -3.025],
+                "position": [-3.4749999999999996, 1.5999999999999999, -3.025],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-2.225, 1.5999999999999999, -3.025],
+                "position": [-2.225, 1.5999999999999999, -3.025],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-3.4749999999999996, 0.49999999999999994, -1.0750000000000002],
+                "position": [-3.4749999999999996, 0.49999999999999994, -1.0750000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-2.225, 0.49999999999999994, -1.0750000000000002],
+                "position": [-2.0204671119576108, 0.47078101599394434, -1.0750000000000002],
+                "valid": false,
+                "relocation": 0.20660941730063204
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-3.4749999999999996, 1.5999999999999999, -1.0750000000000002],
+                "position": [-3.4749999999999996, 1.5999999999999999, -1.0750000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "kitchen",
+                "nominal": [-2.225, 1.5999999999999999, -1.0750000000000002],
+                "position": [-2.225, 1.5999999999999999, -1.0750000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [-0.55, 0.5125, -2.3125],
+                "position": [-0.55, 0.5125, -2.3125],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [0.55, 0.5125, -2.3125],
+                "position": [0.55, 0.5125, -2.3125],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [-0.55, 1.6375, -2.3125],
+                "position": [-0.55, 1.6375, -2.3125],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [0.55, 1.6375, -2.3125],
+                "position": [0.55, 1.6375, -2.3125],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [-0.55, 0.5125, -1.1375000000000002],
+                "position": [-0.55, 0.5125, -1.1375000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [0.55, 0.5125, -1.1375000000000002],
+                "position": [0.55, 0.5125, -1.1375000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [-0.55, 1.6375, -1.1375000000000002],
+                "position": [-0.55, 1.6375, -1.1375000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "gym",
+                "nominal": [0.55, 1.6375, -1.1375000000000002],
+                "position": [0.55, 1.6375, -1.1375000000000002],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [2.525, 0.4875, -3.0875],
+                "position": [2.525, 0.4875, -3.0875],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [3.7750000000000004, 0.4875, -3.0875],
+                "position": [3.7750000000000004, 0.4875, -3.0875],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [2.525, 1.5624999999999998, -3.0875],
+                "position": [2.525, 1.5624999999999998, -3.0875],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [3.7750000000000004, 1.5624999999999998, -3.0875],
+                "position": [3.7750000000000004, 1.5624999999999998, -3.0875],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [2.525, 0.4875, -1.1625],
+                "position": [2.525, 0.4875, -1.1625],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [3.7750000000000004, 0.4875, -1.1625],
+                "position": [3.7750000000000004, 0.4875, -1.1625],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [2.525, 1.5624999999999998, -1.1625],
+                "position": [2.525, 1.5624999999999998, -1.1625],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "lounge",
+                "nominal": [3.7750000000000004, 1.5624999999999998, -1.1625],
+                "position": [3.7750000000000004, 1.5624999999999998, -1.1625],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [-2.5, 0.9624999999999999, -5.2],
+                "position": [-2.5, 0.9624999999999999, -5.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [2.5, 0.9624999999999999, -5.2],
+                "position": [2.5, 0.9624999999999999, -5.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [-2.5, 2.9875, -5.2],
+                "position": [-2.5, 2.9875, -5.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [2.5, 2.9875, -5.2],
+                "position": [2.5, 2.9875, -5.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [-2.5, 0.9624999999999999, -4.2],
+                "position": [-2.5, 0.9624999999999999, -4.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [2.5, 0.9624999999999999, -4.2],
+                "position": [2.5, 0.9624999999999999, -4.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [-2.5, 2.9875, -4.2],
+                "position": [-2.5, 2.9875, -4.2],
+                "valid": true,
+                "relocation": 0
+              },
+              {
+                "region": "nearhouse",
+                "nominal": [2.5, 2.9875, -4.2],
+                "position": [2.5, 2.9875, -4.2],
+                "valid": true,
+                "relocation": 0
+              }
+            ],
+            "raysPerProbe": 64,
+            "skyRaysPerHit": 8,
+            "maxTraceDistance": 16,
+            "triangleBudget": 750000,
+            "acceleratorRetainedBytes": 0,
+            "retainedCpuBytes": 120960,
+            "textureBytes": 61824,
+            "transportBytes": 59136,
+            "practicalEnergy": [
+              {
+                "id": "study",
+                "unitDC": 0.9787440679830239
+              },
+              {
+                "id": "sleep",
+                "unitDC": 0.6913040408759881
+              },
+              {
+                "id": "kitchen",
+                "unitDC": 0.8343429347667146
+              },
+              {
+                "id": "lounge",
+                "unitDC": 0.246721896697552
+              },
+              {
+                "id": "bath",
+                "unitDC": 1.2056444809915785
+              },
+              {
+                "id": "gym",
+                "unitDC": 0.02541199289646735
+              },
+              {
+                "id": "terrace-west",
+                "unitDC": 0.18028311839883607
+              },
+              {
+                "id": "terrace-east",
+                "unitDC": 0.11907143997918104
+              }
+            ],
+            "disposed": false,
+            "limits": [
+              "Static opaque geometry and one Lambertian bounce; no dynamic actor/leaf/coast displacement visibility",
+              "First-order directional irradiance; sparse moment visibility is approximate and may leak across unsampled thin walls",
+              "Material base color/metalness only; texture, vertex color and procedural detail are not baked",
+              "Actual sky gradient plus authored far-ground boundary; solar disk/cloud/stars and direct-sun bounce omitted",
+              "Final .18m practical emitter segment is unoccluded to model a diffuse bulb within its shade",
+              "Transparent, refracted, volumetric and specular transport remain native approximations; no ray-traced caustics",
+              "Native direct practical lights remain unshadowed; only cached indirect bounce includes traced visibility",
+              "Outside the bounded regions uses unoccluded actual-sky diffuse fallback"
+            ],
+            "error": null
+          },
+          "steam": {
+            "ready": true,
+            "setupMilliseconds": 4532,
+            "visible": true,
+            "method": "Beer–Lambert emission-free single scattering / nearest transmission-interface split",
+            "steps": 40,
+            "densityTapsPerStep": 6,
+            "texture": {
+              "width": 90,
+              "height": 72,
+              "type": "RGBA8",
+              "bytes": 25920,
+              "floatLinearRequired": false
+            },
+            "extinction": 0.7,
+            "albedo": 0.94,
+            "uploads": 342,
+            "draws": 981,
+            "depthBound": true,
+            "segments": [
+              {
+                "transparent": false,
+                "renderOrder": 10000,
+                "depthWrite": false
+              },
+              {
+                "transparent": true,
+                "renderOrder": 10000,
+                "depthWrite": false
+              }
+            ],
+            "scalar": {
+              "method": "prescribed curl wind / temperature rise / RK2 semi-Lagrangian scalars / positive diffusion",
+              "grid": [18, 18, 18],
+              "cells": 5832,
+              "fixedStep": 0.03333333333333333,
+              "ticks": 341,
+              "sourceTicks": 341,
+              "simulationTime": 5.366666666666657,
+              "fieldEndTime": 14.282699999999956,
+              "pending": 0.03310000000000069,
+              "droppedTime": 0,
+              "revision": 341,
+              "prewarming": false,
+              "finite": true,
+              "maximumDensity": 0.8998095989227295,
+              "maximumTemperature": 12.213271141052246,
+              "meanDensity": 0.2175888335856883,
+              "meanTemperature": 2.5606224944610205,
+              "densityIntegral": 0.5775260400254192,
+              "centroid": [3.213385112631718, 3.198413089353381, 3.1715300756415705],
+              "topFraction": 0.0008287908795851949,
+              "maximumSpeed": 0.26739767336971637,
+              "diffusionWeight": 0.037369791422194515,
+              "storageBytes": 241584,
+              "conservedMass": false,
+              "ownedFrameLoops": 0
+            },
+            "disposed": false
+          }
+        },
+        "backdropImages": 0,
+        "camera": [1.9553014382014264, 4.653414663117833, -0.39277930484544443],
+        "cameraOrbit": {
+          "yaw": 3.5,
+          "pitch": 0.36,
+          "radius": 3.7
+        },
+        "cameraFov": 38,
+        "cameraEnvelope": {
+          "yaw": [2.95, 4.05],
+          "pitch": [0.12, 0.62],
+          "radius": [2.886, 4.366]
+        },
+        "target": [3.17, 3.35, 2.85],
+        "currentRecord": 0,
+        "spinning": false,
+        "recordMechanics": {
+          "angle": 0,
+          "velocity": 0,
+          "rpm": 0,
+          "yaw": 0.28,
+          "lift": 0.36,
+          "yawVelocity": 0,
+          "liftVelocity": 0,
+          "phase": "parked",
+          "playing": false,
+          "energy": 0
+        },
+        "displayedVinylRecord": 0,
+        "vinylCuePending": false,
+        "vinylTransfer": {
+          "angle": 0,
+          "velocity": 0,
+          "rpm": 0,
+          "yaw": 0.28,
+          "lift": 0.36,
+          "yawVelocity": 0,
+          "liftVelocity": 0,
+          "phase": "parked",
+          "playing": false,
+          "energy": 0,
+          "index": 0
+        },
+        "dropped": [],
+        "focused": null,
+        "inspection": null,
+        "neighbours": [
+          {
+            "id": "rabbit-0",
+            "name": "Brush rabbit",
+            "worldCenter": [-6.727346869566672, 8.498474701872567, 0.36831548046660706],
+            "radius": 0.6704269597460005,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -2.4150191669220726,
+              "y": 1.6396680698511898,
+              "depth": 1.028602990060259
+            }
+          },
+          {
+            "id": "rabbit-1",
+            "name": "Brush rabbit",
+            "worldCenter": [8.698530135423681, 8.420070225461066, 5.700000193715095],
+            "radius": 0.6704269597460011,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -0.32390507772804034,
+              "y": -0.9851406376577194,
+              "depth": 0.9842709977369124
+            }
+          },
+          {
+            "id": "seaLion-0",
+            "name": "California sea lion",
+            "worldCenter": [-10.03586467311988, -6.105536697173118, -14.596327928950515],
+            "radius": 1.403389257611431,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -0.10909895760643207,
+              "y": -1.3719684099398202,
+              "depth": 1.0082744134541215
+            }
+          },
+          {
+            "id": "seaLion-1",
+            "name": "California sea lion",
+            "worldCenter": [-8.674460948782444, -6.170836697173119, -14.163700189903949],
+            "radius": 1.4033892576114315,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -0.03570292297267297,
+              "y": -1.4764078706545198,
+              "depth": 1.0088484765582308
+            }
+          },
+          {
+            "id": "seaLion-2",
+            "name": "California sea lion",
+            "worldCenter": [11.069700040192291, -6.242436697173119, -13.297500691821064],
+            "radius": 1.403389257611431,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 4.081002032513183,
+              "y": -3.820586304789181,
+              "depth": 1.0226610920254187
+            }
+          },
+          {
+            "id": "seal-0",
+            "name": "Harbor seal",
+            "worldCenter": [-5.029782801495117, -6.864136723995209, -12.155342949827826],
+            "radius": 1.2042014532157541,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.15289871988560572,
+              "y": -2.1379173963296183,
+              "depth": 1.0120382659096774
+            }
+          },
+          {
+            "id": "seal-1",
+            "name": "Harbor seal",
+            "worldCenter": [-4.061833984916381, -6.867536723995209, -12.124691303565823],
+            "radius": 1.2042014532157546,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.27241646558932875,
+              "y": -2.226773802030766,
+              "depth": 1.0125319789891076
+            }
+          },
+          {
+            "id": "seal-2",
+            "name": "Harbor seal",
+            "worldCenter": [-2.9421195767124373, -6.8654367239952085, -11.934409190390676],
+            "radius": 1.2042014532157546,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.4138694300027751,
+              "y": -2.378123160769643,
+              "depth": 1.0133811838179119
+            }
+          },
+          {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-6.246754687444769, 9.004994358086503, 7.683839514095624],
+            "radius": 0.9606006212788362,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 5.025892346973119,
+              "y": -2.4132024146101196,
+              "depth": 0.9652755726542349
+            }
+          },
+          {
+            "id": "gull-0",
+            "name": "Western gull",
+            "worldCenter": [7.77223612707901, 8.625413226676327, -29.834260304894386],
+            "radius": 1.4124159178377347,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 1.265934438062268,
+              "y": 0.19708178070430554,
+              "depth": 1.004287733658073
+            }
+          },
+          {
+            "id": "gull-1",
+            "name": "Western gull",
+            "worldCenter": [-10.909917469330345, 8.887493757275102, -29.714656161599546],
+            "radius": 1.4124159178377347,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.43111338439170127,
+              "y": 0.16255068933421912,
+              "depth": 1.0035172492421567
+            }
+          },
+          {
+            "id": "gull-2",
+            "name": "Western gull",
+            "worldCenter": [-8.121821958617085, 10.580350125868842, -19.212568079821175],
+            "radius": 1.412415917837735,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.3409468620065471,
+              "y": 0.37351827447416,
+              "depth": 1.0049023706466709
+            }
+          },
+          {
+            "id": "gull-3",
+            "name": "Western gull",
+            "worldCenter": [-8.011690237084316, 9.096981989670361, 1.0946054602432491],
+            "radius": 1.4124159178377347,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -2.9248625053848323,
+              "y": 1.904378726526385,
+              "depth": 1.0286354312247266
+            }
+          },
+          {
+            "id": "balcony-gull-0",
+            "name": "Balcony gull",
+            "worldCenter": [4.226344149590142, 3.6942936765402554, 1.3723097732474676],
+            "radius": 1.0023596836267792,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": -0.20384214423800195,
+              "y": 0.5191651502803769,
+              "depth": 0.9623103287043664
+            }
+          },
+          {
+            "id": "sandpiper-0",
+            "name": "Sandpiper",
+            "worldCenter": [-4.813196032166336, -6.99262188255775, -13.080459113443656],
+            "radius": 1.2299389511347592,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.24907994644922898,
+              "y": -2.002307975144123,
+              "depth": 1.0111585223227595
+            }
+          },
+          {
+            "id": "sandpiper-1",
+            "name": "Sandpiper",
+            "worldCenter": [-0.7131960321663355, -6.978028607477057, -13.125564065066158],
+            "radius": 1.229938951134759,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.804391570309041,
+              "y": -2.320077356593472,
+              "depth": 1.0129331903213343
+            }
+          },
+          {
+            "id": "sandpiper-2",
+            "name": "Sandpiper",
+            "worldCenter": [3.3868039678336643, -6.967797388518473, -13.357759750371981],
+            "radius": 1.22993895113476,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 1.563592826997158,
+              "y": -2.6985775009869477,
+              "depth": 1.0150437876963438
+            }
+          }
+        ],
+        "canvasWidth": 544,
+        "canvasHeight": 460,
+        "prop": null,
+        "targets": [
+          {
+            "type": "spin",
+            "x": 1.6313610794055318,
+            "y": 0.5778625662858327
+          },
+          {
+            "type": "record",
+            "index": 0,
+            "x": 3.489264068715284,
+            "y": 0.27088663053542084
+          },
+          {
+            "type": "record",
+            "index": 1,
+            "x": 3.1210989522508212,
+            "y": 0.22409273568505012
+          },
+          {
+            "type": "record",
+            "index": 2,
+            "x": 2.847525689833838,
+            "y": 0.189321493373046
+          },
+          {
+            "type": "record",
+            "index": 3,
+            "x": 2.636239379504038,
+            "y": 0.16246694103565806
+          },
+          {
+            "type": "artifact",
+            "index": 0,
+            "x": 2.663288887592152,
+            "y": 0.7590991031839773
+          },
+          {
+            "type": "artifact",
+            "index": 1,
+            "x": 2.388217229577645,
+            "y": 0.7199875617035458
+          },
+          {
+            "type": "window",
+            "x": 2.9306765331189375,
+            "y": 0.7370504553382795
+          }
+        ],
+        "joints": {
+          "Root": [3.17, 1.910000006556511, 3.08],
+          "Hips": [3.17, 2.770000020861626, 3.08],
+          "Head": [3.1700000194417384, 3.265500490427635, 3.1361234578535],
+          "HandL": [3.2685951324032203, 3.0050272683812884, 2.781561912857934],
+          "HandFinger00L": [3.2907486225691174, 3.0042486198064062, 2.7010270187777277],
+          "HandFinger01L": [3.2889144137831234, 3.016247747247111, 2.6746042542856667],
+          "HandFinger10L": [3.271813746074053, 3.004681622596108, 2.702538031919823],
+          "HandFinger11L": [3.269634169956073, 3.016189224232986, 2.671928097394067],
+          "HandFinger20L": [3.2528788867714207, 3.0051145632211997, 2.7040490440533107],
+          "HandFinger21L": [3.2508527974295007, 3.0168405825735003, 2.675300038646999],
+          "HandFinger30L": [3.233944062376888, 3.0055474565045373, 2.705560038725955],
+          "HandFinger31L": [3.232340114329985, 3.017874372992996, 2.6819286417734336],
+          "HandFingerthumb0L": [3.2391148910527177, 3.0049019922660896, 2.7516805568857765],
+          "HandFingerthumb1L": [3.2130423164422437, 3.0179654730834065, 2.7230003395389573],
+          "HandR": [2.89712606679738, 2.9404996148018476, 2.7671428976401424],
+          "HandFinger00R": [2.931777111746031, 2.9410199519849582, 2.691141050617561],
+          "HandFinger01R": [2.933611289408394, 2.953019143226731, 2.664718270243863],
+          "HandFinger10R": [2.912842257285853, 2.9405870668958856, 2.689630026592064],
+          "HandFinger11R": [2.915021827808775, 2.952094724826868, 2.659020151477479],
+          "HandFinger20R": [2.8939074304312546, 2.94015407566382, 2.6881189680250754],
+          "HandFinger21R": [2.895933470189293, 2.9518801162481294, 2.659370007556762],
+          "HandFinger30R": [2.87497255112923, 2.939721111641682, 2.6866079499525286],
+          "HandFinger31R": [2.876576481478268, 2.9520481641348657, 2.6629765780116266],
+          "HandFingerthumb0R": [2.926606304120368, 2.940374411241951, 2.7372615468034094],
+          "HandFingerthumb1R": [2.952678879701007, 2.9534379594540363, 2.7085813479340173],
+          "FootL": [3.2799997609110694, 2.4064184570961857, 2.6527027550260915],
+          "FootR": [3.0599997546526105, 2.4064184369528503, 2.6527028713697436]
+        }
+      },
+      "errors": []
+    }
+  ]
+}

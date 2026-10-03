@@ -22,6 +22,10 @@ import { createOnsenWater } from "./onsen-water.mjs";
 import { measurePoolGeometry } from "./pool-geometry.mjs";
 import { createPoolStroke } from "./pool-stroke.mjs";
 import { createCoastalWind } from "./coastal-wind.mjs";
+import { createWarmPracticals } from "./warm-practicals.mjs";
+import { createSteamDensity } from "./steam-density.mjs";
+import { createSteamVolume } from "./steam-volume.mjs";
+import { createStaticLightField } from "./static-light-field.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -61,7 +65,13 @@ export function createCoastalHome(container, records, artifacts) {
     skinDiffusion,
     onsenWater,
     coastalWind,
+    warmPracticals,
+    steamVolume,
+    staticLightField,
     daylight;
+  const lightBakeAbort = new AbortController();
+  let lightBakeStarted = false,
+    lightBakeError = null;
   const target = new THREE.Vector3(0, 0.7, 0),
     desiredTarget = target.clone();
   let yaw = 0.36,
@@ -125,6 +135,8 @@ export function createCoastalHome(container, records, artifacts) {
     water,
     portraitMaterial;
   let poolOccupied = false;
+  let steamReady = false,
+    steamSetupMilliseconds = 0;
   const touches = new Map();
   let pinch;
   const rooms = new Map(),
@@ -153,19 +165,7 @@ export function createCoastalHome(container, records, artifacts) {
   sun.shadow.bias = -0.00005;
   sun.shadow.normalBias = 0.018;
   sun.shadow.radius = 3;
-  const lamp = new THREE.PointLight(0xffbf6b, 4, 6);
-  lamp.position.set(-0.95, 4.2, 2.7);
-  scene.add(hemi, sun, lamp);
-  const practicals = [
-    [-4.13, 3.47, 2.47],
-    [-3.3, 1.95, -0.04],
-    [2.14, 1.1, -1.58],
-  ].map((position) => {
-    const light = new THREE.PointLight(0xffc286, 1, 4.8, 2);
-    light.position.set(...position);
-    scene.add(light);
-    return light;
-  });
+  scene.add(hemi, sun);
 
   function listen(targetObject, event, fn, options) {
     targetObject.addEventListener(event, fn, options);
@@ -190,7 +190,9 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   function material(color, extra = {}) {
-    return own(bindContactLighting(new THREE.MeshStandardMaterial({ color, roughness: 0.72, ...extra }), finish?.contactLighting));
+    const result = own(bindContactLighting(new THREE.MeshStandardMaterial({ color, roughness: 0.72, ...extra }), finish?.contactLighting));
+    staticLightField?.bindMaterial(result);
+    return result;
   }
 
   function mesh(geometry, mat, position, action) {
@@ -378,6 +380,7 @@ export function createCoastalHome(container, records, artifacts) {
       for (const m of [o.material].flat()) {
         const handle = skinDiffusion?.bind(m, m.name === "Sirui shirt" ? { surface: true, enabled: false } : {});
         if (handle) m.userData.skinDiffusion = handle;
+        staticLightField?.bindMaterial(m);
       }
     });
     return root;
@@ -404,6 +407,7 @@ export function createCoastalHome(container, records, artifacts) {
             water.updateWorldMatrix(true, false);
             const pool = measurePoolGeometry(water, root);
             onsenWater = createOnsenWater(pool);
+            prepareSteam(pool);
             const geometry = onsenWater.surfaceGeometry().applyMatrix4(water.matrixWorld.clone().invert());
             water.geometry.dispose();
             water.geometry = geometry;
@@ -412,6 +416,9 @@ export function createCoastalHome(container, records, artifacts) {
               m.thickness = pool.depth;
               onsenWater.bindMaterial(m, water);
             }
+            water.customDepthMaterial = own(new THREE.MeshDepthMaterial({ depthPacking: THREE.BasicDepthPacking, side: THREE.DoubleSide }));
+            water.customDepthMaterial.colorWrite = false;
+            onsenWater.bindMaterial(water.customDepthMaterial, water);
             // A transmissive interface must not cast an opaque shadow across
             // the bath floor or become an opaque normal-depth AO occluder.
             // Refractive caustics and transmitted shadow transport are omitted.
@@ -420,6 +427,7 @@ export function createCoastalHome(container, records, artifacts) {
           }
         });
         requestFrame();
+        prepareStaticLight();
         return root;
       })
       .finally(() => pendingRooms.delete(id));
@@ -627,30 +635,117 @@ export function createCoastalHome(container, records, artifacts) {
     // The sky, reflection, direct shadow, and room now agree on the same
     // approximate La Jolla sun. Night's weak key is an authored moon light.
     sun.position.fromArray(daylight.keyDirection).normalize().multiplyScalar(32);
-    lamp.intensity = evening ? 5.5 : 0.9;
-    practicals.forEach((light) => (light.intensity = evening ? 2.7 : 0.7));
+    warmPracticals?.update(daylight.daylight);
     pacific?.setPalette(routine.palette, daylight);
-    pacific?.setActivity(routine.id);
+    if (staticLightField && pacific) {
+      staticLightField.setLighting({
+        ...pacific.lightColors(),
+        ground: hemi.groundColor.clone().multiplyScalar(hemi.intensity).toArray(),
+        practicalPowers: warmPracticals.lights.map((light) => light.intensity),
+      });
+    }
+    if (steamVolume) {
+      const ambient = new THREE.Color()
+          .fromArray(pacific.lightColors().horizon)
+          .multiplyScalar(0.6)
+          .add(hemi.color.clone().multiplyScalar(hemi.intensity * 0.15))
+          .add(hemi.groundColor.clone().multiplyScalar(hemi.intensity * 0.05)),
+        midpoint = new THREE.Vector3(onsenWater.uniforms.poolCenter.value.x, onsenWater.surfaceY + 0.18, onsenWater.uniforms.poolCenter.value.y);
+      for (const light of warmPracticals.lights) {
+        const distance = Math.max(0.2, light.position.distanceTo(midpoint)),
+          falloff = Math.max(0, 1 - (distance / light.distance) ** 4) ** 2;
+        ambient.add(light.color.clone().multiplyScalar((light.intensity * falloff * 0.35) / (distance * distance * 4 * Math.PI)));
+      }
+      steamVolume.setLighting({
+        ambient: ambient.toArray(),
+        directional: sun.color.clone().multiplyScalar(sun.intensity).toArray(),
+        direction: daylight.keyDirection,
+      });
+    }
     container.dataset.scenePalette = routine.palette;
+  }
+
+  function prepareSteam(pool) {
+    const start = performance.now(),
+      padding = pool.radius + 0.1,
+      field = createSteamDensity({
+        grid: [18, 18, 18],
+        center: pool.center,
+        radius: pool.radius,
+        surfaceY: pool.surfaceY,
+        bounds: {
+          min: [pool.center[0] - padding, pool.surfaceY, pool.center[1] - padding],
+          max: [pool.center[0] + padding, pool.surfaceY + 0.72, pool.center[1] + padding],
+        },
+      });
+    steamVolume = createSteamVolume(field, { extinction: 0.7 });
+    steamVolume.object.visible = false;
+    scene.add(steamVolume.object);
+    finish.setVolume(steamVolume);
+    // Prepare a mature static composition one short task at a time. This
+    // setup never increments the visitor's animation clock or owns a RAF.
+    field.prewarmAsync(6, { yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)), shouldContinue: () => !disposed }).then((complete) => {
+      if (!complete || disposed) return;
+      steamReady = true;
+      steamSetupMilliseconds = performance.now() - start;
+      steamVolume.sync();
+      updateLight();
+      requestFrame();
+    });
+  }
+
+  function prepareStaticLight() {
+    if (!staticLightField || lightBakeStarted || rooms.size !== config.rooms.length || disposed) return;
+    lightBakeStarted = true;
+    staticLightField.addRoot(world, { id: "coastal-house" });
+    staticLightField.addRoot(warmPracticals.root, { id: "warm-fixtures" });
+    staticLightField
+      .bake({ signal: lightBakeAbort.signal, yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)) })
+      .then(() => {
+        if (disposed) return;
+        updateLight();
+        requestFrame();
+      })
+      .catch((error) => {
+        if (disposed || error.name === "AbortError") return;
+        // Retain native indirect light when the bounded component cannot bake.
+        lightBakeError = error.message;
+        requestFrame();
+      });
   }
 
   function wardrobe() {
     if (!actor) return;
-    let skin;
-    actor.traverse((o) => {
-      if (o.isMesh && !o.userData.outline) skin ||= [o.userData.baseMaterial || o.material].flat().find((m) => m.name === "skin");
-    });
-    if (!skin) return;
     actor.traverse((o) => {
       if (!o.isMesh || o.userData.outline) return;
       const base = [o.userData.baseMaterial || o.material].flat();
       [o.material].flat().forEach((m) => {
         if (m.name !== "Sirui shirt") return;
-        m.color.copy(routine?.id === "soak" ? skin.color : base.find((b) => b.name === "Sirui shirt").color);
-        if (m.isMeshStandardMaterial) m.roughness = routine?.id === "soak" ? 0.48 : 0.9;
-        m.userData.skinDiffusion?.setEnabled(routine?.id === "soak");
+        // Keep the existing garment opaque in the bath. Privacy cannot depend
+        // on animated steam or the particular viewing angle.
+        if (routine?.id === "soak") m.color.set(0x5d8078);
+        else m.color.copy(base.find((b) => b.name === "Sirui shirt").color);
+        if (m.isMeshStandardMaterial) m.roughness = routine?.id === "soak" ? 0.96 : 0.9;
+        m.userData.skinDiffusion?.setEnabled(false);
       });
     });
+  }
+
+  function garmentEvidence() {
+    const materials = [];
+    actor?.traverse((o) => {
+      if (!o.isMesh || o.userData.outline) return;
+      for (const m of [o.material].flat())
+        if (m.name === "Sirui shirt")
+          materials.push({
+            color: m.color.getHex(),
+            opacity: m.opacity,
+            transparent: m.transparent,
+            roughness: m.roughness,
+            skinDiffusion: m.userData.skinDiffusion?.enabled || false,
+          });
+    });
+    return { kind: routine?.id === "soak" ? "opaque spa textile" : "authored shirt", materials };
   }
 
   function resumeRoutine() {
@@ -799,7 +894,11 @@ export function createCoastalHome(container, records, artifacts) {
       // the binder leaves already-bound house materials unchanged.
       scene.traverse((object) => {
         if (!object.isMesh || object.userData.noContactOcclusion) return;
-        for (const material of [object.material].flat()) if (material) bindContactLighting(material, finish?.contactLighting);
+        for (const material of [object.material].flat()) {
+          if (!material) continue;
+          bindContactLighting(material, finish?.contactLighting);
+          staticLightField?.bindMaterial(material);
+        }
       });
       // A burst of selections can precede the first exterior frame. Score
       // against the final cutaway now, not the preceding inside roof state.
@@ -1479,6 +1578,13 @@ export function createCoastalHome(container, records, artifacts) {
       }
     }
     if (moving) pacific?.update(elapsed, delta);
+    if (steamVolume) {
+      // The small volume is a close bath detail. Do not capture two complete
+      // coast depth buffers or evolve hidden steam in distant exterior views.
+      steamVolume.object.visible = steamReady && currentRoom === "onsen";
+      if (moving && steamVolume.object.visible) steamVolume.field.advance(delta, { fieldTime: elapsed });
+      steamVolume.sync();
+    }
     companion.paused = paused;
     worldCompanion?.update(Math.min(delta, 0.25), elapsed, camera, currentRoom, moving);
     orientProp();
@@ -1528,6 +1634,20 @@ export function createCoastalHome(container, records, artifacts) {
       finish = createFinish(renderer, scene, perspective, { profileGPU: labEnabled });
       skinDiffusion = createSkinDiffusion();
       coastalWind = createCoastalWind();
+      warmPracticals = createWarmPracticals(scene, (m) => bindContactLighting(m, finish.contactLighting));
+      staticLightField = createStaticLightField({
+        practicalSources: warmPracticals.sources,
+        acceptMesh(mesh) {
+          if (mesh.geometry?.attributes.coastalPlantWeight) return false;
+          for (let parent = mesh; parent; parent = parent.parent) {
+            if (parent === actor || parent.userData.activityProp || parent.userData.action) return false;
+          }
+          return true;
+        },
+      });
+      warmPracticals.root.traverse((mesh) => {
+        if (mesh.isMesh) for (const material of [mesh.material].flat()) staticLightField.bindMaterial(material);
+      });
       art.setContactLighting(finish.contactLighting);
       container.append(renderer.domElement);
       const shell = await loadModel(new URL(config.shell, manifestUrl).href);
@@ -1549,6 +1669,9 @@ export function createCoastalHome(container, records, artifacts) {
         return;
       }
       cleanup.push(() => worldCompanion?.dispose());
+      scene.traverse((mesh) => {
+        if (mesh.isMesh && !mesh.userData.outline) for (const material of [mesh.material].flat()) staticLightField.bindMaterial(material);
+      });
       listen(window, "pip:change", requestFrame);
       makeDeskObjects();
       const lab = ui.querySelector("[data-world-lab]");
@@ -1653,6 +1776,7 @@ export function createCoastalHome(container, records, artifacts) {
     gripDrift: handContacts?.evidence() || [],
     gripTargetMode: activeGripOffsets?.[sequencePose?.clip] ? "anatomical-wrist" : "equipment-anchor",
     characterPerformance: characterPerformance?.evidence(),
+    garment: garmentEvidence(),
     animations: actions ? [...actions.keys()] : [],
     roomCount: rooms.size,
     actorCount: actor ? 1 : 0,
@@ -1691,6 +1815,11 @@ export function createCoastalHome(container, records, artifacts) {
           }
         : null,
       wind: coastalWind?.evidence(),
+      practicals: warmPracticals?.evidence(),
+      lightField: staticLightField ? { ...staticLightField.evidence(), error: lightBakeError } : null,
+      steam: steamVolume
+        ? { ready: steamReady, setupMilliseconds: steamSetupMilliseconds, visible: steamVolume.object.visible, ...steamVolume.evidence() }
+        : null,
     },
     backdropImages: 0,
     camera: camera.position.toArray(),
@@ -1824,9 +1953,13 @@ export function createCoastalHome(container, records, artifacts) {
       clearInterval(clockTimer);
       cleanup.forEach((fn) => fn());
       modelRequests.forEach((request) => request.abort());
+      lightBakeAbort.abort();
+      staticLightField?.dispose();
       mixer?.stopAllAction();
       characterPerformance?.dispose();
       onsenWater?.dispose();
+      warmPracticals?.dispose();
+      steamVolume?.dispose();
       skinDiffusion?.dispose();
       coastalWind?.dispose();
       [...world.children].forEach(release);

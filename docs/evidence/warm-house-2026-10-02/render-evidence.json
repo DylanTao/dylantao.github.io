@@ -1,0 +1,960 @@
+{
+  "method": "Actual Docker WebGL; fixed Oct 2 Pacific date, authored scene preview controls; LF source hashes. Camera/character matched before and after. No generated concept image.",
+  "responsive": [
+    {
+      "width": 1440,
+      "errors": [],
+      "scenes": [
+        {
+          "name": "study",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "544.859375x460.796875"
+        },
+        {
+          "name": "onsen",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "opaque spa textile",
+            "materials": [
+              {
+                "color": 6127736,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.96,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "544.859375x460.796875"
+        },
+        {
+          "name": "gym",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "544.859375x460.796875"
+        },
+        {
+          "name": "exterior",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "544.859375x460.796875"
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "errors": [],
+      "scenes": [
+        {
+          "name": "study",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "496.40625x409.59375"
+        },
+        {
+          "name": "onsen",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "opaque spa textile",
+            "materials": [
+              {
+                "color": 6127736,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.96,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "496.40625x409.59375"
+        },
+        {
+          "name": "gym",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "496.40625x409.59375"
+        },
+        {
+          "name": "exterior",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "496.40625x409.59375"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "errors": [],
+      "scenes": [
+        {
+          "name": "study",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "672x416"
+        },
+        {
+          "name": "onsen",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "opaque spa textile",
+            "materials": [
+              {
+                "color": 6127736,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.96,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "672x416"
+        },
+        {
+          "name": "gym",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "672x416"
+        },
+        {
+          "name": "exterior",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "672x416"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "errors": [],
+      "scenes": [
+        {
+          "name": "study",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "350x352"
+        },
+        {
+          "name": "onsen",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "opaque spa textile",
+            "materials": [
+              {
+                "color": 6127736,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.96,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "350x352"
+        },
+        {
+          "name": "gym",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "350x352"
+        },
+        {
+          "name": "exterior",
+          "ready": true,
+          "steamReady": true,
+          "garment": {
+            "kind": "authored shirt",
+            "materials": [
+              {
+                "color": 2830384,
+                "opacity": 1,
+                "transparent": false,
+                "roughness": 0.9,
+                "skinDiffusion": false
+              }
+            ]
+          },
+          "dimensions": "350x352"
+        }
+      ]
+    }
+  ],
+  "house": {
+    "errors": [],
+    "scenes": [
+      {
+        "period": "day",
+        "room": "study"
+      },
+      {
+        "period": "day",
+        "room": "kitchen"
+      },
+      {
+        "period": "day",
+        "room": "gym"
+      },
+      {
+        "period": "day",
+        "room": "onsen"
+      },
+      {
+        "period": "day",
+        "room": "sleep"
+      },
+      {
+        "period": "day",
+        "room": "lounge"
+      },
+      {
+        "period": "day",
+        "room": "outside"
+      },
+      {
+        "period": "night",
+        "room": "study"
+      },
+      {
+        "period": "night",
+        "room": "kitchen"
+      },
+      {
+        "period": "night",
+        "room": "gym"
+      },
+      {
+        "period": "night",
+        "room": "onsen"
+      },
+      {
+        "period": "night",
+        "room": "sleep"
+      },
+      {
+        "period": "night",
+        "room": "lounge"
+      },
+      {
+        "period": "night",
+        "room": "outside"
+      }
+    ],
+    "field": {
+      "ready": true,
+      "triangles": 417123,
+      "meshes": 98,
+      "skippedMeshes": 45,
+      "skippedTriangles": 134072,
+      "geometryMs": 919,
+      "acceleratorMs": 1681,
+      "transportMs": 1182,
+      "bakeMs": 3782,
+      "maxTaskMs": 21,
+      "relocatedProbes": 4,
+      "rejectedProbes": 1,
+      "acceleratorBytes": 35038752,
+      "trace": {
+        "rays": 37956,
+        "triangleTests": 1796160,
+        "boxTests": 7463512
+      },
+      "regions": ["study", "sleep", "onsen", "kitchen", "gym", "lounge", "nearhouse"],
+      "probes": [
+        {
+          "region": "study",
+          "nominal": [-0.9124999999999999, 3.0875, 2.825],
+          "position": [-0.9124999999999999, 3.0875, 2.825],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "study",
+          "nominal": [0.5625000000000004, 3.0875, 2.825],
+          "position": [0.5625000000000004, 3.0875, 2.825],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "study",
+          "nominal": [-0.9124999999999999, 4.1625, 2.825],
+          "position": [-0.9124999999999999, 4.1625, 2.825],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "study",
+          "nominal": [0.5625000000000004, 4.1625, 2.825],
+          "position": [0.5625000000000004, 4.1625, 2.825],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "study",
+          "nominal": [-0.9124999999999999, 3.0875, 3.9749999999999996],
+          "position": [-0.9124999999999999, 3.0875, 3.9749999999999996],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "study",
+          "nominal": [0.5625000000000004, 3.0875, 3.9749999999999996],
+          "position": [0.5625000000000004, 3.0875, 3.9749999999999996],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "study",
+          "nominal": [-0.9124999999999999, 4.1625, 3.9749999999999996],
+          "position": [-0.9124999999999999, 4.1625, 3.9749999999999996],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "study",
+          "nominal": [0.5625000000000004, 4.1625, 3.9749999999999996],
+          "position": [0.5625000000000004, 4.1625, 3.9749999999999996],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "sleep",
+          "nominal": [-3.6875, 3.0125, 2.7],
+          "position": [-3.6875, 3.0125, 2.7],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "sleep",
+          "nominal": [-2.4625, 3.0125, 2.7],
+          "position": [-2.34053640157268, 2.939321840943608, 2.7],
+          "valid": true,
+          "relocation": 0.14223277507038637
+        },
+        {
+          "region": "sleep",
+          "nominal": [-3.6875, 3.9375, 2.7],
+          "position": [-3.6875, 3.9375, 2.7],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "sleep",
+          "nominal": [-2.4625, 3.9375, 2.7],
+          "position": [-2.4625, 3.9375, 2.7],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "sleep",
+          "nominal": [-3.6875, 3.0125, 4.1],
+          "position": [-3.7120719606688275, 3.1845037246817935, 4.1],
+          "valid": true,
+          "relocation": 0.17375000015977143
+        },
+        {
+          "region": "sleep",
+          "nominal": [-2.4625, 3.0125, 4.1],
+          "position": [-2.34053640157268, 2.939321840943608, 4.1],
+          "valid": true,
+          "relocation": 0.14223277507038637
+        },
+        {
+          "region": "sleep",
+          "nominal": [-3.6875, 3.9375, 4.1],
+          "position": [-3.6875, 3.9375, 4.1],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "sleep",
+          "nominal": [-2.4625, 3.9375, 4.1],
+          "position": [-2.4625, 3.9375, 4.1],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "onsen",
+          "nominal": [2.6125, 3.1375, 2.525],
+          "position": [2.6125, 3.1375, 2.525],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "onsen",
+          "nominal": [3.8375000000000004, 3.1375, 2.525],
+          "position": [3.8375000000000004, 3.1375, 2.525],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "onsen",
+          "nominal": [2.6125, 4.3125, 2.525],
+          "position": [2.6125, 4.3125, 2.525],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "onsen",
+          "nominal": [3.8375000000000004, 4.3125, 2.525],
+          "position": [3.8375000000000004, 4.3125, 2.525],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "onsen",
+          "nominal": [2.6125, 3.1375, 3.7750000000000004],
+          "position": [2.6125, 3.1375, 3.7750000000000004],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "onsen",
+          "nominal": [3.8375000000000004, 3.1375, 3.7750000000000004],
+          "position": [3.8375000000000004, 3.1375, 3.7750000000000004],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "onsen",
+          "nominal": [2.6125, 4.3125, 3.7750000000000004],
+          "position": [2.6125, 4.3125, 3.7750000000000004],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "onsen",
+          "nominal": [3.8375000000000004, 4.3125, 3.7750000000000004],
+          "position": [3.8375000000000004, 4.3125, 3.7750000000000004],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "kitchen",
+          "nominal": [-3.4749999999999996, 0.49999999999999994, -3.025],
+          "position": [-3.4827918328710195, 0.5545428300971378, -3.025],
+          "valid": true,
+          "relocation": 0.05509657860970271
+        },
+        {
+          "region": "kitchen",
+          "nominal": [-2.225, 0.49999999999999994, -3.025],
+          "position": [-2.225, 0.49999999999999994, -3.025],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "kitchen",
+          "nominal": [-3.4749999999999996, 1.5999999999999999, -3.025],
+          "position": [-3.4749999999999996, 1.5999999999999999, -3.025],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "kitchen",
+          "nominal": [-2.225, 1.5999999999999999, -3.025],
+          "position": [-2.225, 1.5999999999999999, -3.025],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "kitchen",
+          "nominal": [-3.4749999999999996, 0.49999999999999994, -1.0750000000000002],
+          "position": [-3.4749999999999996, 0.49999999999999994, -1.0750000000000002],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "kitchen",
+          "nominal": [-2.225, 0.49999999999999994, -1.0750000000000002],
+          "position": [-2.0204671119576108, 0.47078101599394434, -1.0750000000000002],
+          "valid": false,
+          "relocation": 0.20660941730063204
+        },
+        {
+          "region": "kitchen",
+          "nominal": [-3.4749999999999996, 1.5999999999999999, -1.0750000000000002],
+          "position": [-3.4749999999999996, 1.5999999999999999, -1.0750000000000002],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "kitchen",
+          "nominal": [-2.225, 1.5999999999999999, -1.0750000000000002],
+          "position": [-2.225, 1.5999999999999999, -1.0750000000000002],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "gym",
+          "nominal": [-0.55, 0.5125, -2.3125],
+          "position": [-0.55, 0.5125, -2.3125],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "gym",
+          "nominal": [0.55, 0.5125, -2.3125],
+          "position": [0.55, 0.5125, -2.3125],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "gym",
+          "nominal": [-0.55, 1.6375, -2.3125],
+          "position": [-0.55, 1.6375, -2.3125],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "gym",
+          "nominal": [0.55, 1.6375, -2.3125],
+          "position": [0.55, 1.6375, -2.3125],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "gym",
+          "nominal": [-0.55, 0.5125, -1.1375000000000002],
+          "position": [-0.55, 0.5125, -1.1375000000000002],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "gym",
+          "nominal": [0.55, 0.5125, -1.1375000000000002],
+          "position": [0.55, 0.5125, -1.1375000000000002],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "gym",
+          "nominal": [-0.55, 1.6375, -1.1375000000000002],
+          "position": [-0.55, 1.6375, -1.1375000000000002],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "gym",
+          "nominal": [0.55, 1.6375, -1.1375000000000002],
+          "position": [0.55, 1.6375, -1.1375000000000002],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "lounge",
+          "nominal": [2.525, 0.4875, -3.0875],
+          "position": [2.525, 0.4875, -3.0875],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "lounge",
+          "nominal": [3.7750000000000004, 0.4875, -3.0875],
+          "position": [3.7750000000000004, 0.4875, -3.0875],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "lounge",
+          "nominal": [2.525, 1.5624999999999998, -3.0875],
+          "position": [2.525, 1.5624999999999998, -3.0875],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "lounge",
+          "nominal": [3.7750000000000004, 1.5624999999999998, -3.0875],
+          "position": [3.7750000000000004, 1.5624999999999998, -3.0875],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "lounge",
+          "nominal": [2.525, 0.4875, -1.1625],
+          "position": [2.525, 0.4875, -1.1625],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "lounge",
+          "nominal": [3.7750000000000004, 0.4875, -1.1625],
+          "position": [3.7750000000000004, 0.4875, -1.1625],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "lounge",
+          "nominal": [2.525, 1.5624999999999998, -1.1625],
+          "position": [2.525, 1.5624999999999998, -1.1625],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "lounge",
+          "nominal": [3.7750000000000004, 1.5624999999999998, -1.1625],
+          "position": [3.7750000000000004, 1.5624999999999998, -1.1625],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "nearhouse",
+          "nominal": [-2.5, 0.9624999999999999, -5.2],
+          "position": [-2.5, 0.9624999999999999, -5.2],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "nearhouse",
+          "nominal": [2.5, 0.9624999999999999, -5.2],
+          "position": [2.5, 0.9624999999999999, -5.2],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "nearhouse",
+          "nominal": [-2.5, 2.9875, -5.2],
+          "position": [-2.5, 2.9875, -5.2],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "nearhouse",
+          "nominal": [2.5, 2.9875, -5.2],
+          "position": [2.5, 2.9875, -5.2],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "nearhouse",
+          "nominal": [-2.5, 0.9624999999999999, -4.2],
+          "position": [-2.5, 0.9624999999999999, -4.2],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "nearhouse",
+          "nominal": [2.5, 0.9624999999999999, -4.2],
+          "position": [2.5, 0.9624999999999999, -4.2],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "nearhouse",
+          "nominal": [-2.5, 2.9875, -4.2],
+          "position": [-2.5, 2.9875, -4.2],
+          "valid": true,
+          "relocation": 0
+        },
+        {
+          "region": "nearhouse",
+          "nominal": [2.5, 2.9875, -4.2],
+          "position": [2.5, 2.9875, -4.2],
+          "valid": true,
+          "relocation": 0
+        }
+      ],
+      "raysPerProbe": 64,
+      "skyRaysPerHit": 8,
+      "maxTraceDistance": 16,
+      "triangleBudget": 750000,
+      "acceleratorRetainedBytes": 0,
+      "retainedCpuBytes": 120960,
+      "textureBytes": 61824,
+      "transportBytes": 59136,
+      "practicalEnergy": [
+        {
+          "id": "study",
+          "unitDC": 0.9787440679830239
+        },
+        {
+          "id": "sleep",
+          "unitDC": 0.6913040408759881
+        },
+        {
+          "id": "kitchen",
+          "unitDC": 0.8343429347667146
+        },
+        {
+          "id": "lounge",
+          "unitDC": 0.246721896697552
+        },
+        {
+          "id": "bath",
+          "unitDC": 1.2056444809915785
+        },
+        {
+          "id": "gym",
+          "unitDC": 0.02541199289646735
+        },
+        {
+          "id": "terrace-west",
+          "unitDC": 0.18028311839883607
+        },
+        {
+          "id": "terrace-east",
+          "unitDC": 0.11907143997918104
+        }
+      ],
+      "disposed": false,
+      "limits": [
+        "Static opaque geometry and one Lambertian bounce; no dynamic actor/leaf/coast displacement visibility",
+        "First-order directional irradiance; sparse moment visibility is approximate and may leak across unsampled thin walls",
+        "Material base color/metalness only; texture, vertex color and procedural detail are not baked",
+        "Actual sky gradient plus authored far-ground boundary; solar disk/cloud/stars and direct-sun bounce omitted",
+        "Final .18m practical emitter segment is unoccluded to model a diffuse bulb within its shade",
+        "Transparent, refracted, volumetric and specular transport remain native approximations; no ray-traced caustics",
+        "Native direct practical lights remain unshadowed; only cached indirect bounce includes traced visibility",
+        "Outside the bounded regions uses unoccluded actual-sky diffuse fallback"
+      ],
+      "error": null
+    }
+  },
+  "sources": {
+    "observedAt": "2026-10-03T06:09:15.618Z",
+    "method": "Normalized LF source equality, actual Docker HTTP, not minified home.js",
+    "rows": [
+      {
+        "name": "controller",
+        "match": true,
+        "sha256": "235151045d910ac6d615d97dae62eb148ab814c9c4024c07808220f5a7ce689f"
+      },
+      {
+        "name": "realism",
+        "match": true,
+        "sha256": "733a49a76c6acc7077afa918eee3588ccdedb1bf950644b76cf0e4ef46753ec8"
+      },
+      {
+        "name": "environment",
+        "match": true,
+        "sha256": "757e6bae428fe783314e14fd95c230f6ff35788240195aaab9ff81611cae6c5f"
+      },
+      {
+        "name": "warm-practicals",
+        "match": true,
+        "sha256": "da43bc6d1606d41d129ce1e9f2ea6fa6e90816788bdfa65ca7117711fd78b2f4"
+      },
+      {
+        "name": "volume-depth",
+        "match": true,
+        "sha256": "5c7c85654fee243ace187fb4ec658ad5fcc2b918645bebf236418b76abf0cd1a"
+      },
+      {
+        "name": "steam-density",
+        "match": true,
+        "sha256": "36fe081230647d3d8845bcd1730fd4865710dbfea11412e61b45273b07ad5d9e"
+      },
+      {
+        "name": "steam-volume",
+        "match": true,
+        "sha256": "2cdc4f50117a2b58c325c3770b5fd59728d6ebd78f9ea67cb0b29a42848f4eb2"
+      },
+      {
+        "name": "light-trace-core",
+        "match": true,
+        "sha256": "d5784d99ddf33371f9dda5c642bd035864251c90770bc7032ac0dd58e6a3de8a"
+      },
+      {
+        "name": "static-light-field",
+        "match": true,
+        "sha256": "6eeb8cbf8917e4a16981d933785193047de88acb798309db7b59754f0e7a9f2c"
+      }
+    ]
+  },
+  "motion": {
+    "method": "Actual decoded native MediaRecorder clip; captured video frames, no rerender or altered dynamics.",
+    "duration": 7.777215,
+    "width": 544,
+    "height": 460,
+    "bytes": 196963
+  },
+  "verification": {
+    "cpu": "44 passed",
+    "python": "166 passed",
+    "nativeTransport": "2 passed desktop",
+    "nativeFieldFixture": "1 passed desktop",
+    "cameraAndPublic": "7 passed, 1 desktop-only disposal test skipped in mobile project",
+    "webkitMobile": "1 passed",
+    "homeLightDarkResponsive": "4 passed, both themes inside each width",
+    "targetedPrettier": "passed",
+    "styleContract": "passed",
+    "productionBuild": "passed, /al-folio baseurl, 68.607 seconds",
+    "fullRepoPrettier": "failed, 386 files outside the intended task paths"
+  },
+  "performance": {
+    "method": "Actual native RAF and performance.now; Date-only Pacific override. New page per activity; 120 warm frames and 180 measured frames. Local desktop/emulation observation, no physical phone or isolated GPU benchmark claim.",
+    "profile": "performance.json",
+    "rows": [
+      {
+        "activity": "reading",
+        "rafMedian": 16.700000000000728,
+        "rafP95": 16.799999999999272,
+        "gpu": {
+          "available": true,
+          "samples": 64,
+          "medianMs": 6.329344,
+          "p95Ms": 14.18752
+        },
+        "frameTiming": {
+          "samples": 120,
+          "medianFrameMs": 16.700000000000728,
+          "p95FrameMs": 16.700000000000728,
+          "medianSubmitMs": 9.299999952316284
+        },
+        "errors": []
+      },
+      {
+        "activity": "soak",
+        "rafMedian": 16.69999999999891,
+        "rafP95": 16.799999999999272,
+        "gpu": {
+          "available": true,
+          "samples": 64,
+          "medianMs": 7.74656,
+          "p95Ms": 18.374656
+        },
+        "frameTiming": {
+          "samples": 120,
+          "medianFrameMs": 16.69999999999891,
+          "p95FrameMs": 16.799999999999272,
+          "medianSubmitMs": 12.399999976158142
+        },
+        "errors": []
+      }
+    ]
+  }
+}

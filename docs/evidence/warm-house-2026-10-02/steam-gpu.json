@@ -1,0 +1,71 @@
+{
+  "clear": [0.2, 0.2980392156862745, 0.4],
+  "fog": [0.39215686274509803, 0.35294117647058826, 0.30980392156862746],
+  "throughGlass": [0.38823529411764707, 0.34509803921568627, 0.2980392156862745],
+  "opaqueInFront": [0.2, 0.2980392156862745, 0.4],
+  "expected": [0.3942849447381672, 0.3510479472907072, 0.31006897754477847],
+  "evidence": {
+    "method": "Beer–Lambert emission-free single scattering / nearest transmission-interface split",
+    "steps": 40,
+    "densityTapsPerStep": 6,
+    "texture": {
+      "width": 24,
+      "height": 24,
+      "type": "RGBA8",
+      "bytes": 2304,
+      "floatLinearRequired": false
+    },
+    "extinction": 1,
+    "albedo": 0.94,
+    "uploads": 1,
+    "draws": 14,
+    "depthBound": true,
+    "segments": [
+      {
+        "transparent": false,
+        "renderOrder": 10000,
+        "depthWrite": false
+      },
+      {
+        "transparent": true,
+        "renderOrder": 10000,
+        "depthWrite": false
+      }
+    ],
+    "scalar": {
+      "method": "prescribed curl wind / temperature rise / RK2 semi-Lagrangian scalars / positive diffusion",
+      "grid": [8, 8, 8],
+      "cells": 512,
+      "fixedStep": 0.03333333333333333,
+      "ticks": 0,
+      "sourceTicks": 0,
+      "simulationTime": 0,
+      "fieldEndTime": 0,
+      "pending": 0,
+      "droppedTime": 0,
+      "revision": 0,
+      "prewarming": false,
+      "finite": true,
+      "maximumDensity": 0.4000000059604645,
+      "maximumTemperature": 0,
+      "meanDensity": 0.4000000059604645,
+      "meanTemperature": 0,
+      "densityIntegral": 2.400000035762787,
+      "centroid": [0, 0, 0.25],
+      "topFraction": 0.125,
+      "maximumSpeed": 0,
+      "diffusionWeight": 0.002820740740740741,
+      "storageBytes": 23328,
+      "conservedMass": false,
+      "ownedFrameLoops": 0
+    },
+    "disposed": false
+  },
+  "depth": {
+    "method": "opaque / nearest transmissive raster depth",
+    "width": 96,
+    "height": 96,
+    "captures": 5,
+    "passes": 2
+  }
+}

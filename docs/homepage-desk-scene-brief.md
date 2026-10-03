@@ -14,7 +14,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 
 - Study hand/keyboard contact, chair back orientation, supported feet, and a camera that shows Sirui's profile. In the gym, keep the rack, bench, and exercising character readable together; the study bookshelf must not block its camera.
 - The gym arrives from the front three-quarter side with a 44° lens, leaving room for raised hands and showing the glasses and held weight. Other destinations retain 38°. Its orbit dollies within the side-wall/gallery clearance bounds and restores the requested zoom when turning back. Preserve equipment facing and contact anchors. See `docs/evidence/gym-framing-2026-10-02/` for native renders, framing and movement proof.
-- Kitchen utensil/cup contact; onsen waterline; pillow/duvet occlusion; tail clearance.
+- Kitchen utensil/cup contact; onsen waterline; pillow/duvet occlusion; tail clearance. Keep the bathing garment opaque teal, with cloth diffusion disabled. Privacy must hold without steam and from every camera.
 - The bath uses measured native bottom depth and a slow anatomical hand skim. Water forcing must come from the composed palm's submerged horizontal velocity inside the fixed solver steps; resting hands must not manufacture waves. Restore the additive arm layer before mixer evaluation, retain it through pause, and reset it on avatar/activity composition. See `assets/js/home-scene/ONSEN-WATER.md` for equations, one-way coupling limits and numerical evidence.
 - Five distinct male interpretations: Lizard, South Park, Simpsons, Ghibli, Rick and Morty. One character at a time, independent of the selected album.
 - Unobstructed record and paper focus, visible camera changes, and a clear outside/return route.
@@ -168,6 +168,8 @@ Keep original and comparable new captures, including live cinematic states. Insp
 The realistic room now uses local normalized skin diffusion, a conservative closed-basin height field, and one curl-potential wind field for rooted plants and advected particles. Public controls remain unchanged. The Pacific retains its authored spectrum. See [the implementation checkpoint](coastal-transport-checkpoint.md) for primary sources, numerical and native rendering evidence, cost, and omitted transport. Preserve paused/offscreen/reduced-motion state; authored pool forcing is not sensed hand contact. These bounded browser adaptations are not a claim of film-quality rendering or current SOTA.
 
 Cold onsen loading keeps the pool unoccupied until an actor exists. Discovered record cards preserve their source links' native keyboard activation. [Input and delayed-load evidence](evidence/scene-input-load-2026-10-02/README.md) records both reproduced defects and responsive browser acceptance.
+
+The subsequent [warm-house checkpoint](warm-house-checkpoint.md) replaces point vapor with bounded thermal scalar steam and adds static traced diffuse transport plus four supported fixtures. It supersedes the former skin-colored bath shirt: the current garment is opaque teal fabric. Keep native refraction and PMREM reflections separate from the custom diffuse cache, and preserve shared shader ownership and cancellation.
 
 ## Future Model Handoff Prompt
 

@@ -1,0 +1,151 @@
+{
+  "revision": "164",
+  "backend": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "context": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+  "output": {
+    "toneMapping": 0,
+    "colorSpace": "srgb-linear",
+    "targetColorSpace": "srgb-linear",
+    "pixelType": "linear unsigned-byte RGBA, central8x8 mean"
+  },
+  "albedo": [0.18, 0.32, 0.48],
+  "nextRadiance": [0.2, 0.35, 0.7],
+  "baseline": [0.11372549019607826, 0.20392156862745078, 0.3058823529411765],
+  "white": [0.09019607843137248, 0.16078431372549018, 0.2392156862745094],
+  "whiteCPU": {
+    "irradiance": [1.5707963705062866, 1.5707963705062866, 1.5707963705062866],
+    "region": "fixture",
+    "contributingRegions": ["fixture"],
+    "fallback": false,
+    "coverage": 1,
+    "weight": 0.31633922313622365
+  },
+  "extremeLegacyHemisphere": [0.09019607843137248, 0.16078431372549018, 0.2392156862745094],
+  "relit": [0.035294117647058844, 0.11372549019607826, 0.33725490196078417],
+  "relitCPU": {
+    "irradiance": [0.6283185482025146, 1.099557399749756, 2.199114799499512],
+    "region": "fixture",
+    "contributingRegions": ["fixture"],
+    "fallback": false,
+    "coverage": 1,
+    "weight": 0.31633922313622365
+  },
+  "addedRays": 0,
+  "restored": [0.11372549019607826, 0.20392156862745078, 0.3058823529411765],
+  "ownershipRestored": true,
+  "closed": [0, 0, 0],
+  "closedCPU": {
+    "irradiance": [0, 0, 0],
+    "region": "fixture",
+    "contributingRegions": ["fixture"],
+    "fallback": false,
+    "coverage": 1,
+    "weight": 0.31633922313622365
+  },
+  "closedEvidence": {
+    "ready": true,
+    "triangles": 12,
+    "meshes": 1,
+    "skippedMeshes": 0,
+    "skippedTriangles": 0,
+    "geometryMs": 0.3999999761581421,
+    "acceleratorMs": 0.19999992847442627,
+    "transportMs": 10.900000095367432,
+    "bakeMs": 11.5,
+    "maxTaskMs": 6.299999952316284,
+    "relocatedProbes": 0,
+    "rejectedProbes": 0,
+    "acceleratorBytes": 1408,
+    "trace": {
+      "rays": 5120,
+      "triangleTests": 39259,
+      "boxTests": 13360
+    },
+    "regions": ["fixture"],
+    "probes": [
+      {
+        "region": "fixture",
+        "nominal": [-0.4, -0.4, -0.4],
+        "position": [-0.4, -0.4, -0.4],
+        "valid": true,
+        "relocation": 0
+      },
+      {
+        "region": "fixture",
+        "nominal": [0.40000000000000013, -0.4, -0.4],
+        "position": [0.40000000000000013, -0.4, -0.4],
+        "valid": true,
+        "relocation": 0
+      },
+      {
+        "region": "fixture",
+        "nominal": [-0.4, 0.40000000000000013, -0.4],
+        "position": [-0.4, 0.40000000000000013, -0.4],
+        "valid": true,
+        "relocation": 0
+      },
+      {
+        "region": "fixture",
+        "nominal": [0.40000000000000013, 0.40000000000000013, -0.4],
+        "position": [0.40000000000000013, 0.40000000000000013, -0.4],
+        "valid": true,
+        "relocation": 0
+      },
+      {
+        "region": "fixture",
+        "nominal": [-0.4, -0.4, 0.40000000000000013],
+        "position": [-0.4, -0.4, 0.40000000000000013],
+        "valid": true,
+        "relocation": 0
+      },
+      {
+        "region": "fixture",
+        "nominal": [0.40000000000000013, -0.4, 0.40000000000000013],
+        "position": [0.40000000000000013, -0.4, 0.40000000000000013],
+        "valid": true,
+        "relocation": 0
+      },
+      {
+        "region": "fixture",
+        "nominal": [-0.4, 0.40000000000000013, 0.40000000000000013],
+        "position": [-0.4, 0.40000000000000013, 0.40000000000000013],
+        "valid": true,
+        "relocation": 0
+      },
+      {
+        "region": "fixture",
+        "nominal": [0.40000000000000013, 0.40000000000000013, 0.40000000000000013],
+        "position": [0.40000000000000013, 0.40000000000000013, 0.40000000000000013],
+        "valid": true,
+        "relocation": 0
+      }
+    ],
+    "raysPerProbe": 64,
+    "skyRaysPerHit": 8,
+    "maxTraceDistance": 16,
+    "triangleBudget": 750000,
+    "acceleratorRetainedBytes": 0,
+    "retainedCpuBytes": 11136,
+    "textureBytes": 8832,
+    "transportBytes": 2304,
+    "practicalEnergy": [],
+    "disposed": false,
+    "limits": [
+      "Static opaque geometry and one Lambertian bounce; no dynamic actor/leaf/coast displacement visibility",
+      "First-order directional irradiance; sparse moment visibility is approximate and may leak across unsampled thin walls",
+      "Material base color/metalness only; texture, vertex color and procedural detail are not baked",
+      "Actual sky gradient plus authored far-ground boundary; solar disk/cloud/stars and direct-sun bounce omitted",
+      "Final .18m practical emitter segment is unoccluded to model a diffuse bulb within its shade",
+      "Transparent, refracted, volumetric and specular transport remain native approximations; no ray-traced caustics",
+      "Native direct practical lights remain unshadowed; only cached indirect bounce includes traced visibility",
+      "Outside the bounded regions uses unoccluded actual-sky diffuse fallback"
+    ]
+  },
+  "closedRestored": [0.11372549019607826, 0.20392156862745078, 0.3058823529411765],
+  "closedOwnershipRestored": true,
+  "limits": [
+    "Analytic synthetic receiver and box; no production-scene visual or frame-time assertion",
+    "Opaque Lambertian fixture isolates indirect diffuse; transmission and PMREM specular are separate",
+    "Unsigned-byte quantization tolerance2/255; no tone or sRGB encoding"
+  ]
+}

@@ -153,24 +153,6 @@ export function createPacific(scene, renderer, config) {
     particleSystems.push({ population, geometry, material, prewarmMilliseconds: performance.now() - started });
     return object;
   }
-  const steam = particles(
-    "steam",
-    Array.from({ length: 18 }, (_, i) => {
-      const angle = i * 2.399,
-        radius = 0.63 + (i % 3) * 0.055;
-      return [3.17 + Math.cos(angle) * radius, 3.03, 3.18 + Math.sin(angle) * radius];
-    }).flat(),
-    { min: [2.3, 3.02, 2.31], max: [4.03, 3.97, 4.05] },
-    9,
-    145,
-    55,
-    0.045,
-    [0.78, 0.85, 0.83],
-    17
-  );
-  steam.name = "Warm onsen vapor";
-  steam.visible = false;
-
   // Advected surf droplets and sunlit dust: bounded particle lifetimes, not
   // an image overlay. The same clock pauses with the inhabited world.
   const mistPositions = [];
@@ -327,6 +309,7 @@ export function createPacific(scene, renderer, config) {
   return {
     setStyle,
     setPalette,
+    lightColors: () => ({ zenith: skyMaterial.uniforms.zenith.value.toArray(), horizon: skyMaterial.uniforms.horizon.value.toArray() }),
     update,
     dispose,
     pick: (raycaster) => wildlife.pick?.(raycaster) || null,
@@ -335,7 +318,7 @@ export function createPacific(scene, renderer, config) {
     evidence: () => ({
       wildlife: wildlife.evidence(),
       beachWidth: beach.width,
-      particles: 140 + 42 + 18,
+      particles: 140 + 42,
       particleMotion: particleSystems.map(({ population, prewarmMilliseconds }) => ({ ...population.evidence(), prewarmMilliseconds })),
       water: {
         waves: OCEAN_WAVES.length,
@@ -347,8 +330,5 @@ export function createPacific(scene, renderer, config) {
       },
     }),
     reflect: reflection.update,
-    setActivity(activity) {
-      steam.visible = style === "realistic" && activity === "soak";
-    },
   };
 }
