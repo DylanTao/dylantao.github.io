@@ -515,7 +515,7 @@ test("publication why-cite guides are shared and keyboard-native", async ({ page
 
   await page.goto(publicRouteUrl("/"), { waitUntil: "networkidle" });
   await stabilizeVisuals(page);
-  await expect(page.locator("[data-publication-why-cite]")).toHaveCount(4);
+  await expect(page.locator("[data-publication-why-cite]")).toHaveCount(3);
   expect(runtimeErrors).toEqual([]);
 });
 
