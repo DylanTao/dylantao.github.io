@@ -77,7 +77,7 @@
             height="auto"
             alt="{{ project_card_data.teaser_alt | default: project.title | escape }}"
             loading="eager"
-            onerror="this.onerror=null; document.querySelectorAll('.responsive-img-srcset').forEach(function (n) { n.remove(); });"
+            onerror="this.onerror=null; var picture=this.closest('picture'); if (picture) { picture.querySelectorAll('.responsive-img-srcset').forEach(function (n) { n.remove(); }); }"
           >
         </picture>
       </figure>
