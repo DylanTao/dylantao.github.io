@@ -51,6 +51,16 @@ The follow-up fixture uses a disclosed 15 Hz virtual RAF cadence for Linux/softw
 
 Local forced SwiftShader proof passes in 2.0 minutes with 3.2 simulated seconds of steam advancement, relative water-mass error `7.45e-16` and a measured water-patch pixel change of `0.0417`. The native cadence also passes in 41.4 seconds. These are fixture results, not an app rendering-speed improvement. Follow-up logs and traces live in `.jekyll-cache/visual-qa/scene-publication-20261004T0240Z/`; the replacement Linux matrix must complete before this release is considered verified.
 
+## Explicit clock follow-up
+
+The [84bd771c Linux run](https://github.com/DylanTao/dylantao.github.io/actions/runs/37174633286) is terminal: all four site streams pass, while scene and legacy stop at different animation deadlines. Its laptop and phone transport proofs pass at 15 Hz; laptop records 3.2 simulated seconds, relative water-mass error `5.59e-16`, actual SwiftShader and a water-patch change of `0.0727`. Tablet still exceeds the 600-second transport budget. Desktop misses P's short Curious phase, laptop times out waiting for an exterior frame after resume, phone spends 126 seconds rendering 650 virtual milliseconds of album transfer, and legacy again exceeds its unchanged 120-second total budget.
+
+The next fixture checkpoint explicitly advances gesture, water and requested still frames. It waits for the reduced-motion control to update before drawing its final stopped frame. Album transfer retains the original ten-second single-callback jump using `fastForward` after acquiring a safe pause; [Playwright documents the same jump semantics for `pauseAt`](https://playwright.dev/docs/api/class-clock#clock-pause-at). Existing pose, nap/wake, water-pixel, conservation, contact/lift, newest-album and Now/Explore assertions remain intact.
+
+Software transport and album proof use a disclosed 10 Hz virtual continuous cadence, with a 16 ms initial input frame. A 5 Hz attempt was rejected by the unchanged pause equality assertion: its next queued frame could arrive after the existing 100 ms settling window. That failed receipt is retained. Native proof keeps Playwright's default RAF cadence. All original transport simulation intervals, assets, effects, dimensions and runtime code remain unchanged; these clock-controlled captures are explicitly excluded from performance benchmarks.
+
+Eight focused native-GPU checks pass at desktop and phone widths. Chromium desktop and WebKit mobile public return checks also pass. Forced SwiftShader transport passes with 3.2 simulated seconds, relative mass error `1.86e-16` and water-patch change `0.095`; software exterior water and album proof pass in 2.8 and 2.0 minutes within their original 300-second budgets. The forced software public return case takes 34.1 seconds within its original 120-second budget. The pose and real-pixel captures were inspected; 168 Python and ten companion state tests pass. Exact-commit Linux matrix and Pages completion remain the release verification gate. No application GPU speed improvement is claimed.
+
 ## Reproduce and next bounded work
 
 ```powershell

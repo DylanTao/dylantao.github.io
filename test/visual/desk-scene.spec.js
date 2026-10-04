@@ -3,6 +3,7 @@ const path = require("node:path");
 const { test, expect } = require("@playwright/test");
 const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetrics } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
+const { pauseSceneClock, useSoftwareSceneCadence } = require("./scene-clock");
 const { PNG } = require("pngjs");
 
 test("coastal steam: native GPU extinction, opaque clipping and nearest glass segmentation", async ({ page }, testInfo) => {
@@ -689,7 +690,6 @@ function onsenRegion(buffer, info) {
 test("coastal transport: native skin, rooted wind and conserved onsen waves survive pause and recovery", async ({ page }, testInfo) => {
   // CI renders the full-volume water pixel proof on a software GPU.
   if (process.platform === "linux") test.setTimeout(600000);
-  const softwareProof = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
   const errors = collectRuntimeErrors(page);
   // Let native field preparation finish without continuous software-rendered
   // frames competing for CI's CPU. Restore motion before all simulation proof.
@@ -707,36 +707,8 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   // WebGL can take longer than a future one-second deadline to receive it.
   // Restore an advancing Date before runFor so routine and simulation clocks
   // still advance together; no animation time is skipped to acquire the pause.
-  const clockTime = await page.evaluate(() => Date.now());
-  await page.clock.setFixedTime(clockTime);
-  await page.clock.pauseAt(clockTime);
-  await page.clock.setSystemTime(clockTime);
-  if (softwareProof) {
-    // Exercise the same elapsed simulation intervals at a bounded virtual RAF
-    // cadence. Linux's full-volume draw can take seconds per frame: forcing
-    // 60 virtual frames per second consumes the proof's entire wall budget.
-    // Scene frames still draw real pixels; no runFor interval, solver,
-    // render target, material, asset or assertion is omitted or reduced.
-    await page.evaluate(() => {
-      const pending = new Set(),
-        cancelOriginal = window.cancelAnimationFrame.bind(window);
-      window.coastalProofCadence = { virtualHz: 15, timestamps: [] };
-      window.requestAnimationFrame = (callback) => {
-        const id = window.setTimeout(() => {
-          pending.delete(id);
-          const now = performance.now();
-          window.coastalProofCadence.timestamps.push(now);
-          callback(now);
-        }, 1000 / 15);
-        pending.add(id);
-        return id;
-      };
-      window.cancelAnimationFrame = (id) => {
-        if (pending.delete(id)) window.clearTimeout(id);
-        else cancelOriginal(id);
-      };
-    });
-  }
+  await pauseSceneClock(page);
+  await useSoftwareSceneCadence(page);
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await explore(ui);
   await ui.locator("[data-world-pause]").click();
@@ -894,13 +866,24 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
 
 test("coastal physics: dispersive water changes visible pixels, shares La Jolla light, and suspends cleanly", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });
+  const { scene, canvas, ui } = await openHome(page, { motion: "reduce" });
   await settleRoomModels(scene);
+  await page.waitForFunction(
+    () => {
+      const sim = document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.()?.simulation;
+      return sim?.steam?.ready && sim?.lightField?.ready;
+    },
+    null,
+    { timeout: 60000 }
+  );
+  await pauseSceneClock(page);
+  await useSoftwareSceneCadence(page);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await explore(ui);
   await ui.locator("[data-world-time]").fill("800");
   await ui.locator('[data-world-room="outside"]').click();
   await canvas.scrollIntoViewIfNeeded();
-  await page.waitForTimeout(1400);
+  await page.clock.runFor(1400);
   const info = await evidence(scene);
   expect(info.ecology.water.waves).toBe(10);
   expect(info.ecology.water.sample.jacobian).toBeGreaterThan(0.6);
@@ -910,7 +893,7 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
   expect(info.daylight.sunlight).toBe(1);
   await expect(ui.locator("[data-world-clock]")).toContainText("La Jolla");
   const before = await canvas.screenshot();
-  await page.waitForTimeout(500);
+  await page.clock.runFor(500);
   const after = await canvas.screenshot();
   expect(screenshotDiffRatio(before, after)).toBeGreaterThan(0.001);
   // This interior patch of the normal exterior's sea excludes the moving actor
@@ -920,11 +903,14 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
   await capture(testInfo, "moving-water-region", seaRegion(after));
   await capture(testInfo, "physical-pacific", after);
   await ui.locator("[data-world-pause]").click();
+  await page.clock.runFor(100);
   await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
   const frozen = (await evidence(scene)).ecology.water.seconds;
-  await page.waitForTimeout(250);
+  await page.clock.runFor(250);
   expect((await evidence(scene)).ecology.water.seconds).toBe(frozen);
   await ui.locator("[data-world-pause]").click();
+  await canvas.scrollIntoViewIfNeeded();
+  await page.clock.runFor(100);
   await expect.poll(async () => (await evidence(scene)).ecology.water.seconds).toBeGreaterThan(frozen);
   const final = await evidence(scene);
   const proofFile = testInfo.outputPath("physical-rendering-evidence.json");
@@ -939,6 +925,15 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
         triangles: final.triangles,
         resources: final.resources,
         seaPixelDiff: seaDiff,
+        sampling: await canvas.evaluate((element) => {
+          const gl = element.getContext("webgl2"),
+            debug = gl?.getExtension("WEBGL_debug_renderer_info");
+          return {
+            cadence: window.coastalProofCadence || { virtualHz: 60, timestamps: [] },
+            renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : null,
+            performanceBenchmark: false,
+          };
+        }),
       },
       null,
       2
@@ -946,6 +941,8 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
   );
   await testInfo.attach("physical-rendering-evidence", { path: proofFile, contentType: "application/json" });
   await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(ui.locator("[data-world-pause]")).toBeDisabled();
+  await page.clock.runFor(100);
   await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
   expect(errors).toEqual([]);
 });
@@ -963,7 +960,11 @@ test("coastal physics: the study label transfers only above contact and keeps th
   await canvas.scrollIntoViewIfNeeded();
   await expect.poll(async () => (await evidence(scene)).recordMechanics.phase).toBe("tracking");
   await expect.poll(async () => (await evidence(scene)).displayedVinylRecord).toBe(0);
-  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  await pauseSceneClock(page);
+  await useSoftwareSceneCadence(page);
+  // Preserve pauseAt's original ten-second, single-callback jump while
+  // acquiring the pause without a wall/IPC race.
+  await page.clock.fastForward(10000);
   const before = await evidence(scene);
   const second = ui.locator('[data-world-record="1"]');
   await second.click();

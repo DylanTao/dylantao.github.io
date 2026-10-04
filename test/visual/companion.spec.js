@@ -2,6 +2,7 @@ const fs = require("node:fs");
 const { test, expect } = require("@playwright/test");
 const { publicRouteUrl } = require("./public-routes");
 const { collectRuntimeErrors, preparePage } = require("./helpers");
+const { pauseSceneClock } = require("./scene-clock");
 const evidence = (page) => page.locator(".pip-companion").evaluate((e) => e.getCompanionEvidence());
 
 test("P: moving content clears its painted surface immediately", async ({ page }) => {
@@ -182,10 +183,12 @@ test("P: its project link opens a working motion playground with visible credits
   await expect.poll(async () => (await evidence(page)).owner).toBe("studio");
   await expect(page.locator(".pip-companion")).toHaveAttribute("data-visible", "false");
   const get = () => studio.evaluate((e) => e.getPipEvidence());
+  // The installed test clock advances one RAF at a time. Software rendering
+  // can consume the wall poll before reaching the authored 1.15–2.25s hold.
+  // Drive that actual animation phase and capture its real rendered pose.
+  await pauseSceneClock(page);
   await page.getByRole("button", { name: "Curious", exact: true }).click();
-  // Observe the expressive phase instead of sampling one wall-clock instant.
-  // Software rendering and pointer gaze can shift that sample relative to
-  // the incoming pose. Unit tests separately enforce the gesture's cadence.
+  await page.clock.runFor(1400);
   await expect
     .poll(
       async () => {
@@ -195,15 +198,21 @@ test("P: its project link opens a working motion playground with visible credits
       { timeout: 8000, intervals: [100, 200, 250] }
     )
     .toBe(true);
+  const curious = await get();
   await capture(page, testInfo, "pip-curiosity-playground");
   await page.getByRole("button", { name: "Let P nap", exact: true }).click();
   await expect(page.getByRole("button", { name: "Wake P up", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await page.clock.runFor(100);
   const asleep = await get();
-  await page.waitForTimeout(300);
+  await page.clock.runFor(300);
   expect((await get()).time).toBe(asleep.time);
   expect((await get()).pose.blink).toBe(1);
   await page.getByRole("button", { name: "Hello", exact: true }).click();
+  await page.clock.runFor(100);
   await expect.poll(async () => (await get()).pose.gesture).toBe("hello");
+  const proof = testInfo.outputPath("pip-gesture-evidence.json");
+  fs.writeFileSync(proof, JSON.stringify({ curious, asleep, awake: await get(), performanceBenchmark: false }, null, 2));
+  await testInfo.attach("pip-gesture-evidence", { path: proof, contentType: "application/json" });
   await expect(page.locator("#credits")).toContainText("Pollen Robotics");
   await expect(page.locator("#credits")).toContainText("Pixar");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);

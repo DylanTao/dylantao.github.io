@@ -2,6 +2,7 @@ const fs = require("node:fs");
 const { test, expect } = require("@playwright/test");
 const { collectRuntimeErrors, preparePage, stabilizeVisuals } = require("./helpers");
 const { getPublicBaseURL, publicRouteUrl } = require("./public-routes");
+const { pauseSceneClock } = require("./scene-clock");
 
 async function openOptionalStarterRoute(page, path) {
   const response = await page.goto(path, { waitUntil: "networkidle" });
@@ -1310,24 +1311,32 @@ test("home 3D outside visit survives zoom and scrolling until an explicit return
   await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
   const scene = await coastalHome(page, { openLab: false });
   const canvas = scene.locator("canvas");
+  // Advance requested still frames explicitly; CPU WebGL input round trips
+  // otherwise trigger redundant paints throughout the 120-second proof.
+  await pauseSceneClock(page, { advanceDate: false });
   await canvas.focus();
   await canvas.press("+");
+  await page.clock.runFor(100);
   await expect(scene).toHaveAttribute("data-room", "study");
   await page.locator("[data-world-view]").click();
   await expect(scene).toHaveAttribute("data-room", "outside");
+  await page.clock.runFor(100);
   await canvas.focus();
   await canvas.press("+");
   await canvas.press("-");
+  await page.clock.runFor(100);
   await expect(scene).toHaveAttribute("data-room", "outside");
   await page.locator("#connect").scrollIntoViewIfNeeded();
   await expect(scene).toHaveAttribute("data-room", "outside");
   expect(await scene.evaluate((e) => e.getSceneEvidence().following)).toBe(false);
   await page.locator("[data-world-view]").focus();
   await page.locator("[data-world-view]").press("Enter");
+  await page.clock.runFor(100);
   await expect(scene).toHaveAttribute("data-room", "study");
   expect(await scene.evaluate((e) => e.getSceneEvidence().following)).toBe(true);
   await page.locator("[data-world-lab] > summary").click();
   await page.locator("[data-world-now]").click();
+  await page.clock.runFor(100);
   expect(await scene.evaluate((e) => e.getSceneEvidence().following)).toBe(true);
 });
 
