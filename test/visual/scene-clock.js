@@ -42,4 +42,24 @@ async function useSoftwareSceneCadence(page, { continuousHz = 10 } = {}) {
   }, continuousHz);
 }
 
-module.exports = { pauseSceneClock, useSoftwareSceneCadence };
+async function useNativeSceneFrames(page) {
+  await page.evaluate(() => {
+    // Playwright retains these actual browser APIs when installing its clock.
+    // Native RAF coalesces a busy renderer's missed frames; an automatically
+    // advancing fake RAF instead tries to render the growing callback backlog.
+    const native = window.__pwClock?.builtins;
+    if (!native?.requestAnimationFrame || !native.cancelAnimationFrame || !native.performance)
+      throw new Error("The installed Playwright clock must expose its native frame APIs for live-motion proof.");
+    const cancelClockFrame = window.cancelAnimationFrame.bind(window);
+    window.requestAnimationFrame = native.requestAnimationFrame;
+    window.cancelAnimationFrame = (id) => {
+      // A page companion can have one virtual request from before the switch.
+      cancelClockFrame(id);
+      native.cancelAnimationFrame(id);
+    };
+    window.performance = native.performance;
+    window.coastalProofFrameClock = "native RAF and performance; controlled Date and timers";
+  });
+}
+
+module.exports = { pauseSceneClock, useSoftwareSceneCadence, useNativeSceneFrames };

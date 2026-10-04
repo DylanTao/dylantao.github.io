@@ -3,7 +3,7 @@ const path = require("node:path");
 const { test, expect } = require("@playwright/test");
 const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetrics } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
-const { pauseSceneClock, useSoftwareSceneCadence } = require("./scene-clock");
+const { pauseSceneClock, useSoftwareSceneCadence, useNativeSceneFrames } = require("./scene-clock");
 const { PNG } = require("pngjs");
 
 test("coastal steam: native GPU extinction, opaque clipping and nearest glass segmentation", async ({ page }, testInfo) => {
@@ -629,13 +629,14 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
     releaseAvatar();
   }
 });
-async function openHome(page, { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00" } = {}) {
+async function openHome(page, { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00", nativeFrames = false } = {}) {
   await preparePage(page, theme);
   await page.emulateMedia({ reducedMotion: motion });
   await page.clock.install({ time: new Date(time) });
   await page.goto(publicRouteUrl("/") + "?scene-lab=1", { waitUntil: "domcontentloaded" });
   const stage = page.locator("[data-home-artifact-stage]");
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
+  if (nativeFrames) await useNativeSceneFrames(page);
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
@@ -654,6 +655,30 @@ async function settleAvatarLoad(ui) {
   // The public loading state covers model parsing behind software GPU work.
   // Keep the subsequent strict avatar, frame and resource assertions intact.
   await expect(ui).not.toHaveAttribute("aria-busy", "true", { timeout: 60000 });
+}
+async function openClockedHome(page, options = {}) {
+  const view = await openHome(page, { ...options, motion: "reduce" });
+  // Keep secondary model loading from consuming the independent page-P
+  // excursion schedule. Functional samples then advance only explicit time.
+  await pauseSceneClock(page);
+  await page.clock.runFor(2000);
+  await settleRoomModels(view.scene);
+  await useSoftwareSceneCadence(page);
+  return view;
+}
+async function beginClockedMotion(page, canvas) {
+  await canvas.scrollIntoViewIfNeeded();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.runFor(1400);
+}
+async function sceneInputFrame(page, { scene, canvas }, input) {
+  const frames = (await evidence(scene)).frames;
+  await input();
+  await canvas.scrollIntoViewIfNeeded();
+  // A 200ms boundary includes a real input-triggered draw and the next 10Hz
+  // continuous sample on software WebGL. No solver state is replaced.
+  await page.clock.runFor(200);
+  await expect.poll(async () => (await evidence(scene)).frames).toBeGreaterThan(frames);
 }
 async function explore(ui) {
   const details = ui.locator("details").first();
@@ -1337,41 +1362,45 @@ test("character performance: P acknowledges a visitor without changing the room 
 
 test("character performance: rapid room changes preserve P's airborne floor and queue the latest destination", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T13:20:00-07:00" });
+  const view = await openClockedHome(page, { time: "2026-10-02T13:20:00-07:00" });
+  const { scene, canvas, ui } = view;
   await explore(ui);
-  await canvas.scrollIntoViewIfNeeded();
+  await beginClockedMotion(page, canvas);
+  expect(await page.locator(".pip-companion").evaluate((element) => element.getCompanionEvidence().owner)).toBe("world");
   await expect.poll(async () => (await evidence(scene)).companion?.visible).toBe(true);
-  await ui.locator('[data-world-room="kitchen"]').click();
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="kitchen"]').click());
   await expect.poll(async () => (await evidence(scene)).companion?.destinationRoom).toBe("kitchen");
   await page.clock.fastForward(4000);
   const before = (await evidence(scene)).companion;
   expect(before.traveling).toBe(true);
-  await ui.locator('[data-world-room="onsen"]').click();
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="onsen"]').click());
   await expect.poll(async () => (await evidence(scene)).companion?.pendingRoom).toBe("onsen");
   const changed = await evidence(scene);
   expect(changed.currentRoom).toBe("onsen");
   expect(changed.companion.destinationRoom).toBe("kitchen");
   expect(Math.abs(changed.companion.position[1] - before.position[1])).toBeLessThan(0.5);
   await capture(testInfo, "P-retains-airborne-floor", await canvas.screenshot());
-  await ui.locator('[data-world-room="gym"]').click();
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="gym"]').click());
   await expect.poll(async () => (await evidence(scene)).companion?.pendingRoom).toBe("gym");
-  await ui.locator('[data-world-room="kitchen"]').click();
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="kitchen"]').click());
   await expect.poll(async () => (await evidence(scene)).companion?.pendingRoom).toBe(null);
-  await ui.locator("[data-world-pause]").click();
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-pause]").click());
   const paused = (await evidence(scene)).companion;
   await page.clock.fastForward(3000);
   expect((await evidence(scene)).companion.position).toEqual(paused.position);
+  fs.writeFileSync(
+    testInfo.outputPath("P-flight-queue-clock.json"),
+    JSON.stringify({ before, changed: changed.companion, paused, performanceBenchmark: false }, null, 2)
+  );
   expect(errors).toEqual([]);
 });
 
 test("character performance: P finishes a wave without listening to a departed visitor", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "Pointer departure; bounded touch invitations retain their separate expiry contract.");
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas } = await openHome(page, { motion: "no-preference", time: "2026-10-02T13:20:00-07:00" });
-  await settleRoomModels(scene);
-  await canvas.scrollIntoViewIfNeeded();
+  const { scene, canvas } = await openClockedHome(page, { time: "2026-10-02T13:20:00-07:00" });
+  await beginClockedMotion(page, canvas);
   await expect.poll(async () => (await evidence(scene)).companion?.visible).toBe(true);
-  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 2000);
   const start = await evidence(scene);
   const point = start.companion.projected;
   await page.mouse.move(point.x + 32, point.y);
@@ -1398,14 +1427,14 @@ test("character performance: P finishes a wave without listening to a departed v
 
 test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back inside preserve the room state", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page, { time: "2026-10-01T13:20:00-07:00" });
+  const view = await openClockedHome(page, { time: "2026-10-01T13:20:00-07:00" });
+  const { scene, canvas, ui } = view;
   await expect.poll(async () => (await evidence(scene)).ecology.wildlife.modelsReady, { timeout: 45000 }).toBe(true);
   const initial = await evidence(scene);
-  await ui.locator("[data-world-view]").click();
-  await canvas.scrollIntoViewIfNeeded();
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-view]").click());
   const coastline = await evidence(scene);
   const wide = await canvas.screenshot();
-  await canvas.press("n");
+  await sceneInputFrame(page, view, () => canvas.press("n"));
   await expect(scene).toHaveAttribute("data-coastal-neighbour", "rabbit-0");
   await expect.poll(async () => (await evidence(scene)).neighbours.length).toBe(17);
   const rabbitArrival = (await evidence(scene)).inspection.arrival;
@@ -1419,7 +1448,7 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
     })
     .toBeLessThan(0.01);
   await capture(testInfo, "rabbit-inspection", await canvas.screenshot());
-  for (let i = 0; i < 7 && (await evidence(scene)).inspection.id !== "seaLion-0"; i++) await canvas.press("n");
+  for (let i = 0; i < 7 && (await evidence(scene)).inspection.id !== "seaLion-0"; i++) await sceneInputFrame(page, view, () => canvas.press("n"));
   await expect(scene).toHaveAttribute("data-coastal-neighbour", "seaLion-0");
   await expect(canvas).toHaveAttribute("aria-label", /California sea lion/);
   await expect
@@ -1438,18 +1467,24 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
   const before = await canvas.screenshot();
   expect(screenshotDiffRatio(wide, before)).toBeGreaterThan(0.05);
   await capture(testInfo, "sea-lion-inspection", before);
-  await canvas.press("ArrowRight");
-  await canvas.press("+");
+  await sceneInputFrame(page, view, async () => {
+    await canvas.press("ArrowRight");
+    await canvas.press("+");
+  });
   expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.015);
   const after = await evidence(scene);
   const point = after.neighbours.find((item) => item.id === "seaLion-0").projected;
   const rect = await canvas.boundingBox();
-  if (testInfo.project.name === "mobile-390") await page.touchscreen.tap(rect.x + point.x * rect.width, rect.y + point.y * rect.height);
-  else await page.mouse.click(rect.x + point.x * rect.width, rect.y + point.y * rect.height);
+  await sceneInputFrame(page, view, async () => {
+    if (testInfo.project.name === "mobile-390") await page.touchscreen.tap(rect.x + point.x * rect.width, rect.y + point.y * rect.height);
+    else await page.mouse.click(rect.x + point.x * rect.width, rect.y + point.y * rect.height);
+  });
   await expect(scene).not.toHaveAttribute("data-coastal-neighbour", /.+/);
   expect((await evidence(scene)).currentRoom).toBe("outside");
-  await canvas.press("n");
-  await ui.locator("[data-world-view]").click();
+  await sceneInputFrame(page, view, async () => {
+    await canvas.press("n");
+    await ui.locator("[data-world-view]").click();
+  });
   await expect(scene).toHaveAttribute("data-room", "study");
   expect((await evidence(scene)).inspection).toBeNull();
   expect((await evidence(scene)).currentRecord).toBe(initial.currentRecord);
@@ -1459,10 +1494,10 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
 
 test("coastal home: modified and composing canvas shortcuts preserve the view", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas } = await openHome(page);
+  const view = await openClockedHome(page);
+  const { scene, canvas } = view;
   await settleRoomModels(scene);
-  await page.locator("[data-world-view]").click();
-  await canvas.scrollIntoViewIfNeeded();
+  await sceneInputFrame(page, view, () => page.locator("[data-world-view]").click());
   const before = await evidence(scene);
   const delivered = await canvas.evaluate((element) => {
     const samples = [];
@@ -1482,25 +1517,24 @@ test("coastal home: modified and composing canvas shortcuts preserve the view", 
   expect(after.inspection).toEqual(before.inspection);
   expect(after.cameraOrbit).toEqual(before.cameraOrbit);
   expect(after.dropped).toEqual(before.dropped);
-  await canvas.press("N");
+  await sceneInputFrame(page, view, () => canvas.press("N"));
   await expect.poll(async () => (await evidence(scene)).inspection?.id).toBe("rabbit-0");
-  await canvas.press("Enter");
+  await sceneInputFrame(page, view, () => canvas.press("Enter"));
   expect((await evidence(scene)).inspection).toBe(null);
   expect(errors).toEqual([]);
 });
 
 test("coastal neighbours: new raccoon and birds expose real close views without extra public controls", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page, { time: "2026-10-01T13:20:00-07:00" });
+  const home = await openClockedHome(page, { time: "2026-10-01T13:20:00-07:00" });
+  const { scene, canvas, ui } = home;
   await expect.poll(async () => (await evidence(scene)).ecology.wildlife.modelsReady, { timeout: 45000 }).toBe(true);
-  await ui.locator("[data-world-view]").click();
-  await canvas.scrollIntoViewIfNeeded();
+  await sceneInputFrame(page, home, () => ui.locator("[data-world-view]").click());
   const neighbours = (await evidence(scene)).neighbours;
   expect(neighbours).toHaveLength(17);
   expect(neighbours.every((animal) => animal.faceAnchorSource === "named acting pivots")).toBe(true);
   await settleRoomModels(scene);
-  await ui.locator("[data-world-view]").click();
-  await settle(page);
+  await sceneInputFrame(page, home, () => ui.locator("[data-world-view]").click());
   // Deliver the gallery selection before any exterior frame can update the
   // cutaway. A slow renderer or rapid key burst must score the final roof.
   await canvas.evaluate(
@@ -1510,7 +1544,7 @@ test("coastal neighbours: new raccoon and birds expose real close views without 
     neighbours.findIndex((animal) => animal.id === "balcony-gull-0") + 1
   );
   await expect(scene).toHaveAttribute("data-coastal-neighbour", "balcony-gull-0");
-  await settle(page);
+  await page.clock.runFor(200);
   const burst = await evidence(scene);
   expect(burst.inspection.arrival.visibleFaceSamples).toBe(burst.inspection.arrival.faceSamples);
   expect(burst.inspection.arrival.visibleBody).toBe(true);
@@ -1522,11 +1556,11 @@ test("coastal neighbours: new raccoon and birds expose real close views without 
   // despite a centered target, whereas the real gull/rail/ocean are distinct.
   expect(screenshotMetrics(PNG.sync.write(center)).luminanceVariance).toBeGreaterThan(80);
   await capture(testInfo, "gallery-gull-after-synchronous-cutaway-transition", gallery);
-  await canvas.press("Enter");
+  await sceneInputFrame(page, home, () => canvas.press("Enter"));
   const expected = new Set(["raccoon-0", "gull-0", "balcony-gull-0", "sandpiper-0"]),
     visited = new Set();
   for (let i = 0; i < neighbours.length; i++) {
-    await canvas.press("n");
+    await sceneInputFrame(page, home, () => canvas.press("n"));
     const view = await evidence(scene);
     expect(view.inspection.arrival.faceSamples).toBeGreaterThanOrEqual(2);
     expect(view.camera.every(Number.isFinite)).toBe(true);
@@ -1547,7 +1581,7 @@ test("coastal neighbours: new raccoon and birds expose real close views without 
     }
   }
   expect(visited).toEqual(expected);
-  await canvas.press("Enter");
+  await sceneInputFrame(page, home, () => canvas.press("Enter"));
   expect((await evidence(scene)).inspection).toBeNull();
   expect(await ui.locator("button:visible").count()).toBe(1);
   expect(errors).toEqual([]);
@@ -1556,21 +1590,22 @@ test("coastal neighbours: new raccoon and birds expose real close views without 
 test("coastal home: full exterior orbit and guided interior camera boundaries", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "camera geometry is shared; touch zoom has its own mobile case");
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page);
+  const view = await openClockedHome(page);
+  const { scene, canvas, ui } = view;
   await explore(ui);
   for (const room of ["outside", "overview", "study", "kitchen", "gym", "onsen", "sleep", "lounge"]) {
-    await ui.locator(`[data-world-room="${room}"]`).first().click();
-    await canvas.scrollIntoViewIfNeeded();
+    await sceneInputFrame(page, view, () => ui.locator(`[data-world-room="${room}"]`).first().click());
     // Keep a real focused keyboard input, then stress the same browser handler
     // with a burst of repeat events. Hundreds of protocol round trips otherwise
     // force hundreds of software-rendered frames on Linux before any assertion.
-    await canvas.press("ArrowLeft");
+    await sceneInputFrame(page, view, () => canvas.press("ArrowLeft"));
     // Each burst stays below half a turn. Let its frame finish so the camera's
     // shortest-angle interpolation follows the complete orbit, not a shortcut.
     for (const count of [14, 14, 13]) {
       await canvas.evaluate((node, count) => {
         for (let i = 0; i < count; i++) node.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", repeat: true, bubbles: true }));
       }, count);
+      await page.clock.runFor(200);
       await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
     }
     await canvas.evaluate((node) => {
@@ -1579,7 +1614,7 @@ test("coastal home: full exterior orbit and guided interior camera boundaries", 
     const box = await canvas.boundingBox();
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
     await page.mouse.wheel(0, -8000);
-    await settle(page);
+    await page.clock.runFor(200);
     const state = await evidence(scene),
       v = state.cameraOrbit,
       e = state.cameraEnvelope;
@@ -1598,15 +1633,16 @@ test("coastal home: full exterior orbit and guided interior camera boundaries", 
 });
 
 test("coastal home: composed activities and previews survive clock changes until Now", async ({ page }, testInfo) => {
-  const { scene, canvas, ui } = await openHome(page);
+  const view = await openClockedHome(page);
+  const { scene, canvas, ui } = view;
   await explore(ui);
   // These world-space contact bounds describe Lizard's authored proportions.
   // Public arrivals randomize; the animation fixture must remain deterministic.
   await ui.locator("[data-world-avatar]").selectOption("lizard");
+  await settleAvatarLoad(ui);
+  await expect(scene).toHaveAttribute("data-avatar", "lizard");
   for (const activity of ["sleep", "breakfast", "reading", "lunch", "work", "workout", "soak", "dinner", "lounge", "coding"]) {
-    await ui.locator("[data-world-activity]").selectOption(activity);
-    await canvas.scrollIntoViewIfNeeded();
-    await settle(page);
+    await sceneInputFrame(page, view, () => ui.locator("[data-world-activity]").selectOption(activity));
     await expect(scene).toHaveAttribute("data-activity", activity);
     const info = await evidence(scene);
     expect(info.following).toBe(false);
@@ -1629,12 +1665,12 @@ test("coastal home: composed activities and previews survive clock changes until
     }
     await capture(testInfo, `activity-${activity}`, await canvas.screenshot());
   }
-  await ui.locator('[data-world-room="onsen"]').click();
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="onsen"]').click());
   const before = (await evidence(scene)).camera;
   await page.clock.fastForward(60000);
   expect((await evidence(scene)).camera).toEqual(before);
   await expect(scene).toHaveAttribute("data-activity", "coding");
-  await ui.locator("[data-world-now]").click();
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-now]").click());
   expect((await evidence(scene)).following).toBe(true);
   await expect(scene).toHaveAttribute("data-activity", "workout");
   await expect(scene).toHaveAttribute("data-room", "gym");
@@ -1740,13 +1776,14 @@ for (const persisted of [true, false]) {
 
 test("coastal home: the gym frames the face and full exercise poses, then restores the normal lens", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T13:20:00-07:00" });
-  await settleRoomModels(scene);
+  const view = await openClockedHome(page, { time: "2026-10-02T13:20:00-07:00" });
+  const { scene, canvas, ui } = view;
   await explore(ui);
   await ui.locator("[data-world-avatar]").selectOption("ghibli");
-  await canvas.scrollIntoViewIfNeeded();
-  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 2000);
-  await ui.locator("[data-world-pause]").click();
+  await settleAvatarLoad(ui);
+  await expect(scene).toHaveAttribute("data-avatar", "ghibli");
+  await beginClockedMotion(page, canvas);
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-pause]").click());
   const rows = [];
   for (const [seconds, phase] of [
     [12, "pull-ups"],
@@ -1769,9 +1806,9 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
     const pose = await evidence(scene);
     expect(pose.activityPhase).toBe(phase);
     expect(pose.cameraFov).toBe(44);
-    const framed = await scene.evaluate(async (element) => {
+    const framed = await scene.evaluate(async (element, moduleUrl) => {
       const state = element.getSceneEvidence(),
-        THREE = await import("/assets/js/three.module.min.js"),
+        THREE = await import(moduleUrl),
         camera = new THREE.PerspectiveCamera(state.cameraFov, state.canvasWidth / state.canvasHeight, 0.05, 300);
       camera.position.fromArray(state.camera);
       camera.lookAt(new THREE.Vector3(...state.target));
@@ -1782,7 +1819,7 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
           return [name, { x: (p.x + 1) / 2, y: (1 - p.y) / 2, depth: p.z }];
         })
       );
-    });
+    }, publicRouteUrl("/assets/js/three.module.min.js"));
     for (const point of Object.values(framed)) {
       expect(point.x).toBeGreaterThan(0.075);
       expect(point.x).toBeLessThan(0.925);
@@ -1857,14 +1894,15 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
 for (const activity of ["breakfast", "workout"]) {
   test(`coastal home: ${activity} choreography resumes through visibility and mode recovery`, async ({ page }, testInfo) => {
     const errors = collectRuntimeErrors(page);
-    const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T11:45:00-07:00" });
-    await settleRoomModels(scene);
+    const { scene, canvas, ui } = await openClockedHome(page, { time: "2026-10-02T11:45:00-07:00" });
     await explore(ui);
     await ui.locator("[data-world-avatar]").selectOption("ghibli");
+    await settleAvatarLoad(ui);
     await expect(scene).toHaveAttribute("data-avatar", "ghibli");
     await ui.locator("[data-world-activity]").selectOption(activity);
     await canvas.scrollIntoViewIfNeeded();
-    await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 2000);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.clock.runFor(2000);
     await page.clock.fastForward(activity === "breakfast" ? 43000 : 55000);
     await page.clock.runFor(700);
     const expectedPhase = activity === "breakfast" ? "coffee by the ocean" : "dumbbell set";
@@ -1923,14 +1961,15 @@ for (const activity of ["breakfast", "workout"]) {
 for (const activity of ["breakfast", "workout"]) {
   test(`coastal home: pausing ${activity} keeps the held object and resumes its phase`, async ({ page }, testInfo) => {
     const errors = collectRuntimeErrors(page);
-    const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T11:45:00-07:00" });
-    await settleRoomModels(scene);
+    const { scene, canvas, ui } = await openClockedHome(page, { time: "2026-10-02T11:45:00-07:00" });
     await explore(ui);
     await ui.locator("[data-world-avatar]").selectOption("ghibli");
+    await settleAvatarLoad(ui);
     await expect(scene).toHaveAttribute("data-avatar", "ghibli");
     await ui.locator("[data-world-activity]").selectOption(activity);
     await canvas.scrollIntoViewIfNeeded();
-    await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 2000);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.clock.runFor(2000);
     await page.clock.fastForward(activity === "breakfast" ? 43000 : 55000);
     await page.clock.runFor(700);
     const before = await evidence(scene);
@@ -1975,12 +2014,12 @@ for (const activity of ["breakfast", "workout"]) {
 
 test("coastal home: recovery preserves a stair journey and composes a changed clock activity", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas } = await openHome(page, { motion: "no-preference" });
-  await settleRoomModels(scene);
+  const { scene, canvas } = await openClockedHome(page);
+  await beginClockedMotion(page, canvas);
   await page.clock.setSystemTime(new Date("2026-09-11T18:15:01-07:00"));
   await page.clock.fastForward(30001);
   await expect(scene).toHaveAttribute("data-animation", "walk");
-  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 100);
+  await page.clock.runFor(100);
   let walking = await evidence(scene);
   for (let i = 0; i < 40 && !(walking.navigation?.position[1] > 0.45 && walking.navigation.position[1] < 2); i++) {
     await page.clock.fastForward(500);
@@ -2037,8 +2076,10 @@ test("coastal home: recovery preserves a stair journey and composes a changed cl
   expect(errors).toEqual([]);
 });
 
-test("coastal home: live animation pauses offscreen and recovers after a hidden tab", async ({ page }) => {
-  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });
+test("coastal home: live animation pauses offscreen and recovers after a hidden tab", async ({ page }, testInfo) => {
+  // Keep genuine live observation windows without fake RAF catch-up on a
+  // slow renderer. Date/timers still support the original 30-second refresh.
+  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", nativeFrames: true });
   // A newly streamed room legitimately requests one still redraw while paused.
   // Settle those loads before using frame counts to detect ongoing animation.
   await settleRoomModels(scene);
@@ -2065,6 +2106,24 @@ test("coastal home: live animation pauses offscreen and recovers after a hidden 
   await page.waitForTimeout(250);
   await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
   await expect.poll(async () => canvas.evaluate((node) => node.getBoundingClientRect().bottom)).toBeLessThanOrEqual(0);
+  fs.writeFileSync(
+    testInfo.outputPath("live-offscreen.json"),
+    JSON.stringify(
+      await scene.evaluate((element) => ({
+        scene: element.getBoundingClientRect().toJSON(),
+        canvas: element.querySelector("canvas").getBoundingClientRect().toJSON(),
+        scrollY: window.scrollY,
+        viewportHeight: window.innerHeight,
+        evidence: element.getSceneEvidence(),
+        frameClock: window.coastalProofFrameClock,
+      })),
+      null,
+      2
+    )
+  );
+  // Observe the newly scrolled viewport's actual paint before checking the
+  // offscreen observer. Software headless can defer that rendering boundary.
+  await page.screenshot({ path: testInfo.outputPath("live-offscreen-viewport.png") });
   await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
   const offscreen = (await evidence(scene)).frames;
   await page.waitForTimeout(350);
@@ -2097,7 +2156,8 @@ test("coastal home: touch pinch zoom changes the projection and returns to Now",
   test.skip(testInfo.project.name !== "mobile-390", "One Chromium touch context exercises the two-pointer path.");
   const context = await browser.newContext({ viewport: { width: 390, height: 1000 }, hasTouch: true, isMobile: true });
   const page = await context.newPage();
-  const { scene, canvas, ui } = await openHome(page);
+  const view = await openClockedHome(page);
+  const { scene, canvas, ui } = view;
   const session = await context.newCDPSession(page);
   const box = await canvas.boundingBox();
   const x = box.x + box.width / 2,
@@ -2120,11 +2180,11 @@ test("coastal home: touch pinch zoom changes the projection and returns to Now",
     });
   }
   await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
-  await settle(page);
+  await page.clock.runFor(200);
   expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.02);
   expect((await evidence(scene)).following).toBe(false);
   await explore(ui);
-  await ui.locator("[data-world-now]").tap();
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-now]").tap());
   expect((await evidence(scene)).following).toBe(true);
   await context.close();
 });
