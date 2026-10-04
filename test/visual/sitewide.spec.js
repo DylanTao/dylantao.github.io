@@ -1602,9 +1602,29 @@ test("Human focus and AI research keep reciprocal format context", async ({ page
   const aiResearchUrl = new URL(publicRouteUrl("/ai/"));
   aiResearchUrl.hash = "#research";
 
+  await page.addInitScript(() => {
+    window.__formatArrivalTargets = [];
+    window.addEventListener("home-active-section-change", () => {
+      queueMicrotask(() => {
+        if (location.hash !== "#focus") return;
+        const link = document.querySelector('[data-site-format="ai"]');
+        if (link) window.__formatArrivalTargets.push(new URL(link.getAttribute("href"), location.href).href);
+      });
+    });
+  });
+
   await page.goto(humanFocusUrl.href, { waitUntil: "domcontentloaded" });
   const focusAiLink = page.locator('[data-site-format="ai"]');
   await expect.poll(async () => new URL((await focusAiLink.getAttribute("href")) || "", page.url()).href).toBe(aiResearchUrl.href);
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page.locator("#focus")).toBeInViewport({ ratio: 0.5 });
+  const arrivalTargets = await page.evaluate(() => window.__formatArrivalTargets);
+  await testInfo.attach("human-focus-arrival-targets", {
+    body: Buffer.from(JSON.stringify({ arrivalTargets, performanceBenchmark: false }, null, 2)),
+    contentType: "application/json",
+  });
+  expect(arrivalTargets.length).toBeGreaterThan(0);
+  expect(arrivalTargets.every((target) => target === aiResearchUrl.href)).toBe(true);
   await expect(focusAiLink).toHaveAttribute("rel", /(?:^|\s)alternate(?:\s|$)/);
   await focusAiLink.focus();
   await expect(focusAiLink).toBeFocused();
@@ -1694,6 +1714,38 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   await expect
     .poll(async () => new URL((await page.locator('[data-site-format="ai"]').getAttribute("href")) || "", page.url()).hash)
     .toBe("#research");
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page.locator("#focus")).toBeInViewport({ ratio: 0.5 });
+  await page.mouse.move(page.viewportSize().width / 2, page.viewportSize().height / 3);
+  await page.mouse.wheel(0, -page.viewportSize().height);
+  await expect
+    .poll(async () => new URL((await page.locator('[data-site-format="ai"]').getAttribute("href")) || "", page.url()).hash)
+    .toBe("#publications");
+  expect(new URL(page.url()).hash, "intentional reading keeps the explicit URL while updating its counterpart").toBe("#focus");
+
+  // A newer hash supersedes pending arrival callbacks; native history then
+  // restores each section without letting an older transition retake context.
+  await page.evaluate(() => {
+    window.location.hash = "#connect";
+    window.location.hash = "#publications";
+  });
+  await expect(page).toHaveURL(/#publications$/);
+  await expect(page.locator("#publications")).toBeInViewport();
+  await expect
+    .poll(async () => new URL((await page.locator('[data-site-format="ai"]').getAttribute("href")) || "", page.url()).hash)
+    .toBe("#publications");
+  await page.goBack();
+  await expect(page).toHaveURL(/#connect$/);
+  await expect(page.locator("#connect")).toBeInViewport();
+  await expect
+    .poll(async () => new URL((await page.locator('[data-site-format="ai"]').getAttribute("href")) || "", page.url()).hash)
+    .toBe("#sources");
+  await page.goForward();
+  await expect(page).toHaveURL(/#publications$/);
+  await expect(page.locator("#publications")).toBeInViewport();
+  await expect
+    .poll(async () => new URL((await page.locator('[data-site-format="ai"]').getAttribute("href")) || "", page.url()).hash)
+    .toBe("#publications");
 
   await page.goto(publicRouteUrl("/ai/"), { waitUntil: "domcontentloaded" });
   const aiCounterparts = [

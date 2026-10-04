@@ -2,11 +2,13 @@
   const formatSwitch = document.querySelector("[data-site-format-switch]");
   const humanFormatLink = formatSwitch?.querySelector('[data-site-format="human"]');
   const aiFormatLink = formatSwitch?.querySelector('[data-site-format="ai"]');
+  let requestedHomeSection = "";
+  let visibleHomeSection = "";
 
   const updateHumanHomeFormatTarget = (sectionOverride = "") => {
     if (!formatSwitch?.hasAttribute("data-home-format-context") || !aiFormatLink) return;
     const aiHome = formatSwitch.dataset.aiHome || aiFormatLink.getAttribute("href") || "/ai/";
-    const humanAnchor = sectionOverride || window.location.hash.replace(/^#/, "");
+    const humanAnchor = requestedHomeSection || sectionOverride || window.location.hash.replace(/^#/, "");
     const aiTargets = {
       start: "",
       taste: "research",
@@ -21,10 +23,81 @@
   };
 
   if (formatSwitch?.hasAttribute("data-home-format-context")) {
-    updateHumanHomeFormatTarget();
-    window.addEventListener("hashchange", () => updateHumanHomeFormatTarget());
-    window.addEventListener("popstate", () => updateHumanHomeFormatTarget());
-    window.addEventListener("home-active-section-change", (event) => updateHumanHomeFormatTarget(event.detail?.sectionId || ""));
+    let arrivalGeneration = 0;
+    let arrivalFrame = 0;
+    let arrivalTimeout = 0;
+    const cancelHomeArrival = () => {
+      ++arrivalGeneration;
+      window.cancelAnimationFrame(arrivalFrame);
+      window.clearTimeout(arrivalTimeout);
+      arrivalFrame = 0;
+      arrivalTimeout = 0;
+    };
+    const beginHomeArrival = () => {
+      cancelHomeArrival();
+      const generation = arrivalGeneration;
+      let sectionId = window.location.hash.replace(/^#/, "");
+      try {
+        sectionId = decodeURIComponent(sectionId);
+      } catch {
+        sectionId = "";
+      }
+      const target = document.getElementById(sectionId);
+      requestedHomeSection = target?.dataset.homeSection === sectionId ? sectionId : "";
+      updateHumanHomeFormatTarget();
+      if (!requestedHomeSection) return;
+
+      let settling = false;
+      const settleArrival = () => {
+        if (generation !== arrivalGeneration || settling) return;
+        settling = true;
+        window.clearTimeout(arrivalTimeout);
+        // As on the AI page, cancel intermediate smooth-scroll sections before
+        // releasing the explicit hash target back to the reading observer.
+        arrivalFrame = window.requestAnimationFrame(() => {
+          arrivalFrame = window.requestAnimationFrame(() => {
+            if (generation !== arrivalGeneration) return;
+            const navbarBottom = document.getElementById("navbar")?.getBoundingClientRect().bottom || 0;
+            window.scrollBy({ top: target.getBoundingClientRect().top - navbarBottom - 12, behavior: "instant" });
+            arrivalFrame = window.requestAnimationFrame(() => {
+              arrivalFrame = window.requestAnimationFrame(() => {
+                if (generation !== arrivalGeneration) return;
+                arrivalFrame = 0;
+                visibleHomeSection = requestedHomeSection;
+                requestedHomeSection = "";
+                updateHumanHomeFormatTarget(visibleHomeSection);
+              });
+            });
+          });
+        });
+      };
+      // Font/image loading may delay native hash positioning. The guard still
+      // expires if an external resource cannot finish, and newer arrivals win.
+      arrivalTimeout = window.setTimeout(settleArrival, 5000);
+      const loaded =
+        document.readyState === "complete" ? Promise.resolve() : new Promise((resolve) => window.addEventListener("load", resolve, { once: true }));
+      Promise.all([loaded, document.fonts?.ready]).then(settleArrival);
+    };
+    const interruptHomeArrival = () => {
+      if (!requestedHomeSection) return;
+      cancelHomeArrival();
+      requestedHomeSection = "";
+      updateHumanHomeFormatTarget(visibleHomeSection);
+    };
+
+    beginHomeArrival();
+    window.addEventListener("hashchange", beginHomeArrival);
+    window.addEventListener("popstate", beginHomeArrival);
+    window.addEventListener("home-active-section-change", (event) => {
+      visibleHomeSection = event.detail?.sectionId || "";
+      updateHumanHomeFormatTarget(visibleHomeSection);
+    });
+    window.addEventListener("wheel", interruptHomeArrival, { passive: true });
+    window.addEventListener("touchmove", interruptHomeArrival, { passive: true });
+    window.addEventListener("keydown", (event) => {
+      if (event.defaultPrevented || event.target?.closest?.("input, textarea, select, [contenteditable]")) return;
+      if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) interruptHomeArrival();
+    });
   }
 
   const root = document.querySelector("[data-ai-view]");

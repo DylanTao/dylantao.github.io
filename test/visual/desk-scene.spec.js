@@ -650,6 +650,11 @@ async function settleRoomModels(scene) {
   // measuring pause/orbit behavior, with a load budget rather than the 15s UI one.
   await expect.poll(async () => (await evidence(scene)).roomCount, { timeout: 60000 }).toBe(6);
 }
+async function settleAvatarLoad(ui) {
+  // The public loading state covers model parsing behind software GPU work.
+  // Keep the subsequent strict avatar, frame and resource assertions intact.
+  await expect(ui).not.toHaveAttribute("aria-busy", "true", { timeout: 60000 });
+}
 async function explore(ui) {
   const details = ui.locator("details").first();
   if (!(await details.getAttribute("open"))) {
@@ -1129,13 +1134,17 @@ for (const theme of ["light", "dark"]) {
 test("coastal home: all five avatars retain one actor, shared wall art and album state", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const { scene, canvas, ui } = await openHome(page);
+  await settleRoomModels(scene);
+  await pauseSceneClock(page);
   await explore(ui);
   await ui.locator("[data-world-activity]").selectOption("workout");
   for (const avatar of ["lizard", "south-park", "simpsons", "ghibli", "rick-and-morty", "lizard"]) {
     await ui.locator("[data-world-avatar]").selectOption(avatar);
+    await settleAvatarLoad(ui);
     await expect(scene).toHaveAttribute("data-avatar", avatar);
     await expect.poll(async () => (await evidence(scene)).portrait).toContain("/img/home/sirui_capy.jpg");
     await canvas.scrollIntoViewIfNeeded();
+    await page.clock.runFor(100);
     await settle(page);
     const info = await evidence(scene);
     expect(info.actorCount).toBe(1);
@@ -1159,6 +1168,7 @@ test("coastal home: compiled avatar replacements release their bone textures", a
   const errors = collectRuntimeErrors(page);
   const { scene, ui } = await openHome(page);
   await settleRoomModels(scene);
+  await pauseSceneClock(page);
   await explore(ui);
   await ui.locator("[data-world-activity]").selectOption("workout");
   await page.evaluate(async () => {
@@ -1178,7 +1188,10 @@ test("coastal home: compiled avatar replacements release their bone textures", a
     for (const avatar of avatars) {
       const frame = (await evidence(scene)).frames;
       await ui.locator("[data-world-avatar]").selectOption(avatar);
+      await settleAvatarLoad(ui);
       await expect(scene).toHaveAttribute("data-avatar", avatar);
+      await scene.locator("canvas").scrollIntoViewIfNeeded();
+      await page.clock.runFor(100);
       await expect.poll(async () => (await evidence(scene)).frames).toBeGreaterThan(frame);
       await settle(page);
       const info = await evidence(scene);
@@ -1265,17 +1278,27 @@ test("character performance: attention settles and eyelids respect pause and red
 
 test("character performance: P acknowledges a visitor without changing the room or camera", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-01T13:20:00-07:00" });
+  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", time: "2026-10-01T13:20:00-07:00" });
+  // Acquire the clock before secondary-room loading can consume the page
+  // companion's separate 35-60 second excursion schedule.
+  await pauseSceneClock(page);
+  await page.clock.runFor(2000);
+  await settleRoomModels(scene);
+  await useSoftwareSceneCadence(page, { continuousHz: 2 });
   await explore(ui);
   await ui.locator("[data-world-activity]").selectOption("work");
   await canvas.scrollIntoViewIfNeeded();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.runFor(1400);
   await expect.poll(async () => (await evidence(scene)).companion?.visible).toBe(true);
   await expect.poll(async () => (await evidence(scene)).companion?.attention?.phase).toBe("task");
-  await page.waitForTimeout(1400);
   const start = await evidence(scene);
   const point = start.companion.projected;
   if (testInfo.project.name === "mobile-390") await page.touchscreen.tap(point.x + 32, point.y);
   else await page.mouse.move(point.x, point.y);
+  // Notice (0.28 s), hello (2.6 s), then listen: observe the authored beat
+  // before the bounded touch invitation or mouse proximity expires.
+  await page.clock.runFor(3500);
   await expect.poll(async () => (await evidence(scene)).companion?.attention?.greetings).toBeGreaterThan(start.companion.attention.greetings);
   await expect.poll(async () => (await evidence(scene)).companion?.attention?.phase).toBe("listen");
   const listen = await evidence(scene);
@@ -1284,20 +1307,28 @@ test("character performance: P acknowledges a visitor without changing the room 
   expect(Math.hypot(...listen.camera.map((value, i) => value - start.camera[i]))).toBeLessThan(0.03);
   expect(listen.companion.eyes.every(Number.isFinite)).toBe(true);
   await capture(testInfo, "P-listens-to-a-visitor", await canvas.screenshot());
+  await page.clock.runFor(5000);
   await expect.poll(async () => (await evidence(scene)).companion?.attention?.phase).toBe("task");
   const greetings = (await evidence(scene)).companion.attention.greetings;
-  await page.waitForTimeout(600);
+  await page.clock.runFor(600);
   expect((await evidence(scene)).companion.attention.greetings).toBe(greetings);
   // Observe the streamed turntable during the active encounter, before the
   // deliberate 30-second pause crosses the separate page-excursion schedule.
+  // The authored record glance occurs at active seconds 24.5 through 28.
+  await page.clock.fastForward(Math.max(0, (25 - (await evidence(scene)).companion.activeSeconds) * 1000));
   await expect.poll(async () => (await evidence(scene)).companion?.attention?.target, { timeout: 27000 }).toBe("record");
 
   await ui.locator("[data-world-pause]").click();
+  await page.clock.runFor(500);
   await expect.poll(async () => (await evidence(scene)).companion?.attention?.phase).toBe("still");
   const paused = await evidence(scene);
   await page.clock.fastForward(30000);
   expect((await evidence(scene)).companion.activeSeconds).toBe(paused.companion.activeSeconds);
   expect((await evidence(scene)).companion.position).toEqual(paused.companion.position);
+  fs.writeFileSync(
+    testInfo.outputPath("P-listening-clock.json"),
+    JSON.stringify({ start: start.companion, listen: listen.companion, paused: paused.companion, performanceBenchmark: false }, null, 2)
+  );
   expect(await page.locator(".pip-companion").evaluate((element) => element.getCompanionEvidence().visible)).toBe(false);
   await page.locator('[data-home-desk-mode="2d"]').click();
   await expect(page.locator(".pip-companion")).toHaveCount(1);

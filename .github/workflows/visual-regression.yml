@@ -72,14 +72,14 @@ jobs:
   visual-checkpoints:
     name: Visual checkpoints (${{ matrix.viewport }}, ${{ matrix.stream }})
     runs-on: ubuntu-latest
-    # Each viewport and stream gets an isolated runner with one browser worker.
-    # Full-page captures and software WebGL retain their complete assets and
-    # checks without sharing a renderer or queuing behind another stream.
+    # Each viewport/stream gets an isolated runner with one browser worker.
+    # Four scene shards cover every individual case within the 50-minute cap;
+    # site captures and software WebGL continue to use separate processes.
     strategy:
       fail-fast: false
       matrix:
         viewport: [desktop-1440, laptop-1280, tablet-768, mobile-390]
-        stream: [scene, site]
+        stream: [scene-1, scene-2, scene-3, scene-4, site]
         include:
           - viewport: desktop-1440
             stream: legacy
@@ -166,8 +166,11 @@ jobs:
           tail -n 80 "$LOG_PATH" || true
           python3 test/validate_publication_outputs.py _site
           # Surface the first defect promptly; a passing run still covers every case.
-          if [ "$VISUAL_STREAM" = "scene" ]; then
-            npm run test:visual:scene -- --project "$VISUAL_PROJECT" --max-failures=1
+          if [[ "$VISUAL_STREAM" == scene-* ]]; then
+            SCENE_SHARD="${VISUAL_STREAM#scene-}"
+            # fully-parallel makes sharding operate on individual tests rather
+            # than whole files. One worker still serializes every scene draw.
+            npm run test:visual:scene -- --project "$VISUAL_PROJECT" --shard "$SCENE_SHARD/4" --fully-parallel --workers=1 --max-failures=1
           elif [ "$VISUAL_STREAM" = "site" ]; then
             npm run test:visual:site -- --project "$VISUAL_PROJECT" --max-failures=1
           fi
