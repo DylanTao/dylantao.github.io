@@ -100,6 +100,12 @@ Realistic is the public direction. Perspective, eroded sandstone, separate oak b
 
 Architectural and Illustrated remain unfinished lab experiments. Sirui explicitly deferred the three-style comparison to a future GPT-7 attempt after finding the current treatments too similar. See the complete [GPT-7 experiment note](design-experiment-backlog.md). They are not current public acceptance targets and should not regain public controls without a convincing comparison and a new Sirui request.
 
+## Loading And Performance
+
+Startup does not draw a partial house while its occupied room or selected avatar is still loading. Keep the accessible opening/coast/room/view status until the first composed draw completes, then enable Look around and stream secondary rooms. The 2D choice remains available. When inspecting a phone-sized viewport, show the scene before waiting for this readiness state; offscreen rendering stays suspended.
+
+`bin/profile_coastal_startup.cjs` captures a cold browser context with native performance/RAF/timers, model transfers, complete frame intervals, long tasks, CPU samples, the existing GPU timer, and heap/resource counts. The authored routine Date alone is fixed for comparison. The runtime's rolling 120-frame timing window includes gaps above 500 ms; the profiler preserves the full capture. Its GPU timer excludes ocean reflections and CPU solvers, render counters count multipass submissions, and phone sizes still use the host GPU. See [the October 4 startup checkpoint](evidence/coastal-startup-2026-10-04/README.md) for remaining shader/program setup stalls.
+
 ## Outside Vignette
 
 The exterior is the same house and cliff viewed from outside. The Pacific opening and Look around action lead there; Back inside resumes the current routine. The authoring lab retains individual room visits. No background image is used in any homepage style. The Pacific has modeled water, continuous sandstone headlands, strata, and style-specific geometry. The onsen pose faces the ocean. The image-derived splat study remains isolated under artwork/.

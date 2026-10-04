@@ -1,0 +1,55 @@
+# Coastal startup checkpoint — October 4, 2026
+
+The first scene draw now waits for the occupied room and selected avatar. Opening, coast, room and view messages remain accessible until that draw completes; Look around then becomes available and secondary rooms stream. This fixes premature rendering and misleading readiness while preserving the existing models, materials, authored routine, album state and visual direction.
+
+Cold startup still takes about 14 seconds on this host. This checkpoint does not establish a speed improvement. Native CPU samples identify synchronous Three.js shader/program realization, including driver program-log/status queries, as the dominant remaining main-thread stall. The actual scene and CI screenshots were inspected; the unavailable Library reference pixels were not compared.
+
+## Failure diagnosis
+
+The [b022 visual run](https://github.com/DylanTao/dylantao.github.io/actions/runs/37166950123) finished with all four site streams passing and four scene streams plus legacy failing.
+
+- All four scene streams fail at `clock.pauseAt(Date.now() + 1000)`: browser IPC arrives after the target time on the software GPU. The correction fixes wall time while acquiring the pause, then restores advancing Date before `runFor`. A 1.6-second delayed-command reproduction verifies the former failure and exactly 100 ms of subsequent clock advancement. All 69 original simulation assertions remain identical.
+- Legacy exhausts its 120-second total budget after several 12–16-second software-rendered input round trips. The study button is visible in its failure screenshot; this is not evidence that the control disappeared. The return test now exercises the public Back inside action with native keyboard Enter and verifies the Now/Explore boundary.
+- WebKit's shorter viewport exposes a readiness-order assumption: the first scene can be below the fold. The helper shows the canvas before waiting for its completed first draw. The app continues to suspend offscreen rendering.
+
+## Qualified native measurements
+
+The captures use fresh Chromium contexts, disabled HTTP cache, real fonts and assets, native performance/RAF/timers, CPU sampling, and ANGLE D3D11 on an NVIDIA RTX 3080 Ti. Only the authored routine Date is fixed at October 2, 13:20 Pacific. The initial captures using Playwright's clock helper are retained for audit but excluded from these measurements because that helper also virtualizes performance/RAF/timers.
+
+| Capture                     | Arrival avatar | Ready from 3D activation | First complete-frame observation | Settled study FPS | Settled outside FPS |
+| --------------------------- | -------------- | -----------------------: | -------------------------------: | ----------------: | ------------------: |
+| b022, 1440×1000, DPR 1      | South Park     |                   9.75 s |                          14.50 s |             58.84 |               33.35 |
+| Candidate, 1440×1000, DPR 1 | Rick and Morty |                  10.09 s |                          14.06 s |             58.50 |               32.67 |
+| Candidate, 390×1000, DPR 3  | Rick and Morty |                  10.43 s |                          14.03 s |             58.25 |               33.04 |
+
+These are single captures with different arrival avatars and uncontrolled OS shader caches. The phone-sized capture uses the same PC GPU; it is not a physical-phone benchmark. First-frame observation includes inspection latency and is backed by a nonblank screenshot.
+
+On the candidate desktop capture, the study and avatar parse by 1.03 and 1.14 seconds after controller startup. The first render submission then stalls for 8.74 seconds; another submission takes 3.66 seconds, and first outside rendering takes 2.85 seconds. The largest browser frame gap is 8.77 seconds. The source fix removes the earlier partial-house draw; shader/program setup still blocks a complete first view.
+
+The settled study submits about 533 draw calls / 2.08 million triangles; outside submits about 2,132 / 4.58 million. These count multipass submissions rather than unique authored geometry. The existing finish-pass GPU timer reports medians of 5.49 ms inside and 8.42 ms outside, excluding ocean reflection and CPU solvers. The profiler records complete render-submit durations and every browser frame gap separately.
+
+CDP reports a 21.46 MB used JavaScript heap and 64.32 MB total heap for the candidate desktop capture. GC timing makes this unsuitable as a memory-saving claim. Three resource counts and heap values do not measure total GPU VRAM. After offscreen settling, the scene adds zero frames. Particle preparation measured about 79 ms in the initial diagnostic; the authored 18 simulated seconds are not 18 wall-clock seconds.
+
+## Verification and preserved work
+
+- Both production profiles built successfully: root 96.625 s, `/al-folio` 91.229 s. Publication/output validation and the unchanged PurgeCSS configuration pass.
+- 20 focused scene cases pass across 1440, 1280, 768 and 390 widths, including delayed avatars, first-frame status, original conserved-water/steam proof, pause/recovery, visible water changes and album transfer.
+- Four additional light/dark composition cases pass at desktop and phone widths, including nonblank canvas, keyboard focus and actual orbit/zoom pixel changes. Their rendered captures were inspected.
+- Six focused legacy cases pass in Chromium desktop and WebKit/iPhone emulation: public return, album sharing and project navigation.
+- The complete conserved-water/steam case also passes with ANGLE SwiftShader forced at 390 width in 6.6 minutes, using the existing Linux 600-second transport budget. All 69 simulation assertions and original assets are retained.
+- The public outside/zoom/scroll/return case passes with ANGLE SwiftShader forced on desktop in 1.1 minutes, within its unchanged 120-second budget. This is Windows software-rendering evidence; the Linux workflow still needs its own rerun.
+- 168 Python and 58 relevant Node numerical/state tests pass. The style contract and override audit pass; the existing 80 override acknowledgements remain unchanged.
+- All 20 original GLBs and all 445 validated image files are retained with matching hashes in both production profiles. No Blender geometry, visual treatment, shader, solver, dependency, credentials, worktree or existing server was replaced.
+
+Raw evidence lives in `.jekyll-cache/visual-qa/scene-diagnosis-20261004T0136Z/`: `qualified-performance-summary.json`, `*-realclock-*.json`, CPU profiles, loading/transport screenshots, CI logs and original source backups. Initial failed test/profiler receipts remain alongside corrected results. Full Linux CI has not been rerun for this checkpoint; no green full-matrix claim is made.
+
+## Reproduce and next bounded work
+
+```powershell
+$env:COASTAL_PROFILE_URL='http://127.0.0.1:8080/'
+$env:COASTAL_PROFILE_WIDTH='1440'
+$env:COASTAL_PROFILE_DPR='1'
+node bin/profile_coastal_startup.cjs .jekyll-cache/visual-qa/coastal-startup.json
+```
+
+Use one owned server and one headless browser worker. For the next performance experiment, inspect async shader/program preparation against the actual composer render target and its shadow/contact/transmission variants, preserving first-frame pixels and error reporting. Then profile the exterior's reflection and draw submissions separately. Do not infer benefits from byte size alone or reduce geometry/effects to make a software-GPU test pass. Reference-dependent art/face/cliff/interior changes remain separate until the required reference pixels are available.

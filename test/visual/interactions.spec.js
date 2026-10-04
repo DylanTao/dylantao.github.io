@@ -1285,23 +1285,30 @@ async function clickCoastalObject(page, scene, type, index) {
   else await page.mouse.click(x, y);
 }
 
-async function coastalHome(page) {
+async function coastalHome(page, { openLab = true } = {}) {
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(visualRoute("") + "?scene-lab=1", { waitUntil: "networkidle" });
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
+  // Readiness includes a visible first draw. A phone's scene can begin below
+  // the fold; show it before waiting instead of expecting offscreen rendering.
+  await scene.scrollIntoViewIfNeeded();
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
-  await page.locator("[data-world-lab] > summary").click();
-  await page.locator('[data-world-room="study"]').first().click();
-  await expect(scene).toHaveAttribute("data-room", "study");
+  if (openLab) {
+    await page.locator("[data-world-lab] > summary").click();
+    await page.locator('[data-world-room="study"]').first().click();
+    await expect(scene).toHaveAttribute("data-room", "study");
+  }
   // The camera updates on the next render even when reduced motion snaps it.
   await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   return scene;
 }
 
 test("home 3D outside visit survives zoom and scrolling until an explicit return", async ({ page }) => {
-  const scene = await coastalHome(page);
+  // Keep the occupied room stable while exercising the public return action.
+  await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
+  const scene = await coastalHome(page, { openLab: false });
   const canvas = scene.locator("canvas");
   await canvas.focus();
   await canvas.press("+");
@@ -1314,8 +1321,12 @@ test("home 3D outside visit survives zoom and scrolling until an explicit return
   await expect(scene).toHaveAttribute("data-room", "outside");
   await page.locator("#connect").scrollIntoViewIfNeeded();
   await expect(scene).toHaveAttribute("data-room", "outside");
-  await page.locator('[data-world-room="study"]').first().click();
+  expect(await scene.evaluate((e) => e.getSceneEvidence().following)).toBe(false);
+  await page.locator("[data-world-view]").focus();
+  await page.locator("[data-world-view]").press("Enter");
   await expect(scene).toHaveAttribute("data-room", "study");
+  expect(await scene.evaluate((e) => e.getSceneEvidence().following)).toBe(true);
+  await page.locator("[data-world-lab] > summary").click();
   await page.locator("[data-world-now]").click();
   expect(await scene.evaluate((e) => e.getSceneEvidence().following)).toBe(true);
 });

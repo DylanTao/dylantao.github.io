@@ -575,6 +575,59 @@ function seaRegion(buffer) {
     source.data.copy(crop.data, row * width * 4, ((y + row) * source.width + x) * 4, ((y + row) * source.width + x + width) * 4);
   return PNG.sync.write(crop);
 }
+test("coastal loading: the occupied room and avatar precede the first ready frame", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
+  let releaseAvatar;
+  const avatarGate = new Promise((resolve) => {
+    releaseAvatar = resolve;
+  });
+  await page.route("**/sirui-*.glb", async (route) => {
+    await avatarGate;
+    await route.continue();
+  });
+  try {
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    const scene = page.locator("[data-home-desk-scene]");
+    await expect(scene).toHaveAttribute("data-loading-stage", "room", { timeout: 30000 });
+    await expect(scene).toHaveAttribute("data-scene-state", "loading");
+    await expect(scene).toHaveAttribute("aria-busy", "true");
+    await expect(page.locator("[data-world-status]")).toHaveText("Bringing the room into view.");
+    await expect(page.locator("[data-world-view]")).toBeDisabled();
+    await expect(page.locator('[data-home-desk-mode="2d"]')).toBeEnabled();
+    await page.waitForTimeout(100);
+    const waiting = await evidence(scene);
+    expect(waiting.frames).toBe(0);
+    expect(waiting.actorCount).toBe(0);
+    expect(waiting.loading.firstFrameMilliseconds).toBeNull();
+    await capture(testInfo, "coastal-loading-status", await page.locator(".home-hero-media").screenshot());
+    releaseAvatar();
+    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+    const ready = await evidence(scene);
+    expect(ready.actorCount).toBe(1);
+    expect(ready.frames).toBeGreaterThan(0);
+    expect(ready.currentRoom).toBe("study");
+    for (const name of ["room-study.glb", `sirui-${ready.avatarId}.glb`]) {
+      const model = ready.loading.models.find((model) => model.asset === name);
+      expect(model.bytes).toBeGreaterThan(0);
+      expect(model.parsedMilliseconds).toBeLessThan(ready.loading.firstFrameMilliseconds);
+    }
+    expect(ready.loading.stages.map((entry) => entry.stage)).toEqual(["home", "coast", "room", "first-frame", "ready"]);
+    await expect(scene).not.toHaveAttribute("aria-busy", "true");
+    await expect(page.locator("[data-world-view]")).toBeEnabled();
+    const frame = await scene.locator("canvas").screenshot();
+    expect(screenshotMetrics(frame).uniqueColors).toBeGreaterThan(60);
+    expect(screenshotMetrics(frame).luminanceVariance).toBeGreaterThan(80);
+    await capture(testInfo, "coastal-first-complete-frame", frame);
+    fs.writeFileSync(testInfo.outputPath("coastal-loading-evidence.json"), JSON.stringify({ waiting, ready }, null, 2));
+    expect(errors).toEqual([]);
+  } finally {
+    releaseAvatar();
+  }
+});
 async function openHome(page, { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00" } = {}) {
   await preparePage(page, theme);
   await page.emulateMedia({ reducedMotion: motion });
@@ -649,8 +702,15 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
     null,
     { timeout: 60000 }
   );
+  // Freeze wall time while the pause command crosses browser IPC. Software
+  // WebGL can take longer than a future one-second deadline to receive it.
+  // Restore an advancing Date before runFor so routine and simulation clocks
+  // still advance together; no animation time is skipped to acquire the pause.
+  const clockTime = await page.evaluate(() => Date.now());
+  await page.clock.setFixedTime(clockTime);
+  await page.clock.pauseAt(clockTime);
+  await page.clock.setSystemTime(clockTime);
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 1000);
   await explore(ui);
   await ui.locator("[data-world-pause]").click();
   await ui.locator("[data-world-avatar]").selectOption("ghibli");

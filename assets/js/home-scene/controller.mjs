@@ -92,6 +92,12 @@ export function createCoastalHome(container, records, artifacts) {
     elapsed = 0,
     frames = 0,
     clockTimer = 0;
+  let compositionReady = false,
+    startupStart = 0,
+    firstFrameMilliseconds = null,
+    backgroundTimer = 0;
+  const startupStages = [],
+    modelTimings = [];
   // Realistic is the only active treatment, including the authoring lab.
   const style = "realistic";
   const labEnabled = new URLSearchParams(location.search).get("scene-lab") === "1";
@@ -177,13 +183,28 @@ export function createCoastalHome(container, records, artifacts) {
     return resource;
   }
 
+  function loadingStage(stage, message) {
+    startupStages.push({ stage, milliseconds: performance.now() - startupStart });
+    container.dataset.loadingStage = stage;
+    status.textContent = message;
+    ui.querySelector("[data-world-view]").disabled = stage !== "ready";
+  }
+
   async function loadModel(url) {
     const abort = new AbortController();
+    const timing = { asset: new URL(url).pathname.split("/").pop(), startMilliseconds: performance.now() - startupStart };
+    modelTimings.push(timing);
     modelRequests.add(abort);
     try {
       const response = await fetch(url, { signal: abort.signal });
       if (!response.ok) throw new Error(`Model unavailable: ${response.status}`);
-      return await loader.parseAsync(await response.arrayBuffer(), new URL(".", url).href);
+      timing.headersMilliseconds = performance.now() - startupStart;
+      const bytes = await response.arrayBuffer();
+      timing.bytes = bytes.byteLength;
+      timing.downloadedMilliseconds = performance.now() - startupStart;
+      const model = await loader.parseAsync(bytes, new URL(".", url).href);
+      timing.parsedMilliseconds = performance.now() - startupStart;
+      return model;
     } finally {
       modelRequests.delete(abort);
     }
@@ -762,7 +783,7 @@ export function createCoastalHome(container, records, artifacts) {
     routine = next;
     clockLabel.textContent = `${routine.live ? "" : "Preview · "}${formatMinute(routine.minute)} · La Jolla`;
     ui.querySelector("[data-world-now]").setAttribute("aria-pressed", String(explore.following && followClock));
-    status.textContent = routine.label;
+    if (container.dataset.sceneState === "ready") status.textContent = routine.label;
     container.dataset.activity = routine.id;
     container.dataset.clockMode = routine.live ? "now" : "preview";
     ui.querySelector("[data-world-time]").value = routine.minute;
@@ -1373,6 +1394,10 @@ export function createCoastalHome(container, records, artifacts) {
     lastFrame = 0;
   }
   function requestFrame() {
+    // Resizing, routine changes and streamed models can request a frame during
+    // initialization. Compiling an incomplete house blocks room/avatar decode
+    // and then compiles again when they arrive. Draw the composed view first.
+    if (!compositionReady) return;
     if (config) {
       const envelope = cameraEnvelope(),
         orbit = constrainOrbit({ yaw, pitch, radius: desiredRadius }, envelope);
@@ -1592,11 +1617,21 @@ export function createCoastalHome(container, records, artifacts) {
     withoutContactLighting(finish?.contactLighting, () => pacific?.reflect(camera, style === "realistic" && currentRoom === "outside"));
     if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside" && !animalFocus);
     else renderer.render(scene, camera);
-    if (moving && consecutive && delta < 0.5) {
+    if (moving && consecutive) {
       frameTimings.push({ interval: delta * 1000, submit: performance.now() - submitStart });
       if (frameTimings.length > 120) frameTimings.shift();
     }
     frames++;
+    if (firstFrameMilliseconds === null) {
+      firstFrameMilliseconds = performance.now() - startupStart;
+      container.dataset.sceneState = "ready";
+      container.removeAttribute("aria-busy");
+      loadingStage("ready", routine.label);
+      // Stream detail only after the occupied room/avatar have actually drawn.
+      backgroundTimer = setTimeout(() => {
+        if (!disposed && visible) config.rooms.forEach((r) => loadRoom(r.id).catch(() => {}));
+      }, 1800);
+    }
     const settledRadius = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope()).radius;
     if (
       moving ||
@@ -1610,7 +1645,10 @@ export function createCoastalHome(container, records, artifacts) {
 
   function fail(message) {
     cancelFrame();
+    compositionReady = false;
     container.dataset.sceneState = "failed";
+    container.dataset.loadingStage = "failed";
+    container.removeAttribute("aria-busy");
     status.textContent = message;
     container.dispatchEvent(new CustomEvent("home-scene-unavailable", { bubbles: true }));
   }
@@ -1618,7 +1656,10 @@ export function createCoastalHome(container, records, artifacts) {
   async function initialize() {
     if (initPromise) return initPromise;
     initPromise = (async () => {
+      startupStart = performance.now();
       container.dataset.sceneState = "loading";
+      container.setAttribute("aria-busy", "true");
+      loadingStage("home", "Opening the little home.");
       const response = await fetch(manifestUrl);
       if (!response.ok) throw new Error("Scene manifest unavailable");
       config = await response.json();
@@ -1656,6 +1697,7 @@ export function createCoastalHome(container, records, artifacts) {
         return;
       }
       world.add(prepareModel(shell.scene));
+      loadingStage("coast", "Opening the coast.");
       pacific = createPacific(scene, renderer, config);
       const coast = await loadModel(new URL(config.coast, manifestUrl).href);
       if (disposed) {
@@ -1728,18 +1770,16 @@ export function createCoastalHome(container, records, artifacts) {
       viewportObserver.observe(container);
       cleanup.push(() => viewportObserver.disconnect());
       updateRoutine();
+      loadingStage("room", "Bringing the room into view.");
       await Promise.all([loadRoom(routine.room), setAvatar(avatarId)]);
       if (disposed) return;
+      compositionReady = true;
+      loadingStage("first-frame", "Preparing the view.");
       setStyle();
       resize();
-      container.dataset.sceneState = "ready";
       clockTimer = window.setInterval(() => {
         if (visible && !document.hidden) updateRoutine();
       }, 30000);
-      // Nonoccupied rooms stream after the meaningful first frame, sharing the shell.
-      setTimeout(() => {
-        if (!disposed && visible) config.rooms.forEach((r) => loadRoom(r.id).catch(() => {}));
-      }, 1800);
       requestFrame();
     })().catch((error) => {
       if (disposed) return;
@@ -1781,11 +1821,16 @@ export function createCoastalHome(container, records, artifacts) {
     roomCount: rooms.size,
     actorCount: actor ? 1 : 0,
     frames,
+    loading: { stages: startupStages.map((stage) => ({ ...stage })), firstFrameMilliseconds, models: modelTimings.map((timing) => ({ ...timing })) },
     frameTiming: {
       samples: frameTimings.length,
+      scope: "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
       medianFrameMs: quantile("interval", 0.5),
       p95FrameMs: quantile("interval", 0.95),
+      maximumFrameMs: quantile("interval", 1),
       medianSubmitMs: quantile("submit", 0.5),
+      p95SubmitMs: quantile("submit", 0.95),
+      maximumSubmitMs: quantile("submit", 1),
     },
     framePending: Boolean(frame),
     drawCalls: renderer?.info.render.calls,
@@ -1951,6 +1996,7 @@ export function createCoastalHome(container, records, artifacts) {
       avatarTicket++;
       cancelFrame();
       clearInterval(clockTimer);
+      clearTimeout(backgroundTimer);
       cleanup.forEach((fn) => fn());
       modelRequests.forEach((request) => request.abort());
       lightBakeAbort.abort();
