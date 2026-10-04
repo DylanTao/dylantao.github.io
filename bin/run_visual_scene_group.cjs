@@ -2,6 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 const { manifest, groupPattern, registeredCases, verifyInventory } = require("../test/visual/scene-groups.cjs");
+const { startSceneEnvironment } = require("./visual_scene_environment.cjs");
 
 const root = path.resolve(__dirname, "..");
 const cli = path.join(path.dirname(require.resolve("playwright/package.json")), "cli.js");
@@ -73,22 +74,32 @@ const receipt = {
 fs.writeFileSync(path.join(folder, "coverage.json"), JSON.stringify(receipt, null, 2) + "\n");
 process.stdout.write(JSON.stringify(receipt) + "\n");
 if (!verifyOnly) {
-  const result = spawnSync(
-    process.execPath,
-    [
-      cli,
-      "test",
-      "--config",
-      "test/visual/scene-groups.config.cjs",
-      "--project",
-      project,
-      "--fully-parallel",
-      "--workers=1",
-      ...runOptions,
-      ...manifest.manifestOrder,
-    ],
-    { cwd: root, env: { ...process.env, VISUAL_SCENE_GROUP: group }, stdio: "inherit" }
-  );
-  if (result.error) throw result.error;
-  process.exit(result.status ?? 1);
+  (async () => {
+    const environment = await startSceneEnvironment(folder);
+    try {
+      const result = spawnSync(
+        process.execPath,
+        [
+          cli,
+          "test",
+          "--config",
+          "test/visual/scene-groups.config.cjs",
+          "--project",
+          project,
+          "--fully-parallel",
+          "--workers=1",
+          ...runOptions,
+          ...manifest.manifestOrder,
+        ],
+        { cwd: root, env: { ...environment.env, VISUAL_SCENE_GROUP: group }, stdio: "inherit" }
+      );
+      if (result.error) throw result.error;
+      process.exitCode = result.status ?? 1;
+    } finally {
+      await environment.close();
+    }
+  })().catch((error) => {
+    process.stderr.write(String(error.stack || error) + "\n");
+    process.exitCode = 1;
+  });
 }

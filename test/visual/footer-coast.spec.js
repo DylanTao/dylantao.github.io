@@ -290,11 +290,24 @@ test("homepage story: rail stays in its first-paint position while scripts load"
     };
     requestAnimationFrame(sample);
   });
+  let releaseHome;
+  const firstPaint = new Promise((resolve) => {
+    releaseHome = resolve;
+  });
   await page.route("**/assets/js/home.js*", async (route) => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
+    await firstPaint;
     await route.continue();
   });
-  await page.goto(publicRouteUrl("/"), { waitUntil: "load" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "commit" });
+  try {
+    // A fixed network delay alone can end before a busy software browser's
+    // first paint. Observe that actual frame before allowing initialization.
+    if (wide) await expect.poll(() => page.evaluate(() => Boolean(window.homeRailFirstPaint?.frames.some((frame) => !frame.initialized)))).toBe(true);
+  } finally {
+    releaseHome();
+  }
+  await page.waitForLoadState("load");
   await page.evaluate(() => document.fonts.ready);
   await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   const frames = await page.evaluate(() => {

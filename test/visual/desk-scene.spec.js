@@ -2111,8 +2111,34 @@ test("coastal home: live animation pauses offscreen and recovers after a hidden 
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(ui.locator("[data-world-pause]")).toBeEnabled();
   const before = await canvas.screenshot();
+  const liveStart = await scene.evaluate((element) => {
+    const state = element.getSceneEvidence(),
+      media = matchMedia("(prefers-reduced-motion: reduce)");
+    window.coastalLiveMediaChanges = 0;
+    media.addEventListener("change", () => window.coastalLiveMediaChanges++);
+    return { frames: state.frames, seconds: state.animationSeconds, reducedMotion: media.matches, frameClock: window.coastalProofFrameClock };
+  });
   await page.waitForTimeout(650);
   expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.0002);
+  const liveEnd = await scene.evaluate((element) => {
+    const state = element.getSceneEvidence();
+    return {
+      frames: state.frames,
+      seconds: state.animationSeconds,
+      reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches,
+      mediaChanges: window.coastalLiveMediaChanges,
+      frameClock: window.coastalProofFrameClock,
+    };
+  });
+  await testInfo.attach("native-live-comparison", {
+    body: JSON.stringify({ liveStart, liveEnd, performanceBenchmark: false }, null, 2),
+    contentType: "application/json",
+  });
+  expect(liveStart.reducedMotion).toBe(false);
+  expect(liveEnd.reducedMotion).toBe(false);
+  expect(liveEnd.mediaChanges).toBe(0);
+  expect(liveEnd.frames).toBeGreaterThan(liveStart.frames);
+  expect(liveEnd.seconds).toBeGreaterThan(liveStart.seconds);
   await ui.locator("[data-world-pause]").click();
   await expect(ui.locator("[data-world-pause]")).toHaveAttribute("aria-pressed", "true");
   await canvas.scrollIntoViewIfNeeded();
@@ -2349,9 +2375,26 @@ test("coastal home: a routine boundary walks through the home before settling in
       const soaked = await evidence(scene);
       expect(soaked.joints.Root[1] - soaked.activityFloor).toBeLessThan(-0.4);
       expect(soaked.activityFloor).toBe(2.6);
+      const renderedStair = await page.evaluate(() =>
+        window.coastalRoutineJourneyProof.samples.some((sample) => sample.animation === "walk" && sample.root[1] > 0.5)
+      );
+      expect(renderedStair).toBe(true);
     } finally {
       const proof = await page.evaluate(() => window.coastalRoutineJourneyProof);
       fs.writeFileSync(testInfo.outputPath("native-journey-frames.json"), JSON.stringify({ ...proof, performanceBenchmark: false }, null, 2));
+      await testInfo.attach("native-journey-frames", {
+        body: JSON.stringify({ ...proof, performanceBenchmark: false }, null, 2),
+        contentType: "application/json",
+      });
+      const backend = await canvas.evaluate((element) => {
+        const gl = element.getContext("webgl2"),
+          debug = gl.getExtension("WEBGL_debug_renderer_info");
+        return {
+          renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+          frameClock: window.coastalProofFrameClock,
+        };
+      });
+      await testInfo.attach("native-journey-backend", { body: JSON.stringify(backend, null, 2), contentType: "application/json" });
     }
   } finally {
     await context.close();

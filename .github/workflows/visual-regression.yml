@@ -19,6 +19,9 @@ on:
       - "assets/**"
       - "docs/**"
       - "test/visual/**"
+      - "bin/run_visual_scene_group.cjs"
+      - "bin/visual_scene_environment.cjs"
+      - "test/visual_scene_groups.test.mjs"
       - "test/validate_publication_outputs.py"
       - ".github/workflows/visual-regression.yml"
       - "AGENTS.md"
@@ -47,6 +50,9 @@ on:
       - "assets/**"
       - "docs/**"
       - "test/visual/**"
+      - "bin/run_visual_scene_group.cjs"
+      - "bin/visual_scene_environment.cjs"
+      - "test/visual_scene_groups.test.mjs"
       - "test/validate_publication_outputs.py"
       - ".github/workflows/visual-regression.yml"
       - "AGENTS.md"
@@ -123,7 +129,7 @@ jobs:
       - name: Install Jekyll and image runtime dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y imagemagick python3-pip
+          sudo apt-get install -y imagemagick python3-pip libgl1-mesa-dri xvfb xauth
           pip3 install --user jupyter nbconvert
 
       - name: Install Playwright browsers
