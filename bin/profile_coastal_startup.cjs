@@ -153,10 +153,10 @@ const summarize = (values) => {
         .map((e) => e.name)
     );
     await page.locator('[data-home-desk-mode="3d"]').click();
-    await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.dataset.sceneState === "ready", null, { timeout: 60000 });
-    console.log("Scene reports ready.");
     const scene = page.locator("[data-home-desk-scene]");
     await scene.scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.dataset.sceneState === "ready", null, { timeout: 60000 });
+    console.log("Scene reports ready.");
     await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.().frames > 0);
     const firstFrame = { at: await page.evaluate(() => performance.now()), evidence: await read() };
     await screenshot("first-frame");
