@@ -424,7 +424,8 @@ test("P: one companion transfers between room and reading surface", async ({ pag
   expect(info.ecology.beachWidth).toBeGreaterThanOrEqual(13.5);
   expect((await evidence(page)).visible).toBe(false);
   await capture(page, testInfo, "pip-in-the-room");
-  await scene.evaluate((e) => scrollTo(0, scrollY + e.getBoundingClientRect().bottom + 140));
+  await scene.evaluate((e) => scrollTo({ top: scrollY + e.getBoundingClientRect().bottom + 140, behavior: "instant" }));
+  await expect.poll(() => scene.evaluate((e) => e.getBoundingClientRect().bottom)).toBeLessThan(0);
   await expect.poll(async () => (await evidence(page)).owner).toBe("page");
   await page.waitForTimeout(1000);
   await capture(page, testInfo, "pip-follows-the-reader");

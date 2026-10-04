@@ -288,6 +288,7 @@ test("record physics: the needle lifts before artwork changes and rapid cues pre
   await page.clock.runFor(1500);
   await page.locator(".home-record-player").screenshot({ path: testInfo.outputPath("physical-record-player.png") });
   await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(async () => (await record.evaluate((e) => e.getRecordEvidence())).running).toBe(false);
   expect((await record.evaluate((e) => e.getRecordEvidence())).running).toBe(false);
   expect(errors).toEqual([]);
 });
@@ -669,6 +670,9 @@ async function openClockedHome(page, options = {}) {
 async function beginClockedMotion(page, canvas) {
   await canvas.scrollIntoViewIfNeeded();
   await page.emulateMedia({ reducedMotion: "no-preference" });
+  // CDP acknowledges emulation before the page's real media-change listener.
+  // Settle that listener before advancing the independent virtual clock.
+  await expect(page.locator("[data-world-pause]")).toBeEnabled();
   await page.clock.runFor(1400);
 }
 async function sceneInputFrame(page, { scene, canvas }, input) {
@@ -847,6 +851,7 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(recovered.simulation.onsen.simulationTime - hidden.simulation.onsen.simulationTime).toBeLessThan(0.2);
   expect(recovered.simulation.steam.scalar.simulationTime - hidden.simulation.steam.scalar.simulationTime).toBeLessThan(0.2);
   await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(ui.locator("[data-world-pause]")).toBeDisabled();
   await page.clock.runFor(100);
   const reduced = await evidence(scene);
   expect(reduced.simulation.wind.enabled).toBe(false);

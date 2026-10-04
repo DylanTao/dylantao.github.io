@@ -25,6 +25,7 @@ test("La Jolla guide: names select actual landmarks without moving the view", as
   await expect(viewer.locator(".coast-place-marker")).toBeHidden();
   await page.locator(".studio-print-pair").scrollIntoViewIfNeeded();
   await expect(page.locator(".studio-print-pair img")).toHaveCount(2);
+  await page.locator(".studio-print-pair img").evaluateAll((images) => Promise.all(images.map((image) => image.decode())));
   expect(
     await page
       .locator(".studio-print-pair img")
