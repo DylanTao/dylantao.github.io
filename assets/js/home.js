@@ -179,7 +179,6 @@
 
     const syncRailPlacement = () => {
       if (window.matchMedia("(max-width: 767px)").matches) {
-        storyRail.style.removeProperty("--home-rail-anchor");
         storyRail.style.removeProperty("--home-rail-top");
         storyRail.removeAttribute("data-rail-compact");
         storyRail.removeAttribute("data-rail-obscured");
@@ -189,9 +188,9 @@
 
       const titleRect = homeTitle.getBoundingClientRect();
       const expandedWidth = Math.min(Math.max(window.innerWidth * 0.07, 89), 116);
-      const anchor = Math.min(64, Math.max(16, window.innerWidth * 0.02));
+      // CSS owns the horizontal position from first paint through font loading.
+      const anchor = storyRail.getBoundingClientRect().left;
       const hasExpansionGutter = titleRect.left >= anchor + expandedWidth + 24;
-      storyRail.style.setProperty("--home-rail-anchor", `${anchor.toFixed(1)}px`);
       storyRail.toggleAttribute("data-rail-compact", !hasExpansionGutter);
       const navBottom = document.getElementById("navbar")?.getBoundingClientRect().bottom || 57;
       const railHeight = storyRail.getBoundingClientRect().height;

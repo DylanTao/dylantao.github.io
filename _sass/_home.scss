@@ -137,7 +137,7 @@ html[data-theme-mode="evening"] .home-page {
 .home-story-rail {
   --home-rail-collapsed-width: 2.38rem;
   --home-rail-expanded-width: clamp(5.6rem, 7vw, 7.28rem);
-  --home-rail-anchor: max(calc(env(safe-area-inset-left) + 6rem), calc((100vw - var(--home-shell-max)) / 2 - 1.4rem));
+  --home-rail-anchor: max(calc(env(safe-area-inset-left) + 1rem), clamp(1rem, 2vw, 4rem));
 
   position: fixed;
   top: var(--home-rail-top, clamp(8rem, 36vh, 26rem));
@@ -311,12 +311,6 @@ html[data-theme="dark"] .home-story-rail ol {
 @media (min-width: 1760px) and (min-aspect-ratio: 1 / 1) {
   .home-story-rail {
     display: block;
-  }
-}
-
-@media (min-width: 1680px) and (min-aspect-ratio: 1 / 1) {
-  .home-story-rail {
-    --home-rail-anchor: max(calc(env(safe-area-inset-left) + 6.5rem), calc((100vw - var(--home-shell-max)) / 2 - 1.8rem));
   }
 }
 

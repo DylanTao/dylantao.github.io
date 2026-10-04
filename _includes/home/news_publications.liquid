@@ -1,4 +1,4 @@
-{% if page.selected_papers %}
+{% if include.publications != false and page.selected_papers %}
   <section
     id="publications"
     class="home-section home-publications-wrap home-reveal"
@@ -14,7 +14,7 @@
   </section>
 {% endif %}
 
-{% if page.announcements and page.announcements.enabled and site.news != blank %}
+{% if include.updates != false and page.announcements and page.announcements.enabled and site.news != blank %}
   <section id="updates" class="home-section home-news-pubs home-reveal" data-home-section="updates" aria-labelledby="home-updates-title">
     <div class="home-section-heading home-section-heading-row">
       <div>

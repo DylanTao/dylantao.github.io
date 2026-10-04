@@ -386,7 +386,7 @@
   "publications": [
     {
       "name": "XXX: abcdefg",
-      "publisher": "Resubmitting to CHI27",
+      "publisher": "Preparing for submission to DIS 2027",
       "releaseDate": "2026",
       "summary": "Sirui Tao and Steven P. Dow.",
       "rejectionNote": "[Rejected at CHI26 & UIST 2026] :-<",
@@ -450,9 +450,16 @@
       "paperAnchor": "cv-publication-p5"
     },
     {
+      "name": "Alisa Liao",
+      "url": "https://alisaliao45-hash.github.io/Personal-Website/index.html",
+      "status": "current",
+      "paperLabel": "P5",
+      "paperAnchor": "cv-publication-p5"
+    },
+    {
       "name": "Cecilia Lin",
       "url": "https://www.linkedin.com/in/cecilialin1",
-      "status": "current",
+      "status": "alumni",
       "details": "B.S. UCSD",
       "paperLabel": "P5",
       "paperAnchor": "cv-publication-p5"

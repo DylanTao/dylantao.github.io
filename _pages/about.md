@@ -94,29 +94,15 @@ credibility:
   - label: Methods
     value: Build, test, iterate
 
-featured_work:
-  - title: DesignWeaver
-    url: /projects/designweaver/
-    image: /assets/img/publication_preview/designweaver-transparent.png
-    alt: Original DesignWeaver figure connecting a design brief, dimension palette, and image gallery.
-    image_aspect: 16 / 9
-    image_width: 2294
-    image_height: 1298
-    venue: CHI 2025
-    theme: Design
-    description: Making the dimensions inside a prompt visible, so novices can compare and refine product ideas.
-
 story_sections:
   - label: Start
     id: start
-  - label: Work
-    id: work
   - label: Taste
     id: taste
-  - label: Focus
-    id: focus
   - label: Publications
     id: publications
+  - label: Focus
+    id: focus
   - label: Updates
     id: updates
   - label: Students
@@ -137,13 +123,6 @@ thesis:
     text: "My work with Steven P. Dow and conversations with Don Norman and many others keep shaping how I think about taste and design judgment."
     link_label: Notes from Don Norman's talk
     url: /blog/2026/don-norman-design-lab-talk/
-    photo:
-      image: /assets/img/don-norman-talk-2026/selfie-with-don.jpg
-      alt: Sirui with Don Norman after the Design Lab talk
-      width: 4032
-      height: 3024
-      caption: One of those conversations.
-      date_label: Design Lab · March 4, 2026
   principle_label: Design principle
   principle: >-
     Design help should not just make more artifacts. It should make the next move

@@ -268,6 +268,51 @@ test("coastal scenes: lazy loading, automatic movement, offscreen pause and reve
   expect(errors).toEqual([]);
 });
 
+test("homepage story: rail stays in its first-paint position while scripts load", async ({ page }, testInfo) => {
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
+  const wide = testInfo.project.name === "desktop-1440";
+  if (wide) await page.setViewportSize({ width: 1920, height: 1000 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "noon");
+  await page.addInitScript(() => {
+    window.homeRailFirstPaint = { frames: [], stop: false };
+    const sample = () => {
+      const rail = document.querySelector(".home-story-rail");
+      if (rail && getComputedStyle(rail).display !== "none") {
+        const { x, y } = rail.getBoundingClientRect();
+        window.homeRailFirstPaint.frames.push({ x, y, initialized: document.documentElement.classList.contains("home-motion-ready") });
+      }
+      if (!window.homeRailFirstPaint.stop) requestAnimationFrame(sample);
+    };
+    requestAnimationFrame(sample);
+  });
+  await page.route("**/assets/js/home.js*", async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await route.continue();
+  });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "load" });
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  const frames = await page.evaluate(() => {
+    window.homeRailFirstPaint.stop = true;
+    return window.homeRailFirstPaint.frames;
+  });
+  if (wide) {
+    expect(frames.some((frame) => !frame.initialized)).toBe(true);
+    expect(frames.some((frame) => frame.initialized)).toBe(true);
+    expect(Math.max(...frames.map((frame) => frame.x)) - Math.min(...frames.map((frame) => frame.x))).toBeLessThan(1);
+    expect(Math.max(...frames.map((frame) => frame.y)) - Math.min(...frames.map((frame) => frame.y))).toBeLessThan(1);
+    expect(frames[0].x).toBeGreaterThanOrEqual(16);
+    expect(frames[0].x).toBeLessThanOrEqual(64);
+  } else {
+    await expect(page.locator(".home-story-rail")).toBeHidden();
+    expect(frames).toEqual([]);
+  }
+  await testInfo.attach("first-paint-rail", { body: JSON.stringify({ viewport: page.viewportSize(), frames }), contentType: "application/json" });
+  expect(errors).toEqual([]);
+});
+
 test("coastal navigation: helper clears the reading column and return control stays in the corner", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440");
   await page.setViewportSize({ width: 1920, height: 1000 });

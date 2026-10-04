@@ -4,10 +4,10 @@ layout: default
 <div class="home-page{% if page.cinematic %} cinematic{% endif %}">
   {% include home/story_rail.liquid %}
   {% include home/hero.liquid %}
-  {% include home/featured_work.liquid %}
   {% include home/thesis.liquid %}
+  {% include home/news_publications.liquid updates=false %}
   {% include home/research_motion.liquid %}
-  {% include home/news_publications.liquid %}
+  {% include home/news_publications.liquid publications=false %}
   {% include home/recruiting.liquid %}
 
   {% if page.social %}

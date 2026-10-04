@@ -26,29 +26,10 @@
             <span class="home-thesis-origin-label">{{ page.thesis.origin.label }}</span>
           {% endif %}
           <p class="home-thesis-origin-text">{{ page.thesis.origin.text }}</p>
-          {% unless page.thesis.origin.photo %}
-            <a href="{{ page.thesis.origin.url | relative_url }}">{{ page.thesis.origin.link_label | default: 'Read the note' }} ↗</a>
-          {% endunless %}
+          <a href="{{ page.thesis.origin.url | relative_url }}">{{ page.thesis.origin.link_label | default: 'Read the note' }} ↗</a>
         </div>
       {% endif %}
     </div>
-    {% if page.thesis.origin.photo %}
-      {% assign origin_photo = page.thesis.origin.photo %}
-      <aside class="home-thesis-margin" aria-label="One of the conversations behind this work">
-        {% capture origin_caption %}{{ origin_photo.caption }}<br>{{ origin_photo.date_label }}{% endcapture %}
-        {%
-          include figure.liquid
-          path=origin_photo.image
-          alt=origin_photo.alt
-          width=origin_photo.width
-          height=origin_photo.height
-          caption=origin_caption
-          sizes='(max-width: 767px) 192px, 208px'
-          loading='lazy'
-        %}
-        <a class="home-text-link" href="{{ page.thesis.origin.url | relative_url }}">Read the talk note ↗</a>
-      </aside>
-    {% endif %}
     {% if page.thesis.domain_note %}
       <p class="home-thesis-domain">{{ page.thesis.domain_note }}</p>
     {% endif %}

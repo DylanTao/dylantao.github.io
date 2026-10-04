@@ -80,10 +80,9 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 ## First-Glance Story
 
 - A rushed visitor should learn, within 15-30 seconds: who Sirui is, what problem space he studies, what he has built, why it matters, and where to click next.
-- Lead with a clear research statement, then show two concrete projects before elaborating the thesis.
+- Lead with the research motivation, then the Scaffolding for Taste thesis and selected publications. The lower publication selection supplies concrete evidence; project links remain available in the opening actions.
 - Every section answers one visitor question:
   - Start: Who is this?
-  - Work: What has Sirui built and studied?
   - Taste: What is the intellectual thread?
   - Focus: What are Sirui's research loops and areas?
   - Publications: What concrete evidence should I open first?
@@ -150,7 +149,7 @@ The September 2026 direction is an editorial research notebook and an inhabited 
 Current contracts:
 
 - Keep the keyboard skip link, semantic main landmark, inert collapsed panels, source-linked figures, and contextual Human/AI navigation.
-- Put selected DesignWeaver and What Happened and Why work after the homepage introduction, then thesis/focus, publications/updates, students, and contact. Explain the thesis once; the work supplies evidence.
+- Move from the homepage motivation through Scaffolding for Taste to the existing selected publications, then focus, updates, students, and contact. Explain the thesis once and omit the redundant upper selected-work feature. Center its reading column; the Don Norman photograph stays in the talk note and design notebook, while the homepage keeps the broader source credit and talk link.
 - Case-study links must be available on an unexpanded project card. Keep the optional preview, FLIP, tilt, and image morph as purposeful interactions.
 - A blog opening precedes its contents. One contents rail on desktop becomes one native disclosure on mobile; never stack competing contents controls.
 - Preserve the compact Wall of Rejection near the top of publications, its source credit, and its inspectable records.
