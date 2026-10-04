@@ -689,6 +689,7 @@ function onsenRegion(buffer, info) {
 test("coastal transport: native skin, rooted wind and conserved onsen waves survive pause and recovery", async ({ page }, testInfo) => {
   // CI renders the full-volume water pixel proof on a software GPU.
   if (process.platform === "linux") test.setTimeout(600000);
+  const softwareProof = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
   const errors = collectRuntimeErrors(page);
   // Let native field preparation finish without continuous software-rendered
   // frames competing for CI's CPU. Restore motion before all simulation proof.
@@ -710,6 +711,32 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   await page.clock.setFixedTime(clockTime);
   await page.clock.pauseAt(clockTime);
   await page.clock.setSystemTime(clockTime);
+  if (softwareProof) {
+    // Exercise the same elapsed simulation intervals at a bounded virtual RAF
+    // cadence. Linux's full-volume draw can take seconds per frame: forcing
+    // 60 virtual frames per second consumes the proof's entire wall budget.
+    // Scene frames still draw real pixels; no runFor interval, solver,
+    // render target, material, asset or assertion is omitted or reduced.
+    await page.evaluate(() => {
+      const pending = new Set(),
+        cancelOriginal = window.cancelAnimationFrame.bind(window);
+      window.coastalProofCadence = { virtualHz: 15, timestamps: [] };
+      window.requestAnimationFrame = (callback) => {
+        const id = window.setTimeout(() => {
+          pending.delete(id);
+          const now = performance.now();
+          window.coastalProofCadence.timestamps.push(now);
+          callback(now);
+        }, 1000 / 15);
+        pending.add(id);
+        return id;
+      };
+      window.cancelAnimationFrame = (id) => {
+        if (pending.delete(id)) window.clearTimeout(id);
+        else cancelOriginal(id);
+      };
+    });
+  }
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await explore(ui);
   await ui.locator("[data-world-pause]").click();
@@ -838,7 +865,30 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(errors).toEqual([]);
   fs.writeFileSync(
     testInfo.outputPath("coastal-transport-evidence.json"),
-    JSON.stringify({ still, resting, moving, paused, hidden, recovered, reduced, departed, waterDiff }, null, 2)
+    JSON.stringify(
+      {
+        still,
+        resting,
+        moving,
+        paused,
+        hidden,
+        recovered,
+        reduced,
+        departed,
+        waterDiff,
+        sampling: await canvas.evaluate((element) => {
+          const gl = element.getContext("webgl2"),
+            debug = gl?.getExtension("WEBGL_debug_renderer_info");
+          return {
+            cadence: window.coastalProofCadence || { virtualHz: 60, timestamps: [] },
+            renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : null,
+            performanceBenchmark: false,
+          };
+        }),
+      },
+      null,
+      2
+    )
   );
 });
 

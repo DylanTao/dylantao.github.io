@@ -41,7 +41,15 @@ CDP reports a 21.46 MB used JavaScript heap and 64.32 MB total heap for the cand
 - 168 Python and 58 relevant Node numerical/state tests pass. The style contract and override audit pass; the existing 80 override acknowledgements remain unchanged.
 - All 20 original GLBs and all 445 validated image files are retained with matching hashes in both production profiles. No Blender geometry, visual treatment, shader, solver, dependency, credentials, worktree or existing server was replaced.
 
-Raw evidence lives in `.jekyll-cache/visual-qa/scene-diagnosis-20261004T0136Z/`: `qualified-performance-summary.json`, `*-realclock-*.json`, CPU profiles, loading/transport screenshots, CI logs and original source backups. Initial failed test/profiler receipts remain alongside corrected results. Full Linux CI has not been rerun for this checkpoint; no green full-matrix claim is made.
+Raw evidence lives in `.jekyll-cache/visual-qa/scene-diagnosis-20261004T0136Z/`: `qualified-performance-summary.json`, `*-realclock-*.json`, CPU profiles, loading/transport screenshots, CI logs and original source backups. Initial failed test/profiler receipts remain alongside corrected results. The initial local checkpoint did not include a full Linux run; the post-push outcome is recorded below.
+
+## Linux release follow-up
+
+The normal push of `5ab7a8b` deployed successfully; its generated Pages commit is `26511dc232ac27c9ed72e679be0c843603d82e91`. Live module bytes match the tested source, and the published first-frame loading case passes with real room and avatar assets. The [exact-commit Linux run](https://github.com/DylanTao/dylantao.github.io/actions/runs/37171843485) finishes with all four site streams and legacy passing. The four scene streams progress past the old clock race and then exhaust the existing 600-second transport budget. In the phone trace, `runFor(900)` takes 301 seconds while drawing the full native volume; the next `runFor(2400)` cannot finish before the deadline.
+
+The follow-up fixture uses a disclosed 15 Hz virtual RAF cadence for Linux/software proof and retains the default cadence for native checks. All 69 assertions, every `runFor` interval, solver code, actual assets, effects and render dimensions remain unchanged. The controller samples elapsed time, so the complete simulation interval still advances and sampled scene frames use the actual renderer. Cancellation preserves pending-frame suspension. The proof records its virtual timestamps and actual GPU renderer; it is explicitly excluded from performance measurements.
+
+Local forced SwiftShader proof passes in 2.0 minutes with 3.2 simulated seconds of steam advancement, relative water-mass error `7.45e-16` and a measured water-patch pixel change of `0.0417`. The native cadence also passes in 41.4 seconds. These are fixture results, not an app rendering-speed improvement. Follow-up logs and traces live in `.jekyll-cache/visual-qa/scene-publication-20261004T0240Z/`; the replacement Linux matrix must complete before this release is considered verified.
 
 ## Reproduce and next bounded work
 
