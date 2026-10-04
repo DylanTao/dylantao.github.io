@@ -634,13 +634,22 @@ function onsenRegion(buffer, info) {
 }
 
 test("coastal transport: native skin, rooted wind and conserved onsen waves survive pause and recovery", async ({ page }, testInfo) => {
+  // CI renders the full-volume water pixel proof on a software GPU.
+  if (process.platform === "linux") test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-02T13:20:00-07:00" });
+  // Let native field preparation finish without continuous software-rendered
+  // frames competing for CI's CPU. Restore motion before all simulation proof.
+  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", time: "2026-10-02T13:20:00-07:00" });
   await settleRoomModels(scene);
-  await page.waitForFunction(() => {
-    const sim = document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.()?.simulation;
-    return sim?.steam?.ready && sim?.lightField?.ready;
-  });
+  await page.waitForFunction(
+    () => {
+      const sim = document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.()?.simulation;
+      return sim?.steam?.ready && sim?.lightField?.ready;
+    },
+    null,
+    { timeout: 60000 }
+  );
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 1000);
   await explore(ui);
   await ui.locator("[data-world-pause]").click();
@@ -733,8 +742,11 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   await ui.locator("[data-world-lab]>summary").click();
   await canvas.scrollIntoViewIfNeeded();
   await page.clock.runFor(200);
-  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  // Leave the scene through the next reading section. Going to the footer
+  // would start a second WebGL renderer during this suspension-only check.
+  await scene.evaluate((element) => window.scrollTo({ top: scrollY + element.getBoundingClientRect().bottom + 64, behavior: "instant" }));
   await page.clock.runFor(100);
+  await expect.poll(() => scene.evaluate((element) => element.getBoundingClientRect().bottom)).toBeLessThan(0);
   await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
   const hidden = await evidence(scene);
   await page.clock.runFor(5000);
