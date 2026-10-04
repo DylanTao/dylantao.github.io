@@ -1436,7 +1436,9 @@ export function createCoastalHome(container, records, artifacts) {
     target.lerp(desiredTarget, cameraEase);
     radius = THREE.MathUtils.lerp(radius, desiredRadius, cameraEase);
     const fov = THREE.MathUtils.lerp(perspective.fov, desiredFov, cameraEase);
-    if (Math.abs(fov - perspective.fov) > 0.00001) {
+    // A composed still reaches the exact lens, including a residual smaller
+    // than the live camera's projection-update threshold.
+    if (fov !== perspective.fov && (reduced || paused || Math.abs(fov - perspective.fov) > 0.00001)) {
       perspective.fov = fov;
       perspective.updateProjectionMatrix();
     }
