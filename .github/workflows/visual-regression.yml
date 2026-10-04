@@ -73,13 +73,25 @@ jobs:
     name: Visual checkpoints (${{ matrix.viewport }}, ${{ matrix.stream }})
     runs-on: ubuntu-latest
     # Each viewport/stream gets an isolated runner with one browser worker.
-    # Four scene shards cover every individual case within the 50-minute cap;
-    # site captures and software WebGL continue to use separate processes.
+    # Named groups keep long software proofs inside the 50-minute cap.
+    # Actual Playwright registration proves complete, disjoint coverage before
+    # each group runs; no individual case or intentional skip is removed.
+    # Site captures and software WebGL continue to use separate processes.
     strategy:
       fail-fast: false
       matrix:
         viewport: [desktop-1440, laptop-1280, tablet-768, mobile-390]
-        stream: [scene-1, scene-2, scene-3, scene-4, site]
+        stream:
+          - scene-core-1
+          - scene-core-2
+          - scene-exploration
+          - scene-gym
+          - scene-choreography
+          - scene-held-stairs
+          - scene-live
+          - scene-journey
+          - scene-footer-light
+          - site
         include:
           - viewport: desktop-1440
             stream: legacy
@@ -106,7 +118,7 @@ jobs:
       - name: Verify starter and visual contracts
         run: |
           npm run lint:style-contract
-          node --test test/companion.test.mjs test/coastal-routine.test.mjs test/coastal-navigation.test.mjs test/coastal-camera.test.mjs
+          node --test test/companion.test.mjs test/coastal-routine.test.mjs test/coastal-navigation.test.mjs test/coastal-camera.test.mjs test/visual_scene_groups.test.mjs
 
       - name: Install Jekyll and image runtime dependencies
         run: |
@@ -167,10 +179,7 @@ jobs:
           python3 test/validate_publication_outputs.py _site
           # Surface the first defect promptly; a passing run still covers every case.
           if [[ "$VISUAL_STREAM" == scene-* ]]; then
-            SCENE_SHARD="${VISUAL_STREAM#scene-}"
-            # fully-parallel makes sharding operate on individual tests rather
-            # than whole files. One worker still serializes every scene draw.
-            npm run test:visual:scene -- --project "$VISUAL_PROJECT" --shard "$SCENE_SHARD/4" --fully-parallel --workers=1 --max-failures=1
+            node bin/run_visual_scene_group.cjs "$VISUAL_STREAM" --project "$VISUAL_PROJECT" --workers=1 --max-failures=1
           elif [ "$VISUAL_STREAM" = "site" ]; then
             npm run test:visual:site -- --project "$VISUAL_PROJECT" --max-failures=1
           fi
@@ -193,6 +202,7 @@ jobs:
             test-results/public-visual-site
             test-results/public-visual-scene
             test-results/legacy-visual
+            test-results/scene-group-inventory
           if-no-files-found: ignore
 
       - name: Upload Jekyll logs

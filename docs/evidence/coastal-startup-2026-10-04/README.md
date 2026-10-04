@@ -119,6 +119,20 @@ Pages for `672c4d06` succeeds at generated commit `32eb04b11af7cbb9d44b3a61ab762
 
 Receipts live in `.jekyll-cache/visual-qa/scene-publication-20261004T0240Z/`: `visual-672-terminal.json`, `linux-672-clock-trace-summary.json`, `wave-gym-routine-software-v5-report.json`, `live-routine-software-v6-report.json`, `routine-software-v9-report.json`, `routine-software-v9/`, `final-fixture-native-v10-report.json`, `wave-routine-assertion-preservation.json`, `native-journey-video-inspection.json`, `native-journey-shard-coverage.json`, `native-journey-release-asset-validation.json` and `clock-live-source-validation.json`. Prior failures, raw video and native frame logs remain alongside the final focused passes.
 
+## Complete scene groups and paused routine preparation
+
+The [cf4be648 Linux matrix](https://github.com/DylanTao/dylantao.github.io/actions/runs/37198844516) is terminal with 16 successful jobs and five failures. All four gym proofs complete, and desktop departure completes. Every scene-3 failure then exhausts the unchanged 300-second breakfast recovery budget without a failed state predicate. Tablet and phone traces spend 124 seconds on the original 2,000 ms moving setup and 38–44 seconds on each 700 ms recovery sample. Both preserve phase, ownership and exact Root through the completed recovery modes before their deadline. Desktop completes eleven cases in 24 minutes before breakfast; laptop takes approximately 28 minutes. Completing the remainder in that same shard threatens the 50-minute cap.
+
+Desktop scene-4 fails before its routine starts. All six room GLBs return successfully, but continuous software rendering delays the initial canvas preparation by 95.49 seconds and a scene read by 63.71 seconds. The inner six-room comparison succeeds after the outer 60-second poll deadline. The routine now prepares every room, the real controls, overview and its screenshot under reduced motion, then enables native motion before the existing sampler and Date/timer trigger. The shared readiness timeout and every journey predicate remain unchanged. The two choreography cases receive a scoped 600-second Linux/forced-software allowance; their 2,000 ms setup, 43/55-second phase advance, 700 ms samples and all four recovery modes remain intact.
+
+The reviewed CI partition retains two green core groups of 21 and 20 cases. The other groups contain exploration (13), gym (1), choreography (2), held objects and stairs (3), live suspension (1), native journey (1), and footer/light (19). These nine groups retain one worker, the 50-minute job cap, all four site jobs and the existing legacy job. Every scene job first enumerates the unfiltered registry and all nine selections with actual Playwright `--list` JSON. Exact file/title membership rejects missing, extra or duplicate cases before browser execution. Local enumeration proves all 81 cases appear once at each viewport. Complete assertion-AST and skip-rule comparison preserves every original predicate and all 21 defining skip rules across 70 defining test bodies. Full execution of the new 41-job matrix remains a separate acceptance gate.
+
+Targeted SwiftShader routine proof passes in 151.6 seconds within its original 300-second budget and records a rendered stair position at 1.97 m. A headless native-browser proof against the deployed site passes in 38.6 seconds. The initial `v11` receipt used the Windows native backend despite its software fixture flag; its qualification receipt preserves that distinction, and `v13` uses the explicit SwiftShader launch configuration. The complete scene-4 check also catches a responsive-poster selection race before decoding. It now waits for the actual noon source, using the existing preview-check convention, and retains the original decode, handoff and pixel predicates. A later map check requires read-only public tile access that the restricted execution sandbox blocks; those errors are retained rather than filtered from its console assertion. With the original public tile requests available, the complete 20-case desktop scene-4 roster passes in 8.3 minutes: 18 pass and the two existing phone-only cases skip.
+
+Pages for `cf4be648` completes at generated commit `2dc44acf69690ff777c3b8b6c8c521771554fcc9`, whose message pins the full source SHA. Deployed controller and minified format hashes match the tested production outputs, and all four homepage responsive fallbacks remain picture-scoped. Application source and assets remain unchanged by this checkpoint. Fixture capacity and CI partitioning establish no runtime performance improvement.
+
+Receipts live in `.jekyll-cache/visual-qa/scene-publication-20261004T0240Z/`: `visual-cf4-terminal.json`, `native-journey-preparation-linux-failure.json`, `linux-cf4-case-capacity.json`, `linux-cf4-choreography-trace-summary.json`, `routine-v11-backend-qualification.json`, `routine-software-v13-report.json`, `routine-native-live-v12-report.json`, `named-scene-group-inventory.log`, `named-scene-assertion-skip-preservation.json`, `scene4-software-v14-report.json`, `scene4-software-v15-report.json`, `scene4-software-v16-report.json` and `native-journey-live-source-validation.json`. Prior failures, raw videos and every original asset remain available.
+
 ## Reproduce and next bounded work
 
 ```powershell
@@ -126,6 +140,13 @@ $env:COASTAL_PROFILE_URL='http://127.0.0.1:8080/'
 $env:COASTAL_PROFILE_WIDTH='1440'
 $env:COASTAL_PROFILE_DPR='1'
 node bin/profile_coastal_startup.cjs .jekyll-cache/visual-qa/coastal-startup.json
+```
+
+```powershell
+$env:NO_WEBSERVER='1'
+$env:VISUAL_BASE_URL='http://127.0.0.1:4116/al-folio'
+node bin/run_visual_scene_group.cjs scene-core-1 --project all --verify-only
+node bin/run_visual_scene_group.cjs scene-gym --project desktop-1440 --workers=1 --max-failures=1
 ```
 
 Use one owned server and one headless browser worker. For the next performance experiment, inspect async shader/program preparation against the actual composer render target and its shadow/contact/transmission variants, preserving first-frame pixels and error reporting. Then profile the exterior's reflection and draw submissions separately. Do not infer benefits from byte size alone or reduce geometry/effects to make a software-GPU test pass. Reference-dependent art/face/cliff/interior changes remain separate until the required reference pixels are available.

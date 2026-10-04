@@ -1,0 +1,348 @@
+{
+  "head": "cf4be648da5804dce8912fa5be8d9e2351ce283b",
+  "manifestOrder": ["companion.spec.js", "desk-scene.spec.js", "footer-coast.spec.js", "static-light-field.spec.js"],
+  "groups": {
+    "scene-core-1": [
+      {
+        "file": "companion.spec.js",
+        "title": "P: moving content clears its painted surface immediately"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: reading surfaces stay clear after content reflows"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: its former project address redirects to the current page"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: public page journeys, interrupted portals, and reduced motion stay usable"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: its project link opens a working motion playground with visible credits"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: a partially visible playground sleeps until it owns the shared companion"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: playground respects reduced motion and a failed model keeps the room usable"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: 2D greeting, shaded companion, pointer curiosity and clear page bounds"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: a small accident restores the original card and text"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: reduced motion is a still pose; hidden controls leave the tab order"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: one companion transfers between room and reading surface"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: graphics failure keeps an accessible composed companion"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: old nap storage recovers automatically and a journey starts within eight seconds"
+      },
+      {
+        "file": "companion.spec.js",
+        "title": "P: a slow frame rate does not delay its autonomous schedule"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal steam: native GPU extinction, opaque clipping and nearest glass segmentation"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record: a discovered card keeps its source link keyboard activation"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal transport: cold onsen arrival waits for a delayed avatar before filling its footprint"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record: on-disc controls, continuous rotation, and offscreen suspension"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record physics: the needle lifts before artwork changes and rapid cues preserve phase"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record physics: delayed graphics keep the same interruptible 2D mechanics"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record physics: unavailable graphics keep the same interruptible 2D mechanics"
+      }
+    ],
+    "scene-core-2": [
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record physics: native skip then pause retains artwork until the needle clears"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record physics: unavailable skip then pause retains artwork until the needle clears"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record physics: touch transport keeps cues reachable and preserves spin across 2D/3D"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record physics: a late old texture cannot replace the newest cue and disposal stays quiet"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record physics: reduced motion composes the SVG player without requesting Three"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record: touch skip retains a visible play/pause cue with reduced motion"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal loading: the occupied room and avatar precede the first ready frame"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal transport: native skin, rooted wind and conserved onsen waves survive pause and recovery"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal physics: dispersive water changes visible pixels, shares La Jolla light, and suspends cleanly"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal physics: the study label transfers only above contact and keeps the newest album"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: quiet public controls, capybara wall art and a new arrival on refresh"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: the lab stays minimal and realistic with obsolete saved styles"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: light scene fades completely before every canvas edge"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: light composition, connected rooms, actual orbit and zoom"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: dark scene fades completely before every canvas edge"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: dark composition, connected rooms, actual orbit and zoom"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: all five avatars retain one actor, shared wall art and album state"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: compiled avatar replacements release their bone textures"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "character performance: attention settles and eyelids respect pause and reduced motion"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "character performance: P acknowledges a visitor without changing the room or camera"
+      }
+    ],
+    "scene-exploration": [
+      {
+        "file": "desk-scene.spec.js",
+        "title": "character performance: rapid room changes preserve P's airborne floor and queue the latest destination"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "character performance: P finishes a wave without listening to a departed visitor"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal neighbours: keyboard inspection, on-animal return, zoom and Back inside preserve the room state"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: modified and composing canvas shortcuts preserve the view"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal neighbours: new raccoon and birds expose real close views without extra public controls"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: full exterior orbit and guided interior camera boundaries"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: composed activities and previews survive clock changes until Now"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: album focus, playback, discovery, mode sharing, and paper navigation"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: an initial room load survives a persisted return"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: an initial room load aborts quietly on teardown"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: touch pinch zoom changes the projection and returns to Now"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: a failed mesh restores 2D and a retry creates one set of controls"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: a failed decoder restores 2D and a retry creates one set of controls"
+      }
+    ],
+    "scene-gym": [
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: the gym frames the face and full exercise poses, then restores the normal lens"
+      }
+    ],
+    "scene-choreography": [
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: breakfast choreography resumes through visibility and mode recovery"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: workout choreography resumes through visibility and mode recovery"
+      }
+    ],
+    "scene-held-stairs": [
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: pausing breakfast keeps the held object and resumes its phase"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: pausing workout keeps the held object and resumes its phase"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: recovery preserves a stair journey and composes a changed clock activity"
+      }
+    ],
+    "scene-live": [
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: live animation pauses offscreen and recovers after a hidden tab"
+      }
+    ],
+    "scene-journey": [
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: a routine boundary walks through the home before settling into the onsen"
+      }
+    ],
+    "scene-footer-light": [
+      {
+        "file": "footer-coast.spec.js",
+        "title": "La Jolla guide: names select actual landmarks without moving the view"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "La Jolla guide: sources and notes remain usable when WebGL is unavailable"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal loading: responsive, theme-matched stills preserve the first frame"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "La Jolla loading: both miniature frames retain their scale and lighting"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal loading with a visible scrollbar: preview and camera agree at the phone boundary"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal loading: a slow model arrives complete without fading through an empty canvas"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal footer: automatic morning light and full width composition"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal footer: automatic noon light and full width composition"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal footer: automatic afternoon light and full width composition"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal footer: automatic evening light and full width composition"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal scenes: lazy loading, automatic movement, offscreen pause and reversible reveal"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "homepage story: rail stays in its first-paint position while scripts load"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal navigation: helper clears the reading column and return control stays in the corner"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "La Jolla miniature: keyboard orbit, static reduced motion, and map attribution"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal footer: phone navigation reaches both landmark wings and returns home"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal scenes: reduced motion and WebGL context recovery"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "La Jolla miniature: touch orbit preserves vertical page scrolling"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal scenes: missing model and no JavaScript retain real rendered fallbacks"
+      },
+      {
+        "file": "static-light-field.spec.js",
+        "title": "static light field: native linear GPU diffuse matches traced cache without doubled hemisphere"
+      }
+    ]
+  }
+}

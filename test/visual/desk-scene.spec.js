@@ -1908,6 +1908,9 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
 
 for (const activity of ["breakfast", "workout"]) {
   test(`coastal home: ${activity} choreography resumes through visibility and mode recovery`, async ({ page }, testInfo) => {
+    // Linux takes 124 s for the original 2 s warm-up and 38–44 s per
+    // 700 ms recovery sample. Retain all four modes and the 10 Hz frames.
+    if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
     const errors = collectRuntimeErrors(page);
     const { scene, canvas, ui } = await openClockedHome(page, { time: "2026-10-02T11:45:00-07:00" });
     await explore(ui);
@@ -2245,7 +2248,7 @@ test("coastal home: a routine boundary walks through the home before settling in
   try {
     // Native frames keep this representative journey live. The Date refresh
     // jump must not advance the animation by thirty seconds before observation.
-    const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", nativeFrames: true });
+    const { scene, canvas, ui } = await openHome(page, { motion: "reduce", nativeFrames: true });
     await settleRoomModels(scene);
     // Set the actual overview camera before observing the short live journey,
     // so native walking/stair pixels include the actor as it changes floors.
@@ -2257,6 +2260,10 @@ test("coastal home: a routine boundary walks through the home before settling in
     await canvas.screenshot({ path: testInfo.outputPath("journey-overview-ready.png") });
     // Date/timers wait for the explicit refresh; RAF/performance stay native.
     await pauseSceneClock(page, { advanceDate: false });
+    // Stream all six real rooms and compose the actual overview before native
+    // motion begins. Continuous software draws must not starve that setup.
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await expect(ui.locator("[data-world-pause]")).toBeEnabled();
     await scene.evaluate((element) => {
       const initial = element.getSceneEvidence(),
         deadline = performance.now() + 30000,

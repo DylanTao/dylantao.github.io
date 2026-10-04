@@ -157,6 +157,9 @@ test("coastal loading: a slow model arrives complete without fading through an e
     await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
     const host = page.locator("footer [data-footer-coast]");
     await host.evaluate((e) => scrollTo({ top: scrollY + e.getBoundingClientRect().top - innerHeight + 100, behavior: "instant" }));
+    // The responsive poster selects its noon source after the lazy reveal.
+    // Wait for that actual source before decoding, as preview checks do.
+    await expect.poll(() => host.locator(".footer-coast__poster").evaluate((image) => image.currentSrc)).toContain("-noon.webp");
     await host.locator(".footer-coast__poster").evaluate((image) => image.decode());
     await host.evaluate((e) => {
       window.coastHandoff = [];
