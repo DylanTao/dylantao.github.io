@@ -1397,6 +1397,9 @@ test("character performance: rapid room changes preserve P's airborne floor and 
 
 test("character performance: P finishes a wave without listening to a departed visitor", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "Pointer departure; bounded touch invitations retain their separate expiry contract.");
+  // Full software-rendered gesture samples need wall time independently of
+  // their authored virtual duration. Keep the existing native budget.
+  if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
   const { scene, canvas } = await openClockedHome(page, { time: "2026-10-02T13:20:00-07:00" });
   await beginClockedMotion(page, canvas);
@@ -1416,7 +1419,11 @@ test("character performance: P finishes a wave without listening to a departed v
   expect(returning.companion.gesture).toBe("rest");
   await page.clock.runFor(1300);
   const quiet = await evidence(scene);
-  fs.writeFileSync(testInfo.outputPath("departed-visitor.json"), JSON.stringify({ start, wave, returning, quiet, errors }, null, 2));
+  const cadence = await page.evaluate(() => window.coastalProofCadence ?? null);
+  fs.writeFileSync(
+    testInfo.outputPath("departed-visitor.json"),
+    JSON.stringify({ start, wave, returning, quiet, cadence, errors, performanceBenchmark: false }, null, 2)
+  );
   expect(quiet.companion.attention.phase).toBe("task");
   expect(quiet.companion.gesture).toBe("rest");
   expect(quiet.companion.attention.greetings).toBe(start.companion.attention.greetings + 1);
@@ -1775,6 +1782,9 @@ for (const persisted of [true, false]) {
 }
 
 test("coastal home: the gym frames the face and full exercise poses, then restores the normal lens", async ({ page }, testInfo) => {
+  // Four complete poses plus fourteen actual orbit frames remain one proof.
+  // This allowance is software fixture capacity, not an application speedup.
+  if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(1200000);
   const errors = collectRuntimeErrors(page);
   const view = await openClockedHome(page, { time: "2026-10-02T13:20:00-07:00" });
   const { scene, canvas, ui } = view;
@@ -1782,8 +1792,13 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
   await ui.locator("[data-world-avatar]").selectOption("ghibli");
   await settleAvatarLoad(ui);
   await expect(scene).toHaveAttribute("data-avatar", "ghibli");
-  await beginClockedMotion(page, canvas);
+  await canvas.scrollIntoViewIfNeeded();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(ui.locator("[data-world-pause]")).toBeEnabled();
   await sceneInputFrame(page, view, () => ui.locator("[data-world-pause]").click());
+  // Every tested pose resets its sequence below. Keep the 1.4 s setup
+  // advance while paused instead of rendering a discarded moving warm-up.
+  await page.clock.runFor(1400);
   const rows = [];
   for (const [seconds, phase] of [
     [12, "pull-ups"],
@@ -2077,16 +2092,24 @@ test("coastal home: recovery preserves a stair journey and composes a changed cl
 });
 
 test("coastal home: live animation pauses offscreen and recovers after a hidden tab", async ({ page }, testInfo) => {
+  // The Linux phone trace spends 71/72 s on its two real pixel captures.
+  // Retain those native frames and observation windows with a scoped budget.
+  if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
   // Keep genuine live observation windows without fake RAF catch-up on a
   // slow renderer. Date/timers still support the original 30-second refresh.
-  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", nativeFrames: true });
+  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", nativeFrames: true });
   // A newly streamed room legitimately requests one still redraw while paused.
   // Settle those loads before using frame counts to detect ongoing animation.
   await settleRoomModels(scene);
+  // Open the actual controls during preparation. Software draws must not
+  // compete with disclosure/layout work inside the live observation window.
+  await explore(ui);
+  await canvas.scrollIntoViewIfNeeded();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(ui.locator("[data-world-pause]")).toBeEnabled();
   const before = await canvas.screenshot();
   await page.waitForTimeout(650);
   expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.0002);
-  await explore(ui);
   await ui.locator("[data-world-pause]").click();
   await expect(ui.locator("[data-world-pause]")).toHaveAttribute("aria-pressed", "true");
   await canvas.scrollIntoViewIfNeeded();
@@ -2209,39 +2232,122 @@ for (const [failure, asset] of [
   });
 }
 
-test("coastal home: a routine boundary walks through the home before settling into the onsen", async ({ page }, testInfo) => {
+test("coastal home: a routine boundary walks through the home before settling into the onsen", async ({ browser }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "Representative live transition; clock boundaries are covered separately.");
-  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });
-  await settleRoomModels(scene);
-  await page.clock.setSystemTime(new Date("2026-09-11T18:15:01-07:00"));
-  await page.clock.fastForward(30001);
-  await expect(scene).toHaveAttribute("data-animation", "walk");
-  const start = (await evidence(scene)).joints.Root;
-  await page.waitForTimeout(600);
-  const moved = (await evidence(scene)).joints.Root;
-  expect(Math.hypot(moved[0] - start[0], moved[2] - start[2])).toBeGreaterThan(0.1);
-  await explore(ui);
-  await ui.locator('[data-world-room="overview"]').click();
-  await canvas.scrollIntoViewIfNeeded();
-  await capture(testInfo, "walking-between-rooms", await canvas.screenshot());
-  const climbSamples = [];
+  const context = await browser.newContext({
+    viewport: { width: 1440, height: 1000 },
+    deviceScaleFactor: 1,
+    locale: "en-US",
+    timezoneId: "America/Los_Angeles",
+    recordVideo: { dir: testInfo.outputPath("native-video"), size: { width: 1440, height: 1000 } },
+  });
+  const page = await context.newPage();
   try {
-    await expect
-      .poll(
-        async () => {
-          const sample = await evidence(scene);
-          climbSamples.push({ frames: sample.frames, seconds: sample.animationSeconds, navigation: sample.navigation, root: sample.joints.Root });
-          return sample.joints.Root[1];
-        },
-        { timeout: 25000 }
-      )
-      .toBeGreaterThan(0.5);
+    // Native frames keep this representative journey live. The Date refresh
+    // jump must not advance the animation by thirty seconds before observation.
+    const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", nativeFrames: true });
+    await settleRoomModels(scene);
+    // Set the actual overview camera before observing the short live journey,
+    // so native walking/stair pixels include the actor as it changes floors.
+    await explore(ui);
+    await ui.locator('[data-world-room="overview"]').click();
+    await canvas.scrollIntoViewIfNeeded();
+    // Finish the real overview's initial shader/render work before the route
+    // starts. Its preparation must not consume the short live walking phase.
+    await canvas.screenshot({ path: testInfo.outputPath("journey-overview-ready.png") });
+    // Date/timers wait for the explicit refresh; RAF/performance stay native.
+    await pauseSceneClock(page, { advanceDate: false });
+    await scene.evaluate((element) => {
+      const initial = element.getSceneEvidence(),
+        deadline = performance.now() + 30000,
+        proof = {
+          samples: [],
+          initialFrames: initial.frames,
+          frameClock: window.coastalProofFrameClock,
+          pixelEvidence: "Native browser video and original canvas screenshots",
+        };
+      window.coastalRoutineJourneyProof = proof;
+      let observedFrame = initial.frames;
+      function observe(now) {
+        const state = element.getSceneEvidence();
+        if (state.frames > observedFrame) {
+          observedFrame = state.frames;
+          const sample = {
+            now,
+            frames: state.frames,
+            seconds: state.animationSeconds,
+            animation: element.dataset.animation,
+            navigation: state.navigation,
+            root: state.joints.Root,
+          };
+          proof.samples.push(sample);
+        }
+        if (now < deadline && proof.samples.length < 2000) requestAnimationFrame(observe);
+      }
+      requestAnimationFrame(observe);
+    });
+    try {
+      await page.clock.setSystemTime(new Date("2026-09-11T18:15:01-07:00"));
+      // The actual DOM waiter starts before the short route is triggered.
+      const walkingObserved = (async () => {
+        await expect(scene).toHaveAttribute("data-animation", "walk");
+      })();
+      await Promise.all([walkingObserved, page.clock.fastForward(30001)]);
+      await expect
+        .poll(() =>
+          page.evaluate(() =>
+            window.coastalRoutineJourneyProof.samples.some((sample) => sample.animation === "walk" && sample.navigation?.progress > 0)
+          )
+        )
+        .toBe(true);
+      const first = await page.evaluate(() =>
+        window.coastalRoutineJourneyProof.samples.find((sample) => sample.animation === "walk" && sample.navigation?.progress > 0)
+      );
+      const start = first.root;
+      await page.waitForTimeout(600);
+      await expect
+        .poll(() =>
+          page.evaluate(
+            (since) => window.coastalRoutineJourneyProof.samples.some((sample) => sample.now >= since.now + 600 && sample.frames > since.frames),
+            first
+          )
+        )
+        .toBe(true);
+      const moved = await page.evaluate(
+        (since) => window.coastalRoutineJourneyProof.samples.find((sample) => sample.now >= since.now + 600 && sample.frames > since.frames).root,
+        first
+      );
+      expect(Math.hypot(moved[0] - start[0], moved[2] - start[2])).toBeGreaterThan(0.1);
+      await explore(ui);
+      await ui.locator('[data-world-room="overview"]').click();
+      await canvas.scrollIntoViewIfNeeded();
+      await capture(testInfo, "walking-between-rooms", await canvas.screenshot());
+      const climbSamples = [];
+      try {
+        await expect
+          .poll(
+            async () => {
+              const sample = await evidence(scene);
+              climbSamples.push({ frames: sample.frames, seconds: sample.animationSeconds, navigation: sample.navigation, root: sample.joints.Root });
+              return sample.joints.Root[1];
+            },
+            { timeout: 25000 }
+          )
+          .toBeGreaterThan(0.5);
+      } finally {
+        await testInfo.attach("stair-timing", { body: JSON.stringify(climbSamples, null, 2), contentType: "application/json" });
+      }
+      await capture(testInfo, "walking-up-the-stair", await canvas.screenshot());
+      await expect(scene).toHaveAttribute("data-animation", "soak", { timeout: 18000 });
+      const soaked = await evidence(scene);
+      expect(soaked.joints.Root[1] - soaked.activityFloor).toBeLessThan(-0.4);
+      expect(soaked.activityFloor).toBe(2.6);
+    } finally {
+      const proof = await page.evaluate(() => window.coastalRoutineJourneyProof);
+      fs.writeFileSync(testInfo.outputPath("native-journey-frames.json"), JSON.stringify({ ...proof, performanceBenchmark: false }, null, 2));
+    }
   } finally {
-    await testInfo.attach("stair-timing", { body: JSON.stringify(climbSamples, null, 2), contentType: "application/json" });
+    await context.close();
+    await testInfo.attach("native-journey-video", { path: await page.video().path(), contentType: "video/webm" });
   }
-  await capture(testInfo, "walking-up-the-stair", await canvas.screenshot());
-  await expect(scene).toHaveAttribute("data-animation", "soak", { timeout: 18000 });
-  const soaked = await evidence(scene);
-  expect(soaked.joints.Root[1] - soaked.activityFloor).toBeLessThan(-0.4);
-  expect(soaked.activityFloor).toBe(2.6);
 });
