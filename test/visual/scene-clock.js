@@ -7,15 +7,16 @@ async function pauseSceneClock(page, { advanceDate = true } = {}) {
   if (advanceDate) await page.clock.setSystemTime(time);
 }
 
-async function useSoftwareSceneCadence(page) {
+async function useSoftwareSceneCadence(page, { continuousHz = 10 } = {}) {
   if (process.platform !== "linux" && process.env.VISUAL_TRANSPORT_SOFTWARE !== "1") return;
-  await page.evaluate(() => {
+  await page.evaluate((virtualHz) => {
     const pending = new Set(),
       cancelOriginal = window.cancelAnimationFrame.bind(window);
     let inFrame = false;
     // A new input still draws promptly. Continuous callbacks sample the full
-    // elapsed interval at 10 Hz, retaining the actual solver and rendered pixels.
-    window.coastalProofCadence = { virtualHz: 10, firstFrameDelayMs: 16, timestamps: [] };
+    // elapsed interval at the disclosed cadence, retaining the actual solver
+    // and rendered pixels. Transport keeps 10 Hz for its 100 ms settle checks.
+    window.coastalProofCadence = { virtualHz, firstFrameDelayMs: 16, timestamps: [] };
     window.requestAnimationFrame = (callback) => {
       const id = window.setTimeout(
         () => {
@@ -29,7 +30,7 @@ async function useSoftwareSceneCadence(page) {
             inFrame = false;
           }
         },
-        inFrame ? 1000 / 10 : 16
+        inFrame ? 1000 / virtualHz : 16
       );
       pending.add(id);
       return id;
@@ -38,7 +39,7 @@ async function useSoftwareSceneCadence(page) {
       if (pending.delete(id)) window.clearTimeout(id);
       else cancelOriginal(id);
     };
-  });
+  }, continuousHz);
 }
 
 module.exports = { pauseSceneClock, useSoftwareSceneCadence };

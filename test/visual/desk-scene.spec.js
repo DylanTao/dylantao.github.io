@@ -877,7 +877,9 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
     { timeout: 60000 }
   );
   await pauseSceneClock(page);
-  await useSoftwareSceneCadence(page);
+  // This time-sampled ocean proof needs two real frames 500 ms apart. The
+  // complete renderer remains active; transport retains its separate 10 Hz.
+  await useSoftwareSceneCadence(page, { continuousHz: 2 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await explore(ui);
   await ui.locator("[data-world-time]").fill("800");
@@ -903,7 +905,7 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
   await capture(testInfo, "moving-water-region", seaRegion(after));
   await capture(testInfo, "physical-pacific", after);
   await ui.locator("[data-world-pause]").click();
-  await page.clock.runFor(100);
+  await page.clock.runFor(500);
   await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
   const frozen = (await evidence(scene)).ecology.water.seconds;
   await page.clock.runFor(250);
@@ -942,7 +944,7 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
   await testInfo.attach("physical-rendering-evidence", { path: proofFile, contentType: "application/json" });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(ui.locator("[data-world-pause]")).toBeDisabled();
-  await page.clock.runFor(100);
+  await page.clock.runFor(500);
   await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
   expect(errors).toEqual([]);
 });
@@ -1201,17 +1203,24 @@ test("coastal home: compiled avatar replacements release their bone textures", a
 
 test("character performance: attention settles and eyelids respect pause and reduced motion", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page, { motion: "no-preference", time: "2026-10-01T13:20:00-07:00" });
+  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", time: "2026-10-01T13:20:00-07:00" });
+  await settleRoomModels(scene);
+  await pauseSceneClock(page);
+  await useSoftwareSceneCadence(page, { continuousHz: 2 });
   await explore(ui);
   await ui.locator("[data-world-activity]").selectOption("work");
   await ui.locator("[data-world-avatar]").selectOption("ghibli");
   await expect(scene).toHaveAttribute("data-avatar", "ghibli");
   await expect.poll(async () => (await evidence(scene)).characterPerformance?.eyelidMeshes).toBeGreaterThan(0);
   await canvas.scrollIntoViewIfNeeded();
-  await page.waitForTimeout(1400);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.runFor(1400);
   const start = await evidence(scene);
   const rect = await canvas.boundingBox();
   await page.mouse.move(rect.x + rect.width * 0.76, rect.y + rect.height * 0.3);
+  // Hold the authored acknowledgement for observation, even when a full
+  // software-rendered frame costs longer than the gesture's wall-clock life.
+  await page.clock.runFor(500);
   await expect
     .poll(async () => ["glance", "acknowledge"].includes((await evidence(scene)).characterPerformance?.phase), { intervals: [30] })
     .toBe(true);
@@ -1220,10 +1229,12 @@ test("character performance: attention settles and eyelids respect pause and red
   expect(attention.attentionTarget.worldDirection.every(Number.isFinite)).toBe(true);
   expect(Math.sign(attention.eye[0] + attention.head[0])).toBe(Math.sign(attention.attentionTarget.angles[0]));
   expect(Math.hypot(...(await evidence(scene)).camera.map((value, i) => value - start.camera[i]))).toBeLessThan(0.03);
+  await page.clock.runFor(2600);
   await expect.poll(async () => (await evidence(scene)).characterPerformance?.phase).toBe("routine");
   await expect.poll(async () => (await evidence(scene)).characterPerformance?.blinkCount, { timeout: 10000 }).toBeGreaterThan(0);
 
   await ui.locator("[data-world-pause]").click();
+  await page.clock.runFor(500);
   await expect.poll(async () => (await evidence(scene)).characterPerformance?.phase).toBe("still");
   const paused = await evidence(scene);
   expect(paused.characterPerformance.blink).toEqual([0, 0]);
@@ -1233,14 +1244,21 @@ test("character performance: attention settles and eyelids respect pause and red
 
   await ui.locator("[data-world-pause]").click();
   await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(ui.locator("[data-world-pause]")).toBeDisabled();
   await ui.locator("[data-world-activity]").selectOption("sleep");
+  await page.clock.runFor(500);
   await expect.poll(async () => (await evidence(scene)).characterPerformance?.blink).toEqual([1, 1]);
   await ui.locator("[data-world-activity]").selectOption("work");
+  await page.clock.runFor(100);
   await expect.poll(async () => (await evidence(scene)).characterPerformance?.blink).toEqual([0, 0]);
   const still = await evidence(scene);
   expect(still.actorCount).toBe(1);
   expect(still.characterPerformance.headOnly).toBe(true);
   expect(still.animations).toHaveLength(14);
+  fs.writeFileSync(
+    testInfo.outputPath("character-attention-clock.json"),
+    JSON.stringify({ attention, paused: paused.characterPerformance, still: still.characterPerformance, performanceBenchmark: false }, null, 2)
+  );
   await capture(testInfo, "character-composed-return", await canvas.screenshot());
   expect(errors).toEqual([]);
 });
