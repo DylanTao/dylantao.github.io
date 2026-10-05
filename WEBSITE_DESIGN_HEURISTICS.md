@@ -163,6 +163,8 @@ Sirui's September 27 refinement gives Build Rhythm and the GitHub profile one ta
 
 The September 29 refinement retires diff collection from the default refresh and uses square-root spacing on Readable, with granular ticks and exact counts. The website plots days; the profile groups the same personal record by week. Keep completed-day and refresh dates explicit. GitHub's contribution calendar includes other activities and some replaced-history credits, so it is a different measure from the current eligible-branch commit count.
 
+The October 5 refinement uses one Build Rhythm stage with independent History, Daily, Weekly, and Cumulative views and a start/end-year range. All years restores the range while retaining the selected view. Weekly and Cumulative use a continuous date axis across years; annual boundaries never duplicate dates or reset accumulation. Cumulative labels recorded lifetime totals separately from commits added in the range and earlier carry-in. Preserve verified zeros, unreported dates, the exact last verified date, keyboard/touch inspection, and the native daily-value table.
+
 ## Objects And Materiality
 
 - Borrow Jackie Hu's portfolio as an interaction principle, not a visual costume: a personal site can feel like a small desk of artifacts when each object teaches something real about the person. Credit influences plainly; borrow principles, never assets, code, layout, or exact styling.

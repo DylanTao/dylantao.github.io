@@ -115,10 +115,86 @@ export function createCommitHistory(source) {
 }
 
 export function commitDateEvidence(day, history, today) {
-  if (!day.inYear) return "outside";
+  if (!(day.inRange ?? day.inYear)) return "outside";
   if (day.recorded) return day.commits === 0 ? "zero" : "recorded";
   if (day.date < history.startsOn) return "precoverage";
   return day.date > today ? "future" : "unverified";
+}
+
+// A range is one continuous calendar, not a concatenation of annual charts.
+// Boundary weeks include only selected dates; earlier recorded work stays in
+// carryIn so range growth and lifetime totals remain separate quantities.
+export function createCommitRange(history, startYear, endYear) {
+  const firstYear = history.years[0].year;
+  const lastYear = history.years.at(-1).year;
+  if (!Number.isSafeInteger(startYear) || !Number.isSafeInteger(endYear) || startYear < firstYear || endYear > lastYear || startYear > endYear) {
+    throw new RangeError("Invalid recorded year range");
+  }
+  const startsOn = `${startYear}-01-01`,
+    endsOn = `${endYear}-12-31`;
+  const startStamp = stampFor(startsOn),
+    endStamp = stampFor(endsOn);
+  const sunday = startStamp - new Date(startStamp).getUTCDay() * DAY_MS;
+  const records = new Map(history.years.flatMap((year) => year.cells.filter((day) => day.recorded).map((day) => [day.date, day.commits])));
+  const carryIn = history.years.find((year) => year.year === startYear).carryIn;
+  const days = [];
+  let growth = 0;
+  for (let stamp = startStamp; stamp <= endStamp; stamp += DAY_MS) {
+    const date = isoDate(stamp),
+      recorded = records.has(date),
+      commits = recorded ? records.get(date) : null;
+    if (recorded) growth += commits;
+    days.push({ date, inRange: true, recorded, commits, growth: recorded ? growth : null, lifetime: recorded ? carryIn + growth : null });
+  }
+  const lookup = new Map(days.map((day) => [day.date, day]));
+  const weeks = [];
+  const columnCount = Math.ceil((endStamp - sunday + DAY_MS) / (7 * DAY_MS));
+  let weeklyGrowth = 0;
+  for (let column = 0; column < columnCount; column++) {
+    const weekStamp = sunday + column * 7 * DAY_MS;
+    const weekDays = Array.from({ length: 7 }, (_, row) => {
+      const date = isoDate(weekStamp + row * DAY_MS);
+      return lookup.get(date) ?? { date, inRange: false, recorded: false, commits: null, growth: null, lifetime: null };
+    });
+    const known = weekDays.filter((day) => day.recorded);
+    const commits = known.length ? known.reduce((sum, day) => sum + day.commits, 0) : null;
+    if (commits !== null) weeklyGrowth += commits;
+    weeks.push({
+      column,
+      startsOn: isoDate(weekStamp),
+      endsOn: isoDate(weekStamp + 6 * DAY_MS),
+      days: weekDays,
+      recorded: known.length > 0,
+      knownDays: known.length,
+      rangeDays: weekDays.filter((day) => day.inRange).length,
+      coveredFrom: known[0]?.date ?? null,
+      coveredThrough: known.at(-1)?.date ?? null,
+      commits,
+      growth: known.length ? weeklyGrowth : null,
+      lifetime: known.length ? carryIn + weeklyGrowth : null,
+      partial: known.length > 0 && known.length < 7,
+    });
+  }
+  const known = days.filter((day) => day.recorded);
+  return {
+    startYear,
+    endYear,
+    startsOn,
+    endsOn,
+    startStamp,
+    endStamp,
+    sunday,
+    days,
+    weeks,
+    columnCount,
+    years: history.years.filter((year) => year.year >= startYear && year.year <= endYear),
+    total: growth,
+    carryIn,
+    lifetime: carryIn + growth,
+    recordedDays: known.length,
+    coveredFrom: known[0]?.date ?? null,
+    coveredThrough: known.at(-1)?.date ?? null,
+  };
 }
 
 export function commitViewValue(week, view) {
