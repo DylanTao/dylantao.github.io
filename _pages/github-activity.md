@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Build rhythm
-description: Daily code activity by named source, showing when the work bunched up.
+description: Recorded Personal commit history, from daily work to accumulated totals.
 permalink: /github-activity/
 nav: false
 hide_title: true
@@ -25,261 +25,64 @@ github_activity: true
   data-state="{% if personal_daily_ready %}loading{% else %}unavailable{% endif %}"
 >
   <header class="github-activity-hero">
-    <p class="github-activity-eyebrow">BUILDING, DAY BY DAY</p>
-    <h1 id="github-activity-title">Build rhythm.</h1>
-    <p class="github-activity-lede">
-      I wanted the logs to show where the work bunches up. Daily code activity by source keeps that rhythm inspectable without turning
-      it into a productivity score.
-    </p>
+    <div>
+      <p class="github-activity-eyebrow">BUILDING, DAY BY DAY</p>
+      <h1 id="github-activity-title">Build rhythm.</h1>
+      <p class="github-activity-lede">I wanted the logs to show where the work bunches up. Explore the same history at four scales.</p>
+    </div>
+    {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
   </header>
 
-  <section
-    class="build-rhythm-story"
-    data-build-rhythm-story
-    data-personal-daily-copy
-    data-state="loading"
-    data-story-static="true"
-    aria-labelledby="build-rhythm-story-title"
-  >
-    <header class="build-rhythm-story-heading">
-      <p class="build-rhythm-story-kicker">HOW I READ IT</p>
-      <div class="build-rhythm-story-title-row">
-        <h2 id="build-rhythm-story-title">Start with the days. Then zoom out.</h2>
-        {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
+  <section class="build-rhythm-overview" data-build-rhythm-overview data-personal-daily-copy aria-label="Personal commit history">
+    <header class="build-rhythm-toolbar">
+      <div class="github-activity-segments" role="group" aria-label="Commit view">
+        <button type="button" data-rhythm-view="history" aria-pressed="true">History</button>
+        <button type="button" data-rhythm-view="daily" aria-pressed="false">Daily</button>
+        <button type="button" data-rhythm-view="weekly" aria-pressed="false">Weekly</button>
+        <button type="button" data-rhythm-view="cumulative" aria-pressed="false">Cumulative</button>
       </div>
-      <p>
-        I start with when the recorded code changed, then which commits were authored, then why one giant day needed a second scale.
-      </p>
+      <label class="build-rhythm-year-picker">Year <select data-rhythm-year aria-label="Choose a year"></select></label>
     </header>
-
-    <div class="build-rhythm-story-layout">
-      <div class="build-rhythm-story-stage-wrap" aria-hidden="true">
-        <div class="build-rhythm-story-stage" data-build-rhythm-story-stage data-scene="complete" data-transitioning="false">
-          <div class="build-rhythm-story-stage-heading">
-            <span data-build-rhythm-story-label>THE WHOLE RHYTHM</span>
-            <span data-build-rhythm-story-scope>COMMITS</span>
-          </div>
-          <svg class="build-rhythm-story-chart" data-build-rhythm-story-chart focusable="false"></svg>
-          <p class="build-rhythm-story-readout" data-build-rhythm-story-readout>
-            Daily code activity by source.
-          </p>
-        </div>
-      </div>
-
-      <div class="build-rhythm-story-steps">
-        <article class="build-rhythm-story-step" data-build-rhythm-step="cadence">
-          <p class="build-rhythm-story-step-number">01 · WHEN</p>
-          <h3>First, I look for the bursts.</h3>
-          <p>Reported commits bunch into bursts, with quieter days between. That uneven shape is the rhythm I was looking for.</p>
-        </article>
-
-        <article class="build-rhythm-story-step" data-build-rhythm-step="authored">
-          <p class="build-rhythm-story-step-number">02 · WHAT COUNTS</p>
-          <h3>Keep the commits. Make the gap visible.</h3>
-          <p>The outer line counts all reported commits. The inner line keeps authored commits; the space between them shows merges and deploys.</p>
-        </article>
-
-        <article class="build-rhythm-story-step" data-build-rhythm-step="bursts">
-          <p class="build-rhythm-story-step-number">03 · TWO SCALES</p>
-          <h3>One giant day was flattening everything else.</h3>
-          <p>Readable lets the ordinary days breathe. Literal restores the full distance to the biggest spike. I kept both.</p>
-        </article>
-
-        <article class="build-rhythm-story-step" data-build-rhythm-step="explore">
-          <p class="build-rhythm-story-step-number">04 · YOUR TURN</p>
-          <h3>Now read the whole rhythm yourself.</h3>
-          <p>
-            Change the range or scale, move day by day with the keyboard, and inspect the final plot. The reported-value table stays one
-            disclosure away.
-          </p>
-          <a class="build-rhythm-story-explore" href="#github-activity-github-title">Open the explorer</a>
-        </article>
-      </div>
+    <p class="build-rhythm-summary" data-rhythm-summary></p>
+    <p class="build-rhythm-context" data-rhythm-view-note></p>
+    <div class="build-rhythm-plot-stage">
+      <p class="sr-only" id="rhythm-chart-instructions">Use arrow keys to inspect dates or weeks. In History, up and down change years; Enter opens that year in Daily view. In Daily, up and down change days. Home and End select the first and last verified value. You can also select a year with the Year menu.</p>
+      <svg class="build-rhythm-chart" data-rhythm-chart aria-label="Personal commit history" aria-describedby="rhythm-chart-instructions"></svg>
     </div>
-
-    <p class="build-rhythm-story-credit">
-      Interaction direction inspired by
-      <a href="https://rhythm-of-food.net/" target="_blank" rel="noopener noreferrer"><em>The Rhythm of Food</em></a>
-      by Google News Lab and Truth &amp; Beauty, shared with me by <a href="https://jrthomp.com/" target="_blank" rel="noopener noreferrer">John Thompson</a>.
-    </p>
-
+    <p class="build-rhythm-readout" data-rhythm-readout></p>
+    <div class="build-rhythm-legend" aria-label="Chart legend">
+      <span><i class="is-zero" aria-hidden="true"></i>Verified zero</span>
+      <span><i class="is-active" aria-hidden="true"></i>Recorded commits</span>
+      <span><i class="is-unverified" aria-hidden="true"></i>After cutoff</span>
+      <span><i class="is-precoverage" aria-hidden="true"></i>Before coverage</span>
+      <span><i class="is-future" aria-hidden="true"></i>Future</span>
+      <span><i class="is-partial" aria-hidden="true"></i>Partial week</span>
+      <span data-rhythm-carry-legend hidden><i class="is-carry" aria-hidden="true"></i>Before this year</span>
+    </div>
+    <p class="build-rhythm-coverage" data-rhythm-coverage></p>
   </section>
 
-  <section class="github-activity-workbench" aria-labelledby="github-activity-github-title">
-    <div class="github-activity-module-heading">
-      <div>
-        <p class="github-activity-module-kicker">CODE ACTIVITY</p>
-        <h2 id="github-activity-github-title">Code history</h2>
-        <p data-personal-daily-copy>Switch scales, inspect a reported calendar date, or select a stretch of labels.</p>
-        <p class="github-activity-module-note" data-personal-daily-copy>
-          The quiet outer line is the reported total across visible sources. The crisp inner line is authored commits; the soft band between them is merges and deploys.
-        </p>
-      </div>
-      <span class="github-activity-scope-badge" data-github-scope>
-        {%- if personal_daily_ready -%}
-          LIFETIME · DAILY
-        {%- else -%}
-          CODE ACTIVITY
-        {%- endif -%}
-      </span>
-    </div>
-    <p class="github-activity-unavailable" data-personal-code-unavailable>
-      Code history is being rebuilt.
-    </p>
+  <p class="github-activity-unavailable" data-personal-code-unavailable>Code history is being rebuilt.</p>
 
-    <div class="github-activity-controls" data-personal-daily-copy aria-label="Code activity chart controls">
-      <fieldset class="github-activity-control-group">
-        <legend>Code activity time window</legend>
-        <div class="github-activity-segments" data-range-controls>
-          <button type="button" data-range="1" aria-pressed="false">1 year</button>
-          <button type="button" data-range="3" aria-pressed="true">3 years</button>
-          <button type="button" data-range="5" aria-pressed="false">5 years</button>
-          <button type="button" data-range="all" aria-pressed="false">Lifetime</button>
+  <details class="build-rhythm-disclosure" data-rhythm-method data-personal-daily-copy>
+    <summary>About the data</summary>
+    <div class="build-rhythm-method-copy">
+      <p><strong>What counts.</strong> This chart uses Personal's reported commits on eligible default and <code>gh-pages</code> branches, merges included. The authored subset excludes merges and deploys. GitHub's contribution calendar also counts pull requests, issues, and reviews, so its total is a different measure. Intern work is a separate source and is not added to this chart.</p>
+      <p><strong>Calendar and cutoff.</strong> Personal follows GitHub profile author-date labels, with completeness checked in <code>America/Los_Angeles</code>. Dates are not rebinned into the visitor's time zone. Zero appears only inside verified coverage. Dates before coverage, after the cutoff, and in the future keep separate marks.</p>
+      <p><strong>Reading the views.</strong> History groups Sunday-start weeks by year; selecting a year opens its days in this same chart. Daily and History use logarithmic color intensity. Weekly uses a linear count axis. Cumulative uses a linear running total, with earlier years shown as a quiet carry-in band. Only verified dates contribute to partial weeks; boundary cells include only dates in their displayed year. Cumulative values stop at the cutoff.</p>
+      <p><strong>Sources and credits.</strong> Values come from the <a href="https://github.com/DylanTao/DylanTao/blob/main/docs/github-activity.json">published Personal snapshot</a>. The original story drew on <a href="https://rhythm-of-food.net/">Rhythm of Food</a>, by Google News Lab and Truth &amp; Beauty, and <a href="https://jrthomp.com/">John Thompson's visualization work</a>. Interaction and alternative reading paths draw on <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite research</a> and <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.</p>
+      <details class="build-rhythm-records" data-rhythm-records>
+        <summary>Read recorded daily values</summary>
+        <div class="build-rhythm-table-wrap" role="region" aria-label="Recorded Personal daily values" tabindex="0">
+          <table class="build-rhythm-table">
+            <caption data-rhythm-table-caption>Reported Personal values by source date label</caption>
+            <thead><tr><th scope="col">Date label</th><th scope="col">Total commits</th><th scope="col">Authored commits</th></tr></thead>
+            <tbody data-rhythm-table-body></tbody>
+          </table>
         </div>
-      </fieldset>
-      <fieldset class="github-activity-control-group">
-        <legend>Chart scale</legend>
-        <div class="github-activity-segments" data-scale-controls>
-          <button type="button" data-scale="log" aria-pressed="true">Readable</button>
-          <button type="button" data-scale="linear" aria-pressed="false">Literal</button>
-        </div>
-      </fieldset>
-    </div>
-
-    <div class="github-activity-readout" data-personal-daily-copy>
-      <div class="github-activity-readout-content">
-        <p class="github-activity-readout-label" id="github-activity-selected-date">Latest date label</p>
-        <p class="github-activity-values">
-          <span class="github-activity-value-group github-activity-commit-value-group"
-            ><span class="github-activity-commits" id="github-activity-selected-commits"></span
-          ></span>
-          <span class="github-activity-value-group"><span class="github-activity-commits" id="github-activity-selected-authored"></span></span>
-
-        </p>
-      </div>
-      <button type="button" class="github-activity-latest" data-jump-latest>Jump to latest</button>
-    </div>
-
-    <div class="github-activity-range-status" data-personal-daily-copy>
-      <p class="github-activity-range-summary" id="github-activity-range-summary"></p>
-      <button type="button" class="github-activity-clear-selection" data-clear-selection hidden>Clear selection</button>
-      <span class="sr-only" id="github-activity-selection-announcement" aria-live="polite"></span>
-    </div>
-
-    <div class="github-activity-chart-shell" data-personal-daily-copy>
-      <h2 class="sr-only" id="github-activity-chart-title">
-        Total and authored commits by source-reported calendar label
-      </h2>
-      <p class="sr-only" id="github-activity-chart-instructions">
-        Hover or click to inspect a source-reported date label and its code activity. Drag horizontally to select a range. With
-        keyboard focus, use arrow keys to inspect, Shift plus an arrow key to extend a range, Home or End to jump, Page Up or Page Down
-        to move seven calendar labels, and Escape to clear a selection.
-      </p>
-      <div class="github-activity-key" data-chart-key>
-        <div class="github-activity-key-group" role="group" aria-labelledby="github-activity-key-commits-label">
-          <p class="github-activity-key-label" id="github-activity-key-commits-label">Commits</p>
-          <ul class="github-activity-key-items">
-            <li class="github-activity-key-item">
-              <svg class="github-activity-key-glyph is-total" viewBox="0 0 18 10" aria-hidden="true" focusable="false">
-                <line x1="0" y1="5" x2="18" y2="5"></line>
-              </svg>
-              <span>All commits</span>
-            </li>
-            <li class="github-activity-key-item">
-              <svg class="github-activity-key-glyph is-gap" viewBox="0 0 18 10" aria-hidden="true" focusable="false">
-                <rect x="0" y="1" width="18" height="8"></rect>
-                <line class="is-boundary" x1="0" y1="1" x2="18" y2="1"></line>
-                <line class="is-authored" x1="0" y1="9" x2="18" y2="9"></line>
-              </svg>
-              <span>Merges + deploys</span>
-            </li>
-            <li class="github-activity-key-item">
-              <svg class="github-activity-key-glyph is-authored" viewBox="0 0 18 10" aria-hidden="true" focusable="false">
-                <line x1="0" y1="5" x2="18" y2="5"></line>
-              </svg>
-              <span>Authored only</span>
-            </li>
-          </ul>
-        </div>
-        <div class="github-activity-source-legend github-activity-key-group" data-source-legend hidden>
-          <p class="github-activity-source-legend-label github-activity-key-label" id="github-activity-source-legend-label">Sources</p>
-          <div class="github-activity-legend-items" data-source-legend-items role="group" aria-labelledby="github-activity-source-legend-label"></div>
-        </div>
-      </div>
-      <svg
-        id="github-activity-chart"
-        class="github-activity-chart"
-        role="group"
-        aria-labelledby="github-activity-chart-title github-activity-chart-instructions"
-      ></svg>
-      <p class="github-activity-annotation" id="github-activity-annotation"></p>
-    </div>
-
-  </section>
-
-  <details class="github-activity-method" data-personal-daily-copy>
-    <summary>How this view works</summary>
-    <div class="github-activity-method-grid">
-      <div>
-        <h2>One count, two boundaries</h2>
-        <p>Total and authored commits share one axis. Their gap makes merges and deploys visible.</p>
-      </div>
-      <div>
-        <h2>Source calendars</h2>
-        <p>
-          Personal follows GitHub profile author-date labels completed in <code>America/Los_Angeles</code>; contributed feeds use UTC labels.
-          Matching <code>YYYY-MM-DD</code> labels align the display, not one shared 24-hour window.
-        </p>
-      </div>
-      <div>
-        <h2>Readable or literal</h2>
-        <p>Readable uses a square-root scale: it gives larger commit bursts more room while retaining small counts. Literal uses the full linear range; both plot the same reported values. This website plots commits per day or source date label; the GitHub profile groups the same personal history by week.</p>
-      </div>
-      <div>
-        <h2>What's counted</h2>
-        <p>
-          The quiet outer line is the reported commit total across visible sources. <strong>Personal</strong> counts attributable commits on
-          the default branch plus <code>gh-pages</code>, merges included. GitHub's contribution calendar also counts pull requests, issues and
-          reviews and some commits from replaced history, so its total is a different measure. The crisp inner line is the summed non-merge, non-deploy authored subset. The soft band
-          between them makes the difference visible without switching views.
-        </p>
-      </div>
-      <div>
-        <h2>Daily completeness boundary</h2>
-        <p>Zero-activity dates appear only inside verified complete coverage. An incomplete or malformed refresh leaves the last valid record in place.</p>
-      </div>
-      <div>
-        <h2>Motion with a stop condition</h2>
-        <p>Changing range or scale redraws the selected view once. The chart settles immediately, keeps exact tables, and remains static under reduced motion.</p>
-      </div>
-    </div>
-    <p class="github-activity-table-scroll-hint" id="github-activity-table-scroll-hint">Scroll horizontally to read every daily column.</p>
-    <div
-      class="github-activity-table-wrap"
-      role="region"
-      aria-label="Daily code activity table"
-      aria-describedby="github-activity-table-scroll-hint"
-      tabindex="0"
-    >
-      <table class="github-activity-table">
-        <caption id="github-activity-table-caption">Reported activity by source calendar label in the selected time window</caption>
-        <thead>
-          <tr>
-            <th scope="col">Date label</th>
-            <th scope="col">Total commits</th>
-            <th scope="col">Authored commits</th>
-          </tr>
-        </thead>
-        <tbody id="github-activity-table-body"></tbody>
-      </table>
+      </details>
     </div>
   </details>
-
-  <p class="github-activity-source" data-personal-daily-copy>
-    Code activity's latest reported date label is <time id="github-activity-updated"></time>. Time-window and scale controls draw on
-    <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite interaction research</a>; keyboard and
-    alternative-reading paths draw on <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.
-  </p>
 
   <script id="code-activity-data" type="application/json">
     {{ site.data.code_activity | jsonify }}

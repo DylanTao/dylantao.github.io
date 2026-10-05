@@ -5,19 +5,19 @@ layout: default
   {% include home/story_rail.liquid %}
   {% include home/hero.liquid %}
   {% include home/thesis.liquid %}
-  {% include home/news_publications.liquid updates=false %}
   {% include home/research_motion.liquid %}
+  {% include home/news_publications.liquid updates=false %}
   {% include home/news_publications.liquid publications=false %}
   {% include home/recruiting.liquid %}
 
   {% if page.social %}
     <section id="connect" class="home-section home-social-section home-reveal" data-home-section="connect" aria-label="Contact and profiles">
-      <div class="home-section-heading">
-        <p class="home-kicker">Connect</p>
-        <h2>Find me around the web.</h2>
-      </div>
       <div class="home-connect-grid">
         <div class="home-connect-copy">
+          <div class="home-section-heading">
+            <p class="home-kicker">Connect</p>
+            <h2>Find me around the web.</h2>
+          </div>
           {% include home/lineage.liquid %}
           <div class="social home-social">
             <div class="contact-icons">{% social_links %}</div>

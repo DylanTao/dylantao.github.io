@@ -354,21 +354,33 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   await page.waitForTimeout(350);
 
   let githubActivityState = null;
+  if (route.id === "home") {
+    const sections = await page.locator("[data-home-section]").evaluateAll((nodes) => nodes.map((node) => node.dataset.homeSection));
+    expect(sections).toEqual(["start", "taste", "focus", "publications", "updates", "students", "connect"]);
+    await expect(page.locator("#taste")).toHaveCount(1);
+    await expect(page.locator("#focus")).toHaveCount(1);
+    await expect(page.locator("#publications")).toHaveCount(1);
+    await expect(page.locator("#focus-details, .home-research-summary")).toHaveCount(0);
+    await expect(page.locator("#focus .home-motion-mode")).toHaveCount(3);
+    await expect(page.locator("#focus .home-motion-exploring")).toBeAttached();
+    await expect(page.locator("#focus .home-motion-credit")).toHaveCount(2);
+  }
   if (route.id === "github-activity") {
     githubActivityState = await ready.getAttribute("data-state");
     expect(["ready", "unavailable"]).toContain(githubActivityState);
     if (githubActivityState === "unavailable") {
       await expect(page.locator("[data-personal-code-unavailable]")).toHaveText("Code history is being rebuilt.");
-      await expect(page.locator("[data-github-scope]")).toHaveText("CODE ACTIVITY");
-      await expect(page.locator("[data-build-rhythm-story]")).toBeHidden();
-      await expect(page.locator(".github-activity-chart-shell")).toBeHidden();
-      await expect(page.locator(".github-activity-method")).toBeHidden();
+      await expect(page.locator("[data-build-rhythm-overview]")).toBeHidden();
+      await expect(page.locator("[data-rhythm-method]")).toBeHidden();
     } else {
       await expect(page.locator("[data-personal-code-unavailable]")).toBeHidden();
       await expect(page.locator("[data-personal-daily-copy]").first()).toBeVisible();
-      await expect(page.locator("[data-build-rhythm-story]")).toBeVisible();
-      await expect(page.locator(".github-activity-chart-shell")).toBeVisible();
-      await expect(page.locator(".github-activity-method")).toBeVisible();
+      await expect(page.locator("[data-build-rhythm-overview]")).toBeVisible();
+      await expect(page.locator("[data-rhythm-history-cell]")).toHaveCount(540);
+      await expect(page.locator("[data-rhythm-slot]")).toHaveCount(0);
+      await expect(page.locator("[data-rhythm-view]")).toHaveCount(4);
+      await expect(page.locator("[data-rhythm-chart]")).toHaveCount(1);
+      await expect(page.locator('[data-rhythm-inspector][tabindex="0"]')).toHaveCount(1);
     }
   }
 
@@ -1010,47 +1022,23 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       if (githubActivityState === "ready") {
         for (const width of [320, 350, 390]) {
           await page.setViewportSize({ width, height: 1000 });
-          await expect
-            .poll(async () => {
-              return page
-                .locator("#github-activity-chart text")
-                .filter({ hasText: /^COMMITS / })
-                .evaluate((heading) => {
-                  const chart = heading.ownerSVGElement;
-                  const box = heading.getBBox();
-                  const viewBoxWidth = chart?.viewBox.baseVal.width || 0;
-                  return viewBoxWidth > 0 && box.x >= 0 && box.x + box.width <= viewBoxWidth;
-                });
-            })
-            .toBe(true);
-
-          // The readout used to join its values into one sentence with
-          // decorative middot separators, which could wrap onto their own line
-          // ahead of the value they introduced. Each value now owns a grid
-          // cell, so the guard is stronger than "separator sits beside value":
-          // there is no separate separator element left to strand, and no cell
-          // may spill outside the readout.
-          const readoutLayout = await page.locator(".github-activity-readout").evaluate((readout) => {
-            const bounds = readout.getBoundingClientRect();
-            return Array.from(readout.querySelectorAll(".github-activity-value-group"))
-              .filter((group) => group.offsetParent !== null)
-              .map((group) => {
-                const box = group.getBoundingClientRect();
-                return {
-                  elementChildren: group.childElementCount,
-                  withinReadout: box.left >= bounds.left - 1 && box.right <= bounds.right + 1,
-                };
-              });
+          const layout = await page.locator("[data-build-rhythm-overview]").evaluate((node) => {
+            const box = node.getBoundingClientRect();
+            return {
+              left: box.left,
+              right: box.right,
+              overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+              controls: [...node.querySelectorAll("[data-rhythm-view]")].map((button) => {
+                const bounds = button.getBoundingClientRect();
+                return { left: bounds.left, right: bounds.right, height: bounds.height };
+              }),
+            };
           });
-          expect(readoutLayout.length, `${width}px GitHub readout renders no values`).toBeGreaterThan(0);
-          expect(
-            readoutLayout.every((group) => group.elementChildren === 1),
-            `${width}px GitHub readout reintroduced an orphanable separator element`
-          ).toBe(true);
-          expect(
-            readoutLayout.every((group) => group.withinReadout),
-            `${width}px GitHub readout value overflows its card`
-          ).toBe(true);
+          expect(layout.overflow, `${width}px Build Rhythm overflows`).toBeLessThanOrEqual(1);
+          expect(layout.left).toBeGreaterThanOrEqual(0);
+          expect(layout.right).toBeLessThanOrEqual(width);
+          expect(layout.controls).toHaveLength(4);
+          expect(layout.controls.every((box) => box.left >= 0 && box.right <= width + 1 && box.height >= 44)).toBe(true);
         }
       } else {
         for (const width of [320, 350, 390]) {
@@ -2078,85 +2066,35 @@ test("mobile back-to-top control yields the reading surface to an inline footer 
   expect(runtimeErrors).toEqual([]);
 });
 
-test("Build Rhythm narrow table exposes its horizontal reading path", async ({ page }, testInfo) => {
+test("Build Rhythm exact-value table remains readable and keyboard accessible at narrow widths", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one browser covers the compact table widths");
-
-  const runtimeErrors = collectRuntimeErrors(page);
+  const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "domcontentloaded" });
   const activity = page.locator("[data-github-activity]");
   await expect(activity).toHaveAttribute("data-state", /^(ready|unavailable)$/);
-  const activityState = await activity.getAttribute("data-state");
-
-  if (activityState === "unavailable") {
+  if ((await activity.getAttribute("data-state")) === "unavailable") {
     await expect(page.locator("[data-personal-code-unavailable]")).toHaveText("Code history is being rebuilt.");
-    await expect(page.locator("[data-github-scope]")).toHaveText("CODE ACTIVITY");
-    await expect(page.locator(".github-activity-method")).toBeHidden();
-
-    for (const width of [390, 320]) {
-      await page.setViewportSize({ width, height: 1000 });
-      const geometry = await page.locator(".github-activity-unavailable").evaluate((element) => {
-        const bounds = element.getBoundingClientRect();
-        return {
-          left: bounds.left,
-          right: bounds.right,
-          clientWidth: document.documentElement.clientWidth,
-          scrollWidth: document.documentElement.scrollWidth,
-        };
-      });
-      expect(geometry.scrollWidth - geometry.clientWidth, `${width}px awaiting page overflows`).toBeLessThanOrEqual(1);
-      expect(geometry.left).toBeGreaterThanOrEqual(0);
-      expect(geometry.right).toBeLessThanOrEqual(width);
-    }
-
-    expect(runtimeErrors).toEqual([]);
     return;
   }
-
-  await page.locator(".github-activity-method summary").click();
-
-  const hint = page.locator("#github-activity-table-scroll-hint");
-  const tableWrap = page.locator('.github-activity-table-wrap[aria-describedby="github-activity-table-scroll-hint"]');
-  await expect(hint).toHaveText("Scroll horizontally to read every daily column.");
-  await expect(tableWrap).toHaveCount(1);
-  await expect(tableWrap).toHaveAttribute("role", "region");
-  await expect(tableWrap).toHaveAccessibleName("Daily code activity table");
-  await expect(tableWrap).toHaveAttribute("tabindex", "0");
-
+  await page.locator("[data-rhythm-year]").selectOption("2026");
+  await page.locator("[data-rhythm-method] > summary").click();
+  await page.locator("[data-rhythm-records] > summary").click();
+  const table = page.locator(".build-rhythm-table-wrap");
+  await expect(table).toHaveAccessibleName("Recorded Personal daily values");
+  await expect(table.locator("thead th")).toHaveText(["Date label", "Total commits", "Authored commits"]);
   for (const width of [768, 390, 320]) {
     await page.setViewportSize({ width, height: 1000 });
-    if (width > 550) await expect(hint).toBeHidden();
-    else await expect(hint).toBeVisible();
-    const geometry = await tableWrap.evaluate((element) => {
-      const bounds = element.getBoundingClientRect();
-      return {
-        left: bounds.left,
-        right: bounds.right,
-        clientWidth: element.clientWidth,
-        scrollWidth: element.scrollWidth,
-        pageClientWidth: document.documentElement.clientWidth,
-        pageScrollWidth: document.documentElement.scrollWidth,
-      };
-    });
-    expect(geometry.pageScrollWidth - geometry.pageClientWidth, `${width}px page overflows`).toBeLessThanOrEqual(1);
-    if (width > 550) expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 1);
-    else expect(geometry.scrollWidth, `${width}px table should retain every reported column`).toBeGreaterThan(geometry.clientWidth);
-    expect(geometry.left).toBeGreaterThanOrEqual(0);
-    expect(geometry.right).toBeLessThanOrEqual(width);
-    await tableWrap.focus();
-    await expect(tableWrap).toBeFocused();
-    const focusStyle = await tableWrap.evaluate((element) => {
-      const style = window.getComputedStyle(element);
-      return { outlineStyle: style.outlineStyle, outlineWidth: Number.parseFloat(style.outlineWidth) || 0 };
-    });
-    expect(focusStyle.outlineStyle).not.toBe("none");
-    expect(focusStyle.outlineWidth).toBeGreaterThanOrEqual(2);
-    await tableWrap.scrollIntoViewIfNeeded();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    const box = await table.boundingBox();
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.x + box.width).toBeLessThanOrEqual(width);
+    await table.focus();
+    await expect(table).toBeFocused();
+    expect(await table.evaluate((node) => parseFloat(getComputedStyle(node).outlineWidth))).toBeGreaterThanOrEqual(2);
+    await expect(table.locator("tbody tr").last()).toContainText("2026-09-28");
   }
-
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await expect(hint).toBeHidden();
-  expect(runtimeErrors).toEqual([]);
+  expect(errors).toEqual([]);
 });
 
 test("home research motion responds locally and keeps a reduced-motion still", async ({ page }, testInfo) => {

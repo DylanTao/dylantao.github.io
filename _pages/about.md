@@ -99,10 +99,10 @@ story_sections:
     id: start
   - label: Taste
     id: taste
-  - label: Publications
-    id: publications
   - label: Focus
     id: focus
+  - label: Publications
+    id: publications
   - label: Updates
     id: updates
   - label: Students

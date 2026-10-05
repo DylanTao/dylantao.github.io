@@ -138,9 +138,15 @@ html[data-theme="evening"] img[src*="-transparent.png"] {
 }
 
 .home-thesis-grid {
-  grid-template-columns: minmax(0, 1fr);
-  max-width: var(--measure-prose);
-  margin-inline: auto;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+  column-gap: clamp(2rem, 5vw, 5rem);
+  max-width: none;
+  margin-inline: 0;
+  align-items: start;
+}
+.home-thesis-copy,
+.home-thesis-context {
+  min-width: 0;
 }
 .home-thesis-copy .home-section-heading h2 {
   max-width: 30ch;
@@ -155,7 +161,7 @@ html[data-theme="evening"] img[src*="-transparent.png"] {
 }
 .home-thesis-note {
   max-width: 65ch;
-  margin-block: 1.75rem;
+  margin-block: 0 1.5rem;
   padding: 0 0 0 1.25rem;
   border: 0;
   border-left: 2px solid var(--home-line);
@@ -190,12 +196,17 @@ html[data-theme="evening"] img[src*="-transparent.png"] {
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
+.home-thesis-domain {
+  margin-bottom: 1.5rem;
+}
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .home-thesis-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
   }
+}
+@media (max-width: 767px) {
   .home-work-grid {
     grid-template-columns: 1fr;
     gap: 0;
@@ -213,17 +224,23 @@ html[data-theme="evening"] img[src*="-transparent.png"] {
 }
 
 // Dated notes form a reading list; short entries do not need equal-height cards.
+.home-news-pubs {
+  padding-block: 1.75rem;
+}
+.home-news-pubs .home-section-heading h2 {
+  font-size: clamp(1.4rem, 2vw, 1.75rem);
+}
 .home-news-strip {
   grid-template-columns: minmax(0, 1fr);
   gap: 0;
 }
 .home-news-item {
   display: grid;
-  grid-template-columns: 8rem minmax(0, 1fr);
+  grid-template-columns: 7rem minmax(0, 1fr);
   align-items: baseline;
   gap: 1.25rem;
   min-height: 0;
-  padding: 1.2rem 0;
+  padding: 0.85rem 0;
   border: 0;
   border-top: 1px solid var(--home-line);
   border-radius: 0;
@@ -238,7 +255,7 @@ html[data-theme="evening"] img[src*="-transparent.png"] {
 .home-news-item p {
   display: block;
   overflow: visible;
-  max-width: 72ch;
+  max-width: none;
   -webkit-line-clamp: unset;
 }
 .home-work-link:hover .home-work-cta {

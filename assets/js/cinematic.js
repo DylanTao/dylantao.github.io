@@ -321,57 +321,20 @@
       );
     });
 
-    // The thesis arrives word by word as the reader scrolls into it and scrubs back out. Words never
-    // drop below a readable tint, so a paused scroll still leaves a legible paragraph, and the spans
-    // carry no ARIA changes, so assistive technology reads the sentence as one sentence.
-    const lead = home.querySelector(".home-thesis-lead");
-    if (lead) {
-      const walker = document.createTreeWalker(lead, NodeFilter.SHOW_TEXT);
-      const textNodes = [];
-      while (walker.nextNode()) textNodes.push(walker.currentNode);
-      textNodes.forEach((node) => {
-        const fragment = document.createDocumentFragment();
-        node.nodeValue.split(/(\s+)/).forEach((part) => {
-          if (!part) return;
-          if (/^\s+$/.test(part)) {
-            fragment.appendChild(document.createTextNode(part));
-            return;
-          }
-          const word = document.createElement("span");
-          word.className = "home-word";
-          word.textContent = part;
-          fragment.appendChild(word);
-        });
-        node.parentNode.replaceChild(fragment, node);
-      });
-      const words = gsap.utils.toArray(lead.querySelectorAll(".home-word"));
-      if (words.length) {
-        gsap.set(words, { opacity: 0.16 });
-        gsap.to(words, {
-          opacity: 1,
-          ease: "none",
-          duration: 0.3,
-          stagger: 0.05,
-          scrollTrigger: { trigger: lead, start: "top 88%", end: "top 42%", scrub: 0.3 },
-        });
-      }
-    }
+    // Thesis copy stays fully readable at every scroll position. The bounded
+    // underline below carries the emphasis without dimming the paragraph.
 
-    // Shallow parallax between two voices: the design-principle note lags the thesis paragraph, and
-    // the why-now framing lags its three claims, so the framing reads as the layer behind the
-    // evidence. Wide screens only, where the two layers sit side by side; the travel stays under a
-    // third of either block's height.
-    [
-      { node: home.querySelector(".home-thesis-note"), section: home.querySelector(".home-thesis"), travel: 30 },
-      { node: home.querySelector(".home-why-now-copy"), section: home.querySelector(".home-why-now"), travel: 36 },
-    ].forEach(({ node, section, travel }) => {
-      if (!node || !section || !wide.matches) return;
-      gsap.fromTo(
-        node,
-        { y: travel },
-        { y: -travel, ease: "none", scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true } }
-      );
-    });
+    // The why-now framing drifts shallowly beside its evidence on wide screens.
+    [{ node: home.querySelector(".home-why-now-copy"), section: home.querySelector(".home-why-now"), travel: 36 }].forEach(
+      ({ node, section, travel }) => {
+        if (!node || !section || !wide.matches) return;
+        gsap.fromTo(
+          node,
+          { y: travel },
+          { y: -travel, ease: "none", scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true } }
+        );
+      }
+    );
 
     const mark = home.querySelector(".home-thread-mark");
     if (mark) {

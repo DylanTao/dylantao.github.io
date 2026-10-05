@@ -11,6 +11,8 @@
           | default: 'When AI can generate ten options in a minute, the hard part is not getting more options. It is learning what differs, what matters, and why one direction is worth pursuing.'
         }}
       </p>
+    </div>
+    <div class="home-thesis-context">
       <aside class="home-thesis-note" aria-label="Sirui's design principle">
         <span>{{ page.thesis.principle_label | default: 'Design principle' }}</span>
         <p>
@@ -20,6 +22,9 @@
           }}
         </p>
       </aside>
+      {% if page.thesis.domain_note %}
+        <p class="home-thesis-domain">{{ page.thesis.domain_note }}</p>
+      {% endif %}
       {% if page.thesis.origin %}
         <div class="home-thesis-origin">
           {% if page.thesis.origin.label %}
@@ -30,8 +35,5 @@
         </div>
       {% endif %}
     </div>
-    {% if page.thesis.domain_note %}
-      <p class="home-thesis-domain">{{ page.thesis.domain_note }}</p>
-    {% endif %}
   </div>
 </section>

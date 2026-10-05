@@ -34,17 +34,15 @@ class BuildRhythmStoryTests(unittest.TestCase):
         cls.public_visual_config = PUBLIC_VISUAL_CONFIG_PATH.read_text(encoding="utf-8")
         cls.public_routes = PUBLIC_ROUTES_PATH.read_text(encoding="utf-8")
 
-    def test_story_chapters_are_server_rendered_in_order(self) -> None:
-        steps = re.findall(r'data-build-rhythm-step="([a-z-]+)"', self.page)
-        self.assertEqual(
-            steps,
-            ["cadence", "authored", "bursts", "explore"],
-        )
-        self.assertIn('class="build-rhythm-story-stage-wrap" aria-hidden="true"', self.page)
-        self.assertLess(
-            self.page.index('data-build-rhythm-story'),
-            self.page.index('class="github-activity-workbench"'),
-        )
+    def test_one_chart_stage_and_native_data_disclosure(self) -> None:
+        self.assertEqual(self.page.count('<svg '), 1)
+        self.assertIn('data-rhythm-chart', self.page)
+        self.assertEqual(re.findall(r'data-rhythm-view="([a-z]+)"', self.page), ['history', 'daily', 'weekly', 'cumulative'])
+        self.assertIn('About the data', self.page)
+        self.assertIn('data-rhythm-table-body', self.page)
+        self.assertNotIn('data-build-rhythm-story', self.page)
+        self.assertNotIn('data-rhythm-explorer', self.page)
+
 
     def test_code_activity_supported_schema_gate_replaces_the_retired_lifetime_strip(self) -> None:
         for contract in (
@@ -127,32 +125,7 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('root.dataset.state = "unavailable";', self.script)
         self.assertNotIn("validLegacyActivitySource", self.script)
 
-    def test_source_bands_and_deferred_table_preserve_evidence_boundaries(self) -> None:
-        for contract in (
-            "row.hasVisibleSource",
-            "lower.map((value, position)",
-            "renderLegend({ restoreFocusTo:",
-            "updateLegendColors();",
-            'mixedCalendarLabels ? "DATE LABEL" : "DAY"',
-            'visibleSources.size > 1 ? "DATE LABELS" : "DAILY"',
-            "let renderedTableRevision = -1;",
-            "drawChart({ refreshTable: false })",
-        ):
-            with self.subTest(contract=contract):
-                self.assertIn(contract, self.script)
-        self.assertIn("@media (max-width: 550px)", self.style)
-        self.assertIn("min-width: 28rem", self.style)
-        self.assertNotIn("body.github-activity-body #back-to-top", self.style)
 
-    def test_daily_story_domain_ends_on_the_last_verified_day(self) -> None:
-        self.assertIn(
-            "rows.length - 1",
-            self.script,
-        )
-        self.assertNotIn(
-            "storyGithubRows.at(-1).date.getTime() + 6 * DAY_MS",
-            self.script,
-        )
 
     def test_story_credit_and_origin_route_are_explicit(self) -> None:
         self.assertIn("https://rhythm-of-food.net/", self.page)
@@ -164,103 +137,31 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn('label="Read how Build Rhythm began"', self.page)
         self.assertNotIn("autodesk", self.page.lower())
 
-    def test_story_uses_native_scroll_and_bounded_progressive_enhancement(self) -> None:
-        self.assertIn("IntersectionObserver", self.script)
-        self.assertIn('window.matchMedia("(prefers-reduced-motion: reduce)")', self.script)
-        self.assertIn('window.matchMedia("(max-width: 820px)")', self.script)
-        self.assertIn("requestAnimationFrame(tick)", self.script)
-        self.assertIn('stage.dataset.transitioning = "false"', self.script)
-        self.assertIn('storyRoot.dataset.storyVisible = String(storyVisible)', self.script)
-        self.assertNotRegex(self.script, r'addEventListener\(\s*["\']wheel["\']')
-        self.assertNotIn("scrollTo(", self.script)
-        self.assertNotIn("scrollIntoView(", self.script)
 
-    def test_story_voice_is_personal_concrete_and_not_repeatedly_defensive(self) -> None:
-        for phrase in (
-            "I wanted the logs to show where the work bunches up.",
-            "First, I look for the bursts.",
-            "Keep the commits. Make the gap visible.",
-            "One giant day was flattening everything else.",
-            "Now read the whole rhythm yourself.",
-        ):
+    def test_chart_copy_preserves_personal_voice_and_source_limits(self) -> None:
+        for phrase in ('I wanted the logs to show where the work bunches up.',
+                       'Intern work is a separate source and is not added to this chart.',
+                       'Dates are not rebinned into the visitor',
+                       'Only verified dates contribute to partial weeks',
+                       'Cumulative values stop at the cutoff.'):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.page)
+        for retired in ('PERSONAL AGENT TOKENS', 'Recent agent history is unavailable.',
+                        'Additions rise above the baseline', 'personal agent history'):
+            self.assertNotIn(retired, self.page + self.script)
 
-        public_story = "\n".join((self.page, self.script))
-        for retired in (
-            "The same week can carry a different amount of change.",
-            "Additions rise above the baseline",
-            "Token accumulation is a trace, not a score.",
-            "Cadence is not a productivity score.",
-            "Tokens trace retained work, not quality.",
-            "The story chooses a few views.",
-            "Then I follow the site build day by day.",
-            "PERSONAL AGENT TOKENS",
-            "SITE-BUILD",
-            "Recent agent history is unavailable.",
-            "personal agent history",
-        ):
-            with self.subTest(retired=retired):
-                self.assertNotIn(retired, public_story)
 
-    def test_story_charts_have_visible_scale_anchors(self) -> None:
-        self.assertIn('const drawYAxis = (group, { name, ticks, y, left, right, colors', self.script)
-        self.assertIn('const spacedLogTicks = (domainMaximum, yForValue, minimumGap = 18)', self.script)
-        for axis_name in (
-            "story-cadence",
-            "story-authored",
-        ):
-            with self.subTest(axis_name=axis_name):
-                self.assertIn(f'"{axis_name}"', self.script)
-        self.assertIn('name: `story-bursts-${panel.mode === "log" ? "readable" : "literal"}`', self.script)
-        self.assertIn('className: "github-activity-commit-tick"', self.script)
 
-    def test_static_and_reduced_motion_styles_remain_complete(self) -> None:
-        self.assertIn('@media (max-width: 820px)', self.style)
-        self.assertIn('@media (min-width: 821px) and (max-height: 720px)', self.style)
-        self.assertIn('@media (prefers-reduced-motion: reduce)', self.style)
-        self.assertIn('.build-rhythm-story-chart', self.style)
-        self.assertIn('grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.42fr);', self.style)
-        self.assertIn('height: clamp(27rem, 42vw, 34rem);', self.style)
-        self.assertIn('top: var(--build-rhythm-sticky-top, 4.75rem);', self.style)
-        self.assertIn('min-height: clamp(24rem, 70vh, 38rem);', self.style)
-        self.assertIn('will-change: opacity, transform;', self.style)
-        self.assertIn('opacity: 1 !important;', self.style)
 
-    def test_authoritative_explorer_contract_stays_present(self) -> None:
-        frozen_page_selectors = (
-            'data-github-activity',
-            'id="github-activity-chart"',
-            'id="github-activity-selected-commits"',
-            'id="github-activity-selected-authored"',
-            'id="github-activity-table-scroll-hint"',
-            'id="github-activity-table-body"',
-            'id="code-activity-data"',
-        )
-        for selector in frozen_page_selectors:
-            with self.subTest(selector=selector):
-                self.assertIn(selector, self.page)
-        self.assertIn('tableBody.dataset.state = "deferred"', self.script)
-        self.assertIn('tableDisclosure.addEventListener("toggle"', self.script)
-        self.assertIn(
-            'class: "github-activity-commit-line github-activity-authored-line"',
-            self.script,
-        )
-        self.assertIn('class: "github-activity-commit-total-line"', self.script)
-        self.assertIn(
-            'class: "github-activity-commit-area github-activity-commit-gap-band"',
-            self.script,
-        )
-        self.assertNotIn("data-count-mode", self.page)
-        self.assertIn("The quiet outer line is the reported total across visible sources.", self.page)
-        self.assertIn("The crisp inner line is authored commits", self.page)
-        self.assertIn("the soft band between them is merges and deploys", self.page)
-        self.assertIn("Total and authored commits by", self.script)
-        self.assertIn('class: "github-activity-commit-source-area"', self.script)
-        self.assertNotIn('class: "github-activity-add-line"', self.script)
-        self.assertNotIn('class: "github-activity-remove-line"', self.script)
-        self.assertIn('item.className = "github-activity-legend-item is-static"', self.script)
-        self.assertIn('legendLabel.textContent = multiSource ? "Sources" : "Source"', self.script)
+    def test_exact_records_have_a_native_alternative_reading_path(self) -> None:
+        for contract in ('data-rhythm-records', 'role="region"', 'tabindex="0"',
+                         '<th scope="col">Date label</th>', '<th scope="col">Total commits</th>',
+                         '<th scope="col">Authored commits</th>', 'id="code-activity-data"'):
+            with self.subTest(contract=contract):
+                self.assertIn(contract, self.page)
+        self.assertIn('authored subset excludes merges and deploys', self.page)
+        self.assertIn('contribution calendar also counts pull requests, issues, and reviews', self.page)
+
 
     def test_case_study_and_reproduction_describe_one_code_clock(self) -> None:
         for phrase in (
