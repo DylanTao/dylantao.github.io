@@ -142,8 +142,11 @@ class BuildRhythmStoryTests(unittest.TestCase):
         for phrase in ('I wanted the logs to show where the work bunches up.',
                        'Intern work is a separate source and is not added to this chart.',
                        'Dates are not rebinned into the visitor',
-                       'Only verified dates contribute to partial weeks',
-                       'Cumulative values stop at the cutoff.'):
+                       'Only verified dates contribute;',
+                       'stops at the last verified date in the range.',
+                       'range without changing the view',
+                       'lifetime recorded totals',
+                       'plus recorded work before its start'):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.page)
         for retired in ('PERSONAL AGENT TOKENS', 'Recent agent history is unavailable.',

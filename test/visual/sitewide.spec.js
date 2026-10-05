@@ -1705,7 +1705,12 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator("#focus")).toBeInViewport({ ratio: 0.5 });
   await page.mouse.move(page.viewportSize().width / 2, page.viewportSize().height / 3);
-  await page.mouse.wheel(0, -page.viewportSize().height);
+  const publicationsScroll = await page.locator("#publications").evaluate((section) => {
+    const navbarBottom = document.getElementById("navbar")?.getBoundingClientRect().bottom || 0;
+    return section.getBoundingClientRect().top - navbarBottom - 12;
+  });
+  await page.mouse.wheel(0, publicationsScroll);
+  await expect(page.locator("#publications")).toBeInViewport();
   await expect
     .poll(async () => new URL((await page.locator('[data-site-format="ai"]').getAttribute("href")) || "", page.url()).hash)
     .toBe("#publications");

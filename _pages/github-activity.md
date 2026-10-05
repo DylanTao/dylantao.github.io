@@ -41,12 +41,17 @@ github_activity: true
         <button type="button" data-rhythm-view="weekly" aria-pressed="false">Weekly</button>
         <button type="button" data-rhythm-view="cumulative" aria-pressed="false">Cumulative</button>
       </div>
-      <label class="build-rhythm-year-picker">Year <select data-rhythm-year aria-label="Choose a year"></select></label>
+      <div class="build-rhythm-range-controls" role="group" aria-label="Year range">
+        <label class="build-rhythm-range-picker">Start year <select data-rhythm-range-start aria-label="Range start year"></select></label>
+        <span class="build-rhythm-range-arrow" aria-hidden="true">→</span>
+        <label class="build-rhythm-range-picker">End year <select data-rhythm-range-end aria-label="Range end year"></select></label>
+        <button class="build-rhythm-range-reset" type="button" data-rhythm-range-reset>All years</button>
+      </div>
     </header>
     <p class="build-rhythm-summary" data-rhythm-summary></p>
     <p class="build-rhythm-context" data-rhythm-view-note></p>
     <div class="build-rhythm-plot-stage">
-      <p class="sr-only" id="rhythm-chart-instructions">Use arrow keys to inspect dates or weeks. In History, up and down change years; Enter opens that year in Daily view. In Daily, up and down change days. Home and End select the first and last verified value. You can also select a year with the Year menu.</p>
+      <p class="sr-only" id="rhythm-chart-instructions">Choose start and end years for the same chart. All years restores the full range without changing the view. In History, arrow keys inspect weeks and years; Enter opens that year in Daily view. In Daily, up and down change days. Weekly inspects weeks; Cumulative inspects dates. Home and End select the first and last verified value. Cumulative shows the lifetime recorded total, including earlier recorded work.</p>
       <svg class="build-rhythm-chart" data-rhythm-chart aria-label="Personal commit history" aria-describedby="rhythm-chart-instructions"></svg>
     </div>
     <p class="build-rhythm-readout" data-rhythm-readout></p>
@@ -57,7 +62,7 @@ github_activity: true
       <span><i class="is-precoverage" aria-hidden="true"></i>Before coverage</span>
       <span><i class="is-future" aria-hidden="true"></i>Future</span>
       <span><i class="is-partial" aria-hidden="true"></i>Partial week</span>
-      <span data-rhythm-carry-legend hidden><i class="is-carry" aria-hidden="true"></i>Before this year</span>
+      <span data-rhythm-carry-legend hidden><i class="is-carry" aria-hidden="true"></i><span data-rhythm-carry-label>Earlier recorded work</span></span>
     </div>
     <p class="build-rhythm-coverage" data-rhythm-coverage></p>
   </section>
@@ -69,7 +74,7 @@ github_activity: true
     <div class="build-rhythm-method-copy">
       <p><strong>What counts.</strong> This chart uses Personal's reported commits on eligible default and <code>gh-pages</code> branches, merges included. The authored subset excludes merges and deploys. GitHub's contribution calendar also counts pull requests, issues, and reviews, so its total is a different measure. Intern work is a separate source and is not added to this chart.</p>
       <p><strong>Calendar and cutoff.</strong> Personal follows GitHub profile author-date labels, with completeness checked in <code>America/Los_Angeles</code>. Dates are not rebinned into the visitor's time zone. Zero appears only inside verified coverage. Dates before coverage, after the cutoff, and in the future keep separate marks.</p>
-      <p><strong>Reading the views.</strong> History groups Sunday-start weeks by year; selecting a year opens its days in this same chart. Daily and History use logarithmic color intensity. Weekly uses a linear count axis. Cumulative uses a linear running total, with earlier years shown as a quiet carry-in band. Only verified dates contribute to partial weeks; boundary cells include only dates in their displayed year. Cumulative values stop at the cutoff.</p>
+      <p><strong>Reading the views.</strong> Start and end years choose the range without changing the view. History groups Sunday-start weeks by year; selecting a year opens its days in this same chart. Daily focuses on one year within the range. Weekly combines the range into continuous Sunday-start weeks. Cumulative uses a continuous date axis and lifetime recorded totals: commits added in the selected range plus recorded work before its start. The earlier work appears as a quiet carry-in band and is labeled separately. Only verified dates contribute; boundary weeks exclude dates outside the range. The curve begins at verified coverage and stops at the last verified date in the range.</p>
       <p><strong>Sources and credits.</strong> Values come from the <a href="https://github.com/DylanTao/DylanTao/blob/main/docs/github-activity.json">published Personal snapshot</a>. The original story drew on <a href="https://rhythm-of-food.net/">Rhythm of Food</a>, by Google News Lab and Truth &amp; Beauty, and <a href="https://jrthomp.com/">John Thompson's visualization work</a>. Interaction and alternative reading paths draw on <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite research</a> and <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.</p>
       <details class="build-rhythm-records" data-rhythm-records>
         <summary>Read recorded daily values</summary>

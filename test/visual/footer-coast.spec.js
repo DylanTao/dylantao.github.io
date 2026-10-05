@@ -25,7 +25,15 @@ test("La Jolla guide: names select actual landmarks without moving the view", as
   await expect(viewer.locator(".coast-place-marker")).toBeHidden();
   await page.locator(".studio-print-pair").scrollIntoViewIfNeeded();
   await expect(page.locator(".studio-print-pair img")).toHaveCount(2);
-  await page.locator(".studio-print-pair img").evaluateAll((images) => Promise.all(images.map((image) => image.decode())));
+  for (const print of await page.locator(".studio-print-pair img").all()) {
+    await print.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() => print.evaluate((img) => img.currentSrc !== "" && img.complete && img.naturalWidth > 0), {
+        message: "Each lazy print must select and load its source before decoding",
+      })
+      .toBe(true);
+    await print.evaluate((img) => img.decode());
+  }
   expect(
     await page
       .locator(".studio-print-pair img")
