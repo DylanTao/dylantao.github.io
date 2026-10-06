@@ -376,11 +376,12 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       await expect(page.locator("[data-personal-code-unavailable]")).toBeHidden();
       await expect(page.locator("[data-personal-daily-copy]").first()).toBeVisible();
       await expect(page.locator("[data-build-rhythm-overview]")).toBeVisible();
-      await expect(page.locator("[data-rhythm-history-cell]")).toHaveCount(540);
-      await expect(page.locator("[data-rhythm-slot]")).toHaveCount(0);
-      await expect(page.locator("[data-rhythm-view]")).toHaveCount(4);
+      await expect(page.locator("[data-rhythm-cumulative-line]")).toHaveCount(1);
+      await expect(page.locator("[data-rhythm-slot]")).toHaveCount(365);
+      await expect(page.locator("[data-rhythm-view]")).toHaveCount(2);
       await expect(page.locator("[data-rhythm-chart]")).toHaveCount(1);
-      await expect(page.locator('[data-rhythm-inspector][tabindex="0"]')).toHaveCount(1);
+      await expect(page.locator("[data-rhythm-detail-chart]")).toHaveCount(1);
+      await expect(page.locator('[data-rhythm-inspector][tabindex="0"]')).toHaveCount(2);
     }
   }
 
@@ -1037,7 +1038,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
           expect(layout.overflow, `${width}px Build Rhythm overflows`).toBeLessThanOrEqual(1);
           expect(layout.left).toBeGreaterThanOrEqual(0);
           expect(layout.right).toBeLessThanOrEqual(width);
-          expect(layout.controls).toHaveLength(4);
+          expect(layout.controls).toHaveLength(2);
           expect(layout.controls.every((box) => box.left >= 0 && box.right <= width + 1 && box.height >= 44)).toBe(true);
         }
       } else {
@@ -2094,7 +2095,8 @@ test("Build Rhythm exact-value table remains readable and keyboard accessible at
     const box = await table.boundingBox();
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(width);
-    await table.focus();
+    await page.locator("[data-rhythm-records] > summary").focus();
+    await page.keyboard.press("Tab");
     await expect(table).toBeFocused();
     expect(await table.evaluate((node) => parseFloat(getComputedStyle(node).outlineWidth))).toBeGreaterThanOrEqual(2);
     await expect(table.locator("tbody tr").last()).toContainText("2026-09-28");

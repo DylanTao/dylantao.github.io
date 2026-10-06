@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Build Rhythm: one stage, four readings of the recorded Personal history
+ * Build Rhythm: accumulated history and an independent year detail
  ******************************************************************************/
 
 .post:has(> article > .github-activity-page) {
@@ -7,8 +7,6 @@
   margin-inline: auto;
 }
 .github-activity-page {
-  --rhythm-ink: color-mix(in srgb, var(--global-brand-orange-color) 86%, var(--global-text-color));
-  --rhythm-zero: color-mix(in srgb, var(--global-text-color) 9%, var(--global-bg-color));
   width: 100%;
   padding: clamp(0.75rem, 2vw, 1.5rem) 0 2rem;
 }
@@ -28,7 +26,7 @@
   align-items: end;
   justify-content: space-between;
   gap: 1rem 2rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 .github-activity-eyebrow {
   margin: 0 0 0.55rem;
@@ -38,137 +36,160 @@
 }
 .github-activity-hero h1 {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-size: clamp(2rem, 4vw, 2.75rem);
   line-height: 1.08;
 }
 .github-activity-lede {
-  max-width: 47rem;
+  max-width: 43rem;
   margin: 0.8rem 0 0;
   font-size: var(--type-body);
   line-height: 1.6;
 }
 .build-rhythm-overview {
-  padding: clamp(0.75rem, 2vw, 1.5rem);
-  border: 1px solid var(--global-divider-color);
+  --rhythm-surface: #202327;
+  --rhythm-text: #f0ede8;
+  --rhythm-muted: #b5b5b4;
+  --rhythm-divider: #45474a;
+  --rhythm-zero: #3f4347;
+  --rhythm-ink: var(--global-brand-orange-color);
+  padding: 2rem;
   border-radius: var(--md-lite-radius-lg);
-  background: var(--md-lite-surface-tonal);
+  color: var(--rhythm-text);
+  background: var(--rhythm-surface);
+  color-scheme: dark;
 }
-.build-rhythm-toolbar {
+.build-rhythm-toolbar,
+.build-rhythm-detail-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 1rem 1.5rem;
 }
-.github-activity-segments {
-  display: flex;
-  gap: 0.2rem;
-  max-width: 100%;
-  padding: 0.2rem;
-  border: 1px solid var(--global-divider-color);
-  border-radius: var(--md-lite-radius-md);
-  background: var(--global-bg-color);
-}
-.github-activity-segments button {
-  min-width: 3.8rem;
-  min-height: 2.75rem;
-  padding: 0.4rem 0.8rem;
-  border: 0;
-  border-radius: var(--md-lite-radius-sm);
-  color: var(--global-text-color-light);
-  background: transparent;
-  font-family: inherit;
-  font-size: var(--type-meta);
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    background-color 160ms ease,
-    color 160ms ease;
-  &[aria-pressed="true"] {
-    color: var(--global-text-color);
-    background: color-mix(in srgb, var(--global-theme-color) 13%, var(--global-bg-color));
+.build-rhythm-summary {
+  margin: 0;
+  strong {
+    display: block;
+    color: var(--rhythm-text);
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.035em;
   }
-  &:hover {
-    background: color-mix(in srgb, var(--global-theme-color) 9%, var(--global-bg-color));
+  p {
+    margin: 0.35rem 0 0;
+    color: var(--rhythm-muted);
+    font-size: var(--type-meta);
   }
 }
 .build-rhythm-range-controls {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 0.65rem;
 }
-.build-rhythm-range-picker {
+.build-rhythm-range-picker,
+.build-rhythm-year-picker {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.3rem;
   margin: 0;
-  color: var(--global-text-color-light);
+  color: var(--rhythm-muted);
   font-size: var(--type-label);
   select {
     min-height: 2.75rem;
     min-width: 5rem;
-    padding: 0.4rem 0.6rem;
-    border: 1px solid var(--global-divider-color);
+    padding: 0.45rem 1.4rem 0.45rem 0.65rem;
+    border: 1px solid var(--rhythm-divider);
     border-radius: var(--md-lite-radius-sm);
-    color: var(--global-text-color);
-    background: var(--global-bg-color);
+    color: var(--rhythm-text);
+    background: var(--rhythm-surface);
     font: inherit;
+    font-size: var(--type-meta);
+    cursor: pointer;
   }
 }
-.build-rhythm-range-arrow {
-  align-self: end;
-  padding-bottom: 0.7rem;
-  color: var(--global-text-color-light);
+.build-rhythm-year-picker {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.65rem;
 }
-.build-rhythm-range-reset {
-  align-self: end;
+.build-rhythm-range-reset,
+.github-activity-segments button {
   min-height: 2.75rem;
-  padding: 0.4rem 0.7rem;
-  border: 1px solid var(--global-divider-color);
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--rhythm-divider);
   border-radius: var(--md-lite-radius-sm);
-  color: var(--global-text-color);
-  background: var(--global-bg-color);
-  font-family: inherit;
+  color: var(--rhythm-muted);
+  background: transparent;
+  font: inherit;
   font-size: var(--type-meta);
-  font-weight: 500;
   cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
   &:hover {
-    background: var(--md-lite-surface-tonal);
+    color: var(--rhythm-text);
+    background: var(--rhythm-zero);
+  }
+}
+.github-activity-segments {
+  display: flex;
+  gap: 0;
+}
+.github-activity-segments button {
+  min-width: 4.5rem;
+  &:first-child {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+  &:last-child {
+    margin-left: -1px;
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+  &[aria-pressed="true"] {
+    position: relative;
+    color: var(--rhythm-text);
+    background: var(--rhythm-zero);
+    border-color: var(--rhythm-muted);
   }
 }
 .github-activity-segments button:focus-visible,
 .build-rhythm-range-picker select:focus-visible,
+.build-rhythm-year-picker select:focus-visible,
 .build-rhythm-range-reset:focus-visible,
 .build-rhythm-disclosure summary:focus-visible,
 .build-rhythm-table-wrap:focus-visible {
   outline: var(--md-lite-focus-ring);
   outline-offset: 3px;
 }
-.build-rhythm-summary {
-  min-height: 2rem;
-  margin: 1.25rem 0 0;
-  color: var(--global-text-color-light);
-  font-size: var(--type-meta);
-  strong {
-    margin-right: 0.3rem;
-    color: var(--global-text-color);
-    font-size: clamp(1.5rem, 2.4vw, 2rem);
-    font-weight: 500;
-    line-height: 1.15;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.025em;
-  }
+.build-rhythm-context,
+.build-rhythm-detail-context {
+  color: var(--rhythm-muted);
+  font-size: var(--type-label);
+  line-height: 1.5;
 }
 .build-rhythm-context {
-  min-height: 3rem;
-  margin: 0.45rem 0 0.6rem;
-  color: var(--global-text-color-light);
-  font-size: var(--type-meta);
-  line-height: 1.5;
+  margin: 1.3rem 0 0.8rem;
+}
+.build-rhythm-detail-context {
+  margin: 0.7rem 0 0.4rem;
+}
+.build-rhythm-history-stage {
+  width: 100%;
+  height: 220px;
+}
+.build-rhythm-detail {
+  margin-top: 1.15rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rhythm-divider);
 }
 .build-rhythm-plot-stage {
   width: 100%;
-  height: 320px;
+  height: 180px;
 }
 .build-rhythm-chart {
   display: block;
@@ -176,59 +197,59 @@
   height: 100%;
   overflow: hidden;
   text {
-    fill: var(--global-text-color-light);
+    fill: var(--rhythm-muted);
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 10px;
+  }
+  rect[data-rhythm-slot] {
+    transition:
+      fill 160ms ease,
+      stroke 160ms ease;
   }
   rect[data-evidence="recorded"] {
-    fill: var(--rhythm-ink);
+    fill: color-mix(in srgb, var(--rhythm-ink) var(--rhythm-intensity, 100%), var(--rhythm-zero));
   }
   rect[data-evidence="zero"] {
     fill: var(--rhythm-zero);
   }
+  rect[data-evidence="precoverage"] {
+    fill: url(#rhythm-precoverage);
+  }
+  rect[data-evidence="unverified"] {
+    fill: url(#rhythm-unverified);
+  }
   rect[data-evidence="future"] {
     fill: transparent;
-    stroke: color-mix(in srgb, var(--global-text-color-light) 32%, transparent);
+    stroke: var(--rhythm-divider);
     stroke-width: 0.7;
     stroke-dasharray: 1.5 2;
   }
-  rect[data-evidence="outside"] {
-    fill: transparent;
-  }
   rect[data-partial="true"] {
-    stroke: var(--global-text-color-light);
-    stroke-width: 1;
+    stroke: var(--rhythm-muted);
+    stroke-width: 0.7;
     stroke-dasharray: 2 2;
   }
 }
-.build-rhythm-year-link {
-  cursor: pointer;
-}
 .build-rhythm-gridline {
-  stroke: var(--global-divider-color);
+  stroke: var(--rhythm-divider);
   stroke-width: 0.7;
-}
-.build-rhythm-carry {
-  fill: color-mix(in srgb, var(--global-text-color) 13%, var(--global-bg-color));
-}
-.build-rhythm-cumulative-area {
-  fill: color-mix(in srgb, var(--rhythm-ink) 18%, transparent);
 }
 .build-rhythm-cumulative-line {
   fill: none;
   stroke: var(--rhythm-ink);
   stroke-width: 2;
   stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
 .build-rhythm-inspection-mark {
   fill: none;
-  stroke: var(--global-text-color);
+  stroke: var(--rhythm-text);
   stroke-width: 1.5;
   pointer-events: none;
 }
 .build-rhythm-inspection-dot {
   fill: var(--rhythm-ink);
-  stroke: var(--global-bg-color);
+  stroke: var(--rhythm-surface);
   stroke-width: 1.5;
   pointer-events: none;
 }
@@ -236,33 +257,30 @@
   cursor: crosshair;
   touch-action: pan-y;
   &:focus-visible {
-    outline: 2px solid var(--global-theme-color);
-    outline-offset: 3px;
+    outline: 2px solid var(--rhythm-ink);
+    outline-offset: -2px;
   }
 }
 .build-rhythm-readout {
-  min-height: 3rem;
-  margin: 0.5rem 0 0;
-  font-family: var(--font-mono);
+  min-height: 2.6rem;
+  margin: 0.65rem 0 0;
+  color: var(--rhythm-text);
   font-size: var(--type-label);
-  line-height: 1.6;
+  line-height: 1.5;
   font-variant-numeric: tabular-nums;
 }
 .build-rhythm-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--global-divider-color);
-  color: var(--global-text-color-light);
+  margin-top: 0.5rem;
+  color: var(--rhythm-muted);
   font-size: var(--type-label);
   span {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-  }
-  span[hidden] {
-    display: none;
+    color: var(--rhythm-muted);
   }
   i {
     display: inline-block;
@@ -277,24 +295,12 @@
     background: var(--rhythm-ink);
   }
   .is-unverified {
-    background: repeating-linear-gradient(0deg, transparent 0 2px, var(--global-text-color-light) 2px 3px, transparent 3px 5px);
-  }
-  .is-precoverage {
-    background: repeating-linear-gradient(135deg, transparent 0 2px, var(--global-text-color-light) 2px 3px, transparent 3px 5px);
-  }
-  .is-future {
-    border: 1px dotted var(--global-text-color-light);
-  }
-  .is-partial {
-    border: 1px dashed var(--global-text-color-light);
-  }
-  .is-carry {
-    background: color-mix(in srgb, var(--global-text-color) 25%, var(--global-bg-color));
+    background: repeating-linear-gradient(135deg, transparent 0 2px, var(--rhythm-muted) 2px 3px, transparent 3px 5px);
   }
 }
 .build-rhythm-coverage {
   margin: 0.8rem 0 0;
-  color: var(--global-text-color-light);
+  color: var(--rhythm-muted);
   font-size: var(--type-label);
   line-height: 1.5;
 }
@@ -349,53 +355,60 @@
     align-self: end;
   }
   .build-rhythm-toolbar {
-    gap: 0.65rem;
-  }
-  .github-activity-segments {
-    width: 100%;
-  }
-  .github-activity-segments button {
-    flex: 1;
-    min-width: 0;
-    padding-inline: 0.4rem;
-    font-size: 0.75rem;
+    gap: 1.3rem;
   }
   .build-rhythm-range-controls {
     width: 100%;
-    justify-content: end;
+    gap: 0.5rem;
   }
-  .build-rhythm-range-picker select {
-    min-width: 4.8rem;
+  .build-rhythm-range-picker {
+    flex: 1;
+    min-width: 0;
+    select {
+      width: 100%;
+      min-width: 0;
+    }
   }
   .build-rhythm-range-reset {
     padding-inline: 0.55rem;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
-  .build-rhythm-summary {
-    min-height: 5rem;
-    margin-top: 0.75rem;
+  .build-rhythm-detail-toolbar {
+    gap: 0.8rem;
   }
-  .build-rhythm-summary strong {
-    display: block;
+  .build-rhythm-year-picker {
+    flex-direction: column;
+    align-items: start;
+    gap: 0.3rem;
   }
-  .build-rhythm-context {
-    min-height: 4rem;
+  .github-activity-segments button {
+    min-width: 3.8rem;
+    padding-inline: 0.55rem;
+    font-size: 0.75rem;
+  }
+  .build-rhythm-history-stage {
+    height: 200px;
   }
   .build-rhythm-plot-stage {
-    height: 290px;
-  }
-  .build-rhythm-chart text {
-    font-size: 10px;
+    height: 260px;
   }
   .build-rhythm-readout {
-    min-height: 5.5rem;
+    min-height: 3.8rem;
+  }
+  .build-rhythm-detail-context {
+    min-height: 3.375rem;
+  }
+  .build-rhythm-summary p {
+    min-height: 2.6rem;
   }
   .build-rhythm-legend {
     gap: 0.5rem 0.8rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .github-activity-segments button {
+  .github-activity-segments button,
+  .build-rhythm-range-reset,
+  .build-rhythm-chart rect[data-rhythm-slot] {
     transition: none;
   }
 }

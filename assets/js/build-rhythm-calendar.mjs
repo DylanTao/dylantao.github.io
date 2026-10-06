@@ -202,6 +202,38 @@ export function commitViewValue(week, view) {
   return view === "cumulative" ? week.cumulative : week.commits;
 }
 
+// Each half owns its actual dates. A Sunday column may straddle June/July,
+// but that never duplicates a date or imports a neighboring-year value.
+export function createCalendarBlocks(year, split = false) {
+  return (
+    split
+      ? [
+          [0, 6],
+          [6, 12],
+        ]
+      : [[0, 12]]
+  ).map(([firstMonth, nextMonth]) => {
+    const start = Date.UTC(year.year, firstMonth, 1);
+    const end = Date.UTC(year.year, nextMonth, 1) - DAY_MS;
+    const sunday = start - new Date(start).getUTCDay() * DAY_MS;
+    return {
+      firstMonth,
+      nextMonth,
+      columns: Math.ceil((end - sunday + DAY_MS) / (7 * DAY_MS)),
+      days: year.cells
+        .filter((day) => day.inYear && stampFor(day.date) >= start && stampFor(day.date) <= end)
+        .map((day) => ({
+          ...day,
+          column: Math.floor((stampFor(day.date) - sunday) / (7 * DAY_MS)),
+        })),
+      months: Array.from({ length: nextMonth - firstMonth }, (_, index) => {
+        const month = firstMonth + index;
+        return { month, column: Math.floor((Date.UTC(year.year, month, 1) - sunday) / (7 * DAY_MS)) };
+      }),
+    };
+  });
+}
+
 export function coverageFreshness(history, now = new Date()) {
   const parts = Object.fromEntries(
     new Intl.DateTimeFormat("en-US", {

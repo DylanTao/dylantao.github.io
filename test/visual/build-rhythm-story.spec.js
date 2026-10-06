@@ -5,6 +5,10 @@ const recorded = require("../../_data/code_activity.json");
 const sum = (points) => points.reduce((total, point) => total + (point.personal?.commits ?? 0), 0);
 const evidence = (page) => page.evaluate(() => window.getCommitOverviewEvidence());
 
+async function settled(page) {
+  for (const selector of ["[data-rhythm-chart]", "[data-rhythm-detail-chart]"])
+    await expect(page.locator(selector)).toHaveAttribute("data-transitioning", "false");
+}
 async function open(page, { activity = recorded, theme = "light", reduced = false } = {}) {
   await preparePage(page, theme);
   if (reduced) await page.emulateMedia({ reducedMotion: "reduce" });
@@ -19,225 +23,282 @@ async function open(page, { activity = recorded, theme = "light", reduced = fals
   await page.goto(url, { waitUntil: "domcontentloaded" });
   await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", /^(ready|unavailable)$/);
   if ((await page.locator("[data-github-activity]").getAttribute("data-state")) === "ready") {
-    await expect(page.locator("[data-rhythm-chart]")).toHaveAttribute("data-transitioning", "false");
+    await settled(page);
     await page.evaluate(() => document.fonts?.ready);
   }
 }
 async function view(page, mode) {
   await page.locator(`[data-rhythm-view="${mode}"]`).click();
-  await expect(page.locator("[data-rhythm-chart]")).toHaveAttribute("data-view", mode);
-  await expect(page.locator("[data-rhythm-chart]")).toHaveAttribute("data-transitioning", "false");
+  await expect(page.locator("[data-rhythm-detail-chart]")).toHaveAttribute("data-view", mode);
+  await settled(page);
 }
 async function range(page, start, end = start) {
   await page.locator("[data-rhythm-range-start]").selectOption(String(start));
   await page.locator("[data-rhythm-range-end]").selectOption(String(end));
   await expect(page.locator("[data-rhythm-chart]")).toHaveAttribute("data-start-year", String(start));
   await expect(page.locator("[data-rhythm-chart]")).toHaveAttribute("data-end-year", String(end));
-  await expect(page.locator("[data-rhythm-chart]")).toHaveAttribute("data-transitioning", "false");
+  await settled(page);
 }
+const documentBox = (locator) =>
+  locator.evaluate((node) => {
+    const box = node.getBoundingClientRect();
+    return { x: box.x + scrollX, y: box.y + scrollY, width: box.width, height: box.height };
+  });
 
-test("one chart keeps the selected view independent of its start and end years", async ({ page }) => {
+test("one panel keeps full history visible while the independent year detail changes", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
   await open(page);
-  const chart = page.locator("[data-rhythm-chart]");
-  await expect(chart).toHaveCount(1);
-  await expect(page.locator("[data-build-rhythm-overview] svg")).toHaveCount(1);
-  await expect(page.locator("[data-rhythm-history-cell]")).toHaveCount(540);
-  await expect(page.locator("[data-rhythm-slot]")).toHaveCount(0);
+  await expect(page.locator("[data-build-rhythm-overview]")).toHaveCount(1);
+  await expect(page.locator("[data-build-rhythm-overview] svg")).toHaveCount(2);
+  await expect(page.locator("[data-rhythm-slot]")).toHaveCount(365);
   await expect(page.locator("[data-rhythm-summary]")).toContainText("20,793");
   await expect(page.locator("[data-rhythm-range-start]")).toHaveValue("2017");
   await expect(page.locator("[data-rhythm-range-end]")).toHaveValue("2026");
+  const contrast = await page.locator("[data-build-rhythm-overview]").evaluate((panel) => {
+    const luminance = (color) => {
+      const channels = color
+        .match(/[\d.]+/g)
+        .slice(0, 3)
+        .map((value) => Number(value) / 255);
+      return channels
+        .map((value) => (value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4))
+        .reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
+    };
+    const background = luminance(getComputedStyle(panel).backgroundColor);
+    return [...panel.querySelectorAll("[data-rhythm-total], .build-rhythm-readout, .build-rhythm-legend span")].map((node) => {
+      const foreground = luminance(getComputedStyle(node).color);
+      return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
+    });
+  });
+  expect(
+    contrast.every((ratio) => ratio >= 4.5),
+    "panel text must retain readable contrast against charcoal"
+  ).toBe(true);
   expect(await evidence(page)).toMatchObject({
     years: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
     total: sum(recorded.points),
+    recordedDays: 3316,
     canonicalWeeks: 475,
     sourceCutoff: "2026-09-28",
-    tabStops: 1,
+    tabStops: 2,
+    year: 2026,
+    view: "daily",
+    cumulativeBasis: "selectedRangeRecorded",
   });
-  await chart.evaluate((node) => {
-    window.originalRhythmChart = node;
-  });
-  await range(page, 2024, 2025);
-  await expect(chart).toHaveAttribute("data-view", "history");
-  await expect(page.locator("[data-rhythm-history-cell]")).toHaveCount(108);
-  await expect(page.locator("[data-rhythm-summary]")).toContainText("751");
-  await view(page, "cumulative");
-  expect(await evidence(page)).toMatchObject({ rangeStart: 2024, rangeEnd: 2025, rangeTotal: 751, carryIn: 569, lifetimeTotal: 1320 });
-  await expect(page.locator("[data-rhythm-view-note]")).toContainText("751 added in 2024-2025 + 569 recorded earlier");
-  await page.locator("[data-rhythm-range-reset]").click();
-  await expect(chart).toHaveAttribute("data-transitioning", "false");
-  await expect(chart).toHaveAttribute("data-view", "cumulative");
-  expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, rangeTotal: 20793, carryIn: 0, lifetimeTotal: 20793 });
-  expect(await page.evaluate(() => window.originalRhythmChart === document.querySelector("[data-rhythm-chart]"))).toBe(true);
-  expect((await evidence(page)).tabStops).toBe(1);
+  const original = await page.locator("[data-rhythm-cumulative-line]").getAttribute("d");
+  await page.locator("[data-rhythm-year]").selectOption("2024");
+  await view(page, "weekly");
+  expect(await page.locator("[data-rhythm-cumulative-line]").getAttribute("d")).toBe(original);
+  expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, rangeTotal: 20793, year: 2024, view: "weekly" });
+  await expect(page.locator("[data-rhythm-year] option")).toHaveCount(10);
   expect(errors).toEqual([]);
 });
 
-test("full-range cumulative is one daily path with proportional dates and no annual resets", async ({ page }) => {
+test("selected ranges rebase the headline and line together and constrain only the detail year", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
   await open(page);
-  await view(page, "cumulative");
+  await view(page, "weekly");
+  for (const [start, end, total, lastDate] of [
+    [2026, 2026, 19473, "2026-09-28"],
+    [2024, 2025, 751, "2025-12-31"],
+    [2017, 2017, 0, "2017-12-31"],
+  ]) {
+    await range(page, start, end);
+    await expect(page.locator("[data-rhythm-total]")).toHaveText(total.toLocaleString("en-US"));
+    await expect(page.locator("[data-rhythm-cumulative-line]")).toHaveAttribute("data-endpoint-value", String(total));
+    await expect(page.locator("[data-rhythm-cumulative-line]")).toHaveAttribute("data-last-date", lastDate);
+    await expect(page.locator("[data-rhythm-year] option")).toHaveCount(end - start + 1);
+    expect(await evidence(page)).toMatchObject({ rangeTotal: total, historyEndpointValue: total, view: "weekly" });
+    await expect(page.locator("[data-rhythm-view-note]")).toContainText("Each range starts from zero");
+  }
+  await page.locator("[data-rhythm-range-reset]").click();
+  await settled(page);
+  expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, rangeTotal: 20793, year: 2017, view: "weekly" });
+  expect(errors).toEqual([]);
+});
+
+test("the cumulative path conserves exact dates and totals without annual resets or a forecast", async ({ page }) => {
+  const errors = collectRuntimeErrors(page);
+  await open(page);
   const line = page.locator("[data-rhythm-cumulative-line]");
-  await expect(line).toHaveCount(1);
   await expect(line).toHaveAttribute("data-first-date", "2017-08-31");
   await expect(line).toHaveAttribute("data-last-date", "2026-09-28");
   await expect(line).toHaveAttribute("data-recorded-days", "3316");
-  await expect(line).toHaveAttribute("data-basis", "lifetime-recorded");
+  await expect(line).toHaveAttribute("data-basis", "selected-range-recorded");
   const path = await line.getAttribute("d");
   expect((path.match(/M/g) ?? []).length).toBe(1);
-  const coordinates = [...path.matchAll(/[ML]([\d.]+),([\d.]+)/g)].map((match) => ({ x: Number(match[1]), y: Number(match[2]) }));
+  const coordinates = [...path.matchAll(/[ML](-?[\d.]+),(-?[\d.]+)/g)].map((match) => ({ x: Number(match[1]), y: Number(match[2]) }));
   const points = recorded.points.filter((point) => point.personal);
   expect(coordinates).toHaveLength(points.length);
-  const checkpoints = [0, 17, 17, 24, 279, 485, 569, 976, 1320];
-  const plot = await page.locator("[data-rhythm-inspector]").evaluate((node) => ({
+  const plot = await page.locator('[data-rhythm-inspector="history"]').evaluate((node) => ({
     left: Number(node.getAttribute("x")),
     top: Number(node.getAttribute("y")),
     width: Number(node.getAttribute("width")),
     height: Number(node.getAttribute("height")),
     maximum: Number(node.ownerSVGElement.dataset.yMaximum),
   }));
-  for (const [index, coordinate] of coordinates.entries()) {
-    const fraction = (Date.parse(points[index].date) - Date.parse("2017-01-01")) / (Date.parse("2027-01-01") - Date.parse("2017-01-01"));
-    expect(coordinate.x).toBeCloseTo(plot.left + fraction * plot.width, 2);
-    if (index > 0) {
-      expect(coordinate.x).toBeGreaterThan(coordinates[index - 1].x);
-      expect(coordinate.y).toBeLessThanOrEqual(coordinates[index - 1].y);
-    }
-  }
-  checkpoints.forEach((value, index) => {
-    const point = points.findIndex((point) => point.date === `${2017 + index}-12-31`);
-    expect(coordinates[point].y).toBeCloseTo(plot.top + plot.height - (value / plot.maximum) * plot.height, 2);
+  let accumulated = 0;
+  points.forEach((point, index) => {
+    accumulated += point.personal.commits;
+    const fraction = (Date.parse(point.date) - Date.parse("2017-01-01")) / (Date.parse("2027-01-01") - Date.parse("2017-01-01"));
+    expect(coordinates[index].x).toBeCloseTo(plot.left + fraction * plot.width, 2);
+    expect(coordinates[index].y).toBeCloseTo(plot.top + plot.height - (accumulated / plot.maximum) * plot.height, 2);
   });
-  const inspector = page.locator("[data-rhythm-inspector]");
+  expect(coordinates.at(-1).x).toBeLessThan(plot.left + plot.width);
+  const inspector = page.locator('[data-rhythm-inspector="history"]');
   await inspector.focus();
   await page.keyboard.press("End");
-  await expect(page.locator("[data-rhythm-readout]")).toContainText("Sep 28, 2026");
-  await expect(page.locator("[data-rhythm-readout]")).toContainText("20,793 lifetime recorded commits");
+  await expect(page.locator("[data-rhythm-history-readout]")).toContainText("Sep 28, 2026");
+  await expect(page.locator("[data-rhythm-history-readout]")).toContainText("20,793 cumulative recorded commits");
   await page.keyboard.press("ArrowRight");
-  await expect(page.locator("[data-rhythm-readout]")).toContainText("Unverified after the cutoff");
-  await expect(page.locator(".build-rhythm-inspection-dot")).toHaveAttribute("visibility", "hidden");
-  await expect(line).toHaveAttribute("data-last-date", "2026-09-28");
-  await expect(page.locator("[data-rhythm-carry-legend]")).toBeHidden();
+  expect((await evidence(page)).historySelectedDate).toBe("2026-09-28");
   expect(errors).toEqual([]);
 });
 
-test("the same plot changes from days to weekly bars and a cumulative line without shifting", async ({ page }, testInfo) => {
+test("Daily and Weekly replace one fixed detail slot without moving the history", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await open(page);
-  await range(page, 2026);
-  await view(page, "daily");
-  const stage = page.locator(".build-rhythm-plot-stage");
-  const before = await stage.boundingBox();
+  const stage = page.locator(".build-rhythm-plot-stage"),
+    history = page.locator(".build-rhythm-history-stage");
+  // Locator screenshots scroll. Compare document coordinates so scroll cannot
+  // masquerade as a layout shift on the shorter laptop viewport.
+  const before = await documentBox(stage),
+    historyBefore = await documentBox(history);
   const daily = await stage.screenshot();
-  await expect(page.locator("[data-rhythm-slot]")).toHaveCount(378);
   await view(page, "weekly");
   const weekly = await stage.screenshot();
   expect(screenshotDiffRatio(daily, weekly)).toBeGreaterThan(0.025);
-  expect(await stage.boundingBox()).toMatchObject({ y: before.y, height: before.height });
-  const inspector = page.locator("[data-rhythm-inspector]");
+  expect(await documentBox(stage)).toEqual(before);
+  expect(await documentBox(history)).toEqual(historyBefore);
+  await expect(page.locator("[data-rhythm-slot]")).toHaveCount(53);
+  const inspector = page.locator('[data-rhythm-inspector="detail"]');
   await inspector.focus();
   await page.keyboard.press("End");
   await expect(page.locator("[data-rhythm-readout]")).toContainText("970 recorded commits");
   await expect(page.locator("[data-rhythm-readout]")).toContainText("2 of 7 dates verified");
-  const column = (await evidence(page)).selectedWeek;
-  await expect(page.locator(`[data-rhythm-slot][data-column="${column}"][data-row="0"]`)).toHaveAttribute("data-value", "970");
-  await view(page, "cumulative");
-  const cumulative = await stage.screenshot();
-  expect(screenshotDiffRatio(weekly, cumulative)).toBeGreaterThan(0.025);
-  expect(await stage.boundingBox()).toMatchObject({ y: before.y, height: before.height });
-  await inspector.focus();
-  await page.keyboard.press("End");
-  await expect(page.locator("[data-rhythm-readout]")).toContainText("20,793 lifetime recorded commits");
-  await expect(page.locator("[data-rhythm-readout]")).toContainText("19,473 added in 2026 + 1,320 recorded earlier");
-  expect(await evidence(page)).toMatchObject({ yearTotal: 19473, rangeTotal: 19473, carryIn: 1320, lifetimeTotal: 20793 });
-  await expect(page.locator("[data-rhythm-carry-legend]")).toContainText("1,320 recorded before 2026");
-  const path = await page.locator("[data-rhythm-cumulative-line]").getAttribute("d");
-  const lastX = Number(path.match(/L([\d.]+),[\d.]+$/)[1]);
-  const cutoffX = await inspector.evaluate(
-    (node) =>
-      Number(node.getAttribute("x")) +
-      (Number(node.getAttribute("width")) * (Date.parse("2026-09-28") - Date.parse("2026-01-01"))) /
-        (Date.parse("2027-01-01") - Date.parse("2026-01-01"))
-  );
-  expect(lastX).toBeCloseTo(cutoffX, 2);
-  await testInfo.attach("one-stage-cumulative", { body: cumulative, contentType: "image/png" });
+  await view(page, "daily");
+  expect(await documentBox(stage)).toEqual(before);
+  await expect(page.locator("[data-rhythm-slot]")).toHaveCount(365);
+  await testInfo.attach("concept-a-daily-detail", { body: daily, contentType: "image/png" });
+  await testInfo.attach("concept-a-weekly-detail", { body: weekly, contentType: "image/png" });
   expect(errors).toEqual([]);
 });
 
-test("one keyboard inspector opens a history week and distinguishes zeros, missing dates, and leap days", async ({ page }) => {
+test("keyboard explorers distinguish verified zero, missing dates, leap day and the exact cutoff", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
   await open(page);
-  const inspector = page.locator("[data-rhythm-inspector]");
-  await inspector.focus();
+  const historyInspector = page.locator('[data-rhythm-inspector="history"]');
+  await historyInspector.focus();
   await page.keyboard.press("Home");
-  await expect(page.locator("[data-rhythm-readout]")).toContainText("2017");
   await page.keyboard.press("Enter");
-  await expect(page.locator("[data-rhythm-chart]")).toHaveAttribute("data-view", "daily");
-  await expect(inspector).toBeFocused();
+  await settled(page);
+  await expect(page.locator("[data-rhythm-year]")).toHaveValue("2017");
+  const inspector = page.locator('[data-rhythm-inspector="detail"]');
+  await inspector.focus();
   await page.keyboard.press("Home");
   await expect(page.locator("[data-rhythm-readout]")).toContainText("Aug 31, 2017");
   await expect(page.locator("[data-rhythm-readout]")).toContainText("0 recorded commits");
   await page.keyboard.press("ArrowLeft");
   await expect(page.locator("[data-rhythm-readout]")).toContainText("Before verified coverage");
-  await range(page, 2020);
+  await page.locator("[data-rhythm-year]").selectOption("2020");
+  await settled(page);
   await expect(page.locator('[data-rhythm-slot][data-date="2020-02-29"]')).toHaveAttribute("data-evidence", "zero");
-  await range(page, 2026);
+  await page.locator("[data-rhythm-year]").selectOption("2026");
+  await settled(page);
   await inspector.focus();
   await page.keyboard.press("End");
   await expect(page.locator("[data-rhythm-readout]")).toContainText("Sep 28, 2026");
   await expect(page.locator("[data-rhythm-readout]")).toContainText("569 recorded commits");
   await page.keyboard.press("ArrowDown");
   await expect(page.locator("[data-rhythm-readout]")).toContainText("Unverified after the cutoff");
-  await expect(page.locator('[data-rhythm-slot][data-date="2026-09-29"]')).toHaveAttribute("data-value", "unverified");
+  await expect(page.locator('[data-rhythm-slot][data-date="2026-09-29"]')).toHaveAttribute("data-evidence", "unverified");
   await expect(page.locator('[data-rhythm-slot][data-date="2026-12-31"]')).toHaveAttribute("data-evidence", "future");
   expect(errors).toEqual([]);
 });
 
-test("rapid range and view changes finish only the latest state at full opacity", async ({ page }) => {
+test("interrupted range changes retarget from the painted frame and update counts atomically", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
   await open(page);
-  await page.evaluate(() => {
-    const start = document.querySelector("[data-rhythm-range-start]"),
-      end = document.querySelector("[data-rhythm-range-end]");
-    start.value = "2024";
-    start.dispatchEvent(new Event("change"));
+  await page.locator("[data-rhythm-chart]").scrollIntoViewIfNeeded();
+  const result = await page.evaluate(async () => {
+    const change = (selector, value) => {
+      const node = document.querySelector(selector);
+      node.value = value;
+      node.dispatchEvent(new Event("change"));
+    };
+    change("[data-rhythm-range-start]", "2026");
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const painted = window.getCommitOverviewEvidence();
+    change("[data-rhythm-range-start]", "2024");
+    const retargeted = window.getCommitOverviewEvidence();
     document.querySelector('[data-rhythm-view="weekly"]').click();
-    document.querySelector('[data-rhythm-view="cumulative"]').click();
-    end.value = "2025";
-    end.dispatchEvent(new Event("change"));
-    document.querySelector('[data-rhythm-view="history"]').click();
-    start.value = "2026";
-    start.dispatchEvent(new Event("change"));
-    document.querySelector('[data-rhythm-view="cumulative"]').click();
-    document.querySelector("[data-rhythm-range-reset]").click();
-  });
-  const chart = page.locator("[data-rhythm-chart]");
-  await expect(chart).toHaveAttribute("data-transitioning", "false");
-  await expect(chart).toHaveAttribute("data-start-year", "2017");
-  await expect(chart).toHaveAttribute("data-end-year", "2026");
-  await expect(chart).toHaveAttribute("data-view", "cumulative");
-  await expect(chart.locator("[data-rhythm-marks]")).toHaveCount(1);
-  await expect(chart.locator("[data-rhythm-cumulative-line]")).toHaveCount(1);
-  expect(await chart.locator("[data-rhythm-marks]").evaluate((node) => Number(node.getAttribute("opacity") ?? 1))).toBe(1);
-  expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, view: "cumulative", transitioning: false });
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.evaluate(() => {
     document.querySelector('[data-rhythm-view="daily"]').click();
+    change("[data-rhythm-range-end]", "2025");
+    document.querySelector("[data-rhythm-range-reset]").click();
+    return { painted, retargeted, latest: window.getCommitOverviewEvidence() };
   });
-  expect((await evidence(page)).transitioning).toBe(false);
-  expect(await chart.locator("[data-rhythm-marks]").evaluate((node) => Number(node.getAttribute("opacity") ?? 1))).toBe(1);
+  expect(result.painted.historyTransitioning).toBe(true);
+  expect(result.retargeted.historyTransform).toEqual(result.painted.historyTransform);
+  expect(result.retargeted.rangeTotal).toBe(20224);
+  expect(result.retargeted.summary).toContain("20,224");
+  expect(result.latest.rangeTotal).toBe(20793);
+  expect(result.latest.summary).toContain("20,793");
+  await settled(page);
+  expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, view: "daily", transitioning: false });
+  expect((await evidence(page)).retargets).toBeGreaterThanOrEqual(3);
+  await expect(page.locator("[data-rhythm-cumulative-line]")).toHaveCount(1);
+  await expect(page.locator("[data-build-rhythm-overview] svg")).toHaveCount(2);
   expect(errors).toEqual([]);
 });
 
-test("reduced motion and the deferred daily table preserve exact values for the selected range", async ({ page }) => {
+test("hit testing follows the actual rendered detail marks during interrupted motion", async ({ page }) => {
+  const errors = collectRuntimeErrors(page);
+  await open(page);
+  await page.locator("[data-rhythm-detail-chart]").scrollIntoViewIfNeeded();
+  const inspected = await page.evaluate(async () => {
+    document.querySelector('[data-rhythm-view="weekly"]').click();
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    document.querySelector('[data-rhythm-view="daily"]').click();
+    const mark = document.querySelector('[data-rhythm-slot][data-key="2026-09-27"]');
+    const svg = document.querySelector("[data-rhythm-detail-chart]");
+    const p = svg.createSVGPoint();
+    p.x = Number(mark.getAttribute("x")) + Number(mark.getAttribute("width")) / 2;
+    p.y = Number(mark.getAttribute("y")) + Number(mark.getAttribute("height")) / 2;
+    const expected = [...document.querySelectorAll("[data-rhythm-slot]")]
+      .findLast(
+        (node) =>
+          p.x >= Number(node.getAttribute("x")) &&
+          p.x <= Number(node.getAttribute("x")) + Number(node.getAttribute("width")) &&
+          p.y >= Number(node.getAttribute("y")) &&
+          p.y <= Number(node.getAttribute("y")) + Number(node.getAttribute("height"))
+      )
+      .getAttribute("data-date");
+    const screen = p.matrixTransform(svg.getScreenCTM());
+    document
+      .querySelector('[data-rhythm-inspector="detail"]')
+      .dispatchEvent(new PointerEvent("pointerdown", { clientX: screen.x, clientY: screen.y }));
+    return { ...window.getCommitOverviewEvidence(), expected };
+  });
+  expect(inspected.selectedDate).toBe(inspected.expected);
+  const sourceValue = recorded.points.find((point) => point.date === inspected.expected)?.personal?.commits;
+  expect(inspected.readout).toContain(
+    sourceValue === undefined ? "Unverified after the cutoff" : `${sourceValue.toLocaleString("en-US")} recorded commits`
+  );
+  await settled(page);
+  expect(errors).toEqual([]);
+});
+
+test("reduced motion is immediate and the deferred native table follows the independent detail year", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
   await open(page, { reduced: true, theme: "dark" });
-  await range(page, 2026);
-  for (const mode of ["weekly", "cumulative", "daily", "history"]) {
-    await page.locator(`[data-rhythm-view="${mode}"]`).click();
-    expect((await evidence(page)).transitioning).toBe(false);
-  }
-  await view(page, "cumulative");
+  await page.evaluate(() => {
+    const start = document.querySelector("[data-rhythm-range-start]");
+    start.value = "2026";
+    start.dispatchEvent(new Event("change"));
+    document.querySelector('[data-rhythm-view="weekly"]').click();
+  });
+  expect((await evidence(page)).transitioning).toBe(false);
+  expect((await evidence(page)).rangeTotal).toBe(19473);
   await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(0);
   await page.locator("[data-rhythm-method] > summary").click();
   await page.locator("[data-rhythm-records] > summary").click();
@@ -247,16 +308,14 @@ test("reduced motion and the deferred daily table preserve exact values for the 
   await expect(final.locator("td").first()).toHaveText("569");
   await expect(final.locator("td").last()).toHaveText(recorded.points.at(-1).personal.authored_commits.toLocaleString("en-US"));
   await page.locator("[data-rhythm-range-reset]").click();
-  await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(3316);
+  await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(271);
+  await page.locator("[data-rhythm-year]").selectOption("2017");
+  await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(123);
   await expect(page.locator("[data-rhythm-table-body] tr").first().locator("th")).toHaveText("2017-08-31");
-  await range(page, 2024, 2025);
-  await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(731);
-  await expect(page.locator("[data-rhythm-chart]")).toHaveAttribute("data-view", "cumulative");
-  await expect(page.locator("[data-github-activity] svg")).toHaveCount(1);
   expect(errors).toEqual([]);
 });
 
-test("invalid snapshots fail compactly, while schema 5 and separate Intern work remain supported", async ({ page, browser }) => {
+test("invalid snapshots fail compactly while schema 5 and separate Intern work remain supported", async ({ page, browser }) => {
   const malformed = structuredClone(recorded);
   malformed.points.at(-1).personal.authored_commits = malformed.points.at(-1).personal.commits + 1;
   await open(page, { activity: malformed });
@@ -277,51 +336,50 @@ test("invalid snapshots fail compactly, while schema 5 and separate Intern work 
       errors = collectRuntimeErrors(other);
     await open(other, { activity: valid });
     expect((await evidence(other)).total).toBe(sum(recorded.points));
-    await view(other, "cumulative");
-    expect((await evidence(other)).lifetimeTotal).toBe(sum(recorded.points));
+    expect((await evidence(other)).historyEndpointValue).toBe(sum(recorded.points));
     expect(errors).toEqual([]);
   } finally {
     await context.close();
   }
 });
 
-test("touch opens a history week in the same chart and narrow layouts keep every range control", async ({ browser }) => {
+test("touch inspects exact dates in both half-year blocks and narrow layouts keep every control", async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 390, height: 1000 }, hasTouch: true, isMobile: true });
   try {
     const page = await context.newPage(),
       errors = collectRuntimeErrors(page);
     await open(page, { reduced: true });
-    const point = await page.evaluate(() => {
-      const node = document.querySelector('[data-rhythm-history-cell][data-year="2024"][data-column="20"]');
-      const chart = document.querySelector("[data-rhythm-chart]"),
-        point = chart.createSVGPoint();
-      point.x = Number(node.getAttribute("x")) + Number(node.getAttribute("width")) / 2;
-      point.y = Number(node.getAttribute("y")) + Number(node.getAttribute("height")) / 2;
-      const screen = point.matrixTransform(node.getScreenCTM());
-      return { x: screen.x, y: screen.y };
-    });
-    await page.touchscreen.tap(point.x, point.y);
-    await expect(page.locator("[data-rhythm-chart]")).toHaveAttribute("data-view", "daily");
-    await expect(page.locator("[data-rhythm-chart]")).toHaveAttribute("data-year", "2024");
-    await expect(page.locator("[data-rhythm-range-start]")).toHaveValue("2017");
-    await expect(page.locator("[data-rhythm-range-end]")).toHaveValue("2026");
-    for (const control of await page
-      .locator("[data-rhythm-view], [data-rhythm-range-start], [data-rhythm-range-end], [data-rhythm-range-reset]")
-      .all()) {
-      const bounds = await control.boundingBox();
-      expect(bounds.height).toBeGreaterThanOrEqual(44);
-      expect(bounds.x).toBeGreaterThanOrEqual(0);
-      expect(bounds.x + bounds.width).toBeLessThanOrEqual(391);
+    await expect(page.locator("[data-rhythm-detail-chart]")).toHaveAttribute("data-calendar-blocks", "2");
+    for (const [date, count] of [
+      ["2026-02-03", null],
+      ["2026-09-28", 569],
+    ]) {
+      const mark = page.locator(`[data-rhythm-slot][data-date="${date}"]`);
+      await mark.scrollIntoViewIfNeeded();
+      const box = await mark.boundingBox();
+      await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+      await expect(page.locator("[data-rhythm-readout]")).toContainText(count === null ? "Feb 3, 2026" : `${count} recorded commits`);
     }
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
-    expect((await evidence(page)).plotHeight).toBe(290);
-    for (const mode of ["weekly", "cumulative"]) {
+    for (const width of [320, 350, 390]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await settled(page);
+      for (const control of await page
+        .locator("[data-rhythm-view], [data-rhythm-range-start], [data-rhythm-range-end], [data-rhythm-range-reset], [data-rhythm-year]")
+        .all()) {
+        const bounds = await control.boundingBox();
+        expect(bounds.height).toBeGreaterThanOrEqual(44);
+        expect(bounds.x).toBeGreaterThanOrEqual(0);
+        expect(bounds.x + bounds.width).toBeLessThanOrEqual(width + 1);
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+      expect((await evidence(page)).plotHeight).toBe(260);
+    }
+    for (const mode of ["weekly", "daily"]) {
       await view(page, mode);
-      const clipped = await page.locator("[data-rhythm-chart] text").evaluateAll((nodes) =>
+      const clipped = await page.locator("[data-build-rhythm-overview] svg text").evaluateAll((nodes) =>
         nodes.some((node) => {
-          const box = node.getBBox(),
-            svg = node.ownerSVGElement;
-          return box.x < -0.5 || box.x + box.width > svg.viewBox.baseVal.width + 0.5;
+          const box = node.getBBox();
+          return box.x < -0.5 || box.x + box.width > node.ownerSVGElement.viewBox.baseVal.width + 0.5;
         })
       );
       expect(clipped, `${mode} labels are clipped on mobile`).toBe(false);

@@ -28,41 +28,48 @@ github_activity: true
     <div>
       <p class="github-activity-eyebrow">BUILDING, DAY BY DAY</p>
       <h1 id="github-activity-title">Build rhythm.</h1>
-      <p class="github-activity-lede">I wanted the logs to show where the work bunches up. Explore the same history at four scales.</p>
+      <p class="github-activity-lede">I wanted the logs to show where the work bunches up. Follow the accumulated history, then look closer at a year.</p>
     </div>
     {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
   </header>
 
   <section class="build-rhythm-overview" data-build-rhythm-overview data-personal-daily-copy aria-label="Personal commit history">
     <header class="build-rhythm-toolbar">
-      <div class="github-activity-segments" role="group" aria-label="Commit view">
-        <button type="button" data-rhythm-view="history" aria-pressed="true">History</button>
-        <button type="button" data-rhythm-view="daily" aria-pressed="false">Daily</button>
-        <button type="button" data-rhythm-view="weekly" aria-pressed="false">Weekly</button>
-        <button type="button" data-rhythm-view="cumulative" aria-pressed="false">Cumulative</button>
+      <div class="build-rhythm-summary" data-rhythm-summary>
+        <strong data-rhythm-total></strong>
+        <p data-rhythm-total-label>Recorded commits</p>
       </div>
       <div class="build-rhythm-range-controls" role="group" aria-label="Year range">
-        <label class="build-rhythm-range-picker">Start year <select data-rhythm-range-start aria-label="Range start year"></select></label>
-        <span class="build-rhythm-range-arrow" aria-hidden="true">→</span>
-        <label class="build-rhythm-range-picker">End year <select data-rhythm-range-end aria-label="Range end year"></select></label>
+        <label class="build-rhythm-range-picker">From <select data-rhythm-range-start aria-label="Range start year"></select></label>
+        <label class="build-rhythm-range-picker">To <select data-rhythm-range-end aria-label="Range end year"></select></label>
         <button class="build-rhythm-range-reset" type="button" data-rhythm-range-reset>All years</button>
       </div>
     </header>
-    <p class="build-rhythm-summary" data-rhythm-summary></p>
-    <p class="build-rhythm-context" data-rhythm-view-note></p>
-    <div class="build-rhythm-plot-stage">
-      <p class="sr-only" id="rhythm-chart-instructions">Choose start and end years for the same chart. All years restores the full range without changing the view. In History, arrow keys inspect weeks and years; Enter opens that year in Daily view. In Daily, up and down change days. Weekly inspects weeks; Cumulative inspects dates. Home and End select the first and last verified value. Cumulative shows the lifetime recorded total, including earlier recorded work.</p>
-      <svg class="build-rhythm-chart" data-rhythm-chart aria-label="Personal commit history" aria-describedby="rhythm-chart-instructions"></svg>
+    <p class="build-rhythm-context" data-rhythm-view-note>Cumulative recorded commits within the selected range. Each range starts from zero.</p>
+    <div class="build-rhythm-history-stage">
+      <p class="sr-only" id="rhythm-history-instructions">Choose From and To years to rebase the accumulated total to that range. Left and right arrows inspect exact recorded dates; Home and End choose the first and last verified date. Enter opens that date in the year detail below. The line stops at the verified cutoff.</p>
+      <svg class="build-rhythm-chart" data-rhythm-chart aria-label="Cumulative recorded commits within the selected range" aria-describedby="rhythm-history-instructions"></svg>
     </div>
-    <p class="build-rhythm-readout" data-rhythm-readout></p>
+    <p class="build-rhythm-readout" data-rhythm-history-readout></p>
+    <section class="build-rhythm-detail" aria-label="Year detail">
+      <header class="build-rhythm-detail-toolbar">
+        <label class="build-rhythm-year-picker">Year detail <select data-rhythm-year aria-label="Detail year"></select></label>
+        <div class="github-activity-segments" role="group" aria-label="Detail view">
+          <button type="button" data-rhythm-view="daily" aria-pressed="true">Daily</button>
+          <button type="button" data-rhythm-view="weekly" aria-pressed="false">Weekly</button>
+        </div>
+      </header>
+      <p class="build-rhythm-detail-context" data-rhythm-detail-note></p>
+      <div class="build-rhythm-plot-stage">
+        <p class="sr-only" id="rhythm-detail-instructions">Choose a detail year within the selected range. Daily shows Sunday-start calendar columns, split into two half-year blocks on small screens. Left and right move seven days; up and down move one day. Weekly shows only the dates in this year, with partial weeks labeled. Home and End choose the first and last verified value. Touch or point to a mark to read its exact date and count.</p>
+        <svg class="build-rhythm-chart" data-rhythm-detail-chart aria-label="Recorded daily commits for the detail year" aria-describedby="rhythm-detail-instructions"></svg>
+      </div>
+      <p class="build-rhythm-readout" data-rhythm-readout></p>
+    </section>
     <div class="build-rhythm-legend" aria-label="Chart legend">
       <span><i class="is-zero" aria-hidden="true"></i>Verified zero</span>
       <span><i class="is-active" aria-hidden="true"></i>Recorded commits</span>
-      <span><i class="is-unverified" aria-hidden="true"></i>After cutoff</span>
-      <span><i class="is-precoverage" aria-hidden="true"></i>Before coverage</span>
-      <span><i class="is-future" aria-hidden="true"></i>Future</span>
-      <span><i class="is-partial" aria-hidden="true"></i>Partial week</span>
-      <span data-rhythm-carry-legend hidden><i class="is-carry" aria-hidden="true"></i><span data-rhythm-carry-label>Earlier recorded work</span></span>
+      <span><i class="is-unverified" aria-hidden="true"></i>No verified value</span>
     </div>
     <p class="build-rhythm-coverage" data-rhythm-coverage></p>
   </section>
@@ -74,7 +81,7 @@ github_activity: true
     <div class="build-rhythm-method-copy">
       <p><strong>What counts.</strong> This chart uses Personal's reported commits on eligible default and <code>gh-pages</code> branches, merges included. The authored subset excludes merges and deploys. GitHub's contribution calendar also counts pull requests, issues, and reviews, so its total is a different measure. Intern work is a separate source and is not added to this chart.</p>
       <p><strong>Calendar and cutoff.</strong> Personal follows GitHub profile author-date labels, with completeness checked in <code>America/Los_Angeles</code>. Dates are not rebinned into the visitor's time zone. Zero appears only inside verified coverage. Dates before coverage, after the cutoff, and in the future keep separate marks.</p>
-      <p><strong>Reading the views.</strong> Start and end years choose the range without changing the view. History groups Sunday-start weeks by year; selecting a year opens its days in this same chart. Daily focuses on one year within the range. Weekly combines the range into continuous Sunday-start weeks. Cumulative uses a continuous date axis and lifetime recorded totals: commits added in the selected range plus recorded work before its start. The earlier work appears as a quiet carry-in band and is labeled separately. Only verified dates contribute; boundary weeks exclude dates outside the range. The curve begins at verified coverage and stops at the last verified date in the range.</p>
+      <p><strong>Reading the chart.</strong> From and To choose the accumulated history. The headline and orange line count only recorded commits within that range, rebased from zero; earlier work is excluded. All years restores 2017–2026. Year detail stays within the range and changes independently of the upper history. Daily and Weekly replace the same lower slot. Weeks start on Sunday and exclude dates outside the detail year; a partial week reports its verified dates explicitly. Only verified dates contribute; the curve begins at verified coverage and stops at the last verified date in the range. Orange intensity uses a logarithmic scale to keep smaller daily counts visible.</p>
       <p><strong>Sources and credits.</strong> Values come from the <a href="https://github.com/DylanTao/DylanTao/blob/main/docs/github-activity.json">published Personal snapshot</a>. The original story drew on <a href="https://rhythm-of-food.net/">Rhythm of Food</a>, by Google News Lab and Truth &amp; Beauty, and <a href="https://jrthomp.com/">John Thompson's visualization work</a>. Interaction and alternative reading paths draw on <a href="https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf">UW's Vega-Lite research</a> and <a href="https://www.frank.computer/chartability/">CMU's Chartability heuristics</a>.</p>
       <details class="build-rhythm-records" data-rhythm-records>
         <summary>Read recorded daily values</summary>

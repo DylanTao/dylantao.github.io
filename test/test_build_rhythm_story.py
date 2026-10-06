@@ -34,10 +34,12 @@ class BuildRhythmStoryTests(unittest.TestCase):
         cls.public_visual_config = PUBLIC_VISUAL_CONFIG_PATH.read_text(encoding="utf-8")
         cls.public_routes = PUBLIC_ROUTES_PATH.read_text(encoding="utf-8")
 
-    def test_one_chart_stage_and_native_data_disclosure(self) -> None:
-        self.assertEqual(self.page.count('<svg '), 1)
+    def test_persistent_history_and_one_detail_slot_with_native_data_disclosure(self) -> None:
+        self.assertEqual(self.page.count('<svg '), 2)
         self.assertIn('data-rhythm-chart', self.page)
-        self.assertEqual(re.findall(r'data-rhythm-view="([a-z]+)"', self.page), ['history', 'daily', 'weekly', 'cumulative'])
+        self.assertIn('data-rhythm-detail-chart', self.page)
+        self.assertIn('data-rhythm-year', self.page)
+        self.assertEqual(re.findall(r'data-rhythm-view="([a-z]+)"', self.page), ['daily', 'weekly'])
         self.assertIn('About the data', self.page)
         self.assertIn('data-rhythm-table-body', self.page)
         self.assertNotIn('data-build-rhythm-story', self.page)
@@ -144,9 +146,9 @@ class BuildRhythmStoryTests(unittest.TestCase):
                        'Dates are not rebinned into the visitor',
                        'Only verified dates contribute;',
                        'stops at the last verified date in the range.',
-                       'range without changing the view',
-                       'lifetime recorded totals',
-                       'plus recorded work before its start'):
+                       'rebased from zero; earlier work is excluded',
+                       'changes independently of the upper history',
+                       'Daily and Weekly replace the same lower slot'):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.page)
         for retired in ('PERSONAL AGENT TOKENS', 'Recent agent history is unavailable.',
