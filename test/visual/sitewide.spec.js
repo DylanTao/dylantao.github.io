@@ -2075,6 +2075,8 @@ test("mobile back-to-top control yields the reading surface to an inline footer 
 test("Build Rhythm exact-value table remains readable and keyboard accessible at narrow widths", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one browser covers the compact table widths");
   const errors = collectRuntimeErrors(page);
+  const personal = require("../../_data/code_activity.json").sources.find((source) => source.id === "personal");
+  const cutoff = personal.complete_through;
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/github-activity/"), { waitUntil: "domcontentloaded" });
   const activity = page.locator("[data-github-activity]");
@@ -2083,7 +2085,7 @@ test("Build Rhythm exact-value table remains readable and keyboard accessible at
     await expect(page.locator("[data-personal-code-unavailable]")).toHaveText("Code history is being rebuilt.");
     return;
   }
-  await page.locator("[data-rhythm-year]").selectOption("2026");
+  await page.locator("[data-rhythm-year]").selectOption(cutoff.slice(0, 4));
   await page.locator("[data-rhythm-method] > summary").click();
   await page.locator("[data-rhythm-records] > summary").click();
   const table = page.locator(".build-rhythm-table-wrap");
@@ -2099,7 +2101,7 @@ test("Build Rhythm exact-value table remains readable and keyboard accessible at
     await page.keyboard.press("Tab");
     await expect(table).toBeFocused();
     expect(await table.evaluate((node) => parseFloat(getComputedStyle(node).outlineWidth))).toBeGreaterThanOrEqual(2);
-    await expect(table.locator("tbody tr").last()).toContainText("2026-09-28");
+    await expect(table.locator("tbody tr").last()).toContainText(cutoff);
   }
   expect(errors).toEqual([]);
 });
