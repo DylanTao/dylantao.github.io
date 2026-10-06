@@ -12,6 +12,17 @@ import {
 } from "../assets/js/build-rhythm-geometry.mjs";
 
 const source = JSON.parse(fs.readFileSync(new URL("../_data/code_activity.json", import.meta.url), "utf8"));
+const points = source.points.filter((point) => point.personal),
+  cutoff = points.at(-1).date;
+const rawTotal = (start, end) =>
+  points
+    .filter((point) => Number(point.date.slice(0, 4)) >= start && Number(point.date.slice(0, 4)) <= end)
+    .reduce((sum, point) => sum + point.personal.commits, 0);
+const rawCount = (date) => points.find((point) => point.date === date)?.personal.commits ?? null;
+const nextDate = new Date(Date.parse(cutoff) + 86_400_000).toISOString().slice(0, 10);
+const weekStart = new Date(cutoff);
+weekStart.setUTCDate(weekStart.getUTCDate() - weekStart.getUTCDay());
+const lastWeek = points.filter((point) => point.date >= weekStart.toISOString().slice(0, 10));
 const history = createCommitHistory(source);
 const year = (value) => history.years.find((row) => row.year === value);
 const close = (actual, expected) => assert.ok(Math.abs(actual - expected) < 0.000001, `${actual} != ${expected}`);
@@ -35,12 +46,13 @@ test("each mobile half owns every date once, including leap day and the June/Jul
 });
 
 test("the headline and cumulative endpoint share the selected-range metric", () => {
-  for (const [start, end, total] of [
-    [2017, 2026, 20793],
-    [2026, 2026, 19473],
-    [2024, 2025, 751],
-    [2017, 2017, 0],
+  for (const [start, end] of [
+    [2017, 2026],
+    [2026, 2026],
+    [2024, 2025],
+    [2017, 2017],
   ]) {
+    const total = rawTotal(start, end);
     const range = createCommitRange(history, start, end),
       geometry = historyGeometry(range, 1000, 220);
     assert.equal(geometry.points.at(-1).value, total);
@@ -58,12 +70,12 @@ test("the headline and cumulative endpoint share the selected-range metric", () 
 
 test("full-history date spacing has no annual reset or extension beyond the verified cutoff", () => {
   const geometry = historyGeometry(createCommitRange(history, 2017, 2026), 1000, 220);
-  assert.equal(geometry.points.length, 3316);
+  assert.equal(geometry.points.length, points.length);
   const lookup = new Map(geometry.points.map((point) => [point.date, point]));
-  const gap = lookup.get("2026-09-28").x - lookup.get("2026-09-27").x;
+  const gap = geometry.points.at(-1).x - geometry.points.at(-2).x;
   close(lookup.get("2024-01-01").x - lookup.get("2023-12-31").x, gap);
-  assert.ok(lookup.get("2026-09-28").x < geometry.plot.right);
-  assert.equal(lookup.has("2026-09-29"), false);
+  assert.ok(lookup.get(cutoff).x < geometry.plot.right);
+  assert.equal(lookup.has(nextDate), false);
 });
 
 test("an interrupted range tween starts exactly at its painted affine date/value scale", () => {
@@ -73,7 +85,7 @@ test("an interrupted range tween starts exactly at its painted affine date/value
   const latest = historyGeometry(createCommitRange(history, 2024, 2026), 1000, 220);
   const restarted = interpolateHistoryTransform(partial, latest.transform, 0);
   assert.deepEqual(restarted, partial);
-  const common = latest.points.find((point) => point.date === "2026-09-28");
+  const common = latest.points.find((point) => point.date === cutoff);
   close(projectHistory([common], restarted)[0].x, projectHistory([common], partial)[0].x);
   close(projectHistory([common], restarted)[0].y, projectHistory([common], partial)[0].y);
   assert.deepEqual(interpolateHistoryTransform(partial, latest.transform, 1), latest.transform);
@@ -100,8 +112,8 @@ test("desktop and split mobile calendars retain source evidence and stay inside 
     const geometry = calendarGeometry(year(2026), width, height, split);
     assert.equal(geometry.blocks, split ? 2 : 1);
     assert.equal(geometry.marks.length, 365);
-    assert.equal(geometry.marks.find((mark) => mark.date === "2026-09-28").day.commits, 569);
-    assert.equal(geometry.marks.find((mark) => mark.date === "2026-09-29").day.commits, null);
+    assert.equal(geometry.marks.find((mark) => mark.date === cutoff).day.commits, rawCount(cutoff));
+    assert.equal(geometry.marks.find((mark) => mark.date === nextDate).day.commits, null);
     assert.ok(
       geometry.marks.every(
         (mark) => mark.width > 0 && mark.height > 0 && mark.x >= 0 && mark.x + mark.width <= width && mark.y + mark.height <= height
@@ -110,16 +122,32 @@ test("desktop and split mobile calendars retain source evidence and stay inside 
   }
 });
 
+test("wide daily calendars span the detail slot while dates stay square and month labels stay aligned", () => {
+  for (const width of [1500, 1920, 2400]) {
+    const geometry = calendarGeometry(year(2026), width, 180, false);
+    const rightmost = Math.max(...geometry.marks.map((mark) => mark.x + mark.width));
+    assert.ok(rightmost >= width * 0.97, `calendar leaves ${width - rightmost}px unused on the right`);
+    assert.ok(geometry.marks.every((mark) => mark.width === mark.height && mark.y + mark.height <= 180));
+    for (const [month, label] of geometry.labels.slice(0, 12).entries()) {
+      const firstDate = `2026-${String(month + 1).padStart(2, "0")}-01`;
+      close(label.x, geometry.marks.find((mark) => mark.date === firstDate).x);
+    }
+  }
+});
+
 test("weekly detail conserves one year's totals and preserves the last partial week", () => {
   const geometry = weeklyGeometry(year(2026), 1000, 180);
   assert.equal(
     geometry.marks.reduce((sum, mark) => sum + (mark.week.commits ?? 0), 0),
-    19473
+    rawTotal(2026, 2026)
   );
-  const latest = geometry.marks.find((mark) => mark.week.startsOn === "2026-09-27");
-  assert.equal(latest.week.commits, 970);
-  assert.equal(latest.week.knownDays, 2);
-  assert.equal(latest.date, "2026-09-28");
+  const latest = geometry.marks.find((mark) => mark.week.startsOn === weekStart.toISOString().slice(0, 10));
+  assert.equal(
+    latest.week.commits,
+    lastWeek.reduce((sum, point) => sum + point.personal.commits, 0)
+  );
+  assert.equal(latest.week.knownDays, lastWeek.length);
+  assert.equal(latest.date, cutoff);
   assert.equal(geometry.marks.at(-1).week.commits, null);
 });
 
@@ -135,10 +163,10 @@ test("date-keyed detail retargeting retains the partially painted positions and 
   close(next.y, old.y);
   close(next.width, old.width);
   close(next.height, old.height);
-  assert.equal(next.day.commits, 401);
+  assert.equal(next.day.commits, rawCount(date));
   assert.equal(next.week, undefined);
   const followingDate = restarted.find((mark) => mark.key === "2026-09-28");
   close(followingDate.x, old.x);
-  assert.equal(followingDate.day.commits, 569);
+  assert.equal(followingDate.day.commits, rawCount("2026-09-28"));
   assert.deepEqual(interpolateGeometry(partial, daily, 1), daily);
 });

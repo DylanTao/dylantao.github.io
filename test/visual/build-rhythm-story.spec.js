@@ -3,6 +3,30 @@ const { collectRuntimeErrors, preparePage, screenshotDiffRatio } = require("./he
 const { publicRouteUrl } = require("./public-routes");
 const recorded = require("../../_data/code_activity.json");
 const sum = (points) => points.reduce((total, point) => total + (point.personal?.commits ?? 0), 0);
+const personalPoints = recorded.points.filter((point) => point.personal);
+const cutoff = personalPoints.at(-1).date;
+const cutoffCount = personalPoints.at(-1).personal.commits;
+const rangeTotal = (start, end) =>
+  sum(
+    personalPoints.filter((point) => {
+      const year = Number(point.date.slice(0, 4));
+      return year >= start && year <= end;
+    })
+  );
+const dateLabel = (date) =>
+  new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+const sunday = (date) => {
+  const day = new Date(`${date}T00:00:00Z`);
+  day.setUTCDate(day.getUTCDate() - day.getUTCDay());
+  return day.toISOString().slice(0, 10);
+};
+const latestWeekPoints = personalPoints.filter((point) => point.date >= sunday(cutoff));
+const nextDate = new Date(Date.parse(cutoff) + 86_400_000).toISOString().slice(0, 10);
 const evidence = (page) => page.evaluate(() => window.getCommitOverviewEvidence());
 
 async function settled(page) {
@@ -51,7 +75,7 @@ test("one panel keeps full history visible while the independent year detail cha
   await expect(page.locator("[data-build-rhythm-overview]")).toHaveCount(1);
   await expect(page.locator("[data-build-rhythm-overview] svg")).toHaveCount(2);
   await expect(page.locator("[data-rhythm-slot]")).toHaveCount(365);
-  await expect(page.locator("[data-rhythm-summary]")).toContainText("20,793");
+  await expect(page.locator("[data-rhythm-summary]")).toContainText(sum(personalPoints).toLocaleString("en-US"));
   await expect(page.locator("[data-rhythm-range-start]")).toHaveValue("2017");
   await expect(page.locator("[data-rhythm-range-end]")).toHaveValue("2026");
   const contrast = await page.locator("[data-build-rhythm-overview]").evaluate((panel) => {
@@ -77,9 +101,9 @@ test("one panel keeps full history visible while the independent year detail cha
   expect(await evidence(page)).toMatchObject({
     years: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
     total: sum(recorded.points),
-    recordedDays: 3316,
-    canonicalWeeks: 475,
-    sourceCutoff: "2026-09-28",
+    recordedDays: personalPoints.length,
+    canonicalWeeks: new Set(personalPoints.map((point) => sunday(point.date))).size,
+    sourceCutoff: cutoff,
     tabStops: 2,
     year: 2026,
     view: "daily",
@@ -89,8 +113,35 @@ test("one panel keeps full history visible while the independent year detail cha
   await page.locator("[data-rhythm-year]").selectOption("2024");
   await view(page, "weekly");
   expect(await page.locator("[data-rhythm-cumulative-line]").getAttribute("d")).toBe(original);
-  expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, rangeTotal: 20793, year: 2024, view: "weekly" });
+  expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, rangeTotal: sum(personalPoints), year: 2024, view: "weekly" });
   await expect(page.locator("[data-rhythm-year] option")).toHaveCount(10);
+  expect(errors).toEqual([]);
+});
+
+test("wide calendars use the full detail width while keeping square dates and one fixed slot", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await page.setViewportSize({ width: 1920, height: 1000 });
+  await open(page, { reduced: true });
+  const stage = page.locator(".build-rhythm-plot-stage");
+  const bounds = await documentBox(stage);
+  const marks = await page.locator("[data-rhythm-detail-chart]").evaluate((svg) => {
+    const cells = [...svg.querySelectorAll("[data-rhythm-slot]")];
+    return {
+      width: svg.viewBox.baseVal.width,
+      rightmost: Math.max(...cells.map((node) => Number(node.getAttribute("x")) + Number(node.getAttribute("width")))),
+      square: cells.every((node) => node.getAttribute("width") === node.getAttribute("height")),
+    };
+  });
+  expect(marks.rightmost).toBeGreaterThanOrEqual(marks.width * 0.97);
+  expect(marks.rightmost).toBeLessThanOrEqual(marks.width);
+  expect(marks.square).toBe(true);
+  expect(bounds.height).toBe(180);
+  await view(page, "weekly");
+  expect(await documentBox(stage)).toEqual(bounds);
+  await view(page, "daily");
+  expect(await documentBox(stage)).toEqual(bounds);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  await testInfo.attach("wide-calendar-fit", { body: await page.screenshot({ fullPage: true }), contentType: "image/png" });
   expect(errors).toEqual([]);
 });
 
@@ -99,9 +150,9 @@ test("selected ranges rebase the headline and line together and constrain only t
   await open(page);
   await view(page, "weekly");
   for (const [start, end, total, lastDate] of [
-    [2026, 2026, 19473, "2026-09-28"],
-    [2024, 2025, 751, "2025-12-31"],
-    [2017, 2017, 0, "2017-12-31"],
+    [2026, 2026, rangeTotal(2026, 2026), cutoff],
+    [2024, 2025, rangeTotal(2024, 2025), "2025-12-31"],
+    [2017, 2017, rangeTotal(2017, 2017), "2017-12-31"],
   ]) {
     await range(page, start, end);
     await expect(page.locator("[data-rhythm-total]")).toHaveText(total.toLocaleString("en-US"));
@@ -113,7 +164,7 @@ test("selected ranges rebase the headline and line together and constrain only t
   }
   await page.locator("[data-rhythm-range-reset]").click();
   await settled(page);
-  expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, rangeTotal: 20793, year: 2017, view: "weekly" });
+  expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, rangeTotal: sum(personalPoints), year: 2017, view: "weekly" });
   expect(errors).toEqual([]);
 });
 
@@ -122,8 +173,8 @@ test("the cumulative path conserves exact dates and totals without annual resets
   await open(page);
   const line = page.locator("[data-rhythm-cumulative-line]");
   await expect(line).toHaveAttribute("data-first-date", "2017-08-31");
-  await expect(line).toHaveAttribute("data-last-date", "2026-09-28");
-  await expect(line).toHaveAttribute("data-recorded-days", "3316");
+  await expect(line).toHaveAttribute("data-last-date", cutoff);
+  await expect(line).toHaveAttribute("data-recorded-days", String(personalPoints.length));
   await expect(line).toHaveAttribute("data-basis", "selected-range-recorded");
   const path = await line.getAttribute("d");
   expect((path.match(/M/g) ?? []).length).toBe(1);
@@ -148,10 +199,12 @@ test("the cumulative path conserves exact dates and totals without annual resets
   const inspector = page.locator('[data-rhythm-inspector="history"]');
   await inspector.focus();
   await page.keyboard.press("End");
-  await expect(page.locator("[data-rhythm-history-readout]")).toContainText("Sep 28, 2026");
-  await expect(page.locator("[data-rhythm-history-readout]")).toContainText("20,793 cumulative recorded commits");
+  await expect(page.locator("[data-rhythm-history-readout]")).toContainText(dateLabel(cutoff));
+  await expect(page.locator("[data-rhythm-history-readout]")).toContainText(
+    `${sum(personalPoints).toLocaleString("en-US")} cumulative recorded commits`
+  );
   await page.keyboard.press("ArrowRight");
-  expect((await evidence(page)).historySelectedDate).toBe("2026-09-28");
+  expect((await evidence(page)).historySelectedDate).toBe(cutoff);
   expect(errors).toEqual([]);
 });
 
@@ -174,8 +227,8 @@ test("Daily and Weekly replace one fixed detail slot without moving the history"
   const inspector = page.locator('[data-rhythm-inspector="detail"]');
   await inspector.focus();
   await page.keyboard.press("End");
-  await expect(page.locator("[data-rhythm-readout]")).toContainText("970 recorded commits");
-  await expect(page.locator("[data-rhythm-readout]")).toContainText("2 of 7 dates verified");
+  await expect(page.locator("[data-rhythm-readout]")).toContainText(`${sum(latestWeekPoints).toLocaleString("en-US")} recorded commits`);
+  await expect(page.locator("[data-rhythm-readout]")).toContainText(`${latestWeekPoints.length} of 7 dates verified`);
   await view(page, "daily");
   expect(await documentBox(stage)).toEqual(before);
   await expect(page.locator("[data-rhythm-slot]")).toHaveCount(365);
@@ -207,11 +260,11 @@ test("keyboard explorers distinguish verified zero, missing dates, leap day and 
   await settled(page);
   await inspector.focus();
   await page.keyboard.press("End");
-  await expect(page.locator("[data-rhythm-readout]")).toContainText("Sep 28, 2026");
-  await expect(page.locator("[data-rhythm-readout]")).toContainText("569 recorded commits");
+  await expect(page.locator("[data-rhythm-readout]")).toContainText(dateLabel(cutoff));
+  await expect(page.locator("[data-rhythm-readout]")).toContainText(`${cutoffCount.toLocaleString("en-US")} recorded commits`);
   await page.keyboard.press("ArrowDown");
   await expect(page.locator("[data-rhythm-readout]")).toContainText("Unverified after the cutoff");
-  await expect(page.locator('[data-rhythm-slot][data-date="2026-09-29"]')).toHaveAttribute("data-evidence", "unverified");
+  await expect(page.locator(`[data-rhythm-slot][data-date="${nextDate}"]`)).toHaveAttribute("data-evidence", "unverified");
   await expect(page.locator('[data-rhythm-slot][data-date="2026-12-31"]')).toHaveAttribute("data-evidence", "future");
   expect(errors).toEqual([]);
 });
@@ -239,10 +292,10 @@ test("interrupted range changes retarget from the painted frame and update count
   });
   expect(result.painted.historyTransitioning).toBe(true);
   expect(result.retargeted.historyTransform).toEqual(result.painted.historyTransform);
-  expect(result.retargeted.rangeTotal).toBe(20224);
-  expect(result.retargeted.summary).toContain("20,224");
-  expect(result.latest.rangeTotal).toBe(20793);
-  expect(result.latest.summary).toContain("20,793");
+  expect(result.retargeted.rangeTotal).toBe(rangeTotal(2024, 2026));
+  expect(result.retargeted.summary).toContain(rangeTotal(2024, 2026).toLocaleString("en-US"));
+  expect(result.latest.rangeTotal).toBe(sum(personalPoints));
+  expect(result.latest.summary).toContain(sum(personalPoints).toLocaleString("en-US"));
   await settled(page);
   expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, view: "daily", transitioning: false });
   expect((await evidence(page)).retargets).toBeGreaterThanOrEqual(3);
@@ -298,17 +351,17 @@ test("reduced motion is immediate and the deferred native table follows the inde
     document.querySelector('[data-rhythm-view="weekly"]').click();
   });
   expect((await evidence(page)).transitioning).toBe(false);
-  expect((await evidence(page)).rangeTotal).toBe(19473);
+  expect((await evidence(page)).rangeTotal).toBe(rangeTotal(2026, 2026));
   await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(0);
   await page.locator("[data-rhythm-method] > summary").click();
   await page.locator("[data-rhythm-records] > summary").click();
-  await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(271);
+  await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(personalPoints.filter((point) => point.date.startsWith("2026-")).length);
   const final = page.locator("[data-rhythm-table-body] tr").last();
-  await expect(final.locator("th")).toHaveText("2026-09-28");
-  await expect(final.locator("td").first()).toHaveText("569");
-  await expect(final.locator("td").last()).toHaveText(recorded.points.at(-1).personal.authored_commits.toLocaleString("en-US"));
+  await expect(final.locator("th")).toHaveText(cutoff);
+  await expect(final.locator("td").first()).toHaveText(cutoffCount.toLocaleString("en-US"));
+  await expect(final.locator("td").last()).toHaveText(personalPoints.at(-1).personal.authored_commits.toLocaleString("en-US"));
   await page.locator("[data-rhythm-range-reset]").click();
-  await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(271);
+  await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(personalPoints.filter((point) => point.date.startsWith("2026-")).length);
   await page.locator("[data-rhythm-year]").selectOption("2017");
   await expect(page.locator("[data-rhythm-table-body] tr")).toHaveCount(123);
   await expect(page.locator("[data-rhythm-table-body] tr").first().locator("th")).toHaveText("2017-08-31");
@@ -352,13 +405,15 @@ test("touch inspects exact dates in both half-year blocks and narrow layouts kee
     await expect(page.locator("[data-rhythm-detail-chart]")).toHaveAttribute("data-calendar-blocks", "2");
     for (const [date, count] of [
       ["2026-02-03", null],
-      ["2026-09-28", 569],
+      [cutoff, cutoffCount],
     ]) {
       const mark = page.locator(`[data-rhythm-slot][data-date="${date}"]`);
       await mark.scrollIntoViewIfNeeded();
       const box = await mark.boundingBox();
       await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
-      await expect(page.locator("[data-rhythm-readout]")).toContainText(count === null ? "Feb 3, 2026" : `${count} recorded commits`);
+      await expect(page.locator("[data-rhythm-readout]")).toContainText(
+        count === null ? "Feb 3, 2026" : `${count.toLocaleString("en-US")} recorded commits`
+      );
     }
     for (const width of [320, 350, 390]) {
       await page.setViewportSize({ width, height: 1000 });

@@ -10,6 +10,17 @@ import {
 } from "../assets/js/build-rhythm-calendar.mjs";
 
 const DAY_MS = 86_400_000;
+const personalPoints = (source) => source.points.filter((point) => point.personal);
+const sourceTotal = (source, from = "", through = "9999-12-31") =>
+  personalPoints(source)
+    .filter((point) => point.date >= from && point.date <= through)
+    .reduce((total, point) => total + point.personal.commits, 0);
+const sunday = (date) => {
+  const day = new Date(`${date}T00:00:00Z`);
+  day.setUTCDate(day.getUTCDate() - day.getUTCDay());
+  return day.toISOString().slice(0, 10);
+};
+const followingDate = (date) => new Date(Date.parse(`${date}T00:00:00Z`) + DAY_MS).toISOString().slice(0, 10);
 const fixture = (startsOn, completeThrough, count = () => 0) => {
   const points = [];
   for (let stamp = Date.parse(`${startsOn}T00:00:00Z`); stamp <= Date.parse(`${completeThrough}T00:00:00Z`); stamp += DAY_MS) {
@@ -26,18 +37,20 @@ test("actual verified history includes 2017 and conserves every personal commit"
   const source = JSON.parse(fs.readFileSync(new URL("../_data/code_activity.json", import.meta.url), "utf8"));
   const history = createCommitHistory(source);
   assert.equal(history.startsOn, "2017-08-31");
-  assert.equal(history.completeThrough, "2026-09-28");
+  const points = personalPoints(source),
+    cutoff = points.at(-1).date,
+    lastYear = Number(cutoff.slice(0, 4));
+  assert.equal(history.completeThrough, cutoff);
   assert.deepEqual(
     history.years.map((row) => row.year),
-    Array.from({ length: 10 }, (_, i) => 2017 + i)
+    Array.from({ length: lastYear - 2017 + 1 }, (_, i) => 2017 + i)
   );
   const personalTotal = source.points.reduce((total, point) => total + (point.personal?.commits ?? 0), 0);
   assert.equal(history.total, personalTotal);
-  assert.equal(history.total, 20793);
-  assert.equal(history.recordedDays, 3316);
+  assert.equal(history.recordedDays, points.length);
   assert.equal(history.columns, 54);
   assert.equal(history.years[0].total, 0);
-  assert.equal(history.years.at(-1).total, 19473);
+  assert.equal(history.years.at(-1).total, sourceTotal(source, `${lastYear}-01-01`));
   assert.equal(
     history.years.reduce((total, year) => total + year.total, 0),
     personalTotal
@@ -147,15 +160,17 @@ test("freshness uses the source completion calendar across Pacific midnight", ()
 test("canonical Sunday weeks reconcile the actual source independently of split display years", () => {
   const source = JSON.parse(fs.readFileSync(new URL("../_data/code_activity.json", import.meta.url), "utf8"));
   const history = createCommitHistory(source);
-  assert.equal(history.canonicalWeeks.length, 475);
+  const points = personalPoints(source),
+    lastWeek = points.filter((point) => point.date >= sunday(points.at(-1).date));
+  assert.equal(history.canonicalWeeks.length, new Set(points.map((point) => sunday(point.date))).size);
   assert.equal(
     history.canonicalWeeks.reduce((total, week) => total + week.commits, 0),
-    20793
+    sourceTotal(source)
   );
-  assert.equal(history.canonicalWeeks.at(-1).startsOn, "2026-09-27");
-  assert.equal(history.canonicalWeeks.at(-1).commits, 970);
-  assert.equal(history.canonicalWeeks.at(-1).knownDays, 2);
-  assert.equal(history.canonicalWeeks.at(-1).partial, true);
+  assert.equal(history.canonicalWeeks.at(-1).startsOn, sunday(points.at(-1).date));
+  assert.equal(history.canonicalWeeks.at(-1).commits, sourceTotal(source, lastWeek[0].date));
+  assert.equal(history.canonicalWeeks.at(-1).knownDays, lastWeek.length);
+  assert.equal(history.canonicalWeeks.at(-1).partial, lastWeek.length < 7);
 });
 
 test("one cross-year canonical week reconciles both display segments without double counting", () => {
@@ -173,13 +188,13 @@ test("one cross-year canonical week reconciles both display segments without dou
   );
 });
 
-test("2026 carry-in plus within-year accumulation reconciles the exact lifetime metric", () => {
+test("latest-year carry-in plus within-year accumulation reconciles the exact lifetime metric", () => {
   const source = JSON.parse(fs.readFileSync(new URL("../_data/code_activity.json", import.meta.url), "utf8"));
   const history = createCommitHistory(source);
-  const year = history.years.find((row) => row.year === 2026);
-  assert.equal(year.carryIn, 1320);
-  assert.equal(year.total, 19473);
-  assert.equal(year.carryIn + year.weeks.filter((week) => week.recorded).at(-1).cumulative, 20793);
+  const year = history.years.at(-1);
+  assert.equal(year.carryIn, sourceTotal(source, "", `${year.year - 1}-12-31`));
+  assert.equal(year.total, sourceTotal(source, `${year.year}-01-01`));
+  assert.equal(year.carryIn + year.weeks.filter((week) => week.recorded).at(-1).cumulative, sourceTotal(source));
 });
 
 test("zero, precoverage, unverified, future and outside-year slots stay distinct", () => {
@@ -196,36 +211,42 @@ test("zero, precoverage, unverified, future and outside-year slots stay distinct
 test("the full continuous range conserves dates, weeks and every lifetime checkpoint", () => {
   const source = JSON.parse(fs.readFileSync(new URL("../_data/code_activity.json", import.meta.url), "utf8"));
   const history = createCommitHistory(source),
-    range = createCommitRange(history, 2017, 2026);
-  assert.equal(range.days.length, 3652);
-  assert.equal(range.recordedDays, 3316);
-  assert.equal(range.total, 20793);
+    points = personalPoints(source),
+    lastYear = Number(points.at(-1).date.slice(0, 4)),
+    range = createCommitRange(history, 2017, lastYear);
+  assert.equal(range.days.length, (Date.parse(`${lastYear + 1}-01-01`) - Date.parse("2017-01-01")) / DAY_MS);
+  assert.equal(range.recordedDays, points.length);
+  assert.equal(range.total, sourceTotal(source));
   assert.equal(range.carryIn, 0);
-  assert.equal(range.lifetime, 20793);
+  assert.equal(range.lifetime, sourceTotal(source));
   assert.equal(range.coveredFrom, "2017-08-31");
-  assert.equal(range.coveredThrough, "2026-09-28");
+  assert.equal(range.coveredThrough, points.at(-1).date);
   assert.equal(new Set(range.days.map((day) => day.date)).size, range.days.length);
-  assert.equal(range.weeks.filter((week) => week.recorded).length, 475);
+  assert.equal(range.weeks.filter((week) => week.recorded).length, new Set(points.map((point) => sunday(point.date))).size);
   assert.equal(
     range.weeks.reduce((sum, week) => sum + (week.commits ?? 0), 0),
     range.total
   );
   const lookup = new Map(range.days.map((day) => [day.date, day]));
-  [0, 17, 17, 24, 279, 485, 569, 976, 1320].forEach((value, index) => {
-    assert.equal(lookup.get(`${2017 + index}-12-31`).lifetime, value);
-  });
-  assert.equal(lookup.get("2026-09-28").lifetime, 20793);
-  assert.equal(lookup.get("2026-09-29").lifetime, null);
+  for (let year = 2017; year < lastYear; year++) {
+    const date = `${year}-12-31`;
+    assert.equal(lookup.get(date).lifetime, sourceTotal(source, "", date));
+  }
+  assert.equal(lookup.get(points.at(-1).date).lifetime, sourceTotal(source));
+  if (lookup.has(followingDate(points.at(-1).date))) assert.equal(lookup.get(followingDate(points.at(-1).date)).lifetime, null);
 });
 
 test("selected ranges distinguish range additions from earlier carry and lifetime totals", () => {
   const source = JSON.parse(fs.readFileSync(new URL("../_data/code_activity.json", import.meta.url), "utf8"));
   const history = createCommitHistory(source);
-  for (const [start, end, total, carry, lifetime] of [
-    [2026, 2026, 19473, 1320, 20793],
-    [2024, 2025, 751, 569, 1320],
-    [2024, 2026, 20224, 569, 20793],
+  for (const [start, end] of [
+    [2026, 2026],
+    [2024, 2025],
+    [2024, 2026],
   ]) {
+    const total = sourceTotal(source, `${start}-01-01`, `${end}-12-31`),
+      carry = sourceTotal(source, "", `${start - 1}-12-31`),
+      lifetime = sourceTotal(source, "", `${end}-12-31`);
     const range = createCommitRange(history, start, end);
     assert.equal(range.total, total);
     assert.equal(range.carryIn, carry);
@@ -277,13 +298,16 @@ test("a range's last partial week stops at the exact verified source date", () =
   const source = JSON.parse(fs.readFileSync(new URL("../_data/code_activity.json", import.meta.url), "utf8"));
   const range = createCommitRange(createCommitHistory(source), 2024, 2026);
   const last = range.weeks.findLast((week) => week.recorded);
-  assert.equal(last.startsOn, "2026-09-27");
-  assert.equal(last.commits, 970);
-  assert.equal(last.knownDays, 2);
-  assert.equal(last.partial, true);
-  assert.equal(last.coveredThrough, "2026-09-28");
-  assert.equal(last.lifetime, 20793);
-  assert.equal(last.days[2].lifetime, null);
+  const points = personalPoints(source),
+    cutoff = points.at(-1).date,
+    lastWeek = points.filter((point) => point.date >= sunday(cutoff));
+  assert.equal(last.startsOn, sunday(cutoff));
+  assert.equal(last.commits, sourceTotal(source, lastWeek[0].date));
+  assert.equal(last.knownDays, lastWeek.length);
+  assert.equal(last.partial, lastWeek.length < 7);
+  assert.equal(last.coveredThrough, cutoff);
+  assert.equal(last.lifetime, sourceTotal(source));
+  if (lastWeek.length < 7) assert.equal(last.days[lastWeek.length].lifetime, null);
   assert.equal(range.weeks.at(-1).lifetime, null);
 });
 
