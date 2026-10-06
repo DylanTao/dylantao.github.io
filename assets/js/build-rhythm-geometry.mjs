@@ -35,15 +35,24 @@ export function calendarGeometry(year, width, height, split) {
   const marks = [],
     labels = [];
   blocks.forEach((block, index) => {
-    const unit = Math.min((right - left) / block.columns, (blockHeight - 30) / 7);
+    const columnStride = (right - left) / block.columns;
+    const unit = Math.min(columnStride, (blockHeight - 30) / 7);
     const gap = Math.max(1.5, Math.min(2.5, unit * 0.13));
     const top = index * blockHeight + 22;
     for (const day of block.days)
-      marks.push({ key: day.date, date: day.date, day, x: left + day.column * unit, y: top + day.row * unit, width: unit - gap, height: unit - gap });
+      marks.push({
+        key: day.date,
+        date: day.date,
+        day,
+        x: left + day.column * columnStride,
+        y: top + day.row * unit,
+        width: unit - gap,
+        height: unit - gap,
+      });
     for (const { month, column } of block.months)
       labels.push({
         text: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][month],
-        x: left + column * unit,
+        x: left + column * columnStride,
         y: top - 9,
       });
     for (const [row, text] of [
