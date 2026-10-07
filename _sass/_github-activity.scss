@@ -46,17 +46,18 @@
   line-height: 1.6;
 }
 .build-rhythm-overview {
-  --rhythm-surface: #202327;
-  --rhythm-text: #f0ede8;
-  --rhythm-muted: #b5b5b4;
-  --rhythm-divider: #45474a;
-  --rhythm-zero: #3f4347;
-  --rhythm-ink: var(--global-brand-orange-color);
+  --rhythm-surface: var(--md-lite-surface-tonal);
+  --rhythm-text: var(--global-text-color);
+  --rhythm-muted: var(--global-text-color-light);
+  --rhythm-divider: var(--md-lite-divider-tonal);
+  --rhythm-outline: color-mix(in srgb, var(--rhythm-muted) 75%, var(--rhythm-surface));
+  --rhythm-zero: color-mix(in srgb, var(--rhythm-muted) 18%, var(--rhythm-surface));
+  --rhythm-ink: var(--global-primary-color);
   padding: 2rem;
+  border: 1px solid var(--md-lite-card-border);
   border-radius: var(--md-lite-radius-lg);
   color: var(--rhythm-text);
   background: var(--rhythm-surface);
-  color-scheme: dark;
 }
 .build-rhythm-toolbar,
 .build-rhythm-detail-toolbar {
@@ -101,13 +102,16 @@
     min-height: 2.75rem;
     min-width: 5rem;
     padding: 0.45rem 1.4rem 0.45rem 0.65rem;
-    border: 1px solid var(--rhythm-divider);
+    border: 1px solid var(--rhythm-outline);
     border-radius: var(--md-lite-radius-sm);
     color: var(--rhythm-text);
-    background: var(--rhythm-surface);
+    background: var(--global-surface-color);
     font: inherit;
     font-size: var(--type-meta);
     cursor: pointer;
+    &:hover {
+      border-color: var(--rhythm-ink);
+    }
   }
 }
 .build-rhythm-year-picker {
@@ -119,7 +123,7 @@
 .github-activity-segments button {
   min-height: 2.75rem;
   padding: 0.45rem 0.8rem;
-  border: 1px solid var(--rhythm-divider);
+  border: 1px solid var(--rhythm-outline);
   border-radius: var(--md-lite-radius-sm);
   color: var(--rhythm-muted);
   background: transparent;
@@ -132,7 +136,8 @@
     border-color 160ms ease;
   &:hover {
     color: var(--rhythm-text);
-    background: var(--rhythm-zero);
+    background: var(--md-lite-surface-tonal-strong);
+    border-color: var(--rhythm-ink);
   }
 }
 .github-activity-segments {
@@ -152,9 +157,9 @@
   }
   &[aria-pressed="true"] {
     position: relative;
-    color: var(--rhythm-text);
-    background: var(--rhythm-zero);
-    border-color: var(--rhythm-muted);
+    color: var(--global-on-primary-container-color);
+    background: var(--global-primary-container-color);
+    border-color: var(--rhythm-ink);
   }
 }
 .github-activity-segments button:focus-visible,

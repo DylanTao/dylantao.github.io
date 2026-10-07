@@ -69,6 +69,76 @@ const documentBox = (locator) =>
     return { x: box.x + scrollX, y: box.y + scrollY, width: box.width, height: box.height };
   });
 
+async function panelPalette(page) {
+  return page.locator("[data-build-rhythm-overview]").evaluate((panel) => {
+    const context = document.createElement("canvas").getContext("2d");
+    // Computed color-mix values may use color(srgb ...), rather than rgb(...).
+    // Let the browser resolve colors and composite transparent control fills.
+    const rgb = (color, background = "#fff") => {
+      context.clearRect(0, 0, 1, 1);
+      context.fillStyle = background;
+      context.fillRect(0, 0, 1, 1);
+      context.fillStyle = color;
+      context.fillRect(0, 0, 1, 1);
+      return [...context.getImageData(0, 0, 1, 1).data].slice(0, 3);
+    };
+    const luminance = (channels) =>
+      channels
+        .map((value) => value / 255)
+        .map((value) => (value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4))
+        .reduce((total, value, index) => total + value * [0.2126, 0.7152, 0.0722][index], 0);
+    const contrast = (a, b) => (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05);
+    const panelStyle = getComputedStyle(panel),
+      surface = panelStyle.backgroundColor,
+      background = rgb(surface),
+      root = getComputedStyle(document.documentElement);
+    const selectors = [
+      "[data-rhythm-total]",
+      "[data-rhythm-total-label]",
+      ".build-rhythm-context",
+      ".build-rhythm-detail-context",
+      ".build-rhythm-coverage",
+      ".build-rhythm-readout",
+      ".build-rhythm-legend span",
+      ".build-rhythm-range-picker",
+      ".build-rhythm-year-picker",
+      "button",
+      "select",
+      "svg text",
+    ];
+    const text = [...panel.querySelectorAll(selectors.join(","))].map((node) => {
+      const style = getComputedStyle(node),
+        behind = rgb(style.backgroundColor, surface),
+        foreground = rgb(node instanceof SVGElement ? style.fill : style.color, `rgb(${behind.join(" ")})`);
+      return { text: node.textContent.trim(), contrast: contrast(foreground, behind) };
+    });
+    const controls = [...panel.querySelectorAll("button, select, [data-rhythm-inspector]")].map((node) => {
+      const style = getComputedStyle(node),
+        behind = rgb(style.backgroundColor, surface);
+      return {
+        control: node.getAttribute("data-rhythm-inspector") || node.getAttribute("aria-label") || node.textContent.trim(),
+        background: behind,
+        border: rgb(style.borderTopColor, surface),
+        borderContrast: contrast(rgb(style.borderTopColor, surface), background),
+        focusVisible: node.matches(":focus-visible"),
+        outlineStyle: style.outlineStyle,
+        outlineWidth: parseFloat(style.outlineWidth),
+        outlineContrast: contrast(rgb(style.outlineColor, surface), background),
+      };
+    });
+    return {
+      background,
+      pageBackground: rgb(root.getPropertyValue("--global-bg-color")),
+      primary: rgb(root.getPropertyValue("--global-primary-color")),
+      ink: rgb(getComputedStyle(panel.querySelector("[data-rhythm-cumulative-line]")).stroke),
+      inkContrast: contrast(rgb(getComputedStyle(panel.querySelector("[data-rhythm-cumulative-line]")).stroke), background),
+      colorScheme: panelStyle.colorScheme,
+      text,
+      controls,
+    };
+  });
+}
+
 test("one panel keeps full history visible while the independent year detail changes", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
   await open(page);
@@ -78,26 +148,9 @@ test("one panel keeps full history visible while the independent year detail cha
   await expect(page.locator("[data-rhythm-summary]")).toContainText(sum(personalPoints).toLocaleString("en-US"));
   await expect(page.locator("[data-rhythm-range-start]")).toHaveValue("2017");
   await expect(page.locator("[data-rhythm-range-end]")).toHaveValue("2026");
-  const contrast = await page.locator("[data-build-rhythm-overview]").evaluate((panel) => {
-    const luminance = (color) => {
-      const channels = color
-        .match(/[\d.]+/g)
-        .slice(0, 3)
-        .map((value) => Number(value) / 255);
-      return channels
-        .map((value) => (value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4))
-        .reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
-    };
-    const background = luminance(getComputedStyle(panel).backgroundColor);
-    return [...panel.querySelectorAll("[data-rhythm-total], .build-rhythm-readout, .build-rhythm-legend span")].map((node) => {
-      const foreground = luminance(getComputedStyle(node).color);
-      return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
-    });
-  });
-  expect(
-    contrast.every((ratio) => ratio >= 4.5),
-    "panel text must retain readable contrast against charcoal"
-  ).toBe(true);
+  const palette = await panelPalette(page);
+  for (const label of palette.text)
+    expect(label.contrast, `${label.text} must remain readable on the active theme surface`).toBeGreaterThanOrEqual(4.5);
   expect(await evidence(page)).toMatchObject({
     years: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
     total: sum(recorded.points),
@@ -115,6 +168,77 @@ test("one panel keeps full history visible while the independent year detail cha
   expect(await page.locator("[data-rhythm-cumulative-line]").getAttribute("d")).toBe(original);
   expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, rangeTotal: sum(personalPoints), year: 2024, view: "weekly" });
   await expect(page.locator("[data-rhythm-year] option")).toHaveCount(10);
+  expect(errors).toEqual([]);
+});
+
+test("all four themes keep readable chart states and preserve the selected history", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await open(page, { theme: "evening" });
+  await range(page, 2024, 2026);
+  await page.locator("[data-rhythm-year]").selectOption("2024");
+  await view(page, "weekly");
+  const inspector = page.locator('[data-rhythm-inspector="detail"]');
+  await inspector.focus();
+  await page.keyboard.press("End");
+  const before = await evidence(page),
+    history = await page.locator("[data-rhythm-cumulative-line]").getAttribute("d"),
+    geometry = await page
+      .locator("[data-rhythm-slot]")
+      .evaluateAll((nodes) => nodes.map((node) => ["x", "y", "width", "height"].map((name) => node.getAttribute(name))));
+  const palettes = [];
+  for (const mode of ["morning", "noon", "afternoon", "evening"]) {
+    await page.locator("#theme-toggle").click();
+    await page.locator(`#theme-menu [data-theme-mode-option="${mode}"]`).click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme-mode", mode);
+    await expect(page.locator("html")).not.toHaveClass(/\btransition\b/);
+    const palette = await panelPalette(page);
+    palettes.push(palette);
+    expect(palette.colorScheme).toBe(mode === "evening" ? "dark" : "light");
+    expect(Math.hypot(...palette.background.map((channel, index) => channel - palette.pageBackground[index]))).toBeLessThan(80);
+    expect(palette.ink).toEqual(palette.primary);
+    expect(palette.inkContrast).toBeGreaterThanOrEqual(3);
+    for (const label of palette.text) expect(label.contrast, `${mode}: ${label.text}`).toBeGreaterThanOrEqual(4.5);
+    for (const control of palette.controls.filter((node) => !["history", "detail"].includes(node.control))) {
+      expect(control.borderContrast, `${mode}: ${control.control} boundary`).toBeGreaterThanOrEqual(3);
+    }
+    expect(await evidence(page)).toEqual(before);
+    expect(await page.locator("[data-rhythm-cumulative-line]").getAttribute("d")).toBe(history);
+    expect(
+      await page
+        .locator("[data-rhythm-slot]")
+        .evaluateAll((nodes) => nodes.map((node) => ["x", "y", "width", "height"].map((name) => node.getAttribute(name))))
+    ).toEqual(geometry);
+    await page.locator("[data-rhythm-range-reset]").hover();
+    await page.locator("[data-rhythm-range-reset]").evaluate(async (node) => {
+      getComputedStyle(node).backgroundColor;
+      await Promise.all(node.getAnimations().map((animation) => animation.finished));
+    });
+    await expect
+      .poll(async () => {
+        const hover = await panelPalette(page);
+        return Math.min(...hover.text.map((node) => node.contrast));
+      })
+      .toBeGreaterThanOrEqual(4.5);
+    await page.keyboard.press("Tab");
+    for (const target of ["[data-rhythm-range-start]", "[data-rhythm-view='weekly']", "[data-rhythm-inspector='detail']"]) {
+      await page.locator(target).focus();
+      await expect(page.locator(target)).toBeFocused();
+      const focus = (await panelPalette(page)).controls.find((node) => node.focusVisible);
+      expect(focus, `${mode}: ${target} keyboard focus`).toBeTruthy();
+      expect(focus.outlineStyle).toBe("solid");
+      expect(focus.outlineWidth).toBeGreaterThanOrEqual(2);
+      expect(focus.outlineContrast).toBeGreaterThanOrEqual(3);
+    }
+    await page.mouse.move(0, 0);
+    await page.locator("[data-rhythm-inspector='detail']").evaluate((node) => node.blur());
+    await testInfo.attach(`rhythm-${mode}-selected-weekly`, {
+      body: await page.locator("[data-build-rhythm-overview]").screenshot(),
+      contentType: "image/png",
+    });
+  }
+  expect(new Set(palettes.map((palette) => palette.background.join(","))).size).toBe(4);
+  expect(new Set(palettes.map((palette) => palette.ink.join(","))).size).toBe(4);
+  await testInfo.attach("four-theme-contrast", { body: JSON.stringify(palettes, null, 2), contentType: "application/json" });
   expect(errors).toEqual([]);
 });
 
