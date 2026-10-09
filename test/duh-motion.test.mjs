@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createDuhMotion, DUH_LIMITS } from "../assets/js/companion/duh-motion.mjs";
+import { createDuhMotion, DUH_LIMITS, sweepDuhContact } from "../assets/js/companion/duh-motion.mjs";
 
 function settle(m, seconds = 6) {
   for (let i = 0; i < seconds * 120; i++) m.step(1 / 120);
@@ -73,4 +73,38 @@ test("retreat returns automatically; reduced motion, resize and reset stop fligh
   assert.ok(m.state.x <= 284);
   m.reset();
   assert.equal(m.state.squash, 0);
+});
+
+test("swept contacts catch a thin paragraph and ignore a release already inside it", () => {
+  const target = { rect: { left: 250, right: 700, top: 300, bottom: 318 }, reading: true };
+  const hit = sweepDuhContact(200, 309, 140, 0, [target]);
+  assert.equal(hit.target, target);
+  assert.equal(hit.nx, -1);
+  assert.ok(hit.t > 0 && hit.t < 0.3);
+  assert.equal(sweepDuhContact(400, 309, 140, 0, [target]), null);
+  const m = createDuhMotion(1000, 800);
+  m.reset(215, 309);
+  m.setSurfaces([target]);
+  m.toss(1400, 0);
+  const contacts = m.step(0.05);
+  assert.ok(contacts.some((c) => c.target === target && c.speed > 1000));
+  assert.ok(m.state.vx < 0);
+  settle(m, 6);
+  assert.equal(m.state.state, "REST");
+});
+
+test("grip acceleration reflects shaking intensity and cancellation clears it", () => {
+  const mild = createDuhMotion(),
+    strong = createDuhMotion();
+  for (const m of [mild, strong]) {
+    m.reset(500, 400);
+    m.grab(500, 400, 0);
+  }
+  mild.drag(502, 400, 25);
+  strong.drag(535, 400, 25);
+  assert.ok(Math.abs(strong.state.ax) > Math.abs(mild.state.ax) * 2);
+  strong.drag(460, 400, 50);
+  assert.ok(strong.state.ax < 0);
+  strong.cancel();
+  assert.equal(strong.state.ax, 0);
 });

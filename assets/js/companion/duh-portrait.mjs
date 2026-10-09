@@ -1,3 +1,4 @@
+import { createDuhBody, deformDuhContour } from "./duh-body.mjs";
 import { clamp } from "./duh-motion.mjs";
 
 export const DUH_FORMS = ["dot", "apple", "peach", "watermelon", "square", "triangle"];
@@ -31,6 +32,9 @@ export function createDuhPortrait(canvas) {
     speeds = Array(count).fill(0),
     color = [...colors.dot];
   let morphing = false;
+  const body = createDuhBody();
+  const look = [0, 0];
+  const texture = Object.fromEntries(DUH_FORMS.map((f) => [f, f === "dot" ? 1 : 0]));
   function change(next, still) {
     form = DUH_FORMS.includes(next) ? next : "dot";
     morphing = true;
@@ -50,8 +54,27 @@ export function createDuhPortrait(canvas) {
     });
     morphing = true;
   }
-  function draw({ dt = 1 / 60, gaze = [0, 0], squash = 0, mood = "content", theme = "noon", blink = false, still = false, hug = false } = {}) {
-    const blend = still ? 1 : 1 - Math.exp(-12 * clamp(dt, 0, 0.05));
+  function draw({
+    dt = 1 / 60,
+    gaze = [0, 0],
+    squash = 0,
+    mood = "content",
+    theme = "noon",
+    blink = false,
+    still = false,
+    hug = false,
+    velocity = [0, 0],
+    acceleration = [0, 0],
+    held = false,
+    grounded = true,
+    tilt = 0,
+    effort = 0,
+    contactAngle = Math.PI / 2,
+  } = {}) {
+    const blend = still ? 1 : 1 - Math.exp(-5 * clamp(dt, 0, 0.05));
+    const shell = body.step(dt, { vx: velocity[0], vy: velocity[1], ax: acceleration[0], ay: acceleration[1], held, grounded, still });
+    for (const key of DUH_FORMS) texture[key] += ((form === key ? 1 : 0) - texture[key]) * blend;
+    look.forEach((v, i) => (look[i] = v + (gaze[i] - v) * (still ? 1 : 1 - Math.exp(-10 * dt))));
     let motion = 0;
     for (let i = 0; i < count; i++) {
       const target = radius(form, -Math.PI + (i * Math.PI * 2) / count);
@@ -77,11 +100,8 @@ export function createDuhPortrait(canvas) {
     ctx.fill();
     ctx.save();
     ctx.translate(48, 47);
-    ctx.scale(Math.exp(squash), Math.exp(-squash));
-    const points = radii.map((r, i) => {
-      const a = -Math.PI + (i * Math.PI * 2) / count;
-      return [Math.cos(a) * 28 * (r + dents[i]), Math.sin(a) * 28 * (r + dents[i])];
-    });
+    ctx.rotate(tilt);
+    const points = deformDuhContour(radii, dents, shell, squash, contactAngle);
     const path = new Path2D();
     path.moveTo((points[19][0] + points[0][0]) / 2, (points[19][1] + points[0][1]) / 2);
     points.forEach((p, i) => {
@@ -99,7 +119,8 @@ export function createDuhPortrait(canvas) {
     ctx.stroke(path);
     ctx.save();
     ctx.clip(path);
-    if (form === "watermelon") {
+    if (texture.watermelon > 0.01) {
+      ctx.globalAlpha = texture.watermelon;
       ctx.strokeStyle = "rgba(187,207,120,.55)";
       ctx.lineWidth = 3.2;
       for (let x = -30; x <= 30; x += 11) {
@@ -109,7 +130,8 @@ export function createDuhPortrait(canvas) {
         ctx.stroke();
       }
     }
-    if (["apple", "peach"].includes(form)) {
+    if (texture.apple + texture.peach > 0.01) {
+      ctx.globalAlpha = Math.min(1, texture.apple + texture.peach);
       // Deterministic static stipple: skin/fuzz, no animated noise texture.
       for (let i = 0; i < 110; i++) {
         const x = ((i * 37) % 61) - 30,
@@ -118,7 +140,8 @@ export function createDuhPortrait(canvas) {
         ctx.fillRect(x, y, 0.8, 0.8);
       }
     }
-    if (form === "peach") {
+    if (texture.peach > 0.01) {
+      ctx.globalAlpha = texture.peach;
       ctx.strokeStyle = "rgba(145,65,57,.32)";
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -127,7 +150,8 @@ export function createDuhPortrait(canvas) {
       ctx.stroke();
     }
     ctx.restore();
-    if (["apple", "peach"].includes(form)) {
+    if (texture.apple + texture.peach > 0.01) {
+      ctx.globalAlpha = Math.min(1, texture.apple + texture.peach);
       ctx.strokeStyle = "#6f5032";
       ctx.lineWidth = 2.4;
       ctx.lineCap = "round";
@@ -142,15 +166,18 @@ export function createDuhPortrait(canvas) {
       ctx.quadraticCurveTo(9, -26, 0, -28);
       ctx.fill();
     }
-    const gx = clamp(gaze[0], -1, 1) * 3,
-      gy = clamp(gaze[1], -1, 1) * 2;
-    const face = form === "peach" ? "#3b2930" : "#fffaf1";
+    ctx.globalAlpha = 1;
+    ctx.rotate(-tilt * 0.7);
+    ctx.translate(shell.x * 0.65, shell.y * 0.65);
+    const gx = clamp(look[0], -1, 1) * 4,
+      gy = clamp(look[1], -1, 1) * 3;
+    const face = color[0] * 0.21 + color[1] * 0.72 + color[2] * 0.07 > 150 ? "#3b2930" : "#fffaf1";
     ctx.strokeStyle = ctx.fillStyle = face;
     ctx.lineWidth = 2.6;
     ctx.lineCap = "round";
     for (const x of [-7, 7]) {
       ctx.beginPath();
-      if (blink || mood === "giggle" || hug) {
+      if (blink || mood === "giggle" || hug || effort > 0.6) {
         ctx.moveTo(x - 3 + gx, -2 + gy);
         ctx.quadraticCurveTo(x + gx, -5 + gy, x + 3 + gx, -2 + gy);
         ctx.stroke();
@@ -167,17 +194,27 @@ export function createDuhPortrait(canvas) {
       ctx.stroke();
     }
     ctx.restore();
-    if (hug) {
+    if (hug || effort > 0) {
       ctx.strokeStyle = theme === "evening" ? "#b7b2e3" : "#596974";
       ctx.lineWidth = 1.5;
       ctx.lineCap = "round";
+      const distance = Math.hypot(...look) || 1,
+        dx = look[0] / distance,
+        dy = look[1] / distance;
       for (const side of [-1, 1]) {
+        const px = -dy * side,
+          py = dx * side;
         ctx.beginPath();
-        ctx.moveTo(48 + side * 24, 52);
-        ctx.quadraticCurveTo(48 + side * 39, 44, 48 + side * 36, 34);
+        ctx.moveTo(48 + px * 20 + dx * 12, 47 + py * 20 + dy * 12);
+        ctx.quadraticCurveTo(
+          48 + px * 27 + dx * 32,
+          47 + py * 27 + dy * 32,
+          48 + px * 10 + dx * (38 - effort * 4),
+          47 + py * 10 + dy * (38 - effort * 4)
+        );
         ctx.stroke();
       }
     }
   }
-  return { change, pet, draw, active: () => morphing, form: () => form };
+  return { change, pet, draw, active: () => morphing || body.active(), form: () => form, evidence: () => body.evidence() };
 }

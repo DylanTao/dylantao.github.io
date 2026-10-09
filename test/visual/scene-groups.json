@@ -102,6 +102,14 @@
       {
         "file": "desk-scene.spec.js",
         "title": "record physics: unavailable graphics keep the same interruptible 2D mechanics"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: a real paragraph receives a reversible impact and an active repair"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: autonomous movement and grip jiggle are observable and reduced motion stops both"
       }
     ],
     "scene-core-2": [

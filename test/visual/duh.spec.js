@@ -55,7 +55,8 @@ test("duh: default companion preserves content, real links, selection and late r
   await expect(page.locator(".pip-companion")).toHaveCount(0);
   const original = await page.locator("#main").innerText();
   await controls(page);
-  await page.getByRole("button", { name: "Pet", exact: true }).click();
+  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  await reset(page);
   expect(await page.locator("#main").innerText()).toBe(original);
   const selected = await page.locator("#main").evaluate((main) => {
     const range = document.createRange();
@@ -89,22 +90,30 @@ test("duh: default companion preserves content, real links, selection and late r
 });
 
 test("duh: forms, four themes, bounded layout, clear controls and original P coexist", async ({ page }, info) => {
+  await page.clock.install();
   const errors = await open(page);
-  await controls(page);
+  await page.locator("[data-duh-playground]").scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
+  expect(await page.locator("[data-duh-shape],.duh-preview").count()).toBe(0);
+  await page.clock.runFor(6200);
+  expect((await evidence(page)).form).toBe("apple");
   for (const theme of ["morning", "noon", "afternoon", "evening"]) {
     await page.locator("[data-theme-toggle]").first().click();
-    await page.locator(`[data-theme-mode-option="${theme}"]`).first().click();
-    for (const form of ["dot", "apple", "peach", "watermelon", "square", "triangle"]) {
-      await page.locator("[data-duh-shape]").selectOption(form);
-      await page.waitForTimeout(550);
-      expect((await evidence(page)).form).toBe(form);
-      if (info.project.name === "desktop-1440" && theme === "noon")
-        await page.locator(".duh-companion canvas").screenshot({ path: info.outputPath(`${form}.png`) });
-    }
-    await page.locator("[data-duh-shape]").selectOption("dot");
-    await page.waitForTimeout(550);
+    await page
+      .locator('[data-theme-mode-option="' + theme + '"]')
+      .first()
+      .click();
+    await page.clock.runFor(650);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
-    await page.screenshot({ path: info.outputPath(`${theme}.png`) });
+    await page.screenshot({ path: info.outputPath(theme + ".png") });
+  }
+  if (info.project.name === "desktop-1440") {
+    const forms = new Set([(await evidence(page)).form]);
+    for (let i = 0; i < 90; i++) {
+      await page.clock.runFor(1000);
+      forms.add((await evidence(page)).form);
+    }
+    expect([...forms].sort()).toEqual(["apple", "dot", "peach", "square", "triangle", "watermelon"]);
   }
   await expect(page.locator("[data-pip-studio]")).toHaveCount(1);
   await expect(page.locator("#credits")).toContainText("Pollen Robotics");
@@ -112,12 +121,15 @@ test("duh: forms, four themes, bounded layout, clear controls and original P coe
 });
 
 test("duh: repeated clicks giggle, canceled drag cannot throw, pause and reset clear state", async ({ page }) => {
-  const errors = await open(page, "/blog/2024/");
-  await controls(page);
-  for (let i = 0; i < 3; i++) await page.getByRole("button", { name: "Pet", exact: true }).click();
+  await page.clock.install();
+  const errors = await open(page);
+  await page.locator("[data-duh-playground]").scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
+
+  for (let i = 0; i < 3; i++) await page.locator(".duh-hit").press("Enter");
+  await page.clock.runFor(50);
   expect((await evidence(page)).mood).toBe("giggle");
   expect((await evidence(page)).roughThrows).toBe(0);
-  await page.locator(".duh-dock summary").click();
   const p = await evidence(page);
   await page.mouse.move(p.x, p.y);
   await page.mouse.down();
@@ -129,7 +141,7 @@ test("duh: repeated clicks giggle, canceled drag cannot throw, pause and reset c
   await controls(page);
   await page.getByRole("button", { name: "Pause", exact: true }).click();
   const before = await evidence(page);
-  await page.waitForTimeout(250);
+  await page.clock.runFor(250);
   expect((await evidence(page)).frames - before.frames).toBeLessThan(2);
   await reset(page);
   expect(await evidence(page)).toMatchObject({ state: "REST", paused: false, held: false, fragments: 0, form: "dot" });
@@ -235,9 +247,10 @@ test("duh: impact affects only decorative clones and idle tidying restores them"
 });
 
 test("duh: lifecycle suspends rendering and refresh restores the intact default", async ({ page }) => {
+  await page.clock.install();
   const errors = await open(page, "/blog/2024/");
-  await controls(page);
-  await page.locator("[data-duh-shape]").selectOption("watermelon");
+  await page.clock.runFor(6200);
+  expect((await evidence(page)).form).toBe("apple");
   await page.evaluate(() => {
     Object.defineProperty(document, "hidden", { configurable: true, get: () => true });
     document.dispatchEvent(new Event("visibilitychange"));
@@ -283,8 +296,7 @@ test("duh: greeting is click-through and graphics failure retains accessible con
   await page.locator("[data-duh-playground]").scrollIntoViewIfNeeded();
   await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
   if (isMobile) {
-    await controls(page);
-    await page.getByRole("button", { name: "Say hello", exact: true }).tap();
+    await page.locator(".duh-hit").press("h");
   } else {
     const p = await evidence(page);
     await page.mouse.move(p.x + 125, p.y - 15);
@@ -303,8 +315,10 @@ test("duh: greeting is click-through and graphics failure retains accessible con
   await page.goto(publicRouteUrl("/blog/2024/"));
   await expect(page.locator(".duh-companion")).toHaveAttribute("data-fallback", "true");
   await controls(page);
-  await page.getByRole("button", { name: "Pet", exact: true }).click();
-  await expect(page.locator(".duh-status")).toHaveText("Pet received.");
+  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  expect((await evidence(page)).paused).toBe(true);
+  await reset(page);
+  expect((await evidence(page)).paused).toBe(false);
   expect(errors).toEqual([]);
 });
 
@@ -405,5 +419,113 @@ test("duh: a new reading layout cancels an approach before it can resume toward 
   await page.locator("[data-duh-reading-probe]").evaluate((e) => e.remove());
   await reset(page);
   expect((await evidence(page)).greeting).toBe(false);
+  expect(errors).toEqual([]);
+});
+
+test("duh: a real paragraph receives a reversible impact and an active repair", async ({ page, isMobile }, info) => {
+  test.skip(isMobile || !["desktop-1440", "laptop-1280"].includes(info.project.name), "A side throw needs the desktop reading margin.");
+  const errors = await open(page);
+  await page.clock.install();
+  const paragraph = page.locator(".duh-introduction > p").filter({ hasText: "Meet duh," });
+  const original = await paragraph.innerHTML(),
+    r = await paragraph.boundingBox(),
+    p = await evidence(page);
+  await page.mouse.move(p.x, p.y);
+  await page.mouse.down();
+  await page.mouse.move(r.x - 200, r.y + 25);
+  await page.clock.runFor(150);
+  await releaseQuickly(page, [
+    { x: r.x - 180, y: r.y + 25 },
+    { x: r.x - 36, y: r.y + 25 },
+  ]);
+  await page.mouse.up();
+  await page.clock.runFor(250);
+  expect((await evidence(page)).pageContacts).toBeGreaterThan(0);
+  expect((await evidence(page)).displaced).toBeGreaterThan(0);
+  expect(await paragraph.innerHTML()).toBe(original);
+  const changed = await paragraph.boundingBox();
+  expect(Math.hypot(changed.x - r.x, changed.y - r.y)).toBeGreaterThan(2);
+  await page.screenshot({ path: info.outputPath("paragraph-contact.png") });
+  const states = new Set();
+  for (let i = 0; i < 70; i++) {
+    await page.clock.runFor(100);
+    states.add((await evidence(page)).state);
+  }
+  expect(states.has("TIDY")).toBe(true);
+  expect((await evidence(page)).repairs).toBeGreaterThan(0);
+  expect((await evidence(page)).displaced).toBe(0);
+  const repaired = await paragraph.boundingBox();
+  expect(repaired.x).toBeCloseTo(r.x, 1);
+  expect(repaired.y).toBeCloseTo(r.y, 1);
+  expect(await paragraph.innerHTML()).toBe(original);
+  for (const interruption of ["selection", "reduced"]) {
+    await page.locator(".duh-hit").press("r");
+    await page.clock.runFor(30);
+    const p = await evidence(page);
+    await page.mouse.move(p.x, p.y);
+    await page.mouse.down();
+    await page.mouse.move(r.x - 200, r.y + 25);
+    await page.clock.runFor(150);
+    await releaseQuickly(page, [
+      { x: r.x - 180, y: r.y + 25 },
+      { x: r.x - 36, y: r.y + 25 },
+    ]);
+    await page.mouse.up();
+    await page.clock.runFor(250);
+    expect((await evidence(page)).displaced).toBeGreaterThan(0);
+    if (interruption === "selection") {
+      await paragraph.evaluate((node) => {
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        getSelection().removeAllRanges();
+        getSelection().addRange(range);
+      });
+      await page.clock.runFor(20);
+      expect(await page.evaluate(() => getSelection().toString())).toContain("Meet duh");
+      await page.evaluate(() => getSelection().removeAllRanges());
+    } else await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.clock.runFor(30);
+    expect((await evidence(page)).displaced).toBe(0);
+    expect((await paragraph.boundingBox()).x).toBeCloseTo(r.x, 1);
+    expect(await paragraph.innerHTML()).toBe(original);
+  }
+  expect(errors).toEqual([]);
+});
+
+test("duh: autonomous movement and grip jiggle are observable and reduced motion stops both", async ({ page, isMobile }, info) => {
+  await page.clock.install();
+  const errors = await open(page);
+  await page.locator("[data-duh-playground]").scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
+  await page.clock.runFor(9000);
+  const autonomous = await evidence(page);
+  expect(autonomous.outings).toBeGreaterThan(0);
+  expect(autonomous.roughThrows).toBe(0);
+  if (!isMobile) {
+    await page.locator(".duh-hit").press("r");
+    const p = await evidence(page);
+    await page.mouse.move(p.x, p.y);
+    await page.mouse.down();
+    await page.mouse.move(p.x - 50, p.y - 25);
+    await page.clock.runFor(60);
+    const a = await evidence(page);
+    await page.mouse.move(p.x + 50, p.y + 20);
+    await page.clock.runFor(60);
+    const b = await evidence(page);
+    expect(Math.abs(a.body.x - b.body.x) + Math.abs(a.body.y - b.body.y)).toBeGreaterThan(0.2);
+    await page.screenshot({ path: info.outputPath("held-jelly.png") });
+    await page.keyboard.press("Escape");
+    await page.mouse.up();
+  }
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const still = await evidence(page);
+  await page.clock.runFor(30000);
+  const later = await evidence(page);
+  expect(later.outings).toBe(still.outings);
+  expect(later.form).toBe(still.form);
+  expect(later.displaced).toBe(0);
+  expect(later.body.x).toBe(0);
+  expect(later.body.y).toBe(0);
+  expect(later.frames - still.frames).toBeLessThan(40);
   expect(errors).toEqual([]);
 });

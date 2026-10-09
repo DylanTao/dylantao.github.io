@@ -21,8 +21,8 @@ pip_studio: true
   <p class="project-case-kicker">duh & P · a living site experiment</p>
   <h1 id="duh-title">A softer sort of company.</h1>
   <p class="project-case-lede">A small black dot. A little curiosity. Just enough mischief.</p>
-  <p>Meet duh, the website's new companion. I wanted something less mechanical: a soft shape that can take a gentle pet, stretch into a throw, and settle back into a quiet corner. The little <strong>duh</strong> control opens its shapes, pause, and reset.</p>
-  <p>Try an apple, a peach, a striped watermelon, or a simple geometric shape. The eyes stay familiar. A few quick pets get a happy squish; repeated energetic throws lead to a short breather. You can always invite duh back.</p>
+  <p>Meet duh, the website's new companion. I wanted something less mechanical: a soft shape that can take a gentle pet, stretch into a throw, and settle back into a quiet corner. Leave it a little room and it will hop, roll, or come over to say hello. The small <strong>duh</strong> control keeps pause and reset close by.</p>
+  <p>Sometimes it becomes an apple, a peach, a striped watermelon, or a simple geometric shape. Its eyes stay familiar, and its soft body follows your hand. A few quick pets get a happy squish; repeated energetic throws lead to a short breather. You can always invite duh back.</p>
   <div class="duh-stage" data-duh-playground aria-label="Duh's play corner">
     <div class="duh-stage-words" aria-hidden="true"><span data-duh-piece aria-hidden="true">hello</span><span data-duh-piece aria-hidden="true">softly</span><span data-duh-piece aria-hidden="true">again</span></div>
     <div class="duh-block" data-duh-heavy aria-hidden="true"></div>
@@ -94,7 +94,7 @@ This is an authored character experiment. P’s remarks and actions are local, w
 
 ## What changed after the first pass
 
-The move from P to duh changes the default silhouette, not the interest in attentive motion. Duh uses a stable center with a small deformable outline; its mood, shape, and gestures remain separate. Only decorative pieces in the play corner can scatter. Reading text, links, selection, and page order stay intact, and a refresh starts with everything in place. This is an original browser character, with no proprietary character assets or remote model calls.
+The move from P to duh changes the default silhouette, not the interest in attentive motion. Duh uses a stable center with a small deformable outline; its mood, shape, and gestures remain separate. A strong throw can nudge a paragraph or shake the block in the play corner. Duh then makes a small repair gesture as things settle back. Only the corner’s decorative words become loose copies; real text, links, selection, and page order stay intact. Scrolling, selecting text, pausing, or resetting puts everything back immediately, and a refresh starts clean. This is an original browser character, with no proprietary character assets or remote model calls.
 
 The first P had a rectangular visor and a small round body. In review, I asked for the physical charm of Reachy Mini and the floating ease of EVE. Separate convex lenses and a tapered shell helped, but the hollow eye rings still felt cold and the antennae too wiry. The next pass uses softer filled pupils that widen, squint and wink, shorter flexible antennae, and shaped flippers. The larger playground makes those small differences easier to judge.
 
