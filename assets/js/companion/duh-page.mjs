@@ -1,6 +1,7 @@
 import { createDuhMotion, clamp } from "./duh-motion.mjs";
 import { createDuhPortrait } from "./duh-portrait.mjs";
-import { choosePerch, clearAt } from "./behaviour.mjs";
+import { clearAt } from "./behaviour.mjs";
+import { chooseDuhPerch } from "./duh-viewport.mjs";
 import { companion } from "./bridge.mjs";
 
 const root = document.documentElement;
@@ -13,26 +14,37 @@ function start() {
   el.className = "duh-companion";
   el.setAttribute("aria-label", "duh, a little company");
   el.innerHTML =
-    '<canvas aria-hidden="true"></canvas><span class="duh-fallback" aria-hidden="true">••</span><button type="button" class="duh-hit" aria-label="Pet duh. Drag with a mouse, or open duh controls to move." aria-describedby="duh-help"></button>';
-  const dock = document.createElement("details");
-  dock.className = "duh-dock";
-  dock.innerHTML = `<summary aria-label="duh controls">duh<span class="duh-dock-dot" aria-hidden="true"></span></summary>
-    <div class="duh-panel"><p id="duh-help">Tap to pet. Drag to play.</p>
-    <div class="duh-actions"><button type="button" data-duh-action="pause" aria-pressed="false">Pause</button><button type="button" data-duh-action="reset" aria-label="Reset & invite back">Reset</button></div>
-    <button type="button" data-duh-action="move" aria-pressed="false">Move mode</button>
-    <div class="duh-move" hidden><p>Drag with touch, use arrow keys on duh, or tap a direction.</p><div class="duh-actions"><button type="button" data-duh-action="left">Left</button><button type="button" data-duh-action="up">Up</button><button type="button" data-duh-action="down">Down</button><button type="button" data-duh-action="right">Right</button><button type="button" data-duh-action="toss">Little toss</button></div></div>
-    <p class="duh-status" role="status" aria-live="polite">Here, quietly.</p><a class="duh-project-link">Meet duh & P</a></div>`;
-  dock.querySelector("a").href = new URL("../../../projects/p/", import.meta.url).href;
-  document.body.append(el, dock);
+    '<span class="duh-shadow" aria-hidden="true"></span><canvas aria-hidden="true"></canvas><span class="duh-fallback" aria-hidden="true">••</span><button type="button" class="duh-hit" aria-label="Pet duh" aria-describedby="duh-help" aria-keyshortcuts="P R H T ArrowUp ArrowDown ArrowLeft ArrowRight" title="Tap to pet or wake. Drag to play. Hold to let duh sleep. Shift-click to reset."></button><span id="duh-help" class="duh-sr-only">Tap to pet or wake. Drag to play. Hold still for a moment to pause. Shift-click or R resets. P pauses, H greets, T tosses, arrow keys move. Double-tap then tap empty space to move without dragging. Alt Shift D recalls duh anywhere.</span><span class="duh-sr-only duh-status" role="status" aria-live="polite">Here, quietly.</span>';
+  document.body.append(el);
   const hit = el.querySelector("button"),
     canvas = el.querySelector("canvas"),
-    status = dock.querySelector(".duh-status");
+    shadow = el.querySelector(".duh-shadow"),
+    status = el.querySelector(".duh-status");
   const portrait = createDuhPortrait(canvas);
   el.dataset.fallback = String(!portrait);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const fine = matchMedia("(pointer:fine)");
+  const viewport = window.visualViewport;
+  let view,
+    navigationUntil = 0;
+  const navigating = () => performance.now() < navigationUntil;
+  function readViewport() {
+    const css = getComputedStyle(el);
+    const inset = (name) => parseFloat(css.getPropertyValue("--duh-safe-" + name)) || 0;
+    view = {
+      width: viewport?.width || innerWidth,
+      height: viewport?.height || innerHeight,
+      left: viewport?.offsetLeft || 0,
+      top: viewport?.offsetTop || 0,
+      bottom: inset("bottom"),
+      insetLeft: inset("left"),
+      insetRight: inset("right"),
+      insetTop: inset("top"),
+    };
+    model.setViewport(view);
+  }
+  readViewport();
   let paused = false,
-    moveMode = false,
     disposed = false,
     raf = 0,
     last = 0,
@@ -40,8 +52,16 @@ function start() {
     frames = 0,
     layoutScans = 0;
   let pointerId = null,
-    touchTap = null,
+    holdTimer = 0,
+    holdPoint = null,
+    recovery = null,
+    initialized = false,
+    groundY = s.y,
+    elevation = 0,
+    tuck = 0,
     suppressedClick = false,
+    inviteArmed = false,
+    lastPetAt = -10,
     obstacles = [],
     layoutDirty = true,
     visible = true,
@@ -83,7 +103,7 @@ function start() {
     window.dispatchEvent(new Event("pip:change"));
   };
   const still = () => paused || reduced.matches;
-  const interactive = "a,button,input,select,textarea,summary,[role='button'],[contenteditable='true'],[tabindex]";
+  const interactive = "a,button,input,select,textarea,summary,[role='button'],[contenteditable='true'],[tabindex]:not([tabindex='-1'])";
   function request() {
     clearTimeout(timer);
     timer = 0;
@@ -94,12 +114,7 @@ function start() {
   }
   function updatePointerPolicy() {
     hit.style.pointerEvents =
-      visible &&
-      !["RETREAT", "TIDY"].includes(s.state) &&
-      !greetTarget &&
-      !hugUntil &&
-      !outing &&
-      (s.state === "HELD" || clearAt(s.x, s.y, obstacles, 82))
+      visible && s.state !== "TIDY" && !greetTarget && !hugUntil && (s.state === "HELD" || (!navigating() && clearAt(s.x, s.y, obstacles, 72)))
         ? "auto"
         : "none";
   }
@@ -119,9 +134,13 @@ function start() {
   function clearGesture() {
     const id = pointerId;
     pointerId = null;
-    touchTap = null;
+    clearTimeout(holdTimer);
+    holdTimer = 0;
+    holdPoint = null;
     if (id !== null && hit.hasPointerCapture(id)) hit.releasePointerCapture(id);
     model.cancel();
+    recovery = null;
+    inviteArmed = false;
     outing = null;
     tilt = effort = 0;
     greetTarget = null;
@@ -133,111 +152,142 @@ function start() {
     layoutDirty = false;
     layoutScans++;
     if (displaced.length || pieces.length) restorePieces();
-    // A fresh layout invalidates the entire invitation, including its path.
-    // Moving to a new perch must never resume an approach to an old target.
-    if (greetTarget || hugUntil || outing) {
-      model.cancel();
-      outing = null;
-      tilt = effort = 0;
-      greetTarget = null;
-      hugUntil = 0;
-    }
-    cursor = null;
     obstacles = [];
     const surfaces = [];
     const nodes = document.querySelectorAll(
       `#main p, #main h1, #main h2, #main h3, #main h4, #main h5, #main h6, #main li, #main dl, #main dt, #main dd, #main figcaption, #main caption, #main .caption, #main .project-case-facts, #main pre, #main table, #main figure, #main svg, #main canvas, #main img, ${interactive}, header, nav`
     );
     for (const node of nodes) {
-      if (node.closest(".duh-companion,.duh-dock") || (node.closest("[data-duh-playground]") && !node.matches(interactive))) continue;
+      // P is another moving character, not fixed page geometry. Caching its
+      // current button as a wall made harmless reflows relocate duh.
+      if (node.closest(".duh-companion,.pip-companion,.pip-portals") || node.closest("[aria-hidden='true']")) continue;
+      // Article headers contain large empty areas on short Safari viewports.
+      // Their headings, paragraphs and links are already protected by ink.
+      if (node.matches("header") && node.closest("#main,main") && !node.matches("[data-duh-static]")) continue;
       const r = node.getBoundingClientRect();
       if (!r.width || !r.height || r.bottom < 0 || r.top > innerHeight) continue;
       if (node.matches("p,h1,h2,h3,h4,li")) {
-        if (!node.closest("nav,header,[data-pip-studio]") && !node.matches("[data-duh-static]") && r.width > 30 && r.height > 8)
-          surfaces.push({ node, rect: r, reading: true });
+        if (!node.closest("nav,header,[data-pip-studio]") && !node.matches("[data-duh-static]") && r.width > 30 && r.height > 8) {
+          const ink = document.createRange();
+          ink.selectNodeContents(node);
+          // Nested list paragraphs own their contact. Long reading columns stay still.
+          if (!node.querySelector("p,li") && r.height < 180)
+            for (const line of ink.getClientRects())
+              if (line.width > 20 && line.height > 8) surfaces.push({ node, rect: line, blockRect: r, reading: true });
+        }
         const range = document.createRange();
         range.selectNodeContents(node);
         for (const rect of range.getClientRects()) if (rect.bottom > 0 && rect.top < innerHeight) obstacles.push(rect);
       } else obstacles.push(r);
       if (obstacles.length > 1200) break;
     }
-    obstacles.push(dock.getBoundingClientRect());
-    if (dock.open) obstacles.push(dock.querySelector(".duh-panel").getBoundingClientRect());
     heavy = [...document.querySelectorAll("[data-duh-heavy]")].slice(0, 4).map((node) => ({ node, rect: node.getBoundingClientRect() }));
     model.setSurfaces([...heavy, ...surfaces]);
     parts = [...document.querySelectorAll("[data-duh-piece][aria-hidden='true']")]
       .slice(0, 4)
       .map((node) => ({ node, rect: node.getBoundingClientRect() }));
-    if (!["HELD", "AIRBORNE"].includes(s.state)) perch();
+    // Reflow only invalidates a path if new geometry actually blocks it.
+    if (outing && !pathClear(outing.to, outing.arc)) {
+      model.cancel();
+      outing = greetTarget = null;
+      hugUntil = tilt = effort = 0;
+      cursor = null;
+    }
+    if (!["HELD", "AIRBORNE"].includes(s.state) && !outing) perch();
   }
   function perch() {
-    const target = choosePerch({
-      width: innerWidth,
-      height: innerHeight,
-      preferred: { x: s.x, y: s.y },
-      obstacles,
-      size: 100,
-      rail: main?.getBoundingClientRect(),
-    });
-    visible = Boolean(target);
-    if (target) {
-      s.x = target.x;
-      s.y = target.y;
+    if (navigating() || pointerId !== null) return;
+    const b = model.bounds();
+    const target = chooseDuhPerch(view, b, { x: s.x, y: s.y }, obstacles, main?.getBoundingClientRect());
+    if (clearAt(s.x, s.y, obstacles, 96) && s.x >= b.left && s.x <= b.right && s.y >= b.top && s.y <= b.bottom) {
+      visible = true;
+      recovery = null;
+    } else if (!initialized) {
+      visible = Boolean(target);
+      if (target) {
+        s.x = target.x;
+        s.y = target.y;
+      }
+    } else if (still()) {
+      // No surprise repositioning during reduced-motion reading or a pause.
+      visible = false;
+      recovery = null;
+    } else if (target && !recovery) {
+      if (!startOuting(target, "recover"))
+        recovery = {
+          from: { x: s.x, y: s.y },
+          target,
+          at: s.time,
+          duration: Math.max(0.35, Math.hypot(target.x - s.x, target.y - s.y) / 240),
+        };
+    } else if (!target) {
+      visible = false;
+      recovery = null;
     }
+    initialized = true;
   }
+
   function pet(x = s.x, y = s.y - 20, throughPointer = false) {
     if (outing) clearGesture();
-    if (s.state === "RETREAT") model.reset();
+    if (s.state === "RETREAT") model.reset(s.x, s.y);
     if (!throughPointer) model.pet(still());
+    if (throughPointer) {
+      inviteArmed = s.time - lastPetAt < 0.45 && s.mood !== "giggle";
+      lastPetAt = s.time;
+    }
     portrait?.pet(Math.atan2(y - s.y, x - s.x), still());
     lastActivity = s.time;
-    notify(s.mood === "giggle" ? "A happy little squish." : "Pet received.");
+    if (inviteArmed) notify("Tap an empty spot to invite duh there. Escape cancels.");
+    else notify(s.mood === "giggle" ? "A happy little squish." : "Pet received.");
     request();
   }
   function reset() {
+    navigationUntil = 0;
+    // Explicit recall may choose a safe nearby perch; viewport updates preserve position.
+    initialized = false;
     clearGesture();
-    model.reset();
+    model.reset(s.x, s.y);
     portrait?.change("dot", still());
     nextWander = s.time + 6;
     nextMorph = s.time + 5;
     morphUntil = 0;
     formIndex = 1;
     paused = false;
-    moveMode = false;
-    dock.querySelector("[data-duh-action='pause']").textContent = "Pause";
-    dock.querySelector("[data-duh-action='pause']").setAttribute("aria-pressed", "false");
-    setMove(false);
+    hit.setAttribute("aria-label", "Pet duh");
+    el.dataset.paused = "false";
+    recovery = null;
     layoutDirty = true;
     notify("Here, quietly.");
     request();
   }
-  function setMove(value) {
-    moveMode = value;
-    el.dataset.move = String(value);
-    dock.querySelector(".duh-move").hidden = !value;
-    dock.querySelector("[data-duh-action='move']").setAttribute("aria-pressed", String(value));
-    hit.setAttribute(
-      "aria-label",
-      value ? "Move duh with arrow keys. Enter to pet. Escape to cancel." : "Pet duh. Drag with a mouse, or open duh controls to move."
+  function pause(value = !paused) {
+    clearGesture();
+    paused = value;
+    el.dataset.paused = String(value);
+    hit.setAttribute("aria-label", value ? "Wake duh" : "Pet duh");
+    notify(value ? "Sleeping. Tap to wake, or press R to reset." : "Here, quietly.");
+    request();
+  }
+  function pathClear(target, arc = 0) {
+    const samples = Math.max(6, Math.ceil(Math.hypot(target.x - s.x, target.y - s.y) / 24));
+    return Array.from({ length: samples + 1 }, (_, i) => i / samples).every((t) =>
+      clearAt(s.x + (target.x - s.x) * t, s.y + (target.y - s.y) * t - Math.sin(Math.PI * t) * arc, obstacles, 96)
     );
   }
   function startOuting(target, kind = "hop") {
     const arc = kind === "roll" ? 0 : 22;
-    const samples = Math.max(6, Math.ceil(Math.hypot(target.x - s.x, target.y - s.y) / 24));
-    if (
-      !Array.from({ length: samples + 1 }, (_, i) => i / samples).every((t) =>
-        clearAt(s.x + (target.x - s.x) * t, s.y + (target.y - s.y) * t - Math.sin(Math.PI * t) * arc, obstacles, 96)
-      )
-    )
-      return false;
-    outing = { from: { x: s.x, y: s.y }, to: target, at: s.time, kind, arc };
+    if (!pathClear(target, arc)) return false;
+    const distance = Math.hypot(target.x - s.x, target.y - s.y);
+    if (kind !== "greet") gaze = [(target.x - s.x) / 90, (target.y - s.y) / 90];
+    outing = { from: { x: s.x, y: s.y }, to: target, at: s.time, kind, arc, duration: clamp(distance / 115, 0.6, 2.4) };
+    groundY = s.y;
     outings++;
     s.state = kind === "tidy" ? "TIDY" : "PLAY";
     s.mood = kind === "tidy" ? "curious" : "happy";
     return true;
   }
   function greet(explicit = false) {
-    if (still() || !visible || s.state !== "REST" || outing) return;
+    if (still() || !visible || s.state !== "REST" || outing || inviteArmed) return;
     const p = cursor;
     if (p?.safe && s.time > nextGreeting && Math.hypot(p.x - s.x, p.y - s.y) < 360) {
       const dx = s.x - p.x,
@@ -263,7 +313,8 @@ function start() {
       !visible ||
       s.state !== "REST" ||
       outing ||
-      dock.open ||
+      recovery ||
+      inviteArmed ||
       readingLink ||
       getSelection()?.toString() ||
       document.activeElement?.matches("input,textarea,[contenteditable='true']") ||
@@ -302,28 +353,30 @@ function start() {
     const close = event.target
       ? [event.target]
       : heavy.filter(({ rect: r }) => event.x > r.left - 100 && event.x < r.right + 100 && event.y > r.top - 100 && event.y < r.bottom + 100);
-    for (const { node, rect, reading } of close) {
-      if (reading) {
-        if (displaced.length >= 2 || displaced.some((p) => p.node === node)) continue;
-        const strength = clamp(event.speed / 65, 8, 18);
-        const dx = clamp(-(event.nx || -Math.sign(s.vx)) * strength, -Math.max(0, rect.left - 6), Math.max(0, innerWidth - rect.right - 6));
-        const dy = clamp(-(event.ny || 0.25) * strength, -10, 10);
-        // Additive translation preserves authored transforms, layout and native selection.
-        const a = node.animate(
-          [{ translate: "0px 0px" }, { translate: dx + "px " + dy + "px", offset: 0.45 }, { translate: dx * 0.6 + "px " + dy * 0.6 + "px" }],
-          { duration: 480, fill: "forwards", composite: "add", easing: "cubic-bezier(.2,.8,.3,1)" }
-        );
-        animations.add(a);
-        displaced.push({ node, rect, dx: dx * 0.6, dy: dy * 0.6, animation: a });
-        pageContacts++;
-      } else {
-        const a = node.animate([{ translate: "0px 0px" }, { translate: "4px 2px" }, { translate: "-3px 0px" }, { translate: "0px 0px" }], {
-          duration: 360,
-          composite: "add",
-        });
-        animations.add(a);
-        a.finished.then(() => animations.delete(a)).catch(() => {});
-      }
+    for (const { node, rect, blockRect, reading } of close) {
+      if (displaced.length >= 3 || displaced.some((p) => p.node === node)) continue;
+      const box = blockRect || rect;
+      const strength = clamp(event.speed / (reading ? 260 : 380), 1.5, reading ? 4 : 3);
+      const dx = clamp(-(event.nx || -Math.sign(s.vx)) * strength, -Math.max(0, box.left - 6), Math.max(0, innerWidth - box.right - 6));
+      const dy = clamp(-(event.ny || 0.2) * strength, -2, 2);
+      const lever = clamp((event.y - (box.top + box.height / 2)) / Math.max(15, box.height / 2), -1, 1);
+      const angle = clamp(
+        (dx * lever - dy * Math.sign(event.x - box.left - box.width / 2)) * (reading ? 0.075 : 0.55),
+        reading ? -0.35 : -1.8,
+        reading ? 0.35 : 1.8
+      );
+      const residue = reading ? 0.22 : 0.3;
+      // A small damped impulse around the contact, with the original semantic
+      // nodes intact. Heavy objects have lower travel and slower settling.
+      const keys = [0, 1, -0.42, 0.2, -0.07, residue].map((v, i) => ({
+        translate: dx * v + "px " + dy * v + "px",
+        rotate: angle * v + "deg",
+        offset: [0, 0.16, 0.4, 0.63, 0.83, 1][i],
+      }));
+      const a = node.animate(keys, { duration: reading ? 650 : 1100, fill: "forwards", composite: "add", easing: "ease-in-out" });
+      animations.add(a);
+      displaced.push({ node, rect: box, dx: dx * residue, dy: dy * residue, angle: angle * residue, animation: a });
+      pageContacts++;
     }
     tidyAt = s.time + 1.4;
     if (!close.some((t) => !t.reading) || pieces.length) return;
@@ -364,12 +417,16 @@ function start() {
     s.mood = "happy";
     tidyUntil = s.time + 1.1;
     repairs++;
-    for (const { node, dx, dy, animation } of displaced) {
+    for (const { node, dx, dy, angle, animation } of displaced) {
       animation.cancel();
       animations.delete(animation);
       animations.add(
         node.animate(
-          [{ translate: dx + "px " + dy + "px" }, { translate: dx * 0.8 + "px " + dy * 0.8 + "px", offset: 0.25 }, { translate: "0px 0px" }],
+          [
+            { translate: dx + "px " + dy + "px", rotate: angle + "deg" },
+            { translate: dx * 0.8 + "px " + dy * 0.8 + "px", rotate: angle * 0.8 + "deg", offset: 0.25 },
+            { translate: "0px 0px", rotate: "0deg" },
+          ],
           { duration: 1000, composite: "add", easing: "ease-in-out" }
         )
       );
@@ -408,17 +465,21 @@ function start() {
     const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 60;
     last = now;
     const previousState = s.state;
-    if (layoutDirty) scan();
+    if (layoutDirty && !navigating()) scan();
     if (!paused) for (const contact of model.step(dt, reduced.matches)) impact(contact);
     if (outing && !still()) {
       const t = s.time - outing.at;
       s.state = outing.kind === "tidy" ? "TIDY" : "PLAY";
       if (t < 0.18) s.squash = Math.sin(((t / 0.18) * Math.PI) / 2) * 0.15;
       else {
-        const u = clamp((t - 0.18) / 0.72, 0, 1),
-          eased = u * u * (3 - 2 * u);
+        const u = clamp((t - 0.18) / outing.duration, 0, 1),
+          eased = u * u * u * (10 + u * (-15 + 6 * u));
         const nx = outing.from.x + (outing.to.x - outing.from.x) * eased;
         const ny = outing.from.y + (outing.to.y - outing.from.y) * eased - Math.sin(u * Math.PI) * outing.arc;
+        elevation = Math.sin(u * Math.PI) * outing.arc;
+        groundY = ny + elevation;
+        s.ax = clamp(((nx - s.x) / dt - s.vx) / dt, -16000, 16000);
+        s.ay = clamp(((ny - s.y) / dt - s.vy) / dt, -16000, 16000);
         s.vx = (nx - s.x) / dt;
         s.vy = (ny - s.y) / dt;
         s.x = nx;
@@ -428,6 +489,7 @@ function start() {
           const kind = outing.kind;
           outing = null;
           tilt = 0;
+          elevation = 0;
           s.vx = s.vy = 0;
           s.squashV = 2;
           if (kind === "greet") {
@@ -454,7 +516,7 @@ function start() {
     if (previousState !== s.state) {
       if (s.state === "RETREAT") {
         restorePieces();
-        notify("Taking a little breather. Invite duh back whenever you like.");
+        notify("Taking a little breather. Tap the tucked-up duh to invite it back.");
       }
       if (s.state === "REST") {
         perch();
@@ -462,18 +524,43 @@ function start() {
       }
     }
     if (cursor && cursor.safe && fine.matches && !still() && s.state === "REST" && s.time - cursor.at > 0.7 && s.time > nextGreeting) greet();
-    autonomous();
+    if (!navigating() && !recovery) autonomous();
     el.dataset.state = s.state;
     el.dataset.mood = s.mood;
-    el.dataset.visible = String(visible && s.state !== "RETREAT");
+    if (recovery && !navigating()) {
+      const u = clamp((s.time - recovery.at) / recovery.duration, 0, 1);
+      const eased = u * u * u * (10 + u * (-15 + 6 * u));
+      const nx = recovery.from.x + (recovery.target.x - recovery.from.x) * eased;
+      const ny = recovery.from.y + (recovery.target.y - recovery.from.y) * eased;
+      s.vx = (nx - s.x) / Math.max(dt, 0.001);
+      s.vy = (ny - s.y) / Math.max(dt, 0.001);
+      s.x = nx;
+      s.y = ny;
+      visible = true;
+      if (u === 1) {
+        recovery = null;
+        s.vx = s.vy = 0;
+      }
+    }
+    el.style.opacity = visible ? (navigating() ? "0.22" : recovery ? "0.5" : "1") : "0";
+    tuck += ((s.state === "RETREAT" ? 1 : 0) - tuck) * (still() ? 1 : 1 - Math.exp(-8 * dt));
+    el.dataset.visible = String(visible);
     el.style.transform = `translate3d(${s.x - 48}px,${s.y - 47}px,0)`;
-    hit.tabIndex = visible && s.state !== "RETREAT" ? 0 : -1;
+    hit.tabIndex = visible ? 0 : -1;
+    if (s.state === "RETREAT") hit.setAttribute("aria-label", "Invite duh back");
+    else if (!paused) hit.setAttribute("aria-label", "Pet duh");
+    if (!outing) {
+      if (!["AIRBORNE", "HELD"].includes(s.state)) groundY = s.y;
+      else if (s.state === "AIRBORNE") groundY = model.bounds().bottom;
+      groundY = Math.max(groundY, s.y);
+      elevation = clamp(groundY - s.y, 0, innerHeight);
+    }
     updatePointerPolicy();
     portrait?.draw({
       dt,
       gaze: still() ? [0, 0] : gaze,
       squash: still() ? 0 : s.squash,
-      mood: s.mood,
+      mood: paused ? "sleepy" : s.state === "RETREAT" ? "shy" : s.state === "AIRBORNE" ? "alert" : s.mood,
       theme: root.dataset.themeMode || "noon",
       blink: s.time < blinkUntil,
       still: still(),
@@ -481,21 +568,41 @@ function start() {
       velocity: [s.vx, s.vy],
       acceleration: [s.ax, s.ay],
       held: s.state === "HELD",
+      tuck,
       grounded: !["AIRBORNE", "HELD"].includes(s.state) && !outing,
       tilt: still() ? 0 : tilt,
       effort: still() ? 0 : effort,
       contactAngle: s.contactAngle,
     });
+    const footprint = portrait?.contact() || { bottom: 28, halfWidth: 28 };
+    shadow.style.top = 47 + (elevation > 0.5 ? 28 : footprint.bottom) - 4 + "px";
+    shadow.style.transform =
+      "translate(" +
+      clamp(s.vx * 0.003, -5, 5) +
+      "px," +
+      elevation +
+      "px) scale(" +
+      (1 + Math.min(elevation, 160) / 180) * (1 + s.squash * 0.7) * (1 - tuck * 0.38) +
+      "," +
+      (1 + Math.min(elevation, 160) / 110) +
+      ")";
+    shadow.style.opacity = String((root.dataset.themeMode === "evening" ? 0.32 : 0.19) * Math.exp(-elevation / 65) * (1 - tuck * 0.45));
     frames++;
     const active =
-      !still() &&
-      (["HELD", "AIRBORNE", "PLAY", "TIDY"].includes(s.state) ||
-        outing ||
-        greetTarget ||
-        hugUntil ||
-        Math.abs(s.squash) > 0.001 ||
-        s.time < blinkUntil ||
-        portrait?.active());
+      navigating() ||
+      layoutDirty ||
+      (!still() &&
+        (["HELD", "AIRBORNE", "PLAY", "TIDY"].includes(s.state) ||
+          outing ||
+          recovery ||
+          navigating() ||
+          layoutDirty ||
+          Math.abs(tuck - (s.state === "RETREAT" ? 1 : 0)) > 0.002 ||
+          greetTarget ||
+          hugUntil ||
+          Math.abs(s.squash) > 0.001 ||
+          s.time < blinkUntil ||
+          portrait?.active()));
     if (active) request();
     else {
       last = 0;
@@ -518,34 +625,54 @@ function start() {
       request();
       return;
     }
-    if (paused) {
-      notify("Resume to play, or reset to start again.");
+    if (event.shiftKey) {
+      reset();
+      suppressedClick = true;
       return;
     }
+    if (paused || s.state === "RETREAT") {
+      pause(false);
+      model.reset(s.x, s.y);
+      pet();
+      suppressedClick = true;
+      return;
+    }
+    event.preventDefault();
     lastActivity = s.time;
+    navigationUntil = 0;
+    recovery = null;
     outing = null;
     tilt = 0;
     restorePieces();
     greetTarget = null;
     hugUntil = 0;
-    if (event.pointerType === "touch" && !moveMode) {
-      touchTap = { x: event.clientX, y: event.clientY, id: event.pointerId };
-      return;
-    }
     pointerId = event.pointerId;
     model.grab(event.clientX, event.clientY, event.timeStamp);
     hit.setPointerCapture(pointerId);
+    holdPoint = { x: event.clientX, y: event.clientY };
+    holdTimer = setTimeout(() => {
+      suppressedClick = true;
+      pause(true);
+    }, 700);
     request();
   });
   hit.addEventListener("pointermove", (event) => {
     if (event.pointerId === pointerId) {
+      if (holdPoint && Math.hypot(holdPoint.x - event.clientX, holdPoint.y - event.clientY) > 6) {
+        clearTimeout(holdTimer);
+        holdPoint = null;
+      }
+      const samples = event.getCoalescedEvents?.() || [];
+      for (const sample of samples) model.drag(sample.clientX, sample.clientY, sample.timeStamp);
       model.drag(event.clientX, event.clientY, event.timeStamp);
       request();
     }
-    if (touchTap && Math.hypot(touchTap.x - event.clientX, touchTap.y - event.clientY) > 8) touchTap = null;
   });
   hit.addEventListener("pointerup", (event) => {
     if (pointerId === event.pointerId) {
+      clearTimeout(holdTimer);
+      holdPoint = null;
+      model.drag(event.clientX, event.clientY, event.timeStamp);
       model.release(event.timeStamp, still());
       if (s.state === "REST") layoutDirty = true;
       pointerId = null;
@@ -553,18 +680,22 @@ function start() {
       suppressedClick = true;
       if (s.state === "PLAY") pet(event.clientX, event.clientY, true);
       request();
-    } else if (touchTap?.id === event.pointerId) {
-      touchTap = null;
-      suppressedClick = true;
-      pet(event.clientX, event.clientY);
     }
   });
+
   hit.addEventListener("click", (event) => {
-    if (suppressedClick) {
+    if (suppressedClick && event.detail !== 0) {
       suppressedClick = false;
       return;
     }
-    if (!paused && event.detail === 0) pet();
+    suppressedClick = false;
+    if (event.detail === 0) {
+      if (paused || s.state === "RETREAT") {
+        pause(false);
+        model.reset(s.x, s.y);
+      }
+      pet();
+    }
   });
   hit.addEventListener("pointercancel", () => {
     clearGesture();
@@ -579,14 +710,17 @@ function start() {
   function nudge(dx, dy) {
     if (paused) return;
     clearGesture();
-    const x = clamp(s.x + dx, 36, innerWidth - 36),
-      y = clamp(s.y + dy, 100, innerHeight - 42);
+    const b = model.bounds();
+    const x = clamp(s.x + dx, b.left, b.right),
+      y = clamp(s.y + dy, b.top, b.bottom);
     if (!clearAt(x, y, obstacles, 100)) {
       notify("That spot is for reading. Try another direction.");
       return;
     }
-    s.x = x;
-    s.y = y;
+    if (still()) {
+      s.x = x;
+      s.y = y;
+    } else startOuting({ x, y }, "roll");
     visible = true;
     request();
   }
@@ -597,47 +731,16 @@ function start() {
       request();
     }
     if (event.key.toLowerCase() === "h") greet(true);
-    if (event.key.toLowerCase() === "p") dock.querySelector("[data-duh-action='pause']").click();
+    if (event.key.toLowerCase() === "p") pause();
+    if (event.key.toLowerCase() === "t" && !paused) {
+      model.toss(s.x > innerWidth / 2 ? -450 : 450, -470, still());
+      request();
+    }
     if (event.key.toLowerCase() === "r") reset();
     if (!event.key.startsWith("Arrow")) return;
     event.preventDefault();
     const direction = { ArrowLeft: [-24, 0], ArrowRight: [24, 0], ArrowUp: [0, -24], ArrowDown: [0, 24] }[event.key];
     if (direction) nudge(...direction);
-  });
-  dock.addEventListener("click", (event) => {
-    const action = event.target.closest("[data-duh-action]")?.dataset.duhAction;
-    if (!action) return;
-    if (action === "reset") return reset();
-    if (action === "pause") {
-      clearGesture();
-      paused = !paused;
-      event.target.textContent = paused ? "Resume" : "Pause";
-      event.target.setAttribute("aria-pressed", String(paused));
-      notify(paused ? "Paused. Reset is always available." : "Here, quietly.");
-      request();
-      return;
-    }
-    if (action === "move") {
-      clearGesture();
-      setMove(!moveMode);
-      request();
-      return;
-    }
-    if (paused) return;
-    if (action === "pet") pet();
-    if (action === "greet") greet(true);
-    const directions = { left: [-24, 0], right: [24, 0], up: [0, -24], down: [0, 24] };
-    if (directions[action]) nudge(...directions[action]);
-    if (action === "toss") {
-      model.toss(s.x > innerWidth / 2 ? -450 : 450, -470, still());
-      visible = true;
-      notify(reduced.matches ? "A quiet pose with reduced motion." : "A little toss.");
-      request();
-    }
-  });
-  dock.addEventListener("toggle", () => {
-    layoutDirty = true;
-    request();
   });
   document.addEventListener(
     "pointermove",
@@ -645,7 +748,7 @@ function start() {
       if (pointerId !== null || event.pointerType === "touch") return;
       gaze = [(event.clientX - s.x) / 100, (event.clientY - s.y) / 100];
       const safe =
-        !event.target.closest(`${interactive},.duh-dock,.duh-companion`) &&
+        !event.target.closest(`${interactive},.duh-companion`) &&
         !getSelection()?.toString() &&
         !document.activeElement?.matches("input,textarea,[contenteditable='true']");
       if (!cursor || Math.hypot(cursor.x - event.clientX, cursor.y - event.clientY) > 4)
@@ -666,7 +769,25 @@ function start() {
   document.addEventListener(
     "pointerdown",
     (event) => {
-      if (!event.target.closest(".duh-companion,.duh-dock") && (displaced.length || pieces.length)) {
+      if (inviteArmed && !event.target.closest(".duh-companion")) {
+        inviteArmed = false;
+        cursor = null;
+        nextGreeting = s.time + 12;
+        const b = model.bounds();
+        const target = { x: clamp(event.clientX, b.left, b.right), y: clamp(event.clientY, b.top, b.bottom) };
+        if (!event.target.closest(interactive) && clearAt(target.x, target.y, obstacles, 96)) {
+          clearGesture();
+          if (still()) {
+            s.x = target.x;
+            s.y = target.y;
+          } else startOuting(target, "hop");
+          lastActivity = s.time;
+          cursor = null;
+          nextGreeting = s.time + 12;
+          request();
+        } else notify("That spot needs room. Double-tap and try a clear spot.");
+      }
+      if (!event.target.closest(".duh-companion") && (displaced.length || pieces.length)) {
         if (event.target.closest(interactive)) {
           // Freeze the clicked visual target until click dispatch selects its
           // native link/button action; moving it on pointer-down can lose a click.
@@ -679,7 +800,7 @@ function start() {
         } else clearGesture();
         request();
       }
-      if ((!event.isPrimary && (pointerId !== null || touchTap)) || (pointerId !== null && pointerId !== event.pointerId)) {
+      if ((!event.isPrimary && pointerId !== null) || (pointerId !== null && pointerId !== event.pointerId)) {
         clearGesture();
         request();
       }
@@ -700,7 +821,13 @@ function start() {
       }
     });
   document.addEventListener("keydown", (event) => {
-    if (!event.target.closest(".duh-dock,.duh-companion")) {
+    if (event.altKey && event.shiftKey && event.code === "KeyD") {
+      event.preventDefault();
+      reset();
+      hit.focus();
+      return;
+    }
+    if (!event.target.closest(".duh-companion")) {
       if (greetTarget || hugUntil || outing) model.cancel();
       restorePieces();
       outing = null;
@@ -711,7 +838,6 @@ function start() {
     }
     if (event.key === "Escape") {
       clearGesture();
-      dock.open = false;
       layoutDirty = true;
       request();
     }
@@ -729,21 +855,26 @@ function start() {
       request();
     }
   });
-  window.addEventListener(
-    "scroll",
-    () => {
-      clearGesture();
-      layoutDirty = true;
-      request();
-    },
-    { passive: true }
-  );
-  window.addEventListener("resize", () => {
-    clearGesture();
-    model.resize(innerWidth, innerHeight);
+  function viewportChanged() {
+    readViewport();
     layoutDirty = true;
+    // Safari may resize browser chrome while a finger is captured. Its new
+    // bounds do not end the gesture or reset the character's coordinates.
+    if (pointerId === null) {
+      if (!navigating()) {
+        clearGesture();
+        lastActivity = s.time;
+        nextWander = s.time + 6;
+        nextGreeting = s.time + 12;
+      }
+      navigationUntil = performance.now() + 180;
+    }
     request();
-  });
+  }
+  window.addEventListener("scroll", viewportChanged, { passive: true });
+  window.addEventListener("resize", viewportChanged, { passive: true });
+  viewport?.addEventListener("resize", viewportChanged, { passive: true });
+  viewport?.addEventListener("scroll", viewportChanged, { passive: true });
   window.addEventListener("blur", () => {
     clearGesture();
     last = 0;
@@ -795,6 +926,8 @@ function start() {
       resizeObserver.disconnect();
       ancestorObserver.disconnect();
       contentObserver.disconnect();
+      viewport?.removeEventListener("resize", viewportChanged);
+      viewport?.removeEventListener("scroll", viewportChanged);
     }
   });
   window.addEventListener("pageshow", () => {
@@ -803,10 +936,19 @@ function start() {
     request();
   });
   function inviteToPlayground() {
+    navigationUntil = 0;
     const stage = document.querySelector("[data-duh-playground]")?.getBoundingClientRect();
-    if (!stage || stage.top < 80 || stage.bottom > innerHeight) return;
+    if (!stage) return;
+    const b = model.bounds();
+    const top = Math.max(b.top + 10, stage.top + 65);
+    const bottom = Math.min(b.bottom - 23, stage.bottom - 100);
+    if (bottom < top) return;
     clearGesture();
-    model.reset(stage.left + Math.min(140, stage.width * 0.28), stage.top + 140);
+    paused = false;
+    el.dataset.paused = "false";
+    model.reset(stage.left + Math.min(140, stage.width * 0.28), clamp(stage.top + 140, top, bottom));
+    lastActivity = s.time;
+    nextGreeting = s.time + 1;
     layoutDirty = true;
     request();
   }
@@ -818,7 +960,12 @@ function start() {
     form: portrait?.form() || "dot",
     paused,
     reduced: reduced.matches,
-    moveMode,
+    elevation,
+    recovering: Boolean(recovery),
+    navigating: navigating(),
+    viewport: { ...view },
+    bounds: model.bounds(),
+    inviteArmed,
     visible,
     frames,
     layoutScans,

@@ -21,6 +21,12 @@ export function createDuhMotion(width = 1000, height = 800) {
   };
   let w = width,
     h = height,
+    viewLeft = 0,
+    viewTop = 0,
+    safeBottom = 0,
+    safeLeft = 0,
+    safeRight = 0,
+    safeTop = 0,
     held = null,
     accumulator = 0,
     clicks = [],
@@ -30,7 +36,12 @@ export function createDuhMotion(width = 1000, height = 800) {
     flightUntil = 0,
     surfaces = [];
   const impacts = [];
-  const bounds = () => ({ left: 36, right: Math.max(36, w - 36), top: Math.min(100, h / 3), bottom: Math.max(110, h - 42) });
+  const bounds = () => ({
+    left: viewLeft + 36 + safeLeft,
+    right: viewLeft + Math.max(36 + safeLeft, w - 36 - safeRight),
+    top: viewTop + Math.max(Math.min(100, h / 3), 36 + safeTop),
+    bottom: viewTop + Math.max(110, h - 42 - safeBottom),
+  });
   function constrain() {
     const b = bounds();
     s.x = clamp(s.x, b.left, b.right);
@@ -77,7 +88,7 @@ export function createDuhMotion(width = 1000, height = 800) {
     return true;
   }
   function drag(x, y, now) {
-    if (!held) return;
+    if (!held || (now === held.now && x === held.x && y === held.y)) return;
     held.moved ||= Math.hypot(x - held.startX, y - held.startY) > 6;
     const dt = clamp((now - held.now) / 1000, 0.008, 0.05);
     const vx = clamp((x - held.x) / dt, -1600, 1600),
@@ -102,7 +113,9 @@ export function createDuhMotion(width = 1000, height = 800) {
       return;
     }
     const speed = Math.hypot(vx, vy),
-      scale = Math.min(1, DUH_LIMITS.speed / Math.max(speed, 1));
+      // A phone gets a smaller arc at the same finger speed.
+      limit = Math.min(DUH_LIMITS.speed, Math.max(900, w * 3)),
+      scale = Math.min(1, limit / Math.max(speed, 1));
     s.vx = vx * scale;
     s.vy = vy * scale;
     s.state = "AIRBORNE";
@@ -140,7 +153,7 @@ export function createDuhMotion(width = 1000, height = 800) {
   function step(dt, still = false) {
     dt = clamp(dt, 0, 0.05);
     s.time += dt;
-    if (s.state === "RETREAT" && s.time >= s.hiddenUntil) reset();
+    if (s.state === "RETREAT" && s.time >= s.hiddenUntil) reset(s.x, s.y);
     if (still) {
       s.squash = s.squashV = 0;
       if (s.state === "AIRBORNE") rest();
@@ -221,6 +234,18 @@ export function createDuhMotion(width = 1000, height = 800) {
     bounds,
     setSurfaces(next) {
       surfaces = next.slice(0, 160);
+    },
+    setViewport({ width, height, left = 0, top = 0, bottom = 0, insetLeft = 0, insetRight = 0, insetTop = 0 }) {
+      // Browser chrome and visual-viewport changes update constraints only.
+      // The controller settles an out-of-bounds pose; capture is not canceled.
+      w = width;
+      h = height;
+      viewLeft = left;
+      viewTop = top;
+      safeBottom = bottom;
+      safeLeft = insetLeft;
+      safeRight = insetRight;
+      safeTop = insetTop;
     },
     resize(width, height) {
       w = width;

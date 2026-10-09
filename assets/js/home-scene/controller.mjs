@@ -13,6 +13,7 @@ import { roomRoute, sampleRoute } from "./navigation.mjs";
 import { createWorldCompanion } from "./companion.mjs";
 import { companion, pipProjectUrl } from "../companion/bridge.mjs";
 import { createRecordMotion } from "./record-motion.mjs";
+import { createCameraMotion } from "./camera-motion.mjs";
 import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
 import { bindContactLighting, withoutContactLighting } from "./contact-occlusion.mjs";
 import { createCharacterPerformance } from "./character-performance.mjs";
@@ -51,6 +52,7 @@ export function createCoastalHome(container, records, artifacts) {
   const clockLabel = ui.querySelector("[data-world-clock]");
   const explore = createExplorationState();
   const recordMotion = createRecordMotion();
+  const cameraMotion = createCameraMotion();
   const { loader, decoder } = createModelLoader();
   const art = createArtDirection();
   const scene = new THREE.Scene();
@@ -1387,6 +1389,7 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   function cancelFrame() {
+    cameraMotion.stop();
     characterPerformance?.restore();
     characterPerformance?.update(0, { active: false, clip: container.dataset.animation });
     if (frame) cancelAnimationFrame(frame);
@@ -1427,15 +1430,14 @@ export function createCoastalHome(container, records, artifacts) {
     coastalWind?.update(elapsed, { reduced });
     // Camera settling follows elapsed time, including on software renderers.
     // Pausing leaves a composed still instead of an unfinished camera journey.
-    const cameraEase = reduced || paused ? 1 : 1 - Math.exp(-frameDelta * 9);
-    const orbitEase = reduced || paused ? 1 : 1 - Math.exp(-frameDelta * 15);
+    const stillCamera = reduced || paused;
     if (animalFocus) {
       const current = pacific.neighbour(animalFocus.id);
       if (current) desiredTarget.fromArray(current.worldCenter);
     }
-    target.lerp(desiredTarget, cameraEase);
-    radius = THREE.MathUtils.lerp(radius, desiredRadius, cameraEase);
-    const fov = THREE.MathUtils.lerp(perspective.fov, desiredFov, cameraEase);
+    for (const axis of ["x", "y", "z"]) target[axis] = cameraMotion.step(axis, target[axis], desiredTarget[axis], frameDelta, stillCamera);
+    radius = cameraMotion.step("radius", radius, desiredRadius, frameDelta, stillCamera);
+    const fov = cameraMotion.step("fov", perspective.fov, desiredFov, frameDelta, stillCamera);
     // A composed still reaches the exact lens, including a residual smaller
     // than the live camera's projection-update threshold.
     if (fov !== perspective.fov && (reduced || paused || Math.abs(fov - perspective.fov) > 0.00001)) {
@@ -1443,9 +1445,12 @@ export function createCoastalHome(container, records, artifacts) {
       perspective.updateProjectionMatrix();
     }
     const yawDelta = Math.atan2(Math.sin(yaw - cameraYaw), Math.cos(yaw - cameraYaw));
-    cameraYaw += yawDelta * orbitEase;
-    cameraPitch = THREE.MathUtils.lerp(cameraPitch, pitch, orbitEase);
+    cameraYaw = cameraMotion.step("yaw", cameraYaw, cameraYaw + yawDelta, frameDelta, stillCamera, 20);
+    cameraPitch = cameraMotion.step("pitch", cameraPitch, pitch, frameDelta, stillCamera, 20);
     const safeOrbit = constrainOrbit({ yaw: cameraYaw, pitch: cameraPitch, radius }, cameraEnvelope());
+    if (safeOrbit.yaw !== cameraYaw) cameraMotion.stop("yaw");
+    if (safeOrbit.pitch !== cameraPitch) cameraMotion.stop("pitch");
+    if (safeOrbit.radius !== radius) cameraMotion.stop("radius");
     cameraYaw = safeOrbit.yaw;
     cameraPitch = safeOrbit.pitch;
     radius = safeOrbit.radius;
@@ -1639,7 +1644,7 @@ export function createCoastalHome(container, records, artifacts) {
       moving ||
       target.distanceTo(desiredTarget) > 0.003 ||
       Math.abs(radius - settledRadius) > 0.003 ||
-      Math.abs(yawDelta * (1 - orbitEase)) > 0.003 ||
+      Math.abs(Math.atan2(Math.sin(yaw - cameraYaw), Math.cos(yaw - cameraYaw))) > 0.003 ||
       Math.abs(cameraPitch - pitch) > 0.003
     )
       requestFrame();
@@ -1871,6 +1876,7 @@ export function createCoastalHome(container, records, artifacts) {
     backdropImages: 0,
     camera: camera.position.toArray(),
     cameraOrbit: { yaw: cameraYaw, pitch: cameraPitch, radius },
+    cameraVelocity: cameraMotion.evidence(),
     cameraFov: perspective.fov,
     cameraEnvelope: config ? cameraEnvelope() : null,
     target: target.toArray(),
