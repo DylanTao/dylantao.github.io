@@ -489,6 +489,41 @@ test("duh: a real paragraph receives a reversible impact and an active repair", 
     expect((await paragraph.boundingBox()).x).toBeCloseTo(r.x, 1);
     expect(await paragraph.innerHTML()).toBe(original);
   }
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await paragraph.evaluate((node) => {
+    const link = document.createElement("a");
+    link.href = "#duh-title";
+    link.textContent = "A reading link";
+    link.dataset.duhLinkProbe = "";
+    node.append(" ", link);
+  });
+  await page.locator(".duh-hit").press("r");
+  await page.clock.runFor(50);
+  const linkedRect = await paragraph.boundingBox(),
+    p2 = await evidence(page);
+  await page.mouse.move(p2.x, p2.y);
+  await page.mouse.down();
+  await page.mouse.move(linkedRect.x - 200, linkedRect.y + 25);
+  await page.clock.runFor(150);
+  await releaseQuickly(page, [
+    { x: linkedRect.x - 180, y: linkedRect.y + 25 },
+    { x: linkedRect.x - 36, y: linkedRect.y + 25 },
+  ]);
+  await page.mouse.up();
+  await page.clock.runFor(250);
+  expect((await evidence(page)).displaced).toBeGreaterThan(0);
+  const link = page.locator("[data-duh-link-probe]");
+  const box = await link.boundingBox();
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  const frozen = await link.boundingBox();
+  await page.clock.runFor(600);
+  const stable = await link.boundingBox();
+  expect(stable.x).toBeCloseTo(frozen.x, 1);
+  expect(stable.y).toBeCloseTo(frozen.y, 1);
+  await page.mouse.up();
+  await expect(page).toHaveURL(/#duh-title$/);
+  expect((await evidence(page)).displaced).toBe(0);
   expect(errors).toEqual([]);
 });
 

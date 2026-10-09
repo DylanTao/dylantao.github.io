@@ -26,7 +26,7 @@ The six gesture states are REST, PLAY, HELD, AIRBORNE, TIDY and RETREAT. Express
 
 ## Safe impacts
 
-Swept circle/rectangle contacts use at most 160 cached surfaces, including visible paragraphs and headings. A strong hit displaces at most two actual text blocks by up to 18 pixels before settling to a smaller offset. Additive compositor translation preserves authored transforms, layout, DOM text, links and selection; text is never split or reparented. A reading interaction immediately clears the effect.
+Swept circle/rectangle contacts use at most 160 cached surfaces, including visible paragraphs and headings. A strong hit displaces at most two actual text blocks by up to 18 pixels before settling to a smaller offset. Additive compositor translation preserves authored transforms, layout, DOM text, links and selection; text is never split or reparented. Selection immediately clears the effect. A pointer-down on a link or control freezes its current visual position through click dispatch, then restores the page so the native action keeps its target.
 
 The project playground still marks its heavy block and up to four aria-hidden decorative words. Those words alone get pointer-transparent overlay copies. Duh then hops toward a clear nearby repair position where possible and makes two small pulling gestures as displaced text and copies return. If no clear path exists, it performs the gesture from its current perch. This is a bounded 2D illusion, not a document layout physics engine.
 

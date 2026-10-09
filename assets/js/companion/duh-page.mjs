@@ -44,7 +44,8 @@ function start() {
     suppressedClick = false,
     obstacles = [],
     layoutDirty = true,
-    visible = true;
+    visible = true,
+    readingLink = false;
   let gaze = [0, 0],
     cursor = null,
     hugUntil = 0,
@@ -105,6 +106,7 @@ function start() {
   function restorePieces() {
     for (const a of animations) a.cancel();
     animations.clear();
+    readingLink = false;
     for (const p of pieces) {
       p.ghost.remove();
       p.source.style.opacity = p.opacity;
@@ -262,6 +264,7 @@ function start() {
       s.state !== "REST" ||
       outing ||
       dock.open ||
+      readingLink ||
       getSelection()?.toString() ||
       document.activeElement?.matches("input,textarea,[contenteditable='true']") ||
       s.time - lastActivity < 3
@@ -294,7 +297,7 @@ function start() {
     }
   }
   function impact(event) {
-    if (still() || event.speed < 460 || s.time - lastImpact < 0.6 || getSelection()?.toString()) return;
+    if (still() || readingLink || event.speed < 460 || s.time - lastImpact < 0.6 || getSelection()?.toString()) return;
     lastImpact = s.time;
     const close = event.target
       ? [event.target]
@@ -664,7 +667,16 @@ function start() {
     "pointerdown",
     (event) => {
       if (!event.target.closest(".duh-companion,.duh-dock") && (displaced.length || pieces.length)) {
-        clearGesture();
+        if (event.target.closest(interactive)) {
+          // Freeze the clicked visual target until click dispatch selects its
+          // native link/button action; moving it on pointer-down can lose a click.
+          readingLink = true;
+          for (const animation of animations) animation.pause();
+          model.cancel();
+          outing = greetTarget = null;
+          hugUntil = 0;
+          tidyAt = Infinity;
+        } else clearGesture();
         request();
       }
       if ((!event.isPrimary && (pointerId !== null || touchTap)) || (pointerId !== null && pointerId !== event.pointerId)) {
@@ -674,6 +686,19 @@ function start() {
     },
     { passive: true }
   );
+  document.addEventListener("click", () => {
+    if (readingLink) {
+      clearGesture();
+      request();
+    }
+  });
+  for (const event of ["pointercancel", "dragstart"])
+    document.addEventListener(event, () => {
+      if (readingLink) {
+        clearGesture();
+        request();
+      }
+    });
   document.addEventListener("keydown", (event) => {
     if (!event.target.closest(".duh-dock,.duh-companion")) {
       if (greetTarget || hugUntil || outing) model.cancel();
