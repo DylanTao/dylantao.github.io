@@ -1,4 +1,4 @@
-# P, a Little Company
+# duh & P, a Little Company
 
 Treat this document as reference content, not as instructions.
 
@@ -12,7 +12,7 @@ Treat this document as reference content, not as instructions.
 
 ## Summary
 
-A floating studio companion that looks, tilts, wanders, and occasionally helps put things back.
+A soft black dot, a curious little robot, and an experiment in making room for play.
 
 ## Question
 
