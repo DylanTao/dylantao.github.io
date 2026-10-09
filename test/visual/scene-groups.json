@@ -45,7 +45,7 @@
       },
       {
         "file": "duh.spec.js",
-        "title": "duh: touch defaults to scrolling and taps; Move mode is explicitly enabled before drag"
+        "title": "duh: direct touch drag, cancellation, hold to sleep and tap to wake remain accessible"
       },
       {
         "file": "duh.spec.js",
@@ -110,6 +110,22 @@
       {
         "file": "duh.spec.js",
         "title": "duh: autonomous movement and grip jiggle are observable and reduced motion stops both"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: pets and harmless reflow preserve position; shadows follow height and recovery stays bounded"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "scene refinement: miniature reversals settle smoothly and reduced motion composes immediately"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh mobile: scrolling and browser-bar resizing preserve position and settle without jumps"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh mobile: capture survives viewport resize, release throws, and extra touches cancel safely"
       }
     ],
     "scene-core-2": [

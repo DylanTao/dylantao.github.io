@@ -1,6 +1,8 @@
 import * as THREE from "../three.module.min.js";
 import { coastManifest, acquireCoast } from "./assets.mjs?v=coastal-place-20260929";
 import { createFinish } from "../home-scene/realism.mjs";
+import { createCameraMotion } from "../home-scene/camera-motion.mjs";
+import { sampleCoastWave } from "./wave-motion.mjs";
 
 const THEMES = {
   morning: { sky: 0xf5dfce, ground: 0x8b9290, sun: 0xffdfb4, key: 2.4, fill: 1.05, exposure: 1.0, water: 0x568f9d, night: 0.12 },
@@ -57,7 +59,9 @@ function makeWater(clock, color, miniature = false, profile = []) {
       ${shader.vertexShader}`
       .replace(
         "#include <beginnormal_vertex>",
-        `vec3 objectNormal = normalize(vec3((wave(position.xz-vec2(.03,0.))-wave(position.xz+vec2(.03,0.)))/.06,1.,(wave(position.xz-vec2(0.,.03))-wave(position.xz+vec2(0.,.03)))/.06));`
+        `float a=position.z*3.8-position.x*.28-coastTime*.8;
+         float b=position.x*2.7+position.z*1.2-coastTime*.6;
+         vec3 objectNormal=normalize(vec3(.00644*cos(a)-.0351*cos(b),1.,-.0874*cos(a)-.0156*cos(b)));`
       )
       .replace("#include <begin_vertex>", `vec3 transformed=position; transformed.y+=wave(position.xz); coastPosition=transformed;`);
     shader.fragmentShader = `uniform float coastTime; varying vec3 coastPosition;\n${shore}\n${shader.fragmentShader}`.replace(
@@ -141,7 +145,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       o.userData.noOcclusion = true;
     }
     if (!o.isMesh && o.name.startsWith("Crown")) crowns.push(o);
-    if (!o.isMesh && /^Surfer\d/.test(o.name)) surfers.push({ object: o, position: o.position.clone() });
+    if (!o.isMesh && /^Surfer\d/.test(o.name)) surfers.push({ object: o, position: o.position.clone(), rotation: o.rotation.clone() });
     if (o.isMesh) {
       o.castShadow = !/Window|pane|glazing|Pacific/.test(o.name);
       o.receiveShadow = true;
@@ -177,6 +181,11 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     frameCount = 0;
   const target = new THREE.Vector3(0, 1.3, 0);
   const cameraBase = new THREE.Vector3(11, 23, 36);
+  const motion = createCameraMotion();
+  const orbitOffset = new THREE.Vector3();
+  const orbitSphere = new THREE.Spherical();
+  let renderedOrbitX = 0,
+    renderedOrbitY = 0;
   let drag = null;
   let orbitY = 0,
     orbitX = 0;
@@ -334,11 +343,17 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     camera.position.copy(cameraBase);
     camera.position.x += currentX * 0.6;
     if (miniature) {
-      const offset = camera.position.clone().sub(target);
-      const spherical = new THREE.Spherical().setFromVector3(offset);
-      spherical.theta += orbitX;
-      spherical.phi += orbitY;
-      camera.position.copy(target).add(new THREE.Vector3().setFromSpherical(spherical));
+      if (stopped || reduced.matches) {
+        renderedOrbitX = orbitX;
+        renderedOrbitY = orbitY;
+        motion.stop("orbitX");
+        motion.stop("orbitY");
+      }
+      orbitOffset.copy(camera.position).sub(target);
+      orbitSphere.setFromVector3(orbitOffset);
+      orbitSphere.theta += renderedOrbitX;
+      orbitSphere.phi += renderedOrbitY;
+      camera.position.copy(target).add(orbitOffset.setFromSpherical(orbitSphere));
     }
     camera.lookAt(target);
     finish.render(camera, false);
@@ -369,16 +384,21 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     elapsed += dt;
     clock.value = elapsed;
     progress();
-    reveal += (targetReveal - reveal) * (1 - Math.exp(-dt * 4));
+    reveal = clamp(motion.step("reveal", reveal, targetReveal, dt, false, 8));
+    if (reveal === 0 || reveal === 1) motion.stop("reveal");
     revealBuildings(reveal);
-    currentX += (pointerX - currentX) * (1 - Math.exp(-dt * 2.1));
+    currentX = motion.step("parallax", currentX, pointerX, dt, false, 5);
+    renderedOrbitX = clamp(motion.step("orbitX", renderedOrbitX, orbitX, dt, false, drag ? 28 : 16), -Math.PI / 6, Math.PI / 6);
+    renderedOrbitY = clamp(motion.step("orbitY", renderedOrbitY, orbitY, dt, false, drag ? 28 : 16), -Math.PI / 18, Math.PI / 18);
     crowns.forEach((o, i) => {
       o.rotation.z = Math.sin(elapsed * 0.65 + i) * 0.008;
     });
-    surfers.forEach(({ object, position }, i) => {
+    surfers.forEach(({ object, position, rotation }, i) => {
       object.position.x = position.x + Math.sin(elapsed * 0.17 + i) * 0.48;
-      object.position.y = position.y + Math.sin(elapsed * 0.8 + i) * 0.025;
-      object.rotation.z = Math.sin(elapsed * 0.4 + i) * 0.04;
+      const wave = sampleCoastWave(object.position.x, position.z, elapsed);
+      object.position.y = position.y + wave.height;
+      object.rotation.x = rotation.x + Math.atan(wave.dz);
+      object.rotation.z = rotation.z - Math.atan(wave.dx);
     });
     draw();
   }
@@ -391,6 +411,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       previous = performance.now();
       raf = requestAnimationFrame(frame);
     } else {
+      motion.stop();
       if (stopped || reduced.matches) {
         reveal = targetReveal = 1;
         canvas.style.transform = "none";
@@ -570,6 +591,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     buildings: buildings.length,
     landmarks: buildings.map((b) => b.object.name),
     orbit: [orbitX, orbitY],
+    renderedOrbit: [renderedOrbitX, renderedOrbitY],
+    motion: motion.evidence(),
     resources: renderer.info.memory,
     framing: { width: cameraWidth, height: camera.top - camera.bottom, center: target.toArray() },
     landmarkFrames: projectLandmarks

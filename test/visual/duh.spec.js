@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const { publicRouteUrl } = require("./public-routes");
-const { preparePage, collectRuntimeErrors } = require("./helpers");
+const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetrics } = require("./helpers");
 const evidence = (page) => page.locator(".duh-companion").evaluate((e) => e.getDuhEvidence());
 async function open(page, route = "/projects/p/", reduced = false) {
   const errors = collectRuntimeErrors(page);
@@ -11,12 +11,14 @@ async function open(page, route = "/projects/p/", reduced = false) {
   await expect.poll(() => evidence(page).then((e) => e.frames)).toBeGreaterThan(0);
   return errors;
 }
-async function controls(page) {
-  if (!((await page.locator(".duh-dock").getAttribute("open")) !== null)) await page.locator(".duh-dock summary").click();
-}
 async function reset(page) {
-  await controls(page);
-  await page.getByRole("button", { name: "Reset & invite back", exact: true }).click();
+  await page.keyboard.press("Alt+Shift+KeyD");
+}
+async function pause(page) {
+  await page.locator(".duh-hit").press("p");
+}
+async function toss(page) {
+  await page.locator(".duh-hit").press("t");
 }
 async function throwDuh(page, dx, dy) {
   const p = await evidence(page);
@@ -52,10 +54,11 @@ async function releaseQuickly(page, points) {
 
 test("duh: default companion preserves content, real links, selection and late reflow", async ({ page }) => {
   const errors = await open(page, "/blog/2024/", true);
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page.locator("[data-footer-coast]")).toHaveAttribute("data-state", "ready", { timeout: 30000 });
   await expect(page.locator(".pip-companion")).toHaveCount(0);
   const original = await page.locator("#main").innerText();
-  await controls(page);
-  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  await pause(page);
   await reset(page);
   expect(await page.locator("#main").innerText()).toBe(original);
   const selected = await page.locator("#main").evaluate((main) => {
@@ -68,7 +71,6 @@ test("duh: default companion preserves content, real links, selection and late r
   });
   expect(selected.length).toBeGreaterThan(30);
   await page.evaluate(() => getSelection().removeAllRanges());
-  await page.locator(".duh-dock summary").click();
   const link = page.locator("#main a[href]").first();
   const href = await link.getAttribute("href");
   expect(href).toBeTruthy();
@@ -94,7 +96,7 @@ test("duh: forms, four themes, bounded layout, clear controls and original P coe
   const errors = await open(page);
   await page.locator("[data-duh-playground]").scrollIntoViewIfNeeded();
   await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
-  expect(await page.locator("[data-duh-shape],.duh-preview").count()).toBe(0);
+  expect(await page.locator("[data-duh-shape],.duh-preview,.duh-dock").count()).toBe(0);
   await page.clock.runFor(6200);
   expect((await evidence(page)).form).toBe("apple");
   for (const theme of ["morning", "noon", "afternoon", "evening"]) {
@@ -138,8 +140,7 @@ test("duh: repeated clicks giggle, canceled drag cannot throw, pause and reset c
   await page.mouse.up();
   expect((await evidence(page)).held).toBe(false);
   expect((await evidence(page)).roughThrows).toBe(0);
-  await controls(page);
-  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  await pause(page);
   const before = await evidence(page);
   await page.clock.runFor(250);
   expect((await evidence(page)).frames - before.frames).toBeLessThan(2);
@@ -150,20 +151,25 @@ test("duh: repeated clicks giggle, canceled drag cannot throw, pause and reset c
 
 test("duh: deliberate throws are bounded, retreat is temporary, repeated regrabs and recall work", async ({ page, isMobile }) => {
   test.skip(isMobile, "Native mouse throwing is covered on desktop; touch has its own test.");
+  await page.clock.install({ time: new Date("2026-10-09T08:00:00Z") });
   const errors = await open(page, "/blog/2024/");
-  await page.clock.install();
+  // Freeze wall-clock automation latency; the rough-play window is active time.
+  await page.clock.pauseAt(new Date("2026-10-09T08:10:00Z"));
+  await reset(page);
+  await page.clock.runFor(300);
   for (let i = 0; i < 3; i++) {
-    await throwDuh(page, -250, -20);
-    await page.clock.runFor(4000);
-    await expect.poll(() => evidence(page).then((e) => e.state), { timeout: 9000 }).toMatch(/REST|RETREAT/);
+    await throwDuh(page, (await evidence(page)).x > 600 ? -250 : 250, -20);
+    expect((await evidence(page)).roughThrows + ((await evidence(page)).retreatPending ? 3 : 0)).toBeGreaterThanOrEqual(i + 1);
+    await page.clock.runFor(160);
+    expect((await evidence(page)).held).toBe(false);
   }
+  await page.clock.runFor(4200);
   await expect.poll(() => evidence(page).then((e) => e.state)).toBe("RETREAT");
-  await controls(page);
-  await page.getByRole("button", { name: "Reset & invite back", exact: true }).click();
+  await reset(page);
   expect((await evidence(page)).state).toBe("REST");
-  await page.locator(".duh-dock summary").click();
   await throwDuh(page, -90, -60);
   await page.setViewportSize({ width: 480, height: 700 });
+  await page.clock.runFor(4000);
   await expect.poll(() => evidence(page).then((e) => e.state)).toBe("REST");
   const p = await evidence(page);
   expect(p.x).toBeLessThanOrEqual(444);
@@ -173,31 +179,29 @@ test("duh: deliberate throws are bounded, retreat is temporary, repeated regrabs
 
 test("duh: reduced motion and keyboard alternatives never launch or scatter", async ({ page }) => {
   const errors = await open(page, "/blog/2024/", true);
-  await controls(page);
-  await page.getByRole("button", { name: "Move mode", exact: true }).click();
-  await page.getByRole("button", { name: "Little toss", exact: true }).click();
+  await toss(page);
   expect(await evidence(page)).toMatchObject({ state: "REST", reduced: true, fragments: 0 });
   await page.locator(".duh-hit").focus();
   await page.keyboard.press("ArrowUp");
   await page.keyboard.press("Enter");
   expect((await evidence(page)).mood).toBe("happy");
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.getByRole("button", { name: "Little toss", exact: true }).click();
+  await toss(page);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect.poll(() => evidence(page).then((e) => e.state)).toBe("REST");
   expect(errors).toEqual([]);
 });
 
-test("duh: touch defaults to scrolling and taps; Move mode is explicitly enabled before drag", async ({ page, isMobile }) => {
+test("duh: direct touch drag, cancellation, hold to sleep and tap to wake remain accessible", async ({ page, isMobile }) => {
   test.skip(!isMobile, "Touch contract is exercised by the phone project.");
+  await page.clock.install({ time: new Date("2026-10-09T08:00:00Z") });
   const errors = await open(page, "/blog/2024/");
-  expect(await page.locator(".duh-hit").evaluate((e) => getComputedStyle(e).touchAction)).toBe("auto");
+  await page.clock.pauseAt(new Date("2026-10-09T08:10:00Z"));
+  await reset(page);
+  await page.clock.runFor(100);
+  expect(await page.locator(".duh-hit").evaluate((e) => getComputedStyle(e).touchAction)).toBe("none");
   await page.locator(".duh-hit").tap();
   expect((await evidence(page)).mood).toBe("happy");
-  await controls(page);
-  await page.getByRole("button", { name: "Move mode", exact: true }).tap();
-  expect(await page.locator(".duh-hit").evaluate((e) => getComputedStyle(e).touchAction)).toBe("none");
-  await page.locator(".duh-dock summary").tap();
   const touch = await page.context().newCDPSession(page);
   for (const canceled of [true, false]) {
     const p = await evidence(page);
@@ -207,12 +211,24 @@ test("duh: touch defaults to scrolling and taps; Move mode is explicitly enabled
     await touch.send("Input.dispatchTouchEvent", { type: canceled ? "touchCancel" : "touchEnd", touchPoints: [] });
     await expect.poll(() => evidence(page).then((e) => e.held)).toBe(false);
     if (canceled) expect(await evidence(page)).toMatchObject({ state: "REST", roughThrows: 0 });
+    // Let the captured move reach the rendered hit target before a new gesture.
+    await page.clock.runFor(32);
   }
-  await touch.detach();
-  await controls(page);
-  await page.getByRole("button", { name: "Little toss", exact: true }).tap();
   await reset(page);
-  expect((await evidence(page)).moveMode).toBe(false);
+  // A newly mounted interactive footer may require a brief clearance recovery.
+  await page.clock.runFor(600);
+  expect((await evidence(page)).recovering).toBe(false);
+  const nap = await evidence(page);
+  await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: nap.x, y: nap.y, id: 2 }] });
+  await expect.poll(() => evidence(page).then((e) => e.held)).toBe(true);
+  await page.clock.runFor(800);
+  await expect.poll(() => evidence(page).then((e) => e.paused)).toBe(true);
+  await touch.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  await touch.detach();
+  await page.locator(".duh-hit").tap();
+  expect((await evidence(page)).paused).toBe(false);
+  await reset(page);
+  expect(await page.locator(".duh-dock").count()).toBe(0);
   expect(errors).toEqual([]);
 });
 
@@ -281,6 +297,25 @@ test("duh: homepage mode and Human/AI transitions keep one intentional companion
   await expect.poll(() => scene.evaluate((e) => e.getSceneEvidence().companion?.visible)).toBe(false);
   await expect(page.locator(".duh-companion")).toHaveCount(1);
   await page.screenshot({ path: info.outputPath("duh-home-3d.png") });
+  const canvas = scene.locator("canvas");
+  const before = await canvas.screenshot();
+  expect(screenshotMetrics(before).uniqueColors).toBeGreaterThan(60);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await canvas.focus();
+  await canvas.press("ArrowRight");
+  await canvas.press("ArrowRight");
+  await page.waitForTimeout(350);
+  const moving = await scene.evaluate((e) => e.getSceneEvidence());
+  expect(Object.values(moving.cameraVelocity).every(Number.isFinite)).toBe(true);
+  await canvas.press("ArrowLeft");
+  await canvas.press("+");
+  await page.waitForTimeout(900);
+  const after = await canvas.screenshot();
+  expect(screenshotDiffRatio(before, after)).toBeGreaterThan(0.006);
+  await page.screenshot({ path: info.outputPath("duh-home-3d-settled.png") });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(() => scene.evaluate((e) => Object.keys(e.getSceneEvidence().cameraVelocity).length)).toBe(0);
+
   await page.getByRole("button", { name: "2D", exact: true }).click();
   await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");
   await page.locator('[data-site-format="ai"]').click();
@@ -314,8 +349,7 @@ test("duh: greeting is click-through and graphics failure retains accessible con
   });
   await page.goto(publicRouteUrl("/blog/2024/"));
   await expect(page.locator(".duh-companion")).toHaveAttribute("data-fallback", "true");
-  await controls(page);
-  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  await pause(page);
   expect((await evidence(page)).paused).toBe(true);
   await reset(page);
   expect((await evidence(page)).paused).toBe(false);
@@ -443,9 +477,19 @@ test("duh: a real paragraph receives a reversible impact and an active repair", 
   expect((await evidence(page)).pageContacts).toBeGreaterThan(0);
   expect((await evidence(page)).displaced).toBeGreaterThan(0);
   expect(await paragraph.innerHTML()).toBe(original);
+  // Browser WAAPI time is independent of the mocked physics clock. Inspect
+  // one actual early contact pose rather than a random zero crossing.
+  await paragraph.evaluate((node) => {
+    for (const a of node.getAnimations()) {
+      a.pause();
+      a.currentTime = 90;
+    }
+  });
   const changed = await paragraph.boundingBox();
-  expect(Math.hypot(changed.x - r.x, changed.y - r.y)).toBeGreaterThan(2);
+  expect(Math.hypot(changed.x - r.x, changed.y - r.y)).toBeGreaterThan(0.15);
+  expect(Math.hypot(changed.x - r.x, changed.y - r.y)).toBeLessThan(6);
   await page.screenshot({ path: info.outputPath("paragraph-contact.png") });
+  await paragraph.evaluate((node) => node.getAnimations().forEach((a) => a.play()));
   const states = new Set();
   for (let i = 0; i < 70; i++) {
     await page.clock.runFor(100);
@@ -485,7 +529,7 @@ test("duh: a real paragraph receives a reversible impact and an active repair", 
       await page.evaluate(() => getSelection().removeAllRanges());
     } else await page.emulateMedia({ reducedMotion: "reduce" });
     await page.clock.runFor(30);
-    expect((await evidence(page)).displaced).toBe(0);
+    await expect.poll(() => evidence(page).then((e) => e.displaced)).toBe(0);
     expect((await paragraph.boundingBox()).x).toBeCloseTo(r.x, 1);
     expect(await paragraph.innerHTML()).toBe(original);
   }
@@ -562,5 +606,269 @@ test("duh: autonomous movement and grip jiggle are observable and reduced motion
   expect(later.body.x).toBe(0);
   expect(later.body.y).toBe(0);
   expect(later.frames - still.frames).toBeLessThan(40);
+  expect(errors).toEqual([]);
+});
+
+test("duh: pets and harmless reflow preserve position; shadows follow height and recovery stays bounded", async ({ page, isMobile }, info) => {
+  await page.clock.install({ time: new Date("2026-10-09T08:00:00Z") });
+  const errors = await open(page);
+  await page.clock.pauseAt(new Date("2026-10-09T08:10:00Z"));
+  await page.evaluate(() => document.fonts.ready);
+  await page.locator("[data-duh-playground]").evaluate((el) => el.scrollIntoView({ block: "center", behavior: "instant" }));
+  await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
+  await page.clock.runFor(400);
+  const original = await evidence(page);
+  for (let i = 0; i < 6; i++) {
+    await page.locator(".duh-hit").press("Enter");
+    await page.evaluate(() => {
+      const note = document.createElement("span");
+      note.hidden = true;
+      note.textContent = "Layout notification";
+      document.querySelector("#main").append(note);
+      note.remove();
+    });
+    await page.clock.runFor(950);
+    const next = await evidence(page);
+    expect(
+      Math.hypot(next.x - original.x, next.y - original.y),
+      JSON.stringify({ original, next, scroll: await page.evaluate(() => scrollY) })
+    ).toBeLessThan(0.5);
+  }
+  if (!isMobile) {
+    await page.mouse.move(original.x, original.y);
+    await page.mouse.down();
+    expect((await evidence(page)).state).toBe("HELD");
+    await page.mouse.move(original.x, original.y - 80);
+    await page.clock.runFor(100);
+    const lifted = await evidence(page);
+    expect(lifted.elevation).toBeGreaterThan(65);
+    expect(Number(await page.locator(".duh-shadow").evaluate((e) => getComputedStyle(e).opacity))).toBeLessThan(0.1);
+    await page.screenshot({ path: info.outputPath("lifted-shadow.png") });
+    await page.keyboard.press("Escape");
+    await page.mouse.up();
+  }
+  await pause(page);
+  await page.clock.runFor(100);
+  expect((await evidence(page)).paused).toBe(true);
+  await page.locator(".duh-hit").press("Enter");
+  expect((await evidence(page)).paused).toBe(false);
+  await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
+  await page.clock.runFor(60);
+  await page.locator(".duh-hit").dblclick({ delay: 80 });
+  expect((await evidence(page)).inviteArmed).toBe(true);
+  const beforeInvite = await evidence(page);
+  await page.mouse.click(beforeInvite.x - 70, beforeInvite.y);
+  await page.clock.runFor(1400);
+  const afterInvite = await evidence(page);
+  expect(Math.abs(afterInvite.x - beforeInvite.x + 70), JSON.stringify({ beforeInvite, afterInvite })).toBeLessThan(1);
+  expect(errors).toEqual([]);
+});
+
+test("scene refinement: miniature reversals settle smoothly and reduced motion composes immediately", async ({ page }) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.install({ time: new Date("2026-10-09T08:00:00Z") });
+  await page.goto(publicRouteUrl("/projects/la-jolla/"), { waitUntil: "load" });
+  const host = page.locator("[data-miniature]");
+  await host.scrollIntoViewIfNeeded();
+  await expect(host).toHaveAttribute("data-state", "ready", { timeout: 30000 });
+  await expect(host).toHaveAttribute("data-running", "true");
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  const scene = host.locator(".footer-coast__scene");
+  const pose = () => host.evaluate((e) => e.getCoastEvidence());
+  const before = await pose();
+  await scene.press("ArrowLeft");
+  expect((await pose()).renderedOrbit).toEqual(before.renderedOrbit);
+  await page.clock.runFor(100);
+  const traveling = await pose();
+  expect(traveling.renderedOrbit[0]).toBeLessThan(0);
+  expect(traveling.renderedOrbit[0]).toBeGreaterThan(traveling.orbit[0]);
+  expect(traveling.motion.orbitX).toBeLessThan(0);
+  await scene.press("ArrowRight");
+  expect((await pose()).renderedOrbit).toEqual(traveling.renderedOrbit);
+  expect((await pose()).motion.orbitX).toBe(traveling.motion.orbitX);
+  await page.clock.runFor(900);
+  expect(Math.abs((await pose()).renderedOrbit[0])).toBeLessThan(0.001);
+  await scene.press("ArrowLeft");
+  await page.clock.runFor(100);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(host).toHaveAttribute("data-running", "false");
+  await scene.press("Home");
+  const still = await pose();
+  expect(still.renderedOrbit).toEqual([0, 0]);
+  expect(still.motion).toEqual({});
+  await page.clock.runFor(500);
+  expect((await pose()).frames).toBe(still.frames);
+  expect((await pose()).resources).toEqual(before.resources);
+  expect(errors).toEqual([]);
+});
+
+test("duh mobile: scrolling and browser-bar resizing preserve position and settle without jumps", async ({ page, isMobile }, testInfo) => {
+  test.skip(!isMobile);
+  await page.clock.install({ time: new Date("2026-10-09T08:00:00Z") });
+  const errors = await open(page);
+  await page.evaluate(() => document.querySelector("[data-duh-playground]").scrollIntoView({ block: "center", behavior: "instant" }));
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  await page.clock.runFor(600);
+  await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
+  await page.clock.runFor(100);
+  const original = await page.locator("#main").innerText();
+  const before = await evidence(page);
+  await page.evaluate(() => {
+    window.duhViewportFrames = [];
+    window.duhViewportSampling = true;
+    function sample() {
+      const e = document.querySelector(".duh-companion").getDuhEvidence();
+      window.duhViewportFrames.push({ x: e.x, y: e.y, visible: e.visible });
+      if (window.duhViewportSampling) requestAnimationFrame(sample);
+    }
+    requestAnimationFrame(sample);
+  });
+  for (let i = 0; i < 6; i++) {
+    await page.evaluate(() => window.scrollBy({ top: 35, behavior: "instant" }));
+    await page.clock.runFor(40);
+    const p = await evidence(page);
+    expect(Math.hypot(p.x - before.x, p.y - before.y)).toBeLessThan(1);
+  }
+  await page.clock.runFor(2200);
+  const size = page.viewportSize();
+  const atResize = await evidence(page);
+  await page.setViewportSize({ width: size.width, height: Math.max(430, size.height - 220) });
+  await page.clock.runFor(16);
+  const early = await evidence(page);
+  expect(Math.hypot(early.x - atResize.x, early.y - atResize.y)).toBeLessThan(1);
+  await page.clock.runFor(2600);
+  const settled = await evidence(page);
+  expect(settled.recovering).toBe(false);
+  expect(settled.x).toBeGreaterThanOrEqual(settled.bounds.left - 1);
+  expect(settled.x).toBeLessThanOrEqual(settled.bounds.right + 1);
+  expect(settled.y).toBeLessThanOrEqual(settled.bounds.bottom + 1);
+  const frames = await page.evaluate(() => {
+    window.duhViewportSampling = false;
+    return window.duhViewportFrames;
+  });
+  expect(Math.max(...frames.slice(1).map((p, i) => Math.hypot(p.x - frames[i].x, p.y - frames[i].y)))).toBeLessThan(18);
+  expect(await page.locator("#main").innerText()).toBe(original);
+  expect(settled.viewport.height).toBeCloseTo(await page.evaluate(() => visualViewport.height), 0);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.runFor(50);
+  const quiet = await evidence(page);
+  await page.evaluate(() => window.scrollBy({ top: 90, behavior: "instant" }));
+  await page.clock.runFor(500);
+  expect((await evidence(page)).x).toBeCloseTo(quiet.x, 1);
+  expect((await evidence(page)).y).toBeCloseTo(quiet.y, 1);
+  await page.screenshot({ path: testInfo.outputPath("mobile-scroll-settled.png") });
+  expect(errors).toEqual([]);
+});
+
+test("duh mobile: capture survives viewport resize, release throws, and extra touches cancel safely", async ({ page, isMobile, browserName }) => {
+  test.skip(!isMobile);
+  await page.clock.install({ time: new Date("2026-10-09T08:00:00Z") });
+  const errors = await open(page, "/blog/2024/");
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page.locator("footer [data-footer-coast]")).toHaveAttribute("data-state", "ready", { timeout: 30000 });
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  await reset(page);
+  await page.clock.runFor(1200);
+  // The async footer may change its focusable area after its first render.
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(100);
+        const p = await evidence(page);
+        return page.evaluate((p) => document.elementFromPoint(p.x, p.y)?.classList.contains("duh-hit"), p);
+      },
+      { timeout: 5000, intervals: [100] }
+    )
+    .toBe(true);
+  const start = await evidence(page);
+  const touch = browserName === "chromium" ? await page.context().newCDPSession(page) : null;
+  const timestamp = Date.now() / 1000;
+  if (touch) await touch.send("Input.dispatchTouchEvent", { type: "touchStart", timestamp, touchPoints: [{ x: start.x, y: start.y, id: 1 }] });
+  else {
+    await page.mouse.move(start.x, start.y);
+    await page.mouse.down();
+  }
+  await expect.poll(() => evidence(page).then((e) => e.held)).toBe(true);
+  expect((await evidence(page)).recovering).toBe(false);
+  const pointer = (await evidence(page)).pointerId;
+  const size = page.viewportSize();
+  await page.setViewportSize({ width: size.width, height: size.height - 100 });
+  await page.clock.runFor(32);
+  expect((await evidence(page)).held).toBe(true);
+  expect((await evidence(page)).pointerId).toBe(pointer);
+  expect((await evidence(page)).y).toBeCloseTo(start.y, 1);
+  if (touch) {
+    await touch.send("Input.dispatchTouchEvent", {
+      type: "touchMove",
+      timestamp: timestamp + 0.04,
+      touchPoints: [{ x: start.x - 25, y: start.y - 30, id: 1 }],
+    });
+    await touch.send("Input.dispatchTouchEvent", {
+      type: "touchMove",
+      timestamp: timestamp + 0.08,
+      touchPoints: [{ x: start.x - 65, y: start.y - 70, id: 1 }],
+    });
+    await touch.send("Input.dispatchTouchEvent", { type: "touchEnd", timestamp: timestamp + 0.1, touchPoints: [] });
+  } else {
+    await releaseQuickly(page, [
+      { x: start.x - 25, y: start.y - 30 },
+      { x: start.x - 65, y: start.y - 70 },
+    ]);
+    await page.mouse.up();
+  }
+  await expect.poll(() => evidence(page).then((e) => e.state)).toBe("AIRBORNE");
+  const released = await evidence(page);
+  expect(released.vx).toBeLessThan(-100);
+  expect(released.vy).toBeLessThan(-100);
+  expect(Math.hypot(released.vx, released.vy)).toBeLessThanOrEqual(1200);
+  await reset(page);
+  await page.clock.runFor(2200);
+  const p = await evidence(page);
+  expect(p.recovering).toBe(false);
+  if (touch) {
+    await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: p.x, y: p.y, id: 1 }] });
+    await expect.poll(() => evidence(page).then((e) => e.held)).toBe(true);
+    await touch.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [
+        { x: p.x, y: p.y, id: 1 },
+        { x: 30, y: 450, id: 2 },
+      ],
+    });
+    await expect.poll(() => evidence(page).then((e) => e.held)).toBe(false);
+    await touch.send("Input.dispatchTouchEvent", { type: "touchCancel", touchPoints: [] });
+    expect((await evidence(page)).roughThrows).toBe(0);
+    await page.clock.resume();
+    await page.goto(publicRouteUrl("/projects/p/"), { waitUntil: "load" });
+    const scroll = await page.evaluate(() => scrollY);
+    await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: 40, y: 500, id: 7 }] });
+    for (const y of [470, 410, 350, 290, 230]) {
+      await page.waitForTimeout(30);
+      await touch.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: 40, y, id: 7 }] });
+    }
+    await touch.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(scroll);
+    await touch.detach();
+  } else {
+    // WebKit's driver exposes native tap and mouse capture, not a touch-drag API.
+    await page.mouse.move(p.x, p.y);
+    await page.mouse.down();
+    await page.keyboard.press("Escape");
+    await page.mouse.up();
+    expect((await evidence(page)).held).toBe(false);
+    await page.touchscreen.tap(p.x, p.y);
+    expect((await evidence(page)).mood).toBe("happy");
+    await page.clock.resume();
+    await page.goto(publicRouteUrl("/projects/p/"), { waitUntil: "load" });
+    const scroll = await page.evaluate(() => scrollY);
+    // Mobile WebKit has neither a wheel nor touch-drag driver API.
+    // Its scroll/viewport rendering is checked here; native panning is above.
+    await page.evaluate(() => window.scrollBy({ top: 260, behavior: "instant" }));
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(scroll);
+  }
+  expect(await page.locator(".duh-hit").evaluate((e) => getComputedStyle(e).touchAction)).toBe("none");
+  expect(await page.locator("body").evaluate((e) => getComputedStyle(e).touchAction)).not.toBe("none");
   expect(errors).toEqual([]);
 });

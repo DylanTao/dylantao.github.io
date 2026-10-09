@@ -66,7 +66,7 @@ class CvMentorshipTests(unittest.TestCase):
         self.assertEqual(alisa["url"], "https://alisaliao45-hash.github.io/Personal-Website/index.html")
         self.assertEqual(alisa["paperLabel"], "P5")
         self.assertEqual(alisa["paperAnchor"], "cv-publication-p5")
-        self.assertNotIn("details", alisa)
+        self.assertEqual(alisa["details"], "B.S. UCSD")
 
     def test_p5_target_preserves_the_historical_rejections(self) -> None:
         p5 = next(entry for entry in self.resume["publications"] if entry["paperLabel"] == "P5")

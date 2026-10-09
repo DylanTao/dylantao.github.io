@@ -21,14 +21,14 @@ pip_studio: true
   <p class="project-case-kicker">duh & P · a living site experiment</p>
   <h1 id="duh-title">A softer sort of company.</h1>
   <p class="project-case-lede">A small black dot. A little curiosity. Just enough mischief.</p>
-  <p>Meet duh, the website's new companion. I wanted something less mechanical: a soft shape that can take a gentle pet, stretch into a throw, and settle back into a quiet corner. Leave it a little room and it will hop, roll, or come over to say hello. The small <strong>duh</strong> control keeps pause and reset close by.</p>
+  <p>Meet duh, the website's new companion. I wanted something less mechanical: a soft shape that can take a gentle pet, stretch into a throw, and settle back into a quiet corner. Leave it a little room and it will hop, roll, or come over to say hello. Hold duh still for a moment and it closes its eyes to rest; a tap wakes it.</p>
   <p>Sometimes it becomes an apple, a peach, a striped watermelon, or a simple geometric shape. Its eyes stay familiar, and its soft body follows your hand. A few quick pets get a happy squish; repeated energetic throws lead to a short breather. You can always invite duh back.</p>
   <div class="duh-stage" data-duh-playground aria-label="Duh's play corner">
     <div class="duh-stage-words" aria-hidden="true"><span data-duh-piece aria-hidden="true">hello</span><span data-duh-piece aria-hidden="true">softly</span><span data-duh-piece aria-hidden="true">again</span></div>
     <div class="duh-block" data-duh-heavy aria-hidden="true"></div>
     <p class="duh-stage-caption"><button type="button" data-duh-invite>Invite duh here</button> Toss toward the block; the loose words come home again.</p>
   </div>
-  <p>Touch keeps its usual scrolling until you turn on Move mode. The direction buttons and a little toss work without dragging; arrow keys move a focused duh. Reduced motion keeps the shapes and expressions, with the bouncing and scattered pieces turned off.</p>
+  <p>Drag duh directly with a finger or mouse; the rest of the page scrolls as usual. To move without dragging, double-tap duh and tap an empty spot nearby. With duh focused, arrow keys move it, T gives a little toss, P pauses, and R resets. Shift-click also resets; Alt + Shift + D recalls it from anywhere. The invitation above starts fresh in the play corner. Reduced motion keeps the shapes and expressions, with the bouncing and scattered pieces turned off.</p>
 </section>
 
 <section class="project-case-hero pip-project-hero">

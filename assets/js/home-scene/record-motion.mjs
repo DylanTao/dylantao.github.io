@@ -68,7 +68,10 @@ export function createRecordMotion() {
       const braking = cueHeld ? dt : Math.min(cueRemaining, dt);
       if (braking) [angle, velocity] = rotorStep(angle, velocity, 0, braking, 0.3);
       [angle, velocity] = rotorStep(angle, velocity, playing ? speed : 0, dt - braking, playing ? 0.72 : 0.3);
-      const steps = Math.max(1, Math.ceil(dt * 120)),
+      // Analytic coordinates remain stable across long frames. Bound phase
+      // checks after a stall; no unbounded simulation backlog on resuming.
+      const settled = ["tracking", "parked"].includes(phase);
+      const steps = settled ? 1 : Math.min(240, Math.max(1, Math.ceil(dt * 120))),
         step = dt / steps;
       for (let i = 0; i < steps; i++) {
         cueRemaining = Math.max(0, cueRemaining - step);

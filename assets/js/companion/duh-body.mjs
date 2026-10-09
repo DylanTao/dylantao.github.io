@@ -50,7 +50,7 @@ export function deformDuhContour(radii, dents, body, squash = 0, contactAngle = 
     let x = Math.cos(a) * radial * stretch * Math.exp(body.sag * 0.09);
     let y = Math.sin(a) * radial * stretch * Math.exp(-body.sag * 0.09);
     // Gravity pools the base; a held shell hangs below the grip.
-    y = Math.min(y, 24 - body.sag * 2) + body.sag * 3;
+    y += (Math.min(y, 22) - y) * body.sag + body.sag * 3;
     return [x, y];
   });
   const area =
