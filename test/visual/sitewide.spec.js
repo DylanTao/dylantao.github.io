@@ -2245,7 +2245,7 @@ test("projects keep site experiments in debut order", async ({ page }, testInfo)
   await expect(cards.locator("h3.card-title")).toHaveCount(0);
   expect(await cards.locator(".card-title").allTextContents()).toEqual([
     "A little La Jolla",
-    "P, a Little Company",
+    "duh & P, a Little Company",
     "Scaffolding for Taste — OpenAI Build Week",
     "Paper Constellation",
     "Build Rhythm",

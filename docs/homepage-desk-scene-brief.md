@@ -20,7 +20,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 - Unobstructed record and paper focus, visible camera changes, and a clear outside/return route.
 - Previewing time never lets a later clock tick seize the camera. Now clears both previews.
 - Readable controls and the exact greeting “Welcome to Sirui’s crib.” at every supported viewport.
-- P stays clear of reading text and links, has one visible embodiment, and returns nudged objects to their original position.
+- Duh is the default page companion in both homepage modes. It stays clear of reading text and links; P remains on its project page. See [the companion transition](duh-companion.md).
 
 ## Architecture And Assets
 
@@ -115,6 +115,8 @@ The beach has an authored variable depth of roughly 10–22 meters, including th
 <a id="pip-the-studio-companion"></a>
 
 ## P, The Studio Companion
+
+October 9 transition: the following describes P's retained infrastructure, not the current default homepage character. Duh now occupies the human page in both 2D and 3D modes; the miniature's P adapter remains dormant. P's living playground is at `/projects/p/`. Its world regression cases explicitly load the legacy controller as a test fixture. See [duh's current behavior and boundaries](duh-companion.md).
 
 P is the white ceramic hovering robot requested in the September 13 review, refined September 14 toward Reachy Mini’s expressive head and EVE’s floating body. Keep the two antennae, unequal convex lens eyes, tapered shell, orange detail and detached arms recognizable. Start it beside the album in 2D. Its head and eyes acknowledge a recent pointer position; its body follows more slowly, sometimes pausing to wander. Hover or keyboard focus offers a greeting; clicking P opens `/projects/p/`. The room has both a clickable model and a quiet accessible project link. P means Prototype, with a nod to ProtoLab. The old `/projects/pip/` route redirects to `/projects/p/`. There is no persistent public nap switch. An obsolete `pip-napping` preference is cleared on entry; the first autonomous journey begins in 4–8 seconds, followed by varied 12–24-second intervals. A temporary rest ends automatically after 12 seconds. Morning, noon, afternoon and evening alter the key light, reflections, eye color and shadow. The initial 2D page loads neither Three.js, the robot GLB, nor the house assets.
 

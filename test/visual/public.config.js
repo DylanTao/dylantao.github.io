@@ -5,7 +5,7 @@ const { getPublicBaseURL, getVisualPort, usesExternalVisualServer } = require(".
 const repoRoot = path.resolve(__dirname, "../..");
 const baseURL = getPublicBaseURL();
 const visualPort = getVisualPort();
-const suiteName = process.argv.some((argument) => /(?:desk-scene|static-light-field|companion|footer-coast)\.spec\.js/.test(argument))
+const suiteName = process.argv.some((argument) => /(?:desk-scene|static-light-field|companion|duh|footer-coast)\.spec\.js/.test(argument))
   ? "scene"
   : process.argv.some((argument) => argument.includes("sitewide.spec.js"))
     ? "site"
@@ -32,6 +32,7 @@ module.exports = {
     "desk-scene.spec.js",
     "static-light-field.spec.js",
     "companion.spec.js",
+    "duh.spec.js",
     "footer-coast.spec.js",
     "reading-effects.spec.js",
   ],

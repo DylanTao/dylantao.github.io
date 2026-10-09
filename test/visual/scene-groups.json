@@ -1,16 +1,8 @@
 {
-  "head": "cf4be648da5804dce8912fa5be8d9e2351ce283b",
-  "manifestOrder": ["companion.spec.js", "desk-scene.spec.js", "footer-coast.spec.js", "static-light-field.spec.js"],
+  "head": "a655e4549cd44cd81c4860dac852eb160d27f86b",
+  "manifestOrder": ["companion.spec.js", "duh.spec.js", "desk-scene.spec.js", "footer-coast.spec.js", "static-light-field.spec.js"],
   "groups": {
     "scene-core-1": [
-      {
-        "file": "companion.spec.js",
-        "title": "P: moving content clears its painted surface immediately"
-      },
-      {
-        "file": "companion.spec.js",
-        "title": "P: reading surfaces stay clear after content reflows"
-      },
       {
         "file": "companion.spec.js",
         "title": "P: its former project address redirects to the current page"
@@ -21,7 +13,7 @@
       },
       {
         "file": "companion.spec.js",
-        "title": "P: its project link opens a working motion playground with visible credits"
+        "title": "P: its retained motion playground and visible credits work alongside duh"
       },
       {
         "file": "companion.spec.js",
@@ -29,35 +21,59 @@
       },
       {
         "file": "companion.spec.js",
-        "title": "P: playground respects reduced motion and a failed model keeps the room usable"
+        "title": "P: retained playground respects reduced motion and recovers its graphics context"
       },
       {
-        "file": "companion.spec.js",
-        "title": "P: 2D greeting, shaded companion, pointer curiosity and clear page bounds"
+        "file": "duh.spec.js",
+        "title": "duh: default companion preserves content, real links, selection and late reflow"
       },
       {
-        "file": "companion.spec.js",
-        "title": "P: a small accident restores the original card and text"
+        "file": "duh.spec.js",
+        "title": "duh: forms, four themes, bounded layout, clear controls and original P coexist"
       },
       {
-        "file": "companion.spec.js",
-        "title": "P: reduced motion is a still pose; hidden controls leave the tab order"
+        "file": "duh.spec.js",
+        "title": "duh: repeated clicks giggle, canceled drag cannot throw, pause and reset clear state"
       },
       {
-        "file": "companion.spec.js",
-        "title": "P: one companion transfers between room and reading surface"
+        "file": "duh.spec.js",
+        "title": "duh: deliberate throws are bounded, retreat is temporary, repeated regrabs and recall work"
       },
       {
-        "file": "companion.spec.js",
-        "title": "P: graphics failure keeps an accessible composed companion"
+        "file": "duh.spec.js",
+        "title": "duh: reduced motion and keyboard alternatives never launch or scatter"
       },
       {
-        "file": "companion.spec.js",
-        "title": "P: old nap storage recovers automatically and a journey starts within eight seconds"
+        "file": "duh.spec.js",
+        "title": "duh: touch defaults to scrolling and taps; Move mode is explicitly enabled before drag"
       },
       {
-        "file": "companion.spec.js",
-        "title": "P: a slow frame rate does not delay its autonomous schedule"
+        "file": "duh.spec.js",
+        "title": "duh: impact affects only decorative clones and idle tidying restores them"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: lifecycle suspends rendering and refresh restores the intact default"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: homepage mode and Human/AI transitions keep one intentional companion"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: greeting is click-through and graphics failure retains accessible controls"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: definition lists, plain captions and project facts remain protected reading"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: body padding refreshes clearance when main only changes position"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: a new reading layout cancels an approach before it can resume toward stale coordinates"
       },
       {
         "file": "desk-scene.spec.js",

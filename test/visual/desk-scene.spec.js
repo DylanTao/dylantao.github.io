@@ -630,8 +630,12 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
     releaseAvatar();
   }
 });
-async function openHome(page, { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00", nativeFrames = false } = {}) {
+async function openHome(
+  page,
+  { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00", nativeFrames = false, retainedP = false } = {}
+) {
   await preparePage(page, theme);
+  if (retainedP) await useRetainedPFixture(page);
   await page.emulateMedia({ reducedMotion: motion });
   await page.clock.install({ time: new Date(time) });
   await page.goto(publicRouteUrl("/") + "?scene-lab=1", { waitUntil: "domcontentloaded" });
@@ -1306,9 +1310,17 @@ test("character performance: attention settles and eyelids respect pause and red
   expect(errors).toEqual([]);
 });
 
+// Exercise the retained world adapter explicitly. Production now mounts duh;
+// this fixture preserves regression coverage for P without restoring it there.
+async function useRetainedPFixture(page) {
+  await page.route("**/assets/js/companion/duh-page.mjs*", (route) =>
+    route.fulfill({ contentType: "text/javascript", body: 'import "./page.mjs";' })
+  );
+}
+
 test("character performance: P acknowledges a visitor without changing the room or camera", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", time: "2026-10-01T13:20:00-07:00" });
+  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", time: "2026-10-01T13:20:00-07:00", retainedP: true });
   // Acquire the clock before secondary-room loading can consume the page
   // companion's separate 35-60 second excursion schedule.
   await pauseSceneClock(page);
@@ -1367,7 +1379,7 @@ test("character performance: P acknowledges a visitor without changing the room 
 
 test("character performance: rapid room changes preserve P's airborne floor and queue the latest destination", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const view = await openClockedHome(page, { time: "2026-10-02T13:20:00-07:00" });
+  const view = await openClockedHome(page, { time: "2026-10-02T13:20:00-07:00", retainedP: true });
   const { scene, canvas, ui } = view;
   await explore(ui);
   await beginClockedMotion(page, canvas);
@@ -1406,7 +1418,7 @@ test("character performance: P finishes a wave without listening to a departed v
   // their authored virtual duration. Keep the existing native budget.
   if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas } = await openClockedHome(page, { time: "2026-10-02T13:20:00-07:00" });
+  const { scene, canvas } = await openClockedHome(page, { time: "2026-10-02T13:20:00-07:00", retainedP: true });
   await beginClockedMotion(page, canvas);
   await expect.poll(async () => (await evidence(scene)).companion?.visible).toBe(true);
   const start = await evidence(scene);

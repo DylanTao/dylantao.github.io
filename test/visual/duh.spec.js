@@ -1,0 +1,409 @@
+const { test, expect } = require("@playwright/test");
+const { publicRouteUrl } = require("./public-routes");
+const { preparePage, collectRuntimeErrors } = require("./helpers");
+const evidence = (page) => page.locator(".duh-companion").evaluate((e) => e.getDuhEvidence());
+async function open(page, route = "/projects/p/", reduced = false) {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: reduced ? "reduce" : "no-preference" });
+  await page.goto(publicRouteUrl(route), { waitUntil: "load" });
+  await expect(page.locator(".duh-companion")).toHaveCount(1);
+  await expect.poll(() => evidence(page).then((e) => e.frames)).toBeGreaterThan(0);
+  return errors;
+}
+async function controls(page) {
+  if (!((await page.locator(".duh-dock").getAttribute("open")) !== null)) await page.locator(".duh-dock summary").click();
+}
+async function reset(page) {
+  await controls(page);
+  await page.getByRole("button", { name: "Reset & invite back", exact: true }).click();
+}
+async function throwDuh(page, dx, dy) {
+  const p = await evidence(page);
+  await page.mouse.move(p.x, p.y);
+  await page.mouse.down();
+  await releaseQuickly(page, [
+    { x: p.x + dx * 0.3, y: p.y + dy * 0.3 },
+    { x: p.x + dx, y: p.y + dy },
+  ]);
+  await page.mouse.up();
+}
+async function releaseQuickly(page, points) {
+  // Establish real capture above, then deliver a deterministic high-speed
+  // sample pair. Host automation command latency is not throw velocity.
+  await page.locator(".duh-hit").evaluate((hit, points) => {
+    const id = document.querySelector(".duh-companion").getDuhEvidence().pointerId;
+    const time = performance.now();
+    for (let i = 0; i < 3; i++) {
+      const p = points[Math.min(i, 1)];
+      const event = new PointerEvent(i === 2 ? "pointerup" : "pointermove", {
+        bubbles: true,
+        pointerId: id,
+        pointerType: "mouse",
+        isPrimary: true,
+        clientX: p.x,
+        clientY: p.y,
+      });
+      Object.defineProperty(event, "timeStamp", { value: time + i * 25 });
+      hit.dispatchEvent(event);
+    }
+  }, points);
+}
+
+test("duh: default companion preserves content, real links, selection and late reflow", async ({ page }) => {
+  const errors = await open(page, "/blog/2024/", true);
+  await expect(page.locator(".pip-companion")).toHaveCount(0);
+  const original = await page.locator("#main").innerText();
+  await controls(page);
+  await page.getByRole("button", { name: "Pet", exact: true }).click();
+  expect(await page.locator("#main").innerText()).toBe(original);
+  const selected = await page.locator("#main").evaluate((main) => {
+    const range = document.createRange();
+    range.selectNodeContents(main);
+    const s = getSelection();
+    s.removeAllRanges();
+    s.addRange(range);
+    return s.toString();
+  });
+  expect(selected.length).toBeGreaterThan(30);
+  await page.evaluate(() => getSelection().removeAllRanges());
+  await page.locator(".duh-dock summary").click();
+  const link = page.locator("#main a[href]").first();
+  const href = await link.getAttribute("href");
+  expect(href).toBeTruthy();
+  await link.focus();
+  await expect(link).toBeFocused();
+  await page.waitForTimeout(100);
+  const originallyVisible = (await evidence(page)).visible;
+  await page.evaluate(() => {
+    const p = document.createElement("figure");
+    p.dataset.duhProbe = "";
+    p.textContent = "An expanded reading surface.";
+    Object.assign(p.style, { position: "fixed", inset: "75px 0 0", margin: "0" });
+    document.querySelector("#main").append(p);
+  });
+  await expect.poll(() => evidence(page).then((e) => e.visible)).toBe(false);
+  await page.locator("[data-duh-probe]").evaluate((e) => e.remove());
+  await expect.poll(() => evidence(page).then((e) => e.visible)).toBe(originallyVisible);
+  expect(errors).toEqual([]);
+});
+
+test("duh: forms, four themes, bounded layout, clear controls and original P coexist", async ({ page }, info) => {
+  const errors = await open(page);
+  await controls(page);
+  for (const theme of ["morning", "noon", "afternoon", "evening"]) {
+    await page.locator("[data-theme-toggle]").first().click();
+    await page.locator(`[data-theme-mode-option="${theme}"]`).first().click();
+    for (const form of ["dot", "apple", "peach", "watermelon", "square", "triangle"]) {
+      await page.locator("[data-duh-shape]").selectOption(form);
+      await page.waitForTimeout(550);
+      expect((await evidence(page)).form).toBe(form);
+      if (info.project.name === "desktop-1440" && theme === "noon")
+        await page.locator(".duh-companion canvas").screenshot({ path: info.outputPath(`${form}.png`) });
+    }
+    await page.locator("[data-duh-shape]").selectOption("dot");
+    await page.waitForTimeout(550);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+    await page.screenshot({ path: info.outputPath(`${theme}.png`) });
+  }
+  await expect(page.locator("[data-pip-studio]")).toHaveCount(1);
+  await expect(page.locator("#credits")).toContainText("Pollen Robotics");
+  expect(errors).toEqual([]);
+});
+
+test("duh: repeated clicks giggle, canceled drag cannot throw, pause and reset clear state", async ({ page }) => {
+  const errors = await open(page, "/blog/2024/");
+  await controls(page);
+  for (let i = 0; i < 3; i++) await page.getByRole("button", { name: "Pet", exact: true }).click();
+  expect((await evidence(page)).mood).toBe("giggle");
+  expect((await evidence(page)).roughThrows).toBe(0);
+  await page.locator(".duh-dock summary").click();
+  const p = await evidence(page);
+  await page.mouse.move(p.x, p.y);
+  await page.mouse.down();
+  await page.mouse.move(p.x - 35, p.y - 35);
+  await page.keyboard.press("Escape");
+  await page.mouse.up();
+  expect((await evidence(page)).held).toBe(false);
+  expect((await evidence(page)).roughThrows).toBe(0);
+  await controls(page);
+  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  const before = await evidence(page);
+  await page.waitForTimeout(250);
+  expect((await evidence(page)).frames - before.frames).toBeLessThan(2);
+  await reset(page);
+  expect(await evidence(page)).toMatchObject({ state: "REST", paused: false, held: false, fragments: 0, form: "dot" });
+  expect(errors).toEqual([]);
+});
+
+test("duh: deliberate throws are bounded, retreat is temporary, repeated regrabs and recall work", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Native mouse throwing is covered on desktop; touch has its own test.");
+  const errors = await open(page, "/blog/2024/");
+  await page.clock.install();
+  for (let i = 0; i < 3; i++) {
+    await throwDuh(page, -250, -20);
+    await page.clock.runFor(4000);
+    await expect.poll(() => evidence(page).then((e) => e.state), { timeout: 9000 }).toMatch(/REST|RETREAT/);
+  }
+  await expect.poll(() => evidence(page).then((e) => e.state)).toBe("RETREAT");
+  await controls(page);
+  await page.getByRole("button", { name: "Reset & invite back", exact: true }).click();
+  expect((await evidence(page)).state).toBe("REST");
+  await page.locator(".duh-dock summary").click();
+  await throwDuh(page, -90, -60);
+  await page.setViewportSize({ width: 480, height: 700 });
+  await expect.poll(() => evidence(page).then((e) => e.state)).toBe("REST");
+  const p = await evidence(page);
+  expect(p.x).toBeLessThanOrEqual(444);
+  expect(p.x).toBeGreaterThanOrEqual(36);
+  expect(errors).toEqual([]);
+});
+
+test("duh: reduced motion and keyboard alternatives never launch or scatter", async ({ page }) => {
+  const errors = await open(page, "/blog/2024/", true);
+  await controls(page);
+  await page.getByRole("button", { name: "Move mode", exact: true }).click();
+  await page.getByRole("button", { name: "Little toss", exact: true }).click();
+  expect(await evidence(page)).toMatchObject({ state: "REST", reduced: true, fragments: 0 });
+  await page.locator(".duh-hit").focus();
+  await page.keyboard.press("ArrowUp");
+  await page.keyboard.press("Enter");
+  expect((await evidence(page)).mood).toBe("happy");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.getByRole("button", { name: "Little toss", exact: true }).click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(() => evidence(page).then((e) => e.state)).toBe("REST");
+  expect(errors).toEqual([]);
+});
+
+test("duh: touch defaults to scrolling and taps; Move mode is explicitly enabled before drag", async ({ page, isMobile }) => {
+  test.skip(!isMobile, "Touch contract is exercised by the phone project.");
+  const errors = await open(page, "/blog/2024/");
+  expect(await page.locator(".duh-hit").evaluate((e) => getComputedStyle(e).touchAction)).toBe("auto");
+  await page.locator(".duh-hit").tap();
+  expect((await evidence(page)).mood).toBe("happy");
+  await controls(page);
+  await page.getByRole("button", { name: "Move mode", exact: true }).tap();
+  expect(await page.locator(".duh-hit").evaluate((e) => getComputedStyle(e).touchAction)).toBe("none");
+  await page.locator(".duh-dock summary").tap();
+  const touch = await page.context().newCDPSession(page);
+  for (const canceled of [true, false]) {
+    const p = await evidence(page);
+    await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: p.x, y: p.y, id: 1 }] });
+    await expect.poll(() => evidence(page).then((e) => e.held)).toBe(true);
+    await touch.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: p.x - 30, y: p.y - 45, id: 1 }] });
+    await touch.send("Input.dispatchTouchEvent", { type: canceled ? "touchCancel" : "touchEnd", touchPoints: [] });
+    await expect.poll(() => evidence(page).then((e) => e.held)).toBe(false);
+    if (canceled) expect(await evidence(page)).toMatchObject({ state: "REST", roughThrows: 0 });
+  }
+  await touch.detach();
+  await controls(page);
+  await page.getByRole("button", { name: "Little toss", exact: true }).tap();
+  await reset(page);
+  expect((await evidence(page)).moveMode).toBe(false);
+  expect(errors).toEqual([]);
+});
+
+test("duh: impact affects only decorative clones and idle tidying restores them", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Precision impact has the same collider on touch; the tap alternative is covered separately.");
+  const errors = await open(page);
+  await page.locator("[data-duh-playground]").scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
+  const original = await page.locator("#main").innerText();
+  const b = await page.locator("[data-duh-heavy]").boundingBox(),
+    p = await evidence(page);
+  await page.mouse.move(p.x, p.y);
+  await page.mouse.down();
+  await page.mouse.move(b.x - 250, b.y + 25);
+  await page.waitForTimeout(150);
+  await releaseQuickly(page, [
+    { x: b.x - 200, y: b.y + 25 },
+    { x: b.x - 35, y: b.y + 25 },
+  ]);
+  await page.mouse.up();
+  await expect.poll(() => evidence(page).then((e) => e.fragments), { timeout: 4000 }).toBeGreaterThan(0);
+  expect(await page.locator("#main").innerText()).toBe(original);
+  expect(
+    await page
+      .locator(".duh-loose-piece")
+      .first()
+      .evaluate((e) => getComputedStyle(e).pointerEvents)
+  ).toBe("none");
+  await expect.poll(() => evidence(page).then((e) => e.fragments), { timeout: 12000 }).toBe(0);
+  expect(await page.locator("#main").innerText()).toBe(original);
+  expect(errors).toEqual([]);
+});
+
+test("duh: lifecycle suspends rendering and refresh restores the intact default", async ({ page }) => {
+  const errors = await open(page, "/blog/2024/");
+  await controls(page);
+  await page.locator("[data-duh-shape]").selectOption("watermelon");
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, get: () => true });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  const before = await evidence(page);
+  await page.waitForTimeout(350);
+  expect((await evidence(page)).frames).toBe(before.frames);
+  await page.evaluate(() => {
+    delete document.hidden;
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect.poll(() => evidence(page).then((e) => e.frames)).toBeGreaterThan(before.frames);
+  await page.reload();
+  expect(await evidence(page)).toMatchObject({ state: "REST", form: "dot", fragments: 0, roughThrows: 0 });
+  expect(errors).toEqual([]);
+});
+
+test("duh: homepage mode and Human/AI transitions keep one intentional companion", async ({ page }, info) => {
+  test.setTimeout(120000);
+  test.skip(info.project.name !== "desktop-1440", "One full mode-integration proof; companion viewport and touch matrices run separately.");
+  const errors = await open(page, "/", true);
+  await expect(page.locator(".pip-companion")).toHaveCount(0);
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");
+  await page.getByRole("button", { name: "3D", exact: true }).click();
+  const scene = page.locator("[data-home-desk-scene]");
+  await scene.evaluate((e) => e.scrollIntoView({ block: "center", behavior: "instant" }));
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 90000 });
+  await expect.poll(() => scene.evaluate((e) => e.getSceneEvidence().companion?.visible)).toBe(false);
+  await expect(page.locator(".duh-companion")).toHaveCount(1);
+  await page.screenshot({ path: info.outputPath("duh-home-3d.png") });
+  await page.getByRole("button", { name: "2D", exact: true }).click();
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");
+  await page.locator('[data-site-format="ai"]').click();
+  await expect(page.locator(".duh-companion,.pip-companion")).toHaveCount(0);
+  await page.locator('[data-site-format="human"]').click();
+  await expect(page.locator(".duh-companion")).toHaveCount(1);
+  await expect(page.locator(".pip-companion")).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test("duh: greeting is click-through and graphics failure retains accessible controls", async ({ page, isMobile }) => {
+  const errors = await open(page);
+  await page.locator("[data-duh-playground]").scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
+  if (isMobile) {
+    await controls(page);
+    await page.getByRole("button", { name: "Say hello", exact: true }).tap();
+  } else {
+    const p = await evidence(page);
+    await page.mouse.move(p.x + 125, p.y - 15);
+  }
+  await expect.poll(() => evidence(page).then((e) => e.greeting), { timeout: 5000 }).toBe(true);
+  expect(await page.locator(".duh-hit").evaluate((e) => getComputedStyle(e).pointerEvents)).toBe("none");
+  await page.keyboard.press("Escape");
+  expect(await evidence(page)).toMatchObject({ state: "REST", greeting: false });
+  await page.mouse.move(1, 1);
+  await page.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function (type, ...args) {
+      return type === "2d" ? null : original.call(this, type, ...args);
+    };
+  });
+  await page.goto(publicRouteUrl("/blog/2024/"));
+  await expect(page.locator(".duh-companion")).toHaveAttribute("data-fallback", "true");
+  await controls(page);
+  await page.getByRole("button", { name: "Pet", exact: true }).click();
+  await expect(page.locator(".duh-status")).toHaveText("Pet received.");
+  expect(errors).toEqual([]);
+});
+
+test("duh: definition lists, plain captions and project facts remain protected reading", async ({ page }) => {
+  const errors = await open(page, "/blog/2024/", true);
+  for (const [tag, className, html] of [
+    ["dl", "", "<dt>A definition</dt><dd>Its explanation stays readable.</dd>"],
+    ["figcaption", "", "A standalone figure caption."],
+    ["div", "caption", "A plain caption retains its text."],
+    ["div", "project-case-facts", "<span>A project fact</span><span>Another fact</span>"],
+  ]) {
+    await page.evaluate(
+      ({ tag, className, html }) => {
+        const reading = document.createElement(tag);
+        reading.dataset.duhReadingProbe = "";
+        reading.className = className;
+        reading.innerHTML = html;
+        Object.assign(reading.style, { position: "fixed", inset: "75px 0 0", margin: "0" });
+        document.querySelector("#main").append(reading);
+      },
+      { tag, className, html }
+    );
+    await expect.poll(() => evidence(page).then((e) => e.visible)).toBe(false);
+    expect(await page.locator(".duh-hit").evaluate((e) => getComputedStyle(e).pointerEvents)).toBe("none");
+    expect(await page.locator("[data-duh-reading-probe]").innerText()).not.toBe("");
+    await page.locator("[data-duh-reading-probe]").evaluate((e) => e.remove());
+  }
+  expect(errors).toEqual([]);
+});
+
+test("duh: body padding refreshes clearance when main only changes position", async ({ page }) => {
+  const errors = await open(page, "/blog/2024/", true);
+  await page.evaluate(() => {
+    document.querySelector("#main").style.position = "relative";
+  });
+  await page.waitForTimeout(100);
+  const before = await evidence(page);
+  const geometry = await page.evaluate(({ x, y }) => {
+    const main = document.querySelector("#main"),
+      r = main.getBoundingClientRect();
+    // This archive uses flex growth; hold its existing height so the probe
+    // isolates an origin shift rather than a ResizeObserver notification.
+    Object.assign(main.style, { height: `${r.height}px`, minHeight: `${r.height}px`, flex: "none" });
+    const reading = document.createElement("div");
+    reading.className = "caption";
+    reading.dataset.duhReadingProbe = "";
+    reading.textContent = "Reading in a shifted caption";
+    Object.assign(reading.style, {
+      position: "absolute",
+      left: `${x - r.left - 43}px`,
+      top: `${y - r.top - 170}px`,
+      width: "86px",
+      height: "60px",
+      margin: "0",
+    });
+    main.append(reading);
+    return { height: r.height, top: r.top };
+  }, before);
+  await expect.poll(() => evidence(page).then((e) => e.layoutScans)).toBeGreaterThan(before.layoutScans);
+  const scans = (await evidence(page)).layoutScans;
+  await page.evaluate(() => {
+    document.body.style.paddingTop = `${parseFloat(getComputedStyle(document.body).paddingTop) + 140}px`;
+  });
+  await expect.poll(() => evidence(page).then((e) => e.layoutScans)).toBeGreaterThan(scans);
+  const after = await page.locator("#main").boundingBox();
+  expect(after.height).toBeCloseTo(geometry.height, 0);
+  expect(after.y - geometry.top).toBeCloseTo(140, 0);
+  expect(
+    await page.evaluate(() => {
+      const p = document.querySelector(".duh-companion").getDuhEvidence();
+      const r = document.querySelector("[data-duh-reading-probe]").getBoundingClientRect();
+      return !p.visible || p.x + 28 <= r.left || p.x - 28 >= r.right || p.y + 28 <= r.top || p.y - 28 >= r.bottom;
+    })
+  ).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+test("duh: a new reading layout cancels an approach before it can resume toward stale coordinates", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Automatic cursor approaches require a fine pointer.");
+  const errors = await open(page);
+  await page.locator("[data-duh-playground]").scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Invite duh here", exact: true }).click();
+  const p = await evidence(page);
+  await page.mouse.move(p.x + 125, p.y - 15);
+  await expect.poll(() => evidence(page).then((e) => e.greeting)).toBe(true);
+  await page.evaluate(() => {
+    const reading = document.createElement("div");
+    reading.className = "caption";
+    reading.dataset.duhReadingProbe = "";
+    reading.textContent = "A newly expanded reading region.";
+    Object.assign(reading.style, { position: "fixed", inset: "75px 0 0" });
+    document.querySelector("#main").append(reading);
+  });
+  await expect.poll(() => evidence(page).then((e) => e.greeting)).toBe(false);
+  await expect.poll(() => evidence(page).then((e) => e.visible)).toBe(false);
+  await page.waitForTimeout(1000);
+  expect(await evidence(page)).toMatchObject({ state: "REST", greeting: false, visible: false });
+  await page.locator("[data-duh-reading-probe]").evaluate((e) => e.remove());
+  await reset(page);
+  expect((await evidence(page)).greeting).toBe(false);
+  expect(errors).toEqual([]);
+});
