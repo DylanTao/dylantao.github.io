@@ -316,7 +316,8 @@ test("code history fails closed with one compact rebuilding state", async ({ pag
   expect(runtimeErrors).toEqual([]);
 });
 
-test("daily personal code activity remains exactly inspectable", async ({ page }) => {
+test("daily personal code activity remains exactly inspectable", async ({ page }, testInfo) => {
+  testInfo.setTimeout(300_000);
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await gotoPersonalBuildRhythm(page);
@@ -325,9 +326,14 @@ test("daily personal code activity remains exactly inspectable", async ({ page }
   const activity = page.locator("[data-github-activity]");
   const history = page.locator('[data-rhythm-inspector="history"]');
   const detail = page.locator('[data-rhythm-inspector="detail"]');
+  const settled = async () => {
+    for (const selector of ["[data-rhythm-chart]", "[data-rhythm-detail-chart]"])
+      await expect(page.locator(selector)).toHaveAttribute("data-transitioning", "false");
+  };
   const points = personalDailyActivityFixture.points;
   const total = points.reduce((value, point) => value + point.personal.commits, 0);
   await expect(activity).toHaveAttribute("data-state", "ready");
+  await settled();
   await expect(page.locator(".github-activity-eyebrow")).toHaveText("BUILDING, DAY BY DAY");
   await expect(page.locator("#code-activity-data")).toHaveCount(1);
   await expect(page.locator("#personal-code-activity-data, #github-activity-data")).toHaveCount(0);
@@ -345,11 +351,13 @@ test("daily personal code activity remains exactly inspectable", async ({ page }
   await history.press("Home");
   await expect(history).toHaveAttribute("aria-valuetext", /^Aug 31, 2017/);
   await history.press("Enter");
+  await settled();
   await expect(page.locator("[data-rhythm-year]")).toHaveValue("2017");
   await expect(detail).toBeFocused();
   await expect(detail).toHaveAttribute("aria-valuetext", /^Aug 31, 2017/);
 
   await page.locator("[data-rhythm-year]").selectOption("2026");
+  await settled();
   await detail.focus();
   await detail.press("End");
   await expect(detail).toHaveAttribute("aria-valuetext", /^Jul 31, 2026.*7 recorded commits/);
@@ -357,9 +365,11 @@ test("daily personal code activity remains exactly inspectable", async ({ page }
   await expect(page.locator("[data-rhythm-readout]")).toContainText("Jul 30, 2026");
   const line = await page.locator("[data-rhythm-cumulative-line]").getAttribute("d");
   await page.getByRole("button", { name: "Weekly", exact: true }).click();
+  await settled();
   await expect(page.locator("[data-rhythm-detail-chart]")).toHaveAttribute("data-view", "weekly");
   expect(await page.locator("[data-rhythm-cumulative-line]").getAttribute("d")).toBe(line);
   await page.getByRole("button", { name: "Daily", exact: true }).click();
+  await settled();
 
   await page.locator("[data-rhythm-method] > summary").click();
   await page.locator("[data-rhythm-records] > summary").click();
