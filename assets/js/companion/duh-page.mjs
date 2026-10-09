@@ -1,6 +1,6 @@
 import { createDuhMotion, clamp } from "./duh-motion.mjs";
-import { createDuhPortrait, DUH_FORMS } from "./duh-portrait.mjs";
-import { choosePerch, clearAt, spring } from "./behaviour.mjs";
+import { createDuhPortrait } from "./duh-portrait.mjs";
+import { choosePerch, clearAt } from "./behaviour.mjs";
 import { companion } from "./bridge.mjs";
 
 const root = document.documentElement;
@@ -17,19 +17,17 @@ function start() {
   const dock = document.createElement("details");
   dock.className = "duh-dock";
   dock.innerHTML = `<summary aria-label="duh controls">duh<span class="duh-dock-dot" aria-hidden="true"></span></summary>
-    <div class="duh-panel"><div class="duh-panel-heading"><canvas class="duh-preview" width="96" height="96" aria-hidden="true"></canvas><p id="duh-help">A little company. Tap to pet; drag gently to play.</p></div>
-    <div class="duh-actions"><button type="button" data-duh-action="pet">Pet</button><button type="button" data-duh-action="greet">Say hello</button>
-    <button type="button" data-duh-action="pause" aria-pressed="false">Pause</button><button type="button" data-duh-action="reset">Reset & invite back</button></div>
-    <label>Shape <select data-duh-shape>${DUH_FORMS.map((f) => `<option value="${f}">${f[0].toUpperCase() + f.slice(1)}</option>`).join("")}</select></label>
+    <div class="duh-panel"><p id="duh-help">Tap to pet. Drag to play.</p>
+    <div class="duh-actions"><button type="button" data-duh-action="pause" aria-pressed="false">Pause</button><button type="button" data-duh-action="reset" aria-label="Reset & invite back">Reset</button></div>
     <button type="button" data-duh-action="move" aria-pressed="false">Move mode</button>
     <div class="duh-move" hidden><p>Drag with touch, use arrow keys on duh, or tap a direction.</p><div class="duh-actions"><button type="button" data-duh-action="left">Left</button><button type="button" data-duh-action="up">Up</button><button type="button" data-duh-action="down">Down</button><button type="button" data-duh-action="right">Right</button><button type="button" data-duh-action="toss">Little toss</button></div></div>
-    <p class="duh-status" role="status" aria-live="polite">Here, quietly.</p><a class="duh-project-link" href="${new URL("../../../projects/p/", import.meta.url).href}">Meet duh & P</a></div>`;
+    <p class="duh-status" role="status" aria-live="polite">Here, quietly.</p><a class="duh-project-link">Meet duh & P</a></div>`;
+  dock.querySelector("a").href = new URL("../../../projects/p/", import.meta.url).href;
   document.body.append(el, dock);
   const hit = el.querySelector("button"),
     canvas = el.querySelector("canvas"),
     status = dock.querySelector(".duh-status");
   const portrait = createDuhPortrait(canvas);
-  const preview = dock.querySelector(".duh-preview").getContext("2d");
   el.dataset.fallback = String(!portrait);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const fine = matchMedia("(pointer:fine)");
@@ -53,13 +51,24 @@ function start() {
     greetTarget = null,
     nextGreeting = 0,
     lastActivity = -10,
-    blinkUntil = 0;
+    blinkUntil = 0,
+    outing = null,
+    tilt = 0,
+    effort = 0,
+    nextWander = 6,
+    nextMorph = 5,
+    morphUntil = 0,
+    formIndex = 1,
+    outings = 0;
   let parts = [],
     heavy = [],
     pieces = [],
     lastImpact = -10,
     tidyAt = Infinity,
-    tidyUntil = 0;
+    tidyUntil = 0,
+    displaced = [],
+    pageContacts = 0,
+    repairs = 0;
   const animations = new Set();
   const main = document.querySelector("#main") || document.querySelector("main");
   // Duh stays on the reading surface in both homepage modes. The retained
@@ -84,7 +93,12 @@ function start() {
   }
   function updatePointerPolicy() {
     hit.style.pointerEvents =
-      visible && !["RETREAT", "TIDY"].includes(s.state) && !greetTarget && !hugUntil && (s.state === "HELD" || clearAt(s.x, s.y, obstacles, 82))
+      visible &&
+      !["RETREAT", "TIDY"].includes(s.state) &&
+      !greetTarget &&
+      !hugUntil &&
+      !outing &&
+      (s.state === "HELD" || clearAt(s.x, s.y, obstacles, 82))
         ? "auto"
         : "none";
   }
@@ -96,6 +110,7 @@ function start() {
       p.source.style.opacity = p.opacity;
     }
     pieces = [];
+    displaced = [];
     tidyAt = Infinity;
     tidyUntil = 0;
   }
@@ -105,6 +120,8 @@ function start() {
     touchTap = null;
     if (id !== null && hit.hasPointerCapture(id)) hit.releasePointerCapture(id);
     model.cancel();
+    outing = null;
+    tilt = effort = 0;
     greetTarget = null;
     hugUntil = 0;
     cursor = null;
@@ -113,15 +130,19 @@ function start() {
   function scan() {
     layoutDirty = false;
     layoutScans++;
+    if (displaced.length || pieces.length) restorePieces();
     // A fresh layout invalidates the entire invitation, including its path.
     // Moving to a new perch must never resume an approach to an old target.
-    if (greetTarget || hugUntil) {
+    if (greetTarget || hugUntil || outing) {
       model.cancel();
+      outing = null;
+      tilt = effort = 0;
       greetTarget = null;
       hugUntil = 0;
     }
     cursor = null;
     obstacles = [];
+    const surfaces = [];
     const nodes = document.querySelectorAll(
       `#main p, #main h1, #main h2, #main h3, #main h4, #main h5, #main h6, #main li, #main dl, #main dt, #main dd, #main figcaption, #main caption, #main .caption, #main .project-case-facts, #main pre, #main table, #main figure, #main svg, #main canvas, #main img, ${interactive}, header, nav`
     );
@@ -130,6 +151,8 @@ function start() {
       const r = node.getBoundingClientRect();
       if (!r.width || !r.height || r.bottom < 0 || r.top > innerHeight) continue;
       if (node.matches("p,h1,h2,h3,h4,li")) {
+        if (!node.closest("nav,header,[data-pip-studio]") && !node.matches("[data-duh-static]") && r.width > 30 && r.height > 8)
+          surfaces.push({ node, rect: r, reading: true });
         const range = document.createRange();
         range.selectNodeContents(node);
         for (const rect of range.getClientRects()) if (rect.bottom > 0 && rect.top < innerHeight) obstacles.push(rect);
@@ -139,6 +162,7 @@ function start() {
     obstacles.push(dock.getBoundingClientRect());
     if (dock.open) obstacles.push(dock.querySelector(".duh-panel").getBoundingClientRect());
     heavy = [...document.querySelectorAll("[data-duh-heavy]")].slice(0, 4).map((node) => ({ node, rect: node.getBoundingClientRect() }));
+    model.setSurfaces([...heavy, ...surfaces]);
     parts = [...document.querySelectorAll("[data-duh-piece][aria-hidden='true']")]
       .slice(0, 4)
       .map((node) => ({ node, rect: node.getBoundingClientRect() }));
@@ -160,6 +184,7 @@ function start() {
     }
   }
   function pet(x = s.x, y = s.y - 20, throughPointer = false) {
+    if (outing) clearGesture();
     if (s.state === "RETREAT") model.reset();
     if (!throughPointer) model.pet(still());
     portrait?.pet(Math.atan2(y - s.y, x - s.x), still());
@@ -171,7 +196,10 @@ function start() {
     clearGesture();
     model.reset();
     portrait?.change("dot", still());
-    dock.querySelector("select").value = "dot";
+    nextWander = s.time + 6;
+    nextMorph = s.time + 5;
+    morphUntil = 0;
+    formIndex = 1;
     paused = false;
     moveMode = false;
     dock.querySelector("[data-duh-action='pause']").textContent = "Pause";
@@ -191,23 +219,32 @@ function start() {
       value ? "Move duh with arrow keys. Enter to pet. Escape to cancel." : "Pet duh. Drag with a mouse, or open duh controls to move."
     );
   }
+  function startOuting(target, kind = "hop") {
+    const arc = kind === "roll" ? 0 : 22;
+    const samples = Math.max(6, Math.ceil(Math.hypot(target.x - s.x, target.y - s.y) / 24));
+    if (
+      !Array.from({ length: samples + 1 }, (_, i) => i / samples).every((t) =>
+        clearAt(s.x + (target.x - s.x) * t, s.y + (target.y - s.y) * t - Math.sin(Math.PI * t) * arc, obstacles, 96)
+      )
+    )
+      return false;
+    outing = { from: { x: s.x, y: s.y }, to: target, at: s.time, kind, arc };
+    outings++;
+    s.state = kind === "tidy" ? "TIDY" : "PLAY";
+    s.mood = kind === "tidy" ? "curious" : "happy";
+    return true;
+  }
   function greet(explicit = false) {
-    if (still() || s.state === "RETREAT" || s.state === "HELD" || s.state === "AIRBORNE") {
-      if (explicit) pet();
-      return;
-    }
+    if (still() || !visible || s.state !== "REST" || outing) return;
     const p = cursor;
-    if (p && p.safe && s.time > nextGreeting && Math.hypot(p.x - s.x, p.y - s.y) < 170) {
+    if (p?.safe && s.time > nextGreeting && Math.hypot(p.x - s.x, p.y - s.y) < 360) {
       const dx = s.x - p.x,
         dy = s.y - p.y,
         distance = Math.hypot(dx, dy) || 1;
-      const target = { x: p.x + (dx / distance) * 72, y: p.y + (dy / distance) * 72 };
-      // The entire short approach must clear real text and controls.
-      if ([0.25, 0.5, 0.75, 1].every((t) => clearAt(s.x + (target.x - s.x) * t, s.y + (target.y - s.y) * t, obstacles, 110))) {
+      const target = { x: p.x + (dx / distance) * 43, y: p.y + (dy / distance) * 43 };
+      if (startOuting(target, "greet")) {
         greetTarget = target;
-        s.state = "PLAY";
-        s.mood = "happy";
-        nextGreeting = s.time + 20;
+        nextGreeting = s.time + 12;
         lastActivity = s.time;
         request();
         return;
@@ -218,21 +255,75 @@ function start() {
       hugUntil = s.time + 0.9;
     }
   }
-  function impact(event) {
-    if (still() || event.speed < 600 || s.time - lastImpact < 0.75) return;
-    lastImpact = s.time;
-    const close = heavy.filter(
-      ({ rect: r }) => event.x > r.left - 100 && event.x < r.right + 100 && event.y > r.top - 100 && event.y < r.bottom + 100
-    );
-    for (const { node } of close) {
-      const a = node.animate(
-        [{ transform: "translate(0)" }, { transform: "translate(3px,1px)" }, { transform: "translate(-2px,0)" }, { transform: "translate(0)" }],
-        { duration: 280, easing: "ease-out" }
-      );
-      animations.add(a);
-      a.finished.then(() => animations.delete(a)).catch(() => {});
+  function autonomous() {
+    if (
+      still() ||
+      !visible ||
+      s.state !== "REST" ||
+      outing ||
+      dock.open ||
+      getSelection()?.toString() ||
+      document.activeElement?.matches("input,textarea,[contenteditable='true']") ||
+      s.time - lastActivity < 3
+    )
+      return;
+    if (morphUntil && s.time > morphUntil) {
+      portrait?.change("dot", false);
+      morphUntil = 0;
     }
-    if (!close.length || pieces.length) return;
+    if (s.time > nextMorph && !morphUntil) {
+      const forms = ["apple", "dot", "peach", "watermelon", "square", "triangle"];
+      portrait?.change(forms[(formIndex++ - 1) % forms.length], false);
+      model.pet();
+      nextMorph = s.time + 14;
+      morphUntil = s.time + 6;
+    }
+    if (s.time > nextWander) {
+      nextWander = s.time + 11;
+      const direction = outings % 2 ? 1 : -1,
+        b = model.bounds();
+      for (const [dx, dy] of [
+        [direction * 76, 0],
+        [-direction * 64, 0],
+        [0, -62],
+        [0, 62],
+      ]) {
+        const target = { x: clamp(s.x + dx, b.left + 18, b.right - 18), y: clamp(s.y + dy, b.top + 8, b.bottom - 8) };
+        if (Math.hypot(target.x - s.x, target.y - s.y) > 30 && startOuting(target, outings % 2 ? "roll" : "hop")) break;
+      }
+    }
+  }
+  function impact(event) {
+    if (still() || event.speed < 460 || s.time - lastImpact < 0.6 || getSelection()?.toString()) return;
+    lastImpact = s.time;
+    const close = event.target
+      ? [event.target]
+      : heavy.filter(({ rect: r }) => event.x > r.left - 100 && event.x < r.right + 100 && event.y > r.top - 100 && event.y < r.bottom + 100);
+    for (const { node, rect, reading } of close) {
+      if (reading) {
+        if (displaced.length >= 2 || displaced.some((p) => p.node === node)) continue;
+        const strength = clamp(event.speed / 65, 8, 18);
+        const dx = clamp(-(event.nx || -Math.sign(s.vx)) * strength, -Math.max(0, rect.left - 6), Math.max(0, innerWidth - rect.right - 6));
+        const dy = clamp(-(event.ny || 0.25) * strength, -10, 10);
+        // Additive translation preserves authored transforms, layout and native selection.
+        const a = node.animate(
+          [{ translate: "0px 0px" }, { translate: dx + "px " + dy + "px", offset: 0.45 }, { translate: dx * 0.6 + "px " + dy * 0.6 + "px" }],
+          { duration: 480, fill: "forwards", composite: "add", easing: "cubic-bezier(.2,.8,.3,1)" }
+        );
+        animations.add(a);
+        displaced.push({ node, rect, dx: dx * 0.6, dy: dy * 0.6, animation: a });
+        pageContacts++;
+      } else {
+        const a = node.animate([{ translate: "0px 0px" }, { translate: "4px 2px" }, { translate: "-3px 0px" }, { translate: "0px 0px" }], {
+          duration: 360,
+          composite: "add",
+        });
+        animations.add(a);
+        a.finished.then(() => animations.delete(a)).catch(() => {});
+      }
+    }
+    tidyAt = s.time + 1.4;
+    if (!close.some((t) => !t.reading) || pieces.length) return;
     for (const { node, rect: r } of parts) {
       if (r.bottom < 80 || r.top > innerHeight - 50) continue;
       const ghost = document.createElement("span");
@@ -264,65 +355,94 @@ function start() {
     }
     tidyAt = s.time + 3;
   }
+  function finishTidy() {
+    outing = null;
+    s.state = "TIDY";
+    s.mood = "happy";
+    tidyUntil = s.time + 1.1;
+    repairs++;
+    for (const { node, dx, dy, animation } of displaced) {
+      animation.cancel();
+      animations.delete(animation);
+      animations.add(
+        node.animate(
+          [{ translate: dx + "px " + dy + "px" }, { translate: dx * 0.8 + "px " + dy * 0.8 + "px", offset: 0.25 }, { translate: "0px 0px" }],
+          { duration: 1000, composite: "add", easing: "ease-in-out" }
+        )
+      );
+    }
+    for (const { ghost } of pieces)
+      animations.add(
+        ghost.animate([{ transform: ghost.style.transform }, { transform: "translate(0) rotate(0)" }], {
+          duration: 1000,
+          fill: "forwards",
+          easing: "ease-in-out",
+        })
+      );
+  }
   function tidy() {
-    if (!pieces.length || still()) {
+    if (still()) {
       restorePieces();
       return;
     }
-    s.state = "TIDY";
-    s.mood = "happy";
-    tidyUntil = s.time + 0.8;
     tidyAt = Infinity;
-    for (const { ghost } of pieces) {
-      const a = ghost.animate([{ transform: ghost.style.transform }, { transform: "translate(0) rotate(0)" }], {
-        duration: 750,
-        fill: "forwards",
-        easing: "ease-in-out",
-      });
-      animations.add(a);
+    const r = displaced[0]?.rect || parts[0]?.rect;
+    if (r) {
+      gaze = [(r.left + r.width / 2 - s.x) / 100, (r.top - s.y) / 100];
+      const b = model.bounds();
+      for (const target of [
+        { x: r.left - 54, y: r.top + r.height / 2 },
+        { x: r.right + 54, y: r.top + r.height / 2 },
+        { x: s.x, y: s.y - 18 },
+      ]) {
+        if (target.x > b.left && target.x < b.right && target.y > b.top && target.y < b.bottom && startOuting(target, "tidy")) return;
+      }
     }
+    finishTidy();
   }
   function frame(now) {
     raf = 0;
     const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 60;
     last = now;
-    const previousState = s.state,
-      old = { x: s.x, y: s.y };
+    const previousState = s.state;
     if (layoutDirty) scan();
     if (!paused) for (const contact of model.step(dt, reduced.matches)) impact(contact);
-    // The approach owns PLAY until its own arrival/embrace finishes; a prior
-    // pet's shorter expression timer must not trigger a perch mid-greeting.
-    if ((greetTarget || hugUntil) && !still()) s.state = "PLAY";
-    if (s.state === "AIRBORNE" && !still()) {
-      for (const { rect: r } of heavy) {
-        const inside = s.x > r.left - 27 && s.x < r.right + 27 && s.y > r.top - 27 && s.y < r.bottom + 27;
-        const wasInside = old.x > r.left - 27 && old.x < r.right + 27 && old.y > r.top - 27 && old.y < r.bottom + 27;
-        if (inside && !wasInside) {
-          const speed = Math.hypot(s.vx, s.vy);
-          s.x = old.x;
-          s.y = old.y;
-          if (old.x <= r.left - 27 || old.x >= r.right + 27) s.vx *= -0.5;
-          else s.vy *= -0.5;
-          s.squashV = Math.min(4, speed / 250);
-          impact({ x: s.x, y: s.y, speed });
-          break;
+    if (outing && !still()) {
+      const t = s.time - outing.at;
+      s.state = outing.kind === "tidy" ? "TIDY" : "PLAY";
+      if (t < 0.18) s.squash = Math.sin(((t / 0.18) * Math.PI) / 2) * 0.15;
+      else {
+        const u = clamp((t - 0.18) / 0.72, 0, 1),
+          eased = u * u * (3 - 2 * u);
+        const nx = outing.from.x + (outing.to.x - outing.from.x) * eased;
+        const ny = outing.from.y + (outing.to.y - outing.from.y) * eased - Math.sin(u * Math.PI) * outing.arc;
+        s.vx = (nx - s.x) / dt;
+        s.vy = (ny - s.y) / dt;
+        s.x = nx;
+        s.y = ny;
+        tilt = outing.kind === "roll" ? Math.sin(u * Math.PI) * Math.sign(outing.to.x - outing.from.x) * 0.85 : Math.sin(u * Math.PI * 2) * 0.12;
+        if (u === 1) {
+          const kind = outing.kind;
+          outing = null;
+          tilt = 0;
+          s.vx = s.vy = 0;
+          s.squashV = 2;
+          if (kind === "greet") {
+            greetTarget = null;
+            hugUntil = s.time + 1.1;
+          } else if (kind === "tidy") finishTidy();
+          else s.state = "REST";
         }
       }
     }
-    if (greetTarget && !still()) {
-      [s.x, s.vx] = spring(s.x, s.vx, greetTarget.x, dt, 9);
-      [s.y, s.vy] = spring(s.y, s.vy, greetTarget.y, dt, 9);
-      if (Math.hypot(s.x - greetTarget.x, s.y - greetTarget.y) < 1) {
-        greetTarget = null;
-        s.vx = s.vy = 0;
-        hugUntil = s.time + 0.8;
-      }
-    }
+    if ((greetTarget || hugUntil) && !still()) s.state = "PLAY";
     if (hugUntil && s.time >= hugUntil) {
       hugUntil = 0;
       s.state = "REST";
     }
-    if (pieces.length && s.state === "REST" && s.time > tidyAt) tidy();
+    if ((pieces.length || displaced.length) && s.state === "REST" && s.time > tidyAt) tidy();
+    effort = tidyUntil ? Math.sin((tidyUntil - s.time) * Math.PI * 3) * 0.5 + 0.5 : 0;
+    if (tidyUntil) s.squash = Math.sin((tidyUntil - s.time) * Math.PI * 4) * 0.08;
     if (tidyUntil && s.time > tidyUntil) {
       restorePieces();
       s.state = "REST";
@@ -339,6 +459,7 @@ function start() {
       }
     }
     if (cursor && cursor.safe && fine.matches && !still() && s.state === "REST" && s.time - cursor.at > 0.7 && s.time > nextGreeting) greet();
+    autonomous();
     el.dataset.state = s.state;
     el.dataset.mood = s.mood;
     el.dataset.visible = String(visible && s.state !== "RETREAT");
@@ -354,15 +475,19 @@ function start() {
       blink: s.time < blinkUntil,
       still: still(),
       hug: Boolean(hugUntil) && !still(),
+      velocity: [s.vx, s.vy],
+      acceleration: [s.ax, s.ay],
+      held: s.state === "HELD",
+      grounded: !["AIRBORNE", "HELD"].includes(s.state) && !outing,
+      tilt: still() ? 0 : tilt,
+      effort: still() ? 0 : effort,
+      contactAngle: s.contactAngle,
     });
-    if (dock.open && portrait && preview) {
-      preview.clearRect(0, 0, 96, 96);
-      preview.drawImage(canvas, 0, 0, 96, 96);
-    }
     frames++;
     const active =
       !still() &&
       (["HELD", "AIRBORNE", "PLAY", "TIDY"].includes(s.state) ||
+        outing ||
         greetTarget ||
         hugUntil ||
         Math.abs(s.squash) > 0.001 ||
@@ -395,6 +520,9 @@ function start() {
       return;
     }
     lastActivity = s.time;
+    outing = null;
+    tilt = 0;
+    restorePieces();
     greetTarget = null;
     hugUntil = 0;
     if (event.pointerType === "touch" && !moveMode) {
@@ -447,7 +575,7 @@ function start() {
   });
   function nudge(dx, dy) {
     if (paused) return;
-    model.cancel();
+    clearGesture();
     const x = clamp(s.x + dx, 36, innerWidth - 36),
       y = clamp(s.y + dy, 100, innerHeight - 42);
     if (!clearAt(x, y, obstacles, 100)) {
@@ -465,7 +593,10 @@ function start() {
       layoutDirty = true;
       request();
     }
-    if (!moveMode || !event.key.startsWith("Arrow")) return;
+    if (event.key.toLowerCase() === "h") greet(true);
+    if (event.key.toLowerCase() === "p") dock.querySelector("[data-duh-action='pause']").click();
+    if (event.key.toLowerCase() === "r") reset();
+    if (!event.key.startsWith("Arrow")) return;
     event.preventDefault();
     const direction = { ArrowLeft: [-24, 0], ArrowRight: [24, 0], ArrowUp: [0, -24], ArrowDown: [0, 24] }[event.key];
     if (direction) nudge(...direction);
@@ -501,11 +632,6 @@ function start() {
       request();
     }
   });
-  dock.querySelector("select").addEventListener("change", (event) => {
-    portrait?.change(event.target.value, still());
-    notify(`${event.target.selectedOptions[0].textContent} shape.`);
-    request();
-  });
   dock.addEventListener("toggle", () => {
     layoutDirty = true;
     request();
@@ -522,9 +648,12 @@ function start() {
       if (!cursor || Math.hypot(cursor.x - event.clientX, cursor.y - event.clientY) > 4)
         cursor = { x: event.clientX, y: event.clientY, safe, at: s.time };
       else cursor.safe = safe;
-      if (!safe && (greetTarget || hugUntil)) {
+      if (!safe && (greetTarget || hugUntil || (outing && outing.kind !== "tidy"))) {
+        restorePieces();
         greetTarget = null;
         hugUntil = 0;
+        outing = null;
+        tilt = 0;
         model.cancel();
       }
       if (!still()) request();
@@ -534,6 +663,10 @@ function start() {
   document.addEventListener(
     "pointerdown",
     (event) => {
+      if (!event.target.closest(".duh-companion,.duh-dock") && (displaced.length || pieces.length)) {
+        clearGesture();
+        request();
+      }
       if ((!event.isPrimary && (pointerId !== null || touchTap)) || (pointerId !== null && pointerId !== event.pointerId)) {
         clearGesture();
         request();
@@ -543,7 +676,10 @@ function start() {
   );
   document.addEventListener("keydown", (event) => {
     if (!event.target.closest(".duh-dock,.duh-companion")) {
-      if (greetTarget || hugUntil) model.cancel();
+      if (greetTarget || hugUntil || outing) model.cancel();
+      restorePieces();
+      outing = null;
+      tilt = 0;
       cursor = null;
       greetTarget = null;
       hugUntil = 0;
@@ -557,7 +693,11 @@ function start() {
   });
   document.addEventListener("selectionchange", () => {
     if (getSelection()?.toString()) {
-      if (greetTarget || hugUntil) model.cancel();
+      restorePieces();
+      if (greetTarget || hugUntil || outing) model.cancel();
+      restorePieces();
+      outing = null;
+      tilt = 0;
       cursor = null;
       greetTarget = null;
       hugUntil = 0;
@@ -659,6 +799,12 @@ function start() {
     layoutScans,
     running: Boolean(raf),
     fragments: pieces.length,
+    displaced: displaced.length,
+    pageContacts,
+    repairs,
+    outings,
+    outing: outing?.kind || null,
+    body: portrait?.evidence(),
     pointerId,
     greeting: Boolean(greetTarget || hugUntil),
     theme: root.dataset.themeMode || "noon",

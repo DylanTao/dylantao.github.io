@@ -4,7 +4,21 @@ export const DUH_LIMITS = Object.freeze({ radius: 28, speed: 1600, roughSpeed: 8
 export const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
 
 export function createDuhMotion(width = 1000, height = 800) {
-  const s = { x: width - 52, y: height - 120, vx: 0, vy: 0, state: "REST", mood: "content", squash: 0, squashV: 0, time: 0, hiddenUntil: 0 };
+  const s = {
+    x: width - 52,
+    y: height - 120,
+    vx: 0,
+    vy: 0,
+    state: "REST",
+    mood: "content",
+    squash: 0,
+    squashV: 0,
+    ax: 0,
+    ay: 0,
+    contactAngle: Math.PI / 2,
+    time: 0,
+    hiddenUntil: 0,
+  };
   let w = width,
     h = height,
     held = null,
@@ -12,7 +26,9 @@ export function createDuhMotion(width = 1000, height = 800) {
     clicks = [],
     throws = [],
     retreatPending = false,
-    playUntil = 0;
+    playUntil = 0,
+    flightUntil = 0,
+    surfaces = [];
   const impacts = [];
   const bounds = () => ({ left: 36, right: Math.max(36, w - 36), top: Math.min(100, h / 3), bottom: Math.max(110, h - 42) });
   function constrain() {
@@ -22,7 +38,7 @@ export function createDuhMotion(width = 1000, height = 800) {
   }
   function stop() {
     held = null;
-    s.vx = s.vy = 0;
+    s.vx = s.vy = s.ax = s.ay = 0;
     accumulator = 0;
   }
   function rest() {
@@ -63,6 +79,13 @@ export function createDuhMotion(width = 1000, height = 800) {
   function drag(x, y, now) {
     if (!held) return;
     held.moved ||= Math.hypot(x - held.startX, y - held.startY) > 6;
+    const dt = clamp((now - held.now) / 1000, 0.008, 0.05);
+    const vx = clamp((x - held.x) / dt, -1600, 1600),
+      vy = clamp((y - held.y) / dt, -1600, 1600);
+    s.ax = clamp((vx - s.vx) / dt, -16000, 16000);
+    s.ay = clamp((vy - s.vy) / dt, -16000, 16000);
+    s.vx = vx;
+    s.vy = vy;
     s.x = x + held.ox;
     s.y = y + held.oy;
     constrain();
@@ -83,6 +106,7 @@ export function createDuhMotion(width = 1000, height = 800) {
     s.vx = vx * scale;
     s.vy = vy * scale;
     s.state = "AIRBORNE";
+    flightUntil = s.time + 4;
     s.mood = "delighted";
     throws = throws.filter((t) => s.time - t < DUH_LIMITS.throwWindow);
     if (speed >= DUH_LIMITS.roughSpeed) throws.push(s.time);
@@ -128,19 +152,46 @@ export function createDuhMotion(width = 1000, height = 800) {
       accumulator -= d;
       s.squashV += (-180 * s.squash - 20 * s.squashV) * d;
       s.squash = clamp(s.squash + s.squashV * d, -0.18, 0.24);
+      s.ax *= Math.exp(-12 * d);
+      s.ay *= Math.exp(-12 * d);
+      if (s.state === "HELD") {
+        s.vx *= Math.exp(-10 * d);
+        s.vy *= Math.exp(-10 * d);
+      }
       if (s.state !== "AIRBORNE") continue;
+      if (s.time > flightUntil) {
+        rest();
+        continue;
+      }
       s.vy += 1100 * d;
       s.vx *= Math.exp(-0.75 * d);
-      s.x += s.vx * d;
-      s.y += s.vy * d;
+      const dx = s.vx * d,
+        dy = s.vy * d;
+      const contact = sweepDuhContact(s.x, s.y, dx, dy, surfaces);
+      if (contact) {
+        s.x += dx * contact.t + contact.nx * 0.1;
+        s.y += dy * contact.t + contact.ny * 0.1;
+        const velocity = s.vx * contact.nx + s.vy * contact.ny;
+        s.vx -= 1.48 * velocity * contact.nx;
+        s.vy -= 1.48 * velocity * contact.ny;
+        s.contactAngle = Math.atan2(-contact.ny, -contact.nx);
+        s.squashV = Math.min(5, Math.abs(velocity) / 180);
+        impacts.push({ x: s.x, y: s.y, speed: Math.abs(velocity), nx: contact.nx, ny: contact.ny, target: contact.target });
+        if (Math.abs(velocity) < 50 && contact.ny < 0) rest();
+      } else {
+        s.x += dx;
+        s.y += dy;
+      }
       const b = bounds();
       let impact = 0;
       if (s.x < b.left || s.x > b.right) {
         impact = Math.abs(s.vx);
+        s.contactAngle = 0;
         s.vx *= -0.5;
       }
       if (s.y < b.top || s.y > b.bottom) {
         impact = Math.max(impact, Math.abs(s.vy));
+        s.contactAngle = Math.PI / 2;
         s.vy *= -0.45;
         s.vx *= 0.8;
       }
@@ -168,6 +219,9 @@ export function createDuhMotion(width = 1000, height = 800) {
     cancel,
     step,
     bounds,
+    setSurfaces(next) {
+      surfaces = next.slice(0, 160);
+    },
     resize(width, height) {
       w = width;
       h = height;
@@ -178,4 +232,44 @@ export function createDuhMotion(width = 1000, height = 800) {
       return { ...s, roughThrows: throws.length, retreatPending, held: Boolean(held) };
     },
   };
+}
+
+// Swept circle/AABB contact: thin text lines cannot be skipped by a fast throw.
+// An initially intersecting surface is ignored, allowing a drag to release anywhere.
+export function sweepDuhContact(x, y, dx, dy, surfaces, radius = 28) {
+  let closest = null;
+  for (const target of surfaces) {
+    const r = target.rect;
+    const left = r.left - radius,
+      right = r.right + radius;
+    const top = r.top - radius,
+      bottom = r.bottom + radius;
+    if (x > left && x < right && y > top && y < bottom) continue;
+    let enter = -Infinity,
+      leave = Infinity,
+      nx = 0,
+      ny = 0,
+      missed = false;
+    for (const [p, delta, min, max, horizontal] of [
+      [x, dx, left, right, true],
+      [y, dy, top, bottom, false],
+    ]) {
+      if (Math.abs(delta) < 1e-9) {
+        if (p < min || p > max) missed = true;
+        continue;
+      }
+      const a = (min - p) / delta,
+        b = (max - p) / delta;
+      const near = Math.min(a, b),
+        far = Math.max(a, b);
+      if (near > enter) {
+        enter = near;
+        nx = horizontal ? -Math.sign(delta) : 0;
+        ny = horizontal ? 0 : -Math.sign(delta);
+      }
+      leave = Math.min(leave, far);
+    }
+    if (!missed && enter >= 0 && enter <= 1 && enter <= leave && (!closest || enter < closest.t)) closest = { t: enter, nx, ny, target };
+  }
+  return closest;
 }
