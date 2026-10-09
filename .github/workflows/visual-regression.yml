@@ -193,8 +193,8 @@ jobs:
           # Both legacy engines get one isolated runner. The full desktop page
           # matrix must not consume their browser/build budget first.
           if [ "$VISUAL_STREAM" = "legacy" ]; then
-            LEGACY_VISUAL_GREP='mobile navbar|navbar menu|home dropped|home opened|home 3D|navbar search|content reading aid|publication why-cite|project preview|AI profile is server-rendered'
-            VISUAL_BASE_URL= npm run test:visual:legacy -- --reporter=line --grep "$LEGACY_VISUAL_GREP" --max-failures=1
+            LEGACY_VISUAL_GREP='mobile navbar|navbar menu|home dropped|home opened|home 3D|navbar search|content reading aid|publication why-cite|project preview|AI profile is server-rendered|code history fails closed|daily personal code activity|GitHub commit readouts'
+            VISUAL_BASE_URL='' npm run test:visual:legacy -- --reporter=line --grep "$LEGACY_VISUAL_GREP" --max-failures=1
           fi
 
       - name: Upload Playwright screenshots and traces

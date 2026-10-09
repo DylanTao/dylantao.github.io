@@ -1022,7 +1022,15 @@ test("coastal physics: the study label transfers only above contact and keeps th
   await third.click();
   await canvas.scrollIntoViewIfNeeded();
   await page.clock.runFor(650);
-  await expect.poll(async () => (await evidence(scene)).displayedVinylRecord).toBe(2);
+  // Texture decode uses the browser's native clock. Keep rendering while it
+  // finishes; wall-clock polling alone cannot service a paused frame queue.
+  await expect
+    .poll(async () => {
+      const displayed = (await evidence(scene)).displayedVinylRecord;
+      if (displayed !== 2) await page.clock.runFor(100);
+      return displayed;
+    })
+    .toBe(2);
   const transfer = (await evidence(scene)).vinylTransfer;
   expect(transfer.index).toBe(2);
   expect(transfer.lift).toBeGreaterThan(0.44);

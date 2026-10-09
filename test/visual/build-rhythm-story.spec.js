@@ -191,6 +191,16 @@ test("all four themes keep readable chart states and preserve the selected histo
     await page.locator(`#theme-menu [data-theme-mode-option="${mode}"]`).click();
     await expect(page.locator("html")).toHaveAttribute("data-theme-mode", mode);
     await expect(page.locator("html")).not.toHaveClass(/\btransition\b/);
+    // The root's timeout can expire before a busy browser finishes the
+    // controls' color transitions. Measure the settled rendered palette.
+    await expect
+      .poll(() =>
+        page.locator("[data-build-rhythm-overview]").evaluate((panel) => {
+          for (const node of panel.querySelectorAll("button, select")) getComputedStyle(node).color;
+          return panel.getAnimations({ subtree: true }).filter((animation) => animation.playState === "running" || animation.pending).length;
+        })
+      )
+      .toBe(0);
     const palette = await panelPalette(page);
     palettes.push(palette);
     expect(palette.colorScheme).toBe(mode === "evening" ? "dark" : "light");

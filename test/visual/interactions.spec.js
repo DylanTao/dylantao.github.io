@@ -307,125 +307,71 @@ test("code history fails closed with one compact rebuilding state", async ({ pag
   await preparePage(page, "light");
   await gotoPersonalBuildRhythm(page, { activity: {} });
 
-  const activity = page.locator("[data-github-activity]");
-  await expect(activity).toHaveAttribute("data-state", "unavailable", { timeout: 30_000 });
+  await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "unavailable", { timeout: 30_000 });
   await expect(page.locator("[data-personal-code-unavailable]")).toHaveText("Code history is being rebuilt.");
-  await expect(page.locator("[data-github-scope]")).toHaveText("CODE ACTIVITY");
-  await expect(page.locator("[data-personal-daily-copy]").first()).toBeHidden();
-  await expect(page.locator(".github-activity-readout")).toBeHidden();
+  await expect(page.getByRole("heading", { name: "Build rhythm.", exact: true })).toBeVisible();
+  await expect(page.locator("[data-build-rhythm-overview]")).toBeHidden();
+  await expect(page.locator("[data-rhythm-method]")).toBeHidden();
+  await expect(page.locator("[data-rhythm-inspector]")).toHaveCount(0);
   expect(runtimeErrors).toEqual([]);
 });
 
-test("daily personal code activity remains exactly inspectable", async ({ page }, testInfo) => {
-  testInfo.setTimeout(300_000);
+test("daily personal code activity remains exactly inspectable", async ({ page }) => {
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await gotoPersonalBuildRhythm(page);
   await stabilizeVisuals(page);
 
   const activity = page.locator("[data-github-activity]");
-  const chart = page.locator("#github-activity-chart");
-  const rangeSummary = page.locator("#github-activity-range-summary");
-
-  if (testInfo.project.name === "mobile") {
-    const mobileEvidence = await page.evaluate(() => {
-      const activityRoot = document.querySelector("[data-github-activity]");
-      const chartRoot = document.getElementById("github-activity-chart");
-      const text = (selector) => document.querySelector(selector)?.textContent?.trim() || "";
-      const count = (selector) => document.querySelectorAll(selector).length;
-      return {
-        activityState: activityRoot?.getAttribute("data-state"),
-        eyebrow: text(".github-activity-eyebrow"),
-        scope: text("[data-github-scope]"),
-        codeDataCount: count("#code-activity-data"),
-        retiredDataCount: count("#personal-code-activity-data, #github-activity-data"),
-        commitLineCount: count("#github-activity-chart .github-activity-commit-line"),
-        additionLineCount: count("#github-activity-chart .github-activity-add-line"),
-        deletionLineCount: count("#github-activity-chart .github-activity-remove-line"),
-        snapshotLineCount: count("#github-activity-chart .github-activity-lifetime-snapshot-line"),
-        selectedDate: text("#github-activity-selected-date"),
-        selectedCommits: text("#github-activity-selected-commits"),
-        selectedAuthored: text("#github-activity-selected-authored"),
-        inspectorValue: chartRoot?.querySelector(".github-activity-inspector")?.getAttribute("aria-valuetext"),
-        hasDailyCommitHeading: chartRoot?.textContent?.includes("COMMITS / DAY · SQRT"),
-        hasDailyLineHeading: chartRoot?.textContent?.includes("LINES / DAY · SYMLOG"),
-        hasForbiddenCopy: /Autodesk|employer|work account|code activity bridge|Combined lifetime code activity/i.test(
-          activityRoot?.textContent || ""
-        ),
-      };
-    });
-    expect(mobileEvidence).toEqual({
-      activityState: "ready",
-      eyebrow: "BUILDING, DAY BY DAY",
-      scope: "3 YEARS · DAILY",
-      codeDataCount: 1,
-      retiredDataCount: 0,
-      commitLineCount: 1,
-      additionLineCount: 0,
-      deletionLineCount: 0,
-      snapshotLineCount: 0,
-      selectedDate: "Jul 31, 2026",
-      selectedCommits: "7 total commits",
-      selectedAuthored: "5 authored commits",
-      inspectorValue: "2026-07-31, 7 total commits, 5 authored commits",
-      hasDailyCommitHeading: true,
-      hasDailyLineHeading: false,
-      hasForbiddenCopy: false,
-    });
-
-    await chart.locator(".github-activity-inspector").press("ArrowLeft");
-    const movedEvidence = await page.evaluate(() => ({
-      date: document.getElementById("github-activity-selected-date")?.textContent?.trim(),
-    }));
-    expect(movedEvidence).toEqual({ date: "Jul 30, 2026" });
-    expect(runtimeErrors).toEqual([]);
-    return;
-  }
-
+  const history = page.locator('[data-rhythm-inspector="history"]');
+  const detail = page.locator('[data-rhythm-inspector="detail"]');
+  const points = personalDailyActivityFixture.points;
+  const total = points.reduce((value, point) => value + point.personal.commits, 0);
   await expect(activity).toHaveAttribute("data-state", "ready");
   await expect(page.locator(".github-activity-eyebrow")).toHaveText("BUILDING, DAY BY DAY");
-  await expect(page.locator("[data-github-scope]")).toHaveText("3 YEARS · DAILY");
   await expect(page.locator("#code-activity-data")).toHaveCount(1);
   await expect(page.locator("#personal-code-activity-data, #github-activity-data")).toHaveCount(0);
-  await expect(chart.locator(".github-activity-commit-line")).toHaveCount(1);
-  await expect(chart.locator(".github-activity-add-line, .github-activity-remove-line")).toHaveCount(0);
-  await expect(chart.locator(".github-activity-lifetime-snapshot-line")).toHaveCount(0);
-  await expect(page.locator("#github-activity-selected-date")).toHaveText("Jul 31, 2026");
-  await expect(page.locator("#github-activity-selected-commits")).toHaveText("7 total commits");
-  await expect(page.locator("#github-activity-selected-authored")).toHaveText("5 authored commits");
-  await expect(page.locator("#github-activity-selected-additions, #github-activity-selected-deletions")).toHaveCount(0);
+  await expect(page.locator("[data-rhythm-total]")).toHaveText(total.toLocaleString("en-US"));
+  await expect(page.locator("[data-rhythm-range-start]")).toHaveValue("2017");
+  await expect(page.locator("[data-rhythm-range-end]")).toHaveValue("2026");
+  await expect(page.locator("[data-rhythm-inspector]")).toHaveCount(2);
   await expect(activity).not.toContainText(/Autodesk|employer|work account|code activity bridge|Combined lifetime code activity/i);
 
-  const compact = (page.viewportSize()?.width ?? 0) < 620;
-  await expect(chart.getByText(compact ? "COMMITS / DAY · SQRT" : "COMMITS PER DAY · SQRT", { exact: true })).toBeVisible();
-  await expect(chart.getByText(/LINES.*DAY/)).toHaveCount(0);
+  await history.focus();
+  await history.press("End");
+  await expect(history).toHaveAttribute("aria-valuetext", /Jul 31, 2026.*7 on this date/);
+  await history.press("ArrowLeft");
+  await expect(page.locator("[data-rhythm-history-readout]")).toContainText("Jul 30, 2026");
+  await history.press("Home");
+  await expect(history).toHaveAttribute("aria-valuetext", /^Aug 31, 2017/);
+  await history.press("Enter");
+  await expect(page.locator("[data-rhythm-year]")).toHaveValue("2017");
+  await expect(detail).toBeFocused();
+  await expect(detail).toHaveAttribute("aria-valuetext", /^Aug 31, 2017/);
 
-  await page.getByRole("button", { name: "Literal", exact: true }).click();
-  await expect(chart.getByText(compact ? "COMMITS / DAY · LINEAR" : "COMMITS PER DAY · LINEAR", { exact: true })).toBeVisible();
+  await page.locator("[data-rhythm-year]").selectOption("2026");
+  await detail.focus();
+  await detail.press("End");
+  await expect(detail).toHaveAttribute("aria-valuetext", /^Jul 31, 2026.*7 recorded commits/);
+  await detail.press("ArrowUp");
+  await expect(page.locator("[data-rhythm-readout]")).toContainText("Jul 30, 2026");
+  const line = await page.locator("[data-rhythm-cumulative-line]").getAttribute("d");
+  await page.getByRole("button", { name: "Weekly", exact: true }).click();
+  await expect(page.locator("[data-rhythm-detail-chart]")).toHaveAttribute("data-view", "weekly");
+  expect(await page.locator("[data-rhythm-cumulative-line]").getAttribute("d")).toBe(line);
+  await page.getByRole("button", { name: "Daily", exact: true }).click();
 
-  await page.getByRole("button", { name: "1 year", exact: true }).click();
-  await expect(page.locator("[data-github-scope]")).toHaveText("1 YEAR · DAILY");
-  const inspector = chart.locator(".github-activity-inspector");
-  await inspector.focus();
-  await expect(inspector).toHaveAttribute("aria-valuetext", /^2026-07-31, 7 total commits, 5 authored commits$/);
-  await inspector.press("ArrowLeft");
-  await expect(page.locator("#github-activity-selected-date")).toHaveText("Jul 30, 2026");
-  await inspector.press("Shift+ArrowLeft");
-  await expect(page.locator(".github-activity-selection-band")).toHaveAttribute("visibility", "visible");
-  await expect(rangeSummary).toContainText(/^Selected 2 date labels/);
-  await inspector.press("Escape");
-  await expect(page.locator(".github-activity-selection-band")).toHaveAttribute("visibility", "hidden");
-
-  await page.getByText("How this view works", { exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Readable or literal" })).toBeVisible();
-  const firstRowCells = page.locator("#github-activity-table-body tr").first().locator("th, td");
-  await expect(firstRowCells).toHaveCount(3);
-  await expect(page.locator("#github-activity-table-caption")).toContainText("source calendar label");
-  expect(await page.locator("#github-activity-table-body tr").count()).toBeGreaterThan(300);
+  await page.locator("[data-rhythm-method] > summary").click();
+  await page.locator("[data-rhythm-records] > summary").click();
+  const rows = page.locator("[data-rhythm-table-body] tr");
+  await expect(rows).toHaveCount(points.filter((point) => point.date.startsWith("2026-")).length);
+  await expect(rows.last().locator("th, td")).toHaveText(["2026-07-31", "7", "5"]);
+  await expect(page.locator("[data-rhythm-table-caption]")).toContainText("2026 by source date label");
+  await expect(page.getByRole("region", { name: "Recorded Personal daily values" })).toHaveAttribute("tabindex", "0");
   expect(runtimeErrors).toEqual([]);
 });
 
-test("GitHub commit readouts meet contrast in every light theme", async ({ page }) => {
+test("GitHub commit readouts meet contrast in all four themes", async ({ page }) => {
   await preparePage(page, "light");
   await gotoPersonalBuildRhythm(page);
   await expect(page.locator("[data-github-activity]")).toHaveAttribute("data-state", "ready");
@@ -447,27 +393,27 @@ test("GitHub commit readouts meet contrast in every light theme", async ({ page 
       return (lighter + 0.05) / (darker + 0.05);
     };
     const results = [];
-    for (const mode of ["morning", "noon", "afternoon"]) {
-      document.documentElement.setAttribute("data-theme", "light");
+    for (const mode of ["morning", "noon", "afternoon", "evening"]) {
+      document.documentElement.setAttribute("data-theme", mode === "evening" ? "dark" : "light");
       document.documentElement.setAttribute("data-theme-mode", mode);
       document.documentElement.setAttribute("data-theme-setting", mode);
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
-      const background = parseColor(getComputedStyle(document.querySelector(".github-activity-readout")).backgroundColor);
-      const totalText = parseColor(getComputedStyle(document.getElementById("github-activity-selected-commits")).color);
-      const authoredText = parseColor(getComputedStyle(document.getElementById("github-activity-selected-authored")).color);
+      const background = parseColor(getComputedStyle(document.querySelector("[data-build-rhythm-overview]")).backgroundColor);
+      const historyText = parseColor(getComputedStyle(document.querySelector("[data-rhythm-history-readout]")).color);
+      const detailText = parseColor(getComputedStyle(document.querySelector("[data-rhythm-readout]")).color);
       results.push({
         mode,
-        totalContrast: contrast(totalText, background),
-        authoredContrast: contrast(authoredText, background),
+        historyContrast: contrast(historyText, background),
+        detailContrast: contrast(detailText, background),
       });
     }
     return results;
   });
 
   themes.forEach((theme) => {
-    expect(theme.totalContrast, `${theme.mode} total-commit contrast`).toBeGreaterThanOrEqual(4.5);
-    expect(theme.authoredContrast, `${theme.mode} authored-commit contrast`).toBeGreaterThanOrEqual(4.5);
+    expect(theme.historyContrast, `${theme.mode} history-readout contrast`).toBeGreaterThanOrEqual(4.5);
+    expect(theme.detailContrast, `${theme.mode} detail-readout contrast`).toBeGreaterThanOrEqual(4.5);
   });
 });
 
