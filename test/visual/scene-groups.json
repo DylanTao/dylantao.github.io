@@ -33,6 +33,10 @@
       },
       {
         "file": "duh.spec.js",
+        "title": "duh: recovery stays on the character and invitation restores its accessible state"
+      },
+      {
+        "file": "duh.spec.js",
         "title": "duh: repeated clicks giggle, canceled drag cannot throw, pause and reset clear state"
       },
       {
