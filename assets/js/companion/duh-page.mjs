@@ -794,7 +794,13 @@ function start() {
           // Freeze the clicked visual target until click dispatch selects its
           // native link/button action; moving it on pointer-down can lose a click.
           readingLink = true;
-          for (const animation of animations) animation.pause();
+          for (const animation of animations) {
+            // pause() alone waits for the next animation tick. Resolve its
+            // hold time now so a pressed link cannot drift by one more frame.
+            const time = animation.currentTime;
+            animation.pause();
+            if (time !== null) animation.currentTime = time;
+          }
           model.cancel();
           outing = greetTarget = null;
           hugUntil = 0;

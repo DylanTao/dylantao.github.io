@@ -489,6 +489,10 @@ test("duh: a new reading layout cancels an approach before it can resume toward 
 test("duh: a real paragraph receives a reversible impact and an active repair", async ({ page, isMobile }, info) => {
   test.skip(isMobile || !["desktop-1440", "laptop-1280"].includes(info.project.name), "A side throw needs the desktop reading margin.");
   const errors = await open(page);
+  // WAAPI uses the native document timeline even when the physics clock is fake.
+  await page.evaluate(() => {
+    window.duhNativeTiming = { frame: requestAnimationFrame.bind(window), timeout: setTimeout.bind(window) };
+  });
   await page.clock.install();
   const paragraph = page.locator(".duh-introduction > p").filter({ hasText: "Meet duh," });
   const original = await paragraph.innerHTML(),
@@ -587,6 +591,44 @@ test("duh: a real paragraph receives a reversible impact and an active repair", 
   await page.clock.runFor(250);
   expect((await evidence(page)).displaced).toBeGreaterThan(0);
   const link = page.locator("[data-duh-link-probe]");
+  // Press between native animation frames, then let the pending pause resolve.
+  // Measuring only after mouse.down() can miss the final frame on a slow host.
+  const boundary = await link.evaluate(async (node) => {
+    const animation = node.parentElement.getAnimations()[0];
+    if (!animation) throw new Error("Missing paragraph impact animation");
+    animation.play();
+    await animation.ready;
+    const { frame, timeout } = window.duhNativeTiming;
+    const sample = () => ({
+      x: node.getBoundingClientRect().x,
+      y: node.getBoundingClientRect().y,
+      time: animation.currentTime,
+      pending: animation.pending,
+    });
+    return new Promise((resolve) =>
+      frame(() => {
+        animation.currentTime = 90;
+        frame(() =>
+          timeout(() => {
+            const before = sample();
+            node.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, pointerType: "mouse", isPrimary: true }));
+            const pressed = sample();
+            frame(() => frame(() => resolve({ before, pressed, settled: sample() })));
+          }, 0)
+        );
+      })
+    );
+  });
+  expect(boundary.settled.x).toBeCloseTo(boundary.before.x, 1);
+  expect(boundary.settled.y).toBeCloseTo(boundary.before.y, 1);
+  expect(boundary.pressed.pending).toBe(false);
+  expect(boundary.settled.time).toBeCloseTo(boundary.before.time, 5);
+  // Retain the native mouse/link journey with a running impact as well.
+  await link.evaluate(async (node) => {
+    const animation = node.parentElement.getAnimations()[0];
+    animation.play();
+    await animation.ready;
+  });
   const box = await link.boundingBox();
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
   await page.mouse.down();
@@ -687,10 +729,41 @@ test("duh: pets and harmless reflow preserve position; shadows follow height and
   await page.locator(".duh-hit").dblclick({ delay: 80 });
   expect((await evidence(page)).inviteArmed).toBe(true);
   const beforeInvite = await evidence(page);
-  await page.mouse.click(beforeInvite.x - 70, beforeInvite.y);
+  const destination = await page.evaluate(({ x, y }) => {
+    // Reproduce P wandering over the former blind 70px-left click. P is a
+    // native project link; clicking it reloads this page and resets Duh.
+    const pip = document.querySelector(".pip-companion"),
+      hit = pip.querySelector(".pip-hit");
+    const rect = hit.getBoundingClientRect(),
+      transform = new DOMMatrix(getComputedStyle(pip).transform);
+    transform.e += x - 70 - rect.x - rect.width / 2;
+    transform.f += y - rect.y - rect.height / 2;
+    pip.style.transform = transform.toString();
+    pip.style.opacity = "1";
+    hit.style.pointerEvents = "auto";
+    if (!document.elementFromPoint(x - 70, y)?.closest(".pip-hit")) throw new Error("P must cover the first destination");
+    const interactive = "a,button,input,select,textarea,summary,[role='button'],[contenteditable='true'],[tabindex]:not([tabindex='-1'])";
+    const stage = document.querySelector("[data-duh-playground]");
+    const point = [x - 70, x + 70]
+      .map((x) => ({ x, y }))
+      .find((point) => {
+        const target = document.elementFromPoint(point.x, point.y);
+        return target && stage.contains(target) && !target.closest(interactive);
+      });
+    if (!point) throw new Error("No clear nearby invitation destination");
+    return point;
+  }, beforeInvite);
+  expect(destination.x).toBe(beforeInvite.x + 70);
+  let navigations = 0;
+  page.on("framenavigated", (frame) => {
+    if (frame === page.mainFrame()) navigations++;
+  });
+  await page.mouse.click(destination.x, destination.y);
   await page.clock.runFor(1400);
   const afterInvite = await evidence(page);
-  expect(Math.abs(afterInvite.x - beforeInvite.x + 70), JSON.stringify({ beforeInvite, afterInvite })).toBeLessThan(1);
+  expect(navigations).toBe(0);
+  expect(Math.abs(afterInvite.x - destination.x), JSON.stringify({ beforeInvite, afterInvite, destination })).toBeLessThan(1);
+  expect(Math.abs(afterInvite.y - destination.y)).toBeLessThan(1);
   expect(errors).toEqual([]);
 });
 
