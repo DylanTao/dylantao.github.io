@@ -93,14 +93,7 @@
 .duh-introduction {
   margin-bottom: 70px;
 }
-.duh-controls:not([hidden]) {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: -12px 0 20px;
-}
-.duh-stage-caption button,
-.duh-controls button {
+.duh-stage-caption button {
   min-height: 44px;
   padding: 4px 10px;
   border: 1px solid var(--global-divider-color);

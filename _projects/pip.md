@@ -28,10 +28,6 @@ pip_studio: true
     <div class="duh-block" data-duh-heavy aria-hidden="true"></div>
     <p class="duh-stage-caption"><button type="button" data-duh-invite>Invite duh here</button> Toss toward the block; the loose words come home again.</p>
   </div>
-  <div class="duh-controls" data-duh-controls role="group" aria-label="duh controls" hidden>
-    <button type="button" data-duh-pause>Pause duh</button>
-    <button type="button" data-duh-reset>Reset duh</button>
-  </div>
   <p>Drag duh directly with a finger or mouse; the rest of the page scrolls as usual. To move without dragging, double-tap duh and tap an empty spot nearby. With duh focused, arrow keys move it, T gives a little toss, P pauses, and R resets. Shift-click also resets; Alt + Shift + D recalls it from anywhere. The invitation above starts fresh in the play corner. Reduced motion keeps the shapes and expressions, with the bouncing and scattered pieces turned off.</p>
 </section>
 

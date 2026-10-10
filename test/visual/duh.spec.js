@@ -122,40 +122,33 @@ test("duh: forms, four themes, bounded layout, clear controls and original P coe
   expect(errors).toEqual([]);
 });
 
-test("duh: visible recovery controls follow pointer, keyboard and invitation state", async ({ page }, info) => {
+test("duh: recovery stays on the character and invitation restores its accessible state", async ({ page }, info) => {
   await page.clock.install();
   const errors = await open(page);
-  const controls = page.getByRole("group", { name: "duh controls", exact: true });
-  await controls.scrollIntoViewIfNeeded();
+  await expect(page.locator("[data-duh-controls],[data-duh-pause],[data-duh-reset],.duh-controls")).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /^(Pause|Resume|Reset) duh$/ })).toHaveCount(0);
+  await page.locator("[data-duh-playground]").scrollIntoViewIfNeeded();
   const invite = page.getByRole("button", { name: "Invite duh here", exact: true });
   await invite.click();
-  const pauseControl = controls.getByRole("button", { name: "Pause duh", exact: true });
-  // Safari does not focus buttons on a pointer click. Verify keyboard focus
-  // retention through a keyboard activation, without changing native behavior.
-  await pauseControl.focus();
-  await pauseControl.press("Enter");
-  const resume = controls.getByRole("button", { name: "Resume duh", exact: true });
-  await expect(resume).toBeFocused();
+  const hit = page.locator(".duh-hit");
+  await hit.press("p");
+  await expect(hit).toBeFocused();
   await expect(page.getByRole("button", { name: "Wake duh", exact: true })).toHaveCount(1);
   await page.clock.runFor(100);
   const sleeping = await evidence(page);
   await page.clock.runFor(1200);
   expect((await evidence(page)).frames - sleeping.frames).toBeLessThan(2);
-  await resume.click();
+  await hit.press("Enter");
   expect((await evidence(page)).paused).toBe(false);
   await pause(page);
-  await expect(resume).toBeVisible();
   await invite.click();
   await expect(page.getByRole("button", { name: "Pet duh", exact: true })).toHaveCount(1);
-  await expect(controls.getByRole("button", { name: "Pause duh", exact: true })).toBeVisible();
   await toss(page);
-  const resetButton = controls.getByRole("button", { name: "Reset duh", exact: true });
-  await resetButton.focus();
-  await resetButton.press("Enter");
-  await expect(resetButton).toBeFocused();
+  await hit.press("r");
+  await expect(hit).toBeFocused();
   expect(await evidence(page)).toMatchObject({ paused: false, held: false, state: "REST", roughThrows: 0, fragments: 0, displaced: 0 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
-  await page.screenshot({ path: info.outputPath("visible-controls.png") });
+  await page.screenshot({ path: info.outputPath("character-only-controls.png") });
   expect(errors).toEqual([]);
 });
 
