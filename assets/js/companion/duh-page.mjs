@@ -20,8 +20,6 @@ function start() {
     canvas = el.querySelector("canvas"),
     shadow = el.querySelector(".duh-shadow"),
     status = el.querySelector(".duh-status");
-  const controls = document.querySelector("[data-duh-controls]"),
-    pauseButton = controls?.querySelector("[data-duh-pause]");
   const portrait = createDuhPortrait(canvas);
   el.dataset.fallback = String(!portrait);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
@@ -255,7 +253,7 @@ function start() {
     morphUntil = 0;
     formIndex = 1;
     paused = false;
-    syncPauseControls();
+    syncPauseState();
     recovery = null;
     layoutDirty = true;
     notify("Here, quietly.");
@@ -264,14 +262,13 @@ function start() {
   function pause(value = !paused) {
     clearGesture();
     paused = value;
-    syncPauseControls();
+    syncPauseState();
     notify(value ? "Sleeping. Tap to wake, or press R to reset." : "Here, quietly.");
     request();
   }
-  function syncPauseControls() {
+  function syncPauseState() {
     el.dataset.paused = String(paused);
     hit.setAttribute("aria-label", paused ? "Wake duh" : "Pet duh");
-    if (pauseButton) pauseButton.textContent = paused ? "Resume duh" : "Pause duh";
   }
   function pathClear(target, arc = 0) {
     const samples = Math.max(6, Math.ceil(Math.hypot(target.x - s.x, target.y - s.y) / 24));
@@ -950,7 +947,7 @@ function start() {
     if (bottom < top) return;
     clearGesture();
     paused = false;
-    syncPauseControls();
+    syncPauseState();
     model.reset(stage.left + Math.min(140, stage.width * 0.28), clamp(stage.top + 140, top, bottom));
     lastActivity = s.time;
     nextGreeting = s.time + 1;
@@ -958,9 +955,6 @@ function start() {
     request();
   }
   document.querySelector("[data-duh-invite]")?.addEventListener("click", inviteToPlayground);
-  pauseButton?.addEventListener("click", () => pause());
-  controls?.querySelector("[data-duh-reset]")?.addEventListener("click", reset);
-  if (controls) controls.hidden = false;
   inviteToPlayground();
   syncP();
   el.getDuhEvidence = () => ({
