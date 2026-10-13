@@ -28,6 +28,22 @@ float stoneNoise(vec3 p) {
 
 export const physicalTime = { value: 0 };
 
+// Look-lab surface options (look.mjs), set before any room loads. Off in the shipped look.
+export const surfaceLook = { sheen: false };
+
+// A woven fabric with a sheen lobe: Three's physical shader adds the "Charlie" sheen of Estevez and
+// Kulla (SIGGRAPH 2017 course), a soft rim of retroreflection that cloth fibers show at grazing angles.
+// Everything else matches the standard material it replaces (IOR 1.5 gives the same 4% specular).
+function sheenFabric(source) {
+  const m = new THREE.MeshPhysicalMaterial();
+  THREE.MeshStandardMaterial.prototype.copy.call(m, source);
+  m.defines = { STANDARD: "", PHYSICAL: "" };
+  m.sheen = 1;
+  m.sheenRoughness = 0.62;
+  m.sheenColor.copy(source.color).lerp(new THREE.Color(1, 1, 1), 0.35);
+  return m;
+}
+
 export function finishPhysicalMaterial(source, mesh, contactLighting) {
   const name = source.name;
   const m =
@@ -56,7 +72,9 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
             attenuationDistance: 2,
             side: source.side,
           })
-        : source.clone();
+        : surfaceLook.sheen && !mesh.isSkinnedMesh && /linen|textile|cotton|woven/i.test(name)
+          ? sheenFabric(source)
+          : source.clone();
   if (mesh.isSkinnedMesh) {
     m.roughness = /hair/i.test(name) ? 0.7 : /skin/i.test(name) ? 0.68 : 0.9;
     m.envMapIntensity = /hair/i.test(name) ? 0.28 : 0.5;
@@ -277,13 +295,16 @@ function syncOutputDefines(pass, activeRenderer) {
   pass.material.needsUpdate = true;
 }
 
-export function createFinish(renderer, scene, camera, { transparentOutput = false, profileGPU = false } = {}) {
+// `bloom` (look lab) is { Pass, strength, radius, threshold }, with Pass the vendored UnrealBloomPass
+// loaded on demand; it glows only HDR highlights above the threshold, before tone mapping.
+export function createFinish(renderer, scene, camera, { transparentOutput = false, profileGPU = false, bloom: bloomLook = null } = {}) {
   if (transparentOutput) return createLegacyFinish(renderer, scene, camera, { transparentOutput });
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
   const composer = new EffectComposer(renderer, target);
   const beauty = new RenderPass(scene, camera),
     contact = new SSAOPass(scene, camera, 1, 1, 1),
     output = new OutputPass(),
+    bloom = bloomLook ? new bloomLook.Pass(new THREE.Vector2(1, 1), bloomLook.strength, bloomLook.radius, bloomLook.threshold) : null,
     gpuTimer = createGpuTimer(renderer.getContext(), profileGPU),
     volumeDepth = createVolumeDepth(renderer, scene);
   let volume;
@@ -323,6 +344,7 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
   };
   composer.addPass(contact);
   composer.addPass(beauty);
+  if (bloom) composer.addPass(bloom);
   composer.addPass(output);
   let width = 1,
     height = 1;
@@ -335,6 +357,11 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
       passes: [
         { material: contact.ssaoMaterial },
         { material: contact.blurMaterial },
+        ...(bloom
+          ? [bloom.materialHighPassFilter, ...bloom.separableBlurMaterials, bloom.compositeMaterial, bloom.blendMaterial].map((material) => ({
+              material,
+            }))
+          : []),
         { material: output.material, toScreen: true, prepare: (activeRenderer) => syncOutputDefines(output, activeRenderer) },
       ],
     },
@@ -383,6 +410,7 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
         height,
         gpu: gpuTimer.evidence,
         volumeDepth: volume?.object.visible ? volumeDepth.evidence() : null,
+        bloom: bloom ? { strength: bloom.strength, radius: bloom.radius, threshold: bloom.threshold } : null,
       };
     },
     dispose() {
@@ -391,6 +419,7 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
       volumeDepth.dispose();
       beauty.dispose();
       contact.dispose();
+      bloom?.dispose();
       output.dispose();
       composer.dispose();
       contact.ssaoMaterial.dispose();

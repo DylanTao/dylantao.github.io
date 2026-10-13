@@ -13,7 +13,7 @@ No engine upgrade or second engine instance is introduced on the homepage.
 
 ## Realistic rendering and compressed models
 
-The added postprocessing, math, shader, and Draco loader files are from the same Three.js r164 tag. Bare engine imports are changed; trailing indentation on one empty line each in OutputShader and SSAOShader is removed for the repository whitespace check. The glTF Draco decoder is distributed with that release under the Apache-2.0 license retained in `libs/draco/LICENSE`. These are local assets; no runtime CDN is required.
+The added postprocessing, math, shader, and Draco loader files are from the same Three.js r164 tag. Bare engine imports are changed; trailing indentation on one empty line each in OutputShader and SSAOShader is removed for the repository whitespace check. The glTF Draco decoder is distributed with that release under the Apache-2.0 license retained in `libs/draco/LICENSE`. These are local assets; no runtime CDN is required. `UnrealBloomPass.js` and `LuminosityHighPassShader.js` (added 2026-10-13) serve only the home's look-lab preview (`?bloom=1`) and load on demand.
 
 `libs/draco/draco-worker.js` is the r164 loader worker extracted by `bin/prepare_draco_worker.py`, with a static import of the matching decoder wrapper. The site adapter uses it without an inline blob worker.
 
@@ -31,7 +31,9 @@ The added postprocessing, math, shader, and Draco loader files are from the same
 | `postprocessing/RenderPass.js` | https://raw.githubusercontent.com/mrdoob/three.js/r164/examples/jsm/postprocessing/RenderPass.js | `ef3f895f0b960d0f0dd32b8c22717377aaf4c9760f2b33367e98080094537cce` |
 | `postprocessing/ShaderPass.js` | https://raw.githubusercontent.com/mrdoob/three.js/r164/examples/jsm/postprocessing/ShaderPass.js | `428c6dc08d8d01aa8bc9dcc423eb3c2b435ae7c5491bfaaeed01785416e0ada1` |
 | `postprocessing/SSAOPass.js` | https://raw.githubusercontent.com/mrdoob/three.js/r164/examples/jsm/postprocessing/SSAOPass.js | `bf48c4f2faa9509a5327c3f0a80f5b8f0d7afba7fc5758f4c4c736f433ac6beb` |
+| `postprocessing/UnrealBloomPass.js` | https://raw.githubusercontent.com/mrdoob/three.js/r164/examples/jsm/postprocessing/UnrealBloomPass.js | `8f09315c0cec117a0ca2494d3e3586035b3c4323d6dcb037537cc51b04c3cdba` |
 | `shaders/CopyShader.js` | https://raw.githubusercontent.com/mrdoob/three.js/r164/examples/jsm/shaders/CopyShader.js | `4e3346db194db56a596cd074e9bdb39fb5eb52040c333e0d29dc4eb1324d3b1d` |
+| `shaders/LuminosityHighPassShader.js` | https://raw.githubusercontent.com/mrdoob/three.js/r164/examples/jsm/shaders/LuminosityHighPassShader.js | `3d841cc594a0c1767d1b0185720b32761a0133c5f1b70b56658e28f2fb9b7900` |
 | `shaders/OutputShader.js` | https://raw.githubusercontent.com/mrdoob/three.js/r164/examples/jsm/shaders/OutputShader.js | `291c9abf4beac165524f5963bda38691ed4631d8e6288d07f9e8910a452790a7` |
 | `shaders/SSAOShader.js` | https://raw.githubusercontent.com/mrdoob/three.js/r164/examples/jsm/shaders/SSAOShader.js | `b54fc9b5d535163486559f14ea07ae803a43d4b0e7eb8825a0450a061c43f77b` |
 
