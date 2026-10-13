@@ -2,7 +2,8 @@ import * as THREE from "../three.module.min.js";
 import { createModelLoader } from "./model-loader.mjs";
 import { createArtDirection } from "./materials.mjs";
 import { createPacific } from "./environment.mjs";
-import { createFinish, physicalTime } from "./realism.mjs";
+import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
+import { readLook } from "./look.mjs";
 import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
@@ -46,6 +47,11 @@ const remember = (key, value) => {
   }
 };
 
+// Look-lab tone curves (look.mjs). Exposure factors keep each curve's mean frame brightness close to
+// ACES, so a comparison shows tone and color rather than a brighter or darker picture.
+const TONE_MAPPING = { aces: THREE.ACESFilmicToneMapping, agx: THREE.AgXToneMapping, neutral: THREE.NeutralToneMapping };
+const TONE_EXPOSURE = { aces: 1, agx: 1.08, neutral: 1.24 };
+
 export function createCoastalHome(container, records, artifacts) {
   const stage = container.closest("[data-home-artifact-stage]");
   const ui = stage.querySelector("[data-home-world-controls]");
@@ -56,6 +62,13 @@ export function createCoastalHome(container, records, artifacts) {
   const cameraMotion = createCameraMotion();
   const { loader, decoder } = createModelLoader();
   const art = createArtDirection();
+  let lookStorage = null;
+  try {
+    lookStorage = window.sessionStorage;
+  } catch {
+    /* Storage can be blocked; the URL flags still apply. */
+  }
+  const look = readLook(location.search, lookStorage);
   const scene = new THREE.Scene();
   const world = new THREE.Group();
   scene.add(world);
@@ -1139,7 +1152,7 @@ export function createCoastalHome(container, records, artifacts) {
 
   function setStyle() {
     camera = style === "realistic" ? perspective : orthographic;
-    if (renderer) renderer.toneMappingExposure = style === "realistic" ? 1.05 : 1.18;
+    if (renderer) renderer.toneMappingExposure = (style === "realistic" ? 1.05 : 1.18) * TONE_EXPOSURE[look.tone];
     world.traverse((o) => {
       if (o.userData.renderStyle) o.visible = o.userData.renderStyle === style;
     });
@@ -1704,12 +1717,18 @@ export function createCoastalHome(container, records, artifacts) {
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: "low-power" });
       renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.18;
+      renderer.toneMapping = TONE_MAPPING[look.tone];
+      renderer.toneMappingExposure = 1.18 * TONE_EXPOSURE[look.tone];
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.info.autoReset = false;
-      finish = createFinish(renderer, scene, perspective, { profileGPU: labEnabled });
+      surfaceLook.sheen = look.sheen;
+      const bloom = look.bloom ? await import("../vendor/three-r164/postprocessing/UnrealBloomPass.js") : null;
+      if (disposed) return;
+      finish = createFinish(renderer, scene, perspective, {
+        profileGPU: labEnabled,
+        bloom: bloom && { Pass: bloom.UnrealBloomPass, strength: 0.28, radius: 0.42, threshold: 0.92 },
+      });
       skinDiffusion = createSkinDiffusion();
       coastalWind = createCoastalWind();
       warmPracticals = createWarmPracticals(scene, (m) => bindContactLighting(m, finish.contactLighting));
@@ -1877,6 +1896,7 @@ export function createCoastalHome(container, records, artifacts) {
     resources: renderer ? { ...renderer.info.memory } : {},
     projection: camera.isOrthographicCamera ? "orthographic" : "perspective",
     coastDetail: style,
+    look: { ...look },
     companion: worldCompanion?.evidence(),
     ecology: pacific?.evidence(),
     rendering: finish?.evidence,
