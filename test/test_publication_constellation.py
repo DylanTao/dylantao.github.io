@@ -297,19 +297,10 @@ class PublicationConstellationContractTest(unittest.TestCase):
         self.assertIn("totals_last_synced", guide)
         self.assertIn("yearly_snapshot_as_of", guide)
 
-        expected_origins = {
-            CONSTELLATION_INCLUDE_PATH: ("/projects/paper-constellation/", "Read how Paper Constellation began"),
-            SCHOLAR_INCLUDE_PATH: ("/projects/scholar-lens/", "Read how Scholar Lens began"),
-            WALL_INCLUDE_PATH: ("/projects/wall-of-rejection/", "Read how the Wall of Rejection began"),
-        }
-        for path, (route, label) in expected_origins.items():
+        # The at-rest origin glint was retired on 2026-10-12; these stories stay reachable from the projects index.
+        for path in (CONSTELLATION_INCLUDE_PATH, SCHOLAR_INCLUDE_PATH, WALL_INCLUDE_PATH):
             with self.subTest(path=path.name):
-                source = path.read_text(encoding="utf-8")
-                self.assertIn(route, source)
-                self.assertIn("{% include widget_origin_link.liquid", source)
-                self.assertIn(f'label="{label}"', source)
-                origin_call = next(line for line in source.splitlines() if "widget_origin_link.liquid" in line)
-                self.assertNotIn("?", origin_call)
+                self.assertNotIn("widget_origin_link.liquid", path.read_text(encoding="utf-8"))
 
         origin_include = WIDGET_ORIGIN_INCLUDE_PATH.read_text(encoding="utf-8")
         self.assertIn('class="widget-origin-link', origin_include)

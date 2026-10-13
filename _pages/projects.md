@@ -107,8 +107,7 @@ cinematic: true
   {% endif %}
 {% endif %}
 <div class="project-browser-origin">
-  <span>How this card view began</span>
-  {% include widget_origin_link.liquid href="/projects/ikea-project-cards/" label="Read how this card view began" %}
+  <a href="{{ '/projects/ikea-project-cards/' | relative_url }}">How this card view began</a>
 </div>
 <p class="project-inspiration-credit" id="project-index-end">
   Interaction note: card opening pattern inspired by <a href="https://www.ikea.com/global/en/stories/design/ikea-ps-2026-collection/" target="_blank" rel="noopener noreferrer">IKEA's PS 2026 collection story</a>; adapted here for an academic project browser.

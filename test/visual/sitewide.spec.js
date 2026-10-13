@@ -2415,69 +2415,41 @@ test("Research Focus Paper field stays semantic, bounded, pausable, and optional
   }
 });
 
-test("desk origin stays quiet until its control row is engaged", async ({ page }, testInfo) => {
+test("desk mode switch keeps two reachable controls and no origin speck", async ({ page }, testInfo) => {
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
 
+  // The at-rest origin glint beside 2D/3D was retired on 2026-10-12 (it read as a stray speck).
   const switcher = page.locator("[data-home-desk-mode-switch]");
-  const origin = switcher.getByRole("link", { name: "Read how the desk scene began" });
-  const glint = origin.locator(".widget-origin-glint");
-  await expect(origin).toBeVisible();
-  await expect(origin).toHaveAttribute("data-origin-cue", "");
-  await expect(origin).toHaveAttribute("href", /\/projects\/homepage-desk-scene\/$/);
-  await expect(glint).toBeVisible();
-  await expect(origin.locator(".widget-origin-word, .widget-origin-arrow")).toHaveCount(0);
-  await expect(origin.locator(".widget-origin-tooltip, .widget-origin-thread")).toHaveCount(0);
-  const restingOpacity = Number.parseFloat(await origin.evaluate((link) => getComputedStyle(link).opacity));
-  await switcher.hover();
-  await expect.poll(async () => Number.parseFloat(await origin.evaluate((link) => getComputedStyle(link).opacity))).toBeGreaterThan(restingOpacity);
-  await origin.focus();
-  expect(await origin.evaluate((link) => getComputedStyle(link).outlineWidth)).not.toBe("0px");
+  await expect(switcher).toBeVisible();
+  await expect(switcher.locator(".widget-origin-link, [data-origin-cue]")).toHaveCount(0);
 
   const geometry = await page.evaluate(() => {
     const modeSwitcher = document.querySelector("[data-home-desk-mode-switch]");
-    const link = modeSwitcher?.querySelector(".home-desk-origin-link");
-    const controls = Array.from(modeSwitcher?.querySelectorAll("[data-home-desk-mode], .home-desk-origin-link") ?? []);
-    const modeTargets = Array.from(modeSwitcher?.querySelectorAll("[data-home-desk-mode]") ?? []).map((control) => {
-      const rect = control.getBoundingClientRect();
-      return { height: rect.height, width: rect.width };
-    });
-    const centers = controls.map((control) => {
-      const rect = control.getBoundingClientRect();
-      return rect.top + rect.height / 2;
-    });
-    const linkRect = link?.getBoundingClientRect();
+    const controls = Array.from(modeSwitcher?.querySelectorAll("[data-home-desk-mode]") ?? []);
+    const rects = controls.map((control) => control.getBoundingClientRect());
+    const centers = rects.map((rect) => rect.top + rect.height / 2);
     return {
       documentOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-      originWidth: linkRect?.width ?? 0,
-      originHeight: linkRect?.height ?? 0,
-      modeTargets,
-      sameRow: centers.length === 3 && Math.max(...centers) - Math.min(...centers) <= 2,
+      modeTargets: rects.map((rect) => ({ height: rect.height, width: rect.width })),
+      sameRow: centers.length === 2 && Math.max(...centers) - Math.min(...centers) <= 2,
     };
   });
 
   expect(geometry.documentOverflow).toBeLessThanOrEqual(0);
-  const compactTargetMinimum = 44 - 0.01;
-  expect(geometry.originWidth).toBeGreaterThanOrEqual(compactTargetMinimum);
-  expect(geometry.originHeight).toBeGreaterThanOrEqual(compactTargetMinimum);
   expect(geometry.modeTargets).toHaveLength(2);
+  // WCAG 2.2 target size (minimum): 24 x 24 CSS px.
+  for (const target of geometry.modeTargets) {
+    expect(target.width).toBeGreaterThanOrEqual(24 - 0.01);
+    expect(target.height).toBeGreaterThanOrEqual(24 - 0.01);
+  }
   expect(geometry.sameRow).toBe(true);
 
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await origin.focus();
-  const reducedMotion = await origin.evaluate((link) => {
-    const linkStyle = getComputedStyle(link);
-    return {
-      linkDuration: linkStyle.transitionDuration,
-      linkTransform: linkStyle.transform,
-    };
-  });
-  expect(reducedMotion).toEqual({
-    linkDuration: "0s",
-    linkTransform: "none",
-  });
+  const threeD = switcher.locator('[data-home-desk-mode="3d"]');
+  await threeD.focus();
+  await expect(threeD).toBeFocused();
 
-  await attachScreenshot(page, testInfo, `desk-origin-${testInfo.project.name}`, { fullPage: false });
+  await attachScreenshot(page, testInfo, `desk-mode-switch-${testInfo.project.name}`, { fullPage: false });
 });
 
 // Keep this last: unlocking starts the secret route's Three/WebGL work.

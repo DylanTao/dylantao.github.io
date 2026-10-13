@@ -30,7 +30,6 @@ github_activity: true
       <h1 id="github-activity-title">Build rhythm.</h1>
       <p class="github-activity-lede">I wanted the logs to show where the work bunches up. Follow the accumulated history, then look closer at a year.</p>
     </div>
-    {% include widget_origin_link.liquid href="/projects/build-rhythm/" label="Read how Build Rhythm began" %}
   </header>
 
   <section class="build-rhythm-overview" data-build-rhythm-overview data-personal-daily-copy aria-label="Personal commit history">

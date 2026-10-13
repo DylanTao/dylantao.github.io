@@ -15,7 +15,6 @@
             <p>{{ rejection_wall.section.description }}</p>
           </div>
           <div class="rejection-wall-heading-actions">
-            {% include widget_origin_link.liquid href="/projects/wall-of-rejection/" label="Read how the Wall of Rejection began" %}
             {% if rejection_wall.views.size > 1 %}
               <div class="rejection-wall-view-switcher" role="group" aria-label="Choose rejection badge view">
                 {% for view in rejection_wall.views %}

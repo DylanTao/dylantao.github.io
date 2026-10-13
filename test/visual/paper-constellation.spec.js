@@ -118,14 +118,8 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
     expect(mobileGeometry.papers.every((paper) => paper.height >= 44 && paper.copyWidth >= 220)).toBe(true);
   }
 
-  const originRoutes = await page.locator(".widget-origin-link").evaluateAll((links) => links.map((link) => new URL(link.href).pathname));
-  expect(originRoutes).toEqual(
-    expect.arrayContaining([
-      expect.stringMatching(/\/projects\/wall-of-rejection\/$/),
-      expect.stringMatching(/\/projects\/scholar-lens\/$/),
-      expect.stringMatching(/\/projects\/paper-constellation\/$/),
-    ])
-  );
+  // The at-rest origin glint was retired on 2026-10-12; no publication widget carries one.
+  await expect(page.locator(".widget-origin-link")).toHaveCount(0);
 
   await page.locator('input[name="publication-role-filter"][value="first-author"]').check();
   const filteredNodes = page.locator("[data-constellation-node-id].paper-constellation-node-filtered");

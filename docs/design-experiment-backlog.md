@@ -337,19 +337,6 @@ The entries below retain historical experiment context. Their old typography, nu
 - **Sirui decision:** Strengthen the Paper color and compositing levels enough to be unmistakable on entry, while keeping the semantic canvas above it. Do not call an imperceptible effect “restrained.”
 - **Revisit trigger:** Sirui's next live preview judgment, or any contrast, frame-time, context-count, layout-shift, or comprehension regression.
 
-### Interaction-linked glint for origin stories
-
-- **Hypothesis:** A tiny glint can stay out of the reading hierarchy, then become legible when someone engages the artifact or focuses the provenance route.
-- **Route:** Every existing origin-link placement; no new origin links are invented in this pass.
-- **Reference:** The site's existing source-linked project stories and Sirui's request for subtler motion and illumination.
-- **Licensing:** Site-owned SVG and CSS; no external asset.
-- **Visitor benefit:** Curious readers can follow the design story while everyone else reads the artifact without icon clutter or a surprise popover.
-- **Budget:** 44px target; immediate focus ring; no spatial animation, tooltip, pulse, or JavaScript; visible text must remain legible at 200% zoom.
-- **Status:** `revised`; the wordmark has been removed and the interaction-linked glint is awaiting rendered judgment.
-- **Evidence:** Sirui rejected the original dot-and-line mark because it resembled a slider, the large hover disclosure because it was confusing, and the later `story ↗` wordmark because it became a prominent repeated action that affected the general experience.
-- **Sirui decision:** Keep the 44px target and concrete story destination, but show only a tiny four-point glint at rest. Let the glint extend and illuminate briefly on owner hover/focus or direct interaction; use no wordmark, arrow, continuous pulse, slider line, or custom tooltip.
-- **Revisit trigger:** Sirui's next live preview judgment, or evidence that the wordmark competes with its artifact or becomes too easy to miss.
-
 ### Static Paper Texture for Website Revamp
 
 - **Hypothesis:** A seeded paper texture can give the Website Revamp story a tactile, authored surface without spending another runtime WebGL context or delaying its text.
@@ -438,6 +425,19 @@ Suggested sequence:
 ## Completed Experiments
 
 Move an entry here only after recording evidence and Sirui's decision. Keep removed experiments too: knowing why an idea failed is part of the site's professional vision.
+
+### Interaction-linked glint for origin stories
+
+- **Hypothesis:** A tiny glint can stay out of the reading hierarchy, then become legible when someone engages the artifact or focuses the provenance route.
+- **Route:** The 2D/3D switch, Wall of Rejection, Scholar Lens, Paper Constellation, Build Rhythm and the projects index; the hidden blog portal's reveal-on-discovery origin.
+- **Reference:** The site's existing source-linked project stories and Sirui's request for subtler motion and illumination.
+- **Licensing:** Site-owned SVG and CSS; no external asset.
+- **Visitor benefit:** Intended: curious readers follow the design story without icon clutter. Observed (2026-10-12 live review at 1440/390, four themes): at rest the 2–3 px mark read as a stray rendering speck beside six widgets, so it neither stayed quiet nor signalled a route.
+- **Budget:** 44px target; immediate focus ring; no spatial animation, tooltip, pulse, or JavaScript.
+- **Status:** `removed` (2026-10-12). The include and its styles remain only for the hidden blog portal, which reveals its origin after discovery; the projects index keeps its visibly labelled route as a plain text link.
+- **Evidence:** Four iterations: a dot-and-line mark (read as a slider), a hover disclosure (confusing), a `story ↗` wordmark (too prominent when repeated), then the at-rest glint (read as an artifact in the 2026-10-12 review screenshots).
+- **Sirui decision:** Retire the glint (2026-10-12); origin stories stay reachable from the projects index and each case page. This follows his rule "when a review calls an element confusing, remove it rather than tune it".
+- **Revisit trigger:** A route-finding problem that a visible, labelled link would solve better than the projects index.
 
 ### Homepage build ledger and desk-scene tally
 

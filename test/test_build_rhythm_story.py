@@ -135,8 +135,8 @@ class BuildRhythmStoryTests(unittest.TestCase):
         self.assertIn("Truth &amp; Beauty", self.page)
         self.assertIn("https://jrthomp.com/", self.page)
         self.assertIn("John Thompson", self.page)
-        self.assertIn('href="/projects/build-rhythm/"', self.page)
-        self.assertIn('label="Read how Build Rhythm began"', self.page)
+        # The at-rest origin glint was retired on 2026-10-12; the story stays reachable from the projects index.
+        self.assertNotIn("widget_origin_link.liquid", self.page)
         self.assertNotIn("autodesk", self.page.lower())
 
 

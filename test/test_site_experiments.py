@@ -766,22 +766,26 @@ class SiteExperimentsTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, case_study)
 
-    def test_widget_origin_routes_are_explicit_and_contextual(self) -> None:
-        expectations = {
-            "_pages/github-activity.md": "/projects/build-rhythm/",
-            "_pages/projects.md": "/projects/ikea-project-cards/",
-            "_includes/home/hero.liquid": "/projects/homepage-desk-scene/",
-            "_pages/blog.md": "/projects/dogtor-portal/",
-            "_includes/publications/paper_constellation.liquid": "/projects/paper-constellation/",
-            "_includes/publications/scholar_lens.liquid": "/projects/scholar-lens/",
-            "_includes/publications/wall_of_rejection.liquid": "/projects/wall-of-rejection/",
-        }
-        for relative_path, route in expectations.items():
+    def test_origin_glint_survives_only_on_the_hidden_blog_portal(self) -> None:
+        # Sirui retired the at-rest origin glint on 2026-10-12: beside widgets it read as a stray speck.
+        # Origin stories stay reachable from the projects index; the hidden blog portal keeps its reveal.
+        for relative_path in (
+            "_pages/github-activity.md",
+            "_pages/projects.md",
+            "_includes/home/hero.liquid",
+            "_includes/publications/paper_constellation.liquid",
+            "_includes/publications/scholar_lens.liquid",
+            "_includes/publications/wall_of_rejection.liquid",
+        ):
             with self.subTest(relative_path=relative_path):
                 source = (REPO_ROOT / relative_path).read_text(encoding="utf-8")
-                self.assertIn(route, source)
-                self.assertIn("{% include widget_origin_link.liquid", source)
-                self.assertNotRegex(source, r'<span[^>]+widget-origin-mark[^>]*>\s*\?\s*</span>')
+                self.assertNotIn("widget_origin_link.liquid", source)
+
+        projects = (REPO_ROOT / "_pages" / "projects.md").read_text(encoding="utf-8")
+        self.assertIn("{{ '/projects/ikea-project-cards/' | relative_url }}", projects)
+        blog = (REPO_ROOT / "_pages" / "blog.md").read_text(encoding="utf-8")
+        self.assertIn("/projects/dogtor-portal/", blog)
+        self.assertIn("{% include widget_origin_link.liquid", blog)
 
         dog_script = (REPO_ROOT / "assets" / "js" / "blog-secret.js").read_text(encoding="utf-8")
         self.assertIn("hasDiscoveredPortal", dog_script)
