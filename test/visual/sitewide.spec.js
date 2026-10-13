@@ -353,6 +353,21 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   await stabilizeVisuals(page);
   await page.waitForTimeout(350);
 
+  // Structural accessibility baseline. The 2026-10-12 audit found every public route passing at 1440
+  // and 390 px: one rendered h1, the skip link as the first Tab stop, and an alt attribute on every image.
+  await page.keyboard.press("Tab");
+  await expect(page.locator(".skip-link"), `${route.path} skip link is not the first Tab stop`).toBeFocused();
+  await page.evaluate(() => document.activeElement?.blur?.());
+  const structure = await page.evaluate(() => ({
+    headings: Array.from(document.querySelectorAll("h1")).map((heading) => {
+      const box = heading.getBoundingClientRect();
+      return box.width > 0 && box.height > 0 && getComputedStyle(heading).visibility !== "hidden" && !heading.closest("[hidden]");
+    }),
+    imagesWithoutAlt: Array.from(document.querySelectorAll("img:not([alt])")).map((image) => image.getAttribute("src")),
+  }));
+  expect(structure.headings, `${route.path} should have exactly one rendered h1`).toEqual([true]);
+  expect(structure.imagesWithoutAlt, `${route.path} has images without an alt attribute`).toEqual([]);
+
   let githubActivityState = null;
   if (route.id === "home") {
     const sections = await page.locator("[data-home-section]").evaluateAll((nodes) => nodes.map((node) => node.dataset.homeSection));
