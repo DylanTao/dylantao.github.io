@@ -104,3 +104,12 @@ Unpublished (`docs/` is excluded from the build). A public version in Sirui's vo
 - **Backtalk:** All 60 route-and-width pairs already passed; the test now keeps them that way.
 - **Reframe:** The next accessibility work is behavioral (a global motion pause, focus return), not structural.
 - **Concept:** WCAG 2.4.1 Bypass Blocks (the skip link) and 1.1.1 Non-text Content (`alt`); one `h1` per page is a convention for heading navigation rather than a WCAG requirement.
+
+## 11. Twenty-six seconds of shaders, moved off the page
+
+- **Frame:** Opening the 3D home froze the whole page for about 13 seconds, then for 5 more when the other rooms streamed in and again on the first Look around.
+- **Dimensions:** programs first used in a frame, blocking time per program (0.1–1.8 s each on D3D11), time to the first composed view, and pixels changed, which had to stay at zero.
+- **Move:** `assets/js/home-scene/program-warmup.mjs` creates every program a frame needs (scene materials, the contact pass's normal override, shadow depth variants, the coffee glass's back faces, full-screen passes) and waits for the driver without blocking; streamed rooms join the house once ready.
+- **Backtalk:** Three's own `compileAsync` cut blocking from 26 s to 5 s, but each first frame still linked ten programs. A define diff showed the shadow variants matched except for one key field: the shadow pass draws without a scene, so it is keyed without fog. Then the scene suite failed because the wait used `setTimeout`, which its paused clock freezes; polling moved to the browser scheduler. Final: 0.6 s of blocking reads, the longest startup frame 0.2 s, readiness 11.3 → 7.5 s, and 0 changed pixels in deterministic captures.
+- **Reframe:** Next is the outside view's cost: about 2,000 draws a frame, partly because the sea mirror redraws the scene.
+- **Concept:** A shader program has a creation cost and a first-use cost. `KHR_parallel_shader_compile` (Khronos, 2019) lets a page ask "is it done?" (`COMPLETION_STATUS_KHR`) instead of waiting, but only if nothing reads the program first. A renderer's program cache is an equality test over compile state, so warming up means reproducing that state exactly, down to whether fog exists.
