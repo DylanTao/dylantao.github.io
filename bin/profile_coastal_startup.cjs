@@ -10,6 +10,8 @@ const width = Number(process.env.COASTAL_PROFILE_WIDTH || 1440);
 const dpr = Number(process.env.COASTAL_PROFILE_DPR || 1);
 const software = process.env.COASTAL_PROFILE_GPU === "software";
 const sampleSeconds = Number(process.env.COASTAL_PROFILE_SECONDS || 8);
+// Optional: seed the page's randomness so A/B captures share an arrival avatar, wildlife and dust.
+const seed = process.env.COASTAL_PROFILE_SEED ? Number(process.env.COASTAL_PROFILE_SEED) : null;
 const summarize = (values) => {
   const sorted = [...values].sort((a, b) => a - b);
   const q = (fraction) => sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * fraction))] ?? null;
@@ -45,6 +47,21 @@ const summarize = (values) => {
   // Playwright's clock injection also replaces RAF/performance/timers, which
   // hides long renderer stalls. Fix only the authored routine's Date; retain
   // the native browser clock and preserve Date's callable/constructor forms.
+  if (seed !== null) {
+    // Three's UUIDs draw from their own generator, so a version that creates one more object
+    // (a render target, a material clone) cannot shift the seeded choices that follow.
+    await page.route("**/three.module.min.js*", async (route) => {
+      const response = await route.fetch();
+      const body = (await response.text()).replaceAll("4294967295*Math.random()|0", "4294967295*__profileUuidRandom()|0");
+      await route.fulfill({ response, body });
+    });
+    await page.addInitScript((initial) => {
+      let state = initial >>> 0,
+        uuidState = 7;
+      Math.random = () => (state = (state * 1664525 + 1013904223) >>> 0) / 4294967296;
+      window.__profileUuidRandom = () => (uuidState = (uuidState * 22695477 + 1) >>> 0) / 4294967296;
+    }, seed);
+  }
   await page.addInitScript((time) => {
     const NativeDate = Date,
       fixed = NativeDate.parse(time);
@@ -189,6 +206,7 @@ const summarize = (values) => {
       width,
       dpr,
       backendRequested: software ? "ANGLE SwiftShader" : "native/default ANGLE",
+      seed,
       mobileIsHostEmulation: width < 768,
       initial3D,
       firstFrame,

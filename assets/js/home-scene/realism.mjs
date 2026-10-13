@@ -257,6 +257,26 @@ export function createLegacyFinish(renderer, scene, camera, { transparentOutput 
   };
 }
 
+// OutputPass rebuilds its defines on its first draw; doing the same beforehand lets its program
+// compile with the rest (program-warmup.mjs). Mirrors OutputPass.render for this pipeline's modes.
+function syncOutputDefines(pass, activeRenderer) {
+  if (pass._outputColorSpace === activeRenderer.outputColorSpace && pass._toneMapping === activeRenderer.toneMapping) return;
+  const toneMappingDefines = {
+    [THREE.LinearToneMapping]: "LINEAR_TONE_MAPPING",
+    [THREE.ReinhardToneMapping]: "REINHARD_TONE_MAPPING",
+    [THREE.CineonToneMapping]: "CINEON_TONE_MAPPING",
+    [THREE.ACESFilmicToneMapping]: "ACES_FILMIC_TONE_MAPPING",
+    [THREE.AgXToneMapping]: "AGX_TONE_MAPPING",
+    [THREE.NeutralToneMapping]: "NEUTRAL_TONE_MAPPING",
+  };
+  pass._outputColorSpace = activeRenderer.outputColorSpace;
+  pass._toneMapping = activeRenderer.toneMapping;
+  pass.material.defines = {};
+  if (THREE.ColorManagement.getTransfer(pass._outputColorSpace) === THREE.SRGBTransfer) pass.material.defines.SRGB_TRANSFER = "";
+  if (toneMappingDefines[pass._toneMapping]) pass.material.defines[toneMappingDefines[pass._toneMapping]] = "";
+  pass.material.needsUpdate = true;
+}
+
 export function createFinish(renderer, scene, camera, { transparentOutput = false, profileGPU = false } = {}) {
   if (transparentOutput) return createLegacyFinish(renderer, scene, camera, { transparentOutput });
   const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
@@ -308,6 +328,16 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
     height = 1;
   return {
     contactLighting: lighting,
+    // Programs this pipeline draws beyond the scene's own materials (program-warmup.mjs): the
+    // contact pass's normal override on every occluding mesh, and its two full-screen passes.
+    programWarmup: {
+      overrides: [{ material: contact.normalMaterial, accept: (object) => !object.userData.noOcclusion && !object.userData.noContactOcclusion }],
+      passes: [
+        { material: contact.ssaoMaterial },
+        { material: contact.blurMaterial },
+        { material: output.material, toScreen: true, prepare: (activeRenderer) => syncOutputDefines(output, activeRenderer) },
+      ],
+    },
     setVolume(next) {
       volume = next;
     },

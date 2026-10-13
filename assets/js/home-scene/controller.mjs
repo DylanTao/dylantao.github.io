@@ -27,6 +27,7 @@ import { createWarmPracticals } from "./warm-practicals.mjs";
 import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
 import { createStaticLightField } from "./static-light-field.mjs";
+import { prepareFramePrograms } from "./program-warmup.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -183,6 +184,25 @@ export function createCoastalHome(container, records, artifacts) {
   function own(resource) {
     resources.add(resource);
     return resource;
+  }
+
+  // Shader programs compile on the GPU driver's worker threads (KHR_parallel_shader_compile)
+  // while the page stays responsive. Drawing a material first and asking for its program log
+  // instead blocked the main thread for 0.3-1.8 s per program: 13 s before the first composed
+  // view and another 6 s when the remaining rooms streamed in (docs/evidence/coastal-startup-2026-10-04).
+  let programProbe = null,
+    programQueue = Promise.resolve();
+  function compilePrograms() {
+    programQueue = programQueue
+      .then(async () => {
+        if (!renderer || disposed) return;
+        // The beauty pass draws into a linear, untoned half-float target; programs are keyed by
+        // that output state, so they are prepared while an equivalent target is bound.
+        programProbe ||= own(new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType }));
+        await prepareFramePrograms(renderer, scene, camera, { target: programProbe, ...finish?.programWarmup });
+      })
+      .catch(() => {});
+    return programQueue;
   }
 
   function loadingStage(stage, message) {
@@ -415,7 +435,7 @@ export function createCoastalHome(container, records, artifacts) {
     const entry = config.rooms.find((r) => r.id === id);
     if (!entry) return null;
     const pending = loadModel(new URL(entry.file, manifestUrl).href)
-      .then((gltf) => {
+      .then(async (gltf) => {
         if (disposed) {
           release(gltf.scene);
           return null;
@@ -423,7 +443,6 @@ export function createCoastalHome(container, records, artifacts) {
         const root = prepareModel(gltf.scene);
         root.name = `room-${id}`;
         world.add(root);
-        rooms.set(id, root);
         root.traverse((o) => {
           if (o.isMesh && o.name.startsWith("onsen_water")) {
             water = o;
@@ -449,6 +468,15 @@ export function createCoastalHome(container, records, artifacts) {
             water.userData.noContactOcclusion = true;
           }
         });
+        // The arrival room compiles with the first composed view. Rooms streamed afterwards stay
+        // hidden until their programs are ready, so the visible view keeps drawing meanwhile.
+        if (firstFrameMilliseconds !== null) {
+          root.visible = false;
+          await compilePrograms();
+          if (disposed) return null;
+          root.visible = true;
+        }
+        rooms.set(id, root);
         requestFrame();
         prepareStaticLight();
         return root;
@@ -1780,10 +1808,12 @@ export function createCoastalHome(container, records, artifacts) {
       loadingStage("room", "Bringing the room into view.");
       await Promise.all([loadRoom(routine.room), setAvatar(avatarId)]);
       if (disposed) return;
-      compositionReady = true;
       loadingStage("first-frame", "Preparing the view.");
       setStyle();
       resize();
+      await compilePrograms();
+      if (disposed) return;
+      compositionReady = true;
       clockTimer = window.setInterval(() => {
         if (visible && !document.hidden) updateRoutine();
       }, 30000);
