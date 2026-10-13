@@ -68,10 +68,15 @@ jobs:
             echo "citation_result=success" >> $GITHUB_OUTPUT
             echo "Citation update succeeded (started at $start_time, ended at $end_time)."
             echo "Citation update succeeded." >> $GITHUB_STEP_SUMMARY
-          elif [ $status -eq 124 ]; then
+          elif [ $status -eq 124 ] || [ $status -eq 75 ]; then
             echo "citation_result=stale" >> $GITHUB_OUTPUT
-            echo "::warning::Google Scholar citation update timed out after 300 seconds; keeping existing citation data."
-            echo "Citation update timed out after 300 seconds (started at $start_time, ended at $end_time)." >> $GITHUB_STEP_SUMMARY
+            if [ $status -eq 124 ]; then
+              reason="timed out after 300 seconds"
+            else
+              reason="could not reach Google Scholar or received no author data"
+            fi
+            echo "::warning::Google Scholar citation update $reason; keeping existing citation data."
+            echo "Citation update $reason (started at $start_time, ended at $end_time)." >> $GITHUB_STEP_SUMMARY
             echo "Keeping existing citation data and skipping the citation-data commit." >> $GITHUB_STEP_SUMMARY
             git restore --worktree -- _data/citations.yml _data/publication_lens.yml
             find _data -maxdepth 1 \( -name '.citations.yml.*.tmp' -o -name '.publication_lens.yml.*.tmp' \) -delete

@@ -45,6 +45,9 @@ def load_scholar_user_id() -> str:
 SCHOLAR_USER_ID: str = load_scholar_user_id()
 CITATIONS_FILE: str = "_data/citations.yml"
 PUBLICATION_LENS_FILE: str = "_data/publication_lens.yml"
+# EX_TEMPFAIL: Google Scholar was unreachable or returned no author data. The workflow treats it
+# like its timeout path and keeps the existing citation data instead of failing the run.
+SCHOLAR_UNAVAILABLE_EXIT: int = 75
 
 
 class IndentedSafeDumper(yaml.SafeDumper):
@@ -186,22 +189,22 @@ def get_scholar_citations(force: bool = False) -> None:
     scholarly.set_retries(3)
     try:
         author = scholarly.search_author_id(SCHOLAR_USER_ID)
+        if not author:
+            raise LookupError("Google Scholar returned no author record")
         author_data = scholarly.fill(author, sections=["publications"])
     except Exception as e:
         print(
-            f"Error fetching author data from Google Scholar for user ID '{SCHOLAR_USER_ID}': {e}. Please check your internet connection and Scholar user ID."
+            f"Error fetching author data from Google Scholar for user ID '{SCHOLAR_USER_ID}': {e}. Keeping the existing citation data."
         )
-        sys.exit(1)
+        sys.exit(SCHOLAR_UNAVAILABLE_EXIT)
 
     if not author_data:
-        print(
-            f"Could not fetch author data for user ID '{SCHOLAR_USER_ID}'. Please verify the Scholar user ID and try again."
-        )
-        sys.exit(1)
+        print(f"Could not fetch author data for user ID '{SCHOLAR_USER_ID}'. Keeping the existing citation data.")
+        sys.exit(SCHOLAR_UNAVAILABLE_EXIT)
 
     if "publications" not in author_data:
-        print(f"No publications found in author data for user ID '{SCHOLAR_USER_ID}'.")
-        sys.exit(1)
+        print(f"No publications found in author data for user ID '{SCHOLAR_USER_ID}'. Keeping the existing citation data.")
+        sys.exit(SCHOLAR_UNAVAILABLE_EXIT)
 
     for pub in author_data["publications"]:
         try:
