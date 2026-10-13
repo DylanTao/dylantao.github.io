@@ -140,3 +140,21 @@ Unpublished (`docs/` is excluded from the build). A public version in Sirui's vo
 - **Backtalk:** Measured in the browser, "When this paper helps" grows from 46 to 477 px in about 160 ms, overshoots to 481, and settles; the menu scales from 0.96 to 1.0003 and back.
 - **Reframe:** Keep springs on direct manipulation and discrete toggles; ambient motion stays on eases or stops.
 - **Concept:** A damped harmonic oscillator; overshoot is e^(−ζπ/√(1−ζ²)). Apple's spring guidance (WWDC23, "Animate with springs") describes springs by bounce and duration rather than stiffness and mass, the same two dimensions here.
+
+## 15. A palette that had quietly lost its curation
+
+- **Frame:** The ⌘K palette offered "light, dark, system" themes this site does not have, and none of its curated "Start here" routes.
+- **Dimensions:** which data the palette actually renders, what each action controls, and what every page (including the AI profile) is allowed to say.
+- **Move:** The curated data moved from `_scripts/` (which v1 no longer builds) to `_includes/search_data.liquid.js`, rendered inline, with a "Do" section whose actions call the site's own controls: the four time-of-day themes, the 3D home, the AI-readable page, duh, Build Rhythm.
+- **Backtalk:** The first push broke deploy: the palette now renders on the AI profile, and its email action used the older address the publication validator forbids. A comma inside one theme description also split it into a fifth, nonsense action. Both fixed, both tested.
+- **Reframe:** Run the production build and output validator before pushing anything that renders on every page.
+- **Concept:** _Single source of truth_: an action that clicks or calls the existing control can never disagree with it, unlike one that reimplements its effect.
+
+## 16. Soft duh, held by what holds it
+
+- **Frame:** Sirui asked for a softer, simulated duh with studio-quality motion; the existing body was an art-directed shell.
+- **Dimensions:** volume error, settling time, deformation under a held shake and a sideways push, the resting pool's width-to-height ratio, and the idle frame budget.
+- **Move:** `assets/js/companion/duh-softbody.mjs` (XPBD ring: stretch, bending, area, shape matching), previewed with `?duh=soft`; the classic body stays the default.
+- **Backtalk:** First pass: perfectly round under shaking, because a uniform pseudo-force on a free body only translates it. Attaching the body the way it is actually held (a grip arc while carried, static friction at the base on a surface, a centroid anchor only in flight) produced the jelly: about 8 px of swing under a 15,000 px/s² shake, 4.5 px of lean from a push, a 1.1 resting pool, under 0.5% volume error. A second miss: the pooled shape counted as "moving", so the page drew 60 fps at idle; activity now means velocity, not deformation.
+- **Reframe:** Sirui compares the two in a matched recording and live; the choice decides the default.
+- **Concept:** XPBD (Macklin, Müller and Chentanez, MIG 2016) makes stiffness a compliance independent of step count; shape matching (Müller et al., SIGGRAPH 2005) returns a body to its rest shape without a mesh. In animation terms, the attachment is the _pivot_ of follow-through: overlap comes from what leads and what drags.
