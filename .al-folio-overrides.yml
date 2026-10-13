@@ -125,8 +125,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _includes/figure.liquid
     upstream_sha256: d094ba62f74e50ec9a3a7aca01d41f3d499f7fb3bc3507ca8aecd946347132bb
-    local_sha256: 632034dcc56d1fd5c4e052aba7509770d6d6db163314c216d96798e3756b4552
-    acknowledged_at: "2026-10-03"
+    local_sha256: 60083b6367edbfb3fa291b9c83f28576cc141853bc6b07aa13daa5cb82ebda85
+    acknowledged_at: "2026-10-12"
   _includes/footer.liquid:
     owner: al_folio_core
     gem_version: 1.0.11
@@ -272,8 +272,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _layouts/bib.liquid
     upstream_sha256: 430311d9b94adf6fb1c2fab7609f6e726efc98e2b50e7b1c4cde0ad654c04506
-    local_sha256: e84d74ade11af5b06e5be3bd4be55565b78f413bdfdaf5eba118ce7edeb8f693
-    acknowledged_at: "2026-09-05"
+    local_sha256: d7bebfce49b1a2be842636ecf2ec7244f0b4528af5bb9d0aa7c5c23ee23a7c91
+    acknowledged_at: "2026-10-12"
   _layouts/book-review.liquid:
     owner: al_folio_core
     gem_version: 1.0.10

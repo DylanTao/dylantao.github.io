@@ -233,9 +233,11 @@ def validate(site_dir: Path) -> None:
             raise AssertionError(f"{slug} is missing ScholarlyArticle JSON-LD")
 
         if paper.get("preview"):
+            # Animated previews share a still first-frame poster on social cards.
+            social_preview = re.sub(r"\.gif$", "-poster.png", paper["preview"])
             expected_image = urljoin(
                 publications_json["canonical_profile"],
-                f"assets/img/publication_preview/{paper['preview']}",
+                f"assets/img/publication_preview/{social_preview}",
             )
             if citation_page_signals.meta.get("og:image") != [expected_image]:
                 raise AssertionError(f"{slug} Open Graph image URL is not baseurl-safe")

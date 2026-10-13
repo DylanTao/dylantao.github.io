@@ -565,11 +565,17 @@ module SiruiPublicationCatalog
           "citation_isbn" => paper["isbn"],
           "citation_pdf_url" => paper.dig("links", "pdf"),
           "doi" => paper["doi"],
-          "og_image" => paper["preview"] && "/assets/img/publication_preview/#{paper.fetch("preview")}",
+          "og_image" => paper["preview"] && "/assets/img/publication_preview/#{social_preview(paper.fetch("preview"))}",
           "sitemap" => true,
         },
       )
       site.pages << page
+    end
+
+    # Social cards need a still image under the 5 MB card limit, so animated previews
+    # share their committed first-frame poster (bin/make_gif_posters.py).
+    def social_preview(preview)
+      preview.end_with?(".gif") ? preview.sub(/\.gif\z/, "-poster.png") : preview
     end
 
     def add_raw_page(site, permalink, content, sitemap: false)
