@@ -107,6 +107,17 @@ window.addEventListener(
   { passive: true }
 );
 
+// Website revamp laptop: without the scroll-driven opening, a button swaps the screen between the
+// February archive and today (_sass/_revamp-device.scss).
+document.querySelectorAll("[data-revamp-device-toggle]").forEach((button) => {
+  const laptop = button.closest("[data-revamp-laptop]");
+  button.addEventListener("click", () => {
+    const before = laptop.classList.toggle("is-before");
+    button.setAttribute("aria-pressed", String(before));
+    button.textContent = before ? "Show today" : "Show February";
+  });
+});
+
 document.querySelectorAll("[data-compare]").forEach((figure) => {
   const range = figure.querySelector('input[type="range"]');
   const update = () => {
