@@ -107,7 +107,7 @@ ninja.data = [
     },
   },
   /* Actions click or call the site's own controls, so each state keeps one source of truth. */
-  {%- assign theme_actions = "morning|Morning light,noon|Noon light,afternoon|Afternoon light,evening|Evening, the dark theme" | split: "," -%}
+  {%- assign theme_actions = "morning|Morning light;noon|Noon light;afternoon|Afternoon light;evening|Evening, the dark theme" | split: ";" -%}
   {%- for action in theme_actions -%}
     {%- assign parts = action | split: "|" -%}
     {
