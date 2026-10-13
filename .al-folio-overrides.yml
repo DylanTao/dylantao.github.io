@@ -542,11 +542,11 @@ overrides:
     acknowledged_at: "2026-06-16"
   assets/js/theme.js:
     owner: al_folio_core
-    gem_version: 1.0.10
+    gem_version: 1.0.11
     upstream_path: assets/js/theme.js
     upstream_sha256: 404c3e26402451496cffea06946c5dd061c76c8512328bfdcbe2c3572052855e
-    local_sha256: 344d56fe59b8c232dab5289d986a33d0b5f184a993dca969909470873df8ef01
-    acknowledged_at: "2026-06-01"
+    local_sha256: "083d7052718c404a424a0f2bad821802504662619f12b3ec23bc621d808c5b66"
+    acknowledged_at: "2026-10-12"
   assets/js/tooltips-setup.js:
     owner: al_folio_core
     gem_version: 1.0.11
