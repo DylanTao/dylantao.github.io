@@ -34,6 +34,27 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 - **Sirui decision:** Pending. The soft duh A/B (matched recordings in `.jekyll-cache/visual-qa/duh-ab-2026-10-13/` and the live `?duh=soft`) decides its default; the look-lab sheet decides the home's tone curve, bloom and sheen; the glass lip is kept or removed on review.
 - **Revisit trigger:** Sirui's review of the soft duh A/B, or any page where one of these moves competes with reading.
 
+### Queued after the October studio pass
+
+- **Hypothesis:** Each idea below was scoped during the October 12–13 pass and stopped for a stated reason, so the next pass can start from evidence instead of from scratch.
+- **Route:** As listed per item.
+- **Reference:** `docs/studio-log-2026-10.md` cards 11–22 and the look-lab sheet.
+- **Licensing:** Original work only; Three.js r164 add-ons (MIT) where noted.
+- **Visitor benefit:** As listed per item.
+- **Budget:** Render-cost changes must change 0 pixels in seeded captures; look changes need Sirui's A/B pick; motion needs a still, complete reduced-motion state.
+- **Status:** `scoped`.
+- **Evidence:** Items:
+  - _Global "Pause motion"_ (WCAG 2.2.2): the footer coast, duh's idle, the Research Focus sketch and the 3D home animate on their own; the 3D home's pause sits in the lab panel only. One `data-motion` switch on `<html>`, honored wherever `prefers-reduced-motion` is already read, reachable from the theme menu and ⌘K.
+  - _Sun-arc time-of-day control:_ a four-stop arc in place of the theme menu that also moves the 3D sun. It changes global chrome, so it needs Sirui's pick between matched captures.
+  - _First-frame uploads:_ after batched program creation, the 3D home's remaining long tasks (median about 0.6 s) look like the first frame's buffer and texture uploads; measure, then pre-upload in batches.
+  - _Draw submission:_ outside, 1,577 draws take about 11 ms a frame; merge static meshes that share a material, keeping picking, cutaway and room visibility intact.
+  - _Footer coast contact shadows:_ the footer still uses the legacy full-image SSAO pass; replacing it changes pixels, so it needs a matched A/B.
+  - _Ocean:_ crest glow and sun glitter need back light, and the default outside camera faces the land with the sun mostly behind it, so they would rarely show; an FFT ocean (Tessendorf) is the real upgrade and waits for the tone-curve pick.
+  - _Hair and antialiasing:_ Kajiya–Kay hair highlights and temporal antialiasing wait for the same pick, since each is judged against the chosen tone curve.
+  - _Sidenotes:_ no post or project uses footnotes, so margin notes have nothing to show yet.
+- **Sirui decision:** Pending.
+- **Revisit trigger:** Sirui's look-lab and soft-duh picks, or a measured complaint about motion, load time or frame rate.
+
 ### October 6: Build Rhythm concept A
 
 - **Hypothesis:** Keeping accumulated history visible while one year changes below makes the long arc and its daily rhythm easier to read together.
