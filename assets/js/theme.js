@@ -5,10 +5,10 @@ const themeStorageKey = "theme";
 const themeManualStorageKey = "theme-manual";
 let themeBoundaryTimer = null;
 const themeModeMeta = {
-  morning: { label: "Morning", icon: "fa-cloud-sun", computedTheme: "light" },
-  noon: { label: "Noon", icon: "fa-sun", computedTheme: "light" },
-  afternoon: { label: "Afternoon", icon: "fa-circle-half-stroke", computedTheme: "light" },
-  evening: { label: "Evening", icon: "fa-moon", computedTheme: "dark" },
+  morning: { label: "Morning", computedTheme: "light" },
+  noon: { label: "Noon", computedTheme: "light" },
+  afternoon: { label: "Afternoon", computedTheme: "light" },
+  evening: { label: "Evening", computedTheme: "dark" },
 };
 
 // Cycle through time-of-day modes when a compact trigger is used without opening the menu.
@@ -401,7 +401,9 @@ let updateThemeToggleUI = (themeSetting = determineThemeSetting()) => {
     toggle.setAttribute("title", `Theme: ${meta.label}`);
 
     if (icon) {
-      icon.innerHTML = `<i class="fa-solid ${meta.icon}" aria-hidden="true"></i>`;
+      // The menu's options carry the time-of-day icons (_includes/theme_mode_icon.liquid).
+      const optionIcon = control.querySelector(`[data-theme-mode-option="${mode}"] .theme-mode-icon`);
+      if (optionIcon) icon.replaceChildren(optionIcon.cloneNode(true));
     }
 
     if (label) {

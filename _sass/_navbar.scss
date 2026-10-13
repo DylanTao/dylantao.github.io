@@ -358,8 +358,20 @@ html[data-theme-mode="afternoon"] .navbar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1rem;
+  width: 1.15rem;
   line-height: 1;
+}
+
+// Time-of-day icons (_includes/theme_mode_icon.liquid): outline strokes in the current text color.
+.theme-mode-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
 }
 
 .theme-menu {
@@ -400,7 +412,8 @@ html[data-theme-mode="afternoon"] .navbar {
     color var(--motion-standard),
     transform var(--motion-standard);
 
-  i {
+  i,
+  .theme-mode-icon {
     color: var(--global-theme-color);
   }
 

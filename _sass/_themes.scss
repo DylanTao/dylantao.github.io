@@ -12,8 +12,9 @@
   // Older metadata selectors use this alias; only actual code stays monospace.
   --font-mono: var(--font-ui);
   --font-code: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --motion-standard: 180ms ease;
-  --motion-slow: 420ms ease;
+  // Legacy motion shorthands alias the Material-Lite durations (_material-lite.scss).
+  --motion-standard: var(--md-lite-motion-duration-standard) ease;
+  --motion-slow: var(--md-lite-motion-duration-long) ease;
   --global-brand-orange-color: #f07a38;
   --global-brand-orange-rgb: 240, 122, 56;
   --measure-prose: 68ch;

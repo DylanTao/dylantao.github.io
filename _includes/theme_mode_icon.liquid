@@ -1,0 +1,32 @@
+{%- comment -%}
+  One icon family for the four time-of-day themes: a shared horizon with the sun rising through it
+  (morning), high overhead (noon), and lower in the west (afternoon), then a crescent moon (evening).
+  At navbar size Font Awesome's sun read as a settings cog and its half-filled circle as a contrast
+  control. Usage: {% include theme_mode_icon.liquid mode='noon' %}
+{%- endcomment -%}
+<svg
+  class="theme-mode-icon"
+  viewBox="0 0 24 24"
+  width="18"
+  height="18"
+  aria-hidden="true"
+  focusable="false"
+  data-theme-mode-icon="{{ include.mode }}"
+>
+  {%- case include.mode -%}
+    {%- when 'morning' -%}
+      <path d="M3 19.5h18M7 19.5a5 5 0 0 1 10 0"/>
+      <path d="M12 12.5v-2.2M7 14.5 5.5 13M17 14.5l1.5-1.5"/>
+    {%- when 'noon' -%}
+      <path d="M3 19.5h18"/>
+      <circle cx="12" cy="9.5" r="3.4"/>
+      <path d="M12 3.4V1.6M12 15.6v1.8M5.9 9.5H4.1M18.1 9.5h1.8M7.7 5.2 6.4 3.9M16.3 13.8l1.3 1.3M7.7 13.8l-1.3 1.3M16.3 5.2l1.3-1.3"/>
+    {%- when 'afternoon' -%}
+      <path d="M3 19.5h18"/>
+      <circle cx="15" cy="12.5" r="3.2"/>
+      <path d="M15 6.4V4.6M19.3 8.2l1.3-1.3M10.7 8.2 9.4 6.9M21.1 12.5h1.6"/>
+    {%- else -%}
+      <path d="M19.3 14.4A8 8 0 1 1 9.6 4.7a7 7 0 0 0 9.7 9.7Z"/>
+      <path d="M19 2.5v3M17.5 4h3"/>
+  {%- endcase -%}
+</svg>

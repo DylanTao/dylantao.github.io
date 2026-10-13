@@ -14,25 +14,25 @@
     data-theme-toggle
   >
     <span class="theme-toggle-icon" data-theme-icon aria-hidden="true">
-      <i class="fa-solid fa-cloud-sun"></i>
+      {%- include theme_mode_icon.liquid mode='morning' -%}
     </span>
     <span class="sr-only" data-theme-label>Morning theme</span>
   </button>
   <div class="theme-menu" id="{{ theme_control_id }}-menu" role="listbox" aria-label="Theme mode" data-theme-menu hidden>
     <button class="theme-option" type="button" role="option" data-theme-mode-option="morning" aria-selected="false">
-      <i class="fa-solid fa-cloud-sun" aria-hidden="true"></i>
+      {% include theme_mode_icon.liquid mode='morning' %}
       <span>Morning</span>
     </button>
     <button class="theme-option" type="button" role="option" data-theme-mode-option="noon" aria-selected="false">
-      <i class="fa-solid fa-sun" aria-hidden="true"></i>
+      {% include theme_mode_icon.liquid mode='noon' %}
       <span>Noon</span>
     </button>
     <button class="theme-option" type="button" role="option" data-theme-mode-option="afternoon" aria-selected="false">
-      <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
+      {% include theme_mode_icon.liquid mode='afternoon' %}
       <span>Afternoon</span>
     </button>
     <button class="theme-option" type="button" role="option" data-theme-mode-option="evening" aria-selected="false">
-      <i class="fa-solid fa-moon" aria-hidden="true"></i>
+      {% include theme_mode_icon.liquid mode='evening' %}
       <span>Evening</span>
     </button>
   </div>

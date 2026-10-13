@@ -377,8 +377,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _sass/_navbar.scss
     upstream_sha256: 6bf33c8e61fbf49cd3e6ad878f435b90a5acbd2b508587981063a33a1b681029
-    local_sha256: 533dcc660094c2440eba866e9b93074bae357e70dbd55ffdd71a8b0b814dc4aa
-    acknowledged_at: "2026-09-04"
+    local_sha256: 3b67e99631dbcfc27d372144f66a6218d550e61d0b903950858c798a1199a474
+    acknowledged_at: "2026-10-12"
   _sass/_publications.scss:
     owner: al_folio_core
     gem_version: 1.0.11
@@ -405,8 +405,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _sass/_themes.scss
     upstream_sha256: b581e43dcfbf21c14f388e2b585474c886fad62f6b5a0444f7832e7f69745f1f
-    local_sha256: 5b9f6a5523dfa1457c6db760944f57181b4e15fa593ee8bc78dc77a058158ed2
-    acknowledged_at: "2026-09-14"
+    local_sha256: df632fcb0b90c18c2a71130a7752a157ac4f4d10e0d3f70c3311d429b9ea57c4
+    acknowledged_at: "2026-10-12"
   _sass/_typograms.scss:
     owner: al_folio_core
     gem_version: 1.0.10
