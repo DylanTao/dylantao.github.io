@@ -1,0 +1,75 @@
+/*******************************************************************************
+ * HCI Spooder-Man: a Spider-Verse print for the remix gallery
+ *
+ * A new slide prints in like a comic page. Its color plates start out of
+ * register and snap together on twos (a new drawing every 1/12 s) while
+ * Ben-Day dots recede. spooder-project.js drives the plates (an SVG filter)
+ * and the dot strength; this page alone loads it. Reduced motion keeps the
+ * instant swap, and the art itself is never changed.
+ ******************************************************************************/
+
+.spooder-verse-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hci-spooder-gallery-slide {
+  // Magenta and cyan screens on offset cells, multiplied over the art.
+  &::before {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-image:
+      radial-gradient(circle, rgba(236, 0, 140, 0.9) 0 31%, transparent 33%), radial-gradient(circle, rgba(0, 174, 239, 0.85) 0 31%, transparent 33%);
+    background-position:
+      0 0,
+      3px 3px;
+    background-size: 6px 6px;
+    content: "";
+    mix-blend-mode: multiply;
+    opacity: var(--spooder-dots, 0);
+    pointer-events: none;
+  }
+
+  figcaption {
+    z-index: 2;
+  }
+
+  &.is-printing img {
+    filter: url("#spooder-verse-plates");
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  // A hard cut, like turning to the next panel, so two captions never overlap. The print-in
+  // carries the motion: the new frame settles in three held drawings, on twos.
+  .hci-spooder-gallery[data-spooder-verse] .hci-spooder-gallery-slide {
+    transition: none;
+  }
+
+  .hci-spooder-gallery-slide.is-printing img {
+    animation: spooder-verse-settle 250ms steps(3, jump-none) both;
+  }
+}
+
+@keyframes spooder-verse-settle {
+  from {
+    transform: translateX(0.8rem) scale(1.015);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  // A hovered frame slips out of register, like a misprinted panel. Two selectors on purpose: the
+  // deploy's CSS purge drops a rule whose :is() holds only pseudo-classes.
+  .hci-spooder-gallery[data-spooder-verse] [data-spooder-image-thumb]:hover img,
+  .hci-spooder-gallery[data-spooder-verse] [data-spooder-image-thumb]:focus-visible img {
+    filter: url("#spooder-verse-plates-hover");
+  }
+}

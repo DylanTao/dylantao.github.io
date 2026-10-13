@@ -57,6 +57,37 @@
     });
   });
 
+  // Spider-Verse plates: an SVG filter that splits the art into red, green and blue plates.
+  // feBlend screen recombines disjoint channels exactly, so a zero offset is the original image.
+  const createPrintPlates = (host) => {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "spooder-verse-defs");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    const plates = (id, offset) => `
+      <filter id="${id}" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+        <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="red" />
+        <feOffset in="red" dx="${-offset}" dy="${-offset * 0.35}" data-plate="red" result="redPlate" />
+        <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0" result="blue" />
+        <feOffset in="blue" dx="${offset}" dy="${offset * 0.35}" data-plate="blue" result="bluePlate" />
+        <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0" result="green" />
+        <feBlend in="redPlate" in2="green" mode="screen" result="redGreen" />
+        <feBlend in="bluePlate" in2="redGreen" mode="screen" />
+      </filter>`;
+    svg.innerHTML = plates("spooder-verse-plates", 0) + plates("spooder-verse-plates-hover", 2);
+    host.append(svg);
+    const red = svg.querySelector('#spooder-verse-plates [data-plate="red"]');
+    const blue = svg.querySelector('#spooder-verse-plates [data-plate="blue"]');
+    return {
+      shift(offset) {
+        red.setAttribute("dx", String(-offset));
+        red.setAttribute("dy", String(-offset * 0.35));
+        blue.setAttribute("dx", String(offset));
+        blue.setAttribute("dy", String(offset * 0.35));
+      },
+    };
+  };
+
   const imageCarousel = document.querySelector("[data-spooder-image-carousel]");
 
   if (imageCarousel) {
@@ -66,6 +97,43 @@
     const prevButton = imageCarousel.querySelector("[data-spooder-image-prev]");
     const nextButton = imageCarousel.querySelector("[data-spooder-image-next]");
     let activeImageIndex = 0;
+
+    // A changed slide prints in: plates out of register under Ben-Day dots, then three held drawings
+    // on twos (1/12 s each) bring them into register. Reduced motion keeps the instant swap.
+    const printPlates = createPrintPlates(imageCarousel);
+    imageCarousel.setAttribute("data-spooder-verse", "");
+    const printFrames = [
+      { offset: 9, dots: 0.85 },
+      { offset: 5, dots: 0.55 },
+      { offset: 2, dots: 0.25 },
+    ];
+    let printTimer = 0;
+    let printingSlide = null;
+    const stopPrint = () => {
+      window.clearTimeout(printTimer);
+      printingSlide?.classList.remove("is-printing");
+      printingSlide?.style.removeProperty("--spooder-dots");
+      printingSlide = null;
+      printPlates.shift(0);
+    };
+    const printIn = (slide) => {
+      stopPrint();
+      if (!slide || prefersReducedMotion()) return;
+      printingSlide = slide;
+      slide.classList.add("is-printing");
+      let frame = 0;
+      const draw = () => {
+        const step = printFrames[frame++];
+        if (!step) {
+          stopPrint();
+          return;
+        }
+        printPlates.shift(step.offset);
+        slide.style.setProperty("--spooder-dots", String(step.dots));
+        printTimer = window.setTimeout(draw, 1000 / 12);
+      };
+      draw();
+    };
 
     const scrollThumbIntoView = (thumb) => {
       const scroller = thumb?.parentElement;
@@ -81,7 +149,9 @@
     const setActiveImage = (index, options = {}) => {
       if (!slides.length) return;
 
+      const previousImageIndex = activeImageIndex;
       activeImageIndex = (index + slides.length) % slides.length;
+      if (activeImageIndex !== previousImageIndex) printIn(slides[activeImageIndex]);
 
       slides.forEach((slide, slideIndex) => {
         const active = slideIndex === activeImageIndex;
