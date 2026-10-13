@@ -445,13 +445,15 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       }
 
       const heroGeometry = await hero.evaluate((element) => {
-        const copyBox = element.querySelector(":scope > .project-case-copy").getBoundingClientRect();
+        const copy = element.querySelector(":scope > .project-case-copy");
+        const copyBox = copy.getBoundingClientRect();
         const mediaBox = element
           .querySelector(":scope > .project-case-media, :scope > .build-week-boundary-figure, :scope > .pip-studio")
           .getBoundingClientRect();
         return {
           copyBottom: copyBox.bottom,
           copyHeight: copyBox.height,
+          copyMaxWidth: Number.parseFloat(getComputedStyle(copy).maxWidth) || null,
           copyTop: copyBox.top,
           copyWidth: copyBox.width,
           mediaBottom: mediaBox.bottom,
@@ -461,18 +463,28 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
           heroWidth: element.getBoundingClientRect().width,
         };
       });
+      // The opening copy fills the shared reading column (or the hero, when that is narrower),
+      // never a half-width grid column beside empty space.
+      const readingColumn = Math.min(heroGeometry.heroWidth, heroGeometry.copyMaxWidth ?? heroGeometry.heroWidth);
       expect(heroGeometry.copyWidth).toBeGreaterThan(220);
       expect(heroGeometry.mediaWidth).toBeGreaterThan(220);
       expect(heroGeometry.mediaTop, `${route.path} media overlaps the opening reading column`).toBeGreaterThanOrEqual(heroGeometry.copyBottom - 1);
-      expect(heroGeometry.copyWidth, `${route.path} opening reserves an unused second column`).toBeGreaterThan(heroGeometry.heroWidth * 0.9);
+      expect(heroGeometry.copyWidth, `${route.path} opening reserves an unused second column`).toBeGreaterThan(readingColumn - 2);
     } else {
       const singleChildGeometry = await hero.evaluate((element) => {
-        const copyBox = element.querySelector(":scope > .project-case-copy").getBoundingClientRect();
+        const copy = element.querySelector(":scope > .project-case-copy");
+        const copyBox = copy.getBoundingClientRect();
         const heroBox = element.getBoundingClientRect();
-        return { childCount: element.children.length, copyWidth: copyBox.width, heroWidth: heroBox.width };
+        return {
+          childCount: element.children.length,
+          copyMaxWidth: Number.parseFloat(getComputedStyle(copy).maxWidth) || null,
+          copyWidth: copyBox.width,
+          heroWidth: heroBox.width,
+        };
       });
+      const readingColumn = Math.min(singleChildGeometry.heroWidth, singleChildGeometry.copyMaxWidth ?? singleChildGeometry.heroWidth);
       expect(singleChildGeometry.childCount, `${route.path} reserves an empty hero column`).toBe(1);
-      expect(singleChildGeometry.copyWidth, `${route.path} single-child hero stays squeezed`).toBeGreaterThan(singleChildGeometry.heroWidth * 0.9);
+      expect(singleChildGeometry.copyWidth, `${route.path} single-child hero stays squeezed`).toBeGreaterThan(readingColumn - 2);
     }
 
     if (route.id === "project-hci-spooder-man") {

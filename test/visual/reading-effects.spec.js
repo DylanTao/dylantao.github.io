@@ -139,19 +139,21 @@ test("reading: one type family and aligned articles; every project keeps its ori
     const result = await page.evaluate(() => {
       const post = document.querySelector(".project-detail, .blog-post");
       const h = post.querySelector("h1");
-      const article = post.querySelector("article");
+      // The title aligns with the reading column (the first body paragraph); the article
+      // itself stays wider so figures can extend symmetrically past the text.
+      const prose = post.querySelector("article > p, #markdown-content > p");
       return {
         font: getComputedStyle(h).fontFamily,
         size: parseFloat(getComputedStyle(h).fontSize),
         h: h.getBoundingClientRect().x,
-        article: article.getBoundingClientRect().x,
+        prose: prose.getBoundingClientRect().x,
         overflow: document.documentElement.scrollWidth - innerWidth,
       };
     });
     expect(result.font).toContain("Inter");
     expect(result.size).toBeGreaterThanOrEqual(34);
     expect(result.size).toBeLessThanOrEqual(44);
-    expect(Math.abs(result.h - result.article)).toBeLessThan(2);
+    expect(Math.abs(result.h - result.prose)).toBeLessThan(2);
     expect(result.overflow).toBeLessThanOrEqual(1);
   }
   await page.emulateMedia({ reducedMotion: "no-preference" });

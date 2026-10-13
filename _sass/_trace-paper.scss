@@ -182,6 +182,17 @@
     }
   }
 
+  // Text joins the shared reading column (about 68 characters); the lifecycle figure keeps its
+  // wider spread and the BibTeX block keeps the article width.
+  .trace-hero > :is(.trace-kicker, .trace-title, .trace-subtitle, .trace-actions),
+  .trace-hero-proof,
+  .trace-abstract,
+  .trace-reading-width,
+  .trace-citation > :not(.trace-bibtex) {
+    max-width: var(--measure-prose);
+    margin-inline: auto;
+  }
+
   .trace-section,
   .trace-citation {
     margin-block: 2.5rem;

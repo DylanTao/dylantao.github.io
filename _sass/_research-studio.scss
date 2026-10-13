@@ -497,9 +497,6 @@ html[data-theme="evening"] img[src*="-transparent.png"] {
     cursor: pointer;
     font-size: 0.9rem;
   }
-  .blog-reading-layout.has-toc #markdown-content > :is(p, ul, ol, h2, h3, h4, blockquote, dl) {
-    margin-left: 0;
-  }
 }
 
 @media (max-width: 991px) {

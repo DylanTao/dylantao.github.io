@@ -53,7 +53,7 @@ Sirui's September 14 refinement replaces the mixed serif/sans system with Inter 
 - **Body:** 16–17 px, weight 400, comfortable line spacing.
 - **Metadata and controls:** 14 px, weight 400 or 500.
 
-Inter regular and italic are self-hosted with the SIL OFL in `assets/fonts/inter/`. Use weights 400/500/600. Reserve monospace for actual code. Opened project and blog pages share an approximately 68-character column: title, prose, resources, and end navigation align. Wide figures extend symmetrically. Desktop contents navigation sits outside the column; smaller screens use one disclosure. Preserve index grids and expanding previews.
+Inter regular and italic are self-hosted with the SIL OFL in `assets/fonts/inter/`. Use weights 400/500/600. Reserve monospace for actual code. Opened project and blog pages share an approximately 68-character column: title, prose, resources, and end navigation align. Wide figures extend symmetrically. Count characters of running text, not `ch` units: `ch` is the width of "0" and resolves against each element's own font, so the old 68ch token measured 91–95 characters of Inter and grew wider on headings (corrected October 12 with a 33.5rem column). Desktop contents navigation sits outside the column; smaller screens use one disclosure. Preserve index grids and expanding previews.
 
 ### Human And AI Are Different Reading Surfaces
 

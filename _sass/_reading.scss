@@ -92,17 +92,29 @@ figcaption,
 
 .project-detail,
 .blog-post {
-  --reading-width: 68ch;
+  // One reading column for titles, prose, notes and the end navigation: about 68 characters of
+  // 16-17px Inter (the heuristics' line length). It is rem-based on purpose: a `ch` length
+  // resolves against each element's own font, so the same token measured wider on headings, and
+  // the previous 68ch measured "0" glyphs, which gave 91-95 characters of running text.
+  --reading-width: 33.5rem;
+  // The article keeps the previous width so figures, galleries and wide blocks extend
+  // symmetrically past the text column instead of shrinking with it.
+  --reading-wide-width: 68ch;
+  --measure-prose: var(--reading-width);
   width: 100%;
   font-size: var(--type-reading);
   line-height: 1.75;
   > .post-header,
-  > .post-content,
-  > article,
   > .blog-post-navigation,
   > .publications,
   > h2 {
     width: min(100%, var(--reading-width));
+    max-width: none;
+    margin-inline: auto;
+  }
+  > .post-content,
+  > article {
+    width: min(100%, var(--reading-wide-width));
     max-width: none;
     margin-inline: auto;
   }
@@ -129,8 +141,16 @@ figcaption,
     font-size: var(--type-subheading);
     font-weight: 600;
   }
-  article > :is(p, h2, h3, h4, ul, ol, blockquote, dl, pre, .caption, .project-author-strip),
-  #markdown-content > :is(p, h2, h3, h4, ul, ol, blockquote, dl, pre, .caption) {
+  // Prose takes the reading column, centred in the wider article.
+  article > :is(p, h2, h3, h4, ul, ol, blockquote, dl, .project-author-strip),
+  #markdown-content > :is(p, h2, h3, h4, ul, ol, blockquote, dl) {
+    max-width: var(--measure-prose);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  // Code and figure captions keep the article width, like the figures they sit beside.
+  article > :is(pre, .caption),
+  #markdown-content > :is(pre, .caption) {
     max-width: none;
     margin-left: 0;
     margin-right: 0;
@@ -147,11 +167,17 @@ figcaption,
     border: 0;
     background: none;
   }
-  .project-case-copy,
   .project-case-lede,
   .project-case-actions,
   .project-case-facts {
     max-width: none;
+  }
+  // Hero copy and the DesignWeaver scroll steps share the reading column, so a case page's
+  // title, lede and prose start at the same edge while its media stays wide.
+  .project-case-copy,
+  .case-scroll-steps {
+    max-width: var(--reading-width);
+    margin-inline: auto;
   }
   .project-case-copy {
     padding: 0;
@@ -181,7 +207,8 @@ figcaption,
     position: relative;
   }
   .blog-opening {
-    max-width: none;
+    max-width: var(--measure-prose);
+    margin-inline: auto;
     font-size: var(--type-reading);
   }
   .blog-contents-rail {
@@ -231,7 +258,8 @@ html.cinematic-live .case-scroll-hero:not(.is-static) .case-step {
 @media (min-width: 1200px) {
   .blog-post .blog-contents-rail {
     position: absolute;
-    right: calc(100% + 2.5rem);
+    // Sit 2.5rem left of the centred reading column rather than of the wider article.
+    right: calc((100% + var(--measure-prose)) / 2 + 2.5rem);
     top: 0;
     width: 11.5rem;
     height: 100%;
