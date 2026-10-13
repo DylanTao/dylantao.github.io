@@ -14,6 +14,10 @@ The intent is a warmer, simpler silhouette and a few legible interactions. The s
 
 The six gesture states are REST, PLAY, HELD, AIRBORNE, TIDY and RETREAT. Expression, shape, pause and reduced-motion preference are separate. There is no queued animation backlog. A new deliberate drag interrupts motion immediately; cancellation never becomes a throw.
 
+## Soft duh preview
+
+`?duh=soft` (kept for the session; `?duh=classic` returns) swaps the inertial shell for `duh-softbody.mjs`: a 32-particle ring solved with XPBD in 1/240-second substeps, with stretch, bending, polygon-area and shape-matching constraints. The current form is the rest shape, so morphs overshoot and settle physically. What holds the body decides how it deforms: a grip arc on top while held (the rest hangs and swings), static friction at a pooled base on a surface (accelerations shear the top), and a soft centroid anchor in flight. Accelerations are bounded at 20,000 px/s² and every particle stays inside the 96-pixel canvas. The face trails the body's centroid on a faster spring, fast moves leave two faint smear copies, and a rim band, key highlight and core shadow keyed to the four themes give the charcoal an inflated look without per-pixel normals. Reduced motion and pause compose the pooled pose at once; a body at rest reports inactive, so the one-hertz idle schedule holds. `test/duh-softbody.test.mjs` covers volume bounds, settling, contact, determinism, morph overshoot and the still pose. The classic shell remains the default until Sirui chooses between them.
+
 ## Interaction contract
 
 - A released click pets duh. Three close clicks produce one happy squish. Clicks never contribute to retreat.

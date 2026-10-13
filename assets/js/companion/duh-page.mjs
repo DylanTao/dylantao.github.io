@@ -20,7 +20,17 @@ function start() {
     canvas = el.querySelector("canvas"),
     shadow = el.querySelector(".duh-shadow"),
     status = el.querySelector(".duh-status");
-  const portrait = createDuhPortrait(canvas);
+  // A/B preview of the soft body (duh-softbody.mjs): ?duh=soft turns it on for the session and
+  // ?duh=classic turns it off. The classic inertial shell stays the default until it is chosen.
+  let variant = "classic";
+  try {
+    const requested = new URLSearchParams(location.search).get("duh");
+    if (requested === "soft" || requested === "classic") sessionStorage.setItem("duh-variant", requested);
+    variant = sessionStorage.getItem("duh-variant") === "soft" ? "soft" : "classic";
+  } catch {
+    /* Without storage the classic body stays. */
+  }
+  const portrait = createDuhPortrait(canvas, { soft: variant === "soft" });
   el.dataset.fallback = String(!portrait);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const fine = matchMedia("(pointer:fine)");
@@ -575,6 +585,7 @@ function start() {
       tilt: still() ? 0 : tilt,
       effort: still() ? 0 : effort,
       contactAngle: s.contactAngle,
+      time: s.time,
     });
     const footprint = portrait?.contact() || { bottom: 28, halfWidth: 28 };
     shadow.style.top = 47 + (elevation > 0.5 ? 28 : footprint.bottom) - 4 + "px";
@@ -965,6 +976,7 @@ function start() {
   syncP();
   el.getDuhEvidence = () => ({
     ...model.evidence(),
+    variant,
     form: portrait?.form() || "dot",
     paused,
     reduced: reduced.matches,
