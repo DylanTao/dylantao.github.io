@@ -6,6 +6,7 @@ description: An ongoing self-study list for learning research reading, project s
 tags: research writing phd methods qualitative statistics modeling mentorship
 categories: guides
 related_posts: false
+math: true
 blog_nav_pool: personal
 blog_nav_track: research
 blog_nav_stage: 2

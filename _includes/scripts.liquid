@@ -42,8 +42,16 @@
 {% endif %}
 
 {% if site.plugins contains 'al_math' %}
-  <!-- Math and Tikzjax -->
-  {% include plugins/al_math_scripts.liquid %}
+  {% comment %}
+    MathJax is about 250 KB compressed and over 1 MB of script to parse, so it loads only on pages
+    that declare `math: true` (for $...$ or \(...\)), `pseudocode`, or `tikzjax` in front matter;
+    test/test_math_pages.py flags a page that uses TeX without declaring it. al_math 1.0.1 gates
+    only on site.enable_math, so per-page gating is an upstream follow-up for al_math.
+  {% endcomment %}
+  {% if page.math or page.pseudocode or page.tikzjax %}
+    <!-- Math and Tikzjax -->
+    {% include plugins/al_math_scripts.liquid %}
+  {% endif %}
 {% endif %}
 
 {% if page.typograms %}
