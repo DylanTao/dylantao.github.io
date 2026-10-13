@@ -375,7 +375,8 @@ for (const graphics of ["delayed", "unavailable"]) {
     await page.clock.runFor(100);
     expect((await record.evaluate((e) => e.getRecordEvidence())).mechanics.angle).toBeGreaterThan(hidden.mechanics.angle);
     await page.emulateMedia({ reducedMotion: "reduce" });
-    expect((await record.evaluate((e) => e.getRecordEvidence())).running).toBe(false);
+    // The media-query change event reaches the page as a separate task after emulation returns.
+    await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(false);
     await page.locator("[data-home-record-next]").click();
     expect((await record.evaluate((e) => e.getRecordEvidence())).cuePending).toBe(false);
     expect(errors).toEqual([]);
