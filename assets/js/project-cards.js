@@ -250,4 +250,40 @@
 
     setActiveCard(null, { restoreFocus: true });
   });
+
+  // Phones show the site experiments as one scroll-snapped row (_sass/_components.scss). The count
+  // follows the card most in view, and the row takes focus so arrow keys can scroll it.
+  const experimentRow = document.querySelector("[data-site-experiment-grid]");
+  const experimentPosition = document.querySelector("[data-site-experiment-position]");
+  if (experimentRow && experimentPosition && "IntersectionObserver" in window) {
+    const rowCards = Array.from(experimentRow.querySelectorAll(":scope > [data-project-card]"));
+    const phoneQuery = window.matchMedia("(max-width: 767px)");
+    const ratios = new Map();
+    const rowObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => ratios.set(entry.target, entry.intersectionRatio));
+        let best = rowCards[0];
+        rowCards.forEach((card) => {
+          if ((ratios.get(card) || 0) > (ratios.get(best) || 0)) best = card;
+        });
+        experimentPosition.textContent = String(rowCards.indexOf(best) + 1);
+      },
+      { root: experimentRow, threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+    const syncRow = () => {
+      rowObserver.disconnect();
+      ratios.clear();
+      if (phoneQuery.matches) {
+        experimentRow.tabIndex = 0;
+        experimentRow.setAttribute("role", "region");
+        rowCards.forEach((card) => rowObserver.observe(card));
+      } else {
+        experimentRow.removeAttribute("tabindex");
+        experimentRow.removeAttribute("role");
+        experimentPosition.textContent = "1";
+      }
+    };
+    phoneQuery.addEventListener("change", syncRow);
+    syncRow();
+  }
 })();

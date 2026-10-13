@@ -38,7 +38,8 @@ cinematic: true
         I keep these site experiments on record so newer models can re-review the last best pass—and I keep only changes that survive screenshots, accessibility checks, and my own judgment.
       </p>
     </div>
-    <div class="project-card-grid" data-project-card-grid data-site-experiment-grid>
+    <p class="site-experiment-count" aria-hidden="true"><span data-site-experiment-position>1</span> / {{ site_experiments.size }}</p>
+    <div class="project-card-grid" data-project-card-grid data-site-experiment-grid aria-label="Site experiments, newest first">
       {% for project in site_experiments %}
         {% include projects.liquid heading_level=4 %}
       {% endfor %}

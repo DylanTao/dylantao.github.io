@@ -313,3 +313,52 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+
+// Phones: twelve site experiments stacked into a very long column. One scroll-snapped row keeps the
+// newest card first, lets the next one peek, and counts position; expanding a card widens it to
+// the full row so its story is never squeezed. The desktop grid is unchanged.
+.site-experiment-count {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .projects .site-experiment-count {
+    display: block;
+    margin: -0.35rem 0 0.6rem;
+    color: var(--global-text-color-light);
+    font-size: var(--type-meta);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+
+  .projects .site-experiment-index [data-site-experiment-grid] {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-inline: calc(-1 * 0.9375rem);
+    padding: 0.2rem 0.9375rem 0.9rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: 0.9375rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 2px;
+    }
+
+    > .project-card {
+      flex: 0 0 84%;
+      scroll-snap-align: start;
+    }
+
+    > .project-card.is-expanded {
+      flex-basis: 100%;
+    }
+  }
+}
