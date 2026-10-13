@@ -188,6 +188,13 @@ const ALL_SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "design-lab",
+    path: "/design-lab/",
+    readySelector: "#work .design-work-row",
+    contentSelector: ".design-lab",
+    fullPage: true,
+  },
+  {
     id: "secret-locked",
     path: "/blog/2026/sirui-research-thoughts/",
     readySelector: "#sirui-private-message",

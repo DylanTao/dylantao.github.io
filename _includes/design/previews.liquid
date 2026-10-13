@@ -1,5 +1,9 @@
 {% assign home = site.pages | where: 'permalink', '/' | first %}
-{% assign origin_photo = home.thesis.origin.photo %}
+{% comment %}
+  The homepage no longer shows selected work or the conversation photograph (Sirui, 2026-10-03),
+  so the notebook keeps both in its own front matter instead of reading them from the homepage.
+{% endcomment %}
+{% assign origin_photo = page.origin_photo %}
 {% assign notebook_root_url = '/' | relative_url %}
 {% assign notebook_news_href = 'href="' | append: notebook_root_url %}
 <link rel="stylesheet" href="{{ '/assets/css/design-lab.css' | relative_url }}">
@@ -29,7 +33,7 @@
         </div>
         <a class="home-text-link" href="{{ '/projects/' | relative_url }}">All projects</a>
       </div>
-      {% for work in home.featured_work %}
+      {% for work in page.featured_work %}
         <article class="design-work-row">
           <div class="design-work-copy">
             <p class="home-work-meta">
