@@ -281,7 +281,11 @@ exclude:
   - AGENTS.md
   - al-folio-upgrade-report.md
   - assets/img/rhino.png
-  - assets/js/home-scene/*.md
+  # CONTACT-LIGHTING.md stays published: the contact-lighting lab page links to it.
+  - assets/js/home-scene/ONSEN-WATER.md
+  - assets/js/home-scene/PHYSICS.md
+  - assets/js/home-scene/SKIN-DIFFUSION.md
+  - assets/js/home-scene/THERMAL-STEAM.md
   - assets/plotly/demo.html
   - assets/video/pexels-engin-akyurt-6069112-960x540-30fps.mp4
   - bin/
