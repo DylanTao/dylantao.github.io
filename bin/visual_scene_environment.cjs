@@ -86,8 +86,10 @@ async function startSceneEnvironment(folder) {
           floatColorBuffer: Boolean(gl.getExtension("EXT_color_buffer_float")),
         };
       }),
+      // The first Mesa context starts the GPU process and compiles its shaders cold; on a busy
+      // 2-core runner that has taken longer than ten seconds without anything being wrong.
       new Promise((_, reject) => {
-        backendTimer = setTimeout(() => reject(new Error("Scene WebGL qualification exceeded ten seconds")), 10000);
+        backendTimer = setTimeout(() => reject(new Error("Scene WebGL qualification exceeded thirty seconds")), 30000);
       }),
     ]).finally(() => clearTimeout(backendTimer));
     assertSceneBackend(backend);
