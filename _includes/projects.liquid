@@ -92,7 +92,7 @@
 {% capture project_random_teaser_paths %}
   {% if project_card_data.teasers %}
     {% for teaser in project_card_data.teasers %}
-      {{ teaser | relative_url }}{% unless forloop.last %}|{% endunless %}
+      {% include responsive_variant.liquid path=teaser width=800 %}{% unless forloop.last %}|{% endunless %}
     {% endfor %}
   {% endif %}
 {% endcapture %}

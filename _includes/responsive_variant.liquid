@@ -1,0 +1,28 @@
+{%- comment -%}
+  Prints the URL of one WebP variant that jekyll-imagemagick generates for a raster under assets/img/
+  (see `imagemagick:` in _config.yml), using the same naming rule as figure.liquid. Falls back to the
+  original URL for WebP/SVG inputs, for GIFs (their generated variants are empty files), when
+  imagemagick is off, or when the requested width is not one of imagemagick.widths.
+  Usage: {% include responsive_variant.liquid path=asset.path width=800 %}
+{%- endcomment -%}
+{%- assign rv_path = include.path | default: '' -%}
+{%- assign rv_url = rv_path -%}
+{%- if site.imagemagick.enabled and rv_path contains 'assets/img/' -%}
+  {%- assign rv_width = include.width | append: '' -%}
+  {%- assign rv_widths = site.imagemagick.widths | join: ',' | split: ',' -%}
+  {%- assign rv_ext = rv_path | split: '.' | last | downcase -%}
+  {%- if rv_widths contains rv_width -%}
+    {%- if rv_ext == 'png' or rv_ext == 'jpg' or rv_ext == 'jpeg' or rv_ext == 'tiff' -%}
+      {%- assign rv_url = rv_path
+        | remove: '.jpg'
+        | remove: '.jpeg'
+        | remove: '.png'
+        | remove: '.tiff'
+        | append: '-'
+        | append: rv_width
+        | append: '.webp'
+      -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+{{- rv_url | relative_url -}}

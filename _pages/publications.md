@@ -21,7 +21,7 @@ design_story_class: publications-page
 {% assign spooder_teaser_separator = '' %}
 {% capture spooder_teaser_paths %}
 {% for teaser in spooder.teasers limit: 7 %}
-{{ spooder_teaser_separator }}{{ teaser | relative_url }}{% assign spooder_teaser_separator = '|' %}
+{{ spooder_teaser_separator }}{% include responsive_variant.liquid path=teaser width=800 %}{% assign spooder_teaser_separator = '|' %}
 {% endfor %}
 {% endcapture %}
 
@@ -81,7 +81,7 @@ design_story_class: publications-page
 
 <section class="publication-spooder-cta" aria-label="Join the HCI Spooder-Verse">
   <figure data-random-teaser data-random-teasers="{{ spooder_teaser_paths | strip }}">
-    <img src="{{ spooder.hero.teaser | relative_url }}" alt="HCI Spooder-Man remix teaser" loading="lazy">
+    <img src="{% include responsive_variant.liquid path=spooder.hero.teaser width=800 %}" alt="HCI Spooder-Man remix teaser" loading="lazy" decoding="async">
   </figure>
   <div>
     <p class="publication-spooder-cta-kicker">Spooder-Verse</p>

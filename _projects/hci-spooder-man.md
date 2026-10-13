@@ -21,7 +21,7 @@ spooder_project: true
 {% assign spooder = site.data.spooder_man %}
 {% capture spooder_teaser_paths %}
 {% for teaser in spooder.teasers %}
-{{ teaser | relative_url }}{% unless forloop.last %}|{% endunless %}
+{% include responsive_variant.liquid path=teaser width=1400 %}{% unless forloop.last %}|{% endunless %}
 {% endfor %}
 {% endcapture %}
 
@@ -112,7 +112,12 @@ spooder_project: true
           {% assign title_frame = true %}
         {% endif %}
         <figure class="hci-spooder-gallery-slide{% if title_frame %} hci-spooder-gallery-slide-contain{% endif %}{% if forloop.first %} is-active{% endif %}" data-spooder-image-slide aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
-          <img src="{{ asset.path | relative_url }}" alt="{{ asset.label }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          <img
+            src="{% include responsive_variant.liquid path=asset.path width=1400 %}"
+            alt="{{ asset.label }}"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            decoding="async"
+          >
           <figcaption>
             <strong>{{ asset.label }}</strong>
             {{ asset.caption }}
@@ -128,7 +133,7 @@ spooder_project: true
   <div class="hci-spooder-gallery-thumbs" aria-label="Select visual asset">
     {% for asset in spooder.assets limit: 9 %}
       <button type="button" data-spooder-image-thumb aria-label="Show {{ asset.label }}">
-        <img src="{{ asset.path | relative_url }}" alt="" loading="lazy">
+        <img src="{% include responsive_variant.liquid path=asset.path width=480 %}" alt="" loading="lazy" decoding="async">
         <span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
       </button>
     {% endfor %}
