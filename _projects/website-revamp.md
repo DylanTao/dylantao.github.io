@@ -149,7 +149,7 @@ The redesign did not arrive as one reveal. These are the three turns that change
     <div>
       <p class="project-case-kicker">3 · The experiments started telling their own stories</p>
       <h3>I stopped hiding the design thinking behind a history icon.</h3>
-      <p>The live site now uses a quiet thread glint to point from an interaction back to its origin. If someone follows it, the project page explains the question, change, evidence, and limit—not merely the commits.</p>
+      <p>The projects index now leads from each experiment back to its origin. If someone follows it, the project page explains the question, change, evidence, and limit—not merely the commits.</p>
       <nav data-website-child-experiments aria-label="Website experiments with their own stories">
         <a href="{{ '/projects/homepage-desk-scene/' | relative_url }}">Desk</a>,
         <a href="{{ '/projects/build-rhythm/' | relative_url }}">Build Rhythm</a>,
