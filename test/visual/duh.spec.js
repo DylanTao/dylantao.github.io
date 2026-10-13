@@ -76,8 +76,20 @@ test("duh: default companion preserves content, real links, selection and late r
   expect(href).toBeTruthy();
   await link.focus();
   await expect(link).toBeFocused();
-  await page.waitForTimeout(100);
-  const originallyVisible = (await evidence(page)).visible;
+  // Late layout (the reading-progress bar, image decode, the footer) rescans the page. Measure the
+  // resting spot only once the scan count holds still, so the probe below starts from a settled perch.
+  await expect
+    .poll(
+      async () => {
+        const before = (await evidence(page)).layoutScans;
+        await page.waitForTimeout(400);
+        return (await evidence(page)).layoutScans === before;
+      },
+      { timeout: 15000 }
+    )
+    .toBe(true);
+  const resting = await evidence(page);
+  const originallyVisible = resting.visible;
   await page.evaluate(() => {
     const p = document.createElement("figure");
     p.dataset.duhProbe = "";
@@ -87,7 +99,41 @@ test("duh: default companion preserves content, real links, selection and late r
   });
   await expect.poll(() => evidence(page).then((e) => e.visible)).toBe(false);
   await page.locator("[data-duh-probe]").evaluate((e) => e.remove());
-  await expect.poll(() => evidence(page).then((e) => e.visible)).toBe(originallyVisible);
+  try {
+    await expect.poll(() => evidence(page).then((e) => e.visible)).toBe(originallyVisible);
+  } catch (error) {
+    // Report where duh rested and what surrounds it, so a CI-only miss can be diagnosed.
+    const after = await evidence(page);
+    const pick = (e) => ({
+      x: Math.round(e.x),
+      y: Math.round(e.y),
+      state: e.state,
+      visible: e.visible,
+      navigating: e.navigating,
+      layoutScans: e.layoutScans,
+      bounds: e.bounds,
+    });
+    const nearby = await page.evaluate(
+      ({ x, y }) =>
+        Array.from(document.querySelectorAll("#main *, header, nav, footer a, footer button"))
+          .map((node) => ({ node, rect: node.getBoundingClientRect() }))
+          .filter(
+            ({ rect }) =>
+              rect.width && rect.height && Math.abs(rect.left + rect.width / 2 - x) < 160 && Math.abs(rect.top + rect.height / 2 - y) < 120
+          )
+          .slice(0, 8)
+          .map(
+            ({ node, rect }) =>
+              `${node.tagName.toLowerCase()}.${String(node.className).split(" ")[0]} ${Math.round(rect.left)},${Math.round(rect.top)} ${Math.round(rect.width)}x${Math.round(rect.height)}`
+          ),
+      { x: after.x, y: after.y }
+    );
+    error.message += `
+duh before probe: ${JSON.stringify(pick(resting))}
+duh after probe: ${JSON.stringify(pick(after))}
+nearby: ${JSON.stringify(nearby)}`;
+    throw error;
+  }
   expect(errors).toEqual([]);
 });
 
