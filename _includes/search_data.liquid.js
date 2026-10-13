@@ -269,14 +269,15 @@ ninja.data = [
       },
     {%- endif -%}
   {%- endfor -%}
-  {%- if site.data.socials.email -%}
+  {%- comment -%} The preferred contact, never the older address in socials.yml. {%- endcomment -%}
+  {%- if site.profile_contact_email -%}
     {
       id: "contact-email",
       title: "Email Sirui",
       description: "Email contact Sirui Tao.",
       section: "Contact",
       handler: () => {
-        window.location.href = "mailto:{{ site.data.socials.email }}";
+        window.location.href = "mailto:{{ site.profile_contact_email }}";
       },
     },
   {%- endif -%}

@@ -35,6 +35,13 @@ class CommandPaletteTests(unittest.TestCase):
             with self.subTest(action=action):
                 self.assertIn(f'id: "{action}"', source)
 
+    def test_palette_offers_only_the_preferred_contact(self) -> None:
+        source = PALETTE_DATA.read_text(encoding="utf-8")
+        # The palette renders on every page, including the AI profile, whose output validator
+        # requires the preferred address and forbids the older one in socials.yml.
+        self.assertIn("site.profile_contact_email", source)
+        self.assertNotIn("site.data.socials.email", source)
+
 
 if __name__ == "__main__":
     unittest.main()
