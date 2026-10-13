@@ -901,6 +901,7 @@
     const recordDurations = splitAttribute("data-record-durations", "|");
     const recordTones = splitAttribute("data-record-tones", "|");
     const recordCovers = splitAttribute("data-record-covers", "|");
+    const recordOriginals = splitAttribute("data-record-originals", "|");
     const recordSources = splitAttribute("data-record-sources", "|");
     const spinButton = document.querySelector("[data-home-record-play]");
     const previousButton = document.querySelector("[data-home-record-prev]");
@@ -927,6 +928,7 @@
 
     const records = recordImages.map((src, index) => ({
       src,
+      original: recordOriginals[index] || src,
       cover: recordCovers[index] || src,
       title: recordTitles[index] || "Meme record",
       artist: recordArtists[index] || "",
@@ -935,8 +937,18 @@
       source: recordSources[index] || "",
     }));
     const deskScene = createDeskCornerSceneController(deskSceneElement, records, artifactCards);
+    // Records use an 800px WebP variant; a build without ImageMagick falls back to the original art.
     const preloadedRecords = records.map((record) => {
       const image = new Image();
+      image.addEventListener(
+        "error",
+        () => {
+          if (record.src === record.original) return;
+          record.src = record.original;
+          image.src = record.original;
+        },
+        { once: true }
+      );
       image.src = record.src;
       return image;
     });

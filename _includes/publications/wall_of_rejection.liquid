@@ -345,7 +345,14 @@
       <button class="rejection-meme-viewer-close" type="button" data-rejection-meme-close aria-label="Close image viewer">
         <i class="fa-solid fa-xmark" aria-hidden="true"></i>
       </button>
-      <img src="{{ local_meme_credit.url | relative_url }}" alt="{{ local_meme_credit.label }}">
+      {% comment %} The viewer starts hidden, so the 2.2 MB original waits until it opens. {% endcomment %}
+      <img
+        src="{% include responsive_variant.liquid path=local_meme_credit.url width=1400 %}"
+        alt="{{ local_meme_credit.label }}"
+        loading="lazy"
+        decoding="async"
+        onerror="this.onerror=null; this.src='{{ local_meme_credit.url | relative_url }}';"
+      >
       <figcaption id="rejection-meme-viewer-title">{{ local_meme_credit.label }}</figcaption>
     </figure>
   </div>

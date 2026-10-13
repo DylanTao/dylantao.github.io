@@ -117,6 +117,7 @@ spooder_project: true
             alt="{{ asset.label }}"
             loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
             decoding="async"
+            onerror="this.onerror=null; this.src='{{ asset.path | relative_url }}';"
           >
           <figcaption>
             <strong>{{ asset.label }}</strong>
@@ -133,7 +134,13 @@ spooder_project: true
   <div class="hci-spooder-gallery-thumbs" aria-label="Select visual asset">
     {% for asset in spooder.assets limit: 9 %}
       <button type="button" data-spooder-image-thumb aria-label="Show {{ asset.label }}">
-        <img src="{% include responsive_variant.liquid path=asset.path width=480 %}" alt="" loading="lazy" decoding="async">
+        <img
+          src="{% include responsive_variant.liquid path=asset.path width=480 %}"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          onerror="this.onerror=null; this.src='{{ asset.path | relative_url }}';"
+        >
         <span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
       </button>
     {% endfor %}

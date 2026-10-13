@@ -81,7 +81,14 @@ design_story_class: publications-page
 
 <section class="publication-spooder-cta" aria-label="Join the HCI Spooder-Verse">
   <figure data-random-teaser data-random-teasers="{{ spooder_teaser_paths | strip }}">
-    <img src="{% include responsive_variant.liquid path=spooder.hero.teaser width=800 %}" alt="HCI Spooder-Man remix teaser" loading="lazy" decoding="async">
+    <img
+      src="{% include responsive_variant.liquid path=spooder.hero.teaser width=800 %}"
+      data-original-src="{{ spooder.hero.teaser | relative_url }}"
+      alt="HCI Spooder-Man remix teaser"
+      loading="lazy"
+      decoding="async"
+      onerror="this.onerror=null; this.src=this.dataset.originalSrc;"
+    >
   </figure>
   <div>
     <p class="publication-spooder-cta-kicker">Spooder-Verse</p>

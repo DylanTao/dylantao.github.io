@@ -5,7 +5,6 @@ description: "A small VRChat world where one person drives, one rides along, and
 img: assets/img/project_pics/not-a-good-driver/not-a-good-driver-teaser.png
 image_aspect: 3 / 2
 card_image_fit: contain
-card_avoid_scaling: true
 importance: 0
 category: fun
 year: 2024
