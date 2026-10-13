@@ -71,30 +71,48 @@ async function startSceneEnvironment(folder) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
     const { chromium } = require("@playwright/test");
-    browser = await chromium.launch({ headless: true, channel: "chromium", args: mesaArgs, env, timeout: 30000 });
-    const page = await browser.newPage();
-    let backendTimer;
-    const backend = await Promise.race([
-      page.evaluate(() => {
-        const gl = document.createElement("canvas").getContext("webgl2");
-        if (!gl) return { webgl2: false };
-        const debug = gl.getExtension("WEBGL_debug_renderer_info");
-        return {
-          webgl2: true,
-          renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
-          maxSamples: gl.getParameter(gl.MAX_SAMPLES),
-          floatColorBuffer: Boolean(gl.getExtension("EXT_color_buffer_float")),
-        };
-      }),
-      // The first Mesa context starts the GPU process and compiles its shaders cold; on a busy
-      // 2-core runner that has taken longer than ten seconds without anything being wrong.
-      new Promise((_, reject) => {
-        backendTimer = setTimeout(() => reject(new Error("Scene WebGL qualification exceeded thirty seconds")), 30000);
-      }),
-    ]).finally(() => clearTimeout(backendTimer));
+    // The first Mesa context starts the GPU process and compiles its shaders cold; on a busy 2-core
+    // runner that has taken longer than ten seconds without anything being wrong. Past thirty
+    // seconds the GPU process has hung rather than slowed (one job in 41 on 2026-10-13), and
+    // waiting does not recover it, so a fresh browser gets one more chance before the group fails.
+    let backend,
+      attempts = 0;
+    for (;;) {
+      attempts++;
+      browser = await chromium.launch({ headless: true, channel: "chromium", args: mesaArgs, env, timeout: 30000 });
+      const page = await browser.newPage();
+      let backendTimer;
+      try {
+        backend = await Promise.race([
+          page.evaluate(() => {
+            const gl = document.createElement("canvas").getContext("webgl2");
+            if (!gl) return { webgl2: false };
+            const debug = gl.getExtension("WEBGL_debug_renderer_info");
+            return {
+              webgl2: true,
+              renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+              maxSamples: gl.getParameter(gl.MAX_SAMPLES),
+              floatColorBuffer: Boolean(gl.getExtension("EXT_color_buffer_float")),
+            };
+          }),
+          new Promise((_, reject) => {
+            backendTimer = setTimeout(() => reject(new Error("Scene WebGL qualification exceeded thirty seconds")), 30000);
+          }),
+        ]);
+        break;
+      } catch (error) {
+        if (attempts >= 2 || !/exceeded thirty seconds/.test(error.message)) throw error;
+        const hung = browser;
+        browser = undefined;
+        await Promise.race([hung.close().catch(() => {}), new Promise((resolve) => setTimeout(resolve, 5000))]);
+      } finally {
+        clearTimeout(backendTimer);
+      }
+    }
     assertSceneBackend(backend);
     const qualification = {
       ...backend,
+      attempts,
       browserVersion: browser.version(),
       headless: true,
       channel: "chromium",
