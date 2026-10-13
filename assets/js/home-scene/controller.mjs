@@ -1699,7 +1699,9 @@ export function createCoastalHome(container, records, artifacts) {
       if (!response.ok) throw new Error("Scene manifest unavailable");
       config = await response.json();
       if (disposed) return;
-      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "low-power" });
+      // The composer multisamples its own target and finishes with one full-screen triangle, so a
+      // multisampled canvas would only add a resolve without changing a pixel.
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: "low-power" });
       renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;

@@ -91,7 +91,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   // Use the same viewport breakpoint as <picture> and CSS. A classic scrollbar
   // can make the canvas narrower than the viewport near this boundary.
   const narrowViewport = matchMedia("(max-width: 599px)");
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "low-power" });
+  // The finish multisamples its own target and ends with one full-screen triangle (realism.mjs),
+  // so the canvas itself does not need multisampling.
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "low-power" });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.setClearColor(0, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
