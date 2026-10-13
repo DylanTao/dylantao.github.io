@@ -1,6 +1,9 @@
----
-permalink: /assets/js/search-data.js
----
+{%- comment -%}
+  The command palette's data (ninja-keys), rendered inline by _includes/scripts.liquid. The site curates
+  it instead of using al_search's generic template: "Start here" routes, "Do" actions that call the
+  site's own controls, writing, projects, and contact. It moved here from _scripts/, which v1 no longer
+  builds, so the curated palette had silently fallen back to the plugin's defaults.
+{%- endcomment -%}
 const ninja = document.querySelector('ninja-keys');
 
 ninja.data = [
@@ -101,6 +104,83 @@ ninja.data = [
     section: "Start here",
     handler: () => {
       window.location.href = "{{ '/news/' | relative_url }}";
+    },
+  },
+  /* Actions click or call the site's own controls, so each state keeps one source of truth. */
+  {%- assign theme_actions = "morning|Morning light,noon|Noon light,afternoon|Afternoon light,evening|Evening, the dark theme" | split: "," -%}
+  {%- for action in theme_actions -%}
+    {%- assign parts = action | split: "|" -%}
+    {
+      id: "do-theme-{{ parts[0] }}",
+      title: "Theme: {{ parts[0] }}",
+      description: "Switch the time-of-day theme. {{ parts[1] }}.",
+      section: "Do",
+      keywords: "theme time of day color {{ parts[0] }}",
+      handler: () => {
+        if (typeof setThemeSetting === "function") setThemeSetting("{{ parts[0] }}");
+      },
+    },
+  {%- endfor %}
+  {
+    id: "do-desk-3d",
+    title: "Open the 3D home",
+    description: "Walk around Sirui's coastal home in 3D.",
+    section: "Do",
+    keywords: "3d scene house desk la jolla",
+    handler: () => {
+      const button = document.querySelector('[data-home-desk-mode="3d"]');
+      if (button) {
+        button.scrollIntoView({ block: "center" });
+        button.click();
+        return;
+      }
+      try {
+        sessionStorage.setItem("sirui-scene-mode", "3d");
+      } catch {
+        /* Without storage the homepage opens in 2D. */
+      }
+      window.location.href = "{{ '/#start' | relative_url }}";
+    },
+  },
+  {
+    id: "do-ai-format",
+    title: "Read this page as AI-readable text",
+    description: "Open the plain, machine-readable counterpart of this page.",
+    section: "Do",
+    keywords: "ai format markdown machine readable llm",
+    handler: () => {
+      const link = document.querySelector('[data-site-format="ai"]');
+      window.location.href = link ? link.href : "{{ '/ai/' | relative_url }}";
+    },
+  },
+  {
+    id: "do-duh-recall",
+    title: "Call duh over",
+    description: "Bring the page companion back beside you.",
+    section: "Do",
+    keywords: "companion duh recall",
+    handler: () => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "D", code: "KeyD", altKey: true, shiftKey: true, bubbles: true }));
+    },
+  },
+  {
+    id: "do-duh-sleep",
+    title: "Let duh sleep, or wake it",
+    description: "Pause or resume the page companion.",
+    section: "Do",
+    keywords: "companion duh pause sleep motion",
+    handler: () => {
+      document.querySelector(".duh-hit")?.dispatchEvent(new KeyboardEvent("keydown", { key: "p", bubbles: true }));
+    },
+  },
+  {
+    id: "do-build-rhythm",
+    title: "Open Build Rhythm",
+    description: "Sirui's code activity across the years, by day and by week.",
+    section: "Do",
+    keywords: "github commits activity code history",
+    handler: () => {
+      window.location.href = "{{ '/github-activity/' | relative_url }}";
     },
   },
   {

@@ -208,12 +208,6 @@
 
 {% if site.search_enabled %}
   <!-- Search -->
-  {% if site.plugins contains 'al_search' %}
-    {% capture al_search_assets_output %}
-      {% include plugins/al_search_assets.liquid %}
-    {% endcapture %}
-    {% assign al_search_data_script = al_search_assets_output | split: '<script>' | last | split: '</script>' | first | strip %}
-  {% endif %}
   <script type="module" src="{{ '/assets/js/search/ninja-keys.min.js' | relative_url | bust_file_cache }}"></script>
   <ninja-keys hideBreadcrumbs noAutoLoadMdIcons placeholder="Search projects, posts, CV, contact">
     <div slot="footer" class="search-modal-footer">
@@ -222,12 +216,10 @@
     </div>
   </ninja-keys>
   <script src="{{ '/assets/js/search-setup.js' | relative_url | bust_file_cache }}"></script>
-  {% if al_search_data_script %}
-    <!-- prettier-ignore -->
-    <script>
-{{ al_search_data_script }}
-    </script>
-  {% endif %}
+  <!-- prettier-ignore -->
+  <script>
+{% include search_data.liquid.js %}
+  </script>
   <script src="{{ '/assets/js/shortcut-key.js' | relative_url | bust_file_cache }}"></script>
 {% endif %}
 
