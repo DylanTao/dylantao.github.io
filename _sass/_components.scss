@@ -1011,11 +1011,12 @@ html.site-motion-ready .hoverable.site-visible:hover {
       display: inline-flex;
     }
 
-    span + span::before {
+    // The separator trails its item so a wrapped line ends with "/" instead of starting with one.
+    span:not(:last-child)::after {
       color: var(--global-text-color-light);
       content: "/";
       font-weight: 400;
-      margin-right: 0.55rem;
+      margin-left: 0.55rem;
     }
   }
 

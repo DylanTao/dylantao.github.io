@@ -32,6 +32,20 @@ layout: default
 
   <article>
     {{ content }}
+
+    {% comment %}
+      Cited references belong to the article: they share its reading column and come before the
+      end-of-page project navigation.
+    {% endcomment %}
+    {% if page.related_publications %}
+      {% capture cited_publications %}{% bibliography --group_by none --cited_in_order %}{% endcapture %}
+      {% if cited_publications contains 'publication-lens-entry' %}
+        <h2>References</h2>
+        <div class="publications">
+          {{ cited_publications }}
+        </div>
+      {% endif %}
+    {% endif %}
   </article>
 
   {% if page.collection == 'projects' %}
@@ -91,16 +105,6 @@ layout: default
         {% endif %}
       </div>
     </nav>
-  {% endif %}
-
-  {% if page.related_publications %}
-    {% capture cited_publications %}{% bibliography --cited_in_order %}{% endcapture %}
-    {% if cited_publications contains 'publication-lens-entry' %}
-      <h2>References</h2>
-      <div class="publications">
-        {{ cited_publications }}
-      </div>
-    {% endif %}
   {% endif %}
 
   {% if site.giscus and page.giscus_comments %}
