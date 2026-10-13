@@ -53,6 +53,18 @@
     {% assign og_image_url = og_image_source | absolute_url %}
   {% endif %}
 {% endif %}
+{% comment %}
+  The alt text describes the image actually used: a page's own image keeps its title (or an
+  explicit og_image_alt); the site-wide fallback portrait always gets the site's portrait alt.
+{% endcomment %}
+{% if page_og_image_source %}
+  {% assign og_image_alt = page.og_image_alt | default: page.title %}
+{% else %}
+  {% assign og_image_alt = site.og_image_alt %}
+{% endif %}
+{% if og_image_alt == null or og_image_alt == '' or og_image_alt == 'blank' %}
+  {% assign og_image_alt = site_name %}
+{% endif %}
 {% if page_og_image_source %}
   {% assign og_image_width = page.og_image_width %}
   {% assign og_image_height = page.og_image_height %}
@@ -151,10 +163,7 @@
     {% if og_image_height %}
       <meta property="og:image:height" content="{{ og_image_height }}">
     {% endif %}
-    <meta
-      property="og:image:alt"
-      content="{% if page.title and page.title != 'blank' %}{{ page.title | escape }}{% else %}{{ site_name | escape }}{% endif %}"
-    >
+    <meta property="og:image:alt" content="{{ og_image_alt | escape }}">
   {% endif %}
   <meta property="og:locale" content="{{ site.lang }}">
   <meta property="og:locale:alternate" content="en_US">
@@ -165,10 +174,7 @@
   <meta name="twitter:description" content="{{ page_description | escape }}">
   {% if og_image_url %}
     <meta name="twitter:image" content="{{ og_image_url }}">
-    <meta
-      name="twitter:image:alt"
-      content="{% if page.title and page.title != 'blank' %}{{ page.title | escape }}{% else %}{{ site_name | escape }}{% endif %}"
-    >
+    <meta name="twitter:image:alt" content="{{ og_image_alt | escape }}">
   {% endif %}
   {% assign x_username = site.x_username | default: site.data.socials.x_username %}
   {% if x_username %}

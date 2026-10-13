@@ -43,7 +43,6 @@ seo:
 
   # Social media
   enable_social_meta: true
-  default_og_image: "/assets/img/og-default.jpg"
 
   # Analytics
   enable_structured_data: true
@@ -128,6 +127,7 @@ serve_schema_org: true # Include Schema.org in the HTML head
 og_image: /assets/img/sirui_pic.jpg # The site-wide (default for all links) Open Graph preview image
 og_image_width: 2242
 og_image_height: 2146
+og_image_alt: Portrait of Sirui Tao # alt text for the site-wide og_image; pages with their own image use og_image_alt or their title
 person_image: /assets/img/sirui_pic.jpg
 person_job_title: HCI Researcher and Cognitive Science Ph.D. Student
 profile_works_for:
@@ -278,8 +278,14 @@ kramdown:
 include: ["_pages"]
 exclude:
   - artwork/
+  - AGENTS.md
   - al-folio-upgrade-report.md
+  - assets/img/rhino.png
+  - assets/js/home-scene/*.md
+  - assets/plotly/demo.html
+  - assets/video/pexels-engin-akyurt-6069112-960x540-30fps.mp4
   - bin/
+  - CLAUDE.md
   - CONTRIBUTING.md
   - CUSTOMIZE.md
   - Dockerfile
@@ -299,6 +305,7 @@ exclude:
   - purgecss.config.js
   - README.md
   - readme_preview/
+  - requirements*.txt
   - test/
   - test-results/
   - gems/

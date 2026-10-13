@@ -7,7 +7,7 @@ tags: pottery cool-things art
 categories: reflections
 featured: false
 thumbnail: assets/img/pottery/psyduck-cup.png
-thumbnail_alt: Ellen's beautiful piglet artwork that inspired my pottery journey
+thumbnail_alt: Design rendering of a yellow Psyduck coffee mug with a lid, beside a cutaway of its inner liner
 blog_nav_pool: personal
 blog_nav_track: creative
 blog_nav_stage: 2
