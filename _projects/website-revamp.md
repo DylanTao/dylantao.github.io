@@ -102,7 +102,7 @@ research_motion:
 <section
   class="revamp-device"
   data-revamp-device
-  aria-labelledby="revamp-device-title"
+  aria-label="The homepage in February and today"
   data-device-before-artifact="old-home-wayback.png"
   data-device-before-capture-date="2026-02-09T01:34:29Z"
   data-device-after-artifact="home-2026-10-12-1440-noon.png"
@@ -113,7 +113,6 @@ research_motion:
   data-device-after-state="first viewport, reduced motion"
   data-device-after-browser="Chromium 145.0.7632.6"
 >
-  <h2 id="revamp-device-title" class="sr-only">The homepage in February and today</h2>
   <div class="revamp-device-stage">
     <p class="revamp-device-hint" aria-hidden="true">Scroll to open the February site</p>
     <figure class="revamp-laptop" data-revamp-laptop>
