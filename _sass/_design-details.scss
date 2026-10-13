@@ -305,3 +305,11 @@
 .preview-animation-link:focus-visible {
   color: var(--global-theme-color);
 }
+
+// The collapsible BibTeX panel hides its overflow for the open/close transition, which clipped long
+// fields (titles, author lists, URLs). Wrap them instead so every character stays readable.
+.publications .bibtex pre {
+  text-align: left;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

@@ -268,8 +268,17 @@
     <div class="periodical">
       {{ periodical | strip }}
     </div>
+    {% comment %}
+      The bibliography keeps acceptance status apart from the venue (note = {Highlight}); on the page a
+      lone "Highlight" reads as a stray word, so name the venue and year it belongs to.
+    {% endcomment %}
+    {% assign entry_note = entry.note | strip %}
+    {% assign acceptance_statuses = 'Highlight,Oral,Spotlight' | split: ',' %}
+    {% if entry.abbr and acceptance_statuses contains entry_note %}
+      {% capture entry_note %}{{ entry.abbr }} {{ entry.year }} {{ entry_note }}{% endcapture %}
+    {% endif %}
     <div class="periodical">
-      {{ entry.note | strip }}
+      {{ entry_note }}
     </div>
 
     {% if publication_context_entry %}
