@@ -2,9 +2,11 @@ import { createCalendarBlocks } from "./build-rhythm-calendar.mjs";
 
 const DAY_MS = 86_400_000;
 const stamp = (date) => Date.parse(`${date}T00:00:00Z`);
+// The smallest round axis maximum at or above value. The 3, 4, 6, and 8 steps keep a 27.7k total
+// on a 30k axis instead of leaving almost half the plot empty under a 50k one.
 export const niceMaximum = (value) => {
   const power = 10 ** Math.floor(Math.log10(Math.max(1, value)));
-  return [1, 2, 2.5, 5, 10].find((step) => step * power >= value) * power;
+  return [1, 2, 2.5, 3, 4, 5, 6, 8, 10].find((step) => step * power >= value) * power;
 };
 
 export function historyGeometry(range, width, height) {
