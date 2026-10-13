@@ -205,14 +205,14 @@ export function createCoastalHome(container, records, artifacts) {
   // view and another 6 s when the remaining rooms streamed in (docs/evidence/coastal-startup-2026-10-04).
   let programProbe = null,
     programQueue = Promise.resolve();
-  function compilePrograms() {
+  function compilePrograms(onProgress) {
     programQueue = programQueue
       .then(async () => {
         if (!renderer || disposed) return;
         // The beauty pass draws into a linear, untoned half-float target; programs are keyed by
         // that output state, so they are prepared while an equivalent target is bound.
         programProbe ||= own(new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType }));
-        await prepareFramePrograms(renderer, scene, camera, { target: programProbe, ...finish?.programWarmup });
+        await prepareFramePrograms(renderer, scene, camera, { target: programProbe, ...finish?.programWarmup, onProgress });
       })
       .catch(() => {});
     return programQueue;
@@ -225,7 +225,44 @@ export function createCoastalHome(container, records, artifacts) {
     ui.querySelector("[data-world-view]").disabled = stage !== "ready";
   }
 
-  async function loadModel(url) {
+  // An honest loading bar: one segment per piece of first-view work, each filled only by what has
+  // happened (a model's streamed bytes, then its parse; the view's programs as the driver finishes
+  // them), so it never runs ahead of the work and never moves backward.
+  const progressBar = ui.querySelector("[data-world-progress]");
+  const progressFill = { house: 0, coast: 0, room: 0, sirui: 0, view: 0 };
+  function progress(step, fill) {
+    if (!progressBar || !(step in progressFill) || !(fill > progressFill[step])) return;
+    progressFill[step] = Math.min(1, fill);
+    progressBar.querySelector(`[data-progress-step="${step}"]`)?.style.setProperty("--fill", progressFill[step].toFixed(3));
+    const steps = Object.values(progressFill);
+    progressBar.setAttribute("aria-valuenow", String(Math.round((100 * steps.reduce((sum, value) => sum + value, 0)) / steps.length)));
+  }
+
+  // GitHub Pages gzips models, so Content-Length counts compressed bytes while the stream yields
+  // decompressed ones; the fraction is held short of complete until the last byte arrives.
+  async function readWithProgress(response, report) {
+    const length = Number(response.headers.get("content-length")) || 0;
+    if (!response.body || !length) return response.arrayBuffer();
+    const reader = response.body.getReader(),
+      chunks = [];
+    let received = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      received += value.byteLength;
+      report(Math.min(0.97, received / length));
+    }
+    const bytes = new Uint8Array(received);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    return bytes.buffer;
+  }
+
+  async function loadModel(url, step = null) {
     const abort = new AbortController();
     const timing = { asset: new URL(url).pathname.split("/").pop(), startMilliseconds: performance.now() - startupStart };
     modelTimings.push(timing);
@@ -234,11 +271,14 @@ export function createCoastalHome(container, records, artifacts) {
       const response = await fetch(url, { signal: abort.signal });
       if (!response.ok) throw new Error(`Model unavailable: ${response.status}`);
       timing.headersMilliseconds = performance.now() - startupStart;
-      const bytes = await response.arrayBuffer();
+      // Downloading is most of a model's share of the bar; parsing (Draco decoding) is the rest.
+      const bytes = step ? await readWithProgress(response, (fraction) => progress(step, 0.85 * fraction)) : await response.arrayBuffer();
       timing.bytes = bytes.byteLength;
       timing.downloadedMilliseconds = performance.now() - startupStart;
+      if (step) progress(step, 0.85);
       const model = await loader.parseAsync(bytes, new URL(".", url).href);
       timing.parsedMilliseconds = performance.now() - startupStart;
+      if (step) progress(step, 1);
       return model;
     } finally {
       modelRequests.delete(abort);
@@ -442,12 +482,12 @@ export function createCoastalHome(container, records, artifacts) {
     return root;
   }
 
-  async function loadRoom(id) {
+  async function loadRoom(id, step = null) {
     if (rooms.has(id)) return rooms.get(id);
     if (pendingRooms.has(id)) return pendingRooms.get(id);
     const entry = config.rooms.find((r) => r.id === id);
     if (!entry) return null;
-    const pending = loadModel(new URL(entry.file, manifestUrl).href)
+    const pending = loadModel(new URL(entry.file, manifestUrl).href, step)
       .then(async (gltf) => {
         if (disposed) {
           release(gltf.scene);
@@ -518,13 +558,13 @@ export function createCoastalHome(container, records, artifacts) {
     root.removeFromParent();
   }
 
-  async function setAvatar(id) {
+  async function setAvatar(id, step = null) {
     if (!config) return;
     const entry = config.avatars.find((a) => a.id === id) || config.avatars[0];
     const ticket = ++avatarTicket;
     ui.setAttribute("aria-busy", "true");
     try {
-      const gltf = await loadModel(new URL(entry.file, manifestUrl).href);
+      const gltf = await loadModel(new URL(entry.file, manifestUrl).href, step);
       if (disposed || ticket !== avatarTicket) {
         release(gltf.scene);
         return;
@@ -1674,6 +1714,7 @@ export function createCoastalHome(container, records, artifacts) {
       firstFrameMilliseconds = performance.now() - startupStart;
       container.dataset.sceneState = "ready";
       container.removeAttribute("aria-busy");
+      if (progressBar) progressBar.hidden = true;
       loadingStage("ready", routine.label);
       // Stream detail only after the occupied room/avatar have actually drawn.
       backgroundTimer = setTimeout(() => {
@@ -1696,6 +1737,7 @@ export function createCoastalHome(container, records, artifacts) {
     compositionReady = false;
     container.dataset.sceneState = "failed";
     container.dataset.loadingStage = "failed";
+    if (progressBar) progressBar.hidden = true;
     container.removeAttribute("aria-busy");
     status.textContent = message;
     container.dispatchEvent(new CustomEvent("home-scene-unavailable", { bubbles: true }));
@@ -1747,7 +1789,7 @@ export function createCoastalHome(container, records, artifacts) {
       });
       art.setContactLighting(finish.contactLighting);
       container.append(renderer.domElement);
-      const shell = await loadModel(new URL(config.shell, manifestUrl).href);
+      const shell = await loadModel(new URL(config.shell, manifestUrl).href, "house");
       if (disposed) {
         release(shell.scene);
         return;
@@ -1755,7 +1797,7 @@ export function createCoastalHome(container, records, artifacts) {
       world.add(prepareModel(shell.scene));
       loadingStage("coast", "Opening the coast.");
       pacific = createPacific(scene, renderer, config);
-      const coast = await loadModel(new URL(config.coast, manifestUrl).href);
+      const coast = await loadModel(new URL(config.coast, manifestUrl).href, "coast");
       if (disposed) {
         release(coast.scene);
         return;
@@ -1827,13 +1869,16 @@ export function createCoastalHome(container, records, artifacts) {
       cleanup.push(() => viewportObserver.disconnect());
       updateRoutine();
       loadingStage("room", "Bringing the room into view.");
-      await Promise.all([loadRoom(routine.room), setAvatar(avatarId)]);
+      await Promise.all([loadRoom(routine.room, "room"), setAvatar(avatarId, "sirui")]);
       if (disposed) return;
+      progress("room", 1);
+      progress("sirui", 1);
       loadingStage("first-frame", "Preparing the view.");
       setStyle();
       resize();
-      await compilePrograms();
+      await compilePrograms((fraction) => progress("view", fraction));
       if (disposed) return;
+      progress("view", 1);
       compositionReady = true;
       clockTimer = window.setInterval(() => {
         if (visible && !document.hidden) updateRoutine();
@@ -1879,7 +1924,12 @@ export function createCoastalHome(container, records, artifacts) {
     roomCount: rooms.size,
     actorCount: actor ? 1 : 0,
     frames,
-    loading: { stages: startupStages.map((stage) => ({ ...stage })), firstFrameMilliseconds, models: modelTimings.map((timing) => ({ ...timing })) },
+    loading: {
+      stages: startupStages.map((stage) => ({ ...stage })),
+      firstFrameMilliseconds,
+      models: modelTimings.map((timing) => ({ ...timing })),
+      progress: { ...progressFill },
+    },
     frameTiming: {
       samples: frameTimings.length,
       scope: "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",

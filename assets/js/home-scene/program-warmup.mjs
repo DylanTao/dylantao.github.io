@@ -148,6 +148,36 @@ function compileTransmissionBackfaces(renderer, scene, camera) {
   return materials;
 }
 
+// Creating a program is synchronous JavaScript (assembling and preprocessing its source): for this
+// scene's first view, 0.1-1.6 s in a single task, which froze scrolling and the loading bar. Batches
+// of a few materials with a task boundary between them keep the page responsive. Each batch is an
+// ordinary compile of the whole scene with the other meshes' materials set aside, so the lights,
+// fog and environment, and therefore every program key, are those compile(scene) would use.
+async function compileSceneInBatches(renderer, scene, camera, target, materials, onBatch, size = 6) {
+  const holders = [],
+    pending = new Set();
+  scene.traverse((object) => {
+    if (!object.material) return;
+    holders.push([object, object.material]);
+    for (const material of [object.material].flat()) if (material) pending.add(material);
+  });
+  const all = [...pending];
+  for (let start = 0; start < all.length; start += size) {
+    const batch = new Set(all.slice(start, start + size));
+    withTarget(renderer, target, () => {
+      try {
+        for (const [object, material] of holders)
+          object.material = Array.isArray(material) ? material.filter((entry) => batch.has(entry)) : batch.has(material) ? material : null;
+        for (const material of renderer.compile(scene, camera)) materials.add(material);
+      } finally {
+        for (const [object, material] of holders) object.material = material;
+      }
+    });
+    onBatch?.(Math.min(all.length, start + size), all.length);
+    await new Promise((resolve) => later(resolve, 0));
+  }
+}
+
 // Full-screen passes draw a position/uv triangle with no lights (Pass.js FullScreenQuad).
 const fullscreenGeometry = new THREE.BufferGeometry();
 fullscreenGeometry.setAttribute("position", new THREE.Float32BufferAttribute([-1, 3, 0, -1, -1, 0, 3, -1, 0], 3));
@@ -172,7 +202,9 @@ const later = (callback, delay) =>
 // A finished program still needs a main-thread link resolution on first use (about 0.1 s each for
 // this scene's largest programs on ANGLE/D3D11). Resolve each one in its own task as soon as the
 // driver reports it complete, so the first frame does not pay for all of them at once.
-function waitForPrograms(programs, timeout) {
+function waitForPrograms(programs, timeout, onProgress) {
+  const total = programs.size;
+  onProgress?.(0, total);
   return new Promise((resolve) => {
     let waited = 0;
     const poll = () => {
@@ -181,6 +213,7 @@ function waitForPrograms(programs, timeout) {
         programs.delete(ready);
         ready.getUniforms();
         ready.getAttributes();
+        onProgress?.(total - programs.size, total);
       } else waited += 16;
       if (!programs.size || waited > timeout) resolve(programs.size === 0);
       else later(poll, ready ? 0 : 16);
@@ -194,6 +227,8 @@ function waitForPrograms(programs, timeout) {
  * `target` matches the beauty pass's render target; `overrides` are scene-wide override materials
  * with the meshes they draw; `passes` are full-screen materials with the target each draws into and
  * an optional `prepare(renderer)` that sets the defines the pass would set on its first draw.
+ * `onProgress(fraction)` reports the work done for the loading bar: submitting the scene's batches
+ * is the first 40%, programs the driver has finished the rest.
  * Resolves to true when every program is ready, false after `timeout` (a lost context never
  * reports completion; the first draw then falls back to the blocking path) or at once when the
  * driver cannot compile in parallel or is a software rasterizer.
@@ -206,11 +241,11 @@ function softwareRenderer(renderer) {
   return /swiftshader|llvmpipe|softpipe|software/i.test(String(renderer.getContext().getParameter(info.UNMASKED_RENDERER_WEBGL)));
 }
 
-export async function prepareFramePrograms(renderer, scene, camera, { target, overrides = [], passes = [], timeout = 12000 } = {}) {
+export async function prepareFramePrograms(renderer, scene, camera, { target, overrides = [], passes = [], timeout = 12000, onProgress } = {}) {
   if (!renderer.extensions.has("KHR_parallel_shader_compile") || softwareRenderer(renderer)) return false;
   const materials = new Set();
+  await compileSceneInBatches(renderer, scene, camera, target, materials, (done, total) => onProgress?.((0.4 * done) / total));
   withTarget(renderer, target, () => {
-    for (const material of renderer.compile(scene, camera)) materials.add(material);
     for (const { material, accept } of overrides) {
       compileAsOverride(renderer, scene, camera, material, accept);
       materials.add(material);
@@ -223,5 +258,5 @@ export async function prepareFramePrograms(renderer, scene, camera, { target, ov
     withTarget(renderer, toScreen ? null : target, () => renderer.compile(new THREE.Mesh(fullscreenGeometry, material), fullscreenCamera));
     materials.add(material);
   }
-  return waitForPrograms(programsOf(renderer, materials), timeout);
+  return waitForPrograms(programsOf(renderer, materials), timeout, (ready, total) => onProgress?.(0.4 + 0.6 * (total ? ready / total : 1)));
 }
