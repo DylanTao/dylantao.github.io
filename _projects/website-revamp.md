@@ -16,6 +16,7 @@ role: Designer, writer, reviewer
 status: Living portfolio
 hide_title: true
 design_story_class: sirui-editorial-story website-revamp-story
+cinematic: true
 heuristics_preview: false
 ai_context:
   question: How can an academic portfolio reveal the research question, design judgment, and evidence behind the work without making visitors read a development log?
@@ -95,6 +96,62 @@ research_motion:
       <a href="{{ '/WEBSITE_DESIGN_HEURISTICS.md' | relative_url }}" download>Download the heuristics</a>
       <a href="https://web.archive.org/web/20260209013429/https://dylantao.github.io/" target="_blank" rel="noopener noreferrer">Open the old site</a>
     </div>
+  </div>
+</section>
+
+<section
+  class="revamp-device"
+  data-revamp-device
+  aria-labelledby="revamp-device-title"
+  data-device-before-artifact="old-home-wayback.png"
+  data-device-before-capture-date="2026-02-09T01:34:29Z"
+  data-device-after-artifact="home-2026-10-12-1440-noon.png"
+  data-device-after-capture-date="2026-10-12"
+  data-device-after-source-commit="6b9e8701c0b9844c3fc8d85e7fef0db1f397c119"
+  data-device-after-source-viewport="1440x1000"
+  data-device-after-theme="noon"
+  data-device-after-state="first viewport, reduced motion"
+  data-device-after-browser="Chromium 145.0.7632.6"
+>
+  <h2 id="revamp-device-title" class="sr-only">The homepage in February and today</h2>
+  <div class="revamp-device-stage">
+    <p class="revamp-device-hint" aria-hidden="true">Scroll to open the February site</p>
+    <figure class="revamp-laptop" data-revamp-laptop>
+      <div class="revamp-laptop-lid">
+        <div class="revamp-laptop-screen">
+          <img
+            class="revamp-laptop-before"
+            src="{% include responsive_variant.liquid path='/assets/img/website-revamp/old-home-wayback.png' width=1400 %}"
+            alt="The homepage on February 9, 2026: a long text-first introduction with lists of research areas, a portrait, and a postal address"
+            width="1440"
+            height="1000"
+            loading="lazy"
+            decoding="async"
+            onerror="this.onerror=null; this.src='{{ '/assets/img/website-revamp/old-home-wayback.png' | relative_url }}';"
+          >
+          <img
+            class="revamp-laptop-after"
+            src="{% include responsive_variant.liquid path='/assets/img/website-revamp/home-2026-10-12-1440-noon.png' width=1400 %}"
+            alt="The homepage on October 12, 2026: a research claim, a short explanation, three actions, and a portrait with a 2D and 3D switch"
+            width="1440"
+            height="1000"
+            loading="lazy"
+            decoding="async"
+            onerror="this.onerror=null; this.src='{{ '/assets/img/website-revamp/home-2026-10-12-1440-noon.png' | relative_url }}';"
+          >
+          <span class="revamp-laptop-seam" aria-hidden="true"></span>
+        </div>
+      </div>
+      <div class="revamp-laptop-base" aria-hidden="true"></div>
+      <figcaption>
+        <span class="revamp-device-labels">
+          <span class="revamp-device-label revamp-device-label-before">February 9, 2026 · archived by Wayback</span>
+          <span class="revamp-device-label revamp-device-label-after">October 12, 2026 · this site today</span>
+        </span>
+        <span>The same homepage at 1440 × 1000.</span>
+        <button class="revamp-device-toggle" type="button" data-revamp-device-toggle aria-pressed="false">Show February</button>
+      </figcaption>
+    </figure>
   </div>
 </section>
 

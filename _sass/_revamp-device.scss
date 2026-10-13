@@ -1,0 +1,294 @@
+// Website revamp opening: a laptop opens on the February homepage, then its screen wipes to today's.
+// The motion is a CSS scroll-driven animation (animation-timeline), so it runs on the compositor and
+// needs no script. It plays only when the cinematic layer is live (not under reduced motion or
+// automation, assets/js/cinematic.js) and the browser supports scroll timelines. Everywhere else the
+// laptop stands open on today's page and a button swaps the screen to February.
+
+.revamp-device {
+  margin: 1.25rem 0 3.25rem;
+}
+
+.revamp-device-stage {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+}
+
+.revamp-laptop {
+  // The base is 12% wider than the lid, so the lid leaves room for it inside the column.
+  width: min(89%, 50rem);
+  margin: 0;
+  perspective: 1700px;
+  perspective-origin: 50% -45%;
+}
+
+.revamp-laptop-lid {
+  position: relative;
+  padding: 2.1% 2.1% 2.8%;
+  border-radius: 1.05rem 1.05rem 0.35rem 0.35rem;
+  background: linear-gradient(180deg, #2c3236, #1b1f22);
+  box-shadow: 0 2.2rem 3.6rem -2.4rem rgba(var(--global-shadow-rgb), 0.55);
+  transform-origin: 50% 100%;
+  transform-style: preserve-3d;
+
+  // The lid's back, seen while it is nearly closed.
+  &::before {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(circle at 50% 46%, var(--global-brand-orange-color) 0 0.55rem, transparent 0.6rem), linear-gradient(180deg, #d9dde0, #b4bbc0);
+    backface-visibility: hidden;
+    content: "";
+    transform: rotateY(180deg) translateZ(1px);
+  }
+}
+
+.revamp-laptop-screen {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1440 / 1000;
+  border-radius: 0.3rem;
+  background: #fff;
+  backface-visibility: hidden;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.revamp-laptop-after {
+  clip-path: inset(0);
+}
+
+.revamp-laptop.is-before .revamp-laptop-after {
+  clip-path: inset(0 100% 0 0);
+}
+
+.revamp-laptop-seam {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    width: 2px;
+    background: var(--global-brand-orange-color);
+    box-shadow: 0 0 0.9rem rgba(var(--global-brand-orange-rgb), 0.65);
+    content: "";
+  }
+}
+
+.revamp-laptop-base {
+  position: relative;
+  width: 112%;
+  height: clamp(0.75rem, 2.1vw, 1.2rem);
+  margin-left: -6%;
+  border-radius: 0 0 1.3rem 1.3rem;
+  background: linear-gradient(180deg, #e2e5e7, #a9b0b5);
+  box-shadow: 0 1.4rem 2.2rem -1.6rem rgba(var(--global-shadow-rgb), 0.6);
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 15%;
+    height: 40%;
+    border-radius: 0 0 0.55rem 0.55rem;
+    background: rgba(0, 0, 0, 0.13);
+    content: "";
+    transform: translateX(-50%);
+  }
+}
+
+.revamp-device figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 0.9rem;
+  margin-top: 1.1rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  text-align: center;
+}
+
+.revamp-device-hint {
+  display: none;
+  margin: 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  letter-spacing: 0.04em;
+}
+
+.revamp-device-labels {
+  display: inline-grid;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+}
+
+.revamp-device-label {
+  font-weight: 600;
+}
+
+.revamp-device-label-before,
+.revamp-laptop.is-before .revamp-device-label-after {
+  display: none;
+}
+
+.revamp-laptop.is-before .revamp-device-label-before {
+  display: inline;
+}
+
+.revamp-device-toggle {
+  min-height: 2.75rem;
+  padding: 0.35rem 0.95rem;
+  border: 1px solid var(--global-divider-color);
+  border-radius: var(--md-lite-radius-pill);
+  background: var(--global-card-bg-color);
+  color: var(--global-text-color);
+  font-size: var(--type-meta);
+  font-weight: 600;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--global-theme-color);
+    color: var(--global-theme-color);
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+@keyframes revamp-lid-open {
+  from {
+    transform: rotateX(-78deg) scale(0.94);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+@keyframes revamp-screen-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes revamp-seam-travel {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  4%,
+  92% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes revamp-label-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes revamp-label-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  // The section supplies the scroll distance; its stage stays in view while the lid opens over the
+  // first stretch and the screen wipes over the second.
+  html.cinematic-live .revamp-device {
+    height: 230vh;
+    view-timeline-name: --revamp-device;
+  }
+
+  html.cinematic-live .revamp-device-stage {
+    position: sticky;
+    top: max(4.5rem, calc(50vh - 21rem));
+  }
+
+  html.cinematic-live .revamp-laptop-lid {
+    animation: revamp-lid-open linear both;
+    animation-timeline: --revamp-device;
+    animation-range: contain 0% contain 42%;
+  }
+
+  html.cinematic-live .revamp-laptop-after {
+    animation: revamp-screen-wipe linear both;
+    animation-timeline: --revamp-device;
+    animation-range: contain 52% contain 90%;
+  }
+
+  html.cinematic-live .revamp-laptop-seam {
+    animation: revamp-seam-travel linear both;
+    animation-timeline: --revamp-device;
+    animation-range: contain 52% contain 90%;
+  }
+
+  html.cinematic-live .revamp-device-label-before {
+    display: inline;
+    animation: revamp-label-out linear both;
+    animation-timeline: --revamp-device;
+    animation-range: contain 52% contain 66%;
+  }
+
+  html.cinematic-live .revamp-device-label-after {
+    animation: revamp-label-in linear both;
+    animation-timeline: --revamp-device;
+    animation-range: contain 76% contain 90%;
+  }
+
+  html.cinematic-live .revamp-device-toggle {
+    display: none;
+  }
+
+  html.cinematic-live .revamp-device-hint {
+    display: block;
+    animation: revamp-label-out linear both;
+    animation-timeline: --revamp-device;
+    animation-range: contain 0% contain 14%;
+  }
+}
+
+@media (max-width: 767px) {
+  .revamp-device {
+    margin-bottom: 2.5rem;
+  }
+
+  @supports (animation-timeline: view()) {
+    html.cinematic-live .revamp-device {
+      height: 190vh;
+    }
+
+    html.cinematic-live .revamp-device-stage {
+      top: max(4rem, calc(50vh - 12rem));
+    }
+  }
+}
