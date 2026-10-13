@@ -3,6 +3,7 @@ import fs from "node:fs";
 import test from "node:test";
 import { createCommitHistory, createCommitRange, createCalendarBlocks } from "../assets/js/build-rhythm-calendar.mjs";
 import {
+  niceMaximum,
   historyGeometry,
   calendarGeometry,
   weeklyGeometry,
@@ -169,4 +170,17 @@ test("date-keyed detail retargeting retains the partially painted positions and 
   close(followingDate.x, old.x);
   assert.equal(followingDate.day.commits, rawCount("2026-09-28"));
   assert.deepEqual(interpolateGeometry(partial, daily, 1), daily);
+});
+
+test("axis maxima stay round without leaving most of the plot empty", () => {
+  assert.equal(niceMaximum(27_675), 30_000);
+  assert.equal(niceMaximum(30_000), 30_000);
+  assert.equal(niceMaximum(31_000), 40_000);
+  assert.equal(niceMaximum(2_400), 2_500);
+  assert.equal(niceMaximum(7), 8);
+  assert.equal(niceMaximum(0), 1);
+  for (const value of [1, 9, 11, 99, 101, 4_321, 27_675, 123_456]) {
+    const maximum = niceMaximum(value);
+    assert.ok(maximum >= value && maximum < value * 2, `${value} -> ${maximum}`);
+  }
 });
