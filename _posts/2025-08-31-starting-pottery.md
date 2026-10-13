@@ -28,7 +28,7 @@ Last year at the Craft Center Fair, I saw Ellen's booth and fell in love with he
 
 <div class="spotlight-group">
 <a class="spotlight" href="{{ '/assets/img/pottery/ellens_piglet.jpg' | relative_url }}">
-  <img src="{{ '/assets/img/pottery/ellens_piglet.jpg' | relative_url }}" alt="Ellen's beautiful piglet artwork that inspired my pottery journey" style="max-width: 100%; height: auto; object-fit: contain;"/>
+  <img src="{% include responsive_variant.liquid path='assets/img/pottery/ellens_piglet.jpg' width=1400 %}" alt="Ellen's beautiful piglet artwork that inspired my pottery journey" decoding="async" onerror="this.onerror=null; this.src='{{ '/assets/img/pottery/ellens_piglet.jpg' | relative_url }}';" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 
@@ -44,7 +44,7 @@ A fun and quirky coffee cup featuring everyone's favorite confused Pokémon, Psy
 
 <div class="spotlight-group">
 <a class="spotlight" href="{{ '/assets/img/pottery/psyduck-cup.png' | relative_url }}">
-  <img src="{{ '/assets/img/pottery/psyduck-cup.png' | relative_url }}" alt="Psyduck Coffee Cup" style="max-width: 100%; height: auto; object-fit: contain;"/>
+  <img src="{% include responsive_variant.liquid path='assets/img/pottery/psyduck-cup.png' width=1400 %}" alt="Psyduck Coffee Cup" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ '/assets/img/pottery/psyduck-cup.png' | relative_url }}';" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 
@@ -54,7 +54,7 @@ A charming honey pot inspired by the beloved bear, complete with a bear-head lid
 
 <div class="spotlight-group">
 <a class="spotlight" href="{{ '/assets/img/pottery/pooh-pot.png' | relative_url }}">
-  <img src="{{ '/assets/img/pottery/pooh-pot.png' | relative_url }}" alt="Winnie the Pooh Pot with Bear-Head Lid" style="max-width: 100%; height: auto; object-fit: contain;"/>
+  <img src="{% include responsive_variant.liquid path='assets/img/pottery/pooh-pot.png' width=1400 %}" alt="Winnie the Pooh Pot with Bear-Head Lid" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ '/assets/img/pottery/pooh-pot.png' | relative_url }}';" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 
@@ -64,7 +64,7 @@ Two small cat sculptures - one dancing with joy and another peacefully sleeping.
 
 <div class="spotlight-group">
 <a class="spotlight" href="{{ '/assets/img/pottery/cat-sculptures.png' | relative_url }}">
-  <img src="{{ '/assets/img/pottery/cat-sculptures.png' | relative_url }}" alt="Cat Sculpture Pair - Dancing and Sleeping" style="max-width: 100%; height: auto; object-fit: contain;"/>
+  <img src="{% include responsive_variant.liquid path='assets/img/pottery/cat-sculptures.png' width=1400 %}" alt="Cat Sculpture Pair - Dancing and Sleeping" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ '/assets/img/pottery/cat-sculptures.png' | relative_url }}';" style="max-width: 100%; height: auto; object-fit: contain;"/>
 </a>
 </div>
 
