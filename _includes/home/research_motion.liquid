@@ -43,7 +43,7 @@
     </div>
 
     <div class="home-motion-stage-well">
-      <div class="home-motion-stage" data-research-motion>
+      <div class="home-motion-stage" data-research-motion data-duh-protect>
         <div
           class="home-motion-paper-field"
           data-paper-research-field
@@ -123,35 +123,54 @@
       </div>
     {% endif %}
 
-    {% if page.research_motion.credit %}
-      <p class="home-motion-credit">
-        <span class="home-motion-credit-label">Motion note</span>
-        <span class="home-motion-credit-copy">
-          {{- page.research_motion.credit.text }}
-          <a href="{{ page.research_motion.credit.stripe_url }}">{{ page.research_motion.credit.stripe_label }}</a>
-          and
-          <a href="{{ page.research_motion.credit.katie_url }}">{{ page.research_motion.credit.katie_label }}</a>.
-        </span>
-        {% if page.research_motion.credit.research_sources %}
+    {% comment %}
+      Credits stay with the section they shaped, folded into one quiet disclosure (Sirui, 2026-10-12).
+      The homepage adds the coffee-stain credit from its hero artifacts, so the page keeps one Credits list.
+    {% endcomment %}
+    <details class="home-motion-credits">
+      <summary>Credits</summary>
+      {% if page.hero.inspiration_credit %}
+        <p class="home-credit-line">
+          {% if page.hero.inspiration_credit.url %}
+            <a href="{{ page.hero.inspiration_credit.url }}" target="_blank" rel="noopener noreferrer">
+              {{- page.hero.inspiration_credit.label | capitalize -}}
+            </a>
+          {%- else -%}
+            {{- page.hero.inspiration_credit.label | capitalize -}}
+          {%- endif -%}
+          .
+        </p>
+      {% endif %}
+      {% if page.research_motion.credit %}
+        <p class="home-motion-credit">
+          <span class="home-motion-credit-label">Motion note</span>
           <span class="home-motion-credit-copy">
-            {{- page.research_motion.credit.research_text | default: 'Interaction rules grounded by' }}
-            {% for source in page.research_motion.credit.research_sources %}
-              {% unless forloop.first -%}
-                {%- if forloop.last %} and {% else %}, {% endif -%}
-              {%- endunless %}
-              <a href="{{ source.url }}">{{ source.label }}</a>
-            {% endfor -%}
-            .
+            {{- page.research_motion.credit.text }}
+            <a href="{{ page.research_motion.credit.stripe_url }}">{{ page.research_motion.credit.stripe_label }}</a>
+            and
+            <a href="{{ page.research_motion.credit.katie_url }}">{{ page.research_motion.credit.katie_label }}</a>.
           </span>
-        {% endif %}
+          {% if page.research_motion.credit.research_sources %}
+            <span class="home-motion-credit-copy">
+              {{- page.research_motion.credit.research_text | default: 'Interaction rules grounded by' }}
+              {% for source in page.research_motion.credit.research_sources %}
+                {% unless forloop.first -%}
+                  {%- if forloop.last %} and {% else %}, {% endif -%}
+                {%- endunless %}
+                <a href="{{ source.url }}">{{ source.label }}</a>
+              {% endfor -%}
+              .
+            </span>
+          {% endif %}
+        </p>
+      {% endif %}
+      <p class="home-motion-credit home-motion-credit-paper">
+        <span class="home-motion-credit-label">Live field</span>
+        <span class="home-motion-credit-copy">
+          The visible Dot Orbit layer uses <a href="https://shaders.paper.design/">Paper Shaders</a> by <a href="https://paper.design/">Paper</a>; the
+          restraint also follows the founder's <a href="https://youtu.be/P06RgnUKX_I?si=7xfPgwCjDHvjVG46">design walkthrough</a>.
+        </span>
       </p>
-    {% endif %}
-    <p class="home-motion-credit home-motion-credit-paper">
-      <span class="home-motion-credit-label">Live field</span>
-      <span class="home-motion-credit-copy">
-        The visible Dot Orbit layer uses <a href="https://shaders.paper.design/">Paper Shaders</a> by <a href="https://paper.design/">Paper</a>; the
-        restraint also follows the founder's <a href="https://youtu.be/P06RgnUKX_I?si=7xfPgwCjDHvjVG46">design walkthrough</a>.
-      </span>
-    </p>
+    </details>
   </section>
 {% endif %}

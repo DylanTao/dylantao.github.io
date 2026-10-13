@@ -129,6 +129,10 @@
       },
       {
         "file": "duh.spec.js",
+        "title": "duh mobile: settles clear of the research sketch and the Connect miniature"
+      },
+      {
+        "file": "duh.spec.js",
         "title": "duh mobile: capture survives viewport resize, release throws, and extra touches cancel safely"
       }
     ],

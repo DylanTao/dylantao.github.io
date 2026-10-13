@@ -79,12 +79,6 @@ b {
 .home-lede {
   font-size: var(--type-reading);
 }
-.home-cred-item,
-html[data-theme="dark"] .home-cred-item {
-  padding-inline: 1rem;
-}
-.home-cred-item span,
-.home-cred-item strong,
 .home-kicker,
 .post-meta,
 .post-tags,
@@ -94,9 +88,6 @@ html[data-theme="dark"] .home-cred-item {
 figcaption,
 .home-connect-note {
   font-size: var(--type-meta);
-}
-.home-cred-item span {
-  letter-spacing: 0.03em;
 }
 
 .project-detail,

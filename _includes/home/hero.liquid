@@ -61,7 +61,6 @@
         <button type="button" data-home-desk-mode="2d" aria-pressed="true">2D</button>
         <span class="home-desk-mode-divider" aria-hidden="true">|</span>
         <button type="button" data-home-desk-mode="3d" aria-pressed="false">3D</button>
-        {% include widget_origin_link.liquid href="/projects/homepage-desk-scene/" label="Read how the desk scene began" class="home-desk-origin-link" %}
       </div>
     </div>
     <div class="home-desk-corner-scene" data-home-desk-scene aria-hidden="true">
@@ -262,41 +261,6 @@
           {% endif %}
         {% endfor %}
       </div>
-
-      {% if page.hero.inspiration_credit %}
-        <p class="home-inspiration-credit">
-          {% if page.hero.inspiration_credit.url %}
-            <a href="{{ page.hero.inspiration_credit.url }}" target="_blank" rel="noopener noreferrer">
-              {{ page.hero.inspiration_credit.label }}
-            </a>
-          {% else %}
-            {{ page.hero.inspiration_credit.label }}
-          {% endif %}
-        </p>
-      {% endif %}
     {% endif %}
   </div>
-
-  {% if page.credibility %}
-    <div class="home-cred-grid" aria-label="Quick facts">
-      {% for item in page.credibility %}
-        <div class="home-cred-item">
-          <span>{{ item.label }}</span>
-          {% if item.url %}
-            <a
-              class="home-cred-link"
-              href="{{ item.url }}"
-              {% if item.external %}
-                target="_blank" rel="noopener noreferrer"
-              {% endif %}
-            >
-              <strong>{{ item.value }}</strong>
-            </a>
-          {% else %}
-            <strong>{{ item.value }}</strong>
-          {% endif %}
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
 </section>

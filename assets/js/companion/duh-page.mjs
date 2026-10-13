@@ -155,7 +155,7 @@ function start() {
     obstacles = [];
     const surfaces = [];
     const nodes = document.querySelectorAll(
-      `#main p, #main h1, #main h2, #main h3, #main h4, #main h5, #main h6, #main li, #main dl, #main dt, #main dd, #main figcaption, #main caption, #main .caption, #main .project-case-facts, #main pre, #main table, #main figure, #main svg, #main canvas, #main img, ${interactive}, header, nav`
+      `#main [data-duh-protect], #main p, #main h1, #main h2, #main h3, #main h4, #main h5, #main h6, #main li, #main dl, #main dt, #main dd, #main figcaption, #main caption, #main .caption, #main .project-case-facts, #main pre, #main table, #main figure, #main svg, #main canvas, #main img, ${interactive}, header, nav`
     );
     for (const node of nodes) {
       // P is another moving character, not fixed page geometry. Caching its

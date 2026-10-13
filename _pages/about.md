@@ -67,8 +67,7 @@ hero:
     url: /projects/
   tertiary_cta:
     label: Contact
-    url: https://www.linkedin.com/in/siruitao/
-    external: true
+    url: "#connect"
   inspiration_credit:
     label: coffee stain inspired by Jackie Hu
     url: https://jackiehu.design/
@@ -83,16 +82,6 @@ hero:
       url: /projects/what-happened-and-why/
       tone: evaluate
       icon: fa-lightbulb
-
-credibility:
-  - label: Thesis thread
-    value: Scaffolding for Taste
-  - label: Home base
-    value: UCSD Design Lab
-    url: https://designlab.ucsd.edu/
-    external: true
-  - label: Methods
-    value: Build, test, iterate
 
 story_sections:
   - label: Start

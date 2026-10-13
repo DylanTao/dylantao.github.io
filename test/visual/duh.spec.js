@@ -865,6 +865,33 @@ test("duh mobile: scrolling and browser-bar resizing preserve position and settl
   expect(errors).toEqual([]);
 });
 
+test("duh mobile: settles clear of the research sketch and the Connect miniature", async ({ page, isMobile }, testInfo) => {
+  test.skip(!isMobile, "Phones leave no reading margin beside these figures; desktop perches in the gutter.");
+  await page.clock.install({ time: new Date("2026-10-09T08:00:00Z") });
+  const errors = await open(page, "/");
+  // The research canvas is aria-hidden for assistive tech, but it is still the section's primary figure.
+  for (const selector of ["[data-research-motion][data-duh-protect]", "figure.coastal-miniature"]) {
+    const figure = page.locator(selector).first();
+    await figure.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
+    for (const wait of [3000, 4000]) {
+      await page.clock.runFor(wait);
+      const duh = await evidence(page);
+      const box = await figure.boundingBox();
+      const half = 28;
+      const overlaps =
+        duh.visible &&
+        Boolean(box) &&
+        duh.x + half > box.x &&
+        duh.x - half < box.x + box.width &&
+        duh.y + half > box.y &&
+        duh.y - half < box.y + box.height;
+      expect(overlaps, `duh rests on ${selector} ${wait} ms after scrolling`).toBe(false);
+    }
+  }
+  await page.screenshot({ path: testInfo.outputPath("mobile-figure-clearance.png") });
+  expect(errors).toEqual([]);
+});
+
 test("duh mobile: capture survives viewport resize, release throws, and extra touches cancel safely", async ({ page, isMobile, browserName }) => {
   test.skip(!isMobile);
   await page.clock.install({ time: new Date("2026-10-09T08:00:00Z") });

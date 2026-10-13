@@ -333,23 +333,11 @@ html[data-theme="dark"] .home-story-rail ol {
   display: block;
 }
 
-.home-cred-link {
-  display: inline-flex;
-  color: inherit !important;
-  text-decoration: none;
-}
-
-.home-cred-link:hover strong {
-  color: var(--home-accent-strong);
-}
-
 .home-hero {
   display: grid;
-  grid-template-areas:
-    "copy media"
-    "facts media";
+  grid-template-areas: "copy media";
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-  grid-template-rows: auto auto;
+  grid-template-rows: auto;
   gap: 1.45rem 3rem;
   align-items: center;
   min-height: 0;
@@ -480,36 +468,6 @@ html[data-theme="dark"] .home-story-rail ol {
   transform: translateX(3px);
 }
 
-.home-cred-grid {
-  grid-area: facts;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
-  max-width: 46rem;
-  margin-top: 0.15rem;
-}
-
-.home-cred-item {
-  min-height: 5.05rem;
-  padding: 0.82rem 0.9rem;
-  border: 1px solid var(--home-card-border);
-  border-radius: var(--md-lite-radius-sm);
-  background: linear-gradient(135deg, var(--home-card-wash), transparent 58%), var(--home-surface);
-  box-shadow: var(--home-card-shadow);
-}
-
-html[data-theme="dark"] .home-cred-item {
-  border-color: color-mix(in srgb, var(--home-accent) 12%, var(--home-line));
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--home-accent-soft) 12%, transparent), transparent 58%),
-    color-mix(in srgb, var(--home-surface) 82%, transparent);
-  box-shadow:
-    var(--md-lite-elevation-1),
-    0 1px 0 rgba(255, 255, 255, 0.04) inset;
-  color: var(--home-ink);
-}
-
-.home-cred-item span,
 .home-artifact-copy > span,
 .home-work-meta span {
   display: block;
@@ -522,24 +480,11 @@ html[data-theme="dark"] .home-cred-item {
   text-transform: uppercase;
 }
 
-.home-cred-item strong,
 .home-artifact-copy strong {
   display: block;
   color: var(--home-ink);
   font-size: 1rem;
   line-height: 1.35;
-}
-
-.home-cred-item strong {
-  overflow-wrap: anywhere;
-}
-
-html[data-theme="dark"] .home-cred-item span {
-  color: var(--home-muted);
-}
-
-html[data-theme="dark"] .home-cred-item strong {
-  color: var(--home-ink);
 }
 
 .home-hero-media {
@@ -556,9 +501,8 @@ html[data-theme="dark"] .home-cred-item strong {
     "heading"
     "portrait"
     "record"
-    "artifacts"
-    "credit";
-  grid-template-rows: auto auto auto auto auto;
+    "artifacts";
+  grid-template-rows: auto auto auto auto;
   align-items: center;
   justify-items: center;
   min-height: 33.9rem;
@@ -821,8 +765,7 @@ html.home-desk-outside-active .home-story-rail {
 .home-hero-media.is-desk-3d .home-portrait-frame,
 .home-hero-media.is-desk-3d .home-record-player,
 .home-hero-media.is-desk-3d .home-record-card-pile,
-.home-hero-media.is-desk-3d .home-artifact-stack,
-.home-hero-media.is-desk-3d .home-inspiration-credit {
+.home-hero-media.is-desk-3d .home-artifact-stack {
   position: absolute;
   visibility: hidden;
   opacity: 0;
@@ -834,8 +777,7 @@ html.home-desk-outside-active .home-story-rail {
 }
 
 .home-hero-media.is-desk-3d .home-record-card-pile,
-.home-hero-media.is-desk-3d .home-artifact-stack,
-.home-hero-media.is-desk-3d .home-inspiration-credit {
+.home-hero-media.is-desk-3d .home-artifact-stack {
   transform: translateY(0.58rem) scale(0.985);
 }
 
@@ -1759,37 +1701,6 @@ html[data-theme="dark"] .home-artifact-stack {
   box-shadow: none;
 }
 
-.home-inspiration-credit {
-  grid-area: credit;
-  position: relative;
-  z-index: 3;
-  justify-self: end;
-  width: min(31.2rem, 100%);
-  max-width: min(31.2rem, 100%);
-  margin: 0.16rem 0.45rem 0;
-  color: color-mix(in srgb, var(--home-muted) 76%, transparent);
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0;
-  line-height: 1.35;
-  text-align: right;
-  transition:
-    opacity var(--motion-standard),
-    transform var(--motion-slow);
-}
-
-.home-inspiration-credit a {
-  color: inherit;
-  text-decoration: none;
-  text-underline-offset: 0.18em;
-}
-
-.home-inspiration-credit a:hover,
-.home-inspiration-credit a:focus-visible {
-  color: var(--home-accent-strong);
-  text-decoration: underline;
-}
-
 .home-artifact-card {
   --home-card-accent: var(--home-accent);
   --home-card-paper: color-mix(in srgb, var(--home-card-accent) 4%, var(--home-surface));
@@ -2371,6 +2282,46 @@ html[data-theme="dark"] .home-artifact-mark {
 
 .home-motion-credit-copy {
   min-width: 0;
+}
+
+// One quiet Credits disclosure per page: credit stays complete, but out of the reading flow.
+.home-motion-credits {
+  margin: 1.1rem 0 0;
+  color: var(--home-muted);
+  font-size: var(--type-meta);
+  line-height: 1.45;
+
+  > summary {
+    width: fit-content;
+    padding-block: 0.72rem;
+    color: var(--home-muted);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: var(--type-meta);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  > summary:hover,
+  > summary:focus-visible {
+    color: var(--home-accent-strong);
+  }
+
+  &[open] > summary {
+    color: var(--home-accent-strong);
+  }
+
+  .home-credit-line {
+    max-width: none;
+    margin: 0.45rem 0 0;
+    font-size: var(--type-compact);
+  }
+
+  .home-credit-line a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
 }
 
 .home-motion-stage {
@@ -3058,8 +3009,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-hero {
     grid-template-areas:
       "copy"
-      "media"
-      "facts";
+      "media";
     grid-template-rows: auto;
     gap: 1.6rem;
     min-height: 0;
@@ -3072,10 +3022,9 @@ html.home-motion-ready .home-reveal.home-visible {
       "heading"
       "portrait"
       "record"
-      "artifacts"
-      "credit";
+      "artifacts";
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto;
     gap: 0.58rem;
     align-items: center;
     justify-items: center;
@@ -3104,12 +3053,6 @@ html.home-motion-ready .home-reveal.home-visible {
     width: min(40rem, 100%);
     margin-top: 0.48rem;
     justify-self: center;
-  }
-
-  .home-inspiration-credit {
-    width: min(40rem, 100%);
-    margin-top: 0;
-    margin-right: 0.35rem;
   }
 
   .home-artifact-card {
@@ -3222,7 +3165,6 @@ html.home-motion-ready .home-reveal.home-visible {
     line-height: 1.55;
   }
 
-  .home-cred-grid,
   .home-work-grid,
   .home-news-strip {
     grid-template-columns: 1fr;
@@ -3348,33 +3290,12 @@ html.home-motion-ready .home-reveal.home-visible {
     justify-content: center;
   }
 
-  .home-cred-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.45rem;
-    margin-top: 1rem;
-  }
-
-  .home-cred-item {
-    min-height: 0;
-    padding: 0.55rem 0.6rem;
-  }
-
-  .home-cred-item span {
-    font-size: 0.68rem;
-  }
-
-  .home-cred-item strong {
-    font-size: 0.9rem;
-    line-height: 1.3;
-  }
-
   .home-hero-media {
     grid-template-areas:
       "heading"
       "portrait"
       "record"
-      "artifacts"
-      "credit";
+      "artifacts";
     grid-template-columns: minmax(0, 1fr);
     gap: 0.34rem;
     justify-items: center;
@@ -3445,13 +3366,6 @@ html.home-motion-ready .home-reveal.home-visible {
     right: clamp(-1.05rem, -4vw, -0.45rem);
     width: min(12.25rem, 47vw);
     opacity: calc(var(--home-coffee-stain-opacity) * 0.28);
-  }
-
-  .home-inspiration-credit {
-    justify-self: end;
-    width: min(100%, 22.5rem);
-    margin: 0.02rem 0.1rem 0;
-    font-size: 0.54rem;
   }
 
   .home-portrait-frame {
@@ -3631,7 +3545,6 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-hero-media.is-desk-3d .home-portrait-frame,
   .home-hero-media.is-desk-3d .home-record-card-pile,
   .home-hero-media.is-desk-3d .home-artifact-stack,
-  .home-hero-media.is-desk-3d .home-inspiration-credit,
   .home-record-play:hover,
   .home-record-play:focus-visible,
   .home-record-nav:hover,
