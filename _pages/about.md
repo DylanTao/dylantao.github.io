@@ -269,5 +269,9 @@ announcements:
   limit: 3
 
 selected_papers: true
+selected_paper_order:
+  - tao2024designweaver
+  - wang2025hotspot
+  - bear2021physion
 social: true
 ---

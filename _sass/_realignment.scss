@@ -242,21 +242,6 @@
   opacity: 0.27;
 }
 
-.project-visual-credit {
-  display: block;
-  margin: 0.55rem 0 0;
-  color: var(--global-text-color-light);
-  font-size: var(--type-compact);
-  font-weight: 400;
-  line-height: 1.45;
-}
-
-.project-visual-credit a {
-  color: inherit;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.16rem;
-}
-
 .website-revamp-turns .website-revamp-turn {
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(18rem, 1.15fr);

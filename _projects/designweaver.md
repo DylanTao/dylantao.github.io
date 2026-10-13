@@ -4,7 +4,7 @@ title: DesignWeaver
 description: A prompt-design workspace that surfaces visual dimensions so novices can make more deliberate product concepts.
 img: assets/img/publication_preview/designweaver-transparent.png
 image_aspect: 16 / 9
-importance: -2
+importance: -4
 category: research
 venue: CHI 2025
 year: 2025
@@ -62,7 +62,6 @@ cinematic: true
     </figure>
     <p class="case-stage-caption" data-case-caption-out>One screen in three parts: the design brief on the left, the tag-based prompt box in the middle, and the image gallery on the right.</p>
     <a class="research-lens__open" href="{{ '/assets/img/publication_preview/designweaver.png' | relative_url }}">Open original figure ↗</a>
-    <p class="project-visual-credit">Visual field: <a href="https://shaders.paper.design/" target="_blank" rel="noopener noreferrer">Paper Shaders' Static Mesh Gradient</a> by <a href="https://paper.design/" target="_blank" rel="noopener noreferrer">Paper</a>.</p>
   </div>
   <div class="case-scroll-steps" aria-label="DesignWeaver in three steps">
     <div class="case-step" data-case-step data-case-lens="0.5 2 21 82" data-case-caption="The brief arrives as a document. DesignWeaver reads it and proposes the first design dimensions before anyone types a prompt.">
@@ -235,6 +234,13 @@ DesignWeaver's **dimensional scaffolding** bridges novice‑expert gaps by makin
     <a href="https://arxiv.org/pdf/2502.09867">Paper ↗</a>
     <a href="{{ '/assets/pdf/slides/[CHI25 Version] DesignWeaver.pdf' | relative_url }}">Slides ↗</a>
     <a href="https://github.com/slimykat/DesignWeaver">Code ↗</a>
+  </div>
+</details>
+
+<details class="project-story-disclosure">
+  <summary>Credits</summary>
+  <div class="project-story-disclosure-body">
+    <p>Visual field: <a href="https://shaders.paper.design/" target="_blank" rel="noopener noreferrer">Paper Shaders' Static Mesh Gradient</a> by <a href="https://paper.design/" target="_blank" rel="noopener noreferrer">Paper</a>.</p>
   </div>
 </details>
 

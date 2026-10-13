@@ -5,7 +5,7 @@ permalink: /projects/what-happened-and-why/
 description: A CHI 2026 workshop position paper about trace-guided micro-episodes and in-flow user explanations for product iteration in AI-supported design tools.
 img: assets/img/publication_preview/herding_cats_why_what-transparent.png
 image_aspect: 16 / 9
-importance: -4
+importance: -2
 category: research
 venue: CHI 2026 Workshop
 year: 2026
