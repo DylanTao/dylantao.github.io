@@ -97,6 +97,50 @@ cinematic: true
 
 **DesignWeaver** is an interface for making prompt decisions visible. Instead of asking novices to invent the right design vocabulary from a blank text box, it surfaces dimensions such as style, material, ergonomics, and form from briefs, images, and generated concepts. In a controlled study (n = 52), participants wrote more nuanced prompts and produced more diverse, novel designs than with a standard text-only interface _{% cite tao2024designweaver %}_.
 
+{% assign scaffold = site.data.designweaver_scaffold %}
+
+<section class="dw-scaffold" data-dw-scaffold aria-labelledby="dw-scaffold-title">
+  <div class="dw-scaffold__head">
+    <p class="project-case-kicker">Try it</p>
+    <h3 id="dw-scaffold-title">Build a prompt from dimensions.</h3>
+    <p>Each row is a design dimension. Pick tags and the prompt fills in.</p>
+  </div>
+  <div class="dw-scaffold__palette">
+    {% for dimension in scaffold.dimensions %}
+      <div class="dw-scaffold__row" role="group" aria-labelledby="dw-dimension-{{ forloop.index }}">
+        <span class="dw-scaffold__dimension" id="dw-dimension-{{ forloop.index }}">{{ dimension.name }}</span>
+        <div class="dw-scaffold__tags">
+          {% for tag in dimension.tags %}
+            <button
+              type="button"
+              class="dw-scaffold__tag"
+              data-dw-tag
+              data-dimension="{{ dimension.name }}"
+              data-phrase="{{ tag.phrase }}"
+              data-form="{{ tag.form }}"
+              aria-pressed="{% if tag.selected %}true{% else %}false{% endif %}"
+              disabled
+            >
+              {{ tag.label }}
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <figure class="dw-scaffold__prompt">
+    <figcaption data-dw-prompt-label>DesignWeaver’s prompt for this selection</figcaption>
+    <output data-dw-prompt aria-live="polite">{{ scaffold.session_prompt }}</output>
+    <p class="dw-scaffold__count" data-dw-count>7 tags across 4 of 4 dimensions</p>
+    <button type="button" class="dw-scaffold__reset" data-dw-reset hidden>Back to the study session</button>
+  </figure>
+  <p class="dw-scaffold__note">
+    Tags, selection and starting prompt come from a study session shown in the CHI 2025 talk. DesignWeaver writes each prompt with a language model; once you change a tag, this sketch joins
+    the tags in a fixed sentence. It sends nothing and generates no images.
+  </p>
+</section>
+<script type="module" src="{{ '/assets/js/designweaver-scaffold.mjs' | relative_url | bust_file_cache }}"></script>
+
 <section class="artifact-spread" aria-labelledby="designweaver-interface-decision">
   <div class="artifact-spread__artifact">
     {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/DesignWeaver_teaser.jpg" width="15360" height="7732" title="DesignWeaver_teaser" alt="DesignWeaver interface overview showing a prompt box, dimension palette, image gallery, and favorite folder" class="img-fluid rounded" %}

@@ -1,0 +1,203 @@
+/*******************************************************************************
+ * DesignWeaver "Try it": the dimensional scaffold as a small palette
+ *
+ * Each row is a design dimension; each tag a pressable chip. The prompt
+ * underlines every phrase in its dimension's color, so a reader can see which
+ * dimension contributed which words (designweaver-scaffold.mjs builds it).
+ ******************************************************************************/
+
+.dw-scaffold {
+  --dw-aesthetic: #c2571c;
+  --dw-sustainability: #3f8a4f;
+  --dw-functionality: #2f6fb0;
+  --dw-color: #b0407f;
+
+  margin: 2.2rem 0 2.6rem;
+  padding: clamp(1rem, 2.4vw, 1.4rem);
+  border: 1px solid var(--global-divider-color);
+  border-radius: var(--md-lite-radius-md);
+  background: color-mix(in srgb, var(--global-card-bg-color) 72%, transparent);
+
+  h3 {
+    margin: 0.1rem 0 0.35rem;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+html[data-theme="dark"] .dw-scaffold,
+html[data-theme-mode="evening"] .dw-scaffold {
+  --dw-aesthetic: #f0a070;
+  --dw-sustainability: #8cc79a;
+  --dw-functionality: #8db8e8;
+  --dw-color: #e59ac4;
+}
+
+.dw-scaffold__head > p:last-child {
+  color: var(--global-text-color-light);
+}
+
+.dw-scaffold__palette {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.dw-scaffold__row {
+  display: grid;
+  grid-template-columns: 8.2rem minmax(0, 1fr);
+  gap: 0.4rem 0.8rem;
+  align-items: baseline;
+}
+
+.dw-scaffold__dimension {
+  font-weight: 600;
+  font-size: var(--type-meta);
+
+  &::before {
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-right: 0.4rem;
+    border-radius: 50%;
+    background: var(--dw-hue);
+    content: "";
+  }
+}
+
+[data-dimension="Aesthetic"],
+.dw-scaffold__row:nth-child(1) {
+  --dw-hue: var(--dw-aesthetic);
+}
+
+[data-dimension="Sustainability"],
+.dw-scaffold__row:nth-child(2) {
+  --dw-hue: var(--dw-sustainability);
+}
+
+[data-dimension="Functionality"],
+.dw-scaffold__row:nth-child(3) {
+  --dw-hue: var(--dw-functionality);
+}
+
+[data-dimension="Color"],
+.dw-scaffold__row:nth-child(4) {
+  --dw-hue: var(--dw-color);
+}
+
+.dw-scaffold__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.dw-scaffold__tag {
+  min-height: 2rem;
+  padding: 0.22rem 0.72rem;
+  border: 1px solid color-mix(in srgb, var(--dw-hue) 38%, var(--global-divider-color));
+  border-radius: 999px;
+  background: transparent;
+  color: var(--global-text-color);
+  font-size: var(--type-meta);
+  line-height: 1.25;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+
+  &[aria-pressed="true"] {
+    border-color: var(--dw-hue);
+    background: color-mix(in srgb, var(--dw-hue) 16%, transparent);
+    font-weight: 600;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--dw-hue);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.dw-scaffold__prompt {
+  margin: 1.1rem 0 0;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--global-theme-color);
+  border-radius: 0 var(--md-lite-radius-sm) var(--md-lite-radius-sm) 0;
+  background: var(--global-card-bg-color);
+
+  figcaption {
+    margin-bottom: 0.3rem;
+    color: var(--global-text-color-light);
+    font-size: var(--type-meta);
+  }
+
+  output {
+    display: block;
+    font-size: 1.04rem;
+    line-height: 1.55;
+  }
+}
+
+.dw-scaffold__phrase {
+  text-decoration: underline 2px var(--dw-hue);
+  text-underline-offset: 0.22em;
+}
+
+.dw-scaffold .dw-scaffold__count {
+  margin-top: 0.45rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.dw-scaffold__reset {
+  margin-top: 0.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--global-theme-color);
+  font-size: var(--type-meta);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.dw-scaffold .dw-scaffold__note {
+  margin-top: 0.8rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+}
+
+@media (max-width: 575px) {
+  .dw-scaffold__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dw-scaffold__tag {
+    transition: none;
+
+    &:active:not(:disabled) {
+      transform: none;
+    }
+  }
+}

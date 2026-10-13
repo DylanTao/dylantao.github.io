@@ -1,0 +1,33 @@
+# The "Try it" palette on /projects/designweaver/. Dimensions, tags, the selection and its prompt
+# come from one DesignWeaver session shown in the CHI 2025 talk (slide 11 of
+# assets/pdf/slides/[CHI25 Version] DesignWeaver.pdf). `phrase` and `form` place each tag in the
+# page's fixed sentence (before "chair", "with ...", or "in ..."); the real system writes the
+# prompt with a language model, which the page says.
+session_prompt: "This design features a neutral aesthetic with clean lines, a minimalist Scandinavian approach, durable elements, and ergonomic, lightweight functionality, all accentuated by a soft lavender color."
+dimensions:
+  - name: Aesthetic
+    tags:
+      - { label: Minimalist, phrase: minimalist, form: before }
+      - { label: Neutral, phrase: neutral, form: before, selected: true }
+      - { label: Clean Lines, phrase: clean lines, form: with, selected: true }
+      - { label: Minimalist Scandinavian, phrase: minimalist Scandinavian, form: before, selected: true }
+      - { label: Mid-Century Modern Velvet, phrase: mid-century modern velvet, form: before }
+      - { label: Industrial Metal, phrase: industrial metal, form: before }
+  - name: Sustainability
+    tags:
+      - { label: Eco-friendly, phrase: eco-friendly, form: before }
+      - { label: Durable, phrase: durable, form: before, selected: true }
+      - { label: Organic cotton upholstery, phrase: organic cotton upholstery, form: with }
+      - { label: Bamboo seat and backrest, phrase: a bamboo seat and backrest, form: with }
+      - { label: Upcycled metal accents and components, phrase: upcycled metal accents and components, form: with }
+  - name: Functionality
+    tags:
+      - { label: Ergonomic, phrase: ergonomic, form: before, selected: true }
+      - { label: Lightweight, phrase: lightweight, form: before, selected: true }
+      - { label: Sturdy, phrase: sturdy, form: before }
+      - { label: Scratch-resistant, phrase: scratch-resistant, form: before }
+  - name: Color
+    tags:
+      - { label: Soft Lavender, phrase: soft lavender, form: in, selected: true }
+      - { label: Mustard Yellow, phrase: mustard yellow, form: in }
+      - { label: Terracotta, phrase: terracotta, form: in }
