@@ -224,16 +224,39 @@ async function attachScreenshot(page, testInfo, name, options = {}) {
       ? options.locator.screenshot({ animations: "disabled", path: outputPath })
       : page.screenshot({ animations: "disabled", fullPage: options.fullPage !== false, path: outputPath });
 
-  let body;
-  try {
-    body = await capture();
-  } catch (error) {
-    const isTransientChromiumCaptureFailure =
-      error instanceof Error && error.message.includes("Protocol error (Page.captureScreenshot): Unable to capture screenshot");
-    if (!isTransientChromiumCaptureFailure) throw error;
+  // GitHub's 2-core Linux runners occasionally cannot produce a compositor frame when a capture
+  // lands while the main thread is still busy (late in a long run, or right after a scroll that
+  // makes the companion rescan its layout). Wait for the page to settle, then retry with backoff.
+  const settle = () =>
+    page
+      .evaluate(
+        () =>
+          new Promise((resolve) => {
+            setTimeout(resolve, 2500);
+            requestAnimationFrame(() =>
+              requestAnimationFrame(() => {
+                if ("requestIdleCallback" in window) window.requestIdleCallback(() => resolve(), { timeout: 1500 });
+                else resolve();
+              })
+            );
+          })
+      )
+      .catch(() => {});
+  const isTransientChromiumCaptureFailure = (error) =>
+    error instanceof Error && error.message.includes("Protocol error (Page.captureScreenshot): Unable to capture screenshot");
 
-    await page.waitForTimeout(100);
-    body = await capture();
+  let body;
+  for (const backoff of [0, 250, 750, 1500]) {
+    if (backoff) {
+      await page.waitForTimeout(backoff);
+      await settle();
+    }
+    try {
+      body = await capture();
+      break;
+    } catch (error) {
+      if (!isTransientChromiumCaptureFailure(error) || backoff === 1500) throw error;
+    }
   }
 
   await testInfo.attach(name, {
