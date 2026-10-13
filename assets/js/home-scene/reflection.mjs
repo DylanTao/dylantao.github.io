@@ -11,6 +11,19 @@ export function createSeaReflection(renderer, scene, ocean, material) {
   const clip = new THREE.Vector4(),
     q = new THREE.Vector4();
   const direction = new THREE.Vector3();
+  // Transmissive meshes (the onsen water, the coffee glass) make Three render a whole extra opaque
+  // pass at full canvas size before drawing them. In a 384 px mirror they are a few texels, so the
+  // mirror skips them. The list refreshes once a second; a mesh that arrives in between is only
+  // drawn the old, slower way until then.
+  let transmissive = [],
+    transmissiveAge = Infinity;
+  const refreshTransmissive = () => {
+    transmissive = [];
+    scene.traverse((object) => {
+      if (object.isMesh && [object.material].flat().some((m) => m?.transmission > 0)) transmissive.push(object);
+    });
+    transmissiveAge = 0;
+  };
   const reflected = { value: target.texture },
     projection = { value: textureMatrix },
     strength = { value: 0 };
@@ -78,14 +91,18 @@ export function createSeaReflection(renderer, scene, ocean, material) {
       const previousShadowUpdate = renderer.shadowMap.autoUpdate;
       const previousToneMapping = renderer.toneMapping,
         previousVisibility = ocean.visible;
+      if (++transmissiveAge > 60) refreshTransmissive();
+      const hidden = transmissive.filter((object) => object.visible);
       try {
         ocean.visible = false;
+        for (const object of hidden) object.visible = false;
         renderer.shadowMap.autoUpdate = false;
         renderer.toneMapping = THREE.NoToneMapping;
         renderer.setRenderTarget(target);
         renderer.clear();
         renderer.render(scene, mirror);
       } finally {
+        for (const object of hidden) object.visible = true;
         renderer.setRenderTarget(previousTarget);
         renderer.toneMapping = previousToneMapping;
         renderer.shadowMap.autoUpdate = previousShadowUpdate;
