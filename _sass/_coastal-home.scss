@@ -185,6 +185,45 @@
   }
 }
 
+// The loading bar: one segment per piece of first-view work (house, coast, room, Sirui, view),
+// each filled by the work itself (controller.mjs), then hidden once the first view is drawn.
+.home-world-progress {
+  display: flex;
+  gap: 3px;
+  width: min(100%, 13rem);
+  margin: 0.3rem 0 0.35rem;
+
+  &[hidden] {
+    display: none;
+  }
+
+  span {
+    position: relative;
+    flex: 1 1 0;
+    height: 3px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--home-muted) 22%, transparent);
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: var(--global-theme-color);
+      content: "";
+      transform: scaleX(var(--fill, 0));
+      transform-origin: left center;
+      transition: transform 180ms ease-out;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-world-progress span::before {
+    transition: none;
+  }
+}
+
 .home-world-clock {
   color: var(--home-muted);
   font-size: var(--type-meta);

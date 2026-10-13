@@ -606,6 +606,17 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
     expect(waiting.frames).toBe(0);
     expect(waiting.actorCount).toBe(0);
     expect(waiting.loading.firstFrameMilliseconds).toBeNull();
+    // The loading bar reports only finished work: the house and coast are in, Sirui is held back.
+    const bar = page.locator("[data-world-progress]");
+    await expect(bar).toBeVisible();
+    await expect(bar).toHaveAttribute("role", "progressbar");
+    const held = Number(await bar.getAttribute("aria-valuenow"));
+    expect(held).toBeGreaterThan(0);
+    expect(held).toBeLessThan(100);
+    expect(waiting.loading.progress.house).toBe(1);
+    expect(waiting.loading.progress.coast).toBe(1);
+    expect(waiting.loading.progress.sirui).toBeLessThan(1);
+    expect(waiting.loading.progress.view).toBe(0);
     await capture(testInfo, "coastal-loading-status", await page.locator(".home-hero-media").screenshot());
     releaseAvatar();
     await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
@@ -619,6 +630,8 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
       expect(model.parsedMilliseconds).toBeLessThan(ready.loading.firstFrameMilliseconds);
     }
     expect(ready.loading.stages.map((entry) => entry.stage)).toEqual(["home", "coast", "room", "first-frame", "ready"]);
+    expect(Object.values(ready.loading.progress)).toEqual([1, 1, 1, 1, 1]);
+    await expect(page.locator("[data-world-progress]")).toBeHidden();
     await expect(scene).not.toHaveAttribute("aria-busy", "true");
     await expect(page.locator("[data-world-view]")).toBeEnabled();
     const frame = await scene.locator("canvas").screenshot();
