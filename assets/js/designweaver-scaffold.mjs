@@ -53,11 +53,12 @@ if (root) {
     return parts;
   }
 
+  // Tags and dimensions, not words: the fixed sentence is terser than the model's prose, so a word
+  // count would drop on the first click and contradict the point.
   function describe(selected) {
     const used = new Set(selected.map((tag) => tag.dataset.dimension)).size;
-    const words = output.textContent.trim().split(/\s+/).filter(Boolean).length;
     const tagWord = selected.length === 1 ? "tag" : "tags";
-    count.textContent = `${selected.length} ${tagWord} across ${used} of ${dimensions} dimensions · ${words} words`;
+    count.textContent = `${selected.length} ${tagWord} across ${used} of ${dimensions} dimensions`;
   }
 
   function render(fromSession = false) {
