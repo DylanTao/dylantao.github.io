@@ -39,7 +39,7 @@
   :root {
     --max-content-width: 930px;
   }
-</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link rel="stylesheet" href="/assets/css/bootstrap-compat.css?v=aa8aa1241f76708eaa8c8fad88fe7955"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.36.4/dist/tocbot.css" integrity="sha256-zTN0r+0OKaIv2xqeNNIYxNk0pWJ6+IqPGc1iDgVzWF0=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="/assets/img/favicon.ico?v=ccfed3cf6a1e0f02dc4a56b088f223b3"> <link rel="stylesheet" href="/assets/css/main.css?v=20261013061931"> <style>
+</style> <link rel="stylesheet" href="/assets/css/tailwind.css?v=50c64c15cbb9fd1ce6056fdb8bcb4b62"> <link rel="stylesheet" href="/assets/css/bootstrap-compat.css?v=aa8aa1241f76708eaa8c8fad88fe7955"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.36.4/dist/tocbot.css" integrity="sha256-zTN0r+0OKaIv2xqeNNIYxNk0pWJ6+IqPGc1iDgVzWF0=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" integrity="sha256-MVopmdyC2tYTiJ8wlktf0uh0v4NgT+vNdyVFepi7Q0c=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.5/css/academicons.min.css" integrity="sha256-SzrCOBJbGVFMahewkgjwnApaV2+av1DwMAA+/QGLyZw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/scholar-icons@1.0.3/css/scholar-icons.css" integrity="sha256-VY3hHVj/hNX3fYG6wtbA6TcKJQl7+FthzGSyIB64klY=" crossorigin="anonymous"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="/assets/img/favicon.ico?v=ccfed3cf6a1e0f02dc4a56b088f223b3"> <link rel="stylesheet" href="/assets/css/main.css?v=20261013064026"> <style>
     @view-transition {
       navigation: auto;
     }
@@ -89,16 +89,214 @@
       });
     }
   </script> <script type="module" src="/assets/js/search/ninja-keys.min.js?v=a3446f084dcaecc5f75aa1757d087dcf"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Search projects, posts, CV, contact"> <div slot="footer" class="search-modal-footer"> <span>Search Sirui's research, projects, posts, and ways to connect.</span> <span class="search-modal-shortcut">Esc closes</span> </div> </ninja-keys> <script src="/assets/js/search-setup.js?v=5c0b4c15fb0dbf781940ec17d42a3d98"></script> <script>
-// get the ninja-keys element
 const ninja = document.querySelector('ninja-keys');
 
-// add the home and posts menu items
-ninja.data = [{
-    id: "nav-about",
-    title: "about",
-    section: "Navigation",
+ninja.data = [
+  {
+    id: "quick-research",
+    title: "research overview",
+    description: "Overview of Sirui Tao's research thesis, focus areas, projects, publications, and design judgment work.",
+    section: "Start here",
     handler: () => {
-      window.location.href = "/";
+      window.location.href = "/#taste";
+    },
+  },
+  {
+    id: "quick-thesis",
+    title: "Research thesis: Scaffolding for Taste",
+    description: "Sirui Tao research thesis taste design judgment human-centered AI generative AI value tradeoffs evidence.",
+    section: "Start here",
+    handler: () => {
+      window.location.href = "/#taste";
+    },
+  },
+  {
+    id: "quick-focus",
+    title: "Research focus: design, evaluate, situate",
+    description: "Research directions design evaluation situated mixed reality embodied systems interfaces.",
+    section: "Start here",
+    handler: () => {
+      window.location.href = "/#focus";
+    },
+  },
+  {
+    id: "quick-students",
+    title: "Student research opportunities",
+    description: "Prospective students interns undergraduate master's research opportunity UCSD ProtoLab apply email interest.",
+    section: "Start here",
+    handler: () => {
+      window.location.href = "/#students";
+    },
+  },
+  {
+    id: "quick-student-post",
+    title: "How to start doing research at UC San Diego",
+    description: "Student intern undergraduate master's research-start post how to contact Sirui about research.",
+    section: "Start here",
+    handler: () => {
+      window.location.href = "/blog/2026/how-to-start-doing-research-at-ucsd/";
+    },
+  },
+  {
+    id: "quick-contact",
+    title: "Contact Sirui",
+    description: "Email contact connect LinkedIn GitHub Bluesky X social profiles.",
+    section: "Start here",
+    handler: () => {
+      window.location.href = "/#connect";
+    },
+  },
+  {
+    id: "quick-cv",
+    title: "CV",
+    description: "Curriculum vitae resume honors awards education publications experience references.",
+    section: "Start here",
+    handler: () => {
+      window.location.href = "/cv/";
+    },
+  },
+  {
+    id: "quick-cv-pdf",
+    title: "CV PDF",
+    description: "Download Sirui Tao CV PDF curriculum vitae resume.",
+    section: "Start here",
+    handler: () => {
+      window.open("/assets/pdf/Sirui_Tao_CV_Public.pdf", "_blank");
+    },
+  },
+  {
+    id: "quick-projects",
+    title: "Projects",
+    description: "DesignWeaver HotSpot Physion GraphHSCN Context-Aware Encoding project portfolio prototypes systems.",
+    section: "Start here",
+    handler: () => {
+      window.location.href = "/projects/";
+    },
+  },
+  {
+    id: "quick-publications",
+    title: "Publications",
+    description: "Papers CHI UIST CSCW research publications bibliography.",
+    section: "Start here",
+    handler: () => {
+      window.location.href = "/publications/";
+    },
+  },
+  {
+    id: "quick-updates",
+    title: "Recent updates",
+    description: "News announcements recent updates Sirui Tao.",
+    section: "Start here",
+    handler: () => {
+      window.location.href = "/news/";
+    },
+  },
+  /* Actions click or call the site's own controls, so each state keeps one source of truth. */{
+      id: "do-theme-morning",
+      title: "Theme: morning",
+      description: "Switch the time-of-day theme. Morning light.",
+      section: "Do",
+      keywords: "theme time of day color morning",
+      handler: () => {
+        if (typeof setThemeSetting === "function") setThemeSetting("morning");
+      },
+    },{
+      id: "do-theme-noon",
+      title: "Theme: noon",
+      description: "Switch the time-of-day theme. Noon light.",
+      section: "Do",
+      keywords: "theme time of day color noon",
+      handler: () => {
+        if (typeof setThemeSetting === "function") setThemeSetting("noon");
+      },
+    },{
+      id: "do-theme-afternoon",
+      title: "Theme: afternoon",
+      description: "Switch the time-of-day theme. Afternoon light.",
+      section: "Do",
+      keywords: "theme time of day color afternoon",
+      handler: () => {
+        if (typeof setThemeSetting === "function") setThemeSetting("afternoon");
+      },
+    },{
+      id: "do-theme-evening",
+      title: "Theme: evening",
+      description: "Switch the time-of-day theme. Evening, the dark theme.",
+      section: "Do",
+      keywords: "theme time of day color evening",
+      handler: () => {
+        if (typeof setThemeSetting === "function") setThemeSetting("evening");
+      },
+    },
+  {
+    id: "do-desk-3d",
+    title: "Open the 3D home",
+    description: "Walk around Sirui's coastal home in 3D.",
+    section: "Do",
+    keywords: "3d scene house desk la jolla",
+    handler: () => {
+      const button = document.querySelector('[data-home-desk-mode="3d"]');
+      if (button) {
+        button.scrollIntoView({ block: "center" });
+        button.click();
+        return;
+      }
+      try {
+        sessionStorage.setItem("sirui-scene-mode", "3d");
+      } catch {
+        /* Without storage the homepage opens in 2D. */
+      }
+      window.location.href = "/#start";
+    },
+  },
+  {
+    id: "do-ai-format",
+    title: "Read this page as AI-readable text",
+    description: "Open the plain, machine-readable counterpart of this page.",
+    section: "Do",
+    keywords: "ai format markdown machine readable llm",
+    handler: () => {
+      const link = document.querySelector('[data-site-format="ai"]');
+      window.location.href = link ? link.href : "/ai/";
+    },
+  },
+  {
+    id: "do-duh-recall",
+    title: "Call duh over",
+    description: "Bring the page companion back beside you.",
+    section: "Do",
+    keywords: "companion duh recall",
+    handler: () => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "D", code: "KeyD", altKey: true, shiftKey: true, bubbles: true }));
+    },
+  },
+  {
+    id: "do-duh-sleep",
+    title: "Let duh sleep, or wake it",
+    description: "Pause or resume the page companion.",
+    section: "Do",
+    keywords: "companion duh pause sleep motion",
+    handler: () => {
+      document.querySelector(".duh-hit")?.dispatchEvent(new KeyboardEvent("keydown", { key: "p", bubbles: true }));
+    },
+  },
+  {
+    id: "do-build-rhythm",
+    title: "Open Build Rhythm",
+    description: "Sirui's code activity across the years, by day and by week.",
+    section: "Do",
+    keywords: "github commits activity code history",
+    handler: () => {
+      window.location.href = "/github-activity/";
+    },
+  },
+  {
+    id: "quick-student-email",
+    title: "Email research interest",
+    description: "Student intern research opportunities email Sirui at s1tao@ucsd.edu with UCSD Research Interest.",
+    section: "Contact",
+    handler: () => {
+      window.location.href = "mailto:s1tao@ucsd.edu?subject=UCSD%20Research%20Interest";
     },
   },{id: "nav-publications",
           title: "publications",
@@ -129,299 +327,296 @@ ninja.data = [{
             window.location.href = "/cv/";
           },
         },{id: "post-technical-papers-i-want-to-remember",
-        
-          title: "technical papers i want to remember",
-        
-        description: "Short notes on technical papers that changed how I explain AI systems, research artifacts, and model behavior.",
-        section: "Posts",
+          
+            title: "technical papers i want to remember",
+          
+          description: "Short notes on technical papers that changed how I explain AI systems, research artifacts, and model behavior.",
+          section: "Writing",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/technical-papers-i-want-to-remember/";
+            
+          },
+        },{id: "post-specialists-generalists-and-ai-as-distributed-cognition",
+          
+            title: "specialists, generalists, and AI as distributed cognition",
+          
+          description: "A short reading note on Don Norman’s “Beyond Human Categories,” and why it helps me think about AI, research taste, and specialist/generalist work.",
+          section: "Writing",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/specialists-generalists-ai-distributed-cognition/";
+            
+          },
+        },{id: "post-what-i-learned-redesigning-my-website-with-an-ai-coding-agent",
+          
+            title: "what I learned redesigning my website with an AI coding agent",
+          
+          description: "A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio over two days.",
+          section: "Writing",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/website-redesign-ai-agent/";
+            
+          },
+        },{id: "post-science-communication-is-kindness",
+          
+            title: "science communication is kindness",
+          
+          description: "A short reflection on why scientists should communicate publicly, and how to do it with care.",
+          section: "Writing",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/science-communication-is-kindness/";
+            
+          },
+        },{id: "post-prototyping-to-understand-humans",
+          
+            title: "prototyping to understand humans",
+          
+          description: "Working notes on what good HCI research looks like when AI makes prototypes cheap.",
+          section: "Writing",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/prototyping-to-understand-humans/";
+            
+          },
+        },{id: "post-research-skills-starter-pack",
+          
+            title: "research skills starter pack",
+          
+          description: "An ongoing self-study list for learning research reading, project scoping, writing, reviewing, Ph.D. life, and empirical methods.",
+          section: "Writing",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/research-skills-starter-pack/";
+            
+          },
+        },{id: "post-how-to-start-doing-research-at-ucsd",
+          
+            title: "how to start doing research at ucsd",
+          
+          description: "A short note for prospective undergraduate and master&#39;s research interns at UC San Diego.",
+          section: "Writing",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/how-to-start-doing-research-at-ucsd/";
+            
+          },
+        },{id: "post-an-afternoon-with-don-norman",
+          
+            title: "an afternoon with don norman",
+          
+          description: "Don gave a talk at DLab about his charity, signed my Yellow Book, and told us to check out his new book",
+          section: "Writing",
+          handler: () => {
+            
+              window.location.href = "/blog/2026/don-norman-design-lab-talk/";
+            
+          },
+        },{id: "post-starting-my-pottery-journey",
+          
+            title: "starting my pottery journey",
+          
+          description: "Three commissioned pieces from a pottery course with Ellen Fager at the UCSD Craft Center.",
+          section: "Writing",
+          handler: () => {
+            
+              window.location.href = "/blog/2025/starting-pottery/";
+            
+          },
+        },{id: "post-a-gallery-of-random-gen-ai-images",
+          
+            title: "a gallery of random gen-ai images",
+          
+          description: "A small gallery of AI-generated images from late 2024, kept as a record of what the tools produced.",
+          section: "Writing",
+          handler: () => {
+            
+              window.location.href = "/blog/2024/image-gallery/";
+            
+          },
+        },{id: "project-scaffolding-for-taste-openai-build-week",
+        title: "Scaffolding for Taste — OpenAI Build Week",
+        description: "What I added to an existing research portfolio during OpenAI Build Week, with a clear cutoff, linked commits, and reusable project guides.",
+        section: "Projects",
         handler: () => {
-          
-            window.location.href = "/blog/2026/technical-papers-i-want-to-remember/";
-          
+          window.location.href = "/projects/openai-build-week/";
         },
-      },{id: "post-specialists-generalists-and-ai-as-distributed-cognition",
-        
-          title: "specialists, generalists, and AI as distributed cognition",
-        
-        description: "A short reading note on Don Norman’s “Beyond Human Categories,” and why it helps me think about AI, research taste, and specialist/generalist work.",
-        section: "Posts",
+      },{id: "project-paper-constellation",
+        title: "Paper Constellation",
+        description: "A second way to browse my publications: five accepted papers connected by three recurring research threads, with future work kept anonymous.",
+        section: "Projects",
         handler: () => {
-          
-            window.location.href = "/blog/2026/specialists-generalists-ai-distributed-cognition/";
-          
+          window.location.href = "/projects/paper-constellation/";
         },
-      },{id: "post-what-i-learned-redesigning-my-website-with-an-ai-coding-agent",
-        
-          title: "what I learned redesigning my website with an AI coding agent",
-        
-        description: "A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio over two days.",
-        section: "Posts",
+      },{id: "project-duh-amp-p-a-little-company",
+        title: "duh &amp; P, a Little Company",
+        description: "A soft black dot, a curious little robot, and an experiment in making room for play.",
+        section: "Projects",
         handler: () => {
-          
-            window.location.href = "/blog/2026/website-redesign-ai-agent/";
-          
+          window.location.href = "/projects/p/";
         },
-      },{id: "post-science-communication-is-kindness",
-        
-          title: "science communication is kindness",
-        
-        description: "A short reflection on why scientists should communicate publicly, and how to do it with care.",
-        section: "Posts",
+      },{id: "project-build-rhythm",
+        title: "Build Rhythm",
+        description: "A page for seeing when I build: daily code activity by source, read for cadence and change rather than as a score.",
+        section: "Projects",
         handler: () => {
-          
-            window.location.href = "/blog/2026/science-communication-is-kindness/";
-          
+          window.location.href = "/projects/build-rhythm/";
         },
-      },{id: "post-prototyping-to-understand-humans",
-        
-          title: "prototyping to understand humans",
-        
-        description: "Working notes on what good HCI research looks like when AI makes prototypes cheap.",
-        section: "Posts",
+      },{id: "project-the-desk-that-learned-depth",
+        title: "The Desk That Learned Depth",
+        description: "How the homepage&#39;s paper collage became an inhabited coastal home while keeping its records, research papers, and discoveries.",
+        section: "Projects",
         handler: () => {
-          
-            window.location.href = "/blog/2026/prototyping-to-understand-humans/";
-          
+          window.location.href = "/projects/homepage-desk-scene/";
         },
-      },{id: "post-research-skills-starter-pack",
-        
-          title: "research skills starter pack",
-        
-        description: "An ongoing self-study list for learning research reading, project scoping, writing, reviewing, Ph.D. life, and empirical methods.",
-        section: "Posts",
+      },{id: "project-scholar-lens",
+        title: "Scholar Lens",
+        description: "Filters and linked highlights that help readers follow one paper across my bibliography, citation total, and annual citation bars.",
+        section: "Projects",
         handler: () => {
-          
-            window.location.href = "/blog/2026/research-skills-starter-pack/";
-          
+          window.location.href = "/projects/scholar-lens/";
         },
-      },{id: "post-how-to-start-doing-research-at-ucsd",
-        
-          title: "how to start doing research at ucsd",
-        
-        description: "A short note for prospective undergraduate and master's research interns at UC San Diego.",
-        section: "Posts",
+      },{id: "project-wall-of-rejection",
+        title: "Wall of Rejection",
+        description: "The Steam-style rejection meme I turned into a small public wall of badges, receipts, and deliberately silly Failure XP.",
+        section: "Projects",
         handler: () => {
-          
-            window.location.href = "/blog/2026/how-to-start-doing-research-at-ucsd/";
-          
+          window.location.href = "/projects/wall-of-rejection/";
         },
-      },{id: "post-an-afternoon-with-don-norman",
-        
-          title: "an afternoon with don norman",
-        
-        description: "Don gave a talk at DLab about his charity, signed my Yellow Book, and told us to check out his new book",
-        section: "Posts",
+      },{id: "project-the-ikea-card-experiment",
+        title: "The IKEA Card Experiment",
+        description: "Click a project card, read the full preview in place, then close it without losing your spot in the collection.",
+        section: "Projects",
         handler: () => {
-          
-            window.location.href = "/blog/2026/don-norman-design-lab-talk/";
-          
+          window.location.href = "/projects/ikea-project-cards/";
         },
-      },{id: "post-starting-my-pottery-journey",
-        
-          title: "starting my pottery journey",
-        
-        description: "Three commissioned pieces from a pottery course with Ellen Fager at the UCSD Craft Center.",
-        section: "Posts",
+      },{id: "project-dogtor-39-s-hidden-portal",
+        title: "Dogtor&#39;s Hidden Portal",
+        description: "Find the dog by the blog title, choose a fruit, and see whether it lets you through—without exposing what waits behind it.",
+        section: "Projects",
         handler: () => {
-          
-            window.location.href = "/blog/2025/starting-pottery/";
-          
+          window.location.href = "/projects/dogtor-portal/";
         },
-      },{id: "post-a-gallery-of-random-gen-ai-images",
-        
-          title: "a gallery of random gen-ai images",
-        
-        description: "A small gallery of AI-generated images from late 2024, kept as a record of what the tools produced.",
-        section: "Posts",
+      },{id: "project-hci-spooder-man",
+        title: "HCI Spooder-Man",
+        description: "How two paper rejections became a Steam-style lab meme, a remix gallery, and a downloadable prompt-and-image kit.",
+        section: "Projects",
         handler: () => {
-          
-            window.location.href = "/blog/2024/image-gallery/";
-          
+          window.location.href = "/projects/hci-spooder-man/";
         },
-      },{id: "news-designweaver-got-into-chi-25-will-go-to-japan-sparkles-smile",
-          title: 'DesignWeaver got into CHI 25! Will go to Japan! <img class="emoji" title=":sparkles:" alt=":sparkles:" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" height="20" width="20"> <img class="emoji" title=":smile:" alt=":smile:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png" height="20" width="20">',
-          description: "",
-          section: "News",},{id: "news-hotspot-got-into-cvpr-25",
-          title: 'HotSpot got into CVPR 25!',
-          description: "",
-          section: "News",},{id: "news-hotspot-got-selected-as-a-cvpr-25-highlight",
-          title: 'HotSpot got selected as a CVPR 25 Highlight!',
-          description: "",
-          section: "News",},{id: "news-our-chi-2026-workshop-position-paper-what-happened-and-why-trace-guided-micro-episodes-with-elicited-user-explanations-for-product-iteration-was-accepted-to-herding-cats-easily-one-of-the-best-workshop-names-ever-the-whole-protolab-is-going-to-spain-might-be-a-ucsd-party-beer-cat-wine-glass",
-          title: 'Our CHI 2026 workshop position paper, What Happened and Why? Trace-Guided Micro-Episodes with...',
-          description: "",
-          section: "News",},{id: "news-met-the-great-don-norman-and-even-got-a-selfie-a-to-sirui-signed-yellow-book-sparkles-camera-flash-smile",
-          title: 'Met the great Don Norman and even got a selfie + a “To...',
-          description: "",
-          section: "News",},{id: "projects-build-rhythm",
-          title: 'Build Rhythm',
-          description: "A page for seeing when I build: daily code activity by source, read for cadence and change rather than as a score.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/build-rhythm/";
-            },},{id: "projects-context-aware-encoding-for-llms",
-          title: 'Context-Aware Encoding for LLMs',
-          description: "A tree-of-thoughts context encoding experiment for improving retrieval and long-document contextual understanding.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/context-aware-encoding/";
-            },},{id: "projects-designweaver",
-          title: 'DesignWeaver',
-          description: "A prompt-design workspace that surfaces visual dimensions so novices can make more deliberate product concepts.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/designweaver/";
-            },},{id: "projects-dogtor-39-s-hidden-portal",
-          title: 'Dogtor&#39;s Hidden Portal',
-          description: "Find the dog by the blog title, choose a fruit, and see whether it lets you through—without exposing what waits behind it.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/dogtor-portal/";
-            },},{id: "projects-graphhscn",
-          title: 'GraphHSCN',
-          description: "A graph neural network architecture prototype for modeling long-range interactions in structured data.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/graphhscn/";
-            },},{id: "projects-hci-spooder-man",
-          title: 'HCI Spooder-Man',
-          description: "How two paper rejections became a Steam-style lab meme, a remix gallery, and a downloadable prompt-and-image kit.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/hci-spooder-man/";
-            },},{id: "projects-the-desk-that-learned-depth",
-          title: 'The Desk That Learned Depth',
-          description: "How the homepage's paper collage became an inhabited coastal home while keeping its records, research papers, and discoveries.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/homepage-desk-scene/";
-            },},{id: "projects-hotspot",
-          title: 'HotSpot',
-          description: "A neural SDF optimization framework with a screened Poisson objective for more stable surface reconstruction.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/hotspot/";
-            },},{id: "projects-the-ikea-card-experiment",
-          title: 'The IKEA Card Experiment',
-          description: "Click a project card, read the full preview in place, then close it without losing your spot in the collection.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/ikea-project-cards/";
-            },},{id: "projects-a-little-la-jolla",
-          title: 'A little La Jolla',
-          description: "A few places from my everyday orbit, compressed into a coastal miniature.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/la-jolla/";
-            },},{id: "projects-not-a-good-driver",
-          title: 'Not A Good Driver',
-          description: "A small VRChat world where one person drives, one rides along, and everyone else watches the chaos.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/not-a-good-driver/";
-            },},{id: "projects-scaffolding-for-taste-openai-build-week",
-          title: 'Scaffolding for Taste — OpenAI Build Week',
-          description: "What I added to an existing research portfolio during OpenAI Build Week, with a clear cutoff, linked commits, and reusable project guides.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/openai-build-week/";
-            },},{id: "projects-paper-constellation",
-          title: 'Paper Constellation',
-          description: "A second way to browse my publications: five accepted papers connected by three recurring research threads, with future work kept anonymous.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/paper-constellation/";
-            },},{id: "projects-physion",
-          title: 'Physion',
-          description: "A benchmark for testing whether vision models predict physical scene dynamics the way people do.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/physion/";
-            },},{id: "projects-duh-amp-p-a-little-company",
-          title: 'duh &amp; P, a Little Company',
-          description: "A soft black dot, a curious little robot, and an experiment in making room for play.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/p/";
-            },},{id: "projects-scholar-lens",
-          title: 'Scholar Lens',
-          description: "Filters and linked highlights that help readers follow one paper across my bibliography, citation total, and annual citation bars.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/scholar-lens/";
-            },},{id: "projects-wall-of-rejection",
-          title: 'Wall of Rejection',
-          description: "The Steam-style rejection meme I turned into a small public wall of badges, receipts, and deliberately silly Failure XP.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/wall-of-rejection/";
-            },},{id: "projects-vibe-coding-a-research-portfolio",
-          title: 'Vibe-Coding a Research Portfolio',
-          description: "How I rebuilt an academic archive so visitors can find the research question, inspect the work, and reuse the design lessons.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/website-revamp/";
-            },},{id: "projects-what-happened-and-why",
-          title: 'What Happened and Why?',
-          description: "A CHI 2026 workshop position paper about trace-guided micro-episodes and in-flow user explanations for product iteration in AI-supported design tools.",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/what-happened-and-why/";
-            },},{
-        id: 'social-bluesky',
-        title: 'Bluesky',
-        section: 'Socials',
+      },{id: "project-a-little-la-jolla",
+        title: "A little La Jolla",
+        description: "A few places from my everyday orbit, compressed into a coastal miniature.",
+        section: "Projects",
         handler: () => {
-          window.open("https://siruitao.bsky.social", "_blank");
+          window.location.href = "/projects/la-jolla/";
         },
-      },{
-        id: 'social-x',
-        title: 'X',
-        section: 'Socials',
+      },{id: "project-designweaver",
+        title: "DesignWeaver",
+        description: "A prompt-design workspace that surfaces visual dimensions so novices can make more deliberate product concepts.",
+        section: "Projects",
         handler: () => {
-          window.open("https://twitter.com/SiruiTao", "_blank");
+          window.location.href = "/projects/designweaver/";
         },
-      },{
-        id: 'social-cv',
-        title: 'CV',
-        section: 'Socials',
+      },{id: "project-hotspot",
+        title: "HotSpot",
+        description: "A neural SDF optimization framework with a screened Poisson objective for more stable surface reconstruction.",
+        section: "Projects",
         handler: () => {
-          window.open("/assets/pdf/Sirui_Tao_CV_Public.pdf", "_blank");
+          window.location.href = "/projects/hotspot/";
         },
-      },{
-        id: 'social-email',
-        title: 'email',
-        section: 'Socials',
+      },{id: "project-what-happened-and-why",
+        title: "What Happened and Why?",
+        description: "A CHI 2026 workshop position paper about trace-guided micro-episodes and in-flow user explanations for product iteration in AI-supported design tools.",
+        section: "Projects",
         handler: () => {
-          window.open("mailto:%64%79%6C%61%6E%74%61%6F%73%69%72%75%69@%67%6D%61%69%6C.%63%6F%6D", "_blank");
+          window.location.href = "/projects/what-happened-and-why/";
+        },
+      },{id: "project-physion",
+        title: "Physion",
+        description: "A benchmark for testing whether vision models predict physical scene dynamics the way people do.",
+        section: "Projects",
+        handler: () => {
+          window.location.href = "/projects/physion/";
+        },
+      },{id: "project-vibe-coding-a-research-portfolio",
+        title: "Vibe-Coding a Research Portfolio",
+        description: "How I rebuilt an academic archive so visitors can find the research question, inspect the work, and reuse the design lessons.",
+        section: "Projects",
+        handler: () => {
+          window.location.href = "/projects/website-revamp/";
+        },
+      },{id: "project-not-a-good-driver",
+        title: "Not A Good Driver",
+        description: "A small VRChat world where one person drives, one rides along, and everyone else watches the chaos.",
+        section: "Projects",
+        handler: () => {
+          window.location.href = "/projects/not-a-good-driver/";
+        },
+      },{id: "project-context-aware-encoding-for-llms",
+        title: "Context-Aware Encoding for LLMs",
+        description: "A tree-of-thoughts context encoding experiment for improving retrieval and long-document contextual understanding.",
+        section: "Projects",
+        handler: () => {
+          window.location.href = "/projects/context-aware-encoding/";
+        },
+      },{id: "project-graphhscn",
+        title: "GraphHSCN",
+        description: "A graph neural network architecture prototype for modeling long-range interactions in structured data.",
+        section: "Projects",
+        handler: () => {
+          window.location.href = "/projects/graphhscn/";
         },
       },{
-        id: 'social-github',
-        title: 'GitHub',
-        section: 'Socials',
-        handler: () => {
-          window.open("https://github.com/DylanTao", "_blank");
-        },
-      },{
-        id: 'social-linkedin',
-        title: 'LinkedIn',
-        section: 'Socials',
-        handler: () => {
-          window.open("https://www.linkedin.com/in/siruitao", "_blank");
-        },
-      },{
-        id: 'social-scholar',
-        title: 'Google Scholar',
-        section: 'Socials',
-        handler: () => {
-          window.open("https://scholar.google.com/citations?user=W6vF-VcAAAAJ", "_blank");
-        },
-      },{
-      id: 'light-theme',
-      title: 'Change theme to light',
-      description: 'Change the theme of the site to Light',
-      section: 'Theme',
+      id: "contact-email",
+      title: "Email Sirui",
+      description: "Email contact Sirui Tao.",
+      section: "Contact",
       handler: () => {
-        setThemeSetting("light");
+        window.location.href = "mailto:s1tao@ucsd.edu";
       },
-    },
-    {
-      id: 'dark-theme',
-      title: 'Change theme to dark',
-      description: 'Change the theme of the site to Dark',
-      section: 'Theme',
+    },{
+      id: "contact-github",
+      title: "GitHub",
+      description: "Code repositories projects GitHub Sirui Tao.",
+      section: "Contact",
       handler: () => {
-        setThemeSetting("dark");
+        window.open("https://github.com/DylanTao", "_blank");
       },
-    },
-    {
-      id: 'system-theme',
-      title: 'Use system default theme',
-      description: 'Change the theme of the site to System Default',
-      section: 'Theme',
+    },{
+      id: "contact-linkedin",
+      title: "LinkedIn",
+      description: "Professional profile contact collaborator LinkedIn.",
+      section: "Contact",
       handler: () => {
-        setThemeSetting("system");
+        window.open("https://www.linkedin.com/in/siruitao", "_blank");
+      },
+    },{
+      id: "contact-scholar",
+      title: "Google Scholar",
+      description: "Scholar citations papers academic publications.",
+      section: "Contact",
+      handler: () => {
+        window.open("https://scholar.google.com/citations?user=W6vF-VcAAAAJ", "_blank");
+      },
+    },{
+      id: "contact-bluesky",
+      title: "Bluesky",
+      description: "Social updates Bluesky Sirui Tao.",
+      section: "Contact",
+      handler: () => {
+        window.open("https://siruitao.bsky.social", "_blank");
+      },
+    },{
+      id: "contact-x",
+      title: "X / Twitter",
+      description: "Social updates X Twitter Sirui Tao.",
+      section: "Contact",
+      handler: () => {
+        window.open("https://x.com/SiruiTao", "_blank");
       },
     },];
-    </script> <script src="/assets/js/shortcut-key.js?v=a78c9ea7ea2754b2c53aa191c30e0ae5"></script> <script type="module" src="/assets/js/reading-effects.mjs?v=edfe1c035721ac13a6638b5cc7daed1a"></script> </body> </html>
+
+  </script> <script src="/assets/js/shortcut-key.js?v=a78c9ea7ea2754b2c53aa191c30e0ae5"></script> <script type="module" src="/assets/js/reading-effects.mjs?v=edfe1c035721ac13a6638b5cc7daed1a"></script> </body> </html>
