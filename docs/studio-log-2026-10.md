@@ -113,3 +113,30 @@ Unpublished (`docs/` is excluded from the build). A public version in Sirui's vo
 - **Backtalk:** Three's own `compileAsync` cut blocking from 26 s to 5 s, but each first frame still linked ten programs. A define diff showed the shadow variants matched except for one key field: the shadow pass draws without a scene, so it is keyed without fog. Then the scene suite failed because the wait used `setTimeout`, which its paused clock freezes; polling moved to the browser scheduler. Final: 0.6 s of blocking reads, the longest startup frame 0.2 s, readiness 11.3 → 7.5 s, and 0 changed pixels in deterministic captures.
 - **Reframe:** Next is the outside view's cost: about 2,000 draws a frame, partly because the sea mirror redraws the scene.
 - **Concept:** A shader program has a creation cost and a first-use cost. `KHR_parallel_shader_compile` (Khronos, 2019) lets a page ask "is it done?" (`COMPLETION_STATUS_KHR`) instead of waiting, but only if nothing reads the program first. A renderer's program cache is an equality test over compile state, so warming up means reproducing that state exactly, down to whether fog exists.
+
+## 12. Twelve cards, one row
+
+- **Frame:** On a 390 px phone the twelve site-experiment cards stacked into about 6,650 px of scrolling before "Other playful builds".
+- **Dimensions:** section height, how much of the next card shows (the affordance), position feedback, and an expanded card's width.
+- **Move:** Below 768 px the grid becomes one scroll-snapped row (`_sass/_design-details.scss`), each card 84% wide so the next one peeks; a "1 / 12" count follows the card most in view (`assets/js/project-cards.js`), and the row is a focusable region for arrow keys. An expanded card widens to the full row.
+- **Backtalk:** The section shrinks to about 690 px; the existing disclosure test still finds every story with no clipping or overflow, because the expanded card claims the row instead of squeezing into its slot.
+- **Reframe:** The desktop grid stays; a carousel only pays off where the column is one card wide.
+- **Concept:** _Scroll snapping_ (CSS Scroll Snap) turns free scrolling into discrete stops without hijacking the gesture. The peeking edge is the affordance; Norman's _The Design of Everyday Things_ calls such cues signifiers.
+
+## 13. A scroll-driven laptop, no script
+
+- **Frame:** The revamp case study told its before/after in captions; the change itself was easy to miss.
+- **Dimensions:** scroll progress through the section, lid angle, wipe position, and which capture each moment shows.
+- **Move:** `_sass/_revamp-device.scss` pins a CSS laptop while the reader scrolls: the lid opens on the February 9 Wayback capture, then the screen wipes along an orange seam to an October 12 capture of the same 1440 × 1000 view.
+- **Backtalk:** The first wipe showed the seam during the lid opening (an animation's `both` fill applies its first keyframe early), and the base's extra width overflowed phones; both fixed. Under reduced motion or automation the laptop stands open with a February/today button.
+- **Reframe:** Use the same pattern only where a single comparison carries the story.
+- **Concept:** _Scroll-driven animations_ (`animation-timeline: view()`, CSS Scroll-driven Animations) map scroll position to an animation's progress on the compositor, so the effect stays smooth without a scroll listener.
+
+## 14. Springs, named by their damping
+
+- **Frame:** Buttons and menus moved on fixed 180 ms eases, so a press felt like a fade rather than something physical.
+- **Dimensions:** damping ratio ζ (overshoot) and period T (speed), giving settle time; plus which controls deserve a bouncier spring.
+- **Move:** `_sass/_springs.scss` defines a confident spring (ζ 0.8, settles in 0.48 s, 1.5% overshoot) for buttons and menus and a playful one (ζ 0.55, 0.9 s, 12.6%) for the desk toys; `bin/spring_easing.cjs` turns any ζ and T into a CSS `linear()` curve. The theme menu enters with `@starting-style`; reading disclosures open through `::details-content`.
+- **Backtalk:** Measured in the browser, "When this paper helps" grows from 46 to 477 px in about 160 ms, overshoots to 481, and settles; the menu scales from 0.96 to 1.0003 and back.
+- **Reframe:** Keep springs on direct manipulation and discrete toggles; ambient motion stays on eases or stops.
+- **Concept:** A damped harmonic oscillator; overshoot is e^(−ζπ/√(1−ζ²)). Apple's spring guidance (WWDC23, "Animate with springs") describes springs by bounce and duration rather than stiffness and mass, the same two dimensions here.
