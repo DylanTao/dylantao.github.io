@@ -232,13 +232,41 @@ export function createPacific(scene, renderer, config) {
   const printSun = new THREE.Mesh(new THREE.SphereGeometry(2.0, 24, 12), new THREE.MeshBasicMaterial({ color: 0xf08a49 }));
   printSun.position.set(-12, 9, -48);
   root.add(printSun);
+  // One generator and capture scene for the home's lifetime. A generator disposed after each
+  // capture released its blur program, and PMREMGenerator draws a fresh background material behind
+  // every capture, so each rebuild (every 20-minute light step, a dragged sun-arc preview) relinked
+  // both and the first capture also waited on the sky's program: about 0.3 s of blocked page.
+  // A held copy of that background material keeps its program, and all three programs are created
+  // here, before the first capture, so the driver compiles them in parallel with the coast's load.
+  const capture = new THREE.Scene();
+  capture.add(sky.clone());
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const captureBackground = new THREE.Mesh(
+    new THREE.BoxGeometry(),
+    new THREE.MeshBasicMaterial({ side: THREE.BackSide, depthWrite: false, depthTest: false })
+  );
+  const captureTarget = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
+  {
+    const previous = renderer.getRenderTarget(),
+      captureCamera = new THREE.PerspectiveCamera(90, 1, 0.1, 180);
+    // fromScene sizes its targets and creates the blur material on first use (three r164's
+    // _setSize/_allocateTargets); doing it here at the same 256 px leaves fromScene that material.
+    if (typeof pmrem._setSize === "function" && typeof pmrem._allocateTargets === "function") {
+      pmrem._setSize(256);
+      pmrem._allocateTargets().dispose();
+    }
+    renderer.setRenderTarget(captureTarget);
+    try {
+      renderer.compile(capture, captureCamera);
+      renderer.compile(captureBackground, captureCamera);
+      if (pmrem._blurMaterial && pmrem._lodPlanes?.[0]) renderer.compile(new THREE.Mesh(pmrem._lodPlanes[0], pmrem._blurMaterial), captureCamera);
+    } finally {
+      renderer.setRenderTarget(previous);
+    }
+  }
   function makeEnvironment() {
     if (environment) environment.dispose();
-    const capture = new THREE.Scene();
-    capture.add(sky.clone());
-    const pmrem = new THREE.PMREMGenerator(renderer);
     environment = pmrem.fromScene(capture, 0.04, 0.1, 180);
-    pmrem.dispose();
     scene.environment = environment.texture;
   }
   function setPalette(next, light) {
@@ -302,6 +330,10 @@ export function createPacific(scene, renderer, config) {
     });
     [physicalWater, modelWater, printWater, skyMaterial, capMaterial, printSun.material].forEach((m) => m.dispose());
     environment?.dispose();
+    pmrem.dispose();
+    captureBackground.geometry.dispose();
+    captureBackground.material.dispose();
+    captureTarget.dispose();
     particleSystems.forEach(({ material }) => material.dispose());
     root.removeFromParent();
   }

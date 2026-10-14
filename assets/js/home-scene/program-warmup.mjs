@@ -40,6 +40,22 @@ function compileAsOverride(renderer, scene, camera, material, accept) {
 // depth program's variant. One proxy per distinct variant is kept for the renderer's lifetime: the
 // shadow pass's own material shares its program, and disposing the proxy could release it.
 const shadowProxies = new WeakMap();
+// The shadow pass writes the same state onto a caster's custom depth material before every draw,
+// so a double-sided plant's wind-depth material draws double-sided: compile it that way.
+function copyShadowState(target, material) {
+  Object.assign(target, {
+    side: material.shadowSide ?? SHADOW_SIDE[material.side],
+    alphaMap: material.alphaMap,
+    alphaTest: material.alphaTest,
+    map: material.map,
+    clipShadows: material.clipShadows,
+    clippingPlanes: material.clippingPlanes,
+    clipIntersection: material.clipIntersection,
+    displacementMap: material.displacementMap,
+    displacementScale: material.displacementScale,
+    displacementBias: material.displacementBias,
+  });
+}
 const textureSlot = (texture) => (texture ? `t${texture.channel}` : "");
 function casterVariant(object, material, light) {
   const geometry = object.geometry;
@@ -83,30 +99,19 @@ function compileShadowCastersWithoutFog(renderer, scene, camera) {
     const custom = light.isPointLight ? "customDistanceMaterial" : "customDepthMaterial";
     scene.traverse((object) => {
       if (!object.isMesh || !object.castShadow) return;
-      if (object[custom]) {
-        pending.push([object, object[custom]]);
-        return;
-      }
       for (const material of [object.material].flat()) {
         if (!material) continue;
+        if (object[custom]) {
+          pending.push([object, object[custom], material]);
+          continue;
+        }
         const variant = casterVariant(object, material, light);
         if (used.has(variant)) continue;
         used.add(variant);
         let proxy = proxies.get(variant);
         if (!proxy) {
           proxy = light.isPointLight ? new THREE.MeshDistanceMaterial() : new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
-          Object.assign(proxy, {
-            side: material.shadowSide ?? SHADOW_SIDE[material.side],
-            alphaMap: material.alphaMap,
-            alphaTest: material.alphaTest,
-            map: material.map,
-            clipShadows: material.clipShadows,
-            clippingPlanes: material.clippingPlanes,
-            clipIntersection: material.clipIntersection,
-            displacementMap: material.displacementMap,
-            displacementScale: material.displacementScale,
-            displacementBias: material.displacementBias,
-          });
+          copyShadowState(proxy, material);
           proxies.set(variant, proxy);
         }
         pending.push([object, proxy]);
@@ -114,7 +119,8 @@ function compileShadowCastersWithoutFog(renderer, scene, camera) {
     });
   }
   // Each proxy compiles against the caster that selects its variant, with the scene's lights.
-  for (const [object, material] of pending) {
+  for (const [object, material, caster] of pending) {
+    if (caster) copyShadowState(material, caster);
     const original = object.material;
     object.material = material;
     try {
@@ -153,7 +159,12 @@ function compileTransmissionBackfaces(renderer, scene, camera) {
 // of a few materials with a task boundary between them keep the page responsive. Each batch is an
 // ordinary compile of the whole scene with the other meshes' materials set aside, so the lights,
 // fog and environment, and therefore every program key, are those compile(scene) would use.
-async function compileSceneInBatches(renderer, scene, camera, target, materials, onBatch, size = 6) {
+// The driver compiles on a worker pool as wide as the CPU, and this scene's first view is about
+// 35 s of D3D11 compiler time. Submitting every batch at once kept all 22 cores of the reference
+// desktop busy, and the page's own thread then waited up to 1.5 s for a turn while doing 3-7 ms of
+// work. After its task boundary, the next batch waits until no more than `slots` programs are
+// compiling.
+async function compileSceneInBatches(renderer, scene, camera, target, queue, slots, onBatch, size = 6) {
   const holders = [],
     pending = new Set();
   scene.traverse((object) => {
@@ -163,18 +174,21 @@ async function compileSceneInBatches(renderer, scene, camera, target, materials,
   });
   const all = [...pending];
   for (let start = 0; start < all.length; start += size) {
-    const batch = new Set(all.slice(start, start + size));
+    const batch = new Set(all.slice(start, start + size)),
+      compiled = [];
     withTarget(renderer, target, () => {
       try {
         for (const [object, material] of holders)
           object.material = Array.isArray(material) ? material.filter((entry) => batch.has(entry)) : batch.has(material) ? material : null;
-        for (const material of renderer.compile(scene, camera)) materials.add(material);
+        for (const material of renderer.compile(scene, camera)) compiled.push(material);
       } finally {
         for (const [object, material] of holders) object.material = material;
       }
     });
+    queue.add(compiled);
     onBatch?.(Math.min(all.length, start + size), all.length);
     await new Promise((resolve) => later(resolve, 0));
+    await queue.drain(slots);
   }
 }
 
@@ -202,25 +216,46 @@ const later = (callback, delay) =>
 // A finished program still needs a main-thread link resolution on first use (about 0.1 s each for
 // this scene's largest programs on ANGLE/D3D11). Resolve each one in its own task as soon as the
 // driver reports it complete, so the first frame does not pay for all of them at once.
-function waitForPrograms(programs, timeout, onProgress) {
-  const total = programs.size;
-  onProgress?.(0, total);
-  return new Promise((resolve) => {
-    let waited = 0;
-    const poll = () => {
-      const ready = [...programs].find((program) => program.isReady());
-      if (ready) {
-        programs.delete(ready);
-        ready.getUniforms();
-        ready.getAttributes();
-        onProgress?.(total - programs.size, total);
-      } else waited += 16;
-      if (!programs.size || waited > timeout) resolve(programs.size === 0);
-      else later(poll, ready ? 0 : 16);
-    };
-    poll();
-  });
+function createCompileQueue(renderer, timeout) {
+  const seen = new Set(),
+    compiling = new Set();
+  let waited = 0,
+    resolved = 0;
+  return {
+    get seen() {
+      return seen.size;
+    },
+    get resolved() {
+      return resolved;
+    },
+    add(materials) {
+      for (const program of programsOf(renderer, materials)) {
+        if (seen.has(program)) continue;
+        seen.add(program);
+        compiling.add(program);
+      }
+    },
+    // Resolves to whether no more than `limit` programs are still compiling; false once the
+    // timeout (counted in polls) has run out.
+    async drain(limit, onResolved) {
+      while (compiling.size > limit && waited <= timeout) {
+        const ready = [...compiling].find((program) => program.isReady());
+        if (ready) {
+          compiling.delete(ready);
+          ready.getUniforms();
+          ready.getAttributes();
+          resolved++;
+          onResolved?.();
+        } else waited += 16;
+        await new Promise((resolve) => later(resolve, ready ? 0 : 16));
+      }
+      return compiling.size <= limit;
+    },
+  };
 }
+
+// Half the logical cores, so the page, the compositor and the GPU process's own thread keep theirs.
+const compileSlots = () => Math.max(2, Math.floor((globalThis.navigator?.hardwareConcurrency || 4) / 2));
 
 /**
  * Create every program one composed frame needs and resolve once the driver has finished them.
@@ -228,7 +263,8 @@ function waitForPrograms(programs, timeout, onProgress) {
  * with the meshes they draw; `passes` are full-screen materials with the target each draws into and
  * an optional `prepare(renderer)` that sets the defines the pass would set on its first draw.
  * `onProgress(fraction)` reports the work done for the loading bar: submitting the scene's batches
- * is the first 40%, programs the driver has finished the rest.
+ * is the first 40%, programs the driver has finished the rest (counted once every program is known,
+ * so the fraction never runs ahead of the work).
  * Resolves to true when every program is ready, false after `timeout` (a lost context never
  * reports completion; the first draw then falls back to the blocking path) or at once when the
  * driver cannot compile in parallel or is a software rasterizer.
@@ -243,20 +279,25 @@ function softwareRenderer(renderer) {
 
 export async function prepareFramePrograms(renderer, scene, camera, { target, overrides = [], passes = [], timeout = 12000, onProgress } = {}) {
   if (!renderer.extensions.has("KHR_parallel_shader_compile") || softwareRenderer(renderer)) return false;
-  const materials = new Set();
-  await compileSceneInBatches(renderer, scene, camera, target, materials, (done, total) => onProgress?.((0.4 * done) / total));
+  const queue = createCompileQueue(renderer, timeout),
+    slots = compileSlots();
+  await compileSceneInBatches(renderer, scene, camera, target, queue, slots, (done, total) => onProgress?.((0.4 * done) / total));
+  const extra = new Set();
   withTarget(renderer, target, () => {
     for (const { material, accept } of overrides) {
       compileAsOverride(renderer, scene, camera, material, accept);
-      materials.add(material);
+      extra.add(material);
     }
-    for (const material of compileShadowCasters(renderer, scene, camera)) materials.add(material);
-    for (const material of compileTransmissionBackfaces(renderer, scene, camera)) materials.add(material);
+    for (const material of compileShadowCasters(renderer, scene, camera)) extra.add(material);
+    for (const material of compileTransmissionBackfaces(renderer, scene, camera)) extra.add(material);
   });
   for (const { material, toScreen = false, prepare } of passes) {
     prepare?.(renderer);
     withTarget(renderer, toScreen ? null : target, () => renderer.compile(new THREE.Mesh(fullscreenGeometry, material), fullscreenCamera));
-    materials.add(material);
+    extra.add(material);
   }
-  return waitForPrograms(programsOf(renderer, materials), timeout, (ready, total) => onProgress?.(0.4 + 0.6 * (total ? ready / total : 1)));
+  queue.add(extra);
+  const report = () => onProgress?.(0.4 + 0.6 * (queue.seen ? queue.resolved / queue.seen : 1));
+  report();
+  return queue.drain(0, report);
 }
