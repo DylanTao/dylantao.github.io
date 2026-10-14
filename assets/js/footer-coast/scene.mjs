@@ -12,6 +12,33 @@ const THEMES = {
 };
 const clamp = (x, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, x));
 
+// An hour chosen on the theme panel's sun arc (sun-arc.mjs) blends the four authored looks by the
+// minute, each anchored where that theme stands on the arc, so the coast's light moves with the
+// slider instead of jumping at theme boundaries.
+const LOOK_ANCHORS = [
+  ["morning", 480],
+  ["noon", 750],
+  ["afternoon", 1020],
+  ["evening", 1320],
+  ["morning", 1920],
+];
+const mixColor = (a, b, t) => new THREE.Color(a).lerp(new THREE.Color(b), t).getHex();
+function themeAtMinute(minute) {
+  const m = ((minute % 1440) + 1440) % 1440;
+  const at = m < LOOK_ANCHORS[0][1] ? m + 1440 : m;
+  let i = 0;
+  while (i < LOOK_ANCHORS.length - 2 && at >= LOOK_ANCHORS[i + 1][1]) i++;
+  const [fromName, from] = LOOK_ANCHORS[i],
+    [toName, to] = LOOK_ANCHORS[i + 1];
+  const t = clamp((at - from) / (to - from)),
+    a = THEMES[fromName],
+    b = THEMES[toName];
+  const blended = {};
+  for (const key of Object.keys(a))
+    blended[key] = ["sky", "ground", "sun", "water"].includes(key) ? mixColor(a[key], b[key], t) : a[key] + (b[key] - a[key]) * t;
+  return blended;
+}
+
 function reflectionStudio(renderer) {
   // A tiny generated light studio supplies broad, soft reflections in the glass.
   const room = new THREE.Scene();
@@ -232,7 +259,11 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   }
 
   function syncTheme() {
-    theme = THEMES[document.documentElement.dataset.themeMode] || (document.documentElement.dataset.theme === "dark" ? THEMES.evening : THEMES.noon);
+    const preview = window.siteTime?.preview;
+    theme =
+      preview != null
+        ? themeAtMinute(preview)
+        : THEMES[document.documentElement.dataset.themeMode] || (document.documentElement.dataset.theme === "dark" ? THEMES.evening : THEMES.noon);
     hemi.color.set(theme.sky);
     hemi.groundColor.set(theme.ground);
     hemi.intensity = theme.fill;
@@ -502,6 +533,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   observer.observe(surface);
   resizer.observe(surface);
   themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme-mode", "data-theme"] });
+  window.addEventListener("siteTimeChange", syncTheme);
   surface.addEventListener("pointermove", onPointer);
   surface.addEventListener("pointerdown", onDown);
   surface.addEventListener("pointerup", onLeave);
@@ -538,6 +570,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     observer.disconnect();
     resizer.disconnect();
     themeObserver.disconnect();
+    window.removeEventListener("siteTimeChange", syncTheme);
     host.removeEventListener("coast:place", draw);
     document.removeEventListener("visibilitychange", syncRunning);
     reduced.removeEventListener("change", onMotion);
