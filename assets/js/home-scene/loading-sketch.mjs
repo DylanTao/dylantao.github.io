@@ -196,10 +196,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
         dispose();
         return;
       }
-      const box = source.getBoundingClientRect(),
-        width = Math.max(32, Math.round(box.width / 2)),
-        height = Math.max(32, Math.round(box.height / 2));
-      const snapshot = createImageBitmap(source, { resizeWidth: width, resizeHeight: height, resizeQuality: "medium" }).catch(() => null);
+      // The hand-over is scheduled before anything that could fail, so the drawing always goes.
       let ended = false;
       const end = () => {
         if (ended) return;
@@ -211,21 +208,32 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
       settle = end;
       setTimeout(reveal, 240);
       setTimeout(end, 1400);
-      snapshot.then((bitmap) => {
-        if (disposed) return bitmap?.close();
-        if (worker) return send({ type: "finish", bitmap }, bitmap ? [bitmap] : []);
-        let targets = null;
-        if (bitmap) {
-          const reader = document.createElement("canvas");
-          reader.width = bitmap.width;
-          reader.height = bitmap.height;
-          const context = reader.getContext("2d", { willReadFrequently: true });
-          context.drawImage(bitmap, 0, 0);
-          targets = frameStrokes(context.getImageData(0, 0, reader.width, reader.height).data, reader.width, reader.height, engine?.count || 800);
-          bitmap.close();
-        }
-        send({ type: "finish", targets });
-      });
+      let snapshot = Promise.resolve(null);
+      try {
+        const box = source.getBoundingClientRect(),
+          width = Math.max(32, Math.round(box.width / 2)),
+          height = Math.max(32, Math.round(box.height / 2));
+        snapshot = createImageBitmap(source, { resizeWidth: width, resizeHeight: height, resizeQuality: "medium" }).catch(() => null);
+      } catch {
+        // Some engines refuse to snapshot a WebGL canvas; the last drawing then stands in.
+      }
+      snapshot
+        .then((bitmap) => {
+          if (disposed) return bitmap?.close();
+          if (worker) return send({ type: "finish", bitmap }, bitmap ? [bitmap] : []);
+          let targets = null;
+          if (bitmap) {
+            const reader = document.createElement("canvas");
+            reader.width = bitmap.width;
+            reader.height = bitmap.height;
+            const context = reader.getContext("2d", { willReadFrequently: true });
+            context.drawImage(bitmap, 0, 0);
+            targets = frameStrokes(context.getImageData(0, 0, reader.width, reader.height).data, reader.width, reader.height, engine?.count || 800);
+            bitmap.close();
+          }
+          send({ type: "finish", targets });
+        })
+        .catch(() => send({ type: "finish", targets: null }));
     },
     dispose,
   };

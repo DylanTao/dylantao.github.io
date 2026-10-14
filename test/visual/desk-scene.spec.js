@@ -679,9 +679,11 @@ test("coastal loading sketch: pen strokes fill the empty scene until the first f
     releaseAvatar();
     await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
     // The strokes hand over within their 1.4 s bound plus the fade, leaving the scene's one canvas.
-    await expect(sketch).toHaveCount(0, { timeout: 5000 });
+    // The bound is page time: Linux CI's software renderer holds the page for seconds per frame,
+    // which delays the hand-over's timers to about 20 s there.
+    await expect(sketch).toHaveCount(0, { timeout: 45000 });
     await expect(scene.locator("canvas")).toHaveCount(1);
-    await expect.poll(() => scene.locator("canvas").evaluate((c) => getComputedStyle(c).opacity)).toBe("1");
+    await expect.poll(() => scene.locator("canvas").evaluate((c) => getComputedStyle(c).opacity), { timeout: 15000 }).toBe("1");
     expect(errors).toEqual([]);
   } finally {
     releaseAvatar();
