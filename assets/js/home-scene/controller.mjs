@@ -1686,7 +1686,10 @@ export function createCoastalHome(container, records, artifacts) {
             elapsed,
           }) || []
         : [];
-      if (moving) {
+      // Like the steam below, the ripples evolve only where they can be seen: the bath's own room
+      // and the cutaway overview. From the coast the pool is a few pixels, and its solver was about
+      // a tenth of the outside frame (2.7 of 30 ms on the test laptop's integrated GPU).
+      if (moving && (currentRoom === "onsen" || currentRoom === "overview")) {
         onsenWater.advance(delta, { contacts });
       }
     }
