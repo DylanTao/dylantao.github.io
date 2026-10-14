@@ -9,10 +9,7 @@
       "duvet": {
         "hemY": -2.6,
         "startZ": 3.35,
-        "grid": [
-          77,
-          71
-        ]
+        "grid": [77, 71]
       }
     },
     "lizard": {
@@ -22,10 +19,7 @@
       "duvet": {
         "hemY": -2.8545,
         "startZ": 3.5696,
-        "grid": [
-          77,
-          63
-        ]
+        "grid": [77, 63]
       },
       "coverChecked": 30202,
       "aboveCoverUnderside": 290,
@@ -40,10 +34,7 @@
       "duvet": {
         "hemY": -2.9257,
         "startZ": 3.5204,
-        "grid": [
-          77,
-          60
-        ]
+        "grid": [77, 60]
       },
       "coverChecked": 48465,
       "aboveCoverUnderside": 588,
@@ -58,10 +49,7 @@
       "duvet": {
         "hemY": -2.8717,
         "startZ": 3.5203,
-        "grid": [
-          77,
-          62
-        ]
+        "grid": [77, 62]
       },
       "coverChecked": 62715,
       "aboveCoverUnderside": 3867,
@@ -76,10 +64,7 @@
       "duvet": {
         "hemY": -2.6204,
         "startZ": 3.5204,
-        "grid": [
-          77,
-          71
-        ]
+        "grid": [77, 71]
       },
       "coverChecked": 77802,
       "aboveCoverUnderside": 3721,
@@ -94,10 +79,7 @@
       "duvet": {
         "hemY": -2.8843,
         "startZ": 3.5203,
-        "grid": [
-          77,
-          62
-        ]
+        "grid": [77, 62]
       },
       "coverChecked": 57136,
       "aboveCoverUnderside": 370,
