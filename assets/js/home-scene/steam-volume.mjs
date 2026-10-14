@@ -1,4 +1,5 @@
 import * as THREE from "../three.module.min.js";
+import { wellLightGLSL, wellUniforms } from "./light-well.mjs";
 
 // Original short-range single-scattering integrator, informed by Wronski's
 // 2014 volumetric fog notes. This is a local volume, not his frustum-grid system.
@@ -104,6 +105,8 @@ export function createSteamVolume(field, { steps = 40, extinction = 4.5, albedo 
       steamDirectional: { value: new THREE.Vector3(1.8, 1.45, 1.1) },
       steamLightDirection: { value: new THREE.Vector3(0.3, 0.8, 0.2).normalize() },
       steamAnisotropy: { value: THREE.MathUtils.clamp(anisotropy, -0.8, 0.8) },
+      // Off until the light well is known: then the sun reaches the steam only through the shaft.
+      ...wellUniforms(null),
     },
     fragmentShader = `
 precision highp float;
@@ -114,6 +117,7 @@ uniform mat4 steamProjectionInverse, steamCameraWorld;
 uniform float steamExtinction, steamAlbedo, steamAnisotropy, steamSegment;
 uniform vec3 steamAmbient, steamDirectional, steamLightDirection;
 ${steamSamplingGLSL}
+${wellLightGLSL}
 vec3 steamWorldPoint(vec2 uv, float depth) {
   vec4 p=steamProjectionInverse*vec4(uv*2.-1.,depth*2.-1.,1.);
   return (steamCameraWorld*vec4(p.xyz/p.w,1.)).xyz;
@@ -155,7 +159,7 @@ void main() {
     float lightDensity=steamDensity(clamp(p+steamLightDirection*.10,steamMin,steamMax))
       +steamDensity(clamp(p+steamLightDirection*.25,steamMin,steamMax));
     float lightTransmission=exp(-lightDensity*steamExtinction*.15);
-    vec3 incident=steamAmbient+steamDirectional*(phase*lightTransmission);
+    vec3 incident=steamAmbient+steamDirectional*(phase*lightTransmission*wellLight(p,steamLightDirection));
     radiance+=transmittance*(1.-attenuation)*steamAlbedo*incident;
     transmittance*=attenuation;
     if(transmittance<.02) break;
@@ -234,6 +238,10 @@ void main() {
       uniforms.steamOpaqueDepth.value = opaqueDepthTexture;
       uniforms.steamTransmissionDepth.value = transmissionDepthTexture;
       depthCamera = camera;
+    },
+    // The bath's sun arrives only through the light well's shaft (light-well.mjs).
+    setWell(well) {
+      for (const [key, uniform] of Object.entries(wellUniforms(well))) uniforms[key].value = uniform.value;
     },
     setLighting({ ambient, directional, direction, anisotropy: nextAnisotropy } = {}) {
       if (ambient) uniforms.steamAmbient.value.fromArray(ambient);

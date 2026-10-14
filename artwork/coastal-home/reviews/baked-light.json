@@ -345,72 +345,6 @@
       "max": 0.68
     },
     {
-      "mesh": "onsen_water",
-      "corners": 1408,
-      "min": 0.68,
-      "max": 0.6948072519774239
-    },
-    {
-      "mesh": "onsen__linen",
-      "corners": 1248,
-      "min": 0.68,
-      "max": 0.7159421164356173
-    },
-    {
-      "mesh": "onsen__honey ash",
-      "corners": 1968,
-      "min": 0.68,
-      "max": 0.7652777762959401
-    },
-    {
-      "mesh": "onsen__terracotta",
-      "corners": 1280,
-      "min": 0.68,
-      "max": 0.7626353606457512
-    },
-    {
-      "mesh": "onsen__charcoal",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.6964188951253891
-    },
-    {
-      "mesh": "onsen__olive leaf",
-      "corners": 2288,
-      "min": 0.68,
-      "max": 0.7524023808290562
-    },
-    {
-      "mesh": "onsen__warm cut stone",
-      "corners": 1584,
-      "min": 0.68,
-      "max": 0.7611728105569879
-    },
-    {
-      "mesh": "onsen_decor warm cut stone",
-      "corners": 23040,
-      "min": 0.68,
-      "max": 0.7638271105041107
-    },
-    {
-      "mesh": "onsen_decor cedar wood",
-      "corners": 1564,
-      "min": 0.68,
-      "max": 0.7508576482286057
-    },
-    {
-      "mesh": "onsen_decor brushed brass",
-      "corners": 224,
-      "min": 0.68,
-      "max": 0.705214483179152
-    },
-    {
-      "mesh": "onsen_decor dry bamboo",
-      "corners": 732,
-      "min": 0.68,
-      "max": 0.7180878117183845
-    },
-    {
       "mesh": "sleep__honey ash",
       "corners": 1968,
       "min": 0.68,
@@ -769,6 +703,72 @@
       "corners": 812,
       "min": 0.68,
       "max": 0.7750117344409228
+    },
+    {
+      "mesh": "onsen_water",
+      "corners": 1408,
+      "min": 0.68,
+      "max": 0.6945492105558515
+    },
+    {
+      "mesh": "onsen__linen",
+      "corners": 1248,
+      "min": 0.68,
+      "max": 0.7158009597534936
+    },
+    {
+      "mesh": "onsen__honey ash",
+      "corners": 1968,
+      "min": 0.68,
+      "max": 0.7655211769541105
+    },
+    {
+      "mesh": "onsen__terracotta",
+      "corners": 1280,
+      "min": 0.68,
+      "max": 0.7625328442578515
+    },
+    {
+      "mesh": "onsen__charcoal",
+      "corners": 704,
+      "min": 0.68,
+      "max": 0.7041708108658592
+    },
+    {
+      "mesh": "onsen__olive leaf",
+      "corners": 2288,
+      "min": 0.68,
+      "max": 0.7598114534157018
+    },
+    {
+      "mesh": "onsen__warm cut stone",
+      "corners": 1584,
+      "min": 0.68,
+      "max": 0.7611728116745751
+    },
+    {
+      "mesh": "onsen_decor warm cut stone",
+      "corners": 23040,
+      "min": 0.68,
+      "max": 0.7638271118700505
+    },
+    {
+      "mesh": "onsen_decor cedar wood",
+      "corners": 1564,
+      "min": 0.68,
+      "max": 0.750580479738613
+    },
+    {
+      "mesh": "onsen_decor brushed brass",
+      "corners": 224,
+      "min": 0.68,
+      "max": 0.705214483551681
+    },
+    {
+      "mesh": "onsen_decor dry bamboo",
+      "corners": 732,
+      "min": 0.68,
+      "max": 0.7190409226467213
     }
   ]
 }

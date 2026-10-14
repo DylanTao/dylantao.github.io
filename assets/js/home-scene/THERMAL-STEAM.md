@@ -139,3 +139,7 @@ translation speed, thermal rise, positive diffusion/cooling, source escape,
 warmup and abort, atlas quantization, interval partitioning, analytic
 Beer–Lambert composition, phase normalization and adapter resource ownership.
 Source/CPU checks do not confirm that a WebGL shader compiled or looked correct.
+
+## Light well
+
+Since October 14 the bath's sun arrives through a light well (`light-well.mjs`). The directional term at each march sample is multiplied by the same penumbral shaft visibility the dust beam uses, so only steam inside the beam is sunlit; ambient light is unchanged. With no light well configured (`setWell` not called, or `?onsen-light=open`), the term is unmasked as before.

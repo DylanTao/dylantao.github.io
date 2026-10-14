@@ -30,7 +30,7 @@ light.rotation_euler=(Vector((0,-2,1))-light.location).to_track_quat('-Z','Y').t
 selected=[]
 bpy.ops.object.select_all(action='DESELECT')
 for o in scene.objects:
-    if o.type=='MESH' and o.name.startswith(prefixes) and not o.name.startswith('core_continuous') and not o.get('caveRoof'):
+    if o.type=='MESH' and o.name.startswith(prefixes) and not o.name.startswith('core_continuous') and not o.get('caveRoof') and not o.get('shadowOnly'):
         for a in list(o.data.color_attributes):o.data.color_attributes.remove(a)
         a=o.data.color_attributes.new(name='Baked contact and bounce',type='FLOAT_COLOR',domain='CORNER')
         o.data.color_attributes.active_color=a

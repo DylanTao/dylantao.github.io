@@ -17,6 +17,7 @@ import { createRecordMotion } from "./record-motion.mjs";
 import { createCameraMotion } from "./camera-motion.mjs";
 import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
 import { createLoadingSketch } from "./loading-sketch.mjs";
+import { createLightWell } from "./light-well.mjs";
 import { bindContactLighting, withoutContactLighting } from "./contact-occlusion.mjs";
 import { createCharacterPerformance } from "./character-performance.mjs";
 import { createOcclusionRegion } from "./occlusion-region.mjs";
@@ -473,6 +474,11 @@ export function createCoastalHome(container, records, artifacts) {
   // The bed keeps a made duvet until someone lies down in it, then shows the pillow and duvet
   // fitted to that avatar (bin/refresh_coastal_bedding.py). Only the made bed is static light.
   const beddings = [];
+  // The onsen's vault stays in the sun's shadow map while the cutaway lifts it, so the bath is lit
+  // through its light well (light-well.mjs). ?onsen-light=open restores the open cutaway sun there.
+  const shadowOnly = own(new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false })),
+    openOnsen = new URLSearchParams(location.search).get("onsen-light") === "open";
+  let lightWell = null;
   function syncBedding() {
     const sleeper = container.dataset.animation === "sleep" && beddings.some((o) => o.userData.bedding === avatarId) ? avatarId : "empty";
     for (const object of beddings) object.visible = object.userData.bedding === sleeper;
@@ -484,6 +490,13 @@ export function createCoastalHome(container, records, artifacts) {
         o.castShadow = o.receiveShadow = true;
       }
       if (o.userData.renderStyle) o.visible = o.userData.renderStyle === style;
+      if (o.userData.shadowOnly && o.isMesh) {
+        o.visible = !openOnsen;
+        o.material = shadowOnly;
+        o.receiveShadow = false;
+        o.frustumCulled = false;
+        o.userData.fixedMaterial = o.userData.noOcclusion = o.userData.noContactOcclusion = o.userData.noVolumeDepth = true;
+      }
       if (o.userData.bedding) {
         beddings.push(o);
         if (o.userData.bedding !== "empty") o.userData.dynamic = true;
@@ -498,6 +511,7 @@ export function createCoastalHome(container, records, artifacts) {
         const handle = skinDiffusion?.bind(m, m.name === "Sirui shirt" ? { surface: true, enabled: false } : {});
         if (handle) m.userData.skinDiffusion = handle;
         staticLightField?.bindMaterial(m);
+        lightWell?.bindMaterial(m);
       }
     });
     return root;
@@ -789,6 +803,17 @@ export function createCoastalHome(container, records, artifacts) {
         direction: daylight.keyDirection,
       });
     }
+    if (lightWell && pacific) {
+      const sky = pacific.lightColors();
+      lightWell.setSun(
+        daylight.keyDirection,
+        sun.color
+          .clone()
+          .multiplyScalar(daylight.sunlight > 0 ? sun.intensity : 0)
+          .toArray(),
+        sky.zenith.map((value, k) => (value + sky.horizon[k]) / 2)
+      );
+    }
     container.dataset.scenePalette = routine.palette;
   }
 
@@ -808,7 +833,20 @@ export function createCoastalHome(container, records, artifacts) {
     steamVolume = createSteamVolume(field, { extinction: 0.7 });
     steamVolume.object.visible = false;
     scene.add(steamVolume.object);
-    finish.setVolume(steamVolume);
+    if (lightWell) steamVolume.setWell(config.lightWell);
+    lightWell?.setPool(pool.center, pool.radius, pool.surfaceY);
+    // The steam and the light well's dust beam share one opaque-depth capture.
+    finish.setVolume({
+      object: {
+        get visible() {
+          return steamVolume.object.visible || Boolean(lightWell?.object.visible);
+        },
+      },
+      setDepth(opaque, transmission, camera) {
+        steamVolume.setDepth(opaque, transmission, camera);
+        lightWell?.setDepth(opaque, camera);
+      },
+    });
     // Prepare a mature static composition one short task at a time. This
     // setup never increments the visitor's animation clock or owns a RAF.
     field.prewarmAsync(6, { yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)), shouldContinue: () => !disposed }).then((complete) => {
@@ -1888,6 +1926,10 @@ export function createCoastalHome(container, records, artifacts) {
       // The small volume is a close bath detail. Do not capture two complete
       // coast depth buffers or evolve hidden steam in distant exterior views.
       steamVolume.object.visible = steamReady && currentRoom === "onsen";
+      if (lightWell) {
+        lightWell.object.visible = currentRoom === "onsen" && lightWell.open > 0 && daylight?.sunlight > 0;
+        if (moving && lightWell.object.visible) lightWell.uniforms.wellTime.value = elapsed;
+      }
       if (moving && steamVolume.object.visible) steamVolume.field.advance(delta, { fieldTime: elapsed });
       steamVolume.sync();
     }
@@ -1993,6 +2035,13 @@ export function createCoastalHome(container, records, artifacts) {
         if (mesh.isMesh) for (const material of [mesh.material].flat()) staticLightField.bindMaterial(material);
       });
       art.setContactLighting(finish.contactLighting);
+      // The light well over the onsen (light-well.mjs) binds every material it might light, so it
+      // exists before the first model is prepared.
+      if (config.lightWell && !openOnsen) {
+        lightWell = createLightWell(config.lightWell, { region: { min: [1.9, 0, 1.2], max: [5.3, 0, 5.6] } });
+        scene.add(lightWell.object);
+        cleanup.push(() => lightWell?.dispose());
+      }
       container.append(renderer.domElement);
       loadingSketch?.cover(renderer.domElement);
       const shell = await loadModel(new URL(config.shell, manifestUrl).href, "house");
