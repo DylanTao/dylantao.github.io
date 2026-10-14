@@ -51,6 +51,8 @@ const remember = (key, value) => {
 // ACES, so a comparison shows tone and color rather than a brighter or darker picture.
 const TONE_MAPPING = { aces: THREE.ACESFilmicToneMapping, agx: THREE.AgXToneMapping, neutral: THREE.NeutralToneMapping };
 const TONE_EXPOSURE = { aces: 1, agx: 1.08, neutral: 1.24 };
+const CANVAS_LABEL =
+  "Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag or Shift+arrows move the view; plus and minus zoom, and zooming out past a room shows the whole house, then the coast. In the whole house, click a room or press 1 to 6 to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside.";
 
 export function createCoastalHome(container, records, artifacts) {
   const stage = container.closest("[data-home-artifact-stage]");
@@ -966,10 +968,7 @@ export function createCoastalHome(container, records, artifacts) {
     container.removeAttribute("data-focused-desk-object");
     container.removeAttribute("data-coastal-neighbour");
     container.dataset.deskView = currentRoom === "outside" ? "outside" : "room";
-    renderer?.domElement.setAttribute(
-      "aria-label",
-      "Sirui’s coastal home. Drag or use arrow keys to look around, plus and minus to zoom, N to visit a coastal neighbour, D to discover a record, Escape to return inside."
-    );
+    renderer?.domElement.setAttribute("aria-label", CANVAS_LABEL);
   }
 
   function inspectNeighbour(id) {
@@ -1106,9 +1105,129 @@ export function createCoastalHome(container, records, artifacts) {
     inspectNeighbour(neighbours[(index + 1) % neighbours.length].id);
   }
 
+  // Visitors can lean in closer than the authored framings (Sirui, 2026-10-14): the zoom-in limit is
+  // about half the authored one, never nearer than 1.6 m in a room, 7 m for the house or 10 m outside.
+  const nearerEnvelopes = new WeakMap();
   function cameraEnvelope() {
-    return animalFocus ? wildlifeEnvelope(animalFocus.radius) : envelopeFor(config, currentRoom);
+    if (animalFocus) return wildlifeEnvelope(animalFocus.radius);
+    const authored = envelopeFor(config, currentRoom);
+    if (!authored) return authored;
+    let envelope = nearerEnvelopes.get(authored);
+    if (!envelope) {
+      const [scale, floor] = currentRoom === "outside" ? [0.5, 10] : currentRoom === "overview" ? [0.7, 7] : [0.55, 1.6];
+      const near = Math.min(authored.radius[0], Math.max(floor, authored.radius[0] * scale));
+      envelope = { ...authored, radius: [near, authored.radius[1]] };
+      nearerEnvelopes.set(authored, envelope);
+    }
+    return envelope;
   }
+
+  // Semantic zoom (Sirui, 2026-10-14): zooming out past a room's widest view opens the whole house,
+  // and past that the coast; zooming in walks back, into the room under the pointer. A view changes
+  // only when the visitor keeps zooming after reaching its limit, so one hard flick still stops at
+  // the edge, and a 0.7 s lull forgets a partial push.
+  let zoomPush = 0,
+    zoomPushAt = 0;
+  function zoomBy(factor, event = null) {
+    if (!(factor > 0) || factor === 1) return;
+    explore.explore();
+    followClock = false;
+    if (focused) clearFocus();
+    const [near, far] = cameraEnvelope()?.radius || [0, Infinity];
+    const now = performance.now();
+    if (now - zoomPushAt > 700) zoomPush = 0;
+    const atLimit = factor > 1 ? desiredRadius >= far * 0.985 : desiredRadius <= near * 1.015;
+    if (!atLimit) {
+      zoomPush = 0;
+      desiredRadius *= factor;
+    } else {
+      zoomPush += Math.log(factor);
+      zoomPushAt = now;
+      const next = Math.abs(zoomPush) > 0.32 ? (factor > 1 ? outerView() : innerView(event)) : null;
+      if (next) {
+        zoomPush = 0;
+        setRoom(next);
+      }
+    }
+    requestFrame();
+  }
+  const outerView = () => (animalFocus || currentRoom === "overview" ? "outside" : currentRoom === "outside" ? null : "overview");
+  const innerView = (event) =>
+    currentRoom === "outside" && !animalFocus ? "overview" : currentRoom === "overview" ? roomAt(event) || routine?.room || "study" : null;
+
+  // The room under the pointer in the whole-house view, from each streamed room's bounds.
+  const roomBounds = new WeakMap(),
+    roomHit = new THREE.Vector3();
+  function roomAt(event) {
+    if (!event || !renderer) return null;
+    const rect = renderer.domElement.getBoundingClientRect();
+    ray.setFromCamera(
+      new THREE.Vector2(((event.clientX - rect.left) / rect.width) * 2 - 1, 1 - ((event.clientY - rect.top) / rect.height) * 2),
+      camera
+    );
+    let best = null,
+      nearest = Infinity;
+    for (const [id, root] of rooms) {
+      if (!root) continue;
+      let box = roomBounds.get(root);
+      if (!box) roomBounds.set(root, (box = new THREE.Box3().setFromObject(root)));
+      if (!ray.ray.intersectBox(box, roomHit)) continue;
+      const distance = roomHit.distanceTo(ray.ray.origin);
+      if (distance < nearest) {
+        nearest = distance;
+        best = id;
+      }
+    }
+    return best;
+  }
+
+  // Moving the viewpoint (Shift- or right-drag, two fingers, Shift+arrows) slides the target over the
+  // floor within the view's reach, so the house never drifts out of frame.
+  const panReach = () => (animalFocus ? 0 : currentRoom === "outside" ? 26 : currentRoom === "overview" ? 6 : 1);
+  const panOrigin = new THREE.Vector3();
+  function panBy(dx, dy) {
+    const reach = panReach();
+    if (!reach || !renderer || !config) return;
+    explore.explore();
+    followClock = false;
+    if (focused) clearFocus();
+    const height = renderer.domElement.getBoundingClientRect().height || 1;
+    const perPixel = (2 * Math.tan(THREE.MathUtils.degToRad(perspective.fov) / 2) * radius) / height,
+      along = dy / Math.max(0.35, Math.sin(cameraPitch));
+    desiredTarget.x += (-dx * Math.cos(cameraYaw) - along * Math.sin(cameraYaw)) * perPixel;
+    desiredTarget.z += (dx * Math.sin(cameraYaw) - along * Math.cos(cameraYaw)) * perPixel;
+    const view = config.views[currentRoom] || config.rooms.find((r) => r.id === currentRoom);
+    if (view?.target) {
+      panOrigin.fromArray(view.target);
+      const ox = desiredTarget.x - panOrigin.x,
+        oz = desiredTarget.z - panOrigin.z,
+        distance = Math.hypot(ox, oz);
+      if (distance > reach) {
+        desiredTarget.x = panOrigin.x + (ox / distance) * reach;
+        desiredTarget.z = panOrigin.z + (oz / distance) * reach;
+      }
+    }
+    requestFrame();
+  }
+
+  // A quiet, transient line over the scene: how to zoom, or the room under the pointer.
+  const hint = document.createElement("p");
+  hint.className = "home-world-hint";
+  hint.setAttribute("aria-hidden", "true");
+  let hintTimer = 0,
+    zoomHints = 0;
+  function showHint(text, milliseconds = 0) {
+    clearTimeout(hintTimer);
+    if (!text) {
+      hint.dataset.visible = "false";
+      return;
+    }
+    if (!hint.isConnected) container.append(hint);
+    hint.textContent = text;
+    hint.dataset.visible = "true";
+    if (milliseconds) hintTimer = setTimeout(() => (hint.dataset.visible = "false"), milliseconds);
+  }
+  const zoomHint = /Mac|iPhone|iPad/.test(navigator.platform) ? "Hold ⌘ and scroll to zoom" : "Hold Ctrl and scroll to zoom";
 
   function syncCutaway() {
     world.traverse((object) => {
@@ -1318,23 +1437,33 @@ export function createCoastalHome(container, records, artifacts) {
     const canvas = renderer.domElement;
     canvas.className = "home-desk-corner-canvas";
     canvas.tabIndex = 0;
-    canvas.setAttribute(
-      "aria-label",
-      "Sirui’s coastal home. Drag or use arrow keys to look around, plus and minus to zoom, N to visit a coastal neighbour, D to discover a record, Escape to return inside."
-    );
+    canvas.setAttribute("aria-label", CANVAS_LABEL);
+    // Right-drag moves the viewpoint, so the canvas keeps its own context menu out of the way.
+    listen(canvas, "contextmenu", (e) => e.preventDefault());
     listen(canvas, "pointerdown", (e) => {
-      if (e.button !== 0) return;
+      if (e.button > 2) return;
       if (e.pointerType === "touch") {
         touches.set(e.pointerId, [e.clientX, e.clientY]);
         if (touches.size === 2) {
           const [a, b] = [...touches.values()];
-          pinch = { distance: Math.hypot(a[0] - b[0], a[1] - b[1]), radius: desiredRadius };
+          pinch = { distance: Math.hypot(a[0] - b[0], a[1] - b[1]), x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 };
           pointer = null;
           canvas.setPointerCapture(e.pointerId);
           return;
         }
       }
-      pointer = { id: e.pointerId, x: e.clientX, y: e.clientY, lastX: e.clientX, lastY: e.clientY, object: pick(e, true), moved: 0 };
+      // Shift- or right-drag (or the middle button) moves the viewpoint; plain drag orbits.
+      const pan = e.button === 1 || e.button === 2 || (e.button === 0 && e.shiftKey);
+      pointer = {
+        id: e.pointerId,
+        x: e.clientX,
+        y: e.clientY,
+        lastX: e.clientX,
+        lastY: e.clientY,
+        object: pan ? null : pick(e, true),
+        moved: 0,
+        pan,
+      };
       canvas.setPointerCapture(e.pointerId);
       explore.explore();
       followClock = false;
@@ -1346,19 +1475,30 @@ export function createCoastalHome(container, records, artifacts) {
       }
       if (touches.has(e.pointerId)) touches.set(e.pointerId, [e.clientX, e.clientY]);
       if (pinch && touches.size === 2) {
-        const [a, b] = [...touches.values()];
-        desiredRadius = (pinch.radius * pinch.distance) / Math.max(15, Math.hypot(a[0] - b[0], a[1] - b[1]));
-        requestFrame();
+        // Two fingers pinch to zoom and slide together to move the viewpoint.
+        const [a, b] = [...touches.values()],
+          distance = Math.max(15, Math.hypot(a[0] - b[0], a[1] - b[1])),
+          x = (a[0] + b[0]) / 2,
+          y = (a[1] + b[1]) / 2;
+        zoomBy(pinch.distance / distance);
+        panBy(x - pinch.x, y - pinch.y);
+        Object.assign(pinch, { distance, x, y });
         return;
       }
       if (!pointer) {
-        canvas.style.cursor = pick(e) ? "pointer" : "grab";
+        const object = pick(e),
+          room = !object && currentRoom === "overview" ? roomAt(e) : null;
+        canvas.style.cursor = object || room ? "pointer" : "grab";
+        if (currentRoom === "overview") showHint(room ? `${config.rooms.find((r) => r.id === room)?.label || room} · click to visit` : null);
         return;
       }
       pointer.moved = Math.hypot(e.clientX - pointer.x, e.clientY - pointer.y);
       if (pointer.moved > 5) {
-        yaw -= (e.clientX - pointer.lastX) * 0.008;
-        pitch += (e.clientY - pointer.lastY) * 0.006;
+        if (pointer.pan) panBy(e.clientX - pointer.lastX, e.clientY - pointer.lastY);
+        else {
+          yaw -= (e.clientX - pointer.lastX) * 0.008;
+          pitch += (e.clientY - pointer.lastY) * 0.006;
+        }
       }
       pointer.lastX = e.clientX;
       pointer.lastY = e.clientY;
@@ -1371,9 +1511,18 @@ export function createCoastalHome(container, records, artifacts) {
         return;
       }
       if (!pointer || pointer.id !== e.pointerId) return;
-      if (pointer.moved < 6) activate(pointer.object);
-      else if (pointer.moved > 70 && pointer.object?.userData.action.type === "record") dropRecord(pointer.object.userData.action.index);
+      if (pointer.moved < 6 && !pointer.pan) {
+        // In the whole-house view, a click on a room visits it.
+        const room = !pointer.object && currentRoom === "overview" ? roomAt(e) : null;
+        if (room) {
+          showHint(null);
+          setRoom(room);
+        } else activate(pointer.object);
+      } else if (pointer.moved > 70 && pointer.object?.userData.action.type === "record") dropRecord(pointer.object.userData.action.index);
       pointer = null;
+    });
+    listen(canvas, "pointerleave", () => {
+      if (currentRoom === "overview" && !pointer) showHint(null);
     });
     listen(canvas, "pointercancel", () => {
       pointer = null;
@@ -1384,26 +1533,46 @@ export function createCoastalHome(container, records, artifacts) {
       canvas,
       "wheel",
       (e) => {
-        if (document.activeElement !== canvas && !pointer) return;
+        // A trackpad pinch arrives as Ctrl+wheel; Ctrl/⌘+scroll zooms without focusing the scene.
+        // Plain scrolling stays with the page until the scene is focused, with a brief reminder.
+        const pinching = e.ctrlKey || e.metaKey;
+        if (!pinching && document.activeElement !== canvas && !pointer) {
+          if (zoomHints < 3 && hint.dataset.visible !== "true") {
+            zoomHints++;
+            showHint(zoomHint, 1800);
+          }
+          return;
+        }
         e.preventDefault();
-        explore.explore();
-        followClock = false;
-        if (focused) clearFocus();
-        desiredRadius += e.deltaY * 0.007;
-        requestFrame();
+        const lines = e.deltaMode === 1 ? 32 : e.deltaMode === 2 ? 320 : 1;
+        // A pinch reports small steps; a mouse notch (also with Ctrl) is about 100.
+        const pinchStep = pinching && Math.abs(e.deltaY * lines) < 40;
+        zoomBy(Math.exp(e.deltaY * lines * (pinchStep ? 0.01 : 0.0016)), e);
       },
       { passive: false }
     );
     listen(canvas, "keydown", (e) => {
       if (e.ctrlKey || e.metaKey || e.altKey || e.isComposing) return;
+      // Shift+arrows move the viewpoint; in the whole house, 1 to 6 visit the rooms in order.
+      if (e.shiftKey && e.key.startsWith("Arrow")) {
+        e.preventDefault();
+        const step = { ArrowLeft: [60, 0], ArrowRight: [-60, 0], ArrowUp: [0, 60], ArrowDown: [0, -60] }[e.key];
+        if (step) panBy(...step);
+        return;
+      }
+      if (currentRoom === "overview" && /^[1-9]$/.test(e.key) && config.rooms[Number(e.key) - 1]) {
+        e.preventDefault();
+        setRoom(config.rooms[Number(e.key) - 1].id);
+        return;
+      }
       const keys = {
         ArrowLeft: () => (yaw += 0.18),
         ArrowRight: () => (yaw -= 0.18),
         ArrowUp: () => (pitch += 0.1),
         ArrowDown: () => (pitch -= 0.1),
-        "+": () => (desiredRadius -= 0.5),
-        "=": () => (desiredRadius -= 0.5),
-        "-": () => (desiredRadius += 0.5),
+        "+": () => zoomBy(1 / 1.16),
+        "=": () => zoomBy(1 / 1.16),
+        "-": () => zoomBy(1.16),
         Escape: () => setRoom("study"),
         Enter: () => (animalFocus ? setRoom("outside") : focused && activate(focused)),
         n: nextNeighbour,
