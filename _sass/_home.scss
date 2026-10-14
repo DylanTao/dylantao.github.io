@@ -34,7 +34,6 @@
   --home-card-wash: color-mix(in srgb, var(--global-primary-container-color) 10%, transparent);
   --home-shadow: 0 18px 42px rgba(var(--global-shadow-rgb), 0.1);
   --home-coffee-stain-blend: multiply;
-  --home-coffee-stain-image: url("../img/home/coffee-stain-noon.svg");
   --home-coffee-stain-opacity: 0.88;
 
   // One short breath before the footer; the last section's own padding does the rest.
@@ -109,28 +108,23 @@ html[data-theme="dark"] .home-page {
   --home-paper-edge: var(--global-paper-edge-color);
   --home-paper-shadow: 0 0.48rem 1rem rgba(var(--global-shadow-rgb), 0.3);
   --home-coffee-stain-blend: normal;
-  --home-coffee-stain-image: url("../img/home/coffee-stain-evening.svg");
   --home-coffee-stain-opacity: 0.92;
 }
 
 html[data-theme-mode="morning"] .home-page {
-  --home-coffee-stain-image: url("../img/home/coffee-stain-morning.svg");
   --home-coffee-stain-opacity: 0.9;
 }
 
 html[data-theme-mode="noon"] .home-page {
-  --home-coffee-stain-image: url("../img/home/coffee-stain-noon.svg");
   --home-coffee-stain-opacity: 0.86;
 }
 
 html[data-theme-mode="afternoon"] .home-page {
-  --home-coffee-stain-image: url("../img/home/coffee-stain-afternoon.svg");
   --home-coffee-stain-opacity: 0.82;
 }
 
 html[data-theme-mode="evening"] .home-page {
   --home-coffee-stain-blend: normal;
-  --home-coffee-stain-image: url("../img/home/coffee-stain-evening.svg");
   --home-coffee-stain-opacity: 0.92;
 }
 
@@ -1685,15 +1679,20 @@ html[data-theme="dark"] .home-record-card-link {
   width: min(13.8rem, 43%);
   aspect-ratio: 1 / 1;
   z-index: 9;
-  background: var(--home-coffee-stain-image) center / contain no-repeat;
+  // home-coffee-stain.js paints a new stain on each visit and fades it in once it is ready.
+  background: var(--home-coffee-stain-image, none) center / contain no-repeat;
   content: "";
-  filter: saturate(1.08) contrast(1.04);
   mix-blend-mode: var(--home-coffee-stain-blend);
-  opacity: calc(var(--home-coffee-stain-opacity) * 0.38);
+  opacity: 0;
   pointer-events: none;
   transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, -12deg))
     scale(var(--home-coffee-stain-scale, 1));
   transform-origin: 52% 50%;
+  transition: opacity 700ms ease;
+}
+
+.home-artifact-stack.has-coffee-stain[data-coffee-stain-ready]::before {
+  opacity: calc(var(--home-coffee-stain-opacity) * 0.8);
 }
 
 html[data-theme="dark"] .home-artifact-stack {
@@ -3365,7 +3364,6 @@ html.home-motion-ready .home-reveal.home-visible {
     top: -1.84rem;
     right: clamp(-1.05rem, -4vw, -0.45rem);
     width: min(12.25rem, 47vw);
-    opacity: calc(var(--home-coffee-stain-opacity) * 0.38);
   }
 
   .home-portrait-frame {
