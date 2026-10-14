@@ -2,7 +2,7 @@
 layout: post
 title: starting my pottery journey
 date: 2025-08-31 09:00:00
-description: Three commissioned pieces from a pottery course with Ellen Fager at the UCSD Craft Center.
+description: Three commissioned pottery designs, still drafts, from a course with Ellen Fager at the UCSD Craft Center.
 tags: pottery cool-things art
 categories: reflections
 featured: false

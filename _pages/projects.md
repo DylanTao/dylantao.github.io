@@ -1,6 +1,7 @@
 ---
 layout: page
 title: projects
+display_title: Projects.
 permalink: /projects/
 description: "Research artifacts, prototypes, and studies that make questions concrete. Open a card to inspect the artifact, contribution, and links."
 nav: true

@@ -160,7 +160,7 @@ cinematic: true
   </aside>
 </section>
 
-## How DesignWeaver Works
+## How it works
 
 1. **Upload Design Brief**  
    Client persona, requirements, and moodboard go in; the system extracts three initial dimensions.
@@ -180,7 +180,7 @@ cinematic: true
     Figure 2: Overview of the iterative design process using DesignWeaver. The process involves four main stages: (1) Ingest the design document to extract initial dimensions and tags, (2) Refine and recommend dimensions to generate prompts, (3) Use prompts to render and refine images, and (4) Iterate based on new dimensions and tags inspired by the generated images.
 </div>
 
-## Key Features of DesignWeaver
+## Key features
 
 1. **Dimension Palette**
    - Extracts dimensions (style, color, form) from an uploaded brief
@@ -204,7 +204,7 @@ cinematic: true
     Figure 3: User Interface of DesignWeaver. The UI facilitates structured dimensional tagging and interactive exploration of AI-generated designs. Key features include a design document for guidance, a prompt box for input, a dimension palette for organizing and modifying design aspects, and an image panel displaying generated outputs. Users can add or delete dimensions, tag designs, view detailed image information, and curate favorite designs for final selection. This workflow supports iterative refinement and creativity.
 </div>
 
-## DesignWeaver Implementation Details
+## Implementation details
 
 - **Frontend:** React
 - **Backend:** Python + Firebase / Firestore
@@ -219,7 +219,7 @@ cinematic: true
     Figure 4: The baseline interface mimics a standard text-to-image setup, excluding scaffolding components.
 </div>
 
-## DesignWeaver Research Results
+## Results
 
 A user study involving 52 novice designers revealed that DesignWeaver:
 
@@ -236,7 +236,7 @@ A user study involving 52 novice designers revealed that DesignWeaver:
     Figure 5: Workflow of the user study.
 </div>
 
-## DesignWeaver Impact & Conclusion
+## Impact
 
 DesignWeaver bridges the gap between novice and expert design approaches by:
 

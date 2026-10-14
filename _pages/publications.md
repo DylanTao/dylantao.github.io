@@ -2,6 +2,7 @@
 layout: page
 permalink: /publications/
 title: publications
+display_title: Publications.
 description: Papers and workshop pieces, kept chronological.
 nav: true
 nav_order: 1
