@@ -9,6 +9,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CONTROLLER = REPO_ROOT / "assets" / "js" / "home-scene" / "controller.mjs"
 WARMUP = REPO_ROOT / "assets" / "js" / "home-scene" / "program-warmup.mjs"
 REALISM = REPO_ROOT / "assets" / "js" / "home-scene" / "realism.mjs"
+ENVIRONMENT = REPO_ROOT / "assets" / "js" / "home-scene" / "environment.mjs"
 WORLD_CONTROLS = REPO_ROOT / "_includes" / "home" / "world_controls.liquid"
 
 
@@ -50,6 +51,35 @@ class SceneProgramWarmupTests(unittest.TestCase):
         prepare = source[source.index("export async function prepareFramePrograms(") :]
         self.assertIn("await compileSceneInBatches(", prepare)
         self.assertNotIn("renderer.compile(scene, camera)", prepare)
+
+    def test_compiles_wait_for_free_cores(self) -> None:
+        # Submitting every batch at once kept all 22 cores compiling while the page's thread
+        # waited up to 1.5 s for a turn (2026-10-13, docs/studio-log-2026-10.md card 26).
+        source = WARMUP.read_text(encoding="utf-8")
+        self.assertIn("navigator?.hardwareConcurrency", source)
+        batches = source[source.index("async function compileSceneInBatches(") : source.index("// Full-screen passes")]
+        self.assertLess(batches.index("later(resolve, 0)"), batches.index("await queue.drain(slots);"))
+        prepare = source[source.index("export async function prepareFramePrograms(") :]
+        self.assertIn("return queue.drain(0, report);", prepare)
+
+    def test_custom_depth_materials_compile_in_their_shadow_state(self) -> None:
+        # The shadow pass copies the caster's side onto a custom depth material before drawing, so a
+        # double-sided plant's wind depth material linked late, at the first frame (0.4 s).
+        source = WARMUP.read_text(encoding="utf-8")
+        casters = source[source.index("function compileShadowCastersWithoutFog(") : source.index("// A transmissive, double-sided")]
+        self.assertIn("pending.push([object, object[custom], material]);", casters)
+        self.assertIn("if (caster) copyShadowState(material, caster);", casters)
+
+    def test_environment_capture_keeps_its_programs(self) -> None:
+        # A generator disposed after each capture released its blur program; the first capture
+        # also waited on the sky's program.
+        source = ENVIRONMENT.read_text(encoding="utf-8")
+        make = source[source.index("function makeEnvironment()") : source.index("function setPalette(")]
+        self.assertNotIn("new THREE.PMREMGenerator", make)
+        self.assertNotIn("pmrem.dispose()", make)
+        before = source[: source.index("function makeEnvironment()")]
+        self.assertIn("renderer.compile(capture, captureCamera);", before)
+        self.assertIn("pmrem.dispose();", source[source.index("function dispose()") :])
 
     def test_loading_bar_reports_finished_work(self) -> None:
         controls = WORLD_CONTROLS.read_text(encoding="utf-8")
