@@ -644,6 +644,49 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
     releaseAvatar();
   }
 });
+test("coastal loading sketch: pen strokes fill the empty scene until the first frame takes over", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
+  let releaseAvatar;
+  const avatarGate = new Promise((resolve) => {
+    releaseAvatar = resolve;
+  });
+  await page.route("**/sirui-*.glb", async (route) => {
+    await avatarGate;
+    await route.continue();
+  });
+  try {
+    // Automation keeps the plain loading state unless the URL asks for the live layer.
+    await page.goto(publicRouteUrl("/") + "?cinematic=live", { waitUntil: "domcontentloaded" });
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    const scene = page.locator("[data-home-desk-scene]");
+    await expect(scene).toHaveAttribute("data-loading-stage", "room", { timeout: 30000 });
+    const sketch = scene.locator(".home-world-sketch");
+    await expect(sketch).toHaveCount(1);
+    await expect(sketch).toHaveAttribute("aria-hidden", "true");
+    // The render waits, transparent, beneath the drawing.
+    expect(await scene.locator("canvas:not(.home-world-sketch)").evaluate((c) => getComputedStyle(c).opacity)).toBe("0");
+    await page.waitForTimeout(1600);
+    const drawing = PNG.sync.read(await sketch.screenshot());
+    let ink = 0;
+    for (let i = 0; i < drawing.data.length; i += 4) {
+      if (0.299 * drawing.data[i] + 0.587 * drawing.data[i + 1] + 0.114 * drawing.data[i + 2] < 170) ink++;
+    }
+    // The house drawing, not an empty canvas: strokes darken at least half a percent of the scene.
+    expect(ink / (drawing.width * drawing.height)).toBeGreaterThan(0.005);
+    await capture(testInfo, "coastal-loading-sketch", await page.locator(".home-hero-media").screenshot());
+    releaseAvatar();
+    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+    // The strokes hand over within their 1.4 s bound plus the fade, leaving the scene's one canvas.
+    await expect(sketch).toHaveCount(0, { timeout: 5000 });
+    await expect(scene.locator("canvas")).toHaveCount(1);
+    await expect.poll(() => scene.locator("canvas").evaluate((c) => getComputedStyle(c).opacity)).toBe("1");
+    expect(errors).toEqual([]);
+  } finally {
+    releaseAvatar();
+  }
+});
 async function openHome(
   page,
   { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00", nativeFrames = false, retainedP = false } = {}

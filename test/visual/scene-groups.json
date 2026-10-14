@@ -167,6 +167,10 @@
       },
       {
         "file": "desk-scene.spec.js",
+        "title": "coastal loading sketch: pen strokes fill the empty scene until the first frame takes over"
+      },
+      {
+        "file": "desk-scene.spec.js",
         "title": "coastal transport: native skin, rooted wind and conserved onsen waves survive pause and recovery"
       },
       {

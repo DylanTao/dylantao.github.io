@@ -91,6 +91,15 @@
   display: none;
 }
 
+// The loading sketch: pen strokes over the empty scene until the first frame takes their place
+// (loading-sketch.mjs). The render beneath stays transparent until the hand-off.
+.home-world-sketch {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
 // A transient line over the scene: how to zoom without focusing it, or the room under the pointer
 // in the whole-house view. It sits inside the vignette's opaque middle and never takes input.
 .home-world-hint {
