@@ -51,8 +51,19 @@ const siteMotion = (() => {
     };
     const notify = () => {
       const event = { type: "change", matches: view.matches, media: view.media };
-      listeners.forEach((listener) => (typeof listener === "function" ? listener.call(view, event) : listener.handleEvent?.(event)));
-      if (typeof view.onchange === "function") view.onchange.call(view, event);
+      // As with a native MediaQueryList, one listener's error must not keep the rest from hearing.
+      const deliver = (listener) => {
+        try {
+          if (typeof listener === "function") listener.call(view, event);
+          else listener.handleEvent?.(event);
+        } catch (error) {
+          setTimeout(() => {
+            throw error;
+          });
+        }
+      };
+      listeners.forEach(deliver);
+      if (typeof view.onchange === "function") deliver(view.onchange);
     };
     list.addEventListener("change", () => {
       if (!paused) notify();
