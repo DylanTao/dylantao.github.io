@@ -1,5 +1,4 @@
 import { createDuhBody, deformDuhContour } from "./duh-body.mjs";
-import { createDuhSoftBody } from "./duh-softbody.mjs";
 import { clamp } from "./duh-motion.mjs";
 
 export const DUH_FORMS = ["dot", "apple", "peach", "watermelon", "square", "triangle"];
@@ -23,21 +22,19 @@ function radius(form, a) {
   return 1;
 }
 
-// Light for the soft variant's shading, keyed to the four time-of-day themes: a key highlight and a
-// rim on the far side. The charcoal silhouette itself stays stable.
+// Light for duh's shading, keyed to the four time-of-day themes: a key highlight and a rim on the
+// far side. The charcoal silhouette itself stays stable. (Kept from the soft-body preview, which
+// Sirui compared against this body on 2026-10-13 and set aside.)
 const softLight = {
   morning: { key: [255, 244, 226], keyAlpha: 0.3, rim: [255, 214, 170], rimAlpha: 0.32 },
   noon: { key: [255, 255, 250], keyAlpha: 0.34, rim: [190, 214, 236], rimAlpha: 0.26 },
   afternoon: { key: [255, 230, 196], keyAlpha: 0.32, rim: [255, 186, 120], rimAlpha: 0.34 },
   evening: { key: [214, 210, 255], keyAlpha: 0.24, rim: [176, 168, 236], rimAlpha: 0.5 },
 };
-const targetRadii = (form) => Array.from({ length: count }, (_, i) => radius(form, -Math.PI + (i * Math.PI * 2) / count));
 
 // Twenty fixed-angle radii preserve a simple boundary. Quadratic midpoints
 // stay inside their control hull; springs never alter the center collider.
-// `soft: true` draws the XPBD soft body (duh-softbody.mjs) instead of the inertial shell, with
-// follow-through eyes, smear on fast moves, and theme-keyed rim and key light.
-export function createDuhPortrait(canvas, { soft = false } = {}) {
+export function createDuhPortrait(canvas) {
   const ctx = canvas.getContext("2d");
   if (!ctx) return null;
   const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -49,8 +46,6 @@ export function createDuhPortrait(canvas, { soft = false } = {}) {
     color = [...colors.dot];
   let morphing = false;
   const body = createDuhBody();
-  const softBody = soft ? createDuhSoftBody() : null;
-  const eyeLag = [0, 0];
   const look = [0, 0];
   const expression = { open: 1, smile: 0, arch: 0 };
   let expressionActive = false;
@@ -61,7 +56,6 @@ export function createDuhPortrait(canvas, { soft = false } = {}) {
   function change(next, still) {
     form = DUH_FORMS.includes(next) ? next : "dot";
     morphing = true;
-    softBody?.setShape(targetRadii(form));
     if (still) {
       radii = radii.map((_, i) => radius(form, -Math.PI + (i * Math.PI * 2) / count));
       color = [...colors[form]];
@@ -71,10 +65,6 @@ export function createDuhPortrait(canvas, { soft = false } = {}) {
   }
   function pet(angle = -Math.PI / 2, still = false) {
     if (still) return;
-    if (softBody) {
-      softBody.pet(angle);
-      return;
-    }
     dents = dents.map((v, i) => {
       const a = -Math.PI + (i * Math.PI * 2) / count;
       const difference = Math.atan2(Math.sin(a - angle), Math.cos(a - angle));
@@ -99,7 +89,6 @@ export function createDuhPortrait(canvas, { soft = false } = {}) {
     effort = 0,
     tuck = 0,
     contactAngle = Math.PI / 2,
-    time = 0,
   } = {}) {
     const blend = still ? 1 : 1 - Math.exp(-5 * clamp(dt, 0, 0.05));
     const shell = body.step(dt, { vx: velocity[0], vy: velocity[1], ax: acceleration[0], ay: acceleration[1], held, grounded, still });
@@ -138,10 +127,7 @@ export function createDuhPortrait(canvas, { soft = false } = {}) {
     ctx.translate(48, 47 + tuck * 12);
     ctx.scale(1 - tuck * 0.38, 1 - tuck * 0.48);
     ctx.rotate(tilt);
-    // Hard landings read a touch harder on the soft body (exaggeration), within its contact bound.
-    const points = softBody
-      ? softBody.step(dt, { ax: acceleration[0], ay: acceleration[1], held, grounded, still, squash: squash * 1.3, contactAngle, time })
-      : deformDuhContour(radii, dents, shell, squash, contactAngle);
+    const points = deformDuhContour(radii, dents, shell, squash, contactAngle);
     const n = points.length;
     contact = {
       bottom: tuck * 12 + (1 - tuck * 0.48) * Math.max(...points.map(([x, y]) => x * Math.sin(tilt) + y * Math.cos(tilt))),
@@ -158,20 +144,6 @@ export function createDuhPortrait(canvas, { soft = false } = {}) {
       return shape;
     };
     const path = outline();
-    const speed = Math.hypot(velocity[0], velocity[1]);
-    if (softBody && !still && speed > 900) {
-      // Smear: two faint trailing copies along the motion, like an animator's smear frame.
-      const strength = clamp((speed - 900) / 900, 0, 1);
-      ctx.fillStyle = `rgb(${color.map((v) => Math.round(v)).join(",")})`;
-      for (const [k, alpha] of [
-        [0.012, 0.16],
-        [0.024, 0.08],
-      ]) {
-        ctx.globalAlpha = alpha * strength;
-        ctx.fill(outline(-velocity[0] * k, -velocity[1] * k));
-      }
-      ctx.globalAlpha = 1;
-    }
     const gradient = ctx.createRadialGradient(-11, -17, 2, 10, 16, 49);
     gradient.addColorStop(0, `rgb(${color.map((v, i) => clamp(v + 14 + emotion[i], 0, 255)).join(",")})`);
     gradient.addColorStop(1, `rgb(${color.map((v, i) => clamp(v - 8 + emotion[i] * 0.35, 0, 255)).join(",")})`);
@@ -180,7 +152,7 @@ export function createDuhPortrait(canvas, { soft = false } = {}) {
     ctx.strokeStyle = theme === "evening" ? "#a4a2b5" : "rgba(0,0,0,.16)";
     ctx.lineWidth = theme === "evening" ? 1.4 : 0.7;
     ctx.stroke(path);
-    if (softBody) {
+    {
       // An inflated look without per-pixel normals: a rim band on the side away from the key light,
       // a soft key highlight that rides with the deformed outline, and a core shadow toward the
       // contact. All three follow the body's actual bounds, so they squash with it.
@@ -288,15 +260,7 @@ export function createDuhPortrait(canvas, { soft = false } = {}) {
     }
     ctx.globalAlpha = 1;
     ctx.rotate(-tilt * 0.7);
-    if (softBody) {
-      // Follow-through: the face trails the body's centroid on a faster spring, so it settles a
-      // beat after the body instead of being painted on.
-      const [cx, cy] = softBody.centroid();
-      const follow = still ? 1 : 1 - Math.exp(-14 * clamp(dt, 0, 0.05));
-      eyeLag[0] += (cx * 0.9 - eyeLag[0]) * follow;
-      eyeLag[1] += (cy * 0.9 - eyeLag[1]) * follow;
-      ctx.translate(eyeLag[0], eyeLag[1]);
-    } else ctx.translate(shell.x * 0.65, shell.y * 0.65);
+    ctx.translate(shell.x * 0.65, shell.y * 0.65);
     const gx = clamp(look[0], -1, 1) * 4,
       gy = clamp(look[1], -1, 1) * 3;
     const face = color[0] * 0.21 + color[1] * 0.72 + color[2] * 0.07 > 150 ? "#3b2930" : "#fffaf1";
@@ -367,9 +331,9 @@ export function createDuhPortrait(canvas, { soft = false } = {}) {
     change,
     pet,
     draw,
-    active: () => morphing || body.active() || Boolean(softBody?.active()) || expressionActive || emotionActive,
+    active: () => morphing || body.active() || expressionActive || emotionActive,
     form: () => form,
     contact: () => ({ ...contact }),
-    evidence: () => ({ ...body.evidence(), contact: { ...contact }, emotion: [...emotion], soft: softBody?.evidence() || null }),
+    evidence: () => ({ ...body.evidence(), contact: { ...contact }, emotion: [...emotion] }),
   };
 }
