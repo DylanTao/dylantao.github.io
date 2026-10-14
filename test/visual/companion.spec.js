@@ -132,7 +132,23 @@ test("P: a partially visible playground sleeps until it owns the shared companio
   await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(false);
   // Positive control: ownership return must wake the real rendered portrait.
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().running)).toBe(true);
+  await expect
+    .poll(() => studio.evaluate((e) => e.getPipEvidence().running))
+    .toBe(true)
+    .catch(async (error) => {
+      // This wake failed intermittently since 2026-10-13 (CI mobile runs, once a local group run);
+      // report the state it stalled in.
+      const state = await studio.evaluate((e) => ({
+        ...e.getPipEvidence(),
+        pose: undefined,
+        reducedQuery: matchMedia("(prefers-reduced-motion: reduce)").matches,
+        sitePaused: window.siteMotion?.paused,
+        hidden: document.hidden,
+        rect: e.getBoundingClientRect().toJSON(),
+        innerHeight,
+      }));
+      throw new Error(`${error.message}\nstudio: ${JSON.stringify(state)}\ncompanion: ${JSON.stringify(await evidence(page))}`);
+    });
   const moving = await studio.evaluate((e) => e.getPipEvidence());
   await expect.poll(() => studio.evaluate((e) => e.getPipEvidence().frames)).toBeGreaterThan(moving.frames);
   await page.getByRole("button", { name: "Let P nap", exact: true }).click();

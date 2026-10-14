@@ -9,7 +9,8 @@ const siteMotionStorageKey = "site-motion";
 const siteMotion = (() => {
   const reducedQuery = /\(\s*prefers-reduced-motion\s*:\s*reduce\s*\)/i;
   const nativeMatchMedia = window.matchMedia.bind(window);
-  const views = new Map();
+  // Lists with change listeners, so a pause can reach them.
+  const watched = new Set();
   let paused = false;
   try {
     paused = localStorage.getItem(siteMotionStorageKey) === "paused";
@@ -21,38 +22,20 @@ const siteMotion = (() => {
     else document.documentElement.removeAttribute("data-motion");
   };
   mark();
+  // Each call keeps its own native list and that list's own change events, exactly as without the
+  // switch; the pause is only laid over what it reports. A first version shared one native list
+  // among every caller, and P's playground then intermittently never heard reduced motion end.
   window.matchMedia = (media) => {
     const list = nativeMatchMedia(media);
     if (!reducedQuery.test(media)) return list;
-    // One shared view per query, so code that asks every frame does not add listeners each time.
-    if (views.has(list.media)) return views.get(list.media).view;
     const listeners = new Set();
-    const view = {
-      media: list.media,
-      onchange: null,
-      get matches() {
-        return list.matches || paused;
-      },
-      addEventListener(type, listener) {
-        if (type === "change" && listener) listeners.add(listener);
-      },
-      removeEventListener(type, listener) {
-        listeners.delete(listener);
-      },
-      addListener(listener) {
-        if (listener) listeners.add(listener);
-      },
-      removeListener(listener) {
-        listeners.delete(listener);
-      },
-      dispatchEvent() {
-        return true;
-      },
-    };
-    const notify = () => {
-      const event = { type: "change", matches: view.matches, media: view.media };
-      // As with a native MediaQueryList, one listener's error must not keep the rest from hearing.
-      const deliver = (listener) => {
+    let onchange = null,
+      connected = false;
+    const deliver = (matches) => {
+      const event = { type: "change", matches, media: list.media };
+      // As with a native list, one listener's error must not keep the rest from hearing.
+      for (const listener of [...listeners, onchange]) {
+        if (!listener) continue;
         try {
           if (typeof listener === "function") listener.call(view, event);
           else listener.handleEvent?.(event);
@@ -61,14 +44,50 @@ const siteMotion = (() => {
             throw error;
           });
         }
-      };
-      listeners.forEach(deliver);
-      if (typeof view.onchange === "function") deliver(view.onchange);
+      }
     };
-    list.addEventListener("change", () => {
-      if (!paused) notify();
-    });
-    views.set(list.media, { view, notify });
+    // Pausing or resuming changes what this list reports only while the system setting is off.
+    const entry = { pauseChanged: () => list.matches || deliver(paused) };
+    const connect = () => {
+      if (connected) return;
+      connected = true;
+      list.addEventListener("change", (event) => paused || deliver(event.matches));
+      watched.add(entry);
+    };
+    const view = {
+      get media() {
+        return list.media;
+      },
+      get matches() {
+        return list.matches || paused;
+      },
+      get onchange() {
+        return onchange;
+      },
+      set onchange(handler) {
+        onchange = handler;
+        if (handler) connect();
+      },
+      addEventListener(type, listener) {
+        if (type !== "change" || !listener) return;
+        listeners.add(listener);
+        connect();
+      },
+      removeEventListener(type, listener) {
+        if (type === "change") listeners.delete(listener);
+      },
+      addListener(listener) {
+        if (!listener) return;
+        listeners.add(listener);
+        connect();
+      },
+      removeListener(listener) {
+        listeners.delete(listener);
+      },
+      dispatchEvent() {
+        return true;
+      },
+    };
     return view;
   };
   const api = {
@@ -85,7 +104,7 @@ const siteMotion = (() => {
         // The choice still holds for this page.
       }
       mark();
-      views.forEach(({ notify }) => notify());
+      watched.forEach((entry) => entry.pauseChanged());
       window.dispatchEvent(new CustomEvent("siteMotionChange", { detail: { paused } }));
     },
   };
