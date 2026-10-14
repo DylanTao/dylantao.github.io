@@ -830,6 +830,12 @@
     let controller = null;
     let loading = null;
     const state = { visible: false, index: 0, spinning: false, dropped: [], callbacks: {} };
+    // Committed sun-arc changes move the home's routine; "Now" returns it to San Diego time.
+    window.addEventListener("siteTimeChange", (event) => {
+      if (!controller || !event.detail?.committed) return;
+      if (event.detail.preview != null) controller.setTimePreview(event.detail.preview);
+      else controller.returnToNow();
+    });
     const get = () => {
       if (controller) return Promise.resolve(controller);
       if (!loading)
@@ -840,6 +846,8 @@
             controller.setActiveRecord(state.index);
             controller.setSpinning(state.spinning);
             controller.setDroppedRecords(state.dropped);
+            // An hour chosen on the theme panel's sun arc previews this home too (sun-arc.mjs).
+            if (window.siteTime?.preview != null) controller.setTimePreview(window.siteTime.preview);
             return controller;
           })
           .catch(() => {

@@ -237,7 +237,7 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _includes/scripts.liquid
     upstream_sha256: 6b7146cfc83ab101ba20e4ad6fb1b65aede3f6fc18ec083ad71bed07e20b93ce
-    local_sha256: a5b3dee7666b800f05162462d7aee10dfd807853e916948a0b0227a15a0ee52c
+    local_sha256: 8df77451c6d9d58120b0ee5fe6660fcc0815ea38cf4bb96f91cdc24d4b28d511
     acknowledged_at: "2026-10-13"
   _includes/selected_papers.liquid:
     owner: al_folio_core
@@ -545,8 +545,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: assets/js/theme.js
     upstream_sha256: 404c3e26402451496cffea06946c5dd061c76c8512328bfdcbe2c3572052855e
-    local_sha256: "083d7052718c404a424a0f2bad821802504662619f12b3ec23bc621d808c5b66"
-    acknowledged_at: "2026-10-12"
+    local_sha256: 987fce69c58e54ee15490f7f104667f9e13c332dfe4aff6c1d3462c519405230
+    acknowledged_at: "2026-10-13"
   assets/js/tooltips-setup.js:
     owner: al_folio_core
     gem_version: 1.0.11

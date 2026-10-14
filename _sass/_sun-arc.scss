@@ -1,0 +1,241 @@
+/*******************************************************************************
+ * Sun arc: the time-of-day control (_includes/theme_mode_control.liquid)
+ *
+ * The page's sky glow follows the chosen hour: sun-arc.mjs sets its color
+ * (--site-sky) and where it sits along the top of the page (--site-sun-x), so
+ * the light moves left to right through the day and the moon's cooler glow
+ * returns at night. Each theme sets a default for the moment before it runs.
+ ******************************************************************************/
+
+html {
+  --site-sky: 140 198 236;
+  --site-sun-x: 50%;
+}
+
+html[data-theme-mode="morning"] {
+  --site-sky: 250 206 150;
+  --site-sun-x: 24%;
+}
+
+html[data-theme-mode="afternoon"] {
+  --site-sky: 246 188 100;
+  --site-sun-x: 76%;
+}
+
+html[data-theme-mode="evening"] {
+  --site-sky: 104 90 164;
+  --site-sun-x: 64%;
+}
+
+body {
+  background-image: radial-gradient(circle at var(--site-sun-x) -6rem, rgb(var(--site-sky) / 0.3), transparent 36rem), var(--global-page-wash);
+}
+
+@media (forced-colors: active) {
+  body {
+    background-image: none;
+  }
+}
+
+.theme-menu.sun-arc-panel {
+  width: min(17.5rem, calc(100vw - 1.5rem));
+  min-width: 0;
+  gap: 0.6rem;
+  padding: 0.8rem 0.8rem 0.7rem;
+}
+
+.sun-arc {
+  --sun-sky: 140 198 236;
+
+  position: relative;
+  aspect-ratio: 240 / 124;
+  border-radius: var(--md-lite-radius-md);
+  background: linear-gradient(to bottom, rgb(var(--sun-sky) / 0.3), rgb(var(--sun-sky) / 0.08) 64%, transparent);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+
+  &.is-dragging {
+    cursor: grabbing;
+  }
+}
+
+.sun-arc-sky {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.sun-arc-day {
+  fill: none;
+  stroke: rgb(var(--sun-sky));
+  stroke-linecap: round;
+  stroke-width: 2.5;
+}
+
+.sun-arc-night {
+  fill: none;
+  stroke: var(--global-text-color-light);
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+  stroke-width: 1.5;
+  opacity: 0.55;
+}
+
+.sun-arc-horizon {
+  stroke: var(--global-divider-color);
+  stroke-width: 1;
+}
+
+.sun-arc-knob {
+  position: absolute;
+  width: 1.65rem;
+  height: 1.65rem;
+  margin: -0.825rem 0 0 -0.825rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #fffbea, #ffd36a 55%, #f39e38);
+  box-shadow:
+    0 0 0 0.32rem rgb(var(--sun-sky) / 0.38),
+    0 0 1.5rem 0.45rem rgb(255 196 84 / 0.55);
+  outline: none;
+  transition: box-shadow 200ms ease;
+
+  &.is-night {
+    background: radial-gradient(circle at 58% 38%, #fbf9ff, #d9d4f6 62%, #b4aee2);
+    box-shadow:
+      inset 0.42rem -0.16rem 0 0 rgb(122 114 186 / 0.55),
+      0 0 0 0.32rem rgb(var(--sun-sky) / 0.38),
+      0 0 1.3rem 0.35rem rgb(206 200 255 / 0.4);
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 0.42rem;
+  }
+}
+
+.sun-arc-readout {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0;
+  font-size: var(--type-meta);
+
+  strong {
+    font-weight: 600;
+  }
+
+  span {
+    color: var(--global-text-color-light);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.theme-stops {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.2rem;
+}
+
+.sun-arc-panel .theme-option {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 0.15rem;
+  min-height: 2.75rem;
+  padding: 0.3rem 0.15rem;
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.sun-arc-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.1rem;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.25rem;
+    padding: 0.25rem 0.7rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--global-text-color);
+    font-size: var(--type-meta);
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--md-lite-state-hover);
+    }
+
+    &:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.sun-arc-now[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--global-theme-color) 45%, var(--global-divider-color));
+  background: var(--md-lite-surface-tonal);
+  color: color-mix(in srgb, var(--global-theme-color) 80%, var(--global-text-color));
+}
+
+.sun-arc-motion-track {
+  position: relative;
+  flex: 0 0 auto;
+  width: 1.9rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--global-text-color-light) 35%, transparent);
+  transition: background-color 160ms ease;
+
+  &::before {
+    position: absolute;
+    top: 0.15rem;
+    left: 0.15rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--global-card-bg-color);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+    content: "";
+    transition: transform 160ms ease;
+  }
+}
+
+.sun-arc-motion[aria-checked="true"] .sun-arc-motion-track {
+  background: var(--global-theme-color);
+
+  &::before {
+    transform: translateX(0.8rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun-arc-knob,
+  .sun-arc-motion-track,
+  .sun-arc-motion-track::before {
+    transition: none;
+  }
+}
+
+// Pause motion also stills the site's looping CSS: the brand leaf, the research echo, the
+// cinematic scroll cue, the constellation float and the secret page's dog. A record spins only
+// while a visitor plays it, so it keeps turning.
+html[data-motion="paused"] {
+  .brand-orange-leaf-group,
+  .brand-orange-leaf,
+  .home-research-motion::before,
+  .case-scroll-hint-arrow,
+  .paper-constellation-paper-position,
+  .sirui-secret-dog img {
+    animation-play-state: paused !important;
+  }
+}

@@ -1,6 +1,11 @@
 {% assign theme_control_id = include.id_prefix | default: 'theme' %}
 {% assign theme_control_class = include.class | default: '' %}
 
+{% comment %}
+  The time-of-day control. The sun-arc slider (assets/js/sun-arc.mjs) chooses any hour; the four
+  stops stay as quick choices and as the contrast-checked theme modes the hour maps to. The panel
+  also holds "Now" (follow the clock) and the sitewide Pause motion switch (assets/js/theme.js).
+{% endcomment %}
 <div class="theme-mode-control {{ theme_control_class }}" data-theme-control>
   <button
     id="{{ theme_control_id }}-toggle"
@@ -8,7 +13,7 @@
     type="button"
     title="Change theme"
     aria-label="Change theme"
-    aria-haspopup="listbox"
+    aria-haspopup="dialog"
     aria-expanded="false"
     aria-controls="{{ theme_control_id }}-menu"
     data-theme-toggle
@@ -18,22 +23,50 @@
     </span>
     <span class="sr-only" data-theme-label>Morning theme</span>
   </button>
-  <div class="theme-menu" id="{{ theme_control_id }}-menu" role="listbox" aria-label="Theme mode" data-theme-menu hidden>
-    <button class="theme-option" type="button" role="option" data-theme-mode-option="morning" aria-selected="false">
-      {% include theme_mode_icon.liquid mode='morning' %}
-      <span>Morning</span>
-    </button>
-    <button class="theme-option" type="button" role="option" data-theme-mode-option="noon" aria-selected="false">
-      {% include theme_mode_icon.liquid mode='noon' %}
-      <span>Noon</span>
-    </button>
-    <button class="theme-option" type="button" role="option" data-theme-mode-option="afternoon" aria-selected="false">
-      {% include theme_mode_icon.liquid mode='afternoon' %}
-      <span>Afternoon</span>
-    </button>
-    <button class="theme-option" type="button" role="option" data-theme-mode-option="evening" aria-selected="false">
-      {% include theme_mode_icon.liquid mode='evening' %}
-      <span>Evening</span>
-    </button>
+  <div class="theme-menu sun-arc-panel" id="{{ theme_control_id }}-menu" role="group" aria-label="Time of day and motion" data-theme-menu hidden>
+    <div class="sun-arc" data-sun-arc>
+      <svg class="sun-arc-sky" viewBox="0 0 240 124" aria-hidden="true" focusable="false">
+        <path class="sun-arc-day" d="M20 82 A100 64 0 0 1 220 82" />
+        <path class="sun-arc-night" d="M220 82 A100 26 0 0 1 20 82" />
+        <line class="sun-arc-horizon" x1="6" y1="82" x2="234" y2="82" />
+      </svg>
+      <span
+        class="sun-arc-knob"
+        role="slider"
+        tabindex="0"
+        aria-label="Time of day"
+        aria-valuemin="0"
+        aria-valuemax="1439"
+        aria-valuenow="750"
+        aria-valuetext="Noon, 12:30 pm"
+        data-sun-knob
+      ></span>
+    </div>
+    <p class="sun-arc-readout" aria-hidden="true"><strong data-sun-label>Noon</strong> <span data-sun-time>12:30 pm</span></p>
+    <div class="theme-stops" role="listbox" aria-label="Theme mode">
+      <button class="theme-option" type="button" role="option" data-theme-mode-option="morning" aria-selected="false">
+        {% include theme_mode_icon.liquid mode='morning' %}
+        <span>Morning</span>
+      </button>
+      <button class="theme-option" type="button" role="option" data-theme-mode-option="noon" aria-selected="false">
+        {% include theme_mode_icon.liquid mode='noon' %}
+        <span>Noon</span>
+      </button>
+      <button class="theme-option" type="button" role="option" data-theme-mode-option="afternoon" aria-selected="false">
+        {% include theme_mode_icon.liquid mode='afternoon' %}
+        <span>Afternoon</span>
+      </button>
+      <button class="theme-option" type="button" role="option" data-theme-mode-option="evening" aria-selected="false">
+        {% include theme_mode_icon.liquid mode='evening' %}
+        <span>Evening</span>
+      </button>
+    </div>
+    <div class="sun-arc-actions">
+      <button type="button" class="sun-arc-now" data-sun-now aria-pressed="true">Now</button>
+      <button type="button" class="sun-arc-motion" role="switch" aria-checked="false" data-motion-toggle>
+        <span class="sun-arc-motion-track" aria-hidden="true"></span>
+        Pause motion
+      </button>
+    </div>
   </div>
 </div>

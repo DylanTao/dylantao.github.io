@@ -122,6 +122,16 @@ ninja.data = [
     },
   {%- endfor %}
   {
+    id: "do-motion",
+    title: "Pause motion, or resume it",
+    description: "Still the ambient animation across the site: the 3D home, duh, the coast and the sketches.",
+    section: "Do",
+    keywords: "motion pause animation reduce still accessibility",
+    handler: () => {
+      window.siteMotion?.setPaused(!window.siteMotion.paused);
+    },
+  },
+  {
     id: "do-desk-3d",
     title: "Open the 3D home",
     description: "Walk around Sirui's coastal home in 3D.",

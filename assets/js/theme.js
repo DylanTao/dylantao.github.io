@@ -1,5 +1,87 @@
 // Has to be in the head tag, otherwise a flicker effect will occur.
 
+// Pause motion (the sun-arc panel): while it is on, matchMedia("(prefers-reduced-motion: reduce)")
+// also matches and notifies its listeners, so every animated surface that already honors reduced
+// motion (the 3D home, duh, P, the footer coast, the research sketch, cinematic scenes) stills
+// through that same path without its own switch. CSS-only motion keys off html[data-motion].
+// It installs here, in the head, before any module asks.
+const siteMotionStorageKey = "site-motion";
+const siteMotion = (() => {
+  const reducedQuery = /\(\s*prefers-reduced-motion\s*:\s*reduce\s*\)/i;
+  const nativeMatchMedia = window.matchMedia.bind(window);
+  const views = new Map();
+  let paused = false;
+  try {
+    paused = localStorage.getItem(siteMotionStorageKey) === "paused";
+  } catch {
+    // Storage can be blocked; motion then simply runs.
+  }
+  const mark = () => {
+    if (paused) document.documentElement.setAttribute("data-motion", "paused");
+    else document.documentElement.removeAttribute("data-motion");
+  };
+  mark();
+  window.matchMedia = (media) => {
+    const list = nativeMatchMedia(media);
+    if (!reducedQuery.test(media)) return list;
+    // One shared view per query, so code that asks every frame does not add listeners each time.
+    if (views.has(list.media)) return views.get(list.media).view;
+    const listeners = new Set();
+    const view = {
+      media: list.media,
+      onchange: null,
+      get matches() {
+        return list.matches || paused;
+      },
+      addEventListener(type, listener) {
+        if (type === "change" && listener) listeners.add(listener);
+      },
+      removeEventListener(type, listener) {
+        listeners.delete(listener);
+      },
+      addListener(listener) {
+        if (listener) listeners.add(listener);
+      },
+      removeListener(listener) {
+        listeners.delete(listener);
+      },
+      dispatchEvent() {
+        return true;
+      },
+    };
+    const notify = () => {
+      const event = { type: "change", matches: view.matches, media: view.media };
+      listeners.forEach((listener) => (typeof listener === "function" ? listener.call(view, event) : listener.handleEvent?.(event)));
+      if (typeof view.onchange === "function") view.onchange.call(view, event);
+    };
+    list.addEventListener("change", () => {
+      if (!paused) notify();
+    });
+    views.set(list.media, { view, notify });
+    return view;
+  };
+  const api = {
+    get paused() {
+      return paused;
+    },
+    setPaused(next) {
+      if (Boolean(next) === paused) return;
+      paused = Boolean(next);
+      try {
+        if (paused) localStorage.setItem(siteMotionStorageKey, "paused");
+        else localStorage.removeItem(siteMotionStorageKey);
+      } catch {
+        // The choice still holds for this page.
+      }
+      mark();
+      views.forEach(({ notify }) => notify());
+      window.dispatchEvent(new CustomEvent("siteMotionChange", { detail: { paused } }));
+    },
+  };
+  window.siteMotion = api;
+  return api;
+})();
+
 const themeModes = ["morning", "noon", "afternoon", "evening"];
 const themeStorageKey = "theme";
 const themeManualStorageKey = "theme-manual";
@@ -445,8 +527,10 @@ let setupThemeModeControl = () => {
     closeOtherControls(control);
     menu.hidden = false;
     toggle.setAttribute("aria-expanded", "true");
+    // The sun-arc knob takes focus first, so arrow keys move the time of day at once.
+    const knob = menu.querySelector("[data-sun-knob]");
     const selected = options.find((option) => option.getAttribute("aria-selected") === "true") || options[0];
-    if (selected) selected.focus();
+    (knob || selected)?.focus();
   };
 
   controls.forEach((control) => {

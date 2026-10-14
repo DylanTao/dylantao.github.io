@@ -1362,6 +1362,61 @@ test("coastal time modes settle coherently across representative human routes", 
   expect(runtimeErrors, "sitewide coastal time-mode matrix raised browser runtime errors").toEqual([]);
 });
 
+test("sun arc moves the time of day, hands it back to the clock, and pauses motion sitewide", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one viewport covers the control's behavior");
+  const runtimeErrors = collectRuntimeErrors(page);
+  await page.clock.install({ time: new Date("2026-10-13T13:20:00-07:00") });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const root = page.locator("html");
+  const now = page.locator("#theme-menu [data-sun-now]");
+  const motion = page.locator("#theme-menu [data-motion-toggle]");
+  const reducedQuery = () => page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches);
+  await expect(root).toHaveAttribute("data-theme-mode", "noon");
+
+  await page.locator("#theme-toggle").click();
+  const knob = page.locator("#theme-menu [data-sun-knob]");
+  await expect(knob).toBeFocused();
+  await expect(knob).toHaveAttribute("aria-valuetext", "Noon, 1:20 pm");
+  await expect(now).toHaveAttribute("aria-pressed", "true");
+
+  // Keys: eight hours later is evening, and the site follows the chosen hour, not the clock.
+  for (let step = 0; step < 8; step++) await knob.press("PageUp");
+  await expect(knob).toHaveAttribute("aria-valuetext", "Evening, 9:20 pm");
+  await expect(root).toHaveAttribute("data-theme-mode", "evening");
+  await expect(now).toHaveAttribute("aria-pressed", "false");
+  expect(await root.evaluate((element) => element.style.getPropertyValue("--site-sky"))).toMatch(/^\d+ \d+ \d+$/);
+
+  // Pointer: drag the sun over to the morning side of the day arc.
+  const box = await page.locator("#theme-menu [data-sun-arc]").boundingBox();
+  const point = (x, y) => [box.x + (x / 240) * box.width, box.y + (y / 124) * box.height];
+  await page.mouse.move(...point(196, 99));
+  await page.mouse.down();
+  await page.mouse.move(...point(120, 18), { steps: 6 });
+  await page.mouse.move(...point(45, 40), { steps: 6 });
+  await page.mouse.up();
+  await expect(root).toHaveAttribute("data-theme-mode", "morning");
+  await expect(knob).toHaveAttribute("aria-valuetext", /^Morning, /);
+
+  // Pause motion: every reduced-motion query now matches, and the choice survives a reload.
+  await motion.click();
+  await expect(motion).toHaveAttribute("aria-checked", "true");
+  await expect(root).toHaveAttribute("data-motion", "paused");
+  expect(await reducedQuery()).toBe(true);
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(root).toHaveAttribute("data-motion", "paused");
+  await expect(root).toHaveAttribute("data-theme-mode", "morning");
+  await page.locator("#theme-toggle").click();
+  await motion.click();
+  await expect(root).not.toHaveAttribute("data-motion", "paused");
+  expect(await reducedQuery()).toBe(false);
+
+  // Now hands the time back to the clock.
+  await now.click();
+  await expect(root).toHaveAttribute("data-theme-mode", "noon");
+  await expect(now).toHaveAttribute("aria-pressed", "true");
+  expect(runtimeErrors).toEqual([]);
+});
+
 test("all project cards disclose and recover their stories", async ({ page }, testInfo) => {
   test.setTimeout(180000);
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "desktop and mobile exercise every expandable story");

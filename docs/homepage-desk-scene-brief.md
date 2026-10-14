@@ -54,7 +54,7 @@ Completed work is integrated locally on `main`; production deployment is a separ
 
 ## San Diego Routine
 
-Use `America/Los_Angeles`, including DST. Website themes remain visitor-local or manually selected.
+Use `America/Los_Angeles`, including DST. Website themes remain visitor-local or manually selected. Since October 13 the theme panel's sun arc (`assets/js/sun-arc.mjs`) can choose an hour: committed changes call the controller's `setTimePreview(minute)`, Now calls `returnToNow()`, and a theme chosen anywhere else never sets a preview. Pause motion in the same panel makes the reduced-motion query match, so the scene composes stills exactly as it does under the system preference.
 
 | Weekday time | Activity              | Room            |
 | ------------ | --------------------- | --------------- |
