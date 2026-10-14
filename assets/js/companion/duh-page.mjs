@@ -20,17 +20,7 @@ function start() {
     canvas = el.querySelector("canvas"),
     shadow = el.querySelector(".duh-shadow"),
     status = el.querySelector(".duh-status");
-  // A/B preview of the soft body (duh-softbody.mjs): ?duh=soft turns it on for the session and
-  // ?duh=classic turns it off. The classic inertial shell stays the default until it is chosen.
-  let variant = "classic";
-  try {
-    const requested = new URLSearchParams(location.search).get("duh");
-    if (requested === "soft" || requested === "classic") sessionStorage.setItem("duh-variant", requested);
-    variant = sessionStorage.getItem("duh-variant") === "soft" ? "soft" : "classic";
-  } catch {
-    /* Without storage the classic body stays. */
-  }
-  const portrait = createDuhPortrait(canvas, { soft: variant === "soft" });
+  const portrait = createDuhPortrait(canvas);
   el.dataset.fallback = String(!portrait);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const fine = matchMedia("(pointer:fine)");
@@ -64,7 +54,6 @@ function start() {
   let pointerId = null,
     holdTimer = 0,
     holdPoint = null,
-    recovery = null,
     initialized = false,
     groundY = s.y,
     elevation = 0,
@@ -149,7 +138,6 @@ function start() {
     holdPoint = null;
     if (id !== null && hit.hasPointerCapture(id)) hit.releasePointerCapture(id);
     model.cancel();
-    recovery = null;
     inviteArmed = false;
     outing = null;
     tilt = effort = 0;
@@ -211,7 +199,6 @@ function start() {
     const target = chooseDuhPerch(view, b, { x: s.x, y: s.y }, obstacles, main?.getBoundingClientRect());
     if (clearAt(s.x, s.y, obstacles, 96) && s.x >= b.left && s.x <= b.right && s.y >= b.top && s.y <= b.bottom) {
       visible = true;
-      recovery = null;
     } else if (!initialized) {
       visible = Boolean(target);
       if (target) {
@@ -221,18 +208,10 @@ function start() {
     } else if (still()) {
       // No surprise repositioning during reduced-motion reading or a pause.
       visible = false;
-      recovery = null;
-    } else if (target && !recovery) {
-      if (!startOuting(target, "recover"))
-        recovery = {
-          from: { x: s.x, y: s.y },
-          target,
-          at: s.time,
-          duration: Math.max(0.35, Math.hypot(target.x - s.x, target.y - s.y) / 240),
-        };
+    } else if (target && outing?.kind !== "recover") {
+      startOuting(target, "recover");
     } else if (!target) {
       visible = false;
-      recovery = null;
     }
     initialized = true;
   }
@@ -264,7 +243,6 @@ function start() {
     formIndex = 1;
     paused = false;
     syncPauseState();
-    recovery = null;
     layoutDirty = true;
     notify("Here, quietly.");
     request();
@@ -287,15 +265,28 @@ function start() {
     );
   }
   function startOuting(target, kind = "hop") {
-    const arc = kind === "roll" ? 0 : 22;
-    if (!pathClear(target, arc)) return false;
     const distance = Math.hypot(target.x - s.x, target.y - s.y);
+    // A recovery starts where duh is not clear (that is why it moves), so a path check from there
+    // always failed and duh used to slide through the text at half opacity. It now jumps: a quick
+    // wind-up, an arc sized to the distance, over whatever is in the way, to the perch that
+    // chooseDuhPerch already found clear.
+    const recover = kind === "recover";
+    const arc = kind === "roll" ? 0 : recover ? clamp(distance * 0.35, 28, 90) : 22;
+    if (!recover && !pathClear(target, arc)) return false;
     if (kind !== "greet") gaze = [(target.x - s.x) / 90, (target.y - s.y) / 90];
-    outing = { from: { x: s.x, y: s.y }, to: target, at: s.time, kind, arc, duration: clamp(distance / 115, 0.6, 2.4) };
+    outing = {
+      from: { x: s.x, y: s.y },
+      to: target,
+      at: s.time,
+      kind,
+      arc,
+      windup: recover ? 0.1 : 0.18,
+      duration: recover ? clamp(distance / 300, 0.3, 0.9) : clamp(distance / 115, 0.6, 2.4),
+    };
     groundY = s.y;
     outings++;
     s.state = kind === "tidy" ? "TIDY" : "PLAY";
-    s.mood = kind === "tidy" ? "curious" : "happy";
+    s.mood = kind === "tidy" || recover ? "curious" : "happy";
     return true;
   }
   function greet(explicit = false) {
@@ -325,7 +316,6 @@ function start() {
       !visible ||
       s.state !== "REST" ||
       outing ||
-      recovery ||
       inviteArmed ||
       readingLink ||
       getSelection()?.toString() ||
@@ -482,9 +472,9 @@ function start() {
     if (outing && !still()) {
       const t = s.time - outing.at;
       s.state = outing.kind === "tidy" ? "TIDY" : "PLAY";
-      if (t < 0.18) s.squash = Math.sin(((t / 0.18) * Math.PI) / 2) * 0.15;
+      if (t < outing.windup) s.squash = Math.sin(((t / outing.windup) * Math.PI) / 2) * 0.15;
       else {
-        const u = clamp((t - 0.18) / outing.duration, 0, 1),
+        const u = clamp((t - outing.windup) / outing.duration, 0, 1),
           eased = u * u * u * (10 + u * (-15 + 6 * u));
         const nx = outing.from.x + (outing.to.x - outing.from.x) * eased;
         const ny = outing.from.y + (outing.to.y - outing.from.y) * eased - Math.sin(u * Math.PI) * outing.arc;
@@ -536,25 +526,10 @@ function start() {
       }
     }
     if (cursor && cursor.safe && fine.matches && !still() && s.state === "REST" && s.time - cursor.at > 0.7 && s.time > nextGreeting) greet();
-    if (!navigating() && !recovery) autonomous();
+    if (!navigating()) autonomous();
     el.dataset.state = s.state;
     el.dataset.mood = s.mood;
-    if (recovery && !navigating()) {
-      const u = clamp((s.time - recovery.at) / recovery.duration, 0, 1);
-      const eased = u * u * u * (10 + u * (-15 + 6 * u));
-      const nx = recovery.from.x + (recovery.target.x - recovery.from.x) * eased;
-      const ny = recovery.from.y + (recovery.target.y - recovery.from.y) * eased;
-      s.vx = (nx - s.x) / Math.max(dt, 0.001);
-      s.vy = (ny - s.y) / Math.max(dt, 0.001);
-      s.x = nx;
-      s.y = ny;
-      visible = true;
-      if (u === 1) {
-        recovery = null;
-        s.vx = s.vy = 0;
-      }
-    }
-    el.style.opacity = visible ? (navigating() ? "0.22" : recovery ? "0.5" : "1") : "0";
+    el.style.opacity = visible ? (navigating() ? "0.22" : "1") : "0";
     tuck += ((s.state === "RETREAT" ? 1 : 0) - tuck) * (still() ? 1 : 1 - Math.exp(-8 * dt));
     el.dataset.visible = String(visible);
     el.style.transform = `translate3d(${s.x - 48}px,${s.y - 47}px,0)`;
@@ -585,7 +560,6 @@ function start() {
       tilt: still() ? 0 : tilt,
       effort: still() ? 0 : effort,
       contactAngle: s.contactAngle,
-      time: s.time,
     });
     const footprint = portrait?.contact() || { bottom: 28, halfWidth: 28 };
     shadow.style.top = 47 + (elevation > 0.5 ? 28 : footprint.bottom) - 4 + "px";
@@ -607,7 +581,6 @@ function start() {
       (!still() &&
         (["HELD", "AIRBORNE", "PLAY", "TIDY"].includes(s.state) ||
           outing ||
-          recovery ||
           navigating() ||
           layoutDirty ||
           Math.abs(tuck - (s.state === "RETREAT" ? 1 : 0)) > 0.002 ||
@@ -653,7 +626,6 @@ function start() {
     event.preventDefault();
     lastActivity = s.time;
     navigationUntil = 0;
-    recovery = null;
     outing = null;
     tilt = 0;
     restorePieces();
@@ -976,12 +948,11 @@ function start() {
   syncP();
   el.getDuhEvidence = () => ({
     ...model.evidence(),
-    variant,
     form: portrait?.form() || "dot",
     paused,
     reduced: reduced.matches,
     elevation,
-    recovering: Boolean(recovery),
+    recovering: outing?.kind === "recover",
     navigating: navigating(),
     viewport: { ...view },
     bounds: model.bounds(),

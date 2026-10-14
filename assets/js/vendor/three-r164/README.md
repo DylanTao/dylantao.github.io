@@ -13,7 +13,7 @@ No engine upgrade or second engine instance is introduced on the homepage.
 
 ## Realistic rendering and compressed models
 
-The added postprocessing, math, shader, and Draco loader files are from the same Three.js r164 tag. Bare engine imports are changed; trailing indentation on one empty line each in OutputShader and SSAOShader is removed for the repository whitespace check. The glTF Draco decoder is distributed with that release under the Apache-2.0 license retained in `libs/draco/LICENSE`. These are local assets; no runtime CDN is required. `UnrealBloomPass.js` and `LuminosityHighPassShader.js` (added 2026-10-13) serve only the home's look-lab preview (`?bloom=1`) and load on demand.
+The added postprocessing, math, shader, and Draco loader files are from the same Three.js r164 tag. Bare engine imports are changed; trailing indentation on one empty line each in OutputShader and SSAOShader is removed for the repository whitespace check. The glTF Draco decoder is distributed with that release under the Apache-2.0 license retained in `libs/draco/LICENSE`. These are local assets; no runtime CDN is required. `UnrealBloomPass.js` and `LuminosityHighPassShader.js` (added 2026-10-13) draw the home's bloom, on by default since that day (`?bloom=0` turns it off), and load on demand.
 
 `libs/draco/draco-worker.js` is the r164 loader worker extracted by `bin/prepare_draco_worker.py`, with a static import of the matching decoder wrapper. The site adapter uses it without an inline blob worker.
 
