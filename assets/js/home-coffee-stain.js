@@ -35,214 +35,161 @@
   const number = (value) => Number(value.toFixed(2));
   const between = (random, min, max) => min + random() * (max - min);
 
-  const makeDashArray = (random, count, tight = false) => {
-    const values = [];
-    for (let index = 0; index < count; index += 1) {
-      const isMark = index % 2 === 0;
-      const min = isMark ? (tight ? 18 : 24) : tight ? 8 : 11;
-      const max = isMark ? (tight ? 58 : 86) : tight ? 24 : 36;
-      values.push(number(between(random, min, max)));
-    }
-    return values.join(" ");
-  };
-
-  const ellipse = ({ cx, cy, rx, ry, rotation, fill = "none", stroke = "none", strokeWidth = 1, opacity = 1, dash = "", filter = "" }) =>
-    `<ellipse cx="${number(cx)}" cy="${number(cy)}" rx="${number(rx)}" ry="${number(ry)}" transform="rotate(${number(rotation)} ${number(cx)} ${number(
-      cy
-    )})" fill="${fill}" stroke="${stroke}" stroke-width="${number(strokeWidth)}" stroke-linecap="round" stroke-linejoin="round" opacity="${number(
-      opacity
-    )}"${dash ? ` stroke-dasharray="${dash}"` : ""}${filter ? ` filter="${filter}"` : ""}/>`;
-
-  const pointOnEllipse = (cx, cy, rx, ry, angle, rotation) => {
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
-    const rotated = (rotation / 180) * Math.PI;
-    return {
-      x: cx + rx * cos * Math.cos(rotated) - ry * sin * Math.sin(rotated),
-      y: cy + rx * cos * Math.sin(rotated) + ry * sin * Math.cos(rotated),
-    };
-  };
-
-  const createStainSvg = (seedLabel) => {
+  // A coffee ring shaped by how one dries (Deegan et al., Nature 1997): capillary flow carries the
+  // coffee to the pinned edge, so the rim is dark and sharp outside and fades inward, thickest where
+  // the drop pooled. Stick-slip leaves partial tide lines inside; the interior is a faint, uneven
+  // tint; a second, partial ring marks the cup set down again; drips get their own little rims. The
+  // evening palette is lighter, like dried coffee on a dark desk.
+  const createStainSvg = (seedLabel, palette = "light") => {
     const seed = hashSeed(seedLabel);
     const random = makeRandom(seed);
-    const cx = between(random, 174, 194);
-    const cy = between(random, 178, 198);
-    const rotation = between(random, -18, 16);
-    const outerRx = between(random, 126, 144);
-    const outerRy = outerRx * between(random, 0.92, 1.04);
-    const edge = "#603017";
-    const warmEdge = "#8d552b";
-    const pale = "#b9824f";
-    const wash = "#d1a16e";
+    const between = (min, max) => min + random() * (max - min);
+    const n = (value) => Number(value.toFixed(2));
+    const colors =
+      palette === "dark"
+        ? { edge: "#e2c39f", band: "#c99e74", tide: "#d8b48d", wash: "#a98463", drip: "#e8cba8" }
+        : { edge: "#5b2c12", band: "#7c4420", tide: "#8e5529", wash: "#c18d5a", drip: "#6a3518" };
+
+    const cx = between(178, 198),
+      cy = between(178, 198),
+      R = between(128, 142),
+      squash = between(0.93, 1.0),
+      tilt = between(0, Math.PI * 2);
+    // Gentle low-frequency wobble: a real cup rim on paper is round but never a perfect circle.
+    const waves = [1, 2, 3, 5].map((k) => ({ k, a: between(0.004, 0.014) / Math.sqrt(k), p: between(0, Math.PI * 2) }));
+    const radiusAt = (theta, scale = 1, shift = 0) =>
+      R * scale * (1 + waves.reduce((sum, w) => sum + w.a * Math.cos(w.k * (theta + shift) + w.p), 0));
+    const pointAt = (theta, r, ox = cx, oy = cy) => {
+      const x = Math.cos(theta) * r,
+        y = Math.sin(theta) * r * squash;
+      return [ox + x * Math.cos(tilt) - y * Math.sin(tilt), oy + x * Math.sin(tilt) + y * Math.cos(tilt)];
+    };
+    const STEPS = 144;
+    const contour = (radiusOf, ox, oy, from = 0, span = Math.PI * 2) => {
+      const pts = [];
+      const steps = Math.max(8, Math.round((STEPS * span) / (Math.PI * 2)));
+      for (let i = 0; i <= steps; i++) {
+        const theta = from + (span * i) / steps;
+        pts.push(pointAt(theta, radiusOf(theta), ox, oy));
+      }
+      return pts;
+    };
+    const pathOf = (pts, close = true) => `M${pts.map(([x, y]) => `${n(x)} ${n(y)}`).join(" L")}${close ? " Z" : ""}`;
+
+    // The rim: thicker where the drop pooled (pool angle), thin on the far side.
+    const pool = between(0, Math.PI * 2),
+      width = R * between(0.04, 0.055);
+    const rimWidth = (theta) => width * (0.55 + 0.75 * Math.pow(0.5 + 0.5 * Math.cos(theta - pool), 1.6));
+    const outer = contour((t) => radiusAt(t)),
+      inner = contour((t) => radiusAt(t) - rimWidth(t)).reverse(),
+      fadeInner = contour((t) => radiusAt(t) - rimWidth(t) * 2.6).reverse();
+    const band = `${pathOf(outer)} ${pathOf(inner)}`;
+    const fade = `${pathOf(contour((t) => radiusAt(t) - rimWidth(t) * 0.9))} ${pathOf(fadeInner)}`;
+
+    // Stick-slip tide lines: partial, thin, inside the rim.
+    const tides = [];
+    const tideCount = 1 + Math.floor(random() * 2);
+    for (let i = 0; i < tideCount; i++) {
+      const scale = between(0.78, 0.92),
+        from = between(0, Math.PI * 2),
+        span = between(Math.PI * 1.1, Math.PI * 1.9);
+      tides.push(
+        `<path d="${pathOf(
+          contour((t) => radiusAt(t, scale, 0.3), cx + between(-3, 3), cy + between(-3, 3), from, span),
+          false
+        )}" fill="none" stroke="${colors.tide}" stroke-width="${n(
+          between(0.7, 1.3)
+        )}" stroke-linecap="round" opacity="${n(between(0.22, 0.36))}" filter="url(#fiber)"/>`
+      );
+    }
+
+    // A second, partial ring where the cup was set down again, fading out at both ends.
+    let second = "";
+    if (random() > 0.35) {
+      const angle = between(0, Math.PI * 2),
+        offset = R * between(0.24, 0.4);
+      const ox = cx + Math.cos(angle) * offset,
+        oy = cy + Math.sin(angle) * offset;
+      const from = angle - between(0.9, 1.4),
+        span = between(Math.PI * 0.6, Math.PI * 1.1);
+      const pts = contour((t) => radiusAt(t, between(0.97, 0.99), 0.7), ox, oy, from, span);
+      const [x0, y0] = pts[0],
+        [x1, y1] = pts.at(-1);
+      second = `<linearGradient id="arcfade" gradientUnits="userSpaceOnUse" x1="${n(x0)}" y1="${n(y0)}" x2="${n(x1)}" y2="${n(y1)}">
+      <stop offset="0" stop-color="${colors.band}" stop-opacity="0"/><stop offset=".35" stop-color="${colors.band}" stop-opacity="1"/>
+      <stop offset=".7" stop-color="${colors.band}" stop-opacity="1"/><stop offset="1" stop-color="${colors.band}" stop-opacity="0"/></linearGradient>
+      <path d="${pathOf(pts, false)}" fill="none" stroke="url(#arcfade)" stroke-width="${n(between(2.2, 3.6))}" stroke-linecap="round" opacity="${n(between(0.32, 0.46))}" filter="url(#fiber)"/>`;
+    }
+
+    // Drips: tiny drops, each with its own darker rim (the same capillary effect at small scale).
+    const drips = [];
+    const dripCount = 2 + Math.floor(random() * 4);
+    for (let i = 0; i < dripCount; i++) {
+      const theta = pool + between(-1.1, 1.1),
+        r = radiusAt(theta) * between(1.06, 1.32);
+      const [x, y] = pointAt(theta, r);
+      const size = between(1.6, 6.5) * (i === 0 ? 1.3 : 1);
+      drips.push(
+        `<ellipse cx="${n(x)}" cy="${n(y)}" rx="${n(size)}" ry="${n(size * between(0.75, 1))}" transform="rotate(${n(between(0, 180))} ${n(x)} ${n(y)})" fill="${colors.wash}" fill-opacity=".35" stroke="${colors.drip}" stroke-width="${n(
+          between(0.6, 1.1)
+        )}" stroke-opacity=".75" filter="url(#fiber)"/>`
+      );
+    }
+    // One splash streak leaving the rim on the pooled side.
+    const theta = pool + between(-0.5, 0.5);
+    const [sx, sy] = pointAt(theta, radiusAt(theta) * 0.99),
+      [ex, ey] = pointAt(theta + between(-0.08, 0.08), radiusAt(theta) * between(1.1, 1.18));
+    const streak = `<path d="M${n(sx)} ${n(sy)} Q${n((sx + ex) / 2 + between(-4, 4))} ${n((sy + ey) / 2 + between(-4, 4))} ${n(ex)} ${n(ey)}" fill="none" stroke="${colors.band}" stroke-width="${n(
+      between(1.6, 2.8)
+    )}" stroke-linecap="round" opacity="${n(between(0.3, 0.45))}" filter="url(#fiber)"/>`;
+
     const noiseSeed = seed % 997;
-    const rings = [];
-
-    rings.push(
-      ellipse({
-        cx,
-        cy,
-        rx: outerRx,
-        ry: outerRy,
-        rotation,
-        stroke: edge,
-        strokeWidth: between(random, 7.5, 10.5),
-        opacity: between(random, 0.28, 0.38),
-        dash: makeDashArray(random, 18),
-        filter: "url(#ragged)",
-      })
-    );
-
-    const ringCount = 3 + Math.floor(random() * 2);
-    for (let index = 0; index < ringCount; index += 1) {
-      const inset = 13 + index * between(random, 10, 16);
-      rings.push(
-        ellipse({
-          cx: cx + between(random, -4, 5),
-          cy: cy + between(random, -5, 4),
-          rx: outerRx - inset,
-          ry: outerRy - inset * between(random, 0.8, 1.08),
-          rotation: rotation + between(random, -5, 6),
-          stroke: index % 2 ? warmEdge : pale,
-          strokeWidth: between(random, 2.4, 5.8),
-          opacity: between(random, 0.12, 0.24),
-          dash: makeDashArray(random, 14, true),
-          filter: "url(#ragged)",
-        })
-      );
-    }
-
-    const offsetRingAngle = between(random, 0, Math.PI * 2);
-    rings.push(
-      ellipse({
-        cx: cx + Math.cos(offsetRingAngle) * between(random, 28, 44),
-        cy: cy + Math.sin(offsetRingAngle) * between(random, 16, 32),
-        rx: outerRx * between(random, 0.56, 0.72),
-        ry: outerRy * between(random, 0.48, 0.66),
-        rotation: rotation + between(random, -22, 24),
-        stroke: warmEdge,
-        strokeWidth: between(random, 3.6, 6.6),
-        opacity: between(random, 0.1, 0.18),
-        dash: makeDashArray(random, 12),
-        filter: "url(#ragged)",
-      })
-    );
-
-    const fills = [
-      ellipse({
-        cx: cx + between(random, -8, 10),
-        cy: cy + between(random, -10, 8),
-        rx: outerRx * between(random, 0.72, 0.86),
-        ry: outerRy * between(random, 0.66, 0.82),
-        rotation,
-        fill: wash,
-        opacity: between(random, 0.035, 0.065),
-        filter: "url(#soft)",
-      }),
-      ellipse({
-        cx: cx + between(random, -38, 36),
-        cy: cy + between(random, -28, 32),
-        rx: outerRx * between(random, 0.24, 0.38),
-        ry: outerRy * between(random, 0.16, 0.28),
-        rotation: rotation + between(random, -18, 18),
-        fill: pale,
-        opacity: between(random, 0.035, 0.075),
-        filter: "url(#soft)",
-      }),
-    ];
-
-    const blobs = [];
-    const perimeterBlobs = 5 + Math.floor(random() * 3);
-    for (let index = 0; index < perimeterBlobs; index += 1) {
-      const angle = between(random, -0.15, Math.PI * 2 - 0.15);
-      const point = pointOnEllipse(cx, cy, outerRx * between(random, 0.9, 1.04), outerRy * between(random, 0.9, 1.04), angle, rotation);
-      blobs.push(
-        ellipse({
-          cx: point.x,
-          cy: point.y,
-          rx: between(random, 5, 18),
-          ry: between(random, 2.6, 9),
-          rotation: (angle * 180) / Math.PI + rotation + between(random, -38, 38),
-          fill: random() > 0.42 ? edge : warmEdge,
-          opacity: between(random, 0.12, 0.31),
-          filter: "url(#droplet)",
-        })
-      );
-    }
-
-    const satellites = [];
-    const satelliteCount = 4 + Math.floor(random() * 3);
-    for (let index = 0; index < satelliteCount; index += 1) {
-      const angle = between(random, -0.55, Math.PI * 2 - 0.12);
-      const distance = between(random, 126, 178);
-      const size = Math.pow(random(), 1.85);
-      const x = cx + Math.cos(angle) * distance + between(random, -12, 12);
-      const y = cy + Math.sin(angle) * distance * between(random, 0.76, 1.06) + between(random, -10, 10);
-      const rx = between(random, 2.4, 16) * (0.38 + size);
-      const ry = between(random, 2.2, 12) * (0.42 + size);
-      satellites.push(
-        ellipse({
-          cx: x,
-          cy: y,
-          rx,
-          ry,
-          rotation: between(random, -70, 72),
-          fill: random() > 0.28 ? warmEdge : edge,
-          opacity: between(random, 0.12, 0.36),
-          filter: "url(#droplet)",
-        })
-      );
-    }
-
-    const streaks = [];
-    const streakCount = 2 + Math.floor(random() * 3);
-    for (let index = 0; index < streakCount; index += 1) {
-      const angle = between(random, -0.3, Math.PI * 2 - 0.3);
-      const start = pointOnEllipse(cx, cy, outerRx * between(random, 0.86, 1.0), outerRy * between(random, 0.86, 1.0), angle, rotation);
-      const length = between(random, 18, 48);
-      const end = {
-        x: start.x + Math.cos(angle) * length + between(random, -8, 8),
-        y: start.y + Math.sin(angle) * length + between(random, -8, 8),
-      };
-      streaks.push(
-        `<path d="M${number(start.x)} ${number(start.y)} C${number((start.x + end.x) / 2 + between(random, -8, 8))} ${number(
-          (start.y + end.y) / 2 + between(random, -8, 8)
-        )} ${number((start.x + end.x) / 2 + between(random, -8, 8))} ${number((start.y + end.y) / 2 + between(random, -8, 8))} ${number(
-          end.x
-        )} ${number(end.y)}" fill="none" stroke="${random() > 0.38 ? warmEdge : edge}" stroke-width="${number(
-          between(random, 2.2, 5.8)
-        )}" stroke-linecap="round" opacity="${number(between(random, 0.11, 0.24))}" filter="url(#droplet)"/>`
-      );
-    }
-
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 380" role="img" aria-label="Procedural coffee ring stain">
   <defs>
-    <filter id="ragged" x="-18%" y="-18%" width="136%" height="136%">
-      <feTurbulence type="fractalNoise" baseFrequency="${number(between(random, 0.035, 0.052))} ${number(
-        between(random, 0.07, 0.12)
-      )}" numOctaves="4" seed="${noiseSeed}"/>
-      <feDisplacementMap in="SourceGraphic" scale="${number(between(random, 4.8, 7.8))}"/>
+    <filter id="fiber" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.32 0.14" numOctaves="2" seed="${noiseSeed}" result="grain"/>
+      <feDisplacementMap in="SourceGraphic" in2="grain" scale="${n(between(1.6, 2.4))}" result="moved"/>
+      <feGaussianBlur in="moved" stdDeviation="0.35"/>
     </filter>
-    <filter id="soft" x="-24%" y="-24%" width="148%" height="148%">
-      <feGaussianBlur stdDeviation="${number(between(random, 2.4, 3.6))}"/>
+    <filter id="mottle" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="${(noiseSeed + 11) % 997}" result="clouds"/>
+      <feColorMatrix in="clouds" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.7 0.45" result="patch"/>
+      <feComposite in="SourceGraphic" in2="patch" operator="in"/>
     </filter>
-    <filter id="droplet" x="-42%" y="-42%" width="184%" height="184%">
-      <feGaussianBlur stdDeviation="${number(between(random, 0.45, 1.05))}"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.13 0.2" numOctaves="2" seed="${(noiseSeed + 37) % 997}"/>
-      <feDisplacementMap in="SourceGraphic" scale="${number(between(random, 1.2, 2.8))}"/>
-    </filter>
+    <radialGradient id="pool" gradientUnits="userSpaceOnUse" cx="${n(cx)}" cy="${n(cy)}" r="${n(R)}">
+      <stop offset="0" stop-color="${colors.wash}" stop-opacity=".35"/>
+      <stop offset=".72" stop-color="${colors.wash}" stop-opacity=".55"/>
+      <stop offset="1" stop-color="${colors.band}" stop-opacity=".9"/>
+    </radialGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="1.4"/></filter>
+    ${second ? second.slice(0, second.indexOf("</linearGradient>") + "</linearGradient>".length) : ""}
   </defs>
-  <g>${fills.join("")}${rings.join("")}${blobs.join("")}${streaks.join("")}${satellites.join("")}</g>
+  <path d="${pathOf(contour((t) => radiusAt(t) - rimWidth(t) * 0.5))}" fill="url(#pool)" opacity="${n(between(0.16, 0.22))}" filter="url(#mottle)"/>
+  <path d="${fade}" fill="${colors.band}" fill-rule="evenodd" opacity="${n(between(0.1, 0.16))}" filter="url(#soft)"/>
+  <path d="${band}" fill="${colors.band}" fill-rule="evenodd" opacity="${n(between(0.46, 0.58))}" filter="url(#fiber)"/>
+  <path d="${pathOf(outer)}" fill="none" stroke="${colors.edge}" stroke-width="${n(between(1.1, 1.6))}" stroke-linejoin="round" opacity="${n(between(0.66, 0.82))}" filter="url(#fiber)"/>
+  ${tides.join("")}
+  ${second ? second.slice(second.indexOf("</linearGradient>") + "</linearGradient>".length) : ""}
+  ${streak}
+  ${drips.join("")}
 </svg>`;
   };
 
   const seed = randomSeed();
   const random = makeRandom(hashSeed(`position-${seed}`));
-  const svg = createStainSvg(seed);
-  const image = encodeSvg(svg);
+  const paletteFor = () => (document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
+  let palette = paletteFor();
+  const image = () => encodeSvg(createStainSvg(seed, palette));
+  window.addEventListener("siteThemeChange", () => {
+    if (paletteFor() === palette) return;
+    palette = paletteFor();
+    const next = image();
+    stacks.forEach((stack) => stack.style.setProperty("--home-coffee-stain-image", next));
+  });
 
+  const first = image();
   stacks.forEach((stack, index) => {
-    stack.style.setProperty("--home-coffee-stain-image", image);
+    stack.style.setProperty("--home-coffee-stain-image", first);
     stack.style.setProperty("--home-coffee-stain-rotation", `${number(between(random, -16, -5))}deg`);
     stack.style.setProperty("--home-coffee-stain-x", `${number(between(random, 0.38, 0.82))}rem`);
     stack.style.setProperty("--home-coffee-stain-y", `${number(between(random, -0.7, -0.28))}rem`);

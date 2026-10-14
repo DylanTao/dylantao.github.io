@@ -1689,7 +1689,7 @@ html[data-theme="dark"] .home-record-card-link {
   content: "";
   filter: saturate(1.08) contrast(1.04);
   mix-blend-mode: var(--home-coffee-stain-blend);
-  opacity: calc(var(--home-coffee-stain-opacity) * 0.28);
+  opacity: calc(var(--home-coffee-stain-opacity) * 0.38);
   pointer-events: none;
   transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, -12deg))
     scale(var(--home-coffee-stain-scale, 1));
@@ -3365,7 +3365,7 @@ html.home-motion-ready .home-reveal.home-visible {
     top: -1.84rem;
     right: clamp(-1.05rem, -4vw, -0.45rem);
     width: min(12.25rem, 47vw);
-    opacity: calc(var(--home-coffee-stain-opacity) * 0.28);
+    opacity: calc(var(--home-coffee-stain-opacity) * 0.38);
   }
 
   .home-portrait-frame {
