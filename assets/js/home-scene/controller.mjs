@@ -16,6 +16,7 @@ import { companion, pipProjectUrl } from "../companion/bridge.mjs";
 import { createRecordMotion } from "./record-motion.mjs";
 import { createCameraMotion } from "./camera-motion.mjs";
 import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
+import { createLoadingSketch } from "./loading-sketch.mjs";
 import { bindContactLighting, withoutContactLighting } from "./contact-occlusion.mjs";
 import { createCharacterPerformance } from "./character-performance.mjs";
 import { createOcclusionRegion } from "./occlusion-region.mjs";
@@ -220,11 +221,16 @@ export function createCoastalHome(container, records, artifacts) {
     return programQueue;
   }
 
+  // The loading sketch follows the work: the cliff once the house is in, the cut-away house once
+  // the coast is, then the occupied room while its programs compile.
+  let loadingSketch = null;
   function loadingStage(stage, message) {
     startupStages.push({ stage, milliseconds: performance.now() - startupStart });
     container.dataset.loadingStage = stage;
     status.textContent = message;
     ui.querySelector("[data-world-view]").disabled = stage !== "ready";
+    const drawing = { coast: "outside", room: "overview", "first-frame": routine?.room }[stage];
+    if (drawing) loadingSketch?.stage(drawing);
   }
 
   // An honest loading bar: one segment per piece of first-view work, each filled only by what has
@@ -464,13 +470,26 @@ export function createCoastalHome(container, records, artifacts) {
     updateRecords();
   }
 
+  // The bed keeps a made duvet until someone lies down in it, then shows the pillow and duvet
+  // fitted to that avatar (bin/refresh_coastal_bedding.py). Only the made bed is static light.
+  const beddings = [];
+  function syncBedding() {
+    const sleeper = container.dataset.animation === "sleep" && beddings.some((o) => o.userData.bedding === avatarId) ? avatarId : "empty";
+    for (const object of beddings) object.visible = object.userData.bedding === sleeper;
+  }
+
   function prepareModel(root) {
     root.traverse((o) => {
       if (o.isMesh) {
         o.castShadow = o.receiveShadow = true;
       }
       if (o.userData.renderStyle) o.visible = o.userData.renderStyle === style;
+      if (o.userData.bedding) {
+        beddings.push(o);
+        if (o.userData.bedding !== "empty") o.userData.dynamic = true;
+      }
     });
+    syncBedding();
     art.apply(root, style);
     coastalWind?.bind(root);
     root.traverse((o) => {
@@ -592,6 +611,7 @@ export function createCoastalHome(container, records, artifacts) {
       selectedProp = null;
       avatarId = entry.id;
       container.dataset.avatar = avatarId;
+      syncBedding();
       remember("sirui-scene-avatar", avatarId);
       ui.querySelector("[data-world-avatar]").value = avatarId;
       updateRoutine(true);
@@ -624,6 +644,7 @@ export function createCoastalHome(container, records, artifacts) {
     }
     currentAction = next;
     container.dataset.animation = name;
+    syncBedding();
   }
 
   function propFor(kind) {
@@ -1888,6 +1909,9 @@ export function createCoastalHome(container, records, artifacts) {
       container.removeAttribute("aria-busy");
       if (progressBar) progressBar.hidden = true;
       loadingStage("ready", routine.label);
+      // Traced now, in the task that drew the frame, before its drawing buffer is released.
+      loadingSketch?.finish(renderer.domElement);
+      loadingSketch = null;
       // Stream detail only after the occupied room/avatar have actually drawn.
       backgroundTimer = setTimeout(() => {
         if (!disposed && visible) config.rooms.forEach((r) => loadRoom(r.id).catch(() => {}));
@@ -1909,6 +1933,8 @@ export function createCoastalHome(container, records, artifacts) {
     compositionReady = false;
     container.dataset.sceneState = "failed";
     container.dataset.loadingStage = "failed";
+    loadingSketch?.dispose();
+    loadingSketch = null;
     if (progressBar) progressBar.hidden = true;
     container.removeAttribute("aria-busy");
     status.textContent = message;
@@ -1921,6 +1947,12 @@ export function createCoastalHome(container, records, artifacts) {
       startupStart = performance.now();
       container.dataset.sceneState = "loading";
       container.setAttribute("aria-busy", "true");
+      // A pen sketch fills the empty scene until the first frame replaces it. Automation keeps the
+      // plain loading state unless the URL asks for the live layer, as the cinematic layer does.
+      if (!navigator.webdriver || new URLSearchParams(location.search).get("cinematic") === "live") {
+        loadingSketch = createLoadingSketch(container, { reduced });
+        cleanup.push(() => loadingSketch?.dispose());
+      }
       loadingStage("home", "Opening the little home.");
       const response = await fetch(manifestUrl);
       if (!response.ok) throw new Error("Scene manifest unavailable");
@@ -1962,6 +1994,7 @@ export function createCoastalHome(container, records, artifacts) {
       });
       art.setContactLighting(finish.contactLighting);
       container.append(renderer.domElement);
+      loadingSketch?.cover(renderer.domElement);
       const shell = await loadModel(new URL(config.shell, manifestUrl).href, "house");
       if (disposed) {
         release(shell.scene);
