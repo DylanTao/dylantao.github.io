@@ -3089,10 +3089,10 @@
     },
     {
       "file": "home-shell.glb",
-      "bytes": 1646588,
-      "gzipBytes": 1518332,
-      "triangles": 267410,
-      "sha256": "d179c5ba94ca18101ed0040abf1af75961230a7618451a2df4f550aa05c705f3",
+      "bytes": 1654088,
+      "gzipBytes": 1525211,
+      "triangles": 268968,
+      "sha256": "343bcd7625137aba32bd344ec8c963e7fcedee75565229d5ea34fc1c99140939",
       "materials": [
         "warm cut stone",
         "chalk limestone",
@@ -3189,10 +3189,10 @@
     },
     {
       "file": "room-onsen.glb",
-      "bytes": 83852,
-      "gzipBytes": 64420,
-      "triangles": 14450,
-      "sha256": "0d4c727e3bdc239d7a66dd88c98b57baeb4a26e821e6fff49dcd3b2d4182dacc",
+      "bytes": 90652,
+      "gzipBytes": 70118,
+      "triangles": 15032,
+      "sha256": "9830bfae72355c2db6abb927258fcc2a906c2d1e0710eb9c9edd7661e802cc10",
       "materials": [
         "onsen turquoise",
         "linen",
@@ -3203,16 +3203,17 @@
         "warm cut stone",
         "cedar wood",
         "brushed brass",
-        "dry bamboo"
+        "dry bamboo",
+        "chalk limestone"
       ],
       "animations": []
     },
     {
       "file": "room-sleep.glb",
-      "bytes": 267156,
-      "gzipBytes": 233265,
-      "triangles": 89794,
-      "sha256": "fca13d047026b7c6564a47265a19a304302e44f24afcbc88f04c3891fc41dbb9",
+      "bytes": 265568,
+      "gzipBytes": 231655,
+      "triangles": 89614,
+      "sha256": "fe1d29a1696e08d22c09c5c70f0bfa4242e235dbfa1762d3f6e42624506a9841",
       "materials": [
         "honey ash",
         "linen",
@@ -3220,11 +3221,11 @@
         "terracotta",
         "charcoal",
         "olive leaf",
-        "sage textile",
         "linen canvas sky",
         "linen canvas sea",
         "linen canvas sand",
-        "linen canvas sun"
+        "linen canvas sun",
+        "sage textile"
       ],
       "animations": []
     },
@@ -3440,5 +3441,5 @@
       "animations": []
     }
   ],
-  "totalGlbBytes": 7738088
+  "totalGlbBytes": 7750800
 }

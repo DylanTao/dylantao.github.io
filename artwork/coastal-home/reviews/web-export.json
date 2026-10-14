@@ -63,36 +63,6 @@
       "facesExported": 5176
     },
     {
-      "mesh": "sleep__honey ash",
-      "facesBefore": 494,
-      "facesExported": 494
-    },
-    {
-      "mesh": "sleep__linen",
-      "facesBefore": 338,
-      "facesExported": 338
-    },
-    {
-      "mesh": "sleep__pale oak",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "sleep__terracotta",
-      "facesBefore": 306,
-      "facesExported": 306
-    },
-    {
-      "mesh": "sleep__charcoal",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "sleep__olive leaf",
-      "facesBefore": 572,
-      "facesExported": 572
-    },
-    {
       "mesh": "gym__gym rubber",
       "facesBefore": 8210,
       "facesExported": 8210
@@ -473,91 +443,6 @@
       "facesExported": 98
     },
     {
-      "mesh": "sleep_pillow_empty",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_empty",
-      "facesBefore": 6790,
-      "facesExported": 6790
-    },
-    {
-      "mesh": "sleep_pillow_lizard",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_lizard",
-      "facesBefore": 6698,
-      "facesExported": 6698
-    },
-    {
-      "mesh": "sleep_pillow_south-park",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_south-park",
-      "facesBefore": 6150,
-      "facesExported": 6150
-    },
-    {
-      "mesh": "sleep_pillow_simpsons",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_simpsons",
-      "facesBefore": 6484,
-      "facesExported": 6484
-    },
-    {
-      "mesh": "sleep_pillow_ghibli",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_ghibli",
-      "facesBefore": 7566,
-      "facesExported": 7566
-    },
-    {
-      "mesh": "sleep_pillow_rick-and-morty",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_rick-and-morty",
-      "facesBefore": 6474,
-      "facesExported": 6474
-    },
-    {
-      "mesh": "sleep_decor pale oak",
-      "facesBefore": 24,
-      "facesExported": 24
-    },
-    {
-      "mesh": "sleep_decor linen canvas sky",
-      "facesBefore": 6,
-      "facesExported": 6
-    },
-    {
-      "mesh": "sleep_decor linen canvas sea",
-      "facesBefore": 6,
-      "facesExported": 6
-    },
-    {
-      "mesh": "sleep_decor linen canvas sand",
-      "facesBefore": 6,
-      "facesExported": 6
-    },
-    {
-      "mesh": "sleep_decor linen canvas sun",
-      "facesBefore": 1,
-      "facesExported": 1
-    },
-    {
       "mesh": "study_decor cork board",
       "facesBefore": 6,
       "facesExported": 6
@@ -671,6 +556,121 @@
       "mesh": "onsen_shadow_vault",
       "facesBefore": 206,
       "facesExported": 206
+    },
+    {
+      "mesh": "sleep__honey ash",
+      "facesBefore": 494,
+      "facesExported": 494
+    },
+    {
+      "mesh": "sleep__linen",
+      "facesBefore": 338,
+      "facesExported": 338
+    },
+    {
+      "mesh": "sleep__pale oak",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "sleep__terracotta",
+      "facesBefore": 306,
+      "facesExported": 306
+    },
+    {
+      "mesh": "sleep__charcoal",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "sleep__olive leaf",
+      "facesBefore": 572,
+      "facesExported": 572
+    },
+    {
+      "mesh": "sleep_decor pale oak",
+      "facesBefore": 24,
+      "facesExported": 24
+    },
+    {
+      "mesh": "sleep_decor linen canvas sky",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sea",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sand",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sun",
+      "facesBefore": 1,
+      "facesExported": 1
+    },
+    {
+      "mesh": "sleep_pillow_empty",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_empty",
+      "facesBefore": 6967,
+      "facesExported": 6967
+    },
+    {
+      "mesh": "sleep_pillow_lizard",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_lizard",
+      "facesBefore": 6698,
+      "facesExported": 6698
+    },
+    {
+      "mesh": "sleep_pillow_south-park",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_south-park",
+      "facesBefore": 6150,
+      "facesExported": 6150
+    },
+    {
+      "mesh": "sleep_pillow_simpsons",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_simpsons",
+      "facesBefore": 6484,
+      "facesExported": 6484
+    },
+    {
+      "mesh": "sleep_pillow_ghibli",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_ghibli",
+      "facesBefore": 7566,
+      "facesExported": 7566
+    },
+    {
+      "mesh": "sleep_pillow_rick-and-morty",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_rick-and-morty",
+      "facesBefore": 6474,
+      "facesExported": 6474
     }
   ]
 }

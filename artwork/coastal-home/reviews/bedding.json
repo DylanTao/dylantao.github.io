@@ -5,11 +5,11 @@
     "empty": {
       "pillowDeepestPressMeters": 0.0,
       "pillowVertices": 2082,
-      "duvetVertices": 5512,
+      "duvetVertices": 5422,
       "duvet": {
         "hemY": -2.6,
-        "startZ": 3.35,
-        "grid": [77, 71]
+        "startZ": 3.17,
+        "grid": [77, 69]
       }
     },
     "lizard": {

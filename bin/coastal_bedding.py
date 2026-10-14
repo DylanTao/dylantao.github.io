@@ -246,7 +246,7 @@ def _sample(field, x, y):
             + h[j + 1, i] * (1 - tx) * ty + h[j + 1, i + 1] * tx * ty)
 
 
-def drape(field, grid, start_z, margin=0.014, dt=1 / 120, steps=480, iterations=10):
+def drape(field, grid, start_z, margin=0.014, dt=1 / 120, steps=480, iterations=10, bend=BEND):
     """Position-based dynamics (Mueller et al., 2007): the cover falls under gravity, distance
     constraints keep its weave (stretch and shear stiff, a soft bend across two cells), and every
     vertex is projected out of the support field with a margin. Constraints are coloured so no
@@ -275,8 +275,8 @@ def drape(field, grid, start_z, margin=0.014, dt=1 / 120, steps=480, iterations=
     for phase in (0, 2):
         columns = [c for c in range(nx - 2) if c % 4 in (phase, phase + 1)]
         rows = [r for r in range(ny - 2) if r % 4 in (phase, phase + 1)]
-        add(index[:, columns], index[:, [c + 2 for c in columns]], BEND)
-        add(index[rows, :], index[[r + 2 for r in rows], :], BEND)
+        add(index[:, columns], index[:, [c + 2 for c in columns]], bend)
+        add(index[rows, :], index[[r + 2 for r in rows], :], bend)
     gravity = np.array([0, 0, -9.81])
     for _ in range(steps):
         velocity = (velocity + gravity * dt) * 0.995
@@ -317,14 +317,15 @@ def draped_duvet(name, mat, bodies, pillow_obj, spacing=0.03, quilt=0.3):
     lowest_chin = chin(bodies)
     # A made bed folds back just short of the pillow.
     hem = lowest_chin - 0.07 if lowest_chin is not None else PILLOW_FRONT - 0.05
-    # Extra cloth past the hem settles over the chin, then is cut away for a straight edge.
-    reach = hem + 0.12
+    # Extra cloth past the hem settles over the chin, then is cut away for a straight edge. A made
+    # bed is laid just above the mattress, short of the pillow, in a stiffer, smoother hand.
+    reach = hem + 0.12 if bodies else hem + 0.04
     field = support_field(bodies, pillow_obj, ((left - 0.3, right + 0.3), (foot - 0.3, reach + 0.3)))
     inside = field[2][(field[1] >= foot)[:, None] & (field[1] <= reach)[:, None] & (field[0] >= left)[None, :] & (field[0] <= right)[None, :]]
-    start = float(max(inside.max(), mattress_top + 0.17)) + 0.04
+    start = float(max(inside.max(), mattress_top + 0.17)) + 0.04 if bodies else mattress_top + 0.03
     nx = round((right - left) / spacing) + 1
     ny = round((reach - foot) / spacing) + 1
-    settled = drape(field, ((left, right, nx), (foot, reach, ny)), start)
+    settled = drape(field, ((left, right, nx), (foot, reach, ny)), start, bend=BEND if bodies else 0.35)
     vertices = [tuple(settled[j, i]) for j in range(ny) for i in range(nx)]
     faces = [(j * nx + i, j * nx + i + 1, (j + 1) * nx + i + 1, (j + 1) * nx + i) for j in range(ny - 1) for i in range(nx - 1)]
     cover = surface(name, vertices, faces, mat)
