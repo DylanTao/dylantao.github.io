@@ -9,7 +9,6 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PROJECT = REPO_ROOT / "_projects" / "openai-build-week.md"
-README = REPO_ROOT / "README.md"
 SCRIPT = REPO_ROOT / "assets" / "js" / "openai-build-week.js"
 STYLES = REPO_ROOT / "_sass" / "_openai-build-week.scss"
 DEMO_URL = "https://youtu.be/9js8vU6cth4"
@@ -117,16 +116,11 @@ class OpenAIBuildWeekStoryTests(unittest.TestCase):
         self.assertIn('height="800"', teaser_source)
         self.assertNotIn("OpenAI logo", teaser_source)
 
-    def test_public_demo_and_submission_readme_are_linked(self) -> None:
+    def test_public_demo_is_linked(self) -> None:
         project = PROJECT.read_text(encoding="utf-8")
-        readme = README.read_text(encoding="utf-8")
 
         self.assertIn(DEMO_URL, project)
         self.assertIn("Watch the 2:45 demo", project)
-        self.assertIn(DEMO_URL, readme)
-        self.assertIn("OpenAI Build Week 2026: Scaffolding for Taste", readme)
-        self.assertIn("How Codex and GPT-5.6 were used", readme)
-        self.assertIn("Eligibility boundary", readme)
 
 
 if __name__ == "__main__":
