@@ -18,51 +18,6 @@
       "facesExported": 2
     },
     {
-      "mesh": "study__pale oak",
-      "facesBefore": 980,
-      "facesExported": 980
-    },
-    {
-      "mesh": "study__honey ash",
-      "facesBefore": 2488,
-      "facesExported": 2488
-    },
-    {
-      "mesh": "study__sage textile",
-      "facesBefore": 1010,
-      "facesExported": 1010
-    },
-    {
-      "mesh": "study__charcoal",
-      "facesBefore": 1402,
-      "facesExported": 1402
-    },
-    {
-      "mesh": "study__window sea glass",
-      "facesBefore": 196,
-      "facesExported": 196
-    },
-    {
-      "mesh": "study__brushed brass",
-      "facesBefore": 290,
-      "facesExported": 290
-    },
-    {
-      "mesh": "study__linen",
-      "facesBefore": 6466,
-      "facesExported": 6466
-    },
-    {
-      "mesh": "study__terracotta",
-      "facesBefore": 1494,
-      "facesExported": 1494
-    },
-    {
-      "mesh": "study__olive leaf",
-      "facesBefore": 5176,
-      "facesExported": 5176
-    },
-    {
       "mesh": "gym__gym rubber",
       "facesBefore": 8210,
       "facesExported": 8210
@@ -148,76 +103,6 @@
       "facesExported": 162
     },
     {
-      "mesh": "onsen_water",
-      "facesBefore": 322,
-      "facesExported": 322
-    },
-    {
-      "mesh": "onsen__linen",
-      "facesBefore": 314,
-      "facesExported": 314
-    },
-    {
-      "mesh": "onsen__honey ash",
-      "facesBefore": 494,
-      "facesExported": 494
-    },
-    {
-      "mesh": "onsen__terracotta",
-      "facesBefore": 306,
-      "facesExported": 306
-    },
-    {
-      "mesh": "onsen__charcoal",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "onsen__olive leaf",
-      "facesBefore": 572,
-      "facesExported": 572
-    },
-    {
-      "mesh": "lounge__honey ash",
-      "facesBefore": 1670,
-      "facesExported": 1670
-    },
-    {
-      "mesh": "lounge__linen",
-      "facesBefore": 490,
-      "facesExported": 490
-    },
-    {
-      "mesh": "lounge__pale oak",
-      "facesBefore": 282,
-      "facesExported": 282
-    },
-    {
-      "mesh": "lounge__terracotta",
-      "facesBefore": 710,
-      "facesExported": 710
-    },
-    {
-      "mesh": "lounge__charcoal",
-      "facesBefore": 324,
-      "facesExported": 324
-    },
-    {
-      "mesh": "lounge__olive leaf",
-      "facesBefore": 1144,
-      "facesExported": 1144
-    },
-    {
-      "mesh": "lounge__brushed brass",
-      "facesBefore": 486,
-      "facesExported": 486
-    },
-    {
-      "mesh": "study__coffee",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
       "mesh": "kitchen__warm paper lantern",
       "facesBefore": 162,
       "facesExported": 162
@@ -226,21 +111,6 @@
       "mesh": "kitchen__pale oak",
       "facesBefore": 4558,
       "facesExported": 4558
-    },
-    {
-      "mesh": "lounge__warm paper lantern",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "lounge__woven jute",
-      "facesBefore": 23442,
-      "facesExported": 19755
-    },
-    {
-      "mesh": "onsen__warm cut stone",
-      "facesBefore": 1550,
-      "facesExported": 1550
     },
     {
       "mesh": "core__warm cut stone",
@@ -418,26 +288,6 @@
       "facesExported": 26610
     },
     {
-      "mesh": "study_footrest",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "study_footrest_support",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "study_footrest_support.001",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "study_footrest_stretcher",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
       "mesh": "kitchen_footrest",
       "facesBefore": 98,
       "facesExported": 98
@@ -458,24 +308,59 @@
       "facesExported": 98
     },
     {
-      "mesh": "lounge_ottoman_foot",
-      "facesBefore": 98,
-      "facesExported": 98
+      "mesh": "onsen_water",
+      "facesBefore": 322,
+      "facesExported": 322
     },
     {
-      "mesh": "lounge_ottoman_foot.001",
-      "facesBefore": 98,
-      "facesExported": 98
+      "mesh": "onsen__linen",
+      "facesBefore": 314,
+      "facesExported": 314
     },
     {
-      "mesh": "lounge_ottoman_foot.002",
-      "facesBefore": 98,
-      "facesExported": 98
+      "mesh": "onsen__honey ash",
+      "facesBefore": 494,
+      "facesExported": 494
     },
     {
-      "mesh": "lounge_ottoman_foot.003",
-      "facesBefore": 98,
-      "facesExported": 98
+      "mesh": "onsen__terracotta",
+      "facesBefore": 306,
+      "facesExported": 306
+    },
+    {
+      "mesh": "onsen__charcoal",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "onsen__olive leaf",
+      "facesBefore": 572,
+      "facesExported": 572
+    },
+    {
+      "mesh": "onsen__warm cut stone",
+      "facesBefore": 362,
+      "facesExported": 362
+    },
+    {
+      "mesh": "onsen_decor warm cut stone",
+      "facesBefore": 7680,
+      "facesExported": 7680
+    },
+    {
+      "mesh": "onsen_decor cedar wood",
+      "facesBefore": 385,
+      "facesExported": 385
+    },
+    {
+      "mesh": "onsen_decor brushed brass",
+      "facesBefore": 56,
+      "facesExported": 56
+    },
+    {
+      "mesh": "onsen_decor dry bamboo",
+      "facesBefore": 142,
+      "facesExported": 142
     },
     {
       "mesh": "sleep__honey ash",
@@ -566,6 +451,216 @@
       "mesh": "sleep_duvet_rick-and-morty",
       "facesBefore": 6474,
       "facesExported": 6474
+    },
+    {
+      "mesh": "sleep_decor pale oak",
+      "facesBefore": 24,
+      "facesExported": 24
+    },
+    {
+      "mesh": "sleep_decor linen canvas sky",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sea",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sand",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sun",
+      "facesBefore": 1,
+      "facesExported": 1
+    },
+    {
+      "mesh": "study__pale oak",
+      "facesBefore": 980,
+      "facesExported": 980
+    },
+    {
+      "mesh": "study__honey ash",
+      "facesBefore": 2488,
+      "facesExported": 2488
+    },
+    {
+      "mesh": "study__sage textile",
+      "facesBefore": 1010,
+      "facesExported": 1010
+    },
+    {
+      "mesh": "study__charcoal",
+      "facesBefore": 1402,
+      "facesExported": 1402
+    },
+    {
+      "mesh": "study__window sea glass",
+      "facesBefore": 196,
+      "facesExported": 196
+    },
+    {
+      "mesh": "study__brushed brass",
+      "facesBefore": 290,
+      "facesExported": 290
+    },
+    {
+      "mesh": "study__linen",
+      "facesBefore": 6466,
+      "facesExported": 6466
+    },
+    {
+      "mesh": "study__terracotta",
+      "facesBefore": 1494,
+      "facesExported": 1494
+    },
+    {
+      "mesh": "study__olive leaf",
+      "facesBefore": 5176,
+      "facesExported": 5176
+    },
+    {
+      "mesh": "study__coffee",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "study_footrest",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "study_footrest_support",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "study_footrest_support.001",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "study_footrest_stretcher",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "study_decor cork board",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "study_decor pale oak",
+      "facesBefore": 24,
+      "facesExported": 24
+    },
+    {
+      "mesh": "study_decor sketch paper",
+      "facesBefore": 42,
+      "facesExported": 42
+    },
+    {
+      "mesh": "study_decor terracotta",
+      "facesBefore": 280,
+      "facesExported": 280
+    },
+    {
+      "mesh": "lounge__honey ash",
+      "facesBefore": 1670,
+      "facesExported": 1670
+    },
+    {
+      "mesh": "lounge__linen",
+      "facesBefore": 490,
+      "facesExported": 490
+    },
+    {
+      "mesh": "lounge__pale oak",
+      "facesBefore": 282,
+      "facesExported": 282
+    },
+    {
+      "mesh": "lounge__terracotta",
+      "facesBefore": 710,
+      "facesExported": 710
+    },
+    {
+      "mesh": "lounge__charcoal",
+      "facesBefore": 324,
+      "facesExported": 324
+    },
+    {
+      "mesh": "lounge__olive leaf",
+      "facesBefore": 1144,
+      "facesExported": 1144
+    },
+    {
+      "mesh": "lounge__brushed brass",
+      "facesBefore": 486,
+      "facesExported": 486
+    },
+    {
+      "mesh": "lounge__warm paper lantern",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "lounge__woven jute",
+      "facesBefore": 23442,
+      "facesExported": 19755
+    },
+    {
+      "mesh": "lounge_ottoman_foot",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge_ottoman_foot.001",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge_ottoman_foot.002",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge_ottoman_foot.003",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge_decor woven jute",
+      "facesBefore": 1872,
+      "facesExported": 1872
+    },
+    {
+      "mesh": "lounge_decor terracotta",
+      "facesBefore": 432,
+      "facesExported": 432
+    },
+    {
+      "mesh": "lounge_decor pale oak",
+      "facesBefore": 18,
+      "facesExported": 18
+    },
+    {
+      "mesh": "lounge_decor celadon glaze",
+      "facesBefore": 253,
+      "facesExported": 253
+    },
+    {
+      "mesh": "lounge_decor tenmoku glaze",
+      "facesBefore": 197,
+      "facesExported": 197
+    },
+    {
+      "mesh": "lounge_decor oatmeal glaze",
+      "facesBefore": 197,
+      "facesExported": 197
     }
   ]
 }

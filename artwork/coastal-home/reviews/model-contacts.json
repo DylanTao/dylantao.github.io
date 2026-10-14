@@ -6036,10 +6036,10 @@
     },
     {
       "file": "room-lounge.glb",
-      "bytes": 262396,
-      "gzipBytes": 226808,
-      "triangles": 31507,
-      "sha256": "bf1156629ee60b6716866d19d636282d9e4a07e38776dd919f7b3243b162f312",
+      "bytes": 287244,
+      "gzipBytes": 243034,
+      "triangles": 37517,
+      "sha256": "f49b257ae262f9d2b3cf53e06917983f0d847cc9ed3502300eeb3b269682cbd4",
       "materials": [
         "honey ash",
         "linen",
@@ -6049,16 +6049,19 @@
         "olive leaf",
         "brushed brass",
         "warm paper lantern",
-        "woven jute"
+        "woven jute",
+        "celadon glaze",
+        "tenmoku glaze",
+        "oatmeal glaze"
       ],
       "animations": []
     },
     {
       "file": "room-onsen.glb",
-      "bytes": 84412,
-      "gzipBytes": 69973,
-      "triangles": 7792,
-      "sha256": "2c9b468d29326b050deb6d72a7606205696e8b225b8251129060da45309bebab",
+      "bytes": 83852,
+      "gzipBytes": 64420,
+      "triangles": 14450,
+      "sha256": "0d4c727e3bdc239d7a66dd88c98b57baeb4a26e821e6fff49dcd3b2d4182dacc",
       "materials": [
         "onsen turquoise",
         "linen",
@@ -6066,16 +6069,19 @@
         "terracotta",
         "charcoal",
         "olive leaf",
-        "warm cut stone"
+        "warm cut stone",
+        "cedar wood",
+        "brushed brass",
+        "dry bamboo"
       ],
       "animations": []
     },
     {
       "file": "room-sleep.glb",
-      "bytes": 260288,
-      "gzipBytes": 231849,
-      "triangles": 89680,
-      "sha256": "353a79d1a7dbf8a4f12f2e3a294f235f214b2d900283851b3bbb7c44b10242c1",
+      "bytes": 267156,
+      "gzipBytes": 233265,
+      "triangles": 89794,
+      "sha256": "fca13d047026b7c6564a47265a19a304302e44f24afcbc88f04c3891fc41dbb9",
       "materials": [
         "honey ash",
         "linen",
@@ -6083,16 +6089,20 @@
         "terracotta",
         "charcoal",
         "olive leaf",
-        "sage textile"
+        "sage textile",
+        "linen canvas sky",
+        "linen canvas sea",
+        "linen canvas sand",
+        "linen canvas sun"
       ],
       "animations": []
     },
     {
       "file": "room-study.glb",
-      "bytes": 357520,
-      "gzipBytes": 298553,
-      "triangles": 38912,
-      "sha256": "32a13265d9b0bcc776afca269883c54f2727cdf4369e1c7352214ea339206e67",
+      "bytes": 364400,
+      "gzipBytes": 301248,
+      "triangles": 39504,
+      "sha256": "e80b5e0025b48e57ba1a6a71fe2c704c4c6c46f588b59210614904eba5acc211",
       "materials": [
         "pale oak",
         "honey ash",
@@ -6104,7 +6114,9 @@
         "hand glazed celadon",
         "terracotta",
         "olive leaf",
-        "coffee"
+        "coffee",
+        "cork board",
+        "sketch paper"
       ],
       "animations": []
     },
@@ -6313,5 +6325,5 @@
       "animations": []
     }
   ],
-  "totalGlbBytes": 7700052
+  "totalGlbBytes": 7738088
 }

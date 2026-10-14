@@ -836,7 +836,7 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   }
   expect(still.simulation.onsen.obstacle).not.toBeNull();
   expect(still.simulation.onsen.depthSource).toBe("five native basin ray hits");
-  expect(still.simulation.onsen.depth).toBeCloseTo(0.127487, 5);
+  expect(still.simulation.onsen.depth).toBeCloseTo(0.127465, 5);
   expect(still.simulation.onsen.surfaceY - still.simulation.onsen.bottomY).toBe(still.simulation.onsen.depth);
   expect(still.simulation.onsen.optics.thicknessMeters).toBe(still.simulation.onsen.depth);
   expect(still.simulation.onsen.stroke.available).toBe(true);

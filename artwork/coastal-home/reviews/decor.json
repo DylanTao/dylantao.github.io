@@ -1,0 +1,108 @@
+{
+  "slabVerticesRemoved": 0,
+  "rooms": {
+    "onsen": [
+      {
+        "mesh": "onsen_decor warm cut stone",
+        "vertices": 3888,
+        "faces": 7680
+      },
+      {
+        "mesh": "onsen_decor cedar wood",
+        "vertices": 484,
+        "faces": 385
+      },
+      {
+        "mesh": "onsen_decor brushed brass",
+        "vertices": 112,
+        "faces": 56
+      },
+      {
+        "mesh": "onsen_decor dry bamboo",
+        "vertices": 244,
+        "faces": 142
+      }
+    ],
+    "sleep": [
+      {
+        "mesh": "sleep_decor pale oak",
+        "vertices": 32,
+        "faces": 24
+      },
+      {
+        "mesh": "sleep_decor linen canvas sky",
+        "vertices": 8,
+        "faces": 6
+      },
+      {
+        "mesh": "sleep_decor linen canvas sea",
+        "vertices": 8,
+        "faces": 6
+      },
+      {
+        "mesh": "sleep_decor linen canvas sand",
+        "vertices": 8,
+        "faces": 6
+      },
+      {
+        "mesh": "sleep_decor linen canvas sun",
+        "vertices": 32,
+        "faces": 1
+      }
+    ],
+    "study": [
+      {
+        "mesh": "study_decor cork board",
+        "vertices": 8,
+        "faces": 6
+      },
+      {
+        "mesh": "study_decor pale oak",
+        "vertices": 32,
+        "faces": 24
+      },
+      {
+        "mesh": "study_decor sketch paper",
+        "vertices": 56,
+        "faces": 42
+      },
+      {
+        "mesh": "study_decor terracotta",
+        "vertices": 238,
+        "faces": 280
+      }
+    ],
+    "lounge": [
+      {
+        "mesh": "lounge_decor woven jute",
+        "vertices": 1944,
+        "faces": 1872
+      },
+      {
+        "mesh": "lounge_decor terracotta",
+        "vertices": 504,
+        "faces": 432
+      },
+      {
+        "mesh": "lounge_decor pale oak",
+        "vertices": 24,
+        "faces": 18
+      },
+      {
+        "mesh": "lounge_decor celadon glaze",
+        "vertices": 280,
+        "faces": 253
+      },
+      {
+        "mesh": "lounge_decor tenmoku glaze",
+        "vertices": 224,
+        "faces": 197
+      },
+      {
+        "mesh": "lounge_decor oatmeal glaze",
+        "vertices": 224,
+        "faces": 197
+      }
+    ]
+  }
+}
