@@ -1464,6 +1464,11 @@ if (
         else ("lizard",) if "--lizard-only" in sys.argv else variants
     ):
         character(avatar)
+    if not requested_avatar and "--lizard-only" not in sys.argv and "--characters-only" not in sys.argv:
+        # The bed is fitted to the finished sleepers: one pillow and duvet per avatar, plus a made bed.
+        import runpy
+
+        runpy.run_path(str(ROOT / "bin/refresh_coastal_bedding.py"), run_name="__main__")
 print(
     json.dumps(
         {"assets": {p.name: p.stat().st_size for p in OUT.glob("*.glb")}}, indent=2

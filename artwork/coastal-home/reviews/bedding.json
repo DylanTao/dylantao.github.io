@@ -1,0 +1,109 @@
+{
+  "method": "Per-avatar sleep clips at frames 25 and 73 (deepest and shallowest breath); pillow dented by vertical ray casts with an 8 cm tension funnel; duvet settled by coloured Gauss-Seidel position-based dynamics over the upper envelope of sleeper, pillow, mattress, frame and bedside table, trimmed 7 cm below the chin",
+  "oldPillowVerticesRemoved": 0,
+  "variants": {
+    "empty": {
+      "pillowDeepestPressMeters": 0.0,
+      "pillowVertices": 2082,
+      "duvetVertices": 5512,
+      "duvet": {
+        "hemY": -2.6,
+        "startZ": 3.35,
+        "grid": [
+          77,
+          71
+        ]
+      }
+    },
+    "lizard": {
+      "pillowDeepestPressMeters": 0.0925,
+      "pillowVertices": 2082,
+      "duvetVertices": 4932,
+      "duvet": {
+        "hemY": -2.8545,
+        "startZ": 3.5696,
+        "grid": [
+          77,
+          63
+        ]
+      },
+      "coverChecked": 30202,
+      "aboveCoverUnderside": 290,
+      "worstAboveCoverUndersideMeters": 0.0128,
+      "insidePillow": 0,
+      "worstInsidePillowMeters": 0.0
+    },
+    "south-park": {
+      "pillowDeepestPressMeters": 0.1262,
+      "pillowVertices": 2082,
+      "duvetVertices": 4588,
+      "duvet": {
+        "hemY": -2.9257,
+        "startZ": 3.5204,
+        "grid": [
+          77,
+          60
+        ]
+      },
+      "coverChecked": 48465,
+      "aboveCoverUnderside": 588,
+      "worstAboveCoverUndersideMeters": 0.0148,
+      "insidePillow": 24,
+      "worstInsidePillowMeters": 0.007
+    },
+    "simpsons": {
+      "pillowDeepestPressMeters": 0.0918,
+      "pillowVertices": 2082,
+      "duvetVertices": 4848,
+      "duvet": {
+        "hemY": -2.8717,
+        "startZ": 3.5203,
+        "grid": [
+          77,
+          62
+        ]
+      },
+      "coverChecked": 62715,
+      "aboveCoverUnderside": 3867,
+      "worstAboveCoverUndersideMeters": 0.0307,
+      "insidePillow": 0,
+      "worstInsidePillowMeters": 0.0
+    },
+    "ghibli": {
+      "pillowDeepestPressMeters": 0.1273,
+      "pillowVertices": 2082,
+      "duvetVertices": 5546,
+      "duvet": {
+        "hemY": -2.6204,
+        "startZ": 3.5204,
+        "grid": [
+          77,
+          71
+        ]
+      },
+      "coverChecked": 77802,
+      "aboveCoverUnderside": 3721,
+      "worstAboveCoverUndersideMeters": 0.0255,
+      "insidePillow": 0,
+      "worstInsidePillowMeters": 0.0
+    },
+    "rick-and-morty": {
+      "pillowDeepestPressMeters": 0.0924,
+      "pillowVertices": 2082,
+      "duvetVertices": 4856,
+      "duvet": {
+        "hemY": -2.8843,
+        "startZ": 3.5203,
+        "grid": [
+          77,
+          62
+        ]
+      },
+      "coverChecked": 57136,
+      "aboveCoverUnderside": 370,
+      "worstAboveCoverUndersideMeters": 0.015,
+      "insidePillow": 0,
+      "worstInsidePillowMeters": 0.0
+    }
+  }
+}

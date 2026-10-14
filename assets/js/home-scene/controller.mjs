@@ -470,13 +470,26 @@ export function createCoastalHome(container, records, artifacts) {
     updateRecords();
   }
 
+  // The bed keeps a made duvet until someone lies down in it, then shows the pillow and duvet
+  // fitted to that avatar (bin/refresh_coastal_bedding.py). Only the made bed is static light.
+  const beddings = [];
+  function syncBedding() {
+    const sleeper = container.dataset.animation === "sleep" && beddings.some((o) => o.userData.bedding === avatarId) ? avatarId : "empty";
+    for (const object of beddings) object.visible = object.userData.bedding === sleeper;
+  }
+
   function prepareModel(root) {
     root.traverse((o) => {
       if (o.isMesh) {
         o.castShadow = o.receiveShadow = true;
       }
       if (o.userData.renderStyle) o.visible = o.userData.renderStyle === style;
+      if (o.userData.bedding) {
+        beddings.push(o);
+        if (o.userData.bedding !== "empty") o.userData.dynamic = true;
+      }
     });
+    syncBedding();
     art.apply(root, style);
     coastalWind?.bind(root);
     root.traverse((o) => {
@@ -598,6 +611,7 @@ export function createCoastalHome(container, records, artifacts) {
       selectedProp = null;
       avatarId = entry.id;
       container.dataset.avatar = avatarId;
+      syncBedding();
       remember("sirui-scene-avatar", avatarId);
       ui.querySelector("[data-world-avatar]").value = avatarId;
       updateRoutine(true);
@@ -630,6 +644,7 @@ export function createCoastalHome(container, records, artifacts) {
     }
     currentAction = next;
     container.dataset.animation = name;
+    syncBedding();
   }
 
   function propFor(kind) {

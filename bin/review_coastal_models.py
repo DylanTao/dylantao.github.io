@@ -104,11 +104,11 @@ for avatar in AVATARS:
     contacts.append(report)
 
 bpy.ops.wm.open_mainfile(filepath=str(ROOT / "artwork/coastal-home/coastal-home.blend"))
-duvet = next(o for o in bpy.context.scene.objects if o.type == "MESH" and o.name.startswith("sleep_")
-             and any(m.name == "sage textile" for m in o.data.materials))
-cloth = BVHTree.FromObject(duvet, bpy.context.evaluated_depsgraph_get())
 sleep_cover = []
 for avatar, points in sleep_feet.items():
+    # Each avatar sleeps under its own draped duvet (refresh_coastal_bedding.py).
+    duvet = bpy.data.objects["sleep_duvet_" + avatar]
+    cloth = BVHTree.FromObject(duvet, bpy.context.evaluated_depsgraph_get())
     penetration = []
     for point in points:
         local = duvet.matrix_world.inverted() @ point
@@ -118,7 +118,14 @@ for avatar, points in sleep_feet.items():
     maximum = max(penetration)
     assert maximum < .003, (avatar, maximum)
     sleep_cover.append({"avatar": avatar, "maximumFootAboveDuvetMeters": maximum,
-                        "method": "Actual weighted foot vertices raycast against fitted cloth"})
+                        "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"})
+bedding = json.loads((OUT / "bedding.json").read_text())
+for avatar in AVATARS:
+    fit = bedding["variants"][avatar]
+    # The whole body, both breaths: at most 3 cm into the 3 cm filled cover, nothing in the pillow
+    # deeper than 1 cm.
+    assert fit["worstAboveCoverUndersideMeters"] < .032, (avatar, fit)
+    assert fit["worstInsidePillowMeters"] < .01, (avatar, fit)
 
 
 def glb(path):

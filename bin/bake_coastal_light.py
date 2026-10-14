@@ -36,11 +36,24 @@ for o in scene.objects:
         o.data.color_attributes.active_color=a
         o.select_set(True);selected.append(o)
 if not selected:raise RuntimeError('No static room surfaces to bake')
-bpy.context.view_layer.objects.active=selected[0]
 scene.render.bake.target='VERTEX_COLORS'
-bpy.ops.object.bake(type='AO',use_clear=True)
-occlusion={o.name:[c.color[0] for c in o.data.color_attributes.active_color.data] for o in selected}
-bpy.ops.object.bake(type='DIFFUSE',pass_filter={'INDIRECT'},use_clear=True)
+# Bed variants (refresh_coastal_bedding.py) overlap one another, so each bakes alone: the room
+# with the made bed first, then every fitted pillow and duvet with only its own variant shown.
+variants=sorted({o.get('bedding') for o in selected if o.get('bedding')}-{'empty'})
+passes=[[o for o in selected if o.get('bedding') in (None,'empty')]]+[[o for o in selected if o.get('bedding')==v] for v in variants]
+occlusion={}
+for objects in passes:
+    shown={o.get('bedding') for o in objects}-{None} or {'empty'}
+    for o in scene.objects:
+        if o.get('bedding'):o.hide_render=o['bedding'] not in shown
+    bpy.ops.object.select_all(action='DESELECT')
+    for o in objects:o.select_set(True)
+    bpy.context.view_layer.objects.active=objects[0]
+    bpy.ops.object.bake(type='AO',use_clear=True)
+    occlusion.update({o.name:[c.color[0] for c in o.data.color_attributes.active_color.data] for o in objects})
+    bpy.ops.object.bake(type='DIFFUSE',pass_filter={'INDIRECT'},use_clear=True)
+for o in scene.objects:
+    if o.get('bedding'):o.hide_render=False
 stats=[]
 for o in selected:
     values=[]
