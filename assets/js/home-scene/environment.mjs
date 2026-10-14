@@ -93,15 +93,31 @@ export function createPacific(scene, renderer, config) {
       float crest=smoothstep(.035,.22,fieldDisplacement.y);
       float lace = stoneNoise(vec3(oceanXZ*3.8,pacificTime*.16));
       float foam = smoothstep(.11,.52,shoal*(crest*.4+compression*.6))*smoothstep(.25,.66,lace);
+      // Swash: in the last metres each wave runs up the sand and drains back, so a lacy band at
+      // the waterline breathes in width, and each broken front travels in and fades as it goes.
+      float swash = pacificTime*.14 + x*.017 + stoneNoise(vec3(x*.08,4.1,pacificTime*.03))*.6;
+      float runUp = .5+.5*sin(swash*6.2832);
+      float swashLace = stoneNoise(vec3(oceanXZ*vec2(2.6,6.),pacificTime*.21));
+      float edgeFoam = (1.-smoothstep(.15+runUp*.55,.45+runUp*.9,distanceToBeach))*smoothstep(-.8,-.1,distanceToBeach);
+      float front = fract(swash);
+      float breaker = exp(-pow((distanceToBeach-mix(3.2,.4,front))/.16,2.))*(1.-front)*(1.-front);
+      foam = max(foam, max(edgeFoam*smoothstep(.4,.7,swashLace+.2*(1.-smoothstep(0.,.6,distanceToBeach))), breaker*smoothstep(.45,.75,swashLace)*.6));
       float waterDepth=max(.05,distanceToBeach*.18);
       vec3 transmission=exp(-vec3(.45,.12,.08)*waterDepth);
+      // Lambertian radiance per unit albedo under this pixel's light, so sand seen through thin
+      // water and foam are lit like the beach and dim with the evening instead of glowing.
+      vec3 lambert=totalDiffuse/max(material.diffuseColor,vec3(1e-4));
+      // Within a metre or two of the waterline the water is centimetres deep and shows wet sand,
+      // which softens the cut where the sea plane meets the beach.
+      float clarity=exp(-max(0.,distanceToBeach)*.9);
+      outgoingLight+=(vec3(.5,.45,.32)*lambert*transmission-totalDiffuse)*clarity*.55;
       outgoingLight=mix(outgoingLight,outgoingLight+vec3(.10,.21,.16)*transmission,shoal*.35);
-      outgoingLight=mix(outgoingLight,vec3(.63,.70,.68),foam*.83);
+      outgoingLight=mix(outgoingLight,vec3(.80,.84,.83)*lambert,foam*.83);
       #include <opaque_fragment>
     `
     );
   };
-  physicalWater.customProgramCacheKey = () => "pacific-spectrum-v2";
+  physicalWater.customProgramCacheKey = () => "pacific-spectrum-v3";
   const modelWater = new THREE.MeshStandardMaterial({ color: 0x8db9bb, roughness: 0.95 });
   const printWater = new THREE.MeshToonMaterial({ color: 0x287b8a });
   const waterGeometry = new THREE.PlaneGeometry(400, 400, 160, 160);
