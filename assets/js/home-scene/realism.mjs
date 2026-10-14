@@ -28,8 +28,99 @@ float stoneNoise(vec3 p) {
 
 export const physicalTime = { value: 0 };
 
-// Look-lab surface options (look.mjs), set before any room loads. Off in the shipped look.
+// Look-lab surface options (look.mjs), set before any room loads; the shipped look turns sheen on.
 export const surfaceLook = { sheen: false };
+
+// Hair reads as hair through its highlights. Light leaving a strand's cuticle forms a cone around
+// the strand, so the highlight is a band running across the strands (Kajiya & Kay, SIGGRAPH 1989):
+// a near-white primary shifted toward the tips and a broader, hair-tinted secondary shifted toward
+// the roots (the R and TRT lobes of Marschner et al., SIGGRAPH 2003, in Scheuermann's GDC 2004
+// real-time form). The avatars carry no strand tangents, so each strand is combed from the crown of
+// the hair mesh's bind pose along the surface and skinned with the normal. Direct light only; the
+// lobes ride Three's per-light loop, so shadows and every lamp apply.
+function strandHighlights(material, mesh) {
+  const box = new THREE.Box3().setFromBufferAttribute(mesh.geometry.attributes.position);
+  const crown = new THREE.Vector3((box.min.x + box.max.x) / 2, box.max.y, (box.min.z + box.max.z) / 2);
+  const span = Math.max(box.max.x - box.min.x, box.max.y - box.min.y, box.max.z - box.min.z, 1e-3);
+  const compile = material.onBeforeCompile,
+    cacheKey = material.customProgramCacheKey();
+  material.onBeforeCompile = function (shader, renderer) {
+    compile.call(this, shader, renderer);
+    shader.uniforms.hairCrown = { value: crown };
+    shader.uniforms.hairSpan = { value: span };
+    shader.vertexShader = shader.vertexShader
+      .replace("#include <common>", "#include <common>\nuniform vec3 hairCrown;\nvarying vec3 hairStrand;\nvarying vec3 hairPoint;")
+      .replace(
+        "#include <skinnormal_vertex>",
+        `vec3 hairComb = position - hairCrown;
+        hairComb -= dot(hairComb, normal) * normal;
+        #include <skinnormal_vertex>
+        #ifdef USE_SKINNING
+          hairComb = (skinMatrix * vec4(hairComb, 0.0)).xyz;
+        #endif
+        hairStrand = normalMatrix * hairComb;
+        hairPoint = position;`
+      );
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        "#include <common>",
+        `#include <common>
+        uniform float hairSpan;
+        varying vec3 hairStrand;
+        varying vec3 hairPoint;
+        float hairHash(vec3 p) {
+          p = fract(p * .1031); p += dot(p, p.yzx + 33.33);
+          return fract((p.x + p.y) * p.z);
+        }
+        float hairNoise(vec3 p) {
+          vec3 i = floor(p), f = fract(p); f = f * f * (3. - 2. * f);
+          return mix(mix(mix(hairHash(i), hairHash(i + vec3(1, 0, 0)), f.x), mix(hairHash(i + vec3(0, 1, 0)), hairHash(i + vec3(1, 1, 0)), f.x), f.y),
+                     mix(mix(hairHash(i + vec3(0, 0, 1)), hairHash(i + vec3(1, 0, 1)), f.x), mix(hairHash(i + vec3(0, 1, 1)), hairHash(i + vec3(1, 1, 1)), f.x), f.y), f.z);
+        }`
+      )
+      .replace(
+        "#include <lights_physical_pars_fragment>",
+        `#include <lights_physical_pars_fragment>
+        // The hairline's fine modeled detail turns the strand direction faster than a pixel, which
+        // sparkled. The lobe widens by the normal's variance across the pixel and keeps its energy
+        // (geometric specular antialiasing: Kaplanyan et al. 2016, Tokuyoshi & Kaplanyan 2019).
+        float hairKernel;
+        float hairLobe(vec3 T, vec3 H, float exponent) {
+          float TdotH = dot(T, H);
+          float widened = max(2.0, 2.0 / (2.0 / (exponent + 2.0) + hairKernel) - 2.0);
+          return smoothstep(-1.0, 0.0, TdotH) * pow(sqrt(max(0.0, 1.0 - TdotH * TdotH)), widened) * (widened + 2.0) / (exponent + 2.0);
+        }
+        void RE_Direct_Hair(const in IncidentLight directLight, const in vec3 geometryPosition, const in vec3 geometryNormal, const in vec3 geometryViewDir, const in vec3 geometryClearcoatNormal, const in PhysicalMaterial material, inout ReflectedLight reflectedLight) {
+          RE_Direct_Physical(directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight);
+          vec3 T = hairStrand - dot(hairStrand, geometryNormal) * geometryNormal;
+          float strandLength = length(T);
+          if (strandLength < 1e-6) return;
+          T /= strandLength;
+          // Clumps of strands shift the band a little: slow along a strand, faster across.
+          vec3 q = hairPoint / hairSpan;
+          float clump = hairNoise(vec3(q.x * 34.0, q.y * 3.0, q.z * 34.0));
+          float shift = (clump - 0.5) * 0.24;
+          vec3 H = normalize(directLight.direction + geometryViewDir);
+          float primary = hairLobe(normalize(T + geometryNormal * (0.08 + shift)), H, 72.0);
+          float secondary = hairLobe(normalize(T + geometryNormal * (-0.12 + shift)), H, 16.0) * smoothstep(0.25, 0.75, clump);
+          float facing = smoothstep(0.0, 0.4, dot(geometryNormal, directLight.direction));
+          vec3 tint = material.diffuseColor / max(1e-3, max(material.diffuseColor.r, max(material.diffuseColor.g, material.diffuseColor.b)));
+          reflectedLight.directSpecular += directLight.color * facing * (0.1 * primary + 0.06 * secondary * mix(vec3(1.0), tint, 0.75));
+        }
+        #undef RE_Direct
+        #define RE_Direct RE_Direct_Hair`
+      )
+      .replace(
+        "#include <normal_fragment_maps>",
+        `#include <normal_fragment_maps>
+        vec3 hairDx = dFdx(normal), hairDy = dFdy(normal);
+        hairKernel = min(0.5 * (dot(hairDx, hairDx) + dot(hairDy, hairDy)), 0.18);`
+      );
+  };
+  material.customProgramCacheKey = () => `${cacheKey}|strand-highlights-v1`;
+  material.needsUpdate = true;
+  return material;
+}
 
 // A woven fabric with a sheen lobe: Three's physical shader adds the "Charlie" sheen of Estevez and
 // Kulla (SIGGRAPH 2017 course), a soft rim of retroreflection that cloth fibers show at grazing angles.
@@ -94,6 +185,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
       };
       m.customProgramCacheKey = () => "coastal-woven-garment-v1";
     }
+    if (/hair/i.test(name)) strandHighlights(m, mesh);
     return bindContactLighting(m, contactLighting);
   }
   if (/leaf|foliage/i.test(name)) {

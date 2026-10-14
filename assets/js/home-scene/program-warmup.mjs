@@ -160,8 +160,8 @@ function compileTransmissionBackfaces(renderer, scene, camera) {
 // ordinary compile of the whole scene with the other meshes' materials set aside, so the lights,
 // fog and environment, and therefore every program key, are those compile(scene) would use.
 // The driver compiles on a worker pool as wide as the CPU, and this scene's first view is about
-// 35 s of D3D11 compiler time. Submitting every batch at once kept all 22 cores of the reference
-// desktop busy, and the page's own thread then waited up to 1.5 s for a turn while doing 3-7 ms of
+// 35 s of D3D11 compiler time. Submitting every batch at once kept the test machine's 22 logical
+// cores busy, and the page's own thread then waited up to 1.5 s for a turn while doing 3-7 ms of
 // work. After its task boundary, the next batch waits until no more than `slots` programs are
 // compiling.
 async function compileSceneInBatches(renderer, scene, camera, target, queue, slots, onBatch, size = 6) {
