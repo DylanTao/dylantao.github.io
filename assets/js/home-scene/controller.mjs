@@ -1769,7 +1769,8 @@ export function createCoastalHome(container, records, artifacts) {
       if (disposed) return;
       finish = createFinish(renderer, scene, perspective, {
         profileGPU: labEnabled,
-        bloom: bloom && { Pass: bloom.UnrealBloomPass, strength: 0.28, radius: 0.42, threshold: 0.92 },
+        // 1.6 sits above sunlit walls (no bloom at midday) and below the lamps and sconces.
+        bloom: bloom && { Pass: bloom.UnrealBloomPass, strength: 0.28, radius: 0.42, threshold: 1.6 },
       });
       skinDiffusion = createSkinDiffusion();
       coastalWind = createCoastalWind();

@@ -1,8 +1,9 @@
 // Look lab: matched previews of the realistic home's tone curve, bloom and fabric sheen. Flags come
 // from the URL and stay for the browser session, so a preview survives moving around the site:
 //   ?tone=aces|agx|neutral   ?bloom=1|0   ?sheen=1|0   ?look=reset
-// With no flags the shipped look is unchanged: ACES Filmic, no bloom, no sheen.
-export const SHIPPED_LOOK = Object.freeze({ tone: "aces", bloom: false, sheen: false });
+// The shipped look (chosen 2026-10-13 from the matched sheet) is ACES Filmic with bloom on actual
+// light sources and a sheen on woven fabric; no flags means exactly that.
+export const SHIPPED_LOOK = Object.freeze({ tone: "aces", bloom: true, sheen: true });
 
 const KEY = "scene-look";
 const TONES = ["aces", "agx", "neutral"];
