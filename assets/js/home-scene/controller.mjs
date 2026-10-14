@@ -1951,8 +1951,13 @@ export function createCoastalHome(container, records, artifacts) {
       container.removeAttribute("aria-busy");
       if (progressBar) progressBar.hidden = true;
       loadingStage("ready", routine.label);
-      // Traced now, in the task that drew the frame, before its drawing buffer is released.
-      loadingSketch?.finish(renderer.domElement);
+      // Traced now, in the task that drew the frame, before its drawing buffer is released. The
+      // sketch must never stop the render loop, so a failure only removes it.
+      try {
+        loadingSketch?.finish(renderer.domElement);
+      } catch {
+        loadingSketch?.dispose();
+      }
       loadingSketch = null;
       // Stream detail only after the occupied room/avatar have actually drawn.
       backgroundTimer = setTimeout(() => {
