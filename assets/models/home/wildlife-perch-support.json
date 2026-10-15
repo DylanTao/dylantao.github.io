@@ -1,7 +1,7 @@
 {
   "version": 1,
   "units": "metres",
-  "coastSha256": "c2950a4c96e702624ec60f0b879918c3545bef29c951f3d5a1151cf98831b0ec",
+  "coastSha256": "cb71439ba1e9b3bf33738f2aedeb35ade4e0550a1bc0269832d1896585bebeb5",
   "gullSha256": "8ae14bbd280cd34d51641ad3cb1096486969eec93d9703d1099f6b253d44b5d6",
   "method": "Retained physical local triangles and decoded native sole/ankle/tarsus geometry",
   "patches": [

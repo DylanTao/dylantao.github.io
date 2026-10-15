@@ -779,8 +779,8 @@
     },
     {
       "mesh": "core_flora_stems",
-      "facesBefore": 5750,
-      "facesExported": 5750
+      "facesBefore": 12322,
+      "facesExported": 12322
     },
     {
       "mesh": "core_flora_buckwheat",
@@ -809,8 +809,78 @@
     },
     {
       "mesh": "core_flora_iceplant_flowers",
-      "facesBefore": 1184,
-      "facesExported": 1184
+      "facesBefore": 1528,
+      "facesExported": 1528
+    },
+    {
+      "mesh": "core_flora_sagebrush",
+      "facesBefore": 15070,
+      "facesExported": 9494
+    },
+    {
+      "mesh": "core_flora_lemonade_berry",
+      "facesBefore": 14926,
+      "facesExported": 9403
+    },
+    {
+      "mesh": "core_flora_lemonade_berry_shade",
+      "facesBefore": 728,
+      "facesExported": 728
+    },
+    {
+      "mesh": "core_flora_lemonade_berry_fruit",
+      "facesBefore": 3300,
+      "facesExported": 3300
+    },
+    {
+      "mesh": "core_flora_prickly_pear",
+      "facesBefore": 3640,
+      "facesExported": 3640
+    },
+    {
+      "mesh": "core_flora_prickly_pear_fruit",
+      "facesBefore": 1296,
+      "facesExported": 1296
+    },
+    {
+      "mesh": "core_flora_yucca",
+      "facesBefore": 736,
+      "facesExported": 736
+    },
+    {
+      "mesh": "core_flora_yucca_skirt",
+      "facesBefore": 352,
+      "facesExported": 352
+    },
+    {
+      "mesh": "core_flora_wild_oats",
+      "facesBefore": 10824,
+      "facesExported": 10824
+    },
+    {
+      "mesh": "core_flora_daisy_leaves",
+      "facesBefore": 2196,
+      "facesExported": 2196
+    },
+    {
+      "mesh": "core_flora_daisy_flowers",
+      "facesBefore": 3290,
+      "facesExported": 3290
+    },
+    {
+      "mesh": "core_flora_red_iceplant",
+      "facesBefore": 3873,
+      "facesExported": 3873
+    },
+    {
+      "mesh": "core_flora_palm_trunk",
+      "facesBefore": 302,
+      "facesExported": 302
+    },
+    {
+      "mesh": "core_flora_palm_fronds",
+      "facesBefore": 11072,
+      "facesExported": 11072
     }
   ]
 }

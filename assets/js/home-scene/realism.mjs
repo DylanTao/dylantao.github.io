@@ -211,7 +211,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     m.side = THREE.DoubleSide;
     m.roughness = 0.56;
     m.envMapIntensity = 0.6;
-    if (/sage leaf|pine needle|grass leaf/i.test(name)) swayInBreeze(m);
+    if (/sage leaf|pine needle|grass leaf|berry leaf|palm leaf/i.test(name)) swayInBreeze(m);
     return bindContactLighting(m, contactLighting);
   }
   if (name === "coffee hopper glass") {

@@ -1,4 +1,5 @@
-"""Replant the clifftop and smooth its ground (Sirui, 2026-10-14); see coastal_flora.py.
+"""Replant the clifftop and smooth its ground (Sirui, 2026-10-14), then add the second, more
+varied planting drawn from photographs of the real bluffs (2026-10-15); see coastal_flora.py.
 
 Run with Blender 4.5 LTS from the repository root:
   blender -b --python-exit-code 1 --python bin/refresh_coastal_flora.py
@@ -120,8 +121,63 @@ mats = {
     "grass": decor.material("dry coastal grass leaf", (0.5, 0.4, 0.18), 0.9, refresh=True),
     "iceplant": decor.material("iceplant leaf", (0.21, 0.29, 0.05), 0.55, refresh=True),
     "iceFlowers": decor.material("iceplant flower", (0.72, 0.1, 0.42), 0.6),
+    # The second planting (2026-10-15), coloured after the October bluffs in the reference photos.
+    "silverSage": decor.material("silver sage leaf", (0.3, 0.3, 0.25), 0.85, refresh=True),
+    "berry": decor.material("lemonade berry leaf", (0.08, 0.16, 0.06), 0.5, refresh=True),
+    "berryShade": decor.material("lemonade berry shade leaf", (0.03, 0.065, 0.025), 0.7, refresh=True),
+    "berryFruit": decor.material("lemonade berry fruit", (0.35, 0.05, 0.04), 0.6, refresh=True),
+    "pear": decor.material("prickly pear pad", (0.18, 0.28, 0.11), 0.6, refresh=True),
+    "pearFruit": decor.material("prickly pear fruit", (0.35, 0.02, 0.1), 0.5, refresh=True),
+    "yucca": decor.material("yucca leaf", (0.1, 0.15, 0.05), 0.6, refresh=True),
+    "yuccaSkirt": decor.material("yucca dead leaf", (0.3, 0.22, 0.13), 0.9, refresh=True),
+    "oats": decor.material("wild oat grass leaf", (0.58, 0.44, 0.17), 0.9, refresh=True),
+    "daisyLeaves": decor.material("daisy leaf", (0.09, 0.17, 0.05), 0.75, refresh=True),
+    "daisyFlowers": decor.material("daisy flower", (0.85, 0.83, 0.78), 0.7, refresh=True),
+    "redIceplant": decor.material("iceplant red leaf", (0.55, 0.24, 0.07), 0.55, refresh=True),
+    "palmTrunk": decor.material("canary palm trunk", (0.36, 0.29, 0.2), 0.95, refresh=True),
+    "palm": decor.material("canary palm leaf", (0.12, 0.2, 0.05), 0.6, refresh=True),
 }
-objects, counts = flora.planting(mats, ground_at, paths, avoid)
+
+
+# The landscape's blue agaves are not flora; their leaves' centres, merged into plants, keep the
+# second planting from growing through them.
+def agave_footprints(name="core__blue sage agave leaf"):
+    obj = bpy.data.objects.get(name)
+    if obj is None:
+        return []
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    bm.verts.ensure_lookup_table()
+    seen, centres = set(), []
+    for start in bm.verts:
+        if start.index in seen:
+            continue
+        stack, points = [start], []
+        seen.add(start.index)
+        while stack:
+            v = stack.pop()
+            points.append(obj.matrix_world @ v.co)
+            for e in v.link_edges:
+                w = e.other_vert(v)
+                if w.index not in seen:
+                    seen.add(w.index)
+                    stack.append(w)
+        if max(p.z for p in points) > 5.5:
+            centres.append(sum(points, Vector()) / len(points))
+    bm.free()
+    plants = []
+    for c in centres:
+        for plant in plants:
+            if math.hypot(plant[0] - c.x, plant[1] - c.y) < 0.9:
+                break
+        else:
+            plants.append((c.x, c.y, 0.8))
+    return plants
+
+
+agaves = agave_footprints()
+report["agaves"] = len(agaves)
+objects, counts = flora.planting(mats, ground_at, paths, avoid, keep_clear=agaves)
 for obj in objects.values():
     obj["flora"] = True
 report["counts"] = counts

@@ -204,7 +204,7 @@
       "mesh": "onsen__linen",
       "corners": 1248,
       "min": 0.68,
-      "max": 0.7173343335712951
+      "max": 0.7165287119771044
     },
     {
       "mesh": "onsen__honey ash",
@@ -312,7 +312,7 @@
       "mesh": "core__warm cut stone",
       "corners": 9620,
       "min": 0.68,
-      "max": 0.9518418699502945
+      "max": 0.9508479462781301
     },
     {
       "mesh": "core__chalk limestone",
@@ -336,7 +336,7 @@
       "mesh": "core__brushed brass",
       "corners": 11392,
       "min": 0.68,
-      "max": 0.7857918868462245
+      "max": 0.78432799136887
     },
     {
       "mesh": "core__sage textile",
@@ -498,7 +498,7 @@
       "mesh": "core__blue sage agave leaf",
       "corners": 13824,
       "min": 0.68,
-      "max": 0.8196413776775202
+      "max": 0.8185668566823007
     },
     {
       "mesh": "study_footrest",
@@ -576,7 +576,7 @@
       "mesh": "onsen_decor warm cut stone",
       "corners": 23040,
       "min": 0.68,
-      "max": 0.7523020998636882
+      "max": 0.7525415455674133
     },
     {
       "mesh": "onsen_decor cedar wood",
@@ -858,7 +858,7 @@
       "mesh": "core_flora_sage",
       "corners": 55258,
       "min": 0.68,
-      "max": 0.9510498456191272
+      "max": 0.9507338427007199
     },
     {
       "mesh": "core_flora_dark_sage",
@@ -868,15 +868,15 @@
     },
     {
       "mesh": "core_flora_stems",
-      "corners": 23000,
+      "corners": 48100,
       "min": 0.68,
-      "max": 0.7250000013411045
+      "max": 0.9053644717267404
     },
     {
       "mesh": "core_flora_buckwheat",
       "corners": 8120,
       "min": 0.68,
-      "max": 0.9516367716404299
+      "max": 0.9512321773916483
     },
     {
       "mesh": "core_flora_torrey_bark",
@@ -894,19 +894,103 @@
       "mesh": "core_flora_dry_grass",
       "corners": 26383,
       "min": 0.68,
-      "max": 0.9420447262004018
+      "max": 0.9417070426046849
     },
     {
       "mesh": "core_flora_iceplant",
       "corners": 34515,
       "min": 0.68,
-      "max": 0.9522613489379486
+      "max": 0.9523740713795027
     },
     {
       "mesh": "core_flora_iceplant_flowers",
-      "corners": 4144,
+      "corners": 5348,
       "min": 0.68,
-      "max": 0.9511394122925898
+      "max": 0.9512242746539414
+    },
+    {
+      "mesh": "core_flora_sagebrush",
+      "corners": 52745,
+      "min": 0.68,
+      "max": 0.9520865220576525
+    },
+    {
+      "mesh": "core_flora_lemonade_berry",
+      "corners": 52241,
+      "min": 0.68,
+      "max": 0.9512010348960758
+    },
+    {
+      "mesh": "core_flora_lemonade_berry_shade",
+      "corners": 2912,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_flora_lemonade_berry_fruit",
+      "corners": 11000,
+      "min": 0.68,
+      "max": 0.6801671304596433
+    },
+    {
+      "mesh": "core_flora_prickly_pear",
+      "corners": 12740,
+      "min": 0.68,
+      "max": 0.9507103052766374
+    },
+    {
+      "mesh": "core_flora_prickly_pear_fruit",
+      "corners": 4536,
+      "min": 0.68,
+      "max": 0.6800213561441343
+    },
+    {
+      "mesh": "core_flora_yucca",
+      "corners": 2576,
+      "min": 0.68,
+      "max": 0.9524670601201555
+    },
+    {
+      "mesh": "core_flora_yucca_skirt",
+      "corners": 1344,
+      "min": 0.68,
+      "max": 0.9069155747443438
+    },
+    {
+      "mesh": "core_flora_wild_oats",
+      "corners": 37884,
+      "min": 0.68,
+      "max": 0.9527615730961164
+    },
+    {
+      "mesh": "core_flora_daisy_leaves",
+      "corners": 7686,
+      "min": 0.68,
+      "max": 0.9398550527791183
+    },
+    {
+      "mesh": "core_flora_daisy_flowers",
+      "corners": 11515,
+      "min": 0.68,
+      "max": 0.9520774117981394
+    },
+    {
+      "mesh": "core_flora_red_iceplant",
+      "corners": 14196,
+      "min": 0.68,
+      "max": 0.9520572140502434
+    },
+    {
+      "mesh": "core_flora_palm_trunk",
+      "corners": 1224,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "core_flora_palm_fronds",
+      "corners": 39552,
+      "min": 0.68,
+      "max": 0.9511140105004112
     }
   ]
 }

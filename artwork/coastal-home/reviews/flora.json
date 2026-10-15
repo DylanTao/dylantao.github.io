@@ -1,9 +1,18 @@
 {
+  "agaves": 28,
   "counts": {
     "shrubs": 115,
     "pines": 4,
     "grassTufts": 687,
-    "iceplantLeaves": 3737
+    "iceplantLeaves": 3737,
+    "palms": 1,
+    "lemonadeBerries": 13,
+    "yuccas": 4,
+    "pricklyPears": 9,
+    "redIceplantLeaves": 1296,
+    "sagebrush": 63,
+    "daisyDrifts": 6,
+    "oatTufts": 248
   },
   "objects": {
     "core_flora_sage": {
@@ -15,8 +24,8 @@
       "faces": 7916
     },
     "core_flora_stems": {
-      "vertices": 6900,
-      "faces": 5750
+      "vertices": 14430,
+      "faces": 12322
     },
     "core_flora_buckwheat": {
       "vertices": 5800,
@@ -39,8 +48,64 @@
       "faces": 9563
     },
     "core_flora_iceplant_flowers": {
-      "vertices": 2960,
-      "faces": 1184
+      "vertices": 3820,
+      "faces": 1528
+    },
+    "core_flora_sagebrush": {
+      "vertices": 37675,
+      "faces": 15070
+    },
+    "core_flora_lemonade_berry": {
+      "vertices": 37315,
+      "faces": 14926
+    },
+    "core_flora_lemonade_berry_shade": {
+      "vertices": 910,
+      "faces": 728
+    },
+    "core_flora_lemonade_berry_fruit": {
+      "vertices": 2640,
+      "faces": 3300
+    },
+    "core_flora_prickly_pear": {
+      "vertices": 2912,
+      "faces": 3640
+    },
+    "core_flora_prickly_pear_fruit": {
+      "vertices": 1080,
+      "faces": 1296
+    },
+    "core_flora_yucca": {
+      "vertices": 1840,
+      "faces": 736
+    },
+    "core_flora_yucca_skirt": {
+      "vertices": 728,
+      "faces": 352
+    },
+    "core_flora_wild_oats": {
+      "vertices": 27060,
+      "faces": 10824
+    },
+    "core_flora_daisy_leaves": {
+      "vertices": 5490,
+      "faces": 2196
+    },
+    "core_flora_daisy_flowers": {
+      "vertices": 8225,
+      "faces": 3290
+    },
+    "core_flora_red_iceplant": {
+      "vertices": 7909,
+      "faces": 3873
+    },
+    "core_flora_palm_trunk": {
+      "vertices": 312,
+      "faces": 302
+    },
+    "core_flora_palm_fronds": {
+      "vertices": 24960,
+      "faces": 11072
     }
   },
   "avoid": [

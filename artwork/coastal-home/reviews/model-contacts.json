@@ -3080,10 +3080,10 @@
     },
     {
       "file": "flora.glb",
-      "bytes": 1179336,
-      "gzipBytes": 1124965,
-      "triangles": 88993,
-      "sha256": "5c27bbabbde168f86d66c476a5de2e9f2451fa16c2d7ad72f233ea1170bad29d",
+      "bytes": 2206924,
+      "gzipBytes": 2080125,
+      "triangles": 184309,
+      "sha256": "a315ae39223edda71e9b60bef2301e086249804eea72923fc02b9bf7ebb80452",
       "materials": [
         "coastal sage leaf",
         "dark sage leaf",
@@ -3093,7 +3093,21 @@
         "torrey pine needle leaf",
         "dry coastal grass leaf",
         "iceplant leaf",
-        "iceplant flower"
+        "iceplant flower",
+        "silver sage leaf",
+        "lemonade berry leaf",
+        "lemonade berry shade leaf",
+        "lemonade berry fruit",
+        "prickly pear pad",
+        "prickly pear fruit",
+        "yucca leaf",
+        "yucca dead leaf",
+        "wild oat grass leaf",
+        "daisy leaf",
+        "daisy flower",
+        "iceplant red leaf",
+        "canary palm trunk",
+        "canary palm leaf"
       ],
       "animations": []
     },
@@ -3108,10 +3122,10 @@
     },
     {
       "file": "home-shell.glb",
-      "bytes": 1004300,
-      "gzipBytes": 893697,
+      "bytes": 1005580,
+      "gzipBytes": 894669,
       "triangles": 151070,
-      "sha256": "e26e2176c80fa15e6e17bf9c7a772f62ffcb31e04cb5b9d5fd104f1a28594ef4",
+      "sha256": "c3403b85f2ec12a05a9d2318b672d27162295f3dbfaa80e68e96f4beea9402df",
       "materials": [
         "warm cut stone",
         "chalk limestone",
@@ -3471,5 +3485,5 @@
       "animations": []
     }
   ],
-  "totalGlbBytes": 8252972
+  "totalGlbBytes": 9281836
 }
