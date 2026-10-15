@@ -135,6 +135,25 @@ function sheenFabric(source) {
   return m;
 }
 
+// The clifftop's leaves, needles and grass (bin/coastal_flora.py) carry a sway weight in uv.x,
+// 0 at the plant's base and 1 at its top. They lean a little inland in the onshore breeze and
+// rock about that lean, each plant on its own phase; the motion freezes with the scene's clock.
+function swayInBreeze(material) {
+  material.onBeforeCompile = (shader) => {
+    shader.uniforms.coastalTime = physicalTime;
+    shader.vertexShader = shader.vertexShader.replace("#include <common>", "#include <common>\nuniform float coastalTime;").replace(
+      "#include <begin_vertex>",
+      `#include <begin_vertex>
+        vec4 swayWorld = modelMatrix * vec4(transformed, 1.0);
+        float swayPhase = dot(swayWorld.xz, vec2(.31, .17));
+        float swayWeight = uv.x * uv.x;
+        transformed.x += swayWeight * (.04 * sin(coastalTime * 1.3 + swayPhase) + .012 * sin(coastalTime * 3.7 + swayPhase * 2.3));
+        transformed.z += swayWeight * (.025 + .025 * sin(coastalTime * 1.1 + swayPhase * 1.4));`
+    );
+  };
+  material.customProgramCacheKey = () => "coastal-breeze-foliage-v1";
+}
+
 export function finishPhysicalMaterial(source, mesh, contactLighting) {
   const name = source.name;
   const m =
@@ -192,6 +211,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     m.side = THREE.DoubleSide;
     m.roughness = 0.56;
     m.envMapIntensity = 0.6;
+    if (/sage leaf|pine needle|grass leaf/i.test(name)) swayInBreeze(m);
     return bindContactLighting(m, contactLighting);
   }
   if (name === "coffee hopper glass") {
@@ -220,7 +240,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
       "#include <project_vertex>",
       "#include <project_vertex>\nsurfacePoint = (modelMatrix * vec4(transformed, 1.0)).xyz;"
     );
-    shader.fragmentShader = `varying vec3 surfacePoint;\n${surfaceNoise}\n` + shader.fragmentShader;
+    shader.fragmentShader = `varying vec3 surfacePoint;\n${surfaceNoise}\n${kind === 3 ? cellsGLSL : ""}\n` + shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <color_fragment>",
       `
@@ -251,8 +271,42 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
         float layers = stoneNoise(vec3(p.x*.45, p.y*9.0 + detail*1.8, p.z*.45));
         float erosion = stoneNoise(vec3(p.x*2.0,p.y*.30,p.z*2.0));
         pigment = .89 + .10*detail + .07*layers;
-        diffuseColor.rgb *= pigment;
+        // Close-range sandstone (Sirui, 2026-10-14). Steepness comes from the surface itself.
+        vec3 sandFlat = normalize(cross(dFdx(p), dFdy(p)));
+        float sandUp = abs(sandFlat.y);
+        float sandFoot = max(length(dFdx(p)), length(dFdy(p)));
+        // Bedding planes of uneven thickness, gently warped, each bed its own shade of iron
+        // staining. A bedding line shows only in places, as weathering picks it out, and fades
+        // before it is thinner than a pixel.
+        float bed = (p.y + .2*stoneNoise(vec3(p.x*.18, 3.1, p.z*.18)) - .05*detail) / .26;
+        bed += .35*sin(bed*1.9 + 1.3) + .2*sin(bed*4.1);
+        float bedDistance = abs(fract(bed + .5) - .5);
+        float bedWidth = sandFoot / .26;
+        float bedShow = smoothstep(.45, .75, stoneNoise(vec3(p.x*.12, floor(bed)*2.3, p.z*.12)));
+        float bedLine = (1.-smoothstep(.05, .05 + bedWidth*1.5, bedDistance)) * (1.-smoothstep(.06, .3, bedWidth)) * smoothstep(.92, .6, sandUp) * bedShow;
+        float stain = stoneNoise(vec3(p.x*.12, floor(bed)*1.37, p.z*.12));
+        // Honeycomb weathering (tafoni), the pitted cells of La Jolla's sandstone, in patches on
+        // steep faces: Worley cells whose walls stand proud of their hollows.
+        vec2 sandFace = abs(sandFlat.x) > abs(sandFlat.z) ? p.zy : p.xy;
+        float tafoniZone = smoothstep(.6, .74, stoneNoise(vec3(p.x*.17, p.y*.23, p.z*.17))) * smoothstep(.75, .35, sandUp);
+        float sandPit = 0.;
+        float tafoniFade = 1.-smoothstep(.012, .045, sandFoot);
+        if (tafoniZone * tafoniFade > 0.) {
+          vec2 cells = sandCells(sandFace / .16);
+          // Rounded hollows: the depth eases in from the cell walls rather than stepping.
+          sandPit = sqrt(smoothstep(.02, .6, cells.y - cells.x)) * tafoniZone * tafoniFade;
+        }
+        // Desert varnish: dark streaks where runoff stains the faces.
+        float varnish = smoothstep(.6, .86, stoneNoise(vec3(p.x*1.4, p.y*.06, p.z*1.4))) * smoothstep(.8, .3, sandUp);
+        diffuseColor.rgb *= pigment * (1. - .08*bedLine) * (1. - .12*sandPit);
         diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(1.06,.96,.84), smoothstep(.5,.85,erosion)*.18);
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(1.08,.93,.78), smoothstep(.55,.8,stain)*.3*smoothstep(.9,.6,sandUp));
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(.72,.68,.64), varnish*.45);
+        // The clifftop: dusty topsoil with patches of dry grass between the scrub.
+        float ground = smoothstep(.72, .92, sandUp) * smoothstep(4.5, 5.5, p.y);
+        float grass = smoothstep(.45, .75, stoneNoise(vec3(p.x*.9, 7.7, p.z*.9)) + .25*grainNoise(p*7.));
+        diffuseColor.rgb = mix(diffuseColor.rgb, mix(vec3(.34,.24,.14)*(.9+.2*detail), vec3(.4,.34,.15), grass*.7), ground*.5);
+        float sandHeight = -.014*sandPit;
       `
               : kind === 4
                 ? `
@@ -276,7 +330,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
       // Derivative bump mapping on the actual surface; filtered below a pixel.
       float footprint = max(length(dFdx(surfacePoint)), length(dFdy(surfacePoint)));
       float detailFade = 1.0-smoothstep(.025,.12,footprint);
-      float height = detailFade * ${kind === 1 ? "grainNoise(vec3(surfacePoint.x*95.0,surfacePoint.y*24.0,surfacePoint.z*2.5)) * .0007" : kind === 2 ? "grainNoise(surfacePoint*140.0)*.0004" : kind === 3 ? "stoneNoise(surfacePoint*3.0)*.022" : "stoneNoise(surfacePoint*32.0)*.001"};
+      float height = detailFade * ${kind === 1 ? "grainNoise(vec3(surfacePoint.x*95.0,surfacePoint.y*24.0,surfacePoint.z*2.5)) * .0007" : kind === 2 ? "grainNoise(surfacePoint*140.0)*.0004" : kind === 3 ? "stoneNoise(surfacePoint*3.0)*.022 + sandHeight" : "stoneNoise(surfacePoint*32.0)*.001"};
       vec3 eyeX = dFdx(-vViewPosition), eyeY = dFdy(-vViewPosition);
       vec3 r1 = cross(eyeY, normal), r2 = cross(normal, eyeX);
       float det = dot(eyeX, r1);
@@ -285,9 +339,29 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     `
     );
   };
-  m.customProgramCacheKey = () => `coastal-physical-${kind}`;
+  m.customProgramCacheKey = () => `coastal-physical-${kind}-v5`;
   return bindContactLighting(m, contactLighting);
 }
+
+// Distances to the nearest and second-nearest feature points of 2D Worley noise (Worley, "A
+// Cellular Texture Basis Function", SIGGRAPH 1996): the sandstone's honeycomb cells.
+const cellsGLSL = `
+vec2 sandHash(vec2 p) {
+  vec3 q = fract(vec3(p.xyx) * vec3(.1031, .1030, .0973));
+  q += dot(q, q.yzx + 33.33);
+  return fract((q.xx + q.yz) * q.zy);
+}
+vec2 sandCells(vec2 x) {
+  vec2 n = floor(x), f = fract(x);
+  float f1 = 8., f2 = 8.;
+  for (int j = -1; j <= 1; j++)
+    for (int i = -1; i <= 1; i++) {
+      vec2 r = vec2(i, j) + sandHash(n + vec2(i, j)) - f;
+      float d = dot(r, r);
+      if (d < f1) { f2 = f1; f1 = d; } else if (d < f2) f2 = d;
+    }
+  return sqrt(vec2(f1, f2));
+}`;
 
 // The transparent footer retains its existing pipeline. It has its own scene,
 // authored fade and budget; this room-lighting change does not modify it.

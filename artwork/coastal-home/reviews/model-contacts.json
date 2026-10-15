@@ -3079,6 +3079,25 @@
       "animations": []
     },
     {
+      "file": "flora.glb",
+      "bytes": 1179336,
+      "gzipBytes": 1124965,
+      "triangles": 88993,
+      "sha256": "5c27bbabbde168f86d66c476a5de2e9f2451fa16c2d7ad72f233ea1170bad29d",
+      "materials": [
+        "coastal sage leaf",
+        "dark sage leaf",
+        "sage stem wood",
+        "coastal wildflower ochre",
+        "torrey pine bark wood",
+        "torrey pine needle leaf",
+        "dry coastal grass leaf",
+        "iceplant leaf",
+        "iceplant flower"
+      ],
+      "animations": []
+    },
+    {
       "file": "HarborSeal.glb",
       "bytes": 49368,
       "gzipBytes": 34198,
@@ -3089,10 +3108,10 @@
     },
     {
       "file": "home-shell.glb",
-      "bytes": 1654088,
-      "gzipBytes": 1525211,
-      "triangles": 268968,
-      "sha256": "343bcd7625137aba32bd344ec8c963e7fcedee75565229d5ea34fc1c99140939",
+      "bytes": 1004300,
+      "gzipBytes": 893697,
+      "triangles": 151070,
+      "sha256": "e26e2176c80fa15e6e17bf9c7a772f62ffcb31e04cb5b9d5fd104f1a28594ef4",
       "materials": [
         "warm cut stone",
         "chalk limestone",
@@ -3105,9 +3124,20 @@
         "olive leaf",
         "golden coastal sandstone",
         "warm sandstone bedding",
-        "coastal sage scrub",
         "blue sage agave leaf",
-        "coastal wildflower ochre"
+        "dark bronze",
+        "facade low-iron glass",
+        "travertine paving stone",
+        "festoon cable",
+        "festoon bulb glass",
+        "weathered teak wood",
+        "outdoor canvas cotton",
+        "aged copper",
+        "charred oak wood",
+        "olive bark wood",
+        "rosemary leaf",
+        "fire bowl embers",
+        "cedar wood"
       ],
       "animations": []
     },
@@ -3122,10 +3152,10 @@
     },
     {
       "file": "room-gym.glb",
-      "bytes": 686928,
-      "gzipBytes": 510331,
+      "bytes": 674300,
+      "gzipBytes": 500357,
       "triangles": 58084,
-      "sha256": "525395e32ba096e453188831efa1ee920adaca05bc3b6b6e0ad53cdeddc54d49",
+      "sha256": "afbf09909bbad939508df712c34848db2477a0ca373236c3ff2113514afa4c1e",
       "materials": [
         "gym rubber",
         "powder coated gym steel",
@@ -3140,10 +3170,10 @@
     },
     {
       "file": "room-kitchen.glb",
-      "bytes": 470204,
-      "gzipBytes": 394180,
+      "bytes": 464268,
+      "gzipBytes": 389739,
       "triangles": 60668,
-      "sha256": "dc6c2fbd5ae2f1b2106c5cad7b04a59cb37e8cd38ebb89a89e137b24af83347b",
+      "sha256": "7423f84145dabdb1e33f9bb1cb7923b63c6c3871cf2d1b521857f00ed698e4d6",
       "materials": [
         "warm paper lantern",
         "pale oak",
@@ -3167,10 +3197,10 @@
     },
     {
       "file": "room-lounge.glb",
-      "bytes": 287244,
-      "gzipBytes": 243034,
+      "bytes": 281380,
+      "gzipBytes": 237390,
       "triangles": 37517,
-      "sha256": "f49b257ae262f9d2b3cf53e06917983f0d847cc9ed3502300eeb3b269682cbd4",
+      "sha256": "56e2469e3aaeda9ad36ab2a5419170180ce6c052e9bf9e1226a8c0fe8717de27",
       "materials": [
         "honey ash",
         "linen",
@@ -3189,10 +3219,10 @@
     },
     {
       "file": "room-onsen.glb",
-      "bytes": 90652,
-      "gzipBytes": 70118,
+      "bytes": 90000,
+      "gzipBytes": 69504,
       "triangles": 15032,
-      "sha256": "9830bfae72355c2db6abb927258fcc2a906c2d1e0710eb9c9edd7661e802cc10",
+      "sha256": "d99690bdab642d299475a68eca253aee91051d3e56264ce7f67f54619fecff31",
       "materials": [
         "onsen turquoise",
         "linen",
@@ -3210,10 +3240,10 @@
     },
     {
       "file": "room-sleep.glb",
-      "bytes": 265568,
-      "gzipBytes": 231655,
+      "bytes": 264600,
+      "gzipBytes": 230807,
       "triangles": 89614,
-      "sha256": "fe1d29a1696e08d22c09c5c70f0bfa4242e235dbfa1762d3f6e42624506a9841",
+      "sha256": "8a073fffb3671e87de0381566e326f7b032ebda9aaa3eb40d38bf77d908223f8",
       "materials": [
         "honey ash",
         "linen",
@@ -3231,10 +3261,10 @@
     },
     {
       "file": "room-study.glb",
-      "bytes": 364400,
-      "gzipBytes": 301248,
+      "bytes": 363072,
+      "gzipBytes": 300208,
       "triangles": 39504,
-      "sha256": "e80b5e0025b48e57ba1a6a71fe2c704c4c6c46f588b59210614904eba5acc211",
+      "sha256": "d416ac5f3ef5c6e4026777d122d309d91661c6ca89e1c87142453c73a6d67aa1",
       "materials": [
         "pale oak",
         "honey ash",
@@ -3441,5 +3471,5 @@
       "animations": []
     }
   ],
-  "totalGlbBytes": 7750800
+  "totalGlbBytes": 8252972
 }

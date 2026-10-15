@@ -1,0 +1,56 @@
+{
+  "counts": {
+    "shrubs": 115,
+    "pines": 4,
+    "grassTufts": 687,
+    "iceplantLeaves": 3737
+  },
+  "objects": {
+    "core_flora_sage": {
+      "vertices": 39470,
+      "faces": 15788
+    },
+    "core_flora_dark_sage": {
+      "vertices": 19790,
+      "faces": 7916
+    },
+    "core_flora_stems": {
+      "vertices": 6900,
+      "faces": 5750
+    },
+    "core_flora_buckwheat": {
+      "vertices": 5800,
+      "faces": 2320
+    },
+    "core_flora_torrey_bark": {
+      "vertices": 2100,
+      "faces": 1624
+    },
+    "core_flora_torrey_needles": {
+      "vertices": 80640,
+      "faces": 32256
+    },
+    "core_flora_dry_grass": {
+      "vertices": 18845,
+      "faces": 7538
+    },
+    "core_flora_iceplant": {
+      "vertices": 21031,
+      "faces": 9563
+    },
+    "core_flora_iceplant_flowers": {
+      "vertices": 2960,
+      "faces": 1184
+    }
+  },
+  "avoid": [
+    [1.42, -3.18, 1.6],
+    [-8, -1, 0.7],
+    [9, -1, 0.7],
+    [14, 3, 0.7]
+  ],
+  "smoothedFaces": {
+    "core__golden coastal sandstone": 0,
+    "core_liftaway_cave_ceiling": 0
+  }
+}

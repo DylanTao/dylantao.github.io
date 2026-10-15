@@ -241,7 +241,9 @@ async function capture() {
         };
         scene.traverse((o) => {
           if (!o.visible) return;
-          if (o.isMesh && !animated(o) && !o.userData.outline) materials.set(o, [o.material, ++next]);
+          // The onsen's shadow-only vault and the glass never draw colour on screen, so they are not traced.
+          if (o.isMesh && !animated(o) && !o.userData.outline && !o.userData.shadowOnly && !o.userData.glazing)
+            materials.set(o, [o.material, ++next]);
           else if (o.isMesh || o.isPoints || o.isLine || o.isSprite) hidden.push(o);
         });
         hidden.forEach((o) => (o.visible = false));

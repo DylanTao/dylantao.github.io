@@ -33,12 +33,13 @@ for o in scene.objects:
         mod=o.modifiers.new('Web silhouette LOD','DECIMATE');mod.ratio=.42;mod.use_collapse_triangulate=True
         bpy.ops.object.modifier_apply(modifier=mod.name)
     report.append({'mesh':o.name,'facesBefore':before,'facesExported':len(o.data.polygons)})
-exports=[('room-'+room,room+'_')] if room else [('home-shell','core_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]+[('coast','coast_')]
+# The clifftop planting streams after the first frame as its own file (refresh_coastal_flora.py).
+exports=[('room-'+room,room+'_')] if room else [('home-shell','core_'),('flora','core_flora_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]+[('coast','coast_')]
 if interiors_only:exports=[e for e in exports if e[0]!='coast']
 for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:
-        if o.name.startswith(prefix) or name=='home-shell' and o.type=='EMPTY':o.select_set(True)
+        if o.name.startswith(prefix) and not (name=='home-shell' and o.name.startswith('core_flora_')) or name=='home-shell' and o.type=='EMPTY':o.select_set(True)
     bpy.ops.export_scene.gltf(filepath=str(ROOT/'assets/models/home'/f'{name}.glb'),export_format='GLB',use_selection=True,export_extras=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7,export_draco_color_quantization=6,export_draco_normal_quantization=8,export_draco_position_quantization=14)
 output=ROOT/'artwork/coastal-home/reviews/web-export.json'
 if room and output.exists():

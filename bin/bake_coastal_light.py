@@ -29,8 +29,12 @@ from mathutils import Vector
 light.rotation_euler=(Vector((0,-2,1))-light.location).to_track_quat('-Z','Y').to_euler()
 selected=[]
 bpy.ops.object.select_all(action='DESELECT')
+# Glazing is nearly clear and the sliding doors stand open by day (refresh_coastal_facade.py):
+# neither occludes the bake, and neither carries baked colour.
+clear=[o for o in scene.objects if o.type=='MESH' and (o.get('facadeDoor') or any(m and m.name=='facade low-iron glass' for m in o.data.materials))]
+for o in clear:o.hide_render=True
 for o in scene.objects:
-    if o.type=='MESH' and o.name.startswith(prefixes) and not o.name.startswith('core_continuous') and not o.get('caveRoof') and not o.get('shadowOnly'):
+    if o.type=='MESH' and o not in clear and o.name.startswith(prefixes) and not o.name.startswith('core_continuous') and not o.get('caveRoof') and not o.get('shadowOnly'):
         for a in list(o.data.color_attributes):o.data.color_attributes.remove(a)
         a=o.data.color_attributes.new(name='Baked contact and bounce',type='FLOAT_COLOR',domain='CORNER')
         o.data.color_attributes.active_color=a
@@ -54,6 +58,7 @@ for objects in passes:
     bpy.ops.object.bake(type='DIFFUSE',pass_filter={'INDIRECT'},use_clear=True)
 for o in scene.objects:
     if o.get('bedding'):o.hide_render=False
+for o in clear:o.hide_render=False
 stats=[]
 for o in selected:
     values=[]
@@ -67,11 +72,11 @@ for o in selected:
 bpy.data.objects.remove(light,do_unlink=True)
 bpy.context.preferences.filepaths.save_version=0
 bpy.ops.wm.save_as_mainfile(filepath=str(source),compress=True)
-exports=[('room-'+room,room+'_')] if room else [('home-shell','core_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]
+exports=[('room-'+room,room+'_')] if room else [('home-shell','core_'),('flora','core_flora_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]
 for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:
-        if o.name.startswith(prefix):o.select_set(True)
+        if o.name.startswith(prefix) and not (name=='home-shell' and o.name.startswith('core_flora_')):o.select_set(True)
     bpy.ops.export_scene.gltf(filepath=str(ROOT/'assets/models/home'/f'{name}.glb'),export_format='GLB',use_selection=True,export_extras=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7)
 report=ROOT/'artwork/coastal-home/reviews/baked-light.json'
 if room and report.exists():

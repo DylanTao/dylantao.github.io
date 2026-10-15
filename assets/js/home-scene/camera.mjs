@@ -53,6 +53,14 @@ export function keepCameraClear(position, config, room) {
     position.y = Math.max(position.y, cameraTerrainHeight(position.x, position.z, c) + pad);
     return;
   }
+  // The glass front may be crossed (zooming into the kitchen or lounge walks in through the
+  // doorway), but the camera never rests close enough for its near plane to slice a pane.
+  const facade = c.facade;
+  if (facade) {
+    const offset = position.z - facade.planeZ;
+    if (Math.abs(offset) < facade.clearance && position.x > facade.xRange[0] && position.x < facade.xRange[1] && position.y < facade.top)
+      position.z = facade.planeZ + (offset < 0 ? -1 : 1) * facade.clearance;
+  }
   // During room-to-room interpolation, project an intersecting near plane
   // toward the Pacific opening. Never let a wall become the camera's interior.
   for (const wall of c.walls) {

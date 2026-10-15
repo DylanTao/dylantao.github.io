@@ -1,0 +1,46 @@
+{
+  "plants": true,
+  "doors": {
+    "kitchen": {
+      "slideX": -2.55,
+      "closedHits": [],
+      "openHits": []
+    },
+    "lounge": {
+      "slideX": 2.0,
+      "closedHits": [],
+      "openHits": []
+    }
+  },
+  "glassHits": [],
+  "terrace": {
+    "areaSquareMeters": 26.97,
+    "deepestMeters": 3.1,
+    "pavers": 88,
+    "festoonBulbs": 18,
+    "parapetMeters": 12.31
+  },
+  "objects": [
+    "core_facade__aged_copper",
+    "core_facade__cedar_wood",
+    "core_facade__charred_oak_wood",
+    "core_facade__dark_bronze",
+    "core_facade__facade_low-iron_glass",
+    "core_facade__festoon_cable",
+    "core_facade__golden_coastal_sandstone",
+    "core_facade__olive_bark_wood",
+    "core_facade__olive_leaf",
+    "core_facade__outdoor_canvas_cotton",
+    "core_facade__rosemary_leaf",
+    "core_facade__terracotta",
+    "core_facade__travertine_paving_stone",
+    "core_facade__warm_cut_stone",
+    "core_facade__weathered_teak_wood",
+    "core_facade_door_kitchen",
+    "core_facade_door_lounge",
+    "core_facade_lunette_frame",
+    "core_facade_lunette_glass",
+    "core_terrace_festoon_bulbs",
+    "core_terrace_fire_embers"
+  ]
+}

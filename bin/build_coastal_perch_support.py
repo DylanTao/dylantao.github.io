@@ -26,8 +26,10 @@ def main():
     manifest = json.loads((ROOT / 'assets/models/home/manifest.json').read_text())
     bpy.ops.wm.open_mainfile(filepath=str(source))
     coast = camera_support_meshes(list(bpy.context.scene.objects))
+    # Leaves and grass blades (refresh_coastal_flora.py) are not something a gull stands on.
     structural = [o for o in bpy.context.scene.objects if o.type == 'MESH'
                   and o.name.startswith('core_')
+                  and not o.get('flora')
                   and o.get('renderStyle') in (None, 'realistic')]
     objects = list(dict.fromkeys(coast + structural))
     triangles = []

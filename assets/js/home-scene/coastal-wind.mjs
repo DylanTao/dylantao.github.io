@@ -45,7 +45,8 @@ export function createCoastalWind() {
     root.traverse((mesh) => {
       if (!mesh.isMesh || mesh.isSkinnedMesh || mesh.userData.outline) return;
       const materials = [mesh.material].flat();
-      if (materials.some((m) => /honey ash/i.test(m.name))) wood.push(positionsInWorld(mesh));
+      // Stems: the room plants' honey ash and the terrace olive's bark twigs.
+      if (materials.some((m) => /honey ash|olive bark/i.test(m.name))) wood.push(positionsInWorld(mesh));
       if (materials.some((m) => /olive leaf/i.test(m.name))) leaves.push(mesh);
     });
     if (!leaves.length) return;

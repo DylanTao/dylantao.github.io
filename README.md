@@ -68,10 +68,10 @@ The [design notebook](https://dylantao.github.io/design-lab/) collects DesignWea
 
 ### The coastal home in 3D
 
-Switch the homepage desk from **2D** to **3D** and the portrait opens into an imagined two-storey home carved into a sandstone cliff above a La Jolla beach. Sirui (in one of five character styles) follows a daily routine on La Jolla time: working in the study, coffee in the kitchen, the gym, a soak in the onsen, sleep. Rabbits, sea lions, seals, a raccoon, gulls and sandpipers live on the coast outside.
+Switch the homepage desk from **2D** to **3D** and the portrait opens into an imagined two-storey home carved into a sandstone cliff above a La Jolla beach, glazed across its cave mouth and opening onto a terrace over the sea. Sirui (in one of five character styles) follows a daily routine on La Jolla time: working in the study, coffee in the kitchen, the gym, a soak in the onsen, sleep. Rabbits, sea lions, seals, a raccoon, gulls and sandpipers live on the coast outside.
 
 <p align="center">
-  <img src="readme_preview/coastal-home.jpg" alt="Six views of the 3D home: the cut-away house, the cliff and beach from outside, the study, the onsen, the lounge and the bedroom" width="100%">
+  <img src="readme_preview/coastal-home.jpg" alt="Six views of the 3D home: the cut-away house behind its glass front and terrace at midday, the cliff at dusk with the house glowing and the terrace festoon lit, the study, the onsen during an evening soak, the lounge at night, and the bedroom" width="100%">
 </p>
 
 #### Things to try
@@ -80,7 +80,7 @@ Switch the homepage desk from **2D** to **3D** and the portrait opens into an im
 - **Drag** to look around; **Shift-drag**, right-drag or two fingers to move.
 - In the whole-house view, **click a room** (or press 1–6) to visit it.
 - **D** discovers a record card from the desk, **N** visits the coastal neighbours, and **Escape** returns to the study.
-- Visit at different hours: the sun, the routine and the lamps follow La Jolla time. Around midday a light well drilled from the clifftop throws a beam of sun into the onsen.
+- Visit at different hours: the sun, the routine and the lights follow La Jolla time. The glass doors to the terrace stand open by day; at dusk a festoon comes on over the terrace, then the fire bowl, and indoors the lamps brighten wherever Sirui is. Around midday a light well drilled from the clifftop throws a beam of sun into the onsen.
 
 #### How it is made
 

@@ -846,7 +846,8 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(still.simulation.onsen.coupling.velocityChange).toBe(0);
   expect(still.simulation.onsen.optics.opaqueShadow).toBe(false);
   expect(still.simulation.onsen.optics.normalDepthOccluder).toBe(false);
-  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.enabled, 0)).toBe(110);
+  // 110 rooted leaf groups indoors and 108 on the terrace olive (bin/coastal_facade.py).
+  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.enabled, 0)).toBe(218);
   expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.disabled, 0)).toBe(22);
   const before = await canvas.screenshot();
   await explore(ui);

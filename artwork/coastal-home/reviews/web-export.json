@@ -63,6 +63,36 @@
       "facesExported": 5176
     },
     {
+      "mesh": "sleep__honey ash",
+      "facesBefore": 494,
+      "facesExported": 494
+    },
+    {
+      "mesh": "sleep__linen",
+      "facesBefore": 338,
+      "facesExported": 338
+    },
+    {
+      "mesh": "sleep__pale oak",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "sleep__terracotta",
+      "facesBefore": 306,
+      "facesExported": 306
+    },
+    {
+      "mesh": "sleep__charcoal",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "sleep__olive leaf",
+      "facesBefore": 572,
+      "facesExported": 572
+    },
+    {
       "mesh": "gym__gym rubber",
       "facesBefore": 8210,
       "facesExported": 8210
@@ -148,6 +178,36 @@
       "facesExported": 162
     },
     {
+      "mesh": "onsen_water",
+      "facesBefore": 322,
+      "facesExported": 322
+    },
+    {
+      "mesh": "onsen__linen",
+      "facesBefore": 314,
+      "facesExported": 314
+    },
+    {
+      "mesh": "onsen__honey ash",
+      "facesBefore": 494,
+      "facesExported": 494
+    },
+    {
+      "mesh": "onsen__terracotta",
+      "facesBefore": 306,
+      "facesExported": 306
+    },
+    {
+      "mesh": "onsen__charcoal",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "onsen__olive leaf",
+      "facesBefore": 572,
+      "facesExported": 572
+    },
+    {
       "mesh": "lounge__honey ash",
       "facesBefore": 1670,
       "facesExported": 1670
@@ -208,6 +268,11 @@
       "facesExported": 19755
     },
     {
+      "mesh": "onsen__warm cut stone",
+      "facesBefore": 362,
+      "facesExported": 362
+    },
+    {
       "mesh": "core__warm cut stone",
       "facesBefore": 2450,
       "facesExported": 2450
@@ -224,8 +289,8 @@
     },
     {
       "mesh": "core__honey ash",
-      "facesBefore": 14458,
-      "facesExported": 12140
+      "facesBefore": 1210,
+      "facesExported": 1210
     },
     {
       "mesh": "core__brushed brass",
@@ -368,19 +433,9 @@
       "facesExported": 34104
     },
     {
-      "mesh": "core__coastal sage scrub",
-      "facesBefore": 56832,
-      "facesExported": 56832
-    },
-    {
       "mesh": "core__blue sage agave leaf",
       "facesBefore": 3456,
       "facesExported": 3456
-    },
-    {
-      "mesh": "core__coastal wildflower ochre",
-      "facesBefore": 34560,
-      "facesExported": 26610
     },
     {
       "mesh": "study_footrest",
@@ -443,6 +498,51 @@
       "facesExported": 98
     },
     {
+      "mesh": "onsen_decor warm cut stone",
+      "facesBefore": 7680,
+      "facesExported": 7680
+    },
+    {
+      "mesh": "onsen_decor cedar wood",
+      "facesBefore": 385,
+      "facesExported": 385
+    },
+    {
+      "mesh": "onsen_decor brushed brass",
+      "facesBefore": 56,
+      "facesExported": 56
+    },
+    {
+      "mesh": "onsen_decor dry bamboo",
+      "facesBefore": 142,
+      "facesExported": 142
+    },
+    {
+      "mesh": "sleep_decor pale oak",
+      "facesBefore": 24,
+      "facesExported": 24
+    },
+    {
+      "mesh": "sleep_decor linen canvas sky",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sea",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sand",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sun",
+      "facesBefore": 1,
+      "facesExported": 1
+    },
+    {
       "mesh": "study_decor cork board",
       "facesBefore": 6,
       "facesExported": 6
@@ -498,119 +598,9 @@
       "facesExported": 1120
     },
     {
-      "mesh": "onsen_water",
-      "facesBefore": 322,
-      "facesExported": 322
-    },
-    {
-      "mesh": "onsen__linen",
-      "facesBefore": 314,
-      "facesExported": 314
-    },
-    {
-      "mesh": "onsen__honey ash",
-      "facesBefore": 494,
-      "facesExported": 494
-    },
-    {
-      "mesh": "onsen__terracotta",
-      "facesBefore": 306,
-      "facesExported": 306
-    },
-    {
-      "mesh": "onsen__charcoal",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "onsen__olive leaf",
-      "facesBefore": 572,
-      "facesExported": 572
-    },
-    {
-      "mesh": "onsen__warm cut stone",
-      "facesBefore": 362,
-      "facesExported": 362
-    },
-    {
-      "mesh": "onsen_decor warm cut stone",
-      "facesBefore": 7680,
-      "facesExported": 7680
-    },
-    {
-      "mesh": "onsen_decor cedar wood",
-      "facesBefore": 385,
-      "facesExported": 385
-    },
-    {
-      "mesh": "onsen_decor brushed brass",
-      "facesBefore": 56,
-      "facesExported": 56
-    },
-    {
-      "mesh": "onsen_decor dry bamboo",
-      "facesBefore": 142,
-      "facesExported": 142
-    },
-    {
       "mesh": "onsen_shadow_vault",
       "facesBefore": 206,
       "facesExported": 206
-    },
-    {
-      "mesh": "sleep__honey ash",
-      "facesBefore": 494,
-      "facesExported": 494
-    },
-    {
-      "mesh": "sleep__linen",
-      "facesBefore": 338,
-      "facesExported": 338
-    },
-    {
-      "mesh": "sleep__pale oak",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "sleep__terracotta",
-      "facesBefore": 306,
-      "facesExported": 306
-    },
-    {
-      "mesh": "sleep__charcoal",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "sleep__olive leaf",
-      "facesBefore": 572,
-      "facesExported": 572
-    },
-    {
-      "mesh": "sleep_decor pale oak",
-      "facesBefore": 24,
-      "facesExported": 24
-    },
-    {
-      "mesh": "sleep_decor linen canvas sky",
-      "facesBefore": 6,
-      "facesExported": 6
-    },
-    {
-      "mesh": "sleep_decor linen canvas sea",
-      "facesBefore": 6,
-      "facesExported": 6
-    },
-    {
-      "mesh": "sleep_decor linen canvas sand",
-      "facesBefore": 6,
-      "facesExported": 6
-    },
-    {
-      "mesh": "sleep_decor linen canvas sun",
-      "facesBefore": 1,
-      "facesExported": 1
     },
     {
       "mesh": "sleep_pillow_empty",
@@ -671,6 +661,156 @@
       "mesh": "sleep_duvet_rick-and-morty",
       "facesBefore": 6474,
       "facesExported": 6474
+    },
+    {
+      "mesh": "core_facade__dark_bronze",
+      "facesBefore": 1783,
+      "facesExported": 1783
+    },
+    {
+      "mesh": "core_facade__facade_low-iron_glass",
+      "facesBefore": 104,
+      "facesExported": 104
+    },
+    {
+      "mesh": "core_facade_lunette_frame",
+      "facesBefore": 346,
+      "facesExported": 346
+    },
+    {
+      "mesh": "core_facade_lunette_glass",
+      "facesBefore": 75,
+      "facesExported": 75
+    },
+    {
+      "mesh": "core_facade__warm_cut_stone",
+      "facesBefore": 54,
+      "facesExported": 54
+    },
+    {
+      "mesh": "core_facade_door_kitchen",
+      "facesBefore": 94,
+      "facesExported": 94
+    },
+    {
+      "mesh": "core_facade_door_lounge",
+      "facesBefore": 94,
+      "facesExported": 94
+    },
+    {
+      "mesh": "core_facade__golden_coastal_sandstone",
+      "facesBefore": 2761,
+      "facesExported": 2761
+    },
+    {
+      "mesh": "core_facade__travertine_paving_stone",
+      "facesBefore": 1520,
+      "facesExported": 1520
+    },
+    {
+      "mesh": "core_facade__festoon_cable",
+      "facesBefore": 816,
+      "facesExported": 816
+    },
+    {
+      "mesh": "core_terrace_festoon_bulbs",
+      "facesBefore": 1080,
+      "facesExported": 1080
+    },
+    {
+      "mesh": "core_facade__weathered_teak_wood",
+      "facesBefore": 335,
+      "facesExported": 335
+    },
+    {
+      "mesh": "core_facade__outdoor_canvas_cotton",
+      "facesBefore": 48,
+      "facesExported": 48
+    },
+    {
+      "mesh": "core_facade__aged_copper",
+      "facesBefore": 281,
+      "facesExported": 281
+    },
+    {
+      "mesh": "core_facade__charred_oak_wood",
+      "facesBefore": 40,
+      "facesExported": 40
+    },
+    {
+      "mesh": "core_facade__terracotta",
+      "facesBefore": 531,
+      "facesExported": 531
+    },
+    {
+      "mesh": "core_facade__olive_leaf",
+      "facesBefore": 648,
+      "facesExported": 648
+    },
+    {
+      "mesh": "core_facade__olive_bark_wood",
+      "facesBefore": 522,
+      "facesExported": 522
+    },
+    {
+      "mesh": "core_facade__rosemary_leaf",
+      "facesBefore": 552,
+      "facesExported": 552
+    },
+    {
+      "mesh": "core_terrace_fire_embers",
+      "facesBefore": 1,
+      "facesExported": 1
+    },
+    {
+      "mesh": "core_facade__cedar_wood",
+      "facesBefore": 330,
+      "facesExported": 330
+    },
+    {
+      "mesh": "core_flora_sage",
+      "facesBefore": 15788,
+      "facesExported": 9946
+    },
+    {
+      "mesh": "core_flora_dark_sage",
+      "facesBefore": 7916,
+      "facesExported": 7916
+    },
+    {
+      "mesh": "core_flora_stems",
+      "facesBefore": 5750,
+      "facesExported": 5750
+    },
+    {
+      "mesh": "core_flora_buckwheat",
+      "facesBefore": 2320,
+      "facesExported": 2320
+    },
+    {
+      "mesh": "core_flora_torrey_bark",
+      "facesBefore": 1624,
+      "facesExported": 1624
+    },
+    {
+      "mesh": "core_flora_torrey_needles",
+      "facesBefore": 32256,
+      "facesExported": 20321
+    },
+    {
+      "mesh": "core_flora_dry_grass",
+      "facesBefore": 7538,
+      "facesExported": 7538
+    },
+    {
+      "mesh": "core_flora_iceplant",
+      "facesBefore": 9563,
+      "facesExported": 9563
+    },
+    {
+      "mesh": "core_flora_iceplant_flowers",
+      "facesBefore": 1184,
+      "facesExported": 1184
     }
   ]
 }
