@@ -306,7 +306,16 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
         float ground = smoothstep(.72, .92, sandUp) * smoothstep(4.5, 5.5, p.y);
         float grass = smoothstep(.45, .75, stoneNoise(vec3(p.x*.9, 7.7, p.z*.9)) + .25*grainNoise(p*7.));
         diffuseColor.rgb = mix(diffuseColor.rgb, mix(vec3(.34,.24,.14)*(.9+.2*detail), vec3(.4,.34,.15), grass*.7), ground*.5);
-        float sandHeight = -.014*sandPit;
+        // The intertidal zone (mean sea level -7.35 m; La Jolla's tides range about 1.7 m): rock
+        // the high tide reaches stays wet, darker and glossier; green-brown algae band the lower
+        // rock and pale barnacles speckle the zone above it.
+        float sandWet = 1.-smoothstep(-6.55, -6.1, p.y + .15*(detail-.5));
+        float algae = 1.-smoothstep(.0, .22, abs(p.y + 6.95 + .1*(detail-.5)));
+        float barnacles = step(.82, grainNoise(p*58.)) * smoothstep(-6.95, -6.7, p.y) * (1.-smoothstep(-6.4, -6.15, p.y)) * (1.-smoothstep(.004, .012, sandFoot));
+        diffuseColor.rgb *= 1. - .38*sandWet;
+        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.12,.14,.06), algae*.55);
+        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.62,.6,.55), barnacles*.7);
+        float sandHeight = -.014*sandPit + .002*barnacles;
       `
               : kind === 4
                 ? `
@@ -322,6 +331,11 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <roughnessmap_fragment>",
         "#include <roughnessmap_fragment>\nroughnessFactor = mix(.96,.34,1.0-smoothstep(-7.30,-7.03,surfacePoint.y));"
+      );
+    if (kind === 3)
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <roughnessmap_fragment>",
+        "#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, .3, sandWet);"
       );
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <normal_fragment_maps>",
@@ -339,7 +353,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     `
     );
   };
-  m.customProgramCacheKey = () => `coastal-physical-${kind}-v5`;
+  m.customProgramCacheKey = () => `coastal-physical-${kind}-v7`;
   return bindContactLighting(m, contactLighting);
 }
 

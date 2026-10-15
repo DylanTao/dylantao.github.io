@@ -546,7 +546,7 @@ export function createCoastalHome(container, records, artifacts) {
     for (const object of beddings) object.visible = object.userData.bedding === sleeper;
   }
 
-  function prepareModel(root) {
+  function prepareModel(root, { outdoor = false } = {}) {
     root.traverse((o) => {
       if (o.isMesh) {
         o.castShadow = o.receiveShadow = true;
@@ -578,9 +578,12 @@ export function createCoastalHome(container, records, artifacts) {
       if (!o.isMesh || o.userData.outline) return;
       for (const m of [o.material].flat()) {
         if (m === glazing) continue;
+        staticLightField?.bindMaterial(m);
+        // Outdoor-only models skip the indoor terms: no skin, light well or lamp ever reaches them,
+        // and the smaller programs compile sooner.
+        if (outdoor) continue;
         const handle = skinDiffusion?.bind(m, m.name === "Sirui shirt" ? { surface: true, enabled: false } : {});
         if (handle) m.userData.skinDiffusion = handle;
-        staticLightField?.bindMaterial(m);
         lightWell?.bindMaterial(m);
         lightInstallations?.bindMaterial(m);
       }
@@ -645,8 +648,8 @@ export function createCoastalHome(container, records, artifacts) {
     return pending;
   }
 
-  // The clifftop planting (bin/refresh_coastal_flora.py) is only seen from the coast, so it streams
-  // after the first frame, like the other rooms, and appears once its programs are ready.
+  // The clifftop planting (bin/refresh_coastal_flora.py) is only seen from the coast, so it loads the
+  // first time the visitor goes outside and appears once its programs are ready.
   let floraRequested = false;
   async function loadFlora() {
     if (floraRequested || !config.flora) return;
@@ -654,7 +657,7 @@ export function createCoastalHome(container, records, artifacts) {
     try {
       const gltf = await loadModel(new URL(config.flora, manifestUrl).href);
       if (disposed) return release(gltf.scene);
-      const root = prepareModel(gltf.scene);
+      const root = prepareModel(gltf.scene, { outdoor: true });
       root.name = "clifftop-flora";
       // Foliage moves in the breeze, so it stays out of the static light field.
       root.traverse((o) => (o.userData.dynamic = true));
@@ -2069,10 +2072,7 @@ export function createCoastalHome(container, records, artifacts) {
       loadingSketch = null;
       // Stream detail only after the occupied room/avatar have actually drawn.
       backgroundTimer = setTimeout(() => {
-        if (!disposed && visible) {
-          config.rooms.forEach((r) => loadRoom(r.id).catch(() => {}));
-          loadFlora();
-        }
+        if (!disposed && visible) config.rooms.forEach((r) => loadRoom(r.id).catch(() => {}));
       }, 1800);
     }
     const settledRadius = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope()).radius;
@@ -2180,7 +2180,7 @@ export function createCoastalHome(container, records, artifacts) {
         release(coast.scene);
         return;
       }
-      world.add(prepareModel(coast.scene));
+      world.add(prepareModel(coast.scene, { outdoor: true }));
       worldCompanion = await createWorldCompanion(scene, config, container, loader).catch(() => null);
       if (disposed) {
         worldCompanion?.dispose();
