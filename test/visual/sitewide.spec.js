@@ -1902,7 +1902,7 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.goto(publicRouteUrl("/ai/#projects"), { waitUntil: "domcontentloaded" });
   await expect(page.locator(".ai-jump-nav")).toHaveCount(0);
-  await expect(page.locator("[data-project-slug]")).toHaveCount(19);
+  await expect(page.locator("[data-project-slug]")).toHaveCount(20);
   await expect(page.locator('#project-website-revamp a[href$="/projects/website-revamp/"]')).toHaveText("Human project page");
   await expect(page.locator('#writing a[href$="/blog/"]')).toHaveText("Human writing index");
   await expect(page.locator('#cv a[href$="/cv/"]')).toHaveText("Human CV");
@@ -2323,10 +2323,11 @@ test("projects keep site experiments in debut order", async ({ page }, testInfo)
   });
 
   const cards = grid.locator("[data-project-card]");
-  await expect(cards).toHaveCount(12);
-  await expect(cards.locator("h4.card-title")).toHaveCount(12);
+  await expect(cards).toHaveCount(13);
+  await expect(cards.locator("h4.card-title")).toHaveCount(13);
   await expect(cards.locator("h3.card-title")).toHaveCount(0);
   expect(await cards.locator(".card-title").allTextContents()).toEqual([
+    "Light Paths in the Onsen",
     "A little La Jolla",
     "duh & P, a Little Company",
     "Scaffolding for Taste — OpenAI Build Week",
@@ -2346,7 +2347,7 @@ test("projects keep site experiments in debut order", async ({ page }, testInfo)
     loaded: images.every((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0),
     overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
   }));
-  expect(imageEvidence.count).toBe(12);
+  expect(imageEvidence.count).toBe(13);
   expect(imageEvidence.loaded).toBe(true);
   expect(imageEvidence.overflow).toBeLessThanOrEqual(0);
 
