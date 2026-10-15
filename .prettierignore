@@ -21,3 +21,5 @@ assets/vendor/paper-shaders/
 # Upstream r164 loader closure; provenance records the import-only adjustment.
 assets/js/vendor/three-r164/
 artwork/coastal-home/splat-lab/vendor/
+# The light lab's reference grid, written on one line by bin/make_light_lab_reference.mjs.
+assets/js/light-lab/onsen-reference.json

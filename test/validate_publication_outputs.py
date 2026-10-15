@@ -35,6 +35,7 @@ EXPECTED_PROJECT_SLUGS = {
     "hotspot",
     "ikea-project-cards",
     "la-jolla",
+    "light-paths",
     "not-a-good-driver",
     "openai-build-week",
     "paper-constellation",
