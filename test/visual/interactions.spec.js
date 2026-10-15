@@ -1243,6 +1243,9 @@ async function clickCoastalObject(page, scene, type, index) {
 }
 
 async function coastalHome(page, { openLab = true } = {}) {
+  // Under CI's software WebGL each 3D round trip takes 5 to 10 seconds, so these cases get the
+  // longer budget the desk-scene suite gives Linux; hardware runs keep the strict default.
+  if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(300000);
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(visualRoute("") + "?scene-lab=1", { waitUntil: "networkidle" });
@@ -1297,8 +1300,6 @@ test("home 3D outside visit survives zoom and scrolling until an explicit return
 });
 
 test("home 3D album rack ignores dropped sleeves and replaces focused albums", async ({ page }) => {
-  // About fifteen 3D round trips; CI's software renderer spends 5 to 10 seconds on each.
-  if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(300000);
   const scene = await coastalHome(page);
   const stage = page.locator("[data-home-artifact-stage]");
   await page.locator('[data-home-desk-mode="2d"]').click();
