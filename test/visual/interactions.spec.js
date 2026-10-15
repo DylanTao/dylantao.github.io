@@ -1297,6 +1297,8 @@ test("home 3D outside visit survives zoom and scrolling until an explicit return
 });
 
 test("home 3D album rack ignores dropped sleeves and replaces focused albums", async ({ page }) => {
+  // About fifteen 3D round trips; CI's software renderer spends 5 to 10 seconds on each.
+  if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(300000);
   const scene = await coastalHome(page);
   const stage = page.locator("[data-home-artifact-stage]");
   await page.locator('[data-home-desk-mode="2d"]').click();
