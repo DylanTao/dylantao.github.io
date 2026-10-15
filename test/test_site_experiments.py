@@ -23,6 +23,7 @@ STORY_LAYOUT = REPO_ROOT / "_sass" / "_layout.scss"
 RESEARCH_SKILLS_POST = REPO_ROOT / "_posts" / "2026-04-27-research-skills-starter-pack.md"
 
 EXPECTED_CHRONOLOGY = [
+    ("light-paths", "Light Paths in the Onsen", "2026-10-14T21:00:00-07:00"),
     ("openai-build-week", "Scaffolding for Taste — OpenAI Build Week", "2026-07-18T18:46:02-07:00"),
     ("paper-constellation", "Paper Constellation", "2026-07-15T16:51:26-07:00"),
     ("build-rhythm", "Build Rhythm", "2026-07-11T14:46:58-07:00"),
@@ -36,6 +37,7 @@ EXPECTED_CHRONOLOGY = [
 ]
 
 REPRODUCTION_GUIDES = [
+    "light-paths-reproduction.md",
     "paper-constellation-reproduction.md",
     "build-rhythm-reproduction.md",
     "homepage-desk-scene-reproduction.md",
@@ -47,6 +49,7 @@ REPRODUCTION_GUIDES = [
 ]
 
 FUN_PROJECT_SLUGS = (
+    "light-paths",
     "openai-build-week",
     "paper-constellation",
     "build-rhythm",
@@ -120,6 +123,7 @@ class SiteExperimentsTests(unittest.TestCase):
     def test_fun_project_cards_have_evidence_bound_origins_and_one_icon_family(self) -> None:
         project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
         expected_icons = {
+            "light-paths": "light",
             "openai-build-week": "archive",
             "paper-constellation": "constellation",
             "build-rhythm": "pulse",

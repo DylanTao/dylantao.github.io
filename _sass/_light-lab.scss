@@ -1,0 +1,311 @@
+// The light lab on /projects/light-paths/: path tracing and Metropolis light transport side by side
+// (assets/js/light-lab/page.mjs). Still frames stay visible until a run starts and whenever the
+// browser cannot run one; the controls and chart appear only once the script is ready.
+.light-lab {
+  margin-block: 1.6rem 2.6rem;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 851px) {
+  .light-lab {
+    --light-lab-width: min(1100px, calc(100vw - 4rem));
+    width: var(--light-lab-width);
+    margin-inline: calc((100% - var(--light-lab-width)) / 2);
+
+    > h2,
+    > p {
+      width: min(100%, var(--reading-width, 33.5rem));
+      margin-inline: auto;
+    }
+  }
+}
+
+.light-lab-panels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 1.2rem 0 0;
+}
+
+.light-lab-panel {
+  margin: 0;
+
+  figcaption {
+    display: grid;
+    gap: 0.1rem;
+    margin-top: 0.45rem;
+    font-size: var(--type-meta);
+    line-height: 1.45;
+
+    strong {
+      font-weight: 600;
+    }
+
+    span {
+      color: var(--global-text-color-light);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}
+
+.light-lab-frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--md-lite-radius-md, 0.6rem);
+  background: #050607;
+  box-shadow: inset 0 0 0 1px var(--global-divider-color);
+
+  img,
+  canvas,
+  svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  canvas {
+    visibility: hidden;
+  }
+}
+
+.light-lab.is-live .light-lab-frame canvas {
+  visibility: visible;
+}
+
+// One Metropolis chain's current path: eye, surfaces, water, and out through the light well.
+.light-lab-path {
+  pointer-events: none;
+
+  polyline {
+    fill: none;
+    stroke: #ffd27a;
+    stroke-width: 1.1;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  circle {
+    fill: #ffd27a;
+  }
+}
+
+.light-lab-tools[hidden] {
+  display: none;
+}
+
+.light-lab-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  margin-top: 1.1rem;
+  font-size: var(--type-meta);
+
+  button {
+    min-height: 2.5rem;
+    padding: 0.45rem 1rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: var(--md-lite-radius-pill, 999px);
+    background: transparent;
+    color: var(--global-text-color);
+    font: inherit;
+    font-weight: 500;
+    transition:
+      background-color var(--md-lite-motion-duration-short, 140ms) var(--md-lite-easing-standard, ease),
+      border-color var(--md-lite-motion-duration-short, 140ms) var(--md-lite-easing-standard, ease);
+
+    &:hover:not(:disabled) {
+      background: var(--md-lite-state-hover, var(--global-code-bg-color));
+      border-color: var(--global-theme-color);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--global-theme-color);
+      outline-offset: 3px;
+    }
+  }
+
+  .light-lab-run {
+    min-width: 10.5rem;
+    border-color: var(--global-theme-color);
+    background: var(--global-theme-color);
+    color: var(--global-on-primary-color, #fff);
+
+    &:hover:not(:disabled) {
+      background: var(--global-hover-color);
+    }
+  }
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+  }
+
+  select {
+    min-height: 2.25rem;
+    max-width: 100%;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: var(--md-lite-radius-sm, 0.4rem);
+    background: var(--global-bg-color);
+    color: var(--global-text-color);
+    font: inherit;
+  }
+
+  input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--global-theme-color);
+  }
+}
+
+.light-lab-chart-figure {
+  margin: 1.2rem 0 0;
+
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-top: 0.35rem;
+    color: var(--global-text-color-light);
+    font-size: var(--type-meta);
+  }
+}
+
+.light-lab-chart {
+  display: block;
+  width: 100%;
+  height: 13.75rem;
+  border: 1px solid var(--global-divider-color);
+  border-radius: var(--md-lite-radius-md, 0.6rem);
+  background: var(--md-lite-surface-tonal, var(--global-code-bg-color));
+
+  .light-lab-axis {
+    line {
+      stroke: var(--global-divider-color);
+      stroke-width: 1;
+    }
+
+    text {
+      fill: var(--global-text-color-light);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+  }
+
+  .light-lab-chart-note {
+    fill: var(--global-text-color-light);
+    font-size: 12px;
+  }
+}
+
+.light-lab-line {
+  fill: none;
+  stroke-width: 2.25;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.light-lab-line--pt,
+.light-lab-key--pt::before {
+  stroke: var(--global-text-color-light);
+  background: var(--global-text-color-light);
+}
+
+.light-lab-line--mlt,
+.light-lab-key--mlt::before {
+  stroke: var(--global-theme-color);
+  background: var(--global-theme-color);
+}
+
+.light-lab-line--recorded {
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  opacity: 0.7;
+}
+
+.light-lab-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--global-text-color);
+
+  &::before {
+    content: "";
+    width: 1.2rem;
+    height: 0.18rem;
+    border-radius: 1px;
+  }
+}
+
+.light-lab-status {
+  min-height: 1.6em;
+  margin-top: 0.7rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+}
+
+// Five-second stills, later in the story.
+.light-lab-stills {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 1.4rem 0;
+}
+
+@media (max-width: 640px) {
+  .light-lab-panels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  // The reference sits under the race, its caption beside it.
+  .light-lab-panel--reference {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    align-items: center;
+
+    figcaption {
+      margin-top: 0;
+    }
+  }
+
+  .light-lab-controls label {
+    flex-wrap: wrap;
+  }
+}
+
+.light-lab-longer {
+  margin: 1.6rem 0;
+
+  figure {
+    margin: 0;
+  }
+
+  img {
+    border-radius: var(--md-lite-radius-md, 0.6rem);
+  }
+
+  > figcaption {
+    margin-top: 0.5rem;
+    color: var(--global-text-color-light);
+    font-size: var(--type-meta);
+  }
+}

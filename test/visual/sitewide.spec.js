@@ -9,6 +9,7 @@ const FUN_PROJECT_ROUTE_IDS = new Set([
   "project-homepage-desk-scene",
   "project-pip",
   "project-la-jolla",
+  "project-light-paths",
   "project-hci-spooder-man",
   "project-scholar-lens",
   "project-wall-of-rejection",

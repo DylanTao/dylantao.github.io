@@ -110,6 +110,12 @@ const ALL_SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-light-paths",
+    path: "/projects/light-paths/",
+    readySelector: "[data-light-lab][data-light-lab-state='idle']",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "project-what-happened-and-why",
     path: "/projects/what-happened-and-why/",
     readySelector: ".trace-paper-page .trace-hero",

@@ -98,6 +98,7 @@ The empty scene fills with a pen sketch that follows the loading work: the sea w
 
 - **Time of day.** The site follows the clock through four themes (morning, noon, afternoon, evening). The sun arc in the navigation bar picks any hour, and the 3D home's sun and routine move with it; the same panel holds a sitewide Pause motion switch.
 - **[duh & P](https://dylantao.github.io/projects/pip/).** A soft black dot and a curious little robot share the pages. You can pick duh up, toss it, or let it sleep.
+- **[Light Paths in the Onsen](https://dylantao.github.io/projects/light-paths/)** races path tracing against Metropolis light transport in your browser, on the sunlight the light well bends through the onsen's water, scored against a 24-minute reference.
 - **A coffee stain** on the homepage desk is painted like watercolour, new on every visit.
 - **[Build Rhythm](https://dylantao.github.io/github-activity/)** shows when I build: daily code activity by source, read for cadence rather than as a score.
 - **Human / AI** in the navigation switches to a plain, source-linked profile written for language models, and **⌘K** opens a command palette.

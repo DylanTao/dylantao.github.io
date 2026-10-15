@@ -123,6 +123,20 @@ la-jolla:
     - "Turn the coast gently, and follow its light from morning to evening."
     - "See the generated studies, local reconstruction, and editable model."
 
+light-paths:
+  origin_line: "The light well put a beam of sun into the onsen, but the light it throws through the water onto the pool floor is the kind ordinary path tracing handles worst."
+  evolution_line: "I built a small renderer that gives path tracing and Metropolis light transport the same minute on that light, checked against a 24-minute reference."
+  icon: light
+  teaser_alt: The onsen rendered twice and split down the middle, scattered path-traced specks on the left and Metropolis's network of refracted sunlight on the pool floor on the right
+  accents:
+    morning: "#d9a56f"
+    noon: "#4f8f96"
+    afternoon: "#6f9c98"
+    evening: "#9fcfc8"
+  takeaways:
+    - "Watch Metropolis find the sunlit pool floor while path tracing is still speckled."
+    - "Read why some light is hard to render, and where Metropolis struggles."
+
 homepage-desk-scene:
   origin_line: "The flat desk held papers, records, and hidden cards, but visitors could not step inside the room."
   evolution_line: "I made 2D and 3D views of the same room, so music and discoveries remain when someone switches views."

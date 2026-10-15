@@ -237,8 +237,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _includes/scripts.liquid
     upstream_sha256: 6b7146cfc83ab101ba20e4ad6fb1b65aede3f6fc18ec083ad71bed07e20b93ce
-    local_sha256: 8df77451c6d9d58120b0ee5fe6660fcc0815ea38cf4bb96f91cdc24d4b28d511
-    acknowledged_at: "2026-10-13"
+    local_sha256: aafce6930468ef3f1388f91abb46acf359ee634bc4835b33caeb6ebfdd73387f
+    acknowledged_at: "2026-10-14"
   _includes/selected_papers.liquid:
     owner: al_folio_core
     gem_version: 1.0.10
@@ -475,8 +475,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: assets/css/main.scss
     upstream_sha256: 437c6c911c596391413e435dc0ea7095e682e85c572c1fd3fff69f9597455b3e
-    local_sha256: 1fbeff3dcce1d891ba31fc055a66487e477869bf9dc3ac045b0997fe591293cd
-    acknowledged_at: "2026-10-09"
+    local_sha256: ee039589e822bddbfc7bad832dac24776a22705860de32a657222833b94b1d37
+    acknowledged_at: "2026-10-14"
   assets/js/bibsearch.js:
     owner: al_folio_core
     gem_version: 1.0.10
