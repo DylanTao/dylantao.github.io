@@ -46,7 +46,7 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: \"20\"
+          node-version: "20"
           cache: npm
 
       - name: Install Prettier
@@ -81,4 +81,4 @@ jobs:
         with:
           commit_message: Auto update markdown TOC
           # Default is '.', which would push anything npm ci perturbs to main.
-          file_pattern: \"*.md\"
+          file_pattern: "*.md"
