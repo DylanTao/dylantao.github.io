@@ -31,6 +31,8 @@ import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
 import { createStaticLightField } from "./static-light-field.mjs";
 import { prepareFramePrograms } from "./program-warmup.mjs";
+import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
+import { createLightInstallations } from "./light-installations.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -86,6 +88,7 @@ export function createCoastalHome(container, records, artifacts) {
     onsenWater,
     coastalWind,
     warmPracticals,
+    lightInstallations,
     steamVolume,
     staticLightField,
     daylight;
@@ -191,7 +194,45 @@ export function createCoastalHome(container, records, artifacts) {
   sun.shadow.bias = -0.00005;
   sun.shadow.normalBias = 0.018;
   sun.shadow.radius = 3;
-  scene.add(hemi, sun);
+  scene.add(hemi, sun, sun.target);
+  // The sun's shadow map follows the view. Rooms and the whole house keep a tight 20 m square on
+  // the house; on the coast the square is centred on what the camera looks at and sized to the
+  // zoom (12 m half-width close up, 36 m at the widest), so walking along the cliff keeps fine
+  // shadows under every tree and rock. The centre is snapped to whole shadow texels along the
+  // light's axes, so moving the camera never makes shadow edges crawl.
+  const shadowCentre = new THREE.Vector3(),
+    shadowSnapped = new THREE.Vector3(),
+    sunDirection = new THREE.Vector3(-4, 9, 5).normalize(),
+    shadowAxes = [new THREE.Vector3(), new THREE.Vector3()];
+  let shadowExtent = 10;
+  function fitSunShadow(force = false) {
+    const outside = currentRoom === "outside";
+    const extent = outside ? clamp(Math.round(radius * 0.75), 12, 36) : 10;
+    const centre = outside ? target : shadowCentre.set(0, 0, 0);
+    const direction = sunDirection;
+    const right = shadowAxes[0].set(0, 1, 0).cross(direction).normalize(),
+      up = shadowAxes[1].copy(direction).cross(right);
+    const texel = (2 * extent) / sun.shadow.mapSize.x;
+    const snap = (v) => Math.round(v / texel) * texel;
+    const snapped = shadowSnapped
+      .set(0, 0, 0)
+      .addScaledVector(right, snap(centre.dot(right)))
+      .addScaledVector(up, snap(centre.dot(up)))
+      .addScaledVector(direction, centre.dot(direction));
+    const reach = extent * 2.5 + 40;
+    sun.target.position.copy(snapped);
+    sun.position.copy(snapped).addScaledVector(direction, reach);
+    if (force || extent !== shadowExtent) {
+      shadowExtent = extent;
+      Object.assign(sun.shadow.camera, { left: -extent, right: extent, top: extent, bottom: -extent, near: 0.1, far: reach * 2 });
+      // Biases scale with the texel: two and a half texels of normal offset on the coast.
+      sun.shadow.normalBias = outside ? texel * 2.5 + 0.03 : 0.04;
+      sun.shadow.bias = -0.004 / (reach * 2);
+      sun.shadow.camera.updateProjectionMatrix();
+    }
+    sun.target.updateMatrixWorld();
+    sun.shadow.needsUpdate = true;
+  }
 
   function listen(targetObject, event, fn, options) {
     targetObject.addEventListener(event, fn, options);
@@ -297,6 +338,7 @@ export function createCoastalHome(container, records, artifacts) {
   function material(color, extra = {}) {
     const result = own(bindContactLighting(new THREE.MeshStandardMaterial({ color, roughness: 0.72, ...extra }), finish?.contactLighting));
     staticLightField?.bindMaterial(result);
+    lightInstallations?.bindMaterial(result);
     return result;
   }
 
@@ -479,6 +521,26 @@ export function createCoastalHome(container, records, artifacts) {
   const shadowOnly = own(new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false })),
     openOnsen = new URLSearchParams(location.search).get("onsen-light") === "open";
   let lightWell = null;
+  // The glass front and terrace balustrade (glazing.mjs), and the two sliding doors, which stand
+  // open in their rock jambs while the house is up by day and close at dusk.
+  const glazing = own(createGlazing()),
+    facadeDoors = [];
+  let doorsPlaced = false;
+  function syncFacadeDoors() {
+    if (!routine || !daylight) return;
+    const open = daylight.daylight > 0.3 && routine.id !== "sleep";
+    for (const door of facadeDoors) door.target = open ? door.slideX : 0;
+  }
+  function stepFacadeDoors(delta, moving) {
+    for (const door of facadeDoors) {
+      if (!doorsPlaced || !moving) door.offset = door.target;
+      // A heavy lift-and-slide panel: about two seconds from closed to stacked, no overshoot.
+      else door.offset += (door.target - door.offset) * (1 - Math.exp(-delta * 2.4));
+      if (Math.abs(door.target - door.offset) < 0.0005) door.offset = door.target;
+      door.object.position.x = door.restX + door.offset;
+    }
+    doorsPlaced = facadeDoors.length > 0 && Boolean(routine && daylight);
+  }
   function syncBedding() {
     const sleeper = container.dataset.animation === "sleep" && beddings.some((o) => o.userData.bedding === avatarId) ? avatarId : "empty";
     for (const object of beddings) object.visible = object.userData.bedding === sleeper;
@@ -501,17 +563,26 @@ export function createCoastalHome(container, records, artifacts) {
         beddings.push(o);
         if (o.userData.bedding !== "empty") o.userData.dynamic = true;
       }
+      if (o.isMesh && [o.material].flat().some((m) => m?.name === GLASS_NAME)) glaze(o, glazing);
+      if (o.userData.facadeDoor) {
+        facadeDoors.push({ object: o, id: o.userData.facadeDoor, slideX: o.userData.slideX, restX: o.position.x, offset: 0, target: 0 });
+        o.traverse((part) => (part.userData.dynamic = true));
+      }
     });
     syncBedding();
+    syncFacadeDoors();
     art.apply(root, style);
     coastalWind?.bind(root);
+    lightInstallations?.bindModel(root);
     root.traverse((o) => {
       if (!o.isMesh || o.userData.outline) return;
       for (const m of [o.material].flat()) {
+        if (m === glazing) continue;
         const handle = skinDiffusion?.bind(m, m.name === "Sirui shirt" ? { surface: true, enabled: false } : {});
         if (handle) m.userData.skinDiffusion = handle;
         staticLightField?.bindMaterial(m);
         lightWell?.bindMaterial(m);
+        lightInstallations?.bindMaterial(m);
       }
     });
     return root;
@@ -572,6 +643,30 @@ export function createCoastalHome(container, records, artifacts) {
       .finally(() => pendingRooms.delete(id));
     pendingRooms.set(id, pending);
     return pending;
+  }
+
+  // The clifftop planting (bin/refresh_coastal_flora.py) is only seen from the coast, so it streams
+  // after the first frame, like the other rooms, and appears once its programs are ready.
+  let floraRequested = false;
+  async function loadFlora() {
+    if (floraRequested || !config.flora) return;
+    floraRequested = true;
+    try {
+      const gltf = await loadModel(new URL(config.flora, manifestUrl).href);
+      if (disposed) return release(gltf.scene);
+      const root = prepareModel(gltf.scene);
+      root.name = "clifftop-flora";
+      // Foliage moves in the breeze, so it stays out of the static light field.
+      root.traverse((o) => (o.userData.dynamic = true));
+      root.visible = false;
+      world.add(root);
+      await compilePrograms();
+      if (disposed) return;
+      root.visible = true;
+      requestFrame();
+    } catch {
+      // The coast still reads without its planting.
+    }
   }
 
   function release(root) {
@@ -775,8 +870,11 @@ export function createCoastalHome(container, records, artifacts) {
     sun.intensity = style === "realistic" ? 0.18 + daylight.sunlight * 2.35 : evening ? 1.05 : 2.5;
     // The sky, reflection, direct shadow, and room now agree on the same
     // approximate La Jolla sun. Night's weak key is an authored moon light.
-    sun.position.fromArray(daylight.keyDirection).normalize().multiplyScalar(32);
-    warmPracticals?.update(daylight.daylight);
+    sunDirection.fromArray(daylight.keyDirection).normalize();
+    fitSunShadow(true);
+    warmPracticals?.update(daylight.daylight, { ...routine, schedule: routine.weekend ? config.weekend : config.weekday });
+    lightInstallations?.update({ minute: routine.minute, daylight: daylight.daylight, activity: routine.id });
+    syncFacadeDoors();
     pacific?.setPalette(routine.palette, daylight);
     if (staticLightField && pacific) {
       staticLightField.setLighting({
@@ -797,6 +895,8 @@ export function createCoastalHome(container, records, artifacts) {
           falloff = Math.max(0, 1 - (distance / light.distance) ** 4) ** 2;
         ambient.add(light.color.clone().multiplyScalar((light.intensity * falloff * 0.35) / (distance * distance * 4 * Math.PI)));
       }
+      // The pool light glows up through the vapour it sits under.
+      if (lightInstallations) ambient.add(lightInstallations.irradianceAt(midpoint).multiplyScalar(0.35 / (4 * Math.PI)));
       steamVolume.setLighting({
         ambient: ambient.toArray(),
         directional: sun.color.clone().multiplyScalar(sun.intensity).toArray(),
@@ -835,6 +935,7 @@ export function createCoastalHome(container, records, artifacts) {
     scene.add(steamVolume.object);
     if (lightWell) steamVolume.setWell(config.lightWell);
     lightWell?.setPool(pool.center, pool.radius, pool.surfaceY);
+    lightInstallations?.setPool(pool.center, pool.radius, pool.surfaceY, pool.depth);
     // The steam and the light well's dust beam share one opaque-depth capture.
     finish.setVolume({
       object: {
@@ -1167,7 +1268,11 @@ export function createCoastalHome(container, records, artifacts) {
   // Visitors can lean in closer than the authored framings (Sirui, 2026-10-14): the zoom-in limit is
   // about half the authored one, never nearer than 1.6 m in a room, 7 m for the house or 10 m outside.
   const nearerEnvelopes = new WeakMap();
+  // The authoring lab (?scene-lab=1) can place the camera anywhere for close inspection.
+  let labFreeCamera = false;
+  const labSettings = { reflection: true };
   function cameraEnvelope() {
+    if (labFreeCamera) return null;
     if (animalFocus) return wildlifeEnvelope(animalFocus.radius);
     const authored = envelopeFor(config, currentRoom);
     if (!authored) return authored;
@@ -1325,17 +1430,15 @@ export function createCoastalHome(container, records, artifacts) {
 
   function setRoom(id, manual = true) {
     if (!config) return;
+    labFreeCamera = false;
     if (manual) {
       explore.explore();
       followClock = false;
     }
     currentRoom = id;
     desiredFov = 38;
-    const shadowExtent = id === "outside" ? 36 : 10;
-    Object.assign(sun.shadow.camera, { left: -shadowExtent, right: shadowExtent, top: shadowExtent, bottom: -shadowExtent, far: 160 });
-    sun.shadow.normalBias = id === "outside" ? 0.12 : 0.04;
-    sun.shadow.camera.updateProjectionMatrix();
-    sun.shadow.needsUpdate = true;
+    fitSunShadow(true);
+    if (id === "outside" && compositionReady) loadFlora();
     clearFocus();
     container.dataset.room = id;
     container.dataset.deskView = id === "outside" ? "outside" : "room";
@@ -1922,6 +2025,9 @@ export function createCoastalHome(container, records, artifacts) {
       }
     }
     if (moving) pacific?.update(elapsed, delta);
+    if (currentRoom === "outside") fitSunShadow();
+    stepFacadeDoors(frameDelta, moving);
+    lightInstallations?.tick(elapsed, moving);
     if (steamVolume) {
       // The small volume is a close bath detail. Do not capture two complete
       // coast depth buffers or evolve hidden steam in distant exterior views.
@@ -1937,7 +2043,9 @@ export function createCoastalHome(container, records, artifacts) {
     worldCompanion?.update(Math.min(delta, 0.25), elapsed, camera, currentRoom, moving);
     orientProp();
     renderer.info.reset();
-    withoutContactLighting(finish?.contactLighting, () => pacific?.reflect(camera, style === "realistic" && currentRoom === "outside"));
+    withoutContactLighting(finish?.contactLighting, () =>
+      pacific?.reflect(camera, style === "realistic" && currentRoom === "outside" && labSettings.reflection)
+    );
     if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside" && !animalFocus);
     else renderer.render(scene, camera);
     if (moving && consecutive) {
@@ -1961,7 +2069,10 @@ export function createCoastalHome(container, records, artifacts) {
       loadingSketch = null;
       // Stream detail only after the occupied room/avatar have actually drawn.
       backgroundTimer = setTimeout(() => {
-        if (!disposed && visible) config.rooms.forEach((r) => loadRoom(r.id).catch(() => {}));
+        if (!disposed && visible) {
+          config.rooms.forEach((r) => loadRoom(r.id).catch(() => {}));
+          loadFlora();
+        }
       }, 1800);
     }
     const settledRadius = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope()).radius;
@@ -2039,6 +2150,13 @@ export function createCoastalHome(container, records, artifacts) {
       warmPracticals.root.traverse((mesh) => {
         if (mesh.isMesh) for (const material of [mesh.material].flat()) staticLightField.bindMaterial(material);
       });
+      // Scheduled light installations (light-installations.mjs) light every material they can reach,
+      // so, like the light well, they exist before the first model is prepared.
+      lightInstallations = createLightInstallations(config, { bind: (m) => bindContactLighting(m, finish.contactLighting) });
+      scene.add(lightInstallations.root);
+      for (const mesh of [...warmPracticals.root.children, ...lightInstallations.root.children])
+        if (mesh.isMesh) for (const material of [mesh.material].flat()) lightInstallations.bindMaterial(material);
+      cleanup.push(() => lightInstallations?.dispose());
       art.setContactLighting(finish.contactLighting);
       // The light well over the onsen (light-well.mjs) binds every material it might light, so it
       // exists before the first model is prepared.
@@ -2152,6 +2270,18 @@ export function createCoastalHome(container, records, artifacts) {
     return initPromise;
   }
 
+  if (labEnabled) container.labScene = { scene, sun, settings: labSettings, requestFrame: () => requestFrame() };
+  if (labEnabled)
+    container.setLabCamera = ({ target: at, yaw: y, pitch: p, radius: r, free = true }) => {
+      labFreeCamera = free;
+      desiredTarget.fromArray(at);
+      yaw = y;
+      pitch = p;
+      desiredRadius = r;
+      explore.explore();
+      followClock = false;
+      requestFrame();
+    };
   container.getSceneEvidence = () => ({
     ready: container.dataset.sceneState === "ready",
     style,
@@ -2230,6 +2360,15 @@ export function createCoastalHome(container, records, artifacts) {
         : null,
       wind: coastalWind?.evidence(),
       practicals: warmPracticals?.evidence(),
+      installations: lightInstallations?.evidence(),
+      facade: {
+        doors: facadeDoors.map((d) => ({ id: d.id, open: d.target !== 0, offset: d.offset, slideX: d.slideX })),
+        glazedMeshes: (() => {
+          let count = 0;
+          world.traverse((o) => (count += o.userData.glazing ? 1 : 0));
+          return count;
+        })(),
+      },
       lightField: staticLightField ? { ...staticLightField.evidence(), error: lightBakeError } : null,
       steam: steamVolume
         ? { ready: steamReady, setupMilliseconds: steamSetupMilliseconds, visible: steamVolume.object.visible, ...steamVolume.evidence() }

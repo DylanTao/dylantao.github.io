@@ -4,7 +4,7 @@ import { surfaceNoise } from "./realism.mjs";
 import { createSeaReflection } from "./reflection.mjs";
 import { createWildlife } from "./wildlife.mjs";
 import { beachPoint } from "./shore.mjs";
-import { OCEAN_WAVES, oceanFieldGLSL, sampleOcean } from "./ocean-spectrum.mjs";
+import { OCEAN_WAVES, oceanFieldGLSL, oceanRipplesGLSL, sampleOcean } from "./ocean-spectrum.mjs";
 import { createWindParticles } from "./wind-particles.mjs";
 
 // Geometry, light, and a procedural sky. No photograph or illustration is
@@ -55,7 +55,7 @@ export function createPacific(scene, renderer, config) {
     `
     );
     shader.fragmentShader =
-      `uniform float pacificTime; uniform sampler2D shoreProfile; uniform vec2 shoreRange; varying vec2 oceanXZ;\n${surfaceNoise}\n${oceanFieldGLSL}\n` +
+      `uniform float pacificTime; uniform sampler2D shoreProfile; uniform vec2 shoreRange; varying vec2 oceanXZ;\n${surfaceNoise}\n${oceanFieldGLSL}\n${oceanRipplesGLSL}\n` +
       shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <roughnessmap_fragment>",
@@ -64,6 +64,10 @@ export function createPacific(scene, renderer, config) {
       float footprint=max(length(dFdx(oceanXZ)),length(dFdy(oceanXZ)));
       vec3 fieldDisplacement, fieldTx, fieldTz; float slopeVariance;
       oceanField(oceanXZ,pacificTime,footprint,fieldDisplacement,fieldTx,fieldTz,slopeVariance);
+      vec3 ripple=oceanRipples(oceanXZ,pacificTime,footprint);
+      fieldTx.y+=ripple.x;
+      fieldTz.y+=ripple.y;
+      slopeVariance+=ripple.z;
       // Unresolved wave energy broadens the GGX lobe instead of vanishing
       // or flickering. This scalar isotropic fit is not the full ocean BRDF.
       roughnessFactor=clamp(pow(pow(roughnessFactor,4.)+slopeVariance,.25),.14,.65);
@@ -117,7 +121,7 @@ export function createPacific(scene, renderer, config) {
     `
     );
   };
-  physicalWater.customProgramCacheKey = () => "pacific-spectrum-v3";
+  physicalWater.customProgramCacheKey = () => "pacific-spectrum-v4";
   const modelWater = new THREE.MeshStandardMaterial({ color: 0x8db9bb, roughness: 0.95 });
   const printWater = new THREE.MeshToonMaterial({ color: 0x287b8a });
   const waterGeometry = new THREE.PlaneGeometry(400, 400, 160, 160);

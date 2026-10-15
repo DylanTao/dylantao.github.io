@@ -96,3 +96,38 @@ void oceanField(vec2 p, float time, float footprint, out vec3 displacement, out 
   ).join("\n")}
 }
 `;
+
+// Short wind ripples for the pixel stage only (Sirui, 2026-10-14). Each swell octave above is one
+// plane wave, so up close the short ones read as ruled parallel stripes. Twelve shorter waves
+// spread over the wind's half-plane by the golden angle, from 0.9 m down to 2.4 cm, break that up
+// into the crossed, irregular chop real water has. They tilt the normal only (no displacement, so
+// sampleOcean and the swells' geometry are unchanged); like the swells, each one fades out once a
+// pixel can no longer resolve it, and its lost slope variance widens the highlight instead.
+export const RIPPLES = Array.from({ length: 12 }, (_, i) => {
+  const wavelength = 0.9 * 0.72 ** i,
+    k = (Math.PI * 2) / wavelength,
+    heading = -0.35 + 1.25 * Math.sin(i * 2.39996);
+  return {
+    k,
+    dx: Math.sin(heading),
+    dz: Math.cos(heading),
+    amplitude: 0.11 / k,
+    omega: Math.sqrt(GRAVITY * k + (0.074 / 1025) * k ** 3),
+    phase: i * 1.7,
+  };
+});
+export const oceanRipplesGLSL = `
+vec3 oceanRipples(vec2 p, float time, float footprint) {
+  vec3 ripple = vec3(0.);
+  ${RIPPLES.map(
+    (w) => `{
+    float k=${f(w.k)}, a=${f(w.amplitude)};
+    vec2 d=vec2(${f(w.dx)},${f(w.dz)});
+    float weight=exp(-.5*k*k*footprint*footprint);
+    ripple.xy+=d*(a*k*weight*cos(k*dot(d,p)-${f(w.omega)}*time+${f(w.phase)}));
+    ripple.z+=.5*a*a*k*k*(1.-weight*weight);
+  }`
+  ).join("\n")}
+  return ripple;
+}
+`;

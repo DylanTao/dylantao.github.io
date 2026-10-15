@@ -1,18 +1,50 @@
 import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
 
-// World-space anchors: the four existing modeled lamps, then the bath ledge,
-// oak gym alcove and the supported corners of the ground-floor terrace.
+// World-space anchors: the four existing modeled lamps, then the bath ledge, oak gym alcove and
+// the two floor lanterns just inside the glass front (named for the terrace they once marked; they
+// stand clear of the sliding doors' track).
 export const PRACTICAL_SOURCES = [
   { id: "study", position: [-0.99, 4.06, 2.64], night: 5.5, day: 0.9, distance: 6 },
-  { id: "sleep", position: [-4.13, 3.47, 2.47], night: 2.7, day: 0.7, distance: 4.8 },
+  { id: "sleep", position: [-4.13, 3.47, 2.47], night: 2.7, day: 0.7, distance: 4.8, anyHour: true },
   { id: "kitchen", position: [-3.3, 1.95, -0.04], night: 2.7, day: 0.7, distance: 4.8 },
   { id: "lounge", position: [2.14, 0.79, -1.58], night: 2.7, day: 0.7, distance: 4.8 },
   { id: "bath", position: [3.68, 3.388, 2.2], night: 2.8, day: 0.6, distance: 3.3 },
   { id: "gym", position: [0, 2.18, 0.25], night: 3, day: 0.5, distance: 3.5 },
-  { id: "terrace-west", position: [-3.9, 0.170405, -4.3], night: 1.8, day: 0.15, distance: 3.8 },
-  { id: "terrace-east", position: [3.9, 0.170405, -4.3], night: 1.8, day: 0.15, distance: 3.8 },
+  { id: "terrace-west", position: [-4.75, 0.170405, -4.12], night: 1.8, day: 0.15, distance: 3.8 },
+  { id: "terrace-east", position: [3.9, 0.170405, -4.12], night: 1.8, day: 0.15, distance: 3.8 },
 ];
+
+// How far each lamp is turned up at night, from the routine: lamps brighten where Sirui is and
+// dim to a glow elsewhere. The bedside lamp also works by day: it ramps up over the half hour
+// before waking (a dawn lamp), lights the last minutes before sleep, and is a night light between.
+const occupied =
+  (ids) =>
+  ({ activity }) =>
+    ids.includes(activity) ? 1 : 0.3;
+export const PRACTICAL_SCHEDULES = {
+  study: occupied(["reading", "work", "coding"]),
+  kitchen: occupied(["breakfast", "lunch", "dinner"]),
+  lounge: occupied(["lounge"]),
+  bath: occupied(["soak"]),
+  gym: ({ activity }) => (activity === "workout" ? 1 : 0.15),
+  "terrace-west": ({ minute }) => (minute >= 16 * 60 || minute < 60 ? 1 : 0.35),
+  "terrace-east": ({ minute }) => (minute >= 16 * 60 || minute < 60 ? 1 : 0.35),
+  sleep: ({ minute, bed, wake }) => {
+    const since = (from) => (minute - from + 1440) % 1440;
+    if (since(wake - 30) < 30) return 0.04 + 0.96 * (since(wake - 30) / 30) ** 2;
+    if (since(wake) < 20 || since(bed - 25) < 25) return 1;
+    if (since(bed) < (wake - bed + 1440) % 1440) return 0.04;
+    return 0;
+  },
+};
+
+// Bedtime and waking from the day's routine ([[start minute, activity], ...]).
+export function sleepWindow(schedule) {
+  const index = schedule.findIndex(([, id]) => id === "sleep");
+  if (index < 0) return { bed: 0, wake: 0 };
+  return { bed: schedule[index][0], wake: schedule[(index + 1) % schedule.length][0] };
+}
 
 export function createWarmPracticals(scene, bind = (m) => m) {
   const root = new THREE.Group();
@@ -78,14 +110,22 @@ export function createWarmPracticals(scene, bind = (m) => m) {
   }
   scene.add(root);
   let nightMix = 0;
+  const levels = Object.fromEntries(PRACTICAL_SOURCES.map((s) => [s.id, 1]));
   return {
     root,
     lights,
     sources: PRACTICAL_SOURCES.map((source, i) => ({ ...source, color: color.toArray(), light: lights[i] })),
-    update(daylight) {
+    // routine: { minute, id, schedule }. Without one, every lamp follows daylight alone.
+    update(daylight, routine = null) {
       const t = THREE.MathUtils.clamp((0.3 - daylight) / 0.3, 0, 1);
       nightMix = t * t * (3 - 2 * t);
-      lights.forEach((light, i) => (light.intensity = THREE.MathUtils.lerp(PRACTICAL_SOURCES[i].day, PRACTICAL_SOURCES[i].night, nightMix)));
+      const state = routine && { minute: routine.minute, activity: routine.id, ...sleepWindow(routine.schedule || []) };
+      lights.forEach((light, i) => {
+        const source = PRACTICAL_SOURCES[i];
+        const level = state ? PRACTICAL_SCHEDULES[source.id](state) : 1;
+        levels[source.id] = level;
+        light.intensity = source.day + (source.night - source.day) * level * (source.anyHour ? 1 : nightMix);
+      });
       diffuser.emissiveIntensity = THREE.MathUtils.lerp(0.22, 1.1, nightMix);
     },
     evidence() {
@@ -94,6 +134,7 @@ export function createWarmPracticals(scene, bind = (m) => m) {
         pointLights: lights.length,
         newFixtures: 4,
         fixtureDraws: 2,
+        levels: { ...levels },
         sources: lights.map((l) => ({ position: l.position.toArray(), intensity: l.intensity })),
       };
     },
