@@ -6,8 +6,9 @@ import * as THREE from "../three.module.min.js";
 //  1. Through the gaps it passes untouched. Seen head-on a voile is about a third open; toward grazing
 //     angles the round yarns hide the gaps between them and the weave closes up. Each thread direction
 //     is a row of cylinders of diameter d at spacing s: viewed at angle a across that row the open
-//     fraction is max(0, 1 - (d/s)/cos a), and the two directions multiply. This is the geometric
-//     beam-beam model used for screens and drapery in building optics (Kotey, Wright & Collins 2009).
+//     fraction is max(0, 1 - (d/s)/cos a), and the two directions multiply. It shares its endpoints
+//     (open area (1 - d/s)^2 head-on, cut-off at cos a = d/s) with the crossed-cylinder geometry used for
+//     insect screens in building optics (Kotey, Wright & Collins 2009).
 //     The open fraction drives multisampled alpha-to-coverage, so the sheet composites in the opaque
 //     pass with per-sample depth and no sorting; without multisampling it falls back to a hashed
 //     discard.
@@ -18,7 +19,7 @@ import * as THREE from "../three.module.min.js";
 //     behind it and brighter at normal incidence, where more of each yarn faces the light.
 //  3. In the sun's shadow map the sheet is a dithered occluder: each texel passes with the probability
 //     that light gets through along the light's direction (gaps plus a share of the forward-scattered
-//     light), on an ordered 4 x 4 pattern that the soft shadow filter averages back into a partial,
+//     light), on an ordered 3 x 3 pattern that the soft shadow filter averages back into a partial,
 //     angle-dependent shadow. Drawn panels therefore leave a striped, fold-shaped pool of light on the
 //     floor, and opening them changes it.
 //
@@ -26,6 +27,25 @@ import * as THREE from "../three.module.min.js";
 // back-lit sheet is not shadowed by itself while frames and rock still shadow it. Everything here is an
 // authored real-time approximation, not a measured BSDF or a yarn-level renderer. See PHYSICS.md
 // ("Curtain cloth") for equations, sources and limits.
+//
+// Integrating (curtain-cloth.mjs supplies the solver):
+//   const curtains = createFacadeCurtains({ startTime: elapsed, reducedMotion: reduced });
+//   const fabric = createSheerFabric();
+//   staticLightField?.bindMaterial(fabric.material);   // optional, room-consistent indirect light
+//   lightInstallations?.bindMaterial(fabric.material); // optional, the evening lamps
+//   const curtainMeshes = createCurtainMeshes(curtains.cloth, fabric);
+//   for (const mesh of curtainMeshes.meshes) scene.add(mesh); // world metres: identity parent transform
+// Each frame, before rendering: curtains.draft.setDoor(door.id, door.offset) for each facade door,
+// curtains.cloth.update(moving ? frameDelta : 0), then curtainMeshes.update(). Draw a panel with
+// curtains.cloth.setOpenFraction(id, f) (0 closed .. 1 gathered); follow the media query with
+// setReducedMotion(); setGlassDraft(+0.05 by day, -0.04 at night) is optional.
+// What the material needs from the scene: nothing custom. It reads Three's own directional,
+// hemisphere and environment lighting and shadow matrices; the sun must cast shadows through
+// PCFSoftShadowMap (other filters leave the dither visible), the shadow map must update while a curtain
+// moves (Three's default), and the composer's 4x multisampled target gives smooth coverage (any other
+// target falls back to hashed coverage on its own). No render order is needed: the sheet draws in the
+// opaque pass, before the transparent glass. bindMesh sets the userData flags that keep contact
+// lighting, the light-field bake, volume depth and occluder rays off it; do not bind contact lighting.
 
 // Not matched by the scene's name-based routing (realism.mjs, materials.mjs, coastal-wind.mjs).
 export const SHEER_FABRIC_NAME = "coastal sheer voile";
