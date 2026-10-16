@@ -83,3 +83,67 @@ Real-clock local captures on October 1, 2026 used one owned Chromium context wit
 An earlier evening exterior measured 16.7 ms median and 33.3 ms p95. These short local observations include the existing substantial model/shadow/reflection cost; they do not guarantee 60 fps across devices or isolate GPU shader time. At the ordinary exterior scale, 650 ms-separated captures changed 2.23% of pixels; the wider sea view changed 4.14%. Whole-view ratios can also include the existing birds, so the dedicated water interaction test additionally compares an interior patch of sea pixels.
 
 The coordinator performs the affected-route checkpoint, targeted scene interaction checks and production build after combining the model/runtime/site changes. The release-scale full matrix remains reserved for publication.
+
+## Curtain cloth
+
+On October 15, 2026, `curtain-cloth.mjs` and `sheer-fabric.mjs` were added as standalone modules for sheer curtains on rails inside the glass front: a cloth solver driven by the shared breeze, and a thin-sheet fabric whose see-through weave, glow and partial shadow depend on angle. The controller does not use them yet. They are a real-time approximation for a browser scene, not a validated textile, airflow or measured-BSDF model.
+
+### Cloth
+
+Each panel is a 29 × 25 particle grid with mass lumped from a voile's areal density (0.075 kg/m²) and a weighted hem (0.03 kg/m). A 1/60 s step runs five substeps of extended position-based dynamics with one constraint pass each. For a distance constraint `C = |x_i - x_j| - l`:
+
+```text
+α̃ = α / h²        Δλ = -C / (w_i + w_j + α̃)        (λ restarts at 0 every substep)
+x_i += w_i Δλ ∇C   x_j -= w_j Δλ ∇C                 v = (x - x_prev) / h
+```
+
+Structural constraints have `α = 0`, alternating shear diagonals `0.02 m/N`, and skip-one horizontal bends `1.2 m/N`. One-sided tethers keep every particle within `r Δy` of its column's heading point. Constraints run in colour batches in which no two share a particle, so consecutive projections do not wait on each other's square roots. The same pass then costs about a third as much as in row order.
+
+The heading row is kinematic. A carrier ring sits on the rail at every fourth column. Between two rings, the columns lie at equal arc length on a half sine `A sin(πx/s)` whose length equals the fabric between them, `L = 4h`, and the folds alternate room side and glass side. With `m = Aπ/s`, `L/s = (1/π)∫₀^π √(1 + m² cos²u) du`, which is tabulated and inverted. Open fraction `o` spaces the rings at `s = (w_closed(1 - o) + w_stack o)/(n - 1)`, and the lead carrier moves at most 0.45 m/s. Horizontal rest lengths follow the heading's chords; bends are blended 20 % toward the closed pleat, so a gathered stack flares slightly.
+
+Air acts per triangle from the wind relative to the triangle's mean velocity, `u = w - v̄`:
+
+```text
+F = ½ ρ A |u| [ C_N (u·n) n + C_F (u - (u·n) n) ] / (1 + k Δt),   k = ½ ρ C_N |u| / ρ_A
+```
+
+The model uses `ρ = 1.2 kg/m³`, `C_N = 0.9` (a solid plate is about 1.2; the open weave leaks air) and `C_F = 0.02`, with a third of the force applied to each corner. The normal force carries both drag and lift. The divisor applies that drag semi-implicitly, so a gust cannot drive the cloth past the air's own speed. Wind is sampled on a 5 × 6 lattice of particles per panel and interpolated bilinearly. Contacts are the floor and half-spaces: the room side of the door pulls, and per-panel keep-outs at the kitchen counter and the lounge olive. A panel sleeps when the wind would lean it less than 0.03 rad (`u < √(2·0.03·ρ_A g/(ρ C_N)) ≈ 0.20 m/s`) and every particle stays under 1 cm/s for 0.75 s. It wakes above 1.3 times that wind or when it is drawn. Reduced motion relaxes the drape for 1.5 s with heavy damping and no wind, then holds it static.
+
+The facade draft is the six-mode room field at 25 % everywhere, plus a jet in each open doorway. The jet speed is `2.4 · softplus₀.₁₂(0.6 + u_out,z) · (1 + 0.32 flutter(rate·t))`, where `u_out` is the shared field 0.8 m outside. Smoothstep shoulders 0.25 m wide bound the open gap, and the jet decays as `1/(1 + d/1.8 m)` into the room, with travelling ±35 % gust cells. Closed glass carries a 0.05 m/s convective layer that decays as `e^{-d/0.18 m}`. In the doorway the median speed is 1.0 m/s (p90 1.4, peak about 1.9 m/s); beside closed glass it is 0.06 m/s. The draft is an authored sketch, not ventilation CFD.
+
+### Fabric
+
+Openness follows a plain weave of round yarns. Each thread direction is a row of cylinders, with yarn-to-spacing ratio `r`, seen at angle `α` across the row:
+
+```text
+O(ω) = max(0, 1 - r_warp / cos α_t) · max(0, 1 - r_weft / cos α_b),   cos α_t = |ω·n| / √((ω·n)² + (ω·t)²)
+```
+
+At normal incidence `O = (1 - r)² = 0.36`, so `r = 0.4`, and the gaps close where `cos α = r`, about 66°. These endpoints match the crossed-cylinder screen geometry of Kotey, Wright and Collins (2009): `A_o = (S - D)²/S²` and `cos θ_cutoff = D/S`. Between the endpoints this model uses the exact parallel-cylinder projection per thread direction rather than their fitted cosine power. Visible coverage `c = 1 - O(view)` drives alpha-to-coverage in the composer's 4× multisampled target, dithered by a quarter sample with interleaved gradient noise. Without samples it falls back to a hashed discard. Faint warp streaks and weft bars live in fabric metres and fade before they are finer than about two pixels. The double-folded hem's open fraction is squared.
+
+Light from behind the sheet, relative to the viewer, is transmitted where it meets yarn:
+
+```text
+L = E cos θ_i (1 - O(ω_i)) / max(c, 0.25) · T · [ (1 - φ)/π + 2 φ p_HG(cos θ_s; g) ],   T = 0.42 · tint,  φ = 0.45,  g = 0.6
+```
+
+The diffuse part is the thin-walled Lambertian BTDF of glTF's diffuse-transmission extension. The forward lobe is Henyey-Greenstein about the light's travel direction, so the sheet glows hardest around the sun. Indirect light uses the hemisphere, ambient and environment irradiance on the far side, plus the blurred environment along the view ray. Reflection is Three's physical BRDF with Charlie sheen, roughness 0.85 and F0 1.4 %. In the shadow pass, a fragment is discarded when an ordered 3 × 3 threshold falls below `O(ω_l) + (1 - O)·T̄·φ·0.7`. `PCFSoftShadowMap` filters with a box three texels wide, which covers exactly one period of that pattern and reads back the passing fraction with no grid left over. A 4 × 4 Bayer pattern visibly crosshatched the floor. The curtain's own shadow lookup offsets toward each light, so a back-lit sheet is not shadowed by itself.
+
+### Sources
+
+- [Müller, Heidelberger, Hennix and Ratcliff, Position Based Dynamics, 2007](https://matthias-research.github.io/pages/publications/posBasedDyn.pdf).
+- [Macklin, Müller and Chentanez, XPBD: Position-Based Simulation of Compliant Constrained Dynamics, 2016](https://matthias-research.github.io/pages/publications/XPBD.pdf), and [Macklin et al., Small Steps in Physics Simulation, 2019](https://matthias-research.github.io/pages/publications/smallsteps.pdf).
+- [Provot, Deformation constraints in a mass-spring model to describe rigid cloth behaviour, Graphics Interface 1995](https://graphicsinterface.org/proceedings/gi1995/gi1995-17/) for the structural, shear and flexion pattern; the solver here uses compliant constraints, not springs.
+- [Kim, Chentanez and Müller, Long Range Attachments, SCA 2012](https://matthias-research.github.io/pages/publications/sca2012cloth.pdf).
+- [Keckeisen, Kimmerle, Thomaszewski and Wacker, Modelling Effects of Wind Fields in Cloth Animations, WSCG 2004](http://wscg.zcu.cz/wscg2004/Papers_2004_Full/C73.pdf) for per-face forces from the relative air velocity; this module uses one flat-plate normal coefficient plus skin friction instead of their separate drag and lift coefficients.
+- [Kotey, Wright and Collins, Determining Off-Normal Solar Optical Properties of Insect Screens, ASHRAE Transactions 115(1), 2009](https://uwspace.uwaterloo.ca/handle/10012/11550).
+- [Estevez and Kulla, Production Friendly Microfacet Sheen BRDF, SIGGRAPH 2017 course](https://blog.selfshadow.com/publications/s2017-shading-course/imageworks/s2017_pbs_imageworks_sheen.pdf), which Three's sheen implements.
+- [Khronos, KHR_materials_diffuse_transmission](https://github.com/KhronosGroup/glTF/blob/main/extensions/2.0/Khronos/KHR_materials_diffuse_transmission/README.md).
+- [Henyey and Greenstein, Diffuse radiation in the Galaxy, ApJ 93:70, 1941](https://doi.org/10.1086/144246); the form used follows [pbrt's phase functions](https://pbr-book.org/4ed/Volume_Scattering/Phase_Functions).
+- [Jimenez, Next Generation Post Processing in Call of Duty: Advanced Warfare, 2014](https://www.iryoku.com/next-generation-post-processing-in-call-of-duty-advanced-warfare/) for interleaved gradient noise.
+
+### Cost, evidence and limits
+
+Four panels hold 2,900 particles, with 10,752 constraints and 2,668 tethers. On the October 15 development machine, under other load, Node's V8 measured a best of 1.17–1.21 ms per 60 Hz frame. In headless Chromium, stepping plus attribute writing took a 1.3–2.9 ms median. After construction a step creates no arrays; only about 0.3 KB per frame of engine heap numbers remain, from the cold `update` wrapper. `test/curtain-cloth.test.mjs` covers bounded strain, gale stability and energy decay, rings held on the rail, gathered width, bitwise determinism and frame partitioning, sleep and wake, reduced motion, absence of array allocation, the draft's door contrast, clearances against the authored furniture, normals and winding, the openness model, and the shader patches' include markers. Lab captures live under ignored `.jekyll-cache/curtain-lab/shots/`.
+
+Limits: there is no self-collision, so gathered stacks and violent gusts can interpenetrate, and after a 3–7 m/s gale folds can stay crossed. Structural strain stays at 1–7 % in the doorway draft and reaches about 20 % in such gales. The air model has no shielding, wake or feedback on the flow, so the inner folds of a stack feel the full wind. Depth shadow maps cannot colour the light the yarn transmits, and the dither resolves cleanly only under `PCFSoftShadowMap`, where shadow coverage is quantised to ninths. The fabric is authored, not measured: neither yarn-level specular nor a microcylinder cloth model is implemented. Placement has been checked against decoded model bounds and a lab scene, not yet in the live house.
