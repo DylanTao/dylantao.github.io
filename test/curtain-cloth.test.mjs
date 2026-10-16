@@ -321,7 +321,7 @@ test("the proposed tracks clear the authored furniture, the door hardware, the f
         z = p[3 * i + 2];
       assert.ok(z > CURTAIN_FACADE.hardwareZ + 0.02, `${panel.id} reaches the door pulls (z ${z})`);
       assert.ok(y > CURTAIN_FACADE.floorY && y < CURTAIN_FACADE.doorHead, `${panel.id} height ${y}`);
-      // The kitchen counter ends at x -2.75 and the lounge olive starts at x 3.5 (authored GLBs).
+      // The kitchen's dining table ends at x -2.75 and the lounge's potted plant starts at x 3.5 (authored GLBs).
       assert.ok(x > -2.75 && x < 3.5, `${panel.id} x ${x}`);
     });
   }

@@ -79,10 +79,11 @@ export const CURTAIN_FACADE = Object.freeze({
 });
 
 // Proposed tracks, measured against the authored models (room-kitchen.glb, room-lounge.glb,
-// home-shell.glb, decoded 2026-10-15): the kitchen's breakfast counter runs against the glass from
-// x -4.25 to -2.75 (top at 0.74-0.83 m, reaching z -4.37), and the lounge's potted olive and daybed
-// stand inside the glass from x 3.5 northward (leaves at z -4.21). The clear stretch of floor along the
-// front runs from the counter's end to the olive, so each door gets a centre-opening pair there.
+// home-shell.glb, decoded 2026-10-15, and rendered in place): the kitchen's round dining table and its
+// chairs stand against the glass from x -4.25 to -2.75 (top at 0.74-0.83 m, reaching z -4.37), and the
+// lounge's potted plant and armchair stand inside the glass from x 3.5 northward (leaves at z -4.21).
+// The clear stretch of floor along the front runs from the table to the plant, so each door gets a
+// centre-opening pair there.
 // Rails stand 25 cm in front of the door head's room face (z -4.40) on return brackets, far enough that a
 // gathered stack's glass-side folds clear the door pulls; the ring line sits 7 cm under the head and the
 // hem clears the floor by 1.5 cm. Each pair stacks one panel over its open doorway and one over fixed glass, which is what
@@ -97,7 +98,7 @@ export const CURTAIN_TRACKS = Object.freeze([
     rail: Object.freeze({ y: RAIL_Y, z: RAIL_Z, from: -2.7, to: -0.5 }),
     brackets: Object.freeze([-2.66, -1.6, -0.54]),
     panels: Object.freeze([
-      // Stacks beside the counter's end, inside the open doorway: the windward panel.
+      // Stacks beside the dining table, inside the open doorway: the windward panel.
       Object.freeze({ id: "kitchen-south", stackX: -2.7, closeToward: 1, keepOut: Object.freeze({ min: -2.735 }) }),
       // Stacks over the mullion at -0.85 and the gym bay's fixed glass: the sheltered panel.
       Object.freeze({ id: "kitchen-north", stackX: -0.5, closeToward: -1 }),
@@ -111,7 +112,7 @@ export const CURTAIN_TRACKS = Object.freeze([
     panels: Object.freeze([
       // Stacks over the gym bay's glass south of the mullion at 2.0: sheltered.
       Object.freeze({ id: "lounge-south", stackX: 1.65, closeToward: 1 }),
-      // Stacks inside the open doorway beside the potted olive: windward.
+      // Stacks inside the open doorway beside the potted plant: windward.
       Object.freeze({ id: "lounge-north", stackX: 3.45, closeToward: -1, keepOut: Object.freeze({ max: 3.47 }) }),
     ]),
   }),
