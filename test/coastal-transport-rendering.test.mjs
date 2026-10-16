@@ -140,6 +140,97 @@ test("native curl-field GLSL matches metric CPU wind samples after RGBA8 quantiz
 });
 
 test(
+  "native coast-wind GLSL draws the same gust timeline the curtains, spray and steam read on the CPU",
+  { skip: !baseURL, timeout: 45000 },
+  async (t) => {
+    const { page, errors } = await fixturePage();
+    try {
+      const result = await page.evaluate(async (origin) => {
+        const THREE = window.transportThree,
+          wind = await import(`${origin}/assets/js/home-scene/wind-field.mjs`),
+          // Sea, beach, terrace, glass front and bluff, in world metres (x, z).
+          points = [
+            [0, -40],
+            [12, -14],
+            [-3, -6.5],
+            [-2, -4.48],
+            [6, 12],
+            [-25, 18],
+          ],
+          times = [0, 7.3, 61.25, 410.5, 3600.75],
+          coast = wind.createCoastWind({ minute: 930 }),
+          renderer = window.transportRenderer(8),
+          float = renderer.extensions.has("EXT_color_buffer_float"),
+          target = new THREE.WebGLRenderTarget(points.length, 1, {
+            type: float ? THREE.FloatType : THREE.UnsignedByteType,
+            format: THREE.RGBAFormat,
+          }),
+          scene = new THREE.Scene(),
+          camera = new THREE.Camera(),
+          uniforms = { ...coast.uniforms, samplePoints: { value: points.map(([x, z]) => new THREE.Vector2(x, z)) } },
+          material = new THREE.ShaderMaterial({
+            uniforms,
+            vertexShader: "varying vec2 sampleUV; void main(){sampleUV=uv;gl_Position=vec4(position.xy,0.,1.);}",
+            fragmentShader: `
+            varying vec2 sampleUV;
+            uniform vec2 samplePoints[${points.length}];
+            ${wind.coastWindGLSL}
+            void main() {
+              vec2 point=vec2(0.);
+              for(int i=0;i<${points.length};i++) if(floor(sampleUV.x*${points.length.toFixed(1)})==float(i)) point=samplePoints[i];
+              vec3 v=coastWindVelocity(vec3(point.x,0.,point.y),0.);
+              gl_FragColor=vec4(coastWindGust(point,0.)/3.,v.x/16.+.5,v.z/16.+.5,1.);
+            }`,
+          }),
+          geometry = new THREE.PlaneGeometry(2, 2),
+          mesh = new THREE.Mesh(geometry, material);
+        mesh.frustumCulled = false;
+        scene.add(mesh);
+        let gustError = 0,
+          velocityError = 0;
+        try {
+          for (const time of times) {
+            coast.update({ seconds: time });
+            material.uniformsNeedUpdate = true;
+            renderer.setRenderTarget(target);
+            renderer.render(scene, camera);
+            const pixels = float ? new Float32Array(points.length * 4) : new Uint8Array(points.length * 4);
+            renderer.readRenderTargetPixels(target, 0, 0, points.length, 1, pixels);
+            const scale = float ? 1 : 1 / 255;
+            points.forEach(([x, z], i) => {
+              const out = [0, 0, 0];
+              coast.sample(x, 0, z, time, out);
+              gustError = Math.max(gustError, Math.abs(pixels[i * 4] * scale * 3 - coast.gust(x, z, time)));
+              velocityError = Math.max(
+                velocityError,
+                Math.abs((pixels[i * 4 + 1] * scale - 0.5) * 16 - out[0]),
+                Math.abs((pixels[i * 4 + 2] * scale - 0.5) * 16 - out[2])
+              );
+            });
+          }
+          return { float, gustError, velocityError, samples: points.length * times.length, calls: renderer.info.render.calls };
+        } finally {
+          material.dispose();
+          geometry.dispose();
+          target.dispose();
+          renderer.dispose();
+        }
+      }, baseURL);
+      assert.equal(result.samples, 30);
+      assert.ok(result.calls > 0, "the field must actually draw");
+      const tolerance = result.float ? 2e-3 : 3 / 255;
+      assert.ok(result.gustError <= tolerance && result.velocityError <= (result.float ? 5e-3 : 16 / 255), JSON.stringify(result));
+      assert.deepEqual(errors, []);
+      t.diagnostic(
+        `30 native coast-wind samples: gust ${result.gustError.toExponential(2)}, velocity ${result.velocityError.toExponential(2)} m/s (${result.float ? "float" : "RGBA8"} target)`
+      );
+    } finally {
+      await page.close();
+    }
+  }
+);
+
+test(
   "native skin diffuse transport changes a curved terminator without night glow or white-field gain",
   { skip: !baseURL, timeout: 60000 },
   async (t) => {

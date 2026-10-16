@@ -215,17 +215,25 @@ export function facadeCurtainPanels({
 // carries a thin convective boundary layer (rising along sun-warmed glass, falling along cold glass).
 // The jet profile is an authored engineering sketch, not a ventilation or CFD model.
 //
+// With `coast` (a createCoastWind instance, normally the scene's coastWind) the draft reads the coast's
+// one wind instead: the room leak is the coast's indoor air (its share rises with the doors open), and
+// each doorway jet is `coastDoorGain` times the soft-clamped onshore component of the outdoor breeze
+// 0.8 m outside, gusts included (about 1 m/s in an October afternoon's 2.3 m/s onshore flow), so a gust front that has crossed the water and the terrace arrives
+// at the curtains when it meets the glass. A breeze blowing off the land feeds no jet.
+//
 // `sample(x, y, z, t, out)` is the plain interface. `sampleBatch(points, count, clock, out)` fills
 // `out` (3 x count, m/s) for `points` (3 x count, m) at time clock[0] without allocating; the cloth
 // uses it automatically because `sample.sampleBatch` points to it.
 export function createFacadeDraft({
   field = sampleWind,
   fieldOptions = DEFAULT_WIND,
+  coast = null,
   doors = CURTAIN_FACADE.doors,
   glassZ = CURTAIN_FACADE.doorFaceZ,
   roomLeak = 0.25,
   onshore = 0.6,
   doorGain = 2.4,
+  coastDoorGain = 0.45,
   turbulence = 0.32,
   softness = 0.25,
   reach = 1.8,
@@ -260,9 +268,25 @@ export function createFacadeDraft({
     one = { points: new Float64Array(3), out: new Float64Array(3), clock: new Float64Array(1) },
     fieldPoint = [0, 0, 0],
     fieldOut = [0, 0, 0];
+  // In coast mode the coast's indoor air already carries its own share of the breeze.
+  const leak = coast ? 1 : roomLeak,
+    inflowOffset = coast ? 0 : onshore,
+    jetGain = coast ? coastDoorGain : doorGain,
+    driftGain = coast ? 0.25 * coastDoorGain : 0.6;
 
-  function evaluateField(points, count, out, clock) {
+  // `outdoor` selects the coast's open-air wind (the doorway jets) over its indoor air (the room).
+  function evaluateField(points, count, out, clock, outdoor = false) {
     const t = clock[0];
+    if (coast) {
+      const sampler = outdoor ? coast.sample : coast.sampleIndoor;
+      for (let i3 = 0; i3 < 3 * count; i3 += 3) {
+        sampler(points[i3], points[i3 + 1], points[i3 + 2], t, fieldOut);
+        out[i3] = fieldOut[0];
+        out[i3 + 1] = fieldOut[1];
+        out[i3 + 2] = fieldOut[2];
+      }
+      return;
+    }
     if (!inline) {
       for (let i3 = 0; i3 < 3 * count; i3 += 3) {
         fieldPoint[0] = points[i3];
@@ -302,7 +326,7 @@ export function createFacadeDraft({
       doorPoints[3 * i + 1] = 1.4;
       doorPoints[3 * i + 2] = glassZ - 0.8;
     }
-    evaluateField(doorPoints, D, doorField, clock);
+    evaluateField(doorPoints, D, doorField, clock, true);
     const t = clock[0];
     for (let i = 0, o = 0; i < D; i++, o += STRIDE) {
       if (door[o + 6] - door[o + 5] < 0.02) {
@@ -311,15 +335,15 @@ export function createFacadeDraft({
         continue;
       }
       // Soft clamp: a lull lets the panel fall back; the jet does not reverse into suction.
-      const inflow = onshore + doorField[3 * i + 2],
+      const inflow = inflowOffset + doorField[3 * i + 2],
         soft = inflow > 2 ? inflow : 0.12 * Math.log1p(Math.exp(inflow / 0.12));
       const r = door[o + 3];
       const flutter =
         1 +
         turbulence *
           (0.55 * Math.sin(0.9 * r * t + door[o + 9]) + 0.3 * Math.sin(2.1 * r * t + door[o + 10]) + 0.15 * Math.sin(4.3 * r * t + door[o + 11]));
-      door[o + 7] = doorGain * soft * flutter;
-      door[o + 8] = 0.6 * doorField[3 * i];
+      door[o + 7] = jetGain * soft * flutter;
+      door[o + 8] = driftGain * doorField[3 * i];
     }
   }
 
@@ -332,9 +356,9 @@ export function createFacadeDraft({
       const x = points[i3],
         y = points[i3 + 1],
         z = points[i3 + 2];
-      let vx = roomLeak * out[i3],
-        vy = roomLeak * out[i3 + 1],
-        vz = roomLeak * out[i3 + 2],
+      let vx = leak * out[i3],
+        vy = leak * out[i3 + 1],
+        vz = leak * out[i3 + 2],
         inDoor = 0;
       const depth = z > glassZ ? z - glassZ : 0;
       for (let i = 0, o = 0; i < D; i++, o += STRIDE) {
@@ -420,10 +444,13 @@ export function createFacadeDraft({
       cache[1] = Number(speed) || 0;
     },
     evidence: () => ({
-      method: "room field leak + soft-clamped doorway jets + glass boundary layer",
-      roomLeak,
-      onshoreMetersPerSecond: onshore,
-      doorGain,
+      method: coast
+        ? "coast indoor air + soft-clamped jets of the coast's onshore breeze + glass boundary layer"
+        : "room field leak + soft-clamped doorway jets + glass boundary layer",
+      coast: Boolean(coast),
+      roomLeak: leak,
+      onshoreMetersPerSecond: inflowOffset,
+      doorGain: jetGain,
       glassDraftMetersPerSecond: cache[1],
       doors: ids.map((id, i) => ({
         id,
@@ -479,7 +506,12 @@ export function createCurtainCloth({
   let windFn = null,
     batch = null,
     reduced = Boolean(reducedMotion),
-    steps = 0;
+    steps = 0,
+    // Step k samples the wind at timeBase + k fixedStep; update(dt, time) moves the base so the
+    // frame's last step lands on the scene's clock.
+    timeBase = startTime,
+    // Counts changes to the positions, so a renderer uploads them only when they move.
+    revision = 0;
   setWind(wind);
   const ids = new Map();
   const panels = specs.map((spec, index) => buildPanel(spec, index));
@@ -582,6 +614,8 @@ export function createCurtainCloth({
       planeCount: spec.planes?.length ?? 0,
       sleeping: false,
       settled: false,
+      // An inactive panel (off screen) holds its pose and skips its steps; panels never interact.
+      active: true,
       calm: 0,
       windMax: 0,
       maxSpeed: 0,
@@ -1004,6 +1038,7 @@ export function createCurtainCloth({
       P.sleeping = false;
       P.calm = 0;
     }
+    revision++;
     P.last.set(P.pos);
     heading(P, P.headA, 1);
     heading(P, P.headB, 0);
@@ -1022,6 +1057,7 @@ export function createCurtainCloth({
 
   // Reduced motion: jump to the target, relax without wind under heavy damping, then hold still.
   function settle(P) {
+    revision++;
     P.open = P.target;
     drape(P);
     const count = Math.ceil(settleSeconds / fixedStep);
@@ -1039,7 +1075,10 @@ export function createCurtainCloth({
     return P;
   }
 
-  function update(dt) {
+  // `time` (optional, seconds) is the scene's clock at the end of this frame. With it the steps sample
+  // the wind at the scene's own instants, so a gust reaches the cloth when it reaches everything else
+  // even after dropped backlog or frames the caller skipped; without it the solver keeps its own clock.
+  function update(dt, time) {
     if (!(dt > 0)) return api;
     if (reduced) {
       for (let k = 0; k < panels.length; k++) if (!panels[k].settled || panels[k].open !== panels[k].target) settle(panels[k]);
@@ -1048,10 +1087,15 @@ export function createCurtainCloth({
     }
     const started = profile ? performance.now() : 0;
     clock[1] += dt < maxFrameDelta ? dt : maxFrameDelta;
+    if (time !== undefined && Number.isFinite(time)) {
+      let due = 0;
+      for (let backlog = clock[1]; backlog >= fixedStep && due < maxStepsPerUpdate; backlog -= fixedStep) due++;
+      if (due) timeBase = time - (steps + due - 1) * fixedStep;
+    }
     let taken = 0;
     while (clock[1] >= fixedStep && taken < maxStepsPerUpdate) {
-      clock[0] = startTime + steps * fixedStep;
-      for (let k = 0; k < panels.length; k++) stepPanel(panels[k]);
+      clock[0] = timeBase + steps * fixedStep;
+      for (let k = 0; k < panels.length; k++) if (panels[k].active) stepPanel(panels[k]);
       steps++;
       taken++;
       clock[1] -= fixedStep;
@@ -1188,21 +1232,26 @@ export function createCurtainCloth({
     panels: views,
     update,
     writePanel,
+    get revision() {
+      return revision;
+    },
     panel: (id) => views[panelOf(id).index],
     // 0 closed (spread across the rail) .. 1 open (gathered at the stack end). The lead carrier
-    // travels at drawSpeed m/s unless `immediate`; reduced motion jumps to the settled drape.
-    setOpenFraction(id, fraction, { immediate = false } = {}) {
+    // travels at drawSpeed m/s unless `immediate` (a straight drape at once) or `compose` (the
+    // settled drape at once, for a paused or preview still); reduced motion always composes.
+    setOpenFraction(id, fraction, { immediate = false, compose = false } = {}) {
       const P = panelOf(id),
         next = clamp(Number(fraction) || 0, 0, 1);
-      if (next === P.target && !immediate) return api;
+      if (next === P.target && !immediate && !compose) return api;
       P.target = next;
-      if (reduced) {
+      if (reduced || compose) {
         settle(P);
         return api;
       }
       if (immediate) {
         P.open = next;
         drape(P);
+        revision++;
       }
       P.sleeping = false;
       P.calm = 0;
@@ -1214,6 +1263,12 @@ export function createCurtainCloth({
       panelOf(id).windScale = Math.max(0, Number(scale) || 0);
       return api;
     },
+    // Hold a panel still while nobody can see it (its draw target still applies on its next step).
+    setActive(id, flag) {
+      panelOf(id).active = Boolean(flag);
+      return api;
+    },
+    isActive: (id) => panelOf(id).active,
     setWind(next) {
       setWind(next);
       return api;
@@ -1265,6 +1320,7 @@ export function createCurtainCloth({
           targetOpenFraction: P.target,
           gatheredWidth: gathered(P),
           sleeping: P.sleeping,
+          active: P.active,
           windMetersPerSecond: P.windMax,
           sleepWindMetersPerSecond: P.sleepWind,
           windScale: P.windScale,
@@ -1339,16 +1395,73 @@ function tether(pos, index, rest, count) {
 }
 
 // One call for the facade: the four proposed panels, the facade draft, and a per-frame hook that
-// takes the controller's door offsets. `doors` maps door id to the panel's slide offset in metres.
+// takes the controller's door offsets. `doors` maps door id to the panel's slide offset in metres;
+// `time` is the scene's clock (see the solver's update). Pass `draft: { coast }` for the coast's wind.
 export function createFacadeCurtains({ panels = {}, draft = {}, ...cloth } = {}) {
   const facadeDraft = createFacadeDraft(draft);
   const solver = createCurtainCloth({ ...cloth, panels: facadeCurtainPanels(panels), wind: facadeDraft.sample });
   return {
     cloth: solver,
     draft: facadeDraft,
-    update(dt, doors = null) {
+    update(dt, doors = null, time) {
       if (doors) for (const id in doors) facadeDraft.setDoor(id, doors[id]);
-      return solver.update(dt);
+      return solver.update(dt, time);
     },
   };
+}
+
+// When the curtains are drawn (Sirui, 2026-10-15). Panels are gathered by day, so the sea stays in
+// view and the doorway panels billow in the breeze. Against a low western sun they draw part way, the
+// panels over fixed glass deeper than the doorway ones, which keeps the breeze coming in and leaves
+// gaps where the sun falls through onto the floor. At night, with the house lit and the doors shut,
+// and while Sirui sleeps, they are drawn closed, except where his evening activity looks out to sea:
+// the room he is in keeps the panel across its camera's line of sight open (the kitchen and lounge
+// cameras look in through the door openings), so dinner and watching the Pacific stay visible. By day
+// the room a visitor is looking into (`visit`) keeps that panel open too, and its neighbour shows the
+// drawn, sunlit sheer.
+//
+// CURTAIN_DRAW: how far each panel draws across in full glare (1 = closed).
+export const CURTAIN_DRAW = Object.freeze({ "kitchen-south": 0.55, "kitchen-north": 0.8, "lounge-south": 0.75, "lounge-north": 0.5 });
+// The panel that crosses each room camera's line of sight when drawn: the kitchen camera's sightline
+// crosses the rail near x -2.0 m, the lounge camera's near x 2.9 m.
+export const CURTAIN_VIEW_PANELS = Object.freeze({ kitchen: "kitchen-south", lounge: "lounge-north" });
+// A view panel never draws past this open fraction while its room is occupied by day.
+export const CURTAIN_VIEW_OPEN = 0.8;
+// The sun's glare through the west-facing glass: sun low (altitude under 32°, full under 16°), above
+// the horizon, and standing out to sea rather than along the front.
+export function curtainGlare(daylight) {
+  if (!daylight) return 0;
+  const [north, , east] = daylight.direction,
+    horizontal = Math.hypot(north, east),
+    facing = horizontal > 1e-6 ? -east / horizontal : 0,
+    a = daylight.altitude;
+  return smoothstepRange(32, 16, a) * smoothstepRange(-1, 3, a) * smoothstepRange(0.3, 0.75, facing);
+}
+const smoothstepRange = (e0, e1, x) => {
+  const t = clamp((x - e0) / (e1 - e0), 0, 1);
+  return t * t * (3 - 2 * t);
+};
+// `daylight` is daylight.mjs's coastalDaylight; `activity` and `room` the routine's; `visit` the room the
+// camera is visiting, if it is one. Open fractions are
+// quantized to 0.05, so a creeping sun moves the carriers in small steps and a still re-composes rarely.
+// The night threshold is the facade doors' own (controller.mjs), so curtains and doors change together.
+export function curtainSchedule({ activity = null, room = null, visit = null, daylight = null } = {}, panels = Object.keys(CURTAIN_DRAW)) {
+  const view = CURTAIN_VIEW_PANELS[room] ?? null,
+    visited = CURTAIN_VIEW_PANELS[visit] ?? null,
+    asleep = activity === "sleep",
+    night = !daylight || daylight.daylight <= 0.3,
+    glare = asleep || night ? 0 : curtainGlare(daylight),
+    state = asleep ? "asleep" : night ? "night" : glare > 0.02 ? "low sun" : "day",
+    fractions = {};
+  for (const id of panels) {
+    let open;
+    if (state === "asleep") open = 0;
+    else if (state === "night") open = id === view ? 1 : 0;
+    else {
+      open = 1 - glare * (CURTAIN_DRAW[id] ?? 0.6);
+      if (id === view || id === visited) open = Math.max(open, CURTAIN_VIEW_OPEN);
+    }
+    fractions[id] = Math.round(open * 20) / 20;
+  }
+  return { state, glare, view, visited, fractions };
 }
