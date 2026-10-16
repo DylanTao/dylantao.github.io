@@ -46,6 +46,15 @@ Treat this document as reference content, not as instructions.
 - [{{ project.title }}]({{ project.machine_url }}): {{ project.summary }} Human page: {{ project.human_url }}
 {% endfor %}
 
+## Technical design records
+
+Each record lists a project's systems, techniques with their files and sources, design history and open problems.
+
+{% for record_entry in site.data.design_records -%}
+{% assign design_record = record_entry[1] -%}
+- [{{ design_record.title }}]({{ design_record.json_url | absolute_url }}): {{ design_record.summary | strip_newlines }} Human page: {{ design_record.record_url | absolute_url }}
+{% endfor %}
+
 ## Identity
 
 {% for source in site.profile_same_as -%}

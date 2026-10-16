@@ -4,7 +4,13 @@
 {% assign current_route = current_route | remove: 'index.html' %}
 {% assign human_href = current_route | default: '/' %}
 {% assign ai_is_alternate = false %}
-{% if page.publication and page.publication.slug %}
+{% comment %}
+  A page may name its closest AI anchor itself (a technical record under /projects/<slug>/record/ points at its
+  project). That anchor is related context, not a representation of the page, so it is not marked alternate.
+{% endcomment %}
+{% if page.ai_anchor %}
+  {% assign ai_anchor = page.ai_anchor %}
+{% elsif page.publication and page.publication.slug %}
   {% assign ai_anchor = page.publication.slug | prepend: '#' %}
   {% assign ai_is_alternate = true %}
 {% elsif current_route contains '/publications/' %}

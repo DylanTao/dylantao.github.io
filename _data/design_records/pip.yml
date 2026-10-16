@@ -1,0 +1,813 @@
+# Technical record for duh and P, the site's two companions, rendered at /projects/p/record/ and served as
+# JSON at /assets/json/design-records/pip.json. The slug stays `pip`, matching the project file
+# (_projects/pip.md) and the AI catalog's stable key; the public route is /projects/p/.
+#
+# Schema version 1, shared by every file in _data/design_records/ and checked by test/test_design_records.py.
+# See the header of homepage-desk-scene.yml for the field list. Readiness, most to least ready: ready,
+# needs-measurement, needs-decision, needs-research, blocked. Append new moves to the end of history.
+
+schema_version: 1
+slug: pip
+title: duh & P, a technical record
+project:
+  title: duh & P, a Little Company
+  url: /projects/p/
+  source: _projects/pip.md
+record_url: /projects/p/record/
+json_url: /assets/json/design-records/pip.json
+repository: https://github.com/DylanTao/dylantao.github.io
+branch: main
+updated: "2026-10-15"
+summary: >-
+  How the site's two companions are built. duh is the soft black dot that lives on every human page: a stable center
+  with a deformable outline that you can pet, drag and throw. P is the little robot that came first; it keeps its motion
+  playground on the project page and its articulated model in the 3D home. Both are original browser characters that
+  move with authored motion, not a physics engine or a language model.
+scope: >-
+  Neither character uses a camera, a microphone, audio or a remote model, and neither is an assistant. Their remarks are
+  local strings. Pointer proximity is the only visitor signal, and listening is a visual pose. No visitor study has been
+  run, so nothing here claims that they improve engagement.
+credit: >-
+  Compiled on October 15, 2026 by Anthropic's Claude from the code, the companion notes, P's provenance file and the
+  October studio log, for Sirui Tao to review and extend.
+
+read_first:
+  - path: docs/duh-companion.md
+    why: duh's architecture, interaction contract, safe impacts, mobile behavior and budget.
+  - path: artwork/pip/PROVENANCE.md
+    why: P's model, motion, references and their boundaries.
+  - path: docs/homepage-desk-scene-brief.md
+    why: The P section covers its page journeys, encounters, remarks and handoff to the 3D home.
+  - path: docs/evidence/pip-performance-october.md
+    why: P's visitor performance in the room and the defects integration caught.
+  - path: docs/evidence/pip-expressive/README.md
+    why: Expressions, page encounters and the responsive checks behind them.
+  - path: _projects/pip.md
+    why: The public page, its playgrounds and the visible credits.
+
+constraints:
+  - duh is the only default companion on human pages, in both homepage modes. P stays on its project page, and one owner moves P between the page, the room and the playground.
+  - AI routes stay undecorated and motion-free.
+  - No camera, microphone, audio, remote model calls or proprietary character assets. Remarks are local, authored strings.
+  - Real text, links, selection and page order stay intact. Only the play corner's decorative words become loose copies, and scrolling, selecting, pausing or resetting restores everything at once. Nothing persists across a refresh.
+  - Reading clearance protects prose, figures, links, controls, canvases and anything marked `data-duh-protect`.
+  - Reduced motion and Pause motion keep the shapes and expressions, with no pursuit, bounce, shake or scattered pieces.
+  - A relocation needs a visible cause, such as a jump; never a half-transparent slide.
+  - Hidden pages stop drawing, and the idle scheduler samples at one hertz.
+  - Keep P's two antennae, unequal convex lenses, white tapered shell, orange dot and detached fins recognizable, and keep the Reachy Mini, dance library and EVE credits visible.
+
+tests:
+  - path: test/duh-motion.test.mjs
+    covers: Interrupted drags, throws, contacts, retreat and recall, and viewport changes.
+    command: node --test test/duh-motion.test.mjs test/duh-body.test.mjs
+  - path: test/companion.test.mjs
+    covers: P's travel, gestures, pointer following, perches and seeded curiosity.
+    command: node --test test/companion.test.mjs
+  - path: test/pip-performance.test.mjs
+    covers: P's room encounters, flights and their timing under slow rendering.
+    command: node --test test/pip-performance.test.mjs test/pip-attention.test.mjs test/pip-world-ownership.test.mjs
+  - path: test/visual/duh.spec.js
+    covers: duh preserves content, links and selection; forms, four themes and recovery on the character.
+    command: npm.cmd run test:visual:scene
+  - path: test/visual/companion.spec.js
+    covers: P's project journeys, ownership, graphics recovery, reduced motion and credits.
+    command: npm.cmd run test:visual:scene
+
+systems:
+  - id: duh-body
+    name: duh's body
+    summary: >-
+      duh is a stable center collider wrapped in a deformable outline. The physics, the silhouette, the mood and the
+      shape repertoire are separate, so each can change without breaking the others.
+    techniques:
+      - id: duh-collider
+        name: A center collider with explicit gesture states
+        status: shipped
+        since: "2026-10-08"
+        what: duh's center moves on fixed 1/120 s steps with a velocity ceiling and damped wall contacts, and its gestures run through six named states.
+        how: >-
+          `duh-motion.mjs` integrates the center at fixed 1/120 s steps, at most six from one 50 ms input frame, under a
+          1,600 px/s ceiling, with damped contacts against the viewport walls. Contacts with text lines are swept, a moving
+          circle against rectangles, so a fast throw cannot skip a thin paragraph, and a surface the body already overlaps
+          at release is ignored. Throw velocity comes from recent timestamped release samples, and a stationary hold
+          discards old velocity. The states are REST, PLAY, HELD, AIRBORNE, TIDY and RETREAT. There is no queued animation,
+          a new drag interrupts motion at once, and cancellation never becomes a throw. On phones the throw speed limit
+          scales down with the screen width.
+        files:
+          - path: assets/js/companion/duh-motion.mjs
+            role: Center physics, gesture states and swept contacts.
+          - path: docs/duh-companion.md
+            role: Architecture and interaction contract.
+        tests:
+          - test/duh-motion.test.mjs
+        sources: []
+        limits:
+          - A bounded 2D illusion for a reading page, not a layout physics engine.
+        next: []
+      - id: duh-shell
+        name: An inertial shell around the center
+        status: shipped
+        since: "2026-10-08"
+        what: A bounded secondary shell adds gravity sag, grip lag, direction-aware stretch and damped shaking without moving the collider.
+        how: >-
+          `duh-body.mjs` drives the shell from the grip's acceleration, with substeps that bound even a delayed input frame.
+          Gravity pools the base on a surface, and a held shell hangs below the grip. The contour stays area-normalized,
+          with bounded radial dents. Position-based dynamics is background reading for controlled deformation here; the
+          shell does not implement that solver.
+        files:
+          - path: assets/js/companion/duh-body.mjs
+            role: The inertial shell.
+        tests:
+          - test/duh-body.test.mjs
+        sources: [muller2007pbd]
+        limits:
+          - An art-directed approximation, not a material model.
+        next: []
+      - id: duh-contour
+        name: Shapes, eyes and theme-keyed shading
+        status: shipped
+        since: "2026-10-08"
+        what: One 96 × 96 canvas draws duh from twenty fixed-angle radii that morph between a dot, an apple, a peach, a watermelon, a rounded square and a triangle.
+        how: >-
+          `duh-portrait.mjs` joins twenty radii with quadratic midpoints that stay inside their control hull, at a
+          device-pixel ratio of at most 2, and morphs between shapes with an analytic damped radial spring that cannot drift
+          with the frame rate. Volume comes without per-pixel normals: a rim band away from the key light, a key highlight
+          that rides the deformed outline, and a core shadow toward the contact, all keyed to the four time-of-day themes.
+          Fruit stipple and rind stripes are static, not animated noise. The eyes lead an excursion, widen in flight, ease
+          into giggles and close for sleep, and the contact shadow uses the deformed outline.
+        files:
+          - path: assets/js/companion/duh-portrait.mjs
+            role: Contour, shapes, eyes and shading.
+          - path: _sass/_duh.scss
+            role: Theme tokens, the character button and the play corner.
+        tests:
+          - test/visual/duh.spec.js
+        sources: []
+        limits:
+          - At 96 pixels each fruit has very few marks to stay distinct, such as the peach's seam and blush or the watermelon's rind.
+        next: []
+      - id: duh-softbody
+        name: A soft-body preview
+        status: retired
+        since: "2026-10-13"
+        what: An XPBD ring with stretch, bending, area and shape-matching constraints, previewed behind `?duh=soft` next to the classic body.
+        how: >-
+          The ring was attached the way duh is actually held: a grip arc while carried, static friction at the base on a
+          surface, and a centroid anchor only in flight. That gave about 8 px of swing under a 15,000 px/s² shake, 4.5 px of
+          lean from a push, a resting pool 1.1 times as wide as tall, and under 0.5 % volume error. Activity counted
+          velocity, not deformation, so a pooled shape stopped keeping the page drawing at 60 fps.
+        files: []
+        sources: [macklin2016xpbd, muller2005shape]
+        limits: []
+        next: []
+        retired:
+          date: "2026-10-13"
+          commit: "0102b70c3"
+          reason: Side by side with the inertial shell, its motion read as jittery and its physics as broken. Its theme-keyed rim, key and core shading moved to the classic body, and the preview's code and tests were removed.
+
+  - id: duh-page
+    name: duh on the page
+    summary: >-
+      duh shares the reading surface with the words. It perches only in clear space, relocates with a visible jump, and
+      any contact with the page is a reversible illusion that never touches the text itself.
+    techniques:
+      - id: duh-clearance
+        name: Perches in clear space
+        status: shipped
+        since: "2026-10-08"
+        what: duh rests and travels only where it covers no reading text, link, control, canvas or protected figure.
+        how: >-
+          `duh-page.mjs` uses P's `clearAt` helper and `chooseDuhPerch` over cached obstacle rectangles: prose, headings,
+          definition lists, captions, project fact strips, links, controls, canvases and anything marked
+          `data-duh-protect`. Style and class changes on the main column or its ancestors invalidate the cache even when the
+          content keeps its size, and a rescan keeps the current position and any still-clear path. P's moving playground
+          character is not treated as a wall. `duh-viewport.mjs` finds short gaps that the inherited row grid misses between
+          a phone's reading block and the coastal footer.
+        files:
+          - path: assets/js/companion/duh-page.mjs
+            role: Scheduler, pointer capture, clearance, invitations and cleanup.
+          - path: assets/js/companion/duh-viewport.mjs
+            role: Narrow-gap perches on phones.
+          - path: assets/js/companion/behaviour.mjs
+            role: The shared `clearAt` and `choosePerch` helpers.
+        tests:
+          - test/duh-motion.test.mjs
+          - test/visual/duh.spec.js
+        sources: [wai-aria-hidden]
+        limits:
+          - Layout is measured on invalidation rather than every frame, but each rescan still costs main-thread time on a slow phone.
+        next:
+          - move: Profile rescans per invalidation type on a phone-class CPU before optimizing them.
+            readiness: needs-measurement
+      - id: duh-recovery-jump
+        name: Relocation as a jump
+        status: shipped
+        since: "2026-10-13"
+        what: When duh has to move off text, it jumps there with anticipation instead of fading and sliding.
+        how: >-
+          A necessary relocation, such as after landing beside text, is a jump: a 0.1 s wind-up, an arc 28 to 90 px high
+          sized to the distance, over whatever is in the way, and a landing squash at the perch already found clear. Travel
+          duration follows distance, and a minimum-jerk curve gives anticipation, acceleration and a soft landing. The
+          separate contact shadow grows and fades with height over its landing plane. Anticipation and arcs are two of the
+          principles Lasseter carried from hand-drawn animation into computer animation.
+        files:
+          - path: assets/js/companion/duh-page.mjs
+            role: Recovery jumps, hops and rolls.
+        tests:
+          - test/visual/duh.spec.js
+        sources: [lasseter1987principles, flash1985minjerk]
+        limits: []
+        next: []
+      - id: duh-safe-impacts
+        name: Reversible contact with the page
+        status: shipped
+        since: "2026-10-08"
+        what: A strong throw can nudge nearby lines and rock the play corner's block; everything settles back and duh makes a small repair.
+        how: >-
+          Swept contacts use at most 160 cached surfaces, including the ink-line bounds of short paragraphs, headings and
+          list items. A strong hit moves text by at most 4 px and 0.35°, an off-center hit on a heavy object by at most 3 px
+          with up to 1.8° of rock, and at most three nodes react, with a damped oscillation and a small residue for duh to
+          repair. The motion is an additive compositor transform: text is never split or reparented, and selection clears
+          the effect immediately. A pointer press on a link freezes its visual position until the click is dispatched, with
+          the animation's hold time pinned synchronously, so the native action keeps its target. The play corner's four
+          decorative words get pointer-transparent copies that fly and come home.
+        files:
+          - path: assets/js/companion/duh-page.mjs
+            role: Impact effects, repair gestures and the play corner.
+          - path: _projects/pip.md
+            role: The play corner's block and loose words.
+        tests:
+          - test/visual/duh.spec.js
+        sources: []
+        limits:
+          - Long reading columns stay still on purpose; only short blocks react.
+        next: []
+      - id: duh-behaviour
+        name: Pets, throws, rests and small adventures
+        status: shipped
+        since: "2026-10-08"
+        what: A released click pets duh, rough throws earn a short breather, and in empty space it sometimes hops, rolls or turns into fruit.
+        how: >-
+          Three close clicks give one happy squish, and clicks never count as roughness. Three intentional releases above
+          850 px/s within 12 seconds arm an eight-second breather after duh settles; collisions never count. A retreat is a
+          small tucked pose at the departure point, and tapping it brings duh back early. An approach needs a stationary fine
+          pointer in empty nearby space, a clear path and a 12-second cooldown, and the anticipated hop stops 43 px from the
+          pointer. Spontaneous hops, rolls and shape changes wait while a visitor types, selects or plays.
+        files:
+          - path: assets/js/companion/duh-page.mjs
+            role: Interaction rules and spontaneous actions.
+          - path: assets/js/companion/duh-motion.mjs
+            role: Roughness counting and retreat.
+        tests:
+          - test/duh-motion.test.mjs
+        sources: []
+        limits:
+          - The thresholds are authored. Whether they feel right over a long reading session is untested.
+        next: []
+
+  - id: access
+    name: Input, accessibility and stillness
+    summary: >-
+      Both companions are optional company on a reading page. They answer keyboard, mouse and touch, stay out of
+      scrolling and selection, and keep a composed still state when motion is reduced or paused.
+    techniques:
+      - id: duh-semantic-button
+        name: duh as a semantic button
+        status: shipped
+        since: "2026-10-10"
+        what: The character itself is the control. Tap or Enter pets or wakes it, keys move and toss it, and Alt+Shift+D recalls it from anywhere.
+        how: >-
+          A stationary 700 ms hold pauses, Shift-click or R resets in place, P pauses, H greets, T tosses and the arrows
+          move duh. Its native tooltip, accessible description and the project page explain the actions, and its label
+          stays in sync when pausing, waking or resetting. An earlier fixed corner panel and separate Pause and Reset buttons
+          were removed, so pause and reset live on the character. A graphics failure keeps the button and a simple dot.
+          Single-pointer alternatives to dragging follow WCAG's guidance on dragging movements.
+        files:
+          - path: assets/js/companion/duh-page.mjs
+            role: Keyboard, pointer and semantic controls.
+        tests:
+          - test/visual/duh.spec.js
+        sources: [wcag-dragging]
+        limits: []
+        next: []
+      - id: touch-and-viewport
+        name: Touch without stealing the page
+        status: shipped
+        since: "2026-10-09"
+        what: Only the 56-pixel character takes over touch; the rest of the page scrolls and selects as usual, even while browser bars resize the viewport.
+        how: >-
+          Only the character button uses `touch-action: none` and disables callouts and selection. Pointer capture survives
+          viewport updates, coalesced samples keep the hand's motion, duplicate samples are ignored, and the release point
+          completes the velocity estimate. Coordinates use the layout viewport; VisualViewport offsets, visible size and
+          safe-area insets define the usable bounds, so a browser-bar resize updates the bounds without canceling the
+          gesture. Cancellation, a second pointer, blur or leaving the page clears the gesture without a throw. Double-tap
+          followed by a tap on clear space moves duh without dragging, and never consumes a link's native action.
+        files:
+          - path: assets/js/companion/duh-page.mjs
+            role: Pointer capture and viewport handling.
+          - path: assets/js/companion/duh-motion.mjs
+            role: Viewport constraints during a gesture.
+        tests:
+          - test/duh-motion.test.mjs
+        sources: [w3c-pointer-events, mdn-visualviewport]
+        limits:
+          - WebKit's test driver supplies taps and pointer capture but no native touch drag, so a physical iPhone remains a separate check.
+        next:
+          - move: A recorded drag, throw and double-tap-move pass on a physical iPhone.
+            readiness: ready
+      - id: reduced-motion
+        name: Stillness on request
+        status: shipped
+        since: "2026-09-13"
+        what: Under reduced motion or the site's Pause motion, both companions keep their shapes and expressions but stop pursuing, bouncing and shaking.
+        how: >-
+          duh switches shapes immediately and holds static expressions, with no pursuit, bounce, shake, scattered pieces or
+          animated cleanup, and paused motion accumulates no physics. P composes a still greeting pose and its brief rests end
+          automatically. Pause motion in the theme panel makes the reduced-motion media query match for every listener, so
+          both characters still through the same path as the system preference. Hidden pages stop drawing, and frame
+          intervals are capped rather than replaying background-tab time.
+        files:
+          - path: assets/js/companion/duh-page.mjs
+            role: duh's reduced-motion and pause handling.
+          - path: assets/js/companion/studio.mjs
+            role: The playground's composed poses.
+          - path: assets/js/theme.js
+            role: Pause motion, laid over the reduced-motion query.
+        tests:
+          - test/companion.test.mjs
+          - test/pip-studio-scheduler.test.mjs
+        sources: [mq5-reduced-motion, wcag-animation-interactions]
+        limits: []
+        next: []
+
+  - id: p-model
+    name: P's model and portrait
+    summary: >-
+      P exists in three renderings that share one motion controller: an articulated Blender model in the 3D home, a small
+      analytic WebGL portrait on reading pages, and an enlarged playground on its project page.
+    techniques:
+      - id: p-blender-model
+        name: An articulated Blender model
+        status: shipped
+        since: "2026-09-14"
+        what: A rounded ceramic head, a tapered shell, two convex lenses, two antennae and detached arms, each on its own pivot, exported as one GLB.
+        how: >-
+          `bin/build_pip.py` authors P in Blender 4.5.9 LTS through its background Python API, with a studio camera and
+          lights, and exports named head, antenna, eye and arm pivots to `assets/models/pip/pip.glb` (848,688 bytes, 27
+          meshes). The browser poses those pivots at runtime; there is no skeletal clip or physics. The optical catchlights
+          follow the pupil positions, matching the portrait. A transparent Cycles render becomes the poster and the fallback
+          when graphics fail. The design draws on Reachy Mini's expressive head and unequal lens eyes and on EVE's floating
+          tapered body; the geometry is original.
+        files:
+          - path: bin/build_pip.py
+            role: Reproducible authoring, GLB export and the Cycles poster.
+          - path: artwork/pip/PROVENANCE.md
+            role: Model provenance and references.
+          - path: assets/js/home-scene/companion.mjs
+            role: Loads and poses the model in the 3D home.
+        tests:
+          - test/pip-clearance.test.mjs
+        sources: [reachy-mini, pixar-walle, blender]
+        limits:
+          - Blender was used through its Python API; no hand modeling in the interface is claimed.
+        next: []
+      - id: p-portrait
+        name: An analytic WebGL portrait
+        status: shipped
+        since: "2026-09-13"
+        what: Reading pages draw P with analytic surfaces in a small WebGL canvas, so the default page never loads Three.js, the GLB or the house.
+        how: >-
+          `portrait.mjs` shapes a continuous pear-shaped shell, a recessed seam, two hinged antennae with soft tips and
+          optical lenses with reflections, lit by broad softboxes so curved ceramic and glass read at icon size, with
+          ambient occlusion and a ground shadow. Morning, noon, afternoon and evening change the key light, reflections,
+          eye color and shadow. A lost graphics context leaves the still poster.
+        files:
+          - path: assets/js/companion/portrait.mjs
+            role: The analytic portrait.
+          - path: assets/js/companion/bridge.mjs
+            role: Theme lights shared by the page and the room.
+        tests:
+          - test/visual/companion.spec.js
+        sources: []
+        limits:
+          - The page and room share identity and motion, but their lighting pipelines differ.
+        next: []
+      - id: p-playground
+        name: A motion playground on the project page
+        status: shipped
+        since: "2026-09-14"
+        what: The project page gives P a larger stage with gesture buttons, page encounters to invite and a nap, with its credits in the reading flow.
+        how: >-
+          `studio.mjs` runs the enlarged playground: Hello, Curious, Got it and Oops previews, a nap that ends by itself, and
+          an invitation to try four page encounters (fly around, squeeze past, open a portal, a little bump). The
+          controllers are hidden without JavaScript. A visible but unowned playground sleeps until it owns the shared
+          companion, and wakes once on ownership, visibility or a back/forward return, without aging the motor.
+        files:
+          - path: assets/js/companion/studio.mjs
+            role: The playground controller.
+          - path: _projects/pip.md
+            role: The playground markup and credits.
+        tests:
+          - test/pip-studio-scheduler.test.mjs
+          - test/visual/companion.spec.js
+        sources: []
+        limits: []
+        next: []
+
+  - id: p-motion
+    name: P's motion and attention
+    summary: >-
+      One pose controller drives every rendering of P. Gaze leads, the head follows, the body takes its time and the
+      antennae settle last; in the room, a small director stages a visitor encounter.
+    techniques:
+      - id: p-pose-controller
+        name: One pose controller with minimum-jerk timing
+        status: shipped
+        since: "2026-09-14"
+        what: Original gestures blend with pointer attention through standard minimum-jerk transitions and damped antenna springs.
+        how: >-
+          `motion.mjs` owns the hello, curious, nod, peek, repair and sleepy poses, and later listen, stretch and delight.
+          Each transition follows the standard zero-velocity, zero-acceleration quintic, the minimum-jerk trajectory of
+          Flash and Hogan, and an interrupted gesture starts from its current pose. Eyes and neck follow an exact cascaded
+          low-pass response in closed form, so the eyes arrive first at any frame rate; filled pupils widen, squint and wink
+          independently, and fins wave, startle and tuck in. Choreography follows the real frame interval down to 4 fps,
+          with substeps that keep the antenna springs stable. Reachy Mini's movement API informed the separation of head,
+          antennae and body targets; no SDK or recorded motion is bundled.
+        files:
+          - path: assets/js/companion/motion.mjs
+            role: Pose vocabulary, gaze blending and springs.
+          - path: assets/js/companion/behaviour.mjs
+            role: Shared springs, perches and authored remarks.
+        tests:
+          - test/companion.test.mjs
+        sources: [flash1985minjerk, reachy-sdk-movement, reachy-dances]
+        limits:
+          - Authored animation, not robot inverse kinematics or flight physics.
+        next: []
+      - id: p-performance
+        name: A visitor encounter in the room
+        status: shipped
+        since: "2026-10-02"
+        what: In the 3D home, P notices a nearby pointer, greets once, listens, then returns to Sirui's activity or the record.
+        how: >-
+          `performance.mjs` directs the encounter. A nearby pointer triggers one greeting; staying nearby cannot repeat it,
+          and a new encounter needs an absence and an 18-second cooldown. Eyes lead the neck, the shell follows later and the
+          antennae settle on their own, after the habituation and layered gaze in Pan and colleagues' robot gaze work.
+          `attention.mjs` resolves targets in P's own optical frame, so orbiting the room never makes it look at the wrong
+          side of an object, and accepts a genuine touch tap as an invitation while rejecting pans, cancellations and
+          multiple fingers. Stillness ends an encounter but keeps its cooldown, so resuming does not wave again.
+        files:
+          - path: assets/js/companion/performance.mjs
+            role: Encounter director and flight timing.
+          - path: assets/js/companion/attention.mjs
+            role: Optical axes and touch invitations.
+          - path: docs/evidence/pip-performance-october.md
+            role: Evidence and corrected defects.
+        tests:
+          - test/pip-performance.test.mjs
+          - test/pip-attention.test.mjs
+          - test/pip-departure.test.mjs
+        sources: [pan2020gaze]
+        limits:
+          - Pointer proximity stands in for a visitor; listening is a pose, and P cannot hear or understand anyone.
+        next: []
+
+  - id: p-travel
+    name: P on the page and in the room
+    summary: >-
+      On reading pages P plans routes around the actual rendered rectangles; in the room it flies its own measured
+      corridors between safe perches. One owner decides where P lives at any moment.
+    techniques:
+      - id: p-page-travel
+        name: Routes around rendered text
+        status: shipped
+        since: "2026-09-14"
+        what: P flies around prose, figures, links and controls, squeezes through gaps that fit, and opens a pair of portals when a crossing is blocked.
+        how: >-
+          `travel.mjs` builds a visibility graph over the expanded corners of live obstacle rectangles, capped to the
+          viewport, and rounds the path only where the whole curve has clearance. One arc-length clock carries momentum
+          through bends instead of restarting the easing at every corner, and P looks toward its route during a short
+          departure pause. A squeeze shrinks in place and folds the flippers before a gap that fits the smaller footprint;
+          a blocked crossing uses two portals at clear endpoints, and P moves only while invisible. Scrolling, resizing,
+          pause, reduced motion, hiding and navigation cancel travel and remove the portals.
+        files:
+          - path: assets/js/companion/travel.mjs
+            role: Visibility graph, rounded paths, squeezes and portals.
+          - path: assets/js/companion/page.mjs
+            role: P's page controller, journeys, bumps and remarks.
+        tests:
+          - test/companion.test.mjs
+        sources: []
+        limits:
+          - Bounded page-space navigation; obstacles are rendered rectangles, never rewritten text.
+        next: []
+      - id: p-bumps
+        name: Rare bumps with a repair
+        status: shipped
+        since: "2026-09-14"
+        what: Most encounters are avoidance. A rare nudge to a card or heading has a visible approach, a small reversible wobble and a repair gesture.
+        how: >-
+          After an initial 55 to 105 seconds, automatic bump attempts come every 85 to 150 seconds with a 30 % chance, and
+          proximity or clearance can still suppress them. P never nudges a hovered or focused element, and pause, reduced
+          motion, hiding or navigation cancel the transform. Ordinary remarks wait about 45 to 80 seconds between attempts
+          and disappear after 3.5 seconds.
+        files:
+          - path: assets/js/companion/page.mjs
+            role: Bumps, repairs and remark timing.
+          - path: assets/js/companion/behaviour.mjs
+            role: Route-aware authored copy.
+        tests:
+          - test/companion.test.mjs
+          - test/visual/companion.spec.js
+        sources: []
+        limits: []
+        next: []
+      - id: p-ownership
+        name: One owner across page, room and playground
+        status: shipped
+        since: "2026-09-13"
+        what: Exactly one renderer owns P at a time, and handing it over neither duplicates its mood nor fast-forwards a flight.
+        how: >-
+          `bridge.mjs` holds the single companion state that moves between the reading surface, the 3D room and the
+          playground. When the room loses ownership, its director is interrupted without touching the motor the page now
+          drives; regaining it composes a quiet task behind the arrival fade. Active time, route progress and cooldown stay
+          fixed while the page owns P. Since October 8 ordinary pages mount duh, so P's room adapter stays dormant outside
+          its tests and the project page.
+        files:
+          - path: assets/js/companion/bridge.mjs
+            role: Shared state and ownership.
+          - path: assets/js/home-scene/companion.mjs
+            role: The room adapter and director handoff.
+        tests:
+          - test/pip-world-ownership.test.mjs
+          - test/pip-studio-scheduler.test.mjs
+        sources: []
+        limits: []
+        next: []
+      - id: p-room-flight
+        name: Flights along measured air corridors
+        status: shipped
+        since: "2026-10-02"
+        what: In the room P rises before it moves, cruises 1.65 m above its route, rounds corners inside a 12 cm envelope and settles at locally fitted perches.
+        how: >-
+          `clearance.mjs` gives P its own corridor around shelf contents and the coat by the stair, measured against the
+          shell's 26 cm reach below its origin; the human circulation points stay untouched. `performance.mjs` times each
+          flight with a minimum-jerk distance curve, banks within 0.16 rad, keeps peak speed under 1.6 m/s and finishes
+          with under a centimetre of settling. Room changes queue P's latest destination until it has physically arrived,
+          because starting a new route mid-flight reset the floor and could jump P 2.6 m.
+        files:
+          - path: assets/js/companion/clearance.mjs
+            role: Measured air corridors and perches.
+          - path: assets/js/companion/performance.mjs
+            role: Flight timing, banking and settling.
+          - path: assets/js/home-scene/companion.mjs
+            role: Destination queue and altitude from active flight age.
+        tests:
+          - test/pip-clearance.test.mjs
+          - test/pip-destination-queue.test.mjs
+        sources: [flash1985minjerk]
+        limits:
+          - A measured route profile, not a general collision or flight solver; new furniture needs new measurements.
+        next: []
+
+history:
+  - date: "2026-09-13"
+    title: A companion beside the album
+    system: p-model
+    frame: I asked for a playful companion that moves with delayed, damped motion and sometimes acts on its own.
+    dimensions: [silhouette, gaze before body, how often it acts on its own, clearance from reading]
+    move: A white hovering robot with a rectangular visor, drawn by a small analytic WebGL portrait on the page and as articulated geometry in the room, with one owner moving it between them, short remarks and card nudges that restore exactly.
+    backtalk: In review the rectangular visor and small round body were not enough. I asked for the physical charm of Reachy Mini and the floating ease of EVE.
+    reframe: Separate the head, antennae and body, and build a real articulated model.
+    commit: "a40e8b5e9"
+  - date: "2026-09-14"
+    title: Reachy Mini's head, EVE's float
+    system: p-model
+    frame: P needed a coherent silhouette and a few legible gestures before more behavior.
+    dimensions: [lens shape, antenna length and stiffness, body taper, gesture timing]
+    move: Two unequal convex lenses, independently posed antennae, a tapered ceramic shell and detached arms, authored in Blender and mirrored by the portrait, with minimum-jerk gestures and a project playground with visible credits.
+    backtalk: The separate lenses and tapered shell helped, but the hollow eye rings still felt cold and the antennae too wiry.
+    reframe: Softer filled pupils, shorter flexible antennae and shaped flippers, on a larger stage where small differences are easier to judge.
+    commit: "b1b8a3a54"
+    sources: [reachy-mini, pixar-walle]
+  - date: "2026-09-14"
+    title: Expressions and page encounters
+    system: p-travel
+    frame: P had to share reading pages with the words without covering them or breaking them.
+    dimensions: [route around rectangles, squeeze footprint, portal endpoints, how often accidents happen]
+    move: Filled pupils that widen, squint and wink, and a planner that flies around live text rectangles, squeezes through gaps that fit and opens paired portals across blocked crossings, with rare bumps that have a visible approach and a repair.
+    backtalk: Browser review caught a narrow-screen invitation choosing a destination only a portal could reach; invited flights and squeezes now search nearby connected clear space first.
+    reframe: Most encounters should be avoidance, not accidents.
+    commit: "40877ee79"
+  - date: "2026-09-14"
+    title: Momentum through bends
+    system: p-motion
+    frame: Travel stopped and restarted at every corner of its route.
+    dimensions: [path continuity, departure anticipation, response rate per part, gesture vocabulary]
+    move: An arc-length path with collision-checked rounded corners carries one clock through bends, P looks toward its route before leaving, eyes, neck, fins, shell and antennae settle at different rates, and listen, stretch and delight join the vocabulary.
+    backtalk: At slower frame rates journeys ran late and gestures lost their expression (`4468fd08e`, `627d9d03b`), until scheduling followed real time and only spring integration was capped.
+    reframe: A character's timing belongs to the clock, not to the frame rate.
+    commit: "8ea3bb504"
+  - date: "2026-10-02"
+    title: Notice, greet, listen, return
+    system: p-motion
+    frame: In the room P played unrelated random gestures, so a visitor nearby never got a real encounter.
+    dimensions: [encounter order, habituation and cooldown, eye, neck and shell bandwidth, flight timing]
+    move: A director stages one encounter (notice, a single wave, a listening beat, a return to the task), and flights look before leaving, follow minimum-jerk timing, bank gently and round corridor corners.
+    backtalk: Integration caught two clock defects, a record lookup that ran before the desk existed and a hover shadow on room time while the world was frozen. A minimal rig reproduced a repeated greeting across a page excursion; three of four new regression tests failed against the old adapter and all pass after the fix.
+    reframe: Keep the visitor signal small and say so. Listening is a pose.
+    commit: "ded36a0f6"
+    sources: [pan2020gaze]
+  - date: "2026-10-02"
+    title: Air corridors around real shelves
+    system: p-travel
+    frame: P's room flights followed the human circulation path, which runs through shelf contents and past a coat by the stair.
+    dimensions: [cruise height, corridor clearance, perch positions, interrupted destinations]
+    move: "`clearance.mjs` gives P its own measured corridor at a 1.65 m cruise and four corrected perches, and room changes queue the latest destination until P physically arrives (`2b296f060`)."
+    backtalk: Starting a new room route mid-flight reset the floor and could jump P 2.6 m; the queue keeps the airborne center through pause, reduced motion and page ownership.
+    reframe: This is a measured route profile, not a flight solver; new furniture needs new measurements.
+    commit: "1aa2e2634"
+  - date: "2026-10-08"
+    title: From P to duh
+    system: duh-body
+    frame: I wanted something softer and less mechanical than the robot, a shape that takes a gentle pet, stretches into a throw and settles back into a corner.
+    dimensions: [silhouette, what moves and what stays stable, which pages get a companion]
+    move: duh, a charcoal dot with small readable eyes, became the default companion on every human page in both homepage modes. P kept its playground and its dormant room adapter.
+    backtalk: The change swapped the silhouette and kept the interest in attentive motion. The retained room robot could have become a second default character, so ordinary pages mount only duh, and the AI surface stays motion-free.
+    reframe: Keep a stable center with a small deformable outline, and keep mood, shape and gesture separate.
+    commit: "f9b1a5684"
+  - date: "2026-10-08"
+    title: Contact that leaves the page intact
+    system: duh-page
+    frame: A throw should feel like it lands in the page without moving a single word for real.
+    dimensions: [travel and rotation per hit, how many nodes react, link and selection safety]
+    move: A strong throw nudges at most three short blocks by up to 4 px and 0.35° as additive compositor transforms, and duh makes a small repair gesture as they settle.
+    backtalk: A press on a link during the effect could move the link before the click landed (`3b1d3b842`, `7b054b0d1`). The effect now freezes on pointer-down and pins its hold time synchronously, so the native click keeps its target.
+    reframe: Selection, scrolling and reset restore everything at once, and nothing persists.
+    commit: "484dd96c3"
+  - date: "2026-10-09"
+    title: Phones, fingers and browser bars
+    system: access
+    frame: On phones duh had to drag under a finger without stealing page scrolling, and survive browser bars resizing the viewport mid-gesture.
+    dimensions: [touch target, viewport coordinates, gesture cancellation, throw speed on small screens]
+    move: Only the 56-pixel character takes touch. Pointer capture survives viewport updates, VisualViewport offsets and safe-area insets set the bounds, and double-tap then tap moves duh without dragging.
+    backtalk: WebKit's test driver supplies taps and capture but no native touch drag, so emulation stops short of a real phone.
+    reframe: Scale the throw speed limit with phone width, and keep a physical-device pass on the list.
+    commit: "b23aed433"
+    sources: [w3c-pointer-events, mdn-visualviewport]
+  - date: "2026-10-12"
+    title: Hidden from screen readers is not hidden from the eye
+    system: duh-page
+    frame: On phones, duh settled on top of the homepage Research Focus diagram and wandered across it.
+    dimensions: [the companion's obstacle set, accessibility semantics against visual importance]
+    move: The diagram's stage carries `data-duh-protect`, which the layout scan treats as protected, and a phone test asserts duh never rests on the diagram or the Connect miniature.
+    backtalk: The canvas is `aria-hidden` on purpose, because a text readout narrates it, and duh had read `aria-hidden` as decorative. One attribute, two meanings.
+    reframe: Mark visual importance explicitly instead of inferring it from accessibility attributes.
+    commit: "78d899600"
+    sources: [wai-aria-hidden]
+  - date: "2026-10-13"
+    title: Soft duh, held by what holds it
+    system: duh-body
+    frame: I asked for a softer, simulated duh with studio-quality motion, and the body was an art-directed shell.
+    dimensions: [volume error, settling time, deformation under a held shake and a push, resting width to height, idle frame budget]
+    move: An XPBD ring with stretch, bending, area and shape-matching constraints, previewed behind `?duh=soft` beside the classic body.
+    backtalk: Under shaking it first stayed perfectly round, because a uniform force on a free body only translates it. Attaching it the way it is held produced the jelly, about 8 px of swing under a 15,000 px/s² shake with under 0.5 % volume error. A pooled shape had counted as moving and kept the page drawing at 60 fps at idle.
+    reframe: Compare the two in a matched recording and live; the choice decides the default.
+    commit: "01705a391"
+    sources: [macklin2016xpbd, muller2005shape]
+  - date: "2026-10-13"
+    title: The reset that was a ghost
+    system: duh-page
+    frame: I preferred the classic duh to the soft preview, which read as jittery, and saw a strange free reset of position at the end of a throw.
+    dimensions: [position continuity frame to frame, what moves duh after a landing and why, what to keep from the preview]
+    move: A frame-by-frame trace found no teleport but a recovery that faded duh and slid it to a clear perch, because the recovery hop always failed its path check. Recovery is now a jump with a wind-up, an arc and a landing squash, and the preview's shading moved to the classic body.
+    backtalk: The trace shows the jump in three frames, a wind-up, an apex and a landing on the clear line, and the duh and companion suites pass at desktop and phone sizes.
+    reframe: Watch for any relocation without a visible cause; a character's moves need one.
+    commit: "0102b70c3"
+    sources: [lasseter1987principles]
+  # Append new moves here, oldest first.
+
+open_problems:
+  - id: welcome-interruptions
+    title: Are the interruptions welcome?
+    system: duh-page
+    why_hard: >-
+      No visitor study has been run. Occasional hops, remarks and bumps may charm in a short visit and grate in a long
+      reading session, and the thresholds that decide how often they happen are authored guesses.
+    candidate_moves:
+      - A small session study with a reading task, comparing duh present, paused and absent, and counting interruptions noticed and dismissed.
+    sources: []
+    readiness: needs-research
+  - id: layout-rescans
+    title: Cheaper layout scans
+    system: duh-page
+    why_hard: >-
+      duh re-measures its reading obstacles and up to 160 cached contact surfaces whenever layout invalidates. Work that
+      stalls a two-core test runner also stalls a slow phone, which is why the October efficiency work starts with these
+      rescans.
+    candidate_moves:
+      - Profile rescans per invalidation type on a phone-class CPU.
+      - Rebuild only the rectangles inside changed subtrees instead of the whole cache.
+    sources: []
+    readiness: needs-measurement
+  - id: physical-iphone
+    title: A real touch drag on an iPhone
+    system: access
+    why_hard: >-
+      WebKit's test driver supplies native taps and pointer capture but no native touch drag, so drag, throw and
+      double-tap-move have only been checked in emulation and Chromium touch injection.
+    candidate_moves:
+      - A recorded manual pass on a physical iPhone, including a browser-bar resize mid-drag.
+    sources: []
+    readiness: ready
+  - id: soft-body-again
+    title: A soft body that does not read as broken
+    system: duh-body
+    why_hard: >-
+      The XPBD preview was numerically stable and still read as jittery next to the inertial shell. Any return has to
+      beat the shell in a matched recording, at an idle cost of nearly nothing.
+    candidate_moves:
+      - Use a soft solver only for one held moment, such as a squeeze, and the shell everywhere else.
+    sources: [macklin2016xpbd, muller2005shape]
+    readiness: needs-decision
+  - id: duh-in-the-home
+    title: duh inside the 3D home
+    system: p-travel
+    why_hard: >-
+      duh stays on the page in both homepage modes, and the room's companion slot holds P's dormant adapter. A 3D duh
+      needs a body model, contacts with the room and an ownership handoff like P's.
+    candidate_moves:
+      - Reuse P's ownership bridge and perches for a 3D duh, starting with one room.
+    sources: []
+    readiness: needs-decision
+  # Add new open problems here; move solved ones into their technique.
+
+sources:
+  - id: reachy-mini
+    label: Reachy Mini
+    citation: Pollen Robotics and Hugging Face. *Reachy Mini* documentation.
+    url: https://huggingface.co/docs/reachy_mini/index
+  - id: reachy-sdk-movement
+    label: Reachy Mini SDK, movement
+    citation: Pollen Robotics and Hugging Face. *Reachy Mini Python SDK*, movement API.
+    url: https://huggingface.co/docs/reachy_mini/SDK/python-sdk#movement
+  - id: reachy-dances
+    label: Reachy Mini Dances Library
+    citation: Pollen Robotics. *Reachy Mini Dances Library*. A reference for nods, tilts, glances and recovery; nothing is bundled.
+    url: https://github.com/pollen-robotics/reachy_mini_dances_library
+  - id: pixar-walle
+    label: Pixar, WALL·E
+    citation: Pixar Animation Studios. *WALL·E*, 2008, especially EVE. A visual and motion influence; no film images or models are used.
+    url: https://www.pixar.com/wall-e
+  - id: blender
+    label: Blender
+    citation: Blender Foundation. *Blender* 4.5 LTS, run through its background Python API.
+    url: https://www.blender.org/
+  - id: pan2020gaze
+    label: Pan et al. 2020
+    citation: Matthew K. X. J. Pan, Sungjoon Choi, James Kennedy, Kyna McIntosh, Daniel Campos Zamora, Günter Niemeyer, Joohyung Kim, Alexis Wieland and David Christensen. *Realistic and Interactive Robot Gaze*. IEEE/RSJ IROS 2020, Disney Research.
+    url: https://la.disneyresearch.com/wp-content/uploads/root.pdf
+  - id: flash1985minjerk
+    label: Flash and Hogan 1985
+    citation: "Tamar Flash and Neville Hogan. *The Coordination of Arm Movements: An Experimentally Confirmed Mathematical Model*. Journal of Neuroscience 5(7), 1985."
+    url: https://doi.org/10.1523/JNEUROSCI.05-07-01688.1985
+  - id: lasseter1987principles
+    label: Lasseter 1987
+    citation: John Lasseter. *Principles of Traditional Animation Applied to 3D Computer Animation*. SIGGRAPH 1987.
+    url: https://doi.org/10.1145/37402.37407
+  - id: macklin2016xpbd
+    label: Macklin, Müller and Chentanez 2016
+    citation: "Miles Macklin, Matthias Müller and Nuttapong Chentanez. *XPBD: Position-Based Simulation of Compliant Constrained Dynamics*. Motion in Games 2016."
+    url: https://matthias-research.github.io/pages/publications/XPBD.pdf
+  - id: muller2005shape
+    label: Müller et al. 2005
+    citation: Matthias Müller, Bruno Heidelberger, Matthias Teschner and Markus Gross. *Meshless Deformations Based on Shape Matching*. ACM Transactions on Graphics 24(3), SIGGRAPH 2005.
+    url: https://matthias-research.github.io/pages/publications/MeshlessDeformations_SIG05.pdf
+  - id: muller2007pbd
+    label: Müller et al. 2007
+    citation: Matthias Müller, Bruno Heidelberger, Marcus Hennix and John Ratcliff. *Position Based Dynamics*. VRIPHYS 2006; Journal of Visual Communication and Image Representation 18(2), 2007.
+    url: https://matthias-research.github.io/pages/publications/posBasedDyn.pdf
+  - id: w3c-pointer-events
+    label: W3C Pointer Events
+    citation: W3C. *Pointer Events*, Level 3, including the `touch-action` property.
+    url: https://www.w3.org/TR/pointerevents3/
+  - id: mdn-visualviewport
+    label: MDN, VisualViewport
+    citation: MDN Web Docs. *VisualViewport*.
+    url: https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport
+  - id: wcag-dragging
+    label: WCAG 2.2, dragging movements
+    citation: W3C. *Understanding Success Criterion 2.5.7, Dragging Movements*, WCAG 2.2.
+    url: https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html
+  - id: wai-aria-hidden
+    label: WAI-ARIA 1.2, aria-hidden
+    citation: W3C. *Accessible Rich Internet Applications (WAI-ARIA) 1.2*, the `aria-hidden` state.
+    url: https://www.w3.org/TR/wai-aria-1.2/#aria-hidden
+  - id: mq5-reduced-motion
+    label: Media Queries 5, reduced motion
+    citation: W3C. *Media Queries Level 5*, the `prefers-reduced-motion` feature.
+    url: https://www.w3.org/TR/mediaqueries-5/#prefers-reduced-motion
+  - id: wcag-animation-interactions
+    label: WCAG 2.2, animation from interactions
+    citation: W3C. *Understanding Success Criterion 2.3.3, Animation from Interactions*, WCAG 2.2.
+    url: https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html

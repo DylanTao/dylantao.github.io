@@ -163,6 +163,11 @@ The labels record the model context for each era; this is a comparison of design
   </div>
 </details>
 
+<aside class="project-story-note design-record-note" aria-label="Technical record">
+  <p class="project-case-kicker">Technical record</p>
+  <p>Every system in the home, from the Blender scripts to the light well, the onsen water and the animals, is written up with its files, the papers it borrows from, what it cannot do yet, and each design move so far. <a href="{{ '/projects/homepage-desk-scene/record/' | relative_url }}">Read the technical record</a>.</p>
+</aside>
+
 <aside class="site-experiment-reproduce" aria-labelledby="desk-reproduce-title">
   <p class="project-case-kicker">Reproduce the pattern</p>
   <h2 id="desk-reproduce-title">Make the two views share a memory first.</h2>

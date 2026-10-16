@@ -1,0 +1,422 @@
+{%- comment -%}
+  Renders one technical design record, _data/design_records/<slug>.yml, as a readable page.
+  The same record is served as JSON (assets/json/design-records/<slug>.json) and turned into a
+  next-move brief by bin/design_record_brief.py; test/test_design_records.py checks its schema.
+  Usage: {% include design_record.liquid slug=page.record %}
+{%- endcomment -%}
+{%- assign record = site.data.design_records[include.slug] -%}
+{%- assign blob_base = record.repository | append: '/blob/' | append: record.branch | append: '/' -%}
+{%- assign tree_base = record.repository | append: '/tree/' | append: record.branch | append: '/' -%}
+{%- assign technique_count = 0 -%}
+{%- for system in record.systems -%}
+  {%- assign technique_count = technique_count | plus: system.techniques.size -%}
+{%- endfor -%}
+{%- comment -%} The stylesheet compiles from Sass, so it is versioned by build time, like main.css. {%- endcomment -%}
+<link rel="stylesheet" href="{{ '/assets/css/design-record.css' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}">
+
+<article class="design-record" aria-labelledby="design-record-title" data-design-record="{{ record.slug }}">
+  <p class="design-record-back">
+    <a href="{{ record.project.url | relative_url }}"><span aria-hidden="true">←</span> {{ record.project.title | smartify }}</a>
+  </p>
+
+  <header class="design-record-opening">
+    <p class="design-record-kicker">
+      Technical record · updated <time datetime="{{ record.updated }}">{{ record.updated | date: '%B %-d, %Y' }}</time>
+    </p>
+    <h1 id="design-record-title">{{ record.title | smartify }}</h1>
+    <div class="design-record-lede">{{ record.summary | markdownify }}</div>
+    {%- if record.scope %}
+      <div class="design-record-scope">{{ record.scope | markdownify }}</div>
+    {%- endif %}
+    <ul class="design-record-counts" aria-label="What this record holds">
+      <li>
+        <strong>{{ record.systems.size }}</strong> systems
+      </li>
+      <li>
+        <strong>{{ technique_count }}</strong> techniques
+      </li>
+      <li>
+        <strong>{{ record.history.size }}</strong> design moves
+      </li>
+      <li>
+        <strong>{{ record.open_problems.size }}</strong> open problems
+      </li>
+      <li>
+        <strong>{{ record.sources.size }}</strong> sources
+      </li>
+    </ul>
+    <aside class="design-record-use" aria-label="How to use this record">
+      <p>
+        Each system lists its techniques: what each one does, how it works, the files that hold it, the research it borrows from, what it cannot do
+        yet, and the next moves worth trying. The design history keeps every move in order, with what the result said back.
+      </p>
+      <p>
+        Programs can read the same record as
+        <a href="{{ record.json_url | relative_url }}" type="application/json">JSON</a>. In the repository,
+        <code>python bin/design_record_brief.py {{ record.slug }}</code> turns it into a brief for the next pass, and new work is appended to
+        <a href="{{ blob_base }}_data/design_records/{{ record.slug }}.yml"
+          ><code>_data/design_records/{{ record.slug }}.yml</code></a
+        >.
+      </p>
+    </aside>
+  </header>
+
+  <nav class="design-record-contents" aria-label="Contents of this record">
+    <ol>
+      {%- for system in record.systems %}
+        <li>
+          <a href="#{{ system.id }}">{{ system.name | smartify }}</a>
+        </li>
+      {%- endfor %}
+      <li><a href="#design-history">Design history</a></li>
+      <li><a href="#open-problems">Open problems</a></li>
+      <li><a href="#before-changing">Before changing anything</a></li>
+      <li><a href="#sources">Sources</a></li>
+    </ol>
+    <button type="button" class="design-record-toggle" data-design-record-toggle hidden aria-pressed="false">Open all technique details</button>
+  </nav>
+
+  {%- for system in record.systems %}
+    <section class="design-record-system" id="{{ system.id }}" aria-labelledby="{{ system.id }}-title">
+      <h2 id="{{ system.id }}-title">{{ system.name | smartify }}</h2>
+      <div class="design-record-system-summary">{{ system.summary | markdownify }}</div>
+
+      {%- for technique in system.techniques %}
+        <article
+          class="design-record-technique"
+          id="{{ technique.id }}"
+          data-status="{{ technique.status }}"
+          aria-labelledby="{{ technique.id }}-title"
+        >
+          <h3 id="{{ technique.id }}-title">{{ technique.name | smartify }}</h3>
+          <p class="design-record-status" data-status="{{ technique.status }}">
+            {%- case technique.status -%}
+              {%- when 'shipped' -%}
+                Shipped
+              {%- when 'experimental' -%}
+                Experimental
+              {%- when 'retired' -%}
+                Retired
+              {%- else -%}
+                {{ technique.status }}
+            {%- endcase -%}
+            {%- if technique.since %} · {{ technique.since | date: '%b %-d, %Y' }}{% endif -%}
+          </p>
+          <p class="design-record-what">{{ technique.what | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+          <details class="design-record-technique-details">
+            <summary>
+              {%- if technique.status == 'retired' -%}
+                What it was and why it was retired
+              {%- else -%}
+                How it works, files and sources
+              {%- endif -%}
+            </summary>
+            <div class="design-record-technique-body">
+              {{ technique.how | markdownify }}
+              <dl class="design-record-fields">
+                {%- if technique.retired %}
+                  <div>
+                    <dt>Why it was retired</dt>
+                    <dd>
+                      {{ technique.retired.reason | markdownify | remove: '<p>' | remove: '</p>' | strip }}
+                      {%- if technique.retired.commit %}
+                        <a class="design-record-commit" href="{{ record.repository }}/commit/{{ technique.retired.commit }}"
+                          ><code>{{ technique.retired.commit }}</code></a
+                        >
+                      {%- endif %}
+                    </dd>
+                  </div>
+                {%- endif %}
+                {%- if technique.files.size > 0 %}
+                  <div>
+                    <dt>Files</dt>
+                    <dd>
+                      <ul class="design-record-files">
+                        {%- for file in technique.files %}
+                          {%- assign last_character = file.path | slice: -1 -%}
+                          <li>
+                            <a href="{% if last_character == '/' %}{{ tree_base }}{% else %}{{ blob_base }}{% endif %}{{ file.path }}"
+                              ><code>{{ file.path }}</code></a
+                            >
+                            {%- if file.role -%}
+                              <span>{{ file.role | smartify }}</span>
+                            {%- endif -%}
+                          </li>
+                        {%- endfor %}
+                      </ul>
+                    </dd>
+                  </div>
+                {%- endif %}
+                {%- if technique.tests.size > 0 %}
+                  <div>
+                    <dt>Tests</dt>
+                    <dd>
+                      <ul class="design-record-inline-list">
+                        {%- for test_path in technique.tests %}
+                          <li>
+                            <a href="{{ blob_base }}{{ test_path }}"
+                              ><code>{{ test_path }}</code></a
+                            >
+                          </li>
+                        {%- endfor %}
+                      </ul>
+                    </dd>
+                  </div>
+                {%- endif %}
+                {%- if technique.sources.size > 0 %}
+                  <div>
+                    <dt>Sources</dt>
+                    <dd>
+                      <ul class="design-record-inline-list">
+                        {%- for source_id in technique.sources %}
+                          {%- assign source = record.sources | where: 'id', source_id | first -%}
+                          <li>
+                            <a href="#source-{{ source_id }}">{{ source.label | smartify }}</a>
+                          </li>
+                        {%- endfor %}
+                      </ul>
+                    </dd>
+                  </div>
+                {%- endif %}
+                {%- if technique.limits.size > 0 %}
+                  <div>
+                    <dt>Known limits</dt>
+                    <dd>
+                      <ul>
+                        {%- for limit in technique.limits %}
+                          <li>{{ limit | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+                        {%- endfor %}
+                      </ul>
+                    </dd>
+                  </div>
+                {%- endif %}
+                {%- if technique.next.size > 0 %}
+                  <div>
+                    <dt>Next moves</dt>
+                    <dd>
+                      <ul class="design-record-next">
+                        {%- for next_move in technique.next %}
+                          <li>
+                            {% include design_record_readiness.liquid readiness=next_move.readiness %}
+                            {{ next_move.move | markdownify | remove: '<p>' | remove: '</p>' | strip -}}
+                            {%- if next_move.why %}
+                              <span class="design-record-why">{{ next_move.why | markdownify | remove: '<p>' | remove: '</p>' | strip }}</span>
+                            {%- endif %}
+                          </li>
+                        {%- endfor %}
+                      </ul>
+                    </dd>
+                  </div>
+                {%- endif %}
+              </dl>
+            </div>
+          </details>
+        </article>
+      {%- endfor %}
+
+      {%- assign system_moves = record.history | where: 'system', system.id %}
+      {%- if system_moves.size > 0 %}
+        <p class="design-record-system-moves">
+          <span>Moves in this system:</span>
+          {% for move in system_moves -%}
+            <a href="#move-{{ move.date }}-{{ move.title | slugify }}">{{ move.title | smartify }}</a>
+            {%- unless forloop.last -%}
+              <span aria-hidden="true"> · </span>
+            {%- endunless -%}
+          {%- endfor %}
+        </p>
+      {%- endif %}
+    </section>
+  {%- endfor %}
+
+  <section class="design-record-history" id="design-history" aria-labelledby="design-history-title">
+    <h2 id="design-history-title">Design history</h2>
+    <p>
+      Each move follows the loop from Donald Schön's <em>The Reflective Practitioner</em>: frame the problem, make a move, let the result talk back,
+      then reframe. The dimensions are the variables the move changed. Oldest first; new moves are added at the end.
+    </p>
+    <ol>
+      {%- for move in record.history %}
+        {%- assign move_system = record.systems | where: 'id', move.system | first %}
+        <li id="move-{{ move.date }}-{{ move.title | slugify }}">
+          <p class="design-record-move-meta">
+            <time datetime="{{ move.date }}">{{ move.date | date: '%b %-d, %Y' }}</time>
+            <span aria-hidden="true">·</span>
+            <a href="#{{ move.system }}">{{ move_system.name | smartify }}</a>
+            {%- if move.commit %}
+              <span aria-hidden="true">·</span>
+              <a href="{{ record.repository }}/commit/{{ move.commit }}"
+                ><code>{{ move.commit }}</code></a
+              >
+            {%- endif %}
+          </p>
+          <h3>{{ move.title | smartify }}</h3>
+          <dl class="design-record-move">
+            <div>
+              <dt>Frame</dt>
+              <dd>{{ move.frame | markdownify | remove: '<p>' | remove: '</p>' | strip }}</dd>
+            </div>
+            {%- if move.dimensions.size > 0 %}
+              <div>
+                <dt>Dimensions</dt>
+                <dd>{{ move.dimensions | join: '; ' | smartify }}</dd>
+              </div>
+            {%- endif %}
+            <div>
+              <dt>Move</dt>
+              <dd>{{ move.move | markdownify | remove: '<p>' | remove: '</p>' | strip }}</dd>
+            </div>
+            <div>
+              <dt>Backtalk</dt>
+              <dd>{{ move.backtalk | markdownify | remove: '<p>' | remove: '</p>' | strip }}</dd>
+            </div>
+            <div>
+              <dt>Reframe</dt>
+              <dd>{{ move.reframe | markdownify | remove: '<p>' | remove: '</p>' | strip }}</dd>
+            </div>
+            {%- if move.sources.size > 0 %}
+              <div>
+                <dt>Sources</dt>
+                <dd>
+                  <ul class="design-record-inline-list">
+                    {%- for source_id in move.sources %}
+                      {%- assign source = record.sources | where: 'id', source_id | first -%}
+                      <li>
+                        <a href="#source-{{ source_id }}">{{ source.label | smartify }}</a>
+                      </li>
+                    {%- endfor %}
+                  </ul>
+                </dd>
+              </div>
+            {%- endif %}
+          </dl>
+        </li>
+      {%- endfor %}
+    </ol>
+  </section>
+
+  <section class="design-record-problems" id="open-problems" aria-labelledby="open-problems-title">
+    <h2 id="open-problems-title">Open problems</h2>
+    <ol>
+      {%- for problem in record.open_problems %}
+        {%- assign problem_system = record.systems | where: 'id', problem.system | first %}
+        <li id="problem-{{ problem.id }}">
+          <h3>{{ problem.title | smartify }}</h3>
+          <p class="design-record-move-meta">
+            {% include design_record_readiness.liquid readiness=problem.readiness %}
+            <a href="#{{ problem.system }}">{{ problem_system.name | smartify }}</a>
+          </p>
+          <div class="design-record-why-hard">{{ problem.why_hard | markdownify }}</div>
+          {%- if problem.candidate_moves.size > 0 %}
+            <p class="design-record-label">Candidate moves</p>
+            <ul>
+              {%- for candidate in problem.candidate_moves %}
+                <li>{{ candidate | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+              {%- endfor %}
+            </ul>
+          {%- endif %}
+          {%- if problem.sources.size > 0 %}
+            <p class="design-record-label">Read</p>
+            <ul class="design-record-inline-list">
+              {%- for source_id in problem.sources %}
+                {%- assign source = record.sources | where: 'id', source_id | first -%}
+                <li>
+                  <a href="#source-{{ source_id }}">{{ source.label | smartify }}</a>
+                </li>
+              {%- endfor %}
+            </ul>
+          {%- endif %}
+        </li>
+      {%- endfor %}
+    </ol>
+  </section>
+
+  <section class="design-record-keep" id="before-changing" aria-labelledby="before-changing-title">
+    <h2 id="before-changing-title">Before changing anything</h2>
+    <p class="design-record-label">Read first</p>
+    <ul class="design-record-files">
+      {%- for doc in record.read_first %}
+        {%- assign last_character = doc.path | slice: -1 -%}
+        <li>
+          <a href="{% if last_character == '/' %}{{ tree_base }}{% else %}{{ blob_base }}{% endif %}{{ doc.path }}"
+            ><code>{{ doc.path }}</code></a
+          >
+          <span>{{ doc.why | smartify }}</span>
+        </li>
+      {%- endfor %}
+    </ul>
+    <p class="design-record-label">Keep intact</p>
+    <ul>
+      {%- for constraint in record.constraints %}
+        <li>{{ constraint | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+      {%- endfor %}
+    </ul>
+    <p class="design-record-label">Keep these checks green</p>
+    <ul class="design-record-files">
+      {%- for check in record.tests %}
+        {%- assign last_character = check.path | slice: -1 -%}
+        <li>
+          <a href="{% if last_character == '/' %}{{ tree_base }}{% else %}{{ blob_base }}{% endif %}{{ check.path }}"
+            ><code>{{ check.path }}</code></a
+          >
+          <span>{{ check.covers | smartify }}</span>
+          {%- if check.command -%}
+            <code class="design-record-command">{{ check.command | escape }}</code>
+          {%- endif -%}
+        </li>
+      {%- endfor %}
+    </ul>
+  </section>
+
+  <section class="design-record-sources" id="sources" aria-labelledby="sources-title">
+    <h2 id="sources-title">Sources</h2>
+    <ol>
+      {%- for source in record.sources %}
+        <li id="source-{{ source.id }}">
+          {{ source.citation | markdownify | remove: '<p>' | remove: '</p>' | strip }}
+          <a href="{{ source.url }}">{{ source.url | remove_first: 'https://' | remove_first: 'http://' | truncate: 72 }}</a>
+        </li>
+      {%- endfor %}
+    </ol>
+    {%- if record.credit %}
+      <p class="design-record-credit">{{ record.credit | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+    {%- endif %}
+  </section>
+</article>
+
+<script>
+  (function () {
+    var record = document.querySelector('[data-design-record]');
+    if (!record) return;
+    // A link to a technique, or to anything inside one, opens its details.
+    function openTarget() {
+      if (!location.hash) return;
+      var target = null;
+      try {
+        target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      } catch (error) {
+        return;
+      }
+      if (!target) return;
+      var details = target.closest('details') || (target.matches('.design-record-technique') && target.querySelector('details'));
+      if (details && !details.open) {
+        details.open = true;
+        target.scrollIntoView();
+      }
+    }
+    window.addEventListener('hashchange', openTarget);
+    openTarget();
+    var toggle = record.querySelector('[data-design-record-toggle]');
+    var techniques = Array.prototype.slice.call(record.querySelectorAll('.design-record-technique-details'));
+    if (!toggle || !techniques.length) return;
+    toggle.hidden = false;
+    toggle.addEventListener('click', function () {
+      var open = toggle.getAttribute('aria-pressed') !== 'true';
+      techniques.forEach(function (details) {
+        details.open = open;
+      });
+      toggle.setAttribute('aria-pressed', String(open));
+      toggle.textContent = open ? 'Close all technique details' : 'Open all technique details';
+    });
+  })();
+</script>

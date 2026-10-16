@@ -290,6 +290,11 @@ Codex made implementation passes fast; it did not decide what deserved attention
   </div>
 </details>
 
+<aside class="project-story-note design-record-note" aria-label="Technical record">
+  <p class="project-case-kicker">Technical record</p>
+  <p>The type, color, motion, structure, Human/AI routes and QA harness behind this site, with their files and sources, and every stage of the redesign from February to now. <a href="{{ '/projects/website-revamp/record/' | relative_url }}">Read the technical record</a>.</p>
+</aside>
+
 ## Credits
 
 The research-image lens, inline project previews, sticky explanation, and comparison slider take interaction cues from Aceternity's [Lens](https://ui.aceternity.com/components/lens), [Link Preview](https://ui.aceternity.com/components/link-preview), [Sticky Scroll Reveal](https://ui.aceternity.com/components/sticky-scroll-reveal), and [Compare](https://ui.aceternity.com/components/compare). The materials folder and playful thumbnail color treatment reference React Bits' [Folder](https://reactbits.dev/components/folder) and [Chroma Grid](https://reactbits.dev/components/chroma-grid). These are small original implementations in this site's Jekyll, CSS, and JavaScript stack; no React component source is bundled.

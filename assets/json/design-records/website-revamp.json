@@ -1,0 +1,7 @@
+---
+layout: none
+permalink: /assets/json/design-records/website-revamp.json
+sitemap: false
+search: false
+---
+{{ site.data.design_records["website-revamp"] | jsonify }}

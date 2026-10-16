@@ -23,3 +23,5 @@ assets/js/vendor/three-r164/
 artwork/coastal-home/splat-lab/vendor/
 # The light lab's reference grid, written on one line by bin/make_light_lab_reference.mjs.
 assets/js/light-lab/onsen-reference.json
+# Liquid-templated JSON: front matter and a jsonify filter that Jekyll renders into each design record's endpoint.
+assets/json/design-records/

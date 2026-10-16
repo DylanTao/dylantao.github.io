@@ -1,0 +1,7 @@
+---
+layout: none
+permalink: /assets/json/design-records/homepage-desk-scene.json
+sitemap: false
+search: false
+---
+{{ site.data.design_records["homepage-desk-scene"] | jsonify }}

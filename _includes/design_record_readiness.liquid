@@ -1,0 +1,20 @@
+{%- comment -%}
+  The readiness label a design record gives a candidate move (see _includes/design_record.liquid).
+  The order, from most to least ready, is the one bin/design_record_brief.py ranks by.
+{%- endcomment -%}
+<span class="design-record-readiness" data-readiness="{{ include.readiness }}">
+  {%- case include.readiness -%}
+    {%- when 'ready' -%}
+      Ready
+    {%- when 'needs-measurement' -%}
+      Measure first
+    {%- when 'needs-decision' -%}
+      Needs a decision
+    {%- when 'needs-research' -%}
+      Needs research
+    {%- when 'blocked' -%}
+      Blocked
+    {%- else -%}
+      {{ include.readiness }}
+  {%- endcase -%}
+</span>

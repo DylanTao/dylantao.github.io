@@ -109,6 +109,11 @@ The useful lesson: a character needs a coherent silhouette and a few legible ges
   </div>
 </details>
 
+<aside class="project-story-note design-record-note" aria-label="Technical record">
+  <p class="project-case-kicker">Technical record</p>
+  <p>How duh’s soft body and P’s motion work, file by file, with the research behind them, the open problems, and each design move so far. <a href="{{ '/projects/p/record/' | relative_url }}">Read the technical record</a>.</p>
+</aside>
+
 <section id="credits" class="pip-credits" aria-labelledby="pip-credits-title">
   <h2 id="pip-credits-title">Inspiration & resources</h2>
   <ul>

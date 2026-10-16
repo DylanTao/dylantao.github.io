@@ -1,0 +1,423 @@
+---
+---
+
+// Technical design records (_includes/design_record.liquid): one reading column of about 68
+// characters, techniques folded into native disclosures, and the site's theme tokens throughout.
+.design-record {
+  --design-record-width: 36rem;
+  width: min(100%, var(--design-record-width));
+  margin: 2rem auto 4rem;
+  font-size: var(--type-reading);
+  line-height: 1.7;
+
+  h1 {
+    margin: 0.4rem 0 1rem;
+    font-size: var(--type-display);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: var(--type-heading);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: var(--type-subheading);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  code {
+    padding: 0;
+    background: none;
+    color: inherit;
+    font-size: 0.92em;
+    overflow-wrap: anywhere;
+  }
+
+  a:focus-visible,
+  summary:focus-visible,
+  button:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 3px;
+  }
+
+  > section {
+    margin-top: 3.25rem;
+    scroll-margin-top: 5.5rem;
+  }
+}
+
+.design-record-back {
+  margin: 0 0 1.5rem;
+  font-size: var(--type-compact);
+
+  a {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+.design-record-kicker,
+.design-record-label,
+.design-record-move-meta,
+.design-record-system-moves span:first-child {
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.5;
+}
+
+.design-record-kicker {
+  margin: 0;
+  color: var(--global-theme-color);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.design-record-lede p {
+  margin-bottom: 0.75rem;
+}
+
+.design-record-scope p {
+  color: var(--global-text-color-light);
+}
+
+.design-record-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  margin: 1.25rem 0;
+  padding: 0;
+  list-style: none;
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+
+  strong {
+    color: var(--global-text-color);
+    font-size: var(--type-reading);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.design-record-use {
+  padding: 0.9rem 1rem;
+  border-left: 2px solid var(--md-lite-card-accent-line);
+  background: var(--md-lite-card-accent-wash);
+  font-size: var(--type-compact);
+
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: 0.6rem;
+  }
+}
+
+.design-record-contents {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--global-divider-color);
+
+  ol {
+    columns: 2 14rem;
+    column-gap: 2rem;
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+  }
+
+  li {
+    break-inside: avoid;
+  }
+}
+
+.design-record-toggle {
+  min-height: 44px;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--md-lite-card-border);
+  border-radius: var(--md-lite-radius-pill);
+  background: var(--md-lite-surface-tonal);
+  color: var(--global-text-color);
+  font-size: var(--type-compact);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--md-lite-surface-tonal-strong);
+  }
+}
+
+.design-record-system-summary p {
+  margin-bottom: 1rem;
+}
+
+.design-record-technique {
+  margin: 0 0 0.75rem;
+  padding: 0.85rem 1rem 0;
+  border: 1px solid var(--md-lite-card-border);
+  border-radius: var(--md-lite-radius-md);
+  background: var(--md-lite-card-bg);
+  scroll-margin-top: 5.5rem;
+
+  > .design-record-status {
+    margin: 0.35rem 0 0;
+  }
+}
+
+.design-record-technique-details {
+  margin: 0.6rem -1rem 0;
+  border-top: 1px solid var(--global-divider-color);
+
+  > summary {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    color: var(--global-theme-color);
+    font-size: var(--type-compact);
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      content: "";
+      flex: none;
+      width: 0.5rem;
+      height: 0.5rem;
+      margin-right: 0.15rem;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: translateY(-0.15rem) rotate(45deg);
+      transition: transform var(--md-lite-motion-duration-standard) var(--md-lite-easing-standard);
+    }
+  }
+
+  &[open] > summary::after {
+    transform: translateY(0.1rem) rotate(225deg);
+  }
+}
+
+.design-record-status,
+.design-record-readiness {
+  display: inline-block;
+  padding: 0.05rem 0.5rem;
+  border-radius: var(--md-lite-radius-pill);
+  background: var(--global-surface-container-color);
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.design-record-status[data-status="shipped"],
+.design-record-readiness[data-readiness="ready"] {
+  background: var(--global-mint-soft);
+  color: var(--global-mint-strong);
+}
+
+.design-record-status[data-status="experimental"],
+.design-record-readiness[data-readiness="needs-measurement"] {
+  background: var(--global-sky-soft);
+  color: var(--global-sky-strong);
+}
+
+.design-record-readiness[data-readiness="needs-decision"] {
+  background: var(--global-primary-container-color);
+  color: var(--global-on-primary-container-color);
+}
+
+.design-record-readiness[data-readiness="blocked"],
+.design-record-status[data-status="retired"] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--global-divider-color);
+}
+
+.design-record-what {
+  margin: 0.45rem 0 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.55;
+}
+
+.design-record-technique-body {
+  padding: 0 1rem 1rem;
+
+  > p {
+    margin: 0.85rem 0 0;
+  }
+}
+
+.design-record-fields,
+.design-record-move {
+  display: grid;
+  gap: 0.7rem;
+  margin: 1rem 0 0;
+
+  dt {
+    color: var(--global-text-color-light);
+    font-size: var(--type-compact);
+    font-weight: 500;
+  }
+
+  dd {
+    margin: 0;
+
+    ul {
+      margin: 0.15rem 0 0;
+      padding-left: 1.1rem;
+    }
+  }
+}
+
+.design-record-files {
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    margin-bottom: 0.45rem;
+  }
+
+  span {
+    color: var(--global-text-color-light);
+    font-size: var(--type-compact);
+    line-height: 1.5;
+  }
+}
+
+// File, test and source lists inside a definition stay flush with their label.
+.design-record dd .design-record-files,
+.design-record dd .design-record-inline-list {
+  padding-left: 0;
+}
+
+.design-record-inline-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1rem;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.design-record-next {
+  li {
+    margin-bottom: 0.45rem;
+  }
+
+  .design-record-readiness {
+    margin-right: 0.35rem;
+  }
+}
+
+.design-record-why {
+  display: block;
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.5;
+}
+
+.design-record-system-moves {
+  margin: 1rem 0 0;
+  font-size: var(--type-compact);
+  line-height: 1.7;
+}
+
+.design-record-history > ol,
+.design-record-problems > ol,
+.design-record-sources > ol {
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.design-record-history > ol > li,
+.design-record-problems > ol > li {
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--global-divider-color);
+  scroll-margin-top: 5.5rem;
+}
+
+.design-record-move-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  align-items: baseline;
+  margin: 0 0 0.25rem;
+}
+
+.design-record-problems h3 + .design-record-move-meta {
+  margin-top: 0.4rem;
+}
+
+.design-record-why-hard p {
+  margin: 0.6rem 0 0;
+}
+
+.design-record-label {
+  margin: 1rem 0 0.25rem;
+  font-weight: 500;
+}
+
+.design-record-keep > ul {
+  padding-left: 1.1rem;
+}
+
+.design-record-keep > .design-record-files {
+  padding-left: 0;
+}
+
+.design-record-command {
+  display: block;
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+}
+
+.design-record-sources {
+  li {
+    margin-bottom: 0.75rem;
+    font-size: var(--type-compact);
+    line-height: 1.55;
+    scroll-margin-top: 5.5rem;
+  }
+
+  li:target {
+    outline: 2px solid var(--md-lite-card-accent-line);
+    outline-offset: 4px;
+  }
+
+  a {
+    overflow-wrap: anywhere;
+  }
+}
+
+.design-record-credit {
+  margin-top: 2rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .design-record-technique-details > summary::after {
+    transition: none;
+  }
+}
+
+@media print {
+  .design-record-toggle {
+    display: none;
+  }
+}
