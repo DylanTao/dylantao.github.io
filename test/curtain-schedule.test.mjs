@@ -52,13 +52,14 @@ test("the curtains are open by day, partly drawn against the low western sun and
   const f = lowSun.plan.fractions;
   for (const id of Object.keys(CURTAIN_DRAW)) assert.ok(f[id] > 0 && f[id] < 1, `${id} ${f[id]}`);
   assert.ok(f["kitchen-north"] < f["kitchen-south"] && f["lounge-south"] < f["lounge-north"], JSON.stringify(f));
-  // 19:30, dinner in the kitchen after dark: closed, except the panel across the kitchen camera's view.
-  const dinner = at(19 * 60 + 30);
+  // 20:45, dinner in the kitchen after dark (after training and the onsen): closed, except the panel
+  // across the kitchen camera's view.
+  const dinner = at(20 * 60 + 45);
   assert.equal(dinner.routine.room, "kitchen");
   assert.equal(dinner.plan.state, "night");
   assert.deepEqual(dinner.plan.fractions, { "kitchen-south": 1, "kitchen-north": 0, "lounge-south": 0, "lounge-north": 0 });
-  // 21:00, watching the Pacific from the lounge: the lounge's view panel stays open.
-  const lounge = at(21 * 60);
+  // 22:00, watching the Pacific from the lounge: the lounge's view panel stays open.
+  const lounge = at(22 * 60);
   assert.equal(lounge.routine.room, "lounge");
   assert.deepEqual(lounge.plan.fractions, { "kitchen-south": 0, "kitchen-north": 0, "lounge-south": 0, "lounge-north": 1 });
   // By day an occupied or visited room's view panel never draws across its camera's sightline; its
@@ -68,7 +69,7 @@ test("the curtains are open by day, partly drawn against the low western sun and
   const visited = at(16 * 60 + 45, { visit: "kitchen" });
   assert.ok(visited.plan.fractions[CURTAIN_VIEW_PANELS.kitchen] >= CURTAIN_VIEW_OPEN);
   assert.ok(visited.plan.fractions["kitchen-north"] < 0.5, "the neighbouring panel stays drawn");
-  assert.equal(at(21 * 60, { visit: "kitchen" }).plan.fractions[CURTAIN_VIEW_PANELS.kitchen], 0);
+  assert.equal(at(22 * 60, { visit: "kitchen" }).plan.fractions[CURTAIN_VIEW_PANELS.kitchen], 0);
 });
 
 test("glare needs a low sun standing out to sea, and the schedule moves in small steps", () => {
