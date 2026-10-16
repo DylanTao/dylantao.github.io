@@ -189,7 +189,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
       if (disposed) return;
       const reveal = () => {
         if (!cover || disposed) return;
-        cover.style.transition = "opacity 520ms ease";
+        cover.style.transition = "opacity 680ms cubic-bezier(0.25, 0.1, 0.25, 1)";
         cover.style.opacity = "1";
       };
       if (reduced) {
@@ -201,9 +201,9 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
       const end = () => {
         if (ended) return;
         ended = true;
-        canvas.style.transition = "opacity 420ms ease";
+        canvas.style.transition = "opacity 560ms cubic-bezier(0.4, 0, 0.6, 1)";
         canvas.style.opacity = "0";
-        setTimeout(dispose, 440);
+        setTimeout(dispose, 580);
       };
       settle = end;
       setTimeout(reveal, 240);

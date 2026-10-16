@@ -1,6 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  BREATH,
+  breathDepth,
   createSketchEngine,
   decodeSketch,
   frameStrokes,
@@ -137,4 +139,50 @@ test("finishing on a blank frame keeps the last drawing and reports settled", ()
   for (let frame = 0; frame < 120 && !engine.settled; frame++) engine.tick((time += 1000 / 60));
   assert.equal(engine.stage, "frame");
   assert.ok(engine.settled);
+});
+
+test("a resting drawing's breath eases in, never exceeds its depth and decays to a quiet floor", () => {
+  assert.equal(breathDepth(0), 0);
+  assert.ok(breathDepth(0.2) < breathDepth(1.0), "it eases in");
+  let peak = 0;
+  for (let t = 0; t < 60; t += 0.05) peak = Math.max(peak, breathDepth(t));
+  assert.ok(peak <= BREATH.depth + 1e-12);
+  assert.ok(breathDepth(40) < 0.4 * peak, "it decays");
+  assert.ok(Math.abs(breathDepth(60) - BREATH.depth * BREATH.floor) < 1e-3 * BREATH.depth, "toward a floor, not to stillness");
+});
+
+function midpoints(context) {
+  return context.segments.map(({ x0, y0, x1, y1 }) => [(x0 + x1) / 2, (y0 + y1) / 2]);
+}
+
+test("a landed drawing keeps breathing until the hand-off, which stills it without a jump", () => {
+  const targets = new Float32Array(500 * 3).map((_, i) => (i % 3 === 2 ? 1 : ((i * 7919) % 100) / 200 - 0.25));
+  for (const reduced of [false, true]) {
+    const context = recordingContext(320, 240);
+    const engine = createSketchEngine(context, { width: 320, height: 240, reduced });
+    let time = 0;
+    engine.tick(time);
+    engine.morph("room", targets);
+    for (let frame = 0; frame < 240; frame++) engine.tick((time += 1000 / 60));
+    // Two seconds into the rest: the drawing still moves frame to frame (unless motion is reduced).
+    const before = midpoints(context);
+    for (let frame = 0; frame < 30; frame++) engine.tick((time += 1000 / 60));
+    const after = midpoints(context);
+    const drift = Math.max(...before.map(([x, y], k) => Math.hypot(x - after[k][0], y - after[k][1])));
+    if (reduced) assert.ok(drift === 0, `reduced motion moved ${drift}`);
+    else assert.ok(drift > 0.05 && drift < 3, `breathing moved ${drift} px in half a second`);
+    // The hand-off: no stroke leaps in one frame, and the frame drawing still settles.
+    engine.finish(new Float32Array(0));
+    let last = midpoints(context),
+      leap = 0;
+    for (let frame = 0; frame < 120 && !engine.settled; frame++) {
+      engine.tick((time += 1000 / 60));
+      const now = midpoints(context);
+      if (now.length === last.length) leap = Math.max(leap, ...now.map(([x, y], k) => Math.hypot(x - last[k][0], y - last[k][1])));
+      last = now;
+    }
+    assert.equal(engine.stage, "frame");
+    assert.ok(engine.settled);
+    assert.ok(leap < 12, `a stroke leapt ${leap} px in one frame`);
+  }
 });

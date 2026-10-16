@@ -175,6 +175,27 @@ const STAGES = {
   frame: { sweep: "open", duration: 0.5, spread: 0.12 },
 };
 
+// Once a drawing has landed and the next has not come, the line work breathes: a slow swell about
+// the middle of the view whose depth eases in, then decays toward a quiet floor, so a long wait
+// for the first frame reads as the house resting rather than as a stall. A breath that is cut
+// short (the next drawing, or the hand-off to the render) runs out over CARRY seconds instead of
+// jumping (Sirui, 2026-10-15).
+export const BREATH = { period: 4.2, depth: 0.022, floor: 0.25, decay: 7, ease: 1.4, carry: 0.45 };
+
+export function breathDepth(seconds) {
+  if (!(seconds > 0)) return 0;
+  const e = Math.min(1, seconds / BREATH.ease),
+    ease = e * e * (3 - 2 * e);
+  return BREATH.depth * ease * (BREATH.floor + (1 - BREATH.floor) * Math.exp(-seconds / BREATH.decay));
+}
+
+function withAlpha(color, alpha) {
+  const hex = /^#([\da-f]{6})$/i.exec(color.trim());
+  if (!hex) return color;
+  const n = parseInt(hex[1], 16);
+  return `rgba(${n >> 16}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
+}
+
 export function createSketchEngine(context, options = {}) {
   let width = options.width || 300,
     height = options.height || 150,
@@ -196,7 +217,28 @@ export function createSketchEngine(context, options = {}) {
     finishing = null,
     previousTargets = null,
     settledAt = Infinity,
-    lastBoil = -1;
+    lastBoil = -1,
+    breathFrom = Infinity,
+    carryValue = 0,
+    carryAt = -Infinity,
+    washCarry = 0,
+    swell = 0;
+
+  // The breath's offset (a fractional scale about the middle of the view) at a moment.
+  function breathAt(now) {
+    if (reduced) return 0;
+    const carry = carryValue * Math.max(0, 1 - (now - carryAt) / BREATH.carry);
+    if (now < breathFrom) return carry;
+    const t = now - breathFrom;
+    return carry + breathDepth(t) * Math.sin((2 * PI * t) / BREATH.period);
+  }
+
+  // How far the warm wash under a resting drawing has bloomed (0 to 1); it fades over 0.6 s
+  // when the drawing moves on.
+  function restingAt(now) {
+    if (now >= breathFrom) return Math.min(1, (now - breathFrom) / 2.5);
+    return washCarry * Math.max(0, 1 - (now - carryAt) / 0.6);
+  }
 
   // The opening sea: a straight horizon, five swells that grow and slow toward the viewer, and
   // the sun (or a crescent moon) where the visitor's own sky has it. Nearer swells carry more
@@ -312,13 +354,23 @@ export function createSketchEngine(context, options = {}) {
       p.arc[i] = (random() - 0.5) * 0.55;
       if (p.born[i] > now) p.born[i] = now;
     }
+    // Whatever breath was under way runs out smoothly; a new drawing breathes once it has landed,
+    // and the first frame's drawing holds still so its strokes meet the render's edges.
+    carryValue = breathAt(now);
+    washCarry = restingAt(now);
+    carryAt = now;
     stage = kind;
     stageAt = now;
     settledAt = now + settings.spread + 0.12 + settings.duration * 1.15;
+    breathFrom = kind === "frame" ? Infinity : settledAt;
   }
 
   function place(now) {
-    const boil = reduced ? 0 : Math.floor(now * 8);
+    // While breathing, the boil slows to four drawings a second, so the rest reads calm.
+    const breath = breathAt(now),
+      boil = reduced ? 0 : Math.floor(now * (now >= breathFrom ? 4 : 8)),
+      scale = 1 + breath;
+    swell = breath / BREATH.depth;
     for (let i = 0; i < count; i++) {
       p.px[i] = p.x[i];
       p.py[i] = p.y[i];
@@ -343,8 +395,8 @@ export function createSketchEngine(context, options = {}) {
         x += (wobble - 0.5) * 0.004;
         y += (((wobble * 7.31) % 1) - 0.5) * 0.004;
       }
-      p.x[i] = x;
-      p.y[i] = y;
+      p.x[i] = x * scale;
+      p.y[i] = y * scale;
     }
   }
 
@@ -356,6 +408,19 @@ export function createSketchEngine(context, options = {}) {
       base = 0.028 * half,
       buckets = [[], [], [], []],
       warm = [];
+    // A warm wash blooms under the resting drawing, the light of the room before the render brings
+    // its colour, and breathes with it.
+    const resting = reduced ? 0 : restingAt(now);
+    if (!reduced && resting > 0.003 && typeof context.createRadialGradient === "function") {
+      const wash = context.createRadialGradient(middle, half * 1.06, 0, middle, half * 1.06, half * 1.15);
+      wash.addColorStop(0, withAlpha(accent, 1));
+      wash.addColorStop(0.55, withAlpha(accent, 0.45));
+      wash.addColorStop(1, withAlpha(accent, 0));
+      context.globalAlpha = 0.085 * resting * resting * (1 + 0.3 * swell);
+      context.fillStyle = wash;
+      context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+      context.globalAlpha = 1;
+    }
     for (let i = 0; i < count; i++) {
       const life = reduced ? 1 : Math.min(1, Math.max(0, (now - p.born[i]) / 0.35));
       if (life <= 0) continue;
@@ -369,15 +434,18 @@ export function createSketchEngine(context, options = {}) {
         angle =
           Math.atan2((1 - smear) * Math.sin(2 * angle) + smear * Math.sin(travel), (1 - smear) * Math.cos(2 * angle) + smear * Math.cos(travel)) / 2;
       }
-      const length = base * (0.75 + 0.5 * p.jitter[i]) * (1 + 1.8 * smear),
+      // A stroke that has just landed is pressed in: longer and fully inked for a moment.
+      const landed = stage === "sea" || reduced ? 0 : (now - p.delay[i]) / p.duration[i] - 1,
+        press = landed >= 0 && landed < 1.5 ? Math.exp((-landed * p.duration[i]) / 0.16) : 0;
+      const length = base * (0.75 + 0.5 * p.jitter[i]) * (1 + 1.8 * smear) * (1 + 0.5 * press),
         ex = (Math.cos(angle) * length) / 2,
         ey = (Math.sin(angle) * length) / 2,
         x = middle + p.x[i] * half,
         y = half + p.y[i] * half;
-      (stage === "sea" && sun[i] ? warm : buckets[Math.min(3, Math.floor(life * 4))]).push(x - ex, y - ey, x + ex, y + ey);
+      (stage === "sea" && sun[i] ? warm : buckets[press > 0.35 ? 3 : Math.min(3, Math.floor(life * 4))]).push(x - ex, y - ey, x + ex, y + ey);
     }
     context.lineCap = "round";
-    context.lineWidth = Math.max(1, 1.15 * ratio);
+    context.lineWidth = Math.max(1, 1.15 * ratio * (1 + 0.1 * swell));
     const strokes = (segments, color, alpha) => {
       if (!segments.length) return;
       context.strokeStyle = color;
@@ -389,7 +457,7 @@ export function createSketchEngine(context, options = {}) {
       }
       context.stroke();
     };
-    buckets.forEach((segments, k) => strokes(segments, ink, (0.78 * (k + 1)) / 4));
+    buckets.forEach((segments, k) => strokes(segments, ink, Math.min(1, ((0.78 * (k + 1)) / 4) * (1 + 0.07 * swell))));
     strokes(warm, accent, 0.85);
     context.globalAlpha = 1;
   }
@@ -434,7 +502,9 @@ export function createSketchEngine(context, options = {}) {
         if (finishing) assign(finishing, "frame", now);
         finishing = null;
       }
-      const moving = stage === "sea" || now < settledAt + 0.1,
+      // A breathing drawing moves every frame; settled line work otherwise redraws only on the boil.
+      const breathing = !reduced && (now >= breathFrom || now - carryAt < 0.6),
+        moving = stage === "sea" || now < settledAt + 0.1 || breathing,
         boil = Math.floor(now * 8);
       if (reduced || moving || boil !== lastBoil) {
         place(now);

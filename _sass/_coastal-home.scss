@@ -256,9 +256,27 @@
   }
 }
 
+// Full but still preparing the first frame: the bar breathes with the loading sketch.
+.home-world-progress.is-settling span::before {
+  animation: home-world-progress-breathe 4.2s ease-in-out infinite;
+}
+
+@keyframes home-world-progress-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-world-progress span::before {
     transition: none;
+  }
+  .home-world-progress.is-settling span::before {
+    animation: none;
   }
 }
 
