@@ -6,8 +6,9 @@ const ease = (t) => {
 const mix = (a, b, t) => a.map((v, i) => v + (b[i] - v) * ease(t));
 const leg = (a, b, t) => ({ position: mix(a, b, t), facing: Math.atan2(b[0] - a[0], b[2] - a[2]), clip: "walk" });
 
-// Short, deterministic sequences use only the exported equipment locations.
-// Time advances only while the scene is visible and system motion is enabled.
+// Short, deterministic sequences use only the exported equipment locations. (The gym's training
+// session is choreographed by gym-session.mjs.) Time advances only while the scene is visible and
+// system motion is enabled.
 export function activityPose(sequence, seconds, equipment, room) {
   if (!equipment) return null;
   if (sequence === "coffee") {
@@ -33,59 +34,6 @@ export function activityPose(sequence, seconds, equipment, room) {
     if (t < 82) return { ...leg(brewer, way, (t - 77) / 5), phase: "return" };
     if (t < 86) return { ...leg(way, c.seat, (t - 82) / 4), phase: "return" };
     return { position: c.seat, facing: room.facing, clip: "eat", phase: "at the table" };
-  }
-  if (sequence === "strength") {
-    const t = seconds % 76,
-      p = equipment.pullup,
-      d = equipment.dip,
-      w = equipment.dumbbell;
-    const rest = room.actor;
-    if (t < 3) return { ...leg(rest, p.actor, t / 3), phase: "approach pull-up bar" };
-    if (t < 19)
-      return {
-        position: p.actor,
-        facing: p.facing,
-        clip: "pullup",
-        hands: p.hands,
-        contactBlend: ease((t - 3) / 1.2) * ease((19 - t) / 1.2),
-        phase: "pull-ups",
-      };
-    if (t < 23) return { ...leg(p.actor, rest, (t - 19) / 4), phase: "rest" };
-    if (t < 28) return { position: rest, facing: room.facing, clip: "idle", phase: "rest" };
-    if (t < 30) return { ...leg(rest, d.actor, (t - 28) / 2), phase: "approach dip bars" };
-    if (t < 46)
-      return {
-        position: d.actor,
-        facing: d.facing,
-        clip: "dip",
-        hands: d.hands,
-        contactBlend: ease((t - 30) / 1.2) * ease((46 - t) / 1.2),
-        phase: "dips",
-      };
-    if (t < 50) return { ...leg(d.actor, w.actor, (t - 46) / 4), phase: "approach dumbbells" };
-    if (t < 54)
-      return {
-        position: w.actor,
-        facing: w.facing,
-        clip: "idle",
-        hands: [null, w.rest],
-        contactBlend: ease((t - 50) / 1.2),
-        weight: t >= 53,
-        phase: "pick up weight",
-      };
-    if (t < 66) return { position: w.actor, facing: w.facing, clip: "workout", weight: true, phase: "dumbbell set" };
-    if (t < 70)
-      return {
-        position: w.actor,
-        facing: w.facing,
-        clip: "idle",
-        hands: [null, w.rest],
-        contactBlend: ease((t - 66) / 1.2),
-        weight: t < 69,
-        phase: "return weight",
-      };
-    if (t < 74) return { ...leg(w.actor, rest, (t - 70) / 4), phase: "return" };
-    return { position: rest, facing: room.facing, clip: "idle", phase: "rest" };
   }
   return null;
 }

@@ -8,18 +8,20 @@ import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.
 //   fire     the fire bowl by the terrace bench, flickering through the evening;
 //   soffit   a concealed strip under the gallery edge washing the living floor's back wall;
 //   steps    low lights beside the stair, a dim guide all night;
-//   pool     a light in the onsen's wall that makes the water glow, brightest during the soak.
+//   pool     a light in the onsen's wall that makes the water glow, brightest during the soak;
+//   gym      the gym's two linear pendants, on while someone trains, as bright as the room is dim.
 // Line emitters use the exact irradiance of a uniformly emitting segment on a Lambertian
 // surface, clipped to the surface's upper hemisphere: E = I |d| (2/D) [n0((2A+B)/|L1| - B/|L0|) -
 // n1((B+2C)/|L1| - 2C/|L0|)], with L(t) = L0 + t d, A = d.d, B = 2 L0.d, C = L0.L0,
 // D = 4AC - B^2, n0 = N.L0 and n1 = N.d (a closed form of the integral of N.L / |L|^3 along t).
 // Points are isotropic or cone-limited. No installation casts shadows or adds a baked bounce.
 
-export const MAX_LINES = 10;
+export const MAX_LINES = 12;
 export const MAX_POINTS = 4;
 const WARM = new THREE.Color(1, 0.7, 0.42);
 const FIRE = new THREE.Color(1, 0.46, 0.16);
 const POOL = new THREE.Color(0.42, 0.86, 0.9);
+const GYM = new THREE.Color(1, 0.88, 0.74);
 
 const smooth = (edge0, edge1, x) => {
   const t = THREE.MathUtils.clamp((x - edge0) / (edge1 - edge0), 0, 1);
@@ -46,6 +48,7 @@ export const SCHEDULES = {
     dark.inside * Math.max(windowLevel(minute, 17 * 60 + 30, 23 * 60 + 30, 25), activity === "coding" ? 0.35 : 0),
   steps: ({ dark }) => 0.45 * dark.outside,
   pool: ({ minute, dark, activity }) => (activity === "soak" ? 1 : 0.4 * dark.outside * windowLevel(minute, 19 * 60, 23 * 60, 20)),
+  gym: ({ dark, activity }) => (activity === "workout" ? Math.max(0.25, dark.inside) : 0),
 };
 
 // The same closed form in JavaScript (THREE.Vector3 arguments), mirrored line for line by the
@@ -167,6 +170,20 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       region: box([-2.6, -0.1, 3.7], [2.6, 3.4, 5.7]),
     });
   }
+  // The gym's pendants: a long one over the lifting bay, a short one over the bench, hung from the
+  // vault (bin/coastal_gym.py build_lights). The region keeps them inside the gym and its ledge.
+  if (config.equipment?.gym) {
+    const region = box([6.0, -0.1, -4.2], [11.0, 3.6, 1.0]);
+    lines.push({ id: "gym", a: new THREE.Vector3(7.02, 2.935, -0.9), b: new THREE.Vector3(10.38, 2.935, -0.9), intensity: 0.72, color: GYM, region });
+    lines.push({
+      id: "gym",
+      a: new THREE.Vector3(9.62, 2.552, -2.65),
+      b: new THREE.Vector3(10.78, 2.552, -2.65),
+      intensity: 0.6,
+      color: GYM,
+      region,
+    });
+  }
   if (terrace?.fire) {
     points.push({
       id: "fire",
@@ -221,13 +238,14 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   }
 
   // Shell materials that glow with their installation.
-  const glowing = { festoon: [], fire: [] };
+  const glowing = { festoon: [], fire: [], gym: [] };
   function bindModel(model) {
     model.traverse((o) => {
       if (!o.isMesh) return;
       for (const m of [o.material].flat()) {
         if (m.name === "festoon bulb glass" && !glowing.festoon.includes(m)) glowing.festoon.push(m);
         if (m.name === "fire bowl embers" && !glowing.fire.includes(m)) glowing.fire.push(m);
+        if (m.name === "gym light diffuser" && !glowing.gym.includes(m)) glowing.gym.push(m);
       }
     });
   }
@@ -272,6 +290,10 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     for (const m of glowing.fire) {
       m.emissive?.copy(FIRE);
       m.emissiveIntensity = 3.2 * levels.fire * flicker;
+    }
+    for (const m of glowing.gym) {
+      m.emissive?.copy(GYM);
+      m.emissiveIntensity = 3 * levels.gym;
     }
   }
 

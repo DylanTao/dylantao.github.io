@@ -1,3 +1,5 @@
+import { trainingAt } from "./training.mjs";
+
 // Pure clock/state functions. The scene follows an authored routine, never telemetry.
 export function pacificClock(date, timeZone = "America/Los_Angeles") {
   const fields = Object.fromEntries(
@@ -25,11 +27,28 @@ export function resolveRoutine(config, date = new Date(), preview = null) {
   const clock = pacificClock(date, config.timeZone);
   const minute = preview?.minute == null ? clock.minute : Math.max(0, Math.min(1439, Number(preview.minute) || 0));
   const schedule = clock.weekend ? config.weekend : config.weekday;
-  let id = schedule[0][1];
-  for (const [start, activity] of schedule) {
-    if (minute >= start) id = activity;
+  let id = schedule[0][1],
+    slot = 0;
+  schedule.forEach(([start, activity], index) => {
+    if (minute >= start) {
+      id = activity;
+      slot = index;
+    }
+  });
+  // The gym slot follows the training program: a rest day (Sundays, and the days the body asked
+  // for) becomes downtime, and the session ends when its last set and note are done, so the next
+  // activity starts early instead of an hour of standing around.
+  const asked = Boolean(preview?.activity && config.activities[preview.activity]);
+  let training = null;
+  if (config.training && (asked ? preview.activity === "workout" : id === "workout")) {
+    training = trainingAt(config.training, clock.dateKey, minute, 0, { force: asked });
+    if (!asked) {
+      if (!training.plan) id = config.training.restActivity;
+      else if (minute >= training.endMinute) id = schedule[Math.min(slot + 1, schedule.length - 1)][1];
+      if (id !== "workout") training = null;
+    }
   }
-  if (preview?.activity && config.activities[preview.activity]) id = preview.activity;
+  if (asked) id = preview.activity;
   const activity = config.activities[id];
   const dayHash = [...clock.dateKey].reduce((sum, char) => sum * 31 + char.charCodeAt(0), 0) >>> 0;
   const drink = ["whiskey", "cocktail", "beer", "coffee"][dayHash % 4];
@@ -43,6 +62,7 @@ export function resolveRoutine(config, date = new Date(), preview = null) {
     prop: activity.prop === "evening" ? drink : activity.prop,
     palette,
     live: preview === null,
+    training,
   };
 }
 
