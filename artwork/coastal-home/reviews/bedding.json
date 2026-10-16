@@ -5,7 +5,7 @@
     "empty": {
       "pillowDeepestPressMeters": 0.0,
       "pillowVertices": 2082,
-      "duvetVertices": 5422,
+      "duvetVertices": 5420,
       "duvet": {
         "hemY": -2.6,
         "startZ": 3.17,
@@ -15,75 +15,75 @@
     "lizard": {
       "pillowDeepestPressMeters": 0.0925,
       "pillowVertices": 2082,
-      "duvetVertices": 4932,
+      "duvetVertices": 4934,
       "duvet": {
         "hemY": -2.8545,
         "startZ": 3.5696,
         "grid": [77, 63]
       },
       "coverChecked": 30202,
-      "aboveCoverUnderside": 290,
-      "worstAboveCoverUndersideMeters": 0.0128,
+      "aboveCoverUnderside": 90,
+      "worstAboveCoverUndersideMeters": 0.0106,
       "insidePillow": 0,
       "worstInsidePillowMeters": 0.0
     },
     "south-park": {
       "pillowDeepestPressMeters": 0.1262,
       "pillowVertices": 2082,
-      "duvetVertices": 4588,
+      "duvetVertices": 5244,
       "duvet": {
-        "hemY": -2.9257,
-        "startZ": 3.5204,
-        "grid": [77, 60]
+        "hemY": -2.7441,
+        "startZ": 3.654,
+        "grid": [77, 67]
       },
-      "coverChecked": 48465,
-      "aboveCoverUnderside": 588,
-      "worstAboveCoverUndersideMeters": 0.0148,
+      "coverChecked": 64991,
+      "aboveCoverUnderside": 262,
+      "worstAboveCoverUndersideMeters": 0.0097,
       "insidePillow": 24,
       "worstInsidePillowMeters": 0.007
     },
     "simpsons": {
-      "pillowDeepestPressMeters": 0.0918,
+      "pillowDeepestPressMeters": 0.0949,
       "pillowVertices": 2082,
-      "duvetVertices": 4848,
+      "duvetVertices": 5232,
       "duvet": {
-        "hemY": -2.8717,
-        "startZ": 3.5203,
-        "grid": [77, 62]
+        "hemY": -2.7322,
+        "startZ": 3.5808,
+        "grid": [77, 67]
       },
-      "coverChecked": 62715,
-      "aboveCoverUnderside": 3867,
-      "worstAboveCoverUndersideMeters": 0.0307,
+      "coverChecked": 75998,
+      "aboveCoverUnderside": 3214,
+      "worstAboveCoverUndersideMeters": 0.0317,
       "insidePillow": 0,
       "worstInsidePillowMeters": 0.0
     },
     "ghibli": {
       "pillowDeepestPressMeters": 0.1273,
       "pillowVertices": 2082,
-      "duvetVertices": 5546,
+      "duvetVertices": 5622,
       "duvet": {
-        "hemY": -2.6204,
+        "hemY": -2.5847,
         "startZ": 3.5204,
-        "grid": [77, 71]
+        "grid": [77, 72]
       },
-      "coverChecked": 77802,
-      "aboveCoverUnderside": 3721,
-      "worstAboveCoverUndersideMeters": 0.0255,
+      "coverChecked": 79848,
+      "aboveCoverUnderside": 1908,
+      "worstAboveCoverUndersideMeters": 0.0222,
       "insidePillow": 0,
       "worstInsidePillowMeters": 0.0
     },
     "rick-and-morty": {
-      "pillowDeepestPressMeters": 0.0924,
+      "pillowDeepestPressMeters": 0.0914,
       "pillowVertices": 2082,
-      "duvetVertices": 4856,
+      "duvetVertices": 5218,
       "duvet": {
-        "hemY": -2.8843,
-        "startZ": 3.5203,
-        "grid": [77, 62]
+        "hemY": -2.7421,
+        "startZ": 3.5359,
+        "grid": [77, 67]
       },
-      "coverChecked": 57136,
-      "aboveCoverUnderside": 370,
-      "worstAboveCoverUndersideMeters": 0.015,
+      "coverChecked": 70771,
+      "aboveCoverUnderside": 262,
+      "worstAboveCoverUndersideMeters": 0.0109,
       "insidePillow": 0,
       "worstInsidePillowMeters": 0.0
     }

@@ -3026,27 +3026,27 @@
   "sleepCover": [
     {
       "avatar": "lizard",
-      "maximumFootAboveDuvetMeters": -0.017226457595825195,
+      "maximumFootAboveDuvetMeters": -0.027161836624145508,
       "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"
     },
     {
       "avatar": "south-park",
-      "maximumFootAboveDuvetMeters": -0.023341655731201172,
+      "maximumFootAboveDuvetMeters": -0.02210521697998047,
       "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"
     },
     {
       "avatar": "simpsons",
-      "maximumFootAboveDuvetMeters": -0.017563343048095703,
+      "maximumFootAboveDuvetMeters": -0.02131032943725586,
       "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"
     },
     {
       "avatar": "ghibli",
-      "maximumFootAboveDuvetMeters": -0.013121604919433594,
+      "maximumFootAboveDuvetMeters": -0.016963481903076172,
       "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"
     },
     {
       "avatar": "rick-and-morty",
-      "maximumFootAboveDuvetMeters": -0.016911029815673828,
+      "maximumFootAboveDuvetMeters": -0.02887439727783203,
       "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"
     }
   ],
@@ -3254,10 +3254,10 @@
     },
     {
       "file": "room-sleep.glb",
-      "bytes": 264600,
-      "gzipBytes": 230807,
-      "triangles": 89614,
-      "sha256": "8a073fffb3671e87de0381566e326f7b032ebda9aaa3eb40d38bf77d908223f8",
+      "bytes": 270136,
+      "gzipBytes": 236313,
+      "triangles": 92570,
+      "sha256": "7dbab098557a9a8ca1d28f9249a6399268cf99931b80bc42ea75a308a5ee2a58",
       "materials": [
         "honey ash",
         "linen",
@@ -3487,5 +3487,5 @@
       "animations": []
     }
   ],
-  "totalGlbBytes": 9292832
+  "totalGlbBytes": 9298368
 }

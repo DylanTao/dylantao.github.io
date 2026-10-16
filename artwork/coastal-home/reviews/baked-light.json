@@ -57,42 +57,6 @@
       "max": 0.7624206048622728
     },
     {
-      "mesh": "sleep__honey ash",
-      "corners": 1968,
-      "min": 0.68,
-      "max": 0.7521837694942952
-    },
-    {
-      "mesh": "sleep__linen",
-      "corners": 1304,
-      "min": 0.68,
-      "max": 0.7533788510660331
-    },
-    {
-      "mesh": "sleep__pale oak",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.754965855528911
-    },
-    {
-      "mesh": "sleep__terracotta",
-      "corners": 1280,
-      "min": 0.68,
-      "max": 0.7504797388861577
-    },
-    {
-      "mesh": "sleep__charcoal",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.6950472081700961
-    },
-    {
-      "mesh": "sleep__olive leaf",
-      "corners": 2288,
-      "min": 0.68,
-      "max": 0.7431413309027752
-    },
-    {
       "mesh": "gym__gym rubber",
       "corners": 34592,
       "min": 0.68,
@@ -597,36 +561,6 @@
       "max": 0.7150167983770371
     },
     {
-      "mesh": "sleep_decor pale oak",
-      "corners": 96,
-      "min": 0.68,
-      "max": 0.6947838622455796
-    },
-    {
-      "mesh": "sleep_decor linen canvas sky",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6947241329277556
-    },
-    {
-      "mesh": "sleep_decor linen canvas sea",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6951262961452206
-    },
-    {
-      "mesh": "sleep_decor linen canvas sand",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6938884050274889
-    },
-    {
-      "mesh": "sleep_decor linen canvas sun",
-      "corners": 32,
-      "min": 0.6811087251516681,
-      "max": 0.6864539513240259
-    },
-    {
       "mesh": "study_decor cork board",
       "corners": 24,
       "min": 0.68,
@@ -685,78 +619,6 @@
       "corners": 812,
       "min": 0.68,
       "max": 0.7650398355474075
-    },
-    {
-      "mesh": "sleep_pillow_empty",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7647555017719666
-    },
-    {
-      "mesh": "sleep_duvet_empty",
-      "corners": 24774,
-      "min": 0.68,
-      "max": 0.7527881409724554
-    },
-    {
-      "mesh": "sleep_pillow_lizard",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7647555017719666
-    },
-    {
-      "mesh": "sleep_duvet_lizard",
-      "corners": 23256,
-      "min": 0.68,
-      "max": 0.7392636040225625
-    },
-    {
-      "mesh": "sleep_pillow_south-park",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7647555017719666
-    },
-    {
-      "mesh": "sleep_duvet_south-park",
-      "corners": 21472,
-      "min": 0.68,
-      "max": 0.7528170495977005
-    },
-    {
-      "mesh": "sleep_pillow_simpsons",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7647555017719666
-    },
-    {
-      "mesh": "sleep_duvet_simpsons",
-      "corners": 22660,
-      "min": 0.68,
-      "max": 0.7301757953812679
-    },
-    {
-      "mesh": "sleep_pillow_ghibli",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7647555017719666
-    },
-    {
-      "mesh": "sleep_duvet_ghibli",
-      "corners": 26220,
-      "min": 0.68,
-      "max": 0.7418021372208994
-    },
-    {
-      "mesh": "sleep_pillow_rick-and-morty",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7647555017719666
-    },
-    {
-      "mesh": "sleep_duvet_rick-and-morty",
-      "corners": 22656,
-      "min": 0.68,
-      "max": 0.7252621670548494
     },
     {
       "mesh": "core_facade__dark_bronze",
@@ -991,6 +853,144 @@
       "corners": 39552,
       "min": 0.68,
       "max": 0.9511140105004112
+    },
+    {
+      "mesh": "sleep__honey ash",
+      "corners": 1968,
+      "min": 0.68,
+      "max": 0.7521837694942952
+    },
+    {
+      "mesh": "sleep__linen",
+      "corners": 1304,
+      "min": 0.68,
+      "max": 0.7533788510660331
+    },
+    {
+      "mesh": "sleep__pale oak",
+      "corners": 704,
+      "min": 0.68,
+      "max": 0.754965855528911
+    },
+    {
+      "mesh": "sleep__terracotta",
+      "corners": 1280,
+      "min": 0.68,
+      "max": 0.7504762567331394
+    },
+    {
+      "mesh": "sleep__charcoal",
+      "corners": 704,
+      "min": 0.68,
+      "max": 0.6946006207416455
+    },
+    {
+      "mesh": "sleep__olive leaf",
+      "corners": 2288,
+      "min": 0.68,
+      "max": 0.7431413309027752
+    },
+    {
+      "mesh": "sleep_decor pale oak",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.6947838622455796
+    },
+    {
+      "mesh": "sleep_decor linen canvas sky",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6947241329277556
+    },
+    {
+      "mesh": "sleep_decor linen canvas sea",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6951262961452206
+    },
+    {
+      "mesh": "sleep_decor linen canvas sand",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6936570997039477
+    },
+    {
+      "mesh": "sleep_decor linen canvas sun",
+      "corners": 32,
+      "min": 0.6811087251516681,
+      "max": 0.686453158458074
+    },
+    {
+      "mesh": "sleep_pillow_empty",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7647555017719666
+    },
+    {
+      "mesh": "sleep_duvet_empty",
+      "corners": 24818,
+      "min": 0.68,
+      "max": 0.7283793901776274
+    },
+    {
+      "mesh": "sleep_pillow_lizard",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7647555017719666
+    },
+    {
+      "mesh": "sleep_duvet_lizard",
+      "corners": 23234,
+      "min": 0.68,
+      "max": 0.7394458722944062
+    },
+    {
+      "mesh": "sleep_pillow_south-park",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7643389845142762
+    },
+    {
+      "mesh": "sleep_duvet_south-park",
+      "corners": 24774,
+      "min": 0.68,
+      "max": 0.7335387403517962
+    },
+    {
+      "mesh": "sleep_pillow_simpsons",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7647555017719666
+    },
+    {
+      "mesh": "sleep_duvet_simpsons",
+      "corners": 24474,
+      "min": 0.68,
+      "max": 0.744313632696867
+    },
+    {
+      "mesh": "sleep_pillow_ghibli",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7647555017719666
+    },
+    {
+      "mesh": "sleep_duvet_ghibli",
+      "corners": 26448,
+      "min": 0.68,
+      "max": 0.7348586349189282
+    },
+    {
+      "mesh": "sleep_pillow_rick-and-morty",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7647555017719666
+    },
+    {
+      "mesh": "sleep_duvet_rick-and-morty",
+      "corners": 24510,
+      "min": 0.68,
+      "max": 0.744213026141127
     }
   ]
 }

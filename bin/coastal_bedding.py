@@ -184,7 +184,8 @@ def pillow(name, mat, bodies, center=(-3.10, -2.33), size=(0.72, 0.44), loft=0.1
 
 
 def chin(bodies):
-    """The lowest point of the sleepers' heads along the bed (toward the feet)."""
+    """The lowest point of the sleepers' heads along the bed (toward the feet). Hair counts: it
+    is weighted to the head, so the shoulder-length locks of October 15 set the hem as well."""
     return min((p.y for b in bodies for p, h in zip(b["points"], b["head"]) if h), default=None)
 
 
@@ -246,7 +247,7 @@ def _sample(field, x, y):
             + h[j + 1, i] * (1 - tx) * ty + h[j + 1, i + 1] * tx * ty)
 
 
-def drape(field, grid, start_z, margin=0.014, dt=1 / 120, steps=480, iterations=10, bend=BEND):
+def drape(field, grid, start_z, margin=0.02, dt=1 / 120, steps=480, iterations=10, bend=BEND):
     """Position-based dynamics (Mueller et al., 2007): the cover falls under gravity, distance
     constraints keep its weave (stretch and shear stiff, a soft bend across two cells), and every
     vertex is projected out of the support field with a margin. Constraints are coloured so no
