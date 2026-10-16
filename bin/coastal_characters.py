@@ -9,6 +9,129 @@ import bpy
 from coastal_sculpt import surface, loft, swept_lock, weld_sculpt
 
 
+def face_profile(style):
+    """Loft rings (height, width, depth) of each study's head, in head-scale units."""
+    if style == "ghibli":
+        return [
+            (-1.0, 0.30, 0.30),
+            (-0.88, 0.57, 0.59),
+            (-0.70, 0.79, 0.76),
+            (-0.40, 0.92, 0.87),
+            (-0.05, 0.99, 0.95),
+            (0.28, 0.97, 0.97),
+            (0.52, 0.91, 0.90),
+            (0.75, 0.82, 0.77),
+            (0.91, 0.53, 0.50),
+            (1.025, 0.08, 0.08),
+        ]
+    if style == "south-park":
+        return [
+            (-0.97, 0.23, 0.20),
+            (-0.85, 0.60, 0.54),
+            (-0.57, 0.88, 0.78),
+            (-0.2, 1.0, 0.95),
+            (0.2, 1.0, 1.0),
+            (0.55, 0.87, 0.91),
+            (0.83, 0.57, 0.66),
+            (1.0, 0.08, 0.09),
+        ]
+    if style == "simpsons":
+        return [
+            (-1.0, 0.43, 0.45),
+            (-0.86, 0.73, 0.79),
+            (-0.5, 0.93, 0.98),
+            (0, 0.98, 1.0),
+            (0.5, 0.99, 0.98),
+            (0.83, 0.80, 0.76),
+            (1.02, 0.12, 0.14),
+        ]
+    # A square-soft chin and tapered temples keep the natural face adult.
+    return [
+        (-1.0, 0.28, 0.27),
+        (-0.88, 0.69, 0.62),
+        (-0.69, 0.94, 0.82),
+        (-0.39, 0.98, 0.92),
+        (-0.04, 1.0, 1.0),
+        (0.30, 0.98, 0.97),
+        (0.62, 0.91, 0.84),
+        (0.85, 0.70, 0.62),
+        (1.0, 0.25, 0.24),
+        (1.025, 0.035, 0.04),
+    ]
+
+
+def skull_loft(style, head_z, head_scale, skin, profile=None):
+    """The smoothed lofted skull alone, before ears and nose are welded on."""
+    natural = style == "ghibli"
+    hx, hy, hz = head_scale
+    obj = loft(
+        "shaped adult face",
+        [(head_z + l * hz, 0,
+          -0.015 - (0.007 * max(0, -l - 0.25) if natural else 0),
+          hx * wx, hy * wy) for l, wx, wy in (profile or face_profile(style))],
+        skin,
+        48,
+    )
+    bpy.context.view_layer.objects.active = obj
+    sub = obj.modifiers.new("relaxed surface", "SUBSURF")
+    sub.levels = 2
+    bpy.ops.object.modifier_apply(modifier=sub.name)
+    return obj
+
+
+def adult_face(style, head_z, head_scale, sphere, skin, profile=None, ear_out=0.0):
+    """Skull, ears and nose welded into the one continuous sculpted head skin.
+
+    Shared by the full character builder and the October 15 likeness pass,
+    which rebuilds this surface (optionally with a reshaped profile, ears moved
+    out with it) before cutting its new mouth.
+    """
+    short, yellow, lanky, natural = (
+        style == x for x in ("south-park", "simpsons", "rick-and-morty", "ghibli")
+    )
+    hx, hy, hz = head_scale
+    face_parts = [skull_loft(style, head_z, head_scale, skin, profile)]
+    for side in (-1, 1):
+        ear = sphere(
+            "ear helix",
+            (side * (hx * 0.98 + ear_out), -0.003, head_z - 0.015),
+            (0.030 if natural else 0.043, 0.028 if natural else 0.031, 0.055 if natural else 0.058),
+            skin,
+            segments=24,
+        )
+        face_parts.append(ear)
+    eye_y = -0.232 if short else -0.174 if yellow or lanky else -0.158
+    # A continuous nose bridge; the Simpsons study keeps its distinctive long tip.
+    if natural:
+        nose = loft(
+            "nose bridge",
+            [
+                (head_z - 0.067, 0, eye_y - 0.014, 0.032, 0.022),
+                (head_z - 0.035, 0, eye_y - 0.035, 0.032, 0.037),
+                (head_z + 0.01, 0, eye_y - 0.009, 0.016, 0.026),
+                (head_z + 0.072, 0, eye_y + 0.005, 0.013, 0.014),
+            ],
+            skin,
+            24,
+        )
+    else:
+        nose = sphere(
+            "cartoon nose",
+            (0, eye_y - (0.035 if yellow else 0.012), head_z - 0.015),
+            (
+                (0.050, 0.11, 0.048)
+                if yellow
+                else (0.021, 0.051, 0.062) if lanky else (0.024, 0.027, 0.029)
+            ),
+            skin,
+            segments=28,
+        )
+    face_parts.append(nose)
+    return weld_sculpt(
+        face_parts, "sculpted adult Sirui face", 0.0038 if natural else 0.005
+    )
+
+
 def refine_human(pieces, style, width, head_z, head_scale, h):
     for obj, _ in pieces:
         bpy.data.objects.remove(obj, do_unlink=True)
@@ -43,109 +166,11 @@ def refine_human(pieces, style, width, head_z, head_scale, h):
     lip = h["material"]("quiet lip crease", (0.23, 0.10, 0.064), 0.82)
     sole = h["material"]("canvas sneaker sole", (0.65, 0.62, 0.54), 0.85)
 
-    # A square-soft chin and tapered temples keep the natural face adult.
-    profile = [
-        (-1.0, 0.28, 0.27),
-        (-0.88, 0.69, 0.62),
-        (-0.69, 0.94, 0.82),
-        (-0.39, 0.98, 0.92),
-        (-0.04, 1.0, 1.0),
-        (0.30, 0.98, 0.97),
-        (0.62, 0.91, 0.84),
-        (0.85, 0.70, 0.62),
-        (1.0, 0.25, 0.24),
-        (1.025, 0.035, 0.04),
-    ]
-    if natural:
-        profile = [
-            (-1.0, 0.30, 0.30),
-            (-0.88, 0.57, 0.59),
-            (-0.70, 0.79, 0.76),
-            (-0.40, 0.92, 0.87),
-            (-0.05, 0.99, 0.95),
-            (0.28, 0.97, 0.97),
-            (0.52, 0.91, 0.90),
-            (0.75, 0.82, 0.77),
-            (0.91, 0.53, 0.50),
-            (1.025, 0.08, 0.08),
-        ]
-    if short:
-        profile = [
-            (-0.97, 0.23, 0.20),
-            (-0.85, 0.60, 0.54),
-            (-0.57, 0.88, 0.78),
-            (-0.2, 1.0, 0.95),
-            (0.2, 1.0, 1.0),
-            (0.55, 0.87, 0.91),
-            (0.83, 0.57, 0.66),
-            (1.0, 0.08, 0.09),
-        ]
-    if yellow:
-        profile = [
-            (-1.0, 0.43, 0.45),
-            (-0.86, 0.73, 0.79),
-            (-0.5, 0.93, 0.98),
-            (0, 0.98, 1.0),
-            (0.5, 0.99, 0.98),
-            (0.83, 0.80, 0.76),
-            (1.02, 0.12, 0.14),
-        ]
-    face = smooth(
-        loft(
-            "shaped adult face",
-            [(head_z + l * hz, 0,
-              -0.015 - (0.007 * max(0, -l - 0.25) if natural else 0),
-              hx * wx, hy * wy) for l, wx, wy in profile],
-            skin,
-            48,
-        ),
-        2,
-    )
-    face_parts = [face]
-    for side in (-1, 1):
-        ear = sphere(
-            "ear helix",
-            (side * hx * 0.98, -0.003, head_z - 0.015),
-            (0.030 if natural else 0.043, 0.028 if natural else 0.031, 0.055 if natural else 0.058),
-            skin,
-            segments=24,
-        )
-        face_parts.append(ear)
+    face = part(adult_face(style, head_z, head_scale, sphere, skin))
     eye_x = 0.14 if short else 0.112 if yellow or lanky else 0.060
     eye_y = -0.232 if short else -0.174 if yellow or lanky else -0.158
     eye_z = head_z + 0.042
     eye_r = 0.11 if short else 0.09 if yellow or lanky else 0.028
-    # A continuous nose bridge; the Simpsons study keeps its distinctive long tip.
-    if natural:
-        nose = loft(
-            "nose bridge",
-            [
-                (head_z - 0.067, 0, eye_y - 0.014, 0.032, 0.022),
-                (head_z - 0.035, 0, eye_y - 0.035, 0.032, 0.037),
-                (head_z + 0.01, 0, eye_y - 0.009, 0.016, 0.026),
-                (head_z + 0.072, 0, eye_y + 0.005, 0.013, 0.014),
-            ],
-            skin,
-            24,
-        )
-    else:
-        nose = sphere(
-            "cartoon nose",
-            (0, eye_y - (0.035 if yellow else 0.012), head_z - 0.015),
-            (
-                (0.050, 0.11, 0.048)
-                if yellow
-                else (0.021, 0.051, 0.062) if lanky else (0.024, 0.027, 0.029)
-            ),
-            skin,
-            segments=28,
-        )
-    face_parts.append(nose)
-    face = part(
-        weld_sculpt(
-            face_parts, "sculpted adult Sirui face", 0.0038 if natural else 0.005
-        )
-    )
     part(
         smooth(
             loft(

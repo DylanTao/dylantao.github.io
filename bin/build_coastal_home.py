@@ -1378,6 +1378,10 @@ def character(style):
     bpy.context.scene.frame_set(1)
     from coastal_expression import install_expression
     install_expression(arm)
+    if not lizard:
+        # Hair, brows and open expression led by Sirui's 2D portraits (October 15).
+        from coastal_likeness import install_likeness
+        install_likeness(arm, style)
     export("sirui-" + style, animations=True)
     if style == "ghibli":
         write_grip_manifest(OUT / "manifest.json")

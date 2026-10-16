@@ -1,0 +1,133 @@
+{
+  "pass": "October 15 reference likeness: hair, brows, face skin and open expression",
+  "references": {
+    "ghibli": "assets/img/sirui_pic_ghbili.png",
+    "south-park": "assets/img/sirui_pic_south_park.png",
+    "simpsons": "assets/img/sirui_pic_simpsons.png",
+    "rick-and-morty": "assets/img/sirui_pic_rick_and_morty.png"
+  },
+  "baselineRef": "f403dfead",
+  "computedGzipNote": "Computed gzip equivalents of the GLB bytes, not measured HTTP transfer.",
+  "avatars": [
+    {
+      "avatar": "south-park",
+      "removedVertices": {
+        "hair": 11468,
+        "face": 20765,
+        "mouth": 266,
+        "teeth": 384
+      },
+      "addedVertices": {
+        "face": 20822,
+        "mouth": 384,
+        "brows": 504,
+        "hair": 14434
+      },
+      "hair": {
+        "curtainFrontAzimuth": 1.8008,
+        "templeZ": 1.5688,
+        "backFlare": 0.0205,
+        "rearmostY": 0.2669,
+        "sleepBackY": 0.2701
+      },
+      "meshVertices": 94246,
+      "beforeBytes": 718608,
+      "afterBytes": 716452,
+      "beforeGzipEquivalent": 518263,
+      "afterGzipEquivalent": 513930,
+      "beforeTriangles": 182770,
+      "afterTriangles": 189396,
+      "clips": 14
+    },
+    {
+      "avatar": "simpsons",
+      "removedVertices": {
+        "hair": 11468,
+        "face": 12352,
+        "mouth": 266,
+        "teeth": 480
+      },
+      "addedVertices": {
+        "face": 12489,
+        "mouth": 480,
+        "brows": 504,
+        "hair": 14146
+      },
+      "hair": {
+        "curtainFrontAzimuth": 1.8858,
+        "templeZ": 1.6694,
+        "backFlare": 0.0412,
+        "rearmostY": 0.1937,
+        "sleepBackY": 0.1968
+      },
+      "meshVertices": 83048,
+      "beforeBytes": 671740,
+      "afterBytes": 669956,
+      "beforeGzipEquivalent": 472926,
+      "afterGzipEquivalent": 469328,
+      "beforeTriangles": 160778,
+      "afterTriangles": 166988,
+      "clips": 14
+    },
+    {
+      "avatar": "ghibli",
+      "removedVertices": {
+        "hair": 11468,
+        "face": 13624,
+        "mouth": 200,
+        "teeth": 0
+      },
+      "addedVertices": {
+        "face": 14065,
+        "mouth": 310,
+        "brows": 504,
+        "hair": 14050
+      },
+      "hair": {
+        "curtainFrontAzimuth": 1.9308,
+        "templeZ": 1.5562,
+        "backFlare": 0.0224,
+        "rearmostY": 0.1233,
+        "sleepBackY": 0.1244
+      },
+      "meshVertices": 86938,
+      "beforeBytes": 854348,
+      "afterBytes": 861208,
+      "beforeGzipEquivalent": 508011,
+      "afterGzipEquivalent": 511390,
+      "beforeTriangles": 167390,
+      "afterTriangles": 174776,
+      "clips": 14
+    },
+    {
+      "avatar": "rick-and-morty",
+      "removedVertices": {
+        "hair": 11468,
+        "face": 11606,
+        "mouth": 266,
+        "teeth": 480
+      },
+      "addedVertices": {
+        "face": 12223,
+        "mouth": 982,
+        "brows": 504,
+        "hair": 14050
+      },
+      "hair": {
+        "curtainFrontAzimuth": 1.9258,
+        "templeZ": 1.6694,
+        "backFlare": 0.0663,
+        "rearmostY": 0.1776,
+        "sleepBackY": 0.1807
+      },
+      "meshVertices": 80877,
+      "beforeBytes": 655740,
+      "afterBytes": 663812,
+      "beforeGzipEquivalent": 457206,
+      "afterGzipEquivalent": 462252,
+      "beforeTriangles": 154676,
+      "afterTriangles": 162646,
+      "clips": 14
+    }
+  ]
+}

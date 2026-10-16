@@ -1,0 +1,865 @@
+{
+  "baselineRef": "f403dfead",
+  "method": "Exact digests of everything outside the replaced head features; ray-parity and nearest-surface tests on actual rest and deformed Blender meshes at five key times per clip",
+  "limitations": "Sampled vertex tests, not continuous collision proof. Hair is rigidly skinned to Head; it has no secondary motion. Bedding advice is read-only; refresh_coastal_bedding.py owns the refit.",
+  "avatars": [
+    {
+      "avatar": "south-park",
+      "exactRetained": {
+        "retainedVertices": "952f775de2a12e64863db73c433cd3d3d2ca3774504d358679e95f0fd4861860",
+        "retainedFaces": "7c6f443a2bea2c636efa27e4f7c756cccd79848045cb7cd6272e8faf883ab6c0",
+        "keys": "9dbaaa0a1f9e4db509b160f30725c13a1fdc66f6d5fba549d1150970d80057c6",
+        "bones": "0ff96064b1ab2d5bbcaab4458c7d1d01c540c12c41ea1036f2d99a7e5ec6be8d",
+        "eyelids": "c34bf10b7a536479fe5d2976240e50b234f98eebf90ba2300dbf3da6f965b0dd",
+        "objects": "07a8be02650f338314015be777d31f82d2f9b50430bb9b0cc9fa24251ca1d2f8"
+      },
+      "counts": {
+        "before": {
+          "retainedVertices": 58102,
+          "retainedFaces": 71366,
+          "replacedVertices": {
+            "hair": 11468,
+            "face": 20765,
+            "mouth": 266,
+            "teeth": 384
+          }
+        },
+        "after": {
+          "retainedVertices": 58102,
+          "retainedFaces": 71366,
+          "replacedVertices": {
+            "hair": 14938,
+            "face": 20617,
+            "mouth": 384,
+            "teeth": 384
+          }
+        }
+      },
+      "clearance": {
+        "before": {
+          "rimVerticesInsideHair": 0,
+          "rimVerticesInsideBrows": 0,
+          "armVerticesInsideHair": 11,
+          "armVertices": 256,
+          "eyePartVerticesInsideFace": 514,
+          "eyePartVertices": 5460,
+          "eyelidVerticesInsideHair_open": 0,
+          "eyelidVerticesInsideFace_open": 200,
+          "eyelidVerticesInsideHair_closed": 0,
+          "eyelidVerticesInsideFace_closed": 116
+        },
+        "after": {
+          "rimVerticesInsideHair": 0,
+          "rimVerticesInsideBrows": 0,
+          "armVerticesInsideHair": 4,
+          "armVertices": 256,
+          "eyePartVerticesInsideFace": 514,
+          "eyePartVertices": 5460,
+          "eyelidVerticesInsideHair_open": 0,
+          "eyelidVerticesInsideFace_open": 200,
+          "eyelidVerticesInsideHair_closed": 0,
+          "eyelidVerticesInsideFace_closed": 116,
+          "hairVerticesInsideEars": 0,
+          "deepestInsideEarMeters": 0.0,
+          "newVerticesNotHeadOnly": 0,
+          "rearmostRestY": 0.2669
+        }
+      },
+      "hairInsideBody": {
+        "before": {
+          "idle": {
+            "verticesInside": 33,
+            "deepestMeters": 0.011
+          },
+          "walk": {
+            "verticesInside": 35,
+            "deepestMeters": 0.0031
+          },
+          "typing": {
+            "verticesInside": 77,
+            "deepestMeters": 0.0598
+          },
+          "reading": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "eat": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "drink": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "workout": {
+            "verticesInside": 49,
+            "deepestMeters": 0.0034
+          },
+          "pullup": {
+            "verticesInside": 1783,
+            "deepestMeters": 0.0459
+          },
+          "dip": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "coffee-prep": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "carry": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "soak": {
+            "verticesInside": 5,
+            "deepestMeters": 0.0527
+          },
+          "lounge": {
+            "verticesInside": 5,
+            "deepestMeters": 0.0527
+          },
+          "sleep": {
+            "verticesInside": 1130,
+            "deepestMeters": 0.0491
+          }
+        },
+        "after": {
+          "idle": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "walk": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "typing": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "reading": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "eat": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "drink": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "workout": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "pullup": {
+            "verticesInside": 1015,
+            "deepestMeters": 0.0474
+          },
+          "dip": {
+            "verticesInside": 9,
+            "deepestMeters": 0.004
+          },
+          "coffee-prep": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "carry": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "soak": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "lounge": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "sleep": {
+            "verticesInside": 1275,
+            "deepestMeters": 0.0452
+          }
+        }
+      },
+      "sleepHeadContact": [
+        {
+          "frame": 1,
+          "headMinZ": 0.6182
+        },
+        {
+          "frame": 25,
+          "headMinZ": 0.6216
+        },
+        {
+          "frame": 49,
+          "headMinZ": 0.6182
+        },
+        {
+          "frame": 73,
+          "headMinZ": 0.6146
+        },
+        {
+          "frame": 97,
+          "headMinZ": 0.6182
+        }
+      ]
+    },
+    {
+      "avatar": "simpsons",
+      "exactRetained": {
+        "retainedVertices": "0fc5ccdc08778ddef2ddac82149e03ca94cc1e7a067b377e9e6fdc2646406f16",
+        "retainedFaces": "ce5ea6baaed89b5743920837c072ea4511282369d77b565b6856df19028a38a0",
+        "keys": "a4687650fc2818102c3d74a0f7dda32121318e7e2eb14b206a75620e94306c92",
+        "bones": "29d8550f96e3da03f4d0f174c6e4c915b794381c9472a09f98105649c0ce2566",
+        "eyelids": "64232c8d94625f77e4dbffab651c7ff904fa31460f5c050445d9efd0bbe15065",
+        "objects": "07a8be02650f338314015be777d31f82d2f9b50430bb9b0cc9fa24251ca1d2f8"
+      },
+      "counts": {
+        "before": {
+          "retainedVertices": 55429,
+          "retainedFaces": 67651,
+          "replacedVertices": {
+            "hair": 11468,
+            "face": 12352,
+            "mouth": 266,
+            "teeth": 480
+          }
+        },
+        "after": {
+          "retainedVertices": 55429,
+          "retainedFaces": 67651,
+          "replacedVertices": {
+            "hair": 14650,
+            "face": 12267,
+            "mouth": 440,
+            "teeth": 480
+          }
+        }
+      },
+      "clearance": {
+        "before": {
+          "rimVerticesInsideHair": 0,
+          "rimVerticesInsideBrows": 0,
+          "armVerticesInsideHair": 23,
+          "armVertices": 256,
+          "eyePartVerticesInsideFace": 888,
+          "eyePartVertices": 5460,
+          "eyelidVerticesInsideHair_open": 0,
+          "eyelidVerticesInsideFace_open": 236,
+          "eyelidVerticesInsideHair_closed": 0,
+          "eyelidVerticesInsideFace_closed": 141
+        },
+        "after": {
+          "rimVerticesInsideHair": 0,
+          "rimVerticesInsideBrows": 0,
+          "armVerticesInsideHair": 3,
+          "armVertices": 256,
+          "eyePartVerticesInsideFace": 888,
+          "eyePartVertices": 5460,
+          "eyelidVerticesInsideHair_open": 0,
+          "eyelidVerticesInsideFace_open": 236,
+          "eyelidVerticesInsideHair_closed": 0,
+          "eyelidVerticesInsideFace_closed": 141,
+          "hairVerticesInsideEars": 0,
+          "deepestInsideEarMeters": 0.0,
+          "newVerticesNotHeadOnly": 0,
+          "rearmostRestY": 0.1937
+        }
+      },
+      "hairInsideBody": {
+        "before": {
+          "idle": {
+            "verticesInside": 132,
+            "deepestMeters": 0.0036
+          },
+          "walk": {
+            "verticesInside": 125,
+            "deepestMeters": 0.0033
+          },
+          "typing": {
+            "verticesInside": 83,
+            "deepestMeters": 0.0039
+          },
+          "reading": {
+            "verticesInside": 35,
+            "deepestMeters": 0.0035
+          },
+          "eat": {
+            "verticesInside": 121,
+            "deepestMeters": 0.0033
+          },
+          "drink": {
+            "verticesInside": 121,
+            "deepestMeters": 0.0033
+          },
+          "workout": {
+            "verticesInside": 125,
+            "deepestMeters": 0.0033
+          },
+          "pullup": {
+            "verticesInside": 130,
+            "deepestMeters": 0.0034
+          },
+          "dip": {
+            "verticesInside": 45,
+            "deepestMeters": 0.0025
+          },
+          "coffee-prep": {
+            "verticesInside": 44,
+            "deepestMeters": 0.0036
+          },
+          "carry": {
+            "verticesInside": 64,
+            "deepestMeters": 0.0037
+          },
+          "soak": {
+            "verticesInside": 131,
+            "deepestMeters": 0.0037
+          },
+          "lounge": {
+            "verticesInside": 131,
+            "deepestMeters": 0.0037
+          },
+          "sleep": {
+            "verticesInside": 2210,
+            "deepestMeters": 0.0434
+          }
+        },
+        "after": {
+          "idle": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "walk": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "typing": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "reading": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "eat": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "drink": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "workout": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "pullup": {
+            "verticesInside": 35,
+            "deepestMeters": 0.0069
+          },
+          "dip": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "coffee-prep": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "carry": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "soak": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "lounge": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "sleep": {
+            "verticesInside": 1270,
+            "deepestMeters": 0.0492
+          }
+        }
+      },
+      "sleepHeadContact": [
+        {
+          "frame": 1,
+          "headMinZ": 0.6181
+        },
+        {
+          "frame": 25,
+          "headMinZ": 0.6225
+        },
+        {
+          "frame": 49,
+          "headMinZ": 0.6181
+        },
+        {
+          "frame": 73,
+          "headMinZ": 0.6137
+        },
+        {
+          "frame": 97,
+          "headMinZ": 0.6181
+        }
+      ]
+    },
+    {
+      "avatar": "ghibli",
+      "exactRetained": {
+        "retainedVertices": "d9698381c69c9c4acad35d42846d428db2f4e133c6377e1d925919b2c4aeb781",
+        "retainedFaces": "acb3fec28c7758ff9cae20b4b0b69f4c078caa8381259530d57d5a098a85f6b7",
+        "keys": "2e01017edfb70eca5be980a345864cbf7860144bb957815a1920367f26eba584",
+        "bones": "7240ac6c4cf89499fbe5cc26c8fc54f7bdc451bc4c1494052dd3360fbfb9d05c",
+        "eyelids": "bdbd39bde10c311d1bfa13e3ef875a2048b458e34d9e5842e32a32d483112d52",
+        "objects": "07a8be02650f338314015be777d31f82d2f9b50430bb9b0cc9fa24251ca1d2f8"
+      },
+      "counts": {
+        "before": {
+          "retainedVertices": 58009,
+          "retainedFaces": 70275,
+          "replacedVertices": {
+            "hair": 11468,
+            "face": 13624,
+            "mouth": 200,
+            "teeth": 0
+          }
+        },
+        "after": {
+          "retainedVertices": 58009,
+          "retainedFaces": 70275,
+          "replacedVertices": {
+            "hair": 14554,
+            "face": 13868,
+            "mouth": 684,
+            "teeth": 0
+          }
+        }
+      },
+      "clearance": {
+        "before": {
+          "rimVerticesInsideHair": 0,
+          "rimVerticesInsideBrows": 0,
+          "armVerticesInsideHair": 27,
+          "armVertices": 240,
+          "eyePartVerticesInsideFace": 861,
+          "eyePartVertices": 5992,
+          "eyelidVerticesInsideHair_open": 0,
+          "eyelidVerticesInsideFace_open": 354,
+          "eyelidVerticesInsideHair_closed": 0,
+          "eyelidVerticesInsideFace_closed": 126
+        },
+        "after": {
+          "rimVerticesInsideHair": 0,
+          "rimVerticesInsideBrows": 0,
+          "armVerticesInsideHair": 4,
+          "armVertices": 240,
+          "eyePartVerticesInsideFace": 867,
+          "eyePartVertices": 5992,
+          "eyelidVerticesInsideHair_open": 0,
+          "eyelidVerticesInsideFace_open": 354,
+          "eyelidVerticesInsideHair_closed": 0,
+          "eyelidVerticesInsideFace_closed": 126,
+          "hairVerticesInsideEars": 0,
+          "deepestInsideEarMeters": 0.0,
+          "newVerticesNotHeadOnly": 0,
+          "rearmostRestY": 0.1233
+        }
+      },
+      "hairInsideBody": {
+        "before": {
+          "idle": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "walk": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "typing": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "reading": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "eat": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "drink": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "workout": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "pullup": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "dip": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "coffee-prep": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "carry": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "soak": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "lounge": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "sleep": {
+            "verticesInside": 5274,
+            "deepestMeters": 0.0592
+          }
+        },
+        "after": {
+          "idle": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "walk": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "typing": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "reading": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "eat": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "drink": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "workout": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "pullup": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "dip": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "coffee-prep": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "carry": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "soak": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "lounge": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "sleep": {
+            "verticesInside": 3739,
+            "deepestMeters": 0.0595
+          }
+        }
+      },
+      "sleepHeadContact": [
+        {
+          "frame": 1,
+          "headMinZ": 0.6161
+        },
+        {
+          "frame": 25,
+          "headMinZ": 0.6204
+        },
+        {
+          "frame": 49,
+          "headMinZ": 0.6161
+        },
+        {
+          "frame": 73,
+          "headMinZ": 0.6118
+        },
+        {
+          "frame": 97,
+          "headMinZ": 0.6161
+        }
+      ]
+    },
+    {
+      "avatar": "rick-and-morty",
+      "exactRetained": {
+        "retainedVertices": "24832567426f6b97b0c824e887053dfc80e8836c8e62031a984fec2ffa65a94f",
+        "retainedFaces": "b3b78889cb768c958136217cc09cf0f92f7566774f0d113effd5759263ce0b0d",
+        "keys": "2f434b9d692c1a18c49e124fe77a2780d1aa8f6a8ee3e47ecc39d24a961acdc9",
+        "bones": "33d23e4672cb7a17fd2b1fe0ff4404c7f46683ddd1334c56cbd442bed7bacee4",
+        "eyelids": "64232c8d94625f77e4dbffab651c7ff904fa31460f5c050445d9efd0bbe15065",
+        "objects": "07a8be02650f338314015be777d31f82d2f9b50430bb9b0cc9fa24251ca1d2f8"
+      },
+      "counts": {
+        "before": {
+          "retainedVertices": 53118,
+          "retainedFaces": 64491,
+          "replacedVertices": {
+            "hair": 11468,
+            "face": 11606,
+            "mouth": 266,
+            "teeth": 480
+          }
+        },
+        "after": {
+          "retainedVertices": 53118,
+          "retainedFaces": 64491,
+          "replacedVertices": {
+            "hair": 14554,
+            "face": 12005,
+            "mouth": 748,
+            "teeth": 672
+          }
+        }
+      },
+      "clearance": {
+        "before": {
+          "rimVerticesInsideHair": 0,
+          "rimVerticesInsideBrows": 0,
+          "armVerticesInsideHair": 24,
+          "armVertices": 256,
+          "eyePartVerticesInsideFace": 98,
+          "eyePartVertices": 5460,
+          "eyelidVerticesInsideHair_open": 0,
+          "eyelidVerticesInsideFace_open": 0,
+          "eyelidVerticesInsideHair_closed": 0,
+          "eyelidVerticesInsideFace_closed": 0
+        },
+        "after": {
+          "rimVerticesInsideHair": 0,
+          "rimVerticesInsideBrows": 0,
+          "armVerticesInsideHair": 1,
+          "armVertices": 256,
+          "eyePartVerticesInsideFace": 100,
+          "eyePartVertices": 5460,
+          "eyelidVerticesInsideHair_open": 0,
+          "eyelidVerticesInsideFace_open": 0,
+          "eyelidVerticesInsideHair_closed": 0,
+          "eyelidVerticesInsideFace_closed": 0,
+          "hairVerticesInsideEars": 0,
+          "deepestInsideEarMeters": 0.0,
+          "newVerticesNotHeadOnly": 0,
+          "rearmostRestY": 0.1776
+        }
+      },
+      "hairInsideBody": {
+        "before": {
+          "idle": {
+            "verticesInside": 16,
+            "deepestMeters": 0.0035
+          },
+          "walk": {
+            "verticesInside": 5,
+            "deepestMeters": 0.0015
+          },
+          "typing": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "reading": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "eat": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "drink": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "workout": {
+            "verticesInside": 5,
+            "deepestMeters": 0.0015
+          },
+          "pullup": {
+            "verticesInside": 55,
+            "deepestMeters": 0.0038
+          },
+          "dip": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "coffee-prep": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "carry": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "soak": {
+            "verticesInside": 3,
+            "deepestMeters": 0.0016
+          },
+          "lounge": {
+            "verticesInside": 3,
+            "deepestMeters": 0.0016
+          },
+          "sleep": {
+            "verticesInside": 1905,
+            "deepestMeters": 0.0401
+          }
+        },
+        "after": {
+          "idle": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "walk": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "typing": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "reading": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "eat": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "drink": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "workout": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "pullup": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "dip": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "coffee-prep": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "carry": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "soak": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "lounge": {
+            "verticesInside": 0,
+            "deepestMeters": 0.0
+          },
+          "sleep": {
+            "verticesInside": 1200,
+            "deepestMeters": 0.0491
+          }
+        }
+      },
+      "sleepHeadContact": [
+        {
+          "frame": 1,
+          "headMinZ": 0.6181
+        },
+        {
+          "frame": 25,
+          "headMinZ": 0.6224
+        },
+        {
+          "frame": 49,
+          "headMinZ": 0.6181
+        },
+        {
+          "frame": 73,
+          "headMinZ": 0.6138
+        },
+        {
+          "frame": 97,
+          "headMinZ": 0.6181
+        }
+      ]
+    }
+  ],
+  "beddingAdvisory": {
+    "south-park": {
+      "insidePillow": 1113,
+      "worstInsidePillowMeters": 0.0321,
+      "fittedWorstInsidePillowMeters": 0.007,
+      "aboveCoverUnderside": 0,
+      "worstAboveCoverUndersideMeters": 0.0,
+      "lowestHeadY": -2.6741,
+      "fittedHemY": -2.9257,
+      "refitHemY": -2.7441,
+      "refitNeeded": true
+    },
+    "simpsons": {
+      "insidePillow": 877,
+      "worstInsidePillowMeters": 0.0221,
+      "fittedWorstInsidePillowMeters": 0.0,
+      "aboveCoverUnderside": 0,
+      "worstAboveCoverUndersideMeters": 0.0,
+      "lowestHeadY": -2.6622,
+      "fittedHemY": -2.8717,
+      "refitHemY": -2.7322,
+      "refitNeeded": true
+    },
+    "ghibli": {
+      "insidePillow": 3310,
+      "worstInsidePillowMeters": 0.0328,
+      "fittedWorstInsidePillowMeters": 0.0,
+      "aboveCoverUnderside": 0,
+      "worstAboveCoverUndersideMeters": 0.0,
+      "lowestHeadY": -2.5147,
+      "fittedHemY": -2.6204,
+      "refitHemY": -2.5847,
+      "refitNeeded": true
+    },
+    "rick-and-morty": {
+      "insidePillow": 532,
+      "worstInsidePillowMeters": 0.0143,
+      "fittedWorstInsidePillowMeters": 0.0,
+      "aboveCoverUnderside": 0,
+      "worstAboveCoverUndersideMeters": 0.0,
+      "lowestHeadY": -2.6721,
+      "fittedHemY": -2.8843,
+      "refitHemY": -2.7421,
+      "refitNeeded": true
+    }
+  }
+}

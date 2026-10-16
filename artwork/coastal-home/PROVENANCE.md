@@ -161,3 +161,31 @@ Sirui kept the first planting and asked for more kinds of plant. The same two sc
 - Species: [lemonade berry at Sunset Cliffs](https://commons.wikimedia.org/wiki/File:Rhus_integrifolia_kz01.jpg), [California buckwheat at Torrey Pines](https://commons.wikimedia.org/wiki/File:Eriogonum_fasciculatum_kz13.jpg) and [coast prickly pear](https://commons.wikimedia.org/wiki/File:Opuntia_littoralis_kz04.jpg) (Krzysztof Ziarnek, CC BY-SA 4.0). The plant list follows Cabrillo National Monument's [bluff scrub communities](https://home.nps.gov/cabr/learn/nature/plant-communities.htm).
 
 Each species is placed by its distance from the cliff edge. Prickly pear clumps with red fruit, Mojave yuccas on short trunks in skirts of dead leaves, and three iceplant mats turned rust-red for the dry season grow on the rim. Dense, dark lemonade berry shrubs (each over a solid inner dome so its gaps read as shade) and airy, silver California sagebrush cover the slope. Golden wild oats with drooping spikelets fill the openings, and drifts of Santa Barbara daisies line the stepping stones and the rabbits' walks. One Canary Island date palm stands beside the stepping stones, as along the Coast Walk, trimmed of dead fronds as La Jolla's palms are; its fronds sway from base to tip. Everything keeps clear of the clifftop doorway, the stepping stones, the rabbits' paths, the perches, the landscape's blue agaves and the first planting. It is original code-authored geometry in `flora.glb`.
+
+## October 15: hair, brows and expressions from Sirui's portraits
+
+Sirui found that the four human figures did not match his 2D portraits (`assets/img/sirui_pic_ghbili.png`, `sirui_pic_south_park.png`, `sirui_pic_simpsons.png`, `sirui_pic_rick_and_morty.png`). In every portrait the hair is shoulder-length and black (very dark brown in the Ghibli one), parted at the crown and full enough to frame the face down past the jaw, with the ends flicking outward. The models' hair was slicked to the skull like a cap, with thin strands at the back. The portraits also have thick dark brows and open expressions.
+
+`bin/coastal_likeness.py` replaces only the head features. The full builder and `bin/refresh_coastal_likeness.py` both call it. It removes the old hair, brows, face skin and mouth parts. It then rebuilds the face with the builder's own recipe, now shared as `coastal_characters.adult_face`, and cuts each style's mouth into it:
+
+- South Park: a large D-shaped mouth with a black interior and four teeth.
+- Simpsons: a wide overbite grin with a row of upper teeth.
+- Rick and Morty: a wide open grin with scalloped teeth and a tongue, on a broader, rounder jaw. The jaw widens from below the eyes, so the eyes and glasses do not move.
+- Ghibli: a gentle open smile with a tongue, on a slightly softer jaw.
+
+The hair is one closed shell over the skull. It is thickest on top and leaves an arched forehead under the side part, with more volume on the side the hair sweeps toward. Above each ear it sweeps down from the forehead and stops just above the ear and the glasses arm. Behind the ear it falls in a curtain to about the jaw, flaring into pointed locks that flick outward. The brows are thick swept bars set on the forehead above each glasses ring.
+
+Every new vertex is skinned fully to Head, so the hair moves with the head in all fourteen clips; there is no secondary motion. The rig, skin weights, body, hands, feet, neck, glasses, eyes, eyelids and Blink morphs are unchanged, and so is every authored key. In the exported GLBs the animation samples and inverse bind matrices are byte-identical. The back of the hair stays inside the old hair's rearmost point, so the sleep clip still rests the head where it did. Near the neck the curtain's inner surface keeps 2.2 cm clear, so the deepest forward head pitch (reading) cannot press hair into it. The Lizard has no 2D reference and is unchanged.
+
+`reviews/character-likeness.json` records bytes and triangles. GLB sizes before and after are 718,608 to 716,452 (South Park), 671,740 to 669,956 (Simpsons), 854,348 to 861,208 (Ghibli) and 655,740 to 663,812 (Rick and Morty). `bin/review_coastal_likeness.py` writes `reviews/character-likeness-review.json`, which records the following against `f403dfead`:
+
+- Everything outside the replaced features is exactly retained.
+- No hair is inside the ears, glasses rims or eyelids.
+- Only a few glasses-arm vertices tuck into the hair at the ear.
+- No hair is inside the body in any clip except the sleep clip and South Park's pull-up. Both had the same contact before: the sleep clip lifts the head 13 to 22 cm off the spine, and South Park's raised arms meet its wide head.
+
+`review_coastal_expression.py` now compares everything outside these features with `4767b7805`.
+
+The per-avatar pillows and duvets were fitted to the old heads. The new hair sinks 1.4 to 3.3 cm into them. A refit would also move each duvet hem 3.6 to 18 cm toward the chin, because the old collar sheets reached further down the back. `bin/refresh_coastal_bedding.py`, followed by the sleep room's bake and export, refits them.
+
+These are original authored meshes, measured on actual Blender poses. The 2D portraits are Sirui's own and were used as visual reference only; no generated imagery was added. Matched before and after renders and comparison sheets are in `.jekyll-cache/visual-qa/character-likeness/`.
