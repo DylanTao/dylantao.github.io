@@ -286,6 +286,11 @@ export function createCoastalHome(container, records, artifacts) {
     progressBar.querySelector(`[data-progress-step="${step}"]`)?.style.setProperty("--fill", progressFill[step].toFixed(3));
     const steps = Object.values(progressFill);
     progressBar.setAttribute("aria-valuenow", String(Math.round((100 * steps.reduce((sum, value) => sum + value, 0)) / steps.length)));
+    // Every segment full but the first frame not yet drawn: the bar breathes with the sketch.
+    progressBar.classList.toggle(
+      "is-settling",
+      steps.every((value) => value >= 1)
+    );
   }
 
   // GitHub Pages gzips models, so Content-Length counts compressed bytes while the stream yields
