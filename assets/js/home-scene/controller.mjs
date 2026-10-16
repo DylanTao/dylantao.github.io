@@ -4,11 +4,15 @@ import { createArtDirection } from "./materials.mjs";
 import { createPacific } from "./environment.mjs";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
-import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar } from "./routine.mjs";
+import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
 import { envelopeFor, wildlifeEnvelope, constrainOrbit, keepCameraClear } from "./camera.mjs";
 import { activityPose, createHandContacts } from "./activities.mjs";
+import { createLiftRig } from "./lift-rig.mjs";
+import { createGymProps } from "./gym-props.mjs";
+import { sessionPose } from "./gym-session.mjs";
+import { sessionState, trainingAt } from "./training.mjs";
 import { resolveWristTargets } from "./grip-targets.mjs";
 import { roomRoute, sampleRoute } from "./navigation.mjs";
 import { createWorldCompanion } from "./companion.mjs";
@@ -148,7 +152,11 @@ export function createCoastalHome(container, records, artifacts) {
     sequenceStart = 0,
     sequencePose = null,
     coffeeCup = null,
-    exerciseWeight = null,
+    liftRig = null,
+    liftActive = false,
+    gymProps = null,
+    sessionClock = { second: -1, minute: 0 },
+    labSession = null,
     worldCompanion,
     actorGoal = null;
   let pointer = null,
@@ -719,6 +727,8 @@ export function createCoastalHome(container, records, artifacts) {
       activeGripOffsets = entry.gripWristOffsets;
       footContacts = createFootContacts(actor, config.terrain);
       handContacts = createHandContacts(actor);
+      liftRig = createLiftRig(actor);
+      liftActive = false;
       poolStroke = createPoolStroke(actor);
       characterPerformance = createCharacterPerformance(actor, entry.id);
       world.add(actor);
@@ -1028,9 +1038,34 @@ export function createCoastalHome(container, records, artifacts) {
     updateRoutine(false, true);
   }
 
+  // Where today's training session stands. The live clock reads the real second (the minute is
+  // refreshed once a second); a preview runs on from the chosen minute while the scene animates.
+  function trainingSession() {
+    const t = routine?.training;
+    if (!t?.plan) return null;
+    let seconds;
+    if (labSession) seconds = labSession.seconds + (elapsed - labSession.start);
+    else if (routine.live) {
+      const now = Date.now(),
+        second = Math.floor(now / 1000);
+      if (second !== sessionClock.second) sessionClock = { second, minute: pacificClock(new Date(now), config.timeZone).minute };
+      seconds = (sessionClock.minute - t.window[0]) * 60 + (second % 60) + (now % 1000) / 1000;
+    } else seconds = (t.minute - t.window[0]) * 60 + (elapsed - sequenceStart);
+    return { ...t, state: sessionState(t.timeline, seconds) };
+  }
+  // What the whiteboard shows: the session as it stands, or today's plan (or a rest day).
+  function boardInfo() {
+    if (!config?.training || !routine) return null;
+    if (routine.training?.plan) return trainingSession();
+    return trainingAt(config.training, routine.dateKey, routine.minute);
+  }
+
   function updateRoutine(force = false, composeOnChange = false) {
     if (!config) return;
     const next = resolveRoutine(config, new Date(), explore.preview);
+    // Scrubbing the preview clock within a session restarts it from the chosen minute.
+    if (routine && next.sequence === "session" && !next.live && routine.minute !== next.minute) sequenceStart = elapsed;
+    if (gymProps && config.training) queueMicrotask(() => gymProps?.drawBoard(boardInfo()));
     const changed = !routine || routine.id !== next.id || routine.prop !== next.prop || routine.clip !== next.clip;
     const compose = force || (composeOnChange && changed);
     routine = next;
@@ -1894,6 +1929,10 @@ export function createCoastalHome(container, records, artifacts) {
     syncCutaway();
     poolStroke?.restore();
     characterPerformance?.restore();
+    if (liftActive && moving) {
+      liftRig?.release();
+      liftActive = false;
+    }
     if (moving && mixer) {
       if (style === "illustrated") {
         const step = Math.floor(elapsed * 12) / 12;
@@ -1921,7 +1960,34 @@ export function createCoastalHome(container, records, artifacts) {
         sequenceStart = elapsed;
       }
     }
-    if (actor && !travel && routine?.sequence && moving) {
+    let liftThisFrame = false;
+    // The gym's bars, dumbbells and board exist whenever its room is loaded.
+    if (!gymProps && config?.equipment?.gym && rooms.get("gym")) {
+      gymProps = createGymProps({ room: rooms.get("gym"), world, gym: config.equipment.gym, training: config.training, material });
+      gymProps.drawBoard(boardInfo());
+    }
+    if (actor && !travel && routine?.sequence === "session" && routine.training?.plan && config.equipment?.gym) {
+      const info = trainingSession();
+      if (info?.state) {
+        // Paused, the last pose holds; a reduced-motion still shows the start of the current lift.
+        if (moving || reduced || !sequencePose?.bars) sequencePose = sessionPose(info, config.equipment.gym);
+        const pose = sequencePose;
+        playClip(pose.clip);
+        actor.position.fromArray(pose.position);
+        const turn = Math.atan2(Math.sin(pose.facing - actor.rotation.y), Math.cos(pose.facing - actor.rotation.y));
+        actor.rotation.y += moving ? turn * (1 - Math.exp(-delta * 8)) : turn;
+        actor.updateMatrixWorld(true);
+        let rig = null;
+        if (pose.lift && liftRig) {
+          rig = liftRig.apply(pose.lift.name, reduced ? 0 : pose.lift.u, pose.lift.ctx, pose.lift.weight);
+          liftActive = liftThisFrame = true;
+        }
+        if (propFor && selectedProp) propFor(null);
+        gymProps?.update(pose, rig, frameDelta, moving);
+        gymProps?.drawBoard(info);
+        container.dataset.activityPhase = pose.phase;
+      }
+    } else if (actor && !travel && routine?.sequence && moving) {
       const room = config.rooms.find((r) => r.id === routine.room);
       sequencePose = activityPose(routine.sequence, elapsed - sequenceStart, config.equipment, room);
       if (sequencePose) {
@@ -1940,10 +2006,15 @@ export function createCoastalHome(container, records, artifacts) {
         container.dataset.activityPhase = pose.phase;
       }
     } else if (!paused || reduced || !actor || travel || !routine?.sequence) sequencePose = null;
-    characterPerformance?.update(delta, { active: moving && !travel, clip: container.dataset.animation });
+    if (liftActive && !liftThisFrame) {
+      liftRig?.release();
+      liftActive = false;
+      if (!moving) mixer?.update(0);
+    }
+    if (gymProps && routine?.sequence !== "session") gymProps.update(null, null, frameDelta, moving);
+    characterPerformance?.update(delta, { active: moving && !travel, clip: liftThisFrame ? "workout" : container.dataset.animation });
     const holdActivityProps = paused && !reduced && Boolean(sequencePose);
-    let cupCreated = false,
-      weightCreated = false;
+    let cupCreated = false;
     // Move the authored cup itself; there is never a second coffee cup in a hand.
     if (!coffeeCup && config?.equipment?.coffee) {
       const pieces = [];
@@ -1969,32 +2040,6 @@ export function createCoastalHome(container, records, artifacts) {
       }
       if (moving) coffeeCup.position.lerp(cupTarget, 1 - Math.exp(-frameDelta * 16));
       else coffeeCup.position.copy(cupTarget);
-    }
-    // The selected top-tray weight keeps one identity through pickup and return.
-    if (!exerciseWeight && config?.equipment?.dumbbell?.rest) {
-      const pieces = [];
-      world.traverse((o) => {
-        if (o.userData.activityProp === "exercise-weight") pieces.push(o);
-      });
-      if (pieces.length) {
-        exerciseWeight = new THREE.Group();
-        weightCreated = true;
-        exerciseWeight.position.fromArray(config.equipment.dumbbell.rest);
-        world.add(exerciseWeight);
-        world.updateMatrixWorld(true);
-        pieces.forEach((o) => exerciseWeight.attach(o));
-      }
-    }
-    if (exerciseWeight && (!holdActivityProps || weightCreated)) {
-      const destination = new THREE.Vector3(...config.equipment.dumbbell.rest);
-      if (sequencePose?.weight) {
-        actor.updateMatrixWorld(true);
-        actor.traverse((o) => {
-          if (o.isBone && o.name.replaceAll(".", "") === "HandR") o.getWorldPosition(destination);
-        });
-      }
-      if (moving) exerciseWeight.position.lerp(destination, 1 - Math.exp(-frameDelta * 20));
-      else exerciseWeight.position.copy(destination);
     }
     if (vinyl) {
       if (moving) recordMotion.advance(delta);
@@ -2276,6 +2321,13 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   if (labEnabled) container.labScene = { scene, sun, settings: labSettings, requestFrame: () => requestFrame() };
+  // Lab only: run today's training session from a chosen second (null returns to the clock).
+  if (labEnabled)
+    container.setLabSessionSeconds = (seconds) => {
+      labSession = seconds == null ? null : { seconds, start: elapsed };
+      sequencePose = null;
+      requestFrame();
+    };
   if (labEnabled)
     container.setLabCamera = ({ target: at, yaw: y, pitch: p, radius: r, free = true }) => {
       labFreeCamera = free;
@@ -2308,9 +2360,13 @@ export function createCoastalHome(container, records, artifacts) {
     animation: container.dataset.animation,
     activityPhase: sequencePose?.phase || null,
     cupOwner: sequencePose?.cup ? "hand" : "counter",
-    weightOwner: sequencePose?.weight ? "hand" : "rack",
+    weightOwner: gymProps?.evidence().weightOwner || (sequencePose?.weight ? "hand" : "rack"),
     cupPosition: coffeeCup?.position.toArray() || null,
-    weightPosition: exerciseWeight?.position.toArray() || null,
+    weightPosition: gymProps?.evidence().weightPosition || null,
+    gym: gymProps
+      ? { ...gymProps.evidence(), lift: sequencePose?.lift?.name || null, segment: sequencePose?.segment || null, rep: sequencePose?.rep || null }
+      : null,
+    liftHead: liftRig ? { min: liftRig.dims.head.min.toArray(), max: liftRig.dims.head.max.toArray() } : null,
     gripDrift: handContacts?.evidence() || [],
     gripTargetMode: activeGripOffsets?.[sequencePose?.clip] ? "anatomical-wrist" : "equipment-anchor",
     characterPerformance: characterPerformance?.evidence(),

@@ -98,31 +98,27 @@
       "id": "gym",
       "label": "Gym",
       "file": "room-gym.glb",
-      "target": [-0.3, 1.2, -1.8],
-      "actor": [0, 0.048, -1.45],
-      "facing": 0,
-      "egress": [-1.62, 0, -1.95],
+      "target": [8.75, 1.15, -1.0],
+      "actor": [7.6, 0.0, -1.25],
+      "facing": 3.141592653589793,
+      "egress": [4.45, 0.0, -1.55],
       "camera": {
-        "radius": 5.2,
-        "yaw": 1.15,
-        "pitch": 0.3,
-        "fov": 44,
+        "radius": 3.0,
+        "yaw": 3.0,
+        "pitch": 0.2,
+        "fov": 52,
         "envelope": {
-          "yaw": [0.85, 1.7],
-          "pitch": [0.12, 0.62],
-          "radius": [4.056, 6.136],
-          "clearance": {
-            "origin": [-0.3, 1.2, -1.8],
-            "maxX": 4.3,
-            "maxZ": 0.9
-          }
+          "yaw": [2.7, 3.38],
+          "pitch": [0.06, 0.5],
+          "radius": [2.2, 3.2]
         }
       },
       "offset": [0, 0, -3],
       "floor": 0,
       "exitPath": [
-        [-1.35, 0, -1.95],
-        [-1.62, 0, -1.95]
+        [6.9, 0.0, -1.55],
+        [5.5, 0.0, -1.55],
+        [4.45, 0.0, -1.55]
       ]
     },
     {
@@ -229,32 +225,32 @@
       "minute": 960
     },
     "workout": {
-      "label": "Moving a little",
+      "label": "Training",
       "room": "gym",
       "clip": "workout",
-      "prop": "dumbbell",
-      "minute": 1080,
-      "sequence": "strength"
+      "prop": null,
+      "minute": 1110,
+      "sequence": "session"
     },
     "soak": {
       "label": "Onsen time",
       "room": "onsen",
       "clip": "soak",
-      "minute": 1115
+      "minute": 1210
     },
     "dinner": {
       "label": "Dinner",
       "room": "kitchen",
       "clip": "eat",
       "prop": "fork",
-      "minute": 1170
+      "minute": 1250
     },
     "lounge": {
       "label": "Watching the Pacific",
       "room": "lounge",
       "clip": "drink",
       "prop": "evening",
-      "minute": 1260
+      "minute": 1320
     },
     "coding": {
       "label": "One more idea\u2026",
@@ -270,20 +266,20 @@
     [750, "reading"],
     [840, "lunch"],
     [870, "work"],
-    [1050, "workout"],
-    [1095, "soak"],
-    [1140, "dinner"],
-    [1200, "lounge"],
-    [1350, "coding"]
+    [1080, "workout"],
+    [1200, "soak"],
+    [1230, "dinner"],
+    [1290, "lounge"],
+    [1380, "coding"]
   ],
   "weekend": [
     [0, "coding"],
     [240, "sleep"],
     [750, "breakfast"],
-    [840, "lunch"],
-    [870, "work"],
-    [1050, "workout"],
-    [1095, "soak"],
+    [840, "workout"],
+    [960, "soak"],
+    [990, "lunch"],
+    [1020, "work"],
     [1140, "dinner"],
     [1200, "lounge"],
     [1350, "coding"]
@@ -1661,12 +1657,13 @@
         ]
       },
       "gym": {
-        "actor": [0, 0.048, -1.45],
-        "egress": [-1.62, 0, -1.95],
+        "actor": [7.6, 0.0, -1.25],
+        "egress": [4.45, 0.0, -1.55],
         "floor": 0,
         "exitPath": [
-          [-1.35, 0, -1.95],
-          [-1.62, 0, -1.95]
+          [6.9, 0.0, -1.55],
+          [5.5, 0.0, -1.55],
+          [4.45, 0.0, -1.55]
         ]
       },
       "onsen": {
@@ -1716,29 +1713,97 @@
       "seat": [-3.45, 0, -3.04]
     },
     "pullup": {
-      "actor": [0, 0.048, -1.01],
-      "facing": 0,
+      "actor": [10.3, 0.0, -0.0],
+      "facing": 3.141592653589793,
       "hands": [
-        [-0.3, 2.37, -1.0],
-        [0.3, 2.37, -1.0]
+        [10.0, 2.15, -0.2],
+        [10.6, 2.15, -0.2]
       ]
     },
     "dip": {
-      "actor": [0, 0.048, -1.48],
-      "facing": 0,
+      "actor": [10.3, 0.0, 0.55],
+      "facing": 3.141592653589793,
       "hands": [
-        [-0.43, 1.24, -1.49],
-        [0.43, 1.24, -1.49]
+        [9.94, 1.24, 0.55],
+        [10.66, 1.24, 0.55]
       ]
     },
     "dumbbell": {
-      "actor": [0.78, 0.048, -2.48],
-      "facing": 0,
-      "rest": [1.14, 0.723, -2.32],
+      "actor": [7.0, 0.0, -0.1],
+      "facing": 3.141592653589793,
+      "rest": [6.42, 0.745, 0.06],
+      "restLeft": [6.42, 0.745, -0.24],
       "hands": []
     },
     "bench": {
-      "parked": [0, 0.47, -2.73]
+      "parked": [10.18, 0.0, -2.65]
+    },
+    "gym": {
+      "rack": {
+        "bar": [8.8, 1.28, 0.05],
+        "actor": [8.8, 0.0, 0.35],
+        "unrack": [8.8, 0.0, -0.025],
+        "facing": 3.141592653589793,
+        "press": [8.8, 0.0, 0.45],
+        "pressUnrack": [8.8, 0.0, 0.18],
+        "entry": [8.8, 0.0, -0.45],
+        "posts": {
+          "x": [8.2, 9.4],
+          "z": [-0.05, 0.75]
+        }
+      },
+      "platform": {
+        "bar": [8.8, 0.225, -1.7],
+        "actor": [8.8, 0.0, -1.63],
+        "facing": 3.141592653589793
+      },
+      "bench": {
+        "bar": [10.6, 1.06, -2.65],
+        "barAxis": "z",
+        "actor": [10.18, 0.0, -2.65],
+        "facing": -1.5707963267948966,
+        "mount": [9.42, 0.0, -2.65],
+        "seat": [9.78, 0.45, -2.65],
+        "inclineDegrees": 32,
+        "hinge": [10.04, 0.395, -2.65]
+      },
+      "pullup": {
+        "bar": [10.3, 2.15, -0.2],
+        "grip": 0.3,
+        "actor": [10.3, 0.0, -0.0],
+        "facing": 3.141592653589793
+      },
+      "dip": {
+        "actor": [10.3, 0.0, 0.55],
+        "facing": 3.141592653589793,
+        "hands": [
+          [9.94, 1.24, 0.55],
+          [10.66, 1.24, 0.55]
+        ],
+        "front": [10.3, 0.0, -0.0]
+      },
+      "dumbbells": {
+        "actor": [7.0, 0.0, -0.1],
+        "facing": 3.141592653589793,
+        "pair": [
+          [6.42, 0.745, 0.06],
+          [6.42, 0.745, -0.24]
+        ]
+      },
+      "whiteboard": {
+        "center": [7.25, 1.55, 0.965],
+        "size": [1.4, 0.95],
+        "actor": [7.25, 0.0, 0.45],
+        "facing": 0.0
+      },
+      "plates": {
+        "tree": [6.95, 0.0, -2.95]
+      },
+      "rest": {
+        "actor": [7.6, 0.0, -1.25],
+        "seat": [9.78, 0.45, -2.65],
+        "bottle": [9.66, 0.0, -2.38]
+      }
     }
   },
   "cameraCollision": {
@@ -1858,6 +1923,11 @@
       {
         "min": [-4.7, 2.34, 1.3],
         "max": [4.7, 2.6, 4.08]
+      },
+      {
+        "gym": true,
+        "min": [5.25, -0.3, -2.8],
+        "max": [6.0, 3.6, 1.0]
       }
     ],
     "facade": {
@@ -1940,5 +2010,431 @@
       "max": [5.4, 3.4, -4.4]
     }
   },
-  "flora": "flora.glb"
+  "flora": "flora.glb",
+  "training": {
+    "source": "Sirui's lifting log, October 15, 2026: nSuns 5/3/1 LP, six days, Squat and Deadlift templates in turn",
+    "program": "nSuns 5/3/1 LP \u00b7 6-day",
+    "unit": "lb",
+    "asOf": "2026-10-15",
+    "seed": "la-jolla",
+    "trainingMax": {
+      "bench": 235,
+      "ohp": 130,
+      "squat": 315,
+      "deadlift": 310
+    },
+    "anchor": {
+      "date": "2026-10-15",
+      "template": "squat",
+      "day": 5,
+      "cycle": 5
+    },
+    "windows": {
+      "weekday": [1080, 1200],
+      "saturday": [840, 960]
+    },
+    "restActivity": "lounge",
+    "schemes": {
+      "t1-volume": [
+        [65, 8],
+        [75, 6],
+        [85, 4],
+        [85, 4],
+        [85, 4],
+        [80, 5],
+        [75, 6],
+        [70, 7],
+        [65, 8, "+"]
+      ],
+      "t1-heavy": [
+        [75, 5],
+        [85, 3],
+        [95, 1, "+"],
+        [90, 3],
+        [85, 3],
+        [80, 3],
+        [75, 5],
+        [70, 5],
+        [65, 5, "+"]
+      ],
+      "t1-pull": [
+        [75, 5],
+        [85, 3],
+        [95, 1, "+"],
+        [90, 3],
+        [85, 3],
+        [80, 3],
+        [75, 3],
+        [70, 3],
+        [65, 3, "+"]
+      ],
+      "t1-bench-heavy": [
+        [75, 5],
+        [85, 3],
+        [95, 1, "+"],
+        [90, 3],
+        [85, 5],
+        [80, 3],
+        [75, 5],
+        [70, 3],
+        [65, 5, "+"]
+      ],
+      "t1-saturday": [
+        [75, 5],
+        [85, 3],
+        [95, 1, "+"],
+        [90, 3],
+        [85, 3],
+        [80, 3],
+        [75, 5],
+        [70, 5, "+"]
+      ],
+      "t2-press": [
+        [50, 6],
+        [60, 5],
+        [70, 3],
+        [70, 5],
+        [70, 7],
+        [70, 4],
+        [70, 6],
+        [70, 8]
+      ],
+      "t2-pull": [
+        [50, 5],
+        [60, 5],
+        [70, 3],
+        [70, 5],
+        [70, 7],
+        [70, 4],
+        [70, 6],
+        [70, 8]
+      ],
+      "t2-incline": [
+        [40, 6],
+        [50, 5],
+        [60, 3],
+        [60, 5],
+        [60, 7],
+        [60, 4],
+        [60, 6],
+        [60, 8]
+      ],
+      "t2-front": [
+        [35, 5],
+        [45, 5],
+        [55, 3],
+        [55, 5],
+        [55, 7],
+        [55, 4],
+        [55, 6],
+        [55, 8]
+      ],
+      "t2-saturday": [
+        [50, 5],
+        [60, 5],
+        [70, 3],
+        [70, 5],
+        [70, 7],
+        [70, 4]
+      ]
+    },
+    "templates": {
+      "squat": {
+        "label": "6 day Squat",
+        "days": [
+          {
+            "kind": "upper",
+            "lifts": [
+              {
+                "lift": "bench",
+                "scheme": "t1-volume",
+                "superset": "pullup"
+              },
+              {
+                "lift": "ohp",
+                "base": "ohp",
+                "scheme": "t2-press",
+                "superset": "curl"
+              }
+            ]
+          },
+          {
+            "kind": "lower",
+            "lifts": [
+              {
+                "lift": "squat",
+                "scheme": "t1-heavy",
+                "superset": "pullup"
+              },
+              {
+                "lift": "sumo-deadlift",
+                "base": "deadlift",
+                "scheme": "t2-pull",
+                "superset": "dip"
+              }
+            ]
+          },
+          {
+            "kind": "upper",
+            "lifts": [
+              {
+                "lift": "ohp",
+                "scheme": "t1-heavy",
+                "superset": "pullup"
+              },
+              {
+                "lift": "incline-bench",
+                "base": "bench",
+                "scheme": "t2-incline",
+                "superset": "curl"
+              }
+            ]
+          },
+          {
+            "kind": "lower",
+            "lifts": [
+              {
+                "lift": "deadlift",
+                "scheme": "t1-pull",
+                "superset": "dip"
+              },
+              {
+                "lift": "front-squat",
+                "base": "squat",
+                "scheme": "t2-front",
+                "superset": "pullup"
+              }
+            ]
+          },
+          {
+            "kind": "upper",
+            "lifts": [
+              {
+                "lift": "bench",
+                "scheme": "t1-bench-heavy",
+                "superset": "pullup"
+              },
+              {
+                "lift": "close-grip-bench",
+                "base": "bench",
+                "scheme": "t2-incline",
+                "superset": "curl"
+              }
+            ],
+            "finisher": "dip"
+          },
+          {
+            "kind": "lower",
+            "lifts": [
+              {
+                "lift": "squat",
+                "scheme": "t1-saturday",
+                "superset": "pullup"
+              },
+              {
+                "lift": "sumo-deadlift",
+                "base": "deadlift",
+                "scheme": "t2-saturday",
+                "superset": "dip"
+              }
+            ]
+          }
+        ]
+      },
+      "deadlift": {
+        "label": "6 day Deadlift",
+        "days": [
+          {
+            "kind": "upper",
+            "lifts": [
+              {
+                "lift": "bench",
+                "scheme": "t1-volume",
+                "superset": "pullup"
+              },
+              {
+                "lift": "ohp",
+                "base": "ohp",
+                "scheme": "t2-press",
+                "superset": "curl"
+              }
+            ]
+          },
+          {
+            "kind": "lower",
+            "lifts": [
+              {
+                "lift": "deadlift",
+                "scheme": "t1-pull",
+                "superset": "dip"
+              },
+              {
+                "lift": "front-squat",
+                "base": "squat",
+                "scheme": "t2-front",
+                "superset": "pullup"
+              }
+            ]
+          },
+          {
+            "kind": "upper",
+            "lifts": [
+              {
+                "lift": "ohp",
+                "scheme": "t1-heavy",
+                "superset": "pullup"
+              },
+              {
+                "lift": "incline-bench",
+                "base": "bench",
+                "scheme": "t2-incline",
+                "superset": "curl"
+              }
+            ]
+          },
+          {
+            "kind": "lower",
+            "lifts": [
+              {
+                "lift": "squat",
+                "scheme": "t1-heavy",
+                "superset": "pullup"
+              },
+              {
+                "lift": "sumo-deadlift",
+                "base": "deadlift",
+                "scheme": "t2-pull",
+                "superset": "dip"
+              }
+            ]
+          },
+          {
+            "kind": "upper",
+            "lifts": [
+              {
+                "lift": "bench",
+                "scheme": "t1-bench-heavy",
+                "superset": "pullup"
+              },
+              {
+                "lift": "close-grip-bench",
+                "base": "bench",
+                "scheme": "t2-incline",
+                "superset": "curl"
+              }
+            ],
+            "finisher": "dip"
+          },
+          {
+            "kind": "lower",
+            "lifts": [
+              {
+                "lift": "deadlift",
+                "scheme": "t1-saturday",
+                "superset": "dip"
+              },
+              {
+                "lift": "front-squat",
+                "base": "squat",
+                "scheme": "t2-saturday",
+                "superset": "pullup"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "cycles": [
+      {
+        "start": "2026-08-03",
+        "end": "2026-08-21",
+        "template": "deadlift",
+        "trainingMax": {
+          "bench": 235,
+          "ohp": 120,
+          "deadlift": 305,
+          "squat": 305
+        },
+        "sets": 99,
+        "of": 99,
+        "failed": 0
+      },
+      {
+        "start": "2026-08-21",
+        "end": "2026-09-21",
+        "template": "squat",
+        "trainingMax": {
+          "bench": 235,
+          "ohp": 120,
+          "squat": 310,
+          "deadlift": 310
+        },
+        "sets": 99,
+        "of": 99,
+        "failed": 0
+      },
+      {
+        "start": "2026-09-21",
+        "end": "2026-10-05",
+        "template": "deadlift",
+        "trainingMax": {
+          "bench": 235,
+          "ohp": 125,
+          "deadlift": 310,
+          "squat": 315
+        },
+        "sets": 99,
+        "of": 99,
+        "failed": 0
+      },
+      {
+        "start": "2026-10-05",
+        "template": "squat",
+        "trainingMax": {
+          "bench": 235,
+          "ohp": 130,
+          "squat": 315,
+          "deadlift": 310
+        },
+        "sets": 85,
+        "of": 99,
+        "failed": 1
+      }
+    ],
+    "progress": {
+      "squat": [
+        ["2026-04-01", 240],
+        ["2026-05-01", 250],
+        ["2026-06-01", 270],
+        ["2026-07-01", 290],
+        ["2026-08-01", 300],
+        ["2026-08-21", 310],
+        ["2026-09-21", 315],
+        ["2026-10-15", 315]
+      ],
+      "deadlift": [
+        ["2026-04-01", 262],
+        ["2026-05-01", 280],
+        ["2026-06-01", 285],
+        ["2026-07-01", 300],
+        ["2026-08-01", 305],
+        ["2026-08-21", 310],
+        ["2026-10-15", 310]
+      ],
+      "ohp": [
+        ["2026-04-01", 95],
+        ["2026-05-01", 110],
+        ["2026-06-01", 115],
+        ["2026-07-01", 120],
+        ["2026-09-21", 125],
+        ["2026-10-05", 130],
+        ["2026-10-15", 130]
+      ],
+      "bench": [
+        ["2026-08-03", 235],
+        ["2026-10-15", 235]
+      ]
+    },
+    "supersetRule": "Opposite or non-competing groups: presses with pull-ups and curls, squats with pull-ups, deadlifts with dips."
+  }
 }

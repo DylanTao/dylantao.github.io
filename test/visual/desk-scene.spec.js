@@ -5,6 +5,28 @@ const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetric
 const { publicRouteUrl } = require("./public-routes");
 const { pauseSceneClock, useSoftwareSceneCadence, useNativeSceneFrames } = require("./scene-clock");
 const { PNG } = require("pngjs");
+const { pathToFileURL } = require("node:url");
+
+// The gym's training session as the scene stages it, computed from the same pure modules, so a
+// test can aim at a lift or a rest from the program instead of hard-coded seconds.
+async function gymSession(day, minute, options) {
+  const home = path.resolve(__dirname, "../../assets/js/home-scene");
+  const { trainingAt, sessionState } = await import(pathToFileURL(path.join(home, "training.mjs")).href);
+  const { sessionPose } = await import(pathToFileURL(path.join(home, "gym-session.mjs")).href);
+  const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../assets/models/home/manifest.json"), "utf8"));
+  const info = trainingAt(config.training, day, minute, 0, options);
+  const poseAt = (seconds) => sessionPose({ ...info, state: sessionState(info.timeline, seconds) }, config.equipment.gym);
+  // The first second from `from` whose pose satisfies `test` for `hold` seconds.
+  const steady = (from, test, hold) => {
+    for (let t = from; t < info.timeline.duration - hold; t += 0.25) {
+      let ok = true;
+      for (let u = t; u <= t + hold && ok; u += 0.25) ok = test(poseAt(u));
+      if (ok) return t;
+    }
+    throw new Error("no steady moment");
+  };
+  return { config, info, poseAt, steady };
+}
 
 test("coastal steam: native GPU extinction, opaque clipping and nearest glass segmentation", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one native GPU fixture tests the integrator independently of page layout");
@@ -1871,8 +1893,10 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
   // This allowance is software fixture capacity, not an application speedup.
   if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(1200000);
   const errors = collectRuntimeErrors(page);
-  const view = await openClockedHome(page, { time: "2026-10-02T13:20:00-07:00" });
+  const view = await openClockedHome(page, { time: "2026-10-15T13:20:00-07:00" });
   const { scene, canvas, ui } = view;
+  const gym = await gymSession("2026-10-15", 1080);
+  const gymFov = gym.config.rooms.find((r) => r.id === "gym").camera.fov;
   await explore(ui);
   await ui.locator("[data-world-avatar]").selectOption("ghibli");
   await settleAvatarLoad(ui);
@@ -1885,27 +1909,31 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
   // advance while paused instead of rendering a discarded moving warm-up.
   await page.clock.runFor(1400);
   const rows = [];
-  for (const [seconds, phase] of [
-    [12, "pull-ups"],
-    [26, "rest"],
-    [38, "dips"],
-    [60, "dumbbell set"],
-  ]) {
-    // Compose at the gym while paused, then advance the actual rig. This
-    // isolates camera/pose framing from an incidental journey out of study.
-    await ui.locator("[data-world-activity]").selectOption("reading");
-    await ui.locator("[data-world-activity]").selectOption("workout");
+  const first = (kind, lift) => gym.info.timeline.segments.find((segment) => segment.kind === kind && segment.lift === lift && !segment.warmup);
+  const moments = [
+    gym.steady(first("set", "squat").start, (pose) => pose.lift?.name === "squat" && pose.segment === "set", 1),
+    gym.steady(first("superset", "pullup").start, (pose) => pose.lift?.name === "pullup" && pose.rep != null, 1),
+    gym.steady(first("superset", "dip").start, (pose) => pose.lift?.name === "dip" && pose.rep != null, 1),
+    gym.steady(first("set", "squat").end + 30, (pose) => pose.phase === "rest" && pose.clip === "idle", 1),
+  ];
+  for (const seconds of moments) {
+    const phase = gym.poseAt(seconds + 0.6).phase;
+    // Set the clock to the session's minute while paused, then advance the actual rig to the
+    // second. The routine arrives in the gym without a journey from another room.
+    const minute = 1080 + Math.floor(seconds / 60);
+    await ui.locator("[data-world-time]").fill(String(minute));
+    await ui.locator('[data-world-room="gym"]').click();
     await ui.locator("[data-world-pause]").click();
     await canvas.scrollIntoViewIfNeeded();
     await page.clock.runFor(100);
-    await page.clock.fastForward(seconds * 1000 - 100);
+    await page.clock.fastForward((seconds - (minute - 1080) * 60) * 1000);
     await page.clock.runFor(500);
     await ui.locator("[data-world-pause]").click();
     await canvas.scrollIntoViewIfNeeded();
     await page.clock.runFor(100);
     const pose = await evidence(scene);
     expect(pose.activityPhase).toBe(phase);
-    expect(pose.cameraFov).toBe(44);
+    expect(pose.cameraFov).toBe(gymFov);
     const framed = await scene.evaluate(async (element, moduleUrl) => {
       const state = element.getSceneEvidence(),
         THREE = await import(moduleUrl),
@@ -1929,7 +1957,7 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
     }
     const front = (pose.camera[2] - pose.joints.Head[2]) / Math.hypot(pose.camera[0] - pose.joints.Head[0], pose.camera[2] - pose.joints.Head[2]);
     expect(front).toBeGreaterThan(0.25);
-    const image = await canvas.screenshot({ path: testInfo.outputPath(`gym-${phase.replaceAll(" ", "-")}.png`) });
+    const image = await canvas.screenshot({ path: testInfo.outputPath(`gym-${phase.replace(/[^a-z0-9]+/gi, "-")}.png`) });
     const metrics = screenshotMetrics(image);
     expect(metrics.uniqueColors).toBeGreaterThan(60);
     expect(metrics.luminanceVariance).toBeGreaterThan(80);
@@ -1998,6 +2026,10 @@ for (const activity of ["breakfast", "workout"]) {
     if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
     const errors = collectRuntimeErrors(page);
     const { scene, canvas, ui } = await openClockedHome(page, { time: "2026-10-02T11:45:00-07:00" });
+    // Asking for training runs a session half an hour in; aim at a steady rest between sets.
+    const gym = activity === "workout" ? await gymSession("2026-10-02", 1110, { force: true }) : null;
+    const start = gym ? (gym.info.minute - gym.info.window[0]) * 60 : 0;
+    const rest = gym ? gym.steady(start + 10, (pose) => pose.phase === "rest" && pose.clip === "idle", 8) : 0;
     await explore(ui);
     await ui.locator("[data-world-avatar]").selectOption("ghibli");
     await settleAvatarLoad(ui);
@@ -2006,9 +2038,9 @@ for (const activity of ["breakfast", "workout"]) {
     await canvas.scrollIntoViewIfNeeded();
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await page.clock.runFor(2000);
-    await page.clock.fastForward(activity === "breakfast" ? 43000 : 55000);
+    await page.clock.fastForward(activity === "breakfast" ? 43000 : Math.round((rest - start - 2.7) * 1000));
     await page.clock.runFor(700);
-    const expectedPhase = activity === "breakfast" ? "coffee by the ocean" : "dumbbell set";
+    const expectedPhase = activity === "breakfast" ? "coffee by the ocean" : "rest";
     await expect.poll(async () => (await evidence(scene)).activityPhase).toBe(expectedPhase);
     const before = await evidence(scene);
     await canvas.screenshot({ path: testInfo.outputPath("before-recovery.png") });
@@ -2064,16 +2096,28 @@ for (const activity of ["breakfast", "workout"]) {
 for (const activity of ["breakfast", "workout"]) {
   test(`coastal home: pausing ${activity} keeps the held object and resumes its phase`, async ({ page }, testInfo) => {
     const errors = collectRuntimeErrors(page);
-    const { scene, canvas, ui } = await openClockedHome(page, { time: "2026-10-02T11:45:00-07:00" });
+    // Friday 2026-10-16 is a bench and press day whose second lift supersets with curls.
+    const day = activity === "breakfast" ? "2026-10-02" : "2026-10-16";
+    const { scene, canvas, ui } = await openClockedHome(page, { time: `${day}T11:45:00-07:00` });
+    const gym = activity === "workout" ? await gymSession(day, 1080) : null;
+    const curls = gym
+      ? gym.steady(
+          gym.info.timeline.segments.find((s) => s.kind === "superset" && s.lift === "curl").start,
+          (pose) => pose.dumbbells === "hands" && pose.rep != null,
+          3
+        )
+      : 0;
+    const minute = 1080 + Math.floor(curls / 60);
     await explore(ui);
     await ui.locator("[data-world-avatar]").selectOption("ghibli");
     await settleAvatarLoad(ui);
     await expect(scene).toHaveAttribute("data-avatar", "ghibli");
-    await ui.locator("[data-world-activity]").selectOption(activity);
+    if (gym) await ui.locator("[data-world-time]").fill(String(minute));
+    else await ui.locator("[data-world-activity]").selectOption(activity);
     await canvas.scrollIntoViewIfNeeded();
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await page.clock.runFor(2000);
-    await page.clock.fastForward(activity === "breakfast" ? 43000 : 55000);
+    await page.clock.fastForward(activity === "breakfast" ? 43000 : Math.round((curls - (minute - 1080) * 60 - 2.7) * 1000));
     await page.clock.runFor(700);
     const before = await evidence(scene);
     const key = activity === "breakfast" ? "cupPosition" : "weightPosition";
@@ -2106,7 +2150,7 @@ for (const activity of ["breakfast", "workout"]) {
     await page.clock.runFor(100);
     const composed = await evidence(scene);
     const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../assets/models/home/manifest.json"), "utf8"));
-    const rest = activity === "breakfast" ? config.equipment.coffee.cup : config.equipment.dumbbell.rest;
+    const rest = activity === "breakfast" ? config.equipment.coffee.cup : config.equipment.gym.dumbbells.pair[0];
     expect(composed.activity).toBe("reading");
     expect(composed[owner]).toBe(activity === "breakfast" ? "counter" : "rack");
     expect(composed[key]).toEqual(rest);

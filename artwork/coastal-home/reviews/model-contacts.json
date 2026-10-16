@@ -3080,10 +3080,10 @@
     },
     {
       "file": "flora.glb",
-      "bytes": 2206924,
-      "gzipBytes": 2080125,
+      "bytes": 2206972,
+      "gzipBytes": 2080045,
       "triangles": 184309,
-      "sha256": "a315ae39223edda71e9b60bef2301e086249804eea72923fc02b9bf7ebb80452",
+      "sha256": "763713c1501deaac02cabad8bd4a4f659a39bd14d5baab5cc1c2c682beddb88b",
       "materials": [
         "coastal sage leaf",
         "dark sage leaf",
@@ -3122,10 +3122,10 @@
     },
     {
       "file": "home-shell.glb",
-      "bytes": 1005580,
-      "gzipBytes": 894669,
-      "triangles": 151070,
-      "sha256": "c3403b85f2ec12a05a9d2318b672d27162295f3dbfaa80e68e96f4beea9402df",
+      "bytes": 1022020,
+      "gzipBytes": 906175,
+      "triangles": 151388,
+      "sha256": "dd4ead8963a261051433d2679c0ce9186547551c2a5717629d18048af341a105",
       "materials": [
         "warm cut stone",
         "chalk limestone",
@@ -3151,7 +3151,8 @@
         "olive bark wood",
         "rosemary leaf",
         "fire bowl embers",
-        "cedar wood"
+        "cedar wood",
+        "gym polished concrete"
       ],
       "animations": []
     },
@@ -3166,28 +3167,33 @@
     },
     {
       "file": "room-gym.glb",
-      "bytes": 674300,
-      "gzipBytes": 500357,
-      "triangles": 58084,
-      "sha256": "afbf09909bbad939508df712c34848db2477a0ca373236c3ff2113514afa4c1e",
+      "bytes": 176800,
+      "gzipBytes": 123291,
+      "triangles": 23700,
+      "sha256": "756e7b7568e4cee04726eedd5b8d95db04ae5641e83302cd55a39d99e290edc8",
       "materials": [
         "gym rubber",
         "powder coated gym steel",
         "barbell brushed steel",
-        "sage textile",
-        "saddle bench upholstery",
-        "linen",
+        "pale oak",
         "honey ash",
-        "satin appliance stainless"
+        "satin appliance stainless",
+        "charcoal",
+        "terracotta",
+        "sage textile",
+        "linen",
+        "gym light diffuser",
+        "saddle bench upholstery",
+        "whiteboard enamel"
       ],
       "animations": []
     },
     {
       "file": "room-kitchen.glb",
-      "bytes": 464268,
-      "gzipBytes": 389739,
+      "bytes": 464828,
+      "gzipBytes": 390322,
       "triangles": 60668,
-      "sha256": "7423f84145dabdb1e33f9bb1cb7923b63c6c3871cf2d1b521857f00ed698e4d6",
+      "sha256": "c8fff8e3be91bc0a5750f5873710bad064d825dc1673c203909009dcf69f8494",
       "materials": [
         "warm paper lantern",
         "pale oak",
@@ -3211,10 +3217,10 @@
     },
     {
       "file": "room-lounge.glb",
-      "bytes": 281380,
-      "gzipBytes": 237390,
-      "triangles": 37517,
-      "sha256": "56e2469e3aaeda9ad36ab2a5419170180ce6c052e9bf9e1226a8c0fe8717de27",
+      "bytes": 319452,
+      "gzipBytes": 261693,
+      "triangles": 41275,
+      "sha256": "e123b0b084ef0857328b88e5df16dccead3f5fb98a80b60d3a6f261fa733ecdf",
       "materials": [
         "honey ash",
         "linen",
@@ -3227,16 +3233,19 @@
         "woven jute",
         "celadon glaze",
         "tenmoku glaze",
-        "oatmeal glaze"
+        "oatmeal glaze",
+        "sage textile",
+        "record sleeve card",
+        "fiddle fig leaf"
       ],
       "animations": []
     },
     {
       "file": "room-onsen.glb",
-      "bytes": 90000,
-      "gzipBytes": 69504,
+      "bytes": 90032,
+      "gzipBytes": 69509,
       "triangles": 15032,
-      "sha256": "d99690bdab642d299475a68eca253aee91051d3e56264ce7f67f54619fecff31",
+      "sha256": "581cb6f5c951956255cb691b02b37b8ef2306f5807affed6ef92fca2b643e7da",
       "materials": [
         "onsen turquoise",
         "linen",
@@ -3254,10 +3263,10 @@
     },
     {
       "file": "room-sleep.glb",
-      "bytes": 270136,
-      "gzipBytes": 236313,
+      "bytes": 270488,
+      "gzipBytes": 236545,
       "triangles": 92570,
-      "sha256": "7dbab098557a9a8ca1d28f9249a6399268cf99931b80bc42ea75a308a5ee2a58",
+      "sha256": "75bac5a8b2b4f3cf2a5a3c7140aa3fa48db9d1f8d94934bf13d925c111bad1f0",
       "materials": [
         "honey ash",
         "linen",
@@ -3275,10 +3284,10 @@
     },
     {
       "file": "room-study.glb",
-      "bytes": 363072,
-      "gzipBytes": 300208,
+      "bytes": 363192,
+      "gzipBytes": 300347,
       "triangles": 39504,
-      "sha256": "d416ac5f3ef5c6e4026777d122d309d91661c6ca89e1c87142453c73a6d67aa1",
+      "sha256": "955dad484cb5537fcfb29ab4ce91487ac7afa82250462fc2583929055b88be07",
       "materials": [
         "pale oak",
         "honey ash",
@@ -3487,5 +3496,5 @@
       "animations": []
     }
   ],
-  "totalGlbBytes": 9298368
+  "totalGlbBytes": 8856492
 }

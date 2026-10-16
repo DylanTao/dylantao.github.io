@@ -6,25 +6,25 @@
       "mesh": "study__pale oak",
       "corners": 3840,
       "min": 0.68,
-      "max": 0.7536210439850887
+      "max": 0.7550905120621125
     },
     {
       "mesh": "study__honey ash",
       "corners": 9824,
       "min": 0.68,
-      "max": 0.7543330027163029
+      "max": 0.7545269944767158
     },
     {
       "mesh": "study__sage textile",
       "corners": 3960,
       "min": 0.68,
-      "max": 0.7389619917298358
+      "max": 0.7397814267625412
     },
     {
       "mesh": "study__charcoal",
       "corners": 5632,
       "min": 0.68,
-      "max": 0.7625619634861748
+      "max": 0.762497787848115
     },
     {
       "mesh": "study__window sea glass",
@@ -36,139 +36,73 @@
       "mesh": "study__brushed brass",
       "corners": 1216,
       "min": 0.68,
-      "max": 0.7532911043365796
+      "max": 0.7540081125746171
     },
     {
       "mesh": "study__linen",
       "corners": 25304,
       "min": 0.68,
-      "max": 0.7529720451434454
+      "max": 0.7541759537905455
     },
     {
       "mesh": "study__terracotta",
       "corners": 6016,
       "min": 0.68,
-      "max": 0.7523402669529121
+      "max": 0.7523017656430603
     },
     {
       "mesh": "study__olive leaf",
       "corners": 20224,
       "min": 0.68,
-      "max": 0.7624206048622728
+      "max": 0.7655157022674879
     },
     {
-      "mesh": "gym__gym rubber",
-      "corners": 34592,
+      "mesh": "sleep__honey ash",
+      "corners": 1968,
       "min": 0.68,
-      "max": 0.8181584551557899
+      "max": 0.7521837694942952
     },
     {
-      "mesh": "gym__powder coated gym steel",
-      "corners": 20992,
+      "mesh": "sleep__linen",
+      "corners": 1304,
       "min": 0.68,
-      "max": 0.830463184081018
+      "max": 0.7537368723253409
     },
     {
-      "mesh": "gym__barbell brushed steel",
-      "corners": 25120,
-      "min": 0.68,
-      "max": 0.7975115334739289
-    },
-    {
-      "mesh": "gym__sage textile",
-      "corners": 9856,
-      "min": 0.68,
-      "max": 0.7533129198849202
-    },
-    {
-      "mesh": "gym__saddle bench upholstery",
-      "corners": 768,
-      "min": 0.6803779815665136,
-      "max": 0.8407465843856335
-    },
-    {
-      "mesh": "gym__linen",
-      "corners": 1024,
-      "min": 0.68,
-      "max": 0.8121465450028579
-    },
-    {
-      "mesh": "gym_stored_dumbbell_shaft.005",
+      "mesh": "sleep__pale oak",
       "corners": 704,
       "min": 0.68,
-      "max": 0.68
+      "max": 0.75496585590144
     },
     {
-      "mesh": "gym_stored_dumbbell_sleeve.010",
-      "corners": 704,
+      "mesh": "sleep__terracotta",
+      "corners": 1280,
       "min": 0.68,
-      "max": 0.7843688376247883
+      "max": 0.7504762567331394
     },
     {
-      "mesh": "gym_stored_dumbbell_plate.010",
+      "mesh": "sleep__charcoal",
       "corners": 704,
       "min": 0.68,
-      "max": 0.8202000466734172
+      "max": 0.6944021608680487
     },
     {
-      "mesh": "gym_stored_dumbbell_plate_hub.010",
-      "corners": 704,
+      "mesh": "sleep__olive leaf",
+      "corners": 2288,
       "min": 0.68,
-      "max": 0.68
-    },
-    {
-      "mesh": "gym_stored_dumbbell_plate_label.010",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.68
-    },
-    {
-      "mesh": "gym_stored_dumbbell_collar.010",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.7881794636448224
-    },
-    {
-      "mesh": "gym_stored_dumbbell_sleeve.011",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.7639185439050198
-    },
-    {
-      "mesh": "gym_stored_dumbbell_plate.011",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.8161855372786523
-    },
-    {
-      "mesh": "gym_stored_dumbbell_plate_hub.011",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.6806186589753876
-    },
-    {
-      "mesh": "gym_stored_dumbbell_plate_label.011",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.68
-    },
-    {
-      "mesh": "gym_stored_dumbbell_collar.011",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.8066961401949327
+      "max": 0.7431413309027752
     },
     {
       "mesh": "onsen_water",
       "corners": 1408,
       "min": 0.68,
-      "max": 0.6931992252046864
+      "max": 0.6931999458620947
     },
     {
       "mesh": "onsen__linen",
       "corners": 1248,
       "min": 0.68,
-      "max": 0.7165287119771044
+      "max": 0.7165689457332095
     },
     {
       "mesh": "onsen__honey ash",
@@ -192,25 +126,25 @@
       "mesh": "onsen__olive leaf",
       "corners": 2288,
       "min": 0.68,
-      "max": 0.7451420235137145
+      "max": 0.7494583403070768
     },
     {
       "mesh": "lounge__honey ash",
       "corners": 6688,
       "min": 0.68,
-      "max": 0.8241801147907973
+      "max": 0.8241801152875027
     },
     {
       "mesh": "lounge__linen",
       "corners": 1920,
       "min": 0.68,
-      "max": 0.8218920480708282
+      "max": 0.8216479987154405
     },
     {
       "mesh": "lounge__pale oak",
       "corners": 1184,
-      "min": 0.6806315978011117,
-      "max": 0.7995375800381105
+      "min": 0.6805550139273207,
+      "max": 0.7994892319788536
     },
     {
       "mesh": "lounge__terracotta",
@@ -222,31 +156,31 @@
       "mesh": "lounge__charcoal",
       "corners": 1408,
       "min": 0.68,
-      "max": 0.7307972412308057
+      "max": 0.7356309201320013
     },
     {
       "mesh": "lounge__olive leaf",
       "corners": 4576,
       "min": 0.68,
-      "max": 0.862475374278923
+      "max": 0.8624583998074135
     },
     {
       "mesh": "lounge__brushed brass",
       "corners": 2112,
       "min": 0.68,
-      "max": 0.758734016964833
+      "max": 0.7561097614218791
     },
     {
       "mesh": "study__coffee",
       "corners": 704,
       "min": 0.68,
-      "max": 0.7092406390110653
+      "max": 0.7089007544517517
     },
     {
       "mesh": "kitchen__warm paper lantern",
       "corners": 704,
       "min": 0.680607672186258,
-      "max": 0.776720527211825
+      "max": 0.7766675774256389
     },
     {
       "mesh": "kitchen__pale oak",
@@ -258,7 +192,7 @@
       "mesh": "lounge__warm paper lantern",
       "corners": 704,
       "min": 0.6809630314384898,
-      "max": 0.8082673299933474
+      "max": 0.808232403844595
     },
     {
       "mesh": "lounge__woven jute",
@@ -306,7 +240,7 @@
       "mesh": "core__sage textile",
       "corners": 1536,
       "min": 0.68,
-      "max": 0.7294829028099775
+      "max": 0.7393370058387518
     },
     {
       "mesh": "kitchen__chalk limestone",
@@ -315,16 +249,10 @@
       "max": 0.68
     },
     {
-      "mesh": "gym__honey ash",
-      "corners": 9600,
-      "min": 0.68,
-      "max": 0.7835327612236143
-    },
-    {
       "mesh": "core__terracotta",
       "corners": 2560,
       "min": 0.68,
-      "max": 0.7648546138654153
+      "max": 0.7756486638387045
     },
     {
       "mesh": "core__charcoal",
@@ -336,7 +264,7 @@
       "mesh": "core__olive leaf",
       "corners": 4576,
       "min": 0.68,
-      "max": 0.7394010824461779
+      "max": 0.7515987867241105
     },
     {
       "mesh": "kitchen__smoked olive cabinetry",
@@ -348,7 +276,7 @@
       "mesh": "kitchen__brushed brass",
       "corners": 5632,
       "min": 0.68,
-      "max": 0.7783885376155376
+      "max": 0.7864165573070446
     },
     {
       "mesh": "kitchen__warm cut stone",
@@ -366,13 +294,13 @@
       "mesh": "kitchen_waterfall_end",
       "corners": 384,
       "min": 0.68,
-      "max": 0.7289842433358232
+      "max": 0.7295685961594185
     },
     {
       "mesh": "kitchen_waterfall_end.001",
       "corners": 384,
       "min": 0.68,
-      "max": 0.7990654459347328
+      "max": 0.7991630728791158
     },
     {
       "mesh": "kitchen__honey ash",
@@ -384,13 +312,13 @@
       "mesh": "kitchen__warm glazed porcelain",
       "corners": 10080,
       "min": 0.68,
-      "max": 0.8192333182568352
+      "max": 0.8189381771658858
     },
     {
       "mesh": "kitchen__terracotta",
       "corners": 5320,
       "min": 0.68,
-      "max": 0.7895451553165913
+      "max": 0.7971628844241302
     },
     {
       "mesh": "kitchen__satin appliance stainless",
@@ -402,7 +330,7 @@
       "mesh": "kitchen_espresso_cup",
       "corners": 1824,
       "min": 0.68,
-      "max": 0.765675086081028
+      "max": 0.7664267751574516
     },
     {
       "mesh": "kitchen_espresso_crema",
@@ -414,13 +342,13 @@
       "mesh": "kitchen_espresso_cup_handle",
       "corners": 768,
       "min": 0.68,
-      "max": 0.7501633618399501
+      "max": 0.7505943857505918
     },
     {
       "mesh": "kitchen__coffee hopper glass",
       "corners": 704,
       "min": 0.6800405377499799,
-      "max": 0.7633568660542369
+      "max": 0.7639710192133983
     },
     {
       "mesh": "kitchen__roasted coffee beans",
@@ -444,19 +372,13 @@
       "mesh": "kitchen__olive leaf",
       "corners": 4576,
       "min": 0.68,
-      "max": 0.8190875179072221
-    },
-    {
-      "mesh": "gym__satin appliance stainless",
-      "corners": 1280,
-      "min": 0.68,
-      "max": 0.7904922715077798
+      "max": 0.8213745683679978
     },
     {
       "mesh": "core__golden coastal sandstone",
-      "corners": 137346,
+      "corners": 136150,
       "min": 0.68,
-      "max": 0.9591132881740729
+      "max": 0.9588938118269047
     },
     {
       "mesh": "core__blue sage agave leaf",
@@ -474,7 +396,7 @@
       "mesh": "study_footrest_support",
       "corners": 384,
       "min": 0.68,
-      "max": 0.73922084265699
+      "max": 0.7393214347461861
     },
     {
       "mesh": "study_footrest_support.001",
@@ -492,7 +414,7 @@
       "mesh": "kitchen_footrest",
       "corners": 384,
       "min": 0.68,
-      "max": 0.8096788769463699
+      "max": 0.8097357765336832
     },
     {
       "mesh": "kitchen_footrest_support",
@@ -504,7 +426,7 @@
       "mesh": "kitchen_footrest_support.001",
       "corners": 384,
       "min": 0.68,
-      "max": 0.7671914313485225
+      "max": 0.7661936351905266
     },
     {
       "mesh": "kitchen_footrest_stretcher",
@@ -516,7 +438,7 @@
       "mesh": "lounge_ottoman_foot",
       "corners": 384,
       "min": 0.68,
-      "max": 0.695282832098504
+      "max": 0.6991189166282614
     },
     {
       "mesh": "lounge_ottoman_foot.001",
@@ -528,7 +450,7 @@
       "mesh": "lounge_ottoman_foot.002",
       "corners": 384,
       "min": 0.68,
-      "max": 0.6976484269524614
+      "max": 0.6974303198978306
     },
     {
       "mesh": "lounge_ottoman_foot.003",
@@ -552,13 +474,43 @@
       "mesh": "onsen_decor brushed brass",
       "corners": 224,
       "min": 0.68,
-      "max": 0.7077700664103032
+      "max": 0.7077700669070085
     },
     {
       "mesh": "onsen_decor dry bamboo",
       "corners": 732,
       "min": 0.68,
-      "max": 0.7150167983770371
+      "max": 0.7151120231300594
+    },
+    {
+      "mesh": "sleep_decor pale oak",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.6953388347600897
+    },
+    {
+      "mesh": "sleep_decor linen canvas sky",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6947131117805839
+    },
+    {
+      "mesh": "sleep_decor linen canvas sea",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6951262961452206
+    },
+    {
+      "mesh": "sleep_decor linen canvas sand",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6936570997039477
+    },
+    {
+      "mesh": "sleep_decor linen canvas sun",
+      "corners": 32,
+      "min": 0.6811489597149194,
+      "max": 0.686453158458074
     },
     {
       "mesh": "study_decor cork board",
@@ -570,55 +522,55 @@
       "mesh": "study_decor pale oak",
       "corners": 96,
       "min": 0.68,
-      "max": 0.7171950020020208
+      "max": 0.7172346545507512
     },
     {
       "mesh": "study_decor sketch paper",
       "corners": 168,
       "min": 0.68,
-      "max": 0.7176221560811004
+      "max": 0.7176814188063145
     },
     {
       "mesh": "study_decor terracotta",
       "corners": 1008,
       "min": 0.68,
-      "max": 0.7292955806851388
+      "max": 0.7292793221523365
     },
     {
       "mesh": "lounge_decor woven jute",
       "corners": 7488,
-      "min": 0.6810119935963304,
-      "max": 0.7880963403731585
+      "min": 0.6823362811654806,
+      "max": 0.7897728327661753
     },
     {
       "mesh": "lounge_decor terracotta",
       "corners": 1728,
-      "min": 0.6822865984899302,
-      "max": 0.7754271589467923
+      "min": 0.6827809914201498,
+      "max": 0.7853679086392125
     },
     {
       "mesh": "lounge_decor pale oak",
       "corners": 72,
       "min": 0.68,
-      "max": 0.7431892710427443
+      "max": 0.7463560248414676
     },
     {
       "mesh": "lounge_decor celadon glaze",
       "corners": 1036,
       "min": 0.68,
-      "max": 0.7757880679269632
+      "max": 0.7757396528124809
     },
     {
       "mesh": "lounge_decor tenmoku glaze",
       "corners": 812,
       "min": 0.68,
-      "max": 0.8262500053644181
+      "max": 0.7742044766992331
     },
     {
       "mesh": "lounge_decor oatmeal glaze",
       "corners": 812,
       "min": 0.68,
-      "max": 0.7650398355474075
+      "max": 0.7646302120635907
     },
     {
       "mesh": "core_facade__dark_bronze",
@@ -630,7 +582,7 @@
       "mesh": "core_facade__warm_cut_stone",
       "corners": 216,
       "min": 0.68,
-      "max": 0.8906380866467953
+      "max": 0.9000372575223446
     },
     {
       "mesh": "core_facade__golden_coastal_sandstone",
@@ -653,14 +605,14 @@
     {
       "mesh": "core_terrace_festoon_bulbs",
       "corners": 3960,
-      "min": 0.681479579259952,
+      "min": 0.6809539095995327,
       "max": 0.9551131680607796
     },
     {
       "mesh": "core_facade__weathered_teak_wood",
       "corners": 1364,
       "min": 0.68,
-      "max": 0.8437291205426058
+      "max": 0.8444443796326718
     },
     {
       "mesh": "core_facade__outdoor_canvas_cotton",
@@ -678,13 +630,13 @@
       "mesh": "core_facade__charred_oak_wood",
       "corners": 192,
       "min": 0.68,
-      "max": 0.8454835897187393
+      "max": 0.8454838748276234
     },
     {
       "mesh": "core_facade__terracotta",
       "corners": 2200,
       "min": 0.68,
-      "max": 0.8508780369721354
+      "max": 0.8509613345873853
     },
     {
       "mesh": "core_facade__olive_leaf",
@@ -701,8 +653,8 @@
     {
       "mesh": "core_facade__rosemary_leaf",
       "corners": 1656,
-      "min": 0.68066812314714,
-      "max": 0.8895235711832842
+      "min": 0.6806681232635553,
+      "max": 0.8902856784065565
     },
     {
       "mesh": "core_terrace_fire_embers",
@@ -714,7 +666,7 @@
       "mesh": "core_facade__cedar_wood",
       "corners": 1320,
       "min": 0.68,
-      "max": 0.7555190973977248
+      "max": 0.7556092216074467
     },
     {
       "mesh": "core_flora_sage",
@@ -768,7 +720,7 @@
       "mesh": "core_flora_iceplant_flowers",
       "corners": 5348,
       "min": 0.68,
-      "max": 0.9512242746539414
+      "max": 0.951224274467677
     },
     {
       "mesh": "core_flora_sagebrush",
@@ -798,7 +750,7 @@
       "mesh": "core_flora_prickly_pear",
       "corners": 12740,
       "min": 0.68,
-      "max": 0.9507103052766374
+      "max": 0.950710305152461
     },
     {
       "mesh": "core_flora_prickly_pear_fruit",
@@ -840,7 +792,7 @@
       "mesh": "core_flora_red_iceplant",
       "corners": 14196,
       "min": 0.68,
-      "max": 0.9520572140502434
+      "max": 0.9520555013169846
     },
     {
       "mesh": "core_flora_palm_trunk",
@@ -855,100 +807,34 @@
       "max": 0.9511140105004112
     },
     {
-      "mesh": "sleep__honey ash",
-      "corners": 1968,
-      "min": 0.68,
-      "max": 0.7521837694942952
-    },
-    {
-      "mesh": "sleep__linen",
-      "corners": 1304,
-      "min": 0.68,
-      "max": 0.7533788510660331
-    },
-    {
-      "mesh": "sleep__pale oak",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.754965855528911
-    },
-    {
-      "mesh": "sleep__terracotta",
-      "corners": 1280,
-      "min": 0.68,
-      "max": 0.7504762567331394
-    },
-    {
-      "mesh": "sleep__charcoal",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.6946006207416455
-    },
-    {
-      "mesh": "sleep__olive leaf",
-      "corners": 2288,
-      "min": 0.68,
-      "max": 0.7431413309027752
-    },
-    {
-      "mesh": "sleep_decor pale oak",
-      "corners": 96,
-      "min": 0.68,
-      "max": 0.6947838622455796
-    },
-    {
-      "mesh": "sleep_decor linen canvas sky",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6947241329277556
-    },
-    {
-      "mesh": "sleep_decor linen canvas sea",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6951262961452206
-    },
-    {
-      "mesh": "sleep_decor linen canvas sand",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6936570997039477
-    },
-    {
-      "mesh": "sleep_decor linen canvas sun",
-      "corners": 32,
-      "min": 0.6811087251516681,
-      "max": 0.686453158458074
-    },
-    {
       "mesh": "sleep_pillow_empty",
       "corners": 8320,
       "min": 0.68,
-      "max": 0.7647555017719666
+      "max": 0.7760054990897576
     },
     {
       "mesh": "sleep_duvet_empty",
       "corners": 24818,
       "min": 0.68,
-      "max": 0.7283793901776274
+      "max": 0.7302770649145047
     },
     {
       "mesh": "sleep_pillow_lizard",
       "corners": 8320,
       "min": 0.68,
-      "max": 0.7647555017719666
+      "max": 0.7760054990897576
     },
     {
       "mesh": "sleep_duvet_lizard",
       "corners": 23234,
       "min": 0.68,
-      "max": 0.7394458722944062
+      "max": 0.7393960351745288
     },
     {
       "mesh": "sleep_pillow_south-park",
       "corners": 8320,
       "min": 0.68,
-      "max": 0.7643389845142762
+      "max": 0.7758982687195142
     },
     {
       "mesh": "sleep_duvet_south-park",
@@ -960,37 +846,235 @@
       "mesh": "sleep_pillow_simpsons",
       "corners": 8320,
       "min": 0.68,
-      "max": 0.7647555017719666
+      "max": 0.7760054990897576
     },
     {
       "mesh": "sleep_duvet_simpsons",
       "corners": 24474,
       "min": 0.68,
-      "max": 0.744313632696867
+      "max": 0.7443887190272411
     },
     {
       "mesh": "sleep_pillow_ghibli",
       "corners": 8320,
       "min": 0.68,
-      "max": 0.7647555017719666
+      "max": 0.7760054990897576
     },
     {
       "mesh": "sleep_duvet_ghibli",
       "corners": 26448,
       "min": 0.68,
-      "max": 0.7348586349189282
+      "max": 0.7376047380889457
     },
     {
       "mesh": "sleep_pillow_rick-and-morty",
       "corners": 8320,
       "min": 0.68,
-      "max": 0.7647555017719666
+      "max": 0.7760054990897576
     },
     {
       "mesh": "sleep_duvet_rick-and-morty",
       "corners": 24510,
       "min": 0.68,
-      "max": 0.744213026141127
+      "max": 0.7442130257685979
+    },
+    {
+      "mesh": "core_gym_floor",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.8487500000000001
+    },
+    {
+      "mesh": "core_gym_ledge",
+      "corners": 132,
+      "min": 0.68,
+      "max": 0.9220845819513003
+    },
+    {
+      "mesh": "core_gym_passage_floor",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "core_gym_front_frame",
+      "corners": 1296,
+      "min": 0.68,
+      "max": 0.863212371915579
+    },
+    {
+      "mesh": "gym__gym rubber",
+      "corners": 26040,
+      "min": 0.68,
+      "max": 0.8288100675741832
+    },
+    {
+      "mesh": "gym__powder coated gym steel",
+      "corners": 12384,
+      "min": 0.68,
+      "max": 0.8290776255602639
+    },
+    {
+      "mesh": "gym__barbell brushed steel",
+      "corners": 888,
+      "min": 0.68,
+      "max": 0.7172481780995926
+    },
+    {
+      "mesh": "gym__pale oak",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.7723458779913683
+    },
+    {
+      "mesh": "gym__honey ash",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7515962285672625
+    },
+    {
+      "mesh": "gym__satin appliance stainless",
+      "corners": 1680,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "gym__charcoal",
+      "corners": 624,
+      "min": 0.68,
+      "max": 0.8600000053644181
+    },
+    {
+      "mesh": "gym__terracotta",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7260509493667633
+    },
+    {
+      "mesh": "gym__sage textile",
+      "corners": 1776,
+      "min": 0.68,
+      "max": 0.8174796523774664
+    },
+    {
+      "mesh": "gym__linen",
+      "corners": 648,
+      "min": 0.680137433273873,
+      "max": 0.7728422038505475
+    },
+    {
+      "mesh": "gym__gym light diffuser",
+      "corners": 432,
+      "min": 0.68,
+      "max": 0.7769898946334919
+    },
+    {
+      "mesh": "gym_bench_seat",
+      "corners": 216,
+      "min": 0.6800097193650921,
+      "max": 0.7517999758074682
+    },
+    {
+      "mesh": "gym_bench_backrest",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.7525043771664303
+    },
+    {
+      "mesh": "gym_working_dumbbell_right_handle",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.6913629056342567
+    },
+    {
+      "mesh": "gym_working_dumbbell_right_head",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7039711594084899
+    },
+    {
+      "mesh": "gym_working_dumbbell_left_handle",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.6912500003352762
+    },
+    {
+      "mesh": "gym_working_dumbbell_left_head",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.6924605013802648
+    },
+    {
+      "mesh": "gym_whiteboard_face",
+      "corners": 4,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "lounge_living__linen",
+      "corners": 2472,
+      "min": 0.68,
+      "max": 0.7977041461318732
+    },
+    {
+      "mesh": "lounge_living__pale oak",
+      "corners": 1512,
+      "min": 0.68,
+      "max": 0.8180756233880918
+    },
+    {
+      "mesh": "lounge_living__charcoal",
+      "corners": 648,
+      "min": 0.68,
+      "max": 0.7497421226836741
+    },
+    {
+      "mesh": "lounge_living__terracotta",
+      "corners": 812,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "lounge_living__sage textile",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.8184452732652426
+    },
+    {
+      "mesh": "lounge_living__celadon glaze",
+      "corners": 800,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "lounge_living__woven jute",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.8081743281210463
+    },
+    {
+      "mesh": "lounge_living__brushed brass",
+      "corners": 228,
+      "min": 0.68,
+      "max": 0.7895369000732899
+    },
+    {
+      "mesh": "lounge_living__record sleeve card",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.7738401909917593
+    },
+    {
+      "mesh": "lounge_living__honey ash",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7397601023937266
+    },
+    {
+      "mesh": "lounge_living__fiddle fig leaf",
+      "corners": 88,
+      "min": 0.68,
+      "max": 0.7312863797942798
     }
   ]
 }

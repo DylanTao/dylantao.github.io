@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import { envelopeFor, wildlifeEnvelope, constrainOrbit, keepCameraClear, cameraTerrainHeight } from "../assets/js/home-scene/camera.mjs";
 import { activityPose } from "../assets/js/home-scene/activities.mjs";
+import { trainingAt, sessionState } from "../assets/js/home-scene/training.mjs";
+import { sessionPose } from "../assets/js/home-scene/gym-session.mjs";
 const c = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
 
 test("the gym arrival shows the front of steady exercise poses without a clearance correction", () => {
@@ -16,8 +18,17 @@ test("the gym arrival shows the front of steady exercise poses without a clearan
   const original = { ...position };
   keepCameraClear(position, c, "gym");
   assert.deepEqual(position, original, "arrival should not jump behind a wall or the upstairs floor");
-  for (const seconds of [12, 26, 38, 60, 75]) {
-    const pose = activityPose("strength", seconds, c.equipment, room),
+  // A squat set, a pull-up superset, a sumo set, a dip superset and a rest.
+  const info = trainingAt(c.training, "2026-10-15", 1080);
+  const first = (kind, lift) => info.timeline.segments.find((s) => s.kind === kind && s.lift === lift && !s.warmup);
+  for (const [segment, offset] of [
+    [first("set", "squat"), 2],
+    [first("superset", "pullup"), 3],
+    [first("set", "sumo-deadlift"), 2],
+    [first("superset", "dip"), 4],
+    [first("set", "squat"), -40],
+  ]) {
+    const pose = sessionPose({ ...info, state: sessionState(info.timeline, segment.start + offset) }, c.equipment.gym),
       dx = position.x - pose.position[0],
       dz = position.z - pose.position[2],
       front = (Math.sin(pose.facing) * dx + Math.cos(pose.facing) * dz) / Math.hypot(dx, dz);
@@ -93,12 +104,9 @@ test("explicit wildlife inspection allows a nearby full orbit while retaining te
     assert.ok(position.y >= cameraTerrainHeight(0, 15, c.cameraCollision) + c.cameraCollision.clearance);
   }
 });
-test("coffee and strength sequences have approaches, rests and equipment contacts", () => {
+test("the coffee sequence has approaches, rests and equipment contacts", () => {
   const phases = new Set();
-  for (const [name, id] of [
-    ["coffee", "kitchen"],
-    ["strength", "gym"],
-  ]) {
+  for (const [name, id] of [["coffee", "kitchen"]]) {
     const room = c.rooms.find((r) => r.id === id);
     for (let t = 0; t < 100; t += 0.25) {
       const p = activityPose(name, t, c.equipment, room);
@@ -106,19 +114,5 @@ test("coffee and strength sequences have approaches, rests and equipment contact
       phases.add(p.phase);
     }
   }
-  for (const phase of [
-    "grind",
-    "brew",
-    "pick up",
-    "carry",
-    "set down",
-    "return cup",
-    "pull-ups",
-    "dips",
-    "rest",
-    "pick up weight",
-    "return weight",
-    "dumbbell set",
-  ])
-    assert.ok(phases.has(phase));
+  for (const phase of ["grind", "brew", "pick up", "carry", "set down", "return cup"]) assert.ok(phases.has(phase));
 });

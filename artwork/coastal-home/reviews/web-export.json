@@ -63,89 +63,34 @@
       "facesExported": 5176
     },
     {
-      "mesh": "gym__gym rubber",
-      "facesBefore": 8210,
-      "facesExported": 8210
+      "mesh": "sleep__honey ash",
+      "facesBefore": 494,
+      "facesExported": 494
     },
     {
-      "mesh": "gym__powder coated gym steel",
-      "facesBefore": 5140,
-      "facesExported": 5140
+      "mesh": "sleep__linen",
+      "facesBefore": 338,
+      "facesExported": 338
     },
     {
-      "mesh": "gym__barbell brushed steel",
-      "facesBefore": 5824,
-      "facesExported": 5824
-    },
-    {
-      "mesh": "gym__sage textile",
-      "facesBefore": 2268,
-      "facesExported": 2268
-    },
-    {
-      "mesh": "gym__saddle bench upholstery",
-      "facesBefore": 196,
-      "facesExported": 196
-    },
-    {
-      "mesh": "gym__linen",
-      "facesBefore": 256,
-      "facesExported": 256
-    },
-    {
-      "mesh": "gym_stored_dumbbell_shaft.005",
+      "mesh": "sleep__pale oak",
       "facesBefore": 162,
       "facesExported": 162
     },
     {
-      "mesh": "gym_stored_dumbbell_sleeve.010",
+      "mesh": "sleep__terracotta",
+      "facesBefore": 306,
+      "facesExported": 306
+    },
+    {
+      "mesh": "sleep__charcoal",
       "facesBefore": 162,
       "facesExported": 162
     },
     {
-      "mesh": "gym_stored_dumbbell_plate.010",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "gym_stored_dumbbell_plate_hub.010",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "gym_stored_dumbbell_plate_label.010",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "gym_stored_dumbbell_collar.010",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "gym_stored_dumbbell_sleeve.011",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "gym_stored_dumbbell_plate.011",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "gym_stored_dumbbell_plate_hub.011",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "gym_stored_dumbbell_plate_label.011",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "gym_stored_dumbbell_collar.011",
-      "facesBefore": 162,
-      "facesExported": 162
+      "mesh": "sleep__olive leaf",
+      "facesBefore": 572,
+      "facesExported": 572
     },
     {
       "mesh": "onsen_water",
@@ -278,11 +223,6 @@
       "facesExported": 130
     },
     {
-      "mesh": "gym__honey ash",
-      "facesBefore": 2450,
-      "facesExported": 2450
-    },
-    {
       "mesh": "core__terracotta",
       "facesBefore": 612,
       "facesExported": 612
@@ -388,19 +328,14 @@
       "facesExported": 1144
     },
     {
-      "mesh": "gym__satin appliance stainless",
-      "facesBefore": 320,
-      "facesExported": 320
-    },
-    {
       "mesh": "core_liftaway_cave_ceiling",
       "facesBefore": 1073,
       "facesExported": 1073
     },
     {
       "mesh": "core__golden coastal sandstone",
-      "facesBefore": 34104,
-      "facesExported": 34104
+      "facesBefore": 33751,
+      "facesExported": 33751
     },
     {
       "mesh": "core__blue sage agave leaf",
@@ -486,6 +421,31 @@
       "mesh": "onsen_decor dry bamboo",
       "facesBefore": 142,
       "facesExported": 142
+    },
+    {
+      "mesh": "sleep_decor pale oak",
+      "facesBefore": 24,
+      "facesExported": 24
+    },
+    {
+      "mesh": "sleep_decor linen canvas sky",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sea",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sand",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "sleep_decor linen canvas sun",
+      "facesBefore": 1,
+      "facesExported": 1
     },
     {
       "mesh": "study_decor cork board",
@@ -768,61 +728,6 @@
       "facesExported": 11072
     },
     {
-      "mesh": "sleep__honey ash",
-      "facesBefore": 494,
-      "facesExported": 494
-    },
-    {
-      "mesh": "sleep__linen",
-      "facesBefore": 338,
-      "facesExported": 338
-    },
-    {
-      "mesh": "sleep__pale oak",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "sleep__terracotta",
-      "facesBefore": 306,
-      "facesExported": 306
-    },
-    {
-      "mesh": "sleep__charcoal",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "sleep__olive leaf",
-      "facesBefore": 572,
-      "facesExported": 572
-    },
-    {
-      "mesh": "sleep_decor pale oak",
-      "facesBefore": 24,
-      "facesExported": 24
-    },
-    {
-      "mesh": "sleep_decor linen canvas sky",
-      "facesBefore": 6,
-      "facesExported": 6
-    },
-    {
-      "mesh": "sleep_decor linen canvas sea",
-      "facesBefore": 6,
-      "facesExported": 6
-    },
-    {
-      "mesh": "sleep_decor linen canvas sand",
-      "facesBefore": 6,
-      "facesExported": 6
-    },
-    {
-      "mesh": "sleep_decor linen canvas sun",
-      "facesBefore": 1,
-      "facesExported": 1
-    },
-    {
       "mesh": "sleep_pillow_empty",
       "facesBefore": 2080,
       "facesExported": 2080
@@ -881,6 +786,176 @@
       "mesh": "sleep_duvet_rick-and-morty",
       "facesBefore": 7039,
       "facesExported": 7039
+    },
+    {
+      "mesh": "core_gym_floor",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "core_gym_ledge",
+      "facesBefore": 24,
+      "facesExported": 24
+    },
+    {
+      "mesh": "core_gym_passage_floor",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "core_gym_front_frame",
+      "facesBefore": 324,
+      "facesExported": 324
+    },
+    {
+      "mesh": "core_gym_front_glass",
+      "facesBefore": 4,
+      "facesExported": 4
+    },
+    {
+      "mesh": "gym__gym rubber",
+      "facesBefore": 6260,
+      "facesExported": 6260
+    },
+    {
+      "mesh": "gym__powder coated gym steel",
+      "facesBefore": 3058,
+      "facesExported": 3058
+    },
+    {
+      "mesh": "gym__barbell brushed steel",
+      "facesBefore": 172,
+      "facesExported": 172
+    },
+    {
+      "mesh": "gym__pale oak",
+      "facesBefore": 54,
+      "facesExported": 54
+    },
+    {
+      "mesh": "gym__honey ash",
+      "facesBefore": 12,
+      "facesExported": 12
+    },
+    {
+      "mesh": "gym__satin appliance stainless",
+      "facesBefore": 415,
+      "facesExported": 415
+    },
+    {
+      "mesh": "gym__charcoal",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "gym__terracotta",
+      "facesBefore": 10,
+      "facesExported": 10
+    },
+    {
+      "mesh": "gym__sage textile",
+      "facesBefore": 334,
+      "facesExported": 334
+    },
+    {
+      "mesh": "gym__linen",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "gym__gym light diffuser",
+      "facesBefore": 108,
+      "facesExported": 108
+    },
+    {
+      "mesh": "gym_bench_seat",
+      "facesBefore": 54,
+      "facesExported": 54
+    },
+    {
+      "mesh": "gym_bench_backrest",
+      "facesBefore": 54,
+      "facesExported": 54
+    },
+    {
+      "mesh": "gym_working_dumbbell_right_handle",
+      "facesBefore": 14,
+      "facesExported": 14
+    },
+    {
+      "mesh": "gym_working_dumbbell_right_head",
+      "facesBefore": 16,
+      "facesExported": 16
+    },
+    {
+      "mesh": "gym_working_dumbbell_left_handle",
+      "facesBefore": 14,
+      "facesExported": 14
+    },
+    {
+      "mesh": "gym_working_dumbbell_left_head",
+      "facesBefore": 16,
+      "facesExported": 16
+    },
+    {
+      "mesh": "gym_whiteboard_face",
+      "facesBefore": 1,
+      "facesExported": 1
+    },
+    {
+      "mesh": "lounge_living__linen",
+      "facesBefore": 613,
+      "facesExported": 613
+    },
+    {
+      "mesh": "lounge_living__pale oak",
+      "facesBefore": 358,
+      "facesExported": 358
+    },
+    {
+      "mesh": "lounge_living__charcoal",
+      "facesBefore": 146,
+      "facesExported": 146
+    },
+    {
+      "mesh": "lounge_living__terracotta",
+      "facesBefore": 197,
+      "facesExported": 197
+    },
+    {
+      "mesh": "lounge_living__sage textile",
+      "facesBefore": 54,
+      "facesExported": 54
+    },
+    {
+      "mesh": "lounge_living__celadon glaze",
+      "facesBefore": 193,
+      "facesExported": 193
+    },
+    {
+      "mesh": "lounge_living__woven jute",
+      "facesBefore": 54,
+      "facesExported": 54
+    },
+    {
+      "mesh": "lounge_living__brushed brass",
+      "facesBefore": 48,
+      "facesExported": 48
+    },
+    {
+      "mesh": "lounge_living__record sleeve card",
+      "facesBefore": 54,
+      "facesExported": 54
+    },
+    {
+      "mesh": "lounge_living__honey ash",
+      "facesBefore": 10,
+      "facesExported": 10
+    },
+    {
+      "mesh": "lounge_living__fiddle fig leaf",
+      "facesBefore": 22,
+      "facesExported": 22
     }
   ]
 }

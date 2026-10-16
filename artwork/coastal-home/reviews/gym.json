@@ -1,0 +1,37 @@
+{
+  "revealFacesToSandstone": 0,
+  "removedObjects": 34,
+  "gymObjects": {
+    "gym__gym rubber": 7176,
+    "gym__powder coated gym steel": 3264,
+    "gym__barbell brushed steel": 296,
+    "gym__pale oak": 56,
+    "gym__honey ash": 16,
+    "gym__satin appliance stainless": 448,
+    "gym__charcoal": 176,
+    "gym__terracotta": 16,
+    "gym__sage textile": 592,
+    "gym__linen": 168,
+    "gym__gym light diffuser": 112,
+    "gym_bench_seat": 56,
+    "gym_bench_backrest": 56,
+    "gym_working_dumbbell_right_handle": 24,
+    "gym_working_dumbbell_right_head": 24,
+    "gym_working_dumbbell_left_handle": 24,
+    "gym_working_dumbbell_left_head": 24,
+    "gym_whiteboard_face": 4
+  },
+  "livingObjects": {
+    "lounge_living__linen": 656,
+    "lounge_living__pale oak": 424,
+    "lounge_living__charcoal": 184,
+    "lounge_living__terracotta": 236,
+    "lounge_living__sage textile": 56,
+    "lounge_living__celadon glaze": 224,
+    "lounge_living__woven jute": 56,
+    "lounge_living__brushed brass": 76,
+    "lounge_living__record sleeve card": 72,
+    "lounge_living__honey ash": 16,
+    "lounge_living__fiddle fig leaf": 88
+  }
+}
