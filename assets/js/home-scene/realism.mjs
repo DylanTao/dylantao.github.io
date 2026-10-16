@@ -6,6 +6,7 @@ import { OutputPass } from "../vendor/three-r164/postprocessing/OutputPass.js";
 import { CONTACT_RADIUS, CONTACT_SLICES, CONTACT_STEPS, horizonFragment, bilateralFragment, bindContactLighting } from "./contact-occlusion.mjs";
 import { createGpuTimer } from "./gpu-timer.mjs";
 import { createVolumeDepth } from "./volume-depth.mjs";
+import { floraSwayProfile, patchFloraSway } from "./plant-motion.mjs";
 
 // Physical scale survives batching and the many different UV layouts in glTF.
 // No scenic image, texture download, or screen-space grain is involved.
@@ -136,22 +137,24 @@ function sheenFabric(source) {
 }
 
 // The clifftop's leaves, needles and grass (bin/coastal_flora.py) carry a sway weight in uv.x,
-// 0 at the plant's base and 1 at its top. They lean a little inland in the onshore breeze and
-// rock about that lean, each plant on its own phase; the motion freezes with the scene's clock.
-function swayInBreeze(material) {
-  material.onBeforeCompile = (shader) => {
-    shader.uniforms.coastalTime = physicalTime;
-    shader.vertexShader = shader.vertexShader.replace("#include <common>", "#include <common>\nuniform float coastalTime;").replace(
-      "#include <begin_vertex>",
-      `#include <begin_vertex>
-        vec4 swayWorld = modelMatrix * vec4(transformed, 1.0);
-        float swayPhase = dot(swayWorld.xz, vec2(.31, .17));
-        float swayWeight = uv.x * uv.x;
-        transformed.x += swayWeight * (.04 * sin(coastalTime * 1.3 + swayPhase) + .012 * sin(coastalTime * 3.7 + swayPhase * 2.3));
-        transformed.z += swayWeight * (.025 + .025 * sin(coastalTime * 1.1 + swayPhase * 1.4));`
-    );
-  };
-  material.customProgramCacheKey = () => "coastal-breeze-foliage-v1";
+// 0 at the plant's base and 1 at its top. They bend in the coast's one wind (plant-motion.mjs,
+// patchFloraSway): a lean that follows the sea breeze, gusts that roll across the bluff downwind with
+// the fronts that cross the water, and each species' own sway and flutter. The same hook runs on the
+// mesh's depth and distance materials, so the shadows move with the leaves. The motion freezes with
+// the scene's clock.
+function swayInBreeze(material, mesh) {
+  const profile = floraSwayProfile(material.name);
+  const sway = (shader) => patchFloraSway(shader, profile);
+  material.onBeforeCompile = sway;
+  material.customProgramCacheKey = () => "coastal-breeze-foliage-v2";
+  if (!mesh || mesh.isSkinnedMesh || mesh.customDepthMaterial || Array.isArray(mesh.userData.baseMaterial ?? mesh.material)) return;
+  const depth = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking }),
+    distance = new THREE.MeshDistanceMaterial();
+  depth.onBeforeCompile = distance.onBeforeCompile = sway;
+  depth.customProgramCacheKey = () => "coastal-breeze-foliage-depth-v2";
+  distance.customProgramCacheKey = () => "coastal-breeze-foliage-distance-v2";
+  mesh.customDepthMaterial = depth;
+  mesh.customDistanceMaterial = distance;
 }
 
 export function finishPhysicalMaterial(source, mesh, contactLighting) {
@@ -211,7 +214,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     m.side = THREE.DoubleSide;
     m.roughness = 0.56;
     m.envMapIntensity = 0.6;
-    if (/sage leaf|pine needle|grass leaf|berry leaf|palm leaf/i.test(name)) swayInBreeze(m);
+    if (floraSwayProfile(name)) swayInBreeze(m, mesh);
     return bindContactLighting(m, contactLighting);
   }
   if (name === "coffee hopper glass") {

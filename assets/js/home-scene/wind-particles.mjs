@@ -14,6 +14,8 @@ const random = (seed) => {
 
 // Fixed count, fixed active-time ticks, midpoint position AND time. Emitters and
 // bounds are in world meters. No Three dependency, RAF, timer or wall clock.
+// `wind` is either six-mode field options ({ mean, gust, rate }) or a sampler with
+// `sample(x, y, z, t, out)`, such as the coast wind's `outdoor` or `indoor` (wind-field.mjs).
 export function createWindParticles({
   kind = "dust",
   emitters,
@@ -52,6 +54,8 @@ export function createWindParticles({
     pending = 0,
     fieldClock = timeOffset,
     droppedTime = 0;
+  const sampleAt =
+    typeof wind?.sample === "function" ? (p, t, out) => wind.sample(p[0], p[1], p[2], t, out) || out : (p, t, out) => sampleWind(p, t, out, wind);
   function emit(i) {
     const key = seed + i * 1009 + cycles[i] * 9176;
     lives[i] = config.lifetime * (0.85 + 0.3 * random(key + 11));
@@ -75,21 +79,21 @@ export function createWindParticles({
     for (let i = 0; i < count; i++) {
       const offset = i * 3;
       for (let a = 0; a < 3; a++) point[a] = state[offset + a];
-      sampleWind(point, time, w0, wind);
+      sampleAt(point, time, w0);
       if (kind === "spray") {
         for (let a = 0; a < 3; a++) {
           const acceleration = config.gravity[a] + (w0[a] * config.windGain - velocity[offset + a]) / config.drag;
           midpoint[a] = point[a] + velocity[offset + a] * step * 0.5;
           halfVelocity[a] = velocity[offset + a] + acceleration * step * 0.5;
         }
-        sampleWind(midpoint, time + step * 0.5, w1, wind);
+        sampleAt(midpoint, time + step * 0.5, w1);
         for (let a = 0; a < 3; a++) {
           state[offset + a] += halfVelocity[a] * step;
           velocity[offset + a] += (config.gravity[a] + (w1[a] * config.windGain - halfVelocity[a]) / config.drag) * step;
         }
       } else {
         for (let a = 0; a < 3; a++) midpoint[a] = point[a] + (w0[a] * config.windGain + config.drift[a]) * step * 0.5;
-        sampleWind(midpoint, time + step * 0.5, w1, wind);
+        sampleAt(midpoint, time + step * 0.5, w1);
         for (let a = 0; a < 3; a++) state[offset + a] += (w1[a] * config.windGain + config.drift[a]) * step;
       }
       age[i] += step;

@@ -30,6 +30,9 @@ import { createOnsenWater } from "./onsen-water.mjs";
 import { measurePoolGeometry } from "./pool-geometry.mjs";
 import { createPoolStroke } from "./pool-stroke.mjs";
 import { createCoastalWind } from "./coastal-wind.mjs";
+import { coastWind, livePacificMinute } from "./wind-field.mjs";
+import { syncOceanWind } from "./ocean-spectrum.mjs";
+import { createCurtainRig } from "./curtain-rig.mjs";
 import { createWarmPracticals } from "./warm-practicals.mjs";
 import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
@@ -554,6 +557,20 @@ export function createCoastalHome(container, records, artifacts) {
     }
     doorsPlaced = facadeDoors.length > 0 && Boolean(routine && daylight);
   }
+
+  // One wind for the coast (wind-field.mjs): the scene's active clock drives its gust fronts, the
+  // Pacific minute its sea-breeze cycle, and the doors how much of it the house lets in. It moves with
+  // the scene and holds still with it; an explicit change of time or motion recomposes it. The facade
+  // curtains (curtain-rig.mjs) hang in it.
+  let windCompose = true,
+    curtainRig = null;
+  function stepWind(moving) {
+    if (!moving && !windCompose) return;
+    windCompose = false;
+    const minute = routine && !routine.live ? routine.minute : livePacificMinute(config?.timeZone);
+    coastWind.update({ seconds: elapsed, minute, doors: curtainRig?.doorOpenFraction ?? 0 });
+    syncOceanWind(coastWind.state);
+  }
   function syncBedding() {
     const sleeper = container.dataset.animation === "sleep" && beddings.some((o) => o.userData.bedding === avatarId) ? avatarId : "empty";
     for (const object of beddings) object.visible = object.userData.bedding === sleeper;
@@ -1068,6 +1085,8 @@ export function createCoastalHome(container, records, artifacts) {
     if (gymProps && config.training) queueMicrotask(() => gymProps?.drawBoard(boardInfo()));
     const changed = !routine || routine.id !== next.id || routine.prop !== next.prop || routine.clip !== next.clip;
     const compose = force || (composeOnChange && changed);
+    // A deliberate change of time, activity or motion recomposes the wind, even in a still.
+    if (force || changed || routine?.live !== next.live) windCompose = true;
     routine = next;
     clockLabel.textContent = `${routine.live ? "" : "Preview · "}${formatMinute(routine.minute)} · La Jolla`;
     ui.querySelector("[data-world-now]").setAttribute("aria-pressed", String(explore.following && followClock));
@@ -1882,7 +1901,8 @@ export function createCoastalHome(container, records, artifacts) {
     const moving = !reduced && !paused;
     if (moving) elapsed += delta;
     physicalTime.value = elapsed;
-    coastalWind?.update(elapsed, { reduced });
+    stepWind(moving);
+    coastalWind?.update(elapsed, { reduced, coast: coastWind });
     // Camera settling follows elapsed time, including on software renderers.
     // Pausing leaves a composed still instead of an unfinished camera journey.
     const stillCamera = reduced || paused;
@@ -2080,6 +2100,18 @@ export function createCoastalHome(container, records, artifacts) {
     if (moving) pacific?.update(elapsed, delta);
     if (currentRoom === "outside") fitSunShadow();
     stepFacadeDoors(frameDelta, moving);
+    curtainRig?.step({
+      delta,
+      moving,
+      reduced,
+      time: elapsed,
+      doors: facadeDoors,
+      daylight,
+      routine,
+      visit: currentRoom,
+      camera,
+      canvasHeight: renderer.domElement.height,
+    });
     lightInstallations?.tick(elapsed, moving);
     if (steamVolume) {
       // The small volume is a close bath detail. Do not capture two complete
@@ -2089,7 +2121,13 @@ export function createCoastalHome(container, records, artifacts) {
         lightWell.object.visible = currentRoom === "onsen" && lightWell.open > 0 && daylight?.sunlight > 0;
         if (moving && lightWell.object.visible) lightWell.uniforms.wellTime.value = elapsed;
       }
-      if (moving && steamVolume.object.visible) steamVolume.field.advance(delta, { fieldTime: elapsed });
+      if (moving && steamVolume.object.visible) {
+        // The vapour drifts in the house's air: the coast's breeze through the glass front, sheltered
+        // by the alcove's cedar screens.
+        const pool = onsenWater.uniforms.poolCenter.value;
+        steamVolume.field.setWind(coastWind.indoorDrift(pool.x, pool.y, 0.5));
+        steamVolume.field.advance(delta, { fieldTime: elapsed });
+      }
       steamVolume.sync();
     }
     companion.paused = paused;
@@ -2166,6 +2204,9 @@ export function createCoastalHome(container, records, artifacts) {
       if (!response.ok) throw new Error("Scene manifest unavailable");
       config = await response.json();
       if (disposed) return;
+      // The coast's wind starts at this Pacific minute, so the spray and dust prewarm in today's breeze.
+      coastWind.update({ seconds: elapsed, minute: livePacificMinute(config.timeZone) });
+      syncOceanWind(coastWind.state);
       // The composer multisamples its own target and finishes with one full-screen triangle, so a
       // multisampled canvas would only add a resolve without changing a pixel.
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: "low-power" });
@@ -2296,6 +2337,15 @@ export function createCoastalHome(container, records, artifacts) {
       viewportObserver.observe(container);
       cleanup.push(() => viewportObserver.disconnect());
       updateRoutine();
+      // The curtains join the scene before the first view's programs compile (program-warmup.mjs).
+      if (facadeDoors.length)
+        curtainRig = createCurtainRig({
+          scene,
+          startTime: elapsed,
+          reduced,
+          plan: { routine, daylight, visit: currentRoom },
+          bindMaterial: (m) => (staticLightField?.bindMaterial(m), lightInstallations?.bindMaterial(m)),
+        });
       loadingStage("room", "Bringing the room into view.");
       await Promise.all([loadRoom(routine.room, "room"), setAvatar(avatarId, "sirui")]);
       if (disposed) return;
@@ -2419,7 +2469,8 @@ export function createCoastalHome(container, records, artifacts) {
             },
           }
         : null,
-      wind: coastalWind?.evidence(),
+      wind: coastalWind ? { ...coastalWind.evidence(), coast: coastWind.evidence() } : null,
+      curtains: curtainRig?.evidence() ?? null,
       practicals: warmPracticals?.evidence(),
       installations: lightInstallations?.evidence(),
       facade: {
@@ -2578,6 +2629,7 @@ export function createCoastalHome(container, records, artifacts) {
       steamVolume?.dispose();
       skinDiffusion?.dispose();
       coastalWind?.dispose();
+      curtainRig?.dispose();
       [...world.children].forEach(release);
       resources.forEach((r) => r.dispose());
       art.dispose();

@@ -72,11 +72,35 @@ export function createSteamDensity({
     modeAxes = WIND_MODES.map(() => grid.map((n) => ({ sin: new Float64Array(n), cos: new Float64Array(n) }))),
     phaseSin = new Float64Array(WIND_MODES.length),
     phaseCos = new Float64Array(WIND_MODES.length),
-    mean = wind.mean ?? DEFAULT_WIND.mean,
-    gust = wind.gust ?? DEFAULT_WIND.gust,
+    // The drift is prescribed, but it may follow the house's air: setWind() replaces it between
+    // ticks (the coast wind's indoorDrift, so the bath's vapour leans with the afternoon breeze).
+    mean = Float64Array.from(wind.mean ?? DEFAULT_WIND.mean);
+  let gust = wind.gust ?? DEFAULT_WIND.gust,
     windRate = wind.rate ?? 1;
   if (weightSum > 1) throw new RangeError("explicit diffusion must remain a positive six-neighbor convex update");
   if (![...mean, gust, windRate].every(Number.isFinite) || mean.length !== 3 || gust < 0) throw new RangeError("finite prescribed wind required");
+  function setWind(next) {
+    const m = next?.mean ?? mean,
+      g = next?.gust ?? gust,
+      r = next?.rate ?? windRate;
+    if (
+      !(
+        m.length === 3 &&
+        Number.isFinite(m[0]) &&
+        Number.isFinite(m[1]) &&
+        Number.isFinite(m[2]) &&
+        Number.isFinite(g) &&
+        g >= 0 &&
+        Number.isFinite(r)
+      )
+    )
+      throw new RangeError("finite prescribed wind required");
+    mean[0] = m[0];
+    mean[1] = m[1];
+    mean[2] = m[2];
+    gust = g;
+    windRate = r;
+  }
   const index = (i, j, k) => (k * ny + j) * nx + i;
   let pending = 0,
     fieldEndTime = 0,
@@ -251,6 +275,10 @@ export function createSteamDensity({
     domain: Object.freeze({ min, max, grid: [...grid], cell, center: [...center], radius, surfaceY }),
     atlas: Object.freeze({ data: atlas, width: atlasWidth, height: atlasHeight, tiles, rows, maximumDensity, sourceTemperature }),
     advance,
+    setWind,
+    get wind() {
+      return { mean: [...mean], gust, rate: windRate };
+    },
     prewarm(seconds = 6) {
       const warmTicks = warmCount(seconds);
       for (let i = 0; i < warmTicks; i++) tick((i - warmTicks + 0.5) * step, true);

@@ -4,8 +4,9 @@ import { surfaceNoise } from "./realism.mjs";
 import { createSeaReflection } from "./reflection.mjs";
 import { createWildlife } from "./wildlife.mjs";
 import { beachPoint } from "./shore.mjs";
-import { OCEAN_WAVES, oceanFieldGLSL, oceanRipplesGLSL, sampleOcean } from "./ocean-spectrum.mjs";
+import { OCEAN_WAVES, bindOceanWind, oceanFieldGLSL, oceanRipplesGLSL, sampleOcean } from "./ocean-spectrum.mjs";
 import { createWindParticles } from "./wind-particles.mjs";
+import { coastWind } from "./wind-field.mjs";
 
 // Geometry, light, and a procedural sky. No photograph or illustration is
 // placed behind the home. Blender supplies the connected coastal headlands.
@@ -34,6 +35,8 @@ export function createPacific(scene, renderer, config) {
   });
   physicalWater.onBeforeCompile = (shader) => {
     shader.uniforms.pacificTime = time;
+    // The coast's one wind turns and grows the wind sea, and drives ripples and whitecaps per pixel.
+    bindOceanWind(shader, ocean.position);
     shader.uniforms.shoreProfile = { value: shoreTexture };
     shader.uniforms.shoreRange = { value: new THREE.Vector2(beach.samples[0][0], beach.samples.at(-1)[0] - beach.samples[0][0]) };
     shader.vertexShader = `uniform float pacificTime; varying vec2 oceanXZ;\n${oceanFieldGLSL}\n` + shader.vertexShader;
@@ -97,6 +100,7 @@ export function createPacific(scene, renderer, config) {
       float crest=smoothstep(.035,.22,fieldDisplacement.y);
       float lace = stoneNoise(vec3(oceanXZ*3.8,pacificTime*.16));
       float foam = smoothstep(.11,.52,shoal*(crest*.4+compression*.6))*smoothstep(.25,.66,lace);
+      foam = max(foam, oceanWhitecap(oceanXZ,pacificTime,crest,compression)*smoothstep(1.,4.,distanceToBeach));
       // Swash: in the last metres each wave runs up the sand and drains back, so a lacy band at
       // the waterline breathes in width, and each broken front travels in and fades as it goes.
       float swash = pacificTime*.14 + x*.017 + stoneNoise(vec3(x*.08,4.1,pacificTime*.03))*.6;
@@ -149,7 +153,9 @@ export function createPacific(scene, renderer, config) {
   const particleSystems = [];
   function particles(kind, emitters, bounds, warmSeconds, size, maxSize, glow, color, falloff) {
     const started = performance.now(),
-      population = createWindParticles({ kind, emitters: new Float32Array(emitters), bounds, timeOffset: -warmSeconds }),
+      // Spray rides the open coast's wind; dust drifts in the air the glass front lets in.
+      wind = kind === "spray" ? coastWind.outdoor : coastWind.indoor,
+      population = createWindParticles({ kind, emitters: new Float32Array(emitters), bounds, timeOffset: -warmSeconds, wind }),
       geometry = new THREE.BufferGeometry();
     // Deterministic active-time prewarm supplies a mature still composition,
     // including reduced motion. The history ends at scene time zero.
