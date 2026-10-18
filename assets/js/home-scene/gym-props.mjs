@@ -1,5 +1,5 @@
 import * as THREE from "../three.module.min.js";
-import { platesFor, LIFT_LABELS } from "./training.mjs";
+import { plateLoad, LIFT_LABELS } from "./training.mjs";
 
 // The gym's moving equipment (Sirui, 2026-10-15): three barbells (in the rack, on the bench's
 // uprights, on the platform) loaded with the plates each set calls for, the plate in the hands
@@ -7,8 +7,14 @@ import { platesFor, LIFT_LABELS } from "./training.mjs";
 // and the whiteboard, drawn from the program itself (gym-session.mjs says where everything is;
 // lift-rig.mjs says where the hands put it).
 
-// Plate radius and thickness (m) by weight (lb): bumpers for the big plates, iron change plates.
-export const PLATES = { 45: [0.225, 0.062], 35: [0.21, 0.052], 25: [0.18, 0.042], 10: [0.13, 0.028], 5: [0.105, 0.022], 2.5: [0.085, 0.016] };
+// Plate radius and thickness (m) by set and weight (lb). Bumpers share the 450 mm competition
+// diameter and grow thicker with weight; black plates shrink with weight as cast plates do.
+export const PLATES = {
+  bumper: { 55: [0.225, 0.088], 45: [0.225, 0.074], 35: [0.225, 0.059], 25: [0.225, 0.044], 10: [0.225, 0.026] },
+  iron: { 45: [0.225, 0.04], 35: [0.178, 0.036], 25: [0.14, 0.032], 10: [0.115, 0.024], 5: [0.1, 0.02], 2.5: [0.08, 0.016] },
+};
+// Pound bumper colours: 55 red, 45 blue, 35 yellow, 25 green, 10 gray.
+const BUMPER_COLOURS = { 55: 0xb3262d, 45: 0x1f4e9a, 35: 0xe0b324, 25: 0x2f7a44, 10: 0x8d9295 };
 const HALF = 1.1,
   COLLAR = 0.67,
   SLEEVE = 0.685;
@@ -25,17 +31,20 @@ export function createGymProps({ room, world, gym, training, material }) {
   const steel = material(0x9aa19f, { metalness: 0.86, roughness: 0.3 });
   const chrome = material(0xc8cdcb, { metalness: 0.92, roughness: 0.18 });
   const rubber = material(0x1d2220, { roughness: 0.9 });
-  const hubs = {
-    45: material(0x5f7a5f, { roughness: 0.6 }),
-    35: material(0xc09a3e, { roughness: 0.6 }),
-    25: material(0x56785a, { roughness: 0.6 }),
-    10: material(0xe6e2d6, { roughness: 0.6 }),
-    5: material(0xb0563a, { roughness: 0.55 }),
-    2.5: material(0x2f5b8f, { roughness: 0.55 }),
-  };
+  const iron = material(0x202322, { roughness: 0.55, metalness: 0.45 });
+  const bumper = Object.fromEntries(Object.entries(BUMPER_COLOURS).map(([lb, c]) => [lb, material(c, { roughness: 0.82 })]));
+  const insert = material(0xb8bdbb, { metalness: 0.85, roughness: 0.3 });
   const cylinder = (r, h, segments = 24) => keep(new THREE.CylinderGeometry(r, r, h, segments).rotateZ(Math.PI / 2));
-  const plateGeometry = Object.fromEntries(Object.entries(PLATES).map(([w, [r, t]]) => [w, cylinder(r, t, 40)]));
-  const hubGeometry = Object.fromEntries(Object.entries(PLATES).map(([w, [r, t]]) => [w, cylinder(Math.min(0.07, r * 0.42), t + 0.004, 24)]));
+  const geometry = (kind, part) =>
+    Object.fromEntries(
+      Object.entries(PLATES[kind]).map(([lb, [r, t]]) => [
+        lb,
+        part === "plate" ? cylinder(r, t, 40) : cylinder(kind === "bumper" ? 0.05 : Math.min(0.06, r * 0.42), t + 0.004, 24),
+      ])
+    );
+  const plateGeometry = { bumper: geometry("bumper", "plate"), iron: geometry("iron", "plate") };
+  const hubGeometry = { bumper: geometry("bumper", "hub"), iron: geometry("iron", "hub") };
+  const plateMaterial = (kind, lb) => (kind === "bumper" ? bumper[lb] : iron);
   const shaft = cylinder(0.0145, 2 * COLLAR, 14),
     sleeve = cylinder(0.025, HALF - SLEEVE, 18),
     collar = cylinder(0.036, 0.03, 18);
@@ -49,7 +58,7 @@ export function createGymProps({ room, world, gym, training, material }) {
     return m;
   };
 
-  function barbell(rest, axis) {
+  function barbell(rest, axis, station) {
     const group = new THREE.Group();
     group.userData.dynamic = true;
     add(group, shaft, chrome);
@@ -64,7 +73,7 @@ export function createGymProps({ room, world, gym, training, material }) {
     const restQ = new THREE.Quaternion().setFromUnitVectors(X, axis);
     group.position.copy(restAt);
     group.quaternion.copy(restQ);
-    const bar = { group, plates, weight: null, restAt, restQ, held: new THREE.Vector3().copy(restAt), heldQ: restQ.clone(), blend: 0 };
+    const bar = { group, plates, station, weight: null, restAt, restQ, held: new THREE.Vector3().copy(restAt), heldQ: restQ.clone(), blend: 0 };
     load(bar, 45);
     return bar;
   }
@@ -74,18 +83,18 @@ export function createGymProps({ room, world, gym, training, material }) {
     bar.plates.clear();
     for (const side of [-1, 1]) {
       let offset = SLEEVE + 0.004;
-      for (const plate of platesFor(weight)) {
-        const [, t] = PLATES[plate];
-        add(bar.plates, plateGeometry[plate], rubber, side * (offset + t / 2));
-        add(bar.plates, hubGeometry[plate], hubs[plate], side * (offset + t / 2));
+      for (const { lb, kind } of plateLoad(weight, bar.station)) {
+        const [, t] = PLATES[kind][lb];
+        add(bar.plates, plateGeometry[kind][lb], plateMaterial(kind, lb), side * (offset + t / 2));
+        add(bar.plates, hubGeometry[kind][lb], kind === "bumper" ? insert : rubber, side * (offset + t / 2));
         offset += t + 0.003;
       }
     }
   }
   const bars = {
-    rack: barbell(gym.rack.bar, X),
-    platform: barbell(gym.platform.bar, X),
-    bench: barbell(gym.bench.bar, gym.bench.barAxis === "z" ? new THREE.Vector3(0, 0, 1) : X),
+    rack: barbell(gym.rack.bar, X, "rack"),
+    platform: barbell(gym.platform.bar, X, "platform"),
+    bench: barbell(gym.bench.bar, gym.bench.barAxis === "z" ? new THREE.Vector3(0, 0, 1) : X, "bench"),
   };
 
   // The plate in the hands while loading or stripping.
@@ -166,12 +175,14 @@ export function createGymProps({ room, world, gym, training, material }) {
         placeBar(bar, held, held ? rig.center.toArray() : null, held ? rig.axis.toArray() : null, dt, moving);
       }
       // A plate in the hands.
-      const plate = pose?.plate && rig?.plate ? pose.plate.size : null;
+      // The plate in the hands comes from the set its bar uses.
+      const plate = pose?.plate && rig?.plate ? `${pose.plate.kind}:${pose.plate.size}` : null;
       if (plate !== handPlateSize) {
         handPlate.clear();
         if (plate) {
-          add(handPlate, plateGeometry[plate], rubber);
-          add(handPlate, hubGeometry[plate], hubs[plate]);
+          const { kind, size } = pose.plate;
+          add(handPlate, plateGeometry[kind][size], plateMaterial(kind, size));
+          add(handPlate, hubGeometry[kind][size], kind === "bumper" ? insert : rubber);
         }
         handPlateSize = plate;
       }
@@ -185,9 +196,7 @@ export function createGymProps({ room, world, gym, training, material }) {
       for (const side of ["R", "L"]) {
         const d = dumbbells[side];
         if (!d) continue;
-        const goal = inHands ? rig.hands[side] : d.rest;
-        if (inHands && moving) d.group.position.lerp(goal, 1 - Math.exp(-dt / 0.03));
-        else d.group.position.copy(goal);
+        d.group.position.copy(inHands ? rig.hands[side] : d.rest);
       }
       // The bench back.
       const goal = pose?.incline ?? incline;
@@ -245,7 +254,7 @@ export function drawTrainingBoard(g, info, training) {
   g.globalAlpha = 0.05;
   g.fillStyle = INK;
   g.font = `34px ${HAND}`;
-  g.fillText("315 × 1+  ·  5×5  ·  ✓✓✓", 560, 640);
+  g.fillText("315 × 1+  ·  5×5  ·  ✓✓✓", 600, 470);
   g.globalAlpha = 1;
   const text = (s, x, y, size, color = INK, weight = "") => {
     g.font = `${weight} ${size}px ${HAND}`.trim();
@@ -291,13 +300,17 @@ export function drawTrainingBoard(g, info, training) {
       const w = text(`T${lift.tier}  ${LIFT_LABELS[lift.lift] || lift.lift}`, 34, y0, 32, INK, "bold");
       text(`+ ${LIFT_LABELS[lift.superset] || lift.superset}`, 34 + w + 18, y0, 24, SAGE);
       const count = done[lift.lift] || 0;
+      let x = 34,
+        y = y0 + 44;
       lift.sets.forEach((set, i) => {
-        const col = i % 5,
-          line = Math.floor(i / 5);
-        const x = 34 + col * 136,
-          y = y0 + 44 + line * 52;
         const label = `${set.weight}×${set.reps}${set.amrap ? "+" : ""}`;
         const isCurrent = current && current.lift === lift.lift && current.set === i;
+        g.font = `${isCurrent ? "bold " : ""}26px ${HAND}`;
+        const advance = g.measureText(label).width + (i < count ? 34 : 0) + 26;
+        if (x + advance > W - 30) {
+          x = 34;
+          y += 52;
+        }
         const width = text(label, x, y, 26, i < count ? INK : "#5b6266", isCurrent ? "bold" : "");
         if (i < count) {
           // A tick, drawn as a marker stroke.
@@ -316,6 +329,7 @@ export function drawTrainingBoard(g, info, training) {
           g.ellipse(x + width / 2, y - 9, width / 2 + 10, 20, -0.04, 0, Math.PI * 2);
           g.stroke();
         }
+        x += advance;
       });
     });
     if (plan.finisher) text(`finisher: ${LIFT_LABELS[plan.finisher]} 3 × 10`, 34, 520, 24, SAGE);
@@ -335,40 +349,48 @@ export function drawTrainingBoard(g, info, training) {
     g.fillStyle = SAGE;
     g.fillRect(36, 606, 356 * (sets / cycle.of), 14);
   }
-  // Training-max history, one small line per lift.
+  // The record of progress: each lift's training max since the log began, as a sparkline on its
+  // own scale with where it started, where it is and what it gained.
   const series = training.progress || {};
-  const lifts = [
-    ["squat", TERRA],
-    ["deadlift", INK],
-    ["ohp", BLUE],
-  ];
-  const x0 = 470,
-    y0 = 560,
-    w = 520,
-    h = 110;
-  text("TM history", x0, y0 - 6, 24, SAGE, "bold");
-  const values = lifts.flatMap(([k]) => (series[k] || []).map(([, v]) => v));
-  if (values.length) {
-    const lo = Math.min(...values) - 10,
-      hi = Math.max(...values) + 10;
-    const times = lifts.flatMap(([k]) => (series[k] || []).map(([d]) => Date.parse(d)));
-    const t0 = Math.min(...times),
-      t1 = Math.max(...times);
-    for (const [k, color] of lifts) {
-      const points = series[k] || [];
-      if (points.length < 2) continue;
-      g.strokeStyle = color;
-      g.lineWidth = 3;
-      g.beginPath();
-      points.forEach(([d, v], i) => {
-        const x = x0 + ((Date.parse(d) - t0) / Math.max(1, t1 - t0)) * w,
-          y = y0 + 12 + (1 - (v - lo) / (hi - lo)) * h;
-        if (i) g.lineTo(x, y);
-        else g.moveTo(x, y);
-      });
-      g.stroke();
-      const [, last] = points[points.length - 1];
-      text(`${k === "ohp" ? "OHP" : k} ${last}`, x0 + w - 120, y0 + 12 + (1 - (last - lo) / (hi - lo)) * h - 8, 20, color);
-    }
-  }
+  const rows = [
+    ["squat", "Squat", TERRA],
+    ["deadlift", "Deadlift", INK],
+    ["ohp", "OHP", BLUE],
+    ["bench", "Bench", SAGE],
+  ].filter(([k]) => (series[k] || []).length);
+  const x0 = 452,
+    top = 556,
+    rowH = 33;
+  const first = rows.map(([k]) => series[k][0][0]).sort()[0];
+  const since = first ? new Date(`${first}T12:00:00Z`).toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }) : "";
+  text(`Training max since ${since}`, x0, top - 8, 24, SAGE, "bold");
+  const t0 = Math.min(...rows.map(([k]) => Date.parse(series[k][0][0]))),
+    t1 = Math.max(...rows.map(([k]) => Date.parse(series[k].at(-1)[0])));
+  rows.forEach(([k, label, color], i) => {
+    const points = series[k];
+    const y = top + 18 + i * rowH;
+    text(label, x0, y + 8, 22, color, "bold");
+    // A sparkline on the lift's own range, over the shared time span.
+    const values = points.map(([, v]) => v);
+    const lo = Math.min(...values),
+      hi = Math.max(...values);
+    const sx0 = x0 + 104,
+      sw = 196,
+      sh = 22;
+    g.strokeStyle = color;
+    g.lineWidth = 3;
+    g.lineJoin = "round";
+    g.beginPath();
+    points.forEach(([d, v], j) => {
+      const px = sx0 + ((Date.parse(d) - t0) / Math.max(1, t1 - t0)) * sw,
+        py = y + sh / 2 - (hi > lo ? ((v - lo) / (hi - lo) - 0.5) * sh : 0);
+      if (j) g.lineTo(px, py);
+      else g.moveTo(px, py);
+    });
+    g.stroke();
+    const [startValue, now] = [values[0], values.at(-1)];
+    const gain = now - startValue;
+    const span = text(`${startValue} → ${now}`, sx0 + sw + 16, y + 8, 22, INK);
+    text(gain > 0 ? `+${gain}` : "holding", sx0 + sw + 16 + span + 12, y + 8, 22, gain > 0 ? TERRA : "#5b6266", gain > 0 ? "bold" : "");
+  });
 }

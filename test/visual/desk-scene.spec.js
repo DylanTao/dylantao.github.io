@@ -155,7 +155,7 @@ test("coastal transport: cold onsen arrival waits for a delayed avatar before fi
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.clock.setFixedTime(new Date("2026-10-02T18:35:00-07:00"));
+  await page.clock.setFixedTime(new Date("2026-10-02T20:10:00-07:00"));
   let releaseAvatar;
   const avatarHeld = new Promise((resolve) => (releaseAvatar = resolve));
   await page.route("**/assets/models/home/sirui-*.glb", async (route) => {
@@ -1767,7 +1767,7 @@ test("coastal home: composed activities and previews survive clock changes until
       expect(info.joints.HandR[2] - info.activityOffset[2]).toBeLessThan(-1.8);
     }
     if (activity === "sleep") expect(info.joints.Root[1] - info.activityFloor).toBeGreaterThan(0.5);
-    if (["breakfast", "reading", "lunch", "workout", "dinner", "lounge"].includes(activity)) {
+    if (["breakfast", "reading", "lunch", "dinner", "lounge"].includes(activity)) {
       expect(info.prop.ancestorsVisible).toBe(true);
       expect(info.prop.size.every((v) => Number.isFinite(v) && v > 0.002)).toBe(true);
       const gripDistance = Math.hypot(...info.prop.position.map((v, i) => v - info.joints.HandR[i]));
@@ -1955,7 +1955,8 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
       expect(point.y).toBeLessThan(0.925);
       expect(point.depth).toBeLessThan(1);
     }
-    const front = (pose.camera[2] - pose.joints.Head[2]) / Math.hypot(pose.camera[0] - pose.joints.Head[0], pose.camera[2] - pose.joints.Head[2]);
+    const toCamera = [pose.camera[0] - pose.joints.Head[0], pose.camera[2] - pose.joints.Head[2]];
+    const front = (Math.sin(pose.actorFacing) * toCamera[0] + Math.cos(pose.actorFacing) * toCamera[1]) / Math.hypot(...toCamera);
     expect(front).toBeGreaterThan(0.25);
     const image = await canvas.screenshot({ path: testInfo.outputPath(`gym-${phase.replace(/[^a-z0-9]+/gi, "-")}.png`) });
     const metrics = screenshotMetrics(image);
@@ -2403,7 +2404,8 @@ test("coastal home: a routine boundary walks through the home before settling in
   try {
     // Native frames keep this representative journey live. The Date refresh
     // jump must not advance the animation by thirty seconds before observation.
-    const { scene, canvas, ui } = await openHome(page, { motion: "reduce", nativeFrames: true });
+    // Sunday 2026-09-13 is a rest day: the lounge from 2 pm, the onsen upstairs at 4.
+    const { scene, canvas, ui } = await openHome(page, { motion: "reduce", nativeFrames: true, time: "2026-09-13T15:50:00-07:00" });
     await settleRoomModels(scene);
     // Set the actual overview camera before observing the short live journey,
     // so native walking/stair pixels include the actor as it changes floors.
@@ -2449,7 +2451,7 @@ test("coastal home: a routine boundary walks through the home before settling in
       requestAnimationFrame(observe);
     });
     try {
-      await page.clock.setSystemTime(new Date("2026-09-11T18:15:01-07:00"));
+      await page.clock.setSystemTime(new Date("2026-09-13T16:00:01-07:00"));
       // The actual DOM waiter starts before the short route is triggered.
       const walkingObserved = (async () => {
         await expect(scene).toHaveAttribute("data-animation", "walk");

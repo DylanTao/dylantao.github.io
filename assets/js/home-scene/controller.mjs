@@ -10,6 +10,7 @@ import { createFootContacts } from "./locomotion.mjs";
 import { envelopeFor, wildlifeEnvelope, constrainOrbit, keepCameraClear } from "./camera.mjs";
 import { activityPose, createHandContacts } from "./activities.mjs";
 import { createLiftRig } from "./lift-rig.mjs";
+import { createBreathingCover, breathAt } from "./bedding-breath.mjs";
 import { createGymProps } from "./gym-props.mjs";
 import { sessionPose } from "./gym-session.mjs";
 import { sessionState, trainingAt } from "./training.mjs";
@@ -571,9 +572,42 @@ export function createCoastalHome(container, records, artifacts) {
     coastWind.update({ seconds: elapsed, minute, doors: curtainRig?.doorOpenFraction ?? 0 });
     syncOceanWind(coastWind.state);
   }
+  const covers = new Map();
   function syncBedding() {
     const sleeper = container.dataset.animation === "sleep" && beddings.some((o) => o.userData.bedding === avatarId) ? avatarId : "empty";
     for (const object of beddings) object.visible = object.userData.bedding === sleeper;
+  }
+  // The visible sleeper's cover rises and falls around the chest; any other cover rests.
+  function breatheBedding(moving) {
+    const chest = new THREE.Vector3();
+    let found = false;
+    for (const object of beddings) {
+      if (object.userData.bedding === "empty") continue;
+      object.traverse((mesh) => {
+        if (!mesh.isMesh) return;
+        if (!covers.has(mesh)) covers.set(mesh, createBreathingCover(mesh));
+        const cover = covers.get(mesh);
+        if (!cover) return;
+        if (!object.visible || !actor || reduced) return cover.reset();
+        if (!moving) return;
+        if (!found) {
+          // Between the spine joint and the shoulders: where a lying chest lifts the cover.
+          const spine = new THREE.Vector3(),
+            left = new THREE.Vector3(),
+            right = new THREE.Vector3();
+          actor.traverse((o) => {
+            if (!o.isBone) return;
+            const name = o.name.replaceAll(".", "");
+            if (name === "Spine") o.getWorldPosition(spine);
+            if (name === "ArmL") o.getWorldPosition(left);
+            if (name === "ArmR") o.getWorldPosition(right);
+          });
+          chest.copy(left).add(right).multiplyScalar(0.5).lerp(spine, 0.4);
+          found = true;
+        }
+        cover.update(mesh.worldToLocal(chest.clone()), breathAt(elapsed));
+      });
+    }
   }
 
   function prepareModel(root, { outdoor = false } = {}) {
@@ -1990,20 +2024,25 @@ export function createCoastalHome(container, records, artifacts) {
       const info = trainingSession();
       if (info?.state) {
         // Paused, the last pose holds; a reduced-motion still shows the start of the current lift.
-        if (moving || reduced || !sequencePose?.bars) sequencePose = sessionPose(info, config.equipment.gym);
+        // Paused, the frame freezes as it was (the pose, the turn in progress, the props); a
+        // reduced-motion still, or a pose composed while paused, faces exactly and sets the props.
+        const compose = moving || reduced || !sequencePose?.bars;
+        if (compose) sequencePose = sessionPose(info, config.equipment.gym);
         const pose = sequencePose;
         playClip(pose.clip);
         actor.position.fromArray(pose.position);
         const turn = Math.atan2(Math.sin(pose.facing - actor.rotation.y), Math.cos(pose.facing - actor.rotation.y));
-        actor.rotation.y += moving ? turn * (1 - Math.exp(-delta * 8)) : turn;
+        if (moving) actor.rotation.y += turn * (1 - Math.exp(-delta * 8));
+        else if (compose) actor.rotation.y += turn;
         actor.updateMatrixWorld(true);
         let rig = null;
+        // Paused, the bones already hold this pose; solving again would only add rounding noise.
         if (pose.lift && liftRig) {
-          rig = liftRig.apply(pose.lift.name, reduced ? 0 : pose.lift.u, pose.lift.ctx, pose.lift.weight);
+          if (compose) rig = liftRig.apply(pose.lift.name, reduced ? 0 : pose.lift.u, pose.lift.ctx, pose.lift.weight);
           liftActive = liftThisFrame = true;
         }
         if (propFor && selectedProp) propFor(null);
-        gymProps?.update(pose, rig, frameDelta, moving);
+        if (compose) gymProps?.update(pose, rig, frameDelta, moving);
         gymProps?.drawBoard(info);
         container.dataset.activityPhase = pose.phase;
       }
@@ -2032,6 +2071,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (!moving) mixer?.update(0);
     }
     if (gymProps && routine?.sequence !== "session") gymProps.update(null, null, frameDelta, moving);
+    if (container.dataset.animation === "sleep" || covers.size) breatheBedding(moving);
     characterPerformance?.update(delta, { active: moving && !travel, clip: liftThisFrame ? "workout" : container.dataset.animation });
     const holdActivityProps = paused && !reduced && Boolean(sequencePose);
     let cupCreated = false;
@@ -2417,6 +2457,7 @@ export function createCoastalHome(container, records, artifacts) {
       ? { ...gymProps.evidence(), lift: sequencePose?.lift?.name || null, segment: sequencePose?.segment || null, rep: sequencePose?.rep || null }
       : null,
     liftHead: liftRig ? { min: liftRig.dims.head.min.toArray(), max: liftRig.dims.head.max.toArray() } : null,
+    actorFacing: actor ? actor.rotation.y : null,
     gripDrift: handContacts?.evidence() || [],
     gripTargetMode: activeGripOffsets?.[sequencePose?.clip] ? "anatomical-wrist" : "equipment-anchor",
     characterPerformance: characterPerformance?.evidence(),

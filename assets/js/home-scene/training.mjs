@@ -84,7 +84,29 @@ export function roundWeight(weight, step = 5) {
   return Math.max(45, Math.round(weight / step) * step);
 }
 
-// Plates per side for a total on a 45 lb bar, heaviest first.
+// The gym's two plate sets (Sirui's gym): coloured pound bumpers on the deadlift platform, 55 lb red
+// to 10 lb gray, and black plates on the rack and the bench, 45 lb down to 2.5 lb.
+export const BUMPERS = [55, 45, 35, 25, 10];
+export const IRON = [45, 35, 25, 10, 5, 2.5];
+
+// The plates per side for a total on a 45 lb bar at a station, heaviest first, each with its set:
+// bumpers on the platform (black change plates make up the rest), black plates elsewhere.
+export function plateLoad(weight, station = "rack") {
+  let side = Math.max(0, (weight - 45) / 2);
+  const out = [];
+  const take = (sizes, kind) => {
+    for (const lb of sizes)
+      while (side >= lb - 1e-6) {
+        out.push({ lb, kind });
+        side -= lb;
+      }
+  };
+  if (station === "platform") take(BUMPERS, "bumper");
+  take(IRON, "iron");
+  return out;
+}
+
+// Plates per side for a total on a 45 lb bar, heaviest first (the black set).
 export function platesFor(weight) {
   let side = Math.max(0, (weight - 45) / 2);
   const out = [];

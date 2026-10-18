@@ -2012,7 +2012,7 @@
   },
   "flora": "flora.glb",
   "training": {
-    "source": "Sirui's lifting log, October 15, 2026: nSuns 5/3/1 LP, six days, Squat and Deadlift templates in turn",
+    "source": "Sirui's lifting app on October 15, 2026 (Templates, Cycles and Progress screens): nSuns 5/3/1 LP, six days, Squat and Deadlift templates in turn",
     "program": "nSuns 5/3/1 LP \u00b7 6-day",
     "unit": "lb",
     "asOf": "2026-10-15",
@@ -2402,39 +2402,57 @@
       }
     ],
     "progress": {
-      "squat": [
-        ["2026-04-01", 240],
-        ["2026-05-01", 250],
-        ["2026-06-01", 270],
-        ["2026-07-01", 290],
-        ["2026-08-01", 300],
-        ["2026-08-21", 310],
-        ["2026-09-21", 315],
-        ["2026-10-15", 315]
-      ],
-      "deadlift": [
-        ["2026-04-01", 262],
-        ["2026-05-01", 280],
-        ["2026-06-01", 285],
-        ["2026-07-01", 300],
-        ["2026-08-01", 305],
-        ["2026-08-21", 310],
-        ["2026-10-15", 310]
+      "bench": [
+        ["2026-03-10", 180],
+        ["2026-03-24", 200],
+        ["2026-04-14", 205],
+        ["2026-05-01", 210],
+        ["2026-05-15", 215],
+        ["2026-05-29", 220],
+        ["2026-06-12", 225],
+        ["2026-07-17", 230],
+        ["2026-07-31", 235],
+        ["2026-10-05", 235]
       ],
       "ohp": [
-        ["2026-04-01", 95],
+        ["2026-03-10", 80],
+        ["2026-03-17", 95],
+        ["2026-04-11", 100],
         ["2026-05-01", 110],
-        ["2026-06-01", 115],
-        ["2026-07-01", 120],
+        ["2026-05-24", 115],
+        ["2026-06-19", 120],
         ["2026-09-21", 125],
-        ["2026-10-05", 130],
-        ["2026-10-15", 130]
+        ["2026-10-05", 130]
       ],
-      "bench": [
-        ["2026-08-03", 235],
-        ["2026-10-15", 235]
+      "squat": [
+        ["2026-03-10", 225],
+        ["2026-03-17", 245],
+        ["2026-04-11", 255],
+        ["2026-05-01", 265],
+        ["2026-05-15", 280],
+        ["2026-06-07", 290],
+        ["2026-06-19", 295],
+        ["2026-07-17", 300],
+        ["2026-08-03", 305],
+        ["2026-08-21", 310],
+        ["2026-09-21", 315],
+        ["2026-10-05", 315]
+      ],
+      "deadlift": [
+        ["2026-03-10", 260],
+        ["2026-03-17", 270],
+        ["2026-04-11", 275],
+        ["2026-05-01", 280],
+        ["2026-05-24", 285],
+        ["2026-06-07", 290],
+        ["2026-06-19", 295],
+        ["2026-07-03", 300],
+        ["2026-07-17", 305],
+        ["2026-08-21", 310],
+        ["2026-10-05", 310]
       ]
     },
-    "supersetRule": "Opposite or non-competing groups: presses with pull-ups and curls, squats with pull-ups, deadlifts with dips."
+    "supersetRule": "Opposite or non-competing groups: presses with pull-ups and curls, squats with pull-ups, deadlifts with dips.",
+    "howToUpdate": "From the app's Cycles screen: trainingMax and anchor (the current cycle's template, day and start), and one cycles entry per finished cycle. From the Progress screen: a [date, lb] point per lift at each cycle start."
   }
 }

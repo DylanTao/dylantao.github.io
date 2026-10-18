@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import {
   platesFor,
+  plateLoad,
   roundWeight,
   restDays,
   isTrainingDay,
@@ -28,6 +29,20 @@ test("plates load a 45 lb bar per side, heaviest first, and weights round to 5 l
   assert.deepEqual(platesFor(225), [45, 45]);
   assert.equal(roundWeight(152.75), 155);
   assert.equal(roundWeight(20), 45, "never lighter than the empty bar");
+});
+
+test("the platform loads coloured bumpers and the rack and bench load black plates", () => {
+  const side = (weight, station) => plateLoad(weight, station).map((p) => `${p.lb}${p.kind === "bumper" ? "B" : ""}`);
+  assert.deepEqual(side(295, "platform"), ["55B", "55B", "10B", "5"], "bumpers first, black change plates for the rest");
+  assert.deepEqual(side(155, "platform"), ["55B"]);
+  assert.deepEqual(side(235, "rack"), ["45", "45", "5"]);
+  assert.deepEqual(side(220, "bench"), ["45", "35", "5", "2.5"]);
+  for (const [weight, station] of [
+    [315, "platform"],
+    [300, "rack"],
+    [185, "bench"],
+  ])
+    assert.equal(45 + 2 * plateLoad(weight, station).reduce((sum, p) => sum + p.lb, 0), weight, `${weight} adds up`);
 });
 
 test("every week has Sunday off and four to six sessions, with rest days never back to back", () => {

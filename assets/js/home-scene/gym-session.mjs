@@ -1,4 +1,4 @@
-import { REP_SECONDS, SUPERSET_OVERHEAD, LIFT_STATION } from "./training.mjs";
+import { REP_SECONDS, SUPERSET_OVERHEAD, LIFT_STATION, plateLoad } from "./training.mjs";
 
 // The training session as staged choreography (Sirui, 2026-10-15). training.mjs says what happens
 // when (a timeline of segments); this file says where the body is and what it is doing at any
@@ -14,7 +14,11 @@ import { REP_SECONDS, SUPERSET_OVERHEAD, LIFT_STATION } from "./training.mjs";
 // board is written facing the wall.
 
 const PACE = 1.15; // m/s
-const PLATE_RADIUS = { 45: 0.225, 35: 0.21, 25: 0.18, 10: 0.13, 5: 0.105, 2.5: 0.085 };
+// Plate radii by set (gym-props.mjs draws them): bumpers all 450 mm, black plates by weight.
+const PLATE_RADIUS = {
+  bumper: { 55: 0.225, 45: 0.225, 35: 0.225, 25: 0.225, 10: 0.225 },
+  iron: { 45: 0.225, 35: 0.178, 25: 0.14, 10: 0.115, 5: 0.1, 2.5: 0.08 },
+};
 const RAMP = 0.35; // s, blending between a clip and a procedural pose
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
 const smooth = (t) => {
@@ -363,16 +367,18 @@ export function sessionPose(info, gym) {
       let incline = base.incline;
       if (station === "bench")
         incline = segment.strip ? (plates.incline ? 1 - smooth(t / Math.min(3, work)) : 0) : nextPlates.incline ? smooth(t / Math.min(3, work)) : 0;
-      const plateSize =
-        segment.weight >= (segment.from ?? 45)
-          ? heaviestChange(segment.from ?? 45, segment.weight)
-          : heaviestChange(segment.weight, segment.from ?? 45);
+      const plateChange = heaviestChange(Math.min(segment.weight, segment.from ?? 45), Math.max(segment.weight, segment.from ?? 45), station);
       return {
         ...stand(spot, segment.strip ? "strip the bar" : "load plates"),
         bars,
         incline,
-        plate: plateSize ? { size: plateSize, cycle: u % 1 } : null,
-        lift: lift("load", u % 1, { barHeight: barY, strip: Boolean(segment.strip), plateRadius: PLATE_RADIUS[plateSize] ?? 0.2 }, ramp(t, work)),
+        plate: plateChange ? { size: plateChange.lb, kind: plateChange.kind, cycle: u % 1 } : null,
+        lift: lift(
+          "load",
+          u % 1,
+          { barHeight: barY, strip: Boolean(segment.strip), plateRadius: plateChange ? PLATE_RADIUS[plateChange.kind][plateChange.lb] : 0.2 },
+          ramp(t, work)
+        ),
       };
     }
     case "setup":
@@ -442,10 +448,15 @@ export function sessionPose(info, gym) {
   }
 }
 
-function heaviestChange(lower, higher) {
-  const side = (higher - lower) / 2;
-  for (const plate of [45, 35, 25, 10, 5, 2.5]) if (side >= plate - 1e-6) return plate;
-  return side > 0 ? 2.5 : null;
+// The heaviest plate that goes on (or comes off) between two loads at a station.
+function heaviestChange(lower, higher, station) {
+  if (higher <= lower) return null;
+  const added = plateLoad(higher, station);
+  for (const plate of plateLoad(lower, station)) {
+    const i = added.findIndex((p) => p.lb === plate.lb && p.kind === plate.kind);
+    if (i >= 0) added.splice(i, 1);
+  }
+  return added[0] || null;
 }
 
 // The lift rig's context for a lift: the room points it reaches for, in the manifest's frame (the
