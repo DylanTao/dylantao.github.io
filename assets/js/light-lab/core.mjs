@@ -33,7 +33,14 @@ const M_SLATE = 1;
 const M_TILE = 2;
 const M_WATER = 3;
 
-export const DEFAULT_EXPOSURE = 14;
+// Display exposure for the full frame: bright enough that the skylit grotto reads, while ACES still
+// keeps the sunlit pool floor from flattening into a white blob.
+export const DEFAULT_EXPOSURE = 24;
+// The pool floor, where the ripples focus the sun: a 72 x 54 crop of the 240 x 180 frame that sits
+// on whole cells of the 80 x 60 error grid. The page magnifies it and exposes it for the sunlight,
+// six times darker than the full frame, so the ripple pattern shows instead of saturated white.
+export const POOL_CROP = Object.freeze({ x: 93, y: 117, width: 72, height: 54 });
+export const POOL_EXPOSURE = 4;
 
 export const DEFAULT_SCENE = Object.freeze({
   sunRadiusDegrees: 0.8,
@@ -1962,6 +1969,22 @@ export function toneMapToRGBA(rgb, width, height, exposure = DEFAULT_EXPOSURE, o
     dst[4 * i + 3] = 255;
   }
   return dst;
+}
+
+// Tone-maps one rectangle of a linear image, for the magnified pool-floor view. The region is in
+// pixels of a 240 x 180 frame and scales with other frame sizes.
+export function toneMapRegionToRGBA(rgb, width, height, region = POOL_CROP, exposure = POOL_EXPOSURE) {
+  const s = width / 240;
+  const x = Math.round(region.x * s);
+  const y = Math.round(region.y * s);
+  const w = Math.min(width - x, Math.round(region.width * s));
+  const h = Math.min(height - y, Math.round(region.height * s));
+  const sub = new Float32Array(w * h * 3);
+  for (let row = 0; row < h; row++) {
+    const start = 3 * ((y + row) * width + x);
+    sub.set(rgb.subarray(start, start + 3 * w), 3 * row * w);
+  }
+  return { rgba: toneMapToRGBA(sub, w, h, exposure), width: w, height: h };
 }
 
 // Box-filters linear luminance onto a gw x gh grid.

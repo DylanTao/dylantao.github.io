@@ -2,13 +2,15 @@
 // sunlight falling through the onsen's light well onto rippled water. Each method runs in its own
 // worker for the same wall-clock time (core.mjs, worker.mjs). Before a run the panels show still
 // frames from the same engine; a run never starts by itself, pauses after each minute, and pauses
-// while the lab is scrolled away or the tab is hidden.
+// while the lab is scrolled away or the tab is hidden. A second row magnifies the pool floor, where
+// the ripples focus the sun, and the chart (chart.mjs) plots each renderer's error on log axes.
+import { MINUTE, blankFrameError, chartMarkup, percent, takeaway } from "./chart.mjs";
+
 const METHODS = ["pt", "mlt"];
-const MINUTE = 60;
 const PATH_EVERY_MS = 400;
 const ANNOUNCE_EVERY = 20;
 // One run recorded in headless Chromium 145 on the laptop that built this page (Core Ultra 7 155H,
-// seed 1, 0.8° sun, both workers at once), drawn dashed so visitors can compare their own machine.
+// seed 1, 0.8° sun, both workers at once), drawn thin so visitors can compare their own machine.
 const RECORDED = {
   pt: [
     [5, 30.97],
@@ -30,6 +32,7 @@ if (root) init(root);
 
 function init(root) {
   const canvas = Object.fromEntries(METHODS.map((m) => [m, root.querySelector(`[data-light-lab-canvas="${m}"]`)]));
+  const zoom = Object.fromEntries(METHODS.map((m) => [m, root.querySelector(`[data-light-lab-zoom="${m}"]`)]));
   const readout = Object.fromEntries(METHODS.map((m) => [m, root.querySelector(`[data-light-lab-stats="${m}"]`)]));
   const controls = root.querySelector("[data-light-lab-controls]");
   const runButton = root.querySelector("[data-light-lab-run]");
@@ -39,6 +42,7 @@ function init(root) {
   const pathToggle = root.querySelector("[data-light-lab-path]");
   const pathLayer = root.querySelector("[data-light-lab-path-layer]");
   const chart = root.querySelector("[data-light-lab-chart]");
+  const summary = root.querySelector("[data-light-lab-takeaway]");
   const status = root.querySelector("[data-light-lab-status]");
   let workers = null,
     run = 0,
@@ -49,17 +53,25 @@ function init(root) {
     latest = {},
     pathTimer = 0,
     announced = 0,
-    reference = null;
+    reference = null,
+    blank = null;
 
   if (typeof Worker === "undefined") return;
   const referenceReady = fetch(new URL("./onsen-reference.json", import.meta.url))
     .then((response) => (response.ok ? response.json() : null))
     .catch(() => null)
-    .then((json) => (reference = json));
+    .then((json) => {
+      reference = json;
+      blank = json ? blankFrameError(json) : null;
+      drawChart();
+      summarize();
+    });
   const referenceFor = () =>
     reference && Math.abs(reference.sunRadiusDegrees - Number(sunSelect.value)) < 1e-9
       ? { width: reference.width, height: reference.height, luminance: reference.luminance }
       : null;
+  // The recording used the default settings, so it is only a fair comparison under them.
+  const recordedApplies = () => Number(sunSelect.value) === 0.8 && normalizationSelect.value !== "ratio";
 
   async function start() {
     stop();
@@ -93,11 +105,13 @@ function init(root) {
     }
     for (const method of METHODS) {
       canvas[method].getContext("2d").clearRect(0, 0, canvas[method].width, canvas[method].height);
+      zoom[method]?.getContext("2d").clearRect(0, 0, zoom[method].width, zoom[method].height);
       readout[method].textContent = "Starting…";
     }
     root.classList.add("is-live");
     setState("running");
     status.textContent = "Racing. Each renderer gets the same minute on its own thread.";
+    summary.textContent = "";
     drawChart();
     schedulePath();
   }
@@ -145,6 +159,8 @@ function init(root) {
     if (message.type === "path") return drawPath(message.path);
     if (message.type !== "frame") return;
     canvas[method].getContext("2d").putImageData(new ImageData(message.rgba, message.width, message.height), 0, 0);
+    if (message.pool && zoom[method])
+      zoom[method].getContext("2d").putImageData(new ImageData(message.pool.rgba, message.pool.width, message.pool.height), 0, 0);
     latest[method] = message.stats;
     if (message.stats.relativeRmse != null) history[method].push([message.stats.seconds, message.stats.relativeRmse]);
     readout[method].textContent = describe(method, message.stats);
@@ -164,51 +180,50 @@ function init(root) {
     return `${formatCount(stats.samples)} mutations · ${Math.round((stats.acceptance ?? 0) * 100)}% accepted${error}`;
   }
 
-  function announce(seconds, lead) {
-    announced = seconds;
+  // The live comparison at a moment both renderers have reported, or null without an error measure.
+  function liveRun(seconds) {
     const [pt, mlt] = METHODS.map((m) => latest[m]?.relativeRmse);
-    status.textContent =
-      pt != null && mlt != null
-        ? `${lead}: path tracing is off by ${percent(pt)}, Metropolis by ${percent(mlt)}.`
-        : `${lead}. The error is measured against the reference only for the 0.8° sun.`;
+    return pt != null && mlt != null ? { time: seconds, pt, mlt } : null;
   }
 
-  // Relative error over time on a log scale from 10% to 10,000%. The coordinate system follows the
-  // chart's own size, so its labels keep their type size at every width.
+  // The sentence under the chart: the live run once it has a checkpoint, the recording before.
+  function summarize(seconds) {
+    if (state === "idle") {
+      const pt = RECORDED.pt[RECORDED.pt.length - 1];
+      const mlt = RECORDED.mlt[RECORDED.mlt.length - 1];
+      summary.textContent = recordedApplies() ? takeaway({ time: pt[0], pt: pt[1], mlt: mlt[1] }, { recorded: true }) : "";
+      return "";
+    }
+    const sentence = seconds == null ? "" : takeaway(liveRun(seconds));
+    summary.textContent = sentence;
+    return sentence;
+  }
+
+  function announce(seconds, lead) {
+    announced = seconds;
+    const now = liveRun(seconds);
+    const projection = summarize(seconds);
+    status.textContent = now
+      ? `${lead}: path tracing is off by ${percent(now.pt)}, Metropolis by ${percent(now.mlt)}.${projection ? ` ${projection}` : ""}`
+      : `${lead}. The error is measured against the reference only for the 0.8° sun.`;
+  }
+
+  // Log-log error over time. The coordinate system follows the chart's own size, so its labels keep
+  // their type size at every width.
   function drawChart() {
     const width = Math.round(chart.clientWidth) || 600,
-      height = Math.round(chart.clientHeight) || 220,
-      left = 64,
-      right = 24,
-      top = 12,
-      bottom = 30;
-    const span = Math.max(MINUTE, budget);
-    const x = (s) => left + ((width - left - right) * Math.min(s, span)) / span;
-    const y = (e) => top + ((height - top - bottom) * (2 - Math.log10(Math.min(100, Math.max(0.1, e))))) / 3;
-    const svg = ['<g class="light-lab-axis">'];
-    for (const e of [0.1, 1, 10, 100])
-      svg.push(
-        `<line x1="${left}" x2="${width - right}" y1="${y(e)}" y2="${y(e)}"/><text x="${left - 8}" y="${y(e) + 4}" text-anchor="end">${(e * 100).toLocaleString("en-US")}%</text>`
-      );
-    for (let i = 0; i <= 4; i++) svg.push(`<text x="${x((span * i) / 4)}" y="${height - 8}" text-anchor="middle">${(span * i) / 4} s</text>`);
-    svg.push("</g>");
-    if (state !== "idle" && !referenceFor())
-      svg.push(
-        `<text class="light-lab-chart-note" x="${left + 14}" y="${top + 26}">The reference exists for the 0.8° sun only, so this run has no error curve.</text>`
-      );
-    const recorded = Number(sunSelect.value) === 0.8 && normalizationSelect.value !== "ratio";
-    for (const method of METHODS)
-      if (recorded)
-        svg.push(
-          `<polyline class="light-lab-line light-lab-line--${method} light-lab-line--recorded" points="${RECORDED[method].map(([s, e]) => `${x(s).toFixed(1)},${y(e).toFixed(1)}`).join(" ")}"/>`
-        );
-    for (const method of METHODS)
-      if (history[method].length > 1)
-        svg.push(
-          `<polyline class="light-lab-line light-lab-line--${method}" points="${history[method].map(([s, e]) => `${x(s).toFixed(1)},${y(e).toFixed(1)}`).join(" ")}"/>`
-        );
-    chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
-    chart.innerHTML = svg.join("");
+      height = Math.round(chart.clientHeight) || 240;
+    const { markup, viewBox } = chartMarkup({
+      width,
+      height,
+      span: Math.max(MINUTE, budget),
+      live: state === "idle" ? {} : history,
+      recorded: recordedApplies() ? RECORDED : null,
+      blank: referenceFor() ? blank : null,
+      note: state !== "idle" && !referenceFor() ? "The reference exists for the 0.8° sun only, so this run has no error curve." : "",
+    });
+    chart.setAttribute("viewBox", viewBox);
+    chart.innerHTML = markup;
   }
 
   // One Metropolis chain's current light path, drawn over its panel a few times a second.
@@ -237,7 +252,14 @@ function init(root) {
     }
   });
   restartButton.addEventListener("click", start);
-  for (const control of [sunSelect, normalizationSelect]) control.addEventListener("change", () => state !== "idle" && start());
+  for (const control of [sunSelect, normalizationSelect])
+    control.addEventListener("change", () => {
+      if (state !== "idle") start();
+      else {
+        drawChart();
+        summarize();
+      }
+    });
   pathToggle.addEventListener("change", schedulePath);
 
   // A run spends a visitor's processor time only while they can see it.
@@ -256,15 +278,13 @@ function init(root) {
     root.classList.remove("is-live");
     setState("idle");
     drawChart();
+    summarize();
   });
   controls.hidden = false;
   new ResizeObserver(() => drawChart()).observe(chart);
   setState("idle");
   drawChart();
-}
-
-function percent(fraction) {
-  return `${Math.round(fraction * 100).toLocaleString("en-US")}%`;
+  summarize();
 }
 
 function formatCount(n) {

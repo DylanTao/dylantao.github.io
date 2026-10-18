@@ -26,6 +26,8 @@ Use this brief to build your own equal-time race between path tracing and Metrop
 - Give each method its own worker thread and the same wall-clock time; report samples, rays per second and acceptance beside the error.
 - Use the same seed and resolution for both, and say which machine produced any recorded numbers.
 - Measure error as the luminance RMSE on a coarse grid (here 80 × 60), divided by the reference's mean. Above 100%, the typical error exceeds the average brightness.
+- Plot that error against time on log–log axes. Plain averaging is then a straight line with slope −1/2, so draw that line as a guide, and draw what an all-black frame scores (here 393%) so a reader can see when fireflies cost more than drawing nothing. Project how long the slower method would need only along that slope, and say that it is a projection.
+- Magnify the region where the methods differ (here the pool floor) and expose it for its own brightness, with the reference beside it at the same exposure.
 - Never start a run automatically. Pause after each minute, when the lab scrolls away, and when the tab is hidden. Show still frames from the same renderer before a run and when module workers are unavailable.
 
 ## Build the reference with different tools
@@ -52,8 +54,8 @@ Use this brief to build your own equal-time race between path tracing and Metrop
 ## Commands in this repository
 
 ```bash
-node --test test/light-lab.test.mjs
-node bin/make_light_lab_reference.mjs --minutes 24 --threads 18
+node --test test/light-lab.test.mjs test/light-lab-chart.test.mjs
+node bin/make_light_lab_reference.mjs --minutes 24 --threads 18 --linear reference.f32
 node bin/capture_light_lab_frames.mjs
 node bin/capture_light_lab_frames.mjs --teaser
 ```

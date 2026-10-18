@@ -19,6 +19,8 @@ import {
   cushion,
   farView,
   outsideClearance,
+  portraitFov,
+  tripodLook,
   ORBIT_DIRECTION,
   BLOCKING,
   INSIDE,
@@ -56,6 +58,7 @@ import { createSteamVolume } from "./steam-volume.mjs";
 import { createStaticLightField } from "./static-light-field.mjs";
 import { prepareFramePrograms } from "./program-warmup.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
+import { createWorldFullscreen } from "./world-fullscreen.mjs";
 import { createLightInstallations } from "./light-installations.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
@@ -80,7 +83,7 @@ const remember = (key, value) => {
 const TONE_MAPPING = { aces: THREE.ACESFilmicToneMapping, agx: THREE.AgXToneMapping, neutral: THREE.NeutralToneMapping };
 const TONE_EXPOSURE = { aces: 1, agx: 1.08, neutral: 1.24 };
 const CANVAS_LABEL =
-  "Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag, right-drag or Shift+arrows move the view; plus and minus or Page Up and Page Down zoom, and zooming out past a room shows the whole house, then the coast. Home recentres the view. In the whole house, click a room or press 1 to 6 to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside.";
+  "Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag, right-drag or Shift+arrows move the view; plus and minus or Page Up and Page Down zoom, and zooming out past a room shows the whole house, then the coast. Home recentres the view. In the whole house, click a room or press 1 to 6 to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside. F opens full screen; Escape leaves it.";
 
 export function createCoastalHome(container, records, artifacts) {
   const stage = container.closest("[data-home-artifact-stage]");
@@ -221,6 +224,9 @@ export function createCoastalHome(container, records, artifacts) {
     return values[Math.min(values.length - 1, Math.floor(values.length * fraction))] || 0;
   };
   const modelRequests = new Set();
+  // Full screen (world-fullscreen.mjs): the stage fills the screen with a way back to the page.
+  const fullscreen = createWorldFullscreen({ stage, scene: container, ui });
+  cleanup.push(() => fullscreen.dispose());
   let reduced = reducedQuery.matches;
   const hemi = new THREE.HemisphereLight(0xe5ecff, 0xb28d57, 2.8);
   const sun = new THREE.DirectionalLight(0xffe0aa, 3.2);
@@ -1432,6 +1438,33 @@ export function createCoastalHome(container, records, artifacts) {
   const nearerEnvelopes = new WeakMap();
   // The authoring lab (?scene-lab=1) can place the camera anywhere for close inspection.
   let labFreeCamera = false;
+  // The gym camera works like a tripod in the corner (camera.mjs tripodLook): from each arrival
+  // until the visitor orbits, pans or zooms, it keeps the authored position and turns to the station
+  // Sirui is working at, because the lifts span more of the room than one fixed frame holds.
+  let stationLook = false;
+  const lookBones = { actor: null, bones: [] },
+    lookBox = new THREE.Box3(),
+    lookPoint = new THREE.Vector3();
+  function followStation() {
+    if (currentRoom !== "gym" || labFreeCamera || animalFocus || travel || !actor || routine?.sequence !== "session" || !sequencePose) return;
+    if (lookBones.actor !== actor) {
+      lookBones.actor = actor;
+      lookBones.bones = [];
+      actor.traverse((o) => o.isBone && /^(Head|HandL|HandR|FootL|FootR)$/.test(o.name) && lookBones.bones.push(o));
+    }
+    if (!lookBones.bones.length) return;
+    lookBox.makeEmpty();
+    for (const bone of lookBones.bones) lookBox.expandByPoint(bone.getWorldPosition(lookPoint));
+    lookBox.getCenter(lookPoint);
+    const room = config.rooms.find((r) => r.id === "gym");
+    if (!room?.camera) return;
+    const look = constrainOrbit(tripodLook({ target: room.target, ...room.camera }, lookPoint.toArray()), cameraEnvelope());
+    desiredTarget.copy(lookPoint);
+    // Unwrapped next to the current yaw, so the turn takes the short way round.
+    yaw += Math.atan2(Math.sin(look.yaw - yaw), Math.cos(look.yaw - yaw));
+    pitch = look.pitch;
+    desiredRadius = look.radius;
+  }
   const labSettings = { reflection: true };
   // A room's authored envelope frames its arrival. Once the collision field is ready the orbit
   // opens (October 15): free yaw, pitch from slightly below eye level to nearly overhead, and
@@ -1496,6 +1529,7 @@ export function createCoastalHome(container, records, artifacts) {
   // keeps the requested view on the visible side of walls, slabs, screens and rock. Returns which
   // axes stopped, so coasting halts against them.
   function orbitBy(dYaw, dPitch, { cushioned = true } = {}) {
+    stationLook = false;
     const envelope = cameraEnvelope();
     const fromYaw = yaw,
       fromPitch = pitch;
@@ -1542,6 +1576,7 @@ export function createCoastalHome(container, records, artifacts) {
     zoomPushAt = 0;
   function zoomBy(factor, event = null) {
     if (!(factor > 0) || factor === 1) return;
+    stationLook = false;
     explore.explore();
     followClock = false;
     inertia.stop();
@@ -1683,6 +1718,7 @@ export function createCoastalHome(container, records, artifacts) {
   }
   function panBy(dx, dy) {
     if (!panReach() || !renderer || !config) return { x: 0, z: 0, stopped: true };
+    stationLook = false;
     explore.explore();
     followClock = false;
     if (focused) clearFocus();
@@ -1754,6 +1790,7 @@ export function createCoastalHome(container, records, artifacts) {
   function setRoom(id, manual = true) {
     if (!config) return;
     labFreeCamera = false;
+    stationLook = id === "gym";
     inertia.stop();
     if (manual) {
       explore.explore();
@@ -2218,9 +2255,10 @@ export function createCoastalHome(container, records, artifacts) {
         pitch = orbit.pitch;
       }
     }
+    if (stationLook) followStation();
     for (const axis of ["x", "y", "z"]) target[axis] = cameraMotion.step(axis, target[axis], desiredTarget[axis], frameDelta, stillCamera);
     radius = cameraMotion.step("radius", radius, desiredRadius, frameDelta, stillCamera);
-    const fov = cameraMotion.step("fov", perspective.fov, desiredFov, frameDelta, stillCamera);
+    const fov = cameraMotion.step("fov", perspective.fov, portraitFov(desiredFov, aspect), frameDelta, stillCamera);
     // A composed still reaches the exact lens, including a residual smaller
     // than the live camera's projection-update threshold.
     if (fov !== perspective.fov && (reduced || paused || Math.abs(fov - perspective.fov) > 0.00001)) {
@@ -2776,6 +2814,7 @@ export function createCoastalHome(container, records, artifacts) {
       ? { progress: clamp((elapsed - travel.start) / travel.duration, 0, 1), duration: travel.duration, position: actor.position.toArray() }
       : null,
     animationSeconds: elapsed,
+    fullscreen: fullscreen.mode,
     palette: routine?.palette,
     daylight: daylight ? { ...daylight, location: LA_JOLLA } : null,
     clockMode: routine?.live ? "now" : "preview",
@@ -2948,6 +2987,7 @@ export function createCoastalHome(container, records, artifacts) {
       container.setAttribute("aria-hidden", String(!value));
       ui.hidden = !value;
       ui.inert = !value;
+      if (!value) fullscreen.exit();
       if (value) {
         try {
           await initialize();

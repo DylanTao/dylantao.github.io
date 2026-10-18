@@ -775,3 +775,21 @@ export function farView(radius, clearance = Infinity) {
 export function outsideClearance(radius, base = 0.32) {
   return Math.max(base, Math.min(6, radius * 0.06));
 }
+
+// A portrait canvas (a phone in full screen) keeps the authored horizontal coverage: below a square
+// canvas the vertical field of view widens so a room's sides stay in frame, up to `max` degrees.
+// Landscape canvases, every page embed included, keep the authored lens.
+export function portraitFov(fov, aspect, { minAspect = 1, max = 80 } = {}) {
+  if (!(aspect > 0) || aspect >= minAspect) return fov;
+  const half = Math.atan((Math.tan((fov * Math.PI) / 360) * minAspect) / aspect);
+  return Math.min(max, (half * 360) / Math.PI);
+}
+
+// A camera on a tripod: it keeps the authored position (`authored` is a room camera with its
+// target) and turns to look at `point`, returning the orbit about that point which puts it there.
+export function tripodLook(authored, point) {
+  const d = ORBIT_DIRECTION(authored.yaw, authored.pitch);
+  const [dx, dy, dz] = authored.target.map((v, i) => v + authored.radius * d[i] - point[i]);
+  const radius = Math.hypot(dx, dy, dz);
+  return { yaw: Math.atan2(dx, dz), pitch: Math.asin(clamp(dy / radius, -1, 1)), radius };
+}

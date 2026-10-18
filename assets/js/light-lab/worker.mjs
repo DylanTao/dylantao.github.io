@@ -1,12 +1,22 @@
 // Module Worker around one renderer. It computes in slices of about 40 ms, yields to the message
 // queue between slices (so pause, stop and path requests are handled promptly), and posts a
-// tone-mapped frame at most five times per second.
+// tone-mapped frame at most five times per second, with the pool floor cropped and exposed for
+// the sunlight alongside it.
 //
-// In:  { type: "start", method, width, height, seed, sunRadiusDegrees, reference?, exposure?, chains?, normalization? }
+// In:  { type: "start", method, width, height, seed, sunRadiusDegrees, reference?, exposure?, poolExposure?, chains?, normalization? }
 //      { type: "pause" } | { type: "resume" } | { type: "stop" } | { type: "path" }
-// Out: { type: "frame", rgba, width, height, stats }   (rgba is transferred)
+// Out: { type: "frame", rgba, width, height, pool: { rgba, width, height }, stats }   (both rgba buffers are transferred)
 //      { type: "path", path }                           (PSSMLT chain 0, null otherwise)
-import { DEFAULT_EXPOSURE, createRenderer, luminanceRmse, projectToImage, toneMapToRGBA } from "./core.mjs";
+import {
+  DEFAULT_EXPOSURE,
+  POOL_CROP,
+  POOL_EXPOSURE,
+  createRenderer,
+  luminanceRmse,
+  projectToImage,
+  toneMapRegionToRGBA,
+  toneMapToRGBA,
+} from "./core.mjs";
 
 const SLICE_MS = 40;
 const FRAME_MS = 200;
@@ -46,6 +56,7 @@ function postFrame() {
   const { width, height } = job;
   const image = renderer.image();
   const rgba = toneMapToRGBA(image, width, height, job.exposure);
+  const pool = toneMapRegionToRGBA(image, width, height, POOL_CROP, job.poolExposure);
   const s = renderer.stats();
   const seconds = elapsedSeconds();
   const stats = {
@@ -68,7 +79,7 @@ function postFrame() {
     stats.rmse = e.rmse;
     stats.relativeRmse = e.relative;
   }
-  self.postMessage({ type: "frame", rgba, width, height, stats }, [rgba.buffer]);
+  self.postMessage({ type: "frame", rgba, width, height, pool, stats }, [rgba.buffer, pool.rgba.buffer]);
 }
 
 function postPath() {
@@ -92,6 +103,7 @@ self.onmessage = (event) => {
       width: m.width ?? 240,
       height: m.height ?? 180,
       exposure: m.exposure ?? DEFAULT_EXPOSURE,
+      poolExposure: m.poolExposure ?? POOL_EXPOSURE,
       reference: m.reference || null,
     };
     renderer = createRenderer({
