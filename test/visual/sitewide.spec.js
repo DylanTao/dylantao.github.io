@@ -1017,9 +1017,19 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   }
 
   if (route.id === "blog-archive-2026") {
-    const firstArchiveDate = page.locator(".archive th").first();
-    await expect(firstArchiveDate).toContainText("Jul 05");
-    await expect(firstArchiveDate).not.toContainText("2026");
+    const archiveRows = page.locator(".archive table tr");
+    // The October 16 publication leads the explicit 2026 fixture; retain every
+    // older row in chronological order with compact month/day dates.
+    await expect(archiveRows.locator("th")).toHaveText(["Oct 16", "Jul 05", "Jul 05", "May 23", "May 20", "May 13", "Apr 27", "Apr 23", "Mar 04"]);
+    await expect(archiveRows.first().getByRole("link", { name: "Got to hold an Emmy at the Design Lab retreat!", exact: true })).toHaveAttribute(
+      "href",
+      /\/blog\/2026\/design-lab-retreat-emmy\/$/
+    );
+    await expect(archiveRows.nth(1).getByRole("link", { name: "technical papers i want to remember", exact: true })).toBeVisible();
+    await expect(
+      archiveRows.nth(2).getByRole("link", { name: "specialists, generalists, and AI as distributed cognition", exact: true })
+    ).toBeVisible();
+    await expect(archiveRows.last().getByRole("link", { name: "an afternoon with don norman", exact: true })).toBeVisible();
   }
 
   if (testInfo.project.name === "mobile-390") {
