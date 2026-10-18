@@ -27,8 +27,8 @@ class CvMentorshipTests(unittest.TestCase):
         self.assertEqual(
             [(entry["status"], entry["name"]) for entry in entries],
             [
-                ("current", "Shreya Krishnamurthy"),
                 ("current", "Alisa Liao"),
+                ("current", "Shreya Krishnamurthy"),
                 ("alumni", "Cecilia Lin"),
                 ("alumni", "Kiruthika Marikumaran"),
                 ("alumni", "Domonick Marshall"),
