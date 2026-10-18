@@ -2278,7 +2278,8 @@ export function createCoastalHome(container, records, artifacts) {
     if (stationLook) followStation();
     for (const axis of ["x", "y", "z"]) target[axis] = cameraMotion.step(axis, target[axis], desiredTarget[axis], frameDelta, stillCamera);
     radius = cameraMotion.step("radius", radius, desiredRadius, frameDelta, stillCamera);
-    const fov = cameraMotion.step("fov", perspective.fov, portraitFov(desiredFov, aspect), frameDelta, stillCamera);
+    // A portrait screen in full screen keeps the authored horizontal coverage; page embeds keep the lens.
+    const fov = cameraMotion.step("fov", perspective.fov, fullscreen.mode ? portraitFov(desiredFov, aspect) : desiredFov, frameDelta, stillCamera);
     // A composed still reaches the exact lens, including a residual smaller
     // than the live camera's projection-update threshold.
     if (fov !== perspective.fov && (reduced || paused || Math.abs(fov - perspective.fov) > 0.00001)) {
