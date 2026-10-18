@@ -114,7 +114,8 @@ test("details: an opened project card keeps its row, stays inside the page, and 
   const columns = await card.evaluate((node) => getComputedStyle(node.parentElement).gridTemplateColumns.split(" ").length);
   // It opens in its own row (in page coordinates: a tall card on a phone may scroll once to show
   // its actions); a card at the end of a row grows back toward the row's start.
-  expect(Math.abs(open.y + scrolled - before.y), "opened card left its row").toBeLessThan(2);
+  // Within a few pixels (Linux text metrics land a sub-pixel row 2 px off); a row is hundreds tall.
+  expect(Math.abs(open.y + scrolled - before.y), "opened card left its row").toBeLessThan(3);
   if (columns >= 2) expect(Math.abs(open.x + open.width - (before.x + before.width)) < 2 || Math.abs(open.x - before.x) < 2).toBe(true);
   const geometry = await card.evaluate((node) => {
     const box = node.getBoundingClientRect();

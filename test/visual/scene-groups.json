@@ -134,6 +134,14 @@
       {
         "file": "duh.spec.js",
         "title": "duh mobile: capture survives viewport resize, release throws, and extra touches cancel safely"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: dropped on a project card, it stays grabbable, hops clear, and the card still opens"
+      },
+      {
+        "file": "duh.spec.js",
+        "title": "duh: dropped on the 3D home, it can be caught, settles clear, and the canvas still turns the camera"
       }
     ],
     "scene-core-2": [

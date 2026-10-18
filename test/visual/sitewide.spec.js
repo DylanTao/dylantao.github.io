@@ -1916,7 +1916,7 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.goto(publicRouteUrl("/ai/#projects"), { waitUntil: "domcontentloaded" });
   await expect(page.locator(".ai-jump-nav")).toHaveCount(0);
-  await expect(page.locator("[data-project-slug]")).toHaveCount(20);
+  await expect(page.locator("[data-project-slug]")).toHaveCount(21);
   await expect(page.locator('#project-website-revamp a[href$="/projects/website-revamp/"]')).toHaveText("Human project page");
   await expect(page.locator('#writing a[href$="/blog/"]')).toHaveText("Human writing index");
   await expect(page.locator('#cv a[href$="/cv/"]')).toHaveText("Human CV");
