@@ -1553,7 +1553,7 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
   const wide = await canvas.screenshot();
   await sceneInputFrame(page, view, () => canvas.press("n"));
   await expect(scene).toHaveAttribute("data-coastal-neighbour", "rabbit-0");
-  await expect.poll(async () => (await evidence(scene)).neighbours.length).toBe(17);
+  await expect.poll(async () => (await evidence(scene)).neighbours.length).toBe(28);
   const rabbitArrival = (await evidence(scene)).inspection.arrival;
   expect(rabbitArrival.visibleFaceSamples).toBe(rabbitArrival.faceSamples);
   expect(rabbitArrival.visibleBody).toBe(true);
@@ -1699,7 +1699,7 @@ test("coastal neighbours: new raccoon and birds expose real close views without 
   await expect.poll(async () => (await evidence(scene)).ecology.wildlife.modelsReady, { timeout: 45000 }).toBe(true);
   await sceneInputFrame(page, home, () => ui.locator("[data-world-view]").click());
   const neighbours = (await evidence(scene)).neighbours;
-  expect(neighbours).toHaveLength(17);
+  expect(neighbours).toHaveLength(28);
   expect(neighbours.every((animal) => animal.faceAnchorSource === "named acting pivots")).toBe(true);
   await settleRoomModels(scene);
   await sceneInputFrame(page, home, () => ui.locator("[data-world-view]").click());

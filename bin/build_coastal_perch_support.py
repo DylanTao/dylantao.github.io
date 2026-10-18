@@ -2,6 +2,9 @@
 
 No scene geometry or shared manifest is modified. Local physical triangles,
 decoded sole samples and native tarsus endpoints remain inspectable data.
+The gull is one skinned mesh, so its feet and tarsi are read from the decoded
+FootL/FootR and LegL/LegR vertex groups around their joint origins.
+Rock patches at the cliff foot carry the Brandt's cormorants' roosts.
 """
 import bpy
 import hashlib
@@ -14,6 +17,16 @@ from mathutils.bvhtree import BVHTree
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'bin'))
 from coastal_camera import camera_support_meshes
+
+# Brandt's cormorants roost on the talus and haul-out rocks at the cliff foot, beside the
+# sea lions, rather than on the sheer fluted face, which a ledge survey found has no
+# upward-facing shelf open to the sea. (x, expected support height, z) in browser metres.
+ROOSTS = [
+    ('rock-west-0', [-11.77, -6.053, -14.571]),
+    ('rock-west-1', [-13.506, -6.041, -14.918]),
+    ('rock-east-0', [15.13, -6.158, -12.91]),
+    ('rock-east-1', [15.226, -6.158, -13.615]),
+]
 
 
 def three(point):
@@ -42,10 +55,11 @@ def main():
     patches = []
     places = [(f'coast-{i}', 'coast', p) for i, p in enumerate(manifest['terrain']['perches'])]
     places.append(('gallery-rail', 'rail', [4.2, 3.46, 1.31]))
+    places += [(name, 'rock', point) for name, point in ROOSTS]
     for name, kind, original in places:
         x, height, z = original
         hit, _, _, _ = bvh.ray_cast(Vector((x, -z, height + .2)), Vector((0, 0, -1)))
-        if hit is None:
+        if hit is None or (kind == 'rock' and abs(hit.z - height) > .25):
             raise ValueError(f'Missing physical support at {name}')
         origin = Vector((x, -z, hit.z))
         local = []
@@ -62,36 +76,46 @@ def main():
 
     existing = set(bpy.context.scene.objects)
     bpy.ops.import_scene.gltf(filepath=str(glb))
-    master = next(o for o in set(bpy.context.scene.objects) - existing if o.name == 'WesternGull')
+    imported = set(bpy.context.scene.objects) - existing
+    rig = next(o for o in imported if o.type == 'ARMATURE')
+    # The importer also adds an unskinned icosphere (its bone display shape); take the skinned body.
+    body = next(o for o in imported if o.type == 'MESH' and o.find_armature() == rig)
+    bpy.context.view_layer.update()
+
+    def joint(name):
+        return rig.matrix_world @ rig.data.bones[name].head_local
+
+    def members(name):
+        group = body.vertex_groups[name].index
+        chosen = set()
+        for vertex in body.data.vertices:
+            if any(g.group == group and g.weight >= .5 for g in vertex.groups):
+                chosen.add(vertex.index)
+        return chosen
+
+    body.data.calc_loop_triangles()
     feet = {}
     for side in ('L', 'R'):
-        pivot = next(o for o in master.children_recursive if o.name == 'Foot' + side)
-        inverse = pivot.matrix_world.inverted()
-        vertices, faces = [], []
-        for obj in pivot.children_recursive:
-            if obj.type != 'MESH':
-                continue
-            offset = len(vertices)
-            vertices.extend(inverse @ obj.matrix_world @ v.co for v in obj.data.vertices)
-            obj.data.calc_loop_triangles()
-            faces.extend(tuple(offset + i for i in t.vertices) for t in obj.data.loop_triangles)
-        foot = BVHTree.FromPolygons(vertices, faces)
-        minimum = min(v.z for v in vertices) - .02
+        origin = joint('Foot' + side)
+        chosen = members('Foot' + side)
+        index = {v: i for i, v in enumerate(sorted(chosen))}
+        foot_vertices = [body.matrix_world @ body.data.vertices[v].co - origin for v in sorted(chosen)]
+        faces = [tuple(index[i] for i in t.vertices) for t in body.data.loop_triangles if all(i in chosen for i in t.vertices)]
+        foot = BVHTree.FromPolygons(foot_vertices, faces)
+        minimum = min(v.z for v in foot_vertices) - .02
         samples = {}
         for face in faces:
-            a, b, c = [vertices[i] for i in face]
+            a, b, c = [foot_vertices[i] for i in face]
             for i in range(9):
                 for j in range(9 - i):
                     point = a + (b - a) * (i / 8) + (c - a) * (j / 8)
                     hit, _, _, _ = foot.ray_cast(Vector((point.x, point.y, minimum)), Vector((0, 0, 1)))
                     if hit is not None:
                         samples[(round(hit.x, 7), round(hit.y, 7))] = three(hit)
-        leg = next(o for o in master.children_recursive if o.name == 'Leg' + side)
-        leg_inverse = leg.matrix_world.inverted()
-        leg_vertices = [leg_inverse @ obj.matrix_world @ vertex.co
-                        for obj in leg.children_recursive if obj.type == 'MESH' for vertex in obj.data.vertices]
-        feet[side] = {'position': three(pivot.matrix_world.translation), 'hip': three(leg.matrix_world.translation),
-                      'ankle': three(max(vertices, key=lambda v: v.z)),
+        hip = joint('Leg' + side)
+        leg_vertices = [body.matrix_world @ body.data.vertices[v].co - hip for v in members('Leg' + side)]
+        feet[side] = {'position': three(origin), 'hip': three(hip),
+                      'ankle': three(max(foot_vertices, key=lambda v: v.z)),
                       'legLength': round(-min(v.z for v in leg_vertices), 7), 'sole': list(samples.values())}
     result = {'version': 1, 'units': 'metres', 'coastSha256': hashlib.sha256(source.read_bytes()).hexdigest(),
               'gullSha256': hashlib.sha256(glb.read_bytes()).hexdigest(),

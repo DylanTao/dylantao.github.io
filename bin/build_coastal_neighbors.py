@@ -1,9 +1,11 @@
 """Original articulated raccoon, western gull and sandpiper masters.
 
 Blender Z-up / -Y forward. Only these three exports and their editable source
-are written; the approved rabbit and pinniped masters are retained byte-for-byte.
+are written. Each master is exported as one skinned mesh (coastal_wildlife_rig.skin):
+the raccoon's trunk and three-bone tail bend, the birds' necks and tails bend, and the
+gull's lower mandible opens for calls and squabbles.
 """
-import bpy, math
+import bpy, math, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,6 +15,8 @@ SOURCE = ROOT / 'artwork/coastal-home'
 # animal builders or exports. This keeps the two sources independently rebuildable.
 helpers = (ROOT / 'bin/build_coastal_wildlife.py').read_text(encoding='utf-8').split('def rabbit():')[0]
 exec(compile(helpers, 'build_coastal_wildlife_helpers', 'exec'), globals())
+sys.path.insert(0, str(ROOT / 'bin'))
+from coastal_wildlife_rig import skin, export, chain, ramp
 
 coat = mat('Raccoon grizzled coat', (.31, .29, .25), .94)
 gullwhite = mat('Western gull ivory', (.76, .77, .72), .86)
@@ -26,6 +30,7 @@ sandbelly = mat('Sandpiper pale belly', (.63, .60, .49), .93)
 sandleg = mat('Sandpiper dark legs', (.14, .16, .13), .89)
 eye_surface = mat('Original inset eye surface', (1,1,1), .2)
 feather_surface = mat('Original shaded flight feathers', (1,1,1), .91)
+gape = mat('Gull gape', (.36, .07, .055), .6)
 
 
 def paint_shared_surface(pivot, target):
@@ -98,8 +103,10 @@ def raccoon():
             for digit in range(5):
                 ell('Quiet toe',((digit-2)*.013,-.062+abs(digit-2)*.005,-.003),(.008,.028,.012),ink,paw,12,6)
     tail = empty('Tail',body,(0,.35,.28))
-    tailmesh = loft('Continuous ringed tail',[(0,0,.085,.075),(.12,-.04,.082,.072),(.29,-.12,.073,.062),(.48,-.17,.054,.047),(.61,-.17,.008,.014)],coat,tail,6,20)
-    neighbor_eyes(root);merge(root); bpy.context.view_layer.update()
+    # Three tail bones follow the ringed loft's centreline so the tail can curl and sway.
+    mid = empty('TailMid',tail,(0,.24,-.10)); empty('TailTip',mid,(0,.22,-.065))
+    loft('Continuous ringed tail',[(0,0,.085,.075),(.12,-.04,.082,.072),(.29,-.12,.073,.062),(.48,-.17,.054,.047),(.61,-.17,.008,.014)],coat,tail,6,20)
+    neighbor_eyes(root); bpy.context.view_layer.update()
     for obj in root.children_recursive:
         if obj.type=='MESH' and obj.data.materials[0]==coat:
             vertex_coat(obj,'tail' if obj.parent==tail else 'head' if obj.parent==head else 'body')
@@ -136,9 +143,13 @@ def bird(sand=False):
         # Long fine probing bill with a flattened base and closed taper.
         loft('Fine sandpiper bill',[(-.165,-.001,.001,.002),(-.09,0,.008,.007),(0,.004,.016,.013)],ink,muzzle,4,12)
     else:
-        loft('Tapered gull bill',[(-.148,-.007,.004,.007),(-.117,.004,.020,.022),(-.04,.004,.027,.025),(.013,.004,.020,.020)],bill,muzzle,4,16)
-        ell('Muted red bill spot',(0,-.074,-.018),(.015,.023,.005),billspot,muzzle,12,6)
-        tube('Bill seam',[(-.019,-.018,-.001),(-.018,-.091,-.003),(0,-.137,-.007)],.0012,ink,muzzle)
+        # Upper and lower mandibles meet at the gape; the lower one, with its red gonys spot,
+        # hangs from a Jaw pivot so calls and threats open the bill over a dark gape.
+        loft('Hooked upper mandible',[(-.150,-.007,.004,.006),(-.135,0,.012,.012),(-.117,.008,.019,.016),(-.04,.011,.026,.016),(.013,.01,.02,.015)],bill,muzzle,4,16)
+        jaw=empty('Jaw',muzzle,(0,.004,-.004))
+        loft('Angled lower mandible',[(-.137,-.002,.003,.004),(-.114,-.008,.013,.009),(-.06,-.006,.02,.009),(.008,-.002,.018,.01)],bill,jaw,4,16)
+        ell('Muted red bill spot',(0,-.108,-.011),(.014,.016,.006),billspot,jaw,12,6)
+        ell('Gull gape',(0,-.05,-.002),(.017,.065,.006),gape,muzzle,12,6)
     for side,label in ((-1,'L'),(1,'R')):
         wing=empty('Wing'+label,body,(side*.057,.012,.218))
         airfoil('Cambered connected upper wing',[(0,0,0,.096,.025),(.08,.006,.006,.106,.026),(.21,.03,.012,.088,.022),(.31,.065,.007,.075,.015)],sandcoat if sand else gullgray,wing,side)
@@ -161,26 +172,44 @@ def bird(sand=False):
         for pivot in root.children_recursive:
             if pivot.type=='EMPTY' and pivot.name.split('.')[0] in ('WingTipL','WingTipR'):
                 paint_shared_surface(pivot,feather_surface)
-    merge(root);return root
+    return root
 
 
-masters=[raccoon(),bird(),bird(True)]
-pivots={obj:obj.name for obj in bpy.data.objects if obj.type=='EMPTY'}
-for root in masters:
-    for obj,name in pivots.items():obj.name='Source retained '+name
-    root.name=pivots[root]
-    for obj in root.children_recursive:
-        if obj in pivots:obj.name=pivots[obj].split('.')[0]
-    bpy.ops.object.select_all(action='DESELECT');root.select_set(True)
-    for obj in root.children_recursive:obj.select_set(True)
-    bpy.ops.export_scene.gltf(filepath=str(OUT/(root.name+'.glb')),export_format='GLB',use_selection=True,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7)
-    print('NEIGHBOUR',root.name,'meshes',sum(obj.type=='MESH' for obj in root.children_recursive),'triangles',sum(sum(len(face.vertices)-2 for face in obj.data.polygons) for obj in root.children_recursive if obj.type=='MESH'))
-    for obj,name in pivots.items():obj.name='Restore source '+name
-    for obj,name in pivots.items():obj.name=name
-for i,root in enumerate(masters):root.location.x=i*1.8
-bpy.context.preferences.filepaths.save_version=0
-bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE/'neighbors.blend'))
-# Contact data is authored from the retained physical surfaces and these exact
-# deployed soles. The helper reads the coast, but never saves or changes it.
-from runpy import run_path
-run_path(str(ROOT/'bin/build_coastal_perch_support.py'),run_name='__main__')
+GLOSS = {'Nose and mouth', 'Original inset eye surface', 'Gull gape'}
+
+
+def rig_raccoon():
+    def weights(part, owner, co):
+        if part == 'Continuous arched raccoon trunk':return chain(co.y,[('Chest',-.17),('Hips',.2)])
+        if part == 'Continuous ringed tail':return chain(co.y,[('Tail',.38),('TailMid',.59),('TailTip',.8)])
+        if part == 'Upper articulated leg':w=ramp(co.z,.17,.125);return [(owner,1-w),('Lower'+owner,w)]
+        if part == 'Lower articulated leg':
+            w=ramp(co.z,.035,.005);paw=('FrontPaw' if 'Fore' in owner else 'HindPaw')+owner[-1];return [(owner,1-w),(paw,w)]
+        return None
+    return skin(raccoon(),extra_bones=[('Hips','BodyPose',(0,.20,.32)),('Chest','BodyPose',(0,-.16,.33))],
+        parents={'Head':'Chest','Tail':'Hips'},weights=weights,gloss=GLOSS,coat_roughness=.94,coat_name='Raccoon grizzled coat')
+
+
+def rig_bird(sand):
+    head_z = .295 if sand else .33
+    def weights(part, owner, co):
+        if part == 'Shaped bird head and neck':w=ramp(co.z,head_z-.085,head_z-.03);return [('Neck',1-w),('Head',w)]
+        if part == 'Continuous bird breast and tail':w=ramp(co.y,.12,.23);return [('BodyPose',1-w),('Tail',w)]
+        if part == 'Cambered connected upper wing':w=ramp(abs(co.x),.28,.35);return [(owner,1-w),('WingTip'+owner[-1],w)]
+        if part == 'Gull gape':return [('Muzzle',.5),('Jaw',.5)]
+        return None
+    extra=[('Neck','BodyPose',(0,-.115,head_z-.07)),('Tail','BodyPose',(0,.20,.172))]
+    return skin(bird(sand),extra_bones=extra,parents={'Head':'Neck'},weights=weights,gloss=GLOSS,coat_roughness=.9,
+        coat_name='Sandpiper plumage' if sand else 'Western gull plumage')
+
+
+if __name__ == '__main__':
+    rigs=[rig_raccoon(),rig_bird(False),rig_bird(True)]
+    for rig in rigs:export(rig,OUT/(rig.name+'.glb'))
+    for i,rig in enumerate(rigs):rig.location.x=i*1.8
+    bpy.context.preferences.filepaths.save_version=0
+    bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE/'neighbors.blend'))
+    # Contact data is authored from the retained physical surfaces and these exact
+    # deployed soles. The helper reads the coast, but never saves or changes it.
+    from runpy import run_path
+    run_path(str(ROOT/'bin/build_coastal_perch_support.py'),run_name='__main__')

@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import * as THREE from "../assets/js/three.module.min.js";
-import { gullMotion } from "../assets/js/home-scene/wildlife-neighbor-motion.mjs";
+import { gullMotion, gullSchedule } from "../assets/js/home-scene/wildlife-neighbor-motion.mjs";
 import { solvePerchLanding, samplePerchActing, perchSurface, perchContactWeight } from "../assets/js/home-scene/wildlife-perch-contact.mjs";
 
 const file = readFileSync(new URL("../assets/models/home/wildlife-perch-support.json", import.meta.url));
@@ -30,9 +30,13 @@ test("perch contact metadata matches retained geometry and stays bounded", () =>
       .digest("hex");
   assert.equal(data.coastSha256, hash("../artwork/coastal-home/coastal-home.blend"));
   assert.equal(data.gullSha256, hash("../assets/models/home/WesternGull.glb"));
-  assert.ok(file.byteLength < 24 * 1024);
-  assert.equal(data.patches.length, 4);
-  assert.ok(data.patches.every((patch) => patch.triangles.length > 0 && patch.triangles.length < 32));
+  assert.ok(file.byteLength < 32 * 1024);
+  // Three coast perches and the gallery rail for the gulls, four rock roosts for the cormorants.
+  assert.deepEqual(
+    data.patches.map((patch) => patch.kind),
+    ["coast", "coast", "coast", "rail", "rock", "rock", "rock", "rock"]
+  );
+  assert.ok(data.patches.every((patch) => patch.triangles.length > 0 && patch.triangles.length < (patch.kind === "rock" ? 64 : 32)));
   for (const foot of Object.values(data.feet))
     assert.ok(foot.sole.length > 100 && foot.sole.length < 256 && foot.legLength > 0.11 && foot.legLength < 0.12);
   // Independent retained-surface BVH samples from the decoded-before audit.
@@ -73,31 +77,54 @@ test("gallery rail contact preserves the original perch and intentional toe over
 test("landing and toe-off keep root C2 joins and visible deployed feet out of the surface", () => {
   for (let index = 0; index < 4; index++) {
     const patch = data.patches[index % 3];
-    for (let lap = 0; lap < 4; lap++) {
-      const start = lap * 90 - index * 19;
-      const landing = solvePerchLanding(data, index % 3, gullMotion(start + 72, index, patch.origin).yaw, 1.55);
-      for (const cycle of [48, 68, 86, 90]) {
-        const a = gullMotion(start + cycle - 1e-6, index, patch.origin),
-          b = gullMotion(start + cycle + 1e-6, index, patch.origin);
-        if (start + cycle < 0) continue;
-        for (const key of ["position", "velocity", "acceleration"]) a[key].forEach((value, axis) => near(value, b[key][axis], 0.0003));
+    for (let lap = 1; lap < 5; lap++) {
+      const schedule = gullSchedule(lap * 90 + 1 - index * 19, index);
+      const landing = solvePerchLanding(data, index % 3, gullMotion(schedule.perchStart + 1, index, patch.origin).landingYaw, 1.55);
+      for (const join of [schedule.glideEnd, schedule.approachSplit, schedule.perchStart, schedule.perchEnd, schedule.departSplit, schedule.end]) {
+        const a = gullMotion(join - 1e-6, index, patch.origin),
+          b = gullMotion(join + 1e-6, index, patch.origin);
+        for (const key of ["position", "velocity", "acceleration"]) a[key].forEach((value, axis) => near(value, b[key][axis], 0.0005));
       }
-      for (let cycle = 65; cycle <= 87; cycle += 0.125) {
-        const time = start + cycle;
-        if (time < 0) continue;
-        const pose = gullMotion(time, index, patch.origin),
-          weight = perchContactWeight(time, index);
-        assert.ok(weight >= 0 && weight <= 1);
-        if (pose.footDeploy <= 0.05) continue;
-        const quaternion = new THREE.Quaternion().setFromEuler(new THREE.Euler(pose.pitch, pose.yaw, pose.bank, "YXZ"));
-        const acting = samplePerchActing(data, landing, new THREE.Vector3(...pose.position), quaternion, weight);
-        for (const [side, gaps] of Object.entries(footGaps(acting, patch, 1.55))) {
-          assert.ok(acting.feet[side].hipAccommodation < 0.065);
-          assert.ok(acting.feet[side].position.toArray().every(Number.isFinite));
-          if (gaps.length) assert.ok(Math.min(...gaps) >= -2e-5);
+      const windows = [
+        [schedule.perchStart - 4.5, schedule.perchStart + 1],
+        [schedule.perchEnd - 0.5, schedule.perchEnd + 1.5],
+      ];
+      for (const [from, to] of windows) {
+        for (let time = from; time <= to; time += 0.125) {
+          const pose = gullMotion(time, index, patch.origin),
+            weight = perchContactWeight(time, index);
+          near(weight, pose.contactWeight, 1e-9);
+          assert.ok(weight >= 0 && weight <= 1);
+          if (pose.footDeploy <= 0.05 || weight === 0) continue;
+          const quaternion = new THREE.Quaternion().setFromEuler(new THREE.Euler(pose.pitch, pose.yaw, pose.bank, "YXZ"));
+          const acting = samplePerchActing(data, landing, new THREE.Vector3(...pose.position), quaternion, weight);
+          for (const [side, gaps] of Object.entries(footGaps(acting, patch, 1.55))) {
+            assert.ok(acting.feet[side].hipAccommodation < 0.065);
+            assert.ok(acting.feet[side].position.toArray().every(Number.isFinite));
+            if (gaps.length) assert.ok(Math.min(...gaps) >= -2e-5);
+          }
         }
       }
     }
   }
   for (const time of [-2, NaN, Infinity]) assert.ok(Number.isFinite(perchContactWeight(time, 0)));
+});
+
+test("cormorant roosts sit on measured rock at the cliff foot, with support under both feet", () => {
+  for (const patch of data.patches.filter((item) => item.kind === "rock")) {
+    const centre = perchSurface(patch, patch.origin[0], patch.origin[2]);
+    near(centre.height, patch.origin[1], 1e-6);
+    assert.ok(Math.abs(patch.origin[1] - patch.original[1]) < 0.25);
+    assert.ok(patch.origin[1] > -6.6 && patch.origin[1] < -5.5, "low rocks, just above the beach");
+    for (const [dx, dz] of [
+      [-0.06, 0.04],
+      [0.06, 0.04],
+      [-0.06, -0.06],
+      [0.06, -0.06],
+    ]) {
+      const foot = perchSurface(patch, patch.origin[0] + dx, patch.origin[2] + dz);
+      assert.ok(foot, `${patch.id} supports a foot at ${dx}, ${dz}`);
+      assert.ok(Math.abs(foot.height - patch.origin[1]) < 0.08 && foot.normal.y > 0.7);
+    }
+  }
 });
