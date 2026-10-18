@@ -93,6 +93,7 @@
 {% unless page.ai_profile %}
   <!-- Glass cards and buttons: tilt, highlight and press (glass-motion.mjs); nested project decks -->
   <script type="module" src="{{ '/assets/js/glass-motion.mjs' | relative_url | bust_file_cache }}"></script>
+  <script type="module" src="{{ '/assets/js/page-entry.mjs' | relative_url | bust_file_cache }}"></script>
 {% endunless %}
 {% if page.project_cards_interactive %}
   <script type="module" src="{{ '/assets/js/liquid-drop.mjs' | relative_url | bust_file_cache }}"></script>

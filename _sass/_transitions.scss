@@ -52,6 +52,83 @@
   animation: none;
 }
 
+// Card-to-page entry (2026-10-18, assets/js/page-entry.mjs and the pagereveal listener in
+// head.liquid): the clicked card's surface grows into the page's hero, its title travels into the
+// heading and its picture into the hero picture, all on the layout spring. Snapshots are not
+// stretched: each keeps its own size, anchored at the top left, and the growing box reveals the
+// hero as the card's face fades. The rest of the page settles in with the root transition, and the
+// hero's own lines arrive one after another.
+::view-transition-group(entry-surface),
+::view-transition-group(entry-title),
+::view-transition-group(entry-media) {
+  animation-duration: var(--spring-layout-duration, 600ms);
+  animation-timing-function: var(--spring-layout, cubic-bezier(0.2, 0, 0, 1));
+}
+
+::view-transition-group(entry-surface) {
+  overflow: clip;
+  border-radius: var(--md-lite-radius-lg);
+}
+
+::view-transition-old(entry-surface),
+::view-transition-new(entry-surface) {
+  width: auto;
+  height: auto;
+  object-fit: none;
+  object-position: left top;
+}
+
+::view-transition-old(entry-surface) {
+  animation: site-route-leave 220ms var(--md-lite-easing-exit) both;
+}
+
+::view-transition-new(entry-surface) {
+  animation: site-entry-surface 360ms var(--md-lite-easing-decelerate, ease-out) both;
+}
+
+::view-transition-old(entry-media),
+::view-transition-new(entry-media) {
+  height: 100%;
+  object-fit: contain;
+}
+
+@keyframes site-entry-surface {
+  from {
+    opacity: 0;
+  }
+}
+
+html.entry-arrived {
+  .project-case-hero .project-case-copy > :not(h1),
+  .project-case-hero .project-case-media,
+  .blog-post .post-header > :not(h1),
+  .publication-context-hero > * > :not(h1) {
+    animation: site-entry-cascade var(--spring-gentle-duration, 760ms) var(--spring-gentle, ease-out) both;
+  }
+
+  .project-case-hero .project-case-copy > :nth-child(2),
+  .blog-post .post-header > :nth-child(2) {
+    animation-delay: 160ms;
+  }
+
+  .project-case-hero .project-case-copy > :nth-child(3),
+  .blog-post .post-header > :nth-child(3) {
+    animation-delay: 220ms;
+  }
+
+  .project-case-hero .project-case-copy > :nth-child(n + 4),
+  .project-case-hero .project-case-media {
+    animation-delay: 280ms;
+  }
+}
+
+@keyframes site-entry-cascade {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+}
+
 // A time-of-day pick (theme.js) spreads its new light from the chosen option: the new view grows
 // out of it in a circle over the old one, chrome included, on the gentle spring.
 html.theme-revealing #navbar,

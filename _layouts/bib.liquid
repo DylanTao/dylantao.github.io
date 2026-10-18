@@ -37,6 +37,7 @@
   data-publication-group="{{ publication_work_group }}"
   data-publication-role="{{ publication_role_group }}"
   data-publication-citations="{{ publication_citations }}"
+  data-entry
 >
   {% if site.enable_publication_thumbnails %}
     <div class="col col-sm-3 abbr">
@@ -127,7 +128,7 @@
     {% elsif entry.website %}
       {% assign entry_title_url = entry.website %}
     {% endif %}
-    <div class="title">
+    <div class="title" data-entry-title>
       {% if entry_title_url %}
         <a href="{{ entry_title_url }}">{{ entry.title }}</a>
       {% else %}

@@ -124,43 +124,75 @@
       navigation: auto;
     }
   </style>
-  {% if page.cinematic and page.project_cards_interactive %}
-    {% comment %}
-      Coming back from a case page, its hero image morphs into the card it came
-      from. The listener has to exist before the first frame, and rendering
-      waits for the end of the card grid so that card is already in the DOM.
-    {% endcomment %}
-    <link rel="expect" href="#project-index-end" blocking="render">
-    <script>
-      window.addEventListener(
+  {% comment %}
+    Card-to-page entry (2026-10-18, assets/js/page-entry.mjs): a clicked card, row or experiment
+    names its surface, title and picture; arriving here, the matching hero, title and picture take
+    those names, so the card grows into the page. Coming back, the hero lands on its card. This
+    listener must exist before the first frame; only an expected entry holds that frame until the
+    content is parsed (#entry-ready), so ordinary loads never wait.
+  {% endcomment %}
+  <script>
+    (function () {
+      var state = null;
+      try {
+        state = JSON.parse(sessionStorage.getItem('site:entry') || 'null');
+      } catch (error) {
+        return;
+      }
+      var here = location.origin + location.pathname;
+      var arriving = Boolean(state && state.to === here);
+      var returning = Boolean(state && state.back && state.backTo === here);
+      if (!arriving && !returning) return;
+      if (!document.body) {
+        var hold = document.createElement('link');
+        hold.rel = 'expect';
+        hold.href = '#entry-ready';
+        hold.setAttribute('blocking', 'render');
+        document.head.appendChild(hold);
+      }
+      addEventListener(
         'pagereveal',
-        (event) => {
-          if (!event.viewTransition) return;
-          let href = null;
+        function (event) {
           try {
-            href = sessionStorage.getItem('cinematic:morph-href');
-          } catch (error) {
-            return;
-          }
-          if (!href) return;
-          const link = Array.from(document.querySelectorAll('[data-project-card-primary-action]')).find((item) => item.href === href);
-          const image =
-            link && link.closest('[data-project-card]') ? link.closest('[data-project-card]').querySelector('.project-card-media img') : null;
-          if (!image) return;
-          image.style.viewTransitionName = 'project-hero';
-          event.viewTransition.finished.finally(() => {
-            image.style.viewTransitionName = '';
-            try {
-              sessionStorage.removeItem('cinematic:morph-href');
-            } catch (error) {
-              /* nothing to clear */
+            sessionStorage.removeItem('site:entry');
+          } catch (error) {}
+          if (!event.viewTransition) return;
+          var named = [];
+          var name = function (element, value) {
+            if (!element || named.indexOf(element) >= 0 || !element.getClientRects().length) return;
+            element.style.viewTransitionName = value;
+            named.push(element);
+          };
+          if (arriving) {
+            var hero = document.querySelector('[data-entry-target], .project-case-hero, .blog-post .post-header, .publication-context-hero');
+            if (hero) {
+              name(hero, 'entry-surface');
+              name(hero.querySelector('h1'), 'entry-title');
+              name(hero.querySelector('.project-case-media img'), 'entry-media');
+              document.documentElement.classList.add('entry-arrived');
             }
+          } else {
+            var links = document.querySelectorAll('[data-entry] a[href], a[data-entry][href]');
+            for (var i = 0; i < links.length; i++) {
+              if (links[i].href.split('#')[0] !== state.back || !links[i].getClientRects().length) continue;
+              var entry = links[i].closest('[data-entry]');
+              name(entry.querySelector(':scope > .card') || entry, 'entry-surface');
+              name(entry.querySelector('[data-entry-title]'), 'entry-title');
+              name(entry.querySelector('[data-entry-media] img'), 'entry-media');
+              break;
+            }
+          }
+          event.viewTransition.finished.finally(function () {
+            named.forEach(function (element) {
+              element.style.viewTransitionName = '';
+            });
+            document.documentElement.classList.remove('entry-arrived');
           });
         },
         { once: true }
       );
-    </script>
-  {% endif %}
+    })();
+  </script>
 {% endunless %}
 {% if page.layout == 'cv' and site.plugins contains 'al_folio_cv' and site.al_folio.features.cv.enabled != false %}
   <link rel="stylesheet" href="{{ '/assets/css/al-folio-cv.css' | relative_url | bust_file_cache }}">
