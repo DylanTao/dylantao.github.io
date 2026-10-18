@@ -21,6 +21,19 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### October 18: glass cards, nested project decks, liquid glass and card-to-page entry
+
+- **Hypothesis:** Sirui asked for glass cards and buttons with texture, a slight 3D lean and a springy press; a hierarchical projects page (graphics experiments under the 3D home under the website revamp); liquid glass that splits and re-merges; a more dynamic card expansion that carries into the page; and a blog with a traditional and a modern layout. One material, one set of springs and one entry transition should make all of these read as the same object family, and nesting should let the projects page show its research first without losing the playful work.
+- **Route:** `/projects/` (glass cards, decks, trail, `#deck/<slug>`), every project page with a `parent` (trail, "Inside this project", sibling navigation), `/blog/` (list and cards), posts and publication context pages (entry transition), glass buttons on project pages.
+- **Reference:** Apple's Liquid Glass (WWDC 2025) and the iOS segmented control for the drop that pools under a choice; vibrancy (a surface tinted by what is behind it) from Apple's materials; the classic SVG goo filter (blur, then an alpha threshold) for drops that merge and split; IKEA's PS 2026 collection story, already credited, for opening in place; the WICG cross-document view transitions explainer for shared elements between pages.
+- **Licensing:** Original site-owned Liquid, Sass and JavaScript. No assets, code or brand identity imported. The grain is an SVG `feTurbulence` tile drawn by the browser.
+- **Visitor benefit:** Research stays the first group; the site experiments become one deck (the website revamp) that opens in place into its eleven projects, the 3D home opens into the Graphics Lab, and the lab into its nineteen experiments, with a trail that names each level and walks back up. Cards and buttons answer the pointer and the press. A card grows into its page, and the page lands back on its card. The blog keeps its list and offers cards that group notes by kind, stack each series and light the notes that share a topic.
+- **Budget:** Glass on cards uses the card's own already-loaded teaser (no new requests); `backdrop-filter` only on small controls and the sticky trail. Reduced motion and automation see still, complete states (no lean, no press, no drop travel, instant level changes); reduced transparency and more contrast get solid surfaces; forced colors get system colours. The refraction lens is Chromium-only behind the existing `data-liquid-glass` brand check. Figures and thumbnails keep their original colour in every state: grain, sheen and highlight sit beneath the card's content.
+- **Status:** `implemented` on `agent/glass` for coordinator review.
+- **Evidence:** To be filled in at checkpoint.
+- **Sirui decision:** Pending: the groupings (P, La Jolla and OpenAI Build Week sit under the revamp; the 3D home holds only the Graphics Lab), the blog series in `_data/blog_series.yml`, the strength of the vibrancy and grain, and whether the deck should open by default on wide screens.
+- **Revisit trigger:** Sirui's live review, a new site experiment (it needs a `parent`), or a report that a deck hides work a visitor was looking for.
+
 ### October 16–18: one motion language, a grabbable duh, springier cards and a coffee ensō
 
 - **Hypothesis:** Four of Sirui's notes share a cause: the older motion and interaction pieces had each grown their own easing, timing and edge cases. One set of damped springs, used by CSS and scripts alike, with the 3D home's loading sketch as the quality bar, should make duh dependable, the project cards calm, page arrivals coherent, and the desk's coffee stain charming instead of grimy.

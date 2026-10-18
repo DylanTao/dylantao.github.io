@@ -122,6 +122,7 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - Bad motion: constant fast movement, unrelated loops, cursor trails, scroll or wheel hijacking, clipping as the default way to make drama, and anything that competes with reading. Anchor smoothing and reveal timing keep native scroll control.
 - Always respect `prefers-reduced-motion`: a still composition with all content, never a hidden idea.
 - One motion language (October 2026): the site's damped springs live once as CSS tokens (`_sass/_springs.scss`) and once for scripts (`assets/js/site-motion.mjs`), held in step by a test. Things that change place or size use `layout`, content arriving uses `gentle`, controls use `confident`, desk toys `playful`; the 3D home's loading sketch is the quality bar. An interrupted motion hands its speed to the next one instead of restarting, and an element gets its own transitions back once its entrance settles.
+- Glass and decks (October 2026, `_sass/_glass.scss`): cards and their controls share one glass material. A card's glass shows its own teaser, blurred, never an ambient loop; grain, sheen and highlight sit beneath the content so figures keep their colour. Cards lean a few degrees toward a hovering pointer and press on the playful spring; touch gets the press only. Parent projects are decks that open in place: the opened card becomes the level's banner, its children fan out in a ripple, and the level above folds into a trail that walks back up. A level change measures layout once before and once after and writes nothing in between; focus and scroll wait for the next frame.
 - Autoplay is acceptable only when it is slow, pauses offscreen or in a hidden tab, and stays visually secondary to the words. Ambient motion echoes the main interaction, quieter than the text and strongest near the relevant section.
 - If an animation competes with the explanation, change the layout before decorating the animation. Claim and controls come before the moving field.
 
@@ -218,7 +219,7 @@ The October 6 concept A refinement keeps cumulative recorded history visible abo
 - Floating decoration must use the settled layout: refresh its clearance after fonts, images, or reading aids reflow, and protect SVG charts and metadata chips as well as prose.
 - Check keyboard navigation, visible focus, and that collapsed panels are not hidden tab stops.
 - Check that text does not overlap cards, nav, footer, or the back-to-top button, and that mobile has no horizontal overflow.
-- Check contrast, especially orange text on light backgrounds and nav text in dark mode.
+- Check contrast, especially orange text on light backgrounds and nav text in dark mode. Measure text on glass against the rendered glass behind it, in all four themes, not against the token: secondary and accent words on glass use the deeper `--glass-ink-soft` and `--glass-ink-accent`, and a label inside a control inherits the control's ink.
 - Check that reduced-motion users can still see all content.
 
 ## Screenshot Critique Ritual
@@ -279,7 +280,7 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 ## Page Archetypes
 
 - Homepage: editorial thesis and routing hub. It explains the intellectual thread and sends people to work, papers, writing, student info, or contact.
-- Projects: evidence surface. Each card shows artifact, problem, venue or status, and where to click without a paragraph to parse. Projects with their own site link out to it instead of getting a second local page.
+- Projects: evidence surface. Each card shows artifact, problem, venue or status, and where to click without a paragraph to parse. Projects with their own site link out to it instead of getting a second local page. Research stays the first, flat group; the site experiments nest under the website revamp (`parent:` in front matter), so a new site experiment names its parent and appears inside that deck.
 - Project detail: case study. Lead with the research question, contribution, artifact preview, venue, and links before author blocks or implementation detail.
 - Publications: bibliography with orientation. The citation list stays authoritative and helps readers find selected or current work quickly. A rejection wall can celebrate hidden research failure when it stays rejection-only, keeps receipts close to each badge, and never becomes a leaderboard.
 - Blog: research notebook with personality. Casual voice is welcome; vague dumping-ground copy is not.
