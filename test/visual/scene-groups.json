@@ -408,6 +408,14 @@
         "title": "coastal scenes: missing model and no JavaScript retain real rendered fallbacks"
       },
       {
+        "file": "footer-coast.spec.js",
+        "title": "coastal people: a composed still for automation, gentle loops with ?cinematic=live"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal people: the evening fire circle replaces the daytime crowd"
+      },
+      {
         "file": "static-light-field.spec.js",
         "title": "static light field: native linear GPU diffuse matches traced cache without doubled hemisphere"
       }
