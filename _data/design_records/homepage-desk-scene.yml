@@ -28,7 +28,7 @@ record_url: /projects/homepage-desk-scene/record/
 json_url: /assets/json/design-records/homepage-desk-scene.json
 repository: https://github.com/DylanTao/dylantao.github.io
 branch: main
-updated: "2026-10-15"
+updated: "2026-10-18"
 summary: >-
   How the homepage's 3D coastal home is built: the Blender scripts that author the cave house, the cliff, five cartoon
   versions of me and their animal neighbours; the browser runtime that loads, lights and animates them; and the light lab
@@ -40,7 +40,8 @@ scope: >-
   one Windows desktop unless an entry says otherwise; they are not phone benchmarks.
 credit: >-
   Compiled on October 15, 2026 by Anthropic's Claude from the code, the scene notes, the provenance files and the October
-  studio log, for Sirui Tao to review and extend.
+  studio log, for Sirui Tao to review and extend. The coast's wind, the curtains, the gym, the camera and the hinterland
+  joined on October 17 from entries the agents who built them prepared and checked.
 
 read_first:
   - path: docs/homepage-desk-scene-brief.md
@@ -338,7 +339,7 @@ systems:
         sources: []
         limits:
           - The height proxy is static and does not sample the animated wave surface.
-          - Interior views use bounded arcs and a near-plane clearance proxy, not general camera collision.
+          - Until the collision field is ready, interior views use bounded arcs and a near-plane clearance proxy; then the spring arm below takes over.
         next: []
       - id: camera-motion
         name: Critically damped camera motion
@@ -382,7 +383,7 @@ systems:
         sources: [perlin1993pad, bederson1994padpp]
         limits:
           - Every view settles on its authored framing, because keeping the visitor's heading when zooming out framed the house badly.
-          - Room pans stop at 1 m; 1.8 m pushed the camera into walls.
+          - Room pans stopped at 1 m until the collision field arrived; they now reach 1.8 m and stop at furniture (see the spring arm).
         next: []
       - id: animal-inspection
         name: Close views of the coastal neighbours
@@ -408,6 +409,93 @@ systems:
           - Visibility is checked on arrival; it is not continuous occlusion avoidance while the animal moves.
         next: []
 
+      - id: camera-collision-field
+        name: A collision field voxelized from the loaded house
+        status: shipped
+        since: "2026-10-15"
+        what: Every static house, room and nearby coast mesh is voxelized into a 12 cm field once it loads, so the camera knows the house's real walls, furniture and rock.
+        how: >-
+          `createCameraField` in `camera-field.mjs` voxelizes each mesh in a module worker (`camera-field-worker.mjs`), or
+          in small background slices where workers are unavailable, and `camera.mjs` classifies the cells. Connected pieces
+          under 45 cm in every direction are detail and block only in a dense canopy; a structural cell blocks when its
+          7-cell neighbourhood holds a plane's worth of structure (walls, floors, cabinets, beds, rock, dense slat
+          screens), while rails, posts, mullions and the rack's uprights stay thin. Blocking cells grow a 24 cm clearance
+          shell, and air is flooded from each room's target and authored camera, so the inside of a solid is never a place
+          to stand. Glass, the cut-away roof, sliding doors and props are left out; the onsen steam is an explicit solid.
+          Rays walk the field cell by cell, after Amanatides and Woo.
+        files:
+          - path: assets/js/home-scene/camera-field.mjs
+            role: Voxelizes the loaded meshes and decides what may hold the camera back.
+          - path: assets/js/home-scene/camera-field-worker.mjs
+            role: Voxelizes off the main thread.
+          - path: assets/js/home-scene/camera.mjs
+            role: Classifies the cells and walks rays through them.
+        tests:
+          - test/coastal-camera.test.mjs
+          - test/visual/desk-scene.spec.js
+        sources: [amanatides1987voxel]
+        limits:
+          - Ready about 3.3 s after the rooms stream in (445,563 triangles, 2.1 million cells with the gym).
+          - Characters, P, the animals and the clifftop planting are not in the field, and gaps under a 12 cm cell can read as closed.
+        next:
+          - move: Voxelize the clifftop planting into a coarse outdoor field.
+            readiness: needs-measurement
+      - id: spring-arm
+        name: Spring arm, free orbits and steering
+        status: shipped
+        since: "2026-10-15"
+        what: The camera sits at the farthest point on its orbit ray that the path reaches without crossing a blocking cell, so rooms open to free orbits and pans that slide along obstacles.
+        how: >-
+          The arm is the farthest point on the orbit ray the path reaches without crossing a blocking cell, with eight side
+          rays on a 7° cone pulling in before an edge reaches the ray. It shortens within about 0.1 s, recovers over about
+          0.4 s and never passes a hard limit 10 cm before the first blocking surface. Orbit, pan and coasting steps that
+          would leave the arm under 40 % of the requested distance are refused, sliding along obstacles. Once the field is
+          ready, rooms get free yaw, pitch from −0.12 to 1.25 rad and zoom to 1.5 times the authored distance, and room pans
+          reach 1.8 m and stop at furniture. Released drags coast with a 0.32 s decay in closed form; reduced motion and
+          Pause keep drags exact; Home recentres and Page Up and Page Down zoom.
+        files:
+          - path: assets/js/home-scene/camera.mjs
+            role: The arm, the hard limit and the steering.
+          - path: assets/js/home-scene/camera-motion.mjs
+            role: Closed-form coasting.
+          - path: assets/js/home-scene/controller.mjs
+            role: Gestures, keys and the field's readiness.
+        tests:
+          - test/coastal-camera.test.mjs
+          - test/coastal-camera-motion.test.mjs
+          - test/visual/desk-scene.spec.js
+        sources: [epic-spring-arm]
+        limits:
+          - Nothing scores the composition, and one 40 % threshold serves every room.
+          - Coasting needs pointer samples within 0.12 s of the release.
+        next:
+          - move: Score candidate yaws for the subject's visibility near obstacles.
+            readiness: needs-research
+      - id: far-coast-view
+        name: The far coast view
+        status: shipped
+        since: "2026-10-15"
+        what: The coast zooms out to 160 m, with haze, both clip planes, the sun's shadow square and a camera-centred sky dome following the orbit's radius.
+        how: >-
+          `farView` in `camera.mjs` scales the haze, the near and far planes and the sun's shadow square (to 120 m) with the
+          orbit radius, unchanged up to the authored 48 m: fog starts 15 m past the house and is full at 1.9 r + 26 m, and
+          the near plane is 0.6 m at 160 m, keeping depth precision. The sky dome in `environment.mjs` follows the camera.
+          `outsideClearance` lets the coast camera ride the terrain with a clearance that grows to 6 m.
+        files:
+          - path: assets/js/home-scene/camera.mjs
+            role: The far view and the coast camera's clearance.
+          - path: assets/js/home-scene/environment.mjs
+            role: The camera-centred sky dome.
+          - path: assets/js/home-scene/controller.mjs
+            role: Applies the far view each frame.
+        tests:
+          - test/coastal-camera.test.mjs
+        sources: [reed2015depth]
+        limits:
+          - At 160 m the land block's edges showed until the extended terrain joined the camera's height grid; check them now that the hinterland merges its grid at runtime.
+        next:
+          - move: Fold the extended terrain into the height grid.
+            readiness: ready
   - id: rendering-light
     name: Rendering and light
     summary: >-
@@ -872,37 +960,80 @@ systems:
           - Single scattering and short-range attenuation only; beyond the light-well mask there is no opaque sun-shadow query.
         next: []
 
-  # A unified wind field is in progress; describe it here and retire or update the techniques it replaces.
-  # Runtime cloth (curtains in the breeze) can join this system, and then close the runtime-cloth open problem.
   - id: wind-plants
-    name: Wind and plants
+    name: Wind, plants and cloth
     summary: >-
-      Inside, one divergence-free wind field moves the leaves, the dust, the spray and the bath steam. The clifftop
-      planting still sways on its own simpler rule.
+      One coastal wind, the October sea breeze measured at Scripps Pier with gust fronts that travel downwind,
+      moves the sea's wind waves, ripples and whitecaps, the clifftop planting, the room plants, the curtains, the
+      bath steam, and the dust and spray. Inside the house a small divergence-free eddy field adds the room's own air.
     techniques:
+      - id: coast-wind
+        name: One wind for the coast
+        status: shipped
+        since: "2026-10-16"
+        what: >-
+          One wind state drives the sea, the planting, the room plants, the curtains, the steam and the particles, so a
+          gust that roughens the water reaches the bluff seconds later and the curtains when it meets the glass.
+        how: >-
+          `wind-field.mjs` runs a periodic cubic Hermite through the October averages at Scripps Pier (NDBC LJPC1,
+          2023–2025): a land breeze from the east at night, a 0.7 m/s lull at 09:00 while the wind turns through north, a
+          west-north-westerly sea breeze peaking at 2.75 m/s at 15:00, and a lighter evening. Gusts are a function of
+          retarded time t − x·d/c, with c the mean speed (Taylor's frozen turbulence). They come in hashed 8-second slots,
+          each rising over 1.2 s and decaying over 3.5 s, in patches 70 m across. The envelope averages 1, with a
+          turbulence intensity of 0.15 and a ten-minute gust factor of 1.67. The lowbias32 integer hash is exact in
+          JavaScript and in GLSL ES 3.00, so the GPU matches the CPU to 3.3 × 10⁻⁵. The sea turns and grows its wind waves
+          (a Pierson–Moskowitz cut, never above the authored heights), scales its pixel ripples by the Cox–Munk slope law
+          in the local, gusty wind, and adds Monahan whitecaps. Indoors the breeze leaks in at 1.2 % with the doors shut
+          and 6 % with them open. The spray rides the open wind, and the dust and steam drift in the house's air.
+          `coastWind.vane(x, z)` serves a wind sock.
+        files:
+          - path: assets/js/home-scene/wind-field.mjs
+            role: The daily breeze, gust fronts, indoor share, samplers, vane and shared GLSL.
+          - path: assets/js/home-scene/ocean-spectrum.mjs
+            role: Wind sea, ripples and whitecaps in the coast's wind.
+          - path: assets/js/home-scene/environment.mjs
+            role: Binds the sea and the spray and dust to the coast's wind.
+          - path: assets/js/home-scene/PHYSICS.md
+            role: Equations, station data, sources, evidence and limits ("One wind for the coast").
+        tests:
+          - test/coast-wind.test.mjs
+          - test/coastal-transport-rendering.test.mjs
+        sources: [ndbc-ljpc1, taylor1938turbulence, pierson1964spectrum, cox1954glitter, monahan1980whitecaps, wellons2018hash]
+        limits:
+          - Frozen turbulence over flat ground. There is no shelter or speed-up from the bluff, the house or the cliff, and no change with height.
+          - The outdoor field is not divergence-free; only the indoor eddies keep the curl field's guarantee.
+          - October's cycle all year, though summer afternoons at the pier average 3.5 m/s.
+          - Whitecap coverage is exaggerated tenfold, and the swell components stay authored.
+        next:
+          - move: Follow the station's monthly cycles, so summer afternoons blow harder than October's.
+            readiness: ready
+            why: The station records are already averaged by hour; a month axis is a table, not a model.
+          - move: Calm the lee of the house and the cliff edge with a coarse shelter mask on the gust envelope.
+            readiness: needs-research
+            why: A mask breaks no guarantee here, but where the lee falls needs the cliff's profile against the breeze.
       - id: curl-wind
         name: A divergence-free wind field
         status: shipped
         since: "2026-10-02"
-        what: A six-mode curl-noise field gives the room plants, dust, spray and bath steam one coherent wind.
+        what: A six-mode curl-noise field adds the small eddies of the house's own air to the coast's wind, for the room plants, the curtains, the dust and the bath steam.
         how: >-
-          `wind-field.mjs` takes the analytic curl of a bounded vector potential, a small Fourier basis in place of Bridson,
-          Hourihan and Nordenstam's Perlin potentials, so the velocity is exactly divergence-free and its speed is bounded by
-          0.647 m/s with the defaults (a 0.45 m/s gust over a small mean drift). Wavelengths run from 1.2 to 7 m. The same
-          field runs in GLSL (`coastalWind`) and on the CPU, which agree within the 8-bit quantization step in native
-          fixtures. `coastal-wind.mjs` owns one field and one active clock for the room.
+          `wind-field.mjs` takes the analytic curl of a bounded vector potential, a small Fourier basis in place of
+          Bridson, Hourihan and Nordenstam's Perlin potentials, so the velocity is exactly divergence-free and bounded.
+          Wavelengths run from 1.2 to 7 m. Since October 16 its amplitude is 0.6 of the coast breeze's indoor share, so the
+          eddies grow when the doors open and fall nearly still when they shut. The same field runs in GLSL and on the
+          CPU, which agree within the 8-bit quantization step in native fixtures.
         files:
           - path: assets/js/home-scene/wind-field.mjs
             role: The curl-potential field, CPU and GLSL.
           - path: assets/js/home-scene/coastal-wind.mjs
-            role: One field and clock for the room's plants and particles.
+            role: Binds the room plants to the field and the coast's state.
           - path: docs/coherent-wind-equations.md
             role: Field, bound, attachment and particle equations.
         tests:
           - test/coastal-wind.test.mjs
         sources: [bridson2007curl]
         limits:
-          - Procedural, not a pressure-projected flow. No obstacles, building collision or turbulence spectrum, and a spatial mask would break the divergence guarantee.
+          - Procedural, not a pressure-projected flow, with no obstacles or building collision.
         next: []
       - id: rooted-leaves
         name: Leaves attached to real stems
@@ -912,7 +1043,8 @@ systems:
         how: >-
           `plant-motion.mjs` finds each leaf component's attachment once, from nearby support vertices of the real stems, and
           stores a root, a weight and its gradient per vertex. Each component follows the steady periodic response of a
-          critically damped oscillator to the wind, at most 11.7 mm of horizontal deflection, and normals use the inverse
+          critically damped oscillator to the wind, at most 11.7 mm of horizontal deflection from the eddies; in the coast's
+          breeze a bend saturates softly toward 15 mm (`PLANT_BEND_LIMIT`). Normals use the inverse
           transpose of the bend's Jacobian. The identical hook runs on beauty, depth and distance materials, so shadows bend
           with the leaves. 110 of 132 olive-leaf components bend; hanging vines and agave stay rigid.
         files:
@@ -928,28 +1060,67 @@ systems:
           - An authored damped response, not calibrated leaf elasticity.
           - The indirect contact buffer sees the rest pose, a documented mismatch below 12 mm.
         next: []
+      - id: facade-curtains
+        name: Curtains in the breeze
+        status: shipped
+        since: "2026-10-16"
+        what: Four sheer panels hang inside the glass front. They billow at an open door, sway gently behind fixed glass, draw part way against the low western sun, and close at night.
+        how: >-
+          `curtain-rig.mjs` hangs `curtain-cloth.mjs`'s small-step XPBD panels in `sheer-fabric.mjs`'s see-through,
+          back-lit material. It passes the facade doors' offsets to a draft whose jets follow the coast's onshore breeze,
+          and steps the cloth at the scene's own clock. `curtainSchedule` gathers the panels by day and draws them against
+          the low western sun, the panels over fixed glass deeper than the doorway ones, so the breeze comes in and the sun
+          falls through the gaps onto the floor. They close at night (the doors' own threshold) and while Sirui sleeps,
+          except the panel across the camera's sightline in the room where he dines or watches the Pacific. A panel steps
+          only on screen and about 90 px tall, at 30 Hz with at most two steps a frame, and sleeps in still air. Pause and
+          reduced motion compose a settled drape.
+        files:
+          - path: assets/js/home-scene/curtain-rig.mjs
+            role: The live scene's curtains, visibility budget and per-frame coupling.
+          - path: assets/js/home-scene/curtain-cloth.mjs
+            role: The cloth solver, the facade draft and the schedule.
+          - path: assets/js/home-scene/sheer-fabric.mjs
+            role: Weave openness, transmission and the dithered shadow.
+        tests:
+          - test/curtain-cloth.test.mjs
+          - test/curtain-schedule.test.mjs
+        sources: [macklin2016xpbd, muller2007pbd, estevez2017sheen]
+        limits:
+          - No self-collision, so gathered stacks can interpenetrate in strong gusts.
+          - Depth shadow maps cannot colour the light the yarn transmits.
+          - On the loaded October 16 test machine, the two panels a room view shows cost a 2 ms median of CPU a frame while they step.
+          - Stepping at 30 Hz stiffens the billow a little; the hem swings about a quarter less than at 60 Hz.
+        next:
+          - move: Step the panels on a worker, so the cloth never shares the main thread with the frame.
+            readiness: needs-measurement
+            why: Positions would arrive a frame late; whether that shows against the glass needs a look.
       - id: clifftop-sway
         name: Clifftop planting in the breeze
         status: shipped
         since: "2026-10-14"
-        what: Sage, pine needles, grass, lemonade berry and palm fronds sway by a weight stored in their UVs, leaning inland in the onshore breeze.
+        what: Sage, sagebrush, grass, wild oats, lemonade berry, Torrey pines and palm fronds bend in the coast's wind, with gusts rolling across the bluff downwind; their shadows bend too.
         how: >-
-          `bin/coastal_flora.py` writes a sway weight into each leaf, needle and blade's UV x, 0 at the plant's base and 1 at
-          its top. `swayInBreeze` in `realism.mjs` displaces vertices by that weight squared: a small inland lean plus two
-          sines with a per-plant phase taken from world position. The motion freezes with the scene clock. Because it moves,
-          the planting stays out of the static light field.
+          `bin/coastal_flora.py` writes a sway weight into each leaf, needle and blade's UV x, 0 at the plant's base and 1
+          at its top. `patchFloraSway` in `plant-motion.mjs` bends by that weight squared. The lean is reach · (U g)^1.4,
+          with the gust envelope read 2/ω late: drag on a streamlining leaf grows like U^(2+V), with Vogel exponent near
+          −0.6. A sway at each species' own frequency, phased by retarded time, rolls across the bluff downwind like wind
+          over a field of grain. Flutter grows in with the speed, tips drop to keep their length, and normals follow the
+          bend's Jacobian. The same hook runs on each planting mesh's depth and distance materials, so shadows sway too.
+          Since October 16 it replaces the old independent sine.
         files:
           - path: bin/coastal_flora.py
             role: Writes the sway weights.
+          - path: assets/js/home-scene/plant-motion.mjs
+            role: The species profiles and the sway hook.
           - path: assets/js/home-scene/realism.mjs
-            role: The sway shader hook.
-        sources: []
+            role: Applies the hook to the planting's beauty, depth and distance materials.
+        tests:
+          - test/coast-wind.test.mjs
+        sources: [delangre2008wind, vogel1989drag, py2006lockin]
         limits:
-          - A separate sine sway that does not sample the curl wind field, so the clifftop and the room plants move in two different winds.
-          - Only the beauty material sways; shadow and depth passes see the rest shape.
-        next:
-          - move: Drive the clifftop sway from the same wind field as the room plants, particles and steam, in the beauty and depth materials.
-            readiness: ready
+          - A nominal height per species sets the tip drop and the normals' slope.
+          - The indirect contact buffer sees the rest pose.
+        next: []
       - id: wind-particles
         name: Dust and spray in the same wind
         status: shipped
@@ -1044,20 +1215,21 @@ systems:
         name: Activities fitted to equipment
         status: shipped
         since: "2026-09-14"
-        what: Coffee, strength sets, typing, meals and sleep use exported equipment contacts, so cups and weights travel between surfaces and hands.
+        what: Coffee, typing, meals and sleep use exported equipment contacts, so a cup travels between surfaces and hands.
         how: >-
           `activities.mjs` runs short deterministic phases against equipment anchors from `bin/coastal_furnishing.py`:
-          grinding, brewing, pickup, carrying, drinking and returning the same cup; pull-ups, dips, a rack-to-hand dumbbell
-          transfer and rests. A runtime arm correction follows the mixed pose to remove residual drift, and
-          `grip-targets.mjs` lets an articulated avatar name its own anatomical wrist target per clip.
-          `bin/review_coastal_models.py` measures deformed source vertices and wrists at five key times per clip.
+          grinding, brewing, pickup, carrying, drinking and returning the same cup, and the meals at the table. A runtime arm
+          correction follows the mixed pose to remove residual drift, and `grip-targets.mjs` lets an articulated avatar
+          name its own anatomical wrist target per clip. `bin/review_coastal_models.py` measures deformed source vertices
+          and wrists at five key times per clip. Since October 16 the gym's sessions are staged and posed separately (see
+          the gym technique below).
         files:
           - path: assets/js/home-scene/activities.mjs
             role: Activity phases and contact correction.
           - path: assets/js/home-scene/grip-targets.mjs
             role: Per-avatar wrist targets.
           - path: bin/coastal_furnishing.py
-            role: Kitchen and gym equipment and their contacts.
+            role: Kitchen equipment and its contacts.
           - path: bin/review_coastal_models.py
             role: Contact measurements on the deformed sources.
         tests:
@@ -1066,6 +1238,43 @@ systems:
         sources: []
         limits:
           - Authored poses with a small contact correction, not whole-body dynamics.
+        next: []
+      - id: gym-training
+        name: Training on Sirui's program, with lifts posed on each figure
+        status: shipped
+        since: "2026-10-16"
+        what: The gym follows Sirui's nSuns program, and every lift is posed each frame on the avatar's own skeleton, so the hands meet the real bar, handles and dumbbells whatever the body's proportions.
+        how: >-
+          `training.mjs` turns a date into the day's session as pure functions (`trainingAt`, `sessionPlan`,
+          `sessionTimeline`): nSuns 5/3/1 LP on a six-day upper and lower split at the logged training maxes, with
+          supersets and rests, from 18:00 on workdays and 14:00 on Saturdays. `gym-session.mjs` stages each set as data
+          (`sessionPose`): where the body stands and faces, which bar is in the hands, and walks routed around the rack,
+          the bench and the platform on a small visibility graph (`planRoute`). `lift-rig.mjs` poses the hips, spine and
+          head, reaches each hand and foot with an analytic two-bone solve toward a movement's pole hint, measures each
+          figure's head from its skinned vertices so a bar passes under or behind it, and eases every repetition in and
+          out. `gym-props.mjs` loads each bar from the gym's two plate sets and draws the program and Sirui's training-max
+          history, copied from his app, on the whiteboard.
+        files:
+          - path: assets/js/home-scene/training.mjs
+            role: The program, as pure functions of the date.
+          - path: assets/js/home-scene/gym-session.mjs
+            role: Staged choreography and routing around the equipment.
+          - path: assets/js/home-scene/lift-rig.mjs
+            role: Per-frame lifts on each avatar's own skeleton.
+          - path: assets/js/home-scene/gym-props.mjs
+            role: Bars, plates, dumbbells, the backrest and the whiteboard.
+          - path: bin/coastal_gym.py
+            role: The gym room and its equipment.
+          - path: bin/refresh_coastal_gym.py
+            role: Rebuilds the gym in the retained house.
+        tests:
+          - test/coastal-training.test.mjs
+          - test/coastal-gym-session.test.mjs
+          - test/coastal-lift-rig.test.mjs
+        sources: [tolani2000ik, thomas1981illusion, lozanoperez1979visibility]
+        limits:
+          - Kinematic poses, not dynamics. The body neither strains nor balances under the load.
+          - The program follows Sirui's logged plan; the scene does not read a live training log.
         next: []
       - id: locomotion
         name: Walking on the real floor and treads
@@ -1134,9 +1343,13 @@ systems:
             role: Builds the six variants in the retained house.
           - path: bin/review_coastal_models.py
             role: Asserts the body, cover and pillow measurements.
+          - path: assets/js/home-scene/bedding-breath.mjs
+            role: The sleeper's cover rises and falls with the breath.
+        tests:
+          - test/bedding-breath.test.mjs
         sources: [muller2007pbd, fratarcangeli2016vivace]
         limits:
-          - Authored drapes, not runtime cloth. The duvets do not move with breathing; the 3 cm fill covers that.
+          - Authored drapes, not runtime cloth. Since October 17 the sleeper's cover breathes, a scripted swell of a few millimetres at the chest (`bedding-breath.mjs`, tested in `test/bedding-breath.test.mjs`).
           - The sleep room grew from 57 KB to 260 KB.
         next: []
 
@@ -1350,6 +1563,65 @@ systems:
           - move: Sparse sagebrush and oats on the inland hill, kept clear of the stepping stones.
             readiness: ready
 
+      - id: hinterland
+        name: The land beyond the mainland's walls
+        status: shipped
+        since: "2026-10-15"
+        what: A terraced mesa with badland canyons, bluffs with the gliderport, a headland with sea caves and a distant point continue the coast past the mainland's flat walls.
+        how: >-
+          `bin/build_coastal_hinterland.py` snaps the new ground to the mainland's 225 back-edge and 41 end-edge vertices and
+          continues its own height, cliff and beach functions across each seam, eased over 25 m. North, the coast runs to
+          32 m Torrey sandstone bluffs with the gliderport's lawn, fence, benches and a wind sock that turns with
+          `coastWind.vane`; south, to a cove, a headland with three sea caves under a timber viewing deck, and a distant
+          point. Trails, 2,365 shrubs and 156 Torrey pines are placed by distance, with a sparse planting on the mainland's
+          bare rear. One constrained Delaunay triangulation, after Shewchuk's Triangle, runs from 0.5 m triangles at the
+          walls to 18 m on the far hill, with occlusion baked into vertex colours. The 1.36 MB Draco model (about 206,000
+          triangles) loads on the first visit outside.
+        files:
+          - path: bin/build_coastal_hinterland.py
+            role: Seams, terrain, triangulation and the baked occlusion.
+          - path: bin/coastal_hinterland.py
+            role: The land's height, cliff and beach functions.
+          - path: bin/coastal_hinterland_props.py
+            role: The gliderport, the deck and the planting.
+          - path: assets/js/home-scene/hinterland.mjs
+            role: Loads the land, merges its camera grid and binds the wind sock.
+          - path: assets/models/home/hinterland.glb
+            role: The exported land.
+          - path: artwork/coastal-home/hinterland.blend
+            role: The editable source.
+          - path: bin/capture_coastal_hinterland.cjs
+            role: Review captures.
+        tests:
+          - test/test_coastal_hinterland.py
+          - test/coastal-hinterland.test.mjs
+        sources: [shewchuk-triangle, z3lvs-torrey-badlands, stch2022-torrey-sandstone, andrek02-sea-cave, matejicek-goldfish-point, ncysea-gliderport]
+        limits:
+          - The 400 m sea plane still ends at |x| = 200 m while the coast runs about 700 m each way, and the new beaches have no surf.
+          - Shrubs read as mounds within about 20 m.
+        next:
+          - move: Extend the shore samples so surf follows the new beaches.
+            readiness: needs-decision
+      - id: ridge-gliders
+        name: Gliders soaring the bluffs
+        status: shipped
+        since: "2026-10-15"
+        what: Three paragliders and a hang glider follow closed loops along the north bluffs, banking into their turns.
+        how: >-
+          `gliders.mjs` tabulates each closed loop as a centripetal Catmull–Rom curve by arc length and banks each wing by
+          tan(bank) = v²κ/g, a coordinated turn. Poses are pure functions of the scene clock, so pause, hidden tabs and
+          reduced motion hold every glider where it is.
+        files:
+          - path: assets/js/home-scene/gliders.mjs
+            role: Routes, poses and banking.
+        tests:
+          - test/coastal-hinterland.test.mjs
+        sources: [banked-turn]
+        limits:
+          - Authored loops, with no response to the wind.
+        next:
+          - move: Crab into the live coast wind.
+            readiness: needs-decision
   - id: light-lab
     name: The light-paths lab
     summary: >-
@@ -1786,6 +2058,78 @@ history:
     reframe: If the inland hill needs cover, sparse sagebrush and oats are the cheapest step.
     commit: "f403dfead"
     sources: [nps-cabrillo-plants]
+  - date: "2026-10-15"
+    title: Freedom with a spring arm
+    system: camera-navigation
+    frame: Turning and moving around the home still felt limited, the coast would not zoom out far, and some angles looked into the models.
+    dimensions: [what may hold the camera back, how far the arm reaches, which steps are refused, how far the coast zooms, what follows the zoom]
+    move: A collision field voxelized from the loaded house, a spring arm that stays on the near side of it, free orbits and pans that slide along obstacles, and a coast that zooms to 160 m with haze, clip planes and shadows that follow.
+    backtalk: The October 14 arcs themselves reached bad angles, behind the study's cedar slats, inside the cave-mouth rock and inside the terrace olive. A field that blocked everything near a table boxed the camera into the reader's head until pieces were sorted by size. The whole-house target sits 6 cm behind the gym's back panel, so that view only needs open air to stand in.
+    reframe: Composition is the next layer.
+    commit: "7070fe66b"
+    sources: [amanatides1987voxel, epic-spring-arm]
+  - date: "2026-10-15"
+    title: The land around the mainland
+    system: authoring
+    frame: Sirui found the left, right and back of the mountain lazy, a block that stopped in flat walls.
+    dimensions:
+      [what lies past each wall, how the seams meet the mainland, triangle size by distance, the land's download size, the planting on new ground]
+    move: Land past every wall, seamed to the mainland's edges, with canyons, the gliderport's bluffs, a headland with sea caves, trails and planting, and gliders on the ridge lift.
+    backtalk: The first ground rendered white, because only the beaches exported vertex colours. A per-corner bake grew the model to 2.6 MB until occlusion was averaged per vertex, and it ships at 1.36 MB. The band behind the house was mostly the mainland's own unplanted rear. Dithered sandstone showed as a patchwork, flutes aliased on 1.5 m triangles, boulders hid the sea caves, and shrubs hung over canyon rims until each clump needed level ground.
+    reframe: The far zoom needs a sea and haze that reach as far as the land; surf on the new beaches comes next.
+    commit: "87781ff72"
+    sources: [shewchuk-triangle, ncysea-gliderport]
+  - date: "2026-10-16"
+    title: A gym of its own, on Sirui's program
+    system: characters
+    frame: The gym shared the living floor, and its one 76-second loop of pull-ups, dips and a dumbbell set did not follow Sirui's actual training.
+    dimensions:
+      [
+        where the gym sits,
+        which station each lift uses,
+        the program and its timing,
+        hands on the bar across five body shapes,
+        walks around the equipment,
+      ]
+    move: >-
+      The gym moved to its own rock-cut room north of the lounge, with a glazed sea front. Training follows Sirui's nSuns
+      log, staged set by set, every lift is posed each frame on the avatar's own skeleton, and walks are routed around
+      the equipment on a visibility graph.
+    backtalk: >-
+      To keep every lift clear of the other stations, squats and presses happen inside the cage and the dip bars sit
+      behind a 2.15 m pull-up bar on a wall frame. A cartoon head can rise above where a high-bar squat rests the bar, so
+      each figure's head is measured from its skinned vertices and the bar passes under or behind it. A session runs
+      from 18:00 to about 19:20, which moved dinner to 20:30 and the lounge to 21:30.
+    reframe: The lifts are kinematic; a body that strains and settles under the bar would need simulation.
+    commit: "b5c4f20bc"
+    sources: [tolani2000ik, thomas1981illusion]
+  - date: "2026-10-16"
+    title: One wind for the coast, and curtains in it
+    system: wind-plants
+    frame: Sirui asked that the grass and leaves move in the same wind that moves the ocean, with the technical details recorded, and for curtains that billow at an open door and draw against the sun.
+    dimensions:
+      [
+        the daily breeze by hour,
+        gust strength spacing size and speed,
+        what reads the wind,
+        the indoor share with the doors shut or open,
+        CPU and GPU cost,
+        stills under Pause and reduced motion,
+      ]
+    move: >-
+      One wind state in `wind-field.mjs` follows the October averages at Scripps Pier and carries gust fronts on
+      retarded time. The sea's wind waves, ripples and whitecaps, the clifftop planting with its shadows, the room
+      plants, the curtains, the steam and the particles all read it. `curtain-rig.mjs` hangs the four sheer panels on
+      a schedule.
+    backtalk: >-
+      The authored cycle peaked at 5 m/s and turned through south in the morning. Three Octobers at the pier peak at
+      2.8 m/s and turn through north, so the cycle follows the data. A drawn panel filled the kitchen camera, which
+      looks in through the door, so a visited room keeps that panel open. At 48 m outside the cloth was stepping for
+      12 ms a frame, so a panel must now be 90 px tall to step. The diamond pattern on the near sea was already there
+      at the base commit.
+    reframe: Summer afternoons at the pier blow at 3.5 m/s, so a monthly cycle is the next cheap step; the lee of the house should feel less wind.
+    commit: "4f5823666"
+    sources: [ndbc-ljpc1, taylor1938turbulence, cox1954glitter]
   # Append new moves here, oldest first.
 
 open_problems:
@@ -1839,29 +2183,6 @@ open_problems:
       - A still photo mode where a temporal filter can accumulate.
     sources: []
     readiness: blocked
-  - id: one-wind
-    title: One wind for the whole coast
-    system: wind-plants
-    why_hard: >-
-      The room plants, particles and steam share the curl field, but the clifftop planting sways on its own sine rule and
-      its shadows see the rest shape. Unifying them means patching the planting's beauty and depth materials with the same
-      field and response, without breaking the divergence guarantee or the shader cache keys the warmup relies on.
-    candidate_moves:
-      - Bind the clifftop materials to `coastalWind` with the damped response from `plant-motion.mjs`.
-      - Give the planting a custom depth material that runs the same bend.
-    sources: [bridson2007curl]
-    readiness: ready
-  - id: runtime-cloth
-    title: Cloth that moves
-    system: characters
-    why_hard: >-
-      The duvets are offline drapes and nothing in the scene is runtime cloth. A curtain in the breeze or a duvet that
-      breathes needs a solver that stays stable within the frame budget, attached to animated bodies.
-    candidate_moves:
-      - Start from the colored Gauss–Seidel solver in `bin/coastal_bedding.py` and port a small extended position-based version to the browser for one curtain.
-      - Drive it with the shared wind field.
-    sources: [muller2007pbd, fratarcangeli2016vivace, macklin2016xpbd]
-    readiness: needs-research
   - id: dynamic-light-field
     title: Light that sees people and plants
     system: rendering-light
@@ -2137,3 +2458,91 @@ sources:
     label: Zeltner, Georgiev and Jakob 2020
     citation: Tizian Zeltner, Iliyan Georgiev and Wenzel Jakob. *Specular Manifold Sampling for Rendering High-Frequency Caustics and Glints*. SIGGRAPH 2020.
     url: https://rgl.epfl.ch/publications/Zeltner2020Specular
+  - id: ndbc-ljpc1
+    label: NDBC station LJPC1
+    citation: NOAA National Data Buoy Center. *Station LJPC1, La Jolla, CA*, hourly standard meteorological records 2023–2025.
+    url: https://www.ndbc.noaa.gov/station_page.php?station=ljpc1
+  - id: taylor1938turbulence
+    label: Taylor 1938
+    citation: G. I. Taylor. *The Spectrum of Turbulence*. Proceedings of the Royal Society A 164, 1938.
+    url: https://doi.org/10.1098/rspa.1938.0032
+  - id: pierson1964spectrum
+    label: Pierson and Moskowitz 1964
+    citation: Willard J. Pierson and Lionel Moskowitz. *A proposed spectral form for fully developed wind seas based on the similarity theory of S. A. Kitaigorodskii*. Journal of Geophysical Research 69, 1964.
+    url: https://doi.org/10.1029/JZ069i024p05181
+  - id: cox1954glitter
+    label: Cox and Munk 1954
+    citation: Charles Cox and Walter Munk. *Measurement of the Roughness of the Sea Surface from Photographs of the Sun's Glitter*. Journal of the Optical Society of America 44, 1954.
+    url: https://doi.org/10.1364/JOSA.44.000838
+  - id: monahan1980whitecaps
+    label: Monahan and O'Muircheartaigh 1980
+    citation: Edward C. Monahan and Iognáid Ó Muircheartaigh. *Optimal Power-Law Description of Oceanic Whitecap Coverage Dependence on Wind Speed*. Journal of Physical Oceanography 10, 1980.
+    url: https://doi.org/10.1175/1520-0485%281980%29010%3C2094:OPLDOO%3E2.0.CO;2
+  - id: delangre2008wind
+    label: de Langre 2008
+    citation: Emmanuel de Langre. *Effects of Wind on Plants*. Annual Review of Fluid Mechanics 40, 2008.
+    url: https://doi.org/10.1146/annurev.fluid.40.111406.102135
+  - id: vogel1989drag
+    label: Vogel 1989
+    citation: Steven Vogel. *Drag and Reconfiguration of Broad Leaves in High Winds*. Journal of Experimental Botany 40, 1989.
+    url: https://doi.org/10.1093/jxb/40.8.941
+  - id: py2006lockin
+    label: Py, de Langre and Moulia 2006
+    citation: Charlotte Py, Emmanuel de Langre and Bruno Moulia. *A frequency lock-in mechanism in the interaction between wind and crop canopies*. Journal of Fluid Mechanics 568, 2006.
+    url: https://doi.org/10.1017/S0022112006002667
+  - id: wellons2018hash
+    label: Wellons 2018
+    citation: Chris Wellons. *Prospecting for Hash Functions*, 2018.
+    url: https://nullprogram.com/blog/2018/07/31/
+  - id: tolani2000ik
+    label: Tolani, Goswami and Badler 2000
+    citation: Deepak Tolani, Ambarish Goswami and Norman I. Badler. *Real-Time Inverse Kinematics Techniques for Anthropomorphic Limbs*. Graphical Models 62(5), 353–388, 2000.
+    url: https://doi.org/10.1006/gmod.2000.0528
+  - id: thomas1981illusion
+    label: Thomas and Johnston 1981
+    citation: "Frank Thomas and Ollie Johnston. *Disney Animation: The Illusion of Life*. Abbeville Press, New York, 1981."
+    url: https://openlibrary.org/isbn/0896592324
+  - id: lozanoperez1979visibility
+    label: Lozano-Pérez and Wesley 1979
+    citation: Tomás Lozano-Pérez and Michael A. Wesley. *An Algorithm for Planning Collision-Free Paths Among Polyhedral Obstacles*. Communications of the ACM 22(10), 560–570, 1979.
+    url: https://doi.org/10.1145/359156.359164
+  - id: amanatides1987voxel
+    label: Amanatides and Woo 1987
+    citation: John Amanatides and Andrew Woo. *A Fast Voxel Traversal Algorithm for Ray Tracing*. Eurographics 1987 Technical Papers.
+    url: https://doi.org/10.2312/egtp.19871000
+  - id: epic-spring-arm
+    label: Epic Games, spring arm
+    citation: Epic Games. *Using Spring Arm Components in Unreal Engine*, Unreal Engine documentation.
+    url: https://dev.epicgames.com/documentation/en-us/unreal-engine/using-spring-arm-components-in-unreal-engine
+  - id: reed2015depth
+    label: Reed 2015
+    citation: Nathan Reed. *Depth Precision Visualized*, 2015.
+    url: https://www.reedbeta.com/blog/depth-precision-visualized/
+  - id: shewchuk-triangle
+    label: Shewchuk, Triangle
+    citation: "Jonathan Richard Shewchuk. *Triangle: A Two-Dimensional Quality Mesh Generator and Delaunay Triangulator*."
+    url: https://www.cs.cmu.edu/~quake/triangle.html
+  - id: z3lvs-torrey-badlands
+    label: Z3lvs 2021, Torrey Pines badlands
+    citation: Z3lvs. *Eroded sandstone badlands and sea cliffs looking south toward La Jolla, Torrey Pines State Natural Reserve*. Wikimedia Commons, 2021 (CC0).
+    url: https://commons.wikimedia.org/wiki/File:Eroded_sandstone_badlands_and_sea_cliffs_looking_south_toward_La_Jolla,_Torrey_Pines_State_Natural_Reserve,_California.jpg
+  - id: stch2022-torrey-sandstone
+    label: Stch2022, Torrey Sandstone cliffs
+    citation: Stch2022. *Overlooking the steep Torrey Sandstone cliffs of Torrey Pines State Natural Reserve and Black's Beach below*. Wikimedia Commons (CC0).
+    url: https://commons.wikimedia.org/wiki/File:Overlooking_the_steep_Torrey_Sandstone_cliffs_of_Torrey_Pines_State_Natural_Resever_and_Black%27s_Beach_below.jpg
+  - id: andrek02-sea-cave
+    label: Andrek02 2022, La Jolla sea cave
+    citation: Andrek02. *La Jolla 005 - sea cave*. Wikimedia Commons, 2022 (CC0).
+    url: https://commons.wikimedia.org/wiki/File:La_Jolla_005_-_sea_cave.jpg
+  - id: matejicek-goldfish-point
+    label: JiriMatejicek 2019, Goldfish Point
+    citation: JiriMatejicek. *San Diego La Jolla Goldfish Point*. Wikimedia Commons, 2019 (CC BY-SA 4.0).
+    url: https://commons.wikimedia.org/wiki/File:San_Diego_La_Jolla_Goldfish_Point.jpg
+  - id: ncysea-gliderport
+    label: Ncysea 2020, Torrey Pines Gliderport
+    citation: Ncysea. *Torrey Pines Gliderport 1*. Wikimedia Commons, 2020 (CC BY-SA 4.0).
+    url: https://commons.wikimedia.org/wiki/File:Torrey_Pines_Gliderport_1.jpg
+  - id: banked-turn
+    label: Banked turn
+    citation: Wikipedia. *Banked turn*, on the bank angle of a coordinated turn.
+    url: https://en.wikipedia.org/wiki/Banked_turn
