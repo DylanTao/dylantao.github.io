@@ -208,11 +208,11 @@
   ],
   "work": [
     {
-      "name": "UC San Diego",
-      "position": "Graduate Student Researcher, Smart Learning Hub project",
+      "name": "Smart Learning Hub",
+      "position": "Designer",
       "startDate": "2026-10",
       "endDate": "Present",
-      "summary": "Design and implement student-facing AI learning interfaces, including knowledge-map visualizations; build and iterate interactive prototypes with faculty and engineering stakeholders."
+      "summary": "Built Course Atlas (124k+ catalog records, 27 universities, 288 teaching instances) to study learning activities and reusable course-design patterns, supported by a UCSD GSR appointment."
     },
     {
       "name": "Autodesk",
@@ -220,7 +220,7 @@
       "location": "Remote",
       "startDate": "2026-06",
       "endDate": "2026-09",
-      "summary": "Developed human-centered evaluation methods and tooling for AI-assisted 3D CAD in Autodesk AI Lab. Will McCarthy was my primary mentor and manager; Vivian Liu and Anubrata Das also mentored me.",
+      "summary": "Developed the Process–Artifact–Learning (PAL) evaluation protocol and a Fusion add-in that records AI-assisted CAD proposals, edits, validation checks, and human decisions. Primary mentor/manager: Will McCarthy; mentors: Vivian Liu and Anubrata Das.",
       "url": "https://www.autodesk.com/"
     },
     {
@@ -318,14 +318,14 @@
       "title": "ChatGPT for Academic Researchers",
       "date": "2026",
       "awarder": "OpenAI",
-      "summary": "Steven got this subscription for the lab, and I get to use it through ProtoLab :)",
+      "summary": "Lab access thanks to Steven :)",
       "url": "https://openai.com/index/chatgpt-for-academic-researchers/"
     },
     {
       "title": "Claude Team Plan for Scientists",
       "date": "2026",
       "awarder": "Anthropic",
-      "summary": "Steven got this subscription for the lab, and I get to use it through ProtoLab :)",
+      "summary": "Lab access thanks to Steven :)",
       "url": "https://support.claude.com/en/articles/16634237-claude-team-plan-for-scientists"
     },
     {
@@ -463,16 +463,16 @@
   ],
   "mentorship": [
     {
-      "name": "Shreya Krishnamurthy",
-      "url": "https://shreyakrishnamurthy.framer.website/",
+      "name": "Alisa Liao",
+      "url": "https://alisaliao45-hash.github.io/Personal-Website/index.html",
       "status": "current",
       "details": "B.S. UCSD",
       "paperLabel": "P5",
       "paperAnchor": "cv-publication-p5"
     },
     {
-      "name": "Alisa Liao",
-      "url": "https://alisaliao45-hash.github.io/Personal-Website/index.html",
+      "name": "Shreya Krishnamurthy",
+      "url": "https://shreyakrishnamurthy.framer.website/",
       "status": "current",
       "details": "B.S. UCSD",
       "paperLabel": "P5",

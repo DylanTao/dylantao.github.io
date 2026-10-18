@@ -36,6 +36,7 @@
               {% capture location %}
                 {% if entry.location %}{{ entry.location }}{% endif %}
               {% endcapture %}
+              {% assign location = location | strip %}
               {% if location != '' %}
                 <tr>
                   <td>
