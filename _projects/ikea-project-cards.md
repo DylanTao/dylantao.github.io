@@ -54,7 +54,7 @@ hide_title: true
 <section class="project-case-summary" aria-label="IKEA card experiment summary">
   <div><span>Why</span><p>Opening a separate page made it too easy to lose the collection and forget which project you had chosen.</p></div>
   <div><span>What</span><p>The selected card expands inside the grid while the neighboring projects remain visible.</p></div>
-  <div><span>What changed</span><p>The first version squeezed the text and images. Now the card moves without scaling, and interrupted clicks settle cleanly.</p></div>
+  <div><span>What changed</span><p>The first version squeezed the text and images, and later ones sent cards flying across each other. Now the card opens in its own row, every card glides on one spring, and interrupted clicks carry on smoothly.</p></div>
 </section>
 
 ## Why opening in place mattered
@@ -68,8 +68,8 @@ The card starts in the grid, opens in that spot, and stays recognizable while ev
 <figure
   class="ikea-state-anatomy"
   data-evidence-kind="annotated-current-state-anatomy"
-  data-runtime-contract="9fa9403e4"
-  data-motion-clock="430ms"
+  data-runtime-contract="2026-10-17-spring"
+  data-motion-clock="spring-damping-0.84"
 >
   <div class="ikea-state-anatomy-grid">
     <div class="ikea-state-frame">
@@ -91,10 +91,10 @@ The card starts in the grid, opens in that spot, and stays recognizable while ev
         <span class="ikea-state-card"></span>
         <span class="ikea-state-card"></span>
         <span class="ikea-state-card"></span>
-        <span class="ikea-state-motion-vector">430 ms</span>
+        <span class="ikea-state-motion-vector">one spring</span>
       </div>
       <h3>Translate, then reveal</h3>
-      <p>The card becomes open first. One 430 ms clock moves the cards without scaling, while a clip reveals the new content.</p>
+      <p>The card opens in its own row. One spring moves every card without scaling; a card that wraps to the next row fades across instead of flying over the others, and a clip grows the open card from its old footprint.</p>
     </div>
     <div class="ikea-state-frame">
       <p class="project-case-kicker">03 · Open</p>
@@ -104,10 +104,10 @@ The card starts in the grid, opens in that spot, and stays recognizable while ev
         <span class="ikea-state-card"></span>
       </div>
       <h3>Wider, still in place</h3>
-      <p>The selected story gets more room while its neighbors keep the collection visible. Close, Escape, and focus return all end at the same card.</p>
+      <p>The picture keeps its proportions, the story arrives in reading order, and the close button sits where the plus was. Close, Escape, and focus return all end at the same card, at the same scroll position.</p>
     </div>
   </div>
-  <figcaption>Static diagram of the current <code>9fa9403e4</code> interaction; it remains readable with reduced motion.</figcaption>
+  <figcaption>Static diagram of the current interaction (the October 2026 spring revision); it remains readable with reduced motion.</figcaption>
 </figure>
 
 ## What changed
@@ -119,14 +119,14 @@ The card starts in the grid, opens in that spot, and stays recognizable while ev
     <p>The first pass measured every card before and after opening, then translated and scaled the whole card toward its old rectangle. People could follow which card opened, but the scaling squeezed its text and images.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">July rethink · <code>fc5b8a444</code> → <code>192bcc00c</code></p>
+    <p class="project-case-kicker">July rethink · <code>fc5b8a444</code> → <code>9fa9403e4</code></p>
     <h3>More signals, then less motion</h3>
-    <p>I added accents, takeaways, image zoom, content keyframes, and smooth scrolling. They competed for attention, so the July pass removed the uneven scaling and kept only a cancelable translation.</p>
+    <p>I added accents, takeaways, image zoom, content keyframes, and smooth scrolling. They competed for attention, so the July pass removed the uneven scaling. One cancelable clock then carried the move and the opening clip.</p>
   </li>
   <li class="project-story-beat">
-    <p class="project-case-kicker">Current behavior · <code>9fa9403e4</code></p>
-    <h3>One cancelable clock</h3>
-    <p>The opening clip now shares the same clock, and the extra keyframes and image zoom are gone. A new click cancels stale motion, while reduced motion jumps to the same final layout immediately.</p>
+    <p class="project-case-kicker">Current behavior · October 2026</p>
+    <h3>One spring, in its own row</h3>
+    <p>A card at the end of a row used to jump down a row and leave a hole, and cards crossed each other on the way. Now it grows in its own row, everything glides on one spring that keeps its speed through a second click, the story arrives in reading order, and closing returns you to the same scroll position. Reduced motion still jumps straight to the final layout.</p>
   </li>
 </ol>
 

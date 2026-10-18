@@ -81,6 +81,111 @@ test("details: project expansion can be interrupted without losing keyboard focu
   expect(errors).toEqual([]);
 });
 
+test("details: an opened project card keeps its row, stays inside the page, and hands back the reader's place", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "noon");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto(publicRouteUrl("/projects/"));
+  await page.evaluate(() => document.fonts.ready);
+  // Keep duh's own pointer target out of the clicks below.
+  await page.evaluate(() => document.querySelector(".duh-companion")?.style.setProperty("display", "none"));
+  const cards = page.locator(".projects [data-project-card]");
+  const card = cards.nth(2);
+  const trigger = card.locator("[data-project-card-trigger]");
+  await card.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
+  const before = await card.boundingBox();
+  const scrollBefore = await page.evaluate(() => scrollY);
+  // Watch every frame of the change for a page that grows sideways.
+  await page.evaluate(() => {
+    window.__cardFrames = { overflow: 0, frames: 0, sampling: true };
+    const sample = () => {
+      window.__cardFrames.frames += 1;
+      if (document.documentElement.scrollWidth > innerWidth + 1) window.__cardFrames.overflow += 1;
+      if (window.__cardFrames.sampling) requestAnimationFrame(sample);
+    };
+    requestAnimationFrame(sample);
+  });
+  await trigger.click({ position: { x: 12, y: 12 } });
+  await expect(card).toHaveAttribute("data-project-card-state", "expanded");
+  const settled = () => cards.evaluateAll((items) => items.reduce((count, item) => count + item.getAnimations({ subtree: true }).length, 0));
+  await expect.poll(settled).toBe(0);
+  const open = await card.boundingBox();
+  const scrolled = (await page.evaluate(() => scrollY)) - scrollBefore;
+  const columns = await card.evaluate((node) => getComputedStyle(node.parentElement).gridTemplateColumns.split(" ").length);
+  // It opens in its own row (in page coordinates: a tall card on a phone may scroll once to show
+  // its actions); a card at the end of a row grows back toward the row's start.
+  expect(Math.abs(open.y + scrolled - before.y), "opened card left its row").toBeLessThan(2);
+  if (columns >= 2) expect(Math.abs(open.x + open.width - (before.x + before.width)) < 2 || Math.abs(open.x - before.x) < 2).toBe(true);
+  const geometry = await card.evaluate((node) => {
+    const box = node.getBoundingClientRect();
+    const body = node.querySelector(".project-card-body").getBoundingClientRect();
+    const picture = node.querySelector(".project-card-media").getBoundingClientRect();
+    const close = node.querySelector("[data-project-card-close]").getBoundingClientRect();
+    const links = Array.from(node.querySelectorAll("a[href]")).filter(
+      (link) => link.getClientRects().length && /Read project page|Visit project site/.test(link.textContent)
+    );
+    const coversPicture = close.left < picture.right && close.right > picture.left && close.top < picture.bottom && close.bottom > picture.top;
+    return {
+      closeRight: box.right - close.right,
+      closeTop: close.top - body.top,
+      closeSize: Math.min(close.width, close.height),
+      coversPicture,
+      projectLinks: links.length,
+    };
+  });
+  // The close button sits where the plus was, at the top of the copy, never over the picture; the
+  // page link appears once.
+  expect(geometry.coversPicture).toBe(false);
+  expect(geometry.closeSize).toBeGreaterThanOrEqual(44);
+  expect(geometry.closeRight).toBeGreaterThanOrEqual(0);
+  expect(geometry.closeRight).toBeLessThan(24);
+  expect(geometry.closeTop).toBeGreaterThanOrEqual(0);
+  expect(geometry.closeTop).toBeLessThan(24);
+  expect(geometry.projectLinks).toBe(1);
+  // The story beside the picture is ordinary text: pointing at it does not land on the preview button.
+  const storyPoint = await card.locator(".card-text").evaluate((node) => {
+    const box = node.getBoundingClientRect();
+    return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+  });
+  expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.matches("[data-project-card-trigger]"), storyPoint)).toBe(false);
+
+  // A second card opened mid-flight continues from where the first run left everything.
+  await cards.nth(0).evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
+  const jump = await page.evaluate(async () => {
+    const items = Array.from(document.querySelectorAll(".projects [data-project-card]"));
+    items[0].querySelector("[data-project-card-trigger]").click();
+    await new Promise((resolve) => setTimeout(resolve, 140));
+    const before = items.map((item) => item.getBoundingClientRect());
+    items[1].querySelector("[data-project-card-trigger]").click();
+    const after = items.map((item) => item.getBoundingClientRect());
+    return Math.max(...after.map((box, i) => Math.hypot(box.x - before[i].x, box.y - before[i].y)));
+  });
+  expect(jump, "cards jumped when a run was interrupted").toBeLessThan(1);
+  await expect.poll(settled).toBe(0);
+  await page.keyboard.press("Escape");
+  await expect(cards.nth(1)).toHaveAttribute("data-project-card-state", "collapsed");
+  await expect.poll(settled).toBe(0);
+  const frames = await page.evaluate(() => {
+    window.__cardFrames.sampling = false;
+    return window.__cardFrames;
+  });
+  expect(frames.frames).toBeGreaterThan(10);
+  expect(frames.overflow, "a gliding card widened the page").toBe(0);
+
+  // Closing the first card from where it opened returns the reader to the same scroll position.
+  await card.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
+  const home = await page.evaluate(() => scrollY);
+  await trigger.click({ position: { x: 12, y: 12 } });
+  await expect.poll(settled).toBe(0);
+  await card.locator("[data-project-card-close]").click();
+  await expect(card).toHaveAttribute("data-project-card-state", "collapsed");
+  await expect(trigger).toBeFocused();
+  await expect.poll(() => page.evaluate(() => Math.round(scrollY))).toBe(Math.round(home));
+  await page.screenshot({ path: testInfo.outputPath("project-card-closed.png") });
+  expect(scrollBefore).toBeGreaterThanOrEqual(0);
+  expect(errors).toEqual([]);
+});
+
 test("reading: inspection lens, direct materials, and a responsive explanation", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "noon");

@@ -900,7 +900,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     const anatomy = page.locator(".ikea-state-anatomy");
     const stateFrames = anatomy.locator(":scope .ikea-state-frame");
     await expect(anatomy).toHaveAttribute("data-evidence-kind", "annotated-current-state-anatomy");
-    await expect(anatomy).toHaveAttribute("data-runtime-contract", "9fa9403e4");
+    await expect(anatomy).toHaveAttribute("data-runtime-contract", "2026-10-17-spring");
     await expect(stateFrames).toHaveCount(3);
     await expect(anatomy.locator("figcaption")).toContainText("it remains readable with reduced motion");
     const stateBoxes = await stateFrames.evaluateAll((elements) =>

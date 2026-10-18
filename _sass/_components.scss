@@ -448,6 +448,16 @@ html.site-motion-ready .hoverable.site-visible:hover {
     align-items: start;
   }
 
+  // While cards glide to new places (project-cards.js), one travelling past the edge must not
+  // widen the page; the small margin keeps resting shadows whole. Phones' sideways row is excluded:
+  // it scrolls by itself, and changing its overflow would reset its scroll.
+  @media (min-width: 768px) {
+    .project-card-grid.is-reflowing {
+      overflow-x: clip;
+      overflow-clip-margin: 0.75rem;
+    }
+  }
+
   html[data-theme-mode="morning"] & .project-card {
     --project-accent: var(--project-accent-morning, var(--global-theme-color));
   }
@@ -475,8 +485,17 @@ html.site-motion-ready .hoverable.site-visible:hover {
     --md-lite-card-accent-wash: color-mix(in srgb, var(--project-accent) 7%, transparent);
     min-width: 0;
 
+    // project-cards.js places an opened card in its own row; span 2 is the no-script fallback. It
+    // stays above neighbours that glide past while it grows.
     &.is-expanded {
+      position: relative;
+      z-index: 2;
       grid-column: span 2;
+    }
+
+    // The open card's own "Read project page" lives in its action row; the inline link would repeat it.
+    &.is-expanded .project-card-direct-link {
+      display: none;
     }
 
     &.is-dimmed .card {
@@ -581,7 +600,8 @@ html.site-motion-ready .hoverable.site-visible:hover {
     pointer-events: none;
   }
 
-  .project-card:not(.is-expanded) .project-card-body {
+  // Room for the plus on a closed card and for the close button on an open one.
+  .project-card .project-card-body {
     padding-right: 3.45rem;
   }
 
@@ -602,6 +622,14 @@ html.site-motion-ready .hoverable.site-visible:hover {
       outline: 2px solid var(--project-accent-line);
       outline-offset: 3px;
     }
+  }
+
+  // Open, the preview button shrinks to the picture (a click there closes the card), so the story
+  // beside it can be read and selected like any other text.
+  .project-card.is-expanded .project-card-trigger {
+    right: auto;
+    width: 47.5%;
+    cursor: zoom-out;
   }
 
   .project-card-preview:hover .card-title,
@@ -773,9 +801,8 @@ html.site-motion-ready .hoverable.site-visible:hover {
     }
   }
 
+  // The panel stays in flow so its close button can sit in the card's top-right corner, where the plus was.
   .project-card-panel {
-    position: relative;
-    z-index: 3;
     border-top: 1px solid var(--project-accent-line);
     background:
       linear-gradient(90deg, var(--project-accent-wash), transparent 58%), color-mix(in srgb, var(--global-card-bg-color) 92%, var(--global-bg-color));
@@ -786,9 +813,9 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
   .project-card-close {
     position: absolute;
-    top: 0.55rem;
-    right: 0.55rem;
-    z-index: 1;
+    top: calc(var(--project-card-body-top, 0px) + 0.6rem);
+    right: 0.6rem;
+    z-index: 4;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -796,14 +823,15 @@ html.site-motion-ready .hoverable.site-visible:hover {
     height: 2.75rem;
     border: 1px solid var(--global-divider-color);
     border-radius: var(--md-lite-radius-pill);
-    background: color-mix(in srgb, var(--global-card-bg-color) 84%, var(--md-lite-state-muted));
+    background: color-mix(in srgb, var(--global-card-bg-color) 90%, var(--md-lite-state-muted));
+    box-shadow: var(--md-lite-elevation-1);
     color: var(--global-text-color-light);
     cursor: pointer;
     transition:
       background var(--motion-standard),
       border-color var(--motion-standard),
       color var(--motion-standard),
-      transform var(--motion-standard);
+      transform var(--spring-confident-duration, 480ms) var(--spring-confident, ease);
 
     &:hover,
     &:focus-visible {
@@ -820,7 +848,7 @@ html.site-motion-ready .hoverable.site-visible:hover {
     gap: 0.65rem;
     min-height: 4rem;
     margin-top: 0;
-    padding: 0.85rem 3.65rem 0.9rem 1rem;
+    padding: 0.85rem 1rem 0.9rem;
   }
 
   .project-card-open-link {
@@ -3387,7 +3415,16 @@ html[data-theme="dark"] {
     }
 
     .project-card-actions-expanded {
-      padding: 0.9rem 3.65rem 0.9rem 1rem;
+      padding: 0.9rem 1rem;
+    }
+
+    // One column: the picture sits on top, so the open card's preview button covers just the picture.
+    .project-card.is-expanded .project-card-trigger {
+      right: 0;
+      bottom: auto;
+      width: 100%;
+      height: auto;
+      aspect-ratio: var(--project-image-aspect, 16 / 9);
     }
 
     .project-card-open-link {

@@ -88,6 +88,9 @@
   ></script>
 {% endif %}
 
+<!-- Shared springs for scripted motion (site-motion.mjs); module scripts run in order with the deferred ones below -->
+<script type="module" src="{{ '/assets/js/site-motion.mjs' | relative_url | bust_file_cache }}"></script>
+
 <!-- Load Common JS -->
 <script src="{{ '/assets/js/no_defer.js' | relative_url | bust_file_cache }}"></script>
 <script defer src="{{ '/assets/js/common.js' | relative_url | bust_file_cache }}"></script>

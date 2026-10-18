@@ -1556,8 +1556,12 @@ test("project preview FLIP cancels stale runs and only translates cards", async 
   expect(layoutAnimations.length).toBeGreaterThan(0);
   expect(revealAnimations.length).toBeGreaterThan(0);
   expect(audit.cancellations).toEqual(expect.arrayContaining(["layout", "reveal"]));
-  expect(audit.animations.every((entry) => entry.duration === 430)).toBe(true);
-  expect(audit.animations.every((entry) => entry.easing === "cubic-bezier(.18, .84, .22, 1)")).toBe(true);
+  // One clock: every move and reveal lasts the shared layout spring's settle time, with the spring
+  // sampled into its keyframes (assets/js/site-motion.mjs) rather than a fixed ease.
+  const springDuration = await page.evaluate(() => window.SiteMotion.spring("layout").duration);
+  expect(audit.animations.every((entry) => Math.abs(entry.duration - springDuration) < 0.5)).toBe(true);
+  expect(audit.animations.every((entry) => entry.easing === "linear")).toBe(true);
+  expect(audit.animations.every((entry) => entry.transforms.length > 10)).toBe(true);
   expect(layoutAnimations.flatMap((entry) => entry.transforms).every((transform) => !transform.includes("scale"))).toBe(true);
   expect(revealAnimations.flatMap((entry) => entry.transforms).every((transform) => transform === "")).toBe(true);
   expect(revealAnimations.every((entry) => entry.clipPaths.at(-1) === "inset(0)")).toBe(true);
