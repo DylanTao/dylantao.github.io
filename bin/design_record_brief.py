@@ -4,8 +4,9 @@
 A record (_data/design_records/<slug>.yml) holds a project's systems, techniques, design history, open
 problems and sources; its page is /projects/<project>/record/. This script reads the same record and
 prints a Markdown brief: the current state of each system, its known limits, where the last move
-pointed, the variables already moved, candidate moves ranked by their stated readiness, the sources to
-read for the top candidates, and the constraints and tests to keep.
+pointed, the variables already moved, candidate moves ranked by their stated readiness, the papers to try
+next where a record keeps a watchlist (sorted by effort), the sources to read for the top candidates, and
+the constraints and tests to keep.
 
 Ranking is deliberately simple and explainable. Candidates sort by readiness (ready, needs-measurement,
 needs-decision, needs-research, blocked), then by how recently their system was last moved, so work
@@ -15,6 +16,7 @@ Usage:
   python bin/design_record_brief.py homepage-desk-scene
   python bin/design_record_brief.py pip --system duh-page --top 5
   python bin/design_record_brief.py website-revamp --json
+  python bin/design_record_brief.py graphics-lab --system water-air
   python bin/design_record_brief.py --list
 """
 
@@ -35,6 +37,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RECORDS = ROOT / "_data" / "design_records"
 SITE = "https://dylantao.github.io"
 READINESS = ["ready", "needs-measurement", "needs-decision", "needs-research", "blocked"]
+EFFORT = ["small", "medium", "large"]
 READINESS_LABEL = {
     "ready": "Ready",
     "needs-measurement": "Measure first",
@@ -158,6 +161,43 @@ def candidates(record: dict, system_filter: str | None) -> list[dict]:
     return sorted(found, key=rank)
 
 
+def watchlist(record: dict, system_filter: str | None) -> list[dict]:
+    """Every paper a technique could try next, smallest effort first, then by how recently its system moved."""
+    momentum = system_momentum(record)
+    sources = {source["id"]: source for source in record.get("sources") or []}
+    papers: list[dict] = []
+    for system in record.get("systems") or []:
+        if system_filter and system["id"] != system_filter:
+            continue
+        for technique in system.get("techniques") or []:
+            if technique.get("status") == "retired":
+                continue
+            for item in technique.get("watchlist") or []:
+                source = sources.get(item.get("source"), {})
+                papers.append(
+                    {
+                        "effort": item.get("effort"),
+                        "system": system["id"],
+                        "technique": technique["name"],
+                        "anchor": technique["id"],
+                        "source": item.get("source"),
+                        "label": source.get("label", item.get("source")),
+                        "venue": source.get("venue", ""),
+                        "citation": source.get("citation", ""),
+                        "url": source.get("url", ""),
+                        "adds": as_text(item.get("adds")),
+                        "last_moved": momentum.get(system["id"], ""),
+                    }
+                )
+
+    def rank(item: dict) -> tuple:
+        effort = EFFORT.index(item["effort"]) if item["effort"] in EFFORT else len(EFFORT)
+        recency = tuple(-ord(character) for character in item["last_moved"]) or (0,)
+        return (effort, recency)
+
+    return sorted(papers, key=rank)
+
+
 def build_brief(record: dict, system_filter: str | None, top: int) -> dict:
     systems = [s for s in record.get("systems") or [] if not system_filter or s["id"] == system_filter]
     if system_filter and not systems:
@@ -228,6 +268,7 @@ def build_brief(record: dict, system_filter: str | None, top: int) -> dict:
         "systems": state,
         "candidates": chosen,
         "candidates_total": len(ranked),
+        "papers": watchlist(record, system_filter),
         "sources": [sources[source_id] for source_id in reading if source_id in sources],
         "constraints": [as_text(c) for c in record.get("constraints") or []],
         "tests": tests,
@@ -290,6 +331,13 @@ def markdown(brief: dict) -> str:
         if item["tests"]:
             add("   Tests: " + ", ".join(f"`{path}`" for path in item["tests"]))
     add("")
+    if brief["papers"]:
+        add(f"## Next papers to try ({len(brief['papers'])}, smallest effort first)")
+        for item in brief["papers"]:
+            venue = f", {item['venue']}" if item["venue"] else ""
+            add(f"- **{item['effort']}** · {item['technique']} (`{item['anchor']}`): {item['label']}{venue}. {item['adds']}")
+            add(f"  {item['citation']} {item['url']}")
+        add("")
     if brief["sources"]:
         add("## Sources for these candidates")
         for source in brief["sources"]:
@@ -309,8 +357,9 @@ def markdown(brief: dict) -> str:
     add("## Record the move")
     add(
         f"Append the move to the end of `history` in `_data/design_records/{brief['slug']}.yml` with its date, title, "
-        "system, frame, dimensions, move, backtalk, reframe and commit; update the technique it changed, and move a solved "
-        "open problem into its technique. Then run `python -m unittest test.test_design_records`."
+        "system, frame, dimensions, move, backtalk, reframe and commit; update the technique it changed, move a solved "
+        "open problem into its technique, and move a paper you adopted from the watchlist into the technique's sources. "
+        "Then run `python -m unittest test.test_design_records`."
     )
     return "\n".join(lines) + "\n"
 

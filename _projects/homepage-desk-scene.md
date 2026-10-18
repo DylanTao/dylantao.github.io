@@ -165,7 +165,7 @@ The labels record the model context for each era; this is a comparison of design
 
 <aside class="project-story-note design-record-note" aria-label="Technical record">
   <p class="project-case-kicker">Technical record</p>
-  <p>Every system in the home, from the Blender scripts to the light well, the onsen water and the animals, is written up with its files, the papers it borrows from, what it cannot do yet, and each design move so far. <a href="{{ '/projects/homepage-desk-scene/record/' | relative_url }}">Read the technical record</a>.</p>
+  <p>Every system in the home, from the Blender scripts to the light well, the onsen water and the animals, is written up with its files, the papers it borrows from, what it cannot do yet, and each design move so far. <a href="{{ '/projects/homepage-desk-scene/record/' | relative_url }}">Read the technical record</a>. Its rendering and simulation experiments are also gathered in the <a href="{{ '/projects/graphics-lab/' | relative_url }}">Graphics Lab</a>, with newer papers to try.</p>
 </aside>
 
 <aside class="site-experiment-reproduce" aria-labelledby="desk-reproduce-title">

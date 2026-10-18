@@ -10,6 +10,8 @@ year: 2026
 role: Designer and renderer
 status: Site experiment
 site_experiment: true
+# A child of the Graphics Lab: it keeps its page but leaves the projects index to the lab.
+parent: graphics-lab
 debut_date: 2026-10-14T21:00:00-07:00
 hide_title: true
 light_lab: true
@@ -17,7 +19,7 @@ light_lab: true
 
 <section class="project-case-hero site-experiment-hero">
   <div class="project-case-copy">
-    <p class="project-case-kicker">Site experiment · Light transport</p>
+    <p class="project-case-kicker"><a href="{{ '/projects/graphics-lab/' | relative_url }}">Graphics Lab</a> · Light transport</p>
     <h1>Light Paths in the Onsen</h1>
     <p class="project-case-lede">
       Around midday in the 3D home, a light well drilled from the clifftop throws a beam of sun into the onsen, and the ripples bend it onto the pool floor. Here two renderers draw that light in your browser with the same minute each: path tracing and Metropolis light transport.

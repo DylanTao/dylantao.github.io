@@ -84,7 +84,7 @@ Switch the homepage desk from **2D** to **3D** and the portrait opens into an im
 
 #### How it is made
 
-Every model is original geometry written as Blender Python scripts: the cliff, the house and its furniture, five character rigs and their daily activity animations, the bedding fitted to each sleeping character, and the wildlife. The browser adds the moving light: a physical sun and sky for La Jolla, baked bounce light, a traced light field, a simulated onsen surface and its steam, layered Pacific waves with swash and foam, hair and skin shading, and the light well's beam, path-traced from the shaft walls each time the sun moves. The [scene brief](docs/homepage-desk-scene-brief.md) holds the design contract, and [`artwork/coastal-home/PROVENANCE.md`](artwork/coastal-home/PROVENANCE.md) records how each asset was made.
+Every model is original geometry written as Blender Python scripts: the cliff, the house and its furniture, five character rigs and their daily activity animations, the bedding fitted to each sleeping character, and the wildlife. The browser adds the moving light: a physical sun and sky for La Jolla, baked bounce light, a traced light field, a simulated onsen surface and its steam, layered Pacific waves with swash and foam, hair and skin shading, and the light well's beam, path-traced from the shaft walls each time the sun moves. The [Graphics Lab](https://dylantao.github.io/projects/graphics-lab/) lists each technique with the papers it adapts and newer ones to try. The [scene brief](docs/homepage-desk-scene-brief.md) holds the design contract, and [`artwork/coastal-home/PROVENANCE.md`](artwork/coastal-home/PROVENANCE.md) records how each asset was made.
 
 #### While it loads
 

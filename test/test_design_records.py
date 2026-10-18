@@ -31,6 +31,7 @@ BRIEF_SCRIPT = REPO_ROOT / "bin" / "design_record_brief.py"
 REPOSITORY = "https://github.com/DylanTao/dylantao.github.io"
 STATUSES = {"shipped", "experimental", "retired"}
 READINESS = ["ready", "needs-measurement", "needs-decision", "needs-research", "blocked"]
+EFFORT = ["small", "medium", "large"]
 ID_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 SHA_PATTERN = re.compile(r"^[0-9a-f]{7,40}$")
 URL_PATTERN = re.compile(r"^https?://\S+$")
@@ -116,7 +117,7 @@ class DesignRecordSchemaTests(unittest.TestCase):
         cls.records = load_records()
 
     def test_three_records_exist_and_name_themselves(self) -> None:
-        self.assertTrue({"homepage-desk-scene", "pip", "website-revamp"} <= set(self.records))
+        self.assertTrue({"homepage-desk-scene", "pip", "website-revamp", "graphics-lab"} <= set(self.records))
         for slug, record in self.records.items():
             with self.subTest(slug=slug):
                 self.assertEqual(record.get("schema_version"), 1)
@@ -245,6 +246,7 @@ class DesignRecordSchemaTests(unittest.TestCase):
             cited = []
             for _, technique in techniques(record):
                 cited += technique["sources"]
+                cited += [item.get("source") for item in technique.get("watchlist") or []]
             for move in record["history"]:
                 cited += move.get("sources") or []
             for problem in record.get("open_problems") or []:
@@ -252,6 +254,57 @@ class DesignRecordSchemaTests(unittest.TestCase):
             with self.subTest(slug=slug, check="references"):
                 self.assertEqual(sorted(set(cited) - set(ids)), [], "a source id does not resolve")
                 self.assertEqual(sorted(set(ids) - set(cited)), [], "a listed source is never cited")
+
+    def test_watchlists_name_newer_work_with_what_it_adds(self) -> None:
+        # A watchlist entry is a paper the technique does not build on yet, listed with a venue and a year,
+        # with one line on what it would add and a small, medium or large effort.
+        for slug, record in self.records.items():
+            sources = {source["id"]: source for source in record.get("sources") or []}
+            for _, technique in techniques(record):
+                for item in technique.get("watchlist") or []:
+                    with self.subTest(slug=slug, technique=technique["id"], source=item.get("source")):
+                        self.assertIn(item.get("source"), sources, "a watchlist paper must be listed in sources")
+                        self.assertNotIn(item["source"], technique["sources"], "a paper the technique builds on is not one to try")
+                        self.assertIn(item.get("effort"), EFFORT)
+                        self.assertIsInstance(item.get("adds"), str)
+                        self.assertGreater(len(item["adds"].strip()), 40, "say what the paper would add to the scene")
+                        paper = sources[item["source"]]
+                        self.assertTrue(str(paper.get("venue", "")).strip(), "a watchlist paper names its venue")
+                        self.assertIsInstance(paper.get("year"), int)
+                        self.assertGreaterEqual(paper["year"], 1990)
+
+    def test_optional_technique_fields_follow_the_schema(self) -> None:
+        for slug, record in self.records.items():
+            for system in record["systems"]:
+                with self.subTest(slug=slug, system=system["id"]):
+                    if "index" in system:
+                        self.assertIsInstance(system["index"], bool)
+            for _, technique in techniques(record):
+                with self.subTest(slug=slug, technique=technique["id"]):
+                    if "page" in technique:
+                        self.assertTrue(technique["page"].get("title"))
+                        self.assertRegex(technique["page"].get("url", ""), r"^/projects/[a-z0-9-]+/$")
+                    if "thumbnail" in technique:
+                        thumbnail = technique["thumbnail"]
+                        self.assertRegex(thumbnail.get("path", ""), r"^assets/img/project_pics/.+\.(webp|png|jpg)$")
+                        self.assertGreater(len(thumbnail.get("alt", "")), 20, "a thumbnail says what the still shows")
+                        self.assertTrue(thumbnail.get("frame"), "a thumbnail says which frame of the scene it is")
+                    for file in technique["files"]:
+                        for name in file.get("functions") or []:
+                            self.assertRegex(name, r"^[A-Za-z_$][A-Za-z0-9_$]*$")
+
+    def test_bench_and_shortlist_follow_the_schema(self) -> None:
+        for slug, record in self.records.items():
+            for item in record.get("bench") or []:
+                with self.subTest(slug=slug, bench=item.get("name")):
+                    self.assertTrue(item.get("name") and item.get("what"))
+                    self.assertFalse(set(item) - {"name", "what"}, "work on the bench has no files or sources yet")
+            by_id = {technique["id"]: technique for _, technique in techniques(record)}
+            for pick in record.get("shortlist") or []:
+                with self.subTest(slug=slug, pick=pick):
+                    self.assertIn(pick.get("technique"), by_id)
+                    watched = [item["source"] for item in by_id[pick["technique"]].get("watchlist") or []]
+                    self.assertIn(pick.get("source"), watched, "a shortlisted paper comes from its technique's watchlist")
 
     def test_text_keeps_to_the_voice_and_privacy_rules(self) -> None:
         for slug, record in self.records.items():
@@ -295,6 +348,50 @@ class DesignRecordRepositoryTests(unittest.TestCase):
             for path in paths:
                 with self.subTest(slug=slug, path=path):
                     self.assert_in_repository(path)
+
+    def test_named_functions_appear_in_their_files(self) -> None:
+        # A record that names an entry point stays true to the code: rename the function and this fails.
+        for slug, record in self.records.items():
+            for _, technique in techniques(record):
+                for file in technique["files"]:
+                    names = file.get("functions") or []
+                    if not names:
+                        continue
+                    path = REPO_ROOT / file["path"]
+                    with self.subTest(slug=slug, path=file["path"]):
+                        self.assertTrue(path.is_file(), "functions are named only for files, not directories")
+                        text = path.read_text(encoding="utf-8", errors="replace")
+                        for name in names:
+                            pattern = rf"(?<![A-Za-z0-9_$]){re.escape(name)}(?![A-Za-z0-9_$])"
+                            self.assertRegex(text, pattern, f"{name} does not appear in {file['path']}")
+
+    def test_links_to_other_records_resolve(self) -> None:
+        for slug, record in self.records.items():
+            for _, technique in techniques(record):
+                for link in technique.get("related") or []:
+                    with self.subTest(slug=slug, technique=technique["id"], record=link.get("record")):
+                        other = self.records.get(link.get("record"))
+                        self.assertIsNotNone(other, "the related record exists")
+                        self.assertNotEqual(link["record"], slug)
+                        self.assertTrue(link.get("techniques"))
+                        live = {item["id"] for _, item in techniques(other) if item["status"] != "retired"}
+                        for technique_id in link["techniques"]:
+                            self.assertIn(technique_id, live, f"{technique_id} is not a live technique in {link['record']}")
+
+    def test_thumbnails_and_own_pages_exist(self) -> None:
+        for slug, record in self.records.items():
+            for _, technique in techniques(record):
+                if "thumbnail" in technique:
+                    path = technique["thumbnail"]["path"]
+                    with self.subTest(slug=slug, thumbnail=path):
+                        self.assert_in_repository(path)
+                        self.assertLess((REPO_ROOT / path).stat().st_size, 80_000, "a row's still stays small")
+                if "page" in technique:
+                    url = technique["page"]["url"]
+                    with self.subTest(slug=slug, page=url):
+                        source = PROJECTS_DIR / f"{url.strip('/').split('/')[-1]}.md"
+                        self.assertTrue(source.is_file(), f"{url} is not a project page")
+                        self.assertEqual(front_matter(source).get("title"), technique["page"]["title"])
 
     def test_commits_exist_in_history(self) -> None:
         shas = []
@@ -394,6 +491,16 @@ class DesignRecordBriefTests(unittest.TestCase):
         brief = self.brief.build_brief(record, "wind-plants", 1000)
         self.assertEqual([system["id"] for system in brief["systems"]], ["wind-plants"])
         self.assertTrue(all(item["system"] == "wind-plants" for item in brief["candidates"]))
+
+    def test_a_brief_lists_papers_to_try_by_effort(self) -> None:
+        brief = self.brief.build_brief(self.records["graphics-lab"], None, 1000)
+        self.assertTrue(brief["papers"], "the graphics record keeps papers to try")
+        order = [EFFORT.index(item["effort"]) for item in brief["papers"]]
+        self.assertEqual(order, sorted(order))
+        self.assertTrue(all(item["citation"] and item["url"] for item in brief["papers"]))
+        self.assertIn("## Next papers to try", self.brief.markdown(brief))
+        plain = self.brief.build_brief(self.records["pip"], None, 1000)
+        self.assertNotIn("## Next papers to try", self.brief.markdown(plain))
 
     def test_retired_techniques_are_reported_not_proposed(self) -> None:
         record = self.records["pip"]

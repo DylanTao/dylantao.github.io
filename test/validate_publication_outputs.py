@@ -30,6 +30,7 @@ EXPECTED_PROJECT_SLUGS = {
     "designweaver",
     "dogtor-portal",
     "graphhscn",
+    "graphics-lab",
     "hci-spooder-man",
     "homepage-desk-scene",
     "hotspot",

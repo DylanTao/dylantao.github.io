@@ -8,8 +8,14 @@
 {%- assign blob_base = record.repository | append: '/blob/' | append: record.branch | append: '/' -%}
 {%- assign tree_base = record.repository | append: '/tree/' | append: record.branch | append: '/' -%}
 {%- assign technique_count = 0 -%}
+{%- assign watchlist_count = 0 -%}
 {%- for system in record.systems -%}
   {%- assign technique_count = technique_count | plus: system.techniques.size -%}
+  {%- for technique in system.techniques -%}
+    {%- if technique.watchlist -%}
+      {%- assign watchlist_count = watchlist_count | plus: technique.watchlist.size -%}
+    {%- endif -%}
+  {%- endfor -%}
 {%- endfor -%}
 {%- comment -%} The stylesheet compiles from Sass, so it is versioned by build time, like main.css. {%- endcomment -%}
 <link rel="stylesheet" href="{{ '/assets/css/design-record.css' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}">
@@ -35,6 +41,11 @@
       <li>
         <strong>{{ technique_count }}</strong> techniques
       </li>
+      {%- if watchlist_count > 0 %}
+        <li>
+          <strong>{{ watchlist_count }}</strong> papers to try
+        </li>
+      {%- endif %}
       <li>
         <strong>{{ record.history.size }}</strong> design moves
       </li>
@@ -50,6 +61,12 @@
         Each system lists its techniques: what each one does, how it works, the files that hold it, the research it borrows from, what it cannot do
         yet, and the next moves worth trying. The design history keeps every move in order, with what the result said back.
       </p>
+      {%- if watchlist_count > 0 %}
+        <p>
+          Next papers to try are newer work that would advance a technique, each with what it would add and a rough effort: small is days inside one
+          module and its tests, medium is a new module or render pass, large is a new pipeline such as GPU compute, ray tracing or learned motion.
+        </p>
+      {%- endif %}
       <p>
         Programs can read the same record as
         <a href="{{ record.json_url | relative_url }}" type="application/json">JSON</a>. In the repository,
@@ -68,6 +85,9 @@
           <a href="#{{ system.id }}">{{ system.name | smartify }}</a>
         </li>
       {%- endfor %}
+      {%- if record.bench.size > 0 %}
+        <li><a href="#on-the-bench">On the bench</a></li>
+      {%- endif %}
       <li><a href="#design-history">Design history</a></li>
       <li><a href="#open-problems">Open problems</a></li>
       <li><a href="#before-changing">Before changing anything</a></li>
@@ -103,6 +123,11 @@
             {%- if technique.since %} · {{ technique.since | date: '%b %-d, %Y' }}{% endif -%}
           </p>
           <p class="design-record-what">{{ technique.what | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+          {%- if technique.page %}
+            <p class="design-record-page">
+              Its own page: <a href="{{ technique.page.url | relative_url }}">{{ technique.page.title | smartify }}</a>
+            </p>
+          {%- endif %}
           <details class="design-record-technique-details">
             <summary>
               {%- if technique.status == 'retired' -%}
@@ -140,6 +165,14 @@
                             >
                             {%- if file.role -%}
                               <span>{{ file.role | smartify }}</span>
+                            {%- endif -%}
+                            {%- if file.functions.size > 0 -%}
+                              <span class="design-record-functions">
+                                {%- for name in file.functions -%}
+                                  <code>{{ name }}</code>
+                                  {%- unless forloop.last %}, {% endunless -%}
+                                {%- endfor -%}
+                              </span>
                             {%- endif -%}
                           </li>
                         {%- endfor %}
@@ -190,6 +223,61 @@
                     </dd>
                   </div>
                 {%- endif %}
+                {%- if technique.watchlist.size > 0 %}
+                  <div>
+                    <dt>Next papers to try</dt>
+                    <dd>
+                      <ul class="design-record-watchlist">
+                        {%- for item in technique.watchlist %}
+                          {%- assign paper = record.sources | where: 'id', item.source | first -%}
+                          <li>
+                            <span class="design-record-effort" data-effort="{{ item.effort }}">
+                              {%- case item.effort -%}
+                                {%- when 'small' -%}
+                                  Small
+                                {%- when 'medium' -%}
+                                  Medium
+                                {%- when 'large' -%}
+                                  Large
+                                {%- else -%}
+                                  {{ item.effort }}
+                              {%- endcase -%}
+                            </span>
+                            <a href="#source-{{ item.source }}">{{ paper.label | smartify }}</a>
+                            {%- if paper.venue -%}
+                              <span class="design-record-venue">, {{ paper.venue | smartify }}</span>
+                            {%- endif -%}
+                            <span class="design-record-why">{{ item.adds | markdownify | remove: '<p>' | remove: '</p>' | strip }}</span>
+                          </li>
+                        {%- endfor %}
+                      </ul>
+                    </dd>
+                  </div>
+                {%- endif %}
+                {%- if technique.related.size > 0 %}
+                  <div>
+                    <dt>Implementation and history</dt>
+                    <dd>
+                      <ul class="design-record-inline-list">
+                        {%- for link in technique.related %}
+                          {%- assign linked_record = site.data.design_records[link.record] -%}
+                          {%- for linked_id in link.techniques %}
+                            {%- assign linked_name = linked_id -%}
+                            {%- for linked_system in linked_record.systems -%}
+                              {%- assign linked_technique = linked_system.techniques | where: 'id', linked_id | first -%}
+                              {%- if linked_technique -%}
+                                {%- assign linked_name = linked_technique.name -%}
+                              {%- endif -%}
+                            {%- endfor %}
+                            <li>
+                              <a href="{{ linked_record.record_url | relative_url }}#{{ linked_id }}">{{ linked_name | smartify }}</a>
+                            </li>
+                          {%- endfor %}
+                        {%- endfor %}
+                      </ul>
+                    </dd>
+                  </div>
+                {%- endif %}
                 {%- if technique.next.size > 0 %}
                   <div>
                     <dt>Next moves</dt>
@@ -228,6 +316,21 @@
       {%- endif %}
     </section>
   {%- endfor %}
+
+  {%- if record.bench.size > 0 %}
+    <section class="design-record-bench" id="on-the-bench" aria-labelledby="on-the-bench-title">
+      <h2 id="on-the-bench-title">On the bench</h2>
+      <p>Work in progress that has not reached the scene yet. Each becomes a technique above once it lands, with its files, sources and limits.</p>
+      <ul>
+        {%- for item in record.bench %}
+          <li>
+            <strong>{{ item.name | smartify }}.</strong>
+            {{ item.what | markdownify | remove: '<p>' | remove: '</p>' | strip }}
+          </li>
+        {%- endfor %}
+      </ul>
+    </section>
+  {%- endif %}
 
   <section class="design-record-history" id="design-history" aria-labelledby="design-history-title">
     <h2 id="design-history-title">Design history</h2>

@@ -330,6 +330,66 @@
   line-height: 1.5;
 }
 
+// A technique with a page of its own (the light lab) links to it under its one-line summary.
+.design-record-page {
+  margin: 0.35rem 0 0;
+  font-size: var(--type-compact);
+}
+
+// Key functions sit under a file's role, in the same quiet size.
+.design-record-files .design-record-functions {
+  overflow-wrap: anywhere;
+}
+
+// Next papers to try: an effort label, the paper and its venue, then what it would add to the scene.
+.design-record-watchlist {
+  li {
+    margin-bottom: 0.6rem;
+  }
+
+  .design-record-effort {
+    margin-right: 0.35rem;
+  }
+}
+
+.design-record-venue {
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+}
+
+.design-record-effort {
+  display: inline-block;
+  padding: 0.05rem 0.5rem;
+  border-radius: var(--md-lite-radius-pill);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--global-divider-color);
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.design-record-effort[data-effort="small"] {
+  background: var(--global-mint-soft);
+  box-shadow: none;
+  color: var(--global-mint-strong);
+}
+
+.design-record-effort[data-effort="medium"] {
+  background: var(--global-sky-soft);
+  box-shadow: none;
+  color: var(--global-sky-strong);
+}
+
+.design-record-bench > ul {
+  margin: 1rem 0 0;
+  padding-left: 1.1rem;
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+}
+
 .design-record-system-moves {
   margin: 1rem 0 0;
   font-size: var(--type-compact);

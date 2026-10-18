@@ -123,6 +123,20 @@ la-jolla:
     - "Turn the coast gently, and follow its light from morning to evening."
     - "See the generated studies, local reconstruction, and editable model."
 
+graphics-lab:
+  origin_line: "The graphics experiments kept multiplying in the 3D home, and a project page for each one would have buried the rest of my work."
+  evolution_line: "Light Paths had a page of its own; now it sits in one lab with the home's other experiments, each linked to its write-up and to newer papers that could advance it."
+  icon: lab
+  teaser_alt: "Four frames from the Graphics Lab: the light lab's two renderers, the light well's beam in the onsen, seals and sea lions on the beach below the house, and a pen sketch of the bedroom"
+  accents:
+    morning: "#d8a46c"
+    noon: "#4f8fa1"
+    afternoon: "#7d9fb0"
+    evening: "#a7c8d8"
+  takeaways:
+    - "Visitors can browse every graphics experiment in the home from one page and open the write-up behind each."
+    - "Each experiment names the papers it adapts and the newer ones it could try."
+
 light-paths:
   origin_line: "The light well put a beam of sun into the onsen, but the light it throws through the water onto the pool floor is the kind ordinary path tracing handles worst."
   evolution_line: "I built a small renderer that gives path tracing and Metropolis light transport the same minute on that light, checked against a 24-minute reference."

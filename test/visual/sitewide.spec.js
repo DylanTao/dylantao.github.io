@@ -3,6 +3,7 @@ const { attachScreenshot, collectRuntimeErrors, preparePage, screenshotDiffRatio
 const { ALL_SITEWIDE_ROUTES, SITEWIDE_ROUTES, publicRouteUrl } = require("./public-routes");
 
 const FUN_PROJECT_ROUTE_IDS = new Set([
+  "project-graphics-lab",
   "project-openai-build-week",
   "project-paper-constellation",
   "project-build-rhythm",
@@ -18,6 +19,9 @@ const FUN_PROJECT_ROUTE_IDS = new Set([
   "project-dogtor-portal",
   "project-not-a-good-driver",
 ]);
+// Children keep their pages (and every fun-project check) but are listed on their parent's page, not the index.
+const CHILD_PROJECT_ROUTE_IDS = new Set(["project-light-paths"]);
+const INDEXED_FUN_PROJECT_COUNT = FUN_PROJECT_ROUTE_IDS.size - CHILD_PROJECT_ROUTE_IDS.size;
 
 const COASTAL_THEME_MODES = [
   { mode: "morning", label: "Morning", computedTheme: "light" },
@@ -1104,7 +1108,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
 
   if (route.id === "projects-index") {
     const icons = page.locator(".projects [data-project-card-icon]");
-    await expect(icons).toHaveCount(FUN_PROJECT_ROUTE_IDS.size);
+    await expect(icons).toHaveCount(INDEXED_FUN_PROJECT_COUNT);
     expect(await icons.evaluateAll((elements) => elements.every((element) => element.getAttribute("aria-hidden") === "true"))).toBe(true);
     expect(
       await icons.evaluateAll((elements) =>
@@ -1120,7 +1124,7 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     });
     await expect(driverCard.locator("[data-project-card-origin]")).toHaveCount(1);
     await expect(driverCard.locator("[data-project-card-evolution]")).toHaveCount(0);
-    await expect(page.locator("[data-project-card-evolution]")).toHaveCount(FUN_PROJECT_ROUTE_IDS.size - 1);
+    await expect(page.locator("[data-project-card-evolution]")).toHaveCount(INDEXED_FUN_PROJECT_COUNT - 1);
 
     const card = page.locator("[data-site-experiment-grid] [data-project-card]").first();
     const trigger = card.locator("[data-project-card-trigger]");
@@ -1441,12 +1445,12 @@ test("all project cards disclose and recover their stories", async ({ page }, te
   await stabilizeVisuals(page);
 
   const cards = page.locator(".projects [data-project-card]").filter({ has: page.locator("[data-project-card-story]") });
-  await expect(cards).toHaveCount(FUN_PROJECT_ROUTE_IDS.size);
-  await expect(cards.locator("[data-project-card-origin]")).toHaveCount(FUN_PROJECT_ROUTE_IDS.size);
-  await expect(cards.locator("[data-project-card-evolution]")).toHaveCount(FUN_PROJECT_ROUTE_IDS.size - 1);
+  await expect(cards).toHaveCount(INDEXED_FUN_PROJECT_COUNT);
+  await expect(cards.locator("[data-project-card-origin]")).toHaveCount(INDEXED_FUN_PROJECT_COUNT);
+  await expect(cards.locator("[data-project-card-evolution]")).toHaveCount(INDEXED_FUN_PROJECT_COUNT - 1);
   await expect(page.locator(".projects [data-project-card-state='expanded']")).toHaveCount(0);
 
-  for (let index = 0; index < FUN_PROJECT_ROUTE_IDS.size; index += 1) {
+  for (let index = 0; index < INDEXED_FUN_PROJECT_COUNT; index += 1) {
     const card = cards.nth(index);
     const title = (await card.locator(".card-title").innerText()).trim();
     const trigger = card.locator("[data-project-card-trigger]");
@@ -2337,7 +2341,7 @@ test("projects keep site experiments in debut order", async ({ page }, testInfo)
   await expect(cards.locator("h4.card-title")).toHaveCount(13);
   await expect(cards.locator("h3.card-title")).toHaveCount(0);
   expect(await cards.locator(".card-title").allTextContents()).toEqual([
-    "Light Paths in the Onsen",
+    "Graphics Lab",
     "A little La Jolla",
     "duh & P, a Little Company",
     "Scaffolding for Taste — OpenAI Build Week",

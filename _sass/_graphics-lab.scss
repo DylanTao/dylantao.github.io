@@ -1,0 +1,211 @@
+// The Graphics Lab page (/projects/graphics-lab/, _includes/graphics_lab.liquid): one row per experiment,
+// grouped by what it simulates, with a still from the scene, where it stands, the papers it adapts and a
+// link to its write-up. Rows are hairline lists, not cards; the whole row is one link target.
+.graphics-lab-index {
+  width: 100%;
+  margin: 1.4rem auto 0;
+}
+
+.graphics-lab-group {
+  margin: 0 0 2.2rem;
+
+  > h3 {
+    margin: 0 0 0.6rem;
+    font-size: var(--type-subheading);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+}
+
+.graphics-lab-experiments {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19.5rem), 1fr));
+  gap: 0 1.5rem;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--global-divider-color);
+  list-style: none;
+}
+
+.graphics-lab-experiment {
+  position: relative;
+  display: grid;
+  grid-template-columns: 6.75rem minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--global-divider-color);
+
+  &:has(a:focus-visible) {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+    border-radius: var(--md-lite-radius-md);
+  }
+}
+
+.graphics-lab-thumb {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--md-lite-radius-md);
+  background: var(--global-surface-container-color);
+  box-shadow: inset 0 0 0 1px var(--global-divider-color);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  span {
+    padding: 0.4rem;
+    color: var(--global-text-color-light);
+    font-size: 0.75rem;
+    line-height: 1.3;
+    text-align: center;
+  }
+}
+
+.graphics-lab-experiment-body {
+  min-width: 0;
+
+  h4 {
+    margin: 0;
+    font-size: var(--type-reading);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  h4 a {
+    color: var(--global-text-color);
+    text-decoration: none;
+
+    // The title's link covers the row, so the still and the summary open the write-up too.
+    &::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
+
+.graphics-lab-experiment:hover h4 a,
+.graphics-lab-experiment:focus-within h4 a {
+  color: var(--global-theme-color);
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+}
+
+.graphics-lab-experiment-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.5rem;
+  align-items: baseline;
+  margin: 0.3rem 0 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.45;
+}
+
+.graphics-lab-where,
+.graphics-lab-effort {
+  display: inline-block;
+  padding: 0 0.45rem;
+  border-radius: var(--md-lite-radius-pill);
+  box-shadow: inset 0 0 0 1px var(--global-divider-color);
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.graphics-lab-where[data-where="scene"],
+.graphics-lab-effort[data-effort="small"] {
+  background: var(--global-mint-soft);
+  box-shadow: none;
+  color: var(--global-mint-strong);
+}
+
+.graphics-lab-where[data-where="lab"],
+.graphics-lab-effort[data-effort="medium"] {
+  background: var(--global-sky-soft);
+  box-shadow: none;
+  color: var(--global-sky-strong);
+}
+
+.graphics-lab-experiment-idea {
+  margin: 0.3rem 0 0;
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.5;
+}
+
+// The shortlist and the bench are plain lists in the reading column.
+.post.project-case-page article > .graphics-lab-shortlist,
+.post.project-case-page article > .graphics-lab-bench {
+  max-width: var(--measure-prose);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.graphics-lab-shortlist {
+  padding-left: 1.25rem;
+
+  li {
+    margin-bottom: 0.9rem;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: 0.2rem;
+    color: var(--global-text-color-light);
+    font-size: var(--type-compact);
+    line-height: 1.55;
+  }
+
+  .graphics-lab-effort {
+    margin-right: 0.3rem;
+  }
+}
+
+.graphics-lab-shortlist-title {
+  font-weight: 500;
+}
+
+.graphics-lab-venue {
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  font-weight: 400;
+}
+
+.graphics-lab-bench {
+  padding-left: 1.1rem;
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+
+  li {
+    margin-bottom: 0.45rem;
+  }
+
+  strong {
+    color: var(--global-text-color);
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .graphics-lab-experiment {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+}

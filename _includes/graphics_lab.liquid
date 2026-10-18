@@ -1,0 +1,107 @@
+{%- comment -%}
+  Parts of the Graphics Lab page (/projects/graphics-lab/), drawn from its technical record,
+  _data/design_records/graphics-lab.yml, so the page and the record never disagree.
+  part="experiments": one row per technique, grouped by system (systems with `index: false` stay in the record only),
+    with its still, where it stands, the first paper it adapts, and a link to its own page or its section of the record.
+  part="shortlist": the record's shortlist of papers to try next.
+  part="bench": work in progress that has not reached the scene.
+  Usage: {% include graphics_lab.liquid part="experiments" %}
+{%- endcomment -%}
+{%- assign lab = site.data.design_records['graphics-lab'] -%}
+{%- assign record_href = lab.record_url | relative_url -%}
+
+{%- if include.part == 'experiments' -%}
+  <div class="graphics-lab-index" data-graphics-lab-index>
+    {%- for system in lab.systems -%}
+      {%- if system.index == false -%}
+        {%- continue -%}
+      {%- endif %}
+      <section class="graphics-lab-group" aria-labelledby="lab-group-{{ system.id }}">
+        <h3 id="lab-group-{{ system.id }}">{{ system.name | smartify }}</h3>
+        <ul class="graphics-lab-experiments">
+          {%- for technique in system.techniques %}
+            {%- if technique.page -%}
+              {%- assign experiment_href = technique.page.url | relative_url -%}
+            {%- else -%}
+              {%- assign experiment_href = record_href | append: '#' | append: technique.id -%}
+            {%- endif -%}
+            {%- if technique.status == 'shipped' -%}
+              {%- assign experiment_where = 'scene' -%}
+              {%- assign experiment_where_label = 'In the scene' -%}
+            {%- elsif technique.page -%}
+              {%- assign experiment_where = 'lab' -%}
+              {%- assign experiment_where_label = 'Lab page' -%}
+            {%- else -%}
+              {%- assign experiment_where = 'bench' -%}
+              {%- assign experiment_where_label = 'Exploratory' -%}
+            {%- endif %}
+            <li class="graphics-lab-experiment" data-where="{{ experiment_where }}">
+              <div class="graphics-lab-thumb">
+                {%- if technique.thumbnail %}
+                  <img
+                    src="{{ technique.thumbnail.path | relative_url }}"
+                    alt="{{ technique.thumbnail.alt | escape }}"
+                    width="480"
+                    height="360"
+                    loading="lazy"
+                    decoding="async"
+                  >
+                {%- else %}
+                  <span>No still yet</span>
+                {%- endif %}
+              </div>
+              <div class="graphics-lab-experiment-body">
+                <h4>
+                  <a href="{{ experiment_href }}">{{ technique.name | smartify }}</a>
+                </h4>
+                <p class="graphics-lab-experiment-meta">
+                  <span class="graphics-lab-where" data-where="{{ experiment_where }}">{{ experiment_where_label }}</span>
+                  {%- if technique.sources.size > 0 -%}
+                    {%- assign first_source = lab.sources | where: 'id', technique.sources.first | first -%}
+                    <span class="graphics-lab-basis">after {{ first_source.label | smartify }}</span>
+                  {%- endif %}
+                </p>
+                <p class="graphics-lab-experiment-idea">{{ technique.what | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+              </div>
+            </li>
+          {%- endfor %}
+        </ul>
+      </section>
+    {%- endfor %}
+  </div>
+{%- elsif include.part == 'shortlist' -%}
+  <ol class="graphics-lab-shortlist">
+    {%- for pick in lab.shortlist %}
+      {%- assign pick_technique = null -%}
+      {%- for system in lab.systems -%}
+        {%- assign found = system.techniques | where: 'id', pick.technique | first -%}
+        {%- if found -%}
+          {%- assign pick_technique = found -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- assign pick_item = pick_technique.watchlist | where: 'source', pick.source | first -%}
+      {%- assign pick_paper = lab.sources | where: 'id', pick.source | first %}
+      <li>
+        <p class="graphics-lab-shortlist-title">
+          <a href="{{ record_href }}#{{ pick_technique.id }}">{{ pick_technique.name | smartify }}</a>
+          <span aria-hidden="true">·</span>
+          <a href="{{ record_href }}#source-{{ pick_paper.id }}">{{ pick_paper.label | smartify }}</a
+          ><span class="graphics-lab-venue">, {{ pick_paper.venue | smartify }}</span>
+        </p>
+        <p>
+          <span class="graphics-lab-effort" data-effort="{{ pick_item.effort }}">{{ pick_item.effort | capitalize }} effort</span>
+          {{ pick_item.adds | markdownify | remove: '<p>' | remove: '</p>' | strip }}
+        </p>
+      </li>
+    {%- endfor %}
+  </ol>
+{%- elsif include.part == 'bench' -%}
+  <ul class="graphics-lab-bench">
+    {%- for item in lab.bench %}
+      <li>
+        <strong>{{ item.name | smartify }}.</strong>
+        {{ item.what | markdownify | remove: '<p>' | remove: '</p>' | strip }}
+      </li>
+    {%- endfor %}
+  </ul>
+{%- endif -%}

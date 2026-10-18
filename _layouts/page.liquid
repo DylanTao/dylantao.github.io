@@ -53,17 +53,26 @@ layout: default
     {% comment %}
       Previous/next follow the projects index order for this category: research by
       importance, site experiments by debut date (newest first), other playful
-      builds by importance. Projects that redirect elsewhere are skipped.
+      builds by importance. Projects that redirect elsewhere are skipped. A project
+      with a parent (a Graphics Lab experiment) moves among its parent's children,
+      and its middle link returns to the parent instead of the index.
     {% endcomment %}
+    {% assign project_parent = null %}
+    {% if page.parent %}
+      {% assign project_parent = site.projects | where_exp: 'item', 'item.slug == page.parent' | first %}
+    {% endif %}
     {% assign project_siblings = site.projects | where: 'category', page.category | where_exp: 'item', 'item.redirect == nil' %}
-    {% if page.category == 'fun' %}
+    {% if project_parent %}
+      {% assign project_siblings = project_siblings | where: 'parent', page.parent | sort: 'debut_date' | reverse %}
+    {% elsif page.category == 'fun' %}
+      {% assign project_siblings = project_siblings | where_exp: 'item', 'item.parent == nil' %}
       {% if page.site_experiment %}
         {% assign project_siblings = project_siblings | where: 'site_experiment', true | sort: 'debut_date' | reverse %}
       {% else %}
         {% assign project_siblings = project_siblings | where_exp: 'item', 'item.site_experiment != true' | sort: 'importance' %}
       {% endif %}
     {% else %}
-      {% assign project_siblings = project_siblings | sort: 'importance' %}
+      {% assign project_siblings = project_siblings | where_exp: 'item', 'item.parent == nil' | sort: 'importance' %}
     {% endif %}
     {% assign project_previous = null %}
     {% assign project_next = null %}
@@ -91,10 +100,17 @@ layout: default
             <span class="blog-nav-direction-title">{{ project_previous.title }}</span>
           </a>
         {% endif %}
-        <a class="blog-nav-direction project-nav-index" href="{{ '/projects/' | relative_url }}#{{ page.category }}">
-          <span class="blog-nav-direction-label">All projects</span>
-          <span class="blog-nav-direction-title">{{ page.category | capitalize }}</span>
-        </a>
+        {% if project_parent %}
+          <a class="blog-nav-direction project-nav-index" href="{{ project_parent.url | relative_url }}">
+            <span class="blog-nav-direction-label">Part of</span>
+            <span class="blog-nav-direction-title">{{ project_parent.title }}</span>
+          </a>
+        {% else %}
+          <a class="blog-nav-direction project-nav-index" href="{{ '/projects/' | relative_url }}#{{ page.category }}">
+            <span class="blog-nav-direction-label">All projects</span>
+            <span class="blog-nav-direction-title">{{ page.category | capitalize }}</span>
+          </a>
+        {% endif %}
         {% if project_next %}
           <a class="blog-nav-direction blog-nav-direction-newer" href="{{ project_next.url | relative_url }}">
             <span class="blog-nav-direction-label">

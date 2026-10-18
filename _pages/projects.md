@@ -25,7 +25,8 @@ cinematic: true
       <h2 class="category">{{ category_label }}</h2>
     </a>
   </div>
-  {% assign categorized_projects = site.projects | where: "category", category %}
+  {% comment %} A project with a parent (Light Paths in the Graphics Lab) is listed on its parent's page, not here. {% endcomment %}
+  {% assign categorized_projects = site.projects | where: "category", category | where_exp: "project", "project.parent == nil" %}
   {% assign sorted_projects = categorized_projects | sort: "importance" %}
   <!-- Generate cards for each project -->
   {% if category == 'fun' and page.project_cards_interactive %}
@@ -83,7 +84,7 @@ cinematic: true
 
 <!-- Display projects without categories -->
 
-{% assign sorted_projects = site.projects | sort: "importance" %}
+{% assign sorted_projects = site.projects | where_exp: "project", "project.parent == nil" | sort: "importance" %}
 
   <!-- Generate cards for each project -->
 

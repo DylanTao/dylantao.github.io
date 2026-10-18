@@ -23,6 +23,7 @@ STORY_LAYOUT = REPO_ROOT / "_sass" / "_layout.scss"
 RESEARCH_SKILLS_POST = REPO_ROOT / "_posts" / "2026-04-27-research-skills-starter-pack.md"
 
 EXPECTED_CHRONOLOGY = [
+    ("graphics-lab", "Graphics Lab", "2026-10-18T00:30:00-07:00"),
     ("light-paths", "Light Paths in the Onsen", "2026-10-14T21:00:00-07:00"),
     ("openai-build-week", "Scaffolding for Taste — OpenAI Build Week", "2026-07-18T18:46:02-07:00"),
     ("paper-constellation", "Paper Constellation", "2026-07-15T16:51:26-07:00"),
@@ -37,6 +38,7 @@ EXPECTED_CHRONOLOGY = [
 ]
 
 REPRODUCTION_GUIDES = [
+    "graphics-lab-reproduction.md",
     "light-paths-reproduction.md",
     "paper-constellation-reproduction.md",
     "build-rhythm-reproduction.md",
@@ -49,6 +51,7 @@ REPRODUCTION_GUIDES = [
 ]
 
 FUN_PROJECT_SLUGS = (
+    "graphics-lab",
     "light-paths",
     "openai-build-week",
     "paper-constellation",
@@ -123,6 +126,7 @@ class SiteExperimentsTests(unittest.TestCase):
     def test_fun_project_cards_have_evidence_bound_origins_and_one_icon_family(self) -> None:
         project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
         expected_icons = {
+            "graphics-lab": "lab",
             "light-paths": "light",
             "openai-build-week": "archive",
             "paper-constellation": "constellation",
@@ -170,6 +174,34 @@ class SiteExperimentsTests(unittest.TestCase):
         for icon in expected_icons.values():
             with self.subTest(icon=icon):
                 self.assertEqual(icon_include.count(f"{{% when '{icon}' %}}"), 1)
+
+    def test_child_projects_live_on_their_parent_page(self) -> None:
+        # Sirui asked for a hierarchy instead of a project card per graphics experiment (2026-10-16). A project
+        # with a `parent` keeps its own page and route but leaves the projects index to its parent, whose page and
+        # technical record list it; its end navigation returns to the parent.
+        children = {}
+        for path in sorted(PROJECTS_DIR.glob("*.md")):
+            parent = frontmatter(path).get("parent")
+            if parent:
+                children[path.stem] = parent
+        self.assertEqual(children, {"light-paths": "graphics-lab"})
+
+        record = yaml.safe_load((REPO_ROOT / "_data" / "design_records" / "graphics-lab.yml").read_text(encoding="utf-8"))
+        pages = {technique["page"]["url"] for system in record["systems"] for technique in system["techniques"] if technique.get("page")}
+        for child, parent in children.items():
+            with self.subTest(child=child):
+                parent_values = frontmatter(PROJECTS_DIR / f"{parent}.md")
+                self.assertEqual(parent_values.get("site_experiment"), "true")
+                self.assertIn(f"/projects/{child}/", pages, "the parent's record lists the child's page")
+                child_source = (PROJECTS_DIR / f"{child}.md").read_text(encoding="utf-8")
+                self.assertIn(f"{{{{ '/projects/{parent}/' | relative_url }}}}", child_source, "the child links back to its parent")
+
+        index = PROJECTS_PAGE.read_text(encoding="utf-8")
+        self.assertEqual(index.count('where_exp: "project", "project.parent == nil"'), 2, "both index branches leave children out")
+        layout = (REPO_ROOT / "_layouts" / "page.liquid").read_text(encoding="utf-8")
+        self.assertIn("where_exp: 'item', 'item.slug == page.parent'", layout)
+        self.assertIn("Part of", layout)
+        self.assertIn("{% include graphics_lab.liquid part=\"experiments\" %}", (PROJECTS_DIR / "graphics-lab.md").read_text(encoding="utf-8"))
 
     def test_fun_project_stories_lead_with_plain_what_and_why(self) -> None:
         project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
