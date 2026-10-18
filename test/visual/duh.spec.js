@@ -498,7 +498,8 @@ test("duh: dropped on a project card, it stays grabbable, hops clear, and the ca
 });
 
 test("duh: dropped on the 3D home, it can be caught, settles clear, and the canvas still turns the camera", async ({ page, isMobile }, info) => {
-  test.setTimeout(180000);
+  // CI loads the house on a software GPU, like the other 3D home cases.
+  test.setTimeout(process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 900000 : 180000);
   test.skip(!["desktop-1440", "mobile-390"].includes(info.project.name), "One desktop and one phone viewport load the 3D home for this check.");
   // The house loads on a running clock; duh's physics are then paused and stepped, so a busy page
   // cannot move duh between a reading and a press.

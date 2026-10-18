@@ -7,6 +7,8 @@ const { pauseSceneClock, useSoftwareSceneCadence, useNativeSceneFrames } = requi
 const { PNG } = require("pngjs");
 const { pathToFileURL } = require("node:url");
 
+const homeManifest = () => JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../assets/models/home/manifest.json"), "utf8"));
+
 // The gym's training session as the scene stages it, computed from the same pure modules, so a
 // test can aim at a lift or a rest from the program instead of hard-coded seconds.
 async function gymSession(day, minute, options) {
@@ -1856,15 +1858,14 @@ test("coastal home: navigation keeps the camera out of walls, screens and rock, 
     expect((await cameraCell(scene)) & 5).toBe(0);
     expect(state.cameraArm.distance).toBeGreaterThanOrEqual(Math.min(state.cameraArm.minimum, state.cameraOrbit.radius) - 0.05);
   }
-  expect(turns[0]).toBeLessThan(2.34 - 0.5);
+  // Four 0.18 rad turns from the study's authored yaw, unless geometry stopped them sooner.
+  expect(turns[0]).toBeLessThan(homeManifest().rooms.find((r) => r.id === "study").camera.yaw - 0.5);
   expect(Math.abs(turns.at(-1) - turns.at(-2))).toBeLessThan(0.001);
   await capture(testInfo, "study-turned-to-the-wall", await canvas.screenshot());
   // Moving the viewpoint: the study's target starts beside the desk and the onsen's inside its
   // steam; both slide, stay within reach of their authored point, and never enter a solid.
-  for (const [room, authored] of [
-    ["study", [-0.27, 3.64, 3.26]],
-    ["onsen", [3.17, 3.35, 2.85]],
-  ]) {
+  for (const room of ["study", "onsen"]) {
+    const authored = homeManifest().rooms.find((r) => r.id === room).target;
     await sceneInputFrame(page, view, () => ui.locator(`[data-world-room="${room}"]`).first().click());
     await canvas.focus();
     for (const key of ["ArrowLeft", "ArrowLeft", "ArrowUp", "ArrowLeft", "ArrowUp", "ArrowUp"]) await canvas.press(`Shift+${key}`);
@@ -1923,7 +1924,11 @@ test("coastal home: composed activities and previews survive clock changes until
     if (activity === "work") {
       expect(info.joints.HandR[1] - info.activityFloor).toBeGreaterThan(0.8);
       expect(info.joints.HandR[1] - info.activityFloor).toBeLessThan(0.96);
-      expect(info.joints.HandR[2] - info.activityOffset[2]).toBeLessThan(-1.8);
+      // At the keyboard: the hand reaches forward along Sirui's facing (he types facing the room's -x).
+      const forward = [Math.sin(info.actorFacing), Math.cos(info.actorFacing)];
+      expect((info.joints.HandR[0] - info.joints.Root[0]) * forward[0] + (info.joints.HandR[2] - info.joints.Root[2]) * forward[1]).toBeGreaterThan(
+        0.25
+      );
     }
     if (activity === "sleep") expect(info.joints.Root[1] - info.activityFloor).toBeGreaterThan(0.5);
     if (["breakfast", "reading", "lunch", "dinner", "lounge"].includes(activity)) {
@@ -2176,7 +2181,8 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
   await ui.locator('[data-world-room="study"]').click();
   await canvas.scrollIntoViewIfNeeded();
   await page.clock.runFor(100);
-  expect((await evidence(scene)).cameraFov).toBe(38);
+  // Back in the study, its own authored lens.
+  expect((await evidence(scene)).cameraFov).toBe(gym.config.rooms.find((r) => r.id === "study").camera.fov ?? 38);
   await page.locator("[data-world-view]").click();
   await page.clock.runFor(100);
   expect((await evidence(scene)).cameraFov).toBe(38);

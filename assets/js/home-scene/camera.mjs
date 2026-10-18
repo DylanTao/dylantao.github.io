@@ -778,7 +778,7 @@ export function outsideClearance(radius, base = 0.32) {
 
 // A portrait canvas (a phone in full screen) keeps the authored horizontal coverage: below a square
 // canvas the vertical field of view widens so a room's sides stay in frame, up to `max` degrees.
-// Landscape canvases, every page embed included, keep the authored lens.
+// The controller applies it only in full screen; a phone's page embed is about square and keeps the lens.
 export function portraitFov(fov, aspect, { minAspect = 1, max = 80 } = {}) {
   if (!(aspect > 0) || aspect >= minAspect) return fov;
   const half = Math.atan((Math.tan((fov * Math.PI) / 360) * minAspect) / aspect);
