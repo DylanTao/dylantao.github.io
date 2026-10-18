@@ -5,6 +5,8 @@ import { roomRoute, sampleRoute } from "../assets/js/home-scene/navigation.mjs";
 import { supportHeight } from "../assets/js/home-scene/shore.mjs";
 
 const config = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+// The stair runs along the landward wall (2.4 m further inland since the October 2026 renovation).
+const stairZ = config.navigation.stairs[1][2];
 
 test("every pair of rooms has a bounded route through the correct floor and stairs", () => {
   for (const from of config.rooms)
@@ -18,8 +20,8 @@ test("every pair of rooms has a bounded route through the correct floor and stai
       else {
         assert.equal(slopes.length, 15);
         slopes.forEach(([a, b]) => {
-          assert.equal(a[2], 4.65);
-          assert.equal(b[2], 4.65);
+          assert.equal(a[2], stairZ);
+          assert.equal(b[2], stairZ);
           assert.ok(Math.abs(a[1] - b[1]) < 0.175);
         });
       }
@@ -34,11 +36,13 @@ test("every pair of rooms has a bounded route through the correct floor and stai
 test("floor contact follows the landward treads and preserves the gallery opening", () => {
   for (let i = 0; i < 15; i++) {
     const x = -2 + (i + 0.5) * 0.26;
-    assert.ok(Math.abs(supportHeight(x, 4.65, config.terrain, 0, true) - ((i + 1) * 2.6) / 15) < 0.00001);
+    assert.ok(Math.abs(supportHeight(x, stairZ, config.terrain, 0, true) - ((i + 1) * 2.6) / 15) < 0.00001);
   }
-  assert.equal(supportHeight(0, 3.9, config.terrain, 2.6), 2.6);
-  assert.equal(supportHeight(0, 4.7, config.terrain, 2.6), 0);
-  assert.equal(supportHeight(3, 4.7, config.terrain, 2.6), 2.6);
+  // The upper walk in front of the stair opening, the opening itself, and the landing beside it.
+  assert.equal(stairZ, 7.05);
+  assert.equal(supportHeight(0, 6.3, config.terrain, 2.6), 2.6);
+  assert.equal(supportHeight(0, 7.1, config.terrain, 2.6), 0);
+  assert.equal(supportHeight(3, 7.1, config.terrain, 2.6), 2.6);
 });
 
 test("stairs use constant travel speed and never overshoot landings", () => {

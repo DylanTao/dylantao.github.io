@@ -48,15 +48,15 @@ test("P's upper and stair detours preserve all source points and the human route
   assert.deepEqual(air.points[0], source[0]);
   assert.deepEqual(air.points.at(-1), source.at(-1));
   assert.ok(
-    air.points.some((p) => p[1] === 2.6 && p[2] === 2.15),
-    "P passes in front of the retained shelf contents"
+    air.points.some((p) => p[1] === 2.6 && p[2] === config.navigation.upperAisleZ),
+    "P follows the upper walk behind the office's bookshelf"
   );
   const stairs = createPipClearanceFlight(route("kitchen", "study"));
   assert.ok(
-    stairs.points.some((p) => p[1] < 2.55 && p[2] === 4.45),
-    "the stair air aisle clears both coat and upper deck"
+    stairs.points.some((p) => p[1] < 2.55 && p[2] === 6.85),
+    "the stair air aisle clears both the stair wall and the upper deck"
   );
-  assert.ok(roomRoute(config, room("study"), room("sleep"), source[0]).points.some((p) => p[2] === 3.94));
+  assert.ok(roomRoute(config, room("study"), room("sleep"), source[0]).points.some((p) => p[2] === config.navigation.upperAisleZ));
 });
 
 test("the actual P shell clears the three measured native components at cruise", async () => {
@@ -93,7 +93,8 @@ test("the four corrected P perches protect rest/arrival clearance without changi
   assert.deepEqual(config.companion.perches.gym[1], [0.55, 0, -2.25]);
   assert.deepEqual(config.companion.perches.onsen[1], [2.18, 2.6, 2.05]);
   assert.deepEqual(config.companion.perches.lounge[0], [3.3, 0, -3.65]);
-  assert.deepEqual(config.terrain.contacts.study.actor, [-0.27, 2.6, 3.38]);
+  // The office's chair at the L-shaped desk (bin/coastal_office.py ACTOR).
+  assert.deepEqual(config.terrain.contacts.study.actor, [-0.36, 2.6, 3.55]);
 });
 
 test("actual world altitude uses active flight age and freezes during pause and page ownership", async (t) => {

@@ -13,42 +13,22 @@
     "indigo textile",
     "ochre textile"
   ],
+  "deepened": null,
+  "moved": null,
+  "floors": {
+    "lowerBoards": 237,
+    "upperBoards": 130
+  },
+  "onsenShadowVault": 437,
+  "office": {
+    "removed": 26,
+    "lampBulb": [-0.9700000286102295, -2.4200000762939453, 3.880000047683716],
+    "monitorYaw": {
+      "43": -1.5707963267948966,
+      "32": -0.5858427796921611
+    }
+  },
   "softened": {
-    "study__pale oak": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [960, 960]
-    },
-    "study__honey ash": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [2604, 2604]
-    },
-    "study__sage textile": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [1000, 1000]
-    },
-    "study__charcoal": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [1440, 1440]
-    },
-    "study__brushed brass": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [328, 328]
-    },
-    "study__linen": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [6392, 6392]
-    },
-    "study__terracotta": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [1536, 1536]
-    },
     "sleep__honey ash": {
       "bevelledEdges": 0,
       "bevel": 0.0,
@@ -124,11 +104,6 @@
       "bevel": 0.0,
       "vertices": [576, 576]
     },
-    "study__coffee": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [192, 192]
-    },
     "kitchen__pale oak": {
       "bevelledEdges": 0,
       "bevel": 0.0,
@@ -147,17 +122,17 @@
     "core__warm cut stone": {
       "bevelledEdges": 0,
       "bevel": 0.0,
-      "vertices": [2408, 2408]
+      "vertices": [2208, 2208]
     },
     "core__chalk limestone": {
-      "bevelledEdges": 256,
+      "bevelledEdges": 0,
       "bevel": 0.018,
-      "vertices": [3316, 3836]
+      "vertices": [2988, 2988]
     },
     "core__pale oak": {
       "bevelledEdges": 0,
       "bevel": 0.0,
-      "vertices": [28224, 28224]
+      "vertices": [2496, 2496]
     },
     "core__honey ash": {
       "bevelledEdges": 0,
@@ -200,9 +175,9 @@
       "vertices": [1560, 1560]
     },
     "kitchen__warm cut stone": {
-      "bevelledEdges": 74,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [354, 522]
+      "vertices": [722, 722]
     },
     "kitchen__espresso enamel": {
       "bevelledEdges": 0,
@@ -259,26 +234,6 @@
       "bevel": 0.0,
       "vertices": [384, 384]
     },
-    "study_footrest": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
-    "study_footrest_support": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
-    "study_footrest_support.001": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
-    "study_footrest_stretcher": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
     "kitchen_footrest": {
       "bevelledEdges": 0,
       "bevel": 0.0,
@@ -325,9 +280,9 @@
       "vertices": [3888, 3888]
     },
     "onsen_decor cedar wood": {
-      "bevelledEdges": 488,
+      "bevelledEdges": 0,
       "bevel": 0.005,
-      "vertices": [484, 2324]
+      "vertices": [2324, 2324]
     },
     "onsen_decor brushed brass": {
       "bevelledEdges": 0,
@@ -340,19 +295,9 @@
       "vertices": [244, 244]
     },
     "sleep_decor pale oak": {
-      "bevelledEdges": 48,
-      "bevel": 0.004,
-      "vertices": [32, 224]
-    },
-    "study_decor pale oak": {
-      "bevelledEdges": 48,
-      "bevel": 0.004,
-      "vertices": [32, 224]
-    },
-    "study_decor terracotta": {
       "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [238, 238]
+      "bevel": 0.004,
+      "vertices": [224, 224]
     },
     "lounge_decor woven jute": {
       "bevelledEdges": 0,
@@ -365,9 +310,9 @@
       "vertices": [504, 504]
     },
     "lounge_decor pale oak": {
-      "bevelledEdges": 36,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [24, 168]
+      "vertices": [168, 168]
     },
     "lounge_decor celadon glaze": {
       "bevelledEdges": 0,
@@ -390,9 +335,9 @@
       "vertices": [588, 588]
     },
     "core_facade__dark_bronze": {
-      "bevelledEdges": 300,
+      "bevelledEdges": 10,
       "bevel": 0.004,
-      "vertices": [1956, 2724]
+      "vertices": [2832, 2864]
     },
     "core_facade_lunette_frame": {
       "bevelledEdges": 0,
@@ -400,9 +345,9 @@
       "vertices": [356, 356]
     },
     "core_facade__warm_cut_stone": {
-      "bevelledEdges": 84,
+      "bevelledEdges": 0,
       "bevel": 0.01,
-      "vertices": [56, 344]
+      "vertices": [344, 344]
     },
     "core_facade__golden_coastal_sandstone": {
       "bevelledEdges": 0,
@@ -410,14 +355,14 @@
       "vertices": [2896, 2896]
     },
     "core_facade__travertine_paving_stone": {
-      "bevelledEdges": 1390,
+      "bevelledEdges": 2,
       "bevel": 0.006,
-      "vertices": [1824, 6702]
+      "vertices": [6792, 6804]
     },
     "core_facade__weathered_teak_wood": {
-      "bevelledEdges": 556,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [436, 2436]
+      "vertices": [2436, 2436]
     },
     "core_facade__aged_copper": {
       "bevelledEdges": 0,
@@ -439,11 +384,6 @@
       "bevel": 0.0,
       "vertices": [728, 728]
     },
-    "core_facade__cedar_wood": {
-      "bevelledEdges": 660,
-      "bevel": 0.005,
-      "vertices": [440, 3080]
-    },
     "core_gym_floor": {
       "bevelledEdges": 0,
       "bevel": 0.0,
@@ -460,24 +400,24 @@
       "vertices": [8, 8]
     },
     "core_gym_front_frame": {
-      "bevelledEdges": 648,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [432, 3024]
+      "vertices": [3024, 3024]
     },
     "gym__gym rubber": {
-      "bevelledEdges": 1312,
+      "bevelledEdges": 0,
       "bevel": 0.003,
-      "vertices": [6576, 9200]
+      "vertices": [9200, 9200]
     },
     "gym__powder coated gym steel": {
-      "bevelledEdges": 576,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [4608, 5760]
+      "vertices": [5760, 5760]
     },
     "gym__barbell brushed steel": {
-      "bevelledEdges": 3952,
+      "bevelledEdges": 0,
       "bevel": 0.002,
-      "vertices": [3952, 11856]
+      "vertices": [11856, 11856]
     },
     "gym__cast iron plate": {
       "bevelledEdges": 0,
@@ -490,14 +430,14 @@
       "vertices": [56, 56]
     },
     "gym__honey ash": {
-      "bevelledEdges": 8,
+      "bevelledEdges": 0,
       "bevel": 0.003,
-      "vertices": [16, 48]
+      "vertices": [48, 48]
     },
     "gym__satin appliance stainless": {
-      "bevelledEdges": 24,
+      "bevelledEdges": 0,
       "bevel": 0.003,
-      "vertices": [448, 496]
+      "vertices": [496, 496]
     },
     "gym__charcoal": {
       "bevelledEdges": 0,
@@ -505,14 +445,14 @@
       "vertices": [176, 176]
     },
     "gym__terracotta": {
-      "bevelledEdges": 16,
+      "bevelledEdges": 0,
       "bevel": 0.002,
-      "vertices": [16, 48]
+      "vertices": [48, 48]
     },
     "gym__sage textile": {
-      "bevelledEdges": 16,
+      "bevelledEdges": 0,
       "bevel": 0.002,
-      "vertices": [16, 48]
+      "vertices": [48, 48]
     },
     "gym__red bumper rubber": {
       "bevelledEdges": 0,
@@ -580,24 +520,24 @@
       "vertices": [24, 24]
     },
     "lounge_living__linen": {
-      "bevelledEdges": 24,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [656, 704]
+      "vertices": [704, 704]
     },
     "lounge_living__pale oak": {
-      "bevelledEdges": 144,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [424, 712]
+      "vertices": [712, 712]
     },
     "lounge_living__charcoal": {
-      "bevelledEdges": 72,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [184, 328]
+      "vertices": [328, 328]
     },
     "lounge_living__terracotta": {
-      "bevelledEdges": 96,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [236, 428]
+      "vertices": [428, 428]
     },
     "lounge_living__sage textile": {
       "bevelledEdges": 0,
@@ -605,9 +545,9 @@
       "vertices": [56, 56]
     },
     "lounge_living__celadon glaze": {
-      "bevelledEdges": 64,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [224, 352]
+      "vertices": [508, 508]
     },
     "lounge_living__woven jute": {
       "bevelledEdges": 0,
@@ -620,14 +560,173 @@
       "vertices": [76, 76]
     },
     "lounge_living__record sleeve card": {
-      "bevelledEdges": 72,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [72, 216]
+      "vertices": [216, 216]
     },
     "lounge_living__honey ash": {
-      "bevelledEdges": 16,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [16, 48]
+      "vertices": [48, 48]
+    },
+    "core_reno_slab_ground": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [144, 144]
+    },
+    "core_reno_slab_upper": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [304, 304]
+    },
+    "core_reno_floorboards_lower": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [3792, 3792]
+    },
+    "core_reno_floorboards_upper": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [2080, 2080]
+    },
+    "core_reno_screens": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [5952, 5952]
+    },
+    "core_reno_stair_guard": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [288, 288]
+    },
+    "core_reno_stair_guard_rods": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [640, 640]
+    },
+    "sleep_reno_wardrobe": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [480, 480]
+    },
+    "sleep_reno_wardrobe_plinth": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [96, 96]
+    },
+    "sleep_reno_wardrobe_pulls": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [80, 80]
+    },
+    "study__milky veined marble": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [420, 420]
+    },
+    "study__pale oak": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [3744, 3744]
+    },
+    "study__honey ash": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [3760, 3760]
+    },
+    "study__polished nickel": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [504, 504]
+    },
+    "study__brushed brass": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [48, 48]
+    },
+    "study__matte black device": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [3148, 3148]
+    },
+    "study__screen code blue light": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [80, 80]
+    },
+    "study__screen code light": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [240, 240]
+    },
+    "study__screen code warm light": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [56, 56]
+    },
+    "study__indigo textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [1804, 1804]
+    },
+    "study__oatmeal keycap": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [6336, 6336]
+    },
+    "study__ochre textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [1344, 1344]
+    },
+    "study__black magnesium laptop": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [192, 192]
+    },
+    "study__pc black steel": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [672, 672]
+    },
+    "study__pc circuit board": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [96, 96]
+    },
+    "study__pc rgb glow": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [1016, 1016]
+    },
+    "study__rtx graphite shroud": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [96, 96]
+    },
+    "study__graphite chair textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [288, 288]
+    },
+    "study__linen": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [5708, 5708]
+    },
+    "study__terracotta": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [3268, 3268]
+    },
+    "study__sage textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [1264, 1264]
     }
+  },
+  "manifest": {
+    "stairs": 18,
+    "surfaces": 17
   }
 }

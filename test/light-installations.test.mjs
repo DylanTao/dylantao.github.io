@@ -1,7 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "../assets/js/three.module.min.js";
-import { createLightInstallations, darkness, lineIrradiance, SCHEDULES, windowLevel } from "../assets/js/home-scene/light-installations.mjs";
+import {
+  createLightInstallations,
+  darkness,
+  deskLevel,
+  lineIrradiance,
+  rgbColor,
+  SCHEDULES,
+  windowLevel,
+} from "../assets/js/home-scene/light-installations.mjs";
 import { PRACTICAL_SCHEDULES, sleepWindow } from "../assets/js/home-scene/warm-practicals.mjs";
 
 const v = (x, y, z) => new THREE.Vector3(x, y, z);
@@ -124,5 +132,31 @@ test("the installations read the terrace from the manifest and report their leve
   const noon = lights.update({ minute: 12 * 60, daylight: 0.95, activity: "reading" });
   assert.ok(Object.values(noon).every((level) => level === 0));
   assert.equal(lights.uniforms.installActive.value, 0);
+  lights.dispose();
+});
+
+test("the office's RGB drifts through the hues only while the scene moves, and its screens sleep away from the desk", () => {
+  assert.notEqual(rgbColor(0).getHexString(), rgbColor(12).getHexString());
+  assert.equal(rgbColor(0).getHexString(), rgbColor(48).getHexString(), "one turn of the hue wheel every 48 s");
+  assert.equal(deskLevel("work"), 1);
+  assert.equal(deskLevel("coding"), 1);
+  assert.equal(deskLevel("sleep"), 0.25);
+  const lights = createLightInstallations({ terrace: {}, navigation: { stairs: [] } });
+  const glow = new THREE.MeshStandardMaterial({ name: "pc rgb glow", emissive: 0xffffff, emissiveIntensity: 3 });
+  const screen = new THREE.MeshStandardMaterial({ name: "monitor screen glass", emissive: 0x112233, emissiveIntensity: 1 });
+  const root = new THREE.Group();
+  root.add(new THREE.Mesh(new THREE.BoxGeometry(), glow), new THREE.Mesh(new THREE.BoxGeometry(), screen));
+  lights.bindModel(root);
+  lights.update({ minute: 23 * 60, daylight: 0, activity: "sleep" });
+  assert.equal(glow.emissiveIntensity, 0.75);
+  assert.equal(screen.emissiveIntensity, 0.25);
+  lights.update({ minute: 16 * 60, daylight: 0.9, activity: "work" });
+  assert.equal(glow.emissiveIntensity, 3);
+  assert.equal(lights.uniforms.installActive.value, 0, "the screens never wake the installations' shader term by day");
+  const before = glow.emissive.getHexString();
+  assert.equal(lights.tick(20, false), false, "a still keeps its hue");
+  assert.equal(glow.emissive.getHexString(), before);
+  assert.equal(lights.tick(20, true), true);
+  assert.notEqual(glow.emissive.getHexString(), before);
   lights.dispose();
 });

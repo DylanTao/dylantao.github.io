@@ -3081,9 +3081,9 @@
     {
       "file": "flora.glb",
       "bytes": 2206972,
-      "gzipBytes": 2080375,
+      "gzipBytes": 2080045,
       "triangles": 184309,
-      "sha256": "78021a090ee662a88a4ae7fd07c3c25eee09acbd4ed6c8f681b2b3ca6b00037b",
+      "sha256": "763713c1501deaac02cabad8bd4a4f659a39bd14d5baab5cc1c2c682beddb88b",
       "materials": [
         "coastal sage leaf",
         "dark sage leaf",
@@ -3122,10 +3122,10 @@
     },
     {
       "file": "home-shell.glb",
-      "bytes": 625584,
-      "gzipBytes": 527569,
-      "triangles": 178744,
-      "sha256": "fa7ca83c45145ca27d77429454b432fb18a2af498122c2619a7582393519ef42",
+      "bytes": 591736,
+      "gzipBytes": 470561,
+      "triangles": 178114,
+      "sha256": "58194267027f5f9b26c5cd1cbde6dbefded0233fb34ecb7b3101f2253b88866f",
       "materials": [
         "warm cut stone",
         "chalk limestone",
@@ -3151,8 +3151,8 @@
         "olive bark wood",
         "rosemary leaf",
         "fire bowl embers",
-        "cedar wood",
-        "gym polished concrete"
+        "gym polished concrete",
+        "cedar wood"
       ],
       "animations": []
     },
@@ -3167,10 +3167,10 @@
     },
     {
       "file": "room-gym.glb",
-      "bytes": 198744,
-      "gzipBytes": 138679,
+      "bytes": 204036,
+      "gzipBytes": 137703,
       "triangles": 77256,
-      "sha256": "f03f946f877ec98d37733e7a723fd84ec57b88211122e4407e9468e2eb32a37e",
+      "sha256": "4cce8b08b0fd3da115a708675bb216071f78cf2461d05c2a1230e6cad6d04cdd",
       "materials": [
         "gym rubber",
         "powder coated gym steel",
@@ -3196,10 +3196,10 @@
     },
     {
       "file": "room-kitchen.glb",
-      "bytes": 281896,
-      "gzipBytes": 218752,
-      "triangles": 61004,
-      "sha256": "7712498bda9e39e5d00b454287fd0586e371477bb8c47374b7b234824e0fe96c",
+      "bytes": 282336,
+      "gzipBytes": 217026,
+      "triangles": 61404,
+      "sha256": "9159d0b53eb499bcbe8441f0a89efe7350b88b3aa6349eb179404c7c9f9c5b6c",
       "materials": [
         "warm paper lantern",
         "pale oak",
@@ -3223,10 +3223,10 @@
     },
     {
       "file": "room-lounge.glb",
-      "bytes": 327716,
-      "gzipBytes": 273076,
-      "triangles": 43515,
-      "sha256": "8336bd37547dffe1ff98ba352d72ccc41727b53005a81f237aad5daff08ec924",
+      "bytes": 323140,
+      "gzipBytes": 270521,
+      "triangles": 43827,
+      "sha256": "f7944e6b3c6825ddf6032bec0337f8330bd041aead89e9d490febb30e6d6c6b8",
       "materials": [
         "honey ash",
         "linen",
@@ -3248,10 +3248,10 @@
     },
     {
       "file": "room-onsen.glb",
-      "bytes": 82044,
-      "gzipBytes": 60054,
-      "triangles": 18712,
-      "sha256": "6dd7d2679c0acf631fdca2a29fbf46ef178ab2c0c9c85d7d45741bc77a07cd8f",
+      "bytes": 83972,
+      "gzipBytes": 62494,
+      "triangles": 18992,
+      "sha256": "8786c2c77ee06fe461282acc3f4dd77ecc46548461aa82a924012bfa5f097ae9",
       "materials": [
         "onsen turquoise",
         "linen",
@@ -3269,10 +3269,10 @@
     },
     {
       "file": "room-sleep.glb",
-      "bytes": 260988,
-      "gzipBytes": 227490,
-      "triangles": 92954,
-      "sha256": "8c7e5d295540dd95390f2b9b3ee2b48aaaaf6ea6b036f19a6b5b820d32ada5ef",
+      "bytes": 267608,
+      "gzipBytes": 230778,
+      "triangles": 94226,
+      "sha256": "0f3e66bf478da30aafc3955eade1c016410dad07d8cee706f1d92a755aa95317",
       "materials": [
         "honey ash",
         "linen",
@@ -3284,28 +3284,42 @@
         "linen canvas sea",
         "linen canvas sand",
         "linen canvas sun",
-        "sage textile"
+        "sage textile",
+        "polished nickel"
       ],
       "animations": []
     },
     {
       "file": "room-study.glb",
-      "bytes": 198216,
-      "gzipBytes": 155814,
-      "triangles": 39888,
-      "sha256": "04aa7a15ebe1a66db2ad54557e6f7ba048c62d2ebe9add8ad28320c7d0834fd3",
+      "bytes": 171696,
+      "gzipBytes": 119174,
+      "triangles": 67064,
+      "sha256": "ac69e7d62d181bb636dd07f3327383a4ff6a08bd8a63b2ad8b6a9eb730e9f977",
       "materials": [
+        "milky veined marble",
         "pale oak",
         "honey ash",
-        "sage textile",
-        "charcoal",
-        "window sea glass",
+        "polished nickel",
         "brushed brass",
+        "matte black device",
+        "monitor screen glass",
+        "screen code blue light",
+        "screen code light",
+        "screen code warm light",
+        "indigo textile",
+        "oatmeal keycap",
+        "ochre textile",
+        "black magnesium laptop",
+        "pc black steel",
+        "pc circuit board",
+        "pc tempered glass",
+        "pc rgb glow",
+        "rtx graphite shroud",
+        "graphite chair textile",
         "linen",
-        "hand glazed celadon",
         "terracotta",
+        "sage textile",
         "olive leaf",
-        "coffee",
         "cork board",
         "sketch paper"
       ],
@@ -3502,5 +3516,5 @@
       "animations": []
     }
   ],
-  "totalGlbBytes": 8124868
+  "totalGlbBytes": 8074204
 }

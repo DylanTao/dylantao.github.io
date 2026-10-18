@@ -39,6 +39,12 @@ views = preview.manifest_views(config, rooms, orbit="arrival" not in flags)
 for room, extra in CLOSE_VIEWS.items():
     if rooms is None or room in rooms:
         views.update(extra)
+# Extra views from the command line: --views=name:ex,ey,ez:tx,ty,tz:fov;name2:... (Blender coordinates).
+for spec in [v for v in args.get("views", "").split(";") if v]:
+    name, eye, target, fov = spec.split(":")
+    views[name] = (tuple(float(c) for c in eye.split(",")), tuple(float(c) for c in target.split(",")), float(fov))
+if "only-views" in flags:
+    views = {k: v for k, v in views.items() if k in [s.split(":")[0] for s in args.get("views", "").split(";") if s]}
 if rooms is None or "overview" in (rooms or []):
     overview = config["views"]["overview"]
     views["overview"] = preview.room_eye({"target": overview["target"], "camera": overview})

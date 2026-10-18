@@ -20,11 +20,12 @@ House coordinates are Blender's: metres, Z up, +Y toward the sea (west), +X nort
 import math
 import bmesh
 import bpy
+from mathutils import Matrix, Vector
 
 # Linear RGB, roughness, metallic, coat. Material names stay stable for the web renderer.
 PALETTE = {
     # Wood
-    "pale oak": ((0.48, 0.34, 0.20), 0.5, 0.0, 0.0),
+    "pale oak": ((0.47, 0.32, 0.175), 0.5, 0.0, 0.0),
     "honey ash": ((0.13, 0.085, 0.055), 0.45, 0.0, 0.0),
     "cedar wood": ((0.6, 0.46, 0.29), 0.6, 0.0, 0.0),
     # Stone
