@@ -55,6 +55,10 @@ export const SCHEDULES = {
 // The office's screens and RGB (no light of their own, so not an installation above): awake while
 // Sirui works at the desk, a glow otherwise.
 export const deskLevel = (activity) => (["work", "coding", "reading"].includes(activity) ? 1 : 0.25);
+// The living room's paper floor lantern (bin/coastal_living.py) glows once the house is dim,
+// brightest while Sirui is on the sofa; its light itself is the "lounge" warm practical.
+export const lanternLevel = ({ dark, activity }) => dark.inside * (activity === "lounge" ? 1 : 0.4);
+const LANTERN_MATERIAL = "washi lantern paper";
 // The office's emissive materials (bin/coastal_office.py): the RGB that drifts, and the screens.
 const RGB_MATERIAL = "pc rgb glow";
 const SCREEN_MATERIALS = new Set(["monitor screen glass", "screen code light", "screen code warm light", "screen code blue light"]);
@@ -253,7 +257,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   }
 
   // Shell materials that glow with their installation.
-  const glowing = { festoon: [], fire: [], gym: [], desk: [] };
+  const glowing = { festoon: [], fire: [], gym: [], desk: [], lantern: [] };
   function bindModel(model) {
     model.traverse((o) => {
       if (!o.isMesh) return;
@@ -261,6 +265,10 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
         if (m.name === "festoon bulb glass" && !glowing.festoon.includes(m)) glowing.festoon.push(m);
         if (m.name === "fire bowl embers" && !glowing.fire.includes(m)) glowing.fire.push(m);
         if (m.name === "gym light diffuser" && !glowing.gym.includes(m)) glowing.gym.push(m);
+        if (m.name === LANTERN_MATERIAL && m.emissive && !glowing.lantern.includes(m)) {
+          m.userData.authoredEmissive ??= m.emissiveIntensity;
+          glowing.lantern.push(m);
+        }
         if ((m.name === RGB_MATERIAL || SCREEN_MATERIALS.has(m.name)) && m.emissive && !glowing.desk.includes(m)) {
           // Keep the authored strength; the schedule scales it.
           m.userData.authoredEmissive ??= m.emissiveIntensity;
@@ -271,7 +279,8 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     applyRgb();
   }
   let rgbSeconds = 0,
-    desk = 0.25;
+    desk = 0.25,
+    lantern = 0;
   const rgb = new THREE.Color();
   function applyRgb() {
     rgbColor(rgbSeconds, rgb);
@@ -324,6 +333,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       m.emissiveIntensity = 3 * levels.gym;
     }
     for (const m of glowing.desk) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * desk;
+    for (const m of glowing.lantern) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 1.6 * lantern;
   }
 
   const bindings = new WeakSet();
@@ -339,6 +349,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       const dark = darkness(daylight);
       for (const [id, schedule] of Object.entries(SCHEDULES)) levels[id] = THREE.MathUtils.clamp(schedule({ minute, dark, activity }), 0, 1);
       desk = deskLevel(activity);
+      lantern = lanternLevel({ dark, activity });
       apply();
       return levels;
     },
@@ -419,6 +430,7 @@ ${LINE_GLSL}`
         festoonMaterials: glowing.festoon.length,
         fireMaterials: glowing.fire.length,
         deskMaterials: glowing.desk.length,
+        lanternMaterials: glowing.lantern.length,
         rgb: rgb.getHexString(),
         pool: pool ? points.find((p) => p.id === "pool").position.toArray() : null,
       };

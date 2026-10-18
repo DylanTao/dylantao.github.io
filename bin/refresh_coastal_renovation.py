@@ -33,7 +33,7 @@ args = {a.split("=", 1)[0][2:]: a.split("=", 1)[1] for a in sys.argv if a.starts
 preview_dir = args.get("preview")
 # Phases run in order (1 materials and edges, 2 the larger house and office, 3 the living room,
 # 4 dining and kitchen); --phase=N stops after phase N.
-PHASE = int(args.get("phase", 2))
+PHASE = int(args.get("phase", 3))
 bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
 scene = bpy.context.scene
 config = json.loads(MANIFEST.read_text(encoding="utf-8"))
@@ -179,11 +179,14 @@ def update_manifest():
             label="Living room",
             actor=three((lx, ly, 0)),
             facing=math.pi,
-            target=three((0.75, 1.25, 1.0)),
+            target=three((0.8, 1.3, 1.0)),
             egress=three((2.05, -0.6, 0)),
             exitPath=[three((1.0, 1.1, 0)), three((1.55, 1.05, 0)), three((2.05, 0.15, 0)), three((2.05, -0.6, 0))],
         )
-        lounge["camera"] = {"radius": 5.4, "yaw": 3.3, "pitch": 0.3, "fov": 40, "envelope": {"yaw": [2.85, 3.75], "pitch": [0.12, 0.62], "radius": [4.2, 6.4]}}
+        # The orbit keeps the eye in front of the glass front's middle pane (x -0.85..2.0), which has
+        # no curtain (the doors either side draw their sheers at night), and low enough that the view
+        # passes under the bronze door head at 3.2 m rather than through it.
+        lounge["camera"] = {"radius": 5.6, "yaw": 3.2, "pitch": 0.32, "fov": 40, "envelope": {"yaw": [2.95, 3.42], "pitch": [0.12, 0.45], "radius": [4.4, 6.2]}}
         for name, (x, y, z) in (("anchor_lounge", (lx, ly, 0)),):
             if bpy.data.objects.get(name):
                 bpy.data.objects[name].location = Vector((x, y, z))
@@ -223,8 +226,16 @@ if preview_dir:
             "lower-back": ((0.5, -1.0, 1.6), (0.0, -6.8, 0.9), 65),
             "bedroom-back": ((-2.6, -3.0, 4.2), (-4.0, -6.5, 3.2), 60),
             "onsen-back": ((2.6, -2.5, 4.2), (3.6, -6.8, 3.1), 60),
+            "living-glass": ((0.6, 6.6, 2.5), (0.7, 1.3, 0.8), 45),
+            "living-tv": ((-0.9, 2.3, 1.5), (2.6, 1.6, 1.2), 60),
+            "living-top": ((0.7, 1.4, 7.5), (0.7, 1.45, 0.0), 60),
+            "nook": ((2.2, 4.1, 1.8), (4.0, 2.0, 0.7), 60),
+            "kitchen-top": ((-3.3, 0.6, 9.5), (-3.3, 0.6, 0.0), 55),
+            "kitchen-glass": ((-1.6, 6.6, 2.6), (-3.4, 1.6, 0.9), 50),
         }
     )
+    if args.get("only"):
+        views = {k: v for k, v in views.items() if k in args["only"].split(",")}
     print(json.dumps({k: (len(v) if isinstance(v, (list, dict)) else v) for k, v in report.items()}, default=str), flush=True)
     print(json.dumps(report.get("deepened"), default=str), json.dumps(report.get("moved"), default=str), flush=True)
     print("RENDERED", preview.render(scene, camera, views, out), flush=True)

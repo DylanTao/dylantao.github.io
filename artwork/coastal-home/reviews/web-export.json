@@ -78,41 +78,6 @@
       "facesExported": 572
     },
     {
-      "mesh": "lounge__honey ash",
-      "facesBefore": 1670,
-      "facesExported": 1670
-    },
-    {
-      "mesh": "lounge__linen",
-      "facesBefore": 490,
-      "facesExported": 490
-    },
-    {
-      "mesh": "lounge__pale oak",
-      "facesBefore": 282,
-      "facesExported": 282
-    },
-    {
-      "mesh": "lounge__terracotta",
-      "facesBefore": 710,
-      "facesExported": 710
-    },
-    {
-      "mesh": "lounge__charcoal",
-      "facesBefore": 324,
-      "facesExported": 324
-    },
-    {
-      "mesh": "lounge__olive leaf",
-      "facesBefore": 1144,
-      "facesExported": 1144
-    },
-    {
-      "mesh": "lounge__brushed brass",
-      "facesBefore": 486,
-      "facesExported": 486
-    },
-    {
       "mesh": "kitchen__warm paper lantern",
       "facesBefore": 162,
       "facesExported": 162
@@ -121,16 +86,6 @@
       "mesh": "kitchen__pale oak",
       "facesBefore": 4558,
       "facesExported": 4558
-    },
-    {
-      "mesh": "lounge__warm paper lantern",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "lounge__woven jute",
-      "facesBefore": 23442,
-      "facesExported": 19755
     },
     {
       "mesh": "onsen__warm cut stone",
@@ -313,26 +268,6 @@
       "facesExported": 98
     },
     {
-      "mesh": "lounge_ottoman_foot",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "lounge_ottoman_foot.001",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "lounge_ottoman_foot.002",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "lounge_ottoman_foot.003",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
       "mesh": "onsen_decor warm cut stone",
       "facesBefore": 7680,
       "facesExported": 7680
@@ -454,8 +389,8 @@
     },
     {
       "mesh": "core_facade__travertine_paving_stone",
-      "facesBefore": 6484,
-      "facesExported": 6484
+      "facesBefore": 6490,
+      "facesExported": 6490
     },
     {
       "mesh": "core_facade__festoon_cable",
@@ -833,61 +768,6 @@
       "facesExported": 1
     },
     {
-      "mesh": "lounge_living__linen",
-      "facesBefore": 661,
-      "facesExported": 661
-    },
-    {
-      "mesh": "lounge_living__pale oak",
-      "facesBefore": 646,
-      "facesExported": 646
-    },
-    {
-      "mesh": "lounge_living__charcoal",
-      "facesBefore": 290,
-      "facesExported": 290
-    },
-    {
-      "mesh": "lounge_living__terracotta",
-      "facesBefore": 389,
-      "facesExported": 389
-    },
-    {
-      "mesh": "lounge_living__sage textile",
-      "facesBefore": 54,
-      "facesExported": 54
-    },
-    {
-      "mesh": "lounge_living__celadon glaze",
-      "facesBefore": 477,
-      "facesExported": 477
-    },
-    {
-      "mesh": "lounge_living__woven jute",
-      "facesBefore": 54,
-      "facesExported": 54
-    },
-    {
-      "mesh": "lounge_living__brushed brass",
-      "facesBefore": 48,
-      "facesExported": 48
-    },
-    {
-      "mesh": "lounge_living__record sleeve card",
-      "facesBefore": 198,
-      "facesExported": 198
-    },
-    {
-      "mesh": "lounge_living__honey ash",
-      "facesBefore": 42,
-      "facesExported": 42
-    },
-    {
-      "mesh": "lounge_living__fiddle fig leaf",
-      "facesBefore": 22,
-      "facesExported": 22
-    },
-    {
       "mesh": "core_liftaway_cave_ceiling_rear",
       "facesBefore": 252,
       "facesExported": 252
@@ -1076,6 +956,121 @@
       "mesh": "study__sketch paper",
       "facesBefore": 36,
       "facesExported": 36
+    },
+    {
+      "mesh": "lounge__cloud boucle textile",
+      "facesBefore": 2250,
+      "facesExported": 2250
+    },
+    {
+      "mesh": "lounge__indigo textile",
+      "facesBefore": 300,
+      "facesExported": 300
+    },
+    {
+      "mesh": "lounge__ochre textile",
+      "facesBefore": 104,
+      "facesExported": 104
+    },
+    {
+      "mesh": "lounge__terracotta",
+      "facesBefore": 326,
+      "facesExported": 326
+    },
+    {
+      "mesh": "lounge__linen",
+      "facesBefore": 716,
+      "facesExported": 716
+    },
+    {
+      "mesh": "lounge__ochre knit textile",
+      "facesBefore": 438,
+      "facesExported": 438
+    },
+    {
+      "mesh": "lounge__honed travertine",
+      "facesBefore": 394,
+      "facesExported": 394
+    },
+    {
+      "mesh": "lounge__sage textile",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge__celadon glaze",
+      "facesBefore": 292,
+      "facesExported": 292
+    },
+    {
+      "mesh": "lounge__charcoal",
+      "facesBefore": 242,
+      "facesExported": 242
+    },
+    {
+      "mesh": "lounge__honey ash",
+      "facesBefore": 5460,
+      "facesExported": 5460
+    },
+    {
+      "mesh": "lounge__olive leaf",
+      "facesBefore": 183,
+      "facesExported": 183
+    },
+    {
+      "mesh": "lounge__oatmeal wool textile",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge__chalk limestone",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "lounge__matte black device",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge__tv black glass",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "lounge__pale oak",
+      "facesBefore": 1176,
+      "facesExported": 1176
+    },
+    {
+      "mesh": "lounge__polished nickel",
+      "facesBefore": 10,
+      "facesExported": 10
+    },
+    {
+      "mesh": "lounge__record sleeve card",
+      "facesBefore": 18,
+      "facesExported": 18
+    },
+    {
+      "mesh": "lounge__brushed brass",
+      "facesBefore": 44,
+      "facesExported": 44
+    },
+    {
+      "mesh": "lounge__washi lantern paper",
+      "facesBefore": 242,
+      "facesExported": 242
+    },
+    {
+      "mesh": "lounge__woven jute",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge__olive bark wood",
+      "facesBefore": 88,
+      "facesExported": 88
     }
   ]
 }

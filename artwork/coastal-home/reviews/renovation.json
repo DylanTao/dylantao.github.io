@@ -28,6 +28,10 @@
       "32": -0.5858427796921611
     }
   },
+  "living": {
+    "removed": 24,
+    "lampBulb": [-1.2, 3.55, 1.42]
+  },
   "softened": {
     "sleep__honey ash": {
       "bevelledEdges": 0,
@@ -74,45 +78,10 @@
       "bevel": 0.0,
       "vertices": [192, 192]
     },
-    "lounge__honey ash": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [1828, 1828]
-    },
-    "lounge__linen": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [480, 480]
-    },
-    "lounge__pale oak": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [372, 372]
-    },
-    "lounge__terracotta": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [768, 768]
-    },
-    "lounge__charcoal": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [384, 384]
-    },
-    "lounge__brushed brass": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [576, 576]
-    },
     "kitchen__pale oak": {
       "bevelledEdges": 0,
       "bevel": 0.0,
       "vertices": [4596, 4596]
-    },
-    "lounge__woven jute": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [23808, 23808]
     },
     "onsen__warm cut stone": {
       "bevelledEdges": 0,
@@ -254,26 +223,6 @@
       "bevel": 0.0,
       "vertices": [96, 96]
     },
-    "lounge_ottoman_foot": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
-    "lounge_ottoman_foot.001": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
-    "lounge_ottoman_foot.002": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
-    "lounge_ottoman_foot.003": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
     "onsen_decor warm cut stone": {
       "bevelledEdges": 0,
       "bevel": 0.0,
@@ -335,9 +284,9 @@
       "vertices": [588, 588]
     },
     "core_facade__dark_bronze": {
-      "bevelledEdges": 10,
+      "bevelledEdges": 0,
       "bevel": 0.004,
-      "vertices": [2832, 2864]
+      "vertices": [2864, 2864]
     },
     "core_facade_lunette_frame": {
       "bevelledEdges": 0,
@@ -355,9 +304,9 @@
       "vertices": [2896, 2896]
     },
     "core_facade__travertine_paving_stone": {
-      "bevelledEdges": 2,
+      "bevelledEdges": 1,
       "bevel": 0.006,
-      "vertices": [6792, 6804]
+      "vertices": [6804, 6810]
     },
     "core_facade__weathered_teak_wood": {
       "bevelledEdges": 0,
@@ -519,56 +468,6 @@
       "bevel": 0.0,
       "vertices": [24, 24]
     },
-    "lounge_living__linen": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [704, 704]
-    },
-    "lounge_living__pale oak": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [712, 712]
-    },
-    "lounge_living__charcoal": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [328, 328]
-    },
-    "lounge_living__terracotta": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [428, 428]
-    },
-    "lounge_living__sage textile": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [56, 56]
-    },
-    "lounge_living__celadon glaze": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [508, 508]
-    },
-    "lounge_living__woven jute": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [56, 56]
-    },
-    "lounge_living__brushed brass": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [76, 76]
-    },
-    "lounge_living__record sleeve card": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [216, 216]
-    },
-    "lounge_living__honey ash": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [48, 48]
-    },
     "core_reno_slab_ground": {
       "bevelledEdges": 0,
       "bevel": 0.0,
@@ -723,6 +622,106 @@
       "bevelledEdges": 0,
       "bevel": 0.0,
       "vertices": [1264, 1264]
+    },
+    "lounge__cloud boucle textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [2280, 2280]
+    },
+    "lounge__indigo textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [296, 296]
+    },
+    "lounge__ochre textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [104, 104]
+    },
+    "lounge__terracotta": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [344, 344]
+    },
+    "lounge__linen": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [752, 752]
+    },
+    "lounge__ochre knit textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [472, 472]
+    },
+    "lounge__honed travertine": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [448, 448]
+    },
+    "lounge__sage textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [96, 96]
+    },
+    "lounge__celadon glaze": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [344, 344]
+    },
+    "lounge__charcoal": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [296, 296]
+    },
+    "lounge__honey ash": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [5632, 5632]
+    },
+    "lounge__oatmeal wool textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [96, 96]
+    },
+    "lounge__chalk limestone": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [152, 152]
+    },
+    "lounge__matte black device": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [96, 96]
+    },
+    "lounge__pale oak": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [1152, 1152]
+    },
+    "lounge__polished nickel": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [16, 16]
+    },
+    "lounge__record sleeve card": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [24, 24]
+    },
+    "lounge__brushed brass": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [80, 80]
+    },
+    "lounge__woven jute": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [96, 96]
+    },
+    "lounge__olive bark wood": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [136, 136]
     }
   },
   "manifest": {

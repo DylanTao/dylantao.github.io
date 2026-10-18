@@ -3122,10 +3122,10 @@
     },
     {
       "file": "home-shell.glb",
-      "bytes": 591736,
-      "gzipBytes": 470561,
-      "triangles": 178114,
-      "sha256": "58194267027f5f9b26c5cd1cbde6dbefded0233fb34ecb7b3101f2253b88866f",
+      "bytes": 591008,
+      "gzipBytes": 469532,
+      "triangles": 178126,
+      "sha256": "c59516f2396af5fac5217f5862dda675b2be2c2f0518d76b904979b7e146be0d",
       "materials": [
         "warm cut stone",
         "chalk limestone",
@@ -3167,10 +3167,10 @@
     },
     {
       "file": "room-gym.glb",
-      "bytes": 204036,
-      "gzipBytes": 137703,
+      "bytes": 202788,
+      "gzipBytes": 136781,
       "triangles": 77256,
-      "sha256": "4cce8b08b0fd3da115a708675bb216071f78cf2461d05c2a1230e6cad6d04cdd",
+      "sha256": "2deeb3131fd3f40769d759bd21cd292667a1be3b491085abea2bfc94bfcf6795",
       "materials": [
         "gym rubber",
         "powder coated gym steel",
@@ -3196,10 +3196,10 @@
     },
     {
       "file": "room-kitchen.glb",
-      "bytes": 282336,
-      "gzipBytes": 217026,
+      "bytes": 281780,
+      "gzipBytes": 216550,
       "triangles": 61404,
-      "sha256": "9159d0b53eb499bcbe8441f0a89efe7350b88b3aa6349eb179404c7c9f9c5b6c",
+      "sha256": "070185e6e8728f351fba311fe68d9b42f4b56b573b847a83667910c8025c9e01",
       "materials": [
         "warm paper lantern",
         "pale oak",
@@ -3223,35 +3223,45 @@
     },
     {
       "file": "room-lounge.glb",
-      "bytes": 323140,
-      "gzipBytes": 270521,
-      "triangles": 43827,
-      "sha256": "f7944e6b3c6825ddf6032bec0337f8330bd041aead89e9d490febb30e6d6c6b8",
+      "bytes": 132724,
+      "gzipBytes": 87031,
+      "triangles": 32496,
+      "sha256": "ff27f04e75ea0c68b75b70456d79af66da60e45f3d364b46879c5f293ec4d749",
       "materials": [
-        "honey ash",
-        "linen",
-        "pale oak",
-        "terracotta",
-        "charcoal",
-        "olive leaf",
-        "brushed brass",
-        "warm paper lantern",
         "woven jute",
+        "terracotta",
+        "pale oak",
         "celadon glaze",
         "tenmoku glaze",
         "oatmeal glaze",
+        "cloud boucle textile",
+        "indigo textile",
+        "ochre textile",
+        "linen",
+        "ochre knit textile",
+        "honed travertine",
         "sage textile",
+        "charcoal",
+        "honey ash",
+        "olive leaf",
+        "oatmeal wool textile",
+        "chalk limestone",
+        "matte black device",
+        "tv black glass",
+        "polished nickel",
         "record sleeve card",
-        "fiddle fig leaf"
+        "brushed brass",
+        "washi lantern paper",
+        "olive bark wood"
       ],
       "animations": []
     },
     {
       "file": "room-onsen.glb",
-      "bytes": 83972,
-      "gzipBytes": 62494,
+      "bytes": 83944,
+      "gzipBytes": 62462,
       "triangles": 18992,
-      "sha256": "8786c2c77ee06fe461282acc3f4dd77ecc46548461aa82a924012bfa5f097ae9",
+      "sha256": "6d6741a204f18a4bd176cf53575098bace112861b8aaf5cbcbe56c092e289bbb",
       "materials": [
         "onsen turquoise",
         "linen",
@@ -3269,10 +3279,10 @@
     },
     {
       "file": "room-sleep.glb",
-      "bytes": 267608,
-      "gzipBytes": 230778,
+      "bytes": 267592,
+      "gzipBytes": 230761,
       "triangles": 94226,
-      "sha256": "0f3e66bf478da30aafc3955eade1c016410dad07d8cee706f1d92a755aa95317",
+      "sha256": "d2e1ebe7048c91f665963a0fd11ec9a3ca195db225a3480849b533a20f9312ff",
       "materials": [
         "honey ash",
         "linen",
@@ -3291,10 +3301,10 @@
     },
     {
       "file": "room-study.glb",
-      "bytes": 171696,
-      "gzipBytes": 119174,
+      "bytes": 171756,
+      "gzipBytes": 119103,
       "triangles": 67064,
-      "sha256": "ac69e7d62d181bb636dd07f3327383a4ff6a08bd8a63b2ad8b6a9eb730e9f977",
+      "sha256": "370a2a7dcad1243dec59d0d933e17e93777734a77bc26b64ea453adfdc23c62a",
       "materials": [
         "milky veined marble",
         "pale oak",
@@ -3516,5 +3526,5 @@
       "animations": []
     }
   ],
-  "totalGlbBytes": 8074204
+  "totalGlbBytes": 7881272
 }
