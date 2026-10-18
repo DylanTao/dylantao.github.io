@@ -1,8 +1,13 @@
 import * as THREE from "../three.module.min.js";
-import { coastManifest, acquireCoast } from "./assets.mjs?v=coastal-place-20260929";
+import { coastManifest, acquireCoast } from "./assets.mjs?v=coastal-life-20261018";
 import { createFinish } from "../home-scene/realism.mjs";
 import { createCameraMotion } from "../home-scene/camera-motion.mjs";
 import { sampleCoastWave } from "./wave-motion.mjs";
+import { createPeople } from "./people.mjs?v=coastal-life-20261018";
+
+// People keep a composed still pose under reduced motion and under automation, as the
+// cinematic layer does; `?cinematic=live` lets a browser test watch them move.
+const automated = Boolean(navigator.webdriver) && !/[?&]cinematic=live(?:&|$)/.test(location.search);
 
 const THEMES = {
   morning: { sky: 0xf5dfce, ground: 0x8b9290, sun: 0xffdfb4, key: 2.4, fill: 1.05, exposure: 1.0, water: 0x568f9d, night: 0.12 },
@@ -233,6 +238,20 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     }
   });
   buildings.sort((a, b) => a.center - b.center);
+  // People belong to the composition's props (bin/coastal_life.py); players appear only once
+  // their court has fully risen. The compact atlas keeps its baked figures unless its
+  // manifest entry lists people of its own.
+  const figures = (miniature ? manifest.miniature?.figures : manifest.figures) || [];
+  const stances = Object.fromEntries(figures.filter((f) => f.parent).map((f) => [f.parent, f.stance]));
+  const people = figures.length
+    ? createPeople(scene, model.scene, figures, {
+        hostVisible: (name) => {
+          const b = buildings.find((item) => item.object.name === name);
+          return !b || (b.object.visible && (b.progress ?? 1) > 0.999);
+        },
+      })
+    : null;
+  const peopleLive = () => !reduced.matches && !stopped && !automated;
   function revealBuildings(value) {
     if (host.dataset.reveal === value.toFixed(3)) return;
     buildings.forEach((b, i) => {
@@ -241,6 +260,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       b.object.scale.y = b.scale.y * Math.max(0.001, eased);
       b.object.position.y = b.base.y + (1 - eased) * b.floor;
       b.object.visible = p > 0.001;
+      b.progress = p;
     });
     renderer.shadowMap.needsUpdate = true;
     host.dataset.reveal = value.toFixed(3);
@@ -283,6 +303,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       o.visible = night;
     });
     surfers.forEach(({ object }) => (object.visible = !night && selected !== "morning"));
+    // Who is out: night brings the fire circle; a daytime preview of the evening theme
+    // shows the afternoon crowd.
+    people?.setPeriod(night ? "evening" : selected === "evening" ? "afternoon" : selected, night);
     host.dataset.theme = selected;
     host.dataset.office = String(lightOn);
     lights();
@@ -389,6 +412,11 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       camera.position.copy(target).add(orbitOffset.setFromSpherical(orbitSphere));
     }
     camera.lookAt(target);
+    // Every frame poses the people against the current boards, courts and theme; a still
+    // frame holds the composed pose the posters show. People outside the camera's
+    // horizontal span are skipped, not posed.
+    const halfWidth = (camera.right - camera.left) / 2 + 2;
+    people?.update(peopleLive() ? elapsed : 0, { viewX: [camera.position.x - halfWidth, camera.position.x + halfWidth] });
     finish.render(camera, false);
     updatePlaceMarker();
     host.dataset.frames = String(++frameCount);
@@ -427,11 +455,24 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       o.rotation.z = Math.sin(elapsed * 0.65 + i) * 0.008;
     });
     surfers.forEach(({ object, position, rotation }, i) => {
-      object.position.x = position.x + Math.sin(elapsed * 0.17 + i) * 0.48;
-      const wave = sampleCoastWave(object.position.x, position.z, elapsed);
+      // A rider glides along the swell; a surfer waiting nose-out barely drifts; a paddler
+      // loops slowly seaward and back, turning with the board.
+      const stance = stances[object.name];
+      let x = position.x,
+        z = position.z,
+        yaw = rotation.y;
+      if (stance === "wait") x += Math.sin(elapsed * 0.11 + i) * 0.05;
+      else if (stance === "paddle") {
+        const a = peopleLive() ? elapsed * 0.09 : 0;
+        x += Math.sin(a) * 0.9;
+        z += (1 - Math.cos(a)) * 0.25;
+        yaw += Math.atan2(-Math.sin(a) * 0.25, Math.cos(a) * 0.9);
+      } else x += Math.sin(elapsed * 0.17 + i) * 0.48;
+      object.position.x = x;
+      object.position.z = z;
+      const wave = sampleCoastWave(x, z, elapsed);
       object.position.y = position.y + wave.height;
-      object.rotation.x = rotation.x + Math.atan(wave.dz);
-      object.rotation.z = rotation.z - Math.atan(wave.dx);
+      object.rotation.set(rotation.x + Math.atan(wave.dz), yaw, rotation.z - Math.atan(wave.dx));
     });
     draw();
   }
@@ -574,6 +615,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     host.removeEventListener("coast:place", draw);
     document.removeEventListener("visibilitychange", syncRunning);
     reduced.removeEventListener("change", onMotion);
+    people?.dispose();
     scene.traverse((o) => {
       if (!o.userData.sharedCoastGeometry) o.geometry?.dispose();
       const materials = Array.isArray(o.material) ? o.material : [o.material];
@@ -628,6 +670,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     orbit: [orbitX, orbitY],
     renderedOrbit: [renderedOrbitX, renderedOrbitY],
     motion: motion.evidence(),
+    elapsed,
+    people: people ? { live: peopleLive(), ...people.evidence() } : null,
     resources: renderer.info.memory,
     framing: { width: cameraWidth, height: camera.top - camera.bottom, center: target.toArray() },
     landmarkFrames: projectLandmarks
