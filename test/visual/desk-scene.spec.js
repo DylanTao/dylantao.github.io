@@ -1735,14 +1735,117 @@ test("coastal home: full exterior orbit and guided interior camera boundaries", 
     expect(v.radius).toBeGreaterThanOrEqual(e.radius[0] - 0.001);
     expect(v.pitch).toBeLessThanOrEqual(e.pitch[1] + 0.001);
     if (room === "outside") expect(v.yaw).toBeGreaterThan(Math.PI * 2);
-    else {
+    else if (e.yaw) {
+      // A room keeps its authored arc until its collision field is ready.
       expect(v.yaw).toBeGreaterThanOrEqual(e.yaw[0] - 0.001);
       expect(v.yaw).toBeLessThanOrEqual(e.yaw[1] + 0.001);
     }
     expect(state.camera.every(Number.isFinite)).toBe(true);
+    // Wherever the turn ended (free-yaw views stop at walls, screens and rock), the camera stands
+    // neither in a blocking surface nor inside a solid, and the arm never lengthens the orbit.
+    expect((await cameraCell(scene)) & 5).toBe(0);
+    expect(Math.hypot(...state.camera.map((value, i) => value - state.target[i]))).toBeLessThanOrEqual(v.radius + 0.05 + state.cameraArm.lift);
     await canvas.evaluate((e) => e.blur());
     await capture(testInfo, `camera-boundary-${room}`, await canvas.screenshot());
   }
+  expect(errors).toEqual([]);
+});
+
+// The live collision field's flags at the camera (BLOCKING 1, CLEARANCE 2, INSIDE 4; 0 free air,
+// -1 outside the field), or 0 before the field is ready.
+const cameraCell = (scene) =>
+  scene.evaluate((element) => {
+    const grid = element.labScene.collisionGrid();
+    return grid?.ready ? Math.max(0, grid.flagAt(...element.getSceneEvidence().camera)) : 0;
+  });
+
+test("coastal home: navigation keeps the camera out of walls, screens and rock, then zooms out to the far coast", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "camera geometry is shared; touch zoom has its own mobile case");
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page);
+  const { scene, canvas, ui } = view;
+  await explore(ui);
+  // The field is voxelized off the main thread once the rooms have streamed in.
+  await expect.poll(async () => (await evidence(scene)).cameraCollision?.ready, { timeout: 60000 }).toBe(true);
+  const rows = [];
+  // Three angles the October 14 arcs allowed: behind the study's cedar slats, inside the terrace
+  // olive tree beside the lounge, and inside the cave-mouth rock beside the whole house. The arm
+  // now holds each camera on the visible side, in open air.
+  for (const [room, yaw, pitch, radius, target] of [
+    ["study", 1.79, 0.12, 4.248, [-0.27, 3.64, 3.26]],
+    ["lounge", 2.75, 0.12, 4.72, [3.17, 0.96, -2.5]],
+    ["overview", 3.96, 0.25, 9.1, [0, 1.65, 0.2]],
+  ]) {
+    await sceneInputFrame(page, view, () => ui.locator(`[data-world-room="${room}"]`).first().click());
+    await sceneInputFrame(page, view, () => scene.evaluate((e, orbit) => e.setLabCamera({ ...orbit, free: false }), { target, yaw, pitch, radius }));
+    const state = await evidence(scene);
+    rows.push({ room, yaw, pitch, radius, arm: state.cameraArm, camera: state.camera });
+    expect(state.cameraArm.limited).toBe(true);
+    expect(state.cameraArm.distance).toBeLessThan(radius - 0.2);
+    expect((await cameraCell(scene)) & 5).toBe(0);
+    await canvas.evaluate((element) => element.blur());
+    await capture(testInfo, `held-clear-${room}`, await canvas.screenshot());
+  }
+  // Keyboard turns in the study run until the geometry, not an arc, stops them.
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="study"]').first().click());
+  await canvas.focus();
+  const turns = [];
+  for (let burst = 0; burst < 8; burst++) {
+    await canvas.evaluate((node) => {
+      for (let i = 0; i < 4; i++) node.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+    });
+    await page.clock.runFor(200);
+    const state = await evidence(scene);
+    turns.push(state.cameraOrbit.yaw);
+    expect((await cameraCell(scene)) & 5).toBe(0);
+    expect(state.cameraArm.distance).toBeGreaterThanOrEqual(Math.min(state.cameraArm.minimum, state.cameraOrbit.radius) - 0.05);
+  }
+  expect(turns[0]).toBeLessThan(2.34 - 0.5);
+  expect(Math.abs(turns.at(-1) - turns.at(-2))).toBeLessThan(0.001);
+  await capture(testInfo, "study-turned-to-the-wall", await canvas.screenshot());
+  // Moving the viewpoint: the study's target starts beside the desk and the onsen's inside its
+  // steam; both slide, stay within reach of their authored point, and never enter a solid.
+  for (const [room, authored] of [
+    ["study", [-0.27, 3.64, 3.26]],
+    ["onsen", [3.17, 3.35, 2.85]],
+  ]) {
+    await sceneInputFrame(page, view, () => ui.locator(`[data-world-room="${room}"]`).first().click());
+    await canvas.focus();
+    for (const key of ["ArrowLeft", "ArrowLeft", "ArrowUp", "ArrowLeft", "ArrowUp", "ArrowUp"]) await canvas.press(`Shift+${key}`);
+    await page.clock.runFor(200);
+    const state = await evidence(scene);
+    const moved = Math.hypot(state.target[0] - authored[0], state.target[2] - authored[2]);
+    expect(moved).toBeGreaterThan(0.2);
+    expect(moved).toBeLessThanOrEqual(state.panReach + 0.01);
+    expect((await cameraCell(scene)) & 5).toBe(0);
+  }
+  // Reduced motion keeps a released drag exact: nothing coasts.
+  const box = await canvas.boundingBox();
+  await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.5, { steps: 6 });
+  await page.mouse.up();
+  await page.clock.runFor(200);
+  expect((await evidence(scene)).cameraInertia).toEqual({});
+  // Zoom out from the study through the whole house to the 160 m coast.
+  for (let i = 0; i < 46; i++) {
+    await canvas.press("-");
+    if (i % 6 === 5) await page.clock.runFor(100);
+  }
+  await page.clock.runFor(200);
+  const far = await evidence(scene);
+  expect(far.currentRoom).toBe("outside");
+  expect(far.cameraOrbit.radius).toBeGreaterThan(159);
+  expect(far.cameraClip.far).toBeGreaterThan(far.cameraClip.fogFar);
+  expect(far.cameraClip.fogFar).toBeLessThanOrEqual(330);
+  expect(far.cameraClip.near).toBeGreaterThan(0.05);
+  const farImage = await canvas.screenshot();
+  expect(screenshotMetrics(farImage).uniqueColors).toBeGreaterThan(60);
+  await capture(testInfo, "far-coast-160m", farImage);
+  // Home recentres the coast on its authored framing.
+  await sceneInputFrame(page, view, () => canvas.press("Home"));
+  expect((await evidence(scene)).cameraOrbit.radius).toBeCloseTo(48, 1);
+  fs.writeFileSync(testInfo.outputPath("navigation.json"), JSON.stringify({ rows, turns, far, errors }, null, 2));
   expect(errors).toEqual([]);
 });
 

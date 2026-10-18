@@ -249,6 +249,10 @@
       },
       {
         "file": "desk-scene.spec.js",
+        "title": "coastal home: navigation keeps the camera out of walls, screens and rock, then zooms out to the far coast"
+      },
+      {
+        "file": "desk-scene.spec.js",
         "title": "coastal home: composed activities and previews survive clock changes until Now"
       },
       {

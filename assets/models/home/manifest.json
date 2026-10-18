@@ -323,8 +323,8 @@
       "pitch": 0.37,
       "envelope": {
         "yaw": null,
-        "pitch": [0.18, 0.86],
-        "radius": [24, 72]
+        "pitch": [0.12, 1.2],
+        "radius": [24, 160]
       }
     },
     "overview": {
@@ -333,9 +333,9 @@
       "yaw": 3.3,
       "pitch": 0.43,
       "envelope": {
-        "yaw": [2.38, 3.96],
-        "pitch": [0.25, 0.78],
-        "radius": [13, 25]
+        "yaw": null,
+        "pitch": [0.05, 1.35],
+        "radius": [13, 32]
       }
     }
   },

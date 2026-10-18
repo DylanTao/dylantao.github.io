@@ -7,7 +7,23 @@ import { readLook } from "./look.mjs";
 import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
-import { envelopeFor, wildlifeEnvelope, constrainOrbit, keepCameraClear } from "./camera.mjs";
+import {
+  envelopeFor,
+  wildlifeEnvelope,
+  constrainOrbit,
+  keepCameraClear,
+  cameraTerrainHeight,
+  cameraArm,
+  hardArm,
+  steerOrbit,
+  cushion,
+  farView,
+  outsideClearance,
+  ORBIT_DIRECTION,
+  BLOCKING,
+  INSIDE,
+} from "./camera.mjs";
+import { createCameraField } from "./camera-field.mjs";
 import { activityPose, createHandContacts } from "./activities.mjs";
 import { createLiftRig } from "./lift-rig.mjs";
 import { createBreathingCover, breathAt } from "./bedding-breath.mjs";
@@ -19,7 +35,7 @@ import { roomRoute, sampleRoute } from "./navigation.mjs";
 import { createWorldCompanion } from "./companion.mjs";
 import { companion, pipProjectUrl } from "../companion/bridge.mjs";
 import { createRecordMotion } from "./record-motion.mjs";
-import { createCameraMotion } from "./camera-motion.mjs";
+import { createCameraMotion, createInertia } from "./camera-motion.mjs";
 import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
 import { createLoadingSketch } from "./loading-sketch.mjs";
 import { createLightWell } from "./light-well.mjs";
@@ -64,7 +80,7 @@ const remember = (key, value) => {
 const TONE_MAPPING = { aces: THREE.ACESFilmicToneMapping, agx: THREE.AgXToneMapping, neutral: THREE.NeutralToneMapping };
 const TONE_EXPOSURE = { aces: 1, agx: 1.08, neutral: 1.24 };
 const CANVAS_LABEL =
-  "Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag or Shift+arrows move the view; plus and minus zoom, and zooming out past a room shows the whole house, then the coast. In the whole house, click a room or press 1 to 6 to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside.";
+  "Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag, right-drag or Shift+arrows move the view; plus and minus or Page Up and Page Down zoom, and zooming out past a room shows the whole house, then the coast. Home recentres the view. In the whole house, click a room or press 1 to 6 to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside.";
 
 export function createCoastalHome(container, records, artifacts) {
   const stage = container.closest("[data-home-artifact-stage]");
@@ -74,6 +90,8 @@ export function createCoastalHome(container, records, artifacts) {
   const explore = createExplorationState();
   const recordMotion = createRecordMotion();
   const cameraMotion = createCameraMotion();
+  // A released drag coasts (orbit in radians, pan in metres); see camera-motion.mjs.
+  const inertia = createInertia();
   const { loader, decoder } = createModelLoader();
   const art = createArtDirection();
   let lookStorage = null;
@@ -112,6 +130,13 @@ export function createCoastalHome(container, records, artifacts) {
     desiredFov = perspective.fov;
   let cameraYaw = yaw,
     cameraPitch = pitch;
+  // The spring arm's current length (it shortens at once and lengthens smoothly), the look point
+  // above the target while the coast camera is lifted over the cliff, and the clip planes.
+  let armShown = null,
+    armWanted = null,
+    armDeficit = 0,
+    outsideLift = 0;
+  const aim = new THREE.Vector3();
   let config,
     renderer,
     initPromise,
@@ -209,7 +234,8 @@ export function createCoastalHome(container, records, artifacts) {
   scene.add(hemi, sun, sun.target);
   // The sun's shadow map follows the view. Rooms and the whole house keep a tight 20 m square on
   // the house; on the coast the square is centred on what the camera looks at and sized to the
-  // zoom (12 m half-width close up, 36 m at the widest), so walking along the cliff keeps fine
+  // zoom (12 m half-width close up, 36 m at the authored 48 m view, 120 m at the 160 m far view,
+  // where one 12 cm shadow texel is about one screen pixel), so walking along the cliff keeps fine
   // shadows under every tree and rock. The centre is snapped to whole shadow texels along the
   // light's axes, so moving the camera never makes shadow edges crawl.
   const shadowCentre = new THREE.Vector3(),
@@ -219,7 +245,7 @@ export function createCoastalHome(container, records, artifacts) {
   let shadowExtent = 10;
   function fitSunShadow(force = false) {
     const outside = currentRoom === "outside";
-    const extent = outside ? clamp(Math.round(radius * 0.75), 12, 36) : 10;
+    const extent = outside ? clamp(Math.round(radius * 0.75), 12, 120) : 10;
     const centre = outside ? target : shadowCentre.set(0, 0, 0);
     const direction = sunDirection;
     const right = shadowAxes[0].set(0, 1, 0).cross(direction).normalize(),
@@ -703,6 +729,7 @@ export function createCoastalHome(container, records, artifacts) {
           root.visible = true;
         }
         rooms.set(id, root);
+        cameraField?.addRoot(root);
         requestFrame();
         prepareStaticLight();
         return root;
@@ -1002,6 +1029,11 @@ export function createCoastalHome(container, records, artifacts) {
     steamVolume = createSteamVolume(field, { extinction: 0.7 });
     steamVolume.object.visible = false;
     scene.add(steamVolume.object);
+    // The camera looks into the steam, never from inside it.
+    cameraField?.addSolid(
+      [pool.center[0] - padding, pool.surfaceY - 0.05, pool.center[1] - padding],
+      [pool.center[0] + padding, pool.surfaceY + 0.72, pool.center[1] + padding]
+    );
     if (lightWell) steamVolume.setWell(config.lightWell);
     lightWell?.setPool(pool.center, pool.radius, pool.surfaceY);
     lightInstallations?.setPool(pool.center, pool.radius, pool.surfaceY, pool.depth);
@@ -1236,6 +1268,7 @@ export function createCoastalHome(container, records, artifacts) {
     }
     if (currentRoom !== "outside") setRoom("outside");
     clearFocus();
+    inertia.stop();
     animalFocus = neighbour;
     explore.explore();
     followClock = false;
@@ -1367,6 +1400,12 @@ export function createCoastalHome(container, records, artifacts) {
   // The authoring lab (?scene-lab=1) can place the camera anywhere for close inspection.
   let labFreeCamera = false;
   const labSettings = { reflection: true };
+  // A room's authored envelope frames its arrival. Once the collision field is ready the orbit
+  // opens (October 15): free yaw, pitch from slightly below eye level to nearly overhead, and
+  // half as far again as the authored framing, with walls, screens, furniture and rock ending
+  // the orbit instead of a hand-set arc. Every room gets this, including ones added later; a room
+  // can bound it with camera.explore ({ yaw, pitch, radius }).
+  const exploringEnvelopes = new WeakMap();
   function cameraEnvelope() {
     if (labFreeCamera) return null;
     if (animalFocus) return wildlifeEnvelope(animalFocus.radius);
@@ -1379,27 +1418,117 @@ export function createCoastalHome(container, records, artifacts) {
       envelope = { ...authored, radius: [near, authored.radius[1]] };
       nearerEnvelopes.set(authored, envelope);
     }
-    return envelope;
+    if (currentRoom === "outside" || currentRoom === "overview" || !cameraField?.ready) return envelope;
+    let open = exploringEnvelopes.get(envelope);
+    if (!open) {
+      const camera = config.rooms.find((r) => r.id === currentRoom)?.camera || {},
+        bound = camera.explore || {};
+      open = {
+        ...envelope,
+        yaw: bound.yaw || null,
+        pitch: [Math.min(envelope.pitch[0], bound.pitch?.[0] ?? -0.12), Math.max(envelope.pitch[1], bound.pitch?.[1] ?? 1.25)],
+        radius: [envelope.radius[0], Math.max(envelope.radius[1], bound.radius?.[1] ?? (camera.radius || envelope.radius[1]) * 1.5)],
+      };
+      exploringEnvelopes.set(envelope, open);
+    }
+    return open;
+  }
+
+  // The spring arm runs in rooms (the visible path to the target, against the collision field and
+  // then the terrain) and the whole house (only somewhere in open air to stand: its target sits
+  // behind interior partitions the view is meant to look across). Outside, the camera rides over
+  // the terrain instead (a terrace target hidden by the cliff would otherwise pull it into the
+  // terrace). The collision field itself is built by camera-field.mjs as the models load.
+  let cameraField = null;
+  const armActive = () => !labFreeCamera && !animalFocus && currentRoom !== "outside" && Boolean(config);
+  const armReady = () => (currentRoom === "overview" ? Boolean(config?.cameraCollision) : Boolean(cameraField?.ready));
+  const targetPoint = [0, 0, 0];
+  function armFor(at, orbitYaw, orbitPitch, length) {
+    return cameraArm(cameraField?.grid, config.cameraCollision, at, orbitYaw, orbitPitch, length, {
+      footprint: cameraField?.footprint,
+      stand: currentRoom === "overview",
+    });
+  }
+  // The shortest arm a visitor can steer into: a view pressed closer than this to its target
+  // (behind a screen, against the back wall, wedged behind the kitchen island) stops the orbit
+  // instead. It scales with the requested distance, so a wide view never collapses to a close-up.
+  function minimumArm() {
+    const near = cameraEnvelope()?.radius?.[0] ?? 1.6;
+    const floor = currentRoom === "overview" ? near * 0.75 : Math.max(1.15, near * 0.6);
+    return Math.min(desiredRadius * 0.95, Math.max(floor, desiredRadius * 0.4));
+  }
+  const cameraDistance = () => (armShown === null ? radius : Math.min(radius, armShown));
+
+  // Orbit input from drags, keys and coasting. Envelope edges cushion a drag; collision steering
+  // keeps the requested view on the visible side of walls, slabs, screens and rock. Returns which
+  // axes stopped, so coasting halts against them.
+  function orbitBy(dYaw, dPitch, { cushioned = true } = {}) {
+    const envelope = cameraEnvelope();
+    const fromYaw = yaw,
+      fromPitch = pitch;
+    let nextYaw = cushioned && envelope?.yaw ? cushion(yaw, dYaw, envelope.yaw) : yaw + dYaw,
+      nextPitch = cushioned && envelope?.pitch ? cushion(pitch, dPitch, envelope.pitch) : pitch + dPitch;
+    if (envelope) {
+      const constrained = constrainOrbit({ yaw: nextYaw, pitch: nextPitch, radius: desiredRadius }, envelope);
+      // Keep an unwrapped exterior yaw (the full orbit accumulates turns).
+      nextYaw = envelope.yaw ? constrained.yaw : nextYaw;
+      nextPitch = constrained.pitch;
+    }
+    let blocked = false;
+    if (armActive() && armReady() && (nextYaw !== fromYaw || nextPitch !== fromPitch)) {
+      desiredTarget.toArray(targetPoint);
+      const steered = steerOrbit(
+        (y, p) => armFor(targetPoint, y, p, desiredRadius),
+        { yaw: fromYaw, pitch: fromPitch },
+        { yaw: nextYaw, pitch: nextPitch },
+        minimumArm()
+      );
+      nextYaw = steered.yaw;
+      nextPitch = steered.pitch;
+      blocked = steered.blocked;
+    }
+    yaw = nextYaw;
+    pitch = nextPitch;
+    const appliedYaw = yaw - fromYaw,
+      appliedPitch = pitch - fromPitch;
+    return {
+      yaw: appliedYaw,
+      pitch: appliedPitch,
+      stoppedYaw: Boolean(dYaw) && Math.abs(appliedYaw) < Math.abs(dYaw) * 0.5,
+      stoppedPitch: Boolean(dPitch) && Math.abs(appliedPitch) < Math.abs(dPitch) * 0.5,
+      blocked,
+    };
   }
 
   // Semantic zoom (Sirui, 2026-10-14): zooming out past a room's widest view opens the whole house,
   // and past that the coast; zooming in walks back, into the room under the pointer. A view changes
   // only when the visitor keeps zooming after reaching its limit, so one hard flick still stops at
-  // the edge, and a 0.7 s lull forgets a partial push.
+  // the edge, and a 0.7 s lull forgets a partial push. Where a wall or the cliff stops the spring
+  // arm short of the envelope, that is the room's widest view.
   let zoomPush = 0,
     zoomPushAt = 0;
   function zoomBy(factor, event = null) {
     if (!(factor > 0) || factor === 1) return;
     explore.explore();
     followClock = false;
+    inertia.stop();
     if (focused) clearFocus();
-    const [near, far] = cameraEnvelope()?.radius || [0, Infinity];
+    const [near, envelopeFar] = cameraEnvelope()?.radius || [0, Infinity];
+    let far = envelopeFar;
+    if (armActive() && armReady() && Number.isFinite(envelopeFar)) {
+      desiredTarget.toArray(targetPoint);
+      far = Math.max(near, Math.min(envelopeFar, armFor(targetPoint, yaw, pitch, envelopeFar)));
+      // Zooming in starts from where the arm holds the camera, not from an unreachable request.
+      if (factor < 1) desiredRadius = Math.min(desiredRadius, far);
+    }
     const now = performance.now();
     if (now - zoomPushAt > 700) zoomPush = 0;
     const atLimit = factor > 1 ? desiredRadius >= far * 0.985 : desiredRadius <= near * 1.015;
     if (!atLimit) {
       zoomPush = 0;
       desiredRadius *= factor;
+      // A request past the arm's reach would only be a dead zone before zooming back in.
+      if (factor > 1) desiredRadius = Math.min(desiredRadius, far);
     } else {
       zoomPush += Math.log(factor);
       zoomPushAt = now;
@@ -1441,21 +1570,27 @@ export function createCoastalHome(container, records, artifacts) {
     return best;
   }
 
-  // Moving the viewpoint (Shift- or right-drag, two fingers, Shift+arrows) slides the target over the
-  // floor within the view's reach, so the house never drifts out of frame.
-  const panReach = () => (animalFocus ? 0 : currentRoom === "outside" ? 26 : currentRoom === "overview" ? 6 : 1);
-  const panOrigin = new THREE.Vector3();
-  function panBy(dx, dy) {
+  // Moving the viewpoint (Shift-, right- or middle-drag, two fingers, Shift+arrows) slides the target
+  // over the floor within the view's reach (an optional camera.pan in the manifest; otherwise 1.8 m
+  // in a room once its collision field is ready, 1 m before, 8 m across the house, and on the coast
+  // 26 m or 45% of the zoom, whichever is larger), so the house never drifts out of frame. Inside,
+  // the target stops at furniture and walls; outside it rides up the clifftop instead of sinking
+  // into it.
+  function panReach() {
+    if (animalFocus || !config) return 0;
+    const view = config.views[currentRoom] || config.rooms.find((r) => r.id === currentRoom)?.camera;
+    const authored = view?.pan ?? (currentRoom === "outside" ? 26 : currentRoom === "overview" ? 8 : cameraField?.ready ? 1.8 : 1);
+    return currentRoom === "outside" ? Math.max(authored, desiredRadius * 0.45) : authored;
+  }
+  const panOrigin = new THREE.Vector3(),
+    panFrom = new THREE.Vector3(),
+    panDirection = [0, 0, 0];
+  function panWorld(dx, dz) {
     const reach = panReach();
-    if (!reach || !renderer || !config) return;
-    explore.explore();
-    followClock = false;
-    if (focused) clearFocus();
-    const height = renderer.domElement.getBoundingClientRect().height || 1;
-    const perPixel = (2 * Math.tan(THREE.MathUtils.degToRad(perspective.fov) / 2) * radius) / height,
-      along = dy / Math.max(0.35, Math.sin(cameraPitch));
-    desiredTarget.x += (-dx * Math.cos(cameraYaw) - along * Math.sin(cameraYaw)) * perPixel;
-    desiredTarget.z += (dx * Math.sin(cameraYaw) - along * Math.cos(cameraYaw)) * perPixel;
+    if (!reach || !config) return { x: 0, z: 0, stopped: true };
+    panFrom.copy(desiredTarget);
+    desiredTarget.x += dx;
+    desiredTarget.z += dz;
     const view = config.views[currentRoom] || config.rooms.find((r) => r.id === currentRoom);
     if (view?.target) {
       panOrigin.fromArray(view.target);
@@ -1466,8 +1601,67 @@ export function createCoastalHome(container, records, artifacts) {
         desiredTarget.x = panOrigin.x + (ox / distance) * reach;
         desiredTarget.z = panOrigin.z + (oz / distance) * reach;
       }
+      if (currentRoom === "outside") {
+        const ground = cameraTerrainHeight(desiredTarget.x, desiredTarget.z, config.cameraCollision);
+        desiredTarget.y = Math.max(view.target[1], ground + 1.2);
+      }
     }
+    let stopped = false;
+    if (armActive() && currentRoom !== "overview" && cameraField?.ready) {
+      const length = panFrom.distanceTo(desiredTarget);
+      if (length > 1e-6) {
+        desiredTarget.clone().sub(panFrom).divideScalar(length).toArray(panDirection);
+        const step = new THREE.Vector3(...panDirection);
+        // The target may pass close to furniture but not into it. One that already sits inside a
+        // solid (the onsen's steam around the bather) slides freely until it leaves.
+        let allowed = length;
+        if (!(cameraField.grid.flagAt(panFrom.x, panFrom.y, panFrom.z) & (BLOCKING | INSIDE))) {
+          const hit = cameraField.grid.march(panFrom.toArray(), panDirection, length + 0.1, BLOCKING | INSIDE);
+          if (hit.blocked) {
+            allowed = Math.max(0, Math.min(length, hit.distance - 0.1));
+            stopped = true;
+          }
+        }
+        // The orbit around the moved target must stay open: a pan that would press the camera
+        // against a wall shortens instead.
+        const minArm = minimumArm(),
+          armFrom = armFor(panFrom.toArray(), yaw, pitch, desiredRadius),
+          open = (distance) => {
+            const at = panFrom.clone().addScaledVector(step, distance).toArray();
+            const arm = armFor(at, yaw, pitch, desiredRadius);
+            return arm >= minArm || arm >= armFrom - 0.001;
+          };
+        if (allowed > 0 && !open(allowed)) {
+          let lo = 0,
+            hi = allowed;
+          for (let i = 0; i < 5; i++) {
+            const mid = (lo + hi) / 2;
+            if (open(mid)) lo = mid;
+            else hi = mid;
+          }
+          allowed = lo;
+          stopped = true;
+        }
+        desiredTarget.copy(panFrom).addScaledVector(step, allowed);
+      }
+    }
+    const moved = { x: desiredTarget.x - panFrom.x, z: desiredTarget.z - panFrom.z };
+    return { ...moved, stopped: stopped || Math.hypot(moved.x, moved.z) < Math.hypot(dx, dz) * 0.5 };
+  }
+  function panBy(dx, dy) {
+    if (!panReach() || !renderer || !config) return { x: 0, z: 0, stopped: true };
+    explore.explore();
+    followClock = false;
+    if (focused) clearFocus();
+    const height = renderer.domElement.getBoundingClientRect().height || 1;
+    const perPixel = (2 * Math.tan(THREE.MathUtils.degToRad(perspective.fov) / 2) * cameraDistance()) / height,
+      along = dy / Math.max(0.35, Math.sin(cameraPitch));
+    const moved = panWorld(
+      (-dx * Math.cos(cameraYaw) - along * Math.sin(cameraYaw)) * perPixel,
+      (dx * Math.sin(cameraYaw) - along * Math.cos(cameraYaw)) * perPixel
+    );
     requestFrame();
+    return moved;
   }
 
   // A quiet, transient line over the scene: how to zoom, or the room under the pointer.
@@ -1527,6 +1721,7 @@ export function createCoastalHome(container, records, artifacts) {
   function setRoom(id, manual = true) {
     if (!config) return;
     labFreeCamera = false;
+    inertia.stop();
     if (manual) {
       explore.explore();
       followClock = false;
@@ -1641,12 +1836,9 @@ export function createCoastalHome(container, records, artifacts) {
       const b = event.target.closest("button");
       if (!b) return;
       if (b.dataset.worldRoom) setRoom(b.dataset.worldRoom);
-      if (b.dataset.worldZoom) {
-        explore.explore();
-        followClock = false;
-        desiredRadius += b.dataset.worldZoom === "in" ? -0.6 : 0.6;
-        requestFrame();
-      }
+      // The same semantic zoom as the wheel and plus/minus keys, so touch visitors reach the house
+      // and the far coast too.
+      if (b.dataset.worldZoom) zoomBy(b.dataset.worldZoom === "in" ? 1 / 1.25 : 1.25);
       if (b.hasAttribute("data-world-now")) {
         explore.now();
         followClock = true;
@@ -1700,6 +1892,9 @@ export function createCoastalHome(container, records, artifacts) {
     listen(canvas, "contextmenu", (e) => e.preventDefault());
     listen(canvas, "pointerdown", (e) => {
       if (e.button > 2) return;
+      // Catching a coasting view holds it where it is.
+      inertia.stop();
+      inertia.clearTrack();
       if (e.pointerType === "touch") {
         touches.set(e.pointerId, [e.clientX, e.clientY]);
         if (touches.size === 2) {
@@ -1752,10 +1947,14 @@ export function createCoastalHome(container, records, artifacts) {
       }
       pointer.moved = Math.hypot(e.clientX - pointer.x, e.clientY - pointer.y);
       if (pointer.moved > 5) {
-        if (pointer.pan) panBy(e.clientX - pointer.lastX, e.clientY - pointer.lastY);
-        else {
-          yaw -= (e.clientX - pointer.lastX) * 0.008;
-          pitch += (e.clientY - pointer.lastY) * 0.006;
+        // What the drag actually moved (after cushions and collision steering) feeds the release
+        // velocity, so a drag pressed against a wall never flings into it.
+        if (pointer.pan) {
+          const moved = panBy(e.clientX - pointer.lastX, e.clientY - pointer.lastY);
+          inertia.track(e.timeStamp / 1000, { x: moved.x, z: moved.z });
+        } else {
+          const moved = orbitBy(-(e.clientX - pointer.lastX) * 0.008, (e.clientY - pointer.lastY) * 0.006);
+          inertia.track(e.timeStamp / 1000, { yaw: moved.yaw, pitch: moved.pitch });
         }
       }
       pointer.lastX = e.clientX;
@@ -1769,6 +1968,8 @@ export function createCoastalHome(container, records, artifacts) {
         return;
       }
       if (!pointer || pointer.id !== e.pointerId) return;
+      // A flick coasts to rest; reduced motion and pause keep a drag exact.
+      if (pointer.moved > 5 && !reduced && !paused && inertia.release(e.timeStamp / 1000, { yaw: 7, pitch: 3, x: 40, z: 40 })) requestFrame();
       if (pointer.moved < 6 && !pointer.pan) {
         // In the whole-house view, a click on a room visits it.
         const room = !pointer.object && currentRoom === "overview" ? roomAt(e) : null;
@@ -1786,6 +1987,7 @@ export function createCoastalHome(container, records, artifacts) {
       pointer = null;
       pinch = null;
       touches.clear();
+      inertia.clearTrack();
     });
     listen(
       canvas,
@@ -1814,6 +2016,7 @@ export function createCoastalHome(container, records, artifacts) {
       // Shift+arrows move the viewpoint; in the whole house, 1 to 6 visit the rooms in order.
       if (e.shiftKey && e.key.startsWith("Arrow")) {
         e.preventDefault();
+        inertia.stop();
         const step = { ArrowLeft: [60, 0], ArrowRight: [-60, 0], ArrowUp: [0, 60], ArrowDown: [0, -60] }[e.key];
         if (step) panBy(...step);
         return;
@@ -1823,14 +2026,26 @@ export function createCoastalHome(container, records, artifacts) {
         setRoom(config.rooms[Number(e.key) - 1].id);
         return;
       }
+      // Arrow keys turn in exact steps (three left and three right return to the same view); they
+      // still stop short of a wall instead of passing behind it.
       const keys = {
-        ArrowLeft: () => (yaw += 0.18),
-        ArrowRight: () => (yaw -= 0.18),
-        ArrowUp: () => (pitch += 0.1),
-        ArrowDown: () => (pitch -= 0.1),
+        ArrowLeft: () => orbitBy(0.18, 0, { cushioned: false }),
+        ArrowRight: () => orbitBy(-0.18, 0, { cushioned: false }),
+        ArrowUp: () => orbitBy(0, 0.1, { cushioned: false }),
+        ArrowDown: () => orbitBy(0, -0.1, { cushioned: false }),
         "+": () => zoomBy(1 / 1.16),
         "=": () => zoomBy(1 / 1.16),
         "-": () => zoomBy(1.16),
+        PageUp: () => zoomBy(1 / 1.16),
+        PageDown: () => zoomBy(1.16),
+        // Recentre the current view on its authored framing (a lost visitor's way back).
+        Home: () => {
+          if (animalFocus) {
+            const id = animalFocus.id;
+            animalFocus = null;
+            inspectNeighbour(id);
+          } else setRoom(currentRoom);
+        },
         Escape: () => setRoom("study"),
         Enter: () => (animalFocus ? setRoom("outside") : focused && activate(focused)),
         n: nextNeighbour,
@@ -1845,6 +2060,7 @@ export function createCoastalHome(container, records, artifacts) {
         e.preventDefault();
         explore.explore();
         followClock = false;
+        inertia.stop();
         keys[e.key]();
         requestFrame();
       }
@@ -1898,6 +2114,7 @@ export function createCoastalHome(container, records, artifacts) {
 
   function cancelFrame() {
     cameraMotion.stop();
+    inertia.stop();
     characterPerformance?.restore();
     characterPerformance?.update(0, { active: false, clip: container.dataset.animation });
     if (frame) cancelAnimationFrame(frame);
@@ -1944,6 +2161,29 @@ export function createCoastalHome(container, records, artifacts) {
       const current = pacific.neighbour(animalFocus.id);
       if (current) desiredTarget.fromArray(current.worldCenter);
     }
+    // A released flick coasts, through the same envelope cushions, collision steering and pan
+    // bounds as the drag that started it; an axis that meets a limit stops.
+    if (inertia.active) {
+      if (stillCamera || pointer || pinch) inertia.stop();
+      else {
+        const moved = inertia.step(frameDelta);
+        if (moved.yaw || moved.pitch) {
+          const result = orbitBy(moved.yaw || 0, moved.pitch || 0);
+          if (result.stoppedYaw) inertia.stop("yaw");
+          if (result.stoppedPitch) inertia.stop("pitch");
+        }
+        if (moved.x || moved.z) {
+          const result = panWorld(moved.x || 0, moved.z || 0);
+          if (result.stopped) {
+            inertia.stop("x");
+            inertia.stop("z");
+          }
+        }
+        const orbit = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope());
+        yaw = orbit.yaw;
+        pitch = orbit.pitch;
+      }
+    }
     for (const axis of ["x", "y", "z"]) target[axis] = cameraMotion.step(axis, target[axis], desiredTarget[axis], frameDelta, stillCamera);
     radius = cameraMotion.step("radius", radius, desiredRadius, frameDelta, stillCamera);
     const fov = cameraMotion.step("fov", perspective.fov, desiredFov, frameDelta, stillCamera);
@@ -1963,14 +2203,66 @@ export function createCoastalHome(container, records, artifacts) {
     cameraYaw = safeOrbit.yaw;
     cameraPitch = safeOrbit.pitch;
     radius = safeOrbit.radius;
-    camera.position.set(
-      target.x + Math.sin(cameraYaw) * Math.cos(cameraPitch) * radius,
-      target.y + Math.sin(cameraPitch) * radius,
-      target.z + Math.cos(cameraYaw) * Math.cos(cameraPitch) * radius
-    );
+    // The spring arm keeps the camera on the target's side of walls, slabs, screens, furniture and
+    // rock. It shortens quickly and lengthens gently, and never passes the hard limit, so the near
+    // plane stays out of every blocking surface even mid-motion.
+    if (armActive()) {
+      target.toArray(targetPoint);
+      armWanted = armFor(targetPoint, cameraYaw, cameraPitch, radius);
+      const hard = hardArm(
+        cameraField?.grid,
+        config.cameraCollision,
+        targetPoint,
+        cameraYaw,
+        cameraPitch,
+        radius,
+        cameraField?.footprint,
+        currentRoom === "overview"
+      );
+      // Smooth the shortfall against the orbit radius, not the length itself, so an unobstructed
+      // zoom is exactly as quick as before.
+      const wanted = radius - armWanted;
+      if (armShown === null || stillCamera) {
+        armDeficit = wanted;
+        cameraMotion.stop("arm");
+      } else armDeficit = cameraMotion.step("arm", armDeficit, wanted, frameDelta, false, wanted > armDeficit ? 24 : 9);
+      armShown = Math.max(0, Math.min(radius - Math.max(0, armDeficit), hard));
+    } else {
+      armDeficit = 0;
+      armShown = armWanted = null;
+      cameraMotion.stop("arm");
+    }
+    const distance = cameraDistance(),
+      direction = ORBIT_DIRECTION(cameraYaw, cameraPitch);
+    camera.position.set(target.x + direction[0] * distance, target.y + direction[1] * distance, target.z + direction[2] * distance);
+    aim.copy(target);
+    let groundClearance = Infinity;
+    if (currentRoom === "outside" && !animalFocus && !labFreeCamera) {
+      // Over the cliff the camera rides the terrain with more clearance the farther it is, and
+      // looks along its orbit rather than down into the sandstone that hides the terrace.
+      const ground = cameraTerrainHeight(camera.position.x, camera.position.z, config.cameraCollision);
+      outsideLift = Math.max(0, ground + outsideClearance(radius, config.cameraCollision?.clearance) - camera.position.y);
+      camera.position.y += outsideLift;
+      aim.y += outsideLift * 0.85;
+      groundClearance = camera.position.y - ground;
+    } else outsideLift = 0;
     // The gallery rail is inside the carved home. A mainland height field
     // would lift its inspection camera onto the cliff and into the sandstone.
-    keepCameraClear(camera.position, config, animalFocus?.id === "balcony-gull-0" ? "study" : currentRoom);
+    keepCameraClear(camera.position, config, animalFocus?.id === "balcony-gull-0" ? "study" : currentRoom, {
+      walls: !(armActive() && cameraField?.ready),
+    });
+    // Far coast views: haze, clip planes and the sky dome follow the zoom (camera.mjs farView).
+    const far = farView(currentRoom === "outside" && !animalFocus ? radius : 0, groundClearance);
+    if (perspective.near !== far.near || perspective.far !== far.far) {
+      perspective.near = far.near;
+      perspective.far = far.far;
+      perspective.updateProjectionMatrix();
+    }
+    if (scene.fog) {
+      scene.fog.near = far.fogNear;
+      scene.fog.far = far.fogFar;
+    }
+    pacific?.followCamera?.(camera.position, far.far * 0.85);
     if (camera.isOrthographicCamera) {
       const half = radius * Math.tan((38 * Math.PI) / 360);
       camera.left = -half * aspect;
@@ -1979,7 +2271,7 @@ export function createCoastalHome(container, records, artifacts) {
       camera.bottom = -half;
       camera.updateProjectionMatrix();
     }
-    camera.lookAt(target);
+    camera.lookAt(aim);
     syncCutaway();
     poolStroke?.restore();
     characterPerformance?.restore();
@@ -2206,6 +2498,8 @@ export function createCoastalHome(container, records, artifacts) {
     const settledRadius = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope()).radius;
     if (
       moving ||
+      inertia.active ||
+      (armWanted !== null && Math.abs(armDeficit - (radius - armWanted)) > 0.003) ||
       target.distanceTo(desiredTarget) > 0.003 ||
       Math.abs(radius - settledRadius) > 0.003 ||
       Math.abs(Math.atan2(Math.sin(yaw - cameraYaw), Math.cos(yaw - cameraYaw))) > 0.003 ||
@@ -2247,6 +2541,8 @@ export function createCoastalHome(container, records, artifacts) {
       // The coast's wind starts at this Pacific minute, so the spray and dust prewarm in today's breeze.
       coastWind.update({ seconds: elapsed, minute: livePacificMinute(config.timeZone) });
       syncOceanWind(coastWind.state);
+      cameraField = createCameraField({ config, world, onReady: () => requestFrame() });
+      cleanup.push(() => cameraField?.dispose());
       // The composer multisamples its own target and finishes with one full-screen triangle, so a
       // multisampled canvas would only add a resolve without changing a pixel.
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: "low-power" });
@@ -2304,6 +2600,7 @@ export function createCoastalHome(container, records, artifacts) {
         return;
       }
       world.add(prepareModel(shell.scene));
+      cameraField?.addRoot(shell.scene);
       loadingStage("coast", "Opening the coast.");
       pacific = createPacific(scene, renderer, config);
       const coast = await loadModel(new URL(config.coast, manifestUrl).href, "coast");
@@ -2312,6 +2609,7 @@ export function createCoastalHome(container, records, artifacts) {
         return;
       }
       world.add(prepareModel(coast.scene, { outdoor: true }));
+      cameraField?.addRoot(coast.scene);
       worldCompanion = await createWorldCompanion(scene, config, container, loader).catch(() => null);
       if (disposed) {
         worldCompanion?.dispose();
@@ -2410,7 +2708,8 @@ export function createCoastalHome(container, records, artifacts) {
     return initPromise;
   }
 
-  if (labEnabled) container.labScene = { scene, sun, settings: labSettings, requestFrame: () => requestFrame() };
+  if (labEnabled)
+    container.labScene = { scene, sun, settings: labSettings, requestFrame: () => requestFrame(), collisionGrid: () => cameraField?.grid };
   // Lab only: run today's training session from a chosen second (null returns to the clock).
   if (labEnabled)
     container.setLabSessionSeconds = (seconds) => {
@@ -2533,6 +2832,20 @@ export function createCoastalHome(container, records, artifacts) {
     cameraVelocity: cameraMotion.evidence(),
     cameraFov: perspective.fov,
     cameraEnvelope: config ? cameraEnvelope() : null,
+    // Navigation (camera.mjs): the spring arm's length against the orbit radius, the collision
+    // field it reads, the outside terrain lift, coasting velocities, and the far-view planes.
+    cameraArm: {
+      active: config ? armActive() : false,
+      distance: armShown,
+      wanted: armWanted,
+      limited: armShown !== null && armShown < radius - 0.01,
+      minimum: config && armActive() ? minimumArm() : null,
+      lift: outsideLift,
+    },
+    cameraCollision: cameraField?.evidence() ?? null,
+    cameraInertia: inertia.evidence(),
+    cameraClip: { near: perspective.near, far: perspective.far, fogNear: scene.fog?.near ?? null, fogFar: scene.fog?.far ?? null },
+    panReach: config ? panReach() : null,
     target: target.toArray(),
     currentRecord,
     spinning,

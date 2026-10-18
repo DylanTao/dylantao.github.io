@@ -68,11 +68,15 @@ def camera_manifest(config, height):
     }
     config['cameraCollision']['elevations'] = sample_camera_elevations(config['cameraCollision'], height)
     config['cutawaySections'] = [{'id':'inhabited-roof','tag':'caveRoof','closed':True}]
+    # Since 2026-10-15 the coast zooms out to 160 m and both wide views orbit freely: the browser
+    # keeps the whole-house camera out of the cliff with the height grid below, and the room
+    # arcs written further down only frame arrivals until its collision field is ready
+    # (home-scene/camera.mjs).
     for key in ('outside','overview'):
         view = config['views'][key]
-        view['envelope'] = {'yaw':None if key=='outside' else [2.38,3.96],
-            'pitch':[.18,.86] if key=='outside' else [.25,.78],
-            'radius':[24,72] if key=='outside' else [13,25]}
+        view['envelope'] = {'yaw':None,
+            'pitch':[.12,1.2] if key=='outside' else [.05,1.35],
+            'radius':[24,160] if key=='outside' else [13,32]}
     for room in config['rooms']:
         if room['id']=='onsen':
             room['camera']={'radius':3.7,'yaw':3.5,'pitch':.36}
