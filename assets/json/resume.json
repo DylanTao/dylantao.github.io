@@ -208,12 +208,19 @@
   ],
   "work": [
     {
+      "name": "UC San Diego",
+      "position": "Graduate Student Researcher, Smart Learning Hub project",
+      "startDate": "2026-10",
+      "endDate": "Present",
+      "summary": "Design and implement student-facing AI learning interfaces, including knowledge-map visualizations; build and iterate interactive prototypes with faculty and engineering stakeholders."
+    },
+    {
       "name": "Autodesk",
-      "position": "PhD Intern, AI Research - Datasets & Benchmarks",
+      "position": "PhD Intern, AI Research – Datasets & Benchmarks",
       "location": "Remote",
       "startDate": "2026-06",
       "endDate": "2026-09",
-      "summary": "Worked on better human-centered evaluation for 3D CAD.",
+      "summary": "Developed human-centered evaluation methods and tooling for AI-assisted 3D CAD in Autodesk AI Lab. Will McCarthy was my primary mentor and manager; Vivian Liu and Anubrata Das also mentored me.",
       "url": "https://www.autodesk.com/"
     },
     {
@@ -311,16 +318,14 @@
       "title": "ChatGPT for Academic Researchers",
       "date": "2026",
       "awarder": "OpenAI",
-      "annotation": "[Awarded to Steven P. Dow]",
-      "summary": "Steven's award, shared with his lab: a free year of OpenAI's $200-a-month tier with Codex, for up to five researchers. I'm one of them, in ProtoLab.",
+      "summary": "Steven got this subscription for the lab, and I get to use it through ProtoLab :)",
       "url": "https://openai.com/index/chatgpt-for-academic-researchers/"
     },
     {
       "title": "Claude Team Plan for Scientists",
       "date": "2026",
       "awarder": "Anthropic",
-      "annotation": "[Awarded to Steven P. Dow]",
-      "summary": "Steven's award for his research group: a year of Premium seats at $15 a month, versus $100 for the Max 5x plan. I use it alongside the OpenAI plan in ProtoLab.",
+      "summary": "Steven got this subscription for the lab, and I get to use it through ProtoLab :)",
       "url": "https://support.claude.com/en/articles/16634237-claude-team-plan-for-scientists"
     },
     {
