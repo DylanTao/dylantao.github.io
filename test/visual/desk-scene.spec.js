@@ -1751,7 +1751,9 @@ test("coastal neighbours: new raccoon and birds expose real close views without 
   expect(visited).toEqual(expected);
   await sceneInputFrame(page, home, () => canvas.press("Enter"));
   expect((await evidence(scene)).inspection).toBeNull();
-  expect(await ui.locator("button:visible").count()).toBe(1);
+  // Back inside and full screen remain the only public controls; visiting the animals adds none.
+  expect(await ui.locator("button:visible").count()).toBe(2);
+  await expect(ui.locator("[data-world-fullscreen]")).toBeVisible();
   expect(errors).toEqual([]);
 });
 
