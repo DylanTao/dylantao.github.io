@@ -389,10 +389,47 @@ let setCookieConsentTheme = (theme) => {
 };
 
 let transTheme = () => {
+  // A pick revealed as one view transition needs no per-property color transition on top.
+  if (themeRevealActive) return;
   document.documentElement.classList.add("transition");
   window.setTimeout(() => {
     document.documentElement.classList.remove("transition");
   }, 500);
+};
+
+// A time-of-day pick spreads from the option that was chosen: the new light grows out of it in a
+// circle on the site's gentle spring (_sass/_transitions.scss), as one view transition, so gradients
+// and canvases change together with everything else. Dragging the sun arc and the automatic clock
+// keep the brief color transition; reduced motion swaps at once, and automation keeps the instant
+// change its captures rely on unless the URL asks for ?cinematic=live.
+let themeRevealActive = false;
+let revealThemeFrom = (origin, update) => {
+  const root = document.documentElement;
+  const live = /[?&]cinematic=live(?:&|$)/.test(window.location.search);
+  if (!origin || !document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches || (navigator.webdriver && !live)) {
+    update();
+    return;
+  }
+  const box = origin.getBoundingClientRect();
+  root.style.setProperty("--theme-reveal-x", `${Math.round(box.left + box.width / 2)}px`);
+  root.style.setProperty("--theme-reveal-y", `${Math.round(box.top + box.height / 2)}px`);
+  root.classList.add("theme-revealing");
+  const done = () => root.classList.remove("theme-revealing");
+  try {
+    document
+      .startViewTransition(() => {
+        themeRevealActive = true;
+        try {
+          update();
+        } finally {
+          themeRevealActive = false;
+        }
+      })
+      .finished.finally(done);
+  } catch {
+    done();
+    update();
+  }
 };
 
 let normalizeThemeSetting = (themeSetting) => {
@@ -580,7 +617,7 @@ let setupThemeModeControl = () => {
 
     options.forEach((option, index) => {
       option.addEventListener("click", () => {
-        setThemeSetting(option.getAttribute("data-theme-mode-option"));
+        revealThemeFrom(option, () => setThemeSetting(option.getAttribute("data-theme-mode-option")));
         closeControl(control);
         toggle.focus();
       });

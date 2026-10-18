@@ -68,4 +68,18 @@ export function springNow(nameOrSpring, x0, v0, elapsedMs) {
 
 if (typeof window !== "undefined") {
   window.SiteMotion = Object.assign(window.SiteMotion || {}, { SPRINGS, spring, linearEasing, springSamples, springNow });
+
+  // Pictures that arrive after the page has drawn fade in (_sass/_springs.scss) instead of popping
+  // into their reserved space. Pictures already loaded, reduced motion, and automation (whose
+  // captures must stay deterministic unless the URL asks for ?cinematic=live) see them at once.
+  const forceLive = /[?&]cinematic=live(?:&|$)/.test(window.location.search);
+  const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches || (navigator.webdriver && !forceLive);
+  if (!still)
+    for (const image of document.querySelectorAll("main img, #main img")) {
+      if (image.complete || image.closest(".duh-companion, [data-home-desk-scene], [aria-hidden='true']")) continue;
+      image.setAttribute("data-site-image", "loading");
+      const ready = () => image.setAttribute("data-site-image", "ready");
+      image.addEventListener("load", ready, { once: true });
+      image.addEventListener("error", ready, { once: true });
+    }
 }

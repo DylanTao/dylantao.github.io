@@ -120,8 +120,8 @@ html.transition *:before,
 html.transition *:after {
   transition-property: color, background-color, border-color, box-shadow, fill, stroke !important;
   transition-duration: 240ms !important;
-  transition-timing-function: ease !important;
-  transition-delay: 0 !important;
+  transition-timing-function: var(--md-lite-easing-standard, ease) !important;
+  transition-delay: 0s !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

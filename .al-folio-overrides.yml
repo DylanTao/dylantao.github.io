@@ -370,8 +370,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _sass/_layout.scss
     upstream_sha256: 8b81d6e84d68fdcff1a2a12a8b33f963c69d9ac8db382c4d2dfaa7f37f0b0c44
-    local_sha256: 1636d892df638b791e46ac88039d0f07483f731300a28fd2dc7163728bc73a4d
-    acknowledged_at: "2026-09-04"
+    local_sha256: 36118b48021ff23ddd488836faa9883df184ab17d34eabe089d40bef755896d3
+    acknowledged_at: "2026-10-18"
   _sass/_navbar.scss:
     owner: al_folio_core
     gem_version: 1.0.11
@@ -405,8 +405,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _sass/_themes.scss
     upstream_sha256: b581e43dcfbf21c14f388e2b585474c886fad62f6b5a0444f7832e7f69745f1f
-    local_sha256: df632fcb0b90c18c2a71130a7752a157ac4f4d10e0d3f70c3311d429b9ea57c4
-    acknowledged_at: "2026-10-12"
+    local_sha256: 0b287f16581fa22906cbb1dd63c0ed25a4d8c21a3d8b585165823e343a7bfa98
+    acknowledged_at: "2026-10-18"
   _sass/_typograms.scss:
     owner: al_folio_core
     gem_version: 1.0.10
@@ -426,8 +426,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _sass/_utilities.scss
     upstream_sha256: 392b77721ca975bc359334a9bb5ca3b6323470399063c428edb8d2c2bfdbc842
-    local_sha256: 9ac496642c290b80d3d51e7f9b01d213d535942c3a0bc07f70be846d2ba98d88
-    acknowledged_at: "2026-09-04"
+    local_sha256: d8dba0486c1fc867f83074373d0c59b985da78c0eaa0bac53abcd3a8db7e4a9f
+    acknowledged_at: "2026-10-18"
   _sass/_variables.scss:
     owner: al_folio_core
     gem_version: 1.0.10
@@ -496,8 +496,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: assets/js/common.js
     upstream_sha256: 89e65df12a3473705b488338af00c08f4cf947e59dee22748afc1c3a1fcb99fe
-    local_sha256: e6352105c3cb3922b5a3fb9e5e8c4e6a62acd1b78917caae592413b3398b22ac
-    acknowledged_at: "2026-09-05"
+    local_sha256: d92904fc0659ca47d9f09d1141cfb5ab4f487a08af09c3884792bf38b8505cd4
+    acknowledged_at: "2026-10-18"
   assets/js/copy_code.js:
     owner: al_folio_core
     gem_version: 1.0.11
@@ -545,8 +545,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: assets/js/theme.js
     upstream_sha256: 404c3e26402451496cffea06946c5dd061c76c8512328bfdcbe2c3572052855e
-    local_sha256: 9e8d68878049b3f147bfcc8bda4e8d081e6a02deb6634819ef465cd24f31137b
-    acknowledged_at: "2026-10-13"
+    local_sha256: 9525d079c31bcd7502f9ac5abe32b8729b790782f40897a89994ac4956dc6c46
+    acknowledged_at: "2026-10-18"
   assets/js/tooltips-setup.js:
     owner: al_folio_core
     gem_version: 1.0.11

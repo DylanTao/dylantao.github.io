@@ -614,12 +614,19 @@ body.sticky-bottom-footer {
   }
 }
 
+// List items, cards and entries rise into place as they reach the reader: a soft fade and the
+// gentle spring (_sass/_springs.scss), a short stagger within each arriving batch (common.js sets
+// --site-reveal-delay). Once revealed (.site-revealed) the element gets its own transitions back,
+// so a card's hover still eases its border and shadow.
 html.site-motion-ready .site-reveal {
   opacity: 0;
-  transform: translateY(0.55rem);
+  transform: translateY(0.6rem);
+}
+
+html.site-motion-ready .site-reveal:not(.site-revealed) {
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    opacity 480ms var(--md-lite-easing-decelerate, ease) var(--site-reveal-delay, 0ms),
+    transform var(--spring-gentle-duration, 760ms) var(--spring-gentle, ease) var(--site-reveal-delay, 0ms);
 }
 
 html.site-motion-ready .site-reveal.site-visible {
@@ -740,7 +747,8 @@ html.site-motion-ready .site-reveal.site-visible {
     animation: none;
   }
 
-  html.site-motion-ready .site-reveal {
+  html.site-motion-ready .site-reveal,
+  html.site-motion-ready .site-reveal:not(.site-revealed) {
     opacity: 1;
     transform: none;
     transition: none;

@@ -12,6 +12,14 @@
   const forceLive = /[?&]cinematic=live(?:&|$)/.test(window.location.search);
   const automated = Boolean(navigator.webdriver) && !forceLive;
   const live = Boolean(gsap && ScrollTrigger) && !reduceMotion.matches && !automated;
+  // The site's springs (assets/js/site-motion.mjs) drive the entrances, so a card rising here moves
+  // like a card opening on the projects index; GSAP's own eases stand in if the module is missing.
+  const springEase = (name, fallback) => {
+    const spring = window.SiteMotion?.spring?.(name);
+    return spring ? { ease: spring.ease, duration: spring.seconds } : { ease: fallback, duration: null };
+  };
+  const arrive = springEase("gentle", "power3.out");
+  const travel = springEase("layout", "power3.inOut");
 
   const scenes = Array.from(document.querySelectorAll(".cinematic [data-case-scroll]"));
   const stillScene = (scene) => {
@@ -60,9 +68,9 @@
       gsap.to(batch, {
         opacity: 1,
         y: 0,
-        duration: 0.75,
-        ease: "power3.out",
-        stagger: 0.07,
+        duration: arrive.duration ?? 0.75,
+        ease: arrive.ease,
+        stagger: 0.06,
         overwrite: true,
         clearProps: "opacity,transform",
       });
@@ -82,8 +90,8 @@
       gsap.from(heading, {
         opacity: 0,
         x: -18,
-        duration: 0.7,
-        ease: "power3.out",
+        duration: arrive.duration ?? 0.7,
+        ease: arrive.ease,
         clearProps: "opacity,transform",
         scrollTrigger: { trigger: heading, start: "top 92%", once: true },
       });
@@ -180,8 +188,9 @@
   if (hero) {
     const copyItems = gsap.utils.toArray(hero.querySelectorAll(":scope > .project-case-copy > *"));
     const media = hero.querySelector(":scope > .project-case-media");
-    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-    if (copyItems.length) timeline.from(copyItems, { opacity: 0, y: 16, duration: 0.7, stagger: 0.07, clearProps: "opacity,transform" }, 0.05);
+    const timeline = gsap.timeline({ defaults: { ease: arrive.ease } });
+    if (copyItems.length)
+      timeline.from(copyItems, { opacity: 0, y: 16, duration: arrive.duration ?? 0.7, stagger: 0.06, clearProps: "opacity,transform" }, 0.05);
     // Depth as the hero scrolls away: the figure well lags the copy by a few dozen pixels, whole and
     // uncropped, so the diagram stays inspectable. The DesignWeaver scene pins its own stage instead.
     const mediaDrifts = Boolean(media) && !hero.hasAttribute("data-case-scroll") && wide.matches;
@@ -245,8 +254,8 @@
           top: `${box[1]}%`,
           width: `${box[2]}%`,
           height: `${box[3]}%`,
-          duration: 0.7,
-          ease: "power3.inOut",
+          duration: travel.duration ?? 0.7,
+          ease: travel.ease,
           overwrite: true,
         });
       } else {
@@ -283,8 +292,8 @@
       gsap.from(block, {
         opacity: 0,
         y: 22,
-        duration: 0.7,
-        ease: "power3.out",
+        duration: arrive.duration ?? 0.7,
+        ease: arrive.ease,
         clearProps: "opacity,transform",
         scrollTrigger: { trigger: block, start: "top 92%", once: true },
       });
@@ -351,9 +360,9 @@
       gsap.from(items, {
         opacity: 0,
         y: 22,
-        duration: 0.7,
-        ease: "power3.out",
-        stagger: 0.09,
+        duration: arrive.duration ?? 0.7,
+        ease: arrive.ease,
+        stagger: 0.08,
         clearProps: "opacity,transform",
         scrollTrigger: { trigger: items[0].parentElement, start: "top 85%", once: true },
       });
@@ -385,8 +394,8 @@
       gsap.from(bars, {
         scaleY: 0,
         transformOrigin: "bottom",
-        duration: 0.8,
-        ease: "power3.out",
+        duration: arrive.duration ?? 0.8,
+        ease: arrive.ease,
         stagger: 0.06,
         clearProps: "transform",
         scrollTrigger: { trigger: ".cinematic .scholar-lens-year-chart", start: "top 85%", once: true },
@@ -400,7 +409,7 @@
   if (post) {
     const header = gsap.utils.toArray(post.querySelectorAll(".post-header > *"));
     if (header.length) {
-      gsap.from(header, { opacity: 0, y: 14, duration: 0.7, ease: "power3.out", stagger: 0.08, clearProps: "opacity,transform" });
+      gsap.from(header, { opacity: 0, y: 14, duration: arrive.duration ?? 0.7, ease: arrive.ease, stagger: 0.07, clearProps: "opacity,transform" });
     }
     // Figures drift a little slower than the words around them, whole and uncropped, so screenshots
     // and diagrams stay inspectable. Their reveal is opacity-only so the two motions never fight.
@@ -423,8 +432,8 @@
         y: drifts ? 0 : quote ? 10 : 20,
         scale: quote ? 1.015 : 1,
         transformOrigin: "left center",
-        duration: quote ? 0.9 : 0.7,
-        ease: "power3.out",
+        duration: (arrive.duration ?? 0.7) * (quote ? 1.25 : 1),
+        ease: arrive.ease,
         clearProps: drifts ? "opacity" : "opacity,transform",
         scrollTrigger: { trigger: block, start: "top 92%", once: true },
       });

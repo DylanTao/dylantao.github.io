@@ -21,6 +21,19 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### October 16–18: one motion language, a grabbable duh, springier cards and a coffee ensō
+
+- **Hypothesis:** Four of Sirui's notes share a cause: the older motion and interaction pieces had each grown their own easing, timing and edge cases. One set of damped springs, used by CSS and scripts alike, with the 3D home's loading sketch as the quality bar, should make duh dependable, the project cards calm, page arrivals coherent, and the desk's coffee stain charming instead of grimy.
+- **Route:** Every page with duh; `/projects/` and the IKEA case study (cards); sitewide reveals, cross-page transitions, late images and the theme menu; the homepage desk (coffee stain); the 3D home's loading hand-off (easing only).
+- **Reference:** Apple's spring parameters (damping ratio and period, WWDC23), already used by `_sass/_springs.scss`; the loading sketch's damped strokes and carried breath (studio log card 32); Deegan et al. (Nature 1997) for coffee drying darker at the rim; the Zen ensō as a one-stroke, open brush circle.
+- **Licensing:** Original site-owned code and procedural art. No assets, code or brand identity imported.
+- **Visitor benefit:** duh can always be picked up again, wherever it lands, and no longer strands itself on a card or the 3D canvas. An opened card stays in its own row, moves without crossing or squeezing, keeps the reader's place and offers a close button where the plus was. Content, pages and late pictures arrive the same gentle way, and a theme pick spreads its light from the chosen option. The coffee mark peeks from beneath the slips as a brushed ring, sometimes with a heart, and never crosses their words.
+- **Budget:** Reduced motion and automation see still, complete states everywhere (instant layouts, no draw-in, no theme reveal, no image fade). No new dependencies. The spring module is about 3 KB; the cards and reveals hand elements their own transitions back once settled.
+- **Status:** `implemented` on `agent/ux` for coordinator review.
+- **Evidence:** Before/after captures under `.jekyll-cache/visual-qa/ux-duh/`, `ux-cards/`, `ux-coffee/` and `ux-motion/`; duh's project-card and 3D-home drop cases on desktop and phone; the cards' public and legacy cases (Chromium and WebKit); `test/site-motion.test.mjs` tying the CSS curves to the module; the coffee ensō's layering, mask and draw-in case.
+- **Sirui decision:** Pending: the ensō's look (and whether the heart stays), the theme reveal, and the card motion's feel on the live site.
+- **Revisit trigger:** Sirui's live review, any report that duh blocks a click it should not, or a route where the shared springs read as sluggish.
+
 ### October 12–13: the "awesome, not lamer" studio pass
 
 - **Hypothesis:** Sirui asked for more craft in motion, interaction and rendering, informed by Anime.js, Motion Sites, Showreel Design, React Bits, Aceternity UI and Uiverse. Each move below tests whether one physical or cinematic idea makes a specific page clearer or more delightful without costing reading, speed or accessibility.

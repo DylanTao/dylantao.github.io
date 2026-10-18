@@ -438,20 +438,33 @@ document.addEventListener("DOMContentLoaded", () => {
     return rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
   };
 
+  // Shown at once (already on screen, reduced motion): visible, with its own transitions from the start.
+  const showNow = (item) => item.classList.add("site-visible", "site-revealed");
+  // Arriving together, items rise one after another (55 ms apart, at most five steps), then get
+  // their own transitions back once the gentle spring has settled (_sass/_layout.scss).
+  const reveal = (items) =>
+    items.forEach((item, index) => {
+      const delay = Math.min(index, 5) * 55;
+      if (delay) item.style.setProperty("--site-reveal-delay", `${delay}ms`);
+      item.classList.add("site-visible");
+      window.setTimeout(() => {
+        item.classList.add("site-revealed");
+        item.style.removeProperty("--site-reveal-delay");
+      }, delay + 820);
+    });
+
   if (reduceMotion || !("IntersectionObserver" in window)) {
-    revealItems.forEach((item) => item.classList.add("site-visible"));
+    revealItems.forEach(showNow);
   } else {
     revealItems.forEach((item) => {
-      if (isAlreadyReadable(item)) item.classList.add("site-visible");
+      if (isAlreadyReadable(item)) showNow(item);
     });
 
     const revealObserver = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("site-visible");
-          revealObserver.unobserve(entry.target);
-        });
+        const arriving = entries.filter((entry) => entry.isIntersecting).map((entry) => entry.target);
+        arriving.forEach((item) => revealObserver.unobserve(item));
+        reveal(arriving.filter((item) => !item.classList.contains("site-revealed")));
       },
       { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
     );

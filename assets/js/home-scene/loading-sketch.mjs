@@ -189,7 +189,9 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
       if (disposed) return;
       const reveal = () => {
         if (!cover || disposed) return;
-        cover.style.transition = "opacity 680ms cubic-bezier(0.25, 0.1, 0.25, 1)";
+        // The render arrives on the site's gentle spring (_sass/_springs.scss), like content
+        // revealed anywhere else on the site.
+        cover.style.transition = "opacity var(--spring-gentle-duration, 760ms) var(--spring-gentle, ease)";
         cover.style.opacity = "1";
       };
       if (reduced) {
@@ -201,7 +203,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
       const end = () => {
         if (ended) return;
         ended = true;
-        canvas.style.transition = "opacity 560ms cubic-bezier(0.4, 0, 0.6, 1)";
+        canvas.style.transition = "opacity 560ms var(--md-lite-easing-standard, ease)";
         canvas.style.opacity = "0";
         setTimeout(dispose, 580);
       };

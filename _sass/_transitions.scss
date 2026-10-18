@@ -1,17 +1,38 @@
 /*******************************************************************************
  * Cross-document view transitions.
  *
- * One root crossfade on same-origin navigation so the page explains itself:
- * the fixed navbar and progress bar persist while the content changes. The
- * opt-in lives in head.liquid per document; this file only shapes timing and
- * keeps chrome from crossfading with itself. Reduced motion makes every
- * navigation an instant swap.
+ * On same-origin navigation the fixed navbar and progress bar hold still while
+ * the content changes: the old page steps back quickly, and the new one settles
+ * in with a small rise on the site's gentle spring (_sass/_springs.scss), the
+ * same arrival as content revealed on scroll. The opt-in lives in head.liquid
+ * per document; this file only shapes timing and keeps chrome from crossfading
+ * with itself. Reduced motion makes every navigation an instant swap.
  ******************************************************************************/
 
-::view-transition-old(root),
+::view-transition-old(root) {
+  animation: site-route-leave 140ms var(--md-lite-easing-exit) both;
+}
+
 ::view-transition-new(root) {
-  animation-duration: var(--md-lite-motion-duration-standard);
-  animation-timing-function: var(--md-lite-easing-standard);
+  // The gentle curve, compressed: a navigation should hand the page back quickly.
+  animation: site-route-arrive 420ms var(--spring-gentle, ease-out) both;
+}
+
+@keyframes site-route-leave {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes site-route-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  40% {
+    opacity: 1;
+  }
 }
 
 #navbar {
@@ -29,6 +50,31 @@
 ::view-transition-old(site-progress),
 ::view-transition-new(site-progress) {
   animation: none;
+}
+
+// A time-of-day pick (theme.js) spreads its new light from the chosen option: the new view grows
+// out of it in a circle over the old one, chrome included, on the gentle spring.
+html.theme-revealing #navbar,
+html.theme-revealing #progress {
+  view-transition-name: none;
+}
+
+html.theme-revealing::view-transition-old(root) {
+  animation: none;
+}
+
+html.theme-revealing::view-transition-new(root) {
+  animation: site-theme-reveal 620ms var(--spring-gentle, ease-out) both;
+}
+
+@keyframes site-theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 0));
+  }
+
+  to {
+    clip-path: circle(150vmax at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 0));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

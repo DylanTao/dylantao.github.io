@@ -256,3 +256,20 @@
     }
   }
 }
+
+// Pictures that load after the first paint fade in on the decelerating curve (site-motion.mjs marks
+// them); their space is already reserved, so nothing around them moves.
+img[data-site-image="loading"] {
+  opacity: 0;
+}
+
+img[data-site-image="ready"] {
+  transition: opacity 520ms var(--md-lite-easing-decelerate, ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img[data-site-image] {
+    opacity: 1;
+    transition: none;
+  }
+}
