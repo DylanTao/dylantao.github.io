@@ -270,7 +270,8 @@ test("reading: one type family and aligned articles; every project keeps its ori
   await card.scrollIntoViewIfNeeded();
   await page.mouse.move(1, 1);
   await expect.poll(filters).toEqual(["none"]);
-  await card.locator(".project-card-direct-link").focus();
+  // The first experiment is the website revamp's deck, which holds the other cards; use its own link.
+  await card.locator(":scope > .card .project-card-direct-link").focus();
   await expect.poll(filters).toEqual(["none"]);
   await page.locator("body").click({ position: { x: 1, y: 1 }, force: true });
   await page.emulateMedia({ reducedMotion: "reduce" });

@@ -1564,7 +1564,15 @@ test("project preview FLIP cancels stale runs and only translates cards", async 
   expect(audit.animations.every((entry) => Math.abs(entry.duration - springDuration) < 0.5)).toBe(true);
   expect(audit.animations.every((entry) => entry.easing === "linear")).toBe(true);
   expect(audit.animations.every((entry) => entry.transforms.length > 10)).toBe(true);
-  expect(layoutAnimations.flatMap((entry) => entry.transforms).every((transform) => !transform.includes("scale"))).toBe(true);
+  // Cards only travel; the one deformation allowed is the landing squash (site-motion.mjs flightFrames,
+  // 2026-10-18): a non-uniform scale along the path that keeps the card's area and stays within 3%.
+  const layoutScales = layoutAnimations
+    .flatMap((entry) => entry.transforms)
+    .filter((transform) => transform.includes("scale"))
+    .map((transform) => transform.match(/scale\(([\d.]+), ([\d.]+)\)/));
+  expect(
+    layoutScales.every((match) => match && Math.abs(Number(match[1]) * Number(match[2]) - 1) < 0.002 && Math.abs(Number(match[1]) - 1) <= 0.031)
+  ).toBe(true);
   expect(revealAnimations.flatMap((entry) => entry.transforms).every((transform) => transform === "")).toBe(true);
   expect(revealAnimations.every((entry) => entry.clipPaths.at(-1) === "inset(0)")).toBe(true);
   expect(revealAnimations.some((entry) => entry.clipPaths[0] !== "inset(0)" && entry.clipPaths[0].includes("px"))).toBe(true);

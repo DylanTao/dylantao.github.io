@@ -1107,17 +1107,20 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
   await attachScreenshot(page, testInfo, `${route.id}-${theme}-${testInfo.project.name}`, { fullPage: false });
 
   if (route.id === "projects-index") {
+    // Every fun project keeps its icon in the page; the ones inside a closed deck are drawn when it opens.
     const icons = page.locator(".projects [data-project-card-icon]");
     await expect(icons).toHaveCount(INDEXED_FUN_PROJECT_COUNT);
     expect(await icons.evaluateAll((elements) => elements.every((element) => element.getAttribute("aria-hidden") === "true"))).toBe(true);
-    expect(
-      await icons.evaluateAll((elements) =>
-        elements.every((element) => {
-          const box = element.getBoundingClientRect();
-          return box.width >= 24 && box.width <= 36 && box.height >= 24 && box.height <= 36;
-        })
-      )
-    ).toBe(true);
+    const iconsDrawn = () =>
+      icons.evaluateAll((elements) =>
+        elements
+          .filter((element) => element.getClientRects().length)
+          .every((element) => {
+            const box = element.getBoundingClientRect();
+            return box.width >= 24 && box.width <= 36 && box.height >= 24 && box.height <= 36;
+          })
+      );
+    expect(await iconsDrawn()).toBe(true);
 
     const driverCard = page.locator("[data-project-card]", {
       has: page.getByRole("heading", { name: "Not A Good Driver", exact: true }),
@@ -1126,7 +1129,28 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     await expect(driverCard.locator("[data-project-card-evolution]")).toHaveCount(0);
     await expect(page.locator("[data-project-card-evolution]")).toHaveCount(INDEXED_FUN_PROJECT_COUNT - 1);
 
-    const card = page.locator("[data-site-experiment-grid] [data-project-card]").first();
+    // The site experiments are one deck, the website revamp; it opens in place into its projects.
+    const revamp = page.locator("[data-project-deck='website-revamp']");
+    await revamp.scrollIntoViewIfNeeded();
+    await revamp.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
+    await expect(revamp).toHaveAttribute("data-project-deck-state", "open");
+    await expect(page.locator("[data-project-deck-trail]")).toBeVisible();
+    await expect
+      .poll(
+        () =>
+          page.evaluate(
+            () =>
+              document
+                .querySelector("[data-project-deck-stage]")
+                .getAnimations({ subtree: true })
+                .filter((animation) => animation.playState !== "finished").length
+          ),
+        { message: "deck motion did not settle" }
+      )
+      .toBe(0);
+    expect(await iconsDrawn()).toBe(true);
+
+    const card = revamp.locator(":scope > [data-project-deck-children] [data-project-card]:not([data-project-deck])").first();
     const trigger = card.locator("[data-project-card-trigger]");
     const panel = card.locator("[data-project-card-panel]");
     const primaryAction = card.locator("[data-project-card-primary-action]");
@@ -1207,8 +1231,9 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
       });
     }
     if (route.id === "projects-index") {
+      // Cards inside a closed deck are revealed with their level, not by scrolling.
       await exerciseScrollReveals(page, {
-        selector: ".projects .card.site-reveal",
+        selector: ".projects .card.site-reveal:not([hidden] *):not(.is-folded *)",
         visibleClass: "site-visible",
       });
     }
@@ -1444,14 +1469,46 @@ test("all project cards disclose and recover their stories", async ({ page }, te
   expect(response.status()).toBeLessThan(400);
   await stabilizeVisuals(page);
 
+  // Decks (the website revamp, the 3D home, the Graphics Lab) disclose their story as the banner of the
+  // level they open; every other card previews in place inside its level (2026-10-18).
   const cards = page.locator(".projects [data-project-card]").filter({ has: page.locator("[data-project-card-story]") });
   await expect(cards).toHaveCount(INDEXED_FUN_PROJECT_COUNT);
-  await expect(cards.locator("[data-project-card-origin]")).toHaveCount(INDEXED_FUN_PROJECT_COUNT);
-  await expect(cards.locator("[data-project-card-evolution]")).toHaveCount(INDEXED_FUN_PROJECT_COUNT - 1);
+  await expect(page.locator(".projects [data-project-card-origin]")).toHaveCount(INDEXED_FUN_PROJECT_COUNT);
+  await expect(page.locator(".projects [data-project-card-evolution]")).toHaveCount(INDEXED_FUN_PROJECT_COUNT - 1);
   await expect(page.locator(".projects [data-project-card-state='expanded']")).toHaveCount(0);
+  const decks = page.locator(".projects [data-project-deck]");
+  await expect(decks).toHaveCount(3);
 
-  for (let index = 0; index < INDEXED_FUN_PROJECT_COUNT; index += 1) {
-    const card = cards.nth(index);
+  for (let index = 0; index < 3; index += 1) {
+    const deck = decks.nth(index);
+    const slug = await deck.getAttribute("data-project-deck");
+    const parent = await deck.getAttribute("data-project-deck-parent");
+    await page.evaluate((target) => window.SiteDecks.go(target || ""), parent);
+    const surface = deck.locator(":scope > .card");
+    const deckTrigger = surface.locator("[data-project-deck-trigger]");
+    await deckTrigger.scrollIntoViewIfNeeded();
+    await deckTrigger.focus();
+    await deckTrigger.press("Enter");
+    await expect(deck, `${slug} deck did not open`).toHaveAttribute("data-project-deck-state", "open");
+    await expect(deckTrigger).toHaveAttribute("aria-expanded", "true");
+    await expect(surface.locator(":scope [data-project-card-origin]")).toBeVisible();
+    await expect(surface.locator("[data-project-card-primary-action]")).toBeVisible();
+    await expect(page.locator(`[data-project-deck-trail] li[aria-current]`)).toHaveText((await surface.locator(".card-title").innerText()).trim());
+    const closeDeck = surface.locator("[data-project-deck-close]");
+    const closeBox = await closeDeck.boundingBox();
+    expect(closeBox.width, `${slug} close action is narrower than 44px`).toBeGreaterThanOrEqual(44);
+    expect(closeBox.height, `${slug} close action is shorter than 44px`).toBeGreaterThanOrEqual(44);
+    await closeDeck.focus();
+    await closeDeck.press("Enter");
+    await expect(deck, `${slug} deck did not close`).toHaveAttribute("data-project-deck-state", "closed");
+    await expect(deckTrigger, `${slug} did not return focus to its deck`).toBeFocused();
+  }
+
+  const previews = page.locator(".projects [data-project-card]:not([data-project-deck])").filter({ has: page.locator("[data-project-card-story]") });
+  await expect(previews).toHaveCount(INDEXED_FUN_PROJECT_COUNT - 3);
+  for (let index = 0; index < INDEXED_FUN_PROJECT_COUNT - 3; index += 1) {
+    const card = previews.nth(index);
+    await page.evaluate((target) => window.SiteDecks.go(target || ""), await card.getAttribute("data-project-deck-parent"));
     const title = (await card.locator(".card-title").innerText()).trim();
     const trigger = card.locator("[data-project-card-trigger]");
     const panel = card.locator("[data-project-card-panel]");
@@ -2325,23 +2382,26 @@ test("home research motion responds locally and keeps a reduced-motion still", a
   expect(runtimeErrors, "research motion raised browser runtime errors").toEqual([]);
 });
 
-test("projects keep site experiments in debut order", async ({ page }, testInfo) => {
+test("projects nest the site experiments under the website revamp, newest first at every level", async ({ page }, testInfo) => {
   await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(publicRouteUrl("/projects/"), { waitUntil: "domcontentloaded" });
 
-  const grid = page.locator("[data-site-experiment-grid]");
-  await expect(grid).toBeVisible();
-  await exerciseScrollReveals(page, {
-    selector: "[data-site-experiment-grid] .card.site-reveal",
-    visibleClass: "site-visible",
-  });
+  // One deck at the top of the experiments: the website revamp, holding everything else (2026-10-18).
+  const root = page.locator("[data-site-experiment-grid]");
+  await expect(root).toBeVisible();
+  await expect(root.locator(":scope > [data-project-card]")).toHaveCount(1);
+  const revamp = root.locator(":scope > [data-project-deck='website-revamp']");
+  await expect(revamp.locator(":scope > .card h4.card-title")).toHaveText("Vibe-Coding a Research Portfolio");
+  await expect(revamp.locator(":scope > .card .project-deck-count")).toHaveText("11 inside");
 
-  const cards = grid.locator("[data-project-card]");
-  await expect(cards).toHaveCount(13);
-  await expect(cards.locator("h4.card-title")).toHaveCount(13);
-  await expect(cards.locator("h3.card-title")).toHaveCount(0);
-  expect(await cards.locator(".card-title").allTextContents()).toEqual([
-    "Graphics Lab",
+  await revamp.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
+  await expect(revamp).toHaveAttribute("data-project-deck-state", "open");
+  await expect(page).toHaveURL(/#deck\/website-revamp$/);
+  const cards = revamp.locator(":scope > [data-project-deck-children] > .project-card-grid > [data-project-card]");
+  await expect(cards).toHaveCount(11);
+  await expect(cards.locator(":scope > .card h5.card-title")).toHaveCount(11);
+  expect(await cards.locator(":scope > .card .card-title").allTextContents()).toEqual([
     "A little La Jolla",
     "duh & P, a Little Company",
     "Scaffolding for Taste — OpenAI Build Week",
@@ -2352,22 +2412,18 @@ test("projects keep site experiments in debut order", async ({ page }, testInfo)
     "Scholar Lens",
     "Wall of Rejection",
     "The IKEA Card Experiment",
-    "Vibe-Coding a Research Portfolio",
     "Dogtor's Hidden Portal",
   ]);
 
-  const imageEvidence = await cards.locator("img").evaluateAll((images) => ({
-    count: images.length,
-    loaded: images.every((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0),
-    overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-  }));
-  expect(imageEvidence.count).toBe(13);
-  expect(imageEvidence.loaded).toBe(true);
-  expect(imageEvidence.overflow).toBeLessThanOrEqual(0);
+  // The level's pictures load once it opens.
+  const images = cards.locator(":scope > .card .project-card-media img");
+  await expect(images).toHaveCount(11);
+  await expect.poll(() => images.evaluateAll((list) => list.every((image) => image.complete && image.naturalWidth > 0))).toBe(true);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
 
   const ikeaCard = cards.filter({ has: page.getByRole("heading", { name: "The IKEA Card Experiment", exact: true }) });
   await expect(ikeaCard).toHaveCount(1);
-  const ikeaImage = ikeaCard.locator("img");
+  const ikeaImage = ikeaCard.locator(".project-card-media img");
   await expect(ikeaImage).toHaveAttribute("src", /\/assets\/img\/project_pics\/site-experiments\/ikea-card-expanded\.png$/);
   expect(
     await ikeaImage.evaluate((element) => ({
@@ -2376,8 +2432,33 @@ test("projects keep site experiments in debut order", async ({ page }, testInfo)
       naturalWidth: element.naturalWidth,
     }))
   ).toEqual({ complete: true, naturalHeight: 650, naturalWidth: 1200 });
-
   await attachScreenshot(page, testInfo, `projects-site-experiments-${testInfo.project.name}`, { fullPage: true });
+
+  // The 3D home holds the Graphics Lab, and the lab holds its nineteen experiments in five systems.
+  const desk = cards.filter({ has: page.getByRole("heading", { name: "The Desk That Learned Depth", exact: true }) });
+  await desk.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
+  await expect(page.locator("[data-project-deck-trail] li")).toHaveText([
+    "Site experiments",
+    "Vibe-Coding a Research Portfolio",
+    "The Desk That Learned Depth",
+  ]);
+  const lab = page.locator("[data-project-deck='graphics-lab']");
+  await expect(lab.locator(":scope > .card h6.card-title")).toHaveText("Graphics Lab");
+  await lab.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
+  await expect(page).toHaveURL(/#deck\/graphics-lab$/);
+  await expect(lab.locator(".lab-deck-group")).toHaveCount(5);
+  await expect(lab.locator(".lab-card")).toHaveCount(19);
+  await expect(lab.locator(".lab-card", { hasText: "Light paths through the onsen" })).toHaveAttribute("href", /\/projects\/light-paths\/$/);
+  await attachScreenshot(page, testInfo, `projects-graphics-lab-deck-${testInfo.project.name}`, { fullPage: false });
+
+  // The trail walks back up; Escape goes up one level and the deck that closed keeps focus.
+  await page.locator("[data-project-deck-crumb='website-revamp']").click();
+  await expect(page).toHaveURL(/#deck\/website-revamp$/);
+  await expect(cards).toHaveCount(11);
+  await page.keyboard.press("Escape");
+  await expect(revamp).toHaveAttribute("data-project-deck-state", "closed");
+  await expect(revamp.locator(":scope > .card [data-project-deck-trigger]")).toBeFocused();
+  await expect(page.locator("[data-project-deck-trail]")).toBeHidden();
 });
 
 test("Research Focus Paper field stays semantic, bounded, pausable, and optional", async ({ page, browser }, testInfo) => {
