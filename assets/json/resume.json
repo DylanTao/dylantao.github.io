@@ -308,6 +308,22 @@
   ],
   "awards": [
     {
+      "title": "ChatGPT for Academic Researchers",
+      "date": "2026",
+      "awarder": "OpenAI",
+      "annotation": "[Awarded to Steven P. Dow]",
+      "summary": "Steven's award, shared with his lab: a free year of OpenAI's $200-a-month tier with Codex, for up to five researchers. I'm one of them, in ProtoLab.",
+      "url": "https://openai.com/index/chatgpt-for-academic-researchers/"
+    },
+    {
+      "title": "Claude Team Plan for Scientists",
+      "date": "2026",
+      "awarder": "Anthropic",
+      "annotation": "[Awarded to Steven P. Dow]",
+      "summary": "Steven's award for his research group: a year of Premium seats at $15 a month, versus $100 for the Max 5x plan. I use it alongside the OpenAI plan in ProtoLab.",
+      "url": "https://support.claude.com/en/articles/16634237-claude-team-plan-for-scientists"
+    },
+    {
       "title": "MSR AI and the New Future of Work CFP",
       "date": "Jun 15, 2026",
       "awarder": "Microsoft Research",
