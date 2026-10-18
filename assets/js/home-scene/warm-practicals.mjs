@@ -10,7 +10,9 @@ export const PRACTICAL_SOURCES = [
   { id: "study", position: [-0.97, 3.88, 2.42], night: 5.5, day: 0.9, distance: 6 },
   { id: "sleep", position: [-4.13, 3.47, 2.47], night: 2.7, day: 0.7, distance: 4.8, anyHour: true },
   { id: "kitchen", position: [-3.3, 1.95, -0.04], night: 2.7, day: 0.7, distance: 4.8 },
-  { id: "lounge", position: [-1.2, 1.42, -3.55], night: 2.7, day: 0.7, distance: 4.8 },
+  // The paper floor lantern (bin/coastal_living.py build_lamp): its closed washi globe, up to 0.24 m
+  // from the bulb, is the emitter, so the static light bake must not let the shade hide its own lamp.
+  { id: "lounge", position: [-1.2, 1.42, -3.55], night: 2.7, day: 0.7, distance: 4.8, emitterRadius: 0.26 },
   { id: "bath", position: [3.68, 3.388, 2.2], night: 2.8, day: 0.6, distance: 3.3 },
   { id: "gym", position: [8.6, 2.3, -0.4], night: 3, day: 0.5, distance: 3.5 },
   { id: "terrace-west", position: [-4.75, 0.170405, -4.12], night: 1.8, day: 0.15, distance: 3.8 },
