@@ -194,8 +194,8 @@
     },
     {
       "mesh": "core__chalk limestone",
-      "facesBefore": 3348,
-      "facesExported": 3348
+      "facesBefore": 3860,
+      "facesExported": 3860
     },
     {
       "mesh": "core__pale oak",
@@ -249,8 +249,8 @@
     },
     {
       "mesh": "kitchen__warm cut stone",
-      "facesBefore": 328,
-      "facesExported": 328
+      "facesBefore": 496,
+      "facesExported": 496
     },
     {
       "mesh": "kitchen__espresso enamel",
@@ -409,8 +409,8 @@
     },
     {
       "mesh": "onsen_decor cedar wood",
-      "facesBefore": 385,
-      "facesExported": 385
+      "facesBefore": 2225,
+      "facesExported": 2225
     },
     {
       "mesh": "onsen_decor brushed brass",
@@ -424,8 +424,8 @@
     },
     {
       "mesh": "sleep_decor pale oak",
-      "facesBefore": 24,
-      "facesExported": 24
+      "facesBefore": 216,
+      "facesExported": 216
     },
     {
       "mesh": "sleep_decor linen canvas sky",
@@ -454,8 +454,8 @@
     },
     {
       "mesh": "study_decor pale oak",
-      "facesBefore": 24,
-      "facesExported": 24
+      "facesBefore": 216,
+      "facesExported": 216
     },
     {
       "mesh": "study_decor sketch paper",
@@ -479,8 +479,8 @@
     },
     {
       "mesh": "lounge_decor pale oak",
-      "facesBefore": 18,
-      "facesExported": 18
+      "facesBefore": 162,
+      "facesExported": 162
     },
     {
       "mesh": "lounge_decor celadon glaze",
@@ -509,8 +509,8 @@
     },
     {
       "mesh": "core_facade__dark_bronze",
-      "facesBefore": 1783,
-      "facesExported": 1783
+      "facesBefore": 2551,
+      "facesExported": 2551
     },
     {
       "mesh": "core_facade__facade_low-iron_glass",
@@ -529,8 +529,8 @@
     },
     {
       "mesh": "core_facade__warm_cut_stone",
-      "facesBefore": 54,
-      "facesExported": 54
+      "facesBefore": 342,
+      "facesExported": 342
     },
     {
       "mesh": "core_facade_door_kitchen",
@@ -549,8 +549,8 @@
     },
     {
       "mesh": "core_facade__travertine_paving_stone",
-      "facesBefore": 1520,
-      "facesExported": 1520
+      "facesBefore": 6382,
+      "facesExported": 6382
     },
     {
       "mesh": "core_facade__festoon_cable",
@@ -564,8 +564,8 @@
     },
     {
       "mesh": "core_facade__weathered_teak_wood",
-      "facesBefore": 335,
-      "facesExported": 335
+      "facesBefore": 2335,
+      "facesExported": 2335
     },
     {
       "mesh": "core_facade__outdoor_canvas_cotton",
@@ -609,8 +609,8 @@
     },
     {
       "mesh": "core_facade__cedar_wood",
-      "facesBefore": 330,
-      "facesExported": 330
+      "facesBefore": 2970,
+      "facesExported": 2970
     },
     {
       "mesh": "core_flora_sage",
@@ -804,8 +804,8 @@
     },
     {
       "mesh": "core_gym_front_frame",
-      "facesBefore": 324,
-      "facesExported": 324
+      "facesBefore": 2916,
+      "facesExported": 2916
     },
     {
       "mesh": "core_gym_front_glass",
@@ -814,18 +814,23 @@
     },
     {
       "mesh": "gym__gym rubber",
-      "facesBefore": 6260,
-      "facesExported": 6260
+      "facesBefore": 8616,
+      "facesExported": 8616
     },
     {
       "mesh": "gym__powder coated gym steel",
-      "facesBefore": 3058,
-      "facesExported": 3058
+      "facesBefore": 5370,
+      "facesExported": 5370
     },
     {
       "mesh": "gym__barbell brushed steel",
-      "facesBefore": 172,
-      "facesExported": 172
+      "facesBefore": 10722,
+      "facesExported": 10722
+    },
+    {
+      "mesh": "gym__cast iron plate",
+      "facesBefore": 7840,
+      "facesExported": 7840
     },
     {
       "mesh": "gym__pale oak",
@@ -834,13 +839,13 @@
     },
     {
       "mesh": "gym__honey ash",
-      "facesBefore": 12,
-      "facesExported": 12
+      "facesBefore": 28,
+      "facesExported": 28
     },
     {
       "mesh": "gym__satin appliance stainless",
-      "facesBefore": 415,
-      "facesExported": 415
+      "facesBefore": 463,
+      "facesExported": 463
     },
     {
       "mesh": "gym__charcoal",
@@ -849,13 +854,38 @@
     },
     {
       "mesh": "gym__terracotta",
-      "facesBefore": 10,
-      "facesExported": 10
+      "facesBefore": 42,
+      "facesExported": 42
     },
     {
       "mesh": "gym__sage textile",
-      "facesBefore": 334,
-      "facesExported": 334
+      "facesBefore": 42,
+      "facesExported": 42
+    },
+    {
+      "mesh": "gym__red bumper rubber",
+      "facesBefore": 480,
+      "facesExported": 480
+    },
+    {
+      "mesh": "gym__white bumper rubber",
+      "facesBefore": 480,
+      "facesExported": 480
+    },
+    {
+      "mesh": "gym__blue bumper rubber",
+      "facesBefore": 720,
+      "facesExported": 720
+    },
+    {
+      "mesh": "gym__yellow bumper rubber",
+      "facesBefore": 720,
+      "facesExported": 720
+    },
+    {
+      "mesh": "gym__green bumper rubber",
+      "facesBefore": 960,
+      "facesExported": 960
     },
     {
       "mesh": "gym__linen",
@@ -879,8 +909,8 @@
     },
     {
       "mesh": "gym_working_dumbbell_right_handle",
-      "facesBefore": 14,
-      "facesExported": 14
+      "facesBefore": 52,
+      "facesExported": 52
     },
     {
       "mesh": "gym_working_dumbbell_right_head",
@@ -889,8 +919,8 @@
     },
     {
       "mesh": "gym_working_dumbbell_left_handle",
-      "facesBefore": 14,
-      "facesExported": 14
+      "facesBefore": 52,
+      "facesExported": 52
     },
     {
       "mesh": "gym_working_dumbbell_left_head",
@@ -904,23 +934,23 @@
     },
     {
       "mesh": "lounge_living__linen",
-      "facesBefore": 613,
-      "facesExported": 613
+      "facesBefore": 661,
+      "facesExported": 661
     },
     {
       "mesh": "lounge_living__pale oak",
-      "facesBefore": 358,
-      "facesExported": 358
+      "facesBefore": 646,
+      "facesExported": 646
     },
     {
       "mesh": "lounge_living__charcoal",
-      "facesBefore": 146,
-      "facesExported": 146
+      "facesBefore": 290,
+      "facesExported": 290
     },
     {
       "mesh": "lounge_living__terracotta",
-      "facesBefore": 197,
-      "facesExported": 197
+      "facesBefore": 389,
+      "facesExported": 389
     },
     {
       "mesh": "lounge_living__sage textile",
@@ -929,8 +959,8 @@
     },
     {
       "mesh": "lounge_living__celadon glaze",
-      "facesBefore": 193,
-      "facesExported": 193
+      "facesBefore": 321,
+      "facesExported": 321
     },
     {
       "mesh": "lounge_living__woven jute",
@@ -944,13 +974,13 @@
     },
     {
       "mesh": "lounge_living__record sleeve card",
-      "facesBefore": 54,
-      "facesExported": 54
+      "facesBefore": 198,
+      "facesExported": 198
     },
     {
       "mesh": "lounge_living__honey ash",
-      "facesBefore": 10,
-      "facesExported": 10
+      "facesBefore": 42,
+      "facesExported": 42
     },
     {
       "mesh": "lounge_living__fiddle fig leaf",

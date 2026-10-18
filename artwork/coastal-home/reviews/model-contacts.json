@@ -3081,9 +3081,9 @@
     {
       "file": "flora.glb",
       "bytes": 2206972,
-      "gzipBytes": 2080045,
+      "gzipBytes": 2080375,
       "triangles": 184309,
-      "sha256": "763713c1501deaac02cabad8bd4a4f659a39bd14d5baab5cc1c2c682beddb88b",
+      "sha256": "78021a090ee662a88a4ae7fd07c3c25eee09acbd4ed6c8f681b2b3ca6b00037b",
       "materials": [
         "coastal sage leaf",
         "dark sage leaf",
@@ -3122,10 +3122,10 @@
     },
     {
       "file": "home-shell.glb",
-      "bytes": 1022020,
-      "gzipBytes": 906175,
-      "triangles": 151388,
-      "sha256": "dd4ead8963a261051433d2679c0ce9186547551c2a5717629d18048af341a105",
+      "bytes": 625584,
+      "gzipBytes": 527569,
+      "triangles": 178744,
+      "sha256": "fa7ca83c45145ca27d77429454b432fb18a2af498122c2619a7582393519ef42",
       "materials": [
         "warm cut stone",
         "chalk limestone",
@@ -3167,20 +3167,26 @@
     },
     {
       "file": "room-gym.glb",
-      "bytes": 176800,
-      "gzipBytes": 123291,
-      "triangles": 23700,
-      "sha256": "756e7b7568e4cee04726eedd5b8d95db04ae5641e83302cd55a39d99e290edc8",
+      "bytes": 198744,
+      "gzipBytes": 138679,
+      "triangles": 77256,
+      "sha256": "f03f946f877ec98d37733e7a723fd84ec57b88211122e4407e9468e2eb32a37e",
       "materials": [
         "gym rubber",
         "powder coated gym steel",
         "barbell brushed steel",
+        "cast iron plate",
         "pale oak",
         "honey ash",
         "satin appliance stainless",
         "charcoal",
         "terracotta",
         "sage textile",
+        "red bumper rubber",
+        "white bumper rubber",
+        "blue bumper rubber",
+        "yellow bumper rubber",
+        "green bumper rubber",
         "linen",
         "gym light diffuser",
         "saddle bench upholstery",
@@ -3190,10 +3196,10 @@
     },
     {
       "file": "room-kitchen.glb",
-      "bytes": 464828,
-      "gzipBytes": 390322,
-      "triangles": 60668,
-      "sha256": "c8fff8e3be91bc0a5750f5873710bad064d825dc1673c203909009dcf69f8494",
+      "bytes": 281896,
+      "gzipBytes": 218752,
+      "triangles": 61004,
+      "sha256": "7712498bda9e39e5d00b454287fd0586e371477bb8c47374b7b234824e0fe96c",
       "materials": [
         "warm paper lantern",
         "pale oak",
@@ -3217,10 +3223,10 @@
     },
     {
       "file": "room-lounge.glb",
-      "bytes": 319452,
-      "gzipBytes": 261693,
-      "triangles": 41275,
-      "sha256": "e123b0b084ef0857328b88e5df16dccead3f5fb98a80b60d3a6f261fa733ecdf",
+      "bytes": 327716,
+      "gzipBytes": 273076,
+      "triangles": 43515,
+      "sha256": "8336bd37547dffe1ff98ba352d72ccc41727b53005a81f237aad5daff08ec924",
       "materials": [
         "honey ash",
         "linen",
@@ -3242,10 +3248,10 @@
     },
     {
       "file": "room-onsen.glb",
-      "bytes": 90032,
-      "gzipBytes": 69509,
-      "triangles": 15032,
-      "sha256": "581cb6f5c951956255cb691b02b37b8ef2306f5807affed6ef92fca2b643e7da",
+      "bytes": 82044,
+      "gzipBytes": 60054,
+      "triangles": 18712,
+      "sha256": "6dd7d2679c0acf631fdca2a29fbf46ef178ab2c0c9c85d7d45741bc77a07cd8f",
       "materials": [
         "onsen turquoise",
         "linen",
@@ -3263,10 +3269,10 @@
     },
     {
       "file": "room-sleep.glb",
-      "bytes": 270488,
-      "gzipBytes": 236545,
-      "triangles": 92570,
-      "sha256": "75bac5a8b2b4f3cf2a5a3c7140aa3fa48db9d1f8d94934bf13d925c111bad1f0",
+      "bytes": 260988,
+      "gzipBytes": 227490,
+      "triangles": 92954,
+      "sha256": "8c7e5d295540dd95390f2b9b3ee2b48aaaaf6ea6b036f19a6b5b820d32ada5ef",
       "materials": [
         "honey ash",
         "linen",
@@ -3284,10 +3290,10 @@
     },
     {
       "file": "room-study.glb",
-      "bytes": 363192,
-      "gzipBytes": 300347,
-      "triangles": 39504,
-      "sha256": "955dad484cb5537fcfb29ab4ce91487ac7afa82250462fc2583929055b88be07",
+      "bytes": 198216,
+      "gzipBytes": 155814,
+      "triangles": 39888,
+      "sha256": "04aa7a15ebe1a66db2ad54557e6f7ba048c62d2ebe9add8ad28320c7d0834fd3",
       "materials": [
         "pale oak",
         "honey ash",
@@ -3496,5 +3502,5 @@
       "animations": []
     }
   ],
-  "totalGlbBytes": 8856492
+  "totalGlbBytes": 8124868
 }

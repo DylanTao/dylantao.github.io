@@ -94,8 +94,10 @@ STATIONS = {
         "inclineDegrees": 32,
     },
     "dumbbells": {
-        # A two-tier rack along the south wall; the working pair waits on the top tier.
-        "rack": {"x": (6.18, 6.56), "y": (-0.85, 0.75), "tiers": (0.38, 0.72)},
+        # A four-tier rack along the south wall holding pairs from 5 to 75 lb (Sirui, 2026-10-16);
+        # the working 35 lb pair waits on the third tier, whose rails sit under its heads. Tier
+        # heights are the tops of the rails the heads rest on.
+        "rack": {"x": (6.18, 6.56), "y": (-0.85, 0.75), "tiers": (0.08, 0.36, 0.6855, 0.88)},
         "pair": ((6.42, -0.06, 0.745), (6.42, 0.24, 0.745)),
         "actor": (7.0, 0.1, 0.0),
     },
@@ -114,6 +116,14 @@ STATIONS = {
 # Plate sizes (lb) and their radii and thicknesses (m): competition-style bumper diameters for the
 # big plates, iron change plates for the small ones.
 PLATES = {45: (0.225, 0.062), 35: (0.21, 0.052), 25: (0.18, 0.042), 10: (0.13, 0.028), 5: (0.105, 0.022), 2.5: (0.085, 0.016)}
+# The two plate sets Sirui's gym has (2026-10-16): coloured pound bumpers, all at the 450 mm
+# bumper diameter and thicker as they get heavier, and black cast-iron plates whose diameter falls
+# with the weight (17.5 in for a 45 down to 6.5 in for a 2.5). Radius, thickness, colour.
+BUMPERS = {55: (0.225, 0.067, "red"), 45: (0.225, 0.058, "blue"), 35: (0.225, 0.05, "yellow"), 25: (0.225, 0.041, "green"), 10: (0.225, 0.0285, "white")}
+IRON = {45: (0.222, 0.038), 35: (0.184, 0.034), 25: (0.156, 0.03), 10: (0.114, 0.023), 5: (0.102, 0.019), 2.5: (0.083, 0.015)}
+# Pairs of hex dumbbells, 5 to 75 lb, by tier (bottom first); the third tier also holds the
+# working 35 lb pair, which the session's curls take from STATIONS["dumbbells"]["pair"].
+DUMBBELL_TIERS = ((65, 70, 75), (45, 50, 55, 60), (25, 30, 40), (5, 10, 15, 20))
 
 # The new living room, in the middle bay the gym leaves: a sofa facing the sea, a low table, a rug
 # that joins the reading corner, and a record console behind the sofa (the house's records).
@@ -254,6 +264,12 @@ def gym_materials():
         "fig": _material("fiddle fig leaf", (0.16, 0.27, 0.11), 0.55),
         "vinyl": _material("record sleeve card", (0.62, 0.52, 0.42), 0.8),
         "glaze": bpy.data.materials.get("celadon glaze") or _material("celadon glaze", (0.55, 0.66, 0.58), 0.25),
+        "iron": _material("cast iron plate", (0.028, 0.028, 0.03), 0.5, 0.65),
+        "red": _material("red bumper rubber", (0.5, 0.045, 0.035), 0.72),
+        "blue": _material("blue bumper rubber", (0.035, 0.1, 0.38), 0.72),
+        "yellow": _material("yellow bumper rubber", (0.8, 0.55, 0.04), 0.72),
+        "green": _material("green bumper rubber", (0.04, 0.3, 0.1), 0.72),
+        "white": _material("white bumper rubber", (0.8, 0.8, 0.78), 0.72),
     }
 
 
@@ -349,44 +365,77 @@ def build_bench(parts, props, m):
     props.append(("gym_bench_backrest", back, m["pad"], {"activityProp": "bench-backrest", "hinge": [x0 + 0.42, y, top - 0.055]}))
 
 
+def dumbbell_size(weight):
+    """Hex head across flats, head length and grip length (m) of a rubber hex dumbbell (lb):
+    a 75 is about 17 cm across and 11 cm long per head, a 5 about 8 by 3.5."""
+    return 0.072 + 0.00135 * weight, 0.03 + 0.00105 * weight, 0.13
+
+
+def _hex_prism(bm, x0, x1, y, z, flats):
+    """A hexagonal prism along X with flat faces up and down (a head resting on a rail)."""
+    r = flats / math.sqrt(3)
+    rings = [[bm.verts.new((x, y + r * math.cos(k * math.pi / 3), z + r * math.sin(k * math.pi / 3))) for k in range(6)] for x in (x0, x1)]
+    bm.faces.new(list(reversed(rings[0])))
+    bm.faces.new(rings[1])
+    for k in range(6):
+        bm.faces.new((rings[0][k], rings[0][(k + 1) % 6], rings[1][(k + 1) % 6], rings[1][k]))
+
+
 def _dumbbell(bm_metal, bm_rubber, center, weight):
-    """A hex dumbbell along X of a given weight (lb); the heads grow with the weight."""
-    head = 0.045 + 0.0016 * weight
-    half = 0.07 + 0.0006 * weight
-    c = Vector(center)
-    d = Vector((1, 0, 0))
-    decor.cylinder(bm_metal, c - d * half, c + d * half, 0.016, segments=12)
+    """A hex dumbbell along X of a given weight (lb), centred on its grip."""
+    flats, head, grip = dumbbell_size(weight)
+    cx, cy, cz = center
+    decor.cylinder(bm_metal, (cx - grip / 2 - 0.004, cy, cz), (cx + grip / 2 + 0.004, cy, cz), 0.016, segments=14)
     for side in (-1, 1):
-        a = c + d * side * half
-        b = c + d * side * (half + 0.035 + 0.0012 * weight)
-        decor.cylinder(bm_rubber, a, b, head, segments=6)
+        a, b = cx + side * grip / 2, cx + side * (grip / 2 + head)
+        _hex_prism(bm_rubber, min(a, b), max(a, b), cy, cz, flats)
+        # A chrome end cap on each head.
+        decor.cylinder(bm_metal, (b, cy, cz), (b + side * 0.004, cy, cz), flats * 0.28, segments=16)
+
+
+def _row(weights, lo, hi, gap=0.006, spacing=0.018):
+    """Centres (along Y) of pairs laid side by side between lo and hi, centred in the span."""
+    widths = [dumbbell_size(w)[0] for w in weights for _ in (0, 1)]
+    used = sum(widths) + gap * len(weights) + spacing * (len(weights) - 1)
+    assert used <= hi - lo + 1e-6, (weights, used, hi - lo)
+    y, out = lo + (hi - lo - used) / 2, []
+    for k, w in enumerate(widths):
+        out.append((y + w / 2, weights[k // 2]))
+        y += w + (gap if k % 2 == 0 else spacing)
+    return out
 
 
 def build_dumbbells(parts, props, m):
     s = STATIONS["dumbbells"]
     (x0, x1), (y0, y1), tiers = s["rack"]["x"], s["rack"]["y"], s["rack"]["tiers"]
     steel, rubber, chrome = parts.bm(m["steel"]), parts.bm(m["rubber"]), parts.bm(m["chrome"])
-    for y in (y0 + 0.05, y1 - 0.05):
-        rounded_box(steel, ((x0 + x1) / 2, y, 0.02), (x1 - x0, 0.08, 0.04), 0.006)
-        rounded_box(steel, (x1 - 0.05, y, tiers[1] / 2), (0.05, 0.05, tiers[1]), 0.006)
-        rounded_box(steel, (x0 + 0.05, y, tiers[0] / 2), (0.05, 0.05, tiers[0]), 0.006)
-    for tier, x in zip(tiers, (x0 + 0.1, x1 - 0.12)):
-        rounded_box(steel, (x, (y0 + y1) / 2, tier), (0.2, y1 - y0, 0.025), 0.004)
-    # Pairs from 15 to 60 lb along the tiers; the working pair (35 lb) is a prop on the top tier.
-    weights = [15, 20, 25, 30, 40, 45, 50, 60]
-    slots = [y0 + 0.13 + k * (y1 - y0 - 0.26) / 9 for k in range(10)]
-    working = [p[1] for p in s["pair"]]
-    k = 0
-    for tier, x, row in ((tiers[1], x1 - 0.12, range(10)), (tiers[0], x0 + 0.1, (0, 2, 4, 6, 8))):
-        for slot in row:
-            y = slots[slot]
-            if tier == tiers[1] and any(abs(y - w) < 0.09 for w in working):
-                continue
-            _dumbbell(chrome, rubber, (x, y, tier + 0.06), weights[k % len(weights)])
-            k += 1
-    for side, (px, py, pz) in zip(("right", "left"), s["pair"]):
+    px = s["pair"][0][0]
+    # Two end frames (an upright each side and a floor foot) and, per tier, two rails under the
+    # dumbbells' heads, so every pair can be slid out along its grip.
+    top = tiers[-1]
+    for y in (y0 + 0.025, y1 - 0.025):
+        rounded_box(steel, ((x0 + x1) / 2, y, 0.02), (x1 - x0 + 0.04, 0.06, 0.04), 0.008)
+        for x in (x0 + 0.03, x1 - 0.03):
+            rounded_box(steel, (x, y, (top + 0.02) / 2), (0.045, 0.045, top + 0.02), 0.008)
+    for tier in tiers:
+        for x in (px - 0.1, px + 0.1):
+            rounded_box(steel, (x, (y0 + y1) / 2, tier - 0.0175), (0.04, y1 - y0 - 0.01, 0.035), 0.006)
+        for y in (y0 + 0.025, y1 - 0.025):
+            rounded_box(steel, (px, y, tier - 0.0175), (0.3, 0.05, 0.035), 0.006)
+    working = sorted(p[1] for p in s["pair"])
+    lo, hi = y0 + 0.06, y1 - 0.06
+    w35 = dumbbell_size(35)[0]
+    for tier, weights in zip(tiers, DUMBBELL_TIERS):
+        if tier == tiers[2]:
+            # The working pair's tier: lighter pairs inland of it, the 40s seaward.
+            slots = _row(weights[:2], lo, working[0] - w35 / 2 - 0.012) + _row(weights[2:], working[1] + w35 / 2 + 0.012, hi)
+        else:
+            slots = _row(weights, lo, hi)
+        for y, w in slots:
+            _dumbbell(chrome, rubber, (px, y, tier + dumbbell_size(w)[0] / 2), w)
+    for side, (wx, wy, wz) in zip(("right", "left"), s["pair"]):
         metal, head = bmesh.new(), bmesh.new()
-        _dumbbell(metal, head, (px, py, pz), 35)
+        _dumbbell(metal, head, (wx, wy, wz), 35)
         props.append((f"gym_working_dumbbell_{side}_handle", metal, m["chrome"], {"activityProp": f"exercise-weight-{side}"}))
         props.append((f"gym_working_dumbbell_{side}_head", head, m["rubber"], {"activityProp": f"exercise-weight-{side}"}))
 
@@ -419,21 +468,82 @@ def build_whiteboard(parts, props, m):
     props.append(("gym_whiteboard_face", face, m["board"], {"activityProp": "whiteboard", "whiteboardSize": [w, h]}))
 
 
+def _revolve(bm, profile, center, axis, segments=40):
+    """Revolve a closed (radius, offset-along-axis) loop about `axis` through `center`."""
+    axis = Vector(axis).normalized()
+    u = axis.orthogonal().normalized()
+    v = axis.cross(u)
+    c = Vector(center)
+    temp = bmesh.new()
+    rings = [[temp.verts.new(c + axis * a + (u * math.cos(k * math.tau / segments) + v * math.sin(k * math.tau / segments)) * r)
+              for k in range(segments)] for r, a in profile]
+    n = len(profile)
+    for i in range(n):
+        lower, upper = rings[i], rings[(i + 1) % n]
+        for k in range(segments):
+            temp.faces.new((lower[k], lower[(k + 1) % segments], upper[(k + 1) % segments], upper[k]))
+    # A closed ring solid: let bmesh orient it outward whichever way the profile was traced.
+    bmesh.ops.recalc_face_normals(temp, faces=list(temp.faces))
+    data = bpy.data.meshes.new("tmp")
+    temp.to_mesh(data)
+    temp.free()
+    bm.from_mesh(data)
+    bpy.data.meshes.remove(data)
+
+
+def bumper_plate(rubber, hub, center, axis, weight):
+    """A rubber bumper with a raised steel hub, about the bar's axis."""
+    r, t, _ = BUMPERS[weight]
+    e = 0.006
+    _revolve(rubber, [(0.026, -t / 2), (r - e, -t / 2), (r, -t / 2 + e), (r, t / 2 - e), (r - e, t / 2), (0.026, t / 2)], center, axis)
+    _revolve(hub, [(0.025, -t / 2 - 0.002), (0.046, -t / 2 - 0.002), (0.046, t / 2 + 0.002), (0.025, t / 2 + 0.002)], center, axis, 24)
+
+
+def iron_plate(iron, center, axis, weight):
+    """A cast-iron plate: a thick rim and hub around a recessed face, like a standard change plate."""
+    r, t = IRON[weight]
+    profile = [(0.026, -t / 2), (0.058, -t / 2), (0.066, -0.28 * t), (r - 0.024, -0.28 * t), (r - 0.014, -t / 2), (r - 0.004, -t / 2), (r, -t / 2 + 0.004),
+               (r, t / 2 - 0.004), (r - 0.004, t / 2), (r - 0.014, t / 2), (r - 0.024, 0.28 * t), (0.066, 0.28 * t), (0.058, t / 2), (0.026, t / 2)]
+    _revolve(iron, profile, center, axis)
+
+
+def _stack(start, direction, weights, thickness, place):
+    """Hang plates on a horn from `start` outward along `direction`; returns the horn length used."""
+    d = Vector(direction).normalized()
+    offset = 0.035
+    for w in weights:
+        t = thickness(w)
+        place(Vector(start) + d * (offset + t / 2), w)
+        offset += t + 0.003
+    return offset + 0.03
+
+
 def build_plate_tree(parts, m):
+    """The bumper tree by the glass: the coloured pound bumpers, 55 to 10 lb."""
     x, y, _ = STATIONS["plates"]["tree"]
-    steel, rubber, label = parts.bm(m["steel"]), parts.bm(m["rubber"]), parts.bm(m["label"])
+    steel, chrome = parts.bm(m["steel"]), parts.bm(m["chrome"])
     rounded_box(steel, (x, y, 0.03), (0.5, 0.5, 0.05), 0.008)
-    decor.cylinder(steel, (x, y, 0.05), (x, y, 1.15), 0.03, segments=12)
-    # Horns at three heights on two sides, holding the plates that are not on the bars.
-    stacks = {(-1, 0.32): (45, 45, 45), (1, 0.32): (45, 45, 35), (-1, 0.66): (25, 25, 25), (1, 0.66): (10, 10, 10), (-1, 0.95): (5, 5, 5), (1, 0.95): (2.5, 2.5, 2.5)}
+    decor.cylinder(steel, (x, y, 0.05), (x, y, 1.15), 0.03, segments=16)
+    stacks = {(-1, 0.29): (55, 55, 10, 10), (1, 0.29): (45, 45, 45), (-1, 0.77): (35, 35, 35), (1, 0.77): (25, 25, 25, 25)}
     for (side, z), plates in stacks.items():
-        decor.cylinder(steel, (x, y, z), (x, y + side * 0.2, z), 0.022, segments=10)
-        offset = 0.04
-        for plate in plates:
-            r, t = PLATES[plate]
-            decor.cylinder(rubber, (x, y + side * offset, z), (x, y + side * (offset + t), z), r, segments=28)
-            decor.cylinder(label, (x, y + side * (offset + t + 0.001), z), (x, y + side * (offset + t + 0.002), z), r * 0.3, segments=16)
-            offset += t + 0.004
+        place = lambda c, w: bumper_plate(parts.bm(m[BUMPERS[w][2]]), chrome, c, (0, 1, 0), w)
+        length = _stack((x, y, z), (0, side, 0), plates, lambda w: BUMPERS[w][1], place)
+        decor.cylinder(steel, (x, y, z), (x, y + side * length, z), 0.023, segments=14)
+        decor.cylinder(steel, (x, y + side * (length - 0.012), z), (x, y + side * length, z), 0.03, segments=14)
+
+
+def build_rack_storage(parts, m):
+    """Black iron plates on horns off the power rack's rear posts, out of every walking line."""
+    s = STATIONS["rack"]
+    (xa, xb), yr = s["posts"]["x"], s["posts"]["y"][0]
+    steel, iron = parts.bm(m["steel"]), parts.bm(m["iron"])
+    stacks = {(xa, -1, 0.3): (45, 45, 35), (xa, -1, 0.82): (25, 25, 10, 10), (xb, 1, 0.3): (45, 45, 35), (xb, 1, 0.82): (5, 5, 2.5, 2.5)}
+    for (post, side, z), plates in stacks.items():
+        start = (post + side * 0.0375, yr, z)
+        length = _stack(start, (side, 0, 0), plates, lambda w: IRON[w][1], lambda c, w: iron_plate(iron, c, (1, 0, 0), w))
+        decor.cylinder(steel, start, (start[0] + side * length, yr, z), 0.023, segments=14)
+        rounded_box(steel, (post + side * 0.05, yr, z), (0.03, 0.09, 0.09), 0.006)
+        decor.cylinder(steel, (start[0] + side * (length - 0.012), yr, z), (start[0] + side * length, yr, z), 0.03, segments=14)
 
 
 def build_rest_corner(parts, m):
@@ -481,6 +591,7 @@ def build_gym(m):
     parts, props = Parts("gym"), []
     build_floor_tiles(parts, m)
     build_rack(parts, m)
+    build_rack_storage(parts, m)
     build_tower(parts, m)
     build_platform(parts, m)
     build_bench(parts, props, m)
