@@ -25,10 +25,30 @@ class StaticDracoLoader extends DRACOLoader {
   }
 }
 
+// GLTFLoader decodes each Draco primitive as its own task, so a pool decodes a model's primitives in
+// parallel. One worker serialized them: 0.4-1.3 s for the house shell's 45 primitives on the test
+// laptop, against about 0.3 s with four (docs/performance-notes.md). Half the cores, at most
+// four, leave the page, the compositor and the GPU process their own. Every loader on the page (the
+// home, its wildlife, the footer coast) shares the one pool, so the page never runs more than four
+// decoders, and the pool's workers end when the last loader is disposed.
+const decoderWorkers = () => Math.max(1, Math.min(4, Math.floor((globalThis.navigator?.hardwareConcurrency || 2) / 2)));
+let sharedDecoder = null,
+  decoderUsers = 0;
+
 export function createModelLoader() {
-  const decoder = new StaticDracoLoader()
+  sharedDecoder ||= new StaticDracoLoader()
     .setDecoderPath(new URL("../vendor/three-r164/libs/draco/", import.meta.url).href)
     .setDecoderConfig({ type: "wasm" })
-    .setWorkerLimit(1);
-  return { loader: new GLTFLoader().setDRACOLoader(decoder), decoder };
+    .setWorkerLimit(decoderWorkers());
+  const pool = sharedDecoder;
+  decoderUsers++;
+  let released = false;
+  const decoder = {
+    dispose() {
+      if (released) return;
+      released = true;
+      if (--decoderUsers === 0) pool.dispose();
+    },
+  };
+  return { loader: new GLTFLoader().setDRACOLoader(pool), decoder };
 }

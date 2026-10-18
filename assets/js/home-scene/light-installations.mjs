@@ -140,19 +140,23 @@ vec3 installationIrradiance(vec3 p, vec3 n) {
 }`;
 
 export function createLightInstallations(config, { bind = (m) => m } = {}) {
+  // Flat Float32Arrays rather than arrays of vectors: three r164 re-flattens an array of vectors
+  // element by element on every material switch, which with this scene's thousand-odd materials per
+  // frame was a fifth of the script time (docs/performance-notes.md). The GPU receives the same floats.
   const uniforms = {
-    installLineA: { value: Array.from({ length: MAX_LINES }, () => new THREE.Vector3()) },
-    installLineB: { value: Array.from({ length: MAX_LINES }, () => new THREE.Vector3()) },
-    installLineColor: { value: Array.from({ length: MAX_LINES }, () => new THREE.Vector3()) },
-    installLineMin: { value: Array.from({ length: MAX_LINES }, () => new THREE.Vector3()) },
-    installLineMax: { value: Array.from({ length: MAX_LINES }, () => new THREE.Vector3()) },
-    installPointPosition: { value: Array.from({ length: MAX_POINTS }, () => new THREE.Vector3()) },
-    installPointColor: { value: Array.from({ length: MAX_POINTS }, () => new THREE.Vector3()) },
-    installPointCone: { value: Array.from({ length: MAX_POINTS }, () => new THREE.Vector4()) },
-    installPointMin: { value: Array.from({ length: MAX_POINTS }, () => new THREE.Vector3()) },
-    installPointMax: { value: Array.from({ length: MAX_POINTS }, () => new THREE.Vector3()) },
+    installLineA: { value: new Float32Array(MAX_LINES * 3) },
+    installLineB: { value: new Float32Array(MAX_LINES * 3) },
+    installLineColor: { value: new Float32Array(MAX_LINES * 3) },
+    installLineMin: { value: new Float32Array(MAX_LINES * 3) },
+    installLineMax: { value: new Float32Array(MAX_LINES * 3) },
+    installPointPosition: { value: new Float32Array(MAX_POINTS * 3) },
+    installPointColor: { value: new Float32Array(MAX_POINTS * 3) },
+    installPointCone: { value: new Float32Array(MAX_POINTS * 4) },
+    installPointMin: { value: new Float32Array(MAX_POINTS * 3) },
+    installPointMax: { value: new Float32Array(MAX_POINTS * 3) },
     installActive: { value: 0 },
   };
+  const scaled = new THREE.Vector3();
   const terrace = config.terrace;
   const box = (min, max) => ({ min: new THREE.Vector3(...min), max: new THREE.Vector3(...max) });
   // Emitter geometry (three.js axes: x, up, -Blender y). Intensities are per metre for lines.
@@ -340,19 +344,25 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   let flicker = 1;
   function apply() {
     lines.forEach((line, i) => {
-      uniforms.installLineA.value[i].copy(line.a);
-      uniforms.installLineB.value[i].copy(line.b);
-      uniforms.installLineMin.value[i].copy(line.region.min);
-      uniforms.installLineMax.value[i].copy(line.region.max);
-      uniforms.installLineColor.value[i].set(line.color.r, line.color.g, line.color.b).multiplyScalar(line.intensity * levels[line.id]);
+      line.a.toArray(uniforms.installLineA.value, i * 3);
+      line.b.toArray(uniforms.installLineB.value, i * 3);
+      line.region.min.toArray(uniforms.installLineMin.value, i * 3);
+      line.region.max.toArray(uniforms.installLineMax.value, i * 3);
+      scaled
+        .set(line.color.r, line.color.g, line.color.b)
+        .multiplyScalar(line.intensity * levels[line.id])
+        .toArray(uniforms.installLineColor.value, i * 3);
     });
     points.forEach((point, i) => {
       const level = levels[point.id] * (point.id === "fire" ? flicker : 1);
-      uniforms.installPointPosition.value[i].copy(point.position);
-      uniforms.installPointMin.value[i].copy(point.region.min);
-      uniforms.installPointMax.value[i].copy(point.region.max);
-      uniforms.installPointCone.value[i].set(...(point.cone || [0, -1, 0, 0]));
-      uniforms.installPointColor.value[i].set(point.color.r, point.color.g, point.color.b).multiplyScalar(point.intensity * level);
+      point.position.toArray(uniforms.installPointPosition.value, i * 3);
+      point.region.min.toArray(uniforms.installPointMin.value, i * 3);
+      point.region.max.toArray(uniforms.installPointMax.value, i * 3);
+      uniforms.installPointCone.value.set(point.cone || [0, -1, 0, 0], i * 4);
+      scaled
+        .set(point.color.r, point.color.g, point.color.b)
+        .multiplyScalar(point.intensity * level)
+        .toArray(uniforms.installPointColor.value, i * 3);
     });
     soffitMaterial.emissiveIntensity = 2.4 * levels.soffit;
     stepMaterial.emissiveIntensity = 3 * levels.steps;

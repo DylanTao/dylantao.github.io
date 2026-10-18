@@ -182,11 +182,16 @@ test("the dining lantern, the kitchen's downlights and its shelf line follow the
   assert.equal(dinner.pendant, 1);
   assert.equal(dinner.downlights, 1);
   assert.ok(lantern.emissiveIntensity > 1 && diffuser.emissiveIntensity > 1);
-  // A downlight is cone-limited and points down; the lantern is isotropic.
-  const cone = lights.uniforms.installPointCone.value[lights.points.findIndex((p) => p.id === "downlights")];
-  assert.deepEqual([cone.x, cone.y, cone.z], [0, -1, 0]);
-  assert.ok(cone.w > 0.5 && cone.w < 1);
-  assert.equal(lights.uniforms.installPointCone.value[lights.points.findIndex((p) => p.id === "pendant")].w, 0);
+  // A downlight is cone-limited and points down; the lantern is isotropic. The cones are a flat vec4
+  // array (four floats per point).
+  const coneOf = (id) => {
+    const at = lights.points.findIndex((p) => p.id === id) * 4;
+    return Array.from(lights.uniforms.installPointCone.value.subarray(at, at + 4));
+  };
+  const cone = coneOf("downlights");
+  assert.deepEqual(cone.slice(0, 3), [0, -1, 0]);
+  assert.ok(cone[3] > 0.5 && cone[3] < 1);
+  assert.equal(coneOf("pendant")[3], 0);
   // Lunch by day still lights the working kitchen; a sunny afternoon away from the kitchen does not.
   assert.ok(lights.update({ minute: 14 * 60 + 10, daylight: 0.9, activity: "lunch" }).downlights >= 0.55);
   const afternoon = lights.update({ minute: 16 * 60, daylight: 0.9, activity: "work" });
