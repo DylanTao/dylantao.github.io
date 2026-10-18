@@ -1941,8 +1941,9 @@ test("coastal home: composed activities and previews survive clock changes until
   await expect(scene).toHaveAttribute("data-activity", "coding");
   await sceneInputFrame(page, view, () => ui.locator("[data-world-now]").click());
   expect((await evidence(scene)).following).toBe(true);
-  await expect(scene).toHaveAttribute("data-activity", "workout");
-  await expect(scene).toHaveAttribute("data-room", "gym");
+  // Friday 17:47: the afternoon's work, before the 18:00 workout.
+  await expect(scene).toHaveAttribute("data-activity", "work");
+  await expect(scene).toHaveAttribute("data-room", "study");
 });
 
 test("coastal home: album focus, playback, discovery, mode sharing, and paper navigation", async ({ page }, testInfo) => {
@@ -2103,6 +2104,10 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
         })
       );
     }, publicRouteUrl("/assets/js/three.module.min.js"));
+    fs.writeFileSync(
+      testInfo.outputPath(`framing-${phase.replace(/[^a-z0-9]+/gi, "-")}.json`),
+      JSON.stringify({ seconds, phase, camera: pose.camera, target: pose.target, fov: pose.cameraFov, framed, joints: pose.joints }, null, 2)
+    );
     for (const point of Object.values(framed)) {
       expect(point.x).toBeGreaterThan(0.075);
       expect(point.x).toBeLessThan(0.925);
@@ -2361,7 +2366,7 @@ test("coastal home: recovery preserves a stair journey and composes a changed cl
     Object.defineProperty(document, "hidden", { configurable: true, get: () => true });
     document.dispatchEvent(new Event("visibilitychange"));
   });
-  await page.clock.setSystemTime(new Date("2026-09-11T19:00:01-07:00"));
+  await page.clock.setSystemTime(new Date("2026-09-11T20:45:01-07:00"));
   await page.clock.runFor(1000);
   expect((await evidence(scene)).animationSeconds).toBe(resumed.animationSeconds);
   await page.evaluate(() => {

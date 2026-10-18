@@ -18,6 +18,7 @@ import {
   farView,
   outsideClearance,
   portraitFov,
+  tripodLook,
   cutawayFootprint,
   ORBIT_DIRECTION,
   BLOCKING,
@@ -355,4 +356,24 @@ test("a portrait canvas widens the lens to keep the authored horizontal coverage
   // A sliver of a window stops at the cap instead of a fisheye.
   assert.equal(portraitFov(38, 0.1), 80);
   assert.equal(portraitFov(38, 0), 38);
+});
+
+test("the gym's tripod keeps its authored position while it turns to each station", () => {
+  const config = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  const room = config.rooms.find((r) => r.id === "gym");
+  const authored = { target: room.target, ...room.camera };
+  const position = ({ yaw, pitch, radius }, at) => ORBIT_DIRECTION(yaw, pitch).map((v, i) => at[i] + radius * v);
+  const home = position(authored, authored.target);
+  // Looking at its own target returns the authored orbit.
+  const same = tripodLook(authored, authored.target);
+  assert.ok(Math.abs(Math.atan2(Math.sin(same.yaw - authored.yaw), Math.cos(same.yaw - authored.yaw))) < 1e-9);
+  assert.ok(Math.abs(same.pitch - authored.pitch) < 1e-9 && Math.abs(same.radius - authored.radius) < 1e-9);
+  // Every station's look keeps the camera where it stands, inside the authored distance band.
+  const gym = config.equipment.gym;
+  const above = (spot, height) => [spot[0], spot[1] + height, spot[2]];
+  for (const point of [gym.pullup.bar, above(gym.dip.actor, 1.2), above(gym.rest.actor, 0.72), above(gym.rack.bar, -0.6)]) {
+    const look = tripodLook(authored, point);
+    position(look, point).forEach((v, i) => assert.ok(Math.abs(v - home[i]) < 1e-9));
+    assert.ok(look.radius > 2.5 && look.radius < 5.5, `radius ${look.radius}`);
+  }
 });
