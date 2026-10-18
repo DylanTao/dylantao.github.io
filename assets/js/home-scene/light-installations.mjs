@@ -9,7 +9,9 @@ import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.
 //   soffit   a concealed strip under the gallery edge washing the living floor's back wall;
 //   steps    low lights beside the stair, a dim guide all night;
 //   pool     a light in the onsen's wall that makes the water glow, brightest during the soak;
-//   gym      the gym's two linear pendants, on while someone trains, as bright as the room is dim.
+//   gym      the gym's two linear pendants, on while someone trains, as bright as the room is dim;
+//   desk     the office's screens and the gaming PC's RGB, awake while Sirui works and dimmed to a
+//            glow otherwise; the RGB drifts slowly through the hues while the scene moves.
 // Line emitters use the exact irradiance of a uniformly emitting segment on a Lambertian
 // surface, clipped to the surface's upper hemisphere: E = I |d| (2/D) [n0((2A+B)/|L1| - B/|L0|) -
 // n1((B+2C)/|L1| - 2C/|L0|)], with L(t) = L0 + t d, A = d.d, B = 2 L0.d, C = L0.L0,
@@ -50,6 +52,20 @@ export const SCHEDULES = {
   pool: ({ minute, dark, activity }) => (activity === "soak" ? 1 : 0.4 * dark.outside * windowLevel(minute, 19 * 60, 23 * 60, 20)),
   gym: ({ dark, activity }) => (activity === "workout" ? Math.max(0.25, dark.inside) : 0),
 };
+// The office's screens and RGB (no light of their own, so not an installation above): awake while
+// Sirui works at the desk, a glow otherwise.
+export const deskLevel = (activity) => (["work", "coding", "reading"].includes(activity) ? 1 : 0.25);
+// The living room's paper floor lantern (bin/coastal_living.py) glows once the house is dim,
+// brightest while Sirui is on the sofa; its light itself is the "lounge" warm practical.
+export const lanternLevel = ({ dark, activity }) => dark.inside * (activity === "lounge" ? 1 : 0.4);
+const LANTERN_MATERIAL = "washi lantern paper";
+// The office's emissive materials (bin/coastal_office.py): the RGB that drifts, and the screens.
+const RGB_MATERIAL = "pc rgb glow";
+const SCREEN_MATERIALS = new Set(["monitor screen glass", "screen code light", "screen code warm light", "screen code blue light"]);
+// One full turn of the hue wheel every 48 s, slow enough to read as ambience.
+export function rgbColor(seconds, target = new THREE.Color()) {
+  return target.setHSL((((seconds / 48) % 1) + 1) % 1, 0.85, 0.56);
+}
 
 // The same closed form in JavaScript (THREE.Vector3 arguments), mirrored line for line by the
 // shader below; the tests check it against brute-force integration.
@@ -147,6 +163,10 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       lines.push({ id: "festoon", a: middle, b: b.clone().add(drop), intensity: 0.42, color: WARM, region });
     }
   }
+  // The stair runs along the landward wall (navigation.stairs); the house reaches a little past it.
+  const stairs = config.navigation?.stairs || [];
+  const stairZ = stairs.length ? stairs.map((p) => p[2]) : [4.65];
+  const back = Math.max(5.6, Math.max(...stairZ) + 0.6);
   // Under the gallery's front edge, the full width of the living floor.
   lines.push({
     id: "soffit",
@@ -154,10 +174,9 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     b: new THREE.Vector3(4.45, 2.3, 1.42),
     intensity: 0.55,
     color: WARM,
-    region: box([-5.25, -0.1, -1.2], [5.25, 2.34, 5.6]),
+    region: box([-5.25, -0.1, -1.2], [5.25, 2.34, back]),
   });
   // Beside the stair, a hand's width above the treads, from the foot to the landing.
-  const stairs = config.navigation?.stairs || [];
   if (stairs.length > 2) {
     const foot = new THREE.Vector3(...stairs[1]),
       top = new THREE.Vector3(...stairs[stairs.length - 3]);
@@ -167,7 +186,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       b: top.clone().add(new THREE.Vector3(0, 0.28, 0.62)),
       intensity: 0.28,
       color: WARM,
-      region: box([-2.6, -0.1, 3.7], [2.6, 3.4, 5.7]),
+      region: box([-2.6, -0.1, Math.min(...stairZ) - 0.95], [2.6, 3.4, Math.max(...stairZ) + 1.05]),
     });
   }
   // The gym's pendants: a long one over the lifting bay, a short one over the bench, hung from the
@@ -238,7 +257,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   }
 
   // Shell materials that glow with their installation.
-  const glowing = { festoon: [], fire: [], gym: [] };
+  const glowing = { festoon: [], fire: [], gym: [], desk: [], lantern: [] };
   function bindModel(model) {
     model.traverse((o) => {
       if (!o.isMesh) return;
@@ -246,8 +265,26 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
         if (m.name === "festoon bulb glass" && !glowing.festoon.includes(m)) glowing.festoon.push(m);
         if (m.name === "fire bowl embers" && !glowing.fire.includes(m)) glowing.fire.push(m);
         if (m.name === "gym light diffuser" && !glowing.gym.includes(m)) glowing.gym.push(m);
+        if (m.name === LANTERN_MATERIAL && m.emissive && !glowing.lantern.includes(m)) {
+          m.userData.authoredEmissive ??= m.emissiveIntensity;
+          glowing.lantern.push(m);
+        }
+        if ((m.name === RGB_MATERIAL || SCREEN_MATERIALS.has(m.name)) && m.emissive && !glowing.desk.includes(m)) {
+          // Keep the authored strength; the schedule scales it.
+          m.userData.authoredEmissive ??= m.emissiveIntensity;
+          glowing.desk.push(m);
+        }
       }
     });
+    applyRgb();
+  }
+  let rgbSeconds = 0,
+    desk = 0.25,
+    lantern = 0;
+  const rgb = new THREE.Color();
+  function applyRgb() {
+    rgbColor(rgbSeconds, rgb);
+    for (const m of glowing.desk) if (m.name === RGB_MATERIAL) m.emissive.copy(rgb);
   }
 
   let pool = null;
@@ -295,6 +332,8 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       m.emissive?.copy(GYM);
       m.emissiveIntensity = 3 * levels.gym;
     }
+    for (const m of glowing.desk) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * desk;
+    for (const m of glowing.lantern) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 1.6 * lantern;
   }
 
   const bindings = new WeakSet();
@@ -309,14 +348,23 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     update({ minute, daylight, activity }) {
       const dark = darkness(daylight);
       for (const [id, schedule] of Object.entries(SCHEDULES)) levels[id] = THREE.MathUtils.clamp(schedule({ minute, dark, activity }), 0, 1);
+      desk = deskLevel(activity);
+      lantern = lanternLevel({ dark, activity });
       apply();
       return levels;
     },
-    // Two incommensurate sines and a faster ripple: a fire never repeats on a visible period.
+    // Two incommensurate sines and a faster ripple: a fire never repeats on a visible period. The
+    // PC's RGB drifts only while the scene moves; a still (reduced motion, pause) keeps its hue.
     tick(seconds, moving) {
-      if (!levels.fire) return false;
+      let changed = false;
+      if (moving && glowing.desk.length && Math.abs(seconds - rgbSeconds) > 0.05) {
+        rgbSeconds = seconds;
+        applyRgb();
+        changed = true;
+      }
+      if (!levels.fire) return changed;
       const next = moving ? 0.86 + 0.08 * Math.sin(seconds * 7.3) + 0.05 * Math.sin(seconds * 13.1 + 1.7) + 0.03 * Math.sin(seconds * 31.7) : 1;
-      if (Math.abs(next - flicker) < 1e-4) return false;
+      if (Math.abs(next - flicker) < 1e-4) return changed;
       flicker = next;
       apply();
       return true;
@@ -381,6 +429,9 @@ ${LINE_GLSL}`
         points: points.length,
         festoonMaterials: glowing.festoon.length,
         fireMaterials: glowing.fire.length,
+        deskMaterials: glowing.desk.length,
+        lanternMaterials: glowing.lantern.length,
+        rgb: rgb.getHexString(),
         pool: pool ? points.find((p) => p.id === "pool").position.toArray() : null,
       };
     },

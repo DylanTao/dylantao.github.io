@@ -477,12 +477,26 @@ export function createCoastalHome(container, records, artifacts) {
     return point.map((v, i) => v + offset[i]);
   }
 
+  // Where the desk's interactive props stand. The manifest can place them (rooms[study].desk, world
+  // coordinates); the code below works in the study's offset frame, so its points are taken back
+  // into that frame, and every prop falls back to the original desk's layout.
+  function deskLayout() {
+    const study = config.rooms.find((r) => r.id === "study");
+    const offset = study?.offset || [0, 0, 0];
+    const desk = study?.desk || {};
+    const local = (point, fallback) => (point ? point.map((v, i) => v - offset[i]) : fallback);
+    return { desk, local };
+  }
+
   function makeDeskObjects() {
     const previousObjects = new Set(world.children);
     const cream = material(0xf4ecd8),
       ink = material(0x252c29);
-    mesh(new THREE.BoxGeometry(0.68, 0.07, 0.43), material(0x71512b), [0.84, 0.91, -2.18]);
-    vinyl = mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.017, 48), ink, [0.83, 0.956, -2.17], { type: "spin" });
+    const { desk, local } = deskLayout();
+    const deck = local(desk.turntable, [0.84, 0.91, -2.18]);
+    const near = (base, d) => base.map((v, i) => v + d[i]);
+    mesh(new THREE.BoxGeometry(0.68, 0.07, 0.43), material(0x71512b), deck);
+    vinyl = mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.017, 48), ink, near(deck, [-0.01, 0.046, 0.01]), { type: "spin" });
     vinylLabel = new THREE.Mesh(own(new THREE.CircleGeometry(0.063, 32)), material(0xffffff));
     vinylLabel.rotation.x = -Math.PI / 2;
     vinylLabel.position.y = 0.011;
@@ -492,7 +506,7 @@ export function createCoastalHome(container, records, artifacts) {
     if (spinning && !reduced) recordMotion.cue(true);
     tonearm = new THREE.Group();
     tonearm.name = "Pivoted study tonearm";
-    tonearm.position.set(1.04, 0.986, -2.29);
+    tonearm.position.set(...near(deck, [0.2, 0.076, -0.11]));
     const armMetal = material(0xa7b2b5, { metalness: 1, roughness: 0.28 });
     const addArm = (geometry, mat, position) => {
       const part = new THREE.Mesh(own(geometry), mat);
@@ -516,30 +530,33 @@ export function createCoastalHome(container, records, artifacts) {
     world.add(tonearm);
     for (let i = 0; i < records.length; i++) {
       const face = material(0xffffff, { map: imageTexture(records[i].cover) });
-      const sleeve = mesh(new THREE.BoxGeometry(0.34, 0.35, 0.025), [cream, cream, cream, cream, face, cream], [-1.22, 1.68, -2.14 + i * 0.36], {
+      const at = local(desk.records?.[i], [-1.22, 1.68, -2.14 + i * 0.36]);
+      const sleeve = mesh(new THREE.BoxGeometry(0.34, 0.35, 0.025), [cream, cream, cream, cream, face, cream], at, {
         type: "record",
         index: i,
       });
-      sleeve.rotation.y = Math.PI / 2 + 0.08;
+      sleeve.rotation.y = desk.recordYaw ?? Math.PI / 2 + 0.08;
       sleeve.userData.home = { position: sleeve.position.clone(), rotation: sleeve.rotation.clone(), scale: sleeve.scale.clone() };
       sleeves.push(sleeve);
     }
     artifacts.forEach((a, index) => {
       const face = material(0xffffff, { map: labelTexture(a.title, a.label) });
-      const paper = mesh(new THREE.BoxGeometry(0.29, 0.4, 0.009), [cream, cream, cream, cream, face, cream], [-0.72 + index * 0.35, 0.884, -2.16], {
+      const at = local(desk.papers?.[index], [-0.72 + index * 0.35, 0.884, -2.16]);
+      const paper = mesh(new THREE.BoxGeometry(0.29, 0.4, 0.009), [cream, cream, cream, cream, face, cream], at, {
         type: "artifact",
         index,
       });
-      paper.rotation.set(-Math.PI / 2, 0, index * 0.11 - 0.1);
+      paper.rotation.set(-Math.PI / 2, 0, index * 0.11 - 0.1 + (desk.paperYaw || 0));
       paper.userData.home = { position: paper.position.clone(), rotation: paper.rotation.clone(), scale: paper.scale.clone() };
       paperItems.push(paper);
     });
     const glass = mesh(
       new THREE.PlaneGeometry(2.45, 2.3),
       material(0xbee0dc, { transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }),
-      [0, 1.3, -3.13],
+      local(desk.window, [0, 1.3, -3.13]),
       { type: "window" }
     );
+    glass.rotation.y = desk.windowYaw || 0;
     glass.castShadow = false;
     glass.userData.noOcclusion = true;
     // Move all interactive desk objects with the upper study, including their
@@ -1255,10 +1272,13 @@ export function createCoastalHome(container, records, artifacts) {
     floorCards.length = 0;
     dropped.forEach((index, i) => {
       const face = material(0xffffff, { map: imageTexture(records[index].cover) });
+      const drop = deskLayout().desk.drop;
       const card = mesh(
         new THREE.BoxGeometry(0.36, 0.43, 0.012),
         [material(0xece1c7), face, face, face, face, face],
-        roomPoint("study", [-0.82 + i * 0.42, 0.024 + i * 0.002, -0.2 + (i % 2) * 0.09]),
+        drop
+          ? drop.origin.map((v, k) => v + i * drop.step[k] + (i % 2) * (drop.alternate?.[k] || 0))
+          : roomPoint("study", [-0.82 + i * 0.42, 0.024 + i * 0.002, -0.2 + (i % 2) * 0.09]),
         { type: "source", index }
       );
       card.rotation.set(-Math.PI / 2, 0, (i - 1.5) * 0.14);
@@ -1771,7 +1791,7 @@ export function createCoastalHome(container, records, artifacts) {
     clearFocus();
     setRoom("study");
     focused = o;
-    o.position.fromArray(roomPoint("study", [0.05, 1.45, -0.7]));
+    o.position.fromArray(deskLayout().desk.focus || roomPoint("study", [0.05, 1.45, -0.7]));
     o.scale.setScalar(2.4);
     o.quaternion.copy(camera.quaternion);
     container.dataset.deskView = "object";

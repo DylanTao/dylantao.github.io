@@ -1,16 +1,18 @@
 import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
 
-// World-space anchors: the four existing modeled lamps, then the bath ledge, oak gym alcove and
-// the two floor lanterns just inside the glass front (named for the terrace they once marked; they
-// stand clear of the sliding doors' track).
+// World-space anchors: the study's task lamp, the bedside lamp, the kitchen's lantern, the living
+// room's paper floor lantern, then the bath ledge, the gym (over its
+// lifting bay) and the two floor lanterns just inside the glass front (named for the terrace they
+// once marked; they stand clear of the sliding doors' track).
 export const PRACTICAL_SOURCES = [
-  { id: "study", position: [-0.99, 4.06, 2.64], night: 5.5, day: 0.9, distance: 6 },
+  // The task lamp at the seaward end of the office desk (bin/coastal_office.py build_lamp).
+  { id: "study", position: [-0.97, 3.88, 2.42], night: 5.5, day: 0.9, distance: 6 },
   { id: "sleep", position: [-4.13, 3.47, 2.47], night: 2.7, day: 0.7, distance: 4.8, anyHour: true },
   { id: "kitchen", position: [-3.3, 1.95, -0.04], night: 2.7, day: 0.7, distance: 4.8 },
-  { id: "lounge", position: [2.14, 0.79, -1.58], night: 2.7, day: 0.7, distance: 4.8 },
+  { id: "lounge", position: [-1.2, 1.42, -3.55], night: 2.7, day: 0.7, distance: 4.8 },
   { id: "bath", position: [3.68, 3.388, 2.2], night: 2.8, day: 0.6, distance: 3.3 },
-  { id: "gym", position: [0, 2.18, 0.25], night: 3, day: 0.5, distance: 3.5 },
+  { id: "gym", position: [8.6, 2.3, -0.4], night: 3, day: 0.5, distance: 3.5 },
   { id: "terrace-west", position: [-4.75, 0.170405, -4.12], night: 1.8, day: 0.15, distance: 3.8 },
   { id: "terrace-east", position: [3.9, 0.170405, -4.12], night: 1.8, day: 0.15, distance: 3.8 },
 ];
@@ -78,13 +80,9 @@ export function createWarmPracticals(scene, bind = (m) => m) {
       cylinder(housings, 0.004, 0.28, [x + Math.cos(a) * 0.112, y - 0.005, z + Math.sin(a) * 0.112]);
     }
   }
-  // A surface-mounted brass rail with a downward-facing diffuser on the oak wall.
-  // No bloom sprite or large glowing plane substitutes for a modeled lamp.
-  const gymCase = new THREE.BoxGeometry(1.15, 0.052, 0.085).toNonIndexed();
-  gymCase.translate(0, 2.22, 0.2025);
-  const gymStrip = new THREE.BoxGeometry(1.04, 0.008, 0.049).toNonIndexed();
-  gymStrip.translate(0, 2.189, 0.201);
-  // Cylinders and boxes must share index topology before batching.
+  // The gym's light hangs among its own pendants (bin/coastal_gym.py); the brass rail that marked the
+  // old gym alcove in the middle bay went with it, so no fixture floats over the living room.
+  // Cylinders must share index topology before batching.
   for (let i = 0; i < housings.length; i++) {
     const original = housings[i];
     housings[i] = original.toNonIndexed();
@@ -95,8 +93,6 @@ export function createWarmPracticals(scene, bind = (m) => m) {
     diffusers[i] = original.toNonIndexed();
     original.dispose();
   }
-  housings.push(gymCase);
-  diffusers.push(gymStrip);
   for (const [parts, material, name] of [
     [housings, brass, "Brass lantern housings and alcove rail"],
     [diffusers, diffuser, "Warm lantern diffusers"],
@@ -132,7 +128,7 @@ export function createWarmPracticals(scene, bind = (m) => m) {
       return {
         nightMix,
         pointLights: lights.length,
-        newFixtures: 4,
+        newFixtures: 3,
         fixtureDraws: 2,
         levels: { ...levels },
         sources: lights.map((l) => ({ position: l.position.toArray(), intensity: l.intensity })),

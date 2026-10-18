@@ -1,4 +1,5 @@
 import * as THREE from "../three.module.min.js";
+import { gullSchedule } from "./wildlife-neighbor-motion.mjs";
 
 const up = new THREE.Vector3(0, 1, 0);
 const down = new THREE.Vector3(0, -1, 0);
@@ -9,10 +10,11 @@ const smooth = (value) => {
   return u ** 3 * (10 + u * (-15 + 6 * u));
 };
 
+// Feet take the perch over the last 4 s of each varied approach and leave it in 0.45 s.
 export function perchContactWeight(time, index) {
   const t = Number.isFinite(time) ? Math.max(0, time) : 0;
-  const cycle = (((t + index * 19) % 90) + 90) % 90;
-  return cycle < 68 ? smooth((cycle - 64) / 4) : cycle < 86 ? 1 : 1 - smooth((cycle - 86) / 0.45);
+  const { glideEnd, perchStart, perchEnd } = gullSchedule(t, index);
+  return t < glideEnd ? 0 : t < perchStart ? smooth((t - perchStart + 4) / 4) : t < perchEnd ? 1 : 1 - smooth((t - perchEnd) / 0.45);
 }
 
 export function perchSurface(patch, x, z) {
