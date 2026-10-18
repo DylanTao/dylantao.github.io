@@ -13,7 +13,7 @@ for obj in scene.objects: obj.hide_render=False
 def discard(obj):
     for child in list(obj.children): discard(child)
     bpy.data.objects.remove(obj, do_unlink=True)
-for name in ('Coast','Village','Courts','Palms','EveningBonfire','ParkedBoards','Lifeguard','GeiselCoast','SalkCoast','CampusWalk','CoastalWalk','BrocktonVilla','LaValencia','ChildrensPool','PoolAccess'):
+for name in ('Coast','Village','Courts','Palms','EveningBonfire','ParkedBoards','Lifeguard','GeiselCoast','SalkCoast','CampusWalk','CoastalWalk','BrocktonVilla','LaValencia','ChildrensPool','PoolAccess','PierLanding'):
     if name in bpy.data.objects: discard(bpy.data.objects[name])
 def move(name, center, target, scale=1):
     o=bpy.data.objects.get(name)
@@ -205,5 +205,7 @@ if '--skip-render' not in sys.argv:
     scene.render.filepath=str(SOURCE/'miniature.png');bpy.ops.render.render(write_still=True)
 manifest=json.loads((OUT/'manifest.json').read_text())
 old=manifest['office'];office=[4.8+(old[0]-7.5)*.65,.93+(old[1]-.93)*.65,-(7.3+(-old[2]-2.7)*.65)]
-manifest['miniature']={'model':'miniature.glb','camera':[18,30,30],'target':[0,1,-1],'width':30,'office':office,'landmarks':['DIB','Geisel','Salk','ScrippsPier','Cove','TorreyPines']}
+# Surfers keep their boards here; the browser poses their riders, as on the footer.
+riders=[f for f in manifest.get('figures',[]) if f.get('kind')=='surfer']
+manifest['miniature']={'model':'miniature.glb','camera':[18,30,30],'target':[0,1,-1],'width':30,'office':office,'landmarks':['DIB','Geisel','Salk','ScrippsPier','Cove','TorreyPines'],'figures':riders}
 (OUT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')

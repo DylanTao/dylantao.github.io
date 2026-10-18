@@ -87,8 +87,6 @@ courtmat = material("Tennis green", (0.26, 0.45, 0.35))
 courtblue = material("Tennis blue", (0.20, 0.38, 0.41))
 warm = material("Village lamplight", (1.0, 0.63, 0.25), 0.5, glow=0.8)
 office = material("Third floor studio light", (1.0, 0.65, 0.28), 0.4, glow=1.8)
-skin = material("Beachgoer skin", (0.72, 0.45, 0.28))
-swim = material("Surf wetsuit", (0.06, 0.12, 0.13))
 blue = material("Blue board", (0.17, 0.43, 0.66))
 
 
@@ -203,7 +201,8 @@ def line(name, points, r, mat, owner):
     return obj
 
 
-from coastal_terrain import PROFILE, shoreline, author_terrain, landscape_paths
+from coastal_terrain import PROFILE, shoreline, author_terrain, landscape_paths, ground_height
+import coastal_life as life
 
 
 def plateau(x):
@@ -241,8 +240,12 @@ for i in range(44):
     )
 for i in range(6):
     x = -14 + i * 1.2
+    y = 1.8 + (i % 2) * 0.4
+    # Three of these used to grow through the villa's sea terrace and house.
+    if -12.55 - 0.36 < x < -8.25 + 0.36 and y < 3.6 + 0.3:
+        continue
     z = plateau(x) + 0.11
-    ball("Coastal sage", (x, 1.8 + (i % 2) * 0.4, z), (0.36, 0.3, 0.26), grass, garden)
+    ball("Coastal sage", (x, y, z), (0.36, 0.3, 0.26), grass, garden)
 
 
 def roof_tiles(x, y, z, w, d, owner):
@@ -388,15 +391,20 @@ for x in (-12.4, -11.7, -11, -10.3, -9.6, -8.9, -8.3):
     rod("Villa baluster", (x, 0.13, 3.55), (x, 0.13, 4.00), 0.035, white, villa)
 rod("Villa handrail", (-12.45, 0.13, 4.02), (-8.25, 0.13, 4.02), 0.055, white, villa)
 # Readable descending stair connects the high villa to the village terrace.
-for i in range(17):
-    box(
-        "Cliff stair",
-        (-7.7, 0.95 + i * 0.17, 0.93 + (17 - i) * 0.14),
-        (0.72, 0.24, 0.17),
-        plaster,
-        villa,
-        0.016,
-    )
+# It runs down the mesa's east flank to the cottages; the earlier flight ran
+# inland into the hill, leaving only a floating fragment above the ground.
+stair_y, stair_steps = 1.2, 12
+stair_top, stair_bottom = 3.40, 1.06
+stair_tops = []
+for i in range(stair_steps):
+    xx = -8.25 + 0.2 * (i + 0.5)
+    top = max(stair_top - (stair_top - stair_bottom) * i / (stair_steps - 1), ground_height(xx, stair_y) + 0.05)
+    base = min(ground_height(xx, stair_y + s * 0.3) for s in (-1, 1)) - 0.08
+    stair_tops.append((xx, top))
+    box("Cliff stair", (xx, stair_y, (top + base) / 2), (0.21, 0.6, top - base), plaster, villa, 0.012)
+for xx, top in stair_tops[::3] + stair_tops[-1:]:
+    rod("Cliff stair rail post", (xx, stair_y - 0.27, top), (xx, stair_y - 0.27, top + 0.34), 0.016, white, villa)
+line("Cliff stair handrail", [(xx, stair_y - 0.27, top + 0.34) for xx, top in stair_tops], 0.018, white, villa)
 
 # Five folded bays, with the user's studio in the middle bay. The concrete
 # ground floor, glass gallery, clad ends and stair are read from their photos.
@@ -540,8 +548,17 @@ box(
 )
 # A substantial terrace follows the full frontage, including benches and steps.
 box("DIB concrete terrace", (dx, dy - .50, .50), (7.8, 5.4, .86), concrete, campus, .07)
-for i in range(8):
-    box("DIB promenade stair", (dx+.5,dy-3.32-i*.22,.84-i*.11), (2.4,.29,.16), concrete,campus,.016)
+# A side flight runs along the terrace front down to the sand. The straight
+# flight it replaces descended into the surf, below the waterline.
+stair = life.DIB_STAIR
+stair_yc, stair_depth = (stair["y0"] + stair["y1"]) / 2, stair["y1"] - stair["y0"]
+dib_steps = life.dib_stair_steps()
+for xx, top in dib_steps:
+    base = life.beach_height(xx, stair["y0"]) - .05
+    box("DIB beach stair", (xx, stair_yc, (top + base) / 2), (stair["run"], stair_depth, top - base), concrete, campus, .012)
+for xx, top in dib_steps[::2] + dib_steps[-1:]:
+    rod("DIB beach stair post", (xx, stair["y0"] + .05, top), (xx, stair["y0"] + .05, top + .36), .015, dark, campus)
+line("DIB beach stair handrail", [(xx, stair["y0"] + .05, top + .36) for xx, top in dib_steps], .018, dark, campus)
 for i in range(12):
     yy = dy - 1.95 + i * .27
     zz = bz + .11 + i * .087
@@ -564,16 +581,14 @@ for i in range(3):
         concrete,
         campus,
     )
-for x in (dx - 2.7, dx + 2.5):
-    box("Campus bench seat", (x, dy - 2.52, bz + 0.36), (1.0, 0.3, 0.09), wood, campus)
-    for s in (-0.35, 0.35):
-        box(
-            "Bench legs",
-            (x + s, dy - 2.52, bz + 0.16),
-            (0.07, 0.23, 0.34),
-            dark,
-            campus,
-        )
+# Seat height matches the people who use them (coastal_life.BENCH).
+bench = life.BENCH
+for x, y in life.DIB_BENCHES:
+    top = life.DIB_TERRACE["top"] + bench["seat"]
+    box("Campus bench seat", (x, y, top - bench["thick"] / 2), (bench["length"], bench["depth"], bench["thick"]), wood, campus, .012)
+    for s in (-1, 1):
+        legs = top - bench["thick"] - life.DIB_TERRACE["top"]
+        box("Bench legs", (x + s * bench["foot"], y, life.DIB_TERRACE["top"] + legs / 2), (0.07, bench["depth"] - .03, legs), dark, campus, .008)
 
 
 def palm(x, y, z, height=3.3, lean=0.4):
@@ -648,30 +663,39 @@ def palm(x, y, z, height=3.3, lean=0.4):
     return owner
 
 
-for x, y, z, h, l in [
-    (-17, 2.5, 0.94, 3.6, 0.5),
-    (-14.4, 2.9, 1.05, 4.3, -0.3),
-    (-6.5, 1.9, 0.99, 3.8, 0.5),
-    (1.45, 2.6, 0.94, 3.55, -0.25),
-    (12.55, 2.7, 0.94, 4.8, 0.4),
-    (18.2, 1.3, 0.94, 3.4, -0.45),
-    (14.0, -0.1, 0.31, 2.8, 0.6),
+# Trunks start just below the ground they grow from. The palm beside the
+# east cottage now leans away from it; its fronds cut through the ridge.
+for x, y, h, l in [
+    (-17, 2.5, 3.6, 0.5),
+    (-14.4, 2.9, 4.3, -0.3),
+    (-6.5, 1.9, 3.8, 0.5),
+    (1.45, 2.6, 3.55, -0.25),
+    (12.55, 2.7, 4.8, 0.4),
+    (18.6, 1.0, 3.4, 0.3),
+    (14.0, -0.1, 2.8, 0.6),
 ]:
-    palm(x, y, z, h, l)
+    palm(x, y, ground_height(x, y) - 0.06, h, l)
 
 
-def court(x, y, z, w, d, tennis):
+def court(x, y, z, w, d, tennis, margin=0.2):
     owner = group("Tennis" if tennis else "BeachVolleyball")
     owner.parent = sports
     if tennis:
         # A retaining platform reaches the beach; no thin suspended court slab.
         box("Tennis retaining foundation", (x,y,(z-.1)/2), (w+.6,d+.6,z-.1), rockmats[2], owner, .10)
+        # Steps climb the bluff toe beside the court and stop at court level;
+        # a straight flight disappeared into the slope after its first tread.
         for i in range(6):
-            box("Court access step", (x+w/2+.48,y-.60+i*.27,z*(i+1)/6-.08), (.48,.32,.16), concrete,owner,.015)
+            xx, yy = x + w / 2 + .48, y - .60 + i * .27
+            ground = life.surface_height(xx, yy)
+            top = max(z * (i + 1) / 6, ground + .04)
+            if top > z + .01:
+                break
+            box("Court access step", (xx, yy, (top + ground - .1) / 2), (.48, .32, top - ground + .1), concrete, owner, .015)
     box(
         "Court foundation",
         (x, y, z - 0.05),
-        (w + 0.4, d + 0.4, 0.1),
+        (w + 2 * margin, d + 2 * margin, 0.1),
         courtmat if tennis else sand,
         owner,
         0.06,
@@ -777,51 +801,19 @@ def court(x, y, z, w, d, tennis):
     return owner
 
 
-court(-17.0, 0.4, 0.94, 4.4, 2.4, True)
-court(0.0, -1.35, 0.18, 3.7, 1.8, False)
+tennis_court, volleyball_court = life.TENNIS, life.VOLLEYBALL
+court(*(tennis_court[k] for k in "xyzwd"), True)
+# The volleyball court moved to the straight stretch below the cottages: in
+# the centre of the cove its foundation reached past the waterline.
+court(*(volleyball_court[k] for k in "xyzwd"), False, volleyball_court["margin"])
 
-
-def person(x, y, z, owner, mat=swim, surf=False):
-    ball("Head", (x, y, z + 0.60), (0.075, 0.073, 0.085), skin, owner)
-    rod("Torso", (x, y, z + 0.29), (x + 0.02, y, z + 0.52), 0.070, mat, owner, r2=0.085)
-    for s in (-1, 1):
-        rod(
-            "Lower leg",
-            (x + s * 0.14, y, z + 0.04),
-            (x + s * 0.09, y - 0.04, z + 0.20),
-            0.028,
-            skin if not surf else mat,
-            owner,
-        )
-        rod(
-            "Upper leg",
-            (x + s * 0.09, y - 0.04, z + 0.20),
-            (x, y, z + 0.31),
-            0.042,
-            mat,
-            owner,
-        )
-        rod(
-            "Arm",
-            (x + s * 0.05, y, z + 0.48),
-            (x + s * 0.20, y - 0.06, z + (0.46 if surf else 0.36)),
-            0.025,
-            skin,
-            owner,
-        )
-
-
-for x, y in [(-1.2, -1.1), (1.25, -1.6)]:
-    person(x, y, 0.19, sports, rose if x < 0 else blue)
-for x, y in [(-18.25, 0.4), (-15.65, 0.4)]:
-    person(x, y, 0.95, sports, white)
-for n, (x, y, ang) in enumerate(
-    [(-6.2, -4.1, -0.25), (4.0, -5.1, 0.15), (13.5, -3.7, -0.12)]
-):
+# People are posed and animated in the browser (assets/js/footer-coast/
+# people.mjs), seated or standing on these props by coastal_life.figures.
+for n, spec in enumerate(life.SURFERS):
     surfer = group("Surfer" + str(n))
     surfer.parent = waves
-    surfer.location = (x, y, 0.12)
-    surfer.rotation_euler.z = ang
+    surfer.location = (spec["x"], spec["y"], 0.12)
+    surfer.rotation_euler.z = spec["angle"]
     ball(
         "Longboard",
         (0, 0, 0),
@@ -830,28 +822,28 @@ for n, (x, y, ang) in enumerate(
         surfer,
         3,
     )
-    person(0, 0, 0.035, surfer, surf=True)
-    for k in range(2):
-        line(
-            "Board wake",
-            [
-                (-0.8 - t * 0.8, (k * 2 - 1) * (0.1 + t * 0.16), 0.01)
-                for t in [j / 9 for j in range(10)]
-            ],
-            0.014,
-            foam,
-            surfer,
-        )
+    # Only a moving board leaves a wake: none for the surfer waiting nose-out.
+    wake = spec["wake"]
+    if wake:
+        for k in range(2):
+            line(
+                "Board wake",
+                [
+                    (-0.8 - t * wake / 2, (k * 2 - 1) * (0.1 + t * 0.1 * wake), 0.01)
+                    for t in [j / 9 for j in range(10)]
+                ],
+                0.014,
+                foam,
+                surfer,
+            )
 
-# Parasols, towels and a lifeguard station establish beach scale.
-for x, y in [(3, -1.0), (13.8, -0.8), (17, -0.9), (-4, -1.8)]:
-    rod("Parasol pole", (x, y, 0.13), (x, y, 0.94), 0.018, wood, terrain)
-    vv = [(x, y, 1.03)] + [
-        (
-            x + 0.44 * math.cos(i * math.tau / 12),
-            y + 0.44 * math.sin(i * math.tau / 12),
-            0.86,
-        )
+# Parasols and towels establish beach scale; poles start in the sand.
+for x, y in life.PARASOLS:
+    sand_z = life.beach_height(x, y)
+    rod("Parasol pole", (x, y, sand_z - 0.03), (x, y, sand_z + 0.83), 0.018, wood, terrain)
+    r = life.PARASOL_RADIUS
+    vv = [(x, y, sand_z + 0.92)] + [
+        (x + r * math.cos(i * math.tau / 12), y + r * math.sin(i * math.tau / 12), sand_z + 0.75)
         for i in range(12)
     ]
     mesh(
@@ -861,31 +853,62 @@ for x, y in [(3, -1.0), (13.8, -0.8), (17, -0.9), (-4, -1.8)]:
         white,
         terrain,
     )
-    box(
-        "Striped beach towel",
-        (x + 0.42, y - 0.20, 0.14),
-        (0.30, 0.67, 0.018),
-        rose,
-        terrain,
-        0,
-    )
-hut = house(18.5, -0.1, 0.50, 0.75, 0.75, 0.7, white, "Lifeguard")
-for s in (-0.3, 0.3):
-    rod(
-        "Lifeguard stilt",
-        (18.5 + s, -0.1, 0.13),
-        (18.5 + s, -0.1, 0.62),
-        0.04,
-        wood,
-        hut,
-    )
+for x, y, angle in life.TOWELS:
+    towel = box("Striped beach towel", (x, y, life.beach_height(x, y) + 0.009), (*life.TOWEL_SIZE, 0.018), rose, terrain, 0)
+    towel.rotation_euler.z = angle
+
+
+def lifeguard_tower():
+    """A raised lookout on the sand, facing the surf, with a ramp inland.
+
+    The earlier hut stood half-buried in the bluff slope behind the beach.
+    """
+    spec = life.LIFEGUARD
+    owner = group("Lifeguard")
+    x, y = spec["x"], spec["y"]
+    sand_z = life.beach_height(x, y)
+    dw, dd = spec["deck"]
+    deck_z = sand_z + spec["height"]
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            px, py = x + sx * (dw / 2 - 0.08), y + sy * (dd / 2 - 0.08)
+            rod("Lifeguard stilt", (px, py, life.beach_height(px, py) - 0.05), (px, py, deck_z), 0.032, wood, owner)
+        rod("Lifeguard brace", (x + sx * (dw / 2 - 0.08), y - dd / 2 + 0.08, sand_z + 0.08), (x + sx * (dw / 2 - 0.08), y + dd / 2 - 0.08, deck_z - 0.06), 0.013, wood, owner, 6)
+    box("Lifeguard deck", (x, y, deck_z + 0.03), (dw, dd, 0.06), white, owner, 0.012)
+    hw, hd, hh = 0.62, 0.46, 0.44
+    hy = y + 0.1
+    floor = deck_z + 0.06
+    box("Lifeguard hut", (x, hy, floor + hh / 2), (hw, hd, hh), white, owner, 0.02)
+    box("Lookout window", (x, hy - hd / 2 - 0.006, floor + hh * 0.62), (hw - 0.14, 0.02, 0.16), window, owner, 0)
+    for side in (-1, 1):
+        box("Lookout side window", (x + side * (hw / 2 + 0.006), hy, floor + hh * 0.62), (0.02, hd - 0.16, 0.16), window, owner, 0)
+    eave, rise = floor + hh, 0.2
+    ox, oy = hw / 2 + 0.07, hd / 2 + 0.07
+    corners = [(x - ox, hy - oy, eave), (x + ox, hy - oy, eave), (x + ox, hy + oy, eave), (x - ox, hy + oy, eave)]
+    mesh("Lookout hip roof", corners + [(x, hy, eave + rise)], [(0, 1, 4), (1, 2, 4), (2, 3, 4), (3, 0, 4), (3, 2, 1, 0)], courtblue, owner)
+    rail_z = deck_z + 0.06
+    front = y - dd / 2 + 0.03
+    for i in range(5):
+        px = x - dw / 2 + 0.04 + i * (dw - 0.08) / 4
+        rod("Lookout rail post", (px, front, rail_z), (px, front, rail_z + 0.26), 0.012, white, owner, 6)
+    rod("Lookout rail", (x - dw / 2 + 0.04, front, rail_z + 0.26), (x + dw / 2 - 0.04, front, rail_z + 0.26), 0.014, white, owner)
+    # The ramp climbs inland from the deck to the bluff path behind the beach.
+    end_y = y + dd / 2 + spec["ramp"]
+    end_z = life.surface_height(x, end_y) + 0.02
+    run, drop = spec["ramp"], deck_z + 0.03 - end_z
+    ramp = box("Lookout ramp", (x, y + dd / 2 + run / 2, (deck_z + 0.03 + end_z) / 2), (0.32, math.hypot(run, drop), 0.05), wood, owner, 0.01)
+    ramp.rotation_euler.x = -math.atan2(drop, run)
+    return owner
+
+
+lifeguard = lifeguard_tower()
 
 from coastal_landmarks import landmarks
 from coastal_panorama import village_landmarks, campus_panorama
 landmark_groups = [*landmarks(globals()), *village_landmarks(globals()), landscape_paths(globals())]
 
 # Material batches keep hundreds of authored details cheap to draw.
-# Preserve water, surfers, palm crowns, and the office as independent objects.
+# Preserve water, surfers, palm crowns, flames and the office as independent objects.
 for obj in list(bpy.data.objects):
     if obj.type == "CURVE":
         bpy.ops.object.select_all(action="DESELECT")
@@ -913,7 +936,7 @@ def batch(owner):
         objects[0].name = owner.name + " · " + key[0]
 
 
-for root in (terrain, village, campus, sports, garden, waves, *landmark_groups):
+for root in (terrain, village, campus, sports, garden, waves, lifeguard, *landmark_groups):
     batch(root)
 
 for root in campus_panorama(globals()):
@@ -975,7 +998,7 @@ bpy.ops.export_scene.gltf(
     export_draco_mesh_compression_level=6,
 )
 manifest = {
-    "version": 5,
+    "version": 6,
     "model": "la-jolla.glb",
     "coordinates": "Y-up",
     "office": [office_anchor[0], office_anchor[2], -office_anchor[1]],
@@ -990,10 +1013,16 @@ manifest = {
     "terrainBounds": [-82, 82, 13],
     "panoramaBounds": [-48.5, 54],
     "coastProfile": PROFILE,
+    # Seats, paths, courts and boards for the people the browser poses.
+    "figures": life.manifest_figures(),
 }
-(OUT / "manifest.json").write_text(
-    json.dumps(manifest, indent=2) + "\n", encoding="utf8"
-)
+# build_la_jolla_miniature.py owns the compact atlas entry; keep it intact.
+manifest_path = OUT / "manifest.json"
+if manifest_path.exists():
+    previous = json.loads(manifest_path.read_text(encoding="utf8"))
+    if "miniature" in previous:
+        manifest["miniature"] = previous["miniature"]
+manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf8")
 if "--skip-render" not in sys.argv:
     scene.render.filepath = str(SOURCE / "la-jolla-day.png")
     bpy.ops.render.render(write_still=True)

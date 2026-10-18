@@ -280,6 +280,51 @@ test("coastal scenes: lazy loading, automatic movement, offscreen pause and reve
   expect(errors).toEqual([]);
 });
 
+test("coastal people: a composed still for automation, gentle loops with ?cinematic=live", async ({ page }, testInfo) => {
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
+  const errors = collectRuntimeErrors(page);
+  const host = await open(page, "noon");
+  await page.waitForTimeout(1200);
+  const still = (await evidence(host)).people;
+  // Automation sees the same composed pose the posters show, while water and palms move.
+  expect(still.live).toBe(false);
+  expect(still.pose).toBe(0);
+  expect(still.visible).toEqual(expect.arrayContaining(["tennis", "volleyball", "shore-walk", "surf-ride", "swimmer", "bench-1"]));
+  expect(still.visible).not.toContain("fire");
+  await page.goto(publicRouteUrl("/?cinematic=live"), { waitUntil: "domcontentloaded" });
+  const live = page.locator("footer [data-footer-coast]");
+  await live.scrollIntoViewIfNeeded();
+  await expect(live).toHaveAttribute("data-state", "ready", { timeout: 30000 });
+  await expect.poll(async () => (await evidence(live)).people.pose, { timeout: 15000 }).toBeGreaterThan(0.5);
+  const before = (await evidence(live)).people.pose;
+  await page.waitForTimeout(800);
+  const after = await evidence(live);
+  expect(after.people.live).toBe(true);
+  expect(after.people.pose).toBeGreaterThan(before);
+  // People follow the scene clock, so they rest with the rest of the coast offscreen.
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  await expect(live).toHaveAttribute("data-running", "false");
+  const paused = (await evidence(live)).people.pose;
+  await page.waitForTimeout(400);
+  expect((await evidence(live)).people.pose).toBe(paused);
+  await live.scrollIntoViewIfNeeded();
+  await attachScreenshot(page, testInfo, "coast-people-live", { locator: page.locator("footer") });
+  expect(errors).toEqual([]);
+});
+
+test("coastal people: the evening fire circle replaces the daytime crowd", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const errors = collectRuntimeErrors(page);
+  const host = await open(page, "evening");
+  const night = (await evidence(host)).people;
+  expect(night.live).toBe(false);
+  expect(night.visible).toEqual(expect.arrayContaining(["fire", "shore-couple"]));
+  for (const id of ["tennis", "volleyball", "shore-walk", "surf-ride", "sunbather"]) expect(night.visible).not.toContain(id);
+  await attachScreenshot(page, testInfo, "coast-people-evening", { locator: page.locator("footer") });
+  expect(errors).toEqual([]);
+});
+
 test("homepage story: rail stays in its first-paint position while scripts load", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
   const wide = testInfo.project.name === "desktop-1440";

@@ -46,10 +46,48 @@ def ground_height(x, y):
     return .12+(height-.12)*min(1, (t/.13)**.55)
 
 
+TERRAIN_GRID = (520, 28)
+
+
+def _terrain_column(i):
+    nx = TERRAIN_GRID[0]
+    x = -82+164*i/nx
+    shore, beach, height, back = profile(x)
+    if -19 <= x <= 19:
+        beach, back = 1.9, 5
+    return x, shoreline(x)+beach, back
+
+
+def _column_height(i, y):
+    ny = TERRAIN_GRID[1]
+    x, front, back = _terrain_column(i)
+    t = max(0.0, min(float(ny), (y-front)/(back-front)*ny))
+    j = min(ny-1, int(t))
+    z = [ground_height(x, front+k/ny*(back-front))+.014*math.sin(x*4+k/ny*17) for k in (j, j+1)]
+    return z[0]+(z[1]-z[0])*(t-j)
+
+
+def mesh_height(x, y):
+    """Height of the authored terrain mesh, which is coarser than ground_height.
+
+    On the steep bluff faces the mesh's facets differ from the smooth profile
+    by more than a path ribbon's lift, so ribbons follow the mesh itself.
+    """
+    u = (x+82)/164*TERRAIN_GRID[0]
+    i = max(0, min(TERRAIN_GRID[0]-1, int(math.floor(u))))
+    f = u-i
+    return _column_height(i, y)*(1-f)+_column_height(i+1, y)*f
+
+
+def path_height(x, y):
+    """Surface of a path ribbon: just above both the mesh and the smooth profile."""
+    return max(mesh_height(x, y), ground_height(x, y))+.026
+
+
 def author_terrain(h):
     mesh, owner = h['mesh'], h['terrain']
     verts, faces = [], []
-    nx, ny = 520, 28
+    nx, ny = TERRAIN_GRID
     for i in range(nx+1):
         x = -82+164*i/nx
         shore, beach, height, back = profile(x)
@@ -88,21 +126,35 @@ def landscape_paths(h):
     owner=group('CoastalWalk')
 
     def walk(name, points, width=.48):
-        verts=[]
+        # Five vertices across: on the steep bluff faces a two-vertex ribbon
+        # sagged below the concave ground, and terrain rows tore through it.
+        across=(-1,-.5,0,.5,1)
+        verts,faces=[],[]
         for i,(x,y) in enumerate(points):
             a=points[max(0,i-1)]; b=points[min(len(points)-1,i+1)]
             dx,dy=b[0]-a[0],b[1]-a[1]; length=math.hypot(dx,dy) or 1
-            for side in (-1,1):
+            for side in across:
                 xx,yy=x-side*dy/length*width/2,y+side*dx/length*width/2
-                verts.append((xx,yy,ground_height(xx,yy)+.026))
-        mesh(name,verts,[(2*i,2*i+2,2*i+3,2*i+1) for i in range(len(points)-1)],h['white'],owner)
+                verts.append((xx,yy,path_height(xx,yy)))
+            if i<len(points)-1:
+                n,k=len(across),i*len(across)
+                faces.extend((k+s,k+n+s,k+n+s+1,k+s+1) for s in range(n-1))
+        mesh(name,verts,faces,h['white'],owner)
 
     # A quiet bluff path, with separate branches to the library and Salk court.
-    walk('Campus bluff walk',[(x,shoreline(x)+profile(x)[1]+1.9) for x in [-49+i*.3 for i in range(104)]])
+    def bluff_walk_y(x):
+        return shoreline(x)+profile(x)[1]+1.9
+    walk('Campus bluff walk',[(x,bluff_walk_y(x)) for x in [-49+i*.3 for i in range(104)]])
     walk('Salk approach', [(-41,0),(-40,1),(-39.8,2.0),(-40.2,3.0)], .8)
     # Geisel's serpentine approach is a legible plan relationship, not a label.
-    walk('Library winding approach', [(-30.7+2.3*math.sin(t*.84),1.9+t*.40) for t in [i*.1 for i in range(126)]], .48)
-    walk('Village coastal promenade',[(x,shoreline(x)+profile(x)[1]+1.4) for x in [22+i*.25 for i in range(129)]], .53)
+    # It leaves the bluff walk on the flat top; its first loop used to hang
+    # down the face of the Cove, where the terrain cut through the ribbon.
+    snake=[(-30.7+2.3*math.sin(t*.84),1.9+t*.40) for t in [i*.1 for i in range(36,126)]]
+    walk('Library winding approach', [(snake[0][0],bluff_walk_y(snake[0][0]))]+snake, .48)
+    # The promenade passes Brockton Villa's porch stair instead of running
+    # under its stone terrace, then resumes beyond the cottage.
+    for xs in ([22+i*.25 for i in range(22)], [31.9+i*.25 for i in range(89)]):
+        walk('Village coastal promenade',[(x,shoreline(x)+profile(x)[1]+1.4) for x in xs], .53)
     walk('Hotel garden approach',[(36.9,4.8),(36.2,3.8),(37.7,2.5),(39,1.7),(40,.4)],.55)
     walk('Cottage access',[(27,3.05),(26,3.2),(25,2.9),(24,2.5)],.45)
 
@@ -113,12 +165,19 @@ def landscape_paths(h):
             radius=.25+((i*7+j*3)%5)*.085
             ball('Wave-worn bluff foot',(x+(j-1)*.35,y+.13*j,.12+radius*.2),(radius*1.2,radius*.85,radius*.55),h['rockmats'][(i+j)%4],owner)
 
-    # Small occupied overlooks belong to the paths, not to isolated plinths.
-    for x,y,angle in [(-34,.8,-.22),(-23.2,3.2,.2),(34.8,1.3,-.25),(40.8,-1.15,.15)]:
-        z=ground_height(x,y)
-        seat=box('Ocean-facing bench',(x,y,z+.35),(1.0,.30,.10),h['wood'],owner)
+    # Small occupied overlooks sit beside the paths at human seat height. The
+    # browser seats their visitors (coastal_life.figures); feet turn with the
+    # seat and reach the ground on sloping lawns.
+    from coastal_life import BENCHES, BENCH, bench_frame, bench_seat_top, surface_height
+    for x,y,angle in BENCHES:
+        top=bench_seat_top(x,y,angle)
+        axis,_=bench_frame(x,y,angle)
+        seat=box('Ocean-facing bench',(x,y,top-BENCH['thick']/2),(BENCH['length'],BENCH['depth'],BENCH['thick']),h['wood'],owner,.012)
         seat.rotation_euler.z=angle
-        for dx in (-.35,.35):
-            box('Bench foot',(x+dx,y,z+.18),(.09,.25,.32),h['concrete'],owner)
-        h['person'](x+.20,y-.10,z+.38,owner,h['rose'])
+        for s in (-1,1):
+            fx,fy=x+axis[0]*s*BENCH['foot'],y+axis[1]*s*BENCH['foot']
+            base=surface_height(fx,fy)-.04
+            height=top-BENCH['thick']-base
+            foot=box('Bench foot',(fx,fy,base+height/2),(.07,BENCH['depth']-.03,height),h['concrete'],owner,.008)
+            foot.rotation_euler.z=angle
     return owner

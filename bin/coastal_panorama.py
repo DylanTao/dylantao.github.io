@@ -186,15 +186,20 @@ def village_landmarks(h):
     access=group('PoolAccess')
     # One end is anchored to the bluff by a stair and landing. The other stays
     # open to the sea, so the seawall reads as a breakwater rather than a bowl.
+    # Treads never dip below the convex bluff face: where the straight flight
+    # would tunnel into the cliff, the steps are cut into its surface instead.
+    from coastal_terrain import ground_height
+    tops=[]
     for i in range(12):
         yy=-.85-i*.23
-        top=1.68-i*.091
+        top=max(1.68-i*.091,ground_height(42.0,yy)+.06)
+        tops.append((yy,top))
         box('Breakwater access stair',(42.0,yy,top/2),(.78,.255,top),seawall,access,.012)
         for side in (-1,1):
             if i%3==0:
                 rod('Stair rail post',(42.0+side*.35,yy,top),(42.0+side*.35,yy,top+.36),.018,h['dark'],access)
     for side in (-1,1):
-        line('Stair handrail',[(42.0+side*.35,-.85-i*.23,2.04-i*.091) for i in range(12)],.019,h['dark'],access)
+        line('Stair handrail',[(42.0+side*.35,yy,top+.36) for yy,top in tops],.019,h['dark'],access)
     return [brockton,valencia,pool,access]
 
 
