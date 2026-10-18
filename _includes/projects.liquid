@@ -31,6 +31,32 @@
 {% if page.project_cards_interactive %}
   {% assign project_card_image_sizes = '(min-width: 992px) 32vw, (min-width: 768px) 45vw, 92vw' %}
 {% endif %}
+{% comment %}
+  Decks (2026-10-18): a project whose children name it as `parent` is a deck on the projects index.
+  Its card opens into a banner with the children fanned out below it (assets/js/project-decks.mjs).
+  `deck_children: record` lists the technical record's experiments instead (the Graphics Lab).
+  Cards inside a closed deck load their pictures lazily; the root level stays eager.
+{% endcomment %}
+{% assign project_deck_depth = include.deck_depth | default: 1 %}
+{% assign project_card_loading = 'eager' %}
+{% if project_deck_depth > 1 %}
+  {% assign project_card_loading = 'lazy' %}
+{% endif %}
+{% assign project_deck_size = 0 %}
+{% assign project_deck_record = null %}
+{% if page.project_cards_interactive %}
+  {% if project.deck_children == 'record' %}
+    {% assign project_deck_record = site.data.design_records[project_file_slug] %}
+    {% for system in project_deck_record.systems %}
+      {% unless system.index == false %}
+        {% assign project_deck_size = project_deck_size | plus: system.techniques.size %}
+      {% endunless %}
+    {% endfor %}
+  {% else %}
+    {% assign project_deck_kids = site.projects | where: 'parent', project_file_slug %}
+    {% assign project_deck_size = project_deck_kids.size %}
+  {% endif %}
+{% endif %}
 {% capture project_card_figure_markup %}
   {% if project.img %}
     {% if project_card_data.mobile_teaser %}
@@ -76,14 +102,14 @@
             width="100%"
             height="auto"
             alt="{{ project_card_data.teaser_alt | default: project.title | escape }}"
-            loading="eager"
+            loading="{{ project_card_loading }}"
             onerror="this.onerror=null; var picture=this.closest('picture'); if (picture) { picture.querySelectorAll('.responsive-img-srcset').forEach(function (n) { n.remove(); }); }"
           >
         </picture>
       </figure>
     {% elsif page.project_cards_interactive %}
       {% assign project_teaser_alt = project_card_data.teaser_alt | default: project.title %}
-      {% include figure.liquid loading="eager" path=project.img sizes="(min-width: 992px) 32vw, (min-width: 768px) 45vw, 92vw" alt=project_teaser_alt class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
+      {% include figure.liquid loading=project_card_loading path=project.img sizes="(min-width: 992px) 32vw, (min-width: 768px) 45vw, 92vw" alt=project_teaser_alt class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
     {% else %}
       {% include figure.liquid loading="eager" path=project.img sizes="250px" alt="project thumbnail" class="card-img-top project-card-img" avoid_scaling=project.card_avoid_scaling %}
     {% endif %}
@@ -106,18 +132,59 @@
 {% endcapture %}
 
 {% if page.project_cards_interactive %}
+  {% assign card_heading_level = include.heading_level | default: 3 %}
+  {% assign project_deck_id = project_file_slug | prepend: 'deck-' %}
+  {% capture project_deck_label %}{% if project_deck_record %}{{ project_deck_size }} experiments{% elsif project_deck_size == 1 %}{{ project_deck_kids.first.title }}{% else %}{{ project_deck_size }} inside{% endif %}{% endcapture %}
   <article
-    class="project-card"
+    class="project-card{% if project_deck_size > 0 %} project-deck{% if include.deck_feature %} project-deck--feature{% endif %}{% endif %}"
     data-project-card
+    data-entry
+    {% if project_deck_size > 0 %}
+      data-project-deck="{{ project_file_slug }}" data-project-deck-size="{{ project_deck_size }}" id="{{ project_deck_id }}"
+    {% endif %}
+    {% if include.deck_parent %}
+      data-project-deck-parent="{{ include.deck_parent }}"
+    {% endif %}
     {% if project_card_data.accents %}
       style="{{ project_card_style | strip_newlines | strip }}"
     {% endif %}
   >
-    <div class="card h-100 hoverable">
+    {% if project_deck_size > 0 %}
+      {% comment %} The cards inside peek out from under the deck; a feature deck fans a few of them out. {% endcomment %}
+      <div class="project-deck-sheets" aria-hidden="true">
+        {% if project_deck_record %}
+          {% assign project_deck_peeks = '' | split: '' %}
+          {% for system in project_deck_record.systems %}
+            {% unless system.index == false %}
+              {% for technique in system.techniques %}
+                {% if technique.thumbnail %}
+                  {% assign project_deck_peeks = project_deck_peeks | push: technique.thumbnail.path %}
+                {% endif %}
+              {% endfor %}
+            {% endunless %}
+          {% endfor %}
+        {% else %}
+          {% assign project_deck_peeks = project_deck_kids | sort: 'debut_date' | reverse | map: 'img' %}
+        {% endif %}
+        {% assign project_deck_peek_count = 2 %}
+        {% if include.deck_feature %}
+          {% assign project_deck_peek_count = 5 %}
+        {% endif %}
+        {% for peek in project_deck_peeks limit: project_deck_peek_count %}
+          <span
+            class="project-deck-sheet"
+            style="--sheet-index: {{ forloop.index0 }}; --sheet-image: url('{% include responsive_variant.liquid path=peek width=480 %}');"
+          ></span>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% comment %} A deck's card sizes itself (the h-100 utility is a layered !important that would hold an open banner at the deck's full height). {% endcomment %}
+    <div class="card{% unless project_deck_size > 0 %} h-100{% endunless %} hoverable">
       <div class="project-card-preview">
         {% if project.img %}
           <div
             class="{{ project_media_classes }}"
+            data-entry-media
             {% if project_card_data.teasers %}
               data-random-teaser data-random-teasers="{{ project_random_teaser_paths | strip }}"
             {% endif %}
@@ -134,12 +201,17 @@
         <div class="card-body project-card-body">
           <div class="project-card-heading{% if project_card_data.icon %} project-card-heading--with-icon{% endif %}">
             {% include project_card_icon.liquid icon=project_card_data.icon %}
-            {% if include.heading_level == 4 %}
-              <h4 class="card-title">{{ project.title }}</h4>
-            {% else %}
-              <h3 class="card-title">{{ project.title }}</h3>
-            {% endif %}
+            <h{{ card_heading_level }} class="card-title" data-entry-title>{{ project.title }}</h{{ card_heading_level }}>
           </div>
+          {% if project_deck_size > 0 %}
+            <p class="project-deck-count">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4 9.5 12 5l8 4.5-8 4.5z" />
+                <path d="m4 13.5 8 4.5 8-4.5" />
+              </svg>
+              <span>{{ project_deck_label | strip }}</span>
+            </p>
+          {% endif %}
           {% if project.venue or project.year or project.role or project_status_label != '' %}
             <p class="project-card-meta">
               {% if project.venue %}
@@ -181,7 +253,11 @@
             </div>
           {% endif %}
           <span class="project-card-preview-affordance" aria-hidden="true">
-            <i class="fa-solid fa-plus"></i>
+            {% if project_deck_size > 0 %}
+              <i class="fa-solid fa-layer-group"></i>
+            {% else %}
+              <i class="fa-solid fa-plus"></i>
+            {% endif %}
           </span>
           {% if project_card_data.takeaways %}
             {% if project_card_data.origin_line %}
@@ -201,14 +277,25 @@
             {% endif %}
           {% endif %}
         </div>
-        <button
-          class="project-card-trigger"
-          type="button"
-          data-project-card-trigger
-          aria-expanded="false"
-          aria-controls="{{ project_card_id }}-panel"
-          aria-label="Preview {{ project.title }}"
-        ></button>
+        {% if project_deck_size > 0 %}
+          <button
+            class="project-card-trigger project-deck-trigger"
+            type="button"
+            data-project-deck-trigger
+            aria-expanded="false"
+            aria-controls="{{ project_deck_id }}-children"
+            aria-label="Open {{ project.title }}: {{ project_deck_label | strip }}"
+          ></button>
+        {% else %}
+          <button
+            class="project-card-trigger"
+            type="button"
+            data-project-card-trigger
+            aria-expanded="false"
+            aria-controls="{{ project_card_id }}-panel"
+            aria-label="Preview {{ project.title }}"
+          ></button>
+        {% endif %}
       </div>
 
       <div class="project-card-panel" id="{{ project_card_id }}-panel" data-project-card-panel hidden>
@@ -244,11 +331,52 @@
             {% endif %}
           {% endif %}
         </div>
-        <button class="project-card-close" type="button" data-project-card-close aria-label="Close {{ project.title }} preview">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-        </button>
+        {% if project_deck_size > 0 %}
+          <button class="project-card-close project-deck-close" type="button" data-project-deck-close aria-label="Close {{ project.title }}">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        {% else %}
+          <button class="project-card-close" type="button" data-project-card-close aria-label="Close {{ project.title }} preview">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        {% endif %}
       </div>
     </div>
+    {% if project_deck_size > 0 %}
+      {% comment %}
+        The children render last: an include's assignments are global in Liquid, so nothing in this card may read
+        them after the recursive includes below. Each pass recomputes its parameters from include.*, which is scoped.
+      {% endcomment %}
+      <div
+        class="project-deck-children"
+        id="{{ project_deck_id }}-children"
+        data-project-deck-children="{{ project_file_slug }}"
+        role="group"
+        aria-label="Inside {{ project.title }}"
+        hidden="until-found"
+      >
+        <p class="project-deck-position" aria-hidden="true"><span data-project-deck-position>1</span> / {{ project_deck_size }}</p>
+        {% if project_deck_record %}
+          {% include graphics_lab.liquid part="deck" heading_level=card_heading_level %}
+        {% else %}
+          {% assign project_deck_kids = site.projects | where: 'parent', project_file_slug | sort: 'debut_date' | reverse %}
+          <div class="project-card-grid" data-project-card-grid>
+            {% for project in project_deck_kids %}
+              {% assign project_child_level = include.heading_level | default: 3 | plus: 1 %}
+              {% if project_child_level > 6 %}
+                {% assign project_child_level = 6 %}
+              {% endif %}
+              {% assign project_child_depth = include.deck_depth | default: 1 | plus: 1 %}
+              {% assign project_child_feature = false %}
+              {% if forloop.length == 1 %}
+                {% assign project_child_feature = true %}
+              {% endif %}
+              {% include projects.liquid heading_level=project_child_level deck_depth=project_child_depth deck_parent=project.parent deck_feature=project_child_feature %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
   </article>
 {% else %}
   <div class="col">

@@ -14,48 +14,8 @@ html.cinematic-live .cinematic [data-project-card] > .card.site-reveal {
   transition: none;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  // Spotlight: a soft light follows the pointer across the grid and lights the
-  // card under it. Pure CSS paint; the runtime only moves two custom properties.
-  .cinematic [data-project-card-grid].has-spotlight {
-    --spot-o: 0;
-  }
-
-  .cinematic [data-project-card-grid].has-spotlight [data-project-card] > .card {
-    --spot-x: 50%;
-    --spot-y: 50%;
-    position: relative;
-    isolation: isolate;
-  }
-
-  .cinematic [data-project-card-grid].has-spotlight [data-project-card] > .card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    pointer-events: none;
-    background: radial-gradient(26rem circle at var(--spot-x) var(--spot-y), rgba(var(--global-accent-rgb), 0.18), transparent 64%);
-    opacity: var(--spot-o);
-    transition: opacity 220ms ease;
-  }
-
-  .cinematic [data-project-card-grid].has-spotlight.has-expanded-project-card [data-project-card] > .card::after {
-    opacity: 0;
-  }
-
-  // Tilt: the runtime writes the transform each frame, so the hover transition
-  // must not smooth it a second time; the image drifts the other way for depth.
-  html.cinematic-tilt .cinematic [data-project-card] > .card.hoverable {
-    transition-property: border-color, box-shadow;
-    will-change: transform;
-  }
-
-  html.cinematic-tilt .cinematic [data-project-card]:not(.is-expanded) .project-card-media img {
-    transform: translate3d(var(--tilt-x, 0px), var(--tilt-y, 0px), 0);
-    transition: transform 260ms ease;
-  }
-}
+// The spotlight and tilt over card grids moved to _sass/_glass.scss and assets/js/glass-motion.mjs
+// (2026-10-18): every glass card leans toward the pointer and carries its own highlight.
 
 // Case study scene: the hero copy scrolls away, the teaser stays, and three
 // steps take the copy's place while a lens moves over the figure.
@@ -223,24 +183,7 @@ html.cinematic-live .case-scroll-hero:not(.is-static) .case-step.is-active {
   }
 }
 
-// Card-to-hero morph: the clicked card image and the case page's hero image
-// share one view-transition name, so the picture travels between the pages.
-.cinematic .project-case-media img {
-  view-transition-name: project-hero;
-}
-
-::view-transition-group(project-hero) {
-  animation-duration: 440ms;
-  animation-timing-function: var(--md-lite-easing-emphasized, cubic-bezier(0.2, 0, 0, 1));
-}
-
-::view-transition-old(project-hero),
-::view-transition-new(project-hero) {
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
-  overflow: clip;
-}
+// The card-to-hero morph is the card-to-page entry in _sass/_transitions.scss now (2026-10-18).
 
 // Homepage: a marker sweeps the thesis question as the reader reaches it.
 // Nothing here touches the desk scene.

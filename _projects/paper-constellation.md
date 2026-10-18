@@ -11,6 +11,7 @@ year: 2026
 role: Designer, writer, reviewer
 status: Site experiment
 site_experiment: true
+parent: website-revamp
 debut_date: 2026-07-15T16:51:26-07:00
 hide_title: true
 ---

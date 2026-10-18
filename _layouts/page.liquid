@@ -23,6 +23,9 @@ layout: default
 {% endif %}
 
 <div class="{{ post_classes }}">
+  {% if page.collection == 'projects' and page.parent %}
+    {% include project_trail.liquid %}
+  {% endif %}
   {% unless page.hide_title %}
     <header class="post-header">
       {% comment %} `title` doubles as the lowercase navbar label; `display_title` lets the page heading use sentence case. {% endcomment %}
@@ -50,12 +53,18 @@ layout: default
   </article>
 
   {% if page.collection == 'projects' %}
+    {% include project_children.liquid %}
+  {% endif %}
+  <span id="entry-ready" hidden></span>
+
+  {% if page.collection == 'projects' %}
     {% comment %}
       Previous/next follow the projects index order for this category: research by
       importance, site experiments by debut date (newest first), other playful
       builds by importance. Projects that redirect elsewhere are skipped. A project
-      with a parent (a Graphics Lab experiment) moves among its parent's children,
-      and its middle link returns to the parent instead of the index.
+      with a parent (any level of the site-experiment decks, from the website revamp
+      down to a Graphics Lab experiment) moves among its parent's children, newest
+      first, and its middle link returns to the parent instead of the index.
     {% endcomment %}
     {% assign project_parent = null %}
     {% if page.parent %}

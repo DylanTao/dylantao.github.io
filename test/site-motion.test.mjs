@@ -69,3 +69,67 @@ test("keyframe samples start at the offset and end exactly at rest", () => {
     "a 180 px move overshoots by under 2 px"
   );
 });
+
+test("a spring step chasing a still target follows the closed-form path at any frame rate", async () => {
+  const { springStep } = await import("../assets/js/site-motion.mjs");
+  const s = spring("confident");
+  let value = 0;
+  let velocity = 0;
+  for (let frame = 0; frame < 30; frame++) [value, velocity] = springStep(s, value, velocity, 10, 1 / 60);
+  const direct = 10 + s.state(-10, 0, 30 / 60)[0];
+  assert.ok(Math.abs(value - direct) < 1e-9, `${value} vs ${direct}`);
+  // A long hitch (a hidden tab) is clamped instead of flinging the value past its target.
+  const [afterHitch] = springStep(s, 0, 0, 10, 4);
+  assert.ok(afterHitch <= 10.2, `a 4 s frame overshot to ${afterHitch}`);
+});
+
+test("a ripple reaches nearer elements first and never waits past its cap", async () => {
+  const { rippleDelays } = await import("../assets/js/site-motion.mjs");
+  const delays = rippleDelays(
+    [
+      { x: 0, y: 0 },
+      { x: 300, y: 0 },
+      { x: 600, y: 400 },
+      { x: 4000, y: 0 },
+    ],
+    { x: 0, y: 0 }
+  );
+  assert.equal(delays[0], 0);
+  assert.ok(delays[1] < delays[2], "nearer moves first");
+  assert.equal(delays[3], 120, "far elements wait at most the cap");
+});
+
+test("a flight stretches as it speeds up, squashes as it lands, keeps its area and ends at rest", async () => {
+  const { flightFrames } = await import("../assets/js/site-motion.mjs");
+  const frames = flightFrames("layout", { x0: 0, y0: 360 });
+  assert.equal(frames.length, 31);
+  assert.equal(frames.at(-1), "translate(0px, 0px)");
+  assert.match(frames[0], /^translate\(0\.00px, 360\.00px\)$/, "the first frame keeps the resting shape");
+  const scales = frames
+    .map((frame) => frame.match(/scale\(([\d.]+), ([\d.]+)\)/))
+    .filter(Boolean)
+    .map((match) => [Number(match[1]), Number(match[2])]);
+  assert.ok(scales.length > 5, "a long trip deforms along the way");
+  for (const [along, across] of scales) {
+    assert.ok(Math.abs(along * across - 1) < 0.001, "the deformation keeps the area");
+    assert.ok(Math.abs(along - 1) <= 0.0301, `deformation ${along} stays within 3%`);
+  }
+  assert.ok(
+    scales.some(([along]) => along > 1),
+    "it stretches while accelerating"
+  );
+  assert.ok(
+    scales.some(([along]) => along < 1),
+    "it squashes while slowing"
+  );
+  // A short hop barely deforms.
+  const hop = flightFrames("layout", { x0: 12, y0: 0 });
+  const hopScales = hop
+    .map((frame) => frame.match(/scale\(([\d.]+),/))
+    .filter(Boolean)
+    .map((match) => Number(match[1]));
+  assert.ok(
+    hopScales.every((value) => Math.abs(value - 1) < 0.002),
+    "a 12 px move stays nearly rigid"
+  );
+});

@@ -8,6 +8,7 @@ card_avoid_scaling: true
 importance: -30
 category: fun
 site_experiment: true
+parent: website-revamp
 debut_date: 2026-07-11T14:46:58-07:00
 year: 2026
 role: Designer, builder, reviewer

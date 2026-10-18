@@ -18,6 +18,13 @@ pagination:
 ---
 
 <div class="post blog-index">
+<script>
+  // The blog's two layouts (2026-10-18): the list stays the default; a visitor who picked the cards gets them
+  // again, set before the first paint so the list never flashes. assets/js/blog-layout.mjs runs the toggle.
+  try {
+    if (window.localStorage.getItem('blog:layout') === 'cards') document.documentElement.setAttribute('data-blog-layout', 'cards');
+  } catch (error) {}
+</script>
 
 {% assign blog_name_size = site.blog_name | size %}
 {% assign blog_description_size = site.blog_description | size %}
@@ -170,6 +177,7 @@ pagination:
 
 {% endif %}
 
+<div class="blog-browse-row">
 {% if featured_tags.size > 0 or featured_categories.size > 0 %}
 
   <nav class="tag-category-list" aria-label="Blog topics">
@@ -189,6 +197,36 @@ pagination:
   </nav>
   {% endif %}
 
+<div class="blog-view-bar">
+  <p class="blog-section-label" id="blog-layout-label">View</p>
+  <div class="blog-layout-toggle" role="radiogroup" aria-labelledby="blog-layout-label" data-blog-layout-toggle>
+    <span class="blog-layout-liquid" aria-hidden="true">
+      <span class="blog-layout-blob" data-blog-blob="rest"></span>
+      <span class="blog-layout-blob" data-blog-blob="travel"></span>
+    </span>
+    <span class="blog-layout-lens" aria-hidden="true"></span>
+    <button type="button" role="radio" aria-checked="true" data-blog-layout="list" aria-label="List" title="List">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M9 6.5h11M9 12h11M9 17.5h11" />
+        <circle cx="4.6" cy="6.5" r="1.15" />
+        <circle cx="4.6" cy="12" r="1.15" />
+        <circle cx="4.6" cy="17.5" r="1.15" />
+      </svg>
+    </button>
+    <button type="button" role="radio" aria-checked="false" data-blog-layout="cards" aria-label="Cards" title="Cards">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.8" />
+        <rect x="13" y="3.5" width="7.5" height="7.5" rx="1.8" />
+        <rect x="3.5" y="13" width="7.5" height="7.5" rx="1.8" />
+        <rect x="13" y="13" width="7.5" height="7.5" rx="1.8" />
+      </svg>
+    </button>
+  </div>
+</div>
+</div>
+
+<div class="blog-list-view" data-blog-view="list">
+
 {% assign featured_posts_string = active_posts | where: "featured", "true" %}
 {% assign featured_posts_boolean = active_posts | where: "featured", true %}
 {% assign featured_posts = featured_posts_string | concat: featured_posts_boolean | uniq %}
@@ -205,10 +243,10 @@ pagination:
         {% capture start_read_time %}{% include read_time.liquid post=start_post %}{% endcapture %}
         {% assign start_read_time = start_read_time | strip %}
 
-        <a class="blog-pinned-card blog-start-link" href="{{ start_post.url | relative_url }}">
+        <a class="blog-pinned-card blog-start-link" href="{{ start_post.url | relative_url }}" data-entry>
           <span class="blog-start-kicker">Start here</span>
           <span class="blog-start-body">
-            <strong>{{ start_post.title }}</strong>
+            <strong data-entry-title>{{ start_post.title }}</strong>
             <span>{{ start_post.description }}</span>
           </span>
           <span class="blog-start-meta">
@@ -254,10 +292,10 @@ pagination:
       {% assign is_featured_post = true %}
     {% endif %}
 
-    <li class="post-row{% if post.thumbnail %} post-row--with-thumbnail{% endif %}">
+    <li class="post-row{% if post.thumbnail %} post-row--with-thumbnail{% endif %}" data-entry>
         <h3>
         {% if post.redirect == blank %}
-          <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <a class="post-title" href="{{ post.url | relative_url }}" data-entry-title>{{ post.title }}</a>
         {% elsif post.redirect contains '://' %}
           <a class="post-title" href="{{ post.redirect }}" target="_blank">{{ post.title }}</a>
           <svg width="2rem" height="2rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
@@ -303,7 +341,7 @@ pagination:
           {% endif %}
     </div>
       {% if post.thumbnail %}
-        <div class="post-row-media">
+        <div class="post-row-media" data-entry-media>
           {% assign thumbnail_alt = post.thumbnail_alt | default: post.title %}
           {% include figure.liquid path=post.thumbnail class="card-img blog-post-thumbnail" alt=thumbnail_alt sizes="(min-width: 768px) 160px, 90vw" %}
         </div>
@@ -317,5 +355,12 @@ pagination:
 {% if page.pagination.enabled %}
 {% include pagination.liquid %}
 {% endif %}
+
+</div>
+
+<div class="blog-cards-view" data-blog-view="cards">
+  {% include blog_cards.liquid posts=active_posts categories=ranked_category_entries %}
+</div>
+<span id="entry-ready" hidden></span>
 
 </div>

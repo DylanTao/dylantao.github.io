@@ -90,6 +90,14 @@
 
 <!-- Shared springs for scripted motion (site-motion.mjs); module scripts run in order with the deferred ones below -->
 <script type="module" src="{{ '/assets/js/site-motion.mjs' | relative_url | bust_file_cache }}"></script>
+{% unless page.ai_profile %}
+  <!-- Glass cards and buttons: tilt, highlight and press (glass-motion.mjs); nested project decks -->
+  <script type="module" src="{{ '/assets/js/glass-motion.mjs' | relative_url | bust_file_cache }}"></script>
+{% endunless %}
+{% if page.project_cards_interactive %}
+  <script type="module" src="{{ '/assets/js/liquid-drop.mjs' | relative_url | bust_file_cache }}"></script>
+  <script type="module" src="{{ '/assets/js/project-decks.mjs' | relative_url | bust_file_cache }}"></script>
+{% endif %}
 
 <!-- Load Common JS -->
 <script src="{{ '/assets/js/no_defer.js' | relative_url | bust_file_cache }}"></script>
@@ -104,6 +112,10 @@
   <script defer src="{{ '/assets/js/blog-read-counter.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
   <script defer src="{{ '/assets/js/blog-post.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
   <script defer src="{{ '/assets/js/blog-secret.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>
+  {% if page.pagination.enabled %}
+    <script type="module" src="{{ '/assets/js/liquid-drop.mjs' | relative_url | bust_file_cache }}"></script>
+    <script type="module" src="{{ '/assets/js/blog-layout.mjs' | relative_url | bust_file_cache }}"></script>
+  {% endif %}
 {% endif %}
 {% if page.heuristics_preview %}
   <script defer src="{{ '/assets/js/heuristics-preview.js' | relative_url | bust_file_cache }}" type="text/javascript"></script>

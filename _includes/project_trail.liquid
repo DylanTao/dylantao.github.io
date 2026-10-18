@@ -1,0 +1,35 @@
+{%- comment -%}
+  Where a nested project sits (2026-10-18): Projects, then each project it belongs to, then itself. The first link
+  opens the projects index at the deck that holds this page (#deck/<parent>, assets/js/project-decks.mjs).
+  Usage: {% include project_trail.liquid %} on a project page whose front matter names a `parent`.
+{%- endcomment -%}
+{%- assign trail_chain = '' | split: '' -%}
+{%- assign trail_slug = page.parent -%}
+{%- for step in (1..6) -%}
+  {%- if trail_slug == null or trail_slug == '' -%}
+    {%- break -%}
+  {%- endif -%}
+  {%- assign trail_item = site.projects | where_exp: 'item', 'item.slug == trail_slug' | first -%}
+  {%- if trail_item == null -%}
+    {%- break -%}
+  {%- endif -%}
+  {%- assign trail_chain = trail_chain | unshift: trail_item -%}
+  {%- assign trail_slug = trail_item.parent -%}
+{%- endfor -%}
+{%- if trail_chain.size > 0 %}
+  <nav class="project-trail" aria-label="Where this project sits">
+    <ol>
+      <li>
+        <a href="{{ '/projects/' | relative_url }}#deck/{{ page.parent }}">Projects</a>
+      </li>
+      {%- for item in trail_chain %}
+        <li>
+          <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+        </li>
+      {%- endfor %}
+      <li aria-current="page">
+        <span>{{ page.title }}</span>
+      </li>
+    </ol>
+  </nav>
+{%- endif -%}

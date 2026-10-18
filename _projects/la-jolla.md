@@ -6,6 +6,7 @@ img: assets/models/la-jolla/miniature.webp
 importance: -10
 category: fun
 site_experiment: true
+parent: website-revamp
 debut_date: 2026-09-14
 year: 2026
 role: Design and direction

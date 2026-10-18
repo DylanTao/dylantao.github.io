@@ -1,0 +1,68 @@
+{%- comment -%}
+  One note as a glass card for the blog's card view (_includes/blog_cards.liquid). The whole card is the link; its
+  title and picture carry into the post (assets/js/page-entry.mjs). Variables are prefixed bc_ because Liquid
+  assignments are global and the caller loops around this include.
+  Usage: {% include blog_card.liquid post=post extra_class=" blog-series-member" series=series series_index=1 series_size=2 %}
+{%- endcomment -%}
+{%- assign bc_post = include.post -%}
+{%- capture bc_read_time %}{% include read_time.liquid post=bc_post %}{% endcapture -%}
+{%- assign bc_tags = '' | split: '' -%}
+{%- for bc_tag in bc_post.tags -%}
+  {%- unless bc_post.categories contains bc_tag -%}
+    {%- assign bc_tags = bc_tags | push: bc_tag -%}
+  {%- endunless -%}
+{%- endfor -%}
+{%- if bc_post.redirect == blank -%}
+  {%- assign bc_href = bc_post.url | relative_url -%}
+{%- elsif bc_post.redirect contains '://' -%}
+  {%- assign bc_href = bc_post.redirect -%}
+{%- else -%}
+  {%- assign bc_href = bc_post.redirect | relative_url -%}
+{%- endif -%}
+<a
+  class="blog-card{% if bc_post.thumbnail %} blog-card--media{% endif %}{{ include.extra_class }}"
+  href="{{ bc_href }}"
+  data-entry
+  data-blog-tags="{{ bc_tags | join: ' ' | escape }}"
+  {% if bc_post.redirect contains '://' %}
+    target="_blank" rel="noopener noreferrer"
+  {% endif %}
+  {% if include.series %}
+    data-blog-series-index="{{ include.series_index }}"
+  {% endif %}
+>
+  {%- if bc_post.thumbnail %}
+    <span class="blog-card-media" data-entry-media>
+      <img
+        src="{% include responsive_variant.liquid path=bc_post.thumbnail width=480 %}"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        onerror="this.onerror=null; this.src='{{ bc_post.thumbnail | relative_url }}';"
+      >
+    </span>
+  {%- endif %}
+  <span class="blog-card-body">
+    <span class="blog-card-meta">
+      <time datetime="{{ bc_post.date | date_to_xmlschema }}">{{ bc_post.date | date: '%b %-d, %Y' }}</time>
+      <span aria-hidden="true">&middot;</span>
+      <span>{{ bc_read_time | strip }} min read</span>
+      {%- if bc_post.featured == true or bc_post.featured == 'true' %}
+        <span class="blog-pinned-chip">Pinned</span>
+      {%- endif %}
+    </span>
+    <span class="blog-card-title" data-entry-title>{{ bc_post.title }}</span>
+    <span class="blog-card-description">{{ bc_post.description }}</span>
+    {%- if include.series %}
+      <span class="blog-card-series">{{ include.series.title }} · {{ include.series_index }} of {{ include.series_size }}</span>
+    {%- endif %}
+    {%- if bc_tags.size > 0 %}
+      <span class="blog-card-tags">
+        {%- for bc_tag in bc_tags limit: 3 %}
+          <span>#{{ bc_tag }}</span>
+        {%- endfor %}
+      </span>
+    {%- endif %}
+    <span class="blog-card-related" data-blog-related aria-hidden="true"></span>
+  </span>
+</a>

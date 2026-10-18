@@ -2,7 +2,8 @@
   const grids = Array.from(document.querySelectorAll("[data-project-card-grid]"));
   if (grids.length === 0) return;
 
-  const cards = Array.from(document.querySelectorAll("[data-project-card]"));
+  // Decks (project-decks.mjs) open into levels instead of previews; every other card previews in place.
+  const cards = Array.from(document.querySelectorAll("[data-project-card]:not([data-project-deck])"));
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const phoneQuery = window.matchMedia("(max-width: 767px)");
   const status = document.querySelector("[data-project-card-status]");
@@ -22,7 +23,12 @@
   const springs = () => {
     const motion = window.SiteMotion;
     if (prefersReducedMotion() || !motion?.spring || !("animate" in Element.prototype)) return null;
-    return { layout: motion.spring("layout"), gentle: motion.spring("gentle"), confident: motion.spring("confident") };
+    return {
+      layout: motion.spring("layout"),
+      gentle: motion.spring("gentle"),
+      confident: motion.spring("confident"),
+      playful: motion.spring("playful"),
+    };
   };
 
   const cardTitle = (card) => card?.querySelector(".card-title")?.textContent?.trim() || "Project";
@@ -64,11 +70,12 @@
     return rects;
   };
 
-  // Speed (px/s) each element still had when a run was interrupted, read from its spring.
+  // Speed (px/s) each element still had when a run was interrupted, read from its spring. A card still
+  // waiting for the ripple to reach it has not started moving.
   const carriedVelocity = () => {
     const velocity = new Map();
     clock?.tracks.forEach((track) => {
-      const elapsed = Math.max(0, track.animation.currentTime || 0) / 1000;
+      const elapsed = Math.max(0, (track.animation.currentTime || 0) - (track.delay || 0)) / 1000;
       const [, vx] = track.spring.state(track.x0, track.vx0, elapsed);
       const [, vy] = track.spring.state(track.y0, track.vy0, elapsed);
       const [, vs] = track.spring.state(track.s0 - 1, track.vs0, elapsed);
@@ -162,10 +169,13 @@
       return;
     }
 
-    const { layout, gentle, confident } = motion;
+    const { layout, gentle, confident, playful } = motion;
     const duration = layout.duration;
+    // The opened card's actions bud out as one liquid drop and split into their buttons
+    // (liquid-drop.mjs); without it they rise in with the rest of the story.
+    const liquidActions = Boolean(openingCard && window.SiteLiquid?.splitActions);
     const timing = { duration, easing: "linear" };
-    const glide = (element, offsets, extra = {}) => {
+    const glide = (element, offsets, extra = {}, delay = 0) => {
       const carried = velocity.get(element) || { vx: 0, vy: 0, vs: 0 };
       const track = {
         element,
@@ -176,9 +186,23 @@
         vy0: carried.vy,
         s0: offsets.s0 || 1,
         vs0: offsets.s0 ? carried.vs : 0,
+        delay,
       };
-      const frames = springFrames(layout, duration, track).map((transform) => ({ transform, ...extra }));
-      const animation = element.animate(frames, timing);
+      // Cards gliding past squash a little as they land (site-motion.mjs flightFrames); pictures that
+      // scale keep the plain spring.
+      const transforms =
+        offsets.squash && window.SiteMotion?.flightFrames && track.s0 === 1
+          ? window.SiteMotion.flightFrames(layout, {
+              x0: track.x0,
+              y0: track.y0,
+              vx0: track.vx0,
+              vy0: track.vy0,
+              squash: offsets.squash,
+              count: KEYFRAMES,
+            })
+          : springFrames(layout, duration, track);
+      const frames = transforms.map((transform) => ({ transform, ...extra }));
+      const animation = element.animate(frames, delay ? { ...timing, delay, fill: "backwards" } : timing);
       running.animations.push(animation);
       running.tracks.push({ ...track, animation });
     };
@@ -190,6 +214,21 @@
     // phones' sideways row scrolls by itself).
     grids.forEach((grid) => grid.classList.add("is-reflowing"));
     running.grids = grids;
+
+    // The change spreads from the card that opened (or closed): neighbours wait for the ripple to
+    // reach them, nearer ones first.
+    const source = openingCard || closingCard;
+    const sourceRect = source ? lastRects.get(source)?.card || firstRects.get(source)?.card : null;
+    const rippleFrom = sourceRect ? { x: sourceRect.left + sourceRect.width / 2, y: sourceRect.top + sourceRect.height / 2 } : null;
+    const rippleDelay = (card) => {
+      if (!rippleFrom || card === source || !window.SiteMotion?.rippleDelays) return 0;
+      const box = lastRects.get(card)?.card;
+      if (!box) return 0;
+      return window.SiteMotion.rippleDelays([{ x: box.left + box.width / 2, y: box.top + box.height / 2 }], rippleFrom, {
+        speed: 9,
+        maxDelay: 110,
+      })[0];
+    };
 
     cards.forEach((card) => {
       const first = firstRects.get(card);
@@ -219,7 +258,7 @@
         const animation = card.animate(frames, timing);
         running.animations.push(animation);
       } else if (moving) {
-        glide(card, { x0: dx, y0: dy });
+        glide(card, { x0: dx, y0: dy, squash: card === openingCard || card === closingCard ? 0 : 0.03 }, {}, rippleDelay(card));
       }
       // The opened card's picture travels to its new place at its own proportions.
       const picture = card.querySelector(".project-card-media img");
@@ -260,7 +299,8 @@
       const moved = Boolean(firstBody && body && Math.hypot(firstBody.left - body.left, firstBody.top - body.top) > 24);
       let index = 0;
       card.querySelectorAll(CONTENT).forEach((element) => {
-        if (element.closest("[hidden]") || !element.getClientRects().length) return;
+        if (element.closest("[hidden]") || !element.getClientRects().length || element.matches(".liquid-drop-layer")) return;
+        if (liquidActions && card === openingCard && element.parentElement?.matches(".project-card-actions-expanded")) return;
         const fresh =
           element.closest(".project-card-story, .project-card-takeaways, .project-card-panel") || element.matches(".project-card-takeaways");
         if (!moved && !fresh) return;
@@ -284,6 +324,15 @@
           return { transform: `rotate(${(-90 * (1 - p)).toFixed(2)}deg) scale(${(0.6 + 0.4 * p).toFixed(3)})`, opacity: Math.min(1, p * 1.6) };
         });
         running.animations.push(close.animate(frames, { duration: confident.duration, delay: 40, easing: "linear", fill: "backwards" }));
+      }
+      if (liquidActions) {
+        running.animations.push(
+          ...window.SiteLiquid.splitActions(openingCard.querySelector(".project-card-actions-expanded"), {
+            travel: layout,
+            bounce: playful,
+            delay: 110,
+          })
+        );
       }
     }
     if (closingCard) stage(closingCard, 40, 30);
@@ -427,6 +476,19 @@
     if (event.key !== "Escape" || !activeCard) return;
 
     setActiveCard(null, { restoreFocus: true });
+  });
+
+  // project-decks.mjs closes any open preview, without motion, before a deck changes level.
+  document.addEventListener("project-cards:reset", () => {
+    if (!activeCard && !clock) return;
+    cancelClock();
+    const previous = activeCard;
+    activeCard = null;
+    anchor = null;
+    cards.forEach((card) => setCardState(card, false, false));
+    grids.forEach((grid) => grid.classList.remove("has-expanded-project-card"));
+    document.body.classList.remove("project-card-preview-open");
+    if (previous) announceCardState(previous, false);
   });
 
   // A change of column count (a rotated tablet, a resized window) re-places the open card at once.

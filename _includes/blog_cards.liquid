@@ -1,0 +1,85 @@
+{%- comment -%}
+  The blog's card view (2026-10-18): every note as a glass card, grouped by kind (the post's category, most notes
+  first), with series from _data/blog_series.yml stacked like the project decks. Hovering or focusing a card lights
+  the notes that share a topic with it (assets/js/blog-layout.mjs). The list view stays the default.
+  Usage: {% include blog_cards.liquid posts=active_posts categories=ranked_category_entries %}
+{%- endcomment -%}
+{%- assign cards_posts = include.posts | sort: 'date' | reverse -%}
+{%- assign cards_groups = '' | split: '' -%}
+{%- for rank_entry in include.categories -%}
+  {%- assign rank_parts = rank_entry | split: '::' -%}
+  {%- assign cards_groups = cards_groups | push: rank_parts[2] -%}
+{%- endfor -%}
+{%- assign cards_uncategorized = cards_posts | where_exp: 'post', 'post.categories == empty or post.categories == nil' -%}
+{%- if cards_uncategorized.size > 0 -%}
+  {%- assign cards_groups = cards_groups | push: '' -%}
+{%- endif -%}
+<div class="blog-cards" data-blog-cards>
+  {%- for group in cards_groups %}
+    {%- if group == '' -%}
+      {%- assign group_posts = cards_uncategorized -%}
+      {%- assign group_label = 'other notes' -%}
+    {%- else -%}
+      {%- assign group_posts = cards_posts | where_exp: 'post', 'post.categories contains group' -%}
+      {%- assign group_label = group | replace: '-', ' ' -%}
+    {%- endif -%}
+    {%- assign group_id = group | default: 'other' | slugify -%}
+    <section class="blog-deck" aria-labelledby="blog-deck-{{ group_id }}">
+      <header class="blog-deck-header">
+        <h2 id="blog-deck-{{ group_id }}">{{ group_label }}</h2>
+        <span class="blog-deck-count">
+          {{- group_posts.size }}
+          {% if group_posts.size == 1 %}note{% else %}notes{% endif -%}
+        </span>
+      </header>
+      <ul class="blog-card-grid">
+        {%- assign group_series_done = '' | split: '' -%}
+        {%- for post in group_posts -%}
+          {%- assign post_series = null -%}
+          {%- for series in site.data.blog_series -%}
+            {%- if series.posts contains post.slug -%}
+              {%- assign post_series = series -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if post_series -%}
+            {%- if group_series_done contains post_series.id -%}
+              {%- continue -%}
+            {%- endif -%}
+            {%- assign group_series_done = group_series_done | push: post_series.id -%}
+            {%- assign series_posts = '' | split: '' -%}
+            {%- for member in group_posts -%}
+              {%- if post_series.posts contains member.slug -%}
+                {%- assign series_posts = series_posts | push: member -%}
+              {%- endif -%}
+            {%- endfor %}
+            <li class="blog-series" data-blog-series="{{ post_series.id }}" style="--series-count: {{ series_posts.size }};">
+              {%- for member in series_posts %}
+                {%- assign card_post = member -%}
+                {%- capture card_extra_class -%}{% unless forloop.first %} blog-series-member{% endunless %}{%- endcapture -%}
+                {%- assign card_series_index = forloop.length | minus: forloop.index0 -%}
+                {% include blog_card.liquid post=card_post extra_class=card_extra_class series=post_series series_index=card_series_index series_size=forloop.length %}
+              {%- endfor %}
+              <button
+                class="blog-series-toggle glass-pressable"
+                type="button"
+                aria-expanded="false"
+                data-blog-series-toggle
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M4 9.5 12 5l8 4.5-8 4.5z" />
+                  <path d="m4 13.5 8 4.5 8-4.5" />
+                </svg>
+                <span>{{ post_series.title }}</span>
+                <span class="blog-series-count">{{ series_posts.size }}</span>
+              </button>
+            </li>
+          {%- else %}
+            <li class="blog-card-item">
+              {% include blog_card.liquid post=post %}
+            </li>
+          {%- endif -%}
+        {%- endfor %}
+      </ul>
+    </section>
+  {%- endfor %}
+</div>

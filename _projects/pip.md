@@ -9,6 +9,7 @@ card_image_fit: contain
 importance: -31
 category: fun
 site_experiment: true
+parent: website-revamp
 debut_date: 2026-09-13T01:00:00-07:00
 year: 2026
 role: Designer and character director

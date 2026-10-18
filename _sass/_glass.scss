@@ -1,0 +1,1843 @@
+/*******************************************************************************
+ * Glass (2026-10-18)
+ *
+ * One material for cards and buttons, defined once here: a translucent tint
+ * taken from the theme, the thing behind it seen softly (a card's own teaser,
+ * blurred and scaled, rather than an ambient background), a fine grain, a rim
+ * where light catches the edge, and a soft shadow. Buttons that float over
+ * other content also blur what is behind them.
+ *
+ * Motion lives in assets/js/glass-motion.mjs: it adds `html.glass-motion` when
+ * the visitor allows motion and is not automation (unless ?cinematic=live), and
+ * `html.glass-tilt` when the pointer can hover. Without those classes every
+ * surface below is still. Reduced transparency and more contrast get solid
+ * surfaces; forced colors get the system palette.
+ ******************************************************************************/
+
+// Press depth and hover lift are registered so they can carry the site's springs
+// (_sass/_springs.scss) while the transform that uses them follows instantly.
+@property --glass-press {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --glass-lift {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+// A 160 px grain tile, drawn once by the browser. Dark specks on light themes,
+// light specks on the evening theme; the matrix keeps the average under 5%.
+$glass-grain-light: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.14 0 0 0 0.34 -0.14'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E";
+$glass-grain-dark: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.3 -0.125'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E";
+
+:root {
+  --glass-tint: color-mix(in srgb, var(--global-card-bg-color) 74%, transparent);
+  --glass-tint-strong: color-mix(in srgb, var(--global-card-bg-color) 88%, transparent);
+  --glass-tint-faint: color-mix(in srgb, var(--global-card-bg-color) 46%, transparent);
+  --glass-blur: 16px;
+  --glass-saturate: 1.6;
+  --glass-edge: color-mix(in srgb, var(--global-divider-color) 86%, transparent);
+  --glass-rim-top: rgba(255, 255, 255, 0.9);
+  --glass-rim-bottom: rgba(255, 255, 255, 0.28);
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 42%);
+  --glass-specular: rgba(255, 255, 255, 0.34);
+  --glass-grain: url("#{$glass-grain-light}");
+  --glass-shadow: 0 0.06rem 0.15rem rgba(var(--global-shadow-rgb), 0.06), 0 0.45rem 1.2rem rgba(var(--global-shadow-rgb), 0.08);
+  --glass-shadow-lifted: 0 0.15rem 0.4rem rgba(var(--global-shadow-rgb), 0.07), 0 1.15rem 2.6rem rgba(var(--global-shadow-rgb), 0.15);
+  // How strongly a card's own teaser shows through its glass, and how it is softened.
+  --glass-vibrancy: 0.22;
+  --glass-vibrancy-filter: blur(34px) saturate(1.6);
+  // Words on glass sit a little deeper than on paper, because the glass is never quite white.
+  --glass-ink-soft: color-mix(in srgb, var(--global-text-color-light) 58%, var(--global-text-color));
+  --glass-ink-accent: color-mix(in srgb, var(--global-theme-color) 80%, var(--global-text-color));
+  --glass-candy-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.08) 48%, rgba(255, 255, 255, 0) 52%);
+  --glass-vibrancy-mask: linear-gradient(180deg, #000 0%, #000 26%, rgba(0, 0, 0, 0.5) 62%, rgba(0, 0, 0, 0.34) 100%);
+}
+
+html[data-theme="dark"],
+html[data-theme-mode="evening"] {
+  --glass-tint: color-mix(in srgb, var(--global-card-bg-color) 76%, transparent);
+  --glass-tint-strong: color-mix(in srgb, var(--global-card-bg-color) 90%, transparent);
+  --glass-tint-faint: color-mix(in srgb, var(--global-card-bg-color) 52%, transparent);
+  --glass-edge: color-mix(in srgb, var(--global-divider-color) 90%, transparent);
+  --glass-rim-top: rgba(255, 255, 255, 0.16);
+  --glass-rim-bottom: rgba(255, 255, 255, 0.04);
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 40%);
+  --glass-specular: rgba(255, 255, 255, 0.1);
+  --glass-grain: url("#{$glass-grain-dark}");
+  --glass-shadow: 0 0.06rem 0.15rem rgba(var(--global-shadow-rgb), 0.3), 0 0.5rem 1.3rem rgba(var(--global-shadow-rgb), 0.3);
+  --glass-shadow-lifted: 0 0.15rem 0.4rem rgba(var(--global-shadow-rgb), 0.32), 0 1.2rem 2.7rem rgba(var(--global-shadow-rgb), 0.44);
+  --glass-vibrancy: 0.18;
+  --glass-vibrancy-filter: blur(34px) saturate(1.4) brightness(0.4);
+  --glass-ink-soft: color-mix(in srgb, var(--global-text-color-light) 75%, var(--global-text-color));
+  --glass-ink-accent: color-mix(in srgb, var(--global-theme-color) 82%, var(--global-text-color));
+  --glass-candy-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.04) 48%, rgba(255, 255, 255, 0) 52%);
+}
+
+// A frosted surface for things that float over other content (buttons, chips,
+// the deck trail, the blog toggle): tint, sheen and grain, a blur of what is
+// behind, a bright upper rim and a soft shadow.
+@mixin glass-surface($tint: var(--glass-tint), $shadow: var(--glass-shadow)) {
+  border: 1px solid var(--glass-edge);
+  background: var(--glass-sheen), var(--glass-grain), $tint;
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-top),
+    inset 0 -1px 0 var(--glass-rim-bottom),
+    #{$shadow};
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+
+// A filled control made of the same glass: the accent fill under a sheen, with
+// the rim and a shadow tinted by the fill.
+@mixin glass-candy($fill, $ink) {
+  border: 1px solid color-mix(in srgb, #{$fill} 82%, #000 18%);
+  background:
+    var(--glass-candy-sheen),
+    var(--glass-grain),
+    #{$fill};
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+    0 0.4rem 1rem color-mix(in srgb, #{$fill} 34%, transparent);
+  color: $ink;
+}
+
+// What a pressed glass control does while the press lasts and after: it sinks
+// quickly, then the playful spring carries it back with a small bounce.
+@mixin glass-press-motion($extra: ()) {
+  transition:
+    --glass-press var(--spring-playful-duration) var(--spring-playful),
+    --glass-lift var(--spring-confident-duration) var(--spring-confident),
+    $extra;
+
+  &.is-pressed {
+    --glass-press: 0.94;
+
+    transition:
+      --glass-press 90ms ease-out,
+      --glass-lift 90ms ease-out,
+      $extra;
+  }
+}
+
+@mixin glass-solid {
+  border-color: var(--global-divider-color);
+  background: var(--global-card-bg-color);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Project cards
+ * ------------------------------------------------------------------------- */
+
+.projects .project-card > .card {
+  isolation: isolate;
+  border-color: var(--glass-edge);
+  background: linear-gradient(180deg, var(--project-accent-wash, transparent), transparent 3.75rem), var(--glass-tint-strong);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-top),
+    var(--glass-shadow);
+
+  // What the glass sees: the card's own teaser, blurred and scaled past its edges.
+  // glass-motion.mjs sets --project-teaser from the picture the card already
+  // loaded, so this costs no extra request; without it the card is tint only.
+  &::before {
+    position: absolute;
+    inset: -14%;
+    z-index: -1;
+    height: auto;
+    background: var(--project-teaser, none) center / cover no-repeat;
+    content: "";
+    filter: var(--glass-vibrancy-filter);
+    opacity: var(--glass-vibrancy);
+    pointer-events: none;
+    -webkit-mask-image: var(--glass-vibrancy-mask);
+    mask-image: var(--glass-vibrancy-mask);
+  }
+
+  // The face of the glass, under the card's content so figures and words keep
+  // their own colour: the accent hairline, a sheen, the grain, a highlight that
+  // follows the pointer (--glass-x/--glass-y, shown with --glass-hover) and the rim.
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background:
+      linear-gradient(var(--md-lite-card-accent-line), var(--md-lite-card-accent-line)) top / 100% 2px no-repeat,
+      radial-gradient(
+          circle 16rem at var(--glass-x, 26%) var(--glass-y, -12%),
+          color-mix(in srgb, var(--glass-specular) calc(var(--glass-hover, 0) * 100%), transparent),
+          transparent 64%
+        )
+        no-repeat,
+      var(--glass-sheen),
+      var(--glass-grain);
+    box-shadow:
+      inset 0 1px 0 var(--glass-rim-top),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    content: "";
+    opacity: 1;
+    pointer-events: none;
+  }
+}
+
+.projects .project-card-media {
+  position: relative;
+  margin: 0.55rem 0.55rem 0;
+  border: 0;
+  border-radius: calc(var(--md-lite-radius-md) - 0.22rem);
+  box-shadow:
+    0 0 0 1px rgba(var(--global-shadow-rgb), 0.06),
+    0 1px 2px rgba(var(--global-shadow-rgb), 0.07);
+}
+
+.projects .project-card.is-expanded .project-card-media {
+  margin: 0.55rem 0 0.55rem 0.55rem;
+  border-right: 0;
+}
+
+// The body sits on the glass itself.
+.projects .project-card-body {
+  background: transparent;
+}
+
+.projects .project-card.is-expanded > .card,
+.projects .project-deck.is-open > .card {
+  border-color: var(--project-accent-line);
+  background: linear-gradient(180deg, var(--project-accent-wash), transparent 42%), var(--glass-tint-strong);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-top),
+    var(--glass-shadow-lifted);
+}
+
+.projects .project-card-panel {
+  position: relative;
+  border-top: 1px solid color-mix(in srgb, var(--project-accent-line) 70%, transparent);
+  background: linear-gradient(90deg, var(--project-accent-wash), transparent 58%), color-mix(in srgb, var(--global-card-bg-color) 52%, transparent);
+}
+
+html[data-theme="dark"] .projects .project-card-panel,
+html[data-theme-mode="evening"] .projects .project-card-panel {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--project-accent) 12%, transparent), transparent 58%),
+    color-mix(in srgb, var(--global-card-bg-color) 58%, transparent);
+}
+
+// Hover: the card lifts and its shadow deepens. With glass-motion the lift and a
+// few degrees of tilt toward the pointer are written by glass-motion.mjs, and a
+// press sinks the card on the playful spring.
+.projects .project-card:not(.is-expanded) > .card.hoverable:hover {
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-top),
+    var(--glass-shadow-lifted);
+}
+
+html.glass-motion .projects .project-card:not(.is-expanded):not(.is-open) > .card.site-revealed {
+  transform: perspective(1100px) rotateX(var(--glass-rx, 0deg)) rotateY(var(--glass-ry, 0deg)) translate3d(0, var(--glass-lift), 0)
+    scale(var(--glass-press));
+  transition:
+    --glass-press var(--spring-playful-duration) var(--spring-playful),
+    --glass-lift var(--spring-confident-duration) var(--spring-confident),
+    border-color var(--motion-standard),
+    box-shadow var(--motion-standard),
+    opacity var(--motion-standard);
+
+  &:hover {
+    --glass-lift: -3px;
+  }
+
+  &.is-pressed {
+    --glass-press: 0.972;
+
+    transition:
+      --glass-press 110ms ease-out,
+      --glass-lift 110ms ease-out,
+      border-color var(--motion-standard),
+      box-shadow var(--motion-standard),
+      opacity var(--motion-standard);
+  }
+}
+
+// The picture drifts against the tilt by a few pixels, so the glass reads as a
+// pane in front of it.
+html.glass-tilt .projects .project-card:not(.is-expanded):not(.is-open) .project-card-media img {
+  transform: translate3d(var(--glass-drift-x, 0px), var(--glass-drift-y, 0px), 0);
+}
+
+// Words on the glass: secondary lines and accent labels a step deeper than on
+// paper, so they keep their contrast over a card's teaser in every theme.
+.projects .project-card .card-body .card-text,
+.projects .project-card-story-beat > p:last-child,
+.projects .project-card-meta span:not(:last-child)::after,
+.lab-card-idea,
+.project-child-line,
+.blog-card-description,
+.blog-card-meta,
+.blog-card-tags span {
+  color: var(--glass-ink-soft);
+}
+
+.projects .project-card-story-label,
+.projects .project-card.is-expanded .card-title,
+.projects .project-deck.is-current > .card .card-title,
+.projects .project-card-preview:hover .card-title,
+.projects .project-card-preview:focus-within .card-title,
+.projects .project-card-direct-link,
+.projects .project-deck-count,
+.blog-card-series,
+.blog-card-related,
+.blog-series-toggle {
+  color: var(--glass-ink-accent);
+}
+
+// A label inside a glass control takes the control's ink (a sitewide rule gives
+// every span the body colour, which put light words on the evening lavender).
+.projects .project-card-open-link span,
+.projects .project-card-secondary-link span,
+.project-case-actions a span,
+.project-children-deck span,
+.blog-series-toggle span {
+  color: inherit;
+}
+
+/* ---------------------------------------------------------------------------
+ * Buttons on cards
+ * ------------------------------------------------------------------------- */
+
+.projects .project-card-preview-affordance,
+.projects .project-card-close {
+  @include glass-surface(var(--glass-tint));
+}
+
+.projects .project-card-preview:hover .project-card-preview-affordance,
+.projects .project-card-preview:focus-within .project-card-preview-affordance {
+  @include glass-candy(var(--global-primary-fill-color), var(--global-on-primary-fill-color));
+}
+
+.projects .project-card-close:hover,
+.projects .project-card-close:focus-visible {
+  @include glass-surface(color-mix(in srgb, var(--global-card-bg-color) 70%, var(--global-theme-color) 12%));
+
+  color: var(--global-theme-color);
+}
+
+.projects .project-card-open-link,
+.project-case-actions a:first-child {
+  @include glass-candy(var(--global-primary-fill-color), var(--global-on-primary-fill-color));
+}
+
+.projects .project-card-open-link:hover,
+.projects .project-card-open-link:focus-visible,
+.project-case-actions a:first-child:hover,
+.project-case-actions a:first-child:focus-visible {
+  @include glass-candy(var(--global-primary-fill-hover-color), var(--global-on-primary-fill-color));
+}
+
+.projects .project-card-secondary-link,
+.project-case-actions a:not(:first-child) {
+  @include glass-surface(var(--glass-tint));
+
+  color: var(--global-theme-color);
+}
+
+.projects .project-card-secondary-link:hover,
+.projects .project-card-secondary-link:focus-visible,
+.project-case-actions a:not(:first-child):hover,
+.project-case-actions a:not(:first-child):focus-visible {
+  @include glass-surface(color-mix(in srgb, var(--global-card-bg-color) 64%, var(--global-theme-color) 14%), var(--glass-shadow-lifted));
+
+  color: var(--global-theme-color);
+}
+
+// Press feedback for glass controls (all pointers, never under reduced motion or
+// automation). glass-motion.mjs toggles .is-pressed.
+html.glass-motion {
+  .projects .project-card-open-link,
+  .projects .project-card-secondary-link,
+  .projects .project-card-close,
+  .project-case-actions a,
+  .glass-pressable {
+    transform: translateY(var(--glass-lift)) scale(var(--glass-press));
+
+    @include glass-press-motion((background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease));
+  }
+
+  .project-case-actions a:hover,
+  .projects .project-card-open-link:hover,
+  .projects .project-card-secondary-link:hover,
+  .glass-pressable:hover {
+    --glass-lift: -1px;
+  }
+
+  // The close button keeps its quarter turn on hover; the press scales it in place.
+  .projects .project-card-close:hover,
+  .projects .project-card-close:focus-visible {
+    transform: rotate(90deg) scale(var(--glass-press));
+  }
+}
+
+// The liquid layer an opened card's actions bud from (liquid-drop.mjs splitActions): drops coloured
+// like the buttons, merged by the goo filter while they touch, gone when the motion ends.
+.project-card-actions-expanded {
+  position: relative;
+  isolation: isolate;
+
+  > a,
+  > button,
+  > span:not(.liquid-drop-layer) {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.liquid-drop-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.liquid-drop {
+  position: absolute;
+  border-radius: var(--md-lite-radius-pill);
+}
+
+/* ---------------------------------------------------------------------------
+ * Plain surfaces when transparency or contrast is unwelcome
+ * ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  :root,
+  html[data-theme="dark"],
+  html[data-theme-mode="evening"] {
+    --glass-tint: var(--global-card-bg-color);
+    --glass-tint-strong: var(--global-card-bg-color);
+    --glass-tint-faint: var(--global-card-bg-color);
+    --glass-sheen: linear-gradient(transparent, transparent);
+    --glass-candy-sheen: linear-gradient(transparent, transparent);
+    --glass-grain: none;
+    --glass-vibrancy: 0;
+    --glass-specular: transparent;
+    --glass-rim-top: transparent;
+    --glass-rim-bottom: transparent;
+    --glass-edge: var(--global-divider-color);
+    --glass-blur: 0px;
+    --glass-saturate: 1;
+  }
+
+  .projects .project-card > .card::before {
+    display: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --glass-edge: color-mix(in srgb, var(--global-text-color) 55%, transparent);
+  }
+}
+
+@media (forced-colors: active) {
+  .projects .project-card > .card::before,
+  .projects .project-card > .card::after {
+    display: none;
+  }
+
+  .projects .project-card-preview-affordance,
+  .projects .project-card-close,
+  .projects .project-card-open-link,
+  .projects .project-card-secondary-link,
+  .project-case-actions a {
+    border: 1px solid ButtonText;
+    background: ButtonFace;
+    box-shadow: none;
+    color: ButtonText;
+    forced-color-adjust: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects .project-card > .card,
+  .projects .project-card-media img {
+    transform: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Decks: a parent project and the cards inside it (assets/js/project-decks.mjs)
+ * ------------------------------------------------------------------------- */
+
+.projects .project-deck {
+  position: relative;
+  isolation: isolate;
+}
+
+// The next cards in the deck peek out from under it, and fan a little further
+// when the pointer is over it, a preview of opening it.
+.projects .project-deck-sheets {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.projects .project-deck-sheet {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--md-lite-radius-md);
+  background:
+    var(--glass-sheen),
+    linear-gradient(var(--glass-tint), var(--glass-tint)),
+    var(--sheet-image) center / cover no-repeat,
+    var(--global-card-bg-color);
+  box-shadow: var(--glass-shadow);
+  transform: translate(calc(4px + var(--sheet-index) * 5px), calc(6px + var(--sheet-index) * 6px)) rotate(calc(1deg + var(--sheet-index) * 1.3deg));
+  transform-origin: 20% 100%;
+  transition: transform var(--spring-layout-duration) var(--spring-layout);
+}
+
+.projects .project-deck:not(.is-open):hover .project-deck-sheet,
+.projects .project-deck:not(.is-open):focus-within .project-deck-sheet {
+  transform: translate(calc(7px + var(--sheet-index) * 8px), calc(9px + var(--sheet-index) * 8px)) rotate(calc(2.2deg + var(--sheet-index) * 2.4deg));
+}
+
+.projects .project-deck-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  margin: -0.15rem 0 0.6rem;
+  padding: 0.18rem 0.62rem 0.18rem 0.45rem;
+  border-radius: var(--md-lite-radius-pill);
+  color: var(--global-theme-color);
+  font-size: var(--type-meta);
+  font-weight: 600;
+  line-height: 1.4;
+
+  @include glass-surface(var(--glass-tint-faint));
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+}
+
+// A deck alone on its level is a feature: picture, story and a hand of the
+// cards inside it, fanned at the right.
+.projects .project-deck--feature {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+  .projects .project-deck--feature:not(.is-open) > .card .project-card-preview {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  }
+
+  .projects .project-deck--feature:not(.is-open) .project-card-media {
+    aspect-ratio: auto;
+    min-height: 15rem;
+    margin: 0.55rem 0 0.55rem 0.55rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .projects .project-deck--feature:not(.is-open) > .card .project-card-preview {
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr) minmax(13rem, 0.62fr);
+  }
+
+  .projects .project-deck--feature:not(.is-open) .project-deck-sheets {
+    inset: 1.4rem 1.6rem 1.4rem auto;
+    z-index: 4;
+    width: min(27%, 20rem);
+  }
+
+  .projects .project-deck--feature .project-deck-sheet {
+    inset: auto;
+    top: calc(12% + var(--sheet-index) * 3%);
+    left: calc(var(--sheet-index) * 9%);
+    width: 62%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--md-lite-radius-sm);
+    background:
+      var(--glass-sheen),
+      var(--sheet-image) center / cover no-repeat,
+      #fff;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+      var(--glass-shadow);
+    transform: rotate(calc(-11deg + var(--sheet-index) * 5.5deg));
+    transform-origin: 50% 120%;
+  }
+
+  .projects .project-deck--feature:not(.is-open):hover .project-deck-sheet,
+  .projects .project-deck--feature:not(.is-open):focus-within .project-deck-sheet {
+    transform: translate(calc((var(--sheet-index) - 2) * 6px), -6px) rotate(calc(-17deg + var(--sheet-index) * 8.5deg));
+  }
+}
+
+@media (max-width: 991px) {
+  .projects .project-deck--feature .project-deck-sheet:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+// Open: the deck spans its level as a banner with its story and actions, and
+// its children fill the level below it. A deck opened further down folds into
+// the trail; the cards beside an open deck fold away with it.
+.projects .project-deck.is-open {
+  grid-column: 1 / -1;
+}
+
+.projects .project-deck.is-open > .project-deck-sheets,
+.projects .project-deck.is-open:not(.is-current) > .card,
+.projects .is-folded {
+  display: none;
+}
+
+// A deck's card fills its grid cell when closed; open, the article also holds the
+// level below, so the banner keeps its own height.
+.projects .project-deck:not(.is-open) > .card {
+  height: 100%;
+}
+
+.projects .project-deck .card-title:focus {
+  outline: none;
+}
+
+.projects .project-deck .card-title:focus-visible {
+  border-radius: var(--md-lite-radius-sm);
+  outline: var(--md-lite-focus-ring);
+  outline-offset: 4px;
+}
+
+.projects .project-deck.is-current {
+  > .card .project-card-preview {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+
+  // The picture keeps its own proportions at the top of the banner: a percentage
+  // height here would resolve against the whole deck, children included.
+  .project-card-media {
+    align-self: start;
+    aspect-ratio: var(--project-image-aspect, 16 / 9);
+    min-height: 0;
+    margin: 0.55rem 0 0.55rem 0.55rem;
+  }
+
+  > .card .card-text {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: initial;
+  }
+
+  > .card .project-card-story {
+    display: grid;
+  }
+
+  > .card .project-card-takeaways,
+  > .card .project-card-panel {
+    display: block;
+  }
+
+  > .card .project-card-direct-link,
+  > .card .project-deck-count {
+    display: none;
+  }
+
+  > .card .project-card-preview-affordance {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  // The picture closes the deck, as it closes an open preview.
+  > .card .project-card-trigger {
+    right: auto;
+    width: 47.5%;
+    cursor: zoom-out;
+  }
+
+  > .card .card-title {
+    color: var(--glass-ink-accent);
+  }
+}
+
+.projects .project-deck-children {
+  margin-top: 1.15rem;
+
+  // Closed, the level stays in the page for find-in-page (hidden="until-found")
+  // and takes no room.
+  &[hidden] {
+    margin: 0;
+  }
+}
+
+.projects .project-deck-position {
+  display: none;
+}
+
+.projects .project-deck-ghosts {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.projects .project-deck-ghost {
+  position: absolute;
+  margin: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.projects .site-experiment-index {
+  position: relative;
+}
+
+// The trail names every open level and walks back up. It stays under the
+// navigation bar while the level is in view, frosted over what scrolls beneath.
+.projects .project-deck-trail {
+  position: sticky;
+  top: 4.1rem;
+  z-index: 6;
+  margin: 0 0 1rem;
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.15rem;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    padding: 0.25rem;
+    border-radius: var(--md-lite-radius-pill);
+    list-style: none;
+
+    @include glass-surface(var(--glass-tint));
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  li + li::before {
+    width: 0.42rem;
+    height: 0.42rem;
+    margin: 0 0.3rem 0 0.15rem;
+    border-top: 1.5px solid var(--global-text-color-light);
+    border-right: 1.5px solid var(--global-text-color-light);
+    content: "";
+    opacity: 0.7;
+    transform: rotate(45deg);
+  }
+
+  button,
+  li > span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.3rem 0.85rem;
+    border-radius: var(--md-lite-radius-pill);
+    font-size: var(--type-meta);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  button {
+    border: 0;
+    background: transparent;
+    color: var(--global-theme-color);
+    cursor: pointer;
+    transition: background-color 160ms ease;
+
+    &:hover {
+      background: var(--md-lite-state-hover);
+    }
+
+    &:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 1px;
+    }
+  }
+
+  li > span {
+    color: var(--global-text-color);
+  }
+}
+
+html.glass-motion .projects .project-deck-trail button {
+  transform: translateY(var(--glass-lift)) scale(var(--glass-press));
+
+  @include glass-press-motion((background-color 160ms ease));
+}
+
+/* ---------------------------------------------------------------------------
+ * The Graphics Lab's experiments inside its deck
+ * ------------------------------------------------------------------------- */
+
+.projects .lab-deck {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.projects .lab-deck-group-label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 0.65rem;
+  color: var(--global-text-color);
+  font-size: var(--type-subheading);
+  font-weight: 600;
+  line-height: 1.2;
+
+  span {
+    color: var(--global-text-color-light);
+    font-size: var(--type-meta);
+    font-weight: 500;
+  }
+}
+
+.projects .lab-deck-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14.25rem, 1fr));
+  gap: 0.95rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.projects .lab-deck-item {
+  display: flex;
+  min-width: 0;
+}
+
+.lab-card,
+.project-child-card {
+  // Scene stills are dark and saturated; a lighter tint of them keeps the words clear.
+  --glass-vibrancy: 0.14;
+
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--md-lite-radius-md);
+  background: var(--glass-tint-strong);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-top),
+    var(--glass-shadow);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color var(--motion-standard),
+    box-shadow var(--motion-standard);
+
+  &::before {
+    position: absolute;
+    inset: -14%;
+    z-index: -1;
+    background: var(--project-teaser, none) center / cover no-repeat;
+    content: "";
+    filter: var(--glass-vibrancy-filter);
+    opacity: var(--glass-vibrancy);
+    pointer-events: none;
+    -webkit-mask-image: var(--glass-vibrancy-mask);
+    mask-image: var(--glass-vibrancy-mask);
+  }
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background:
+      radial-gradient(
+          circle 12rem at var(--glass-x, 26%) var(--glass-y, -12%),
+          color-mix(in srgb, var(--glass-specular) calc(var(--glass-hover, 0) * 100%), transparent),
+          transparent 64%
+        )
+        no-repeat,
+      var(--glass-sheen),
+      var(--glass-grain);
+    content: "";
+    pointer-events: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: color-mix(in srgb, var(--global-theme-color) 38%, var(--glass-edge));
+    box-shadow:
+      inset 0 1px 0 var(--glass-rim-top),
+      var(--glass-shadow-lifted);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 3px;
+  }
+}
+
+html.glass-motion .lab-card,
+html.glass-motion .project-child-card {
+  transform: perspective(900px) rotateX(var(--glass-rx, 0deg)) rotateY(var(--glass-ry, 0deg)) translate3d(0, var(--glass-lift), 0)
+    scale(var(--glass-press));
+
+  @include glass-press-motion((border-color var(--motion-standard), box-shadow var(--motion-standard)));
+
+  &:hover {
+    --glass-lift: -3px;
+  }
+}
+
+.lab-card-thumb {
+  display: block;
+  aspect-ratio: 4 / 3;
+  margin: 0.45rem 0.45rem 0;
+  overflow: hidden;
+  border-radius: calc(var(--md-lite-radius-md) - 0.2rem);
+  background: #0f171c;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate3d(var(--glass-drift-x, 0px), var(--glass-drift-y, 0px), 0) scale(1.04);
+  }
+}
+
+.lab-card-body {
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+  padding: 0.7rem 0.85rem 0.9rem;
+
+  .graphics-lab-where {
+    justify-self: start;
+  }
+}
+
+.lab-card-title,
+.project-child-title {
+  color: var(--global-text-color);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.lab-card:hover .lab-card-title,
+.lab-card:focus-visible .lab-card-title,
+.project-child-card:hover .project-child-title,
+.project-child-card:focus-visible .project-child-title {
+  color: var(--global-theme-color);
+}
+
+.lab-card-idea,
+.project-child-line {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--glass-ink-soft);
+  font-size: var(--type-meta);
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* ---------------------------------------------------------------------------
+ * Project pages: where a nested project sits, and what is inside one
+ * ------------------------------------------------------------------------- */
+
+.project-trail {
+  margin: 0 0 1rem;
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.2rem 0.1rem;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    padding: 0.2rem 0.35rem;
+    border-radius: var(--md-lite-radius-pill);
+    list-style: none;
+    font-size: var(--type-meta);
+
+    @include glass-surface(var(--glass-tint-faint));
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  li + li::before {
+    width: 0.38rem;
+    height: 0.38rem;
+    margin: 0 0.35rem 0 0.2rem;
+    border-top: 1.5px solid var(--global-text-color-light);
+    border-right: 1.5px solid var(--global-text-color-light);
+    content: "";
+    opacity: 0.65;
+    transform: rotate(45deg);
+  }
+
+  a,
+  span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 0.55rem;
+    border-radius: var(--md-lite-radius-pill);
+    line-height: 1.25;
+  }
+
+  a {
+    color: var(--global-theme-color);
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--md-lite-state-hover);
+      text-decoration: none;
+    }
+
+    &:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 1px;
+    }
+  }
+
+  [aria-current] span {
+    color: var(--global-text-color);
+    font-weight: 600;
+  }
+}
+
+.project-children {
+  max-width: min(100%, 72rem);
+  margin: 2.5rem auto 0;
+
+  .project-children-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.9rem;
+
+    h2 {
+      margin: 0;
+    }
+  }
+}
+
+.project-children-deck {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.95rem;
+  border-radius: var(--md-lite-radius-pill);
+  color: var(--global-theme-color);
+  font-size: var(--type-meta);
+  font-weight: 600;
+  text-decoration: none;
+
+  @include glass-surface(var(--glass-tint));
+
+  &:hover,
+  &:focus-visible {
+    color: var(--global-theme-color);
+    text-decoration: none;
+  }
+}
+
+html.glass-motion .project-children-deck {
+  transform: translateY(var(--glass-lift)) scale(var(--glass-press));
+
+  @include glass-press-motion((background-color 180ms ease, color 180ms ease));
+
+  &:hover {
+    --glass-lift: -1px;
+  }
+}
+
+.project-children-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.95rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  > li {
+    display: flex;
+    min-width: 0;
+  }
+}
+
+.project-child-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  margin: 0.45rem 0.45rem 0;
+  padding: 0.4rem;
+  overflow: hidden;
+  border-radius: calc(var(--md-lite-radius-md) - 0.2rem);
+  background: #fff;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.project-child-body {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.7rem 0.85rem 0.9rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * Phones: an open level's cards in one scroll-snapped row (the experiments'
+ * earlier row, now one per level), counted by position
+ * ------------------------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .projects .project-deck-children > .project-card-grid {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-inline: calc(-1 * 0.9375rem);
+    padding: 0.2rem 0.9375rem 0.9rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: 0.9375rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > .project-card {
+      flex: 0 0 84%;
+      scroll-snap-align: start;
+    }
+
+    > .project-card.is-expanded,
+    > .project-deck.is-open {
+      flex-basis: 100%;
+    }
+  }
+
+  .projects .project-deck.is-current > .project-deck-children > .project-deck-position {
+    display: block;
+    margin: -0.35rem 0 0.6rem;
+    color: var(--global-text-color-light);
+    font-size: var(--type-meta);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+
+  .projects .project-deck.is-current {
+    > .card .project-card-preview {
+      display: flex;
+    }
+
+    .project-card-media {
+      aspect-ratio: var(--project-image-aspect, 16 / 9);
+      min-height: 0;
+      margin: 0.55rem 0.55rem 0;
+    }
+
+    > .card .project-card-trigger {
+      right: 0;
+      bottom: auto;
+      width: 100%;
+      height: auto;
+      aspect-ratio: var(--project-image-aspect, 16 / 9);
+    }
+  }
+
+  .projects .project-card.is-expanded .project-card-media {
+    margin: 0.55rem 0.55rem 0;
+  }
+
+  .projects .lab-deck-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+
+  .lab-card-idea {
+    display: none;
+  }
+
+  // One line that scrolls sideways, ending on the current level, instead of a
+  // pill that wraps into a block.
+  .projects .project-deck-trail {
+    top: 3.85rem;
+
+    ol {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 1.1rem, #000 calc(100% - 0.4rem), transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 1.1rem, #000 calc(100% - 0.4rem), transparent);
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    li {
+      flex: 0 0 auto;
+    }
+
+    button,
+    li > span {
+      white-space: nowrap;
+    }
+  }
+}
+
+/* No script: every level is shown, nested, so nothing is out of reach. */
+@media (scripting: none) {
+  .projects .project-deck-children[hidden] {
+    display: block;
+    margin-top: 1.15rem;
+    content-visibility: visible;
+  }
+
+  .projects .project-deck {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .projects .project-deck-sheet {
+    background: var(--global-card-bg-color);
+  }
+
+  .lab-card::before,
+  .project-child-card::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects .project-deck-sheet {
+    transition: none;
+  }
+
+  .lab-card,
+  .project-child-card,
+  .lab-card-thumb img {
+    transform: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Blog: the list and the cards (assets/js/blog-layout.mjs)
+ * ------------------------------------------------------------------------- */
+
+// The topics and the layout toggle share one row: what to read, and how.
+.blog-browse-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.8rem 1.5rem;
+  max-width: var(--blog-index-width, var(--measure-notebook));
+  margin: 0.9rem auto 1.3rem;
+
+  > .tag-category-list {
+    flex: 1 1 24rem;
+    margin: 0;
+  }
+}
+
+.blog-view-bar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0 0 0 auto;
+
+  .blog-section-label {
+    margin: 0;
+  }
+}
+
+.blog-layout-toggle {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  gap: 0.2rem;
+  padding: 0.25rem;
+  border-radius: var(--md-lite-radius-pill);
+
+  @include glass-surface(var(--glass-tint));
+
+  button {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: var(--md-lite-radius-pill);
+    background: transparent;
+    color: var(--global-text-color-light);
+    cursor: pointer;
+    transition: color 200ms ease;
+
+    &:hover {
+      color: var(--global-theme-color);
+    }
+
+    &[aria-checked="true"] {
+      color: var(--global-on-primary-fill-color);
+    }
+
+    &:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 2px;
+    }
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  svg circle {
+    fill: currentColor;
+    stroke: none;
+  }
+}
+
+// The selected drop. Two drops share one goo filter: at rest one sits under the
+// selected icon; while switching, one drains where it was as the other travels,
+// so a bridge stretches between them and snaps.
+.blog-layout-liquid {
+  position: absolute;
+  inset: 0.25rem;
+  z-index: 0;
+  pointer-events: none;
+
+  &[data-goo] {
+    filter: url("#blog-layout-goo");
+  }
+}
+
+.blog-layout-blob,
+.blog-layout-lens {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--md-lite-radius-pill);
+}
+
+.blog-layout-blob {
+  background: radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 46%), var(--global-primary-fill-color);
+}
+
+.blog-layout-blob[data-blog-blob="travel"] {
+  transform: scale(0);
+}
+
+// Over the selected icon: the rim of a glass bead. Where SVG filters draw inside
+// backdrop-filter (html[data-liquid-glass]), it also bends what is beneath it.
+.blog-layout-lens {
+  top: 0.25rem;
+  left: 0.25rem;
+  z-index: 2;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 2px rgba(var(--global-shadow-rgb), 0.12),
+    0 0.2rem 0.55rem color-mix(in srgb, var(--global-primary-fill-color) 45%, transparent);
+  pointer-events: none;
+}
+
+html[data-liquid-glass] .blog-layout-lens {
+  -webkit-backdrop-filter: var(--blog-lens-filter, none);
+  backdrop-filter: var(--blog-lens-filter, none);
+}
+
+html[data-blog-layout="cards"] {
+  .blog-layout-blob {
+    left: calc(2.75rem + 0.2rem);
+  }
+
+  .blog-layout-lens {
+    left: calc(0.25rem + 2.75rem + 0.2rem);
+  }
+}
+
+html[data-theme="dark"] .blog-layout-lens,
+html[data-theme-mode="evening"] .blog-layout-lens {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3),
+    0 0.2rem 0.55rem rgba(0, 0, 0, 0.3);
+}
+
+// One view at a time; the inline script in _pages/blog.md picks it before the
+// first paint.
+html:not([data-blog-layout="cards"]) .blog-cards-view,
+html[data-blog-layout="cards"] .blog-list-view {
+  display: none;
+}
+
+.blog-cards-view {
+  max-width: var(--blog-index-width, var(--measure-notebook));
+  margin: 0 auto 2.5rem;
+}
+
+.blog-cards {
+  display: grid;
+  gap: 2.1rem;
+}
+
+.blog-deck-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--global-divider-color);
+
+  h2 {
+    margin: 0;
+    color: var(--global-text-color);
+    font-size: var(--type-subheading);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+}
+
+.blog-deck-count {
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+}
+
+.blog-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.blog-card-item,
+.blog-series {
+  display: flex;
+  min-width: 0;
+}
+
+// A stacked series shows its newest note; the others wait under it.
+.blog-series-member[hidden] {
+  display: none;
+}
+
+.blog-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--md-lite-radius-md);
+  background: linear-gradient(180deg, rgba(var(--global-accent-rgb), 0.07), transparent 4rem), var(--glass-tint-strong);
+  box-shadow:
+    inset 0 1px 0 var(--glass-rim-top),
+    var(--glass-shadow);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color var(--motion-standard),
+    box-shadow var(--motion-standard),
+    opacity 220ms ease,
+    filter 220ms ease;
+
+  &::before {
+    position: absolute;
+    inset: -14%;
+    z-index: -1;
+    background: var(--project-teaser, none) center / cover no-repeat;
+    content: "";
+    filter: var(--glass-vibrancy-filter);
+    opacity: var(--glass-vibrancy);
+    pointer-events: none;
+    -webkit-mask-image: var(--glass-vibrancy-mask);
+    mask-image: var(--glass-vibrancy-mask);
+  }
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background:
+      radial-gradient(
+          circle 13rem at var(--glass-x, 26%) var(--glass-y, -12%),
+          color-mix(in srgb, var(--glass-specular) calc(var(--glass-hover, 0) * 100%), transparent),
+          transparent 64%
+        )
+        no-repeat,
+      var(--glass-sheen),
+      var(--glass-grain);
+    content: "";
+    pointer-events: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: color-mix(in srgb, var(--global-theme-color) 40%, var(--glass-edge));
+    box-shadow:
+      inset 0 1px 0 var(--glass-rim-top),
+      var(--glass-shadow-lifted);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 3px;
+  }
+
+  &:hover .blog-card-title,
+  &:focus-visible .blog-card-title {
+    color: var(--global-theme-color);
+  }
+
+  // Topics in common with the note under the pointer or focus.
+  &[data-blog-relation="related"] {
+    border-color: color-mix(in srgb, var(--global-theme-color) 55%, var(--glass-edge));
+    box-shadow:
+      inset 0 1px 0 var(--glass-rim-top),
+      0 0 0 2px color-mix(in srgb, var(--global-theme-color) 22%, transparent),
+      var(--glass-shadow-lifted);
+  }
+
+  &[data-blog-relation="quiet"] {
+    opacity: 0.58;
+    filter: saturate(0.75);
+  }
+}
+
+html.glass-motion .blog-card {
+  transform: perspective(900px) rotateX(var(--glass-rx, 0deg)) rotateY(var(--glass-ry, 0deg)) translate3d(0, var(--glass-lift), 0)
+    scale(var(--glass-press));
+
+  @include glass-press-motion((border-color var(--motion-standard), box-shadow var(--motion-standard), opacity 220ms ease, filter 220ms ease));
+
+  &:hover {
+    --glass-lift: -3px;
+  }
+}
+
+.blog-card-media {
+  display: block;
+  aspect-ratio: 16 / 10;
+  margin: 0.45rem 0.45rem 0;
+  overflow: hidden;
+  border-radius: calc(var(--md-lite-radius-md) - 0.2rem);
+  background: var(--global-surface-container-color);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate3d(var(--glass-drift-x, 0px), var(--glass-drift-y, 0px), 0) scale(1.04);
+  }
+}
+
+.blog-card-body {
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+  padding: 0.85rem 1rem 1rem;
+}
+
+.blog-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem 0.4rem;
+  color: var(--glass-ink-soft);
+  font-size: var(--type-meta);
+  line-height: 1.35;
+
+  time {
+    color: var(--global-text-color);
+    font-weight: 500;
+  }
+}
+
+.blog-card-title {
+  color: var(--global-text-color);
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.28;
+  transition: color var(--motion-standard);
+}
+
+.blog-card-description {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--glass-ink-soft);
+  font-size: var(--type-meta);
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.blog-card-series {
+  color: var(--glass-ink-accent);
+  font-size: var(--type-meta);
+  font-weight: 600;
+}
+
+.blog-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+
+  span {
+    padding: 0.05rem 0.45rem;
+    border: 1px solid var(--global-divider-color);
+    border-radius: var(--md-lite-radius-pill);
+    background: color-mix(in srgb, var(--global-card-bg-color) 60%, transparent);
+    color: var(--glass-ink-soft);
+    font-size: var(--type-label);
+    line-height: 1.5;
+  }
+}
+
+.blog-card-related {
+  min-height: 1.3em;
+  color: var(--glass-ink-accent);
+  font-size: var(--type-label);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+// A series is a deck of notes: the newest on top, the others peeking under it,
+// and a tab that fans them out in place.
+.blog-series {
+  position: relative;
+  margin-top: 0.85rem;
+
+  &.is-stacked::before,
+  &.is-stacked::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid var(--glass-edge);
+    border-radius: var(--md-lite-radius-md);
+    background: var(--glass-sheen), var(--glass-tint);
+    box-shadow: var(--glass-shadow);
+    content: "";
+    transition: transform var(--spring-layout-duration) var(--spring-layout);
+  }
+
+  &.is-stacked::before {
+    transform: translate(5px, 6px) rotate(1.2deg);
+  }
+
+  &.is-stacked::after {
+    transform: translate(9px, 12px) rotate(2.6deg);
+  }
+
+  &.is-stacked:hover::before {
+    transform: translate(8px, 9px) rotate(2.4deg);
+  }
+
+  &.is-stacked:hover::after {
+    transform: translate(14px, 17px) rotate(4.6deg);
+  }
+
+  &.is-fanned {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(var(--series-count, 2), minmax(0, 1fr));
+    gap: 1.1rem;
+  }
+}
+
+.blog-series-toggle {
+  position: absolute;
+  top: -0.95rem;
+  left: 0.8rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2rem;
+  padding: 0.2rem 0.7rem 0.2rem 0.5rem;
+  border-radius: var(--md-lite-radius-pill);
+  cursor: pointer;
+  font-size: var(--type-label);
+  font-weight: 600;
+  line-height: 1.2;
+
+  @include glass-surface(var(--glass-tint-strong));
+
+  svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+  }
+
+  // A larger hit area than the tab draws, so it is easy to press.
+  &::after {
+    position: absolute;
+    inset: -0.45rem -0.2rem;
+    content: "";
+  }
+}
+
+.blog-series-count {
+  min-width: 1.25rem;
+  padding: 0 0.35rem;
+  border-radius: var(--md-lite-radius-pill);
+  background: color-mix(in srgb, var(--global-theme-color) 14%, transparent);
+  text-align: center;
+}
+
+// The list's own controls take the same glass.
+.blog-index .pagination .page-item .page-link {
+  @include glass-surface(var(--glass-tint));
+}
+
+.blog-index .pagination .page-item.active .page-link {
+  @include glass-candy(var(--global-theme-color), var(--global-hover-text-color));
+}
+
+@media (max-width: 991px) {
+  .blog-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 575px) {
+  .blog-card-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .blog-series.is-fanned {
+    grid-column: auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (scripting: none) {
+  .blog-view-bar {
+    display: none;
+  }
+
+  .blog-series-member[hidden] {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .blog-card::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-card,
+  .blog-card-media img {
+    transform: none !important;
+  }
+
+  .blog-series::before,
+  .blog-series::after {
+    transition: none;
+  }
+}
+
+// Switching layouts: each visible note's title travels from its row to its card
+// on the layout spring; the rest of the page cross-fades quickly.
+::view-transition-group(*.blog-note) {
+  animation-duration: var(--spring-layout-duration, 600ms);
+  animation-timing-function: var(--spring-layout, cubic-bezier(0.2, 0, 0, 1));
+}
+
+::view-transition-old(*.blog-note),
+::view-transition-new(*.blog-note) {
+  height: 100%;
+  object-fit: none;
+  object-position: left top;
+}
+
+::view-transition-group(blog-layout-toggle),
+::view-transition-old(blog-layout-toggle),
+::view-transition-new(blog-layout-toggle) {
+  animation: none;
+}
+
+html.blog-layout-morphing::view-transition-old(root) {
+  animation: site-route-leave 180ms var(--md-lite-easing-exit) both;
+}
+
+html.blog-layout-morphing::view-transition-new(root) {
+  animation: site-route-arrive 420ms var(--spring-gentle, ease-out) both;
+}

@@ -117,11 +117,16 @@ class SiteExperimentsTests(unittest.TestCase):
         self.assertIn('where: "site_experiment", true | sort: "debut_date" | reverse', source)
         self.assertIn("data-site-experiment-grid", source)
         self.assertIn("Other playful builds", source)
-        self.assertEqual(source.count("{% include projects.liquid heading_level=4 %}"), 2)
+        self.assertEqual(source.count("{% include projects.liquid heading_level=4"), 2)
 
+        # Headings follow the nesting (2026-10-18): h4 at the top of the experiments, one level deeper per deck.
         card_include = (REPO_ROOT / "_includes" / "projects.liquid").read_text(encoding="utf-8")
-        self.assertIn("{% if include.heading_level == 4 %}", card_include)
-        self.assertIn('<h4 class="card-title">{{ project.title }}</h4>', card_include)
+        self.assertIn("{% assign card_heading_level = include.heading_level | default: 3 %}", card_include)
+        self.assertIn(
+            '<h{{ card_heading_level }} class="card-title" data-entry-title>{{ project.title }}</h{{ card_heading_level }}>',
+            card_include,
+        )
+        self.assertIn("{% assign project_child_level = include.heading_level | default: 3 | plus: 1 %}", card_include)
 
     def test_fun_project_cards_have_evidence_bound_origins_and_one_icon_family(self) -> None:
         project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
@@ -175,32 +180,66 @@ class SiteExperimentsTests(unittest.TestCase):
             with self.subTest(icon=icon):
                 self.assertEqual(icon_include.count(f"{{% when '{icon}' %}}"), 1)
 
-    def test_child_projects_live_on_their_parent_page(self) -> None:
-        # Sirui asked for a hierarchy instead of a project card per graphics experiment (2026-10-16). A project
-        # with a `parent` keeps its own page and route but leaves the projects index to its parent, whose page and
-        # technical record list it; its end navigation returns to the parent.
+    def test_site_experiments_nest_under_the_website_revamp(self) -> None:
+        # Sirui asked for a hierarchy instead of a project card per graphics experiment (2026-10-16), then for the
+        # whole index to read hierarchically (2026-10-18): the website revamp holds the 3D home and the other site
+        # experiments, the 3D home holds the Graphics Lab, and the lab holds its experiments (its technical record).
+        # A project with a `parent` keeps its own page and route; the index shows it inside its parent's deck.
         children = {}
         for path in sorted(PROJECTS_DIR.glob("*.md")):
             parent = frontmatter(path).get("parent")
             if parent:
                 children[path.stem] = parent
-        self.assertEqual(children, {"light-paths": "graphics-lab"})
+        revamp_children = {
+            "homepage-desk-scene",
+            "pip",
+            "ikea-project-cards",
+            "build-rhythm",
+            "scholar-lens",
+            "paper-constellation",
+            "wall-of-rejection",
+            "hci-spooder-man",
+            "la-jolla",
+            "dogtor-portal",
+            "openai-build-week",
+        }
+        expected = {slug: "website-revamp" for slug in revamp_children}
+        expected.update({"graphics-lab": "homepage-desk-scene", "light-paths": "graphics-lab"})
+        self.assertEqual(children, expected)
 
+        site_experiments = {path.stem for path in PROJECTS_DIR.glob("*.md") if frontmatter(path).get("site_experiment") == "true"}
+        self.assertEqual(site_experiments - set(children), {"website-revamp"}, "the revamp is the one top-level site experiment")
+        for path in PROJECTS_DIR.glob("*.md"):
+            if frontmatter(path).get("category") == "research":
+                with self.subTest(research=path.stem):
+                    self.assertNotIn("parent", frontmatter(path), "research stays its own top-level group")
+
+        # The Graphics Lab's deck lists its technical record, which links each experiment's page back to the lab.
+        self.assertEqual(frontmatter(PROJECTS_DIR / "graphics-lab.md").get("deck_children"), "record")
         record = yaml.safe_load((REPO_ROOT / "_data" / "design_records" / "graphics-lab.yml").read_text(encoding="utf-8"))
         pages = {technique["page"]["url"] for system in record["systems"] for technique in system["techniques"] if technique.get("page")}
-        for child, parent in children.items():
-            with self.subTest(child=child):
-                parent_values = frontmatter(PROJECTS_DIR / f"{parent}.md")
-                self.assertEqual(parent_values.get("site_experiment"), "true")
-                self.assertIn(f"/projects/{child}/", pages, "the parent's record lists the child's page")
-                child_source = (PROJECTS_DIR / f"{child}.md").read_text(encoding="utf-8")
-                self.assertIn(f"{{{{ '/projects/{parent}/' | relative_url }}}}", child_source, "the child links back to its parent")
+        self.assertIn("/projects/light-paths/", pages, "the parent's record lists the child's page")
+        self.assertIn("{{ '/projects/graphics-lab/' | relative_url }}", (PROJECTS_DIR / "light-paths.md").read_text(encoding="utf-8"))
 
         index = PROJECTS_PAGE.read_text(encoding="utf-8")
         self.assertEqual(index.count('where_exp: "project", "project.parent == nil"'), 2, "both index branches leave children out")
+        self.assertIn("data-project-deck-stage", index)
+        self.assertIn("data-project-deck-trail", index)
+        card_include = PROJECT_CARD_INCLUDE.read_text(encoding="utf-8")
+        self.assertIn("{% assign project_deck_kids = site.projects | where: 'parent', project_file_slug | sort: 'debut_date' | reverse %}", card_include)
+        self.assertIn('{% include graphics_lab.liquid part="deck" heading_level=card_heading_level %}', card_include)
+        self.assertIn('hidden="until-found"', card_include)
+        self.assertIn("data-project-deck-trigger", card_include)
+
+        # Child pages: a trail of where they sit, "Part of" their parent, and siblings in debut order.
         layout = (REPO_ROOT / "_layouts" / "page.liquid").read_text(encoding="utf-8")
         self.assertIn("where_exp: 'item', 'item.slug == page.parent'", layout)
         self.assertIn("Part of", layout)
+        self.assertIn("{% include project_trail.liquid %}", layout)
+        self.assertIn("{% include project_children.liquid %}", layout)
+        trail = (REPO_ROOT / "_includes" / "project_trail.liquid").read_text(encoding="utf-8")
+        self.assertIn("#deck/{{ page.parent }}", trail)
+        self.assertIn('aria-current="page"', trail)
         self.assertIn("{% include graphics_lab.liquid part=\"experiments\" %}", (PROJECTS_DIR / "graphics-lab.md").read_text(encoding="utf-8"))
 
     def test_fun_project_stories_lead_with_plain_what_and_why(self) -> None:

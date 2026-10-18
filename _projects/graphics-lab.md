@@ -11,6 +11,8 @@ year: 2026
 role: Designer and reviewer
 status: Living site experiment
 site_experiment: true
+parent: homepage-desk-scene
+deck_children: record
 debut_date: 2026-10-18T00:30:00-07:00
 hide_title: true
 og_image_alt: Four frames from the Graphics Lab, the light lab's two renderers, the light well's beam in the onsen, the beach below the cave house and a pen sketch of the bedroom

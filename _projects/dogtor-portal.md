@@ -9,6 +9,7 @@ card_image_position: center
 importance: -25
 category: fun
 site_experiment: true
+parent: website-revamp
 debut_date: 2026-05-13T19:41:53-07:00
 year: 2026
 role: Puzzle maker, builder

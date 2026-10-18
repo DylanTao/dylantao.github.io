@@ -1,0 +1,13 @@
+# Notes that belong together on the blog's card view (_pages/blog.md, 2026-10-18). A series stacks its notes
+# like a deck, newest on top, and opens in place. Posts are named by their file slug (the file name without the
+# date). Sirui: rename, regroup or remove these freely; a post can be in one series.
+- id: don-norman
+  title: reading don norman
+  posts:
+    - specialists-generalists-ai-distributed-cognition
+    - don-norman-design-lab-talk
+- id: starting-research
+  title: starting research
+  posts:
+    - research-skills-starter-pack
+    - how-to-start-doing-research-at-ucsd

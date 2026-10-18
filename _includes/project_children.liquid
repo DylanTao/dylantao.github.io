@@ -1,0 +1,45 @@
+{%- comment -%}
+  The projects that name this page as their `parent` (2026-10-18), as a strip of small glass cards at the end of
+  the story, newest first, so a reader can go one level down without returning to the index. A project whose deck
+  lists its technical record instead (`deck_children: record`, the Graphics Lab) already lists its experiments.
+  Usage: {% include project_children.liquid %}
+{%- endcomment -%}
+{%- assign children_slug = page.slug | default: page.name | replace: '.md', '' -%}
+{%- assign children_items = site.projects | where: 'parent', children_slug | sort: 'debut_date' | reverse -%}
+{%- if children_items.size > 0 and page.deck_children != 'record' %}
+  <section class="project-children" aria-labelledby="project-children-title">
+    <div class="project-children-heading">
+      <h2 id="project-children-title">Inside this project</h2>
+      <a class="project-children-deck" href="{{ '/projects/' | relative_url }}#deck/{{ children_slug }}">Open it as a deck</a>
+    </div>
+    <ul class="project-children-grid">
+      {%- for child in children_items %}
+        {%- assign child_slug = child.slug -%}
+        {%- assign child_card = site.data.project_cards[child_slug] -%}
+        <li>
+          <a class="project-child-card" href="{{ child.url | relative_url }}" data-entry>
+            <span class="project-child-thumb" data-entry-media>
+              {%- if child.img %}
+                <img
+                  src="{% include responsive_variant.liquid path=child.img width=480 %}"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  onerror="this.onerror=null; this.src='{{ child.img | relative_url }}';"
+                >
+              {%- endif %}
+            </span>
+            <span class="project-child-body">
+              <span class="project-child-title" data-entry-title>{{ child.title }}</span>
+              {%- if child_card.origin_line %}
+                <span class="project-child-line">{{ child_card.origin_line }}</span>
+              {%- else %}
+                <span class="project-child-line">{{ child.description }}</span>
+              {%- endif %}
+            </span>
+          </a>
+        </li>
+      {%- endfor %}
+    </ul>
+  </section>
+{%- endif -%}

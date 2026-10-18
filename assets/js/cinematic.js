@@ -7,7 +7,6 @@
   const gsap = window.gsap;
   const ScrollTrigger = window.ScrollTrigger;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   const wide = window.matchMedia("(min-width: 992px)");
   const forceLive = /[?&]cinematic=live(?:&|$)/.test(window.location.search);
   const automated = Boolean(navigator.webdriver) && !forceLive;
@@ -27,24 +26,8 @@
     scene.querySelectorAll("[data-case-step]").forEach((step) => step.classList.add("is-active"));
   };
 
-  // 0. Card-to-hero morph: the project image a visitor clicks becomes the case page's hero image
-  //    through a cross-document view transition, and comes back to its card on the way out. The
-  //    hero side of the name lives in CSS; the index side is set here (forward) and by the inline
-  //    `pagereveal` listener in head.liquid (back), which runs before the first frame.
-  const morphKey = "cinematic:morph-href";
-  Array.from(document.querySelectorAll(".cinematic [data-project-card-primary-action]")).forEach((link) => {
-    if (link.target === "_blank" || link.origin !== window.location.origin) return;
-    link.addEventListener("click", () => {
-      const image = link.closest("[data-project-card]")?.querySelector(".project-card-media img");
-      if (!image) return;
-      image.style.viewTransitionName = "project-hero";
-      try {
-        sessionStorage.setItem(morphKey, link.href);
-      } catch (error) {
-        /* private mode: the transition falls back to the root crossfade */
-      }
-    });
-  });
+  // 0. The card-to-hero morph lives in page-entry.mjs and head.liquid now (2026-10-18), for every
+  //    card, blog row and experiment, with the card's surface and title as well as its picture.
 
   root.classList.add("cinematic-ready");
   if (!live) {
@@ -56,9 +39,9 @@
   root.classList.add("cinematic-live");
 
   // 1. Card grids: cards rise into place as they enter, section headings slide in.
-  const grids = gsap.utils.toArray(".cinematic [data-project-card-grid]");
+  const grids = gsap.utils.toArray(".cinematic [data-project-card-grid]").filter((grid) => !grid.closest("[data-project-deck-children]"));
   grids.forEach((grid) => {
-    const cards = gsap.utils.toArray(grid.querySelectorAll("[data-project-card]"));
+    const cards = gsap.utils.toArray(grid.querySelectorAll(":scope > [data-project-card]"));
     if (!cards.length) return;
 
     cards.forEach((card) => card.querySelector(":scope > .card")?.classList.add("site-visible"));
@@ -97,91 +80,8 @@
       });
     });
 
-  // 3. Spotlight: a soft light follows the pointer across a grid and lights the card under it.
-  if (finePointer.matches) {
-    grids.forEach((grid) => {
-      grid.classList.add("has-spotlight");
-      const surfaces = gsap.utils.toArray(grid.querySelectorAll("[data-project-card] > .card"));
-      let frame = 0;
-      let pointer = null;
-
-      const paint = () => {
-        frame = 0;
-        if (!pointer) return;
-        surfaces.forEach((surface) => {
-          const box = surface.getBoundingClientRect();
-          surface.style.setProperty("--spot-x", `${(pointer.x - box.left).toFixed(1)}px`);
-          surface.style.setProperty("--spot-y", `${(pointer.y - box.top).toFixed(1)}px`);
-        });
-      };
-
-      grid.addEventListener(
-        "pointermove",
-        (event) => {
-          pointer = { x: event.clientX, y: event.clientY };
-          grid.style.setProperty("--spot-o", "1");
-          if (!frame) frame = window.requestAnimationFrame(paint);
-        },
-        { passive: true }
-      );
-      grid.addEventListener("pointerleave", () => grid.style.setProperty("--spot-o", "0"));
-    });
-  }
-
-  // 4. Tilt: the card under the pointer leans toward it by a few degrees while its image drifts
-  //    the other way. The expanded preview and the FLIP that opens it never tilt.
-  if (finePointer.matches) {
-    root.classList.add("cinematic-tilt");
-    gsap.utils.toArray(".cinematic [data-project-card]").forEach((card) => {
-      const surface = card.querySelector(":scope > .card");
-      if (!surface) return;
-      const media = card.querySelector(".project-card-media");
-      const rotateX = gsap.quickTo(surface, "rotationX", { duration: 0.45, ease: "power2.out" });
-      const rotateY = gsap.quickTo(surface, "rotationY", { duration: 0.45, ease: "power2.out" });
-      const lift = gsap.quickTo(surface, "y", { duration: 0.45, ease: "power2.out" });
-      let tilting = false;
-
-      const idle = () => card.classList.contains("is-expanded") || Boolean(card.closest(".has-expanded-project-card"));
-      const settle = () => {
-        if (!tilting) return;
-        tilting = false;
-        rotateX(0);
-        rotateY(0);
-        lift(0);
-        media?.style.removeProperty("--tilt-x");
-        media?.style.removeProperty("--tilt-y");
-        gsap.delayedCall(0.5, () => {
-          if (!tilting) gsap.set(surface, { clearProps: "transform" });
-        });
-      };
-
-      card.addEventListener(
-        "pointermove",
-        (event) => {
-          if (idle()) {
-            settle();
-            return;
-          }
-          const box = surface.getBoundingClientRect();
-          if (!box.width || !box.height) return;
-          const px = (event.clientX - box.left) / box.width - 0.5;
-          const py = (event.clientY - box.top) / box.height - 0.5;
-          if (!tilting) {
-            tilting = true;
-            gsap.set(surface, { transformPerspective: 900 });
-          }
-          rotateX(-py * 6);
-          rotateY(px * 7);
-          lift(-3);
-          media?.style.setProperty("--tilt-x", `${(-px * 8).toFixed(1)}px`);
-          media?.style.setProperty("--tilt-y", `${(-py * 8).toFixed(1)}px`);
-        },
-        { passive: true }
-      );
-      card.addEventListener("pointerleave", settle);
-      card.querySelector("[data-project-card-trigger]")?.addEventListener("click", settle);
-    });
-  }
+  // 3-4. The spotlight and tilt over card grids moved to glass-motion.mjs (2026-10-18): the glass
+  //      highlight follows the pointer and every glass card leans, on every page, not only here.
 
   // 5. Case study hero: copy and figure arrive in sequence; the scroll hint fades once reading starts.
   const hero = document.querySelector(".cinematic .project-case-hero");

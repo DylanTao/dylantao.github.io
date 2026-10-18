@@ -9,6 +9,7 @@ card_avoid_scaling: true
 importance: -26
 category: fun
 site_experiment: true
+parent: website-revamp
 debut_date: 2026-05-27T19:20:51-07:00
 year: 2026
 role: Interaction designer, builder

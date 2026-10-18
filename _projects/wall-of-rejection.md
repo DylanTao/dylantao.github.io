@@ -10,6 +10,7 @@ card_avoid_scaling: true
 importance: -27
 category: fun
 site_experiment: true
+parent: website-revamp
 debut_date: 2026-05-29T15:24:23-07:00
 year: 2026
 role: Designer, meme archivist
