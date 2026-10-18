@@ -75,6 +75,13 @@ cinematic: true
             if (sibling !== item) sibling.classList.add('is-folded');
           });
         });
+        // Bring the level into view now, before the page's scripts load (the browser's own scroll
+        // restoration still wins on Back and reload).
+        var stage = document.querySelector('[data-project-deck-stage]');
+        var nav = document.getElementById('navbar');
+        var top = stage.getBoundingClientRect().top + window.scrollY - (nav ? nav.getBoundingClientRect().height : 0) - 18;
+        window.scrollTo(0, Math.max(0, top + (stage.querySelector('.site-experiment-index-heading') || stage).offsetHeight));
+        document.documentElement.setAttribute('data-project-deck-scrolled', '');
       })();
     </script>
   </section>

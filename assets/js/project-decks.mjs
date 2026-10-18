@@ -152,8 +152,9 @@ function boot(stage) {
     };
   };
 
-  // Pictures inside a closed deck load lazily; a reader who points at or focuses a deck is about to
-  // open it, so its level starts loading then.
+  // Pictures inside a closed deck load lazily. A reader who points at, presses or focuses a deck is
+  // about to open it, and the top deck is the one most often opened, so their pictures start loading
+  // early (the top deck's once the page is idle) and the cards fan out with their pictures in place.
   const warm = (deck) => {
     const container = childrenOf(deck);
     if (!container || container.dataset.warm) return;
@@ -164,8 +165,9 @@ function boot(stage) {
   };
 
   // Cards that appear with a level never wait for the scroll reveal; they arrive with the deck.
+  // common.js may add its reveal class after this runs, so mark every card, revealed or not yet.
   const markRevealed = (container) => {
-    container?.querySelectorAll(".card.site-reveal, .lab-card").forEach((card) => card.classList.add("site-visible", "site-revealed"));
+    container?.querySelectorAll(".card, .lab-card").forEach((card) => card.classList.add("site-visible", "site-revealed"));
     container?.querySelectorAll(".card, .lab-card").forEach((card) => window.SiteGlass?.paintTeaser?.(card));
   };
 
@@ -191,8 +193,9 @@ function boot(stage) {
         return li;
       })
     );
-    // On a phone the trail is one sideways line; show its end, where the reader is.
-    trailList.scrollLeft = trailList.scrollWidth;
+    // On a phone the trail is one sideways line; show its end, where the reader is. Reading its width
+    // waits for the next frame so a change of level forces no extra layout.
+    if (phone.matches) window.requestAnimationFrame(() => (trailList.scrollLeft = trailList.scrollWidth));
   };
 
   const applyState = (next) => {
@@ -226,22 +229,26 @@ function boot(stage) {
     stage.classList.toggle("has-open-deck", next.length > 0);
     renderTrail(next);
     path = next;
-    if (next.length) {
-      const current = bySlug.get(next.at(-1));
-      markRevealed(childrenOf(current));
-      // The close button sits at the top of the banner's copy, where the stack icon was: beside the
-      // picture on wide screens, just below it on a phone.
-      const surface = surfaceOf(current);
-      const body = surface?.querySelector(".project-card-body");
-      if (body) surface.style.setProperty("--project-card-body-top", `${body.offsetTop}px`);
-    }
+    if (next.length) markRevealed(childrenOf(bySlug.get(next.at(-1))));
     syncRow();
   };
+
+  // The close button sits at the top of the banner's copy, where the stack icon was: beside the
+  // picture on wide screens, just below it on a phone. Read with the other rects, written after.
+  const bannerBodyTop = () => {
+    const current = path.length ? surfaceOf(bySlug.get(path.at(-1))) : null;
+    const body = current?.querySelector(".project-card-body");
+    return current && body ? { surface: current, top: body.offsetTop } : null;
+  };
+  const placeClose = (placement) => placement?.surface.style.setProperty("--project-card-body-top", `${placement.top}px`);
 
   // Everything a change might move: every card and experiment in the stage, the banner surfaces, and
   // the sections after the stage. Rects are measured with any running animation still applied, so an
   // interrupted change continues from what the reader sees.
-  const visible = (element) => element.getClientRects().length > 0;
+  // Visible without forcing layout of a closed level: getClientRects() lays out a hidden="until-found"
+  // subtree to answer, which made every measurement pay for the levels nobody could see.
+  const visible = (element) =>
+    !element.closest("[hidden], .is-folded") && (element.checkVisibility ? element.checkVisibility() : element.getClientRects().length > 0);
   const tracked = () => [
     ...stage.querySelectorAll("[data-project-card]:not([data-project-deck]), .lab-deck-item"),
     ...decks.map((deck) => surfaceOf(deck)).filter(Boolean),
@@ -252,13 +259,19 @@ function boot(stage) {
       if (visible(element)) rects.set(element, element.getBoundingClientRect());
     });
     following().forEach((element) => rects.set(element, element.getBoundingClientRect()));
+    rects.stage = stage.getBoundingClientRect();
+    rects.crumbs = new Map();
+    trailList
+      ?.querySelectorAll("[data-project-deck-crumb]")
+      .forEach((button) => rects.crumbs.set(button.getAttribute("data-project-deck-crumb"), button.getBoundingClientRect()));
+    const currentCrumb = trailList?.querySelector("[aria-current]");
+    rects.currentCrumb = currentCrumb && trail && !trail.hidden ? currentCrumb.getBoundingClientRect() : null;
+    rects.trail = trail && !trail.hidden ? trail.getBoundingClientRect() : null;
+    rects.banner = bannerBodyTop();
     return rects;
   };
-  const crumbRect = (slug) => {
-    const button = trailList?.querySelector(`[data-project-deck-crumb="${slug}"]`);
-    const current = trailList?.querySelector("[aria-current]");
-    return (button || current)?.getBoundingClientRect() || trail?.getBoundingClientRect() || null;
-  };
+  // Where a level folds to or unfolds from: its crumb, as measured with everything else.
+  const crumbRectIn = (rects, slug) => rects.crumbs?.get(slug) || rects.currentCrumb || rects.trail || null;
 
   const ghostLayer = () => {
     let layer = stage.querySelector(":scope > .project-deck-ghosts");
@@ -271,12 +284,28 @@ function boot(stage) {
     return layer;
   };
   // A visual copy of something that is leaving, left where it was so it can fold away while the real
-  // element is already gone from the layout.
-  const ghostOf = (element, rect, stageRect) => {
-    const ghost = element.cloneNode(true);
-    ghost.removeAttribute("id");
-    ghost.querySelectorAll("[id]").forEach((node) => node.removeAttribute("id"));
-    ghost.setAttribute("inert", "");
+  // element is already gone from the layout. A banner's surface leaves in a shallow copy of its deck
+  // (which carries the deck's styles) without the levels the deck holds.
+  // Copies are only pictures: no ids and none of the data hooks scripts and tests use to find cards.
+  const sanitize = (clone) => {
+    [clone, ...clone.querySelectorAll("*")].forEach((node) => {
+      node.removeAttribute("id");
+      Array.from(node.attributes).forEach(({ name }) => {
+        if (name.startsWith("data-project") || name.startsWith("data-entry") || name === "aria-controls") node.removeAttribute(name);
+      });
+    });
+    clone.setAttribute("inert", "");
+    return clone;
+  };
+  const ghostOf = (element, rect, stageRect, fragment) => {
+    let ghost;
+    if (element.matches(".card")) {
+      ghost = (element.closest("[data-project-card]") || element.parentElement).cloneNode(false);
+      ghost.append(element.cloneNode(true));
+    } else {
+      ghost = element.cloneNode(true);
+    }
+    sanitize(ghost);
     ghost.classList.add("project-deck-ghost");
     ghost.classList.remove("is-folded");
     Object.assign(ghost.style, {
@@ -285,7 +314,7 @@ function boot(stage) {
       width: `${rect.width}px`,
       height: `${rect.height}px`,
     });
-    ghostLayer().append(ghost);
+    fragment.append(ghost);
     return ghost;
   };
 
@@ -305,12 +334,12 @@ function boot(stage) {
     const current = { animations: [], onSettled };
     run = current;
     if (!motion) {
+      placeClose(after.banner);
       settle();
       return;
     }
-    root.setAttribute("data-project-deck-moving", "");
     const { layout, gentle, playful } = motion;
-    const stageRect = stage.getBoundingClientRect();
+    const stageRect = after.stage;
     const timing = (duration, delay = 0, fill = "backwards") => ({ duration, delay, easing: "linear", fill });
     const opened = plan.openedDeck;
     const closed = plan.closedDeck;
@@ -320,20 +349,20 @@ function boot(stage) {
 
     // 1. Things leaving fold away as ghosts: into the trail when going down, into their deck going up.
     const leaving = [...before.keys()].filter((element) => !after.has(element) && stage.contains(element));
-    const foldTarget = (element) => {
-      if (closed && closed.contains(element) && deckRectAfter) return deckRectAfter;
-      const parentSlug = plan.direction === "down" ? (plan.from.at(-1) ?? "") : "";
-      return crumbRect(parentSlug);
-    };
+    const parentCrumb = crumbRectIn(after, plan.direction === "down" ? (plan.from.at(-1) ?? "") : "");
+    const foldTarget = (element) => (closed && closed.contains(element) && deckRectAfter ? deckRectAfter : parentCrumb);
+    const fragment = document.createDocumentFragment();
+    const folds = [];
     leaving.forEach((element, index) => {
       const rect = before.get(element);
       if (!rect?.width || !rect.height) return;
-      const target = foldTarget(element);
-      const ghost = ghostOf(element.matches(".card") ? element.closest("[data-project-card]") || element : element, rect, stageRect);
-      if (element.matches(".card")) {
-        // A banner folding away: only its own surface, not the children it held.
-        ghost.querySelectorAll(":scope > [data-project-deck-children], :scope > .project-deck-sheets").forEach((node) => node.remove());
-      }
+      folds.push({ ghost: ghostOf(element, rect, stageRect, fragment), rect, target: foldTarget(element), index });
+    });
+    // Everything that reads layout is done; from here on the change only writes.
+    root.setAttribute("data-project-deck-moving", "");
+    placeClose(after.banner);
+    if (folds.length) ghostLayer().append(fragment);
+    folds.forEach(({ ghost, rect, target, index }) => {
       const from = center(rect);
       const to = target ? center(target) : { x: from.x, y: from.y - 40 };
       const scale = target ? Math.max(0.12, Math.min(0.5, target.width / rect.width)) : 0.6;
@@ -368,7 +397,7 @@ function boot(stage) {
       if (!surface || !rect) return;
       if (!old) {
         // A banner coming back out of the trail unfolds from its crumb.
-        const crumb = crumbRect(deck.dataset.projectDeck);
+        const crumb = crumbRectIn(before, deck.dataset.projectDeck);
         if (!crumb || plan.direction !== "up") return;
         const from = center(crumb);
         const to = center(rect);
@@ -382,23 +411,43 @@ function boot(stage) {
         current.animations.push(surface.animate(frames, timing(layout.duration)));
         return;
       }
-      const dx = old.left - rect.left;
-      const dy = old.top - rect.top;
-      const right = Math.max(0, rect.width - old.width);
-      const bottom = Math.max(0, rect.height - old.height);
-      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 && right < 0.5 && bottom < 0.5) return;
-      const frames = SiteMotion.springSamples(layout, 1, 0, layout.duration, KEYFRAMES).map((offset, i) => {
-        const x = dx * offset;
-        const y = dy * offset;
-        const r = Math.max(0, right * offset);
-        const b = Math.max(0, bottom * offset);
-        return {
+      const from = center(old);
+      const to = center(rect);
+      const dx = from.x - to.x;
+      const dy = from.y - to.y;
+      const reshaped = Math.abs(rect.width - old.width) > 2 || Math.abs(rect.height - old.height) > 2;
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 && !reshaped) return;
+      const remaining = SiteMotion.springSamples(layout, 1, 0, layout.duration, KEYFRAMES);
+      if (!reshaped) {
+        const frames = remaining.map((k) => ({ transform: `translate(${(dx * k).toFixed(2)}px, ${(dy * k).toFixed(2)}px)` }));
+        current.animations.push(surface.animate(frames, timing(layout.duration)));
+        return;
+      }
+      const scale = Math.max(0.2, Math.min(3, old.width / rect.width));
+      const frames = remaining.map((k, i) => ({
+        offset: i / KEYFRAMES,
+        transform: `translate(${(dx * k).toFixed(2)}px, ${(dy * k).toFixed(2)}px) scale(${(1 + (scale - 1) * k).toFixed(4)})`,
+        opacity: Math.min(1, (1 - k) * 2.4),
+      }));
+      current.animations.push(surface.animate(frames, { ...timing(layout.duration), composite: "replace" }));
+      const face = plan.faces?.get(deck);
+      if (face) {
+        Object.assign(face.style, {
+          left: `${old.left - stageRect.left}px`,
+          top: `${old.top - stageRect.top}px`,
+          width: `${old.width}px`,
+          height: `${old.height}px`,
+        });
+        ghostLayer().append(face);
+        const back = 1 / scale;
+        const fade = remaining.map((k, i) => ({
           offset: i / KEYFRAMES,
-          transform: `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px)`,
-          clipPath: i === KEYFRAMES ? "inset(0px 0px 0px 0px)" : `inset(0px ${r.toFixed(2)}px ${b.toFixed(2)}px 0px round var(--md-lite-radius-md))`,
-        };
-      });
-      current.animations.push(surface.animate(frames, timing(layout.duration)));
+          transform: `translate(${(-dx * (1 - k)).toFixed(2)}px, ${(-dy * (1 - k)).toFixed(2)}px) scale(${(1 + (back - 1) * (1 - k)).toFixed(4)})`,
+          opacity: Math.max(0, 1 - (1 - k) * 2.2),
+        }));
+        const animation = face.animate(fade, { duration: layout.duration, easing: "linear", fill: "both" });
+        animation.finished.finally(() => face.remove());
+      }
     });
 
     // 4. Things arriving: children fly out of the deck that opened, in a ripple from it; anything else
@@ -407,7 +456,7 @@ function boot(stage) {
     const origin = deckRectBefore
       ? center(deckRectBefore)
       : (() => {
-          const crumb = crumbRect(plan.to.at(-1) ?? "");
+          const crumb = crumbRectIn(after, plan.to.at(-1) ?? "");
           return crumb ? center(crumb) : null;
         })();
     if (origin) {
@@ -436,7 +485,7 @@ function boot(stage) {
       surfaceOf(banner)
         ?.querySelectorAll(".project-card-story-beat, .project-card-takeaways, .project-card-actions-expanded > *, .project-card-close")
         .forEach((element) => {
-          if (!visible(element)) return;
+          if (element.closest("[hidden]")) return;
           const frames = window.SiteMotion.springSamples(gentle, 8, 0, gentle.duration, KEYFRAMES).map((y, i) => ({
             transform: `translateY(${y.toFixed(2)}px)`,
             opacity: i === 0 ? 0 : Math.min(1, gentle.ease(i / KEYFRAMES) * 1.3),
@@ -498,6 +547,17 @@ function boot(stage) {
     // Close any open preview inside the level first (project-cards.js), without its own motion.
     document.dispatchEvent(new CustomEvent("project-cards:reset"));
     const before = measure();
+    // The faces of the decks that change shape, as they look now, for the morph.
+    plan.faces = new Map();
+    [plan.openedDeck, plan.closedDeck].forEach((deck) => {
+      const surface = deck ? surfaceOf(deck) : null;
+      if (!surface || !before.has(surface)) return;
+      const face = deck.cloneNode(false);
+      face.append(surface.cloneNode(true));
+      sanitize(face);
+      face.classList.add("project-deck-ghost", "project-deck-face");
+      plan.faces.set(deck, face);
+    });
     settle();
     applyState(next);
     const after = measure();
@@ -513,19 +573,23 @@ function boot(stage) {
     } else {
       announce(`Back to ${rootLabel.toLowerCase()}.`);
     }
-    // Focus: down a level, the banner's title; up a level, the deck the reader came out of.
-    if (focus !== "none") {
-      if (plan.direction === "down" && plan.openedDeck) {
-        const heading = surfaceOf(plan.openedDeck)?.querySelector(".card-title");
-        if (heading) {
-          heading.tabIndex = -1;
-          heading.focus({ preventScroll: true });
+    // Focus: down a level, the banner's title; up a level, the deck the reader came out of. Focus and
+    // the one scroll wait for the next frame, when style and layout are already up to date, instead of
+    // forcing both again in the middle of the change.
+    window.requestAnimationFrame(() => {
+      if (focus !== "none") {
+        if (plan.direction === "down" && plan.openedDeck) {
+          const heading = surfaceOf(plan.openedDeck)?.querySelector(".card-title");
+          if (heading) {
+            heading.tabIndex = -1;
+            heading.focus({ preventScroll: true });
+          }
+        } else if (plan.closedDeck) {
+          surfaceOf(plan.closedDeck)?.querySelector("[data-project-deck-trigger]")?.focus({ preventScroll: true });
         }
-      } else if (plan.closedDeck) {
-        surfaceOf(plan.closedDeck)?.querySelector("[data-project-deck-trigger]")?.focus({ preventScroll: true });
       }
-    }
-    if (scroll) keepInView();
+      if (scroll) keepInView();
+    });
   };
 
   // Phones show a level's cards as one scroll-snapped row (_sass/_glass.scss); its count follows the
@@ -571,6 +635,7 @@ function boot(stage) {
     });
     deck.addEventListener("pointerenter", () => warm(deck), { once: true });
     deck.addEventListener("focusin", () => warm(deck), { once: true });
+    deck.addEventListener("pointerdown", () => warm(deck), { once: true });
     // Find in page reaches a card inside a closed deck: open the path to it so the match can show.
     childrenOf(deck)?.addEventListener("beforematch", () => {
       go(deckPath(slug, parentOf), { focus: "none", scroll: false });
@@ -599,7 +664,10 @@ function boot(stage) {
   const start = initial && bySlug.has(initial) ? deckPath(initial, parentOf) : [];
   path = [];
   applyState(start);
-  if (start.length) {
+  placeClose(bannerBodyTop());
+  // The inline script in _pages/projects.md already brought a shared level into view; only a level
+  // opened some other way (a restored page) is scrolled here.
+  if (start.length && !root.hasAttribute("data-project-deck-scrolled")) {
     window.requestAnimationFrame(() => {
       const anchor = trail && !trail.hidden ? trail : stage;
       const navBottom = document.getElementById("navbar")?.getBoundingClientRect().bottom || 0;
@@ -607,6 +675,11 @@ function boot(stage) {
       if (top < navBottom || top > window.innerHeight * 0.75) window.scrollBy({ top: top - navBottom - 18, behavior: "auto" });
     });
   }
+
+  const warmTopLevel = () => decks.filter((deck) => !parentDeck(deck)).forEach(warm);
+  const idle = window.requestIdleCallback || ((callback) => window.setTimeout(callback, 400));
+  if (document.readyState === "complete") idle(warmTopLevel, { timeout: 2500 });
+  else window.addEventListener("load", () => idle(warmTopLevel, { timeout: 2500 }), { once: true });
 
   window.SiteDecks = { go: (slug) => go(slug ? deckPath(slug, parentOf) : []), path: () => path.slice() };
 }

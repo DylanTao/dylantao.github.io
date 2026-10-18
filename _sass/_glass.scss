@@ -217,8 +217,8 @@ html[data-theme-mode="evening"] {
     var(--glass-shadow-lifted);
 }
 
+// The panel stays unpositioned: the close button anchors to the card, where the plus was.
 .projects .project-card-panel {
-  position: relative;
   border-top: 1px solid color-mix(in srgb, var(--project-accent-line) 70%, transparent);
   background: linear-gradient(90deg, var(--project-accent-wash), transparent 58%), color-mix(in srgb, var(--global-card-bg-color) 52%, transparent);
 }
@@ -409,6 +409,18 @@ html.glass-motion {
   border-radius: var(--md-lite-radius-pill);
 }
 
+// Phones keep the tint, rim, grain and accent wash but not the blurred teaser behind each card:
+// at 4x CPU throttling on a 390 px viewport it cost about half of glass's extra long frames while
+// scrolling a deck level (22 long frames against 13 for solid surfaces; 15 without the teaser).
+@media (max-width: 767px) {
+  .projects .project-card > .card::before,
+  .lab-card::before,
+  .blog-card::before,
+  .project-child-card::before {
+    display: none;
+  }
+}
+
 /* ---------------------------------------------------------------------------
  * Plain surfaces when transparency or contrast is unwelcome
  * ------------------------------------------------------------------------- */
@@ -596,6 +608,17 @@ html.glass-motion {
   }
 }
 
+// On a phone the deck fills the column, so its sheets peek out below it only, narrowing as they
+// go, instead of reaching past the screen's edge.
+@media (max-width: 767px) {
+  .projects .project-deck-sheet,
+  .projects .project-deck:not(.is-open):hover .project-deck-sheet,
+  .projects .project-deck:not(.is-open):focus-within .project-deck-sheet {
+    transform: translateY(calc(6px + var(--sheet-index) * 6px)) scaleX(calc(0.96 - var(--sheet-index) * 0.04));
+    transform-origin: 50% 100%;
+  }
+}
+
 // Open: the deck spans its level as a banner with its story and actions, and
 // its children fill the level below it. A deck opened further down folds into
 // the trail; the cards beside an open deck fold away with it.
@@ -633,7 +656,7 @@ html.glass-motion {
 
   // The picture keeps its own proportions at the top of the banner: a percentage
   // height here would resolve against the whole deck, children included.
-  .project-card-media {
+  > .card .project-card-media {
     align-self: start;
     aspect-ratio: var(--project-image-aspect, 16 / 9);
     min-height: 0;
@@ -681,10 +704,29 @@ html.glass-motion {
   margin-top: 1.15rem;
 
   // Closed, the level stays in the page for find-in-page (hidden="until-found")
-  // and takes no room.
+  // and takes no room. Nothing in it transitions: a change made while it is
+  // closed (the page's scroll reveal, a neighbour dimming) would start motion
+  // that is never drawn and never finishes.
   &[hidden] {
     margin: 0;
+
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+    }
   }
+}
+
+// Cards in a level that are off screen skip style, layout and paint until they near the viewport,
+// remembering their size once drawn. With it a level opened at 4x CPU throttling reached its
+// second frame in about 0.8 s instead of 1.8 s (median of four interleaved runs).
+.projects .project-deck-children .project-card,
+.projects .lab-deck-item {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 560px;
+  // Paint containment comes with it; let shadows, sheets and the hover lift reach past the box.
+  overflow-clip-margin: 2rem;
 }
 
 .projects .project-deck-position {
@@ -1173,7 +1215,7 @@ html.glass-motion .project-children-deck {
       display: flex;
     }
 
-    .project-card-media {
+    > .card .project-card-media {
       aspect-ratio: var(--project-image-aspect, 16 / 9);
       min-height: 0;
       margin: 0.55rem 0.55rem 0;

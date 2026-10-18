@@ -57,9 +57,18 @@
     return { left: box.left + ((box.width - width) * px) / 100, top: box.top + ((box.height - height) * py) / 100, width, height, box };
   };
 
+  // Deck articles (project-decks.mjs) are not previews, but they glide as one block when a card above
+  // them opens, carrying the level they hold. Cards inside a closed level are skipped: measuring them
+  // would lay out a hidden subtree, and nothing there is drawn.
+  const decks = Array.from(document.querySelectorAll("[data-project-card][data-project-deck]"));
+  const shown = (element) => !element.closest("[hidden], .is-folded");
   const measureCards = () => {
     const rects = new Map();
+    decks.forEach((deck) => {
+      if (shown(deck)) rects.set(deck, { card: deck.getBoundingClientRect() });
+    });
     cards.forEach((card) => {
+      if (!shown(card)) return;
       rects.set(card, {
         card: card.getBoundingClientRect(),
         surface: card.querySelector(".card")?.getBoundingClientRect() || null,
@@ -230,12 +239,34 @@
       })[0];
     };
 
+    // A deck that moved glides as one block; the cards it holds then only travel by what they moved
+    // inside it, since its transform already carries them.
+    const blockMoves = new Map();
+    decks.forEach((deck) => {
+      const first = firstRects.get(deck)?.card;
+      const last = lastRects.get(deck)?.card;
+      if (!first || !last?.width) return;
+      const parent = deck.parentElement?.closest("[data-project-card][data-project-deck]");
+      const inherited = parent ? blockMoves.get(parent) || { dx: 0, dy: 0 } : { dx: 0, dy: 0 };
+      const dx = first.left - last.left;
+      const dy = first.top - last.top;
+      blockMoves.set(deck, { dx, dy });
+      const ownX = dx - inherited.dx;
+      const ownY = dy - inherited.dy;
+      if (Math.abs(ownX) > 0.5 || Math.abs(ownY) > 0.5) glide(deck, { x0: ownX, y0: ownY }, {}, rippleDelay(deck));
+    });
+    const inheritedMove = (card) => {
+      const deck = card.parentElement?.closest("[data-project-card][data-project-deck]");
+      return deck ? blockMoves.get(deck) || { dx: 0, dy: 0 } : { dx: 0, dy: 0 };
+    };
+
     cards.forEach((card) => {
       const first = firstRects.get(card);
       const last = lastRects.get(card)?.card;
       if (!first?.card || !last?.width || !last.height) return;
-      const dx = first.card.left - last.left;
-      const dy = first.card.top - last.top;
+      const carriedByDeck = inheritedMove(card);
+      const dx = first.card.left - last.left - carriedByDeck.dx;
+      const dy = first.card.top - last.top - carriedByDeck.dy;
       const carried = velocity.get(card);
       const moving = Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5 || (carried && Math.hypot(carried.vx, carried.vy) > 1);
       // A card that wraps between rows would fly diagonally across its neighbours. It leaves along
@@ -389,7 +420,9 @@
     activeCard = nextCard;
 
     cards.forEach((card) => {
-      setCardState(card, card === activeCard, Boolean(activeCard));
+      // Only the opened card's own grid quiets; cards in other deck levels (often hidden) are left
+      // alone, so no transition starts where nobody can see it finish.
+      setCardState(card, card === activeCard, Boolean(activeCard) && card.parentElement === activeCard.parentElement);
     });
     grids.forEach((grid) => {
       grid.classList.toggle("has-expanded-project-card", Boolean(activeCard));
