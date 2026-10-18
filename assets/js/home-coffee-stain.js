@@ -38,66 +38,15 @@
     return t * t * (3 - 2 * t);
   };
 
-  // A coffee ring painted like watercolour, new on every visit. Each mark follows how coffee dries
-  // (Deegan et al., Nature 1997): the liquid's edge stays pinned while it evaporates, so coffee flows
-  // out to it and the edge dries dark and sharp, fading inward. A mug's foot leaves a wet ring that
-  // is heavier where the coffee pooled and breaks where the foot sat dry; a second placement leaves
-  // a fainter ring; pooled coffee and spills dry as washes with dark edges and the thin veins of a
-  // backrun; splashes land on one side. The paper's grain and uneven drying run through all of it.
+  // The ring a coffee mug leaves, drawn the way a brush draws an ensō (Sirui's lab mate found the
+  // realistic stain ugly; October 2026): one confident stroke around the mug's footprint, pressed in
+  // where the brush lands, splitting into dry-brush streaks as the ink runs out, and left open where
+  // it lifts. Coffee still dries the way coffee dries (Deegan et al., Nature 1997): ink gathers at
+  // the edge of each mark, so every stroke and drop has a darker rim. A few drops fly off where the
+  // brush lifts, and sometimes one of them lands as a small heart. New on every visit; ?coffeeSeed=
+  // reproduces one.
 
-  // Tileable value-noise fbm, sampled bilinearly with wrap.
-  const noiseField = (random, size, octaves, firstCells, falloff = 0.55) => {
-    const out = new Float32Array(size * size);
-    let amp = 1,
-      total = 0;
-    for (let octave = 0; octave < octaves; octave += 1) {
-      const cells = firstCells << octave;
-      const lattice = new Float32Array(cells * cells);
-      for (let i = 0; i < lattice.length; i += 1) lattice[i] = random();
-      for (let y = 0; y < size; y += 1) {
-        const fy = (y / size) * cells,
-          y0 = Math.floor(fy),
-          ty = fy - y0,
-          sy = ty * ty * (3 - 2 * ty),
-          y1 = (y0 + 1) % cells;
-        for (let x = 0; x < size; x += 1) {
-          const fx = (x / size) * cells,
-            x0 = Math.floor(fx),
-            tx = fx - x0,
-            sx = tx * tx * (3 - 2 * tx),
-            x1 = (x0 + 1) % cells;
-          const a = lattice[y0 * cells + x0],
-            b = lattice[y0 * cells + x1],
-            c = lattice[y1 * cells + x0],
-            d = lattice[y1 * cells + x1];
-          const top = a + (b - a) * sx;
-          out[y * size + x] += amp * (top + (c + (d - c) * sx - top) * sy);
-        }
-      }
-      total += amp;
-      amp *= falloff;
-    }
-    for (let i = 0; i < out.length; i += 1) out[i] /= total;
-    return (x, y) => {
-      x = ((x % size) + size) % size;
-      y = ((y % size) + size) % size;
-      const x0 = x | 0,
-        y0 = y | 0,
-        tx = x - x0,
-        ty = y - y0,
-        x1 = (x0 + 1) % size,
-        y1 = (y0 + 1) % size;
-      const a = out[y0 * size + x0],
-        b = out[y0 * size + x1],
-        c = out[y1 * size + x0],
-        d = out[y1 * size + x1];
-      const top = a + (b - a) * tx;
-      return top + (c + (d - c) * tx - top) * ty;
-    };
-  };
-
-  // A periodic function of angle with a pink spectrum, tabulated, roughly in [-1, 1].
-  const ANGLES = 1024;
+  // A periodic function of angle with a soft spectrum, roughly in [-1, 1].
   const periodic = (random, kMin, terms, slope) => {
     const ks = [],
       amps = [],
@@ -110,278 +59,205 @@
       phases.push(random() * TAU);
       norm += amp;
     }
-    const table = new Float32Array(ANGLES);
-    for (let i = 0; i < ANGLES; i += 1) {
-      const t = (i / ANGLES) * TAU;
+    return (t) => {
       let sum = 0;
       for (let j = 0; j < ks.length; j += 1) sum += amps[j] * Math.cos(ks[j] * t + phases[j]);
-      table[i] = sum / norm;
-    }
-    return table;
-  };
-  const angleIndex = (dx, dy) => {
-    let t = Math.atan2(dy, dx);
-    if (t < 0) t += TAU;
-    const i = (t * (ANGLES / TAU)) | 0;
-    return i >= ANGLES ? ANGLES - 1 : i;
-  };
-
-  // The ring a mug's foot leaves: an annulus with a pinned outer edge, dark and sharp there, fading to
-  // a softer inner edge, with thin tide lines where the drying front paused.
-  const makeRing = (random, o) => {
-    const { cx, cy, R, strength, cover, px, pool, squash } = o;
-    const shape = periodic(random, 2, 6, 1.1),
-      fringe = periodic(random, 24, 32, 0.5),
-      widthN = periodic(random, 1, 7, 1.0),
-      coverN = periodic(random, 1, 5, 0.8),
-      darkN = periodic(random, 1, 9, 0.8),
-      tideN = periodic(random, 1, 5, 1),
-      tideCover = periodic(random, 1, 4, 0.8);
-    const W0 = R * o.width,
-      outerEdge = new Float32Array(ANGLES),
-      width = new Float32Array(ANGLES),
-      darkOuter = new Float32Array(ANGLES),
-      darkInner = new Float32Array(ANGLES),
-      wash = new Float32Array(ANGLES),
-      tideAt = new Float32Array(ANGLES),
-      tideAmp = new Float32Array(ANGLES);
-    for (let i = 0; i < ANGLES; i += 1) {
-      const t = (i / ANGLES) * TAU,
-        pooled = Math.pow(0.5 + 0.5 * Math.cos(t - pool), 2.2);
-      const c = smooth(cover[0], cover[1], 0.5 + 0.5 * coverN[i] + 0.25 * pooled);
-      outerEdge[i] = R * (1 + o.wobble * shape[i]) + px * 0.6 * fringe[i];
-      width[i] = W0 * (0.55 + 0.3 * widthN[i] + 0.95 * pooled) * c;
-      darkOuter[i] = strength * (0.6 + 0.32 * darkN[i] + 0.22 * pooled) * Math.sqrt(c);
-      darkInner[i] = strength * (0.26 + 0.16 * darkN[(i + 150) % ANGLES]) * c;
-      wash[i] = strength * (0.17 + 0.07 * widthN[(i + 350) % ANGLES] + 0.12 * pooled) * c;
-      tideAt[i] = 0.38 + 0.24 * tideN[i];
-      tideAmp[i] = strength * 0.3 * smooth(0.2, 0.65, 0.5 + 0.5 * tideCover[i]) * c;
-    }
-    const outer = R * (1 + o.wobble) + 4 * px,
-      inner = Math.max(0, R * (1 - o.wobble - o.width * 2.6) - 6 * px);
-    return {
-      bounds: [cx - outer, cy - outer, cx + outer, cy + outer],
-      may(x, y) {
-        const dx = x - cx,
-          dy = (y - cy) / squash,
-          r2 = dx * dx + dy * dy;
-        return r2 < outer * outer && r2 > inner * inner;
-      },
-      density(x, y, warpX, warpY, feather) {
-        const dx = x + warpX - cx,
-          dy = (y + warpY - cy) / squash,
-          r = Math.sqrt(dx * dx + dy * dy);
-        const i = angleIndex(dx, dy),
-          u = outerEdge[i] - r,
-          w = width[i] * (0.8 + 0.4 * feather);
-        if (w <= 0.05 * px) return 0;
-        if (u < 0) return darkOuter[i] * 0.6 * Math.exp(u / (0.6 * px)); // a fibrous bleed past the pinned edge
-        if (u > w + 4 * px) return 0;
-        const edgeIn = Math.min(1, Math.max(0, (w - u) / (1.4 * px) + 0.5));
-        const tide = tideAmp[i] * Math.exp(-Math.pow((u - w * tideAt[i]) / (0.75 * px), 2));
-        return (wash[i] + darkOuter[i] * Math.exp(-u / (1.9 * px)) + darkInner[i] * Math.exp(-(w - u) / (1.8 * px)) + tide) * edgeIn;
-      },
+      return sum / norm;
     };
   };
 
-  // A drop, a spill or a puddle: the same edge darkening at its own scale around a lighter middle.
-  // Wide washes dry heavier toward the edge, blotchy, and veined where the drying front backran.
-  const makeBlob = (random, o) => {
-    const { cx, cy, R, px } = o;
-    const shape = periodic(random, 2, o.lumpy ? 9 : 4, o.lumpy ? 0.85 : 1.4),
-      amount = o.lumpy ? 0.17 : 0.07;
-    const edge = new Float32Array(ANGLES);
-    for (let i = 0; i < ANGLES; i += 1) edge[i] = R * (1 + amount * shape[i]);
-    const stretch = o.stretch || 1,
-      reach = R * (1 + amount) * stretch + 3 * px,
-      cos = Math.cos(o.angle || 0),
-      sin = Math.sin(o.angle || 0),
-      decay = Math.max(0.8 * px, R * o.decay);
-    return {
-      bounds: [cx - reach, cy - reach, cx + reach, cy + reach],
-      may(x, y) {
-        const dx = x - cx,
-          dy = y - cy;
-        return dx * dx + dy * dy < reach * reach;
-      },
-      density(x, y, warpX, warpY, feather) {
-        const wx = x + warpX * o.warp - cx,
-          wy = y + warpY * o.warp - cy;
-        const dx = (wx * cos + wy * sin) / stretch,
-          dy = -wx * sin + wy * cos;
-        const r = Math.sqrt(dx * dx + dy * dy);
-        const u = edge[angleIndex(dx, dy)] - r;
-        if (u < 0) return o.rim * 0.55 * Math.exp(u / (0.55 * px));
-        const toward = Math.exp(-u / (R * 0.35));
-        let wash = o.fill * (0.45 + 0.55 * toward) * (0.55 + 0.9 * feather);
-        if (o.lumpy) wash += o.fill * 1.6 * Math.exp(-Math.pow((feather - o.vein) / 0.018, 2)) * (1 - toward * 0.6);
-        return (wash + o.rim * Math.exp(-u / decay)) * Math.min(1, u / (0.9 * px) + 0.5);
-      },
-    };
-  };
-
-  // Lay out one stain for a size x size canvas in two idle slices (the paper's noise, then the
-  // shapes); rows are filled later, a slice at a time.
-  const layout = (seedLabel, size) => {
+  // Lay out one stroke for a size x size canvas (all lengths scale with the canvas).
+  const design = (seedLabel, size) => {
     const random = makeRandom(hashSeed(String(seedLabel)));
     const rand = (min, max) => between(random, min, max);
-    const px = size / 400; // one pixel of a 400 px design canvas
-    const mottle = noiseField(random, 128, 4, 3),
-      warp = noiseField(random, 64, 3, 2),
-      grain = noiseField(random, 64, 2, 16, 0.6);
-    return () => shapes(random, rand, px, size, mottle, warp, grain);
-  };
-
-  const shapes = (random, rand, px, size, mottle, warp, grain) => {
-    const features = [];
-    const R = size * rand(0.3, 0.35),
-      cx = size * rand(0.47, 0.53),
-      cy = size * rand(0.47, 0.53),
-      pool = rand(0, TAU);
-    features.push(
-      makeRing(random, {
-        cx,
-        cy,
-        R,
-        px,
-        pool,
-        squash: rand(0.95, 1),
-        wobble: rand(0.012, 0.026),
-        strength: rand(0.85, 1),
-        width: rand(0.08, 0.125),
-        cover: [rand(0.02, 0.18), rand(0.28, 0.42)],
-      })
-    );
-    if (random() < 0.6) {
-      const r = R * rand(0.32, 0.5),
-        d = R - r * rand(0.55, 0.85);
-      features.push(
-        makeBlob(random, {
-          cx: cx + Math.cos(pool) * d,
-          cy: cy + Math.sin(pool) * d,
-          R: r,
-          px,
-          lumpy: true,
-          fill: rand(0.08, 0.13),
-          rim: rand(0.42, 0.6),
-          decay: 0.035,
-          warp: 1.4,
-          vein: rand(0.42, 0.58),
-        })
-      );
-    }
-    if (random() < 0.55) {
-      const a = rand(0, TAU),
-        off = R * rand(0.1, 0.28);
-      features.push(
-        makeRing(random, {
-          cx: cx + Math.cos(a) * off,
-          cy: cy + Math.sin(a) * off,
-          R: R * rand(0.97, 1.03),
-          px,
-          pool: pool + rand(-1, 1),
-          squash: rand(0.95, 1),
-          wobble: rand(0.012, 0.024),
-          strength: rand(0.4, 0.62),
-          width: rand(0.045, 0.075),
-          cover: [rand(0.32, 0.48), rand(0.58, 0.72)],
-        })
-      );
-    }
-    const side = pool + rand(-1.2, 1.2);
-    if (random() < 0.45) {
-      const a = side + rand(-0.4, 0.4),
-        d = R * rand(1.0, 1.15);
-      features.push(
-        makeBlob(random, {
-          cx: cx + Math.cos(a) * d,
-          cy: cy + Math.sin(a) * d,
-          R: R * rand(0.1, 0.18),
-          px,
-          lumpy: true,
-          fill: rand(0.14, 0.22),
-          rim: rand(0.6, 0.8),
-          decay: 0.05,
-          warp: 1,
-          vein: rand(0.42, 0.58),
-        })
-      );
-    }
-    const drops = 4 + Math.floor(random() * 9);
-    for (let k = 0; k < drops; k += 1) {
-      const a = side + rand(-0.85, 0.85),
-        d = R * rand(1.08, 1.55),
-        r = px * (k < 2 ? rand(3.2, 6.5) : rand(0.8, 2.6));
-      features.push(
-        makeBlob(random, {
-          cx: cx + Math.cos(a) * d,
-          cy: cy + Math.sin(a) * d,
-          R: r,
-          px,
-          lumpy: false,
-          fill: rand(0.22, 0.4),
-          rim: rand(0.5, 0.8),
-          decay: 0.25,
-          warp: 0.3,
-          angle: a,
-          stretch: random() < 0.35 ? rand(1.4, 2.4) : 1,
-        })
-      );
-    }
-    return {
-      size,
-      features,
-      density: new Float32Array(size * size),
-      brew: random(),
-      fillRow(y) {
-        const mottleScale = 128 / (size * 0.5),
-          warpScale = 64 / (size * 0.32),
-          grainScale = 64 / (size * 0.11),
-          warpAmount = 3.4 * px,
-          count = features.length;
-        for (let x = 0; x < size; x += 1) {
-          let need = false;
-          for (let f = 0; f < count; f += 1) {
-            const b = features[f].bounds;
-            if (x >= b[0] && x <= b[2] && y >= b[1] && y <= b[3] && features[f].may(x, y)) {
-              need = true;
-              break;
-            }
-          }
-          if (!need) continue;
-          const wx = (warp(x * warpScale, y * warpScale) - 0.5) * 2 * warpAmount,
-            wy = (warp(x * warpScale + 31.7, y * warpScale + 17.3) - 0.5) * 2 * warpAmount,
-            m = mottle(x * mottleScale, y * mottleScale);
-          let keep = 1;
-          for (let f = 0; f < count; f += 1) {
-            const feature = features[f],
-              b = feature.bounds;
-            if (x < b[0] || x > b[2] || y < b[1] || y > b[3] || !feature.may(x, y)) continue;
-            const d = feature.density(x, y, wx, wy, m);
-            if (d > 0) keep *= 1 - (d < 0.995 ? d : 0.995);
-          }
-          if (keep === 1) continue;
-          // The paper: pigment granulates in its fibres and the wash dries unevenly.
-          const value = (1 - keep) * (0.7 + 0.6 * m) * (0.72 + 0.56 * grain(x * grainScale, y * grainScale));
-          this.density[y * size + x] = value > 1 ? 1 : value;
-        }
-      },
+    const u = size / 400;
+    const wobble = periodic(random, 2, 4, 1.2);
+    const tremor = periodic(random, 7, 6, 0.8);
+    // The stroke stays open where the brush lifts; the opening (and the heart, when there is one)
+    // faces up and to the right, the open desk beside the slips.
+    const gap = TAU - rand(5.3, 5.8);
+    const gapCentre = rand(-1.75, -0.35);
+    const stroke = {
+      cx: size * rand(0.485, 0.515),
+      cy: size * rand(0.485, 0.515),
+      radius: size * rand(0.3, 0.325),
+      squash: rand(0.95, 1.0),
+      start: gapCentre + gap / 2,
+      sweep: TAU - gap,
+      width: u * rand(19, 25),
+      wobble,
+      tremor,
     };
+    // Bristles across the brush: their own weight, ink and the moment each runs dry.
+    const bristles = Array.from({ length: 30 }, (_, i) => ({
+      across: (i + 0.5) / 30 - 0.5 + (random() - 0.5) * 0.02,
+      weight: u * rand(1.1, 2.4),
+      ink: rand(0.55, 1),
+      dry: rand(0.66, 0.97),
+      jitter: random() * TAU,
+    }));
+    // Where the brush lifts, a few drops fly on along its path; sometimes one lands as a heart.
+    const lift = stroke.start + stroke.sweep;
+    const drops = Array.from({ length: 1 + Math.floor(random() * 3) }, (_, i) => {
+      const along = lift + rand(0.05, 0.22);
+      const out = stroke.radius * rand(1.07, 1.2);
+      return {
+        x: stroke.cx + Math.cos(along) * out,
+        y: stroke.cy + Math.sin(along) * out * stroke.squash,
+        r: u * (i === 0 ? rand(3.6, 5.2) : rand(1.4, 3)),
+      };
+    });
+    // Sometimes the circle closes with a heart: a drop that landed in the gap the brush left.
+    const heart =
+      random() < 0.6
+        ? (() => {
+            const gapMiddle = stroke.start + stroke.sweep + (TAU - stroke.sweep) * rand(0.42, 0.58);
+            return {
+              x: stroke.cx + Math.cos(gapMiddle) * stroke.radius,
+              y: stroke.cy + Math.sin(gapMiddle) * stroke.radius * stroke.squash,
+              size: stroke.width * rand(1.45, 1.7),
+              tilt: rand(-0.35, 0.35),
+            };
+          })()
+        : null;
+    return { size, u, stroke, bristles, drops, heart, brew: random(), grainSeed: Math.floor(random() * 1e9) };
   };
 
-  // Espresso-dark where the coffee is thick, a warm translucent amber where it is thin. Light themes
-  // multiply it into the page; evening shows dried coffee as a pale residue on a dark desk.
-  const paint = (field, palette) => {
-    const { density, size, brew } = field;
+  // The centreline point and its outward normal at stroke progress t (0 to 1).
+  const along = (stroke, t) => {
+    const a = stroke.start + stroke.sweep * t;
+    const r = stroke.radius * (1 + 0.022 * stroke.wobble(a) + 0.006 * stroke.tremor(a * 3));
+    const x = stroke.cx + Math.cos(a) * r,
+      y = stroke.cy + Math.sin(a) * r * stroke.squash;
+    const nx = Math.cos(a),
+      ny = Math.sin(a) * stroke.squash,
+      n = Math.hypot(nx, ny) || 1;
+    return { x, y, nx: nx / n, ny: ny / n };
+  };
+
+  // Brush width along the stroke: wide where it lands and through the turn, thinning as it lifts.
+  const widthAt = (stroke, t) =>
+    stroke.width * (1.12 + 0.18 * smooth(0, 0.05, t)) * (1.1 - 0.2 * t) * (1 + 0.13 * stroke.tremor(t * 7)) * (1 - 0.62 * smooth(0.7, 1, t));
+
+  // Ink density (0 to 1) for the whole mark, drawn with the canvas's own anti-aliased lines.
+  const inkField = (plan) => {
+    const { size, u, stroke, bristles, drops, heart } = plan;
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = size;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    context.lineCap = "round";
+    context.lineJoin = "round";
+    context.strokeStyle = "#000";
+    context.fillStyle = "#000";
+    const steps = Math.ceil(stroke.sweep * stroke.radius * 0.9);
+    for (const bristle of bristles) {
+      let previous = null;
+      context.lineWidth = bristle.weight;
+      for (let i = 0; i <= steps; i += 1) {
+        const t = i / steps;
+        const p = along(stroke, t);
+        const w = widthAt(stroke, t);
+        const offset = bristle.across * w + Math.sin(t * 40 + bristle.jitter) * u * 0.35;
+        const point = { x: p.x + p.nx * offset, y: p.y + p.ny * offset };
+        // A bristle runs dry near its own moment: thinner ink, then gaps that lengthen.
+        // The brush lands loaded (the first few percent of the stroke carry extra ink).
+        const left = Math.min(1, bristle.ink * (1 + 0.5 * (1 - smooth(0, 0.06, t)))) * (1 - smooth(bristle.dry - 0.22, bristle.dry + 0.05, t));
+        const skip = left < 0.32 && Math.sin(t * 160 + bristle.jitter * 7) + Math.sin(t * 61 + bristle.jitter) > 1.1 - left * 2.5;
+        if (previous && left > 0.04 && !skip) {
+          context.globalAlpha = Math.min(1, 0.16 + 0.62 * left);
+          context.beginPath();
+          context.moveTo(previous.x, previous.y);
+          context.lineTo(point.x, point.y);
+          context.stroke();
+        }
+        previous = point;
+      }
+    }
+    context.globalAlpha = 0.9;
+    for (const drop of drops) {
+      context.beginPath();
+      context.ellipse(drop.x, drop.y, drop.r * 1.12, drop.r, drop.r, 0, TAU);
+      context.fill();
+    }
+    if (heart) {
+      // Two lobes and a point, drawn like a drip that happened to land this way.
+      const { x, y, size: s, tilt } = heart;
+      context.save();
+      context.translate(x, y);
+      context.rotate(tilt);
+      context.globalAlpha = 0.82;
+      context.beginPath();
+      context.moveTo(0, s * 0.32);
+      context.bezierCurveTo(-s * 0.58, -s * 0.06, -s * 0.36, -s * 0.52, 0, -s * 0.22);
+      context.bezierCurveTo(s * 0.36, -s * 0.52, s * 0.58, -s * 0.06, 0, s * 0.32);
+      context.closePath();
+      context.fill();
+      context.restore();
+    }
+    const pixels = context.getImageData(0, 0, size, size).data;
+    const density = new Float32Array(size * size);
+    for (let i = 0; i < density.length; i += 1) density[i] = pixels[i * 4 + 3] / 255;
+    return density;
+  };
+
+  // Separable box blur, used to find where ink thins out at the edge of each mark.
+  const blurred = (field, size, radius) => {
+    const temp = new Float32Array(field.length),
+      out = new Float32Array(field.length),
+      span = radius * 2 + 1;
+    for (let y = 0; y < size; y += 1) {
+      let sum = 0;
+      for (let x = -radius; x <= radius; x += 1) sum += field[y * size + Math.min(size - 1, Math.max(0, x))];
+      for (let x = 0; x < size; x += 1) {
+        temp[y * size + x] = sum / span;
+        sum += field[y * size + Math.min(size - 1, x + radius + 1)] - field[y * size + Math.max(0, x - radius)];
+      }
+    }
+    for (let x = 0; x < size; x += 1) {
+      let sum = 0;
+      for (let y = -radius; y <= radius; y += 1) sum += temp[Math.min(size - 1, Math.max(0, y)) * size + x];
+      for (let y = 0; y < size; y += 1) {
+        out[y * size + x] = sum / span;
+        sum += temp[Math.min(size - 1, y + radius + 1) * size + x] - temp[Math.max(0, y - radius) * size + x];
+      }
+    }
+    return out;
+  };
+
+  // Coffee dries darker at the rim of each mark and granulates in the paper's tooth.
+  const dried = (plan, density) => {
+    const { size, u, grainSeed } = plan;
+    const soft = blurred(density, size, Math.max(1, Math.round(4.2 * u)));
+    const random = makeRandom(grainSeed);
+    const grain = new Float32Array(64 * 64);
+    for (let i = 0; i < grain.length; i += 1) grain[i] = random();
+    const out = new Float32Array(density.length);
+    const cell = Math.max(1, size / 160);
+    for (let y = 0; y < size; y += 1)
+      for (let x = 0; x < size; x += 1) {
+        const i = y * size + x,
+          d = density[i];
+        if (d < 0.01) continue;
+        const rim = Math.max(0, d - soft[i]);
+        const g = grain[(((y / cell) | 0) & 63) * 64 + (((x / cell) | 0) & 63)];
+        out[i] = Math.min(1, (d * 0.52 + rim * 1.85) * (0.8 + 0.4 * g));
+      }
+    return out;
+  };
+
+  // Espresso where the ink is thick, warm amber where it is thin. Light themes multiply it into
+  // the page; evening shows it as pale dried crema on a dark desk.
+  const paint = (plan, field, palette) => {
+    const { size, brew } = plan;
     const pixels = new Uint8ClampedArray(size * size * 4);
     const light = palette !== "dark";
-    const thin = light ? [220 - 12 * brew, 152 - 18 * brew, 80 - 16 * brew] : [158, 114, 76];
-    const thick = light ? [96 - 30 * brew, 40 - 14 * brew, 10 - 4 * brew] : [236, 202, 158];
-    const strength = light ? 2.3 : 1.9;
-    for (let i = 0; i < density.length; i += 1) {
-      const d = density[i];
+    const thin = light ? [208 - 10 * brew, 138 - 14 * brew, 66 - 12 * brew] : [158, 114, 76];
+    const thick = light ? [92 - 16 * brew, 46 - 10 * brew, 16 - 4 * brew] : [240, 208, 162];
+    const strength = light ? 2.4 : 1.8;
+    for (let i = 0; i < field.length; i += 1) {
+      const d = field[i];
       if (!d) continue;
-      const t = smooth(0.06, 0.8, d),
+      const t = smooth(0.05, 0.85, d),
         o = i * 4;
       pixels[o] = thin[0] + (thick[0] - thin[0]) * t;
       pixels[o + 1] = thin[1] + (thick[1] - thin[1]) * t;
@@ -405,8 +281,19 @@
   const box = parseFloat(window.getComputedStyle(stacks[0], "::before").width) || 220;
   const size = Math.max(160, Math.min(512, Math.round(box * Math.min(2, window.devicePixelRatio || 1))));
   const paletteFor = () => (document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
+  const plan = design(seed, size);
+  // The stroke draws itself in from where the brush landed (a conic mask in _home.scss), unless
+  // the visitor prefers stillness or the page is under automation (captures stay deterministic).
+  const forceLive = /[?&]cinematic=live(?:&|$)/.test(window.location.search);
+  const drawIn = !window.matchMedia("(prefers-reduced-motion: reduce)").matches && (!navigator.webdriver || forceLive);
+  stacks.forEach((stack) => {
+    stack.style.setProperty("--home-coffee-stain-from", `${number((plan.stroke.start * 180) / Math.PI + 90)}deg`);
+    stack.style.setProperty("--home-coffee-stain-cx", `${number((plan.stroke.cx / size) * 100)}%`);
+    stack.style.setProperty("--home-coffee-stain-cy", `${number((plan.stroke.cy / size) * 100)}%`);
+  });
   let field = null,
-    painted = null;
+    painted = null,
+    drawn = false;
 
   // The page's Content-Security-Policy admits data: images but not blob: ones, so the PNG is
   // encoded off the main thread (toBlob) and read back as a data URL.
@@ -415,7 +302,7 @@
     painted = palette;
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = size;
-    canvas.getContext("2d").putImageData(paint(field, palette), 0, 0);
+    canvas.getContext("2d").putImageData(paint(plan, field, palette), 0, 0);
     canvas.toBlob((blob) => {
       if (!blob || painted !== palette) return;
       const reader = new FileReader();
@@ -423,33 +310,31 @@
         if (painted !== palette) return;
         stacks.forEach((stack) => {
           stack.style.setProperty("--home-coffee-stain-image", `url("${reader.result}")`);
+          if (!drawn && drawIn) stack.dataset.coffeeStainDrawing = "true";
           stack.dataset.coffeeStainReady = "true";
         });
+        drawn = true;
       };
       reader.readAsDataURL(blob);
     });
   };
 
-  // Painting a stain is about 60-100 ms of arithmetic, so it runs in short slices while the
-  // browser is idle and never holds up the page.
+  // Painting a stain is tens of milliseconds of arithmetic, so it runs in idle slices: the stroke,
+  // then the drying, then the paint, and never holds up the page.
   const later = (callback) => (window.requestIdleCallback ? window.requestIdleCallback(callback, { timeout: 800 }) : window.setTimeout(callback, 32));
-  let row = 0,
-    pending = null;
+  let ink = null;
   const work = () => {
-    if (!field) {
-      if (pending) field = pending();
-      else pending = layout(seed, size);
+    if (!ink) {
+      ink = inkField(plan);
       later(work);
       return;
     }
-    const until = performance.now() + 8;
-    while (row < size && performance.now() < until) field.fillRow(row++);
-    if (row < size) later(work);
-    else show();
+    field = dried(plan, ink);
+    show();
   };
   later(work);
 
   window.addEventListener("siteThemeChange", () => {
-    if (row >= size && field && paletteFor() !== painted) show();
+    if (field && paletteFor() !== painted) show();
   });
 })();

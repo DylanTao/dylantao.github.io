@@ -1672,14 +1672,24 @@ html[data-theme="dark"] .home-record-card-link {
     transform var(--motion-slow);
 }
 
+// The coffee ring is an ensō (home-coffee-stain.js paints a new one on each visit): it lies on the
+// desk beneath the slips, so it peeks out around the top one's corner and never crosses their words.
+// Once painted, the stroke draws itself in from where the brush landed: a conic mask around the
+// ring's centre sweeps open on the gentle spring.
+@property --home-coffee-stain-sweep {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 380deg;
+}
+
 .home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: -1.75rem;
-  right: clamp(-1.45rem, -1.6vw, -0.62rem);
+  top: -5.2rem;
+  // Inside the column: the hero clips at its edge, and the ring should stay whole.
+  right: 0.85rem;
   width: min(13.8rem, 43%);
   aspect-ratio: 1 / 1;
-  z-index: 9;
-  // home-coffee-stain.js paints a new stain on each visit and fades it in once it is ready.
+  z-index: 1;
   background: var(--home-coffee-stain-image, none) center / contain no-repeat;
   content: "";
   mix-blend-mode: var(--home-coffee-stain-blend);
@@ -1688,11 +1698,35 @@ html[data-theme="dark"] .home-record-card-link {
   transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, -12deg))
     scale(var(--home-coffee-stain-scale, 1));
   transform-origin: 52% 50%;
-  transition: opacity 700ms ease;
+  -webkit-mask-image: conic-gradient(
+    from var(--home-coffee-stain-from, 0deg) at var(--home-coffee-stain-cx, 50%) var(--home-coffee-stain-cy, 50%),
+    #000 calc(var(--home-coffee-stain-sweep) - 16deg),
+    transparent var(--home-coffee-stain-sweep)
+  );
+  mask-image: conic-gradient(
+    from var(--home-coffee-stain-from, 0deg) at var(--home-coffee-stain-cx, 50%) var(--home-coffee-stain-cy, 50%),
+    #000 calc(var(--home-coffee-stain-sweep) - 16deg),
+    transparent var(--home-coffee-stain-sweep)
+  );
+  transition: opacity 420ms ease;
 }
 
 .home-artifact-stack.has-coffee-stain[data-coffee-stain-ready]::before {
   opacity: calc(var(--home-coffee-stain-opacity) * 0.8);
+}
+
+.home-artifact-stack.has-coffee-stain[data-coffee-stain-drawing]::before {
+  animation: home-coffee-stain-draw 1150ms var(--spring-gentle, ease-out) both;
+}
+
+@keyframes home-coffee-stain-draw {
+  from {
+    --home-coffee-stain-sweep: 0deg;
+  }
+
+  to {
+    --home-coffee-stain-sweep: 380deg;
+  }
 }
 
 html[data-theme="dark"] .home-artifact-stack {
@@ -3361,9 +3395,9 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-artifact-stack.has-coffee-stain::before {
-    top: -1.84rem;
-    right: clamp(-1.05rem, -4vw, -0.45rem);
-    width: min(12.25rem, 47vw);
+    top: -4.4rem;
+    right: 0.75rem;
+    width: min(10.5rem, 42vw);
   }
 
   .home-portrait-frame {

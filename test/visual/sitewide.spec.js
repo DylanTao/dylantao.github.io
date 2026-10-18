@@ -2513,6 +2513,57 @@ test("Research Focus Paper field stays semantic, bounded, pausable, and optional
   }
 });
 
+test("the desk's coffee ensō lies beneath the slips, stays whole, and draws itself in only for people", async ({ page }, testInfo) => {
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "one desktop and one phone viewport cover the stain");
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  const stack = page.locator(".home-artifact-stack.has-coffee-stain");
+  const read = () =>
+    stack.evaluate((node) => {
+      const stain = getComputedStyle(node, "::before");
+      const card = getComputedStyle(node.querySelector(".home-artifact-card"));
+      const box = node.getBoundingClientRect();
+      const column = node.parentElement.getBoundingClientRect();
+      return {
+        painted: stain.backgroundImage.startsWith('url("data:image/png'),
+        beneath: Number(stain.zIndex) < Number(card.zIndex),
+        masked: (stain.maskImage || stain.webkitMaskImage || "").includes("conic-gradient"),
+        animation: stain.animationName,
+        drawing: node.dataset.coffeeStainDrawing || null,
+        seed: node.dataset.coffeeStainSeed,
+        // The stain box ends inside the hero column, which clips at its edge.
+        insideColumn: box.right - parseFloat(stain.right) <= column.right + 1,
+      };
+    });
+  await page.goto(publicRouteUrl("/?coffeeSeed=52"));
+  await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
+  // Beneath the slips, a ring can peek around their corner but never crosses their words.
+  expect(await read()).toMatchObject({
+    painted: true,
+    beneath: true,
+    masked: true,
+    insideColumn: true,
+    seed: "52",
+    drawing: null,
+    animation: "none",
+  });
+  await attachScreenshot(page, testInfo, `home-coffee-enso-${testInfo.project.name}`, { locator: stack });
+  // A person sees the stroke draw itself in from where the brush landed...
+  await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));
+  await expect(stack).toHaveAttribute("data-coffee-stain-drawing", "true", { timeout: 20000 });
+  expect((await read()).animation).toBe("home-coffee-stain-draw");
+  // ...unless they prefer stillness; a theme change repaints it for the evening desk.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));
+  await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
+  expect(await read()).toMatchObject({ drawing: null, animation: "none" });
+  const light = await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"));
+  // theme.js declares setThemeSetting as a top-level binding, not a window property.
+  await page.evaluate(() => setThemeSetting("evening"));
+  await expect.poll(() => stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"))).not.toBe(light);
+  expect(errors).toEqual([]);
+});
+
 test("desk mode switch keeps two reachable controls and no origin speck", async ({ page }, testInfo) => {
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
