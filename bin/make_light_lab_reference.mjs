@@ -1,8 +1,9 @@
 // Renders a long, converged reference of the light lab's default scene (/projects/light-paths/)
 // and writes assets/js/light-lab/onsen-reference.json (an 80 x 60 luminance grid for the page's
-// error measure) and assets/img/project_pics/light-paths/reference.png (full colour, 240 x 180).
-// With --prefix both files go to that folder instead. The shipped reference took 24 minutes on
-// 18 threads:
+// error measure), assets/img/project_pics/light-paths/reference.png (full colour, 240 x 180) and
+// reference-pool.png (the magnified pool floor). With --prefix the files go to that folder
+// instead; --linear keeps the float image so the PNGs can be re-exposed exactly later. The shipped
+// reference took 24 minutes on 18 threads:
 //
 //   node bin/make_light_lab_reference.mjs [--minutes 24] [--threads 18] [--prefix dir] [--linear image.f32] [--parts base]
 //   node bin/make_light_lab_reference.mjs --from-parts base [--pt-extra more-pt.f32:samples]   (recombine a saved run)
@@ -361,6 +362,12 @@ function finish(core, scene, prefix, parts, final) {
   writeFileSync(
     prefix ? join(prefix, "reference.png") : join(root, "assets/img/project_pics/light-paths/reference.png"),
     encodePNG(WIDTH, HEIGHT, rgba)
+  );
+  // The magnified pool floor the page shows under the race, at its own darker exposure.
+  const pool = core.toneMapRegionToRGBA(image, WIDTH, HEIGHT, core.POOL_CROP, core.POOL_EXPOSURE);
+  writeFileSync(
+    prefix ? join(prefix, "reference-pool.png") : join(root, "assets/img/project_pics/light-paths/reference-pool.png"),
+    encodePNG(pool.width, pool.height, pool.rgba)
   );
   const linear = arg("linear", "");
   if (linear) writeFileSync(linear, Buffer.from(image.buffer));

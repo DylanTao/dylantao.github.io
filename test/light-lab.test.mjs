@@ -2,7 +2,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  DEFAULT_EXPOSURE,
   KIND,
+  POOL_CROP,
+  POOL_EXPOSURE,
   counters,
   createRenderer,
   createScene,
@@ -11,6 +14,7 @@ import {
   luminance,
   luminanceRmse,
   refract,
+  toneMapRegionToRGBA,
   toneMapToRGBA,
   traceRay,
   waterHeightAt,
@@ -345,7 +349,7 @@ test("(g) determinism: the same seed gives identical images, a different seed do
   }
 });
 
-test("helpers: tone map range and RMSE against a self-made reference", () => {
+test("helpers: tone map range, RMSE against a self-made reference, and the pool-floor crop", () => {
   const { image } = render({ method: "pt", seed: 1, lights: "sky" }, 20000);
   const grid = downsampleLuminance(image, 32, 24, 8, 6);
   const ref = { width: 8, height: 6, luminance: Array.from(grid) };
@@ -353,4 +357,20 @@ test("helpers: tone map range and RMSE against a self-made reference", () => {
   const rgba = toneMapToRGBA(image, 32, 24, 14);
   assert.equal(rgba.length, 32 * 24 * 4);
   assert.ok(rgba.every((v, i) => i % 4 !== 3 || v === 255));
+
+  // The crop sits on whole 3 x 3 cells of the 80 x 60 error grid, inside the 240 x 180 frame, and is
+  // exposed darker than the full frame so the sunlit pool floor does not saturate.
+  for (const v of Object.values(POOL_CROP)) assert.equal(v % 3, 0);
+  assert.ok(POOL_CROP.x + POOL_CROP.width <= 240 && POOL_CROP.y + POOL_CROP.height <= 180);
+  assert.ok(POOL_EXPOSURE < DEFAULT_EXPOSURE);
+  // It is exactly the matching block of a full tone map at the same exposure, scaled to the frame.
+  const crop = toneMapRegionToRGBA(image, 32, 24, POOL_CROP, POOL_EXPOSURE);
+  const full = toneMapToRGBA(image, 32, 24, POOL_EXPOSURE);
+  const [x0, y0] = [Math.round((POOL_CROP.x * 32) / 240), Math.round((POOL_CROP.y * 32) / 240)];
+  assert.deepEqual([crop.width, crop.height], [Math.round((POOL_CROP.width * 32) / 240), Math.round((POOL_CROP.height * 32) / 240)]);
+  for (let y = 0; y < crop.height; y++)
+    for (let x = 0; x < crop.width * 4; x++) assert.equal(crop.rgba[y * crop.width * 4 + x], full[(y0 + y) * 32 * 4 + x0 * 4 + x]);
+  const frame = new Float32Array(240 * 180 * 3).fill(0.01);
+  const native = toneMapRegionToRGBA(frame, 240, 180);
+  assert.deepEqual([native.width, native.height, native.rgba.length], [72, 54, 72 * 54 * 4]);
 });

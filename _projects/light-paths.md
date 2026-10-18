@@ -52,8 +52,9 @@ light_lab: true
   <div class="light-lab-panels">
     <figure class="light-lab-panel">
       <div class="light-lab-frame">
-        <img src="{{ '/assets/img/project_pics/light-paths/pt-60s.png' | relative_url }}" alt="Path tracing after one minute: a dark grotto scattered with isolated white specks, and a loose cluster of dots where sunlight should gather on the pool floor" width="240" height="180" loading="lazy">
+        <img src="{{ '/assets/img/project_pics/light-paths/pt-60s.png' | relative_url }}" alt="Path tracing after one minute: a dim grotto scattered with isolated white specks, and a loose cluster of dots where sunlight should gather on the pool floor" width="240" height="180" loading="lazy">
         <canvas data-light-lab-canvas="pt" width="240" height="180" aria-hidden="true"></canvas>
+        <span class="light-lab-zoom-box" aria-hidden="true"></span>
       </div>
       <figcaption><strong>Path tracing</strong><span data-light-lab-stats="pt">Still frame after one minute · error 626%</span></figcaption>
     </figure>
@@ -61,6 +62,7 @@ light_lab: true
       <div class="light-lab-frame">
         <img src="{{ '/assets/img/project_pics/light-paths/mlt-60s.png' | relative_url }}" alt="Metropolis light transport after one minute: a bright patch of sunlight on the pool floor, a glowing teal pool, and grainy, blotchy walls" width="240" height="180" loading="lazy">
         <canvas data-light-lab-canvas="mlt" width="240" height="180" aria-hidden="true"></canvas>
+        <span class="light-lab-zoom-box" aria-hidden="true"></span>
         <svg class="light-lab-path" data-light-lab-path-layer viewBox="0 0 240 180" preserveAspectRatio="none" aria-hidden="true"></svg>
       </div>
       <figcaption><strong>Metropolis light transport</strong><span data-light-lab-stats="mlt">Still frame after one minute · error 158%</span></figcaption>
@@ -68,10 +70,30 @@ light_lab: true
     <figure class="light-lab-panel light-lab-panel--reference">
       <div class="light-lab-frame">
         <img src="{{ '/assets/img/project_pics/light-paths/reference.png' | relative_url }}" alt="Reference render: a dim grotto, a faint patch of reflected sunlight on the back wall, and a teal pool with a bright patch of refracted sunlight on its floor" width="240" height="180" loading="lazy">
+        <span class="light-lab-zoom-box" aria-hidden="true"></span>
       </div>
       <figcaption><strong>Reference</strong><span>24 minutes on 18 threads</span></figcaption>
     </figure>
   </div>
+  <figure class="light-lab-zoom">
+    <div class="light-lab-zoom-row">
+      <div class="light-lab-zoom-frame">
+        <img src="{{ '/assets/img/project_pics/light-paths/pt-60s-pool.png' | relative_url }}" alt="The pool floor after path tracing's minute: about forty white specks on black" width="72" height="54" loading="lazy">
+        <canvas data-light-lab-zoom="pt" width="72" height="54" aria-hidden="true"></canvas>
+        <span aria-hidden="true">Path tracing</span>
+      </div>
+      <div class="light-lab-zoom-frame">
+        <img src="{{ '/assets/img/project_pics/light-paths/mlt-60s-pool.png' | relative_url }}" alt="The pool floor after Metropolis's minute: the sunlit patch and its ripple pattern, grainy and dimmer than the reference" width="72" height="54" loading="lazy">
+        <canvas data-light-lab-zoom="mlt" width="72" height="54" aria-hidden="true"></canvas>
+        <span aria-hidden="true">Metropolis</span>
+      </div>
+      <div class="light-lab-zoom-frame">
+        <img src="{{ '/assets/img/project_pics/light-paths/reference-pool.png' | relative_url }}" alt="The pool floor in the reference: a bright patch of sunlight laced with the ripple pattern" width="72" height="54" loading="lazy">
+        <span aria-hidden="true">Reference</span>
+      </div>
+    </div>
+    <figcaption>The boxed patch of pool floor, enlarged and exposed six times darker, so the sunlight shows its ripple pattern instead of washing out to white. Path tracing reaches the sun here only in scattered specks. Metropolis traces the pattern once a chain lands on it, though it draws the patch too dim until a fresh sample finds the sun.</figcaption>
+  </figure>
   <div class="light-lab-tools" data-light-lab-controls hidden>
     <div class="light-lab-controls" role="group" aria-label="Race controls">
       <button type="button" class="light-lab-run" data-light-lab-run aria-pressed="false">Run the race</button>
@@ -95,9 +117,10 @@ light_lab: true
       <label><input type="checkbox" data-light-lab-path> Show one chain's path</label>
     </div>
     <figure class="light-lab-chart-figure">
-      <svg class="light-lab-chart" data-light-lab-chart viewBox="0 0 600 220" role="img" aria-label="Each renderer's error against the reference over time, on a log scale"></svg>
+      <svg class="light-lab-chart" data-light-lab-chart viewBox="0 0 600 240" role="img" aria-label="Each renderer's error against the reference over time, on logarithmic axes, with a guide for error that falls as one over the square root of time and a line for the error of an all-black frame"></svg>
       <figcaption>
-        <span class="light-lab-key light-lab-key--pt">Path tracing</span><span class="light-lab-key light-lab-key--mlt">Metropolis</span><span>Solid lines are your run; dashed lines are a run recorded on my laptop. Path tracing starts low only because its first image is almost black.</span>
+        <span class="light-lab-key light-lab-key--pt">Path tracing</span><span class="light-lab-key light-lab-key--mlt">Metropolis</span><span>Error against the reference, on log scales. Thick lines are your run; thin lines are a run on my laptop. The dashed line is plain averaging, where four times the time halves the error, and the dotted line is what an all-black frame scores.</span>
+        <p class="light-lab-takeaway" data-light-lab-takeaway></p>
       </figcaption>
     </figure>
   </div>
@@ -139,7 +162,9 @@ I used the version by [Kelemen and colleagues (2002)](https://doi.org/10.1111/14
 
 After five seconds, path tracing has not found the sunlit patch on the pool floor; the bright specks are single paths that happened to reach the sun. Metropolis already shows the patch, because a chain that finds it stays nearby. The orange blotches on its walls are chains lingering on rare paths that reflect off the water.
 
-Error here is the root-mean-square difference in brightness from the reference on an 80 × 60 grid, divided by the reference's average. Above 100%, the typical error is larger than the average brightness itself. In the browser run behind the dashed lines, path tracing fell from 3,097% at five seconds to 984% at a minute, and Metropolis from 288% to 180%. Across three seeds, Metropolis finished the minute 4 to 15 times closer to the reference.
+Error here is the root-mean-square difference in brightness from the reference on an 80 × 60 grid, divided by the reference's average. Above 100%, the typical error is larger than the average brightness itself. In the browser run behind the thin lines, path tracing fell from 3,097% at five seconds to 984% at a minute, and Metropolis from 288% to 180%. Across three seeds, Metropolis finished the minute 4 to 15 times closer to the reference.
+
+An all-black frame scores 393%. Path tracing jumps above that as soon as its first fireflies land and stays there for the rest of the minute, because one firefly costs more than a missing patch of light. Metropolis hovers around 300% for much of the minute, because until a fresh sample finds the sun, its image is about a quarter as bright as it should be. Switch Metropolis brightness to Sky ratio to watch its line fall.
 
 <figure class="light-lab-longer">
   {% include figure.liquid path="assets/img/project_pics/light-paths/teaser.png" alt="The onsen rendered twice and split down the middle: scattered path-traced specks on the left, and on the right a network of refracted sunlight on the pool floor from Metropolis" class="img-fluid" zoomable=true %}

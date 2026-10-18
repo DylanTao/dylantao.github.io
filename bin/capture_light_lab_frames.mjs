@@ -5,14 +5,16 @@
 //   node bin/capture_light_lab_frames.mjs            (about two minutes)
 //   node bin/capture_light_lab_frames.mjs --teaser   (about eleven minutes, two threads)
 //
-// Writes assets/img/project_pics/light-paths/{pt,mlt}-{05,60}s.png and prints each frame's
-// relative error against the reference. --teaser instead renders both methods at 800 x 600 for
-// 660 s each in parallel, the same compute per pixel as a minute at 240 x 180, and writes
-// teaser.png: path tracing on the left half, PSSMLT on the right.
+// Writes assets/img/project_pics/light-paths/{pt,mlt}-{05,60}s.png at the page's display exposure,
+// plus {pt,mlt}-60s-pool.png, the magnified pool floor at its own darker exposure (POOL_CROP and
+// POOL_EXPOSURE in core.mjs), and prints each frame's relative error against the reference.
+// --teaser instead renders both methods at 800 x 600 for 660 s each in parallel, the same compute
+// per pixel as a minute at 240 x 180, and writes teaser.png: path tracing on the left half, PSSMLT
+// on the right.
 import { readFileSync, writeFileSync } from "node:fs";
 import { Worker, isMainThread, parentPort, workerData } from "node:worker_threads";
 import { deflateSync } from "node:zlib";
-import { createRenderer, luminanceRmse, toneMapToRGBA } from "../assets/js/light-lab/core.mjs";
+import { POOL_CROP, POOL_EXPOSURE, createRenderer, luminanceRmse, toneMapRegionToRGBA, toneMapToRGBA } from "../assets/js/light-lab/core.mjs";
 
 const WIDTH = 240,
   HEIGHT = 180;
@@ -106,6 +108,10 @@ if (!isMainThread) {
       const name = `${method}-${String(seconds).padStart(2, "0")}s.png`;
       writeFileSync(new URL(`assets/img/project_pics/light-paths/${name}`, root), png(WIDTH, HEIGHT, toneMapToRGBA(image, WIDTH, HEIGHT)));
       console.log(name, `${Math.round(error.relative * 100)}% relative error`, samples, units[method]);
+      if (seconds === 60) {
+        const pool = toneMapRegionToRGBA(image, WIDTH, HEIGHT, POOL_CROP, POOL_EXPOSURE);
+        writeFileSync(new URL(`assets/img/project_pics/light-paths/${method}-60s-pool.png`, root), png(pool.width, pool.height, pool.rgba));
+      }
     }
   }
 }
