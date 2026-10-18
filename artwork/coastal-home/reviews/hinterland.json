@@ -1,0 +1,622 @@
+{
+  "started": "2026-10-16 10:10:55",
+  "retainedBoundary": {
+    "backVertices": 225,
+    "endVertices": 41,
+    "maxSnapMetres": 1.009141128267701e-6
+  },
+  "features": {
+    "caves": [
+      [-97.35, -4.9, -21.87],
+      [-99.56, -3.9, -31.03],
+      [-104.38, -5.7, -39.17]
+    ],
+    "deck": [-103.02, 12.03, -29.52]
+  },
+  "ground": {
+    "vertices": 24958,
+    "triangles": 49131,
+    "seamVertices": 305,
+    "materials": {
+      "golden": 24092,
+      "loam": 24022,
+      "trail": 787,
+      "lawn": 230
+    }
+  },
+  "transitionPlanting": 136,
+  "planting": {
+    "chaparral": 728,
+    "sage": 1288,
+    "buckwheat": 287,
+    "riparian": 62,
+    "torreyPines": 156
+  },
+  "gliders": [
+    {
+      "kind": "paraglider",
+      "points": 38,
+      "speed": 8.3
+    },
+    {
+      "kind": "paraglider",
+      "points": 42,
+      "speed": 7.7
+    },
+    {
+      "kind": "paraglider",
+      "points": 34,
+      "speed": 8.8
+    },
+    {
+      "kind": "hang-glider",
+      "points": 50,
+      "speed": 12.6
+    }
+  ],
+  "talusRocks": 209,
+  "bakedLight": [
+    {
+      "mesh": "hinterland_ground_00",
+      "corners": 384,
+      "min": 0.228,
+      "max": 0.381
+    },
+    {
+      "mesh": "hinterland_ground_01",
+      "corners": 768,
+      "min": 0.201,
+      "max": 0.381
+    },
+    {
+      "mesh": "hinterland_ground_02",
+      "corners": 768,
+      "min": 0.19,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_03",
+      "corners": 183,
+      "min": 0.206,
+      "max": 0.37
+    },
+    {
+      "mesh": "hinterland_ground_04",
+      "corners": 768,
+      "min": 0.228,
+      "max": 0.376
+    },
+    {
+      "mesh": "hinterland_ground_05",
+      "corners": 2307,
+      "min": 0.153,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_06",
+      "corners": 4692,
+      "min": 0.18,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_07",
+      "corners": 777,
+      "min": 0.259,
+      "max": 0.386
+    },
+    {
+      "mesh": "hinterland_ground_08",
+      "corners": 768,
+      "min": 0.116,
+      "max": 0.37
+    },
+    {
+      "mesh": "hinterland_ground_09",
+      "corners": 4617,
+      "min": 0.116,
+      "max": 0.466
+    },
+    {
+      "mesh": "hinterland_ground_10",
+      "corners": 32139,
+      "min": 0.116,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_ground_11",
+      "corners": 3102,
+      "min": 0.212,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_ground_12",
+      "corners": 768,
+      "min": 0.153,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_13",
+      "corners": 5172,
+      "min": 0.116,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_ground_14",
+      "corners": 39876,
+      "min": 0.169,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_ground_15",
+      "corners": 1680,
+      "min": 0.587,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_ground_16",
+      "corners": 768,
+      "min": 0.185,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_17",
+      "corners": 3153,
+      "min": 0.164,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_18",
+      "corners": 10332,
+      "min": 0.122,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_ground_19",
+      "corners": 936,
+      "min": 0.254,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_ground_20",
+      "corners": 384,
+      "min": 0.175,
+      "max": 0.354
+    },
+    {
+      "mesh": "hinterland_ground_21",
+      "corners": 768,
+      "min": 0.169,
+      "max": 0.354
+    },
+    {
+      "mesh": "hinterland_ground_22",
+      "corners": 4059,
+      "min": 0.153,
+      "max": 0.566
+    },
+    {
+      "mesh": "hinterland_ground_23",
+      "corners": 261,
+      "min": 0.212,
+      "max": 0.566
+    },
+    {
+      "mesh": "hinterland_ground_24",
+      "corners": 2451,
+      "min": 0.169,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_25",
+      "corners": 4713,
+      "min": 0.116,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_26",
+      "corners": 576,
+      "min": 0.169,
+      "max": 0.386
+    },
+    {
+      "mesh": "hinterland_ground_27",
+      "corners": 4677,
+      "min": 0.169,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_28",
+      "corners": 4947,
+      "min": 0.127,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_29",
+      "corners": 2550,
+      "min": 0.169,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_30",
+      "corners": 5928,
+      "min": 0.122,
+      "max": 0.561
+    },
+    {
+      "mesh": "hinterland_ground_31",
+      "corners": 303,
+      "min": 0.169,
+      "max": 0.561
+    },
+    {
+      "mesh": "hinterland_ground_32",
+      "corners": 216,
+      "min": 0.169,
+      "max": 0.37
+    },
+    {
+      "mesh": "hinterland_ground_33",
+      "corners": 12,
+      "min": 0.28,
+      "max": 0.328
+    },
+    {
+      "mesh": "hinterland_ground_34",
+      "corners": 186,
+      "min": 0.169,
+      "max": 0.386
+    },
+    {
+      "mesh": "hinterland_ground_35",
+      "corners": 219,
+      "min": 0.169,
+      "max": 0.439
+    },
+    {
+      "mesh": "hinterland_ground_36",
+      "corners": 39,
+      "min": 0.27,
+      "max": 0.37
+    },
+    {
+      "mesh": "hinterland_ground_37",
+      "corners": 1119,
+      "min": 0.127,
+      "max": 0.402
+    },
+    {
+      "mesh": "hinterland_ground_38",
+      "corners": 27,
+      "min": 0.185,
+      "max": 0.381
+    },
+    {
+      "mesh": "hinterland_cliff_south_0",
+      "corners": 38670,
+      "min": 0.683,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_cliff_south_1",
+      "corners": 37944,
+      "min": 0.683,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_cliff_south_2",
+      "corners": 3588,
+      "min": 0.312,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_cliff_south_3",
+      "corners": 1716,
+      "min": 0.339,
+      "max": 0.439
+    },
+    {
+      "mesh": "hinterland_cliff_south_4",
+      "corners": 1452,
+      "min": 0.344,
+      "max": 0.439
+    },
+    {
+      "mesh": "hinterland_cliff_south_5",
+      "corners": 1650,
+      "min": 0.339,
+      "max": 0.439
+    },
+    {
+      "mesh": "hinterland_beach_south_0",
+      "corners": 10182,
+      "min": 0.73,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_beach_south_1",
+      "corners": 1746,
+      "min": 0.73,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_beach_south_2",
+      "corners": 936,
+      "min": 0.73,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_beach_south_3",
+      "corners": 504,
+      "min": 0.73,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_beach_south_4",
+      "corners": 576,
+      "min": 0.825,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_beach_south_5",
+      "corners": 672,
+      "min": 0.825,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_cliff_north_0",
+      "corners": 38670,
+      "min": 0.423,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_cliff_north_1",
+      "corners": 9474,
+      "min": 0.317,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_cliff_north_2",
+      "corners": 3588,
+      "min": 0.312,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_cliff_north_3",
+      "corners": 1716,
+      "min": 0.249,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_cliff_north_4",
+      "corners": 1386,
+      "min": 0.265,
+      "max": 0.709
+    },
+    {
+      "mesh": "hinterland_cliff_north_5",
+      "corners": 1122,
+      "min": 0.265,
+      "max": 0.709
+    },
+    {
+      "mesh": "hinterland_beach_north_0",
+      "corners": 10086,
+      "min": 0.73,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_beach_north_1",
+      "corners": 4599,
+      "min": 0.73,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_beach_north_2",
+      "corners": 1803,
+      "min": 0.73,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_beach_north_3",
+      "corners": 1224,
+      "min": 0.73,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_beach_north_4",
+      "corners": 1056,
+      "min": 0.73,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_beach_north_5",
+      "corners": 816,
+      "min": 0.73,
+      "max": 1.0
+    },
+    {
+      "mesh": "hinterland_flora_07_09",
+      "corners": 270,
+      "min": 0.053,
+      "max": 0.307
+    },
+    {
+      "mesh": "hinterland_flora_08_07",
+      "corners": 90,
+      "min": 0.122,
+      "max": 0.275
+    },
+    {
+      "mesh": "hinterland_flora_08_08",
+      "corners": 6510,
+      "min": 0.048,
+      "max": 0.794
+    },
+    {
+      "mesh": "hinterland_flora_08_09",
+      "corners": 5340,
+      "min": 0.048,
+      "max": 0.81
+    },
+    {
+      "mesh": "hinterland_flora_08_10",
+      "corners": 360,
+      "min": 0.053,
+      "max": 0.275
+    },
+    {
+      "mesh": "hinterland_flora_09_07",
+      "corners": 90,
+      "min": 0.063,
+      "max": 0.296
+    },
+    {
+      "mesh": "hinterland_flora_09_08",
+      "corners": 8940,
+      "min": 0.053,
+      "max": 0.794
+    },
+    {
+      "mesh": "hinterland_flora_09_09",
+      "corners": 73236,
+      "min": 0.048,
+      "max": 0.825
+    },
+    {
+      "mesh": "hinterland_flora_09_10",
+      "corners": 3849,
+      "min": 0.053,
+      "max": 0.825
+    },
+    {
+      "mesh": "hinterland_flora_10_07",
+      "corners": 135,
+      "min": 0.053,
+      "max": 0.27
+    },
+    {
+      "mesh": "hinterland_flora_10_08",
+      "corners": 7095,
+      "min": 0.053,
+      "max": 0.81
+    },
+    {
+      "mesh": "hinterland_flora_10_09",
+      "corners": 141558,
+      "min": 0.042,
+      "max": 0.825
+    },
+    {
+      "mesh": "hinterland_flora_10_10",
+      "corners": 693,
+      "min": 0.106,
+      "max": 0.307
+    },
+    {
+      "mesh": "hinterland_flora_11_08",
+      "corners": 3735,
+      "min": 0.053,
+      "max": 0.333
+    },
+    {
+      "mesh": "hinterland_flora_11_09",
+      "corners": 11010,
+      "min": 0.048,
+      "max": 0.81
+    },
+    {
+      "mesh": "hinterland_flora_11_10",
+      "corners": 90,
+      "min": 0.138,
+      "max": 0.323
+    },
+    {
+      "mesh": "hinterland_flora_12_08",
+      "corners": 180,
+      "min": 0.058,
+      "max": 0.286
+    },
+    {
+      "mesh": "hinterland_flora_12_09",
+      "corners": 855,
+      "min": 0.048,
+      "max": 0.323
+    },
+    {
+      "mesh": "hinterland_flora_12_10",
+      "corners": 45,
+      "min": 0.159,
+      "max": 0.333
+    },
+    {
+      "mesh": "hinterland_lookout_and_gliderport",
+      "corners": 7044,
+      "min": 0.651,
+      "max": 0.937
+    },
+    {
+      "mesh": "hinterland_talus",
+      "corners": 15048,
+      "min": 0.54,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_windsock_mast",
+      "corners": 210,
+      "min": 0.683,
+      "max": 0.889
+    },
+    {
+      "mesh": "hinterland_windsock",
+      "corners": 1056,
+      "min": 0.683,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_glider_0",
+      "corners": 2310,
+      "min": 0.683,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_glider_1",
+      "corners": 2310,
+      "min": 0.683,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_glider_2",
+      "corners": 2310,
+      "min": 0.683,
+      "max": 0.952
+    },
+    {
+      "mesh": "hinterland_glider_3",
+      "corners": 729,
+      "min": 0.683,
+      "max": 0.952
+    }
+  ],
+  "cameraGrid": {
+    "origin": [-130, -44],
+    "width": 155,
+    "height": 77,
+    "retainedOffset": [47, 7],
+    "assumption": {
+      "centre": [3.0, -6.0],
+      "reach": 32.0,
+      "radius": 175.0,
+      "pitch": 0.16,
+      "targetY": -0.2,
+      "margin": 0.8
+    }
+  },
+  "export": {
+    "bytes": 1355068,
+    "objects": 90,
+    "triangles": 205889
+  },
+  "source": {
+    "bytes": 6035179
+  }
+}

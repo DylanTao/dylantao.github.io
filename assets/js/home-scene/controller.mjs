@@ -763,6 +763,39 @@ export function createCoastalHome(container, records, artifacts) {
     }
   }
 
+  // ── Hinterland (bin/build_coastal_hinterland.py) ──────────────────────────────────────────────
+  // The land beyond the mainland's walls (the mesa and its canyons, both coasts, the lookout and
+  // the gliderport) streams the first time the visitor goes outside or zooms out to the whole
+  // house, and appears once its programs are ready, like the planting above. hinterland.mjs poses
+  // the gliders from the scene clock, turns the gliderport's wind sock in the coast wind and extends
+  // the camera's terrain grid over the new land.
+  let hinterlandRequested = false;
+  async function loadHinterland() {
+    if (hinterlandRequested || !config.hinterland) return;
+    hinterlandRequested = true;
+    try {
+      const [gltf, { bindHinterland }] = await Promise.all([
+        loadModel(new URL(config.hinterland.file, manifestUrl).href),
+        import("./hinterland.mjs"),
+      ]);
+      if (disposed) return release(gltf.scene);
+      const root = prepareModel(gltf.scene, { outdoor: true });
+      root.name = "coastal-hinterland";
+      // Distant ground, planting and gliders stay out of the static light field.
+      root.traverse((o) => (o.userData.dynamic = true));
+      bindHinterland(root, config, physicalTime);
+      root.visible = false;
+      world.add(root);
+      await compilePrograms();
+      if (disposed) return;
+      root.visible = true;
+      requestFrame();
+    } catch {
+      // The house and its coast still read without the land around them.
+    }
+  }
+  // ── end hinterland ─────────────────────────────────────────────────────────────────────────────
+
   function release(root) {
     art.forget(root);
     const skeletons = new Set();
@@ -1730,6 +1763,7 @@ export function createCoastalHome(container, records, artifacts) {
     desiredFov = 38;
     fitSunShadow(true);
     if (id === "outside" && compositionReady) loadFlora();
+    if ((id === "outside" || id === "overview") && compositionReady) loadHinterland();
     clearFocus();
     container.dataset.room = id;
     container.dataset.deskView = id === "outside" ? "outside" : "room";
