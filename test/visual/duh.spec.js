@@ -499,7 +499,8 @@ test("duh: dropped on a project card, it stays grabbable, hops clear, and the ca
 
 test("duh: dropped on the 3D home, it can be caught, settles clear, and the canvas still turns the camera", async ({ page, isMobile }, info) => {
   // CI loads the house on a software GPU, like the other 3D home cases.
-  test.setTimeout(process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 900000 : 180000);
+  const software = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
+  test.setTimeout(software ? 900000 : 180000);
   test.skip(!["desktop-1440", "mobile-390"].includes(info.project.name), "One desktop and one phone viewport load the 3D home for this check.");
   // The house loads on a running clock; duh's physics are then paused and stepped, so a busy page
   // cannot move duh between a reading and a press.
@@ -512,7 +513,9 @@ test("duh: dropped on the 3D home, it can be caught, settles clear, and the canv
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 120000 });
   // Let the rest of the house stream in first; its shader work stalls the page in steps.
   await expect.poll(() => scene.evaluate((node) => node.getSceneEvidence().roomCount), { timeout: 90000 }).toBeGreaterThanOrEqual(6);
-  await expect.poll(() => evidence(page).then((e) => e.visible && e.state === "REST" && !e.navigating), { timeout: 20000 }).toBe(true);
+  await expect
+    .poll(() => evidence(page).then((e) => e.visible && e.state === "REST" && !e.navigating), { timeout: software ? 120000 : 20000 })
+    .toBe(true);
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
   const canvas = scene.locator("canvas.home-desk-corner-canvas");
   const orbit = () => scene.evaluate((node) => node.getSceneEvidence().cameraOrbit);
