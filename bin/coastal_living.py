@@ -22,7 +22,7 @@ import bmesh
 import bpy
 from mathutils import Matrix, Vector
 
-from coastal_office import Parts, box, cylinder, lathe, _mat
+from coastal_office import Parts, box, cylinder, lathe, rooted_leaf, _mat
 
 # The U: the base runs along y on the south side; the inland arm and the window chaise run north.
 BASE = {"x": (-1.0, 0.05), "y": (-0.05, 3.3)}
@@ -130,14 +130,14 @@ def build_tables(p, m):
         box(p.bm(m[mat]), (tx - 0.1, ty + 0.06, 0.36 + 0.016 + k * 0.03), (0.24 - k * 0.02, 0.18 - k * 0.01, 0.028), 0.004, 0.3 + k * 0.08)
     lathe(p.bm(m["celadon"]), [(0.0, 0.0), (0.05, 0.0), (0.1, 0.03), (0.12, 0.065), (0.115, 0.07), (0.085, 0.036), (0.0, 0.03)], (tx + 0.14, ty - 0.08, 0.36), 32)
     lathe(p.bm(m["ink"]), [(0.0, 0.0), (0.03, 0.0), (0.035, 0.07), (0.015, 0.1), (0.017, 0.12), (0.0, 0.12)], (tx + 0.12, ty + 0.17, 0.36), 20)
-    cylinder(p.bm(m["smoked"]), (tx + 0.12, ty + 0.17, 0.47), (tx + 0.1, ty + 0.2, 0.68), 0.003, 6)
-    leaves = p.bm(m["leaf"])
+    stem, leaves = p.bm(m["smoked"]), p.bm(m["leaf"])
+    foot, top = Vector((tx + 0.12, ty + 0.17, 0.47)), Vector((tx + 0.1, ty + 0.2, 0.68))
+    cylinder(stem, tuple(foot), tuple(top), 0.003, 6)
     for k in range(7):
-        root = Vector((tx + 0.1 + 0.004 * k, ty + 0.2 - 0.003 * k, 0.5 + k * 0.025))
-        tip = root + Vector((0.05 * math.cos(k * 2.4), 0.05 * math.sin(k * 2.4), 0.02))
-        side = (tip - root).cross(Vector((0, 0, 1))).normalized() * 0.012
-        mid = root.lerp(tip, 0.5)
-        leaves.faces.new([leaves.verts.new(v) for v in (root, mid + side, tip, mid - side)])
+        axis = foot.lerp(top, (0.5 + k * 0.025 - foot.z) / (top.z - foot.z))
+        out = Vector((math.cos(k * 2.4), math.sin(k * 2.4), 0.0))
+        root = axis + out * 0.006
+        rooted_leaf(stem, leaves, axis, root, root + out * 0.065 + Vector((0.0, 0.0, 0.02)), 0.012)
     # The rug under the whole U, oatmeal wool with an inset border.
     box(p.bm(m["wool"]), (0.55, 1.65, 0.006), (3.55, 4.0, 0.012), 0.004)
     for (x, y, sx, sy) in ((0.55, -0.27, 3.45, 0.05), (0.55, 3.57, 3.45, 0.05), (-1.14, 1.65, 0.05, 3.84), (2.24, 1.65, 0.05, 3.84)):
@@ -235,12 +235,15 @@ def build_nook(p, m):
         end = base_point + direction * rng.uniform(0.35, 0.55)
         cylinder(bark, tuple(base_point), tuple(end), 0.012, 6)
         for j in range(22):
-            root = base_point.lerp(end, 0.25 + 0.75 * j / 22) + Vector((rng.uniform(-0.1, 0.1), rng.uniform(-0.1, 0.1), rng.uniform(-0.06, 0.08)))
+            # A fan of three leaves on its own twig off the branch, so the canopy reads full and the
+            # breeze through the glass can move every leaf.
+            on_branch = base_point.lerp(end, 0.25 + 0.75 * j / 22)
+            root = on_branch + Vector((rng.uniform(-0.1, 0.1), rng.uniform(-0.1, 0.1), rng.uniform(-0.06, 0.08)))
             a = rng.uniform(0, math.tau)
-            tip = root + Vector((0.07 * math.cos(a), 0.07 * math.sin(a), rng.uniform(-0.03, 0.02)))
-            side = (tip - root).cross(Vector((0, 0, 1))).normalized() * 0.011
-            mid = root.lerp(tip, 0.5)
-            leaves.faces.new([leaves.verts.new(v) for v in (root, mid + side, tip, mid - side)])
+            droop = rng.uniform(-0.03, 0.02)
+            for n, turn in enumerate((0.0, -0.55, 0.55)):
+                tip = root + Vector((0.095 * math.cos(a + turn), 0.095 * math.sin(a + turn), droop - 0.015 * abs(turn)))
+                rooted_leaf(bark, leaves, on_branch, root, tip, 0.014, twig=n == 0)
 
 
 def build_living(scene):

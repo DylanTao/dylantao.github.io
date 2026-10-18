@@ -29,9 +29,13 @@
     }
   },
   "living": {
-    "removed": 24,
+    "removed": 23,
     "lampBulb": [-1.2, 3.55, 1.42]
   },
+  "kitchen": {
+    "removed": 24
+  },
+  "kitchenPlantPieces": 0,
   "softened": {
     "sleep__honey ash": {
       "bevelledEdges": 0,
@@ -78,11 +82,6 @@
       "bevel": 0.0,
       "vertices": [192, 192]
     },
-    "kitchen__pale oak": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [4596, 4596]
-    },
     "onsen__warm cut stone": {
       "bevelledEdges": 0,
       "bevel": 0.0,
@@ -118,11 +117,6 @@
       "bevel": 0.0,
       "vertices": [384, 384]
     },
-    "kitchen__chalk limestone": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [128, 128]
-    },
     "core__terracotta": {
       "bevelledEdges": 0,
       "bevel": 0.0,
@@ -132,46 +126,6 @@
       "bevelledEdges": 0,
       "bevel": 0.0,
       "vertices": [480, 480]
-    },
-    "kitchen__smoked olive cabinetry": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [576, 576]
-    },
-    "kitchen__brushed brass": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [1560, 1560]
-    },
-    "kitchen__warm cut stone": {
-      "bevelledEdges": 0,
-      "bevel": 0.004,
-      "vertices": [722, 722]
-    },
-    "kitchen__espresso enamel": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [2160, 2160]
-    },
-    "kitchen__honey ash": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [1914, 1914]
-    },
-    "kitchen__warm glazed porcelain": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [2612, 2612]
-    },
-    "kitchen__terracotta": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [1338, 1338]
-    },
-    "kitchen__satin appliance stainless": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [10290, 10290]
     },
     "kitchen_espresso_cup": {
       "bevelledEdges": 0,
@@ -187,41 +141,6 @@
       "bevelledEdges": 0,
       "bevel": 0.0,
       "vertices": [200, 200]
-    },
-    "kitchen__roasted coffee beans": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [2068, 2068]
-    },
-    "kitchen__sage textile": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
-    "kitchen__charcoal": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [384, 384]
-    },
-    "kitchen_footrest": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
-    "kitchen_footrest_support": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
-    "kitchen_footrest_support.001": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
-    },
-    "kitchen_footrest_stretcher": {
-      "bevelledEdges": 0,
-      "bevel": 0.0,
-      "vertices": [96, 96]
     },
     "onsen_decor warm cut stone": {
       "bevelledEdges": 0,
@@ -304,9 +223,9 @@
       "vertices": [2896, 2896]
     },
     "core_facade__travertine_paving_stone": {
-      "bevelledEdges": 1,
+      "bevelledEdges": 0,
       "bevel": 0.006,
-      "vertices": [6804, 6810]
+      "vertices": [6810, 6810]
     },
     "core_facade__weathered_teak_wood": {
       "bevelledEdges": 0,
@@ -531,7 +450,7 @@
     "study__honey ash": {
       "bevelledEdges": 0,
       "bevel": 0.0,
-      "vertices": [3760, 3760]
+      "vertices": [3928, 3928]
     },
     "study__polished nickel": {
       "bevelledEdges": 0,
@@ -676,7 +595,7 @@
     "lounge__honey ash": {
       "bevelledEdges": 0,
       "bevel": 0.0,
-      "vertices": [5632, 5632]
+      "vertices": [5674, 5674]
     },
     "lounge__oatmeal wool textile": {
       "bevelledEdges": 0,
@@ -721,7 +640,107 @@
     "lounge__olive bark wood": {
       "bevelledEdges": 0,
       "bevel": 0.0,
+      "vertices": [1192, 1192]
+    },
+    "kitchen__pale oak": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [9392, 9392]
+    },
+    "kitchen__honey ash": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [2448, 2448]
+    },
+    "kitchen__milky veined marble": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [384, 384]
+    },
+    "kitchen__polished nickel": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [1264, 1264]
+    },
+    "kitchen__charcoal": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [364, 364]
+    },
+    "kitchen__chalk limestone": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [344, 344]
+    },
+    "kitchen__satin appliance stainless": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [248, 248]
+    },
+    "kitchen__celadon glaze": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [912, 912]
+    },
+    "kitchen__oatmeal glaze": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [1288, 1288]
+    },
+    "kitchen__tenmoku glaze": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [480, 480]
+    },
+    "kitchen__terracotta": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [664, 664]
+    },
+    "kitchen__indigo textile": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [264, 264]
+    },
+    "kitchen__downlight diffuser": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
       "vertices": [136, 136]
+    },
+    "kitchen__espresso enamel": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [640, 640]
+    },
+    "kitchen__warm glazed porcelain": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [344, 344]
+    },
+    "kitchen__roasted coffee beans": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [64, 64]
+    },
+    "kitchen__brushed brass": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [188, 188]
+    },
+    "kitchen__honed travertine": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [720, 720]
+    },
+    "kitchen__meyer lemon": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [584, 584]
+    },
+    "kitchen__woven jute": {
+      "bevelledEdges": 0,
+      "bevel": 0.0,
+      "vertices": [384, 384]
     }
   },
   "manifest": {

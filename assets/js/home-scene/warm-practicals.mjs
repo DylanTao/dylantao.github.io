@@ -1,15 +1,15 @@
 import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
 
-// World-space anchors: the study's task lamp, the bedside lamp, the kitchen's lantern, the living
-// room's paper floor lantern, then the bath ledge, the gym (over its
+// World-space anchors: the study's task lamp, the bedside lamp, the kitchen's brass picture light over
+// the capybara print, the living room's paper floor lantern, then the bath ledge, the gym (over its
 // lifting bay) and the two floor lanterns just inside the glass front (named for the terrace they
 // once marked; they stand clear of the sliding doors' track).
 export const PRACTICAL_SOURCES = [
   // The task lamp at the seaward end of the office desk (bin/coastal_office.py build_lamp).
   { id: "study", position: [-0.97, 3.88, 2.42], night: 5.5, day: 0.9, distance: 6 },
   { id: "sleep", position: [-4.13, 3.47, 2.47], night: 2.7, day: 0.7, distance: 4.8, anyHour: true },
-  { id: "kitchen", position: [-3.3, 1.95, -0.04], night: 2.7, day: 0.7, distance: 4.8 },
+  { id: "kitchen", position: [-3.15, 1.88, 0.13], night: 2.7, day: 0.7, distance: 4.8 },
   // The paper floor lantern (bin/coastal_living.py build_lamp): its closed washi globe, up to 0.24 m
   // from the bulb, is the emitter, so the static light bake must not let the shade hide its own lamp.
   { id: "lounge", position: [-1.2, 1.42, -3.55], night: 2.7, day: 0.7, distance: 4.8, emitterRadius: 0.26 },

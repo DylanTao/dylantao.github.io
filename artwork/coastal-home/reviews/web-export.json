@@ -78,16 +78,6 @@
       "facesExported": 572
     },
     {
-      "mesh": "kitchen__warm paper lantern",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "kitchen__pale oak",
-      "facesBefore": 4558,
-      "facesExported": 4558
-    },
-    {
       "mesh": "onsen__warm cut stone",
       "facesBefore": 362,
       "facesExported": 362
@@ -123,11 +113,6 @@
       "facesExported": 392
     },
     {
-      "mesh": "kitchen__chalk limestone",
-      "facesBefore": 130,
-      "facesExported": 130
-    },
-    {
       "mesh": "core__terracotta",
       "facesBefore": 612,
       "facesExported": 612
@@ -141,56 +126,6 @@
       "mesh": "core__olive leaf",
       "facesBefore": 1144,
       "facesExported": 1144
-    },
-    {
-      "mesh": "kitchen__smoked olive cabinetry",
-      "facesBefore": 588,
-      "facesExported": 588
-    },
-    {
-      "mesh": "kitchen__brushed brass",
-      "facesBefore": 1408,
-      "facesExported": 1408
-    },
-    {
-      "mesh": "kitchen__warm cut stone",
-      "facesBefore": 684,
-      "facesExported": 684
-    },
-    {
-      "mesh": "kitchen__espresso enamel",
-      "facesBefore": 2130,
-      "facesExported": 2130
-    },
-    {
-      "mesh": "kitchen_waterfall_end",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "kitchen_waterfall_end.001",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "kitchen__honey ash",
-      "facesBefore": 1782,
-      "facesExported": 1782
-    },
-    {
-      "mesh": "kitchen__warm glazed porcelain",
-      "facesBefore": 2450,
-      "facesExported": 2450
-    },
-    {
-      "mesh": "kitchen__terracotta",
-      "facesBefore": 1332,
-      "facesExported": 1332
-    },
-    {
-      "mesh": "kitchen__satin appliance stainless",
-      "facesBefore": 10260,
-      "facesExported": 10260
     },
     {
       "mesh": "kitchen_espresso_cup",
@@ -208,31 +143,6 @@
       "facesExported": 192
     },
     {
-      "mesh": "kitchen__coffee hopper glass",
-      "facesBefore": 162,
-      "facesExported": 162
-    },
-    {
-      "mesh": "kitchen__roasted coffee beans",
-      "facesBefore": 2178,
-      "facesExported": 2178
-    },
-    {
-      "mesh": "kitchen__sage textile",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "kitchen__charcoal",
-      "facesBefore": 324,
-      "facesExported": 324
-    },
-    {
-      "mesh": "kitchen__olive leaf",
-      "facesBefore": 1144,
-      "facesExported": 1144
-    },
-    {
       "mesh": "core_liftaway_cave_ceiling",
       "facesBefore": 1073,
       "facesExported": 1073
@@ -246,26 +156,6 @@
       "mesh": "core__blue sage agave leaf",
       "facesBefore": 3456,
       "facesExported": 3456
-    },
-    {
-      "mesh": "kitchen_footrest",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "kitchen_footrest_support",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "kitchen_footrest_support.001",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "kitchen_footrest_stretcher",
-      "facesBefore": 98,
-      "facesExported": 98
     },
     {
       "mesh": "onsen_decor warm cut stone",
@@ -839,8 +729,8 @@
     },
     {
       "mesh": "study__honey ash",
-      "facesBefore": 3832,
-      "facesExported": 3832
+      "facesBefore": 3972,
+      "facesExported": 3972
     },
     {
       "mesh": "study__polished nickel",
@@ -1009,13 +899,13 @@
     },
     {
       "mesh": "lounge__honey ash",
-      "facesBefore": 5460,
-      "facesExported": 5460
+      "facesBefore": 5495,
+      "facesExported": 5495
     },
     {
       "mesh": "lounge__olive leaf",
-      "facesBefore": 183,
-      "facesExported": 183
+      "facesBefore": 535,
+      "facesExported": 535
     },
     {
       "mesh": "lounge__oatmeal wool textile",
@@ -1069,8 +959,128 @@
     },
     {
       "mesh": "lounge__olive bark wood",
-      "facesBefore": 88,
-      "facesExported": 88
+      "facesBefore": 968,
+      "facesExported": 968
+    },
+    {
+      "mesh": "kitchen__pale oak",
+      "facesBefore": 8678,
+      "facesExported": 8678
+    },
+    {
+      "mesh": "kitchen__honey ash",
+      "facesBefore": 2000,
+      "facesExported": 2000
+    },
+    {
+      "mesh": "kitchen__milky veined marble",
+      "facesBefore": 392,
+      "facesExported": 392
+    },
+    {
+      "mesh": "kitchen__polished nickel",
+      "facesBefore": 1006,
+      "facesExported": 1006
+    },
+    {
+      "mesh": "kitchen__induction black glass",
+      "facesBefore": 196,
+      "facesExported": 196
+    },
+    {
+      "mesh": "kitchen__charcoal",
+      "facesBefore": 242,
+      "facesExported": 242
+    },
+    {
+      "mesh": "kitchen__chalk limestone",
+      "facesBefore": 340,
+      "facesExported": 340
+    },
+    {
+      "mesh": "kitchen__satin appliance stainless",
+      "facesBefore": 226,
+      "facesExported": 226
+    },
+    {
+      "mesh": "kitchen__celadon glaze",
+      "facesBefore": 754,
+      "facesExported": 754
+    },
+    {
+      "mesh": "kitchen__oatmeal glaze",
+      "facesBefore": 1074,
+      "facesExported": 1074
+    },
+    {
+      "mesh": "kitchen__tenmoku glaze",
+      "facesBefore": 392,
+      "facesExported": 392
+    },
+    {
+      "mesh": "kitchen__terracotta",
+      "facesBefore": 546,
+      "facesExported": 546
+    },
+    {
+      "mesh": "kitchen__indigo textile",
+      "facesBefore": 220,
+      "facesExported": 220
+    },
+    {
+      "mesh": "kitchen__downlight diffuser",
+      "facesBefore": 74,
+      "facesExported": 74
+    },
+    {
+      "mesh": "kitchen__espresso enamel",
+      "facesBefore": 596,
+      "facesExported": 596
+    },
+    {
+      "mesh": "kitchen__warm glazed porcelain",
+      "facesBefore": 272,
+      "facesExported": 272
+    },
+    {
+      "mesh": "kitchen__coffee hopper glass",
+      "facesBefore": 34,
+      "facesExported": 34
+    },
+    {
+      "mesh": "kitchen__roasted coffee beans",
+      "facesBefore": 34,
+      "facesExported": 34
+    },
+    {
+      "mesh": "kitchen__brushed brass",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "kitchen__honed travertine",
+      "facesBefore": 656,
+      "facesExported": 656
+    },
+    {
+      "mesh": "kitchen__meyer lemon",
+      "facesBefore": 640,
+      "facesExported": 640
+    },
+    {
+      "mesh": "kitchen__woven jute",
+      "facesBefore": 392,
+      "facesExported": 392
+    },
+    {
+      "mesh": "kitchen__dining lantern paper",
+      "facesBefore": 290,
+      "facesExported": 290
+    },
+    {
+      "mesh": "kitchen__olive leaf",
+      "facesBefore": 40,
+      "facesExported": 40
     }
   ]
 }

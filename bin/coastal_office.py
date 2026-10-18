@@ -149,6 +149,21 @@ def cylinder(bm, start, end, radius, segments=16, radius2=None):
     bmesh.ops.create_cone(bm, cap_ends=True, segments=segments, radius1=radius, radius2=radius if radius2 is None else radius2, depth=axis.length, matrix=m)
 
 
+def rooted_leaf(stem, leaves, base, root, tip, width, mid_at=0.5, twig=True):
+    """A leaf on a short twig from its stem. The browser's wind (plant-motion.mjs) bends each leaf
+    about the stem vertex nearest its root, searched within 2.5 cm, so every leaf brings its own:
+    a plain cylinder has vertices only at its ends, and leaves along it would hang still. A cluster
+    shares one twig: its later leaves pass twig=False."""
+    base, root, tip = Vector(base), Vector(root), Vector(tip)
+    if twig:
+        if (root - base).length < 0.006:
+            base = root - (tip - root).normalized() * 0.006
+        cylinder(stem, tuple(base), tuple(root), 0.0025, 3)
+    side = (tip - root).cross(Vector((0, 0, 1))).normalized() * width
+    mid = root.lerp(tip, mid_at)
+    leaves.faces.new([leaves.verts.new(v) for v in (root, mid + side, tip, mid - side)])
+
+
 def lathe(bm, profile, center, segments=32):
     """Revolve (radius, z) pairs about a vertical axis, closing the bottom and top."""
     temp = bmesh.new()
@@ -490,15 +505,15 @@ def build_plant(p, m):
     px, py = 1.55, -3.0
     lathe(p.bm(m["linen"]), [(0.0, 0.0), (0.15, 0.0), (0.19, 0.08), (0.2, 0.42), (0.18, 0.44), (0.0, 0.42)], (px, py, Z0), 32)
     stem, leaves = p.bm(m["smoked"]), p.bm(m["leaf"])
-    cylinder(stem, (px, py, Z0 + 0.42), (px + 0.03, py - 0.02, Z0 + 1.55), 0.014, 8)
+    foot, crown = Vector((px, py, Z0 + 0.42)), Vector((px + 0.03, py - 0.02, Z0 + 1.55))
+    cylinder(stem, tuple(foot), tuple(crown), 0.014, 8)
     for k in range(28):
         z = Z0 + 0.85 + k * 0.026
         a = k * 2.39996
-        root = Vector((px + 0.015 + 0.01 * math.cos(a), py + 0.01 * math.sin(a), z))
+        axis = foot.lerp(crown, (z - foot.z) / (crown.z - foot.z))
+        root = axis + Vector((math.cos(a), math.sin(a), 0.0)) * 0.012
         tip = root + Vector((0.2 * math.cos(a), 0.2 * math.sin(a), 0.06 + 0.04 * math.sin(k * 1.7)))
-        side = (tip - root).cross(Vector((0, 0, 1))).normalized() * 0.07
-        mid = root.lerp(tip, 0.55)
-        leaves.faces.new([leaves.verts.new(v) for v in (root, mid + side, tip, mid - side)])
+        rooted_leaf(stem, leaves, axis, root, tip, 0.07, 0.55)
 
 
 def build_office(scene):

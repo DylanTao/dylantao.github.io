@@ -103,25 +103,25 @@
       "id": "kitchen",
       "label": "Kitchen",
       "file": "room-kitchen.glb",
-      "target": [-3.18, 1.03, -1.85],
-      "actor": [-3.45, 0, -3.04],
-      "facing": 3.141593,
-      "egress": [-1.56, 0, -3.1],
+      "target": [-3.3, 1.05, -1.5],
+      "actor": [-3.6, 0, -2.54],
+      "facing": 3.141592653589793,
+      "egress": [-1.56, 0, -2.45],
       "camera": {
         "radius": 5.4,
         "yaw": 2.68,
         "pitch": 0.4,
         "envelope": {
           "yaw": [2.13, 3.23],
-          "pitch": [0.12, 0.62],
+          "pitch": [0.12, 0.45],
           "radius": [4.212, 6.372]
         }
       },
       "offset": [0, 0, -3],
       "floor": 0,
       "exitPath": [
-        [-2.7, 0, -3.04],
-        [-1.56, 0, -3.1]
+        [-2.62, 0, -2.45],
+        [-1.56, 0, -2.45]
       ]
     },
     {
@@ -2444,12 +2444,12 @@
         ]
       },
       "kitchen": {
-        "actor": [-3.45, 0, -3.04],
-        "egress": [-1.56, 0, -3.1],
+        "actor": [-3.6, 0, -2.54],
+        "egress": [-1.56, 0, -2.45],
         "floor": 0,
         "exitPath": [
-          [-2.7, 0, -3.04],
-          [-1.56, 0, -3.1]
+          [-2.62, 0, -2.45],
+          [-1.56, 0, -2.45]
         ]
       },
       "gym": {
@@ -2509,15 +2509,15 @@
       "actor": [-3.36, 0, -0.23],
       "facing": -1.5707963267948966,
       "approach": [
-        [-1.56, 0, -3.1],
-        [-3.38, 0, -2.7],
+        [-1.56, 0, -2.45],
+        [-3.62, 0, -2.12],
         [-3.36, 0, -0.23]
       ],
       "grinder": [-4.01, 1.12, -1.03],
       "tamper": [-4.12, 1.02, -0.72],
       "brew": [-3.96, 1.21, -0.22],
       "cup": [-3.91, 1.065, -0.22],
-      "seat": [-3.45, 0, -3.04]
+      "seat": [-3.6, 0, -2.54]
     },
     "pullup": {
       "actor": [10.3, 0.0, -0.0],
@@ -3261,5 +3261,24 @@
     },
     "supersetRule": "Opposite or non-competing groups: presses with pull-ups and curls, squats with pull-ups, deadlifts with dips.",
     "howToUpdate": "From the app's Cycles screen: trainingMax and anchor (the current cycle's template, day and start), and one cycles entry per finished cycle. From the Progress screen: a [date, lb] point per lift at each cycle start."
+  },
+  "interiorLights": {
+    "region": {
+      "min": [-4.9, -0.1, -4.45],
+      "max": [-1.2, 5.4, 3.7]
+    },
+    "pendant": [-3.6, 1.93, -3.25],
+    "downlights": [
+      [-3.86, 2.348, 2.96],
+      [-3.86, 2.348, 2.036]
+    ],
+    "vault": [
+      [-2.45, 4.6, -0.8],
+      [-2.45, 4.6, -1.75]
+    ],
+    "shelf": [
+      [-4.32, 1.725, 0.15],
+      [-4.32, 1.725, -2.05]
+    ]
   }
 }

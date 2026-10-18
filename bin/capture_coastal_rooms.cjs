@@ -59,6 +59,19 @@ const ROOM_ACTIVITY = { study: "work", kitchen: "breakfast", gym: "workout", ons
       const scene = page.locator("[data-home-desk-scene]");
       await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.dataset.sceneState === "ready", null, { timeout: 180000 });
       const ui = page.locator("[data-home-world-controls]");
+      // Stills are judged with the static light field's bounce, which bakes once every room has
+      // streamed in (static-light-field.mjs), so the first room waits for it.
+      const waitForLightField = () =>
+        page
+          .waitForFunction(
+            () => {
+              const field = document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.()?.simulation?.lightField;
+              return !field || field.ready || field.error;
+            },
+            null,
+            { timeout: 240000, polling: 1000 }
+          )
+          .catch(() => {});
       await ui.locator("summary").first().click();
       for (const shot of shots.filter((s) => (s.period || "day") === period)) {
         if (shot.activity) await ui.locator("[data-world-activity]").selectOption(shot.activity);
@@ -83,6 +96,7 @@ const ROOM_ACTIVITY = { study: "work", kitchen: "breakfast", gym: "workout", ons
             { timeout: 120000 }
           )
           .catch(() => {});
+        await waitForLightField();
         await page.waitForTimeout(Number(process.env.COAST_SETTLE || 1800));
         const evidence = await scene.evaluate((e) => e.getSceneEvidence());
         await scene.screenshot({ path: path.join(output, shot.name + ".png") });

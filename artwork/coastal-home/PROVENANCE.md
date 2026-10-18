@@ -218,3 +218,19 @@ Sirui asked for more animal animation and found some of the movement too rigid a
 The six earlier masters weighed 361,576 bytes and the eight skinned masters weigh 279,544. The 28 animals draw 56 primitives, where the 17 earlier ones drew 256. `build_coastal_perch_support.py` now finds the gull's feet by their vertex groups and also exports four rock roosts for the cormorants; rerun it after any change to the coast. The pelican line and dive and the sandpipers' wave-chasing follow the Cornell Lab's [Brown Pelican](https://www.allaboutbirds.org/guide/Brown_Pelican/overview) and [Sanderling](https://www.allaboutbirds.org/guide/Sanderling/overview) overviews, and the cormorant is the Pacific coast's [Brandt's Cormorant](https://www.allaboutbirds.org/guide/Brandts_Cormorant/overview). Those pages were used as reference only; the cormorants' wing-drying is authored.
 
 All of it is original code-authored geometry, and the motion is authored acting, not motion capture or a physics simulation. `bin/render_coastal_wildlife_rigs.py` renders review sheets of the rigs. Frame-stepped browser captures from `bin/capture_coastal_wildlife.cjs` are in `.jekyll-cache/visual-qa/wildlife-final*/`.
+
+## October 16: the renovation
+
+Sirui asked for the house to be redesigned as a group of interior architects would: a larger house and office, the office he actually works in, a cozy living room and a better kitchen and dining room, with high-end plaster walls, wood and stone as the two material families, a little shiny metal and the odd colour pop, and no knife-sharp edges. `bin/refresh_coastal_renovation.py` applies it in four idempotent phases from `coastal_renovation.py`, `coastal_shell.py`, `coastal_office.py`, `coastal_living.py` and `coastal_kitchen.py`.
+
+Every new piece is original code-authored geometry. Real products set only sizes and proportions, and none is modelled as a replica or trademark:
+
+- the LG gram Pro 16 (357 x 248 x 15 mm);
+- an AORUS FV43U-sized 43-inch monitor (967 x 586 mm panel);
+- a 32-inch monitor (714 x 425 mm);
+- an RTX 3080 Ti-sized three-fan card (28.5 cm);
+- RH Cloud sectional proportions;
+- a Noguchi Akari 75D-sized paper lantern (74 cm);
+- a dining chair after Hans Wegner's wishbone.
+
+The plaster, marble and travertine are procedural shading in `assets/js/home-scene/realism.mjs`. No texture, scan or downloaded model was added. The deeper excavation is an exact Boolean on the existing closed mainland, checked manifold in `reviews/renovation.json`. The gym's coloured pound bumpers, black iron plates and fuller hex dumbbell rack follow standard bumper and plate diameters.

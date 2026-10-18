@@ -870,9 +870,11 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(still.simulation.onsen.coupling.velocityChange).toBe(0);
   expect(still.simulation.onsen.optics.opaqueShadow).toBe(false);
   expect(still.simulation.onsen.optics.normalDepthOccluder).toBe(false);
-  // 110 rooted leaf groups indoors and 108 on the terrace olive (bin/coastal_facade.py).
-  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.enabled, 0)).toBe(218);
-  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.disabled, 0)).toBe(22);
+  // 295 rooted leaf groups indoors (the renovation's plants carry their leaves on twigs, and a fan of
+  // three olive leaves moves as one) and 108 on the terrace olive (bin/coastal_facade.py); the study
+  // pothos's 30 trailing leaves hang still.
+  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.enabled, 0)).toBe(403);
+  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.disabled, 0)).toBe(30);
   const before = await canvas.screenshot();
   await explore(ui);
   await ui.locator("[data-world-pause]").click();

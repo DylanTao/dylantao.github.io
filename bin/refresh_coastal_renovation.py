@@ -33,7 +33,7 @@ args = {a.split("=", 1)[0][2:]: a.split("=", 1)[1] for a in sys.argv if a.starts
 preview_dir = args.get("preview")
 # Phases run in order (1 materials and edges, 2 the larger house and office, 3 the living room,
 # 4 dining and kitchen); --phase=N stops after phase N.
-PHASE = int(args.get("phase", 3))
+PHASE = int(args.get("phase", 4))
 bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
 scene = bpy.context.scene
 config = json.loads(MANIFEST.read_text(encoding="utf-8"))
@@ -101,10 +101,22 @@ if PHASE >= 3:
 
     living_objects, report["living"] = living.build_living(scene)
 
-# 6. Edges: smooth shading, weighted normals and rounded corners on every interior mesh.
+# 6. Dining and kitchen: the coffee bar, the working kitchen under the gallery, the round table.
+if PHASE >= 4:
+    import coastal_kitchen as kitchen
+
+    kitchen_objects, report["kitchen"] = kitchen.build_kitchen(scene)
+    # The core's potted plant under the gallery stood where the refrigerator column now stands; the
+    # box reaches its outermost leaves too, so none is left behind in the refrigerator's doors.
+    def plant_verdict(lo, hi):
+        return (0.75, -1.15, 0.0) if shell.inside(lo, hi, (-4.5, -3.75, -0.05), (-3.7, -2.8, 1.3)) else None
+
+    report["kitchenPlantPieces"] = sum(shell.edit_islands(bpy.data.objects[name], plant_verdict)[0] for name in ("core__terracotta", "core__olive leaf", "core__charcoal", "core__honey ash"))
+
+# 7. Edges: smooth shading, weighted normals and rounded corners on every interior mesh.
 report["softened"] = renovation.soften_interiors()
 
-# 7. The manifest: the stair, the upper walk, the floors the feet stand on, the rooms' actors and
+# 8. The manifest: the stair, the upper walk, the floors the feet stand on, the rooms' actors and
 # walks, the camera's walls and the desk's props, all from the constants above.
 def three(point):
     return [round(v, 4) for v in web(point)]
@@ -190,6 +202,37 @@ def update_manifest():
         for name, (x, y, z) in (("anchor_lounge", (lx, ly, 0)),):
             if bpy.data.objects.get(name):
                 bpy.data.objects[name].location = Vector((x, y, z))
+    if PHASE >= 4:
+        # Sirui's chair at the round table, facing the sea; breakfast's coffee walk keeps its
+        # machine, grinder, tamper and cup points and reaches the counter past the island's end.
+        sx, sy = kitchen.SEAT
+        kroom = rooms["kitchen"]
+        kroom.update(
+            actor=three((sx, sy, 0)),
+            facing=math.pi,
+            target=three((-3.3, 1.5, 1.05)),
+            egress=three((-1.56, 2.45, 0)),
+            exitPath=[three((-2.62, 2.45, 0)), three((-1.56, 2.45, 0))],
+        )
+        # The arrival view through the kitchen door: the dining lantern hangs clear of the coffee bar,
+        # and the orbit stays low enough that the view passes under the bronze door head.
+        kroom["camera"] = {"radius": 5.4, "yaw": 2.68, "pitch": 0.4, "envelope": {"yaw": [2.13, 3.23], "pitch": [0.12, 0.45], "radius": [4.212, 6.372]}}
+        coffee = config["equipment"]["coffee"]
+        coffee.update(approach=[three((-1.56, 2.45, 0)), three((-3.62, 2.12, 0)), coffee["actor"]], seat=kroom["actor"])
+        px, py, pz = kitchen.PENDANT
+        (lx0, lx1), lz = kitchen.SHELF_LIGHT["y"], kitchen.SHELF_LIGHT["z"]
+        config["interiorLights"] = {
+            # Three.js coordinates. The dining lantern, the soffit downlights over the working
+            # kitchen, two vault downlights over the island and the line under the lower shelf,
+            # all bounded by the kitchen bay (light-installations.mjs).
+            "region": {"min": [-4.9, -0.1, -4.45], "max": [-1.2, 5.4, 3.7]},
+            "pendant": three((px, py, pz)),
+            "downlights": [three((x, y, kitchen.SOFFIT - 0.012)) for x, y in kitchen.DOWNLIGHTS],
+            "vault": [three((-2.45, 0.8, 4.6)), three((-2.45, 1.75, 4.6))],
+            "shelf": [three((kitchen.SHELF_LIGHT["x"] + 0.15, lx0, lz)), three((kitchen.SHELF_LIGHT["x"] + 0.15, lx1, lz))],
+        }
+        if bpy.data.objects.get("anchor_kitchen"):
+            bpy.data.objects["anchor_kitchen"].location = Vector((sx, sy, 0.0))
     rooms["sleep"].update(egress=three((-2.12, aisle, Z0)), exitPath=[three((-2.12, -3.95, Z0)), three((-1.95, -4.7, Z0)), three((-2.12, aisle, Z0))])
     rooms["onsen"].update(egress=three((3.17, aisle, Z0)), exitPath=[three((3.17, -4.45, Z0)), three((3.17, aisle, Z0))])
     config["terrain"]["contacts"] = {r["id"]: {k: r[k] for k in ("actor", "egress", "floor", "exitPath") if k in r} for r in config["rooms"]}
@@ -232,6 +275,9 @@ if preview_dir:
             "nook": ((2.2, 4.1, 1.8), (4.0, 2.0, 0.7), 60),
             "kitchen-top": ((-3.3, 0.6, 9.5), (-3.3, 0.6, 0.0), 55),
             "kitchen-glass": ((-1.6, 6.6, 2.6), (-3.4, 1.6, 0.9), 50),
+            "kitchen-back": ((-2.6, -1.1, 1.7), (-4.35, -2.3, 1.15), 60),
+            "kitchen-bar": ((-2.6, 1.6, 1.7), (-4.3, 0.6, 1.15), 55),
+            "dining": ((-1.9, 2.0, 1.9), (-3.3, 3.3, 0.9), 55),
         }
     )
     if args.get("only"):

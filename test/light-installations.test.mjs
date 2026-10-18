@@ -1,11 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import * as THREE from "../assets/js/three.module.min.js";
 import {
   createLightInstallations,
   darkness,
   deskLevel,
   lineIrradiance,
+  MAX_LINES,
+  MAX_POINTS,
   rgbColor,
   SCHEDULES,
   windowLevel,
@@ -158,5 +161,36 @@ test("the office's RGB drifts through the hues only while the scene moves, and i
   assert.equal(glow.emissive.getHexString(), before);
   assert.equal(lights.tick(20, true), true);
   assert.notEqual(glow.emissive.getHexString(), before);
+  lights.dispose();
+});
+
+test("the dining lantern, the kitchen's downlights and its shelf line follow the meals and fit the shader's arrays", () => {
+  const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  const lights = createLightInstallations(manifest);
+  assert.ok(lights.lines.length <= MAX_LINES && lights.points.length <= MAX_POINTS, `${lights.lines.length} lines, ${lights.points.length} points`);
+  const interior = manifest.interiorLights;
+  if (!interior) return lights.dispose();
+  assert.equal(lights.points.filter((p) => p.id === "pendant").length, 1);
+  assert.equal(lights.points.filter((p) => p.id === "downlights").length, interior.downlights.length + interior.vault.length);
+  assert.equal(lights.lines.filter((l) => l.id === "shelf").length, 1);
+  const lantern = new THREE.MeshStandardMaterial({ name: "dining lantern paper", emissive: 0xffcc88, emissiveIntensity: 1 });
+  const diffuser = new THREE.MeshStandardMaterial({ name: "downlight diffuser", emissive: 0xffeedd, emissiveIntensity: 1 });
+  const root = new THREE.Group();
+  root.add(new THREE.Mesh(new THREE.BoxGeometry(), lantern), new THREE.Mesh(new THREE.BoxGeometry(), diffuser));
+  lights.bindModel(root);
+  const dinner = lights.update({ minute: 19 * 60 + 30, daylight: 0.02, activity: "dinner" });
+  assert.equal(dinner.pendant, 1);
+  assert.equal(dinner.downlights, 1);
+  assert.ok(lantern.emissiveIntensity > 1 && diffuser.emissiveIntensity > 1);
+  // A downlight is cone-limited and points down; the lantern is isotropic.
+  const cone = lights.uniforms.installPointCone.value[lights.points.findIndex((p) => p.id === "downlights")];
+  assert.deepEqual([cone.x, cone.y, cone.z], [0, -1, 0]);
+  assert.ok(cone.w > 0.5 && cone.w < 1);
+  assert.equal(lights.uniforms.installPointCone.value[lights.points.findIndex((p) => p.id === "pendant")].w, 0);
+  // Lunch by day still lights the working kitchen; a sunny afternoon away from the kitchen does not.
+  assert.ok(lights.update({ minute: 14 * 60 + 10, daylight: 0.9, activity: "lunch" }).downlights >= 0.55);
+  const afternoon = lights.update({ minute: 16 * 60, daylight: 0.9, activity: "work" });
+  assert.equal(afternoon.pendant, 0);
+  assert.equal(afternoon.downlights, 0);
   lights.dispose();
 });
