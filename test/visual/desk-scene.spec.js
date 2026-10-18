@@ -1166,7 +1166,9 @@ test("coastal home: the lab stays minimal and realistic with obsolete saved styl
   await ui.locator("details").first().locator("summary").first().click();
   await expect(scene).toHaveAttribute("data-render-style", "realistic");
   await expect(ui.locator("[data-world-style]")).toHaveCount(0);
-  await expect(ui.locator("button:visible")).toHaveCount(1);
+  // Look around and Full screen are the only public controls beside the closed lab menu.
+  await expect(ui.locator("button:visible")).toHaveCount(2);
+  await expect(ui.locator("[data-world-fullscreen]")).toBeVisible();
   await expect(ui.locator("select:visible")).toHaveCount(0);
   await expect(ui.locator("details").first()).not.toHaveAttribute("open");
   await capture(testInfo, "minimal-realistic-controls", await page.locator(".home-hero-media").screenshot());
