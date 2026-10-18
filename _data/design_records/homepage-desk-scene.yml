@@ -2336,8 +2336,8 @@ sources:
     url: https://evasion.inrialpes.fr/Publications/2010/BNH10/
   - id: arcblanc2025
     label: Algis et al. 2025
-    citation: "David Algis, Bérenger Bramas, Emmanuelle Darles and Lilian Aveneau. *Arc Blanc: A Real Time Ocean Simulation Framework*. arXiv:2503.03326, 2025."
-    url: https://arxiv.org/abs/2503.03326
+    citation: "David Algis, Bérenger Bramas, Emmanuelle Darles and Lilian Aveneau. *Arc Blanc: a real time ocean simulation framework*. Journal of Computer Graphics Techniques 14(1), 70–115, 2025."
+    url: https://jcgt.org/published/0014/01/05/
   - id: tessendorf2004ocean
     label: Tessendorf, Simulating Ocean Water
     citation: Jerry Tessendorf. *Simulating Ocean Water*. SIGGRAPH course notes, revised 1999–2004.
