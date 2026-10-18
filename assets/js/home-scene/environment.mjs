@@ -214,8 +214,10 @@ export function createPacific(scene, renderer, config) {
       sunRadiance: { value: 5 },
       printMode: ink,
     },
+    // The view direction from whichever camera draws the dome (the orbit, the sea mirror, the
+    // environment capture), so the dome can follow the orbit camera out to a 160 m view.
     vertexShader:
-      "varying vec3 direction; void main(){ direction = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+      "varying vec3 direction; void main(){ direction = (modelMatrix * vec4(position,1.0)).xyz - cameraPosition; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
     fragmentShader: `${surfaceNoise}
       uniform vec3 zenith; uniform vec3 horizon; uniform vec3 sunDirection; uniform float night; uniform float sunRadiance; varying vec3 direction;
       void main(){
@@ -370,6 +372,11 @@ export function createPacific(scene, renderer, config) {
     lightColors: () => ({ zenith: skyMaterial.uniforms.zenith.value.toArray(), horizon: skyMaterial.uniforms.horizon.value.toArray() }),
     update,
     dispose,
+    // The dome stays centred on the orbit camera and inside its far plane (camera.mjs farView).
+    followCamera(position, radius) {
+      sky.position.copy(position);
+      sky.scale.setScalar(radius / 120);
+    },
     pick: (raycaster) => wildlife.pick?.(raycaster) || null,
     neighbours: () => wildlife.targets?.() || [],
     neighbour: (id) => wildlife.target?.(id) || null,
