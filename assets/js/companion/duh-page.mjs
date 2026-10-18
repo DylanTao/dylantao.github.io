@@ -55,6 +55,10 @@ function start() {
     holdTimer = 0,
     holdPoint = null,
     initialized = false,
+    // A drop is direct manipulation: `placed` marks the landing that follows one, and `parked`
+    // keeps a hand-placed duh where it was put when no clear spot is near (until the page scrolls).
+    placed = false,
+    parked = false,
     groundY = s.y,
     elevation = 0,
     tuck = 0,
@@ -111,12 +115,18 @@ function start() {
   function notify(message) {
     if (status.textContent !== message) status.textContent = message;
   }
+  // Whenever duh can be seen, a press picks it up, wherever it is: over a project card, the 3D
+  // home's canvas or a line of text, in flight or mid-jump. Clicks used to fall through to the page
+  // whenever duh overlapped content, so a duh stranded on a card or the canvas could not be moved
+  // and pressing it opened the card or turned the camera (Zhiqing, October 2026). Clicks pass
+  // through only in the states that are not about duh being there: while the page scrolls (duh
+  // fades), during a greeting it started, and during the tidy-up gesture.
   function updatePointerPolicy() {
-    hit.style.pointerEvents =
-      visible && s.state !== "TIDY" && !greetTarget && !hugUntil && (s.state === "HELD" || (!navigating() && clearAt(s.x, s.y, obstacles, 72)))
-        ? "auto"
-        : "none";
+    hit.style.pointerEvents = visible && (s.state === "HELD" || (!navigating() && s.state !== "TIDY" && !greetTarget && !hugUntil)) ? "auto" : "none";
   }
+  // Outings duh starts to be polite (approaching a cursor, wandering) give way when the visitor
+  // types, selects or points at a control; the jump that carries duh off the page's content does not.
+  const yields = () => outing?.kind !== "recover";
   function restorePieces() {
     for (const a of animations) a.cancel();
     animations.clear();
@@ -136,6 +146,8 @@ function start() {
     clearTimeout(holdTimer);
     holdTimer = 0;
     holdPoint = null;
+    // A canceled grab leaves duh where the hand let go of it.
+    if (id !== null) placed = true;
     if (id !== null && hit.hasPointerCapture(id)) hit.releasePointerCapture(id);
     model.cancel();
     inviteArmed = false;
@@ -195,21 +207,37 @@ function start() {
   }
   function perch() {
     if (navigating() || pointerId !== null) return;
+    const byHand = placed || parked;
+    placed = false;
     const b = model.bounds();
     const target = chooseDuhPerch(view, b, { x: s.x, y: s.y }, obstacles, main?.getBoundingClientRect());
     if (clearAt(s.x, s.y, obstacles, 96) && s.x >= b.left && s.x <= b.right && s.y >= b.top && s.y <= b.bottom) {
       visible = true;
+      parked = false;
     } else if (!initialized) {
       visible = Boolean(target);
       if (target) {
         s.x = target.x;
         s.y = target.y;
       }
+    } else if (byHand && !target) {
+      // Nothing near is clear (a phone-width card, the 3D home filling the view): a duh someone
+      // put here stays where they can pick it up again, rather than vanishing, until the page scrolls.
+      visible = true;
+      parked = true;
+    } else if (byHand && still()) {
+      // Under reduced motion or a pause, the jump off the page's content after a drop is an
+      // immediate move to the nearest clear spot; hiding duh would read as losing it.
+      s.x = target.x;
+      s.y = target.y;
+      visible = true;
+      parked = false;
     } else if (still()) {
       // No surprise repositioning during reduced-motion reading or a pause.
       visible = false;
     } else if (target && outing?.kind !== "recover") {
       startOuting(target, "recover");
+      parked = false;
     } else if (!target) {
       visible = false;
     }
@@ -234,6 +262,7 @@ function start() {
     navigationUntil = 0;
     // Explicit recall may choose a safe nearby perch; viewport updates preserve position.
     initialized = false;
+    placed = parked = false;
     clearGesture();
     model.reset(s.x, s.y);
     portrait?.change("dot", still());
@@ -525,6 +554,20 @@ function start() {
         if (previousState === "RETREAT") notify("Back again.");
       }
     }
+    // Nothing leaves duh resting on a card, a canvas or a line of text: if something ended its
+    // jump off them early, it settles again from where it stopped.
+    if (
+      !outing &&
+      !parked &&
+      initialized &&
+      visible &&
+      s.state === "REST" &&
+      pointerId === null &&
+      !layoutDirty &&
+      !navigating() &&
+      !clearAt(s.x, s.y, obstacles, 72)
+    )
+      perch();
     if (cursor && cursor.safe && fine.matches && !still() && s.state === "REST" && s.time - cursor.at > 0.7 && s.time > nextGreeting) greet();
     if (!navigating()) autonomous();
     el.dataset.state = s.state;
@@ -628,6 +671,7 @@ function start() {
     navigationUntil = 0;
     outing = null;
     tilt = 0;
+    placed = parked = false;
     restorePieces();
     greetTarget = null;
     hugUntil = 0;
@@ -658,7 +702,7 @@ function start() {
       clearTimeout(holdTimer);
       holdPoint = null;
       model.drag(event.clientX, event.clientY, event.timeStamp);
-      model.release(event.timeStamp, still());
+      placed = model.release(event.timeStamp, still());
       if (s.state === "REST") layoutDirty = true;
       pointerId = null;
       if (hit.hasPointerCapture(event.pointerId)) hit.releasePointerCapture(event.pointerId);
@@ -702,6 +746,7 @@ function start() {
       notify("That spot is for reading. Try another direction.");
       return;
     }
+    placed = parked = false;
     if (still()) {
       s.x = x;
       s.y = y;
@@ -739,7 +784,7 @@ function start() {
       if (!cursor || Math.hypot(cursor.x - event.clientX, cursor.y - event.clientY) > 4)
         cursor = { x: event.clientX, y: event.clientY, safe, at: s.time };
       else cursor.safe = safe;
-      if (!safe && (greetTarget || hugUntil || (outing && outing.kind !== "tidy"))) {
+      if (!safe && (greetTarget || hugUntil || (outing && outing.kind !== "tidy" && yields()))) {
         restorePieces();
         greetTarget = null;
         hugUntil = 0;
@@ -819,10 +864,12 @@ function start() {
       return;
     }
     if (!event.target.closest(".duh-companion")) {
-      if (greetTarget || hugUntil || outing) model.cancel();
+      if (greetTarget || hugUntil || (outing && yields())) model.cancel();
       restorePieces();
-      outing = null;
-      tilt = 0;
+      if (yields()) {
+        outing = null;
+        tilt = 0;
+      }
       cursor = null;
       greetTarget = null;
       hugUntil = 0;
@@ -836,10 +883,11 @@ function start() {
   document.addEventListener("selectionchange", () => {
     if (getSelection()?.toString()) {
       restorePieces();
-      if (greetTarget || hugUntil || outing) model.cancel();
-      restorePieces();
-      outing = null;
-      tilt = 0;
+      if (greetTarget || hugUntil || (outing && yields())) model.cancel();
+      if (yields()) {
+        outing = null;
+        tilt = 0;
+      }
       cursor = null;
       greetTarget = null;
       hugUntil = 0;
@@ -858,6 +906,8 @@ function start() {
         nextWander = s.time + 6;
         nextGreeting = s.time + 12;
       }
+      // Once the page moves under it, a hand-placed duh follows the ordinary reading rules again.
+      placed = parked = false;
       navigationUntil = performance.now() + 180;
     }
     request();
@@ -935,6 +985,7 @@ function start() {
     const bottom = Math.min(b.bottom - 23, stage.bottom - 100);
     if (bottom < top) return;
     clearGesture();
+    placed = parked = false;
     paused = false;
     syncPauseState();
     model.reset(stage.left + Math.min(140, stage.width * 0.28), clamp(stage.top + 140, top, bottom));
@@ -958,6 +1009,8 @@ function start() {
     bounds: model.bounds(),
     inviteArmed,
     visible,
+    parked,
+    grabbable: hit.style.pointerEvents === "auto",
     frames,
     layoutScans,
     running: Boolean(raf),

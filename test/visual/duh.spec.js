@@ -402,6 +402,177 @@ test("duh: homepage mode and Human/AI transitions keep one intentional companion
   expect(errors).toEqual([]);
 });
 
+// Drag duh to a point and let go after a still moment, so the release is a drop rather than a
+// throw (Zhiqing parked duh on the 3D home and on project cards, then could not pick it up again).
+async function dropDuhOn(page, isMobile, point) {
+  const start = await evidence(page);
+  // The first move follows the press at once: a busy page could otherwise hold the press past
+  // duh's 700 ms hold-to-sleep before any movement arrives.
+  if (isMobile) {
+    const touch = await page.context().newCDPSession(page);
+    const t0 = Date.now() / 1000;
+    await touch.send("Input.dispatchTouchEvent", { type: "touchStart", timestamp: t0, touchPoints: [{ x: start.x, y: start.y, id: 5 }] });
+    for (let i = 1; i <= 8; i++)
+      await touch.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        timestamp: t0 + i * 0.016,
+        touchPoints: [{ x: start.x + ((point.x - start.x) * i) / 8, y: start.y + ((point.y - start.y) * i) / 8, id: 5 }],
+      });
+    await expect.poll(() => evidence(page).then((e) => e.held && Math.hypot(e.x - point.x, e.y - point.y) < 30)).toBe(true);
+    await touch.send("Input.dispatchTouchEvent", { type: "touchEnd", timestamp: t0 + 0.55, touchPoints: [] });
+    await touch.detach();
+  } else {
+    await page.mouse.move(start.x, start.y);
+    await page.mouse.down();
+    await page.mouse.move(point.x, point.y, { steps: 8 });
+    await expect.poll(() => evidence(page).then((e) => e.held && Math.hypot(e.x - point.x, e.y - point.y) < 30)).toBe(true);
+    await page.waitForTimeout(150);
+    await page.mouse.up();
+  }
+  expect((await evidence(page)).held).toBe(false);
+}
+// Press duh where it is drawn; true when the press picked duh up rather than the page beneath.
+async function pressDuh(page, isMobile, at) {
+  const p = at || (await evidence(page));
+  if (isMobile) {
+    const touch = await page.context().newCDPSession(page);
+    await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: p.x, y: p.y, id: 6 }] });
+    const held = await expect
+      .poll(() => evidence(page).then((e) => e.held), { timeout: 1500 })
+      .toBe(true)
+      .then(
+        () => true,
+        () => false
+      );
+    await touch.send("Input.dispatchTouchEvent", { type: "touchCancel", touchPoints: [] });
+    await touch.detach();
+    return held;
+  }
+  await page.mouse.move(p.x, p.y);
+  await page.mouse.down();
+  const held = (await evidence(page)).held;
+  await page.keyboard.press("Escape");
+  await page.mouse.up();
+  return held;
+}
+const overlaps = (p, box, half = 28) => p.x + half > box.x && p.x - half < box.x + box.width && p.y + half > box.y && p.y - half < box.y + box.height;
+
+test("duh: dropped on a project card, it stays grabbable, hops clear, and the card still opens", async ({ page, isMobile }, info) => {
+  await page.clock.install({ time: new Date("2026-10-09T08:00:00Z") });
+  const errors = await open(page, "/projects/");
+  await page.clock.pauseAt(new Date("2026-10-09T08:10:00Z"));
+  const card = page.locator(".projects [data-project-card]").nth(isMobile ? 0 : 1);
+  await card.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
+  await page.clock.runFor(1600);
+  await expect.poll(() => evidence(page).then((e) => e.visible && e.state === "REST" && !e.navigating)).toBe(true);
+  const box = await card.boundingBox();
+  const drop = { x: box.x + box.width * 0.5, y: box.y + box.height * 0.3 };
+  await dropDuhOn(page, isMobile, drop);
+  // The physics clock is paused, so after one frame duh still hangs over the card where it was let
+  // go. A press there must reach duh, not the card's full-size preview button underneath.
+  await page.clock.runFor(32);
+  const hanging = await evidence(page);
+  expect(overlaps(hanging, box)).toBe(true);
+  expect(hanging.grabbable).toBe(true);
+  expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.classList.contains("duh-hit"), hanging)).toBe(true);
+  expect(await pressDuh(page, isMobile, hanging)).toBe(true);
+  await expect(page.locator(".projects [data-project-card-state='expanded']")).toHaveCount(0);
+  // Pointer moves over the card used to cancel duh's jump off it and strand it there.
+  for (let i = 0; i < 10; i++) {
+    if (!isMobile) await page.mouse.move(drop.x + i * 3, drop.y + i * 2);
+    await page.clock.runFor(200);
+  }
+  const settled = await evidence(page);
+  expect(settled).toMatchObject({ visible: true, grabbable: true, held: false, recovering: false });
+  if (!settled.parked) expect(overlaps(settled, await card.boundingBox()), JSON.stringify(settled)).toBe(false);
+  expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.classList.contains("duh-hit"), settled)).toBe(true);
+  expect(await pressDuh(page, isMobile)).toBe(true);
+  await page.clock.runFor(400);
+  await page.screenshot({ path: info.outputPath("duh-card-drop-settled.png") });
+  // Away from duh, the card underneath answers as before.
+  await card.locator("[data-project-card-trigger]").click({ position: { x: 12, y: 12 } });
+  await expect(card).toHaveAttribute("data-project-card-state", "expanded");
+  await page.keyboard.press("Escape");
+  await expect(card).toHaveAttribute("data-project-card-state", "collapsed");
+  expect(errors).toEqual([]);
+});
+
+test("duh: dropped on the 3D home, it can be caught, settles clear, and the canvas still turns the camera", async ({ page, isMobile }, info) => {
+  test.setTimeout(180000);
+  test.skip(!["desktop-1440", "mobile-390"].includes(info.project.name), "One desktop and one phone viewport load the 3D home for this check.");
+  // The house loads on a running clock; duh's physics are then paused and stepped, so a busy page
+  // cannot move duh between a reading and a press.
+  await page.clock.install();
+  const errors = await open(page, "/");
+  await page.getByRole("button", { name: "3D", exact: true }).click();
+  const scene = page.locator("[data-home-desk-scene]");
+  if (isMobile) await page.evaluate(() => window.scrollTo({ top: 120, behavior: "instant" }));
+  else await scene.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 120000 });
+  // Let the rest of the house stream in first; its shader work stalls the page in steps.
+  await expect.poll(() => scene.evaluate((node) => node.getSceneEvidence().roomCount), { timeout: 90000 }).toBeGreaterThanOrEqual(6);
+  await expect.poll(() => evidence(page).then((e) => e.visible && e.state === "REST" && !e.navigating), { timeout: 20000 }).toBe(true);
+  await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  const canvas = scene.locator("canvas.home-desk-corner-canvas");
+  const orbit = () => scene.evaluate((node) => node.getSceneEvidence().cameraOrbit);
+  const box = await canvas.boundingBox();
+  const drop = { x: box.x + box.width * 0.5, y: box.y + Math.min(box.height * 0.4, 260) };
+  await dropDuhOn(page, isMobile, drop);
+  // Two frames into the fall duh is still over the canvas: pressing it catches duh, and the canvas
+  // never sees the press.
+  await page.clock.runFor(32);
+  const falling = await evidence(page);
+  expect(overlaps(falling, box), JSON.stringify({ drop, box, falling: { x: falling.x, y: falling.y, state: falling.state, vy: falling.vy } })).toBe(
+    true
+  );
+  expect(falling.grabbable).toBe(true);
+  expect(
+    await page.evaluate(() => {
+      const e = document.querySelector(".duh-companion").getDuhEvidence();
+      return document.elementFromPoint(e.x, e.y)?.classList.contains("duh-hit");
+    })
+  ).toBe(true);
+  await canvas.evaluate((node) => {
+    window.__canvasPressed = false;
+    node.addEventListener("pointerdown", () => (window.__canvasPressed = true), { once: true });
+  });
+  expect(await pressDuh(page, isMobile)).toBe(true);
+  expect(await page.evaluate(() => window.__canvasPressed)).toBe(false);
+  // Settled, duh is clear of the canvas (or, with nowhere clear, still visible and grabbable),
+  // even with a pointer wandering over the canvas while it jumps off.
+  for (let i = 0; i < 12; i++) {
+    if (!isMobile) await page.mouse.move(drop.x + i * 4, drop.y + i * 3);
+    await page.clock.runFor(250);
+  }
+  const settled = await evidence(page);
+  expect(settled, JSON.stringify(settled)).toMatchObject({ visible: true, state: "REST", recovering: false, navigating: false });
+  expect(settled.grabbable).toBe(true);
+  if (!settled.parked) expect(overlaps(settled, await canvas.boundingBox()), JSON.stringify(settled)).toBe(false);
+  expect(await pressDuh(page, isMobile)).toBe(true);
+  await page.screenshot({ path: info.outputPath("duh-3d-drop-settled.png") });
+  // Away from duh, a drag across the canvas still turns the camera.
+  const now = await canvas.boundingBox();
+  const from = { x: now.x + now.width * 0.3, y: now.y + now.height * 0.55 };
+  const to = { x: now.x + now.width * 0.7, y: from.y };
+  const turning = await orbit();
+  if (isMobile) {
+    const touch = await page.context().newCDPSession(page);
+    await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ ...from, id: 7 }] });
+    for (let i = 1; i <= 8; i++)
+      await touch.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: from.x + ((to.x - from.x) * i) / 8, y: from.y, id: 7 }] });
+    await touch.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    await touch.detach();
+  } else {
+    await page.mouse.move(from.x, from.y);
+    await page.mouse.down();
+    await page.mouse.move(to.x, to.y, { steps: 8 });
+    await page.mouse.up();
+  }
+  await page.clock.runFor(800);
+  expect(Math.abs((await orbit()).yaw - turning.yaw)).toBeGreaterThan(0.02);
+  expect(errors).toEqual([]);
+});
+
 test("duh: greeting is click-through and graphics failure retains accessible controls", async ({ page, isMobile }) => {
   const errors = await open(page);
   await page.locator("[data-duh-playground]").scrollIntoViewIfNeeded();
