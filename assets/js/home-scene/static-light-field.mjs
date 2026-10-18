@@ -18,10 +18,15 @@ export const STATIC_LIGHT_REGIONS = [
   { id: "study", min: [-1.65, 2.55, 2.25], max: [1.3, 4.7, 4.55] },
   { id: "sleep", min: [-4.3, 2.55, 2], max: [-1.85, 4.4, 4.8] },
   { id: "onsen", min: [2, 2.55, 1.9], max: [4.45, 4.9, 4.4] },
-  { id: "kitchen", min: [-4.1, -0.05, -4], max: [-1.6, 2.15, -0.1] },
-  { id: "gym", min: [-1.1, -0.05, -2.9], max: [1.1, 2.2, -0.55] },
-  { id: "lounge", min: [1.9, -0.05, -4.05], max: [4.4, 2.1, -0.2] },
+  // Wide enough to the north that its inland probes stand beside the island, not inside it.
+  { id: "kitchen", min: [-4.1, -0.05, -4], max: [-1.2, 2.15, -0.1] },
+  // The living room's U-sofa bay (the gym's old alcove) and its media-wall side; the lounge cage is
+  // tall enough that its lower probes clear the credenza's top instead of starting inside it.
+  { id: "living", min: [-1.1, -0.05, -2.9], max: [1.1, 2.2, -0.55] },
+  { id: "lounge", min: [1.9, -0.05, -4.05], max: [4.4, 2.4, -0.2] },
   { id: "nearhouse", min: [-5, -0.05, -5.7], max: [5, 4, -3.7] },
+  // The gym room beyond the north wall, behind its slanted glass front.
+  { id: "gym", min: [6.1, -0.05, -3.2], max: [10.9, 2.4, 0.95] },
 ];
 
 const abortError = () => Object.assign(new Error("Static light bake cancelled"), { name: "AbortError" });

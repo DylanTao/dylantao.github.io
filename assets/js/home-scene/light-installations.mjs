@@ -11,19 +11,26 @@ import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.
 //   pool     a light in the onsen's wall that makes the water glow, brightest during the soak;
 //   gym      the gym's two linear pendants, on while someone trains, as bright as the room is dim;
 //   desk     the office's screens and the gaming PC's RGB, awake while Sirui works and dimmed to a
-//            glow otherwise; the RGB drifts slowly through the hues while the scene moves.
+//            glow otherwise; the RGB drifts slowly through the hues while the scene moves;
+//   pendant  the washi lantern over the dining table, full for meals and a soft glow through the
+//            evening (manifest interiorLights);
+//   downlights the soffit downlights over the working kitchen, two vault downlights over the island
+//            and the light line under the kitchen's lower shelf: task light for every meal, a low
+//            glow after dark otherwise.
 // Line emitters use the exact irradiance of a uniformly emitting segment on a Lambertian
 // surface, clipped to the surface's upper hemisphere: E = I |d| (2/D) [n0((2A+B)/|L1| - B/|L0|) -
 // n1((B+2C)/|L1| - 2C/|L0|)], with L(t) = L0 + t d, A = d.d, B = 2 L0.d, C = L0.L0,
 // D = 4AC - B^2, n0 = N.L0 and n1 = N.d (a closed form of the integral of N.L / |L|^3 along t).
 // Points are isotropic or cone-limited. No installation casts shadows or adds a baked bounce.
 
-export const MAX_LINES = 12;
-export const MAX_POINTS = 4;
+export const MAX_LINES = 14;
+export const MAX_POINTS = 8;
 const WARM = new THREE.Color(1, 0.7, 0.42);
 const FIRE = new THREE.Color(1, 0.46, 0.16);
 const POOL = new THREE.Color(0.42, 0.86, 0.9);
 const GYM = new THREE.Color(1, 0.88, 0.74);
+const LANTERN = new THREE.Color(1, 0.76, 0.5);
+const MEALS = ["breakfast", "lunch", "dinner"];
 
 const smooth = (edge0, edge1, x) => {
   const t = THREE.MathUtils.clamp((x - edge0) / (edge1 - edge0), 0, 1);
@@ -51,6 +58,9 @@ export const SCHEDULES = {
   steps: ({ dark }) => 0.45 * dark.outside,
   pool: ({ minute, dark, activity }) => (activity === "soak" ? 1 : 0.4 * dark.outside * windowLevel(minute, 19 * 60, 23 * 60, 20)),
   gym: ({ dark, activity }) => (activity === "workout" ? Math.max(0.25, dark.inside) : 0),
+  pendant: ({ minute, dark, activity }) => dark.inside * (MEALS.includes(activity) ? 1 : 0.45 * windowLevel(minute, 17 * 60, 23 * 60 + 30, 30)),
+  downlights: ({ dark, activity }) => (MEALS.includes(activity) ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
+  shelf: ({ dark, activity }) => (MEALS.includes(activity) ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
 };
 // The office's screens and RGB (no light of their own, so not an installation above): awake while
 // Sirui works at the desk, a glow otherwise.
@@ -59,6 +69,8 @@ export const deskLevel = (activity) => (["work", "coding", "reading"].includes(a
 // brightest while Sirui is on the sofa; its light itself is the "lounge" warm practical.
 export const lanternLevel = ({ dark, activity }) => dark.inside * (activity === "lounge" ? 1 : 0.4);
 const LANTERN_MATERIAL = "washi lantern paper";
+// Fixtures that glow with an installation: the dining lantern's paper, the downlights' diffusers.
+const INSTALLATION_GLOW = { "dining lantern paper": "pendant", "downlight diffuser": "downlights" };
 // The office's emissive materials (bin/coastal_office.py): the RGB that drifts, and the screens.
 const RGB_MATERIAL = "pc rgb glow";
 const SCREEN_MATERIALS = new Set(["monitor screen glass", "screen code light", "screen code warm light", "screen code blue light"]);
@@ -203,6 +215,28 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       region,
     });
   }
+  // The kitchen and dining room (manifest interiorLights, bin/coastal_kitchen.py), bounded by the
+  // kitchen bay: the light line under the lower shelf, the dining lantern, the soffit downlights and
+  // the two vault downlights over the island, the downlights cone-limited to a 106 or 70 degree beam.
+  const interior = config.interiorLights;
+  if (interior) {
+    const region = box(interior.region.min, interior.region.max);
+    if (interior.shelf)
+      lines.push({
+        id: "shelf",
+        a: new THREE.Vector3(...interior.shelf[0]),
+        b: new THREE.Vector3(...interior.shelf[1]),
+        intensity: 0.5,
+        color: WARM,
+        region,
+      });
+    if (interior.pendant)
+      points.push({ id: "pendant", position: new THREE.Vector3(...interior.pendant), intensity: 1.6, color: LANTERN, cone: null, region });
+    for (const at of interior.downlights || [])
+      points.push({ id: "downlights", position: new THREE.Vector3(...at), intensity: 1.1, color: GYM, cone: [0, -1, 0, 0.6], region });
+    for (const at of interior.vault || [])
+      points.push({ id: "downlights", position: new THREE.Vector3(...at), intensity: 2.6, color: GYM, cone: [0, -1, 0, 0.82], region });
+  }
   if (terrace?.fire) {
     points.push({
       id: "fire",
@@ -257,7 +291,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   }
 
   // Shell materials that glow with their installation.
-  const glowing = { festoon: [], fire: [], gym: [], desk: [], lantern: [] };
+  const glowing = { festoon: [], fire: [], gym: [], desk: [], lantern: [], pendant: [], downlights: [] };
   function bindModel(model) {
     model.traverse((o) => {
       if (!o.isMesh) return;
@@ -265,6 +299,11 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
         if (m.name === "festoon bulb glass" && !glowing.festoon.includes(m)) glowing.festoon.push(m);
         if (m.name === "fire bowl embers" && !glowing.fire.includes(m)) glowing.fire.push(m);
         if (m.name === "gym light diffuser" && !glowing.gym.includes(m)) glowing.gym.push(m);
+        const installation = INSTALLATION_GLOW[m.name];
+        if (installation && m.emissive && !glowing[installation].includes(m)) {
+          m.userData.authoredEmissive ??= m.emissiveIntensity;
+          glowing[installation].push(m);
+        }
         if (m.name === LANTERN_MATERIAL && m.emissive && !glowing.lantern.includes(m)) {
           m.userData.authoredEmissive ??= m.emissiveIntensity;
           glowing.lantern.push(m);
@@ -312,7 +351,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       uniforms.installPointPosition.value[i].copy(point.position);
       uniforms.installPointMin.value[i].copy(point.region.min);
       uniforms.installPointMax.value[i].copy(point.region.max);
-      uniforms.installPointCone.value[i].set(0, -1, 0, 0);
+      uniforms.installPointCone.value[i].set(...(point.cone || [0, -1, 0, 0]));
       uniforms.installPointColor.value[i].set(point.color.r, point.color.g, point.color.b).multiplyScalar(point.intensity * level);
     });
     soffitMaterial.emissiveIntensity = 2.4 * levels.soffit;
@@ -334,6 +373,8 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     }
     for (const m of glowing.desk) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * desk;
     for (const m of glowing.lantern) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 1.6 * lantern;
+    for (const m of glowing.pendant) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 1.3 * levels.pendant;
+    for (const m of glowing.downlights) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 3 * levels.downlights;
   }
 
   const bindings = new WeakSet();
