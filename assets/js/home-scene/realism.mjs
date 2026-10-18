@@ -226,24 +226,44 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     return bindContactLighting(m, contactLighting);
   }
   const wood = /wood|oak|ash|walnut/i.test(name);
-  const cloth = /linen|textile|cotton|trousers|woven/i.test(name);
-  const rock = /sandstone|sediment|limestone|stone|sand|plaster/i.test(name);
+  const cloth = /linen|textile|cotton|trousers|woven|boucle/i.test(name);
+  // The house's walls are lime plaster (Sirui, 2026-10-16); the renovation's stone family is a
+  // milky veined marble, travertine and honed limestone.
+  const plaster = /chalk limestone|plaster|limewash/i.test(name);
+  const marble = /marble/i.test(name);
+  const travertine = /travertine/i.test(name);
+  const rock = plaster || marble || /sandstone|sediment|limestone|stone|sand/i.test(name);
   const water = /water|turquoise/i.test(name);
   if (water) {
     m.envMapIntensity = 1.2;
     return bindContactLighting(m, contactLighting);
   }
-  m.roughness = wood ? 0.48 : cloth ? 0.96 : rock ? 0.89 : m.roughness;
-  m.envMapIntensity = cloth ? 0.35 : 0.7;
+  m.roughness = wood ? 0.48 : cloth ? 0.96 : plaster ? 0.62 : marble ? 0.24 : travertine ? 0.62 : rock ? 0.89 : m.roughness;
+  m.envMapIntensity = cloth ? 0.35 : plaster ? 0.55 : 0.7;
   if (!wood && !cloth && !rock) return bindContactLighting(m, contactLighting);
-  const kind = wood ? 1 : cloth ? 2 : /sandstone|sediment/i.test(name) ? 3 : /beach|tideline/i.test(name) ? 4 : 0;
+  const kind = wood
+    ? 1
+    : cloth
+      ? 2
+      : plaster
+        ? 5
+        : marble
+          ? 6
+          : travertine
+            ? 7
+            : /sandstone|sediment/i.test(name)
+              ? 3
+              : /beach|tideline/i.test(name)
+                ? 4
+                : 0;
   m.onBeforeCompile = (shader) => {
     shader.vertexShader = "varying vec3 surfacePoint;\n" + shader.vertexShader;
     shader.vertexShader = shader.vertexShader.replace(
       "#include <project_vertex>",
       "#include <project_vertex>\nsurfacePoint = (modelMatrix * vec4(transformed, 1.0)).xyz;"
     );
-    shader.fragmentShader = `varying vec3 surfacePoint;\n${surfaceNoise}\n${kind === 3 ? cellsGLSL : ""}\n` + shader.fragmentShader;
+    shader.fragmentShader =
+      `varying vec3 surfacePoint;\n${surfaceNoise}\n${kind === 3 ? cellsGLSL : ""}\n${kind === 5 ? plasterGLSL : ""}\n` + shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <color_fragment>",
       `
@@ -326,10 +346,68 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
         diffuseColor.rgb = mix(vec3(.76,.64,.45),vec3(.43,.37,.27),wetSand);
         diffuseColor.rgb *= .92 + .08*detail + .025*pores;
       `
-                : `diffuseColor.rgb *= .86 + .20*detail + .045*pores;`
+                : kind === 5
+                  ? `
+        // Lime plaster: soft clouds about a metre across, overlapping trowel strokes whose direction
+        // changes from patch to patch, and a faint burnish along the strokes. The strokes are drawn
+        // in the three axis planes and blended by the surface normal, so curved vaults show no seam.
+        #ifdef FLAT_SHADED
+          vec3 plasterNormal = normalize(cross(dFdx(p), dFdy(p)));
+        #else
+          vec3 plasterNormal = inverseTransformDirection(vNormal, viewMatrix);
+        #endif
+        vec3 plasterAxes = pow(abs(plasterNormal), vec3(4.0));
+        plasterAxes /= max(plasterAxes.x + plasterAxes.y + plasterAxes.z, 1e-4);
+        float plasterFoot = max(length(dFdx(p)), length(dFdy(p)));
+        float plasterFade = 1.0 - smoothstep(.005, .03, plasterFoot);
+        float trowel = plasterAxes.x*plasterTrowel(p.zy, 1.3) + plasterAxes.y*plasterTrowel(p.xz, 2.9) + plasterAxes.z*plasterTrowel(p.xy, 4.7);
+        float clouds = stoneNoise(p*.85 + 1.7)*.65 + stoneNoise(p*2.6 + 9.1)*.35;
+        float plasterBurnish = smoothstep(.52, .86, trowel) * plasterFade * (.4 + .6*clouds);
+        diffuseColor.rgb *= .85 + .22*clouds + .1*(trowel - .5)*plasterFade;
+        // Lime takes up a little warmth unevenly as it cures.
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(1.03,1.,.95), smoothstep(.45,.8,stoneNoise(p*.42 + 5.3))*.7);
+      `
+                  : kind === 6
+                    ? `
+        // Milky marble: soft clouding, a few soft grey veins that wander and branch, finer hairlines
+        // between them. Veins widen and fade with distance instead of shimmering.
+        float marbleFoot = max(length(dFdx(p)), length(dFdy(p)));
+        float marbleWarp = stoneNoise(p*1.3 + 2.1)*3.2 + stoneNoise(p*4.1)*.8;
+        float veinWidth = .03 + .05*stoneNoise(p*.7) + marbleFoot*10.;
+        float veins = (1. - smoothstep(0., veinWidth, abs(sin(dot(p, vec3(2.3,1.1,1.7))*2.6 + marbleWarp*2.4))))
+          * smoothstep(.32, .62, stoneNoise(p*.9 + 4.));
+        float hairlines = (1. - smoothstep(0., .012 + marbleFoot*10., abs(sin(dot(p, vec3(-1.4,2.2,.6))*7. + marbleWarp*4.))))
+          * smoothstep(.45, .7, stoneNoise(p*1.7 + 6.)) * .55;
+        float marbleCloud = stoneNoise(p*2.2 + 8.);
+        float marbleFade = 1. - smoothstep(.01, .06, marbleFoot);
+        diffuseColor.rgb *= .955 + .055*marbleCloud;
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(.6,.6,.63), max(veins, hairlines)*.5*marbleFade);
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(1.02,.99,.95), smoothstep(.5,.8,marbleCloud)*.4);
+      `
+                    : kind === 7
+                      ? `
+        // Travertine: warm bands laid down in layers, and small open pores.
+        float travFoot = max(length(dFdx(p)), length(dFdy(p)));
+        float travBands = stoneNoise(vec3(p.x*.55, p.y*7. + p.z*7. + stoneNoise(p*.8)*2.5, p.z*.55 + p.x*.2));
+        float travPores = step(.83, grainNoise(p*62.)) * (1. - smoothstep(.002, .008, travFoot));
+        diffuseColor.rgb *= .88 + .16*travBands + .04*pores;
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(1.05,.98,.9), smoothstep(.55,.8,travBands)*.35);
+        diffuseColor.rgb *= 1. - .3*travPores;
+      `
+                      : `diffuseColor.rgb *= .86 + .20*detail + .045*pores;`
       }
     `
     );
+    if (kind === 5)
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <roughnessmap_fragment>",
+        "#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, .3, plasterBurnish);"
+      );
+    if (kind === 6)
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <roughnessmap_fragment>",
+        "#include <roughnessmap_fragment>\nroughnessFactor = clamp(roughnessFactor + .07*(marbleCloud - .5), .12, .5);"
+      );
     if (kind === 4)
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <roughnessmap_fragment>",
@@ -347,7 +425,21 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
       // Derivative bump mapping on the actual surface; filtered below a pixel.
       float footprint = max(length(dFdx(surfacePoint)), length(dFdy(surfacePoint)));
       float detailFade = 1.0-smoothstep(.025,.12,footprint);
-      float height = detailFade * ${kind === 1 ? "grainNoise(vec3(surfacePoint.x*95.0,surfacePoint.y*24.0,surfacePoint.z*2.5)) * .0007" : kind === 2 ? "grainNoise(surfacePoint*140.0)*.0004" : kind === 3 ? "stoneNoise(surfacePoint*3.0)*.022 + sandHeight" : "stoneNoise(surfacePoint*32.0)*.001"};
+      float height = detailFade * ${
+        kind === 1
+          ? "grainNoise(vec3(surfacePoint.x*95.0,surfacePoint.y*24.0,surfacePoint.z*2.5)) * .0007"
+          : kind === 2
+            ? "grainNoise(surfacePoint*140.0)*.0004"
+            : kind === 3
+              ? "stoneNoise(surfacePoint*3.0)*.022 + sandHeight"
+              : kind === 5
+                ? "(trowel*.0007 + clouds*.0014)"
+                : kind === 6
+                  ? "stoneNoise(surfacePoint*40.0)*.00015"
+                  : kind === 7
+                    ? "stoneNoise(surfacePoint*24.0)*.0006 - travPores*.0012"
+                    : "stoneNoise(surfacePoint*32.0)*.001"
+      };
       vec3 eyeX = dFdx(-vViewPosition), eyeY = dFdy(-vViewPosition);
       vec3 r1 = cross(eyeY, normal), r2 = cross(normal, eyeX);
       float det = dot(eyeX, r1);
@@ -356,9 +448,26 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     `
     );
   };
-  m.customProgramCacheKey = () => `coastal-physical-${kind}-v7`;
+  m.customProgramCacheKey = () => `coastal-physical-${kind}-v8`;
   return bindContactLighting(m, contactLighting);
 }
+
+// Trowel strokes for lime plaster in one axis plane (q in metres): anisotropic noise along three
+// stroke directions, bent into gentle arcs by a bounded warp, with each patch of wall taking its
+// own direction, as overlapping passes of a trowel do.
+const plasterGLSL = `
+float plasterStreak(vec2 q, vec2 d, float seed) {
+  vec2 n = vec2(-d.y, d.x);
+  return grainNoise(vec3(dot(q, d)*3.1, dot(q, n)*15.0, seed));
+}
+float plasterTrowel(vec2 q, float seed) {
+  q += .16*vec2(grainNoise(vec3(q*.9, seed)), grainNoise(vec3(q*.9, seed + 3.1))) - .08;
+  float a = plasterStreak(q, vec2(.97, .24), seed);
+  float b = plasterStreak(q, vec2(.42, .91), seed + 2.);
+  float c = plasterStreak(q, vec2(.83, -.56), seed + 4.);
+  float ab = mix(a, b, smoothstep(.38, .62, grainNoise(vec3(q*1.6, seed + 7.3))));
+  return mix(ab, c, smoothstep(.55, .75, grainNoise(vec3(q*1.6, seed + 11.7))));
+}`;
 
 // Distances to the nearest and second-nearest feature points of 2D Worley noise (Worley, "A
 // Cellular Texture Basis Function", SIGGRAPH 1996): the sandstone's honeycomb cells.
