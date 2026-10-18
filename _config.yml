@@ -277,6 +277,9 @@ kramdown:
 # Includes & excludes
 include: ["_pages"]
 exclude:
+  # Agent worktrees and settings: whole repository copies the server must not watch or build.
+  - .claude/
+  - .codex/
   - artwork/
   - AGENTS.md
   - al-folio-upgrade-report.md
