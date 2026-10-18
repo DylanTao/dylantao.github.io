@@ -19,6 +19,7 @@ import {
   cushion,
   farView,
   outsideClearance,
+  portraitFov,
   ORBIT_DIRECTION,
   BLOCKING,
   INSIDE,
@@ -56,6 +57,7 @@ import { createSteamVolume } from "./steam-volume.mjs";
 import { createStaticLightField } from "./static-light-field.mjs";
 import { prepareFramePrograms } from "./program-warmup.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
+import { createWorldFullscreen } from "./world-fullscreen.mjs";
 import { createLightInstallations } from "./light-installations.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
@@ -80,7 +82,7 @@ const remember = (key, value) => {
 const TONE_MAPPING = { aces: THREE.ACESFilmicToneMapping, agx: THREE.AgXToneMapping, neutral: THREE.NeutralToneMapping };
 const TONE_EXPOSURE = { aces: 1, agx: 1.08, neutral: 1.24 };
 const CANVAS_LABEL =
-  "Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag, right-drag or Shift+arrows move the view; plus and minus or Page Up and Page Down zoom, and zooming out past a room shows the whole house, then the coast. Home recentres the view. In the whole house, click a room or press 1 to 6 to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside.";
+  "Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag, right-drag or Shift+arrows move the view; plus and minus or Page Up and Page Down zoom, and zooming out past a room shows the whole house, then the coast. Home recentres the view. In the whole house, click a room or press 1 to 6 to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside. F opens full screen; Escape leaves it.";
 
 export function createCoastalHome(container, records, artifacts) {
   const stage = container.closest("[data-home-artifact-stage]");
@@ -221,6 +223,9 @@ export function createCoastalHome(container, records, artifacts) {
     return values[Math.min(values.length - 1, Math.floor(values.length * fraction))] || 0;
   };
   const modelRequests = new Set();
+  // Full screen (world-fullscreen.mjs): the stage fills the screen with a way back to the page.
+  const fullscreen = createWorldFullscreen({ stage, scene: container, ui });
+  cleanup.push(() => fullscreen.dispose());
   let reduced = reducedQuery.matches;
   const hemi = new THREE.HemisphereLight(0xe5ecff, 0xb28d57, 2.8);
   const sun = new THREE.DirectionalLight(0xffe0aa, 3.2);
@@ -2220,7 +2225,7 @@ export function createCoastalHome(container, records, artifacts) {
     }
     for (const axis of ["x", "y", "z"]) target[axis] = cameraMotion.step(axis, target[axis], desiredTarget[axis], frameDelta, stillCamera);
     radius = cameraMotion.step("radius", radius, desiredRadius, frameDelta, stillCamera);
-    const fov = cameraMotion.step("fov", perspective.fov, desiredFov, frameDelta, stillCamera);
+    const fov = cameraMotion.step("fov", perspective.fov, portraitFov(desiredFov, aspect), frameDelta, stillCamera);
     // A composed still reaches the exact lens, including a residual smaller
     // than the live camera's projection-update threshold.
     if (fov !== perspective.fov && (reduced || paused || Math.abs(fov - perspective.fov) > 0.00001)) {
@@ -2776,6 +2781,7 @@ export function createCoastalHome(container, records, artifacts) {
       ? { progress: clamp((elapsed - travel.start) / travel.duration, 0, 1), duration: travel.duration, position: actor.position.toArray() }
       : null,
     animationSeconds: elapsed,
+    fullscreen: fullscreen.mode,
     palette: routine?.palette,
     daylight: daylight ? { ...daylight, location: LA_JOLLA } : null,
     clockMode: routine?.live ? "now" : "preview",
@@ -2948,6 +2954,7 @@ export function createCoastalHome(container, records, artifacts) {
       container.setAttribute("aria-hidden", String(!value));
       ui.hidden = !value;
       ui.inert = !value;
+      if (!value) fullscreen.exit();
       if (value) {
         try {
           await initialize();

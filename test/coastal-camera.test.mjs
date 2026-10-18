@@ -17,6 +17,7 @@ import {
   cushion,
   farView,
   outsideClearance,
+  portraitFov,
   cutawayFootprint,
   ORBIT_DIRECTION,
   BLOCKING,
@@ -340,4 +341,18 @@ test("the coffee sequence has approaches, rests and equipment contacts", () => {
     }
   }
   for (const phase of ["grind", "brew", "pick up", "carry", "set down", "return cup"]) assert.ok(phases.has(phase));
+});
+
+test("a portrait canvas widens the lens to keep the authored horizontal coverage", () => {
+  const horizontal = (fov, aspect) => (2 * Math.atan(Math.tan((fov * Math.PI) / 360) * aspect) * 180) / Math.PI;
+  // Every page embed is landscape and keeps the authored lens.
+  for (const aspect of [1, 1.1, 1.6, 2.4]) assert.equal(portraitFov(38, aspect), 38);
+  // A phone in full screen (390 x 844) sees as wide as a square canvas does.
+  const phone = 390 / 844;
+  const fov = portraitFov(38, phone);
+  assert.ok(fov > 38 && fov < 80);
+  assert.ok(Math.abs(horizontal(fov, phone) - horizontal(38, 1)) < 1e-9);
+  // A sliver of a window stops at the cap instead of a fisheye.
+  assert.equal(portraitFov(38, 0.1), 80);
+  assert.equal(portraitFov(38, 0), 38);
 });

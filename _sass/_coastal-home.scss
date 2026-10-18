@@ -413,9 +413,177 @@
   }
 }
 
+// Full screen (world-fullscreen.mjs). The entry sits beside Look around; its label folds away on
+// phones, where the icon stays.
+.home-world-fullscreen {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  i {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 575px) {
+  .home-world-fullscreen-label {
+    display: none;
+  }
+}
+
+// The stage fills the screen: the scene runs edge to edge without the page vignette, Back sits top
+// left and the quiet controls float at the bottom. Real full screen and the popover fallback share
+// this layout; the !important transform beats any scroll motion still applied to the stage.
+html.is-world-immersive {
+  overflow: hidden;
+}
+
+.home-hero-media.is-desk-3d.is-world-immersive {
+  position: fixed;
+  inset: 0;
+  z-index: 1090;
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  color: var(--global-text-color);
+  background:
+    radial-gradient(ellipse at 50% 38%, color-mix(in srgb, var(--home-sky, var(--home-paper)) 30%, transparent), transparent 70%), var(--home-paper);
+  transform: none !important;
+  animation: home-world-immersive-in 240ms ease-out;
+
+  &::before {
+    display: none;
+  }
+
+  .home-world-heading {
+    display: none;
+  }
+
+  .home-desk-corner-scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    mask-image: none;
+  }
+
+  .home-world-hint {
+    top: auto;
+    bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .home-world-controls {
+    position: absolute;
+    left: 50%;
+    bottom: max(0.9rem, env(safe-area-inset-bottom, 0px));
+    z-index: 12;
+    width: min(calc(100% - 1.8rem), 34rem);
+    margin: 0;
+    padding: 0.35rem 0.4rem 0.35rem 0.95rem;
+    border: 1px solid color-mix(in srgb, var(--home-line) 70%, transparent);
+    border-radius: var(--md-lite-radius-lg);
+    background: color-mix(in srgb, var(--home-paper) 84%, transparent);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.18);
+    backdrop-filter: blur(12px) saturate(1.15);
+    translate: -50% 0;
+  }
+
+  .home-world-fullscreen {
+    display: none;
+  }
+
+  // The lab panel opens upward from the floating bar and scrolls on short screens.
+  .home-world-panel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 0.5rem);
+    left: 0;
+    max-height: min(70dvh, 36rem);
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+.home-world-immersive-bar {
+  position: absolute;
+  top: max(0.9rem, env(safe-area-inset-top, 0px));
+  left: max(0.9rem, env(safe-area-inset-left, 0px));
+  z-index: 13;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.home-world-exit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.6rem 0.45rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--home-line) 70%, transparent);
+  border-radius: var(--md-lite-radius-pill);
+  background: color-mix(in srgb, var(--home-paper) 84%, transparent);
+  box-shadow: 0 6px 22px rgb(0 0 0 / 0.16);
+  backdrop-filter: blur(12px) saturate(1.15);
+  color: var(--home-ink);
+  font-family: var(--font-ui);
+  font-size: var(--type-compact);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-standard),
+    color var(--motion-standard);
+
+  &:hover {
+    background: var(--home-paper);
+    color: var(--home-accent-strong);
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+  }
+
+  kbd {
+    padding: 0.05rem 0.4rem;
+    border: 1px solid var(--home-line);
+    border-radius: var(--md-lite-radius-sm);
+    background: transparent;
+    box-shadow: none;
+    color: var(--home-muted);
+    font-family: var(--font-ui);
+    font-size: var(--type-meta);
+    line-height: 1.5;
+  }
+}
+
+@media (pointer: coarse) {
+  .home-world-exit kbd {
+    display: none;
+  }
+}
+
+@keyframes home-world-immersive-in {
+  from {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-world-controls *,
-  .home-desk-corner-scene {
+  .home-desk-corner-scene,
+  .home-world-exit,
+  .home-hero-media.is-desk-3d.is-world-immersive {
     transition: none;
     animation: none;
   }

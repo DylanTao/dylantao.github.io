@@ -1134,7 +1134,8 @@ test("coastal home: quiet public controls, capybara wall art and a new arrival o
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
   const first = (await evidence(scene)).avatarId;
   const ui = page.locator("[data-home-world-controls]");
-  await expect(ui.locator("button:visible")).toHaveCount(1);
+  await expect(ui.locator("button:visible")).toHaveCount(2);
+  await expect(ui.locator("[data-world-fullscreen]")).toHaveAccessibleName("Full screen");
   await expect(scene).toHaveAttribute("data-render-style", "realistic");
   await expect(ui.locator("select:visible")).toHaveCount(0);
   await expect.poll(async () => (await evidence(scene)).portrait).toContain("/img/home/sirui_capy.jpg");
@@ -1616,7 +1617,7 @@ test("coastal home: modified and composing canvas shortcuts preserve the view", 
   const delivered = await canvas.evaluate((element) => {
     const samples = [];
     for (const modifier of ["ctrlKey", "metaKey", "altKey", "isComposing"]) {
-      for (const key of ["ArrowLeft", "n", "d", "+", "-"]) {
+      for (const key of ["ArrowLeft", "n", "d", "+", "-", "f"]) {
         const event = new KeyboardEvent("keydown", { key, [modifier]: true, bubbles: true, cancelable: true });
         element.dispatchEvent(event);
         samples.push({ modifier, key, prevented: event.defaultPrevented });
@@ -1635,6 +1636,57 @@ test("coastal home: modified and composing canvas shortcuts preserve the view", 
   await expect.poll(async () => (await evidence(scene)).inspection?.id).toBe("rabbit-0");
   await sceneInputFrame(page, view, () => canvas.press("Enter"));
   expect((await evidence(scene)).inspection).toBe(null);
+  expect(errors).toEqual([]);
+});
+
+test("coastal home: full screen fills the screen, keeps its controls and returns to the page", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page);
+  const { stage, scene, canvas, ui } = view;
+  const viewport = page.viewportSize();
+  const enter = ui.locator("[data-world-fullscreen]");
+  const exit = page.locator("[data-world-exit]");
+  await expect(enter).toBeVisible();
+  await expect(exit).toBeHidden();
+  // Outside first, so Escape is seen to leave full screen without also returning inside.
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-view]").click());
+  await expect(scene).toHaveAttribute("data-room", "outside");
+  const scrollBefore = await page.evaluate(() => scrollY);
+  await sceneInputFrame(page, view, () => enter.click());
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  expect(["native", "popover"]).toContain((await evidence(scene)).fullscreen);
+  await expect(stage).toHaveAttribute("role", "dialog");
+  await expect(canvas).toBeFocused();
+  const box = await canvas.boundingBox();
+  expect(Math.abs(box.width - viewport.width)).toBeLessThanOrEqual(1);
+  expect(Math.abs(box.height - viewport.height)).toBeLessThanOrEqual(1);
+  await expect(exit).toBeVisible();
+  await expect(exit).toHaveAccessibleName(/Back to the site/);
+  await expect(ui.locator("[data-world-view]")).toBeVisible();
+  await expect(enter).toBeHidden();
+  await page.screenshot({ path: testInfo.outputPath("fullscreen-outside.png") });
+  await sceneInputFrame(page, view, () => canvas.press("Escape"));
+  await expect(stage).not.toHaveClass(/is-world-immersive/);
+  expect((await evidence(scene)).fullscreen).toBe(null);
+  await expect(scene).toHaveAttribute("data-room", "outside");
+  await expect(enter).toBeFocused();
+  await expect(stage).not.toHaveAttribute("role", "dialog");
+  await expect(stage).toHaveAttribute("aria-label", "Portrait and research artifacts");
+  expect(Math.abs((await page.evaluate(() => scrollY)) - scrollBefore)).toBeLessThanOrEqual(1);
+  // F on the scene opens it again, and Back to the site closes it.
+  await canvas.focus();
+  await sceneInputFrame(page, view, () => canvas.press("f"));
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  await sceneInputFrame(page, view, () => exit.click());
+  await expect(stage).not.toHaveClass(/is-world-immersive/);
+  expect(await page.evaluate(() => document.fullscreenElement)).toBe(null);
+  // Leaving 3D while full screen also restores the page.
+  await sceneInputFrame(page, view, () => enter.click());
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  await scene.evaluate((element) => element.dispatchEvent(new CustomEvent("home-scene-unavailable", { bubbles: true })));
+  await expect(stage).toHaveAttribute("data-desk-mode", "2d");
+  await expect(stage).not.toHaveClass(/is-world-immersive/);
+  expect(await page.evaluate(() => document.documentElement.classList.contains("is-world-immersive"))).toBe(false);
   expect(errors).toEqual([]);
 });
 

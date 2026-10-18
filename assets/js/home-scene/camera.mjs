@@ -775,3 +775,12 @@ export function farView(radius, clearance = Infinity) {
 export function outsideClearance(radius, base = 0.32) {
   return Math.max(base, Math.min(6, radius * 0.06));
 }
+
+// A portrait canvas (a phone in full screen) keeps the authored horizontal coverage: below a square
+// canvas the vertical field of view widens so a room's sides stay in frame, up to `max` degrees.
+// Landscape canvases, every page embed included, keep the authored lens.
+export function portraitFov(fov, aspect, { minAspect = 1, max = 80 } = {}) {
+  if (!(aspect > 0) || aspect >= minAspect) return fov;
+  const half = Math.atan((Math.tan((fov * Math.PI) / 360) * minAspect) / aspect);
+  return Math.min(max, (half * 360) / Math.PI);
+}
