@@ -20,7 +20,7 @@ Frame rates (noisy under contention): study 35.6 to 43.9 fps, outside 10.1 to 15
 
 ## Re-check on main 049dba240 (two interleaved pairs, same method)
 
-Main moved on to the oak-and-marble kitchen relay and the living room's lantern (049dba240; its successor 2958e6adb only registers test cases, so it serves the same scene). The branch was rebased onto it and measured again against it:
+Main moved on to the oak-and-marble kitchen relay and the living room's lantern (049dba240; its successors up to 3c3b6852a change only tests, so they serve the same scene). The branch was rebased onto it and measured again against it:
 
 | View                   | Script ms per frame                    | Draws          | Shadow draws | Program switches | Frame interval | GPU ms per frame |
 | ---------------------- | -------------------------------------- | -------------- | ------------ | ---------------- | -------------- | ---------------- |

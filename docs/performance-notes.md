@@ -1,6 +1,6 @@
 # Performance notes
 
-How fast the coastal home and the site are, what has been done about it, and what to try next. Written October 18, 2026 on main 94755609f (full screen, the gym tripod camera, skinned wildlife, renovation phases 2-3) and re-checked on main 049dba240 (the oak-and-marble kitchen and the living room's lantern; main 2958e6adb serves the same scene). The longer, record-ready entry with every citation lives in the graphics record (performance system).
+How fast the coastal home and the site are, what has been done about it, and what to try next. Written October 18, 2026 on main 94755609f (full screen, the gym tripod camera, skinned wildlife, renovation phases 2-3) and re-checked on main 049dba240 (the oak-and-marble kitchen and the living room's lantern; main 3c3b6852a, which changes only tests since, serves the same scene). The longer, record-ready entry with every citation lives in the graphics record (performance system).
 
 ## How to measure
 
@@ -42,7 +42,7 @@ The site's pages, live, Lighthouse desktop, median of three: the homepage scores
 | Flat vector-array uniforms     | `static-light-field.mjs`, `light-installations.mjs` | Three r164 re-flattened every `Vector3[]` uniform on each material switch; it was the largest single cost of an outside frame.      |
 | Program-grouped opaque draws   | `draw-order.mjs`                                    | Groups opaque draws by shader program (about 580 program switches per outside frame became 173).                                    |
 | Two-stage shadow cache         | `shadow-cache.mjs`                                  | Static casters drawn once into a cached map, copied each frame with `blitFramebuffer`; only moving casters drawn over it.           |
-| Shared Draco pool              | `model-loader.mjs`                                  | Up to four decoder workers for the whole page instead of one per loader (2.0-2.7x faster decoding in isolation).                    |
+| Shared Draco pool              | `model-loader.mjs`                                  | Up to four decoder workers for the whole page instead of one per loader (2.0-2.7x faster decoding in isolation); forgets failures.  |
 | Pixel budget, adaptive density | `resolution.mjs`                                    | Caps the drawing buffer at 2.1 MP (full screen asks for up to 8 MP) and adapts large buffers to frame time; composer stays in step. |
 
 Still frames: matched deterministic stills with every change but the draw grouping are identical in the study and outside and differ by at most 2/255 in 0.5 % of pixels at 160 m; the draw grouping adds exact-depth-tie pixels (39 outside with a maximum channel delta of 40, 6 in the study, 4 at 160 m). Live shadow maps matched a full redraw to the texel in 7 of 8 checks and by all but one texel in the eighth. The budget leaves the ordinary canvas's size untouched. The draw grouping's tie pixels are shown in [the October 18 evidence](evidence/performance-2026-10-18/README.md); `?draw-order=material` restores three's order if any of them matters. Comparison flags (session URL): `?shadow-cache=0`, `?draw-order=material`, `?resolution=fixed`. `getSceneEvidence()` reports `shadowCache` and `resolution`, and in the lab (`?scene-lab=1`) `labScene.verifyShadowCache()` compares the next frame's cached shadow map with a full redraw.
