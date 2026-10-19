@@ -1,5 +1,7 @@
 // Interleaved A/B frame-cost probe for the coastal home's main views: the occupied study, the
-// outside view, and the 160 m coast with the hinterland and planting loaded. Local headless
+// outside view, and the 160 m coast with the hinterland and planting loaded; optionally the kitchen
+// camera (which looks in through a door, past the facade curtains), the living room's and the terrace
+// laundry (COASTAL_VIEWS_LIST: kitchen, lounge, terrace). Local headless
 // measurements on this host's GPU, not a phone or another graphics card.
 //
 // PowerShell (Bash env prefixes break npx/node paths on this machine):
@@ -414,6 +416,15 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
         camera: { room: after.currentRoom, radius: round(after.cameraOrbit?.radius, 2) },
         resolution: after.resolution || null,
         shadowCache: after.shadowCache || null,
+        // The facade curtains' and the terrace laundry's own per-frame time while they step.
+        cloth: after.simulation?.curtains
+          ? {
+              curtainsStepping: after.simulation.curtains.stepping,
+              curtainMs: after.simulation.curtains.frameMilliseconds,
+              laundryStepping: after.simulation.curtains.laundry?.stepping ?? null,
+              laundryMs: after.simulation.curtains.laundry?.frameMilliseconds ?? null,
+            }
+          : null,
       };
       return summary;
     };
@@ -506,6 +517,16 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
         await host.locator("canvas").focus();
         await page.keyboard.press("Home");
         await page.waitForTimeout(2500);
+      } else if (view === "kitchen" || view === "lounge") {
+        // A room camera from the lab panel (the kitchen's looks in through a door, past the curtains).
+        const lab = page.locator("[data-world-lab]");
+        if (!(await lab.evaluate((element) => element.open))) await page.locator("[data-world-lab] > summary").click();
+        await page.locator(`[data-world-room="${view}"]`).click();
+        await page.waitForTimeout(3500);
+      } else if (view === "terrace") {
+        // The laundry on the terrace from inside the parapet, the sea behind it.
+        await host.evaluate((element) => element.setLabCamera({ target: [-1.0, 1.5, -7.25], yaw: 0.15, pitch: 0.06, radius: 2.0 }));
+        await page.waitForTimeout(3500);
       }
       result.views[view] = await sample(view);
       await shot(view);
