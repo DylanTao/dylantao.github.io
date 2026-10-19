@@ -63,6 +63,8 @@ import { prepareFramePrograms } from "./program-warmup.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs";
 import { createLightInstallations } from "./light-installations.mjs";
+import { createAtmosphere } from "./atmosphere.mjs";
+import { createHaze } from "./haze.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -123,6 +125,7 @@ export function createCoastalHome(container, records, artifacts) {
     lightInstallations,
     steamVolume,
     staticLightField,
+    atmosphere,
     daylight;
   const lightBakeAbort = new AbortController();
   let lightBakeStarted = false,
@@ -1033,27 +1036,48 @@ export function createCoastalHome(container, records, artifacts) {
     selectedProp.quaternion.copy(propRotation.multiply(propWorldRotation));
   }
 
+  // The key light follows the sky (atmosphere.mjs): the sun through the coast's air, gold and dim
+  // when low, or once its light is gone the moon at its true place and phase.
+  const keyColor = new THREE.Color();
   function updateLight() {
     if (!routine) return;
     daylight = coastalDaylight(routine.dateKey, routine.minute);
     const evening = daylight.daylight < 0.15;
-    hemi.color.set(evening ? 0x97b2dc : 0xffead1);
-    hemi.groundColor.set(evening ? 0x473426 : 0x8b7659);
-    hemi.intensity = style === "realistic" ? (evening ? 0.65 : 0.62) : 1.5;
-    sun.color.set(style === "illustrated" ? (evening ? 0xc7a1ef : 0xffc773) : evening ? 0xb6c4f1 : 0xffe2b0);
-    sun.intensity = style === "realistic" ? 0.18 + daylight.sunlight * 2.35 : evening ? 1.05 : 2.5;
-    // The sky, reflection, direct shadow, and room now agree on the same
-    // approximate La Jolla sun. Night's weak key is an authored moon light.
-    sunDirection.fromArray(daylight.keyDirection).normalize();
+    pacific?.setPalette(routine.palette, daylight);
+    const sky = style === "realistic" ? pacific?.sky?.() : null;
+    if (sky) {
+      const moonKey = sky.light.moonLuminance > sky.light.sunLuminance,
+        color = moonKey ? sky.light.moonColor : sky.light.sunColor,
+        luminance = 0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2],
+        direction = moonKey ? sky.moonDirection : sky.sun;
+      keyColor.fromArray(color.map((v) => v / Math.max(luminance, 1e-6)));
+      sun.color.copy(keyColor);
+      sun.intensity = luminance;
+      // A grazing key would skim the shadow map; a sun under 1.7 degrees casts from there.
+      sunDirection.set(direction[0], Math.max(direction[1], 0.03), direction[2]).normalize();
+      // Before the probe field is baked, the hemisphere light carries the sky's irradiance.
+      const colors = pacific.lightColors();
+      hemi.color.fromArray(colors.zenith.map((v, k) => (v + colors.horizon[k]) * 0.5 * Math.PI));
+      hemi.groundColor.fromArray(colors.ground.map((v) => v * Math.PI));
+      hemi.intensity = 1;
+    } else {
+      hemi.color.set(evening ? 0x97b2dc : 0xffead1);
+      hemi.groundColor.set(evening ? 0x473426 : 0x8b7659);
+      hemi.intensity = style === "realistic" ? (evening ? 0.65 : 0.62) : 1.5;
+      sun.color.set(style === "illustrated" ? (evening ? 0xc7a1ef : 0xffc773) : evening ? 0xb6c4f1 : 0xffe2b0);
+      sun.intensity = style === "realistic" ? 0.18 + daylight.sunlight * 2.35 : evening ? 1.05 : 2.5;
+      sunDirection.fromArray(daylight.keyDirection).normalize();
+    }
     fitSunShadow(true);
     warmPracticals?.update(daylight.daylight, { ...routine, schedule: routine.weekend ? config.weekend : config.weekday });
     lightInstallations?.update({ minute: routine.minute, daylight: daylight.daylight, activity: routine.id });
     syncFacadeDoors();
-    pacific?.setPalette(routine.palette, daylight);
     if (staticLightField && pacific) {
+      const colors = pacific.lightColors();
       staticLightField.setLighting({
-        ...pacific.lightColors(),
-        ground: hemi.groundColor.clone().multiplyScalar(hemi.intensity).toArray(),
+        zenith: colors.zenith,
+        horizon: colors.horizon,
+        ground: sky ? colors.ground : hemi.groundColor.clone().multiplyScalar(hemi.intensity).toArray(),
         practicalPowers: warmPracticals.lights.map((light) => light.intensity),
       });
     }
@@ -1074,7 +1098,7 @@ export function createCoastalHome(container, records, artifacts) {
       steamVolume.setLighting({
         ambient: ambient.toArray(),
         directional: sun.color.clone().multiplyScalar(sun.intensity).toArray(),
-        direction: daylight.keyDirection,
+        direction: sunDirection.toArray(),
       });
     }
     if (lightWell && pacific) {
@@ -2584,6 +2608,8 @@ export function createCoastalHome(container, records, artifacts) {
     companion.paused = paused;
     worldCompanion?.update(Math.min(delta, 0.25), elapsed, camera, currentRoom, moving);
     orientProp();
+    // The marine fog drifts with the coast's breeze on the scene's clock (haze.mjs).
+    finish?.haze?.advance(elapsed, coastWind.state);
     renderer.info.reset();
     withoutContactLighting(finish?.contactLighting, () =>
       pacific?.reflect(camera, style === "realistic" && currentRoom === "outside" && labSettings.reflection)
@@ -2684,10 +2710,16 @@ export function createCoastalHome(container, records, artifacts) {
       surfaceLook.sheen = look.sheen;
       const bloom = look.bloom ? await import("../vendor/three-r164/postprocessing/UnrealBloomPass.js") : null;
       if (disposed) return;
+      // The sky, the sun and the coast's air (atmosphere.mjs, haze.mjs): the dome and the haze pass
+      // share one set of tables. ?haze=0 keeps three's linear fog for comparison.
+      atmosphere = createAtmosphere(renderer);
+      cleanup.push(() => atmosphere?.dispose());
       finish = createFinish(renderer, scene, perspective, {
         profileGPU: labEnabled,
         // 1.6 sits above sunlit walls (no bloom at midday) and below the lamps and sconces.
         bloom: bloom && { Pass: bloom.UnrealBloomPass, strength: 0.28, radius: 0.42, threshold: 1.6 },
+        // ?light-air=0 keeps the haze analytic (no march for shafts, marine fog or sunbeams).
+        haze: flags.get("haze") === "0" ? null : createHaze(atmosphere, scene, sun, { volume: flags.get("light-air") !== "0" }),
       });
       skinDiffusion = createSkinDiffusion();
       coastalWind = createCoastalWind();
@@ -2730,7 +2762,7 @@ export function createCoastalHome(container, records, artifacts) {
       world.add(prepareModel(shell.scene));
       cameraField?.addRoot(shell.scene);
       loadingStage("coast", "Opening the coast.");
-      pacific = createPacific(scene, renderer, config);
+      pacific = createPacific(scene, renderer, config, { atmosphere });
       pacific.bindLamps(lightInstallations, warmPracticals);
       const coast = await loadModel(new URL(config.coast, manifestUrl).href, "coast");
       if (disposed) {

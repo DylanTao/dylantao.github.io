@@ -591,10 +591,16 @@ function syncOutputDefines(pass, activeRenderer) {
 }
 
 // `bloom` (look lab) is { Pass, strength, radius, threshold }, with Pass the vendored UnrealBloomPass
-// loaded on demand; it glows only HDR highlights above the threshold, before tone mapping.
-export function createFinish(renderer, scene, camera, { transparentOutput = false, profileGPU = false, bloom: bloomLook = null } = {}) {
+// loaded on demand; it glows only HDR highlights above the threshold, before tone mapping. `haze`
+// (haze.mjs) lays the coast's air over the beauty pass from its resolved depth, before the bloom, so
+// a low sun's glow and the lamps bloom through it.
+export function createFinish(renderer, scene, camera, { transparentOutput = false, profileGPU = false, bloom: bloomLook = null, haze = null } = {}) {
   if (transparentOutput) return createLegacyFinish(renderer, scene, camera, { transparentOutput });
-  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
+  const target = new THREE.WebGLRenderTarget(1, 1, {
+    type: THREE.HalfFloatType,
+    samples: 4,
+    depthTexture: haze ? new THREE.DepthTexture(1, 1) : null,
+  });
   const composer = new EffectComposer(renderer, target);
   const beauty = new RenderPass(scene, camera),
     contact = new SSAOPass(scene, camera, 1, 1, 1),
@@ -639,12 +645,14 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
   };
   composer.addPass(contact);
   composer.addPass(beauty);
+  if (haze) composer.addPass(haze.pass);
   if (bloom) composer.addPass(bloom);
   composer.addPass(output);
   let width = 1,
     height = 1;
   return {
     contactLighting: lighting,
+    haze,
     // Programs this pipeline draws beyond the scene's own materials (program-warmup.mjs): the
     // contact pass's normal override on every occluding mesh, and its two full-screen passes.
     programWarmup: {
@@ -652,6 +660,7 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
       passes: [
         { material: contact.ssaoMaterial },
         { material: contact.blurMaterial },
+        ...(haze ? haze.programWarmup : []),
         ...(bloom
           ? [bloom.materialHighPassFilter, ...bloom.separableBlurMaterials, bloom.compositeMaterial, bloom.blendMaterial].map((material) => ({
               material,
@@ -684,10 +693,12 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
       contact.ssaoMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
       contact.blurMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
       gpuTimer.begin();
+      haze?.prepare(activeCamera, exterior);
       try {
         if (volume?.object.visible) volumeDepth.render(activeCamera, volume);
         composer.render();
       } finally {
+        haze?.restore();
         gpuTimer.end();
       }
     },
@@ -706,12 +717,14 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
         gpu: gpuTimer.evidence,
         volumeDepth: volume?.object.visible ? volumeDepth.evidence() : null,
         bloom: bloom ? { strength: bloom.strength, radius: bloom.radius, threshold: bloom.threshold } : null,
+        haze: haze ? haze.evidence() : null,
       };
     },
     dispose() {
       lighting.contactEnabled.value = false;
       gpuTimer.dispose();
       volumeDepth.dispose();
+      haze?.dispose();
       beauty.dispose();
       contact.dispose();
       bloom?.dispose();
