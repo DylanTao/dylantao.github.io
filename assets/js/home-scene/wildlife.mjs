@@ -901,6 +901,55 @@ export function createWildlife(parent, config) {
       }
     }
   };
+  // Where animals meet the sea, for its wakes and rings (environment.mjs): each swimming sea lion's
+  // position, heading and speed (from its last two poses), how much V wake it draws (less while it
+  // is in the air), and the age of the ring its last re-entry threw; the diving pelican's splash ring.
+  // Read from the poses, so it moves with the scene's clock and holds still with it.
+  const waterMarks = [];
+  function track(animal, x, z, t, entering) {
+    const mark = (animal.waterMark ||= { x, z, t, vx: 0, vz: 0, entryAt: -Infinity, entering: false }),
+      dt = t - mark.t;
+    if (dt > 1e-4 && dt < 0.5) {
+      mark.vx = (x - mark.x) / dt;
+      mark.vz = (z - mark.z) / dt;
+    } else if (dt !== 0) mark.vx = mark.vz = 0;
+    if (entering && !mark.entering) mark.entryAt = t;
+    Object.assign(mark, { x, z, t, entering });
+    return mark;
+  }
+  function markWater(t) {
+    waterMarks.length = 0;
+    for (const swimmer of swimmers) {
+      const pose = swimmer.pose;
+      if (!pose) continue;
+      const mark = track(swimmer, pose.position[0], pose.position[2], t, pose.entry > 0.02),
+        speed = Math.hypot(mark.vx, mark.vz);
+      waterMarks.push({
+        x: mark.x,
+        z: mark.z,
+        dx: speed > 1e-3 ? mark.vx / speed : 1,
+        dz: speed > 1e-3 ? mark.vz / speed : 0,
+        speed,
+        wake: pose.inAir ? 0.35 : 1,
+        ring: Number.isFinite(mark.entryAt) ? 1 : 0,
+        ringAge: Number.isFinite(mark.entryAt) ? t - mark.entryAt : 10,
+      });
+    }
+    const diver = pelicans[4]?.pose;
+    if (diver) {
+      const mark = track(pelicans[4], diver.position[0], diver.position[2], t, diver.splash > 0.02);
+      waterMarks.push({
+        x: mark.x,
+        z: mark.z,
+        dx: 1,
+        dz: 0,
+        speed: 0,
+        wake: 0,
+        ring: Number.isFinite(mark.entryAt) ? 1.4 : 0,
+        ringAge: Number.isFinite(mark.entryAt) ? t - mark.entryAt : 10,
+      });
+    }
+  }
   // The sea the renderer draws this frame: the controller syncs the ocean's wind sea from the same
   // coast wind state, so swimmers, pelicans and the sandpipers' swash all read that one surface.
   const seaState = { turn: [1, 0], scale: new Float32Array(OCEAN_WAVES.length) };
@@ -928,6 +977,7 @@ export function createWildlife(parent, config) {
     timed("sandpipers", () => each(shorebirds, (bird) => poseSandpiper(bird, t)));
     timed("pelicans", () => each(pelicans, (bird) => posePelican(bird, t)));
     timed("cormorants", () => each(cormorants, (bird) => poseCormorant(bird, t)));
+    markWater(t);
     updateMilliseconds = updateMilliseconds * 0.9 + (clock() - started) * 0.1;
   }
   update(0);
@@ -940,6 +990,7 @@ export function createWildlife(parent, config) {
     }));
   return {
     update,
+    waterMarks: () => waterMarks,
     targets: () => inspectable.map(describeTarget),
     target(id) {
       const record = inspectable.find((item) => item.id === id);

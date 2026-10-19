@@ -84,6 +84,89 @@ An earlier evening exterior measured 16.7 ms median and 33.3 ms p95. These short
 
 The coordinator performs the affected-route checkpoint, targeted scene interaction checks and production build after combining the model/runtime/site changes. The release-scale full matrix remains reserved for publication.
 
+## Seawater optics, the seabed and the shore (2026-10-18)
+
+Sirui asked on October 18 for water with the quality of two three.js scenes he had seen: a teal harbour that mirrors its lamps in long streaks through mist, and a Mediterranean cove whose turquoise shallows show the sandy, rocky seabed with moving caustics. The Pacific's body colour now comes from what the water absorbs and scatters over the seabed beneath it, instead of a painted teal with a wet-sand tint near the beach.
+
+### The seabed (bathymetry.mjs)
+
+The authored coast reaches only a little way under the sea: the beach slopes to 0.75 m below mean sea level and the cliff's foundation about a metre. `createBathymetry` draws the coast's meshes once from above with an orthographic camera into an 800 × 160 float target (0.5 m cells over x −200…200 m, z −80…0 m). Each cell records the highest surface below a clip plane 0.5 m over the sea; a back face seen from above below sea level is the inside of a solid that rises through the water, so it wins every depth test and marks the column dry. Sand and rock come from the material ("dry beach sand" and "wet tideline sand" are sand; every sandstone and bluff is rock). `fillSeabed` in `sea-optics.mjs` keeps every captured height and continues the open seabed down from the coast by a slope-limited extension, max over captured cells of h − 0.08 d (a two-pass chamfer over the 3 × 3 neighbourhood), steepened by 0.003 r² with r the distance from the nearest captured cell, to a 14 m floor. A turquoise shelf a few metres deep runs along the beach and open water begins about 50 m out. The same passes give each cell its distance to dry land (the true waterline, rocks included) and to the captured coast. The result is a half-float texture: height, rock share, shore distance and coast distance.
+
+The capture runs once when the coast loads, before the first composed frame, with a synchronous readback (17–51 ms draw and readback, 26–45 ms fill on this laptop). The hinterland's coves join later through a pixel-pack buffer behind a fence, polled with scheduler tasks (a paused page clock freezes timers and frames), so that capture never waits on the GPU. Without float render targets the sea keeps the old authored depth.
+
+### Light in the water (sea-optics.mjs)
+
+Three bands stand for the spectrum (650, 550, 450 nm). Pure water absorbs 0.34, 0.0565 and 0.00922 m⁻¹ (Pope and Fry 1997); phytoplankton and dissolved matter add the bio-optical terms Lee et al. use (their equations 12–15 and Table 2) for an authored clear La Jolla day (0.25 mg m⁻³ chlorophyll, 0.015 m⁻¹ CDOM at 440 nm), and particles backscatter 1.9 % of Gordon and Morel's particle scattering (B = 0.3). With κ = a + b_b and u = b_b/κ, the water's subsurface reflectance over a bottom of albedo ρ at depth H is Lee et al.'s semianalytical shallow-water model (1998, equation 21):
+
+```text
+r_rs = (0.070 + 0.155 u^0.752) u [1 − 1.03 exp(−(1/cos θ_w + 1.2 (1 + 2u)^½ / cos θ_v) κ H)]
+     + 0.31 ρ L exp(−(1/cos θ_w + 1.1 (1 + 4.9u)^½ / cos θ_v) κ H)
+R_rs = 0.5 r_rs / (1 − 1.5 r_rs)                          (Lee et al. 1999, equation 2)
+L_w  = R_rs E_d (1 − F(θ)) / 0.98
+```
+
+θ_w is the refracted sun's zenith in the water and L the bottom's light relative to open sand (its shadow and caustics). Their fit is for a nadir view; here the upward factors are stretched by the view's own path, 1/cos θ_v, an adaptation. E_d is the light arriving at the pixel (three's direct and indirect diffuse over the material's albedo), so the water darkens in the cliff's shadow and at night with no separate palette. Over sand the water runs from sand at the waterline through turquoise (a metre takes out the red) to blue-green and navy offshore. In the surf zone a spectrally flat 0.006 m⁻¹ of suspended sand, growing with each crest, turns the water milky.
+
+The view ray refracts at the wave normal and two steps along it find the seabed, so its pattern sits at depth. The seabed is rippled sand (9 cm wave ripples along the shore, filtered with distance), rock with algae, coralline crust and surfgrass in the shallows, and patchy reef with kelp on the deeper rock past the authored coast; detail a pixel cannot resolve is not computed.
+
+### Caustics
+
+Sunlight refracts into the water and lands a path l further down. To first order a ray through a surface of slope ∇h moves by l (1 − 1/n) ∇h, so the irradiance on the seabed changes by 1/|det(I + l (1 − 1/n) Hess h)|: the differential form of the beam-area ratio Watt (1990) traced through a water surface. The Hessian is that of the seven longest pixel-stage wind ripples (0.9 m to 12.5 cm; their amplitude follows the local gusty wind by the Cox–Munk law), evaluated where the sun ray that lands on this seabed point crossed the surface. The shorter ripples focus only close under the surface and are blurred by the sun's disc below that. Each ripple's curvature is blurred by the sun's disc over the path (0.0047 l) and by the pixel footprint, and dropped once a pixel cannot resolve it. A single sheet of the folded map under- and over-counts light; dividing by the sampled mean, (1 + 1.7 σ²)/(1 + 0.3 σ^3.5) in the summed curvature variance σ² = Σ ½ (a k² w l′)² with l′ = l (1 − 1/n) (within 5 % of sampled statistics up to σ² = 28), keeps the seabed's average light unchanged. Two slow noise fields scramble each ripple's phase so the seven plane waves do not focus into a lattice; no ripple's curvature changes. The sun's shadow on the seabed is looked up at that same entry point, 20 cm above the water and the bed, with four compares, so a swimming sea lion shades the sand under it.
+
+### Reflections, glitter and lamps
+
+`reflection.mjs` distorts the 384 px mirror by the wave normal's tilt in screen space, more vertically than across (at a grazing view a tilt along the view moves the image far more), and blurs it with seven taps along the vertical in proportion to the slope deviation, so lamps at dusk smear into columns.
+
+The sun's (or the moon's) path: three r164's directional-light loop calls the sea's own `RE_Direct_SeaSun`, which lays down the diffuse light as `RE_Direct_Physical` does and keeps the GGX lobe apart, shadow included. The lobe's roughness carries the unresolved slope variance, so the path widens as the wind roughens the water. The lobe is then broken into glints. A patch of sea, 9 cm or the pixel's footprint in power-of-two steps, holds on average N = (patch / 3 cm)² D(h) cos θ_h Ω / (4 h·l) facets aimed at the sun's disc: the lobe's own GGX distribution over the disc's solid angle Ω = 6.9 × 10⁻⁵ sr through the reflection Jacobian, with 3 cm standing for the capillary ripples that throw glints (an authored scale). Each patch draws its count for its own seventh of a second with mean one. Below one glint a patch is dark or lit, a lit one exponentially bright (1/N on average, fading in and out); above one the draw spreads 1/√N about the mean, so the far path twinkles; at N = 1 both are the same draw. Half the lobe draws as that count and half as a steady glow: tone mapping compresses a sparse bright glint far more than a steady path of the same mean, and the glow stands for the glints' glare. A flash stops at 60, since brighter only spreads the bloom into a haze. `?sea-debug=glints` shows N and the draws.
+
+After dark the terrace's lamps (each festoon swag at its lowest bulbs, the fire bowl and the two wall lights) are mirrored by GGX with plain inverse-square falloff. Their light's range cut-off is for lighting, not for being seen. The lobe keeps at most the roughness of 2 m wind ripples, and the bulbs count four times their lighting budget, so the streaks read as they do on a harbour.
+
+### Sunset on the water
+
+Sirui, October 18: "the sunset, reflection should also be better designed. since sunset near pacific ocean is gorgeous and you can have data on when is sunset in lajolla easily". The sun's position already comes from `coastalDaylight` (NOAA's approximation at La Jolla): on October 16, 2026 the sun stands 8.6° up at 17:30, 2.4° at 18:00, sets at 18:16 PDT, and civil dusk ends at 18:41. The scene's sun light keeps one daytime colour down to the horizon, so the water gives its sun the hue the direct beam takes on its slant path through the air:
+
+```text
+m(h)   = 1 / (sin h + 0.50572 (h + 6.07995)^-1.6364)       Kasten and Young (1989), h in degrees
+tau_R  = 0.008569 L^-4 (1 + 0.0113 L^-2 + 0.00013 L^-4)    Hansen and Travis (1974), L in micrometres
+tau_A  = 0.1 (L / 0.55)^-1                                 an authored clean coastal haze
+T      = exp(-m (tau_R + tau_A))
+tint   = T(h) / T(40 degrees), per band, scaled to keep the scene light's Rec. 709 luminance
+```
+
+At the sea's three bands the tint is 1 from 40° up, golden at 8° (1.29, 0.92, 0.42), amber at 4.5° (1.54, 0.84, 0.20), orange at 2° and red-orange on the horizon (2.95, 0.30, 0.001). Only the hue changes, because the scene's own ramp (`sunlight`) already dims the setting sun; after sunset the key light is the authored moon and the tint is 1. The tint colours the sun's glitter path and its light on the seabed, not its diffuse light on the water, since the beach beside it is lit by the scene's light. The sky's sunset colours reach the water through the live mirror and the environment map, so the Fresnel reflection carries whatever the sky shows. The water reads the sun through one accessor, `waterSky()` in `environment.mjs`, which the atmosphere work is to back with its own sun and sky (planned as `pacific.atmosphere`); the provisional tint goes once the sun light carries the colour. At blue hour the lamp streaks take over. The evening breeze is measured, not authored (2.0 m/s at 18:00 against 2.75 m/s at 15:00 in the LJPC1 October means above), so the sunset sea is calmer than the afternoon's but not glassy.
+
+### Wakes and rings
+
+`wildlife.mjs` reports where the two swimming sea lions and the diving pelican meet the water (`waterMarks()`: position, heading, speed and a ring's age). In the same pixel stage as the ripples the sea adds, as slopes and foam, an expanding ring where an animal broke the surface (radius 0.3 + 1.1 t metres, fading over a few seconds) and a Kelvin wake behind a swimmer: two arms at 19.47°, divergent waves along them and white water close behind. It is a stylized surface pattern for up to three animals, not a wave solver.
+
+### The shore
+
+The swash, breaking fronts and shoaling foam now follow the captured shoreline distance instead of the authored beach profile, which sat about 1.5 m off the visible waterline on the left. The water runs up to the true waterline and around the haul-out rocks. Beach sand no longer casts sun shadows: it lies within one shadow-map texel of the shallow water over it and shaded that water in straight-edged patches. The sea's own shadow lookup rises 20 cm for the same reason. Rocks, animals and the cliff still shade it.
+
+### Compile time
+
+ANGLE's Direct3D 11 compiler unrolls loops with constant bounds and inlines every call, and an implicit-derivative texture lookup inside a loop or branch makes it unroll and re-derive the lookup. The first optics more than doubled the sea program's compile, so its loops now run to uniform bounds over flat uniform arrays (the swells and pixel ripples in `ocean-spectrum.mjs`, the caustic ripples, the lamps and the wakes), its seabed and shadow lookups take explicit levels, its value noise uses a short integer hash, the caustics use the seven longest ripples, and the onsen stone evaluates its lens once per fragment. Timed by compiling the page's own captured sources afresh in a bare context (compile and link, six interleaved rounds, this laptop through ANGLE/D3D11): the sea's program took 4.6–5.1 s against 1.7–2.1 s before the restructuring and now 2.74 s median (2.65–2.93 s) against 2.11 s (1.82–2.32 s) without the optics; the onsen stone's receiver program takes 1.33 s (1.17–1.55 s). Both compile on the driver's worker threads with the first view's other programs (`program-warmup.mjs`), and activation to the first ready frame did not grow: 13.3 s median (13.3–14.2 s) against 13.5 s (12.3–14.4 s) in the final interleaved runs.
+
+### Cost and limits
+
+Interleaved A/B on this laptop (`bin/measure_coastal_views.cjs`, base `dcff1a5db` against the working tree, a fresh browser per run, 6 s per view; median of the runs' medians with their range; five pairs for the two exterior views, three for the others). The host was shared with other work, and in the two slowest working-tree runs the mirror pass, which this change does not touch, slowed by the same factor.
+
+| View (1440 × 1000, DPR 1)   | Script per frame, base → water         | GPU per frame, base → water            | Frame interval |
+| --------------------------- | -------------------------------------- | -------------------------------------- | -------------- |
+| Study (occupied room)       | 10.0 (9.5–12.3) → 10.5 (9.7–10.5) ms   | 17.7 (17.0–18.8) → 16.6 (16.6–19.7) ms | 16.7 ms both   |
+| Outside, authored 48 m      | 42.3 (36.0–43.9) → 45.7 (34.6–48.3) ms | 47.3 (46.4–60.1) → 55.8 (42.0–64.0) ms | 50 ms both     |
+| Coast at 160 m              | 43.9 (35.0–49.9) → 38.9 (35.1–45.2) ms | 55.4 (41.3–60.5) → 52.6 (46.1–56.5) ms | 50 ms both     |
+| Terrace laundry, sea behind | 18.5 (16.5–19.9) → 18.1 (16.9–19.7) ms | 17.6 (15.1–21.4) → 18.9 (17.4–19.7) ms | 16.7 ms both   |
+
+- The seabed is authored geometry plus a smooth extension: no surveyed bathymetry, no sand bars, channels or kelp forest geometry, and nothing under water casts a shadow.
+- Caustics come from the pixel-stage ripples only (the swells' curvature is negligible), from one paraxial sheet, without the multiple overlapping images of a strongly folded map.
+- Lee et al.'s model is a fit for nadir viewing over a Lambertian bottom; the oblique stretch and the light split between sun and sky are adaptations.
+- Glints are a statistical closure on the GGX lobe (one draw per patch and moment), not individual ripples; their 3 cm facet scale is authored.
+- The low sun's hue is a three-band transmittance with an authored haze, applied to the water's sun only until the sky's own sun colour replaces it.
+- Lamp streaks have no occlusion, and indoor lamps are left out because their mirror images would need a visibility test through the glass.
+
+Sources: [Pope and Fry, Applied Optics 36, 8710 (1997)](https://doi.org/10.1364/AO.36.008710), tabulated by [OMLC](https://omlc.org/spectra/water/data/pope97.dat); [Lee, Carder, Mobley, Steward and Patch, Applied Optics 37, 6329 (1998)](https://doi.org/10.1364/AO.37.006329); [Lee et al., Applied Optics 38, 3831 (1999)](https://doi.org/10.1364/AO.38.003831); [Watt, Computer Graphics 24(4), 377 (1990)](https://doi.org/10.1145/97880.97920); Cox and Munk (1954) as above; [Kasten and Young, Applied Optics 28, 4735 (1989)](https://doi.org/10.1364/AO.28.004735), the formula as [pvlib](https://github.com/pvlib/pvlib-python/blob/main/pvlib/atmosphere.py) implements it; [Hansen and Travis, Space Science Reviews 16, 527 (1974)](https://doi.org/10.1007/BF00168069).
+
 ## One wind for the coast
 
 Sirui asked on October 15, 2026 that the grass and leaves move in the same wind that moves the ocean, and that the technical details be recorded. Since October 16 one state in `wind-field.mjs`, `coastWind`, drives the sea's wind waves, ripples and whitecaps, the clifftop planting, the room plants, the curtains, the bath steam, and the dust and spray. Shaders include one GLSL chunk (`coastWindGLSL`) and bind its shared uniform objects; JavaScript reads the same functions. The six-mode curl field above stays, as the small eddies of the air inside the house. The controller updates the state once per moving frame (`stepWind`), before anything samples it. A paused or reduced-motion scene holds it still; an explicit change of time, activity or motion recomposes it.

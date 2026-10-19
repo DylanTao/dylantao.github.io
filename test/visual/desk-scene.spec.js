@@ -1016,6 +1016,16 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
   expect(info.ecology.water.sample.jacobian).toBeGreaterThan(0.6);
   expect(info.ecology.water.reflection.linear).toBe(true);
   expect(info.ecology.water.reflection.fresnelIOR).toBe(1.333);
+  // The seabed is read from the coast's own sand and rock, then extended offshore (bathymetry.mjs).
+  const seabed = info.ecology.water.optics.seabed;
+  expect(seabed.captured).toBe(true);
+  expect(seabed.capturedCells).toBeGreaterThan(5000);
+  expect(seabed.dryCells).toBeGreaterThan(1000);
+  expect(seabed.deepestMeters).toBeCloseTo(14, 1);
+  // Red is absorbed most, so shallow water over sand turns turquoise (Pope and Fry; Lee et al.).
+  const [red, green, blue] = info.ecology.water.optics.absorption;
+  expect(red).toBeGreaterThan(green);
+  expect(red).toBeGreaterThan(blue);
   expect(info.daylight.location.latitude).toBe(32.83);
   expect(info.daylight.sunlight).toBe(1);
   await expect(ui.locator("[data-world-clock]")).toContainText("La Jolla");
@@ -1039,6 +1049,29 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
   await canvas.scrollIntoViewIfNeeded();
   await page.clock.runFor(100);
   await expect.poll(async () => (await evidence(scene)).ecology.water.seconds).toBeGreaterThan(frozen);
+  // At golden hour the water's sun takes the low sun's hue (sea-optics.mjs sunTint) at the scene
+  // light's brightness, and its mirror lobe stays apart for the glitter (environment.mjs).
+  // 18:30 on the test's September 11: the sun 5.9 degrees up, 32 minutes before it sets at 19:02.
+  await ui.locator("[data-world-time]").fill("1110");
+  // The scene clock is the test's: frames (and the sea's light sync) come as it runs.
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(500);
+        return (await evidence(scene)).ecology.water.optics.sun.tint[2];
+      },
+      { timeout: 20000 }
+    )
+    .toBeLessThan(0.6);
+  const golden = await evidence(scene),
+    waterSun = golden.ecology.water.optics.sun;
+  expect(golden.daylight.altitude).toBeGreaterThan(1);
+  expect(golden.daylight.altitude).toBeLessThan(10);
+  expect(waterSun.apart).toBe(true);
+  expect(waterSun.altitude).toBeCloseTo(golden.daylight.altitude, 6);
+  expect(waterSun.tint[0]).toBeGreaterThan(1.2);
+  expect(waterSun.tint[0]).toBeGreaterThan(waterSun.tint[1]);
+  expect(waterSun.tint[1]).toBeGreaterThan(waterSun.tint[2]);
   const final = await evidence(scene);
   const proofFile = testInfo.outputPath("physical-rendering-evidence.json");
   fs.writeFileSync(

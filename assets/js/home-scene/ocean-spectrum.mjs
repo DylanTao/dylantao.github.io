@@ -106,7 +106,7 @@ export function syncOceanWind(state = coastWind.state) {
 // `origin` is the ocean mesh's world position: its local xz plus origin.xz is the world point the
 // wind is sampled at, so the water and the bluff see one set of gust fronts.
 export function bindOceanWind(shader, origin = null) {
-  Object.assign(shader.uniforms, oceanWindUniforms);
+  Object.assign(shader.uniforms, oceanWindUniforms, oceanShapeUniforms);
   if (origin) oceanWindUniforms.oceanWindOrigin.value.set([origin.x, origin.z]);
   return shader;
 }
@@ -165,26 +165,34 @@ export function sampleOcean(x, z, seconds, footprint = 0, wind = null) {
 }
 
 const f = (value) => value.toFixed(9);
+// The spectrum's constants reach the shaders as uniform arrays looped with a uniform bound (flat arrays,
+// per the performance notes). ANGLE's Direct3D compiler unrolls constant-bound loops and inlines every
+// call; written out wave by wave, the sea's program took twice as long to compile once its optics joined
+// it (2026-10-18). The arithmetic per wave is unchanged.
 export const oceanFieldGLSL = `
 uniform float oceanWaveScale[${OCEAN_WAVES.length}];
 uniform vec2 oceanWindTurn;
+uniform vec4 oceanWaveA[${OCEAN_WAVES.length}];
+uniform vec4 oceanWaveB[${OCEAN_WAVES.length}];
+uniform int oceanWaveCount;
 // Turn an authored onshore heading toward the wind's.
 vec2 oceanTurn(vec2 d) { return vec2(d.x*oceanWindTurn.x+d.y*oceanWindTurn.y, d.y*oceanWindTurn.x-d.x*oceanWindTurn.y); }
 void oceanField(vec2 p, float time, float footprint, out vec3 displacement, out vec3 tx, out vec3 tz, out float lostVariance) {
   displacement=vec3(0.); tx=vec3(1.,0.,0.); tz=vec3(0.,0.,1.); lostVariance=0.;
-  ${OCEAN_WAVES.map(
-    (w, i) => `{
-    vec2 d=${w.windSea ? `oceanTurn(vec2(${f(w.dx)},${f(w.dz)}))` : `vec2(${f(w.dx)},${f(w.dz)})`};
-    float k=${f(w.k)}, a=${f(w.amplitude)}${w.windSea ? `*oceanWaveScale[${i}]` : ""}, q=${f(w.choppiness)};
+  for (int i = 0; i < oceanWaveCount; i++) {
+    // (dx, dz, k, amplitude) and (choppiness, omega, phase, wind sea): the wind sea turns and scales.
+    vec4 shape=oceanWaveA[i], motion=oceanWaveB[i];
+    bool windSea=motion.w>.5;
+    vec2 d=windSea?oceanTurn(shape.xy):shape.xy;
+    float k=shape.z, a=shape.w*(windSea?oceanWaveScale[i]:1.), q=motion.x;
     float bandWeight=exp(-.5*k*k*footprint*footprint);
-    float phase=k*dot(d,p)-${f(w.omega)}*time+${f(w.phase)};
+    float phase=k*dot(d,p)-motion.y*time+motion.z;
     float s=sin(phase),c=cos(phase),ak=a*bandWeight*k;
     displacement+=a*bandWeight*vec3(q*d.x*c,s,q*d.y*c);
     tx+=vec3(-q*ak*d.x*d.x*s,ak*d.x*c,-q*ak*d.x*d.y*s);
     tz+=vec3(-q*ak*d.x*d.y*s,ak*d.y*c,-q*ak*d.y*d.y*s);
     lostVariance+=.5*a*a*k*k*(1.-bandWeight*bandWeight);
-  }`
-  ).join("\n")}
+  }
 }
 `;
 
@@ -218,11 +226,37 @@ export function whitecapCoverage(speed) {
   const [a, b, gain, cap] = OCEAN_WIND.whitecap;
   return Math.min(cap, gain * a * Math.max(0, speed) ** b);
 }
+// The swells' and ripples' constants as flat uniform arrays (see oceanFieldGLSL).
+const oceanShapeUniforms = (() => {
+  const waveA = new Float32Array(OCEAN_WAVES.length * 4),
+    waveB = new Float32Array(OCEAN_WAVES.length * 4),
+    rippleA = new Float32Array(RIPPLES.length * 4),
+    rippleB = new Float32Array(RIPPLES.length * 4);
+  OCEAN_WAVES.forEach((w, i) => {
+    waveA.set([w.dx, w.dz, w.k, w.amplitude], i * 4);
+    waveB.set([w.choppiness, w.omega, w.phase, w.windSea ? 1 : 0], i * 4);
+  });
+  RIPPLES.forEach((w, i) => {
+    rippleA.set([w.dx, w.dz, w.k, w.amplitude], i * 4);
+    rippleB.set([w.omega, w.phase, 0, 0], i * 4);
+  });
+  return {
+    oceanWaveA: { value: waveA },
+    oceanWaveB: { value: waveB },
+    oceanWaveCount: { value: OCEAN_WAVES.length },
+    oceanRippleA: { value: rippleA },
+    oceanRippleB: { value: rippleB },
+    oceanRippleCount: { value: RIPPLES.length },
+  };
+})();
 const gw = (x) => windGLSLFloat(x);
 // Fragment stage only: it needs the scene's surfaceNoise (stoneNoise) and oceanFieldGLSL before it.
 export const oceanRipplesGLSL = `
 ${coastWindGLSL}
 uniform vec2 oceanWindOrigin;
+uniform vec4 oceanRippleA[${RIPPLES.length}];
+uniform vec4 oceanRippleB[${RIPPLES.length}];
+uniform int oceanRippleCount;
 float oceanWindLocal;
 vec3 oceanRipples(vec2 p, float time, float footprint) {
   // The wind under this pixel, at its world position, gusts included.
@@ -230,15 +264,15 @@ vec3 oceanRipples(vec2 p, float time, float footprint) {
   float windU = max(oceanWindLocal, 0.0);
   float gain = clamp(sqrt((${gw(OCEAN_WIND.slope[0])} + ${gw(OCEAN_WIND.slope[1])} * windU) / ${gw(OCEAN_WIND.slope[0] + OCEAN_WIND.slope[1] * OCEAN_WIND.reference)}) * (0.35 + 0.65 * smoothstep(${gw(OCEAN_WIND.rippleOnset[0])}, ${gw(OCEAN_WIND.rippleOnset[1])}, windU)), ${gw(OCEAN_WIND.rippleRange[0])}, ${gw(OCEAN_WIND.rippleRange[1])});
   vec3 ripple = vec3(0.);
-  ${RIPPLES.map(
-    (w) => `{
-    float k=${f(w.k)}, a=${f(w.amplitude)}*gain;
-    vec2 d=oceanTurn(vec2(${f(w.dx)},${f(w.dz)}));
+  for (int i = 0; i < oceanRippleCount; i++) {
+    // (dx, dz, k, amplitude) and (omega, phase): headings turn with the breeze.
+    vec4 shape=oceanRippleA[i];
+    vec2 motion=oceanRippleB[i].xy, d=oceanTurn(shape.xy);
+    float k=shape.z, a=shape.w*gain;
     float weight=exp(-.5*k*k*footprint*footprint);
-    ripple.xy+=d*(a*k*weight*cos(k*dot(d,p)-${f(w.omega)}*time+${f(w.phase)}));
+    if(weight>.002) ripple.xy+=d*(a*k*weight*cos(k*dot(d,p)-motion.x*time+motion.y));
     ripple.z+=.5*a*a*k*k*(1.-weight*weight);
-  }`
-  ).join("\n")}
+  }
   return ripple;
 }
 // Whitecaps in the local wind (call after oceanRipples): Monahan's coverage picks the share of a
