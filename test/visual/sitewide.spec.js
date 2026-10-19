@@ -2434,7 +2434,9 @@ test("projects nest the site experiments under the website revamp, newest first 
   ).toEqual({ complete: true, naturalHeight: 650, naturalWidth: 1200 });
   await attachScreenshot(page, testInfo, `projects-site-experiments-${testInfo.project.name}`, { fullPage: true });
 
-  // The 3D home holds the Graphics Lab, and the lab holds its nineteen experiments in five systems.
+  // The 3D home holds the Graphics Lab, and the lab holds every indexed experiment of its record
+  // (_data/design_records/graphics-lab.yml), grouped by system; the deck and each group name their
+  // own count, so the check follows the record as it grows.
   const desk = cards.filter({ has: page.getByRole("heading", { name: "The Desk That Learned Depth", exact: true }) });
   await desk.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
   await expect(page.locator("[data-project-deck-trail] li")).toHaveText([
@@ -2446,8 +2448,18 @@ test("projects nest the site experiments under the website revamp, newest first 
   await expect(lab.locator(":scope > .card h6.card-title")).toHaveText("Graphics Lab");
   await lab.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
   await expect(page).toHaveURL(/#deck\/graphics-lab$/);
-  await expect(lab.locator(".lab-deck-group")).toHaveCount(5);
-  await expect(lab.locator(".lab-card")).toHaveCount(19);
+  const labSize = Number(await lab.getAttribute("data-project-deck-size"));
+  expect(labSize, "the lab deck counts its experiments").toBeGreaterThanOrEqual(19);
+  await expect(lab.locator(":scope > .card .project-deck-count")).toHaveText(`${labSize} experiments`);
+  await expect(lab.locator(".lab-card")).toHaveCount(labSize);
+  const labGroups = await lab.locator(".lab-deck-group").evaluateAll((groups) =>
+    groups.map((group) => ({
+      said: Number(group.querySelector(".lab-deck-group-label span")?.textContent),
+      cards: group.querySelectorAll(".lab-card").length,
+    }))
+  );
+  expect(labGroups.length, "the experiments are grouped by system").toBeGreaterThanOrEqual(5);
+  expect(labGroups.every((group) => group.cards > 0 && group.cards === group.said)).toBe(true);
   await expect(lab.locator(".lab-card", { hasText: "Light paths through the onsen" })).toHaveAttribute("href", /\/projects\/light-paths\/$/);
   await attachScreenshot(page, testInfo, `projects-graphics-lab-deck-${testInfo.project.name}`, { fullPage: false });
 
