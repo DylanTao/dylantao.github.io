@@ -8,7 +8,7 @@ import { OCEAN_WAVES, bindOceanWind, oceanFieldGLSL, oceanRipplesGLSL, sampleOce
 import { createWindParticles } from "./wind-particles.mjs";
 import { coastWind } from "./wind-field.mjs";
 import { createBathymetry } from "./bathymetry.mjs";
-import { LA_JOLLA_WATER, SEA_LEVEL, SUN_SOLID_ANGLE, causticUniforms, seaOpticsGLSL, seawaterIOPs, sunTint } from "./sea-optics.mjs";
+import { LA_JOLLA_WATER, SEA_LEVEL, SUN_SOLID_ANGLE, causticUniforms, seaOpticsGLSL, seawaterIOPs } from "./sea-optics.mjs";
 
 const SAND_NAME = /beach sand|tideline sand/i;
 // The facets that throw the sun's glints: capillary ripples about 3 cm across (an authored scale).
@@ -69,10 +69,11 @@ vec2 seaWakes(vec2 p, inout float foam) {
   }
   return slope;
 }`;
+import { AMBIENT_FILL, createAtmosphere } from "./atmosphere.mjs";
 
 // Geometry, light, and a procedural sky. No photograph or illustration is
 // placed behind the home. Blender supplies the connected coastal headlands.
-export function createPacific(scene, renderer, config) {
+export function createPacific(scene, renderer, config, { atmosphere: sharedAtmosphere = null } = {}) {
   const root = new THREE.Group();
   root.name = "Pacific environment";
   scene.add(root);
@@ -82,8 +83,7 @@ export function createPacific(scene, renderer, config) {
   const shoreTexture = new THREE.DataTexture(shoreData, beach.samples.length, 1, THREE.RGBAFormat, THREE.FloatType);
   shoreTexture.minFilter = shoreTexture.magFilter = THREE.LinearFilter;
   shoreTexture.needsUpdate = true;
-  const time = { value: 0 },
-    ink = { value: 0 };
+  const time = { value: 0 };
   let style = "realistic",
     palette = "afternoon",
     skyKey = "",
@@ -433,42 +433,16 @@ export function createPacific(scene, renderer, config) {
   );
   dust.name = "Dust in the study light";
 
-  // The modeled sky also supplies a physically useful environment reflection.
-  const skyMaterial = new THREE.ShaderMaterial({
-    side: THREE.BackSide,
-    depthWrite: false,
-    uniforms: {
-      zenith: { value: new THREE.Color(0x6c9fc4) },
-      horizon: { value: new THREE.Color(0xdde0d7) },
-      sunDirection: { value: new THREE.Vector3(-14, 18, -22).normalize() },
-      night: { value: 0 },
-      sunRadiance: { value: 5 },
-      printMode: ink,
-    },
-    // The view direction from whichever camera draws the dome (the orbit, the sea mirror, the
-    // environment capture), so the dome can follow the orbit camera out to a 160 m view.
-    vertexShader:
-      "varying vec3 direction; void main(){ direction = (modelMatrix * vec4(position,1.0)).xyz - cameraPosition; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
-    fragmentShader: `${surfaceNoise}
-      uniform vec3 zenith; uniform vec3 horizon; uniform vec3 sunDirection; uniform float night; uniform float sunRadiance; varying vec3 direction;
-      void main(){
-        vec3 d = normalize(direction);
-        float height = pow(max(0.0,d.y),.45);
-        vec3 color = mix(horizon,zenith,height);
-        float alignment = max(0.0,dot(d,sunDirection));
-        color += vec3(1.0,.83,.58) * pow(alignment,28.0) * .2 * (1.-night);
-        color += vec3(1.0,.88,.69) * pow(alignment,2200.0) * sunRadiance;
-        vec3 cloudPoint = vec3(d.xz / max(.14,d.y+.18) * 2.4, .4);
-        float clouds = smoothstep(.56,.75,stoneNoise(cloudPoint)) * smoothstep(-.02,.16,d.y);
-        color = mix(color, horizon*1.08, clouds*.36*(1.-night));
-        float stars = pow(hash31(floor(d*780.0)),280.0)*smoothstep(.1,.8,d.y)*night;
-        color += stars*vec3(.35,.44,.55);
-        gl_FragColor = vec4(color,1.0);
-        #include <tonemapping_fragment>
-        #include <colorspace_fragment>
-      }`,
-  });
+  // The sky is a scattering atmosphere (atmosphere.mjs, after Hillaire 2020): the dome draws the sky
+  // for the actual sun with the moon, the stars and the Pacific out to the horizon, and the same
+  // dome, captured, is the environment every surface reflects. The view direction comes from
+  // whichever camera draws it (the orbit, the sea mirror, the capture), so the dome can follow the
+  // orbit camera out to a 160 m view.
+  const atmosphere = sharedAtmosphere || createAtmosphere(renderer);
+  const skyMaterial = atmosphere.skyMaterial;
   const sky = new THREE.Mesh(new THREE.SphereGeometry(120, 40, 24), skyMaterial);
+  sky.name = "Coastal sky dome";
+  sky.frustumCulled = false;
   sky.renderOrder = -10;
   root.add(sky);
 
@@ -525,30 +499,43 @@ export function createPacific(scene, renderer, config) {
   }
   function makeEnvironment() {
     if (environment) environment.dispose();
-    environment = pmrem.fromScene(capture, 0.04, 0.1, 180);
+    // The capture leaves out the sun's disc and the stars: the sun's light and its highlights come
+    // from the directional light, and a disc in the environment would add a second sun.
+    atmosphere.setCapture(true);
+    try {
+      environment = pmrem.fromScene(capture, 0.04, 0.1, 180);
+    } finally {
+      atmosphere.setCapture(false);
+    }
     scene.environment = environment.texture;
   }
+  // The light step's colours (atmosphere.mjs skyLighting), kept for the scene's lights.
+  let sky0 = null;
+  const skyColors = { zenith: new THREE.Color(), horizon: new THREE.Color(), ground: new THREE.Color() };
   function setPalette(next, light) {
-    // PMREM captures are static across a 20-minute light interval; animation
-    // never rebuilds them. The visible sun still follows the current minute.
-    if (light) skyMaterial.uniforms.sunDirection.value.fromArray(light.keyDirection).normalize();
-    const key = `${next}:${light ? Math.floor(light.minute / 20) : "authored"}`;
-    if (skyKey === key && environment) return;
-    skyKey = key;
     palette = next;
-    const night = light ? light.daylight < 0.15 : next === "evening";
-    skyMaterial.uniforms.zenith.value.set(night ? 0x112441 : next === "morning" ? 0x8bb3c8 : 0x4b92bd);
-    skyMaterial.uniforms.horizon.value.set(night ? 0x435771 : next === "afternoon" ? 0xbfcfce : 0xd9e5e7);
-    skyMaterial.uniforms.night.value = light ? 1 - light.daylight : night ? 1 : 0;
-    skyMaterial.uniforms.sunRadiance.value = light ? 0.2 + light.sunlight * 4.8 : night ? 0.2 : 5;
-    if (!light) skyMaterial.uniforms.sunDirection.value.set(next === "afternoon" ? -14 : 10, night ? 16 : 18, -22).normalize();
+    if (!light) return;
+    // Every light step redraws the sky for the current minute (a 192×108 table); the reflections'
+    // capture is rebuilt when the sky has changed enough to see: every 20 minutes by day, every
+    // half degree of sun near the horizon, where a sunset changes by the minute.
+    const state = atmosphere.update({ daylight: light, dateKey: light.dateKey, minute: light.minute });
+    sky0 = state.light;
+    const elevation = light.altitude,
+      step = Math.abs(elevation) < 14 ? 0.5 : 4,
+      key = `${Math.floor(light.minute / 20)}:${Math.round(elevation / step)}:${state.marine.toFixed(2)}`;
+    skyColors.zenith.fromArray(sky0.zenith.map((v) => v * AMBIENT_FILL));
+    skyColors.horizon.fromArray(sky0.horizon.map((v) => v * AMBIENT_FILL));
+    skyColors.ground.fromArray(sky0.ground.map((v) => v * AMBIENT_FILL));
+    const night = light.daylight < 0.15;
     physicalWater.color.set(night ? 0x122a3c : 0x185462);
     modelWater.color.set(night ? 0x526d86 : 0x8db9bb);
     printWater.color.set(night ? 0x273e66 : 0x267787);
     if (style === "realistic") {
-      makeEnvironment();
-      scene.fog.color.copy(skyMaterial.uniforms.horizon.value);
+      if (skyKey !== key || !environment) makeEnvironment();
+      // The sea mirror keeps three's fog (the beauty pass draws its haze in haze.mjs).
+      scene.fog.color.fromArray(sky0.horizon);
     }
+    skyKey = key;
   }
   function setStyle(next) {
     style = next;
@@ -563,9 +550,9 @@ export function createPacific(scene, renderer, config) {
     dust.visible = style === "realistic";
     printSun.visible = style === "illustrated";
     scene.environment = style === "realistic" ? environment?.texture || null : null;
-    // Keep near-shore surface contrast at the authored 24–72 m exterior
-    // distance. This bounded haze is a clear-day art direction, not weather.
-    scene.fog = style === "realistic" ? new THREE.Fog(skyMaterial.uniforms.horizon.value, 65, 180) : null;
+    // Three's linear fog stays defined, so programs keep their keys and the sea mirror keeps a haze;
+    // the beauty pass's haze is the atmosphere's (haze.mjs), which follows height and the sun.
+    scene.fog = style === "realistic" ? new THREE.Fog(sky0 ? new THREE.Color().fromArray(sky0.horizon) : 0xdde0d7, 65, 180) : null;
     // The first palette update builds the sky environment for the actual hour.
     // Building a default environment here compiled and captured the sky twice.
   }
@@ -638,12 +625,11 @@ export function createPacific(scene, renderer, config) {
     seaLight.seaLampCount.value = count;
   }
   // What the water reads from the sky: the sun's direction, its light (linear, intensity included) and
-  // the hue the water gives it. The atmosphere work is to back this accessor with its own values
-  // (planned as pacific.atmosphere: horizon and zenith colour, the sun's direction, colour and
-  // radiance, the haze). Until then it reads the scene's sun light, which keeps its daytime colour
-  // down to the horizon, and supplies the hue of direct light low over the sea itself (sunTint in
-  // sea-optics.mjs, from the day's real sun altitude). That tint is provisional: once the sun light
-  // carries the colour, it goes.
+  // the hue the water gives it. The key light is the atmosphere's (atmosphere.mjs skyLighting): the
+  // sun through the coast's air, gold and dim when low and gone once the disc has set, or the moon
+  // after, so the water takes its light as it is and the hue is one. While the sun is the key, the
+  // direction is the refracted sun's own, not the shadow map's clamped key, so the glitter path lies
+  // where the disc is; `pacific.atmosphere` carries the rest of the sky (uniforms, GLSL, colours).
   let daylightNow = null;
   const seaSky = {
     sunDirection: new THREE.Vector3(0, 1, 0),
@@ -657,11 +643,11 @@ export function createPacific(scene, renderer, config) {
     sun.target.updateMatrixWorld();
     seaSky.sunDirection.setFromMatrixPosition(sun.matrixWorld).sub(lampScratch.setFromMatrixPosition(sun.target.matrixWorld)).normalize();
     seaSky.sunLight.copy(sun.color).multiplyScalar(sun.intensity);
-    // The key light is the sun while any of it is up (daylight.mjs keyDirection), the authored moon after.
-    const up = daylightNow && daylightNow.sunlight > 0;
-    seaSky.sunAltitude = up ? daylightNow.altitude : null;
-    if (up) seaSky.sunTint.setRGB(...sunTint(daylightNow.altitude, seaSky.sunLight.toArray()));
-    else seaSky.sunTint.setRGB(1, 1, 1);
+    const light = atmosphere.state?.light,
+      sunKey = Boolean(light) && light.sunLuminance > 0 && light.sunLuminance >= light.moonLuminance;
+    if (sunKey) seaSky.sunDirection.fromArray(atmosphere.state.sun);
+    seaSky.sunAltitude = sunKey && daylightNow ? daylightNow.altitude : null;
+    seaSky.sunTint.setRGB(1, 1, 1);
     return seaSky;
   }
   // The seabed's light: the water's sun (or the night's moon light), unshadowed, and the shadow matrix
@@ -700,7 +686,8 @@ export function createPacific(scene, renderer, config) {
     root.traverse((o) => {
       if (o.geometry) o.geometry.dispose();
     });
-    [physicalWater, modelWater, printWater, skyMaterial, capMaterial, printSun.material].forEach((m) => m.dispose());
+    [physicalWater, modelWater, printWater, capMaterial, printSun.material].forEach((m) => m.dispose());
+    if (!sharedAtmosphere) atmosphere.dispose();
     environment?.dispose();
     pmrem.dispose();
     captureBackground.geometry.dispose();
@@ -718,7 +705,14 @@ export function createPacific(scene, renderer, config) {
       setPalette(next, light);
     },
     waterSky,
-    lightColors: () => ({ zenith: skyMaterial.uniforms.zenith.value.toArray(), horizon: skyMaterial.uniforms.horizon.value.toArray() }),
+    // The sky's colours for the house's light (linear radiance: the probe field's three-colour sky,
+    // the steam's ambient, the light well's skylight), with the interior's bounce fill.
+    lightColors: () => ({ zenith: skyColors.zenith.toArray(), horizon: skyColors.horizon.toArray(), ground: skyColors.ground.toArray() }),
+    // The sun, the moon and the sky at this light step (atmosphere.mjs skyLighting and update).
+    sky: () => atmosphere.state,
+    // For other materials that want the sky's light, such as the sea's reflections: shared uniforms
+    // (atmoSun, atmoSunLight, atmoSkyView and the rest), GLSL to evaluate them, and current colours.
+    atmosphere,
     update,
     dispose,
     // The dome stays centred on the orbit camera and inside its far plane (camera.mjs farView).
@@ -730,6 +724,7 @@ export function createPacific(scene, renderer, config) {
     neighbours: () => wildlife.targets?.() || [],
     neighbour: (id) => wildlife.target?.(id) || null,
     evidence: () => ({
+      atmosphere: atmosphere.evidence(),
       wildlife: wildlife.evidence(),
       beachWidth: beach.width,
       particles: 140 + 42,
@@ -749,14 +744,25 @@ export function createPacific(scene, renderer, config) {
           seabed: bathymetry.evidence(),
           lamps: seaLight.seaLampCount.value,
           wakes: seaLight.seaWakeCount.value,
-          // The water's sun: its altitude (null while the key light is the moon) and hue.
-          sun: { altitude: seaSky.sunAltitude, tint: seaLight.seaSunTint.value.toArray(), apart: SEA_LIGHTS_BEGIN.includes("RE_Direct_SeaSun") },
+          // The water's sun: its altitude (null while the key light is the moon), its light and hue.
+          sun: {
+            altitude: seaSky.sunAltitude,
+            light: seaLight.seaSunColor.value.toArray(),
+            tint: seaLight.seaSunTint.value.toArray(),
+            apart: SEA_LIGHTS_BEGIN.includes("RE_Direct_SeaSun"),
+          },
         },
       },
     }),
+    // The mirror leaves out the sun's disc: the sea's specular lobe already reflects the sun.
     reflect(camera, enabled) {
       syncSeaLight();
-      reflection.update(camera, enabled);
+      atmosphere.setMirror(true);
+      try {
+        reflection.update(camera, enabled);
+      } finally {
+        atmosphere.setMirror(false);
+      }
     },
     // The terrace's light installations and warm practicals, whose lamps the water mirrors at night.
     bindLamps(installations, practicals) {
