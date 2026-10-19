@@ -1332,12 +1332,22 @@ test("coastal home: compiled avatar replacements release their bone textures", a
       if (cycle === 2) expect(info.resources.textures).toBe(reference.get(avatar));
     }
   }
+  // Every compiled rig releases its bone texture once at teardown: Sirui's and each skinned
+  // coastal animal's (wildlife.mjs gives every animal its own skeleton).
+  const rigs = await scene.evaluate((element) => {
+    const unique = new Set();
+    element.labScene.scene.traverse((object) => object.isSkinnedMesh && object.skeleton && unique.add(object.skeleton));
+    return unique.size;
+  });
+  expect(rigs).toBeGreaterThan(1);
   const beforeDisposal = await page.evaluate(() => window.__coastalRigDisposals.length);
   await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: false })));
   await expect(scene.locator("canvas")).toHaveCount(0);
   const disposals = await page.evaluate(() => window.__coastalRigDisposals);
-  expect(disposals).toHaveLength(beforeDisposal + 1);
-  expect(disposals.every((entry) => entry.hadTexture && entry.cleared)).toBe(true);
+  expect(disposals).toHaveLength(beforeDisposal + rigs);
+  // Replaced avatars were drawn, so each released a real bone texture.
+  expect(disposals.slice(0, beforeDisposal).every((entry) => entry.hadTexture && entry.cleared)).toBe(true);
+  expect(disposals.every((entry) => entry.cleared)).toBe(true);
   const report = testInfo.outputPath("compiled-avatar-resource-cycles.json");
   fs.mkdirSync(path.dirname(report), { recursive: true });
   fs.writeFileSync(report, JSON.stringify({ samples, disposals }, null, 2));

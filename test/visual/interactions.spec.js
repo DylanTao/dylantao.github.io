@@ -1245,7 +1245,8 @@ async function clickCoastalObject(page, scene, type, index) {
 async function coastalHome(page, { openLab = true } = {}) {
   // Under CI's software WebGL each 3D round trip takes 5 to 10 seconds, so these cases get the
   // longer budget the desk-scene suite gives Linux; hardware runs keep the strict default.
-  if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(300000);
+  const software = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
+  if (software) test.setTimeout(300000);
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(visualRoute("") + "?scene-lab=1", { waitUntil: "networkidle" });
@@ -1254,7 +1255,8 @@ async function coastalHome(page, { openLab = true } = {}) {
   // Readiness includes a visible first draw. A phone's scene can begin below
   // the fold; show it before waiting instead of expecting offscreen rendering.
   await scene.scrollIntoViewIfNeeded();
-  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  // The first draw compiles every first-view program, which takes longer on software WebGL.
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: software ? 120000 : 30000 });
   if (openLab) {
     await page.locator("[data-world-lab] > summary").click();
     await page.locator('[data-world-room="study"]').first().click();
