@@ -66,6 +66,8 @@ function start() {
     inviteArmed = false,
     lastPetAt = -10,
     obstacles = [],
+    // Which element each obstacle came from, for the evidence only (a CI-only miss is otherwise blind).
+    obstacleLabels = [],
     layoutDirty = true,
     visible = true,
     readingLink = false;
@@ -163,6 +165,7 @@ function start() {
     layoutScans++;
     if (displaced.length || pieces.length) restorePieces();
     obstacles = [];
+    obstacleLabels = [];
     const surfaces = [];
     const nodes = document.querySelectorAll(
       `#main [data-duh-protect], #main p, #main h1, #main h2, #main h3, #main h4, #main h5, #main h6, #main li, #main dl, #main dt, #main dd, #main figcaption, #main caption, #main .caption, #main .project-case-facts, #main pre, #main table, #main figure, #main svg, #main canvas, #main img, ${interactive}, header, nav`
@@ -187,8 +190,15 @@ function start() {
         }
         const range = document.createRange();
         range.selectNodeContents(node);
-        for (const rect of range.getClientRects()) if (rect.bottom > 0 && rect.top < innerHeight) obstacles.push(rect);
-      } else obstacles.push(r);
+        for (const rect of range.getClientRects())
+          if (rect.bottom > 0 && rect.top < innerHeight) {
+            obstacles.push(rect);
+            obstacleLabels.push(node);
+          }
+      } else {
+        obstacles.push(r);
+        obstacleLabels.push(node);
+      }
       if (obstacles.length > 1200) break;
     }
     heavy = [...document.querySelectorAll("[data-duh-heavy]")].slice(0, 4).map((node) => ({ node, rect: node.getBoundingClientRect() }));
@@ -1010,6 +1020,17 @@ function start() {
     inviteArmed,
     visible,
     parked,
+    // The obstacles that keep duh's current spot from being clear (the same box clearAt tests).
+    blockers: obstacles
+      .map((rect, i) => ({ rect, node: obstacleLabels[i] }))
+      .filter(({ rect }) => !clearAt(s.x, s.y, [rect], 96))
+      .slice(0, 6)
+      .map(({ rect, node }) => ({
+        node: node
+          ? `${node.tagName.toLowerCase()}${node.id ? `#${node.id}` : ""}${node.classList?.length ? `.${[...node.classList].slice(0, 2).join(".")}` : ""}`
+          : "?",
+        rect: [Math.round(rect.left), Math.round(rect.top), Math.round(rect.width), Math.round(rect.height)],
+      })),
     grabbable: hit.style.pointerEvents === "auto",
     frames,
     layoutScans,

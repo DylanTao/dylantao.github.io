@@ -112,6 +112,7 @@ test("duh: default companion preserves content, real links, selection and late r
       navigating: e.navigating,
       layoutScans: e.layoutScans,
       bounds: e.bounds,
+      blockers: e.blockers,
     });
     const nearby = await page.evaluate(
       ({ x, y }) =>
