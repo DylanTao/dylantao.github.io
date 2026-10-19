@@ -1,69 +1,63 @@
 import * as THREE from "../three.module.min.js";
 
-// Sheer curtain fabric (Sirui, 2026-10-15): light through, around and across a thin woven sheet.
+// Linen in light (Sirui, 2026-10-15; linen and blended translucency 2026-10-18): light through,
+// around and across a woven sheet, for the sheer curtains and the laundry on the terrace.
 //
-// A sheer is a plain weave of fine, round yarns with gaps between them. Three things happen to light:
-//  1. Through the gaps it passes untouched. Seen head-on a voile is about a third open; toward grazing
-//     angles the round yarns hide the gaps between them and the weave closes up. Each thread direction
-//     is a row of cylinders of diameter d at spacing s: viewed at angle a across that row the open
-//     fraction is max(0, 1 - (d/s)/cos a), and the two directions multiply. It shares its endpoints
+// A sheer is a plain weave of yarns with gaps between them. Three things happen to light:
+//  1. Through the gaps it passes untouched. Seen head-on a sheer linen is about a quarter open; toward
+//     grazing angles the round yarns hide the gaps between them and the weave closes up. Each thread
+//     direction is a row of cylinders of diameter d at spacing s: viewed at angle a across that row the
+//     open fraction is max(0, 1 - (d/s)/cos a), and the two directions multiply. It shares its endpoints
 //     (open area (1 - d/s)^2 head-on, cut-off at cos a = d/s) with the crossed-cylinder geometry used for
 //     insect screens in building optics (Kotey, Wright & Collins 2009).
-//     The open fraction drives multisampled alpha-to-coverage, so the sheet composites in the opaque
-//     pass with per-sample depth and no sorting; without multisampling it falls back to a hashed
-//     discard.
+//     The covered fraction is the fragment's alpha, blended over what lies behind in the transparent
+//     pass. (Until October 18 it drove multisampled alpha-to-coverage with a dithered threshold, which
+//     at the scene's canvas size read as a grainy screen door; ?sheer=coverage restores that path.)
 //  2. Light that meets yarn is scattered. Toward the viewer's side it reflects (Lambert plus Three's
 //     "Charlie" cloth sheen, Estevez & Kulla 2017). From behind it is transmitted: a thin-walled
 //     Lambertian part, as in glTF KHR_materials_diffuse_transmission, plus a forward lobe around the
-//     light's own direction (Henyey & Greenstein 1941), so a sheer glows hardest where the sun stands
+//     light's own direction (Henyey & Greenstein 1941), so linen glows hardest where the sun stands
 //     behind it and brighter at normal incidence, where more of each yarn faces the light.
-//  3. In the sun's shadow map the sheet is a dithered occluder: each texel passes with the probability
+//  3. In the sun's shadow map a sheer is a dithered occluder: each texel passes with the probability
 //     that light gets through along the light's direction (gaps plus a share of the forward-scattered
 //     light), on an ordered 3 x 3 pattern that the soft shadow filter averages back into a partial,
 //     angle-dependent shadow. Drawn panels therefore leave a striped, fold-shaped pool of light on the
-//     floor, and opening them changes it.
+//     floor, and folds shade the folds behind them.
 //
-// The curtain's own shadow lookup is offset toward the light (not along the room-facing normal), so a
-// back-lit sheet is not shadowed by itself while frames and rock still shadow it. Everything here is an
-// authored real-time approximation, not a measured BSDF or a yarn-level renderer. See PHYSICS.md
-// ("Curtain cloth") for equations, sources and limits.
+// Linen's yarns are uneven: thick slubs and thin stretches along each thread, so a back-lit linen shows
+// soft streaks along the warp and a faint cloudiness, never a regular grid. The density here is a smooth
+// two-dimensional noise stretched along the warp (slubs 3-9 cm long), faded before it is finer than about
+// two pixels. A heading tape and a doubled hem are denser bands. Towels and shirting use the same
+// shader with a denser weave, a colour and optional woven stripes.
 //
-// Integrating (curtain-cloth.mjs supplies the solver):
-//   const curtains = createFacadeCurtains({ startTime: elapsed, reducedMotion: reduced });
-//   const fabric = createSheerFabric();
-//   staticLightField?.bindMaterial(fabric.material);   // optional, room-consistent indirect light
-//   lightInstallations?.bindMaterial(fabric.material); // optional, the evening lamps
-//   const curtainMeshes = createCurtainMeshes(curtains.cloth, fabric);
-//   for (const mesh of curtainMeshes.meshes) scene.add(mesh); // world metres: identity parent transform
-// Each frame, before rendering: curtains.draft.setDoor(door.id, door.offset) for each facade door,
-// curtains.cloth.update(moving ? frameDelta : 0), then curtainMeshes.update(). Draw a panel with
-// curtains.cloth.setOpenFraction(id, f) (0 closed .. 1 gathered); follow the media query with
-// setReducedMotion(); setGlassDraft(+0.05 by day, -0.04 at night) is optional.
-// What the material needs from the scene: nothing custom. It reads Three's own directional,
-// hemisphere and environment lighting and shadow matrices; the sun must cast shadows through
-// PCFSoftShadowMap (other filters leave the dither visible), the shadow map must update while a curtain
-// moves (Three's default), and the composer's 4x multisampled target gives smooth coverage (any other
-// target falls back to hashed coverage on its own). No render order is needed: the sheet draws in the
-// opaque pass, before the transparent glass. bindMesh sets the userData flags that keep contact
-// lighting, the light-field bake, volume depth and occluder rays off it; do not bind contact lighting.
+// The fabric's own shadow lookup is offset toward the light (not along the room-facing normal), so a
+// back-lit sheet is not shadowed by itself while its other folds, frames and rock still shadow it.
+// Everything here is an authored real-time approximation, not a measured BSDF or a yarn-level renderer.
+// See PHYSICS.md ("Curtain cloth") for equations, sources and limits.
 
 // Not matched by the scene's name-based routing (realism.mjs, materials.mjs, coastal-wind.mjs).
 export const SHEER_FABRIC_NAME = "coastal sheer voile";
 
 export const SHEER_DEFAULTS = Object.freeze({
-  color: 0xf2ece0, // yarn reflectance, sRGB
-  transmissionColor: 0xffecd6, // tint of light transmitted through the yarn, sRGB
-  transmission: 0.42, // diffuse transmittance where light meets yarn
+  color: 0xebe4d6, // natural linen, sRGB
+  transmissionColor: 0xfff0dc, // tint of light transmitted through the yarn, sRGB
+  transmission: 0.46, // diffuse transmittance where light meets yarn
   forward: 0.45, // share of the transmitted light in the forward lobe
   anisotropy: 0.6, // Henyey-Greenstein g of that lobe
-  openness: 0.36, // open area at normal incidence
+  openness: 0.27, // open area at normal incidence: a sheer linen
   weaveBalance: 1, // warp density / weft density (1: square weave)
   shadowLeak: 0.7, // share of the forward-scattered light that keeps to the beam in the shadow map
-  roughness: 0.85,
+  roughness: 0.82,
   specularIntensity: 0.35,
   sheen: 1,
-  sheenRoughness: 0.45,
-  sheenColor: 0xd8d4cc,
+  sheenRoughness: 0.5,
+  sheenColor: 0xddd4c4,
+  slub: 0.16, // contrast of the slub density
+  hemHeight: 0.06, // m, the doubled hem
+  tapeHeight: 0, // m below `fabricTop`, the heading tape (0: none)
+  fabricTop: 0, // m, the fabric's height in its own coordinates (uv.y at the top edge)
+  stripe: null, // { axis: "u" | "v", period, width, offset, color, strength }
+  coverage: "blend", // "blend": alpha in the transparent pass; "opaque": a dense cloth; "coverage": alpha-to-coverage (the October 16 path)
 });
 
 // Yarn diameter / spacing for each thread direction from the open area at normal incidence:
@@ -93,6 +87,32 @@ export function weaveOpenness(w, n, t, [warp, weft]) {
   const across = wn / Math.sqrt(wn * wn + wt * wt),
     along = wn / Math.sqrt(wn * wn + wb * wb);
   return Math.max(0, 1 - warp / across) * Math.max(0, 1 - weft / along);
+}
+
+// The slub density at fabric point (u, v) metres, before the pixel-footprint fade: the JavaScript twin
+// of the shader's linen noise, mean 1.
+export function linenDensity(u, v, contrast = SHEER_DEFAULTS.slub) {
+  const hash = (x, y) => {
+    const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
+    return s - Math.floor(s);
+  };
+  const noise = (x, y) => {
+    const ix = Math.floor(x),
+      iy = Math.floor(y),
+      fx = x - ix,
+      fy = y - iy,
+      sx = fx * fx * (3 - 2 * fx),
+      sy = fy * fy * (3 - 2 * fy);
+    const a = hash(ix, iy),
+      b = hash(ix + 1, iy),
+      c = hash(ix, iy + 1),
+      d = hash(ix + 1, iy + 1);
+    return a + (b - a) * sx + (c - a) * sy + (a - b - c + d) * sx * sy;
+  };
+  // Slubs: stretched along the warp (v), a couple of millimetres across; then a coarser cloudiness.
+  const slub = 0.65 * noise(u / 0.0035, v / 0.055) + 0.35 * noise(u / 0.0019 + 17, v / 0.03 + 5),
+    cloud = noise(u / 0.07 + 3, v / 0.21 + 11);
+  return 1 + contrast * (slub - 0.5) + 0.6 * contrast * (cloud - 0.5);
 }
 
 const weaveGLSL = /* glsl */ `
@@ -187,6 +207,9 @@ export function patchSheerShader(shader, uniforms) {
     "#include <common>",
     `#include <common>
 ${weaveGLSL}
+uniform vec4 sheerBands; // slub contrast, hem height, tape height, fabric top
+uniform vec4 sheerStripe; // period, width, offset, strength (0: none)
+uniform vec4 sheerStripeColor; // linear rgb, axis (0: along u, 1: along v)
 varying vec3 vSheerTangent;
 varying vec2 vSheerFabric;
 vec3 sheerWeaveT;
@@ -196,12 +219,28 @@ float sheerPhase( float cosTheta, float g ) {
   float d = 1.0 + g * g - 2.0 * g * cosTheta;
   return ( 1.0 - g * g ) / ( 4.0 * PI * d * sqrt( d ) );
 }
-float sheerHash( float n ) {
-  return fract( sin( n * 12.9898 ) * 43758.5453 );
+float sheerHash2( vec2 p ) {
+  return fract( sin( dot( p, vec2( 127.1, 311.7 ) ) ) * 43758.5453 );
 }
-float sheerValue( float x ) {
-  float i = floor( x ), f = fract( x );
-  return mix( sheerHash( i ), sheerHash( i + 1.0 ), f * f * ( 3.0 - 2.0 * f ) );
+// Smooth two-dimensional value noise (smoothstep in both axes), mean 0.5.
+float sheerNoise2( vec2 p ) {
+  vec2 i = floor( p ), f = fract( p ), s = f * f * ( 3.0 - 2.0 * f );
+  float a = sheerHash2( i ), b = sheerHash2( i + vec2( 1.0, 0.0 ) ), c = sheerHash2( i + vec2( 0.0, 1.0 ) ), d = sheerHash2( i + vec2( 1.0, 1.0 ) );
+  return a + ( b - a ) * s.x + ( c - a ) * s.y + ( a - b - c + d ) * s.x * s.y;
+}`,
+    "fragment shader"
+  );
+  fragment = replaceOnce(
+    fragment,
+    "#include <color_fragment>",
+    `#include <color_fragment>
+if ( sheerStripe.w > 0.0 ) {
+  // Woven stripes in fabric metres, softened to the pixel footprint so they never alias.
+  float along = sheerStripeColor.w > 0.5 ? vSheerFabric.y : vSheerFabric.x;
+  float w = fwidth( along );
+  float phase = fract( ( along - sheerStripe.z ) / sheerStripe.x ) * sheerStripe.x;
+  float band = smoothstep( -w, w, phase ) * ( 1.0 - smoothstep( sheerStripe.y - w, sheerStripe.y + w, phase ) );
+  diffuseColor.rgb = mix( diffuseColor.rgb, sheerStripeColor.rgb, band * sheerStripe.w );
 }`,
     "fragment shader"
   );
@@ -213,17 +252,19 @@ sheerWeaveT = sheerWeaveTangent( normal, vSheerTangent );
 sheerWeaveB = cross( normal, sheerWeaveT );
 sheerCover = 1.0 - sheerOpenness( isOrthographic ? vec3( 0.0, 0.0, 1.0 ) : normalize( vViewPosition ), normal, sheerWeaveT, sheerWeaveB );
 {
-  // A loom never packs threads perfectly evenly: faint warp streaks and weft bars that show against the
-  // light, faded out before they are finer than about two pixels. uv is fabric metres, y up from the hem.
+  // Linen slubs: a smooth noise stretched along the warp (fabric metres, y up from the hem), faded
+  // before it is finer than about two pixels; and a coarser cloudiness that survives at a distance.
   vec2 footprint = fwidth( vSheerFabric );
-  float streak = 0.6 * sheerValue( vSheerFabric.x / 0.011 ) + 0.4 * sheerValue( vSheerFabric.x / 0.0047 + 17.0 );
-  float bar = sheerValue( vSheerFabric.y / 0.031 + 5.0 );
-  float density = 1.0 + 0.11 * ( streak - 0.5 ) * ( 1.0 - smoothstep( 0.0025, 0.0065, footprint.x ) )
-                      + 0.07 * ( bar - 0.5 ) * ( 1.0 - smoothstep( 0.007, 0.018, footprint.y ) );
-  // The double-folded hem: two layers, so its gaps rarely line up.
-  float hem = 1.0 - smoothstep( 0.058, 0.064, vSheerFabric.y );
+  float fine = 1.0 - smoothstep( 0.0012, 0.0036, footprint.x );
+  float slub = 0.65 * sheerNoise2( vec2( vSheerFabric.x / 0.0035, vSheerFabric.y / 0.055 ) ) + 0.35 * sheerNoise2( vec2( vSheerFabric.x / 0.0019 + 17.0, vSheerFabric.y / 0.03 + 5.0 ) );
+  float cloud = sheerNoise2( vec2( vSheerFabric.x / 0.07 + 3.0, vSheerFabric.y / 0.21 + 11.0 ) );
+  float coarse = 1.0 - smoothstep( 0.02, 0.06, footprint.x );
+  float density = 1.0 + sheerBands.x * ( slub - 0.5 ) * fine + 0.6 * sheerBands.x * ( cloud - 0.5 ) * coarse;
+  // The doubled hem and the heading tape: two layers, so their gaps rarely line up.
+  float hem = 1.0 - smoothstep( sheerBands.y - 0.004, sheerBands.y + 0.002, vSheerFabric.y );
+  float tape = sheerBands.z > 0.0 ? smoothstep( sheerBands.w - sheerBands.z - 0.004, sheerBands.w - sheerBands.z + 0.002, vSheerFabric.y ) : 0.0;
   float open = clamp( ( 1.0 - sheerCover ) * ( 2.0 - density ), 0.0, 1.0 );
-  sheerCover = 1.0 - mix( open, open * open, hem );
+  sheerCover = 1.0 - mix( open, open * open, max( hem, tape ) );
 }`,
     "fragment shader"
   );
@@ -240,7 +281,7 @@ void RE_Direct_Sheer( const in IncidentLight directLight, const in vec3 geometry
   if ( dotNL >= 0.0 ) return;
   float meets = 1.0 - sheerOpenness( directLight.direction, geometryNormal, sheerWeaveT, sheerWeaveB );
   float lobe = ( 1.0 - sheerForward ) * RECIPROCAL_PI + sheerForward * 2.0 * sheerPhase( dot( geometryViewDir, - directLight.direction ), sheerAnisotropy );
-  reflectedLight.directDiffuse += directLight.color * ( - dotNL * meets / max( sheerCover, 0.25 ) * lobe ) * sheerTransmission;
+  reflectedLight.directDiffuse += directLight.color * ( - dotNL * meets / max( sheerCover, 0.25 ) * lobe ) * sheerTransmission * material.diffuseColor / max( max( material.diffuseColor.r, material.diffuseColor.g ), max( material.diffuseColor.b, 0.05 ) );
 }
 #undef RE_Direct
 #define RE_Direct RE_Direct_Sheer`,
@@ -272,7 +313,8 @@ vec3 sheerThrough = sheerBehind * RECIPROCAL_PI;
     "#include <aomap_fragment>",
     `{
   float sheerMeets = ( 1.0 - ( 1.0 - sheerYarn.x ) * ( 1.0 - sheerYarn.y ) ) / max( sheerCover, 0.25 );
-  reflectedLight.indirectDiffuse += sheerTransmission * sheerMeets * ( ( 1.0 - sheerForward ) * sheerBehind * RECIPROCAL_PI + sheerForward * sheerThrough );
+  vec3 sheerTint = material.diffuseColor / max( max( material.diffuseColor.r, material.diffuseColor.g ), max( material.diffuseColor.b, 0.05 ) );
+  reflectedLight.indirectDiffuse += sheerTransmission * sheerTint * sheerMeets * ( ( 1.0 - sheerForward ) * sheerBehind * RECIPROCAL_PI + sheerForward * sheerThrough );
 }
 #include <aomap_fragment>`,
     "fragment shader"
@@ -280,14 +322,20 @@ vec3 sheerThrough = sheerBehind * RECIPROCAL_PI;
   fragment = replaceOnce(
     fragment,
     "#include <opaque_fragment>",
-    `// Coverage: alpha-to-coverage under multisampling, dithered by a quarter sample so four samples
-// read as smooth gradations; a hashed discard where the target has no samples.
-if ( sheerHashed > 0.5 ) {
-  if ( sheerNoise( gl_FragCoord.xy ) >= sheerCover ) discard;
+    `// Coverage: blended alpha in the transparent pass; or (the October 16 path) alpha-to-coverage under
+// multisampling dithered by a quarter sample, with a hashed discard where the target has no samples.
+#if defined( SHEER_BLEND )
+  diffuseColor.a = clamp( sheerCover, 0.0, 1.0 );
+#elif defined( SHEER_OPAQUE )
   diffuseColor.a = 1.0;
-} else {
-  diffuseColor.a = clamp( sheerCover + ( sheerNoise( gl_FragCoord.xy ) - 0.5 ) * 0.25, 0.0, 1.0 );
-}
+#else
+  if ( sheerHashed > 0.5 ) {
+    if ( sheerNoise( gl_FragCoord.xy ) >= sheerCover ) discard;
+    diffuseColor.a = 1.0;
+  } else {
+    diffuseColor.a = clamp( sheerCover + ( sheerNoise( gl_FragCoord.xy ) - 0.5 ) * 0.25, 0.0, 1.0 );
+  }
+#endif
 #include <opaque_fragment>`,
     "fragment shader"
   );
@@ -345,9 +393,13 @@ vSheerPoint = mvPosition.xyz;`,
 const linear = (hex) => new THREE.Color(hex);
 
 // The material set for one fabric: beauty, shadow depth and shadow distance materials sharing one set
-// of uniforms. Call `bindMesh` on every curtain mesh.
+// of uniforms. Call `bindMesh` on every mesh drawn in it.
 export function createSheerFabric(options = {}) {
   const o = { ...SHEER_DEFAULTS, ...options };
+  const blend = o.coverage === "blend",
+    opaque = o.coverage === "opaque";
+  const stripe = o.stripe;
+  const stripeColor = stripe ? linear(stripe.color ?? 0x2f4a6b) : new THREE.Color(0, 0, 0);
   const uniforms = {
     sheerYarn: { value: new THREE.Vector2(...weaveYarnRatios(o.openness, o.weaveBalance)) },
     sheerTransmission: { value: new THREE.Vector3() },
@@ -355,6 +407,9 @@ export function createSheerFabric(options = {}) {
     sheerAnisotropy: { value: o.anisotropy },
     sheerShadowLeak: { value: o.shadowLeak },
     sheerHashed: { value: 0 },
+    sheerBands: { value: new THREE.Vector4(o.slub, o.hemHeight, o.tapeHeight, o.fabricTop) },
+    sheerStripe: { value: new THREE.Vector4(stripe?.period ?? 1, stripe?.width ?? 0, stripe?.offset ?? 0, stripe ? (stripe.strength ?? 1) : 0) },
+    sheerStripeColor: { value: new THREE.Vector4(stripeColor.r, stripeColor.g, stripeColor.b, stripe?.axis === "v" ? 1 : 0) },
   };
   const setTransmission = (amount, color) => {
     const c = linear(color);
@@ -363,7 +418,7 @@ export function createSheerFabric(options = {}) {
   setTransmission(o.transmission, o.transmissionColor);
 
   const material = new THREE.MeshPhysicalMaterial({
-    name: SHEER_FABRIC_NAME,
+    name: o.name ?? SHEER_FABRIC_NAME,
     color: o.color,
     roughness: o.roughness,
     metalness: 0,
@@ -373,32 +428,41 @@ export function createSheerFabric(options = {}) {
     sheenRoughness: o.sheenRoughness,
     sheenColor: o.sheenColor,
     side: THREE.DoubleSide,
-    // Opaque pass, per-sample coverage: no sorting against the glass or the room.
-    transparent: false,
-    alphaToCoverage: true,
-    depthWrite: true,
-    // Covered samples take the fabric's colour; the target's alpha (the page-transparent canvas) is kept.
+    // Blended: the transparent pass, both faces in one draw, not writing depth, so folds show through
+    // folds; covered fragments take the fabric's colour and the canvas's alpha is kept.
+    // Coverage: the opaque pass with per-sample alpha-to-coverage.
+    transparent: blend,
+    alphaToCoverage: !blend && !opaque,
+    depthWrite: !blend,
     blending: THREE.CustomBlending,
-    blendSrc: THREE.OneFactor,
-    blendDst: THREE.ZeroFactor,
+    blendSrc: blend ? THREE.SrcAlphaFactor : THREE.OneFactor,
+    blendDst: blend ? THREE.OneMinusSrcAlphaFactor : THREE.ZeroFactor,
     blendSrcAlpha: THREE.ZeroFactor,
     blendDstAlpha: THREE.OneFactor,
   });
+  // One pass for both faces: a uniform sheer blends nearly order-independently, and the two-pass
+  // back-then-front draw would double the curtains' draws (and the sea mirror's).
+  if (blend) {
+    material.defines = { SHEER_BLEND: "" };
+    material.forceSinglePass = true;
+  }
+  if (opaque) material.defines = { SHEER_OPAQUE: "" };
   material.onBeforeCompile = (shader) => patchSheerShader(shader, uniforms);
-  material.customProgramCacheKey = () => "coastal-sheer-voile-v1";
+  material.customProgramCacheKey = () => `coastal-sheer-linen-v2-${o.coverage}`;
 
   const depthMaterial = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
-  depthMaterial.name = `${SHEER_FABRIC_NAME} depth`;
+  depthMaterial.name = `${material.name} depth`;
   depthMaterial.onBeforeCompile = (shader) => patchSheerShadowShader(shader, uniforms, false);
   depthMaterial.customProgramCacheKey = () => "coastal-sheer-voile-depth-v1";
   const distanceMaterial = new THREE.MeshDistanceMaterial();
-  distanceMaterial.name = `${SHEER_FABRIC_NAME} distance`;
+  distanceMaterial.name = `${material.name} distance`;
   distanceMaterial.onBeforeCompile = (shader) => patchSheerShadowShader(shader, uniforms, true);
   distanceMaterial.customProgramCacheKey = () => "coastal-sheer-voile-distance-v1";
 
   // Hashed coverage wherever the current target cannot multisample (the reflection pass, a direct
   // canvas render): alpha-to-coverage would otherwise draw the sheet solid there.
   function chooseCoverage(renderer) {
+    if (blend || opaque) return;
     const target = renderer.getRenderTarget(),
       hashed = target && target.samples > 0 ? 0 : 1;
     if (uniforms.sheerHashed.value !== hashed) {
@@ -412,14 +476,21 @@ export function createSheerFabric(options = {}) {
     depthMaterial,
     distanceMaterial,
     uniforms,
+    blend,
+    opaque,
     setOpenness(openness, weaveBalance = o.weaveBalance) {
       uniforms.sheerYarn.value.set(...weaveYarnRatios(openness, weaveBalance));
     },
     setTransmission,
     bindMesh(mesh) {
       mesh.material = material;
-      mesh.customDepthMaterial = depthMaterial;
-      mesh.customDistanceMaterial = distanceMaterial;
+      // A sheer's partial shadow needs its own depth material (which also tells the shadow cache it
+      // moves). A dense cloth casts an ordinary shadow: the cache sees its positions change and keeps
+      // it while it sleeps.
+      if (!opaque) {
+        mesh.customDepthMaterial = depthMaterial;
+        mesh.customDistanceMaterial = distanceMaterial;
+      }
       mesh.castShadow = mesh.receiveShadow = true;
       mesh.onBeforeRender = chooseCoverage;
       // Keep the scene's binders and bakes off a moving, see-through sheet (glazing.mjs does the same).
@@ -441,36 +512,148 @@ export function createSheerFabric(options = {}) {
   };
 }
 
-// Meshes for every panel of a curtain-cloth solver, with dynamic position, normal and weave-tangent
-// attributes refreshed by `update()` once per frame after the solver has stepped.
-export function createCurtainMeshes(cloth, fabric = createSheerFabric()) {
+// Meshes for every panel of a curtain cloth, with dynamic position, normal and weave-tangent
+// attributes refreshed by `update(revisions)` once per frame after the solver has stepped. The solver's
+// grid is coarse (a gathered bay is four 7 cm cells, which drawn as is reads as a brick pattern of flat
+// facets), so each row is drawn through a uniform Catmull-Rom spline across its columns at `refine`
+// times the resolution: the cloth is simulated coarse and drawn smooth. Normals are central
+// differences on the refined grid.
+export function createCurtainMeshes(cloth, fabric = createSheerFabric(), { refine = 3 } = {}) {
+  const K = Math.max(1, refine | 0);
   const entries = cloth.panels.map((panel) => {
+    const C = panel.columns,
+      R = panel.rows,
+      Cr = (C - 1) * K + 1,
+      count = Cr * R;
     const geometry = new THREE.BufferGeometry();
-    const attribute = (size) => new THREE.BufferAttribute(new Float32Array(size * panel.count), size).setUsage(THREE.DynamicDrawUsage);
+    const attribute = (size) => new THREE.BufferAttribute(new Float32Array(size * count), size).setUsage(THREE.DynamicDrawUsage);
     const position = attribute(3),
       normal = attribute(3),
-      tangent = attribute(3);
+      tangent = attribute(3),
+      uv = new Float32Array(2 * count),
+      solver = new Float32Array(3 * panel.count);
+    for (let r = 0; r < R; r++)
+      for (let c = 0; c < Cr; c++) {
+        const f = c / K,
+          c0 = Math.min(C - 2, Math.floor(f)),
+          t = f - c0,
+          k = 2 * (r * Cr + c);
+        uv[k] = panel.uv[2 * (r * C + c0)] + (panel.uv[2 * (r * C + c0 + 1)] - panel.uv[2 * (r * C + c0)]) * t;
+        uv[k + 1] = panel.uv[2 * (r * C + c0) + 1];
+      }
+    // Column by column. The blended linen does not write depth, so where a gathered stack's layers
+    // overlap, the layer drawn last shows most. Drawn row by row, the order between layers flipped at
+    // every row (each strip after the one above), and where perspective parted the layers' row edges
+    // a light line crossed the stack at every row; drawn by columns (the layers), the order holds down
+    // the whole drop and changes only at fold edges.
+    const index = new (count < 65536 ? Uint16Array : Uint32Array)((Cr - 1) * (R - 1) * 6);
+    for (let c = 0, k = 0; c < Cr - 1; c++)
+      for (let r = 0; r < R - 1; r++, k += 6) {
+        const i00 = r * Cr + c,
+          i10 = i00 + 1,
+          i01 = i00 + Cr,
+          i11 = i01 + 1;
+        // Alternating diagonals, the same winding (du x dv) as the solver's triangles.
+        if ((r + c) % 2 === 0) index.set([i00, i10, i11, i00, i11, i01], k);
+        else index.set([i00, i10, i01, i10, i11, i01], k);
+      }
     geometry.setAttribute("position", position);
     geometry.setAttribute("normal", normal);
     geometry.setAttribute("sheerTangent", tangent);
-    geometry.setAttribute("uv", new THREE.BufferAttribute(panel.uv, 2));
-    geometry.setIndex(new THREE.BufferAttribute(panel.index, 1));
+    geometry.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+    geometry.setIndex(new THREE.BufferAttribute(index, 1));
     // A fixed, conservative bound: the solver's billow never leaves it, and nothing recomputes it.
     geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(...panel.boundingSphere.center), panel.boundingSphere.radius);
     const mesh = new THREE.Mesh(geometry, fabric.material);
     mesh.name = `curtain ${panel.id}`;
     mesh.matrixAutoUpdate = false;
     fabric.bindMesh(mesh);
-    cloth.writePanel(panel.id, position.array, normal.array, tangent.array);
-    return { mesh, position, normal, tangent, id: panel.id };
+    const entry = { mesh, position, normal, tangent, solver, id: panel.id, revision: -1, C, R, Cr };
+    write(entry, panel.id);
+    return entry;
   });
+
+  function write(entry, id) {
+    const { solver, C, R, Cr } = entry,
+      p = entry.position.array,
+      n = entry.normal.array,
+      tg = entry.tangent.array;
+    cloth.writePanel(id, solver);
+    // Catmull-Rom across each row.
+    for (let r = 0; r < R; r++) {
+      const row = r * C;
+      for (let c = 0; c < C - 1; c++) {
+        const a = 3 * (row + Math.max(0, c - 1)),
+          b = 3 * (row + c),
+          d = 3 * (row + c + 1),
+          e = 3 * (row + Math.min(C - 1, c + 2));
+        for (let j = 0; j < K; j++) {
+          const t = j / K,
+            t2 = t * t,
+            t3 = t2 * t,
+            w0 = 0.5 * (-t3 + 2 * t2 - t),
+            w1 = 0.5 * (3 * t3 - 5 * t2 + 2),
+            w2 = 0.5 * (-3 * t3 + 4 * t2 + t),
+            w3 = 0.5 * (t3 - t2),
+            o = 3 * (r * Cr + c * K + j);
+          p[o] = w0 * solver[a] + w1 * solver[b] + w2 * solver[d] + w3 * solver[e];
+          p[o + 1] = w0 * solver[a + 1] + w1 * solver[b + 1] + w2 * solver[d + 1] + w3 * solver[e + 1];
+          p[o + 2] = w0 * solver[a + 2] + w1 * solver[b + 2] + w2 * solver[d + 2] + w3 * solver[e + 2];
+        }
+      }
+      const last = 3 * (row + C - 1),
+        o = 3 * (r * Cr + Cr - 1);
+      p[o] = solver[last];
+      p[o + 1] = solver[last + 1];
+      p[o + 2] = solver[last + 2];
+    }
+    // Central differences: du across the refined row, dv down the column; normal du x dv.
+    for (let r = 0; r < R; r++)
+      for (let c = 0; c < Cr; c++) {
+        const l = 3 * (r * Cr + (c > 0 ? c - 1 : c)),
+          rr = 3 * (r * Cr + (c < Cr - 1 ? c + 1 : c)),
+          u = 3 * ((r > 0 ? r - 1 : r) * Cr + c),
+          dn = 3 * ((r < R - 1 ? r + 1 : r) * Cr + c),
+          o = 3 * (r * Cr + c);
+        const ux = p[rr] - p[l],
+          uy = p[rr + 1] - p[l + 1],
+          uz = p[rr + 2] - p[l + 2],
+          vx = p[dn] - p[u],
+          vy = p[dn + 1] - p[u + 1],
+          vz = p[dn + 2] - p[u + 2];
+        let nx = uy * vz - uz * vy,
+          ny = uz * vx - ux * vz,
+          nz = ux * vy - uy * vx;
+        const length = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+        nx /= length;
+        ny /= length;
+        nz /= length;
+        n[o] = nx;
+        n[o + 1] = ny;
+        n[o + 2] = nz;
+        const along = ux * nx + uy * ny + uz * nz,
+          tx = ux - along * nx,
+          ty = uy - along * ny,
+          tz = uz - along * nz,
+          tl = Math.sqrt(tx * tx + ty * ty + tz * tz) || 1;
+        tg[o] = tx / tl;
+        tg[o + 1] = ty / tl;
+        tg[o + 2] = tz / tl;
+      }
+    entry.position.needsUpdate = entry.normal.needsUpdate = entry.tangent.needsUpdate = true;
+  }
+
   return {
     meshes: entries.map((entry) => entry.mesh),
-    update() {
+    refine: K,
+    vertices: entries.reduce((sum, entry) => sum + entry.Cr * entry.R, 0),
+    // Rewrites the panels whose solver revision changed (all of them without `revisions`).
+    update(revisions = null) {
       for (let k = 0; k < entries.length; k++) {
         const entry = entries[k];
-        cloth.writePanel(k, entry.position.array, entry.normal.array, entry.tangent.array);
-        entry.position.needsUpdate = entry.normal.needsUpdate = entry.tangent.needsUpdate = true;
+        if (revisions && revisions[k] === entry.revision) continue;
+        if (revisions) entry.revision = revisions[k];
+        write(entry, k);
       }
     },
     dispose() {
