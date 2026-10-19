@@ -123,6 +123,84 @@ const themeModeMeta = {
   evening: { label: "Evening", computedTheme: "dark" },
 };
 
+// The time of day follows La Jolla's sun, the one clock the sun arc, the footer coast and the 3D home
+// also keep: evening begins when the sun sinks 3 degrees below the horizon, as light ink comes to read
+// as well as dark on the coast behind the footer's credit, and morning at the same depth before sunrise;
+// noon is the four hours around solar noon. The visitor's clock and date read as La Jolla's. This is
+// an exact copy of assets/js/la-jolla-sun.mjs's themeDay for the head, before any module loads;
+// test/la-jolla-sun.test.mjs holds the two equal.
+// la-jolla-sun:begin
+const laJollaThemeDay = (() => {
+  const RAD = Math.PI / 180;
+  const latitude = 32.83 * RAD;
+  const longitude = -117.27;
+  const days = new Map();
+  const usPacificOffset = (year, month, day) => {
+    const sunday = (m, nth) => 1 + ((7 - new Date(Date.UTC(year, m - 1, 1)).getUTCDay()) % 7) + 7 * (nth - 1);
+    const t = month * 100 + day;
+    return t >= 300 + sunday(3, 2) && t < 1100 + sunday(11, 1) ? -7 : -8;
+  };
+  const pacificOffset = (year, month, day) => {
+    let offset = usPacificOffset(year, month, day);
+    try {
+      const zone = new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles", timeZoneName: "longOffset" })
+        .formatToParts(new Date(Date.UTC(year, month - 1, day, 20)))
+        .find((part) => part.type === "timeZoneName").value;
+      const match = zone.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/);
+      if (match) offset = (match[1] === "-" ? -1 : 1) * (Number(match[2]) + Number(match[3] || 0) / 60);
+    } catch {
+      // The rule above stands in.
+    }
+    return offset;
+  };
+  const orbit = (year, month, day, minute) => {
+    const dayOfYear = (Date.UTC(year, month - 1, day) - Date.UTC(year, 0, 0)) / 86400000;
+    const length = (Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86400000;
+    const gamma = ((Math.PI * 2) / length) * (dayOfYear - 1 + (minute / 60 - 12) / 24);
+    const equation =
+      229.18 * (0.000075 + 0.001868 * Math.cos(gamma) - 0.032077 * Math.sin(gamma) - 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma));
+    const declination =
+      0.006918 -
+      0.399912 * Math.cos(gamma) +
+      0.070257 * Math.sin(gamma) -
+      0.006758 * Math.cos(2 * gamma) +
+      0.000907 * Math.sin(2 * gamma) -
+      0.002697 * Math.cos(3 * gamma) +
+      0.00148 * Math.sin(3 * gamma);
+    return { equation, declination };
+  };
+  return (date = new Date()) => {
+    const year = date.getFullYear(),
+      month = date.getMonth() + 1,
+      day = date.getDate();
+    const key = year * 10000 + month * 100 + day;
+    if (days.has(key)) return days.get(key);
+    const offset = pacificOffset(year, month, day);
+    const altitude = (minute) => {
+      const { equation, declination } = orbit(year, month, day, minute);
+      const hourAngle = ((minute + equation + 4 * longitude - 60 * offset) / 4 - 180) * RAD;
+      const cosZenith = Math.sin(latitude) * Math.sin(declination) + Math.cos(latitude) * Math.cos(declination) * Math.cos(hourAngle);
+      return 90 - Math.acos(Math.max(-1, Math.min(1, cosZenith))) / RAD;
+    };
+    const crossing = (target, from, to) => {
+      let lo = from,
+        hi = to;
+      const rising = altitude(hi) > altitude(lo);
+      for (let i = 0; i < 40; i++) {
+        const mid = (lo + hi) / 2;
+        if (altitude(mid) > target === rising) hi = mid;
+        else lo = mid;
+      }
+      return (lo + hi) / 2;
+    };
+    const noon = 720 - 4 * longitude - orbit(year, month, day, 720).equation + 60 * offset;
+    const result = { start: crossing(-3, noon - 720, noon), noonStart: noon - 120, noon, noonEnd: noon + 120, end: crossing(-3, noon, noon + 720) };
+    days.set(key, result);
+    return result;
+  };
+})();
+// la-jolla-sun:end
+
 // Cycle through time-of-day modes when a compact trigger is used without opening the menu.
 let toggleThemeSetting = () => {
   const themeSetting = determineThemeSetting();
@@ -439,12 +517,14 @@ let normalizeThemeSetting = (themeSetting) => {
   return determineDefaultThemeMode();
 };
 
-let determineDefaultThemeMode = () => {
-  const hour = new Date().getHours();
-  if (hour >= 5 && hour < 11) return "morning";
-  if (hour >= 11 && hour < 15) return "noon";
-  if (hour >= 15 && hour < 20) return "afternoon";
-  return "evening";
+// The mode for the clock's minute (the sun arc's own whole minutes) on La Jolla's sun.
+let determineDefaultThemeMode = (date = new Date()) => {
+  const day = laJollaThemeDay(date);
+  const minute = date.getHours() * 60 + date.getMinutes();
+  if (minute < day.start || minute >= day.end) return "evening";
+  if (minute < day.noonStart) return "morning";
+  if (minute < day.noonEnd) return "noon";
+  return "afternoon";
 };
 
 let readSessionThemeSetting = () => {
@@ -492,20 +572,20 @@ let determineThemeSetting = () => {
   return normalizeThemeSetting(readSessionThemeSetting() || readLegacyThemeSetting());
 };
 
+// The next whole minute the mode turns: today's next boundary, or tomorrow's morning.
 let msUntilNextThemeBoundary = () => {
   const now = new Date();
   const next = new Date(now);
-  const hour = now.getHours();
-  const boundaries = [5, 11, 15, 20];
-  const nextHour = boundaries.find((boundary) => hour < boundary);
-
-  if (nextHour === undefined) {
+  const day = laJollaThemeDay(now);
+  const minute = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60 + now.getMilliseconds() / 60000;
+  const boundary = [day.start, day.noonStart, day.noonEnd, day.end].map(Math.ceil).find((value) => value > minute);
+  next.setHours(0, 0, 0, 0);
+  if (boundary === undefined) {
     next.setDate(next.getDate() + 1);
-    next.setHours(5, 0, 0, 0);
+    next.setMinutes(Math.ceil(laJollaThemeDay(next).start));
   } else {
-    next.setHours(nextHour, 0, 0, 0);
+    next.setMinutes(boundary);
   }
-
   return Math.max(1000, next.getTime() - now.getTime() + 1000);
 };
 

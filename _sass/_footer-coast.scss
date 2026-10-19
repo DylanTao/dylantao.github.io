@@ -161,9 +161,13 @@ footer:has(.footer-coast) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .footer-coast[data-state="ready"] .footer-coast__poster {
+  .footer-coast[data-state="ready"] .footer-coast__poster,
+  footer.coastal-page-footer > .container {
     transition: none;
   }
+}
+html[data-motion="paused"] footer.coastal-page-footer > .container {
+  transition: none;
 }
 
 // The shoreline is the page's end, with credit inside the composition.
@@ -184,12 +188,16 @@ footer.coastal-page-footer {
     text-align: center;
     padding: 0.35rem 1rem;
     font-size: var(--type-meta);
-    // Reflections, glitter and surf pass behind the credit; a halo of page color keeps it legible
-    // over every theme and sun-arc minute without boxing it in.
+    // Reflections, glitter and surf pass behind the credit. Its halo follows the hour on the coast's
+    // clock (footer-coast/sky-look.mjs creditHalo): a faint veil at noon, a warm glow at sunset, rose
+    // in the afterglow, a cool moonlit one at night. Without the scene it falls back to page color.
     text-shadow:
-      0 0 1px var(--global-bg-color),
-      0 0 3px var(--global-bg-color),
-      0 0 9px var(--global-bg-color);
+      0 0 1px var(--coast-halo, var(--global-bg-color)),
+      0 0 2px var(--coast-halo, var(--global-bg-color)),
+      0 0 6px var(--coast-halo, var(--global-bg-color)),
+      0 0 14px var(--coast-glow, transparent),
+      0 0 30px var(--coast-glow, transparent);
+    transition: text-shadow 0.6s ease;
     pointer-events: none;
     a {
       pointer-events: auto;

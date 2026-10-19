@@ -129,8 +129,7 @@ for controls in [[(-7.4,-.35),(-7.4,.55),(-4.3,.55),(-1,.5),(2,1.3),(4,2.1)],
             t=j/12;x=a[0]*(1-t)+b[0]*t;y=a[1]*(1-t)+b[1]*t
             points.append((x,y,terrain_height(x,y)+.018))
     line('Limestone pedestrian path',points,.15,bpy.data.materials['Limestone trim'])
-for k in range(3):
-    line('Curving broken surf',[(x,shoreline(x)-.26-k*.52,.07) for x in [-9.2+j*.10 for j in range(187)]],.018+k*.002,bpy.data.materials['Sea foam'])
+# The browser's sea (footer-coast/water.mjs) breaks its own surf along this shoreline.
 # New planting follows the compressed terrain surface.
 rng=random.Random(41)
 for i in range(90):

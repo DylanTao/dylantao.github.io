@@ -373,6 +373,32 @@
     "target": [0, 1, -1],
     "width": 30,
     "office": [4.25075, 2.4575, -6.117],
-    "landmarks": ["DIB", "Geisel", "Salk", "ScrippsPier", "Cove", "TorreyPines"]
+    "landmarks": ["DIB", "Geisel", "Salk", "ScrippsPier", "Cove", "TorreyPines"],
+    "figures": [
+      {
+        "id": "surf-wait",
+        "kind": "surfer",
+        "when": ["noon", "afternoon"],
+        "parent": "Surfer0",
+        "stance": "wait",
+        "look": 11
+      },
+      {
+        "id": "surf-ride",
+        "kind": "surfer",
+        "when": ["noon", "afternoon"],
+        "parent": "Surfer1",
+        "stance": "ride",
+        "look": 12
+      },
+      {
+        "id": "surf-paddle",
+        "kind": "surfer",
+        "when": ["noon", "afternoon"],
+        "parent": "Surfer2",
+        "stance": "paddle",
+        "look": 13
+      }
+    ]
   }
 }
