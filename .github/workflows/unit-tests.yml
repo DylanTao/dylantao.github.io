@@ -101,7 +101,7 @@ jobs:
       - name: Setup Node 🧰
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
 
       - name: Install JS deps 📦
@@ -115,6 +115,11 @@ jobs:
 
       - name: Run Python policy and agent guidance tests
         run: python -m unittest discover -s test -p "test_*.py"
+
+      # Every JavaScript unit test: the scene, gym, wildlife, motion and project modules. The visual
+      # workflow runs only a scene subset; tests that need a native GL context skip themselves here.
+      - name: Run JavaScript unit tests
+        run: node --test test/*.test.mjs
 
       - name: Install build prerequisites 🔧
         run: |
