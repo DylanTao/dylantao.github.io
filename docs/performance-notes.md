@@ -1,6 +1,6 @@
 # Performance notes
 
-How fast the coastal home and the site are, what has been done about it, and what to try next. Written October 18, 2026 on main 94755609f (full screen, the gym tripod camera, skinned wildlife, renovation phases 2-3) and re-checked on main 049dba240 (the oak-and-marble kitchen and the living room's lantern; main 3c3b6852a, which changes only tests since, serves the same scene). The longer, record-ready entry with every citation lives in the graphics record (performance system).
+How fast the coastal home and the site are, what has been done about it, and what to try next. Written October 18, 2026 on main 94755609f (full screen, the gym tripod camera, skinned wildlife, renovation phases 2-3) and re-checked on main 049dba240 (the oak-and-marble kitchen and the living room's lantern; main 3c3b6852a, which changes only tests since, serves the same scene). The longer, record-ready entry with every citation lives in the graphics record (performance system), and the public write-up for visitors is `/projects/graphics-performance/` (Making the 3D home fast), a child of the Graphics Lab.
 
 ## How to measure
 
