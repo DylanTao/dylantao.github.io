@@ -223,7 +223,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     lightOn = false,
     running = false,
     disposed = false,
-    lost = false;
+    lost = false,
+    warming = true;
   let raf = 0,
     previous = 0,
     elapsed = 0,
@@ -400,10 +401,14 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     scene.environmentIntensity = theme.env;
     const direction = sunNow ? keyDirection(sunNow) : DAY_KEY;
     if (!keyDir || direction[0] * keyDir[0] + direction[1] * keyDir[1] + direction[2] * keyDir[2] < 0.99999) {
+      // The first placement happens during setup, before the first frame draws the shadow map anyway.
+      const moved = Boolean(keyDir);
       keyDir = direction;
       placeSun();
-      renderer.shadowMap.needsUpdate = true;
-      water.invalidate();
+      if (moved) {
+        renderer.shadowMap.needsUpdate = true;
+        water.invalidate();
+      }
     }
     if (scene.fog) {
       // The page color behind the transparent canvas, lifted so the output pass's tone mapping lands
@@ -539,7 +544,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   }
 
   function draw() {
-    if (disposed || lost) return;
+    // Nothing draws while the programs compile in the background (observers may ask before then).
+    if (disposed || lost || warming) return;
     camera.position.copy(cameraBase);
     camera.position.x += currentX * 0.6;
     if (miniature) {
@@ -788,6 +794,29 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   window.addEventListener("pageshow", () => {
     if (!disposed) syncRunning();
   });
+  // Compile the coast's programs on the driver's worker threads (KHR_parallel_shader_compile) before the
+  // first frame, which would otherwise block on each ANGLE/D3D11 compile: every material, the sky and the
+  // fog the hour may bring later included, under the half-float target the finish draws the scene into.
+  // Polls go through scheduler.postTask where it exists (a test's paused page clock freezes setTimeout)
+  // and stop after about eight seconds, so a lost context cannot hold the mount.
+  const warm = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
+  renderer.setRenderTarget(warm);
+  try {
+    const pending = renderer.compile(scene, camera);
+    renderer.setRenderTarget(null);
+    const later = () =>
+      globalThis.scheduler?.postTask ? scheduler.postTask(() => {}, { delay: 10 }) : new Promise((resolve) => setTimeout(resolve, 10));
+    for (let polls = 0; pending.size && polls < 800; polls++) {
+      for (const material of pending) if (renderer.properties.get(material).currentProgram?.isReady() !== false) pending.delete(material);
+      if (pending.size) await later();
+    }
+  } catch {
+    // The first frame compiles whatever remains.
+  } finally {
+    renderer.setRenderTarget(null);
+    warm.dispose();
+    warming = false;
+  }
   revealBuildings(1);
   resize();
   syncTheme();

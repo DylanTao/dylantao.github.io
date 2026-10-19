@@ -55,12 +55,25 @@ function shorelineTexture(sea) {
   return texture;
 }
 
+// Up to this many reefs per sea.
+const MAX_REEFS = 6;
+
+// A sea's own numbers as uniforms, so the footer and the miniature share one compiled program: the
+// waterline strip's mapping, the canyon and the reefs.
+function seaUniforms(sea) {
+  const reefs = Array.from({ length: MAX_REEFS }, (_, i) => new THREE.Vector2(...(sea.reefs[i] ? [sea.reefs[i][0], 1 / sea.reefs[i][1]] : [0, 0])));
+  const scale = (SHORE_TEXELS - 1) / (2 * sea.span * SHORE_TEXELS);
+  return {
+    coastShoreMap: { value: new THREE.Vector2(scale, sea.span * scale + 0.5 / SHORE_TEXELS) },
+    coastCanyon: { value: new THREE.Vector4(sea.canyon.x, 1 / sea.canyon.width, sea.canyon.depth, 1 / sea.canyon.reach) },
+    coastReefs: { value: reefs },
+    coastReefCount: { value: Math.min(sea.reefs.length, MAX_REEFS) },
+  };
+}
+
 // The sea's shader. Positions are world space, so it serves the footer's bare plane and the
 // miniature's placed slab alike.
-function seaShader(material, uniforms, sea) {
-  const SHORE_SPAN = sea.span;
-  const CANYON = sea.canyon;
-  const reefs = sea.reefs.map(([x, width]) => `t = (x - ${f(x)}) * ${f(1 / width)}; r = max(r, exp(-t * t));`).join("\n    ");
+function seaShader(material, uniforms) {
   const declarations = `
     uniform float coastTime;
     uniform vec3 coastDeep;
@@ -93,6 +106,10 @@ function seaShader(material, uniforms, sea) {
     uniform mat4 coastReflectMatrix;
     uniform vec4 coastReflectAxes;
     uniform sampler2D coastShoreline;
+    uniform vec2 coastShoreMap;
+    uniform vec4 coastCanyon;
+    uniform vec2 coastReefs[${MAX_REEFS}];
+    uniform int coastReefCount;
     varying vec3 coastPosition;
     vec3 coastNormal;
     vec2 coastSlope;
@@ -101,11 +118,15 @@ function seaShader(material, uniforms, sea) {
     // The waterline (water-optics.mjs shoreline), sampled from a strip texture: one fetch instead of
     // a long chain of profile segments, which kept the shader slow to compile.
     float coastShore(float x) {
-      return textureLod(coastShoreline, vec2((x + ${f(SHORE_SPAN)}) * ${f((SHORE_TEXELS - 1) / (2 * SHORE_SPAN * SHORE_TEXELS))} + ${f(0.5 / SHORE_TEXELS)}, .5), 0.).r;
+      return textureLod(coastShoreline, vec2(x * coastShoreMap.x + coastShoreMap.y, .5), 0.).r;
     }
+    // Reefs as [x, 1 / half-width]; the loop bound is a uniform, so the compiler keeps the loop.
     float coastReef(float x) {
-      float r = 0., t;
-      ${reefs}
+      float r = 0.;
+      for (int i = 0; i < coastReefCount; i++) {
+        float t = (x - coastReefs[i].x) * coastReefs[i].y;
+        r = max(r, exp(-t * t));
+      }
       return r;
     }
     // Integer lattice hash: Teschner and colleagues' spatial-hash primes, mixed by the lowbias32
@@ -143,9 +164,9 @@ function seaShader(material, uniforms, sea) {
     }
     // Seabed below the surface (water-optics.mjs seabedDepth): a sandy shelf, and the canyon's head off the pier.
     float coastBedDepth(float d, float x) {
-      float t = max(d, 0.), c = (x - ${f(CANYON.x)}) * ${f(1 / CANYON.width)};
+      float t = max(d, 0.), c = (x - coastCanyon.x) * coastCanyon.y;
       return ${f(SHELF.start)} + ${f(SHELF.depth)} * (1. - exp(-t * ${f(1 / SHELF.reach)})) + ${f(SHELF.slope)} * t
-        + ${f(CANYON.depth)} * exp(-c * c) * (1. - exp(-t * ${f(1 / CANYON.reach)}));
+        + coastCanyon.z * exp(-c * c) * (1. - exp(-t * coastCanyon.w));
     }
     // Short wind ripples that bend light without moving the surface: their slope (dh/dx, dh/dz).
     vec2 coastRipples(vec2 p, float t) {
@@ -325,7 +346,7 @@ function seaShader(material, uniforms, sea) {
         #include <opaque_fragment>`
       );
   };
-  material.customProgramCacheKey = () => `coast-water-${sea.name}`;
+  material.customProgramCacheKey = () => "coast-water-sea";
 }
 
 const aim = { forward: new THREE.Vector3(), up: new THREE.Vector3(), look: new THREE.Vector3(), point: new THREE.Vector3() };
@@ -425,8 +446,9 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     coastReflectMatrix: { value: new THREE.Matrix4() },
     coastReflectAxes: { value: new THREE.Vector4() },
     coastShoreline: { value: shorelineTexture(sea) },
+    ...seaUniforms(sea),
   };
-  seaShader(material, uniforms, sea);
+  seaShader(material, uniforms);
 
   const mirror = new THREE.OrthographicCamera();
   const schedule = createReflectionSchedule({ spacing: 2 });
