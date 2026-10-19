@@ -312,6 +312,55 @@ test("coastal sea: a mirror drawn on demand, night glitter from the fire and pie
   await attachScreenshot(page, testInfo, "coast-sea-night", { locator: page.locator("footer") });
   expect(errors).toEqual([]);
 });
+test("coastal sky: La Jolla's real sunset and dusk keep the theme, the credit and the coast on one clock", async ({ page }, testInfo) => {
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
+  const errors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  // 2026-10-19 in La Jolla: sunset 18:12 PDT; the sun is 3 degrees down, and the site turns evening, at 18:23.
+  const at = async (time) => {
+    await page.clock.install({ time: new Date(`2026-10-19T${time}:00-07:00`) });
+    await preparePage(page, "noon");
+    await page.addInitScript(() => {
+      for (const key of ["theme", "theme-manual", "site-time"]) sessionStorage.removeItem(key);
+      localStorage.removeItem("theme");
+    });
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    const host = page.locator("footer [data-footer-coast]");
+    await host.scrollIntoViewIfNeeded();
+    await expect(host).toHaveAttribute("data-state", "ready", { timeout: 30000 });
+    return host;
+  };
+  // Eight minutes before sunset: the afternoon theme, the sun's disk on the sea horizon, its glitter
+  // path, the marine layer over the surf line, and a legible credit under its warm halo.
+  let host = await at("18:04");
+  await expect(page.locator("html")).toHaveAttribute("data-theme-mode", "afternoon");
+  let info = await evidence(host);
+  expect(info.sun.rising).toBe(false);
+  expect(info.sun.altitude).toBeGreaterThan(0);
+  expect(info.sun.altitude).toBeLessThan(2);
+  expect(info.sky.visible).toBe(true);
+  expect(info.sky.sun, "the disk stands over the sea").not.toBeNull();
+  expect(info.marineLayer.visible).toBe(true);
+  expect(info.water.reflection.renders).toBeGreaterThanOrEqual(1);
+  let contrast = await creditContrast(page);
+  expect(contrast.median, "credit contrast at sunset").toBeGreaterThanOrEqual(4.5);
+  await testInfo.attach("credit-contrast-sunset", { body: JSON.stringify(contrast), contentType: "application/json" });
+  await attachScreenshot(page, testInfo, "coast-sunset", { locator: page.locator("footer") });
+  // Dusk: past the turn the whole site, the sun arc's label and the credit's ink agree it is evening.
+  host = await at("18:30");
+  await expect(page.locator("html")).toHaveAttribute("data-theme-mode", "evening");
+  await expect(page.locator("#theme-menu [data-sun-knob]")).toHaveAttribute("aria-valuetext", "Evening, 6:30 pm");
+  info = await evidence(host);
+  expect(info.sun.altitude).toBeLessThan(-3);
+  expect(info.sky.visible).toBe(true);
+  expect(info.sky.sun, "the sun has set").toBeNull();
+  contrast = await creditContrast(page);
+  expect(contrast.median, "credit contrast at dusk").toBeGreaterThanOrEqual(4.5);
+  await testInfo.attach("credit-contrast-dusk", { body: JSON.stringify(contrast), contentType: "application/json" });
+  await attachScreenshot(page, testInfo, "coast-dusk", { locator: page.locator("footer") });
+  expect(errors).toEqual([]);
+});
+
 test("coastal scenes: lazy loading, automatic movement, offscreen pause and reversible reveal", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
   const errors = collectRuntimeErrors(page),
