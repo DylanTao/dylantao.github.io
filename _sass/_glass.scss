@@ -597,9 +597,10 @@ html.glass-motion {
     transform-origin: 50% 120%;
   }
 
+  // Pointing fans the hand wider toward the story, so its last card stays inside the page.
   .projects .project-deck--feature:not(.is-open):hover .project-deck-sheet,
   .projects .project-deck--feature:not(.is-open):focus-within .project-deck-sheet {
-    transform: translate(calc((var(--sheet-index) - 2) * 6px), -6px) rotate(calc(-17deg + var(--sheet-index) * 8.5deg));
+    transform: translate(calc((var(--sheet-index) - 3) * 6px), -6px) rotate(calc(-18deg + var(--sheet-index) * 7.5deg));
   }
 }
 
