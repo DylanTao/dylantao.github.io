@@ -885,6 +885,10 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(resting.simulation.onsen.stroke.phase).toBe("rest");
   expect(resting.simulation.onsen.coupling.velocityChange).toBe(0);
   expect(resting.simulation.onsen.energy).toBeLessThan(1e-12);
+  // Calm water draws no caustics on the basin (onsen-water.mjs bindCausticReceiver).
+  expect(resting.simulation.onsen.caustics.receivers).toBeGreaterThan(0);
+  expect(resting.simulation.onsen.caustics.overheadFloorGain.minimum).toBeCloseTo(1, 4);
+  expect(resting.simulation.onsen.caustics.overheadFloorGain.maximum).toBeCloseTo(1, 4);
   await page.clock.runFor(2400);
   const moving = await evidence(scene),
     after = await canvas.screenshot();
@@ -902,6 +906,9 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(moving.simulation.onsen.stroke.maximumSpeed).toBeLessThan(0.4);
   expect(moving.simulation.onsen.stroke.wristError).toBeLessThan(0.001);
   expect(moving.simulation.onsen.coupling.velocityChange).toBeGreaterThan(0);
+  // The hand's waves, and only they, refocus the light on the basin.
+  const floorGain = moving.simulation.onsen.caustics.overheadFloorGain;
+  expect(floorGain.maximum - floorGain.minimum).toBeGreaterThan(0.01);
   expect(Math.hypot(...moving.joints.HandL.map((v, i) => v - still.joints.HandL[i]))).toBeGreaterThan(0.03);
   const waterDiff = screenshotDiffRatio(onsenRegion(before, still), onsenRegion(after, moving));
   expect(waterDiff).toBeGreaterThan(0.0001);

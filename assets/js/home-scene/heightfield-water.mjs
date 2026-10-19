@@ -440,6 +440,7 @@ export function createHeightfieldWater({
 
   return {
     advance,
+    simulatedSeconds: () => simulationTime,
     disturb,
     setObstacle,
     evidence,

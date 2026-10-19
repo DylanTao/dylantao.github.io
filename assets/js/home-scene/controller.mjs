@@ -729,8 +729,19 @@ export function createCoastalHome(container, records, artifacts) {
           if (o.isMesh && o.name.startsWith("onsen_water")) {
             water = o;
             water.updateWorldMatrix(true, false);
-            const pool = measurePoolGeometry(water, root);
-            onsenWater = createOnsenWater(pool);
+            const pool = measurePoolGeometry(water, root),
+              tint = [water.material].flat()[0];
+            // The light reaching the stone crosses the same turquoise water the view does.
+            onsenWater = createOnsenWater({
+              ...pool,
+              absorption: tint?.attenuationColor
+                ? tint.attenuationColor.toArray().map((c) => -Math.log(Math.max(c, 1e-3)) / tint.attenuationDistance)
+                : undefined,
+            });
+            // The basin's stone takes the hand's ripples as caustics (onsen-water.mjs).
+            root.traverse((stone) => {
+              if (stone.isMesh) for (const m of [stone.material].flat()) if (/warm cut stone/i.test(m?.name || "")) onsenWater.bindCausticReceiver(m);
+            });
             prepareSteam(pool);
             const geometry = onsenWater.surfaceGeometry().applyMatrix4(water.matrixWorld.clone().invert());
             water.geometry.dispose();
