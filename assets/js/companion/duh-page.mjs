@@ -109,6 +109,12 @@ function start() {
   };
   const still = () => paused || reduced.matches;
   const interactive = "a,button,input,select,textarea,summary,[role='button'],[contenteditable='true'],[tabindex]:not([tabindex='-1'])";
+  // The La Jolla coast takes keyboard panning on phones and in the Connect miniature, but only gets
+  // its tabindex once its scene module mounts (footer-coast/scene.mjs resize()). Treat it as the
+  // obstacle it becomes from the first scan, so a duh perched before the coast mounts is never
+  // stranded over it (a paused duh would hide there instead of moving).
+  const coastKeys = matchMedia("(max-width: 599px)");
+  const coastObstacles = () => `[data-miniature] .footer-coast__scene${coastKeys.matches ? ", .footer-coast__scene" : ""}`;
   function request() {
     clearTimeout(timer);
     timer = 0;
@@ -168,7 +174,7 @@ function start() {
     obstacleLabels = [];
     const surfaces = [];
     const nodes = document.querySelectorAll(
-      `#main [data-duh-protect], #main p, #main h1, #main h2, #main h3, #main h4, #main h5, #main h6, #main li, #main dl, #main dt, #main dd, #main figcaption, #main caption, #main .caption, #main .project-case-facts, #main pre, #main table, #main figure, #main svg, #main canvas, #main img, ${interactive}, header, nav`
+      `#main [data-duh-protect], #main p, #main h1, #main h2, #main h3, #main h4, #main h5, #main h6, #main li, #main dl, #main dt, #main dd, #main figcaption, #main caption, #main .caption, #main .project-case-facts, #main pre, #main table, #main figure, #main svg, #main canvas, #main img, ${interactive}, ${coastObstacles()}, header, nav`
     );
     for (const node of nodes) {
       // P is another moving character, not fixed page geometry. Caching its
