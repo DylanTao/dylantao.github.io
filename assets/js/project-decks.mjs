@@ -4,7 +4,8 @@
 // level and fans its children out of it; the cards of the level above fold into the trail, which
 // names every level and walks back up. Escape goes up one level, focus follows the reader, and
 // #deck/<slug> keeps the state shareable (an inline script in _pages/projects.md applies it before
-// the first paint).
+// the first paint). Without a hash, the stage's default deck (the website revamp) starts open on
+// wide screens, and every deck's face names what it holds.
 //
 // Motion: one clock per change on the site's springs (site-motion.mjs): the opened card travels to
 // the banner on the layout spring and grows out of its old footprint; children fly out of the deck in
@@ -33,6 +34,15 @@ export function deckPath(slug, parentOf) {
     current = parentOf.get(current);
   }
   return path;
+}
+
+// The level the page starts on: a shared #deck/<slug> link wins; otherwise the stage's default deck opens when its
+// media query matches (the website revamp on wide screens, 2026-10-19); otherwise every deck starts closed.
+export function startPath(hash, parentOf, { defaultSlug = null, defaultMatches = false } = {}) {
+  const shared = parseDeckHash(hash);
+  if (shared && parentOf.has(shared)) return deckPath(shared, parentOf);
+  if (defaultSlug && defaultMatches && parentOf.has(defaultSlug)) return deckPath(defaultSlug, parentOf);
+  return [];
 }
 
 // Which decks a change opens and closes.
@@ -676,15 +686,19 @@ function boot(stage) {
     if (slug && bySlug.has(slug)) go(deckPath(slug, parentOf), { updateHash: false });
   });
 
-  // Start from the state the inline script applied (or the hash), with no motion.
-  const initial = parseDeckHash(window.location.hash);
-  const start = initial && bySlug.has(initial) ? deckPath(initial, parentOf) : [];
+  // Start from the state the inline script applied (the hash, or the default deck on a wide screen), with no motion.
+  const defaultSlug = stage.getAttribute("data-project-deck-default");
+  const defaultMedia = stage.getAttribute("data-project-deck-default-media");
+  const start = startPath(window.location.hash, parentOf, {
+    defaultSlug,
+    defaultMatches: Boolean(defaultMedia && window.matchMedia(defaultMedia).matches),
+  });
   path = [];
   applyState(start);
   placeClose(bannerBodyTop());
-  // The inline script in _pages/projects.md already brought a shared level into view; only a level
-  // opened some other way (a restored page) is scrolled here.
-  if (start.length && !root.hasAttribute("data-project-deck-scrolled")) {
+  // The inline script in _pages/projects.md already brought a shared level into view; only a shared level
+  // opened some other way (a restored page) is scrolled here. The default deck opens where it stands.
+  if (start.length && parseDeckHash(window.location.hash) && !root.hasAttribute("data-project-deck-scrolled")) {
     window.requestAnimationFrame(() => {
       const anchor = trail && !trail.hidden ? trail : stage;
       const navBottom = document.getElementById("navbar")?.getBoundingClientRect().bottom || 0;
