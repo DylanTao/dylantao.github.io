@@ -34,7 +34,7 @@ record_url: /projects/graphics-lab/record/
 json_url: /assets/json/design-records/graphics-lab.json
 repository: https://github.com/DylanTao/dylantao.github.io
 branch: main
-updated: "2026-10-18"
+updated: "2026-10-19"
 summary: >-
   The rendering and simulation experiments behind the homepage's coastal home, one technique at a time: what each does
   in the scene now and which files and functions hold it, the papers it adapts, what it cannot do yet, and newer papers
@@ -42,16 +42,18 @@ summary: >-
   frame goes, what was cut on October 18, 2026, and the next techniques to try in priority order.
 scope: >-
   Each experiment adapts a published method in a small, bounded form for a browser scene, and each entry says where it
-  simplifies. Thumbnails are frames of the live scene captured on October 18, 2026, after the renovation and the skinned
-  wildlife, with the scene's clock set to Friday, October 16; the light well, the steam and the onsen are dated in late
-  August, when the noon sun reaches the shaft and the bath runs in daylight. Measurements come from one shared Windows
-  laptop (Intel Core Ultra 7 155H with Arc integrated graphics) unless an entry says otherwise. Shader warmup and loading
-  are in the coastal home record.
+  simplifies. Thumbnails are frames of the live scene with the scene's clock set to Friday, October 16, 2026: most were
+  captured on October 18, after the renovation and the skinned wildlife, and the sea, the sky, the haze, the fog, the
+  linen, the onsen and the coast's far views on October 19, at golden hour where the light matters. The light well, the
+  steam and the onsen are dated in late August, when the noon sun reaches the shaft and the bath runs in daylight.
+  Measurements come from one shared Windows laptop (Intel Core Ultra 7 155H with Arc integrated graphics) unless an entry
+  says otherwise. Shader warmup and loading are in the coastal home record.
 credit: >-
-  Compiled on October 16 to 18, 2026 by Anthropic's Claude from the code, the scene notes and the coastal home record,
-  for Sirui Tao to review. The performance system and the renovation's surfaces joined on October 18 from entries the
-  agents who built them prepared and checked. Every citation was checked against its DOI record, its publisher's page or
-  its authors' page.
+  Compiled on October 16 to 19, 2026 by Anthropic's Claude from the code, the scene notes and the coastal home record,
+  for Sirui Tao to review. The performance system and the renovation's surfaces joined on October 18, and the sea's
+  optics, the cloth, the scattering sky, its haze and the marine fog on October 19, from entries the agents who built
+  them prepared and checked. Every citation was checked against its DOI record, its publisher's page or its authors'
+  page.
 
 read_first:
   - path: _data/design_records/homepage-desk-scene.yml
@@ -103,9 +105,15 @@ tests:
   - path: test/steam-transport.test.mjs
     covers: Steam transport across frame rates, positive diffusion and Beer–Lambert composition.
     command: node --test test/steam-transport.test.mjs
-  - path: test/curtain-cloth.test.mjs
-    covers: Cloth strain, stability, determinism, sleep and wake, and the openness model.
-    command: node --test test/curtain-cloth.test.mjs test/curtain-schedule.test.mjs
+  - path: test/cloth-solver.test.mjs
+    covers: Bending weights, stretch bounds, energy decay, no tunnelling, determinism and allocation-free steps.
+    command: node --test test/cloth-solver.test.mjs test/curtain-cloth.test.mjs test/curtain-schedule.test.mjs test/laundry-line.test.mjs
+  - path: test/sea-optics.test.mjs
+    covers: The seawater optics, the shallow-water reflectance, the caustic lens, the seabed fill and the setting sun's light on the sea, and the onsen's caustics and sub-grid ripples.
+    command: node --test test/sea-optics.test.mjs test/onsen-caustics.test.mjs
+  - path: test/atmosphere.test.mjs
+    covers: The sunset minute, the sky's colour through dusk, the moon and the weather.
+    command: node --test test/atmosphere.test.mjs
   - path: test/skin-diffusion.test.mjs
     covers: The diffusion integral's normalization, limits and curvature.
     command: node --test test/skin-diffusion.test.mjs
@@ -236,7 +244,8 @@ systems:
           traces eight cosine-weighted sky rays per primary hit, and stores irradiance as first-order spherical harmonics
           (`accumulateL1`, `evaluateL1`) in 64 probes, eight per room-sized cage, with octahedral distance moments, after
           Ramamoorthi and Hanrahan and the probe visibility of Majercik and colleagues. Unit sky and lamp bases let a change
-          of hour recombine the cache with zero rays. The field replaces three.js's ambient terms once; direct light,
+          of hour recombine the cache with zero rays, and since October 19 the three sky colours are fitted to the scattering
+          sky's irradiance, weighted toward the west the house faces. The field replaces three.js's ambient terms once; direct light,
           reflections and refraction stay native. The bake runs in yielded slices and frees its accelerator afterwards. When
           the renovation moved the rooms, the cages followed: the living room and the gym got cages of their own, 61 of the
           64 probes stand in free space, and the living room's washi lantern, whose closed globe had hidden its bulb from the
@@ -372,7 +381,8 @@ systems:
     name: Water, air and sky
     summary: >-
       Two bodies of water with different models, bath steam carried by its own heat, one breeze from the Pacific through
-      the house, and a sun placed by La Jolla's clock.
+      the house, and since October 19 a scattering sky for La Jolla's real sun, with haze, marine fog and sunbeams in the
+      air.
     techniques:
       - id: ocean
         name: A Pacific of Gerstner waves
@@ -380,27 +390,40 @@ systems:
         since: "2026-10-01"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/ocean.webp
-          alt: The Pacific from the beach at 16:00, choppy waves in front fading into a smooth, sunlit sea toward the horizon
-          frame: Lab camera on the beach, 16:00 on Friday, October 16, 2026, reduced motion.
-        what: Ten Gerstner waves displace the sea and its normals together, with a wind sea that grows with the breeze, gusty ripples and whitecaps, a lit shoreline and a live mirror of the cliff.
+          alt: The Pacific from the beach at golden hour, turquoise shallows over the sand and the seabed's shadows giving way to blue water, a sandstone headland under a hazy gold sky
+          frame: Lab camera on the beach, 17:40 on Friday, October 16, 2026, reduced motion.
+        what: >-
+          Ten Gerstner waves displace the sea and its normals together, with a wind sea that grows with the breeze; the
+          water's colour comes from its optics over a seabed read from the coast (turquoise over sand, deep blue offshore,
+          caustics on the sand), with a live mirror that streaks the terrace lamps, the sun's glints in the hue of the
+          day's real low sun, and swash on the true waterline.
         how: >-
-          `sampleOcean` in `ocean-spectrum.mjs` sums ten choppy Gerstner components from 24.7 m to 6.1 cm with
-          gravity–capillary dispersion and analytic tangents, after Finch, and keeps the steepness sum under 0.3 so the
-          surface never folds. Each amplitude fades with the pixel's footprint, and the slope energy it loses widens the
-          GGX lobe, a scalar version of Bruneton, Neyret and Holzschuch's transition from geometry to BRDF. Since October 16
-          the seven shorter components are a wind sea that turns and grows with the coast's breeze under a
-          Pierson–Moskowitz cut (`windSeaScale`), pixel ripples follow the local gusty wind by the Cox–Munk slope law
-          (`rippleScale`), and whitecaps cover Monahan and Ó Muircheartaigh's fraction (`whitecapCoverage`). `createPacific`
-          adds swash, wet sand and lit foam, and `createSeaReflection` renders a mirror with exact water Fresnel.
+          `sampleOcean` in `ocean-spectrum.mjs` sums ten choppy Gerstner components with gravity–capillary dispersion and
+          analytic tangents, after Finch, with footprint filtering after Bruneton, Neyret and Holzschuch; the wind sea,
+          ripples and whitecaps follow the coast's breeze. Since October 18 `createBathymetry` reads the seabed from one
+          orthographic draw of the coast, and `fillSeabed` extends it offshore. The sea shader refracts each view ray to that
+          seabed and evaluates Lee and colleagues' shallow-water reflectance (`shallowReflectance`, with `seawaterIOPs` from
+          Pope and Fry's pure water), lights the sand with the sun's shadow and paraxial caustics from the wind ripples
+          (`causticGain`, the differential form of Watt's beam areas), breaks the sun's GGX lobe into glints, draws GGX lamp
+          streaks, and runs the swash on the captured waterline. The glints first took their hue from the slant path's
+          transmittance (`sunTint`, after Kasten and Young's air mass and Hansen and Travis's Rayleigh depth); since October
+          19 the water reads the scattering sky's own sun. `createSeaReflection` renders the mirror with exact water Fresnel
+          and streak taps.
         files:
           - path: assets/js/home-scene/ocean-spectrum.mjs
             role: Wave components, footprint filtering, the wind sea and the CPU wave sampler.
             functions: [sampleOcean, windSeaScale, rippleScale, whitecapCoverage, waterFresnel]
+          - path: assets/js/home-scene/sea-optics.mjs
+            role: Seawater optics, the shallow-water reflectance, the caustic lens, the seabed fill and the first low-sun hue.
+            functions: [seawaterIOPs, shallowReflectance, causticGain, fillSeabed, sunTint]
+          - path: assets/js/home-scene/bathymetry.mjs
+            role: The seabed capture.
+            functions: [createBathymetry]
           - path: assets/js/home-scene/environment.mjs
-            role: The sea shader, the swash and the foam.
-            functions: [createPacific]
+            role: The sea shader, the swash, the glitter, the lamp streaks and the water's sky.
+            functions: [createPacific, waterSky]
           - path: assets/js/home-scene/reflection.mjs
-            role: The planar mirror and its Fresnel.
+            role: The planar mirror, its streak taps and its Fresnel.
             functions: [createSeaReflection]
           - path: assets/js/home-scene/PHYSICS.md
             role: Equations and evidence.
@@ -408,19 +431,36 @@ systems:
           - test/coastal-physics.test.mjs
           - test/coast-wave-motion.test.mjs
           - test/coast-wind.test.mjs
-        sources: [finch2004gerstner, bruneton2010ocean, pierson1964spectrum, cox1954glitter, monahan1980whitecaps, arcblanc2025]
+          - test/sea-optics.test.mjs
+        sources:
+          [
+            finch2004gerstner,
+            bruneton2010ocean,
+            pierson1964spectrum,
+            cox1954glitter,
+            monahan1980whitecaps,
+            arcblanc2025,
+            pope1997water,
+            lee1998shallow,
+            lee1999shallow,
+            watt1990beam,
+            kasten1989airmass,
+            hansen1974rayleigh,
+          ]
         related:
           - record: homepage-desk-scene
-            techniques: [ocean-spectrum, shoreline, sea-reflection, coast-wind]
+            techniques: [ocean-spectrum, sea-optics, seabed-capture, sea-sunset, shoreline, sea-reflection, coast-wind]
         limits:
-          - A sparse authored spectrum on a finite 400 m surface, with no FFT, cascades, bathymetry or weather.
-          - The roughness widening is a scalar isotropic fit, not the paper's anisotropic slope statistics.
+          - A sparse authored spectrum on a finite 400 m surface, with no FFT, cascades or weather.
+          - The seabed past the authored beach is a smooth extension, and caustics take one paraxial sheet of the ripples.
           - Waves run straight through the shore and the rocks; nothing reflects, refracts or breaks.
-          - Close up, the swell components draw a faint diamond pattern on the near water.
         watchlist:
           - source: jeschke2020boundary
             effort: medium
-            adds: Keeps procedural waves but makes them respect the terrain's boundary, so swells would slow, turn toward the beach and wrap around the rocks.
+            adds: Keeps procedural waves but makes them respect the terrain's boundary; with the captured seabed the swells could slow, shorten and turn toward the beach.
+          - source: yuksel2007waveparticles
+            effort: medium
+            adds: Waves carried by particles that interact with objects, so the swimmers' wakes and the pelican's rings would be real waves that reflect off the rocks instead of drawn patterns.
           - source: dupuy2012whitecaps
             effort: medium
             adds: Derives whitecap coverage from a wave-deformation criterion that filters with distance, so foam would form where waves steepen without the tenfold exaggeration.
@@ -429,7 +469,7 @@ systems:
             adds: Stores wave amplitude by position, direction and wavelength, so waves could reflect off the cliff and bend around the headlands.
           - source: horvath2015spectra
             effort: large
-            adds: Empirical directional spectra, including a shallow-water spectrum and a swell parameter, to drive an FFT ocean if the spectral-ocean move goes ahead.
+            adds: Empirical directional spectra, including a shallow-water spectrum, to drive an FFT ocean if the spectral-ocean move goes ahead.
         next: []
       - id: onsen-water
         name: A height-field onsen
@@ -437,23 +477,27 @@ systems:
         since: "2026-10-02"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/onsen-water.webp
-          alt: Sirui soaking in the onsen on a Saturday afternoon, his hands at the water's surface by the rim
-          frame: Lab camera over the pool, 16:10 on Saturday, August 22, 2026 (page clock fixed), after seven seconds of motion.
-        what: The onsen is a 40 × 40 shallow-water height field whose waves carry water between cells, reflect off the rim and the bather, and start from the bather's hand.
+          alt: Sirui soaking in the onsen on a Saturday afternoon, the clear water rippling around his hands and light patterns on the basin's floor
+          frame: Lab camera over the pool, 16:10 on Saturday, August 22, 2026 (page clock fixed), after seven seconds of motion; captured October 19.
+        what: The onsen is a 40 × 40 shallow-water height field whose waves carry water between cells, reflect off the rim and the bather, start from the bather's hand, and throw caustics on the basin.
         how: >-
           `createHeightfieldWater` follows section 2.1 of Chentanez and Müller: staggered heights and face velocities,
           conservative upwind depth fluxes, pressure from the free-surface gradient and reflecting solid faces, at fixed
           1/120 s ticks with CFL subdivision; total volume holds to about 10⁻¹⁴. `measurePoolGeometry` measures the real
           basin, about 0.127 m deep. `createPoolStroke` drives a slow hand skim, and the palm's submerged velocity relaxes
           nearby face velocities inside each step, so a resting hand adds no energy. `createOnsenWater` packs elevation,
-          slopes and wet weight into a texture for the pool's material and runs only when the camera can see the pool.
+          slopes and wet weight into a texture for the pool's material and runs only when the camera can see the pool. Since
+          October 18 the basin's stone takes the water's light: light from above refracts into the water, and the simulated
+          surface refocuses it by 1/|det(I + l(1 − 1/n) Hess h)| (`poolCausticGLSL`, the differential form of Watt's beam
+          areas), with six sub-grid capillary-gravity ripples riding on the simulated waves (`poolRippleGLSL`), so a calm
+          pool stays exactly flat.
         files:
           - path: assets/js/home-scene/heightfield-water.mjs
             role: The conservative shallow-water solver.
             functions: [createHeightfieldWater]
           - path: assets/js/home-scene/onsen-water.mjs
-            role: The renderer adapter and the palm coupling.
-            functions: [createOnsenWater]
+            role: The renderer adapter, the palm coupling, the caustics and the sub-grid ripples.
+            functions: [createOnsenWater, poolCausticGLSL, poolRippleGLSL]
           - path: assets/js/home-scene/pool-geometry.mjs
             role: Measures the native basin.
             functions: [measurePoolGeometry]
@@ -464,15 +508,16 @@ systems:
             role: Equations, coupling limits and numerical evidence.
         tests:
           - test/onsen-water.test.mjs
+          - test/onsen-caustics.test.mjs
           - test/pool-geometry.test.mjs
           - test/pool-stroke.test.mjs
-        sources: [chentanez2010water]
+        sources: [chentanez2010water, watt1990beam]
         related:
           - record: homepage-desk-scene
             techniques: [onsen-water]
         limits:
-          - Shallow-water waves travel at the wrong speed when their wavelength nears the 12.7 cm depth or is shorter, so the hand's ripples are off.
-          - One-way coupling, with no wet and dry cells, splashes, buoyancy or caustics.
+          - Shallow-water waves travel at the wrong speed when their wavelength nears the 12.7 cm depth or is shorter; the sub-grid ripples that carry the caustics are a rendering closure riding on the solver.
+          - One-way coupling, with no wet and dry cells, splashes or buoyancy; caustics take one paraxial sheet for light from overhead.
         watchlist:
           - source: jeschke2023dispersive
             effort: medium
@@ -481,8 +526,9 @@ systems:
             effort: large
             adds: Couples a height field to a 3D grid and particles where the surface breaks, for splashes when someone steps in or the spout drips.
         next:
-          - move: A steady drip from the bamboo spout into the solver at the spout's mouth.
-            readiness: ready
+          - move: A steady drip from the bamboo spout into the solver at the spout's mouth, which would keep the pool and its caustics alive between strokes.
+            readiness: needs-decision
+            why: The brief says the water's forcing comes from the palm; a spout adds a second source, which is Sirui's call.
       - id: steam
         name: Thermal steam
         status: shipped
@@ -591,47 +637,158 @@ systems:
           - move: Follow the station's monthly cycles, so summer afternoons blow harder than October's.
             readiness: ready
       - id: sun-sky
-        name: Sun position and sky
+        name: A scattering sky for La Jolla
         status: shipped
         since: "2026-10-01"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/sun-sky.webp
-          alt: The sun low over the Pacific at 17:40, a glitter path on the water below a pale, hazy sky
-          frame: Lab camera on the beach looking west, 17:40 on Friday, October 16, 2026, reduced motion.
-        what: The sun, its shadows and the sun's disc follow NOAA's solar equations for La Jolla on the scene's Pacific clock; the sky's colours are authored.
+          alt: The sun touching the Pacific at 18:13, its disc flattened by refraction, under an orange sky with a red glitter path across the dark swell
+          frame: Lab camera on the beach looking west, 18:13 on Friday, October 16, 2026, reduced motion; the sun sets at 18:16.
+        what: >-
+          The sky is a scattering atmosphere computed for the actual sun, so the Pacific sunset goes from gold to apricot and
+          rose with the disc sinking, squashed, into the sea at NOAA's minute, then a pink afterglow, the blue hour, stars on
+          the turning sky and a moon at its true place and phase; the scene's key light, fill and reflections follow it.
         how: >-
-          `coastalDaylight` in `daylight.mjs` uses NOAA's fractional-year approximation at 32.83° N, 117.27° W, with Pacific
-          daylight saving. In `environment.mjs`, `setPalette` sets the sky shader's zenith and horizon colours by time of day
-          and points its sun from the daylight model, and `makeEnvironment` captures the sky into a prefiltered environment
-          map at twenty-minute steps with one generator for the home's lifetime. On the coast the sun's shadow map follows
-          the camera, snapped to whole texels. Night's key light is an authored moon.
+          Since October 19 `createAtmosphere` in `atmosphere.mjs` draws Hillaire's three tables on the GPU (EGSR 2020, on
+          Bruneton's parameterization): transmittance to space (256 × 64, once), the multiple-scattering transfer Ψ_ms
+          (32 × 32, once, its axes warped toward the horizon and the ground) and the sky seen from 30 m above the sea
+          (192 × 108, redrawn each light step). `atmosphere-model.mjs` holds the same physics in plain JavaScript for the
+          light colours and the tests (`transmittanceToTop`, `integrateRay`, `buildMultipleScatteringTable`, `skyRadiance`):
+          Rayleigh, ozone and a clean marine aerosol (optical depth 0.045 at 550 nm, Ångström exponent 0.4, a Cornette–Shanks
+          phase with g = 0.76). The dome adds the night sky that follows twilight, stars on a sidereal frame
+          (`siderealFrame`, after Meeus), the moon from the Astronomical Almanac's low-precision series (`moonPosition`) lit
+          by the sun so its phase is drawn exactly, the sun's disc drawn 2.8 times larger with its light conserved, placed so
+          its top limb sets at NOAA's minute and squashed and reddened by refraction (`sunDisc`, `refraction`, after
+          Sæmundsson and Bennett), and the Pacific beyond the modelled sea with Cox and Munk's glitter. `skyLighting` turns the
+          sky into the scene's light: the key light is the sun through the atmosphere, or the moon once the sun's light is
+          gone; the probe field's three sky colours are fitted to the scattering sky's irradiance, weighted toward the west
+          the house faces; the eye's adaptation lifts twilight by a gain taken from the model itself (`adaptationGain`); and
+          the reflections' capture is rebuilt every half degree of sun near the horizon and every 20 minutes otherwise
+          (`setPalette`, `makeEnvironment`). `weatherFor` draws the day's mood from its date.
         files:
+          - path: assets/js/home-scene/atmosphere-model.mjs
+            role: The atmosphere, refraction, the moon and the weather.
+            functions:
+              [
+                transmittanceToTop,
+                integrateRay,
+                buildMultipleScatteringTable,
+                skyRadiance,
+                refraction,
+                unrefract,
+                moonPosition,
+                weatherFor,
+                adaptationGain,
+              ]
+          - path: assets/js/home-scene/atmosphere.mjs
+            role: The GPU tables, the dome and the scene's light.
+            functions: [createAtmosphere, skyLighting, sunDisc, siderealFrame, apparentDirection, weatherOverride]
+          - path: assets/js/home-scene/environment.mjs
+            role: The dome, the capture and the palette step.
+            functions: [setPalette, makeEnvironment]
           - path: assets/js/home-scene/daylight.mjs
             role: Solar position.
             functions: [coastalDaylight, LA_JOLLA]
-          - path: assets/js/home-scene/environment.mjs
-            role: The sky shader, its environment captures and the haze.
-            functions: [setPalette, makeEnvironment]
         tests:
+          - test/atmosphere.test.mjs
           - test/coastal-physics.test.mjs
           - test/sun-arc-math.test.mjs
-        sources: [noaa-solar]
+        sources:
+          [hillaire2020sky, bruneton2008atmosphere, noaa-solar, meeus1998algorithms, astronomical-almanac-moon, cornette1992phase, cox1954glitter]
+        related:
+          - record: homepage-desk-scene
+            techniques: [daylight, sea-sunset]
+        limits:
+          - The tables and the light colours use the same equations at different resolutions (192 × 108 on the GPU against a 24 × 8 CPU table for Ψ_ms), so the probe field's sky can differ from the dome by 10 to 30 % in deep twilight.
+          - The sky's radiance carries a fill of two over the model and a highlight shoulder, choices of exposure rather than physics, and the night sky after nautical twilight is authored.
+          - Refraction bends the drawn disc but not the scattering geometry; there is no green flash and there are no clouds yet.
+          - The moon is good to about 0.3 degrees, with no libration or exact orientation of its limb.
+        watchlist:
+          - source: hillaire2016clouds
+            effort: large
+            adds: Clouds lit through the same atmosphere, with their own multiple-scattering approximation and shadows, the step from a clear sunset to one that colours a cloud deck.
+        next:
+          - move: A high cloud layer for the sunset, lit through the atmosphere and Earth's shadow, from the weather's cirrus days.
+            readiness: ready
+      - id: coastal-haze
+        name: Haze that follows height and the sun
+        status: shipped
+        since: "2026-10-19"
+        thumbnail:
+          path: assets/img/project_pics/graphics-lab/coastal-haze.webp
+          alt: The north bluffs at golden hour from over the sea, the cliffs and the mesa's pines fading into warm haze toward the horizon, two gliders above
+          frame: Lab camera about 130 m off the coast looking north, 17:40 on Friday, October 16, 2026, reduced motion.
+        what: The air between the eye and every surface is an exponential haze, dense at the waterline and thin on the bluffs, glowing gold toward a low sun and cool away from it, and the land block, the hinterland and the 400 m sea dissolve into the sky and the open Pacific instead of ending.
+        how: >-
+          `createHaze` in `haze.mjs` runs after the beauty pass on the composer's resolved depth (`createFinish` in
+          `realism.mjs` gained the haze option and a depth texture on its multisampled target). `atmoHazeDepth` integrates
+          the layer exactly along each ray (a 1,400 m mean free path at sea level and a 30 m scale height), and
+          `atmoHazeSource` lights it with the sky a little above the horizon in the ray's azimuth, so the haze converges to
+          the horizon colour the dome shows there. Between the far view's fog distances, surfaces blend into `atmoDome`, the
+          dome's own colour along the ray. Three's linear fog stays defined so programs keep their keys and the sea mirror
+          keeps a haze; the pass sets it aside for the beauty pass and restores the far view's distances for the evidence.
+        files:
+          - path: assets/js/home-scene/haze.mjs
+            role: The haze pass.
+            functions: [createHaze]
+          - path: assets/js/home-scene/atmosphere.mjs
+            role: The haze's integral and light.
+            functions: [atmoHazeDepth, atmoHazeSource, atmoDome]
+          - path: assets/js/home-scene/realism.mjs
+            role: The pass in the finish.
+            functions: [createFinish]
+        tests:
+          - test/atmosphere.test.mjs
+          - test/visual/desk-scene.spec.js
+        sources: [wronski2014fog, hillaire2015frostbite]
+        related:
+          - record: homepage-desk-scene
+            techniques: [daylight, far-coast-view]
+        limits:
+          - One exponential layer with no horizontal structure beyond the marine fog; reflections in the sea mirror take three's linear fog instead.
+          - Transparent surfaces (glass, the steam, particles) take the haze of what lies behind them.
+        next: []
+      - id: light-in-the-air
+        name: Marine fog, shafts and sunbeams
+        status: shipped
+        since: "2026-10-19"
+        thumbnail:
+          path: assets/img/project_pics/graphics-lab/light-in-the-air.webp
+          alt: The coast on a marine-layer morning from over the sea, a fog bank over the water climbing the cliff below the lit house, the mesa's pines in soft light under a pale gold sky
+          frame: Lab camera about 120 m out over the sea, 07:30 on Friday, October 16, 2026 with ?weather=marine, reduced motion.
+        what: On marine-layer mornings and some evenings a fog bank lies over the water and climbs the cliff, light streams through the shadows of the cliff, the pines and the house in the haze, and at golden hour sunbeams cross the rooms' dusty air through the glass front.
+        how: >-
+          A raymarch at half the canvas's resolution (a third or a quarter in full screen) walks each view ray through the
+          haze, the marine fog and the house's indoor dust, testing each of 24 steps (18 indoors) against the sun's cached
+          shadow map, and returns four numbers: the share of the haze's sunlit light that survives the shadows, which carves
+          shafts from the analytic haze, the fog's transmittance and sunlit in-scattering, and the dust's. The fog is a bank
+          whose top billows with two octaves of a periodic noise volume (`fogNoiseVolume`) drifting with the coast's breeze
+          on the scene's clock, thinner over the land and kept out of the house; its light shades itself through the bank
+          above. The full-size pass upsamples by depth, choosing among the four nearest samples, and interleaved gradient
+          noise staggers the steps. The march runs only when it has something to show (fog, a low sun outside, or a low
+          western sun reaching into the house); otherwise the haze stays analytic. `marineLayerAt` gives the bank's
+          thickness through the day (thick before dawn, burnt off by 11:30, back after 18:30 on some days) and `marineTop`
+          its height; the thickest mornings close a May Gray deck over the dome.
+        files:
+          - path: assets/js/home-scene/haze.mjs
+            role: The march and the composite.
+            functions: [createHaze]
+          - path: assets/js/home-scene/atmosphere-model.mjs
+            role: The weather and the fog's noise.
+            functions: [weatherFor, marineLayerAt, marineTop, fogNoiseVolume]
+          - path: assets/js/home-scene/controller.mjs
+            role: The drift on the scene's clock.
+            functions: [createCoastalHome]
+        tests:
+          - test/atmosphere.test.mjs
+        sources: [wronski2014fog, hillaire2015frostbite, jimenez2014ign, henyey1941]
         related:
           - record: homepage-desk-scene
             techniques: [daylight]
         limits:
-          - Not an atmospheric scattering model. The sky's colours and the haze are chosen by hand, so a sunset does not redden by physics.
-          - Reflections can lag the sun within a twenty-minute step, and there is no lunar astronomy.
-        watchlist:
-          - source: hosek2012sky
-            effort: small
-            adds: An analytic sky-dome model fitted to radiative-transfer simulations, a few coefficients per colour band, the quickest step to a sky gradient and sunset that follow the sun.
-          - source: hillaire2020sky
-            effort: medium
-            adds: A physically based sky and aerial perspective from small lookup tables, with multiple scattering, cheap per frame, so sunsets and the coast's haze would come from scattering.
-          - source: bruneton2008atmosphere
-            effort: medium
-            adds: Precomputed multiple scattering for every view and sun direction, the method the 2020 work builds on, in case per-frame tables cost too much.
+          - Single scattering with an isotropic allowance for the fog's multiple scattering; no froxel volume and no temporal accumulation, so the 24 samples show as a faint grain in thin shafts.
+          - Shafts exist only inside the sun's shadow square (36 m around the authored coast view, 120 m at 160 m), and surfaces inside the fog keep their direct sunlight.
+          - The weather's monthly chances follow the season's known shape, not a fit to a station record.
         next: []
 
   - id: cloth-bodies
@@ -641,48 +798,74 @@ systems:
       bodies and animals posed on the house's real geometry.
     techniques:
       - id: curtains
-        name: Sheer curtains in the breeze
+        name: Linen curtains and laundry
         status: shipped
         since: "2026-10-16"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/curtains.webp
-          alt: The renovated kitchen at 16:45 between two sheer curtain panels, the island, the coffee bar and the round dining table behind them
-          frame: Kitchen view, 16:45 on Friday, October 16, 2026, reduced motion (settled drape).
-        what: Four sheer panels inside the glass front, a position-based cloth in the coast's breeze, with a weave whose openness, glow and shadow change with the angle.
+          alt: The terrace laundry at golden hour seen from the sea, a terracotta towel, a natural towel with an ochre band, Sirui's white linen shirt and an indigo striped towel pegged on a line, with the linen curtains hanging behind the glass front
+          frame: Lab camera off the terrace, 17:40 on Friday, October 16, 2026, reduced motion (settled drape).
+        what: Four sheer linen panels on rings and bronze rods, and three towels and a shirt on a terrace line, in one small-step XPBD cloth with isometric bending, blowing in the coast's one wind.
         how: >-
-          `createCurtainCloth` steps 29 × 25 particle panels with small-step extended position-based dynamics:
-          colour-batched structural, shear and bend constraints, long-range tethers, and a kinematic heading of carrier rings
-          whose sine folds gather or spread. Air acts per triangle from the wind relative to the cloth, a flat-plate normal
-          force plus skin friction applied semi-implicitly, and `createFacadeDraft` feeds jets through an open door from the
-          coast's onshore breeze. `weaveOpenness` treats the voile as a plain weave of round yarns, so its gaps close toward
-          grazing angles; back light passes as a thin Lambertian sheet plus a forward Henyey–Greenstein lobe, and a
-          dithered shadow pass leaves a partial pool of light. `createCurtainRig` steps panels on screen at 30 Hz, and
-          `curtainSchedule` draws them against the low sun.
+          Rebuilt on October 18. `createClothIsland` in `cloth-solver.mjs` steps welded pattern meshes at 30 Hz with six
+          substeps: colour-batched stretch and shear distance constraints on the fabric's own rest lengths, the isometric
+          quadratic bending of Bergou and colleagues (`bendingWeights`), long-range attachments, ordering constraints that
+          keep a gathered stack's folds from crossing, and contacts. `createCurtainCloth` hangs each panel from six rings on
+          a pinch-pleated heading whose tape bows between pinches, and `createFacadeDraft` blows the coast's onshore breeze
+          and the room's eddies through each open door. `createLaundryLine` pegs the towels and the shirt onto a line chain,
+          each peg welding a corner to a line node, with the shirt's layers welded at the seams and kept apart, in the open
+          coast's wind at an authored 42 % exposure (`createTerraceDraft`). `createSheerFabric` blends linen's translucency
+          with slubs along the warp and a forward-scattering back light, and `createCurtainMeshes` draws each panel through a
+          Catmull–Rom spline at three times the simulated resolution, column by column, so a stack's blended layers keep one
+          order. `createCurtainRig` and `createLaundryRig` step only what is on screen and tall enough to see.
         files:
+          - path: assets/js/home-scene/cloth-solver.mjs
+            role: The small-step XPBD cloth.
+            functions: [clothBuilder, createClothIsland, bendingWeights]
           - path: assets/js/home-scene/curtain-cloth.mjs
-            role: The cloth solver, the facade draft and the schedule.
+            role: The panels, the heading, the facade draft and the schedule.
             functions: [createCurtainCloth, createFacadeDraft, createFacadeCurtains, curtainSchedule]
           - path: assets/js/home-scene/sheer-fabric.mjs
-            role: Weave openness, transmission and the dithered shadow.
-            functions: [weaveOpenness, createSheerFabric, patchSheerShader, patchSheerShadowShader]
+            role: Linen shading and the refined meshes.
+            functions: [weaveOpenness, createSheerFabric, patchSheerShader, patchSheerShadowShader, createCurtainMeshes]
           - path: assets/js/home-scene/curtain-rig.mjs
-            role: The live scene's curtains and their visibility budget.
+            role: The live curtains, their hardware and their budget.
             functions: [createCurtainRig]
+          - path: assets/js/home-scene/laundry-line.mjs
+            role: The line, the pegs, the towels, the shirt and the terrace wind.
+            functions: [createLaundryLine, createTerraceDraft]
+          - path: assets/js/home-scene/laundry-rig.mjs
+            role: The live laundry.
+            functions: [createLaundryRig]
           - path: assets/js/home-scene/PHYSICS.md
-            role: Equations, sources, cost and limits ("Curtain cloth").
+            role: Equations, sources, cost and limits ("Curtain cloth" and "Laundry on the terrace").
         tests:
+          - test/cloth-solver.test.mjs
           - test/curtain-cloth.test.mjs
           - test/curtain-schedule.test.mjs
+          - test/laundry-line.test.mjs
         sources:
-          [macklin2016xpbd, macklin2019smallsteps, muller2007pbd, kim2012lra, keckeisen2004wind, kotey2009screens, estevez2017sheen, henyey1941]
+          [
+            macklin2016xpbd,
+            macklin2019smallsteps,
+            muller2007pbd,
+            bergou2006bending,
+            bender2014continuous,
+            kim2012lra,
+            peirce1930handle,
+            keckeisen2004wind,
+            catmull1974splines,
+            kotey2009screens,
+            estevez2017sheen,
+            henyey1941,
+          ]
         related:
           - record: homepage-desk-scene
-            techniques: [facade-curtains]
+            techniques: [facade-curtains, terrace-laundry]
         limits:
-          - No self-collision, so gathered stacks can pass through themselves in strong gusts.
-          - The air has no shielding or wake, so a stack's inner folds feel the full wind.
-          - Depth shadow maps cannot colour the light the yarn lets through.
-          - The fabric is authored, not measured; there is no yarn-level or microcylinder model.
+          - No general self-collision; ordering constraints keep a stack's folds in order, and the shirt's layers are kept apart, but nothing else stops cloth from passing through cloth.
+          - One pass per substep leaves a few percent of local stretch, more at the shirt's shoulder pegs.
+          - The air model has no shielding or vortex shedding, and the fabric is authored, not measured.
         watchlist:
           - source: zhu2023yarn
             effort: medium
@@ -692,7 +875,7 @@ systems:
             adds: Repulsion-based self-collision for cloth on the GPU, so gathered stacks would stop passing through themselves.
           - source: chen2024vbd
             effort: large
-            adds: Solves the cloth one vertex block at a time with local Newton steps, stable at large time steps, so the panels could keep their stiffness at 30 Hz without XPBD's substeps.
+            adds: Solves the cloth one vertex block at a time with local Newton steps, stable at large time steps, so the panels and the laundry could step at 30 Hz without the six substeps that now set the cloth's cost; worth an A/B on one panel.
         next: []
       - id: bedding
         name: Bedding draped by position-based dynamics
@@ -943,8 +1126,8 @@ systems:
         since: "2026-10-15"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/gliders.webp
-          alt: A red and white paraglider over a canyon in the north bluffs, with Torrey pines beyond
-          frame: Lab camera 50 m from the gliders' route along the north bluffs, 15:00 on Friday, October 16, 2026, reduced motion.
+          alt: A red and white paraglider over a canyon in the north bluffs at golden hour, with Torrey pines and the sea fading into haze beyond
+          frame: Lab camera 50 m from the gliders' route along the north bluffs, 17:40 on Friday, October 16, 2026, reduced motion.
         what: Three paragliders and a hang glider follow closed loops along the north bluffs, banking into their turns, posed from the scene clock.
         how: >-
           `createRoute` in `gliders.mjs` tabulates a closed centripetal Catmull–Rom curve by arc length, and `gliderPose`
@@ -978,8 +1161,8 @@ systems:
         since: "2026-10-15"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/camera-field.webp
-          alt: The cave house in its cliff from far out over the Pacific, with the mesa, its planting and the coast running on into the haze
-          frame: Lab camera about 155 m out over the sea, 15:00 on Friday, October 16, 2026, reduced motion.
+          alt: The cave house in its cliff from far out over the Pacific at golden hour, with dark reef and kelp under the clear water, the mesa's planting and the coast fading into haze
+          frame: Lab camera about 155 m out over the sea, 17:40 on Friday, October 16, 2026, reduced motion.
         what: Every static mesh is voxelized into a 12 cm field once it loads, and a spring arm keeps the camera on the near side of anything between it and the subject, so visitors can orbit freely and zoom the coast to 160 m.
         how: >-
           `createCameraField` in `camera-field.mjs` voxelizes each static house, room and coast mesh in a module worker
@@ -1027,8 +1210,8 @@ systems:
         since: "2026-10-15"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/hinterland.webp
-          alt: Sandstone bluffs north of the house cut by a canyon, the gliderport's lawn and Torrey pines on top, and a paraglider overhead
-          frame: Lab camera about 120 m off the north bluffs, 15:00 on Friday, October 16, 2026, reduced motion.
+          alt: Sandstone bluffs north of the house cut by a canyon at golden hour, the gliderport's lawn and Torrey pines on top, and a paraglider overhead
+          frame: Lab camera about 120 m off the north bluffs, 17:40 on Friday, October 16, 2026, reduced motion.
         what: A terraced mesa with badland canyons, bluffs with the gliderport, a headland with sea caves and a distant point continue the coast past the mainland's flat walls.
         how: >-
           `bin/build_coastal_hinterland.py` snaps the new ground to the mainland's 225 back-edge and 41 end-edge vertices
@@ -1445,8 +1628,8 @@ systems:
 shortlist:
   - technique: light-paths
     source: zeltner2020sms
-  - technique: sun-sky
-    source: hillaire2020sky
+  - technique: ocean
+    source: jeschke2020boundary
   - technique: onsen-water
     source: jeschke2023dispersive
   - technique: coast-wind
@@ -1517,6 +1700,95 @@ history:
     reframe: Per-draw uniform cost and the sea mirror remain; material sharing, a lighter mirror and a cheaper distant water are next, and the last two need Sirui.
     commit: "c861eed23"
     sources: [myers2021coldwar, binks2011dynres]
+  - date: "2026-10-18"
+    title: Linen on rings, and laundry in the breeze
+    system: cloth-bodies
+    frame: Sirui found the curtains "a bit weird" and asked for more cloth simulation, with three linen towels pegged on a sunny Mediterranean terrace as the reference.
+    dimensions:
+      [
+        heading and hardware,
+        fold shape from the rod to the hem,
+        stack width and flare,
+        translucency and grain,
+        motion in gusts and lulls,
+        cost per frame,
+        a place for cloth to shine,
+      ]
+    move: >-
+      A new small-step XPBD cloth with isometric bending, long-range attachments, fold ordering and welded patterns; the
+      panels hang from six rings on bronze rods with a pinch-pleated heading, true rest lengths, a weighted hem, blended
+      linen translucency and a refined drawn mesh, and three towels and a shirt hang pegged on a terrace line in the same
+      wind.
+    backtalk: >-
+      The October 16 panels repeated the heading's corrugation at every row, so a gathered stack twisted like a ribbon in
+      the doorway jet and alpha-to-coverage left a screen-door grain. A 10 cm bending length fanned a stack's hem 1.6 m
+      wide. The first laundry exploded until each line node was tethered to both posts, and towels pegged flat hung like
+      boards until they were pegged with slack. Drawn row by row, the blended stack showed a light line at every row where
+      the drawing order between its layers flipped; drawn column by column it holds. The first tuning cost 3 to 5 ms a
+      frame in a room view; six rings, 21 rows, six substeps and box tests against the view brought it to 3.4 ms of cloth
+      in the kitchen view, within noise of the October 16 frame.
+    reframe: Self-collision for the heading tape and the stack's contacts would pay off next, and vertex block descent could cut the substeps.
+    commit: "6c796c017"
+    sources: [bergou2006bending, macklin2019smallsteps, kim2012lra, catmull1974splines]
+  - date: "2026-10-18"
+    title: Water with depth, caustics and lamplight
+    system: water-air
+    frame: >-
+      Sirui showed two three.js scenes he liked: a teal harbour that mirrors its lamps in long streaks through mist, and a
+      Mediterranean cove whose turquoise shallows show the seabed with moving caustics. The Pacific was a painted teal
+      with a wet-sand tint near the beach, and the onsen read as a white basin.
+    dimensions:
+      [optical depth over the seabed, caustics, the low sun, reflections at night, the waterline, the bath's light, GPU cost per frame, compile time]
+    move: >-
+      A seabed read from the coast's own geometry and extended offshore; the sea coloured by Lee and colleagues'
+      shallow-water reflectance over it, with paraxial caustics from the wind ripples; a mirror stretched into vertical
+      bands, the sun's path broken into glints and the terrace lamps' streaks; the swash on the captured waterline; and
+      caustics in the onsen from its own simulated surface, with sub-grid ripples riding on the hand's waves.
+    backtalk: >-
+      The beach slopes only 0.75 m under the sea, so the seabed past it had to be extended. The hand's own waves focused
+      light by a tenth of a percent in 13 cm of water, which is why the sub-grid ripples exist. The first version cost 4
+      to 7 ms of GPU per frame outside; four-tap shadow compares, skipping unresolvable ripples and footprint-gated seabed
+      detail brought it back to the base's range. The optics more than doubled the sea program's cold compile on ANGLE's
+      Direct3D compiler until uniform-bound loops over flat arrays, explicit texture levels and a short integer hash
+      brought it to 2.7 s against 2.1 s. Mean-preserving glints alone thinned the sunset path to scattered dots, because
+      tone mapping compresses a rare bright flash far more than a steady path of the same mean, so half the lobe now stays
+      a steady glow.
+    reframe: The depth under every point is now known, so the swell itself can start to feel the seabed.
+    commit: "9c4e4007b"
+    sources: [pope1997water, lee1998shallow, lee1999shallow, watt1990beam, kasten1989airmass, hansen1974rayleigh]
+  - date: "2026-10-19"
+    title: A sunset by scattering
+    system: water-air
+    frame: >-
+      Sirui asked for a better-designed sunset and reflections, softer haze at the scene's edges, and fog and light
+      simulation: "just make sure things look great on first principle, don't get limited by old rules."
+    dimensions:
+      [
+        the sky model,
+        the sun's colour by altitude,
+        the eye's adaptation,
+        the haze's colour,
+        the world's edge,
+        fog density and depth,
+        the march's budget,
+        cold shader compile,
+      ]
+    move: >-
+      Hillaire's three tables on the GPU with a JavaScript twin for the light colours and the tests; the sun's disc set by
+      NOAA's minute and squashed by refraction; the moon and stars placed by Meeus and the Almanac; a post-pass haze from
+      the depth buffer that converges to the horizon's colour and dissolves the world's edge into the dome; and a
+      half-resolution, shadow-mapped march for fog, shafts and indoor sunbeams.
+    backtalk: >-
+      An explicitly lit haze drew a dark band above a sunset horizon until it took the horizon's own colour. An aerosol
+      optical depth of 0.1 washed the golden hour out and the bloom spread a capped disc over the frame; 0.045 and a
+      20-unit cap on the disc brought the gold back. Partial white balance turned the dawn sky green, and the first
+      twilight lift brightened the sky after sunset until it was derived from the model's own zenith. The fog never
+      showed: a reversed smoothstep is undefined in GLSL and ANGLE's Direct3D path returned 0, and a bank 11 m deep at
+      300 m visibility is nearly transparent from above. The probe field's single horizon colour turned the shaded
+      west-facing cliff red at sunrise until its bands were weighted toward the west.
+    reframe: Clouds lit through Earth's shadow are the next step for the sunset.
+    commit: "1104eb491"
+    sources: [hillaire2020sky, bruneton2008atmosphere, noaa-solar, meeus1998algorithms, cox1954glitter, wronski2014fog, hillaire2015frostbite]
   # Append new moves here, oldest first.
 
 open_problems:
@@ -1525,13 +1797,14 @@ open_problems:
     system: method
     why_hard: >-
       Every watchlist entry would make a technique more faithful, but they differ by an order of magnitude in effort and in
-      how much a visitor would notice. The shortlist proposes four with a visible payoff; the choice is a taste call.
+      how much a visitor would notice. The shortlist proposes four with a visible payoff; the choice is a taste call. The
+      scattering sky left the list when it shipped on October 19, and boundary-aware waves took its place.
     candidate_moves:
       - "Light paths: specular manifold sampling, to win the race on the caustics outright."
-      - "Sun and sky: a scattering sky, for real sunsets and a terrace hour at dusk."
+      - "Ocean: boundary-aware waves over the captured seabed, so the swell slows, shortens and turns toward the beach."
       - "Onsen: dispersive surface waves, so the hand's ripples travel at their true speed."
       - "Wind: a wind projection basis, so the pines and the palm sway as trees."
-    sources: [zeltner2020sms, hillaire2020sky, jeschke2023dispersive, diener2009wind]
+    sources: [zeltner2020sms, jeschke2020boundary, jeschke2023dispersive, diener2009wind]
     readiness: needs-decision
   - id: gpu-compute
     title: Simulation without compute shaders
@@ -1550,13 +1823,15 @@ open_problems:
     title: Light that only a tracer can find
     system: light-transport
     why_hard: >-
-      Caustics on the onsen's floor and vault, glossy reflections of the lit house and light through the sheer all follow
-      paths a rasterizer cannot aim at. The light lab finds them on the CPU, but the house has no runtime tracer, and WebGL
+      Caustics on the onsen's vault, glossy reflections of the lit house and light through the sheer all follow paths a
+      rasterizer cannot aim at. Since October 18 the basin's floor and the sea's sand take paraxial caustics from their
+      own rippled surfaces, one sheet for light from overhead, but light reflected onto the vault and strongly folded
+      caustics still need a tracer. The light lab finds them on the CPU, but the house has no runtime tracer, and WebGL
       offers no ray queries.
     candidate_moves:
-      - Precompute a caustic pattern in the lab and project it in the onsen, moved by the solver's slopes.
+      - Reflect the same paraxial lens off the onsen's surface onto the vault, checked against the light lab's reference.
       - Shade the light well's aperture with glossy area lights, the cheapest specular path the house is missing.
-    sources: [loubet2020slope, heitz2016ltc]
+    sources: [loubet2020slope, heitz2016ltc, watt1990beam]
     readiness: needs-research
   - id: next-performance
     title: Where the frame still goes
@@ -1882,12 +2157,6 @@ sources:
     label: NOAA solar equations
     citation: NOAA Global Monitoring Division. *General Solar Position Calculations*.
     url: https://gml.noaa.gov/grad/solcalc/solareqns.PDF
-  - id: hosek2012sky
-    label: Hosek and Wilkie 2012
-    citation: Lukas Hosek and Alexander Wilkie. *An Analytic Model for Full Spectral Sky-Dome Radiance*. ACM Transactions on Graphics 31(4), article 95, SIGGRAPH 2012.
-    url: https://doi.org/10.1145/2185520.2185591
-    venue: SIGGRAPH 2012
-    year: 2012
   - id: hillaire2020sky
     label: Hillaire 2020
     citation: Sébastien Hillaire. *A Scalable and Production Ready Sky and Atmosphere Rendering Technique*. Computer Graphics Forum 39(4), 13–22, EGSR 2020.
@@ -2341,3 +2610,82 @@ sources:
     label: Wihlidal 2016
     citation: Graham Wihlidal. *Optimizing the Graphics Pipeline with Compute*. GDC 2016 (Frostbite).
     url: https://gdcvault.com/play/1023109/
+  # Water (October 18), checked by the water agent against each DOI record or publisher page.
+  - id: pope1997water
+    label: Pope and Fry 1997
+    citation: Robin M. Pope and Edward S. Fry. *Absorption spectrum (380–700 nm) of pure water. II. Integrating cavity measurements*. Applied Optics 36(33), 8710–8723, 1997.
+    url: https://doi.org/10.1364/AO.36.008710
+  - id: lee1998shallow
+    label: Lee et al. 1998
+    citation: Zhongping Lee, Kendall L. Carder, Curtis D. Mobley, Robert G. Steward and Jennifer S. Patch. *Hyperspectral remote sensing for shallow waters. I. A semianalytical model*. Applied Optics 37(27), 6329–6338, 1998.
+    url: https://doi.org/10.1364/AO.37.006329
+  - id: lee1999shallow
+    label: Lee et al. 1999
+    citation: Zhongping Lee, Kendall L. Carder, Curtis D. Mobley, Robert G. Steward and Jennifer S. Patch. *Hyperspectral remote sensing for shallow waters. 2. Deriving bottom depths and water properties by optimization*. Applied Optics 38(18), 3831–3843, 1999.
+    url: https://doi.org/10.1364/AO.38.003831
+  - id: watt1990beam
+    label: Watt 1990
+    citation: Mark Watt. *Light-Water Interaction using Backward Beam Tracing*. Computer Graphics 24(4), 377–385, SIGGRAPH 1990.
+    url: https://doi.org/10.1145/97880.97920
+  - id: kasten1989airmass
+    label: Kasten and Young 1989
+    citation: Fritz Kasten and Andrew T. Young. *Revised optical air mass tables and approximation formula*. Applied Optics 28(22), 4735–4738, 1989.
+    url: https://doi.org/10.1364/AO.28.004735
+    venue: Applied Optics
+    year: 1989
+  - id: hansen1974rayleigh
+    label: Hansen and Travis 1974
+    citation: James E. Hansen and Larry D. Travis. *Light scattering in planetary atmospheres*. Space Science Reviews 16(4), 527–610, 1974.
+    url: https://doi.org/10.1007/BF00168069
+    venue: Space Science Reviews
+    year: 1974
+  - id: yuksel2007waveparticles
+    label: Yuksel, House and Keyser 2007
+    citation: Cem Yuksel, Donald H. House and John Keyser. *Wave Particles*. ACM Transactions on Graphics 26(3), article 99, SIGGRAPH 2007.
+    url: https://doi.org/10.1145/1276377.1276501
+    venue: SIGGRAPH 2007
+    year: 2007
+  # Cloth (October 18), checked by the cloth agent.
+  - id: bergou2006bending
+    label: Bergou et al. 2006
+    citation: Miklós Bergou, Max Wardetzky, David Harmon, Denis Zorin and Eitan Grinspun. *A Quadratic Bending Model for Inextensible Surfaces*. Eurographics Symposium on Geometry Processing 2006, 227–230.
+    url: https://doi.org/10.2312/SGP/SGP06/227-230
+  - id: bender2014continuous
+    label: Bender et al. 2014
+    citation: Jan Bender, Dan Koschier, Patrick Charrier and Daniel Weber. *Position-based simulation of continuous materials*. Computers & Graphics 44, 1–10, 2014.
+    url: https://doi.org/10.1016/j.cag.2014.07.004
+  - id: peirce1930handle
+    label: Peirce 1930
+    citation: F. T. Peirce. *The "handle" of cloth as a measurable quantity*. Journal of the Textile Institute Transactions 21(9), T377–T416, 1930.
+    url: https://doi.org/10.1080/19447023008661529
+  - id: catmull1974splines
+    label: Catmull and Rom 1974
+    citation: Edwin Catmull and Raphael Rom. *A Class of Local Interpolating Splines*. In Computer Aided Geometric Design (Barnhill and Riesenfeld, eds.), Academic Press, 317–326, 1974.
+    url: https://doi.org/10.1016/B978-0-12-079050-0.50020-5
+  # Sky, haze and fog (October 19), checked by the atmosphere agent; the cloud paper for this record.
+  - id: meeus1998algorithms
+    label: Meeus 1998
+    citation: Jean Meeus. *Astronomical Algorithms*, 2nd edition. Willmann-Bell, Richmond, Virginia, 1998, ISBN 0-943396-61-1 (chapters on sidereal time, refraction and the Sun's position).
+    url: https://books.google.com/books?vid=ISBN0943396611
+  - id: astronomical-almanac-moon
+    label: The Astronomical Almanac, the Moon
+    citation: U.S. Naval Observatory and HM Nautical Almanac Office. *The Astronomical Almanac*, Section D, low-precision formulae for the Moon's ecliptic longitude, latitude and horizontal parallax, good to about 0.3 degrees.
+    url: https://aa.usno.navy.mil/publications/asa
+  - id: cornette1992phase
+    label: Cornette and Shanks 1992
+    citation: William M. Cornette and Joseph G. Shanks. *Physically reasonable analytic expression for the single-scattering phase function*. Applied Optics 31(16), 3152–3160, 1992.
+    url: https://doi.org/10.1364/AO.31.003152
+  - id: hillaire2015frostbite
+    label: Hillaire 2015
+    citation: Sébastien Hillaire. *Towards Unified and Physically-Based Volumetric Lighting in Frostbite*. SIGGRAPH 2015 course, Advances in Real-Time Rendering in Games.
+    url: https://advances.realtimerendering.com/s2015/index.html
+  - id: jimenez2014ign
+    label: Jimenez 2014
+    citation: "Jorge Jimenez. *Next Generation Post Processing in Call of Duty: Advanced Warfare*. SIGGRAPH 2014 course, Advances in Real-Time Rendering in Games (interleaved gradient noise)."
+    url: https://www.iryoku.com/next-generation-post-processing-in-call-of-duty-advanced-warfare/
+  - id: hillaire2016clouds
+    label: Hillaire 2016
+    citation: "Sébastien Hillaire. *Physically Based Sky, Atmosphere and Cloud Rendering in Frostbite*. SIGGRAPH 2016 course, Physically Based Shading in Theory and Practice."
+    url: https://blog.selfshadow.com/publications/s2016-shading-course/
+    venue: SIGGRAPH 2016 course
+    year: 2016

@@ -75,6 +75,36 @@ const STILLS = {
   // The gliders' loops run along the north bluffs (x 60 to 190 m, 22 to 52 m up, over the shore).
   gliders: { room: "outside", minute: 15 * 60, wait: 12000, camera: { target: [125, 32, -22], yaw: 3.3, pitch: 0.06, radius: 50 } },
   "gliders-b": { room: "outside", minute: 15 * 60, wait: 12000, camera: { target: [115, 30, -20], yaw: 3.1, pitch: 0.04, radius: 30 } },
+  // October 19: the sea's optics over its seabed, the scattering sky and its haze, the linen and the laundry, at golden
+  // hour on the weekday clock (the sun sets at 18:16 on Friday, October 16, 2026). `query` adds a comparison flag.
+  "ocean-golden": { room: "outside", minute: 17 * 60 + 40, camera: { target: [-6, 0.3, -28], yaw: 1.1, pitch: 0.13, radius: 9 } },
+  "ocean-golden-b": { room: "outside", minute: 17 * 60 + 40, camera: { target: [-6, 0.3, -28], yaw: 1.1, pitch: 0.42, radius: 8 } },
+  "ocean-golden-c": { room: "outside", minute: 17 * 60 + 40, camera: { target: [-4, 0.2, -22], yaw: 2.6, pitch: 0.32, radius: 9 } },
+  "sunset-a": { room: "outside", minute: 18 * 60 + 8, camera: { target: [-8, 6, -70], yaw: 0.35, pitch: 0.12, radius: 34 } },
+  "sunset-b": { room: "outside", minute: 18 * 60 + 13, camera: { target: [-8, 6, -70], yaw: 0.35, pitch: 0.12, radius: 34 } },
+  "sunset-c": { room: "outside", minute: 18 * 60 + 24, camera: { target: [-8, 6, -70], yaw: 0.35, pitch: 0.12, radius: 34 } },
+  "camera-field-golden": { room: "outside", minute: 17 * 60 + 40, wait: 20000, camera: { target: [0, 8, -10], yaw: 3.45, pitch: 0.3, radius: 155 } },
+  "hinterland-golden": { room: "outside", minute: 17 * 60 + 40, wait: 12000, camera: { target: [130, 18, 5], yaw: 3.3, pitch: 0.1, radius: 120 } },
+  "gliders-golden": { room: "outside", minute: 17 * 60 + 40, wait: 12000, camera: { target: [125, 32, -22], yaw: 3.3, pitch: 0.06, radius: 50 } },
+  "haze-north": { room: "outside", minute: 17 * 60 + 40, wait: 12000, camera: { target: [120, 15, -15], yaw: 4.5, pitch: 0.08, radius: 130 } },
+  "haze-south": { room: "outside", minute: 17 * 60 + 40, wait: 12000, camera: { target: [-60, 10, -20], yaw: 1.6, pitch: 0.08, radius: 120 } },
+  "curtains-golden": { room: "kitchen", minute: 17 * 60 + 40 },
+  "laundry-a": { room: "outside", minute: 17 * 60 + 40, camera: { target: [-1, 1.55, -7.3], yaw: 0.15, pitch: 0.12, radius: 4.2 } },
+  "laundry-b": { room: "outside", minute: 17 * 60 + 40, camera: { target: [-1, 1.55, -7.3], yaw: 3.3, pitch: 0.18, radius: 5 } },
+  "sunbeams-lounge": { room: "lounge", minute: 17 * 60 + 35 },
+  "sunbeams-kitchen": { room: "kitchen", minute: 17 * 60 + 30 },
+  "fog-morning": { room: "outside", minute: 7 * 60 + 30, wait: 9000, query: "weather=marine" },
+  "fog-coast": {
+    room: "outside",
+    minute: 7 * 60 + 30,
+    wait: 12000,
+    query: "weather=marine",
+    camera: { target: [0, 8, -10], yaw: 3.45, pitch: 0.3, radius: 120 },
+  },
+  "wildlife-golden": { room: "outside", minute: 17 * 60 + 40, camera: { target: [-3, 0.2, -24], yaw: 3.25, pitch: 0.24, radius: 11 } },
+  // Shafts show looking toward the low sun from the clifftop, through the pines and the palm.
+  "shafts-a": { room: "outside", minute: 17 * 60 + 25, camera: { target: [3, 8, -6], yaw: 0.2, pitch: 0.12, radius: 9 } },
+  "shafts-b": { room: "outside", minute: 17 * 60 + 25, camera: { target: [0, 9, 2], yaw: 0, pitch: 0.1, radius: 14 } },
 };
 
 async function setRange(locator, value) {
@@ -128,7 +158,9 @@ async function objectPosition(scene, pattern, actor = false) {
       });
       // A dated still fixes what Date reports; timers and animation frames keep running.
       await page.clock.setFixedTime(new Date(still.date || WEEKDAY));
-      await page.goto(`${baseURL}/?scene-lab=1${still.sketch ? "&cinematic=live" : ""}`, { waitUntil: "domcontentloaded" });
+      await page.goto(`${baseURL}/?scene-lab=1${still.sketch ? "&cinematic=live" : ""}${still.query ? `&${still.query}` : ""}`, {
+        waitUntil: "domcontentloaded",
+      });
       // A 4:3 canvas without the homepage's feathered edge, so a frame needs no crop and reads on either theme.
       await page.addStyleTag({
         content:
