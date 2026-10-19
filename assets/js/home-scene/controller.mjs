@@ -7,6 +7,9 @@ import { readLook } from "./look.mjs";
 import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
+import { createResolutionGovernor } from "./resolution.mjs";
+import { createShadowCache } from "./shadow-cache.mjs";
+import { sortOpaqueByProgram } from "./draw-order.mjs";
 import {
   envelopeFor,
   wildlifeEnvelope,
@@ -146,6 +149,10 @@ export function createCoastalHome(container, records, artifacts) {
     disposed = false,
     visible = false,
     inViewport = true;
+  // The drawing buffer's pixel budget and adaptive density (resolution.mjs) and the cached static sun
+  // shadow (shadow-cache.mjs).
+  let resolution = null,
+    shadowCache = null;
   let frame = 0,
     lastFrame = 0,
     elapsed = 0,
@@ -2195,11 +2202,15 @@ export function createCoastalHome(container, records, artifacts) {
     if (!renderer) return;
     const rect = container.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
-    renderer.setSize(rect.width, rect.height, false);
+    // Full screen can ask for 8 MP; the buffer keeps within a pixel budget and, when large, adapts to
+    // frame time (resolution.mjs). The renderer keeps the pixel ratio the composer was built with, so
+    // the one size handed to both moves them together.
+    const size = resolution?.size(rect.width, rect.height) ?? rect;
+    renderer.setSize(size.width, size.height, false);
     aspect = rect.width / rect.height;
     perspective.aspect = aspect;
     perspective.updateProjectionMatrix();
-    finish?.resize(rect.width, rect.height);
+    finish?.resize(size.width, size.height);
     requestFrame();
   }
 
@@ -2565,8 +2576,10 @@ export function createCoastalHome(container, records, artifacts) {
     if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside" && !animalFocus);
     else renderer.render(scene, camera);
     if (moving && consecutive) {
-      frameTimings.push({ interval: delta * 1000, submit: performance.now() - submitStart });
+      const submit = performance.now() - submitStart;
+      frameTimings.push({ interval: delta * 1000, submit });
       if (frameTimings.length > 120) frameTimings.shift();
+      if (resolution?.observe(delta * 1000, submit)) resize();
     }
     frames++;
     if (firstFrameMilliseconds === null) {
@@ -2646,6 +2659,13 @@ export function createCoastalHome(container, records, artifacts) {
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.info.autoReset = false;
+      // Comparison flags: ?resolution=fixed keeps the pixel budget without the adaptive density;
+      // ?shadow-cache=0 and ?draw-order=material restore three's own behaviour.
+      const flags = new URLSearchParams(location.search);
+      resolution = createResolutionGovernor({ basePixelRatio: renderer.getPixelRatio(), enabled: flags.get("resolution") !== "fixed" });
+      shadowCache = createShadowCache(renderer, sun, { enabled: flags.get("shadow-cache") !== "0" });
+      if (flags.get("draw-order") !== "material") sortOpaqueByProgram(renderer);
+      cleanup.push(() => shadowCache?.dispose());
       surfaceLook.sheen = look.sheen;
       const bloom = look.bloom ? await import("../vendor/three-r164/postprocessing/UnrealBloomPass.js") : null;
       if (disposed) return;
@@ -2803,6 +2823,13 @@ export function createCoastalHome(container, records, artifacts) {
 
   if (labEnabled)
     container.labScene = { scene, sun, settings: labSettings, requestFrame: () => requestFrame(), collisionGrid: () => cameraField?.grid };
+  // Lab only: compare the next frame's cached sun shadow with a full redraw of it (shadow-cache.mjs).
+  if (labEnabled)
+    container.labScene.verifyShadowCache = () => {
+      const result = shadowCache?.verify() ?? null;
+      requestFrame();
+      return result;
+    };
   // Lab only: run today's training session from a chosen second (null returns to the clock).
   if (labEnabled)
     container.setLabSessionSeconds = (seconds) => {
@@ -2963,6 +2990,8 @@ export function createCoastalHome(container, records, artifacts) {
     }),
     canvasWidth: renderer?.domElement.width,
     canvasHeight: renderer?.domElement.height,
+    resolution: resolution?.evidence() ?? null,
+    shadowCache: shadowCache?.evidence() ?? null,
     prop: selectedProp
       ? {
           kind: selectedProp.userData.kind,

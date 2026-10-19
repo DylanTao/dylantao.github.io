@@ -94,15 +94,20 @@ export function createStaticLightField({
   const coefficientTexture = makeTexture(coefficientData, 4, count),
     positionTexture = makeTexture(positionData, count, 1),
     momentTexture = makeTexture(momentData, side, side * count);
+  // The vec3 arrays are flat Float32Arrays: three r164 re-flattens an array of vectors element by
+  // element on every material switch, and with this scene's thousand-odd materials per frame that
+  // flattening was a fifth of the script time (docs/performance-notes.md). The GPU receives the same
+  // float32 values; the CPU sampler keeps its double-precision copy of the fallback.
   const uniforms = {
     slfReady: { value: 0 },
     slfCoefficients: { value: coefficientTexture },
     slfPositions: { value: positionTexture },
     slfMoments: { value: momentTexture },
-    slfRegionMin: { value: regions.map((r) => new THREE.Vector3(...r.min)) },
-    slfRegionMax: { value: regions.map((r) => new THREE.Vector3(...r.max)) },
-    slfFallback: { value: Array.from({ length: 4 }, () => new THREE.Vector3()) },
+    slfRegionMin: { value: Float32Array.from(regions.flatMap((r) => r.min)) },
+    slfRegionMax: { value: Float32Array.from(regions.flatMap((r) => r.max)) },
+    slfFallback: { value: new Float32Array(12) },
   };
+  let fallbackCoefficients = new Float64Array(12);
   let transport = null,
     bvh = null,
     generation = 0,
@@ -405,7 +410,8 @@ export function createStaticLightField({
       accumulateL1(fallback, 0, radiance, r.direction, r.weight);
     }
     deringL1(fallback);
-    for (let k = 0; k < 4; k++) uniforms.slfFallback.value[k].fromArray(fallback, k * 3);
+    fallbackCoefficients = fallback;
+    uniforms.slfFallback.value.set(fallback);
     if (!transport) return true;
     const coefficients = new Float64Array(12);
     for (let p = 0; p < count; p++) {
@@ -468,10 +474,7 @@ export function createStaticLightField({
   function sample(point, normal) {
     normal = normalize(normal);
     if (!point?.every(Number.isFinite) || point.length !== 3) throw new RangeError("finite world point required");
-    const fallback = evaluateL1(
-        uniforms.slfFallback.value.flatMap((v) => v.toArray()),
-        normal
-      ),
+    const fallback = evaluateL1(Array.from(fallbackCoefficients), normal),
       result = [0, 0, 0],
       contributingRegions = [];
     let sum = 0,
