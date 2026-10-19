@@ -55,6 +55,7 @@ Tried and set aside: a GPU-occlusion gate for three's transmission copy (correct
 - New moving shadow casters need no registration: the shadow cache notices matrix, geometry and material changes. A caster animated only in its vertex shader must carry a `customDepthMaterial` (as the swaying planting does), or its shadow will be cached in place.
 - Keep the renderer's pixel ratio fixed after creation; change the drawing buffer through `resolution.mjs`, which moves the renderer and the composer together.
 - Before claiming a pixel-identical change, run `bin/compare_coastal_stills.cjs` and check its control pair; hold back a change that reorders asynchronous loading (`COASTAL_STILLS_HOLD`), or the reduced-motion wildlife race shows up as a difference.
+- Time a new shader's cold compile, not only its frame cost: ANGLE's Direct3D compiler unrolls constant-bound loops and inlines every call. The footer sea's first shader compiled in 1.9 s against 0.6 s for the water it replaced; uniform loop bounds, short integer hashes and a strip texture in place of an eighteen-branch shoreline brought it level (`footer-coast/water.mjs`, October 18).
 
 ## WebGPU
 
