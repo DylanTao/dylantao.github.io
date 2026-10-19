@@ -70,8 +70,13 @@ export function shallowReflectance({ u, kappa, depth, rho, cosSun = 1, cosView =
     h = Math.max(0, depth);
   return deep * (1 - 1.03 * Math.exp(-(down + column) * kappa * h)) + 0.31 * rho * light * Math.exp(-(down + bottom) * kappa * h);
 }
-// Above-surface remote-sensing reflectance (Lee et al. 1999, equation 2).
-export const aboveSurface = (rrs) => (0.5 * rrs) / (1 - 1.5 * rrs);
+// Above-surface remote-sensing reflectance (Lee et al. 1999, equation 2). It diverges as r_rs nears 2/3,
+// so r_rs stops at SHALLOW_RRS_LIMIT (the shader's clamp too).
+export const SHALLOW_RRS_LIMIT = 0.3;
+export const aboveSurface = (rrs) => {
+  const r = Math.min(Math.max(rrs, 0), SHALLOW_RRS_LIMIT);
+  return (0.5 * r) / (1 - 1.5 * r);
+};
 
 // Mean of the clamped single-sheet caustic gain over the ripple field, as a function of the summed
 // curvature variance s2 = l'^2 sum 0.5 (a k^2 w)^2: a rational fit to sampled statistics, within about
@@ -263,7 +268,9 @@ vec3 seaReflectance(float depth, vec3 rho, float cosSun, float cosView, vec3 lig
   vec3 bottom = 1.1 * sqrt(1. + 4.9 * u) * view;
   float h = max(depth, 0.);
   vec3 rrs = deep * (1. - 1.03 * exp(-(down + column) * kappa * h)) + .31 * rho * light * exp(-(down + bottom) * kappa * h);
-  rrs = max(rrs, vec3(0.));
+  // Lee et al.'s conversion below diverges as r_rs nears 2/3, where focused caustics over bright sand
+  // could push it; r_rs stops at 0.3 (R_rs 0.27), above any unfocused seabed's.
+  rrs = clamp(rrs, vec3(0.), vec3(${f(SHALLOW_RRS_LIMIT)}));
   return .5 * rrs / (1. - 1.5 * rrs);
 }
 // A short 2D value noise on an integer hash (lowbias32, as wind-field.mjs uses): four corners where the

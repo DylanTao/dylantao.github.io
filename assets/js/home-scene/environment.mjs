@@ -325,8 +325,8 @@ export function createPacific(scene, renderer, config) {
       float sparkle=glints<1.?step(1.-glints,hash31(vec3(patchId.yx,floor(glintSlot)+19.)))*draw/max(glints,1e-6):1.+(draw-1.)*inversesqrt(glints);
       sparkle*=1.+(1.5708*sin(3.1416*fract(glintSlot))-1.)*max(1.-glints,0.);
       vec3 sunGlow=seaSunSpecular*seaSunTint, glint=sunGlow*(.5*sparkle);
-      // A flash stops at 60: brighter only spreads the bloom into a haze.
-      glint*=min(1.,60./max(max(max(glint.r,glint.g),glint.b),1e-4));
+      // A flash stops at 8, already white after tone mapping; brighter would only feed the bloom.
+      glint*=min(1.,8./max(max(max(glint.r,glint.g),glint.b),1e-4));
       vec3 glitter=.5*sunGlow+glint;
       // The terrace's lamps after dark: GGX with plain inverse-square falloff (their light's range
       // cut-off is for lighting, not for being seen). At a grazing view the lobe draws out into the

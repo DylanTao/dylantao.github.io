@@ -8,6 +8,7 @@ import {
   LA_JOLLA_WATER,
   PURE_WATER_ABSORPTION,
   SEA_LEVEL,
+  SHALLOW_RRS_LIMIT,
   SUN_ANGULAR_RADIUS,
   SUN_SOLID_ANGLE,
   aboveSurface,
@@ -224,4 +225,16 @@ test("the sea keeps the sun's mirror lobe apart from the other lights' for its g
   assert.ok(directional.includes("RE_Direct_SeaSun( directLight"), "the directional loop calls the sea's own sun term");
   // Point and spot lights keep three's RE_Direct.
   assert.equal(SEA_LIGHTS_BEGIN.split("RE_Direct( directLight").length - 1, 2);
+});
+
+test("focused caustics cannot drive Lee's conversion to its pole at r_rs = 2/3", () => {
+  // A caustic peak of five over bright sand in a few centimetres of water.
+  const { u, kappa } = seawaterIOPs(),
+    peak = shallowReflectance({ u: u[0], kappa: kappa[0], depth: 0.05, rho: 0.62, light: 5 });
+  assert.ok(peak > 2 / 3, `the unclamped bottom term reaches ${peak}`);
+  const above = aboveSurface(peak);
+  assert.ok(Number.isFinite(above) && above > 0);
+  assert.equal(above, aboveSurface(SHALLOW_RRS_LIMIT));
+  assert.equal(aboveSurface(-0.1), 0);
+  assert.ok(seaOpticsGLSL().includes(`rrs = clamp(rrs, vec3(0.), vec3(${SHALLOW_RRS_LIMIT.toPrecision(9)}));`));
 });
