@@ -16,7 +16,7 @@ record_url: /projects/website-revamp/record/
 json_url: /assets/json/design-records/website-revamp.json
 repository: https://github.com/DylanTao/dylantao.github.io
 branch: main
-updated: "2026-10-18"
+updated: "2026-10-19"
 summary: >-
   How the redesign of this site works underneath, and how it changed from February to October 2026: the type and
   reading column, the time-of-day palettes and tokens, the motion rules, the structure of the homepage and projects,
@@ -29,7 +29,8 @@ scope: >-
 credit: >-
   Compiled on October 15, 2026 by Anthropic's Claude from the code, the living heuristics, the experiment backlog, the
   roadmap, the October studio log and the Git history, for Sirui Tao to review and extend. The footer coast's people and
-  the measured page weight joined on October 18 from entries the agents who did the work prepared and checked.
+  the measured page weight joined on October 18, and the footer's sea, its sunset sky, the one sun clock and the
+  miniature's sea on October 19, from entries the agents who did the work prepared and checked.
 
 read_first:
   - path: WEBSITE_DESIGN_HEURISTICS.md
@@ -168,13 +169,14 @@ systems:
         name: Four time-of-day palettes
         status: shipped
         since: "2026-05-22"
-        what: Morning dawn rose, noon Pacific blue, afternoon sea glass and evening moonlit lavender default from the visitor's local time.
+        what: Morning dawn rose, noon Pacific blue, afternoon sea glass and evening moonlit lavender default from the visitor's clock, read as La Jolla's day.
         how: >-
-          `assets/js/theme.js` picks the mode from local time (boundaries at 5, 11, 15 and 20 o'clock) before first paint,
-          remembers a manual choice for the session, and switches automatically at a boundary only if the visitor has not
-          chosen. `_sass/_themes.scss` holds the four token sets; each one registers through the whole surface hierarchy,
-          from the page field to cards, outlines, shadows and the footer. Accent ink for links and labels stays separate
-          from lighter pastel fills, so contrast holds in every mode.
+          `assets/js/theme.js` picks the mode before first paint, remembers a manual choice for the session, and switches
+          automatically at a boundary only if the visitor has not chosen. Until October 19 the boundaries were fixed at 5,
+          11, 15 and 20 o'clock; since then they follow La Jolla's real sun for the visitor's date (the sun clock below), so
+          evening falls with dusk on the coast. `_sass/_themes.scss` holds the four token sets; each one registers through
+          the whole surface hierarchy, from the page field to cards, outlines, shadows and the footer. Accent ink for links
+          and labels stays separate from lighter pastel fills, so contrast holds in every mode.
         files:
           - path: assets/js/theme.js
             role: Mode selection before first paint, and Pause motion.
@@ -234,11 +236,13 @@ systems:
         since: "2026-10-13"
         what: The theme panel is a day arc. Dragging the sun picks any minute, the theme snaps to that hour's mode, and the page's sky glow and the 3D scenes follow.
         how: >-
-          `assets/js/sun-arc.mjs` maps minutes onto an arc from 5:00 to 20:00, with a flatter night arc for the moon
-          (`sun-arc-math.mjs`). The four token sets still carry contrast; only the panel and a sky glow at the top of the page
-          shift color continuously, the glow moving left to right with the sun. The footer coast blends its four authored
-          looks by the minute, and the 3D home previews the hour when the drag ends, through a `siteTimeChange` event. Now
-          hands everything back to the clock. A theme chosen anywhere else moves the sun but never sets a preview hour.
+          `assets/js/sun-arc.mjs` maps minutes onto a drawn day arc, with a flatter night arc for the moon
+          (`sun-arc-math.mjs`); since October 19 it maps the real day onto that reference day piecewise, so dusk meets the
+          horizon and solar noon the crown. The four token sets still carry contrast; only the panel and a sky glow at the
+          top of the page shift color continuously, the glow moving left to right with the sun. The footer coast takes its
+          look from the sun's altitude, and the 3D home previews the hour when the drag ends, through a `siteTimeChange`
+          event. Now hands everything back to the clock. A theme chosen anywhere else moves the sun but never sets a preview
+          hour.
           This is direct manipulation in Shneiderman's sense: a continuous representation, physical action and immediate,
           reversible feedback.
         files:
@@ -256,6 +260,45 @@ systems:
         limits:
           - The four stops stay, because they are both the quick choice and the test contract.
         next: []
+      - id: sun-clock
+        name: One clock on La Jolla's real sun
+        status: shipped
+        since: "2026-10-19"
+        what: The site's time-of-day theme, the sun arc and the footer coast all keep La Jolla's real sun for the visitor's date, so the site turns to evening as dusk falls on the coast, at a different minute each day, instead of at 8 pm all year.
+        how: >-
+          `la-jolla-sun.mjs` computes the sun at 32.83° N, 117.27° W with NOAA's general solar position equations
+          (fractional year, equation of time, declination, hour angle), sunrise and sunset at −0.833°, civil twilight and
+          solar noon (`solarPosition`, `sunEvents`), with the visitor's clock read as La Jolla's and a US daylight-saving rule
+          standing in where Intl lacks long offset names (`pacificOffset`, `usPacificOffset`). Noon is the four hours around
+          solar noon, and evening begins with the sun 3° down, the altitude at which light ink reads as well as dark on the
+          coast behind the footer's credit, measured on the afterglow (`themeDay`, `themeModeAt`). `theme.js` keeps an exact
+          copy for the head (`laJollaThemeDay`) so the theme is right before any module loads, and the sun arc maps the real
+          day onto its drawn reference day piecewise (`toReference`, `fromReference`).
+        files:
+          - path: assets/js/la-jolla-sun.mjs
+            role: Solar position, the day's events, the theme's day and mode.
+            functions: [solarPosition, sunEvents, themeDay, themeModeAt, sunState, pacificOffset, usPacificOffset, localDateKey]
+          - path: assets/js/theme.js
+            role: The head's exact copy behind the default mode and the next boundary.
+            functions: [laJollaThemeDay, determineDefaultThemeMode, msUntilNextThemeBoundary]
+          - path: assets/js/sun-arc-math.mjs
+            role: The arc's mapping of a real day onto its reference day.
+            functions: [toReference, fromReference, modeForMinute, modeMinute, minuteToPoint, pointToMinute, skyColor]
+          - path: assets/js/sun-arc.mjs
+            role: Passes today's day to every arc function and renews it past midnight.
+        tests:
+          - test/coast-sky.test.mjs
+          - test/sun-arc-math.test.mjs
+          - test/visual/footer-coast.spec.js
+          - test/visual/sitewide.spec.js
+        sources: [noaa-solar, sunrise-sunset-org]
+        limits:
+          - The theme turns at the sun for La Jolla's latitude whatever the visitor's location, so a visitor elsewhere sees La Jolla's day at their own clock hour.
+          - The head's copy of the solar code must stay equal to the module; the node test fails if it drifts.
+          - A change to daylight-saving rules needs Intl data or an edit to the fallback rule.
+        next:
+          - move: Let the 3D home's routine read the same `themeDay`, so its schedule and the theme share boundaries too.
+            readiness: needs-decision
       - id: chroma-thumbnails
         name: Grayscale-until-hover thumbnails
         status: retired
@@ -774,10 +817,160 @@ systems:
         sources: []
         limits:
           - Contact shadows only; the coast's on-demand shadow map would leave stale shadows behind moving people.
-          - The Connect page's miniature still bakes the old A-pose surfers.
+        next: []
+      - id: coast-sea
+        name: A clear sea along the footer
+        status: shipped
+        since: "2026-10-18"
+        what: The footer's sea shows its sandy, rocky seabed through turquoise shallows with caustics, breaks surf along the beach, trails wakes behind the boards and the swimmer, mirrors the coast with long streaks of lamplight at night, and fades its farthest hills into haze.
+        how: >-
+          There is no geometry under the water, so `createCoastWater` in `water.mjs` follows each pixel's view ray through
+          the rippled surface by Snell's law to an analytic seabed: a sand shelf that deepens off the beach, a canyon head off
+          Scripps Pier (Scripps Canyon, of the La Jolla canyon system) and reef rock off the coves (`seabedDepth`,
+          `refract`). Beer–Lambert absorption takes red first (`transmittance`), so sand turns aqua, then turquoise, then the
+          open water's colour, and an animated Worley lattice lights caustics on the shallow bed. Crests travel shoreward
+          every nine seconds, close up as they shoal and break into lacy whitewater over the shelf (`surfPhase`,
+          `breaking`), and the boards and the swimmer trail Kelvin wakes (`wakeArm`). A small render of the scene from the
+          camera's mirror image below the water covers only the band where water shows and is redrawn on demand, like the
+          shadow map, so steady frames cost no extra draws (`aimMirror`, `createReflectionSchedule`); ripples sway it, and
+          only light above a theme threshold streaks far. Three pier lamps and the fire lay glitter paths at night
+          (`createPierLamps`). Fog fades the farthest hills into the page colour, and the credit over the water carries a
+          halo of page colour. Since October 19 the sea's light and sky come from the coast's sunset sky and marine layer.
+        files:
+          - path: assets/js/footer-coast/water.mjs
+            role: The sea's shader (seabed, absorption, caustics, surf, wakes, mirror sampling, glitter) and its on-demand mirror.
+            functions: [createCoastWater, aimMirror, mirrorMatrix]
+          - path: assets/js/footer-coast/water-optics.mjs
+            role: The pure water math the shader is built from and the node tests check.
+            functions:
+              [
+                seabedDepth,
+                transmittance,
+                refract,
+                seabedOffset,
+                schlick,
+                surfPhase,
+                breaking,
+                wakeArm,
+                mirrorPoint,
+                shoreline,
+                shorelineStrip,
+                sampleStrip,
+                createReflectionSchedule,
+              ]
+          - path: assets/js/footer-coast/scene.mjs
+            role: Per-theme sea colours and strengths, the pier lamps, the skyline haze, and the wake and light sources for the sea.
+            functions: [createPierLamps, mountCoast]
+          - path: assets/js/footer-coast/sky.mjs
+            role: The sea's sky.
+          - path: assets/js/footer-coast/sky-look.mjs
+            role: The sea's light by the hour.
+          - path: assets/js/footer-coast/marine-layer.mjs
+            role: The fog over the surf.
+          - path: _sass/_footer-coast.scss
+            role: The credit's page-colour halo over the sea.
+          - path: bin/render_coast_posters.cjs
+            role: The stills, regenerated with the new sea, now WebP at quality 80.
+          - path: docs/la-jolla-footer.md
+            role: '"The sea": techniques, budgets and limits.'
+        tests:
+          - test/coast-water.test.mjs
+          - test/visual/footer-coast.spec.js
+        sources:
+          [
+            worley1996cellular,
+            schlick1994brdf,
+            pope1997water,
+            rabaud2013wakes,
+            teschner2003hashing,
+            hash-prospector,
+            scripps-canyon,
+            wcag-contrast,
+            threejs-r164,
+          ]
+        limits:
+          - The seabed is analytic, not geometry; nothing under the water casts or receives shadows, and the mirror omits people, boards and the sea itself.
+          - While the camera moves (pointer parallax, phone panning) or the buildings rise, the mirror redraws at most every other frame, and each redraw costs one more pass of the coast's draws (about 150 at 1440 px).
+          - The shader compiles level with the old water program on ANGLE's Direct3D path only after its restructure; inlined noise, loops with constant bounds or a long branch chain bring back cold compiles of several seconds.
+          - There are no pier lamps in the Blender model; they are runtime meshes placed from the pier's bounds.
+        next: []
+      - id: coast-sky
+        name: A Pacific sunset behind the footer
+        status: shipped
+        since: "2026-10-19"
+        what: At the ends of the day the footer coast stands against a real sunset for the date (gold, apricot, rose and violet over the open Pacific), the sun sinks through the marine layer into the sea and lays a glitter path across it, low fog lies along the surf with golden-hour light shafts through the palms, lights come on through the afterglow, and the credit's halo follows the hour.
+        how: >-
+          `sky-look.mjs` blends authored looks by solar altitude (golden hour, sunset, afterglow and blue hour; predawn and
+          dawn), keeping the four theme looks as exact anchors so the stills stay true (`lookAt`, `anchorLook`, `mixLooks`).
+          `createSky` in `sky.mjs` is one screen-space layer at the far plane that paints the sky and the far sea in display
+          colours and inverts three r164's ACES filmic output curve so they land as authored (`sceneColor`); the sun stands
+          at its real altitude and azimuth (`sunOnScreen`), flattens near the horizon, reddens in the haze bank and is
+          clipped by the sea horizon. The key light swings behind the coast (`keyDirection`) and the studio light dims by the
+          hour (`scene.environmentIntensity`, because r164 ignores a material's envMapIntensity under a scene environment).
+          The sea's mirror leaves its sky clear, and the shader fills it with a gradient and the sun's glitter path.
+          `createMarineLayer` draws three depth-tested fog sheets that sample the sun's shadow map, so the fog glows where
+          light passes and stays dim in the shadows of palms and buildings, scattered forward with a Henyey–Greenstein phase.
+          The credit's halo is a set of CSS custom properties set from the look (`creditHalo`).
+        files:
+          - path: assets/js/footer-coast/sky-look.mjs
+            role: Looks by altitude, the sun's place, the key light's direction and the credit's halo.
+            functions: [lookAt, anchorLook, mixLooks, sunOnScreen, keyDirection, creditHalo]
+          - path: assets/js/footer-coast/sky.mjs
+            role: The sky and far-sea layer and the inverse tone curve.
+            functions: [createSky, sceneColor]
+          - path: assets/js/footer-coast/marine-layer.mjs
+            role: Shadow-map-lit fog sheets over the surf line.
+            functions: [createMarineLayer]
+          - path: assets/js/footer-coast/scene.mjs
+            role: Applies the hour's look, places the sun, sky and fog, and sets the credit's halo.
+            functions: [mountCoast]
+          - path: assets/js/footer-coast/water.mjs
+            role: The sky gradient in the mirror and the sun's glitter path.
+            functions: [createCoastWater]
+          - path: _sass/_footer-coast.scss
+            role: The credit's hourly halo and glow.
+        tests:
+          - test/coast-sky.test.mjs
+          - test/visual/footer-coast.spec.js
+        sources: [noaa-solar, aces-hill-fit, henyey1941, toth2009volumetric, atoptics-earth-shadow, threejs-r164, wcag-contrast]
+        limits:
+          - The open sea and its horizon are painted, not modelled; by day the page is still the sky and the far sea is not drawn.
+          - The fog's light shafts follow the shadow map's resolution, so they read at golden hour and sunset, not at noon.
+          - The poster stills show the four theme looks, so a visitor arriving at sunset sees the day still for a moment before the live sunset fades in.
+          - The sun is drawn about three times its true size, so it reads at footer scale.
         next:
-          - move: Rebuild the Connect miniature with posed riders.
+          - move: Render golden-hour and dusk stills, and let the entry module pick the still nearest the live look.
             readiness: ready
+          - move: Stars and the moon's own glitter path at night (the night look is still the evening theme's anchor).
+            readiness: needs-decision
+      - id: miniature-sea
+        name: The Connect miniature on the footer's sea
+        status: shipped
+        since: "2026-10-19"
+        what: The Connect and project-page miniature now has the footer's clear shallows, surf, wakes, caustics and mirrored landmarks, and its surfers are posed riders as on the footer.
+        how: >-
+          `water.mjs` runs one sea shader for both scenes from a per-scene description (`SEAS`): the waterline as a strip
+          texture, the canyon and the reefs. The miniature's describes its cove crescent, a canyon off its pier and reefs off
+          the headland rocks; its relief's water slab takes the material, and positions are in world space so the slab may be
+          placed. `build_la_jolla_miniature.py` was rerun in Blender: riders are no longer baked and the static surf lines are
+          gone, so `people.mjs` poses the riders on their boards from the manifest. The coast's programs, the miniature's
+          included, compile on the driver's worker threads before the first frame, and both scenes share one sea program.
+        files:
+          - path: assets/js/footer-coast/water.mjs
+            role: SEAS and the generalized sea shader and mirror.
+            functions: [createCoastWater, aimMirror, SEAS]
+          - path: bin/build_la_jolla_miniature.py
+            role: The miniature's Blender composition, now without baked riders or static surf.
+          - path: assets/models/la-jolla/miniature.glb
+            role: The rebuilt miniature.
+          - path: assets/models/la-jolla/manifest.json
+            role: The miniature's figures (the three surfers).
+        tests:
+          - test/visual/footer-coast.spec.js
+        sources: [scripps-canyon]
+        limits:
+          - The miniature's sea redraws its mirror while it orbits, so dragging costs one more pass of its draws per redraw.
+        next: []
       - id: paper-texture
         name: A static paper texture for this story
         status: shipped
@@ -1358,6 +1551,56 @@ history:
     backtalk: A Blender pass over every primitive found a dozen intersections, most from hand-placed coordinates in three builders, and benches had been built at twice seat height.
     reframe: Rebuild the Connect miniature with posed riders.
     commit: "dae8d417a"
+  - date: "2026-10-18"
+    title: A sea you can see into
+    system: objects-place
+    frame: Sirui asked to "make 3d fluid at 3d screen and bottom of page better", showing a teal harbour whose near-mirror water streaks with lamplight under soft mist, and a clear Mediterranean cove with caustics on its seabed.
+    dimensions:
+      [
+        what the shallows show,
+        how surf meets the beach,
+        what the surface mirrors and when it is redrawn,
+        night light on the water,
+        haze,
+        the credit over the sea,
+        first-frame compile cost,
+        still bytes,
+      ]
+    move: A water shader that refracts each view ray to an analytic seabed with absorption and caustics, shoreward surf and Kelvin wakes, an on-demand mirror of the coast whose lights alone streak far, pier lamps and fire glitter, skyline haze and a page-colour halo on the credit.
+    backtalk: The first shader compiled in 1.9 s cold on ANGLE's Direct3D path against 0.6 s for the old one, from unrolled loops, inlined integer hashes and an eighteen-branch shoreline chain feeding every term; a shoreline strip texture, uniform loop bounds and fewer noise calls brought it to 1.1 times. Moonlit walls reflected under the credit at 2.6:1, and the old sea already fell to 2.7:1 at sun-arc minutes before 20:00; a halo of page colour fixed both. The Connect miniature read the theme's water colour and briefly changed, until it had its own key again.
+    reframe: Keep shader cost measured as cold compile time, not only frame time, for anything on every page.
+    commit: "77cd9e5c6"
+    sources: [worley1996cellular, schlick1994brdf, pope1997water, rabaud2013wakes]
+  - date: "2026-10-19"
+    title: A real sunset on one clock
+    system: color-themes
+    frame: Sirui asked for a better-designed halo that changes through the day, a gorgeous Pacific sunset tied to La Jolla's real sun times, fog and light, the dusk window solved from first principles, and the Connect page brought along.
+    dimensions:
+      [
+        when the theme turns,
+        the sky and the far sea behind the footer,
+        the sun on the water,
+        fog and light along the surf,
+        the credit's halo by the hour,
+        the miniature's sea,
+        cold start,
+      ]
+    move: >-
+      The site's theme, the sun arc and the footer now keep one clock on La Jolla's real sun, and evening begins with the
+      sun 3° down, where light and dark ink read equally on the coast behind the credit. The footer paints a sunset sky
+      and the open sea beyond the coast, lays the sun's glitter path, lies a shadow-lit marine layer along the surf and
+      dims its studio light with the hour; the credit's halo follows the hour; and the Connect miniature runs the same sea
+      with posed surfers.
+    backtalk: >-
+      At sun-arc minutes before 20:00 the old fixed boundary kept dark afternoon text over an evening-blended sea, and the
+      credit's worst ring contrast fell to about 4:1; turning the theme on the sun keeps every checked sunset and dusk
+      minute at 4.5:1 or better at the median. The new sea's blocking compile made the miniature's first frame about a
+      second slower (3.1 to 4.1 s) until the coast's programs compiled on the driver's worker threads before the first
+      frame and both scenes shared one sea program; against main, the footer's first frame then moved from 2.7 to 2.3 s
+      and the miniature's from 2.8 to 2.3 s.
+    reframe: Render golden-hour and dusk stills, so a visitor arriving at sunset no longer sees the day still first.
+    commit: "bedc73290"
+    sources: [noaa-solar, henyey1941, toth2009volumetric, wcag-contrast]
   # Append new moves here, oldest first.
 
 open_problems:
@@ -1612,3 +1855,61 @@ sources:
     label: GitHub Community discussion 11884
     citation: GitHub Community. *Caching assets in website served from GitHub pages*, discussion 11884 (community evidence; GitHub documents no cache headers).
     url: https://github.com/orgs/community/discussions/11884
+  # The footer's sea (October 18) and sky (October 19), checked by the footer agents; the shared ones as in the
+  # coastal home record.
+  - id: worley1996cellular
+    label: Worley 1996
+    citation: Steven Worley. *A Cellular Texture Basis Function*. SIGGRAPH 1996.
+    url: https://doi.org/10.1145/237170.237267
+  - id: schlick1994brdf
+    label: Schlick 1994
+    citation: Christophe Schlick. *An Inexpensive BRDF Model for Physically-based Rendering*. Computer Graphics Forum 13(3), 233–246, 1994.
+    url: https://doi.org/10.1111/1467-8659.1330233
+  - id: pope1997water
+    label: Pope and Fry 1997
+    citation: Robin M. Pope and Edward S. Fry. *Absorption spectrum (380–700 nm) of pure water. II. Integrating cavity measurements*. Applied Optics 36(33), 8710–8723, 1997.
+    url: https://doi.org/10.1364/AO.36.008710
+  - id: rabaud2013wakes
+    label: Rabaud and Moisy 2013
+    citation: "Marc Rabaud and Frédéric Moisy. *Ship Wakes: Kelvin or Mach Angle?* Physical Review Letters 110, 214503, 2013 (Kelvin's 19.47 degrees holds for slow bodies; fast hulls narrow it)."
+    url: https://arxiv.org/abs/1304.2653
+  - id: teschner2003hashing
+    label: Teschner et al. 2003
+    citation: Matthias Teschner, Bruno Heidelberger, Matthias Müller, Danat Pomeranets and Markus Gross. *Optimized Spatial Hashing for Collision Detection of Deformable Objects*. VMV 2003, 47–54 (the hash primes 73856093, 19349663 and 83492791).
+    url: https://cgweb.informatik.uni-freiburg.de/publications/2003_VMV_collisionDetectionHashing.pdf
+  - id: hash-prospector
+    label: Wellons, hash-prospector
+    citation: Chris Wellons. *hash-prospector*, including the lowbias32 integer hash. Unlicense.
+    url: https://github.com/skeeto/hash-prospector
+  - id: scripps-canyon
+    label: Scripps Canyon
+    citation: Wikipedia. *Scripps Canyon*, a narrow submarine canyon off Scripps Institution of Oceanography that joins La Jolla Canyon offshore.
+    url: https://en.wikipedia.org/wiki/Scripps_Canyon
+  - id: threejs-r164
+    label: three.js r164
+    citation: three.js contributors. *three.js* release r164 (MIT), vendored with its loaders and post-processing passes.
+    url: https://github.com/mrdoob/three.js/releases/tag/r164
+  - id: noaa-solar
+    label: NOAA solar equations
+    citation: NOAA Global Monitoring Laboratory. *General Solar Position Calculations* (fractional year, equation of time, declination, hour angle; sunrise and sunset at a zenith of 90.833 degrees).
+    url: https://gml.noaa.gov/grad/solcalc/solareqns.PDF
+  - id: sunrise-sunset-org
+    label: sunrise-sunset.org
+    citation: Sunrise and sunset times for La Jolla (32.83° N, 117.27° W) on September 28, 2026, the almanac check in test/coast-sky.test.mjs.
+    url: https://sunrise-sunset.org/
+  - id: henyey1941
+    label: Henyey and Greenstein 1941
+    citation: "L. G. Henyey and J. L. Greenstein. *Diffuse Radiation in the Galaxy*. Astrophysical Journal 93, 70–83, 1941."
+    url: https://doi.org/10.1086/144246
+  - id: toth2009volumetric
+    label: Tóth and Umenhoffer 2009
+    citation: Balázs Tóth and Tamás Umenhoffer. *Real-time Volumetric Lighting in Participating Media*. Eurographics 2009 Short Papers, 57–60 (light shafts from single scattering with shadow maps).
+    url: https://doi.org/10.2312/egs.20091048
+  - id: aces-hill-fit
+    label: Hill's ACES fit
+    citation: Stephen Hill's fitted ACES reference rendering and output transforms, used by three r164's ACESFilmicToneMapping and inverted by the footer's sky.
+    url: https://github.com/TheRealMJP/BakingLab/blob/master/BakingLab/ACES.hlsl
+  - id: atoptics-earth-shadow
+    label: Atmospheric Optics, Earth's shadow
+    citation: Atmospheric Optics. *Earth Shadow* (the blue-grey shadow and the pink anti-twilight arch, the Belt of Venus, above it, opposite the low sun).
+    url: https://atoptics.co.uk/blog/earth-shadow/
