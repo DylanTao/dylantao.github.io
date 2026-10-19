@@ -6,7 +6,8 @@
 
 :root {
   color-scheme: light;
-  --font-ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-ui:
+    "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-display: var(--font-ui);
   --global-font-family: var(--font-ui);
   // Older metadata selectors use this alias; only actual code stays monospace.

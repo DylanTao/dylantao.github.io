@@ -14,6 +14,27 @@
   font-style: italic;
   font-display: swap;
 }
+// Arial scaled to Inter's average advance and vertical metrics (measured from these font files with
+// fontTools: size 107.32 %, ascent 90.26 %, descent 22.48 %), so text keeps its line breaks and
+// height while Inter swaps in instead of shifting the page (DesignWeaver measured CLS 0.167).
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("Helvetica");
+  font-style: normal;
+  size-adjust: 107.32%;
+  ascent-override: 90.26%;
+  descent-override: 22.48%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial Italic"), local("Arial-ItalicMT"), local("Liberation Sans Italic"), local("Helvetica Oblique");
+  font-style: italic;
+  size-adjust: 107.32%;
+  ascent-override: 90.26%;
+  descent-override: 22.48%;
+  line-gap-override: 0%;
+}
 body,
 button,
 input,

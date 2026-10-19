@@ -121,15 +121,32 @@ if (field && !window.__siruiPaperResearchField) {
     }
   };
 
-  const noiseTexture = getShaderNoiseTexture();
-  if (noiseTexture?.complete) {
-    start(noiseTexture);
-  } else if (noiseTexture) {
-    noiseTexture.addEventListener("load", () => start(noiseTexture), { once: true });
-    noiseTexture.addEventListener("error", failSoftly, { once: true });
-  } else {
-    failSoftly();
-  }
+  const begin = () => {
+    const noiseTexture = getShaderNoiseTexture();
+    if (noiseTexture?.complete) {
+      start(noiseTexture);
+    } else if (noiseTexture) {
+      noiseTexture.addEventListener("load", () => start(noiseTexture), { once: true });
+      noiseTexture.addEventListener("error", failSoftly, { once: true });
+    } else {
+      failSoftly();
+    }
+  };
+
+  // The field sits well below the first screen (about 1.7 viewports down on a desktop), so its noise
+  // texture, WebGL context and shader compile wait until the reader scrolls toward it, then for an
+  // idle moment, instead of blocking the homepage's first load.
+  field.dataset.paperShaderState = "pending";
+  const idle = window.requestIdleCallback || ((callback) => window.setTimeout(callback, 1));
+  const approach = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      approach.disconnect();
+      idle(begin, { timeout: 600 });
+    },
+    { rootMargin: "600px 0px" }
+  );
+  approach.observe(field);
 
   section?.querySelectorAll("[data-research-mode]").forEach((button) => {
     button.addEventListener("click", () => setMode(button.dataset.researchMode));
@@ -154,6 +171,7 @@ if (field && !window.__siruiPaperResearchField) {
   window.addEventListener(
     "pagehide",
     () => {
+      approach.disconnect();
       themeObserver.disconnect();
       mount?.dispose();
     },

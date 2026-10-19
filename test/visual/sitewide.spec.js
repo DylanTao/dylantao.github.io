@@ -2493,6 +2493,9 @@ test("Research Focus Paper field stays semantic, bounded, pausable, and optional
     await preparePage(fallbackPage, "light");
     await fallbackPage.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
     const fallbackField = fallbackPage.locator("[data-paper-research-field]");
+    // The field mounts only as the reader scrolls toward it.
+    await expect(fallbackField).toHaveAttribute("data-paper-shader-state", "pending");
+    await fallbackField.scrollIntoViewIfNeeded();
     await expect(fallbackField).toHaveAttribute("data-paper-shader-state", "fallback");
     await expect(fallbackPage.locator("[data-research-motion-canvas]")).toBeVisible();
     await expect(fallbackPage.locator("[data-research-mode]")).toHaveCount(3);
@@ -2516,8 +2519,11 @@ test("Research Focus Paper field stays semantic, bounded, pausable, and optional
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
   const field = page.locator("[data-paper-research-field]");
   const stage = page.locator("[data-research-motion]");
-  await expect(field).toHaveAttribute("data-paper-shader-state", "ready");
+  // Below the first screen, nothing mounts until the reader scrolls toward the field.
+  await expect(field).toHaveAttribute("data-paper-shader-state", "pending");
+  expect(await page.evaluate(() => window.__siruiPaperResearchField.getState().contextCount)).toBe(0);
   await stage.scrollIntoViewIfNeeded();
+  await expect(field).toHaveAttribute("data-paper-shader-state", "ready");
   await expect.poll(() => page.evaluate(() => window.__siruiPaperResearchField?.getState().inViewport)).toBe(true);
   await expect.poll(() => page.evaluate(() => window.__siruiPaperResearchField?.getState().currentSpeed)).toBeGreaterThan(0);
 
@@ -2593,6 +2599,7 @@ test("Research Focus Paper field stays semantic, bounded, pausable, and optional
     await preparePage(reducedPage, "light");
     await reducedPage.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
     const reducedField = reducedPage.locator("[data-paper-research-field]");
+    await reducedField.scrollIntoViewIfNeeded();
     await expect(reducedField).toHaveAttribute("data-paper-shader-state", "still");
     const reducedState = await reducedPage.evaluate(() => window.__siruiPaperResearchField.getState());
     expect(reducedState.contextCount).toBe(1);

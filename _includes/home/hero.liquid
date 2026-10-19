@@ -153,7 +153,7 @@
               </div>
             </div>
           {% endif %}
-          {% include figure.liquid loading="eager" path=profile_image_path class="home-portrait-img" sizes="(min-width: 992px) 340px, 70vw" alt="Sirui Tao portrait" cache_bust=true %}
+          {% include figure.liquid loading="eager" fetchpriority="high" path=profile_image_path class="home-portrait-img" sizes="(min-width: 992px) 340px, 70vw" alt="Sirui Tao portrait" cache_bust=true %}
           {% if meme_records or page.profile.image_hovers %}
             <div class="home-profile-image-hover-layer" aria-hidden="true"></div>
           {% endif %}
