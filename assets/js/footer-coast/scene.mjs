@@ -4,115 +4,27 @@ import { createFinish } from "../home-scene/realism.mjs";
 import { createCameraMotion } from "../home-scene/camera-motion.mjs";
 import { sampleCoastWave } from "./wave-motion.mjs";
 import { createPeople } from "./people.mjs?v=coast-water-20261018";
-import { createCoastWater } from "./water.mjs?v=coast-water-20261018";
+import { createCoastWater } from "./water.mjs?v=coast-sky-20261019";
+import { createSky, sceneColor } from "./sky.mjs?v=coast-sky-20261019";
+import { createMarineLayer } from "./marine-layer.mjs?v=coast-sky-20261019";
+import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, sunOnScreen } from "./sky-look.mjs?v=coast-sky-20261019";
+import { localDateKey, sunState } from "../la-jolla-sun.mjs?v=coast-sky-20261019";
 
 // People keep a composed still pose under reduced motion and under automation, as the
 // cinematic layer does; `?cinematic=live` lets a browser test watch them move.
 const automated = Boolean(navigator.webdriver) && !/[?&]cinematic=live(?:&|$)/.test(location.search);
 
-// Sea: `water` tints the Connect miniature's sea; in the footer `deep` is the open water's own color,
-// `shallow` the light scattered over the sandy shelf,
-// `mirror` the sky the surface reflects; `caustic`, `reflect` (the mirrored coast), `glow` (its lights)
-// and `foam` set their strengths (water.mjs).
-const THEMES = {
-  morning: {
-    sky: 0xf5dfce,
-    ground: 0x8b9290,
-    sun: 0xffdfb4,
-    key: 2.4,
-    fill: 1.05,
-    exposure: 1.0,
-    water: 0x568f9d,
-    deep: 0x4c8496,
-    shallow: 0x5fbfc4,
-    mirror: 0xa9bcc6,
-    caustic: 0.6,
-    reflect: 0.22,
-    glow: 0.5,
-    foam: 0.9,
-    night: 0.12,
-  },
-  noon: {
-    sky: 0xddebf1,
-    ground: 0x8d9480,
-    sun: 0xfff4d5,
-    key: 2.6,
-    fill: 1.15,
-    exposure: 1.0,
-    water: 0x337e90,
-    deep: 0x22688a,
-    shallow: 0x3fc4cc,
-    mirror: 0x8fbdd6,
-    caustic: 1,
-    reflect: 0.2,
-    glow: 0.4,
-    foam: 1,
-    night: 0,
-  },
-  afternoon: {
-    sky: 0xe4eddf,
-    ground: 0x959378,
-    sun: 0xffd09a,
-    key: 2.3,
-    fill: 1.0,
-    exposure: 1.0,
-    water: 0x4c9291,
-    deep: 0x438a8a,
-    shallow: 0x56c4b8,
-    mirror: 0xa7bfc4,
-    caustic: 0.8,
-    reflect: 0.24,
-    glow: 0.5,
-    foam: 0.95,
-    night: 0.18,
-  },
-  evening: {
-    sky: 0x829bb4,
-    ground: 0x3b4854,
-    sun: 0xb4caff,
-    key: 0.85,
-    fill: 0.55,
-    exposure: 0.85,
-    water: 0x234b68,
-    deep: 0x1f4462,
-    shallow: 0x245a6e,
-    mirror: 0x24364c,
-    caustic: 0,
-    reflect: 0.26,
-    glow: 1,
-    foam: 0.55,
-    night: 1,
-  },
-};
-const COLORS = ["sky", "ground", "sun", "water", "deep", "shallow", "mirror"];
 // Page backgrounds (_sass/_themes.scss), for the haze when the page's CSS is absent (poster renders).
 const PAGE = { morning: 0xfffaf7, noon: 0xfffefa, afternoon: 0xfbfaf7, evening: 0x111c22 };
 const clamp = (x, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, x));
+const minuteNow = (date = new Date()) => date.getHours() * 60 + date.getMinutes() + date.getSeconds() / 60;
 
-// An hour chosen on the theme panel's sun arc (sun-arc.mjs) blends the four authored looks by the
-// minute, each anchored where that theme stands on the arc, so the coast's light moves with the
-// slider instead of jumping at theme boundaries.
-const LOOK_ANCHORS = [
-  ["morning", 480],
-  ["noon", 750],
-  ["afternoon", 1020],
-  ["evening", 1320],
-  ["morning", 1920],
-];
-const mixColor = (a, b, t) => new THREE.Color(a).lerp(new THREE.Color(b), t).getHex();
-function themeAtMinute(minute) {
-  const m = ((minute % 1440) + 1440) % 1440;
-  const at = m < LOOK_ANCHORS[0][1] ? m + 1440 : m;
-  let i = 0;
-  while (i < LOOK_ANCHORS.length - 2 && at >= LOOK_ANCHORS[i + 1][1]) i++;
-  const [fromName, from] = LOOK_ANCHORS[i],
-    [toName, to] = LOOK_ANCHORS[i + 1];
-  const t = clamp((at - from) / (to - from)),
-    a = THEMES[fromName],
-    b = THEMES[toName];
-  const blended = {};
-  for (const key of Object.keys(a)) blended[key] = COLORS.includes(key) ? mixColor(a[key], b[key], t) : a[key] + (b[key] - a[key]) * t;
-  return blended;
+// The coast's look for a minute of today on La Jolla's sun (la-jolla-sun.mjs, sky-look.mjs): the
+// minute the sun arc (sun-arc.mjs) shows, chosen or the clock's, so the coast, the credit's halo and
+// the site's theme run on one clock. Continuous, so the light moves with the slider and the day.
+function themeAtMinute(minute, date = new Date()) {
+  const state = sunState(localDateKey(date), minute);
+  return { look: lookAt(state), state };
 }
 
 function reflectionStudio(renderer) {
@@ -251,18 +163,29 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   const water = createCoastWater(renderer, { clock, miniature, profile: manifest.coastProfile });
   const lamps = miniature ? null : createPierLamps(model.scene);
   let lampsOn = 0;
+  // The sky behind the coast at the ends of the day (sky.mjs); the miniature sits on its map.
+  const sky = miniature ? null : createSky();
   if (!miniature) scene.add(water.mesh);
   if (lamps) scene.add(...lamps.objects);
+  if (sky) {
+    scene.add(sky.mesh);
+    water.exclude([sky.mesh]);
+  }
+  // The marine layer's low fog over the surf line and the beach (marine-layer.mjs), lit through the
+  // sun's shadow map.
+  const marine = miniature ? null : createMarineLayer({ profile: manifest.coastProfile, sun });
+  if (marine) {
+    scene.add(marine.object);
+    water.exclude([marine.object]);
+  }
+  // The credit sits over the sea inside the footer; its halo follows the hour (_sass/_footer-coast.scss).
+  const footer = miniature ? null : host.closest("footer");
   const crowns = [],
     surfers = [],
     windows = [];
   let officeMaterial;
   model.scene.traverse((o) => {
     if (o.name === "Pacific") o.visible = false;
-    if (miniature && o.name === "PacificSurface") {
-      o.material = water.material;
-      o.userData.noOcclusion = true;
-    }
     if (!o.isMesh && o.name.startsWith("Crown")) crowns.push(o);
     if (!o.isMesh && /^Surfer\d/.test(o.name)) surfers.push({ object: o, position: o.position.clone(), rotation: o.rotation.clone() });
     if (o.isMesh) {
@@ -275,15 +198,21 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
         if (m.name === "Third floor studio light") officeMaterial = m;
       }
     }
+    if (miniature && o.name === "PacificSurface") {
+      // The relief's water slab runs the footer's sea, with the miniature's own cove (water.mjs SEAS);
+      // like the footer's sea it takes no shadows and stays out of its own mirror.
+      o.material = water.material;
+      o.userData.noOcclusion = true;
+      o.castShadow = o.receiveShadow = false;
+      water.exclude([o]);
+    }
   });
-  if (!miniature) {
-    // Boards and their spray sit on the sea, which takes no shadows; keeping them out of the shadow
-    // map also lets the sea's mirror leave them out without losing a shadow.
-    model.scene.getObjectByName("Surf")?.traverse((o) => {
-      o.castShadow = false;
-    });
-    water.exclude(surfers.map(({ object }) => object));
-  }
+  // Boards and their spray sit on the sea, which takes no shadows; keeping them out of the shadow map
+  // also lets the sea's mirror leave them out without losing a shadow.
+  model.scene.getObjectByName("Surf")?.traverse((o) => {
+    o.castShadow = false;
+  });
+  water.exclude(surfers.map(({ object }) => object));
   // Shader-driven light in the exact marked pane; no giant glowing facade.
   const officePosition = new THREE.Vector3().fromArray(miniature ? manifest.miniature.office : manifest.office);
   const officeGlow = new THREE.PointLight(0xffbd70, 0.6, 2.1, 2);
@@ -294,13 +223,14 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     lightOn = false,
     running = false,
     disposed = false,
-    lost = false;
+    lost = false,
+    warming = true;
   let raf = 0,
     previous = 0,
     elapsed = 0,
     reveal = 1,
     targetReveal = 1,
-    theme = THEMES.noon;
+    theme = anchorLook("noon");
   let revealOnScroll = false,
     mounted = false;
   let pointerX = 0,
@@ -394,31 +324,117 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     });
   }
 
+  // The sun lighting the coast (null for a theme's anchor look) and the key light's direction, from
+  // an anchor that follows the phone camera's panning so shadows stay around the visited stretch.
+  let sunNow = null,
+    keyDir = null,
+    sunAnchorX = 0;
+  const KEY_DISTANCE = 23.83;
+  const haze = new THREE.Color(),
+    fogAmbient = new THREE.Color(),
+    fogSun = new THREE.Color();
+  function placeSun() {
+    sun.position.set(sunAnchorX + keyDir[0] * KEY_DISTANCE, keyDir[1] * KEY_DISTANCE, keyDir[2] * KEY_DISTANCE);
+    sun.target.position.set(sunAnchorX, 0, 0);
+    sun.target.updateMatrixWorld();
+    // A low sun meets surfaces at grazing angles; a little more normal bias keeps them clean.
+    sun.shadow.normalBias = 0.025 + 0.12 * (1 - Math.min(keyDir[1] / 0.5, 1));
+  }
+  // The open sea's horizon lies just above the coast's skyline (SEA_HORIZON units up at the target's
+  // plane), so the setting sun sinks into the Pacific beyond the coast instead of behind a roof; the
+  // sun stands 0.6 units above it per degree of altitude. Both scale and pan with the view.
+  const SEA_HORIZON = 7.9;
+  function placeSky() {
+    const height = camera.top - camera.bottom;
+    const horizon = 0.5 + (0.922 * (SEA_HORIZON - target.y)) / height;
+    const place = sunNow ? sunOnScreen(sunNow) : { x: 0.6, up: -10, setting: false, visible: false };
+    sky?.place({
+      horizon,
+      aspect: (camera.right - camera.left) / height,
+      sunX: place.x,
+      sunUp: place.up,
+      degree: 0.6 / height,
+      radius: 0.5 / height,
+    });
+    water.setSun({
+      x: place.x,
+      y: horizon + (place.up * 0.6) / height,
+      visible: place.visible,
+      glitter: place.visible ? theme.glitter : 0,
+      color: theme.sunDisk,
+      rays: theme.rays,
+    });
+  }
+
   function syncTheme() {
-    const preview = window.siteTime?.preview;
-    theme =
-      preview != null
-        ? themeAtMinute(preview)
-        : THEMES[document.documentElement.dataset.themeMode] || (document.documentElement.dataset.theme === "dark" ? THEMES.evening : THEMES.noon);
+    const root = document.documentElement;
+    const selected = root.dataset.themeMode || (root.dataset.theme === "dark" ? "evening" : "noon");
+    const time = window.siteTime;
+    let manual = false;
+    try {
+      manual = sessionStorage.getItem("theme-manual") === "true";
+    } catch {
+      manual = false;
+    }
+    // One clock: the minute the sun arc shows, chosen or the visitor's clock read as La Jolla's, lit
+    // by La Jolla's sun. A theme chosen without the arc, and a page without it (the still renderer),
+    // shows that theme's anchor look.
+    const preview = time?.preview;
+    if (preview != null) ({ look: theme, state: sunNow } = themeAtMinute(preview));
+    else if (time && !manual) ({ look: theme, state: sunNow } = themeAtMinute(minuteNow()));
+    else {
+      theme = anchorLook(selected);
+      sunNow = null;
+    }
     hemi.color.set(theme.sky);
     hemi.groundColor.set(theme.ground);
     hemi.intensity = theme.fill;
     sun.color.set(theme.sun);
     sun.intensity = theme.key;
-    fill.intensity = 0.65 - theme.night * 0.45;
+    // The back fill rims roofs and bluff tops: cool by day and night, gold and rose at sunset.
+    fill.color.set(theme.rimColor);
+    fill.intensity = theme.rim;
     renderer.toneMappingExposure = theme.exposure;
-    if (scene.fog) {
-      // The page color behind the transparent canvas, lifted so the output pass's tone mapping lands near it.
-      const page = getComputedStyle(document.documentElement).getPropertyValue("--global-bg-color").trim();
-      const selectedPage =
-        PAGE[document.documentElement.dataset.themeMode] ?? (document.documentElement.dataset.theme === "dark" ? PAGE.evening : PAGE.noon);
-      scene.fog.color.set(/^#[0-9a-f]{6}$/i.test(page) ? page : selectedPage);
-      scene.fog.color.multiplyScalar(1 + 1.4 * scene.fog.color.getHSL({}).l);
+    // The studio lights every surface evenly (three r164 applies the scene's environment at its own
+    // intensity, not each material's envMapIntensity), so it dims with the hour: at sunset the coast
+    // stands backlit against the sky instead of glowing as at noon.
+    scene.environmentIntensity = theme.env;
+    const direction = sunNow ? keyDirection(sunNow) : DAY_KEY;
+    if (!keyDir || direction[0] * keyDir[0] + direction[1] * keyDir[1] + direction[2] * keyDir[2] < 0.99999) {
+      // The first placement happens during setup, before the first frame draws the shadow map anyway.
+      const moved = Boolean(keyDir);
+      keyDir = direction;
+      placeSun();
+      if (moved) {
+        renderer.shadowMap.needsUpdate = true;
+        water.invalidate();
+      }
     }
+    if (scene.fog) {
+      // The page color behind the transparent canvas, lifted so the output pass's tone mapping lands
+      // near it; when the sky shows, the farthest hills fade into its haze instead.
+      const page = getComputedStyle(root).getPropertyValue("--global-bg-color").trim();
+      scene.fog.color.set(/^#[0-9a-f]{6}$/i.test(page) ? page : (PAGE[selected] ?? PAGE.noon));
+      scene.fog.color.multiplyScalar(1 + 1.4 * scene.fog.color.getHSL({}).l);
+      if (theme.skyAlpha > 0) scene.fog.color.lerp(sceneColor(haze.set(theme.bank), theme.exposure, haze), theme.skyAlpha);
+    }
+    sky?.set(theme, sunNow ? sunOnScreen(sunNow) : null);
+    marine?.set({
+      density: theme.fog,
+      ambient: sceneColor(haze.set(theme.fogColor), theme.exposure, fogAmbient).multiplyScalar(0.5),
+      sunLight: fogSun.set(theme.sun).multiplyScalar(theme.key * 1.4),
+      shafts: theme.rays * 2,
+      lightDir: keyDir,
+    });
     water.setTheme(theme);
+    placeSky();
     lampsOn = clamp((theme.night - 0.35) / 0.45);
     lamps?.set(lampsOn);
-    const selected = document.documentElement.dataset.themeMode || (document.documentElement.dataset.theme === "dark" ? "evening" : "noon");
+    if (footer) {
+      const halo = creditHalo(theme, selected !== "evening");
+      footer.style.setProperty("--coast-halo", halo.inner);
+      footer.style.setProperty("--coast-glow", halo.glow);
+    }
     const lateNight = Math.floor(Date.now() / 86400000) % 5 < 2;
     lightOn = selected === "noon" || selected === "afternoon" || (selected === "evening" && lateNight);
     const night = theme.night > 0.8;
@@ -434,6 +450,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     people?.setPeriod(night ? "evening" : selected === "evening" ? "afternoon" : selected, night);
     host.dataset.theme = selected;
     host.dataset.office = String(lightOn);
+    host.dataset.sun = sunNow ? sunNow.altitude.toFixed(2) : "";
     lights();
     draw();
   }
@@ -473,14 +490,14 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     sun.shadow.camera.left = -shadowWidth;
     sun.shadow.camera.right = shadowWidth;
     sun.shadow.camera.updateProjectionMatrix();
-    sun.position.x = -10;
-    sun.target.position.x = 0;
-    sun.target.updateMatrixWorld();
+    sunAnchorX = 0;
+    if (keyDir) placeSun();
     renderer.shadowMap.needsUpdate = true;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height, false);
     finish.resize(width, height);
     renderer.shadowMap.needsUpdate = true;
+    placeSky();
     draw();
   }
 
@@ -527,7 +544,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   }
 
   function draw() {
-    if (disposed || lost) return;
+    // Nothing draws while the programs compile in the background (observers may ask before then).
+    if (disposed || lost || warming) return;
     camera.position.copy(cameraBase);
     camera.position.x += currentX * 0.6;
     if (miniature) {
@@ -552,6 +570,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     // The sea follows the camera and redraws its mirror only when the coast or the view changed.
     water.setMovers(movers());
     water.setLights(seaLights(), camera);
+    marine?.update(camera, elapsed);
     if (mounted) water.update(scene, camera, { size: renderer.getDrawingBufferSize(bufferSize), live: running });
     finish.render(camera, false);
     updatePlaceMarker();
@@ -587,6 +606,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     currentX = motion.step("parallax", currentX, pointerX, dt, false, 5);
     renderedOrbitX = clamp(motion.step("orbitX", renderedOrbitX, orbitX, dt, false, drag ? 28 : 16), -Math.PI / 6, Math.PI / 6);
     renderedOrbitY = clamp(motion.step("orbitY", renderedOrbitY, orbitY, dt, false, drag ? 28 : 16), -Math.PI / 18, Math.PI / 18);
+    sky?.tick(elapsed);
     crowns.forEach((o, i) => {
       o.rotation.z = Math.sin(elapsed * 0.65 + i) * 0.008;
     });
@@ -644,9 +664,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     cameraBase.y = target.y + 16;
     // Keep the shadow coverage around the visited neighborhood while retaining
     // the same sun direction and the default view's preview alignment.
-    sun.position.x = -10 + target.x - 5.1;
-    sun.target.position.x = target.x - 5.1;
-    sun.target.updateMatrixWorld();
+    sunAnchorX = target.x - 5.1;
+    if (keyDir) placeSun();
     renderer.shadowMap.needsUpdate = true;
     water.invalidate();
     draw();
@@ -712,6 +731,10 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   resizer.observe(surface);
   themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme-mode", "data-theme"] });
   window.addEventListener("siteTimeChange", syncTheme);
+  // While the site follows the clock the sun keeps moving: relight the coast each minute it shows.
+  const clockTimer = window.setInterval(() => {
+    if (visible && !disposed && !lost && window.siteTime?.preview == null) syncTheme();
+  }, 60000);
   surface.addEventListener("pointermove", onPointer);
   surface.addEventListener("pointerdown", onDown);
   surface.addEventListener("pointerup", onLeave);
@@ -750,6 +773,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     resizer.disconnect();
     themeObserver.disconnect();
     window.removeEventListener("siteTimeChange", syncTheme);
+    window.clearInterval(clockTimer);
     host.removeEventListener("coast:place", draw);
     document.removeEventListener("visibilitychange", syncRunning);
     reduced.removeEventListener("change", onMotion);
@@ -762,12 +786,37 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     env.dispose();
     model.release();
     water.dispose();
+    sky?.dispose();
+    marine?.dispose();
     finish.dispose();
     renderer.dispose();
   });
   window.addEventListener("pageshow", () => {
     if (!disposed) syncRunning();
   });
+  // Compile the coast's programs on the driver's worker threads (KHR_parallel_shader_compile) before the
+  // first frame, which would otherwise block on each ANGLE/D3D11 compile: every material, the sky and the
+  // fog the hour may bring later included, under the half-float target the finish draws the scene into.
+  // Polls go through scheduler.postTask where it exists (a test's paused page clock freezes setTimeout)
+  // and stop after about eight seconds, so a lost context cannot hold the mount.
+  const warm = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
+  renderer.setRenderTarget(warm);
+  try {
+    const pending = renderer.compile(scene, camera);
+    renderer.setRenderTarget(null);
+    const later = () =>
+      globalThis.scheduler?.postTask ? scheduler.postTask(() => {}, { delay: 10 }) : new Promise((resolve) => setTimeout(resolve, 10));
+    for (let polls = 0; pending.size && polls < 800; polls++) {
+      for (const material of pending) if (renderer.properties.get(material).currentProgram?.isReady() !== false) pending.delete(material);
+      if (pending.size) await later();
+    }
+  } catch {
+    // The first frame compiles whatever remains.
+  } finally {
+    renderer.setRenderTarget(null);
+    warm.dispose();
+    warming = false;
+  }
   revealBuildings(1);
   resize();
   syncTheme();
@@ -813,6 +862,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     elapsed,
     people: people ? { live: peopleLive(), ...people.evidence() } : null,
     water: water.evidence(),
+    sky: sky?.evidence() ?? null,
+    marineLayer: marine?.evidence() ?? null,
+    sun: sunNow ? { altitude: +sunNow.altitude.toFixed(2), azimuth: +sunNow.azimuth.toFixed(1), rising: sunNow.rising } : null,
     resources: renderer.info.memory,
     framing: { width: cameraWidth, height: camera.top - camera.bottom, center: target.toArray() },
     landmarkFrames: projectLandmarks

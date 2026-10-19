@@ -1,8 +1,9 @@
-// The footer's sea: one water plane whose shader looks through clear shallows to a sandy, rocky
+// The coast's sea: one water surface whose shader looks through clear shallows to a sandy, rocky
 // seabed with caustics, breaks surf over the shelf, trails wakes behind the boards and the swimmer,
 // and mirrors the coast. The mirror is a small render of the scene from below the water, redrawn on
-// demand like the coast's shadow map, so a steady frame costs no extra draws. The Connect page's
-// miniature keeps its own earlier water. Numbers shared with node tests live in water-optics.mjs.
+// demand like the coast's shadow map, so a steady frame costs no extra draws. The footer draws it on
+// its own wide plane; the Connect page's miniature runs the same sea on its relief's water slab, with
+// its own cove shoreline, canyon and reefs. Numbers shared with node tests live in water-optics.mjs.
 import * as THREE from "../three.module.min.js";
 import {
   ABSORB,
@@ -17,7 +18,6 @@ import {
   createReflectionSchedule,
   mirrorPoint,
   shoreline,
-  shorelineStrip,
 } from "./water-optics.mjs?v=coast-water-20261018";
 
 const f = (value) => {
@@ -25,51 +25,55 @@ const f = (value) => {
   return text.includes(".") ? text : `${text}.`;
 };
 const vec3 = (values) => `vec3(${values.map(f).join(",")})`;
-// The water plane spans x = -95 to 95; its waterline is stored in a strip texture of this many texels.
-const SHORE_SPAN = 95,
-  SHORE_TEXELS = 1024;
+// The waterline is stored in a strip texture of this many texels across each sea's span of x.
+const SHORE_TEXELS = 1024;
 
-function shorelineTexture(profile) {
-  const data = Uint16Array.from(shorelineStrip(profile, SHORE_TEXELS, SHORE_SPAN), (z) => THREE.DataUtils.toHalfFloat(z));
+// Where each sea meets its land. The footer: the authored coast profile across a 190-unit plane, the
+// La Jolla Canyon's head off Scripps Pier and the reefs off the coves. The Connect miniature: its
+// relief's cove crescent (bin/build_la_jolla_miniature.py shoreline, Blender y turned to z), the
+// canyon off its pier and reefs off the headland rocks and the far point.
+export const SEAS = {
+  footer: (profile) => ({ name: "footer", span: 95, shore: (x) => shoreline(x, profile), canyon: CANYON, reefs: REEFS }),
+  miniature: () => ({
+    name: "miniature",
+    span: 12,
+    shore: (x) => 3.5 - 0.017 * x * x - 0.42 * Math.sin(x * 0.58),
+    canyon: { x: -7.4, width: 1.6, depth: 0.7, reach: 1.6 },
+    reefs: [
+      [7.3, 1.5],
+      [-8.8, 0.7],
+    ],
+  }),
+};
+
+function shorelineTexture(sea) {
+  const strip = Float32Array.from({ length: SHORE_TEXELS }, (_, i) => sea.shore(-sea.span + (2 * sea.span * i) / (SHORE_TEXELS - 1)));
+  const data = Uint16Array.from(strip, (z) => THREE.DataUtils.toHalfFloat(z));
   const texture = new THREE.DataTexture(data, SHORE_TEXELS, 1, THREE.RedFormat, THREE.HalfFloatType);
   texture.minFilter = texture.magFilter = THREE.LinearFilter;
   texture.needsUpdate = true;
   return texture;
 }
 
-// The Connect miniature's water, unchanged: a tinted plane with surf bands along its curved beach.
-function miniatureWater(material, clock) {
-  material.onBeforeCompile = (shader) => {
-    shader.uniforms.coastTime = clock;
-    shader.vertexShader = `uniform float coastTime; varying vec3 coastPosition;
-      float wave(vec2 p) { return sin(p.y*3.8-p.x*.28-coastTime*.8)*.023 + sin(p.x*2.7+p.y*1.2-coastTime*.6)*.013; }
-      ${shader.vertexShader}`
-      .replace(
-        "#include <beginnormal_vertex>",
-        `float a=position.z*3.8-position.x*.28-coastTime*.8;
-         float b=position.x*2.7+position.z*1.2-coastTime*.6;
-         vec3 objectNormal=normalize(vec3(.00644*cos(a)-.0351*cos(b),1.,-.0874*cos(a)-.0156*cos(b)));`
-      )
-      .replace("#include <begin_vertex>", `vec3 transformed=position; transformed.y+=wave(position.xz); coastPosition=transformed;`);
-    shader.fragmentShader = `uniform float coastTime; varying vec3 coastPosition;\n${shader.fragmentShader}`.replace(
-      "#include <color_fragment>",
-      `#include <color_fragment>
-        float shore = 3.5-.017*coastPosition.x*coastPosition.x-.42*sin(coastPosition.x*.58);
-        float depth = coastPosition.z-shore;
-        float swell = sin(depth*5.5-coastTime*.62+sin(coastPosition.x*.6)*.45);
-        float breakup = smoothstep(-.45,.7,sin(coastPosition.x*1.9+coastTime*.08)+sin(coastPosition.x*5.2+depth));
-        float foam = smoothstep(.83,1.,swell)*breakup*(1.-smoothstep(.2,2.5,depth))*.66;
-        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.66,.80,.75), (1.-smoothstep(0.,2.3,depth))*.38);
-        diffuseColor.rgb = mix(diffuseColor.rgb,vec3(.88,.93,.85),foam);
-        if(diffuseColor.a<.008) discard;`
-    );
+// Up to this many reefs per sea.
+const MAX_REEFS = 6;
+
+// A sea's own numbers as uniforms, so the footer and the miniature share one compiled program: the
+// waterline strip's mapping, the canyon and the reefs.
+function seaUniforms(sea) {
+  const reefs = Array.from({ length: MAX_REEFS }, (_, i) => new THREE.Vector2(...(sea.reefs[i] ? [sea.reefs[i][0], 1 / sea.reefs[i][1]] : [0, 0])));
+  const scale = (SHORE_TEXELS - 1) / (2 * sea.span * SHORE_TEXELS);
+  return {
+    coastShoreMap: { value: new THREE.Vector2(scale, sea.span * scale + 0.5 / SHORE_TEXELS) },
+    coastCanyon: { value: new THREE.Vector4(sea.canyon.x, 1 / sea.canyon.width, sea.canyon.depth, 1 / sea.canyon.reach) },
+    coastReefs: { value: reefs },
+    coastReefCount: { value: Math.min(sea.reefs.length, MAX_REEFS) },
   };
-  material.customProgramCacheKey = () => "coast-water-miniature";
 }
 
-// The footer's sea. All positions are world space: the plane has no transform.
-function footerWater(material, uniforms) {
-  const reefs = REEFS.map(([x, width]) => `t = (x - ${f(x)}) * ${f(1 / width)}; r = max(r, exp(-t * t));`).join("\n    ");
+// The sea's shader. Positions are world space, so it serves the footer's bare plane and the
+// miniature's placed slab alike.
+function seaShader(material, uniforms) {
   const declarations = `
     uniform float coastTime;
     uniform vec3 coastDeep;
@@ -90,10 +94,22 @@ function footerWater(material, uniforms) {
     uniform vec3 coastGlintColor;
     uniform int coastHotTaps;
     uniform int coastOne;
+    uniform vec4 coastSun;
+    uniform vec3 coastSunColor;
+    uniform vec3 coastSkyNear;
+    uniform vec3 coastSkyFar;
+    uniform vec2 coastResolution;
+    uniform float coastFog;
+    uniform vec3 coastFogColor;
+    uniform float coastRays;
     uniform sampler2D coastReflection;
     uniform mat4 coastReflectMatrix;
     uniform vec4 coastReflectAxes;
     uniform sampler2D coastShoreline;
+    uniform vec2 coastShoreMap;
+    uniform vec4 coastCanyon;
+    uniform vec2 coastReefs[${MAX_REEFS}];
+    uniform int coastReefCount;
     varying vec3 coastPosition;
     vec3 coastNormal;
     vec2 coastSlope;
@@ -102,11 +118,15 @@ function footerWater(material, uniforms) {
     // The waterline (water-optics.mjs shoreline), sampled from a strip texture: one fetch instead of
     // a long chain of profile segments, which kept the shader slow to compile.
     float coastShore(float x) {
-      return textureLod(coastShoreline, vec2((x + ${f(SHORE_SPAN)}) * ${f((SHORE_TEXELS - 1) / (2 * SHORE_SPAN * SHORE_TEXELS))} + ${f(0.5 / SHORE_TEXELS)}, .5), 0.).r;
+      return textureLod(coastShoreline, vec2(x * coastShoreMap.x + coastShoreMap.y, .5), 0.).r;
     }
+    // Reefs as [x, 1 / half-width]; the loop bound is a uniform, so the compiler keeps the loop.
     float coastReef(float x) {
-      float r = 0., t;
-      ${reefs}
+      float r = 0.;
+      for (int i = 0; i < coastReefCount; i++) {
+        float t = (x - coastReefs[i].x) * coastReefs[i].y;
+        r = max(r, exp(-t * t));
+      }
       return r;
     }
     // Integer lattice hash: Teschner and colleagues' spatial-hash primes, mixed by the lowbias32
@@ -144,9 +164,9 @@ function footerWater(material, uniforms) {
     }
     // Seabed below the surface (water-optics.mjs seabedDepth): a sandy shelf, and the canyon's head off the pier.
     float coastBedDepth(float d, float x) {
-      float t = max(d, 0.), c = (x - ${f(CANYON.x)}) * ${f(1 / CANYON.width)};
+      float t = max(d, 0.), c = (x - coastCanyon.x) * coastCanyon.y;
       return ${f(SHELF.start)} + ${f(SHELF.depth)} * (1. - exp(-t * ${f(1 / SHELF.reach)})) + ${f(SHELF.slope)} * t
-        + ${f(CANYON.depth)} * exp(-c * c) * (1. - exp(-t * ${f(1 / CANYON.reach)}));
+        + coastCanyon.z * exp(-c * c) * (1. - exp(-t * coastCanyon.w));
     }
     // Short wind ripples that bend light without moving the surface: their slope (dh/dx, dh/dz).
     vec2 coastRipples(vec2 p, float t) {
@@ -187,7 +207,10 @@ function footerWater(material, uniforms) {
          float b=position.x*2.7+position.z*1.2-coastTime*.6;
          vec3 objectNormal=normalize(vec3(.00644*cos(a)-.0351*cos(b),1.,-.0874*cos(a)-.0156*cos(b)));`
       )
-      .replace("#include <begin_vertex>", `vec3 transformed=position; transformed.y+=wave(position.xz); coastPosition=transformed;`);
+      .replace(
+        "#include <begin_vertex>",
+        `vec3 transformed=position; transformed.y+=wave(position.xz); coastPosition=(modelMatrix*vec4(transformed,1.)).xyz;`
+      );
     shader.fragmentShader = `${declarations}\n${shader.fragmentShader}`
       .replace(
         "#include <color_fragment>",
@@ -264,8 +287,11 @@ function footerWater(material, uniforms) {
           vec4 rc = coastReflectMatrix * vec4(coastPosition.x, ${f(WATER_LEVEL)}, coastPosition.z, 1.);
           vec2 ruv = rc.xy / rc.w + coastReflectAxes.xy * coastSlope.x * 1.8 + coastReflectAxes.zw * coastSlope.y * 6.;
           vec2 along = coastReflectAxes.zw;
-          vec3 mirrored = textureLod(coastReflection, ruv, 0.).rgb * .5
-            + (textureLod(coastReflection, ruv + along * .4, 0.).rgb + textureLod(coastReflection, ruv - along * .4, 0.).rgb) * .25;
+          // The mirror leaves the sky clear: water near the beach mirrors the low sky, nearer water the
+          // sky higher up, as a perspective view would.
+          vec4 m = textureLod(coastReflection, ruv, 0.) * .5
+            + (textureLod(coastReflection, ruv + along * .4, 0.) + textureLod(coastReflection, ruv - along * .4, 0.)) * .25;
+          vec3 mirrored = m.rgb + mix(coastSkyFar, coastSkyNear, smoothstep(.6, 7., coastDepth)) * (1. - m.a);
           // Only bright lights streak far on rippled water: the long taps keep what exceeds the theme's threshold.
           // Loop bounds are uniforms, so the compiler keeps loops (quick to compile) instead of unrolling them.
           vec3 hot = vec3(0.);
@@ -292,11 +318,35 @@ function footerWater(material, uniforms) {
             glitter += path * g.z * (.3 + .7 * smoothstep(-.02, .09, coastSlope.y + .025 * sin(coastPosition.x * 23. + coastTime * 2.6)));
           }
           outgoingLight += coastGlintColor * glitter * (1. - coastFoamAmount) * smoothstep(.15, .45, coastDepth);
+          // The setting sun's glitter path: a column of sparkle beneath it that broadens toward the viewer,
+          // lit on ripple facets tilted back toward the light, from where the land stops shading the sea.
+          vec2 frag = gl_FragCoord.xy / coastResolution;
+          if (coastSun.z > .001) {
+            float spread = .012 + .042 * (1. - frag.y);
+            float dx = (frag.x - coastSun.x) / spread;
+            float facets = smoothstep(.02, .11, coastSlope.y + .03 * sin(coastPosition.x * 31. + coastTime * 3.1) + .02 * sin(coastPosition.z * 17. - coastTime * 2.3));
+            // A soft sheen under the sparkle, so the path reads as one road of light.
+            outgoingLight += coastSunColor * (exp(-dx * dx) * (.22 + 1.7 * facets) + exp(-dx * dx * .1) * .1) * coastSun.z * smoothstep(.15, .9, coastDepth) * (1. - coastFoamAmount);
+          }
+          // The marine layer: soft wisps drifting low over the water, lit by the hour; while the sun shows,
+          // light shafts fan through them from it. Sine fields, so the shader stays quick to compile.
+          if (coastFog > .001) {
+            vec2 q = coastPosition.xz * vec2(.11, .34) + vec2(coastTime * .012, coastTime * .004);
+            float field = .5 + .3 * sin(q.x * 1.7 + sin(q.y * 2.3 + q.x * .4) * 1.6) + .2 * sin(q.y * 3.1 - q.x * 1.3 + sin(q.x * .9) * 2.);
+            float wisp = smoothstep(.5, .9, field) * coastFog;
+            vec3 haze = coastFogColor;
+            if (coastSun.w > .5) {
+              vec2 toSun = vec2((frag.x - coastSun.x) * coastResolution.x / coastResolution.y, frag.y - coastSun.y);
+              float angle = atan(toSun.y, toSun.x);
+              haze *= 1. + coastRays * 1.5 * pow(.5 + .5 * sin(angle * 31. + sin(angle * 7. + 1.7) * 2.4), 3.);
+            }
+            outgoingLight = mix(outgoingLight, haze, wisp * .55);
+          }
         }
         #include <opaque_fragment>`
       );
   };
-  material.customProgramCacheKey = () => "coast-water-footer";
+  material.customProgramCacheKey = () => "coast-water-sea";
 }
 
 const aim = { forward: new THREE.Vector3(), up: new THREE.Vector3(), look: new THREE.Vector3(), point: new THREE.Vector3() };
@@ -304,8 +354,10 @@ const aim = { forward: new THREE.Vector3(), up: new THREE.Vector3(), look: new T
 // Place `mirror` as the reflection of `camera` across the water plane, looking up at the coast, with a
 // frustum covering only the band of the view where water shows (from the bottom edge to the farthest
 // visible waterline) plus margins for ripples and a drifting camera. A water point keeps its height in
-// both views and swaps sides. Returns the horizontal margin in world units.
-export function aimMirror(camera, mirror, profile = []) {
+// both views and swaps sides. `shore` is the coast profile or a sea's waterline function. Returns the
+// horizontal margin in world units.
+export function aimMirror(camera, mirror, shore = [], span = 95) {
+  const waterline = typeof shore === "function" ? shore : (x) => shoreline(x, shore);
   camera.updateMatrixWorld();
   const { forward, up, look, point } = aim;
   forward.set(0, 0, -1).applyQuaternion(camera.quaternion);
@@ -317,8 +369,8 @@ export function aimMirror(camera, mirror, profile = []) {
   mirror.lookAt(look.copy(mirror.position).add(forward));
   const margin = (camera.right - camera.left) * 0.12;
   let top = camera.bottom;
-  for (let x = -SHORE_SPAN; x <= SHORE_SPAN; x += 1) {
-    point.set(x, WATER_LEVEL, shoreline(x, profile)).applyMatrix4(camera.matrixWorldInverse);
+  for (let x = -span; x <= span; x += span / 95) {
+    point.set(x, WATER_LEVEL, waterline(x)).applyMatrix4(camera.matrixWorldInverse);
     if (point.x >= camera.left - margin && point.x <= camera.right + margin) top = Math.max(top, point.y);
   }
   Object.assign(mirror, {
@@ -340,37 +392,19 @@ export function mirrorMatrix(mirror, out = new THREE.Matrix4()) {
 }
 
 export function createCoastWater(renderer, { clock, miniature = false, profile = [] } = {}) {
+  const sea = miniature ? SEAS.miniature() : SEAS.footer(profile);
   const material = new THREE.MeshStandardMaterial({
     color: 0x337e90,
-    roughness: miniature ? 0.32 : 0.3,
-    metalness: miniature ? 0.18 : 0,
+    roughness: 0.3,
+    metalness: 0,
     transparent: true,
     depthWrite: false,
   });
+  // The footer's own plane; the miniature puts the material on its relief's water slab instead.
   const geometry = new THREE.PlaneGeometry(190, 48, 190, 64).rotateX(-Math.PI / 2).translate(0, WATER_LEVEL, 14);
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = "CoastSea";
   mesh.userData.noOcclusion = true;
-  if (miniature) {
-    miniatureWater(material, clock);
-    return {
-      mesh,
-      material,
-      exclude() {},
-      setTheme(theme) {
-        material.color.set(theme.water);
-      },
-      setMovers() {},
-      setLights() {},
-      invalidate() {},
-      update() {},
-      evidence: () => ({ miniature: true }),
-      dispose() {
-        geometry.dispose();
-        material.dispose();
-      },
-    };
-  }
 
   // The mirror carries the reflections; the studio adds only a faint sheen.
   material.envMapIntensity = 0.15;
@@ -399,18 +433,26 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     coastMoverCount: { value: 0 },
     coastHotTaps: { value: 4 },
     coastOne: { value: 1 },
+    coastSun: { value: new THREE.Vector4(0.6, 0.6, 0, 0) },
+    coastSunColor: { value: new THREE.Color(1, 0.8, 0.6) },
+    coastSkyNear: { value: new THREE.Color(0x8fbdd6) },
+    coastSkyFar: { value: new THREE.Color(0x8fbdd6) },
+    coastResolution: { value: new THREE.Vector2(1, 1) },
+    coastFog: { value: 0 },
+    coastFogColor: { value: new THREE.Color(0.9, 0.9, 0.88) },
+    coastRays: { value: 0 },
     coastGlintColor: { value: new THREE.Color(1, 0.62, 0.3) },
     coastReflection: { value: target.texture },
     coastReflectMatrix: { value: new THREE.Matrix4() },
     coastReflectAxes: { value: new THREE.Vector4() },
-    coastShoreline: { value: shorelineTexture(profile) },
+    coastShoreline: { value: shorelineTexture(sea) },
+    ...seaUniforms(sea),
   };
-  footerWater(material, uniforms);
+  seaShader(material, uniforms);
 
   const mirror = new THREE.OrthographicCamera();
   const schedule = createReflectionSchedule({ spacing: 2 });
   const excluded = new Set([mesh]);
-  const sky = new THREE.Color(0xdcedf4);
   const snapshot = {
     quaternion: new THREE.Quaternion(),
     projection: new THREE.Matrix4(),
@@ -422,7 +464,8 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
   const forward = new THREE.Vector3(),
     point = new THREE.Vector3(),
     clearColor = new THREE.Color();
-  let rendered = { width: 0, height: 0 };
+  let rendered = { width: 0, height: 0 },
+    lastTheme = "";
 
   // Horizontal span (world x) of the water this camera shows, from the frustum's plane footprint.
   function viewRange(camera) {
@@ -440,7 +483,7 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
   }
 
   function renderReflection(scene, camera, size) {
-    const margin = aimMirror(camera, mirror, profile);
+    const margin = aimMirror(camera, mirror, sea.shore, sea.span);
     // About half the canvas's density: the mirror is rippled and streaked anyway.
     const density = (0.5 * size.x) / Math.max(camera.right - camera.left, 1);
     const width = Math.round(THREE.MathUtils.clamp((mirror.right - mirror.left) * density, 32, 1600));
@@ -462,7 +505,8 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     renderer.getClearColor(clearColor);
     try {
       renderer.setRenderTarget(target);
-      renderer.setClearColor(sky, 1);
+      // A clear sky: the sea's shader fills it with the hour's sky colors.
+      renderer.setClearColor(0x000000, 0);
       renderer.clear(true, true, false);
       renderer.render(scene, mirror);
     } finally {
@@ -488,9 +532,16 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
       for (const object of objects) if (object) excluded.add(object);
     },
     setTheme(theme) {
+      // The mirror holds the lit coast: redraw it only when the light it was drawn under changed.
+      const signature = JSON.stringify(theme, (key, value) => (typeof value === "number" ? Math.round(value * 1000) : value));
+      if (signature !== lastTheme) schedule.invalidate();
+      lastTheme = signature;
+      uniforms.coastFog.value = theme.fog ?? 0;
+      uniforms.coastFogColor.value.set(theme.fogColor ?? 0xf2f0ea);
       uniforms.coastDeep.value.set(theme.deep);
       uniforms.coastShallow.value.set(theme.shallow);
-      sky.set(theme.mirror);
+      uniforms.coastSkyNear.value.set(theme.mirror);
+      uniforms.coastSkyFar.value.set(theme.mirrorFar ?? theme.mirror);
       uniforms.coastCaustic.value = theme.caustic;
       uniforms.coastReflect.value = theme.reflect;
       uniforms.coastGlow.value = theme.glow;
@@ -499,7 +550,13 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
       // so one pair of long taps suffices.
       uniforms.coastHot.value = 1.6 - theme.night * 1.15;
       uniforms.coastHotTaps.value = theme.night > 0.3 ? 4 : 1;
-      schedule.invalidate();
+    },
+    // The setting sun: its place on screen (fractions of the canvas), the strength of its glitter path
+    // on the sea, its color, and the strength of the light shafts through the marine layer.
+    setSun({ x, y, visible, glitter, color, rays }) {
+      uniforms.coastSun.value.set(x, y, glitter, visible ? 1 : 0);
+      if (color != null) uniforms.coastSunColor.value.set(color).multiplyScalar(2.2);
+      uniforms.coastRays.value = visible ? rays : 0;
     },
     // Up to four wakes: [{ x, z, heading: [x, z], power }].
     setMovers(list) {
@@ -518,7 +575,7 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
       list.slice(0, 4).forEach((light, i) => {
         const [x, z] = mirrorPoint(light.x, light.y, light.z, view);
         // A light behind the beach glitters from the water's edge outward.
-        glints.set([x, Math.max(z, shoreline(light.x, profile) + 0.25), light.power, light.spread], i * 4);
+        glints.set([x, Math.max(z, sea.shore(light.x) + 0.25), light.power, light.spread], i * 4);
       });
       uniforms.coastGlintCount.value = Math.min(list.length, 4);
     },
@@ -529,11 +586,13 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     update(scene, camera, { size, live = false }) {
       camera.updateMatrixWorld();
       uniforms.coastView.value.setFromMatrixColumn(camera.matrixWorld, 2).normalize();
+      uniforms.coastResolution.value.copy(size);
       if (changed(camera, size)) schedule.invalidate();
       if (schedule.due(live)) renderReflection(scene, camera, size);
     },
     evidence() {
       return {
+        sea: sea.name,
         reflection: { renders: schedule.renders, pending: schedule.dirty, ...rendered },
         caustics: uniforms.coastCaustic.value,
         wakes: moverPower.filter((power) => power > 0.01).length,

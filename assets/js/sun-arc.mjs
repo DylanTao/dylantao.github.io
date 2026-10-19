@@ -5,19 +5,22 @@
 // committed changes; light-only surfaces follow every move. "Now" hands time back to the clock, and
 // the motion switch drives window.siteMotion (theme.js). Only the arc itself (dragging, keys, or a
 // stop chosen in the panel) sets a preview hour; a theme chosen elsewhere just moves the sun.
+// The arc keeps La Jolla's day (la-jolla-sun.mjs themeDay), as theme.js turns the theme: dusk meets
+// the horizon at the minute the site turns to evening, and solar noon stands at the crown.
+import { localDateKey, themeDay } from "./la-jolla-sun.mjs?v=coast-sky-20261019";
 import {
   GEOMETRY,
-  MODE_MINUTE,
   formatMinute,
   isNight,
   minuteOfDate,
   minuteToPoint,
   modeForMinute,
   modeLabel,
+  modeMinute,
   pointToMinute,
   skyColor,
   wrapMinute,
-} from "./sun-arc-math.mjs";
+} from "./sun-arc-math.mjs?v=sun-day-20261019";
 
 const STORAGE_KEY = "site-time";
 const root = document.documentElement;
@@ -40,9 +43,13 @@ const storage = {
   },
 };
 
+// Today's day on La Jolla's sun, renewed when the date turns.
+let dateKey = localDateKey(),
+  day = themeDay(dateKey);
 const storedMinute = Number(storage.get(STORAGE_KEY));
 let previewMinute = storage.get(STORAGE_KEY) !== null && Number.isFinite(storedMinute) ? wrapMinute(storedMinute) : null;
-let minute = previewMinute ?? (storage.get("theme-manual") === "true" ? MODE_MINUTE[root.getAttribute("data-theme-mode")] : null) ?? minuteOfDate();
+let minute =
+  previewMinute ?? (storage.get("theme-manual") === "true" ? modeMinute(root.getAttribute("data-theme-mode"), day) : null) ?? minuteOfDate();
 let ownThemeChange = false;
 
 window.siteTime = {
@@ -56,15 +63,15 @@ window.siteTime = {
 };
 
 function paint() {
-  const [r, g, b] = skyColor(minute);
-  const point = minuteToPoint(minute);
+  const [r, g, b] = skyColor(minute, day);
+  const point = minuteToPoint(minute, GEOMETRY, day);
   const across = (point.x - (GEOMETRY.cx - GEOMETRY.rx)) / (2 * GEOMETRY.rx);
   root.style.setProperty("--site-sky", `${r} ${g} ${b}`);
   root.style.setProperty("--site-sun-x", `${(8 + across * 84).toFixed(1)}%`);
-  const mode = modeForMinute(minute),
+  const mode = modeForMinute(minute, day),
     label = modeLabel(mode),
     time = formatMinute(minute),
-    night = isNight(minute),
+    night = isNight(minute, day),
     following = previewMinute === null && storage.get("theme-manual") !== "true";
   for (const control of controls) {
     control.querySelector("[data-sun-arc]").style.setProperty("--sun-sky", `${r} ${g} ${b}`);
@@ -98,7 +105,7 @@ function applyTheme(mode) {
 
 function setPreview(next, committed) {
   minute = previewMinute = wrapMinute(next);
-  applyTheme(modeForMinute(minute));
+  applyTheme(modeForMinute(minute, day));
   if (committed) storage.set(STORAGE_KEY, String(minute));
   paint();
   announce(committed);
@@ -128,7 +135,7 @@ for (const control of controls) {
     keyTimer = 0;
   const fromPointer = (event) => {
     const box = arc.getBoundingClientRect();
-    return pointToMinute(((event.clientX - box.left) / box.width) * 240, ((event.clientY - box.top) / box.height) * 124);
+    return pointToMinute(((event.clientX - box.left) / box.width) * 240, ((event.clientY - box.top) / box.height) * 124, GEOMETRY, day);
   };
   const flush = () => {
     frame = 0;
@@ -174,7 +181,7 @@ for (const control of controls) {
   });
   // A stop chosen in this panel is an arc choice: the sun moves to that mode's hour.
   control.querySelectorAll("[data-theme-mode-option]").forEach((option) => {
-    option.addEventListener("click", () => setPreview(MODE_MINUTE[option.dataset.themeModeOption], true), { capture: true });
+    option.addEventListener("click", () => setPreview(modeMinute(option.dataset.themeModeOption, day), true), { capture: true });
   });
   control.querySelector("[data-sun-now]")?.addEventListener("click", followClock);
   control.querySelector("[data-motion-toggle]")?.addEventListener("click", () => {
@@ -188,11 +195,11 @@ for (const control of controls) {
 window.addEventListener("siteThemeChange", (event) => {
   if (ownThemeChange) return;
   const mode = event.detail?.themeMode;
-  if (mode && modeForMinute(minute) !== mode)
-    minute = previewMinute !== null && modeForMinute(previewMinute) === mode ? previewMinute : MODE_MINUTE[mode];
+  if (mode && modeForMinute(minute, day) !== mode)
+    minute = previewMinute !== null && modeForMinute(previewMinute, day) === mode ? previewMinute : modeMinute(mode, day);
   paint();
   // A preview hour that no longer matches the chosen theme ends, and the 3D home returns to now.
-  if (mode && previewMinute !== null && modeForMinute(previewMinute) !== mode) {
+  if (mode && previewMinute !== null && modeForMinute(previewMinute, day) !== mode) {
     previewMinute = null;
     storage.set(STORAGE_KEY, null);
     announce(true);
@@ -200,9 +207,13 @@ window.addEventListener("siteThemeChange", (event) => {
 });
 window.addEventListener("siteMotionChange", paint);
 
-// While following the clock the sun keeps moving with it.
+// While following the clock the sun keeps moving with it; past midnight the arc takes the new day.
 window.setInterval(() => {
-  if (previewMinute !== null || storage.get("theme-manual") === "true") return;
+  if (localDateKey() !== dateKey) {
+    dateKey = localDateKey();
+    day = themeDay(dateKey);
+  }
+  if (previewMinute !== null || storage.get("theme-manual") === "true") return paint();
   minute = minuteOfDate();
   paint();
 }, 30000);

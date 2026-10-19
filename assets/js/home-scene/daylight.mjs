@@ -33,6 +33,7 @@ export function coastalDaylight(dateKey, minute) {
     daylight = smooth(-6, 3, altitude),
     sunlight = smooth(-0.5, 5, altitude);
   return {
+    dateKey,
     minute,
     offset,
     altitude,
