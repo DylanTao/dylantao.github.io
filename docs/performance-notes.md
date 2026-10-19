@@ -1,6 +1,6 @@
 # Performance notes
 
-How fast the coastal home and the site are, what has been done about it, and what to try next. Written October 18, 2026 on main 94755609f (full screen, the gym tripod camera, skinned wildlife, renovation phases 2-3). The longer, record-ready entry with every citation lives in the graphics record (performance system).
+How fast the coastal home and the site are, what has been done about it, and what to try next. Written October 18, 2026 on main 94755609f (full screen, the gym tripod camera, skinned wildlife, renovation phases 2-3) and re-checked on main 049dba240 (the oak-and-marble kitchen and the living room's lantern; main 2958e6adb serves the same scene). The longer, record-ready entry with every citation lives in the graphics record (performance system).
 
 ## How to measure
 
@@ -21,7 +21,15 @@ Measured October 18 on main 94755609f against the same tree with this work, thre
 | Outside, authored 48 m | 89.8 (84.1-91.6) to 56.9 (52.1-67.0) ms | 1,554 to 1,292  | 353 to 91        | 579 to 173       | 100 to 67 ms   |
 | Coast at 160 m         | 86.9 (79.6-97.6) to 50.7 (49.7-53.8) ms | 1,694 to 1,371  | 404 to 91        | 605 to 176       | 100 to 50 ms   |
 
-An earlier pair of runs on a quieter machine gave the same picture (study 20.5 to 12.7 ms, outside 83.6 to 43.9 ms, coast 82.5 to 47.5 ms). The outside frame still spends most of its time in three's per-draw path: about 800 draws for the beauty pass plus three's transmission copy (the onsen water and the coffee hopper glass make three redraw every opaque object into a full-size target), about 400 for the sea mirror, and each draw still refreshes its own material. Startup to the first composed frame (12-19 s on this laptop, dominated by compiling about 70 shader programs) did not change.
+An earlier pair of runs on a quieter machine gave the same picture (study 20.5 to 12.7 ms, outside 83.6 to 43.9 ms, coast 82.5 to 47.5 ms), and so did two pairs after the rebase onto main 049dba240:
+
+| View (main 049dba240)  | Script per frame                          | Draws per frame | Shadow-map draws | Program switches | Frame interval |
+| ---------------------- | ----------------------------------------- | --------------- | ---------------- | ---------------- | -------------- |
+| Study (occupied room)  | 17.6 (16.7-18.6) to 10.2 (9.6-10.8) ms    | 548 to 315      | 269 to 36        | 98 to 53         | 16.7 ms both   |
+| Outside, authored 48 m | 69.3 (68.2-70.5) to 48.8 (42.3-55.4) ms   | 1,576 to 1,293  | 364 to 83        | 580 to 174       | 67 to 50 ms    |
+| Coast at 160 m         | 101.8 (95.3-108.2) to 49.1 (47.4-50.9) ms | 1,713 to 1,400  | 406 to 91        | 606 to 177       | 108 to 50 ms   |
+
+The outside frame still spends most of its time in three's per-draw path: about 800 draws for the beauty pass plus three's transmission copy (the onsen water and the coffee hopper glass make three redraw every opaque object into a full-size target), about 400 for the sea mirror, and each draw still refreshes its own material. Startup to the first composed frame (12-19 s on this laptop, dominated by compiling about 70 shader programs) did not change.
 
 Full screen at 2560x1440 and DPR 1.5 asked main for a 3840x2160 drawing buffer: 4.4 fps in the study and 2.7 fps outside (333 ms of script, 355 ms of GPU per frame). With the budget the buffer is 1642x923 (the adaptive step kept one 0.85 step and undid two unhelpful ones): 11.9 and 6.1 fps, with the composer's passes at the canvas size.
 

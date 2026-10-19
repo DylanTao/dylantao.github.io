@@ -1,6 +1,6 @@
 # Performance checkpoint: October 18, 2026
 
-Measured on main 94755609f (full screen, the gym tripod camera, skinned wildlife, renovation phases 2-3) against the same tree with this branch's changes. Shared Windows laptop: Intel Core Ultra 7 155H (22 logical cores), Intel Arc integrated GPU, headless Chromium with ANGLE/D3D11, 1440x1000 viewport at DPR 1, a 545x461 scene canvas. Other agents' servers and browsers used about half the CPU and at times the GPU, so frame rates are noisy; script time per frame, draw counts and pixel parity are the robust measures. Raw JSON and captures stay in `.jekyll-cache/visual-qa/perf-2026-10-18/` (not committed).
+Measured on main 94755609f (full screen, the gym tripod camera, skinned wildlife, renovation phases 2-3) against the same tree with this branch's changes, and re-checked on main 049dba240. Shared Windows laptop: Intel Core Ultra 7 155H (22 logical cores), Intel Arc integrated GPU, headless Chromium with ANGLE/D3D11, 1440x1000 viewport at DPR 1, a 545x461 scene canvas. Other agents' servers and browsers used about half the CPU and at times the GPU, so frame rates are noisy; script time per frame, draw counts and pixel parity are the robust measures. Raw JSON and captures stay in `.jekyll-cache/visual-qa/perf-2026-10-18/` (not committed).
 
 ## Method
 
@@ -17,6 +17,18 @@ Measured on main 94755609f (full screen, the gym tripod camera, skinned wildlife
 | Coast at 160 m         | 86.9 (79.6-97.6) to 50.7 (49.7-53.8) | 1,694 to 1,371 | 404 to 91    | 605 to 176       | 100 to 50 ms   |
 
 Frame rates (noisy under contention): study 35.6 to 43.9 fps, outside 10.1 to 15.3, coast 9.3 to 13.8. An earlier two-pair run on a quieter machine: study 20.5 to 12.7 ms, outside 83.6 to 43.9 ms, coast 82.5 to 47.5 ms. Activation to the first composed frame: 13.8 s (11.9-25.9) and 14.3 s (12.6-16.5), unchanged within noise.
+
+## Re-check on main 049dba240 (two interleaved pairs, same method)
+
+Main moved on to the oak-and-marble kitchen relay and the living room's lantern (049dba240; its successor 2958e6adb only registers test cases, so it serves the same scene). The branch was rebased onto it and measured again against it:
+
+| View                   | Script ms per frame                    | Draws          | Shadow draws | Program switches | Frame interval | GPU ms per frame |
+| ---------------------- | -------------------------------------- | -------------- | ------------ | ---------------- | -------------- | ---------------- |
+| Study                  | 17.6 (16.7-18.6) to 10.2 (9.6-10.8)    | 548 to 315     | 269 to 36    | 98 to 53         | 16.7 ms both   | 21.7 to 15.3     |
+| Outside, authored 48 m | 69.3 (68.2-70.5) to 48.8 (42.3-55.4)   | 1,576 to 1,293 | 364 to 83    | 580 to 174       | 66.8 to 50.0   | 78.7 to 53.8     |
+| Coast at 160 m         | 101.8 (95.3-108.2) to 49.1 (47.4-50.9) | 1,713 to 1,400 | 406 to 91    | 606 to 177       | 108.3 to 50.0  | 93.6 to 53.6     |
+
+Frame rates: study 39.2 to 46.0 fps, outside 11.4 to 15.1, coast 9.4 to 12.7. Triangles per frame: study 1.64 to 1.11 million, outside 4.67 to 3.92, coast 4.98 to 4.23 (the cached shadow casters are no longer submitted). By the end of the study sample the shadow cache had rebuilt 12 times in 1,795 shadow frames. Its counter then rose to 45 by the end of the outside sample and 73 by the end of the coast sample, a span that includes the camera's flight outside and its zoom to 160 m, both of which move the shadow square every frame; the sampled frames averaged 83 and 91 shadow draws against 364 and 406, so almost all of them were cached. With a still camera, rebuilds come only from the routine's clock moving the sun (it is checked every 30 seconds) and from casters that start or stop moving.
 
 ## Attribution (outside, authored view, 2 runs each, script ms per frame)
 
