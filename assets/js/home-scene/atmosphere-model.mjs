@@ -519,10 +519,12 @@ function twilightLift(depression) {
     i = Math.min(11, Math.floor(d));
   return twilightStops[i] + (twilightStops[i + 1] - twilightStops[i]) * (d - i);
 }
+// The lift stops at 9.3 stops: past nautical dusk the CPU table's twilight is too coarse to follow
+// (it overshot to 12 stops and brightened the sky after 18:45), and the authored night has taken over.
 export function adaptationGain(sunAltitude) {
   const h = sunAltitude / DEG;
   if (h >= 20) return 1;
-  return 2 ** (h >= 0 ? (1 - h / 20) ** 2 : 1 + twilightLift(-h));
+  return 2 ** (h >= 0 ? (1 - h / 20) ** 2 : Math.min(9.3, 1 + twilightLift(-h)));
 }
 
 // The night sky that remains once twilight is gone: authored, not physical (a moonless night is
