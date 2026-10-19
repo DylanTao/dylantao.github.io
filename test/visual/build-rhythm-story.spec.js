@@ -221,7 +221,9 @@ test("all four themes keep readable chart states and preserve the selected histo
     await page.locator("[data-rhythm-range-reset]").hover();
     await page.locator("[data-rhythm-range-reset]").evaluate(async (node) => {
       getComputedStyle(node).backgroundColor;
-      await Promise.all(node.getAnimations().map((animation) => animation.finished));
+      // A hover animation replaced by a newer one (the glass press and hover motion) is cancelled,
+      // which rejects its promise; the poll below checks the settled colours either way.
+      await Promise.all(node.getAnimations().map((animation) => animation.finished.catch(() => {})));
     });
     await expect
       .poll(async () => {
