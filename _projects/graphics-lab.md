@@ -49,7 +49,7 @@ og_image_height: 756
 
 ## The experiments
 
-Each row opens the experiment's own page or its section of the [technical record]({{ '/projects/graphics-lab/record/' | relative_url }}). The stills are frames of the live scene captured on October 16 and 17, 2026; the light well, the steam and the onsen are set in late August, when the noon sun reaches the shaft and the bath runs in daylight. How the house itself is built, from its Blender sources to its shader warmup and loading, is in [the coastal home's record]({{ '/projects/homepage-desk-scene/record/' | relative_url }}).
+Each row opens the experiment's own page or its section of the [technical record]({{ '/projects/graphics-lab/record/' | relative_url }}). The stills are frames of the live scene captured on October 18, 2026, after the renovation and the skinned wildlife, with the scene's clock on a weekday; the light well, the steam and the onsen are set in late August, when the noon sun reaches the shaft and the bath runs in daylight. How the house itself is built, from its Blender sources to its shader warmup and loading, is in [the coastal home's record]({{ '/projects/homepage-desk-scene/record/' | relative_url }}).
 
 {% include graphics_lab.liquid part="experiments" %}
 
@@ -75,7 +75,7 @@ Work that is still in progress elsewhere in the house joins the list when it lan
     <ul>
       <li><strong>Stills.</strong> <code>bin/capture_graphics_lab_stills.cjs</code> opens the homepage's authoring lab in headless Chromium at a named hour, room and camera, without the homepage's feathered edge, and <code>bin/make_graphics_lab_thumbnails.py</code> scales the frames. They are scaled, never retouched. The light lab's still is a frame of its own renderer.</li>
       <li><strong>Record.</strong> Each technique lives in <code>_data/design_records/graphics-lab.yml</code> with its files and key functions, its sources, its limits and its papers to try; <code>python bin/design_record_brief.py graphics-lab</code> turns it into a brief for the next pass, and the <a href="{{ '/assets/downloads/site-experiments/graphics-lab-reproduction.md' | relative_url }}" download>agent brief</a> says how to take a paper from the list into the house.</li>
-      <li><strong>Citations.</strong> Every paper was checked against its DOI record, its publisher's page or its authors' page on October 16 and 17, 2026. Four DOIs in the first draft resolved to other papers and were corrected.</li>
+      <li><strong>Citations.</strong> Every paper was checked against its DOI record, its publisher's page or its authors' page between October 16 and 18, 2026. Four DOIs in the first draft resolved to other papers and were corrected.</li>
       <!-- Sirui: confirm -->
       <li><strong>Credit.</strong> Sirui Tao, with AI coding agents: the experiments, their tests and notes. Anthropic's Claude compiled this page, its stills and the technical record for Sirui to review.</li>
     </ul>

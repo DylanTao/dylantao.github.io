@@ -38,15 +38,20 @@ updated: "2026-10-18"
 summary: >-
   The rendering and simulation experiments behind the homepage's coastal home, one technique at a time: what each does
   in the scene now and which files and functions hold it, the papers it adapts, what it cannot do yet, and newer papers
-  that would take it further, each with what it would add and a rough effort.
+  that would take it further, each with what it would add and a rough effort. A performance system records where the
+  frame goes, what was cut on October 18, 2026, and the next techniques to try in priority order.
 scope: >-
   Each experiment adapts a published method in a small, bounded form for a browser scene, and each entry says where it
-  simplifies. Thumbnails are frames of the live scene captured on October 16 and 17, 2026; the light well, the steam and the
-  onsen are dated in late August, when the noon sun reaches the shaft and the bath runs in daylight. Measurements come
-  from one Windows desktop unless an entry says otherwise. Shader warmup and loading are in the coastal home record.
+  simplifies. Thumbnails are frames of the live scene captured on October 18, 2026, after the renovation and the skinned
+  wildlife, with the scene's clock set to Friday, October 16; the light well, the steam and the onsen are dated in late
+  August, when the noon sun reaches the shaft and the bath runs in daylight. Measurements come from one shared Windows
+  laptop (Intel Core Ultra 7 155H with Arc integrated graphics) unless an entry says otherwise. Shader warmup and loading
+  are in the coastal home record.
 credit: >-
   Compiled on October 16 to 18, 2026 by Anthropic's Claude from the code, the scene notes and the coastal home record,
-  for Sirui Tao to review. Every citation was checked against its DOI record, its publisher's page or its authors' page.
+  for Sirui Tao to review. The performance system and the renovation's surfaces joined on October 18 from entries the
+  agents who built them prepared and checked. Every citation was checked against its DOI record, its publisher's page or
+  its authors' page.
 
 read_first:
   - path: _data/design_records/homepage-desk-scene.yml
@@ -67,6 +72,8 @@ read_first:
     why: The traced sky and lamp bounce, its probes and its cost.
   - path: docs/coherent-wind-equations.md
     why: The curl field, leaf attachment and particle integration.
+  - path: docs/performance-notes.md
+    why: How to measure the frame, what was cut on October 18, the rules for later work and the next techniques to try.
 
 constraints:
   - The homepage opens in 2D on every screen, 3D loads only on request, and any WebGL or model failure returns the 2D desk. No experiment may change that.
@@ -74,6 +81,7 @@ constraints:
   - Every new material, pass or override draw joins `program-warmup.mjs`, or its first draw blocks the page.
   - A change meant only to save cost must change 0 pixels in seeded, paused-clock captures; a change of look needs a matched A/B, measured interleaved.
   - The scene renders through WebGL2 and three.js r164, with no compute shaders and no ray queries; GPU work is vertex and fragment passes.
+  - Store any array-of-vectors uniform as a flat `Float32Array`, and give a caster animated only in its vertex shader its own depth material, or the shadow cache keeps its shadow in place.
   - Each technique's notes say where it simplifies the paper it adapts. Never present an adaptation as a full reproduction or as the state of the art.
 
 tests:
@@ -104,6 +112,9 @@ tests:
   - path: test/coastal-lift-rig.test.mjs
     covers: The lifts' reach, contacts and head clearances on every avatar.
     command: node --test test/coastal-lift-rig.test.mjs test/coastal-gym-session.test.mjs test/coastal-training.test.mjs
+  - path: test/coastal-shadow-cache.test.mjs
+    covers: Which casters the shadow cache keeps, what redraws it, and the cases that keep three's own shadow path.
+    command: node --test test/coastal-shadow-cache.test.mjs test/coastal-resolution.test.mjs test/coastal-model-loader.test.mjs
   - path: test/visual/desk-scene.spec.js
     covers: Nonblank WebGL, the rooms, recovery and reduced motion in a real browser.
     command: npm.cmd run test:visual:scene
@@ -175,7 +186,7 @@ systems:
         since: "2026-10-14"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/light-well.webp
-          alt: The onsen at noon in late August, a hazy beam from the light well slanting across the room onto the pool
+          alt: The onsen at noon in late August, a hazy beam from the light well falling across the room onto the pool
           frame: Onsen view, 12:40 on August 20, 2026 (page clock fixed), reduced motion.
         what: A shaft drilled from the clifftop brings sun into the onsen, and its beam, its sun patch, its skylight and the lit steam share one visibility function.
         how: >-
@@ -217,16 +228,19 @@ systems:
         since: "2026-10-02"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/light-field.webp
-          alt: The study at 23:10, Sirui coding under the desk lamp, its warm light bouncing onto the shelves and walls
-          frame: Study view, 23:10 on October 16, 2026, reduced motion.
+          alt: The renovated office at 23:10, Sirui coding at the L-shaped marble desk, the brass task lamp's warm light bouncing onto the desk, the floor and the bookshelf wall
+          frame: Study view, 23:10 on Friday, October 16, 2026, reduced motion.
         what: A CPU ray tracer bakes sky visibility and one diffuse bounce into probe cages once, then relights them from the actual sky and lamp powers without tracing again.
         how: >-
           `createStaticLightField` builds a triangle BVH over the house's static opaque meshes (`createTriangleBVH`),
           traces eight cosine-weighted sky rays per primary hit, and stores irradiance as first-order spherical harmonics
-          (`accumulateL1`, `evaluateL1`) in 56 probes with octahedral distance moments, after Ramamoorthi and Hanrahan and
-          the probe visibility of Majercik and colleagues. Unit sky and lamp bases let a change of hour recombine the cache
-          with zero rays. The field replaces three.js's ambient terms once; direct light, reflections and refraction stay
-          native. The bake runs in yielded slices and frees its accelerator afterwards.
+          (`accumulateL1`, `evaluateL1`) in 64 probes, eight per room-sized cage, with octahedral distance moments, after
+          Ramamoorthi and Hanrahan and the probe visibility of Majercik and colleagues. Unit sky and lamp bases let a change
+          of hour recombine the cache with zero rays. The field replaces three.js's ambient terms once; direct light,
+          reflections and refraction stay native. The bake runs in yielded slices and frees its accelerator afterwards. When
+          the renovation moved the rooms, the cages followed: the living room and the gym got cages of their own, 61 of the
+          64 probes stand in free space, and the living room's washi lantern, whose closed globe had hidden its bulb from the
+          bake's 0.18 m emitter radius, declares a 0.26 m emitter so its bounce is no longer zero.
         files:
           - path: assets/js/home-scene/static-light-field.mjs
             role: Probe cages, the bake and the shader binding.
@@ -263,8 +277,8 @@ systems:
         since: "2026-10-01"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/contact-light.webp
-          alt: The study at 15:00, Sirui at the desk, soft contact shadows under the laptop, the turntable, the plant and the shelves
-          frame: Study view, 15:00 on October 16, 2026, reduced motion.
+          alt: The office at 15:00, Sirui at the marble desk, soft contact shadows under the monitors, the laptop, the turntable and the shelves
+          frame: Study view, 15:00 on Friday, October 16, 2026, reduced motion.
         what: A visibility buffer computed before the beauty pass darkens only indirect diffuse light near contacts, with the closed-form horizon integral of ground-truth ambient occlusion.
         how: >-
           `contact-occlusion.mjs` projects the geometric normal into four fixed view-aligned slices and integrates the
@@ -302,6 +316,58 @@ systems:
           - move: Specular occlusion and bent normals from the same report (its GTSO), so reflections dim in creases too.
             readiness: needs-research
 
+  - id: surfaces
+    name: Surfaces
+    summary: >-
+      The renovation's stone family, computed in the shader from world position: lime plaster on every wall, milky veined
+      marble and travertine, with no texture downloads.
+    techniques:
+      - id: lime-plaster
+        name: Lime plaster, marble and travertine from noise
+        status: shipped
+        since: "2026-10-17"
+        thumbnail:
+          path: assets/img/project_pics/graphics-lab/lime-plaster.webp
+          alt: The renovated living room in the afternoon, a white U-sofa facing the TV on a plaster media wall, lime-plaster walls, a travertine drum table and an oak floor
+          frame: Living room view, 16:30 on Friday, October 16, 2026, reduced motion.
+        what: Walls carry soft clouds and overlapping trowel strokes, the office desk and the kitchen run wandering marble veins, and the tables travertine's bands and pores, all from noise evaluated at each surface point.
+        how: >-
+          `finishPhysicalMaterial` keys a procedural kind by material name and builds every pattern from hashed value noise
+          in world-space metres (`surfaceNoise`), so the scale survives the glTF exports' many UV layouts. Plaster blends soft
+          clouds about a metre across with streaks of noise stretched along three stroke directions whose mix changes from
+          patch to patch, drawn in the three axis planes and weighted by the surface normal, Geiss's triplanar texturing, so a
+          curved vault shows no seam; a faint burnish lowers roughness along the strokes. Marble's veins are the sine of a
+          warped coordinate, the construction of Perlin's image synthesizer, widened and faded with the pixel's footprint so
+          they never shimmer; travertine stacks warm bands and small open pores. Each kind perturbs the normal with
+          Mikkelsen's surface-gradient bump mapping and fades its detail below a pixel.
+        files:
+          - path: assets/js/home-scene/realism.mjs
+            role: The procedural kinds and their bump.
+            functions: [finishPhysicalMaterial, surfaceNoise]
+          - path: bin/coastal_renovation.py
+            role: The palette whose material names key the kinds.
+            functions: [apply_palette]
+        tests: []
+        sources: [geiss2007terrain, perlin1985image, mikkelsen2010bump]
+        related:
+          - record: homepage-desk-scene
+            techniques: [procedural-materials, soft-edges]
+        limits:
+          - Trowel strokes fade once a pixel covers more than about 5 mm of wall, so walls read smooth in the wider views.
+          - The light field's bounce uses base colours, so the patterns do not tint the bounced light.
+          - Stretched value noise rather than an exemplar of real plaster, so close up the strokes are softer and more regular than a hand-trowelled wall.
+        watchlist:
+          - source: heitz2018byexample
+            effort: medium
+            adds: Tiles a small photograph of real lime plaster or marble across any wall without visible repetition, by blending random patches while preserving the photograph's histogram, so close-ups would show real trowel texture.
+          - source: tricard2019phasor
+            effort: medium
+            adds: Oriented noise with exact control of stroke direction and spacing and no loss of contrast, which would let the trowel strokes curve in arcs as a plasterer's do.
+          - source: lagae2009gabor
+            effort: medium
+            adds: Anisotropic noise with a chosen spectrum and built-in filtering, an alternative to stretched value noise that keeps the strokes crisp without shimmer at a distance.
+        next: []
+
   - id: water-air
     name: Water, air and sky
     summary: >-
@@ -315,7 +381,7 @@ systems:
         thumbnail:
           path: assets/img/project_pics/graphics-lab/ocean.webp
           alt: The Pacific from the beach at 16:00, choppy waves in front fading into a smooth, sunlit sea toward the horizon
-          frame: Lab camera on the beach, 16:00 on October 16, 2026, reduced motion.
+          frame: Lab camera on the beach, 16:00 on Friday, October 16, 2026, reduced motion.
         what: Ten Gerstner waves displace the sea and its normals together, with a wind sea that grows with the breeze, gusty ripples and whitecaps, a lit shoreline and a live mirror of the cliff.
         how: >-
           `sampleOcean` in `ocean-spectrum.mjs` sums ten choppy Gerstner components from 24.7 m to 6.1 cm with
@@ -371,7 +437,7 @@ systems:
         since: "2026-10-02"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/onsen-water.webp
-          alt: Sirui soaking in the onsen on a Saturday afternoon, one hand at the water's surface
+          alt: Sirui soaking in the onsen on a Saturday afternoon, his hands at the water's surface by the rim
           frame: Lab camera over the pool, 16:10 on Saturday, August 22, 2026 (page clock fixed), after seven seconds of motion.
         what: The onsen is a 40 × 40 shallow-water height field whose waves carry water between cells, reflect off the rim and the bather, and start from the bather's hand.
         how: >-
@@ -473,7 +539,7 @@ systems:
         thumbnail:
           path: assets/img/project_pics/graphics-lab/coast-wind.webp
           alt: The date palm on the clifftop and its shadow on the sand, fronds that sway in the afternoon sea breeze
-          frame: Lab camera on the clifftop, 15:00 on October 16, 2026, reduced motion.
+          frame: Lab camera on the clifftop, 15:00 on Friday, October 16, 2026, reduced motion.
         what: One breeze, measured at Scripps Pier and carried by gust fronts that travel downwind, moves the sea, the clifftop planting, the room plants, the curtains, the steam and the particles.
         how: >-
           `createCoastWind` in `wind-field.mjs` runs a periodic cubic Hermite through the October hourly means at Scripps
@@ -531,7 +597,7 @@ systems:
         thumbnail:
           path: assets/img/project_pics/graphics-lab/sun-sky.webp
           alt: The sun low over the Pacific at 17:40, a glitter path on the water below a pale, hazy sky
-          frame: Lab camera on the beach looking west, 17:40 on October 16, 2026, reduced motion.
+          frame: Lab camera on the beach looking west, 17:40 on Friday, October 16, 2026, reduced motion.
         what: The sun, its shadows and the sun's disc follow NOAA's solar equations for La Jolla on the scene's Pacific clock; the sky's colours are authored.
         how: >-
           `coastalDaylight` in `daylight.mjs` uses NOAA's fractional-year approximation at 32.83° N, 117.27° W, with Pacific
@@ -580,8 +646,8 @@ systems:
         since: "2026-10-16"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/curtains.webp
-          alt: Two sheer curtain panels in the kitchen at 16:45, drawn part way against the low western sun
-          frame: Kitchen view, 16:45 on October 16, 2026, reduced motion (settled drape).
+          alt: The renovated kitchen at 16:45 between two sheer curtain panels, the island, the coffee bar and the round dining table behind them
+          frame: Kitchen view, 16:45 on Friday, October 16, 2026, reduced motion (settled drape).
         what: Four sheer panels inside the glass front, a position-based cloth in the coast's breeze, with a weave whose openness, glow and shadow change with the angle.
         how: >-
           `createCurtainCloth` steps 29 × 25 particle panels with small-step extended position-based dynamics:
@@ -635,7 +701,7 @@ systems:
         thumbnail:
           path: assets/img/project_pics/graphics-lab/bedding.webp
           alt: Sirui asleep at 04:00 under a duvet draped over his body, the pillow dented under his head
-          frame: Sleep view, 04:00 on October 16, 2026, reduced motion.
+          frame: Sleep view, 04:00 on Friday, October 16, 2026, reduced motion.
         what: Each avatar's duvet is dropped over the sleeping body offline by a position-based cloth solver and its pillow pressed in by the head, so no cover cuts through a chest; in the scene the cover breathes.
         how: >-
           `draped_duvet` in `bin/coastal_bedding.py` builds a height field of everything under the cover (`support_field`:
@@ -681,8 +747,8 @@ systems:
         since: "2026-10-02"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/skin.webp
-          alt: Sirui drinking coffee at breakfast, close up, his face lit softly by the daylight from the glass front
-          frame: Lab camera at the face, 11:45 on October 16, 2026, reduced motion.
+          alt: Sirui at his desk in the late afternoon, close up, his face lit softly from the side, the turntable and the bookshelf behind him
+          frame: Lab camera at the face, 16:40 on Friday, October 16, 2026, reduced motion.
         what: Skin spreads direct light across a curved patch with a normalized diffusion profile, so a shadow's edge on the face turns warm instead of hard.
         how: >-
           `buildDiffusionTable` in `skin-diffusion-profile.mjs` integrates Christensen and Burley's normalized
@@ -723,7 +789,7 @@ systems:
         thumbnail:
           path: assets/img/project_pics/graphics-lab/hair.webp
           alt: Sirui at the desk at night, the desk lamp drawing bright bands across his long black hair
-          frame: Lab camera at the head, 23:10 on October 16, 2026, reduced motion.
+          frame: Lab camera at the head, 23:10 on Friday, October 16, 2026, reduced motion.
         what: Hair gets two shifted highlight bands across its strands, the primary and secondary lobes of hair scattering, instead of a round spot.
         how: >-
           `strandHighlights` in `realism.mjs` adds two lobes to each avatar's hair material: a near-white primary shifted
@@ -759,8 +825,8 @@ systems:
         since: "2026-10-16"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/gym-lifts.webp
-          alt: Sirui doing pull-ups on the gym's wall frame at 18:12, hands on the bar, the power cage and the training board behind him
-          frame: Gym view, 18:12 on October 16, 2026, reduced motion.
+          alt: Sirui doing pull-ups on the gym's tower at 18:12, hands on the bar, the power cage and the training board beside him
+          frame: Gym view from the tripod, 18:12 on Friday, October 16, 2026, reduced motion.
         what: Every lift in Sirui's program is solved each frame on the avatar's own skeleton, so the hands meet the real bar whatever the body's proportions.
         how: >-
           `createLiftRig` in `lift-rig.mjs` poses the hips, pelvis, spine and head for each movement, then reaches each hand
@@ -813,39 +879,52 @@ systems:
         since: "2026-10-02"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/wildlife.webp
-          alt: Harbor seals on the sand, sea lions on the rocks and sandpipers at the swash below the cave house
-          frame: Lab camera over the beach, 15:00 on October 16, 2026, reduced motion.
-        what: Rabbits, sea lions, harbor seals, a raccoon, gulls and sandpipers move on choreography sampled from time, with feet that hold their contacts on the exported terrain.
+          alt: Two Brandt's cormorants on a rock at the cliff foot, a California sea lion below them and the sea behind
+          frame: Lab camera 4 m from a cormorant's roost, 15:00 on Friday, October 16, 2026, reduced motion.
+        what: Twenty-eight skinned animals, from rabbits and sea lions to brown pelicans and Brandt's cormorants, act in irregular epochs sampled from time, with feet that hold their contacts on the exported terrain, rock and sea.
         how: >-
-          The acting is original and sampled from absolute active time, so a pause or a slow frame cannot accumulate drift.
-          `rabbitActing` holds a rabbit's travel at takeoff and landing and advances it only in the air, with quintic travel
-          so velocity and acceleration never jump. `raccoonMotion` keeps stance paws on world anchors while two-joint legs
-          follow (`plantedFoot`), `shorebirdMotion` turns sandpipers at each zero-speed reversal, and `gullMotion` joins
-          flight and perch with transitions continuous in acceleration. `solvePerchLanding` fits each gull's webbed foot to
-          exported perch triangles.
+          Each species is one skinned mesh whose bones rest at identity, so backs bend, jaws open and tails, ears, flippers
+          and wingtips follow through; 28 animals draw 56 primitives where 17 rigid-part animals drew 256. The acting is
+          original and sampled from absolute active time, so a pause or a slow frame cannot accumulate drift. Epoch
+          boundaries are jittered (`epochAt`), and posture channels are springs driven by keyed targets (`sprung`): a linear
+          spring's response to stepped targets is the sum of one step response per change, so a turn overshoots and settles
+          without integrating frames. `rabbitActing` holds a rabbit's travel at takeoff and landing and advances it only in
+          the air, `raccoonMotion` keeps stance paws on world anchors while two-joint legs follow (`plantedFoot`),
+          `shorebirdMotion` turns sandpipers at each zero-speed reversal, and `gullMotion` joins flight and perch with
+          transitions continuous in acceleration. Pelicans fly a line a metre above the displaced sea the renderer draws,
+          passing a wave of wingbeats down the line (`pelicanMotion`); `solvePerchLanding` fits each gull's webbed foot to
+          exported perch triangles, and the cormorants stand on exported rock roosts.
         files:
+          - path: assets/js/home-scene/wildlife-acting.mjs
+            role: Epochs, keyed springs, glances, transfers and wingbeats.
+            functions: [epochAt, sprung, wingbeat]
           - path: assets/js/home-scene/wildlife-motion.mjs
             role: Rabbit and marine acting.
             functions: [rabbitActing, pinnipedActing]
           - path: assets/js/home-scene/wildlife-neighbor-motion.mjs
             role: Raccoon, sandpiper and gull acting.
             functions: [raccoonMotion, shorebirdMotion, gullMotion, plantedFoot]
+          - path: assets/js/home-scene/wildlife-seabird-motion.mjs
+            role: The pelican line, its dive and the cormorants.
+            functions: [pelicanMotion, cormorantMotion]
           - path: assets/js/home-scene/wildlife-perch-contact.mjs
             role: Gull feet on real perches.
             functions: [solvePerchLanding, samplePerchActing]
           - path: assets/js/home-scene/wildlife.mjs
-            role: Instances, habitats and inspection.
+            role: Skinned clones, populations, the off-screen gate and inspection.
         tests:
           - test/wildlife-motion.test.mjs
           - test/wildlife-neighbors.test.mjs
+          - test/wildlife-seabirds.test.mjs
           - test/wildlife-perch-contact.test.mjs
         sources: []
         related:
           - record: homepage-desk-scene
-            techniques: [animal-acting, perch-contact]
+            techniques: [skinned-animal-rigs, animal-repertoires, coastal-seabirds, animal-acting, perch-contact]
         limits:
-          - Deterministic choreography, with no aerodynamics, collision solver or feather simulation.
+          - Authored acting, with no aerodynamics, collision solver, feather simulation or motion capture.
           - Contacts are checked at samples, with no guarantee between them.
+          - Wildlife shaders still compile on a species' first draw rather than in the program warmup.
         watchlist:
           - source: coros2011quadrupeds
             effort: large
@@ -865,7 +944,7 @@ systems:
         thumbnail:
           path: assets/img/project_pics/graphics-lab/gliders.webp
           alt: A red and white paraglider over a canyon in the north bluffs, with Torrey pines beyond
-          frame: Lab camera 50 m from the gliders' route along the north bluffs, 15:00 on October 17, 2026, reduced motion.
+          frame: Lab camera 50 m from the gliders' route along the north bluffs, 15:00 on Friday, October 16, 2026, reduced motion.
         what: Three paragliders and a hang glider follow closed loops along the north bluffs, banking into their turns, posed from the scene clock.
         how: >-
           `createRoute` in `gliders.mjs` tabulates a closed centripetal Catmull–Rom curve by arc length, and `gliderPose`
@@ -900,7 +979,7 @@ systems:
         thumbnail:
           path: assets/img/project_pics/graphics-lab/camera-field.webp
           alt: The cave house in its cliff from far out over the Pacific, with the mesa, its planting and the coast running on into the haze
-          frame: Lab camera about 155 m out over the sea, 15:00 on October 17, 2026, reduced motion.
+          frame: Lab camera about 155 m out over the sea, 15:00 on Friday, October 16, 2026, reduced motion.
         what: Every static mesh is voxelized into a 12 cm field once it loads, and a spring arm keeps the camera on the near side of anything between it and the subject, so visitors can orbit freely and zoom the coast to 160 m.
         how: >-
           `createCameraField` in `camera-field.mjs` voxelizes each static house, room and coast mesh in a module worker
@@ -909,7 +988,9 @@ systems:
           clearance shell. Rays walk the field cell by cell, after Amanatides and Woo. `cameraArm` places the camera at the
           farthest point on the orbit ray the path reaches without crossing a blocking cell, with side rays that pull in
           before an edge reaches it, and `steerOrbit` refuses steps that would leave the arm under 40 % of the requested
-          distance. `farView` lets the haze, the clip planes and the sun's shadow follow the coast's orbit out to 160 m.
+          distance. `farView` lets the haze, the clip planes and the sun's shadow follow the coast's orbit out to 160 m. Since
+          October 18 the gym's camera works like a tripod, turning to each station from its authored place (`tripodLook`),
+          and full screen on a portrait screen widens the lens to hold a room's width (`portraitFov`).
         files:
           - path: assets/js/home-scene/camera-field.mjs
             role: Voxelizes the loaded meshes and decides what may hold the camera back.
@@ -917,8 +998,8 @@ systems:
           - path: assets/js/home-scene/camera-field-worker.mjs
             role: Voxelizes off the main thread.
           - path: assets/js/home-scene/camera.mjs
-            role: Classifies the cells, walks rays and steers the arm.
-            functions: [createCollisionGrid, cameraArm, steerOrbit, farView, outsideClearance]
+            role: Classifies the cells, walks rays, steers the arm and frames the gym and portrait screens.
+            functions: [createCollisionGrid, cameraArm, steerOrbit, farView, outsideClearance, tripodLook, portraitFov]
         tests:
           - test/coastal-camera.test.mjs
           - test/coastal-camera-motion.test.mjs
@@ -926,7 +1007,7 @@ systems:
         sources: [amanatides1987voxel, epic-spring-arm, reed2015depth]
         related:
           - record: homepage-desk-scene
-            techniques: [camera-collision-field, spring-arm, far-coast-view]
+            techniques: [camera-collision-field, spring-arm, far-coast-view, gym-tripod, portrait-fov]
         limits:
           - Ready about 3.3 s after the rooms stream in. Characters, P, the animals and the clifftop planting are not in the field.
           - Nothing scores the composition, and one 40 % threshold serves every room.
@@ -947,7 +1028,7 @@ systems:
         thumbnail:
           path: assets/img/project_pics/graphics-lab/hinterland.webp
           alt: Sandstone bluffs north of the house cut by a canyon, the gliderport's lawn and Torrey pines on top, and a paraglider overhead
-          frame: Lab camera about 120 m off the north bluffs, 15:00 on October 17, 2026, reduced motion.
+          frame: Lab camera about 120 m off the north bluffs, 15:00 on Friday, October 16, 2026, reduced motion.
         what: A terraced mesa with badland canyons, bluffs with the gliderport, a headland with sea caves and a distant point continue the coast past the mainland's flat walls.
         how: >-
           `bin/build_coastal_hinterland.py` snaps the new ground to the mainland's 225 back-edge and 41 end-edge vertices
@@ -1003,8 +1084,8 @@ systems:
         since: "2026-10-14"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/loading-sketch.webp
-          alt: Pen strokes drawing the bedroom while the 3D home loads, the bed, a framed picture, a plant and the doorway
-          frame: The homepage 4.1 s into loading on October 16, 2026, reduced motion (each drawing still).
+          alt: Pen strokes drawing the bedroom while the 3D home loads, the bed and its duvet, a plant, the bedside lamp and a tall cupboard
+          frame: The homepage 4.6 s into loading, at 04:00 on Friday, October 16, 2026 (page clock fixed), reduced motion (each drawing still).
         what: Pen strokes traced offline from geometry buffers draw the sea, the cliff, the cut-away house and the occupied room while the scene loads, then trace the first rendered frame.
         how: >-
           `strokesFrom` in `bin/build_loading_sketch.cjs` traces each authored view's object-ID and surface-normal passes,
@@ -1052,17 +1133,253 @@ systems:
             adds: Measures where artists draw lines on the same models, a test for which lines the tracer keeps.
         next: []
 
-  # ---- SLOT: performance (pending) -------------------------------------------------------------------------------
-  # The performance and optimisation pass on the scene and the site joins here as its own system, id `performance`,
-  # when its record-ready research and measurements are routed to this record:
-  #   - each optimisation it shipped, as a technique: what, how, files with their key functions, tests, sources,
-  #     limits, and the measured cost with the machine, the browser and the host's load;
-  #   - a watchlist per technique of newer papers, each checked against a DOI record, a publisher page or the
-  #     authors' page, with what it adds and an effort;
-  #   - the next techniques to try, as each technique's `next` moves, which bin/design_record_brief.py ranks for
-  #     the next pass.
-  # Shader warmup and the loading path stay in the coastal home record; link them with `related`.
-  # ---- end of slot -----------------------------------------------------------------------------------------------
+  # Performance is engineering on the same scene rather than a visible experiment, so it stays off the Graphics Lab
+  # page. Its prioritized next techniques are the open problem `next-performance`, and the WebGPU decision is `webgpu`.
+  - id: performance
+    name: Performance
+    index: false
+    summary: >-
+      Where the coastal home's frame goes, and what was cut on October 18, 2026. Outside, the frame was bound by three's
+      per-draw work rather than by pixels, so the cuts target uniform uploads, program switches, shadow-map draws and
+      decoding. In three interleaved pairs, script time per outside frame fell from 89.8 to 56.9 ms, draws from 1,554 to
+      1,292, shadow-map draws from 353 to 91 and program switches from 579 to 173; at the 160 m coast script time fell from
+      86.9 to 50.7 ms. Measured on one shared Windows laptop (Intel Core Ultra 7 155H, Arc integrated GPU, headless
+      Chromium on ANGLE/D3D11, a 545 × 461 canvas), where other processes used about half the CPU, so draw counts, script
+      time and pixel parity carry the result and frame rates only illustrate it. The next techniques, in priority order,
+      and the WebGPU decision are under Open problems.
+    techniques:
+      - id: measurement-tools
+        name: Per-pass frame attribution and still parity
+        status: shipped
+        since: "2026-10-18"
+        what: Two scripts measure where each frame's time goes and prove when a change leaves a still frame untouched, so every cut below was measured interleaved, never batch against batch.
+        how: >-
+          `bin/measure_coastal_views.cjs` opens the home in a fresh headless browser per run, seeds page randomness, fixes
+          the routine's clock at Friday 13:20 and samples the occupied study, the authored outside view and the 160 m coast
+          for 6 s each. It attributes every WebGL draw to a pass by its viewport (the 2048 px sun shadow, the 384 px sea
+          mirror, the beauty and output passes at the canvas size, the contact prepass), times the script inside the frame
+          callback and, where the browser allows, the GPU with a timer query, and reads process CPU time. Variants run base,
+          work, work, base, and the result is the median of run medians with the range. `bin/compare_coastal_stills.cjs`
+          captures reduced-motion stills in the same order, and the base pair is the control.
+        files:
+          - path: bin/measure_coastal_views.cjs
+            role: Per-view, per-pass frame cost in interleaved variants.
+            functions: [instrument, measureRun]
+          - path: bin/compare_coastal_stills.cjs
+            role: Pixel parity, base, work, work, base.
+            functions: [capture, compare]
+          - path: docs/performance-notes.md
+            role: How to measure, the results, the rules for later work and the next steps.
+          - path: docs/evidence/performance-2026-10-18/README.md
+            role: The October 18 tables, attribution, parity and decoding runs.
+        tests: []
+        sources: []
+        limits:
+          - Hiding objects under reduced motion needs a requested frame, or the capture repeats the old frame; the first transmission check reported zero changed pixels for that reason.
+          - Other processes on the shared laptop stretch frame intervals while the page is idle, so frame rates are reported but not relied on.
+        next: []
+      - id: flat-vector-uniforms
+        name: Vector-array uniforms stored flat
+        status: shipped
+        since: "2026-10-18"
+        what: The light installations' and the light field's arrays of vectors are stored as flat Float32Arrays, so three no longer re-flattens them on every material switch, which was the largest single cost of an outside frame.
+        how: >-
+          Three r164 flattens a uniform that is an array of `Vector3` or `Vector4` element by element whenever a material's
+          uniforms upload, and this scene switches material on nearly every draw, because each mesh owns its material. The ten
+          arrays in `createLightInstallations` (4 or 12 vectors each) and the three in `createStaticLightField` cost about
+          100,000 `Vector3.toArray` calls per outside frame: a CPU profile put 19.9 % of the main thread in `toArray` and
+          7.9 % in three's `flatten`. As flat typed arrays they pass through untouched, and the GPU receives the same float32
+          values (the CPU sampler keeps a double-precision copy). With every other change in place, holding these two files
+          back left the outside frame at 80 ms of script against 42 to 47 ms, so this change is what makes the draw grouping
+          and the shadow cache pay off.
+        files:
+          - path: assets/js/home-scene/light-installations.mjs
+            role: Line and point emitters as flat arrays.
+            functions: [createLightInstallations]
+          - path: assets/js/home-scene/static-light-field.mjs
+            role: Region bounds and the fallback as flat arrays.
+            functions: [createStaticLightField]
+        tests:
+          - test/light-installations.test.mjs
+          - test/static-light-field.test.mjs
+        sources: []
+        related:
+          - record: homepage-desk-scene
+            techniques: [light-installations, static-light-field]
+        limits:
+          - Every draw still refreshes its own material's uniforms; only materials shared between meshes would skip that.
+        next:
+          - move: Share identical materials between meshes, so runs of draws with one material skip three's material refresh. About 35 µs of script remain per outside draw; the expected saving is a further 20 to 40 % of outside script time, in about half a day.
+            readiness: needs-decision
+            why: It touches materials.mjs and realism.mjs, which the renovation owns.
+      - id: program-sorted-draws
+        name: Opaque draws grouped by shader program
+        status: shipped
+        since: "2026-10-18"
+        what: Opaque draws that share a shader program run together, which cut program switches in an outside frame from about 580 to 173.
+        how: >-
+          Three r164 sorts opaque draws by material id, and with one material per mesh nearly every draw switched program,
+          each switch re-uploading the camera, the light structs and the material's uniforms. `sortOpaqueByProgram` installs an
+          opaque sort that groups draws by program and ranks each group by the earliest material id that uses it, so groups
+          keep three's old relative order and the sea still draws before the beach, then sorts by material and depth. Against
+          the same build without it, outside script time fell from 59 to 44 ms and the study's from 15.7 to 12.7 ms (two runs
+          each). Only exact depth ties between surfaces of different programs can resolve differently: in matched stills 39
+          pixels changed outside (at most 40 of 255 in one channel, on the clifftop planting and the glass front's edges), 6
+          in the study and 4 at 160 m. An unranked first version changed about 340 pixels along the waterline.
+        files:
+          - path: assets/js/home-scene/draw-order.mjs
+            role: The program-grouped opaque sort.
+            functions: [sortOpaqueByProgram]
+          - path: assets/js/home-scene/controller.mjs
+            role: Installs the sort; `?draw-order=material` restores three's order.
+          - path: docs/evidence/performance-2026-10-18/draw-order-outside-diff.png
+            role: The 39 changed pixels, ringed.
+        tests: []
+        sources: []
+        limits:
+          - Whether any tie pixel matters is Sirui's call.
+          - Merging static meshes stays rejected, because nearly every mesh is interactive, animated or wind-swayed.
+        watchlist:
+          - source: webgl-multi-draw
+            effort: medium
+            adds: Lets three's BatchedMesh draw the hinterland's 156 static primitives and the planting's 23 in a few multi-draw calls with per-object culling, about 100 to 150 fewer draws per pass outside, once each piece's transform is baked into its geometry.
+          - source: greene1993hiz
+            effort: medium
+            adds: A hierarchical depth test that would skip the rooms hidden behind the cliff and the roof when the camera is out at the coast, where they draw about 130 meshes per pass.
+          - source: hasselgren2016moc
+            effort: medium
+            adds: Rasterizes a few large occluders on the CPU into a coarse depth buffer and tests room bounds against it, answering in the same frame instead of a frame late like a GPU query.
+          - source: haar2015gpudriven
+            effort: large
+            adds: Two-phase occlusion culling that reuses last frame's visible set, which would hide the rooms from the coast without the pop-in of a one-frame-late query.
+          - source: decoret2003billboard
+            effort: large
+            adds: Replaces the far hinterland canopy (82,000 triangles in 19 chunks) and the clifftop flora (184,000) with a few textured planes at distance, cutting triangles where they are smallest on screen.
+        next: []
+      - id: two-stage-shadow-cache
+        name: A cached static sun shadow
+        status: shipped
+        since: "2026-10-18"
+        what: Casters that never move are drawn into the 2048 px sun shadow map once and copied in each frame; only moving casters are drawn over the copy.
+        how: >-
+          `createShadowCache` wraps three's shadow pass. Static casters go into a cached map; each frame `blitFramebuffer`
+          copies the cached packed depth and depth buffer into the light's map, and the moving casters are drawn over it
+          without a clear: the two-stage cache of Myers's shadows for Call of Duty: Black Ops Cold War, the same split as Unity
+          HDRP's cached shadows and Unreal Engine's virtual shadow map page cache. Movement is observed, not declared: a change
+          of world matrix, geometry, position or index buffer version, draw range or material makes a caster dynamic until it
+          has held still for 30 rendered frames, twice as long each time it moves again (up to 1,800). Skinned, morphing,
+          instanced and batched meshes and casters with their own depth material, such as the swaying planting, always are.
+          The cache is redrawn when the static set changes, when the light or its shadow camera moves (the coast's shadow
+          square follows the camera target in whole texels; the sun follows the clock, checked every 30 s) or when the map is
+          replaced: 12 rebuilds in 1,795 study frames. Shadow-map draws per frame fell from 267 to 37 in the study, 353 to 82
+          outside and 404 to 91 at the coast. Redrawing the whole map inside a live frame matched the cached map to the texel
+          in 7 of 8 checks; the eighth differed in 1 of 4,194,304 texels, an exact tie between a static and a moving caster.
+        files:
+          - path: assets/js/home-scene/shadow-cache.mjs
+            role: Caster classification, the cached map and the per-frame copy.
+            functions: [createShadowCache]
+          - path: assets/js/home-scene/controller.mjs
+            role: Installs the cache; `?shadow-cache=0` turns it off, and the lab's check compares it with a full redraw.
+            functions: [verifyShadowCache]
+        tests:
+          - test/coastal-shadow-cache.test.mjs
+        sources: [myers2021coldwar, unity-hdrp-shadows, epic-vsm]
+        limits:
+          - Three r164 tests shadow layers against the main camera, so the split toggles `castShadow` around each pass.
+          - A caster animated only in its vertex shader without its own depth material would be cached in place. None exists, and the performance notes make it a rule.
+        next:
+          - move: Cull room casters by the camera's cell, so a room the camera cannot see leaves the moving set.
+            readiness: needs-measurement
+      - id: draco-worker-pool
+        name: A shared Draco decoder pool
+        status: shipped
+        since: "2026-10-18"
+        what: Every model loader on the page shares one pool of up to four Draco decoder workers, so a model's primitives decode in parallel.
+        how: >-
+          Three's GLTFLoader decodes each Draco primitive as its own task, and one worker per loader serialized them.
+          `createModelLoader` gives every loader on the page (the home, its wildlife, the footer coast) one pool of half the
+          cores, at most four, and ends it when the last loader is disposed. In isolation (eight interleaved rounds, warmed
+          decoders, median) the house shell decoded in 118 ms instead of 323, the avatar in 130 instead of 315, the kitchen in
+          74 instead of 151 and the hinterland in 180 instead of 388. Because the pool outlives any one load, it must not
+          remember a failure: a failed decoder download is fetched again by the next decode, a failed worker is retired, and
+          a retry after a failed load starts fresh.
+        files:
+          - path: assets/js/home-scene/model-loader.mjs
+            role: The shared pool, its reference count and its failure handling.
+            functions: [createModelLoader, StaticDracoLoader]
+        tests:
+          - test/coastal-model-loader.test.mjs
+        sources: []
+        related:
+          - record: homepage-desk-scene
+            techniques: [streaming-order]
+        limits:
+          - In full cold starts on the loaded laptop the gain disappeared in the noise. Startup is dominated by compiling about 70 shader programs, 12 to 19 s to the first composed frame there.
+          - Decode order now varies, which exposes a race in how reduced-motion wildlife poses compose (2,334 px of animals in different poses, seen in the unchanged base too).
+        watchlist:
+          - source: kapoulkine2020pr1830
+            effort: small
+            adds: Meshopt decoded 3.4 to 7.5 times faster than the four-worker Draco pool here (the house shell in 23 ms instead of 118) at 1 to 46 % more bytes after gzip; it would run as a post-process after the Blender export, with quantization matched to the Draco settings and the planting's custom attributes kept.
+        next: []
+      - id: pixel-budget
+        name: A drawing-buffer pixel budget with adaptive density
+        status: shipped
+        since: "2026-10-18"
+        what: The drawing buffer is capped at 2.1 megapixels, and a full-screen buffer of a megapixel or more steps its density down only while frames wait on the GPU.
+        how: >-
+          Full screen can ask for 2560 × 1440 CSS pixels at a device pixel ratio of 1.5, about 8.3 MP, where the 4×
+          multisampled half-float composer targets alone take on the order of a gigabyte. `createResolutionGovernor` caps the
+          buffer at `PIXEL_BUDGET` (a 2560 × 1440 screen at DPR 1.5 draws 1920 × 1080). On buffers of 1 MP or more it steps
+          density down by 0.85, to no less than 0.7, only while frames are slow and waiting on the GPU rather than on script;
+          it keeps a step only if the 75th-percentile frame time improves by 10 %, stops after two unhelpful probes, steps
+          back up after three fast seconds and never moves while the scene is still, after Binks's dynamic resolution
+          rendering and the hysteresis of drei's PerformanceMonitor. It scales the logical size handed to the renderer and to
+          the finish composer, never the pixel ratio the composer captured, so every pass stays at the canvas size. In the
+          home's full screen at 2560 × 1440 and DPR 1.5, main drew 3840 × 2160 at 4.4 fps in the study and 2.7 fps outside;
+          with the budget the buffer was 1642 × 923, at 11.9 and 6.1 fps.
+        files:
+          - path: assets/js/home-scene/resolution.mjs
+            role: The budget and the adaptive factor.
+            functions: [createResolutionGovernor, PIXEL_BUDGET]
+          - path: assets/js/home-scene/controller.mjs
+            role: Feeds the renderer and the composer; `?resolution=fixed` keeps the budget without adaptation.
+        tests:
+          - test/coastal-resolution.test.mjs
+        sources: [binks2011dynres, drei-performance-monitor]
+        related:
+          - record: homepage-desk-scene
+            techniques: [world-fullscreen]
+        limits:
+          - The ordinary canvas (0.25 to 1 MP) never adapts. Outside frames are bound by draw submission, so fewer pixels would only blur.
+        watchlist:
+          - source: yang2020taa
+            effort: large
+            adds: Temporal antialiasing in place of the 4× multisampled half-float targets would save bandwidth and allow a lower internal resolution, but only with correct motion vectors for the skinned, swaying and cloth meshes.
+        next:
+          - move: When frames are GPU-bound, lower the multisample count before the resolution.
+            readiness: needs-decision
+            why: It changes the composer targets in realism.mjs, a look decision.
+          - move: Cap ambient animation at 60 fps on high-refresh displays, keeping the full rate while the visitor drags.
+            readiness: needs-decision
+            why: A smoothness decision, and untestable on this 60 Hz headless setup.
+      - id: transmission-gate
+        name: A visibility gate for three's transmission copy
+        status: retired
+        since: "2026-10-18"
+        what: An occlusion-query gate that would have skipped three's opaque copy for refraction whenever no transmissive surface was visible from a held camera pose.
+        how: >-
+          Three redraws every opaque object into a full-size multisampled target whenever a transmissive mesh survives
+          frustum culling (the onsen water, the coffee hopper's glass), about a quarter of an outside frame's draws. In a sweep
+          of 108 coast cameras the onsen water showed from only 21, at 3 to 143 pixels, so hiding it outright was not
+          acceptable. The gate queried the transmissive meshes' padded bounding boxes against the shell, coast and room depth
+          at a pose held still, and used the answer only for that exact pose.
+        files: []
+        sources: [webgl2-spec]
+        limits: []
+        next: []
+        retired:
+          date: "2026-10-18"
+          reason: It was correct but never engaged. All 13 queries in a 12-angle sweep said visible, because the padded boxes show between the cedar slats, over the pool rim and through the glass front where the meshes add no pixels, and the damped camera rarely repeats a pose exactly. It was removed before the performance work merged; a non-transmissive stand-in for distant water is the open move.
 
   - id: method
     name: How the lab is kept
@@ -1078,28 +1395,29 @@ systems:
         what: Each thumbnail is a frame of the running scene at a named hour, room and camera, scaled but not retouched.
         how: >-
           `bin/capture_graphics_lab_stills.cjs` opens the homepage's authoring lab (`?scene-lab=1`) in headless Chromium,
-          sets the hour, the room and, where the authored view does not show a technique, a lab camera. It fixes the page
-          clock for a dated frame, removes the homepage's feathered edge so a frame reads on either theme, and writes each
-          4:3 frame with its scene evidence to an unwatched folder. `bin/make_graphics_lab_thumbnails.py` scales the chosen
-          frames to 480 × 360 WebP and lays four of them out as the card teaser.
+          sets the hour, the room and, where the authored view does not show a technique, a lab camera or a camera aimed at a
+          named object. It fixes the page clock, to Friday, October 16, 2026 unless a still names its own date, so a capture
+          on a weekend keeps the weekday routine; removes the homepage's feathered edge so a frame reads on either theme; and
+          writes each 4:3 frame with its scene evidence to an unwatched folder. The loading sketch needs a run of its own,
+          because once earlier stills have compiled the house's programs the browser's shader cache shows the house before
+          the sketch has drawn. `bin/make_graphics_lab_thumbnails.py` scales the chosen frames to 480 × 360 WebP and lays
+          four out as the card teaser, whose tiles its alt text describes.
         files:
           - path: bin/capture_graphics_lab_stills.cjs
             role: Drives the live scene and writes the frames and their ledger.
-            functions: [STILLS, objectPosition]
+            functions: [STILLS, WEEKDAY, objectPosition]
           - path: bin/make_graphics_lab_thumbnails.py
             role: Picks, scales and lays out the frames.
-            functions: [FRAMES, TEASER, fit_4x3]
+            functions: [FRAMES, TEASER, TEASER_FRAMES, fit_4x3]
           - path: assets/img/project_pics/graphics-lab/
             role: The thumbnails and the teaser.
         tests:
           - test/test_design_records.py
         sources: []
         limits:
-          - Frames go stale when the scene changes; recapture after a room, camera or look change.
+          - Frames go stale when the scene changes; recapture after a room, camera or look change. The October 18 set shows the renovated house and the skinned wildlife.
           - Captured in headless Chromium on one machine's integrated GPU, so colours follow its driver.
-        next:
-          - move: Recapture the stills once the renovation and the wildlife work land; every frame of the house predates the renovated plaster, stone and edges.
-            readiness: ready
+        next: []
       - id: lab-brief
         name: A brief that proposes the next paper
         status: shipped
@@ -1169,6 +1487,36 @@ history:
     backtalk: The October noon sun stays below the light well's shaft, so the first light-well still showed no beam and the frame moved to an August noon. Night frames hid the steam and the hand's ripples, so those stills moved to daylight. A pattern meant to find the pines framed the avatar's spine instead. Checking the papers caught four DOIs in the draft list that resolved to other papers.
     reframe: Which paper comes first is Sirui's call; the shortlist puts a visible change in each of light, sky, water and wind.
     sources: [zeltner2020sms, hillaire2020sky, jeschke2023dispersive, diener2009wind]
+  - date: "2026-10-18"
+    title: Measure the frame, then cut what it actually spends
+    system: performance
+    frame: Sirui asked for further optimization of the site and the 3D scene, and for the state of the art to be written down for later models.
+    dimensions:
+      [
+        per-pass draw attribution,
+        script time against GPU time,
+        uniform uploads,
+        program switches,
+        the shadow map,
+        decoding,
+        the full-screen buffer,
+        pixel parity,
+      ]
+    move: >-
+      Vector-array uniforms stored flat, opaque draws grouped by program, a cached static sun shadow, one shared Draco pool
+      and a pixel budget for full screen, each measured interleaved against the same tree without it. Outside, script time
+      per frame fell from 89.8 to 56.9 ms and draws from 1,554 to 1,292; the WebGPU question was priced and deferred, and
+      the remaining work was ranked.
+    backtalk: >-
+      The outside view ran at about 10 fps. Per-pass attribution found four separate costs (three's transmission copy,
+      the sea mirror, the shadow map and per-draw uniform uploads), and a CPU profile found the largest single cost in
+      three's uniform code rather than in draw count. The first transmission check reported zero changed pixels, because
+      hiding objects under reduced motion without requesting a frame re-captured the old frame; a sweep then showed the
+      water from 21 of 108 cameras, and the gate built for it never engaged. A parity run differed by 2,334 px of
+      wildlife, and holding the decoder change back showed the same race in the unchanged base.
+    reframe: Per-draw uniform cost and the sea mirror remain; material sharing, a lighter mirror and a cheaper distant water are next, and the last two need Sirui.
+    commit: "c861eed23"
+    sources: [myers2021coldwar, binks2011dynres]
   # Append new moves here, oldest first.
 
 open_problems:
@@ -1191,11 +1539,11 @@ open_problems:
     why_hard: >-
       The scene renders through WebGL2 and three.js r164, which have no compute shaders. An FFT ocean, a pressure solve
       for the steam, cloth on the GPU and probe updates all want them, so each must become chains of fragment passes or
-      wait for WebGPU, a move that would touch every material and pass the shader warmup knows.
+      wait for WebGPU, a move that would touch every material and pass the shader warmup knows. The performance pass priced
+      that move on October 18 and deferred it (open problem "When to move to WebGPU").
     candidate_moves:
       - Prototype one FFT pass chain as fragment passes on a separate page and time it against the authored spectrum.
       - Keep the small solvers (the onsen, the steam, the cloth) on the CPU and move only the ocean's spectrum to the GPU.
-      - Price a WebGPU renderer for the home as its own experiment before any paper depends on it.
     sources: [tessendorf2004ocean, horvath2015spectra]
     readiness: needs-decision
   - id: hard-paths
@@ -1210,6 +1558,87 @@ open_problems:
       - Shade the light well's aperture with glossy area lights, the cheapest specular path the house is missing.
     sources: [loubet2020slope, heitz2016ltc]
     readiness: needs-research
+  - id: next-performance
+    title: Where the frame still goes
+    system: performance
+    why_hard: >-
+      Outside, the frame is still bound by three's per-draw path. After the October 18 cuts about 800 draws go to the
+      view and three's transmission copy and about 400 to the sea mirror, and each draw refreshes its own material, about
+      35 µs of script per draw. The three largest remaining savings change pixels or touch the renovation's materials, so
+      they need Sirui; the rest are engineering. The moves are in priority order, with the expected win and the effort for
+      one agent estimated from these measurements.
+    candidate_moves:
+      - Share identical materials between meshes, so grouped draws skip three's material refresh; a further 20 to 40 % of outside script time, in half a day (needs a decision on materials.mjs and realism.mjs).
+      - A non-transmissive stand-in for the hopper glass and the distant onsen water, which removes three's transmission copy outside, about a quarter of the frame's draws, in hours (a look change of a few dozen pixels).
+      - A lighter sea mirror, without interiors or redrawn every other frame while the camera is still; up to half its ~400 draws, in hours (13 of 108 sampled stills changed, median 126 px).
+      - BatchedMesh with multi-draw for the hinterland's 156 static primitives and the planting's 23, with each piece's transform baked into its geometry; 100 to 150 fewer draws per pass outside, in a day.
+      - Meshopt instead of Draco as a post-process, with quantization matched to the Draco settings and custom attributes kept (the default prune strips the planting's TEXCOORD_0 and COLOR_1); about 0.3 to 0.5 s less decoding on a first view for about 0.9 MB more, in half a day.
+      - Minify the ES modules, which jekyll-terser skips; the 3D modules would go from 330 to 201 KB gzipped and the site's other 31 from 110 to 72 KB, in hours, keeping `bin/profile_coastal_startup.cjs` able to find the frame callback.
+      - A content-hashed Service Worker cache, because GitHub Pages serves every file with max-age=600 and re-sends about 10 MB of unchanged models after each deploy; a day.
+      - Room-level occlusion culling from the coast, by one-frame-late queries with hysteresis, two-phase culling or a CPU depth test against real room hulls; up to 130 draws per pass, in two to three days (pop-in while moving needs a decision).
+      - Level of detail for distant planting, simplified chunks with `THREE.LOD` and then impostors; a large triangle cut at distance, in one to two days and three to five for impostors.
+      - Shader compile time at startup (about 70 programs, 12 to 19 s to the first frame on the loaded laptop); measure each program's compile cost, then fewer variants or explicit-level texture reads in the light field's probe loops; possibly seconds, after one to two days of investigation.
+      - Temporal antialiasing instead of 4× multisampled half-float targets, practical only with correct motion vectors for skinned, swaying and cloth meshes, most easily under WebGPURenderer's TRAA node.
+      - Cap ambient animation at 60 fps on high-refresh displays, keeping the full rate while the visitor drags; an hour (a smoothness decision).
+    sources:
+      [
+        threejs-batchedmesh,
+        webgl-multi-draw,
+        kapoulkine2020pr1830,
+        ext-meshopt,
+        gltf-transform,
+        jekyll-terser,
+        terser-docs,
+        gh-pages-cache-discussion,
+        webgl2-spec,
+        haar2015gpudriven,
+        greene1993hiz,
+        hasselgren2016moc,
+        meshoptimizer,
+        decoret2003billboard,
+        epic-impostor-baker,
+        khr-parallel-shader-compile,
+        karis2014taa,
+        yang2020taa,
+        html-raf,
+      ]
+    readiness: needs-decision
+  - id: webgpu
+    title: When to move to WebGPU
+    system: performance
+    why_hard: >-
+      Not now. Three.js r186 (September 24, 2026) still calls WebGPURenderer experimental and recommends WebGLRenderer for
+      pure WebGL 2 applications, and WebGPURenderer runs neither `onBeforeCompile` patches, ShaderMaterial nor
+      EffectComposer passes. Every string-patched material here (the procedural kinds, the light field, contact lighting,
+      skin diffusion, the light installations, the light well, the plant and ocean displacement) and the contact, bloom and
+      output passes would be rewritten in TSL. Three.js issue 30560, open since February 2025, reports WebGPURenderer's
+      per-object uniform buffers running several times slower than WebGLRenderer with many distinct objects (about 60
+      against 15 fps for 20,000 cubes), which is this scene's profile, and a September 2026 comment there measured its
+      WebGL 2 fallback on r186 at 31 % more render CPU and 80 % more GL calls in a draw-heavy app. WebGPU ships in Chrome
+      on Windows, macOS and ChromeOS since 113, on Android since 121 and on Linux from 144, in Safari 26 and in Firefox 141
+      on Windows, then on Apple-silicon macOS; everyone else would get the WebGL 2 backend. What it would buy here is
+      render bundles that replay static draws without per-draw script, and compute-driven culling with indirect draws,
+      both aimed at the per-draw cost this scene is bound by.
+    candidate_moves:
+      - Wait until issue 30560 is resolved, so WebGPURenderer is at least level with WebGLRenderer on about a thousand distinct draws.
+      - First move the scene from r164 to a current three.js on WebGLRenderer, itself a project, because r182 to r186 rewrote the shadow and BRDF chunks the string patches target.
+      - Then port the materials one at a time to node materials and TSL under WebGLRenderer's NodeMaterial compatibility layer (r184), and switch renderers only if an A/B wins on both the WebGPU and the WebGL 2 backend; several weeks of focused work.
+      - Until then, attack the same per-draw cost on WebGL 2 with material sharing, batching and a lighter mirror.
+    sources:
+      [
+        threejs-webgpurenderer,
+        threejs-30560,
+        threejs-32851,
+        threejs-releases,
+        chrome-webgpu-release,
+        chrome-webgpu-121,
+        chrome-webgpu-144,
+        webkit-safari26,
+        mozilla-firefox141,
+        w3c-webgpu,
+        wihlidal2016compute,
+      ]
+    readiness: blocked
   # Add new open problems here; move solved ones into their technique.
 
 sources:
@@ -1725,3 +2154,190 @@ sources:
     label: the banked-turn relation
     citation: Wikipedia. *Banked turn*, on the bank angle of a coordinated turn.
     url: https://en.wikipedia.org/wiki/Banked_turn
+  # Surfaces (the renovation's procedural plaster, marble and travertine), checked on October 18, 2026.
+  - id: perlin1985image
+    label: Perlin 1985
+    citation: Ken Perlin. *An Image Synthesizer*. Proceedings of SIGGRAPH 85, 287–296, 1985.
+    url: https://doi.org/10.1145/325334.325247
+  - id: geiss2007terrain
+    label: Geiss 2007
+    citation: Ryan Geiss. *Generating Complex Procedural Terrains Using the GPU*. GPU Gems 3, chapter 1, Addison-Wesley, 2007.
+    url: https://developer.nvidia.com/gpugems/gpugems3/part-i-geometry/chapter-1-generating-complex-procedural-terrains-using-gpu
+  - id: mikkelsen2010bump
+    label: Mikkelsen 2010
+    citation: Morten S. Mikkelsen. *Bump Mapping Unparametrized Surfaces on the GPU*. Journal of Graphics, GPU, and Game Tools 15(1), 49–61, 2010.
+    url: https://doi.org/10.1080/2151237X.2010.10390651
+  - id: lagae2009gabor
+    label: Lagae et al. 2009
+    citation: Ares Lagae, Sylvain Lefebvre, George Drettakis and Philip Dutré. *Procedural Noise using Sparse Gabor Convolution*. ACM Transactions on Graphics 28(3), SIGGRAPH 2009.
+    url: https://doi.org/10.1145/1531326.1531360
+    venue: SIGGRAPH 2009
+    year: 2009
+  - id: heitz2018byexample
+    label: Heitz and Neyret 2018
+    citation: Eric Heitz and Fabrice Neyret. *High-Performance By-Example Noise using a Histogram-Preserving Blending Operator*. Proceedings of the ACM on Computer Graphics and Interactive Techniques 1(2), HPG 2018.
+    url: https://doi.org/10.1145/3233304
+    venue: HPG 2018
+    year: 2018
+  - id: tricard2019phasor
+    label: Tricard et al. 2019
+    citation: Thibault Tricard, Semyon Efremov, Cédric Zanni, Fabrice Neyret, Jonàs Martínez and Sylvain Lefebvre. *Procedural Phasor Noise*. ACM Transactions on Graphics 38(4), SIGGRAPH 2019.
+    url: https://doi.org/10.1145/3306346.3322990
+    venue: SIGGRAPH 2019
+    year: 2019
+  # Performance (October 18, 2026). The performance pass fetched each page or DOI record; DOIs were checked again in
+  # Crossref or DataCite for this record, and the Intel white paper, whose server refuses scripts, against its archived copy.
+  - id: myers2021coldwar
+    label: Myers 2021
+    citation: "Kevin Myers. *Shadows of Cold War: A Scalable Approach to Shadowing*. GDC 2021, Advanced Graphics Summit (Treyarch)."
+    url: https://research.activision.com/publications/2021/10/shadows-of-cold-war--a-scalable-approach-to-shadowing
+  - id: unity-hdrp-shadows
+    label: Unity HDRP, cached shadows
+    citation: Unity Technologies. *Shadows in the High Definition Render Pipeline*, version 14.0 manual (cached shadows, always draw dynamic).
+    url: https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@14.0/manual/Shadows-in-HDRP.html
+  - id: epic-vsm
+    label: Unreal Engine, virtual shadow maps
+    citation: Epic Games. *Virtual Shadow Maps in Unreal Engine* (static and dynamic page caching). Unreal Engine documentation.
+    url: https://dev.epicgames.com/documentation/en-us/unreal-engine/virtual-shadow-maps-in-unreal-engine
+  - id: binks2011dynres
+    label: Binks 2011
+    citation: Doug Binks. *Dynamic Resolution Rendering*. Intel white paper, presented at GDC 2011.
+    url: https://www.intel.com/content/dam/develop/external/us/en/documents/dynamicresolutionrendering-183334.pdf
+  - id: drei-performance-monitor
+    label: drei PerformanceMonitor
+    citation: pmndrs. *PerformanceMonitor*, drei documentation (frame-rate bounds with hysteresis).
+    url: https://drei.docs.pmnd.rs/performances/performance-monitor
+  - id: webgl-multi-draw
+    label: Khronos, WEBGL_multi_draw
+    citation: Khronos WebGL Working Group. *WEBGL_multi_draw*, community approved, revision 8 (September 8, 2023).
+    url: https://registry.khronos.org/webgl/extensions/WEBGL_multi_draw/
+    venue: Khronos WebGL extension registry
+    year: 2023
+  - id: threejs-batchedmesh
+    label: three.js BatchedMesh
+    citation: three.js documentation. *BatchedMesh*.
+    url: https://threejs.org/docs/pages/BatchedMesh.html
+  - id: greene1993hiz
+    label: Greene, Kass and Miller 1993
+    citation: Ned Greene, Michael Kass and Gavin Miller. *Hierarchical Z-buffer Visibility*. Proceedings of SIGGRAPH 93, 231–238, 1993.
+    url: https://doi.org/10.1145/166117.166147
+    venue: SIGGRAPH 1993
+    year: 1993
+  - id: hasselgren2016moc
+    label: Hasselgren et al. 2016
+    citation: Jon Hasselgren, Magnus Andersson and Tomas Akenine-Möller. *Masked Software Occlusion Culling*. High-Performance Graphics 2016.
+    url: https://doi.org/10.2312/hpg.20161189
+    venue: HPG 2016
+    year: 2016
+  - id: haar2015gpudriven
+    label: Haar and Aaltonen 2015
+    citation: "Ulrich Haar and Sebastian Aaltonen. *GPU-Driven Rendering Pipelines*. SIGGRAPH 2015 course, Advances in Real-Time Rendering in Games."
+    url: https://advances.realtimerendering.com/s2015/index.html
+    venue: SIGGRAPH 2015 course
+    year: 2015
+  - id: webgl2-spec
+    label: WebGL 2.0 specification
+    citation: Khronos. *WebGL 2.0 Specification*, on query results not being available in the frame that issued them.
+    url: https://registry.khronos.org/webgl/specs/latest/2.0/
+  - id: decoret2003billboard
+    label: Décoret et al. 2003
+    citation: Xavier Décoret, Frédo Durand, François X. Sillion and Julie Dorsey. *Billboard Clouds for Extreme Model Simplification*. ACM Transactions on Graphics 22(3), 689–696, SIGGRAPH 2003.
+    url: https://doi.org/10.1145/882262.882326
+    venue: SIGGRAPH 2003
+    year: 2003
+  - id: meshoptimizer
+    label: meshoptimizer
+    citation: Arseny Kapoulkine. *meshoptimizer*, mesh simplification and compression library.
+    url: https://github.com/zeux/meshoptimizer
+  - id: epic-impostor-baker
+    label: Unreal Engine, Impostor Baker
+    citation: Epic Games. *Impostor Baker Plugin in Unreal Engine*. Unreal Engine documentation.
+    url: https://dev.epicgames.com/documentation/en-us/unreal-engine/impostor-baker-plugin-in-unreal-engine
+  - id: kapoulkine2020pr1830
+    label: Kapoulkine 2020, meshopt
+    citation: Arseny Kapoulkine. *EXT_meshopt_compression extension*, KhronosGroup/glTF pull request 1830, 2020 (decoding benchmarks against Draco).
+    url: https://github.com/KhronosGroup/glTF/pull/1830
+    venue: KhronosGroup/glTF pull request 1830
+    year: 2020
+  - id: ext-meshopt
+    label: EXT_meshopt_compression
+    citation: Arseny Kapoulkine and Jasper St. Pierre. *EXT_meshopt_compression*, glTF 2.0 extension, complete and ratified by the Khronos Group.
+    url: https://github.com/KhronosGroup/glTF/blob/main/extensions/2.0/Vendor/EXT_meshopt_compression/README.md
+  - id: gltf-transform
+    label: glTF Transform
+    citation: Don McCurdy. *glTF Transform*.
+    url: https://gltf-transform.dev/
+  - id: jekyll-terser
+    label: jekyll-terser
+    citation: Alberto Strappazzon. *jekyll-terser*, which minifies files ending in .js only.
+    url: https://github.com/Strappazzon/jekyll-terser
+  - id: terser-docs
+    label: Terser options
+    citation: Terser. *Options* (the module option).
+    url: https://terser.org/docs/options/
+  - id: gh-pages-cache-discussion
+    label: GitHub Community discussion 11884
+    citation: GitHub Community. *Caching assets in website served from GitHub pages*, discussion 11884 (community evidence; GitHub documents no cache headers).
+    url: https://github.com/orgs/community/discussions/11884
+  - id: khr-parallel-shader-compile
+    label: KHR_parallel_shader_compile
+    citation: Khronos WebGL Working Group. *KHR_parallel_shader_compile*, community approved, revision 6 (November 24, 2020).
+    url: https://registry.khronos.org/webgl/extensions/KHR_parallel_shader_compile/
+  - id: yang2020taa
+    label: Yang, Liu and Salvi 2020
+    citation: Lei Yang, Shiqiu Liu and Marco Salvi. *A Survey of Temporal Antialiasing Techniques*. Computer Graphics Forum 39(2), 607–621, 2020.
+    url: https://doi.org/10.1111/cgf.14018
+    venue: Eurographics 2020 (Computer Graphics Forum 39(2))
+    year: 2020
+  - id: karis2014taa
+    label: Karis 2014
+    citation: Brian Karis. *High-Quality Temporal Supersampling*. SIGGRAPH 2014 course, Advances in Real-Time Rendering in Games.
+    url: https://advances.realtimerendering.com/s2014/index.html
+  - id: html-raf
+    label: WHATWG, rendering opportunities
+    citation: WHATWG. *HTML Living Standard*, event loops and rendering opportunities.
+    url: https://html.spec.whatwg.org/multipage/webappapis.html
+  - id: threejs-webgpurenderer
+    label: three.js manual, WebGPURenderer
+    citation: three.js manual. *WebGPURenderer* (experimental; WebGLRenderer remains the recommendation for pure WebGL 2 applications).
+    url: https://threejs.org/manual/pages/webgpurenderer.html
+  - id: threejs-30560
+    label: three.js issue 30560
+    citation: "mrdoob/three.js issue 30560. *WebGPURenderer: Current UBO system has severe performance issues with many render items*, opened February 19, 2025, open."
+    url: https://github.com/mrdoob/three.js/issues/30560
+  - id: threejs-32851
+    label: three.js pull request 32851
+    citation: "Garrett Johnson. *WebGLRenderer: Add NodeMaterial compatibility layer*, mrdoob/three.js pull request 32851, merged March 14, 2026 (r184)."
+    url: https://github.com/mrdoob/three.js/pull/32851
+  - id: threejs-releases
+    label: three.js releases
+    citation: mrdoob/three.js releases. r184 on April 16, r185 on July 1 and r186 on September 24, 2026.
+    url: https://github.com/mrdoob/three.js/releases
+  - id: chrome-webgpu-release
+    label: Chrome ships WebGPU
+    citation: François Beaufort and Corentin Wallez. *Chrome ships WebGPU*. Chrome for Developers, April 6, 2023 (Chrome 113).
+    url: https://developer.chrome.com/blog/webgpu-release
+  - id: chrome-webgpu-121
+    label: WebGPU in Chrome 121
+    citation: François Beaufort. *What's New in WebGPU (Chrome 121)*. Chrome for Developers, January 18, 2024 (Android).
+    url: https://developer.chrome.com/blog/new-in-webgpu-121
+  - id: chrome-webgpu-144
+    label: WebGPU in Chrome 144
+    citation: François Beaufort. *What's New in WebGPU (Chrome 144)*. Chrome for Developers, January 7, 2026 (Linux).
+    url: https://developer.chrome.com/blog/new-in-webgpu-144
+  - id: webkit-safari26
+    label: WebKit, Safari 26
+    citation: Jen Simmons and colleagues. *WebKit Features in Safari 26.0*. WebKit blog, September 15, 2025.
+    url: https://webkit.org/blog/17333/webkit-features-in-safari-26-0/
+  - id: mozilla-firefox141
+    label: WebGPU in Firefox 141
+    citation: Jim Blandy. *Shipping WebGPU on Windows in Firefox 141*. Mozilla Gfx Team Blog, July 15, 2025.
+    url: https://mozillagfx.wordpress.com/2025/07/15/shipping-webgpu-on-windows-in-firefox-141/
+  - id: w3c-webgpu
+    label: W3C WebGPU
+    citation: GPU for the Web Working Group. *WebGPU*, W3C Candidate Recommendation Draft, September 15, 2026.
+    url: https://www.w3.org/TR/webgpu/
+  - id: wihlidal2016compute
+    label: Wihlidal 2016
+    citation: Graham Wihlidal. *Optimizing the Graphics Pipeline with Compute*. GDC 2016 (Frostbite).
+    url: https://gdcvault.com/play/1023109/

@@ -36,18 +36,21 @@ FRAMES = {
     "sun-sky": STILLS / "sun-sky-c.png",
     "curtains": STILLS / "curtains.png",
     "bedding": STILLS / "bedding.png",
-    "skin": STILLS / "skin.png",
+    "skin": STILLS / "skin-b.png",
     "hair": STILLS / "hair-b.png",
     "gym-lifts": STILLS / "gym-b.png",
-    "wildlife": STILLS / "wildlife.png",
-    "loading-sketch": STILLS / "loading-sketch-4100.png",
+    "wildlife": STILLS / "wildlife-cormorants-b.png",
+    "loading-sketch": STILLS / "loading-sketch-bedroom-4600.png",
     "camera-field": STILLS / "camera-field.png",
     "hinterland": STILLS / "hinterland-a.png",
     "gliders": STILLS / "gliders.png",
+    "lime-plaster": STILLS / "plaster-a.png",
 }
 
-# The card teaser: four experiments, two across, on a dark contact-sheet ground, so the sheet stays 4:3.
+# The card teaser: four experiments, two across, on a dark contact-sheet ground, so the sheet stays 4:3. A tile
+# uses its row's frame unless a frame is named here; the card's alt text (_data/project_cards.yml) describes these.
 TEASER = ["light-paths", "light-well", "wildlife", "loading-sketch"]
+TEASER_FRAMES = {"wildlife": STILLS / "wildlife.png"}
 TILE = (480, 360)
 GUTTER = 12
 GROUND = (32, 33, 36)
@@ -86,7 +89,9 @@ def main() -> None:
     height = rows * TILE[1] + (rows + 1) * GUTTER
     teaser = Image.new("RGB", (width, height), GROUND)
     for index, name in enumerate(TEASER):
-        tile = frames[name].resize(TILE, Image.Resampling.LANCZOS)
+        source = TEASER_FRAMES.get(name)
+        frame = fit_4x3(Image.open(source).convert("RGB")) if source else frames[name]
+        tile = frame.resize(TILE, Image.Resampling.LANCZOS)
         x = GUTTER + (index % columns) * (TILE[0] + GUTTER)
         y = GUTTER + (index // columns) * (TILE[1] + GUTTER)
         teaser.paste(tile, (x, y))

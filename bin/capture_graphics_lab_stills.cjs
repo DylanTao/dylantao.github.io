@@ -15,7 +15,10 @@ const path = require("node:path");
 
 // Minutes are a weekday on the San Diego clock; the routine places Sirui by the hour (03:00 sleep, 11:30
 // breakfast, 14:00 lunch, 18:00 gym, 20:00 onsen, 23:00 coding), so an hour picks both the light and who
-// is home. The loading sketch is captured while the house loads (?cinematic=live lets automation see it).
+// is home. A still without its own date runs on Friday, October 16, 2026, so a capture on a weekend
+// keeps the weekday routine. The loading sketch is captured while the house loads (?cinematic=live lets
+// automation see it).
+const WEEKDAY = "2026-10-16T12:00:00-07:00";
 const STILLS = {
   // In mid-October the noon sun stands below the shaft's acceptance cone, so this frame fixes the page
   // clock to a late-August noon, when the beam reaches the bath.
@@ -45,10 +48,26 @@ const STILLS = {
   bedding: { room: "sleep", minute: 4 * 60 },
   skin: { room: "kitchen", minute: 11 * 60 + 45, actorCamera: { part: /^head$/i, yaw: 3.14, pitch: 0.06, radius: 0.7 } },
   hair: { room: "kitchen", minute: 11 * 60 + 45, actorCamera: { part: /^head$/i, yaw: 2.5, pitch: 0.3, radius: 0.85 } },
+  // At breakfast the mug covers half the face; at the desk in late-afternoon light it stays clear.
+  "skin-b": { room: "study", minute: 16 * 60 + 40, actorCamera: { part: /^head$/i, yaw: 4.1, pitch: 0.08, radius: 0.75 } },
+  "skin-c": { room: "study", minute: 16 * 60 + 40, actorCamera: { part: /^head$/i, yaw: 3.0, pitch: 0.06, radius: 0.75 } },
   "hair-a": { room: "study", minute: 16 * 60 + 40, actorCamera: { part: /^head$/i, yaw: 3.6, pitch: 0.35, radius: 0.8 } },
   "hair-b": { room: "study", minute: 23 * 60 + 10, actorCamera: { part: /^head$/i, yaw: 3.3, pitch: 0.3, radius: 0.8 } },
   wildlife: { room: "outside", minute: 15 * 60, camera: { target: [-3, 0.2, -24], yaw: 3.25, pitch: 0.24, radius: 11 } },
-  "loading-sketch": { sketch: [2600, 3100, 3600, 4100, 4600] },
+  // The seabirds joined on October 18: cormorants on the rocks at the cliff foot, pelicans over the swell.
+  "wildlife-cormorants": { room: "outside", minute: 15 * 60, objectCamera: { name: /^Brandt's cormorant$/, yaw: 3.3, pitch: 0.2, radius: 4 } },
+  "wildlife-cormorants-b": { room: "outside", minute: 15 * 60, objectCamera: { name: /^Brandt's cormorant$/, yaw: 1.7, pitch: 0.2, radius: 4 } },
+  "wildlife-pelicans": { room: "outside", minute: 15 * 60, objectCamera: { name: /^Brown pelican$/, yaw: 3.3, pitch: 0.1, radius: 8 } },
+  "wildlife-pelicans-b": { room: "outside", minute: 15 * 60, objectCamera: { name: /^Brown pelican$/, yaw: 1.7, pitch: 0.1, radius: 8 } },
+  "wildlife-sealions": { room: "outside", minute: 15 * 60, objectCamera: { name: /^California sea lion$/, yaw: 3.3, pitch: 0.25, radius: 6 } },
+  // The renovation's lime plaster, in the living room's afternoon light and up close on its media wall.
+  "plaster-a": { room: "lounge", minute: 16 * 60 + 30 },
+  "plaster-b": { room: "lounge", minute: 10 * 60 },
+  // Capture it in a run of its own: once earlier stills have compiled the house's programs, the browser's shader
+  // cache lets the house appear before the sketch has drawn.
+  "loading-sketch": { sketch: [1600, 2600, 3600, 4600, 6000] },
+  // At 04:00 Sirui is asleep, so the sketch draws the bedroom (the card teaser's frame).
+  "loading-sketch-bedroom": { sketch: [2600, 4600], date: "2026-10-16T04:00:00-07:00" },
   // The land past the mainland loads on the first visit outside, so these wait for it.
   "camera-field": { room: "outside", minute: 15 * 60, wait: 20000, camera: { target: [0, 8, -10], yaw: 3.45, pitch: 0.3, radius: 155 } },
   "hinterland-a": { room: "outside", minute: 15 * 60, wait: 9000, camera: { target: [130, 18, 5], yaw: 3.3, pitch: 0.1, radius: 120 } },
@@ -108,7 +127,7 @@ async function objectPosition(scene, pattern, actor = false) {
         sessionStorage.setItem("theme-manual", "true");
       });
       // A dated still fixes what Date reports; timers and animation frames keep running.
-      if (still.date) await page.clock.setFixedTime(new Date(still.date));
+      await page.clock.setFixedTime(new Date(still.date || WEEKDAY));
       await page.goto(`${baseURL}/?scene-lab=1${still.sketch ? "&cinematic=live" : ""}`, { waitUntil: "domcontentloaded" });
       // A 4:3 canvas without the homepage's feathered edge, so a frame needs no crop and reads on either theme.
       await page.addStyleTag({
