@@ -1,67 +1,33 @@
 import { DEFAULT_WIND, WIND_MODES, sampleWind } from "./wind-field.mjs";
+import { SHEER_LINEN, clothBuilder, createClothIsland, mulberry32 } from "./cloth-solver.mjs";
 
-// Curtains for the glass front (Sirui, 2026-10-15): sheer panels on rails inside the doors, blown by
-// the same breeze as the plants, harder where a sliding door stands open, barely where the glass is
-// shut. Pure JavaScript, no three.js, so the solver runs under `node --test`.
+// Linen curtains for the glass front (Sirui, 2026-10-15; rebuilt 2026-10-18 after "the current
+// curtain feel a bit weird"). Sheer linen panels hang from rings on a bronze rod inside the two
+// sliding doors, blown by the coast's one wind: hard where a door stands open, barely where the glass
+// is shut. Pure JavaScript, no three.js, so the cloth runs under `node --test`.
 //
-// Each panel is a particle grid (columns across the fabric, rows down it) solved with extended
-// position-based dynamics in small steps: one constraint pass per substep, compliance alpha/h^2,
-// multipliers reset every substep (Macklin, Mueller & Chentanez 2016; Macklin et al. 2019).
-// Structural and shear distance constraints keep the weave, skip-one distance constraints give it
-// a soft bend (Provot 1995 springs, here compliant), and each particle is tethered to the top of its
-// own column by a one-sided long-range attachment, so a 3 m drop does not sag with only five passes
-// per frame (Kim, Chentanez & Mueller 2012). Constraints run in colour batches (no two in a batch
-// share a particle), which lets the processor overlap them: the same pass costs a third as much.
-//
-// The heading row is kinematic, like a ripple-fold tape. Every fourth heading column is a carrier ring
-// on the rail; the columns between two rings sit at equal arc length along a half-sine wave fold whose
-// length is the fabric between them, alternating room side and glass side. Opening a panel slides the
-// lead ring toward the stack end and spaces the rings evenly, so the folds deepen into narrow loops
-// and the panel gathers into a stack; closing spreads them again. Rest lengths across the cloth follow
-// the heading's fold, and the bends keep a little memory of the closed pleat, so a gathered stack
-// flares slightly at the hem, as real stacks do.
-//
-// Air acts per triangle from the velocity of the air relative to the cloth: a flat-plate normal force
-// 0.5 rho C_N A |u| (u.n) n, which carries both drag and lift, plus a little skin friction along the
-// sheet. The force is divided by 1 + k dt, with k the drag's own damping rate (semi-implicit), so a
-// strong gust cannot fling the cloth past the air's speed. Wind is sampled on a coarse lattice of
-// particles per panel and interpolated, so the injected sampler runs thirty times per panel per step.
-//
-// Units: metres, seconds, kilograms; three.js world axes (+Y up). Fixed 60 Hz steps with an
-// accumulator, deterministic for a given seed and sequence of update() deltas. After construction a
-// step allocates nothing: hot loops take typed arrays, per-frame scalars live in typed slots, and the
-// facade wind offers a batched typed-array path. See PHYSICS.md ("Curtain cloth").
+// What the October 16 panels did wrong, and what this module does instead:
+//  - Their heading row was kinematic on a sine template and every horizontal rest length followed its
+//    chord, so the same corrugation ran from the rail to the floor: a vertical blind by night, and by
+//    day, gathered into 13 cm stacks, a white pole that twisted in the doorway jet like a ribbon.
+//    Here the rest lengths are the fabric's own and only the heading is kinematic: six rings on the
+//    rod each pinch three columns of the top edge in a clip, and the stiff heading tape between two
+//    pinches bows as a half sine at its own length, alternately to the room and the glass. Gathering
+//    slides the rings together and the bays deepen into loops; below the heading, gravity and the
+//    linen's bending (a 2.9 cm bending length) let the folds soften and the stack flare toward a
+//    weighted, doubled hem.
+//  - Ordering constraints keep each bay's folds in order along the rod (a gathered stack's layers
+//    cannot pass through each other), in place of self-collision.
+//  - Their draft fluttered on three fixed sinusoids. Here the doorway jet follows the coast's gusts
+//    and carries eddies of the room's divergence-free field through the doorway with the air.
+// The solver is cloth-solver.mjs: small-step XPBD with isometric bending, long-range attachments,
+// contacts against the glass front, the door head, the rod and the floor. See PHYSICS.md
+// ("Curtain cloth").
 
-const GRAVITY = 9.80665;
-const AIR_DENSITY = 1.2; // kg/m^3, sea-level air at about 20 C
 const TAU = Math.PI * 2;
+const clamp = (x, lo, hi) => (x < lo ? lo : x > hi ? hi : x);
 
-// A light polyester voile. Compliances are XPBD alpha (m/N) for this grid's spacing (about 8 by 12 cm);
-// they are authored for the drape and are not measured fabric moduli.
-export const SHEER_VOILE = Object.freeze({
-  name: "sheer voile",
-  arealDensity: 0.075, // kg/m^2 (voiles weigh roughly 60-90 g/m^2)
-  hemMass: 0.03, // kg per metre of hem: a weighted hem cord keeps the panel hanging plumb
-  pressureCoefficient: 0.9, // normal-force coefficient; a solid plate is about 1.2, the open weave leaks air
-  frictionCoefficient: 0.02, // skin friction along the sheet
-  stretchCompliance: 0,
-  shearCompliance: 0.02,
-  bendCompliance: 1.2,
-  pleatMemory: 0.2, // 0: bends follow the heading's fold, 1: they remember the closed pleat
-  damping: 0.25, // 1/s, internal (inter-yarn) damping in addition to the air's own drag
-  thickness: 0.012, // m, collision clearance
-});
-
-// A heavier lined drape, for a blackout panel if the integrator wants one.
-export const LINED_DRAPE = Object.freeze({
-  ...SHEER_VOILE,
-  name: "lined drape",
-  arealDensity: 0.32,
-  hemMass: 0.06,
-  pressureCoefficient: 1.15,
-  bendCompliance: 0.25,
-  thickness: 0.016,
-});
+export { SHEER_LINEN };
 
 // The glass front in three.js world coordinates, from bin/coastal_facade.py (Blender (x, y, z) maps to
 // three.js (x, z, -y): +X north, +Y up, +Z east, the sea toward -Z) and the authored GLB bounds.
@@ -69,8 +35,10 @@ export const CURTAIN_FACADE = Object.freeze({
   glassZ: -4.48, // FACADE_Y
   doorTrackZ: -4.44, // INNER_TRACK: the sliding doors run inside the fixed panes
   doorFaceZ: -4.41, // room face of the door stiles and the mullions
+  headFaceZ: -4.4, // room face of the bronze door head beam
   hardwareZ: -4.351, // tip of the door pulls, the deepest thing on the room side of the glass
-  doorHead: 3.19, // underside of the bronze door head beam (DOOR_HEAD)
+  doorHead: 3.19, // underside of the door head beam (DOOR_HEAD)
+  headTop: 3.29, // HEAD_TOP
   floorY: 0,
   doors: Object.freeze([
     Object.freeze({ id: "kitchen", opening: Object.freeze([-3.4, -0.85]), slideX: -2.55, rate: 1 }),
@@ -78,25 +46,36 @@ export const CURTAIN_FACADE = Object.freeze({
   ]),
 });
 
-// Proposed tracks, measured against the authored models (room-kitchen.glb, room-lounge.glb,
-// home-shell.glb, decoded 2026-10-15, and rendered in place): the kitchen's round dining table and its
-// chairs stand against the glass from x -4.25 to -2.75 (top at 0.74-0.83 m, reaching z -4.37), and the
-// lounge's potted plant and armchair stand inside the glass from x 3.5 northward (leaves at z -4.21).
-// The clear stretch of floor along the front runs from the table to the plant, so each door gets a
-// centre-opening pair there.
-// Rails stand 25 cm in front of the door head's room face (z -4.40) on return brackets, far enough that a
-// gathered stack's glass-side folds clear the door pulls; the ring line sits 7 cm under the head and the
-// hem clears the floor by 1.5 cm. Each pair stacks one panel over its open doorway and one over fixed glass, which is what
-// makes the two sides of a door blow differently.
-const RAIL_Y = 3.12;
-const RAIL_Z = -4.15;
+// The rod and its rings. A 25 mm bronze rod 25 cm in front of the door head's room face, on return
+// brackets from the head; rings 34 mm across hang on it and each carries a clip that pinches the
+// linen's top edge 5 cm under the rod's centre. Rings touch at 41 mm, which sets a stack's width
+// (six rings: 20.5 cm).
+export const CURTAIN_HARDWARE = Object.freeze({
+  rodY: 3.135,
+  rodZ: -4.15,
+  rodRadius: 0.0125,
+  ringRadius: 0.017, // centre line of the ring
+  ringTube: 0.0032,
+  clipDrop: 0.05, // rod centre to the fabric's top edge
+  ringPitchMin: 0.041,
+  pinchHalfWidth: 0.007, // the clip's jaw: the three pinched columns lie within +-7 mm of the ring
+  bracketOverhang: 0.035, // end brackets stand this far outside the rails
+  finialOverhang: 0.075,
+});
+
+// The tracks, measured against the authored models (room-kitchen.glb, room-lounge.glb, home-shell.glb,
+// decoded 2026-10-15, and rendered in place): the kitchen's round dining table and its chairs stand
+// against the glass from x -4.25 to -2.75 (top at 0.74-0.83 m, reaching z -4.37), and the lounge's
+// potted plant and armchair stand inside the glass from x 3.5 northward (leaves at z -4.21). The clear
+// stretch of floor along the front runs from the table to the plant, so each door gets a
+// centre-opening pair there. Each pair stacks one panel over its open doorway and one over the
+// mullion and fixed glass, which is what makes the two sides of a door blow differently.
 const HEM_CLEARANCE = 0.015;
 export const CURTAIN_TRACKS = Object.freeze([
   Object.freeze({
     id: "kitchen",
     door: "kitchen",
-    rail: Object.freeze({ y: RAIL_Y, z: RAIL_Z, from: -2.7, to: -0.5 }),
-    brackets: Object.freeze([-2.66, -1.6, -0.54]),
+    rail: Object.freeze({ from: -2.7, to: -0.5 }),
     panels: Object.freeze([
       // Stacks beside the dining table, inside the open doorway: the windward panel.
       Object.freeze({ id: "kitchen-south", stackX: -2.7, closeToward: 1, keepOut: Object.freeze({ min: -2.735 }) }),
@@ -107,8 +86,7 @@ export const CURTAIN_TRACKS = Object.freeze([
   Object.freeze({
     id: "lounge",
     door: "lounge",
-    rail: Object.freeze({ y: RAIL_Y, z: RAIL_Z, from: 1.65, to: 3.45 }),
-    brackets: Object.freeze([1.69, 2.55, 3.41]),
+    rail: Object.freeze({ from: 1.65, to: 3.45 }),
     panels: Object.freeze([
       // Stacks over the gym bay's glass south of the mullion at 2.0: sheltered.
       Object.freeze({ id: "lounge-south", stackX: 1.65, closeToward: 1 }),
@@ -120,11 +98,8 @@ export const CURTAIN_TRACKS = Object.freeze([
 // The bedroom alcove was considered and left out: the bed fills the alcove up to the cedar screen and
 // the stair wall, so there is no clear line to hang a panel (room-sleep.glb, home-shell.glb).
 
-const clamp = (x, lo, hi) => (x < lo ? lo : x > hi ? hi : x);
-
-// A wave fold between two rings is a half sine y = A sin(pi x / s) over the ring pitch s whose arc
-// length equals the fabric between the rings, L. With m = A pi / s the arc length is
-// (s / pi) * integral_0^pi sqrt(1 + m^2 cos^2 u) du, so L / s depends on m alone; this table inverts it.
+// A bay between two pinches bows as a half sine y = A sin(pi x / s) over its chord s, with arc length
+// equal to the fabric in it, L. With m = A pi / s, L / s depends on m alone; this table inverts it.
 const FOLD_TABLE_SIZE = 2048,
   FOLD_M_MAX = 48,
   FOLD_SAMPLES = 48;
@@ -132,7 +107,6 @@ const foldRatio = new Float64Array(FOLD_TABLE_SIZE);
 for (let i = 0; i < FOLD_TABLE_SIZE; i++) {
   const m = (FOLD_M_MAX * i) / (FOLD_TABLE_SIZE - 1);
   let sum = 0;
-  // Simpson's rule on 64 intervals.
   for (let k = 0; k <= 64; k++) {
     const u = (Math.PI * k) / 64,
       w = k === 0 || k === 64 ? 1 : k % 2 ? 4 : 2;
@@ -140,7 +114,7 @@ for (let i = 0; i < FOLD_TABLE_SIZE; i++) {
   }
   foldRatio[i] = ((Math.PI / 64 / 3) * sum) / Math.PI;
 }
-function foldAmplitude(ratio) {
+export function foldAmplitude(ratio) {
   if (!(ratio > 1)) return 0;
   if (ratio >= foldRatio[FOLD_TABLE_SIZE - 1]) return FOLD_M_MAX;
   let lo = 0,
@@ -155,34 +129,34 @@ function foldAmplitude(ratio) {
 }
 const foldArc = new Float64Array(FOLD_SAMPLES + 1);
 
-function mulberry32(seed) {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-// Generic panel specs for createCurtainCloth from the proposed tracks.
+// Panel specs for createCurtainCloth from the tracks. Columns: six rings, each pinching three
+// columns, with three columns in each bay between pinches (33 columns, 7 cm apart on a 2.24 m kitchen
+// panel); 21 rows over the 3.07 m drop. Seven rings, 25 rows and eight substeps cost three times as
+// much a step in the live scene; with six substeps a doorway panel stretches under 6 %.
 export function facadeCurtainPanels({
   tracks = CURTAIN_TRACKS,
-  fabric = SHEER_VOILE,
-  columns = 29,
-  rows = 25,
-  pleat = 4,
-  fullness = 1.8,
+  fabric = SHEER_LINEN,
+  rings = 6,
+  pinch = 1,
+  flat = 3,
+  rows = 21,
+  fullness = 2,
   overlap = 0.02,
   openFraction = 0,
+  // Per-panel starting fractions ({ "kitchen-south": 1, ... }); others take `openFraction`.
+  openFractions = {},
+  hemMass = 0.045,
   facade = CURTAIN_FACADE,
+  hardware = CURTAIN_HARDWARE,
 } = {}) {
   const panels = [];
+  const top = hardware.rodY - hardware.clipDrop;
   for (const track of tracks) {
-    const span = Math.abs(track.rail.to - track.rail.from);
+    const span = Math.abs(track.rail.to - track.rail.from),
+      rodFrom = Math.min(track.rail.from, track.rail.to) - hardware.finialOverhang,
+      rodTo = Math.max(track.rail.from, track.rail.to) + hardware.finialOverhang;
     for (const panel of track.panels) {
-      // Room side of the door hardware, the deepest part of the glass front.
+      // The room side of the door hardware (the deepest part of the glass front), and keep-outs.
       const planes = [{ normal: [0, 0, 1], offset: facade.hardwareZ + 0.02 }];
       if (panel.keepOut?.min !== undefined) planes.push({ normal: [1, 0, 0], offset: panel.keepOut.min });
       if (panel.keepOut?.max !== undefined) planes.push({ normal: [-1, 0, 0], offset: -panel.keepOut.max });
@@ -190,18 +164,25 @@ export function facadeCurtainPanels({
         id: panel.id,
         track: track.id,
         door: track.door,
-        origin: [panel.stackX, track.rail.y, track.rail.z],
+        origin: [panel.stackX, top, hardware.rodZ],
         axis: [panel.closeToward, 0, 0],
         room: [0, 0, 1],
         closedWidth: span / 2 + overlap,
-        drop: track.rail.y - facade.floorY - HEM_CLEARANCE,
+        drop: top - facade.floorY - HEM_CLEARANCE,
+        top,
         fullness,
-        columns,
+        rings,
+        pinch,
+        flat,
         rows,
-        pleat,
-        openFraction,
+        openFraction: openFractions[panel.id] ?? openFraction,
+        hemMass,
         floorY: facade.floorY,
         planes,
+        boxes: [{ min: [rodFrom - 0.3, facade.doorHead, facade.glassZ - 0.05], max: [rodTo + 0.3, facade.headTop, facade.headFaceZ] }],
+        capsules: [{ a: [rodFrom, hardware.rodY, hardware.rodZ], b: [rodTo, hardware.rodY, hardware.rodZ], radius: hardware.rodRadius }],
+        rod: { from: rodFrom, to: rodTo, y: hardware.rodY, z: hardware.rodZ },
+        hardware,
         fabric,
       });
     }
@@ -211,15 +192,22 @@ export function facadeCurtainPanels({
 
 // Wind for the curtains by the glass front: the shared six-mode room field (wind-field.mjs) leaks in
 // weakly everywhere; an open doorway adds a jet driven by the outdoor field's onshore component
-// through a soft clamp, with its own faster flutter so each door has its own rate; and closed glass
-// carries a thin convective boundary layer (rising along sun-warmed glass, falling along cold glass).
-// The jet profile is an authored engineering sketch, not a ventilation or CFD model.
+// through a soft clamp, carrying eddies through the doorway; closed glass carries a thin convective
+// boundary layer (rising along sun-warmed glass, falling along cold glass). The jet profile is an
+// authored engineering sketch, not a ventilation or CFD model.
 //
 // With `coast` (a createCoastWind instance, normally the scene's coastWind) the draft reads the coast's
-// one wind instead: the room leak is the coast's indoor air (its share rises with the doors open), and
-// each doorway jet is `coastDoorGain` times the soft-clamped onshore component of the outdoor breeze
-// 0.8 m outside, gusts included (about 1 m/s in an October afternoon's 2.3 m/s onshore flow), so a gust front that has crossed the water and the terrace arrives
-// at the curtains when it meets the glass. A breeze blowing off the land feeds no jet.
+// one wind: the room leak is the coast's indoor air (its share rises with the doors open), and each
+// doorway jet is `coastDoorGain` times the soft-clamped onshore component of the outdoor breeze 0.8 m
+// outside the door, gusts included (about 1.2 m/s in an October afternoon's 2.3 m/s onshore flow), so a
+// gust front that has crossed the water and the terrace arrives at the curtains when it meets the
+// glass, lifts them over its 1.2 s rise and lets them settle over its 3.5 s decay. A breeze blowing
+// off the land feeds no jet.
+//
+// The eddies are the room field's six divergence-free modes at 3.2 times their wavenumber
+// (wavelengths 0.4-2.2 m), advected into the room at `advection` m/s: x - advection t z_hat, so a
+// puff that lifts one fold reaches the next fold a moment later. Their amplitude is `turbulence`
+// times the local jet; being a curl field they stay divergence-free.
 //
 // `sample(x, y, z, t, out)` is the plain interface. `sampleBatch(points, count, clock, out)` fills
 // `out` (3 x count, m/s) for `points` (3 x count, m) at time clock[0] without allocating; the cloth
@@ -233,8 +221,10 @@ export function createFacadeDraft({
   roomLeak = 0.25,
   onshore = 0.6,
   doorGain = 2.4,
-  coastDoorGain = 0.45,
-  turbulence = 0.32,
+  coastDoorGain = 0.55,
+  turbulence = 0.5,
+  eddyScale = 3.2,
+  advection = 0.8,
   softness = 0.25,
   reach = 1.8,
   glassDraft = 0.05,
@@ -243,8 +233,8 @@ export function createFacadeDraft({
   const random = mulberry32(seed);
   const D = doors.length,
     ids = doors.map((door) => door.id);
-  // Per door: x0, x1, slideX, rate, offset, open a, open b, jet speed, lateral drift, five phases.
-  const STRIDE = 14,
+  // Per door: x0, x1, slideX, rate, offset, open a, open b, jet speed, lateral drift, eddy phase.
+  const STRIDE = 10,
     door = new Float64Array(D * STRIDE);
   doors.forEach((d, i) => {
     const o = i * STRIDE;
@@ -252,15 +242,34 @@ export function createFacadeDraft({
     door[o + 1] = d.opening[1];
     door[o + 2] = d.slideX;
     door[o + 3] = d.rate ?? 1;
-    for (let k = 0; k < 5; k++) door[o + 9 + k] = random() * TAU;
+    door[o + 9] = random() * TAU;
   });
   // The shared field, evaluated inline exactly as sampleWind does (same operations, same order).
   const inline = field === sampleWind,
     mean = Float64Array.from(fieldOptions.mean ?? DEFAULT_WIND.mean),
     gust = fieldOptions.gust ?? DEFAULT_WIND.gust,
     windRate = fieldOptions.rate ?? 1,
-    modes = new Float64Array(WIND_MODES.length * 8);
-  WIND_MODES.forEach((m, i) => modes.set([...m.k, ...m.velocity, m.phase, m.rate], i * 8));
+    modes = new Float64Array(WIND_MODES.length * 8),
+    // The doorway eddies: wavevector k (scaled) and velocity direction times weight, per mode.
+    eddies = new Float64Array(WIND_MODES.length * 7);
+  WIND_MODES.forEach((m, i) => {
+    modes.set([...m.k, ...m.velocity], i * 8);
+    modes[i * 8 + 6] = m.phase;
+    modes[i * 8 + 7] = m.rate;
+    const speed = Math.hypot(...m.velocity) || 1;
+    eddies.set(
+      [
+        m.k[0] * eddyScale,
+        m.k[1] * eddyScale,
+        m.k[2] * eddyScale,
+        (m.velocity[0] / speed) * m.weight,
+        (m.velocity[1] / speed) * m.weight,
+        (m.velocity[2] / speed) * m.weight,
+        m.phase,
+      ],
+      i * 7
+    );
+  });
   const doorPoints = new Float64Array(3 * D),
     doorField = new Float64Array(3 * D),
     // [time of the cached jets, glass draft speed]
@@ -327,7 +336,6 @@ export function createFacadeDraft({
       doorPoints[3 * i + 2] = glassZ - 0.8;
     }
     evaluateField(doorPoints, D, doorField, clock, true);
-    const t = clock[0];
     for (let i = 0, o = 0; i < D; i++, o += STRIDE) {
       if (door[o + 6] - door[o + 5] < 0.02) {
         door[o + 7] = 0;
@@ -337,12 +345,9 @@ export function createFacadeDraft({
       // Soft clamp: a lull lets the panel fall back; the jet does not reverse into suction.
       const inflow = inflowOffset + doorField[3 * i + 2],
         soft = inflow > 2 ? inflow : 0.12 * Math.log1p(Math.exp(inflow / 0.12));
-      const r = door[o + 3];
-      const flutter =
-        1 +
-        turbulence *
-          (0.55 * Math.sin(0.9 * r * t + door[o + 9]) + 0.3 * Math.sin(2.1 * r * t + door[o + 10]) + 0.15 * Math.sin(4.3 * r * t + door[o + 11]));
-      door[o + 7] = jetGain * soft * flutter;
+      // A door part way open passes a narrower, weaker jet.
+      const opening = Math.min(1, (door[o + 6] - door[o + 5]) / 0.9);
+      door[o + 7] = jetGain * soft * (0.4 + 0.6 * opening);
       door[o + 8] = driftGain * doorField[3 * i];
     }
   }
@@ -351,7 +356,8 @@ export function createFacadeDraft({
     if (clock[0] !== cache[0]) updateJets(clock);
     evaluateField(points, count, out, clock);
     const t = clock[0],
-      draft = cache[1];
+      draft = cache[1],
+      advected = advection * t;
     for (let i3 = 0; i3 < 3 * count; i3 += 3) {
       const x = points[i3],
         y = points[i3 + 1],
@@ -374,21 +380,28 @@ export function createFacadeDraft({
         const lateral = u * u * (3 - 2 * u) * (1 - w * w * (3 - 2 * w));
         if (lateral <= 0) continue;
         if (lateral > inDoor) inDoor = lateral;
-        const r = door[o + 3];
-        // Gust cells travel across the doorway, so neighbouring folds do not move in lockstep.
-        const cells = 1 + 0.35 * Math.sin(2.1 * x + 1.3 * y - 2.4 * r * t + door[o + 12]) * Math.sin(0.9 * y + 1.7 * r * t + door[o + 13]);
         let foot = y / 0.6,
           top = (y - 3.0) / 0.4;
         foot = foot < 0 ? 0 : foot > 1 ? 1 : foot;
         top = top < 0 ? 0 : top > 1 ? 1 : top;
         const height = (0.55 + 0.45 * foot * foot * (3 - 2 * foot)) * (1 - top * top * (3 - 2 * top));
-        const jet = (speed * lateral * height * cells) / (1 + depth / reach);
+        const jet = (speed * lateral * height) / (1 + depth / reach);
         const half = b - a > 0.2 ? 0.5 * (b - a) : 0.1;
         let across = (x - 0.5 * (a + b)) / half;
         across = across < -1 ? -1 : across > 1 ? 1 : across;
         vz += jet;
         vx += lateral * door[o + 8] + 0.25 * jet * across;
         vy += 0.08 * jet;
+        // Eddies carried through the doorway with the air.
+        const e = turbulence * jet,
+          zz = z - advected,
+          phase = door[o + 9];
+        for (let m7 = 0; m7 < eddies.length; m7 += 7) {
+          const s = e * Math.sin(x * eddies[m7] + y * eddies[m7 + 1] + zz * eddies[m7 + 2] + eddies[m7 + 6] + phase);
+          vx += eddies[m7 + 3] * s;
+          vy += eddies[m7 + 4] * s;
+          vz += eddies[m7 + 5] * s;
+        }
       }
       vy += draft * (1 - inDoor) * Math.exp(-depth / 0.18);
       out[i3] = vx;
@@ -445,12 +458,15 @@ export function createFacadeDraft({
     },
     evidence: () => ({
       method: coast
-        ? "coast indoor air + soft-clamped jets of the coast's onshore breeze + glass boundary layer"
-        : "room field leak + soft-clamped doorway jets + glass boundary layer",
+        ? "coast indoor air + soft-clamped jets of the coast's onshore breeze with advected curl eddies + glass boundary layer"
+        : "room field leak + soft-clamped doorway jets with advected curl eddies + glass boundary layer",
       coast: Boolean(coast),
       roomLeak: leak,
       onshoreMetersPerSecond: inflowOffset,
       doorGain: jetGain,
+      turbulence,
+      eddyWavelengths: WIND_MODES.map((m) => m.wavelength / eddyScale),
+      advectionMetersPerSecond: advection,
       glassDraftMetersPerSecond: cache[1],
       doors: ids.map((id, i) => ({
         id,
@@ -462,86 +478,63 @@ export function createFacadeDraft({
   };
 }
 
-// The cloth solver. `panels` are generic specs (see facadeCurtainPanels for the facade's). `wind` is
-// `(x, y, z, t, out) => [vx, vy, vz]` in m/s, preferably filling and returning `out`; when it carries a
-// `sampleBatch(points, count, clock, out)` method (the facade draft's does), that typed-array path is
-// used instead, which keeps the step allocation-free.
+// The curtains. `panels` are specs (see facadeCurtainPanels); `wind` is `(x, y, z, t, out) => out` in
+// m/s, preferably with a `sampleBatch(points, count, clock, out)` method (the facade draft's has one),
+// which keeps a step allocation-free. Each panel is its own island in cloth-solver.mjs, so a panel off
+// screen or asleep costs nothing. Fixed steps with an accumulator; update(dt, time) moves the steps'
+// time base so the frame's last step lands on the scene's clock.
 export function createCurtainCloth({
   panels: specs = [],
   wind = null,
   seed = 1,
-  fixedStep = 1 / 60,
-  substeps = 5,
-  maxStepsPerUpdate = 4,
+  fixedStep = 1 / 30,
+  substeps = 6,
+  maxStepsPerUpdate = 2,
   maxFrameDelta = 0.1,
-  gravity = GRAVITY,
-  airDensity = AIR_DENSITY,
   reducedMotion = false,
   startTime = 0,
-  sleepDeflection = 0.03,
-  sleepSpeed = 0.01,
-  sleepDelay = 0.75,
-  settleSeconds = 1.5,
-  lattice = [5, 6],
   drawSpeed = 0.45,
-  topology = { shear: "alternate", verticalBend: false },
+  settleSeconds = 1.5,
+  // A panel in the house's own air sleeps below 0.18 m/s (a lean of about 0.015 rad) and wakes above
+  // 0.23 m/s, so the panels by fixed glass rest in the lulls and stir in the gusts.
+  sleepWind = 0.18,
   profile = false,
 } = {}) {
   if (!Array.isArray(specs) || !specs.length) throw new RangeError("curtain cloth needs at least one panel");
   if (!(fixedStep > 0) || !Number.isInteger(substeps) || substeps < 1 || !Number.isInteger(maxStepsPerUpdate) || maxStepsPerUpdate < 1)
     throw new RangeError("invalid curtain time step");
-  let allocations = 0;
-  const alloc = (Type, length) => {
-    allocations++;
-    return new Type(length);
-  };
-  const random = mulberry32(seed);
-  const h = fixedStep / substeps,
-    gh = gravity * h,
-    inverseH = 1 / h,
-    settleDamping = Math.exp(-6 * h);
-  // Per-frame scalars live in typed slots: [step time, accumulator, interpolation alpha, update ms].
-  const clock = alloc(Float64Array, 4);
-  const windOut = [0, 0, 0];
-  let windFn = null,
-    batch = null,
-    reduced = Boolean(reducedMotion),
+  // [accumulator, interpolation alpha, update ms]
+  const clock = new Float64Array(3);
+  let reduced = Boolean(reducedMotion),
+    // Panels still waiting for their starting drape (settlePending).
+    pendingCount = 0,
     steps = 0,
-    // Step k samples the wind at timeBase + k fixedStep; update(dt, time) moves the base so the
-    // frame's last step lands on the scene's clock.
     timeBase = startTime,
-    // Counts changes to the positions, so a renderer uploads them only when they move.
-    revision = 0;
-  setWind(wind);
+    lastTime = startTime,
+    revision = 0,
+    windSource = wind;
   const ids = new Map();
   const panels = specs.map((spec, index) => buildPanel(spec, index));
 
-  function setWind(next) {
-    windFn = typeof next === "function" ? next : null;
-    batch = next && typeof next.sampleBatch === "function" ? next.sampleBatch : null;
-  }
-
   function buildPanel(spec, index) {
-    const fabric = { ...SHEER_VOILE, ...(spec.fabric ?? {}) };
-    const C = spec.columns ?? 29,
+    const fabric = { ...SHEER_LINEN, ...(spec.fabric ?? {}) },
+      rings = spec.rings ?? 6,
+      pinch = spec.pinch ?? 1,
+      flat = spec.flat ?? 3,
+      stride = 2 * pinch + 1 + flat,
+      C = (rings - 1) * stride + 2 * pinch + 1,
       R = spec.rows ?? 25,
-      pleat = spec.pleat ?? 4;
-    if (!Number.isInteger(pleat) || pleat < 2) throw new RangeError("curtain pleat must be an integer >= 2 (columns per fold)");
-    if (!Number.isInteger(C) || C < 2 * pleat + 1 || (C - 1) % pleat !== 0)
-      throw new RangeError("curtain columns must be 1 + a multiple of the pleat, with at least two folds");
+      hardware = spec.hardware ?? CURTAIN_HARDWARE;
+    if (!Number.isInteger(rings) || rings < 2) throw new RangeError("curtain panels need at least two rings");
     if (!Number.isInteger(R) || R < 4) throw new RangeError("curtain rows must be an integer >= 4");
     const id = String(spec.id ?? `panel-${index}`);
     if (ids.has(id)) throw new RangeError(`duplicate curtain panel id ${id}`);
-    const N = C * R,
-      rings = (C - 1) / pleat + 1;
-    const origin = spec.origin ?? [0, 2.5, 0];
     let ax = spec.axis?.[0] ?? 1,
       az = spec.axis?.[2] ?? 0;
     const axisLength = Math.hypot(ax, az);
     if (!(axisLength > 0)) throw new RangeError("curtain rail axis must be horizontal and nonzero");
     ax /= axisLength;
     az /= axisLength;
-    // The room normal is horizontal and perpendicular to the rail.
     let rx = spec.room?.[0] ?? -az,
       rz = spec.room?.[2] ?? ax;
     const along = rx * ax + rz * az;
@@ -553,16 +546,15 @@ export function createCurtainCloth({
     rz /= roomLength;
     const closedWidth = spec.closedWidth ?? 1,
       drop = spec.drop ?? 2.5,
-      fullness = spec.fullness ?? 1.8,
-      ringPitch = spec.ringPitch ?? 0.022;
-    const W = fullness * closedWidth,
+      fullness = spec.fullness ?? 2,
+      W = fullness * closedWidth,
       hx = W / (C - 1),
       vy = drop / (R - 1),
-      stackWidth = (rings - 1) * ringPitch;
-    if (!(closedWidth > stackWidth) || !(fullness >= 1) || !(drop > 0) || !(ringPitch > 0))
+      stackWidth = (rings - 1) * hardware.ringPitchMin;
+    if (!(closedWidth > stackWidth) || !(fullness >= 1) || !(drop > 0))
       throw new RangeError("curtain panel needs fullness >= 1 and a closed width wider than its stack");
-    if (pleat * hx < ringPitch) throw new RangeError("curtain ring pitch exceeds the fabric between rings");
     const open = clamp(Number(spec.openFraction) || 0, 0, 1);
+    const origin = spec.origin ?? [0, 2.5, 0];
     const P = {
       id,
       index,
@@ -570,10 +562,10 @@ export function createCurtainCloth({
       door: spec.door ?? null,
       C,
       R,
-      N,
       rings,
-      pleat,
-      wave: alloc(Float64Array, 2 * (pleat + 1)),
+      pinch,
+      flat,
+      stride,
       W,
       hx,
       vy,
@@ -588,272 +580,124 @@ export function createCurtainCloth({
       az,
       rx,
       rz,
-      // Grid normal du x dv with du along the axis and dv down is (az, 0, -ax); it faces the room
-      // when (az, -ax) . (rx, rz) > 0, otherwise normals and winding flip.
-      orient: az * rx - ax * rz > 0 ? 1 : -1,
       fabric,
+      hardware,
       open,
       target: open,
-      headFrom: open,
       drawSpeed: Number(spec.drawSpeed ?? drawSpeed),
-      windScale: Math.max(0, Number(spec.windScale ?? 1)),
-      floorY: (spec.floorY ?? 0) + fabric.thickness,
-      pos: alloc(Float64Array, 3 * N),
-      prev: alloc(Float64Array, 3 * N),
-      vel: alloc(Float64Array, 3 * N),
-      last: alloc(Float64Array, 3 * N),
-      force: alloc(Float64Array, 3 * N),
-      mass: alloc(Float64Array, N),
-      // Constraint weights: 0 on the kinematic heading row.
-      invMass: alloc(Float64Array, N),
-      // 1 / m for every particle, for applying forces.
-      inverseMass: alloc(Float64Array, N),
-      headA: alloc(Float64Array, 3 * C),
-      headB: alloc(Float64Array, 3 * C),
-      planes: alloc(Float64Array, 4 * (spec.planes?.length ?? 0)),
-      planeCount: spec.planes?.length ?? 0,
-      sleeping: false,
-      settled: false,
-      // An inactive panel (off screen) holds its pose and skips its steps; panels never interact.
       active: true,
-      calm: 0,
-      windMax: 0,
-      maxSpeed: 0,
-      sleepWind: 0,
-      wakeWind: 0,
-      damp: Math.exp(-fabric.damping * h),
+      heading: new Float64Array(3 * C),
+      below: new Float64Array(3 * C),
+      ringS: new Float64Array(rings),
+      rod: spec.rod ?? null,
     };
-    for (let k = 0; k < P.planeCount; k++) {
-      const plane = spec.planes[k],
-        n = plane.normal,
-        length = Math.hypot(n[0], n[1], n[2]);
-      if (!(length > 0)) throw new RangeError("curtain collision plane needs a normal");
-      P.planes[4 * k] = n[0] / length;
-      P.planes[4 * k + 1] = n[1] / length;
-      P.planes[4 * k + 2] = n[2] / length;
-      P.planes[4 * k + 3] = plane.offset / length + (plane.clearance ?? fabric.thickness);
-    }
-    // Masses: lumped rest area per particle, a weighted hem on the bottom row.
-    for (let r = 0; r < R; r++)
-      for (let c = 0; c < C; c++) {
-        const i = r * C + c,
-          wc = c === 0 || c === C - 1 ? 0.5 : 1,
-          wr = r === 0 || r === R - 1 ? 0.5 : 1;
-        let m = fabric.arealDensity * hx * vy * wc * wr;
-        if (r === R - 1) m += fabric.hemMass * hx * wc;
-        P.mass[i] = m;
-        P.inverseMass[i] = 1 / m;
-        P.invMass[i] = r === 0 ? 0 : 1 / m;
-      }
-    // The sleep threshold: wind whose dynamic pressure would lean the sheet by under ~sleepDeflection rad.
-    P.sleepWind = Math.sqrt((2 * sleepDeflection * fabric.arealDensity * gravity) / (airDensity * fabric.pressureCoefficient));
-    P.wakeWind = 1.3 * P.sleepWind;
-
-    // Rest lengths across the cloth follow the fold the heading imposes (refreshRest): the fabric
-    // between two columns hangs in the same curve all the way down. Bends keep a little memory of the
-    // closed pleat, so a gathered stack flares slightly at the hem. Down the cloth, rest is the row pitch.
-    const closedHead = new Float64Array(3 * C);
-    heading(P, closedHead, 2);
-    P.chord1 = alloc(Float64Array, C - 1);
-    P.chord2 = alloc(Float64Array, C - 2);
-    P.closedChord2 = alloc(Float64Array, C - 2);
-    for (let c = 0; c < C - 2; c++)
-      P.closedChord2[c] = Math.hypot(closedHead[3 * c + 6] - closedHead[3 * c], closedHead[3 * c + 8] - closedHead[3 * c + 2]);
-    const list = [];
-    const add = (r0, c0, r1, c1, kind) => {
-      if (r1 >= R || c1 >= C || c1 < 0) return;
-      if (r0 === 0 && r1 === 0) return; // both kinematic
-      // Role: -1 fixed rest (down the cloth), else type * C + column for refreshRest.
-      const role = c0 === c1 ? -1 : r0 === r1 ? (c1 - c0 === 1 ? c0 : 2 * C + c0) : C + Math.min(c0, c1);
-      list.push([r0 * C + c0, r1 * C + c1, Math.abs(r1 - r0) * vy, kind, role]);
-    };
-    // Colour batches: no two constraints in a batch share a particle, so consecutive projections are
-    // independent and the processor overlaps their square roots instead of waiting on each one.
-    // Batches run top-down within themselves and in the order bend, shear, stretch, so the stiff
-    // structural constraints have the last word in every pass.
-    for (let parity = 0; parity < 2; parity++)
-      for (let r = 0; r < R; r++) for (let c = 0; c < C - 2; c++) if (((c >> 1) & 1) === parity) add(r, c, r, c + 2, 2);
-    if (topology.verticalBend)
-      for (let parity = 0; parity < 2; parity++)
-        for (let r = 0; r < R - 2; r++) if (((r >> 1) & 1) === parity) for (let c = 0; c < C; c++) add(r, c, r + 2, c, 2);
-    for (let pr = 0; pr < 2; pr++)
-      for (let pc = 0; pc < 2; pc++)
-        for (let r = pr; r < R - 1; r += 2)
-          for (let c = pc; c < C - 1; c += 2) {
-            // Alternating diagonals resist shear in both senses at half the cost of crossed pairs.
-            if (topology.shear === "both" || (r + c) % 2 === 0) add(r, c, r + 1, c + 1, 1);
-            if (topology.shear === "both" || (r + c) % 2 === 1) add(r, c + 1, r + 1, c, 1);
-          }
-    for (let parity = 0; parity < 2; parity++) for (let r = 0; r < R; r++) for (let c = parity; c < C - 1; c += 2) add(r, c, r, c + 1, 0);
-    for (let parity = 0; parity < 2; parity++) for (let r = parity; r < R - 1; r += 2) for (let c = 0; c < C; c++) add(r, c, r + 1, c, 0);
-    // Packed for the projection kernel: coordinate offsets (3i, 3j), then per constraint the two
-    // inverse masses, the rest length and 1 / (w_i + w_j + alpha/h^2). Inverse masses never change.
-    const count = list.length;
-    P.cCount = count;
-    P.cIndex = alloc(Int32Array, 2 * count);
-    P.cData = alloc(Float64Array, 4 * count);
-    P.cKind = alloc(Uint8Array, count);
-    P.cRole = alloc(Int32Array, count);
-    const compliance = [fabric.stretchCompliance, fabric.shearCompliance, fabric.bendCompliance];
-    list.forEach(([a, b, rest, kind, role], k) => {
-      const wa = P.invMass[a],
-        wb = P.invMass[b];
-      P.cIndex[2 * k] = 3 * a;
-      P.cIndex[2 * k + 1] = 3 * b;
-      P.cData[4 * k] = wa;
-      P.cData[4 * k + 1] = wb;
-      P.cData[4 * k + 2] = rest;
-      P.cData[4 * k + 3] = 1 / (wa + wb + compliance[kind] / (h * h));
-      P.cKind[k] = kind;
-      P.cRole[k] = role;
+    // Initial heading at the starting fraction; every column hangs straight down from it.
+    layout(P, P.open, P.below, P.ringS, true);
+    layout(P, P.open, P.heading, P.ringS);
+    const b = clothBuilder();
+    const grid = b.grid({
+      id,
+      columns: C,
+      rows: R,
+      width: W,
+      height: drop,
+      fabric,
+      hemRows: 1,
+      hemMass: spec.hemMass ?? 0.045,
+      // The heading tape's lower edge and the doubled hem are stiffer in bending.
+      bendScale: (r) => (r <= 1 ? 8 : r >= R - 1 ? 6 : 1),
+      place: (u, v, c, r) => (r === 0 ? [P.heading[3 * c], P.oy, P.heading[3 * c + 2]] : [P.below[3 * c], P.oy - v, P.below[3 * c + 2]]),
     });
-    // Long-range attachments: no particle may stray farther from its column's heading point than
-    // the fabric between them.
-    P.tCount = (R - 2) * C;
-    P.tIndex = alloc(Int32Array, 2 * P.tCount);
-    P.tRest = alloc(Float64Array, P.tCount);
-    for (let r = 2, k = 0; r < R; r++)
-      for (let c = 0; c < C; c++, k++) {
-        P.tIndex[2 * k] = 3 * (r * C + c);
-        P.tIndex[2 * k + 1] = 3 * c;
-        P.tRest[k] = r * vy;
-      }
-    // Wind lattice: a coarse grid of particles whose positions sample the field each step.
-    const LC = Math.max(2, Math.min(C, lattice[0] | 0)),
-      LR = Math.max(2, Math.min(R, lattice[1] | 0));
-    const latticeColumns = Array.from({ length: LC }, (_, k) => Math.round((k * (C - 1)) / (LC - 1))),
-      latticeRows = Array.from({ length: LR }, (_, k) => Math.round((k * (R - 1)) / (LR - 1)));
-    P.LC = LC;
-    P.L = LC * LR;
-    P.lNode = alloc(Uint32Array, P.L);
-    P.lPoints = alloc(Float64Array, 3 * P.L);
-    P.lWind = alloc(Float64Array, 3 * P.L);
-    for (let j = 0; j < LR; j++) for (let k = 0; k < LC; k++) P.lNode[j * LC + k] = latticeRows[j] * C + latticeColumns[k];
-    const quads = (C - 1) * (R - 1);
-    P.qCell = alloc(Uint32Array, quads);
-    P.qFx = alloc(Float64Array, quads);
-    P.qFy = alloc(Float64Array, quads);
-    const cell = (marks, x) => {
-      let k = 0;
-      while (k < marks.length - 2 && x > marks[k + 1]) k++;
-      return [k, (x - marks[k]) / (marks[k + 1] - marks[k])];
-    };
-    for (let r = 0; r < R - 1; r++)
-      for (let c = 0; c < C - 1; c++) {
-        const [kx, fx] = cell(latticeColumns, c + 0.5),
-          [ky, fy] = cell(latticeRows, r + 0.5),
-          q = r * (C - 1) + c;
-        P.qCell[q] = ky * LC + kx;
-        P.qFx[q] = clamp(fx, 0, 1);
-        P.qFy[q] = clamp(fy, 0, 1);
-      }
-    // Static render topology: two triangles per quad, wound so the front faces the room.
-    const IndexType = N < 65536 ? Uint16Array : Uint32Array;
-    P.triangles = alloc(IndexType, quads * 6);
-    P.uv = alloc(Float32Array, 2 * N);
-    for (let r = 0, k = 0; r < R - 1; r++)
-      for (let c = 0; c < C - 1; c++, k += 6) {
-        const i00 = r * C + c,
-          i10 = i00 + 1,
-          i01 = i00 + C,
-          i11 = i01 + 1;
-        P.triangles.set(P.orient > 0 ? [i00, i10, i01, i10, i11, i01] : [i00, i01, i10, i10, i01, i11], k);
-      }
-    // Fabric coordinates in metres: across the cloth from the stack edge, and up from the hem.
-    for (let r = 0; r < R; r++)
-      for (let c = 0; c < C; c++) {
-        P.uv[2 * (r * C + c)] = c * hx;
-        P.uv[2 * (r * C + c) + 1] = (R - 1 - r) * vy;
-      }
+    // The heading row is the stiff tape: each ring's clip pinches 2p + 1 columns, and the tape between
+    // two pinches bows as a half sine at its own length (layout). Rows below are free.
+    P.pinned = [];
+    for (let c = 0; c < C; c++) {
+      b.pin(grid.index(c, 0));
+      P.pinned.push(c);
+    }
+    // Long-range attachments: no particle strays farther from its column's top than the fabric between.
+    for (let r = 1; r < R; r++) for (let c = 0; c < C; c++) b.tether(grid.index(c, r), grid.index(c, 0), r * vy);
+    // Fold order along the rod: the same phase of neighbouring bays stays at least a fraction of the
+    // current ring pitch apart, so a gathered stack's layers never cross.
+    const axis = [ax, 0, az];
+    for (let r = 1; r < R; r++) for (let c = 0; c + stride < C; c++) b.order(grid.index(c, r), grid.index(c + stride, r), axis, 1);
+    P.model = b.build();
+    P.grid = grid;
+    P.island = createClothIsland(P.model, {
+      id,
+      fixedStep,
+      substeps,
+      wind: windSource,
+      seed: seed * 977 + index * 131,
+      sleepWind,
+      settleSeconds,
+      colliders: { planes: spec.planes ?? [], boxes: spec.boxes ?? [], capsules: spec.capsules ?? [], floorY: (spec.floorY ?? 0) + 0.004 },
+      drive: () => drive(P),
+    });
+    P.island.jitter(0.0006);
+    P.index16 = Uint16Array.from(P.island.triangles);
     ids.set(id, P);
-    drape(P, true);
-    if (reduced) settle(P);
+    // A composed drape from the start, so a panel never visibly relaxes from straight columns when it
+    // first comes into view; the breeze wakes it. One second of damped relaxation reaches rest from the
+    // hanging columns. Under reduced motion it happens now; otherwise settlePending spreads it over the
+    // first frames, one panel a frame, so the page's loading task stays short.
+    P.pending = true;
+    pendingCount++;
+    if (reduced) settle(P, Math.min(1, settleSeconds));
     return P;
   }
 
-  // Heading points: a ring every `pleat` columns, and between rings the columns at equal arc length
-  // along a half-sine fold whose length is the fabric between the rings; folds alternate room side and
-  // glass side. `which`: 0 the current open fraction, 1 the fraction at the start of this step, 2 closed.
-  function heading(P, out, which) {
-    const o = which === 0 ? P.open : which === 1 ? P.headFrom : 0;
+  function ringColumn(P, k) {
+    return P.pinch + k * P.stride;
+  }
+
+  // Heading points for open fraction o: rings evenly spaced from the stack end; each pinches 2p + 1
+  // columns within its clip's jaw (a W: the outer columns toward the room, the middle one toward the
+  // glass); the free columns of each bay at equal arc length on a half-sine bow whose length is the bay's
+  // fabric, alternately to the room and to the glass. Writes ring positions along the rod into `ringS`.
+  function layout(P, o, out, ringS, relaxed = false) {
     const span = P.closedWidth * (1 - o) + P.stackWidth * o,
       pitch = span / (P.rings - 1),
-      m = foldAmplitude((P.pleat * P.hx) / pitch),
-      amplitude = (m * pitch) / Math.PI,
-      wave = P.wave,
-      pleat = P.pleat;
-    // Cumulative arc length of one half wave, then the columns at equal fractions of it.
-    foldArc[0] = 0;
-    for (let k = 1; k <= FOLD_SAMPLES; k++) {
-      const u = (Math.PI * (k - 0.5)) / FOLD_SAMPLES,
-        cu = Math.cos(u);
-      foldArc[k] = foldArc[k - 1] + Math.sqrt(1 + m * m * cu * cu);
-    }
-    const total = foldArc[FOLD_SAMPLES];
-    for (let j = 0, k = 1; j <= pleat; j++) {
-      const want = (total * j) / pleat;
-      while (k < FOLD_SAMPLES && foldArc[k] < want) k++;
-      const t = foldArc[k] > foldArc[k - 1] ? (want - foldArc[k - 1]) / (foldArc[k] - foldArc[k - 1]) : 0,
-        u = (Math.PI * (k - 1 + (t < 0 ? 0 : t > 1 ? 1 : t))) / FOLD_SAMPLES;
-      wave[2 * j] = j === 0 ? 0 : j === pleat ? 1 : u / Math.PI;
-      wave[2 * j + 1] = j === 0 || j === pleat ? 0 : Math.sin(u);
-    }
-    for (let c = 0; c < P.C; c++) {
-      const k = (c / pleat) | 0,
-        j = c - k * pleat,
-        s = (k + wave[2 * j]) * pitch,
-        d = (k & 1 ? -amplitude : amplitude) * wave[2 * j + 1],
-        c3 = 3 * c;
-      out[c3] = P.ox + P.ax * s + P.rx * d;
-      out[c3 + 1] = P.oy;
-      out[c3 + 2] = P.oz + P.az * s + P.rz * d;
-    }
-  }
-
-  // Rest lengths across the cloth from the current heading (headB): chords between neighbouring
-  // columns and between columns two apart, the latter blended toward the closed pleat.
-  function refreshRest(P) {
-    const { C, headB, chord1, chord2, closedChord2, cData, cRole, vy } = P,
-      memory = P.fabric.pleatMemory;
-    for (let c = 0; c < C - 1; c++) chord1[c] = Math.hypot(headB[3 * c + 3] - headB[3 * c], headB[3 * c + 5] - headB[3 * c + 2]);
-    for (let c = 0; c < C - 2; c++) {
-      const chord = Math.hypot(headB[3 * c + 6] - headB[3 * c], headB[3 * c + 8] - headB[3 * c + 2]);
-      chord2[c] = chord + memory * (closedChord2[c] - chord);
-    }
-    for (let k = 0; k < P.cCount; k++) {
-      const role = cRole[k];
-      if (role < 0) continue;
-      const type = (role / C) | 0,
-        c = role - type * C;
-      cData[4 * k + 2] = type === 0 ? chord1[c] : type === 1 ? Math.sqrt(chord1[c] * chord1[c] + vy * vy) : chord2[c];
-    }
-  }
-
-  // Every column hanging straight from its heading point: the zero-wind drape before bending.
-  function drape(P, jitter = false) {
-    heading(P, P.headB, 0);
-    P.headA.set(P.headB);
-    refreshRest(P);
-    const { C, R, pos } = P;
-    for (let r = 0; r < R; r++)
-      for (let c = 0; c < C; c++) {
-        const i3 = 3 * (r * C + c),
-          c3 = 3 * c,
-          // A sub-millimetre seeded jitter breaks the grid's perfect symmetry.
-          e = jitter && r > 0 ? 0.0006 : 0;
-        pos[i3] = P.headB[c3] + e * (random() - 0.5);
-        pos[i3 + 1] = Math.max(P.floorY, P.oy - r * P.vy);
-        pos[i3 + 2] = P.headB[c3 + 2] + e * (random() - 0.5);
+      p = P.pinch,
+      // Under the clip the pinched fabric fans out toward its own width (the drape's starting rows).
+      jaw = relaxed ? Math.min(0.42 * pitch, 0.8 * p * P.hx) : P.hardware.pinchHalfWidth;
+    for (let k = 0; k < P.rings; k++) ringS[k] = k * pitch;
+    const put = (c, s, d) => {
+      out[3 * c] = P.ox + P.ax * s + P.rx * d;
+      out[3 * c + 1] = P.oy;
+      out[3 * c + 2] = P.oz + P.az * s + P.rz * d;
+    };
+    for (let k = 0; k < P.rings; k++) {
+      const rc = ringColumn(P, k);
+      for (let j = -p; j <= p; j++) put(rc + j, ringS[k] + (p ? (jaw * j) / p : 0), relaxed ? 0 : j === 0 ? -0.003 : 0.006);
+      if (k === P.rings - 1) break;
+      // The bay to the next ring: from this pinch's last column to the next pinch's first.
+      const s0 = ringS[k] + jaw,
+        s1 = ringS[k + 1] - jaw,
+        chord = Math.max(1e-4, s1 - s0),
+        fabric = (P.flat + 1) * P.hx,
+        m = foldAmplitude(fabric / chord),
+        side = k % 2 === 0 ? 1 : -1;
+      foldArc[0] = 0;
+      for (let q = 1; q <= FOLD_SAMPLES; q++) {
+        const u = (Math.PI * (q - 0.5)) / FOLD_SAMPLES,
+          cu = Math.cos(u);
+        foldArc[q] = foldArc[q - 1] + Math.sqrt(1 + m * m * cu * cu);
       }
-    P.prev.set(pos);
-    P.last.set(pos);
-    P.vel.fill(0);
-    P.force.fill(0);
+      const total = foldArc[FOLD_SAMPLES],
+        amplitude = (m * chord) / Math.PI;
+      for (let f = 1, q = 1; f <= P.flat; f++) {
+        const want = (total * f) / (P.flat + 1);
+        while (q < FOLD_SAMPLES && foldArc[q] < want) q++;
+        const t = foldArc[q] > foldArc[q - 1] ? (want - foldArc[q - 1]) / (foldArc[q] - foldArc[q - 1]) : 0,
+          u = (Math.PI * (q - 1 + clamp(t, 0, 1))) / FOLD_SAMPLES;
+        put(rc + p + f, s0 + (u / Math.PI) * chord, side * amplitude * Math.sin(u));
+      }
+    }
   }
 
-  // The lead carrier eases toward its target at up to drawSpeed m/s. Returns whether it moved.
+  // The lead ring eases toward its target at up to drawSpeed m/s. Returns whether it moved.
   function advanceOpen(P) {
-    P.headFrom = P.open;
     const diff = P.target - P.open;
     if (diff === 0) return false;
     if (diff < 1e-4 && diff > -1e-4) {
@@ -868,205 +712,60 @@ export function createCurtainCloth({
     return true;
   }
 
-  function sampleLattice(P) {
-    const { pos, lNode, lWind, lPoints, L } = P;
-    if (batch) {
-      for (let l = 0; l < L; l++) {
-        const i3 = 3 * lNode[l];
-        lPoints[3 * l] = pos[i3];
-        lPoints[3 * l + 1] = pos[i3 + 1];
-        lPoints[3 * l + 2] = pos[i3 + 2];
-      }
-      batch(lPoints, L, clock, lWind);
-    } else if (windFn) {
-      const t = clock[0];
-      for (let l = 0; l < L; l++) {
-        const i3 = 3 * lNode[l];
-        const v = windFn(pos[i3], pos[i3 + 1], pos[i3 + 2], t, windOut) || windOut;
-        lWind[3 * l] = v[0];
-        lWind[3 * l + 1] = v[1];
-        lWind[3 * l + 2] = v[2];
-      }
-    } else lWind.fill(0);
-    const scale = P.windScale;
-    let max2 = 0;
-    for (let k = 0; k < 3 * L; k += 3) {
-      const x = lWind[k] * scale,
-        y = lWind[k + 1] * scale,
-        z = lWind[k + 2] * scale;
-      lWind[k] = x;
-      lWind[k + 1] = y;
-      lWind[k + 2] = z;
-      const s2 = x * x + y * y + z * z;
-      if (s2 > max2) max2 = s2;
-    }
-    P.windMax = Math.sqrt(max2);
+  // Each step: move the rings, and with them the clips' targets and the fold order's gap.
+  function drive(P) {
+    advanceOpen(P);
+    layout(P, P.open, P.heading, P.ringS);
+    const island = P.island;
+    for (const c of P.pinned) island.setTarget(P.grid.index(c, 0), P.heading[3 * c], P.heading[3 * c + 1], P.heading[3 * c + 2]);
+    island.state.orderScale = 0.6 * (P.ringS[1] - P.ringS[0]);
   }
 
-  // Per-triangle air force from the wind relative to the triangle's mean velocity, a third to each
-  // corner: F = 0.5 rho A |u| (C_N (u.n) n + C_F u_t) / (1 + k dt), k = 0.5 rho C_N |u| / (areal density).
-  function aerodynamics(P) {
-    const { C, R, pos, vel, force, lWind, qCell, qFx, qFy, LC, fabric } = P;
-    force.fill(0);
-    const k0 = 0.5 * airDensity,
-      Cn = fabric.pressureCoefficient,
-      Cf = fabric.frictionCoefficient,
-      rate = (k0 * Cn * fixedStep) / fabric.arealDensity,
-      row = 3 * LC,
-      third = 1 / 3;
-    for (let r = 0; r < R - 1; r++)
-      for (let c = 0; c < C - 1; c++) {
-        const q = r * (C - 1) + c,
-          l3 = 3 * qCell[q],
-          fx = qFx[q],
-          fy = qFy[q];
-        const w00 = (1 - fx) * (1 - fy),
-          w10 = fx * (1 - fy),
-          w01 = (1 - fx) * fy,
-          w11 = fx * fy;
-        const wx = lWind[l3] * w00 + lWind[l3 + 3] * w10 + lWind[l3 + row] * w01 + lWind[l3 + row + 3] * w11,
-          wy = lWind[l3 + 1] * w00 + lWind[l3 + 4] * w10 + lWind[l3 + row + 1] * w01 + lWind[l3 + row + 4] * w11,
-          wz = lWind[l3 + 2] * w00 + lWind[l3 + 5] * w10 + lWind[l3 + row + 2] * w01 + lWind[l3 + row + 5] * w11;
-        const i00 = r * C + c;
-        for (let tri = 0; tri < 2; tri++) {
-          // (i00, i10, i01) then (i10, i11, i01)
-          const a3 = 3 * (tri === 0 ? i00 : i00 + 1),
-            b3 = 3 * (tri === 0 ? i00 + 1 : i00 + C + 1),
-            c3 = 3 * (i00 + C);
-          const ex = pos[b3] - pos[a3],
-            ey = pos[b3 + 1] - pos[a3 + 1],
-            ez = pos[b3 + 2] - pos[a3 + 2];
-          const gx = pos[c3] - pos[a3],
-            gy = pos[c3 + 1] - pos[a3 + 1],
-            gz = pos[c3 + 2] - pos[a3 + 2];
-          let nx = ey * gz - ez * gy,
-            ny = ez * gx - ex * gz,
-            nz = ex * gy - ey * gx;
-          const twice = Math.sqrt(nx * nx + ny * ny + nz * nz);
-          if (twice < 1e-12) continue;
-          nx /= twice;
-          ny /= twice;
-          nz /= twice;
-          const ux = wx - (vel[a3] + vel[b3] + vel[c3]) * third,
-            uy = wy - (vel[a3 + 1] + vel[b3 + 1] + vel[c3 + 1]) * third,
-            uz = wz - (vel[a3 + 2] + vel[b3 + 2] + vel[c3 + 2]) * third;
-          const speed = Math.sqrt(ux * ux + uy * uy + uz * uz);
-          if (speed < 1e-6) continue;
-          const un = ux * nx + uy * ny + uz * nz,
-            scale = (k0 * 0.5 * twice * speed * third) / (1 + rate * speed),
-            normal = Cn * un;
-          const fx3 = scale * (normal * nx + Cf * (ux - un * nx)),
-            fy3 = scale * (normal * ny + Cf * (uy - un * ny)),
-            fz3 = scale * (normal * nz + Cf * (uz - un * nz));
-          force[a3] += fx3;
-          force[a3 + 1] += fy3;
-          force[a3 + 2] += fz3;
-          force[b3] += fx3;
-          force[b3 + 1] += fy3;
-          force[b3 + 2] += fz3;
-          force[c3] += fx3;
-          force[c3 + 1] += fy3;
-          force[c3 + 2] += fz3;
-        }
-      }
+  // A fresh straight drape at the current fraction: clips placed, columns hanging from the heading.
+  function drape(P) {
+    layout(P, P.open, P.below, P.ringS, true);
+    layout(P, P.open, P.heading, P.ringS);
+    const island = P.island;
+    for (const c of P.pinned) island.placeTarget(P.grid.index(c, 0), P.heading[3 * c], P.heading[3 * c + 1], P.heading[3 * c + 2]);
+    island.state.orderScale = 0.6 * (P.ringS[1] - P.ringS[0]);
+    island.reset((i, out) => {
+      const c = i % P.C,
+        r = Math.floor(i / P.C),
+        from = r === 0 ? P.heading : P.below;
+      out[0] = from[3 * c];
+      out[1] = P.oy - r * P.vy;
+      out[2] = from[3 * c + 2];
+    });
+    island.jitter(0.0004);
   }
 
-  // One small step: predict, move the heading, one constraint pass, tethers, contacts, velocities.
-  // `settling` selects the heavy damping used for the reduced-motion drape.
-  function substep(P, s, settling) {
-    const { C, N, pos, prev, vel, force, inverseMass, headA, headB, planes, planeCount, floorY } = P;
-    const damping = settling ? settleDamping : P.damp;
-    for (let i3 = 3 * C, i = C; i < N; i++, i3 += 3) {
-      const im = inverseMass[i] * h;
-      const x = (vel[i3] + force[i3] * im) * damping,
-        y = (vel[i3 + 1] + force[i3 + 1] * im - gh) * damping,
-        z = (vel[i3 + 2] + force[i3 + 2] * im) * damping;
-      vel[i3] = x;
-      vel[i3 + 1] = y;
-      vel[i3 + 2] = z;
-      prev[i3] = pos[i3];
-      prev[i3 + 1] = pos[i3 + 1];
-      prev[i3 + 2] = pos[i3 + 2];
-      pos[i3] += x * h;
-      pos[i3 + 1] += y * h;
-      pos[i3 + 2] += z * h;
-    }
-    const f = (s + 1) / substeps;
-    for (let c3 = 0; c3 < 3 * C; c3++) {
-      prev[c3] = pos[c3];
-      pos[c3] = headA[c3] + (headB[c3] - headA[c3]) * f;
-      vel[c3] = (pos[c3] - prev[c3]) * inverseH;
-    }
-    project(pos, P.cIndex, P.cData, P.cCount);
-    tether(pos, P.tIndex, P.tRest, P.tCount);
-    let max2 = 0;
-    for (let i3 = 3 * C; i3 < 3 * N; i3 += 3) {
-      if (pos[i3 + 1] < floorY) {
-        pos[i3 + 1] = floorY;
-        // Floor friction: the contact keeps only part of this substep's sliding.
-        pos[i3] = prev[i3] + (pos[i3] - prev[i3]) * 0.4;
-        pos[i3 + 2] = prev[i3 + 2] + (pos[i3 + 2] - prev[i3 + 2]) * 0.4;
-      }
-      for (let k4 = 0; k4 < 4 * planeCount; k4 += 4) {
-        const nx = planes[k4],
-          ny = planes[k4 + 1],
-          nz = planes[k4 + 2],
-          d = nx * pos[i3] + ny * pos[i3 + 1] + nz * pos[i3 + 2] - planes[k4 + 3];
-        if (d < 0) {
-          pos[i3] -= d * nx;
-          pos[i3 + 1] -= d * ny;
-          pos[i3 + 2] -= d * nz;
-        }
-      }
-      const x = (pos[i3] - prev[i3]) * inverseH,
-        y = (pos[i3 + 1] - prev[i3 + 1]) * inverseH,
-        z = (pos[i3 + 2] - prev[i3 + 2]) * inverseH;
-      vel[i3] = x;
-      vel[i3 + 1] = y;
-      vel[i3 + 2] = z;
-      const s2 = x * x + y * y + z * z;
-      if (s2 > max2) max2 = s2;
-    }
-    if (s === substeps - 1) P.maxSpeed = Math.sqrt(max2);
-  }
-
-  function stepPanel(P) {
-    const moving = advanceOpen(P);
-    sampleLattice(P);
-    if (P.sleeping) {
-      if (!moving && P.windMax <= P.wakeWind) return;
-      P.sleeping = false;
-      P.calm = 0;
-    }
-    revision++;
-    P.last.set(P.pos);
-    heading(P, P.headA, 1);
-    heading(P, P.headB, 0);
-    if (moving) refreshRest(P);
-    aerodynamics(P);
-    for (let s = 0; s < substeps; s++) substep(P, s, false);
-    if (!moving && P.windMax < P.sleepWind && P.maxSpeed < sleepSpeed) {
-      P.calm += fixedStep;
-      if (P.calm >= sleepDelay) {
-        P.sleeping = true;
-        P.vel.fill(0);
-        P.last.set(P.pos);
-      }
-    } else P.calm = 0;
-  }
-
-  // Reduced motion: jump to the target, relax without wind under heavy damping, then hold still.
-  function settle(P) {
-    revision++;
+  // Reduced motion and composed stills: the target drape, relaxed without wind, then held.
+  function settle(P, seconds = settleSeconds) {
     P.open = P.target;
     drape(P);
-    const count = Math.ceil(settleSeconds / fixedStep);
-    for (let k = 0; k < count; k++) for (let s = 0; s < substeps; s++) substep(P, s, true);
-    P.vel.fill(0);
-    P.last.set(P.pos);
-    P.sleeping = true;
-    P.settled = true;
-    P.calm = 0;
+    P.island.settle(seconds);
+    if (P.pending) pendingCount--;
+    P.pending = false;
+    revision++;
+  }
+
+  // Settles up to `limit` panels still waiting for their starting drape, the active ones first, at
+  // their current fraction (a target set meanwhile is then drawn by the rings).
+  function settlePending(limit = 1) {
+    let done = 0;
+    for (const active of [true, false])
+      for (const P of panels) {
+        if (done >= limit) return done;
+        if (!P.pending || P.active !== active) continue;
+        const target = P.target;
+        P.target = P.open;
+        settle(P, Math.min(1, settleSeconds));
+        P.target = target;
+        if (!reduced) P.island.state.settled = false;
+        if (target !== P.open) P.island.wake();
+        done++;
+      }
+    return done;
   }
 
   function panelOf(id) {
@@ -1081,124 +780,63 @@ export function createCurtainCloth({
   function update(dt, time) {
     if (!(dt > 0)) return api;
     if (reduced) {
-      for (let k = 0; k < panels.length; k++) if (!panels[k].settled || panels[k].open !== panels[k].target) settle(panels[k]);
-      clock[2] = 1;
+      for (const P of panels) if (!P.island.state.settled || P.open !== P.target) settle(P);
+      clock[1] = 1;
       return api;
     }
     const started = profile ? performance.now() : 0;
-    clock[1] += dt < maxFrameDelta ? dt : maxFrameDelta;
+    clock[0] += dt < maxFrameDelta ? dt : maxFrameDelta;
     if (time !== undefined && Number.isFinite(time)) {
       let due = 0;
-      for (let backlog = clock[1]; backlog >= fixedStep && due < maxStepsPerUpdate; backlog -= fixedStep) due++;
+      for (let backlog = clock[0]; backlog >= fixedStep && due < maxStepsPerUpdate; backlog -= fixedStep) due++;
       if (due) timeBase = time - (steps + due - 1) * fixedStep;
     }
     let taken = 0;
-    while (clock[1] >= fixedStep && taken < maxStepsPerUpdate) {
-      clock[0] = timeBase + steps * fixedStep;
-      for (let k = 0; k < panels.length; k++) if (panels[k].active) stepPanel(panels[k]);
+    while (clock[0] >= fixedStep && taken < maxStepsPerUpdate) {
+      lastTime = timeBase + steps * fixedStep;
+      // One panel still waiting for its starting drape settles per step (not per call, so how a frame's
+      // time is split does not change the result).
+      if (pendingCount) settlePending(1);
+      for (let k = 0; k < panels.length; k++) {
+        const P = panels[k];
+        if (!P.active) continue;
+        if (P.island.step(lastTime)) revision++;
+      }
       steps++;
       taken++;
-      clock[1] -= fixedStep;
+      clock[0] -= fixedStep;
     }
     // Beyond the step budget, drop the backlog instead of spiralling.
-    if (clock[1] >= fixedStep) clock[1] = fixedStep * 0.999;
-    clock[2] = clock[1] / fixedStep;
-    if (profile && taken) clock[3] = performance.now() - started;
+    if (clock[0] >= fixedStep) clock[0] = fixedStep * 0.999;
+    clock[1] = clock[0] / fixedStep;
+    if (profile && taken) clock[2] = performance.now() - started;
     return api;
   }
 
-  // Interpolated positions, room-facing normals and weft tangents into Float32Arrays of 3 x count.
+  // Interpolated positions, normals and weft tangents into Float32Arrays of 3 x count.
   function writePanel(id, position, normal = null, tangent = null) {
-    const P = panelOf(id),
-      { C, R, N, pos, last } = P;
-    if (P.sleeping) for (let k = 0; k < 3 * N; k++) position[k] = pos[k];
-    else {
-      const a = clock[2];
-      for (let k = 0; k < 3 * N; k++) position[k] = last[k] + (pos[k] - last[k]) * a;
-    }
-    if (!normal && !tangent) return position;
-    for (let r = 0; r < R; r++)
-      for (let c = 0; c < C; c++) {
-        const left = 3 * (r * C + (c > 0 ? c - 1 : c)),
-          right = 3 * (r * C + (c < C - 1 ? c + 1 : c)),
-          up = 3 * ((r > 0 ? r - 1 : r) * C + c),
-          down = 3 * ((r < R - 1 ? r + 1 : r) * C + c),
-          i3 = 3 * (r * C + c);
-        const ux = position[right] - position[left],
-          uy = position[right + 1] - position[left + 1],
-          uz = position[right + 2] - position[left + 2];
-        const vx = position[down] - position[up],
-          vy = position[down + 1] - position[up + 1],
-          vz = position[down + 2] - position[up + 2];
-        let nx = (uy * vz - uz * vy) * P.orient,
-          ny = (uz * vx - ux * vz) * P.orient,
-          nz = (ux * vy - uy * vx) * P.orient;
-        let length = Math.sqrt(nx * nx + ny * ny + nz * nz);
-        if (length < 1e-12) {
-          nx = P.rx;
-          ny = 0;
-          nz = P.rz;
-          length = 1;
-        }
-        nx /= length;
-        ny /= length;
-        nz /= length;
-        if (normal) {
-          normal[i3] = nx;
-          normal[i3 + 1] = ny;
-          normal[i3 + 2] = nz;
-        }
-        if (tangent) {
-          const along = ux * nx + uy * ny + uz * nz;
-          const tx = ux - along * nx,
-            ty = uy - along * ny,
-            tz = uz - along * nz;
-          const tl = Math.sqrt(tx * tx + ty * ty + tz * tz) || 1;
-          tangent[i3] = tx / tl;
-          tangent[i3 + 1] = ty / tl;
-          tangent[i3 + 2] = tz / tl;
-        }
-      }
+    const P = panelOf(id);
+    P.island.writePositions(position, P.island.state.sleeping ? 1 : clock[1]);
+    if (normal) P.island.writeFrame(position, normal, tangent);
     return position;
   }
 
-  // Largest relative length error of the structural (stretch) constraints.
-  function strain(P) {
-    let max = 0;
-    const { pos, cIndex, cData, cKind } = P;
-    for (let k = 0; k < P.cCount; k++) {
-      if (cKind[k] !== 0) continue;
-      const a = cIndex[2 * k],
-        b = cIndex[2 * k + 1],
-        rest = cData[4 * k + 2];
-      const e = Math.abs(Math.hypot(pos[b] - pos[a], pos[b + 1] - pos[a + 1], pos[b + 2] - pos[a + 2]) - rest) / rest;
-      if (e > max) max = e;
+  // Ring centres on the rod (x, y, z per ring) for the current pose.
+  function writeRings(id, out) {
+    const P = panelOf(id),
+      h = P.hardware,
+      drop = h.ringRadius - h.ringTube - h.rodRadius;
+    for (let k = 0; k < P.rings; k++) {
+      const s = P.ringS[k];
+      out[3 * k] = P.ox + P.ax * s;
+      out[3 * k + 1] = h.rodY - drop;
+      out[3 * k + 2] = P.oz + P.az * s;
     }
-    return max;
+    return out;
   }
 
-  // Kinetic energy and gravitational potential above the straight hanging drape.
-  function energies(P) {
-    let kinetic = 0,
-      potential = 0;
-    const { C, R, pos, vel, mass } = P;
-    for (let r = 0; r < R; r++)
-      for (let c = 0; c < C; c++) {
-        const i = r * C + c,
-          i3 = 3 * i;
-        kinetic += 0.5 * mass[i] * (vel[i3] ** 2 + vel[i3 + 1] ** 2 + vel[i3 + 2] ** 2);
-        potential += mass[i] * gravity * (pos[i3 + 1] - Math.max(P.floorY, P.oy - r * P.vy));
-      }
-    return { kinetic, potential };
-  }
-
-  // Distance along the rail from the stack-end ring to the lead ring.
   function gathered(P) {
-    const { pos } = P,
-      last = 3 * (P.C - 1);
-    const s0 = (pos[0] - P.ox) * P.ax + (pos[2] - P.oz) * P.az,
-      s1 = (pos[last] - P.ox) * P.ax + (pos[last + 2] - P.oz) * P.az;
-    return Math.abs(s1 - s0);
+    return Math.abs(P.ringS[P.rings - 1] - P.ringS[0]);
   }
 
   const views = panels.map((P) =>
@@ -1208,22 +846,23 @@ export function createCurtainCloth({
       door: P.door,
       columns: P.C,
       rows: P.R,
-      count: P.N,
-      pleat: P.pleat,
+      count: P.island.count,
       rings: P.rings,
-      index: P.triangles,
-      uv: P.uv,
-      positions: P.pos,
+      pinch: P.pinch,
+      index: P.index16,
+      uv: P.island.uv,
+      positions: P.island.positions,
       fabricSize: Object.freeze([P.W, P.drop]),
       origin: Object.freeze([P.ox, P.oy, P.oz]),
       axis: Object.freeze([P.ax, 0, P.az]),
       room: Object.freeze([P.rx, 0, P.rz]),
       closedWidth: P.closedWidth,
       stackWidth: P.stackWidth,
+      rod: P.rod,
       // A conservative bound for culling: the panel's hanging box widened by the farthest billow.
       boundingSphere: Object.freeze({
         center: Object.freeze([P.ox + P.ax * 0.5 * P.closedWidth, P.oy - 0.5 * P.drop, P.oz + P.az * 0.5 * P.closedWidth]),
-        radius: Math.hypot(0.5 * P.closedWidth, 0.5 * P.drop) + 0.35 * P.drop,
+        radius: Math.hypot(0.5 * P.closedWidth, 0.5 * P.drop) + 0.4 * P.drop,
       }),
     })
   );
@@ -1231,14 +870,21 @@ export function createCurtainCloth({
   const api = {
     panels: views,
     update,
+    settlePending,
+    get pending() {
+      return pendingCount;
+    },
     writePanel,
+    writeRings,
     get revision() {
       return revision;
     },
     panel: (id) => views[panelOf(id).index],
-    // 0 closed (spread across the rail) .. 1 open (gathered at the stack end). The lead carrier
-    // travels at drawSpeed m/s unless `immediate` (a straight drape at once) or `compose` (the
-    // settled drape at once, for a paused or preview still); reduced motion always composes.
+    // The panel's solver island (cloth-solver.mjs), for evidence and tests.
+    island: (id) => panelOf(id).island,
+    // 0 closed (spread across the rail) .. 1 open (gathered at the stack end). The lead ring travels at
+    // drawSpeed m/s unless `immediate` (a straight drape at once) or `compose` (the settled drape at
+    // once, for a paused or preview still); reduced motion always composes.
     setOpenFraction(id, fraction, { immediate = false, compose = false } = {}) {
       const P = panelOf(id),
         next = clamp(Number(fraction) || 0, 0, 1);
@@ -1249,18 +895,17 @@ export function createCurtainCloth({
         return api;
       }
       if (immediate) {
-        P.open = next;
-        drape(P);
-        revision++;
+        // Off screen: the new drape relaxed for a second, so it is near rest when it is seen.
+        settle(P, 1);
+        P.island.state.settled = false;
       }
-      P.sleeping = false;
-      P.calm = 0;
+      P.island.wake();
       return api;
     },
     openFraction: (id) => panelOf(id).open,
     targetOpenFraction: (id) => panelOf(id).target,
     setWindScale(id, scale) {
-      panelOf(id).windScale = Math.max(0, Number(scale) || 0);
+      panelOf(id).island.state.windScale = Math.max(0, Number(scale) || 0);
       return api;
     },
     // Hold a panel still while nobody can see it (its draw target still applies on its next step).
@@ -1270,7 +915,8 @@ export function createCurtainCloth({
     },
     isActive: (id) => panelOf(id).active,
     setWind(next) {
-      setWind(next);
+      windSource = next;
+      for (const P of panels) P.island.setWind(next);
       return api;
     },
     setReducedMotion(flag) {
@@ -1279,73 +925,74 @@ export function createCurtainCloth({
       reduced = next;
       for (const P of panels) {
         if (reduced) settle(P);
-        else {
-          P.sleeping = false;
-          P.settled = false;
-          P.calm = 0;
-        }
+        else P.island.wake();
       }
-      clock[1] = 0;
-      clock[2] = reduced ? 1 : 0;
+      clock[0] = 0;
+      clock[1] = reduced ? 1 : 0;
       return api;
     },
     wake(id) {
-      if (!reduced)
-        for (const P of id === undefined ? panels : [panelOf(id)]) {
-          P.sleeping = false;
-          P.calm = 0;
-        }
+      if (!reduced) for (const P of id === undefined ? panels : [panelOf(id)]) P.island.wake();
       return api;
     },
     evidence() {
       let kinetic = 0,
         potential = 0,
+        bending = 0,
         maxError = 0,
         particles = 0,
         constraints = 0;
       const rows = panels.map((P) => {
-        const e = energies(P),
-          error = strain(P);
+        // Stretch only: a compressed weft edge is a fold, not an error.
+        const e = P.island.energies(),
+          error = P.island.strain(null, true),
+          counts = P.island.counts;
         kinetic += e.kinetic;
         potential += e.potential;
+        bending += e.bend;
         maxError = Math.max(maxError, error);
-        particles += P.N;
-        constraints += P.cCount + P.tCount;
+        particles += counts.particles;
+        constraints += counts.distance + counts.bending + counts.tethers + counts.orders;
         return {
           id: P.id,
-          particles: P.N,
+          particles: counts.particles,
           columns: P.C,
           rows: P.R,
+          rings: P.rings,
           openFraction: P.open,
           targetOpenFraction: P.target,
           gatheredWidth: gathered(P),
-          sleeping: P.sleeping,
+          sleeping: P.island.state.sleeping,
           active: P.active,
-          windMetersPerSecond: P.windMax,
-          sleepWindMetersPerSecond: P.sleepWind,
-          windScale: P.windScale,
+          windMetersPerSecond: P.island.state.windMax,
+          windScale: P.island.state.windScale,
           maxConstraintError: error,
           kineticEnergy: e.kinetic,
           potentialEnergy: e.potential,
+          bendingEnergy: e.bend,
+          steps: P.island.state.steps,
         };
       });
       return {
-        method: "XPBD small steps: stretch/shear/bend distance constraints, long-range tethers, per-triangle flat-plate air force",
+        method:
+          "XPBD small steps (cloth-solver.mjs): stretch/shear distance constraints, isometric bending, long-range attachments to the ring clips, fold ordering, contacts with friction, per-triangle flat-plate air force",
         fixedStep,
         substeps,
         steps,
         simulatedSeconds: steps * fixedStep,
+        lastStepTime: lastTime,
         reducedMotion: reduced,
         particles,
         constraints,
         maxConstraintError: maxError,
         kineticEnergy: kinetic,
         potentialEnergy: potential,
-        energy: kinetic + potential,
-        sleeping: panels.every((P) => P.sleeping),
+        bendingEnergy: bending,
+        energy: kinetic + potential + bending,
+        sleeping: panels.every((P) => P.island.state.sleeping),
         openFractions: Object.fromEntries(panels.map((P) => [P.id, P.open])),
-        lastUpdateMilliseconds: profile ? clock[3] : null,
-        allocations,
+        lastUpdateMilliseconds: profile ? clock[2] : null,
+        allocations: panels.reduce((sum, P) => sum + P.island.allocations, 0),
         panels: rows,
       };
     },
@@ -1353,50 +1000,9 @@ export function createCurtainCloth({
   return api;
 }
 
-// One XPBD pass with the multiplier starting at zero (small steps): dlambda = -C / (w + alpha~),
-// so each endpoint moves by w (1 - rest/|d|) / (w_i + w_j + alpha~) along d.
-function project(pos, index, data, count) {
-  for (let k = 0, k2 = 0, k4 = 0; k < count; k++, k2 += 2, k4 += 4) {
-    const i3 = index[k2],
-      j3 = index[k2 + 1];
-    const dx = pos[j3] - pos[i3],
-      dy = pos[j3 + 1] - pos[i3 + 1],
-      dz = pos[j3 + 2] - pos[i3 + 2];
-    const d2 = dx * dx + dy * dy + dz * dz;
-    if (d2 < 1e-18) continue;
-    const s = (1 - data[k4 + 2] / Math.sqrt(d2)) * data[k4 + 3],
-      si = data[k4] * s,
-      sj = data[k4 + 1] * s;
-    pos[i3] += si * dx;
-    pos[i3 + 1] += si * dy;
-    pos[i3 + 2] += si * dz;
-    pos[j3] -= sj * dx;
-    pos[j3 + 1] -= sj * dy;
-    pos[j3 + 2] -= sj * dz;
-  }
-}
-
-// One-sided long-range attachments to the kinematic heading: pull back only when beyond reach.
-function tether(pos, index, rest, count) {
-  for (let k = 0; k < count; k++) {
-    const i3 = index[2 * k],
-      t3 = index[2 * k + 1];
-    const dx = pos[i3] - pos[t3],
-      dy = pos[i3 + 1] - pos[t3 + 1],
-      dz = pos[i3 + 2] - pos[t3 + 2];
-    const d2 = dx * dx + dy * dy + dz * dz,
-      r = rest[k];
-    if (d2 <= r * r) continue;
-    const s = 1 - r / Math.sqrt(d2);
-    pos[i3] -= dx * s;
-    pos[i3 + 1] -= dy * s;
-    pos[i3 + 2] -= dz * s;
-  }
-}
-
-// One call for the facade: the four proposed panels, the facade draft, and a per-frame hook that
-// takes the controller's door offsets. `doors` maps door id to the panel's slide offset in metres;
-// `time` is the scene's clock (see the solver's update). Pass `draft: { coast }` for the coast's wind.
+// One call for the facade: the four panels, the facade draft, and a per-frame hook that takes the
+// controller's door offsets. `doors` maps door id to the panel's slide offset in metres; `time` is the
+// scene's clock (see the cloth's update). Pass `draft: { coast }` for the coast's wind.
 export function createFacadeCurtains({ panels = {}, draft = {}, ...cloth } = {}) {
   const facadeDraft = createFacadeDraft(draft);
   const solver = createCurtainCloth({ ...cloth, panels: facadeCurtainPanels(panels), wind: facadeDraft.sample });
@@ -1442,9 +1048,9 @@ const smoothstepRange = (e0, e1, x) => {
   return t * t * (3 - 2 * t);
 };
 // `daylight` is daylight.mjs's coastalDaylight; `activity` and `room` the routine's; `visit` the room the
-// camera is visiting, if it is one. Open fractions are
-// quantized to 0.05, so a creeping sun moves the carriers in small steps and a still re-composes rarely.
-// The night threshold is the facade doors' own (controller.mjs), so curtains and doors change together.
+// camera is visiting, if it is one. Open fractions are quantized to 0.05, so a creeping sun moves the
+// rings in small steps and a still re-composes rarely. The night threshold is the facade doors' own
+// (controller.mjs), so curtains and doors change together.
 export function curtainSchedule({ activity = null, room = null, visit = null, daylight = null } = {}, panels = Object.keys(CURTAIN_DRAW)) {
   const view = CURTAIN_VIEW_PANELS[room] ?? null,
     visited = CURTAIN_VIEW_PANELS[visit] ?? null,

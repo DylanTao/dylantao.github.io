@@ -290,6 +290,10 @@
       {
         "file": "desk-scene.spec.js",
         "title": "coastal home: a failed decoder restores 2D and a retry creates one set of controls"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "facade cloth: linen curtains move in the doorway breeze, the terrace laundry in the same wind, and pause and reduced motion hold them still"
       }
     ],
     "scene-gym": [

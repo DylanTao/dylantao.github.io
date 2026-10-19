@@ -190,11 +190,13 @@ test("the cloth samples the wind at the scene's own clock and composes settled s
       return out;
     },
   });
-  cloth.update(STEP, 100);
+  // The cloth steps at 30 Hz: one 1/30 s frame is one step, at the scene's time.
+  const STEP30 = 1 / 30;
+  cloth.update(STEP30, 100);
   assert.ok(times.length > 0 && times.every((t) => Math.abs(t - 100) < 1e-9), "one step, at the scene's time");
   times.length = 0;
-  cloth.update(2 * STEP, 250);
-  assert.ok(times.some((t) => Math.abs(t - 250) < 1e-9) && times.some((t) => Math.abs(t - (250 - STEP)) < 1e-9));
+  cloth.update(2 * STEP30, 250);
+  assert.ok(times.some((t) => Math.abs(t - 250) < 1e-9) && times.some((t) => Math.abs(t - (250 - STEP30)) < 1e-9));
   assert.ok(
     times.every((t) => t > 249.9 && t <= 250 + 1e-9),
     "after a gap the clock rejoins the scene"
@@ -243,8 +245,20 @@ test("the scene's rig steps only the panels a camera can see, follows the doors 
     bound = [];
   const rig = createCurtainRig({ scene, coast, plan: { ...view, visit: "kitchen" }, bindMaterial: (m) => bound.push(m) });
   assert.equal(scene.getObjectByName("Facade curtains"), rig.group);
-  assert.equal(rig.group.children.length, 4);
-  assert.equal(bound.length, 1, "the light field and installations bind the sheer once");
+  // Four linen panels, the rods with their brackets and finials, and the instanced rings and clips.
+  assert.equal(rig.group.children.length, 6);
+  assert.deepEqual(
+    rig.group.children.map((o) => o.name),
+    ["curtain kitchen-south", "curtain kitchen-north", "curtain lounge-south", "curtain lounge-north", "curtain rods", "curtain rings"]
+  );
+  assert.equal(rig.group.getObjectByName("curtain rings").count, 24, "six rings a panel");
+  // The laundry hangs outside, in its own group.
+  assert.ok(scene.getObjectByName("Terrace laundry"), "the terrace laundry joins the scene");
+  // The light field and installations bind every material once: the linen, the bronze, and the
+  // laundry's four linens, cotton line and beech pegs.
+  assert.equal(bound.length, 8);
+  assert.equal(new Set(bound).size, bound.length);
+  assert.equal(bound.filter((m) => m.name === "coastal sheer voile").length, 1);
   // The kitchen camera of the manifest, looking in through the door opening.
   const camera = new THREE.PerspectiveCamera(38, 545 / 462, 0.05, 300);
   camera.position.set(-0.97, 3.1, -6.3);
@@ -279,6 +293,9 @@ test("the scene's rig steps only the panels a camera can see, follows the doors 
     ],
     "only the kitchen pair is on this camera's screen"
   );
+  // The panels compose their starting drapes over the first frames, one a frame, on-screen first.
+  for (let k = 0; k < 8 && rig.curtains.cloth.pending; k++) frame(true);
+  assert.equal(rig.curtains.cloth.pending, 0);
   const lounge = rig.curtains.cloth.panel("lounge-north").positions.slice();
   for (let k = 0; k < 120; k++) frame(true);
   assert.ok(rig.evidence().stepping);

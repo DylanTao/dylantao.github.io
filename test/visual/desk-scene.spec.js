@@ -2714,3 +2714,76 @@ test("coastal home: a routine boundary walks through the home before settling in
     await testInfo.attach("native-journey-video", { path: await page.video().path(), contentType: "video/webm" });
   }
 });
+
+test("facade cloth: linen curtains move in the doorway breeze, the terrace laundry in the same wind, and pause and reduced motion hold them still", async ({
+  page,
+}, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  // Friday 15:30: the doors stand open in the afternoon sea breeze and the laundry is out.
+  const view = await openClockedHome(page, { time: "2026-10-16T15:30:00-07:00" });
+  const { scene, canvas, ui } = view;
+  await explore(ui);
+  await beginClockedMotion(page, canvas);
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="kitchen"]').click());
+  await page.clock.runFor(1500);
+  const cloth = async () => (await evidence(scene)).simulation.curtains;
+  await expect.poll(async () => (await cloth())?.stepping).toBe(true);
+  const kitchen = await cloth();
+  expect(kitchen.coverage).toBe("blend");
+  expect(kitchen.hardware).toMatchObject({ rods: 2, rings: 24 });
+  expect(kitchen.draws).toBe(6);
+  expect(kitchen.cloth.method).toContain("isometric bending");
+  expect(kitchen.draft.doors.every((door) => door.jetMetersPerSecond > 0.2)).toBe(true);
+  const south = (e) => e.cloth.panels.find((p) => p.id === "kitchen-south");
+  expect(south(kitchen).active).toBe(true);
+  // The doorway panel keeps stepping in the jet; its weave stays within a few percent.
+  await page.clock.runFor(1500);
+  const later = await cloth();
+  expect(south(later).steps).toBeGreaterThan(south(kitchen).steps + 10);
+  expect(later.cloth.maxConstraintError).toBeLessThan(0.12);
+  expect(later.laundry.out).toBe(true);
+  await capture(testInfo, "curtains-kitchen-1530", await canvas.screenshot());
+
+  // The laundry from inside the parapet: it steps in the open wind, and its pixels move.
+  await sceneInputFrame(page, view, () => scene.evaluate((e) => e.setLabCamera({ target: [-1.0, 1.5, -7.25], yaw: 0.15, pitch: 0.06, radius: 2.0 })));
+  await page.clock.runFor(1500);
+  await expect.poll(async () => (await cloth()).laundry.stepping).toBe(true);
+  const first = await canvas.screenshot(),
+    laundry = (await cloth()).laundry;
+  await page.clock.runFor(1200);
+  const second = await canvas.screenshot(),
+    moved = (await cloth()).laundry;
+  expect(laundry.items).toEqual(["towel-indigo", "shirt", "towel-natural", "towel-terracotta"]);
+  expect(moved.steps).toBeGreaterThan(laundry.steps + 10);
+  expect(moved.windMetersPerSecond).toBeGreaterThan(0.3);
+  expect(moved.maxStretch).toBeLessThan(0.2);
+  expect(screenshotDiffRatio(first, second)).toBeGreaterThan(0.002);
+  await capture(testInfo, "laundry-1530", second);
+
+  // Pause holds every cloth particle and the frame.
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-pause]").click());
+  await page.clock.runFor(200);
+  const paused = await cloth();
+  await page.clock.runFor(2000);
+  const held = await cloth();
+  expect(held.cloth.steps).toBe(paused.cloth.steps);
+  expect(held.revision).toBe(paused.revision);
+  expect(held.laundry.steps).toBe(paused.laundry.steps);
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-pause]").click());
+  await page.clock.runFor(1000);
+  await expect.poll(async () => (await cloth()).laundry.steps).toBeGreaterThan(held.laundry.steps);
+
+  // Reduced motion composes still drapes: settled, asleep, no kinetic energy.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(ui.locator("[data-world-pause]")).toBeDisabled();
+  await page.clock.runFor(300);
+  const still = await cloth();
+  expect(still.cloth.reducedMotion).toBe(true);
+  expect(still.cloth.sleeping).toBe(true);
+  expect(still.cloth.kineticEnergy).toBe(0);
+  expect(still.laundry.sleeping).toBe(true);
+  expect(still.laundry.kineticEnergy).toBe(0);
+  await page.clock.runFor(1000);
+  expect((await cloth()).cloth.steps).toBe(still.cloth.steps);
+  expect(errors).toEqual([]);
+});
