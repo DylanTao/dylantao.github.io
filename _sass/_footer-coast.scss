@@ -184,6 +184,12 @@ footer.coastal-page-footer {
     text-align: center;
     padding: 0.35rem 1rem;
     font-size: var(--type-meta);
+    // Reflections, glitter and surf pass behind the credit; a halo of page color keeps it legible
+    // over every theme and sun-arc minute without boxing it in.
+    text-shadow:
+      0 0 1px var(--global-bg-color),
+      0 0 3px var(--global-bg-color),
+      0 0 9px var(--global-bg-color);
     pointer-events: none;
     a {
       pointer-events: auto;

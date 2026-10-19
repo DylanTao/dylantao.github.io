@@ -3,18 +3,90 @@ import { coastManifest, acquireCoast } from "./assets.mjs?v=coastal-life-2026101
 import { createFinish } from "../home-scene/realism.mjs";
 import { createCameraMotion } from "../home-scene/camera-motion.mjs";
 import { sampleCoastWave } from "./wave-motion.mjs";
-import { createPeople } from "./people.mjs?v=coastal-life-20261018";
+import { createPeople } from "./people.mjs?v=coast-water-20261018";
+import { createCoastWater } from "./water.mjs?v=coast-water-20261018";
 
 // People keep a composed still pose under reduced motion and under automation, as the
 // cinematic layer does; `?cinematic=live` lets a browser test watch them move.
 const automated = Boolean(navigator.webdriver) && !/[?&]cinematic=live(?:&|$)/.test(location.search);
 
+// Sea: `water` tints the Connect miniature's sea; in the footer `deep` is the open water's own color,
+// `shallow` the light scattered over the sandy shelf,
+// `mirror` the sky the surface reflects; `caustic`, `reflect` (the mirrored coast), `glow` (its lights)
+// and `foam` set their strengths (water.mjs).
 const THEMES = {
-  morning: { sky: 0xf5dfce, ground: 0x8b9290, sun: 0xffdfb4, key: 2.4, fill: 1.05, exposure: 1.0, water: 0x568f9d, night: 0.12 },
-  noon: { sky: 0xddebf1, ground: 0x8d9480, sun: 0xfff4d5, key: 2.6, fill: 1.15, exposure: 1.0, water: 0x337e90, night: 0 },
-  afternoon: { sky: 0xe4eddf, ground: 0x959378, sun: 0xffd09a, key: 2.3, fill: 1.0, exposure: 1.0, water: 0x4c9291, night: 0.18 },
-  evening: { sky: 0x829bb4, ground: 0x3b4854, sun: 0xb4caff, key: 0.85, fill: 0.55, exposure: 0.85, water: 0x234b68, night: 1 },
+  morning: {
+    sky: 0xf5dfce,
+    ground: 0x8b9290,
+    sun: 0xffdfb4,
+    key: 2.4,
+    fill: 1.05,
+    exposure: 1.0,
+    water: 0x568f9d,
+    deep: 0x4c8496,
+    shallow: 0x5fbfc4,
+    mirror: 0xa9bcc6,
+    caustic: 0.6,
+    reflect: 0.22,
+    glow: 0.5,
+    foam: 0.9,
+    night: 0.12,
+  },
+  noon: {
+    sky: 0xddebf1,
+    ground: 0x8d9480,
+    sun: 0xfff4d5,
+    key: 2.6,
+    fill: 1.15,
+    exposure: 1.0,
+    water: 0x337e90,
+    deep: 0x22688a,
+    shallow: 0x3fc4cc,
+    mirror: 0x8fbdd6,
+    caustic: 1,
+    reflect: 0.2,
+    glow: 0.4,
+    foam: 1,
+    night: 0,
+  },
+  afternoon: {
+    sky: 0xe4eddf,
+    ground: 0x959378,
+    sun: 0xffd09a,
+    key: 2.3,
+    fill: 1.0,
+    exposure: 1.0,
+    water: 0x4c9291,
+    deep: 0x438a8a,
+    shallow: 0x56c4b8,
+    mirror: 0xa7bfc4,
+    caustic: 0.8,
+    reflect: 0.24,
+    glow: 0.5,
+    foam: 0.95,
+    night: 0.18,
+  },
+  evening: {
+    sky: 0x829bb4,
+    ground: 0x3b4854,
+    sun: 0xb4caff,
+    key: 0.85,
+    fill: 0.55,
+    exposure: 0.85,
+    water: 0x234b68,
+    deep: 0x1f4462,
+    shallow: 0x245a6e,
+    mirror: 0x24364c,
+    caustic: 0,
+    reflect: 0.26,
+    glow: 1,
+    foam: 0.55,
+    night: 1,
+  },
 };
+const COLORS = ["sky", "ground", "sun", "water", "deep", "shallow", "mirror"];
+// Page backgrounds (_sass/_themes.scss), for the haze when the page's CSS is absent (poster renders).
+const PAGE = { morning: 0xfffaf7, noon: 0xfffefa, afternoon: 0xfbfaf7, evening: 0x111c22 };
 const clamp = (x, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, x));
 
 // An hour chosen on the theme panel's sun arc (sun-arc.mjs) blends the four authored looks by the
@@ -39,8 +111,7 @@ function themeAtMinute(minute) {
     a = THEMES[fromName],
     b = THEMES[toName];
   const blended = {};
-  for (const key of Object.keys(a))
-    blended[key] = ["sky", "ground", "sun", "water"].includes(key) ? mixColor(a[key], b[key], t) : a[key] + (b[key] - a[key]) * t;
+  for (const key of Object.keys(a)) blended[key] = COLORS.includes(key) ? mixColor(a[key], b[key], t) : a[key] + (b[key] - a[key]) * t;
   return blended;
 }
 
@@ -68,51 +139,60 @@ function reflectionStudio(renderer) {
   return target;
 }
 
-function makeWater(clock, color, miniature = false, profile = []) {
-  const material = new THREE.MeshStandardMaterial({ color, roughness: 0.32, metalness: 0.18, transparent: true, depthWrite: false });
-  // Terrain and surf share the authored shoreline. A stretched sine wave no
-  // longer fits the village's recessed Cove and projecting sandstone headland.
-  const number = (value) => Number(value).toFixed(6);
-  const shore = `float coastShore(float x) {
-    if (x >= -19. && x <= 19.) return 2.1-.7*sin(x*.23)-.25*sin(x*.68);
-    ${profile
-      .slice(1)
-      .map((point, i) => {
-        const previous = profile[i];
-        return `if (x <= ${number(point[0])}) return -mix(${number(previous[1])},${number(point[1])},smoothstep(${number(previous[0])},${number(point[0])},x));`;
-      })
-      .join("\n")}
-    return 2.;
-  }`;
-  material.onBeforeCompile = (shader) => {
-    shader.uniforms.coastTime = clock;
-    shader.vertexShader = `uniform float coastTime; varying vec3 coastPosition;
-      float wave(vec2 p) { return sin(p.y*3.8-p.x*.28-coastTime*.8)*.023 + sin(p.x*2.7+p.y*1.2-coastTime*.6)*.013; }
-      ${shader.vertexShader}`
-      .replace(
-        "#include <beginnormal_vertex>",
-        `float a=position.z*3.8-position.x*.28-coastTime*.8;
-         float b=position.x*2.7+position.z*1.2-coastTime*.6;
-         vec3 objectNormal=normalize(vec3(.00644*cos(a)-.0351*cos(b),1.,-.0874*cos(a)-.0156*cos(b)));`
-      )
-      .replace("#include <begin_vertex>", `vec3 transformed=position; transformed.y+=wave(position.xz); coastPosition=transformed;`);
-    shader.fragmentShader = `uniform float coastTime; varying vec3 coastPosition;\n${shore}\n${shader.fragmentShader}`.replace(
-      "#include <color_fragment>",
-      `#include <color_fragment>
-        float shore = ${miniature ? "3.5-.017*coastPosition.x*coastPosition.x-.42*sin(coastPosition.x*.58)" : "coastShore(coastPosition.x)"};
-        float depth = coastPosition.z-shore;
-        float edge = ${miniature ? "1." : "smoothstep(0.,.12,depth)"};
-        float swell = sin(depth*5.5-coastTime*.62+sin(coastPosition.x*.6)*.45);
-        float breakup = smoothstep(-.45,.7,sin(coastPosition.x*1.9+coastTime*.08)+sin(coastPosition.x*5.2+depth));
-        float foam = smoothstep(.83,1.,swell)*breakup*(1.-smoothstep(.2,2.5,depth))*.66;
-        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.66,.80,.75), (1.-smoothstep(0.,2.3,depth))*.38);
-        diffuseColor.rgb = mix(diffuseColor.rgb,vec3(.88,.93,.85),foam);
-        diffuseColor.a *= edge;
-        if(diffuseColor.a<.008) discard;`
+// Evening lamps along Scripps Pier: slim dark posts by day; at night warm bulbs whose reflections
+// streak the sea. Two instanced meshes, placed from the pier's own bounds.
+function createPierLamps(model) {
+  const pier = model.getObjectByName("ScrippsPier");
+  if (!pier) return null;
+  model.updateMatrixWorld(true);
+  const box = new THREE.Box3().setFromObject(pier);
+  // [deck edge x, outward side, z]: posts alternate sides; each lamp hangs from an arm over the water,
+  // so its reflection falls beside the deck instead of beneath it.
+  const spots = [
+    [box.max.x, 1, box.min.z + 1.5],
+    [box.min.x, -1, box.min.z + 3.7],
+    [box.max.x, 1, box.min.z + 5.9],
+  ];
+  const height = 0.52,
+    reach = 0.3,
+    top = box.max.y;
+  // Posts and arms share one instanced unit box; bulbs are a second instanced mesh.
+  const bars = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshStandardMaterial({ color: 0x2b3033, roughness: 0.6, metalness: 0.4, envMapIntensity: 0.22 }),
+    spots.length * 2
+  );
+  const bulbs = new THREE.InstancedMesh(
+    new THREE.IcosahedronGeometry(0.05, 1),
+    new THREE.MeshStandardMaterial({ color: 0xe9e2d2, emissive: 0xffc27a, emissiveIntensity: 0, roughness: 0.4, envMapIntensity: 0.22 }),
+    spots.length
+  );
+  const matrix = new THREE.Matrix4(),
+    scale = new THREE.Matrix4();
+  const lights = spots.map(([x, side, z], i) => {
+    bars.setMatrixAt(i * 2, matrix.makeTranslation(x, top + height / 2, z).multiply(scale.makeScale(0.034, height, 0.034)));
+    bars.setMatrixAt(
+      i * 2 + 1,
+      matrix.makeTranslation(x + (side * reach) / 2, top + height, z).multiply(scale.makeScale(reach + 0.02, 0.026, 0.026))
     );
+    const light = { x: x + side * reach, y: top + height - 0.06, z };
+    bulbs.setMatrixAt(i, matrix.makeTranslation(light.x, light.y, light.z));
+    return light;
+  });
+  bars.name = "PierLampPosts";
+  bulbs.name = "PierLampBulbs";
+  bars.castShadow = true;
+  bars.receiveShadow = true;
+  bulbs.userData.noOcclusion = true;
+  return {
+    objects: [bars, bulbs],
+    lights,
+    // 0 by day, 1 at night; the bulbs glow and their glitter paths appear.
+    set(on) {
+      bulbs.material.emissiveIntensity = on * 2.6;
+      bulbs.material.color.set(on > 0.5 ? 0xffe2b0 : 0xe9e2d2);
+    },
   };
-  const geometry = new THREE.PlaneGeometry(190, 48, 190, 64).rotateX(-Math.PI / 2).translate(0, 0.04, 14);
-  return new THREE.Mesh(geometry, material);
 }
 
 export async function mountCoast(host, { posterFrameHeight } = {}) {
@@ -134,6 +214,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.shadowMap.autoUpdate = false;
   const scene = new THREE.Scene();
+  // Haze toward the skyline: the farthest hills soften into the page behind the canvas, while the
+  // sea and the coast stay clear. The Connect miniature keeps its own crisp air.
+  if (!miniature) scene.fog = new THREE.Fog(0xfffefa, 44, 71);
   const camera = new THREE.OrthographicCamera(-22.5, 22.5, 7, -7, 0.1, 150);
   const env = reflectionStudio(renderer);
   scene.environment = env.texture;
@@ -165,9 +248,11 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     throw error;
   }
   scene.add(model.scene);
-  const water = makeWater(clock, 0x337e90, miniature, manifest.coastProfile);
-  water.userData.noOcclusion = true;
-  if (!miniature) scene.add(water);
+  const water = createCoastWater(renderer, { clock, miniature, profile: manifest.coastProfile });
+  const lamps = miniature ? null : createPierLamps(model.scene);
+  let lampsOn = 0;
+  if (!miniature) scene.add(water.mesh);
+  if (lamps) scene.add(...lamps.objects);
   const crowns = [],
     surfers = [],
     windows = [];
@@ -191,6 +276,14 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       }
     }
   });
+  if (!miniature) {
+    // Boards and their spray sit on the sea, which takes no shadows; keeping them out of the shadow
+    // map also lets the sea's mirror leave them out without losing a shadow.
+    model.scene.getObjectByName("Surf")?.traverse((o) => {
+      o.castShadow = false;
+    });
+    water.exclude(surfers.map(({ object }) => object));
+  }
   // Shader-driven light in the exact marked pane; no giant glowing facade.
   const officePosition = new THREE.Vector3().fromArray(miniature ? manifest.miniature.office : manifest.office);
   const officeGlow = new THREE.PointLight(0xffbd70, 0.6, 2.1, 2);
@@ -208,12 +301,14 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     reveal = 1,
     targetReveal = 1,
     theme = THEMES.noon;
-  let revealOnScroll = false;
+  let revealOnScroll = false,
+    mounted = false;
   let pointerX = 0,
     currentX = 0,
     cameraWidth = 45,
     frameCount = 0;
   const target = new THREE.Vector3(0, 1.3, 0);
+  const bufferSize = new THREE.Vector2();
   const cameraBase = new THREE.Vector3(11, 23, 36);
   const motion = createCameraMotion();
   const orbitOffset = new THREE.Vector3();
@@ -251,7 +346,27 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
         },
       })
     : null;
+  water.exclude(people?.objects || []);
   const peopleLive = () => !reduced.matches && !stopped && !automated;
+  // Wake sources for the sea: the riding and paddling boards (nose along their local +x) and the swimmer.
+  function movers() {
+    const list = [];
+    for (const { object } of surfers) {
+      const power = { ride: 0.95, paddle: 0.6 }[stances[object.name]] || 0;
+      if (!object.visible || !power) continue;
+      const yaw = object.rotation.y;
+      list.push({ x: object.position.x, z: object.position.z, heading: [Math.cos(yaw), -Math.sin(yaw)], power });
+    }
+    return list.concat(people?.movers?.() || []);
+  }
+  // Lights the sea glitters under: the evening fire (flickering with its light) and the pier lamps.
+  function seaLights() {
+    const list = [];
+    const fire = people?.fire?.();
+    if (fire) list.push({ x: fire.x, y: fire.y + 0.25, z: fire.z, power: 0.95 * fire.light, spread: 0.24 });
+    if (lamps && lampsOn > 0.01) for (const lamp of lamps.lights) list.push({ ...lamp, power: 0.34 * lampsOn, spread: 0.11 });
+    return list;
+  }
   function revealBuildings(value) {
     if (host.dataset.reveal === value.toFixed(3)) return;
     buildings.forEach((b, i) => {
@@ -263,6 +378,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       b.progress = p;
     });
     renderer.shadowMap.needsUpdate = true;
+    water.invalidate();
     host.dataset.reveal = value.toFixed(3);
   }
 
@@ -291,7 +407,17 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     sun.intensity = theme.key;
     fill.intensity = 0.65 - theme.night * 0.45;
     renderer.toneMappingExposure = theme.exposure;
-    water.material.color.set(theme.water);
+    if (scene.fog) {
+      // The page color behind the transparent canvas, lifted so the output pass's tone mapping lands near it.
+      const page = getComputedStyle(document.documentElement).getPropertyValue("--global-bg-color").trim();
+      const selectedPage =
+        PAGE[document.documentElement.dataset.themeMode] ?? (document.documentElement.dataset.theme === "dark" ? PAGE.evening : PAGE.noon);
+      scene.fog.color.set(/^#[0-9a-f]{6}$/i.test(page) ? page : selectedPage);
+      scene.fog.color.multiplyScalar(1 + 1.4 * scene.fog.color.getHSL({}).l);
+    }
+    water.setTheme(theme);
+    lampsOn = clamp((theme.night - 0.35) / 0.45);
+    lamps?.set(lampsOn);
     const selected = document.documentElement.dataset.themeMode || (document.documentElement.dataset.theme === "dark" ? "evening" : "noon");
     const lateNight = Math.floor(Date.now() / 86400000) % 5 < 2;
     lightOn = selected === "noon" || selected === "afternoon" || (selected === "evening" && lateNight);
@@ -331,6 +457,12 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     if (miniature) {
       target.fromArray(manifest.miniature.target);
       cameraBase.fromArray(manifest.miniature.camera);
+    }
+    if (scene.fog) {
+      // Measured along the view from the camera: clear to just past the coast, then the hills behind.
+      const reach = cameraBase.distanceTo(target);
+      scene.fog.near = reach + 3;
+      scene.fog.far = reach + 30;
     }
     const half = cameraWidth / 2;
     camera.left = -half;
@@ -417,6 +549,10 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     // horizontal span are skipped, not posed.
     const halfWidth = (camera.right - camera.left) / 2 + 2;
     people?.update(peopleLive() ? elapsed : 0, { viewX: [camera.position.x - halfWidth, camera.position.x + halfWidth] });
+    // The sea follows the camera and redraws its mirror only when the coast or the view changed.
+    water.setMovers(movers());
+    water.setLights(seaLights(), camera);
+    if (mounted) water.update(scene, camera, { size: renderer.getDrawingBufferSize(bufferSize), live: running });
     finish.render(camera, false);
     updatePlaceMarker();
     host.dataset.frames = String(++frameCount);
@@ -512,6 +648,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     sun.target.position.x = target.x - 5.1;
     sun.target.updateMatrixWorld();
     renderer.shadowMap.needsUpdate = true;
+    water.invalidate();
     draw();
   };
   const onDown = (event) => {
@@ -595,6 +732,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   const contextRestored = () => {
     lost = false;
     renderer.shadowMap.needsUpdate = true;
+    water.invalidate();
     syncRunning();
     draw();
     host.dataset.state = "ready";
@@ -623,8 +761,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     });
     env.dispose();
     model.release();
-    water.geometry.dispose();
-    water.material.dispose();
+    water.dispose();
     finish.dispose();
     renderer.dispose();
   });
@@ -635,6 +772,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   resize();
   syncTheme();
   renderer.shadowMap.needsUpdate = true;
+  // The setup frames above never reach the screen (the canvas shows once ready), so the sea's
+  // mirror is first drawn for this one.
+  mounted = true;
   draw();
   host.dataset.state = "ready";
   function landmarkFrame(name) {
@@ -672,6 +812,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     motion: motion.evidence(),
     elapsed,
     people: people ? { live: peopleLive(), ...people.evidence() } : null,
+    water: water.evidence(),
     resources: renderer.info.memory,
     framing: { width: cameraWidth, height: camera.top - camera.bottom, center: target.toArray() },
     landmarkFrames: projectLandmarks

@@ -223,6 +223,24 @@ export function createPeople(scene, model, figures, { hostVisible = () => true }
 
   return {
     update,
+    // Every drawn mesh, so the sea's on-demand mirror can leave the moving cast out.
+    objects: [...Object.values(meshes), shadows],
+    // The burning fire for the sea's glitter path: where it stands and its flickering light.
+    fire() {
+      return fireActor && visibility.get(fireActor)
+        ? { x: fireFigure.center[0], y: fireFigure.center[1], z: fireFigure.center[2], light: fireLight.intensity }
+        : null;
+    },
+    // The swimmer as a wake source for the sea: position, heading and whether it is stroking.
+    movers() {
+      const out = [];
+      for (const actor of cast) {
+        if (actor.figure.kind !== "swimmer" || !visibility.get(actor) || !actor.posed) continue;
+        const h = actor.people[0];
+        out.push({ x: h.root[0], z: h.root[2], heading: [Math.sin(h.yaw), Math.cos(h.yaw)], power: actor.props[0]?.visible ? 0.55 : 0 });
+      }
+      return out;
+    },
     setPeriod(next, isNight) {
       period = next;
       night = isNight;

@@ -1,9 +1,53 @@
 const { test, expect, chromium } = require("@playwright/test");
 const { writeFile } = require("node:fs/promises");
+const { PNG } = require("pngjs");
 const { preparePage, collectRuntimeErrors, attachScreenshot, screenshotMetrics, screenshotDiffRatio } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
 const evidence = (host) => host.evaluate((e) => e.getCoastEvidence());
 const coastModels = /\/models\/la-jolla\/[^/?]+\.glb(?:\?.*)?$/;
+
+// WCAG contrast of the credit against the coast, in a 2 px ring around its glyph strokes: the credit
+// drawn in magenta without its halo gives the glyph mask; the same view with transparent glyphs but
+// the halo drawn gives the background those strokes sit on (reflections, glitter and surf pass behind).
+const channel = (v) => (v / 255 <= 0.04045 ? v / 255 / 12.92 : ((v / 255 + 0.055) / 1.055) ** 2.4);
+const luminance = (data, o) => 0.2126 * channel(data[o]) + 0.7152 * channel(data[o + 1]) + 0.0722 * channel(data[o + 2]);
+async function creditContrast(page) {
+  const credit = page.locator("footer.coastal-page-footer > .container");
+  const { text, shadow } = await credit.evaluate((e) => ({ text: getComputedStyle(e).color, shadow: getComputedStyle(e).textShadow }));
+  const clip = await credit.boundingBox();
+  const paint = (fill, halo) =>
+    credit.evaluate(
+      (e, [fill, halo]) => {
+        for (const node of [e, ...e.querySelectorAll("a, span")]) node.style.color = fill;
+        e.style.textShadow = halo;
+      },
+      [fill, halo]
+    );
+  await paint("#ff00ff", "none");
+  const mask = PNG.sync.read(await page.screenshot({ clip }));
+  await paint("transparent", shadow);
+  const back = PNG.sync.read(await page.screenshot({ clip }));
+  await paint("", "");
+  const glyph = (x, y) => {
+    const o = (y * mask.width + x) * 4;
+    return mask.data[o] > 200 && mask.data[o + 1] < 90 && mask.data[o + 2] > 200;
+  };
+  const ring = [];
+  for (let y = 2; y < mask.height - 2; y++)
+    for (let x = 2; x < mask.width - 2; x++) {
+      if (glyph(x, y)) continue;
+      let near = false;
+      for (let dy = -2; dy <= 2 && !near; dy++) for (let dx = -2; dx <= 2 && !near; dx++) near = glyph(x + dx, y + dy);
+      if (near) ring.push(luminance(back.data, (y * back.width + x) * 4));
+    }
+  ring.sort((a, b) => a - b);
+  const [r, g, b] = text.match(/\d+/g).map(Number);
+  const ink = 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+  const ratio = (l) => (Math.max(l, ink) + 0.05) / (Math.min(l, ink) + 0.05);
+  // The worst case is the ring percentile closest to the ink: dark text over the darkest water.
+  const pick = (q) => ring[Math.min(ring.length - 1, Math.floor(q * ring.length))];
+  return { samples: ring.length, median: ratio(pick(0.5)), worst: ratio(ink < 0.2 ? pick(0.05) : pick(0.95)) };
+}
 
 test("La Jolla guide: names select actual landmarks without moving the view", async ({ page }, testInfo) => {
   await preparePage(page, "afternoon");
@@ -230,10 +274,44 @@ for (const theme of process.env.COAST_THEME ? [process.env.COAST_THEME] : ["morn
     expect(metrics.uniqueColors).toBeGreaterThan(300);
     expect(metrics.luminanceVariance).toBeGreaterThan(100);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+    // The sea mirrors the coast (water.mjs), and the credit over it stays legible in every theme.
+    expect(info.water.reflection.renders).toBeGreaterThanOrEqual(1);
+    const contrast = await creditContrast(page);
+    expect(contrast.samples).toBeGreaterThan(100);
+    expect(contrast.median, "credit contrast over the sea").toBeGreaterThanOrEqual(4.5);
+    await testInfo.attach(`credit-contrast-${theme}`, { body: JSON.stringify(contrast), contentType: "application/json" });
     await attachScreenshot(page, testInfo, `coast-${theme}`, { locator: page.locator("footer") });
     expect(errors).toEqual([]);
   });
 }
+test("coastal sea: a mirror drawn on demand, night glitter from the fire and pier lamps", async ({ page }, testInfo) => {
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
+  const errors = collectRuntimeErrors(page);
+  const host = await open(page, "noon");
+  await page.waitForTimeout(600);
+  const day = await evidence(host);
+  expect(day.water.reflection.renders).toBeGreaterThanOrEqual(1);
+  expect(day.water.reflection.width).toBeGreaterThan(0);
+  expect(day.water.caustics).toBe(1);
+  expect(day.water.wakes, "the riding and paddling boards and the swimmer trail wakes").toBeGreaterThanOrEqual(2);
+  expect(day.water.glints).toEqual([]);
+  // Automation holds the people still but the sea keeps moving, and a steady view redraws no mirror.
+  await page.waitForTimeout(1500);
+  const steady = await evidence(host);
+  expect(steady.frames).toBeGreaterThan(day.frames);
+  expect(steady.water.reflection.renders).toBe(day.water.reflection.renders);
+  // Night redraws the mirror for its light once; the fire and three pier lamps glitter; caustics rest.
+  await page.evaluate(() => (document.documentElement.dataset.themeMode = "evening"));
+  await expect.poll(async () => (await evidence(host)).water.reflection.renders).toBeGreaterThan(steady.water.reflection.renders);
+  const night = (await evidence(host)).water;
+  expect(night.glints.length).toBe(4);
+  expect(night.caustics).toBe(0);
+  expect(night.wakes).toBe(0);
+  await page.waitForTimeout(800);
+  expect((await evidence(host)).water.reflection.renders).toBe(night.reflection.renders);
+  await attachScreenshot(page, testInfo, "coast-sea-night", { locator: page.locator("footer") });
+  expect(errors).toEqual([]);
+});
 test("coastal scenes: lazy loading, automatic movement, offscreen pause and reversible reveal", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
   const errors = collectRuntimeErrors(page),

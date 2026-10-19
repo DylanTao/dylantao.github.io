@@ -10,10 +10,12 @@ const base = (process.argv[2] || "http://127.0.0.1:4101/al-folio").replace(/\/$/
 const root = path.resolve(__dirname, "..");
 const scratch = path.join(root, ".jekyll-cache", "coast-posters");
 const output = path.join(root, "assets", "models", "la-jolla", "posters");
+// WebP quality per view: the coast's rippled sea and caustics cost bytes, and 80 keeps its stills near
+// their earlier size with no visible loss; the miniature keeps 88.
 const views = [
-  { name: "coast", width: 5120, height: 880, posterFrameHeight: 480 },
-  { name: "coast-mobile", width: 560, height: 560 },
-  { name: "miniature", width: 1000, height: 1000, miniature: true },
+  { name: "coast", width: 5120, height: 880, posterFrameHeight: 480, quality: 80 },
+  { name: "coast-mobile", width: 560, height: 560, quality: 80 },
+  { name: "miniature", width: 1000, height: 1000, miniature: true, quality: 88 },
 ];
 
 (async () => {
@@ -52,9 +54,10 @@ const views = [
         await page.locator("canvas").screenshot({ path: png, omitBackground: true });
         execFileSync("python", [
           "-c",
-          "from PIL import Image; import sys; Image.open(sys.argv[1]).save(sys.argv[2], 'WEBP', quality=88, method=6)",
+          "from PIL import Image; import sys; Image.open(sys.argv[1]).save(sys.argv[2], 'WEBP', quality=int(sys.argv[3]), method=6)",
           png,
           path.join(output, `${file}.webp`),
+          String(view.quality),
         ]);
         console.log(`${file}.webp`);
       }
