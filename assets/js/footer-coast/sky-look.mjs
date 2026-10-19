@@ -516,7 +516,9 @@ export function keyDirection(state) {
 export function creditHalo(look, darkInk) {
   const hex = (n, a) => `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a.toFixed(3)})`;
   return {
-    inner: darkInk ? hex(look.haloLight, look.haloAlpha) : hex(look.haloDark, Math.max(look.haloAlpha, 0.8)),
+    // Light ink (dusk and night) keeps a dense dark halo: at 0.8 the dusk credit sat at 4.48:1 on
+    // CI's Linux text rendering, just under the 4.5:1 the coast promises.
+    inner: darkInk ? hex(look.haloLight, look.haloAlpha) : hex(look.haloDark, Math.max(look.haloAlpha, 0.92)),
     glow: hex(look.glowColor, look.glowAlpha),
   };
 }
