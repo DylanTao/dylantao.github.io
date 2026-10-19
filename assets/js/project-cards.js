@@ -93,18 +93,36 @@
     return velocity;
   };
 
+  // The page's own speed (px/s) when a run that was scrolling it is interrupted.
+  const carriedScroll = () => clock?.follow?.speed() || 0;
+
   const cancelClock = () => {
     const running = clock;
     if (!running) return;
     clock = null;
     running.timers.forEach((timer) => window.clearTimeout(timer));
+    // The page stops where it is (its row snapping again at once), for the next run to carry on.
+    running.follow?.cancel();
     running.animations.forEach((animation) => animation.cancel());
     running.grids?.forEach((grid) => grid.classList.remove("is-reflowing"));
   };
 
+  // The page comes to rest exactly where the run planned, as the run settles: a follow lands itself
+  // (unless the reader scrolled meanwhile); a run without motion goes straight there.
+  const land = (running) => {
+    if (running.follow) {
+      running.follow.land();
+      return;
+    }
+    const plan = running.plan;
+    if (!plan) return;
+    if (plan.top !== undefined) window.scrollTo({ top: plan.top, behavior: "instant" });
+    if (plan.row) plan.row.scrollTo({ left: plan.left, behavior: "instant" });
+  };
+
   // An opened card keeps its row: it spans two columns from its own column, or from the one before
   // when it is the last in its row, so the grid never leaves a hole where it was. Phones show one
-  // column (or the experiments' sideways row), where the card simply grows.
+  // column (or a deck level's sideways row), where the card simply grows.
   const columnCount = (grid) => {
     const style = getComputedStyle(grid);
     if (style.display !== "grid" || !style.gridTemplateColumns || style.gridTemplateColumns === "none") return 0;
@@ -160,10 +178,18 @@
       return `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) scale(${(1 + spring.state(s0 - 1, vs0, t)[0]).toFixed(4)})`;
     });
 
-  const runClock = (firstRects, velocity, { openingCard, closingCard, onSettled }) => {
+  const runClock = (firstRects, velocity, { openingCard, closingCard, onSettled, planScroll, scrollSpeed = 0 }) => {
     const motion = springs();
-    const running = { animations: [], tracks: [], timers: [] };
+    const running = { animations: [], tracks: [], timers: [], plan: null, follow: null };
     clock = running;
+    // Where the page should rest, read in the new layout before anything moves.
+    const plan = planScroll?.() || null;
+    // A page still travelling when nothing needs showing coasts to a stop instead of halting: aimed
+    // at speed / decay rate ahead, the spring takes it there without turning back.
+    if (motion && plan && plan.top === undefined && Math.abs(scrollSpeed) > 40) {
+      plan.top = clampScroll(window.scrollY + scrollSpeed / ((motion.layout.zeta * 2 * Math.PI) / motion.layout.period));
+    }
+    running.plan = plan;
     const settle = () => {
       if (clock !== running) return;
       running.animations.forEach((animation) => {
@@ -171,11 +197,12 @@
       });
       running.grids?.forEach((grid) => grid.classList.remove("is-reflowing"));
       clock = null;
+      land(running);
       onSettled?.();
     };
     if (!motion) {
       settle();
-      return;
+      return plan;
     }
 
     const { layout, gentle, confident, playful } = motion;
@@ -368,15 +395,37 @@
     }
     if (closingCard) stage(closingCard, 40, 30);
 
+    // The page follows on the same spring and clock (site-motion.mjs scrollFollow): a card opening
+    // past the edge of the view brings the page along as it grows, and a closing one hands the
+    // reader's place back as it shrinks. Its time is an empty animation on the card, so the run does
+    // not settle while the page is still travelling.
+    const host = openingCard || closingCard;
+    const travels = plan && plan.top !== undefined && (Math.abs(window.scrollY - plan.top) >= 0.5 || Math.abs(scrollSpeed) > 1);
+    if (host && (travels || plan?.row) && window.SiteMotion?.scrollFollow) {
+      running.follow = window.SiteMotion.scrollFollow(layout, host, {
+        top: plan.top ?? null,
+        row: plan.row || null,
+        left: plan.left,
+        speed: scrollSpeed,
+      });
+      running.animations.push(running.follow.animation);
+    }
+
     if (!running.animations.length) {
       settle();
-      return;
+      return plan;
     }
     Promise.allSettled(running.animations.map((animation) => animation.finished)).then(settle);
+    return plan;
   };
 
-  // At most one scroll per change, and only as far as needed to show the whole card.
-  const keepInView = (card) => {
+  const clampScroll = (y) => Math.min(Math.max(0, document.documentElement.scrollHeight - window.innerHeight), Math.max(0, y));
+
+  // Where the page should rest so the whole card shows: at most one scroll, only as far as needed,
+  // never past the card's top. A card in a phone's sideways row also brings the row round to the
+  // card's start. Read in the new layout, before anything animates.
+  const restingPlace = (card) => {
+    const plan = {};
     const navBottom = document.getElementById("navbar")?.getBoundingClientRect().bottom || 0;
     const margin = phoneQuery.matches ? 12 : 24;
     const rect = card.getBoundingClientRect();
@@ -385,19 +434,18 @@
     let delta = 0;
     if (rect.top < top) delta = rect.top - top;
     else if (rect.bottom > bottom) delta = Math.min(rect.bottom - bottom, rect.top - top);
-    const row = card.closest("[data-site-experiment-grid]");
-    const sideways =
-      row &&
-      phoneQuery.matches &&
-      (card.offsetLeft < row.scrollLeft - 1 || card.offsetLeft + card.offsetWidth > row.scrollLeft + row.clientWidth + 1);
-    if (Math.abs(delta) < 2 && !sideways) return 0;
-    const behavior = prefersReducedMotion() ? "auto" : "smooth";
-    if (sideways) {
-      card.scrollIntoView({ block: "nearest", inline: "start", behavior });
-      return delta;
+    if (Math.abs(delta) >= 2) plan.top = clampScroll(window.scrollY + delta);
+    const row = phoneQuery.matches ? card.parentElement : null;
+    const rowStyle = row ? getComputedStyle(row) : null;
+    if (rowStyle && /auto|scroll/.test(rowStyle.overflowX) && row.scrollWidth > row.clientWidth + 1) {
+      const box = row.getBoundingClientRect();
+      const inset = parseFloat(rowStyle.scrollPaddingInlineStart) || 0;
+      if (rect.left < box.left + inset - 1 || rect.right > box.right + 1) {
+        plan.row = row;
+        plan.left = Math.min(row.scrollWidth - row.clientWidth, Math.max(0, row.scrollLeft + rect.left - box.left - inset));
+      }
     }
-    window.scrollBy({ top: delta, behavior });
-    return delta;
+    return plan;
   };
 
   const setActiveCard = (nextCard, options = {}) => {
@@ -409,10 +457,22 @@
     const shouldFocusPrimaryAction = Boolean(options.focusPrimaryAction && openingTrigger && document.activeElement === openingTrigger);
     const shouldRestoreFocus = Boolean(previousCard && options.restoreFocus && previousCard.contains(document.activeElement));
     const focusReturnTarget = !nextCard && shouldRestoreFocus ? previousCard.querySelector("[data-project-card-trigger]") : null;
-    if (openingCard && !anchor) anchor = { y: window.scrollY, settledY: null };
+    // The page is still following the last change: the reader has not moved, whatever scrollY says.
+    const following = Boolean(clock?.follow?.active);
+    const stayed = (place) => following || (place?.settledY != null && Math.abs(window.scrollY - place.settledY) < 3);
+    // The reader's place is where they were before the first of a run of opened cards (or, while a
+    // closing card is still handing it back, where the page is heading); scrolling away between
+    // cards makes it the place where they opened the next one.
+    if (openingCard && (!anchor || !stayed(anchor))) {
+      const heading = following && clock.plan?.top !== undefined ? clock.plan.top : window.scrollY;
+      anchor = { y: heading, settledY: null };
+    }
+    // Read before the card shrinks: a page that gets shorter can clamp scrollY on its own.
+    const keptPlace = Boolean(closingCard && anchor && stayed(anchor));
 
-    // Keep each element's current speed, then stop the old run.
+    // Keep each element's current speed, and the page's, then stop the old run.
     const velocity = carriedVelocity();
+    const scrollSpeed = carriedScroll();
     cancelClock();
 
     focusReturnTarget?.focus({ preventScroll: true });
@@ -442,9 +502,21 @@
       }
     };
     const restore = anchor;
-    runClock(firstRects, velocity, {
+    if (closingCard) anchor = null;
+    const plan = runClock(firstRects, velocity, {
       openingCard,
       closingCard,
+      scrollSpeed,
+      // Opening shows the whole card. Closing gives the reader back the place they opened it from
+      // if they stayed put; otherwise it only makes sure the card they closed is in view.
+      planScroll: () => {
+        if (openingCard && options.scroll) return restingPlace(openingCard);
+        if (closingCard && restore) {
+          if (keptPlace) return { top: clampScroll(restore.y) };
+          if (restore.settledY != null) return restingPlace(closingCard);
+        }
+        return null;
+      },
       onSettled: () => {
         const activeElement = document.activeElement;
         if (
@@ -455,21 +527,9 @@
           focusReturnTarget.focus({ preventScroll: true });
         }
         focusPrimary();
-        if (activeCard && activeCard === openingCard && options.scroll) {
-          const delta = keepInView(activeCard);
-          if (restore) restore.settledY = window.scrollY + delta;
-        } else if (!activeCard && closingCard && restore) {
-          // Closing gives the reader back the place they opened the card from, if they stayed put;
-          // otherwise it only makes sure the card they closed is in view.
-          anchor = null;
-          if (restore.settledY !== null && Math.abs(window.scrollY - restore.settledY) < 3 && Math.abs(window.scrollY - restore.y) > 2) {
-            window.scrollTo({ top: restore.y, behavior: prefersReducedMotion() ? "auto" : "smooth" });
-          } else if (restore.settledY !== null) {
-            keepInView(closingCard);
-          }
-        }
       },
     });
+    if (openingCard && restore) restore.settledY = plan?.top ?? window.scrollY;
     if (clock && openingCard) clock.timers.push(window.setTimeout(focusPrimary, 120));
   };
 
@@ -537,39 +597,4 @@
     },
     { passive: true }
   );
-
-  // Phones show the site experiments as one scroll-snapped row (_sass/_design-details.scss). The count
-  // follows the card most in view, and the row takes focus so arrow keys can scroll it.
-  const experimentRow = document.querySelector("[data-site-experiment-grid]");
-  const experimentPosition = document.querySelector("[data-site-experiment-position]");
-  if (experimentRow && experimentPosition && "IntersectionObserver" in window) {
-    const rowCards = Array.from(experimentRow.querySelectorAll(":scope > [data-project-card]"));
-    const ratios = new Map();
-    const rowObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => ratios.set(entry.target, entry.intersectionRatio));
-        let best = rowCards[0];
-        rowCards.forEach((card) => {
-          if ((ratios.get(card) || 0) > (ratios.get(best) || 0)) best = card;
-        });
-        experimentPosition.textContent = String(rowCards.indexOf(best) + 1);
-      },
-      { root: experimentRow, threshold: [0, 0.25, 0.5, 0.75, 1] }
-    );
-    const syncRow = () => {
-      rowObserver.disconnect();
-      ratios.clear();
-      if (phoneQuery.matches) {
-        experimentRow.tabIndex = 0;
-        experimentRow.setAttribute("role", "region");
-        rowCards.forEach((card) => rowObserver.observe(card));
-      } else {
-        experimentRow.removeAttribute("tabindex");
-        experimentRow.removeAttribute("role");
-        experimentPosition.textContent = "1";
-      }
-    };
-    phoneQuery.addEventListener("change", syncRow);
-    syncRow();
-  }
 })();

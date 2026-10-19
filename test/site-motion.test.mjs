@@ -133,3 +133,141 @@ test("a flight stretches as it speeds up, squashes as it lands, keeps its area a
     "a 12 px move stays nearly rigid"
   );
 });
+
+// A stand-in page for scrollFollow: frames run by hand, the page and a row keep where they were
+// sent, and the host's empty animation keeps the time the way a browser would (its state updates
+// first, then the frame's callbacks run).
+const followPage = (scrollY = 0) => {
+  const callbacks = [];
+  const view = {
+    scrollY,
+    scrollTo({ top }) {
+      view.scrollY = top;
+    },
+    requestAnimationFrame(callback) {
+      callbacks.push(callback);
+      return callbacks.length;
+    },
+  };
+  let finish;
+  let abort;
+  const animation = {
+    currentTime: 0,
+    playState: "running",
+    finished: new Promise((resolve, reject) => {
+      finish = resolve;
+      abort = reject;
+    }),
+    cancel() {
+      if (animation.playState !== "running") return;
+      animation.playState = "idle";
+      abort(new Error("AbortError"));
+    },
+  };
+  const host = {
+    ownerDocument: { defaultView: view },
+    animate(keyframes, timing) {
+      animation.keyframes = keyframes;
+      animation.timing = timing;
+      return animation;
+    },
+  };
+  const frame = async (milliseconds = 16) => {
+    if (animation.playState === "running") {
+      animation.currentTime = Math.min(animation.timing.duration, animation.currentTime + milliseconds);
+      if (animation.currentTime >= animation.timing.duration) {
+        animation.playState = "finished";
+        finish(animation);
+      }
+    }
+    callbacks.splice(0).forEach((callback) => callback(animation.currentTime));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  };
+  return { view, host, animation, frame };
+};
+
+test("a follow carries the page on the layout spring and lands exactly as its clock finishes", async () => {
+  const { scrollFollow } = await import("../assets/js/site-motion.mjs");
+  const s = spring("layout");
+  const { view, host, animation, frame } = followPage(500);
+  const follow = scrollFollow(s, host, { top: 800 });
+  assert.deepEqual(animation.keyframes, [], "the clock moves nothing itself");
+  assert.equal(animation.timing.duration, s.duration);
+  assert.equal(follow.active, true);
+  for (let i = 0; i < 6; i++) {
+    await frame();
+    const expected = 800 + s.state(-300, 0, animation.currentTime / 1000)[0];
+    assert.ok(Math.abs(view.scrollY - expected) < 1e-9, `frame ${i}: ${view.scrollY} vs ${expected}`);
+  }
+  assert.ok(view.scrollY > 500 && view.scrollY < 800, "the page is on its way");
+  while (animation.playState === "running") await frame();
+  assert.equal(view.scrollY, 800, "the page arrives exactly where it was sent");
+  assert.equal(follow.active, false);
+  assert.equal(follow.speed(), 0);
+});
+
+test("a reader who scrolls during a follow takes the page back", async () => {
+  const { scrollFollow } = await import("../assets/js/site-motion.mjs");
+  const { view, host, animation, frame } = followPage(0);
+  const follow = scrollFollow("layout", host, { top: 600 });
+  await frame();
+  await frame();
+  view.scrollY += 40;
+  const theirs = view.scrollY;
+  await frame();
+  assert.equal(follow.active, false, "the follow lets go");
+  assert.equal(animation.playState, "idle", "its clock stops, so nothing waits for it");
+  await frame();
+  follow.land();
+  assert.equal(view.scrollY, theirs, "the page stays where the reader put it");
+});
+
+test("an interrupted follow hands over the page's speed", async () => {
+  const { scrollFollow } = await import("../assets/js/site-motion.mjs");
+  const s = spring("layout");
+  const { host, animation, frame } = followPage(0);
+  const follow = scrollFollow(s, host, { top: 600, speed: 120 });
+  for (let i = 0; i < 4; i++) await frame();
+  const expected = s.state(-600, 120, animation.currentTime / 1000)[1];
+  assert.ok(Math.abs(follow.speed() - expected) < 1e-9);
+  assert.ok(follow.speed() > 0, "the page is moving toward its target");
+  follow.cancel();
+  assert.equal(follow.active, false);
+  assert.equal(animation.playState, "idle");
+});
+
+test("a sideways row stops snapping while it follows and snaps again once done", async () => {
+  const { scrollFollow } = await import("../assets/js/site-motion.mjs");
+  const makeRow = () => {
+    const row = {
+      scrollLeft: 300,
+      style: {
+        scrollSnapType: "",
+        removeProperty(name) {
+          if (name === "scroll-snap-type") row.style.scrollSnapType = "";
+        },
+      },
+      scrollTo({ left }) {
+        row.scrollLeft = left;
+      },
+    };
+    return row;
+  };
+  const landed = followPage(0);
+  const row = makeRow();
+  scrollFollow("layout", landed.host, { row, left: 40 });
+  assert.equal(row.style.scrollSnapType, "none");
+  await landed.frame();
+  assert.ok(row.scrollLeft < 300 && row.scrollLeft > 40, "the row is on its way");
+  assert.equal(landed.view.scrollY, 0, "a row-only follow leaves the page alone");
+  while (landed.animation.playState === "running") await landed.frame();
+  assert.equal(row.scrollLeft, 40);
+  assert.equal(row.style.scrollSnapType, "", "the row snaps again");
+
+  const cut = followPage(0);
+  const other = makeRow();
+  const follow = scrollFollow("layout", cut.host, { row: other, left: 40 });
+  await cut.frame();
+  follow.cancel();
+  assert.equal(other.style.scrollSnapType, "", "a follow cut short gives the row its snapping back at once");
+});

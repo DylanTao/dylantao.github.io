@@ -1488,13 +1488,27 @@ test("project preview FLIP cancels stale runs and only translates cards", async 
   await page.addInitScript(() => {
     const originalAnimate = Element.prototype.animate;
     const originalScrollIntoView = Element.prototype.scrollIntoView;
-    window.__projectCardMotionAudit = { animations: [], cancellations: [], scrollCorrections: [] };
+    window.__projectCardMotionAudit = { animations: [], clocks: [], cancellations: [], scrollCorrections: [] };
 
     Element.prototype.animate = function (keyframes, options) {
       const animation = originalAnimate.call(this, keyframes, options);
-      const kind = this.matches?.("[data-project-card]") ? "layout" : this.matches?.(".project-card > .card") ? "reveal" : null;
-      if (kind) {
-        const frames = Array.from(keyframes || []);
+      const frames = Array.from(keyframes || []);
+      // A card's run may also time the page's follow scroll with an empty animation on the card
+      // (site-motion.mjs scrollFollow): a clock that moves nothing, kept apart from the moves.
+      const timingOnly = keyframes == null || (Array.isArray(keyframes) && keyframes.length === 0);
+      const kind = this.matches?.("[data-project-card]")
+        ? timingOnly
+          ? "clock"
+          : "layout"
+        : this.matches?.(".project-card > .card")
+          ? "reveal"
+          : null;
+      if (kind === "clock") {
+        window.__projectCardMotionAudit.clocks.push({
+          duration: typeof options === "number" ? options : options?.duration,
+          easing: typeof options === "object" ? options?.easing : undefined,
+        });
+      } else if (kind) {
         window.__projectCardMotionAudit.animations.push({
           kind,
           duration: typeof options === "number" ? options : options?.duration,
@@ -1564,6 +1578,7 @@ test("project preview FLIP cancels stale runs and only translates cards", async 
   expect(audit.animations.every((entry) => Math.abs(entry.duration - springDuration) < 0.5)).toBe(true);
   expect(audit.animations.every((entry) => entry.easing === "linear")).toBe(true);
   expect(audit.animations.every((entry) => entry.transforms.length > 10)).toBe(true);
+  expect(audit.clocks.every((entry) => Math.abs(entry.duration - springDuration) < 0.5 && entry.easing === "linear")).toBe(true);
   // Cards only travel; the one deformation allowed is the landing squash (site-motion.mjs flightFrames,
   // 2026-10-18): a non-uniform scale along the path that keeps the card's area and stays within 3%.
   const layoutScales = layoutAnimations

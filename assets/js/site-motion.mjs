@@ -127,6 +127,71 @@ export function flightFrames(nameOrSpring, { x0 = 0, y0 = 0, vx0 = 0, vy0 = 0, s
   return frames;
 }
 
+// A scroll carried to its resting place on a spring: the page to `top`, a sideways row to `left`, or
+// both. An empty animation on `host` keeps the time, so whatever waits for the host's animations also
+// waits for the scroll, and the last position is set exactly as that animation finishes: a change
+// that has settled never leaves the page still travelling. `speed` (px/s) hands over the page's speed
+// from a follow that was interrupted. A reader who scrolls meanwhile takes over, and the page stays
+// where they put it.
+export function scrollFollow(nameOrSpring, host, { top = null, row = null, left = 0, speed = 0 } = {}) {
+  const s = typeof nameOrSpring === "object" && nameOrSpring.state ? nameOrSpring : spring(nameOrSpring);
+  const view = host.ownerDocument.defaultView;
+  const vertical = top !== null && top !== undefined;
+  let lastY = view.scrollY;
+  let lastX = row ? row.scrollLeft : 0;
+  const y0 = vertical ? lastY - top : 0;
+  const x0 = row ? lastX - left : 0;
+  const animation = host.animate([], { duration: s.duration, easing: "linear" });
+  let done = false;
+  // Mandatory snapping would pull every step back to a snap point; the row snaps again once done.
+  if (row) row.style.scrollSnapType = "none";
+  const stop = () => {
+    done = true;
+    row?.style.removeProperty("scroll-snap-type");
+  };
+  const elapsed = () => Math.max(0, animation.currentTime || 0) / 1000;
+  const land = () => {
+    if (done) return;
+    if (vertical) view.scrollTo({ top, behavior: "instant" });
+    if (row) row.scrollTo({ left, behavior: "instant" });
+    stop();
+  };
+  const step = () => {
+    if (done || animation.playState !== "running") return;
+    if (Math.abs(view.scrollY - lastY) > 2 || (row && Math.abs(row.scrollLeft - lastX) > 2)) {
+      stop();
+      animation.cancel();
+      return;
+    }
+    const t = elapsed();
+    if (vertical) {
+      view.scrollTo({ top: top + s.state(y0, speed, t)[0], behavior: "instant" });
+      lastY = view.scrollY;
+    }
+    if (row) {
+      row.scrollTo({ left: left + s.state(x0, 0, t)[0], behavior: "instant" });
+      lastX = row.scrollLeft;
+    }
+    view.requestAnimationFrame(step);
+  };
+  view.requestAnimationFrame(step);
+  animation.finished.then(land, () => done || stop());
+  return {
+    animation,
+    get active() {
+      return !done;
+    },
+    // The page's speed now (px/s), for a follow that takes over from this one.
+    speed: () => (vertical && !done ? s.state(y0, speed, elapsed())[1] : 0),
+    land,
+    cancel: () => {
+      if (done) return;
+      stop();
+      animation.cancel();
+    },
+  };
+}
+
 if (typeof window !== "undefined") {
   window.SiteMotion = Object.assign(window.SiteMotion || {}, {
     SPRINGS,
@@ -137,6 +202,7 @@ if (typeof window !== "undefined") {
     springStep,
     rippleDelays,
     flightFrames,
+    scrollFollow,
   });
 
   // Pictures that arrive after the page has drawn fade in (_sass/_springs.scss) instead of popping

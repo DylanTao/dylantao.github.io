@@ -322,6 +322,8 @@ function boot(stage) {
     if (!run) return;
     const finished = run;
     run = null;
+    // A follow that already landed ignores this; one cut short leaves the page where it is.
+    finished.follow?.cancel();
     finished.animations.forEach((animation) => animation.cancel());
     root.removeAttribute("data-project-deck-moving");
     finished.onSettled?.();
@@ -335,6 +337,7 @@ function boot(stage) {
     run = current;
     if (!motion) {
       placeClose(after.banner);
+      if (plan.scrollTop != null) window.scrollTo({ top: plan.scrollTop, behavior: "instant" });
       settle();
       return;
     }
@@ -508,6 +511,13 @@ function boot(stage) {
       );
     }
 
+    // The one scroll rides the same clock (site-motion.mjs scrollFollow), timed by an empty animation
+    // on the stage: once the change settles, the page has arrived too.
+    if (plan.scrollTop != null && window.SiteMotion?.scrollFollow) {
+      current.follow = window.SiteMotion.scrollFollow(layout, stage, { top: plan.scrollTop, speed: plan.scrollSpeed || 0 });
+      current.animations.push(current.follow.animation);
+    }
+
     if (!current.animations.length) {
       settle();
       return;
@@ -517,16 +527,21 @@ function boot(stage) {
     });
   };
 
-  // At most one scroll per change: bring the trail (or the stage) under the navigation bar when the
-  // new level starts above the viewport.
-  const keepInView = () => {
+  // At most one scroll per change: when the new level starts above the view (or low in it), the page
+  // brings its start, the trail, under the navigation bar; back at the top level, the stage. Read in
+  // the new layout before anything moves. The trail is sticky, so its own place is read from the
+  // level that follows it.
+  const deckRoot = stage.querySelector(":scope > .project-deck-root");
+  const restingTop = () => {
     const navBottom = document.getElementById("navbar")?.getBoundingClientRect().bottom || 0;
-    const anchor = path.length ? trail : stage;
-    const top = anchor?.getBoundingClientRect().top ?? 0;
     const margin = phone.matches ? 10 : 18;
-    if (top < navBottom + margin || top > window.innerHeight * 0.6) {
-      window.scrollBy({ top: top - navBottom - margin, behavior: reduce.matches ? "auto" : "smooth" });
+    let top = stage.getBoundingClientRect().top;
+    if (path.length && trail && !trail.hidden && deckRoot) {
+      top = deckRoot.getBoundingClientRect().top - trail.getBoundingClientRect().height - (parseFloat(getComputedStyle(trail).marginBottom) || 0);
     }
+    if (top >= navBottom + margin && top <= window.innerHeight * 0.6) return null;
+    const limit = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    return Math.min(limit, Math.max(0, window.scrollY + top - navBottom - margin));
   };
 
   const announce = (text) => {
@@ -558,9 +573,12 @@ function boot(stage) {
       face.classList.add("project-deck-ghost", "project-deck-face");
       plan.faces.set(deck, face);
     });
+    // The page's speed, if the change being cut short was still carrying it.
+    plan.scrollSpeed = run?.follow?.speed() || 0;
     settle();
     applyState(next);
     const after = measure();
+    plan.scrollTop = scroll ? restingTop() : null;
     animate(before, after, plan, null);
     if (updateHash && window.history?.replaceState) {
       const url = `${window.location.pathname}${window.location.search}${next.length ? `#deck/${next.at(-1)}` : ""}`;
@@ -573,9 +591,9 @@ function boot(stage) {
     } else {
       announce(`Back to ${rootLabel.toLowerCase()}.`);
     }
-    // Focus: down a level, the banner's title; up a level, the deck the reader came out of. Focus and
-    // the one scroll wait for the next frame, when style and layout are already up to date, instead of
-    // forcing both again in the middle of the change.
+    // Focus: down a level, the banner's title; up a level, the deck the reader came out of. Focus waits
+    // for the next frame, when style and layout are already up to date, instead of forcing both again
+    // in the middle of the change.
     window.requestAnimationFrame(() => {
       if (focus !== "none") {
         if (plan.direction === "down" && plan.openedDeck) {
@@ -588,7 +606,6 @@ function boot(stage) {
           surfaceOf(plan.closedDeck)?.querySelector("[data-project-deck-trigger]")?.focus({ preventScroll: true });
         }
       }
-      if (scroll) keepInView();
     });
   };
 
@@ -672,7 +689,7 @@ function boot(stage) {
       const anchor = trail && !trail.hidden ? trail : stage;
       const navBottom = document.getElementById("navbar")?.getBoundingClientRect().bottom || 0;
       const top = anchor.getBoundingClientRect().top;
-      if (top < navBottom || top > window.innerHeight * 0.75) window.scrollBy({ top: top - navBottom - 18, behavior: "auto" });
+      if (top < navBottom || top > window.innerHeight * 0.75) window.scrollBy({ top: top - navBottom - 18, behavior: "instant" });
     });
   }
 

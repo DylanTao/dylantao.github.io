@@ -93,8 +93,35 @@ test("details: an opened project card keeps its row, stays inside the page, and 
   const card = cards.nth(2);
   const trigger = card.locator("[data-project-card-trigger]");
   await card.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
-  const before = await card.boundingBox();
-  const scrollBefore = await page.evaluate(() => scrollY);
+  // The card's box and the scroll offset in one read, so a page in motion cannot skew the comparison.
+  const place = () =>
+    card.evaluate((node) => {
+      const box = node.getBoundingClientRect();
+      return { x: box.x, y: box.y, width: box.width, pageY: box.y + scrollY, scrollY };
+    });
+  // A settled run has finished its scroll as well: two frames later the page has not moved.
+  const drift = () =>
+    page.evaluate(() => {
+      const start = scrollY;
+      return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve(Math.abs(scrollY - start)))));
+    });
+  // Real pointer clicks at a fixed point, checked against what lies there, without Playwright's
+  // actionability retries: a card lifting under the pointer reads as "not stable", and each retry
+  // scrolls the target into view (smoothly, as this page scrolls) while the click lands, moving the
+  // reader's place in the middle of the measurement.
+  const clickAt = async (target, offset) => {
+    const point = await target.evaluate((node, at) => {
+      const box = node.getBoundingClientRect();
+      const x = box.left + (at ? at.x : box.width / 2);
+      const y = box.top + (at ? at.y : box.height / 2);
+      const hit = document.elementFromPoint(x, y);
+      return { x, y, hit: Boolean(hit && node.contains(hit)) };
+    }, offset ?? null);
+    expect(point.hit, "the click point lies on its target").toBe(true);
+    await page.mouse.click(point.x, point.y);
+  };
+  const before = await place();
+  const scrollBefore = before.scrollY;
   // Watch every frame of the change for a page that grows sideways.
   await page.evaluate(() => {
     window.__cardFrames = { overflow: 0, frames: 0, sampling: true };
@@ -105,17 +132,17 @@ test("details: an opened project card keeps its row, stays inside the page, and 
     };
     requestAnimationFrame(sample);
   });
-  await trigger.click({ position: { x: 12, y: 12 } });
+  await clickAt(trigger, { x: 12, y: 12 });
   await expect(card).toHaveAttribute("data-project-card-state", "expanded");
   const settled = () => cards.evaluateAll((items) => items.reduce((count, item) => count + item.getAnimations({ subtree: true }).length, 0));
   await expect.poll(settled).toBe(0);
-  const open = await card.boundingBox();
-  const scrolled = (await page.evaluate(() => scrollY)) - scrollBefore;
+  expect(await drift(), "the page was still scrolling after the cards settled").toBeLessThan(1);
+  const open = await place();
   const columns = await card.evaluate((node) => getComputedStyle(node.parentElement).gridTemplateColumns.split(" ").length);
   // It opens in its own row (in page coordinates: a tall card on a phone may scroll once to show
   // its actions); a card at the end of a row grows back toward the row's start.
   // Within a few pixels (Linux text metrics land a sub-pixel row 2 px off); a row is hundreds tall.
-  expect(Math.abs(open.y + scrolled - before.y), "opened card left its row").toBeLessThan(3);
+  expect(Math.abs(open.pageY - before.pageY), "opened card left its row").toBeLessThan(3);
   if (columns >= 2) expect(Math.abs(open.x + open.width - (before.x + before.width)) < 2 || Math.abs(open.x - before.x) < 2).toBe(true);
   const geometry = await card.evaluate((node) => {
     const box = node.getBoundingClientRect();
@@ -176,12 +203,16 @@ test("details: an opened project card keeps its row, stays inside the page, and 
   // Closing the first card from where it opened returns the reader to the same scroll position.
   await card.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
   const home = await page.evaluate(() => scrollY);
-  await trigger.click({ position: { x: 12, y: 12 } });
+  await clickAt(trigger, { x: 12, y: 12 });
   await expect.poll(settled).toBe(0);
-  await card.locator("[data-project-card-close]").click();
+  expect(await drift(), "the page was still scrolling after the card opened").toBeLessThan(1);
+  await clickAt(card.locator("[data-project-card-close]"));
   await expect(card).toHaveAttribute("data-project-card-state", "collapsed");
   await expect(trigger).toBeFocused();
-  await expect.poll(() => page.evaluate(() => Math.round(scrollY))).toBe(Math.round(home));
+  // The way back rides the closing card's clock: once it settles, the reader is home.
+  await expect.poll(settled).toBe(0);
+  expect(Math.round(await page.evaluate(() => scrollY)), "closing did not hand back the reader's place").toBe(Math.round(home));
+  expect(await drift(), "the page was still scrolling after the card closed").toBeLessThan(1);
   await page.screenshot({ path: testInfo.outputPath("project-card-closed.png") });
   expect(scrollBefore).toBeGreaterThanOrEqual(0);
   expect(errors).toEqual([]);
