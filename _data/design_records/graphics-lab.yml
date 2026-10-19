@@ -4,7 +4,10 @@
 #
 # Schema version 1, as in homepage-desk-scene.yml, plus optional fields this record uses (test/test_design_records.py
 # checks them):
-#   systems[].index: false   keeps a system off the Graphics Lab page; it stays in this record
+#   systems[].index: false   keeps a system's techniques off the Graphics Lab page; they stay in this record
+#   systems[].page           {title, url, what}: a write-up of a system kept off the page, which the page and the
+#                            lab's deck then show as one row (Performance, /projects/graphics-performance/)
+#   systems[].thumbnail      {path, alt, frame}: that row's still, as for a technique
 #   techniques[]
 #     page                   {title, url}: the experiment's own page, when it has one
 #     thumbnail              {path, alt, frame}: a frame of the live scene (bin/capture_graphics_lab_stills.cjs)
@@ -1316,11 +1319,20 @@ systems:
             adds: Measures where artists draw lines on the same models, a test for which lines the tracer keeps.
         next: []
 
-  # Performance is engineering on the same scene rather than a visible experiment, so it stays off the Graphics Lab
-  # page. Its prioritized next techniques are the open problem `next-performance`, and the WebGPU decision is `webgpu`.
+  # Performance is engineering on the same scene rather than a visible experiment, so its techniques stay off the
+  # Graphics Lab page's rows; the page and the lab's deck show the system as one row that opens its write-up. Its
+  # prioritized next techniques are the open problem `next-performance`, and the WebGPU decision is `webgpu`.
   - id: performance
     name: Performance
     index: false
+    page:
+      title: Making the 3D home fast
+      url: /projects/graphics-performance/
+      what: Where each frame went, the five changes that cut the view from outside from 89.8 to 56.9 ms of script, what I tried and dropped, and what comes next.
+    thumbnail:
+      path: assets/img/project_pics/graphics-lab/performance.webp
+      alt: The authored view from outside at 1:20 in the afternoon, the house in its cliff above the beach, the frame the performance pass measured
+      frame: The authored outside view on the weekday clock, Friday, October 16, 2026, 13:20, the view and hour bin/measure_coastal_views.cjs samples; captured October 19
     summary: >-
       Where the coastal home's frame goes, and what was cut on October 18, 2026. Outside, the frame was bound by three's
       per-draw work rather than by pixels, so the cuts target uniform uploads, program switches, shadow-map draws and
@@ -1789,6 +1801,32 @@ history:
     reframe: Clouds lit through Earth's shadow are the next step for the sunset.
     commit: "1104eb491"
     sources: [hillaire2020sky, bruneton2008atmosphere, noaa-solar, meeus1998algorithms, cox1954glitter, wronski2014fog, hillaire2015frostbite]
+  - date: "2026-10-19"
+    title: The performance work gets a page of its own
+    system: performance
+    frame: >-
+      Sirui asked why the graphics and optimization work in the 3D home had no project pages he could see. The lab sat
+      two closed decks down on the projects index, and this system, kept off the lab's rows, appeared nowhere a visitor
+      would look.
+    dimensions:
+      [
+        what a closed deck says about what it holds,
+        which deck opens by default and on which screens,
+        where the write-up sits in the hierarchy,
+        what the write-up leads with,
+        how the 3D home looks on its card,
+      ]
+    move: >-
+      Every deck's face now names what it holds, branches first, each name a link to its page; the website revamp opens by
+      default on screens at least 992 px wide. Making the 3D home fast, a child of the lab built from this system and the
+      performance notes, joins the lab's page and deck as one Performance row, and the 3D home's card shows the renovated
+      house at golden hour instead of a July frame of the first room.
+    backtalk: >-
+      Flattening the revamp's descendants gave fourteen names, too many for a card, so a face links six and counts the
+      rest. The lab's deck had counted only experiments, so the write-up's card is counted separately from them. The two
+      evidence stills under docs/ are not published, so the page carries copies.
+    reframe: The title, the default-open deck and the names on each face are Sirui's call.
+    sources: []
   # Append new moves here, oldest first.
 
 open_problems:

@@ -116,6 +116,12 @@ const ALL_SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-graphics-performance",
+    path: "/projects/graphics-performance/",
+    readySelector: ".project-detail .project-case-hero",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "project-light-paths",
     path: "/projects/light-paths/",
     readySelector: "[data-light-lab][data-light-lab-state='idle']",

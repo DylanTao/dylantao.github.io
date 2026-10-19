@@ -209,3 +209,185 @@
     gap: 0.75rem;
   }
 }
+
+// The performance write-up (/projects/graphics-performance/): one chart of what each change carries, two plain
+// tables of the measurements, and the parity evidence. Exact values sit beside every bar and in the tables, so
+// nothing is read from a bar's length alone.
+.post.project-case-page article > .performance-chart,
+.post.project-case-page article > .performance-table-wrap,
+.post.project-case-page article > .performance-evidence {
+  width: 100%;
+  max-width: min(100%, 46rem);
+  margin: 1.35rem auto 1.7rem;
+}
+
+.performance-chart {
+  --chart-max: 90;
+  --chart-ink: color-mix(in srgb, var(--global-text-color-light) 62%, transparent);
+
+  .performance-chart-title {
+    margin: 0 0 0.75rem;
+    color: var(--global-text-color);
+    font-size: var(--type-compact);
+    font-weight: 600;
+  }
+
+  figcaption {
+    margin-top: 0.85rem;
+    color: var(--global-text-color-light);
+    font-size: var(--type-compact);
+    line-height: 1.55;
+  }
+}
+
+.performance-chart-rows {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: minmax(8.5rem, 15rem) minmax(0, 1fr) 3.4rem;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  li.is-result {
+    --chart-ink: var(--global-theme-color);
+
+    .performance-chart-label,
+    .performance-chart-value {
+      color: var(--global-text-color);
+      font-weight: 600;
+    }
+  }
+}
+
+.performance-chart-label,
+.performance-chart-value {
+  color: var(--global-text-color-light);
+  font-size: var(--type-compact);
+  line-height: 1.35;
+}
+
+.performance-chart-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.performance-chart-track {
+  position: relative;
+  height: 1.1rem;
+  border-left: 1px solid var(--global-divider-color);
+}
+
+// A bar ends at the slower run; where two runs differ, the stretch between them is lighter.
+.performance-chart-bar {
+  position: absolute;
+  top: 0.18rem;
+  left: 0;
+  width: calc(var(--high) / var(--chart-max) * 100%);
+  height: 0.75rem;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(90deg, var(--chart-ink) calc(var(--low) / var(--high) * 100%), color-mix(in srgb, var(--chart-ink) 42%, transparent) 0);
+}
+
+.performance-table-wrap {
+  overflow-x: auto;
+
+  &:focus-visible {
+    border-radius: var(--md-lite-radius-sm);
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 3px;
+  }
+}
+
+.performance-table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+
+  caption {
+    padding: 0 0 0.55rem;
+    caption-side: top;
+    color: var(--global-text-color);
+    font-size: var(--type-compact);
+    font-weight: 600;
+    text-align: left;
+  }
+
+  th,
+  td {
+    padding: 0.55rem 0.9rem 0.55rem 0;
+    border-top: 1px solid var(--global-divider-color);
+    font-size: var(--type-compact);
+    line-height: 1.5;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  thead th {
+    border-top: 0;
+    color: var(--global-text-color-light);
+    font-weight: 500;
+  }
+
+  tbody th {
+    color: var(--global-text-color);
+    font-weight: 600;
+  }
+
+  td {
+    color: var(--global-text-color-light);
+  }
+}
+
+.performance-table--changes th[scope="row"] {
+  width: 24%;
+}
+
+.performance-table--views td {
+  white-space: nowrap;
+}
+
+.performance-evidence {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+
+  figure {
+    margin: 0;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--md-lite-radius-md);
+    box-shadow: inset 0 0 0 1px var(--global-divider-color);
+  }
+
+  figcaption {
+    margin-top: 0.45rem;
+    color: var(--global-text-color-light);
+    font-size: var(--type-compact);
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .performance-chart-rows li {
+    grid-template-columns: minmax(0, 1fr) 3.4rem;
+    gap: 0.25rem 0.75rem;
+  }
+
+  .performance-chart-label {
+    grid-column: 1 / -1;
+  }
+
+  .performance-evidence {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -43,18 +43,58 @@
   {% assign project_card_loading = 'lazy' %}
 {% endif %}
 {% assign project_deck_size = 0 %}
+{% assign project_deck_experiments = 0 %}
 {% assign project_deck_record = null %}
+{% assign project_deck_inside = '' | split: '' %}
 {% if page.project_cards_interactive %}
   {% if project.deck_children == 'record' %}
+    {% comment %} A system kept off the lab's rows with a write-up of its own (Performance) adds one card, not an experiment. {% endcomment %}
     {% assign project_deck_record = site.data.design_records[project_file_slug] %}
     {% for system in project_deck_record.systems %}
-      {% unless system.index == false %}
+      {% if system.index == false %}
+        {% if system.page %}
+          {% assign project_deck_size = project_deck_size | plus: 1 %}
+        {% endif %}
+      {% else %}
         {% assign project_deck_size = project_deck_size | plus: system.techniques.size %}
-      {% endunless %}
+        {% assign project_deck_experiments = project_deck_experiments | plus: system.techniques.size %}
+      {% endif %}
     {% endfor %}
   {% else %}
     {% assign project_deck_kids = site.projects | where: 'parent', project_file_slug %}
     {% assign project_deck_size = project_deck_kids.size %}
+    {% comment %}
+      What the deck holds, named on its face (2026-10-19: Sirui could not find the graphics work two decks down).
+      Branches come first, each followed by what it holds two levels down (the 3D home, the Graphics Lab, its pages),
+      then the other children, newest first. The face links the first six.
+    {% endcomment %}
+    {% if project_deck_size > 0 %}
+      {% assign inside_kids = site.projects | where: 'parent', project_file_slug | sort: 'debut_date' | reverse %}
+      {% assign inside_branches = '' | split: '' %}
+      {% assign inside_leaves = '' | split: '' %}
+      {% for inside_kid in inside_kids %}
+        {% assign inside_grandkids = site.projects | where: 'parent', inside_kid.slug %}
+        {% if inside_grandkids.size > 0 %}
+          {% assign inside_branches = inside_branches | push: inside_kid %}
+        {% else %}
+          {% assign inside_leaves = inside_leaves | push: inside_kid %}
+        {% endif %}
+      {% endfor %}
+      {% for inside_kid in inside_branches %}
+        {% assign project_deck_inside = project_deck_inside | push: inside_kid %}
+        {% assign inside_second = site.projects | where: 'parent', inside_kid.slug | sort: 'debut_date' | reverse %}
+        {% for inside_second_item in inside_second %}
+          {% assign project_deck_inside = project_deck_inside | push: inside_second_item %}
+          {% assign inside_third = site.projects | where: 'parent', inside_second_item.slug | sort: 'debut_date' | reverse %}
+          {% for inside_third_item in inside_third %}
+            {% assign project_deck_inside = project_deck_inside | push: inside_third_item %}
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+      {% for inside_kid in inside_leaves %}
+        {% assign project_deck_inside = project_deck_inside | push: inside_kid %}
+      {% endfor %}
+    {% endif %}
   {% endif %}
 {% endif %}
 {% capture project_card_figure_markup %}
@@ -134,7 +174,7 @@
 {% if page.project_cards_interactive %}
   {% assign card_heading_level = include.heading_level | default: 3 %}
   {% assign project_deck_id = project_file_slug | prepend: 'deck-' %}
-  {% capture project_deck_label %}{% if project_deck_record %}{{ project_deck_size }} experiments{% elsif project_deck_size == 1 %}{{ project_deck_kids.first.title }}{% else %}{{ project_deck_size }} inside{% endif %}{% endcapture %}
+  {% capture project_deck_label %}{% if project_deck_record %}{{ project_deck_experiments }} experiments{% elsif project_deck_size == 1 %}{{ project_deck_kids.first.title }}{% else %}{{ project_deck_size }} inside{% endif %}{% endcapture %}
   <article
     class="project-card{% if project_deck_size > 0 %} project-deck{% if include.deck_feature %} project-deck--feature{% endif %}{% endif %}"
     data-project-card
@@ -204,13 +244,48 @@
             <h{{ card_heading_level }} class="card-title" data-entry-title>{{ project.title }}</h{{ card_heading_level }}>
           </div>
           {% if project_deck_size > 0 %}
-            <p class="project-deck-count">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M4 9.5 12 5l8 4.5-8 4.5z" />
-                <path d="m4 13.5 8 4.5 8-4.5" />
-              </svg>
-              <span>{{ project_deck_label | strip }}</span>
-            </p>
+            {% comment %}
+              The deck's face names what it holds, each name a link straight to its page; a click between them still
+              opens the deck. The Graphics Lab names its record's groups instead, and its write-up.
+            {% endcomment %}
+            <div class="project-deck-summary{% if project_deck_record %} project-deck-summary--groups{% endif %}">
+              <p class="project-deck-count">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M4 9.5 12 5l8 4.5-8 4.5z" />
+                  <path d="m4 13.5 8 4.5 8-4.5" />
+                </svg>
+                <span>
+                  {%- if project_deck_record %}{{ project_deck_label | strip }}{% else %}Inside{% endif -%}
+                </span>
+              </p>
+              <ul class="project-deck-inside" aria-label="Inside {{ project.title | escape }}" data-project-deck-inside>
+                {% if project_deck_record %}
+                  {% for system in project_deck_record.systems %}
+                    {% if system.index == false %}
+                      {% if system.page %}
+                        <li>
+                          <a href="{{ system.page.url | relative_url }}">{{ system.name | smartify }}</a>
+                        </li>
+                      {% endif %}
+                    {% else %}
+                      <li>
+                        <a href="{{ project.url | relative_url }}#lab-group-{{ system.id }}">{{ system.name | smartify }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                {% else %}
+                  {% for inside_item in project_deck_inside limit: 6 %}
+                    {% assign inside_card = site.data.project_cards[inside_item.slug] %}
+                    <li>
+                      <a href="{{ inside_item.url | relative_url }}">{{ inside_card.chip | default: inside_item.title }}</a>
+                    </li>
+                  {% endfor %}
+                  {% if project_deck_inside.size > 6 %}
+                    <li class="project-deck-inside-more">and {{ project_deck_inside.size | minus: 6 }} more</li>
+                  {% endif %}
+                {% endif %}
+              </ul>
+            </div>
           {% endif %}
           {% if project.venue or project.year or project.role or project_status_label != '' %}
             <p class="project-card-meta">

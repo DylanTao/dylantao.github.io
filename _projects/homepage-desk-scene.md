@@ -2,7 +2,9 @@
 layout: page
 title: The Desk That Learned Depth
 description: How the homepage's paper collage became an inhabited coastal home while keeping its records, research papers, and discoveries.
-img: assets/img/project_pics/site-experiments/homepage-desk-depth.png
+# The cutaway house at golden hour on the weekday clock, captured October 19, 2026 after the renovation;
+# the July frames stay below as the story's history.
+img: assets/img/project_pics/site-experiments/homepage-desk-coast-2026-10-19.jpg
 image_aspect: 16 / 9
 card_image_fit: cover
 card_image_position: top center

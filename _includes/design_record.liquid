@@ -100,6 +100,11 @@
     <section class="design-record-system" id="{{ system.id }}" aria-labelledby="{{ system.id }}-title">
       <h2 id="{{ system.id }}-title">{{ system.name | smartify }}</h2>
       <div class="design-record-system-summary">{{ system.summary | markdownify }}</div>
+      {%- if system.page %}
+        <p class="design-record-page">
+          Its own page: <a href="{{ system.page.url | relative_url }}">{{ system.page.title | smartify }}</a>
+        </p>
+      {%- endif %}
 
       {%- for technique in system.techniques %}
         <article

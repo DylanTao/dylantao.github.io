@@ -279,6 +279,18 @@ class DesignRecordSchemaTests(unittest.TestCase):
                 with self.subTest(slug=slug, system=system["id"]):
                     if "index" in system:
                         self.assertIsInstance(system["index"], bool)
+                    # A system kept off the lab's rows can have a write-up of its own, shown as one row with a still.
+                    if "page" in system:
+                        self.assertIs(system.get("index"), False, "only a system kept off the rows gets a single page row")
+                        self.assertTrue(system["page"].get("title"))
+                        self.assertRegex(system["page"].get("url", ""), r"^/projects/[a-z0-9-]+/$")
+                        self.assertGreater(len(system["page"].get("what", "")), 40, "the row says what the page holds")
+                        self.assertIn("thumbnail", system, "a page row carries a still like every other row")
+                    if "thumbnail" in system:
+                        thumbnail = system["thumbnail"]
+                        self.assertRegex(thumbnail.get("path", ""), r"^assets/img/project_pics/.+\.(webp|png|jpg)$")
+                        self.assertGreater(len(thumbnail.get("alt", "")), 20, "a thumbnail says what the still shows")
+                        self.assertTrue(thumbnail.get("frame"), "a thumbnail says which frame of the scene it is")
             for _, technique in techniques(record):
                 with self.subTest(slug=slug, technique=technique["id"]):
                     if "page" in technique:
@@ -380,18 +392,18 @@ class DesignRecordRepositoryTests(unittest.TestCase):
 
     def test_thumbnails_and_own_pages_exist(self) -> None:
         for slug, record in self.records.items():
-            for _, technique in techniques(record):
-                if "thumbnail" in technique:
-                    path = technique["thumbnail"]["path"]
+            for item in [*record["systems"], *(technique for _, technique in techniques(record))]:
+                if "thumbnail" in item:
+                    path = item["thumbnail"]["path"]
                     with self.subTest(slug=slug, thumbnail=path):
                         self.assert_in_repository(path)
                         self.assertLess((REPO_ROOT / path).stat().st_size, 80_000, "a row's still stays small")
-                if "page" in technique:
-                    url = technique["page"]["url"]
+                if "page" in item:
+                    url = item["page"]["url"]
                     with self.subTest(slug=slug, page=url):
                         source = PROJECTS_DIR / f"{url.strip('/').split('/')[-1]}.md"
                         self.assertTrue(source.is_file(), f"{url} is not a project page")
-                        self.assertEqual(front_matter(source).get("title"), technique["page"]["title"])
+                        self.assertEqual(front_matter(source).get("title"), item["page"]["title"])
 
     def test_commits_exist_in_history(self) -> None:
         shas = []

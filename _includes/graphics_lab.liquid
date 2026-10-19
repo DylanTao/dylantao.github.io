@@ -3,6 +3,7 @@
   _data/design_records/graphics-lab.yml, so the page and the record never disagree.
   part="experiments": one row per technique, grouped by system (systems with `index: false` stay in the record only),
     with its still, where it stands, the first paper it adapts, and a link to its own page or its section of the record.
+    A system kept off the rows that has a write-up of its own (`page`, as Performance has) is one row that opens it.
   part="shortlist": the record's shortlist of papers to try next.
   part="bench": work in progress that has not reached the scene.
   Usage: {% include graphics_lab.liquid part="experiments" %}
@@ -13,58 +14,83 @@
 {%- if include.part == 'experiments' -%}
   <div class="graphics-lab-index" data-graphics-lab-index>
     {%- for system in lab.systems -%}
-      {%- if system.index == false -%}
+      {%- if system.index == false and system.page == null -%}
         {%- continue -%}
       {%- endif %}
       <section class="graphics-lab-group" aria-labelledby="lab-group-{{ system.id }}">
         <h3 id="lab-group-{{ system.id }}">{{ system.name | smartify }}</h3>
         <ul class="graphics-lab-experiments">
-          {%- for technique in system.techniques %}
-            {%- if technique.page -%}
-              {%- assign experiment_href = technique.page.url | relative_url -%}
-            {%- else -%}
-              {%- assign experiment_href = record_href | append: '#' | append: technique.id -%}
-            {%- endif -%}
-            {%- if technique.status == 'shipped' -%}
-              {%- assign experiment_where = 'scene' -%}
-              {%- assign experiment_where_label = 'In the scene' -%}
-            {%- elsif technique.page -%}
-              {%- assign experiment_where = 'lab' -%}
-              {%- assign experiment_where_label = 'Lab page' -%}
-            {%- else -%}
-              {%- assign experiment_where = 'bench' -%}
-              {%- assign experiment_where_label = 'Exploratory' -%}
-            {%- endif %}
-            <li class="graphics-lab-experiment" data-where="{{ experiment_where }}">
+          {%- if system.index == false %}
+            <li class="graphics-lab-experiment" data-where="page">
               <div class="graphics-lab-thumb">
-                {%- if technique.thumbnail %}
-                  <img
-                    src="{{ technique.thumbnail.path | relative_url }}"
-                    alt="{{ technique.thumbnail.alt | escape }}"
-                    width="480"
-                    height="360"
-                    loading="lazy"
-                    decoding="async"
-                  >
-                {%- else %}
-                  <span>No still yet</span>
-                {%- endif %}
+                <img
+                  src="{{ system.thumbnail.path | relative_url }}"
+                  alt="{{ system.thumbnail.alt | escape }}"
+                  width="480"
+                  height="360"
+                  loading="lazy"
+                  decoding="async"
+                >
               </div>
               <div class="graphics-lab-experiment-body">
                 <h4>
-                  <a href="{{ experiment_href }}">{{ technique.name | smartify }}</a>
+                  <a href="{{ system.page.url | relative_url }}">{{ system.page.title | smartify }}</a>
                 </h4>
                 <p class="graphics-lab-experiment-meta">
-                  <span class="graphics-lab-where" data-where="{{ experiment_where }}">{{ experiment_where_label }}</span>
-                  {%- if technique.sources.size > 0 -%}
-                    {%- assign first_source = lab.sources | where: 'id', technique.sources.first | first -%}
-                    <span class="graphics-lab-basis">after {{ first_source.label | smartify }}</span>
-                  {%- endif %}
+                  <span class="graphics-lab-where" data-where="page">Write-up</span>
+                  <span class="graphics-lab-basis">{{ system.techniques.size }} techniques in the record</span>
                 </p>
-                <p class="graphics-lab-experiment-idea">{{ technique.what | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+                <p class="graphics-lab-experiment-idea">{{ system.page.what | smartify }}</p>
               </div>
             </li>
-          {%- endfor %}
+          {%- else %}
+            {%- for technique in system.techniques %}
+              {%- if technique.page -%}
+                {%- assign experiment_href = technique.page.url | relative_url -%}
+              {%- else -%}
+                {%- assign experiment_href = record_href | append: '#' | append: technique.id -%}
+              {%- endif -%}
+              {%- if technique.status == 'shipped' -%}
+                {%- assign experiment_where = 'scene' -%}
+                {%- assign experiment_where_label = 'In the scene' -%}
+              {%- elsif technique.page -%}
+                {%- assign experiment_where = 'lab' -%}
+                {%- assign experiment_where_label = 'Lab page' -%}
+              {%- else -%}
+                {%- assign experiment_where = 'bench' -%}
+                {%- assign experiment_where_label = 'Exploratory' -%}
+              {%- endif %}
+              <li class="graphics-lab-experiment" data-where="{{ experiment_where }}">
+                <div class="graphics-lab-thumb">
+                  {%- if technique.thumbnail %}
+                    <img
+                      src="{{ technique.thumbnail.path | relative_url }}"
+                      alt="{{ technique.thumbnail.alt | escape }}"
+                      width="480"
+                      height="360"
+                      loading="lazy"
+                      decoding="async"
+                    >
+                  {%- else %}
+                    <span>No still yet</span>
+                  {%- endif %}
+                </div>
+                <div class="graphics-lab-experiment-body">
+                  <h4>
+                    <a href="{{ experiment_href }}">{{ technique.name | smartify }}</a>
+                  </h4>
+                  <p class="graphics-lab-experiment-meta">
+                    <span class="graphics-lab-where" data-where="{{ experiment_where }}">{{ experiment_where_label }}</span>
+                    {%- if technique.sources.size > 0 -%}
+                      {%- assign first_source = lab.sources | where: 'id', technique.sources.first | first -%}
+                      <span class="graphics-lab-basis">after {{ first_source.label | smartify }}</span>
+                    {%- endif %}
+                  </p>
+                  <p class="graphics-lab-experiment-idea">{{ technique.what | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+                </div>
+              </li>
+            {%- endfor %}
+          {%- endif %}
         </ul>
       </section>
     {%- endfor %}
@@ -72,7 +98,8 @@
 {%- elsif include.part == 'deck' -%}
   {%- comment -%}
     The Graphics Lab's deck on the projects index (2026-10-18): the same experiments as part="experiments", as small
-    cards grouped by system, so the lab opens in place under the 3D home instead of a card per experiment.
+    cards grouped by system, so the lab opens in place under the 3D home instead of a card per experiment. A system
+    with a write-up of its own (Performance) is one card that opens it.
   {%- endcomment -%}
   {%- assign lab_group_level = include.heading_level | default: 4 | plus: 1 -%}
   {%- if lab_group_level > 6 -%}
@@ -80,46 +107,63 @@
   {%- endif %}
   <div class="lab-deck" data-lab-deck>
     {%- for system in lab.systems -%}
-      {%- if system.index == false -%}
+      {%- if system.index == false and system.page == null -%}
         {%- continue -%}
       {%- endif %}
       <section class="lab-deck-group" aria-labelledby="lab-deck-{{ system.id }}">
         <h{{ lab_group_level }} class="lab-deck-group-label" id="lab-deck-{{ system.id }}">
           {{ system.name | smartify }}
-          <span>{{ system.techniques.size }}</span>
+          <span>
+            {%- if system.index == false %}1{% else %}{{ system.techniques.size }}{% endif -%}
+          </span>
         </h{{ lab_group_level }}>
         <ul class="lab-deck-grid">
-          {%- for technique in system.techniques %}
-            {%- if technique.page -%}
-              {%- assign experiment_href = technique.page.url | relative_url -%}
-            {%- else -%}
-              {%- assign experiment_href = record_href | append: '#' | append: technique.id -%}
-            {%- endif -%}
-            {%- if technique.status == 'shipped' -%}
-              {%- assign experiment_where = 'scene' -%}
-              {%- assign experiment_where_label = 'In the scene' -%}
-            {%- elsif technique.page -%}
-              {%- assign experiment_where = 'lab' -%}
-              {%- assign experiment_where_label = 'Lab page' -%}
-            {%- else -%}
-              {%- assign experiment_where = 'bench' -%}
-              {%- assign experiment_where_label = 'Exploratory' -%}
-            {%- endif %}
+          {%- if system.index == false %}
             <li class="lab-deck-item">
-              <a class="lab-card" href="{{ experiment_href }}" data-entry data-where="{{ experiment_where }}">
+              <a class="lab-card" href="{{ system.page.url | relative_url }}" data-entry data-where="page">
                 <span class="lab-card-thumb" data-entry-media>
-                  {%- if technique.thumbnail %}
-                    <img src="{{ technique.thumbnail.path | relative_url }}" alt="" width="480" height="360" loading="lazy" decoding="async">
-                  {%- endif %}
+                  <img src="{{ system.thumbnail.path | relative_url }}" alt="" width="480" height="360" loading="lazy" decoding="async">
                 </span>
                 <span class="lab-card-body">
-                  <span class="lab-card-title" data-entry-title>{{ technique.name | smartify }}</span>
-                  <span class="lab-card-idea">{{ technique.what | markdownify | strip_html | strip }}</span>
-                  <span class="graphics-lab-where" data-where="{{ experiment_where }}">{{ experiment_where_label }}</span>
+                  <span class="lab-card-title" data-entry-title>{{ system.page.title | smartify }}</span>
+                  <span class="lab-card-idea">{{ system.page.what | smartify }}</span>
+                  <span class="graphics-lab-where" data-where="page">Write-up</span>
                 </span>
               </a>
             </li>
-          {%- endfor %}
+          {%- else %}
+            {%- for technique in system.techniques %}
+              {%- if technique.page -%}
+                {%- assign experiment_href = technique.page.url | relative_url -%}
+              {%- else -%}
+                {%- assign experiment_href = record_href | append: '#' | append: technique.id -%}
+              {%- endif -%}
+              {%- if technique.status == 'shipped' -%}
+                {%- assign experiment_where = 'scene' -%}
+                {%- assign experiment_where_label = 'In the scene' -%}
+              {%- elsif technique.page -%}
+                {%- assign experiment_where = 'lab' -%}
+                {%- assign experiment_where_label = 'Lab page' -%}
+              {%- else -%}
+                {%- assign experiment_where = 'bench' -%}
+                {%- assign experiment_where_label = 'Exploratory' -%}
+              {%- endif %}
+              <li class="lab-deck-item">
+                <a class="lab-card" href="{{ experiment_href }}" data-entry data-where="{{ experiment_where }}">
+                  <span class="lab-card-thumb" data-entry-media>
+                    {%- if technique.thumbnail %}
+                      <img src="{{ technique.thumbnail.path | relative_url }}" alt="" width="480" height="360" loading="lazy" decoding="async">
+                    {%- endif %}
+                  </span>
+                  <span class="lab-card-body">
+                    <span class="lab-card-title" data-entry-title>{{ technique.name | smartify }}</span>
+                    <span class="lab-card-idea">{{ technique.what | markdownify | strip_html | strip }}</span>
+                    <span class="graphics-lab-where" data-where="{{ experiment_where }}">{{ experiment_where_label }}</span>
+                  </span>
+                </a>
+              </li>
+            {%- endfor %}
+          {%- endif %}
         </ul>
       </section>
     {%- endfor %}

@@ -3,6 +3,7 @@ const { attachScreenshot, collectRuntimeErrors, preparePage, screenshotDiffRatio
 const { ALL_SITEWIDE_ROUTES, SITEWIDE_ROUTES, publicRouteUrl } = require("./public-routes");
 
 const FUN_PROJECT_ROUTE_IDS = new Set([
+  "project-graphics-performance",
   "project-graphics-lab",
   "project-openai-build-week",
   "project-paper-constellation",
@@ -19,8 +20,9 @@ const FUN_PROJECT_ROUTE_IDS = new Set([
   "project-dogtor-portal",
   "project-not-a-good-driver",
 ]);
-// Children keep their pages (and every fun-project check) but are listed on their parent's page, not the index.
-const CHILD_PROJECT_ROUTE_IDS = new Set(["project-light-paths"]);
+// Children keep their pages (and every fun-project check) but are listed on their parent's page, not the index:
+// the Graphics Lab's deck shows them as rows of its record, not as project cards.
+const CHILD_PROJECT_ROUTE_IDS = new Set(["project-light-paths", "project-graphics-performance"]);
 const INDEXED_FUN_PROJECT_COUNT = FUN_PROJECT_ROUTE_IDS.size - CHILD_PROJECT_ROUTE_IDS.size;
 
 const COASTAL_THEME_MODES = [
@@ -1129,10 +1131,14 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     await expect(driverCard.locator("[data-project-card-evolution]")).toHaveCount(0);
     await expect(page.locator("[data-project-card-evolution]")).toHaveCount(INDEXED_FUN_PROJECT_COUNT - 1);
 
-    // The site experiments are one deck, the website revamp; it opens in place into its projects.
+    // The site experiments are one deck, the website revamp; it opens in place into its projects. Wide screens
+    // (at least 992 px) start with it open (2026-10-19); narrower ones open it with a click.
     const revamp = page.locator("[data-project-deck='website-revamp']");
     await revamp.scrollIntoViewIfNeeded();
-    await revamp.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
+    if (page.viewportSize().width < 992) {
+      await expect(revamp).toHaveAttribute("data-project-deck-state", "closed");
+      await revamp.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
+    }
     await expect(revamp).toHaveAttribute("data-project-deck-state", "open");
     await expect(page.locator("[data-project-deck-trail]")).toBeVisible();
     await expect
@@ -1973,7 +1979,7 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.goto(publicRouteUrl("/ai/#projects"), { waitUntil: "domcontentloaded" });
   await expect(page.locator(".ai-jump-nav")).toHaveCount(0);
-  await expect(page.locator("[data-project-slug]")).toHaveCount(21);
+  await expect(page.locator("[data-project-slug]")).toHaveCount(22);
   await expect(page.locator('#project-website-revamp a[href$="/projects/website-revamp/"]')).toHaveText("Human project page");
   await expect(page.locator('#writing a[href$="/blog/"]')).toHaveText("Human writing index");
   await expect(page.locator('#cv a[href$="/cv/"]')).toHaveText("Human CV");
@@ -2393,11 +2399,27 @@ test("projects nest the site experiments under the website revamp, newest first 
   await expect(root.locator(":scope > [data-project-card]")).toHaveCount(1);
   const revamp = root.locator(":scope > [data-project-deck='website-revamp']");
   await expect(revamp.locator(":scope > .card h4.card-title")).toHaveText("Vibe-Coding a Research Portfolio");
-  await expect(revamp.locator(":scope > .card .project-deck-count")).toHaveText("11 inside");
+  await expect(revamp).toHaveAttribute("data-project-deck-size", "11");
 
-  await revamp.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
-  await expect(revamp).toHaveAttribute("data-project-deck-state", "open");
-  await expect(page).toHaveURL(/#deck\/website-revamp$/);
+  // Its face names what it holds, the 3D home's branch first, each name a link to its page (2026-10-19: Sirui
+  // could not find the graphics work two closed decks down).
+  const revampInside = revamp.locator(":scope > .card [data-project-deck-inside]");
+  await expect(revampInside.locator("a")).toHaveText(["The 3D home", "Graphics Lab", "Performance", "Light Paths", "La Jolla", "duh & P"]);
+  await expect(revampInside.getByRole("link", { name: "Performance", exact: true })).toHaveAttribute("href", /\/projects\/graphics-performance\/$/);
+  await expect(revampInside.locator(".project-deck-inside-more")).toHaveText("and 8 more");
+
+  // Wide screens start with the revamp open and leave the address alone; narrower ones open it with a click.
+  if (page.viewportSize().width >= 992) {
+    await expect(revamp).toHaveAttribute("data-project-deck-state", "open");
+    await expect(page).not.toHaveURL(/#deck\//);
+    await expect(revampInside).toBeVisible();
+  } else {
+    await expect(revamp).toHaveAttribute("data-project-deck-state", "closed");
+    await expect(revampInside).toBeVisible();
+    await revamp.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
+    await expect(revamp).toHaveAttribute("data-project-deck-state", "open");
+    await expect(page).toHaveURL(/#deck\/website-revamp$/);
+  }
   const cards = revamp.locator(":scope > [data-project-deck-children] > .project-card-grid > [data-project-card]");
   await expect(cards).toHaveCount(11);
   await expect(cards.locator(":scope > .card h5.card-title")).toHaveCount(11);
@@ -2435,9 +2457,10 @@ test("projects nest the site experiments under the website revamp, newest first 
   await attachScreenshot(page, testInfo, `projects-site-experiments-${testInfo.project.name}`, { fullPage: true });
 
   // The 3D home holds the Graphics Lab, and the lab holds every indexed experiment of its record
-  // (_data/design_records/graphics-lab.yml), grouped by system; the deck and each group name their
-  // own count, so the check follows the record as it grows.
+  // (_data/design_records/graphics-lab.yml), grouped by system, plus one card for the performance write-up; the
+  // deck and each group name their own count, so the check follows the record as it grows.
   const desk = cards.filter({ has: page.getByRole("heading", { name: "The Desk That Learned Depth", exact: true }) });
+  await expect(desk.locator(":scope > .card [data-project-deck-inside] a")).toHaveText(["Graphics Lab", "Performance", "Light Paths"]);
   await desk.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
   await expect(page.locator("[data-project-deck-trail] li")).toHaveText([
     "Site experiments",
@@ -2446,11 +2469,19 @@ test("projects nest the site experiments under the website revamp, newest first 
   ]);
   const lab = page.locator("[data-project-deck='graphics-lab']");
   await expect(lab.locator(":scope > .card h6.card-title")).toHaveText("Graphics Lab");
+  // The lab's face names its record's groups, each linked to its group on the lab page, and its write-up.
+  const labInside = lab.locator(":scope > .card [data-project-deck-inside] a");
+  await expect(labInside.first()).toHaveAttribute("href", /\/projects\/graphics-lab\/#lab-group-light-transport$/);
+  await expect(labInside.last()).toHaveText("Performance");
+  await expect(labInside.last()).toHaveAttribute("href", /\/projects\/graphics-performance\/$/);
   await lab.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
   await expect(page).toHaveURL(/#deck\/graphics-lab$/);
   const labSize = Number(await lab.getAttribute("data-project-deck-size"));
-  expect(labSize, "the lab deck counts its experiments").toBeGreaterThanOrEqual(19);
-  await expect(lab.locator(":scope > .card .project-deck-count")).toHaveText(`${labSize} experiments`);
+  const writeUps = lab.locator(".lab-card[data-where='page']");
+  await expect(writeUps).toHaveCount(1);
+  await expect(writeUps).toHaveAttribute("href", /\/projects\/graphics-performance\/$/);
+  expect(labSize - 1, "the lab deck counts its experiments").toBeGreaterThanOrEqual(19);
+  await expect(lab.locator(":scope > .card .project-deck-count")).toHaveText(`${labSize - 1} experiments`);
   await expect(lab.locator(".lab-card")).toHaveCount(labSize);
   const labGroups = await lab.locator(".lab-deck-group").evaluateAll((groups) =>
     groups.map((group) => ({

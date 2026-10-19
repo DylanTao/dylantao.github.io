@@ -25,10 +25,11 @@ og_image_height: 756
     <p class="project-case-kicker">Site experiment · Rendering and simulation</p>
     <h1>Graphics Lab</h1>
     <p class="project-case-lede">
-      The 3D coastal home on my homepage is where I try graphics and simulation papers. Each experiment adapts one published method in a form a browser can run: sunlight down a drilled light well, waves that grow with the sea breeze, steam carried by its own heat, curtains that billow at an open door. This page keeps them in one place, with what each does now and the newer papers that could take it further.
+      The 3D coastal home on my homepage is where I try graphics and simulation papers. Each experiment adapts one published method in a form a browser can run: sunlight down a drilled light well, waves that grow with the sea breeze, steam carried by its own heat, curtains that billow at an open door. This page keeps them in one place, with what each does now and the newer papers that could take it further. The technical record behind it holds each one's code, sources and limits, and a separate page shows how I keep the house fast.
     </p>
     <div class="project-case-actions">
       <a href="{{ '/projects/graphics-lab/record/' | relative_url }}">Read the technical record</a>
+      <a href="{{ '/projects/graphics-performance/' | relative_url }}">How I made it fast</a>
       <a href="{{ '/' | relative_url }}">Open the 3D home</a>
     </div>
   </div>
@@ -51,7 +52,7 @@ og_image_height: 756
 
 ## The experiments
 
-Each row opens the experiment's own page or its section of the [technical record]({{ '/projects/graphics-lab/record/' | relative_url }}). The stills are frames of the live scene captured on October 18, 2026, after the renovation and the skinned wildlife, with the scene's clock on a weekday; the light well, the steam and the onsen are set in late August, when the noon sun reaches the shaft and the bath runs in daylight. How the house itself is built, from its Blender sources to its shader warmup and loading, is in [the coastal home's record]({{ '/projects/homepage-desk-scene/record/' | relative_url }}).
+Each row opens the experiment's own page or its section of the [technical record]({{ '/projects/graphics-lab/record/' | relative_url }}). The stills are frames of the live scene captured on October 18, 2026, after the renovation and the skinned wildlife, with the scene's clock on a weekday; the light well, the steam and the onsen are set in late August, when the noon sun reaches the shaft and the bath runs in daylight. How the house itself is built, from its Blender sources to its shader warmup and loading, is in [the coastal home's record]({{ '/projects/homepage-desk-scene/record/' | relative_url }}). The last group, Performance, opens [Making the 3D home fast]({{ '/projects/graphics-performance/' | relative_url }}): where each frame went, what each change saved and what comes next.
 
 {% include graphics_lab.liquid part="experiments" %}
 

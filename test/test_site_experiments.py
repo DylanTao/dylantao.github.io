@@ -23,6 +23,7 @@ STORY_LAYOUT = REPO_ROOT / "_sass" / "_layout.scss"
 RESEARCH_SKILLS_POST = REPO_ROOT / "_posts" / "2026-04-27-research-skills-starter-pack.md"
 
 EXPECTED_CHRONOLOGY = [
+    ("graphics-performance", "Making the 3D home fast", "2026-10-19T13:00:00-07:00"),
     ("graphics-lab", "Graphics Lab", "2026-10-18T00:30:00-07:00"),
     ("light-paths", "Light Paths in the Onsen", "2026-10-14T21:00:00-07:00"),
     ("openai-build-week", "Scaffolding for Taste — OpenAI Build Week", "2026-07-18T18:46:02-07:00"),
@@ -38,6 +39,7 @@ EXPECTED_CHRONOLOGY = [
 ]
 
 REPRODUCTION_GUIDES = [
+    "graphics-performance-reproduction.md",
     "graphics-lab-reproduction.md",
     "light-paths-reproduction.md",
     "paper-constellation-reproduction.md",
@@ -51,6 +53,7 @@ REPRODUCTION_GUIDES = [
 ]
 
 FUN_PROJECT_SLUGS = (
+    "graphics-performance",
     "graphics-lab",
     "light-paths",
     "openai-build-week",
@@ -131,6 +134,7 @@ class SiteExperimentsTests(unittest.TestCase):
     def test_fun_project_cards_have_evidence_bound_origins_and_one_icon_family(self) -> None:
         project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
         expected_icons = {
+            "graphics-performance": "gauge",
             "graphics-lab": "lab",
             "light-paths": "light",
             "openai-build-week": "archive",
@@ -204,7 +208,7 @@ class SiteExperimentsTests(unittest.TestCase):
             "openai-build-week",
         }
         expected = {slug: "website-revamp" for slug in revamp_children}
-        expected.update({"graphics-lab": "homepage-desk-scene", "light-paths": "graphics-lab"})
+        expected.update({"graphics-lab": "homepage-desk-scene", "light-paths": "graphics-lab", "graphics-performance": "graphics-lab"})
         self.assertEqual(children, expected)
 
         site_experiments = {path.stem for path in PROJECTS_DIR.glob("*.md") if frontmatter(path).get("site_experiment") == "true"}
@@ -214,12 +218,36 @@ class SiteExperimentsTests(unittest.TestCase):
                 with self.subTest(research=path.stem):
                     self.assertNotIn("parent", frontmatter(path), "research stays its own top-level group")
 
-        # The Graphics Lab's deck lists its technical record, which links each experiment's page back to the lab.
+        # The Graphics Lab's deck lists its technical record, which links each experiment's page back to the lab. The
+        # performance write-up hangs off its system (kept off the lab's rows), so the lab's page and deck show it as one row.
         self.assertEqual(frontmatter(PROJECTS_DIR / "graphics-lab.md").get("deck_children"), "record")
         record = yaml.safe_load((REPO_ROOT / "_data" / "design_records" / "graphics-lab.yml").read_text(encoding="utf-8"))
         pages = {technique["page"]["url"] for system in record["systems"] for technique in system["techniques"] if technique.get("page")}
-        self.assertIn("/projects/light-paths/", pages, "the parent's record lists the child's page")
-        self.assertIn("{{ '/projects/graphics-lab/' | relative_url }}", (PROJECTS_DIR / "light-paths.md").read_text(encoding="utf-8"))
+        pages |= {system["page"]["url"] for system in record["systems"] if system.get("page")}
+        for slug, parent in children.items():
+            if parent == "graphics-lab":
+                with self.subTest(lab_child=slug):
+                    self.assertIn(f"/projects/{slug}/", pages, "the parent's record lists the child's page")
+                    self.assertIn("{{ '/projects/graphics-lab/' | relative_url }}", (PROJECTS_DIR / f"{slug}.md").read_text(encoding="utf-8"))
+        performance = next(system for system in record["systems"] if system["id"] == "performance")
+        self.assertIs(performance.get("index"), False, "the performance techniques stay off the lab's rows")
+        self.assertEqual(performance["page"]["url"], "/projects/graphics-performance/")
+        lab_include = (REPO_ROOT / "_includes" / "graphics_lab.liquid").read_text(encoding="utf-8")
+        self.assertEqual(lab_include.count("system.index == false and system.page == null"), 2, "the page and the deck both show a system's write-up")
+        self.assertIn("{{ '/projects/graphics-performance/' | relative_url }}", (PROJECTS_DIR / "graphics-lab.md").read_text(encoding="utf-8"))
+
+        # A deck's face names what it holds, each name a link (2026-10-19), and the lone top deck opens by default on
+        # wide screens only; a shared #deck/<slug> still wins.
+        card_include_source = PROJECT_CARD_INCLUDE.read_text(encoding="utf-8")
+        self.assertIn("data-project-deck-inside", card_include_source)
+        self.assertIn("{% for inside_item in project_deck_inside limit: 6 %}", card_include_source)
+        self.assertIn("inside_card.chip | default: inside_item.title", card_include_source)
+        index_source = PROJECTS_PAGE.read_text(encoding="utf-8")
+        self.assertIn('data-project-deck-default="{{ site_experiments.first.slug }}"', index_source)
+        self.assertIn('data-project-deck-default-media="(min-width: 992px)"', index_source)
+        project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
+        self.assertEqual(project_cards["homepage-desk-scene"]["chip"], "The 3D home")
+        self.assertEqual(project_cards["graphics-performance"]["chip"], "Performance")
 
         index = PROJECTS_PAGE.read_text(encoding="utf-8")
         self.assertEqual(index.count('where_exp: "project", "project.parent == nil"'), 2, "both index branches leave children out")
@@ -697,7 +725,8 @@ class SiteExperimentsTests(unittest.TestCase):
         for relative_path in (
             "assets/img/project_pics/paper-constellation/paper-constellation-teaser.png",
             "assets/img/project_pics/site-experiments/build-rhythm-commits-2026-09-29-1440-light.png",
-            "assets/img/project_pics/site-experiments/homepage-desk-depth.png",
+            "assets/img/project_pics/site-experiments/homepage-desk-coast-2026-10-19.jpg",
+            "assets/img/project_pics/graphics-performance/teaser.jpg",
             "assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light.png",
             "assets/img/project_pics/wall-of-rejection/wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open.png",
             "assets/img/project_pics/site-experiments/ikea-card-expanded.png",
@@ -800,7 +829,12 @@ class SiteExperimentsTests(unittest.TestCase):
                 self.assertEqual(blob_hash, expected_blob)
 
         self.assertNotEqual(payloads["homepage-desk-2d-2026-07-16.png"], payloads["homepage-desk-3d-2026-07-16.png"])
-        self.assertEqual((asset_root / "homepage-desk-depth.png").read_bytes(), payloads["homepage-desk-3d-2026-07-16.png"])
+        # The card shows the house as it is now (October 19, 2026); the July pair stays in the story as its history.
+        self.assertEqual(
+            frontmatter(PROJECTS_DIR / "homepage-desk-scene.md").get("img"),
+            "assets/img/project_pics/site-experiments/homepage-desk-coast-2026-10-19.jpg",
+        )
+        self.assertFalse((asset_root / "homepage-desk-depth.png").exists(), "the July teaser copy is retired")
 
         reproduced_sha256 = {
             "homepage-desk-588e36509-2d-2026-07-16.png": "4f8389dbab217d95b8b21ca6efb1b21f3a00afe3df52a6edc0150b471c344756",

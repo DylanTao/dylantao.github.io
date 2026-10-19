@@ -35,6 +35,8 @@ openai-build-week:
   origin_line: "Most of the portfolio existed before Build Week. I needed to show exactly what changed during the event."
   evolution_line: "I marked the cutoff on the timeline, then linked each change to the page and commit where it appears."
   icon: archive
+  # The short name a parent deck's face uses for this project (2026-10-19).
+  chip: OpenAI Build Week
   teaser_alt: Timeline separating the pre-existing Scaffolding for Taste portfolio from four post-cutoff OpenAI Build Week evidence chapters
   accents:
     morning: "#e88754"
@@ -99,6 +101,7 @@ pip:
   origin_line: "I wanted the site to feel inhabited, with a little companion that notices visitors without getting in the way of reading."
   evolution_line: "P grew from a rectangular visor into a floating, lens-eyed character with an articulated Blender model and a shared vocabulary of small gestures."
   icon: robot
+  chip: "duh & P"
   teaser_alt: P, a white floating companion with two antennae and round optical eyes
   accents:
     morning: "#d79973"
@@ -113,6 +116,7 @@ la-jolla:
   origin_line: "The coast and the lab are both part of my everyday life, but sat outside the story on this site."
   evolution_line: "I brought them together in a small coastal atlas, using real map geometry beneath a deliberately compressed Blender miniature."
   icon: desk
+  chip: La Jolla
   teaser_alt: A miniature La Jolla with the Design and Innovation Building, Geisel Library, coastal houses, courts, and the Pacific
   accents:
     morning: "#d99b6b"
@@ -137,10 +141,26 @@ graphics-lab:
     - "Visitors can browse every graphics experiment in the home from one page and open the write-up behind each."
     - "Each experiment names the papers it adapts and the newer ones it could try."
 
+graphics-performance:
+  origin_line: "Seen from outside, the 3D home ran at about ten frames a second on my laptop, and nothing on the site said why."
+  evolution_line: "I counted every draw by render pass before cutting anything, then kept only changes that saved time and left the picture the same."
+  icon: gauge
+  chip: Performance
+  teaser_alt: "The 3D coastal home from outside at 1:20 in the afternoon: the glass-fronted house in a sandstone cliff above the beach, the view whose frame I measured"
+  accents:
+    morning: "#d99f78"
+    noon: "#4c8aa3"
+    afternoon: "#7b9fa6"
+    evening: "#a4c6d6"
+  takeaways:
+    - "Readers can see where a browser scene's frame time goes and what each change saved, measured one change at a time."
+    - "Every cut is checked against still frames, so faster never quietly means different."
+
 light-paths:
   origin_line: "The light well put a beam of sun into the onsen, but the light it throws through the water onto the pool floor is the kind ordinary path tracing handles worst."
   evolution_line: "I built a small renderer that gives path tracing and Metropolis light transport the same minute on that light, checked against a 24-minute reference."
   icon: light
+  chip: Light Paths
   teaser_alt: The onsen rendered twice and split down the middle, scattered path-traced specks on the left and Metropolis's network of refracted sunlight on the pool floor on the right
   accents:
     morning: "#d9a56f"
@@ -155,7 +175,8 @@ homepage-desk-scene:
   origin_line: "The flat desk held papers, records, and hidden cards, but visitors could not step inside the room."
   evolution_line: "I made 2D and 3D views of the same room, so music and discoveries remain when someone switches views."
   icon: desk
-  teaser_alt: Research portfolio homepage with its interactive three-dimensional cliff-room desk beside the introduction
+  chip: The 3D home
+  teaser_alt: "The 3D coastal home cut away at golden hour: my cartoon self at the desk in the upstairs study, the living room, a paper lantern over the round table and the glass front"
   accents:
     morning: "#e8a06f"
     noon: "#5996a7"
@@ -198,6 +219,7 @@ ikea-project-cards:
   origin_line: "I wanted project previews to open inside the grid so visitors could keep seeing the other projects and return to the same card."
   evolution_line: "The first transition scaled the whole card and squeezed its content. The current version moves the card without scaling its contents and cancels cleanly when another card opens."
   icon: expand
+  chip: IKEA cards
   teaser_alt: Expanded Paper Constellation project card opening in place while neighboring project cards remain visible
   accents:
     morning: "#e9a65f"

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
-import { deckChange, deckPath, fanAngles, fanFrames, foldFrames, parseDeckHash } from "../assets/js/project-decks.mjs";
+import { deckChange, deckPath, fanAngles, fanFrames, foldFrames, parseDeckHash, startPath } from "../assets/js/project-decks.mjs";
 import { spring } from "../assets/js/site-motion.mjs";
 
 // The hierarchy as the projects index builds it from front matter: each project's `parent`.
@@ -26,6 +26,7 @@ test("a deck hash names one deck", () => {
 test("the site experiments nest from the website revamp down to the Graphics Lab", () => {
   assert.deepEqual(deckPath("graphics-lab", parents), ["website-revamp", "homepage-desk-scene", "graphics-lab"]);
   assert.deepEqual(deckPath("light-paths", parents), ["website-revamp", "homepage-desk-scene", "graphics-lab", "light-paths"]);
+  assert.deepEqual(deckPath("graphics-performance", parents), ["website-revamp", "homepage-desk-scene", "graphics-lab", "graphics-performance"]);
   assert.deepEqual(deckPath("website-revamp", parents), ["website-revamp"]);
   // Every parent is a real project, and no chain loops.
   for (const [slug, parent] of parents) {
@@ -37,6 +38,22 @@ test("the site experiments nest from the website revamp down to the Graphics Lab
   for (const slug of ["designweaver", "hotspot", "physion", "what-happened-and-why", "context-aware-encoding", "graphhscn"]) {
     assert.equal(parents.get(slug), null, `${slug} should stay top level`);
   }
+});
+
+test("the page starts on a shared level, else on the default deck where its media matches, else closed", () => {
+  const wide = { defaultSlug: "website-revamp", defaultMatches: true };
+  const narrow = { defaultSlug: "website-revamp", defaultMatches: false };
+  // Sirui could not find the graphics work two closed decks down (2026-10-19): wide screens open the revamp.
+  assert.deepEqual(startPath("", parents, wide), ["website-revamp"]);
+  assert.deepEqual(startPath("", parents, narrow), []);
+  assert.deepEqual(startPath("", parents), []);
+  // A shared link wins on every screen.
+  assert.deepEqual(startPath("#deck/graphics-lab", parents, wide), ["website-revamp", "homepage-desk-scene", "graphics-lab"]);
+  assert.deepEqual(startPath("#deck/graphics-lab", parents, narrow), ["website-revamp", "homepage-desk-scene", "graphics-lab"]);
+  // An unknown deck or a category anchor is not a level.
+  assert.deepEqual(startPath("#deck/nowhere", parents, narrow), []);
+  assert.deepEqual(startPath("#fun", parents, wide), ["website-revamp"]);
+  assert.deepEqual(startPath("", parents, { defaultSlug: "nowhere", defaultMatches: true }), []);
 });
 
 test("unknown decks and loops give no path", () => {

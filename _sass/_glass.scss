@@ -549,6 +549,80 @@ html.glass-motion {
   }
 }
 
+// A deck's face names what it holds (2026-10-19): the count or "Inside", then each name as a link straight to
+// its page. Only the names take the pointer; a click between them falls through to the deck's own button.
+.projects .project-deck-summary {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.35rem 0.45rem;
+  margin: -0.15rem 0 0.7rem;
+  pointer-events: none;
+
+  .project-deck-count {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+}
+
+.projects .project-deck-inside {
+  display: flex;
+  flex: 1 1 13rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    min-width: 0;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.85rem;
+    padding: 0.1rem 0.62rem;
+    border: 1px solid color-mix(in srgb, var(--glass-ink-accent) 28%, transparent);
+    border-radius: var(--md-lite-radius-pill);
+    color: var(--glass-ink-accent);
+    font-size: var(--type-meta);
+    font-weight: 500;
+    line-height: 1.3;
+    text-decoration: none;
+    pointer-events: auto;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease;
+
+    &:hover,
+    &:focus-visible {
+      border-color: color-mix(in srgb, var(--glass-ink-accent) 55%, transparent);
+      background: var(--md-lite-state-hover);
+      color: var(--glass-ink-accent);
+      text-decoration: none;
+    }
+
+    &:focus-visible {
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.projects .project-deck-inside-more {
+  align-items: center;
+  min-height: 1.85rem;
+  padding: 0 0.15rem;
+  color: var(--glass-ink-soft);
+  font-size: var(--type-meta);
+}
+
 // A deck alone on its level is a feature: picture, story and a hand of the
 // cards inside it, fanned at the right.
 .projects .project-deck--feature {
@@ -684,8 +758,10 @@ html.glass-motion {
     display: block;
   }
 
+  // The banner keeps the names of what is inside, nested levels included, as shortcuts above the level; the
+  // Graphics Lab's groups are the level itself, so its banner drops them.
   > .card .project-card-direct-link,
-  > .card .project-deck-count {
+  > .card .project-deck-summary--groups {
     display: none;
   }
 

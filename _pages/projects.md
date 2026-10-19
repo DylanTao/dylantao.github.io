@@ -41,7 +41,19 @@ cinematic: true
   {% if site_experiments.size == 1 %}
     {% assign site_experiment_feature = true %}
   {% endif %}
-  <section class="site-experiment-index" aria-labelledby="site-experiments-title" data-project-deck-stage>
+  {% comment %}
+    A lone top deck (the website revamp) opens by default on wide screens (2026-10-19), so its projects and the
+    names of what the 3D home holds are in view without a click; phones and tablets keep it closed with its names
+    on the face. A shared #deck/<slug> link still wins.
+  {% endcomment %}
+  <section
+    class="site-experiment-index"
+    aria-labelledby="site-experiments-title"
+    data-project-deck-stage
+    {% if site_experiment_feature %}
+      data-project-deck-default="{{ site_experiments.first.slug }}" data-project-deck-default-media="(min-width: 992px)"
+    {% endif %}
+  >
     <div class="site-experiment-index-heading">
       <p class="project-case-kicker">A CHRONOLOGICAL DESIGN RECORD</p>
       <h3 id="site-experiments-title">Site experiments</h3>
@@ -58,10 +70,15 @@ cinematic: true
       {% endfor %}
     </div>
     <script>
-      // A shared #deck/<slug> link opens its level before the first paint; project-decks.mjs takes over from here.
+      // A shared #deck/<slug> link opens its level before the first paint, and so does the default deck on a wide
+      // screen; project-decks.mjs takes over from here.
       (function () {
         var match = /^#deck\/([a-z0-9-]+)$/.exec(window.location.hash);
-        var deck = match && document.querySelector('[data-project-deck="' + match[1] + '"]');
+        var stage = document.querySelector('[data-project-deck-stage]');
+        var fallback = stage && stage.getAttribute('data-project-deck-default');
+        var media = stage && stage.getAttribute('data-project-deck-default-media');
+        var slug = match ? match[1] : fallback && media && window.matchMedia && window.matchMedia(media).matches ? fallback : null;
+        var deck = slug && document.querySelector('[data-project-deck="' + slug + '"]');
         if (!deck) return;
         var path = [];
         for (var node = deck; node; node = node.parentElement && node.parentElement.closest('[data-project-deck]')) path.unshift(node);
@@ -75,9 +92,9 @@ cinematic: true
             if (sibling !== item) sibling.classList.add('is-folded');
           });
         });
-        // Bring the level into view now, before the page's scripts load (the browser's own scroll
-        // restoration still wins on Back and reload).
-        var stage = document.querySelector('[data-project-deck-stage]');
+        // A shared link brings its level into view now, before the page's scripts load (the browser's own scroll
+        // restoration still wins on Back and reload). The default deck opens where it stands.
+        if (!match) return;
         var nav = document.getElementById('navbar');
         var top = stage.getBoundingClientRect().top + window.scrollY - (nav ? nav.getBoundingClientRect().height : 0) - 18;
         window.scrollTo(0, Math.max(0, top + (stage.querySelector('.site-experiment-index-heading') || stage).offsetHeight));

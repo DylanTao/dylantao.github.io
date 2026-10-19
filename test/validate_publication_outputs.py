@@ -31,6 +31,7 @@ EXPECTED_PROJECT_SLUGS = {
     "dogtor-portal",
     "graphhscn",
     "graphics-lab",
+    "graphics-performance",
     "hci-spooder-man",
     "homepage-desk-scene",
     "hotspot",
