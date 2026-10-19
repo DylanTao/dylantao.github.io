@@ -37,11 +37,13 @@ summary: >-
 scope: >-
   The home is an original, stylized browser world in an imagined La Jolla, not a surveyed place. Several techniques adapt
   published graphics research in small, bounded forms, and each entry says where it simplifies. Measurements come from
-  one Windows desktop unless an entry says otherwise; they are not phone benchmarks.
+  one shared Windows laptop (Intel Core Ultra 7 155H with Arc integrated graphics) unless an entry says otherwise; they
+  are not phone benchmarks.
 credit: >-
   Compiled on October 15, 2026 by Anthropic's Claude from the code, the scene notes, the provenance files and the October
   studio log, for Sirui Tao to review and extend. The coast's wind, the curtains, the gym, the camera and the hinterland
-  joined on October 17 from entries the agents who built them prepared and checked.
+  joined on October 17, and the renovation, full screen, the gym's tripod camera, the skinned wildlife and the
+  performance pass on October 18, from entries the agents who built them prepared and checked.
 
 read_first:
   - path: docs/homepage-desk-scene-brief.md
@@ -62,6 +64,8 @@ read_first:
     why: The traced sky and lamp bounce, its probes and its cost.
   - path: docs/coherent-wind-equations.md
     why: The curl wind field, leaf attachment and particle integration.
+  - path: docs/performance-notes.md
+    why: Where the frame goes, what was cut on October 18, the rules for later work and the next techniques to try.
   - path: docs/studio-log-2026-10.md
     why: The October design moves in full, with dimensions, backtalk and concepts.
   - path: .codex/skills/homepage-desk-scene/SKILL.md
@@ -77,6 +81,9 @@ constraints:
   - Every new material, pass or override draw joins `program-warmup.mjs`, or its first draw blocks the page again.
   - Render-cost changes must change 0 pixels in seeded, paused-clock captures. Look changes need a matched A/B.
   - Compare performance variants interleaved, never batch against batch.
+  - Store any array-of-vectors uniform as a flat `Float32Array`; three r164 re-flattens arrays of vectors on every material switch.
+  - A shadow caster animated only in its vertex shader carries its own depth material, or the shadow cache keeps its shadow in place.
+  - Keep the renderer's pixel ratio fixed after creation and change the drawing buffer through `resolution.mjs`, which moves the renderer and the composer together.
   - A new camera angle on the kitchen or lounge looks through a door opening, not a mullion.
   - Rerun `bin/build_loading_sketch.cjs` after a room's geometry or camera changes, and the bedding refit after an avatar's body or sleep clip changes.
   - Keep the Draco decoder marked binary in `.gitattributes`.
@@ -97,6 +104,12 @@ tests:
   - path: test/test_scene_program_warmup.py
     covers: The shader warmup, its batches and core throttle, and the loading bar's sources of progress.
     command: python -m unittest test.test_scene_program_warmup
+  - path: test/coastal-fullscreen.test.mjs
+    covers: Full screen's three modes, every way out, the history entry, focus and the F shortcut.
+    command: node --test test/coastal-fullscreen.test.mjs
+  - path: test/coastal-shadow-cache.test.mjs
+    covers: Which casters the shadow cache keeps, what redraws it, and the cases that keep three's own shadow path.
+    command: node --test test/coastal-shadow-cache.test.mjs
 
 systems:
   - id: shared-desk
@@ -199,11 +212,14 @@ systems:
           Startup never draws a partial house while the occupied room or the avatar is still loading. The models are
           Draco-compressed GLBs exported from the Blender sources. `model-loader.mjs` decodes them through a pinned decoder
           served as ordinary same-origin files, because the loader's default inline blob worker conflicts with the site's
-          Content-Security-Policy. Streamed rooms join the house only once their shader programs are ready, and the clifftop
-          planting (`flora.glb`, 2.2 MB) loads the first time a visitor goes outside.
+          Content-Security-Policy. Since October 18 every loader on the page (the home, its wildlife, the footer coast) shares
+          one pool of up to four decoder workers, which decodes a model's primitives in parallel: the house shell in 118 ms
+          instead of 323 when measured in isolation. Streamed rooms join the house only once their shader programs are ready,
+          and the clifftop planting (`flora.glb`, 2.2 MB) loads the first time a visitor goes outside.
         files:
           - path: assets/js/home-scene/model-loader.mjs
-            role: Same-origin Draco decoding.
+            role: Same-origin Draco decoding through one shared worker pool.
+            functions: [createModelLoader]
           - path: assets/js/home-scene/controller.mjs
             role: Load order and room streaming.
           - path: bin/prepare_draco_worker.py
@@ -216,7 +232,8 @@ systems:
           - test/test_coastal_assets.py
         sources: [threejs-r164, draco]
         limits:
-          - The shell (`home-shell.glb`, about 1.0 MB) and the selected avatar (0.5 to 0.85 MB) still gate the first view.
+          - The shell (`home-shell.glb`, about 0.6 MB since the renovation's shared normals) and the selected avatar (0.5 to 0.85 MB) still gate the first view.
+          - In full cold starts the shared pool's gain disappears in the noise; compiling about 70 shader programs dominated the 12 to 19 s to the first composed frame on October 18, with other agents loading the test laptop.
         next: []
       - id: program-warmup
         name: Shader programs compiled before the first draw
@@ -391,7 +408,7 @@ systems:
         since: "2026-10-02"
         what: Clicking an animal outside opens a model-sized orbit around it; N cycles the neighbours, Enter restores the coastline and Escape returns inside.
         how: >-
-          Each of the seventeen animal instances caches conservative inspection bounds and named eye and muzzle anchors once.
+          Each of the 28 animals caches conservative inspection bounds and named eye and muzzle anchors once.
           Arrival visibility scores candidate camera positions with exact local triangle subsets (`occlusion-region.mjs`) and
           counts the other animals and P from their own scene roots, without altering the rendered terrain or plants. Close
           inspections enable the room's contact-light pass; the sea gets a contact-only exemption, so its undisplaced
@@ -496,6 +513,89 @@ systems:
         next:
           - move: Fold the extended terrain into the height grid.
             readiness: ready
+      - id: world-fullscreen
+        name: Full screen with a way back
+        status: shipped
+        since: "2026-10-18"
+        what: A Full screen button beside Look around, or F on the scene, fills the screen with the stage; Escape, a Back to the site pill or leaving 3D returns the page where it was.
+        how: >-
+          `createWorldFullscreen` shows the scene edge to edge without the page's vignette, floats the caption bar at the
+          bottom as frosted glass and puts a Back to the site pill top left, with an Esc hint on fine pointers. Browsers with
+          the Fullscreen API get real full screen (`requestFullscreen({ navigationUI: "hide" })`). iPhone Safari, which has no
+          element full screen, gets the same layout as a manual popover in the top layer, so the page's own stacking and
+          transforms cannot clip it, plus a pushed history entry, so the back gesture closes it instead of leaving the site. A
+          refused request falls back to the popover, and with neither API the stage is a fixed overlay. Escape (ahead of the
+          scene's own return inside), Back to the site, the browser's own exit and leaving 3D all restore the page with its
+          scroll position, and focus returns to the button that opened it. While open, the stage is a labelled modal dialog
+          and focus stays inside. The existing ResizeObserver resizes the renderer, and the pixel budget keeps a large screen
+          within 2.1 megapixels.
+        files:
+          - path: assets/js/home-scene/world-fullscreen.mjs
+            role: The three modes, the exits, the history entry and focus.
+            functions: [createWorldFullscreen]
+          - path: _includes/home/world_controls.liquid
+            role: The Full screen button and the Back to the site pill.
+          - path: _sass/_coastal-home.scss
+            role: The full-screen stage, the floating caption bar and the pill.
+          - path: assets/js/home-scene/controller.mjs
+            role: Connects full screen to the scene.
+        tests:
+          - test/coastal-fullscreen.test.mjs
+          - test/visual/desk-scene.spec.js
+        sources: [whatwg-fullscreen, whatwg-popover]
+        limits:
+          - iOS keeps Safari's toolbars.
+        next:
+          - move: Let a visitor tour the rooms in full screen with a compact room strip.
+            readiness: needs-decision
+      - id: portrait-fov
+        name: A portrait lens in full screen
+        status: shipped
+        since: "2026-10-18"
+        what: In full screen on a portrait canvas the vertical field of view widens so a room's authored horizontal coverage holds, and a phone frames the whole desk and Sirui instead of a narrow slice.
+        how: >-
+          `portraitFov` widens the vertical field of view below a square canvas, fov′ = 2 atan(tan(fov / 2) / aspect), capped
+          at 80°. The controller applies it only in full screen: a phone's page embed is about square, and a slightly
+          taller-than-wide embed had widened the gym's 52° lens to 52.26°.
+        files:
+          - path: assets/js/home-scene/camera.mjs
+            role: The portrait lens.
+            functions: [portraitFov]
+          - path: assets/js/home-scene/controller.mjs
+            role: Applies it in full screen only.
+        tests:
+          - test/coastal-camera.test.mjs
+        sources: []
+        limits:
+          - The 80° cap means a wide authored lens on a very tall screen still loses some of its sides; the gym's 52° lens would need 93° on a 390 × 844 phone.
+        next: []
+      - id: gym-tripod
+        name: A tripod in the gym's corner
+        status: shipped
+        since: "2026-10-18"
+        what: From each arrival until the visitor moves the camera, the gym's camera keeps its authored position and turns to each station, like a camera on a tripod.
+        how: >-
+          The gym's stations span about 3.6 m, wider than one frame holds at the authored 3 m and 52°: the pull-up and dip
+          tower fell off the left edge (a hand at 0.001 of the frame's width) and the rest spot off the right. `tripodLook`
+          returns the orbit about the middle of Sirui's head, hands and feet that puts the camera back where it stood, and
+          `followStation` applies it each frame until the visitor orbits, pans or zooms. Moving the target instead would have
+          carried the camera over the bench.
+        files:
+          - path: assets/js/home-scene/camera.mjs
+            role: The tripod look.
+            functions: [tripodLook]
+          - path: assets/js/home-scene/controller.mjs
+            role: Turns to each station.
+            functions: [followStation]
+        tests:
+          - test/coastal-camera.test.mjs
+          - test/visual/desk-scene.spec.js
+        sources: []
+        limits:
+          - The subject's size on screen varies with its distance from the tripod, 3.6 to 4.7 m.
+        next:
+          - move: A gentle dolly-in toward far stations along the same line, which stays inside the clear path by construction.
+            readiness: ready
   - id: rendering-light
     name: Rendering and light
     summary: >-
@@ -563,12 +663,17 @@ systems:
         name: Traced sky and lamp bounce
         status: shipped
         since: "2026-10-02"
-        what: A CPU ray tracer bakes static sky visibility and one diffuse bounce into seven probe cages once, then relights them from the actual sky and lamp powers without tracing again.
+        what: A CPU ray tracer bakes static sky visibility and one diffuse bounce into eight probe cages once, then relights them from the actual sky and lamp powers without tracing again.
         how: >-
           `static-light-field.mjs` builds a balanced triangle BVH (`light-trace-core.mjs`) over the house's static opaque
           meshes, traces eight cosine-weighted sky rays per primary hit, and stores irradiance as first-order spherical
-          harmonics in 56 probes with octahedral distance moments, after Ramamoorthi and Hanrahan and the probe visibility of
-          Majercik and colleagues' DDGI. Unit sky and lamp bases let a time-of-day change recombine the cache with zero rays
+          harmonics in 64 probes with octahedral distance moments, after Ramamoorthi and Hanrahan and the probe visibility of
+          Majercik and colleagues' DDGI. The renovation moved rooms under the cages, so on October 18 the old middle cage
+          became the living room's, a new cage covers the gym (the gym lamp's baked bounce, summed over the probes, rose from
+          0.012 to 0.43), and taller, wider cages bring 61 of the 64 probes into free space. The living room's washi lantern
+          had baked to zero, because its closed globe (0.19 to 0.24 m from the bulb) hid the lamp past the bake's 0.18 m
+          emitter radius; the lantern now declares a 0.26 m emitter, and its summed bounce went from 0 to 0.50. Unit sky and
+          lamp bases let a time-of-day change recombine the cache with zero rays
           (0.27 ms in the CPU proof). The field replaces Three's diffuse hemisphere and environment irradiance once; direct
           light, PMREM reflections and refraction stay native. The bake runs in yielded slices (3.67 s with an 18.7 ms
           longest task in the CPU proof) and releases its roughly 37 MB accelerator afterwards.
@@ -589,6 +694,7 @@ systems:
           - Static and one bounce. People, props and wind-moved plants do not affect it.
           - Four coefficients lose directional contrast, and sparse probes can leak at thin walls.
           - Base colors supply the bounce albedo; texture and procedural detail are not baked again.
+          - Three probes sit inside the bed, as before the renovation.
         next: []
       - id: skin-diffusion
         name: Preintegrated skin diffusion
@@ -650,12 +756,15 @@ systems:
         what: Eight point lights, at four modeled lamps and four fixtures, brighten where Sirui is and dim to a glow elsewhere; the bedside lamp doubles as a dawn lamp.
         how: >-
           `warm-practicals.mjs` places eight inverse-square point lights at the modeled fixtures and drives each from the
-          routine. The study lamp is at full while reading, working or coding and at 30 % otherwise; the gym light is at full
-          only for workouts; the bedside lamp ramps up over the half hour before waking and stays a night light while Sirui
-          sleeps. No practical casts a shadow map; the static light field carries their traced bounce.
+          routine. The study lamp, now the brass task lamp at the seaward end of the office desk, is at full while reading,
+          working or coding and at 30 % otherwise; the gym light is at full only for workouts; the bedside lamp ramps up over
+          the half hour before waking and stays a night light while Sirui sleeps. The living room's paper floor lantern
+          declares a 0.26 m emitter, so the light field's bake does not let its own shade hide it. No practical casts a shadow
+          map; the static light field carries their traced bounce.
         files:
           - path: assets/js/home-scene/warm-practicals.mjs
             role: Fixtures and schedules.
+            functions: [PRACTICAL_SOURCES, PRACTICAL_SCHEDULES]
           - path: docs/warm-house-checkpoint.md
             role: Fixture placement and evidence.
         tests:
@@ -668,26 +777,36 @@ systems:
         name: Light installations that keep the house's hours
         status: shipped
         since: "2026-10-14"
-        what: A terrace festoon, a fire bowl, a gallery soffit, stair step lights and a pool light switch with the time of day and the routine.
+        what: A terrace festoon, a fire bowl, a gallery soffit, stair step lights, a pool light and, since the renovation, the kitchen's downlights, shelf light and dining lantern switch with the time of day and the routine.
         how: >-
           `light-installations.mjs` shades every emitter analytically in every material. Line emitters use the exact
           irradiance of a uniformly glowing segment on a matte surface, clipped to the surface's horizon; the test checks it
           against brute-force integration on 40 random layouts and against the infinite-line limit 2I/h. Each emitter is
           bounded by a box, so the festoon lights the terrace and the front of the living floor through the glass but not
           the cliff under the ledge. Schedules fade in and out and wrap past midnight: the festoon from dusk to 23:30, the
-          fire bowl from 19:30 to 22:45, the step lights at 45 % all night. By day one uniform skips the whole term. The
-          layers follow Richard Kelly's ambient luminescence, focal glow and play of brilliants.
+          fire bowl from 19:30 to 22:45, the step lights at 45 % all night. The renovated kitchen reads its fixtures from the
+          manifest's `interiorLights`: two soffit downlights and two vault downlights over the island, cone-limited to a 106°
+          or 70° beam, a light line under the lower shelf and a washi lantern over the dining table, all at task strength for
+          meals and a low glow after dark. The office's screens and the gaming PC's RGB glow while Sirui works and dim
+          otherwise, the RGB turning through the hues once every 48 s while the scene moves; the living room's floor lantern
+          glows once the house is dim. By day one uniform skips the whole term. The layers follow Richard Kelly's ambient
+          luminescence, focal glow and play of brilliants. The emitter arrays are flat `Float32Array`s (see the graphics
+          record's performance system).
         files:
           - path: assets/js/home-scene/light-installations.mjs
             role: Emitters, closed-form line irradiance and schedules.
+            functions: [createLightInstallations, lineIrradiance, rgbColor, lanternLevel]
           - path: bin/coastal_facade.py
             role: Writes the terrace's festoon and fire positions into the manifest.
+          - path: bin/coastal_kitchen.py
+            role: Builds the kitchen's fixtures and writes their positions into the manifest's `interiorLights`.
+            functions: [build_downlights, build_dining]
         tests:
           - test/light-installations.test.mjs
         sources: [kelly1952lighting]
         limits:
           - No installation casts shadows or adds a baked bounce.
-          - A material reads at most ten line and four point emitters.
+          - A material reads at most 14 line and 8 point emitters.
         next:
           - move: Caustics from the pool light onto the onsen vault, the hard light paths the light lab was built to study.
             readiness: needs-research
@@ -794,22 +913,32 @@ systems:
         name: Physical-scale surface detail
         status: shipped
         since: "2026-09-13"
-        what: Wood grain, fabric weave, sandstone bedding, honeycomb weathering and wet intertidal rock are computed in the shader from physical coordinates, with no texture downloads.
+        what: Wood grain, fabric weave, lime plaster, veined marble, travertine, sandstone bedding, honeycomb weathering and wet intertidal rock are computed in the shader from physical coordinates, with no texture downloads.
         how: >-
           `realism.mjs` derives detail from world-space meters, so its scale survives batching and the many UV layouts in the
-          glTF exports. Close-range sandstone gets bedding planes of uneven thickness that show only where weathering picks
-          them out and fade before they are thinner than a pixel, honeycomb weathering (tafoni) from Worley cells in patches
-          on steep faces, runoff streaks, and a soil-and-grass tint on the clifftop. Rock the high tide reaches stays wet,
-          darker and glossier, with a band of algae low and barnacle specks above. Bumps use derivative bump mapping filtered
-          below a pixel.
+          glTF exports, from three octaves of hashed value noise (`surfaceNoise`). Close-range sandstone gets bedding planes
+          of uneven thickness that show only where weathering picks them out and fade before they are thinner than a pixel,
+          honeycomb weathering (tafoni) from Worley cells in patches on steep faces, runoff streaks, and a soil-and-grass tint
+          on the clifftop. Rock the high tide reaches stays wet, darker and glossier, with a band of algae low and barnacle
+          specks above. Since the October 17 renovation every wall is lime plaster: soft clouds about a metre across,
+          overlapping trowel strokes whose direction changes from patch to patch, drawn in the three axis planes and blended
+          by the surface normal so a curved vault shows no seam (Geiss's triplanar texturing), and a faint burnish that lowers
+          roughness along the strokes. Milky marble gets soft clouds and wandering veins from the sine of a warped coordinate,
+          Perlin's marble, which widen and fade with distance instead of shimmering; travertine gets warm bands and small open
+          pores. Bumps use Mikkelsen's surface-gradient bump mapping, filtered below a pixel.
         files:
           - path: assets/js/home-scene/realism.mjs
             role: Procedural surface detail for every finished material.
+            functions: [finishPhysicalMaterial, surfaceNoise]
           - path: assets/js/home-scene/materials.mjs
             role: Shared material art direction.
-        sources: [worley1996cellular]
+          - path: bin/coastal_renovation.py
+            role: The renovation's palette, whose material names key the procedural kinds.
+            functions: [apply_palette]
+        sources: [worley1996cellular, geiss2007terrain, perlin1985image, mikkelsen2010bump]
         limits:
           - Procedural detail is not included in the light field's bounce albedo.
+          - Trowel strokes fade once a pixel covers more than about 5 mm of wall, so walls read smooth in the wider views.
         next:
           - move: Bark plates for the Torrey pines.
             readiness: ready
@@ -1046,12 +1175,19 @@ systems:
           critically damped oscillator to the wind, at most 11.7 mm of horizontal deflection from the eddies; in the coast's
           breeze a bend saturates softly toward 15 mm (`PLANT_BEND_LIMIT`). Normals use the inverse
           transpose of the bend's Jacobian. The identical hook runs on beauty, depth and distance materials, so shadows bend
-          with the leaves. 110 of 132 olive-leaf components bend; hanging vines and agave stay rigid.
+          with the leaves. 110 of 132 olive-leaf components bend; hanging vines and agave stay rigid. The renovation's new
+          plants first had floating leaves: a plain cylinder stem has vertices only at its ends, so no stem vertex lay within
+          the 2.5 cm search. `rooted_leaf` now puts every leaf on its own short twig, and the study's fig and the living room's
+          and kitchen's olives sway too (403 rooted components bend, 30 stay still).
         files:
           - path: assets/js/home-scene/plant-motion.mjs
             role: Attachments, damped response and the shared shader hook.
+            functions: [PLANT_BEND_LIMIT]
           - path: assets/js/home-scene/coastal-wind.mjs
             role: Binds plants to the field.
+          - path: bin/coastal_office.py
+            role: Builds leaves on twigs for the renovation's plants.
+            functions: [rooted_leaf]
         tests:
           - test/coastal-wind.test.mjs
           - test/coastal-transport-rendering.test.mjs
@@ -1356,19 +1492,20 @@ systems:
   - id: wildlife
     name: Wildlife
     summary: >-
-      Brush rabbits, California sea lions, harbor seals, a raccoon, western gulls and sandpipers share the coast. Their
-      acting is authored and sampled from time, and their feet meet the same terrain the house stands on.
+      Brush rabbits, California sea lions, harbor seals, a raccoon, western gulls, sandpipers, brown pelicans and Brandt's
+      cormorants share the coast, 28 animals in all. Each species is one skinned mesh; its acting is authored and sampled
+      from time, and its feet meet the same terrain, rock and sea the house and renderer use.
     techniques:
       - id: animal-masters
-        name: Articulated animal masters
+        name: Original animal masters
         status: shipped
         since: "2026-09-14"
-        what: Every animal is an original Blender model with a continuous body, named acting pivots and vertex-color coat marks.
+        what: Every animal is an original Blender model with a continuous body and vertex-color coat marks, rigged since October 18 as one skinned mesh per species.
         how: >-
           `bin/build_coastal_wildlife.py` builds the rabbit, sea lion and seal masters, and `bin/build_coastal_neighbors.py`
-          builds the raccoon, gull and sandpiper with canonical head, eye, muzzle, limb and wing pivots. Marine flipper roots
-          overlap the torso through sampled acting extremes. Habitat choices follow the City of San Diego's Children's Pool
-          information: sea lions on rock haul-outs, harbor seals on sheltered sand.
+          builds the raccoon, gull and sandpiper with canonical head, eye, muzzle, limb and wing parts, which the rig below
+          turns into bones. Marine flipper roots overlap the torso through sampled acting extremes. Habitat choices follow the
+          City of San Diego's Children's Pool information: sea lions on rock haul-outs, harbor seals on sheltered sand.
         files:
           - path: bin/build_coastal_wildlife.py
             role: Rabbit, sea lion and seal masters.
@@ -1414,12 +1551,14 @@ systems:
         name: Gull feet fitted to real perches
         status: shipped
         since: "2026-10-02"
-        what: Gull soles fit bounded patches of the retained coast and the gallery rail, with fixed tarsus lengths and hidden hip accommodation.
+        what: Gull soles fit bounded patches of the retained coast and the gallery rail, and cormorants stand on rock roosts at the cliff foot, with fixed tarsus lengths and hidden hip accommodation.
         how: >-
-          `bin/build_coastal_perch_support.py` exports 51 local support triangles in four patches, matching the GLB's
-          tessellation, and 192 projected sole samples per foot. `wildlife-perch-contact.mjs` fits each webbed foot to that
-          surface through flare and toe-off with a one-sided clearance. Across 337 sampled poses the worst penetration was
-          1.91 micrometres. Plants are excluded from perch support, because gulls had sampled grass blades as footing.
+          `bin/build_coastal_perch_support.py` exports bounded support patches matching the retained GLB tessellation: three
+          clifftop perches and the gallery rail for the gulls (21 and 16 triangles) and four rock roosts for the cormorants (68
+          triangles), with 194 projected sole samples per foot of the skinned gull, found by its vertex groups.
+          `wildlife-perch-contact.mjs` fits each webbed foot to that surface through flare and toe-off with a one-sided
+          clearance, keeps the 114 mm tarsus and accommodates the rest in the hidden hips. Plants are excluded from perch
+          support, because gulls had sampled grass blades as footing.
         files:
           - path: bin/build_coastal_perch_support.py
             role: Exports the perch patches and sole samples.
@@ -1432,6 +1571,101 @@ systems:
         sources: []
         limits:
           - Sampled geometric checks, with no guarantee between samples or over future terrain.
+        next: []
+      - id: skinned-animal-rigs
+        name: One skinned mesh per species
+        status: shipped
+        since: "2026-10-18"
+        what: Each of the eight species is one skinned mesh with its own rig, so backs bend, jaws open and tails, ears, flippers and wingtips follow through.
+        how: >-
+          `bin/coastal_wildlife_rig.py` bakes a master's part colours into a byte vertex-colour layer and binds one
+          two-material mesh (a matte coat and a gloss) to bones that point along +Z with zero roll, so every joint rests at
+          identity. The sea lion and seal have a hinged jaw, the gull a lower mandible, the raccoon a three-bone tail, and the
+          rabbit and raccoon separate chest and hip bones. Each clone's two primitives share one skeleton and bone texture.
+          The eight masters weigh 279,544 bytes against 361,576 for the former six, and 28 animals draw 56 primitives where
+          17 drew 256; outside, scene draw calls fell from about 1,804 to 1,061 in an interleaved comparison.
+        files:
+          - path: bin/coastal_wildlife_rig.py
+            role: Skinning, colour bake and export shared by the three builders.
+            functions: [skin, export]
+          - path: bin/build_coastal_wildlife.py
+            role: Rabbit, sea lion and seal masters.
+          - path: bin/build_coastal_neighbors.py
+            role: Raccoon, gull and sandpiper masters.
+          - path: assets/js/home-scene/wildlife.mjs
+            role: Skinned clones, populations, the off-screen gate and the draw-time catch-up.
+          - path: artwork/coastal-home/NEIGHBORS.md
+            role: Rigs, budgets, repertoires, contacts, limits and rebuild commands.
+        tests:
+          - test/wildlife-assets.test.mjs
+          - test/wildlife-scene.test.mjs
+        sources: []
+        limits:
+          - Draco can order vertices differently between rebuilds, so GLB bytes change without any change in shape.
+          - Wildlife shaders compile lazily on a species' first draw, as before; the program warmup does not include them.
+        next:
+          - move: Add the wildlife root to the controller's program warmup, as the flora does.
+            readiness: ready
+            why: A species' first appearance can stall a frame while its skinned programs compile.
+      - id: animal-repertoires
+        name: Varied repertoires from keyed springs
+        status: shipped
+        since: "2026-10-18"
+        what: Every animal acts in irregular epochs of varied behaviour, with overshoot, settling and follow-through, as a pure function of active time.
+        how: >-
+          `wildlife-acting.mjs` places epoch boundaries with jitter (`epochAt`), so nothing repeats on a fixed beat, and opens
+          and closes each epoch in a settled pose. Posture channels are springs driven by keyed targets (`sprung`): a linear
+          spring's response to stepped targets is the sum of one step response per change, so a turn overshoots and settles
+          with no integration. Heads lead and ears, tails and wingtips follow on lagged springs; gaze moves in quick turns
+          with irregular holds. Rabbits graze, groom, freeze and bolt; sea lions bark, sky-point, roll and scratch; seals
+          shuffle to the wash by whole humps; two sea lions porpoise and raft; the raccoon sleeps by day and forages at night;
+          gulls bank, flare, preen, call and squabble over a perch. Unseen animals act on every twelfth frame and catch up
+          just before a draw.
+        files:
+          - path: assets/js/home-scene/wildlife-acting.mjs
+            role: Epochs, springs, glances, quintic transfers, flight attitude and wingbeats.
+            functions: [epochAt, sprung, glanceKeys, transfer, flightAttitude, wingbeat]
+          - path: assets/js/home-scene/wildlife-motion.mjs
+            role: Rabbit, pinniped and swimming sea lion acting.
+          - path: assets/js/home-scene/wildlife-neighbor-motion.mjs
+            role: Raccoon, sandpiper and gull acting.
+          - path: bin/capture_coastal_wildlife.cjs
+            role: Frame-stepped captures on a paused clock.
+        tests:
+          - test/wildlife-motion.test.mjs
+          - test/wildlife-neighbors.test.mjs
+          - test/wildlife-scene.test.mjs
+        sources: [allaboutbirds-sanderling, sandiego-childrens-pool]
+        limits:
+          - Authored acting, not measured biomechanics, aerodynamics or motion capture.
+          - The swash edge uses the sea's vertical displacement only, read once per half-second tick.
+        next: []
+      - id: coastal-seabirds
+        name: Pelicans over the swell and cormorants on the rocks
+        status: shipped
+        since: "2026-10-18"
+        what: Five brown pelicans glide in a line over the swell and the last one plunge-dives now and then; four Brandt's cormorants dry their wings on the rocks at the cliff foot.
+        how: >-
+          `bin/build_coastal_seabirds.py` builds both masters in `seabirds.blend`. Pelicans fly a closed route about a metre
+          above the displaced, wind-driven sea the renderer draws, each repeating the leader's wingbeats at the same place, so
+          a wave of flaps runs down the line (`pelicanMotion`). On alternate laps the last bird climbs, folds, rolls a quarter
+          turn and plunges in, drains its pouch on the surface, runs off the water and flies 20 % faster until it regains its
+          place. Cormorants stand on rock roosts that `bin/build_coastal_perch_support.py` exports beside the gull perches
+          (`cormorantMotion`).
+        files:
+          - path: bin/build_coastal_seabirds.py
+            role: Brown pelican and Brandt's cormorant masters.
+            functions: [pelican, cormorant]
+          - path: assets/js/home-scene/wildlife-seabird-motion.mjs
+            role: Pelican route, flap wave and dive; cormorant acting.
+            functions: [pelicanMotion, cormorantMotion, pelicanDive]
+        tests:
+          - test/wildlife-seabirds.test.mjs
+          - test/wildlife-perch-contact.test.mjs
+        sources: [allaboutbirds-brown-pelican, allaboutbirds-brandts-cormorant]
+        limits:
+          - The splash is a small particle crown and the sea contact a sampled height, not a fluid simulation.
+          - The cormorants' wing-drying, preening and throat flutter are authored, not taken from the cited page.
         next: []
 
   - id: authoring
@@ -1622,6 +1856,112 @@ systems:
         next:
           - move: Crab into the live coast wind.
             readiness: needs-decision
+      - id: soft-edges
+        name: Weighted normals and small bevels
+        status: shipped
+        since: "2026-10-17"
+        what: Interior meshes are shaded smooth with weighted normals, only true corners stay sharp, and unbevelled slats, frames, steel and wall ends get a small rounded bevel.
+        how: >-
+          Every box-built piece of furniture had been flat shaded, so its bevels read as a run of creases. `soften_interiors`
+          in `bin/coastal_renovation.py` shades each room mesh smooth, keeps edges sharper than 48° crisp and applies a
+          face-area weighted-normal modifier; `bevel_corners` first gives unbevelled pieces a two-segment rounded bevel of 2
+          to 18 mm, from the gym's barbells to the limestone wall ends. Organic, sculpted or carved meshes keep their authored
+          normals, and glass, water and paper stay flat. Shared normals also shrank the shell from 1,022 KB to 626 KB, and
+          over the four renovation phases the shell and room GLBs went from 2,706,812 to 1,639,640 bytes, 39 % smaller.
+        files:
+          - path: bin/coastal_renovation.py
+            role: Softening, bevels and the two-family palette.
+            functions: [soften_interiors, soften, bevel_corners, apply_palette]
+          - path: bin/refresh_coastal_renovation.py
+            role: Applies the renovation to the retained house and refreshes the manifest.
+        tests:
+          - test/test_coastal_assets.py
+        sources: [blender]
+        limits:
+          - Bevel radii are chosen by object name, so a renamed piece loses its bevel.
+        next: []
+      - id: deeper-house-and-office
+        name: A deeper cave and an office
+        status: shipped
+        since: "2026-10-18"
+        what: The cave is carved 2.4 m deeper, and the upper floor gains an office with an L-shaped marble desk, Sirui's two monitors, laptop and tower, and a bookshelf wall for the records.
+        how: >-
+          `deepen_cave` in `bin/coastal_shell.py` carves the extra depth with an exact Boolean, putting the back wall at
+          Blender y = −7.88 m with a second lift-away ceiling solid, and `move_back` takes the stair, the cupboards, the corner
+          returns, the onsen's slat panel and the seascape back with the wall; `build_floors` relays both floors in wide oak
+          boards, and the upper walk is guarded. `build_office` in `bin/coastal_office.py` sets an L-shaped milky veined
+          marble desk on waterfall legs with an oak drawer pedestal, the 43-inch monitor straight ahead and the 32-inch
+          angled on the corner, the LG gram open at Sirui's right hand, a black glass-sided tower (an RTX 3080 Ti, an AIO
+          radiator, RGB fans and RAM), a keyboard on an indigo mat, an ergonomic chair, a footrest, a brass task lamp and a
+          bookshelf wall that holds the records. Sirui types facing the room's −x, and the new study camera (yaw 2.85, a
+          3.9 m radius, a 40° lens) shows his profile, both screens, the turntable and the tower. The controller reads the
+          desk from the manifest's study room.
+        files:
+          - path: bin/coastal_shell.py
+            role: The deeper cave, the moved stair and the oak floors.
+            functions: [deepen_cave, move_back, build_floors]
+          - path: bin/coastal_office.py
+            role: The office and its equipment.
+            functions: [build_office, build_desk, build_monitor, build_pc]
+          - path: bin/refresh_coastal_renovation.py
+            role: Rewrites room actors, walks and the manifest.
+          - path: assets/js/home-scene/controller.mjs
+            role: Places the desk objects and the records from the manifest.
+            functions: [makeDeskObjects, updateRecords]
+        tests:
+          - test/test_coastal_assets.py
+          - test/coastal-navigation.test.mjs
+        sources: []
+        limits:
+          - The deeper back of the house is still sparsely furnished.
+        next: []
+      - id: living-room
+        name: A cloud U-sofa facing the TV, not the glass
+        status: shipped
+        since: "2026-10-18"
+        what: The ground floor's middle bay is a living room with a white bouclé U-sofa that faces an 85-inch TV and leaves the view of the sea open.
+        how: >-
+          `build_living` in `bin/coastal_living.py` sets the U with its arms parallel to the glass; the window arm is a long
+          backless chaise, so nothing blocks the view. It opens north to the TV on a plaster media wall that runs inland from
+          the glass, with a smoked-oak slatted panel and a fluted credenza holding the room's own record player
+          (`build_media_wall`). A travertine drum table, an ochre pouf, indigo, ochre and terracotta cushions, an oatmeal wool
+          rug and a washi floor lantern that glows at dusk complete it. Watching the Pacific moved to the sofa's inland arm,
+          feet on the pouf.
+        files:
+          - path: bin/coastal_living.py
+            role: The sofa, tables, media wall, lantern and reading nook.
+            functions: [build_living, build_sofa, build_media_wall, build_lamp]
+        tests:
+          - test/coastal-navigation.test.mjs
+          - test/light-installations.test.mjs
+        sources: []
+        limits:
+          - Where the TV wall and the reading nook sit is still Sirui's call.
+        next: []
+      - id: kitchen-and-dining
+        name: Oak and marble around the gallery's fin
+        status: shipped
+        since: "2026-10-18"
+        what: The kitchen is one light-oak run under milky marble with a coffee bar at its sea end, a travertine island, and a round travertine dining table under a washi lantern.
+        how: >-
+          `build_run` in `bin/coastal_kitchen.py` lays one light-oak run under milky marble, with a nickel espresso machine and
+          grinder at its sea end where the breakfast routine reaches (`build_coffee_bar`). The run parts around the
+          structural plaster fin that carries the gallery's edge, with the cooking bay and a tall oak-panelled refrigerator
+          behind the print wall under a tapered plaster hood. A travertine island has fluted oak sides (`build_island`); a
+          round honed-travertine table stands on a fluted oak column with a nickel footrest ring, four wishbone chairs and a
+          74 cm washi lantern 80 cm above the top (`build_table`, `build_dining`). Two soffit downlights, two vault downlights
+          over the island and a light line under the lower shelf are written into the manifest's `interiorLights`
+          (`build_downlights`), at task strength for meals and a low glow after dark.
+        files:
+          - path: bin/coastal_kitchen.py
+            role: The run, the coffee bar, the island, the table, the chairs and the fixtures.
+            functions: [build_run, build_coffee_bar, build_island, build_table, build_dining, build_downlights]
+        tests:
+          - test/light-installations.test.mjs
+        sources: []
+        limits:
+          - The run parting around the fin, the refrigerator in the back kitchen, the two soffit downlights and the dining top's 82.5 cm height with its 22 cm footrest ring are Sirui's to confirm.
+        next: []
   - id: light-lab
     name: The light-paths lab
     summary: >-
@@ -2130,6 +2470,119 @@ history:
     reframe: Summer afternoons at the pier blow at 3.5 m/s, so a monthly cycle is the next cheap step; the lee of the house should feel less wind.
     commit: "4f5823666"
     sources: [ndbc-ljpc1, taylor1938turbulence, cox1954glitter]
+  - date: "2026-10-18"
+    title: Full screen and a tripod
+    system: camera-navigation
+    frame: Sirui wanted visitors to enjoy the cliff world full screen and to get back to the academic site easily. Separately, CI showed that the gym's framing proof had never passed.
+    dimensions:
+      [
+        how a visitor enters and leaves full screen,
+        browsers without element full screen,
+        the lens on a portrait screen,
+        how one frame holds a 3.6 m gym,
+      ]
+    move: >-
+      A Full screen button and F fill the screen with the stage, with a Back to the site pill, Escape and the browser's own
+      exit as ways out; iPhone Safari gets the same layout as a top-layer popover with a history entry. A portrait canvas
+      in full screen widens the lens to hold a room's width, and the gym's camera keeps its authored place and turns to
+      each station like a camera on a tripod.
+    backtalk: >-
+      A fixed 52° frame cannot hold a 3.6 m gym: a hand on the pull-up bar sat at 0.001 of the frame's width. iPhone Safari
+      has no element full screen, and the page's transforms would clip a fixed overlay. A portrait canvas with a fixed
+      vertical lens showed a sliver of the room, and a phone's slightly tall page embed widened the gym's lens to 52.26°
+      until the portrait lens was kept to full screen.
+    reframe: The full-screen view could become the place for a guided tour of the rooms.
+    commit: "4ebbf125b"
+    sources: [whatwg-fullscreen, whatwg-popover]
+  - date: "2026-10-18"
+    title: Animals that move like animals
+    system: wildlife
+    frame: Sirui asked for more animal animation and found some movement too rigid and some off. Each animal was 12 to 23 rigid parts repeating a few moves on a fixed cycle.
+    dimensions:
+      [
+        a rig per species,
+        variety and timing of behaviour,
+        follow-through,
+        contacts with sea sand rock and perch,
+        draw calls and bytes,
+        the species on the coast,
+      ]
+    move: >-
+      `bin/coastal_wildlife_rig.py` rebuilt every master as one skinned mesh with its own rig, and
+      `bin/build_coastal_seabirds.py` added brown pelicans and Brandt's cormorants. Acting became jittered epochs of
+      varied segments whose posture channels are keyed springs, with lagged follow-through and C2 flight joins; the
+      sandpipers, pelicans and swimming sea lions read the wind-driven sea the renderer draws.
+    backtalk: >-
+      Frame-stepped captures caught what tests then pinned. Banking read as timid until the bank's effective gravity rose
+      to 0.9. A gull's pitch snapped 0.62 rad at touchdown until the flare eased to level, and gulls clipped the clifftop
+      until landings came in over the rim. A sandpiper sprinted at 11.8 m/s before its steps were speed-limited, a pelican
+      jumped half a metre underwater at the dive, a rafting sea lion's periscope popped at the cycle turn, and the west
+      rabbit hopped through a perched gull until it gave way. The perch export once took the importer's bone icosphere
+      for the gull's body.
+    reframe: Warm the wildlife shaders with the scene's program warmup, and judge the remaining motion live.
+    commit: "638d58bdc"
+    sources: [allaboutbirds-brown-pelican, allaboutbirds-sanderling, allaboutbirds-brandts-cormorant, sandiego-childrens-pool]
+  - date: "2026-10-18"
+    title: A designer's renovation
+    system: authoring
+    frame: >-
+      Sirui asked for a renovation as if he had invited "a group of award winning designers to design a nice yet cozy
+      home": wood and stone as the two main materials, some shiny metal and an occasional colour pop, high-end plaster
+      walls, a larger house and office with his real computers, a white cloud U-sofa facing a big TV without blocking the
+      view, an artistic dining table under a soft pendant, and a redone kitchen.
+    dimensions:
+      [
+        the material palette,
+        edges and normals,
+        the depth of the house,
+        the office and its equipment,
+        where the sofa faces,
+        the kitchen's plan,
+        the light field's cages,
+        leaves on the new plants,
+      ]
+    move: >-
+      Four phases: lime plaster, milky marble and travertine as procedural kinds, with a two-family wood and stone palette
+      and weighted normals; a cave 2.4 m deeper with an office at an L-shaped marble desk; a living room whose U-sofa faces
+      the TV; and an oak-and-marble kitchen around the gallery's fin, with a round travertine table under a washi lantern.
+      The light field's cages followed the rooms, and the new plants' leaves were put on twigs.
+    backtalk: >-
+      The new kitchen run passed through the structural plaster fin until a clash audit caught it. The living room's
+      lantern and the new gym were invisible to the baked light field. The new plants' leaves floated off their stems.
+      CI's scene tests had hard-coded the old study's lens, yaw, target and typing direction.
+    reframe: The deeper back of the house is still sparsely furnished, and three probes sit inside the bed.
+    commit: "049dba240"
+    sources: [geiss2007terrain, perlin1985image, mikkelsen2010bump]
+  - date: "2026-10-18"
+    title: Measure the frame, then cut what it actually spends
+    system: rendering-light
+    frame: Sirui asked for further optimization of the site and the 3D scene, and for the state of the art to be written down for later models.
+    dimensions:
+      [
+        per-pass draw attribution,
+        script time against GPU time,
+        uniform uploads,
+        program switches,
+        the shadow map,
+        decoding,
+        the full-screen buffer,
+        pixel parity,
+      ]
+    move: >-
+      Vector-array uniforms stored flat, opaque draws grouped by program, a cached static sun shadow, one shared Draco
+      pool and a pixel budget for full screen. Outside, script time per frame fell from 89.8 to 56.9 ms and draws from
+      1,554 to 1,292 in three interleaved pairs. The graphics record's performance system holds each change, its
+      measurements, what was rejected, the WebGPU decision and the next techniques in priority order.
+    backtalk: >-
+      The outside view ran at about 10 fps. Per-pass attribution found four separate costs (three's transmission copy,
+      the sea mirror, the shadow map and per-draw uniform uploads), and a CPU profile found the largest single cost in
+      three's uniform code rather than in draw count. The first transmission check reported zero changed pixels, because
+      hiding objects under reduced motion without requesting a frame re-captured the old frame; a sweep then showed the
+      water from 21 of 108 cameras, and the gate built for it never engaged. A parity run differed by 2,334 px of
+      wildlife, and holding the decoder change back showed the same race in the unchanged base.
+    reframe: Per-draw uniform cost and the sea mirror remain; material sharing, a lighter mirror and a cheaper distant water are next, and the last two need Sirui.
+    commit: "c861eed23"
+    sources: [myers2021coldwar, binks2011dynres]
   # Append new moves here, oldest first.
 
 open_problems:
@@ -2162,11 +2615,16 @@ open_problems:
     title: The outside view on integrated GPUs
     system: rendering-light
     why_hard: >-
-      Outside, about 1,600 draws a frame go through four passes: the view, the shadow map, the opaque copy refraction
-      needs, and the sea mirror. Most objects are interactive, animated, wind-swayed or skinned, so batching could save 3
-      draws. Every remaining saving changes pixels.
+      Outside, about 1,600 draws a frame went through four passes: the view, the shadow map, the opaque copy refraction
+      needs, and the sea mirror. The October 18 performance pass cut script time per outside frame from 89.8 to 56.9 ms
+      and draws to about 1,290 without changing a still beyond a few tie pixels (the graphics record's performance
+      system), but the frame is still bound by three's per-draw work: about 800 draws for the view and the opaque copy,
+      about 400 for the mirror, each refreshing its own material. Most objects are interactive, animated, wind-swayed or
+      skinned, so merging meshes stays off the table, and every remaining large saving changes pixels.
     candidate_moves:
-      - A distant, non-refracting onsen material outside, which drops the opaque copy (about 400 draws).
+      - A distant, non-refracting onsen material and hopper glass outside, which drops the opaque copy, about a quarter of the frame's draws.
+      - A lighter sea mirror, without interiors or redrawn every other frame while the camera is still (13 of 108 sampled stills changed).
+      - Share identical materials between meshes, so grouped draws skip three's material refresh.
       - Skip objects smaller than a pixel (about 180 draws).
       - Judge each with a matched A/B before shipping.
     sources: [amdahl1967]
@@ -2181,6 +2639,7 @@ open_problems:
     candidate_moves:
       - Motion vectors for skinned and wind-deformed meshes.
       - A still photo mode where a temporal filter can accumulate.
+      - Revisit under WebGPURenderer's temporal reprojection node once the graphics record's WebGPU conditions hold.
     sources: []
     readiness: blocked
   - id: dynamic-light-field
@@ -2235,6 +2694,22 @@ open_problems:
       - Pick one close-up (a face at the desk, the onsen rim) and compare a detail pass against the current frame at the same camera.
     sources: []
     readiness: needs-research
+  - id: renovation-choices
+    title: The renovation's open choices
+    system: authoring
+    why_hard: >-
+      The renovation followed a designer's brief, but several of its choices are taste and comfort calls that only Sirui
+      can make, and each touches geometry, the routine's anchors or the light field's cages, so changing one later means a
+      rebuild and a new bake.
+    candidate_moves:
+      - The kitchen run parting around the gallery's fin, and the refrigerator in the back kitchen.
+      - Two soffit downlights, and the dining top at 82.5 cm with a 22 cm footrest ring.
+      - The profile view at the desk, and the speed of the PC's RGB cycle.
+      - Where the TV wall and the reading nook sit.
+      - The plaster texture's strength and the oak's tone.
+      - What furnishes the sparse deeper back of the house.
+    sources: []
+    readiness: needs-decision
   # Add new open problems here; move solved ones into their technique.
 
 sources:
@@ -2546,3 +3021,43 @@ sources:
     label: Banked turn
     citation: Wikipedia. *Banked turn*, on the bank angle of a coordinated turn.
     url: https://en.wikipedia.org/wiki/Banked_turn
+  - id: whatwg-fullscreen
+    label: WHATWG Fullscreen API
+    citation: WHATWG. *Fullscreen API Standard*, living standard.
+    url: https://fullscreen.spec.whatwg.org/
+  - id: whatwg-popover
+    label: WHATWG, the popover attribute
+    citation: WHATWG. *HTML Living Standard*, the popover attribute.
+    url: https://html.spec.whatwg.org/multipage/popover.html
+  - id: allaboutbirds-brown-pelican
+    label: Cornell Lab, Brown Pelican
+    citation: Cornell Lab of Ornithology. *Brown Pelican Overview*. All About Birds.
+    url: https://www.allaboutbirds.org/guide/Brown_Pelican/overview
+  - id: allaboutbirds-sanderling
+    label: Cornell Lab, Sanderling
+    citation: Cornell Lab of Ornithology. *Sanderling Overview*. All About Birds.
+    url: https://www.allaboutbirds.org/guide/Sanderling/overview
+  - id: allaboutbirds-brandts-cormorant
+    label: Cornell Lab, Brandt's Cormorant
+    citation: Cornell Lab of Ornithology. *Brandt's Cormorant Overview*. All About Birds.
+    url: https://www.allaboutbirds.org/guide/Brandts_Cormorant/overview
+  - id: geiss2007terrain
+    label: Geiss 2007
+    citation: Ryan Geiss. *Generating Complex Procedural Terrains Using the GPU*. GPU Gems 3, chapter 1, Addison-Wesley, 2007.
+    url: https://developer.nvidia.com/gpugems/gpugems3/part-i-geometry/chapter-1-generating-complex-procedural-terrains-using-gpu
+  - id: perlin1985image
+    label: Perlin 1985
+    citation: Ken Perlin. *An Image Synthesizer*. Proceedings of SIGGRAPH 85, 287–296, 1985.
+    url: https://doi.org/10.1145/325334.325247
+  - id: mikkelsen2010bump
+    label: Mikkelsen 2010
+    citation: Morten S. Mikkelsen. *Bump Mapping Unparametrized Surfaces on the GPU*. Journal of Graphics, GPU, and Game Tools 15(1), 49–61, 2010.
+    url: https://doi.org/10.1080/2151237X.2010.10390651
+  - id: myers2021coldwar
+    label: Myers 2021
+    citation: "Kevin Myers. *Shadows of Cold War: A Scalable Approach to Shadowing*. GDC 2021, Advanced Graphics Summit (Treyarch)."
+    url: https://research.activision.com/publications/2021/10/shadows-of-cold-war--a-scalable-approach-to-shadowing
+  - id: binks2011dynres
+    label: Binks 2011
+    citation: Doug Binks. *Dynamic Resolution Rendering*. Intel white paper, presented at GDC 2011.
+    url: https://www.intel.com/content/dam/develop/external/us/en/documents/dynamicresolutionrendering-183334.pdf
