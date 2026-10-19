@@ -729,8 +729,19 @@ export function createCoastalHome(container, records, artifacts) {
           if (o.isMesh && o.name.startsWith("onsen_water")) {
             water = o;
             water.updateWorldMatrix(true, false);
-            const pool = measurePoolGeometry(water, root);
-            onsenWater = createOnsenWater(pool);
+            const pool = measurePoolGeometry(water, root),
+              tint = [water.material].flat()[0];
+            // The light reaching the stone crosses the same turquoise water the view does.
+            onsenWater = createOnsenWater({
+              ...pool,
+              absorption: tint?.attenuationColor
+                ? tint.attenuationColor.toArray().map((c) => -Math.log(Math.max(c, 1e-3)) / tint.attenuationDistance)
+                : undefined,
+            });
+            // The basin's stone takes the hand's ripples as caustics (onsen-water.mjs).
+            root.traverse((stone) => {
+              if (stone.isMesh) for (const m of [stone.material].flat()) if (/warm cut stone/i.test(m?.name || "")) onsenWater.bindCausticReceiver(m);
+            });
             prepareSteam(pool);
             const geometry = onsenWater.surfaceGeometry().applyMatrix4(water.matrixWorld.clone().invert());
             water.geometry.dispose();
@@ -799,7 +810,8 @@ export function createCoastalHome(container, records, artifacts) {
   // house, and appears once its programs are ready, like the planting above. hinterland.mjs poses
   // the gliders from the scene clock, turns the gliderport's wind sock in the coast wind and extends
   // the camera's terrain grid over the new land.
-  let hinterlandRequested = false;
+  let hinterlandRequested = false,
+    coastRoot = null;
   async function loadHinterland() {
     if (hinterlandRequested || !config.hinterland) return;
     hinterlandRequested = true;
@@ -819,6 +831,9 @@ export function createCoastalHome(container, records, artifacts) {
       await compilePrograms();
       if (disposed) return;
       root.visible = true;
+      // The coves beyond the mainland join the seabed under the sea once the GPU has read them.
+      pacific?.quietSand(root);
+      pacific?.captureSeabedAsync([coastRoot, root], () => requestFrame());
       requestFrame();
     } catch {
       // The house and its coast still read without the land around them.
@@ -2716,6 +2731,7 @@ export function createCoastalHome(container, records, artifacts) {
       cameraField?.addRoot(shell.scene);
       loadingStage("coast", "Opening the coast.");
       pacific = createPacific(scene, renderer, config);
+      pacific.bindLamps(lightInstallations, warmPracticals);
       const coast = await loadModel(new URL(config.coast, manifestUrl).href, "coast");
       if (disposed) {
         release(coast.scene);
@@ -2723,6 +2739,12 @@ export function createCoastalHome(container, records, artifacts) {
       }
       world.add(prepareModel(coast.scene, { outdoor: true }));
       cameraField?.addRoot(coast.scene);
+      // The sea reads its seabed from the coast's own sand and rock (bathymetry.mjs). The beach slopes
+      // under the water within a shadow texel of it, so the sand casts no sun shadow (it shaded the
+      // shallows lying on it); rock, animals and the cliff still do.
+      coastRoot = coast.scene;
+      pacific.captureSeabed([coastRoot]);
+      pacific.quietSand(coastRoot);
       worldCompanion = await createWorldCompanion(scene, config, container, loader).catch(() => null);
       if (disposed) {
         worldCompanion?.dispose();

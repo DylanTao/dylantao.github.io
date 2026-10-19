@@ -169,8 +169,10 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
           ior: 1.333,
           transmission: 0.86,
           thickness: 0.24,
+          // Clear turquoise over the stone (2026-10-18): this colour after 0.6 m of water. At 1.5 m the
+          // 13 cm bath read as a white basin under a sheen of sky.
           attenuationColor: new THREE.Color(0x93c8c1),
-          attenuationDistance: 1.5,
+          attenuationDistance: 0.6,
         })
       : name === "coffee hopper glass" && !mesh.isSkinnedMesh
         ? new THREE.MeshPhysicalMaterial({
@@ -235,7 +237,8 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
   const rock = plaster || marble || /sandstone|sediment|limestone|stone|sand/i.test(name);
   const water = /water|turquoise/i.test(name);
   if (water) {
-    m.envMapIntensity = 1.2;
+    // The environment map is the open sky; under the bath's vault it only whitened the water.
+    m.envMapIntensity = 0.55;
     return bindContactLighting(m, contactLighting);
   }
   m.roughness = wood ? 0.48 : cloth ? 0.96 : plaster ? 0.62 : marble ? 0.24 : travertine ? 0.62 : rock ? 0.89 : m.roughness;

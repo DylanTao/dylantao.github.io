@@ -43,14 +43,25 @@ export function createSeaReflection(renderer, scene, ocean, material) {
       `
       #include <lights_fragment_end>
       vec2 reflectedUv = reflectionPoint.xy / reflectionPoint.w;
-      reflectedUv += vec2(slopeX, slopeZ)*.025;
+      // A facet tilted across the view shifts the reflection sideways; one tilted along it changes the
+      // reflected ray's elevation, which at a grazing view moves the image far more, so the water's
+      // ripples stretch reflections into vertical bands (screen-space tilt of the wave normal).
+      vec3 flatUp=normalize(mat3(viewMatrix)*vec3(0.,1.,0.));
+      vec3 tilt=normal-flatUp*dot(normal,flatUp);
+      reflectedUv += vec2(tilt.x*.16, tilt.y*.42);
       float inside = step(.002, reflectedUv.x)*step(.002,reflectedUv.y)*step(reflectedUv.x,.998)*step(reflectedUv.y,.998);
-      float spread=.0015+roughnessFactor*.006;
-      vec3 reflectedColor=texture2D(coastalReflection,reflectedUv).rgb*.4;
-      reflectedColor+=texture2D(coastalReflection,reflectedUv+vec2(spread,0.)).rgb*.15;
-      reflectedColor+=texture2D(coastalReflection,reflectedUv-vec2(spread,0.)).rgb*.15;
-      reflectedColor+=texture2D(coastalReflection,reflectedUv+vec2(0.,spread)).rgb*.15;
-      reflectedColor+=texture2D(coastalReflection,reflectedUv-vec2(0.,spread)).rgb*.15;
+      // Unresolved ripples spread each reflected ray's elevation by about twice their slope deviation:
+      // a vertical streak whose length follows the slope variance, and a narrow horizontal spread. Lamps
+      // at dusk and night smear into long columns of light, as on real harbour water.
+      float streak=clamp(.0025+1.15*sqrt(max(slopeVariance,0.))+roughnessFactor*.004,.0025,.075);
+      vec2 across=vec2(.0012+streak*.12,0.), along=vec2(0.,streak);
+      vec3 reflectedColor=texture2D(coastalReflection,reflectedUv).rgb*.24;
+      reflectedColor+=texture2D(coastalReflection,reflectedUv+across).rgb*.1;
+      reflectedColor+=texture2D(coastalReflection,reflectedUv-across).rgb*.1;
+      reflectedColor+=texture2D(coastalReflection,reflectedUv+along*.45).rgb*.15;
+      reflectedColor+=texture2D(coastalReflection,reflectedUv-along*.45).rgb*.15;
+      reflectedColor+=texture2D(coastalReflection,reflectedUv+along).rgb*.13;
+      reflectedColor+=texture2D(coastalReflection,reflectedUv-along).rgb*.13;
       float cosine=max(0.,dot(normal,normalize(vViewPosition))),ior=${WATER_IOR};
       float transmitted=sqrt(1.-(1.-cosine*cosine)/(ior*ior));
       float rs=(cosine-ior*transmitted)/(cosine+ior*transmitted);
