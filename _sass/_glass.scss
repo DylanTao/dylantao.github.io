@@ -517,9 +517,10 @@ html.glass-motion {
   transition: transform var(--spring-layout-duration) var(--spring-layout);
 }
 
+// The fan stays inside the narrowest desktop gutter (a deck in the last column at 992 px).
 .projects .project-deck:not(.is-open):hover .project-deck-sheet,
 .projects .project-deck:not(.is-open):focus-within .project-deck-sheet {
-  transform: translate(calc(7px + var(--sheet-index) * 8px), calc(9px + var(--sheet-index) * 8px)) rotate(calc(2.2deg + var(--sheet-index) * 2.4deg));
+  transform: translate(calc(7px + var(--sheet-index) * 6px), calc(9px + var(--sheet-index) * 8px)) rotate(calc(2deg + var(--sheet-index) * 1.6deg));
 }
 
 .projects .project-deck-count {
@@ -608,14 +609,18 @@ html.glass-motion {
   }
 }
 
-// On a phone the deck fills the column, so its sheets peek out below it only, narrowing as they
-// go, instead of reaching past the screen's edge.
-@media (max-width: 767px) {
-  .projects .project-deck-sheet,
-  .projects .project-deck:not(.is-open):hover .project-deck-sheet,
-  .projects .project-deck:not(.is-open):focus-within .project-deck-sheet {
+// Below the desktop layout a deck can reach the page's edge (a feature deck spans the column, a
+// phone's deck fills it), so its sheets peek out below it only, narrowing as they go, instead of
+// reaching past the screen's edge and widening the page; pointing at it drops them a little further.
+@media (max-width: 991px) {
+  .projects .project-deck-sheet {
     transform: translateY(calc(6px + var(--sheet-index) * 6px)) scaleX(calc(0.96 - var(--sheet-index) * 0.04));
     transform-origin: 50% 100%;
+  }
+
+  .projects .project-deck:not(.is-open):hover .project-deck-sheet,
+  .projects .project-deck:not(.is-open):focus-within .project-deck-sheet {
+    transform: translateY(calc(9px + var(--sheet-index) * 8px)) scaleX(calc(0.95 - var(--sheet-index) * 0.045));
   }
 }
 
