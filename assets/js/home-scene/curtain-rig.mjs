@@ -15,8 +15,9 @@ import { createLaundryRig } from "./laundry-rig.mjs";
 // more (so within about 25 m), judged from where its cloth is now; off screen it holds its pose. The
 // cloth steps at 30 Hz, six substeps each, at most two steps a frame, so it keeps real time down to
 // 15 fps and runs a little slow below that instead of spending the frame catching up. Panels at rest in
-// still air sleep, and positions upload only for panels that moved. A paused or reduced-motion still composes the settled drape at
-// once. The linen blends in the transparent pass, drawn before the glass when the camera is outside
+// still air sleep, and positions upload only for panels that moved. The starting drapes settle on
+// background tasks while the page loads; a paused or reduced-motion still composes the settled drape
+// at once. The linen blends in the transparent pass, drawn before the glass when the camera is outside
 // and after it inside, so the glass's faint reflection lies over the curtain only when it should.
 //
 // Hardware: the rods, brackets and finials are one static mesh; the 24 rings and their clips are one
@@ -203,6 +204,8 @@ export function createCurtainRig({
         plan: schedule,
         inView,
         stepping,
+        // Starting drapes still to settle (panels, then the laundry); zero once the page has loaded.
+        pendingDrapes: cloth.pending + (laundry?.pending ? 1 : 0),
         coverage: fabric.blend ? "blend" : "coverage",
         frameMilliseconds: {
           samples: sorted.length,

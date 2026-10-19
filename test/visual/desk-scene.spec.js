@@ -2729,6 +2729,8 @@ test("facade cloth: linen curtains move in the doorway breeze, the terrace laund
   const cloth = async () => (await evidence(scene)).simulation.curtains;
   await expect.poll(async () => (await cloth())?.stepping).toBe(true);
   const kitchen = await cloth();
+  // Every starting drape settled on background tasks while the page loaded.
+  expect(kitchen.pendingDrapes).toBe(0);
   expect(kitchen.coverage).toBe("blend");
   expect(kitchen.hardware).toMatchObject({ rods: 2, rings: 24 });
   expect(kitchen.draws).toBe(6);

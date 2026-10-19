@@ -639,8 +639,9 @@ export function createCurtainCloth({
     ids.set(id, P);
     // A composed drape from the start, so a panel never visibly relaxes from straight columns when it
     // first comes into view; the breeze wakes it. One second of damped relaxation reaches rest from the
-    // hanging columns. Under reduced motion it happens now; otherwise settlePending spreads it over the
-    // first frames, one panel a frame, so the page's loading task stays short.
+    // hanging columns. Under reduced motion it happens now; otherwise settlePending does it later, so the
+    // page's loading task stays short: the rig calls it on background tasks while the page loads, and
+    // update() settles any panel still pending, one a step.
     P.pending = true;
     pendingCount++;
     if (reduced) settle(P, Math.min(1, settleSeconds));
