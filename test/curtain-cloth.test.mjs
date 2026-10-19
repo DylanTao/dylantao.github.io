@@ -455,7 +455,7 @@ test("written normals and weft tangents are unit, orthogonal, and agree with the
   }
 });
 
-test("the drawn mesh runs a Catmull-Rom spline through every simulated column", () => {
+test("the drawn mesh runs a Catmull-Rom spline through every simulated column, and draws column by column", () => {
   const cloth = facade();
   run(cloth, 0.5);
   const meshes = createCurtainMeshes(cloth, createSheerFabric(), { refine: 3 });
@@ -469,6 +469,14 @@ test("the drawn mesh runs a Catmull-Rom spline through every simulated column", 
   for (let r = 0; r < panel.rows; r++)
     for (let c = 0; c < panel.columns; c++)
       for (let a = 0; a < 3; a++) assert.ok(Math.abs(drawn[3 * (r * Cr + 3 * c) + a] - solver[3 * (r * panel.columns + c) + a]) < 1e-6);
+  // Triangles run down each column before the next, so the blended layers of a stack keep one
+  // drawing order down the drop (row by row, a light line crossed the stack at every row).
+  const index = mesh.geometry.index.array;
+  assert.equal(index.length, 6 * (Cr - 1) * (panel.rows - 1));
+  for (let q = 0; q < index.length / 6; q++) {
+    const corner = Math.min(...index.subarray(6 * q, 6 * q + 6));
+    assert.equal(corner, (q % (panel.rows - 1)) * Cr + Math.floor(q / (panel.rows - 1)), `quad ${q}`);
+  }
   meshes.dispose();
 });
 

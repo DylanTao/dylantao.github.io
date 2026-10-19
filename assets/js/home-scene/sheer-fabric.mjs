@@ -541,9 +541,14 @@ export function createCurtainMeshes(cloth, fabric = createSheerFabric(), { refin
         uv[k] = panel.uv[2 * (r * C + c0)] + (panel.uv[2 * (r * C + c0 + 1)] - panel.uv[2 * (r * C + c0)]) * t;
         uv[k + 1] = panel.uv[2 * (r * C + c0) + 1];
       }
+    // Column by column. The blended linen does not write depth, so where a gathered stack's layers
+    // overlap, the layer drawn last shows most. Drawn row by row, the order between layers flipped at
+    // every row (each strip after the one above), and where perspective parted the layers' row edges
+    // a light line crossed the stack at every row; drawn by columns (the layers), the order holds down
+    // the whole drop and changes only at fold edges.
     const index = new (count < 65536 ? Uint16Array : Uint32Array)((Cr - 1) * (R - 1) * 6);
-    for (let r = 0, k = 0; r < R - 1; r++)
-      for (let c = 0; c < Cr - 1; c++, k += 6) {
+    for (let c = 0, k = 0; c < Cr - 1; c++)
+      for (let r = 0; r < R - 1; r++, k += 6) {
         const i00 = r * Cr + c,
           i10 = i00 + 1,
           i01 = i00 + Cr,
