@@ -16,7 +16,7 @@ record_url: /projects/website-revamp/record/
 json_url: /assets/json/design-records/website-revamp.json
 repository: https://github.com/DylanTao/dylantao.github.io
 branch: main
-updated: "2026-10-15"
+updated: "2026-10-18"
 summary: >-
   How the redesign of this site works underneath, and how it changed from February to October 2026: the type and
   reading column, the time-of-day palettes and tokens, the motion rules, the structure of the homepage and projects,
@@ -28,7 +28,8 @@ scope: >-
   comprehension has not been studied.
 credit: >-
   Compiled on October 15, 2026 by Anthropic's Claude from the code, the living heuristics, the experiment backlog, the
-  roadmap, the October studio log and the Git history, for Sirui Tao to review and extend.
+  roadmap, the October studio log and the Git history, for Sirui Tao to review and extend. The footer coast's people and
+  the measured page weight joined on October 18 from entries the agents who did the work prepared and checked.
 
 read_first:
   - path: WEBSITE_DESIGN_HEURISTICS.md
@@ -700,17 +701,18 @@ systems:
         name: La Jolla along the footer
         status: shipped
         since: "2026-09-14"
-        what: A small Blender-authored coast with campus, home and village groups fills the footer and reveals its buildings left to right as it comes into view.
+        what: A small Blender-authored coast with campus, home and village groups fills the footer, reveals its buildings left to right as it comes into view, and since October 18 its people do something with the props they belong to.
         how: >-
           `_includes/la-jolla-footer.liquid` loads the coast only near visibility, at most 30 fps with capped pixel density,
           and pauses offscreen and under reduced motion, with a composed fallback image. The buildings form an authored place
           collage above a sourced map atlas, and the light on the Design and Innovation Building's third floor is a personal
-          detail, not an occupancy feed. Small screens can pan the coast instead of shrinking every landmark.
+          detail, not an occupancy feed. Small screens can pan the coast instead of shrinking every landmark. Its people and
+          their props come from one placement source (below).
         files:
           - path: _includes/la-jolla-footer.liquid
             role: Footer scene and fallback.
           - path: docs/la-jolla-footer.md
-            role: Geometry, provenance and evidence.
+            role: Geometry, people, provenance and evidence.
         tests:
           - test/visual/footer-coast.spec.js
         sources: []
@@ -719,6 +721,63 @@ systems:
         next:
           - move: Move the footer to the horizon-based contact light the 3D home uses, judged with a matched A/B.
             readiness: needs-decision
+      - id: coast-placement
+        name: One placement source for the coast
+        status: shipped
+        since: "2026-10-18"
+        what: One Python module places the coast's courts, fire, benches, parasols, lifeguard tower, stairs, pier landing and every person's seat, path, court or board, and tests check them against the terrain, the surf and each other.
+        how: >-
+          `bin/coastal_life.py` needs no Blender: it holds the courts, the fire circle and its logs, the benches, parasols and
+          towels, the lifeguard tower, the Design and Innovation Building's beach stair and the pier landing (`footprints`),
+          plus every person's placement (`figures`); the Blender builders read it, and `build_la_jolla.py` writes the people
+          into the manifest. Fixed at the source: the fire ring sat in the surf, the volleyball court reached past the
+          waterline, the stair ran into the sea, the pier ended in mid-air, the lifeguard hut was half buried, path ribbons
+          tore on the bluffs (they now follow the terrain mesh, five vertices across), the Children's Pool stair tunnelled
+          through the cliff, a palm cut a cottage ridge, benches stood at twice seat height and a surfer drifted through the
+          pilings.
+        files:
+          - path: bin/coastal_life.py
+            role: Props, paths and every person's placement, with no Blender dependency.
+            functions: [footprints, figures, manifest_figures, surface_height]
+          - path: docs/la-jolla-footer.md
+            role: The people, the fixes and the budgets in full.
+        tests:
+          - test/test_coastal_life.py
+        sources: []
+        limits:
+          - The tests check the module's simplified footprints, not the Blender meshes built from them.
+        next: []
+      - id: coast-people
+        name: People with something to do
+        status: shipped
+        since: "2026-10-18"
+        what: Every figure on the coast does something with the prop it belongs to, in gentle loops driven by the scene clock, instead of sharing one stiff A-pose.
+        how: >-
+          `people-pose.mjs` holds pure posture math (`poseActor`): a small two-bone reach for arms and legs, gaits, seated
+          actions, the rally and the dog. A tennis rally's ball clears the net, bounces in court and meets a racket; two
+          players pass a volleyball; a dog walker pauses at the sea while the dog trots ahead; bench readers, a typist and a
+          sea-watcher turn their heads in held glances; three people warm their hands at a fire whose flames flicker from the
+          base and one roasts a marshmallow; surfers ride, wait and paddle; a swimmer and a sunbather fill the shore.
+          `createPeople` in `people.mjs` draws every person, prop and contact shadow as five instanced meshes, so the cast
+          costs a fixed handful of draws. Reduced motion, Pause motion and automation hold one composed pose (`?cinematic=live`
+          lets a test watch them move), and figures off camera are not posed. While animating, the cast costs about 0.4 ms of
+          main thread per frame; draw calls fell from 308 to 291 at 1440 px and the GLB from 1,356,440 to 1,290,564 bytes.
+        files:
+          - path: assets/js/footer-coast/people-pose.mjs
+            role: Postures, gaits, the rally and the dog as pure functions of time.
+            functions: [poseActor, createCast, stroll]
+          - path: assets/js/footer-coast/people.mjs
+            role: Five instanced meshes for every person, prop and contact shadow.
+            functions: [createPeople]
+        tests:
+          - test/coast-people.test.mjs
+        sources: []
+        limits:
+          - Contact shadows only; the coast's on-demand shadow map would leave stale shadows behind moving people.
+          - The Connect page's miniature still bakes the old A-pose surfers.
+        next:
+          - move: Rebuild the Connect miniature with posed riders.
+            readiness: ready
       - id: paper-texture
         name: A static paper texture for this story
         status: shipped
@@ -1290,6 +1349,15 @@ history:
     move: Three records as data, each rendered as a page beside its project, served as JSON and turned into a next-move brief by a script, with a test for paths, sources, systems and commits.
     backtalk: Compiling them surfaced real gaps, such as the clifftop planting swaying on its own rule outside the shared wind field. A record route under a project made the AI link point at a missing anchor, so pages can now name their AI anchor.
     reframe: Append each new move to its record when it ships, and let the brief rank what to try next.
+  - date: "2026-10-18"
+    title: People with something to do
+    system: objects-place
+    frame: Sirui found the footer miniature's people "really weird and static", and props intersected.
+    dimensions: [what each figure does, which prop it belongs to, where props stand, motion under Pause and reduced motion, draw calls and bytes]
+    move: One placement source for every prop and person, `bin/coastal_life.py`, read by the Blender builders and checked by tests, and every figure posed as a pure function of the scene clock through five instanced meshes.
+    backtalk: A Blender pass over every primitive found a dozen intersections, most from hand-placed coordinates in three builders, and benches had been built at twice seat height.
+    reframe: Rebuild the Connect miniature with posed riders.
+    commit: "dae8d417a"
   # Append new moves here, oldest first.
 
 open_problems:
@@ -1354,6 +1422,29 @@ open_problems:
       - Adopt the spacing and focus tokens in `_sass/_home.scss` in a dedicated pass, checked with the iteration and checkpoint lanes.
     sources: []
     readiness: ready
+  - id: page-weight
+    title: Page weight and blocking time
+    system: qa
+    why_hard: >-
+      Measured on the live site on October 18, 2026 with Lighthouse 12.8.2's desktop preset (median of three runs), the
+      homepage scores 61 with a 1.85 s Largest Contentful Paint (the eager portrait), 903 ms of total blocking time and
+      1.8 MB in 128 requests; `paper-research-field.js` spends 826 ms of script mounting its WebGL field as soon as its
+      noise texture arrives, on screen or not, and GSAP ScrollTrigger about 0.6 s with the layout it triggers. DesignWeaver
+      scores 80 with a 1.69 s LCP but a 0.17 layout shift, the whole article moving once. Both pages load 240 and 259 KB
+      of Inter variable fonts, about 210 KB of Font Awesome webfonts and three render-blocking stylesheets (Material Icons,
+      `main.css`, the Font Awesome CDN), whose `defer` attributes do nothing on a stylesheet, and GitHub Pages serves every
+      file with a fixed `max-age=600` and gzip only. Each fix belongs to a design or motion stream, so each needs that
+      stream's owner and a visual check.
+    candidate_moves:
+      - Mount the research field when its section nears the viewport, the largest share of the blocking time.
+      - Subset the Inter fonts to the scripts the site uses.
+      - Load the icon stylesheets without blocking, or replace them with inline SVG.
+      - Find DesignWeaver's layout shift and reserve its space.
+      - Give the portrait `fetchpriority="high"`, turn animated GIFs into video and serve responsive AVIF or WebP with intrinsic sizes and lazy loading below the fold.
+      - Minify the ES modules, which jekyll-terser skips (the site's 31 non-3D modules would go from 110 to 72 KB gzipped).
+      - A content-hashed Service Worker cache, since GitHub Pages' cache lifetime cannot be configured.
+    sources: [web-vitals, web-dev-fetch-priority, web-dev-gif-video, jekyll-terser, gh-pages-cache-discussion]
+    readiness: needs-decision
   # Add new open problems here; move solved ones into their technique.
 
 sources:
@@ -1501,3 +1592,23 @@ sources:
     label: Playwright
     citation: Microsoft. *Playwright*, browser automation for the visual harness.
     url: https://playwright.dev/
+  - id: web-vitals
+    label: Web Vitals
+    citation: Philip Walton. *Web Vitals*. web.dev, updated October 31, 2024 (good thresholds at the 75th percentile, LCP 2.5 s, INP 200 ms, CLS 0.1).
+    url: https://web.dev/articles/vitals
+  - id: web-dev-fetch-priority
+    label: Fetch Priority API
+    citation: Addy Osmani, Leena Sohoni, Patrick Meenan and Barry Pollard. *Optimize resource loading with the Fetch Priority API*. web.dev.
+    url: https://web.dev/articles/fetch-priority
+  - id: web-dev-gif-video
+    label: GIFs to video
+    citation: Houssein Djirdeh and Jeremy Wagner. *Replace animated GIFs with video for faster page loads*. web.dev.
+    url: https://web.dev/articles/replace-gifs-with-videos
+  - id: jekyll-terser
+    label: jekyll-terser
+    citation: Alberto Strappazzon. *jekyll-terser*, which minifies files ending in .js only.
+    url: https://github.com/Strappazzon/jekyll-terser
+  - id: gh-pages-cache-discussion
+    label: GitHub Community discussion 11884
+    citation: GitHub Community. *Caching assets in website served from GitHub pages*, discussion 11884 (community evidence; GitHub documents no cache headers).
+    url: https://github.com/orgs/community/discussions/11884
