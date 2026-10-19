@@ -66,8 +66,144 @@ export function springNow(nameOrSpring, x0, v0, elapsedMs) {
   return s.state(x0, v0, Math.max(0, elapsedMs) / 1000);
 }
 
+// One frame of a spring chasing a target that may move between frames (a pointer, a hover state):
+// the exact solution over dt with the target held still, so the step is stable at any frame rate.
+export function springStep(nameOrSpring, value, velocity, target, dtSeconds) {
+  const s = typeof nameOrSpring === "object" && nameOrSpring.state ? nameOrSpring : spring(nameOrSpring);
+  const [offset, v] = s.state(value - target, velocity, Math.max(0, Math.min(dtSeconds, 0.1)));
+  return [target + offset, v];
+}
+
+// A ripple that spreads from where a change began: each element waits for the wave to reach it,
+// nearer ones first. `speed` is in px per ms; no element waits longer than `maxDelay`.
+export function rippleDelays(points, origin, { speed = 8, maxDelay = 120 } = {}) {
+  return points.map((point) => Math.round(Math.min(maxDelay, Math.hypot(point.x - origin.x, point.y - origin.y) / speed)));
+}
+
+// Keyframes for something travelling from offset (x0, y0) to rest on a spring. It stretches a little
+// along its path while the spring pulls it up to speed and squashes as it slows into place (area
+// kept), so it lands with a hint of weight. The squash scales with the distance travelled, so a
+// short hop barely deforms; `squash` is the largest deformation (0.03 = 3%). The last frame is
+// exactly at rest.
+export function flightFrames(nameOrSpring, { x0 = 0, y0 = 0, vx0 = 0, vy0 = 0, squash = 0.03, count = 30, durationMs } = {}) {
+  const s = typeof nameOrSpring === "object" && nameOrSpring.state ? nameOrSpring : spring(nameOrSpring);
+  const duration = (durationMs ?? s.duration) / 1000;
+  const distance = Math.hypot(x0, y0);
+  // The direction of travel: toward rest, or the way it was already moving.
+  const ax = distance > 0.5 ? -x0 / distance : Math.hypot(vx0, vy0) > 1 ? vx0 / Math.hypot(vx0, vy0) : 1;
+  const ay = distance > 0.5 ? -y0 / distance : Math.hypot(vx0, vy0) > 1 ? vy0 / Math.hypot(vx0, vy0) : 0;
+  const angle = (Math.atan2(ay, ax) * 180) / Math.PI;
+  const omega = (2 * Math.PI) / s.period;
+  // The largest acceleration a release from this distance can produce, to normalise the squash.
+  const reference = Math.max(1, omega * omega * Math.max(distance, 1));
+  const amplitude = squash * Math.min(1, distance / 240);
+  const frames = [];
+  for (let i = 0; i <= count; i++) {
+    if (i === count) {
+      frames.push("translate(0px, 0px)");
+      break;
+    }
+    const t = duration * (i / count);
+    const h = 1e-4;
+    const [x, vx] = s.state(x0, vx0, t);
+    const [y, vy] = s.state(y0, vy0, t);
+    const [, vxh] = s.state(x0, vx0, t + h);
+    const [, vyh] = s.state(y0, vy0, t + h);
+    // Acceleration along the direction of travel: positive speeds it up, negative slows it. The
+    // deformation eases in over the first 80 ms so the resting shape never jumps.
+    const along = ((vxh - vx) / h) * ax + ((vyh - vy) / h) * ay;
+    const ramp = Math.min(1, t / 0.08);
+    const k = amplitude ? Math.max(-1, Math.min(1, along / reference)) * amplitude * ramp * ramp * (3 - 2 * ramp) : 0;
+    const translate = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px)`;
+    if (Math.abs(k) < 0.0005) {
+      frames.push(translate);
+      continue;
+    }
+    const stretch = 1 + k;
+    frames.push(
+      `${translate} rotate(${angle.toFixed(1)}deg) scale(${stretch.toFixed(4)}, ${(1 / stretch).toFixed(4)}) rotate(${(-angle).toFixed(1)}deg)`
+    );
+  }
+  return frames;
+}
+
+// A scroll carried to its resting place on a spring: the page to `top`, a sideways row to `left`, or
+// both. An empty animation on `host` keeps the time, so whatever waits for the host's animations also
+// waits for the scroll, and the last position is set exactly as that animation finishes: a change
+// that has settled never leaves the page still travelling. `speed` (px/s) hands over the page's speed
+// from a follow that was interrupted. A reader who scrolls meanwhile takes over, and the page stays
+// where they put it.
+export function scrollFollow(nameOrSpring, host, { top = null, row = null, left = 0, speed = 0 } = {}) {
+  const s = typeof nameOrSpring === "object" && nameOrSpring.state ? nameOrSpring : spring(nameOrSpring);
+  const view = host.ownerDocument.defaultView;
+  const vertical = top !== null && top !== undefined;
+  let lastY = view.scrollY;
+  let lastX = row ? row.scrollLeft : 0;
+  const y0 = vertical ? lastY - top : 0;
+  const x0 = row ? lastX - left : 0;
+  const animation = host.animate([], { duration: s.duration, easing: "linear" });
+  let done = false;
+  // Mandatory snapping would pull every step back to a snap point; the row snaps again once done.
+  if (row) row.style.scrollSnapType = "none";
+  const stop = () => {
+    done = true;
+    row?.style.removeProperty("scroll-snap-type");
+  };
+  const elapsed = () => Math.max(0, animation.currentTime || 0) / 1000;
+  const land = () => {
+    if (done) return;
+    if (vertical) view.scrollTo({ top, behavior: "instant" });
+    if (row) row.scrollTo({ left, behavior: "instant" });
+    stop();
+  };
+  const step = () => {
+    if (done || animation.playState !== "running") return;
+    if (Math.abs(view.scrollY - lastY) > 2 || (row && Math.abs(row.scrollLeft - lastX) > 2)) {
+      stop();
+      animation.cancel();
+      return;
+    }
+    const t = elapsed();
+    if (vertical) {
+      view.scrollTo({ top: top + s.state(y0, speed, t)[0], behavior: "instant" });
+      lastY = view.scrollY;
+    }
+    if (row) {
+      row.scrollTo({ left: left + s.state(x0, 0, t)[0], behavior: "instant" });
+      lastX = row.scrollLeft;
+    }
+    view.requestAnimationFrame(step);
+  };
+  view.requestAnimationFrame(step);
+  animation.finished.then(land, () => done || stop());
+  return {
+    animation,
+    get active() {
+      return !done;
+    },
+    // The page's speed now (px/s), for a follow that takes over from this one.
+    speed: () => (vertical && !done ? s.state(y0, speed, elapsed())[1] : 0),
+    land,
+    cancel: () => {
+      if (done) return;
+      stop();
+      animation.cancel();
+    },
+  };
+}
+
 if (typeof window !== "undefined") {
-  window.SiteMotion = Object.assign(window.SiteMotion || {}, { SPRINGS, spring, linearEasing, springSamples, springNow });
+  window.SiteMotion = Object.assign(window.SiteMotion || {}, {
+    SPRINGS,
+    spring,
+    linearEasing,
+    springSamples,
+    springNow,
+    springStep,
+    rippleDelays,
+    flightFrames,
+    scrollFollow,
+  });
 
   // Pictures that arrive after the page has drawn fade in (_sass/_springs.scss) instead of popping
   // into their reserved space. Pictures already loaded, reduced motion, and automation (whose
