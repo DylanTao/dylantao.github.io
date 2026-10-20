@@ -3,11 +3,17 @@
 // the same layout in the top layer as a manual popover, so the page's own stacking and transforms
 // cannot clip it, and the browser's back gesture closes it instead of leaving the site. Escape, the
 // Back button, F on the scene and leaving 3D all return the visitor to the page where they were.
+//
+// Walking (walk-controls.mjs) can capture the mouse with the Pointer Lock API. Then the first Escape
+// only frees the mouse and the next one leaves full screen: in real full screen the page asks for
+// Escape through the Keyboard Lock API while the mouse is captured (Chromium), so the browser no
+// longer releases both at once (holding Escape still leaves); where the browser frees the mouse
+// itself, the Escape it used is not taken as a second one.
 
 export const FULLSCREEN_HISTORY_KEY = "siruiWorldFullscreen";
 const LABEL = "Sirui’s coastal home, full screen";
 
-export function createWorldFullscreen({ stage, scene, ui, win = globalThis.window }) {
+export function createWorldFullscreen({ stage, scene, ui, win = globalThis.window, onChange = () => {} }) {
   const doc = stage.ownerDocument;
   const root = doc.documentElement;
   const enterButton = ui.querySelector("[data-world-fullscreen]");
@@ -21,7 +27,15 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
   let mode = null,
     scrollY = 0,
     stageAria = null,
-    backTimer = 0;
+    backTimer = 0,
+    pointerReleasedAt = -Infinity;
+  const now = () => win.performance?.now?.() ?? Date.now();
+  const keyboard = () => win.navigator?.keyboard;
+  // The mouse is captured by something inside the full-screen view (the walk's mouse look).
+  const pointerLocked = () => {
+    const element = doc.pointerLockElement;
+    return Boolean(element && stage.contains(element));
+  };
 
   function on(target, type, fn, options) {
     target?.addEventListener(type, fn, options);
@@ -29,8 +43,10 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
   }
 
   function show(next) {
+    const changed = mode !== next;
     mode = next;
     stage.dataset.worldFullscreen = next;
+    if (changed) onChange(next);
     if (stage.classList.contains("is-world-immersive")) return;
     stageAria = { role: stage.getAttribute("role"), modal: stage.getAttribute("aria-modal"), label: stage.getAttribute("aria-label") };
     stage.classList.add("is-world-immersive");
@@ -53,6 +69,8 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
     const was = mode;
     mode = null;
     clearTimeout(backTimer);
+    if (pointerLocked()) doc.exitPointerLock?.();
+    Promise.resolve(keyboard()?.unlock?.()).catch(() => {});
     if (was === "popover") {
       try {
         stage.hidePopover();
@@ -77,6 +95,7 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
     }
     // Focus returns to the control that opened full screen, without moving the page.
     if (enterButton && !enterButton.closest("[hidden], [inert]")) enterButton.focus({ preventScroll: true });
+    onChange(null);
   }
 
   function showFallback() {
@@ -162,7 +181,8 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
     if (mode === "native" && fullscreenElement() !== stage) hide();
   });
   // Escape leaves full screen in every mode (the browser handles it first in real full screen), and
-  // takes precedence over the scene's own Escape, which returns inside.
+  // takes precedence over the scene's own Escape, which returns inside. With the mouse captured, the
+  // first Escape only frees it.
   on(
     stage,
     "keydown",
@@ -170,10 +190,24 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
       if (!mode || event.key !== "Escape" || event.isComposing) return;
       event.preventDefault();
       event.stopPropagation();
+      if (pointerLocked()) {
+        doc.exitPointerLock?.();
+        return;
+      }
+      // The browser freed the mouse with this same key press and passed it on.
+      if (now() - pointerReleasedAt < 300) return;
       exit();
     },
     true
   );
+  on(doc, "pointerlockchange", () => {
+    if (pointerLocked()) {
+      if (mode === "native") Promise.resolve(keyboard()?.lock?.(["Escape"])).catch(() => {});
+    } else {
+      pointerReleasedAt = now();
+      Promise.resolve(keyboard()?.unlock?.()).catch(() => {});
+    }
+  });
   on(scene, "keydown", (event) => {
     if (event.target?.tagName !== "CANVAS" || event.ctrlKey || event.metaKey || event.altKey || event.isComposing) return;
     if (event.key !== "f" && event.key !== "F") return;

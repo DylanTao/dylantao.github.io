@@ -7,7 +7,8 @@ import { readLook } from "./look.mjs";
 import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
-import { createResolutionGovernor } from "./resolution.mjs";
+import { createResolutionGovernor, detailFor } from "./resolution.mjs";
+import { setMirrorSize } from "./reflection.mjs";
 import { createShadowCache } from "./shadow-cache.mjs";
 import { sortOpaqueByProgram } from "./draw-order.mjs";
 import {
@@ -234,8 +235,9 @@ export function createCoastalHome(container, records, artifacts) {
     return values[Math.min(values.length - 1, Math.floor(values.length * fraction))] || 0;
   };
   const modelRequests = new Set();
-  // Full screen (world-fullscreen.mjs): the stage fills the screen with a way back to the page.
-  const fullscreen = createWorldFullscreen({ stage, scene: container, ui });
+  // Full screen (world-fullscreen.mjs): the stage fills the screen with a way back to the page, and
+  // the drawing buffer and the detail that follows it switch to the full-screen profile (resize).
+  const fullscreen = createWorldFullscreen({ stage, scene: container, ui, onChange: fullscreenChanged });
   cleanup.push(() => fullscreen.dispose());
   let reduced = reducedQuery.matches;
   const hemi = new THREE.HemisphereLight(0xe5ecff, 0xb28d57, 2.8);
@@ -2241,16 +2243,72 @@ export function createCoastalHome(container, records, artifacts) {
     if (!renderer) return;
     const rect = container.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
-    // Full screen can ask for 8 MP; the buffer keeps within a pixel budget and, when large, adapts to
-    // frame time (resolution.mjs). The renderer keeps the pixel ratio the composer was built with, so
-    // the one size handed to both moves them together.
+    // The page embed keeps a 2.1 MP budget; full screen draws up to a 4K screen's native 8.3 MP and,
+    // when large, adapts to frame time (resolution.mjs). The renderer keeps the pixel ratio the
+    // composer was built with, so the one size handed to both moves them together.
     const size = resolution?.size(rect.width, rect.height) ?? rect;
     renderer.setSize(size.width, size.height, false);
     aspect = rect.width / rect.height;
     perspective.aspect = aspect;
     perspective.updateProjectionMatrix();
+    applyDetail();
     finish?.resize(size.width, size.height);
     requestFrame();
+  }
+
+  // Detail that follows the drawing buffer (resolution.mjs detailFor): multisampling and the contact
+  // pass's size (realism.mjs), the sun's shadow map, the sea mirror (reflection.mjs) and texture
+  // filtering. The page embed's values never change; full screen raises them and leaving restores
+  // them. ?msaa=0|2|4 pins the samples and ?fullscreen-detail=embed keeps the embed's profile and
+  // detail in full screen, for comparisons.
+  const detailFlags = new URLSearchParams(location.search);
+  const pinnedSamples = ["0", "2", "4"].includes(detailFlags.get("msaa")) ? Number(detailFlags.get("msaa")) : null;
+  const embedDetailOnly = detailFlags.get("fullscreen-detail") === "embed";
+  let detail = null;
+  function fullscreenChanged(mode) {
+    const profile = mode && !embedDetailOnly ? "fullscreen" : "embed";
+    if (resolution?.setProfile(profile)) resize();
+  }
+  function applyDetail() {
+    const canvas = renderer.domElement,
+      large = resolution?.profile === "fullscreen";
+    const next = detailFor({
+      width: canvas.width,
+      height: canvas.height,
+      fullscreen: large,
+      maxTextureSize: renderer.capabilities.maxTextureSize,
+      maxSamples: renderer.capabilities.maxSamples,
+    });
+    if (pinnedSamples !== null) next.samples = Math.min(pinnedSamples, renderer.capabilities.maxSamples);
+    next.anisotropy = large ? Math.min(8, renderer.capabilities.getMaxAnisotropy()) : 1;
+    finish?.setDetail({ samples: next.samples, contactLongSide: next.contactLongSide });
+    if (sun.shadow.mapSize.x !== next.shadowMapSize) {
+      // three allocates the light's map again on its next shadow pass; the shadow cache follows the
+      // new map (shadow-cache.mjs), and the texel snapping and biases follow the new texel.
+      sun.shadow.mapSize.set(next.shadowMapSize, next.shadowMapSize);
+      sun.shadow.map?.dispose();
+      sun.shadow.map = null;
+      fitSunShadow(true);
+    }
+    setMirrorSize(...next.reflection);
+    if (next.anisotropy !== detail?.anisotropy) {
+      // Only the image textures (album sleeves, labels, the print, the gym board) have maps; the
+      // floors, walls and terrain are shaded procedurally in realism.mjs.
+      world.traverse((object) => {
+        if (!object.isMesh) return;
+        for (const material of [object.material].flat()) {
+          const map = material?.map;
+          if (!map || map.isRenderTargetTexture) continue;
+          map.userData.baseAnisotropy ??= map.anisotropy;
+          const wanted = large ? Math.max(next.anisotropy, map.userData.baseAnisotropy) : map.userData.baseAnisotropy;
+          if (map.anisotropy !== wanted) {
+            map.anisotropy = wanted;
+            map.needsUpdate = true;
+          }
+        }
+      });
+    }
+    detail = next;
   }
 
   function cancelFrame() {
@@ -2704,6 +2762,8 @@ export function createCoastalHome(container, records, artifacts) {
       // ?shadow-cache=0 and ?draw-order=material restore three's own behaviour.
       const flags = new URLSearchParams(location.search);
       resolution = createResolutionGovernor({ basePixelRatio: renderer.getPixelRatio(), enabled: flags.get("resolution") !== "fixed" });
+      // Full screen opened while the scene was still loading.
+      if (fullscreen.mode && !embedDetailOnly) resolution.setProfile("fullscreen");
       shadowCache = createShadowCache(renderer, sun, { enabled: flags.get("shadow-cache") !== "0" });
       if (flags.get("draw-order") !== "material") sortOpaqueByProgram(renderer);
       cleanup.push(() => shadowCache?.dispose());
@@ -3045,6 +3105,7 @@ export function createCoastalHome(container, records, artifacts) {
     canvasWidth: renderer?.domElement.width,
     canvasHeight: renderer?.domElement.height,
     resolution: resolution?.evidence() ?? null,
+    detail: detail ? { ...detail, shadowMap: sun.shadow.mapSize.x } : null,
     shadowCache: shadowCache?.evidence() ?? null,
     prop: selectedProp
       ? {
