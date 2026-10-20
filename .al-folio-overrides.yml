@@ -202,8 +202,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _includes/projects.liquid
     upstream_sha256: b824fbc63e1fe9cda6280f482ec51db4e6fcbfbbf4e27f55e728664dab9d4f6e
-    local_sha256: 64b0b6ad6b1b0471851ad139d490436f65140c609101c0a6290381ea23b93966
-    acknowledged_at: "2026-10-19"
+    local_sha256: 37db0de1ac035e7303d3dca3113627e7601890189f9bc6e61ee92fc94a8892de
+    acknowledged_at: "2026-10-20"
   _includes/projects_horizontal.liquid:
     owner: al_folio_core
     gem_version: 1.0.10
