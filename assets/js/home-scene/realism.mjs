@@ -602,6 +602,12 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
     depthTexture: haze ? new THREE.DepthTexture(1, 1) : null,
   });
   const composer = new EffectComposer(renderer, target);
+  // The composer's second target is a clone, and a cloned DepthTexture shares its source, so both
+  // targets would share one GL depth texture. Multisampled targets render depth into their own
+  // renderbuffers and only resolve into it; without multisampling (large full-screen buffers,
+  // resolution.mjs detailFor) the haze pass would sample the depth texture attached to the very
+  // target it draws into, a feedback loop the browser refuses. The second target gets its own.
+  if (target.depthTexture) composer.renderTarget2.depthTexture = new THREE.DepthTexture(1, 1);
   const beauty = new RenderPass(scene, camera),
     contact = new SSAOPass(scene, camera, 1, 1, 1),
     output = new OutputPass(),
@@ -649,10 +655,27 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
   if (bloom) composer.addPass(bloom);
   composer.addPass(output);
   let width = 1,
-    height = 1;
+    height = 1,
+    // Full screen (resolution.mjs detailFor) trades multisampling for pixels on large buffers and
+    // draws the contact pass larger; the page embed keeps four samples and a 480 px contact pass.
+    samples = 4,
+    contactLongSide = 480;
   return {
     contactLighting: lighting,
     haze,
+    // A change of sample count reallocates both composer targets (three rebuilds a disposed target on
+    // its next use, with the same depth texture object the haze pass reads).
+    setDetail({ samples: nextSamples = samples, contactLongSide: nextContact = contactLongSide } = {}) {
+      if (nextSamples === samples && nextContact === contactLongSide) return;
+      if (nextSamples !== samples)
+        for (const renderTarget of [composer.renderTarget1, composer.renderTarget2]) {
+          renderTarget.samples = nextSamples;
+          renderTarget.dispose();
+        }
+      samples = nextSamples;
+      contactLongSide = nextContact;
+      this.resize(width, height);
+    },
     // Programs this pipeline draws beyond the scene's own materials (program-warmup.mjs): the
     // contact pass's normal override on every occluding mesh, and its two full-screen passes.
     programWarmup: {
@@ -678,7 +701,7 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
       composer.setSize(w, h);
       volumeDepth.resize(composer.renderTarget1.width, composer.renderTarget1.height);
       lighting.contactResolution.value.set(Math.floor(composer.renderTarget1.width), Math.floor(composer.renderTarget1.height));
-      const scale = Math.min(1, 480 / Math.max(w, h));
+      const scale = Math.min(1, contactLongSide / Math.max(w, h));
       contact.setSize(Math.max(1, Math.round(w * scale)), Math.max(1, Math.round(h * scale)));
     },
     render(activeCamera, exterior) {
@@ -714,6 +737,7 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
         aoHeight: contact.height,
         width,
         height,
+        msaaSamples: samples,
         gpu: gpuTimer.evidence,
         volumeDepth: volume?.object.visible ? volumeDepth.evidence() : null,
         bloom: bloom ? { strength: bloom.strength, radius: bloom.radius, threshold: bloom.threshold } : null,

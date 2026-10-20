@@ -70,7 +70,7 @@ class FakeElement extends EventTarget {
   }
 }
 
-function setup({ native = true, refuse = false, popover = true } = {}) {
+function setup({ native = true, refuse = false, popover = true, keyboardLock = false } = {}) {
   const doc = new EventTarget();
   doc.activeElement = null;
   doc.fullscreenElement = null;
@@ -128,7 +128,30 @@ function setup({ native = true, refuse = false, popover = true } = {}) {
       queueMicrotask(() => win.dispatchEvent(new Event("popstate")));
     },
   };
-  const fullscreen = createWorldFullscreen({ stage, scene, ui, win });
+  // Pointer lock: the canvas captures the mouse; the browser (or the page) frees it.
+  doc.pointerLockElement = null;
+  doc.exitPointerLock = () => {
+    calls.push(["exitPointerLock"]);
+    if (!doc.pointerLockElement) return;
+    doc.pointerLockElement = null;
+    doc.dispatchEvent(new Event("pointerlockchange"));
+  };
+  const lockPointer = () => {
+    doc.pointerLockElement = canvas;
+    doc.dispatchEvent(new Event("pointerlockchange"));
+  };
+  if (keyboardLock)
+    win.navigator = {
+      keyboard: {
+        lock: (keys) => {
+          calls.push(["keyboardLock", keys]);
+          return Promise.resolve();
+        },
+        unlock: () => calls.push(["keyboardUnlock"]),
+      },
+    };
+  const modes = [];
+  const fullscreen = createWorldFullscreen({ stage, scene, ui, win, onChange: (mode) => modes.push(mode) });
   const key = (target, key, extra = {}) => {
     const event = new Event("keydown", { cancelable: true });
     Object.assign(event, { key, ...extra });
@@ -139,7 +162,7 @@ function setup({ native = true, refuse = false, popover = true } = {}) {
     return event;
   };
   const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
-  return { doc, stage, scene, canvas, bar, ui, enterButton, exitButton, calls, win, entries, fullscreen, key, flush };
+  return { doc, stage, scene, canvas, bar, ui, enterButton, exitButton, calls, win, entries, fullscreen, key, flush, lockPointer, modes };
 }
 
 test("full screen uses the Fullscreen API, focuses the scene and marks the stage as a dialog", async () => {
@@ -284,4 +307,59 @@ test("dispose restores the page and stops listening", async () => {
   assert.ok(!t.stage.classList.contains("is-world-immersive"));
   t.enterButton.dispatchEvent(new Event("click"));
   assert.equal(t.fullscreen.mode, null);
+});
+
+test("the controller hears each full-screen mode and the return to the page", async () => {
+  const t = setup({ refuse: true });
+  t.enterButton.dispatchEvent(new Event("click"));
+  await t.flush();
+  assert.deepEqual(t.modes, ["native", "popover"], "a refused request reports the popover that replaced it");
+  t.fullscreen.exit();
+  await t.flush();
+  assert.deepEqual(t.modes, ["native", "popover", null]);
+});
+
+test("with the mouse captured the first Escape frees it, and the second leaves full screen", async () => {
+  const t = setup({ keyboardLock: true });
+  t.enterButton.dispatchEvent(new Event("click"));
+  await t.flush();
+  t.lockPointer();
+  assert.deepEqual(t.calls.at(-1), ["keyboardLock", ["Escape"]], "real full screen asks for Escape while the mouse is captured");
+  const first = t.key(t.canvas, "Escape");
+  assert.equal(first.defaultPrevented, true);
+  assert.equal(t.doc.pointerLockElement, null);
+  assert.equal(t.fullscreen.mode, "native", "still full screen");
+  assert.ok(t.calls.some(([name]) => name === "keyboardUnlock"));
+  // Past the guard for the browser's own Escape, the next press leaves.
+  await new Promise((resolve) => setTimeout(resolve, 320));
+  t.key(t.canvas, "Escape");
+  await t.flush();
+  assert.equal(t.fullscreen.mode, null);
+});
+
+test("an Escape the browser already used to free the mouse is not taken as a second one", async () => {
+  const t = setup({ native: false });
+  t.enterButton.dispatchEvent(new Event("click"));
+  t.lockPointer();
+  // The browser releases the capture itself, then passes the same key press to the page.
+  t.doc.pointerLockElement = null;
+  t.doc.dispatchEvent(new Event("pointerlockchange"));
+  t.key(t.canvas, "Escape");
+  await t.flush();
+  assert.equal(t.fullscreen.mode, "popover");
+  await new Promise((resolve) => setTimeout(resolve, 320));
+  t.key(t.canvas, "Escape");
+  await t.flush();
+  assert.equal(t.fullscreen.mode, null);
+});
+
+test("leaving full screen frees a captured mouse", async () => {
+  const t = setup();
+  t.enterButton.dispatchEvent(new Event("click"));
+  await t.flush();
+  t.lockPointer();
+  t.exitButton.dispatchEvent(new Event("click"));
+  await t.flush();
+  assert.equal(t.fullscreen.mode, null);
+  assert.equal(t.doc.pointerLockElement, null);
 });

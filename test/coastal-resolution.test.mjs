@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createResolutionGovernor, PIXEL_BUDGET } from "../assets/js/home-scene/resolution.mjs";
+import { createResolutionGovernor, detailFor, FULLSCREEN_PIXEL_BUDGET, PIXEL_BUDGET } from "../assets/js/home-scene/resolution.mjs";
 
 // A governor with a controllable device pixel ratio and clock.
 function governor(options = {}) {
@@ -119,4 +119,82 @@ test("sustained fast frames climb back to full density, and a new canvas size st
   feed(g, state, { interval: 40 });
   g.size(1280, 720);
   assert.equal(g.evidence().factor, 1, "resizing restarts adaptation");
+});
+
+test("full screen draws a 4K screen at its native pixels and gives the embed its budget back on exit", () => {
+  // 2560x1440 CSS at DPR 1.5 is a 3840x2160 screen.
+  const { g } = governor({ dpr: 1.5 });
+  const embed = g.size(2560, 1440);
+  assert.ok(Math.abs(embed.pixels - PIXEL_BUDGET) / PIXEL_BUDGET < 1e-6, "the embed profile keeps its budget");
+  assert.equal(g.setProfile("fullscreen"), true);
+  assert.equal(g.setProfile("fullscreen"), false, "an unchanged profile asks for no resize");
+  const full = g.size(2560, 1440);
+  assert.equal(full.cap, 1);
+  assert.equal(full.width * 1.5, 3840);
+  assert.equal(full.height * 1.5, 2160);
+  assert.equal(g.evidence().profile, "fullscreen");
+  // A 5K screen (2560x1440 at DPR 2) stops at the budget, evenly in both axes.
+  const fiveK = governor({ dpr: 2 }).g;
+  fiveK.setProfile("fullscreen");
+  const big = fiveK.size(2560, 1440);
+  assert.ok(Math.abs(big.pixels - FULLSCREEN_PIXEL_BUDGET) / FULLSCREEN_PIXEL_BUDGET < 1e-6);
+  assert.equal(big.density, 2);
+  // A MacBook-sized screen at DPR 2 draws every device pixel.
+  const laptop = governor({ dpr: 2 }).g;
+  laptop.setProfile("fullscreen");
+  assert.equal(laptop.size(1512, 982).pixels, 1512 * 982 * 4);
+  // Leaving full screen restores the embed's budget and density cap for the same canvas.
+  assert.equal(g.setProfile("embed"), true);
+  const back = g.size(1000, 480);
+  assert.deepEqual([back.width, back.height, back.density], [1000, 480, 1.5]);
+});
+
+test("full screen steps down in proportion to slow frames, and a slow GPU finds its level within seconds", () => {
+  const { g, state } = governor({ dpr: 1.5 });
+  g.setProfile("fullscreen");
+  g.size(2560, 1440);
+  // 4 fps at native 4K: settling ends after 400 ms, then ten frames spanning 2.5 s decide.
+  let frames = 0;
+  while (!g.observe(250, 20) && frames < 40) {
+    state.time += 250;
+    frames++;
+  }
+  assert.ok(frames <= 14, `decided after ${frames} frames`);
+  assert.ok(Math.abs(g.evidence().factor - 0.6) < 1e-9, "the largest single step");
+  // The step helped (250 -> 90 ms) and frames are still slow: another proportional step, to the floor.
+  for (let i = 0; i < 40 && !g.observe(90, 20); i++) state.time += 90;
+  assert.ok(Math.abs(g.evidence().factor - 0.36) < 1e-9, `${g.evidence().factor}`);
+  for (let i = 0; i < 80 && !g.observe(40, 20); i++) state.time += 40;
+  assert.equal(g.evidence().factor, 0.35, "never below the full-screen floor");
+  // A frame just over the slow line takes the ordinary 0.85 step, not a proportional leap.
+  const mild = governor({ dpr: 1.5 });
+  mild.g.setProfile("fullscreen");
+  mild.g.size(2560, 1440);
+  for (let i = 0; i < 80 && !mild.g.observe(26, 4); i++) mild.state.time += 26;
+  assert.equal(mild.g.evidence().factor, 0.85);
+});
+
+test("the embed keeps every detail it had; large full-screen buffers trade samples for pixels", () => {
+  for (const [width, height] of [
+    [544, 461],
+    [1500, 720],
+    [1932, 1087],
+  ])
+    assert.deepEqual(detailFor({ width, height }), { samples: 4, contactLongSide: 480, shadowMapSize: 2048, reflection: [384, 384] });
+  // Full screen below 1.5 MP (a phone) keeps the embed's shadow and mirror but a larger contact pass.
+  assert.deepEqual(detailFor({ width: 786, height: 1704, fullscreen: true, maxTextureSize: 16384 }), {
+    samples: 4,
+    contactLongSide: 613,
+    shadowMapSize: 2048,
+    reflection: [384, 384],
+  });
+  const fourK = detailFor({ width: 3840, height: 2160, fullscreen: true, maxTextureSize: 16384 });
+  assert.equal(fourK.samples, 0);
+  assert.equal(fourK.contactLongSide, 1382);
+  assert.equal(fourK.shadowMapSize, 4096);
+  assert.deepEqual(fourK.reflection, [1024, 576]);
+  assert.equal(detailFor({ width: 2688, height: 1512, fullscreen: true, maxTextureSize: 16384 }).samples, 2);
+  // A GPU without 8K textures keeps the 2048 px shadow; MAX_SAMPLES caps the request.
+  assert.equal(detailFor({ width: 3840, height: 2160, fullscreen: true, maxTextureSize: 4096 }).shadowMapSize, 2048);
+  assert.equal(detailFor({ width: 1200, height: 800, fullscreen: true, maxSamples: 2 }).samples, 2);
 });

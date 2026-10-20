@@ -1,6 +1,15 @@
 import * as THREE from "../three.module.min.js";
 import { WATER_IOR } from "./ocean-spectrum.mjs";
 
+// The mirror's size: 384x384 for the page embed. Full screen widens it to the screen's aspect
+// (resolution.mjs detailFor) through setMirrorSize, applied at the mirror's next update, so the
+// controller needs no handle on the sea's own objects.
+const mirrorSize = { width: 384, height: 384 };
+export function setMirrorSize(width, height) {
+  mirrorSize.width = Math.max(1, Math.round(width));
+  mirrorSize.height = Math.max(1, Math.round(height));
+}
+
 // A small live mirror of the actual land and home. Oblique near-plane clipping
 // follows Three r164's Water implementation; no landscape image is sampled.
 export function createSeaReflection(renderer, scene, ocean, material) {
@@ -77,6 +86,7 @@ export function createSeaReflection(renderer, scene, ocean, material) {
     update(camera, enabled) {
       strength.value = enabled ? 1 : 0;
       if (!enabled) return;
+      if (target.width !== mirrorSize.width || target.height !== mirrorSize.height) target.setSize(mirrorSize.width, mirrorSize.height);
       mirror.copy(camera);
       mirror.position.y = -14.7 - camera.position.y;
       camera.getWorldDirection(direction);
