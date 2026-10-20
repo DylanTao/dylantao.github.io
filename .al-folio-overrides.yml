@@ -370,8 +370,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _sass/_layout.scss
     upstream_sha256: 8b81d6e84d68fdcff1a2a12a8b33f963c69d9ac8db382c4d2dfaa7f37f0b0c44
-    local_sha256: 36118b48021ff23ddd488836faa9883df184ab17d34eabe089d40bef755896d3
-    acknowledged_at: "2026-10-18"
+    local_sha256: 84fe9d937f622bac08ccde52520b3ae41300527b7f3cc7cca5a59a9a7ba21b45
+    acknowledged_at: "2026-10-20"
   _sass/_navbar.scss:
     owner: al_folio_core
     gem_version: 1.0.11

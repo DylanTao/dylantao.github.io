@@ -3006,16 +3006,15 @@ html[data-theme="dark"] .home-artifact-mark {
   color: var(--home-accent-strong);
 }
 
+// Every section is readable at rest. A full-page screenshot, a quick fling, print or a script that
+// never runs all see every word and picture; arriving, a section only rises the last few pixels
+// into place (home.js adds .home-visible). Nothing fades in from nothing (Sirui, 2026-10-19).
 html.home-motion-ready .home-reveal {
-  opacity: 0;
   transform: translateY(18px);
-  transition:
-    opacity 520ms ease,
-    transform 520ms ease;
+  transition: transform var(--spring-gentle-duration, 760ms) var(--spring-gentle, ease);
 }
 
 html.home-motion-ready .home-reveal.home-visible {
-  opacity: 1;
   transform: translateY(0);
 }
 

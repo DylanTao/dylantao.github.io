@@ -2,6 +2,9 @@
 // Bounded on purpose: nothing hijacks scrolling, every effect is a still page under reduced motion,
 // and automation (Playwright's navigator.webdriver) gets the still page too unless the URL carries
 // `?cinematic=live`, so visual captures stay deterministic while a human sees the motion.
+// Every entrance starts from a readable state (2026-10-19): words, pictures and chart values are
+// visible before their trigger fires, and the motion only carries them the last few pixels, so a
+// full-page screenshot, a quick fling or a trigger that never fires still shows the whole page.
 (() => {
   const root = document.documentElement;
   const gsap = window.gsap;
@@ -45,25 +48,24 @@
     if (!cards.length) return;
 
     cards.forEach((card) => card.querySelector(":scope > .card")?.classList.add("site-visible"));
-    gsap.set(cards, { opacity: 0, y: 26 });
+    gsap.set(cards, { y: 26 });
 
     const reveal = (batch) =>
       gsap.to(batch, {
-        opacity: 1,
         y: 0,
         duration: arrive.duration ?? 0.75,
         ease: arrive.ease,
         stagger: 0.06,
         overwrite: true,
-        clearProps: "opacity,transform",
+        clearProps: "transform",
       });
 
     ScrollTrigger.batch(cards, { start: "top 90%", once: true, onEnter: reveal });
 
-    // Keyboard visitors never wait for the scroll position: a focused card is shown at once.
+    // Keyboard visitors never wait for the scroll position: a focused card settles at once.
     grid.addEventListener("focusin", (event) => {
       const card = event.target instanceof Element ? event.target.closest("[data-project-card]") : null;
-      if (card) gsap.to(card, { opacity: 1, y: 0, duration: 0.2, overwrite: true, clearProps: "opacity,transform" });
+      if (card) gsap.to(card, { y: 0, duration: 0.2, overwrite: true, clearProps: "transform" });
     });
   });
 
@@ -71,11 +73,10 @@
     .toArray(".cinematic .project-category-heading, .cinematic .site-experiment-index-heading, .cinematic .project-subsection-heading")
     .forEach((heading) => {
       gsap.from(heading, {
-        opacity: 0,
         x: -18,
         duration: arrive.duration ?? 0.7,
         ease: arrive.ease,
-        clearProps: "opacity,transform",
+        clearProps: "transform",
         scrollTrigger: { trigger: heading, start: "top 92%", once: true },
       });
     });
@@ -89,16 +90,14 @@
     const copyItems = gsap.utils.toArray(hero.querySelectorAll(":scope > .project-case-copy > *"));
     const media = hero.querySelector(":scope > .project-case-media");
     const timeline = gsap.timeline({ defaults: { ease: arrive.ease } });
-    if (copyItems.length)
-      timeline.from(copyItems, { opacity: 0, y: 16, duration: arrive.duration ?? 0.7, stagger: 0.06, clearProps: "opacity,transform" }, 0.05);
+    if (copyItems.length) timeline.from(copyItems, { y: 16, duration: arrive.duration ?? 0.7, stagger: 0.06, clearProps: "transform" }, 0.05);
     // Depth as the hero scrolls away: the figure well lags the copy by a few dozen pixels, whole and
     // uncropped, so the diagram stays inspectable. The DesignWeaver scene pins its own stage instead.
     const mediaDrifts = Boolean(media) && !hero.hasAttribute("data-case-scroll") && wide.matches;
     if (media && mediaDrifts) {
-      timeline.from(media, { opacity: 0, duration: 0.9, clearProps: "opacity" }, 0.2);
       gsap.to(media, { y: -44, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
     } else if (media) {
-      timeline.from(media, { opacity: 0, y: 26, duration: 0.9, clearProps: "opacity,transform" }, 0.2);
+      timeline.from(media, { y: 26, duration: 0.9, clearProps: "transform" }, 0.2);
     }
 
     const hint = hero.querySelector(".case-scroll-hint");
@@ -190,11 +189,10 @@
     .forEach((block) => {
       if (block.closest(".project-case-hero") || block.classList.contains("sr-only")) return;
       gsap.from(block, {
-        opacity: 0,
         y: 22,
         duration: arrive.duration ?? 0.7,
         ease: arrive.ease,
-        clearProps: "opacity,transform",
+        clearProps: "transform",
         scrollTrigger: { trigger: block, start: "top 92%", once: true },
       });
     });
@@ -258,12 +256,11 @@
       const items = gsap.utils.toArray(home.querySelectorAll(selector));
       if (!items.length) return;
       gsap.from(items, {
-        opacity: 0,
         y: 22,
         duration: arrive.duration ?? 0.7,
         ease: arrive.ease,
         stagger: 0.08,
-        clearProps: "opacity,transform",
+        clearProps: "transform",
         scrollTrigger: { trigger: items[0].parentElement, start: "top 85%", once: true },
       });
     });
@@ -286,22 +283,9 @@
     }
   }
 
-  // 10. Publications: the Scholar citation bars grow into place the first time the chart comes into view.
-  const paperColumn = document.querySelector(".cinematic .publication-list-column");
-  if (paperColumn) {
-    const bars = gsap.utils.toArray(".cinematic .scholar-lens-year-fill");
-    if (bars.length) {
-      gsap.from(bars, {
-        scaleY: 0,
-        transformOrigin: "bottom",
-        duration: arrive.duration ?? 0.8,
-        ease: arrive.ease,
-        stagger: 0.06,
-        clearProps: "transform",
-        scrollTrigger: { trigger: ".cinematic .scholar-lens-year-chart", start: "top 85%", once: true },
-      });
-    }
-  }
+  // 10. Publications: the Scholar citation bars no longer grow from zero (2026-10-19). A bar that
+  //     grows passes through counts the record never had, and an empty chart waited on the scroll
+  //     trigger; numerical evidence keeps its exact value at every frame.
 
   // 11. Blog posts: the title block arrives first, then each block of the note rises into view once as
   //     the reader reaches it. Pull quotes settle from a touch larger, so they read as a pause.
@@ -309,10 +293,10 @@
   if (post) {
     const header = gsap.utils.toArray(post.querySelectorAll(".post-header > *"));
     if (header.length) {
-      gsap.from(header, { opacity: 0, y: 14, duration: arrive.duration ?? 0.7, ease: arrive.ease, stagger: 0.07, clearProps: "opacity,transform" });
+      gsap.from(header, { y: 14, duration: arrive.duration ?? 0.7, ease: arrive.ease, stagger: 0.07, clearProps: "transform" });
     }
     // Figures drift a little slower than the words around them, whole and uncropped, so screenshots
-    // and diagrams stay inspectable. Their reveal is opacity-only so the two motions never fight.
+    // and diagrams stay inspectable. They skip the rise so the two motions never fight.
     const content = post.querySelector("#markdown-content");
     const drifting = new Set(
       content
@@ -325,16 +309,15 @@
     if (content) gsap.utils.toArray(content.querySelectorAll(":scope > p > img:only-child:not(.emoji)")).forEach((img) => drifting.add(img));
     gsap.utils.toArray(post.querySelectorAll("#markdown-content > *, .post-content > details")).forEach((block) => {
       if (block.classList.contains("sr-only") || block.matches("script, style, template, [hidden]")) return;
+      if (drifting.has(block)) return;
       const quote = block.matches("blockquote");
-      const drifts = drifting.has(block);
       gsap.from(block, {
-        opacity: 0,
-        y: drifts ? 0 : quote ? 10 : 20,
+        y: quote ? 10 : 20,
         scale: quote ? 1.015 : 1,
         transformOrigin: "left center",
         duration: (arrive.duration ?? 0.7) * (quote ? 1.25 : 1),
         ease: arrive.ease,
-        clearProps: drifts ? "opacity" : "opacity,transform",
+        clearProps: "transform",
         scrollTrigger: { trigger: block, start: "top 92%", once: true },
       });
     });

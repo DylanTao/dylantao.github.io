@@ -394,3 +394,16 @@ Unpublished (`docs/` is excluded from the build). A public version in Sirui's vo
 - **Backtalk:** The first container query never fired: a container measures its content box, the inset's padding took 32 px, and 30rem became 26rem. In the evening theme the panel kept a gradient from a dark-mode rule in `_components.scss` that outranked the new flat one; it is gone. The feature deck's fan covered the last name on its face, so it now fans 6° instead of 11°. The disclosure test (every preview and deck, keyboard focus, 44 px targets, no clipped copy) passed on desktop and phone once local WebP variants stopped the 404s.
 - **Reframe:** The navbar still uses a bordered pill for the page and an underline for Human/AI: two languages for one idea.
 - **Concept:** Common region: elements inside one boundary read as one group (Stephen E. Palmer, "Common region: A new principle of perceptual grouping", _Cognitive Psychology_ 24, 1992). Three boxes made three groups out of one story; one inset with hairlines between rows makes one group with three parts.
+
+## 2026-10-19 Polish pass
+
+Cards from the polish pass (Sirui's 2026-10-19 review: the coffee stain, alignment, press-to-play animations and reveals). They carry a `P` number so they cannot collide with the numbered cards other passes add on the same day.
+
+### P1. Nothing waits invisible for its reveal
+
+- **Frame:** Sirui's screenshot of Selected publications read as pictures separated by gaps, and the brief asked why the words were missing.
+- **Dimensions:** what a section or entry shows before its trigger fires (opacity, offset), which triggers can fail to fire (a full-page capture, a fast fling, print, a stalled script), and how far motion may move content that is already readable.
+- **Move:** `.home-reveal` (`_sass/_home.scss`) and `.site-reveal` (`_sass/_layout.scss`) keep only their rise. `assets/js/cinematic.js` drops every `opacity: 0` starting state (project cards, headings, case-study and blog reading blocks, the homepage claims, updates and student steps, hero copy) and stops growing the Scholar citation bars from zero.
+- **Backtalk:** The screenshot was a crop. At a 2560 px window (a 4K screen at 150%) the left 520 px of the section reproduce it pixel for pixel, and the words sat in the column to its right, outside the crop (the next card fixes that layout). The hidden-until-scrolled states were real anyway: an unscrolled full-page capture of the homepage at 390 px showed nothing below the hero in Chromium or WebKit, and a tall capture of /publications/ lost its 2025 and 2023 entries. After the change both show every section. Lazy previews still load only near the viewport, so a full-page capture can miss a picture it has not reached.
+- **Reframe:** New arrivals from the design pass can build on this floor: anything may move, nothing waits invisible.
+- **Concept:** Progressive enhancement (Steven Champeon and Nick Finck, "Inclusive Web Design for the Future", SXSW 2003): the content and its basic presentation work without the enhancement layer, and effects add to a page that is already complete. A Scholar bar that grows from zero also passes through counts the record never had, which breaks the site's rule that numerical evidence keeps its exact value at every frame.
