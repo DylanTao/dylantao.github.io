@@ -1,17 +1,23 @@
 /*******************************************************************************
- * Glass (2026-10-18)
+ * Surfaces and chrome glass (2026-10-19 design language refresh)
  *
- * One material for cards and buttons, defined once here: a translucent tint
- * taken from the theme, the thing behind it seen softly (a card's own teaser,
- * blurred and scaled, rather than an ambient background), a fine grain, a rim
- * where light catches the edge, and a soft shadow. Buttons that float over
- * other content also blur what is behind them.
+ * Content is flat. Cards, panels, chips and buttons that sit in the page are
+ * tonal fills from _sass/_material-lite.scss; hierarchy comes from tone, type,
+ * spacing and shape, never from grain, gloss, gradient boxes or resting
+ * shadows. Translucency belongs only to chrome that floats above content (the
+ * deck trail here; the navbar, theme menu, back-to-top and search palette in
+ * their own files), through the chrome-glass mixin below, and never one glass
+ * over another.
  *
- * Motion lives in assets/js/glass-motion.mjs: it adds `html.glass-motion` when
- * the visitor allows motion and is not automation (unless ?cinematic=live), and
- * `html.glass-tilt` when the pointer can hover. Without those classes every
- * surface below is still. Reduced transparency and more contrast get solid
- * surfaces; forced colors get the system palette.
+ * The file keeps its name from the October 18 glass pass because
+ * assets/js/glass-motion.mjs still drives what moves: it adds
+ * `html.glass-motion` when the visitor allows motion and is not automation
+ * (unless ?cinematic=live), and `html.glass-hover` when the pointer can hover.
+ * A hovered card lifts on the confident spring while a soft light pools under
+ * the pointer; a pressed button's corners morph on the morph spring and spring
+ * back. Without those classes every surface below is still. Reduced
+ * transparency and more contrast get solid chrome; forced colours get the
+ * system palette.
  ******************************************************************************/
 
 // Press depth and hover lift are registered so they can carry the site's springs
@@ -28,108 +34,118 @@
   initial-value: 0px;
 }
 
-// A 160 px grain tile, drawn once by the browser. Dark specks on light themes,
-// light specks on the evening theme; the matrix keeps the average under 5%.
-$glass-grain-light: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.14 0 0 0 0.34 -0.14'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E";
-$glass-grain-dark: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.3 -0.125'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E";
-
 :root {
-  --glass-tint: color-mix(in srgb, var(--global-card-bg-color) 74%, transparent);
-  --glass-tint-strong: color-mix(in srgb, var(--global-card-bg-color) 88%, transparent);
-  --glass-tint-faint: color-mix(in srgb, var(--global-card-bg-color) 46%, transparent);
-  --glass-blur: 16px;
-  --glass-saturate: 1.6;
-  --glass-edge: color-mix(in srgb, var(--global-divider-color) 86%, transparent);
-  --glass-rim-top: rgba(255, 255, 255, 0.9);
-  --glass-rim-bottom: rgba(255, 255, 255, 0.28);
-  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 42%);
-  --glass-specular: rgba(255, 255, 255, 0.34);
-  --glass-grain: url("#{$glass-grain-light}");
-  --glass-shadow: 0 0.06rem 0.15rem rgba(var(--global-shadow-rgb), 0.06), 0 0.45rem 1.2rem rgba(var(--global-shadow-rgb), 0.08);
-  --glass-shadow-lifted: 0 0.15rem 0.4rem rgba(var(--global-shadow-rgb), 0.07), 0 1.15rem 2.6rem rgba(var(--global-shadow-rgb), 0.15);
-  // How strongly a card's own teaser shows through its glass, and how it is softened.
-  --glass-vibrancy: 0.22;
-  --glass-vibrancy-filter: blur(34px) saturate(1.6);
-  // Words on glass sit a little deeper than on paper, because the glass is never quite white.
-  --glass-ink-soft: color-mix(in srgb, var(--global-text-color-light) 58%, var(--global-text-color));
-  --glass-ink-accent: color-mix(in srgb, var(--global-theme-color) 80%, var(--global-text-color));
-  --glass-candy-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.08) 48%, rgba(255, 255, 255, 0) 52%);
-  --glass-vibrancy-mask: linear-gradient(180deg, #000 0%, #000 26%, rgba(0, 0, 0, 0.5) 62%, rgba(0, 0, 0, 0.34) 100%);
+  // Words on tonal surfaces. The glass-ink names stay as aliases for the selectors below.
+  --glass-ink-soft: var(--md-lite-on-surface-variant);
+  --glass-ink-accent: var(--md-lite-ink-accent);
+  // A resting card, its hovered tone, and the inset an open card's story sits on.
+  --surface-card: var(--md-lite-surface-container);
+  --surface-card-hover: color-mix(in srgb, var(--md-lite-on-surface) 4%, var(--md-lite-surface-container));
+  --surface-inset: var(--md-lite-surface-container-lowest);
+  // The light that pools under a pointer: white on paper, a faint lift at night.
+  --surface-light: rgba(255, 255, 255, 0.8);
+  // The one shadow a card earns, while it is lifted under a pointer.
+  --surface-lift-shadow: 0 0.6rem 1.4rem -0.7rem rgba(var(--global-shadow-rgb), 0.32);
 }
 
 html[data-theme="dark"],
 html[data-theme-mode="evening"] {
-  --glass-tint: color-mix(in srgb, var(--global-card-bg-color) 76%, transparent);
-  --glass-tint-strong: color-mix(in srgb, var(--global-card-bg-color) 90%, transparent);
-  --glass-tint-faint: color-mix(in srgb, var(--global-card-bg-color) 52%, transparent);
-  --glass-edge: color-mix(in srgb, var(--global-divider-color) 90%, transparent);
-  --glass-rim-top: rgba(255, 255, 255, 0.16);
-  --glass-rim-bottom: rgba(255, 255, 255, 0.04);
-  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 40%);
-  --glass-specular: rgba(255, 255, 255, 0.1);
-  --glass-grain: url("#{$glass-grain-dark}");
-  --glass-shadow: 0 0.06rem 0.15rem rgba(var(--global-shadow-rgb), 0.3), 0 0.5rem 1.3rem rgba(var(--global-shadow-rgb), 0.3);
-  --glass-shadow-lifted: 0 0.15rem 0.4rem rgba(var(--global-shadow-rgb), 0.32), 0 1.2rem 2.7rem rgba(var(--global-shadow-rgb), 0.44);
-  --glass-vibrancy: 0.18;
-  --glass-vibrancy-filter: blur(34px) saturate(1.4) brightness(0.4);
-  --glass-ink-soft: color-mix(in srgb, var(--global-text-color-light) 75%, var(--global-text-color));
-  --glass-ink-accent: color-mix(in srgb, var(--global-theme-color) 82%, var(--global-text-color));
-  --glass-candy-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.04) 48%, rgba(255, 255, 255, 0) 52%);
+  --surface-card-hover: color-mix(in srgb, var(--md-lite-on-surface) 5%, var(--md-lite-surface-container));
+  --surface-light: rgba(255, 255, 255, 0.07);
+  --surface-lift-shadow: 0 0.6rem 1.5rem -0.6rem rgba(var(--global-shadow-rgb), 0.75);
 }
 
-// A frosted surface for things that float over other content (buttons, chips,
-// the deck trail, the blog toggle): tint, sheen and grain, a blur of what is
-// behind, a bright upper rim and a soft shadow.
-@mixin glass-surface($tint: var(--glass-tint), $shadow: var(--glass-shadow)) {
-  border: 1px solid var(--glass-edge);
-  background: var(--glass-sheen), var(--glass-grain), $tint;
+// Chrome that floats over content: a thin, saturated blur, a bright specular top
+// edge over a slightly darkened lower edge (Apple's 2026 retune of Liquid Glass),
+// a fine rim and a soft shadow. The tokens fall back to solid surfaces under
+// reduced transparency and more contrast (_sass/_material-lite.scss).
+@mixin chrome-glass($tint: var(--md-lite-glass-tint), $shadow: var(--md-lite-glass-shadow)) {
+  border: 0;
+  background-color: $tint;
   box-shadow:
-    inset 0 1px 0 var(--glass-rim-top),
-    inset 0 -1px 0 var(--glass-rim-bottom),
+    inset 0 1px 0 var(--md-lite-glass-specular),
+    inset 0 -1px 0 var(--md-lite-glass-shade),
+    inset 0 0 0 1px var(--md-lite-glass-rim),
     #{$shadow};
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--md-lite-glass-blur)) saturate(var(--md-lite-glass-saturate));
+  backdrop-filter: blur(var(--md-lite-glass-blur)) saturate(var(--md-lite-glass-saturate));
 }
 
-// A filled control made of the same glass: the accent fill under a sheen, with
-// the rim and a shadow tinted by the fill.
-@mixin glass-candy($fill, $ink) {
-  border: 1px solid color-mix(in srgb, #{$fill} 82%, #000 18%);
-  background:
-    var(--glass-candy-sheen),
-    var(--glass-grain),
-    #{$fill};
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.08),
-    0 0.4rem 1rem color-mix(in srgb, #{$fill} 34%, transparent);
-  color: $ink;
+// A flat content surface.
+@mixin tonal-surface($fill: var(--surface-card)) {
+  border-color: transparent;
+  background: $fill;
+  box-shadow: none;
 }
 
-// What a pressed glass control does while the press lasts and after: it sinks
-// quickly, then the playful spring carries it back with a small bounce.
-@mixin glass-press-motion($extra: ()) {
-  transition:
-    --glass-press var(--spring-playful-duration) var(--spring-playful),
-    --glass-lift var(--spring-confident-duration) var(--spring-confident),
-    $extra;
+// Material 3 buttons, flat: a fill and an ink, a state layer of the ink on hover
+// and press, and corners that morph from round toward square while pressed.
+// `--md-button-radius` is half the button's height so the morph has a real
+// starting radius; reduced motion keeps the colour change and drops the morph.
+@mixin md-button($fill, $ink, $radius: 1.375rem) {
+  --md-button-fill: #{$fill};
+  --md-button-ink: #{$ink};
+  --md-button-radius: #{$radius};
 
+  border: 1px solid transparent;
+  border-radius: var(--md-button-radius);
+  background: var(--md-button-fill);
+  box-shadow: none;
+  color: var(--md-button-ink);
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    border-color: transparent;
+    background: color-mix(in srgb, var(--md-button-ink) var(--md-lite-state-hover-opacity), var(--md-button-fill));
+    box-shadow: none;
+    color: var(--md-button-ink);
+    text-decoration: none;
+  }
+
+  // Material 3 Expressive: a round button's corners morph to 8 dp while pressed.
+  &:active,
   &.is-pressed {
-    --glass-press: 0.94;
-
-    transition:
-      --glass-press 90ms ease-out,
-      --glass-lift 90ms ease-out,
-      $extra;
+    border-radius: var(--md-lite-shape-sm);
+    background: color-mix(in srgb, var(--md-button-ink) var(--md-lite-state-press-opacity), var(--md-button-fill));
   }
 }
 
-@mixin glass-solid {
-  border-color: var(--global-divider-color);
-  background: var(--global-card-bg-color);
-  box-shadow: none;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+@mixin md-button-filled($radius: 1.375rem) {
+  @include md-button(var(--md-lite-filled), var(--md-lite-on-filled), $radius);
+}
+
+@mixin md-button-tonal($radius: 1.375rem) {
+  @include md-button(var(--md-lite-tonal), var(--md-lite-on-tonal), $radius);
+}
+
+@mixin md-button-text($radius: 1.375rem) {
+  @include md-button(transparent, var(--global-theme-color), $radius);
+}
+
+// What a pressed control does while the press lasts and after: its corners and
+// scale snap in quickly, then the morph spring carries them back with a small
+// overshoot. Colour changes keep a plain ease (an effects spring never bounces).
+@mixin md-press-motion($extra: ()) {
+  transition:
+    border-radius var(--spring-morph-duration) var(--spring-morph),
+    --glass-press var(--spring-morph-duration) var(--spring-morph),
+    --glass-lift var(--spring-confident-duration) var(--spring-confident),
+    background-color 160ms var(--md-lite-easing-standard),
+    color 160ms var(--md-lite-easing-standard),
+    $extra;
+
+  &.is-pressed {
+    --glass-press: 0.965;
+
+    transition:
+      border-radius 110ms var(--md-lite-easing-standard),
+      --glass-press 110ms var(--md-lite-easing-standard),
+      --glass-lift 110ms var(--md-lite-easing-standard),
+      background-color 90ms ease-out,
+      color 90ms ease-out,
+      $extra;
+  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -138,114 +154,84 @@ html[data-theme-mode="evening"] {
 
 .projects .project-card > .card {
   isolation: isolate;
-  border-color: var(--glass-edge);
-  background: linear-gradient(180deg, var(--project-accent-wash, transparent), transparent 3.75rem), var(--glass-tint-strong);
-  box-shadow:
-    inset 0 1px 0 var(--glass-rim-top),
-    var(--glass-shadow);
+  border: 0;
+  border-radius: var(--md-lite-shape-lg);
+  background: var(--surface-card);
+  box-shadow: none;
 
-  // What the glass sees: the card's own teaser, blurred and scaled past its edges.
-  // glass-motion.mjs sets --project-teaser from the picture the card already
-  // loaded, so this costs no extra request; without it the card is tint only.
+  // The base card's accent rule (_components.scss) is not drawn on a tonal card.
   &::before {
-    position: absolute;
-    inset: -14%;
-    z-index: -1;
-    height: auto;
-    background: var(--project-teaser, none) center / cover no-repeat;
-    content: "";
-    filter: var(--glass-vibrancy-filter);
-    opacity: var(--glass-vibrancy);
-    pointer-events: none;
-    -webkit-mask-image: var(--glass-vibrancy-mask);
-    mask-image: var(--glass-vibrancy-mask);
+    content: none;
   }
 
-  // The face of the glass, under the card's content so figures and words keep
-  // their own colour: the accent hairline, a sheen, the grain, a highlight that
-  // follows the pointer (--glass-x/--glass-y, shown with --glass-hover) and the rim.
+  // A soft light under the pointer (--glass-x/--glass-y, shown with --glass-hover),
+  // beneath the card's content so figures and words keep their own colour.
   &::after {
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background:
-      linear-gradient(var(--md-lite-card-accent-line), var(--md-lite-card-accent-line)) top / 100% 2px no-repeat,
-      radial-gradient(
-          circle 16rem at var(--glass-x, 26%) var(--glass-y, -12%),
-          color-mix(in srgb, var(--glass-specular) calc(var(--glass-hover, 0) * 100%), transparent),
-          transparent 64%
-        )
-        no-repeat,
-      var(--glass-sheen),
-      var(--glass-grain);
-    box-shadow:
-      inset 0 1px 0 var(--glass-rim-top),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    background: radial-gradient(
+        circle 15rem at var(--glass-x, 50%) var(--glass-y, 0%),
+        color-mix(in srgb, var(--surface-light) calc(var(--glass-hover, 0) * 100%), transparent),
+        transparent 70%
+      )
+      no-repeat;
     content: "";
-    opacity: 1;
     pointer-events: none;
   }
 }
 
+// Pictures sit on white stock inside the card, their corners concentric with it
+// (card 16 px, inset 8 px, picture 8 px).
 .projects .project-card-media {
   position: relative;
-  margin: 0.55rem 0.55rem 0;
+  margin: 0.5rem 0.5rem 0;
   border: 0;
-  border-radius: calc(var(--md-lite-radius-md) - 0.22rem);
-  box-shadow:
-    0 0 0 1px rgba(var(--global-shadow-rgb), 0.06),
-    0 1px 2px rgba(var(--global-shadow-rgb), 0.07);
+  border-radius: calc(var(--md-lite-shape-lg) - 0.5rem);
+  box-shadow: none;
 }
 
 .projects .project-card.is-expanded .project-card-media {
-  margin: 0.55rem 0 0.55rem 0.55rem;
+  margin: 0.5rem 0 0.5rem 0.5rem;
   border-right: 0;
 }
 
-// The body sits on the glass itself.
+// The body sits on the card itself.
 .projects .project-card-body {
   background: transparent;
 }
 
+// Open: the card keeps its tone; the neighbours step back, and the story and
+// actions inside it carry the emphasis.
 .projects .project-card.is-expanded > .card,
 .projects .project-deck.is-open > .card {
-  border-color: var(--project-accent-line);
-  background: linear-gradient(180deg, var(--project-accent-wash), transparent 42%), var(--glass-tint-strong);
-  box-shadow:
-    inset 0 1px 0 var(--glass-rim-top),
-    var(--glass-shadow-lifted);
+  border: 0;
+  background: var(--surface-card);
+  box-shadow: none;
 }
 
 // The panel stays unpositioned: the close button anchors to the card, where the plus was.
 .projects .project-card-panel {
-  border-top: 1px solid color-mix(in srgb, var(--project-accent-line) 70%, transparent);
-  background: linear-gradient(90deg, var(--project-accent-wash), transparent 58%), color-mix(in srgb, var(--global-card-bg-color) 52%, transparent);
+  border-top: 0;
+  background: transparent;
 }
 
-html[data-theme="dark"] .projects .project-card-panel,
-html[data-theme-mode="evening"] .projects .project-card-panel {
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--project-accent) 12%, transparent), transparent 58%),
-    color-mix(in srgb, var(--global-card-bg-color) 58%, transparent);
-}
-
-// Hover: the card lifts and its shadow deepens. With glass-motion the lift and a
-// few degrees of tilt toward the pointer are written by glass-motion.mjs, and a
-// press sinks the card on the playful spring.
+// Hover: the card's tone deepens a step, it lifts, and the light follows the
+// pointer. With glass-motion the lift rides the confident spring and a press
+// dips the card on the morph spring.
 .projects .project-card:not(.is-expanded) > .card.hoverable:hover {
-  box-shadow:
-    inset 0 1px 0 var(--glass-rim-top),
-    var(--glass-shadow-lifted);
+  border-color: transparent;
+  background: var(--surface-card-hover);
+  box-shadow: var(--surface-lift-shadow);
 }
 
 html.glass-motion .projects .project-card:not(.is-expanded):not(.is-open) > .card.site-revealed {
-  transform: perspective(1100px) rotateX(var(--glass-rx, 0deg)) rotateY(var(--glass-ry, 0deg)) translate3d(0, var(--glass-lift), 0)
-    scale(var(--glass-press));
+  transform: translate3d(0, var(--glass-lift), 0) scale(var(--glass-press));
   transition:
-    --glass-press var(--spring-playful-duration) var(--spring-playful),
+    --glass-press var(--spring-morph-duration) var(--spring-morph),
     --glass-lift var(--spring-confident-duration) var(--spring-confident),
-    border-color var(--motion-standard),
+    background-color var(--motion-standard),
     box-shadow var(--motion-standard),
     opacity var(--motion-standard);
 
@@ -254,27 +240,19 @@ html.glass-motion .projects .project-card:not(.is-expanded):not(.is-open) > .car
   }
 
   &.is-pressed {
-    --glass-press: 0.972;
+    --glass-press: 0.985;
 
     transition:
       --glass-press 110ms ease-out,
       --glass-lift 110ms ease-out,
-      border-color var(--motion-standard),
+      background-color var(--motion-standard),
       box-shadow var(--motion-standard),
       opacity var(--motion-standard);
   }
 }
 
-// The picture drifts against the tilt by a few pixels, so the glass reads as a
-// pane in front of it.
-html.glass-tilt .projects .project-card:not(.is-expanded):not(.is-open) .project-card-media img {
-  transform: translate3d(var(--glass-drift-x, 0px), var(--glass-drift-y, 0px), 0);
-}
-
-// Words on the glass: secondary lines and accent labels a step deeper than on
-// paper, so they keep their contrast over a card's teaser in every theme.
+// Secondary and accent words on a tonal card.
 .projects .project-card .card-body .card-text,
-.projects .project-card-story-beat > p:last-child,
 .projects .project-card-meta span:not(:last-child)::after,
 .lab-card-idea,
 .project-child-line,
@@ -285,20 +263,20 @@ html.glass-tilt .projects .project-card:not(.is-expanded):not(.is-open) .project
 }
 
 .projects .project-card-story-label,
+.projects .project-card-takeaways-label,
 .projects .project-card.is-expanded .card-title,
 .projects .project-deck.is-current > .card .card-title,
 .projects .project-card-preview:hover .card-title,
 .projects .project-card-preview:focus-within .card-title,
 .projects .project-card-direct-link,
-.projects .project-deck-count,
 .blog-card-series,
 .blog-card-related,
 .blog-series-toggle {
   color: var(--glass-ink-accent);
 }
 
-// A label inside a glass control takes the control's ink (a sitewide rule gives
-// every span the body colour, which put light words on the evening lavender).
+// A label inside a button takes the button's ink (a sitewide rule gives every
+// span the body colour, which put light words on the evening lavender).
 .projects .project-card-open-link span,
 .projects .project-card-secondary-link span,
 .project-case-actions a span,
@@ -308,55 +286,150 @@ html.glass-tilt .projects .project-card:not(.is-expanded):not(.is-open) .project
 }
 
 /* ---------------------------------------------------------------------------
+ * An open card's story: one calm inset holding "Why it began", "What changed"
+ * and "Intended outcome" as a labelled list (2026-10-19). It replaces three
+ * differently ruled boxes; a wide card sets the labels in their own column.
+ * ------------------------------------------------------------------------- */
+
+.projects .project-card-story,
+.projects .project-card-takeaways {
+  margin-top: 1rem;
+  padding: 0.35rem 1rem;
+  border: 0;
+  border-radius: var(--md-lite-shape-md);
+  background: var(--surface-inset);
+  box-shadow: none;
+  container-type: inline-size;
+}
+
+.projects .project-card-story {
+  gap: 0;
+}
+
+.projects .project-card-story-beat,
+.projects .project-card-story .project-card-outcome {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.7rem 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+
+  > p:last-child {
+    margin: 0;
+    color: var(--md-lite-on-surface);
+    font-size: var(--type-meta);
+    line-height: 1.5;
+  }
+}
+
+// Inside the story list the outcome is a row like the others, shown with the story.
+.projects .project-card.is-expanded .project-card-story .project-card-outcome {
+  display: grid;
+}
+
+// One hairline between rows, the only rule in the panel.
+.projects .project-card .project-card-story > * + * {
+  border-top: 1px solid var(--md-lite-outline-variant);
+}
+
+.projects .project-card-story-label,
+.projects .project-card-takeaways-label {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--type-label);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+@container (min-width: 26rem) {
+  .projects .project-card-story-beat,
+  .projects .project-card-story .project-card-outcome {
+    grid-template-columns: 8.25rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: baseline;
+  }
+}
+
+// "What to notice" (a research card without a story) uses the same inset.
+.projects .project-card-takeaways:not(.project-card-outcome) {
+  padding: 0.85rem 1rem 0.9rem;
+
+  .project-card-takeaways-label {
+    margin-bottom: 0.45rem;
+  }
+
+  li::before {
+    background: var(--glass-ink-accent);
+  }
+}
+
+/* ---------------------------------------------------------------------------
  * Buttons on cards
  * ------------------------------------------------------------------------- */
 
-.projects .project-card-preview-affordance,
-.projects .project-card-close {
-  @include glass-surface(var(--glass-tint));
+// The plus on a closed card: a quiet tonal circle that fills when the card is pointed at.
+.projects .project-card-preview-affordance {
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  background: var(--md-lite-surface-container-highest);
+  box-shadow: none;
+  color: var(--md-lite-on-surface-variant);
+  opacity: 1;
 }
 
 .projects .project-card-preview:hover .project-card-preview-affordance,
 .projects .project-card-preview:focus-within .project-card-preview-affordance {
-  @include glass-candy(var(--global-primary-fill-color), var(--global-on-primary-fill-color));
+  border: 0;
+  background: var(--md-lite-filled);
+  box-shadow: none;
+  color: var(--md-lite-on-filled);
+  transform: none;
+}
+
+// The close button: a tonal icon button where the plus was.
+.projects .project-card-close {
+  @include md-button(var(--md-lite-surface-container-highest), var(--md-lite-on-surface), 1.375rem);
 }
 
 .projects .project-card-close:hover,
 .projects .project-card-close:focus-visible {
-  @include glass-surface(color-mix(in srgb, var(--global-card-bg-color) 70%, var(--global-theme-color) 12%));
-
-  color: var(--global-theme-color);
+  transform: none;
 }
 
+// One primary action per panel: filled. Code and other secondary links: tonal.
 .projects .project-card-open-link,
 .project-case-actions a:first-child {
-  @include glass-candy(var(--global-primary-fill-color), var(--global-on-primary-fill-color));
-}
-
-.projects .project-card-open-link:hover,
-.projects .project-card-open-link:focus-visible,
-.project-case-actions a:first-child:hover,
-.project-case-actions a:first-child:focus-visible {
-  @include glass-candy(var(--global-primary-fill-hover-color), var(--global-on-primary-fill-color));
+  @include md-button-filled;
 }
 
 .projects .project-card-secondary-link,
 .project-case-actions a:not(:first-child) {
-  @include glass-surface(var(--glass-tint));
-
-  color: var(--global-theme-color);
+  @include md-button-tonal;
 }
 
-.projects .project-card-secondary-link:hover,
-.projects .project-card-secondary-link:focus-visible,
-.project-case-actions a:not(:first-child):hover,
-.project-case-actions a:not(:first-child):focus-visible {
-  @include glass-surface(color-mix(in srgb, var(--global-card-bg-color) 64%, var(--global-theme-color) 14%), var(--glass-shadow-lifted));
-
-  color: var(--global-theme-color);
+// The arrow leans toward where the link goes.
+.projects .project-card-open-link i,
+.projects .project-card-open-link svg,
+.project-case-actions a:first-child i,
+.project-case-actions a:first-child svg {
+  transition: transform var(--spring-confident-duration) var(--spring-confident);
 }
 
-// Press feedback for glass controls (all pointers, never under reduced motion or
+.projects .project-card-open-link:hover i,
+.projects .project-card-open-link:hover svg,
+.project-case-actions a:first-child:hover i,
+.project-case-actions a:first-child:hover svg {
+  transform: translateX(0.18rem);
+}
+
+// Press feedback for buttons (all pointers, never under reduced motion or
 // automation). glass-motion.mjs toggles .is-pressed.
 html.glass-motion {
   .projects .project-card-open-link,
@@ -366,20 +439,7 @@ html.glass-motion {
   .glass-pressable {
     transform: translateY(var(--glass-lift)) scale(var(--glass-press));
 
-    @include glass-press-motion((background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease));
-  }
-
-  .project-case-actions a:hover,
-  .projects .project-card-open-link:hover,
-  .projects .project-card-secondary-link:hover,
-  .glass-pressable:hover {
-    --glass-lift: -1px;
-  }
-
-  // The close button keeps its quarter turn on hover; the press scales it in place.
-  .projects .project-card-close:hover,
-  .projects .project-card-close:focus-visible {
-    transform: rotate(90deg) scale(var(--glass-press));
+    @include md-press-motion();
   }
 }
 
@@ -409,56 +469,41 @@ html.glass-motion {
   border-radius: var(--md-lite-radius-pill);
 }
 
-// Phones keep the tint, rim, grain and accent wash but not the blurred teaser behind each card:
-// at 4x CPU throttling on a 390 px viewport it cost about half of glass's extra long frames while
-// scrolling a deck level (22 long frames against 13 for solid surfaces; 15 without the teaser).
-@media (max-width: 767px) {
-  .projects .project-card > .card::before,
-  .lab-card::before,
-  .blog-card::before,
-  .project-child-card::before {
-    display: none;
-  }
-}
-
 /* ---------------------------------------------------------------------------
- * Plain surfaces when transparency or contrast is unwelcome
+ * Plain surfaces when contrast or colours are forced
  * ------------------------------------------------------------------------- */
 
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
-  :root,
-  html[data-theme="dark"],
-  html[data-theme-mode="evening"] {
-    --glass-tint: var(--global-card-bg-color);
-    --glass-tint-strong: var(--global-card-bg-color);
-    --glass-tint-faint: var(--global-card-bg-color);
-    --glass-sheen: linear-gradient(transparent, transparent);
-    --glass-candy-sheen: linear-gradient(transparent, transparent);
-    --glass-grain: none;
-    --glass-vibrancy: 0;
-    --glass-specular: transparent;
-    --glass-rim-top: transparent;
-    --glass-rim-bottom: transparent;
-    --glass-edge: var(--global-divider-color);
-    --glass-blur: 0px;
-    --glass-saturate: 1;
-  }
-
-  .projects .project-card > .card::before {
+  .projects .project-card > .card::after,
+  .lab-card::after,
+  .project-child-card::after,
+  .blog-card::after {
     display: none;
   }
 }
 
 @media (prefers-contrast: more) {
-  :root {
-    --glass-edge: color-mix(in srgb, var(--global-text-color) 55%, transparent);
+  .projects .project-card > .card,
+  .lab-card,
+  .project-child-card,
+  .blog-card {
+    box-shadow: inset 0 0 0 1px var(--md-lite-outline-variant);
   }
 }
 
 @media (forced-colors: active) {
-  .projects .project-card > .card::before,
-  .projects .project-card > .card::after {
+  .projects .project-card > .card::after,
+  .lab-card::after,
+  .project-child-card::after,
+  .blog-card::after {
     display: none;
+  }
+
+  .projects .project-card > .card,
+  .lab-card,
+  .project-child-card,
+  .blog-card {
+    border: 1px solid CanvasText;
   }
 
   .projects .project-card-preview-affordance,
@@ -492,8 +537,9 @@ html.glass-motion {
   isolation: isolate;
 }
 
-// The next cards in the deck peek out from under it, and fan a little further
-// when the pointer is over it, a preview of opening it.
+// The next cards in the deck peek out below it as flat tonal layers, each a
+// little narrower, the way a stack of notifications reads; pointing at the deck
+// spreads them on the layout spring, a preview of opening it.
 .projects .project-deck-sheets {
   position: absolute;
   inset: 0;
@@ -504,39 +550,37 @@ html.glass-motion {
 .projects .project-deck-sheet {
   position: absolute;
   inset: 0;
-  border: 1px solid var(--glass-edge);
-  border-radius: var(--md-lite-radius-md);
-  background:
-    var(--glass-sheen),
-    linear-gradient(var(--glass-tint), var(--glass-tint)),
-    var(--sheet-image) center / cover no-repeat,
-    var(--global-card-bg-color);
-  box-shadow: var(--glass-shadow);
-  transform: translate(calc(4px + var(--sheet-index) * 5px), calc(6px + var(--sheet-index) * 6px)) rotate(calc(1deg + var(--sheet-index) * 1.3deg));
-  transform-origin: 20% 100%;
+  border: 0;
+  border-radius: var(--md-lite-shape-lg);
+  background: color-mix(in srgb, var(--md-lite-on-surface) calc(4% + var(--sheet-index) * 3%), var(--surface-card));
+  box-shadow: none;
+  transform: translateY(calc(7px + var(--sheet-index) * 7px)) scaleX(calc(0.965 - var(--sheet-index) * 0.035));
+  transform-origin: 50% 100%;
   transition: transform var(--spring-layout-duration) var(--spring-layout);
 }
 
-// The fan stays inside the narrowest desktop gutter (a deck in the last column at 992 px).
 .projects .project-deck:not(.is-open):hover .project-deck-sheet,
 .projects .project-deck:not(.is-open):focus-within .project-deck-sheet {
-  transform: translate(calc(7px + var(--sheet-index) * 6px), calc(9px + var(--sheet-index) * 8px)) rotate(calc(2deg + var(--sheet-index) * 1.6deg));
+  transform: translateY(calc(10px + var(--sheet-index) * 9px)) scaleX(calc(0.955 - var(--sheet-index) * 0.04));
 }
 
+// What a deck holds: a quiet label, then a chip for each name (Material chips:
+// small corners, a tonal fill, no outline).
 .projects .project-deck-count {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   width: fit-content;
+  min-height: 1.85rem;
   margin: -0.15rem 0 0.6rem;
-  padding: 0.18rem 0.62rem 0.18rem 0.45rem;
-  border-radius: var(--md-lite-radius-pill);
-  color: var(--global-theme-color);
+  padding: 0 0.15rem 0 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--glass-ink-soft);
   font-size: var(--type-meta);
   font-weight: 600;
   line-height: 1.4;
-
-  @include glass-surface(var(--glass-tint-faint));
 
   svg {
     width: 1rem;
@@ -588,8 +632,9 @@ html.glass-motion {
     align-items: center;
     min-height: 1.85rem;
     padding: 0.1rem 0.62rem;
-    border: 1px solid color-mix(in srgb, var(--glass-ink-accent) 28%, transparent);
-    border-radius: var(--md-lite-radius-pill);
+    border: 0;
+    border-radius: var(--md-lite-shape-sm);
+    background: var(--md-lite-surface-container-highest);
     color: var(--glass-ink-accent);
     font-size: var(--type-meta);
     font-weight: 500;
@@ -597,15 +642,18 @@ html.glass-motion {
     text-decoration: none;
     pointer-events: auto;
     transition:
-      background-color 160ms ease,
-      border-color 160ms ease;
+      background-color 160ms var(--md-lite-easing-standard),
+      border-radius var(--spring-morph-duration) var(--spring-morph);
 
     &:hover,
     &:focus-visible {
-      border-color: color-mix(in srgb, var(--glass-ink-accent) 55%, transparent);
-      background: var(--md-lite-state-hover);
+      background: color-mix(in srgb, var(--glass-ink-accent) var(--md-lite-state-hover-opacity), var(--md-lite-surface-container-highest));
       color: var(--glass-ink-accent);
       text-decoration: none;
+    }
+
+    &:active {
+      border-radius: var(--md-lite-shape-md);
     }
 
     &:focus-visible {
@@ -638,7 +686,7 @@ html.glass-motion {
   .projects .project-deck--feature:not(.is-open) .project-card-media {
     aspect-ratio: auto;
     min-height: 15rem;
-    margin: 0.55rem 0 0.55rem 0.55rem;
+    margin: 0.5rem 0 0.5rem 0.5rem;
   }
 }
 
@@ -653,21 +701,23 @@ html.glass-motion {
     width: min(27%, 20rem);
   }
 
+  // The hand: real thumbnails on white stock with a hairline edge, fanned a little at rest so the
+  // first card stays clear of the names beside it.
   .projects .project-deck--feature .project-deck-sheet {
     inset: auto;
     top: calc(12% + var(--sheet-index) * 3%);
-    left: calc(var(--sheet-index) * 9%);
+    left: calc(0.75rem + var(--sheet-index) * 8.5%);
     width: 62%;
     aspect-ratio: 4 / 3;
-    border-radius: var(--md-lite-radius-sm);
+    border: 3px solid var(--md-lite-surface-container-lowest);
+    border-radius: var(--md-lite-shape-md);
     background:
-      var(--glass-sheen),
       var(--sheet-image) center / cover no-repeat,
-      #fff;
+      var(--md-lite-surface-container-lowest);
     box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.4),
-      var(--glass-shadow);
-    transform: rotate(calc(-11deg + var(--sheet-index) * 5.5deg));
+      0 0 0 1px var(--md-lite-outline-variant),
+      0 0.15rem 0.45rem rgba(var(--global-shadow-rgb), 0.1);
+    transform: rotate(calc(-6deg + var(--sheet-index) * 3deg));
     transform-origin: 50% 120%;
   }
 
@@ -681,21 +731,6 @@ html.glass-motion {
 @media (max-width: 991px) {
   .projects .project-deck--feature .project-deck-sheet:nth-child(n + 3) {
     display: none;
-  }
-}
-
-// Below the desktop layout a deck can reach the page's edge (a feature deck spans the column, a
-// phone's deck fills it), so its sheets peek out below it only, narrowing as they go, instead of
-// reaching past the screen's edge and widening the page; pointing at it drops them a little further.
-@media (max-width: 991px) {
-  .projects .project-deck-sheet {
-    transform: translateY(calc(6px + var(--sheet-index) * 6px)) scaleX(calc(0.96 - var(--sheet-index) * 0.04));
-    transform-origin: 50% 100%;
-  }
-
-  .projects .project-deck:not(.is-open):hover .project-deck-sheet,
-  .projects .project-deck:not(.is-open):focus-within .project-deck-sheet {
-    transform: translateY(calc(9px + var(--sheet-index) * 8px)) scaleX(calc(0.95 - var(--sheet-index) * 0.045));
   }
 }
 
@@ -734,13 +769,20 @@ html.glass-motion {
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   }
 
-  // The picture keeps its own proportions at the top of the banner: a percentage
+  // The picture hugs its own proportions at the top of the banner: a percentage
   // height here would resolve against the whole deck, children included.
   > .card .project-card-media {
     align-self: start;
-    aspect-ratio: var(--project-image-aspect, 16 / 9);
+    aspect-ratio: auto;
+    height: auto;
     min-height: 0;
-    margin: 0.55rem 0 0.55rem 0.55rem;
+    margin: 0.5rem 0 0.5rem 0.5rem;
+
+    figure,
+    picture,
+    img {
+      height: auto;
+    }
   }
 
   > .card .card-text {
@@ -756,6 +798,10 @@ html.glass-motion {
   > .card .project-card-takeaways,
   > .card .project-card-panel {
     display: block;
+  }
+
+  > .card .project-card-story .project-card-outcome {
+    display: grid;
   }
 
   // The banner keeps the names of what is inside, nested levels included, as shortcuts above the level; the
@@ -807,7 +853,7 @@ html.glass-motion {
 .projects .lab-deck-item {
   content-visibility: auto;
   contain-intrinsic-size: auto 560px;
-  // Paint containment comes with it; let shadows, sheets and the hover lift reach past the box.
+  // Paint containment comes with it; let sheets and the hover lift reach past the box.
   overflow-clip-margin: 2rem;
 }
 
@@ -834,8 +880,10 @@ html.glass-motion {
   position: relative;
 }
 
-// The trail names every open level and walks back up. It stays under the
-// navigation bar while the level is in view, frosted over what scrolls beneath.
+// The trail names every open level and walks back up. It floats under the
+// navigation bar while the level is in view, so it is chrome: the one piece of
+// glass in the projects index, with the current level in the same tonal
+// indicator the navbar uses for the current page.
 .projects .project-deck-trail {
   position: sticky;
   top: 4.1rem;
@@ -854,7 +902,7 @@ html.glass-motion {
     border-radius: var(--md-lite-radius-pill);
     list-style: none;
 
-    @include glass-surface(var(--glass-tint));
+    @include chrome-glass(var(--md-lite-glass-tint-strong));
   }
 
   li {
@@ -887,15 +935,9 @@ html.glass-motion {
   }
 
   button {
-    border: 0;
-    background: transparent;
-    color: var(--global-theme-color);
-    cursor: pointer;
-    transition: background-color 160ms ease;
+    @include md-button-text(1.375rem);
 
-    &:hover {
-      background: var(--md-lite-state-hover);
-    }
+    cursor: pointer;
 
     &:focus-visible {
       outline: var(--md-lite-focus-ring);
@@ -904,14 +946,15 @@ html.glass-motion {
   }
 
   li > span {
-    color: var(--global-text-color);
+    background: var(--md-lite-tonal);
+    color: var(--md-lite-on-tonal);
   }
 }
 
 html.glass-motion .projects .project-deck-trail button {
   transform: translateY(var(--glass-lift)) scale(var(--glass-press));
 
-  @include glass-press-motion((background-color 160ms ease));
+  @include md-press-motion();
 }
 
 /* ---------------------------------------------------------------------------
@@ -956,9 +999,6 @@ html.glass-motion .projects .project-deck-trail button {
 
 .lab-card,
 .project-child-card {
-  // Scene stills are dark and saturated; a lighter tint of them keeps the words clear.
-  --glass-vibrancy: 0.14;
-
   position: relative;
   isolation: isolate;
   display: flex;
@@ -966,55 +1006,35 @@ html.glass-motion .projects .project-deck-trail button {
   flex-direction: column;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid var(--glass-edge);
-  border-radius: var(--md-lite-radius-md);
-  background: var(--glass-tint-strong);
-  box-shadow:
-    inset 0 1px 0 var(--glass-rim-top),
-    var(--glass-shadow);
+  border: 0;
+  border-radius: var(--md-lite-shape-lg);
+  background: var(--surface-card);
+  box-shadow: none;
   color: inherit;
   text-decoration: none;
   transition:
-    border-color var(--motion-standard),
+    background-color var(--motion-standard),
     box-shadow var(--motion-standard);
-
-  &::before {
-    position: absolute;
-    inset: -14%;
-    z-index: -1;
-    background: var(--project-teaser, none) center / cover no-repeat;
-    content: "";
-    filter: var(--glass-vibrancy-filter);
-    opacity: var(--glass-vibrancy);
-    pointer-events: none;
-    -webkit-mask-image: var(--glass-vibrancy-mask);
-    mask-image: var(--glass-vibrancy-mask);
-  }
 
   &::after {
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background:
-      radial-gradient(
-          circle 12rem at var(--glass-x, 26%) var(--glass-y, -12%),
-          color-mix(in srgb, var(--glass-specular) calc(var(--glass-hover, 0) * 100%), transparent),
-          transparent 64%
-        )
-        no-repeat,
-      var(--glass-sheen),
-      var(--glass-grain);
+    background: radial-gradient(
+        circle 12rem at var(--glass-x, 50%) var(--glass-y, 0%),
+        color-mix(in srgb, var(--surface-light) calc(var(--glass-hover, 0) * 100%), transparent),
+        transparent 70%
+      )
+      no-repeat;
     content: "";
     pointer-events: none;
   }
 
   &:hover,
   &:focus-visible {
-    border-color: color-mix(in srgb, var(--global-theme-color) 38%, var(--glass-edge));
-    box-shadow:
-      inset 0 1px 0 var(--glass-rim-top),
-      var(--glass-shadow-lifted);
+    background: var(--surface-card-hover);
+    box-shadow: var(--surface-lift-shadow);
     color: inherit;
     text-decoration: none;
   }
@@ -1027,10 +1047,9 @@ html.glass-motion .projects .project-deck-trail button {
 
 html.glass-motion .lab-card,
 html.glass-motion .project-child-card {
-  transform: perspective(900px) rotateX(var(--glass-rx, 0deg)) rotateY(var(--glass-ry, 0deg)) translate3d(0, var(--glass-lift), 0)
-    scale(var(--glass-press));
+  transform: translate3d(0, var(--glass-lift), 0) scale(var(--glass-press));
 
-  @include glass-press-motion((border-color var(--motion-standard), box-shadow var(--motion-standard)));
+  @include md-press-motion((box-shadow var(--motion-standard)));
 
   &:hover {
     --glass-lift: -3px;
@@ -1040,9 +1059,9 @@ html.glass-motion .project-child-card {
 .lab-card-thumb {
   display: block;
   aspect-ratio: 4 / 3;
-  margin: 0.45rem 0.45rem 0;
+  margin: 0.5rem 0.5rem 0;
   overflow: hidden;
-  border-radius: calc(var(--md-lite-radius-md) - 0.2rem);
+  border-radius: calc(var(--md-lite-shape-lg) - 0.5rem);
   background: #0f171c;
 
   img {
@@ -1050,7 +1069,6 @@ html.glass-motion .project-child-card {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: translate3d(var(--glass-drift-x, 0px), var(--glass-drift-y, 0px), 0) scale(1.04);
   }
 }
 
@@ -1095,6 +1113,7 @@ html.glass-motion .project-child-card {
  * Project pages: where a nested project sits, and what is inside one
  * ------------------------------------------------------------------------- */
 
+// A breadcrumb in the page, not chrome: plain links with a state layer.
 .project-trail {
   margin: 0 0 1rem;
 
@@ -1105,13 +1124,13 @@ html.glass-motion .project-child-card {
     gap: 0.2rem 0.1rem;
     width: fit-content;
     max-width: 100%;
-    margin: 0;
-    padding: 0.2rem 0.35rem;
-    border-radius: var(--md-lite-radius-pill);
+    margin: 0 0 0 -0.55rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
     list-style: none;
     font-size: var(--type-meta);
-
-    @include glass-surface(var(--glass-tint-faint));
   }
 
   li {
@@ -1145,9 +1164,10 @@ html.glass-motion .project-child-card {
     color: var(--global-theme-color);
     font-weight: 500;
     text-decoration: none;
+    transition: background-color 160ms var(--md-lite-easing-standard);
 
     &:hover {
-      background: var(--md-lite-state-hover);
+      background: color-mix(in srgb, var(--global-theme-color) var(--md-lite-state-hover-opacity), transparent);
       text-decoration: none;
     }
 
@@ -1186,29 +1206,16 @@ html.glass-motion .project-child-card {
   align-items: center;
   min-height: 2.75rem;
   padding: 0.35rem 0.95rem;
-  border-radius: var(--md-lite-radius-pill);
-  color: var(--global-theme-color);
   font-size: var(--type-meta);
   font-weight: 600;
-  text-decoration: none;
 
-  @include glass-surface(var(--glass-tint));
-
-  &:hover,
-  &:focus-visible {
-    color: var(--global-theme-color);
-    text-decoration: none;
-  }
+  @include md-button-tonal;
 }
 
 html.glass-motion .project-children-deck {
   transform: translateY(var(--glass-lift)) scale(var(--glass-press));
 
-  @include glass-press-motion((background-color 180ms ease, color 180ms ease));
-
-  &:hover {
-    --glass-lift: -1px;
-  }
+  @include md-press-motion();
 }
 
 .project-children-grid {
@@ -1230,10 +1237,10 @@ html.glass-motion .project-children-deck {
   align-items: center;
   justify-content: center;
   aspect-ratio: 16 / 10;
-  margin: 0.45rem 0.45rem 0;
+  margin: 0.5rem 0.5rem 0;
   padding: 0.4rem;
   overflow: hidden;
-  border-radius: calc(var(--md-lite-radius-md) - 0.2rem);
+  border-radius: calc(var(--md-lite-shape-lg) - 0.5rem);
   background: #fff;
 
   img {
@@ -1298,9 +1305,8 @@ html.glass-motion .project-children-deck {
     }
 
     > .card .project-card-media {
-      aspect-ratio: var(--project-image-aspect, 16 / 9);
       min-height: 0;
-      margin: 0.55rem 0.55rem 0;
+      margin: 0.5rem 0.5rem 0;
     }
 
     > .card .project-card-trigger {
@@ -1313,7 +1319,7 @@ html.glass-motion .project-children-deck {
   }
 
   .projects .project-card.is-expanded .project-card-media {
-    margin: 0.55rem 0.55rem 0;
+    margin: 0.5rem 0.5rem 0;
   }
 
   .projects .lab-deck-grid {
@@ -1367,14 +1373,15 @@ html.glass-motion .project-children-deck {
   }
 }
 
-@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+@media (forced-colors: active) {
   .projects .project-deck-sheet {
-    background: var(--global-card-bg-color);
+    border: 1px solid CanvasText;
+    background: Canvas;
   }
 
-  .lab-card::before,
-  .project-child-card::before {
-    display: none;
+  .projects .project-deck-inside a,
+  .projects .project-deck-trail li > span {
+    border: 1px solid ButtonText;
   }
 }
 
@@ -1422,15 +1429,18 @@ html.glass-motion .project-children-deck {
   }
 }
 
+// A segmented control in the page: a tonal track, and one drop of the filled
+// colour under the chosen view.
 .blog-layout-toggle {
   position: relative;
   isolation: isolate;
   display: inline-flex;
   gap: 0.2rem;
   padding: 0.25rem;
+  border: 0;
   border-radius: var(--md-lite-radius-pill);
-
-  @include glass-surface(var(--glass-tint));
+  background: var(--md-lite-surface-container-high);
+  box-shadow: none;
 
   button {
     position: relative;
@@ -1444,7 +1454,7 @@ html.glass-motion .project-children-deck {
     border: 0;
     border-radius: var(--md-lite-radius-pill);
     background: transparent;
-    color: var(--global-text-color-light);
+    color: var(--md-lite-on-surface-variant);
     cursor: pointer;
     transition: color 200ms ease;
 
@@ -1453,7 +1463,7 @@ html.glass-motion .project-children-deck {
     }
 
     &[aria-checked="true"] {
-      color: var(--global-on-primary-fill-color);
+      color: var(--md-lite-on-filled);
     }
 
     &:focus-visible {
@@ -1503,23 +1513,21 @@ html.glass-motion .project-children-deck {
 }
 
 .blog-layout-blob {
-  background: radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 46%), var(--global-primary-fill-color);
+  background: var(--md-lite-filled);
 }
 
 .blog-layout-blob[data-blog-blob="travel"] {
   transform: scale(0);
 }
 
-// Over the selected icon: the rim of a glass bead. Where SVG filters draw inside
-// backdrop-filter (html[data-liquid-glass]), it also bends what is beneath it.
+// Over the selected icon, a lens that travels with the drop. Where SVG filters
+// draw inside backdrop-filter (html[data-liquid-glass]) it bends the icon under
+// it while the drop moves, the way a control turns to glass only in the hand.
 .blog-layout-lens {
   top: 0.25rem;
   left: 0.25rem;
   z-index: 2;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    inset 0 -1px 2px rgba(var(--global-shadow-rgb), 0.12),
-    0 0.2rem 0.55rem color-mix(in srgb, var(--global-primary-fill-color) 45%, transparent);
+  box-shadow: none;
   pointer-events: none;
 }
 
@@ -1536,14 +1544,6 @@ html[data-blog-layout="cards"] {
   .blog-layout-lens {
     left: calc(0.25rem + 2.75rem + 0.2rem);
   }
-}
-
-html[data-theme="dark"] .blog-layout-lens,
-html[data-theme-mode="evening"] .blog-layout-lens {
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.3),
-    0 0.2rem 0.55rem rgba(0, 0, 0, 0.3);
 }
 
 // One view at a time; the inline script in _pages/blog.md picks it before the
@@ -1614,57 +1614,37 @@ html[data-blog-layout="cards"] .blog-list-view {
   flex-direction: column;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid var(--glass-edge);
-  border-radius: var(--md-lite-radius-md);
-  background: linear-gradient(180deg, rgba(var(--global-accent-rgb), 0.07), transparent 4rem), var(--glass-tint-strong);
-  box-shadow:
-    inset 0 1px 0 var(--glass-rim-top),
-    var(--glass-shadow);
+  border: 0;
+  border-radius: var(--md-lite-shape-lg);
+  background: var(--surface-card);
+  box-shadow: none;
   color: inherit;
   text-decoration: none;
   transition:
-    border-color var(--motion-standard),
+    background-color var(--motion-standard),
     box-shadow var(--motion-standard),
     opacity 220ms ease,
     filter 220ms ease;
-
-  &::before {
-    position: absolute;
-    inset: -14%;
-    z-index: -1;
-    background: var(--project-teaser, none) center / cover no-repeat;
-    content: "";
-    filter: var(--glass-vibrancy-filter);
-    opacity: var(--glass-vibrancy);
-    pointer-events: none;
-    -webkit-mask-image: var(--glass-vibrancy-mask);
-    mask-image: var(--glass-vibrancy-mask);
-  }
 
   &::after {
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background:
-      radial-gradient(
-          circle 13rem at var(--glass-x, 26%) var(--glass-y, -12%),
-          color-mix(in srgb, var(--glass-specular) calc(var(--glass-hover, 0) * 100%), transparent),
-          transparent 64%
-        )
-        no-repeat,
-      var(--glass-sheen),
-      var(--glass-grain);
+    background: radial-gradient(
+        circle 13rem at var(--glass-x, 50%) var(--glass-y, 0%),
+        color-mix(in srgb, var(--surface-light) calc(var(--glass-hover, 0) * 100%), transparent),
+        transparent 70%
+      )
+      no-repeat;
     content: "";
     pointer-events: none;
   }
 
   &:hover,
   &:focus-visible {
-    border-color: color-mix(in srgb, var(--global-theme-color) 40%, var(--glass-edge));
-    box-shadow:
-      inset 0 1px 0 var(--glass-rim-top),
-      var(--glass-shadow-lifted);
+    background: var(--surface-card-hover);
+    box-shadow: var(--surface-lift-shadow);
     color: inherit;
     text-decoration: none;
   }
@@ -1679,13 +1659,10 @@ html[data-blog-layout="cards"] .blog-list-view {
     color: var(--global-theme-color);
   }
 
-  // Topics in common with the note under the pointer or focus.
+  // Topics in common with the note under the pointer or focus: a tonal ring, not a glow.
   &[data-blog-relation="related"] {
-    border-color: color-mix(in srgb, var(--global-theme-color) 55%, var(--glass-edge));
-    box-shadow:
-      inset 0 1px 0 var(--glass-rim-top),
-      0 0 0 2px color-mix(in srgb, var(--global-theme-color) 22%, transparent),
-      var(--glass-shadow-lifted);
+    background: color-mix(in srgb, var(--global-theme-color) 6%, var(--surface-card));
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--global-theme-color) 40%, transparent);
   }
 
   &[data-blog-relation="quiet"] {
@@ -1695,10 +1672,9 @@ html[data-blog-layout="cards"] .blog-list-view {
 }
 
 html.glass-motion .blog-card {
-  transform: perspective(900px) rotateX(var(--glass-rx, 0deg)) rotateY(var(--glass-ry, 0deg)) translate3d(0, var(--glass-lift), 0)
-    scale(var(--glass-press));
+  transform: translate3d(0, var(--glass-lift), 0) scale(var(--glass-press));
 
-  @include glass-press-motion((border-color var(--motion-standard), box-shadow var(--motion-standard), opacity 220ms ease, filter 220ms ease));
+  @include md-press-motion((box-shadow var(--motion-standard), opacity 220ms ease, filter 220ms ease));
 
   &:hover {
     --glass-lift: -3px;
@@ -1708,17 +1684,16 @@ html.glass-motion .blog-card {
 .blog-card-media {
   display: block;
   aspect-ratio: 16 / 10;
-  margin: 0.45rem 0.45rem 0;
+  margin: 0.5rem 0.5rem 0;
   overflow: hidden;
-  border-radius: calc(var(--md-lite-radius-md) - 0.2rem);
-  background: var(--global-surface-container-color);
+  border-radius: calc(var(--md-lite-shape-lg) - 0.5rem);
+  background: var(--md-lite-surface-container-high);
 
   img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: translate3d(var(--glass-drift-x, 0px), var(--glass-drift-y, 0px), 0) scale(1.04);
   }
 }
 
@@ -1775,9 +1750,9 @@ html.glass-motion .blog-card {
 
   span {
     padding: 0.05rem 0.45rem;
-    border: 1px solid var(--global-divider-color);
-    border-radius: var(--md-lite-radius-pill);
-    background: color-mix(in srgb, var(--global-card-bg-color) 60%, transparent);
+    border: 0;
+    border-radius: var(--md-lite-shape-sm);
+    background: var(--md-lite-surface-container-highest);
     color: var(--glass-ink-soft);
     font-size: var(--type-label);
     line-height: 1.5;
@@ -1792,8 +1767,8 @@ html.glass-motion .blog-card {
   line-height: 1.3;
 }
 
-// A series is a deck of notes: the newest on top, the others peeking under it,
-// and a tab that fans them out in place.
+// A series is a deck of notes: the newest on top, the others peeking under it
+// as flat layers, and a tab that fans them out in place.
 .blog-series {
   position: relative;
   margin-top: 0.85rem;
@@ -1803,28 +1778,30 @@ html.glass-motion .blog-card {
     position: absolute;
     inset: 0;
     z-index: -1;
-    border: 1px solid var(--glass-edge);
-    border-radius: var(--md-lite-radius-md);
-    background: var(--glass-sheen), var(--glass-tint);
-    box-shadow: var(--glass-shadow);
+    border: 0;
+    border-radius: var(--md-lite-shape-lg);
+    box-shadow: none;
     content: "";
+    transform-origin: 50% 100%;
     transition: transform var(--spring-layout-duration) var(--spring-layout);
   }
 
   &.is-stacked::before {
-    transform: translate(5px, 6px) rotate(1.2deg);
+    background: color-mix(in srgb, var(--md-lite-on-surface) 5%, var(--surface-card));
+    transform: translateY(7px) scaleX(0.965);
   }
 
   &.is-stacked::after {
-    transform: translate(9px, 12px) rotate(2.6deg);
+    background: color-mix(in srgb, var(--md-lite-on-surface) 9%, var(--surface-card));
+    transform: translateY(14px) scaleX(0.93);
   }
 
   &.is-stacked:hover::before {
-    transform: translate(8px, 9px) rotate(2.4deg);
+    transform: translateY(10px) scaleX(0.955);
   }
 
   &.is-stacked:hover::after {
-    transform: translate(14px, 17px) rotate(4.6deg);
+    transform: translateY(19px) scaleX(0.915);
   }
 
   &.is-fanned {
@@ -1845,13 +1822,12 @@ html.glass-motion .blog-card {
   gap: 0.4rem;
   min-height: 2rem;
   padding: 0.2rem 0.7rem 0.2rem 0.5rem;
-  border-radius: var(--md-lite-radius-pill);
   cursor: pointer;
   font-size: var(--type-label);
   font-weight: 600;
   line-height: 1.2;
 
-  @include glass-surface(var(--glass-tint-strong));
+  @include md-button-tonal(1rem);
 
   svg {
     width: 0.95rem;
@@ -1880,17 +1856,19 @@ html.glass-motion .blog-card {
   min-width: 1.25rem;
   padding: 0 0.35rem;
   border-radius: var(--md-lite-radius-pill);
-  background: color-mix(in srgb, var(--global-theme-color) 14%, transparent);
+  background: color-mix(in srgb, var(--md-lite-on-tonal) 12%, transparent);
   text-align: center;
 }
 
-// The list's own controls take the same glass.
+// The list's own controls: text buttons, the current page filled.
 .blog-index .pagination .page-item .page-link {
-  @include glass-surface(var(--glass-tint));
+  @include md-button-text(1.375rem);
 }
 
 .blog-index .pagination .page-item.active .page-link {
-  @include glass-candy(var(--global-theme-color), var(--global-hover-text-color));
+  @include md-button-filled(1.375rem);
+
+  border-color: var(--md-lite-filled);
 }
 
 @media (max-width: 991px) {
@@ -1920,9 +1898,13 @@ html.glass-motion .blog-card {
   }
 }
 
-@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
-  .blog-card::before {
-    display: none;
+@media (forced-colors: active) {
+  .blog-layout-toggle {
+    border: 1px solid CanvasText;
+  }
+
+  .blog-layout-blob {
+    background: Highlight;
   }
 }
 
@@ -1964,4 +1946,29 @@ html.blog-layout-morphing::view-transition-old(root) {
 
 html.blog-layout-morphing::view-transition-new(root) {
   animation: site-route-arrive 420ms var(--spring-gentle, ease-out) both;
+}
+
+/* ---------------------------------------------------------------------------
+ * Reduced motion: colour still answers a press; corners and scale stay put.
+ * ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .projects .project-card-open-link,
+  .projects .project-card-secondary-link,
+  .projects .project-card-close,
+  .project-case-actions a,
+  .project-children-deck,
+  .projects .project-deck-trail button,
+  .projects .project-deck-inside a,
+  .blog-series-toggle,
+  .blog-index .pagination .page-link {
+    transition:
+      background-color 120ms linear,
+      color 120ms linear;
+
+    &:active,
+    &.is-pressed {
+      border-radius: var(--md-button-radius, var(--md-lite-shape-sm));
+    }
+  }
 }

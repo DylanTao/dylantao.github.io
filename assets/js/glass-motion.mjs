@@ -1,60 +1,50 @@
-// Glass motion (2026-10-18): the site's glass cards lean a few degrees toward the pointer, a highlight
-// follows it across the glass, and the card lifts with a deeper shadow; cards and glass buttons sink
-// on a press and come back on the playful spring with a small bounce (_sass/_glass.scss). Pointer
-// motion uses the confident spring from site-motion.mjs, stepped exactly each frame, so a hover that
-// leaves mid-motion settles from wherever it is.
+// Surface motion (2026-10-19, after the October 18 glass pass). Cards are flat now: a hovered card lifts on the
+// confident spring (_sass/_glass.scss) while a soft light pools under the pointer and follows it, and cards and
+// buttons dip on a press and spring back on the morph spring, a pressed button's corners squaring as it goes. The
+// cards no longer lean toward the pointer: a tilted pane over a drifting picture read as a 2017 effect. The light
+// is stepped exactly each frame on the confident spring from site-motion.mjs, so a hover that leaves mid-motion
+// fades from wherever it is.
 //
-// Who sees what: a pointer that can hover gets tilt, highlight and press; touch gets press only;
-// reduced motion and automation (navigator.webdriver, unless the URL asks for ?cinematic=live) see a
-// still page. The teaser behind each card's glass is material, not motion, so everyone gets it.
-
-// Largest lean in degrees (around the horizontal and vertical axes), hover lift in px, and how far the
-// picture drifts against the lean, in px.
-export const TILT = Object.freeze({ maxX: 3.2, maxY: 4.2, lift: -4, drift: 5 });
+// Who sees what: a pointer that can hover gets the light, lift and press; touch gets the press only; reduced
+// motion and automation (navigator.webdriver, unless the URL asks for ?cinematic=live) see a still page.
 
 const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
 
-// Where a pointer sits over a box, as a lean (rx, ry in degrees: the edge under the pointer dips
-// away, the convention the projects index has used since the cinematic pass), a highlight position
-// (gx, gy in % of the box) and a picture drift (dx, dy in px, against the lean).
-export function tiltFromPointer(x, y, box, limits = TILT) {
-  if (!box || !(box.width > 0) || !(box.height > 0)) return { rx: 0, ry: 0, gx: 50, gy: 50, dx: 0, dy: 0 };
-  const px = clamp((x - box.left) / box.width, 0, 1) - 0.5;
-  const py = clamp((y - box.top) / box.height, 0, 1) - 0.5;
+// Where the light sits over a box for a pointer at (x, y): gx, gy in % of the box, held at the edge when the
+// pointer has already left it between frames.
+export function lightFromPointer(x, y, box) {
+  if (!box || !(box.width > 0) || !(box.height > 0)) return { gx: 50, gy: 50 };
   return {
-    rx: -py * 2 * limits.maxX,
-    ry: px * 2 * limits.maxY,
-    gx: (px + 0.5) * 100,
-    gy: (py + 0.5) * 100,
-    dx: -px * 2 * limits.drift,
-    dy: -py * 2 * limits.drift,
+    gx: clamp((x - box.left) / box.width, 0, 1) * 100,
+    gy: clamp((y - box.top) / box.height, 0, 1) * 100,
   };
 }
 
-// The resting state a released card springs back to.
-export const REST = Object.freeze({ rx: 0, ry: 0, lift: 0, hover: 0, dx: 0, dy: 0 });
+// The resting state a released card's light fades back to.
+export const REST = Object.freeze({ hover: 0 });
 
-// Advance every channel of a tilt state one frame toward its target on a spring from site-motion.mjs
-// (an object with state(x0, v0, t)), solved exactly over the frame with the target held still.
-export function stepTilt(state, target, dt, motion) {
+// Advance every channel of a surface's light one frame toward its target on a spring from site-motion.mjs (an
+// object with state(x0, v0, t)), solved exactly over the frame with the target held still.
+export function stepSurface(state, target, dt, motion) {
   const next = { ...state };
   const step = Math.max(0, Math.min(dt, 0.1));
   let moving = false;
-  for (const key of ["rx", "ry", "lift", "hover", "dx", "dy", "gx", "gy"]) {
+  for (const key of ["hover", "gx", "gy"]) {
     if (!(key in target)) continue;
     const [offset, velocity] = motion.state((state[key] ?? target[key]) - target[key], state[`v${key}`] ?? 0, step);
     const value = target[key] + offset;
     next[key] = value;
     next[`v${key}`] = velocity;
-    if (Math.abs(value - target[key]) > 0.002 || Math.abs(velocity) > 0.02) moving = true;
+    const tolerance = key === "hover" ? 0.002 : 0.05;
+    if (Math.abs(value - target[key]) > tolerance || Math.abs(velocity) > 0.02) moving = true;
   }
   next.settled = !moving;
   return next;
 }
 
-export const TILT_SELECTOR = ".projects .project-card > .card, .blog-card, .lab-card, .project-child-card";
+export const SURFACE_SELECTOR = ".projects .project-card > .card, .blog-card, .lab-card, .project-child-card";
 export const PRESS_SELECTOR = [
-  TILT_SELECTOR,
+  SURFACE_SELECTOR,
   ".project-card-open-link",
   ".project-card-secondary-link",
   ".project-card-close",
@@ -72,28 +62,10 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
   const forceLive = /[?&]cinematic=live(?:&|$)/.test(window.location.search);
   const automated = Boolean(navigator.webdriver) && !forceLive;
 
-  // The teaser behind the glass: the picture the card already loaded, as a CSS image, so the blurred
-  // layer costs no extra request. Swapped pictures (random teasers) update it when they load.
-  const teaserFor = (surface) =>
-    surface.querySelector(".project-card-media img, .blog-card-media img, .lab-card-thumb img, .project-child-thumb img");
-  const paintTeaser = (surface) => {
-    const image = teaserFor(surface);
-    if (!image) return;
-    const apply = () => {
-      const source = image.currentSrc || image.src;
-      if (!source || !image.naturalWidth) return;
-      surface.style.setProperty("--project-teaser", `url("${source.replace(/"/g, "%22")}")`);
-    };
-    if (image.complete) apply();
-    image.addEventListener("load", apply);
-  };
-  const paintAllTeasers = () => document.querySelectorAll(".projects .project-card > .card, .blog-card").forEach(paintTeaser);
-  paintAllTeasers();
-
   const live = () => !reduce.matches && !automated;
   const syncClasses = () => {
     root.classList.toggle("glass-motion", live());
-    root.classList.toggle("glass-tilt", live() && fine.matches);
+    root.classList.toggle("glass-hover", live() && fine.matches);
   };
   syncClasses();
   reduce.addEventListener("change", syncClasses);
@@ -120,18 +92,12 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 
   const write = (surface, state) => {
     const style = surface.style;
-    style.setProperty("--glass-rx", `${state.rx.toFixed(3)}deg`);
-    style.setProperty("--glass-ry", `${state.ry.toFixed(3)}deg`);
-    style.setProperty("--glass-lift", `${state.lift.toFixed(2)}px`);
     style.setProperty("--glass-hover", state.hover.toFixed(3));
     style.setProperty("--glass-x", `${state.gx.toFixed(1)}%`);
     style.setProperty("--glass-y", `${state.gy.toFixed(1)}%`);
-    style.setProperty("--glass-drift-x", `${state.dx.toFixed(2)}px`);
-    style.setProperty("--glass-drift-y", `${state.dy.toFixed(2)}px`);
   };
   const clear = (surface) => {
-    for (const name of ["--glass-rx", "--glass-ry", "--glass-lift", "--glass-hover", "--glass-x", "--glass-y", "--glass-drift-x", "--glass-drift-y"])
-      surface.style.removeProperty(name);
+    for (const name of ["--glass-hover", "--glass-x", "--glass-y"]) surface.style.removeProperty(name);
   };
 
   const tick = (now) => {
@@ -143,7 +109,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
         states.delete(surface);
         return;
       }
-      entry.state = stepTilt(entry.state, entry.target, dt, motion);
+      entry.state = stepSurface(entry.state, entry.target, dt, motion);
       write(surface, entry.state);
       if (entry.state.settled && !entry.active) {
         states.delete(surface);
@@ -159,18 +125,14 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 
   const aim = (surface, event) => {
     let entry = states.get(surface);
+    const light = lightFromPointer(event.clientX, event.clientY, surface.getBoundingClientRect());
     if (!entry) {
-      entry = { state: { ...REST, gx: 50, gy: 50 }, target: { ...REST, gx: 50, gy: 50 }, active: false };
+      // The light appears where the pointer entered instead of sliding in from the middle.
+      entry = { state: { ...REST, ...light }, target: { ...REST, ...light }, active: false };
       states.set(surface, entry);
     }
-    const lean = tiltFromPointer(event.clientX, event.clientY, surface.getBoundingClientRect());
     entry.active = true;
-    entry.target = { rx: lean.rx, ry: lean.ry, lift: TILT.lift, hover: 1, dx: lean.dx, dy: lean.dy, gx: lean.gx, gy: lean.gy };
-    // The highlight appears where the pointer entered instead of sliding in from the middle.
-    if (entry.state.hover < 0.02) {
-      entry.state.gx = lean.gx;
-      entry.state.gy = lean.gy;
-    }
+    entry.target = { hover: 1, gx: light.gx, gy: light.gy };
     wake();
   };
   const release = (surface) => {
@@ -186,8 +148,8 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
     "pointermove",
     (event) => {
       if (event.pointerType !== "mouse" && event.pointerType !== "pen") return;
-      if (!root.classList.contains("glass-tilt")) return;
-      const surface = event.target instanceof Element ? event.target.closest(TILT_SELECTOR) : null;
+      if (!root.classList.contains("glass-hover")) return;
+      const surface = event.target instanceof Element ? event.target.closest(SURFACE_SELECTOR) : null;
       if (hovered && hovered !== surface) release(hovered);
       hovered = surface && !still(surface) ? surface : null;
       if (hovered) aim(hovered, event);
@@ -199,7 +161,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
     if (hovered) release(hovered);
     hovered = null;
   });
-  // A card that opens or starts moving lets go of its lean at once.
+  // A card that opens or starts moving lets go of its light at once.
   document.addEventListener("click", () => {
     if (hovered && still(hovered)) {
       release(hovered);
@@ -225,7 +187,9 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
     (event) => {
       if (event.button > 0) return;
       const target = event.target instanceof Element ? event.target.closest(PRESS_SELECTOR) : null;
-      if (!target || target.closest(".is-expanded > .card, .is-open > .card")) return;
+      if (!target) return;
+      // An open card does not dip under a press; the buttons inside it still answer one.
+      if (target.matches(SURFACE_SELECTOR) && target.closest(".is-expanded > .card, .is-open > .card")) return;
       press(target);
       const done = () => {
         unpress(target);
@@ -249,5 +213,5 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
     document.querySelectorAll(".is-pressed").forEach(unpress);
   });
 
-  window.SiteGlass = Object.assign(window.SiteGlass || {}, { paintTeaser, paintAllTeasers, tiltFromPointer });
+  window.SiteGlass = Object.assign(window.SiteGlass || {}, { lightFromPointer });
 }

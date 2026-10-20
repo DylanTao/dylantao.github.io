@@ -132,21 +132,11 @@ ul.task-list input[type="checkbox"] {
 .card {
   position: relative;
   overflow: clip;
-  background: linear-gradient(180deg, var(--md-lite-card-accent-wash), transparent 3.75rem), var(--md-lite-card-bg);
+  // Flat (2026-10-19): a tonal fill and a hairline edge, no accent rule, gradient wash or resting shadow.
+  background: var(--md-lite-card-bg);
   border-color: var(--md-lite-card-border);
-  border-radius: var(--md-lite-radius-md);
-  box-shadow: var(--md-lite-elevation-1);
-
-  &::before {
-    position: absolute;
-    inset: 0 0 auto;
-    z-index: 1;
-    height: 2px;
-    background: var(--md-lite-card-accent-line);
-    content: "";
-    opacity: 0.68;
-    pointer-events: none;
-  }
+  border-radius: var(--md-lite-shape-lg);
+  box-shadow: none;
 
   .card-img {
     width: 100%;
@@ -164,13 +154,14 @@ ul.task-list input[type="checkbox"] {
 
 .hoverable {
   transition:
+    background-color var(--motion-standard),
     border-color var(--motion-standard),
     box-shadow var(--motion-standard),
     transform var(--motion-standard);
 
+  // A hovered card lifts a little and earns the one shadow a content surface may have.
   &:hover {
-    border-color: rgba(var(--global-accent-rgb), 0.32);
-    box-shadow: var(--md-lite-elevation-2);
+    box-shadow: var(--surface-lift-shadow, var(--md-lite-elevation-1));
     transform: translateY(-2px);
   }
 }
@@ -515,12 +506,21 @@ html.site-motion-ready .hoverable.site-visible:hover {
       grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     }
 
+    // Open, the picture hugs its own proportions at the top of its column instead of
+    // stretching a white well down to the height of the story beside it.
     &.is-expanded .project-card-media {
+      align-self: start;
       aspect-ratio: auto;
       height: auto;
-      min-height: 13.5rem;
-      border-right: 1px solid var(--project-accent-line);
+      min-height: 0;
+      border-right: 0;
       border-bottom: 0;
+
+      figure,
+      picture,
+      img {
+        height: auto;
+      }
     }
 
     &.is-expanded .card-text {
@@ -927,18 +927,11 @@ html.site-motion-ready .hoverable.site-visible:hover {
     -webkit-line-clamp: 5;
   }
 
+  // An open card's story and takeaways sit on one flat inset (_sass/_glass.scss).
   .project-card-takeaways {
     display: none;
     margin-top: 0.95rem;
-    padding: 0.85rem 0.9rem;
-    border: 1px solid var(--project-accent-line);
-    border-radius: var(--md-lite-radius-md);
-    background: linear-gradient(135deg, var(--project-accent-panel), var(--project-accent-panel-strong));
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
     color: var(--global-text-color);
-    transition:
-      background var(--motion-standard),
-      border-color var(--motion-standard);
   }
 
   .project-card-story {
@@ -953,9 +946,6 @@ html.site-motion-ready .hoverable.site-visible:hover {
 
   .project-card-story-beat {
     min-width: 0;
-    padding: 0.72rem 0 0.05rem 0.78rem;
-    border-top: 1px solid var(--project-accent-line);
-    border-left: 0.16rem solid color-mix(in srgb, var(--project-accent) 68%, var(--global-theme-color));
 
     > p:last-child {
       margin: 0;
@@ -3154,22 +3144,8 @@ body:has(.hci-spooder-hero) #back-to-top {
 }
 
 html[data-theme="dark"] {
-  .hoverable:hover {
-    box-shadow: var(--md-lite-elevation-2);
-  }
-
-  .projects .project-card.is-expanded .card {
-    box-shadow: var(--md-lite-elevation-3);
-  }
-
   .spooder-video-card.is-active {
     box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.28);
-  }
-
-  .projects .project-card-panel {
-    background:
-      linear-gradient(90deg, color-mix(in srgb, var(--project-accent) 12%, transparent), transparent 58%),
-      color-mix(in srgb, var(--global-card-bg-color) 88%, var(--global-bg-color));
   }
 
   .project-case-summary div {
@@ -3411,7 +3387,7 @@ html[data-theme="dark"] {
       height: auto;
       min-height: 0;
       border-right: 0;
-      border-bottom: 1px solid var(--global-divider-color);
+      border-bottom: 0;
     }
 
     .project-card-actions-expanded {
