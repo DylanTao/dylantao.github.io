@@ -6,7 +6,7 @@ import { SPRINGS, linearEasing, spring, springNow, springSamples } from "../asse
 const scss = readFileSync(new URL("../_sass/_springs.scss", import.meta.url), "utf8");
 
 test("every spring settles within its stated time with at most a small overshoot", () => {
-  const expected = { confident: [480, 1.6], playful: [900, 12.7], layout: [602, 0.9], gentle: [757, 0.3] };
+  const expected = { confident: [480, 1.6], playful: [900, 12.7], layout: [602, 0.9], gentle: [757, 0.3], morph: [407, 9.5] };
   for (const [name, [milliseconds, overshoot]] of Object.entries(expected)) {
     const s = spring(name);
     assert.ok(Math.abs(s.duration - milliseconds) < 2, `${name} settles in ${s.duration} ms`);

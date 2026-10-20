@@ -15,6 +15,9 @@ export const SPRINGS = Object.freeze({
   layout: Object.freeze({ zeta: 0.84, period: 0.46 }),
   // Content arriving on the page: soft, with no visible overshoot.
   gentle: Object.freeze({ zeta: 0.9, period: 0.62 }),
+  // Shapes answering a touch: a pressed button's corners, an indicator stretching between items.
+  // Material 3 Expressive's fast spatial spring (damping ratio 0.6, stiffness 800, 2025).
+  morph: Object.freeze({ zeta: 0.6, period: 0.222 }),
 });
 
 // A spring has settled once it is within 0.1% of rest.

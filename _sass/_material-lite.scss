@@ -66,6 +66,103 @@
   --md-lite-easing-flip: cubic-bezier(0.18, 0.84, 0.22, 1);
 }
 
+/*******************************************************************************
+ * 2026-10 design language refresh (docs/material-lite-revamp.md).
+ *
+ * Two layers. Content is flat: tonal fills, type, spacing and shape carry the
+ * hierarchy, with no grain, gloss, gradient boxes or resting shadows. Only the
+ * chrome that floats above content (navbar, theme menu, back-to-top, search
+ * palette, the deck trail) is translucent, and never one glass over another.
+ ******************************************************************************/
+
+:root {
+  // Shape scale (Material 3). Real lengths, not 999px, so a press can morph
+  // between two radii the eye can follow.
+  --md-lite-shape-xs: 4px;
+  --md-lite-shape-sm: 8px;
+  --md-lite-shape-md: 12px;
+  --md-lite-shape-lg: 16px;
+  --md-lite-shape-xl: 28px;
+  --md-lite-shape-full: 999px;
+
+  // Tonal surface containers, lowest to highest, taken from each theme's own
+  // surface roles so all four times of day keep their character.
+  --md-lite-surface: var(--global-bg-color);
+  --md-lite-surface-container-lowest: var(--global-card-bg-color);
+  --md-lite-surface-container-low: var(--global-surface-container-low-color);
+  --md-lite-surface-container: var(--global-surface-container-color);
+  --md-lite-surface-container-high: var(--global-surface-container-high-color);
+  --md-lite-surface-container-highest: color-mix(in srgb, var(--global-text-color) 5%, var(--global-surface-container-high-color));
+  // One hairline for the rare edge a tone cannot draw (a white figure on a pale card).
+  --md-lite-outline-variant: color-mix(in srgb, var(--global-divider-color) 72%, transparent);
+
+  // Ink on tonal surfaces: body, quiet and accent words.
+  --md-lite-on-surface: var(--global-text-color);
+  --md-lite-on-surface-variant: color-mix(in srgb, var(--global-text-color-light) 82%, var(--global-text-color));
+  --md-lite-ink-accent: color-mix(in srgb, var(--global-theme-color) 84%, var(--global-text-color));
+
+  // Action fills. Filled: the theme's pastel fill, the one primary action in a
+  // panel. Tonal: the primary container, for secondary actions and selection.
+  --md-lite-filled: var(--global-primary-fill-color);
+  --md-lite-on-filled: var(--global-on-primary-fill-color);
+  --md-lite-tonal: var(--global-primary-container-color);
+  --md-lite-on-tonal: var(--global-on-primary-container-color);
+
+  // State layers: the content colour laid over a fill at Material 3's opacities.
+  --md-lite-state-hover-opacity: 8%;
+  --md-lite-state-focus-opacity: 10%;
+  --md-lite-state-press-opacity: 10%;
+  --md-lite-state-drag-opacity: 16%;
+
+  // Chrome glass: a thin, saturated blur with a specular edge, for the floating
+  // layer only. --md-lite-glass-solid is what reduced transparency gets instead.
+  --md-lite-glass-tint: color-mix(in srgb, var(--global-bg-color) 74%, transparent);
+  --md-lite-glass-tint-strong: color-mix(in srgb, var(--global-card-bg-color) 86%, transparent);
+  --md-lite-glass-solid: var(--global-card-bg-color);
+  --md-lite-glass-blur: 18px;
+  --md-lite-glass-saturate: 1.8;
+  --md-lite-glass-specular: rgba(255, 255, 255, 0.72);
+  --md-lite-glass-shade: rgba(var(--global-shadow-rgb), 0.07);
+  --md-lite-glass-rim: color-mix(in srgb, var(--global-divider-color) 62%, transparent);
+  --md-lite-glass-shadow: 0 0.5rem 1.6rem -0.4rem rgba(var(--global-shadow-rgb), 0.2), 0 0.1rem 0.3rem rgba(var(--global-shadow-rgb), 0.08);
+}
+
+html[data-theme="dark"],
+html[data-theme-mode="evening"] {
+  --md-lite-surface-container-highest: color-mix(in srgb, var(--global-text-color) 6%, var(--global-surface-container-high-color));
+  --md-lite-on-surface-variant: color-mix(in srgb, var(--global-text-color-light) 88%, var(--global-text-color));
+  --md-lite-ink-accent: color-mix(in srgb, var(--global-theme-color) 88%, var(--global-text-color));
+  --md-lite-glass-tint: color-mix(in srgb, var(--global-bg-color) 70%, transparent);
+  --md-lite-glass-tint-strong: color-mix(in srgb, var(--global-surface-container-color) 84%, transparent);
+  --md-lite-glass-solid: var(--global-surface-container-color);
+  --md-lite-glass-specular: rgba(255, 255, 255, 0.14);
+  --md-lite-glass-shade: rgba(0, 0, 0, 0.22);
+  --md-lite-glass-rim: rgba(255, 255, 255, 0.08);
+  --md-lite-glass-shadow: 0 0.6rem 1.8rem -0.4rem rgba(var(--global-shadow-rgb), 0.55), 0 0.1rem 0.3rem rgba(var(--global-shadow-rgb), 0.3);
+}
+
+// Reduced transparency and more contrast get solid chrome; the shared mixin in
+// _sass/_glass.scss reads these tokens, so nothing has to opt in twice.
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  :root,
+  html[data-theme="dark"],
+  html[data-theme-mode="evening"] {
+    --md-lite-glass-tint: var(--md-lite-glass-solid);
+    --md-lite-glass-tint-strong: var(--md-lite-glass-solid);
+    --md-lite-glass-blur: 0px;
+    --md-lite-glass-saturate: 1;
+    --md-lite-glass-specular: transparent;
+    --md-lite-glass-shade: transparent;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --md-lite-outline-variant: color-mix(in srgb, var(--global-text-color) 55%, transparent);
+    --md-lite-glass-rim: color-mix(in srgb, var(--global-text-color) 60%, transparent);
+  }
+}
+
 .btn,
 a.btn,
 button.btn {
