@@ -178,7 +178,6 @@ function boot(stage) {
   // common.js may add its reveal class after this runs, so mark every card, revealed or not yet.
   const markRevealed = (container) => {
     container?.querySelectorAll(".card, .lab-card").forEach((card) => card.classList.add("site-visible", "site-revealed"));
-    container?.querySelectorAll(".card, .lab-card").forEach((card) => window.SiteGlass?.paintTeaser?.(card));
   };
 
   const renderTrail = (next) => {
