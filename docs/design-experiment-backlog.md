@@ -21,6 +21,26 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### Queued October 20: more detail in fewer bytes for the 3D home (representation, optimization, stylized rendering)
+
+- **Hypothesis:** Full screen on a 4K display now draws at the screen's own resolution, so the home's polygons, textures and baked light show their limits up close. Sirui proposed two angles that could add detail without adding download: change the representation (Gaussian splats and their compressed neural variants, factorized or neural fields, neural level of detail) and optimize it for the home's real views, including temporal compression for what moves (water, cloth, characters). A separate angle is non-photorealistic, stylized rendering backed by recent papers.
+- **Route:** The Graphics Lab first (`/projects/graphics-lab/`, one experiment and record entry per technique, matched views against today's geometry); the home only after a measured win.
+- **Reference:**
+  - Gaussian splatting: Kerbl et al., "3D Gaussian Splatting for Real-Time Radiance Field Rendering" (SIGGRAPH 2023), plus its compressed and anchor-based descendants and the 4D (dynamic) variants for temporal compression.
+  - Neural level of detail (Sanja Fidler's and Alec Jacobson's groups at the University of Toronto with NVIDIA): Takikawa et al., "Neural Geometric Level of Detail" (CVPR 2021) and "Variable Bitrate Neural Fields" (SIGGRAPH 2022).
+  - Hao Su's group at UC San Diego: compact factorized fields, for example TensoRF (Chen et al., ECCV 2022).
+  - Infinitely zoomable images (Tzu-Mao Li's group at UC San Diego): Yash Belhe's discrete, edge-aware representation. Likely "Discontinuity-Aware 2D Neural Fields" (Belhe et al., TOG 2023); confirm with Sirui. A later neural version came from the University of Toronto, which Sirui recalls is from Alec Jacobson's group; paper still to identify.
+  - Stylized rendering: survey the recent NPR and stylized radiance-field papers, alongside the queued GPT-7 art-direction entry below.
+- **Licensing:**
+  - Inria's original 3DGS code is research-only (non-commercial). Prefer permissively licensed reimplementations, such as gsplat (Apache-2.0) or Spark (MIT), and our own training on our own renders.
+  - Check every paper's code release before any use; ideas and published methods are fair to reimplement.
+- **Visitor benefit:** Crisper close-ups and full screen without longer loads; a lab page that teaches what each representation buys.
+- **Budget:** First-load bytes must not grow; fine detail streams only near the camera or in full screen. Stay on WebGL2 with a geometry fallback. The earlier Pacific print splat study (below) found no advantage over textured geometry for a single drawing, so each prototype must beat today's geometry on matched captures, bytes and frame time.
+- **Status:** `idea`, queued by Sirui on October 20 "once we have more tokens to play with".
+- **Evidence:** None yet; see `artwork/coastal-home/splat-lab/FINDINGS.md` for the prior image-splat study.
+- **Sirui decision:** Queue for after the October house, furniture, environment and full-screen passes.
+- **Revisit trigger:** Those passes land and token budget allows, or the full-screen detail levels exceed their byte budget.
+
 ### October 19: deck faces that name what they hold, a default-open revamp, and a performance page
 
 - **Hypothesis:** Sirui asked why the graphics and optimization work had no project pages he could see. The Graphics Lab sat two closed decks down on `/projects/`, and the performance work existed only in the lab's technical record, kept off the lab's page. If a closed deck names what it holds and the top deck starts open where there is room, the hierarchy (website revamp → 3D home → Graphics Lab) stays and nothing in it is hidden; a page of its own makes the performance work a story instead of a record entry.
