@@ -182,13 +182,19 @@ html[data-theme-mode="evening"] {
   }
 }
 
-// Pictures sit on white stock inside the card, their corners concentric with it
-// (card 16 px, inset 8 px, picture 8 px).
+// Every closed card frames its picture the same way (2026-10-21): a 16:10 frame on the card's own
+// tone, the picture contained and centred, no white box, the corners concentric with the card (card
+// 16 px, inset 8 px, frame 8 px). Titles and meta then line up across a row, and a portrait teaser
+// (duh & P's 8:9) cannot stretch its row taller than a laptop screen. An opened card's picture hugs
+// its own proportions instead (_sass/_components.scss).
 .projects .project-card-media {
   position: relative;
+  aspect-ratio: 16 / 10;
   margin: 0.5rem 0.5rem 0;
+  padding: 0;
   border: 0;
   border-radius: calc(var(--md-lite-shape-lg) - 0.5rem);
+  background: transparent;
   box-shadow: none;
 }
 

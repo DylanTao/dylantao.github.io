@@ -395,6 +395,15 @@ Unpublished (`docs/` is excluded from the build). A public version in Sirui's vo
 - **Reframe:** The navbar still uses a bordered pill for the page and an underline for Human/AI: two languages for one idea.
 - **Concept:** Common region: elements inside one boundary read as one group (Stephen E. Palmer, "Common region: A new principle of perceptual grouping", _Cognitive Psychology_ 24, 1992). Three boxes made three groups out of one story; one inset with hairlines between rows makes one group with three parts.
 
+### D3. One frame for every closed card
+
+- **Frame:** After D2, a closed card's picture took the teaser's own proportions. duh & P's 8:9 robot made its row about 700 px tall on a 1280 × 800 laptop, so the sticky deck trail covered the next card's corner at every scroll position and the CI checkpoint's click timed out. Titles also sat at different heights across a row, the alignment Sirui had already flagged.
+- **Dimensions:** frame aspect ratio, row height against viewport height minus the navbar and trail, title baseline across a row, and the picture's ground (white box or the card's tone).
+- **Move:** `_sass/_glass.scss` gives every closed card one 16:10 frame on the card's tone, with the picture contained and centred and no white box. Only an opened card, or a deck's banner, hugs its picture.
+- **Backtalk:** At 1280 the revamp row fell to about 550 px, and the route checkpoint passed at 1280, 1440 and 390 without changing the test. HotSpot's wide strip of bunnies now floats in a tall frame with tone above and below. That is honest, and an uncropped figure matters more here than a filled frame. In the evening theme, white-ground figures read as white rectangles on the dark card, because the white is part of the figure.
+- **Reframe:** Back to the navbar's two active-state languages.
+- **Concept:** Alignment is a grid's promise. When repeated items share one frame, the eye compares their content instead of their outlines; Müller-Brockmann's _Grid Systems in Graphic Design_ (1981) makes this case for uniform fields carrying varied material.
+
 ## 2026-10-19 Polish pass
 
 Cards from the polish pass (Sirui's 2026-10-19 review: the coffee stain, alignment, press-to-play animations and reveals). They carry a `P` number so they cannot collide with the numbered cards other passes add on the same day.
