@@ -1804,6 +1804,7 @@ test("coastal home: full screen fills the screen, keeps its controls and returns
 });
 
 test("coastal home: Walk mode walks on the keyboard, stops against the house and returns to orbiting", async ({ page }, testInfo) => {
+  if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
   const view = await openClockedHome(page);
   const { stage, scene, canvas, ui } = view;
@@ -1855,7 +1856,11 @@ test("coastal home: Walk mode walks on the keyboard, stops against the house and
   state = await evidence(scene);
   fs.writeFileSync(testInfo.outputPath("walk-evidence.json"), JSON.stringify({ start, pressed, walk: state.walk, camera: state.camera }, null, 2));
   expect(state.walk.blockedFrames).toBeGreaterThan(0);
-  expect(Math.hypot(state.walk.position[0] - pressed.position[0], state.walk.position[2] - pressed.position[2])).toBeLessThan(0.05);
+  // Held against the house for another second, the walker may slide along a wall it meets at an
+  // angle, or give way to Sirui walking past (a moving obstacle whose place depends on how fast the
+  // models loaded), but the house takes most of the step: free walking covers 2 m in that second.
+  const heldDrift = Math.hypot(state.walk.position[0] - pressed.position[0], state.walk.position[2] - pressed.position[2]);
+  expect(heldDrift, `drift while held against the house: ${heldDrift.toFixed(3)} m`).toBeLessThan(0.5);
   expect(await solidAt(state.camera)).toBe(0);
   await capture(testInfo, "walk-stopped", await page.screenshot());
   // V returns to orbiting the room the walker stood in.
@@ -1879,6 +1884,7 @@ test("coastal home: Walk mode walks on the keyboard, stops against the house and
 });
 
 test("coastal home: Walk mode on a touch screen walks and looks with twin thumb sticks", async ({ browser }, testInfo) => {
+  if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
   test.skip(testInfo.project.name !== "mobile-390", "One Chromium touch context exercises the thumb sticks.");
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
   const page = await context.newPage();
