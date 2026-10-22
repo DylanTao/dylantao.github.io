@@ -29,7 +29,7 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
   - Gaussian splatting: Kerbl et al., "3D Gaussian Splatting for Real-Time Radiance Field Rendering" (SIGGRAPH 2023), plus its compressed and anchor-based descendants and the 4D (dynamic) variants for temporal compression.
   - Neural level of detail (Sanja Fidler's and Alec Jacobson's groups at the University of Toronto with NVIDIA): Takikawa et al., "Neural Geometric Level of Detail" (CVPR 2021) and "Variable Bitrate Neural Fields" (SIGGRAPH 2022).
   - Hao Su's group at UC San Diego: compact factorized fields, for example TensoRF (Chen et al., ECCV 2022).
-  - Infinitely zoomable images (Tzu-Mao Li's group at UC San Diego): Yash Belhe's discrete, edge-aware representation. Likely "Discontinuity-Aware 2D Neural Fields" (Belhe et al., TOG 2023); confirm with Sirui. A later neural version came from the University of Toronto, which Sirui recalls is from Alec Jacobson's group; paper still to identify.
+  - Infinitely zoomable images with sharp edges: Belhe et al., "Discontinuity-Aware 2D Neural Fields" (TOG 2023), Tzu-Mao Li's group at UC San Diego. Its neural follow-up from Alec Jacobson's group at the University of Toronto is Liu, Wang, Fisher, Aneja and Jacobson, "2D Neural Fields with Learned Discontinuities" (Eurographics 2025).
   - Stylized rendering: survey the recent NPR and stylized radiance-field papers, alongside the queued GPT-7 art-direction entry below.
 - **Licensing:**
   - Inria's original 3DGS code is research-only (non-commercial). Prefer permissively licensed reimplementations, such as gsplat (Apache-2.0) or Spark (MIT), and our own training on our own renders.
