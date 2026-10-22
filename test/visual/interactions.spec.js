@@ -761,37 +761,47 @@ test("home artifact cards hover independently", async ({ page }, testInfo) => {
   await expect(secondary).toBeVisible();
   await expect(primary).toBeVisible();
 
-  const readCardStyles = async (card) =>
+  // The slips are flat tonal fills (2026-10-22): one left edge and width, no border, shadow or
+  // tilt, and hover deepens the tone of the slip under the pointer only.
+  const readCard = async (card) =>
     card.evaluate((el) => {
       const computed = window.getComputedStyle(el);
+      const box = el.getBoundingClientRect();
       return {
-        borderColor: computed.borderColor,
+        background: computed.backgroundColor,
         boxShadow: computed.boxShadow,
+        borderTop: computed.borderTopWidth,
+        transform: computed.transform,
+        left: Math.round(box.left),
+        width: Math.round(box.width),
       };
     });
 
-  const secondaryRest = await readCardStyles(secondary);
-  const primaryRest = await readCardStyles(primary);
+  const secondaryRest = await readCard(secondary);
+  const primaryRest = await readCard(primary);
+  expect(primaryRest.left).toBe(secondaryRest.left);
+  expect(primaryRest.width).toBe(secondaryRest.width);
+  for (const rest of [primaryRest, secondaryRest]) {
+    expect(rest.boxShadow).toBe("none");
+    expect(rest.borderTop).toBe("0px");
+    expect(rest.transform).toBe("none");
+  }
 
   await secondary.hover();
   await page.waitForTimeout(320);
-  const secondaryHovered = await readCardStyles(secondary);
-  const primaryWhileSecondaryHovered = await readCardStyles(primary);
+  const secondaryHovered = await readCard(secondary);
+  const primaryWhileSecondaryHovered = await readCard(primary);
 
-  expect(secondaryHovered.borderColor).not.toBe(secondaryRest.borderColor);
-  expect(secondaryHovered.boxShadow).not.toBe(secondaryRest.boxShadow);
-  expect(primaryWhileSecondaryHovered.borderColor).toBe(primaryRest.borderColor);
-  expect(primaryWhileSecondaryHovered.boxShadow).toBe(primaryRest.boxShadow);
+  expect(secondaryHovered.background).not.toBe(secondaryRest.background);
+  expect(primaryWhileSecondaryHovered.background).toBe(primaryRest.background);
 
   await primary.hover();
   await page.waitForTimeout(320);
-  const primaryHovered = await readCardStyles(primary);
-  const secondaryWhilePrimaryHovered = await readCardStyles(secondary);
+  const primaryHovered = await readCard(primary);
+  const secondaryWhilePrimaryHovered = await readCard(secondary);
 
-  expect(primaryHovered.borderColor).not.toBe(primaryRest.borderColor);
-  expect(primaryHovered.boxShadow).not.toBe(primaryRest.boxShadow);
-  expect(secondaryWhilePrimaryHovered.borderColor).toBe(secondaryRest.borderColor);
-  expect(secondaryWhilePrimaryHovered.boxShadow).toBe(secondaryRest.boxShadow);
+  expect(primaryHovered.background).not.toBe(primaryRest.background);
+  expect(secondaryWhilePrimaryHovered.background).toBe(secondaryRest.background);
 });
 
 test("home keyboard record playback survives shake suppression", async ({ page }) => {
