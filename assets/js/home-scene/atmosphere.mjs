@@ -21,9 +21,10 @@ import {
 // tests). Three small tables, after Hillaire 2020: the transmittance of every ray to space (256×64,
 // drawn once), the multiple-scattering transfer Ψ_ms (32×32, once) and the sky as seen from the
 // coast for the current sun (192×108, redrawn when the sun moves). The dome reads the sky table,
-// draws the sun and the moon where refraction puts them, the stars where sidereal time puts them,
-// and the Pacific beyond the modelled sea; the haze pass (haze.mjs) reads the same tables, so
-// distant land and the sky meet in the same light.
+// draws the sun and the moon where refraction puts them and the Pacific beyond the modelled sea;
+// the haze pass (haze.mjs) reads the same tables, so distant land and the sky meet in the same
+// light. The stars are the catalogue's, drawn as points over the dome (stars.mjs), which reads the
+// same tables for their extinction and the sky's brightness behind them.
 //
 // Radiance leaves these shaders in the scene's linear units: the model's radiance per unit solar
 // illuminance times `scale` (the sun's illuminance, a sky fill and the eye's adaptation).
@@ -382,8 +383,8 @@ export function skyLighting({ sun, moon = null, moonIllumination = 0, marine = 0
 }
 
 // ── The dome ────────────────────────────────────────────────────────────────────────────────────
-// Everything at infinity in one shader: the scattering sky, the night that follows twilight, the
-// stars on the turning celestial sphere, the moon with its true phase, the sun's disc where
+// Everything at infinity in one shader: the scattering sky, the night that follows twilight (its
+// stars are stars.mjs's points, drawn over it), the moon with its true phase, the sun's disc where
 // refraction lifts and squashes it, and the Pacific beyond the modelled sea with the sun's glitter
 // (Cox and Munk's slope statistics). The coast's own haze lies over all of it, so land that the haze
 // dissolves meets a horizon of the same colour.
@@ -504,18 +505,12 @@ void main() {
 
 const skyFragment = `
 precision highp float;
-uniform float atmoCapture, atmoMirror, atmoSunSquash, atmoStarGain;
+uniform float atmoCapture, atmoMirror, atmoSunSquash;
 uniform vec3 atmoSunCentre, atmoMoonSun;
 uniform vec4 atmoSunDisc, atmoMoonDisc;
-uniform mat3 atmoStarFrame;
 varying vec3 atmoDirection;
 ${atmosphereConstantsGLSL}
 ${atmosphereSkyGLSL}
-float atmoHash(vec3 p) {
-  p = fract(p * 0.1031);
-  p += dot(p, p.yzx + 33.33);
-  return fract((p.x + p.y) * p.z);
-}
 vec3 atmoTransmittanceAlong(vec3 d, float heightKm) {
   return texture2D(atmoTransmittance, atmoTransmittanceUv(ATMO_BOTTOM + heightKm, d.y)).rgb;
 }
@@ -559,22 +554,6 @@ vec3 atmoMoonRadiance(vec3 d, float heightKm) {
   vec3 earthshine = vec3(0.0016, 0.0019, 0.0024) * atmoMoonDisc.y;
   return (atmoMoonDisc.y * lit * albedo * vec3(1.0, 0.985, 0.96) + earthshine) * atmoTransmittanceAlong(d, heightKm) * disc.x;
 }
-vec3 atmoStars(vec3 d, float heightKm) {
-  if (atmoStarGain <= 0.0 || d.y < -0.02) return vec3(0.0);
-  vec3 e = atmoStarFrame * d;
-  float density = 150.0;
-  vec3 cell = floor(e * density);
-  if (atmoHash(cell) > 0.42) return vec3(0.0);
-  vec3 star = (cell + 0.2 + 0.6 * vec3(atmoHash(cell + 11.3), atmoHash(cell + 27.1), atmoHash(cell + 41.7))) / density;
-  vec3 offset = star - e;
-  offset -= dot(offset, e) * e;
-  float pixel = max(length(fwidth(e)), 1e-5);
-  float r2 = dot(offset, offset) / (pixel * pixel);
-  float magnitude = pow(atmoHash(cell + 3.7), 9.0);
-  vec3 tint = mix(vec3(1.0, 0.82, 0.62), vec3(0.78, 0.86, 1.0), atmoHash(cell + 7.9));
-  // About a pixel wide whatever the zoom; brightness stays with its magnitude.
-  return tint * magnitude * exp(-r2 * 1.1) * atmoStarGain * atmoTransmittanceAlong(d, heightKm);
-}
 void main() {
   vec3 d = normalize(atmoDirection);
   float heightM = max(1.0, cameraPosition.y - ${glslFloat(SEA_LEVEL)});
@@ -582,7 +561,7 @@ void main() {
   vec3 color = atmoBackground(d, heightM, len, sky);
   if (sky > 0.5 && atmoCapture < 0.5) {
     float heightKm = heightM * 0.001;
-    color += atmoStars(d, heightKm) + atmoMoonRadiance(d, heightKm);
+    color += atmoMoonRadiance(d, heightKm);
     if (atmoMirror < 0.5) color += atmoSunDiscRadiance(d, heightKm);
   }
   gl_FragColor = vec4(atmoApplyHaze(color, d, heightM, len, 1.0), 1.0);
@@ -595,17 +574,6 @@ const smoothstepRange = (a, b, x) => {
   return t * t * (3 - 2 * t);
 };
 
-// Greenwich mean sidereal time (Meeus 12.4) turned into the rotation from the scene's (north, up,
-// east) to equatorial coordinates (x toward right ascension 0, z toward the celestial pole).
-function siderealFrame(utcMilliseconds, longitude, latitude) {
-  const jd = utcMilliseconds / 86400000 + 2440587.5,
-    T = (jd - 2451545.0) / 36525,
-    gmst = (((280.46061837 + 360.98564736629 * (jd - 2451545.0) + 0.000387933 * T * T) % 360) + 360) % 360,
-    L = (gmst + longitude) * DEG,
-    phi = latitude * DEG;
-  const [cL, sL, cP, sP] = [Math.cos(L), Math.sin(L), Math.cos(phi), Math.sin(phi)];
-  return [-cL * sP, cL * cP, -sL, -sL * sP, sL * cP, cL, cP, sP, 0];
-}
 // A true direction (north, up, east) lifted by refraction to where it appears.
 export function apparentDirection(direction) {
   const [n, u, e] = direction,
@@ -677,8 +645,6 @@ export function createAtmosphere(renderer, { site = { latitude: 32.83, longitude
     atmoScale: { value: new THREE.Vector3(1, 1, 1) },
     atmoNightZenith: { value: new THREE.Vector3() },
     atmoNightHorizon: { value: new THREE.Vector3() },
-    atmoStarFrame: { value: new THREE.Matrix3() },
-    atmoStarGain: { value: 0 },
     // Mean square slope of the distant sea: Cox and Munk's 0.003 + 0.00512 U for a 5 m/s breeze is
     // 0.029; the distant water also folds the swell the sea plane resolves into its slopes, so the
     // glitter path toward the horizon matches the modelled sea's broadened highlight at its edge.
@@ -783,9 +749,6 @@ export function createAtmosphere(renderer, { site = { latitude: 32.83, longitude
     const nightWeight = Math.max(0, Math.min(1, (-daylight.altitude - 3) / 10));
     uniforms.atmoNightZenith.value.fromArray(light.night.zenith).multiplyScalar(nightWeight);
     uniforms.atmoNightHorizon.value.fromArray(light.night.horizon).multiplyScalar(nightWeight);
-    uniforms.atmoStarFrame.value.set(...siderealFrame(utc, site.longitude, site.latitude));
-    // Starlight lifted by the same adaptation as the sky, so day hides it and night shows it.
-    uniforms.atmoStarGain.value = 0.0012 * Math.min(light.gain, 600) * (1 - overcast);
     // The mean sky (for the deep water's own light and the fog's); marine mornings thicken the haze.
     uniforms.atmoAmbient.value.fromArray(light.irradiance).multiplyScalar(1 / Math.PI);
     // The antisolar horizon 2.5 degrees up, as the dome's atmoSkyRadiance draws it (the shafts' shade).
@@ -799,7 +762,7 @@ export function createAtmosphere(renderer, { site = { latitude: 32.83, longitude
       uniforms.atmoHazeAway.value.fromArray(away);
     }
     uniforms.atmoHaze.value.x = HAZE.density * (1 + 2.5 * marine);
-    state = { light, sun, disc, moon, moonDirection, weather, marine, marineTop: marineTop(marine), overcast, daylight };
+    state = { utc, light, sun, disc, moon, moonDirection, weather, marine, marineTop: marineTop(marine), overcast, daylight };
     return state;
   }
   return {

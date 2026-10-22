@@ -1049,7 +1049,8 @@ export function createCoastalHome(container, records, artifacts) {
     if (!routine) return;
     daylight = coastalDaylight(routine.dateKey, routine.minute);
     const evening = daylight.daylight < 0.15;
-    pacific?.setPalette(routine.palette, daylight);
+    // A live clock lets the stars turn with the page clock between minutes (stars.mjs).
+    pacific?.setPalette(routine.palette, { ...daylight, live: Boolean(routine.live) });
     const sky = style === "realistic" ? pacific?.sky?.() : null;
     if (sky) {
       const moonKey = sky.light.moonLuminance > sky.light.sunLuminance,

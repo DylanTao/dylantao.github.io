@@ -70,6 +70,7 @@ vec2 seaWakes(vec2 p, inout float foam) {
   return slope;
 }`;
 import { AMBIENT_FILL, createAtmosphere } from "./atmosphere.mjs";
+import { createStarField } from "./stars.mjs";
 
 // Geometry, light, and a procedural sky. No photograph or illustration is
 // placed behind the home. Blender supplies the connected coastal headlands.
@@ -445,6 +446,10 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   sky.frustumCulled = false;
   sky.renderOrder = -10;
   root.add(sky);
+  // The catalogue's stars over the dome (stars.mjs), placed for the actual minute and seen as the eye
+  // sees them through the coast's air and its suburban sky glow; they twinkle on the ocean's clock.
+  const starField = createStarField(atmosphere, { clock: time });
+  root.add(starField.points);
 
   // Physical ribbons distinguish a quiet model sea from drawn comic surf.
   const caps = new THREE.Group();
@@ -520,6 +525,15 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     // half degree of sun near the horizon, where a sunset changes by the minute.
     const state = atmosphere.update({ daylight: light, dateKey: light.dateKey, minute: light.minute });
     sky0 = state.light;
+    starField.update({
+      utc: state.utc,
+      live: Boolean(light.live),
+      sunAltitude: light.altitude,
+      moonAltitude: state.moon.altitude,
+      moonIllumination: state.moon.illumination,
+      overcast: state.overcast,
+    });
+    if (style !== "realistic") starField.points.visible = false;
     const elevation = light.altitude,
       step = Math.abs(elevation) < 14 ? 0.5 : 4,
       key = `${Math.floor(light.minute / 20)}:${Math.round(elevation / step)}:${state.marine.toFixed(2)}`;
@@ -541,6 +555,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     style = next;
     ocean.material = style === "realistic" ? physicalWater : style === "illustrated" ? printWater : modelWater;
     sky.visible = style === "realistic";
+    starField.points.visible = style === "realistic" && starField.awake;
     caps.visible = style !== "realistic";
     caps.scale.y = 1;
     capMaterial.color.set(style === "illustrated" ? 0xf4e2b3 : 0xe5eeee);
@@ -668,6 +683,9 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   }
   function update(elapsed, delta = 0) {
     time.value = elapsed;
+    // The stars twinkle only while the scene moves: a reduced-motion scene, which never steps this
+    // clock, keeps them steady, and a paused one holds them as they were.
+    starField.setMotion(delta > 0);
     for (const { population, geometry } of particleSystems) {
       if (population.advance(delta, { fieldTime: elapsed })) {
         geometry.getAttribute("position").needsUpdate = true;
@@ -687,6 +705,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       if (o.geometry) o.geometry.dispose();
     });
     [physicalWater, modelWater, printWater, capMaterial, printSun.material].forEach((m) => m.dispose());
+    starField.dispose();
     if (!sharedAtmosphere) atmosphere.dispose();
     environment?.dispose();
     pmrem.dispose();
@@ -725,6 +744,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     neighbour: (id) => wildlife.target?.(id) || null,
     evidence: () => ({
       atmosphere: atmosphere.evidence(),
+      stars: starField.evidence(),
       wildlife: wildlife.evidence(),
       beachWidth: beach.width,
       particles: 140 + 42,
@@ -754,14 +774,18 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
         },
       },
     }),
-    // The mirror leaves out the sun's disc: the sea's specular lobe already reflects the sun.
+    // The mirror leaves out the sun's disc (the sea's specular lobe already reflects the sun) and the
+    // stars, whose points would only alias in a mirror a few hundred pixels wide.
     reflect(camera, enabled) {
       syncSeaLight();
       atmosphere.setMirror(true);
+      const starsShown = starField.points.visible;
+      starField.points.visible = false;
       try {
         reflection.update(camera, enabled);
       } finally {
         atmosphere.setMirror(false);
+        starField.points.visible = starsShown;
       }
     },
     // The terrace's light installations and warm practicals, whose lamps the water mirrors at night.
