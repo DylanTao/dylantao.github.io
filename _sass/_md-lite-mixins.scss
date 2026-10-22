@@ -1,0 +1,96 @@
+// Material-Lite mixins (2026-10-19 design language refresh, docs/material-lite-revamp.md). This module
+// only defines mixins and emits no CSS, so any partial can `@use "md-lite-mixins" as *;` without moving
+// rules in the cascade. The tokens they read live in _sass/_material-lite.scss.
+
+// Chrome that floats over content: a thin, saturated blur, a bright specular top
+// edge over a slightly darkened lower edge (Apple's 2026 retune of Liquid Glass),
+// a fine rim and a soft shadow. The tokens fall back to solid surfaces under
+// reduced transparency and more contrast (_sass/_material-lite.scss).
+@mixin chrome-glass($tint: var(--md-lite-glass-tint), $shadow: var(--md-lite-glass-shadow)) {
+  border: 0;
+  background-color: $tint;
+  box-shadow:
+    inset 0 1px 0 var(--md-lite-glass-specular),
+    inset 0 -1px 0 var(--md-lite-glass-shade),
+    inset 0 0 0 1px var(--md-lite-glass-rim),
+    #{$shadow};
+  -webkit-backdrop-filter: blur(var(--md-lite-glass-blur)) saturate(var(--md-lite-glass-saturate));
+  backdrop-filter: blur(var(--md-lite-glass-blur)) saturate(var(--md-lite-glass-saturate));
+}
+
+// A flat content surface.
+@mixin tonal-surface($fill: var(--surface-card)) {
+  border-color: transparent;
+  background: $fill;
+  box-shadow: none;
+}
+
+// Material 3 buttons, flat: a fill and an ink, a state layer of the ink on hover
+// and press, and corners that morph from round toward square while pressed.
+// `--md-button-radius` is half the button's height so the morph has a real
+// starting radius; reduced motion keeps the colour change and drops the morph.
+@mixin md-button($fill, $ink, $radius: 1.375rem) {
+  --md-button-fill: #{$fill};
+  --md-button-ink: #{$ink};
+  --md-button-radius: #{$radius};
+
+  border: 1px solid transparent;
+  border-radius: var(--md-button-radius);
+  background: var(--md-button-fill);
+  box-shadow: none;
+  color: var(--md-button-ink);
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    border-color: transparent;
+    background: color-mix(in srgb, var(--md-button-ink) var(--md-lite-state-hover-opacity), var(--md-button-fill));
+    box-shadow: none;
+    color: var(--md-button-ink);
+    text-decoration: none;
+  }
+
+  // Material 3 Expressive: a round button's corners morph to 8 dp while pressed.
+  &:active,
+  &.is-pressed {
+    border-radius: var(--md-lite-shape-sm);
+    background: color-mix(in srgb, var(--md-button-ink) var(--md-lite-state-press-opacity), var(--md-button-fill));
+  }
+}
+
+@mixin md-button-filled($radius: 1.375rem) {
+  @include md-button(var(--md-lite-filled), var(--md-lite-on-filled), $radius);
+}
+
+@mixin md-button-tonal($radius: 1.375rem) {
+  @include md-button(var(--md-lite-tonal), var(--md-lite-on-tonal), $radius);
+}
+
+@mixin md-button-text($radius: 1.375rem) {
+  @include md-button(transparent, var(--global-theme-color), $radius);
+}
+
+// What a pressed control does while the press lasts and after: its corners and
+// scale snap in quickly, then the morph spring carries them back with a small
+// overshoot. Colour changes keep a plain ease (an effects spring never bounces).
+@mixin md-press-motion($extra: ()) {
+  transition:
+    border-radius var(--spring-morph-duration) var(--spring-morph),
+    --glass-press var(--spring-morph-duration) var(--spring-morph),
+    --glass-lift var(--spring-confident-duration) var(--spring-confident),
+    background-color 160ms var(--md-lite-easing-standard),
+    color 160ms var(--md-lite-easing-standard),
+    $extra;
+
+  &.is-pressed {
+    --glass-press: 0.965;
+
+    transition:
+      border-radius 110ms var(--md-lite-easing-standard),
+      --glass-press 110ms var(--md-lite-easing-standard),
+      --glass-lift 110ms var(--md-lite-easing-standard),
+      background-color 90ms ease-out,
+      color 90ms ease-out,
+      $extra;
+  }
+}

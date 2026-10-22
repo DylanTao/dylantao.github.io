@@ -43,6 +43,25 @@
   view-transition-name: site-progress;
 }
 
+// The current page's indicator (_sass/_navbar.scss) glides from the old link to the new one on the
+// layout spring. It is drawn above the navbar's snapshot while it travels, so it multiplies (screens at
+// night) instead of covering the link text it passes.
+::view-transition-group(site-nav-indicator) {
+  animation-duration: var(--spring-layout-duration, 600ms);
+  animation-timing-function: var(--spring-layout, cubic-bezier(0.2, 0, 0, 1));
+  mix-blend-mode: multiply;
+}
+
+html[data-theme="dark"]::view-transition-group(site-nav-indicator),
+html[data-theme-mode="evening"]::view-transition-group(site-nav-indicator) {
+  mix-blend-mode: screen;
+}
+
+// A name must be unique on a page: only the first current link carries it.
+.navbar-nav .nav-item.active ~ .nav-item.active .nav-indicator {
+  view-transition-name: none;
+}
+
 ::view-transition-group(site-navbar),
 ::view-transition-group(site-progress),
 ::view-transition-old(site-navbar),
@@ -132,7 +151,8 @@ html.entry-arrived {
 // A time-of-day pick (theme.js) spreads its new light from the chosen option: the new view grows
 // out of it in a circle over the old one, chrome included, on the gentle spring.
 html.theme-revealing #navbar,
-html.theme-revealing #progress {
+html.theme-revealing #progress,
+html.theme-revealing .nav-indicator {
   view-transition-name: none;
 }
 

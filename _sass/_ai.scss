@@ -1,62 +1,90 @@
 @use "variables" as v;
 
+// The Human/AI switch is a two-segment control on the navbar's glass (2026-10-19): a quiet tonal track,
+// and the current format in the same tonal indicator as the current page. Each link stays a 44 px
+// target; the track and indicator are drawn inside it, concentric (track 36 px, indicator 28 px).
 .site-format-switch {
+  position: relative;
+  isolation: isolate;
   display: inline-grid;
-  grid-template-columns: repeat(2, minmax(2.75rem, auto));
+  grid-template-columns: repeat(2, auto);
   align-items: center;
   flex: 0 0 auto;
   gap: 0;
-  padding: 0;
+  padding: 0 0.25rem;
   border: 0;
   background: transparent;
-  font-size: 0.74rem;
-  font-weight: 600;
-  line-height: 1;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+
+  &::before {
+    position: absolute;
+    inset: 0.25rem 0;
+    z-index: -1;
+    border-radius: var(--md-lite-shape-full);
+    background-color: color-mix(in srgb, var(--md-lite-on-surface) 6%, transparent);
+    content: "";
+  }
 }
 
 .site-format-link {
   position: relative;
+  isolation: isolate;
   display: inline-flex;
   min-width: 2.75rem;
   min-height: 2.75rem;
   align-items: center;
   justify-content: center;
-  padding-inline: 0.42rem;
-  border-radius: var(--md-lite-radius-sm);
-  color: var(--global-text-color-light);
+  padding-inline: 0.7rem;
+  border-radius: var(--md-lite-shape-full);
+  color: var(--md-lite-on-surface-variant);
   white-space: nowrap;
-  transition:
-    background-color var(--motion-standard),
-    color var(--motion-standard),
-    transform var(--motion-standard);
+  transition: color 160ms var(--md-lite-easing-standard);
 
-  & + & {
-    border-left: 1px solid color-mix(in srgb, var(--global-divider-color) 72%, transparent);
+  &::before {
+    position: absolute;
+    inset: 0.5rem 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: transparent;
+    content: "";
+    transition:
+      background-color 160ms var(--md-lite-easing-standard),
+      transform var(--spring-morph-duration) var(--spring-morph);
   }
 
   &[aria-current] {
-    color: var(--global-text-color);
+    color: var(--md-lite-on-tonal);
   }
 
-  &[aria-current]::after {
-    position: absolute;
-    right: 0.62rem;
-    bottom: 0.28rem;
-    left: 0.62rem;
-    height: 2px;
-    border-radius: var(--md-lite-radius-pill);
-    background: var(--global-theme-color);
-    content: "";
+  &[aria-current]::before {
+    background-color: var(--md-lite-tonal);
   }
 
   &:hover {
-    background: color-mix(in srgb, var(--md-lite-state-hover) 64%, transparent);
-    color: var(--global-hover-color);
+    color: var(--md-lite-on-surface);
     text-decoration: none;
-    transform: translateY(-1px);
+  }
+
+  &[aria-current]:hover {
+    color: var(--md-lite-on-tonal);
+  }
+
+  &:not([aria-current]):hover::before {
+    background-color: color-mix(in srgb, var(--md-lite-on-surface) var(--md-lite-state-hover-opacity), transparent);
+  }
+
+  &:active::before {
+    transform: scale(0.92);
+    transition-duration: 160ms, 90ms;
   }
 
   &:focus-visible {
+    outline: none;
+  }
+
+  &:focus-visible::before {
     outline: var(--md-lite-focus-ring);
     outline-offset: 2px;
   }
@@ -452,6 +480,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .site-format-link::before {
+    transition: background-color 120ms linear;
+    transform: none !important;
+  }
+
   .site-format-link,
   .ai-format-actions a,
   .ai-format-actions button,

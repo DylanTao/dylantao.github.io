@@ -404,6 +404,15 @@ Unpublished (`docs/` is excluded from the build). A public version in Sirui's vo
 - **Reframe:** Back to the navbar's two active-state languages.
 - **Concept:** Alignment is a grid's promise. When repeated items share one frame, the eye compares their content instead of their outlines; Müller-Brockmann's _Grid Systems in Graphic Design_ (1981) makes this case for uniform fields carrying varied material.
 
+### D4. One way to say "you are here"
+
+- **Frame:** The navbar marked the current page with a bordered glass pill and the current format with an underline, so one bar spoke two active-state languages. The format labels were also smaller, so their baseline sat 2 px off the links'.
+- **Dimensions:** active-state treatments per bar, label size and baseline, hit area against drawn shape, which layer may blur, room at 768 and 390 px, and what moves when the current page changes.
+- **Move:** `_sass/_navbar.scss`, `_sass/_ai.scss` and `_includes/header.liquid`. The bar is chrome glass (blur with saturation, a hairline). The current page, the Human/AI segment, the open theme button and the chosen time all wear one tonal indicator. Links, the format switch and both icon buttons draw a 36 px shape inside a 44 px target, at one type size. The current page's indicator is a real element, `.nav-indicator`, so a navigation's view transition carries it from the old link to the new one on the layout spring. The theme menu turned opaque.
+- **Backtalk:** The first theme menu was translucent and unreadable. The page text behind it showed through sharp because the navbar's view-transition-name makes it a backdrop root: nothing inside it can blur the page. At 390 px the first sizes pushed the menu button onto a second line; the AI route checks hold the format links to 44 px, so only their padding and type shrank, and the icon buttons went to 36 px (they were 30). After the change, link and switch labels both end at y = 38.
+- **Reframe:** The search button is still a solid Font Awesome glyph beside the theme's outline icon: one icon family next.
+- **Concept:** Consistency and standards (Jakob Nielsen's fourth usability heuristic, 1994): users should not have to wonder whether different words, situations or actions mean the same thing. Two treatments for "current" make a reader ask whether the format switch is a link or a setting; one tonal indicator answers it.
+
 ## 2026-10-19 Polish pass
 
 Cards from the polish pass (Sirui's 2026-10-19 review: the coffee stain, alignment, press-to-play animations and reveals). They carry a `P` number so they cannot collide with the numbered cards other passes add on the same day.

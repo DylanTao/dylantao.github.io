@@ -83,6 +83,7 @@
             <!-- About -->
             <li class="nav-item {% if page.permalink == '/' %}active{% endif %}">
               <a class="nav-link" href="{{ '/' | relative_url }}">
+                {%- if page.permalink == '/' -%}<span class="nav-indicator" aria-hidden="true"></span>{%- endif -%}
                 {{- about_title }}
                 {% if page.permalink == '/' %}
                   <span class="sr-only">(current)</span>
@@ -142,6 +143,7 @@
                   {%- endif %}
                   <li class="nav-item {% if page.url contains parent_link %}active{% endif %}">
                     <a class="nav-link" href="{{ url | relative_url }}">
+                      {%- if page.url contains parent_link -%}<span class="nav-indicator" aria-hidden="true"></span>{%- endif -%}
                       {{- p.title }}
                       {% if page.url contains p.url %}
                         <span class="sr-only">(current)</span>

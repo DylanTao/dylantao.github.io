@@ -56,7 +56,7 @@
   --global-surface-container-color: #f3f6f7;
   --global-surface-container-high-color: #edf2f4;
   --global-outline-color: rgba(59, 106, 152, 0.2);
-  --global-nav-bg-color: rgba(255, 254, 250, 0.88);
+  --global-nav-bg-color: rgba(255, 254, 250, 0.82);
   --global-shadow-rgb: 36, 72, 106;
   --global-shadow-color: rgba(var(--global-shadow-rgb), 0.07);
   --global-shadow-strong-color: rgba(var(--global-shadow-rgb), 0.13);
@@ -158,7 +158,7 @@ html[data-theme-mode="morning"] {
   --global-surface-container-color: #f8f3f3;
   --global-surface-container-high-color: #f3edef;
   --global-outline-color: rgba(156, 72, 89, 0.2);
-  --global-nav-bg-color: rgba(255, 250, 247, 0.9);
+  --global-nav-bg-color: rgba(255, 250, 247, 0.84);
   --global-shadow-rgb: 75, 48, 57;
   --global-shadow-color: rgba(var(--global-shadow-rgb), 0.08);
   --global-shadow-strong-color: rgba(var(--global-shadow-rgb), 0.14);
@@ -208,7 +208,7 @@ html[data-theme-mode="noon"] {
   --global-surface-container-color: #f3f6f7;
   --global-surface-container-high-color: #edf2f4;
   --global-outline-color: rgba(59, 106, 152, 0.2);
-  --global-nav-bg-color: rgba(255, 254, 250, 0.88);
+  --global-nav-bg-color: rgba(255, 254, 250, 0.82);
   --global-shadow-rgb: 36, 72, 106;
   --global-shadow-color: rgba(var(--global-shadow-rgb), 0.07);
   --global-shadow-strong-color: rgba(var(--global-shadow-rgb), 0.13);
@@ -258,7 +258,7 @@ html[data-theme-mode="afternoon"] {
   --global-surface-container-color: #eef4f1;
   --global-surface-container-high-color: #e5eef0;
   --global-outline-color: rgba(52, 91, 95, 0.18);
-  --global-nav-bg-color: rgba(251, 250, 247, 0.91);
+  --global-nav-bg-color: rgba(251, 250, 247, 0.84);
   --global-shadow-rgb: 45, 82, 87;
   --global-shadow-color: rgba(var(--global-shadow-rgb), 0.08);
   --global-shadow-strong-color: rgba(var(--global-shadow-rgb), 0.14);
@@ -311,7 +311,7 @@ html[data-theme-mode="evening"] {
   --global-surface-container-color: #1d2c33;
   --global-surface-container-high-color: #25363d;
   --global-outline-color: rgba(183, 178, 227, 0.22);
-  --global-nav-bg-color: rgba(17, 28, 34, 0.86);
+  --global-nav-bg-color: rgba(17, 28, 34, 0.8);
   --global-shadow-rgb: 2, 9, 12;
   --global-shadow-color: rgba(var(--global-shadow-rgb), 0.28);
   --global-shadow-strong-color: rgba(var(--global-shadow-rgb), 0.4);
@@ -375,10 +375,20 @@ html[data-theme-mode="evening"] {
   }
 }
 
+// The chosen time wears the same tonal indicator as the current page (2026-10-19).
 html[data-theme-mode="morning"] .theme-option[data-theme-mode-option="morning"],
 html[data-theme-mode="noon"] .theme-option[data-theme-mode-option="noon"],
 html[data-theme-mode="afternoon"] .theme-option[data-theme-mode-option="afternoon"],
 html[data-theme-mode="evening"] .theme-option[data-theme-mode-option="evening"] {
-  background: var(--global-accent-soft);
-  color: var(--global-hover-color);
+  background: var(--md-lite-tonal);
+  color: var(--md-lite-on-tonal);
+}
+
+// The navbar is chrome glass; reduced transparency and more contrast make it solid.
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  html,
+  html[data-theme-mode],
+  html[data-theme="dark"] {
+    --global-nav-bg-color: var(--global-bg-color);
+  }
 }
