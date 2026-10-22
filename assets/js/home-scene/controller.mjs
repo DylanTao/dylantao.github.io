@@ -63,6 +63,7 @@ import { createStaticLightField } from "./static-light-field.mjs";
 import { prepareFramePrograms } from "./program-warmup.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs";
+import { createWalkMode } from "./walk-controls.mjs";
 import { createLightInstallations } from "./light-installations.mjs";
 import { createAtmosphere } from "./atmosphere.mjs";
 import { createHaze } from "./haze.mjs";
@@ -89,7 +90,7 @@ const remember = (key, value) => {
 const TONE_MAPPING = { aces: THREE.ACESFilmicToneMapping, agx: THREE.AgXToneMapping, neutral: THREE.NeutralToneMapping };
 const TONE_EXPOSURE = { aces: 1, agx: 1.08, neutral: 1.24 };
 const CANVAS_LABEL =
-  "Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag, right-drag or Shift+arrows move the view; plus and minus or Page Up and Page Down zoom, and zooming out past a room shows the whole house, then the coast. Home recentres the view. In the whole house, click a room or press 1 to 6 to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside. F opens full screen; Escape leaves it.";
+  "Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag, right-drag or Shift+arrows move the view; plus and minus or Page Up and Page Down zoom, and zooming out past a room shows the whole house, then the coast. Home recentres the view. In the whole house, click a room or press 1 to 6 to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside. F opens full screen; Escape leaves it. In full screen, V walks: W A S D or the arrow keys move, Shift runs, Page Up and Page Down look up and down, and dragging or a click to capture the mouse looks around; V again returns to orbiting.";
 
 export function createCoastalHome(container, records, artifacts) {
   const stage = container.closest("[data-home-artifact-stage]");
@@ -157,6 +158,9 @@ export function createCoastalHome(container, records, artifacts) {
   // shadow (shadow-cache.mjs).
   let resolution = null,
     shadowCache = null;
+  // Walking in full screen (walk-controls.mjs), and the house model its collision field is sized to.
+  let walkMode = null,
+    shellRoot = null;
   let frame = 0,
     lastFrame = 0,
     elapsed = 0,
@@ -1574,7 +1578,7 @@ export function createCoastalHome(container, records, artifacts) {
   // the terrain instead (a terrace target hidden by the cliff would otherwise pull it into the
   // terrace). The collision field itself is built by camera-field.mjs as the models load.
   let cameraField = null;
-  const armActive = () => !labFreeCamera && !animalFocus && currentRoom !== "outside" && Boolean(config);
+  const armActive = () => !labFreeCamera && !animalFocus && currentRoom !== "outside" && Boolean(config) && !walkMode?.active;
   const armReady = () => (currentRoom === "overview" ? Boolean(config?.cameraCollision) : Boolean(cameraField?.ready));
   const targetPoint = [0, 0, 0];
   function armFor(at, orbitYaw, orbitPitch, length) {
@@ -1857,6 +1861,8 @@ export function createCoastalHome(container, records, artifacts) {
 
   function setRoom(id, manual = true) {
     if (!config) return;
+    // A room visit, Now or the routine taking the camera ends a walk where the visitor stood.
+    if (walkMode?.active) walkMode.exit({ restore: false });
     labFreeCamera = false;
     stationLook = id === "gym";
     inertia.stop();
@@ -2268,6 +2274,55 @@ export function createCoastalHome(container, records, artifacts) {
   function fullscreenChanged(mode) {
     const profile = mode && !embedDetailOnly ? "fullscreen" : "embed";
     if (resolution?.setProfile(profile)) resize();
+    // The walk's collision field is built as full screen opens; leaving full screen ends a walk.
+    if (mode) walkMode?.prepare();
+    else walkMode?.exit();
+  }
+
+  // Walk mode's hooks (walk-controls.mjs). Starting a walk opts out of the clock's camera, like any
+  // exploration; the walker's room drives what the orbit's room would (the cutaway, the bath's
+  // steam and water, the sun's shadow square, the coast's reflections and planting).
+  function enterWalk() {
+    explore.explore();
+    followClock = false;
+    inertia.stop();
+    stationLook = false;
+    labFreeCamera = false;
+    pointer = pinch = null;
+    touches.clear();
+    if (focused || animalFocus) clearFocus();
+    showHint(null);
+  }
+  function walkRoomChanged(id) {
+    if (!id || id === currentRoom) return;
+    currentRoom = id;
+    container.dataset.room = id;
+    container.dataset.deskView = id === "outside" ? "outside" : "room";
+    fitSunShadow(true);
+    if (id === "outside" && compositionReady) {
+      loadFlora();
+      loadHinterland();
+    }
+    ui.querySelector("[data-world-view]").innerHTML =
+      id === "outside" ? 'Back inside <span aria-hidden="true">↙</span>' : 'Look around <span aria-hidden="true">↗</span>';
+    ui.querySelectorAll("[data-world-room]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.worldRoom === id)));
+    requestFrame();
+  }
+  // The orbit resumes from the walker's own view: its target a little ahead of the eyes and the
+  // camera at the eyes, so the springs carry it from there to the room's framing.
+  function leaveWalk({ eye, yaw: lookYaw, pitch: lookPitch, room }, { restore = true } = {}) {
+    const lead = 1.2,
+      ahead = [Math.sin(lookYaw) * Math.cos(lookPitch), Math.sin(lookPitch), Math.cos(lookYaw) * Math.cos(lookPitch)];
+    target.set(eye[0] + ahead[0] * lead, eye[1] + ahead[1] * lead, eye[2] + ahead[2] * lead);
+    desiredTarget.copy(target);
+    radius = desiredRadius = lead;
+    cameraYaw = yaw = lookYaw + Math.PI;
+    cameraPitch = pitch = -lookPitch;
+    armShown = armWanted = null;
+    armDeficit = 0;
+    cameraMotion.stop();
+    if (!restore || !config) return;
+    setRoom(room === "outside" || config.rooms.some((r) => r.id === room) ? room : routine?.room || "study");
   }
   function applyDetail() {
     const canvas = renderer.domElement,
@@ -2452,8 +2507,15 @@ export function createCoastalHome(container, records, artifacts) {
     keepCameraClear(camera.position, config, animalFocus?.id === "balcony-gull-0" ? "study" : currentRoom, {
       walls: !(armActive() && cameraField?.ready),
     });
+    // Walking puts the camera at the visitor's eyes (walk-controls.mjs). The orbit above keeps
+    // settling unseen, so leaving the walk resumes from wherever its springs are.
+    const walking = Boolean(walkMode?.active);
+    if (walking) {
+      walkMode.frame(frameDelta);
+      groundClearance = Infinity;
+    }
     // Far coast views: haze, clip planes and the sky dome follow the zoom (camera.mjs farView).
-    const far = farView(currentRoom === "outside" && !animalFocus ? radius : 0, groundClearance);
+    const far = farView(!walking && currentRoom === "outside" && !animalFocus ? radius : 0, groundClearance);
     if (perspective.near !== far.near || perspective.far !== far.far) {
       perspective.near = far.near;
       perspective.far = far.far;
@@ -2472,7 +2534,7 @@ export function createCoastalHome(container, records, artifacts) {
       camera.bottom = -half;
       camera.updateProjectionMatrix();
     }
-    camera.lookAt(aim);
+    if (!walking) camera.lookAt(aim);
     syncCutaway();
     poolStroke?.restore();
     characterPerformance?.restore();
@@ -2704,6 +2766,7 @@ export function createCoastalHome(container, records, artifacts) {
     if (
       moving ||
       inertia.active ||
+      walkMode?.busy ||
       (armWanted !== null && Math.abs(armDeficit - (radius - armWanted)) > 0.003) ||
       target.distanceTo(desiredTarget) > 0.003 ||
       Math.abs(radius - settledRadius) > 0.003 ||
@@ -2820,6 +2883,7 @@ export function createCoastalHome(container, records, artifacts) {
         return;
       }
       world.add(prepareModel(shell.scene));
+      shellRoot = shell.scene;
       cameraField?.addRoot(shell.scene);
       loadingStage("coast", "Opening the coast.");
       pacific = createPacific(scene, renderer, config, { atmosphere });
@@ -2887,6 +2951,27 @@ export function createCoastalHome(container, records, artifacts) {
         b.textContent = a.title;
         items.append(b);
       });
+      walkMode = createWalkMode({
+        camera: perspective,
+        canvas: renderer.domElement,
+        stage,
+        container,
+        world,
+        getConfig: () => config,
+        houseRoots: () => [shellRoot, ...rooms.values()],
+        getActor: () => actor,
+        doors: () => facadeDoors.map((door) => door.object),
+        view: () => ({ room: currentRoom, routineRoom: routine?.room, camera: camera.position.toArray() }),
+        isFullscreen: () => Boolean(fullscreen.mode),
+        isReady: () => compositionReady,
+        isReduced: () => reduced || paused,
+        hint: showHint,
+        requestFrame,
+        onEnter: enterWalk,
+        onRoom: walkRoomChanged,
+        onExit: leaveWalk,
+      });
+      cleanup.push(() => walkMode?.dispose());
       bindControls();
       const resizeObserver = new ResizeObserver(resize);
       resizeObserver.observe(container);
@@ -2944,6 +3029,8 @@ export function createCoastalHome(container, records, artifacts) {
       requestFrame();
       return result;
     };
+  // Lab only: stand the walker somewhere ({ position: [x, foot, z], yaw, pitch }); false if no room there.
+  if (labEnabled) container.setLabWalk = (pose) => walkMode?.labPlace(pose) ?? false;
   // Lab only: run today's training session from a chosen second (null returns to the clock).
   if (labEnabled)
     container.setLabSessionSeconds = (seconds) => {
@@ -3106,6 +3193,7 @@ export function createCoastalHome(container, records, artifacts) {
     canvasHeight: renderer?.domElement.height,
     resolution: resolution?.evidence() ?? null,
     detail: detail ? { ...detail, shadowMap: sun.shadow.mapSize.x } : null,
+    walk: walkMode?.evidence() ?? null,
     shadowCache: shadowCache?.evidence() ?? null,
     prop: selectedProp
       ? {
