@@ -204,9 +204,18 @@ html[data-theme="evening"] img[src*="-transparent.png"] {
   }
 }
 
-// Dated notes form a reading list; short entries do not need equal-height cards.
+// Dated notes form a reading list; short entries do not need equal-height cards. The list keeps a
+// reading measure on any window (on a 1,990 px window a note ran 1,350 px long, Sirui 2026-10-19),
+// starts on the page's content edge with the other sections, and "Full timeline" ends where it does.
 .home-news-pubs {
+  --home-news-measure: 38rem;
+  --home-news-width: calc(7rem + 1.25rem + var(--home-news-measure));
+
   padding-block: 1.75rem;
+}
+.home-news-pubs .home-section-heading-row,
+.home-news-pubs .home-news-strip {
+  max-width: var(--home-news-width);
 }
 .home-news-pubs .home-section-heading h2 {
   font-size: clamp(1.4rem, 2vw, 1.75rem);
