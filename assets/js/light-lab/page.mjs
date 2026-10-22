@@ -1,9 +1,12 @@
 // The light lab (/projects/light-paths/): path tracing and Metropolis light transport race to draw
 // sunlight falling through the onsen's light well onto rippled water. Each method runs in its own
 // worker for the same wall-clock time (core.mjs, worker.mjs). Before a run the panels show still
-// frames from the same engine; a run never starts by itself, pauses after each minute, and pauses
-// while the lab is scrolled away or the tab is hidden. A second row magnifies the pool floor, where
-// the ripples focus the sun, and the chart (chart.mjs) plots each renderer's error on log axes.
+// frames from the same engine. The race starts by itself once the panels come into view (Sirui,
+// 2026-10-19: just play it), pauses after each minute, and pauses while the lab is scrolled away or
+// the tab is hidden; the Run button is its pause control. Reduced motion, Save-Data, a processor
+// with fewer than four threads and automation (unless ?cinematic=live) keep the still frames until
+// the visitor presses Run. A second row magnifies the pool floor, where the ripples focus the sun,
+// and the chart (chart.mjs) plots each renderer's error on log axes.
 import { MINUTE, blankFrameError, chartMarkup, percent, takeaway } from "./chart.mjs";
 
 const METHODS = ["pt", "mlt"];
@@ -48,6 +51,7 @@ function init(root) {
     run = 0,
     state = "idle", // idle | running | paused | done
     autoPaused = false,
+    touched = false,
     budget = MINUTE,
     history = { pt: [], mlt: [] },
     latest = {},
@@ -243,6 +247,7 @@ function init(root) {
   }
 
   runButton.addEventListener("click", () => {
+    touched = true;
     if (state === "idle") start();
     else if (state === "running") setPaused(true);
     else if (state === "paused") setPaused(false);
@@ -251,7 +256,10 @@ function init(root) {
       setPaused(false);
     }
   });
-  restartButton.addEventListener("click", start);
+  restartButton.addEventListener("click", () => {
+    touched = true;
+    start();
+  });
   for (const control of [sunSelect, normalizationSelect])
     control.addEventListener("change", () => {
       if (state !== "idle") start();
@@ -267,6 +275,27 @@ function init(root) {
     if (!entry.isIntersecting && state === "running") setPaused(true, true);
     else if (entry.isIntersecting && autoPaused && !document.hidden) setPaused(false);
   }).observe(root);
+
+  // The race starts by itself the first time the panels are mostly in view, unless the visitor has
+  // already pressed a control or the device should stay still.
+  const forceLive = /[?&]cinematic=live(?:&|$)/.test(location.search);
+  const autoplay =
+    !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+    !navigator.connection?.saveData &&
+    (navigator.hardwareConcurrency || 4) >= 4 &&
+    (!navigator.webdriver || forceLive);
+  const panels = root.querySelector(".light-lab-panels");
+  if (autoplay && panels) {
+    const starter = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || touched || state !== "idle" || document.hidden) return;
+        starter.disconnect();
+        start();
+      },
+      { threshold: 0.5 }
+    );
+    starter.observe(panels);
+  }
   document.addEventListener("visibilitychange", () => {
     if (document.hidden && state === "running") setPaused(true, true);
     else if (!document.hidden && autoPaused) setPaused(false);

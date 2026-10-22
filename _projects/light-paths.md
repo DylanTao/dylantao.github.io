@@ -25,7 +25,7 @@ light_lab: true
       Around midday in the 3D home, a light well drilled from the clifftop throws a beam of sun into the onsen, and the ripples bend it onto the pool floor. Here two renderers draw that light in your browser with the same minute each: path tracing and Metropolis light transport.
     </p>
     <div class="project-case-actions">
-      <a href="#light-lab">Run the race</a>
+      <a href="#light-lab">Watch the race</a>
       <a href="{{ '/assets/downloads/site-experiments/light-paths-reproduction.md' | relative_url }}" download>Download the reproduction guide</a>
     </div>
   </div>
@@ -48,7 +48,7 @@ light_lab: true
 
 <section class="light-lab" id="light-lab" data-light-lab aria-labelledby="light-lab-title">
   <h2 id="light-lab-title">Race the two renderers</h2>
-  <p>Press Run. Each renderer gets its own thread, and the race pauses after a minute. It also pauses when you scroll away or switch tabs. Until then, the panels show still frames from the same renderer after a minute on my laptop.</p>
+  <p>The race starts when the panels come into view; with reduced motion, press Run. Each renderer gets its own thread, and the race pauses after a minute, or when you scroll away or switch tabs. Until it starts, the panels show still frames from the same renderer after a minute on my laptop.</p>
   <div class="light-lab-panels">
     <figure class="light-lab-panel">
       <div class="light-lab-frame">
