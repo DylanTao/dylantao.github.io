@@ -77,7 +77,7 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 - **Budget:** Reduced motion and automation see still, complete states everywhere (instant layouts, no draw-in, no theme reveal, no image fade). No new dependencies. The spring module is about 3 KB; the cards and reveals hand elements their own transitions back once settled.
 - **Status:** `implemented` on `agent/ux` for coordinator review.
 - **Evidence:** Before/after captures under `.jekyll-cache/visual-qa/ux-duh/`, `ux-cards/`, `ux-coffee/` and `ux-motion/`; duh's project-card and 3D-home drop cases on desktop and phone; the cards' public and legacy cases (Chromium and WebKit); `test/site-motion.test.mjs` tying the CSS curves to the module; the coffee ensō's layering, mask and draw-in case.
-- **Sirui decision:** Pending: the ensō's look (and whether the heart stays), the theme reveal, and the card motion's feel on the live site.
+- **Sirui decision:** Pending: the ensō's look (and whether the heart stays), the theme reveal, and the card motion's feel on the live site. 2026-10-19: the ensō read heavy and rigid; it became a light dried coffee ring that dries in once (studio log card P3).
 - **Revisit trigger:** Sirui's live review, any report that duh blocks a click it should not, or a route where the shared springs read as sluggish.
 
 ### October 12–13: the "awesome, not lamer" studio pass

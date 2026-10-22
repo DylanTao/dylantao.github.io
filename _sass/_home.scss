@@ -108,7 +108,7 @@ html[data-theme="dark"] .home-page {
   --home-paper-edge: var(--global-paper-edge-color);
   --home-paper-shadow: 0 0.48rem 1rem rgba(var(--global-shadow-rgb), 0.3);
   --home-coffee-stain-blend: normal;
-  --home-coffee-stain-opacity: 0.92;
+  --home-coffee-stain-opacity: 0.78;
 }
 
 html[data-theme-mode="morning"] .home-page {
@@ -125,7 +125,7 @@ html[data-theme-mode="afternoon"] .home-page {
 
 html[data-theme-mode="evening"] .home-page {
   --home-coffee-stain-blend: normal;
-  --home-coffee-stain-opacity: 0.92;
+  --home-coffee-stain-opacity: 0.78;
 }
 
 .home-story-rail {
@@ -1672,22 +1672,21 @@ html[data-theme="dark"] .home-record-card-link {
     transform var(--motion-slow);
 }
 
-// The coffee ring is an ensō (home-coffee-stain.js paints a new one on each visit): it lies on the
-// desk beneath the slips, so it peeks out around the top one's corner and never crosses their words.
-// Once painted, the stroke draws itself in from where the brush landed: a conic mask around the
-// ring's centre sweeps open on the gentle spring.
-@property --home-coffee-stain-sweep {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 380deg;
+// The coffee ring (home-coffee-stain.js paints a new, dried one on each visit) lies on the desk
+// beneath the slips: it peeks out above the top one and never crosses their words. For people it
+// dries in once as it comes into view: the wet film (::after) fades while its colour gathers at the
+// rim (::before), about a second and a half (Sirui, 2026-10-19: the brushed ensō read heavy).
+.home-artifact-stack.has-coffee-stain {
+  --home-coffee-stain-strength: calc(var(--home-coffee-stain-opacity) * 0.8);
 }
 
-.home-artifact-stack.has-coffee-stain::before {
+.home-artifact-stack.has-coffee-stain::before,
+.home-artifact-stack.has-coffee-stain::after {
   position: absolute;
-  top: -5.2rem;
+  top: -5.6rem;
   // Inside the column: the hero clips at its edge, and the ring should stay whole.
-  right: 0.85rem;
-  width: min(13.8rem, 43%);
+  right: 0.4rem;
+  width: min(13.4rem, 42%);
   aspect-ratio: 1 / 1;
   z-index: 1;
   background: var(--home-coffee-stain-image, none) center / contain no-repeat;
@@ -1695,37 +1694,54 @@ html[data-theme="dark"] .home-record-card-link {
   mix-blend-mode: var(--home-coffee-stain-blend);
   opacity: 0;
   pointer-events: none;
-  transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, -12deg))
+  transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, 0deg))
     scale(var(--home-coffee-stain-scale, 1));
-  transform-origin: 52% 50%;
-  -webkit-mask-image: conic-gradient(
-    from var(--home-coffee-stain-from, 0deg) at var(--home-coffee-stain-cx, 50%) var(--home-coffee-stain-cy, 50%),
-    #000 calc(var(--home-coffee-stain-sweep) - 16deg),
-    transparent var(--home-coffee-stain-sweep)
-  );
-  mask-image: conic-gradient(
-    from var(--home-coffee-stain-from, 0deg) at var(--home-coffee-stain-cx, 50%) var(--home-coffee-stain-cy, 50%),
-    #000 calc(var(--home-coffee-stain-sweep) - 16deg),
-    transparent var(--home-coffee-stain-sweep)
-  );
+  transform-origin: 50% 50%;
   transition: opacity 420ms ease;
 }
 
+.home-artifact-stack.has-coffee-stain::after {
+  background-image: var(--home-coffee-stain-wet, none);
+}
+
 .home-artifact-stack.has-coffee-stain[data-coffee-stain-ready]::before {
-  opacity: calc(var(--home-coffee-stain-opacity) * 0.8);
+  opacity: var(--home-coffee-stain-strength);
 }
 
-.home-artifact-stack.has-coffee-stain[data-coffee-stain-drawing]::before {
-  animation: home-coffee-stain-draw 1150ms var(--spring-gentle, ease-out) both;
+.home-artifact-stack.has-coffee-stain[data-coffee-stain-drying="pending"]::before {
+  opacity: 0;
 }
 
-@keyframes home-coffee-stain-draw {
-  from {
-    --home-coffee-stain-sweep: 0deg;
+.home-artifact-stack.has-coffee-stain[data-coffee-stain-drying="true"]::before {
+  animation: home-coffee-stain-dry 1500ms var(--md-lite-easing-decelerate, ease-out) both;
+}
+
+.home-artifact-stack.has-coffee-stain[data-coffee-stain-drying="true"]::after {
+  animation: home-coffee-stain-wet 1500ms var(--md-lite-easing-decelerate, ease-out) both;
+}
+
+@keyframes home-coffee-stain-dry {
+  0%,
+  25% {
+    opacity: 0;
   }
 
-  to {
-    --home-coffee-stain-sweep: 380deg;
+  100% {
+    opacity: var(--home-coffee-stain-strength);
+  }
+}
+
+@keyframes home-coffee-stain-wet {
+  0% {
+    opacity: 0;
+  }
+
+  12% {
+    opacity: var(--home-coffee-stain-strength);
+  }
+
+  100% {
+    opacity: 0;
   }
 }
 
@@ -3396,9 +3412,10 @@ html.home-motion-ready .home-reveal.home-visible {
     transform: none;
   }
 
-  .home-artifact-stack.has-coffee-stain::before {
-    top: -4.4rem;
-    right: 0.75rem;
+  .home-artifact-stack.has-coffee-stain::before,
+  .home-artifact-stack.has-coffee-stain::after {
+    top: -4.6rem;
+    right: 0.5rem;
     width: min(10.5rem, 42vw);
   }
 
@@ -3550,6 +3567,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-card::after,
   .home-artifact-stack,
   .home-artifact-stack.has-coffee-stain::before,
+  .home-artifact-stack.has-coffee-stain::after,
   .home-artifact-card,
   .home-artifact-thumb img,
   html.home-motion-ready .home-reveal {

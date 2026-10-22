@@ -2644,7 +2644,7 @@ test("Research Focus Paper field stays semantic, bounded, pausable, and optional
   }
 });
 
-test("the desk's coffee ensō lies beneath the slips, stays whole, and draws itself in only for people", async ({ page }, testInfo) => {
+test("the desk's coffee ring lies beneath the slips, stays whole, and dries in only for people", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "one desktop and one phone viewport cover the stain");
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
@@ -2652,15 +2652,19 @@ test("the desk's coffee ensō lies beneath the slips, stays whole, and draws its
   const read = () =>
     stack.evaluate((node) => {
       const stain = getComputedStyle(node, "::before");
+      const wet = getComputedStyle(node, "::after");
       const card = getComputedStyle(node.querySelector(".home-artifact-card"));
       const box = node.getBoundingClientRect();
       const column = node.parentElement.getBoundingClientRect();
       return {
         painted: stain.backgroundImage.startsWith('url("data:image/png'),
-        beneath: Number(stain.zIndex) < Number(card.zIndex),
-        masked: (stain.maskImage || stain.webkitMaskImage || "").includes("conic-gradient"),
+        beneath: Number(stain.zIndex) < Number(card.zIndex) && Number(wet.zIndex) < Number(card.zIndex),
+        // A dried ring, not a brush stroke: no mask sweeps it open any more.
+        unmasked: !(stain.maskImage || stain.webkitMaskImage || "").includes("gradient"),
+        multiplied: stain.mixBlendMode === "multiply",
         animation: stain.animationName,
-        drawing: node.dataset.coffeeStainDrawing || null,
+        wetAnimation: wet.animationName,
+        drying: node.getAttribute("data-coffee-stain-drying"),
         seed: node.dataset.coffeeStainSeed,
         // The stain box ends inside the hero column, which clips at its edge.
         insideColumn: box.right - parseFloat(stain.right) <= column.right + 1,
@@ -2668,26 +2672,28 @@ test("the desk's coffee ensō lies beneath the slips, stays whole, and draws its
     });
   await page.goto(publicRouteUrl("/?coffeeSeed=52"));
   await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
-  // Beneath the slips, a ring can peek around their corner but never crosses their words.
+  // Beneath the slips, a ring can peek out above them but never crosses their words.
   expect(await read()).toMatchObject({
     painted: true,
     beneath: true,
-    masked: true,
+    unmasked: true,
+    multiplied: true,
     insideColumn: true,
     seed: "52",
-    drawing: null,
+    drying: null,
     animation: "none",
   });
-  await attachScreenshot(page, testInfo, `home-coffee-enso-${testInfo.project.name}`, { locator: stack });
-  // A person sees the stroke draw itself in from where the brush landed...
+  await attachScreenshot(page, testInfo, `home-coffee-ring-${testInfo.project.name}`, { locator: stack });
+  // A person sees the wet drop dry in once the slips are in view...
   await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));
-  await expect(stack).toHaveAttribute("data-coffee-stain-drawing", "true", { timeout: 20000 });
-  expect((await read()).animation).toBe("home-coffee-stain-draw");
+  await stack.scrollIntoViewIfNeeded();
+  await expect(stack).toHaveAttribute("data-coffee-stain-drying", "true", { timeout: 20000 });
+  expect(await read()).toMatchObject({ animation: "home-coffee-stain-dry", wetAnimation: "home-coffee-stain-wet" });
   // ...unless they prefer stillness; a theme change repaints it for the evening desk.
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));
   await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
-  expect(await read()).toMatchObject({ drawing: null, animation: "none" });
+  expect(await read()).toMatchObject({ drying: null, animation: "none" });
   const light = await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"));
   // theme.js declares setThemeSetting as a top-level binding, not a window property.
   await page.evaluate(() => setThemeSetting("evening"));
