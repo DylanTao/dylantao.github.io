@@ -87,6 +87,20 @@
   pointer-events: none;
 }
 
+// Full screen has no silhouette to keep inside, so the cue runs along the screen's edge. While
+// walking, the whole screen is the control and the pressed Walk switch says so; Tab still reaches
+// the switches, which carry their own rings.
+.home-hero-media.is-world-immersive .home-desk-corner-scene:has(canvas:focus-visible)::after {
+  inset: 0;
+  border-width: 3px;
+  border-radius: 0;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--home-paper) 70%, transparent);
+}
+
+.home-hero-media.is-world-walking .home-desk-corner-scene:has(canvas:focus-visible)::after {
+  display: none;
+}
+
 .home-desk-corner-fallback {
   display: none;
 }
@@ -524,7 +538,8 @@ html.is-world-immersive {
   }
 }
 
-.home-world-exit {
+.home-world-exit,
+.home-world-walk {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
@@ -568,9 +583,131 @@ html.is-world-immersive {
 }
 
 @media (pointer: coarse) {
-  .home-world-exit kbd {
+  .home-world-exit kbd,
+  .home-world-walk kbd {
     display: none;
   }
+}
+
+// Walk mode (walk-controls.mjs): the switch sits beside Back to the site and fills with the accent
+// while walking; one tap or V swaps between orbiting and walking.
+// The site's global span colour would otherwise keep a label dark on the filled switch.
+.home-world-exit span,
+.home-world-walk span {
+  color: inherit;
+}
+
+// While walking, the hint sits under the top bar, clear of the thumb sticks.
+.home-hero-media.is-world-immersive.is-world-walking .home-world-hint {
+  top: calc(max(0.9rem, env(safe-area-inset-top, 0px)) + 3.4rem);
+  bottom: auto;
+}
+
+.home-world-walk {
+  &[aria-pressed="true"] {
+    border-color: transparent;
+    background: var(--home-accent-strong);
+    color: var(--home-paper);
+
+    kbd {
+      border-color: color-mix(in srgb, var(--home-paper) 55%, transparent);
+      color: color-mix(in srgb, var(--home-paper) 85%, transparent);
+    }
+
+    &:hover {
+      background: var(--home-accent-strong);
+      color: var(--home-paper);
+    }
+  }
+}
+
+.home-hero-media.is-world-walking .home-desk-corner-canvas {
+  cursor: crosshair;
+}
+
+// A small sight while the mouse is captured, so the view's centre stays findable without a cursor.
+.home-world-crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.9);
+  box-shadow: 0 0 0 1.5px rgb(0 0 0 / 0.35);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.home-hero-media.is-world-pointer-locked .home-world-crosshair {
+  opacity: 1;
+}
+
+// Twin thumb sticks for touch screens, above the floating caption bar: left walks, right looks.
+.home-world-sticks {
+  position: absolute;
+  right: max(1rem, env(safe-area-inset-right, 0px));
+  bottom: calc(5.4rem + env(safe-area-inset-bottom, 0px));
+  left: max(1rem, env(safe-area-inset-left, 0px));
+  z-index: 11;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.home-world-stick {
+  position: relative;
+  width: clamp(6.5rem, 26vmin, 9rem);
+  aspect-ratio: 1;
+  border: 1.5px solid rgb(255 255 255 / 0.5);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--home-paper) 22%, transparent);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.16);
+  backdrop-filter: blur(6px);
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+
+  &.is-active {
+    background: color-mix(in srgb, var(--home-paper) 34%, transparent);
+  }
+}
+
+.home-world-stick-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 42%;
+  height: 42%;
+  margin: -21% 0 0 -21%;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.62);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.22);
+  transition: transform 140ms ease-out;
+
+  .is-active > & {
+    transition: none;
+  }
+}
+
+.home-world-stick-label {
+  position: absolute;
+  bottom: -1.4rem;
+  left: 0;
+  right: 0;
+  color: rgb(255 255 255 / 0.92);
+  font-family: var(--font-ui);
+  font-size: var(--type-meta);
+  text-align: center;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.55);
 }
 
 @keyframes home-world-immersive-in {
@@ -583,6 +720,8 @@ html.is-world-immersive {
   .home-world-controls *,
   .home-desk-corner-scene,
   .home-world-exit,
+  .home-world-walk,
+  .home-world-stick-knob,
   .home-hero-media.is-desk-3d.is-world-immersive {
     transition: none;
     animation: none;

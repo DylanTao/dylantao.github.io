@@ -253,6 +253,14 @@
       },
       {
         "file": "desk-scene.spec.js",
+        "title": "coastal home: Walk mode walks on the keyboard, stops against the house and returns to orbiting"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: Walk mode on a touch screen walks and looks with twin thumb sticks"
+      },
+      {
+        "file": "desk-scene.spec.js",
         "title": "coastal neighbours: new raccoon and birds expose real close views without extra public controls"
       },
       {

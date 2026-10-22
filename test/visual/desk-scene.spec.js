@@ -1748,6 +1748,138 @@ test("coastal home: full screen fills the screen, keeps its controls and returns
   expect(errors).toEqual([]);
 });
 
+test("coastal home: Walk mode walks on the keyboard, stops against the house and returns to orbiting", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page);
+  const { stage, scene, canvas, ui } = view;
+  const walkSwitch = page.locator("[data-world-walk]");
+  await expect(walkSwitch).toBeHidden();
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click());
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  await expect(walkSwitch).toBeVisible();
+  await expect(walkSwitch).toHaveAttribute("aria-pressed", "false");
+  await expect(walkSwitch).toHaveAccessibleName(/Walk/);
+  await expect(canvas).toBeFocused();
+  // V walks from where the orbit stood; the collision field comes from the loaded house itself.
+  await sceneInputFrame(page, view, () => canvas.press("v"));
+  await expect(walkSwitch).toHaveAttribute("aria-pressed", "true");
+  await expect(stage).toHaveClass(/is-world-walking/);
+  await expect.poll(async () => (await evidence(scene)).walk?.ready, { timeout: 90000 }).toBe(true);
+  await page.clock.runFor(300);
+  let state = await evidence(scene);
+  expect(state.walk).toMatchObject({ active: true, placed: true });
+  expect(state.walk.field.meshes).toBeGreaterThan(20);
+  const room = homeManifest().rooms.find((r) => r.id === state.walk.room);
+  expect(room, `the walk starts in a room (${state.walk.room})`).toBeTruthy();
+  expect(Math.abs(state.walk.position[1] - room.floor)).toBeLessThan(0.5);
+  expect(state.camera[1] - state.walk.position[1]).toBeCloseTo(1.6, 1);
+  expect(state.currentRoom).toBe(state.walk.room);
+  // The eyes are never inside anything the orbit's own collision field calls solid.
+  const solidAt = (point) => scene.evaluate((element, p) => (element.labScene.collisionGrid()?.flagAt(...p) ?? 0) & 1, point);
+  expect(await solidAt(state.camera)).toBe(0);
+  await capture(testInfo, "walk-start", await page.screenshot());
+  // Holding W walks.
+  const start = state.walk.position;
+  await page.keyboard.down("KeyW");
+  await page.clock.runFor(900);
+  await page.keyboard.up("KeyW");
+  await page.clock.runFor(200);
+  state = await evidence(scene);
+  expect(Math.hypot(state.camera[0] - start[0], state.camera[2] - start[2])).toBeGreaterThan(0.25);
+  // Turned with the arrows and walking on, the walker meets the house and then stays put however
+  // long the key is held.
+  await page.keyboard.down("ArrowLeft");
+  await page.clock.runFor(800);
+  await page.keyboard.up("ArrowLeft");
+  await page.keyboard.down("KeyW");
+  await page.clock.runFor(4500);
+  const pressed = (await evidence(scene)).walk;
+  await page.clock.runFor(1000);
+  await page.keyboard.up("KeyW");
+  await page.clock.runFor(200);
+  state = await evidence(scene);
+  fs.writeFileSync(testInfo.outputPath("walk-evidence.json"), JSON.stringify({ start, pressed, walk: state.walk, camera: state.camera }, null, 2));
+  expect(state.walk.blockedFrames).toBeGreaterThan(0);
+  expect(Math.hypot(state.walk.position[0] - pressed.position[0], state.walk.position[2] - pressed.position[2])).toBeLessThan(0.05);
+  expect(await solidAt(state.camera)).toBe(0);
+  await capture(testInfo, "walk-stopped", await page.screenshot());
+  // V returns to orbiting the room the walker stood in.
+  const stoodIn = state.walk.room;
+  await sceneInputFrame(page, view, () => canvas.press("v"));
+  state = await evidence(scene);
+  expect(state.walk.active).toBe(false);
+  expect(state.currentRoom).toBe(stoodIn);
+  await expect(walkSwitch).toHaveAttribute("aria-pressed", "false");
+  await expect(stage).not.toHaveClass(/is-world-walking/);
+  // The switch walks again, and Escape leaves full screen and the walk together.
+  await sceneInputFrame(page, view, () => walkSwitch.click());
+  await expect(walkSwitch).toHaveAttribute("aria-pressed", "true");
+  await expect(canvas).toBeFocused();
+  await sceneInputFrame(page, view, () => canvas.press("Escape"));
+  await expect(stage).not.toHaveClass(/is-world-immersive/);
+  state = await evidence(scene);
+  expect(state.walk.active).toBe(false);
+  expect(state.fullscreen).toBe(null);
+  expect(errors).toEqual([]);
+});
+
+test("coastal home: Walk mode on a touch screen walks and looks with twin thumb sticks", async ({ browser }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-390", "One Chromium touch context exercises the thumb sticks.");
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  const page = await context.newPage();
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page);
+  const { stage, scene, ui } = view;
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").tap());
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  const walkSwitch = page.locator("[data-world-walk]");
+  const sticks = page.locator("[data-world-sticks]");
+  await expect(sticks).toBeHidden();
+  await sceneInputFrame(page, view, () => walkSwitch.tap());
+  await expect(walkSwitch).toHaveAttribute("aria-pressed", "true");
+  await expect(sticks).toBeVisible();
+  await expect(sticks.locator("[data-world-stick]")).toHaveCount(2);
+  await expect(sticks).toHaveAttribute("aria-hidden", "true");
+  await expect.poll(async () => (await evidence(scene)).walk?.ready, { timeout: 90000 }).toBe(true);
+  await page.clock.runFor(300);
+  // Both thumbs at once: the left stick pushed up walks while the right one pushed right turns right.
+  const session = await context.newCDPSession(page);
+  const move = await sticks.locator('[data-world-stick="move"]').boundingBox();
+  const look = await sticks.locator('[data-world-stick="look"]').boundingBox();
+  const moveCentre = [move.x + move.width / 2, move.y + move.height / 2],
+    lookCentre = [look.x + look.width / 2, look.y + look.height / 2];
+  const before = (await evidence(scene)).walk;
+  await session.send("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [
+      { x: moveCentre[0], y: moveCentre[1], id: 0 },
+      { x: lookCentre[0], y: lookCentre[1], id: 1 },
+    ],
+  });
+  await session.send("Input.dispatchTouchEvent", {
+    type: "touchMove",
+    touchPoints: [
+      { x: moveCentre[0], y: moveCentre[1] - move.height * 0.4, id: 0 },
+      { x: lookCentre[0] + look.width * 0.3, y: lookCentre[1], id: 1 },
+    ],
+  });
+  await page.clock.runFor(700);
+  const during = (await evidence(scene)).walk;
+  await capture(testInfo, "walk-thumb-sticks", await page.screenshot());
+  await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  await page.clock.runFor(200);
+  const after = (await evidence(scene)).walk;
+  fs.writeFileSync(testInfo.outputPath("walk-touch-evidence.json"), JSON.stringify({ before, during, after }, null, 2));
+  expect(during.joysticks).toBe(true);
+  expect(Math.hypot(after.position[0] - before.position[0], after.position[2] - before.position[2])).toBeGreaterThan(0.15);
+  expect(after.yaw).toBeLessThan(before.yaw - 0.1);
+  // Orbiting again puts the sticks away.
+  await sceneInputFrame(page, view, () => walkSwitch.tap());
+  await expect(sticks).toBeHidden();
+  expect(errors).toEqual([]);
+  await context.close();
+});
+
 test("coastal neighbours: new raccoon and birds expose real close views without extra public controls", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const home = await openClockedHome(page, { time: "2026-10-01T13:20:00-07:00" });
