@@ -2,6 +2,7 @@ import * as THREE from "../three.module.min.js";
 import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.js";
 import { SEA_LEVEL, atmosphereConstantsGLSL, atmosphereSkyGLSL } from "./atmosphere.mjs";
 import { fogNoiseVolume } from "./atmosphere-model.mjs";
+import { SEA_PLANE } from "./sea-optics.mjs";
 
 // The coast's air between the eye and every surface, after the beauty pass, from its depth.
 //
@@ -19,10 +20,11 @@ import { fogNoiseVolume } from "./atmosphere-model.mjs";
 // house), the marine fog's transmittance and its sunlit in-scattering, and the dust's. The full-size
 // pass upsamples them, choosing among the four nearest samples by depth so edges stay sharp.
 //
-// The world's edge: the land block, the hinterland and the 400 m sea plane end. Between the far
-// view's fog distances (camera.mjs farView, which also sets the clip planes) every surface gives way
-// to the dome's own colour along its ray (atmoDome: the sky, or the Pacific out to the horizon, hazed
-// the same way), so the edges dissolve into atmosphere rather than ending.
+// The world's edge: the land block, the hinterland and the 400 m sea plane end, and the camera's far
+// plane cuts them. Each surface gives way, before it ends, to the dome's own colour along its ray
+// (atmoDome): the far field's land past the modelled world (far-field.mjs), the open Pacific or the
+// sky, hazed the same way. The land keeps its full detail to 60 % of the far plane and has become the
+// far field by 95 %; the sea becomes the far field's sea before the plane's edge along each ray.
 
 // The house's interior behind the glass front (facade plane z = -4.48 m): dust, never fog, inside.
 export const HOUSE_INTERIOR = Object.freeze({ min: [-5.3, -0.25, -4.48], max: [11.2, 7.6, 8.0] });
@@ -129,8 +131,10 @@ void main() {
 
 const compositeFragment = `
 precision highp float;
+#define ATMO_FAR_FIELD
 uniform sampler2D tDiffuse, tVolume;
 uniform vec2 hazeDissolve, hazeVolumeSize;
+uniform vec4 hazeSea;
 uniform float hazeVolumeEnabled;
 uniform vec3 hazeLight, hazeKeyLight;
 varying vec2 vUv;
@@ -178,8 +182,17 @@ void main() {
     + volume.z * hazeKeyLight * (0.55 * hazePhase(cosine, 0.72) + 0.45 * 0.24);
   if (!sky) {
     c = atmoApplyHaze(c, d, heightM, dist, volume.x);
-    float edge = smoothstep(hazeDissolve.x, hazeDissolve.y, dist);
-    if (edge > 0.0) c = mix(c, atmoDome(d, max(1.0, heightM)), edge * edge * (3.0 - 2.0 * edge));
+    vec2 dissolve = hazeDissolve;
+    // The sea plane (and the waterline on it) dissolves before its edge along this ray.
+    if (eye.y + d.y * dist < ${(SEA_LEVEL + 0.6).toFixed(2)}) {
+      vec2 across = vec2(abs(d.x) > 1e-5 ? d.x : 1e-5, abs(d.z) > 1e-5 ? d.z : 1e-5);
+      vec2 bound = mix(hazeSea.xz, hazeSea.yw, step(vec2(0.0), across));
+      vec2 exit = (bound - eye.xz) / across;
+      float edgeDistance = max(min(exit.x, exit.y), 1.0);
+      dissolve = vec2(min(dissolve.x, 0.55 * edgeDistance), min(dissolve.y, 0.92 * edgeDistance));
+    }
+    float edge = smoothstep(dissolve.x, dissolve.y, dist);
+    if (edge > 0.0) c = mix(c, atmoDome(eye, d, max(1.0, heightM)), edge * edge * (3.0 - 2.0 * edge));
   }
   // Sunbeams in the house's dust, lit by the key light through the windows.
   c += volume.w * hazeKeyLight * hazePhase(cosine, 0.55);
@@ -227,6 +240,15 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
     tDiffuse: { value: null },
     tVolume: { value: volumeTarget.texture },
     hazeDissolve: { value: new THREE.Vector2(65, 180) },
+    // The sea plane's footprint: min x, max x, min z, max z.
+    hazeSea: {
+      value: new THREE.Vector4(
+        SEA_PLANE.center[0] - SEA_PLANE.size / 2,
+        SEA_PLANE.center[0] + SEA_PLANE.size / 2,
+        SEA_PLANE.center[1] - SEA_PLANE.size / 2,
+        SEA_PLANE.center[1] + SEA_PLANE.size / 2
+      ),
+    },
     hazeVolumeSize: { value: new THREE.Vector2(1, 1) },
     hazeVolumeEnabled: { value: 0 },
     hazeKeyLight: { value: new THREE.Vector3() },
@@ -311,7 +333,9 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
       camera = activeCamera;
       if (scene.fog?.isFog) {
         fog = [scene.fog.near, scene.fog.far];
-        compositeUniforms.hazeDissolve.value.set(scene.fog.near, scene.fog.far);
+        // The modelled land keeps its detail to 60 % of the far plane and is the far field by 95 %.
+        const far = activeCamera?.far ?? scene.fog.far + 100;
+        compositeUniforms.hazeDissolve.value.set(Math.max(scene.fog.near, 0.6 * far), 0.95 * far);
         scene.fog.near = 1e7;
         scene.fog.far = 1e8;
       }
@@ -341,7 +365,8 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
       shared.hazeFogDrift.value.set(-dx * speed * seconds, 0.04 * seconds, -dz * speed * seconds);
     },
     evidence: () => ({
-      method: "exponential height haze from scene depth, horizon-lit, dissolving into the dome between the far view's fog distances",
+      method:
+        "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
       dissolve: compositeUniforms.hazeDissolve.value.toArray(),
       density: atmosphere.uniforms.atmoHaze.value.x,
       scaleHeight: atmosphere.uniforms.atmoHaze.value.y,

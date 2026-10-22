@@ -215,6 +215,7 @@ export function countVisibleStars(stars, matrix, light, { heightM = 30 } = {}) {
 
 // ── The star field ──────────────────────────────────────────────────────────────────────────────
 const vertexShader = `
+#define ATMO_FAR_FIELD
 attribute vec3 starDirection;
 attribute vec3 starColor;
 attribute vec2 starInfo;
@@ -249,6 +250,8 @@ void main() {
   vec2 across = d.xz / max(length(d.xz), 1e-6);
   d = vec3(across.x * cos(radians(apparent)), sin(radians(apparent)), across.y * cos(radians(apparent)));
   if (d.y < -dip) return;
+  // A star behind the far land's hills is hidden (far-field.mjs).
+  if (farMarch(cameraPosition, d, 60000.0) > 0.0) return;
   // The air along the line of sight: the atmosphere's transmittance and the coast's haze.
   vec3 transmittance = texture2D(atmoTransmittance, atmoTransmittanceUv(ATMO_BOTTOM + heightM * 0.001, d.y)).rgb;
   float through = max(dot(transmittance, STAR_LUMA) * exp(-atmoHazeDepth(heightM, d.y, atmoHaze.z)), 1e-6);
@@ -349,15 +352,15 @@ export function createStarField(atmosphere, { clock = { value: 0 }, site = SITE 
     blendEquation: THREE.AddEquation,
     blendSrc: THREE.OneFactor,
     blendDst: THREE.OneFactor,
-    depthTest: false,
+    depthTest: true,
     depthWrite: false,
     toneMapped: false,
   });
   const points = new THREE.Points(geometry, material);
   points.name = "Coastal night stars";
   points.frustumCulled = false;
-  // After the dome (-10) and before everything the scene draws over it.
-  points.renderOrder = -9;
+  // Right after the dome, which is the last opaque draw (900); the scene in front hides them.
+  points.renderOrder = 901;
   points.userData.noContactOcclusion = true;
   let time = { utc: Date.now(), live: true },
     light = nightSkyLight(),
