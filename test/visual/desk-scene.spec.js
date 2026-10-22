@@ -1116,6 +1116,61 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
   expect(errors).toEqual([]);
 });
 
+// The night sky (stars.mjs): the Bright Star Catalogue's stars where they are at the minute, seen
+// against La Jolla's suburban sky glow and tonight's moon. A few hundred, round, steady under reduced
+// motion and asleep by day, instead of a dense field of procedural dots.
+test("coastal sky: catalogue stars are few and round at night, steady under reduced motion, and asleep by day", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  // October 21, 2026 at 21:30: the moon 82 % lit and 49 degrees up in the south-east.
+  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", time: "2026-10-21T21:30:00-07:00" });
+  await settleRoomModels(scene);
+  await pauseSceneClock(page);
+  await useSoftwareSceneCadence(page);
+  await explore(ui);
+  await ui.locator('[data-world-room="outside"]').click();
+  await canvas.scrollIntoViewIfNeeded();
+  // Up at the south-western sky, where Aquila and Capricornus stand at this hour.
+  await scene.evaluate((element) => element.setLabCamera({ target: [3, 60, -60], yaw: 0.35, pitch: -0.55, radius: 30 }));
+  await page.clock.runFor(1400);
+  await expect.poll(async () => (await evidence(scene)).ecology.stars.awake, { timeout: 20000 }).toBe(true);
+  const night = (await evidence(scene)).ecology.stars;
+  expect(night.catalogue).toBe(3249);
+  // A few hundred stars over the whole sky under this moon, never thousands.
+  expect(night.visibleOverhead).toBeGreaterThan(100);
+  expect(night.visibleOverhead).toBeLessThan(400);
+  expect(night.zenithLimit).toBeGreaterThan(4);
+  expect(night.zenithLimit).toBeLessThan(5.1);
+  // Reduced motion holds every star steady.
+  expect(night.twinkle).toBe(0);
+  const sky = await canvas.screenshot();
+  await capture(testInfo, "night-sky-stars", sky);
+  // Stars are sparse points on the dark sky: a handful to a few dozen in this view, not a field.
+  const image = PNG.sync.read(sky),
+    { width, height, data } = image,
+    luminance = (i) => 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+  const region = [];
+  for (let y = Math.round(height * 0.2); y < Math.round(height * 0.8); y++)
+    for (let x = Math.round(width * 0.2); x < Math.round(width * 0.8); x++) region.push(luminance((y * width + x) * 4));
+  const sorted = [...region].sort((a, b) => a - b),
+    background = sorted[Math.floor(sorted.length / 2)],
+    bright = region.filter((v) => v > background + 25).length;
+  expect(background).toBeLessThan(90);
+  expect(bright).toBeGreaterThan(2);
+  expect(bright / region.length).toBeLessThan(0.004);
+  // By day the field sleeps: no star survives the daylit sky, so nothing is drawn.
+  await ui.locator("[data-world-time]").fill("810");
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(400);
+        return (await evidence(scene)).ecology.stars.awake;
+      },
+      { timeout: 20000 }
+    )
+    .toBe(false);
+  expect(errors).toEqual([]);
+});
+
 test("coastal physics: the study label transfers only above contact and keeps the newest album", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });

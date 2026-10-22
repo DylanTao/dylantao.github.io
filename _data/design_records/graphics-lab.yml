@@ -658,8 +658,8 @@ systems:
           (192 × 108, redrawn each light step). `atmosphere-model.mjs` holds the same physics in plain JavaScript for the
           light colours and the tests (`transmittanceToTop`, `integrateRay`, `buildMultipleScatteringTable`, `skyRadiance`):
           Rayleigh, ozone and a clean marine aerosol (optical depth 0.045 at 550 nm, Ångström exponent 0.4, a Cornette–Shanks
-          phase with g = 0.76). The dome adds the night sky that follows twilight, stars on a sidereal frame
-          (`siderealFrame`, after Meeus), the moon from the Astronomical Almanac's low-precision series (`moonPosition`) lit
+          phase with g = 0.76). The dome adds the night sky that follows twilight (its stars are the next technique's), the
+          moon from the Astronomical Almanac's low-precision series (`moonPosition`) lit
           by the sun so its phase is drawn exactly, the sun's disc drawn 2.8 times larger with its light conserved, placed so
           its top limb sets at NOAA's minute and squashed and reddened by refraction (`sunDisc`, `refraction`, after
           Sæmundsson and Bennett), and the Pacific beyond the modelled sea with Cox and Munk's glitter. `skyLighting` turns the
@@ -685,7 +685,7 @@ systems:
               ]
           - path: assets/js/home-scene/atmosphere.mjs
             role: The GPU tables, the dome and the scene's light.
-            functions: [createAtmosphere, skyLighting, sunDisc, siderealFrame, apparentDirection, weatherOverride]
+            functions: [createAtmosphere, skyLighting, sunDisc, apparentDirection, weatherOverride]
           - path: assets/js/home-scene/environment.mjs
             role: The dome, the capture and the palette step.
             functions: [setPalette, makeEnvironment]
@@ -712,6 +712,55 @@ systems:
             adds: Clouds lit through the same atmosphere, with their own multiple-scattering approximation and shadows, the step from a clear sunset to one that colours a cloud deck.
         next:
           - move: A high cloud layer for the sunset, lit through the atmosphere and Earth's shadow, from the weather's cirrus days.
+            readiness: ready
+      - id: night-stars
+        name: Stars the eye could see from La Jolla
+        status: shipped
+        since: "2026-10-22"
+        what: >-
+          The night sky carries the naked-eye stars of the Yale Bright Star Catalogue where they stand over La Jolla at the
+          minute, only as many as the coast's suburban glow and the moon leave visible: about four hundred on a moonless
+          night, under a hundred beneath a full moon, coming out one at a time at dusk. Each is a round point about a CSS
+          pixel across, its colour from its B-V index, reddened and twinkling toward the horizon.
+        how: >-
+          `createStarField` in `stars.mjs` draws one `THREE.Points` of 3,249 stars over the dome. `starMatrix` precesses
+          their J2000 positions to the date (IAU 1976, Meeus chapter 21) and turns them by local mean sidereal time (Meeus
+          12.4); on the live clock they turn with the page clock between minutes. The vertex shader dims each star by the
+          atmosphere's own transmittance and the coast's haze along its line of sight, then compares it with the naked eye's
+          limiting magnitude (`limitingMagnitude`, after Schaefer) for the sky behind it: twilight from the scattering
+          sky's table, a 19.4 mag/arcsec² suburban glow that brightens toward the horizon and most toward San Diego, and
+          the moon's light by Allen's phase law. Above the limit, brightness rises as the 0.55 power of the flux and size as
+          its 0.14 power, so the brightest stars grow instead of blooming; each point spread is widened by a pixel's box
+          filter with its light kept, so a moving star neither crawls nor flickers. Colour comes from B-V through
+          Ballesteros's temperature and the Planckian locus, white-balanced to the 6504 K blackbody (against D65 the
+          locus is faintly magenta between 5,000 and 8,000 K, which had turned white stars pink), and desaturated for
+          faint stars as night vision desaturates them. Scintillation grows as the air mass to the 1.5 power on the
+          scene's clock and stops under reduced motion; by day the field is not drawn, and the sea mirror leaves it out.
+          It replaced a procedural field of about 100,000 hashed cells whose warm tints read as pink dots.
+        files:
+          - path: assets/js/home-scene/stars.mjs
+            role: The catalogue, the turning sky, the eye's limit and the star field.
+            functions: [createStarField, starMatrix, precessionMatrix, greenwichMeanSiderealTime, limitingMagnitude, starColor, countVisibleStars]
+          - path: assets/js/home-scene/star-catalogue.mjs
+            role: The packed catalogue, eight bytes a star.
+          - path: bin/build_star_catalogue.mjs
+            role: Packs the catalogue from the CDS's copy.
+          - path: assets/js/home-scene/environment.mjs
+            role: The light step, the scene's clock and the mirror's exclusion.
+            functions: [setPalette, reflect]
+        tests:
+          - test/stars.test.mjs
+          - test/visual/desk-scene.spec.js
+        sources: [hoffleit1991bsc, meeus1998algorithms, schaefer1993vision, ballesteros2012blackbody, kim2002planckian, kasten1989airmass]
+        related:
+          - record: homepage-desk-scene
+            techniques: [daylight]
+        limits:
+          - Stars fainter than magnitude 5.6 are left out, and there is no Milky Way; under a suburban sky it would barely show.
+          - Proper motion and nutation are ignored (under an arcminute this century), and each star is lifted by Sæmundsson's mean refraction.
+          - The sky glow is a model of a Bortle 5 to 6 coast, not a measurement, and the moonlit sky brightens only within about 15 degrees of the moon.
+        next:
+          - move: Venus, Mars, Jupiter and Saturn from Standish's Keplerian elements, in the same draw.
             readiness: ready
       - id: coastal-haze
         name: Haze that follows height and the sun
@@ -2665,6 +2714,30 @@ sources:
     label: Watt 1990
     citation: Mark Watt. *Light-Water Interaction using Backward Beam Tracing*. Computer Graphics 24(4), 377–385, SIGGRAPH 1990.
     url: https://doi.org/10.1145/97880.97920
+  - id: hoffleit1991bsc
+    label: Hoffleit and Warren 1991
+    citation: Dorrit Hoffleit and Wayne H. Warren Jr. *The Bright Star Catalogue*, 5th revised edition (preliminary version). Astronomical Data Center, NSSDC/ADC, 1991; VizieR catalogue V/50, public domain.
+    url: https://cdsarc.cds.unistra.fr/viz-bin/cat/V/50
+    venue: NSSDC/ADC
+    year: 1991
+  - id: schaefer1993vision
+    label: Schaefer 1993
+    citation: Bradley E. Schaefer. *Astronomy and the limits of vision*. Vistas in Astronomy 36, 311–361, 1993.
+    url: https://doi.org/10.1016/0083-6656(93)90113-X
+    venue: Vistas in Astronomy
+    year: 1993
+  - id: ballesteros2012blackbody
+    label: Ballesteros 2012
+    citation: F. J. Ballesteros. *New insights into black bodies*. EPL (Europhysics Letters) 97, 34008, 2012.
+    url: https://doi.org/10.1209/0295-5075/97/34008
+    venue: EPL
+    year: 2012
+  - id: kim2002planckian
+    label: Kim and colleagues 2002
+    citation: The cubic fits to the Planckian locus by Kim and colleagues (Bongsoon Kang, Ohak Moon, Changhee Hong, Honam Lee, Bonghwan Cho and Youngsun Kim, *Design of advanced color temperature control system for HDTV applications*, Journal of the Korean Physical Society 41(6), 865–871, 2002), as given in the encyclopedia's article on the Planckian locus.
+    url: https://en.wikipedia.org/wiki/Planckian_locus
+    venue: Journal of the Korean Physical Society
+    year: 2002
   - id: kasten1989airmass
     label: Kasten and Young 1989
     citation: Fritz Kasten and Andrew T. Young. *Revised optical air mass tables and approximation formula*. Applied Optics 28(22), 4735–4738, 1989.
