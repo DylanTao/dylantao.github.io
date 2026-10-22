@@ -18,6 +18,9 @@ import { RIPPLES, WATER_IOR } from "./ocean-spectrum.mjs";
 // Units are metres and seconds; colours are linear.
 
 export const SEA_LEVEL = -7.35;
+// The modelled sea's square (environment.mjs): 400 m on a side, centred 28 m out to sea. Past its edge
+// the dome's far sea carries the water to the horizon, and the haze dissolves one into the other.
+export const SEA_PLANE = Object.freeze({ size: 400, center: [0, -28] });
 // Pure water, 1/m, at 650, 550 and 450 nm (Pope and Fry 1997, as tabulated by OMLC).
 export const PURE_WATER_ABSORPTION = Object.freeze([0.34, 0.0565, 0.00922]);
 export const SEA_BANDS = Object.freeze([650, 550, 450]);

@@ -8,7 +8,7 @@ import { OCEAN_WAVES, bindOceanWind, oceanFieldGLSL, oceanRipplesGLSL, sampleOce
 import { createWindParticles } from "./wind-particles.mjs";
 import { coastWind } from "./wind-field.mjs";
 import { createBathymetry } from "./bathymetry.mjs";
-import { LA_JOLLA_WATER, SEA_LEVEL, SUN_SOLID_ANGLE, causticUniforms, seaOpticsGLSL, seawaterIOPs } from "./sea-optics.mjs";
+import { LA_JOLLA_WATER, SEA_LEVEL, SEA_PLANE, SUN_SOLID_ANGLE, causticUniforms, seaOpticsGLSL, seawaterIOPs } from "./sea-optics.mjs";
 
 const SAND_NAME = /beach sand|tideline sand/i;
 // The facets that throw the sun's glints: capillary ripples about 3 cm across (an authored scale).
@@ -71,6 +71,7 @@ vec2 seaWakes(vec2 p, inout float foam) {
 }`;
 import { AMBIENT_FILL, createAtmosphere } from "./atmosphere.mjs";
 import { createStarField } from "./stars.mjs";
+import { createFarField } from "./far-field.mjs";
 
 // Geometry, light, and a procedural sky. No photograph or illustration is
 // placed behind the home. Blender supplies the connected coastal headlands.
@@ -360,7 +361,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   physicalWater.customProgramCacheKey = () => `pacific-optics-v6${seaDebug ? `:${seaDebugMode}` : ""}`;
   const modelWater = new THREE.MeshStandardMaterial({ color: 0x8db9bb, roughness: 0.95 });
   const printWater = new THREE.MeshToonMaterial({ color: 0x287b8a });
-  const waterGeometry = new THREE.PlaneGeometry(400, 400, 160, 160);
+  const waterGeometry = new THREE.PlaneGeometry(SEA_PLANE.size, SEA_PLANE.size, 160, 160);
   waterGeometry.rotateX(-Math.PI / 2);
   // Concentrate vertices near the inhabited coast without growing a uniform
   // high-resolution grid over all 400 meters of the distant sea.
@@ -373,7 +374,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   }
   waterGeometry.computeBoundingSphere();
   const ocean = new THREE.Mesh(waterGeometry, modelWater);
-  ocean.position.set(0, -7.35, -28);
+  ocean.position.set(SEA_PLANE.center[0], SEA_LEVEL, SEA_PLANE.center[1]);
   ocean.receiveShadow = true;
   // The normal-depth override does not run this material's wave displacement.
   // Its flat mesh would create false animal contacts up to 26 cm away from
@@ -444,8 +445,12 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   const sky = new THREE.Mesh(new THREE.SphereGeometry(120, 40, 24), skyMaterial);
   sky.name = "Coastal sky dome";
   sky.frustumCulled = false;
-  sky.renderOrder = -10;
+  // Last of the opaque draws, on the far plane (atmosphere.mjs skyVertex): the dome, which now marches
+  // the far land, shades only the pixels nothing else covers.
+  sky.renderOrder = 900;
   root.add(sky);
+  // The land past the modelled world, ray-marched in the dome (far-field.mjs).
+  const farField = createFarField(renderer, atmosphere.uniforms);
   // The catalogue's stars over the dome (stars.mjs), placed for the actual minute and seen as the eye
   // sees them through the coast's air and its suburban sky glow; they twinkle on the ocean's clock.
   const starField = createStarField(atmosphere, { clock: time });
@@ -706,6 +711,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     });
     [physicalWater, modelWater, printWater, capMaterial, printSun.material].forEach((m) => m.dispose());
     starField.dispose();
+    farField.dispose();
     if (!sharedAtmosphere) atmosphere.dispose();
     environment?.dispose();
     pmrem.dispose();
@@ -738,12 +744,14 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     followCamera(position, radius) {
       sky.position.copy(position);
       sky.scale.setScalar(radius / 120);
+      farField.setEye(position.y);
     },
     pick: (raycaster) => wildlife.pick?.(raycaster) || null,
     neighbours: () => wildlife.targets?.() || [],
     neighbour: (id) => wildlife.target?.(id) || null,
     evidence: () => ({
       atmosphere: atmosphere.evidence(),
+      farField: farField.evidence(),
       stars: starField.evidence(),
       wildlife: wildlife.evidence(),
       beachWidth: beach.width,
@@ -794,8 +802,15 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     },
     // Read the seabed from the coast's geometry (bathymetry.mjs): the coast now, before the first
     // frame; the hinterland's coves later without waiting on the GPU (`done` runs once it lands).
-    captureSeabed: (roots) => bathymetry.capture(roots),
-    captureSeabedAsync: (roots, done) => bathymetry.captureAsync(roots, done),
+    captureSeabed: (roots) => {
+      farField.captureNear(roots, false);
+      return bathymetry.capture(roots);
+    },
+    captureSeabedAsync: (roots, done) => {
+      // The modelled land, seen from above, becomes the far field's near land (far-field.mjs).
+      farField.captureNear(roots, true);
+      return bathymetry.captureAsync(roots, done);
+    },
     // Beach sand stops casting sun shadows: it lies within a shadow-map texel of the shallow water
     // over it and shaded that water in straight-edged patches.
     quietSand(root) {

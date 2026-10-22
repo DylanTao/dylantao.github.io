@@ -776,8 +776,10 @@ systems:
           `realism.mjs` gained the haze option and a depth texture on its multisampled target). `atmoHazeDepth` integrates
           the layer exactly along each ray (a 1,400 m mean free path at sea level and a 30 m scale height), and
           `atmoHazeSource` lights it with the sky a little above the horizon in the ray's azimuth, so the haze converges to
-          the horizon colour the dome shows there. Between the far view's fog distances, surfaces blend into `atmoDome`, the
-          dome's own colour along the ray. Three's linear fog stays defined so programs keep their keys and the sea mirror
+          the horizon colour the dome shows there. Since October 22 the layer reaches past the sea horizon, so sky and sea
+          meet in a soft band, and each surface blends, before it ends, into `atmoDome`, the dome's own colour along the
+          ray, which now carries the far field's land (the next technique): the land from 60 % of the far plane to 95 %,
+          the sea before the 400 m plane's edge along each ray. Three's linear fog stays defined so programs keep their keys and the sea mirror
           keeps a haze; the pass sets it aside for the beauty pass and restores the far view's distances for the evidence.
         files:
           - path: assets/js/home-scene/haze.mjs
@@ -800,6 +802,54 @@ systems:
           - One exponential layer with no horizontal structure beyond the marine fog; reflections in the sea mirror take three's linear fog instead.
           - Transparent surfaces (glass, the steam, particles) take the haze of what lies behind them.
         next: []
+      - id: far-field
+        name: Land past the modelled world
+        status: shipped
+        since: "2026-10-22"
+        what: >-
+          Past the modelled mainland, hinterland and sea, the dome carries the land on to the horizon: the mesa keeps
+          rising inland, the coast keeps its line north and south, and the camera's parallax moves the near land
+          against the far as it zooms, where a flat sea-coloured wall with a hard line at the horizon used to stand.
+        how: >-
+          `createFarField` in `far-field.mjs` draws the mainland and the hinterland once from above into two half-float
+          targets (2.2 m cells over 1.4 by 1.0 km): the top surface's height and kind, and the planting's cover, with
+          coverage in alpha so the coast's edge keeps its height. Beyond them a 320 × 320 map over 64 km, its cells
+          growing with distance (x = S u|u|), is built on the CPU in short tasks from the hinterland's own regional
+          surface (`hinterlandBaseHeight`, ported exactly from `bin/coastal_hinterland.py`), continued past its edges
+          (`regionalHeight`, `coastLine`). `farMarch` walks each dome ray through that heightfield from the camera with
+          steps between 3.5 % of the distance and half the ray's height over the land, with Earth's curvature less 13 %
+          for refraction, then refines the hit by bisection; a ray that starts inside the land (the cave, the
+          reflections' capture point) first walks out. `farLandRadiance` shades the hit like the scene's terrain (sun,
+          moon and sky, soil, chaparral, rock and sand) and fades it into the horizon sky with the air's extinction;
+          the coast's haze then applies over the true distance. The dome draws last of the opaque passes, on the far
+          plane, so only uncovered pixels march, and the stars behind a far hill are hidden by the same march.
+        files:
+          - path: assets/js/home-scene/far-field.mjs
+            role: The capture, the far map, the march and the shading.
+            functions: [createFarField, farFieldUniforms, hinterlandBaseHeight, regionalHeight, coastLine, buildFarMap, farMarch, farLandRadiance]
+          - path: assets/js/home-scene/atmosphere.mjs
+            role: The dome's background, the far sea's night glow and the dome's draw on the far plane.
+            functions: [atmoBackground, atmoDome, atmoFarSea]
+          - path: assets/js/home-scene/haze.mjs
+            role: The dissolve into the far field.
+            functions: [createHaze]
+          - path: assets/js/home-scene/environment.mjs
+            role: The captures and the camera's height.
+            functions: [captureSeabed, captureSeabedAsync, followCamera]
+        tests:
+          - test/far-field.test.mjs
+          - test/visual/desk-scene.spec.js
+        sources: [hillaire2020sky, wronski2014fog]
+        related:
+          - record: homepage-desk-scene
+            techniques: [far-coast-view]
+        limits:
+          - Past the hinterland the land is a smooth regional surface (a 64 km map whose cells are 50 m at 700 m and 400 m at the edge), without canyons, roads or buildings yet.
+          - A heightfield holds no overhangs, so the planting only colours the far land; trees past the far plane are not stood up.
+          - The far land has no cast shadows; slopes facing away from the sun take only the sky.
+        next:
+          - move: Mount Soledad, the inland ridges and arroyos, and the coast's lights at night, in the far map.
+            readiness: ready
       - id: light-in-the-air
         name: Marine fog, shafts and sunbeams
         status: shipped

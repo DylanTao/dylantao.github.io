@@ -16,6 +16,7 @@ import {
   transmittanceToTop,
   weatherFor,
 } from "./atmosphere-model.mjs";
+import { farFieldGLSL, farFieldUniforms } from "./far-field.mjs";
 
 // The coast's sky, sun, moon and haze on the GPU (atmosphere-model.mjs holds the physics and its
 // tests). Three small tables, after Hillaire 2020: the transmittance of every ray to space (256×64,
@@ -59,9 +60,11 @@ export const AMBIENT_FILL = 1.7;
 // with their light conserved: the sun's disc radiance falls by the square of the enlargement.
 export const DISC_RADIUS = 0.75 * DEG;
 // The coast's own haze, denser than the open atmosphere's: sea-salt aerosol in the marine layer,
-// about 5.5 km visibility at the waterline, thinning with a 30 m scale height up the bluffs; it
-// reaches 2.4 km from the eye, past which the scattering atmosphere carries the distance.
-export const HAZE = Object.freeze({ density: 1 / 1400, scaleHeight: 30, range: 2400, albedo: 0.95 });
+// about 5.5 km visibility at the waterline, thinning with a 30 m scale height up the bluffs. It
+// reaches past the sea horizon (25 km), so a ray grazing the water goes milky on both sides of the
+// horizon and the sky meets the sea in a soft band instead of a line; a ray even a few degrees up
+// leaves the thin layer within a few hundred metres.
+export const HAZE = Object.freeze({ density: 1 / 1400, scaleHeight: 30, range: 25000, albedo: 0.95 });
 
 const glslFloat = (x) => (Number.isInteger(x) ? `${x}.0` : String(x));
 const glslVec3 = (v) => `vec3(${v.map(glslFloat).join(",")})`;
@@ -437,6 +440,9 @@ vec3 atmoApplyHaze(vec3 color, vec3 d, float heightM, float len, float sunVisibi
   float transmittance = exp(-atmoHazeDepth(heightM, d.y, len));
   return color * transmittance + (1.0 - transmittance) * atmoHazeSource(d, sunVisibility);
 }
+#ifdef ATMO_FAR_FIELD
+${farFieldGLSL}
+#endif
 // The Pacific out to the horizon: the sky's reflection by Fresnel, the deep water's own light, and
 // the sun's and moon's glitter from Cox and Munk's isotropic slope distribution.
 float atmoGlint(vec3 d, vec3 light, float cosV) {
@@ -459,15 +465,33 @@ vec3 atmoFarSea(vec3 d, float heightKm, out float distanceM) {
   glitter /= 1.0 + dot(glitter, vec3(0.2126, 0.7152, 0.0722)) / 2.0;
   vec3 surface = fresnel * sky + (1.0 - fresnel) * water + glitter;
   vec4 view = texture2D(atmoSkyView, atmoSkyViewUv(d, atmoSun));
-  return surface * view.a + view.rgb * atmoScale;
+  // The night's glow lies in the air between the eye and the far water as it does above the horizon
+  // (the dome adds it to the sky unattenuated), so the sea at the horizon takes the sky's own night
+  // colour instead of a darker band under it.
+  return surface * view.a + view.rgb * atmoScale + atmoNightHorizon * (1.0 - view.a);
 }
-// What lies at infinity along d for an eye heightM over the sea: the sky, or the sea beyond the
-// modelled water. hazeLength is how far the coast's haze reaches along d; sky is 1 above the horizon.
-vec3 atmoBackground(vec3 d, float heightM, out float hazeLength, out float sky) {
+// What lies beyond the modelled world along d for an eye at eye, heightM over the sea: the land
+// past it (far-field.mjs, when land is set and the shader defines ATMO_FAR_FIELD), the sky, or the sea
+// beyond the modelled water. hazeLength is how far the coast's haze reaches along d; sky is 1
+// where nothing but air lies ahead.
+vec3 atmoBackground(vec3 eye, vec3 d, float heightM, bool land, out float hazeLength, out float sky) {
   float heightKm = heightM * 0.001;
   float dip = sqrt(2.0 * heightKm / ATMO_BOTTOM);
   hazeLength = atmoHaze.z;
   sky = d.y >= -dip ? 1.0 : 0.0;
+#ifdef ATMO_FAR_FIELD
+  if (land) {
+    // The land is met before the sea's horizon distance (and before 60 km above it).
+    float b = (ATMO_BOTTOM + heightKm) * d.y, c = heightKm * (2.0 * ATMO_BOTTOM + heightKm);
+    float seaKm = sky > 0.5 ? 60.0 : -b - sqrt(max(b * b - c, 0.0));
+    float t = farMarch(eye, d, seaKm * 1000.0);
+    if (t > 0.0) {
+      sky = 0.0;
+      hazeLength = min(atmoHaze.z, t);
+      return farLandRadiance(eye, d, t);
+    }
+  }
+#endif
   vec3 color;
   if (sky > 0.5) {
     color = atmoSkyRadiance(d);
@@ -488,10 +512,10 @@ vec3 atmoBackground(vec3 d, float heightM, out float hazeLength, out float sky) 
   }
   return color;
 }
-// The dome's colour along d, hazed: what a dissolving distant object gives way to.
-vec3 atmoDome(vec3 d, float heightM) {
+// The dome's colour along d from eye, hazed: what a dissolving distant object gives way to.
+vec3 atmoDome(vec3 eye, vec3 d, float heightM) {
   float len, sky;
-  vec3 color = atmoBackground(d, heightM, len, sky);
+  vec3 color = atmoBackground(eye, d, heightM, true, len, sky);
   return atmoApplyHaze(color, d, heightM, len, 1.0);
 }
 `;
@@ -501,10 +525,13 @@ varying vec3 atmoDirection;
 void main() {
   atmoDirection = (modelMatrix * vec4(position, 1.0)).xyz - cameraPosition;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  // On the far plane: drawn after the opaque scene, the dome shades only the pixels nothing covers.
+  gl_Position.z = gl_Position.w;
 }`;
 
 const skyFragment = `
 precision highp float;
+#define ATMO_FAR_FIELD
 uniform float atmoCapture, atmoMirror, atmoSunSquash;
 uniform vec3 atmoSunCentre, atmoMoonSun;
 uniform vec4 atmoSunDisc, atmoMoonDisc;
@@ -558,7 +585,8 @@ void main() {
   vec3 d = normalize(atmoDirection);
   float heightM = max(1.0, cameraPosition.y - ${glslFloat(SEA_LEVEL)});
   float len, sky;
-  vec3 color = atmoBackground(d, heightM, len, sky);
+  // The sea mirror keeps the far land out (its camera is under the water).
+  vec3 color = atmoBackground(cameraPosition, d, heightM, atmoMirror < 0.5, len, sky);
   if (sky > 0.5 && atmoCapture < 0.5) {
     float heightKm = heightM * 0.001;
     color += atmoMoonRadiance(d, heightKm);
@@ -656,6 +684,8 @@ export function createAtmosphere(renderer, { site = { latitude: 32.83, longitude
     atmoHazeAway: { value: new THREE.Vector3() },
     atmoCapture: { value: 0 },
     atmoMirror: { value: 0 },
+    // The land past the modelled world (far-field.mjs fills these in).
+    ...farFieldUniforms(),
   };
   const transmittanceMaterial = pass(transmittanceFragment, { atmoSteps: { value: 96 } }),
     multipleMaterial = pass(multipleFragment, {

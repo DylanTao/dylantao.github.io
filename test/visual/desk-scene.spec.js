@@ -1171,6 +1171,70 @@ test("coastal sky: catalogue stars are few and round at night, steady under redu
   expect(errors).toEqual([]);
 });
 
+// The world's edge (far-field.mjs, haze.mjs): past the modelled land and sea the dome carries the land
+// on, so the coast view's top is mesa, not a flat sea-coloured wall, and the sea meets the night sky in
+// a soft band instead of a line.
+test("coastal horizon: the land continues past the modelled world and the sea meets the night sky without a line", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", time: "2026-10-21T13:30:00-07:00" });
+  await settleRoomModels(scene);
+  await pauseSceneClock(page);
+  await useSoftwareSceneCadence(page);
+  await explore(ui);
+  await ui.locator('[data-world-room="outside"]').click();
+  await canvas.scrollIntoViewIfNeeded();
+  // The far field's map is built in short tasks and the modelled land captured once the hinterland is in.
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(500);
+        const far = (await evidence(scene)).ecology.farField;
+        return Boolean(far?.far?.ready && far?.near?.complete);
+      },
+      { timeout: 120000 }
+    )
+    .toBe(true);
+  const mean = (buffer, [x0, x1], [y0, y1]) => {
+    const { width, height, data } = PNG.sync.read(buffer),
+      sum = [0, 0, 0];
+    let count = 0;
+    for (let y = Math.round(height * y0); y < Math.round(height * y1); y++)
+      for (let x = Math.round(width * x0); x < Math.round(width * x1); x++) {
+        const i = (y * width + x) * 4;
+        for (let c = 0; c < 3; c++) sum[c] += data[i + c];
+        count++;
+      }
+    return sum.map((v) => v / count);
+  };
+  // By day, low over the sea and looking inland from 160 m out: above the modelled mesa the land goes on
+  // (sandy, red above blue), where the dome's open sea and haze once made a blue-grey wall.
+  await scene.evaluate((element) => element.setLabCamera({ target: [3, 4, -6], yaw: 3.4, pitch: 0.1, radius: 160 }));
+  await page.clock.runFor(1400);
+  const day = await canvas.screenshot();
+  await capture(testInfo, "far-land-day", day);
+  const above = mean(day, [0.55, 0.85], [0.3, 0.36]);
+  expect(above[0]).toBeGreaterThan(above[2]);
+  // At night, from the terrace out to sea: no row-to-row step across the horizon stands out.
+  await ui.locator("[data-world-time]").fill("1290");
+  await scene.evaluate((element) => element.setLabCamera({ target: [3, 1.5, -40], yaw: 0.02, pitch: 0.06, radius: 34 }));
+  await page.clock.runFor(1400);
+  const night = await canvas.screenshot();
+  await capture(testInfo, "night-horizon", night);
+  const { width, height, data } = PNG.sync.read(night),
+    rows = [];
+  for (let y = Math.round(height * 0.2); y < Math.round(height * 0.8); y++) {
+    let sum = 0;
+    for (let x = Math.round(width * 0.3); x < Math.round(width * 0.7); x++) {
+      const i = (y * width + x) * 4;
+      sum += 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+    }
+    rows.push(sum / (Math.round(width * 0.7) - Math.round(width * 0.3)));
+  }
+  const sharpest = Math.max(...rows.slice(1).map((v, i) => Math.abs(v - rows[i])));
+  expect(sharpest).toBeLessThan(9);
+  expect(errors).toEqual([]);
+});
+
 test("coastal physics: the study label transfers only above contact and keeps the newest album", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const { scene, canvas, ui } = await openHome(page, { motion: "no-preference" });
