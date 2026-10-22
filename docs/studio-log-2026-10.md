@@ -492,3 +492,12 @@ Cards from the scene environment pass (Sirui, 2026-10-19 to 22: the seam between
 - **Backtalk:** In a person's browser the race was running four seconds after the panels scrolled into view, with Pause and Start over live and the chart drawing; reduced motion and plain automation stayed on the still frames with "Run the race". The existing pause still waits until the whole lab has left the viewport, so scrolling back to the opening while part of the lab is visible keeps it running.
 - **Reframe:** If the minute of two busy threads proves too much on laptops on battery, the Battery Status API is the next guard, not a return to press-to-start.
 - **Concept:** WCAG 2.2 success criterion 2.2.2 (Pause, Stop, Hide) asks that motion that starts by itself and lasts more than five seconds can be paused; the race already pauses itself after a minute, offscreen and in hidden tabs, and its one button pauses it at any moment.
+
+### P7. A date on its note's line
+
+- **Frame:** On /news/ each date sat about 3 px above the first line of its note: the bold, smaller date and the note started at the same top edge instead of the same baseline.
+- **Dimensions:** vertical alignment of a two-column timeline row (top edge against first baseline) at two type sizes.
+- **Move:** `.news-timeline-item` in `_sass/_components.scss` aligns its columns on the first baseline; the timeline rail and its dot move with the note.
+- **Backtalk:** At 1,440 and 390 px the dates now read as labels of their first lines; the homepage's "Lately." rows already did this (card P5).
+- **Reframe:** Nothing further; the rail's dot still marks the first line.
+- **Concept:** CSS Box Alignment (W3C, `align-items: baseline`) aligns grid items by their first baselines, the typographic line a reader's eye follows across a row, instead of their boxes.

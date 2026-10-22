@@ -3169,6 +3169,8 @@ html[data-theme="dark"] {
   display: grid;
   gap: 0.9rem;
   grid-template-columns: minmax(6.1rem, 0.18fr) minmax(0, 1fr);
+  // The date sits on its note's first line, not a few pixels above it (2026-10-22).
+  align-items: baseline;
 
   time {
     color: var(--global-text-color);
