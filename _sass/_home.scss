@@ -2822,7 +2822,10 @@ html[data-theme="dark"] .home-artifact-mark {
   margin-bottom: 0.5rem;
 }
 
+// The list is as wide as its entries (figure column, gap and reading measure), so the dividers
+// end where the words do instead of running across a 2,000 px window.
 .home-publications-wrap .publications {
+  max-width: 61rem;
   margin-top: 1.25rem;
 }
 

@@ -136,24 +136,29 @@ systems:
         name: Pixels at display size
         status: shipped
         since: "2026-10-12"
-        what: Pages request WebP variants sized to how large each image is actually shown, and long GIFs become posters that play on request.
+        what: Pages request WebP variants sized to how large each image is actually shown, and long GIFs become small muted videos that play while they are on screen.
         how: >-
           `_includes/responsive_variant.liquid` prints the URL of the 480, 800 or 1400-pixel WebP variant that the build's
           ImageMagick step generates, for gallery slides, thumbnails and teasers. The homepage record art points to 800 px
-          variants with the originals as a fallback. `bin/make_gif_posters.py` writes a first-frame poster for each animated
-          publication preview, and `_layouts/bib.liquid` shows the poster with a "Play the animation" control, which also
-          serves reduced-motion visitors without a special case.
+          variants with the originals as a fallback. `bin/make_preview_media.py` writes a first-frame poster and a muted,
+          looping H.264 video (560 px wide, a few percent of the GIF) for each animated publication preview.
+          `_layouts/bib.liquid` lays the video over the poster, and `assets/js/preview-motion.mjs` plays it while a quarter
+          of it is on screen, with a pause control in its corner (Sirui, 2026-10-19: just play it). Reduced motion,
+          Save-Data and pages without JavaScript keep the poster.
         files:
           - path: _includes/responsive_variant.liquid
             role: One WebP variant URL per raster.
-          - path: bin/make_gif_posters.py
-            role: First-frame posters for animated previews.
+          - path: bin/make_preview_media.py
+            role: First-frame posters and looping videos for animated previews.
           - path: _layouts/bib.liquid
-            role: Poster, zoom and play on request.
+            role: Poster, zoom and the video laid over it.
+          - path: assets/js/preview-motion.mjs
+            role: Plays a preview while it is on screen; the pause control.
           - path: assets/js/home.js
             role: Record art from 800 px variants with fallbacks.
         tests:
           - test/test_publication_previews.py
+          - test/preview-motion.test.mjs
         sources: [wcag-pause-stop-hide]
         limits:
           - Local builds without ImageMagick 404 on variants that only CI generates; pages fall back to the originals.

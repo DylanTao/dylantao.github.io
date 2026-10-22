@@ -1832,60 +1832,17 @@ html[data-theme="dark"] .scholar-lens-card {
         opacity: 1;
       }
 
+      // A research figure on white stock: one hairline where the tone cannot draw its edge, no
+      // resting shadow (the 2026-10 flat content layer, docs/material-lite-revamp.md).
       .preview {
         display: block;
         width: 100%;
-        max-width: 15rem;
-        border: 1px solid color-mix(in srgb, var(--global-divider-color) 82%, transparent);
+        max-width: var(--publication-figure-width, 15rem);
+        border: 1px solid var(--md-lite-outline-variant, color-mix(in srgb, var(--global-divider-color) 82%, transparent));
         border-radius: var(--md-lite-radius-md);
         background: color-mix(in srgb, var(--global-card-bg-color) 90%, var(--global-bg-color));
+        box-shadow: none;
         object-fit: contain;
-      }
-
-      .abbr {
-        display: grid;
-        gap: 0.42rem;
-        align-content: start;
-        margin-bottom: 0.5rem;
-
-        figure {
-          width: 100%;
-          max-width: 15rem;
-          margin: 0;
-        }
-
-        picture {
-          display: block;
-        }
-
-        abbr {
-          display: inline-block;
-          background-color: var(--md-lite-state-muted) !important;
-          border: 1px solid rgba(var(--global-accent-rgb), 0.22);
-          border-radius: var(--md-lite-radius-sm);
-          margin-bottom: 0.5rem;
-          color: var(--global-theme-color) !important;
-          font-family: var(--font-mono);
-          font-weight: 600;
-
-          a {
-            color: var(--global-theme-color);
-
-            &:hover {
-              text-decoration: none;
-            }
-          }
-        }
-
-        abbr.badge {
-          background-color: rgba(var(--global-accent-rgb), 0.1) !important;
-          color: var(--global-theme-color) !important;
-        }
-
-        .award {
-          color: var(--global-theme-color) !important;
-          border: 1px solid var(--global-theme-color);
-        }
       }
 
       .title {
@@ -2029,10 +1986,24 @@ html[data-theme="dark"] .scholar-lens-card {
   }
 }
 
+// One entry, one unit (2026-10-19, _layouts/bib.liquid). The preview keeps a column at the size it
+// is shown, never a quarter of a wide page (at a 2560 px window the old 25% column was 482 px for a
+// 240 px figure); the venue leads the chips row; the words keep a reading measure however wide the
+// window. Phones stack the figure above the words, both on the section heading's edge.
 .publication-lens-entry {
+  --publication-figure-width: 15rem;
+  --publication-measure: 44rem;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  // The selected and linked states draw a 3 px rule and a tint just outside the words, so the
+  // entry's content keeps the heading's left edge.
+  margin-right: 0;
+  margin-left: calc(-0.7rem - 3px);
   border-left: 3px solid transparent;
   border-radius: var(--md-lite-radius-md);
-  margin-left: -0.7rem;
   padding-left: 0.7rem;
   transition:
     background-color var(--motion-standard),
@@ -2045,35 +2016,182 @@ html[data-theme="dark"] .scholar-lens-card {
   }
 }
 
+.publication-figure,
+.publication-body {
+  min-width: 0;
+}
+
+.publication-figure {
+  figure {
+    width: 100%;
+    max-width: var(--publication-figure-width);
+    margin: 0;
+  }
+
+  picture {
+    display: block;
+  }
+}
+
+.publication-body > * {
+  max-width: var(--publication-measure);
+}
+
+@media (min-width: 576px) {
+  .publication-lens-entry.has-preview {
+    grid-template-columns: min(var(--publication-figure-width), 32%) minmax(0, 1fr);
+    column-gap: clamp(1rem, 2.4vw, 1.75rem);
+  }
+}
+
+// Metadata reads as quiet tonal labels, apart from the outlined links below that act. The venue
+// is the one accented label: where the work was accepted is the first thing a reader checks.
 .publication-lens-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.32rem;
-  margin-bottom: 0.35rem;
+  gap: 0.3rem;
+  margin-bottom: 0.4rem;
 }
 
 .publication-lens-chip {
   display: inline-flex;
   align-items: center;
-  min-height: 1.3rem;
-  border: 1px solid var(--global-divider-color);
-  border-radius: var(--md-lite-radius-pill);
-  background: color-mix(in srgb, var(--global-card-bg-color) 86%, var(--md-lite-state-muted));
-  color: var(--global-text-color-light);
+  min-height: 1.35rem;
+  border: 0;
+  border-radius: var(--md-lite-shape-full, 999px);
+  background: var(--md-lite-surface-container, color-mix(in srgb, var(--global-card-bg-color) 86%, var(--md-lite-state-muted)));
+  color: var(--md-lite-on-surface-variant, var(--global-text-color-light));
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.68rem;
   font-weight: 600;
   line-height: 1.1;
-  padding: 0.2rem 0.4rem;
+  padding: 0.22rem 0.5rem;
+  text-decoration: none;
 }
 
-.publication-lens-chip-type {
-  border-color: color-mix(in srgb, var(--global-theme-color) 28%, var(--global-divider-color));
-  color: var(--global-theme-color);
+.publication-lens-chip-venue {
+  background: var(--md-lite-tonal, rgba(var(--global-accent-rgb), 0.1));
+  color: var(--md-lite-on-tonal, var(--global-theme-color));
+  letter-spacing: 0.01em;
+
+  abbr {
+    border: 0;
+    text-decoration: none;
+  }
+}
+
+a.publication-lens-chip-venue:hover,
+a.publication-lens-chip-venue:focus-visible {
+  background: color-mix(
+    in srgb,
+    var(--md-lite-on-tonal, var(--global-theme-color)) var(--md-lite-state-hover-opacity, 8%),
+    var(--md-lite-tonal, transparent)
+  );
+  color: var(--md-lite-on-tonal, var(--global-theme-color));
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+a.publication-lens-chip-venue:focus-visible {
+  outline: var(--md-lite-focus-ring);
+  outline-offset: 2px;
 }
 
 .publication-lens-chip-format {
-  opacity: 0.78;
+  opacity: 0.82;
+}
+
+// An animated preview plays by itself while it is on screen (assets/js/preview-motion.mjs). The
+// poster underneath stays the picture: its alt text, its zoom into the original GIF, and all that
+// reduced-motion and Save-Data visitors see until they press play. The video lies exactly over it
+// and appears only once it is actually playing a frame.
+.preview-motion {
+  position: relative;
+  width: 100%;
+  max-width: var(--publication-figure-width, 15rem);
+}
+
+.preview-motion-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--md-lite-outline-variant, var(--global-divider-color));
+  border-radius: var(--md-lite-radius-md);
+  // Transparent, so a browser that reports playing before it paints a frame still shows the poster.
+  background: transparent;
+  cursor: zoom-in;
+  object-fit: contain;
+}
+
+.preview-motion-video[hidden] {
+  display: none;
+}
+
+// The pause control floats over the figure, so it is the one translucent piece here: a small round
+// glass button in the corner, quiet until the pointer or focus reaches the figure.
+.preview-motion-toggle {
+  position: absolute;
+  right: 0.4rem;
+  bottom: 0.4rem;
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  padding: 0;
+  border: 1px solid var(--md-lite-glass-rim, rgba(255, 255, 255, 0.4));
+  border-radius: var(--md-lite-shape-full, 999px);
+  background: color-mix(in srgb, var(--md-lite-glass-solid, #fff) 72%, transparent);
+  box-shadow: var(--md-lite-glass-shadow, 0 0.3rem 0.8rem rgba(0, 0, 0, 0.18));
+  color: var(--md-lite-on-surface, var(--global-text-color));
+  cursor: pointer;
+  opacity: 0.86;
+  -webkit-backdrop-filter: blur(var(--md-lite-glass-blur, 12px)) saturate(var(--md-lite-glass-saturate, 1.6));
+  backdrop-filter: blur(var(--md-lite-glass-blur, 12px)) saturate(var(--md-lite-glass-saturate, 1.6));
+  transition:
+    opacity var(--motion-standard),
+    transform var(--spring-confident-duration, 320ms) var(--spring-confident, ease-out);
+
+  // Pause: two bars. Play: a triangle. Drawn in CSS so the glyph follows the theme's ink.
+  &::before {
+    width: 0.62rem;
+    height: 0.62rem;
+    background: currentColor;
+    clip-path: polygon(0 0, 34% 0, 34% 100%, 0 100%, 0 0, 66% 0, 100% 0, 100% 100%, 66% 100%, 66% 0);
+    content: "";
+  }
+
+  &[aria-pressed="false"]::before {
+    clip-path: polygon(18% 0, 100% 50%, 18% 100%);
+  }
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+.preview-motion-gif {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  color: var(--global-text-color-light);
+  font-size: var(--type-meta);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preview-motion-toggle {
+    transition: none;
+  }
 }
 
 .publication-why-cite {

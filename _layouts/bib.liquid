@@ -30,8 +30,19 @@
   {% when 'coauthor' %}
     {% assign publication_role_label = 'Coauthor' %}
 {% endcase %}
+{% comment %}
+  One entry, one unit (2026-10-19): the preview keeps a column at the size it is shown, the venue
+  rides first in the chips row with the paper's type, role and citations (one chip style instead of
+  a stretched venue bar), and the words keep a reading measure (_sass/_publications.scss). The
+  entry is a grid of two named areas, not Bootstrap's 25%/75% columns, so a wide window can no
+  longer push the words a quarter of the page away from their figure.
+{% endcomment %}
+{% assign entry_has_preview = false %}
+{% if site.enable_publication_thumbnails and entry.preview %}
+  {% assign entry_has_preview = true %}
+{% endif %}
 <article
-  class="row publication-lens-entry"
+  class="publication-lens-entry{% if entry_has_preview %} has-preview{% endif %}"
   data-publication-key="{{ entry.key }}"
   data-publication-type="{{ publication_work_type }}"
   data-publication-group="{{ publication_work_group }}"
@@ -39,38 +50,28 @@
   data-publication-citations="{{ publication_citations }}"
   data-entry
 >
-  {% if site.enable_publication_thumbnails %}
-    <div class="col col-sm-3 abbr">
-      {%- if entry.abbr -%}
-        {%- if site.data.venues[entry.abbr] -%}
-          <abbr class="badge rounded w-100">
-            {% if site.data.venues[entry.abbr].url %}
-              <a href="{{ site.data.venues[entry.abbr].url }}">{{ entry.abbr }}</a>
-            {% else %}
-              <div>{{- entry.abbr -}}</div>
-            {% endif %}
-          </abbr>
-        {% else %}
-          <abbr class="badge rounded w-100">{{ entry.abbr }}</abbr>
-        {% endif %}
-      {% endif %}
-      {% if entry.preview %}
-        {% assign preview_title = entry.title | remove: '{' | remove: '}' | strip %}
-        {% capture preview_alt %}Preview figure for {{ preview_title }}{% endcapture %}
-        {% assign preview_alt = preview_alt | escape %}
-        {% if entry.preview contains '://' %}
-          <img class="preview z-depth-1 rounded" src="{{ entry.preview }}" alt="{{ preview_alt }}" loading="lazy" decoding="async">
-        {% else %}
-          {% comment %}
-            Previews use CI's responsive WebP variants at their 280px size and zoom into the original.
-            Animated previews show a still first frame (bin/make_gif_posters.py); the untouched GIF
-            plays only when a visitor zooms or presses the play link (which opens the same zoom, or
-            the GIF itself without JavaScript), keeping megabytes of animation off listing pages.
-          {% endcomment %}
-          {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' %}
-          {% assign preview_ext = entry.preview | split: '.' | last | downcase %}
-          {% if preview_ext == 'gif' %}
-            {% assign poster_path = entry_path | replace: '.gif', '-poster.png' %}
+  {% if entry_has_preview %}
+    <div class="publication-figure">
+      {% assign preview_title = entry.title | remove: '{' | remove: '}' | strip %}
+      {% capture preview_alt %}Preview figure for {{ preview_title }}{% endcapture %}
+      {% assign preview_alt = preview_alt | escape %}
+      {% if entry.preview contains '://' %}
+        <img class="preview z-depth-1 rounded" src="{{ entry.preview }}" alt="{{ preview_alt }}" loading="lazy" decoding="async">
+      {% else %}
+        {% comment %}
+          Previews use CI's responsive WebP variants at their 280px size and zoom into the original.
+          An animated preview plays by itself as a small muted video while it is on screen, with a
+          pause control in its corner (assets/js/preview-motion.mjs). bin/make_preview_media.py
+          writes the video and the first-frame poster; the poster stays the picture underneath (its
+          alt text, its zoom into the original GIF), and it is all that reduced-motion and Save-Data
+          visitors see until they press play. Without JavaScript the GIF is a plain link.
+        {% endcomment %}
+        {% assign entry_path = entry.preview | prepend: '/assets/img/publication_preview/' %}
+        {% assign preview_ext = entry.preview | split: '.' | last | downcase %}
+        {% if preview_ext == 'gif' %}
+          {% assign poster_path = entry_path | replace: '.gif', '-poster.png' %}
+          {% assign video_path = entry_path | replace: '.gif', '.mp4' %}
+          <div class="preview-motion" data-preview-motion>
             {%
               include figure.liquid
               loading="lazy"
@@ -81,40 +82,62 @@
               zoom_src=entry_path
               alt=preview_alt
             %}
-            <a
-              class="preview-animation-link"
-              href="{{ entry_path | relative_url }}"
-              onclick="var poster = this.parentElement.querySelector('img.medium-zoom-image'); if (poster) { event.preventDefault(); poster.click(); }"
+            <video
+              class="preview-motion-video"
+              muted
+              loop
+              playsinline
+              disablepictureinpicture
+              preload="none"
+              poster="{% include responsive_variant.liquid path=poster_path width=480 %}"
+              aria-hidden="true"
+              tabindex="-1"
+              hidden
             >
-              Play the animation
-            </a>
-          {% else %}
-            {%
-              include figure.liquid
-              loading="lazy"
-              path=entry_path
-              sizes="280px"
-              class="preview z-depth-1 rounded"
-              zoomable=true
-              zoom_src=entry_path
-              alt=preview_alt
-            %}
-          {% endif %}
+              <source src="{{ video_path | relative_url }}" type="video/mp4">
+            </video>
+            <noscript>
+              <a class="preview-motion-gif" href="{{ entry_path | relative_url }}">Open the animation (GIF)</a>
+            </noscript>
+          </div>
+          <script type="module" src="{{ '/assets/js/preview-motion.mjs' | relative_url | bust_file_cache }}"></script>
+        {% else %}
+          {%
+            include figure.liquid
+            loading="lazy"
+            path=entry_path
+            sizes="280px"
+            class="preview z-depth-1 rounded"
+            zoomable=true
+            zoom_src=entry_path
+            alt=preview_alt
+          %}
         {% endif %}
       {% endif %}
     </div>
   {% endif %}
 
   <!-- Entry bib key -->
-  <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-9{% else %}col-sm-10{% endif %}">
-    {% if publication_lens_entry %}
-      <div class="publication-lens-chips" aria-label="Publication type and role">
-        <span class="publication-lens-chip publication-lens-chip-type">{{ publication_type_label }}</span>
-        {% if publication_format_label %}
-          <span class="publication-lens-chip publication-lens-chip-format">{{ publication_format_label }}</span>
+  <div id="{{ entry.key }}" class="publication-body">
+    {% if publication_lens_entry or entry.abbr %}
+      <div class="publication-lens-chips" aria-label="Venue, publication type and role">
+        {%- if entry.abbr -%}
+          {%- if site.data.venues[entry.abbr].url -%}
+            <a class="publication-lens-chip publication-lens-chip-venue" href="{{ site.data.venues[entry.abbr].url }}"
+              ><abbr>{{ entry.abbr }}</abbr></a
+            >
+          {%- else -%}
+            <abbr class="publication-lens-chip publication-lens-chip-venue">{{ entry.abbr }}</abbr>
+          {%- endif -%}
+        {%- endif -%}
+        {% if publication_lens_entry %}
+          <span class="publication-lens-chip publication-lens-chip-type">{{ publication_type_label }}</span>
+          {% if publication_format_label %}
+            <span class="publication-lens-chip publication-lens-chip-format">{{ publication_format_label }}</span>
+          {% endif %}
+          <span class="publication-lens-chip publication-lens-chip-role">{{ publication_role_label }}</span>
+          <span class="publication-lens-chip publication-lens-chip-citations" data-publication-citation-chip>{{ publication_citations }} cites</span>
         {% endif %}
-        <span class="publication-lens-chip publication-lens-chip-role">{{ publication_role_label }}</span>
-        <span class="publication-lens-chip publication-lens-chip-citations" data-publication-citation-chip>{{ publication_citations }} cites</span>
       </div>
     {% endif %}
     <!-- Title -->
@@ -423,7 +446,8 @@
           <a href="{{ entry.slides | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">Slides</a>
         {% endif %}
       {% endif %}
-      {% if entry.website %}
+      {% comment %} The title already opens the website when there is no separate HTML page; one link per destination. {% endcomment %}
+      {% if entry.website and entry_title_url != entry.website %}
         <a href="{{ entry.website }}" class="btn btn-sm z-depth-0" role="button">Website</a>
       {% endif %}
     </div>

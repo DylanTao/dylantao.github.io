@@ -280,31 +280,7 @@
   }
 }
 
-// Animated publication previews show a still first frame; this link plays the original GIF.
-.preview-animation-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  min-height: 2.75rem;
-  margin-top: 0.15rem;
-  color: var(--global-text-color-light);
-  font-size: var(--type-meta);
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
-}
-
-.preview-animation-link::before {
-  width: 0.5em;
-  height: 0.58em;
-  background: currentColor;
-  clip-path: polygon(0 0, 100% 50%, 0 100%);
-  content: "";
-}
-
-.preview-animation-link:hover,
-.preview-animation-link:focus-visible {
-  color: var(--global-theme-color);
-}
+// Animated publication previews play by themselves now, with a pause control (_sass/_publications.scss).
 
 // The collapsible BibTeX panel hides its overflow for the open/close transition, which clipped long
 // fields (titles, author lists, URLs). Wrap them instead so every character stays readable.
