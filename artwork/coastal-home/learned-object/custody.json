@@ -48,5 +48,5 @@
       "matches_worktree": true
     }
   ],
-  "note": "The reference GLB snapshot is byte-identical to the source at the base revision. Browser metrics use genuine trained weights; final formatting and the byte-identical snapshot path do not change rendering. Artwork remains excluded from Jekyll."
+  "note": "The reference GLB snapshot is byte-identical to the source at the base revision. Browser metrics use genuine trained weights; final formatting and the byte-identical snapshot path do not change rendering. Training records retain exact Windows execution-byte hashes; portable source checks permit only LF/CRLF conversion. Artwork remains excluded from Jekyll."
 }

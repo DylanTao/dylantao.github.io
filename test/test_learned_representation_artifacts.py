@@ -22,11 +22,18 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def trainer_digests(path):
+    # Execution records retain their exact Windows bytes. Git stores these
+    # sources as LF; accept only the two corresponding newline encodings.
+    canonical = path.read_bytes().replace(b'\r\n', b'\n')
+    return {hashlib.sha256(canonical).hexdigest(), hashlib.sha256(canonical.replace(b'\n', b'\r\n')).hexdigest()}
+
+
 class LearnedRepresentationArtifacts(unittest.TestCase):
     def test_print_target_and_actual_trainer_are_bound(self):
         report = read(ART / 'learned-print/training.json')
         self.assertEqual(report['source_sha256'], digest(ROOT / report['source']))
-        self.assertEqual(report['trainer_sha256'], digest(ROOT / 'bin/train_coastal_print_field.py'))
+        self.assertIn(report['trainer_sha256'], trainer_digests(ROOT / 'bin/train_coastal_print_field.py'))
         self.assertEqual(report['source_bytes'], (ROOT / report['source']).stat().st_size)
         self.assertEqual(sum(report['split_counts'].values()), 1200 * 600)
         self.assertEqual(report['split_counts']['test'], 71975)
@@ -75,7 +82,7 @@ class LearnedRepresentationArtifacts(unittest.TestCase):
             self.assertTrue(all(.0059 <= v <= .301 for v in row[3:6]))
             self.assertTrue(all(0 <= v <= 1 for v in row[6:]))
         report = read(ART / 'learned-object/training.json')
-        self.assertEqual(report['trainer_sha256'], digest(ROOT / 'bin/train_coastal_object_field.py'))
+        self.assertIn(report['trainer_sha256'], trainer_digests(ROOT / 'bin/train_coastal_object_field.py'))
         self.assertEqual(report['dataset_sha256'], digest(ART / 'learned-object/data/dataset.json'))
         self.assertEqual(report['artifact']['sha256'], manifest['sha256'])
         final_mse = sum(v['mse'] for v in report['views'] if v['split'] == 'train') / 12
