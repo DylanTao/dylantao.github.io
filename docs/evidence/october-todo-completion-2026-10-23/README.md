@@ -110,10 +110,34 @@ content/asset check. These post-push results belong to that revision's GitHub Ac
 HTTP 200 alone is insufficient. The final coordinator report links the actual result.
 
 Moving-scene TAA and trained representation replacements remain explicitly unimplemented in the handoff. The source
-review and frozen-photo/static-ink experiments do not count as reproductions. Build Rhythm/profile refresh remains
-unfinished after two complete 310-repository scans: October 22 now has 25 attributable website commits versus 24
-calendar credits. The additional default-branch cherry-pick retains an October 22 author date; the precise public OID,
-dates, count split and retry gate are in the handoff. The earlier 24-versus-23 discrepancy caught up, so its exception
-question is obsolete. No exception or fabricated fresh snapshot was published. Both data repositories remain clean;
-the validated public profile and site retain coverage through October 21. Scholar's paired October 23 snapshot passed
-the freshness gate.
+review and frozen-photo/static-ink experiments do not count as reproductions.
+
+### Approved October 22 data refresh
+
+Sirui subsequently approved the one-commit calendar exception for this website on October 22. The original question
+observed 24 scanned/23 credited; the independently rechecked current history has 25/24, within the same exact
+repository/date cap. All 25 measured website commits remain, with their raw author dates. A larger, reversed,
+other-date or other-repository difference still fails; natural calendar backfill is accepted. No cause is asserted.
+
+Collector `8684a9b` passes all 190 private tests, including the exception's bounds. Its normal full collector then
+rescanned all 310 repositories with zero reuse and exited successfully after the inventory, branch and stable
+annual/day attribution gates. The 3,340-point snapshot extends coverage to October 22: 43,455 total commits and 38,666
+authored. The new day adds 275/265; all earlier daily points are unchanged. Independently rederived weekly totals and
+the sum of all 310 cache entries agree with the public aggregate. The exact five-file public bundle, both theme SVGs
+and byte-identical published/canonical README passed fresh private-name privacy checks. The README check used its
+required canonical filename; an initial invocation against `README.md` failed that filename guard and copied nothing.
+
+The validated JSON and paired SVGs are published at profile commit
+[`895f903`](https://github.com/DylanTao/DylanTao/commit/895f90388c789e4cdf539f037c9db7fac2d16b6d). The normal site importer
+passed `--check` and imported the same snapshot. Private proof and logs stay in `github-metrics-private/.local/`;
+no inventory, credentials or private identifiers enter the public projection. Scholar's paired October 23 snapshot
+passed the freshness gate; the retired token/agent-hour ledger remains retired.
+
+The data follow-up passes all 241 site Python tests, 29 calendar/geometry Node tests, the style contract and scoped
+Prettier. Its UTC `/al-folio` production build passes (145.647 seconds reported by Jekyll; 177.688 seconds including
+startup). The generated page embeds exactly the imported projection, with every prior daily value unchanged.
+Actual desktop/light and phone/dark checks confirm October 22, 43,455 lifetime commits and 275/265 in the final table
+row, with zero overflow and no browser errors. The existing Build Rhythm checkpoint passes all four standard
+viewports in light/dark (four cases, 29.0 seconds); representative captures were inspected. Live public profile JSON
+and both SVGs match the published profile commit byte-for-byte. The final site revision still requires its own CI,
+Pages and live-content acceptance described above.

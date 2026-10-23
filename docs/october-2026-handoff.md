@@ -282,24 +282,29 @@ The release verification section below records the combined checks.
 Earlier personal decisions (paper-link density, coffee-ring dry-in, race/battery behavior, star density, page naming,
 marine-layer frequency, sunset and laundry) keep their current defaults. They are not silently decided by this pass.
 
-### Data refresh: one exact external hold
+### Data refresh: approved and validated
 
 - [x] **Google Scholar:** the paired October 23 citation/lens snapshot is fresh. This remains the publication freshness gate.
-- [ ] **Build Rhythm and GitHub profile:** the full fail-closed collector completed all 310 repositories but rejected its
-      aggregate. GitHub caught up from 23 to 24 October 22 credits, so the earlier exception question is obsolete. The
-      second full scan now contains **25** distinct attributable commits for that day while the calendar still credits
-      **24**. The additional default-branch commit is `6320a6b87842a9321c4004fba9e0114e2eb5424d`: its retained author date
-      is October 22, 21:36:15 PDT, and its cherry-pick committer date is October 23, 01:59:36 PDT. The commit API confirms
-      the author identity and dates. Default-branch count is 15; the unchanged `gh-pages` count is 10. All 310 cache
-      entries match the collector source/mode and live eligible inventory. Previously reviewed exceptions still match;
-      no other new public day discrepancy or annual-gap failure was found. A subsequent read-only probe still returned
-      24 credits. Indexing/backfill delay is possible, not established. No exception was added, count deleted or date
-      relabelled. Revisit when the calendar credits 25, then rerun the normal collector and all render/privacy/import
-      gates before publishing. This remains unfinished; a successful scan count alone is not a fresh validated snapshot.
+- [x] **Build Rhythm and GitHub profile:** Sirui's October 23 reply approved the exception capped at one commit for
+      October 22 in this website repository. The original question observed 24 scanned versus 23 calendar credits;
+      the latest independently verified history has **25** versus **24**, still within that exact repository/date cap.
+      All 25 measured commits remain: 15 on the default branch and 10 deploy-only on `gh-pages`. The additional
+      cherry-pick `6320a6b87842a9321c4004fba9e0114e2eb5424d` retains its October 22, 21:36:15 PDT author date and
+      October 23, 01:59:36 PDT committer date. No cause for the calendar difference is asserted.
+      Collector revision `8684a9b` records the approval; larger, reversed, other-date and other-repository differences
+      still fail. All 190 private collector/privacy tests pass. The normal collector then rescanned all **310**
+      repositories with **zero cache reuse** and passed inventory, branch-head, annual/day attribution and stability
+      checks. The validated public snapshot has **3,340** daily points through **October 22**, **43,455** lifetime
+      commits and **38,666** authored commits. The new day contributes 275/265; every earlier daily row is unchanged.
+      The five-file bundle, both theme SVGs and the unchanged README passed fresh private-name privacy checks;
+      independently rederived weekly totals and all 310 cache-row sums agree. The profile is published at
+      [`895f903`](https://github.com/DylanTao/DylanTao/commit/895f90388c789e4cdf539f037c9db7fac2d16b6d), and the normal
+      site importer passed its check and imported the same snapshot.
 
-The last validated public profile and `_data/code_activity.json` remain through October 21. They were not marked fresh,
-counts were not adjusted to force parity, and the retired token/agent-hour ledger was not revived. Private diagnostic
-cache/proof files remain in `github-metrics-private/.local/`; no private repository inventory enters this site.
+The public profile and `_data/code_activity.json` now cover October 22. No counts or dates were changed to force parity,
+and the retired token/agent-hour ledger was not revived. Private diagnostic cache/proof files remain in
+`github-metrics-private/.local/`; no private repository inventory enters this site. Moving-scene TAA and trained
+representation replacements remain the two open implementation items above.
 
 ### Integrated verification
 
