@@ -1,25 +1,30 @@
 /**
  * SEO Optimization Script for Academic Website
- * Enhances search engine visibility and user experience
+ * Measures navigation load time and reading progress alongside existing helpers.
  */
 
 (function () {
   "use strict";
 
-  // SEO Performance Monitoring
+  // Load time is milliseconds; engagement is elapsed seconds at unload; depth is a percentage.
   const seoMetrics = {
     pageLoadTime: 0,
     userEngagement: 0,
     scrollDepth: 0,
   };
+  let initialized = false;
 
   // Performance Monitoring
   function monitorPerformance() {
-    if ("performance" in window) {
-      window.addEventListener("load", function () {
-        const perfData = performance.getEntriesByType("navigation")[0];
-        if (!perfData) return;
-        seoMetrics.pageLoadTime = perfData.loadEventEnd - perfData.loadEventStart;
+    if (typeof window.performance?.getEntriesByType !== "function") return;
+
+    function measureCompletedLoad() {
+      // loadEventEnd is only final after every load handler has returned.
+      window.setTimeout(function () {
+        const perfData = window.performance.getEntriesByType("navigation")[0];
+        if (!perfData || !Number.isFinite(perfData.startTime) || !Number.isFinite(perfData.loadEventEnd)) return;
+        if (perfData.startTime < 0 || perfData.loadEventEnd <= perfData.startTime) return;
+        seoMetrics.pageLoadTime = perfData.loadEventEnd - perfData.startTime;
 
         // Send performance data to analytics
         if (typeof gtag !== "undefined") {
@@ -28,7 +33,13 @@
             value: Math.round(seoMetrics.pageLoadTime),
           });
         }
-      });
+      }, 0);
+    }
+
+    if (document.readyState === "complete") {
+      measureCompletedLoad();
+    } else {
+      window.addEventListener("load", measureCompletedLoad, { once: true });
     }
   }
 
@@ -58,42 +69,30 @@
     // Keeping this function as a no-op avoids duplicate client-side schema.
   }
 
-  // Get Meta Description
-  function getMetaDescription() {
-    const metaDesc = document.querySelector('meta[name="description"]');
-    return metaDesc ? metaDesc.content : document.title;
-  }
-
   // User Engagement Tracking
   function trackUserEngagement() {
-    let scrollDepth = 0;
-    let lastScrollTop = 0;
+    const reportedMilestones = new Set();
 
     window.addEventListener("scroll", function () {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop = window.pageYOffset ?? document.documentElement.scrollTop;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = Math.round((scrollTop / docHeight) * 100);
+      if (!Number.isFinite(scrollTop) || !Number.isFinite(docHeight) || docHeight <= 0) return;
+      const scrollPercent = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
+      seoMetrics.scrollDepth = Math.max(seoMetrics.scrollDepth, scrollPercent);
 
-      if (scrollPercent > scrollDepth) {
-        scrollDepth = scrollPercent;
-
-        // Track scroll depth milestones
-        if (scrollDepth >= 25 && scrollDepth < 50) {
-          trackScrollMilestone("25%");
-        } else if (scrollDepth >= 50 && scrollDepth < 75) {
-          trackScrollMilestone("50%");
-        } else if (scrollDepth >= 75 && scrollDepth < 100) {
-          trackScrollMilestone("75%");
-        } else if (scrollDepth >= 100) {
-          trackScrollMilestone("100%");
-        }
+      // A large jump can cross several thresholds. Report each only once per page.
+      for (const milestone of [25, 50, 75, 100]) {
+        if (scrollPercent < milestone || reportedMilestones.has(milestone)) continue;
+        reportedMilestones.add(milestone);
+        trackScrollMilestone(milestone);
       }
     });
 
     // Track time on page
-    let startTime = Date.now();
+    const startTime = Date.now();
     window.addEventListener("beforeunload", function () {
-      const timeOnPage = Math.round((Date.now() - startTime) / 1000);
+      const timeOnPage = Math.max(0, Math.round((Date.now() - startTime) / 1000));
+      seoMetrics.userEngagement = timeOnPage;
       if (typeof gtag !== "undefined") {
         gtag("event", "timing_complete", {
           name: "time_on_page",
@@ -108,7 +107,7 @@
     if (typeof gtag !== "undefined") {
       gtag("event", "scroll_depth", {
         event_category: "engagement",
-        event_label: milestone,
+        event_label: `${milestone}%`,
         value: milestone,
       });
     }
@@ -157,6 +156,8 @@
 
   // Initialize SEO Features
   function initSEO() {
+    if (initialized) return;
+    initialized = true;
     monitorPerformance();
     initLazyLoading();
     enhanceMetaTags();
