@@ -396,3 +396,56 @@ Cost was measured on October 18 in headless Chromium on the shared laptop's inte
 `test/cloth-solver.test.mjs` checks that the bending weights vanish on flat and rigidly moved hinges and give |C| = |e| θ; bounded stretch in still air and a gale; that the energy decays after a gale and the island sleeps; that a sheet driven at 9 m/s into a wall never passes it; bitwise determinism; welds and per-pattern compliance; no allocation per step; and the bending lengths. `test/curtain-cloth.test.mjs` checks stretch in still air (under 6 %), the doorway draft (under 8 %) and an indoor gale (under 45 %); energy decay and sleep; rings on the rod in order and clips within their jaw; gathering no faster than a hand; no crossing in a gathered stack; determinism and frame partitioning; sleep and wake by wind and doors; reduced motion; no allocation; the draft's door contrast, its agreement with the shared field and its eddies' zero divergence; clearances against the furniture and hardware; that a land breeze never presses the cloth through the glass front; normals, tangents and winding; the drawn spline through every simulated column, drawn column by column; the openness model and linen slubs; and the shader patches. `test/curtain-schedule.test.mjs` keeps the schedule's contracts and checks the rig's hardware, materials and visibility budget. `test/laundry-line.test.mjs` checks the line between the posts, the lift in the sea breeze against the 09:00 lull, no passage through the posts or the cap rail, the line's length, the shirt's separated layers, the schedule, determinism, allocation, and the rig's pause, reduced motion and visibility. The browser case "facade cloth" in `test/visual/desk-scene.spec.js` finds every starting drape settled when the kitchen first steps, steps the curtains in the kitchen and the laundry on the terrace in a live scene, sees the laundry's pixels move, holds them under Pause and composes them under reduced motion. Captures are in `.jekyll-cache/visual-qa/cloth-2026-10-18/`.
 
 Limits: there is no general self-collision; ordering and separation constraints stand in for it, so a violent gust can still fold a bay through its neighbour's far side, and a towel can pass through itself. One pass per substep leaves a few percent of local stretch near the clips and the pegs (the towels at most about 8 %, but a few edges at the shirt's shoulder pegs and armholes up to about 20 %), and an indoor gale stretches the panels like sails. The air model has no shielding, wake or feedback on the flow, and the flat-plate force cannot produce flutter from vortex shedding; the advected eddies stand in for it. The heading tape is kinematic, so the very top row does not sway. Depth shadow maps cannot colour the light the yarn transmits, and the dither resolves cleanly only under `PCFSoftShadowMap`. The fabric is authored, not measured: neither yarn-level specular nor a microcylinder cloth model is implemented, and the laundry's exposure and the doorway jet are authored, not ventilation or CFD.
+
+## Dynamic sleeper duvet: October 23 checkpoint
+
+`duvet-solver.mjs` advances a bounded compliant-distance cloth around each
+avatar's authored contact drape. Source vertices are welded into coarse groups
+using a 0.15 m grid, widened until there are at most 480 particles. Native mesh
+edges provide stretch links; two-edge neighbours provide a distance-based bending
+approximation. The solver uses 120 Hz steps, two projection/contact passes per
+step, gravity, velocity damping and an authored breathing lift of at most 7 mm
+within a 0.3 m chest radius. Frame deltas are capped at 1/15 s. Contact normals
+come from the fitted rest drape, and displacement is bounded to 25 mm around that
+envelope. Pillows remain static.
+
+The rendered quilt keeps its original high-resolution vertices, thickness and
+folds. Each vertex receives its coarse group's displacement; these details have
+no independent physical degrees of freedom. `bedding-breath.mjs` writes the
+positions and recomputes normals only while the visible sleeper is active. Pause
+holds the current geometry. Reduced motion restores the authored arrays exactly;
+returning from 2D resumes active simulation.
+
+The [retained Lizard retest](../../../artwork/coastal-home/reviews/duvet/lizard-optimized.json)
+records the inspected working-source hashes, solver parameters, frame samples,
+bounds and state checks. The solver SHA-256 was
+`40adfe36ae2b6de8c79f2e26ee68c9ae1fe6dee467d8e4f8a549c82f0a3731c0`;
+wrapper and controller-function fingerprints are in the same JSON. This records
+observed working sources rather than assigning a final integrated commit.
+
+On the shared Windows headless Chromium run at 1440 x 1000, DPR 1, with a
+545 x 462 canvas, the Lizard duvet retained 4,934 rendered vertices and simulated
+281 particles with 3,237 constraints. After three seconds of activity and 30 more
+warmup frames, 120 rendered frames measured total duvet update/write/normal cost
+at **3.6 ms p50, 6.7 ms p95 and 7.6 ms maximum**. These are CPU update timings,
+not total-frame or GPU timings. The observed pose displaced vertices by at most
+3.89 mm, with 0.66 mm RMS displacement; its largest bounding-box coordinate change
+was about 1.30 mm. Native triangle edges initially at least 8 mm long had length
+ratios of 0.9487 to 1.0451 in that pose. This is a geometric snapshot, not a global
+strain bound.
+
+The [authored view](../../../artwork/coastal-home/reviews/duvet/lizard-authored.png),
+[dynamic view](../../../artwork/coastal-home/reviews/duvet/lizard-dynamic.png) and
+[reduced-motion view](../../../artwork/coastal-home/reviews/duvet/lizard-reduced.png)
+were inspected together: coverage and the native folds remain readable, with no
+new visible holes or body-through-cover in this view. Pause preserves hashes and
+step counts; reduced restoration has zero coordinate error; 2D-to-3D recovery
+resumes stepping. The run recorded no console errors and no nonfinite positions.
+
+Limits: contact follows a fixed avatar-specific envelope rather than solving
+against a live animated body or arbitrary scene objects. There is no general
+self-collision. Bending is a compliant distance approximation, and neither cloth
+properties nor breathing forces are calibrated measurements. This optimized
+benchmark covers Lizard only; previous five-avatar visual checks are separate.
+The small observed deformation and one camera do not establish correctness for
+all poses or all hardware.

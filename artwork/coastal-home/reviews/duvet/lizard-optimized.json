@@ -1,0 +1,226 @@
+{
+  "rest": [
+    {
+      "name": "sleep_pillow_lizard",
+      "tag": "lizard",
+      "vertices": 2082,
+      "hash": 50531.94326496124,
+      "nonfinite": 0,
+      "bounds": {
+        "min": [-3.4600000381469727, 3.140000104904175, 2.109999895095825],
+        "max": [-2.740000009536743, 3.2995312213897705, 2.5500073432922363]
+      },
+      "physics": null
+    },
+    {
+      "name": "sleep_duvet_lizard",
+      "tag": "lizard",
+      "vertices": 4934,
+      "hash": 192493.94095110893,
+      "nonfinite": 0,
+      "bounds": {
+        "min": [-4.00777006149292, 2.6702568531036377, 2.8501973152160645],
+        "max": [-2.193937301635742, 3.570917844772339, 4.449797630310059]
+      },
+      "physics": null
+    }
+  ],
+  "measurement": {
+    "samples": 120,
+    "totalUpdateMs": {
+      "p50": 3.599999999627471,
+      "p95": 6.699999999254942,
+      "max": 7.599999999627471,
+      "min": 1.799999998882413
+    },
+    "state": [
+      {
+        "name": "sleep_duvet_lizard",
+        "model": "xpbd-contact-envelope",
+        "particles": 281,
+        "constraints": 3237,
+        "steps": 817,
+        "updateMs": 2.799999998882413,
+        "maxUpdateMs": 11.900000000372529
+      }
+    ],
+    "maxDisplacement": 0.0038939732222828174,
+    "rmsDisplacement": 0.0006611006368569488,
+    "vertices": 4934,
+    "edgeLengthRatio": {
+      "min": 0.9487302483256587,
+      "max": 1.0450839137450203
+    },
+    "frameCosts": [
+      6.100000001490116, 4.5, 5.599999999627471, 6.299999998882413, 5.900000000372529, 4.399999998509884, 4.399999998509884, 3.5, 2.700000001117587,
+      7.199999999254942, 3.900000000372529, 4, 3.400000000372529, 3, 5, 5.899999998509884, 3.900000000372529, 3.700000001117587, 4.099999999627471,
+      4.100000001490116, 5, 5.5, 5.299999998882413, 3.599999999627471, 4.099999999627471, 7.099999999627471, 3.800000000745058, 3.400000000372529,
+      3.899999998509884, 3.400000000372529, 4, 5.199999999254942, 3.799999998882413, 3.900000000372529, 3.399999998509884, 3.800000000745058,
+      2.100000001490116, 3, 3.5, 3.199999999254942, 3.300000000745058, 3.100000001490116, 3.599999999627471, 3.199999999254942, 3.099999999627471,
+      2.700000001117587, 5.400000000372529, 3, 5.599999999627471, 7.5, 3.600000001490116, 3.5, 6.400000000372529, 3.5, 3.199999999254942,
+      3.200000001117587, 3.5, 2.400000000372529, 3.799999998882413, 3.900000000372529, 3.400000000372529, 3.099999999627471, 1.800000000745058,
+      3.299999998882413, 3.900000000372529, 3.5, 3.599999999627471, 3.099999999627471, 3.199999999254942, 2.800000000745058, 3.899999998509884, 4,
+      4.099999999627471, 2.5, 4.099999999627471, 3.5, 3.800000000745058, 3.400000000372529, 3.900000000372529, 3.199999999254942, 7.599999999627471,
+      4.5, 2.799999998882413, 3.599999999627471, 3.099999999627471, 3.100000001490116, 3.300000000745058, 6.699999999254942, 3.5, 6.599999999627471,
+      2.700000001117587, 3.099999999627471, 7.400000000372529, 3.600000001490116, 5.200000001117587, 3.300000000745058, 4.800000000745058,
+      3.599999999627471, 2.699999999254942, 2.900000000372529, 2.900000000372529, 3.599999999627471, 3.699999999254942, 3.099999999627471,
+      2.900000000372529, 3.800000000745058, 2.900000000372529, 2.700000001117587, 2.800000000745058, 3.099999999627471, 2.900000000372529,
+      2.800000000745058, 4.5, 4.300000000745058, 2.800000000745058, 1.799999998882413, 2.699999999254942, 6.400000000372529, 3, 2.799999998882413
+    ]
+  },
+  "active": [
+    {
+      "name": "sleep_pillow_lizard",
+      "tag": "lizard",
+      "vertices": 2082,
+      "hash": 50531.94326496124,
+      "nonfinite": 0,
+      "bounds": {
+        "min": [-3.4600000381469727, 3.140000104904175, 2.109999895095825],
+        "max": [-2.740000009536743, 3.2995312213897705, 2.5500073432922363]
+      },
+      "physics": null
+    },
+    {
+      "name": "sleep_duvet_lizard",
+      "tag": "lizard",
+      "vertices": 4934,
+      "hash": 192503.54271006584,
+      "nonfinite": 0,
+      "bounds": {
+        "min": [-4.0080718994140625, 2.6689553260803223, 2.8505051136016846],
+        "max": [-2.1937031745910645, 3.5709540843963623, 4.449747562408447]
+      },
+      "physics": {
+        "model": "xpbd-contact-envelope",
+        "particles": 281,
+        "constraints": 3237,
+        "steps": 833,
+        "updateMs": 2.799999998882413,
+        "maxUpdateMs": 11.900000000372529
+      }
+    }
+  ],
+  "pauseStable": true,
+  "reduced": [
+    {
+      "name": "sleep_pillow_lizard",
+      "tag": "lizard",
+      "vertices": 2082,
+      "hash": 50531.94326496124,
+      "nonfinite": 0,
+      "bounds": {
+        "min": [-3.4600000381469727, 3.140000104904175, 2.109999895095825],
+        "max": [-2.740000009536743, 3.2995312213897705, 2.5500073432922363]
+      },
+      "physics": null
+    },
+    {
+      "name": "sleep_duvet_lizard",
+      "tag": "lizard",
+      "vertices": 4934,
+      "hash": 192493.94095110893,
+      "nonfinite": 0,
+      "bounds": {
+        "min": [-4.00777006149292, 2.6702568531036377, 2.8501973152160645],
+        "max": [-2.193937301635742, 3.570917844772339, 4.449797630310059]
+      },
+      "physics": {
+        "model": "xpbd-contact-envelope",
+        "particles": 281,
+        "constraints": 3237,
+        "steps": 943,
+        "updateMs": 3.5,
+        "maxUpdateMs": 11.900000000372529
+      }
+    }
+  ],
+  "reducedExact": {
+    "maxCoordinateError": 0
+  },
+  "restored": [
+    {
+      "name": "sleep_pillow_lizard",
+      "tag": "lizard",
+      "vertices": 2082,
+      "hash": 50531.94326496124,
+      "nonfinite": 0,
+      "bounds": {
+        "min": [-3.4600000381469727, 3.140000104904175, 2.109999895095825],
+        "max": [-2.740000009536743, 3.2995312213897705, 2.5500073432922363]
+      },
+      "physics": null
+    },
+    {
+      "name": "sleep_duvet_lizard",
+      "tag": "lizard",
+      "vertices": 4934,
+      "hash": 192503.4048833847,
+      "nonfinite": 0,
+      "bounds": {
+        "min": [-4.0080695152282715, 2.668950319290161, 2.850515127182007],
+        "max": [-2.193678379058838, 3.5709521770477295, 4.449752330780029]
+      },
+      "physics": {
+        "model": "xpbd-contact-envelope",
+        "particles": 281,
+        "constraints": 3237,
+        "steps": 1096,
+        "updateMs": 3.800000000745058,
+        "maxUpdateMs": 11.900000000372529
+      }
+    }
+  ],
+  "errors": [],
+  "scenario": {
+    "date": "2026-10-23",
+    "avatar": "lizard",
+    "activity": "sleep",
+    "viewport": [1440, 1000],
+    "device_scale_factor": 1,
+    "canvas": [545, 462],
+    "measurement": "120 rendered frames after 3 seconds of activity and 30 further warmup frames; total mesh.userData.duvetPhysics.updateMs each frame",
+    "edge_ratio_filter": "Native triangle edges with authored local length at least 0.008 metres; one measured pose, not a global strain bound."
+  },
+  "source_fingerprints": {
+    "status": "Read-only working sources inspected for this capture; hashes observed while retaining evidence. No final integrated commit SHA is asserted.",
+    "assets/js/home-scene/duvet-solver.mjs": "40adfe36ae2b6de8c79f2e26ee68c9ae1fe6dee467d8e4f8a549c82f0a3731c0",
+    "assets/js/home-scene/bedding-breath.mjs": "85a0bec48c81db47967a639692a7c339aa641811b711d6b1a114bcebb796a009",
+    "controller_breatheBedding_function_utf8_sha256": "c4939483c425d807e10a361a207211c161c90d25b2a54b89ec5ef1e06ee28b12",
+    "assets/models/home/room-sleep.glb": "1b5f85a2fb78e1ffe728e9d2838eb6c1256471182685951876cc42e0aa0836af"
+  },
+  "parameters": {
+    "spacing_metres": 0.15,
+    "particle_cap": 480,
+    "fixed_step_seconds": 0.008333333333333333,
+    "projection_passes": 2,
+    "maximum_frame_delta_seconds": 0.06666666666666667,
+    "maximum_displacement_envelope_metres": 0.025,
+    "gravity_metres_per_second_squared": 9.80665,
+    "maximum_authored_breath_lift_metres": 0.007,
+    "breath_radius_metres": 0.3,
+    "pillows_simulated": false,
+    "high_resolution_mapping": "Each source vertex retains its authored position plus the displacement of its welded coarse group."
+  },
+  "captures": {
+    "lizard-authored.png": {
+      "sha256": "15f133ad33e68c4e25fb5142bd8988bd4a64139c23b4c0a2003848ddbd4ec4c5",
+      "bytes": 240451
+    },
+    "lizard-dynamic.png": {
+      "sha256": "b8562595e3bf3a086832a8415d464e412b9585866b25d7241a1dbe26337a4678",
+      "bytes": 240432
+    },
+    "lizard-reduced.png": {
+      "sha256": "66350403b3afc47613a8ee748b29b0c91a6cf7c38f43072dd1bed32f5b1b7a96",
+      "bytes": 240478
+    }
+  },
+  "limits": [
+    "Costs measure the duvet update, write-back and normal recomputation on this shared Windows browser run, not total frame or GPU time.",
+    "Only the optimized Lizard pose is benchmarked here; previous five-avatar visual checks are separate.",
+    "Contacts follow the authored fixed avatar-specific drape envelope. There is no general self-collision or full animated-body/scene collision solver.",
+    "Bending uses compliant two-edge-neighbour distance constraints; the high-resolution quilt and thickness have no independent physical degrees of freedom.",
+    "One observed pose and bounded displacement do not establish global strain limits or calibrated material behaviour."
+  ]
+}
