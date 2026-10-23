@@ -354,6 +354,7 @@ Start with an observation, separate it from your interpretation, and choose a ch
 - Formatter drift is design debt. Pin formatter versions locally and in CI so the same file does not pass on one machine and fail on GitHub.
 - Treat generated or vendored third-party bundles as dependencies. Exclude them from project-specific static analysis instead of hand-editing minified or generated code.
 - Demo content that exists only to show theme features stays unpublished until it becomes part of Sirui's real story.
+- When adding or changing a document format, find existing positive and negative checks for visible links, head alternates, and data equivalence. Run the whole affected journey and equivalence matrix before publishing; a route-only capture leaves those contracts untested. After a fail-fast stop, exercise the remaining cases.
 - Keep visual QA in three explicit lanes: `test:visual:iterate` for one fast screenshot, `test:visual:checkpoint` for explicit affected routes, and `test:visual` for release. Never make the fastest lane silently start a Jekyll server or expand to the full route matrix.
 
 ## Live Review Corrections — September 2026
