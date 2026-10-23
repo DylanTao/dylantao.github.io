@@ -1246,6 +1246,36 @@
       "mesh": "study_placeholder_study-aeron",
       "facesBefore": 210,
       "facesExported": 210
+    },
+    {
+      "mesh": "lounge_retained_plant_table_stems",
+      "facesBefore": 43,
+      "facesExported": 43
+    },
+    {
+      "mesh": "lounge_retained_plant_table_pot",
+      "facesBefore": 102,
+      "facesExported": 102
+    },
+    {
+      "mesh": "lounge_retained_plant_table_foliage",
+      "facesBefore": 7,
+      "facesExported": 7
+    },
+    {
+      "mesh": "lounge_retained_plant_olive_stems",
+      "facesBefore": 968,
+      "facesExported": 968
+    },
+    {
+      "mesh": "lounge_retained_plant_olive_planter",
+      "facesBefore": 202,
+      "facesExported": 202
+    },
+    {
+      "mesh": "lounge_retained_plant_olive_foliage",
+      "facesBefore": 528,
+      "facesExported": 528
     }
   ]
 }

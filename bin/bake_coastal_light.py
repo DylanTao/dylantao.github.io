@@ -18,9 +18,13 @@ bpy.ops.wm.open_mainfile(filepath=str(source))
 scene=bpy.context.scene
 scene.render.engine='CYCLES';scene.cycles.samples=24
 prefs=bpy.context.preferences.addons['cycles'].preferences
-prefs.compute_device_type='CUDA';prefs.get_devices()
-for d in prefs.devices:d.use=d.type=='CUDA'
-scene.cycles.device='GPU';scene.cycles.max_bounces=4
+if '--cpu' in sys.argv:
+    scene.cycles.device='CPU'
+else:
+    prefs.compute_device_type='CUDA';prefs.get_devices()
+    for d in prefs.devices:d.use=d.type=='CUDA'
+    scene.cycles.device='GPU'
+scene.cycles.max_bounces=4
 scene.world=scene.world or bpy.data.worlds.new('Coastal bounce studio')
 scene.world.use_nodes=True
 scene.world.node_tree.nodes['Background'].inputs['Color'].default_value=(.72,.79,.85,1)

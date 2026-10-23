@@ -26,6 +26,7 @@ from mathutils import Matrix, Vector
 
 import coastal_anchors as anchors
 import coastal_sunken as sunken
+from coastal_living_plants import ensure_living_plants
 from coastal_office import Parts, box, cylinder, lathe, rooted_leaf, _mat
 
 # The pit: its x edges on the floor's board seams.
@@ -360,6 +361,9 @@ def furniture_anchors():
 def build_living(scene):
     """Replace the living room's furniture with the pit, the TV wall and the reading corner, and build the
     fireplace's flue and clifftop cap. Returns objects, placeholders, supports and a report."""
+    # The former lounge__ batches also owned the original leaves and their pots. Retain those
+    # site-owned plants independently before removing the old furniture/material batches.
+    ensure_living_plants(scene)
     removed = 0
     for obj in [o for o in scene.objects if o.name.startswith(("lounge_living", "lounge__", "lounge_ottoman", "lounge_placeholder_", "core_fireplace_cap"))]:
         bpy.data.objects.remove(obj, do_unlink=True)

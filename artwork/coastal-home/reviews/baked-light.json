@@ -1393,6 +1393,42 @@
       "corners": 840,
       "min": 0.68,
       "max": 0.7479682316382726
+    },
+    {
+      "mesh": "lounge_retained_plant_table_stems",
+      "corners": 162,
+      "min": 0.68,
+      "max": 0.773678954343001
+    },
+    {
+      "mesh": "lounge_retained_plant_table_pot",
+      "corners": 440,
+      "min": 0.68,
+      "max": 0.7660123618195455
+    },
+    {
+      "mesh": "lounge_retained_plant_table_foliage",
+      "corners": 28,
+      "min": 0.6804562249251952,
+      "max": 0.7418282466630142
+    },
+    {
+      "mesh": "lounge_retained_plant_olive_stems",
+      "corners": 3576,
+      "min": 0.68,
+      "max": 0.8858378106852373
+    },
+    {
+      "mesh": "lounge_retained_plant_olive_planter",
+      "corners": 880,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "lounge_retained_plant_olive_foliage",
+      "corners": 2112,
+      "min": 0.68,
+      "max": 0.8209324137866497
     }
   ]
 }

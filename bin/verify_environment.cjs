@@ -41,7 +41,7 @@ const shots = process.argv[2] || "garden,coast,night,fft,onsen";
         if (local.startsWith(process.cwd()) && types[path.extname(local)])
           try {
             const body = await fs.readFile(local);
-            if (url.pathname.endsWith("hinterland.glb"))
+            if (url.pathname.endsWith("hinterland.glb") || url.pathname.endsWith("room-lounge.glb"))
               servedAssets.push({ path: url.pathname, bytes: body.length, sha256: createHash("sha256").update(body).digest("hex") });
             return await route.fulfill({ body, contentType: types[path.extname(local)] });
           } catch {}
@@ -85,28 +85,36 @@ const shots = process.argv[2] || "garden,coast,night,fft,onsen";
         e.dispatchEvent(new Event("change", { bubbles: true }));
       }, minute);
       await ui
-        .locator(`[data-world-room="${name === "onsen" ? "onsen" : "outside"}"]`)
+        .locator(`[data-world-room="${name === "onsen" ? "onsen" : name.startsWith("lounge") ? "lounge" : "outside"}"]`)
         .first()
         .click();
       await page.waitForTimeout(10000);
       const camera =
-        name === "garden"
-          ? { target: [-20, 10.1, 63], yaw: 3.5, pitch: 0.95, radius: 45 }
-          : name === "garden-close"
-            ? { target: [-23, 10.04, 52], yaw: 2.3, pitch: 0.9, radius: 7 }
-            : name === "lights"
-              ? { target: [-1600, 25, 450], yaw: 1.2, pitch: 0.1, radius: 160 }
-              : name === "stars"
-                ? { target: [0, 75, 0], yaw: 4.3, pitch: -0.25, radius: 50 }
-                : name === "fft" || name === "analytic"
-                  ? { target: [-6, -7.2, -28], yaw: 1.1, pitch: 0.3, radius: 9 }
-                  : name === "coast" || name === "night"
-                    ? { target: [0, 9, 0], yaw: 3.5, pitch: 0.22, radius: 160 }
-                    : null;
+        name === "lounge-plants"
+          ? { target: [3.1, 0.8, -3.8], yaw: -0.3, pitch: 0.25, radius: 3.1 }
+          : name === "lounge-table"
+            ? { target: [4.79, 0.78, -0.13], yaw: -1.4, pitch: 0.2, radius: 1.1 }
+            : name === "garden"
+              ? { target: [-20, 10.1, 63], yaw: 3.5, pitch: 0.95, radius: 45 }
+              : name === "garden-close"
+                ? { target: [-23, 10.04, 52], yaw: 2.3, pitch: 0.9, radius: 7 }
+                : name === "lights"
+                  ? { target: [-1600, 25, 450], yaw: 1.2, pitch: 0.1, radius: 160 }
+                  : name === "stars"
+                    ? { target: [0, 75, 0], yaw: 4.3, pitch: -0.25, radius: 50 }
+                    : name === "fft" || name === "analytic"
+                      ? { target: [-6, -7.2, -28], yaw: 1.1, pitch: 0.3, radius: 9 }
+                      : name === "coast" || name === "night"
+                        ? { target: [0, 9, 0], yaw: 3.5, pitch: 0.22, radius: 160 }
+                        : null;
       if (camera) await scene.evaluate((e, c) => e.setLabCamera(c), camera);
       await page.waitForTimeout(2000);
       await scene.scrollIntoViewIfNeeded();
       await page.waitForTimeout(1500);
+      if (name.startsWith("lounge"))
+        await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence().roomCount === 6, null, {
+          timeout: 60000,
+        });
       const poseKey = () =>
         scene.evaluate((e) => {
           const root = e.labScene?.scene,
@@ -136,6 +144,12 @@ const shots = process.argv[2] || "garden,coast,night,fft,onsen";
       const movingImage = await scene.screenshot({ path: path.join(out, name + "-moving.png") });
       const movingPixels = !stillB.equals(movingImage);
       const after = await scene.evaluate((e) => e.getSceneEvidence());
+      if (name.startsWith("lounge")) {
+        const plants = after.simulation.wind.plants;
+        if (plants.reduce((sum, p) => sum + p.enabled, 0) !== 403 || plants.reduce((sum, p) => sum + p.disabled, 0) !== 30)
+          throw new Error("The complete authored planting must keep 403 rooted groups and 30 unsupported study groups");
+        if (errors.length || !heldPixels || !movingPixels) throw new Error("Lounge render, reduced-motion hold, or moving-frame proof failed");
+      }
       const garden = await scene.evaluate((e) => {
         const node = e.labScene?.scene.getObjectByName("hinterland_garden_koi_water");
         return node ? { ...node.userData.waterGarden, clock: node.userData.waterGarden?.clock?.value } : null;

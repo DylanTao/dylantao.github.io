@@ -1,0 +1,640 @@
+{
+  "referenceCommit": "512fc0807",
+  "referenceSha256": "89bc1ef9854c17b4038aeb972fb09351ece0083cd29e7c7ab340acffb49faaef",
+  "removedBy": "coastal_living.build_living cleared every lounge__ material batch",
+  "parts": [
+    {
+      "name": "lounge_retained_plant_olive_foliage",
+      "vertices": 2112,
+      "polygons": 528,
+      "delta": [-1.350000023841858, 0.5, -0.019500000402331352],
+      "bounds": {
+        "min": [2.705948829650879, 3.387418508529663, 1.2121726274490356],
+        "max": [3.52431583404541, 4.3981523513793945, 1.7191489934921265]
+      }
+    },
+    {
+      "name": "lounge_retained_plant_olive_stems",
+      "vertices": 1192,
+      "polygons": 968,
+      "delta": [-1.350000023841858, 0.5, -0.019500000402331352],
+      "bounds": {
+        "min": [2.782604694366455, 3.396523952484131, 0.47711455821990967],
+        "max": [3.5234875679016113, 4.316624164581299, 1.71492600440979]
+      }
+    },
+    {
+      "name": "lounge_retained_plant_olive_planter",
+      "vertices": 240,
+      "polygons": 202,
+      "delta": [-1.350000023841858, 0.5, -0.019500000402331352],
+      "bounds": {
+        "min": [2.7200002670288086, 3.619999885559082, -0.019500000402331352],
+        "max": [3.2800002098083496, 4.180000305175781, 0.5304999947547913]
+      }
+    },
+    {
+      "name": "lounge_retained_plant_table_foliage",
+      "vertices": 28,
+      "polygons": 7,
+      "delta": [3.369999885559082, -1.7899999618530273, 0.2240000069141388],
+      "bounds": {
+        "min": [4.707705974578857, 0.07070088386535645, 0.7239999771118164],
+        "max": [4.858142852783203, 0.22427606582641602, 0.8940000534057617]
+      }
+    },
+    {
+      "name": "lounge_retained_plant_table_stems",
+      "vertices": 54,
+      "polygons": 43,
+      "delta": [3.369999885559082, -1.7899999618530273, 0.2240000069141388],
+      "bounds": {
+        "min": [4.7670183181762695, 0.1273287534713745, 0.6934922933578491],
+        "max": [4.793142795562744, 0.16267120838165283, 0.9045076370239258]
+      }
+    },
+    {
+      "name": "lounge_retained_plant_table_pot",
+      "vertices": 120,
+      "polygons": 102,
+      "delta": [3.369999885559082, -1.7899999618530273, 0.2240000069141388],
+      "bounds": {
+        "min": [4.755000114440918, 0.09500002861022949, 0.5839999914169312],
+        "max": [4.824999809265137, 0.1650000810623169, 0.7039999961853027]
+      }
+    }
+  ],
+  "library": "artwork/coastal-home/living-plants.blend",
+  "restoredParts": 6,
+  "placement": "floor olive outside the pit at (3.0,3.9,-.0195); original small plant on the actual credenza top at (4.79,.13,.584)",
+  "nativePreservation": {
+    "baselineCommit": "49d99b07716f46771afcbd782674d63b9bc75360",
+    "unchangedObjects": 256,
+    "addedObjects": [
+      "lounge_retained_plant_olive_foliage",
+      "lounge_retained_plant_olive_planter",
+      "lounge_retained_plant_olive_stems",
+      "lounge_retained_plant_table_foliage",
+      "lounge_retained_plant_table_pot",
+      "lounge_retained_plant_table_stems"
+    ],
+    "removedObjects": [],
+    "changedExistingObjects": [],
+    "objectHashFields": "type, world matrix, positions, polygon topology, material slots, smooth flags, native baked color attributes",
+    "supportRays": [
+      {
+        "plant": "olive",
+        "xy": [3, 3.9],
+        "height": -0.019500000402331352,
+        "support": "core_reno_floorboards_lower"
+      },
+      {
+        "plant": "olive",
+        "xy": [2.82, 3.9],
+        "height": -0.019500000402331352,
+        "support": "core_reno_floorboards_lower"
+      },
+      {
+        "plant": "olive",
+        "xy": [3.18, 3.9],
+        "height": -0.019500000402331352,
+        "support": "core_reno_floorboards_lower"
+      },
+      {
+        "plant": "olive",
+        "xy": [3, 3.72],
+        "height": -0.019500000402331352,
+        "support": "core_reno_floorboards_lower"
+      },
+      {
+        "plant": "olive",
+        "xy": [3, 4.08],
+        "height": -0.019500000402331352,
+        "support": "core_reno_floorboards_lower"
+      },
+      {
+        "plant": "credenza",
+        "xy": [4.79, 0.13],
+        "height": 0.5840000510215759,
+        "support": "lounge__pale oak"
+      },
+      {
+        "plant": "credenza",
+        "xy": [4.77, 0.13],
+        "height": 0.5840000510215759,
+        "support": "lounge__pale oak"
+      },
+      {
+        "plant": "credenza",
+        "xy": [4.81, 0.13],
+        "height": 0.5840000510215759,
+        "support": "lounge__pale oak"
+      }
+    ],
+    "idempotentExisting": true,
+    "idempotentReload": true,
+    "baselineSourceSha256": "a368f9e5d8bfa457b5315a0ac6bd7602c9e87f36177cb953dd28e0729a06c24f",
+    "unchangedExports": [
+      {
+        "path": "assets/models/home/BrandtsCormorant.glb",
+        "sha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a"
+      },
+      {
+        "path": "assets/models/home/BrownPelican.glb",
+        "sha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c"
+      },
+      {
+        "path": "assets/models/home/BrushRabbit.glb",
+        "sha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4"
+      },
+      {
+        "path": "assets/models/home/CaliforniaSeaLion.glb",
+        "sha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103"
+      },
+      {
+        "path": "assets/models/home/coast.glb",
+        "sha256": "4e39d9ebe968491f4f3b392ffaddd708719c2cb2f1ed54c06338b2fa6f51f533"
+      },
+      {
+        "path": "assets/models/home/flora.glb",
+        "sha256": "763713c1501deaac02cabad8bd4a4f659a39bd14d5baab5cc1c2c682beddb88b"
+      },
+      {
+        "path": "assets/models/home/HarborSeal.glb",
+        "sha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6"
+      },
+      {
+        "path": "assets/models/home/hinterland.glb",
+        "sha256": "e7299a7ac669e5e99150006b4688b78d737ee6013fec0b68e0b30be6888bcd6f"
+      },
+      {
+        "path": "assets/models/home/home-shell.glb",
+        "sha256": "72015bd0ea9e576f6f83024fae3ef8bf0006612c684ac1d4f241ba269e02e945"
+      },
+      {
+        "path": "assets/models/home/Raccoon.glb",
+        "sha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808"
+      },
+      {
+        "path": "assets/models/home/room-gym.glb",
+        "sha256": "578373cf65f3a7a7fd01ddc6895d05b25a3988b7c30c788dae489e66c4cde3f8"
+      },
+      {
+        "path": "assets/models/home/room-kitchen.glb",
+        "sha256": "bff450dc098b5a0257de9c9b1f82c4128d67bd8a03c2def13232d450e1082dd9"
+      },
+      {
+        "path": "assets/models/home/room-onsen.glb",
+        "sha256": "fee8d9cc86e02b8b9d8f1e225d839153a725c367558accff1d044f7ea9edc9ad"
+      },
+      {
+        "path": "assets/models/home/room-sleep.glb",
+        "sha256": "1b5f85a2fb78e1ffe728e9d2838eb6c1256471182685951876cc42e0aa0836af"
+      },
+      {
+        "path": "assets/models/home/room-study.glb",
+        "sha256": "32b089984c3f48b9b7e97453b72cddda7bfed989c4dcc596ef4e3e29caece773"
+      },
+      {
+        "path": "assets/models/home/Sandpiper.glb",
+        "sha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381"
+      },
+      {
+        "path": "assets/models/home/sirui-ghibli.glb",
+        "sha256": "47167029b02671063a509aa9f1c0bd36a7ea1b18ac37a5884a9365377615c7ce"
+      },
+      {
+        "path": "assets/models/home/sirui-lizard.glb",
+        "sha256": "3ac88825c77493b6e00bd5721cba51b166d8051d8585eef583e75a73093caac6"
+      },
+      {
+        "path": "assets/models/home/sirui-rick-and-morty.glb",
+        "sha256": "06d8f41e0740929fef63a90e71a2bca8976ac2adb7c54bb69992eedc58a88e91"
+      },
+      {
+        "path": "assets/models/home/sirui-simpsons.glb",
+        "sha256": "6214fae6762b2257cd3060ac64f7eb4b662a1bb672e663385f676d9f132634f4"
+      },
+      {
+        "path": "assets/models/home/sirui-south-park.glb",
+        "sha256": "8a94d3f20fbd8fa52520b4035b01f736a72a6fd013fc6583d839f8b7f8ee3324"
+      },
+      {
+        "path": "assets/models/home/WesternGull.glb",
+        "sha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29"
+      }
+    ]
+  },
+  "manifest": {
+    "path": "assets/models/home/manifest.json",
+    "sha256": "1e104c30454a876dd0a76c47ef60d5bed261c2f970e4097991ad36733f0c002f",
+    "gitBlob": "e83a073d52f366fc11b060c2acbc6f96fd2eba2f",
+    "preservedFurnitureAnchors": 17
+  },
+  "sourceFiles": [
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "bytes": 22851666,
+      "sha256": "342dd722b1946a25c7aca67be1081cae143fd40f2ff50266678cd3c3e993865b"
+    },
+    {
+      "path": "artwork/coastal-home/living-plants.blend",
+      "bytes": 160388,
+      "sha256": "8a51a61896637a8fbcb51221db074087ed1fe6a2e0ea53013f1cace9a5bccf42"
+    },
+    {
+      "path": "assets/models/home/room-lounge.glb",
+      "bytes": 182492,
+      "sha256": "580a80b5d9f4d35379f23cb61765f759a629880f61b32237b60e8d5fb965c0f6"
+    },
+    {
+      "path": "bin/coastal_living.py",
+      "bytes": 22501,
+      "sha256": "3a4d9a39c14a5d818689a37d7562887edfcef551b296c72c6fc81722ff9f4af4"
+    },
+    {
+      "path": "bin/coastal_living_plants.py",
+      "bytes": 1324,
+      "sha256": "812c9fcfc4109881858c5c14f42f8184e254fb1dbc33cbf866400addf70c4c80"
+    },
+    {
+      "path": "bin/restore_coastal_living_plants.py",
+      "bytes": 4151,
+      "sha256": "aab351182de5d2520720f73c9cebc65269f5671cd0179a522f19ba2f93ee38f9"
+    },
+    {
+      "path": "bin/bake_coastal_light.py",
+      "bytes": 5876,
+      "sha256": "1da95ab6515b4a26c79961824b5b082b39597e4cb99c0c34530c3aeccbd95b67"
+    }
+  ],
+  "webBudget": {
+    "previousLoungeBytes": 139456,
+    "currentLoungeBytes": 182492,
+    "addedBytes": 43036,
+    "otherExportBytesChanged": 0
+  },
+  "wind": {
+    "restoredLounge": {
+      "olive": 176,
+      "smallPlant": 7
+    },
+    "otherRoomsAndFacadeEnabled": 220,
+    "totalEnabled": 403,
+    "intentionallyDisabledStudy": 30,
+    "previousFailureEnabled": 220
+  },
+  "checks": {
+    "node": {
+      "passed": 30,
+      "files": ["test/coastal-interior.test.mjs", "test/coastal-wind.test.mjs", "test/coastal-hinterland.test.mjs"]
+    },
+    "pythonAssets": {
+      "passed": 7,
+      "file": "test/test_coastal_assets.py"
+    },
+    "native": "256 pre-existing objects unchanged, eight actual support ray samples, repeated retain/reload checks passed",
+    "sourceCompile": true,
+    "scope": "Bounded restoration; no claim of a new full site release matrix"
+  },
+  "browser": [
+    {
+      "view": "lounge",
+      "camera": null,
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "roomCount": 6,
+      "enabled": 403,
+      "disabled": 30,
+      "plants": [
+        {
+          "name": "core__olive_leaf",
+          "vertices": 1188,
+          "components": 22,
+          "enabled": 22,
+          "disabled": 0,
+          "buildMilliseconds": 12
+        },
+        {
+          "name": "core_facade__olive_leaf",
+          "vertices": 1944,
+          "components": 108,
+          "enabled": 108,
+          "disabled": 0,
+          "buildMilliseconds": 24
+        },
+        {
+          "name": "study__olive_leaf",
+          "vertices": 232,
+          "components": 58,
+          "enabled": 28,
+          "disabled": 30,
+          "buildMilliseconds": 7
+        },
+        {
+          "name": "lounge_retained_plant_table_foliage",
+          "vertices": 28,
+          "components": 7,
+          "enabled": 7,
+          "disabled": 0,
+          "buildMilliseconds": 1
+        },
+        {
+          "name": "lounge_retained_plant_olive_foliage",
+          "vertices": 2112,
+          "components": 176,
+          "enabled": 176,
+          "disabled": 0,
+          "buildMilliseconds": 43
+        },
+        {
+          "name": "kitchen__olive_leaf",
+          "vertices": 160,
+          "components": 40,
+          "enabled": 40,
+          "disabled": 0,
+          "buildMilliseconds": 4
+        },
+        {
+          "name": "onsen__olive_leaf",
+          "vertices": 594,
+          "components": 11,
+          "enabled": 11,
+          "disabled": 0,
+          "buildMilliseconds": 14
+        },
+        {
+          "name": "sleep__olive_leaf",
+          "vertices": 594,
+          "components": 11,
+          "enabled": 11,
+          "disabled": 0,
+          "buildMilliseconds": 11
+        }
+      ],
+      "errors": [],
+      "heldPose": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "uniqueRgbColors": 23446,
+      "servedAssets": [
+        {
+          "path": "/assets/models/home/room-lounge.glb",
+          "bytes": 182492,
+          "sha256": "580a80b5d9f4d35379f23cb61765f759a629880f61b32237b60e8d5fb965c0f6"
+        }
+      ],
+      "screenshot": {
+        "path": "docs/evidence/living-plants-2026-10-23/lounge.png",
+        "sha256": "fce51e37a889c35bb03a469dfd1b71557be3d4335681216d4a81831c8f728a9c"
+      },
+      "frameTiming": {
+        "samples": 100,
+        "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+        "medianFrameMs": 38,
+        "p95FrameMs": 65,
+        "maximumFrameMs": 83,
+        "medianSubmitMs": 22,
+        "p95SubmitMs": 50,
+        "maximumSubmitMs": 65
+      }
+    },
+    {
+      "view": "lounge-plants",
+      "camera": {
+        "target": [3.1, 0.8, -3.8],
+        "yaw": -0.3,
+        "pitch": 0.25,
+        "radius": 3.1
+      },
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "roomCount": 6,
+      "enabled": 403,
+      "disabled": 30,
+      "plants": [
+        {
+          "name": "core__olive_leaf",
+          "vertices": 1188,
+          "components": 22,
+          "enabled": 22,
+          "disabled": 0,
+          "buildMilliseconds": 24
+        },
+        {
+          "name": "core_facade__olive_leaf",
+          "vertices": 1944,
+          "components": 108,
+          "enabled": 108,
+          "disabled": 0,
+          "buildMilliseconds": 30
+        },
+        {
+          "name": "study__olive_leaf",
+          "vertices": 232,
+          "components": 58,
+          "enabled": 28,
+          "disabled": 30,
+          "buildMilliseconds": 6
+        },
+        {
+          "name": "lounge_retained_plant_table_foliage",
+          "vertices": 28,
+          "components": 7,
+          "enabled": 7,
+          "disabled": 0,
+          "buildMilliseconds": 2
+        },
+        {
+          "name": "lounge_retained_plant_olive_foliage",
+          "vertices": 2112,
+          "components": 176,
+          "enabled": 176,
+          "disabled": 0,
+          "buildMilliseconds": 56
+        },
+        {
+          "name": "kitchen__olive_leaf",
+          "vertices": 160,
+          "components": 40,
+          "enabled": 40,
+          "disabled": 0,
+          "buildMilliseconds": 6
+        },
+        {
+          "name": "onsen__olive_leaf",
+          "vertices": 594,
+          "components": 11,
+          "enabled": 11,
+          "disabled": 0,
+          "buildMilliseconds": 14
+        },
+        {
+          "name": "sleep__olive_leaf",
+          "vertices": 594,
+          "components": 11,
+          "enabled": 11,
+          "disabled": 0,
+          "buildMilliseconds": 14
+        }
+      ],
+      "errors": [],
+      "heldPose": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "uniqueRgbColors": 35020,
+      "servedAssets": [
+        {
+          "path": "/assets/models/home/room-lounge.glb",
+          "bytes": 182492,
+          "sha256": "580a80b5d9f4d35379f23cb61765f759a629880f61b32237b60e8d5fb965c0f6"
+        }
+      ],
+      "screenshot": {
+        "path": "docs/evidence/living-plants-2026-10-23/olive.png",
+        "sha256": "3104a8a9bcd5698ebf7e577c92a352e444de7410bd2bc4b7739705f4667c1409"
+      },
+      "frameTiming": {
+        "samples": 96,
+        "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+        "medianFrameMs": 47,
+        "p95FrameMs": 68,
+        "maximumFrameMs": 78,
+        "medianSubmitMs": 30,
+        "p95SubmitMs": 42,
+        "maximumSubmitMs": 68
+      }
+    },
+    {
+      "view": "lounge-table",
+      "camera": {
+        "target": [4.79, 0.78, -0.13],
+        "yaw": -1.4,
+        "pitch": 0.2,
+        "radius": 1.1
+      },
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "roomCount": 6,
+      "enabled": 403,
+      "disabled": 30,
+      "plants": [
+        {
+          "name": "core__olive_leaf",
+          "vertices": 1188,
+          "components": 22,
+          "enabled": 22,
+          "disabled": 0,
+          "buildMilliseconds": 21
+        },
+        {
+          "name": "core_facade__olive_leaf",
+          "vertices": 1944,
+          "components": 108,
+          "enabled": 108,
+          "disabled": 0,
+          "buildMilliseconds": 29
+        },
+        {
+          "name": "study__olive_leaf",
+          "vertices": 232,
+          "components": 58,
+          "enabled": 28,
+          "disabled": 30,
+          "buildMilliseconds": 8
+        },
+        {
+          "name": "lounge_retained_plant_table_foliage",
+          "vertices": 28,
+          "components": 7,
+          "enabled": 7,
+          "disabled": 0,
+          "buildMilliseconds": 1
+        },
+        {
+          "name": "lounge_retained_plant_olive_foliage",
+          "vertices": 2112,
+          "components": 176,
+          "enabled": 176,
+          "disabled": 0,
+          "buildMilliseconds": 62
+        },
+        {
+          "name": "onsen__olive_leaf",
+          "vertices": 594,
+          "components": 11,
+          "enabled": 11,
+          "disabled": 0,
+          "buildMilliseconds": 15
+        },
+        {
+          "name": "kitchen__olive_leaf",
+          "vertices": 160,
+          "components": 40,
+          "enabled": 40,
+          "disabled": 0,
+          "buildMilliseconds": 6
+        },
+        {
+          "name": "sleep__olive_leaf",
+          "vertices": 594,
+          "components": 11,
+          "enabled": 11,
+          "disabled": 0,
+          "buildMilliseconds": 10
+        }
+      ],
+      "errors": [],
+      "heldPose": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "uniqueRgbColors": 14463,
+      "servedAssets": [
+        {
+          "path": "/assets/models/home/room-lounge.glb",
+          "bytes": 182492,
+          "sha256": "580a80b5d9f4d35379f23cb61765f759a629880f61b32237b60e8d5fb965c0f6"
+        }
+      ],
+      "screenshot": {
+        "path": "docs/evidence/living-plants-2026-10-23/credenza.png",
+        "sha256": "552b06292a314289ea2606032bd5593dc3f3cc4dc7bd185717a2f45aba8c8c6b"
+      },
+      "frameTiming": {
+        "samples": 120,
+        "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+        "medianFrameMs": 28,
+        "p95FrameMs": 35,
+        "maximumFrameMs": 46,
+        "medianSubmitMs": 13,
+        "p95SubmitMs": 18,
+        "maximumSubmitMs": 21
+      }
+    }
+  ],
+  "earlierCloseViewResiduals": [
+    {
+      "cache": ".jekyll-cache/visual-qa/living-plants-seated-2026-10-23",
+      "changedPixels": 155,
+      "maximumChannelDifference": 2,
+      "channelRange": [0, 255],
+      "disposition": "Recorded failed held pair; no attribution to plant physics. Final capture passed; shared root integration remains authoritative."
+    },
+    {
+      "cache": ".jekyll-cache/visual-qa/living-plants-table-2026-10-23",
+      "changedPixels": 222354,
+      "maximumChannelDifference": 65,
+      "channelRange": [0, 255],
+      "disposition": "Recorded failed held pair; no attribution to plant physics. Final capture passed; shared root integration remains authoritative.",
+      "beforeFile": {
+        "path": "docs/evidence/living-plants-2026-10-23/credenza-residual-before.png",
+        "sha256": "552b06292a314289ea2606032bd5593dc3f3cc4dc7bd185717a2f45aba8c8c6b"
+      },
+      "afterFile": {
+        "path": "docs/evidence/living-plants-2026-10-23/credenza-residual-after.png",
+        "sha256": "0b68744f216e1271ca413c6a614693bef07b8aa917145df52ba3348a3f99d165"
+      }
+    }
+  ],
+  "timingScope": "Local Chromium diagnostic; concurrent CPU-only native preservation audit in main/olive capture. No GPU performance comparison claimed."
+}
