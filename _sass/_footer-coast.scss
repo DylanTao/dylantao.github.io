@@ -201,7 +201,8 @@ footer.coastal-page-footer {
       0 0 6px var(--coast-halo, var(--global-bg-color)),
       0 0 14px var(--coast-glow, transparent),
       0 0 30px var(--coast-glow, transparent);
-    transition: text-shadow 0.6s ease;
+    // The solar look already blends the halo. A second tween leaves it incomplete
+    // at first paint and overrides the earlier reduced-motion rule.
     pointer-events: none;
     a {
       pointer-events: auto;

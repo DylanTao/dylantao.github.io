@@ -333,6 +333,7 @@ test("coastal sky: La Jolla's real sunset and dusk keep the theme, the credit an
   // Eight minutes before sunset: the afternoon theme, the sun's disk on the sea horizon, its glitter
   // path, the marine layer over the surf line, and a legible credit under its warm halo.
   let host = await at("18:04");
+  await expect(page.locator("footer.coastal-page-footer > .container")).toHaveCSS("transition-duration", "0s");
   await expect(page.locator("html")).toHaveAttribute("data-theme-mode", "afternoon");
   let info = await evidence(host);
   expect(info.sun.rising).toBe(false);
