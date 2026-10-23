@@ -128,6 +128,37 @@ jobs:
           npm run lint:style-contract
           node --test test/companion.test.mjs test/coast-people.test.mjs test/coastal-routine.test.mjs test/coastal-navigation.test.mjs test/coastal-camera.test.mjs test/visual_scene_groups.test.mjs test/scene-look.test.mjs test/sun-arc-math.test.mjs test/loading-sketch.test.mjs test/light-well.test.mjs test/light-installations.test.mjs test/light-lab.test.mjs test/light-lab-chart.test.mjs
 
+      - name: Use the official Ubuntu package archive
+        # The runner's Azure mirror fetched 113 MB in 47 minutes on October 23.
+        # Mirror lists matter too: hosted runners can use mirror+file: URIs.
+        run: |
+          sudo python3 - <<'PY'
+          from pathlib import Path
+
+          apt = Path("/etc/apt")
+          sources = apt / "sources.list.d"
+          candidates = [
+              apt / "sources.list",
+              apt / "apt-mirrors.txt",
+              apt / "apt-security-mirrors.txt",
+              *sources.glob("*.list"),
+              *sources.glob("*.sources"),
+          ]
+          for path in candidates:
+              if not path.is_file():
+                  continue
+              original = path.read_text(encoding="utf-8")
+              updated = original
+              for scheme in ("http", "https"):
+                  updated = updated.replace(
+                      f"{scheme}://azure.archive.ubuntu.com/ubuntu",
+                      "https://archive.ubuntu.com/ubuntu",
+                  )
+              if updated != original:
+                  path.write_text(updated, encoding="utf-8")
+                  print(f"Using the official Ubuntu archive in {path}")
+          PY
+
       - name: Install Jekyll and image runtime dependencies
         run: |
           sudo apt-get update

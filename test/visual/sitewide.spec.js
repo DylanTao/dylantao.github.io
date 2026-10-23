@@ -82,7 +82,10 @@ test("CV preserves semantic sections, native navigation and printable current te
   expect(sections.wrongTargets).toBe(0);
   await expect(cv.getByRole("rowheader", { name: "Email", exact: true })).toHaveAttribute("scope", "row");
   await expect(cv.getByRole("link", { name: "s1tao@ucsd.edu", exact: true })).toHaveAttribute("href", "mailto:s1tao@ucsd.edu");
-  await expect(page.getByRole("link", { name: "Open CV PDF, July 2026 snapshot", exact: true })).toHaveAttribute("href", /Sirui_Tao_CV_Public\.pdf$/);
+  await expect(page.getByRole("link", { name: "Open CV PDF, citation counts dated July 2026", exact: true })).toHaveAttribute(
+    "href",
+    /Sirui_Tao_CV_Public\.pdf$/
+  );
 
   const compactNavigation = page.viewportSize().width < 992;
   if (compactNavigation) {
@@ -97,13 +100,15 @@ test("CV preserves semantic sections, native navigation and printable current te
     await expect(page).toHaveURL(/#academia$/);
   }
 
-  const beforePrint = await cv.innerText();
+  // Reflow changes renderer whitespace; words and punctuation must remain identical.
+  const readableText = (text) => text.replace(/\s+/gu, " ").trim();
+  const beforePrint = readableText(await cv.innerText());
   await page.emulateMedia({ media: "print" });
   for (const selector of ["#top", ".toc-sidebar-column", "footer", "[data-cv-mobile-sections]", ".cv-pdf-link"]) {
     await expect(page.locator(selector).first()).toBeHidden();
   }
   await expect(cv.locator("#education")).toBeVisible();
-  expect(await cv.innerText()).toBe(beforePrint);
+  expect(readableText(await cv.innerText())).toBe(beforePrint);
   const printLayout = await page.locator("#main").evaluate((main) => ({
     width: main.getBoundingClientRect().width,
     viewport: window.innerWidth,
@@ -123,7 +128,7 @@ test("CV preserves semantic sections, native navigation and printable current te
     await noScriptPage.goto(publicRouteUrl("/cv/"), { waitUntil: "domcontentloaded" });
     const nativeSections = await inspectSections(noScriptPage);
     expect(nativeSections).toEqual(sections);
-    expect(await noScriptPage.locator(".cv").innerText()).toBe(beforePrint);
+    expect(readableText(await noScriptPage.locator(".cv").innerText())).toBe(beforePrint);
     const nativeSidebarIds = await noScriptPage
       .locator("#toc-sidebar a")
       .evaluateAll((links) => links.map((link) => decodeURIComponent(link.hash.slice(1))));
@@ -2100,7 +2105,10 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   await expect(page.locator("[data-project-slug]")).toHaveCount(22);
   await expect(page.locator('#project-website-revamp a[href$="/projects/website-revamp/"]')).toHaveText("Human project page");
   await expect(page.locator('#writing a[href$="/blog/"]')).toHaveText("Human writing index");
-  await expect(page.locator('#cv a[href$="/cv/"]')).toHaveText("Human CV");
+  await expect(page.locator('#cv a[href$="/cv/"]')).toHaveText("Current human CV");
+  await expect(page.locator('#cv a[href$="/assets/json/resume.json"]')).toHaveText("Current JSON Resume");
+  await expect(page.locator('#cv a[href$="/assets/pdf/Sirui_Tao_CV_Public.pdf"]')).toHaveText("PDF · earlier version");
+  await expect(page.locator("#cv")).toContainText("citation counts dated July 2026");
 
   const aiHeaderLinks = page.locator("#navbarNav [data-ai-nav-link]");
   await expect(aiHeaderLinks).toHaveCount(7);

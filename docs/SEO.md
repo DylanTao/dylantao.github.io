@@ -10,7 +10,7 @@ Google's [AI search guidance](https://developers.google.com/search/docs/appearan
 - `/ai/` provides a compact server-rendered index with stable project and publication anchors, writing, and current CV links.
 - `/ai/publications.json`, `/ai/projects.json`, paper Markdown/BibTeX/RIS, and `llms.txt`/`llms-full.txt` are retrieval formats. They project from canonical sources and do not promise recommendations.
 - `_bibliography/papers.bib` owns bibliographic facts. `_data/publication_context.yml` owns source-reviewed citation guidance; `_data/publication_lens.yml` supplies display classifications and authorship checks.
-- `_data/resume.json` and its identical public copy, `assets/json/resume.json`, provide the current structured CV. The manually maintained PDF is a dated July 2026 snapshot; the web CV and its print view are the current readable record.
+- `_data/resume.json` and its identical public copy, `assets/json/resume.json`, provide the current structured CV. The manually maintained PDF retains earlier paper statuses and citation counts dated July 2026; it records no export date. The web CV and its print view are the current readable record.
 
 The site's `Person` identifier is shared by the homepage profile, CV, and authored work. Genuine posts use `BlogPosting`; projects use `CreativeWork` with their actual category. Archives, indexes, and process-record pages must not masquerade as authored posts or papers. Unknown dates stay absent rather than becoming January 1.
 

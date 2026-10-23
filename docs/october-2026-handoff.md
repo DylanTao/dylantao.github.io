@@ -326,7 +326,7 @@ The follow-up keeps Sirui's writing and research facts while improving how visit
 - [x] Collection-based post/project metadata, honest project genres and known dates, removal of the nonexistent search target, and the stable Pip AI anchor.
 - [x] Specific CV search metadata and a JSON alternative linked to the canonical Person, plus the configured Google verification token. This is technical publication, not evidence of account verification or ranking.
 - [x] CV H2/H3 semantics, stable unique section IDs, native no-JavaScript links, keyboard arrival, contact row headers/mailto, and a scoped current-web print layout.
-- [x] Consistent July 2026 labeling for the manually maintained PDF; current web/JSON facts and the public PDF remain unchanged.
+- [x] Consistent PDF context: earlier paper statuses and citation counts dated July 2026, with no invented document/export date. Current web/JSON facts and the public PDF remain unchanged.
 - [x] Honest navigation timing and once-only numeric scroll milestones, with meaningful old-implementation regression failures.
 - [x] Generated discovery checks in the existing CI entrypoint compare actual writing/catalog records, schemas, format fragments, and current CV JSON. New fixture tests cover both deployment baseurls and malformed projections.
 - [x] Outcome-based reflective practice in the canonical heuristics and the existing portfolio-writing, website-design-critique, and tacit-knowledge skills. The SEO guide now documents the actual site and a measurement plan.
