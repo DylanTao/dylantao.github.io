@@ -517,8 +517,9 @@ export function creditHalo(look, darkInk) {
   const hex = (n, a) => `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a.toFixed(3)})`;
   return {
     // Light ink (dusk and night) keeps a dense dark halo: at 0.8 the dusk credit sat at 4.48:1 on
-    // CI's Linux text rendering, just under the 4.5:1 the coast promises.
-    inner: darkInk ? hex(look.haloLight, look.haloAlpha) : hex(look.haloDark, Math.max(look.haloAlpha, 0.92)),
+    // CI's Linux text rendering, and at 0.92 it still dipped to 4.46:1 on 2026-10-22 as the sea
+    // behind it rendered a hair differently from run to run; 0.97 leaves margin over 4.5:1.
+    inner: darkInk ? hex(look.haloLight, look.haloAlpha) : hex(look.haloDark, Math.max(look.haloAlpha, 0.97)),
     glow: hex(look.glowColor, look.glowAlpha),
   };
 }
