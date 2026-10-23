@@ -1,0 +1,20 @@
+{
+  "baseline": "3235cb72d9ee7e31178ae4a41ec3ff5f4b2fb052",
+  "sourceMeshCount": 81,
+  "unchangedSourceMeshes": 79,
+  "onlySourceEdits": [
+    {
+      "mesh": "floating-fireplace.lod0__fireplace graphite",
+      "upperRingVerticesMoved": 64,
+      "oldLocalHeight": 1.9,
+      "newLocalHeight": 2.2
+    },
+    {
+      "mesh": "floating-fireplace.lod1__fireplace graphite",
+      "upperRingVerticesMoved": 32,
+      "oldLocalHeight": 1.9,
+      "newLocalHeight": 2.2
+    }
+  ],
+  "preserved": "All other mesh vertices, polygon topology, UV coordinates, vertex colors, material slots, local transforms and parents are identical; fireplace graphite differs only at the recorded top ring."
+}

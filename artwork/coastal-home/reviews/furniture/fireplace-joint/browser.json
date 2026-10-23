@@ -1,0 +1,91 @@
+{
+  "base": "http://127.0.0.1:4153/al-folio/",
+  "overlays": "Only furniture index and fireplace GLBs; all other production bytes unchanged",
+  "results": [
+    {
+      "level": "default",
+      "camera": {
+        "target": [0.95, 1.78, -1.15],
+        "yaw": 3.541592653589793,
+        "pitch": 0.06,
+        "radius": 1.5
+      },
+      "served": [
+        {
+          "file": "index.json",
+          "bytes": 8473,
+          "sha256": "e64f583d23dd3bb1f9eeb7b198e3d3f736c52e6e341217fcf0b89b10af07402b"
+        },
+        {
+          "file": "floating-fireplace-lod1.glb",
+          "bytes": 12588,
+          "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36"
+        }
+      ],
+      "errors": [],
+      "state": {
+        "camera": [0.6467240173376628, 7.314829847437827, -9.042418328117172],
+        "furniture": {
+          "id": "living-fireplace",
+          "item": "floating-fireplace",
+          "room": "lounge",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        "roomCount": 6,
+        "triangles": 3212311,
+        "drawCalls": 1252
+      }
+    },
+    {
+      "level": "fine",
+      "camera": {
+        "target": [0.95, 1.78, -1.15],
+        "yaw": 3.541592653589793,
+        "pitch": 0.06,
+        "radius": 1.5
+      },
+      "served": [
+        {
+          "file": "index.json",
+          "bytes": 8473,
+          "sha256": "e64f583d23dd3bb1f9eeb7b198e3d3f736c52e6e341217fcf0b89b10af07402b"
+        },
+        {
+          "file": "floating-fireplace-lod1.glb",
+          "bytes": 12588,
+          "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36"
+        },
+        {
+          "file": "floating-fireplace-lod0.glb",
+          "bytes": 17264,
+          "sha256": "337540ca4ae878da0ea9160e0652b8e34ca15616722b92766339696e86d54496"
+        }
+      ],
+      "errors": [],
+      "state": {
+        "camera": [0.6467240173376628, 7.314829847437827, -9.042418328117172],
+        "furniture": {
+          "id": "living-fireplace",
+          "item": "floating-fireplace",
+          "room": "lounge",
+          "shown": 1,
+          "wanted": 1,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        "roomCount": 6,
+        "triangles": 3311951,
+        "drawCalls": 1256
+      }
+    }
+  ]
+}

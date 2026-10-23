@@ -1,0 +1,283 @@
+{
+  "baseline": "3235cb72d9ee7e31178ae4a41ec3ff5f4b2fb052",
+  "unchangedOtherGLBs": 20,
+  "unchangedOtherItemMetadata": 10,
+  "unchangedHouseSourceExportsAndManifest": true,
+  "files": {
+    "assets/models/home/furniture/aeron-lod0.glb": {
+      "before": {
+        "bytes": 167488,
+        "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833"
+      },
+      "after": {
+        "bytes": 167488,
+        "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/aeron-lod1.glb": {
+      "before": {
+        "bytes": 82404,
+        "sha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54"
+      },
+      "after": {
+        "bytes": 82404,
+        "sha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/cast-iron-pan-lod0.glb": {
+      "before": {
+        "bytes": 45100,
+        "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c"
+      },
+      "after": {
+        "bytes": 45100,
+        "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/cast-iron-pan-lod1.glb": {
+      "before": {
+        "bytes": 9488,
+        "sha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d"
+      },
+      "after": {
+        "bytes": 9488,
+        "sha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/dining-chair-lod0.glb": {
+      "before": {
+        "bytes": 30636,
+        "sha256": "bc8a8b1bd4e6b842265c5a98dc640bca1293985b7f42b146c4bbbda8f82f70d0"
+      },
+      "after": {
+        "bytes": 30636,
+        "sha256": "bc8a8b1bd4e6b842265c5a98dc640bca1293985b7f42b146c4bbbda8f82f70d0"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/dining-chair-lod1.glb": {
+      "before": {
+        "bytes": 17416,
+        "sha256": "5209cdf46b91fd2a968edb7eabed4b029bf2aa0d808160fb6af86f473e14403e"
+      },
+      "after": {
+        "bytes": 17416,
+        "sha256": "5209cdf46b91fd2a968edb7eabed4b029bf2aa0d808160fb6af86f473e14403e"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/dining-table-lod0.glb": {
+      "before": {
+        "bytes": 8932,
+        "sha256": "78a97dbb32aaa76ac76eadc9c8b63a2cc2747eaeaa95fd496ed5693e496dc80a"
+      },
+      "after": {
+        "bytes": 8932,
+        "sha256": "78a97dbb32aaa76ac76eadc9c8b63a2cc2747eaeaa95fd496ed5693e496dc80a"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/dining-table-lod1.glb": {
+      "before": {
+        "bytes": 6880,
+        "sha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884"
+      },
+      "after": {
+        "bytes": 6880,
+        "sha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/dumbbell-lod0.glb": {
+      "before": {
+        "bytes": 8564,
+        "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
+      },
+      "after": {
+        "bytes": 8564,
+        "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/dumbbell-lod1.glb": {
+      "before": {
+        "bytes": 4676,
+        "sha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e"
+      },
+      "after": {
+        "bytes": 4676,
+        "sha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/eames-lounge-lod0.glb": {
+      "before": {
+        "bytes": 444044,
+        "sha256": "cd04a42079abd52010065d54b502826a2d347d70ecf35b6b9df4c626d3cd10e8"
+      },
+      "after": {
+        "bytes": 444044,
+        "sha256": "cd04a42079abd52010065d54b502826a2d347d70ecf35b6b9df4c626d3cd10e8"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/eames-lounge-lod1.glb": {
+      "before": {
+        "bytes": 66580,
+        "sha256": "b44dab6b2ff47c1e893005b388e3d45d83e2a42369ca8f0f9d0782086998a50b"
+      },
+      "after": {
+        "bytes": 66580,
+        "sha256": "b44dab6b2ff47c1e893005b388e3d45d83e2a42369ca8f0f9d0782086998a50b"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/floating-fireplace-lod0.glb": {
+      "before": {
+        "bytes": 17356,
+        "sha256": "7eeefd1c1a149dc433c7b11b122e67e6300a54ed15d6664ea97eceb8b1d0d8bf"
+      },
+      "after": {
+        "bytes": 17264,
+        "sha256": "337540ca4ae878da0ea9160e0652b8e34ca15616722b92766339696e86d54496"
+      },
+      "unchanged": false
+    },
+    "assets/models/home/furniture/floating-fireplace-lod1.glb": {
+      "before": {
+        "bytes": 12616,
+        "sha256": "8ee91caa23fcdcea892f811bff78dd37fb746c94f2c00243ff7d60e4744347a7"
+      },
+      "after": {
+        "bytes": 12588,
+        "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36"
+      },
+      "unchanged": false
+    },
+    "assets/models/home/furniture/glass-fridge-lod0.glb": {
+      "before": {
+        "bytes": 46968,
+        "sha256": "dbb584e3238f224bcfbaee6e7b5ea1ba0f2cba67e551026a11499f32ac547347"
+      },
+      "after": {
+        "bytes": 46968,
+        "sha256": "dbb584e3238f224bcfbaee6e7b5ea1ba0f2cba67e551026a11499f32ac547347"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/glass-fridge-lod1.glb": {
+      "before": {
+        "bytes": 33328,
+        "sha256": "61ad93a89a348b6da3da3becc80246bd7e76f800d3918fe5da1a6eea06bafcfd"
+      },
+      "after": {
+        "bytes": 33328,
+        "sha256": "61ad93a89a348b6da3da3becc80246bd7e76f800d3918fe5da1a6eea06bafcfd"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/italian-range-lod0.glb": {
+      "before": {
+        "bytes": 49312,
+        "sha256": "a91cd11a8889fa140e543a3471f8ca7b506929ee7ffdb9be8b70a4ce282b976a"
+      },
+      "after": {
+        "bytes": 49312,
+        "sha256": "a91cd11a8889fa140e543a3471f8ca7b506929ee7ffdb9be8b70a4ce282b976a"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/italian-range-lod1.glb": {
+      "before": {
+        "bytes": 32936,
+        "sha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a"
+      },
+      "after": {
+        "bytes": 32936,
+        "sha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/pot-filler-lod0.glb": {
+      "before": {
+        "bytes": 7812,
+        "sha256": "a4695554f61f983141a41f1554b4e854562847ba8c66a929003595248ac5088a"
+      },
+      "after": {
+        "bytes": 7812,
+        "sha256": "a4695554f61f983141a41f1554b4e854562847ba8c66a929003595248ac5088a"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/pot-filler-lod1.glb": {
+      "before": {
+        "bytes": 7340,
+        "sha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d"
+      },
+      "after": {
+        "bytes": 7340,
+        "sha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/range-hood-lod0.glb": {
+      "before": {
+        "bytes": 8944,
+        "sha256": "3413e686faf5ac8e45125c5f59b09560a9ef19c3d347f7257159b5fa2f9db25d"
+      },
+      "after": {
+        "bytes": 8944,
+        "sha256": "3413e686faf5ac8e45125c5f59b09560a9ef19c3d347f7257159b5fa2f9db25d"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/furniture/range-hood-lod1.glb": {
+      "before": {
+        "bytes": 7520,
+        "sha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195"
+      },
+      "after": {
+        "bytes": 7520,
+        "sha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/manifest.json": {
+      "before": {
+        "bytes": 208449,
+        "sha256": "1e104c30454a876dd0a76c47ef60d5bed261c2f970e4097991ad36733f0c002f"
+      },
+      "after": {
+        "bytes": 208449,
+        "sha256": "1e104c30454a876dd0a76c47ef60d5bed261c2f970e4097991ad36733f0c002f"
+      },
+      "unchanged": true
+    },
+    "artwork/coastal-home/coastal-home.blend": {
+      "before": {
+        "bytes": 22851666,
+        "sha256": "342dd722b1946a25c7aca67be1081cae143fd40f2ff50266678cd3c3e993865b"
+      },
+      "after": {
+        "bytes": 22851666,
+        "sha256": "342dd722b1946a25c7aca67be1081cae143fd40f2ff50266678cd3c3e993865b"
+      },
+      "unchanged": true
+    },
+    "assets/models/home/room-lounge.glb": {
+      "before": {
+        "bytes": 182492,
+        "sha256": "580a80b5d9f4d35379f23cb61765f759a629880f61b32237b60e8d5fb965c0f6"
+      },
+      "after": {
+        "bytes": 182492,
+        "sha256": "580a80b5d9f4d35379f23cb61765f759a629880f61b32237b60e8d5fb965c0f6"
+      },
+      "unchanged": true
+    }
+  }
+}

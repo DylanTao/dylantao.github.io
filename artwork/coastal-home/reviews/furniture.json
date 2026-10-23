@@ -285,25 +285,25 @@
         "0": {
           "file": "floating-fireplace-lod0.glb",
           "triangles": 2128,
-          "bytes": 17356,
+          "bytes": 17264,
           "bounds": {
             "min": [-0.45, 0.71, -0.45],
-            "max": [0.45, 1.9, 0.45]
+            "max": [0.45, 2.2, 0.45]
           },
           "shift": [-0.0, -0.0, 0.0],
-          "sha256": "7eeefd1c1a149dc433c7b11b122e67e6300a54ed15d6664ea97eceb8b1d0d8bf",
+          "sha256": "337540ca4ae878da0ea9160e0652b8e34ca15616722b92766339696e86d54496",
           "baked": [0.688, 1.0]
         },
         "1": {
           "file": "floating-fireplace-lod1.glb",
           "triangles": 1112,
-          "bytes": 12616,
+          "bytes": 12588,
           "bounds": {
             "min": [-0.45, 0.71, -0.45],
-            "max": [0.45, 1.9, 0.45]
+            "max": [0.45, 2.2, 0.45]
           },
           "shift": [-0.0, -0.0, 0.0],
-          "sha256": "8ee91caa23fcdcea892f811bff78dd37fb746c94f2c00243ff7d60e4744347a7",
+          "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36",
           "baked": [0.688, 1.0]
         }
       }

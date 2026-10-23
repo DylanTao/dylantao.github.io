@@ -27,6 +27,7 @@ Run from the repository root:
   ... -- --item=eames-lounge,aeron   only these items (index.json keeps the others)
   ... -- --no-bake                    skip the AO bake (quick geometry checks)
   ... -- --review                     also render review stills to .jekyll-cache/visual-qa/furniture/
+  ... -- --patch-fireplace-neck       extend only the retained fireplace neck and re-export its two levels
 """
 
 import hashlib
@@ -1173,12 +1174,14 @@ def build_fireplace(parts,q):
     # Separate upper canopy and open lower bowl: fire remains visible from the living room.
     lathe(parts.bm(black),[(.04,.71),(.24,.73),(.40,.79),(.45,.88),(.445,.90),(.42,.895),(.37,.82),(.23,.77),(.04,.76)],segments=q["segments"])
     lathe(parts.bm("fireplace ash"),[(.30,.792),(.30,.805)],segments=32)
-    lathe(parts.bm(black),[(.45,1.13),(.42,1.21),(.29,1.35),(.10,1.48),(.10,1.90)],segments=q["segments"])
+    # The room-owned extension starts 2.20 m above the pit floor. Keep this neck at the
+    # same 10 cm radius through that joint, including the room placeholder's 30 cm stub.
+    lathe(parts.bm(black),[(.45,1.13),(.42,1.21),(.29,1.35),(.10,1.48),(.10,2.20)],segments=q["segments"])
     for k in range(5):
         a=k*2.3
         x,y=.15*math.cos(a),.15*math.sin(a)
         tube(parts,"fireplace ember",[(x-.10,y,.816),(x+.10,y+.035,.84)],.025)
-    return dict(label="Suspended UFO fireplace",near=1.6,emitters={"fire":[0,.84,0]},provenance="Original suspended graphite fireplace with open combustion bowl, canopy and 20 cm flue; runtime fire uses deterministic bounded flame geometry and a still reduced-motion state.")
+    return dict(label="Suspended UFO fireplace",near=1.6,emitters={"fire":[0,.84,0]},provenance="Original suspended graphite fireplace with open combustion bowl and canopy; its 10 cm radius neck reaches 2.20 m above the pit floor to meet the native room flue. Runtime fire uses deterministic bounded flame geometry and a still reduced-motion state.")
 
 
 ITEMS = {"eames-lounge": build_eames, "aeron": build_aeron, "italian-range": build_range,
@@ -1417,6 +1420,52 @@ def review(collection, objects, path, direction=(-0.62, -1.0, 0.62)):
 # ── Main ─────────────────────────────────────────────────────────────────────────────────────────
 
 
+def patch_fireplace_neck():
+    """Keep every other retained mesh and export intact while repairing the 30 cm joint gap.
+
+    Only the upper ring of each straight graphite neck moves. Its existing UVs, normals
+    and vertex AO remain valid on the extended cylinder; no other surface is rebuilt.
+    Full rebuilds use the same 2.20 m endpoint in build_fireplace above.
+    """
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
+    index_path = OUT / "index.json"
+    index = json.loads(index_path.read_text(encoding="utf-8"))
+    report = json.loads(REVIEW_JSON.read_text(encoding="utf-8"))
+    item = "floating-fireplace"
+    for lod in LODS:
+        root = bpy.data.objects[f"{item}.lod{lod}"]
+        graphite = bpy.data.objects[f"{item}.lod{lod}__fireplace graphite"]
+        ring = [v for v in graphite.data.vertices if abs(v.co.z - 1.90) < 1e-5]
+        if not ring:
+            assert abs(max(v.co.z for v in graphite.data.vertices) - 2.20) < 1e-5
+        else:
+            assert len(ring) == QUALITY[lod]["segments"], (lod, len(ring))
+            for vertex in ring:
+                vertex.co.z = 2.20
+        graphite.data.update()
+        objects = [o for o in root.children_recursive if o.type == "MESH"]
+        bpy.context.view_layer.update()
+        path = OUT / f"{item}-lod{lod}.glb"
+        export(root, path)
+        level = report["items"][item]["levels"][str(lod)]
+        level.update(bytes=path.stat().st_size, bounds=bounds_three(objects), sha256=sha256(path))
+        assert triangles(objects) == level["triangles"]
+        for entry in index["items"][item]["lods"]:
+            if entry["file"] == path.name:
+                entry["bytes"] = level["bytes"]
+        print(f"FIREPLACE NECK lod{lod}: {len(ring)} vertices moved; {level['bytes']} bytes; {level['bounds']}")
+    index["items"][item]["bounds"] = report["items"][item]["levels"]["0"]["bounds"]
+    index["items"][item]["provenance"] = (
+        "Original suspended graphite fireplace with open combustion bowl and canopy; its 10 cm radius neck reaches "
+        "2.20 m above the pit floor to meet the native room flue. Runtime fire uses deterministic bounded flame "
+        "geometry and a still reduced-motion state."
+    )
+    index_path.write_text(json.dumps(index, indent=2) + "\n", encoding="utf-8", newline="\n")
+    REVIEW_JSON.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
+    bpy.context.preferences.filepaths.save_version = 0
+    bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE), compress=True)
+
+
 def main():
     started = time.time()
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -1492,4 +1541,7 @@ def main():
     print(f"FURNITURE done in {time.time() - started:.1f} s")
 
 
-main()
+if option("patch-fireplace-neck"):
+    patch_fireplace_neck()
+else:
+    main()

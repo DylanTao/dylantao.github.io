@@ -26,8 +26,8 @@ dining chairs and both working dumbbells share their respective source resources
 | Woven oak chair         |            17,416 |         30,636 |
 | Cast-iron pan           |             9,488 |         45,100 |
 | Hex dumbbell            |             4,676 |          8,564 |
-| Suspended fireplace     |            12,616 |         17,356 |
-| **Unique assets total** |       **281,184** |    **835,156** |
+| Suspended fireplace     |            12,588 |         17,264 |
+| **Unique assets total** |       **281,156** |    **835,064** |
 
 Default levels stream with their rooms. Distance, projected resolution and full
 screen request finer levels with hysteresis and a byte budget. A failed piece
@@ -51,8 +51,12 @@ changes. It returns to its original shelf transform. Existing barbells, curls,
 walking routes and the training board continue through the same session system.
 The working dumbbells use their existing exact rack/hand transfer.
 
-The open fireplace bowl retains its authored flue and meets the house's flue
-extension. Its bounded flame geometry uses one draw and 1,260 triangles, with no
+The open fireplace bowl's 10 cm radius neck reaches 2.20 m above the pit floor,
+meeting the house's native flue at world height 1.78 m. The October 23 joint
+correction extends only the two retained upper rings; all other furniture meshes
+and twenty other GLBs remain unchanged. Actual Draco geometry tests cover both
+levels at this joint; captures and preservation hashes are under
+`reviews/furniture/fireplace-joint/`. Its bounded flame geometry uses one draw and 1,260 triangles, with no
 texture downloads. Pause and offscreen state freeze the active clock; reduced
 motion uses a composed still.
 

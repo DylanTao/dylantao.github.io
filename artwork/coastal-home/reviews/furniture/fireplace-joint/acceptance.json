@@ -1,0 +1,51 @@
+{
+  "baseline": "3235cb72d9ee7e31178ae4a41ec3ff5f4b2fb052",
+  "fix": "Move only upper graphite neck ring from localY1.90 to2.20 in each retained LOD; native room extension and anchors remain unchanged.",
+  "nativeFlueBottomWorldY": 1.7800002098083496,
+  "furnitureAnchor": [0.95, -0.42, -1.15],
+  "decodedBothLevels": {
+    "verticalJointGapMeters": 1.6212463371800823e-7,
+    "axisErrorMeters": 4.011115593934142e-5,
+    "sharedRadiusMeters": 0.1,
+    "testToleranceMeters": 0.0003
+  },
+  "regressionSensitivity": "Substituting original GLB bytes makes both geometry cases fail on a0.3000001144409179m gap; current exports pass.",
+  "verification": {
+    "focusedNodeTests": 16,
+    "passed": 16,
+    "prettier": "pass",
+    "styleContract": "pass",
+    "pythonCompile": "pass",
+    "diffCheck": "pass"
+  },
+  "source": {
+    "file": "artwork/coastal-home/furniture.blend",
+    "bytes": 4905847,
+    "sha256": "9888a8b07566c6369309ccc4f9bb89bca3aa18e4b8ba30760a88e46340302a38"
+  },
+  "defaultBytes": 12588,
+  "fineBytes": 17264,
+  "preservedOtherAssets": 20,
+  "preservedOtherItemRecords": 10,
+  "preservedOtherSourceMeshes": 79,
+  "screenshots": "Actual1440x1000DPR1Chromium fullscreen scene; no edited pixels, added masks or hidden geometry. Only the index and two fireplace GLBs overlaid on the root production candidate. Roomnativeextension is visible above the joint; widecutaway reveals upperflue.",
+  "limits": "Native room and item materials differ slightly in shading across their continuous butt joint. The wide shot uses the existing production cutaway and foreground glazing rail. Avatars differ between sessions; fireplace placement and cameras match.",
+  "files": {
+    "flue-default.png": {
+      "bytes": 1259887,
+      "sha256": "84074a1c179f82bb030d4b952d06993a510f73a930614ebacf940805a24074c1"
+    },
+    "flue-fine.png": {
+      "bytes": 1260718,
+      "sha256": "a29d3a4500d6e159c9343d99d1ac17568cf26bdaf299bcee6c89c2884054b288"
+    },
+    "joint-default.png": {
+      "bytes": 776859,
+      "sha256": "849cdddd55270de59cdea68fed16e78e68ace7fa60fd81d3e1ccef6cd3ae7929"
+    },
+    "joint-fine.png": {
+      "bytes": 777291,
+      "sha256": "ab181b10158bc06039c6fa017bd5a8639acb2b71df48e1401d0b7e0018200481"
+    }
+  }
+}

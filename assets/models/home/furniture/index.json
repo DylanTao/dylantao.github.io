@@ -161,26 +161,26 @@
         {
           "file": "floating-fireplace-lod1.glb",
           "triangles": 1112,
-          "bytes": 12616
+          "bytes": 12588
         },
         {
           "file": "floating-fireplace-lod0.glb",
           "triangles": 2128,
-          "bytes": 17356,
+          "bytes": 17264,
           "near": 1.6,
           "fullscreen": true
         }
       ],
       "bounds": {
         "min": [-0.45, 0.71, -0.45],
-        "max": [0.45, 1.9, 0.45]
+        "max": [0.45, 2.2, 0.45]
       },
       "origin": "floor-center",
       "front": "+z",
       "emitters": {
         "fire": [0, 0.84, 0]
       },
-      "provenance": "Original suspended graphite fireplace with open combustion bowl, canopy and 20 cm flue; runtime fire uses deterministic bounded flame geometry and a still reduced-motion state."
+      "provenance": "Original suspended graphite fireplace with open combustion bowl and canopy; its 10 cm radius neck reaches 2.20 m above the pit floor to meet the native room flue. Runtime fire uses deterministic bounded flame geometry and a still reduced-motion state."
     },
     "glass-fridge": {
       "label": "Glass-door refrigerator",
