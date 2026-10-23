@@ -331,5 +331,6 @@ The follow-up keeps Sirui's writing and research facts while improving how visit
 - [x] Generated discovery checks in the existing CI entrypoint compare actual writing/catalog records, schemas, format fragments, and current CV JSON. New fixture tests cover both deployment baseurls and malformed projections.
 - [x] Outcome-based reflective practice in the canonical heuristics and the existing portfolio-writing, website-design-critique, and tacit-knowledge skills. The SEO guide now documents the actual site and a measurement plan.
 - [x] Footer-credit reduced-motion cascade correction, with a failing-old-build regression and unchanged sunset/dusk contrast checks passing on Windows and Linux desktop/phone. The source preserves the existing credit colors and coast.
+- [x] Legacy album functional proof uses controlled frames after actual first-draw readiness. Original real-input and state assertions remain; Chromium/WebKit pass on Windows and Linux without a runtime change or larger timeout.
 
 [Discovery evidence and remaining boundaries](evidence/discovery-accessibility-2026-10-23/README.md) retain the observed problems, decisions, verification, native PDF refresh boundary, and unmeasured search outcomes. Moving-scene TAA and trained representation replacements retain the two open implementation gates above.

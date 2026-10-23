@@ -1252,7 +1252,7 @@ async function clickCoastalObject(page, scene, type, index) {
   else await page.mouse.click(x, y);
 }
 
-async function coastalHome(page, { openLab = true } = {}) {
+async function coastalHome(page, { openLab = true, controlledFrames = false } = {}) {
   // Under CI's software WebGL each 3D round trip takes 5 to 10 seconds, so these cases get the
   // longer budget the desk-scene suite gives Linux; hardware runs keep the strict default.
   const software = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
@@ -1267,13 +1267,15 @@ async function coastalHome(page, { openLab = true } = {}) {
   await scene.scrollIntoViewIfNeeded();
   // The first draw compiles every first-view program, which takes longer on software WebGL.
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: software ? 120000 : 30000 });
+  if (controlledFrames) await pauseSceneClock(page);
   if (openLab) {
     await page.locator("[data-world-lab] > summary").click();
     await page.locator('[data-world-room="study"]').first().click();
     await expect(scene).toHaveAttribute("data-room", "study");
   }
   // The camera updates on the next render even when reduced motion snaps it.
-  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  if (controlledFrames) await page.clock.runFor(32);
+  else await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   return scene;
 }
 
@@ -1312,11 +1314,18 @@ test("home 3D outside visit survives zoom and scrolling until an explicit return
 });
 
 test("home 3D album rack ignores dropped sleeves and replaces focused albums", async ({ page }) => {
-  const scene = await coastalHome(page);
+  await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
+  // Advance composed 3D frames explicitly; software WebGL otherwise repaints
+  // between every protocol read and can exhaust the budget before the final click.
+  const scene = await coastalHome(page, { controlledFrames: true });
   const stage = page.locator("[data-home-artifact-stage]");
   await page.locator('[data-home-desk-mode="2d"]').click();
+  // Card discovery uses its normal timers while the expensive world is hidden.
+  await page.clock.resume();
   await dropRecordCardsUntil(page, 2);
+  await pauseSceneClock(page);
   await page.locator('[data-home-desk-mode="3d"]').click();
+  await page.clock.runFor(32);
   const rack = await scene.evaluate((e) =>
     e
       .getSceneEvidence()
@@ -1329,19 +1338,23 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   await expect(stage).toHaveAttribute("data-record-tone", "jude");
   await page.locator('[data-home-desk-mode="3d"]').click();
   await page.locator('[data-world-room="study"]').first().click();
-  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  await page.clock.runFor(32);
   await clickCoastalObject(page, scene, "record", 2);
+  await page.clock.runFor(32);
   await expect(scene).toHaveAttribute("data-focused-desk-object", "record-2");
   await expect(stage).toHaveAttribute("data-record-tone", "jude");
   await clickCoastalObject(page, scene, "record", 3);
+  await page.clock.runFor(32);
   await expect(scene).toHaveAttribute("data-focused-desk-object", "record-3");
   await clickCoastalObject(page, scene, "record", 3);
+  await page.clock.runFor(32);
   await expect(stage).toHaveAttribute("data-record-tone", "sunday");
   await expect(page.locator('[data-home-desk-control="spin"]')).toHaveAttribute("aria-pressed", "true");
   await expect(scene).not.toHaveAttribute("data-focused-desk-object", /record-/);
   const canvas = scene.locator("canvas");
   await canvas.focus();
   await canvas.press("d");
+  await page.clock.runFor(32);
   await expect(stage).toHaveAttribute("data-dropped-records", "0,1,2");
 });
 
