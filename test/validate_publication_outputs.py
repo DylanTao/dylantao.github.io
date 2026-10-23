@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import argparse
+from datetime import date
 import json
 import re
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urljoin
+from urllib.parse import unquote, urljoin, urlsplit
 
 
 EXPECTED_KEYS = [
@@ -65,12 +66,22 @@ class DocumentSignals(HTMLParser):
         self.project_slugs: list[str] = []
         self.why_cite_keys: list[str] = []
         self.canonical_links = 0
+        self.canonical_urls: list[str] = []
+        self.ids: set[str] = set()
+        self.links: list[dict[str, str | None]] = []
+        self.writing_entries: list[dict[str, str]] = []
         self.json_ld: list[str] = []
         self.meta: dict[str, list[str]] = {}
         self._json_buffer: list[str] | None = None
+        self._in_writing_list = False
+        self._writing_entry: dict[str, str] | None = None
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attributes = dict(attrs)
+        if attributes.get("id"):
+            self.ids.add(attributes["id"] or "")
+        if tag in {"a", "link"}:
+            self.links.append(attributes)
         if tag == "meta" and attributes.get("name") == "citation_author":
             self.citation_authors += 1
         if tag == "meta":
@@ -85,10 +96,26 @@ class DocumentSignals(HTMLParser):
             self.project_slugs.append(attributes["data-project-slug"] or "")
         if tag == "link" and "canonical" in (attributes.get("rel") or "").split():
             self.canonical_links += 1
+            self.canonical_urls.append(attributes.get("href") or "")
+        if tag == "ol" and "ai-writing-list" in (attributes.get("class") or "").split():
+            self._in_writing_list = True
+        if self._in_writing_list:
+            if tag == "li":
+                self._writing_entry = {}
+            elif self._writing_entry is not None:
+                if tag == "time":
+                    self._writing_entry["date"] = attributes.get("datetime") or ""
+                elif tag == "a":
+                    self._writing_entry["href"] = attributes.get("href") or ""
         if tag == "script" and attributes.get("type") == "application/ld+json":
             self._json_buffer = []
 
     def handle_endtag(self, tag: str) -> None:
+        if self._in_writing_list and tag == "li" and self._writing_entry is not None:
+            self.writing_entries.append(self._writing_entry)
+            self._writing_entry = None
+        if self._in_writing_list and tag == "ol":
+            self._in_writing_list = False
         if tag == "script" and self._json_buffer is not None:
             self.json_ld.append("".join(self._json_buffer).strip())
             self._json_buffer = None
@@ -115,6 +142,201 @@ def assert_public_text(text: str, label: str) -> None:
     for forbidden in FORBIDDEN_PUBLIC_TEXT:
         if forbidden in text:
             raise AssertionError(f"{label} leaked forbidden public text: {forbidden}")
+
+
+def local_output_path(site_dir: Path, url: str, profile_url: str) -> Path:
+    """Resolve a public URL into this build, preserving its configured baseurl boundary."""
+    profile = urlsplit(profile_url)
+    target = urlsplit(urljoin(profile_url, url))
+    if (target.scheme, target.netloc) != (profile.scheme, profile.netloc):
+        raise AssertionError(f"discovery target is not on the canonical site: {url}")
+    base = profile.path.rstrip("/")
+    path = unquote(target.path)
+    if base and path != base and not path.startswith(f"{base}/"):
+        raise AssertionError(f"discovery target escapes the configured baseurl: {url}")
+    relative = path[len(base):].lstrip("/")
+    root = site_dir.resolve()
+    candidate = (root / relative).resolve()
+    if not candidate.is_relative_to(root):
+        raise AssertionError(f"discovery target escapes the generated site: {url}")
+    if candidate.is_dir():
+        candidate /= "index.html"
+    if not candidate.is_file():
+        raise AssertionError(f"missing generated discovery target: {url}")
+    return candidate
+
+
+def schema_documents(signals: DocumentSignals, label: str) -> list[dict | list]:
+    documents = []
+    for script in signals.json_ld:
+        try:
+            document = json.loads(script)
+        except (TypeError, ValueError) as error:
+            raise AssertionError(f"{label} has invalid JSON-LD: {error}") from error
+        if not isinstance(document, (dict, list)):
+            raise AssertionError(f"{label} has a non-object JSON-LD document")
+        documents.append(document)
+    return documents
+
+
+def walk_schema(value):
+    if isinstance(value, dict):
+        yield value
+        for child in value.values():
+            yield from walk_schema(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from walk_schema(child)
+
+
+def has_schema_type(node: dict, name: str) -> bool:
+    value = node.get("@type")
+    return name == value or isinstance(value, list) and name in value
+
+
+def top_schema_nodes(documents: list[dict | list]) -> list[dict]:
+    nodes = []
+    for document in documents:
+        if isinstance(document, list):
+            nodes.extend(top_schema_nodes(document))
+        elif not isinstance(document, dict):
+            raise AssertionError("JSON-LD graph entries must be objects")
+        elif "@graph" in document:
+            graph = document["@graph"]
+            nodes.extend(top_schema_nodes(graph if isinstance(graph, list) else [graph]))
+        else:
+            nodes.append(document)
+    return nodes
+
+
+def discovery_date(value: str, label: str) -> date:
+    try:
+        return date.fromisoformat(value[:10])
+    except (TypeError, ValueError) as error:
+        raise AssertionError(f"{label} must have a real publication date") from error
+
+
+def validate_discovery_outputs(site_dir: Path, *, source_dir: Path | None = None) -> None:
+    """Check discovery claims against the same generated records visitors can inspect."""
+    site_dir = site_dir.resolve()
+    source_dir = source_dir or Path(__file__).resolve().parents[1]
+    publications = json.loads(read(site_dir / "ai" / "publications.json"))
+    profile_url = publications["canonical_profile"]
+    ai_path = site_dir / "ai" / "index.html"
+    _, ai = parse_html(ai_path)
+    projects = json.loads(read(site_dir / "ai" / "projects.json"))["projects"]
+    expected_projects = {}
+    for project in projects:
+        path = local_output_path(site_dir, project["human_url"], profile_url)
+        if path.suffix != ".html":
+            raise AssertionError(f"project human route must resolve to HTML: {project['human_url']}")
+        if path in expected_projects:
+            raise AssertionError(f"project catalog repeats a human route: {project['human_url']}")
+        expected_projects[path] = project
+
+    expected_posts = {}
+    if not ai.writing_entries:
+        raise AssertionError("AI writing index must expose dated links to actual posts")
+    for entry in ai.writing_entries:
+        href = entry.get("href", "")
+        if not href:
+            raise AssertionError("AI writing index contains a post without a URL")
+        url = urljoin(profile_url, href)
+        path = local_output_path(site_dir, url, profile_url)
+        if path.suffix != ".html":
+            raise AssertionError(f"AI writing entry must resolve to an HTML post: {url}")
+        if path in expected_posts:
+            raise AssertionError(f"AI writing index repeats a post URL: {url}")
+        expected_posts[path] = (url, discovery_date(entry.get("date", ""), url))
+
+    pages = {}
+    for path in sorted(site_dir.rglob("*.html")):
+        _, signals = parse_html(path)
+        label = str(path.relative_to(site_dir))
+        documents = schema_documents(signals, label)
+        nodes = top_schema_nodes(documents)
+        pages[path] = (signals, nodes)
+
+        for node in walk_schema(documents):
+            if not has_schema_type(node, "SearchAction"):
+                continue
+            target = node.get("target")
+            if isinstance(target, dict):
+                target = target.get("urlTemplate")
+            if not isinstance(target, str) or not target:
+                raise AssertionError(f"{label} SearchAction must identify an existing search target")
+            local_output_path(site_dir, re.sub(r"\{[^{}]+\}", "example", target), profile_url)
+
+        blog_nodes = [node for node in nodes if has_schema_type(node, "BlogPosting")]
+        if path in expected_posts:
+            if len(blog_nodes) != 1:
+                raise AssertionError(f"{label} must have exactly one BlogPosting for its AI writing entry")
+            url, published = expected_posts[path]
+            post = blog_nodes[0]
+            if signals.canonical_urls != [url] or post.get("url") != url:
+                raise AssertionError(f"{label} BlogPosting URL must match its canonical AI writing entry")
+            if discovery_date(post.get("datePublished", ""), label) != published:
+                raise AssertionError(f"{label} BlogPosting datePublished must match its AI writing entry")
+            if "dateModified" in post and discovery_date(post["dateModified"], label) < published:
+                raise AssertionError(f"{label} BlogPosting dateModified predates publication")
+        elif blog_nodes:
+            raise AssertionError(f"{label} is not an actual writing entry and must not claim BlogPosting")
+
+        creative_nodes = [node for node in nodes if has_schema_type(node, "CreativeWork")]
+        if path in expected_projects:
+            project = expected_projects[path]
+            if len(creative_nodes) != 1:
+                raise AssertionError(f"{label} must have exactly one CreativeWork for its project catalog entry")
+            work = creative_nodes[0]
+            if signals.canonical_urls != [project["human_url"]] or work.get("url") != project["human_url"]:
+                raise AssertionError(f"{label} CreativeWork URL must match its project catalog entry")
+            allowed_genres = {"Research project"} if project["category"] == "research" else {"Personal project", "Website experiment"}
+            if work.get("genre") not in allowed_genres:
+                raise AssertionError(f"{label} CreativeWork genre must match project category {project['category']}")
+        elif creative_nodes:
+            raise AssertionError(f"{label} is not an authored project and must not claim CreativeWork")
+
+        for link in signals.links:
+            if link.get("data-site-format") != "ai":
+                continue
+            href = link.get("href") or ""
+            if not href:
+                raise AssertionError(f"{label} has an empty AI format destination")
+            target_url = urljoin(signals.canonical_urls[0] if signals.canonical_urls else profile_url, href)
+            if local_output_path(site_dir, target_url, profile_url) != ai_path:
+                raise AssertionError(f"{label} AI format link must resolve to the canonical AI profile")
+            fragment = unquote(urlsplit(target_url).fragment)
+            if fragment and fragment not in ai.ids:
+                raise AssertionError(f"{label} AI format destination has no matching fragment: {fragment}")
+
+    cv_path = site_dir / "cv" / "index.html"
+    if cv_path not in pages:
+        raise AssertionError("missing generated CV page")
+    cv, cv_nodes = pages[cv_path]
+    cv_url = urljoin(profile_url, "cv/")
+    person_id = profile_url.rstrip("/") + "#sirui-tao"
+    about_nodes = [node for node in cv_nodes if has_schema_type(node, "AboutPage")]
+    if len(about_nodes) != 1 or about_nodes[0].get("url") != cv_url or cv.canonical_urls != [cv_url]:
+        raise AssertionError("CV must have one AboutPage at its canonical URL")
+    if about_nodes[0].get("mainEntity", {}).get("@id") != person_id:
+        raise AssertionError("CV AboutPage must reference the canonical Person")
+    home_path = local_output_path(site_dir, profile_url, profile_url)
+    for label, nodes in (("CV", cv_nodes), ("homepage", pages[home_path][1])):
+        people = [node for node in nodes if has_schema_type(node, "Person") and node.get("@id") == person_id]
+        if len(people) != 1:
+            raise AssertionError(f"{label} must declare the same canonical Person")
+    alternates = [link for link in cv.links if "alternate" in (link.get("rel") or "").split() and link.get("type") == "application/json"]
+    if len(alternates) != 1:
+        raise AssertionError("CV must expose one current JSON Resume alternate")
+    resume_path = local_output_path(site_dir, alternates[0].get("href") or "", profile_url)
+    if resume_path != site_dir / "assets" / "json" / "resume.json":
+        raise AssertionError("CV JSON alternate must point to the current structured resume")
+    resume = json.loads(read(resume_path))
+    if resume != json.loads(read(source_dir / "_data" / "resume.json")):
+        raise AssertionError("CV JSON alternate must match canonical _data/resume.json")
+    for label, nodes in (("CV", cv_nodes), ("homepage", pages[home_path][1])):
+        if any(node.get("name") != resume["basics"]["name"] for node in nodes if has_schema_type(node, "Person") and node.get("@id") == person_id):
+            raise AssertionError(f"{label} Person name must match the structured resume")
 
 
 def validate(site_dir: Path) -> None:
@@ -315,6 +537,8 @@ def validate(site_dir: Path) -> None:
     whw_project_html = read(site_dir / "projects" / "what-happened-and-why" / "index.html")
     if whw_project_html.count("April 15, 2026") < 2 or "February 25, 2026" in whw_project_html:
         raise AssertionError("What Happened and Why must show the April 15, 2026 publication date consistently")
+
+    validate_discovery_outputs(site_dir)
 
 
 def main() -> None:
