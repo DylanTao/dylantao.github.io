@@ -1,0 +1,282 @@
+{
+  "date": "2026-10-23",
+  "baseSceneCommit": "512fc0807",
+  "sourceCommits": ["bd01bd898", "5d5407c75", "fdf3bf133", "7a85cabda"],
+  "asset": {
+    "file": "assets/models/home/hinterland.glb",
+    "sha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af",
+    "baseBytes": 1355068,
+    "bytes": 1467556,
+    "growthBytes": 112488,
+    "baseTriangles": 205889,
+    "triangles": 217848
+  },
+  "nativeSupport": {
+    "creekSamples": 78,
+    "minCreekDepth": 0.06197713216145928,
+    "maxCreekDepth": 0.4712838745117196,
+    "pondSamples": 64,
+    "minPondDepth": 0.4212420654296878,
+    "maxPondDepth": 0.4243548583984378
+  },
+  "astronomy": {
+    "source": "JPL Horizons DE441 geocentric astrometric ICRF",
+    "seasonalReferences": 20,
+    "angularToleranceDegrees": 0.25,
+    "magnitudeTolerance": 0.2,
+    "fixture": "test/fixtures/planet-horizons.json"
+  },
+  "checks": {
+    "nodeTests": 55,
+    "passed": 55,
+    "pythonCompile": true,
+    "nativeBlenderBuild": true,
+    "targetedPrettier": true,
+    "styleContract": true,
+    "gitDiffCheck": true
+  },
+  "browser": [
+    {
+      "view": "garden",
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "camera": {
+        "target": [-19, 10.1, 64],
+        "yaw": 3.5,
+        "pitch": 0.85,
+        "radius": 30
+      },
+      "pageErrors": [],
+      "heldPoseAndWaterClock": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "nonblankPixelStandardDeviation": 34.45,
+      "screenshotSha256": "c17bfd8cb4d7ad0bcffb2bd353749d57daebe1f5be45d87619c444515146ba2a",
+      "medianFrameMs": 34,
+      "medianSubmitMs": 17,
+      "FFT": {
+        "method": "bounded analytic Gerstner field",
+        "enabled": false
+      },
+      "onsenDropCount": 0
+    },
+    {
+      "view": "garden-close",
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "camera": {
+        "target": [-23, 10.04, 52],
+        "yaw": 2.3,
+        "pitch": 0.9,
+        "radius": 7
+      },
+      "pageErrors": [],
+      "heldPoseAndWaterClock": true,
+      "heldPixels": false,
+      "movingPixels": true,
+      "nonblankPixelStandardDeviation": 36.338,
+      "screenshotSha256": "676cbb784d58cb650fca36437e0fbaf748f9c86a0d8f6c46ccefd20232eaba06",
+      "medianFrameMs": 31,
+      "medianSubmitMs": 14,
+      "FFT": {
+        "method": "bounded analytic Gerstner field",
+        "enabled": false
+      },
+      "onsenDropCount": 0
+    },
+    {
+      "view": "onsen",
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "camera": null,
+      "pageErrors": [],
+      "heldPoseAndWaterClock": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "nonblankPixelStandardDeviation": 31.607,
+      "screenshotSha256": "7ec9ec367aa877102e4755fe356706a634431d01c46104925366e9ac10c1f017",
+      "medianFrameMs": 34,
+      "medianSubmitMs": 26,
+      "FFT": {
+        "method": "bounded analytic Gerstner field",
+        "enabled": false
+      },
+      "onsenDropCount": 2
+    },
+    {
+      "view": "lights",
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "camera": {
+        "target": [-1600, 25, 450],
+        "yaw": 1.2,
+        "pitch": 0.1,
+        "radius": 160
+      },
+      "pageErrors": [],
+      "heldPoseAndWaterClock": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "nonblankPixelStandardDeviation": 26.822,
+      "screenshotSha256": "021f7fdc90e16c17f29d75d40bb42b5f60a5d1a68519efe2e057c15beb4f8c5d",
+      "medianFrameMs": 22,
+      "medianSubmitMs": 11,
+      "FFT": {
+        "method": "bounded analytic Gerstner field",
+        "enabled": false
+      },
+      "onsenDropCount": 0
+    },
+    {
+      "view": "stars",
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "camera": {
+        "target": [0, 75, 0],
+        "yaw": 4.3,
+        "pitch": -0.25,
+        "radius": 50
+      },
+      "pageErrors": [],
+      "heldPoseAndWaterClock": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "nonblankPixelStandardDeviation": 25.391,
+      "screenshotSha256": "3d1903c2bde59c8bf94bdd0bda459dbe3b020bd0d7bb226049ef33af33c066d1",
+      "medianFrameMs": 23,
+      "medianSubmitMs": 11,
+      "FFT": {
+        "method": "bounded analytic Gerstner field",
+        "enabled": false
+      },
+      "onsenDropCount": 0
+    },
+    {
+      "view": "fft",
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "camera": {
+        "target": [-6, -7.2, -28],
+        "yaw": 1.1,
+        "pitch": 0.3,
+        "radius": 9
+      },
+      "pageErrors": [],
+      "heldPoseAndWaterClock": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "nonblankPixelStandardDeviation": 40.264,
+      "screenshotSha256": "b7607896c9488d9991ca8f24f8834c3bb6fbe82608e827b2e8064032afd46216",
+      "medianFrameMs": 36,
+      "medianSubmitMs": 25,
+      "FFT": {
+        "method": "64\u00c2\u00b2 CPU inverse FFT, Phillips deep-water spectrum, vertical displacement",
+        "size": 64,
+        "length": 128,
+        "seconds": 3.668666666666667,
+        "transforms": 96,
+        "lastMilliseconds": 1,
+        "uploadBytes": 65536,
+        "forecastFields": 24,
+        "forecastBytes": 1572864
+      },
+      "onsenDropCount": 0
+    },
+    {
+      "view": "analytic",
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "camera": {
+        "target": [-6, -7.2, -28],
+        "yaw": 1.1,
+        "pitch": 0.3,
+        "radius": 9
+      },
+      "pageErrors": [],
+      "heldPoseAndWaterClock": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "nonblankPixelStandardDeviation": 34.4,
+      "screenshotSha256": "9c7640867369b05d5ddc021e89c17b9c95ac653c1e1d15ef0170bafece2a1fd6",
+      "medianFrameMs": 33,
+      "medianSubmitMs": 18,
+      "FFT": {
+        "method": "bounded analytic Gerstner field",
+        "enabled": false
+      },
+      "onsenDropCount": 0
+    },
+    {
+      "view": "garden-full-framing",
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "camera": {
+        "target": [-20, 10.1, 63],
+        "yaw": 3.5,
+        "pitch": 0.95,
+        "radius": 45
+      },
+      "pageErrors": [],
+      "heldPoseAndWaterClock": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "nonblankPixelStandardDeviation": 37.324,
+      "screenshotSha256": "7a03b706ae0a56be938b4781d75c797f352d37952b9b1569fefe7189089453ae",
+      "medianFrameMs": 31,
+      "medianSubmitMs": 14
+    }
+  ],
+  "limits": [
+    "This worker uses candidate source/module/model interception against the coordinator production HTML/CSS. Final integrated four-viewport/release verification belongs to the coordinator.",
+    "The preview helper generates missing responsive WebPs from the original images in its own QA cache; it never modifies another build.",
+    "One close-pond reduced-motion pair changes global image illumination during composition while exact koi transforms and shared water time remain fixed; no bitwise image-equality claim for that pair.",
+    "Frame timing is noisy under concurrent scene workers; no isolated GPU speed claim.",
+    "FFT is a real opt-in Graphics Lab experiment. Production retains the analytic field. Moving-scene motion-vector TAA is not implemented."
+  ],
+  "modulePayloads": [
+    {
+      "file": "assets/js/home-scene/planets.mjs",
+      "bytes": 5384,
+      "individualGzipBytes": 2237,
+      "sha256": "3502c6f2c8896e11f60eb1a8bed3d9caec1bf44fd3660c608183503bd669ac7f"
+    },
+    {
+      "file": "assets/js/home-scene/fft-ocean.mjs",
+      "bytes": 6836,
+      "individualGzipBytes": 2279,
+      "sha256": "6b9a706dba28e83accc0770b2afcfabde126f1827165c4b1f5aa24a3fd3d9a0d"
+    },
+    {
+      "file": "assets/js/home-scene/still-photo.mjs",
+      "bytes": 3605,
+      "individualGzipBytes": 1543,
+      "sha256": "3f78d715a016bf84b39fdae727bfd5dce11c92e40ab90c6a4de724806023531a"
+    },
+    {
+      "file": "assets/js/home-scene/water-garden.mjs",
+      "bytes": 7068,
+      "individualGzipBytes": 2742,
+      "sha256": "c20535a1dd982fa2ce2788d2948768e6450b4a83610f0cc56e4b75f422377548"
+    }
+  ],
+  "thumbnails": [
+    {
+      "file": "assets/img/project_pics/graphics-lab/water-garden.webp",
+      "bytes": 24868,
+      "sha256": "88486ffe097a4c817b8ab0c4881a2562ab391ce45d4f96a87685cb83ca492869",
+      "source": "actual candidate browser capture, resized/encoded only; no generated scenery"
+    },
+    {
+      "file": "assets/img/project_pics/graphics-lab/koi-pond.webp",
+      "bytes": 10242,
+      "sha256": "486afe3f1301da16c4ff3fc268249f3a76f83f16817ee7de850da1bbe0f1ae5b",
+      "source": "actual candidate browser capture, resized/encoded only; no generated scenery"
+    },
+    {
+      "file": "assets/img/project_pics/graphics-lab/fft-ocean.webp",
+      "bytes": 51184,
+      "sha256": "b845b6c8ca40f7f87e80302fbd702f4128efd4abd2db2e11de6e862e23052598",
+      "source": "actual candidate browser capture, resized/encoded only; no generated scenery"
+    }
+  ]
+}
