@@ -3252,6 +3252,8 @@ export function createCoastalHome(container, records, artifacts) {
       ? { ...gymProps.evidence(), lift: sequencePose?.lift?.name || null, segment: sequencePose?.segment || null, rep: sequencePose?.rep || null }
       : null,
     liftHead: liftRig ? { min: liftRig.dims.head.min.toArray(), max: liftRig.dims.head.max.toArray() } : null,
+    // Placement is separate from the animated Root bone (seated clips lower that bone).
+    actorPosition: actor ? actor.position.toArray() : null,
     actorFacing: actor ? actor.rotation.y : null,
     gripDrift: handContacts?.evidence() || [],
     gripTargetMode: activeGripOffsets?.[sequencePose?.clip] ? "anatomical-wrist" : "equipment-anchor",
