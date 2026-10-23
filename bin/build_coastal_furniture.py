@@ -222,6 +222,30 @@ MATERIALS = {
     "eames plywood edge": dict(color=(0.82, 0.78, 0.72), roughness=0.5, albedo=("plywood-edge", {0: 256}), fallback=(0.5, 0.36, 0.21)),
     "eames black aluminium": dict(color=(0.011, 0.011, 0.012), roughness=0.2, metallic=0.55),
     "eames glide": dict(color=(0.02, 0.02, 0.02), roughness=0.75),
+    "aeron carbon frame": dict(color=(0.026, 0.032, 0.034), roughness=0.38, metallic=0.18),
+    "aeron carbon pellicle": dict(color=(0.055, 0.065, 0.069), roughness=0.65, doubleSided=True),
+    "aeron arm pad": dict(color=(0.021, 0.024, 0.025), roughness=0.72),
+    "furniture polished nickel": dict(color=(0.61, 0.65, 0.64), roughness=0.21, metallic=0.95),
+    "furniture brushed brass": dict(color=(0.58, 0.38, 0.15), roughness=0.28, metallic=0.9),
+    "range sage enamel": dict(color=(0.23, 0.30, 0.24), roughness=0.24, metallic=0.12),
+    "range black glass": dict(color=(0.016, 0.022, 0.024), roughness=0.12, metallic=0.2),
+    "range cast iron": dict(color=(0.022, 0.024, 0.023), roughness=0.68, metallic=0.3),
+    "hood warm plaster": dict(color=(0.71, 0.67, 0.58), roughness=0.9),
+    "fridge ivory interior": dict(color=(0.76, 0.79, 0.72), roughness=0.42),
+    "fridge glass": dict(color=(0.43, 0.62, 0.60), roughness=0.045, alphaValue=0.13, doubleSided=True, bakeClear=True),
+    "fridge bottle green": dict(color=(0.055, 0.18, 0.085), roughness=0.21, metallic=0.1),
+    "fridge terracotta jar": dict(color=(0.52, 0.21, 0.10), roughness=0.7),
+    "fridge label cream": dict(color=(0.82, 0.72, 0.49), roughness=0.85),
+    "fridge warm light": dict(color=(1, 0.83, 0.55), roughness=0.5, emission=(1, 0.78, 0.44), strength=2),
+    "dining smoked oak": dict(color=(0.18, 0.105, 0.055), roughness=0.46),
+    "dining light oak": dict(color=(0.55, 0.37, 0.19), roughness=0.49),
+    "dining travertine": dict(color=(0.65, 0.59, 0.47), roughness=0.64),
+    "dining woven cord": dict(color=(0.58, 0.46, 0.29), roughness=0.94),
+    "pan seasoned iron": dict(color=(0.028, 0.03, 0.028), roughness=0.55, metallic=0.48, normal=("cast-iron", {0: 512})),
+    "dumbbell rubber": dict(color=(0.022, 0.026, 0.024), roughness=0.83),
+    "fireplace graphite": dict(color=(0.025, 0.026, 0.025), roughness=0.48, metallic=0.5),
+    "fireplace ash": dict(color=(0.08, 0.071, 0.058), roughness=0.99),
+    "fireplace ember": dict(color=(0.25, 0.037, 0.004), roughness=0.8, emission=(1, 0.13, 0.007), strength=1.3),
 }
 
 
@@ -249,6 +273,9 @@ def material(name, lod):
     bsdf.inputs["Roughness"].default_value = spec.get("roughness", 0.5)
     bsdf.inputs["Metallic"].default_value = spec.get("metallic", 0.0)
     mat.diffuse_color = (*color, 1)
+    if "alphaValue" in spec:
+        bsdf.inputs["Alpha"].default_value = spec["alphaValue"]
+        mat.surface_render_method = "DITHERED"
     if spec.get("emission"):
         bsdf.inputs["Emission Color"].default_value = (*spec["emission"], 1)
         bsdf.inputs["Emission Strength"].default_value = spec.get("strength", 1.0)
@@ -945,7 +972,219 @@ def build_eames(parts, q):
     )
 
 
-ITEMS = {"eames-lounge": build_eames}
+def tube(parts, name, points, radius=0.012, q=None, node=None):
+    sweep(parts.bm(name, node), points, circle(radius, 12 if parts.lod == 0 else 6))
+
+
+def plate(parts, name, center, size, radius=0.01, matrix=None, node=None):
+    box(parts.bm(name, node), center, size, radius, 4 if parts.lod == 0 else 2, matrix)
+
+
+def build_aeron(parts, q):
+    """Original ergonomic mesh chair: open pellicle, contoured frame, lumbar and headrest.
+
+    No configurator meshes or textures are used. Mineral recolours these stable material names.
+    The seat's upper suspension is .46 m, headrest 1.25 m, five-star base and twin casters.
+    """
+    frame, mesh, chrome = "aeron carbon frame", "aeron carbon pellicle", "furniture polished nickel"
+    n = 64 if parts.lod == 0 else 28
+    # Seat rim: waterfall front edge, hollow centre (the mesh is individual crossed strands).
+    seat = [(x, y, 0.445 + 0.025 * (y / .24) ** 2) for x, y in rounded_rect(.56, .49, .12, 12 if parts.lod == 0 else 5)]
+    tube(parts, frame, seat + [seat[0]], .019)
+    for k in range(n):
+        x = -.245 + .49 * k / (n - 1)
+        front = -.23 + .04 * (abs(x) / .245) ** 4
+        rear = .23 - .07 * (abs(x) / .245) ** 4
+        tube(parts, mesh, [(x, front, .457), (x, -.04, .442), (x, rear, .458)], .0016 if parts.lod == 0 else .0022)
+    for k in range(14 if parts.lod == 0 else 7):
+        y = -.21 + .42 * k / (13 if parts.lod == 0 else 6)
+        tube(parts, mesh, [(-.24, y, .454), (0, y, .441), (.24, y, .454)], .0011)
+    # Back has a visible lumbar curve and narrowing shoulder profile.
+    def bp(u, v):
+        width = .24 + .025 * math.sin(v * math.pi) - .025 * v
+        return (u * width, .215 + .075 * v - .035 * math.sin(v * math.pi), .51 + .49 * v)
+    rim = [bp(-1 + 2*k/14, 0) for k in range(15)] + [bp(1, k/16) for k in range(1,17)] + [bp(1-2*k/14, 1) for k in range(1,15)] + [bp(-1, 1-k/16) for k in range(1,17)]
+    tube(parts, frame, rim + [rim[0]], .020)
+    for k in range(n):
+        u = -.96 + 1.92*k/(n-1)
+        tube(parts, mesh, [bp(u, j/10) for j in range(11)], .0017 if parts.lod == 0 else .0021)
+    for v in (.08, .16, .24, .32, .40, .48, .56, .64, .72, .80, .88, .96):
+        tube(parts, mesh, [bp(-.97+1.94*j/8, v) for j in range(9)], .0011)
+    tube(parts, frame, [(-.17,.29,.62), (0,.31,.61), (.17,.29,.62)], .022)
+    tube(parts, frame, [(0,.30,.38), (0,.34,.55), (0,.31,.70)], .025)
+    # Adjustable arms, pads with soft edges, tilt box and control paddles.
+    for side in (-1,1):
+        tube(parts, frame, [(side*.21,.16,.35),(side*.30,.18,.53),(side*.30,.12,.66)], .021)
+        plate(parts,"aeron arm pad",(side*.31,.015,.675),(.10,.31,.035),.016)
+        plate(parts,frame,(side*.26,-.08,.365),(.075,.12,.018),.008)
+    plate(parts,frame,(0,.045,.35),(.26,.29,.09),.025)
+    lathe(parts.bm(chrome),[(.026,.12),(.026,.34)],segments=16)
+    # Headrest, held off the back with twin supports.
+    for side in (-1,1):
+        tube(parts,frame,[(side*.10,.30,.90),(side*.10,.36,1.13)],.011)
+    plate(parts,frame,(0,.32,1.18),(.34,.065,.14),.035,Matrix.Rotation(.13,4,"X"))
+    plate(parts,mesh,(0,.28,1.18),(.29,.018,.10),.025,Matrix.Rotation(.13,4,"X"))
+    # Sirui's working desk setting: 51.5 cm seat; the base remains on the floor.
+    for bm in parts.groups.values():
+        for v in bm.verts:
+            if v.co.z > .29:
+                v.co.z += .055
+    star_base(parts,frame,(0,0),5,.335,.16,.075,0,q,width=(.035,.025),height=(.025,.019),glide="aeron carbon frame")
+    for k in range(5):
+        a=k*TAU/5
+        cx,cy=.335*math.cos(a),.335*math.sin(a)
+        tube(parts,frame,[(cx,cy,.075),(cx,cy,.042)],.018)
+        for side in (-1,1):
+            # Twin rollers oriented transverse to each radial spoke.
+            tube(parts,"aeron arm pad",[(cx-.012*math.sin(a)+side*.022*math.cos(a),cy+.012*math.cos(a)+side*.022*math.sin(a),.034),(cx+.012*math.sin(a)+side*.022*math.cos(a),cy-.012*math.cos(a)+side*.022*math.sin(a),.034)],.032)
+    return dict(label="Aeron with headrest",seat=(0,-.025,.515),seatHeight=.515,near=1.4,
+                variants=["carbon","mineral"],provenance="Original procedural ergonomic chair geometry after the Aeron silhouette; no downloaded mesh or texture. Carbon default, Mineral alternative.")
+
+
+def build_range(parts,q):
+    enamel, nickel, brass = "range sage enamel", "furniture polished nickel", "furniture brushed brass"
+    plate(parts,enamel,(0,0,.48),(1.2,.70,.84),.024)
+    for x in (-.50,.50):
+        for y in (-.25,.25): lathe(parts.bm(nickel),[(.03,0),(.03,.09)],(x,y,0),16)
+    plate(parts,nickel,(0,0,.902),(1.2,.70,.035),.012)
+    plate(parts,nickel,(0,-.36,.80),(1.17,.025,.13),.008)
+    for x,w in ((-.19,.70),(.405,.34)):
+        plate(parts,nickel,(x,-.361,.425),(w,.028,.53),.018)
+        plate(parts,"range black glass",(x,-.38,.43),(w-.07,.018,.40),.018)
+        tube(parts,brass,[(x-w*.35,-.425,.66),(x+w*.35,-.425,.66)],.015)
+    for k in range(7):
+        x=-.48+k*.16
+        tube(parts,brass,[(x,-.375,.80),(x,-.405,.80)],.025)
+        plate(parts,"range black glass",(x,-.433,.815),(.006,.006,.018),.002)
+    for x in (-.39,0,.39):
+        for y in (-.18,.18):
+            lathe(parts.bm("range cast iron"),[(.073,.921),(.073,.94),(.053,.944)],(x,y,0),32 if parts.lod==0 else 16)
+            lathe(parts.bm(brass),[(.04,.945),(.04,.95)],(x,y,0),24)
+            for a in (0,math.pi/2):
+                plate(parts,"range cast iron",(x,y,.964),(.19,.014,.018),.004,Matrix.Rotation(a,4,"Z"))
+    return dict(label="Italian enamel range",near=1.7,provenance="Original 120 cm Italian-inspired range with six burners, twin ovens, enamel, brass controls and nickel trim; no third-party geometry.")
+
+
+def build_hood(parts,q):
+    rows=[]
+    for w,d,z in ((1.25,.74,1.62),(1.25,.74,1.70),(.65,.44,2.13),(.54,.40,2.55)):
+        rows.append([(x,y+.10,z) for x,y in rounded_rect(w,d,.045,8 if parts.lod==0 else 3)])
+    grid(parts.bm("hood warm plaster"),rows,close=True)
+    plate(parts,"furniture brushed brass",(0,.10,1.635),(1.24,.73,.035),.015)
+    plate(parts,"range cast iron",(0,.10,1.625),(1.03,.54,.012),.015)
+    for x in (-.43,.43):
+        lathe(parts.bm("fridge warm light"),[(.025,1.61),(.025,1.62)],(x,-.08,0),16)
+    return dict(label="Plaster range hood",near=1.8,provenance="Original rounded plaster extraction hood and fitted nickel filter, matching the range's frame.")
+
+
+def build_filler(parts,q):
+    nickel="furniture polished nickel"
+    tube(parts,nickel,[(0,.02,1.45),(0,-.035,1.45)],.045)
+    tube(parts,nickel,[(0,0,1.45),(0,-.10,1.45),(0,-.10,1.50)],.012)
+    arm=parts.node("pot filler swing",origin=(0,-.10,1.50),extras={"furniturePivot":"pot-filler"})
+    tube(parts,nickel,[(0,0,0),(.20,0,0),(.20,-.22,0),(.20,-.22,-.065)],.012,node=arm)
+    for x,y in ((0,0),(.20,0)):
+        lathe(parts.bm(nickel,arm),[(.022,-.02),(.022,.025)],(x,y,0),16)
+    tube(parts,"furniture brushed brass",[(-.055,-.01,1.48),(.055,-.01,1.48)],.008)
+    return dict(label="Swing-arm pot filler",near=.9,pivots={"swing":"pot filler swing"},provenance="Original jointed nickel pot filler with articulated swing pivot; no third-party geometry.")
+
+
+def build_fridge(parts,q):
+    nickel, ivory="furniture polished nickel","fridge ivory interior"
+    for x in (-.35,.35): plate(parts,nickel,(x,0,1.065),(.06,.70,2.13),.018)
+    for z in (.04,2.09): plate(parts,nickel,(0,0,z),(.76,.70,.08),.015)
+    plate(parts,ivory,(0,.315,1.065),(.64,.06,1.98),.012)
+    plate(parts,ivory,(0,0,.20),(.64,.62,.27),.018)
+    for z in (.44,.85,1.26,1.67):
+        plate(parts,ivory,(0,.005,z),(.64,.57,.018),.008)
+        tube(parts,nickel,[(-.31,-.27,z),(.31,-.27,z)],.008)
+        for k in range(3):
+            x=-.20+k*.20
+            lathe(parts.bm("fridge bottle green"),[(.048,0),(.05,.02),(.05,.19),(.021,.22),(.021,.28)],(x,.08,z+.012),20 if parts.lod==0 else 10)
+            lathe(parts.bm("fridge label cream"),[(.0505,.075),(.0505,.15)],(x,.08,z+.012),20 if parts.lod==0 else 10)
+            lathe(parts.bm("fridge terracotta jar"),[(.05,.28),(.05,.31)],(x,.08,z+.012),12)
+    door=parts.node("fridge door",origin=(-.35,-.33,0),extras={"furniturePivot":"fridge-door"})
+    for x in (0,.70): plate(parts,nickel,(x,0,1.065),(.035,.045,2.06),.012,node=door)
+    for z in (.055,2.075): plate(parts,nickel,(.35,0,z),(.70,.045,.035),.010,node=door)
+    plate(parts,"fridge glass",(.35,0,1.065),(.665,.008,1.99),.003,node=door)
+    tube(parts,nickel,[(.615,-.048,.80),(.615,-.048,1.42)],.014,node=door)
+    for x in (-.295,.295): plate(parts,"fridge warm light",(x,-.24,1.25),(.008,.018,1.54),.003)
+    return dict(label="Glass-door refrigerator",near=1.6,pivots={"door":"fridge door"},provenance="Original nickel-framed glass refrigerator with visible shelves, bottles and warm interior strips. Glass blends without depth writes at runtime.")
+
+
+def build_table(parts,q):
+    plate(parts,"dining travertine",(0,0,.71),(2.2,1,.06),.029)
+    for x in (-.72,.72):
+        plate(parts,"dining smoked oak",(x,0,.355),(.14,.63,.71),.025)
+    plate(parts,"dining smoked oak",(0,0,.29),(1.55,.11,.13),.018)
+    tube(parts,"furniture brushed brass",[(-.78,-.28,.22),(.78,-.28,.22)],.018)
+    tube(parts,"furniture brushed brass",[(-.78,.28,.22),(.78,.28,.22)],.018)
+    return dict(label="Travertine dining table",near=1.8,provenance="Original 2.2 by 1 metre rounded travertine table with smoked-oak trestles and brass foot rails.")
+
+
+def build_chair(parts,q):
+    oak="dining light oak"
+    for side in (-1,1):
+        tube(parts,oak,[(side*.23,-.22,0),(side*.205,-.18,.43)],.018)
+        tube(parts,oak,[(side*.225,.21,0),(side*.20,.16,.46),(side*.23,.22,.76)],.020)
+        tube(parts,oak,[(side*.21,-.18,.20),(side*.22,.18,.20)],.009)
+    # Bent back crest and characteristic fork support (an original continuous construction).
+    crest=[(.29*math.sin(a),.16+.13*math.cos(a),.73+.025*math.cos(a)) for a in [(-1.40+2.8*k/32) for k in range(33)]]
+    tube(parts,oak,crest,.023)
+    for side in (-1,1): tube(parts,oak,[(0,.205,.435),(side*.035,.25,.62),(side*.15,.26,.74)],.013)
+    for y in (-.205,.205): tube(parts,oak,[(-.21,y,.435),(.21,y,.435)],.016)
+    for x in (-.21,.21): tube(parts,oak,[(x,-.205,.435),(x,.205,.435)],.016)
+    count=36 if parts.lod==0 else 16
+    for k in range(count):
+        x=-.195+.39*k/(count-1)
+        tube(parts,"dining woven cord",[(x,-.197,.45),(x,0,.442),(x,.197,.45)],.003 if parts.lod==0 else .006)
+    for k in range(12 if parts.lod==0 else 6):
+        y=-.185+.37*k/(11 if parts.lod==0 else 5)
+        tube(parts,"dining woven cord",[(-.195,y,.451),(0,y,.444),(.195,y,.451)],.002)
+    return dict(label="Oak and woven-cord dining chair",seat=(0,-.025,.45),seatHeight=.45,near=1.2,provenance="Original bent-oak chair with woven cord and forked back after the Danish wishbone tradition; all six instances share these exported resources.")
+
+
+def build_pan(parts,q):
+    iron="pan seasoned iron"
+    lathe(parts.bm(iron),[(.16,0),(.19,.002),(.205,.065),(.203,.077),(.193,.08),(.181,.022),(.015,.018)],segments=64 if parts.lod==0 else 32)
+    # Long tapered integral handle and loop helper opposite it. The grip is source metadata.
+    tube(parts,iron,[(0,-.18,.055),(0,-.30,.052),(0,-.40,.065)],.018)
+    loop=[(.026*math.cos(k*TAU/24),-.435+.036*math.sin(k*TAU/24),.065) for k in range(25)]
+    tube(parts,iron,loop,.009)
+    tube(parts,iron,[(-.06,.18,.057),(-.06,.23,.064),(.06,.23,.064),(.06,.18,.057)],.012)
+    return dict(label="Large cast-iron wrist-training pan",near=.9,grip=(0,-.32,.058),provenance="Original 40 cm seasoned cast-iron pan with 25 cm integral handle, helper loop and generated sand-cast normal texture; used by the pan-raise activity.")
+
+
+def build_dumbbell(parts,q):
+    chrome="furniture polished nickel"
+    tube(parts,chrome,[(-.18,0,.084),(.18,0,.084)],.016)
+    for x in (-.145,.145):
+        # Hexagonal rubber ends and slightly raised endcap, along X.
+        sweep(parts.bm("dumbbell rubber"),[(x-.052,0,.084),(x+.052,0,.084)],circle(.084,6))
+        tube(parts,chrome,[(x-.054,0,.084),(x-.052,0,.084)],.023)
+    if parts.lod==0:
+        for x in (-.06,-.045,-.03,-.015,0,.015,.03,.045,.06):
+            tube(parts,"range cast iron",[(x,-.017,.084),(x,.017,.084)],.001)
+    return dict(label="Rubber hex dumbbell",near=.8,grip=(0,0,.084),provenance="Original rubber hex-ended dumbbell and nickel grip; reused for the gym rack pair.")
+
+
+def build_fireplace(parts,q):
+    black="fireplace graphite"
+    # Separate upper canopy and open lower bowl: fire remains visible from the living room.
+    lathe(parts.bm(black),[(.04,.71),(.24,.73),(.40,.79),(.45,.88),(.445,.90),(.42,.895),(.37,.82),(.23,.77),(.04,.76)],segments=q["segments"])
+    lathe(parts.bm("fireplace ash"),[(.30,.792),(.30,.805)],segments=32)
+    lathe(parts.bm(black),[(.45,1.13),(.42,1.21),(.29,1.35),(.10,1.48),(.10,1.90)],segments=q["segments"])
+    for k in range(5):
+        a=k*2.3
+        x,y=.15*math.cos(a),.15*math.sin(a)
+        tube(parts,"fireplace ember",[(x-.10,y,.816),(x+.10,y+.035,.84)],.025)
+    return dict(label="Suspended UFO fireplace",near=1.6,emitters={"fire":[0,.84,0]},provenance="Original suspended graphite fireplace with open combustion bowl, canopy and 20 cm flue; runtime fire uses deterministic bounded flame geometry and a still reduced-motion state.")
+
+
+ITEMS = {"eames-lounge": build_eames, "aeron": build_aeron, "italian-range": build_range,
+         "range-hood": build_hood, "pot-filler": build_filler, "glass-fridge": build_fridge,
+         "dining-table": build_table, "dining-chair": build_chair, "cast-iron-pan": build_pan,
+         "dumbbell": build_dumbbell, "floating-fireplace": build_fireplace}
 
 
 # ── Realize, bake, export ────────────────────────────────────────────────────────────────────────
@@ -1140,7 +1379,7 @@ def review(collection, objects, path, direction=(-0.62, -1.0, 0.62)):
     cam_data.lens = 50
     cam = bpy.data.objects.new("review camera", cam_data)
     scene.collection.objects.link(cam)
-    cam.location = centre + Vector(direction).normalized() * size * 1.55
+    cam.location = centre + Vector(direction).normalized() * size * 2.0
     cam.rotation_euler = (centre - cam.location).to_track_quat("-Z", "Y").to_euler()
     scene.camera = cam
     sun_data = bpy.data.lights.new("review sun", "SUN")
@@ -1214,7 +1453,7 @@ def main():
                 "sha256": sha256(path),
                 "baked": [round(min(a for a, _ in baked), 3), round(max(b for _, b in baked), 3)] if baked else None,
             }
-            if REVIEW:
+            if REVIEW and (option("review-lod") is None or int(option("review-lod")) == lod):
                 review(collection, objects, REVIEW_DIR / f"{item}-lod{lod}.png")
             print(f"FURNITURE {item} lod{lod}: {levels[lod]['triangles']} triangles, {levels[lod]['bytes']} bytes")
         shift = Vector(levels[0]["shift"])
@@ -1232,7 +1471,9 @@ def main():
             entry["seatHeight"] = meta["seatHeight"]
         if "seat" in meta:
             entry["seat"] = to_three(Vector(meta["seat"]) + shift)
-        for key in ("grip", "pivots", "variants", "emitters", "glow"):
+        if "grip" in meta:
+            entry["grip"] = to_three(Vector(meta["grip"]) + shift)
+        for key in ("pivots", "variants", "emitters", "glow"):
             if key in meta:
                 entry[key] = meta[key]
         entry["provenance"] = meta["provenance"]

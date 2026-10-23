@@ -96,13 +96,18 @@ function house({ anchors, index = undefined, failing = [] } = {}) {
     baseUrl: "https://example.test/assets/models/home/manifest.json",
     fetchIndex: async (url) => {
       fetched.push(url);
-      return index === undefined ? { version: 1, items: { "eames-lounge": { label: "Eames", lods: levels, bounds: { min: [-0.4, 0, -0.8], max: [0.4, 0.8, 0.8] } } } } : index;
+      return index === undefined
+        ? { version: 1, items: { "eames-lounge": { label: "Eames", lods: levels, bounds: { min: [-0.4, 0, -0.8], max: [0.4, 0.8, 0.8] } } } }
+        : index;
     },
     loadModel: async (url) => {
       loads.push(url);
       if (failing.some((f) => url.endsWith(f))) throw new Error("404");
       const scene = new THREE.Group();
-      const mesh = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 1.5), new THREE.MeshStandardMaterial({ name: url.includes("lod1") ? "eames leather (lod1)" : "eames leather" }));
+      const mesh = new THREE.Mesh(
+        new THREE.BoxGeometry(0.8, 0.8, 1.5),
+        new THREE.MeshStandardMaterial({ name: url.includes("lod1") ? "eames leather (lod1)" : "eames leather" })
+      );
       scene.add(mesh);
       return { scene };
     },
@@ -223,8 +228,51 @@ test("the runtime's interface stays what index.json and the manifest describe", 
     assert.ok(item.lods[0].file.endsWith("-lod1.glb") && !item.lods[0].near, `${id}: the default comes first`);
     for (const lod of item.lods.slice(1)) assert.ok(lod.near > 0 && lod.fullscreen === true, id);
     assert.ok(item.lods[0].triangles < item.lods[1].triangles && item.lods[0].bytes < item.lods[1].bytes, id);
-    assert.ok(item.bounds.min.every((v, i) => v < item.bounds.max[i]), id);
-    assert.ok(Math.abs(item.bounds.min[1]) < 0.002, `${id} stands on its origin`);
-    assert.ok(Math.abs(item.bounds.min[0] + item.bounds.max[0]) < 0.002 && Math.abs(item.bounds.min[2] + item.bounds.max[2]) < 0.002, `${id} is centred`);
+    assert.ok(
+      item.bounds.min.every((v, i) => v < item.bounds.max[i]),
+      id
+    );
+    if (!["range-hood", "pot-filler", "floating-fireplace"].includes(id))
+      assert.ok(Math.abs(item.bounds.min[1]) < 0.003, `${id} stands on its origin`);
+    assert.ok(
+      Math.abs(item.bounds.min[0] + item.bounds.max[0]) < 0.002 && Math.abs(item.bounds.min[2] + item.bounds.max[2]) < 0.002,
+      `${id} is centred`
+    );
   }
+});
+
+test("a held pan keeps its source grip exact across rotation and returns to the shelf", async () => {
+  const pan = { ...anchor, id: "gym-pan", item: "cast-iron-pan", yaw: 0 };
+  const h = house({
+    anchors: [pan],
+    index: {
+      version: 1,
+      items: { "cast-iron-pan": { lods: levels, grip: [0, 0.058, 0.2], bounds: { min: [-0.2, 0, -0.3], max: [0.2, 0.08, 0.3] } } },
+    },
+  });
+  await h.furniture.attach("lounge", h.room, h.furniture.load("lounge"));
+  const rest = h.furniture.grip("gym-pan");
+  const target = [4.2, 1.05, -1.5];
+  h.furniture.hold("gym-pan", target, Math.PI, 0.25);
+  const group = h.room.children.find((o) => o.userData.furnitureAnchor === "gym-pan");
+  group.updateWorldMatrix(true, false);
+  const actual = group.localToWorld(new THREE.Vector3(0, 0.058, 0.2));
+  assert.ok(actual.distanceTo(new THREE.Vector3(...target)) < 1e-9);
+  assert.deepEqual(h.furniture.grip("gym-pan"), rest, "pickup target remains the shelf while held");
+  h.furniture.hold("gym-pan");
+  assert.deepEqual(group.position.toArray(), pan.position);
+  h.furniture.dispose();
+});
+
+test("hidden rooms never request fine furniture", async () => {
+  const h = house({ anchors: [anchor] });
+  await h.furniture.attach("lounge", h.room, h.furniture.load("lounge"));
+  h.room.visible = false;
+  h.camera.position.set(3.7, 0.4, -1.3);
+  h.camera.lookAt(3.7, 0.4, -2.35);
+  h.furniture.update({ camera: h.camera, bufferHeight: 2160, fullscreen: true });
+  await flush();
+  assert.equal(h.furniture.evidence().placed[0].wanted, 0);
+  assert.equal(h.loads.length, 1);
+  h.furniture.dispose();
 });

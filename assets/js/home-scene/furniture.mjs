@@ -1,6 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { GLASS_NAME } from "./glazing.mjs";
 import { DETAIL, chooseLevel, planDetail, projectedPixels, reachFor } from "./detail-levels.mjs";
+import { createFurnitureFire } from "./furniture-fire.mjs";
 
 // Sirui's furniture in the coastal home (Sirui, 2026-10-19), built in its own Blender source
 // (bin/build_coastal_furniture.py) and placed at anchors the house's build writes.
@@ -52,7 +53,13 @@ export function embeddedImages(parser) {
 }
 
 const validAnchor = (a) =>
-  a && typeof a.id === "string" && typeof a.item === "string" && typeof a.room === "string" && Array.isArray(a.position) && a.position.length === 3 && a.position.every(Number.isFinite);
+  a &&
+  typeof a.id === "string" &&
+  typeof a.item === "string" &&
+  typeof a.room === "string" &&
+  Array.isArray(a.position) &&
+  a.position.length === 3 &&
+  a.position.every(Number.isFinite);
 
 export function createFurniture({
   config,
@@ -69,6 +76,7 @@ export function createFurniture({
   // Comparison flag (?furniture-detail=default|fine): hold every anchor at its default level, or
   // draw the finest level of whatever is in view.
   override = null,
+  aeronVariant = "carbon",
 }) {
   const anchors = (Array.isArray(config?.furniture) ? config.furniture : []).filter(validAnchor);
   if (anchors.length) loader?.register(embeddedImages);
@@ -90,6 +98,27 @@ export function createFurniture({
   const roots = new Map(); // room id -> root the room's load handed over
   const pendingShow = new Set();
   const listeners = new Set();
+  const fires = new Map();
+  const articulation = new Map();
+  let variant = aeronVariant === "mineral" ? "mineral" : "carbon";
+
+  function applyVariant(root) {
+    root.traverse((o) => {
+      for (const material of [o.material].flat()) {
+        if (!material?.color || !furnitureMaterialName(material.name).startsWith("aeron ")) continue;
+        material.userData.carbonColor ??= material.color.clone();
+        if (variant === "carbon") material.color.copy(material.userData.carbonColor);
+        else
+          material.color.set(
+            furnitureMaterialName(material.name).includes("pellicle")
+              ? 0xa1a7a1
+              : furnitureMaterialName(material.name).includes("arm pad")
+                ? 0x9a9e98
+                : 0xc3c6bd
+          );
+      }
+    });
+  }
 
   const levelsOf = (item) => index?.items?.[item]?.lods || [];
 
@@ -100,6 +129,14 @@ export function createFurniture({
       if (!o.isMesh) return;
       for (const material of [o.material].flat()) {
         if (!material) continue;
+        if (furnitureMaterialName(material.name) === "fridge glass") {
+          material.transparent = true;
+          material.opacity = 0.13;
+          material.depthWrite = false;
+          o.castShadow = false;
+          o.renderOrder = 2;
+          Object.assign(o.userData, { fixedMaterial: true, noOcclusion: true, noContactOcclusion: true, noVolumeDepth: true });
+        }
         // Cut-out weaves (the Aeron's pellicle) resolve to a soft see-through at a distance with the
         // beauty pass's multisampling instead of a hard, shimmering edge.
         if (material.alphaTest > 0) material.alphaToCoverage = true;
@@ -113,6 +150,13 @@ export function createFurniture({
           }
         }
       }
+    });
+    applyVariant(root);
+  }
+  function applyArticulation(root) {
+    root.traverse((o) => {
+      const angle = articulation.get(o.userData.furniturePivot);
+      if (angle != null) o.rotation.y = angle;
     });
   }
 
@@ -217,6 +261,7 @@ export function createFurniture({
     group.name = `furniture ${anchor.id}`;
     group.userData.dynamic = true;
     group.userData.furnitureAnchor = anchor.id;
+    if (anchor.activityProp) group.userData.activityProp = anchor.activityProp;
     root.updateWorldMatrix(true, false);
     group.position.copy(root.worldToLocal(new THREE.Vector3(...anchor.position)));
     group.rotation.y = Number.isFinite(anchor.yaw) ? anchor.yaw : 0;
@@ -237,6 +282,9 @@ export function createFurniture({
       hidden: placeholders(root, anchor.id),
       placeholderHidden: false,
       culled: false,
+      restPosition: group.position.clone(),
+      restQuaternion: group.quaternion.clone(),
+      held: false,
     };
     placed.set(anchor.id, entry);
     return entry;
@@ -249,6 +297,7 @@ export function createFurniture({
     const source = models.get(`${entry.item}#${level}`)?.source;
     if (!source) return null;
     const object = instance(source);
+    applyArticulation(object);
     object.name = `${entry.anchor.id} lod${level}`;
     object.visible = false;
     object.userData.furnitureLevel = level;
@@ -263,6 +312,7 @@ export function createFurniture({
     if (entry.shown === level) return false;
     for (const [lvl, object] of entry.instances) object.visible = lvl === level;
     entry.shown = level;
+    if (entry.item === "floating-fireplace" && !fires.has(entry.anchor.id)) fires.set(entry.anchor.id, createFurnitureFire(entry.group));
     if (!entry.placeholderHidden) {
       for (const o of entry.hidden) o.visible = false;
       entry.placeholderHidden = true;
@@ -351,7 +401,7 @@ export function createFurniture({
       }
     },
     // Each frame, before drawing: which level each anchor draws, what to fetch and what to release.
-    update({ camera, bufferHeight = DETAIL.referenceHeight, fullscreen = false } = {}) {
+    update({ camera, bufferHeight = DETAIL.referenceHeight, fullscreen = false, seconds = 0, reduced = false } = {}) {
       if (!index || disposed || !camera) return false;
       const time = now();
       camera.updateMatrixWorld();
@@ -372,7 +422,9 @@ export function createFurniture({
           pixels = (entry.radius / ((camera.top - camera.bottom) / (2 * camera.zoom))) * (bufferHeight / 2);
           distance = (entry.radius * bufferHeight) / (2 * Math.max(pixels, 1e-6) * tanHalf);
         } else pixels = projectedPixels(entry.radius, distance, camera.fov, bufferHeight);
-        const inView = frustum.intersectsSphere(sphere);
+        let roomVisible = true;
+        for (let o = entry.root; o; o = o.parent) if (!o.visible) roomVisible = false;
+        const inView = roomVisible && frustum.intersectsSphere(sphere);
         const culled = pixels < DETAIL.cullPixels;
         if (culled !== entry.culled) {
           entry.culled = culled;
@@ -400,7 +452,8 @@ export function createFurniture({
       }
       const resident = {};
       for (const entry of models.values())
-        if (entry.level > 0 && entry.state !== "failed") resident[entry.key] = { bytes: entry.bytes, lastWanted: entry.lastWanted, loading: entry.state === "loading" };
+        if (entry.level > 0 && entry.state !== "failed")
+          resident[entry.key] = { bytes: entry.bytes, lastWanted: entry.lastWanted, loading: entry.state === "loading" };
       const plan = planDetail(requests, resident, { budget: fullscreen ? DETAIL.budget.fullscreen : DETAIL.budget.embed, now: time });
       for (const key of plan.release) {
         releaseModel(key);
@@ -411,7 +464,52 @@ export function createFurniture({
         model(item, Number(level));
       }
       compilePending();
+      for (const fire of fires.values()) fire.update(seconds, { reduced });
       return changed;
+    },
+    setVariant(next) {
+      variant = next === "mineral" ? "mineral" : "carbon";
+      for (const entry of models.values()) if (entry.source) applyVariant(entry.source);
+      requestFrame();
+      return variant;
+    },
+    articulate(kind, radians = 0) {
+      const pivot = kind === "fridge" ? "fridge-door" : "pot-filler";
+      const angle = Math.max(kind === "fridge" ? 0 : -1.2, Math.min(kind === "fridge" ? 1.35 : 1.2, radians));
+      articulation.set(pivot, angle);
+      for (const p of placed.values())
+        for (const object of p.instances.values())
+          object.traverse((o) => {
+            if (o.userData.furniturePivot === pivot) o.rotation.y = angle;
+          });
+      requestFrame();
+      return angle;
+    },
+    grip(id) {
+      const p = placed.get(id);
+      const local = p && index.items[p.item]?.grip;
+      if (!local) return null;
+      p.root.updateWorldMatrix(true, false);
+      return p.root.localToWorld(new THREE.Vector3(...local).applyQuaternion(p.restQuaternion).add(p.restPosition)).toArray();
+    },
+    // Keep the same authored pan at the shelf or exact palm target; LOD swaps share this frame.
+    hold(id, target = null, yaw = 0, tilt = 0) {
+      const p = placed.get(id),
+        local = p && index.items[p.item]?.grip;
+      if (!p || !local) return false;
+      p.held = Boolean(target);
+      if (!target) {
+        p.group.position.copy(p.restPosition);
+        p.group.quaternion.copy(p.restQuaternion);
+      } else {
+        const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(tilt, yaw, 0, "YXZ"));
+        p.root.updateWorldMatrix(true, false);
+        const at = new THREE.Vector3(...target).sub(new THREE.Vector3(...local).applyQuaternion(q));
+        p.group.position.copy(p.root.worldToLocal(at));
+        const parent = p.root.getWorldQuaternion(new THREE.Quaternion()).invert();
+        p.group.quaternion.copy(parent.multiply(q));
+      }
+      return true;
     },
     // Called with a placement whenever an anchor changes what it draws (fire.mjs, the pot filler).
     onShow(listener) {
@@ -434,14 +532,21 @@ export function createFurniture({
           culled: p.culled,
           placeholders: p.hidden.length,
           placeholderHidden: p.placeholderHidden,
+          held: p.held,
+          gripWorld: index.items[p.item]?.grip ? p.group.localToWorld(new THREE.Vector3(...index.items[p.item].grip)).toArray() : null,
         })),
         models: [...models.values()].map((m) => ({ key: m.key, state: m.state, bytes: m.bytes })),
         downloadedBytes: downloaded,
         fineBytes: fine.reduce((sum, m) => sum + m.bytes, 0),
+        aeronVariant: variant,
+        articulation: Object.fromEntries(articulation),
+        fires: [...fires].map(([id, fire]) => ({ id, ...fire.evidence() })),
       };
     },
     dispose() {
       disposed = true;
+      for (const fire of fires.values()) fire.dispose();
+      fires.clear();
       for (const p of placed.values()) {
         p.group.removeFromParent();
         if (p.placeholderHidden) for (const o of p.hidden) o.visible = true;

@@ -7,58 +7,308 @@
           "triangles": 36130,
           "bytes": 444044,
           "bounds": {
-            "min": [
-              -0.4109,
-              0.0,
-              -0.803
-            ],
-            "max": [
-              0.4109,
-              0.8012,
-              0.803
-            ]
+            "min": [-0.4109, 0.0, -0.803],
+            "max": [0.4109, 0.8012, 0.803]
           },
-          "shift": [
-            -0.0,
-            0.3833,
-            0.0
-          ],
+          "shift": [-0.0, 0.3833, 0.0],
           "sha256": "cd04a42079abd52010065d54b502826a2d347d70ecf35b6b9df4c626d3cd10e8",
-          "baked": [
-            0.688,
-            1.0
-          ]
+          "baked": [0.688, 1.0]
         },
         "1": {
           "file": "eames-lounge-lod1.glb",
           "triangles": 6376,
           "bytes": 66580,
           "bounds": {
-            "min": [
-              -0.405,
-              0.0,
-              -0.803
-            ],
-            "max": [
-              0.405,
-              0.8012,
-              0.803
-            ]
+            "min": [-0.405, 0.0, -0.803],
+            "max": [0.405, 0.8012, 0.803]
           },
-          "shift": [
-            -0.0,
-            0.3833,
-            0.0
-          ],
+          "shift": [-0.0, 0.3833, 0.0],
           "sha256": "b44dab6b2ff47c1e893005b388e3d45d83e2a42369ca8f0f9d0782086998a50b",
-          "baked": [
-            0.688,
-            1.0
-          ]
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "aeron": {
+      "levels": {
+        "0": {
+          "file": "aeron-lod0.glb",
+          "triangles": 33556,
+          "bytes": 167488,
+          "bounds": {
+            "min": [-0.3745, 0.0, -0.3737],
+            "max": [0.3745, 1.3048, 0.3737]
+          },
+          "shift": [-0.0145, -0.0, 0.0],
+          "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "aeron-lod1.glb",
+          "triangles": 9244,
+          "bytes": 82404,
+          "bounds": {
+            "min": [-0.3724, 0.0, -0.3696],
+            "max": [0.3724, 1.3048, 0.3696]
+          },
+          "shift": [-0.0124, -0.0, 0.0],
+          "sha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "italian-range": {
+      "levels": {
+        "0": {
+          "file": "italian-range-lod0.glb",
+          "triangles": 10116,
+          "bytes": 49312,
+          "bounds": {
+            "min": [-0.6, 0.0, -0.395],
+            "max": [0.6, 0.973, 0.395]
+          },
+          "shift": [-0.0, 0.045, 0.0],
+          "sha256": "a91cd11a8889fa140e543a3471f8ca7b506929ee7ffdb9be8b70a4ce282b976a",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "italian-range-lod1.glb",
+          "triangles": 4332,
+          "bytes": 32936,
+          "bounds": {
+            "min": [-0.6, 0.0, -0.394],
+            "max": [0.6, 0.973, 0.394]
+          },
+          "shift": [-0.0, 0.044, 0.0],
+          "sha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "range-hood": {
+      "levels": {
+        "0": {
+          "file": "range-hood-lod0.glb",
+          "triangles": 936,
+          "bytes": 8944,
+          "bounds": {
+            "min": [-0.625, 1.61, -0.37],
+            "max": [0.625, 2.55, 0.37]
+          },
+          "shift": [-0.0, -0.1, 0.0],
+          "sha256": "3413e686faf5ac8e45125c5f59b09560a9ef19c3d347f7257159b5fa2f9db25d",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "range-hood-lod1.glb",
+          "triangles": 432,
+          "bytes": 7520,
+          "bounds": {
+            "min": [-0.625, 1.61, -0.37],
+            "max": [0.625, 2.55, 0.37]
+          },
+          "shift": [-0.0, -0.1, 0.0],
+          "sha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "pot-filler": {
+      "levels": {
+        "0": {
+          "file": "pot-filler-lod0.glb",
+          "triangles": 368,
+          "bytes": 7812,
+          "bounds": {
+            "min": [-0.1385, 1.405, -0.176],
+            "max": [0.1385, 1.525, 0.176]
+          },
+          "shift": [-0.0835, 0.156, 0.0],
+          "sha256": "a4695554f61f983141a41f1554b4e854562847ba8c66a929003595248ac5088a",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "pot-filler-lod1.glb",
+          "triangles": 236,
+          "bytes": 7340,
+          "bounds": {
+            "min": [-0.1385, 1.405, -0.176],
+            "max": [0.1385, 1.525, 0.176]
+          },
+          "shift": [-0.0835, 0.156, 0.0],
+          "sha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "glass-fridge": {
+      "levels": {
+        "0": {
+          "file": "glass-fridge-lod0.glb",
+          "triangles": 9112,
+          "bytes": 46968,
+          "bounds": {
+            "min": [-0.38, 0.0, -0.371],
+            "max": [0.38, 2.13, 0.371]
+          },
+          "shift": [-0.0, 0.021, 0.0],
+          "sha256": "dbb584e3238f224bcfbaee6e7b5ea1ba0f2cba67e551026a11499f32ac547347",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "glass-fridge-lod1.glb",
+          "triangles": 4048,
+          "bytes": 33328,
+          "bounds": {
+            "min": [-0.38, 0.0, -0.3701],
+            "max": [0.38, 2.13, 0.3701]
+          },
+          "shift": [-0.0, 0.0201, 0.0],
+          "sha256": "61ad93a89a348b6da3da3becc80246bd7e76f800d3918fe5da1a6eea06bafcfd",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "dining-table": {
+      "levels": {
+        "0": {
+          "file": "dining-table-lod0.glb",
+          "triangles": 1288,
+          "bytes": 8932,
+          "bounds": {
+            "min": [-1.1, 0.0, -0.5],
+            "max": [1.1, 0.74, 0.5]
+          },
+          "shift": [-0.0, -0.0, 0.0],
+          "sha256": "78a97dbb32aaa76ac76eadc9c8b63a2cc2747eaeaa95fd496ed5693e496dc80a",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "dining-table-lod1.glb",
+          "triangles": 472,
+          "bytes": 6880,
+          "bounds": {
+            "min": [-1.1, 0.0, -0.5],
+            "max": [1.1, 0.74, 0.5]
+          },
+          "shift": [-0.0, -0.0, 0.0],
+          "sha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "dining-chair": {
+      "levels": {
+        "0": {
+          "file": "dining-chair-lod0.glb",
+          "triangles": 4676,
+          "bytes": 30636,
+          "bounds": {
+            "min": [-0.3065, -0.0024, -0.2754],
+            "max": [0.3065, 0.7779, 0.2754]
+          },
+          "shift": [-0.0, -0.0375, 0.0],
+          "sha256": "bc8a8b1bd4e6b842265c5a98dc640bca1293985b7f42b146c4bbbda8f82f70d0",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "dining-chair-lod1.glb",
+          "triangles": 1384,
+          "bytes": 17416,
+          "bounds": {
+            "min": [-0.3045, -0.0024, -0.2733],
+            "max": [0.3045, 0.7779, 0.2733]
+          },
+          "shift": [0.0, -0.0378, 0.0],
+          "sha256": "5209cdf46b91fd2a968edb7eabed4b029bf2aa0d808160fb6af86f473e14403e",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "cast-iron-pan": {
+      "levels": {
+        "0": {
+          "file": "cast-iron-pan-lod0.glb",
+          "triangles": 1648,
+          "bytes": 45100,
+          "bounds": {
+            "min": [-0.205, 0.0, -0.3605],
+            "max": [0.205, 0.0828, 0.3605]
+          },
+          "shift": [-0.0, 0.1195, 0.0],
+          "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "cast-iron-pan-lod1.glb",
+          "triangles": 816,
+          "bytes": 9488,
+          "bounds": {
+            "min": [-0.205, 0.0, -0.3596],
+            "max": [0.205, 0.0828, 0.3596]
+          },
+          "shift": [-0.0, 0.1192, 0.0],
+          "sha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "dumbbell": {
+      "levels": {
+        "0": {
+          "file": "dumbbell-lod0.glb",
+          "triangles": 568,
+          "bytes": 8564,
+          "bounds": {
+            "min": [-0.198, 0.0, -0.0727],
+            "max": [0.198, 0.168, 0.0727]
+          },
+          "shift": [0.001, -0.0, 0.0],
+          "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "dumbbell-lod1.glb",
+          "triangles": 100,
+          "bytes": 4676,
+          "bounds": {
+            "min": [-0.198, 0.0, -0.0727],
+            "max": [0.198, 0.168, 0.0727]
+          },
+          "shift": [0.001, -0.0, 0.0],
+          "sha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "floating-fireplace": {
+      "levels": {
+        "0": {
+          "file": "floating-fireplace-lod0.glb",
+          "triangles": 2128,
+          "bytes": 17356,
+          "bounds": {
+            "min": [-0.45, 0.71, -0.45],
+            "max": [0.45, 1.9, 0.45]
+          },
+          "shift": [-0.0, -0.0, 0.0],
+          "sha256": "7eeefd1c1a149dc433c7b11b122e67e6300a54ed15d6664ea97eceb8b1d0d8bf",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "floating-fireplace-lod1.glb",
+          "triangles": 1112,
+          "bytes": 12616,
+          "bounds": {
+            "min": [-0.45, 0.71, -0.45],
+            "max": [0.45, 1.9, 0.45]
+          },
+          "shift": [-0.0, -0.0, 0.0],
+          "sha256": "8ee91caa23fcdcea892f811bff78dd37fb746c94f2c00243ff7d60e4744347a7",
+          "baked": [0.688, 1.0]
         }
       }
     }
   },
-  "blender": "4.5.14 LTS",
-  "built": "2026-10-21"
+  "blender": "4.5.9 LTS",
+  "built": "2026-10-23"
 }

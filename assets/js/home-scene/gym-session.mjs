@@ -59,6 +59,7 @@ export function gymLayout(gym) {
     dipFront: spot(gym.dip.front, Math.PI),
     dip: spot(gym.dip.actor, Math.PI),
     curl: spot(gym.dumbbells.actor, Math.PI),
+    pan: spot(gym.pan?.actor || gym.dumbbells.actor, gym.pan?.facing ?? Math.PI),
     // Beside each bar's near sleeve, facing along the bar.
     loadRack: spot([rackBar[0] + half + 0.4, 0, rackBar[2]], -Math.PI / 2),
     loadPlatform: spot([platformBar[0] - half - 0.4, 0, platformBar[2]], Math.PI / 2),
@@ -206,7 +207,7 @@ function workSpots(layout, lift) {
   }
 }
 const loadSpot = (layout, station) => layout.spots[{ rack: "loadRack", platform: "loadPlatform", bench: "loadBench" }[station]];
-const supersetSpot = (layout, lift) => layout.spots[lift === "dip" ? "dipFront" : lift === "curl" ? "curl" : "pullup"];
+const supersetSpot = (layout, lift) => layout.spots[lift === "pan-raise" ? "pan" : lift === "dip" ? "dipFront" : lift === "curl" ? "curl" : "pullup"];
 
 function ends(layout, segment, next) {
   const s = layout.spots;
@@ -674,6 +675,20 @@ function supersetPose(base, layout, segment, t, span, gym) {
     name = segment.lift;
   const label = `${segment.finisher ? "finisher" : segment.accessory ? "accessory" : "superset"} · ${name === "pullup" ? "pull-ups" : name === "dip" ? "dips" : "curls"} × ${segment.reps}`;
   const overhead = SUPERSET_OVERHEAD[name];
+  if (name === "pan-raise") {
+    const pick = 4;
+    const take = t < pick ? smooth(t / pick) : t > span - pick ? 1 - smooth((t - (span - pick)) / pick) : 1;
+    const u = t < pick || t > span - pick ? 0 : ((t - pick) / REP_SECONDS[name]) % 1;
+    return {
+      ...base,
+      position: s.pan.at,
+      facing: s.pan.facing,
+      clip: "idle",
+      phase: t < pick ? "take the cast-iron pan" : t > span - pick ? "return the pan" : "pan wrist raises × 8",
+      pan: take > 0.001,
+      lift: lift("pan-raise", u, { take, grip: gym.pan?.grip || [6.75, 0.908, -0.95] }, ramp(t, span)),
+    };
+  }
   if (name === "pullup") {
     const ctx = liftContext("pullup", gym);
     const jump = 0.95,

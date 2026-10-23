@@ -98,3 +98,15 @@ test("the bench back rises for incline presses only", () => {
     assert.equal(pose.incline, segment.lift === "incline-bench" ? 1 : 0, `${segment.lift} incline`);
   }
 });
+
+test("the pan finisher takes the pan, performs eight controlled raises and returns it", () => {
+  const info = trainingAt(config.training, "2026-10-16", 1080);
+  const segment = info.timeline.segments.find((s) => s.lift === "pan-raise" && s.kind === "superset");
+  assert.equal(segment.reps, 8);
+  const at = (seconds) => sessionPose({ ...info, state: sessionState(info.timeline, segment.start + seconds) }, gym);
+  assert.equal(at(0).pan, false);
+  assert.equal(at(5).pan, true);
+  assert.equal(at(5).lift.name, "pan-raise");
+  assert.equal(at(segment.end - segment.start - 0.0001).pan, false);
+  assert.deepEqual(at(5).position, layout.spots.pan.at);
+});

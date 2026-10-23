@@ -21,6 +21,7 @@ export const LIFT_LABELS = {
   "close-grip-bench": "Close-grip bench",
   pullup: "Pull-ups",
   curl: "Curls",
+  "pan-raise": "Pan wrist raises",
   dip: "Dips",
 };
 
@@ -50,6 +51,7 @@ export const REP_SECONDS = {
   pullup: 2.8,
   dip: 2.6,
   curl: 1.6,
+  "pan-raise": 3.2,
 };
 
 // Getting into and out of each lift. Back squats back under the bar and step into the cage;
@@ -77,8 +79,8 @@ export const RERACK_SECONDS = {
 };
 // A jump to the pull-up bar and the drop from it; stepping between the dip bars and out; taking the
 // dumbbells off the rack and putting them back.
-export const SUPERSET_OVERHEAD = { pullup: 1.8, dip: 2.8, curl: 6.5 };
-export const SUPERSET_REPS = { pullup: 6, dip: 10, curl: 10 };
+export const SUPERSET_OVERHEAD = { pullup: 1.8, dip: 2.8, curl: 6.5, "pan-raise": 8 };
+export const SUPERSET_REPS = { pullup: 6, dip: 10, curl: 10, "pan-raise": 8 };
 
 export function roundWeight(weight, step = 5) {
   return Math.max(45, Math.round(weight / step) * step);
@@ -221,6 +223,7 @@ export function sessionPlan(position, training) {
     lifts,
     finisher: day.finisher || null,
     accessories,
+    panRaise: true,
   };
 }
 
@@ -296,6 +299,7 @@ export function sessionTimeline(plan) {
     for (const lift of plan.accessories || []) extra(lift, k, { reps: lift === "pullup" ? 8 : SUPERSET_REPS[lift], accessory: true });
     push("rest", 60, { after: "accessories" });
   }
+  if (plan.panRaise) extra("pan-raise", 0, { reps: 8, accessory: true });
   push("board", 90, { note: "log" });
   push("leave", 30);
   return { segments, duration: t };

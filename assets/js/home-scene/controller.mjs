@@ -2585,6 +2585,7 @@ export function createCoastalHome(container, records, artifacts) {
       }
     }
     let liftThisFrame = false;
+    let panFrame = null;
     // The gym's bars, dumbbells and board exist whenever its room is loaded.
     if (!gymProps && config?.equipment?.gym && rooms.get("gym")) {
       gymProps = createGymProps({ room: rooms.get("gym"), world, gym: config.equipment.gym, training: config.training, material });
@@ -2608,7 +2609,16 @@ export function createCoastalHome(container, records, artifacts) {
         let rig = null;
         // Paused, the bones already hold this pose; solving again would only add rounding noise.
         if (pose.lift && liftRig) {
-          if (compose) rig = liftRig.apply(pose.lift.name, reduced ? 0 : pose.lift.u, pose.lift.ctx, pose.lift.weight);
+          if (compose) {
+            if (pose.lift.name === "pan-raise" && !sequencePose.panGrip) sequencePose.panGrip = furniture?.grip("gym-pan");
+            rig = liftRig.apply(
+              pose.lift.name,
+              reduced ? 0 : pose.lift.u,
+              pose.lift.name === "pan-raise" && sequencePose.panGrip ? { ...pose.lift.ctx, grip: sequencePose.panGrip } : pose.lift.ctx,
+              pose.lift.weight
+            );
+          }
+          if (pose.pan && rig?.hands?.R) panFrame = { target: rig.hands.R.toArray(), yaw: actor.rotation.y + Math.PI, tilt: rig.panTilt || 0 };
           liftActive = liftThisFrame = true;
         }
         if (propFor && selectedProp) propFor(null);
@@ -2635,6 +2645,7 @@ export function createCoastalHome(container, records, artifacts) {
         container.dataset.activityPhase = pose.phase;
       }
     } else if (!paused || reduced || !actor || travel || !routine?.sequence) sequencePose = null;
+    if (!paused || reduced || !sequencePose?.pan) furniture?.hold("gym-pan", panFrame?.target, panFrame?.yaw, panFrame?.tilt);
     if (liftActive && !liftThisFrame) {
       liftRig?.release();
       liftActive = false;
@@ -2724,7 +2735,7 @@ export function createCoastalHome(container, records, artifacts) {
       canvasHeight: renderer.domElement.height,
     });
     lightInstallations?.tick(elapsed, moving);
-    furniture?.update({ camera, bufferHeight: renderer.domElement.height, fullscreen: fullscreen.mode });
+    furniture?.update({ camera, bufferHeight: renderer.domElement.height, fullscreen: fullscreen.mode, seconds: elapsed, reduced });
     if (steamVolume) {
       // The small volume is a close bath detail. Do not capture two complete
       // coast depth buffers or evolve hidden steam in distant exterior views.
@@ -2833,6 +2844,7 @@ export function createCoastalHome(container, records, artifacts) {
         roomRoot: (id) => rooms.get(id),
         anisotropy: () => detail?.anisotropy ?? 1,
         override: detailFlags.get("furniture-detail"),
+        aeronVariant: detailFlags.get("aeron"),
       });
       cleanup.push(() => furniture?.dispose());
       if (disposed) return;
@@ -2964,6 +2976,36 @@ export function createCoastalHome(container, records, artifacts) {
       const avatars = ui.querySelector("[data-world-avatar]");
       avatars.replaceChildren();
       config.avatars.forEach((a) => avatars.add(new Option(a.label, a.id)));
+      if (labEnabled) {
+        const label = document.createElement("label");
+        label.textContent = "Aeron finish ";
+        const select = document.createElement("select");
+        select.dataset.worldAeron = "";
+        select.add(new Option("Carbon", "carbon"));
+        select.add(new Option("Mineral", "mineral"));
+        select.value = furniture.evidence().aeronVariant;
+        listen(select, "change", () => furniture.setVariant(select.value));
+        label.append(select);
+        avatars.parentElement.after(label);
+        cleanup.push(() => label.remove());
+        for (const [kind, caption, angle] of [
+          ["filler", "Swing pot filler", 0.9],
+          ["fridge", "Open refrigerator", 1.1],
+        ]) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent = caption;
+          button.dataset.furniturePart = kind;
+          button.setAttribute("aria-pressed", "false");
+          listen(button, "click", () => {
+            const open = button.getAttribute("aria-pressed") !== "true";
+            furniture.articulate(kind, open ? angle : 0);
+            button.setAttribute("aria-pressed", String(open));
+          });
+          label.after(button);
+          cleanup.push(() => button.remove());
+        }
+      }
       const activitySelect = ui.querySelector("[data-world-activity]");
       activitySelect.replaceChildren();
       Object.entries(config.activities).forEach(([id, a]) => activitySelect.add(new Option(a.label, id)));
