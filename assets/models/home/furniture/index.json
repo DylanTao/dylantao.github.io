@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "axes": "glTF/three.js metres, +y up. An item's origin is its floor-contact centre and its front faces +z at yaw 0, the manifest's actor-facing convention: a furniture anchor's yaw turns an item as an actor's facing turns an avatar.",
+  "items": {
+    "eames-lounge": {
+      "label": "Eames lounge chair and ottoman",
+      "lods": [
+        {
+          "file": "eames-lounge-lod1.glb",
+          "triangles": 6376,
+          "bytes": 66580
+        },
+        {
+          "file": "eames-lounge-lod0.glb",
+          "triangles": 36130,
+          "bytes": 444044,
+          "near": 1.6,
+          "fullscreen": true
+        }
+      ],
+      "bounds": {
+        "min": [
+          -0.4109,
+          0.0,
+          -0.803
+        ],
+        "max": [
+          0.4109,
+          0.8012,
+          0.803
+        ]
+      },
+      "origin": "floor-center",
+      "front": "+z",
+      "seatHeight": 0.38,
+      "seat": [
+        0.0,
+        0.33,
+        -0.3233
+      ],
+      "provenance": "Original Blender geometry after the Eames Lounge Chair and Ottoman (Herman Miller): published dimensions and a measured reference from Sirui's configurator download, whose terms do not allow redistribution; nothing from the download is shipped."
+    }
+  }
+}

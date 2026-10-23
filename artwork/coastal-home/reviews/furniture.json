@@ -1,0 +1,64 @@
+{
+  "items": {
+    "eames-lounge": {
+      "levels": {
+        "0": {
+          "file": "eames-lounge-lod0.glb",
+          "triangles": 36130,
+          "bytes": 444044,
+          "bounds": {
+            "min": [
+              -0.4109,
+              0.0,
+              -0.803
+            ],
+            "max": [
+              0.4109,
+              0.8012,
+              0.803
+            ]
+          },
+          "shift": [
+            -0.0,
+            0.3833,
+            0.0
+          ],
+          "sha256": "cd04a42079abd52010065d54b502826a2d347d70ecf35b6b9df4c626d3cd10e8",
+          "baked": [
+            0.688,
+            1.0
+          ]
+        },
+        "1": {
+          "file": "eames-lounge-lod1.glb",
+          "triangles": 6376,
+          "bytes": 66580,
+          "bounds": {
+            "min": [
+              -0.405,
+              0.0,
+              -0.803
+            ],
+            "max": [
+              0.405,
+              0.8012,
+              0.803
+            ]
+          },
+          "shift": [
+            -0.0,
+            0.3833,
+            0.0
+          ],
+          "sha256": "b44dab6b2ff47c1e893005b388e3d45d83e2a42369ca8f0f9d0782086998a50b",
+          "baked": [
+            0.688,
+            1.0
+          ]
+        }
+      }
+    }
+  },
+  "blender": "4.5.14 LTS",
+  "built": "2026-10-21"
+}

@@ -65,6 +65,7 @@ import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs";
 import { createWalkMode } from "./walk-controls.mjs";
 import { createLightInstallations } from "./light-installations.mjs";
+import { createFurniture } from "./furniture.mjs";
 import { createAtmosphere } from "./atmosphere.mjs";
 import { createHaze } from "./haze.mjs";
 import { createInfinityPool } from "./infinity-pool.mjs";
@@ -155,6 +156,8 @@ export function createCoastalHome(container, records, artifacts) {
     disposed = false,
     visible = false,
     inViewport = true;
+  // Sirui's furniture at the house's anchors, by level of detail (furniture.mjs).
+  let furniture = null;
   // The drawing buffer's pixel budget and adaptive density (resolution.mjs) and the cached static sun
   // shadow (shadow-cache.mjs).
   let resolution = null,
@@ -732,6 +735,7 @@ export function createCoastalHome(container, records, artifacts) {
     if (pendingRooms.has(id)) return pendingRooms.get(id);
     const entry = config.rooms.find((r) => r.id === id);
     if (!entry) return null;
+    const furnished = furniture?.load(id);
     const pending = loadModel(new URL(entry.file, manifestUrl).href, step)
       .then(async (gltf) => {
         if (disposed) {
@@ -777,6 +781,9 @@ export function createCoastalHome(container, records, artifacts) {
             water.userData.noContactOcclusion = true;
           }
         });
+        // The room's furniture joins it before its programs compile.
+        await furniture?.attach(id, root, furnished);
+        if (disposed) return null;
         // The arrival room compiles with the first composed view. Rooms streamed afterwards stay
         // hidden until their programs are ready, so the visible view keeps drawing meanwhile.
         if (firstFrameMilliseconds !== null) {
@@ -2717,6 +2724,7 @@ export function createCoastalHome(container, records, artifacts) {
       canvasHeight: renderer.domElement.height,
     });
     lightInstallations?.tick(elapsed, moving);
+    furniture?.update({ camera, bufferHeight: renderer.domElement.height, fullscreen: fullscreen.mode });
     if (steamVolume) {
       // The small volume is a close bath detail. Do not capture two complete
       // coast depth buffers or evolve hidden steam in distant exterior views.
@@ -2814,6 +2822,19 @@ export function createCoastalHome(container, records, artifacts) {
       const response = await fetch(manifestUrl);
       if (!response.ok) throw new Error("Scene manifest unavailable");
       config = await response.json();
+      furniture = createFurniture({
+        config,
+        baseUrl: manifestUrl,
+        loadModel,
+        loader,
+        prepare: (root) => prepareModel(root),
+        compile: () => compilePrograms(),
+        requestFrame: () => requestFrame(),
+        roomRoot: (id) => rooms.get(id),
+        anisotropy: () => detail?.anisotropy ?? 1,
+        override: detailFlags.get("furniture-detail"),
+      });
+      cleanup.push(() => furniture?.dispose());
       if (disposed) return;
       // The coast's wind starts at this Pacific minute, so the spray and dust prewarm in today's breeze.
       coastWind.update({ seconds: elapsed, minute: livePacificMinute(config.timeZone) });
@@ -3278,6 +3299,7 @@ export function createCoastalHome(container, records, artifacts) {
     detail: detail ? { ...detail, shadowMap: sun.shadow.mapSize.x } : null,
     walk: walkMode?.evidence() ?? null,
     shadowCache: shadowCache?.evidence() ?? null,
+    furniture: furniture?.evidence() ?? null,
     prop: selectedProp
       ? {
           kind: selectedProp.userData.kind,
