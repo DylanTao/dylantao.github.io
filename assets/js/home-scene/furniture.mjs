@@ -127,6 +127,9 @@ export function createFurniture({
     root.traverse((o) => {
       o.userData.dynamic = true;
       if (!o.isMesh) return;
+      // The source already passed prepareModel/art.apply. Preserve its prepared shared material
+      // when the controller reapplies the world's active treatment after arrival/avatar changes.
+      o.userData.fixedMaterial = true;
       for (const material of [o.material].flat()) {
         if (!material) continue;
         if (furnitureMaterialName(material.name) === "fridge glass") {
@@ -470,6 +473,7 @@ export function createFurniture({
     setVariant(next) {
       variant = next === "mineral" ? "mineral" : "carbon";
       for (const entry of models.values()) if (entry.source) applyVariant(entry.source);
+      for (const p of placed.values()) applyVariant(p.group);
       requestFrame();
       return variant;
     },
