@@ -2294,7 +2294,7 @@ test("head alternates are scoped to equivalent machine-readable documents", asyn
     },
     { route: "/projects/designweaver/", expected: [] },
     { route: "/blog/2026/research-skills-starter-pack/", expected: [] },
-    { route: "/cv/", expected: [] },
+    { route: "/cv/", expected: [["application/json", "/assets/json/resume.json"]] },
   ];
   const machineTypes = new Set(["text/plain", "application/json", "text/markdown", "application/x-bibtex", "application/x-research-info-systems"]);
 

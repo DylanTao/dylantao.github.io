@@ -25,6 +25,7 @@ For targeted work, focus on these headings:
 - Page Archetypes, Occam's Razor For UI, Responsive Layout
 - Footer And Global Chrome, Conservative Inspiration Boundaries
 - Reflective Practice
+- Maintenance And CI when changing document formats or their acceptance checks
 
 For homepage desk or 3D-widget work, switch to `$homepage-desk-scene` instead of treating the scene as generic page decoration.
 
