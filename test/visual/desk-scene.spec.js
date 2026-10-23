@@ -1246,7 +1246,7 @@ test("coastal physics: the study label transfers only above contact and keeps th
   await settleRoomModels(scene);
   await explore(ui);
   await ui.locator('[data-world-room="study"]').first().click();
-  await ui.locator(".home-world-objects > summary").click();
+  await ui.getByText("Albums & research papers", { exact: true }).click();
   const first = ui.locator('[data-world-record="0"]');
   await first.click();
   await first.click();
@@ -2279,7 +2279,7 @@ test("coastal home: album focus, playback, discovery, mode sharing, and paper na
     playerScene = page.locator("[data-home-record-scene]"),
     source = page.locator("[data-home-record-source]");
   await explore(ui);
-  await ui.locator(".home-world-objects > summary").click();
+  await ui.getByText("Albums & research papers", { exact: true }).click();
   const record = ui.locator('[data-world-record="0"]');
   await record.click();
   await expect(scene).toHaveAttribute("data-focused-desk-object", "record-0");

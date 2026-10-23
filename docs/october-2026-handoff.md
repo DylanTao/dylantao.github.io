@@ -235,8 +235,11 @@ The release verification section below records the combined checks.
 - [x] **Glass fridge.** Transparent doors reveal original interior contents in the actual kitchen.
 - [x] **Dining table and six chairs.** A six-place table and woven chairs use exported floor-contact anchors.
 - [x] **Pan, dumbbells, floating fireplace and fire.** Original models, held contacts, return paths and reduced-motion
-      fire are checked. The fireplace fits the pit/flue/cap. [Furniture evidence and limits](../artwork/coastal-home/FURNITURE.md)
-      retain nine real renders and the measured 281,184-byte default / 835,156-byte fine unique payloads.
+      fire are checked. A final frame review caught a 30 cm mismatch between the furniture neck and the native flue;
+      both delivered detail levels now meet the house pipe. Decoded mesh tests, a failing-original regression and four
+      [actual joint/full-flue views](../artwork/coastal-home/reviews/furniture/fireplace-joint/README.md) retain the proof.
+      [Furniture evidence and limits](../artwork/coastal-home/FURNITURE.md) retain nine initial renders and the corrected
+      281,156-byte default / 835,064-byte fine unique payloads. The other twenty furniture GLBs and all anchors are unchanged.
 - [x] **Creek, koi pond and onsen drip.** Both requested water features are implemented without a competing fluid solver:
       native carved creek/pond, five original koi, and droplets from the existing bamboo tip into the existing impulse
       solver. The garden is attached to the hinterland; bed depths are checked against native terrain. See

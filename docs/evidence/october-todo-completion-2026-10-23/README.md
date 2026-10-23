@@ -39,6 +39,23 @@ was byte-checked at 182,492 bytes, SHA-256 `580a80b5d9f4d35379f23cb61765f759a629
 All 241 Python tests passed again; the targeted wind/interior/furniture/transport Node run passed 33 tests with four
 intentional native-tool skips. Theme samplers passed for the site, Build Rhythm, Duh and phone constellation.
 
+Checkpoint `3235cb72d` then caught a stale perch-source fingerprint after the plant source was saved. The existing
+Blender extractor was rerun successfully: all eight physical support patches and both 194-sample soles are unchanged;
+only the retained native-file hash changes. All five contact cases and the complete 599-test Node suite pass again
+(592 passed, seven intentional skips). The archive fixture also now includes the new October 23 post and checks all
+ten dates, the new link and the older links, rather than retaining the previous nine-post expectation.
+Two album cases now address the named Albums & research papers disclosure; the old shared CSS selector also matched
+the newly added Graphics studies disclosure. Their substantive record-transfer/playback/navigation assertions remain.
+The final visual review also found a real 30 cm flue gap. Both item detail levels now meet the delivered native pipe;
+decoded-mesh tests reject the original gap and measure the fixed end planes within 0.001 mm. Four inspected actual
+joint/full-flue views and source/other-asset preservation checks are retained with the furniture evidence below.
+The final combined source passes all 602 Node tests (595 passed, seven intentional skips), all 241 Python tests and
+the style contract. Both complete album cases pass at 1280 pixels. The production rebuild takes 128.045 seconds with
+`TZ=UTC`, matching Linux CI's calendar formatting. Both delivered fireplace GLBs match source bytes; the minified
+furniture/perch JSON files retain exactly the source values. The scene registry remains 107 cases in each viewport,
+with no missing, extra or duplicate group membership.
+The complete 2026 archive case passes at all four standard viewports against this final UTC-built candidate.
+
 Local logs and full captures are ignored under `.jekyll-cache/finish-*` and `.jekyll-cache/visual-qa/` (including
 `checkpoint`, `finish-root` and `finish-linux-regressions`). They are not website content.
 
@@ -51,6 +68,9 @@ Local logs and full captures are ignored under `.jekyll-cache/finish-*` and `.je
   Carbon/Mineral, bytes, held pan, recovery and inspected room/4K/phone renders. Fourteen existing authored proxies keep
   camera/Walk collision stable across late loading and LOD swaps; they approximate the models rather than matching
   every fine silhouette.
+  The [fireplace joint correction](../../../artwork/coastal-home/reviews/furniture/fireplace-joint/README.md) preserves
+  the other twenty GLBs, all anchors and the native house. Current unique payloads are 281,156 bytes default and
+  835,064 bytes fine.
 - [Environment](../../../artwork/coastal-home/reviews/environment-2026-10-23.json): JPL references, native water depths,
   exact garden asset hash and actual coast/garden/night/FFT views. The final still-photo guard is newer than its
   environment-module fingerprint; the separate graphics-study record below binds that changed module.
