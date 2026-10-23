@@ -1,0 +1,323 @@
+{
+  "date": "2026-10-23",
+  "status": "verified house slice; coordinator owns integrated build and release",
+  "runtime": "Blender 4.5.9 LTS; official Windows portable",
+  "geometry": [
+    {
+      "file": "artwork/coastal-home/coastal-home.blend",
+      "bytes": 22796956,
+      "sha256": "a368f9e5d8bfa457b5315a0ac6bd7602c9e87f36177cb953dd28e0729a06c24f"
+    },
+    {
+      "file": "assets/models/home/home-shell.glb",
+      "bytes": 656572,
+      "sha256": "72015bd0ea9e576f6f83024fae3ef8bf0006612c684ac1d4f241ba269e02e945"
+    },
+    {
+      "file": "assets/models/home/coast.glb",
+      "bytes": 171856,
+      "sha256": "4e39d9ebe968491f4f3b392ffaddd708719c2cb2f1ed54c06338b2fa6f51f533"
+    },
+    {
+      "file": "assets/models/home/room-kitchen.glb",
+      "bytes": 232528,
+      "sha256": "bff450dc098b5a0257de9c9b1f82c4128d67bd8a03c2def13232d450e1082dd9"
+    },
+    {
+      "file": "assets/models/home/room-lounge.glb",
+      "bytes": 139456,
+      "sha256": "5c0255a9ca45b54a9d81b21ae483bf4a035e0bbfc7444820a2ad9411780f1817"
+    },
+    {
+      "file": "assets/models/home/room-study.glb",
+      "bytes": 167816,
+      "sha256": "32b089984c3f48b9b7e97453b72cddda7bfed989c4dcc596ef4e3e29caece773"
+    },
+    {
+      "file": "assets/models/home/room-gym.glb",
+      "bytes": 211272,
+      "sha256": "578373cf65f3a7a7fd01ddc6895d05b25a3988b7c30c788dae489e66c4cde3f8"
+    }
+  ],
+  "nativeMeasurements": "artwork/coastal-home/reviews/interior-contacts.json",
+  "focusedTests": {
+    "command": "node --test test/coastal-interior.test.mjs test/light-installations.test.mjs",
+    "passed": 18
+  },
+  "shots": [
+    {
+      "sourceReport": ".jekyll-cache/visual-qa/house-camera-final/captures.json",
+      "shot": "kitchen",
+      "mode": "embed",
+      "evidence": {
+        "room": "kitchen",
+        "activity": "breakfast",
+        "camera": [-0.9741821282811327, 1.7106484045668306, -4.179442908042735],
+        "target": [-3.85, 0.95, -3],
+        "canvas": [544, 460],
+        "drawCalls": 544,
+        "triangles": 2276452,
+        "infinityPool": {
+          "surfaces": 1,
+          "fixedWaterline": -0.09,
+          "amplitude": 0.004,
+          "seconds": 0,
+          "sharedCoastalLight": true
+        }
+      },
+      "errors": [],
+      "walk": null,
+      "interaction": null
+    },
+    {
+      "sourceReport": ".jekyll-cache/visual-qa/house-refined/captures.json",
+      "shot": "entrance",
+      "mode": "fullscreen",
+      "evidence": {
+        "room": "overview",
+        "activity": "reading",
+        "camera": [7.877058978406671, 11.301877569223567, 22.2916068674202],
+        "target": [3.42, 7.7, 17],
+        "canvas": [1440, 1000],
+        "drawCalls": 1130,
+        "triangles": 3189157,
+        "infinityPool": {
+          "surfaces": 1,
+          "fixedWaterline": -0.09,
+          "amplitude": 0.004,
+          "seconds": 0,
+          "sharedCoastalLight": true
+        }
+      },
+      "errors": [],
+      "walk": null,
+      "interaction": null
+    },
+    {
+      "sourceReport": ".jekyll-cache/visual-qa/house-refined/captures.json",
+      "shot": "foyer",
+      "mode": "fullscreen",
+      "evidence": {
+        "room": "overview",
+        "activity": "reading",
+        "camera": [3.4199999999999995, 4.79064041353121, 11.00345753903295],
+        "target": [3.42, 3.3, 8.4],
+        "canvas": [1440, 1000],
+        "drawCalls": 1045,
+        "triangles": 3127723,
+        "infinityPool": {
+          "surfaces": 1,
+          "fixedWaterline": -0.09,
+          "amplitude": 0.004,
+          "seconds": 0,
+          "sharedCoastalLight": true
+        }
+      },
+      "errors": [],
+      "walk": null,
+      "interaction": null
+    },
+    {
+      "sourceReport": ".jekyll-cache/visual-qa/house-refined/captures.json",
+      "shot": "infinity-pool",
+      "mode": "fullscreen",
+      "evidence": {
+        "room": "overview",
+        "activity": "reading",
+        "camera": [4.3865624277928825, 3.1100559096235294, -4.82],
+        "target": [-0.95, -0.2, -8.7],
+        "canvas": [1440, 1000],
+        "drawCalls": 531,
+        "triangles": 1882845,
+        "infinityPool": {
+          "surfaces": 1,
+          "fixedWaterline": -0.09,
+          "amplitude": 0.004,
+          "seconds": 0,
+          "sharedCoastalLight": true
+        }
+      },
+      "errors": [],
+      "walk": null,
+      "interaction": null
+    },
+    {
+      "sourceReport": ".jekyll-cache/visual-qa/house-walk-final/captures.json",
+      "shot": "foyer",
+      "mode": "fullscreen",
+      "evidence": {
+        "room": "overview",
+        "activity": "reading",
+        "camera": [3.4199999999999995, 4.79064041353121, 11.00345753903295],
+        "target": [3.42, 3.3, 8.4],
+        "canvas": [1440, 1000],
+        "drawCalls": 1045,
+        "triangles": 3127723,
+        "infinityPool": {
+          "surfaces": 1,
+          "fixedWaterline": -0.09,
+          "amplitude": 0.004,
+          "seconds": 0,
+          "sharedCoastalLight": true
+        }
+      },
+      "errors": [],
+      "walk": {
+        "stair": [
+          {
+            "requested": [3.42, 2.7537, 9.18],
+            "placed": true,
+            "actual": [3.42, 2.7536277770996094, 9.18],
+            "error": 7.222290039043955e-5
+          },
+          {
+            "requested": [3.42, 3.8293, 11.14],
+            "placed": true,
+            "actual": [3.42, 3.8293581008911133, 11.14],
+            "error": 5.8100891113355146e-5
+          },
+          {
+            "requested": [3.42, 5.0586, 13.38],
+            "placed": true,
+            "actual": [3.42, 5.058816909790039, 13.38],
+            "error": 0.00021690979003885502
+          },
+          {
+            "requested": [3.42, 6.2879, 15.62],
+            "placed": true,
+            "actual": [3.42, 6.288076877593994, 15.62],
+            "error": 0.00017687759399453995
+          },
+          {
+            "requested": [3.42, 7.5172, 17.86],
+            "placed": true,
+            "actual": [3.42, 7.517110347747803, 17.86],
+            "error": 8.965225219714767e-5
+          }
+        ],
+        "waterBlocked": true,
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 235,
+          "builtMilliseconds": 631,
+          "cell": 0.1,
+          "size": [241, 347],
+          "columns": 83627,
+          "filled": 73968,
+          "intervals": 200801,
+          "triangles": 578043,
+          "samples": 6526780,
+          "overflows": 2122
+        }
+      },
+      "interaction": null
+    },
+    {
+      "sourceReport": ".jekyll-cache/visual-qa/house-responsive-1280x800/captures.json",
+      "shot": "kitchen",
+      "mode": "fullscreen",
+      "evidence": {
+        "room": "kitchen",
+        "activity": "breakfast",
+        "camera": [-0.9741821282811327, 1.7106484045668306, -4.179442908042735],
+        "target": [-3.85, 0.95, -3],
+        "canvas": [1280, 800],
+        "drawCalls": 550,
+        "triangles": 2294116,
+        "infinityPool": {
+          "surfaces": 1,
+          "fixedWaterline": -0.09,
+          "amplitude": 0.004,
+          "seconds": 0,
+          "sharedCoastalLight": true
+        }
+      },
+      "errors": [],
+      "walk": null,
+      "interaction": {
+        "before": "b8d2980a8beeeac2c0ead6a85bb208f050983ec0358dfc11c4332d1411e79e5d",
+        "drag": "ef4ae0fd70288986cdc156c11fb372809de0078d7ba531daa6d144638d4ddd8b",
+        "zoom": "25446a7a3e4d55c378d6060f083788361dc426f24f1d4b84b875448847463283",
+        "dragChanged": true,
+        "zoomChanged": true
+      }
+    },
+    {
+      "sourceReport": ".jekyll-cache/visual-qa/house-responsive-768x1024/captures.json",
+      "shot": "kitchen",
+      "mode": "fullscreen",
+      "evidence": {
+        "room": "kitchen",
+        "activity": "breakfast",
+        "camera": [-0.9741821282811327, 1.7106484045668306, -4.179442908042735],
+        "target": [-3.85, 0.95, -3],
+        "canvas": [768, 1024],
+        "drawCalls": 541,
+        "triangles": 2276080,
+        "infinityPool": {
+          "surfaces": 1,
+          "fixedWaterline": -0.09,
+          "amplitude": 0.004,
+          "seconds": 0,
+          "sharedCoastalLight": true
+        }
+      },
+      "errors": [],
+      "walk": null,
+      "interaction": null
+    },
+    {
+      "sourceReport": ".jekyll-cache/visual-qa/house-responsive-390x1000/captures.json",
+      "shot": "kitchen",
+      "mode": "fullscreen",
+      "evidence": {
+        "room": "kitchen",
+        "activity": "breakfast",
+        "camera": [-0.9741821282811327, 1.7106484045668306, -4.179442908042735],
+        "target": [-3.85, 0.95, -3],
+        "canvas": [390, 1000],
+        "drawCalls": 473,
+        "triangles": 1779134,
+        "infinityPool": {
+          "surfaces": 1,
+          "fixedWaterline": -0.09,
+          "amplitude": 0.004,
+          "seconds": 0,
+          "sharedCoastalLight": true
+        }
+      },
+      "errors": [],
+      "walk": null,
+      "interaction": null
+    },
+    {
+      "sourceReport": ".jekyll-cache/visual-qa/house-gym-final/captures.json",
+      "shot": "gym",
+      "mode": "fullscreen",
+      "evidence": {
+        "room": "gym",
+        "activity": "workout",
+        "camera": [9.164921010092488, 1.7460079923851834, -3.9107756746951163],
+        "target": [7.297533588457742, 0.7175000309944107, -1.0765452344686959],
+        "canvas": [1440, 1000],
+        "drawCalls": 1064,
+        "triangles": 3167873,
+        "infinityPool": {
+          "surfaces": 1,
+          "fixedWaterline": -0.09,
+          "amplitude": 0.004,
+          "seconds": 0,
+          "sharedCoastalLight": true
+        }
+      },
+      "errors": [],
+      "walk": null,
+      "interaction": null
+    }
+  ],
+  "limits": [
+    "Designed furniture and pan-raise are verified separately by the furniture stream.",
+    "Full integrated Jekyll/deployment verification belongs to the coordinator."
+  ]
+}

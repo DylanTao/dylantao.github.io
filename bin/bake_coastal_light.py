@@ -10,7 +10,9 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 room=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--room=')),None)
 assert room is None or room in ('study','sleep','kitchen','gym','onsen','lounge'),room
-prefixes=(room+'_',) if room else ('core_','study_','kitchen_','lounge_','sleep_','gym_','onsen_')
+# --prefixes=core_,kitchen_ bakes a chosen set (the interior pass rebuilds the shell's floors with a room).
+chosen=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--prefixes=')),None)
+prefixes=tuple(chosen.split(',')) if chosen else (room+'_',) if room else ('core_','study_','kitchen_','lounge_','sleep_','gym_','onsen_')
 source=ROOT/'artwork/coastal-home/coastal-home.blend'
 bpy.ops.wm.open_mainfile(filepath=str(source))
 scene=bpy.context.scene
@@ -34,7 +36,7 @@ bpy.ops.object.select_all(action='DESELECT')
 clear=[o for o in scene.objects if o.type=='MESH' and (o.get('facadeDoor') or any(m and m.name=='facade low-iron glass' for m in o.data.materials))]
 for o in clear:o.hide_render=True
 for o in scene.objects:
-    if o.type=='MESH' and o not in clear and o.name.startswith(prefixes) and not o.name.startswith('core_continuous') and not o.get('caveRoof') and not o.get('shadowOnly'):
+    if o.type=='MESH' and o not in clear and o.name.startswith(prefixes) and not o.name.startswith('core_continuous') and not o.get('caveRoof') and not o.get('shadowOnly') and not o.get('noBake'):
         for a in list(o.data.color_attributes):o.data.color_attributes.remove(a)
         a=o.data.color_attributes.new(name='Baked contact and bounce',type='FLOAT_COLOR',domain='CORNER')
         o.data.color_attributes.active_color=a
@@ -72,13 +74,14 @@ for o in selected:
 bpy.data.objects.remove(light,do_unlink=True)
 bpy.context.preferences.filepaths.save_version=0
 bpy.ops.wm.save_as_mainfile(filepath=str(source),compress=True)
-exports=[('room-'+room,room+'_')] if room else [('home-shell','core_'),('flora','core_flora_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]
+# A chosen set leaves exporting to optimize_coastal_exports.py -- --only=..., so other files keep their bytes.
+exports=[] if chosen else [('room-'+room,room+'_')] if room else [('home-shell','core_'),('flora','core_flora_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]
 for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:
         if o.name.startswith(prefix) and not (name=='home-shell' and o.name.startswith('core_flora_')):o.select_set(True)
     bpy.ops.export_scene.gltf(filepath=str(ROOT/'assets/models/home'/f'{name}.glb'),export_format='GLB',use_selection=True,export_extras=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7)
 report=ROOT/'artwork/coastal-home/reviews/baked-light.json'
-if room and report.exists():
+if (room or chosen) and report.exists():
     stats=[s for s in json.loads(report.read_text())['surfaces'] if not s['mesh'].startswith(prefixes)]+stats
 report.write_text(json.dumps({'method':'Cycles AO and diffuse indirect color-attribute bake','samples':24,'surfaces':stats},indent=2)+'\n')

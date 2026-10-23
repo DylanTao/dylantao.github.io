@@ -1,5 +1,33 @@
 # Coastal home asset provenance
 
+## October 23: open kitchen, conversation pit and connected arrival
+
+The retained October 20 interior source is continued by `refresh_coastal_interior.py`,
+`coastal_sunken.py`, `coastal_kitchen.py`, `coastal_living.py` and `coastal_arrival.py` in Blender
+4.5.9 LTS. These are original authored meshes. The kitchen and lounge floors are genuinely cut into
+the native slab and mainland, with 42 cm deep lined floors, oak treads and matching browser supports.
+The suspended fireplace's house-owned flue continues through the vault into a sandstone cap. The
+designed furniture is supplied separately through floor-contact anchors; Herman Miller reference
+downloads remain reference-only and are never exported in the house.
+
+An inland opening connects the upper gallery to a foyer and 32 oak-topped stone treads through the
+retained cliff. The 1.6 m stair has 28 cm goings, approximately 15.4 cm risers, bronze handrails and an
+open slatted portal at the cliff top. Boolean cuts preserve closed native sandstone solids and stay
+inside the mainland's original perimeter, so the hinterland seam is unchanged. The paired top/rock
+cut is the actual passage aperture rather than a door placed against uncut rock.
+
+The terrace infinity basin is tied into a dry approach through a cut in the original parapet. Its
+1.13 m deep tiled basin, submerged entry steps, low overflow lip, catch gutter and fixed -9 cm
+waterline are native geometry. `infinity-pool.mjs` adds only sheltered ripple normals, using the
+coast's clock and scene sun/moon; it adds no water solver or render target. The water is tagged as a
+Walk exclusion. The gym gains a supported pan shelf, scheduled brighter pendants and exact pan and
+dumbbell anchors. The study chair replacement retains the existing 51.5 cm seated hip contact.
+
+`review_coastal_interior.py` surveys the finished native mesh: both sunken floors, all 32 arrival
+treads, overhead clearance and a 52 cm wide clear route. Its measured record is
+`reviews/interior-contacts.json`; the export/bake records retain the delivered geometry and neutral
+lighting evidence. Browser captures remain under the ignored `.jekyll-cache/visual-qa/house-*` paths.
+
 Created September 2026 for Sirui Tao's personal site. The five characters depict Sirui as an adult man, with long black hair, round glasses, and a clean-shaven face.
 
 | Asset                                  | Source and authorship                                                                                                                      | Use                                                                                                           |

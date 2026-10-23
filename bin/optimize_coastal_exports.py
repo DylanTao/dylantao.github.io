@@ -36,6 +36,9 @@ for o in scene.objects:
 # The clifftop planting streams after the first frame as its own file (refresh_coastal_flora.py).
 exports=[('room-'+room,room+'_')] if room else [('home-shell','core_'),('flora','core_flora_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]+[('coast','coast_')]
 if interiors_only:exports=[e for e in exports if e[0]!='coast']
+# --only=home-shell,room-kitchen re-exports just those files, so unchanged ones keep their bytes.
+only=next((a.split('=',1)[1].split(',') for a in sys.argv if a.startswith('--only=')),None)
+if only:exports=[e for e in exports if e[0] in only]
 for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:

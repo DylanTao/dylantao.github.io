@@ -1,0 +1,80 @@
+{
+  "phases": ["entrance", "gym", "kitchen", "living", "pool"],
+  "entrance": {
+    "cuts": [
+      {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "facesBefore": 44579,
+        "facesAfter": 44579,
+        "nonManifold": 0
+      },
+      {
+        "mesh": "core_liftaway_cave_ceiling",
+        "facesBefore": 1073,
+        "facesAfter": 1074,
+        "nonManifold": 0
+      },
+      {
+        "mesh": "core__golden coastal sandstone",
+        "facesBefore": 33710,
+        "facesAfter": 33713,
+        "nonManifold": 0
+      },
+      {
+        "mesh": "core_lightwell_rim",
+        "facesBefore": 1120,
+        "facesAfter": 1120,
+        "nonManifold": 0
+      },
+      {
+        "mesh": "core_facade_lunette_frame",
+        "facesBefore": 346,
+        "facesAfter": 346,
+        "nonManifold": 0
+      },
+      {
+        "mesh": "core_facade_lunette_glass",
+        "facesBefore": 75,
+        "facesAfter": 75,
+        "nonManifold": 0
+      },
+      {
+        "mesh": "core_liftaway_cave_ceiling_rear",
+        "facesBefore": 252,
+        "facesAfter": 258,
+        "nonManifold": 0
+      },
+      {
+        "mesh": "core_fireplace_cap__blackened steel flue",
+        "facesBefore": 26,
+        "facesAfter": 26,
+        "nonManifold": 0
+      },
+      {
+        "mesh": "core_fireplace_cap__golden coastal sandstone",
+        "facesBefore": 2240,
+        "facesAfter": 2240,
+        "nonManifold": 0
+      }
+    ],
+    "retiredDecorativeDoorIslands": 26,
+    "risers": 32,
+    "rise": 0.15366259731029608,
+    "run": 0.28,
+    "headroom": 2.45
+  },
+  "pool": {
+    "waterline": -0.09,
+    "depth": 1.13,
+    "surfaceVertices": 861
+  },
+  "gymStation": {
+    "removedChairIslands": 0,
+    "pan": {
+      "actor": [7.25, 0.0, -1.2],
+      "facing": 3.141592653589793,
+      "rest": [6.75, 0.85, -1.15],
+      "anchor": "gym-pan"
+    }
+  }
+}

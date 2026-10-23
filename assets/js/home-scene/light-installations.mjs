@@ -23,7 +23,7 @@ import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.
 // D = 4AC - B^2, n0 = N.L0 and n1 = N.d (a closed form of the integral of N.L / |L|^3 along t).
 // Points are isotropic or cone-limited. No installation casts shadows or adds a baked bounce.
 
-export const MAX_LINES = 14;
+export const MAX_LINES = 15;
 export const MAX_POINTS = 8;
 const WARM = new THREE.Color(1, 0.7, 0.42);
 const FIRE = new THREE.Color(1, 0.46, 0.16);
@@ -57,7 +57,7 @@ export const SCHEDULES = {
     dark.inside * Math.max(windowLevel(minute, 17 * 60 + 30, 23 * 60 + 30, 25), activity === "coding" ? 0.35 : 0),
   steps: ({ dark }) => 0.45 * dark.outside,
   pool: ({ minute, dark, activity }) => (activity === "soak" ? 1 : 0.4 * dark.outside * windowLevel(minute, 19 * 60, 23 * 60, 20)),
-  gym: ({ dark, activity }) => (activity === "workout" ? Math.max(0.25, dark.inside) : 0),
+  gym: ({ dark, activity }) => (activity === "workout" ? Math.max(0.65, dark.inside) : 0.18 * dark.inside),
   pendant: ({ minute, dark, activity }) => dark.inside * (MEALS.includes(activity) ? 1 : 0.45 * windowLevel(minute, 17 * 60, 23 * 60 + 30, 30)),
   downlights: ({ dark, activity }) => (MEALS.includes(activity) ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
   shelf: ({ dark, activity }) => (MEALS.includes(activity) ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
@@ -209,12 +209,13 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   // vault (bin/coastal_gym.py build_lights). The region keeps them inside the gym and its ledge.
   if (config.equipment?.gym) {
     const region = box([6.0, -0.1, -4.2], [11.0, 3.6, 1.0]);
-    lines.push({ id: "gym", a: new THREE.Vector3(7.02, 2.935, -0.9), b: new THREE.Vector3(10.38, 2.935, -0.9), intensity: 0.72, color: GYM, region });
+    lines.push({ id: "gym", a: new THREE.Vector3(6.55, 2.45, -2.2), b: new THREE.Vector3(7.8, 2.45, -2.2), intensity: 1.1, color: GYM, region });
+    lines.push({ id: "gym", a: new THREE.Vector3(7.02, 2.935, -0.9), b: new THREE.Vector3(10.38, 2.935, -0.9), intensity: 1.15, color: GYM, region });
     lines.push({
       id: "gym",
       a: new THREE.Vector3(9.62, 2.552, -2.65),
       b: new THREE.Vector3(10.78, 2.552, -2.65),
-      intensity: 0.6,
+      intensity: 0.92,
       color: GYM,
       region,
     });

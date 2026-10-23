@@ -9,7 +9,9 @@ export const PRACTICAL_SOURCES = [
   // The task lamp at the seaward end of the office desk (bin/coastal_office.py build_lamp).
   { id: "study", position: [-0.97, 3.88, 2.42], night: 5.5, day: 0.9, distance: 6 },
   { id: "sleep", position: [-4.13, 3.47, 2.47], night: 2.7, day: 0.7, distance: 4.8, anyHour: true },
-  { id: "kitchen", position: [-3.15, 1.88, 0.13], night: 2.7, day: 0.7, distance: 4.8 },
+  // The picture light over the capybara print, on the cave wall above the breakfast nook's banquette
+  // since the kitchen opened (manifest wallArt.light, bin/coastal_kitchen.py PICTURE_LIGHT).
+  { id: "kitchen", position: [-4.99, 1.95, -3.1], night: 2.7, day: 0.7, distance: 4.8 },
   // The paper floor lantern (bin/coastal_living.py build_lamp): its closed washi globe, up to 0.24 m
   // from the bulb, is the emitter, so the static light bake must not let the shade hide its own lamp.
   { id: "lounge", position: [-1.2, 1.42, -3.55], night: 2.7, day: 0.7, distance: 4.8, emitterRadius: 0.26 },

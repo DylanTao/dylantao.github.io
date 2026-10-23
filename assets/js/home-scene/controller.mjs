@@ -67,6 +67,7 @@ import { createWalkMode } from "./walk-controls.mjs";
 import { createLightInstallations } from "./light-installations.mjs";
 import { createAtmosphere } from "./atmosphere.mjs";
 import { createHaze } from "./haze.mjs";
+import { createInfinityPool } from "./infinity-pool.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -218,7 +219,8 @@ export function createCoastalHome(container, records, artifacts) {
     tonearm,
     water,
     portraitMaterial;
-  let poolOccupied = false;
+  let poolOccupied = false,
+    infinityPool = null;
   let steamReady = false,
     steamSetupMilliseconds = 0;
   const touches = new Map();
@@ -584,12 +586,17 @@ export function createCoastalHome(container, records, artifacts) {
         if (o === tonearm) o.userData.restY = o.position.y;
         if (o.userData.home) o.userData.home.position.copy(o.position);
       });
-    // One informal capybara print for the home, independent of its inhabitant.
-    mesh(new THREE.BoxGeometry(0.88, 0.88, 0.035), material(0xb68b59), [-3.15, 1.38, 0.215]);
-    mesh(new THREE.BoxGeometry(0.82, 0.82, 0.039), cream, [-3.15, 1.38, 0.209]);
+    // One informal capybara print for the home, independent of its inhabitant, on the wall the
+    // manifest's wallArt names (position on the wall, front facing [sin(yaw), 0, cos(yaw)]).
+    const wallArt = new THREE.Group();
+    wallArt.position.fromArray(config.wallArt.position ?? [-3.15, 1.38, 0.2325]);
+    wallArt.rotation.y = config.wallArt.yaw ?? Math.PI;
+    world.add(wallArt);
+    wallArt.add(mesh(new THREE.BoxGeometry(0.88, 0.88, 0.035), material(0xb68b59), [0, 0, 0.0175]));
+    wallArt.add(mesh(new THREE.BoxGeometry(0.82, 0.82, 0.039), cream, [0, 0, 0.0235]));
     portraitMaterial = material(0xffffff, { roughness: 0.9, map: imageTexture(new URL(config.wallArt.file, manifestUrl).href) });
-    const portrait = mesh(new THREE.PlaneGeometry(0.73, 0.73), portraitMaterial, [-3.15, 1.38, 0.186]);
-    portrait.rotation.y = Math.PI;
+    const portrait = mesh(new THREE.PlaneGeometry(0.73, 0.73), portraitMaterial, [0, 0, 0.0465]);
+    wallArt.add(portrait);
     portrait.name = "Capybara beach party print";
     portrait.userData.fixedMaterial = true;
     updateRecords();
@@ -2694,6 +2701,7 @@ export function createCoastalHome(container, records, artifacts) {
       }
     }
     if (moving) pacific?.update(elapsed, delta);
+    infinityPool?.update(elapsed, { paused: !moving });
     if (currentRoom === "outside") fitSunShadow();
     stepFacadeDoors(frameDelta, moving);
     curtainRig?.step({
@@ -2888,6 +2896,8 @@ export function createCoastalHome(container, records, artifacts) {
       cameraField?.addRoot(shell.scene);
       loadingStage("coast", "Opening the coast.");
       pacific = createPacific(scene, renderer, config, { atmosphere });
+      infinityPool = createInfinityPool(shellRoot, { waterSky: () => pacific?.waterSky() });
+      cleanup.push(() => infinityPool?.dispose());
       pacific.bindLamps(lightInstallations, warmPracticals);
       const coast = await loadModel(new URL(config.coast, manifestUrl).href, "coast");
       if (disposed) {
@@ -3186,6 +3196,7 @@ export function createCoastalHome(container, records, artifacts) {
     ecology: pacific?.evidence(),
     rendering: finish?.evidence,
     simulation: {
+      infinityPool: infinityPool?.evidence(),
       skin: skinDiffusion?.evidence,
       onsen: onsenWater
         ? {

@@ -1,0 +1,247 @@
+{
+  "sunkenCuts": ["-1.022,2.811,-0.950,2.650,-0.62", "-4.950,-2.811,2.420,4.360,-0.62"],
+  "nativeFloorProbes": [
+    {
+      "id": "nook",
+      "height": -0.41752246022224426,
+      "expected": -0.42
+    },
+    {
+      "id": "pit",
+      "height": -0.40799999237060547,
+      "expected": -0.42
+    }
+  ],
+  "arrival": [
+    {
+      "point": [3.42, 2.7537, 9.18],
+      "floor": 2.7537,
+      "headroom": 2.6556
+    },
+    {
+      "point": [3.42, 2.9073, 9.46],
+      "floor": 2.9073,
+      "headroom": 2.6507
+    },
+    {
+      "point": [3.42, 3.061, 9.74],
+      "floor": 3.061,
+      "headroom": 2.6457
+    },
+    {
+      "point": [3.42, 3.2147, 10.02],
+      "floor": 3.2147,
+      "headroom": 2.6407
+    },
+    {
+      "point": [3.42, 3.3683, 10.3],
+      "floor": 3.3683,
+      "headroom": 2.6357
+    },
+    {
+      "point": [3.42, 3.522, 10.58],
+      "floor": 3.522,
+      "headroom": 2.6307
+    },
+    {
+      "point": [3.42, 3.6756, 10.86],
+      "floor": 3.6756,
+      "headroom": 2.6258
+    },
+    {
+      "point": [3.42, 3.8293, 11.14],
+      "floor": 3.8293,
+      "headroom": 2.6208
+    },
+    {
+      "point": [3.42, 3.983, 11.42],
+      "floor": 3.983,
+      "headroom": 2.6158
+    },
+    {
+      "point": [3.42, 4.1366, 11.7],
+      "floor": 4.1366,
+      "headroom": 2.6109
+    },
+    {
+      "point": [3.42, 4.2903, 11.98],
+      "floor": 4.2903,
+      "headroom": 2.6058
+    },
+    {
+      "point": [3.42, 4.444, 12.26],
+      "floor": 4.444,
+      "headroom": 2.6008
+    },
+    {
+      "point": [3.42, 4.5976, 12.54],
+      "floor": 4.5976,
+      "headroom": 2.5959
+    },
+    {
+      "point": [3.42, 4.7513, 12.82],
+      "floor": 4.7513,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 4.9049, 13.1],
+      "floor": 4.9049,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 5.0586, 13.38],
+      "floor": 5.0586,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 5.2123, 13.66],
+      "floor": 5.2123,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 5.3659, 13.94],
+      "floor": 5.3659,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 5.5196, 14.22],
+      "floor": 5.5196,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 5.6733, 14.5],
+      "floor": 5.6733,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 5.8269, 14.78],
+      "floor": 5.8269,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 5.9806, 15.06],
+      "floor": 5.9806,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 6.1342, 15.34],
+      "floor": 6.1342,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 6.2879, 15.62],
+      "floor": 6.2879,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 6.4416, 15.9],
+      "floor": 6.4416,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 6.5952, 16.18],
+      "floor": 6.5952,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 6.7489, 16.46],
+      "floor": 6.7489,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 6.9026, 16.74],
+      "floor": 6.9026,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 7.0562, 17.02],
+      "floor": 7.0562,
+      "headroom": 2.786
+    },
+    {
+      "point": [3.42, 7.2099, 17.3],
+      "floor": 7.2099,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 7.3635, 17.58],
+      "floor": 7.3635,
+      "headroom": 4
+    },
+    {
+      "point": [3.42, 7.5172, 17.86],
+      "floor": 7.5172,
+      "headroom": 2.325
+    }
+  ],
+  "anchors": [
+    {
+      "id": "kitchen-range",
+      "placeholder": ["kitchen_placeholder_kitchen-range"]
+    },
+    {
+      "id": "kitchen-range-hood",
+      "placeholder": ["kitchen_placeholder_kitchen-range-hood"]
+    },
+    {
+      "id": "kitchen-pot-filler",
+      "placeholder": ["kitchen_placeholder_kitchen-pot-filler"]
+    },
+    {
+      "id": "kitchen-glass-fridge",
+      "placeholder": ["kitchen_placeholder_kitchen-glass-fridge"]
+    },
+    {
+      "id": "dining-table",
+      "placeholder": ["kitchen_placeholder_dining-table"]
+    },
+    {
+      "id": "dining-chair-1",
+      "placeholder": ["kitchen_placeholder_dining-chair-1"]
+    },
+    {
+      "id": "dining-chair-2",
+      "placeholder": ["kitchen_placeholder_dining-chair-2"]
+    },
+    {
+      "id": "dining-chair-3",
+      "placeholder": ["kitchen_placeholder_dining-chair-3"]
+    },
+    {
+      "id": "dining-chair-4",
+      "placeholder": ["kitchen_placeholder_dining-chair-4"]
+    },
+    {
+      "id": "dining-chair-5",
+      "placeholder": ["kitchen_placeholder_dining-chair-5"]
+    },
+    {
+      "id": "dining-chair-6",
+      "placeholder": ["kitchen_placeholder_dining-chair-6"]
+    },
+    {
+      "id": "living-fireplace",
+      "placeholder": ["lounge_placeholder_living-fireplace"]
+    },
+    {
+      "id": "living-eames-lounge",
+      "placeholder": ["lounge_placeholder_living-eames-lounge"]
+    },
+    {
+      "id": "gym-pan",
+      "placeholder": ["gym_placeholder_gym-pan"]
+    },
+    {
+      "id": "study-aeron",
+      "placeholder": ["study_placeholder_study-aeron"]
+    },
+    {
+      "id": "gym-dumbbell-right",
+      "placeholder": ["gym_working_dumbbell_right_handle"]
+    },
+    {
+      "id": "gym-dumbbell-left",
+      "placeholder": ["gym_working_dumbbell_left_handle"]
+    }
+  ]
+}
