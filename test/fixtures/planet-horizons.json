@@ -1,0 +1,165 @@
+{
+  "source": "JPL Horizons DE441 astrometric ICRF, geocenter; retrieved 2026-10-23",
+  "references": [
+    {
+      "utc": "2026-01-22T04:30:00Z",
+      "name": "Mercury",
+      "ra": 304.90489,
+      "dec": -21.69013,
+      "magnitude": -1.408,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27199%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-01-22+04%3A30%27&STOP_TIME=%272026-01-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-01-22T04:30:00Z",
+      "name": "Venus",
+      "ra": 308.16131,
+      "dec": -20.02928,
+      "magnitude": -3.907,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27299%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-01-22+04%3A30%27&STOP_TIME=%272026-01-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-01-22T04:30:00Z",
+      "name": "Mars",
+      "ra": 301.05073,
+      "dec": -21.39988,
+      "magnitude": 1.084,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27499%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-01-22+04%3A30%27&STOP_TIME=%272026-01-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-01-22T04:30:00Z",
+      "name": "Jupiter",
+      "ra": 109.72324,
+      "dec": 22.48742,
+      "magnitude": -2.658,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27599%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-01-22+04%3A30%27&STOP_TIME=%272026-01-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-01-22T04:30:00Z",
+      "name": "Saturn",
+      "ra": 358.45441,
+      "dec": -3.0638,
+      "magnitude": 1.029,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27699%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-01-22+04%3A30%27&STOP_TIME=%272026-01-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-04-22T04:30:00Z",
+      "name": "Mercury",
+      "ra": 10.4589,
+      "dec": 1.71212,
+      "magnitude": -0.253,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27199%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-04-22+04%3A30%27&STOP_TIME=%272026-04-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-04-22T04:30:00Z",
+      "name": "Venus",
+      "ra": 54.81927,
+      "dec": 20.02436,
+      "magnitude": -3.905,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27299%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-04-22+04%3A30%27&STOP_TIME=%272026-04-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-04-22T04:30:00Z",
+      "name": "Mars",
+      "ra": 8.85302,
+      "dec": 2.7907,
+      "magnitude": 1.274,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27499%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-04-22+04%3A30%27&STOP_TIME=%272026-04-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-04-22T04:30:00Z",
+      "name": "Jupiter",
+      "ra": 108.91208,
+      "dec": 22.6859,
+      "magnitude": -2.061,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27599%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-04-22+04%3A30%27&STOP_TIME=%272026-04-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-04-22T04:30:00Z",
+      "name": "Saturn",
+      "ra": 7.98211,
+      "dec": 1.10036,
+      "magnitude": 0.933,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27699%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-04-22+04%3A30%27&STOP_TIME=%272026-04-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-07-22T04:30:00Z",
+      "name": "Mercury",
+      "ra": 106.90817,
+      "dec": 18.1303,
+      "magnitude": 2.46,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27199%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-07-22+04%3A30%27&STOP_TIME=%272026-07-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-07-22T04:30:00Z",
+      "name": "Venus",
+      "ra": 164.89688,
+      "dec": 7.24331,
+      "magnitude": -4.207,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27299%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-07-22+04%3A30%27&STOP_TIME=%272026-07-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-07-22T04:30:00Z",
+      "name": "Mars",
+      "ra": 74.81415,
+      "dec": 22.66462,
+      "magnitude": 1.312,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27499%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-07-22+04%3A30%27&STOP_TIME=%272026-07-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-07-22T04:30:00Z",
+      "name": "Jupiter",
+      "ra": 126.87233,
+      "dec": 19.6028,
+      "magnitude": -1.786,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27599%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-07-22+04%3A30%27&STOP_TIME=%272026-07-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-07-22T04:30:00Z",
+      "name": "Saturn",
+      "ra": 14.17774,
+      "dec": 3.37149,
+      "magnitude": 0.68,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27699%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-07-22+04%3A30%27&STOP_TIME=%272026-07-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-10-22T04:30:00Z",
+      "name": "Mercury",
+      "ra": 226.99016,
+      "dec": -20.85181,
+      "magnitude": 0.321,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27199%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-10-22+04%3A30%27&STOP_TIME=%272026-10-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-10-22T04:30:00Z",
+      "name": "Venus",
+      "ra": 206.93613,
+      "dec": -18.40896,
+      "magnitude": -4.236,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27299%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-10-22+04%3A30%27&STOP_TIME=%272026-10-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-10-22T04:30:00Z",
+      "name": "Mars",
+      "ra": 136.04321,
+      "dec": 18.20978,
+      "magnitude": 0.984,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27499%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-10-22+04%3A30%27&STOP_TIME=%272026-10-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-10-22T04:30:00Z",
+      "name": "Jupiter",
+      "ra": 145.22092,
+      "dec": 14.58508,
+      "magnitude": -1.954,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27599%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-10-22+04%3A30%27&STOP_TIME=%272026-10-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    },
+    {
+      "utc": "2026-10-22T04:30:00Z",
+      "name": "Saturn",
+      "ra": 9.85507,
+      "dec": 1.30452,
+      "magnitude": 0.417,
+      "url": "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27699%27&CENTER=%27500%40399%27&MAKE_EPHEM=%27YES%27&EPHEM_TYPE=%27OBSERVER%27&START_TIME=%272026-10-22+04%3A30%27&STOP_TIME=%272026-10-22+04%3A31%27&STEP_SIZE=%271+m%27&QUANTITIES=%271%2C9%27&CSV_FORMAT=%27YES%27&ANG_FORMAT=%27DEG%27"
+    }
+  ]
+}
