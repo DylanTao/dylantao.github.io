@@ -303,7 +303,9 @@ cache/proof files remain in `github-metrics-private/.local/`; no private reposit
 
 ### Integrated verification
 
-The combined production build, style contract, 241 Python tests and 592 Node tests pass (seven intentional Node skips).
+The combined production build, style contract, 241 Python tests and 595 Node tests pass (seven intentional Node skips,
+602 total). The four-viewport 2026 archive case and both complete album-transfer/playback/navigation cases pass after
+their fixtures were updated for the new post and graphics-study disclosure.
 The 24-test affected-route checkpoint covers six routes at all four standard viewports in light/dark. New motion and
 sidenote cases pass across Chromium viewports and desktop/phone WebKit, with actual phone taps checked separately.
 Both prior Linux regressions also pass. Changed upstream overrides are re-acknowledged.

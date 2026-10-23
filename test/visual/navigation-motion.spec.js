@@ -1,6 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const { preparePage, collectRuntimeErrors } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
+const { pauseSceneClock } = require("./scene-clock");
 
 test("theme stops remain available during comparisons and Escape returns focus", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
@@ -67,7 +68,8 @@ test("ink close changes semantics immediately and cancels its prose copy on reop
   await page.waitForFunction(() => !document.querySelector(".is-reflowing"));
   const instant = new Date("2026-10-23T08:00:00Z");
   await page.clock.install({ time: instant });
-  await page.clock.pauseAt(new Date(instant.getTime() + 1000));
+  // Acquire the pause without a wall-clock deadline that can expire during CI's browser IPC.
+  await pauseSceneClock(page);
   await card.locator("[data-project-card-close]").focus();
   await card.locator("[data-project-card-close]").evaluate((button) => button.click());
   await expect(trigger).toHaveAttribute("aria-expanded", "false");

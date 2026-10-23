@@ -56,6 +56,16 @@ furniture/perch JSON files retain exactly the source values. The scene registry 
 with no missing, extra or duplicate group membership.
 The complete 2026 archive case passes at all four standard viewports against this final UTC-built candidate.
 
+The source at `037a12fe7` was deployed and independently checked live: ten model/module/JSON artifacts match the
+published source bytes or minified JSON values; the new post has its three original notes; the archive has all ten
+dates; and Build Rhythm contains the unchanged validated snapshot. The live scene's complete public-controls/refresh
+case passes. Its CI run exposed a one-second deadline in the ink test's clock setup. The existing `pauseSceneClock`
+helper replaces that race without changing the interaction/assertions or runtime assets; all four viewport cases pass.
+The official Playwright 1.58.2 Noble image reproduces the original failure with a 2,000 ms Node-side delay after clock
+installation; the repaired source passes the same complete desktop case with the same delay in 39.2 seconds. No
+interaction assertion was removed, no assets omitted and no retry used. Logs, trace, versions and source hashes remain
+under `.jekyll-cache/visual-qa/ink-clock-linux/`.
+
 Local logs and full captures are ignored under `.jekyll-cache/finish-*` and `.jekyll-cache/visual-qa/` (including
 `checkpoint`, `finish-root` and `finish-linux-regressions`). They are not website content.
 
