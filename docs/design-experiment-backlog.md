@@ -84,8 +84,9 @@ October 23 continuation: the theme's circular reveal became a soft water outline
 Rapid picks keep the last choice, and reduced motion remains immediate. Card/deck story text now stays visible through
 the layout change, headings keep their baseline, and runtime deck fan/fold rotations are removed. Desktop and phone
 midpoint captures and interruption checks live under `.jekyll-cache/visual-qa/todo-motion/`. This is implementation
-evidence, not a visitor study or a final taste decision. The liquid theme-stop indicator, shared-axis navigation and
-card-close ink dissolve remain open in the [October checklist](october-2026-handoff.md#october-23-reconciled-checklist).
+evidence, not a visitor study or a final taste decision. The later October 23 integration also implements the liquid
+theme-stop indicator, shared-axis navigation and bounded card-close ink study. Their behavior, accessibility limits and
+verification are recorded in the [integrated checklist](october-2026-handoff.md#october-23-integrated-continuation).
 
 ### October 12–13: the "awesome, not lamer" studio pass
 
