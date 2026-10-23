@@ -7,9 +7,9 @@ Sirui's laptop.
 **October 23 continuation:** use the [reconciled checklist](#october-23-reconciled-checklist) below for current status.
 The original queue and parked commit IDs remain as custody/history, not proof that every listed idea is still unbuilt.
 
-## Working rules (from Sirui)
+## Working rules (from Sirui; historical sequencing below)
 
-- One agent at a time, sequentially; this account has a small token budget.
+- Original handoff: one agent at a time. Superseded October 23 by Sirui's explicit parallel, ultra-mode continuation. One coordinator still integrates and publishes.
 - Push verified intermediate milestones to `main` as they land; never leave review branches. Sirui reviews on the live
   site and asks for revisions there.
 - No pile of branches: delete an agent's branch and worktree as soon as everything on it is on `main`. Do not push
@@ -186,96 +186,121 @@ Local evidence is under `.jekyll-cache/visual-qa/`: `iteration-todo-home-baselin
 `iteration-todo-icons-before-review`, `checkpoint`, `todo-footer-linux`, and `todo-motion`.
 These local artifacts are ignored by Git; the source and limits in this checklist are the durable handoff.
 
-### Remaining, in the original order
+### October 23 integrated continuation
 
-- [ ] **Finish design step 7.** The liquid indicator between theme stops, shared-axis page navigation, and ink dissolve
-      on card close remain open. Keep each as a separately inspectable experiment. The theme menu currently closes on
-      selection, so a travelling indicator would be invisible unless that interaction is designed too. Shared-axis motion
-      must preserve the existing card-to-page morph and Back restoration. An ink dissolve needs real interrupted-close,
-      touch, reduced-motion and whole-figure evidence; do not add an unreviewed filter over research figures.
-- [ ] **Planets.** Match orbital positions and magnitudes to the handoff's JPL references, then reuse the existing
-      extinction/visibility model. Do not sprinkle extra decorative points into the real star catalogue. The moon already
-      has a position and illuminated phase in `atmosphere.mjs`/`atmosphere-model.mjs`; inspect that implementation before
-      replacing it. No new planetary implementation or astronomical validation was completed in this pass.
-- [ ] **Far trees, landscape variety and coastline lights.** Work from the shipped `far-field.mjs` and hinterland.
-      Preserve the coast's continuous land, readable horizon and matched day/night performance. No new landscape assets
-      were authored this pass.
-- [ ] **Kitchen, nook and dining.** Preserve `agent/scene-interior` at `42819bdb8`. Its Blender previews were inspected:
-      the open kitchen and nook are promising. This is not runtime acceptance. `reviews/interior.json` reports no new
-      `kitchenCuts`; establish whether that means an already-cut idempotent build or a preview that skipped cutting.
-      Rebuild from the source without `--skip-cut`, rebake, export and inspect the actual nook floor/supports, meal/coffee
-      contacts, Walk clearance and camera framing on current main. Blender is not on this session's PATH; no rebuild was run.
-- [ ] **Living pit, fireplace flue and rock cap.** Follow the verified sunken-floor slice; keep the seated pose,
-      supported feet, clear walking corridor and fireplace anchors together. Not implemented here.
-- [ ] **Clifftop entrance and foyer.** Author one connected route with terrain/collider evidence; do not add a door
-      that leads into solid rock. Not implemented here.
-- [ ] **House top and rock cut.** Rebuild the connected shell and hinterland seam as a pair; inspect the full-screen
-      exterior and cutaway. Not implemented here.
-- [ ] **Gym light and pan station.** Preserve the current 44-degree framing and activity/held-object contacts. Add
-      the light, pan anchors and pan-raise move as one checked slice. Not implemented here.
-- [ ] **Infinity pool.** Check the cliff connection, waterline, shared sea light, access and render budget before
-      keeping it. Not implemented here. Further house expansion remains open-ended, not a completion criterion.
-- [ ] **Eames and furniture runtime.** Preserve original model/runtime commit `cad6532bf` and the following temporary
-      anchor commit `cdef0eb12` on `agent/scene-furniture`; never integrate the temporary anchors. The isolated fine-LOD
-      chair render looks usable, but the parked `furniture/scene/eames-lounge-embed.png` frames a wall/TV rather than the
-      chair. Correct the placement/camera and prove the item in the real room, default/fine LOD swaps, bytes, room
-      visibility, disposal and graphics recovery before shipping. Product-render quality alone is insufficient.
-- [ ] **Aeron.** Original geometry, Carbon default/Mineral alternative; configurator downloads remain reference-only.
-      No Aeron geometry was made here.
-- [ ] **Italian range, hood and pot filler.** Use the kitchen's reviewed anchors and the shared furniture frame; verify
-      cooking contacts and hood/flue clearance. Not made here.
-- [ ] **Glass fridge.** Verify interior visibility, transparent-material order and small-screen bytes. Not made here.
-- [ ] **Dining table and six chairs.** Keep floor-contact origins, facing and the seated/foot-ring relationship from
-      the kitchen contract. Not made here.
-- [ ] **Cast-iron pan and dumbbells.** Verify held-object alignment and the pan-raise activity, not only static models.
-      Not made here.
-- [ ] **Floating fireplace and fire.** Pair the furniture with the living-pit anchor, flue and cap; preserve a still,
-      legible reduced-motion fire. Not made here.
-- [ ] **Creek/koi pond and onsen drip.** Preserve the existing one-way hand/water coupling. Decide the landscape route
-      before adding another water solver; the onsen-drip versus koi-pond choice remains Sirui's open decision.
-- [ ] **FFT ocean.** Keep this as a Graphics Lab experiment first. The live reflected water, shoreline, boats and
-      shared clock must agree with its displacement; swapping a shader alone does not finish it.
-- [ ] **Fully dynamic duvet.** The existing fitted cloth and breathing stay. A future solver needs contact/occlusion,
-      sleeping stillness, numerical stability and a measured frame budget; previous failed solver attempts are recorded
-      in studio cards 29 and 33. Do not replace the fitted result with unstable motion.
-- [ ] **Public studio log.** The existing log explicitly reserves publication for Sirui's voice/approval review.
-      Keep the private working log and public design records; a publishable narrative still needs that editorial pass.
-- [ ] **Build Rhythm and profile refresh.** Run the private fail-closed collector, then import only a validated public
-      snapshot. Never approve a new reviewed gap or rewrite counts to make a refresh pass. Final result is recorded below.
-- [ ] **Representation and stylized-rendering research.** Still later, after the environment/house/furniture slices.
-      Keep the Graphics Lab matched-view/bytes/frame-time gate and original-source licensing checks.
+Sirui asked to finish the entire remaining queue, parallelize, and keep precise notes for experiments that cannot be
+completed well. The coordinator integrated isolated house, furniture, environment and record work onto `main`.
+Original parked WIPs remain historical custody; the temporary furniture-anchor commit was never integrated.
 
-### Corrected stale TODOs and deliberate holds
+The following statuses distinguish implemented work from a completed review that leaves an experiment deferred.
+The release verification section below records the combined checks.
 
-- [x] **Phone carousel:** already exists as scroll-snapped rows inside each project-deck level (`_glass.scss`);
-      the October 12 standalone carousel evolved into this. Do not add a competing second carousel.
-- [x] **Revamp laptop-lid scroll:** already exists in `website-revamp.md`, `_revamp-device.scss` and `revamp-device.js`.
-- [x] **Honest loader:** already exists, with actual progress plus the loading sketch. Existing desk-scene tests cover
-      it. Do not replace it with a simulated timer.
-- [x] **Fitted duvet:** already exists in the six authored drapes and `bedding-breath.mjs`. This does not complete the
-      separate fully dynamic cloth experiment above.
-- [ ] **Tufte sidenotes:** waiting for a real footnote-bearing post; the current posts/projects have no Markdown
-      footnotes. Do not invent research notes to populate a layout.
-- [ ] **Temporal antialiasing:** retain the deliberate hold. Earlier tests found no useful static gain and predict
-      ghosting on moving subjects without per-object motion vectors. Revisit with motion vectors or a still photo mode.
+- [x] **Theme-stop liquid indicator.** Four persistent choices now keep the menu open during comparisons. The named
+      indicator travels/morphs between stops; arrow keys, Home/End, Escape and focus restoration work. Rapid theme changes
+      retain the final choice. Reduced motion selects immediately. The menu is protected from the companion.
+- [x] **Shared-axis page navigation.** Supported same-origin transitions reverse on Back and retain stationary chrome.
+      The card-to-page shared morph and Back restoration remain. Missing Navigation Activation data uses the existing
+      crossfade; it never guesses a forward direction. BFCache entry listeners read the current handoff on each reveal.
+- [x] **Card-close ink study.** A 240 ms inert, accessibility-hidden copy contains optional story prose only; figures,
+      media, controls and persistent summaries are excluded. Real semantics and focus update immediately. Reopen cancels
+      the copy. If closing gives its space to another word, link or figure (including the tested phone layout), the ink
+      copy is discarded. Reduced motion closes cleanly. This is a bounded flourish, not a research-figure filter.
+- [x] **Planets.** Five bright planets reuse the star draw, extinction and visibility model. Twenty seasonal JPL Horizons
+      comparisons cover positions/magnitudes; the existing moon remains. See
+      [PLANETS.md](../assets/js/home-scene/PLANETS.md) and the planet reference tests.
+- [x] **Far trees, landscape variety and coastline lights.** Original procedural groves, meadow/soil variation and
+      land-only coastline lights share the existing atmosphere and reflection. See
+      [environment acceptance](../artwork/coastal-home/reviews/environment-2026-10-23.json).
+- [x] **Kitchen, nook and dining.** Rebuilt the retained native source with actual Boolean cuts, supported nook treads,
+      open cooking run and six dining places. Native contacts, seated poses, camera views and Walk clearance were checked.
+- [x] **Living pit, flue and rock cap.** A 42 cm pit has two 21 cm transitions, a supported seated pose, continuous flue
+      and cap. Runtime travel uses actual supports rather than the seated actor root; all 36 room pairs retain the correct
+      local treads and use the main stair only between storeys.
+- [x] **Clifftop entrance and foyer.** Connected top approach, stair route, landing and recessed foyer replace door-like
+      islands in solid rock. Exported support geometry is checked against native source and actual Walk probes.
+- [x] **House top and rock cut.** The top-cut and approach are rebuilt with the closed shell, rather than hiding the
+      rear seam with a camera restriction. Desktop, tablet, phone and full-screen views were inspected.
+- [x] **Gym light and pan station.** Brighter native task light, pan/dumbbell anchors and runtime held-object alignment
+      accompany a real pan-raise activity. The pan transfers to the hand and returns; it is not just a static prop.
+- [x] **Infinity pool.** A connected outdoor basin/access route uses the shared water/light clock. Native basin and
+      clearance checks, rendered waterline and Walk water rejection are retained. Further house expansion stays open-ended.
+      House evidence: [acceptance](../artwork/coastal-home/reviews/interior-acceptance.json),
+      [contacts](../artwork/coastal-home/reviews/interior-contacts.json) and native review reports beside them.
+- [x] **Eames and furniture runtime.** Original geometry, actual room anchors, near/full-screen LOD swaps, visibility,
+      disposal and recovery are implemented. The copied configurator asset and temporary anchors are excluded.
+- [x] **Aeron.** Original Carbon-default geometry with a real Mineral material alternative. Both LODs and material changes
+      were inspected in the room, including full-screen close-ups.
+- [x] **Italian range, hood and pot filler.** Original models use the kitchen anchors; the articulated pot filler,
+      cooking clearances and fixed materials survive the shared material pass.
+- [x] **Glass fridge.** Transparent doors reveal original interior contents in the actual kitchen.
+- [x] **Dining table and six chairs.** A six-place table and woven chairs use exported floor-contact anchors.
+- [x] **Pan, dumbbells, floating fireplace and fire.** Original models, held contacts, return paths and reduced-motion
+      fire are checked. The fireplace fits the pit/flue/cap. [Furniture evidence and limits](../artwork/coastal-home/FURNITURE.md)
+      retain nine real renders and the measured 281,184-byte default / 835,156-byte fine unique payloads.
+- [x] **Creek, koi pond and onsen drip.** Both requested water features are implemented without a competing fluid solver:
+      native carved creek/pond, five original koi, and droplets from the existing bamboo tip into the existing impulse
+      solver. The garden is attached to the hinterland; bed depths are checked against native terrain. See
+      [WATER-GARDEN.md](../assets/js/home-scene/WATER-GARDEN.md). The new hinterland is 1,468,104 bytes (+113,036).
+- [x] **FFT ocean experiment.** A real 64-square inverse FFT/Phillips field drives shared CPU/GPU height, reflected water
+      and wildlife contacts at the same time. It is opt-in at `?scene-lab=1&ocean=fft`; analytic water stays the default.
+      [FFT-OCEAN.md](../assets/js/home-scene/FFT-OCEAN.md) records bounded forecast storage, upload cost and noisy matched
+      timings. No speed superiority or general fluid-physics claim is made.
+- [x] **Dynamic duvet, bounded implementation.** Coarse particles, compliant stretch/bending constraints and gravity
+      deform the authored detailed quilt around its fitted contact envelope. Pause holds; reduced motion restores the
+      exact authored mesh; the pillow stays static. The optimized Lizard run measured 281 particles, 3,237 constraints,
+      3.6 ms median / 6.7 ms p95 update cost and 3.89 mm maximum observed displacement. This is not arbitrary body contact
+      or self-colliding cloth. See [physics limits](../assets/js/home-scene/PHYSICS.md) and
+      [retained evidence](../artwork/coastal-home/reviews/duvet/lizard-optimized.json).
+- [x] **Public studio log and Tufte sidenotes.** A source-checked reflective post,
+      [When the website talks back](../_posts/2026-10-23-when-the-website-talks-back.md), turns the private log into a public
+      narrative under this continuation's publishing scope. Its three real footnotes become margin notes only where
+      space permits; each original note remains one keyboard-linked node. Phone, no-JS and print retain endnotes.
+- [x] **Representation/stylized-rendering review.** The [source/fit review](graphics-representation-review-2026-10.md)
+      covers the named representation families and representative compression, anchor, dynamic and style descendants.
+      A separate matched static-geometry ink comparison is implemented in the authoring lab; [real browser captures and costs](../artwork/coastal-home/reviews/graphics-studies/README.md) include photo cancellation, disposal and continued-input proof. The live home remains
+      Realistic. Learned pipelines remain explicitly unimplemented below; a source review is not a reproduction.
 
-The earlier Sirui decisions (paper links, coffee-ring dry-in, race/battery behavior, star density, page naming,
-marine-layer frequency, sunset, laundry and water feature) remain decisions, with their current defaults intact.
+### Existing features verified; experiments deliberately left for later
 
-### Final verification and data-refresh limit
+- [x] **Phone carousel:** the shipped scroll-snapped deck rows already implement the requested phone exploration.
+- [x] **Laptop-lid scroll:** already implemented in the revamp page and its device script/styles.
+- [x] **Honest loader:** uses real progress and the loading sketch; no simulated timer was added.
+- [ ] **Moving temporal antialiasing:** remains deferred. Reliable history on moving characters/water needs motion
+      vectors, disocclusion rejection and measured improvement; those are not implemented. The new 2?16-sample frozen
+      photo experiment accumulates jittered final output in linear light, refuses a live view, aborts on changes, caps
+      capture at 2.2 MP and restores the camera in `finally`. It is explicitly not moving-scene TAA. Keep both the
+      experiment and this limit for the next model rather than relabelling supersampling as completion.
+- [ ] **Trained representation replacements:** 3DGS/compressed/anchor/dynamic variants, neural LOD/variable bitrate,
+      factorized fields, learned 2D discontinuities and learned stylization remain unimplemented. They need honest
+      training, owned calibrated inputs and held-out views, actual browser bytes/costs and exact code/asset-license review.
+      The source/fit review records a concrete revisit gate per family. No weights, paper demo assets or untrained
+      placeholder were substituted for the functioning relightable mesh.
 
-The production `/al-folio` build, style contract, 241 Python tests and the Node suite (549 passed, 7 intentional skips)
-pass. All 853 recognized tracked source files pass Prettier when read with the LF line endings CI checks out. Local
-worktrees and generated build/QA directories are now ignored by the CLI formatter, so it does not lint a different
-checkout's unfinished work. The Windows checkout's unrelated CRLF files are not rewritten.
+Earlier personal decisions (paper-link density, coffee-ring dry-in, race/battery behavior, star density, page naming,
+marine-layer frequency, sunset and laundry) keep their current defaults. They are not silently decided by this pass.
 
-The icon checkpoint passes 24 route tests; the final affected-route checkpoint covers projects, blog and publications.
-Card interaction regression checks pass in Chromium and WebKit. Final theme probes cover desktop/phone midpoint pixels,
-rapid changes, reduced motion changing during a reveal, no-helper fallback, and WebKit phone use. Changed plugin
-overrides are re-acknowledged. Local logs and captures use the `todo-` prefix under `.jekyll-cache/`.
+### Data refresh: one exact external hold
 
-The GitHub history refresh was attempted, then stopped during a slow repository scan. Atomic intermediate cache
-checkpoints remain available, but no completed aggregate was accepted. The public profile checkout remains clean and
-Build Rhythm keeps its previous validated snapshot through October 21. This item remains unchecked. Resume the normal
-collector and complete its stability/calendar gates before importing; do not label the old snapshot freshly measured.
-This does not block website publishing: Google Scholar is the freshness gate and its paired October 23 snapshot passed.
+- [x] **Google Scholar:** the paired October 23 citation/lens snapshot is fresh. This remains the publication freshness gate.
+- [ ] **Build Rhythm and GitHub profile:** the full fail-closed collector completed all 310 repositories but rejected its
+      aggregate: October 22 website history contains 24 distinct attributable commits while GitHub's public calendar
+      credits 23. All previously reviewed exceptions still match; no other new public repository/day discrepancy was
+      found. Raw date/identity/OID checks did not justify deleting or relabelling the extra commit. Indexing delay is
+      possible, not established. The exact one-commit calendar exception was presented to Sirui for review; no exception
+      is inferred without an answer. If GitHub catches up, retry the normal gate. Otherwise obtain explicit approval
+      for that bounded date/repository exception before completing render/import/publish.
+
+The last validated public profile and `_data/code_activity.json` remain through October 21. They were not marked fresh,
+counts were not adjusted to force parity, and the retired token/agent-hour ledger was not revived. Private diagnostic
+cache/proof files remain in `github-metrics-private/.local/`; no private repository inventory enters this site.
+
+### Integrated verification
+
+The combined production build, style contract, 241 Python tests and 592 Node tests pass (seven intentional Node skips).
+The 24-test affected-route checkpoint covers six routes at all four standard viewports in light/dark. New motion and
+sidenote cases pass across Chromium viewports and desktop/phone WebKit, with actual phone taps checked separately.
+Both prior Linux regressions also pass. Changed upstream overrides are re-acknowledged.
+
+[Local acceptance and retained evidence](evidence/october-todo-completion-2026-10-23/README.md) distinguish native,
+rendered, measured and deferred results. Release acceptance also requires exact-SHA CI/Pages and live content/assets;
+those post-push results are tied to the published revision, rather than inferred from these local checks.

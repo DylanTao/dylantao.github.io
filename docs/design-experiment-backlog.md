@@ -21,7 +21,7 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
-### Queued October 20: more detail in fewer bytes for the 3D home (representation, optimization, stylized rendering)
+### October 20 queue, reviewed October 23: more detail in fewer bytes for the 3D home
 
 - **Hypothesis:** Full screen on a 4K display now draws at the screen's own resolution, so the home's polygons, textures and baked light show their limits up close. Sirui proposed two angles that could add detail without adding download: change the representation (Gaussian splats and their compressed neural variants, factorized or neural fields, neural level of detail) and optimize it for the home's real views, including temporal compression for what moves (water, cloth, characters). A separate angle is non-photorealistic, stylized rendering backed by recent papers.
 - **Route:** The Graphics Lab first (`/projects/graphics-lab/`, one experiment and record entry per technique, matched views against today's geometry); the home only after a measured win.
@@ -36,10 +36,10 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
   - Check every paper's code release before any use; ideas and published methods are fair to reimplement.
 - **Visitor benefit:** Crisper close-ups and full screen without longer loads; a lab page that teaches what each representation buys.
 - **Budget:** First-load bytes must not grow; fine detail streams only near the camera or in full screen. Stay on WebGL2 with a geometry fallback. The earlier Pacific print splat study (below) found no advantage over textured geometry for a single drawing, so each prototype must beat today's geometry on matched captures, bytes and frame time.
-- **Status:** `idea`, queued by Sirui on October 20 "once we have more tokens to play with".
-- **Evidence:** None yet; see `artwork/coastal-home/splat-lab/FINDINGS.md` for the prior image-splat study.
-- **Sirui decision:** Queue for after the October house, furniture, environment and full-screen passes.
-- **Revisit trigger:** Those passes land and token budget allows, or the full-screen detail levels exceed their byte budget.
+- **Status:** `scoped` source/fit review completed October 23; separate static ink prototype implemented. Trained representation replacements remain `deferred`.
+- **Evidence:** [Primary-source method/fit review](graphics-representation-review-2026-10.md), including compressed/anchor/dynamic Gaussian descendants, neural LOD/bitrate, both discontinuity-field methods and learned stylization. The separate screen/surface-ink comparison adds no downloaded asset or render target and never changes the active Realistic home. The prior [image-derived splat study](../artwork/coastal-home/splat-lab/FINDINGS.md) remains distinct from trained 3DGS. No trained bytes, compression result or learned runtime win is claimed.
+- **Sirui decision:** October 23 instruction authorizes finishing the queue and retaining notes for work that cannot be done well. This review keeps the functioning relightable mesh; a trained replacement has not earned adoption.
+- **Revisit trigger:** An owned calibrated training set, held-out views/times and a reviewed browser implementation can demonstrate a quality/bytes/frame-time win on one bounded object. Each method has its own prerequisite in the review.
 
 ### October 19: deck faces that name what they hold, a default-open revamp, and a performance page
 
@@ -108,18 +108,18 @@ card-close ink dissolve remain open in the [October checklist](october-2026-hand
 - **Licensing:** Original work only; Three.js r164 add-ons (MIT) where noted.
 - **Visitor benefit:** As listed per item.
 - **Budget:** Render-cost changes must change 0 pixels in seeded captures; look changes need Sirui's A/B pick; motion needs a still, complete reduced-motion state.
-- **Status:** `implemented` for Pause motion, the sun arc, the startup fix, hair highlights and the shoreline; `removed` for static-mesh merging; `deferred` for temporal antialiasing and the rest.
+- **Status:** `implemented` for Pause motion, the sun arc, startup fix, hair highlights, shoreline and sidenotes; the FFT ocean and frozen photo are opt-in experiments; `removed` for static-mesh merging; moving temporal antialiasing and the remaining look changes stay `deferred`.
 - **Evidence:** Items:
   - _Global "Pause motion"_ and _the sun-arc time-of-day control:_ shipped 2026-10-13 (card 24).
   - _First-frame uploads:_ measured, and uploads were not the cause; the long tasks were the page's thread starved by up to 21 parallel shader compiles. Compiles now wait for half the cores; longest startup task 658 → 209 ms (card 26).
   - _Draw submission:_ static-mesh merging does not apply (12 of 390 drawn meshes are static, opaque and share a material; 3 draws saved). The onsen solver now runs only where the pool can be seen (about 2 ms a frame outside). Still open: a non-refracting onsen material for the coast view (the 407-draw refraction copy) or dropping sub-pixel objects (about 180 draws); both change pixels slightly (card 29).
   - _Footer coast contact shadows:_ the footer still uses the legacy full-image SSAO pass; replacing it changes pixels, so it needs a matched A/B.
-  - _Ocean:_ the default view now has swash, a travelling broken front, shallows that show the sand, and lit foam (card 28); crest glow and sun glitter still need back light the default camera rarely sees, and an FFT ocean (Tessendorf) is the real upgrade.
+  - _Ocean:_ the default view now has swash, a travelling broken front, shallows that show the sand, and lit foam (card 28); crest glow and sun glitter still need back light the default camera rarely sees, and the October 23 opt-in FFT ocean is now implemented with shared CPU/GPU height, clock, reflections and wildlife contacts. It remains an experiment, with no measured speed advantage claimed ([method and cost](../assets/js/home-scene/FFT-OCEAN.md)).
   - _Hair:_ Kajiya–Kay strand highlights on all five avatars, with geometric specular antialiasing at the hairline (card 27).
   - _Temporal antialiasing:_ declined for now. A quarter-pixel shift changes the image by 1.2/255 on average under 4× multisampling; 8× cost about 3 ms of GPU time for no visible gain; TAA without per-object motion vectors would ghost on the characters, animals, plants and waves that are always moving (card 29).
-  - _Sidenotes:_ no post or project uses footnotes, so margin notes have nothing to show yet.
+  - _Sidenotes:_ implemented October 23 for the three real references in [When the website talks back](../_posts/2026-10-23-when-the-website-talks-back.md), preserving original endnote nodes, native links, phone/no-JS and print behavior. Other pages opt in only when they have real notes.
 - **Sirui decision (2026-10-13):** "Last three sgtm, you can do those for me" (ocean, hair highlights and smoother edges; further speedups; the local test-suite gap).
-- **Revisit trigger:** Per-object motion vectors or a still "photo" mode (for TAA); a measured complaint about the outside frame rate (for the refraction copy or sub-pixel culling); the first post with footnotes (for sidenotes).
+- **Revisit trigger:** Per-object motion vectors, disocclusion rejection and a measured moving-frame win (for TAA); the bounded frozen-photo alternative is implemented without claiming moving TAA; a measured complaint about the outside frame rate (for the refraction copy or sub-pixel culling); the first post with footnotes (for sidenotes).
 
 ### October 6: Build Rhythm concept A
 

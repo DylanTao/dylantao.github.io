@@ -1616,15 +1616,18 @@ systems:
             functions: [captureStillPhoto]
           - path: assets/js/home-scene/FFT-OCEAN.md
             role: The finite still-photo boundary and explicitly unsupported temporal methods.
+          - path: artwork/coastal-home/reviews/graphics-studies/README.md
+            role: Actual photo, cancellation, projection, ink-disposal and continued-input evidence with served-source hashes.
         tests:
           - test/coastal-fft.test.mjs
+          - test/still-photo.test.mjs
         sources: [karis2014taa, yang2020taa]
         limits:
           - Spatial supersampling of a frozen view, with no reprojection, disocclusion rejection, animated-transparency history or motion-blur reconstruction.
           - Reads and averages the composed output, rather than accumulating linear HDR scene radiance before tone mapping.
           - The output is an authoring photograph, not a replacement for the public scene's antialiasing or evidence of a moving-scene performance win.
         next:
-          - move: Compare the same frozen view with and without sampling at a fixed viewport, including edge crops and total capture cost.
+          - move: The retained operation and cost checks pass; review matched edge crops across more views before claiming a visible antialiasing benefit.
             readiness: needs-measurement
       - id: surface-ink-study
         name: Screen-space and surface-anchored ink
@@ -1649,6 +1652,8 @@ systems:
             functions: [createArtDirection]
           - path: docs/graphics-representation-review-2026-10.md
             role: Research lineage, exclusions, reproduction and the evidence required before changing a default.
+          - path: artwork/coastal-home/reviews/graphics-studies/README.md
+            role: Matched native images, five synchronized draw samples, real allocations and post-disposal zoom proof.
         tests: []
         sources: [praun2001hatching]
         limits:
@@ -1656,7 +1661,7 @@ systems:
           - This is a static-geometry comparison; a world-space pattern would slide through articulated skin.
           - The active home remains Realistic. No neural method, texture-compression result or measured quality advantage is claimed.
         next:
-          - move: Capture matched stills and edge crops, measure draw cost and review surface readability before publishing an ink thumbnail or changing its scope.
+          - move: Extend the retained matched-view comparison to multiple views, edge crops and moving cameras before claiming better readability or coherence or changing the active home.
             readiness: needs-measurement
       - id: representation-review
         name: Which learned representations fit this house

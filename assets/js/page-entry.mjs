@@ -11,6 +11,7 @@ export const ENTRY_KEY = "site:entry";
 export const TARGET_SELECTOR = "[data-entry-target], .project-case-hero, .blog-post .post-header, .publication-context-hero";
 
 export function routeDirection(activation) {
+  if (!(activation?.entry?.index >= 0) || !(activation?.from?.index >= 0)) return null;
   return activation?.navigationType === "traverse" && activation.entry?.index < activation.from?.index ? "back" : "forward";
 }
 
@@ -73,7 +74,8 @@ if (typeof window !== "undefined" && typeof document !== "undefined" && "CSSView
   // lends it to the page it goes to, which lands it on the matching card if it has one.
   window.addEventListener("pageswap", (event) => {
     if (!event.viewTransition) return;
-    document.documentElement.dataset.routeDirection = routeDirection(event.activation);
+    const direction = routeDirection(event.activation);
+    if (direction) document.documentElement.dataset.routeDirection = direction;
     if (marked) return;
     const destination = event.activation?.entry?.url;
     const hero = document.querySelector(TARGET_SELECTOR);

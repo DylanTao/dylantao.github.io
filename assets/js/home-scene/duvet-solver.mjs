@@ -4,7 +4,7 @@ import { projectDistance } from "./cloth-solver.mjs";
 // supplies body/mattress/hem contact, rather than guessing a capsule through a stylized sleeper.
 // Welded coarse particles carry the original solidified surface; thickness and quilting survive.
 // Stretch and two-edge bending are compliant distance constraints, not a prescribed vertex swell.
-export function createDuvetSolver(rest, triangles, normals, { unit = 1, up = [0, 1, 0], spacing = 0.085 } = {}) {
+export function createDuvetSolver(rest, triangles, normals, { unit = 1, up = [0, 1, 0], spacing = 0.15 } = {}) {
   const count = rest.length / 3;
   let groups,
     mapping,
@@ -26,7 +26,7 @@ export function createDuvetSolver(rest, triangles, normals, { unit = 1, up = [0,
       mapping[i] = node;
     }
     cell *= 1.3;
-  } while (groups.length > 1200);
+  } while (groups.length > 480);
   const n = groups.length,
     origin = new Float64Array(n * 3),
     contact = new Float64Array(n * 3);
@@ -129,7 +129,7 @@ export function createDuvetSolver(rest, triangles, normals, { unit = 1, up = [0,
           velocities[j] = (velocities[j] - up[j % 3] * 9.80665 * unit * h) * 0.96;
           positions[j] += velocities[j] * h;
         }
-        for (let pass = 0; pass < 4; pass++) {
+        for (let pass = 0; pass < 2; pass++) {
           projectDistance(positions, indices, data, links.size);
           contacts();
         }

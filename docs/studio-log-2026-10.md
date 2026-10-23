@@ -2,7 +2,7 @@
 
 A working record of design moves on this site, kept in the loop Sirui describes after Schön's _The Reflective Practitioner_: make a move, let the material talk back, then reframe the next move. Each card names the **dimensions** being moved, the scaffold that turns a vague "make it better" into variables someone can reason about.
 
-Unpublished (`docs/` is excluded from the build). A public version in Sirui's voice is published only with Sirui's approval.
+This working log stays outside the site build. Sirui's October 23 request to finish the queue includes its public narrative: [When the website talks back](../_posts/2026-10-23-when-the-website-talks-back.md). The original cards remain here, including rejected moves and limits.
 
 | Field      | What it records                                                  |
 | ---------- | ---------------------------------------------------------------- |

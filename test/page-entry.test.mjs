@@ -7,7 +7,7 @@ test("history traversal reverses the shared axis, while ordinary links advance",
   assert.equal(routeDirection({ navigationType: "traverse", from: { index: 4 }, entry: { index: 2 } }), "back");
   assert.equal(routeDirection({ navigationType: "traverse", from: { index: 2 }, entry: { index: 4 } }), "forward");
   assert.equal(routeDirection({ navigationType: "push", from: { index: 4 }, entry: { index: 2 } }), "forward");
-  assert.equal(routeDirection(null), "forward");
+  assert.equal(routeDirection(null), null, "engines without activation evidence retain the generic transition");
 });
 
 const here = { origin: "https://dylantao.github.io", pathname: "/projects/" };

@@ -143,6 +143,7 @@
         return;
       }
       var activation = window.navigation && navigation.activation;
+      if (!activation || !activation.from || !(activation.from.index >= 0) || !(activation.entry.index >= 0)) return;
       var backwards = activation && activation.from && activation.navigationType === 'traverse' && activation.entry.index < activation.from.index;
       root.dataset.routeDirection = backwards ? 'back' : 'forward';
       var clear = function () {

@@ -661,7 +661,10 @@ export function createCoastalHome(container, records, artifacts) {
       object.traverse((mesh) => {
         if (!mesh.isMesh) return;
         if (!object.visible || !actor || reduced) return covers.get(mesh)?.reset();
+        // The bedroom is occluded in other room/exterior views. Hold its state until it can be seen.
+        if (currentRoom !== "sleep" && currentRoom !== "overview") return;
         if (!moving) return;
+        if (/pillow/i.test(mesh.name)) return; // The fitted pillow is a static support, not another duvet island.
         if (!covers.has(mesh)) covers.set(mesh, createDynamicCover(mesh));
         const cover = covers.get(mesh);
         if (!cover) return;
@@ -778,6 +781,7 @@ export function createCoastalHome(container, records, artifacts) {
             // the bath floor or become an opaque normal-depth AO occluder.
             // Refractive caustics and transmitted shadow transport are omitted.
             water.castShadow = false;
+            water.userData.fixedMaterial = true;
             water.userData.noContactOcclusion = true;
           }
         });
@@ -3107,9 +3111,34 @@ export function createCoastalHome(container, records, artifacts) {
         renderer,
         camera,
         samples,
-        isFrozen: () => Boolean((paused || reduced) && routine && !routine.live),
-        stateKey: () => JSON.stringify([elapsed, currentRoom, avatarId, camera.position.toArray(), camera.quaternion.toArray(), camera.fov]),
+        isFrozen: () => Boolean(!disposed && compositionReady && (paused || reduced) && routine && !routine.live),
+        stateKey: () =>
+          JSON.stringify([
+            elapsed,
+            routine?.minute,
+            currentRoom,
+            avatarId,
+            camera.position.toArray(),
+            camera.quaternion.toArray(),
+            camera.fov,
+            camera.aspect,
+            camera.uuid,
+            desiredTarget.toArray(),
+            yaw,
+            pitch,
+            desiredRadius,
+            desiredFov,
+            currentRecord,
+            displayedVinylRecord,
+            pendingVinylRecord,
+            renderer.info.memory,
+            labSettings,
+            renderer.domElement.width,
+            renderer.domElement.height,
+            look,
+          ]),
         renderFrame: () => {
+          if (disposed) return;
           withoutContactLighting(finish?.contactLighting, () =>
             pacific?.reflect(camera, style === "realistic" && currentRoom === "outside" && labSettings.reflection)
           );

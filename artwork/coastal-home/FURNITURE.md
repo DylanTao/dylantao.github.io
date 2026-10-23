@@ -74,3 +74,7 @@ assets overlaid; the release coordinator repeats the integrated production check
 The phone proof uses a 390 × 1000 viewport, a nonblank 350 × 352 canvas, no horizontal
 overflow and no console errors. Review renders are Blender Cycles stills, separate
 from browser evidence.
+
+## Stable collision during streaming
+
+Camera and Walk fields use the fourteen native static placeholders as persistent collision proxies, even after visual models hide them. Registration precedes index/default-model waits; all streamed visual furniture groups are excluded, so a late download or fine-LOD swap cannot change the one-time field. Pan and held dumbbell placeholders remain excluded. Delivered Draco geometry tests check proxy coverage and chair access. These are authored approximations rather than each LOD's exact silhouette; small extremities such as Aeron wheels can exceed the older fallback footprint. No extra opaque geometry or new bounding boxes were added.

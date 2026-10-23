@@ -27,7 +27,7 @@ test("theme stops remain available during comparisons and Escape returns focus",
   expect(errors).toEqual([]);
 });
 
-test("page navigation reverses its axis on Back and retains stationary chrome", async ({ page }) => {
+test("page navigation reverses an available axis on Back and retains stationary chrome", async ({ page }) => {
   await preparePage(page, "noon");
   await page.addInitScript(() => {
     addEventListener("pagereveal", (event) => {
@@ -41,24 +41,28 @@ test("page navigation reverses its axis on Back and retains stationary chrome", 
     });
   });
   await page.goto(publicRouteUrl("/blog/"), { waitUntil: "domcontentloaded" });
+  const hasNavigationIndices = await page.evaluate(() => Boolean(window.navigation));
   const chrome = await page.locator("#navbar").boundingBox();
   // A real same-origin link, so both documents participate in the browser transition.
-  await page.locator('#navbar a[href$="/projects/"]').first().click();
+  const projects = page.locator('#navbar a[href$="/projects/"]').first();
+  if (!(await projects.isVisible())) await page.locator("#navbar .navbar-toggler").click();
+  await projects.click();
   await expect(page).toHaveURL(/\/projects\/$/);
-  await expect.poll(() => page.evaluate(() => window.routeMotionEvidence)).toBe("forward");
+  await expect.poll(() => page.evaluate(() => window.routeMotionEvidence)).toBe(hasNavigationIndices ? "forward" : undefined);
   expect(await page.locator("#navbar").boundingBox()).toEqual(chrome);
   await page.waitForFunction(() => !document.documentElement.dataset.routeDirection);
   await page.goBack({ waitUntil: "domcontentloaded" });
-  await expect.poll(() => page.evaluate(() => window.routeMotionEvidence)).toBe("back");
+  await expect.poll(() => page.evaluate(() => window.routeMotionEvidence)).toBe(hasNavigationIndices ? "back" : undefined);
 });
 
-test("ink close changes semantics immediately and cancels its prose copy on reopening", async ({ page }) => {
+test("ink close changes semantics immediately and cancels its prose copy on reopening", async ({ page, isMobile }) => {
   await preparePage(page, "noon");
   await page.goto(`${publicRouteUrl("/projects/")}?cinematic=live`, { waitUntil: "domcontentloaded" });
   await page.waitForFunction(() => window.SiteMotion?.dissolveCardInk);
-  const card = page.locator("[data-project-card]:not([data-project-deck])").first();
+  const card = page.locator("[data-project-card]:not([data-project-deck]):has(#project-card-not-a-good-driver-panel)");
   const trigger = card.locator("[data-project-card-trigger]");
-  await trigger.click();
+  if (isMobile) await trigger.tap();
+  else await trigger.click();
   await expect(card).toHaveAttribute("data-project-card-state", "expanded");
   await page.waitForFunction(() => !document.querySelector(".is-reflowing"));
   const instant = new Date("2026-10-23T08:00:00Z");
@@ -68,9 +72,12 @@ test("ink close changes semantics immediately and cancels its prose copy on reop
   await card.locator("[data-project-card-close]").evaluate((button) => button.click());
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
   await expect(trigger).toBeFocused();
-  await expect(page.locator(".project-card-ink")).toHaveCount(1);
+  // Below the wide card layout, closing gives the story's space to the links beneath it.
+  const narrow = await page.evaluate(() => innerWidth < 992);
+  await expect(page.locator(".project-card-ink")).toHaveCount(narrow ? 0 : 1);
   await expect(page.locator(".project-card-ink img, .project-card-ink canvas, .project-card-ink video")).toHaveCount(0);
-  expect(await page.locator(".project-card-ink").evaluate((node) => node.inert && node.getAttribute("aria-hidden") === "true")).toBe(true);
+  if (!narrow)
+    expect(await page.locator(".project-card-ink").evaluate((node) => node.inert && node.getAttribute("aria-hidden") === "true")).toBe(true);
   await trigger.evaluate((button) => button.click());
   await expect(page.locator(".project-card-ink")).toHaveCount(0);
   await expect(trigger).toHaveAttribute("aria-expanded", "true");

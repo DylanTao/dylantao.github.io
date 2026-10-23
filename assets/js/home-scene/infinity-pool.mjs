@@ -9,6 +9,8 @@ export function createInfinityPool(root, { waterSky = () => null } = {}) {
   root.traverse((mesh) => {
     if (!mesh.isMesh || mesh.name !== "core_infinity_water") return;
     mesh.castShadow = false;
+    // The pool owns its transmissive shader and shadow policy after prepareModel's initial finish.
+    mesh.userData.fixedMaterial = true;
     mesh.userData.noContactOcclusion = mesh.userData.noVolumeDepth = true;
     for (const material of [mesh.material].flat()) {
       if (!material?.isMeshPhysicalMaterial) continue;

@@ -416,6 +416,10 @@ positions and recomputes normals only while the visible sleeper is active. Pause
 holds the current geometry. Reduced motion restores the authored arrays exactly;
 returning from 2D resumes active simulation.
 
+The integrated controller also holds the quilt while another room or the exterior is being visited;
+the solver runs in bedroom/whole-home views. This visibility gate was added after the retained
+Lizard benchmark and does not change its visible-view particle settings.
+
 The [retained Lizard retest](../../../artwork/coastal-home/reviews/duvet/lizard-optimized.json)
 records the inspected working-source hashes, solver parameters, frame samples,
 bounds and state checks. The solver SHA-256 was

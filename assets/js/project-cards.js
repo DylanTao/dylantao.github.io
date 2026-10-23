@@ -389,11 +389,13 @@
       running.animations.push(running.follow.animation);
     }
 
-    if (!running.animations.length) {
+    const pending = running.animations.map((animation) => animation.finished);
+    if (ink) pending.push(ink.finished);
+    if (!pending.length) {
       settle();
       return plan;
     }
-    Promise.allSettled(running.animations.map((animation) => animation.finished)).then(settle);
+    Promise.allSettled(pending).then(settle);
     return plan;
   };
 
@@ -468,6 +470,7 @@
       grid.classList.toggle("has-expanded-project-card", Boolean(activeCard));
     });
     document.body.classList.toggle("project-card-preview-open", Boolean(activeCard));
+    ink?.keepIfClear();
     if (activeCard) {
       announceCardState(activeCard, true);
     } else if (previousCard) {

@@ -42,6 +42,13 @@ const ALL_SITEWIDE_ROUTES = [
     contentSelector: ".blog-post #markdown-content",
   },
   {
+    id: "blog-studio-log",
+    path: "/blog/2026/when-the-website-talks-back/",
+    readySelector: ".blog-post .post-title",
+    contentSelector: ".blog-post #markdown-content",
+    fullPage: true,
+  },
+  {
     id: "projects-index",
     path: "/projects/",
     readySelector: ".projects [data-project-card-grid]",
