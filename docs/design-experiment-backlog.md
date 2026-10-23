@@ -21,6 +21,12 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### Final October 23 reconciliation
+
+The earlier decisions below retain their original measurements and reasons. The final continuation implements an opt-in moving-TAA study with actual geometry/bone/CPU motion, depth rejection, reactive coverage and measured moving-pose improvement; see [method and limits](../assets/js/home-scene/TEMPORAL-AA.md). Its public spatial default remains in place. The former TAA revisit gate is met for this bounded experiment, rather than silently extending the result to every water, lighting or device case.
+
+Two [genuinely trained comparisons](graphics-representation-review-2026-10.md#trained-comparisons-and-adoption-decisions) now have owned inputs, real weights, held-out evaluation and native browser costs. Both are rejected for adoption because fine detail deteriorates; the original image and relightable mesh remain. This resolves the present replacement assessment, without reproduction credit for the named factorized, neural-LOD, anchor/compressed/dynamic, learned-discontinuity or learned-style families. Their specific future gates remain documented. Sirui's instruction authorizes completing bounded work and retaining honest notes; it does not supply an invented aesthetic approval.
+
 ### October 20 queue, reviewed October 23: more detail in fewer bytes for the 3D home
 
 - **Hypothesis:** Full screen on a 4K display now draws at the screen's own resolution, so the home's polygons, textures and baked light show their limits up close. Sirui proposed two angles that could add detail without adding download: change the representation (Gaussian splats and their compressed neural variants, factorized or neural fields, neural level of detail) and optimize it for the home's real views, including temporal compression for what moves (water, cloth, characters). A separate angle is non-photorealistic, stylized rendering backed by recent papers.
@@ -36,10 +42,10 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
   - Check every paper's code release before any use; ideas and published methods are fair to reimplement.
 - **Visitor benefit:** Crisper close-ups and full screen without longer loads; a lab page that teaches what each representation buys.
 - **Budget:** First-load bytes must not grow; fine detail streams only near the camera or in full screen. Stay on WebGL2 with a geometry fallback. The earlier Pacific print splat study (below) found no advantage over textured geometry for a single drawing, so each prototype must beat today's geometry on matched captures, bytes and frame time.
-- **Status:** `scoped` source/fit review completed October 23; separate static ink prototype implemented. Trained representation replacements remain `deferred`.
-- **Evidence:** [Primary-source method/fit review](graphics-representation-review-2026-10.md), including compressed/anchor/dynamic Gaussian descendants, neural LOD/bitrate, both discontinuity-field methods and learned stylization. The separate screen/surface-ink comparison adds no downloaded asset or render target and never changes the active Realistic home. The prior [image-derived splat study](../artwork/coastal-home/splat-lab/FINDINGS.md) remains distinct from trained 3DGS. No trained bytes, compression result or learned runtime win is claimed.
+- **Status:** Source/fit review and separate static ink prototype completed October 23. The final continuation completes two trained comparisons and rejects both for adoption; the other named pipelines remain future research.
+- **Evidence:** [Primary-source method/fit review and later trained results](graphics-representation-review-2026-10.md), including compressed/anchor/dynamic Gaussian descendants, neural LOD/bitrate, both discontinuity-field methods and learned stylization. The separate screen/surface-ink comparison adds no downloaded asset or render target and never changes the active Realistic home. The prior [image-derived splat study](../artwork/coastal-home/splat-lab/FINDINGS.md) remains distinct from trained 3DGS. Actual trained bytes, held-out results and browser costs are now recorded for the two bounded candidates; neither establishes a production quality/runtime win.
 - **Sirui decision:** October 23 instruction authorizes finishing the queue and retaining notes for work that cannot be done well. This review keeps the functioning relightable mesh; a trained replacement has not earned adoption.
-- **Revisit trigger:** An owned calibrated training set, held-out views/times and a reviewed browser implementation can demonstrate a quality/bytes/frame-time win on one bounded object. Each method has its own prerequisite in the review.
+- **Revisit trigger:** A later candidate must improve the measured loss of thin detail and satisfy the required relighting/depth contract at complete payload and browser costs. Each unreproduced method retains its own input, training and licensing prerequisite in the review.
 
 ### October 19: deck faces that name what they hold, a default-open revamp, and a performance page
 
@@ -109,7 +115,7 @@ verification are recorded in the [integrated checklist](october-2026-handoff.md#
 - **Licensing:** Original work only; Three.js r164 add-ons (MIT) where noted.
 - **Visitor benefit:** As listed per item.
 - **Budget:** Render-cost changes must change 0 pixels in seeded captures; look changes need Sirui's A/B pick; motion needs a still, complete reduced-motion state.
-- **Status:** `implemented` for Pause motion, the sun arc, startup fix, hair highlights, shoreline and sidenotes; the FFT ocean and frozen photo are opt-in experiments; `removed` for static-mesh merging; moving temporal antialiasing and the remaining look changes stay `deferred`.
+- **Status:** `implemented` for Pause motion, the sun arc, startup fix, hair highlights, shoreline and sidenotes; the FFT ocean, frozen photo and final October 23 moving TAA are opt-in experiments; `removed` for static-mesh merging; the remaining look changes stay `deferred`.
 - **Evidence:** Items:
   - _Global "Pause motion"_ and _the sun-arc time-of-day control:_ shipped 2026-10-13 (card 24).
   - _First-frame uploads:_ measured, and uploads were not the cause; the long tasks were the page's thread starved by up to 21 parallel shader compiles. Compiles now wait for half the cores; longest startup task 658 → 209 ms (card 26).
@@ -117,10 +123,10 @@ verification are recorded in the [integrated checklist](october-2026-handoff.md#
   - _Footer coast contact shadows:_ the footer still uses the legacy full-image SSAO pass; replacing it changes pixels, so it needs a matched A/B.
   - _Ocean:_ the default view now has swash, a travelling broken front, shallows that show the sand, and lit foam (card 28); crest glow and sun glitter still need back light the default camera rarely sees, and the October 23 opt-in FFT ocean is now implemented with shared CPU/GPU height, clock, reflections and wildlife contacts. It remains an experiment, with no measured speed advantage claimed ([method and cost](../assets/js/home-scene/FFT-OCEAN.md)).
   - _Hair:_ Kajiya–Kay strand highlights on all five avatars, with geometric specular antialiasing at the hairline (card 27).
-  - _Temporal antialiasing:_ declined for now. A quarter-pixel shift changes the image by 1.2/255 on average under 4× multisampling; 8× cost about 3 ms of GPU time for no visible gain; TAA without per-object motion vectors would ghost on the characters, animals, plants and waves that are always moving (card 29).
+  - _Temporal antialiasing:_ the original October 13 decision declined it: a quarter-pixel shift changed the image by 1.2/255 on average under 4× multisampling; 8× cost about 3 ms of GPU time for no visible gain; TAA without per-object motion vectors would ghost on moving surfaces (card 29). The final October 23 [moving study](../assets/js/home-scene/TEMPORAL-AA.md) adds actual motion history and rejection, with independent current-pose references and a failing disabled-depth control. It remains opt-in and does not retroactively alter those earlier measurements.
   - _Sidenotes:_ implemented October 23 for the three real references in [When the website talks back](../_posts/2026-10-23-when-the-website-talks-back.md), preserving original endnote nodes, native links, phone/no-JS and print behavior. Other pages opt in only when they have real notes.
 - **Sirui decision (2026-10-13):** "Last three sgtm, you can do those for me" (ocean, hair highlights and smoother edges; further speedups; the local test-suite gap).
-- **Revisit trigger:** Per-object motion vectors, disocclusion rejection and a measured moving-frame win (for TAA); the bounded frozen-photo alternative is implemented without claiming moving TAA; a measured complaint about the outside frame rate (for the refraction copy or sub-pixel culling); the first post with footnotes (for sidenotes).
+- **Revisit trigger:** The former per-object motion/disocclusion/moving-frame gate is met for the opt-in TAA study. A wider default needs matched real-house edge/lighting/device evidence within its cost budget; the frozen-photo alternative stays separate. A measured outside-frame-rate complaint can reopen the refraction copy or sub-pixel culling; future real footnotes can use the existing sidenote implementation.
 
 ### October 6: Build Rhythm concept A
 

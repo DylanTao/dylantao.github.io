@@ -6,13 +6,13 @@
 
 The registered native fixture renders 24 moving frames of subpixel diagonal geometry and camera translation at 128×128. Each of the last eight current poses has its own independent reference: 16 centered spatial samples, each with four-sample MSAA. References never average different moving poses. Baseline and candidate use the same geometry, shading, camera pose and four-sample beauty buffer; the candidate adds jittered history.
 
-| Metric across held-out evaluation frames | Spatial baseline | Temporal candidate |
-| ---------------------------------------- | ---------------: | -----------------: |
-| Mean RGB squared error                   |       0.00425447 |         0.00200763 |
-| Mean edge RGB squared error              |       0.02477091 |         0.00875201 |
-| Sum of squared changes in frame error    |        412.51457 |          115.29458 |
+| Metric across eight evaluated moving poses | Spatial baseline | Temporal candidate |
+| ------------------------------------------ | ---------------: | -----------------: |
+| Mean RGB squared error                     |       0.00425447 |         0.00200763 |
+| Mean edge RGB squared error                |       0.02477091 |         0.00875201 |
+| Sum of squared changes in frame error      |        412.51457 |          115.29458 |
 
-Edge error improves about 65%, and variation of frame error about 72%, in this fixture. The latter measures error variation relative to a moving-pose reference, not a universal perceptual shimmer score. Direct inspection of [baseline](baselineImage.png), [candidate](finalImage.png) and [reference](referenceImage.png) shows less broken coverage with some residual softness. This does not establish universal house, water, lighting, phone or performance superiority.
+Edge error improves about 65%, and variation of frame error about 72%, in this fixture. These poses informed iteration; they are not an untouched validation set. The latter metric measures error variation relative to a moving-pose reference, not a universal perceptual shimmer score. Direct inspection of [baseline](baselineImage.png), [candidate](finalImage.png) and [reference](referenceImage.png) shows less broken coverage with some residual softness. This does not establish universal house, water, lighting, phone or performance superiority.
 
 [The raw positive record](native.json) includes every evaluated frame and exact normalized source hashes. The native acceptance case runs in Windows Chromium and Linux Docker Chromium. Its deliberate [disabled-depth control](disabled-depth.json) changes only the prior-depth gate: revealed-region error increases from **0** to **0.03117**, failing the positive criterion. The registered test asserts that this negative result remains detectable.
 
