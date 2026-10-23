@@ -106,8 +106,8 @@ export function createFurniture({
     root.traverse((o) => {
       for (const material of [o.material].flat()) {
         if (!material?.color || !furnitureMaterialName(material.name).startsWith("aeron ")) continue;
-        material.userData.carbonColor ??= material.color.clone();
-        if (variant === "carbon") material.color.copy(material.userData.carbonColor);
+        material.userData.carbonColor ??= material.color.toArray();
+        if (variant === "carbon") material.color.fromArray(material.userData.carbonColor);
         else
           material.color.set(
             furnitureMaterialName(material.name).includes("pellicle")

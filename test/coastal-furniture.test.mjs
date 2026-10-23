@@ -106,7 +106,10 @@ function house({ anchors, index = undefined, failing = [] } = {}) {
       const scene = new THREE.Group();
       const mesh = new THREE.Mesh(
         new THREE.BoxGeometry(0.8, 0.8, 1.5),
-        new THREE.MeshStandardMaterial({ name: url.includes("lod1") ? "eames leather (lod1)" : "eames leather" })
+        new THREE.MeshStandardMaterial({
+          name: url.includes("aeron") ? "aeron carbon frame" : url.includes("lod1") ? "eames leather (lod1)" : "eames leather",
+          color: url.includes("aeron") ? 0x202323 : 0xffffff,
+        })
       );
       scene.add(mesh);
       return { scene };
@@ -168,6 +171,7 @@ test("an item stands at its anchor in its room, hides the placeholder and shares
   assert.equal(a.geometry, b.geometry);
   assert.equal(a.material, b.material);
   assert.ok(a.userData.dynamic, "kept out of the static light bake");
+  assert.ok(a.userData.fixedMaterial, "prepared furniture is not styled into another material copy");
   assert.equal(first.children[0].visible, true);
   const evidence = h.furniture.evidence();
   assert.equal(evidence.placed.find((p) => p.id === "lounge-eames").shown, 0);
@@ -274,5 +278,18 @@ test("hidden rooms never request fine furniture", async () => {
   await flush();
   assert.equal(h.furniture.evidence().placed[0].wanted, 0);
   assert.equal(h.loads.length, 1);
+  h.furniture.dispose();
+});
+
+test("Carbon and Mineral update the visible shared chair and return exactly", async () => {
+  const h = house({ anchors: [{ ...anchor, item: "aeron" }], index: { version: 1, items: { aeron: { lods: levels } } } });
+  await h.furniture.attach("lounge", h.room, h.furniture.load("lounge"));
+  const group = h.room.children.find((o) => o.userData.furnitureAnchor);
+  const mesh = group.children[0].children[0];
+  const carbon = mesh.material.color.toArray();
+  h.furniture.setVariant("mineral");
+  assert.ok(mesh.material.color.r > carbon[0] * 5, "Mineral is visibly lighter");
+  h.furniture.setVariant("carbon");
+  assert.deepEqual(mesh.material.color.toArray(), carbon);
   h.furniture.dispose();
 });
