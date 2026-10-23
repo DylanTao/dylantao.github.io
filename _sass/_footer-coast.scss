@@ -191,9 +191,13 @@ footer.coastal-page-footer {
     // Reflections, glitter and surf pass behind the credit. Its halo follows the hour on the coast's
     // clock (footer-coast/sky-look.mjs creditHalo): a faint veil at noon, a warm glow at sunset, rose
     // in the afterglow, a cool moonlit one at night. Without the scene it falls back to page color.
+    // The tight layers are stacked so the first 2-3 px around each letter are nearly solid halo:
+    // a surfboard or a lamp streak passing behind the words cannot lift them below 4.5:1.
     text-shadow:
       0 0 1px var(--coast-halo, var(--global-bg-color)),
       0 0 2px var(--coast-halo, var(--global-bg-color)),
+      0 0 2px var(--coast-halo, var(--global-bg-color)),
+      0 0 3px var(--coast-halo, var(--global-bg-color)),
       0 0 6px var(--coast-halo, var(--global-bg-color)),
       0 0 14px var(--coast-glow, transparent),
       0 0 30px var(--coast-glow, transparent);

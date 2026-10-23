@@ -32,6 +32,11 @@ Sirui's laptop.
 
 ### Open issue: one red check on `main`
 
+Update (later on 2026-10-22): the cause is the coast's surfer. In the failing runs the surfboard and its white wake pass
+behind "Tao.", lifting the 2 px ring the test samples; the passing run's surfer was further right. The fix stacks extra
+2 px and 3 px halo layers in `_sass/_footer-coast.scss` so the ring is nearly solid halo. If CI still fails, give the
+credit a soft scrim or keep the surfer's path clear of the bottom centre. The original diagnosis follows.
+
 `Visual checkpoints (desktop-1440, scene-footer-light)` fails one case, `footer-coast.spec.js:315` "coastal sky: La
 Jolla's real sunset and dusk keep the theme, the credit and the coast on one clock": the credit's contrast at dusk is
 4.457:1 against a 4.5:1 floor. It is deterministic (4.459 and 4.457 in two runs), it started with the polish slices
