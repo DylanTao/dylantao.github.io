@@ -28,7 +28,7 @@ record_url: /projects/homepage-desk-scene/record/
 json_url: /assets/json/design-records/homepage-desk-scene.json
 repository: https://github.com/DylanTao/dylantao.github.io
 branch: main
-updated: "2026-10-18"
+updated: "2026-10-23"
 summary: >-
   How the homepage's 3D coastal home is built: the Blender scripts that author the cave house, the cliff, five cartoon
   versions of me and their animal neighbours; the browser runtime that loads, lights and animates them; and the light lab
@@ -43,7 +43,8 @@ credit: >-
   Compiled on October 15, 2026 by Anthropic's Claude from the code, the scene notes, the provenance files and the October
   studio log, for Sirui Tao to review and extend. The coast's wind, the curtains, the gym, the camera and the hinterland
   joined on October 17, and the renovation, full screen, the gym's tripod camera, the skinned wildlife and the
-  performance pass on October 18, from entries the agents who built them prepared and checked.
+  performance pass on October 18, from entries the agents who built them prepared and checked. The October 23 house
+  entries follow the retained Blender source, native contact measurements and inspected browser captures.
 
 read_first:
   - path: docs/homepage-desk-scene-brief.md
@@ -2162,51 +2163,148 @@ systems:
           - The deeper back of the house is still sparsely furnished.
         next: []
       - id: living-room
-        name: A cloud U-sofa facing the TV, not the glass
+        name: A sunken conversation pit facing the Pacific
         status: shipped
-        since: "2026-10-18"
-        what: The ground floor's middle bay is a living room with a white bouclé U-sofa that faces an 85-inch TV and leaves the view of the sea open.
+        since: "2026-10-23"
+        what: White bouclé seating wraps a conversation pit 42 cm below the oak floor, with a suspended fireplace, a TV on the north wall and a reading corner by the glass.
         how: >-
-          `build_living` in `bin/coastal_living.py` sets the U with its arms parallel to the glass; the window arm is a long
-          backless chaise, so nothing blocks the view. It opens north to the TV on a plaster media wall that runs inland from
-          the glass, with a smoked-oak slatted panel and a fluted credenza holding the room's own record player
-          (`build_media_wall`). A travertine drum table, an ochre pouf, indigo, ochre and terracotta cushions, an oatmeal wool
-          rug and a washi floor lantern that glows at dusk complete it. Watching the Pacific moved to the sofa's inland arm,
-          feet on the pouf.
+          `build_pit` in `bin/coastal_living.py` lines a real opening in the slab and mainland with stone, oak boards and
+          upholstered seating. The sea side stays open, with two 21 cm risers, an oatmeal rug, floor cushions and a paper
+          lantern. Sirui sits on the inland run with his feet on a cushion. `build_tv_wall` places the TV and credenza on
+          the north wall; the old freestanding media fin is gone. The house owns the fireplace anchor, a steel flue through
+          the vault and a vented sandstone cap at the cliff top. The Eames chair and fireplace body load through separate
+          furniture anchors. The sunken floor and seated pose offsets stay separate in the manifest and walking routes.
         files:
           - path: bin/coastal_living.py
-            role: The sofa, tables, media wall, lantern and reading nook.
-            functions: [build_living, build_sofa, build_media_wall, build_lamp]
+            role: The conversation pit, TV wall, lantern, reading corner, flue and cap.
+            functions: [build_living, build_pit, build_tv_wall, build_lantern, build_flue, build_cap]
+          - path: bin/coastal_sunken.py
+            role: Cuts the retained slab and mainland, relays boards and exports the lower floor and tread supports.
+            functions: [cut_ground, relay_boards, lined_box, steps]
+          - path: artwork/coastal-home/reviews/interior-contacts.json
+            role: Native sunken-floor heights, arrival clearance and the furniture placeholder audit.
         tests:
+          - test/coastal-interior.test.mjs
           - test/coastal-navigation.test.mjs
           - test/light-installations.test.mjs
         sources: []
         limits:
-          - Where the TV wall and the reading nook sit is still Sirui's call.
+          - The fireplace body and fire belong to the furniture runtime; the house's flue and cap do not model smoke or heat transport.
         next: []
       - id: kitchen-and-dining
-        name: Oak and marble around the gallery's fin
+        name: An open kitchen, a breakfast nook and a table for six
         status: shipped
-        since: "2026-10-18"
-        what: The kitchen is one light-oak run under milky marble with a coffee bar at its sea end, a travertine island, and a round travertine dining table under a washi lantern.
+        since: "2026-10-23"
+        what: The open oak-and-marble kitchen has a sunken breakfast banquette by the glass and a separate six-place dining table under two saucer pendants.
         how: >-
-          `build_run` in `bin/coastal_kitchen.py` lays one light-oak run under milky marble, with a nickel espresso machine and
-          grinder at its sea end where the breakfast routine reaches (`build_coffee_bar`). The run parts around the
-          structural plaster fin that carries the gallery's edge, with the cooking bay and a tall oak-panelled refrigerator
-          behind the print wall under a tapered plaster hood. A travertine island has fluted oak sides (`build_island`); a
-          round honed-travertine table stands on a fluted oak column with a nickel footrest ring, four wishbone chairs and a
-          74 cm washi lantern 80 cm above the top (`build_table`, `build_dining`). Two soffit downlights, two vault downlights
-          over the island and a light line under the lower shelf are written into the manifest's `interiorLights`
-          (`build_downlights`), at task strength for meals and a low glow after dark.
+          `build_kitchen` in `bin/coastal_kitchen.py` removes the freestanding print partition while keeping the structural
+          gallery support. The coffee bar retains its cup and machine contacts. A rust-coloured L-banquette and round
+          travertine breakfast table sit 42 cm below the floor; the table's nickel ring supports the seated feet 16.5 cm
+          above that lower floor. The capybara print moves to the cave wall, and the meal camera sits inside the doorway,
+          clear of the sheer stack and the table. Behind the island, a 2.2 × 1.0 m table at 74 cm seats six under two
+          pendants. Range, hood, pot filler, glass fridge, table and chair anchors carry plain fallbacks until their
+          furniture assets load. The coffee walk crosses an exported intermediate tread before reaching the kitchen floor.
         files:
           - path: bin/coastal_kitchen.py
-            role: The run, the coffee bar, the island, the table, the chairs and the fixtures.
-            functions: [build_run, build_coffee_bar, build_island, build_table, build_dining, build_downlights]
+            role: The open plan, coffee bar, island, sunken nook, dining bay, fixtures and furniture anchors.
+            functions: [build_kitchen, build_run, build_coffee_bar, build_island, build_nook, build_table, build_dining, furniture_anchors]
+          - path: bin/refresh_coastal_interior.py
+            role: Applies the floor cuts, room camera, seated contacts, lighting and circulation data to the retained source.
+          - path: assets/js/home-scene/navigation.mjs
+            role: Grounds travel on actual supports and preserves local treads separately from the 15-riser main stair.
+            functions: [roomRoute, sampleRoute]
         tests:
+          - test/coastal-interior.test.mjs
+          - test/coastal-navigation.test.mjs
           - test/light-installations.test.mjs
         sources: []
         limits:
-          - The run parting around the fin, the refrigerator in the back kitchen, the two soffit downlights and the dining top's 82.5 cm height with its 22 cm footrest ring are Sirui's to confirm.
+          - Meals use the breakfast banquette; the six dining chairs provide seating geometry rather than a separate six-person routine.
+        next: []
+      - id: clifftop-arrival
+        name: A real passage from the cliff top
+        status: shipped
+        since: "2026-10-23"
+        what: A slatted portal and 32 oak-topped stone treads connect the inland path to a foyer and the upper gallery.
+        how: >-
+          `build_entry` in `bin/coastal_arrival.py` cuts the retained mainland and lift-away roof together, removes the
+          earlier decorative closed doorway and branches the stepping-stone path toward the new portal. The stair is
+          1.6 m wide, with 28 cm goings, about 15.4 cm risers and bronze handrails. Its lower foyer has a shoe bench and
+          hooks, with a turn into the existing upper aisle. Native ray checks cover all 32 treads, headroom and a 52 cm
+          clear route. Browser Walk probes placed the capsule on five exported treads within 0.22 mm. The explicit Walk
+          region includes the inland stair; a coast-sized shell alone did not extend its automatic field far enough.
+        files:
+          - path: bin/coastal_arrival.py
+            role: The connected passage, foyer, portal, stepping stones and matching support data.
+            functions: [build_entry]
+          - path: bin/review_coastal_interior.py
+            role: Surveys the native floors, every arrival tread, overhead clearance and furniture placeholders.
+          - path: artwork/coastal-home/reviews/interior.json
+            role: Boolean-cut results, closed-solid checks, dimensions and the retired doorway count.
+          - path: artwork/coastal-home/reviews/interior-acceptance.json
+            role: Source and export hashes, inspected capture paths and decoded-export Walk measurements.
+        tests:
+          - test/coastal-interior.test.mjs
+          - test/coastal-navigation.test.mjs
+        sources: [blender]
+        limits:
+          - Clearance is measured at the recorded native probes and browser capsule positions; it is not a continuous whole-body collision proof for every animated pose.
+        next: []
+      - id: terrace-infinity-pool
+        name: A sheltered infinity basin beside the Pacific
+        status: shipped
+        since: "2026-10-23"
+        what: A 1.13 m deep tiled basin extends the terrace, with a dry approach, submerged entry steps, a low overflow lip and a catch gutter.
+        how: >-
+          `build_pool` in `bin/coastal_arrival.py` ties the basin back into the sandstone terrace and opens a route through
+          the existing parapet. Its native waterline stays 9 cm below the deck. `infinity-pool.mjs` gives the physical
+          water material small ripple normals on the scene clock and the coast's sun/moon light, with a still surface
+          under Pause or reduced motion. It adds no solver or reflection render target. The exported water carries a Walk
+          exclusion, and the browser probe confirms that the visitor cannot stand in its centre.
+        files:
+          - path: bin/coastal_arrival.py
+            role: The supported basin, dry access, overflow edge and native water surface.
+            functions: [build_pool]
+          - path: assets/js/home-scene/infinity-pool.mjs
+            role: Sheltered ripple normals, water material, shared coastal light and disposal.
+            functions: [createInfinityPool]
+          - path: artwork/coastal-home/reviews/interior-acceptance.json
+            role: Inspected pool capture and the browser water-exclusion probe.
+        tests:
+          - test/coastal-interior.test.mjs
+        sources: []
+        limits:
+          - The waterline is fixed; the overflow gutter is geometry, with no simulated flow, swimmer coupling or water-volume exchange.
+        next: []
+      - id: gym-pan-station
+        name: A supported pan station and front task light
+        status: shipped
+        since: "2026-10-23"
+        what: The gym gains an oak pan shelf, brighter scheduled pendants and a small front task pendant that lights the lifter's face.
+        how: >-
+          `build_gym_station` in `bin/coastal_arrival.py` gives the pan a supported shelf at 85 cm, separate actor and
+          rest anchors, and a front pendant above the station. The two existing pendants remain. `light-installations.mjs`
+          raises their training level and adds the new bounded line emitter. Working dumbbells receive anchors and prop
+          tags for the existing grip choreography. The study's chair anchor uses the same furniture interface and retains
+          its 51.5 cm seated hip contact. Each anchor keeps native placeholder geometry until its designed asset is ready.
+        files:
+          - path: bin/coastal_arrival.py
+            role: The pan shelf, front fixture, chair fallback and activity-compatible furniture anchors.
+            functions: [build_gym_station]
+          - path: bin/coastal_anchors.py
+            role: Shared floor-contact positions, facing conventions and placeholder metadata.
+            functions: [anchor_entry, merge_anchors]
+          - path: assets/js/home-scene/light-installations.mjs
+            role: Scheduled gym intensity and direct irradiance from the authored fixtures.
+            functions: [createLightInstallations]
+          - path: artwork/coastal-home/reviews/interior-acceptance.json
+            role: Inspected evening gym capture and the house export measurements.
+        tests:
+          - test/coastal-interior.test.mjs
+          - test/light-installations.test.mjs
+        sources: []
+        limits:
+          - The analytic task emitters add direct light without new lamp shadows or a new bounce calculation; held-object contacts are verified by the separate furniture runtime.
         next: []
   - id: light-lab
     name: The light-paths lab
@@ -2931,6 +3029,25 @@ history:
     reframe: Clouds lit through Earth's shadow are the next step for the sunset.
     commit: "1104eb491"
     sources: [hillaire2020sky, bruneton2008atmosphere, noaa-solar, meeus1998algorithms, cox1954glitter, wronski2014fog, hillaire2015frostbite]
+  - date: "2026-10-23"
+    title: Lower the seats and connect the entrance
+    system: authoring
+    frame: The kitchen needed an open plan, a breakfast nook and a table for six; the living room needed a sunken pit, and the clifftop doorway needed an actual route into the house.
+    dimensions: [floor supports, seated contacts, open circulation, the roof cut, an inland approach, task lighting, the terrace waterline]
+    move: >-
+      Cut both lower rooms 42 cm into the retained slab and mainland, kept their seated feet supported and separated
+      the breakfast banquette from the dining table. Added the living-room flue and rock cap, a carved 32-riser arrival
+      with a foyer, a supported pan station with front task lighting, and the terrace infinity basin. Native measurements
+      and browser capture paths are retained in `artwork/coastal-home/reviews/interior-acceptance.json` and
+      `interior-contacts.json`; the navigation tests cover all 36 room pairs.
+    backtalk: >-
+      A good free-camera nook view failed under the production spring arm because its target sat inside the table.
+      The target moved above the furniture. The old closed doorway had no passage and was removed. The first Walk
+      field stopped short of the inland stair until its bounds included the entrance. Room travel also treated the
+      lower corridor's zero height as the sunken seat's walking floor, so its endpoints now read the actual supports
+      and keep the two 21 cm local risers separate from the 15-riser main stair.
+    reframe: Keep the native geometry, floor supports, pose offsets and corridor levels together, then verify the production camera and walking field rather than accepting a free-camera preview alone.
+    sources: [blender]
   # Append new moves here, oldest first.
 
 open_problems:
