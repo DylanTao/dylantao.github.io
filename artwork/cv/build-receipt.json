@@ -1,0 +1,40 @@
+{
+  "resume_lf_sha256": "06023f0a12d38efa539ca7993233a6400c140c033ce69e2f414c25bc7275f6a3",
+  "pdf_sha256": "4e20e9ee24d573334548706030564b1a6f12a09b96a29c7231a24920326afcb8",
+  "pages": [
+    {
+      "height": 960.703125,
+      "bottom": 960.703125
+    },
+    {
+      "height": 967.796875,
+      "bottom": 967.796875
+    },
+    {
+      "height": 956.015625,
+      "bottom": 956.015625
+    },
+    {
+      "height": 955.84375,
+      "bottom": 955.84375
+    }
+  ],
+  "output": "assets/pdf/Sirui_Tao_CV_Public.pdf",
+  "records": {
+    "education": 3,
+    "academia": 4,
+    "teaching": 9,
+    "work": 9,
+    "volunteer": 2,
+    "awards": 12,
+    "certificates": 0,
+    "publications": 6,
+    "mentorship": 7,
+    "academicService": 12,
+    "skills": 5,
+    "languages": 3,
+    "interests": 2,
+    "references": 3,
+    "projects": 4
+  }
+}
