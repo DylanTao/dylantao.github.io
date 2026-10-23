@@ -282,7 +282,10 @@ test("hidden rooms never request fine furniture", async () => {
 });
 
 test("Carbon and Mineral update the visible shared chair and return exactly", async () => {
-  const h = house({ anchors: [{ ...anchor, item: "aeron" }], index: { version: 1, items: { aeron: { lods: levels } } } });
+  const h = house({
+    anchors: [{ ...anchor, item: "aeron" }],
+    index: { version: 1, items: { aeron: { lods: levels.map((l) => ({ ...l, file: l.file.replace("eames-lounge", "aeron") })) } } },
+  });
   await h.furniture.attach("lounge", h.room, h.furniture.load("lounge"));
   const group = h.room.children.find((o) => o.userData.furnitureAnchor);
   const mesh = group.children[0].children[0];
