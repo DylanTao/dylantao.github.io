@@ -19,15 +19,15 @@
     </div>
     <div class="website-heuristics-preview-actions">
       <button type="button" data-heuristics-copy disabled>
-        <i class="fa-regular fa-copy" aria-hidden="true"></i>
+        {% include icon.liquid name='copy' %}
         <span>Copy</span>
       </button>
       <a href="{{ heuristics_src | relative_url }}" download>
-        <i class="fa-solid fa-download" aria-hidden="true"></i>
+        {% include icon.liquid name='download' %}
         <span>Download</span>
       </a>
       <a href="{{ heuristics_src | relative_url }}">
-        <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
+        {% include icon.liquid name='file-text' %}
         <span>Source</span>
       </a>
     </div>

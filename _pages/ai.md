@@ -36,7 +36,7 @@ sitemap: true
     <a href="{{ '/ai/publications.json' | relative_url }}">Publications <span>.json</span></a>
     <a href="{{ '/ai/projects.json' | relative_url }}">Projects <span>.json</span></a>
     <button type="button" data-ai-copy data-copy-source="{{ '/llms-full.txt' | relative_url }}" hidden>
-      <i class="fa-regular fa-copy" aria-hidden="true"></i>
+      {% include icon.liquid name='copy' %}
       <span data-ai-copy-label>Copy full Markdown</span>
     </button>
   </div>

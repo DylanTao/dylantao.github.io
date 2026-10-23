@@ -103,7 +103,7 @@ layout: default
         {% if project_previous %}
           <a class="blog-nav-direction blog-nav-direction-older" href="{{ project_previous.url | relative_url }}">
             <span class="blog-nav-direction-label">
-              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+              {% include icon.liquid name='arrow-left' class='site-icon--back' %}
               Previous project
             </span>
             <span class="blog-nav-direction-title">{{ project_previous.title }}</span>
@@ -124,7 +124,7 @@ layout: default
           <a class="blog-nav-direction blog-nav-direction-newer" href="{{ project_next.url | relative_url }}">
             <span class="blog-nav-direction-label">
               Next project
-              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              {% include icon.liquid name='arrow-right' class='site-icon--forward' %}
             </span>
             <span class="blog-nav-direction-title">{{ project_next.title }}</span>
           </a>

@@ -163,6 +163,81 @@ html[data-theme-mode="evening"] {
   }
 }
 
+// Interface icons (_includes/icon.liquid, _data/icons.yml): 1em outline glyphs in currentColor, set a
+// touch below the baseline so a 24-unit glyph centres on lowercase text instead of riding high.
+.site-icon {
+  display: inline-block;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  overflow: visible;
+}
+
+// An archive title's glyph sits a step smaller than the heading it names.
+.site-icon--heading {
+  width: 0.72em;
+  height: 0.72em;
+  margin-right: 0.08em;
+  vertical-align: -0.02em;
+}
+
+// Direction arrows lean the way their link goes when it is pointed at or focused.
+.site-icon--forward,
+.site-icon--back {
+  transition: transform var(--spring-confident-duration) var(--spring-confident);
+}
+
+a:hover .site-icon--forward,
+a:focus-visible .site-icon--forward {
+  transform: translateX(0.18em);
+}
+
+a:hover .site-icon--back,
+a:focus-visible .site-icon--back {
+  transform: translateX(-0.18em);
+}
+
+// A CV entry's place: a small pin in the theme colour.
+.site-icon.iconlocation {
+  width: 0.85rem;
+  height: 0.85rem;
+  color: var(--global-theme-color);
+}
+
+// The blog's start cards end their meta line with the arrow.
+.blog-start-meta .site-icon--forward {
+  margin-left: auto;
+}
+
+// Outline glyphs fill more of their box than Font Awesome's did, so a topic or year label gets a
+// hair of room after its glyph.
+.post-tags .site-icon,
+.tag-category-list .site-icon,
+.post-meta .site-icon {
+  margin-right: 0.14em;
+}
+
+// The homepage slips' marks: a glyph large enough to read as the slip's kind at a glance.
+.home-artifact-mark .site-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-icon--forward,
+  .site-icon--back {
+    transition: none;
+  }
+
+  a:hover .site-icon--forward,
+  a:focus-visible .site-icon--forward,
+  a:hover .site-icon--back,
+  a:focus-visible .site-icon--back {
+    transform: none;
+  }
+}
+
 .btn,
 a.btn,
 button.btn {

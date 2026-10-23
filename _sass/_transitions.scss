@@ -164,6 +164,12 @@ html.theme-revealing::view-transition-new(root) {
   animation: site-theme-reveal 620ms var(--spring-gentle, ease-out) both;
 }
 
+// site-motion.mjs supplies the soft edge through WAAPI when available; the circle above is the
+// no-module fallback. Only one animation owns the new snapshot at a time.
+html.theme-water-revealing::view-transition-new(root) {
+  animation: none;
+}
+
 @keyframes site-theme-reveal {
   from {
     clip-path: circle(0 at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 0));

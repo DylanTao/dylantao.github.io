@@ -10,11 +10,11 @@
 {% if project.redirect %}
   {% assign project_href = project.redirect %}
   {% assign project_cta_label = 'Visit project site' %}
-  {% assign project_cta_icon = 'fa-arrow-up-right-from-square' %}
+  {% assign project_cta_icon = 'arrow-up-right' %}
 {% else %}
   {% assign project_href = project.url | relative_url %}
   {% assign project_cta_label = 'Read project page' %}
-  {% assign project_cta_icon = 'fa-arrow-right' %}
+  {% assign project_cta_icon = 'arrow-right' %}
 {% endif %}
 {% assign project_card_id = project.title | slugify | prepend: 'project-card-' %}
 {% assign project_file_slug = project.slug
@@ -311,7 +311,7 @@
             {% endif %}
           >
             {{ project_cta_label }}
-            <i class="fa-solid {{ project_cta_icon }}" aria-hidden="true"></i>
+            {% include icon.liquid name=project_cta_icon %}
           </a>
           {% comment %}
             An open card's story is one labelled list (2026-10-19): why it began, what changed and the intended
@@ -348,9 +348,9 @@
           {% endif %}
           <span class="project-card-preview-affordance" aria-hidden="true">
             {% if project_deck_size > 0 %}
-              <i class="fa-solid fa-layer-group"></i>
+              {% include icon.liquid name='layers' %}
             {% else %}
-              <i class="fa-solid fa-plus"></i>
+              {% include icon.liquid name='plus' class='project-card-plus' %}
             {% endif %}
           </span>
         </div>
@@ -386,7 +386,7 @@
             {% endif %}
           >
             <span>{{ project_cta_label }}</span>
-            <i class="fa-solid {{ project_cta_icon }}" aria-hidden="true"></i>
+            {% include icon.liquid name=project_cta_icon %}
           </a>
           {% if project.github %}
             <a
@@ -402,7 +402,7 @@
             </a>
             {% if project.github_stars %}
               <span class="stars" data-toggle="tooltip" title="GitHub Stars">
-                <i class="fa-solid fa-star"></i>
+                {% include icon.liquid name='star' %}
                 <span id="{{ project.github_stars }}-stars"></span>
               </span>
             {% endif %}
@@ -410,11 +410,11 @@
         </div>
         {% if project_deck_size > 0 %}
           <button class="project-card-close project-deck-close" type="button" data-project-deck-close aria-label="Close {{ project.title }}">
-            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            {% include icon.liquid name='x' %}
           </button>
         {% else %}
           <button class="project-card-close" type="button" data-project-card-close aria-label="Close {{ project.title }} preview">
-            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            {% include icon.liquid name='x' %}
           </button>
         {% endif %}
       </div>
@@ -516,7 +516,7 @@
           </a>
           {% if project.github_stars %}
             <span class="stars" data-toggle="tooltip" title="GitHub Stars">
-              <i class="fa-solid fa-star"></i>
+              {% include icon.liquid name='star' %}
               <span id="{{ project.github_stars }}-stars"></span>
             </span>
           {% endif %}

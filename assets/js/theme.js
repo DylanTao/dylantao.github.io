@@ -476,13 +476,19 @@ let transTheme = () => {
 };
 
 // A time-of-day pick spreads from the option that was chosen: the new light grows out of it in a
-// circle on the site's gentle spring (_sass/_transitions.scss), as one view transition, so gradients
+// soft water edge on the site's gentle spring (site-motion.mjs), as one view transition, so gradients
 // and canvases change together with everything else. Dragging the sun arc and the automatic clock
 // keep the brief color transition; reduced motion swaps at once, and automation keeps the instant
 // change its captures rely on unless the URL asks for ?cinematic=live.
 let themeRevealActive = false;
+let themeTransition = null;
+let themeRevealRevision = 0;
 let revealThemeFrom = (origin, update) => {
   const root = document.documentElement;
+  const revision = ++themeRevealRevision;
+  themeTransition?.skipTransition();
+  themeTransition = null;
+  root.classList.remove("theme-revealing", "theme-water-revealing");
   const live = /[?&]cinematic=live(?:&|$)/.test(window.location.search);
   if (!origin || !document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches || (navigator.webdriver && !live)) {
     update();
@@ -492,23 +498,41 @@ let revealThemeFrom = (origin, update) => {
   root.style.setProperty("--theme-reveal-x", `${Math.round(box.left + box.width / 2)}px`);
   root.style.setProperty("--theme-reveal-y", `${Math.round(box.top + box.height / 2)}px`);
   root.classList.add("theme-revealing");
-  const done = () => root.classList.remove("theme-revealing");
+  const done = () => {
+    if (revision !== themeRevealRevision) return;
+    themeTransition = null;
+    root.classList.remove("theme-revealing", "theme-water-revealing");
+  };
   try {
-    document
-      .startViewTransition(() => {
-        themeRevealActive = true;
-        try {
-          update();
-        } finally {
-          themeRevealActive = false;
-        }
+    const transition = document.startViewTransition(() => {
+      if (revision !== themeRevealRevision) return;
+      themeRevealActive = true;
+      try {
+        update();
+      } finally {
+        themeRevealActive = false;
+      }
+    });
+    themeTransition = transition;
+    transition.ready
+      .then(() => {
+        if (revision !== themeRevealRevision || !window.SiteMotion?.waterReveal) return; // The CSS circle remains a complete fallback.
+        const animation = window.SiteMotion.waterReveal({ x: box.left + box.width / 2, y: box.top + box.height / 2 });
+        if (!animation) return;
+        root.classList.add("theme-water-revealing");
+        animation.finished.catch(() => {});
       })
-      .finished.finally(done);
+      .catch(() => {}); // An interrupted reveal still commits its theme.
+    transition.finished.then(done, done);
   } catch {
     done();
     update();
   }
 };
+
+window.matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", (event) => {
+  if (event.matches) themeTransition?.skipTransition();
+});
 
 let normalizeThemeSetting = (themeSetting) => {
   if (themeModes.includes(themeSetting)) return themeSetting;

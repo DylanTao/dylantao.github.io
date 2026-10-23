@@ -76,12 +76,12 @@ hero:
       title: Vibes -> Variables -> Value
       url: /projects/designweaver/
       tone: design
-      icon: fa-diagram-project
+      icon: workflow
     - label: Research question
       title: Make better design decisions visible
       url: /projects/what-happened-and-why/
       tone: evaluate
-      icon: fa-lightbulb
+      icon: lightbulb
 
 story_sections:
   - label: Start

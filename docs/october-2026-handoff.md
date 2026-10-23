@@ -4,6 +4,9 @@ Written 2026-10-22 by the coordinating agent before a five-day token pause, so t
 re-deriving context. `main` is the source of truth; everything below that is not on `main` lives in local worktrees on
 Sirui's laptop.
 
+**October 23 continuation:** use the [reconciled checklist](#october-23-reconciled-checklist) below for current status.
+The original queue and parked commit IDs remain as custody/history, not proof that every listed idea is still unbuilt.
+
 ## Working rules (from Sirui)
 
 - One agent at a time, sequentially; this account has a small token budget.
@@ -155,3 +158,124 @@ the Eames is original geometry measured from it. If Sirui downloads an Aeron mod
   compare step durations before blaming code.
 - `coastal-home.blend` is a committed binary edited in place by scripts; only one agent may own it.
 - `git stash pop` and Python text-mode writes produce CRLF on this machine; normalize before override audits.
+
+## October 23 reconciled checklist
+
+This pass starts from `95e336a2d`, reads the parked work, and keeps uncertain scene changes off the site. Checked means
+completed or an existing implementation verified in source; an unchecked item is still work. The two scene worktrees
+and the design draft remain intact. Do not replace their original sources with a fresh simplified model.
+
+### Completed and verified this pass
+
+- [x] **Footer dusk contrast.** The existing halo fix passes `footer-coast.spec.js`'s sunset/dusk case in Linux Chromium
+      (Docker, desktop 1440). The existing source commit's full Visual checkpoints run also passed:
+      [39904611455](https://github.com/DylanTao/dylantao.github.io/actions/runs/39904611455). No further footer edit was needed.
+- [x] **Design step 6: interface icons.** Resume `d86ed0962` from `agent/design`, keeping the water draft commit off main.
+      Review desktop and phone renders; pass the six-route, four-viewport light/dark checkpoint (24 tests) and the scoped
+      Chromium/WebKit navigation/card suite (13 passed, 5 intentional skips). Retain the Lucide ISC and Feather MIT notices.
+- [x] **Part of design step 7: theme water reveal.** Finish the parked outline as sampled, interpolated paths on the
+      root view-transition snapshot. A CSS circle remains the module-failure fallback. Rapid changes retain the last
+      choice; reduced motion swaps immediately. Desktop/phone midpoint screenshots and interruption checks pass.
+- [x] **Part of design step 7: readable motion.** Remove heading slide-ins, the card/deck story's delayed rise-ins, and
+      the runtime deck fan/fold rotation. Keep the layout spring, in-place expansion, scroll recovery and action controls.
+      State the visibility rule in the existing heuristics rather than creating a new skill.
+- [x] **Google Scholar.** Fetch a fresh paired citation/lens snapshot on October 23. The previous snapshot was October 17;
+      this is a real fetch, not a date-only freshness edit.
+
+Local evidence is under `.jekyll-cache/visual-qa/`: `iteration-todo-home-baseline`,
+`iteration-todo-icons-before-review`, `checkpoint`, `todo-footer-linux`, and `todo-motion`.
+These local artifacts are ignored by Git; the source and limits in this checklist are the durable handoff.
+
+### Remaining, in the original order
+
+- [ ] **Finish design step 7.** The liquid indicator between theme stops, shared-axis page navigation, and ink dissolve
+      on card close remain open. Keep each as a separately inspectable experiment. The theme menu currently closes on
+      selection, so a travelling indicator would be invisible unless that interaction is designed too. Shared-axis motion
+      must preserve the existing card-to-page morph and Back restoration. An ink dissolve needs real interrupted-close,
+      touch, reduced-motion and whole-figure evidence; do not add an unreviewed filter over research figures.
+- [ ] **Planets.** Match orbital positions and magnitudes to the handoff's JPL references, then reuse the existing
+      extinction/visibility model. Do not sprinkle extra decorative points into the real star catalogue. The moon already
+      has a position and illuminated phase in `atmosphere.mjs`/`atmosphere-model.mjs`; inspect that implementation before
+      replacing it. No new planetary implementation or astronomical validation was completed in this pass.
+- [ ] **Far trees, landscape variety and coastline lights.** Work from the shipped `far-field.mjs` and hinterland.
+      Preserve the coast's continuous land, readable horizon and matched day/night performance. No new landscape assets
+      were authored this pass.
+- [ ] **Kitchen, nook and dining.** Preserve `agent/scene-interior` at `42819bdb8`. Its Blender previews were inspected:
+      the open kitchen and nook are promising. This is not runtime acceptance. `reviews/interior.json` reports no new
+      `kitchenCuts`; establish whether that means an already-cut idempotent build or a preview that skipped cutting.
+      Rebuild from the source without `--skip-cut`, rebake, export and inspect the actual nook floor/supports, meal/coffee
+      contacts, Walk clearance and camera framing on current main. Blender is not on this session's PATH; no rebuild was run.
+- [ ] **Living pit, fireplace flue and rock cap.** Follow the verified sunken-floor slice; keep the seated pose,
+      supported feet, clear walking corridor and fireplace anchors together. Not implemented here.
+- [ ] **Clifftop entrance and foyer.** Author one connected route with terrain/collider evidence; do not add a door
+      that leads into solid rock. Not implemented here.
+- [ ] **House top and rock cut.** Rebuild the connected shell and hinterland seam as a pair; inspect the full-screen
+      exterior and cutaway. Not implemented here.
+- [ ] **Gym light and pan station.** Preserve the current 44-degree framing and activity/held-object contacts. Add
+      the light, pan anchors and pan-raise move as one checked slice. Not implemented here.
+- [ ] **Infinity pool.** Check the cliff connection, waterline, shared sea light, access and render budget before
+      keeping it. Not implemented here. Further house expansion remains open-ended, not a completion criterion.
+- [ ] **Eames and furniture runtime.** Preserve original model/runtime commit `cad6532bf` and the following temporary
+      anchor commit `cdef0eb12` on `agent/scene-furniture`; never integrate the temporary anchors. The isolated fine-LOD
+      chair render looks usable, but the parked `furniture/scene/eames-lounge-embed.png` frames a wall/TV rather than the
+      chair. Correct the placement/camera and prove the item in the real room, default/fine LOD swaps, bytes, room
+      visibility, disposal and graphics recovery before shipping. Product-render quality alone is insufficient.
+- [ ] **Aeron.** Original geometry, Carbon default/Mineral alternative; configurator downloads remain reference-only.
+      No Aeron geometry was made here.
+- [ ] **Italian range, hood and pot filler.** Use the kitchen's reviewed anchors and the shared furniture frame; verify
+      cooking contacts and hood/flue clearance. Not made here.
+- [ ] **Glass fridge.** Verify interior visibility, transparent-material order and small-screen bytes. Not made here.
+- [ ] **Dining table and six chairs.** Keep floor-contact origins, facing and the seated/foot-ring relationship from
+      the kitchen contract. Not made here.
+- [ ] **Cast-iron pan and dumbbells.** Verify held-object alignment and the pan-raise activity, not only static models.
+      Not made here.
+- [ ] **Floating fireplace and fire.** Pair the furniture with the living-pit anchor, flue and cap; preserve a still,
+      legible reduced-motion fire. Not made here.
+- [ ] **Creek/koi pond and onsen drip.** Preserve the existing one-way hand/water coupling. Decide the landscape route
+      before adding another water solver; the onsen-drip versus koi-pond choice remains Sirui's open decision.
+- [ ] **FFT ocean.** Keep this as a Graphics Lab experiment first. The live reflected water, shoreline, boats and
+      shared clock must agree with its displacement; swapping a shader alone does not finish it.
+- [ ] **Fully dynamic duvet.** The existing fitted cloth and breathing stay. A future solver needs contact/occlusion,
+      sleeping stillness, numerical stability and a measured frame budget; previous failed solver attempts are recorded
+      in studio cards 29 and 33. Do not replace the fitted result with unstable motion.
+- [ ] **Public studio log.** The existing log explicitly reserves publication for Sirui's voice/approval review.
+      Keep the private working log and public design records; a publishable narrative still needs that editorial pass.
+- [ ] **Build Rhythm and profile refresh.** Run the private fail-closed collector, then import only a validated public
+      snapshot. Never approve a new reviewed gap or rewrite counts to make a refresh pass. Final result is recorded below.
+- [ ] **Representation and stylized-rendering research.** Still later, after the environment/house/furniture slices.
+      Keep the Graphics Lab matched-view/bytes/frame-time gate and original-source licensing checks.
+
+### Corrected stale TODOs and deliberate holds
+
+- [x] **Phone carousel:** already exists as scroll-snapped rows inside each project-deck level (`_glass.scss`);
+      the October 12 standalone carousel evolved into this. Do not add a competing second carousel.
+- [x] **Revamp laptop-lid scroll:** already exists in `website-revamp.md`, `_revamp-device.scss` and `revamp-device.js`.
+- [x] **Honest loader:** already exists, with actual progress plus the loading sketch. Existing desk-scene tests cover
+      it. Do not replace it with a simulated timer.
+- [x] **Fitted duvet:** already exists in the six authored drapes and `bedding-breath.mjs`. This does not complete the
+      separate fully dynamic cloth experiment above.
+- [ ] **Tufte sidenotes:** waiting for a real footnote-bearing post; the current posts/projects have no Markdown
+      footnotes. Do not invent research notes to populate a layout.
+- [ ] **Temporal antialiasing:** retain the deliberate hold. Earlier tests found no useful static gain and predict
+      ghosting on moving subjects without per-object motion vectors. Revisit with motion vectors or a still photo mode.
+
+The earlier Sirui decisions (paper links, coffee-ring dry-in, race/battery behavior, star density, page naming,
+marine-layer frequency, sunset, laundry and water feature) remain decisions, with their current defaults intact.
+
+### Final verification and data-refresh limit
+
+The production `/al-folio` build, style contract, 241 Python tests and the Node suite (549 passed, 7 intentional skips)
+pass. All 853 recognized tracked source files pass Prettier when read with the LF line endings CI checks out. Local
+worktrees and generated build/QA directories are now ignored by the CLI formatter, so it does not lint a different
+checkout's unfinished work. The Windows checkout's unrelated CRLF files are not rewritten.
+
+The icon checkpoint passes 24 route tests; the final affected-route checkpoint covers projects, blog and publications.
+Card interaction regression checks pass in Chromium and WebKit. Final theme probes cover desktop/phone midpoint pixels,
+rapid changes, reduced motion changing during a reveal, no-helper fallback, and WebKit phone use. Changed plugin
+overrides are re-acknowledged. Local logs and captures use the `todo-` prefix under `.jekyll-cache/`.
+
+The GitHub history refresh was attempted, then stopped during a slow repository scan. Atomic intermediate cache
+checkpoints remain available, but no completed aggregate was accepted. The public profile checkout remains clean and
+Build Rhythm keeps its previous validated snapshot through October 21. This item remains unchecked. Resume the normal
+collector and complete its stability/calendar gates before importing; do not label the old snapshot freshly measured.
+This does not block website publishing: Google Scholar is the freshness gate and its paired October 23 snapshot passed.

@@ -80,6 +80,13 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 - **Sirui decision:** Pending: the ensō's look (and whether the heart stays), the theme reveal, and the card motion's feel on the live site. 2026-10-19: the ensō read heavy and rigid; it became a light dried coffee ring that dries in once (studio log card P3).
 - **Revisit trigger:** Sirui's live review, any report that duh blocks a click it should not, or a route where the shared springs read as sluggish.
 
+October 23 continuation: the theme's circular reveal became a soft water outline sampled on the same gentle spring.
+Rapid picks keep the last choice, and reduced motion remains immediate. Card/deck story text now stays visible through
+the layout change, headings keep their baseline, and runtime deck fan/fold rotations are removed. Desktop and phone
+midpoint captures and interruption checks live under `.jekyll-cache/visual-qa/todo-motion/`. This is implementation
+evidence, not a visitor study or a final taste decision. The liquid theme-stop indicator, shared-axis navigation and
+card-close ink dissolve remain open in the [October checklist](october-2026-handoff.md#october-23-reconciled-checklist).
+
 ### October 12–13: the "awesome, not lamer" studio pass
 
 - **Hypothesis:** Sirui asked for more craft in motion, interaction and rendering, informed by Anime.js, Motion Sites, Showreel Design, React Bits, Aceternity UI and Uiverse. Each move below tests whether one physical or cinematic idea makes a specific page clearer or more delightful without costing reading, speed or accessibility.

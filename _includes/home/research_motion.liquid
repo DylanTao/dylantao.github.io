@@ -79,7 +79,7 @@
               {% if mode.link_url %}
                 <a class="home-motion-detail-link" href="{{ mode.link_url | relative_url }}">
                   {{ mode.link_label | default: 'Learn more' }}
-                  <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                  {% include icon.liquid name='arrow-right' class='site-icon--forward' %}
                 </a>
               {% endif %}
             </div>

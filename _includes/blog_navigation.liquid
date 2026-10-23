@@ -82,7 +82,7 @@
           </span>
         </span>
         <span class="blog-nav-arrow" aria-hidden="true">
-          <i class="fa-solid fa-arrow-right"></i>
+          {% include icon.liquid name='arrow-right' class='site-icon--forward' %}
         </span>
       </a>
     {% endif %}
@@ -92,7 +92,7 @@
         {% if blog_nav_show_older %}
           <a class="blog-nav-direction blog-nav-direction-older" href="{{ blog_nav_older_post.url | relative_url }}">
             <span class="blog-nav-direction-label">
-              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+              {% include icon.liquid name='arrow-left' class='site-icon--back' %}
               Older
             </span>
             <span class="blog-nav-direction-title">{{ blog_nav_older_post.title }}</span>
@@ -103,7 +103,7 @@
           <a class="blog-nav-direction blog-nav-direction-newer" href="{{ blog_nav_newer_post.url | relative_url }}">
             <span class="blog-nav-direction-label">
               Newer
-              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              {% include icon.liquid name='arrow-right' class='site-icon--forward' %}
             </span>
             <span class="blog-nav-direction-title">{{ blog_nav_newer_post.title }}</span>
           </a>

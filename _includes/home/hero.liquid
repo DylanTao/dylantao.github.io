@@ -99,7 +99,8 @@
               aria-label="{{ artifact.title | escape }}"
               title="{{ artifact.title | escape }}"
             >
-              <i class="fa-solid {{ artifact.icon | default: 'fa-arrow-up-right-from-square' }}" aria-hidden="true"></i>
+              {% assign artifact_icon = artifact.icon | default: 'arrow-up-right' -%}
+              {%- include icon.liquid name=artifact_icon %}
             </a>
           {% endif %}
         {% endfor %}
@@ -226,7 +227,7 @@
               </div>
             {% else %}
               <span class="home-artifact-mark" aria-hidden="true">
-                <i class="fa-solid {{ artifact.icon | default: 'fa-arrow-up-right-from-square' }}"></i>
+                {% assign artifact_icon = artifact.icon | default: 'arrow-up-right' %}{% include icon.liquid name=artifact_icon %}
               </span>
             {% endif %}
             <span class="home-artifact-copy">

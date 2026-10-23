@@ -185,12 +185,12 @@ pagination:
     <ul class="p-0 m-0">
       {% for tag in featured_tags %}
         <li>
-          <i class="fa-solid fa-hashtag fa-sm"></i> <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
+          {% include icon.liquid name='hash' %} <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
         </li>
       {% endfor %}
       {% for category in featured_categories %}
         <li>
-          <i class="fa-solid fa-tag fa-sm"></i> <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">{{ category }}</a>
+          {% include icon.liquid name='tag' %} <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">{{ category }}</a>
         </li>
       {% endfor %}
     </ul>
@@ -255,7 +255,7 @@ pagination:
               <span aria-hidden="true">&middot;</span>
               <span class="blog-read-count js-blog-read-count" data-blog-read-url="{{ start_post.url | absolute_url }}" data-blog-read-mode="display" hidden></span>
             </span>
-            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            {% include icon.liquid name='arrow-right' class='site-icon--forward' %}
           </span>
         </a>
       {% endfor %}
@@ -324,19 +324,19 @@ pagination:
       </p>
       <div class="post-tags" role="group" aria-label="Post topics">
         <a href="{{ year | prepend: '/blog/' | relative_url }}">
-          <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
+          {% include icon.liquid name='calendar' %} {{ year }} </a>
 
           {% if tags != "" %}
             {% for tag in display_tags limit: 4 %}
             <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">
-              <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}</a>
+              {% include icon.liquid name='hash' %} {{ tag }}</a>
             {% endfor %}
           {% endif %}
 
           {% if categories != "" %}
             {% for category in post.categories limit: 1 %}
             <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">
-              <i class="fa-solid fa-tag fa-sm"></i> {{ category }}</a>
+              {% include icon.liquid name='tag' %} {{ category }}</a>
             {% endfor %}
           {% endif %}
     </div>

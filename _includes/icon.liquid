@@ -1,0 +1,27 @@
+{%- comment -%}
+  Interface icons (2026-10-19 design language refresh, docs/material-lite-revamp.md): one outline family,
+  Lucide (ISC; the glyphs and the licence live in _data/icons.yml), drawn inline in currentColor at 1em so
+  each icon takes the size and colour of the words beside it. Decorative by default; the control or link
+  that holds it carries the accessible name. Unknown names render nothing.
+  Usage: {% include icon.liquid name='arrow-right' %} or {% include icon.liquid name='x' class='site-icon--morph' %}
+{%- endcomment -%}
+{%- assign icon_name = include.name | default: '' -%}
+{%- assign icon_paths = site.data.icons[icon_name] -%}
+{%- if icon_paths -%}
+  <svg
+    class="site-icon{% if include.class %} {{ include.class }}{% endif %}"
+    viewBox="0 0 24 24"
+    width="1em"
+    height="1em"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+    data-icon="{{ icon_name }}"
+  >
+    {{- icon_paths -}}
+  </svg>
+{%- endif -%}

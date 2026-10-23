@@ -83,6 +83,50 @@ export function rippleDelays(points, origin, { speed = 8, maxDelay = 120 } = {})
   return points.map((point) => Math.round(Math.min(maxDelay, Math.hypot(point.x - origin.x, point.y - origin.y) / speed)));
 }
 
+// The theme's light spreads like a drop finding its edge. Every sample has the same quadratic
+// path topology, so the browser interpolates it without a per-frame DOM write. The last outline
+// clears every corner, even when the choice is near an edge of a tall phone viewport.
+export function waterPath(cx, cy, radius, wobble, phase, points = 72) {
+  const vertices = Array.from({ length: points }, (_, i) => {
+    const a = (i / points) * Math.PI * 2;
+    const wave = 0.55 * Math.sin(3 * a + 1.7 + phase * 2.1) + 0.3 * Math.sin(5 * a + 0.4 - phase * 3.3) + 0.15 * Math.sin(9 * a + 2.9 + phase * 5.2);
+    const r = Math.max(0, radius * (1 + wobble * wave));
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  });
+  const mid = (p, q) => [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
+  const pair = (p) => p.map((v) => v.toFixed(1)).join(" ");
+  let path = `M${pair(mid(vertices[0], vertices[1]))}`;
+  for (let i = 1; i <= points; i++) path += `Q${pair(vertices[i % points])} ${pair(mid(vertices[i % points], vertices[(i + 1) % points]))}`;
+  return `path("${path}Z")`;
+}
+
+export function waterFrames({ x, y, width, height, frames = 28, points = 72 } = {}) {
+  const reach = Math.hypot(Math.max(x, width - x), Math.max(y, height - y)) * 1.12;
+  const ease = spring("gentle").ease;
+  return Array.from({ length: frames + 1 }, (_, i) => {
+    const p = i / frames;
+    return { clipPath: waterPath(x, y, 6 + (reach - 6) * ease(p), 0.075 * (1 - p) ** 1.4 + 0.004, 0.6 + p, points) };
+  });
+}
+
+export function waterReveal(origin, root = document.documentElement) {
+  const pseudoElement = "::view-transition-new(root)";
+  const animation = root.animate(waterFrames({ ...origin, width: window.innerWidth, height: window.innerHeight }), {
+    duration: 620,
+    easing: "linear",
+    fill: "both",
+    pseudoElement,
+  });
+  // Some engines accept unknown animation options silently. Never clip the real document when
+  // pseudo-element animation is unavailable; theme.js retains its CSS snapshot reveal instead.
+  if (animation.effect?.pseudoElement !== pseudoElement) {
+    animation.finished.catch(() => {});
+    animation.cancel();
+    return null;
+  }
+  return animation;
+}
+
 // Keyframes for something travelling from offset (x0, y0) to rest on a spring. It stretches a little
 // along its path while the spring pulls it up to speed and squashes as it slows into place (area
 // kept), so it lands with a hint of weight. The squash scales with the distance travelled, so a
@@ -204,6 +248,7 @@ if (typeof window !== "undefined") {
     springNow,
     springStep,
     rippleDelays,
+    waterReveal,
     flightFrames,
     scrollFollow,
   });

@@ -46,7 +46,7 @@ design_story_class: publications-page
       aria-controls="publication-list-view"
       aria-pressed="true"
     >
-      <i class="fa-solid fa-list" aria-hidden="true"></i>
+      {% include icon.liquid name='list' %}
       <span>Paper List</span>
     </button>
     <button
@@ -56,7 +56,7 @@ design_story_class: publications-page
       aria-controls="paper-constellation-view"
       aria-pressed="false"
     >
-      <i class="fa-solid fa-circle-nodes" aria-hidden="true"></i>
+      {% include icon.liquid name='waypoints' %}
       <span>Paper Constellation</span>
     </button>
   </div>
@@ -98,7 +98,7 @@ design_story_class: publications-page
     <div class="publication-spooder-cta-actions">
       <a href="{{ '/projects/hci-spooder-man/' | relative_url }}">
         <span>Get the spoody-suits</span>
-        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        {% include icon.liquid name='arrow-right' class='site-icon--forward' %}
       </a>
     </div>
   </div>

@@ -12,8 +12,6 @@
   // a run that is interrupted hands each card its current speed instead of restarting from rest.
   // Without the motion module the cards change state at once, as they do with reduced motion.
   const KEYFRAMES = 30;
-  const CONTENT =
-    ".project-card-heading, .project-card-meta, .card-text, .project-card-direct-link, .project-card-story-beat, .project-card-takeaways, .project-card-actions-expanded > *";
   let activeCard = null;
   let clock = null;
   // Where the reader was before a card opened, so closing can give that place back.
@@ -25,9 +23,9 @@
     if (prefersReducedMotion() || !motion?.spring || !("animate" in Element.prototype)) return null;
     return {
       layout: motion.spring("layout"),
-      gentle: motion.spring("gentle"),
       confident: motion.spring("confident"),
       playful: motion.spring("playful"),
+      morph: motion.spring("morph"),
     };
   };
 
@@ -205,7 +203,7 @@
       return plan;
     }
 
-    const { layout, gentle, confident, playful } = motion;
+    const { layout, confident, playful, morph } = motion;
     const duration = layout.duration;
     // The opened card's actions bud out as one liquid drop and split into their buttons
     // (liquid-drop.mjs); without it they rise in with the rest of the story.
@@ -349,39 +347,18 @@
       }
     }
 
-    // Then its words, in reading order: a short rise and fade, so the card's growth reads first and
-    // the story arrives as it settles. Copy that only changed place (a phone's single column) stays.
-    const stage = (card, start, step) => {
-      const firstBody = firstRects.get(card)?.body;
-      const body = lastRects.get(card)?.body;
-      const moved = Boolean(firstBody && body && Math.hypot(firstBody.left - body.left, firstBody.top - body.top) > 24);
-      let index = 0;
-      card.querySelectorAll(CONTENT).forEach((element) => {
-        if (element.closest("[hidden]") || !element.getClientRects().length || element.matches(".liquid-drop-layer")) return;
-        if (liquidActions && card === openingCard && element.parentElement?.matches(".project-card-actions-expanded")) return;
-        const fresh =
-          element.closest(".project-card-story, .project-card-takeaways, .project-card-panel") || element.matches(".project-card-takeaways");
-        if (!moved && !fresh) return;
-        const frames = springFrames(gentle, gentle.duration, { y0: 7 }).map((transform, i) => ({
-          transform,
-          opacity: i === 0 ? 0 : Math.min(1, gentle.ease(i / KEYFRAMES) * 1.25),
-        }));
-        running.animations.push(
-          element.animate(frames, { duration: gentle.duration, delay: start + step * index, easing: "linear", fill: "backwards" })
-        );
-        index += 1;
-      });
-    };
+    // The layout carries the whole card; its words remain readable throughout the change.
     if (openingCard) {
-      stage(openingCard, 70, 45);
-      // The plus becomes the close button, in the corner where it was.
+      // The plus, already turned into a cross under the pointer (_sass/_glass.scss), grows into the
+      // close button in the corner where it was: a shape morph on the morph spring, not a swap.
       const close = openingCard.querySelector("[data-project-card-close]");
+      const grow = morph || confident;
       if (close?.getClientRects().length) {
-        const frames = springFrames(confident, confident.duration, {}).map((_, i) => {
-          const p = confident.ease(i / KEYFRAMES);
-          return { transform: `rotate(${(-90 * (1 - p)).toFixed(2)}deg) scale(${(0.6 + 0.4 * p).toFixed(3)})`, opacity: Math.min(1, p * 1.6) };
+        const frames = springFrames(grow, grow.duration, {}).map((_, i) => {
+          const p = grow.ease(i / KEYFRAMES);
+          return { transform: `scale(${(0.73 + 0.27 * p).toFixed(3)})`, opacity: Math.min(1, (i / KEYFRAMES) * 3) };
         });
-        running.animations.push(close.animate(frames, { duration: confident.duration, delay: 40, easing: "linear", fill: "backwards" }));
+        running.animations.push(close.animate(frames, { duration: grow.duration, delay: 30, easing: "linear", fill: "backwards" }));
       }
       if (liquidActions) {
         running.animations.push(
@@ -393,7 +370,6 @@
         );
       }
     }
-    if (closingCard) stage(closingCard, 40, 30);
 
     // The page follows on the same spring and clock (site-motion.mjs scrollFollow): a card opening
     // past the edge of the view brings the page along as it grows, and a closing one hands the

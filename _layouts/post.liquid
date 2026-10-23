@@ -46,17 +46,25 @@ layout: default
     </p>
     <p class="post-tags">
       {% if url_beginning == '/blog/' %}
-        <a href="{{ year | prepend: '/blog/' | relative_url }}"> <i class="fa-solid fa-calendar fa-sm"></i> {{ year }} </a>
+        <a href="{{ year | prepend: '/blog/' | relative_url }}">
+          {% include icon.liquid name='calendar' %}
+          {{ year }}
+        </a>
       {% else %}
-        <i class="fa-solid fa-calendar fa-sm"></i> {{ year }}
+        {% include icon.liquid name='calendar' %}
+        {{ year }}
       {% endif %}
       {% if tags != '' %}
         <span class="post-meta-separator" aria-hidden="true">&middot;</span>
         {% for tag in display_tags %}
           {% if url_beginning == '/blog/' %}
-            <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}"> <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}</a>
+            <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">
+              {% include icon.liquid name='hash' %}
+              {{ tag -}}
+            </a>
           {% else %}
-            <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}
+            {% include icon.liquid name='hash' %}
+            {{ tag }}
           {% endif %}
           {% unless forloop.last %}
             &nbsp;
@@ -68,9 +76,13 @@ layout: default
         <span class="post-meta-separator" aria-hidden="true">&middot;</span>
         {% for category in page.categories %}
           {% if url_beginning == '/blog/' %}
-            <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}"> <i class="fa-solid fa-tag fa-sm"></i> {{ category -}}</a>
+            <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">
+              {% include icon.liquid name='tag' %}
+              {{ category -}}
+            </a>
           {% else %}
-            <i class="fa-solid fa-tag fa-sm"></i> {{ category }}
+            {% include icon.liquid name='tag' %}
+            {{ category }}
           {% endif %}
           {% unless forloop.last %}
             &nbsp;

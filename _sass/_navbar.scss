@@ -155,6 +155,12 @@
     line-height: 1;
   }
 
+  // The fruit sits about 4 px inside its mark's box (the drawing's margin), so the mark steps back by
+  // that much and the orange itself starts on the content edge.
+  .site-brand .brand-orange {
+    margin-left: -0.275rem;
+  }
+
   .navbar-nav {
     display: flex;
     flex-direction: row;
@@ -411,8 +417,10 @@
   color: var(--md-lite-on-tonal);
 }
 
-#search-toggle .nav-control-link i {
-  font-size: 1.05rem;
+// The search glyph matches the theme icon beside it: 20 px, the same outline weight.
+#search-toggle .nav-control-link .site-icon {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .theme-toggle-icon {

@@ -308,6 +308,39 @@ html.glass-motion .projects .project-card:not(.is-expanded):not(.is-open) > .car
   transform: none;
 }
 
+// Icons in card controls (_includes/icon.liquid). Pointing at or focusing a closed card turns its
+// plus 45 degrees into the cross that will close it; the open card's close button then grows out of
+// that spot (project-cards.js), so the control changes shape instead of being swapped.
+.projects .project-card-preview-affordance .site-icon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--spring-morph-duration) var(--spring-morph);
+}
+
+.projects .project-card-preview:hover .project-card-plus,
+.projects .project-card-preview:focus-within .project-card-plus {
+  transform: rotate(45deg);
+}
+
+.projects .project-card-close .site-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.projects .project-card-open-link .site-icon,
+.project-case-actions a .site-icon {
+  width: 1.15em;
+  height: 1.15em;
+}
+
+// A fun project's own icon: a small tonal chip in the project's accent, no outline.
+.projects .project-card-icon {
+  border: 0;
+  border-radius: var(--md-lite-shape-sm);
+  background: color-mix(in srgb, var(--project-accent) 14%, transparent);
+  color: color-mix(in srgb, var(--project-accent) 72%, var(--global-text-color));
+}
+
 // The close button: a tonal icon button where the plus was.
 .projects .project-card-close {
   @include md-button(var(--md-lite-surface-container-highest), var(--md-lite-on-surface), 1.375rem);
@@ -355,6 +388,100 @@ html.glass-motion {
     transform: translateY(var(--glass-lift)) scale(var(--glass-press));
 
     @include md-press-motion();
+  }
+}
+
+// A paper's links (DOI, PDF, Code and the rest) are a row of equal actions: flat outlined buttons in
+// the theme's ink, so they read as actions beside the tonal metadata chips above them, with a state
+// layer instead of a lift and glow, and corners that square on a press (2026-10-22).
+.publications ol.bibliography li .links a.btn {
+  border: 1px solid color-mix(in srgb, var(--global-theme-color) 34%, var(--md-lite-outline-variant));
+  border-radius: 1.25rem;
+  background: transparent;
+  box-shadow: none;
+  color: var(--global-theme-color);
+  transform: none;
+  transition:
+    background-color 160ms var(--md-lite-easing-standard),
+    border-color 160ms var(--md-lite-easing-standard),
+    color 160ms var(--md-lite-easing-standard),
+    border-radius var(--spring-morph-duration) var(--spring-morph);
+
+  &:hover,
+  &:focus-visible {
+    border-color: color-mix(in srgb, var(--global-theme-color) 60%, transparent);
+    background: color-mix(in srgb, var(--global-theme-color) var(--md-lite-state-hover-opacity), transparent);
+    box-shadow: none;
+    color: var(--global-theme-color);
+    transform: none;
+  }
+
+  &:active {
+    border-radius: var(--md-lite-shape-sm);
+    background: color-mix(in srgb, var(--global-theme-color) var(--md-lite-state-press-opacity), transparent);
+  }
+}
+
+.publications ol.bibliography li .links a.award.btn {
+  border-color: var(--global-highlight-color);
+}
+
+// The publications' Paper List / Paper Constellation switch speaks the site's one segmented language:
+// a tonal track, and the chosen view in the tonal indicator instead of a white chip with a shadow.
+.publication-view-switcher > div {
+  border: 0;
+  background: var(--md-lite-surface-container-high);
+}
+
+.publication-view-button {
+  color: var(--md-lite-on-surface-variant);
+
+  .site-icon {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+}
+
+.publication-view-button-active {
+  background: var(--md-lite-tonal);
+  box-shadow: none;
+  color: var(--md-lite-on-tonal);
+}
+
+// One status chip (2026-10-22): the homepage's, the blog's and /news/'s "Pinned" share the tonal chip,
+// small corners in the primary container's fill and ink, in sentence case.
+.blog-pinned-chip,
+.news-pin,
+.home-news-pin {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.35rem;
+  padding: 0.05rem 0.45rem;
+  border: 0;
+  border-radius: var(--md-lite-shape-sm);
+  background: var(--md-lite-tonal);
+  color: var(--md-lite-on-tonal);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.25;
+  text-transform: none;
+}
+
+@media (forced-colors: active) {
+  .blog-pinned-chip,
+  .news-pin,
+  .home-news-pin {
+    border: 1px solid CanvasText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .publications ol.bibliography li .links a.btn {
+    transition:
+      background-color 120ms linear,
+      color 120ms linear;
   }
 }
 
@@ -440,6 +567,10 @@ html.glass-motion {
   .projects .project-card > .card,
   .projects .project-card-media img {
     transform: none !important;
+  }
+
+  .projects .project-card-preview-affordance .site-icon {
+    transition: none;
   }
 }
 

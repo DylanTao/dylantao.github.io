@@ -41,7 +41,7 @@
   gsap.registerPlugin(ScrollTrigger);
   root.classList.add("cinematic-live");
 
-  // 1. Card grids: cards rise into place as they enter, section headings slide in.
+  // 1. Card grids: cards rise into place as they enter. Headings stay on their reading baseline.
   const grids = gsap.utils.toArray(".cinematic [data-project-card-grid]").filter((grid) => !grid.closest("[data-project-deck-children]"));
   grids.forEach((grid) => {
     const cards = gsap.utils.toArray(grid.querySelectorAll(":scope > [data-project-card]"));
@@ -68,18 +68,6 @@
       if (card) gsap.to(card, { y: 0, duration: 0.2, overwrite: true, clearProps: "transform" });
     });
   });
-
-  gsap.utils
-    .toArray(".cinematic .project-category-heading, .cinematic .site-experiment-index-heading, .cinematic .project-subsection-heading")
-    .forEach((heading) => {
-      gsap.from(heading, {
-        x: -18,
-        duration: arrive.duration ?? 0.7,
-        ease: arrive.ease,
-        clearProps: "transform",
-        scrollTrigger: { trigger: heading, start: "top 92%", once: true },
-      });
-    });
 
   // 3-4. The spotlight and tilt over card grids moved to glass-motion.mjs (2026-10-18): the glass
   //      highlight follows the pointer and every glass card leans, on every page, not only here.

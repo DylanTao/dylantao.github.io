@@ -378,7 +378,7 @@ function boot(stage) {
       const from = center(rect);
       const to = target ? center(target) : { x: from.x, y: from.y - 40 };
       const scale = target ? Math.max(0.12, Math.min(0.5, target.width / rect.width)) : 0.6;
-      const frames = foldFrames(gentle, { x1: to.x - from.x, y1: to.y - from.y, s1: scale, r1: (index % 2 ? 1 : -1) * 4 });
+      const frames = foldFrames(gentle, { x1: to.x - from.x, y1: to.y - from.y, s1: scale });
       const animation = ghost.animate(frames, timing(gentle.duration * 0.7, Math.min(index, 8) * 14, "both"));
       animation.finished.finally(() => ghost.remove());
     });
@@ -474,7 +474,6 @@ function boot(stage) {
     if (origin) {
       const rects = arriving.map((element) => after.get(element));
       const delays = SiteMotion.rippleDelays(rects.map(center), origin, { speed: 7, maxDelay: 140 });
-      const angles = fanAngles(arriving.length);
       arriving.forEach((element, index) => {
         const rect = rects[index];
         if (!rect?.width || !rect.height) return;
@@ -484,28 +483,13 @@ function boot(stage) {
           x0: origin.x - c.x,
           y0: origin.y - c.y,
           s0: Math.max(0.18, Math.min(0.9, fit)),
-          r0: angles[index] ?? 0,
+          squash: 0,
         });
         current.animations.push(element.animate(frames, timing(layout.duration, delays[index])));
       });
     }
 
-    // 5. The banner's story arrives in reading order once the card has grown.
-    const banner = plan.direction === "down" ? opened : plan.to.length ? bySlug.get(plan.to.at(-1)) : null;
-    if (banner && plan.direction === "down") {
-      let index = 0;
-      surfaceOf(banner)
-        ?.querySelectorAll(".project-card-story-beat, .project-card-takeaways, .project-card-actions-expanded > *, .project-card-close")
-        .forEach((element) => {
-          if (element.closest("[hidden]")) return;
-          const frames = window.SiteMotion.springSamples(gentle, 8, 0, gentle.duration, KEYFRAMES).map((y, i) => ({
-            transform: `translateY(${y.toFixed(2)}px)`,
-            opacity: i === 0 ? 0 : Math.min(1, gentle.ease(i / KEYFRAMES) * 1.3),
-          }));
-          current.animations.push(element.animate(frames, timing(gentle.duration, 120 + index * 45)));
-          index += 1;
-        });
-    }
+    // The banner and its words are one surface; no delayed reveal gates the story.
     // 6. A new crumb slides in beside the others.
     const lastCrumb = trailList?.lastElementChild;
     if (lastCrumb && plan.direction === "down") {
