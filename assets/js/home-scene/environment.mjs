@@ -4,7 +4,16 @@ import { surfaceNoise } from "./realism.mjs";
 import { createSeaReflection } from "./reflection.mjs";
 import { createWildlife } from "./wildlife.mjs";
 import { beachPoint } from "./shore.mjs";
-import { OCEAN_WAVES, bindOceanWind, oceanFieldGLSL, oceanRipplesGLSL, sampleOcean } from "./ocean-spectrum.mjs";
+import {
+  OCEAN_WAVES,
+  bindOceanWind,
+  oceanFieldGLSL,
+  oceanRipplesGLSL,
+  sampleOcean,
+  syncOceanFFT,
+  oceanFFTEvidence,
+  disposeOceanFFT,
+} from "./ocean-spectrum.mjs";
 import { createWindParticles } from "./wind-particles.mjs";
 import { coastWind } from "./wind-field.mjs";
 import { createBathymetry } from "./bathymetry.mjs";
@@ -688,6 +697,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   }
   function update(elapsed, delta = 0) {
     time.value = elapsed;
+    syncOceanFFT(elapsed);
     // The stars twinkle only while the scene moves: a reduced-motion scene, which never steps this
     // clock, keeps them steady, and a paused one holds them as they were.
     starField.setMotion(delta > 0);
@@ -702,6 +712,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     syncWakes();
   }
   function dispose() {
+    disposeOceanFFT();
     shoreTexture.dispose();
     bathymetry.dispose();
     wildlife.dispose();
@@ -758,6 +769,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       particles: 140 + 42,
       particleMotion: particleSystems.map(({ population, prewarmMilliseconds }) => ({ ...population.evidence(), prewarmMilliseconds })),
       water: {
+        field: oceanFFTEvidence(),
         waves: OCEAN_WAVES.length,
         vertices: waterPositions.count,
         triangles: waterGeometry.index.count / 3,
