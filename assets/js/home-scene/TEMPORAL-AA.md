@@ -1,0 +1,15 @@
+# Moving temporal antialiasing study
+
+Open the built homepage with `?scene-lab=1&antialias=temporal`, then enter the 3D house. This optional study accumulates moving frames. The public default keeps the existing four-sample spatial pipeline and does not import this module.
+
+The pass jitters the perspective projection with eight centered Halton samples. A separate geometry raster records current/previous projected positions and expected previous view depth, including previous bone matrices and CPU-updated vertex positions. Linear HDR history is reprojected, checked against previous depth and clipped to the current 3×3 color neighborhood. One-pixel surface-velocity dilation covers spatially multisampled silhouettes. Color history excludes projection jitter; previous-depth lookup includes it.
+
+Transparent, transmissive, shader-deformed, instanced, morphed, displaced and custom-depth surfaces reject history at their current rasterized coverage. They do not have fabricated water, reflection or shader motion vectors. Unsupported raw shaders/drawables disable accumulation for the entire frame. Animated lighting and reflection changes use a conservative color-reactivity gate; this is not a physically complete transport-history solution. Real sky/water edges may receive less temporal coverage than the opaque fixture.
+
+The pass runs after beauty and before haze, bloom and output conversion. Its independent history target is copied back into beauty's color with clearing disabled, preserving current depth for haze. Camera projection and inverse are restored after rendering, including preparation and cleanup failures. Frozen spatial photo capture temporarily disables temporal accumulation and resets it afterward.
+
+Two HDR history targets and two motion/depth targets cost approximately 40 bytes per pixel. Above 1.1 million drawing-buffer pixels they shrink to 1×1 and the existing spatial pipeline continues. Previous geometry and bone storage is reported separately; unseen geometry/material/skeleton history is released. Resize, mode/state changes, interrupted frames and camera cuts reset history. Smooth camera/zoom movement retains valid reprojection.
+
+[Retained evidence](../../../artwork/coastal-home/reviews/temporal-aa/README.md) includes the independent moving-pose reference, a failing disabled-depth control, native skin/vertex/camera vectors, haze-depth continuity, failure cleanup, actual-house interaction and explicit cost limits. The native acceptance case is registered in `scene-core-1`.
+
+The implementation follows established temporal reconstruction principles discussed in [Marrs et al., Adaptive Temporal Antialiasing (2018)](https://research.nvidia.com/sites/default/files/pubs/2018-08_Adaptive-Temporal-Antialiasing/adaptive-temporal-antialiasing-preprint.pdf). It is original site code, not a reproduction of that paper's adaptive ray-tracing method; no paper code or weights were imported. Three.js r164 retains its [vendored MIT notice](../vendor/three-r164/README.md).

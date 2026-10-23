@@ -1000,7 +1000,7 @@ Sirui Tao is a coauthor. This guide does not assign an unverified individual tas
 - Blog: https://dylantao.github.io/blog/
 - CV: https://dylantao.github.io/cv/
 - Current structured CV: https://dylantao.github.io/assets/json/resume.json
-- Manually maintained CV PDF, earlier version: https://dylantao.github.io/assets/pdf/Sirui_Tao_CV_Public.pdf. Its citation counts are dated July 2026 and paper statuses differ; use the web CV and JSON for current entries and publication statuses. The document does not record an export date.
+- Current CV PDF: https://dylantao.github.io/assets/pdf/Sirui_Tao_CV_Public.pdf. Four tagged pages generated from the same current public JSON Resume as the web CV, preserving research credit, rejection notes, and native links. The reproducible print source is documented in `artwork/cv/README.md`; no older citation statistics are carried forward.
 - News: https://dylantao.github.io/news/
 - Sitemap: https://dylantao.github.io/sitemap.xml
 

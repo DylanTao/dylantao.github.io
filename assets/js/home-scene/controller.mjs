@@ -2766,7 +2766,12 @@ export function createCoastalHome(container, records, artifacts) {
     withoutContactLighting(finish?.contactLighting, () =>
       pacific?.reflect(camera, style === "realistic" && currentRoom === "outside" && labSettings.reflection)
     );
-    if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside" && !animalFocus);
+    if (style === "realistic" && finish)
+      finish.render(
+        camera,
+        currentRoom === "outside" && !animalFocus,
+        JSON.stringify([currentRoom, avatarId, routine?.minute, paused, reduced, consecutive])
+      );
     else renderer.render(scene, camera);
     if (moving && consecutive) {
       const submit = performance.now() - submitStart;
@@ -2878,6 +2883,7 @@ export function createCoastalHome(container, records, artifacts) {
       cleanup.push(() => shadowCache?.dispose());
       surfaceLook.sheen = look.sheen;
       const bloom = look.bloom ? await import("../vendor/three-r164/postprocessing/UnrealBloomPass.js") : null;
+      const temporal = labEnabled && flags.get("antialias") === "temporal" ? await import("./temporal-aa.mjs") : null;
       if (disposed) return;
       // The sky, the sun and the coast's air (atmosphere.mjs, haze.mjs): the dome and the haze pass
       // share one set of tables. ?haze=0 keeps three's linear fog for comparison.
@@ -2885,6 +2891,7 @@ export function createCoastalHome(container, records, artifacts) {
       cleanup.push(() => atmosphere?.dispose());
       finish = createFinish(renderer, scene, perspective, {
         profileGPU: labEnabled,
+        temporalFactory: temporal?.createTemporalAA,
         // 1.6 sits above sunlit walls (no bloom at midday) and below the lamps and sconces.
         bloom: bloom && { Pass: bloom.UnrealBloomPass, strength: 0.28, radius: 0.42, threshold: 1.6 },
         // ?light-air=0 keeps the haze analytic (no march for shafts, marine fog or sunbeams).
@@ -3107,45 +3114,57 @@ export function createCoastalHome(container, records, artifacts) {
     };
     container.labScene.captureStillPhoto = async (samples = 8) => {
       const { captureStillPhoto } = await import("./still-photo.mjs");
-      return captureStillPhoto({
-        renderer,
-        camera,
-        samples,
-        isFrozen: () => Boolean(!disposed && compositionReady && (paused || reduced) && routine && !routine.live),
-        stateKey: () =>
-          JSON.stringify([
-            elapsed,
-            routine?.minute,
-            currentRoom,
-            avatarId,
-            camera.position.toArray(),
-            camera.quaternion.toArray(),
-            camera.fov,
-            camera.aspect,
-            camera.uuid,
-            desiredTarget.toArray(),
-            yaw,
-            pitch,
-            desiredRadius,
-            desiredFov,
-            currentRecord,
-            displayedVinylRecord,
-            pendingVinylRecord,
-            renderer.info.memory,
-            labSettings,
-            renderer.domElement.width,
-            renderer.domElement.height,
-            look,
-          ]),
-        renderFrame: () => {
-          if (disposed) return;
-          withoutContactLighting(finish?.contactLighting, () =>
-            pacific?.reflect(camera, style === "realistic" && currentRoom === "outside" && labSettings.reflection)
-          );
-          if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside" && !animalFocus);
-          else renderer.render(scene, camera);
-        },
-      });
+      // A spatial reference cannot contain history from a different jitter sequence.
+      const temporalWasEnabled = finish?.evidence.temporal?.requested;
+      finish?.setTemporalEnabled(false);
+      try {
+        return await captureStillPhoto({
+          renderer,
+          camera,
+          samples,
+          isFrozen: () => Boolean(!disposed && compositionReady && (paused || reduced) && routine && !routine.live),
+          stateKey: () =>
+            JSON.stringify([
+              elapsed,
+              routine?.minute,
+              currentRoom,
+              avatarId,
+              camera.position.toArray(),
+              camera.quaternion.toArray(),
+              camera.fov,
+              camera.aspect,
+              camera.uuid,
+              desiredTarget.toArray(),
+              yaw,
+              pitch,
+              desiredRadius,
+              desiredFov,
+              currentRecord,
+              displayedVinylRecord,
+              pendingVinylRecord,
+              renderer.info.memory,
+              labSettings,
+              renderer.domElement.width,
+              renderer.domElement.height,
+              look,
+            ]),
+          renderFrame: () => {
+            if (disposed) return;
+            withoutContactLighting(finish?.contactLighting, () =>
+              pacific?.reflect(camera, style === "realistic" && currentRoom === "outside" && labSettings.reflection)
+            );
+            if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside" && !animalFocus);
+            else renderer.render(scene, camera);
+          },
+        });
+      } finally {
+        finish?.setTemporalEnabled(temporalWasEnabled);
+        finish?.resetTemporal("still photo");
+      }
+    };
+    container.labScene.setTemporalEnabled = (value) => {
+      finish?.setTemporalEnabled(value);
+      requestFrame();
     };
     const output = ui.querySelector("[data-world-study-output]");
     const status = ui.querySelector("[data-world-study-status]");
