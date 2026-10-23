@@ -66,8 +66,13 @@ This repeated gap led to one small maintenance rule in the existing heuristics a
 
 The first full local desktop follow-up stopped after 42 passes at a separate archive-date mismatch. A read-only Ruby probe reproduced Windows generating `Oct 15` from the post's midnight October 16 timestamp when `TZ` is unset, and `Oct 16` under UTC, matching CI. The source timestamp and expected archive date remain unchanged. The UTC rebuild reports 134.834 seconds and passes the generated-output validator. The complete 84-case desktop site scope then finishes with **82 passes and two intentional skips in 8.7 minutes**, including the complete human/AI journey, head-alternate matrix, and all nine cases after the earlier CI failure point. The original failure and final scope remain in `.jekyll-cache/discovery-full-site-desktop.log`, `discovery-full-site-desktop-utc.log`, and their separate visual artifact directories. The guidance change also passes 257 Python tests and the critique skill validator; its independent scenario result is retained in `.jekyll-cache/skill-format-check/report.md`.
 
+## Resolved PDF boundary
+
+The subsequent [current PDF refresh](../current-cv-pdf-2026-10-23/README.md) recovered the matching public native document through the connected source and replaced the older download with four tagged Letter pages generated from the canonical public JSON. All current visible fields, dates, credits and links are checked against the actual PDF, and all four rendered pages were inspected. The source recipe and receipt make later updates reproducible; recovered native exports and account metadata remain outside the public projection. The earlier observations above describe the discovery checkpoint, when the original PDF was still retained.
+
+This outcome adds a narrow source-recovery lesson to the existing `Reflective Practice` guidance and routes CV PDF work from the portfolio-writing skill to its maintained recipe. A missing repository file is evidence of local absence, not proof that an available native source cannot be recovered.
+
 ## Remaining boundaries
 
-- The manual CV PDF is retained with its known citation date and older-status context. Its native editable source is absent from this repository; a future native refresh must reconcile current submission statuses and citation snapshots and preserve Sirui's control over the unpublished manuscript's placeholder title. The current web CV and its print layout provide the current record.
 - No authenticated Search Console/Bing/analytics report was used in this pass. Establish comparable baseline and follow-up periods before claiming a visibility increase. Public crawler access and metadata can be verified independently.
 - Moving-scene TAA and trained representation replacements retain their existing implementation gates in the [October handoff](../../october-2026-handoff.md). This discovery pass does not relabel the static rendering studies as those implementations.

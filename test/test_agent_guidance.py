@@ -61,7 +61,7 @@ SKILL_SOURCE_LINKS = {
         "WEBSITE_DESIGN_HEURISTICS.md",
         "docs/homepage-desk-scene-brief.md",
     },
-    "portfolio-writing-voice": {"WEBSITE_DESIGN_HEURISTICS.md", "docs/design-experiment-backlog.md", "docs/SEO.md"},
+    "portfolio-writing-voice": {"WEBSITE_DESIGN_HEURISTICS.md", "docs/design-experiment-backlog.md", "docs/SEO.md", "artwork/cv/README.md"},
     "tacit-knowledge-to-skill": {
         "WEBSITE_DESIGN_HEURISTICS.md",
         "docs/homepage-desk-scene-brief.md",
