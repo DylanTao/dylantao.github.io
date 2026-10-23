@@ -1,4 +1,4 @@
 interface:
   display_name: "Tacit Knowledge to Skill"
   short_description: "Decide when living heuristics become skills"
-  default_prompt: "Use $tacit-knowledge-to-skill to place this durable lesson in the right canonical document or skill and validate the guidance links."
+  default_prompt: "Use $tacit-knowledge-to-skill to turn an observed outcome into the smallest useful update to the owning human document and existing skill, then validate the guidance."

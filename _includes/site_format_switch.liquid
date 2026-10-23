@@ -17,13 +17,15 @@
   {% assign ai_anchor = '#publications' %}
   {% assign ai_is_alternate = true %}
 {% elsif current_route contains '/projects/' %}
-  {% assign project_slug = current_route | remove_first: '/projects/' | remove: '/' %}
-  {% if project_slug == '' %}
-    {% assign ai_anchor = '#projects' %}
-  {% else %}
-    {% assign ai_anchor = project_slug | prepend: '#project-' %}
+  {% assign current_project_path = current_route | relative_url %}
+  {% assign current_project = site.data.project_catalog.projects | where: 'human_path', current_project_path | first %}
+  {% assign ai_anchor = '#projects' %}
+  {% if current_project %}
+    {% assign ai_anchor = current_project.slug | prepend: '#project-' %}
+    {% assign ai_is_alternate = true %}
+  {% elsif current_route == '/projects/' %}
+    {% assign ai_is_alternate = true %}
   {% endif %}
-  {% assign ai_is_alternate = true %}
 {% elsif current_route contains '/blog/' %}
   {% assign ai_anchor = '#writing' %}
   {% assign ai_is_alternate = true %}

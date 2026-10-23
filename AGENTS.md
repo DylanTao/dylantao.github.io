@@ -10,8 +10,8 @@
 - Use `.agents/skills/al-folio-bootstrap/SKILL.md` for new-site setup tasks.
 - Use `.agents/skills/al-folio-v1-migration/SKILL.md` when planning a full customized-fork migration.
 - Use `.codex/skills/tacit-knowledge-to-skill/SKILL.md` when deciding whether a living heuristic should stay human-facing, become a new Codex skill, or update an existing skill.
-- Use `.codex/skills/website-design-critique/SKILL.md` for homepage/sitewide visual critique, responsive polish, and restrained design passes.
-- Use `.codex/skills/portfolio-writing-voice/SKILL.md` for blog, project, case-study, and site-copy edits that need Sirui's research voice and source-credit habits.
+- Use `.codex/skills/website-design-critique/SKILL.md` for rendered critique, responsive polish, accessibility, and restrained design passes; compare the intended visitor benefit with the observed result.
+- Use `.codex/skills/portfolio-writing-voice/SKILL.md` for blog, project, CV, discovery summaries, and site-copy edits that need Sirui's research voice and source-credit habits.
 - Use `.codex/skills/homepage-desk-scene/SKILL.md` for the homepage 2D/3D desk, album, coffee-stain, and cliff-cave scene.
 - Use `.github/agents/customize.agent.md` for site customization work.
 - Use `.github/agents/docs.agent.md` for documentation work.

@@ -40,18 +40,19 @@ Preserve canonical human files unless the user explicitly wants a migration:
 
 Skills should quote paths and headings, not copy whole sections. If a skill and a human doc disagree, treat the human doc as the source of truth and update the skill to point at the current heading or workflow.
 
-Use the `Agent Quick Index` in `WEBSITE_DESIGN_HEURISTICS.md` and the current-priority and evidence headings in `docs/homepage-desk-scene-brief.md` as the stable retrieval surfaces. Prefer adding or correcting those indexes over duplicating prose in an overlay.
+Use the `Agent Quick Index` and `Reflective Practice` in `WEBSITE_DESIGN_HEURISTICS.md` and the current-priority and evidence headings in `docs/homepage-desk-scene-brief.md` as the stable retrieval surfaces. Prefer adding or correcting those indexes over duplicating prose in an overlay.
 
 ## Conversion Workflow
 
 1. Inspect the existing docs, skills, and agent guidance before deciding.
-2. Classify each candidate as `human doc only`, `new skill`, or `update existing skill`.
+2. Identify the observed outcome and the decision that guidance would change. Classify each candidate as `human doc only`, `new skill`, or `update existing skill`; keep a one-off incident in its evidence record.
 3. For each skill, write a trigger-rich frontmatter `description`; keep detailed source material in canonical docs.
 4. Add `agents/openai.yaml` with a literal `$skill-name` default prompt.
 5. Add or update a short routing note in `AGENTS.md` when the skill changes how future agents should start.
 6. Update `test/test_agent_guidance.py` when the canonical source map, required headings, or skill set changes.
 7. Validate the skill with `python C:\Users\dylan\.codex\skills\.system\skill-creator\scripts\quick_validate.py <skill-folder>`.
 8. Run `python -m unittest discover -s test -p "test_*.py"` and a targeted Prettier check before handoff.
+9. When the guidance materially changes judgment, try a realistic task with an independent agent if useful. Supply the request and raw artifacts without the desired conclusion; review what the agent actually does. Revise only for demonstrated misses, rather than adding a universal rule for each example.
 
 ## Validation
 

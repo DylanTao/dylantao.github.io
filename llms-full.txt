@@ -145,6 +145,8 @@ Bibliographic facts are derived from `_bibliography/papers.bib`. Interpretation 
 - Projects: {{ '/projects/' | absolute_url }}
 - Blog: {{ '/blog/' | absolute_url }}
 - CV: {{ '/cv/' | absolute_url }}
+- Current structured CV: {{ '/assets/json/resume.json' | absolute_url }}
+- Manually maintained CV PDF, July 2026 snapshot: {{ '/assets/pdf/Sirui_Tao_CV_Public.pdf' | absolute_url }}. Use the web CV and JSON for current entries and publication statuses.
 - News: {{ '/news/' | absolute_url }}
 - Sitemap: {{ '/sitemap.xml' | absolute_url }}
 

@@ -260,10 +260,11 @@ sitemap: true
   <h2>Structured CV index</h2>
   <p class="ai-section-lede">{{ site.data.resume.basics.summary }}</p>
   <nav class="ai-inline-links" aria-label="CV formats">
-    <a href="{{ '/cv/' | relative_url }}">Human CV</a>
-    <a href="{{ '/assets/json/resume.json' | relative_url }}">JSON Resume</a>
-    <a href="{{ '/assets/pdf/Sirui_Tao_CV_Public.pdf' | relative_url }}">Public PDF</a>
+    <a href="{{ '/cv/' | relative_url }}">Current human CV</a>
+    <a href="{{ '/assets/json/resume.json' | relative_url }}">Current JSON Resume</a>
+    <a href="{{ '/assets/pdf/Sirui_Tao_CV_Public.pdf' | relative_url }}">PDF snapshot · July 2026</a>
   </nav>
+  <p>The web CV and JSON Resume carry current entries. The manually maintained PDF is a July 2026 snapshot; its submission statuses and citation counts can differ.</p>
 </section>
 
 <section id="routes" class="ai-section">

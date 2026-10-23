@@ -1,6 +1,6 @@
 ---
 name: website-design-critique
-description: Critique and refine the customized DylanTao/Sirui academic portfolio using the living website design heuristics. Use for homepage redesigns, sitewide visual audits, screenshot critique loops, responsive polish, motion and hierarchy tuning, project-card or publication-page visual passes, and any request that says to make the site clearer, more polished, less flashy, more restrained, or grounded in design principles.
+description: Critique and refine Sirui's academic portfolio through rendered evidence and living design heuristics. Use for visual audits, responsive polish, motion, hierarchy, accessibility, or requests to make pages clearer, more restrained, or easier to navigate.
 ---
 
 # Website Design Critique
@@ -24,6 +24,7 @@ For targeted work, focus on these headings:
 - Accessibility And Quality Checks, Screenshot Critique Ritual
 - Page Archetypes, Occam's Razor For UI, Responsive Layout
 - Footer And Global Chrome, Conservative Inspiration Boundaries
+- Reflective Practice
 
 For homepage desk or 3D-widget work, switch to `$homepage-desk-scene` instead of treating the scene as generic page decoration.
 
@@ -41,13 +42,13 @@ For a new or deferred visual idea, also read `docs/design-experiment-backlog.md`
 ## Workflow
 
 1. Inspect one representative rendered state and capture a comparable baseline before changing taste-level details.
-2. State the visitor problem: what is unclear, too loud, hidden, cramped, overlapping, or unsupported by evidence?
+2. State the observed visitor problem and separate it from your interpretation: what is unclear, too loud, hidden, cramped, overlapping, or unsupported by evidence?
 3. Declare the route/file scope and non-goals, especially any excluded desk-scene or shared files.
 4. Prefer the smallest change that improves hierarchy, readability, responsive behavior, proof proximity, or interaction state.
 5. Preserve approved copy when layout can solve the issue.
 6. Keep motion explanatory, bounded, reduced-motion aware, and quieter than the words.
-7. Capture the same representative state after the change and explain what became clearer. Expand to the checkpoint matrix only after the direction is worth keeping.
-8. Update `WEBSITE_DESIGN_HEURISTICS.md` only when a durable new design lesson emerges.
+7. Capture the same representative state after the change and test the intended visitor benefit. Inspect the heading outline, duplicate IDs, native links, and keyboard focus when the affected page depends on them; use a no-JavaScript or print check when it answers the access question.
+8. Expand to the checkpoint matrix only after the direction is worth keeping. Record the observed outcome, tradeoff, and next decision using `Reflective Practice`; update `WEBSITE_DESIGN_HEURISTICS.md` only when a durable lesson emerges.
 
 ## Verification
 

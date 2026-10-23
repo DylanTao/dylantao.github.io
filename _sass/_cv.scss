@@ -295,7 +295,7 @@ p.location {
   text-decoration: none;
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 991.98px) {
   .cv-mobile-sections {
     z-index: 12;
     display: block;
@@ -347,7 +347,9 @@ p.location {
       line-height: 1.3;
     }
   }
+}
 
+@media (max-width: 767.98px) {
   .cv-pdf-link {
     margin-top: 0.25rem;
   }

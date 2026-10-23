@@ -142,10 +142,8 @@
 {% endif %}
 
 {% assign is_blog_post = false %}
-{% if page.url != '/blog/index.html' and page.url contains '/blog/' %}
-  {% unless page.url contains '/tag/' or page.url contains '/category/' %}
-    {% assign is_blog_post = true %}
-  {% endunless %}
+{% if page.collection == 'posts' %}
+  {% assign is_blog_post = true %}
 {% endif %}
 
 {% if site.serve_og_meta %}
@@ -270,7 +268,6 @@
   {% assign person_id = site_root | append: '#sirui-tao' %}
   {% assign website_id = site_root | append: '#website' %}
   {% assign profile_id = canonical_url | append: '#profile' %}
-  {% capture search_target %}{{ site_root }}/search?q={search_term_string}{% endcapture %}
 
   {% if page.url == '/' %}
     <!-- ProfilePage, Person, and Website graph for the canonical homepage entity. -->
@@ -317,11 +314,6 @@
             },
             "publisher": {
               "@id": {{ person_id | jsonify }}
-            },
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": {{ search_target | jsonify }},
-              "query-input": "required name=search_term_string"
             }
           }
         ]
@@ -362,7 +354,20 @@
     </script>
   {% endif %}
 
-  {% if page.publication_collection %}
+  {% if page.layout == 'cv' %}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "@id": {{ canonical_url | append: '#cv' | jsonify }},
+        "url": {{ canonical_url | jsonify }},
+        "name": {{ document_title | jsonify }},
+        "description": {{ page_description | jsonify }},
+        "mainEntity": { "@id": {{ person_id | jsonify }} },
+        "isPartOf": { "@id": {{ website_id | jsonify }} }
+      }
+    </script>
+  {% elsif page.publication_collection %}
     <!-- CollectionPage, ItemList, and ScholarlyArticle graph for the publication index. -->
     <script type="application/ld+json">
       {{ site.data.publication_catalog.schema_org.collection | jsonify }}
@@ -372,7 +377,7 @@
     <script type="application/ld+json">
       {{ site.data.publication_catalog.schema_org.articles_by_key[page.publication.key] | jsonify }}
     </script>
-  {% elsif page.url contains '/projects/' %}
+  {% elsif page.collection == 'projects' %}
     {% assign creative_same_as = '' | split: ',' %}
     {% if page.citation_pdf_url %}
       {% assign creative_same_as = creative_same_as | push: page.citation_pdf_url %}
@@ -384,11 +389,14 @@
     {% if page.github %}
       {% assign creative_same_as = creative_same_as | push: page.github %}
     {% endif %}
-    {% assign project_date_source = page.citation_publication_date | default: page.date %}
-    {% if project_date_source == null and page.year %}
-      {% capture project_date_source %}{{ page.year }}-01-01{% endcapture %}
+    {% assign project_date_source = page.citation_publication_date | default: page.debut_date %}
+    {% assign project_genre = 'Personal project' %}
+    {% if page.category == 'research' %}
+      {% assign project_genre = 'Research project' %}
+    {% elsif page.site_experiment %}
+      {% assign project_genre = 'Website experiment' %}
     {% endif %}
-    <!-- Schema.org for research publications and project pages. -->
+    <!-- Schema.org describes authored projects, with their actual category and known dates. -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -424,7 +432,7 @@
         "publisher": {
           "@id": {{ person_id | jsonify }}
         },
-        "genre": "Research Publication"
+        "genre": {{ project_genre | jsonify }}
         {% if project_date_source %}
           ,
           "datePublished": {{ project_date_source | date: '%Y-%m-%d' | jsonify }}
@@ -476,13 +484,18 @@
           "@id": {{ person_id | jsonify }}
         },
         "url": {{ canonical_url | jsonify }},
-        "datePublished": "{% if page.date %}{{ page.date | date: '%Y-%m-%d' }}{% else %}2025-01-01{% endif %}",
-        "dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at | date: '%Y-%m-%d' }}{% elsif page.date %}{{ page.date | date: '%Y-%m-%d' }}{% else %}2025-01-01{% endif %}",
+        {% if page.date %}
+          "datePublished": {{ page.date | date: '%Y-%m-%d' | jsonify }},
+        {% endif %}
+        {% assign post_modified_date = page.last_modified_at | default: page.date %}
+        {% if post_modified_date %}
+          "dateModified": {{ post_modified_date | date: '%Y-%m-%d' | jsonify }},
+        {% endif %}
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": {{ canonical_url | jsonify }}
         },
-        "articleSection": "{% if page.categories %}{{ page.categories | first }}{% else %}Research{% endif %}"
+        "articleSection": {{ page.categories | first | default: 'Research' | jsonify }}
         {% if og_image_url %}
           ,
           "image": {{ og_image_url | jsonify }}

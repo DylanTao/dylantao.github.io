@@ -318,3 +318,17 @@ Both prior Linux regressions also pass. Changed upstream overrides are re-acknow
 [Local acceptance and retained evidence](evidence/october-todo-completion-2026-10-23/README.md) distinguish native,
 rendered, measured and deferred results. Release acceptance also requires exact-SHA CI/Pages and live content/assets;
 those post-push results are tied to the published revision, rather than inferred from these local checks.
+
+### October 23 discovery, accessibility, and skills continuation
+
+The follow-up keeps Sirui's writing and research facts while improving how visitors and search systems reach the existing record:
+
+- [x] Collection-based post/project metadata, honest project genres and known dates, removal of the nonexistent search target, and the stable Pip AI anchor.
+- [x] Specific CV search metadata and a JSON alternative linked to the canonical Person, plus the configured Google verification token. This is technical publication, not evidence of account verification or ranking.
+- [x] CV H2/H3 semantics, stable unique section IDs, native no-JavaScript links, keyboard arrival, contact row headers/mailto, and a scoped current-web print layout.
+- [x] Consistent July 2026 labeling for the manually maintained PDF; current web/JSON facts and the public PDF remain unchanged.
+- [x] Honest navigation timing and once-only numeric scroll milestones, with meaningful old-implementation regression failures.
+- [x] Generated discovery checks in the existing CI entrypoint compare actual writing/catalog records, schemas, format fragments, and current CV JSON. New fixture tests cover both deployment baseurls and malformed projections.
+- [x] Outcome-based reflective practice in the canonical heuristics and the existing portfolio-writing, website-design-critique, and tacit-knowledge skills. The SEO guide now documents the actual site and a measurement plan.
+
+[Discovery evidence and remaining boundaries](evidence/discovery-accessibility-2026-10-23/README.md) retain the observed problems, decisions, verification, native PDF refresh boundary, and unmeasured search outcomes. Moving-scene TAA and trained representation replacements retain the two open implementation gates above.

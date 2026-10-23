@@ -84,8 +84,8 @@ test("CV preserves semantic sections, native navigation and printable current te
   await expect(cv.getByRole("link", { name: "s1tao@ucsd.edu", exact: true })).toHaveAttribute("href", "mailto:s1tao@ucsd.edu");
   await expect(page.getByRole("link", { name: "Open CV PDF, July 2026 snapshot", exact: true })).toHaveAttribute("href", /Sirui_Tao_CV_Public\.pdf$/);
 
-  const isPhone = page.viewportSize().width < 768;
-  if (isPhone) {
+  const compactNavigation = page.viewportSize().width < 992;
+  if (compactNavigation) {
     const control = page.locator("[data-cv-mobile-sections]");
     await control.locator("summary").focus();
     await page.keyboard.press("Enter");
@@ -124,7 +124,11 @@ test("CV preserves semantic sections, native navigation and printable current te
     const nativeSections = await inspectSections(noScriptPage);
     expect(nativeSections).toEqual(sections);
     expect(await noScriptPage.locator(".cv").innerText()).toBe(beforePrint);
-    if (isPhone) {
+    const nativeSidebarIds = await noScriptPage
+      .locator("#toc-sidebar a")
+      .evaluateAll((links) => links.map((link) => decodeURIComponent(link.hash.slice(1))));
+    expect(nativeSidebarIds).toEqual(sections.sectionIds);
+    if (compactNavigation) {
       const nativeControl = noScriptPage.locator("[data-cv-mobile-sections]");
       await nativeControl.locator("summary").focus();
       await noScriptPage.keyboard.press("Enter");
@@ -136,6 +140,13 @@ test("CV preserves semantic sections, native navigation and printable current te
       expect(nativeArrival.y).toBeGreaterThanOrEqual(70);
       expect(nativeArrival.y).toBeLessThan(noScriptPage.viewportSize().height / 2);
       expect(await nativeControl.evaluate((element) => getComputedStyle(element).position)).toBe("static");
+    } else {
+      const nativeLink = noScriptPage.locator("#toc-sidebar").getByRole("link", { name: "Research Experience", exact: true });
+      await expect(nativeLink).toBeVisible();
+      await nativeLink.focus();
+      await noScriptPage.keyboard.press("Enter");
+      await expect(noScriptPage).toHaveURL(/#academia$/);
+      await expect(noScriptPage.locator("#academia")).toBeFocused();
     }
     await attachScreenshot(noScriptPage, testInfo, "cv-native-no-script", { fullPage: false });
   } finally {

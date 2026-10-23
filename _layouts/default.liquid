@@ -45,14 +45,26 @@
             <div class="{{ toc_main_class }} toc-main-column">{{ content }}</div>
             <!-- sidebar, which will move to the top on a small screen -->
             <div class="{{ toc_sidebar_class }} toc-sidebar-column">
-              <nav id="toc-sidebar" class="sticky-top" aria-label="On this page navigation"></nav>
+              <nav id="toc-sidebar" class="sticky-top" aria-label="On this page navigation">
+                {% if page.layout == 'cv' %}
+                  <ul class="toc-list">
+                    {% include cv/section-links.liquid %}
+                  </ul>
+                {% endif %}
+              </nav>
             </div>
           </div>
         {% else %}
           <div class="row toc-layout toc-layout-left">
             <!-- sidebar, which will move to the top on a small screen -->
             <div class="{{ toc_sidebar_class }} toc-sidebar-column">
-              <nav id="toc-sidebar" class="sticky-top" aria-label="On this page navigation"></nav>
+              <nav id="toc-sidebar" class="sticky-top" aria-label="On this page navigation">
+                {% if page.layout == 'cv' %}
+                  <ul class="toc-list">
+                    {% include cv/section-links.liquid %}
+                  </ul>
+                {% endif %}
+              </nav>
             </div>
             <!-- main content area -->
             <div class="{{ toc_main_class }} toc-main-column">{{ content }}</div>

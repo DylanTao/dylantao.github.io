@@ -1,536 +1,65 @@
-# SEO Best Practices Guide
+# Search and AI discovery
 
-This guide helps you optimize your al-folio website for search engines so your research and work are discoverable.
+This customized site presents Sirui Tao's research, projects, writing, and CV. Discovery work should make that existing record easier to find, read, and cite while preserving its voice and scope.
 
-<!--ts-->
+Google's [AI search guidance](https://developers.google.com/search/docs/appearance/ai-features) uses the same foundations as ordinary search: indexable pages, useful visible content, internal links, and structured data that agrees with the page. Eligibility does not guarantee inclusion or ranking. Extra AI text files or a special AI schema are not required.
 
-- [SEO Best Practices Guide](#seo-best-practices-guide)
-  - [Overview](#overview)
-  - [Basic SEO Setup](#basic-seo-setup)
-    - [Sitemap and Robots](#sitemap-and-robots)
-    - [Site URL and Metadata](#site-url-and-metadata)
-  - [Enabling Open Graph (Social Media Previews)](#enabling-open-graph-social-media-previews)
-    - [What is Open Graph?](#what-is-open-graph)
-    - [Enable in al-folio](#enable-in-al-folio)
-  - [Schema.org Markup](#schemaorg-markup)
-    - [What is Schema.org?](#what-is-schemaorg)
-    - [Enable in al-folio](#enable-in-al-folio-1)
-    - [What Gets Marked Up](#what-gets-marked-up)
-  - [Search Console Setup](#search-console-setup)
-    - [Google Search Console](#google-search-console)
-    - [Bing Webmaster Tools](#bing-webmaster-tools)
-  - [Publication Indexing](#publication-indexing)
-    - [Google Scholar](#google-scholar)
-    - [DBLP (Computer Science)](#dblp-computer-science)
-    - [arXiv](#arxiv)
-  - [Content Optimization](#content-optimization)
-    - [Page Titles and Descriptions](#page-titles-and-descriptions)
-    - [Heading Structure](#heading-structure)
-    - [Image Optimization](#image-optimization)
-    - [Internal Linking](#internal-linking)
-  - [RSS Feed for Discovery](#rss-feed-for-discovery)
-  - [Performance &amp; Mobile](#performance--mobile)
-  - [SEO Checklist](#seo-checklist)
-  - [Resources](#resources)
+## What this site publishes
 
-<!--te-->
+- Human pages contain the full first-person story, research evidence, credit, and ordinary links.
+- `/ai/` provides a compact server-rendered index with stable project and publication anchors, writing, and current CV links.
+- `/ai/publications.json`, `/ai/projects.json`, paper Markdown/BibTeX/RIS, and `llms.txt`/`llms-full.txt` are retrieval formats. They project from canonical sources and do not promise recommendations.
+- `_bibliography/papers.bib` owns bibliographic facts. `_data/publication_context.yml` owns source-reviewed citation guidance; `_data/publication_lens.yml` supplies display classifications and authorship checks.
+- `_data/resume.json` and its identical public copy, `assets/json/resume.json`, provide the current structured CV. The manually maintained PDF is a dated July 2026 snapshot; the web CV and its print view are the current readable record.
 
-## Overview
+The site's `Person` identifier is shared by the homepage profile, CV, and authored work. Genuine posts use `BlogPosting`; projects use `CreativeWork` with their actual category. Archives, indexes, and process-record pages must not masquerade as authored posts or papers. Unknown dates stay absent rather than becoming January 1.
 
-SEO (Search Engine Optimization) makes your website discoverable on Google, Bing, and other search engines. For academics, this means:
+## Configuration and ownership
 
-- Your research becomes discoverable when people search for your work
-- Your CV/bio appears in search results
-- Your publications rank higher
-- More citations and collaborations
-
-al-folio includes SEO basics, but you can optimize further.
-
----
-
-## Basic SEO Setup
-
-### Sitemap and Robots
-
-al-folio auto-generates a `sitemap.xml` and `robots.txt` for you. These tell search engines what pages exist.
-
-**Verify they exist:**
-
-- Visit `https://your-site.com/sitemap.xml` – Should show an XML list of pages
-- Visit `https://your-site.com/robots.txt` – Should show instructions for search engines
-
-If they're missing:
-
-1. Check `_config.yml` has a valid `url`
-2. Rebuild: `bundle exec jekyll build`
-3. Check `_site/` directory has both files
-
-**No configuration needed** – al-folio handles this automatically.
-
----
-
-### Site URL and Metadata
-
-Ensure `_config.yml` has correct metadata:
+Intentional local metadata lives in `_includes/metadata.liquid` and `_includes/head.liquid`. This is a customized fork; see [ownership boundaries](BOUNDARIES.md) before replacing a local override with theme defaults.
 
 ```yaml
-title: Your Full Name or Site Title
-description: > # Brief description (1-2 sentences)
-  A description of your research and expertise.
-  This appears in search results.
-author: Your Name
-keywords: machine learning, research, academia, etc.
-url: https://your-domain.com
-lang: en
+url: https://dylantao.github.io
+baseurl: ""
+serve_og_meta: true
+serve_schema_org: true
+enable_google_verification: true
+google_site_verification: YOUR_EXISTING_PUBLIC_VERIFICATION_CODE
 ```
 
-All fields are important for SEO. **Avoid leaving fields blank.**
+Use the actual deployed URL from `_config.yml`; the block above illustrates the configuration shape. The verification flag and a legitimate token are both required. Emitting a token does not prove that the account has verified ownership or submitted its sitemap. Never invent verification values. Bing has a separate flag/token and remains optional.
 
----
+Use `seo_title` and `seo_description` when a concise search summary should differ from visible page copy. Keep both faithful to the same work. A meaningful title or description matters more than an arbitrary character count; search engines may choose a different snippet.
 
-## Enabling Open Graph (Social Media Previews)
+`robots.txt` currently allows crawling, including search crawlers. OpenAI documents [OAI-SearchBot separately from GPTBot](https://developers.openai.com/api/docs/bots): search access and training preferences are distinct decisions. Do not change training policy as a side effect of search optimization.
 
-### What is Open Graph?
+## Make a change and inspect the result
 
-When someone shares your page on Twitter, Facebook, LinkedIn, etc., Open Graph controls what preview appears.
+1. Identify the visitor's task and the canonical evidence: find a paper, understand a contribution, inspect the CV, or contact Sirui.
+2. Inspect the rendered route and its current links before editing. Preserve wording that already works; correct missing context, dates, status, or access where the evidence calls for it.
+3. Check one canonical URL, useful title/description, social preview, and accurate JSON-LD. Follow every changed Human/AI or raw-format link, including its fragment, with JavaScript disabled where relevant.
+4. Inspect semantic headings, duplicate IDs, descriptive link names, keyboard focus, mobile overflow, and document print behavior. Alt text explains an image's role; it is not a keyword list.
+5. Build and run the generated-output validator, plus affected content/style and visual checks from [AGENTS.md](../AGENTS.md).
 
-**Without Open Graph:**
-
-- Generic title
-- No image
-- Ugly preview
-
-**With Open Graph:**
-
-- Your custom title
-- Your custom image (photo, diagram, etc.)
-- Custom description
-- Professional preview
-
-### Enable in al-folio
-
-Open Graph is disabled by default. To enable:
-
-1. **Edit `_config.yml`:**
-
-   ```yaml
-   serve_og_meta: true # Change from false to true
-   og_image: /assets/img/og-image.png # Path to your image (1200x630px recommended)
-   ```
-
-2. **Create your OG image:**
-   - Size: 1200x630 pixels
-   - Format: PNG or JPG
-   - Content: Your name/logo + key info
-   - Save to: `assets/img/og-image.png`
-
-3. **Commit and deploy**
-
-4. **Test it:**
-   - Use [Facebook's Sharing Debugger](https://developers.facebook.com/tools/debug/sharing/)
-   - Paste your site URL
-   - You should see your custom image and title
-
-**Per-page OG images:**
-
-Add to the frontmatter of a blog post or page:
-
-```markdown
----
-layout: post
-title: My Research Paper
-og_image: /assets/img/paper-diagram.png
----
+```powershell
+bundle exec jekyll build --baseurl /al-folio
+python test/validate_publication_outputs.py _site
 ```
 
----
+For production, also verify the empty-baseurl deployment and live artifacts against the released source revision. The validator checks publication facts and consistency among generated discovery surfaces; it does not establish indexing, accessibility conformance, or ranking by itself.
 
-## Schema.org Markup
+The sitemap should list intentional public routes. Assets are excluded by this site's sitemap defaults; starter example CV output is also excluded from deployment. Do not make hidden/demo content public merely to increase page count. Keep scholarly landing pages, stable identifiers, and linked searchable PDFs available; Scholar inclusion is governed by [its publisher guidelines](https://scholar.google.com/intl/en/scholar/inclusion.html), not by a promised indexing timeline.
 
-### What is Schema.org?
+## Measure outcomes
 
-Schema.org is structured data that tells search engines what kind of content is on your page:
+When authenticated Search Console or analytics data is available, retain a baseline and compare like periods. Record the date range, source, relevant pages/queries, and any changes to measurement. Separate:
 
-- "This is a Person" (your bio page)
-- "This is a Publication" (your paper)
-- "This is a BlogPosting" (your article)
+- **Availability:** pages fetch successfully, crawl access, canonical/sitemap coverage, valid links and formats.
+- **Search visibility:** indexed pages and query impressions, clicks, and click-through rate for Sirui's name, papers, and relevant research questions. Google's AI-feature traffic is included in Search Console's Web reporting; it is not a separate guaranteed recommendation counter.
+- **Useful visits:** relevant referrals, readers reaching a paper or CV, and meaningful research/student/collaboration inquiries. A private reader message may suggest what is useful, but is not a public testimonial or a traffic estimate.
 
-Benefits:
+Avoid interpreting a short before/after window as causality. Search systems change and recrawling takes time. Page-load timing and scroll milestones describe browser behavior, not whether someone understood the work. Consent and existing collection boundaries still apply.
 
-- Rich snippets in search results
-- Better knowledge graph information
-- Schema validation helps Google understand your site
+Without authenticated reporting, record that measurement is unavailable and finish the technical improvements that can be verified. Do not substitute invented rankings or add repetitive keyword pages, hidden instructions, fabricated endorsements, or unsupported claims. Google's [people-first content guidance](https://developers.google.com/search/docs/fundamentals/creating-helpful-content) and [guidance on generated content](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content) support useful, accurate material with a clear human purpose.
 
-### Enable in al-folio
-
-Enable in `_config.yml`:
-
-```yaml
-serve_schema_org: true # Change from false to true
-```
-
-That's it! al-folio automatically marks up:
-
-- **Author info** (Person schema with name, URL, photo)
-- **Blog posts** (BlogPosting schema with date, title, description)
-- **Publications** (CreativeWork/ScholarlyArticle schema)
-
-### What Gets Marked Up
-
-**Homepage (Person):**
-
-- Your name, photo, description
-- Links to your profiles (LinkedIn, GitHub, etc.)
-
-**Blog posts (BlogPosting):**
-
-- Title, date, author, description
-- Content
-- Publication date and modified date
-
-**Publications (ScholarlyArticle):**
-
-- Title, authors, abstract
-- Publication date, venue
-- URL and PDF links
-
----
-
-## Search Console Setup
-
-### Google Search Console
-
-**Google Search Console** lets you monitor how your site appears in Google search results.
-
-**Setup:**
-
-1. Go to [Google Search Console](https://search.google.com/search-console)
-2. Add your website:
-   - Click **"URL prefix"**
-   - Enter your site URL: `https://your-domain.com`
-3. Verify ownership (choose one method):
-   - **HTML file upload** – Download file, add to repository root
-   - **HTML tag** – Copy meta tag to `_config.yml` → redeploy
-   - **Google Analytics** – If you already use Google Analytics
-   - **DNS record** – Advanced (if you own the domain)
-
-**Add to `_config.yml`:**
-
-```yaml
-google_site_verification: YOUR_VERIFICATION_CODE
-```
-
-(Replace `YOUR_VERIFICATION_CODE` with the code from Search Console.)
-
-**Monitor in Search Console:**
-
-- **Performance** – Which queries bring traffic, your ranking position
-- **Coverage** – Any indexing errors
-- **Enhancements** – Schema.org validation
-- **Sitemaps** – Your sitemap status
-
----
-
-### Bing Webmaster Tools
-
-Similar to Google Search Console but for Bing search:
-
-1. Go to [Bing Webmaster Tools](https://www.bing.com/webmasters)
-2. Add your site
-3. Verify (usually auto-verifies if you verified Google)
-4. Add to `_config.yml`:
-   ```yaml
-   bing_site_verification: YOUR_BING_CODE
-   ```
-
-**Note:** Bing commands are optional but recommended. Check both console dashboards regularly.
-
----
-
-## Publication Indexing
-
-### Google Scholar
-
-**Goal:** Get your publications listed on Google Scholar so they show up in scholar search results.
-
-**Google Scholar auto-crawls:**
-
-- Your website automatically (if publicly accessible)
-- Your publications page if it has proper markup
-- PDFs linked from your site
-
-**To improve Scholar indexing:**
-
-1. **Ensure BibTeX has proper format:**
-
-   ```bibtex
-   @article{mykey,
-     title={Your Paper Title},
-     author={Your Name and Co-Author},
-     journal={Journal Name},
-     year={2024},
-     volume={1},
-     pages={1-10},
-     doi={10.1234/doi}
-   }
-   ```
-
-2. **Add PDFs to BibTeX:**
-
-   ```bibtex
-   @article{mykey,
-     # ... other fields ...
-     pdf={my-paper.pdf}  # File at assets/pdf/my-paper.pdf
-   }
-   ```
-
-3. **Submit to Google Scholar (optional):**
-   - Go to [Google Scholar Author Profile](https://scholar.google.com/citations)
-   - Create a profile
-   - Google will find your papers automatically within weeks
-
-4. **Wait 3-6 months** – Google Scholar takes time to index
-
----
-
-### DBLP (Computer Science)
-
-If your research is computer science related:
-
-1. Go to [DBLP](https://dblp.org/)
-2. Search for yourself or your papers
-3. If missing, [Submit via DBLP](https://dblp.org/db/contrib/) (requires account)
-4. DBLP will verify and add your work
-
----
-
-### arXiv
-
-If you have preprints:
-
-1. Go to [arXiv.org](https://arxiv.org/)
-2. Submit your preprint
-3. Once listed, arXiv automatically indexes it across search engines
-
-**Add arXiv link to BibTeX:**
-
-```bibtex
-@article{mykey,
-  # ... other fields ...
-  arxiv={2024.12345}  # arXiv ID
-}
-```
-
----
-
-## Content Optimization
-
-### Page Titles and Descriptions
-
-Every page needs a title and description. These show in search results.
-
-**In `_config.yml`:**
-
-```yaml
-title: Jane Smith - Computer Science Researcher
-description: >
-  Academic website of Jane Smith, focusing on machine learning and AI ethics.
-```
-
-**In page/post frontmatter:**
-
-```markdown
----
-layout: post
-title: Novel Deep Learning Architecture for Climate Modeling
-description: A new approach to improving climate model accuracy with deep learning
----
-```
-
-**Checklist:**
-
-- [ ] Title under 60 characters (so it doesn't get cut off)
-- [ ] Description 120-160 characters
-- [ ] Include your name in the site title
-- [ ] Include keywords naturally
-
----
-
-### Heading Structure
-
-Use proper HTML heading hierarchy for both SEO and accessibility:
-
-```markdown
-# H1: Main Page Title
-
-Use one H1 per page, usually your blog post or page title
-
-## H2: Section Heading
-
-### H3: Subsection
-
-### H3: Another subsection
-
-## H2: Another Section
-```
-
-**Benefits:**
-
-- Search engines understand your content structure
-- Screen readers can navigate better
-- Visitors can scan your content
-
----
-
-### Image Optimization
-
-**For SEO:**
-
-- Use descriptive filenames: `neural-network-architecture.png` (not `img1.png`)
-- Add alt text (also helps accessibility):
-  ```markdown
-  ![Neural network showing three layers with training accuracy of 95%](../assets/img/neural-network.png)
-  ```
-
-**For performance:**
-
-- Optimize image file size (use tools like TinyPNG)
-- Use modern formats (WebP instead of large JPGs)
-- Responsive images (different sizes for mobile vs desktop)
-
----
-
-### Internal Linking
-
-Link between your own pages strategically:
-
-```markdown
-See my [publication on climate AI](./publications/) or my [blog post on neural networks](/blog/2024/neural-networks/).
-```
-
-**Benefits:**
-
-- Search engines crawl through your links
-- Users discover more of your content
-- Distributes "authority" across your site
-
----
-
-## RSS Feed for Discovery
-
-al-folio auto-generates an RSS feed at `/feed.xml`.
-
-**Why RSS matters:**
-
-- Content aggregators pick up your posts
-- Researchers can subscribe to your updates
-- Improves discoverability
-
-**Ensure your feed works:**
-
-```yaml
-# In _config.yml
-title: Your Site
-description: Your site description
-url: https://your-domain.com # MUST be complete URL
-```
-
-**Test your feed:**
-
-- Visit `https://your-site.com/feed.xml`
-- Should show XML with your recent posts
-- Try subscribing in a feed reader (Feedly, etc.)
-
----
-
-## Performance & Mobile
-
-Search engines favor fast, mobile-friendly sites.
-
-**Check your site:**
-
-- Use [Google PageSpeed Insights](https://pagespeed.web.dev/)
-- Enter your site URL
-- Review recommendations
-- al-folio already optimizes for performance, but you can improve further:
-  - Compress images
-  - Minimize CSS/JS (enabled by default)
-  - Use lazy loading (already enabled)
-
-**Mobile optimization:**
-
-- al-folio is responsive by default
-- Test on phones/tablets
-- Ensure buttons are large enough to tap
-- Check readability on small screens
-
----
-
-## SEO Checklist
-
-Before considering your site "SEO optimized":
-
-**Basic Setup:**
-
-- [ ] `_config.yml` has `title`, `description`, `author`, `url`
-- [ ] Sitemap accessible at `/sitemap.xml`
-- [ ] `robots.txt` accessible at `/robots.txt`
-- [ ] Mobile-friendly (test on phone)
-
-**Search Console:**
-
-- [ ] Google Search Console linked
-- [ ] Bing Webmaster Tools linked (optional but recommended)
-- [ ] No major indexing errors
-- [ ] Sitemaps submitted
-
-**Schema/Open Graph:**
-
-- [ ] `serve_og_meta: true` (for social sharing)
-- [ ] `serve_schema_org: true` (for structured data)
-- [ ] Test OG with [Facebook Debugger](https://developers.facebook.com/tools/debug/sharing/)
-- [ ] Validate schema at [Schema.org Validator](https://validator.schema.org/)
-
-**Content:**
-
-- [ ] Every page has unique title (under 60 chars)
-- [ ] Every page has description (120-160 chars)
-- [ ] Blog posts have proper dates
-- [ ] Images have descriptive alt text
-- [ ] Headings follow proper hierarchy
-
-**Publications:**
-
-- [ ] BibTeX entries have proper format
-- [ ] PDFs linked from BibTeX
-- [ ] Submitted to Google Scholar (optional)
-- [ ] Indexed on DBLP or arXiv (if applicable)
-
-**Performance:**
-
-- [ ] Site loads under 3 seconds (check PageSpeed)
-- [ ] No broken links (use lighthouse or similar)
-- [ ] RSS feed works (check `/feed.xml`)
-
----
-
-## Resources
-
-- **[Google Search Central](https://developers.google.com/search)** – Official SEO guide
-- **[Moz SEO Checklist](https://moz.com/beginners-guide-to-seo)** – Beginner-friendly guide
-- **[Google PageSpeed Insights](https://pagespeed.web.dev/)** – Performance analysis
-- **[Schema.org](https://schema.org/)** – Structured data reference
-- **[WebAIM](https://webaim.org/)** – Accessibility (helps SEO too)
-- **[Lighthouse Audit](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpombljlkpstvnztVTNyZe)** – Browser extension
-
----
-
-**Next Steps:**
-
-1. Enable Open Graph and Schema.org in `_config.yml`
-2. Set up Google Search Console and Bing Webmaster Tools
-3. Optimize your page titles and descriptions
-4. Add alt text to images and PDFs to your BibTeX
-5. Monitor search console regularly for indexing issues
-
-Your research will be more discoverable with these optimizations! 🔍
+Use [Reflective Practice](../WEBSITE_DESIGN_HEURISTICS.md#reflective-practice) to connect the observation, design decision, outcome, uncertainty, and next action. Keep detailed release evidence in its dated evidence record and promote only reusable lessons into the existing skills.

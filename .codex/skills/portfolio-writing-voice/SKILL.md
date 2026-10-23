@@ -1,6 +1,6 @@
 ---
 name: portfolio-writing-voice
-description: Maintain Sirui's portfolio, project-page, and blog-writing voice while preserving research meaning and credit. Use when editing `_posts`, `_projects`, project case studies, homepage/site copy, captions, descriptions, reflective posts, teaching artifacts, or source-credit sections, especially when integrating new references into existing writing instead of bolting on detached sections.
+description: Maintain Sirui's portfolio, CV, project, and blog voice while preserving research meaning and credit. Use for public copy, discovery summaries, reflective posts, teaching artifacts, and source-credit edits, especially when integrating references into an existing argument.
 ---
 
 # Portfolio Writing Voice
@@ -19,6 +19,7 @@ Read the target file first, then read the relevant headings in `WEBSITE_DESIGN_H
 - Blog Voice
 - Conservative Inspiration Boundaries
 - Process Artifacts
+- Reflective Practice
 
 For research-skills resource updates, also inspect the existing structure and credit anchors before adding anything.
 
@@ -47,7 +48,8 @@ When a story is testing a new visual or data-storytelling treatment, also read `
 3. Make the smallest integrated edit that improves clarity or credit.
 4. Preserve verified links and existing anchors unless the user asks to restructure; verify new references before presenting them as sources.
 5. Check headings, frontmatter, internal links, generated excerpts/cards, and the rendered route when the edit affects public navigation.
-6. Use `WEBSITE_DESIGN_HEURISTICS.md` for durable lessons, not as a dumping ground for one-off wording.
+6. For discovery summaries or CV formats, compare visible claims, dates, status, and credit with their canonical sources. Preserve successful wording when the observed problem is a link, semantic structure, or stale snapshot; use `docs/SEO.md` for discovery checks.
+7. Compare the result with the original reader problem. State the observed improvement and remaining uncertainty using `Reflective Practice`; promote only a reusable lesson into `WEBSITE_DESIGN_HEURISTICS.md`.
 
 ## Verification
 
@@ -61,4 +63,4 @@ bundle exec jekyll build
 
 Add targeted HTML/link inspection when the edit changes generated navigation, previews, or include behavior.
 
-Before handoff, summarize which claims were preserved, which sources or credits were added or moved, and which rendered routes/excerpts were checked.
+Before handoff, summarize which claims were preserved, which sources or credits were added or moved, and which rendered routes/excerpts were checked. Keep qualitative feedback separate from measured search outcomes.

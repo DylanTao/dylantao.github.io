@@ -228,6 +228,8 @@
   <link rel="alternate" type="text/plain" href="{{ '/llms-full.txt' | absolute_url }}" title="Sirui Tao full AI-readable profile">
 {% elsif page.permalink == '/' %}
   <link rel="alternate" type="text/plain" href="{{ '/llms.txt' | absolute_url }}" title="Sirui Tao AI-readable site index">
+{% elsif page.layout == 'cv' %}
+  <link rel="alternate" type="application/json" href="{{ '/assets/json/resume.json' | absolute_url }}" title="Sirui Tao current structured CV">
 {% elsif page.permalink == '/publications/' %}
   <link rel="alternate" type="application/json" href="{{ '/ai/publications.json' | absolute_url }}" title="Sirui Tao publications JSON">
 {% elsif page.publication %}

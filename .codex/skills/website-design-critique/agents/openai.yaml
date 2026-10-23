@@ -1,4 +1,4 @@
 interface:
   display_name: "Website Design Critique"
   short_description: "Audit and refine site visuals with heuristics"
-  default_prompt: "Use $website-design-critique to inspect the rendered affected routes, implement evidence-backed restrained improvements, and verify the documented viewport states."
+  default_prompt: "Use $website-design-critique to identify a rendered visitor problem, make a restrained improvement, and verify its observable benefit and relevant accessibility states."

@@ -1,31 +1,47 @@
 {% comment %}These native fragment links work before scripts load or when JavaScript is disabled.{% endcomment %}
-{% if render_rendercv and cv %}
+{% assign cv_nav_rendercv = false %}
+{% assign cv_nav_jsonresume = false %}
+{% assign cv_nav_empty = '' | split: ',' %}
+{% assign cv = site.data.cv.cv %}
+{% if page.cv_format == 'rendercv' %}
+  {% assign cv_nav_rendercv = true %}
+{% elsif page.cv_format == 'jsonresume' %}
+  {% assign cv_nav_jsonresume = true %}
+{% elsif cv %}
+  {% assign cv_nav_rendercv = true %}
+{% else %}
+  {% assign cv_nav_jsonresume = true %}
+{% endif %}
+{% if cv_nav_rendercv and cv %}
   {% if cv.name or cv.label or cv.location or cv.email or cv.phone or cv.website %}
-    <li><a href="#contact-information">Contact Information</a></li>
+    <li class="toc-list-item"><a class="toc-link" href="#contact-information">Contact Information</a></li>
   {% endif %}
   {% if cv.summary %}
-    <li><a href="#professional-summary">Professional Summary</a></li>
+    <li class="toc-list-item"><a class="toc-link" href="#professional-summary">Professional Summary</a></li>
   {% endif %}
-  {% assign cv_experience = cv.sections.Experience | default: empty_array %}
-  {% assign cv_volunteer = cv.sections.Volunteer | default: empty_array %}
+  {% assign cv_experience = cv.sections.Experience | default: cv_nav_empty %}
+  {% assign cv_volunteer = cv.sections.Volunteer | default: cv_nav_empty %}
   {% assign cv_combined_experience = cv_experience | concat: cv_volunteer %}
   {% if cv_combined_experience.size > 0 %}
-    <li><a href="#experience">Experience</a></li>
+    <li class="toc-list-item"><a class="toc-link" href="#experience">Experience</a></li>
   {% endif %}
   {% for section_pair in cv.sections %}
     {% assign section_title = section_pair[0] %}
     {% unless section_title == 'Experience' or section_title == 'Volunteer' %}
-      <li>
-        <a href="#{{ section_title | slugify }}">{{ section_title }}</a>
+      <li class="toc-list-item">
+        <a class="toc-link" href="#{{ section_title | slugify }}">{{ section_title }}</a>
       </li>
     {% endunless %}
   {% endfor %}
-{% elsif render_jsonresume and site.data.resume %}
+{% elsif cv_nav_jsonresume and site.data.resume %}
+  {% assign cv_nav_work = site.data.resume.work | default: cv_nav_empty %}
+  {% assign cv_nav_volunteer = site.data.resume.volunteer | default: cv_nav_empty %}
+  {% assign cv_nav_experience = cv_nav_work | concat: cv_nav_volunteer %}
   {% if site.data.resume.basics %}
-    <li><a href="#contact-information">Contact Information</a></li>
+    <li class="toc-list-item"><a class="toc-link" href="#contact-information">Contact Information</a></li>
   {% endif %}
   {% if site.data.resume.basics.summary %}
-    <li><a href="#professional-summary">Professional Summary</a></li>
+    <li class="toc-list-item"><a class="toc-link" href="#professional-summary">Professional Summary</a></li>
   {% endif %}
   {% assign cv_section_index = 'education::education::Education|academia::academia::Research Experience|publications::publications::Publications (& Rejections)|awards::awards::Honors & Awards (& Rejections)|mentorship::research-mentorship::Research Mentorship|teaching::teaching::Teaching Experience|academicService::academic-service::Academic Service|combined_experience::experience::Industry Experience|projects::projects::Projects|skills::skills::Skills|languages::languages::Languages|interests::interests::Interests|certificates::certificates::Certificates|references::references::References'
     | split: '|'
@@ -35,15 +51,15 @@
     {% assign section_key = section_parts[0] %}
     {% assign section_entries = site.data.resume[section_key] %}
     {% if section_key == 'combined_experience' %}
-      {% assign section_entries = combined_experience %}
+      {% assign section_entries = cv_nav_experience %}
     {% endif %}
     {% if section_entries.size > 0 %}
-      <li>
-        <a href="#{{ section_parts[1] }}">{{ section_parts[2] | escape }}</a>
+      <li class="toc-list-item">
+        <a class="toc-link" href="#{{ section_parts[1] }}">{{ section_parts[2] | escape }}</a>
       </li>
     {% endif %}
   {% endfor %}
   {% if site.data.resume.cvNote %}
-    <li><a href="#note">Note</a></li>
+    <li class="toc-list-item"><a class="toc-link" href="#note">Note</a></li>
   {% endif %}
 {% endif %}
