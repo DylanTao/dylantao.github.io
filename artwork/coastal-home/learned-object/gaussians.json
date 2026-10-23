@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "count": 256,
+  "stride": 10,
+  "layout": ["position_x", "position_y", "position_z", "scale_x", "scale_y", "scale_z", "red_srgb", "green_srgb", "blue_srgb", "opacity"],
+  "bytes": 10240,
+  "sha256": "7ec0f314fe152065e292f59c4232ffbbc2bf9a36937ee7759d31eedbed80efdb",
+  "covariance": "Axis-aligned learned world covariance; exact perspective Jacobian projection with 0.3-pixel variance floor. No learned rotations, SH color, densification, pruning or official 3DGS implementation.",
+  "sourceSha256": "b44dab6b2ff47c1e893005b388e3d45d83e2a42369ca8f0f9d0782086998a50b",
+  "normalization": {
+    "center": [0, 0.4005790948867798, 0],
+    "scale": 1.2454014198447487
+  }
+}

@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "trainer_sha256": "7b03a86ec31ca5b8b9b4c05c8d868cdff0bf8724a6558636bc5bbf7167ca1627",
+  "steps": 1000,
+  "seed": 1701,
+  "torch": "2.6.0+cpu",
+  "device": "cpu",
+  "threads": 4,
+  "elapsed_seconds": 69.31235200000083,
+  "source_bytes": 66580,
+  "dataset_sha256": "eac971e51a692127defaeff876606599a1de0ce8da7cb5d661290b5eecd165df",
+  "train_views": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
+  "held_out_views": [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23],
+  "selection": "Fixed 1000-step training budget, all model optimization uses training views only; held-out views never selected a checkpoint.",
+  "initial_train_mean_mse": 0.01872977629924814,
+  "history": [
+    {
+      "step": 1,
+      "train_view": 4,
+      "batch_mse": 0.0271023940294981,
+      "elapsed_seconds": 0.08904439999605529
+    },
+    {
+      "step": 100,
+      "train_view": 16,
+      "batch_mse": 0.00800463929772377,
+      "elapsed_seconds": 5.6627894999983255
+    },
+    {
+      "step": 200,
+      "train_view": 14,
+      "batch_mse": 0.005106138996779919,
+      "elapsed_seconds": 11.452138599997852
+    },
+    {
+      "step": 300,
+      "train_view": 14,
+      "batch_mse": 0.004613972268998623,
+      "elapsed_seconds": 17.24236479999672
+    },
+    {
+      "step": 400,
+      "train_view": 14,
+      "batch_mse": 0.004002723377197981,
+      "elapsed_seconds": 23.902704399995855
+    },
+    {
+      "step": 500,
+      "train_view": 6,
+      "batch_mse": 0.0058365180157125,
+      "elapsed_seconds": 32.95462019999832
+    },
+    {
+      "step": 600,
+      "train_view": 0,
+      "batch_mse": 0.002415096154436469,
+      "elapsed_seconds": 40.976233800000045
+    },
+    {
+      "step": 700,
+      "train_view": 6,
+      "batch_mse": 0.005743812769651413,
+      "elapsed_seconds": 49.11962189999758
+    },
+    {
+      "step": 800,
+      "train_view": 14,
+      "batch_mse": 0.0034183936659246683,
+      "elapsed_seconds": 58.153382299999066
+    },
+    {
+      "step": 900,
+      "train_view": 20,
+      "batch_mse": 0.0046117776073515415,
+      "elapsed_seconds": 63.841820599998755
+    },
+    {
+      "step": 1000,
+      "train_view": 12,
+      "batch_mse": 0.0022048926912248135,
+      "elapsed_seconds": 68.69188229999418
+    }
+  ],
+  "views": [
+    {
+      "view": 0,
+      "split": "train",
+      "mse": 0.0021323964465409517,
+      "psnr_db": 26.711320498616402,
+      "foreground_pixels": 348,
+      "foreground_mse": 0.016346585005521774,
+      "foreground_psnr_db": 17.865729627692467
+    },
+    {
+      "view": 2,
+      "split": "train",
+      "mse": 0.0045733074657619,
+      "psnr_db": 23.39769599801256,
+      "foreground_pixels": 409,
+      "foreground_mse": 0.0264729131013155,
+      "foreground_psnr_db": 15.771982659440143
+    },
+    {
+      "view": 4,
+      "split": "train",
+      "mse": 0.005298759788274765,
+      "psnr_db": 22.75825768160964,
+      "foreground_pixels": 402,
+      "foreground_mse": 0.035762861371040344,
+      "foreground_psnr_db": 14.46567740772677
+    },
+    {
+      "view": 6,
+      "split": "train",
+      "mse": 0.004751402419060469,
+      "psnr_db": 23.231781855403444,
+      "foreground_pixels": 484,
+      "foreground_mse": 0.02699262648820877,
+      "foreground_psnr_db": 15.687548548344335
+    },
+    {
+      "view": 8,
+      "split": "train",
+      "mse": 0.004620086867362261,
+      "psnr_db": 23.353498587162946,
+      "foreground_pixels": 390,
+      "foreground_mse": 0.031239595264196396,
+      "foreground_psnr_db": 15.052946014165293
+    },
+    {
+      "view": 10,
+      "split": "train",
+      "mse": 0.004529997240751982,
+      "psnr_db": 23.439020625184163,
+      "foreground_pixels": 400,
+      "foreground_mse": 0.026855994015932083,
+      "foreground_psnr_db": 15.709587685297775
+    },
+    {
+      "view": 12,
+      "split": "train",
+      "mse": 0.002124756807461381,
+      "psnr_db": 26.72690770659141,
+      "foreground_pixels": 532,
+      "foreground_mse": 0.0105558717623353,
+      "foreground_psnr_db": 19.765058944323254
+    },
+    {
+      "view": 14,
+      "split": "train",
+      "mse": 0.0030424268916249275,
+      "psnr_db": 25.16779848905736,
+      "foreground_pixels": 484,
+      "foreground_mse": 0.01695399545133114,
+      "foreground_psnr_db": 17.707279376976462
+    },
+    {
+      "view": 16,
+      "split": "train",
+      "mse": 0.004418688826262951,
+      "psnr_db": 23.547065813286924,
+      "foreground_pixels": 425,
+      "foreground_mse": 0.02887256070971489,
+      "foreground_psnr_db": 15.39514696798834
+    },
+    {
+      "view": 18,
+      "split": "train",
+      "mse": 0.0033205756917595863,
+      "psnr_db": 24.787866156694225,
+      "foreground_pixels": 452,
+      "foreground_mse": 0.02419373206794262,
+      "foreground_psnr_db": 16.162971332298742
+    },
+    {
+      "view": 20,
+      "split": "train",
+      "mse": 0.004486524034291506,
+      "psnr_db": 23.48090001392947,
+      "foreground_pixels": 400,
+      "foreground_mse": 0.03150032460689545,
+      "foreground_psnr_db": 15.016849708371577
+    },
+    {
+      "view": 22,
+      "split": "train",
+      "mse": 0.0034205142874270678,
+      "psnr_db": 24.65908591195351,
+      "foreground_pixels": 479,
+      "foreground_mse": 0.018665283918380737,
+      "foreground_psnr_db": 17.289653996166873
+    },
+    {
+      "view": 1,
+      "split": "test",
+      "mse": 0.005841592326760292,
+      "psnr_db": 22.334687548626874,
+      "foreground_pixels": 399,
+      "foreground_mse": 0.03954904153943062,
+      "foreground_psnr_db": 14.028640370507615
+    },
+    {
+      "view": 3,
+      "split": "test",
+      "mse": 0.007318682968616486,
+      "psnr_db": 21.35567065242764,
+      "foreground_pixels": 360,
+      "foreground_mse": 0.057069841772317886,
+      "foreground_psnr_db": 12.43593331542587
+    },
+    {
+      "view": 5,
+      "split": "test",
+      "mse": 0.00820182915776968,
+      "psnr_db": 20.860892812093045,
+      "foreground_pixels": 500,
+      "foreground_mse": 0.04700971394777298,
+      "foreground_psnr_db": 13.278123914682396
+    },
+    {
+      "view": 7,
+      "split": "test",
+      "mse": 0.007960583083331585,
+      "psnr_db": 20.99055120629279,
+      "foreground_pixels": 485,
+      "foreground_mse": 0.04778178781270981,
+      "foreground_psnr_db": 13.207376046349333
+    },
+    {
+      "view": 9,
+      "split": "test",
+      "mse": 0.0076199788600206375,
+      "psnr_db": 21.18046233514615,
+      "foreground_pixels": 343,
+      "foreground_mse": 0.06209013611078262,
+      "foreground_psnr_db": 12.069773881150889
+    },
+    {
+      "view": 11,
+      "split": "test",
+      "mse": 0.0053833345882594585,
+      "psnr_db": 22.68948626812771,
+      "foreground_pixels": 399,
+      "foreground_mse": 0.03435411676764488,
+      "foreground_psnr_db": 14.640212125391379
+    },
+    {
+      "view": 13,
+      "split": "test",
+      "mse": 0.0034493699204176664,
+      "psnr_db": 24.62260228137304,
+      "foreground_pixels": 513,
+      "foreground_mse": 0.018154872581362724,
+      "foreground_psnr_db": 17.41006794804256
+    },
+    {
+      "view": 15,
+      "split": "test",
+      "mse": 0.004838087130337954,
+      "psnr_db": 23.153263145842587,
+      "foreground_pixels": 436,
+      "foreground_mse": 0.0306966882199049,
+      "foreground_psnr_db": 15.129084768161105
+    },
+    {
+      "view": 17,
+      "split": "test",
+      "mse": 0.00497627817094326,
+      "psnr_db": 23.030953508395307,
+      "foreground_pixels": 480,
+      "foreground_mse": 0.030594773590564728,
+      "foreground_psnr_db": 15.143527563497386
+    },
+    {
+      "view": 19,
+      "split": "test",
+      "mse": 0.005698001477867365,
+      "psnr_db": 22.44277442455342,
+      "foreground_pixels": 415,
+      "foreground_mse": 0.04423262178897858,
+      "foreground_psnr_db": 13.542573180407372
+    },
+    {
+      "view": 21,
+      "split": "test",
+      "mse": 0.0043938239105045795,
+      "psnr_db": 23.57157352110225,
+      "foreground_pixels": 420,
+      "foreground_mse": 0.028019411489367485,
+      "foreground_psnr_db": 15.525409907349108
+    },
+    {
+      "view": 23,
+      "split": "test",
+      "mse": 0.0033703043591231108,
+      "psnr_db": 24.72330877906375,
+      "foreground_pixels": 512,
+      "foreground_mse": 0.017459707334637642,
+      "foreground_psnr_db": 17.57963040356519
+    }
+  ],
+  "train_psnr_db": 24.096836476162462,
+  "held_out_psnr_db": 22.40005827252372,
+  "held_out_foreground_psnr_db": 14.192529648188728,
+  "artifact": {
+    "schema_version": 1,
+    "count": 256,
+    "stride": 10,
+    "layout": ["position_x", "position_y", "position_z", "scale_x", "scale_y", "scale_z", "red_srgb", "green_srgb", "blue_srgb", "opacity"],
+    "bytes": 10240,
+    "sha256": "7ec0f314fe152065e292f59c4232ffbbc2bf9a36937ee7759d31eedbed80efdb",
+    "covariance": "Axis-aligned learned world covariance; exact perspective Jacobian projection with 0.3-pixel variance floor. No learned rotations, SH color, densification, pruning or official 3DGS implementation.",
+    "sourceSha256": "b44dab6b2ff47c1e893005b388e3d45d83e2a42369ca8f0f9d0782086998a50b",
+    "normalization": {
+      "center": [0, 0.4005790948867798, 0],
+      "scale": 1.2454014198447487
+    }
+  }
+}

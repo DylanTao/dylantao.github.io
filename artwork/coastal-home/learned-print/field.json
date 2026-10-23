@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "representation": "learned-bilinear-feature-grids-with-relu-decoder",
+  "domain": "2D normalized image coordinates; no 3D geometry or radiance",
+  "sizes": [
+    [16, 8],
+    [48, 24],
+    [128, 64]
+  ],
+  "hidden": 24,
+  "features_per_level": 4,
+  "input_channels": 14,
+  "output": "sigmoid premultiplied sRGB and alpha",
+  "quantization": "symmetric signed int16 per block; little endian",
+  "blocks": [
+    {
+      "name": "grid0",
+      "shape": [8, 16, 4],
+      "offset": 0,
+      "count": 512,
+      "scale": 2.737269867371315e-5
+    },
+    {
+      "name": "grid1",
+      "shape": [24, 48, 4],
+      "offset": 512,
+      "count": 4608,
+      "scale": 4.8675782898724105e-5
+    },
+    {
+      "name": "grid2",
+      "shape": [64, 128, 4],
+      "offset": 5120,
+      "count": 32768,
+      "scale": 7.557818751879838e-5
+    },
+    {
+      "name": "weight0",
+      "shape": [24, 14],
+      "offset": 37888,
+      "count": 336,
+      "scale": 4.482946699436239e-5
+    },
+    {
+      "name": "bias0",
+      "shape": [24],
+      "offset": 38224,
+      "count": 24,
+      "scale": 1.4331664616170938e-5
+    },
+    {
+      "name": "weight1",
+      "shape": [24, 24],
+      "offset": 38248,
+      "count": 576,
+      "scale": 6.562630920009676e-5
+    },
+    {
+      "name": "bias1",
+      "shape": [24],
+      "offset": 38824,
+      "count": 24,
+      "scale": 1.7291868260888545e-5
+    },
+    {
+      "name": "weight2",
+      "shape": [4, 24],
+      "offset": 38848,
+      "count": 96,
+      "scale": 3.310518770901565e-5
+    },
+    {
+      "name": "bias2",
+      "shape": [4],
+      "offset": 38944,
+      "count": 4,
+      "scale": 1.0690646121073138e-5
+    }
+  ],
+  "weights_bytes": 77896,
+  "weights_sha256": "6d45f0340e7b446b683a4d3ad8c9388b33c92bcc1409bbeb8e129c91a52e56db"
+}

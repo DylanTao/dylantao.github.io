@@ -1,0 +1,2357 @@
+{
+  "schema_version": 1,
+  "measurement": "Serial ABBA renderer paths; 8 warmup draws, 12 GPU timer queries per block. Null GPU times mean the extension was unavailable, not zero cost.",
+  "runs": [
+    {
+      "engine": "chromium",
+      "version": "145.0.7632.6",
+      "evidence": {
+        "renderer": "ANGLE (Intel, Intel(R) Arc(TM) Graphics (0x00007D55) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "weightsHash": "7ec0f314fe152065e292f59c4232ffbbc2bf9a36937ee7759d31eedbed80efdb",
+        "weightsBytes": 10240,
+        "count": 256,
+        "framebufferBytes": 1048576,
+        "accumulation": "RGBA32F",
+        "gpuTimer": true,
+        "contextLost": false,
+        "glError": 0,
+        "calls": 5,
+        "triangles": 6376
+      },
+      "heldOut": [
+        {
+          "view": 1,
+          "psnrDb": 21.289170505933555,
+          "foregroundPixels": 6455,
+          "foregroundPsnrDb": 11.894075178376564
+        },
+        {
+          "view": 3,
+          "psnrDb": 20.58788415019277,
+          "foregroundPixels": 5716,
+          "foregroundPsnrDb": 10.45029025315853
+        },
+        {
+          "view": 5,
+          "psnrDb": 20.571366073600373,
+          "foregroundPixels": 8129,
+          "foregroundPsnrDb": 12.177419170503075
+        },
+        {
+          "view": 7,
+          "psnrDb": 20.48765175220399,
+          "foregroundPixels": 7882,
+          "foregroundPsnrDb": 11.85976128220629
+        },
+        {
+          "view": 9,
+          "psnrDb": 20.608375193711854,
+          "foregroundPixels": 5478,
+          "foregroundPsnrDb": 10.402806229406236
+        },
+        {
+          "view": 11,
+          "psnrDb": 21.732491357978546,
+          "foregroundPixels": 6359,
+          "foregroundPsnrDb": 12.32789734631612
+        },
+        {
+          "view": 13,
+          "psnrDb": 23.146568434620608,
+          "foregroundPixels": 8352,
+          "foregroundPsnrDb": 14.70352538201775
+        },
+        {
+          "view": 15,
+          "psnrDb": 22.389758804475107,
+          "foregroundPixels": 7272,
+          "foregroundPsnrDb": 13.283819804559226
+        },
+        {
+          "view": 17,
+          "psnrDb": 22.835318679959077,
+          "foregroundPixels": 7766,
+          "foregroundPsnrDb": 14.055005646416028
+        },
+        {
+          "view": 19,
+          "psnrDb": 22.228238486280326,
+          "foregroundPixels": 6692,
+          "foregroundPsnrDb": 12.686411375143646
+        },
+        {
+          "view": 21,
+          "psnrDb": 22.432436549332287,
+          "foregroundPixels": 7098,
+          "foregroundPsnrDb": 13.32799979285796
+        },
+        {
+          "view": 23,
+          "psnrDb": 23.373774137859723,
+          "foregroundPixels": 8237,
+          "foregroundPsnrDb": 14.884365368254082
+        }
+      ],
+      "pythonParity": {
+        "maxAbsError": 0.0024900836103102786,
+        "rmse": 0.0005737495045578751,
+        "referenceView": 1
+      },
+      "views": [
+        {
+          "yaw": 30,
+          "pitch": 10,
+          "resolution": [256, 257],
+          "psnrDb": 21.306102086128007,
+          "timing": [
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.12552,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.194322,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.159114,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.159375,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.160052,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.135677,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.136093,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.133281,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.574791,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.5999999940395355,
+              "gpuMs": 0.134843,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.133072,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.133802,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.10000000149011612,
+              "gpuMs": 0.44427,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.448697,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.5,
+              "gpuMs": 0.447447,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.4000000059604645,
+              "gpuMs": 0.445677,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.447812,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.448437,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.4000000059604645,
+              "gpuMs": 0.447291,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.473333,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.50901,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.44401,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.445885,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.45,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.443072,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.4475,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.447864,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.445625,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.522031,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.448333,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.4000000059604645,
+              "gpuMs": 0.444947,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.445833,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.445572,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.7000000029802322,
+              "gpuMs": 0.446875,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.446302,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.445781,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.10000000149011612,
+              "gpuMs": 0.105677,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.135677,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.133802,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.159895,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.136041,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.159583,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.136614,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.8000000044703484,
+              "gpuMs": 0.13677,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.136197,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.13677,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.132812,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.133489,
+              "disjoint": false,
+              "timedOut": false
+            }
+          ],
+          "medianGpuMs": {
+            "mesh": 0.136093,
+            "gaussian": 0.447291
+          }
+        },
+        {
+          "yaw": 150,
+          "pitch": 35,
+          "resolution": [256, 257],
+          "psnrDb": 22.85225026015352,
+          "timing": [
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": 7.777239,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.5,
+              "gpuMs": 0.174322,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.149427,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.145989,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.8999999985098839,
+              "gpuMs": 0.147135,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.150208,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.5,
+              "gpuMs": 0.149166,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.146666,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.146666,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.148697,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.149062,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.131406,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.10000000149011612,
+              "gpuMs": 0.449583,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.458125,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.8000000044703484,
+              "gpuMs": 0.454427,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.453593,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.5,
+              "gpuMs": 0.54776,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.526614,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.528489,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.527135,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.527447,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.525781,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.6000000014901161,
+              "gpuMs": 0.601354,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.5,
+              "gpuMs": 0.526458,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": 0.522395,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.4000000059604645,
+              "gpuMs": 0.521197,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.52875,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.453229,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.453385,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.5,
+              "gpuMs": 0.453645,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.455052,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.452083,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.5,
+              "gpuMs": 0.453333,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.45427,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.453333,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.454479,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.10000000149011612,
+              "gpuMs": 0.098593,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.133385,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.131875,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.132187,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.147031,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.129895,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.175104,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.128489,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.126979,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.176979,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.128593,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.130937,
+              "disjoint": false,
+              "timedOut": false
+            }
+          ],
+          "medianGpuMs": {
+            "mesh": 0.146666,
+            "gaussian": 0.458125
+          }
+        },
+        {
+          "yaw": 270,
+          "pitch": 10,
+          "resolution": [256, 257],
+          "psnrDb": 20.625306773906303,
+          "timing": [
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.10000000149011612,
+              "gpuMs": 0.083333,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.5,
+              "gpuMs": 0.124322,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.10401,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.09999999403953552,
+              "gpuMs": 0.108489,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.10000000149011612,
+              "gpuMs": 0.119895,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.10000000149011612,
+              "gpuMs": 0.108229,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.107135,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.108125,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.107031,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.110625,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.117447,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.118645,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": 0.343906,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.37302,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.349583,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.349479,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.349843,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.349427,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.3999999985098839,
+              "gpuMs": 0.351093,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.348958,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.349791,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.426354,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.403229,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.404322,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": 0.39651,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.428385,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.403854,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.29999999701976776,
+              "gpuMs": 0.403229,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.481041,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.09999999403953552,
+              "gpuMs": 0.40427,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.404427,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.403645,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.405364,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.404531,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.404375,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.403645,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.10000000149011612,
+              "gpuMs": 0.108906,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.138385,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.135989,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.10000000149011612,
+              "gpuMs": 0.13526,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.13875,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.30000000447034836,
+              "gpuMs": 0.138854,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.138125,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.138437,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.13776,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.19999999552965164,
+              "gpuMs": 0.137812,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.20000000298023224,
+              "gpuMs": 0.137187,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.09999999403953552,
+              "gpuMs": 0.136041,
+              "disjoint": false,
+              "timedOut": false
+            }
+          ],
+          "medianGpuMs": {
+            "mesh": 0.124322,
+            "gaussian": 0.403645
+          }
+        }
+      ],
+      "phone": {
+        "overflow": false,
+        "canvasWidth": 256
+      },
+      "reprojectionMs": [
+        0.5, 0.5999999940395355, 0.30000000447034836, 0.5, 0.6000000014901161, 0.19999999552965164, 0.30000000447034836, 0.29999999701976776,
+        0.29999999701976776, 0.30000000447034836, 0.29999999701976776, 0.30000000447034836, 0.5, 0.19999999552965164, 0.30000000447034836,
+        0.3999999985098839, 0.5, 0.29999999701976776, 0.3999999985098839, 0.30000000447034836, 0.29999999701976776, 0.5, 0.20000000298023224,
+        0.29999999701976776, 0.30000000447034836, 9, 0.29999999701976776, 0.20000000298023224, 0.19999999552965164, 0.20000000298023224,
+        0.7999999970197678, 0.5, 0.30000000447034836, 0.19999999552965164, 0.3999999985098839, 0.20000000298023224, 0.20000000298023224,
+        0.19999999552965164, 0.20000000298023224, 0.6999999955296516, 0.5, 0.4000000059604645, 0.7999999970197678, 0.5, 0.3999999985098839,
+        0.3999999985098839, 0.4000000059604645, 0.29999999701976776, 0.20000000298023224, 0.19999999552965164, 0.20000000298023224,
+        0.29999999701976776, 0.20000000298023224, 0.19999999552965164, 0.20000000298023224, 0.3999999985098839, 0.20000000298023224,
+        0.29999999701976776, 0.10000000149011612, 0.20000000298023224, 0.3999999985098839, 0.19999999552965164, 0.20000000298023224,
+        0.10000000149011612
+      ],
+      "disposed": {
+        "disposed": true,
+        "before": {
+          "geometries": 7,
+          "textures": 2
+        },
+        "after": {
+          "geometries": 5,
+          "textures": 1
+        },
+        "removed": true
+      },
+      "errors": [],
+      "checks": {
+        "noErrors": true,
+        "modeChangesPixels": true,
+        "viewChangesPixels": true,
+        "noPhoneOverflow": true,
+        "parityWithinTwoLevels": true,
+        "disposed": true
+      }
+    },
+    {
+      "engine": "webkit",
+      "version": "26.0",
+      "evidence": {
+        "renderer": "Apple GPU",
+        "weightsHash": "7ec0f314fe152065e292f59c4232ffbbc2bf9a36937ee7759d31eedbed80efdb",
+        "weightsBytes": 10240,
+        "count": 256,
+        "framebufferBytes": 1048576,
+        "accumulation": "RGBA32F",
+        "gpuTimer": false,
+        "contextLost": false,
+        "glError": 0,
+        "calls": 5,
+        "triangles": 6376
+      },
+      "heldOut": [
+        {
+          "view": 1,
+          "psnrDb": 21.289170505933555,
+          "foregroundPixels": 6455,
+          "foregroundPsnrDb": 11.894075178376564
+        },
+        {
+          "view": 3,
+          "psnrDb": 20.58788415019277,
+          "foregroundPixels": 5716,
+          "foregroundPsnrDb": 10.45029025315853
+        },
+        {
+          "view": 5,
+          "psnrDb": 20.571366073600373,
+          "foregroundPixels": 8129,
+          "foregroundPsnrDb": 12.177419170503075
+        },
+        {
+          "view": 7,
+          "psnrDb": 20.48765175220399,
+          "foregroundPixels": 7882,
+          "foregroundPsnrDb": 11.85976128220629
+        },
+        {
+          "view": 9,
+          "psnrDb": 20.608375193711854,
+          "foregroundPixels": 5478,
+          "foregroundPsnrDb": 10.402806229406236
+        },
+        {
+          "view": 11,
+          "psnrDb": 21.732491357978546,
+          "foregroundPixels": 6359,
+          "foregroundPsnrDb": 12.32789734631612
+        },
+        {
+          "view": 13,
+          "psnrDb": 23.146568434620608,
+          "foregroundPixels": 8352,
+          "foregroundPsnrDb": 14.70352538201775
+        },
+        {
+          "view": 15,
+          "psnrDb": 22.389758804475107,
+          "foregroundPixels": 7272,
+          "foregroundPsnrDb": 13.283819804559226
+        },
+        {
+          "view": 17,
+          "psnrDb": 22.835318679959077,
+          "foregroundPixels": 7766,
+          "foregroundPsnrDb": 14.055005646416028
+        },
+        {
+          "view": 19,
+          "psnrDb": 22.228238486280326,
+          "foregroundPixels": 6692,
+          "foregroundPsnrDb": 12.686411375143646
+        },
+        {
+          "view": 21,
+          "psnrDb": 22.432436549332287,
+          "foregroundPixels": 7098,
+          "foregroundPsnrDb": 13.32799979285796
+        },
+        {
+          "view": 23,
+          "psnrDb": 23.373774137859723,
+          "foregroundPixels": 8237,
+          "foregroundPsnrDb": 14.884365368254082
+        }
+      ],
+      "pythonParity": {
+        "maxAbsError": 0.0024900836103102786,
+        "rmse": 0.0005737495045578751,
+        "referenceView": 1
+      },
+      "views": [
+        {
+          "yaw": 30,
+          "pitch": 10,
+          "resolution": [256, 257],
+          "psnrDb": 21.306102086128007,
+          "timing": [
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999997726,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999997726,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999997726,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999997726,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.9999999999997726,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1.0000000000002274,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            }
+          ],
+          "medianGpuMs": {
+            "mesh": null,
+            "gaussian": null
+          }
+        },
+        {
+          "yaw": 150,
+          "pitch": 35,
+          "resolution": [256, 257],
+          "psnrDb": 22.85225026015352,
+          "timing": [
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1.0000000000004547,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1.0000000000004547,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1.0000000000004547,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1.0000000000004547,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999995453,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999995453,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.9999999999995453,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            }
+          ],
+          "medianGpuMs": {
+            "mesh": null,
+            "gaussian": null
+          }
+        },
+        {
+          "yaw": 270,
+          "pitch": 10,
+          "resolution": [256, 257],
+          "psnrDb": 20.625306773906303,
+          "timing": [
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999995453,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999995453,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1.0000000000004547,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 1.0000000000004547,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999995453,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999995453,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "gaussian",
+              "submissionAndFinishMs": 0.9999999999995453,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 1,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0.9999999999995453,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            },
+            {
+              "mode": "mesh",
+              "submissionAndFinishMs": 0,
+              "gpuMs": null,
+              "disjoint": false,
+              "timedOut": false
+            }
+          ],
+          "medianGpuMs": {
+            "mesh": null,
+            "gaussian": null
+          }
+        }
+      ],
+      "phone": {
+        "overflow": false,
+        "canvasWidth": 256
+      },
+      "reprojectionMs": [
+        0, 1, 0, 0, 1, 0, 1, 0, 1.0000000000009095, 0, 0, 0.9999999999990905, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1.0000000000009095, 0,
+        0.9999999999990905, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1.0000000000009095, 0, 0, 0.9999999999990905, 0, 1, 0, 0, 1, 0,
+        1, 0, 1, 0, 0, 1
+      ],
+      "disposed": {
+        "disposed": true,
+        "before": {
+          "geometries": 7,
+          "textures": 2
+        },
+        "after": {
+          "geometries": 5,
+          "textures": 1
+        },
+        "removed": true
+      },
+      "errors": [],
+      "checks": {
+        "noErrors": true,
+        "modeChangesPixels": true,
+        "viewChangesPixels": true,
+        "noPhoneOverflow": true,
+        "parityWithinTwoLevels": true,
+        "disposed": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+{
+  "schema_version": 1,
+  "trainer_sha256": "a2367b817eb4fe027fb7dfaaea47519b7dd08e600ea17ac4274376c0e3c9a84a",
+  "source": "artwork/coastal-home/coastal-print.webp",
+  "source_sha256": "f213ee8685576c9a3cf824e442716cf1aac9fe7243f6355cf800bbda43f6e062",
+  "source_bytes": 228966,
+  "resolution": [1200, 600],
+  "calibration": "Exact original image-plane UV coordinates; no camera or 3D calibration claim.",
+  "seed": 1701,
+  "steps": 3000,
+  "batch": 4096,
+  "threads": 4,
+  "device": "cpu",
+  "torch": "2.6.0+cpu",
+  "python": "3.12.10",
+  "elapsed_seconds": 18.935795899997174,
+  "split_counts": {
+    "train": 576038,
+    "validation": 71987,
+    "test": 71975
+  },
+  "split_sha256": "a8d96378aff364bf1ef0286cc65b9ae310b1a66ca605cb866104012f44af9782",
+  "selection": "Lowest full validation RGBA MSE among logged checkpoints; test coordinates never optimized or used for checkpoint selection.",
+  "initial_validation": {
+    "count": 71987,
+    "premultiplied_rgba_mse": [0.15351796833129477, 0.09408668471546493, 0.14610729002605902, 0.2316811727142143],
+    "rgba_psnr_db": 8.059068950289136,
+    "rgb_psnr_db": 8.819426656039273,
+    "alpha_rmse": 0.4813327048042905
+  },
+  "history": [
+    {
+      "step": 1,
+      "training_batch_mse": 0.15619754791259766,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.15229416414879435, 0.09222877382578341, 0.1413250280365404, 0.22927547268510098],
+        "rgba_psnr_db": 8.130977156088932,
+        "rgb_psnr_db": 8.907050395012575,
+        "alpha_rmse": 0.4788271845719507
+      },
+      "elapsed_seconds": 0.05263649999687914
+    },
+    {
+      "step": 200,
+      "training_batch_mse": 0.008704574778676033,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.01494342820488148, 0.011222047633816597, 0.00827027552611748, 0.002363976133716898],
+        "rgba_psnr_db": 20.36215388587103,
+        "rgb_psnr_db": 19.40111691282938,
+        "alpha_rmse": 0.04862073769202703
+      },
+      "elapsed_seconds": 1.1233639999991283
+    },
+    {
+      "step": 400,
+      "training_batch_mse": 0.00781420897692442,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.013556924413503426, 0.009693306450321864, 0.007130193173481548, 0.002050669361050546],
+        "rgba_psnr_db": 20.91098400383381,
+        "rgb_psnr_db": 19.94527423449074,
+        "alpha_rmse": 0.0452843169436235
+      },
+      "elapsed_seconds": 2.3607264000020223
+    },
+    {
+      "step": 600,
+      "training_batch_mse": 0.007675481960177422,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.012594718092160168, 0.009116739288819831, 0.00683464468899765, 0.0019659979271737377],
+        "rgba_psnr_db": 21.17587892312585,
+        "rgb_psnr_db": 20.215744403890177,
+        "alpha_rmse": 0.04433957518034806
+      },
+      "elapsed_seconds": 3.525378300000739
+    },
+    {
+      "step": 800,
+      "training_batch_mse": 0.006702150218188763,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.011771910528362468, 0.00876873577906321, 0.006665035431434127, 0.0018185877149471113],
+        "rgba_psnr_db": 21.392986940516593,
+        "rgb_psnr_db": 20.42461641488757,
+        "alpha_rmse": 0.042644902566978754
+      },
+      "elapsed_seconds": 4.995309699996142
+    },
+    {
+      "step": 1000,
+      "training_batch_mse": 0.006232449784874916,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.011283706364536681, 0.008548196445339627, 0.006525542424972261, 0.001736693413029822],
+        "rgba_psnr_db": 21.534442699427064,
+        "rgb_psnr_db": 20.562179419000305,
+        "alpha_rmse": 0.041673653703866935
+      },
+      "elapsed_seconds": 6.514046299998881
+    },
+    {
+      "step": 1200,
+      "training_batch_mse": 0.006270482670515776,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.011047561177157838, 0.008480641349743856, 0.0065325476253156435, 0.0016265249751165115],
+        "rgba_psnr_db": 21.597797750332198,
+        "rgb_psnr_db": 20.61134342104429,
+        "alpha_rmse": 0.04033019929428209
+      },
+      "elapsed_seconds": 7.844881199998781
+    },
+    {
+      "step": 1400,
+      "training_batch_mse": 0.006249160971492529,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.01068648491291183, 0.008298738668964445, 0.006393516313405277, 0.0015668546869569426],
+        "rgba_psnr_db": 21.715722201360848,
+        "rgb_psnr_db": 20.72651200007147,
+        "alpha_rmse": 0.039583515343599066
+      },
+      "elapsed_seconds": 8.921942399996624
+    },
+    {
+      "step": 1600,
+      "training_batch_mse": 0.00648519629612565,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.010463218750084819, 0.008176379944858776, 0.006330096361664245, 0.0014770227061870077],
+        "rgba_psnr_db": 21.796882108341812,
+        "rgb_psnr_db": 20.7970801617453,
+        "alpha_rmse": 0.03843205310918228
+      },
+      "elapsed_seconds": 10.004888499999652
+    },
+    {
+      "step": 1800,
+      "training_batch_mse": 0.0060790968127548695,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.010405881584472679, 0.008134839459807001, 0.00629012369053193, 0.0014414694343177017],
+        "rgba_psnr_db": 21.82561662484861,
+        "rgb_psnr_db": 20.821297603996122,
+        "alpha_rmse": 0.03796668848237494
+      },
+      "elapsed_seconds": 11.030780200002482
+    },
+    {
+      "step": 2000,
+      "training_batch_mse": 0.006219556089490652,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.010151316922831473, 0.007977696781213888, 0.0062145108642479895, 0.001373179413370484],
+        "rgba_psnr_db": 21.918446854856995,
+        "rgb_psnr_db": 20.90737797105625,
+        "alpha_rmse": 0.0370564355189552
+      },
+      "elapsed_seconds": 12.214250600001833
+    },
+    {
+      "step": 2200,
+      "training_batch_mse": 0.0051819938234984875,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.010114141883212144, 0.007948672209918347, 0.006183752985978159, 0.0013866132780466546],
+        "rgba_psnr_db": 21.932574980631596,
+        "rgb_psnr_db": 20.924709964881213,
+        "alpha_rmse": 0.03723725658593359
+      },
+      "elapsed_seconds": 13.34075959999609
+    },
+    {
+      "step": 2400,
+      "training_batch_mse": 0.005801021121442318,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.010067031036869746, 0.00797324565243148, 0.0061666129069147205, 0.0013227199007171378],
+        "rgba_psnr_db": 21.950158194780474,
+        "rgb_psnr_db": 20.931822652771874,
+        "alpha_rmse": 0.0363692163885495
+      },
+      "elapsed_seconds": 14.540723400001298
+    },
+    {
+      "step": 2600,
+      "training_batch_mse": 0.005787655711174011,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.009895854979361924, 0.007854827558177303, 0.006128105594502221, 0.0012909505557790843],
+        "rgba_psnr_db": 22.011812846006844,
+        "rgb_psnr_db": 20.991089725019556,
+        "alpha_rmse": 0.03592980038601779
+      },
+      "elapsed_seconds": 15.785207100001571
+    },
+    {
+      "step": 2800,
+      "training_batch_mse": 0.005658006761223078,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.00981713748069768, 0.007809404609323945, 0.006096712299328715, 0.0012569906104286691],
+        "rgba_psnr_db": 22.044632978210586,
+        "rgb_psnr_db": 21.019469888137444,
+        "alpha_rmse": 0.03545406338388689
+      },
+      "elapsed_seconds": 17.359222500002943
+    },
+    {
+      "step": 3000,
+      "training_batch_mse": 0.006017065607011318,
+      "validation": {
+        "count": 71987,
+        "premultiplied_rgba_mse": [0.009794612637641751, 0.00779191392482442, 0.006083739021108043, 0.0012482985609426555],
+        "rgba_psnr_db": 22.055369775012977,
+        "rgb_psnr_db": 21.029181239205464,
+        "alpha_rmse": 0.03533126888384644
+      },
+      "elapsed_seconds": 18.919320200002403
+    }
+  ],
+  "float_test": {
+    "count": 71975,
+    "premultiplied_rgba_mse": [0.009730158765503046, 0.007725434858369761, 0.006064102858619078, 0.0013390869112159041],
+    "rgba_psnr_db": 22.065801211787495,
+    "rgb_psnr_db": 21.056895417725965,
+    "alpha_rmse": 0.03659353646774119
+  },
+  "quantized_test": {
+    "count": 71975,
+    "premultiplied_rgba_mse": [0.009730189417298224, 0.007725416931107592, 0.006064087522473326, 0.0013390811395741441],
+    "rgba_psnr_db": 22.065802676381207,
+    "rgb_psnr_db": 21.056895899963934,
+    "alpha_rmse": 0.0365934576061643
+  },
+  "artifact": {
+    "schema_version": 1,
+    "representation": "learned-bilinear-feature-grids-with-relu-decoder",
+    "domain": "2D normalized image coordinates; no 3D geometry or radiance",
+    "sizes": [
+      [16, 8],
+      [48, 24],
+      [128, 64]
+    ],
+    "hidden": 24,
+    "features_per_level": 4,
+    "input_channels": 14,
+    "output": "sigmoid premultiplied sRGB and alpha",
+    "quantization": "symmetric signed int16 per block; little endian",
+    "blocks": [
+      {
+        "name": "grid0",
+        "shape": [8, 16, 4],
+        "offset": 0,
+        "count": 512,
+        "scale": 2.737269867371315e-5
+      },
+      {
+        "name": "grid1",
+        "shape": [24, 48, 4],
+        "offset": 512,
+        "count": 4608,
+        "scale": 4.8675782898724105e-5
+      },
+      {
+        "name": "grid2",
+        "shape": [64, 128, 4],
+        "offset": 5120,
+        "count": 32768,
+        "scale": 7.557818751879838e-5
+      },
+      {
+        "name": "weight0",
+        "shape": [24, 14],
+        "offset": 37888,
+        "count": 336,
+        "scale": 4.482946699436239e-5
+      },
+      {
+        "name": "bias0",
+        "shape": [24],
+        "offset": 38224,
+        "count": 24,
+        "scale": 1.4331664616170938e-5
+      },
+      {
+        "name": "weight1",
+        "shape": [24, 24],
+        "offset": 38248,
+        "count": 576,
+        "scale": 6.562630920009676e-5
+      },
+      {
+        "name": "bias1",
+        "shape": [24],
+        "offset": 38824,
+        "count": 24,
+        "scale": 1.7291868260888545e-5
+      },
+      {
+        "name": "weight2",
+        "shape": [4, 24],
+        "offset": 38848,
+        "count": 96,
+        "scale": 3.310518770901565e-5
+      },
+      {
+        "name": "bias2",
+        "shape": [4],
+        "offset": 38944,
+        "count": 4,
+        "scale": 1.0690646121073138e-5
+      }
+    ],
+    "weights_bytes": 77896,
+    "weights_sha256": "6d45f0340e7b446b683a4d3ad8c9388b33c92bcc1409bbeb8e129c91a52e56db"
+  },
+  "limitations": [
+    "Held-out coordinates test spatial interpolation within one original static illustration, not unseen 3D viewpoints or a new illustration.",
+    "No prescribed or learned discontinuity curves; this is not a reproduction of Belhe et al. or Liu et al.",
+    "No relighting, hidden geometry, dynamic scene, or house replacement is represented."
+  ]
+}

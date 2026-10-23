@@ -1,0 +1,51 @@
+﻿:root {
+  color-scheme: light dark;
+  font-family: system-ui, sans-serif;
+  background: light-dark(#faf8f3, #1d1c1a);
+  color: light-dark(#26231f, #f3eee7);
+}
+body {
+  margin: 0;
+}
+main {
+  max-width: 1080px;
+  margin: 2rem auto;
+  padding: 0 1.25rem;
+}
+h1 {
+  font-family: Georgia, serif;
+  font-weight: 400;
+}
+p {
+  max-width: 80ch;
+  line-height: 1.6;
+}
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: end;
+}
+label {
+  display: grid;
+  gap: 0.4rem;
+}
+button,
+select {
+  font: inherit;
+  padding: 0.45rem 0.6rem;
+}
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  touch-action: none;
+}
+canvas:focus-visible {
+  outline: 3px solid #b15721;
+  outline-offset: 4px;
+}
+a {
+  color: light-dark(#93451c, #f4af7c);
+}

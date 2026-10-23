@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-23",
+  "base_site_revision": "9a8236b3337c6562aa516230bc741cd67e83c364",
+  "decision": "Reject both trained candidates for adoption; retain the image and relightable mesh.",
+  "source_binding": {
+    "bin/train_coastal_print_field.py": "a2367b817eb4fe027fb7dfaaea47519b7dd08e600ea17ac4274376c0e3c9a84a",
+    "bin/train_coastal_object_field.py": "7b03a86ec31ca5b8b9b4c05c8d868cdff0bf8724a6558636bc5bbf7167ca1627",
+    "bin/capture_coastal_object_field.cjs": "9f6e4fe0f3c1405b2c78c9b6f4707d4264e03164064bcb376bafe5a9e8d43aa1",
+    "bin/measure_coastal_print_field.cjs": "e41b5b3ec1a6493a157fdca8fd7e6354b6a98139e36753184450d61c704b297b",
+    "bin/measure_coastal_object_field.cjs": "a3171ae8e728877b96831d51e469da702b6dff7bdb6f550895ee5a783529f918",
+    "artwork/coastal-home/learned-print/study.mjs": "0e9e01ed348ca9d85b16cf833d450b3cc7126fd5cf70185eac2981d67157d978",
+    "artwork/coastal-home/learned-object/capture.mjs": "089412b36b5d598ee1d6eeb2809af94973812b925db7a7bee42cce79acf1a154",
+    "artwork/coastal-home/learned-object/gaussian.mjs": "41516113e016b68960b7ee82fce84742d269bb09b6f66ac3aed4527eec149815",
+    "artwork/coastal-home/learned-print/field.i16": "6d45f0340e7b446b683a4d3ad8c9388b33c92bcc1409bbeb8e129c91a52e56db",
+    "artwork/coastal-home/learned-print/training.json": "70227bbb12e9cc5a1cb0365f5067e867ffcaf531e7689c1e2fec720863a1f282",
+    "artwork/coastal-home/learned-print/browser/browser.json": "075262ca6570df92cc9486bd2c64bbb69f97a1ede1149603086fac4d30f83ae2",
+    "artwork/coastal-home/learned-object/gaussians.f32": "7ec0f314fe152065e292f59c4232ffbbc2bf9a36937ee7759d31eedbed80efdb",
+    "artwork/coastal-home/learned-object/python-reference.f32": "a5b07f002076f01d71d7d377571dcabeedeaee2dfdc5e9859e985a8e333bb876",
+    "artwork/coastal-home/learned-object/data/dataset.json": "eac971e51a692127defaeff876606599a1de0ce8da7cb5d661290b5eecd165df",
+    "artwork/coastal-home/learned-object/data/source.glb": "b44dab6b2ff47c1e893005b388e3d45d83e2a42369ca8f0f9d0782086998a50b",
+    "artwork/coastal-home/learned-object/training.json": "92821d2da1d8d3d9ac60de32336ae4974b9d072f403b9e964a29265976c97d3e",
+    "artwork/coastal-home/learned-object/browser/browser.json": "8c9cce391b32aff46ba2cda8d105aca550f832952724cc052b8edc7b17d84bde"
+  },
+  "owned_server_module_checks": [
+    {
+      "path": "artwork/coastal-home/learned-print/study.mjs",
+      "sha256": "0e9e01ed348ca9d85b16cf833d450b3cc7126fd5cf70185eac2981d67157d978",
+      "bytes": 10509,
+      "matches_worktree": true
+    },
+    {
+      "path": "artwork/coastal-home/learned-object/capture.mjs",
+      "sha256": "089412b36b5d598ee1d6eeb2809af94973812b925db7a7bee42cce79acf1a154",
+      "bytes": 4842,
+      "matches_worktree": true
+    },
+    {
+      "path": "artwork/coastal-home/learned-object/gaussian.mjs",
+      "sha256": "41516113e016b68960b7ee82fce84742d269bb09b6f66ac3aed4527eec149815",
+      "bytes": 9435,
+      "matches_worktree": true
+    },
+    {
+      "path": "artwork/coastal-home/learned-object/data/source.glb",
+      "sha256": "b44dab6b2ff47c1e893005b388e3d45d83e2a42369ca8f0f9d0782086998a50b",
+      "bytes": 66580,
+      "matches_worktree": true
+    }
+  ],
+  "note": "The reference GLB snapshot is byte-identical to the source at the base revision. Browser metrics use genuine trained weights; final formatting and the byte-identical snapshot path do not change rendering. Artwork remains excluded from Jekyll."
+}

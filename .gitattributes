@@ -15,3 +15,10 @@ _includes/projects.liquid text eol=lf
 _layouts/post.liquid text eol=lf
 _sass/_themes.scss text eol=lf
 assets/css/main.scss text eol=lf
+
+# Trained-study source records retain byte-identical trainer/measurement hashes.
+bin/train_coastal_print_field.py text eol=lf
+bin/train_coastal_object_field.py text eol=lf
+bin/capture_coastal_object_field.cjs text eol=lf
+bin/measure_coastal_print_field.cjs text eol=lf
+bin/measure_coastal_object_field.cjs text eol=lf

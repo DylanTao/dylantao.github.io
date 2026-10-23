@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>Static object Gaussian study</title
+  ><style>
+    body {
+      font: 16px system-ui;
+      background: #f5f2eb;
+    }
+    canvas {
+      max-width: 100%;
+      image-rendering: auto;
+    }
+    main {
+      max-width: 850px;
+      margin: 2rem auto;
+    }
+    button {
+      padding: 0.5rem;
+    }
+    h1 {
+      font-family: Georgia, serif;
+      font-weight: 400;
+    }
+  </style>
+  <main>
+    <h1>A static object, learned from its views</h1>
+    <p>
+      Original Eames-inspired chair and ottoman geometry under one fixed light. This local bounded Gaussian fit cannot relight, articulate or replace
+      the coastal home.
+    </p>
+    <p><button id="mode">Show trained Gaussians</button> <button id="rotate">Next held-out view</button></p>
+    <div id="view"></div>
+    <p id="status" role="status">Opening original mesh…</p>
+  </main>
+  <script type="module" src="capture.mjs"></script>
+</html>

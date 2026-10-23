@@ -1,0 +1,9 @@
+# Exact little-endian quantized weights.
+*.i16 binary
+
+# Portable source/record digests across Windows and CI.
+*.json text eol=lf
+*.mjs text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.css text eol=lf

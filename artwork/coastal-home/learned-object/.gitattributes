@@ -1,0 +1,10 @@
+# Exact learned float parameters and raw calibrated reference pixels.
+*.f32 binary
+data/*.rgba binary
+
+# Portable source/record digests across Windows and CI.
+*.json text eol=lf
+*.mjs text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.css text eol=lf

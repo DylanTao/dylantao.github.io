@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One print, a learned field — local representation study</title>
+  <link rel="stylesheet" href="study.css" />
+  <main>
+    <h1>One print, a learned field</h1>
+    <p>
+      A bounded training experiment on Sirui’s original Pacific illustration. Compare the actual image with a trained coordinate field. This is a
+      two-dimensional signal, with no hidden geometry or relighting.
+    </p>
+    <form>
+      <label
+        >Representation
+        <select id="mode">
+          <option value="image">Original WebP</option>
+          <option value="field">Trained field</option>
+        </select></label
+      >
+      <label
+        >View
+        <select id="view">
+          <option value="whole">Whole print</option>
+          <option value="cliff">Cliff detail, 3×</option>
+          <option value="agave">Agave detail, 4×</option>
+        </select></label
+      >
+      <button type="button" id="reset">Reset</button>
+    </form>
+    <p>Drag to pan. Use the wheel to zoom. Arrow keys pan; + and − zoom. Reset restores the whole print.</p>
+    <canvas
+      width="1200"
+      height="600"
+      tabindex="0"
+      aria-label="Pacific print comparison. Arrow keys pan; plus and minus zoom. Reset restores the whole view."
+    ></canvas>
+    <p id="status" role="status">Opening original image and trained weights…</p>
+    <p>
+      Training and browser measurements: <a href="README.md">findings and limits</a>. This local study is excluded from the published website; the
+      homepage keeps its freely explored mesh.
+    </p>
+  </main>
+  <script type="module" src="study.mjs"></script>
+</html>
