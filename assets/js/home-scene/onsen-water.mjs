@@ -199,7 +199,52 @@ export function createOnsenWater({
   texture.needsUpdate = true;
   let disposed = false,
     bather = null,
-    uploads = 1;
+    uploads = 1,
+    drip = null,
+    nextDrip = Math.sqrt((2 * 0.38) / 9.80665),
+    dripCount = 0;
+  // The existing native bamboo kakei supplies the drops. Its endpoint comes from the retained
+  // coastal_decor.py bamboo_spout tip (Blender 3.72,-3.62,3.28); no duplicate fixture is added.
+  function bindDrip(mesh) {
+    if (drip || !mesh?.parent || !mesh.isMesh) return;
+    let room = mesh,
+      fixture = false;
+    while (room.parent) room = room.parent;
+    room.traverse((part) => {
+      if (/onsen_decor.*dry.bamboo/.test(part.name)) fixture = true;
+    });
+    if (!fixture) return;
+    const group = new THREE.Group(),
+      dropMaterial = new THREE.MeshPhysicalMaterial({ color: 0xb6d7d0, roughness: 0.08, metalness: 0, transparent: true, opacity: 0.8 }),
+      dropGeometry = new THREE.SphereGeometry(0.009, 8, 6),
+      drop = new THREE.Mesh(dropGeometry, dropMaterial);
+    group.name = "Onsen bamboo drip inlet";
+    mesh.parent.updateWorldMatrix(true, false);
+    const position = new THREE.Vector3(3.72, surfaceY, 3.62);
+    group.position.copy(mesh.parent.worldToLocal(position));
+    group.quaternion.copy(mesh.parent.getWorldQuaternion(new THREE.Quaternion()).invert());
+    group.add(drop);
+    mesh.parent.add(group);
+    drip = {
+      group,
+      drop,
+      materials: [dropMaterial],
+      geometries: [dropGeometry],
+      x: 3.72,
+      z: 3.62,
+      height: 3.28 - surfaceY,
+    };
+    nextDrip = Math.sqrt((2 * drip.height) / 9.80665);
+    poseDrip();
+  }
+  function poseDrip() {
+    if (!drip) return;
+    const phase = solver.simulatedSeconds() % 1.4,
+      fall = Math.sqrt((2 * drip.height) / 9.80665);
+    drip.drop.visible = phase <= fall;
+    drip.drop.position.set(0, drip.height - 0.5 * 9.80665 * Math.min(phase, fall) ** 2, 0);
+    drip.drop.scale.set(1, 1.5, 1);
+  }
   function upload() {
     solver.writeSurface(data);
     texture.needsUpdate = true;
@@ -212,6 +257,7 @@ export function createOnsenWater({
     const compile = material.onBeforeCompile,
       cache = material.customProgramCacheKey;
     if (mesh) {
+      if (material.isMeshStandardMaterial) bindDrip(mesh);
       mesh.updateWorldMatrix(true, false);
       const inverse = new THREE.Matrix4().copy(mesh.matrixWorld).invert(),
         e = inverse.elements;
@@ -447,6 +493,17 @@ void RE_Direct_PoolStone(const in IncidentLight directLight, const in vec3 geome
       if (disposed) return false;
       const localContacts = contacts.map((contact) => ({ ...contact, x: contact.x - center[0], z: contact.z - center[1] }));
       const changed = solver.advance(delta, { contacts: localContacts });
+      // Only a bound, visible inlet adds drops. The pure unbound adapter remains an equilibrium
+      // basin for numerical validation; pause and offscreen throttling never accumulate debt.
+      if (drip && delta > 0) {
+        const now = solver.simulatedSeconds();
+        if (now >= nextDrip) {
+          solver.disturb({ x: drip.x - center[0], z: drip.z - center[1], amplitude: 0.0015, spread: 0.1 });
+          nextDrip = now + 1.4;
+          dripCount++;
+        }
+        poseDrip();
+      }
       if (changed) {
         // The ripples move on the solver's simulated clock, so they freeze whenever it does.
         uniforms.poolTime.value = solver.simulatedSeconds();
@@ -469,6 +526,7 @@ void RE_Direct_PoolStone(const in IncidentLight directLight, const in vec3 geome
         bottomY,
         depthSource,
         uploads,
+        drip: { bound: Boolean(drip), drops: dripCount, nextSeconds: nextDrip, coupling: "prescribed drop; zero-mean volume-conserving impulse" },
         textureBytes: data.byteLength,
         disposed,
         caustics: causticEvidence(),
@@ -484,6 +542,12 @@ void RE_Direct_PoolStone(const in IncidentLight directLight, const in vec3 geome
       }
       bindings.clear();
       receivers.clear();
+      if (drip) {
+        drip.materials.forEach((m) => m.dispose());
+        drip.geometries.forEach((g) => g.dispose());
+        drip.group.removeFromParent();
+        drip = null;
+      }
       texture.dispose();
     },
   };

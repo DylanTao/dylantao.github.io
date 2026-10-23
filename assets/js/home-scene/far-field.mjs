@@ -138,6 +138,15 @@ export function regionalCover(x, z, h) {
   return { scrub: h > FAR_SEA_LEVEL ? scrub * (1 - bluff) : 0, rock: bluff };
 }
 
+// Original imagined settlement pattern, not a GIS inventory of real buildings or lighting.
+// Sparse along the coastal terraces; the reserve's north bluff stays dark. Never put lamps at sea.
+export function regionalLights(x, z, h) {
+  if (h <= FAR_SEA_LEVEL || z < coastLine(x) + 38) return 0;
+  const south = smooth(-900, -2200, x) * (1 - smooth(900, 3200, z));
+  const inland = smooth(1000, 2600, z) * (1 - smooth(9000, 18000, z));
+  return Math.max(south, inland) * smooth(0.3, 0.8, fbm(x / 450, z / 450, 2, 73)) * 0.7;
+}
+
 // The far map's texel centres in world space: x = S u |u| for u in (-1, 1).
 export const farMapCoordinate = (i, size = FAR_MAP.size, extent = FAR_MAP.extent) => {
   const u = ((i + 0.5) / size) * 2 - 1;
@@ -163,7 +172,7 @@ export async function buildFarMap({
         k = (row * size + column) * 4;
       data[k] = h;
       data[k + 1] = cover.scrub;
-      data[k + 2] = 0;
+      data[k + 2] = regionalLights(x, z, h);
       data[k + 3] = cover.rock;
     }
     if (yieldTask && row % rowsPerTask === rowsPerTask - 1) {
@@ -187,6 +196,25 @@ vec2 farMapUv(vec2 xz) {
   return u * 0.5 + 0.5;
 }
 float farHash(vec2 c) { return fract(sin(dot(c, vec2(127.1, 311.7))) * 43758.5453); }
+// At hundreds of metres only crown silhouettes survive. Broad pine/oak groves, with variable
+// spacing and height, continue the authored near planting; no forest appears on a cliff or at sea.
+float farTreeHeight(vec2 p, vec4 info) {
+  if (info.r < 3.0 || info.a > .25 || info.g < .32) return 0.0;
+  vec2 lower=vec2(farNearBounds.x,farNearBounds.y-1.0/farNearBounds.w);
+  vec2 upper=vec2(farNearBounds.x+1.0/farNearBounds.z,farNearBounds.y);
+  float transition=smoothstep(0.0,60.0,length(max(max(lower-p,p-upper),vec2(0.0))));
+  vec2 cell=floor(p/36.0), f=fract(p/36.0);
+  float seed=farHash(cell+61.7);
+  if(seed<.62) return 0.0;
+  vec2 centre=vec2(.25)+.5*vec2(farHash(cell+12.7),farHash(cell+46.1));
+  float radius=mix(4.0,8.0,farHash(cell+5.3)), r=length((f-centre)*36.0)/radius;
+  // Rounded, wind-flat crowns, not infinite vertical terrain columns.
+  return transition*(5.0+7.0*seed)*sqrt(max(0.0,1.0-r*r));
+}
+float farRegionalSurface(vec2 p) {
+  vec4 info=textureLod(farMap,farMapUv(p),0.0);
+  return info.r + farTreeHeight(p,info);
+}
 vec2 farNearUv(vec2 xz) {
   return vec2((xz.x - farNearBounds.x) * farNearBounds.z, (farNearBounds.y - xz.y) * farNearBounds.w);
 }
@@ -204,7 +232,7 @@ float farSurface(vec2 xz) {
     // A heightfield cannot hold a crown over open ground, so planting only colours the land.
     return edge < 0.015 ? mix(far, ground, smoothstep(0.0, 0.015, edge)) : ground;
   }
-  return textureLod(farMap, farMapUv(xz), 0.0).r;
+  return farRegionalSurface(xz);
 }
 // Distance along d from eye to the first land the ray meets (or -1), before tMax. Earth's curvature
 // (with the usual 13 % of it undone by refraction) lowers the land with distance. A ray that starts
@@ -273,9 +301,23 @@ vec3 farLandRadiance(vec3 eye, vec3 d, float t) {
   vec3 albedo = mix(soil, chaparral, scrub * (1.0 - steep));
   albedo = mix(albedo, stone, max(rock, steep * 0.8));
   albedo = mix(albedo, beach, sand);
+  // Grove crowns and broad meadow patches break up the former uniform soil without new textures.
+  float crown=farTreeHeight(p.xz,info);
+  float outsideCapture=step(farNearBounds.x,p.x)*step(p.x,farNearBounds.x+1.0/farNearBounds.z)
+    *step(farNearBounds.y-1.0/farNearBounds.w,p.z)*step(p.z,farNearBounds.y);
+  if(outsideCapture<.5 && crown>1.) albedo=mix(albedo,vec3(.065,.10,.045),.8);
+  float meadow=smoothstep(.4,.7,farHash(floor(p.xz/180.0)+91.));
+  albedo=mix(albedo,vec3(.28,.29,.105),meadow*(1.-scrub)*(1.-max(rock,sand))*.24);
   vec3 light = atmoSunLight * max(dot(n, atmoSun), 0.0) + atmoMoonLight * max(dot(n, atmoMoon), 0.0)
     + ATMO_PI * atmoAmbient * (0.62 + 0.38 * n.y);
   vec3 radiance = albedo / ATMO_PI * light;
+  // Warm coastal settlement lights: world-anchored points with a footprint filter. Their daylight
+  // contribution is zero; the same far-field radiance appears in the sky, haze and sea reflection.
+  float night=1.-smoothstep(-.12,.015,atmoSun.y);
+  vec2 lampCell=floor(p.xz/58.),lampUV=fract(p.xz/58.);
+  vec2 lampCentre=.2+.6*vec2(farHash(lampCell+4.1),farHash(lampCell+7.9));
+  float footprint=max(.018,t*.000018), lamp=exp(-dot(lampUV-lampCentre,lampUV-lampCentre)/(footprint*footprint));
+  radiance+=vec3(.95,.42,.12)*info.b*night*lamp*.35;
   // The air beyond the coast's own haze layer: extinction of about 0.06 per km near the ground,
   // in-scattering the horizon sky's colour.
   float air = exp(-t * 0.00006 * exp(-max(p.y, 0.0) / 1200.0));

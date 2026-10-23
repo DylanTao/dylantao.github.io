@@ -1,0 +1,25 @@
+{
+  "centre": [-23.0, 10.0356982421875, 52.0],
+  "radius": 3.2,
+  "terrainVerticesChanged": 1692,
+  "removedPlantTriangles": 675,
+  "nativeSupport": {
+    "creekSamples": 78,
+    "minCreekDepth": 0.06197713216145928,
+    "maxCreekDepth": 0.4712838745117196,
+    "pondSamples": 64,
+    "minPondDepth": 0.4212420654296878,
+    "maxPondDepth": 0.4243548583984378
+  },
+  "creek": [
+    [-16, 10.380698242187501, 76],
+    [-15, 10.325698242187501, 72],
+    [-17, 10.270698242187501, 68],
+    [-18, 10.2156982421875, 64],
+    [-20, 10.1606982421875, 60],
+    [-22, 10.1056982421875, 57],
+    [-22.5, 10.0506982421875, 54.7]
+  ],
+  "route": "closed recirculating garden water; no claimed natural stream or fluid solver",
+  "source": "original Blender geometry; no third-party assets"
+}

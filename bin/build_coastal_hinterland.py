@@ -1483,6 +1483,9 @@ def export(objects):
     )
 
 
+import coastal_water_garden  # noqa: E402
+garden_objects, report["waterGarden"] = coastal_water_garden.apply()
+SHIPPED += garden_objects
 ground_support = [o for o in SHIPPED if o.name.startswith(("hinterland_ground", "hinterland_cliff", "hinterland_beach"))]
 config = json.loads(MANIFEST.read_text(encoding="utf-8"))
 log("camera grid")

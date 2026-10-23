@@ -1,5 +1,6 @@
 import { bindGliders } from "./gliders.mjs";
 import { coastWind } from "./wind-field.mjs";
+import { bindWaterGarden } from "./water-garden.mjs";
 
 // Runtime glue for the land beyond the mainland's walls (bin/build_coastal_hinterland.py, loaded
 // lazily by the controller): the gliders, the gliderport's wind sock, and the outside camera's
@@ -77,6 +78,7 @@ export function bindWindsock(root, entry, wind = coastWind) {
 export function bindHinterland(root, config, clock, wind = coastWind) {
   const gliders = bindGliders(root, config.hinterland?.gliders, clock);
   const windsock = bindWindsock(root, config.hinterland?.windsock, wind);
+  const waterGarden = bindWaterGarden(root, clock);
   config.cameraCollision = mergeCameraGrid(config.cameraCollision, config.hinterland?.cameraGrid);
-  return { gliders, windsock };
+  return { gliders, windsock, waterGarden };
 }
