@@ -4,6 +4,8 @@ import { readFileSync } from "node:fs";
 import * as THREE from "../assets/js/three.module.min.js";
 import { DETAIL, chooseLevel, planDetail, projectedPixels, reachFor } from "../assets/js/home-scene/detail-levels.mjs";
 import { createFurniture, furnitureMaterialName } from "../assets/js/home-scene/furniture.mjs";
+import { collidable } from "../assets/js/home-scene/camera-field.mjs";
+import { walkKind } from "../assets/js/home-scene/colliders.mjs";
 
 const levels = [
   { file: "eames-lounge-lod1.glb", triangles: 6000, bytes: 60000 },
@@ -82,7 +84,7 @@ test("level suffixes are stripped from material names", () => {
 });
 
 // A fake house: one room root with a placeholder, a camera, and models that resolve on demand.
-function house({ anchors, index = undefined, failing = [] } = {}) {
+function house({ anchors, index = undefined, failing = [], modelGate = null } = {}) {
   const room = new THREE.Group();
   room.name = "room-lounge";
   const placeholder = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 1.5), new THREE.MeshStandardMaterial());
@@ -102,6 +104,7 @@ function house({ anchors, index = undefined, failing = [] } = {}) {
     },
     loadModel: async (url) => {
       loads.push(url);
+      if (modelGate) await modelGate;
       if (failing.some((f) => url.endsWith(f))) throw new Error("404");
       const scene = new THREE.Group();
       const mesh = new THREE.Mesh(
@@ -216,6 +219,50 @@ test("coming close loads the fine level, swaps after its programs, and going awa
   h.furniture.update({ camera: h.camera });
   assert.equal(state().wanted, 0);
   assert.equal(h.furniture.evidence().fineBytes, 440000, "the fine level lingers before it is released");
+});
+
+test("collision keeps the native proxy through a timed-out default load and a later fine-level swap", async () => {
+  let release;
+  const modelGate = new Promise((resolve) => (release = resolve));
+  const h = house({ anchors: [anchor], modelGate });
+  const candidates = (accept) => {
+    const result = [];
+    h.room.traverse((o) => {
+      if (accept(o)) result.push(o);
+    });
+    return result;
+  };
+  const pending = h.furniture.load("lounge");
+  await h.furniture.attach("lounge", h.room, pending, 0);
+  assert.equal(h.placeholder.visible, true, "the original fallback remains visible on timeout");
+  assert.equal(h.placeholder.userData.furnitureCollision, true);
+  const check = () => {
+    assert.deepEqual(
+      candidates((o) => walkKind(o)),
+      [h.placeholder]
+    );
+    assert.deepEqual(
+      candidates((o) => collidable(o)),
+      [h.placeholder]
+    );
+  };
+  check();
+  release();
+  await pending;
+  const centre = new THREE.Vector3(...anchor.position).add(new THREE.Vector3(0, 0.4, 0));
+  h.camera.position.copy(centre).add(new THREE.Vector3(0, 0.4, 0.7));
+  h.camera.lookAt(centre);
+  h.camera.updateMatrixWorld();
+  for (let i = 0; i < 6; i++) {
+    h.furniture.update({ camera: h.camera, bufferHeight: 600 });
+    await flush();
+    check();
+  }
+  assert.equal(h.placeholder.visible, false);
+  assert.equal(h.furniture.evidence().placed[0].shown, 1, "the streamed fine level is actually drawn");
+  h.furniture.dispose();
+  assert.equal(h.placeholder.visible, true);
+  check();
 });
 
 test("the runtime's interface stays what index.json and the manifest describe", () => {

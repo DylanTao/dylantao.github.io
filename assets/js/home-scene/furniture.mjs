@@ -13,7 +13,8 @@ import { createFurnitureFire } from "./furniture-fire.mjs";
 // - The manifest's `furniture` lists anchors { id, item, room, position, yaw }: the item stands at
 //   `position` (world metres) turned by `yaw` about +y, as an actor's facing turns an avatar.
 // - Each anchor's room keeps a simple placeholder carrying the extra furniturePlaceholder = the
-//   anchor's id; it is hidden once the item is drawn.
+//   anchor's id; it is hidden once the item is drawn. Its native triangles remain the stable
+//   camera/Walk proxy, independent of download timing and visual LOD. Held props have no proxy.
 // Whatever is missing on either side is skipped silently, so either build can land first.
 //
 // Each item is loaded once and shared by its anchors (the six dining chairs draw one geometry and
@@ -389,6 +390,14 @@ export function createFurniture({
     async attach(roomId, root, pending, wait = ATTACH_WAIT) {
       if (disposed || !root) return;
       roots.set(roomId, root);
+      // Register the room's existing geometry before waiting for either the index or the models.
+      // Hidden placeholders still collide; streamed visual copies never enter either static field.
+      // Keep the pan and weights out even at rest: their station/rack supplies the real obstruction.
+      for (const anchor of anchors) {
+        if (anchor.room !== roomId) continue;
+        const solid = !anchor.activityProp && !["cast-iron-pan", "dumbbell"].includes(anchor.item);
+        for (const object of placeholders(root, anchor.id)) object.userData.furnitureCollision = solid;
+      }
       if (pending) {
         let timer;
         await Promise.race([pending, new Promise((resolve) => (timer = setTimeout(resolve, wait)))]);
