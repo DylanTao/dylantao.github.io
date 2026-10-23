@@ -4,10 +4,10 @@
   "sourceCommits": ["bd01bd898", "5d5407c75", "fdf3bf133", "7a85cabda"],
   "asset": {
     "file": "assets/models/home/hinterland.glb",
-    "sha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af",
+    "sha256": "e7299a7ac669e5e99150006b4688b78d737ee6013fec0b68e0b30be6888bcd6f",
     "baseBytes": 1355068,
-    "bytes": 1467556,
-    "growthBytes": 112488,
+    "bytes": 1468104,
+    "growthBytes": 113036,
     "baseTriangles": 205889,
     "triangles": 217848
   },
@@ -33,7 +33,10 @@
     "nativeBlenderBuild": true,
     "targetedPrettier": true,
     "styleContract": true,
-    "gitDiffCheck": true
+    "gitDiffCheck": true,
+    "pythonUnittests": 241,
+    "pythonUnittestsPassed": 241,
+    "nativeHinterlandContractTests": 6
   },
   "browser": [
     {
@@ -278,5 +281,11 @@
       "sha256": "b845b6c8ca40f7f87e80302fbd702f4128efd4abd2db2e11de6e862e23052598",
       "source": "actual candidate browser capture, resized/encoded only; no generated scenery"
     }
-  ]
+  ],
+  "exportCorrection": {
+    "reason": "Restore all-primitive normalized byte COLOR_0 contract; name garden surface independently of generic water matcher; prevent repeated terrain tessellation",
+    "previousAssetSha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af",
+    "correctedAssetSha256": "e7299a7ac669e5e99150006b4688b78d737ee6013fec0b68e0b30be6888bcd6f",
+    "browserImages": "Original scene captures retained with their recorded source state; garden captures refreshed after the export correction"
+  }
 }

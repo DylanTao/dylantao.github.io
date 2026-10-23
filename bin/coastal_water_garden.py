@@ -81,7 +81,7 @@ def apply():
         bm.from_mesh(obj.data)
         # A 68 cm watercourse cannot be cut into the former multi-metre mesh by moving a handful
         # of vertices. Resolve its bed with a local sub-35 cm tessellation, without touching seams.
-        for _ in range(6):
+        for _ in range(0 if obj.get("garden_tessellated") else 6):
             edges = [e for e in bm.edges if e.calc_length()>.35 and all(-40<v.co.x<-8 and -80<v.co.y<-43 for v in e.verts)
                      and (nearest_segment(*e.verts[0].co.xy)[0]<1.7 or math.hypot(e.verts[0].co.x-CENTRE[0],e.verts[0].co.y-CENTRE[1])<4.2)]
             if not edges:
@@ -113,6 +113,7 @@ def apply():
                 changed += 1
             v.co.z = target
         obj.data.update()
+        obj["garden_tessellated"]=True
     # The original tile-batched scrub predates the garden. Remove only leaf/trunk triangles whose
     # centres stand in its basin or channel; retaining those shrubs would put plants under water.
     removed_plants=0
@@ -129,7 +130,8 @@ def apply():
         if remove:bmesh.ops.delete(bm,geom=remove,context="FACES")
         bm.to_mesh(obj.data);bm.free()
     stone = material("garden smooth river sandstone", (.26,.23,.18))
-    water = material("garden clear creek and koi water", (.045,.16,.13), .12)
+    # The runtime adapter owns this surface; avoid the generic realism.mjs "water" matcher.
+    water = material("garden translucent celadon", (.045,.16,.13), .12)
     shader = water.node_tree.nodes.get("Principled BSDF")
     shader.inputs["Transmission Weight"].default_value=.28
     shader.inputs["IOR"].default_value=1.333
@@ -172,6 +174,14 @@ def apply():
     for o in banks:o.select_set(True)
     bpy.context.view_layer.objects.active=banks[0];bpy.ops.object.join()
     banks[0].name="hinterland_garden_river_stones"
+    # The independent hinterland's delivery contract requires normalized byte render colours on
+    # every primitive. Neutral open-air irradiance preserves each material's authored pigment.
+    for obj in (pond,creek,spring,banks[0]):
+        attribute=obj.data.color_attributes.new("Garden irradiance","BYTE_COLOR","CORNER")
+        for datum in attribute.data:
+            datum.color=(.95,.95,.95,1)
+        obj.data.color_attributes.active_color=attribute
+        obj.data.color_attributes.render_color_index=obj.data.color_attributes.active_color_index
     support_vertices=[];support_faces=[]
     for obj in grounds:
         offset=len(support_vertices);support_vertices.extend(obj.matrix_world@v.co for v in obj.data.vertices)
