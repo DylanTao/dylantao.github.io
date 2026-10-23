@@ -3,6 +3,7 @@ import { LA_JOLLA } from "./daylight.mjs";
 import { STAR_COUNT, STAR_DATA } from "./star-catalogue.mjs";
 import { SEA_LEVEL, atmosphereConstantsGLSL, atmosphereSkyGLSL } from "./atmosphere.mjs";
 import { atmosphereTables, sampleTransmittance, ATMOSPHERE } from "./atmosphere-model.mjs";
+import { planetPositions, PLANET_NAMES, PLANET_COLORS } from "./planets.mjs";
 
 // The night sky over La Jolla (Sirui, 2026-10-21: "the stars feel too shiny and fake during the night
 // ... a bit too dense and bright"). The stars are the Yale Bright Star Catalogue's (star-catalogue.mjs,
@@ -275,7 +276,7 @@ void main() {
   float h = max(apparent, -0.5);
   float mass = 1.0 / (sin(radians(h)) + 0.50572 * pow(h + 6.07995, -1.6364));
   float twinkle = 1.0;
-  if (starTwinkle > 0.0) {
+  if (starTwinkle > 0.0 && starInfo.y >= 0.0) {
     float n = starNoise(starTime * 7.3, starInfo.y) * 0.65 + starNoise(starTime * 17.9, starInfo.y + 3.1) * 0.35;
     twinkle = max(0.0, 1.0 + min(0.6, 0.05 * pow(mass, 1.5)) * (n - 0.5) * 3.2 * starTwinkle);
   }
@@ -320,16 +321,23 @@ void main() {
 export function createStarField(atmosphere, { clock = { value: 0 }, site = SITE } = {}) {
   const stars = decodeStars(),
     geometry = new THREE.BufferGeometry(),
-    colors = new Float32Array(stars.count * 3),
-    info = new Float32Array(stars.count * 2);
+    count = stars.count + PLANET_NAMES.length,
+    directions = new Float32Array(count * 3),
+    colors = new Float32Array(count * 3),
+    info = new Float32Array(count * 2);
+  directions.set(stars.direction);
+  for (let i = 0; i < PLANET_NAMES.length; i++) {
+    colors.set(PLANET_COLORS[i], (stars.count + i) * 3);
+    info[(stars.count + i) * 2 + 1] = -1;
+  }
   for (let i = 0; i < stars.count; i++) {
     colors.set(starColor(stars.colorIndex[i]), i * 3);
     info[i * 2] = stars.magnitude[i];
     info[i * 2 + 1] = (i * 0.618034) % 1;
   }
   // The vertex shader places each star; positions only give three a vertex count.
-  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(stars.count * 3), 3));
-  geometry.setAttribute("starDirection", new THREE.BufferAttribute(stars.direction, 3));
+  geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(count * 3), 3));
+  geometry.setAttribute("starDirection", new THREE.BufferAttribute(directions, 3));
   geometry.setAttribute("starColor", new THREE.BufferAttribute(colors, 3));
   geometry.setAttribute("starInfo", new THREE.BufferAttribute(info, 2));
   geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 1e9);
@@ -365,10 +373,23 @@ export function createStarField(atmosphere, { clock = { value: 0 }, site = SITE 
   let time = { utc: Date.now(), live: true },
     light = nightSkyLight(),
     awake = false,
-    lastMatrix = null;
+    lastMatrix = null,
+    planetMinute = NaN,
+    planets = [];
   const matrix = uniforms.starMatrix.value;
   const sync = () => {
-    lastMatrix = starMatrix(time.live ? Date.now() : time.utc, site);
+    const utc = time.live ? Date.now() : time.utc;
+    lastMatrix = starMatrix(utc, site);
+    if (Math.floor(utc / 60000) !== planetMinute) {
+      planetMinute = Math.floor(utc / 60000);
+      planets = planetPositions(utc);
+      for (let i = 0; i < PLANET_NAMES.length; i++) {
+        directions.set(planets[i]?.direction || [0, 0, 1], (stars.count + i) * 3);
+        info[(stars.count + i) * 2] = planets[i]?.magnitude ?? 99;
+      }
+      geometry.getAttribute("starDirection").needsUpdate = true;
+      geometry.getAttribute("starInfo").needsUpdate = true;
+    }
     matrix.set(...lastMatrix);
   };
   points.onBeforeRender = (renderer, scene, camera) => {
@@ -404,6 +425,7 @@ export function createStarField(atmosphere, { clock = { value: 0 }, site = SITE 
         method:
           "Yale Bright Star Catalogue (public domain) precessed to the date and turned by sidereal time; Schaefer 1993 naked-eye limit for the sky's brightness",
         catalogue: stars.count,
+        planets: planets.map(({ name, ra, dec, magnitude }) => ({ name, ra, dec, magnitude })),
         awake,
         zenithLimit: +zenithLimit(light).toFixed(2),
         skyMagnitude: +skyMagnitude(light.glow + light.moon).toFixed(2),
