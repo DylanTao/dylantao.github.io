@@ -1,0 +1,379 @@
+{
+  "url": "http://127.0.0.1:4153/al-folio/?scene-lab=1&weather=clear",
+  "captured": "2026-10-23T09:38:12.041Z",
+  "tests": {
+    "frozenPhotoUI": "pass",
+    "changedMinute": {
+      "rejected": true,
+      "message": "The view changed during photo capture; photo discarded",
+      "fired": true,
+      "before": 960,
+      "after": 961
+    },
+    "changedCamera": {
+      "rejected": true,
+      "message": "The view changed during photo capture; photo discarded",
+      "fired": true,
+      "canvasOffscreen": true,
+      "before": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+      "after": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+      "controllerSha256": "715a7ac4523de16c8915b1a1e0b6d6eb18cac0edd5edc4e314d099be87567461"
+    },
+    "liveRejected": {
+      "rejected": true,
+      "message": "Pause motion and select a fixed preview minute before taking a photo"
+    },
+    "movingRejected": {
+      "rejected": true,
+      "message": "Pause motion and select a fixed preview minute before taking a photo"
+    },
+    "inkUI": "pass",
+    "activeRealisticAfterStudy": "pass",
+    "postStudyZoom": "pass"
+  },
+  "errors": [],
+  "requests": [
+    {
+      "url": "https://analytics.google.com/g/collect",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "browser": "145.0.7632.6",
+  "view": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "dpr": 1,
+    "room": "overview",
+    "camera": {
+      "target": [0, 2.6, 0.6],
+      "yaw": 3.15,
+      "pitch": 0.35,
+      "radius": 12
+    },
+    "previewDate": "2026-10-23",
+    "minute": 960,
+    "reducedMotion": true,
+    "renderer": {
+      "width": 544,
+      "height": 460,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "vendor": "Google Inc. (Intel)",
+      "renderer": "ANGLE (Intel, Intel(R) Arc(TM) Graphics (0x00007D55) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    }
+  },
+  "before": {
+    "ready": true,
+    "style": "realistic",
+    "currentRoom": "overview",
+    "clockMode": "preview",
+    "minute": 960,
+    "animationSeconds": 0,
+    "camera": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+    "frames": 20,
+    "resources": {
+      "geometries": 340,
+      "textures": 64
+    },
+    "drawCalls": 1165,
+    "triangles": 3159963,
+    "projection": "perspective"
+  },
+  "baseline": {
+    "width": 545,
+    "height": 462,
+    "bytes": 267563,
+    "sha256": "bdde0191bee2b526d2ec40b0801efc071743deb747615d152d7b1f50810f1954",
+    "standardDeviation": 59.615956670153594,
+    "foregroundFraction": 1,
+    "sampledColors": 7384
+  },
+  "photo": {
+    "status": "Study ready. The active home keeps its Realistic treatment.",
+    "evidence": [
+      {
+        "method": "finite jittered still-photo supersampling of composed sRGB output, accumulated in linear light",
+        "samples": 8,
+        "width": 544,
+        "height": 460,
+        "milliseconds": 2649,
+        "movingSceneHistory": false
+      }
+    ],
+    "image": {
+      "width": 544,
+      "height": 460,
+      "bytes": 402985,
+      "sha256": "81d1e2c42ea07676a4a8c7904c7aa8a29772bbef7ca4dbd4783da93d957083ce",
+      "standardDeviation": 50.312566289934296,
+      "foregroundFraction": 1,
+      "sampledColors": 6049
+    },
+    "after": {
+      "ready": true,
+      "style": "realistic",
+      "currentRoom": "overview",
+      "clockMode": "preview",
+      "minute": 960,
+      "animationSeconds": 0,
+      "camera": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+      "frames": 20,
+      "resources": {
+        "geometries": 340,
+        "textures": 64
+      },
+      "drawCalls": 11650,
+      "triangles": 31599630,
+      "projection": "perspective"
+    }
+  },
+  "beforeInk": {
+    "ready": true,
+    "style": "realistic",
+    "currentRoom": "overview",
+    "clockMode": "preview",
+    "minute": 960,
+    "animationSeconds": 0.5896666666666667,
+    "camera": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+    "frames": 38,
+    "resources": {
+      "geometries": 496,
+      "textures": 65
+    },
+    "drawCalls": 996,
+    "triangles": 2936770,
+    "projection": "perspective"
+  },
+  "ink": {
+    "status": "Study ready. The active home keeps its Realistic treatment.",
+    "evidence": [
+      {
+        "method": "existing screen-space hatching",
+        "staticGeometryOnly": true,
+        "meshes": 448,
+        "width": 640,
+        "height": 540,
+        "calls": 508,
+        "triangles": 1301196,
+        "synchronizedDrawMs": [13, 11, 15, 14, 21],
+        "addedAssetBytes": 0,
+        "additionalRenderTargets": 0
+      },
+      {
+        "method": "authored world-space derivative-filtered hatching",
+        "staticGeometryOnly": true,
+        "meshes": 448,
+        "width": 640,
+        "height": 540,
+        "calls": 508,
+        "triangles": 1301196,
+        "synchronizedDrawMs": [27, 19, 15, 18, 15],
+        "addedAssetBytes": 0,
+        "additionalRenderTargets": 0
+      }
+    ],
+    "images": [
+      {
+        "width": 640,
+        "height": 540,
+        "bytes": 517084,
+        "sha256": "f33cff243fab984dd132713733759d371fc52866f1aa4275d229384987e09b28",
+        "standardDeviation": 51.35315238083942,
+        "foregroundFraction": 0.9999768518518518,
+        "sampledColors": 4811
+      },
+      {
+        "width": 640,
+        "height": 540,
+        "bytes": 258467,
+        "sha256": "24cbb8710083ac4630c1d5753ab6e1d99ededa877ec59b954a0c3f052cea0290",
+        "standardDeviation": 51.233243513756946,
+        "foregroundFraction": 1,
+        "sampledColors": 3004
+      }
+    ],
+    "resources": [],
+    "contexts": [
+      {
+        "framebuffersCreated": 0,
+        "texturesCreated": 14,
+        "lost": true
+      },
+      {
+        "framebuffersCreated": 0,
+        "texturesCreated": 14,
+        "lost": true
+      }
+    ]
+  },
+  "afterInk": {
+    "ready": true,
+    "style": "realistic",
+    "currentRoom": "overview",
+    "clockMode": "preview",
+    "minute": 960,
+    "animationSeconds": 0.5896666666666667,
+    "camera": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+    "frames": 38,
+    "resources": {
+      "geometries": 496,
+      "textures": 65
+    },
+    "drawCalls": 996,
+    "triangles": 2936770,
+    "projection": "perspective"
+  },
+  "afterInkImage": {
+    "width": 545,
+    "height": 462,
+    "bytes": 266003,
+    "sha256": "15133cf6391cc7044b1ceea8e7c2551820b7e501dcbb13df49bb33deec48f4d3",
+    "standardDeviation": 59.62309300576101,
+    "foregroundFraction": 1,
+    "sampledColors": 7392
+  },
+  "sourceAssets": {
+    "controller.mjs": {
+      "status": 200,
+      "bytes": 155814,
+      "sha256": "6506273fa64231a230caec7350f7c56b7cd1ff6a23045b51db2eeb6d4414b781"
+    },
+    "still-photo.mjs": {
+      "status": 200,
+      "bytes": 3729,
+      "sha256": "5a1403d9603f1f65d7b7b31042b80029d2a8a739646313907ad5e764991f02bc"
+    },
+    "ink-study.mjs": {
+      "status": 200,
+      "bytes": 2892,
+      "sha256": "8ec50070e86bf357b6955b410791f37e1911efb1d958984e1e8e5a2d65ae23a7"
+    },
+    "materials.mjs": {
+      "status": 200,
+      "bytes": 8318,
+      "sha256": "154469b4c45733d6179688b43f6d3b7eee0b19799653f5376cb1f9218570bebb"
+    }
+  },
+  "success": true,
+  "initialPendingCameraFailure": {
+    "rejected": false,
+    "fired": true,
+    "before": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+    "after": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+    "controllerSha256": "6506273fa64231a230caec7350f7c56b7cd1ff6a23045b51db2eeb6d4414b781"
+  },
+  "cameraIntentRegression": {
+    "captured": "2026-10-23T09:43:34.685Z",
+    "errors": [],
+    "controller": {
+      "status": 200,
+      "bytes": 156341,
+      "sha256": "715a7ac4523de16c8915b1a1e0b6d6eb18cac0edd5edc4e314d099be87567461",
+      "containsDesiredTargetSignature": true
+    },
+    "infinityWater": {
+      "exists": true,
+      "castShadow": false,
+      "visible": true
+    },
+    "pendingCamera": {
+      "rejected": true,
+      "message": "The view changed during photo capture; photo discarded",
+      "fired": true,
+      "canvasOffscreen": true,
+      "before": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+      "after": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728]
+    },
+    "repeatedInk": {
+      "before": {
+        "style": "realistic",
+        "camera": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+        "resources": {
+          "geometries": 340,
+          "textures": 65
+        }
+      },
+      "after": {
+        "style": "realistic",
+        "camera": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+        "resources": {
+          "geometries": 340,
+          "textures": 65
+        }
+      },
+      "studies": [
+        {
+          "method": "existing screen-space hatching",
+          "staticGeometryOnly": true,
+          "meshes": 278,
+          "width": 640,
+          "height": 540,
+          "calls": 448,
+          "triangles": 1054968,
+          "synchronizedDrawMs": [10, 10, 9, 11, 7],
+          "addedAssetBytes": 0,
+          "additionalRenderTargets": 0
+        },
+        {
+          "method": "authored world-space derivative-filtered hatching",
+          "staticGeometryOnly": true,
+          "meshes": 278,
+          "width": 640,
+          "height": 540,
+          "calls": 448,
+          "triangles": 1054968,
+          "synchronizedDrawMs": [5, 7, 11, 8, 7],
+          "addedAssetBytes": 0,
+          "additionalRenderTargets": 0
+        }
+      ],
+      "imagesNonempty": [689470, 344646]
+    },
+    "beforeZoom": {
+      "camera": [-0.09477046520228857, 6.7147736894654155, -10.672074167756728],
+      "frames": 20
+    },
+    "afterZoom": {
+      "style": "realistic",
+      "camera": [-0.07581637216183086, 5.891818951572334, -8.417659334205384],
+      "frames": 23
+    },
+    "zoomPixels": {
+      "beforeSha256": "e7ca8066ed13e5663dffd91ec1597613442bd74dc30b3e8983dc3ed853ec3152",
+      "afterSha256": "b1e8cf5c73ab526a28de480e31538cab4c8b520b80e72f99cb52bb53cfe2e14c",
+      "changed": true
+    },
+    "success": true
+  },
+  "artifacts": {
+    "frozen-photo.png": {
+      "bytes": 402985,
+      "sha256": "81d1e2c42ea07676a4a8c7904c7aa8a29772bbef7ca4dbd4783da93d957083ce"
+    },
+    "graphics-studies-ui.png": {
+      "bytes": 506368,
+      "sha256": "9dff3ba9ec128c2e14f0b5338e51e197122fdcbb7883508100bad4981d65a283"
+    },
+    "ink-screen.png": {
+      "bytes": 517084,
+      "sha256": "f33cff243fab984dd132713733759d371fc52866f1aa4275d229384987e09b28"
+    },
+    "ink-surface.png": {
+      "bytes": 258467,
+      "sha256": "24cbb8710083ac4630c1d5753ab6e1d99ededa877ec59b954a0c3f052cea0290"
+    },
+    "realistic-after-ink.png": {
+      "bytes": 266003,
+      "sha256": "15133cf6391cc7044b1ceea8e7c2551820b7e501dcbb13df49bb33deec48f4d3"
+    },
+    "realistic-before.png": {
+      "bytes": 267563,
+      "sha256": "bdde0191bee2b526d2ec40b0801efc071743deb747615d152d7b1f50810f1954"
+    },
+    "realistic-post-study-zoom.png": {
+      "bytes": 267280,
+      "sha256": "b1e8cf5c73ab526a28de480e31538cab4c8b520b80e72f99cb52bb53cfe2e14c"
+    }
+  }
+}
