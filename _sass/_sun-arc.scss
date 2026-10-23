@@ -134,9 +134,69 @@ body {
 }
 
 .theme-stops {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.2rem;
+}
+
+.theme-stop-indicator {
+  position: absolute;
+  z-index: -1;
+  inset-block: 0;
+  left: calc(var(--theme-stop-index, 1) * (100% + 0.2rem) / 4);
+  width: calc((100% - 0.6rem) / 4);
+  border-radius: var(--md-lite-radius-sm, 0.5rem);
+  background: var(--md-lite-tonal);
+  pointer-events: none;
+  view-transition-name: theme-stop-indicator;
+}
+
+.theme-menu[hidden] .theme-stop-indicator {
+  view-transition-name: none;
+}
+
+.theme-stops .theme-option.is-active {
+  background: transparent;
+}
+
+html[data-theme-mode="morning"] {
+  --theme-stop-index: 0;
+}
+html[data-theme-mode="noon"] {
+  --theme-stop-index: 1;
+}
+html[data-theme-mode="afternoon"] {
+  --theme-stop-index: 2;
+}
+html[data-theme-mode="evening"] {
+  --theme-stop-index: 3;
+}
+
+::view-transition-group(theme-stop-indicator) {
+  animation-duration: 430ms;
+  animation-timing-function: var(--spring-morph, ease-out);
+}
+
+::view-transition-old(theme-stop-indicator),
+::view-transition-new(theme-stop-indicator) {
+  height: 100%;
+  animation: none;
+}
+
+::view-transition-old(theme-stop-indicator) {
+  opacity: 0;
+}
+::view-transition-new(theme-stop-indicator) {
+  animation: theme-stop-liquid 430ms ease-in-out both;
+}
+
+@keyframes theme-stop-liquid {
+  45% {
+    transform: scale(1.22, 0.88);
+    border-radius: 45%;
+  }
 }
 
 .sun-arc-panel .theme-option {

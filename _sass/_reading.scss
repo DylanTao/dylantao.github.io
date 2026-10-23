@@ -7,6 +7,40 @@
   font-style: normal;
   font-display: swap;
 }
+
+// Optional margin notes use the original endnotes, retaining reference/back links and source order.
+@media screen and (min-width: 1440px) {
+  [data-sidenotes] #markdown-content.has-sidenotes {
+    position: relative;
+
+    .footnotes {
+      hr {
+        display: none;
+      }
+      > ol {
+        margin: 0;
+        padding: 0;
+      }
+      > ol > li {
+        position: absolute;
+        top: var(--note-top, 0);
+        left: calc(50% + var(--reading-width) / 2 + 1.75rem);
+        width: min(12.5rem, calc((100vw - var(--reading-width)) / 2 - 3.25rem));
+        margin: 0;
+        color: var(--global-text-color-light);
+        font-size: var(--type-meta);
+        line-height: 1.6;
+
+        > p {
+          margin: 0 0 0.6rem;
+        }
+        &:target {
+          color: var(--global-text-color);
+        }
+      }
+    }
+  }
+}
 @font-face {
   font-family: "Inter";
   src: url("../fonts/inter/Inter-Italic.woff2") format("woff2");

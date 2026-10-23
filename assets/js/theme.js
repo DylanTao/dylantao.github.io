@@ -722,8 +722,8 @@ let setupThemeModeControl = () => {
     options.forEach((option, index) => {
       option.addEventListener("click", () => {
         revealThemeFrom(option, () => setThemeSetting(option.getAttribute("data-theme-mode-option")));
-        closeControl(control);
-        toggle.focus();
+        // Keep the clock open for comparisons; Escape, the toggle and an outside tap dismiss it.
+        option.focus({ preventScroll: true });
       });
 
       option.addEventListener("keydown", (event) => {
@@ -732,12 +732,19 @@ let setupThemeModeControl = () => {
           toggle.focus();
         }
 
-        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        if (["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) {
           event.preventDefault();
-          const direction = event.key === "ArrowDown" ? 1 : -1;
-          options[(index + direction + options.length) % options.length].focus();
+          const direction = event.key === "ArrowDown" || event.key === "ArrowRight" ? 1 : -1;
+          const target = event.key === "Home" ? 0 : event.key === "End" ? options.length - 1 : (index + direction + options.length) % options.length;
+          options[target].focus();
         }
       });
+    });
+
+    menu.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      closeControl(control);
+      toggle.focus();
     });
 
     document.addEventListener("click", (event) => {

@@ -35,6 +35,7 @@ module.exports = {
     "duh.spec.js",
     "footer-coast.spec.js",
     "reading-effects.spec.js",
+    "navigation-motion.spec.js",
   ],
   timeout: 300000,
   expect: {

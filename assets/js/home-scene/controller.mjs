@@ -32,7 +32,7 @@ import {
 import { createCameraField } from "./camera-field.mjs";
 import { activityPose, createHandContacts } from "./activities.mjs";
 import { createLiftRig } from "./lift-rig.mjs";
-import { createBreathingCover, breathAt } from "./bedding-breath.mjs";
+import { createDynamicCover, breathAt } from "./bedding-breath.mjs";
 import { createGymProps } from "./gym-props.mjs";
 import { sessionPose } from "./gym-session.mjs";
 import { sessionState, trainingAt } from "./training.mjs";
@@ -643,18 +643,18 @@ export function createCoastalHome(container, records, artifacts) {
     for (const object of beddings) object.visible = object.userData.bedding === sleeper;
   }
   // The visible sleeper's cover rises and falls around the chest; any other cover rests.
-  function breatheBedding(moving) {
+  function breatheBedding(moving, delta) {
     const chest = new THREE.Vector3();
     let found = false;
     for (const object of beddings) {
       if (object.userData.bedding === "empty") continue;
       object.traverse((mesh) => {
         if (!mesh.isMesh) return;
-        if (!covers.has(mesh)) covers.set(mesh, createBreathingCover(mesh));
+        if (!object.visible || !actor || reduced) return covers.get(mesh)?.reset();
+        if (!moving) return;
+        if (!covers.has(mesh)) covers.set(mesh, createDynamicCover(mesh));
         const cover = covers.get(mesh);
         if (!cover) return;
-        if (!object.visible || !actor || reduced) return cover.reset();
-        if (!moving) return;
         if (!found) {
           // Between the spine joint and the shoulders: where a lying chest lifts the cover.
           const spine = new THREE.Vector3(),
@@ -670,7 +670,7 @@ export function createCoastalHome(container, records, artifacts) {
           chest.copy(left).add(right).multiplyScalar(0.5).lerp(spine, 0.4);
           found = true;
         }
-        cover.update(mesh.worldToLocal(chest.clone()), breathAt(elapsed));
+        cover.update(mesh.worldToLocal(chest.clone()), breathAt(elapsed), delta);
       });
     }
   }
@@ -2627,7 +2627,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (!moving) mixer?.update(0);
     }
     if (gymProps && routine?.sequence !== "session") gymProps.update(null, null, frameDelta, moving);
-    if (container.dataset.animation === "sleep" || covers.size) breatheBedding(moving);
+    if (container.dataset.animation === "sleep" || covers.size) breatheBedding(moving, delta);
     characterPerformance?.update(delta, { active: moving && !travel, clip: liftThisFrame ? "workout" : container.dataset.animation });
     const holdActivityProps = paused && !reduced && Boolean(sequencePose);
     let cupCreated = false;
@@ -3023,6 +3023,77 @@ export function createCoastalHome(container, records, artifacts) {
 
   if (labEnabled)
     container.labScene = { scene, sun, settings: labSettings, requestFrame: () => requestFrame(), collisionGrid: () => cameraField?.grid };
+  if (labEnabled) {
+    container.labScene.captureInkStudy = async (surfaceInk = true) => {
+      const { captureInkStudy } = await import("./ink-study.mjs");
+      return captureInkStudy({ world, camera, sun, surfaceInk });
+    };
+    container.labScene.captureStillPhoto = async (samples = 8) => {
+      const { captureStillPhoto } = await import("./still-photo.mjs");
+      return captureStillPhoto({
+        renderer,
+        camera,
+        samples,
+        isFrozen: () => Boolean((paused || reduced) && routine && !routine.live),
+        stateKey: () => JSON.stringify([elapsed, currentRoom, avatarId, camera.position.toArray(), camera.quaternion.toArray(), camera.fov]),
+        renderFrame: () => {
+          withoutContactLighting(finish?.contactLighting, () =>
+            pacific?.reflect(camera, style === "realistic" && currentRoom === "outside" && labSettings.reflection)
+          );
+          if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside" && !animalFocus);
+          else renderer.render(scene, camera);
+        },
+      });
+    };
+    const output = ui.querySelector("[data-world-study-output]");
+    const status = ui.querySelector("[data-world-study-status]");
+    for (const [selector, capture] of [
+      [
+        "[data-world-photo]",
+        async () => {
+          const { canvas, evidence } = await container.labScene.captureStillPhoto();
+          return [{ image: canvas.toDataURL("image/png"), label: "8-sample still photo", evidence }];
+        },
+      ],
+      [
+        "[data-world-ink]",
+        async () => [
+          { ...(await container.labScene.captureInkStudy(false)), label: "Screen-space ink · static geometry" },
+          { ...(await container.labScene.captureInkStudy(true)), label: "Surface ink · static geometry" },
+        ],
+      ],
+    ]) {
+      const button = ui.querySelector(selector);
+      if (!button || !output || !status) continue;
+      listen(button, "click", async () => {
+        button.disabled = true;
+        status.textContent = "Preparing the study…";
+        try {
+          const results = await capture();
+          if (disposed) return;
+          output.replaceChildren();
+          for (const result of results) {
+            const figure = document.createElement("figure"),
+              image = document.createElement("img"),
+              caption = document.createElement("figcaption");
+            image.src = result.image;
+            image.alt = result.label;
+            image.style.width = "100%";
+            caption.textContent = result.label;
+            figure.append(image, caption);
+            output.append(figure);
+          }
+          container.labScene.lastStudy = results.map((result) => result.evidence);
+          status.textContent = "Study ready. The active home keeps its Realistic treatment.";
+        } catch (error) {
+          status.textContent = error.message;
+        } finally {
+          button.disabled = false;
+          requestFrame();
+        }
+      });
+    }
+  }
   // Lab only: compare the next frame's cached sun shadow with a full redraw of it (shadow-cache.mjs).
   if (labEnabled)
     container.labScene.verifyShadowCache = () => {

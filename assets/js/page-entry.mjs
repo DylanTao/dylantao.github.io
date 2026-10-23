@@ -10,6 +10,10 @@
 export const ENTRY_KEY = "site:entry";
 export const TARGET_SELECTOR = "[data-entry-target], .project-case-hero, .blog-post .post-header, .publication-context-hero";
 
+export function routeDirection(activation) {
+  return activation?.navigationType === "traverse" && activation.entry?.index < activation.from?.index ? "back" : "forward";
+}
+
 // The address a navigation lands on, without its fragment or query, for matching cards and pages.
 export function pageKey(url) {
   try {
@@ -69,6 +73,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined" && "CSSView
   // lends it to the page it goes to, which lands it on the matching card if it has one.
   window.addEventListener("pageswap", (event) => {
     if (!event.viewTransition) return;
+    document.documentElement.dataset.routeDirection = routeDirection(event.activation);
     if (marked) return;
     const destination = event.activation?.entry?.url;
     const hero = document.querySelector(TARGET_SELECTOR);
@@ -83,6 +88,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined" && "CSSView
   // Restored from the back/forward cache: forget the names this page lent out.
   window.addEventListener("pageshow", (event) => {
     if (!event.persisted) return;
+    delete document.documentElement.dataset.routeDirection;
     marked = false;
     clear();
   });

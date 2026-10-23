@@ -1356,8 +1356,13 @@ test("home 3D artifacts focus before opening their project route", async ({ page
   await clickCoastalObject(page, scene, "artifact", 0);
   await expect(scene).toHaveAttribute("data-focused-desk-object", "artifact-0");
   expect(new URL(page.url()).pathname).toBe(initialPath);
+  // URL routing is established at commit. Waiting for load inside toHaveURL also waits for every
+  // destination image after software WebGL has saturated the runner, obscuring a correct URL.
+  const destination = page.waitForURL((url) => url.pathname === expectedPath, { waitUntil: "commit", timeout: 60000 });
   await clickCoastalObject(page, scene, "artifact", 0);
-  await expect(page).toHaveURL((url) => url.pathname === expectedPath);
+  await destination;
+  await page.waitForLoadState("domcontentloaded", { timeout: 60000 });
+  await expect(page.locator("main h1, #main h1").first()).toBeVisible({ timeout: 60000 });
   expect(errors).toEqual([]);
 });
 

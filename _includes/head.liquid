@@ -132,6 +132,24 @@
     content is parsed (#entry-ready), so ordinary loads never wait.
   {% endcomment %}
   <script>
+    // Install before first paint, including BFCache restores. History traversal supplies direction;
+    // ordinary links advance. Shared card names and stationary chrome keep their own transitions.
+    // https://developer.chrome.com/docs/web-platform/view-transitions/cross-document
+    addEventListener('pagereveal', function (event) {
+      if (!event.viewTransition) return;
+      var root = document.documentElement;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        event.viewTransition.skipTransition();
+        return;
+      }
+      var activation = window.navigation && navigation.activation;
+      var backwards = activation && activation.from && activation.navigationType === 'traverse' && activation.entry.index < activation.from.index;
+      root.dataset.routeDirection = backwards ? 'back' : 'forward';
+      var clear = function () {
+        delete root.dataset.routeDirection;
+      };
+      event.viewTransition.finished.then(clear, clear);
+    });
     (function () {
       var state = null;
       try {
@@ -142,8 +160,7 @@
       var here = location.origin + location.pathname;
       var arriving = Boolean(state && state.to === here);
       var returning = Boolean(state && state.back && state.backTo === here);
-      if (!arriving && !returning) return;
-      if (!document.body) {
+      if ((arriving || returning) && !document.body) {
         var hold = document.createElement('link');
         hold.rel = 'expect';
         hold.href = '#entry-ready';
@@ -153,6 +170,15 @@
       addEventListener(
         'pagereveal',
         function (event) {
+          // BFCache restores run this listener again; read the entry left by the outgoing page now.
+          try {
+            state = JSON.parse(sessionStorage.getItem('site:entry') || 'null');
+          } catch (error) {
+            state = null;
+          }
+          arriving = Boolean(state && state.to === here);
+          returning = Boolean(state && state.back && state.backTo === here);
+          if (!arriving && !returning) return;
           try {
             sessionStorage.removeItem('site:entry');
           } catch (error) {}
@@ -189,7 +215,7 @@
             document.documentElement.classList.remove('entry-arrived');
           });
         },
-        { once: true }
+        false
       );
     })();
   </script>

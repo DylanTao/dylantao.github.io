@@ -384,6 +384,11 @@ html[data-theme-mode="evening"] .theme-option[data-theme-mode-option="evening"] 
   color: var(--md-lite-on-tonal);
 }
 
+// The moving surface owns the selected fill; the button keeps readable ink.
+.theme-stops .theme-option[data-theme-mode-option].is-active {
+  background: transparent;
+}
+
 // The navbar is chrome glass; reduced transparency and more contrast make it solid.
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   html,

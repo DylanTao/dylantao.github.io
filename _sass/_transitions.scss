@@ -18,6 +18,39 @@
   animation: site-route-arrive 420ms var(--spring-gentle, ease-out) both;
 }
 
+html[data-route-direction] {
+  --route-axis: 1;
+
+  &::view-transition-old(root) {
+    animation: site-axis-leave 220ms var(--md-lite-easing-exit) both;
+  }
+
+  &::view-transition-new(root) {
+    animation: site-axis-arrive 360ms var(--spring-gentle, ease-out) both;
+  }
+}
+
+html[data-route-direction="back"] {
+  --route-axis: -1;
+}
+
+@keyframes site-axis-leave {
+  to {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--route-axis) * 1.5rem));
+  }
+}
+
+@keyframes site-axis-arrive {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--route-axis) * 1.5rem));
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 @keyframes site-route-leave {
   to {
     opacity: 0;

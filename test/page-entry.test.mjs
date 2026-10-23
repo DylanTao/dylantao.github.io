@@ -1,7 +1,14 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { ENTRY_KEY, TARGET_SELECTOR, followsEntry, pageKey } from "../assets/js/page-entry.mjs";
+import { ENTRY_KEY, TARGET_SELECTOR, followsEntry, pageKey, routeDirection } from "../assets/js/page-entry.mjs";
+
+test("history traversal reverses the shared axis, while ordinary links advance", () => {
+  assert.equal(routeDirection({ navigationType: "traverse", from: { index: 4 }, entry: { index: 2 } }), "back");
+  assert.equal(routeDirection({ navigationType: "traverse", from: { index: 2 }, entry: { index: 4 } }), "forward");
+  assert.equal(routeDirection({ navigationType: "push", from: { index: 4 }, entry: { index: 2 } }), "forward");
+  assert.equal(routeDirection(null), "forward");
+});
 
 const here = { origin: "https://dylantao.github.io", pathname: "/projects/" };
 const link = (href, extra = {}) => {

@@ -409,14 +409,22 @@ test("interrupted range changes retarget from the painted frame and update count
   const errors = collectRuntimeErrors(page);
   await open(page);
   await page.locator("[data-rhythm-chart]").scrollIntoViewIfNeeded();
-  const result = await page.evaluate(async () => {
+  // Control animation time: two real RAFs can exceed the whole 220 ms transition on a busy runner.
+  const instant = new Date("2026-10-23T08:00:00Z");
+  await page.clock.install({ time: instant });
+  await page.clock.pauseAt(new Date(instant.getTime() + 1000));
+  await page.evaluate(() => {
+    const node = document.querySelector("[data-rhythm-range-start]");
+    node.value = "2026";
+    node.dispatchEvent(new Event("change"));
+  });
+  await page.clock.runFor(32);
+  const result = await page.evaluate(() => {
     const change = (selector, value) => {
       const node = document.querySelector(selector);
       node.value = value;
       node.dispatchEvent(new Event("change"));
     };
-    change("[data-rhythm-range-start]", "2026");
-    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     const painted = window.getCommitOverviewEvidence();
     change("[data-rhythm-range-start]", "2024");
     const retargeted = window.getCommitOverviewEvidence();
@@ -432,6 +440,7 @@ test("interrupted range changes retarget from the painted frame and update count
   expect(result.retargeted.summary).toContain(rangeTotal(2024, 2026).toLocaleString("en-US"));
   expect(result.latest.rangeTotal).toBe(sum(personalPoints));
   expect(result.latest.summary).toContain(sum(personalPoints).toLocaleString("en-US"));
+  await page.clock.runFor(300);
   await settled(page);
   expect(await evidence(page)).toMatchObject({ rangeStart: 2017, rangeEnd: 2026, view: "daily", transitioning: false });
   expect((await evidence(page)).retargets).toBeGreaterThanOrEqual(3);

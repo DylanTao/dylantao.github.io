@@ -99,6 +99,7 @@
     if (!running) return;
     clock = null;
     running.timers.forEach((timer) => window.clearTimeout(timer));
+    running.ink?.cancel();
     // The page stops where it is (its row snapping again at once), for the next run to carry on.
     running.follow?.cancel();
     running.animations.forEach((animation) => animation.cancel());
@@ -176,9 +177,9 @@
       return `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) scale(${(1 + spring.state(s0 - 1, vs0, t)[0]).toFixed(4)})`;
     });
 
-  const runClock = (firstRects, velocity, { openingCard, closingCard, onSettled, planScroll, scrollSpeed = 0 }) => {
+  const runClock = (firstRects, velocity, { openingCard, closingCard, ink, onSettled, planScroll, scrollSpeed = 0 }) => {
     const motion = springs();
-    const running = { animations: [], tracks: [], timers: [], plan: null, follow: null };
+    const running = { animations: [], tracks: [], timers: [], plan: null, follow: null, ink };
     clock = running;
     // Where the page should rest, read in the new layout before anything moves.
     const plan = planScroll?.() || null;
@@ -194,6 +195,7 @@
         if (animation.playState !== "idle") animation.cancel();
       });
       running.grids?.forEach((grid) => grid.classList.remove("is-reflowing"));
+      running.ink?.cancel();
       clock = null;
       land(running);
       onSettled?.();
@@ -451,6 +453,8 @@
     const scrollSpeed = carriedScroll();
     cancelClock();
 
+    const ink = closingCard && springs() ? window.SiteMotion?.dissolveCardInk?.(closingCard) : null;
+
     focusReturnTarget?.focus({ preventScroll: true });
 
     activeCard = nextCard;
@@ -482,6 +486,7 @@
     const plan = runClock(firstRects, velocity, {
       openingCard,
       closingCard,
+      ink,
       scrollSpeed,
       // Opening shows the whole card. Closing gives the reader back the place they opened it from
       // if they stayed put; otherwise it only makes sure the card they closed is in view.
@@ -565,6 +570,7 @@
   window.addEventListener(
     "resize",
     () => {
+      clock?.ink?.cancel();
       if (!activeCard || placing) return;
       placing = window.requestAnimationFrame(() => {
         placing = 0;
@@ -573,4 +579,7 @@
     },
     { passive: true }
   );
+  reduceMotionQuery.addEventListener("change", () => {
+    if (reduceMotionQuery.matches) cancelClock();
+  });
 })();
