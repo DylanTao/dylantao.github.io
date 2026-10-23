@@ -28,3 +28,5 @@ Every current public record is present, including the newer industry work, all s
 The source uses four authored Letter pages. If new content no longer fits, the builder fails before replacing the PDF. Revise the grouping or explicitly redesign pagination; do not shrink the type to conceal overflow. New nonempty certificates or unrecognized top-level sections also fail until their print layout is added. The output retains selectable text, PDF tags, document language, headings/bookmarks and native URL/internal-paper links. Passing these structural checks is not a claim of a full PDF/UA or screen-reader audit.
 
 Fonts and their licenses live in [fonts](fonts/NOTICE.md). The source directory is excluded from Jekyll output by the existing `artwork/` rule; the generated PDF is the public deliverable.
+
+The PDF uses `HCI` for the Human-Computer Interaction skill label so every skills description aligns with the standard body column. The web/JSON category keeps its full name.

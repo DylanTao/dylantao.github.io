@@ -1,6 +1,6 @@
 {
   "resume_lf_sha256": "06023f0a12d38efa539ca7993233a6400c140c033ce69e2f414c25bc7275f6a3",
-  "pdf_sha256": "4e20e9ee24d573334548706030564b1a6f12a09b96a29c7231a24920326afcb8",
+  "pdf_sha256": "f2452e482291e7b7a2ec994a70561a6bf25616d6058c2f7d99dd69259f4260cd",
   "pages": [
     {
       "height": 960.703125,
@@ -15,8 +15,8 @@
       "bottom": 956.015625
     },
     {
-      "height": 955.84375,
-      "bottom": 955.84375
+      "height": 943.796875,
+      "bottom": 943.796875
     }
   ],
   "output": "assets/pdf/Sirui_Tao_CV_Public.pdf",

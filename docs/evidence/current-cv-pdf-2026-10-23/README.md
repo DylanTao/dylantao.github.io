@@ -4,7 +4,7 @@ The previous public PDF was four readable Letter pages, but its paper status, in
 
 The recovered design uses Nunito body text, Raleway headings, a left date gutter, black section rules and blue hyperlinks. The editable native layout is a two-column table with 260 left-column paragraphs and manual spacers. The new [print source](../../../artwork/cv/README.md) keeps that design language while generating semantic HTML from the canonical public JSON. It retains all current records, research credits, rejection notes, personal wording and the unpublished `XXX: abcdefg` title. It adds no acceptance claims, inferred dates or mentorship years. The earlier July statistics are omitted because they are absent from the current canonical CV, rather than being guessed or carried forward.
 
-The finished PDF is 167,212 bytes, four tagged Letter pages, SHA-256 `4e20e9ee24d573334548706030564b1a6f12a09b96a29c7231a24920326afcb8`. Its [build receipt](../../../artwork/cv/build-receipt.json) binds the JSON after CRLF-to-LF checkout normalization and the exact PDF bytes. The previous public PDF was 200,266 bytes, SHA-256 `47b94779bb12d3c6612e561e984589fcce9ae8e43d0898b678665338ae97b12e`.
+The initial rebuilt PDF was 167,212 bytes, four tagged Letter pages, SHA-256 `4e20e9ee24d573334548706030564b1a6f12a09b96a29c7231a24920326afcb8`. The [build receipt](../../../artwork/cv/build-receipt.json) binds the latest PDF to the JSON after CRLF-to-LF checkout normalization. The previous public PDF was 200,266 bytes, SHA-256 `47b94779bb12d3c6612e561e984589fcce9ae8e43d0898b678665338ae97b12e`.
 
 The final page renders were inspected individually for text, spacing, section breaks, clipping, overlaps, glyphs and complete records:
 
@@ -21,3 +21,7 @@ Verification:
 - Full Python suite: 261 tests passed in 20.8 seconds. Scoped Prettier, style contract and `git diff --check` passed.
 
 The observed benefit is current content in the established four-page format, with one reproducible source instead of a second manually maintained factual record. PDF tags and the readable native outline support access, but no full PDF/UA or assistive-technology certification was attempted. Search recommendations or popularity were not measured by this change. Public route labels, reciprocal-format checks and generated-site verification belong to the coordinator's integration step.
+
+## Skills alignment refinement
+
+Sirui's review requested `HCI` in place of the long skill-category label. The PDF now uses that abbreviation and the same fixed gutter as the other entries, aligning all five skills descriptions with the main text column. The web/JSON category retains its full name, and every keyword remains. [The revised fourth page](page-4-hci-aligned.png) was rendered and inspected; the first three page renders are byte-identical to the original checkpoint. The fourth page's only text change is the approved abbreviation. Its five description starts and the main body share the measured X coordinate of 100.242183 points. Type size and four-page pagination remain unchanged. The refined PDF is 167,128 bytes, SHA-256 `f2452e482291e7b7a2ec994a70561a6bf25616d6058c2f7d99dd69259f4260cd`.

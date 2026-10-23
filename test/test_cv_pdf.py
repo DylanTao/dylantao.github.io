@@ -58,19 +58,27 @@ class CurrentCvPdfTests(unittest.TestCase):
     def test_all_current_public_claims_dates_and_credits_are_in_the_pdf(self):
         # IDs and URLs have separate link checks. Empty image/certificates are not claims.
         excluded = {"url", "image", "anchor", "paperAnchor", "username", "region", "countryCode"}
-        def visit(value, key=""):
+        def visit(value, key="", path=()):
             if isinstance(value, dict):
                 for child_key, child in value.items():
                     if child_key not in excluded:
-                        visit(child, child_key)
+                        visit(child, child_key, path + (child_key,))
             elif isinstance(value, list):
                 for child in value:
-                    visit(child, key)
+                    visit(child, key, path)
             elif isinstance(value, str) and value:
                 label = "Current" if key == "status" and value == "current" else "Alumni" if key == "status" and value == "alumni" else value
+                if path == ("skills", "name") and value == "Human-Computer Interaction":
+                    label = "HCI"
                 with self.subTest(field=key, claim=label):
                     self.assertIn(visible(label), self.text)
         visit(self.cv)
+        skills_text = visible(self.pdf.pages[3].extract_text().split("Skills", 1)[1].split("Languages", 1)[0])
+        for skill in self.cv["skills"]:
+            label = "HCI" if skill["name"] == "Human-Computer Interaction" else skill["name"]
+            self.assertIn(visible(label), skills_text)
+            for keyword in skill["keywords"]:
+                self.assertIn(visible(keyword), skills_text)
         self.assertNotIn("ResubmittingtoCHI27", self.text)
         self.assertNotIn("Citation=226", self.text)
         self.assertIn("XXX:abcdefg", self.text)

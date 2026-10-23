@@ -138,7 +138,10 @@ const projects = section(
   "Projects",
   cv.projects.map((e) => row(e.year, p(`<strong>${name(e)}</strong> - ${esc(e.role)}`) + p(rich(e.summary)))).join("")
 );
-const skills = section("Skills", cv.skills.map((e) => row(e.name, p(e.keywords.map(esc).join(", ")), "skill-row")).join(""));
+const skills = section(
+  "Skills",
+  cv.skills.map((e) => row(e.name === "Human-Computer Interaction" ? "HCI" : e.name, p(e.keywords.map(esc).join(", ")), "skill-row")).join("")
+);
 const languages = section("Languages", p(cv.languages.map((e) => `${esc(e.language)} (${esc(e.fluency)})`).join("; ")));
 const interests = section("Interests", cv.interests.map((e) => p(`<strong>${esc(e.name)}:</strong> ${e.keywords.map(esc).join(", ")}`)).join(""));
 const references = section("References", cv.references.map((e) => p(`${link(e.name, e.url)} - ${esc(e.reference)}`)).join(""));
@@ -177,7 +180,6 @@ section { margin:0 0 10pt; } h2 { font:700 11pt/1.2 Raleway,sans-serif; margin:0
 .entry-body { min-width:0; } .location { color:#444; font-size:8pt; }
 .shared-institution { margin:0 0 5pt 68pt; }
 .compact-mentor { margin-bottom:1pt; } .compact-mentor p { margin-bottom:0; }
-.skill-row { grid-template-columns:94pt minmax(0,1fr); }
 .publication { margin-bottom:9pt; } a { color:#064db2; text-decoration:none; } .publication strong a { color:inherit; }
 ul { margin:2pt 0 0; padding-left:12pt; } li { margin-bottom:1pt; }
 .page-3 .entry { margin-bottom:4pt; } .page-3 h2 { margin-bottom:5pt; }
