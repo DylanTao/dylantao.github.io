@@ -6,11 +6,11 @@
   {% for entry in entries %}
     <li class="list-group-item">
       {% if entry.url %}
-        <h6 class="title font-weight-bold">
+        <h3 class="title cv-item-title font-weight-bold" data-toc-skip>
           <a href="{{ entry.url }}" target="_blank">{{ entry.name }}</a>
-        </h6>
+        </h3>
       {% else %}
-        <h6 class="title font-weight-bold">{{ entry.name }}</h6>
+        <h3 class="title cv-item-title font-weight-bold" data-toc-skip>{{ entry.name }}</h3>
       {% endif %}
 
       {% if entry.year or entry.role %}

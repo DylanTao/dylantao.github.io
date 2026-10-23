@@ -17,7 +17,7 @@
 
         {% if pub_date != '' %}
           <div class="col-xs-2 col-sm-2 col-md-2 date-column">
-            <table class="table-cv cv-date-table">
+            <table class="table-cv cv-date-table" role="presentation">
               <tbody>
                 <tr>
                   <td>
@@ -34,7 +34,7 @@
               </div>
             {% endif %}
             {% if entry.url %}
-              <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
+              <h3 class="title cv-item-title font-weight-bold ml-1 ml-md-4 cv-entry-title" data-toc-skip>
                 <a
                   href="{{ entry.url }}"
                   {% if entry.strikeTitle %}
@@ -46,9 +46,9 @@
                 {% if title_note %}
                   <span class="cv-entry-note">{{ title_note }}</span>
                 {% endif %}
-              </h6>
+              </h3>
             {% elsif entry.title or entry.name %}
-              <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
+              <h3 class="title cv-item-title font-weight-bold ml-1 ml-md-4 cv-entry-title" data-toc-skip>
                 <span
                   {% if entry.strikeTitle %}
                     class="cv-title-struck"
@@ -59,13 +59,13 @@
                 {% if title_note %}
                   <span class="cv-entry-note">{{ title_note }}</span>
                 {% endif %}
-              </h6>
+              </h3>
             {% endif %}
 
             {% if entry.publisher %}
-              <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem">
+              <p class="cv-entry-meta ml-1 ml-md-4" style="font-size: 0.95rem">
                 <em>{{ entry.publisher }}</em>
-              </h6>
+              </p>
             {% endif %}
 
             {% if entry.summary %}
@@ -80,7 +80,7 @@
               </div>
             {% endif %}
             {% if entry.url %}
-              <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
+              <h3 class="title cv-item-title font-weight-bold ml-1 ml-md-4 cv-entry-title" data-toc-skip>
                 <a
                   href="{{ entry.url }}"
                   {% if entry.strikeTitle %}
@@ -92,9 +92,9 @@
                 {% if title_note %}
                   <span class="cv-entry-note">{{ title_note }}</span>
                 {% endif %}
-              </h6>
+              </h3>
             {% elsif entry.title or entry.name %}
-              <h6 class="title font-weight-bold ml-1 ml-md-4 cv-entry-title">
+              <h3 class="title cv-item-title font-weight-bold ml-1 ml-md-4 cv-entry-title" data-toc-skip>
                 <span
                   {% if entry.strikeTitle %}
                     class="cv-title-struck"
@@ -105,13 +105,13 @@
                 {% if title_note %}
                   <span class="cv-entry-note">{{ title_note }}</span>
                 {% endif %}
-              </h6>
+              </h3>
             {% endif %}
 
             {% if entry.publisher %}
-              <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem">
+              <p class="cv-entry-meta ml-1 ml-md-4" style="font-size: 0.95rem">
                 <em>{{ entry.publisher }}</em>
-              </h6>
+              </p>
             {% endif %}
 
             {% if entry.summary %}

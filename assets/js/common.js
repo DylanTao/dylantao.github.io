@@ -375,51 +375,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const cvSectionControl = document.querySelector("[data-cv-mobile-sections]");
   const cvSectionLinks = cvSectionControl?.querySelector("[data-cv-section-links]");
   if (cvSectionControl && cvSectionLinks) {
-    const cvHeadings = Array.from(document.querySelectorAll(".cv .card-title"));
-    const links = cvHeadings
-      .map((heading, index) => {
-        const card = heading.closest(".card");
-        if (!card) return null;
+    cvSectionControl.dataset.cvEnhanced = "";
+    cvSectionLinks.addEventListener("click", (event) => {
+      const link = event.target.closest("a");
+      if (!link) return;
 
-        const previousAnchor = card.previousElementSibling?.matches?.(".anchor[id]") ? card.previousElementSibling : null;
-        const target = previousAnchor || card;
-        if (!target.id) {
-          const slug = (heading.textContent || "section")
-            .trim()
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-|-$/g, "");
-          target.id = `cv-${slug || "section"}-${index + 1}`;
-        }
-
-        const item = document.createElement("li");
-        const link = document.createElement("a");
-        link.href = `#${target.id}`;
-        link.textContent = heading.textContent.trim();
-        item.append(link);
-        return item;
-      })
-      .filter(Boolean);
-
-    if (links.length) {
-      cvSectionLinks.replaceChildren(...links);
-      cvSectionLinks.addEventListener("click", (event) => {
-        const link = event.target.closest("a");
-        if (!link) return;
-
-        cvSectionControl.open = false;
-        const targetId = decodeURIComponent(link.hash.replace(/^#/, ""));
-        const target = document.getElementById(targetId);
-        const card = target?.matches(".card") ? target : target?.nextElementSibling?.matches(".card") ? target.nextElementSibling : null;
-        const heading = card?.querySelector(".card-title");
-
-        window.requestAnimationFrame(() => {
-          window.SiteMotion?.markAnchorArrival(heading, { focus: true });
-        });
+      cvSectionControl.open = false;
+      const heading = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+      window.requestAnimationFrame(() => {
+        window.SiteMotion?.markAnchorArrival(heading, { focus: true });
       });
-    } else {
-      cvSectionControl.hidden = true;
-    }
+    });
   }
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

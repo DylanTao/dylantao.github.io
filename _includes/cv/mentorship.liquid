@@ -6,16 +6,16 @@
 {% for mentorship_status in mentorship_statuses %}
   {% assign grouped_entries = entries | where: 'status', mentorship_status %}
   {% if grouped_entries.size > 0 %}
-    <h4 class="font-weight-medium ml-1 ml-md-4 mt-3">{{ mentorship_status | capitalize }}</h4>
+    <h3 data-toc-skip class="cv-mentorship-group font-weight-medium ml-1 ml-md-4 mt-3">{{ mentorship_status | capitalize }}</h3>
     <ul class="card-text font-weight-light list-group list-group-flush">
       {% for entry in grouped_entries %}
         <li class="list-group-item">
           {% if entry.url %}
-            <h6 class="title font-weight-bold ml-1 ml-md-4">
+            <p class="cv-entry-meta title font-weight-bold ml-1 ml-md-4">
               <a href="{{ entry.url }}">{{ entry.name }}</a>
-            </h6>
+            </p>
           {% else %}
-            <h6 class="title font-weight-bold ml-1 ml-md-4">{{ entry.name }}</h6>
+            <p class="cv-entry-meta title font-weight-bold ml-1 ml-md-4">{{ entry.name }}</p>
           {% endif %}
 
           {% capture details_line %}
@@ -27,7 +27,7 @@
           {% endcapture %}
           {% assign details_line = details_line | strip %}
           {% if details_line != '' %}
-            <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem">{{ details_line }}</h6>
+            <p class="cv-entry-meta ml-1 ml-md-4" style="font-size: 0.95rem">{{ details_line }}</p>
           {% endif %}
         </li>
       {% endfor %}

@@ -2,6 +2,8 @@
 layout: cv
 permalink: /cv/
 title: CV
+seo_title: Sirui Tao | Academic CV
+seo_description: "Sirui Tao's academic CV: education, research in HCI and human-centered AI at UC San Diego, publications, teaching, mentorship, and industry experience."
 nav: true
 nav_order: 4
 panel_wide: true

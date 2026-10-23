@@ -53,6 +53,96 @@ function selectedRouteThemes() {
 
 const SITEWIDE_ROUTE_THEMES = selectedRouteThemes();
 
+test("CV preserves semantic sections, native navigation and printable current text", async ({ page, browser }, testInfo) => {
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page);
+  await page.goto(publicRouteUrl("/cv/"), { waitUntil: "domcontentloaded" });
+  const cv = page.locator(".cv");
+  await expect(cv.locator("h2.card-title").first()).toBeVisible();
+  await expect(page.locator(".cv-page h1")).toHaveText("CV");
+  await expect(cv.locator("h4, h5, h6")).toHaveCount(0);
+  expect(await cv.locator("h3.cv-item-title").count()).toBeGreaterThan(10);
+  await expect(cv.locator(".cv-entry-meta").first()).toHaveJSProperty("tagName", "P");
+
+  const inspectSections = (root) =>
+    root.evaluate(() => {
+      const ids = Array.from(document.querySelectorAll("[id]"), (element) => element.id);
+      const headings = Array.from(document.querySelectorAll(".cv h2.card-title"));
+      const links = Array.from(document.querySelectorAll("[data-cv-section-links] a"));
+      return {
+        duplicateIds: ids.filter((id, index) => ids.indexOf(id) !== index),
+        sectionIds: headings.map((heading) => heading.id),
+        linkIds: links.map((link) => decodeURIComponent(link.hash.slice(1))),
+        wrongTargets: links.filter((link) => document.getElementById(decodeURIComponent(link.hash.slice(1)))?.tagName !== "H2").length,
+      };
+    });
+  const sections = await inspectSections(page);
+  expect(sections.duplicateIds).toEqual([]);
+  expect(sections.linkIds).toEqual(sections.sectionIds);
+  expect(sections.wrongTargets).toBe(0);
+  await expect(cv.getByRole("rowheader", { name: "Email", exact: true })).toHaveAttribute("scope", "row");
+  await expect(cv.getByRole("link", { name: "s1tao@ucsd.edu", exact: true })).toHaveAttribute("href", "mailto:s1tao@ucsd.edu");
+  await expect(page.getByRole("link", { name: "Open CV PDF, July 2026 snapshot", exact: true })).toHaveAttribute("href", /Sirui_Tao_CV_Public\.pdf$/);
+
+  const isPhone = page.viewportSize().width < 768;
+  if (isPhone) {
+    const control = page.locator("[data-cv-mobile-sections]");
+    await control.locator("summary").focus();
+    await page.keyboard.press("Enter");
+    await expect(control).toHaveAttribute("open", "");
+    await control.getByRole("link", { name: "Research Experience", exact: true }).focus();
+    await page.keyboard.press("Enter");
+    await expect(control).not.toHaveAttribute("open", "");
+    await expect(cv.locator("#academia")).toBeFocused();
+    await expect(page).toHaveURL(/#academia$/);
+  }
+
+  const beforePrint = await cv.innerText();
+  await page.emulateMedia({ media: "print" });
+  for (const selector of ["#top", ".toc-sidebar-column", "footer", "[data-cv-mobile-sections]", ".cv-pdf-link"]) {
+    await expect(page.locator(selector).first()).toBeHidden();
+  }
+  await expect(cv.locator("#education")).toBeVisible();
+  expect(await cv.innerText()).toBe(beforePrint);
+  const printLayout = await page.locator("#main").evaluate((main) => ({
+    width: main.getBoundingClientRect().width,
+    viewport: window.innerWidth,
+    background: getComputedStyle(document.body).backgroundColor,
+    entryBreak: getComputedStyle(document.querySelector(".cv .list-group-item")).breakInside,
+  }));
+  expect(printLayout.width).toBeGreaterThan(printLayout.viewport * 0.95);
+  expect(printLayout.background).toBe("rgb(255, 255, 255)");
+  expect(printLayout.entryBreak).toBe("avoid");
+  await attachScreenshot(page, testInfo, "cv-print", { fullPage: false });
+  expect(runtimeErrors).toEqual([]);
+
+  const noScriptContext = await browser.newContext({ viewport: page.viewportSize(), javaScriptEnabled: false, reducedMotion: "reduce" });
+  try {
+    const noScriptPage = await noScriptContext.newPage();
+    await preparePage(noScriptPage);
+    await noScriptPage.goto(publicRouteUrl("/cv/"), { waitUntil: "domcontentloaded" });
+    const nativeSections = await inspectSections(noScriptPage);
+    expect(nativeSections).toEqual(sections);
+    expect(await noScriptPage.locator(".cv").innerText()).toBe(beforePrint);
+    if (isPhone) {
+      const nativeControl = noScriptPage.locator("[data-cv-mobile-sections]");
+      await nativeControl.locator("summary").focus();
+      await noScriptPage.keyboard.press("Enter");
+      await nativeControl.getByRole("link", { name: "Research Experience", exact: true }).focus();
+      await noScriptPage.keyboard.press("Enter");
+      await expect(noScriptPage).toHaveURL(/#academia$/);
+      await expect(noScriptPage.locator("#academia")).toBeFocused();
+      const nativeArrival = await noScriptPage.locator("#academia").boundingBox();
+      expect(nativeArrival.y).toBeGreaterThanOrEqual(70);
+      expect(nativeArrival.y).toBeLessThan(noScriptPage.viewportSize().height / 2);
+      expect(await nativeControl.evaluate((element) => getComputedStyle(element).position)).toBe("static");
+    }
+    await attachScreenshot(noScriptPage, testInfo, "cv-native-no-script", { fullPage: false });
+  } finally {
+    await noScriptContext.close();
+  }
+});
+
 // Keep the homepage last: its richer desk surface should not precede the
 // lighter-weight route samples in the same Chromium process.
 const COASTAL_THEME_ROUTE_SAMPLES = [
