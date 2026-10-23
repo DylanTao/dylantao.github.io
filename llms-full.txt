@@ -999,6 +999,8 @@ Sirui Tao is a coauthor. This guide does not assign an unverified individual tas
 - Projects: https://dylantao.github.io/projects/
 - Blog: https://dylantao.github.io/blog/
 - CV: https://dylantao.github.io/cv/
+- Current structured CV: https://dylantao.github.io/assets/json/resume.json
+- Manually maintained CV PDF, July 2026 snapshot: https://dylantao.github.io/assets/pdf/Sirui_Tao_CV_Public.pdf. Use the web CV and JSON for current entries and publication statuses.
 - News: https://dylantao.github.io/news/
 - Sitemap: https://dylantao.github.io/sitemap.xml
 

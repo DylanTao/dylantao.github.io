@@ -72,7 +72,7 @@ Tell each design story through the best combination of text, image, interaction,
 | Sitewide or homepage critique        | Decision Order; First-Glance Story; Visual Hierarchy; Accessibility And Quality Checks; Screenshot Critique Ritual; Proportional Visual QA; Responsive Layout | `$website-design-critique`                                      |
 | Blog, project, or case-study writing | Decision Order; Content; Page Archetypes; Blog Voice; Conservative Inspiration Boundaries; Process Artifacts                                                  | `$portfolio-writing-voice`                                      |
 | Homepage 2D/3D desk scene            | Decision Order; Motion; Objects And Materiality; Responsive Layout                                                                                            | `$homepage-desk-scene` plus `docs/homepage-desk-scene-brief.md` |
-| Recording a durable lesson           | Decision Order; the affected topic heading; Maintenance And CI                                                                                                | `$tacit-knowledge-to-skill`                                     |
+| Recording a durable lesson           | Decision Order; the affected topic heading; Reflective Practice; Maintenance And CI                                                                           | `$tacit-knowledge-to-skill`                                     |
 | Evaluating a design experiment       | Less, But More Sirui; Motion; Acceptance Evidence; `docs/design-experiment-backlog.md`                                                                        | `$website-design-critique`                                      |
 
 Begin with the rendered route and the visitor problem, not with a preferred effect. Keep one-off implementation notes in the owning file; add to this document only when a lesson generalizes beyond the current patch.
@@ -220,6 +220,7 @@ The October 6 concept A refinement keeps cumulative recorded history visible abo
 - Check light mode, dark mode, mobile, tablet, and desktop.
 - Floating decoration must use the settled layout: refresh its clearance after fonts, images, or reading aids reflow, and protect SVG charts and metadata chips as well as prose.
 - Check keyboard navigation, visible focus, and that collapsed panels are not hidden tab stops.
+- Inspect the rendered heading outline and duplicate IDs after JavaScript runs. A calm screenshot can still hide broken landmarks or an unusable outline. Section navigation should reach meaningful headings with the keyboard and remain ordinary links without JavaScript; verify print when the page is a document such as the CV.
 - Check that text does not overlap cards, nav, footer, or the back-to-top button, and that mobile has no horizontal overflow.
 - Check contrast, especially orange text on light backgrounds and nav text in dark mode. Measure text on chrome glass against the rendered glass behind it, in all four themes, not against the token. Secondary and accent words on tonal cards use `--glass-ink-soft` and `--glass-ink-accent`, and a label inside a control inherits the control's ink.
 - Check that reduced-motion users can still see all content.
@@ -338,6 +339,15 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 - Process writing is reusable by students: include the heuristics, prompts, constraints, and reflective-practice lessons that helped the work improve, and let them inspect the method (preview a central heuristic file before asking for a download).
 - When using AI coding help, describe the human design judgment and review loop. The agent is part of the workflow, not the author of taste.
 - For model-to-model re-review, hold the brief, viewports, interaction states, and acceptance rubric steady. Record the model and effort, commit, attempted change, what was kept or reverted, and comparable evidence; attribute the outcome to model, prompt, retained context, implementation history, and human critique together.
+
+### Reflective Practice
+
+Start with an observation, separate it from your interpretation, and choose a change that can produce an observable benefit. During the work, inspect the result and revise the move if it misses the intended effect. Afterward, record what improved, what remains uncertain, and the next decision. A sentence or two is enough for a small fix; a substantial experiment can retain comparable captures and measurements in its existing evidence record.
+
+- Preserve what already works. If a reader values the writing, investigate links, semantics, freshness, and access before rewriting the voice. A private compliment is a useful qualitative signal; it is not permission to publish a testimonial or evidence of a ranking increase.
+- Discovery claims must agree across visible copy, structured data, machine views, and downloads. Use actual collection membership and known dates; omit unsupported precision. Label a manually maintained snapshot when the current web record has moved on.
+- Match evidence to the claim. A resolved anchor proves navigation; a readable outline and keyboard check support accessibility; a valid build proves generation. Search visibility needs observations over time, such as indexed pages, relevant queries, impressions, clicks, and useful inquiries. Passing local checks cannot establish popularity or AI recommendation frequency.
+- Promote the smallest reusable lesson into the owning heading and existing skill. Keep the incident details and failed attempts in the evidence record. Validate the skill's references, then try a realistic task when a behavior change warrants it; passing a frontmatter check alone does not show that the guidance improves decisions.
 
 ## Maintenance And CI
 
