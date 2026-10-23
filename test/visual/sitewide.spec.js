@@ -85,6 +85,8 @@ async function switchToCoastalThemeMode(page, { mode, computedTheme }) {
   if ((await root.getAttribute("data-theme-mode")) !== mode) {
     await page.locator("#theme-toggle").click();
     await page.locator(`#theme-menu [data-theme-mode-option="${mode}"]`).click();
+    // Choices stay open for comparison; this surface sampler explicitly dismisses the menu.
+    await page.keyboard.press("Escape");
   }
 
   await expect(root).toHaveAttribute("data-theme-mode", mode);

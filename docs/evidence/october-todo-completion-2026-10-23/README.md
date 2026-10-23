@@ -8,6 +8,8 @@ completed well. One coordinator integrated the verified work on `main`; workers 
 
 - Production Jekyll `/al-folio` build: passed, 186.382 seconds. Served controller, furniture, collision, pool and photo
   modules were byte-compared with the final working sources. Responsive image variants were present.
+  The corrected plant/controller batch was rebuilt successfully in 156.258 seconds, with its served controller and
+  lounge bytes checked again and all 122 source images' responsive variants present.
 - Python: 241 tests passed. Node: 599 total, 592 passed and seven intentional skips. Style contract passed.
 - Prettier: all 898 recognized tracked files passed with CI's LF input, including the final scoped documentation/test
   additions. Unrelated CRLF working files were not rewritten.
@@ -24,6 +26,19 @@ completed well. One coordinator integrated the verified work on `main`; workers 
   group. No scene test was dropped to obtain acceptance.
 - Changed upstream-owned overrides were reviewed/re-acknowledged. The staged bytes must match the acknowledgment hashes.
 
+The first integrated checkpoint, `49d99b077`, exposed five repeated failure classes in the full Linux visual matrix.
+Four-theme samplers now close the intentionally persistent chooser between selections. Meal/recovery checks use the
+authored actor placement in the sunken nook, while retaining the same local reach bound. The original 183 lounge
+leaf groups are restored, retaining the 403-moving/30-fixed acceptance count. The water check distinguishes the paused
+equilibrium from the new bamboo inlet's conservative impulses during a resting hand. The checkpoint's red visual
+result remains part of the record; release evidence must refer to the subsequent corrected revision.
+
+After integration, the complete activity-preview and stair/clock-recovery cases passed against the served controller.
+The full native-skin/wind/water/pause/offscreen/recovery case then passed with the restored lounge export. The lounge
+was byte-checked at 182,492 bytes, SHA-256 `580a80b5d9f4d35379f23cb61765f759a629880f61b32237b60e8d5fb965c0f6`.
+All 241 Python tests passed again; the targeted wind/interior/furniture/transport Node run passed 33 tests with four
+intentional native-tool skips. Theme samplers passed for the site, Build Rhythm, Duh and phone constellation.
+
 Local logs and full captures are ignored under `.jekyll-cache/finish-*` and `.jekyll-cache/visual-qa/` (including
 `checkpoint`, `finish-root` and `finish-linux-regressions`). They are not website content.
 
@@ -39,6 +54,10 @@ Local logs and full captures are ignored under `.jekyll-cache/finish-*` and `.je
 - [Environment](../../../artwork/coastal-home/reviews/environment-2026-10-23.json): JPL references, native water depths,
   exact garden asset hash and actual coast/garden/night/FFT views. The final still-photo guard is newer than its
   environment-module fingerprint; the separate graphics-study record below binds that changed module.
+- [Retained living plants](../living-plants-2026-10-23/README.md): six original native parts, actual floor/credenza
+  support and all 256 pre-existing objects preserved. The restored 183 leaf groups bring the unchanged wind assertion
+  back to 403 moving groups and 30 fixed. Three final actual views pass; earlier close-camera pixel residuals remain
+  recorded beside the passing capture rather than being erased.
 - [Duvet](../../../artwork/coastal-home/reviews/duvet/lizard-optimized.json): raw warmed update costs, bounded deformation,
   pause, exact reduced restoration and 2D/3D recovery. The optimized performance result covers Lizard, not every avatar.
 - [Photo/ink studies](../../../artwork/coastal-home/reviews/graphics-studies/README.md): nonblank actual images,
@@ -61,6 +80,10 @@ content/asset check. These post-push results belong to that revision's GitHub Ac
 HTTP 200 alone is insufficient. The final coordinator report links the actual result.
 
 Moving-scene TAA and trained representation replacements remain explicitly unimplemented in the handoff. The source
-review and frozen-photo/static-ink experiments do not count as reproductions. Build Rhythm/profile refresh is held on
-the exact October 22 website discrepancy (24 attributable commits versus 23 calendar credits); no unapproved calendar
-exception or invented fresh snapshot was published. Scholar's paired October 23 snapshot passed the freshness gate.
+review and frozen-photo/static-ink experiments do not count as reproductions. Build Rhythm/profile refresh remains
+unfinished after two complete 310-repository scans: October 22 now has 25 attributable website commits versus 24
+calendar credits. The additional default-branch cherry-pick retains an October 22 author date; the precise public OID,
+dates, count split and retry gate are in the handoff. The earlier 24-versus-23 discrepancy caught up, so its exception
+question is obsolete. No exception or fabricated fresh snapshot was published. Both data repositories remain clean;
+the validated public profile and site retain coverage through October 21. Scholar's paired October 23 snapshot passed
+the freshness gate.

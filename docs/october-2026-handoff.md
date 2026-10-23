@@ -266,7 +266,7 @@ The release verification section below records the combined checks.
 - [x] **Laptop-lid scroll:** already implemented in the revamp page and its device script/styles.
 - [x] **Honest loader:** uses real progress and the loading sketch; no simulated timer was added.
 - [ ] **Moving temporal antialiasing:** remains deferred. Reliable history on moving characters/water needs motion
-      vectors, disocclusion rejection and measured improvement; those are not implemented. The new 2?16-sample frozen
+      vectors, disocclusion rejection and measured improvement; those are not implemented. The new 2–16-sample frozen
       photo experiment accumulates jittered final output in linear light, refuses a live view, aborts on changes, caps
       capture at 2.2 MP and restores the camera in `finally`. It is explicitly not moving-scene TAA. Keep both the
       experiment and this limit for the next model rather than relabelling supersampling as completion.
@@ -283,12 +283,16 @@ marine-layer frequency, sunset and laundry) keep their current defaults. They ar
 
 - [x] **Google Scholar:** the paired October 23 citation/lens snapshot is fresh. This remains the publication freshness gate.
 - [ ] **Build Rhythm and GitHub profile:** the full fail-closed collector completed all 310 repositories but rejected its
-      aggregate: October 22 website history contains 24 distinct attributable commits while GitHub's public calendar
-      credits 23. All previously reviewed exceptions still match; no other new public repository/day discrepancy was
-      found. Raw date/identity/OID checks did not justify deleting or relabelling the extra commit. Indexing delay is
-      possible, not established. The exact one-commit calendar exception was presented to Sirui for review; no exception
-      is inferred without an answer. If GitHub catches up, retry the normal gate. Otherwise obtain explicit approval
-      for that bounded date/repository exception before completing render/import/publish.
+      aggregate. GitHub caught up from 23 to 24 October 22 credits, so the earlier exception question is obsolete. The
+      second full scan now contains **25** distinct attributable commits for that day while the calendar still credits
+      **24**. The additional default-branch commit is `6320a6b87842a9321c4004fba9e0114e2eb5424d`: its retained author date
+      is October 22, 21:36:15 PDT, and its cherry-pick committer date is October 23, 01:59:36 PDT. The commit API confirms
+      the author identity and dates. Default-branch count is 15; the unchanged `gh-pages` count is 10. All 310 cache
+      entries match the collector source/mode and live eligible inventory. Previously reviewed exceptions still match;
+      no other new public day discrepancy or annual-gap failure was found. A subsequent read-only probe still returned
+      24 credits. Indexing/backfill delay is possible, not established. No exception was added, count deleted or date
+      relabelled. Revisit when the calendar credits 25, then rerun the normal collector and all render/privacy/import
+      gates before publishing. This remains unfinished; a successful scan count alone is not a fresh validated snapshot.
 
 The last validated public profile and `_data/code_activity.json` remain through October 21. They were not marked fresh,
 counts were not adjusted to force parity, and the retired token/agent-hour ledger was not revived. Private diagnostic

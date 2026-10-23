@@ -189,6 +189,7 @@ test("all four themes keep readable chart states and preserve the selected histo
   for (const mode of ["morning", "noon", "afternoon", "evening"]) {
     await page.locator("#theme-toggle").click();
     await page.locator(`#theme-menu [data-theme-mode-option="${mode}"]`).click();
+    await page.keyboard.press("Escape"); // The comparison menu stays open until explicitly dismissed.
     await expect(page.locator("html")).toHaveAttribute("data-theme-mode", mode);
     await expect(page.locator("html")).not.toHaveClass(/\btransition\b/);
     // The root's timeout can expire before a busy browser finishes the

@@ -152,6 +152,7 @@ test("duh: forms, four themes, bounded layout, clear controls and original P coe
       .locator('[data-theme-mode-option="' + theme + '"]')
       .first()
       .click();
+    await page.keyboard.press("Escape"); // Keep the page clear of the persistent comparison menu.
     await page.clock.runFor(650);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
     await page.screenshot({ path: info.outputPath(theme + ".png") });

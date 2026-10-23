@@ -868,11 +868,15 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(still.simulation.onsen.stroke.available).toBe(true);
   expect(still.simulation.onsen.stroke.seconds).toBe(0);
   expect(still.simulation.onsen.coupling.velocityChange).toBe(0);
+  expect(still.simulation.onsen.drip.bound).toBe(true);
+  expect(still.simulation.onsen.drip.drops).toBe(0);
+  expect(still.simulation.onsen.energy).toBeLessThan(1e-12);
+  expect(still.simulation.onsen.caustics.overheadFloorGain.minimum).toBeCloseTo(1, 4);
+  expect(still.simulation.onsen.caustics.overheadFloorGain.maximum).toBeCloseTo(1, 4);
   expect(still.simulation.onsen.optics.opaqueShadow).toBe(false);
   expect(still.simulation.onsen.optics.normalDepthOccluder).toBe(false);
-  // 295 rooted leaf groups indoors (the renovation's plants carry their leaves on twigs, and a fan of
-  // three olive leaves moves as one) and 108 on the terrace olive (bin/coastal_facade.py); the study
-  // pothos's 30 trailing leaves hang still.
+  // 403 rooted groups: 22 core, 108 facade, 28 study, 183 retained lounge (176 olive + seven small
+  // plant), 40 kitchen, 11 onsen and 11 sleep. The study's 30 unsupported trailing groups hang still.
   expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.enabled, 0)).toBe(403);
   expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.disabled, 0)).toBe(30);
   const before = await canvas.screenshot();
@@ -884,11 +888,12 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   const resting = await evidence(scene);
   expect(resting.simulation.onsen.stroke.phase).toBe("rest");
   expect(resting.simulation.onsen.coupling.velocityChange).toBe(0);
-  expect(resting.simulation.onsen.energy).toBeLessThan(1e-12);
-  // Calm water draws no caustics on the basin (onsen-water.mjs bindCausticReceiver).
+  // The hand rests, while the real bamboo inlet now supplies conservative surface impulses.
+  expect(resting.simulation.onsen.drip.drops).toBeGreaterThan(0);
+  expect(resting.simulation.onsen.energy).toBeGreaterThan(1e-12);
+  expect(resting.simulation.onsen.finite).toBe(true);
+  expect(Math.abs(resting.simulation.onsen.relativeMassError)).toBeLessThan(1e-10);
   expect(resting.simulation.onsen.caustics.receivers).toBeGreaterThan(0);
-  expect(resting.simulation.onsen.caustics.overheadFloorGain.minimum).toBeCloseTo(1, 4);
-  expect(resting.simulation.onsen.caustics.overheadFloorGain.maximum).toBeCloseTo(1, 4);
   await page.clock.runFor(2400);
   const moving = await evidence(scene),
     after = await canvas.screenshot();
@@ -906,7 +911,7 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(moving.simulation.onsen.stroke.maximumSpeed).toBeLessThan(0.4);
   expect(moving.simulation.onsen.stroke.wristError).toBeLessThan(0.001);
   expect(moving.simulation.onsen.coupling.velocityChange).toBeGreaterThan(0);
-  // The hand's waves, and only they, refocus the light on the basin.
+  // The hand's waves and the inlet share the same surface and refocus its basin light.
   const floorGain = moving.simulation.onsen.caustics.overheadFloorGain;
   expect(floorGain.maximum - floorGain.minimum).toBeGreaterThan(0.01);
   expect(Math.hypot(...moving.joints.HandL.map((v, i) => v - still.joints.HandL[i]))).toBeGreaterThan(0.03);
@@ -2250,7 +2255,8 @@ test("coastal home: composed activities and previews survive clock changes until
     }
     if (["breakfast", "lunch", "dinner"].includes(activity)) {
       expect(Math.abs(info.joints.HandR[0] - info.joints.Head[0])).toBeLessThan(0.13);
-      expect(info.joints.HandR[1]).toBeGreaterThan(1.03);
+      // Keep Lizard's authored mouth-reach bound in the actor frame, including the sunken nook.
+      expect(info.joints.HandR[1] - info.actorPosition[1]).toBeGreaterThan(1.03);
     }
     await capture(testInfo, `activity-${activity}`, await canvas.screenshot());
   }
@@ -2701,7 +2707,10 @@ test("coastal home: recovery preserves a stair journey and composes a changed cl
   expect(changed.traveling).toBe(false);
   expect(changed.navigation).toBe(null);
   expect(changed.animation).toBe("eat");
-  expect(Math.abs(changed.joints.Root[1])).toBeLessThan(0.1);
+  // The actor returns to its authored seat; the animated Root bone is still crossfading.
+  const config = homeManifest(),
+    dinnerRoom = config.rooms.find((room) => room.id === config.activities.dinner.room);
+  expect(changed.actorPosition).toEqual(dinnerRoom.actor);
   expect(errors).toEqual([]);
 });
 

@@ -306,6 +306,7 @@ test("mobile constellation information strokes clear 3:1 in every coastal mode",
     if ((await root.getAttribute("data-theme-mode")) !== mode) {
       await page.locator("#theme-toggle").click();
       await page.locator(`#theme-menu [data-theme-mode-option="${mode}"]`).click();
+      await page.keyboard.press("Escape"); // This page sampler explicitly dismisses the comparison menu.
     }
     await expect(root).toHaveAttribute("data-theme-mode", mode);
     await page.mouse.move(0, 0);
