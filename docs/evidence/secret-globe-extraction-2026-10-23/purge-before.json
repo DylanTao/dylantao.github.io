@@ -1,0 +1,23 @@
+{
+  "version": "8.0.0",
+  "selectorsBefore": 271,
+  "selectorsAfter": 266,
+  "missingSelectors": [
+    ".sirui-map-note,\r\n.sirui-map-footnote",
+    ".sirui-map-footnote",
+    ".sirui-street-map .leaflet-control-attribution",
+    ".sirui-street-map .leaflet-control-zoom",
+    ".sirui-map-stage.is-street-main .sirui-street-map .leaflet-control-zoom",
+    ".sirui-street-map.has-tile-warning .leaflet-tile-pane"
+  ],
+  "rejected": [
+    "\r\n.sirui-map-footnote",
+    ".sirui-map-footnote",
+    ".sirui-street-map .leaflet-control-attribution",
+    ".sirui-street-map .leaflet-control-zoom",
+    ".sirui-map-stage.is-street-main .sirui-street-map .leaflet-control-zoom",
+    ".sirui-street-map.has-tile-warning .leaflet-tile-pane"
+  ],
+  "beforeBytes": 50482,
+  "afterBytes": 49954
+}

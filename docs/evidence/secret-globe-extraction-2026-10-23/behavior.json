@@ -1,0 +1,72 @@
+{
+  "comparisons": [
+    {
+      "width": 1440,
+      "state": "locked",
+      "changedRatio": 9.305555555555556e-5
+    },
+    {
+      "width": 1440,
+      "state": "unlocked",
+      "changedRatio": 9.583333333333334e-5
+    },
+    {
+      "width": 390,
+      "state": "locked",
+      "changedRatio": 0.00021025641025641025
+    },
+    {
+      "width": 390,
+      "state": "unlocked",
+      "changedRatio": 0.0003820512820512821
+    }
+  ],
+  "interactions": [
+    {
+      "width": 1440,
+      "dragChange": 0.08239651646894113,
+      "realModeClicks": ["sun", "moon", "visitor"],
+      "preciseLocationOnlyAfterClick": true,
+      "refreshRetainsUnlock": true,
+      "overflow": 0,
+      "errors": [],
+      "height": 1000
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "dragChange": 0.06199752628324057,
+      "realModeClicks": ["sun", "moon", "visitor"],
+      "preciseLocationOnlyAfterClick": true,
+      "refreshRetainsUnlock": true,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "dragChange": 0.09033558285256069,
+      "realModeClicks": ["sun", "moon", "visitor"],
+      "preciseLocationOnlyAfterClick": true,
+      "refreshRetainsUnlock": true,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "dragChange": 0.11517006626630773,
+      "realModeClicks": ["sun", "moon", "visitor"],
+      "preciseLocationOnlyAfterClick": true,
+      "refreshRetainsUnlock": true,
+      "overflow": 0,
+      "errors": [],
+      "height": 1000
+    }
+  ],
+  "noJavaScript": {
+    "explicitNotice": true,
+    "mapHidden": true,
+    "payloadHidden": true,
+    "noGlobeBoot": true
+  }
+}

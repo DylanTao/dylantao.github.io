@@ -16,6 +16,7 @@ module.exports = {
       /^ninja-/,
       /^cinematic-/,
       /^case-/,
+      /^sirui-/,
       "post-header-field",
       "has-spotlight",
       "collapse",
@@ -35,7 +36,7 @@ module.exports = {
       "medium-zoom-overlay",
       "medium-zoom-image--opened",
     ],
-    deep: [/^home-/, /^theme-/, /^research-motion-/, /^ninja-/],
+    deep: [/^home-/, /^theme-/, /^research-motion-/, /^ninja-/, /^sirui-/],
     greedy: [
       /data-theme/,
       /data-theme-mode/,

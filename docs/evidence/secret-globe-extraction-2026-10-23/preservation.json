@@ -1,0 +1,8 @@
+{
+  "source": "9a8236b3337c6562aa516230bc741cd67e83c364",
+  "css": "Exact formatter-normalized original rules except night-sky value now transferred through data attribute",
+  "javascript": "Exact formatter-normalized original behavior except seven Jekyll values now read from escaped data attributes and the CSS variable is initialized before unlock",
+  "markup": "Exact whitespace-normalized original markup and encrypted payload, excluding extracted assets and new configuration attributes",
+  "payloadSha256": "f861b2b173a58c70622914237f970428d653b2e584d9aed0f2ca82444897b6ac",
+  "passed": true
+}

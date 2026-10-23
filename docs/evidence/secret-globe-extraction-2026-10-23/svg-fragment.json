@@ -1,0 +1,12 @@
+[
+  {
+    "baseline": true,
+    "fill": "url(\"#sirui-map-grid\")",
+    "base": "http://127.0.0.1:4163/al-folio/blog/2026/sirui-research-thoughts/"
+  },
+  {
+    "baseline": false,
+    "fill": "url(\"#sirui-map-grid\")",
+    "base": "http://127.0.0.1:4163/al-folio/blog/2026/sirui-research-thoughts/"
+  }
+]
