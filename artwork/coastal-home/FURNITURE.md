@@ -59,7 +59,7 @@ motion uses a composed still.
 ## Verification
 
 `node --test test/coastal-furniture.test.mjs test/coastal-training.test.mjs
-test/coastal-gym-session.test.mjs test/coastal-lift-rig.test.mjs` passes 30 tests.
+test/coastal-gym-session.test.mjs test/coastal-lift-rig.test.mjs` passes 31 tests.
 They cover missing assets, placement/resource sharing, LOD budget and hysteresis,
 compilation, hidden-room requests, disposal, exact pan-grip transforms and return,
 the eight-repetition finisher, finite joints, standing soles and session routes.

@@ -103,7 +103,10 @@ async function open({ width, height, dpr, query = {} }) {
   await page.route(/\/assets\/(?:js\/.+\.m?js|models\/home\/.+)(?:\?.*)?$/, async (request) => {
     const url = new URL(request.request().url());
     const rel = decodeURIComponent(url.pathname.slice(url.pathname.indexOf("/assets/") + 1));
-    const file = path.join(rel.startsWith("assets/models/home/") && !rel.startsWith("assets/models/home/furniture/") ? houseRepo : repo, rel);
+    const houseFile =
+      (rel.startsWith("assets/models/home/") && !rel.startsWith("assets/models/home/furniture/")) ||
+      rel === "assets/js/home-scene/light-installations.mjs";
+    const file = path.join(houseFile ? houseRepo : repo, rel);
     // Generated files (plugin scripts) come from the server.
     if (!fs.existsSync(file)) return request.continue();
     const type = rel.endsWith(".json") ? "application/json" : rel.endsWith(".glb") ? "model/gltf-binary" : "text/javascript; charset=utf-8";

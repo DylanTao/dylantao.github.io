@@ -1,0 +1,468 @@
+{
+  "date": "2026-10-23",
+  "house_commit": "143d3b9c3",
+  "furniture_implementation_commits": ["54bd24299", "9511f5265", "4767db746", "283150803", "59bbd4d89"],
+  "method": "Public built /al-folio/ route with furniture source/runtime and final house models overlaid; release coordinator verifies integrated output separately.",
+  "tests": {
+    "passed": 31,
+    "failed": 0
+  },
+  "default_unique_bytes": 281184,
+  "fine_unique_bytes": 835156,
+  "placements": [
+    {
+      "id": "study-aeron",
+      "item": "aeron",
+      "room": "study",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "living-fireplace",
+      "item": "floating-fireplace",
+      "room": "lounge",
+      "shown": 0,
+      "wanted": 0,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "living-eames-lounge",
+      "item": "eames-lounge",
+      "room": "lounge",
+      "shown": 0,
+      "wanted": 0,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "kitchen-range",
+      "item": "italian-range",
+      "room": "kitchen",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "kitchen-range-hood",
+      "item": "range-hood",
+      "room": "kitchen",
+      "shown": 0,
+      "wanted": 0,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "kitchen-pot-filler",
+      "item": "pot-filler",
+      "room": "kitchen",
+      "shown": 0,
+      "wanted": 0,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "kitchen-glass-fridge",
+      "item": "glass-fridge",
+      "room": "kitchen",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "dining-table",
+      "item": "dining-table",
+      "room": "kitchen",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "dining-chair-1",
+      "item": "dining-chair",
+      "room": "kitchen",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "dining-chair-2",
+      "item": "dining-chair",
+      "room": "kitchen",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "dining-chair-3",
+      "item": "dining-chair",
+      "room": "kitchen",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "dining-chair-4",
+      "item": "dining-chair",
+      "room": "kitchen",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "dining-chair-5",
+      "item": "dining-chair",
+      "room": "kitchen",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "dining-chair-6",
+      "item": "dining-chair",
+      "room": "kitchen",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": null
+    },
+    {
+      "id": "gym-pan",
+      "item": "cast-iron-pan",
+      "room": "gym",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": true,
+      "gripWorld": [7.009388752644913, 1.1206565127002173, -1.3998548865205054]
+    },
+    {
+      "id": "gym-dumbbell-right",
+      "item": "dumbbell",
+      "room": "gym",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": [6.421, 0.745, 0.06]
+    },
+    {
+      "id": "gym-dumbbell-left",
+      "item": "dumbbell",
+      "room": "gym",
+      "shown": 1,
+      "wanted": 1,
+      "culled": false,
+      "placeholders": 1,
+      "placeholderHidden": true,
+      "held": false,
+      "gripWorld": [6.421, 0.745, -0.24]
+    }
+  ],
+  "phone": {
+    "viewport": [390, 1000],
+    "canvas": [350, 352],
+    "overflow": false,
+    "errors": []
+  },
+  "fullscreen": {
+    "eames-lounge": {
+      "file": "eames-lounge-fullscreen.png",
+      "canvas": [3840, 2160],
+      "placed": {
+        "id": "living-eames-lounge",
+        "item": "eames-lounge",
+        "room": "lounge",
+        "shown": 1,
+        "wanted": 1,
+        "culled": false,
+        "placeholders": 1,
+        "placeholderHidden": true,
+        "held": false,
+        "gripWorld": null
+      }
+    },
+    "aeron": {
+      "file": "aeron-fullscreen.png",
+      "canvas": [3840, 2160],
+      "placed": {
+        "id": "study-aeron",
+        "item": "aeron",
+        "room": "study",
+        "shown": 1,
+        "wanted": 1,
+        "culled": false,
+        "placeholders": 1,
+        "placeholderHidden": true,
+        "held": false,
+        "gripWorld": null
+      }
+    },
+    "floating-fireplace": {
+      "file": "floating-fireplace-fullscreen.png",
+      "canvas": [3840, 2160],
+      "placed": {
+        "id": "living-fireplace",
+        "item": "floating-fireplace",
+        "room": "lounge",
+        "shown": 1,
+        "wanted": 1,
+        "culled": false,
+        "placeholders": 1,
+        "placeholderHidden": true,
+        "held": false,
+        "gripWorld": null
+      }
+    },
+    "errors": []
+  },
+  "lod": {
+    "eames-lounge:default": {
+      "file": "eames-lounge-lod-default.png",
+      "placed": {
+        "id": "living-eames-lounge",
+        "item": "eames-lounge",
+        "room": "lounge",
+        "shown": 0,
+        "wanted": 0,
+        "culled": false,
+        "placeholders": 1,
+        "placeholderHidden": true,
+        "held": false,
+        "gripWorld": null
+      },
+      "triangles": 1628798,
+      "drawCalls": 519
+    },
+    "aeron:default": {
+      "file": "aeron-lod-default.png",
+      "placed": {
+        "id": "study-aeron",
+        "item": "aeron",
+        "room": "study",
+        "shown": 0,
+        "wanted": 0,
+        "culled": false,
+        "placeholders": 1,
+        "placeholderHidden": true,
+        "held": false,
+        "gripWorld": null
+      },
+      "triangles": 1878948,
+      "drawCalls": 551
+    },
+    "floating-fireplace:default": {
+      "file": "floating-fireplace-lod-default.png",
+      "placed": {
+        "id": "living-fireplace",
+        "item": "floating-fireplace",
+        "room": "lounge",
+        "shown": 0,
+        "wanted": 0,
+        "culled": false,
+        "placeholders": 1,
+        "placeholderHidden": true,
+        "held": false,
+        "gripWorld": null
+      },
+      "triangles": 1698498,
+      "drawCalls": 517
+    },
+    "errors:default": [],
+    "eames-lounge:fine": {
+      "file": "eames-lounge-lod-fine.png",
+      "placed": {
+        "id": "living-eames-lounge",
+        "item": "eames-lounge",
+        "room": "lounge",
+        "shown": 1,
+        "wanted": 1,
+        "culled": false,
+        "placeholders": 1,
+        "placeholderHidden": true,
+        "held": false,
+        "gripWorld": null
+      },
+      "triangles": 1718060,
+      "drawCalls": 519
+    },
+    "aeron:fine": {
+      "file": "aeron-lod-fine.png",
+      "placed": {
+        "id": "study-aeron",
+        "item": "aeron",
+        "room": "study",
+        "shown": 1,
+        "wanted": 1,
+        "culled": false,
+        "placeholders": 1,
+        "placeholderHidden": true,
+        "held": false,
+        "gripWorld": null
+      },
+      "triangles": 1951884,
+      "drawCalls": 551
+    },
+    "floating-fireplace:fine": {
+      "file": "floating-fireplace-lod-fine.png",
+      "placed": {
+        "id": "living-fireplace",
+        "item": "floating-fireplace",
+        "room": "lounge",
+        "shown": 1,
+        "wanted": 1,
+        "culled": false,
+        "placeholders": 1,
+        "placeholderHidden": true,
+        "held": false,
+        "gripWorld": null
+      },
+      "triangles": 1701546,
+      "drawCalls": 517
+    },
+    "errors:fine": []
+  },
+  "pan": {
+    "returned": true,
+    "phase": "pan wrist raises \u00c3\u2014 8",
+    "anatomical_grip_error_metres": 4.965068306494546e-16
+  },
+  "mineral_materials": [
+    {
+      "name": "aeron arm pad",
+      "color": [0.3231432091022285, 0.34191442489801843, 0.3139887133649649],
+      "fixed": true
+    },
+    {
+      "name": "aeron carbon frame",
+      "color": [0.5457244613615395, 0.5647115056965487, 0.508881320845802],
+      "fixed": true
+    },
+    {
+      "name": "aeron carbon pellicle",
+      "color": [0.35640014413537763, 0.38642943377667954, 0.35640014413537763],
+      "fixed": true
+    },
+    {
+      "name": "furniture polished nickel",
+      "color": [0.6100000143051147, 0.6499999761581421, 0.6399999856948853],
+      "fixed": true
+    },
+    {
+      "name": "aeron arm pad",
+      "color": [0.3231432091022285, 0.34191442489801843, 0.3139887133649649],
+      "fixed": true
+    },
+    {
+      "name": "aeron carbon frame",
+      "color": [0.5457244613615395, 0.5647115056965487, 0.508881320845802],
+      "fixed": true
+    },
+    {
+      "name": "aeron carbon pellicle",
+      "color": [0.35640014413537763, 0.38642943377667954, 0.35640014413537763],
+      "fixed": true
+    },
+    {
+      "name": "furniture polished nickel",
+      "color": [0.6100000143051147, 0.6499999761581421, 0.6399999856948853],
+      "fixed": true
+    }
+  ],
+  "errors": [],
+  "captures": {
+    "eames-browser.png": {
+      "sha256": "aff630780cbe986b6135620e7b4ca93ec99c236bd22b37f85b850e23be289b3a",
+      "bytes": 193438
+    },
+    "aeron-carbon-browser.png": {
+      "sha256": "5d42cadfaaf845c0184c6aab37786a1f067f7bf6d6db8c7184e2a2172073ef57",
+      "bytes": 234895
+    },
+    "aeron-mineral-browser.png": {
+      "sha256": "79a659d087131bfe4baf52d10306aff62f7ea603e39f6d1dde099453a721e4b4",
+      "bytes": 261368
+    },
+    "range-hood-browser.png": {
+      "sha256": "17f7c887de1edfe6f3d3f4db058e2b1b425bc74e898493f1726736e3ad8d454f",
+      "bytes": 137827
+    },
+    "dining-browser.png": {
+      "sha256": "ca3b85ae7383b0f8e1acb35c735266aa49cdd3a4491b726ee4173cd2fec3ddc9",
+      "bytes": 194274
+    },
+    "glass-fridge-browser.png": {
+      "sha256": "9e9d7f485b5deeda1bd33e6424ce60fe368a53062ecebcff54e31f255bea56ed",
+      "bytes": 177165
+    },
+    "fireplace-browser.png": {
+      "sha256": "dac616e1e09a42a39b9ca42a50d5a0f147c0d766b0886bd267891be7d6dac38d",
+      "bytes": 201444
+    },
+    "pan-raise-browser.png": {
+      "sha256": "0648538e29d22b466fcbfd73c9358b0bcc5af233a4f8ae47fdbb09ccc93efeb4",
+      "bytes": 149535
+    },
+    "phone-browser.png": {
+      "sha256": "ace7f8ab2d5c7e0aad8d12df6a44e31737384a19132c4e32749f2b3edb3bb03e",
+      "bytes": 229766
+    }
+  },
+  "lighting_note": "Pan close proof uses the earlier 14-line light shader; the integrated house raises the budget to 15 and adds its front task pendant."
+}
