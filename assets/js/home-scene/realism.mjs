@@ -594,7 +594,12 @@ function syncOutputDefines(pass, activeRenderer) {
 // loaded on demand; it glows only HDR highlights above the threshold, before tone mapping. `haze`
 // (haze.mjs) lays the coast's air over the beauty pass from its resolved depth, before the bloom, so
 // a low sun's glow and the lamps bloom through it.
-export function createFinish(renderer, scene, camera, { transparentOutput = false, profileGPU = false, bloom: bloomLook = null, haze = null } = {}) {
+export function createFinish(
+  renderer,
+  scene,
+  camera,
+  { transparentOutput = false, profileGPU = false, bloom: bloomLook = null, haze = null, temporalFactory = null } = {}
+) {
   if (transparentOutput) return createLegacyFinish(renderer, scene, camera, { transparentOutput });
   const target = new THREE.WebGLRenderTarget(1, 1, {
     type: THREE.HalfFloatType,
@@ -613,7 +618,8 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
     output = new OutputPass(),
     bloom = bloomLook ? new bloomLook.Pass(new THREE.Vector2(1, 1), bloomLook.strength, bloomLook.radius, bloomLook.threshold) : null,
     gpuTimer = createGpuTimer(renderer.getContext(), profileGPU),
-    volumeDepth = createVolumeDepth(renderer, scene);
+    volumeDepth = createVolumeDepth(renderer, scene),
+    temporal = temporalFactory?.(renderer, scene);
   let volume;
   const lighting = {
     contactTexture: { value: contact.blurRenderTarget.texture },
@@ -651,6 +657,7 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
   };
   composer.addPass(contact);
   composer.addPass(beauty);
+  if (temporal) composer.addPass(temporal.pass);
   if (haze) composer.addPass(haze.pass);
   if (bloom) composer.addPass(bloom);
   composer.addPass(output);
@@ -663,6 +670,12 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
   return {
     contactLighting: lighting,
     haze,
+    setTemporalEnabled(value) {
+      temporal?.setEnabled(value);
+    },
+    resetTemporal(reason) {
+      temporal?.reset(reason);
+    },
     // A change of sample count reallocates both composer targets (three rebuilds a disposed target on
     // its next use, with the same depth texture object the haze pass reads).
     setDetail({ samples: nextSamples = samples, contactLongSide: nextContact = contactLongSide } = {}) {
@@ -699,30 +712,41 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
       width = w;
       height = h;
       composer.setSize(w, h);
+      temporal?.resize(composer.renderTarget1.width, composer.renderTarget1.height);
       volumeDepth.resize(composer.renderTarget1.width, composer.renderTarget1.height);
       lighting.contactResolution.value.set(Math.floor(composer.renderTarget1.width), Math.floor(composer.renderTarget1.height));
       const scale = Math.min(1, contactLongSide / Math.max(w, h));
       contact.setSize(Math.max(1, Math.round(w * scale)), Math.max(1, Math.round(h * scale)));
     },
-    render(activeCamera, exterior) {
-      beauty.camera = contact.camera = activeCamera;
-      lighting.contactEnabled.value = contact.enabled = !exterior;
-      const perspective = activeCamera.isPerspectiveCamera ? 1 : 0;
-      if (contact.ssaoMaterial.defines.PERSPECTIVE_CAMERA !== perspective) {
-        contact.ssaoMaterial.defines.PERSPECTIVE_CAMERA = perspective;
-        contact.ssaoMaterial.needsUpdate = true;
-      }
-      contact.ssaoMaterial.uniforms.cameraProjectionMatrix.value.copy(activeCamera.projectionMatrix);
-      contact.ssaoMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
-      contact.blurMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
-      gpuTimer.begin();
-      haze?.prepare(activeCamera, exterior);
+    render(activeCamera, exterior, temporalKey = "") {
+      temporal?.begin(activeCamera, temporalKey);
+      let completed = false;
       try {
+        beauty.camera = contact.camera = activeCamera;
+        lighting.contactEnabled.value = contact.enabled = !exterior;
+        const perspective = activeCamera.isPerspectiveCamera ? 1 : 0;
+        if (contact.ssaoMaterial.defines.PERSPECTIVE_CAMERA !== perspective) {
+          contact.ssaoMaterial.defines.PERSPECTIVE_CAMERA = perspective;
+          contact.ssaoMaterial.needsUpdate = true;
+        }
+        contact.ssaoMaterial.uniforms.cameraProjectionMatrix.value.copy(activeCamera.projectionMatrix);
+        contact.ssaoMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
+        contact.blurMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
+        gpuTimer.begin();
+        haze?.prepare(activeCamera, exterior);
         if (volume?.object.visible) volumeDepth.render(activeCamera, volume);
         composer.render();
+        completed = true;
       } finally {
-        haze?.restore();
-        gpuTimer.end();
+        try {
+          haze?.restore();
+        } finally {
+          try {
+            gpuTimer.end();
+          } finally {
+            temporal?.end(completed);
+          }
+        }
       }
     },
     get evidence() {
@@ -742,11 +766,13 @@ export function createFinish(renderer, scene, camera, { transparentOutput = fals
         volumeDepth: volume?.object.visible ? volumeDepth.evidence() : null,
         bloom: bloom ? { strength: bloom.strength, radius: bloom.radius, threshold: bloom.threshold } : null,
         haze: haze ? haze.evidence() : null,
+        temporal: temporal?.evidence ?? null,
       };
     },
     dispose() {
       lighting.contactEnabled.value = false;
       gpuTimer.dispose();
+      temporal?.dispose();
       volumeDepth.dispose();
       haze?.dispose();
       beauty.dispose();

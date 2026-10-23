@@ -1,0 +1,304 @@
+{
+  "moving": {
+    "ready": true,
+    "currentRoom": "kitchen",
+    "style": "realistic",
+    "avatarId": "rick-and-morty",
+    "camera": [-0.9741821798123409, 1.7106483909366195, -4.179442886907435],
+    "animationSeconds": 2.326666666666666,
+    "frameTiming": {
+      "samples": 28,
+      "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+      "medianFrameMs": 45,
+      "p95FrameMs": 343,
+      "maximumFrameMs": 749,
+      "medianSubmitMs": 27,
+      "p95SubmitMs": 134,
+      "maximumSubmitMs": 329
+    },
+    "temporal": {
+      "method": "jittered HDR history / geometry velocity / depth rejection / neighborhood clamp",
+      "frames": 28,
+      "resets": 5,
+      "reason": "state/camera cut",
+      "width": 496,
+      "height": 409,
+      "maxPixels": 1100000,
+      "requested": true,
+      "active": true,
+      "targetBytes": 8114560,
+      "geometryHistoryBytes": 4866504,
+      "boneHistoryBytes": 46336,
+      "reprojectedMaterials": 245,
+      "reactiveMaterials": 21,
+      "reactive": "transparent, shader-deformed, instanced, morphed and custom-depth materials",
+      "movingSkinning": true,
+      "cpuPositionHistory": true
+    },
+    "haze": {
+      "method": "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
+      "dissolve": [180, 285],
+      "density": 0.0007142857142857143,
+      "scaleHeight": 30,
+      "volume": {
+        "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+        "enabled": true,
+        "marching": true,
+        "plan": {
+          "exterior": false,
+          "fog": 0,
+          "dust": true,
+          "shafts": false
+        },
+        "size": [249, 205],
+        "steps": 18,
+        "fog": [0, -5.35, 0, 0],
+        "draws": 29
+      },
+      "draws": 29,
+      "reason": "marching"
+    }
+  },
+  "orbit": {
+    "ready": true,
+    "currentRoom": "kitchen",
+    "style": "realistic",
+    "avatarId": "rick-and-morty",
+    "camera": [-0.8094895645950309, 1.7106484045668304, -3.6455310192573362],
+    "animationSeconds": 4.959666666666666,
+    "frameTiming": {
+      "samples": 51,
+      "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+      "medianFrameMs": 40,
+      "p95FrameMs": 343,
+      "maximumFrameMs": 1571,
+      "medianSubmitMs": 24,
+      "p95SubmitMs": 74,
+      "maximumSubmitMs": 329
+    },
+    "temporal": {
+      "method": "jittered HDR history / geometry velocity / depth rejection / neighborhood clamp",
+      "frames": 51,
+      "resets": 5,
+      "reason": "state/camera cut",
+      "width": 496,
+      "height": 409,
+      "maxPixels": 1100000,
+      "requested": true,
+      "active": true,
+      "targetBytes": 8114560,
+      "geometryHistoryBytes": 5197920,
+      "boneHistoryBytes": 46336,
+      "reprojectedMaterials": 281,
+      "reactiveMaterials": 23,
+      "reactive": "transparent, shader-deformed, instanced, morphed and custom-depth materials",
+      "movingSkinning": true,
+      "cpuPositionHistory": true
+    },
+    "haze": {
+      "method": "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
+      "dissolve": [180, 285],
+      "density": 0.0007142857142857143,
+      "scaleHeight": 30,
+      "volume": {
+        "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+        "enabled": true,
+        "marching": true,
+        "plan": {
+          "exterior": false,
+          "fog": 0,
+          "dust": true,
+          "shafts": false
+        },
+        "size": [249, 205],
+        "steps": 18,
+        "fog": [0, -5.35, 0, 0],
+        "draws": 52
+      },
+      "draws": 52,
+      "reason": "marching"
+    }
+  },
+  "reduced": {
+    "ready": true,
+    "currentRoom": "kitchen",
+    "style": "realistic",
+    "avatarId": "rick-and-morty",
+    "camera": [-0.8094895645950295, 1.7106484045668306, -3.645531019257335],
+    "animationSeconds": 5.250666666666667,
+    "frameTiming": {
+      "samples": 54,
+      "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+      "medianFrameMs": 42,
+      "p95FrameMs": 343,
+      "maximumFrameMs": 1571,
+      "medianSubmitMs": 26,
+      "p95SubmitMs": 74,
+      "maximumSubmitMs": 329
+    },
+    "temporal": {
+      "method": "jittered HDR history / geometry velocity / depth rejection / neighborhood clamp",
+      "frames": 1,
+      "resets": 7,
+      "reason": "state/camera cut",
+      "width": 496,
+      "height": 409,
+      "maxPixels": 1100000,
+      "requested": true,
+      "active": true,
+      "targetBytes": 8114560,
+      "geometryHistoryBytes": 4866504,
+      "boneHistoryBytes": 46336,
+      "reprojectedMaterials": 245,
+      "reactiveMaterials": 21,
+      "reactive": "transparent, shader-deformed, instanced, morphed and custom-depth materials",
+      "movingSkinning": true,
+      "cpuPositionHistory": true
+    },
+    "haze": {
+      "method": "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
+      "dissolve": [180, 285],
+      "density": 0.0007142857142857143,
+      "scaleHeight": 30,
+      "volume": {
+        "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+        "enabled": true,
+        "marching": true,
+        "plan": {
+          "exterior": false,
+          "fog": 0,
+          "dust": true,
+          "shafts": false
+        },
+        "size": [249, 205],
+        "steps": 18,
+        "fog": [0, -5.35, 0, 0],
+        "draws": 57
+      },
+      "draws": 57,
+      "reason": "marching"
+    }
+  },
+  "disabled": {
+    "ready": true,
+    "currentRoom": "kitchen",
+    "style": "realistic",
+    "avatarId": "rick-and-morty",
+    "camera": [-0.8094895645950295, 1.7106484045668306, -3.645531019257335],
+    "animationSeconds": 6.468333333333333,
+    "frameTiming": {
+      "samples": 72,
+      "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+      "medianFrameMs": 47,
+      "p95FrameMs": 230,
+      "maximumFrameMs": 1571,
+      "medianSubmitMs": 27,
+      "p95SubmitMs": 74,
+      "maximumSubmitMs": 329
+    },
+    "temporal": {
+      "method": "jittered HDR history / geometry velocity / depth rejection / neighborhood clamp",
+      "frames": 0,
+      "resets": 10,
+      "reason": "disabled",
+      "width": 496,
+      "height": 409,
+      "maxPixels": 1100000,
+      "requested": false,
+      "active": false,
+      "targetBytes": 8114560,
+      "geometryHistoryBytes": 4866504,
+      "boneHistoryBytes": 46336,
+      "reprojectedMaterials": 245,
+      "reactiveMaterials": 21,
+      "reactive": "transparent, shader-deformed, instanced, morphed and custom-depth materials",
+      "movingSkinning": true,
+      "cpuPositionHistory": true
+    },
+    "haze": {
+      "method": "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
+      "dissolve": [180, 285],
+      "density": 0.0007142857142857143,
+      "scaleHeight": 30,
+      "volume": {
+        "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+        "enabled": true,
+        "marching": true,
+        "plan": {
+          "exterior": false,
+          "fog": 0,
+          "dust": true,
+          "shafts": false
+        },
+        "size": [249, 205],
+        "steps": 18,
+        "fog": [0, -5.35, 0, 0],
+        "draws": 76
+      },
+      "draws": 76,
+      "reason": "marching"
+    }
+  },
+  "resumed": {
+    "ready": true,
+    "currentRoom": "kitchen",
+    "style": "realistic",
+    "avatarId": "rick-and-morty",
+    "camera": [-0.8094895645950295, 1.7106484045668306, -3.645531019257335],
+    "animationSeconds": 9.897333333333329,
+    "frameTiming": {
+      "samples": 120,
+      "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+      "medianFrameMs": 48,
+      "p95FrameMs": 116,
+      "maximumFrameMs": 1571,
+      "medianSubmitMs": 25,
+      "p95SubmitMs": 50,
+      "maximumSubmitMs": 110
+    },
+    "temporal": {
+      "method": "jittered HDR history / geometry velocity / depth rejection / neighborhood clamp",
+      "frames": 7,
+      "resets": 11,
+      "reason": "mode",
+      "width": 496,
+      "height": 409,
+      "maxPixels": 1100000,
+      "requested": true,
+      "active": true,
+      "targetBytes": 8114560,
+      "geometryHistoryBytes": 5025444,
+      "boneHistoryBytes": 46336,
+      "reprojectedMaterials": 255,
+      "reactiveMaterials": 25,
+      "reactive": "transparent, shader-deformed, instanced, morphed and custom-depth materials",
+      "movingSkinning": true,
+      "cpuPositionHistory": true
+    },
+    "haze": {
+      "method": "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
+      "dissolve": [180, 285],
+      "density": 0.0007142857142857143,
+      "scaleHeight": 30,
+      "volume": {
+        "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+        "enabled": true,
+        "marching": true,
+        "plan": {
+          "exterior": false,
+          "fog": 0,
+          "dust": true,
+          "shafts": false
+        },
+        "size": [249, 205],
+        "steps": 18,
+        "fog": [0, -5.35, 0, 0],
+        "draws": 136
+      },
+      "draws": 136,
+      "reason": "marching"
+    }
+  },
+  "errors": [],
+  "scope": "Native Windows Chromium, d3d11 backend requested, 1280x900 viewport / 496x409 canvas, actual RAF/performance, fixed Date only; one sequence, not ABBA or physical-phone proof."
+}

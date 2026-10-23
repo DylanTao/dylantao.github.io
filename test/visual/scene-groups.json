@@ -142,6 +142,10 @@
       {
         "file": "duh.spec.js",
         "title": "duh: dropped on the 3D home, it can be caught, settles clear, and the canvas still turns the camera"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal temporal: moving geometry history improves edges and rejects disocclusion"
       }
     ],
     "scene-core-2": [

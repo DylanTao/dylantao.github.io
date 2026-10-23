@@ -30,6 +30,71 @@ async function gymSession(day, minute, options) {
   return { config, info, poseAt, steady };
 }
 
+test("coastal temporal: moving geometry history improves edges and rejects disocclusion", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one native GPU fixture covers the temporal integrator independently of page layout");
+  const errors = collectRuntimeErrors(page),
+    url = publicRouteUrl("/temporal-aa-fixture/"),
+    moduleUrl = publicRouteUrl("/assets/js/home-scene/temporal-study-fixture.mjs");
+  let rejectDepth = true;
+  await page.route(publicRouteUrl("/assets/js/home-scene/temporal-aa.mjs"), (route) => {
+    let source = fs.readFileSync(path.resolve(__dirname, "../../assets/js/home-scene/temporal-aa.mjs"), "utf8");
+    if (!rejectDepth) {
+      const gate = "valid=mismatch<max(.01,.005*mv.b);";
+      if (!source.includes(gate)) throw new Error("Temporal depth negative control no longer matches its actual shader gate");
+      source = source.replace(gate, "valid=true;");
+    }
+    return route.fulfill({ contentType: "text/javascript", body: source });
+  });
+  await page.route(url, (route) => route.fulfill({ contentType: "text/html", body: "<!doctype html><title>Temporal AA fixture</title>" }));
+  await page.route(moduleUrl, (route) =>
+    route.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.resolve(__dirname, "../fixtures/temporal-study.mjs"), "utf8") })
+  );
+  await page.goto(url);
+  const result = await page.evaluate(async (moduleUrl) => {
+    const { runTemporalStudy } = await import(moduleUrl);
+    return runTemporalStudy();
+  }, moduleUrl);
+  expect(result.temporalMSE).toBeLessThan(result.baselineMSE * 0.9);
+  expect(result.temporalEdgeMSE).toBeLessThan(result.baselineEdgeMSE * 0.9);
+  expect(result.temporalErrorDelta).toBeLessThan(result.baselineErrorDelta * 0.95);
+  expect(result.disocclusionMSE).toBeLessThan(0.00002);
+  expect(result.reactiveMSE).toBeLessThan(0.00002);
+  for (const [motion, expected] of [
+    [result.skinMotion, result.skinExpected],
+    [result.cpuMotion, result.cpuExpected],
+    [result.cameraMotion, result.cameraExpected],
+  ]) {
+    expect(motion[0]).toBeCloseTo(expected, 3);
+    expect(motion[2]).toBeCloseTo(4, 2);
+    expect(motion[3]).toBe(1);
+  }
+  expect(result.restored).toBe(true);
+  expect(result.downstreamDepth).toBeCloseTo(result.expectedDownstreamDepth, 2);
+  expect(result.finishFailureRestored).toBe(true);
+  expect(result.retiredGeometryReleased).toBe(true);
+  expect(result.retainedGeometryBytes).toBe(result.expectedGeometryBytes);
+  expect(result.unsupportedCoverage.active).toBe(false);
+  expect(result.unsupportedCoverage.reason).toBe("unsupported coverage");
+  expect(result.unsupportedProjectionRestored).toBe(true);
+  expect(result.attributesRestored).toBe(true);
+  expect(result.overBudget.active).toBe(false);
+  expect(result.overBudget.reason).toBe("pixel budget");
+  expect(errors).toEqual([]);
+  for (const key of ["finalImage", "baselineImage", "referenceImage"]) {
+    await testInfo.attach(key, { body: Buffer.from(result[key].split(",")[1], "base64"), contentType: "image/png" });
+    delete result[key];
+  }
+  await testInfo.attach("temporal-evidence", { body: JSON.stringify(result, null, 2), contentType: "application/json" });
+  // The revealed-surface assertion must reject a deliberately disabled depth gate.
+  rejectDepth = false;
+  await page.reload();
+  const negative = await page.evaluate(async (moduleUrl) => (await import(moduleUrl)).runTemporalStudy(), moduleUrl);
+  expect(negative.disocclusionMSE).toBeGreaterThan(0.01);
+  for (const key of ["finalImage", "baselineImage", "referenceImage"]) delete negative[key];
+  await testInfo.attach("temporal-disabled-depth-negative-control", { body: JSON.stringify(negative, null, 2), contentType: "application/json" });
+  expect(errors).toEqual([]);
+});
+
 test("coastal steam: native GPU extinction, opaque clipping and nearest glass segmentation", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one native GPU fixture tests the integrator independently of page layout");
   const errors = collectRuntimeErrors(page),

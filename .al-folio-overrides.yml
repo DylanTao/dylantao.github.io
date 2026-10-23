@@ -300,7 +300,7 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _layouts/cv.liquid
     upstream_sha256: c586e8051e785b492a0f4452c4e06798d47a8c363d29487e48de4fcd9851700e
-    local_sha256: 619516ae7db22dcdc44dcaa6decfed5d92db1c4ad75e30d52512c3fe0a212da3
+    local_sha256: 7e5a3c87a626fffb6304270879e5838eb4d9a3feb9dbe895acd9154fca8474f8
     acknowledged_at: "2026-10-23"
   _layouts/default.liquid:
     owner: al_folio_core

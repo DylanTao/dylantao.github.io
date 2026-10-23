@@ -262,9 +262,9 @@ sitemap: true
   <nav class="ai-inline-links" aria-label="CV formats">
     <a href="{{ '/cv/' | relative_url }}">Current human CV</a>
     <a href="{{ '/assets/json/resume.json' | relative_url }}">Current JSON Resume</a>
-    <a href="{{ '/assets/pdf/Sirui_Tao_CV_Public.pdf' | relative_url }}">PDF · earlier version</a>
+    <a href="{{ '/assets/pdf/Sirui_Tao_CV_Public.pdf' | relative_url }}">Current PDF</a>
   </nav>
-  <p>The web CV and JSON Resume carry current entries. The PDF retains earlier submission statuses and citation counts dated July 2026.</p>
+  <p>The web CV, JSON Resume, and PDF share the same current public record.</p>
 </section>
 
 <section id="routes" class="ai-section">

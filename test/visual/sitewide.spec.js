@@ -82,10 +82,7 @@ test("CV preserves semantic sections, native navigation and printable current te
   expect(sections.wrongTargets).toBe(0);
   await expect(cv.getByRole("rowheader", { name: "Email", exact: true })).toHaveAttribute("scope", "row");
   await expect(cv.getByRole("link", { name: "s1tao@ucsd.edu", exact: true })).toHaveAttribute("href", "mailto:s1tao@ucsd.edu");
-  await expect(page.getByRole("link", { name: "Open CV PDF, citation counts dated July 2026", exact: true })).toHaveAttribute(
-    "href",
-    /Sirui_Tao_CV_Public\.pdf$/
-  );
+  await expect(page.getByRole("link", { name: "Open current CV PDF", exact: true })).toHaveAttribute("href", /Sirui_Tao_CV_Public\.pdf$/);
 
   const compactNavigation = page.viewportSize().width < 992;
   if (compactNavigation) {
@@ -2107,8 +2104,8 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   await expect(page.locator('#writing a[href$="/blog/"]')).toHaveText("Human writing index");
   await expect(page.locator('#cv a[href$="/cv/"]')).toHaveText("Current human CV");
   await expect(page.locator('#cv a[href$="/assets/json/resume.json"]')).toHaveText("Current JSON Resume");
-  await expect(page.locator('#cv a[href$="/assets/pdf/Sirui_Tao_CV_Public.pdf"]')).toHaveText("PDF · earlier version");
-  await expect(page.locator("#cv")).toContainText("citation counts dated July 2026");
+  await expect(page.locator('#cv a[href$="/assets/pdf/Sirui_Tao_CV_Public.pdf"]')).toHaveText("Current PDF");
+  await expect(page.locator("#cv")).toContainText("The web CV, JSON Resume, and PDF share the same current public record.");
 
   const aiHeaderLinks = page.locator("#navbarNav [data-ai-nav-link]");
   await expect(aiHeaderLinks).toHaveCount(7);

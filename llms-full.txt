@@ -146,7 +146,7 @@ Bibliographic facts are derived from `_bibliography/papers.bib`. Interpretation 
 - Blog: {{ '/blog/' | absolute_url }}
 - CV: {{ '/cv/' | absolute_url }}
 - Current structured CV: {{ '/assets/json/resume.json' | absolute_url }}
-- Manually maintained CV PDF, earlier version: {{ '/assets/pdf/Sirui_Tao_CV_Public.pdf' | absolute_url }}. Its citation counts are dated July 2026 and paper statuses differ; use the web CV and JSON for current entries and publication statuses. The document does not record an export date.
+- Current CV PDF: {{ '/assets/pdf/Sirui_Tao_CV_Public.pdf' | absolute_url }}. Four tagged pages generated from the same current public JSON Resume as the web CV, preserving research credit, rejection notes, and native links. The reproducible print source is documented in `artwork/cv/README.md`; no older citation statistics are carried forward.
 - News: {{ '/news/' | absolute_url }}
 - Sitemap: {{ '/sitemap.xml' | absolute_url }}
 

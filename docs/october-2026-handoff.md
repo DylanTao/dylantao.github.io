@@ -261,23 +261,32 @@ The release verification section below records the combined checks.
 - [x] **Representation/stylized-rendering review.** The [source/fit review](graphics-representation-review-2026-10.md)
       covers the named representation families and representative compression, anchor, dynamic and style descendants.
       A separate matched static-geometry ink comparison is implemented in the authoring lab; [real browser captures and costs](../artwork/coastal-home/reviews/graphics-studies/README.md) include photo cancellation, disposal and continued-input proof. The live home remains
-      Realistic. Learned pipelines remain explicitly unimplemented below; a source review is not a reproduction.
+      Realistic. The later trained comparisons below add actual weights and held-out tests; the named paper families are not thereby reproduced.
 
-### Existing features verified; experiments deliberately left for later
+### Existing features verified; final bounded experiments
 
 - [x] **Phone carousel:** the shipped scroll-snapped deck rows already implement the requested phone exploration.
 - [x] **Laptop-lid scroll:** already implemented in the revamp page and its device script/styles.
 - [x] **Honest loader:** uses real progress and the loading sketch; no simulated timer was added.
-- [ ] **Moving temporal antialiasing:** remains deferred. Reliable history on moving characters/water needs motion
-      vectors, disocclusion rejection and measured improvement; those are not implemented. The new 2–16-sample frozen
-      photo experiment accumulates jittered final output in linear light, refuses a live view, aborts on changes, caps
-      capture at 2.2 MP and restores the camera in `finally`. It is explicitly not moving-scene TAA. Keep both the
-      experiment and this limit for the next model rather than relabelling supersampling as completion.
-- [ ] **Trained representation replacements:** 3DGS/compressed/anchor/dynamic variants, neural LOD/variable bitrate,
-      factorized fields, learned 2D discontinuities and learned stylization remain unimplemented. They need honest
-      training, owned calibrated inputs and held-out views, actual browser bytes/costs and exact code/asset-license review.
-      The source/fit review records a concrete revisit gate per family. No weights, paper demo assets or untrained
-      placeholder were substituted for the functioning relightable mesh.
+- [x] **Moving temporal antialiasing experiment.** The opt-in `?scene-lab=1&antialias=temporal` now uses actual prior
+      geometry/bones/CPU vertices, projection jitter, HDR history, depth rejection and neighborhood clipping. In the
+      independent moving-pose fixture, edge error falls about 65% and variation of frame error about 72%; a disabled-depth
+      negative control fails the revealed-surface criterion. Actual house controls, skin/CPU/camera vectors, reactive
+      transparency, haze depth, failure restoration, geometry release and the 1.1 MP fallback are checked. Shader/water
+      coverage remains conservative, and the public spatial default stays in place. The frozen-photo experiment remains
+      a separate spatial method. See [implementation and limits](../assets/js/home-scene/TEMPORAL-AA.md).
+- [x] **Trained replacement assessment: two candidates rejected.** A genuinely trained 2D print field and a calibrated
+      3D Gaussian furniture fit now have owned inputs, real exported weights, held-out evaluation, browser bytes/costs,
+      numerical checks and native Chromium/WebKit interaction/disposal evidence. The 77,896-byte print field loses ink
+      detail (21.06 dB held-out RGB); the 10,240-byte Gaussian fit loses furniture detail (14.19 dB held-out foreground)
+      and fixed-color splats do not preserve relighting. Retain the original image and mesh. The
+      [updated representation review](graphics-representation-review-2026-10.md#trained-comparisons-and-adoption-decisions)
+      records these completed negative comparisons and their exact revisit gates.
+
+**Future research, without reproduction credit:** TensoRF, neural LOD/variable bitrate, learned anchors/compression,
+dynamic splats, learned discontinuity curves and learned stylization are still not implemented. The two original
+bounded trainers are not substitutes for those named methods. Their evidence-based rejection closes the present
+replacement decision; each family remains documented for a later model rather than being claimed as shipped.
 
 Earlier personal decisions (paper-link density, coffee-ring dry-in, race/battery behavior, star density, page naming,
 marine-layer frequency, sunset and laundry) keep their current defaults. They are not silently decided by this pass.
@@ -303,8 +312,7 @@ marine-layer frequency, sunset and laundry) keep their current defaults. They ar
 
 The public profile and `_data/code_activity.json` now cover October 22. No counts or dates were changed to force parity,
 and the retired token/agent-hour ledger was not revived. Private diagnostic cache/proof files remain in
-`github-metrics-private/.local/`; no private repository inventory enters this site. Moving-scene TAA and trained
-representation replacements remain the two open implementation items above.
+`github-metrics-private/.local/`; no private repository inventory enters this site. The final continuation above resolves moving TAA as an opt-in experiment and replacement assessment through two trained negative comparisons; unreproduced research families retain explicit notes.
 
 ### Integrated verification
 
@@ -326,11 +334,21 @@ The follow-up keeps Sirui's writing and research facts while improving how visit
 - [x] Collection-based post/project metadata, honest project genres and known dates, removal of the nonexistent search target, and the stable Pip AI anchor.
 - [x] Specific CV search metadata and a JSON alternative linked to the canonical Person, plus the configured Google verification token. This is technical publication, not evidence of account verification or ranking.
 - [x] CV H2/H3 semantics, stable unique section IDs, native no-JavaScript links, keyboard arrival, contact row headers/mailto, and a scoped current-web print layout.
-- [x] Consistent PDF context: earlier paper statuses and citation counts dated July 2026, with no invented document/export date. Current web/JSON facts and the public PDF remain unchanged.
+- [x] Current PDF: the later source-recovery continuation rebuilt all four tagged pages from the same canonical JSON as the web CV, preserving credits, rejection notes and links. Earlier July statistics were not carried forward or guessed. The historical earlier-version labels have been replaced by current-format labels.
 - [x] Honest navigation timing and once-only numeric scroll milestones, with meaningful old-implementation regression failures.
 - [x] Generated discovery checks in the existing CI entrypoint compare actual writing/catalog records, schemas, format fragments, and current CV JSON. New fixture tests cover both deployment baseurls and malformed projections.
 - [x] Outcome-based reflective practice in the canonical heuristics and the existing portfolio-writing, website-design-critique, and tacit-knowledge skills. The SEO guide now documents the actual site and a measurement plan.
 - [x] Footer-credit reduced-motion cascade correction, with a failing-old-build regression and unchanged sunset/dusk contrast checks passing on Windows and Linux desktop/phone. The source preserves the existing credit colors and coast.
 - [x] Legacy album functional proof uses controlled frames after actual first-draw readiness. Original real-input and state assertions remain; Chromium/WebKit pass on Windows and Linux without a runtime change or larger timeout.
 
-[Discovery evidence and remaining boundaries](evidence/discovery-accessibility-2026-10-23/README.md) retain the observed problems, decisions, verification, native PDF refresh boundary, and unmeasured search outcomes. Moving-scene TAA and trained representation replacements retain the two open implementation gates above.
+[Discovery evidence and remaining boundaries](evidence/discovery-accessibility-2026-10-23/README.md) retain the observed problems, decisions, earlier checkpoints and unmeasured search outcomes. The native PDF source boundary is now resolved.
+
+### Final October 23 continuation
+
+- [x] Recovered the matching native public CV design through a bounded connected-source search, without copying private general-CV material into the repository. The [four-page current PDF, licensed typography, source recipe and acceptance evidence](evidence/current-cv-pdf-2026-10-23/README.md) keep web, JSON and PDF facts aligned. The canonical reflective-practice note and writing skill now route future CV work through this recipe.
+- [x] Extracted the hidden globe's inline stylesheet and script into owned assets. Ciphertext, access behavior, privacy metadata and text remain unchanged. A measured PurgeCSS safelist preserves all 271 rules; desktop/phone before-and-after captures, four-width real interactions, no-JS behavior and the complete keyboard/refresh journey pass. See [extraction evidence](evidence/secret-globe-extraction-2026-10-23/README.md).
+- [x] Completed the two bounded graphics investigations above with actual native rendering and trained artifacts. No lower-quality image or furniture replacement was introduced.
+
+Local integration: the production build, generated discovery validator, 267 Python tests, 606 Node passes (seven intentional skips), scoped formatting/style checks and registered native moving-TAA case pass. The TAA case also passes in Linux Docker with its disabled-depth negative control. Release acceptance remains bound to the exact pushed source, all terminal CI jobs, Pages deployment and current live bytes; ignored release receipts retain those later results.
+
+Search ranking and recommendation frequency remain unmeasured. No promise of popularity or first-place search placement is inferred from one private message. Sirui's identity, research facts and personal defaults remain the reference for future improvements.

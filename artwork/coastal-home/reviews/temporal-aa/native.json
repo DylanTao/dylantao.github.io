@@ -1,0 +1,155 @@
+{
+  "result": {
+    "measurements": [
+      {
+        "frame": 16,
+        "baselineMSE": 0.00428807149708864,
+        "temporalMSE": 0.0020961441603223707,
+        "baselineEdgeMSE": 0.025099968855655703,
+        "temporalEdgeMSE": 0.009558559010402362
+      },
+      {
+        "frame": 17,
+        "baselineMSE": 0.004314319650194393,
+        "temporalMSE": 0.0019643816568447017,
+        "baselineEdgeMSE": 0.02498259495993948,
+        "temporalEdgeMSE": 0.0090421164583091
+      },
+      {
+        "frame": 18,
+        "baselineMSE": 0.004114587777213448,
+        "temporalMSE": 0.001916405803558652,
+        "baselineEdgeMSE": 0.023922810705999106,
+        "temporalEdgeMSE": 0.009017802579755122
+      },
+      {
+        "frame": 19,
+        "baselineMSE": 0.004301724813388474,
+        "temporalMSE": 0.0019415295816118535,
+        "baselineEdgeMSE": 0.02503044281803897,
+        "temporalEdgeMSE": 0.007798536495858691
+      },
+      {
+        "frame": 20,
+        "baselineMSE": 0.004341316223144279,
+        "temporalMSE": 0.0018413945997004155,
+        "baselineEdgeMSE": 0.02527767720028202,
+        "temporalEdgeMSE": 0.00841867560170799
+      },
+      {
+        "frame": 21,
+        "baselineMSE": 0.004358144977925744,
+        "temporalMSE": 0.001533254911605333,
+        "baselineEdgeMSE": 0.02535105050796699,
+        "temporalEdgeMSE": 0.00667940556747202
+      },
+      {
+        "frame": 22,
+        "baselineMSE": 0.004094455283405692,
+        "temporalMSE": 0.0023024462003609033,
+        "baselineEdgeMSE": 0.023927532523603336,
+        "temporalEdgeMSE": 0.010495945161426252
+      },
+      {
+        "frame": 23,
+        "baselineMSE": 0.004223130038040074,
+        "temporalMSE": 0.0024654923599988026,
+        "baselineEdgeMSE": 0.024575204642874156,
+        "temporalEdgeMSE": 0.009005036862564741
+      }
+    ],
+    "baselineMSE": 0.004254468782550093,
+    "temporalMSE": 0.002007631159250379,
+    "baselineEdgeMSE": 0.02477091027679497,
+    "temporalEdgeMSE": 0.008752009717187035,
+    "baselineErrorDelta": 412.5145717992672,
+    "temporalErrorDelta": 115.2945833333252,
+    "disocclusionMSE": 0,
+    "reactiveMSE": 0,
+    "skinMotion": [0.032135009765625, -0.0026035308837890625, 4, 1],
+    "skinExpected": 0.03213079452966369,
+    "cpuMotion": [0.032135009765625, -0.0026035308837890625, 4, 1],
+    "cpuExpected": 0.03213079452966369,
+    "cameraMotion": [-0.028228759765625, -0.0026035308837890625, 4, 1],
+    "cameraExpected": -0.028224544529663692,
+    "downstreamDepth": 0.7411764705882353,
+    "expectedDownstreamDepth": 0.7407407407407407,
+    "finishFailureRestored": true,
+    "retiredGeometryReleased": true,
+    "retainedGeometryBytes": 48,
+    "expectedGeometryBytes": 48,
+    "unsupportedCoverage": {
+      "method": "jittered HDR history / geometry velocity / depth rejection / neighborhood clamp",
+      "frames": 0,
+      "resets": 9,
+      "reason": "unsupported coverage",
+      "width": 128,
+      "height": 128,
+      "maxPixels": 1100000,
+      "requested": true,
+      "active": false,
+      "targetBytes": 655360,
+      "geometryHistoryBytes": 48,
+      "boneHistoryBytes": 0,
+      "reprojectedMaterials": 1,
+      "reactiveMaterials": 0,
+      "reactive": "transparent, shader-deformed, instanced, morphed and custom-depth materials",
+      "movingSkinning": true,
+      "cpuPositionHistory": true
+    },
+    "unsupportedProjectionRestored": true,
+    "restored": true,
+    "attributesRestored": true,
+    "overBudget": {
+      "method": "jittered HDR history / geometry velocity / depth rejection / neighborhood clamp",
+      "frames": 0,
+      "resets": 12,
+      "reason": "pixel budget",
+      "width": 2000,
+      "height": 2000,
+      "maxPixels": 1100000,
+      "requested": true,
+      "active": false,
+      "targetBytes": 40,
+      "geometryHistoryBytes": 48,
+      "boneHistoryBytes": 0,
+      "reprojectedMaterials": 1,
+      "reactiveMaterials": 0,
+      "reactive": "transparent, shader-deformed, instanced, morphed and custom-depth materials",
+      "movingSkinning": true,
+      "cpuPositionHistory": true
+    },
+    "stats": {
+      "method": "jittered HDR history / geometry velocity / depth rejection / neighborhood clamp",
+      "frames": 0,
+      "resets": 11,
+      "reason": "failed frame",
+      "width": 128,
+      "height": 128,
+      "maxPixels": 1100000,
+      "requested": true,
+      "active": true,
+      "targetBytes": 655360,
+      "geometryHistoryBytes": 48,
+      "boneHistoryBytes": 0,
+      "reprojectedMaterials": 1,
+      "reactiveMaterials": 0,
+      "reactive": "transparent, shader-deformed, instanced, morphed and custom-depth materials",
+      "movingSkinning": true,
+      "cpuPositionHistory": true
+    },
+    "medianSubmitMilliseconds": 1.1999999955296516,
+    "referenceSamples": 16,
+    "reference": "independent spatial supersampling of each current moving pose"
+  },
+  "errors": [],
+  "source_binding": {
+    "normalization": "UTF-8 source with CRLF normalized to LF",
+    "sha256": {
+      "assets/js/home-scene/controller.mjs": "5621a93ab05a7781d0fe527beae3d01291ab8ca32c5da5fb499b6183ab5db59a",
+      "assets/js/home-scene/realism.mjs": "e83e30f8731ff97202ab9389988bb39edc50b3a5e77645834d3a3c192f6545f3",
+      "assets/js/home-scene/temporal-aa.mjs": "2c334a2ac65ff58f26e14c03a151deebac160f3ce9b4e82173436215a3f2934a",
+      "test/fixtures/temporal-study.mjs": "c5b2b88a5f37f264f63ecf7f78ce8079c29ff1a31c2734d02569a222aaca9967"
+    }
+  }
+}
