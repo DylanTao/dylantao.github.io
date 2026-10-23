@@ -25,7 +25,7 @@ og_image_height: 756
     <p class="project-case-kicker">Site experiment · Rendering and simulation</p>
     <h1>Graphics Lab</h1>
     <p class="project-case-lede">
-      The 3D coastal home on my homepage is where I try graphics and simulation papers. Each experiment adapts one published method in a form a browser can run: sunlight down a drilled light well, waves that grow with the sea breeze, steam carried by its own heat, curtains that billow at an open door. This page keeps them in one place, with what each does now and the newer papers that could take it further. The technical record behind it holds each one's code, sources and limits, and a separate page shows how I keep the house fast.
+      The 3D coastal home on my homepage is where I try graphics and simulation papers: sunlight down a drilled light well, waves that grow with the sea breeze, steam carried by its own heat, curtains that billow at an open door. Other experiments begin with the house itself, like a carved creek feeding a koi pond. This page keeps them in one place, with what each does now and the papers that could take it further. The technical record behind it holds each one's code, sources and limits, and a separate page shows how I keep the house fast.
     </p>
     <div class="project-case-actions">
       <a href="{{ '/projects/graphics-lab/record/' | relative_url }}">Read the technical record</a>
@@ -46,13 +46,15 @@ og_image_height: 756
   </div>
   <div>
     <span>How</span>
-    <p>Each adapts a published method and says where it simplifies. Tests check the math, and the record lists what to read next.</p>
+    <p>The record distinguishes paper adaptations from original scene work, says where each simplifies, and keeps tests and sources beside the method.</p>
   </div>
 </section>
 
 ## The experiments
 
-Each row opens the experiment's own page or its section of the [technical record]({{ '/projects/graphics-lab/record/' | relative_url }}). The stills are frames of the live scene captured on October 18, 2026, after the renovation and the skinned wildlife, with the scene's clock on a weekday; the light well, the steam and the onsen are set in late August, when the noon sun reaches the shaft and the bath runs in daylight. How the house itself is built, from its Blender sources to its shader warmup and loading, is in [the coastal home's record]({{ '/projects/homepage-desk-scene/record/' | relative_url }}). The last group, Performance, opens [Making the 3D home fast]({{ '/projects/graphics-performance/' | relative_url }}): where each frame went, what each change saved and what comes next.
+Each row opens the experiment's own page or its section of the [technical record]({{ '/projects/graphics-lab/record/' | relative_url }}). Its caption records the scene's camera and clock. Most stills date from October 18–19, 2026; the creek and spectral ocean were captured on October 23. The light well, steam and onsen are set in late August, when the noon sun reaches the shaft and the bath runs in daylight. How the house itself is built, from its Blender sources to shader warmup and loading, is in [the coastal home's record]({{ '/projects/homepage-desk-scene/record/' | relative_url }}). The last group, Performance, opens [Making the 3D home fast]({{ '/projects/graphics-performance/' | relative_url }}): where each frame went, what each change saved and what comes next.
+
+The October 23 work adds five bright planets checked against JPL Horizons, a small live cloth around the sleeping duvet's fitted shape, and the clifftop water garden. The spectral ocean stays separately enabled in the authoring lab; the public home keeps its analytic waves. That lab also has a frozen-photo sampler and a separate static-house ink comparison. Their [methods and limits]({{ '/projects/graphics-lab/record/' | relative_url }}#bounded-studies) sit beside a review of learned representations, with no trained-pipeline or performance claim borrowed from the papers.
 
 {% include graphics_lab.liquid part="experiments" %}
 
@@ -76,11 +78,11 @@ Work that is still in progress elsewhere in the house joins the list when it lan
   <summary>How the stills and the record are made</summary>
   <div class="project-story-disclosure-body">
     <ul>
-      <li><strong>Stills.</strong> <code>bin/capture_graphics_lab_stills.cjs</code> opens the homepage's authoring lab in headless Chromium at a named hour, room and camera, without the homepage's feathered edge, and <code>bin/make_graphics_lab_thumbnails.py</code> scales the frames. They are scaled, never retouched. The light lab's still is a frame of its own renderer.</li>
+      <li><strong>Stills.</strong> <code>bin/capture_graphics_lab_stills.cjs</code> opens the homepage's authoring lab in headless Chromium at a named hour, room and camera, without the homepage's feathered edge, and <code>bin/make_graphics_lab_thumbnails.py</code> scales the frames. The October 23 creek and FFT frames come from <code>bin/verify_environment.cjs</code> against the candidate scene. They are scaled, never retouched. The light lab's still is a frame of its own renderer.</li>
       <li><strong>Record.</strong> Each technique lives in <code>_data/design_records/graphics-lab.yml</code> with its files and key functions, its sources, its limits and its papers to try; <code>python bin/design_record_brief.py graphics-lab</code> turns it into a brief for the next pass, and the <a href="{{ '/assets/downloads/site-experiments/graphics-lab-reproduction.md' | relative_url }}" download>agent brief</a> says how to take a paper from the list into the house.</li>
-      <li><strong>Citations.</strong> Every paper was checked against its DOI record, its publisher's page or its authors' page between October 16 and 18, 2026. Four DOIs in the first draft resolved to other papers and were corrected.</li>
+      <li><strong>Citations.</strong> References were checked against DOI records, publisher or author pages, and JPL's own documentation between October 16 and 23, 2026. Four DOIs in the first draft resolved to other papers and were corrected.</li>
       <!-- Sirui: confirm -->
-      <li><strong>Credit.</strong> Sirui Tao, with AI coding agents: the experiments, their tests and notes. Anthropic's Claude compiled this page, its stills and the technical record for Sirui to review.</li>
+      <li><strong>Credit.</strong> Sirui Tao, with AI coding agents: the experiments, their tests and notes. Anthropic's Claude compiled the original page, stills and technical record; Codex integrated the October 23 continuations and their evidence boundaries.</li>
     </ul>
   </div>
 </details>

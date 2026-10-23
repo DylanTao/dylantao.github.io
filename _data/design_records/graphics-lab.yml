@@ -37,26 +37,31 @@ record_url: /projects/graphics-lab/record/
 json_url: /assets/json/design-records/graphics-lab.json
 repository: https://github.com/DylanTao/dylantao.github.io
 branch: main
-updated: "2026-10-19"
+updated: "2026-10-23"
 summary: >-
   The rendering and simulation experiments behind the homepage's coastal home, one technique at a time: what each does
   in the scene now and which files and functions hold it, the papers it adapts, what it cannot do yet, and newer papers
   that would take it further, each with what it would add and a rough effort. A performance system records where the
-  frame goes, what was cut on October 18, 2026, and the next techniques to try in priority order.
+  frame goes, what was cut on October 18, 2026, and the next techniques to try in priority order. October 23 adds the
+  five bright planets, the carved water garden, live duvet constraints and a separately enabled spectral ocean;
+  frozen-photo, surface-ink and representation studies keep their own evidence boundaries.
 scope: >-
-  Each experiment adapts a published method in a small, bounded form for a browser scene, and each entry says where it
-  simplifies. Thumbnails are frames of the live scene with the scene's clock set to Friday, October 16, 2026: most were
+  Paper adaptations stay small and bounded for a browser, while original scene work names its authored assumptions;
+  each entry says where it simplifies. Most thumbnails use the scene's clock set to Friday, October 16, 2026 and were
   captured on October 18, after the renovation and the skinned wildlife, and the sea, the sky, the haze, the fog, the
   linen, the onsen and the coast's far views on October 19, at golden hour where the light matters. The light well, the
   steam and the onsen are dated in late August, when the noon sun reaches the shaft and the bath runs in daylight.
-  Measurements come from one shared Windows laptop (Intel Core Ultra 7 155H with Arc integrated graphics) unless an entry
-  says otherwise. Shader warmup and loading are in the coastal home record.
+  The garden and FFT stills were captured on October 23 at 16:00, with that day's preview clock; their individual
+  captions identify those frames. Measurements come from one shared Windows laptop (Intel Core Ultra 7 155H with Arc
+  integrated graphics) unless an entry says otherwise. Shader warmup and loading are in the coastal home record.
 credit: >-
   Compiled on October 16 to 19, 2026 by Anthropic's Claude from the code, the scene notes and the coastal home record,
   for Sirui Tao to review. The performance system and the renovation's surfaces joined on October 18, and the sea's
   optics, the cloth, the scattering sky, its haze and the marine fog on October 19, from entries the agents who built
   them prepared and checked. Every citation was checked against its DOI record, its publisher's page or its authors'
-  page.
+  page. Codex integrated the October 23 continuations from their implementation notes, reference fixtures and actual
+  scene captures. The papers remain research references; their code, weights, photographs and demo assets are not
+  included in these original implementations.
 
 read_first:
   - path: _data/design_records/homepage-desk-scene.yml
@@ -79,6 +84,14 @@ read_first:
     why: The curl field, leaf attachment and particle integration.
   - path: docs/performance-notes.md
     why: How to measure the frame, what was cut on October 18, the rules for later work and the next techniques to try.
+  - path: assets/js/home-scene/PLANETS.md
+    why: JPL elements, magnitude equations, the Horizons fixture and the planetary precision boundary.
+  - path: assets/js/home-scene/FFT-OCEAN.md
+    why: The opt-in spectral field, shared water contacts, local A/B timings and the separate frozen-photo operation.
+  - path: assets/js/home-scene/WATER-GARDEN.md
+    why: Native creek support, prescribed koi, the onsen drip and the far landscape's authored lights.
+  - path: docs/graphics-representation-review-2026-10.md
+    why: Primary-source fit decisions for learned representations and the bounded static-geometry ink comparison.
 
 constraints:
   - The homepage opens in 2D on every screen, 3D loads only on request, and any WebGL or model failure returns the 2D desk. No experiment may change that.
@@ -117,6 +130,18 @@ tests:
   - path: test/atmosphere.test.mjs
     covers: The sunset minute, the sky's colour through dusk, the moon and the weather.
     command: node --test test/atmosphere.test.mjs
+  - path: test/coastal-planets.test.mjs
+    covers: Five planets against twenty retained JPL Horizons positions and magnitudes, and the element-fit date boundary.
+    command: node --test test/coastal-planets.test.mjs
+  - path: test/coastal-fft.test.mjs
+    covers: Actual inverse-transform reconstruction, periodic and held-clock water samples, and bounded balanced photo jitter.
+    command: node --test test/coastal-fft.test.mjs
+  - path: test/coastal-environment.test.mjs
+    covers: Native creek/pond support, entrance clearance, held-clock koi, onsen volume and land-only settlement lights.
+    command: node --test test/coastal-environment.test.mjs
+  - path: test/duvet-solver.test.mjs
+    covers: Duvet contact bounds, fixed-step agreement, settling, pause and late-tab recovery.
+    command: node --test test/duvet-solver.test.mjs test/bedding-breath.test.mjs
   - path: test/skin-diffusion.test.mjs
     covers: The diffusion integral's normalization, limits and curvature.
     command: node --test test/skin-diffusion.test.mjs
@@ -454,7 +479,7 @@ systems:
           - record: homepage-desk-scene
             techniques: [ocean-spectrum, sea-optics, seabed-capture, sea-sunset, shoreline, sea-reflection, coast-wind]
         limits:
-          - A sparse authored spectrum on a finite 400 m surface, with no FFT, cascades or weather.
+          - The public default is a sparse authored spectrum on a finite 400 m surface, with no cascades or weather; the separately enabled FFT experiment is recorded below.
           - The seabed past the authored beach is a smooth extension, and caustics take one paraxial sheet of the ripples.
           - Waves run straight through the shore and the rocks; nothing reflects, refracts or breaks.
         watchlist:
@@ -473,6 +498,87 @@ systems:
           - source: horvath2015spectra
             effort: large
             adds: Empirical directional spectra, including a shallow-water spectrum, to drive an FFT ocean if the spectral-ocean move goes ahead.
+        next: []
+      - id: fft-ocean
+        name: A spectral ocean, enabled in the lab
+        status: experimental
+        since: "2026-10-23"
+        thumbnail:
+          path: assets/img/project_pics/graphics-lab/fft-ocean.webp
+          alt: The spectral sea at 16:00, broad wave bands over turquoise shallows and fine caustics on the seabed, with the headland at the left
+          frame: Candidate scene, beach camera, 16:00 on October 23, 2026, with ?scene-lab=1&ocean=fft and the clock held.
+        what: An actual 64 × 64 inverse FFT drives the sea's long waves in the authoring lab, sharing the displaced surface with its normals and the coastal animals; the public home keeps the analytic ocean.
+        how: >-
+          `createFFTOcean` constructs a seeded Phillips spectrum after Tessendorf, evolves Hermitian Fourier
+          coefficients with deep-water dispersion and runs radix-two inverse transforms across rows and columns.
+          A 128 m periodic tile is normalized to about 0.13 m RMS height at an authored 8 m/s reference wind. One RGBA
+          Float32 texture holds height and central-difference slopes; CPU contacts and GPU sampling use the same
+          periodic four-texel interpolation and mesh origin. The sea lions, sandpipers and pelican water contacts read
+          that field. A separate cache of at most 24 forecast fields supports wildlife plans without replacing the
+          currently rendered texture. Existing bathymetry, shore foam, reflection, wakes and optics stay active. The
+          default analytic path allocates no FFT texture and compiles no FFT branch. The October 23 A/B/B/A measured
+          median frame intervals of 32/34/31/31 ms and submission times of 16/19/15/15 ms on the shared laptop; concurrent
+          work makes these noisy local observations. Texture upload is 65,536 bytes per active frame, with at most
+          1,572,864 bytes of forecast fields and no new geometry, draw call or reflection pass.
+        files:
+          - path: assets/js/home-scene/fft-ocean.mjs
+            role: The spectrum, actual inverse transforms, periodic CPU sampler and matching GPU sampling function.
+            functions: [createFFTOcean, inverseFFT, fftSamplingGLSL]
+          - path: assets/js/home-scene/environment.mjs
+            role: The opt-in surface and its shared active clock.
+            functions: [createPacific]
+          - path: assets/js/home-scene/FFT-OCEAN.md
+            role: Equations, allocation bounds, compatibility, measurements and missing methods.
+          - path: bin/verify_environment.cjs
+            role: Actual candidate source/model capture at matched cameras, clocks and exposure.
+        tests:
+          - test/coastal-fft.test.mjs
+          - test/coastal-environment.test.mjs
+        sources: [tessendorf2004ocean]
+        limits:
+          - One periodic tile and vertical displacement only; no choppiness, cascades, JONSWAP, depth-dependent dispersion, breaking waves or foam transport.
+          - Slopes use central differences, and the short-wave BRDF retains the existing analytic treatment rather than a complete multiscale spectral model.
+          - The fixed reference wind is an authored test condition; the measurements establish neither a forecast nor a speed or visual-quality advantage.
+          - No boats exist in this scene to validate, and the distorted planar reflection is not curved-surface ray tracing.
+        next:
+          - move: Measure interleaved analytic/FFT views on an otherwise idle machine, including wildlife contacts, bytes and GPU cost, before considering a different default.
+            readiness: needs-measurement
+      - id: water-garden
+        name: A creek and koi pond on the clifftop
+        status: shipped
+        since: "2026-10-23"
+        thumbnail:
+          path: assets/img/project_pics/graphics-lab/water-garden.webp
+          alt: A narrow stone-lined creek descends through the clifftop trees to a round green koi pond, seen from above
+          frame: Candidate scene, overhead garden camera, 16:00 on October 23, 2026, held active clock.
+        what: A carved recirculating creek descends through six reaches into a koi pond; five original fish swim on the home's shared active clock.
+        how: >-
+          `bin/coastal_water_garden.py` carves the existing hinterland, retaining original ground elevations for repeatable
+          rebuilding, and authors the basins, water and stone banks in the independent `hinterland.blend`. It clears only
+          planting triangles in the corridor. The native report raycasts 78 creek samples and 64 pond samples against
+          the final terrain: water-to-bed separation is 0.062–0.471 m in the creek and 0.421–0.424 m at 80% pond radius.
+          The builder rejects a sampled ground intersection or a span over 0.8 m. `bindWaterGarden` adds tapered bodies,
+          pigment patches, fins, eyes and articulated tails, with prescribed bounded paths and surface normals evaluated
+          on the same active clock. The grove silhouettes and settlement points in the far landscape are recorded under
+          Land past the modelled world. All geometry and fish are original, with no third-party model or texture.
+        files:
+          - path: bin/coastal_water_garden.py
+            role: Repeatable native terrain carving, six reaches, pond, banks and sampled support checks.
+            functions: [apply]
+          - path: assets/js/home-scene/water-garden.mjs
+            role: Original koi bodies, held-clock poses, prescribed ripples and disposal.
+            functions: [bindWaterGarden]
+          - path: artwork/coastal-home/reviews/water-garden.json
+            role: Native support measurements against the exported terrain.
+          - path: assets/js/home-scene/WATER-GARDEN.md
+            role: Coordinate, contact, provenance and clock boundaries.
+        tests:
+          - test/coastal-environment.test.mjs
+        sources: []
+        limits:
+          - An authored garden circulation, with no claim that a natural freshwater stream exists at the location.
+          - Fish paths and surface normals are prescribed; there is no fluid, animal-dynamics or fish collision solver.
+          - The raycasts are sampled support checks, and the retained baked terrain colours are not a new full-landscape light bake.
         next: []
       - id: onsen-water
         name: A height-field onsen
@@ -493,7 +599,9 @@ systems:
           October 18 the basin's stone takes the water's light: light from above refracts into the water, and the simulated
           surface refocuses it by 1/|det(I + l(1 − 1/n) Hess h)| (`poolCausticGLSL`, the differential form of Watt's beam
           areas), with six sub-grid capillary-gravity ripples riding on the simulated waves (`poolRippleGLSL`), so a calm
-          pool stays exactly flat.
+          pool stays exactly flat without forcing. Since October 23 a visible drop from the retained bamboo kakei lands
+          in the existing solver as a small zero-mean impulse. Its timing shares the active clock, accumulates no debt
+          while the bath is not stepped, and disposes with the water adapter; the original fixture is unchanged.
         files:
           - path: assets/js/home-scene/heightfield-water.mjs
             role: The conservative shallow-water solver.
@@ -509,11 +617,14 @@ systems:
             functions: [createPoolStroke, samplePoolStroke]
           - path: assets/js/home-scene/ONSEN-WATER.md
             role: Equations, coupling limits and numerical evidence.
+          - path: assets/js/home-scene/WATER-GARDEN.md
+            role: The retained spout's outlet, prescribed drop and conservative impulse.
         tests:
           - test/onsen-water.test.mjs
           - test/onsen-caustics.test.mjs
           - test/pool-geometry.test.mjs
           - test/pool-stroke.test.mjs
+          - test/coastal-environment.test.mjs
         sources: [chentanez2010water, watt1990beam]
         related:
           - record: homepage-desk-scene
@@ -528,10 +639,7 @@ systems:
           - source: chentanez2015coupling
             effort: large
             adds: Couples a height field to a 3D grid and particles where the surface breaks, for splashes when someone steps in or the spout drips.
-        next:
-          - move: A steady drip from the bamboo spout into the solver at the spout's mouth, which would keep the pool and its caustics alive between strokes.
-            readiness: needs-decision
-            why: The brief says the water's forcing comes from the palm; a spout adds a second source, which is Sirui's call.
+        next: []
       - id: steam
         name: Thermal steam
         status: shipped
@@ -714,14 +822,15 @@ systems:
           - move: A high cloud layer for the sunset, lit through the atmosphere and Earth's shadow, from the weather's cirrus days.
             readiness: ready
       - id: night-stars
-        name: Stars the eye could see from La Jolla
+        name: Stars and five bright planets over La Jolla
         status: shipped
         since: "2026-10-22"
         what: >-
           The night sky carries the naked-eye stars of the Yale Bright Star Catalogue where they stand over La Jolla at the
           minute, only as many as the coast's suburban glow and the moon leave visible: about four hundred on a moonless
           night, under a hundred beneath a full moon, coming out one at a time at dusk. Each is a round point about a CSS
-          pixel across, its colour from its B-V index, reddened and twinkling toward the horizon.
+          pixel across, its colour from its B-V index, reddened and twinkling toward the horizon. Mercury, Venus, Mars,
+          Jupiter and Saturn join the same draw with their own positions and visual magnitudes, without scintillation.
         how: >-
           `createStarField` in `stars.mjs` draws one `THREE.Points` of 3,249 stars over the dome. `starMatrix` precesses
           their J2000 positions to the date (IAU 1976, Meeus chapter 21) and turns them by local mean sidereal time (Meeus
@@ -736,7 +845,12 @@ systems:
           locus is faintly magenta between 5,000 and 8,000 K, which had turned white stars pink), and desaturated for
           faint stars as night vision desaturates them. Scintillation grows as the air mass to the 1.5 power on the
           scene's clock and stops under reduced motion; by day the field is not drawn, and the sea mirror leaves it out.
-          It replaced a procedural field of about 100,000 hashed cells whose warm tints read as pink dots.
+          It replaced a procedural field of about 100,000 hashed cells whose warm tints read as pink dots. Since October
+          23 `planetPositions` solves JPL's 1800–2050 Keplerian elements, with one light-time iteration, then applies
+          Mallama and Hilton's phase-dependent visual magnitude equations, including Saturn's ring inclination. The
+          five points refresh each astronomical minute and use the stars' existing precession, extinction, horizon
+          hiding, pixel footprint and exposure. Twenty retained seasonal Horizons responses bound sampled error below
+          0.25° and 0.2 magnitude. The existing moon position and illuminated phase are preserved.
         files:
           - path: assets/js/home-scene/stars.mjs
             role: The catalogue, the turning sky, the eye's limit and the star field.
@@ -745,13 +859,34 @@ systems:
             role: The packed catalogue, eight bytes a star.
           - path: bin/build_star_catalogue.mjs
             role: Packs the catalogue from the CDS's copy.
+          - path: assets/js/home-scene/planets.mjs
+            role: JPL element solve, light-time correction and apparent visual magnitudes.
+            functions: [heliocentric, planetPositions]
+          - path: bin/fetch_planet_references.py
+            role: Retrieves actual airless geocentric astrometric ICRF positions and V magnitudes from Horizons.
+          - path: test/fixtures/planet-horizons.json
+            role: Twenty retained responses across January, April, July and October 2026, with query URLs and retrieval date.
+          - path: assets/js/home-scene/PLANETS.md
+            role: Equations, fit interval, sampled tolerances and omitted corrections.
           - path: assets/js/home-scene/environment.mjs
             role: The light step, the scene's clock and the mirror's exclusion.
             functions: [setPalette, reflect]
         tests:
           - test/stars.test.mjs
+          - test/coastal-planets.test.mjs
           - test/visual/desk-scene.spec.js
-        sources: [hoffleit1991bsc, meeus1998algorithms, schaefer1993vision, ballesteros2012blackbody, kim2002planckian, kasten1989airmass]
+        sources:
+          [
+            hoffleit1991bsc,
+            meeus1998algorithms,
+            schaefer1993vision,
+            ballesteros2012blackbody,
+            kim2002planckian,
+            kasten1989airmass,
+            jpl-approx-planets,
+            mallama2018magnitudes,
+            jpl-horizons,
+          ]
         related:
           - record: homepage-desk-scene
             techniques: [daylight]
@@ -759,9 +894,9 @@ systems:
           - Stars fainter than magnitude 5.6 are left out, and there is no Milky Way; under a suburban sky it would barely show.
           - Proper motion and nutation are ignored (under an arcminute this century), and each star is lifted by Sæmundsson's mean refraction.
           - The sky glow is a model of a Bortle 5 to 6 coast, not a measurement, and the moonlit sky brightens only within about 15 degrees of the moon.
-        next:
-          - move: Venus, Mars, Jupiter and Saturn from Standish's Keplerian elements, in the same draw.
-            readiness: ready
+          - Planetary positions use the Earth–Moon barycentre approximation without lunar correction, nutation, aberration or topocentric planetary parallax; the planets are hidden outside 1800–2050.
+          - Mars omits seasonal and longitudinal albedo corrections. The twenty samples are bounded reference checks, not a precision guarantee over the full fit interval or an observing forecast.
+        next: []
       - id: coastal-haze
         name: Haze that follows height and the sun
         status: shipped
@@ -810,6 +945,8 @@ systems:
           Past the modelled mainland, hinterland and sea, the dome carries the land on to the horizon: the mesa keeps
           rising inland, the coast keeps its line north and south, and the camera's parallax moves the near land
           against the far as it zooms, where a flat sea-coloured wall with a hard line at the horizon used to stand.
+          Rounded grove silhouettes and meadow patches now vary that distant land, and warm settlement points appear
+          south and inland after dusk while the northern reserve and sea stay dark.
         how: >-
           `createFarField` in `far-field.mjs` draws the mainland and the hinterland once from above into two half-float
           targets (2.2 m cells over 1.4 by 1.0 km): the top surface's height and kind, and the planting's cover, with
@@ -822,11 +959,26 @@ systems:
           reflections' capture point) first walks out. `farLandRadiance` shades the hit like the scene's terrain (sun,
           moon and sky, soil, chaparral, rock and sand) and fades it into the horizon sky with the air's extinction;
           the coast's haze then applies over the true distance. The dome draws last of the opaque passes, on the far
-          plane, so only uncovered pixels march, and the stars behind a far hill are hidden by the same march.
+          plane, so only uncovered pixels march, and the stars behind a far hill are hidden by the same march. Since
+          October 23 original crown-height functions ease in over 60 m beyond the captured terrain, and broaden into
+          pine/oak silhouettes on eligible land. `regionalLights` writes an authored settlement weight into the far map;
+          world-anchored, footprint-filtered warm points then join the same sun/moon, haze and reflection path. Broad
+          meadow and soil variation adds no new texture.
         files:
           - path: assets/js/home-scene/far-field.mjs
             role: The capture, the far map, the march and the shading.
-            functions: [createFarField, farFieldUniforms, hinterlandBaseHeight, regionalHeight, coastLine, buildFarMap, farMarch, farLandRadiance]
+            functions:
+              [
+                createFarField,
+                farFieldUniforms,
+                hinterlandBaseHeight,
+                regionalHeight,
+                coastLine,
+                regionalLights,
+                buildFarMap,
+                farMarch,
+                farLandRadiance,
+              ]
           - path: assets/js/home-scene/atmosphere.mjs
             role: The dome's background, the far sea's night glow and the dome's draw on the far plane.
             functions: [atmoBackground, atmoDome, atmoFarSea]
@@ -838,18 +990,19 @@ systems:
             functions: [captureSeabed, captureSeabedAsync, followCamera]
         tests:
           - test/far-field.test.mjs
+          - test/coastal-environment.test.mjs
           - test/visual/desk-scene.spec.js
         sources: [hillaire2020sky, wronski2014fog]
         related:
           - record: homepage-desk-scene
             techniques: [far-coast-view]
         limits:
-          - Past the hinterland the land is a smooth regional surface (a 64 km map whose cells are 50 m at 700 m and 400 m at the edge), without canyons, roads or buildings yet.
-          - A heightfield holds no overhangs, so the planting only colours the far land; trees past the far plane are not stood up.
+          - Past the hinterland the land is a regional approximation (a 64 km map whose cells are 50 m at 700 m and 400 m at the edge), without a GIS inventory of canyons, roads, buildings or lights.
+          - Heightfield crowns are silhouettes without open space under branches, and the captured near planting only colours the land; these are not individually modelled distant trees.
           - The far land has no cast shadows; slopes facing away from the sun take only the sky.
         next:
-          - move: Mount Soledad, the inland ridges and arroyos, and the coast's lights at night, in the far map.
-            readiness: ready
+          - move: Compare the authored regional terrain with a licensed elevation reference before naming or reconstructing individual inland ridges and arroyos.
+            readiness: needs-research
       - id: light-in-the-air
         name: Marine fog, shafts and sunbeams
         status: shipped
@@ -980,14 +1133,14 @@ systems:
             adds: Solves the cloth one vertex block at a time with local Newton steps, stable at large time steps, so the panels and the laundry could step at 30 Hz without the six substeps that now set the cloth's cost; worth an A/B on one panel.
         next: []
       - id: bedding
-        name: Bedding draped by position-based dynamics
+        name: A fitted duvet with live cloth constraints
         status: shipped
         since: "2026-10-14"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/bedding.webp
           alt: Sirui asleep at 04:00 under a duvet draped over his body, the pillow dented under his head
           frame: Sleep view, 04:00 on Friday, October 16, 2026, reduced motion.
-        what: Each avatar's duvet is dropped over the sleeping body offline by a position-based cloth solver and its pillow pressed in by the head, so no cover cuts through a chest; in the scene the cover breathes.
+        what: Each avatar's duvet is fitted over the sleeping body offline, then a small compliant cloth follows the breathing chest in the scene while preserving that authored contact envelope.
         how: >-
           `draped_duvet` in `bin/coastal_bedding.py` builds a height field of everything under the cover (`support_field`:
           sleeper, pillow, mattress, frame and bedside table) and `drape` drops a cloth grid onto it with coloured
@@ -995,8 +1148,15 @@ systems:
           Pellacini; the cover is then trimmed across the chest, quilted and given 3 cm of fill. `sleepers` poses every
           avatar's sleep clip at its deepest and shallowest breath, and `pillow` presses each pillow wherever a sleeping head
           rests. `bin/refresh_coastal_bedding.py` rebuilds the six bed variants in the retained house. In the scene,
-          `createBreathingCover` in `bedding-breath.mjs` lifts the sleeper's cover a few millimetres along its normals
-          around the chest at about fourteen breaths a minute, inhaling over 40 % of each breath (`breathAt`).
+          `createDynamicCover` now welds the filled mesh into coarse particles. `createDuvetSolver` advances gravity,
+          damping, compliant stretch and two-edge bending-distance constraints at fixed 1/120 s steps, using the
+          XPBD-style distance projection from `cloth-solver.mjs`. Contacts preserve the fitted rest envelope and lift
+          around the chest at about fourteen breaths a minute (`breathAt`); solved particle offsets carry the original
+          solidified surface. Only the visible sleeping cover runs. Pause holds its state, reduced motion restores the
+          exact authored drape, and malformed topology retains `createBreathingCover` as an analytic fallback. The
+          October 23 optimized Lizard case used 281 particles and 3,237 constraints: 120 warmed updates measured a
+          3.6 ms median, 6.7 ms p95 and 7.6 ms maximum, with 3.89 mm maximum displacement and 5.5% maximum edge stretch.
+          These are local observations of one avatar, alongside separate contact/coverage inspection of all five.
         files:
           - path: bin/coastal_bedding.py
             role: The position-based drape and the pressed pillows.
@@ -1006,18 +1166,26 @@ systems:
           - path: bin/review_coastal_models.py
             role: Asserts the body, cover and pillow clearances.
           - path: assets/js/home-scene/bedding-breath.mjs
-            role: The cover's breath in the scene.
-            functions: [createBreathingCover, breathAt]
+            role: The live mesh adapter, authored breath and complete analytic fallback.
+            functions: [createDynamicCover, createBreathingCover, breathAt]
+          - path: assets/js/home-scene/duvet-solver.mjs
+            role: Welded particle mapping, fixed-step compliant constraints, bounded contact envelope and reset.
+            functions: [createDuvetSolver]
+          - path: assets/js/home-scene/cloth-solver.mjs
+            role: The shared compliant distance projection.
+            functions: [projectDistance]
         tests:
           - test/bedding-breath.test.mjs
-        sources: [muller2007pbd, fratarcangeli2016vivace]
+          - test/duvet-solver.test.mjs
+        sources: [muller2007pbd, fratarcangeli2016vivace, macklin2016xpbd]
         related:
           - record: homepage-desk-scene
             techniques: [fitted-bedding]
         limits:
-          - The drape is offline. In the scene the cover only breathes, a scripted swell of 7 mm at the chest, so it cannot follow a sleeper who turns.
-          - Contact is against an upper envelope of the bodies, not two-sided collision.
-          - The drape itself has no automated test; the review script records its clearances in `artwork/coastal-home/reviews/bedding.json`.
+          - Contacts are constrained around the authored avatar-specific envelope, with a 25 mm displacement cap; this cannot follow arbitrary moving limbs or a sleeper who turns.
+          - Two-edge compliant distances approximate bending. The bounded solver does not reproduce a full shell energy, general self-collision or two-sided body collision.
+          - The breathing envelope is prescribed. The live cloth responds dynamically to it, but fabric parameters are authored and do not establish measured material properties.
+          - The offline review script records clearances in `artwork/coastal-home/reviews/bedding.json`; sampled clearances and the five-avatar inspection are not a continuous collision guarantee.
         watchlist:
           - source: li2021cipc
             effort: large
@@ -1417,6 +1585,107 @@ systems:
             effort: small
             adds: Measures where artists draw lines on the same models, a test for which lines the tracer keeps.
         next: []
+
+  # These comparisons stay in the technical record until actual study stills are selected for public rows.
+  - id: bounded-studies
+    name: Frozen views and representation studies
+    index: false
+    summary: >-
+      Separate authoring-lab operations that leave the active home's Realistic treatment intact: finite still-photo
+      sampling, an analytic surface-ink comparison and source-bound decisions about learned representations.
+    techniques:
+      - id: frozen-photo
+        name: Supersampling one frozen photograph
+        status: experimental
+        since: "2026-10-23"
+        what: The lab's Graphics studies control takes a bounded, jittered photograph of a frozen composed view and returns an image; moving-frame history is never accumulated.
+        how: >-
+          `captureStillPhoto` requires paused or reduced motion and a fixed preview minute. It takes 2–16 centred
+          Halton-jittered renders, reads their actual composed sRGB output, decodes and averages in linear light, then
+          encodes a PNG-ready canvas. The state signature covers the clock, room, avatar, camera, projection, canvas
+          dimensions and look; a changed view discards the operation. A finally block restores the projection and its
+          inverse even on failure. A 2.2 megapixel ceiling bounds allocation and yielding between samples keeps the UI
+          available. `labScene.captureStillPhoto` exposes the same operation to reproducible capture. This deliberately
+          avoids the moving-frame history, motion vectors and rejection rules described by Karis and Yang et al.
+        files:
+          - path: assets/js/home-scene/still-photo.mjs
+            role: Balanced jitter, frozen-state validation, linear-light accumulation and projection restoration.
+            functions: [captureStillPhoto, stillPhotoJitter, halton]
+          - path: assets/js/home-scene/controller.mjs
+            role: Graphics studies controls, frozen-scene gate, state signature and composed render callback.
+            functions: [captureStillPhoto]
+          - path: assets/js/home-scene/FFT-OCEAN.md
+            role: The finite still-photo boundary and explicitly unsupported temporal methods.
+        tests:
+          - test/coastal-fft.test.mjs
+        sources: [karis2014taa, yang2020taa]
+        limits:
+          - Spatial supersampling of a frozen view, with no reprojection, disocclusion rejection, animated-transparency history or motion-blur reconstruction.
+          - Reads and averages the composed output, rather than accumulating linear HDR scene radiance before tone mapping.
+          - The output is an authoring photograph, not a replacement for the public scene's antialiasing or evidence of a moving-scene performance win.
+        next:
+          - move: Compare the same frozen view with and without sampling at a fixed viewport, including edge crops and total capture cost.
+            readiness: needs-measurement
+      - id: surface-ink-study
+        name: Screen-space and surface-anchored ink
+        status: experimental
+        since: "2026-10-23"
+        what: A separate pair of static-house illustrations compares archived screen-space hatching with derivative-filtered marks anchored in world coordinates, without restyling the active home.
+        how: >-
+          The lab's Compare ink studies action calls `captureInkStudy(false/true)` at the same camera and light.
+          `createArtDirection` keeps the original geometry, palette, toon ramp and outline method, while the candidate
+          uses two authored world-space hatch directions and fades subpixel lines to their mean coverage. The study
+          copies only visible opaque static geometry; characters, transparent materials, water and the active scene's
+          postprocessing are excluded. An isolated renderer warms its programs, then records five synchronized draws,
+          draw calls and triangles before disposing its materials and context. Praun and colleagues' tonal art maps
+          motivate coherence across scale and tone; this analytic comparison does not implement their maps or lapped
+          curvature-aligned parametrization. No model, texture or render-target asset is added.
+        files:
+          - path: assets/js/home-scene/ink-study.mjs
+            role: Matched static-geometry captures, synchronized timings and complete renderer disposal.
+            functions: [captureInkStudy]
+          - path: assets/js/home-scene/materials.mjs
+            role: Existing ink treatment and the optional world-anchored hatch shader.
+            functions: [createArtDirection]
+          - path: docs/graphics-representation-review-2026-10.md
+            role: Research lineage, exclusions, reproduction and the evidence required before changing a default.
+        tests: []
+        sources: [praun2001hatching]
+        limits:
+          - Authored crossed lines replace tonal art maps; world axes replace curvature directions and a coverage average replaces multiresolution texture construction.
+          - This is a static-geometry comparison; a world-space pattern would slide through articulated skin.
+          - The active home remains Realistic. No neural method, texture-compression result or measured quality advantage is claimed.
+        next:
+          - move: Capture matched stills and edge crops, measure draw cost and review surface readability before publishing an ink thumbnail or changing its scope.
+            readiness: needs-measurement
+      - id: representation-review
+        name: Which learned representations fit this house
+        status: experimental
+        since: "2026-10-23"
+        what: A completed primary-source review records why Gaussian splats, factorized radiance fields, neural geometry LOD and discontinuity-aware 2D fields need separate experiments before they could replace any part of the live house.
+        how: >-
+          The review compares each source's actual representation with a freely explored, relit and inhabited mesh
+          scene. Kerbl et al.'s optimized multiview Gaussian representation differs from the retained single-image
+          depth-splat study, whose missing occluded surfaces established no performance win. TensoRF factorizes learned
+          density and view-dependent colour; there are no trained weights or calibrated views here. NGLOD requires
+          octree features, neural signed-distance evaluation and traversal, rather than authored mesh swaps. Belhe et
+          al.'s method preserves supplied discontinuity curves in 2D fields, a possible fit for a static illustration
+          rather than unseen 3D surfaces. The authored mesh and its existing LODs remain in use. These are fit decisions,
+          not completed reproductions of the papers.
+        files:
+          - path: docs/graphics-representation-review-2026-10.md
+            role: Each primary source, fit decision, licensing boundary and required comparison.
+          - path: artwork/coastal-home/splat-lab/FINDINGS.md
+            role: The retained image-derived splat result and its missing-surface and performance limits.
+        tests: []
+        sources: [kerbl2023gaussians, chen2022tensorf, takikawa2021nglod, belhe2023danf]
+        limits:
+          - No trained representation, neural inference runtime, paper reproduction or production savings is delivered by this review.
+          - No author code, trained weights, reference photographs or demo assets have been copied into the site.
+          - A paper's reconstruction benchmark cannot establish the site's download, relighting, animation, interaction or frame-time performance.
+        next:
+          - move: If a bounded static object warrants a learned trial, obtain calibrated training views, check the exact code/asset licenses, and compare held-out views, bytes and browser inference cost with its authored mesh.
+            readiness: needs-research
 
   # Performance is engineering on the same scene rather than a visible experiment, so its techniques stay off the
   # Graphics Lab page's rows; the page and the lab's deck show the system as one row that opens its write-up. Its
@@ -1928,6 +2197,43 @@ history:
     sources: []
   # Append new moves here, oldest first.
 
+  - date: "2026-10-23"
+    title: Keep a spectral sea separate from the public default
+    system: water-air
+    frame: The remaining ocean idea needed an actual Fourier construction and shared animal contacts before its appearance could be judged.
+    dimensions: [wave representation, shared contacts, held clock, bytes, measured frame cost]
+    move: Added the opt-in 64² FFT field, matched its CPU/GPU sampling and forecast contacts, and captured interleaved analytic/FFT views at one camera and minute.
+    backtalk: The shared-laptop A/B/B/A intervals were 32/34/31/31 ms; they are noisy and establish no speed advantage. One periodic vertical-displacement field also leaves breaking, choppiness and multiscale shading unresolved.
+    reframe: Keep the analytic home as the default and retain the real spectral construction as a bounded experiment whose next decision needs an isolated comparison.
+    sources: [tessendorf2004ocean]
+  - date: "2026-10-23"
+    title: Put new water on supported ground and real sky references
+    system: water-air
+    frame: A creek drawn above terrain and guessed planetary points could look plausible while contradicting the geometry and astronomy they were meant to extend.
+    dimensions: [native terrain support, entrance clearance, clock, reference positions, precision]
+    move: Carved six creek reaches into the hinterland, checked sampled bed clearance, added original koi and a conservative spout impulse, extended far groves/lights, and checked five planets against twenty seasonal Horizons responses.
+    backtalk: Terrain raycasts prove sampled support, not continuous flow; fish and settlement lights remain authored. The low-precision element fit and magnitude simplifications remain visible in the astronomy record.
+    reframe: Keep imagined garden/landscape design distinct from physical and ephemeris claims, and retain the native report and external references beside each one.
+    sources: [jpl-approx-planets, mallama2018magnitudes, jpl-horizons]
+  - date: "2026-10-23"
+    title: Let the duvet solve motion inside the fitted envelope
+    system: cloth-bodies
+    frame: The fitted bed variants protected the sleeping bodies, but the runtime cover still moved by an analytic normal swell alone.
+    dimensions: [dynamic response, fitted coverage, fixed steps, reduced motion, update budget]
+    move: Added welded cloth particles with compliant stretch and two-edge bending distances, gravity/damping and bounded contacts around the avatar-specific drape, with the analytic cover retained as fallback.
+    backtalk: The optimized Lizard case measured a 3.6 ms median update with 281 particles; the solver preserves a constrained envelope and cannot follow arbitrary body motion or resolve general self-collision.
+    reframe: Claim a live constrained cloth around a sleeping pose, preserve exact authored stills for reduced motion, and keep moving-body cloth as a separate method rather than stretching this result's scope.
+    sources: [macklin2016xpbd]
+  - date: "2026-10-23"
+    title: Give frozen images and learned methods separate evidence
+    system: bounded-studies
+    frame: Still-photo sampling, NPR and learned representations answer different questions and could not honestly share a generic claim that the house now uses a new rendering pipeline.
+    dimensions: [frozen state, surface coherence, trained representation, comparison, source credit]
+    move: Added bounded frozen-photo and static-geometry ink actions in the authoring lab, then recorded primary-source fit decisions for Gaussian splats, TensoRF, NGLOD and discontinuity-aware 2D fields.
+    backtalk: A frozen photograph does not solve moving-scene TAA. Analytic hatching does not implement tonal art maps or a neural field, and the retained depth-splat study is not trained 3D Gaussian Splatting.
+    reframe: Leave the live home Realistic, expose reproducible small comparisons, and require trained assets, license review, held-out views and measured bytes/cost before any learned pipeline becomes a production claim.
+    sources: [karis2014taa, yang2020taa, praun2001hatching, kerbl2023gaussians, chen2022tensorf, takikawa2021nglod, belhe2023danf]
+
 open_problems:
   - id: next-experiment
     title: Which paper first
@@ -1947,13 +2253,14 @@ open_problems:
     title: Simulation without compute shaders
     system: water-air
     why_hard: >-
-      The scene renders through WebGL2 and three.js r164, which have no compute shaders. An FFT ocean, a pressure solve
-      for the steam, cloth on the GPU and probe updates all want them, so each must become chains of fragment passes or
-      wait for WebGPU, a move that would touch every material and pass the shader warmup knows. The performance pass priced
-      that move on October 18 and deferred it (open problem "When to move to WebGPU").
+      The scene renders through WebGL2 and three.js r164, which have no compute shaders. The October 23 opt-in 64² FFT
+      now runs on the CPU with a bounded texture upload; that completes a small spectral experiment without a renderer
+      migration. Larger spectra, a pressure solve for the steam, cloth on the GPU and probe updates would still need
+      fragment-pass chains or WebGPU, a move that touches every material and pass the warmup knows. The performance
+      pass priced that migration on October 18 and deferred it (open problem "When to move to WebGPU").
     candidate_moves:
-      - Prototype one FFT pass chain as fragment passes on a separate page and time it against the authored spectrum.
-      - Keep the small solvers (the onsen, the steam, the cloth) on the CPU and move only the ocean's spectrum to the GPU.
+      - First isolate and time the existing CPU FFT, its texture upload and the analytic default on the same camera before adding GPU complexity.
+      - If measured spectrum size or CPU cost warrants it, prototype one FFT fragment-pass chain against that retained CPU implementation.
     sources: [tessendorf2004ocean, horvath2015spectra]
     readiness: needs-decision
   - id: hard-paths
@@ -1990,7 +2297,7 @@ open_problems:
       - Room-level occlusion culling from the coast, by one-frame-late queries with hysteresis, two-phase culling or a CPU depth test against real room hulls; up to 130 draws per pass, in two to three days (pop-in while moving needs a decision).
       - Level of detail for distant planting, simplified chunks with `THREE.LOD` and then impostors; a large triangle cut at distance, in one to two days and three to five for impostors.
       - Shader compile time at startup (about 70 programs, 12 to 19 s to the first frame on the loaded laptop); measure each program's compile cost, then fewer variants or explicit-level texture reads in the light field's probe loops; possibly seconds, after one to two days of investigation.
-      - Temporal antialiasing instead of 4× multisampled half-float targets, practical only with correct motion vectors for skinned, swaying and cloth meshes, most easily under WebGPURenderer's TRAA node.
+      - Moving-scene temporal antialiasing instead of 4× multisampled half-float targets, requiring correct motion vectors for skinned, swaying and cloth meshes; the October 23 frozen-photo action is a separate bounded operation and does not complete this method.
       - Cap ambient animation at 60 fps on high-refresh displays, keeping the full rate while the visitor drags; an hour (a smoothness decision).
     sources:
       [
@@ -2054,6 +2361,38 @@ open_problems:
   # Add new open problems here; move solved ones into their technique.
 
 sources:
+  - id: jpl-approx-planets
+    label: JPL, Approximate Positions of the Planets
+    citation: NASA/JPL Solar System Dynamics. *Approximate Positions of the Planets*, Keplerian elements and rates for 1800–2050.
+    url: https://ssd.jpl.nasa.gov/planets/approx_pos.html
+  - id: mallama2018magnitudes
+    label: Mallama and Hilton 2018
+    citation: Anthony Mallama and James L. Hilton. *Computing Apparent Planetary Magnitudes for The Astronomical Almanac*. Astronomy and Computing, 2018; arXiv:1808.01973.
+    url: https://arxiv.org/abs/1808.01973
+  - id: jpl-horizons
+    label: JPL Horizons
+    citation: NASA/JPL Solar System Dynamics. *Horizons System*, airless geocentric astrometric ICRF position and visual-magnitude reference queries retained in the planetary fixture.
+    url: https://ssd.jpl.nasa.gov/horizons/
+  - id: praun2001hatching
+    label: Praun et al. 2001
+    citation: Emil Praun, Hugues Hoppe, Matthew Webb and Adam Finkelstein. *Real-time Hatching*. SIGGRAPH 2001, 581–586.
+    url: https://hhoppe.com/proj/hatching/
+  - id: kerbl2023gaussians
+    label: Kerbl et al. 2023
+    citation: Bernhard Kerbl, Georgios Kopanas, Thomas Leimkühler and George Drettakis. *3D Gaussian Splatting for Real-Time Radiance Field Rendering*. ACM Transactions on Graphics 42(4), SIGGRAPH 2023.
+    url: https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/
+  - id: chen2022tensorf
+    label: Chen et al. 2022
+    citation: "Anpei Chen, Zexiang Xu, Andreas Geiger, Jingyi Yu and Hao Su. *TensoRF: Tensorial Radiance Fields*. ECCV 2022."
+    url: https://apchenstu.github.io/TensoRF/
+  - id: takikawa2021nglod
+    label: Takikawa et al. 2021
+    citation: "Towaki Takikawa, Joey Litalien, Kangxue Yin, Karsten Kreis, Charles Loop, Derek Nowrouzezahrai, Alec Jacobson, Morgan McGuire and Sanja Fidler. *Neural Geometric Level of Detail: Real-time Rendering with Implicit 3D Shapes*. CVPR 2021."
+    url: https://research.nvidia.com/labs/toronto-ai/nglod/
+  - id: belhe2023danf
+    label: Belhe et al. 2023
+    citation: Yash Belhe, Michaël Gharbi, Matthew Fisher, Iliyan Georgiev, Ravi Ramamoorthi and Tzu-Mao Li. *Discontinuity-Aware 2D Neural Fields*. ACM Transactions on Graphics, SIGGRAPH Asia 2023.
+    url: https://yashbelhe.github.io/danf/index.html
   - id: veach1997mlt
     label: Veach and Guibas 1997
     citation: Eric Veach and Leonidas J. Guibas. *Metropolis Light Transport*. Proceedings of SIGGRAPH 97, 65–76, 1997.
