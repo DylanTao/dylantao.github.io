@@ -101,7 +101,9 @@ jobs:
         include:
           - viewport: desktop-1440
             stream: legacy
-    timeout-minutes: 50
+    # Installs normally take about a minute; the margin absorbs a slow package mirror
+    # (2026-10-22: Azure's Ubuntu mirror served 116 MB at 90 kB/s and timed nine jobs out).
+    timeout-minutes: 75
     steps:
       - name: Checkout candidate
         uses: actions/checkout@v4
@@ -133,7 +135,8 @@ jobs:
           pip3 install --user jupyter nbconvert
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
+        # Only the legacy stream drives WebKit; its system packages are most of the download.
+        run: npx playwright install --with-deps chromium ${{ matrix.stream == 'legacy' && 'webkit' || '' }}
 
       - name: Run public route and desk-scene checkpoints
         env:
