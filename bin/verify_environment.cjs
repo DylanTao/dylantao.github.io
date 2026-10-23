@@ -4,6 +4,7 @@
 const { chromium } = require("playwright");
 const fs = require("node:fs/promises"),
   path = require("node:path"),
+  { createHash } = require("node:crypto"),
   { execFileSync } = require("node:child_process");
 const productionBuild =
   process.env.VISUAL_ROOT_BUILD || path.resolve(execFileSync("git", ["rev-parse", "--git-common-dir"], { encoding: "utf8" }).trim(), "..", "_site");
@@ -29,6 +30,7 @@ const shots = process.argv[2] || "garden,coast,night,fft,onsen";
     for (const name of shots.split(",")) {
       const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
       const errors = [];
+      const servedAssets = [];
       page.on("pageerror", (e) => errors.push(e.message));
       page.on("console", (e) => {
         if (e.type() === "error") errors.push(e.text().slice(0, 700));
@@ -38,7 +40,10 @@ const shots = process.argv[2] || "garden,coast,night,fft,onsen";
           local = path.resolve("." + decodeURIComponent(url.pathname));
         if (local.startsWith(process.cwd()) && types[path.extname(local)])
           try {
-            return await route.fulfill({ body: await fs.readFile(local), contentType: types[path.extname(local)] });
+            const body = await fs.readFile(local);
+            if (url.pathname.endsWith("hinterland.glb"))
+              servedAssets.push({ path: url.pathname, bytes: body.length, sha256: createHash("sha256").update(body).digest("hex") });
+            return await route.fulfill({ body, contentType: types[path.extname(local)] });
           } catch {}
         if (url.pathname.endsWith(".webp"))
           try {
@@ -135,7 +140,7 @@ const shots = process.argv[2] || "garden,coast,night,fft,onsen";
         const node = e.labScene?.scene.getObjectByName("hinterland_garden_koi_water");
         return node ? { ...node.userData.waterGarden, clock: node.userData.waterGarden?.clock?.value } : null;
       });
-      report.push({ name, camera, errors, heldPose, heldPixels, movingPixels, before, after, garden });
+      report.push({ name, camera, errors, servedAssets, heldPose, heldPixels, movingPixels, before, after, garden });
       console.log(
         name,
         JSON.stringify({

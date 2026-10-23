@@ -1,7 +1,7 @@
 {
   "date": "2026-10-23",
   "baseSceneCommit": "512fc0807",
-  "sourceCommits": ["bd01bd898", "5d5407c75", "fdf3bf133", "7a85cabda"],
+  "sourceCommits": ["bd01bd898", "5d5407c75", "fdf3bf133", "7a85cabda", "b2fe01b7a"],
   "asset": {
     "file": "assets/models/home/hinterland.glb",
     "sha256": "e7299a7ac669e5e99150006b4688b78d737ee6013fec0b68e0b30be6888bcd6f",
@@ -36,7 +36,8 @@
     "gitDiffCheck": true,
     "pythonUnittests": 241,
     "pythonUnittestsPassed": 241,
-    "nativeHinterlandContractTests": 6
+    "nativeHinterlandContractTests": 6,
+    "nativeRepeatGroundMaximumErrorMetres": 0
   },
   "browser": [
     {
@@ -61,7 +62,8 @@
         "method": "bounded analytic Gerstner field",
         "enabled": false
       },
-      "onsenDropCount": 0
+      "onsenDropCount": 0,
+      "captureAssetSha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af"
     },
     {
       "view": "garden-close",
@@ -85,7 +87,8 @@
         "method": "bounded analytic Gerstner field",
         "enabled": false
       },
-      "onsenDropCount": 0
+      "onsenDropCount": 0,
+      "captureAssetSha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af"
     },
     {
       "view": "onsen",
@@ -104,7 +107,8 @@
         "method": "bounded analytic Gerstner field",
         "enabled": false
       },
-      "onsenDropCount": 2
+      "onsenDropCount": 2,
+      "captureAssetSha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af"
     },
     {
       "view": "lights",
@@ -128,7 +132,8 @@
         "method": "bounded analytic Gerstner field",
         "enabled": false
       },
-      "onsenDropCount": 0
+      "onsenDropCount": 0,
+      "captureAssetSha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af"
     },
     {
       "view": "stars",
@@ -152,7 +157,8 @@
         "method": "bounded analytic Gerstner field",
         "enabled": false
       },
-      "onsenDropCount": 0
+      "onsenDropCount": 0,
+      "captureAssetSha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af"
     },
     {
       "view": "fft",
@@ -183,7 +189,8 @@
         "forecastFields": 24,
         "forecastBytes": 1572864
       },
-      "onsenDropCount": 0
+      "onsenDropCount": 0,
+      "captureAssetSha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af"
     },
     {
       "view": "analytic",
@@ -207,7 +214,8 @@
         "method": "bounded analytic Gerstner field",
         "enabled": false
       },
-      "onsenDropCount": 0
+      "onsenDropCount": 0,
+      "captureAssetSha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af"
     },
     {
       "view": "garden-full-framing",
@@ -226,13 +234,63 @@
       "nonblankPixelStandardDeviation": 37.324,
       "screenshotSha256": "7a03b706ae0a56be938b4781d75c797f352d37952b9b1569fefe7189089453ae",
       "medianFrameMs": 31,
-      "medianSubmitMs": 14
+      "medianSubmitMs": 14,
+      "captureAssetSha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af"
+    },
+    {
+      "view": "garden-corrected-export",
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "camera": {
+        "target": [-20, 10.1, 63],
+        "yaw": 3.5,
+        "pitch": 0.95,
+        "radius": 45
+      },
+      "pageErrors": [],
+      "servedAssets": [
+        {
+          "path": "/assets/models/home/hinterland.glb",
+          "bytes": 1468104,
+          "sha256": "e7299a7ac669e5e99150006b4688b78d737ee6013fec0b68e0b30be6888bcd6f"
+        }
+      ],
+      "heldPoseAndWaterClock": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "nonblankPixelStandardDeviation": 37.034,
+      "screenshotSha256": "4ba1a51c4348d07f826c337850f542a0cd99e4c2b865ce8f8e3031b617897700",
+      "captureAssetSha256": "e7299a7ac669e5e99150006b4688b78d737ee6013fec0b68e0b30be6888bcd6f"
+    },
+    {
+      "view": "garden-close-corrected-export",
+      "viewport": [1440, 1000],
+      "dpr": 1,
+      "camera": {
+        "target": [-23, 10.04, 52],
+        "yaw": 2.3,
+        "pitch": 0.9,
+        "radius": 7
+      },
+      "pageErrors": [],
+      "servedAssets": [
+        {
+          "path": "/assets/models/home/hinterland.glb",
+          "bytes": 1468104,
+          "sha256": "e7299a7ac669e5e99150006b4688b78d737ee6013fec0b68e0b30be6888bcd6f"
+        }
+      ],
+      "heldPoseAndWaterClock": true,
+      "heldPixels": true,
+      "movingPixels": true,
+      "nonblankPixelStandardDeviation": 32.373,
+      "screenshotSha256": "9c69c0ef48cd10942d478f7aeb9e6738d25cae0e366115b4386a94d8949ce6e3",
+      "captureAssetSha256": "e7299a7ac669e5e99150006b4688b78d737ee6013fec0b68e0b30be6888bcd6f"
     }
   ],
   "limits": [
     "This worker uses candidate source/module/model interception against the coordinator production HTML/CSS. Final integrated four-viewport/release verification belongs to the coordinator.",
     "The preview helper generates missing responsive WebPs from the original images in its own QA cache; it never modifies another build.",
-    "One close-pond reduced-motion pair changes global image illumination during composition while exact koi transforms and shared water time remain fixed; no bitwise image-equality claim for that pair.",
     "Frame timing is noisy under concurrent scene workers; no isolated GPU speed claim.",
     "FFT is a real opt-in Graphics Lab experiment. Production retains the analytic field. Moving-scene motion-vector TAA is not implemented."
   ],
@@ -265,14 +323,14 @@
   "thumbnails": [
     {
       "file": "assets/img/project_pics/graphics-lab/water-garden.webp",
-      "bytes": 24868,
-      "sha256": "88486ffe097a4c817b8ab0c4881a2562ab391ce45d4f96a87685cb83ca492869",
+      "bytes": 25372,
+      "sha256": "9d89ac82c23a9eaa493889fa333285bfe2548a5cc0eb5b601ea55b27e7c2e3bf",
       "source": "actual candidate browser capture, resized/encoded only; no generated scenery"
     },
     {
       "file": "assets/img/project_pics/graphics-lab/koi-pond.webp",
-      "bytes": 10242,
-      "sha256": "486afe3f1301da16c4ff3fc268249f3a76f83f16817ee7de850da1bbe0f1ae5b",
+      "bytes": 8820,
+      "sha256": "af65597cc52d7609bd3112828db0e83ebeba4606ce7ae7fe289007f39224c2c7",
       "source": "actual candidate browser capture, resized/encoded only; no generated scenery"
     },
     {
@@ -286,6 +344,6 @@
     "reason": "Restore all-primitive normalized byte COLOR_0 contract; name garden surface independently of generic water matcher; prevent repeated terrain tessellation",
     "previousAssetSha256": "e3fa5550055aec3019035316cdb46e836d14ea391e88cf713867f669a602d9af",
     "correctedAssetSha256": "e7299a7ac669e5e99150006b4688b78d737ee6013fec0b68e0b30be6888bcd6f",
-    "browserImages": "Original scene captures retained with their recorded source state; garden captures refreshed after the export correction"
+    "browserImages": "Both final garden views load the corrected exact GLB SHA; they are nonblank, error-free, bitwise held in reduced motion and visibly move when active."
   }
 }
