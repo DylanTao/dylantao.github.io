@@ -6,6 +6,8 @@
 // sketch set the bar: motion that arrives with a little weight, settles without wobble, and keeps its
 // velocity through an interruption instead of starting over.
 
+import { dissolveCardInk } from "./card-ink.mjs";
+
 export const SPRINGS = Object.freeze({
   // Controls and menus answering a press: quick, with at most a hint of overshoot.
   confident: Object.freeze({ zeta: 0.8, period: 0.35 }),
@@ -251,6 +253,7 @@ if (typeof window !== "undefined") {
     waterReveal,
     flightFrames,
     scrollFollow,
+    dissolveCardInk,
   });
 
   // Pictures that arrive after the page has drawn fade in (_sass/_springs.scss) instead of popping

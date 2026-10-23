@@ -18,8 +18,11 @@ export const STATIC_LIGHT_REGIONS = [
   { id: "study", min: [-1.65, 2.55, 2.25], max: [1.3, 4.7, 4.55] },
   { id: "sleep", min: [-4.3, 2.55, 2], max: [-1.85, 4.4, 4.8] },
   { id: "onsen", min: [2, 2.55, 1.9], max: [4.45, 4.9, 4.4] },
-  // Wide enough to the north that its inland probes stand beside the island, not inside it.
-  { id: "kitchen", min: [-4.1, -0.05, -4], max: [-1.2, 2.15, -0.1] },
+  // The open kitchen and the breakfast nook sunk 42 cm in its corner by the glass (bin/coastal_kitchen.py),
+  // from the cooking bay's mouth to the glass; its low probes sit over the nook's table.
+  { id: "kitchen", min: [-5.0, -0.45, -4.35], max: [-1.95, 2.15, 0.6] },
+  // The dining room under the gallery, between the cooking bay and the stair.
+  { id: "dining", min: [-4.0, -0.05, 1.35], max: [0.2, 2.3, 5.0] },
   // The living room's U-sofa bay (the gym's old alcove) and its media-wall side; the lounge cage is
   // tall enough that its lower probes clear the credenza's top instead of starting inside it.
   { id: "living", min: [-1.1, -0.05, -2.9], max: [1.1, 2.2, -0.55] },
@@ -63,8 +66,8 @@ export function createStaticLightField({
   if (!Number.isInteger(skyRaysPerHit) || skyRaysPerHit < 1 || skyRaysPerHit > 16) throw new RangeError("sky rays per hit must be 1..16");
   if (!Number.isFinite(maxTraceDistance) || maxTraceDistance <= 0 || !Number.isInteger(maxTriangles) || maxTriangles < 1)
     throw new RangeError("invalid trace bounds");
-  if (!regions.length || regions.length > 8 || practicalSources.length > 8)
-    throw new RangeError("field supports 1..8 regions and at most 8 practicals");
+  if (!regions.length || regions.length > 12 || practicalSources.length > 8)
+    throw new RangeError("field supports 1..12 regions and at most 8 practicals");
   regions = regions.map((r) => {
     if (r.min.length !== 3 || r.max.length !== 3 || !r.min.every((x, i) => Number.isFinite(x) && Number.isFinite(r.max[i]) && x < r.max[i]))
       throw new RangeError("invalid region bounds");

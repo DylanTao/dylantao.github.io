@@ -18,6 +18,9 @@ export function collidable(object, world) {
   if (!object.isMesh || object.isSkinnedMesh || object.isInstancedMesh || !object.geometry?.attributes.position) return false;
   for (let node = object; node && node !== world; node = node.parent) {
     const data = node.userData;
+    // Native placeholders are the stable proxies, including after they are visually hidden.
+    // Streamed levels and held props must not change a field already built for this room.
+    if (data.furnitureAnchor || data.furnitureCollision === false) return false;
     if (data.glazing || data.noOcclusion || data.shadowOnly || data.caveRoof || data.facadeDoor || data.activityProp || data.action) return false;
     if (data.bedding && data.bedding !== "empty") return false;
   }

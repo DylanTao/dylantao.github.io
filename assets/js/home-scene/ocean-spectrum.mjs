@@ -1,4 +1,42 @@
 import { coastWind, coastWindGLSL, windGLSLFloat } from "./wind-field.mjs";
+import * as THREE from "../three.module.min.js";
+import { createFFTOcean, fftSamplingGLSL } from "./fft-ocean.mjs";
+
+// Deliberately opt-in in the authoring lab; production retains the verified analytic sea.
+const fftRequested =
+  typeof location !== "undefined" &&
+  new URLSearchParams(location.search).get("scene-lab") === "1" &&
+  new URLSearchParams(location.search).get("ocean") === "fft";
+const fft = fftRequested ? createFFTOcean() : null;
+let fftForecast = null;
+const fftForecasts = new Map();
+let fftSeconds = 0;
+const fftTexture = fft ? new THREE.DataTexture(fft.data, fft.size, fft.size, THREE.RGBAFormat, THREE.FloatType) : null;
+if (fftTexture) {
+  fftTexture.minFilter = fftTexture.magFilter = THREE.NearestFilter;
+  fftTexture.needsUpdate = true;
+}
+const fftUniforms = fft
+  ? {
+      oceanFFT: { value: fftTexture },
+      oceanFFTEnabled: { value: fft ? 1 : 0 },
+      oceanFFTLength: { value: fft?.length || 128 },
+      oceanFFTSize: { value: fft?.size || 1 },
+    }
+  : {};
+export function syncOceanFFT(seconds) {
+  fftSeconds = seconds;
+  if (fft?.update(seconds)) fftTexture.needsUpdate = true;
+}
+export function disposeOceanFFT() {
+  fftForecasts.clear();
+  fftForecast = null;
+  fftTexture?.dispose();
+}
+export const oceanFFTEvidence = () =>
+  fft
+    ? { ...fft.evidence(), forecastFields: fftForecasts.size, forecastBytes: fftForecasts.size * fft.data.byteLength }
+    : { method: "bounded analytic Gerstner field", enabled: false };
 
 // A bounded deterministic spectrum, in meters/seconds. This is a sparse
 // Gerstner approximation, not Arc Blanc's FFT or solid/fluid coupling solver.
@@ -106,7 +144,7 @@ export function syncOceanWind(state = coastWind.state) {
 // `origin` is the ocean mesh's world position: its local xz plus origin.xz is the world point the
 // wind is sampled at, so the water and the bluff see one set of gust fronts.
 export function bindOceanWind(shader, origin = null) {
-  Object.assign(shader.uniforms, oceanWindUniforms, oceanShapeUniforms);
+  Object.assign(shader.uniforms, oceanWindUniforms, oceanShapeUniforms, fftUniforms);
   if (origin) oceanWindUniforms.oceanWindOrigin.value.set([origin.x, origin.z]);
   return shader;
 }
@@ -121,6 +159,20 @@ export function waterFresnel(cosine, ior = WATER_IOR) {
 
 // `wind` is an oceanWindState ({ turn, scale }); without it the authored spectrum is sampled.
 export function sampleOcean(x, z, seconds, footprint = 0, wind = null) {
+  if (fft) {
+    if (seconds === fftSeconds) return fft.sampleData(x, z);
+    // Shorebirds plan stepping contacts on half-second ticks; a pelican's takeoff asks for its
+    // fixed future endpoint. Those forecasts must never replace the water drawn at active time.
+    let values = fftForecasts.get(seconds);
+    if (!values) {
+      fftForecast ||= createFFTOcean();
+      fftForecast.update(seconds);
+      values = fftForecast.data.slice();
+      if (fftForecasts.size >= 24) fftForecasts.delete(fftForecasts.keys().next().value);
+      fftForecasts.set(seconds, values);
+    }
+    return fft.sampleData(x, z, values);
+  }
   const displacement = [0, 0, 0],
     tangentX = [1, 0, 0],
     tangentZ = [0, 0, 1];
@@ -170,6 +222,7 @@ const f = (value) => value.toFixed(9);
 // call; written out wave by wave, the sea's program took twice as long to compile once its optics joined
 // it (2026-10-18). The arithmetic per wave is unchanged.
 export const oceanFieldGLSL = `
+${fft ? fftSamplingGLSL : ""}
 uniform float oceanWaveScale[${OCEAN_WAVES.length}];
 uniform vec2 oceanWindTurn;
 uniform vec4 oceanWaveA[${OCEAN_WAVES.length}];
@@ -179,6 +232,14 @@ uniform int oceanWaveCount;
 vec2 oceanTurn(vec2 d) { return vec2(d.x*oceanWindTurn.x+d.y*oceanWindTurn.y, d.y*oceanWindTurn.x-d.x*oceanWindTurn.y); }
 void oceanField(vec2 p, float time, float footprint, out vec3 displacement, out vec3 tx, out vec3 tz, out float lostVariance) {
   displacement=vec3(0.); tx=vec3(1.,0.,0.); tz=vec3(0.,0.,1.); lostVariance=0.;
+  ${
+    fft
+      ? `if(oceanFFTEnabled>.5) {
+    vec3 field=oceanFFTSample(p);
+    displacement.y=field.x;tx.y=field.y;tz.y=field.z;return;
+  }`
+      : ""
+  }
   for (int i = 0; i < oceanWaveCount; i++) {
     // (dx, dz, k, amplitude) and (choppiness, omega, phase, wind sea): the wind sea turns and scales.
     vec4 shape=oceanWaveA[i], motion=oceanWaveB[i];

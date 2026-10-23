@@ -55,6 +55,7 @@ export const LIFTS = [
   "pullup",
   "dip",
   "curl",
+  "pan-raise",
   "load",
   "board",
   "duck",
@@ -543,6 +544,33 @@ export function createLiftRig(actor) {
       });
       return { hands };
     },
+    "pan-raise"(u, ctx) {
+      const take = ctx.take ?? 1;
+      const e = driveThenLower(u, 0.32, 0.12);
+      body({ hips: V(0, dims.hip - 0.008, -0.015), lean: 0.015, head: -0.03 });
+      legs(stance(0.15, 0.02), hintsOut(0.2, 0, 1), [-0.15, 0.15]);
+      const side = "R";
+      const sign = SIDES.find(([s]) => s === side)[1];
+      const rest = ctx.grip ? fromRoom(ctx.grip) : V(sign * 0.24, 0.9, 0.22);
+      // A stable elbow, then a modest wrist/forearm raise. The pan's handle meets the same
+      // measured palm point used by the other lifts, independent of avatar proportions.
+      const held = shoulder(side).add(V(sign * 0.035, -dims.upper * 0.88, dims.fore * 0.72));
+      held.y += 0.055 * e;
+      held.z += 0.035 * e;
+      const grip = rest.lerp(held, smooth(take));
+      const sides = atSides();
+      const i = SIDES.findIndex(([s]) => s === side);
+      sides[i] = grip;
+      arms(sides, hintsOut(0.25, -0.1, -0.7));
+      // Unlike the barbell's wide palm tolerance, a narrow pan handle reads as detached with
+      // the generic 65 mm shoulder-ray offset. Fit it inside the authored finger/thumb cup.
+      const contacts = [bones.HandFinger10R, bones.HandFinger20R, bones.HandFingerthumb1R].filter(Boolean);
+      const palm = contacts.length
+        ? toLocal(contacts.reduce((sum, b) => sum.add(b.getWorldPosition(V())), V()).multiplyScalar(1 / contacts.length))
+        : grip;
+      if (contacts.length) palm.y -= 0.012;
+      return { hands: { R: palm }, panTilt: -0.3 * e };
+    },
     load(u, ctx) {
       // One plate: crouch for it, lift it to the chest, push it onto the sleeve, step off.
       // Stripping runs the same path backward.
@@ -636,6 +664,7 @@ export function createLiftRig(actor) {
         out.axis = directionToRoom(result.axis);
       }
       if (result.hands) out.hands = Object.fromEntries(Object.entries(result.hands).map(([k, p]) => [k, toRoom(p)]));
+      if (result.panTilt != null) out.panTilt = result.panTilt;
       if (result.plate) {
         out.plate = toRoom(result.plate);
         out.plateAxis = directionToRoom(result.axis);

@@ -43,6 +43,7 @@ export async function captureStillPhoto({ renderer, camera, renderFrame, isFroze
       // Yield between samples so capture cannot monopolize the UI; changed views abort above.
       await new Promise((resolve) => setTimeout(resolve, 0));
     }
+    if (!isFrozen() || stateKey() !== signature) throw new Error("The view changed during photo capture; photo discarded");
     const output = new Uint8ClampedArray(width * height * 4);
     for (let y = 0; y < height; y++)
       for (let x = 0; x < width; x++) {

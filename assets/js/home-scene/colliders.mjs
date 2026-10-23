@@ -508,8 +508,11 @@ export function walkKind(object, root) {
     ghost = false,
     authored = null;
   for (let node = object; node && node !== root; node = node.parent) {
-    if (node.visible === false) return null;
     const data = node.userData || {};
+    // Furniture keeps the native placeholder's triangles after its visual replacement arrives.
+    // Only that placeholder may be hidden: a hidden ancestor room still stays out of the field.
+    if (data.furnitureAnchor || data.furnitureCollision === false) return null;
+    if (node.visible === false && data.furnitureCollision !== true) return null;
     authored ??= data.walk ?? null;
     if (data.shadowOnly || data.caveRoof || data.facadeDoor || data.activityProp || data.action) return null;
     if (data.glazing) glazing = true;

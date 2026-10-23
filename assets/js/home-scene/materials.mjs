@@ -1,7 +1,8 @@
 import * as THREE from "../three.module.min.js";
 import { finishPhysicalMaterial } from "./realism.mjs";
 
-export function createArtDirection() {
+export function createArtDirection({ surfaceInk = false } = {}) {
+  // Separate authoring comparison, not a learned renderer or a tonal-art-map implementation.
   let contactLighting;
   const textures = new Map();
   const outlines = new Set();
@@ -82,14 +83,34 @@ export function createArtDirection() {
             // Printed shadows: blue color separation, a halftone screen, and
             // intersecting hatch marks. Stable screen-space ink never crawls.
             m.onBeforeCompile = (shader) => {
+              if (surfaceInk) {
+                shader.vertexShader = "varying vec3 vSurfaceInk;\n" + shader.vertexShader;
+                shader.vertexShader = shader.vertexShader.replace(
+                  "#include <project_vertex>",
+                  "vSurfaceInk = (modelMatrix * vec4(transformed, 1.0)).xyz;\n#include <project_vertex>"
+                );
+                shader.fragmentShader = "varying vec3 vSurfaceInk;\n" + shader.fragmentShader;
+              }
               shader.fragmentShader = shader.fragmentShader.replace(
                 "#include <opaque_fragment>",
                 `
-                float shade = 1.0 - smoothstep(-0.2, 0.85, dot(normal, normalize(vec3(-0.6, 0.8, 0.4))));
+                float shade = 1.0 - smoothstep(-0.2, 0.85, dot(${surfaceInk ? "inverseTransformDirection(normal, viewMatrix)" : "normal"}, normalize(vec3(-0.6, 0.8, 0.4))));
                 vec2 paper = gl_FragCoord.xy;
                 float dots = 1.0 - smoothstep(0.14, 0.23, length(fract(paper / 5.0) - 0.5));
                 float hatchA = 1.0 - smoothstep(0.09, 0.19, abs(fract((paper.x + paper.y * 1.4) / 9.0) - 0.5));
                 float hatchB = 1.0 - smoothstep(0.08, 0.17, abs(fract((paper.x - paper.y * 1.1) / 13.0) - 0.5));
+                ${
+                  surfaceInk
+                    ? `
+                vec2 strokes = vec2(dot(vSurfaceInk, vec3(33.0, 46.0, 17.0)), dot(vSurfaceInk, vec3(27.0, -38.0, 21.0)));
+                vec2 footprint = max(fwidth(strokes), vec2(0.015));
+                vec2 lines = vec2(1.0) - smoothstep(vec2(0.09), vec2(0.09) + footprint, abs(fract(strokes) - 0.5));
+                // Fade unresolved strokes into their average coverage instead of temporal shimmer.
+                lines = mix(lines, vec2(0.18), smoothstep(vec2(0.35), vec2(0.8), footprint));
+                hatchA = lines.x; hatchB = lines.y; dots = 0.0;
+                `
+                    : ""
+                }
                 outgoingLight = mix(outgoingLight, outgoingLight * vec3(0.48, 0.57, 0.86) + vec3(0.028, 0.025, 0.10), shade * 0.66);
                 float ink = dots * shade * 0.35 + hatchA * smoothstep(0.40, 0.85, shade) * 0.34 + hatchB * smoothstep(0.7, 1.0, shade) * 0.30;
                 outgoingLight = mix(outgoingLight, vec3(0.025, 0.036, 0.068), min(ink, 0.72));
