@@ -83,6 +83,11 @@ with its original 300-second test budget. It uses the existing
 and floating-point targets. Chromium and WebKit remain separate legacy projects.
 Its input polling observes actual new frames; it does not replace geometry, pixels
 or state assertions.
+The native-video routine journey also passes its walking, stair and final soak
+assertions. Software rendering uses the existing ten-minute walking-test budget
+for its serial video and evidence collection; the native frame clock and hard
+18-second soak assertion remain intact. The prior five-minute limit expired
+while collecting final backend metadata after the behavior had passed.
 
 Night review added useful output to the two actual library task lamps and pavilion
 pendants. The reading lamp's transport radius matches its shade, so the shade does

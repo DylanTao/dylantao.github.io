@@ -3255,6 +3255,10 @@ for (const [failure, asset] of [
 
 test("coastal home: a routine boundary walks through the home before settling into the onsen", async ({ browser }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "Representative live transition; clock boundaries are covered separately.");
+  // Native video and final evidence collection are serial on software WebGL.
+  // Keep the live frame clock and every behavior deadline; use the same capture
+  // budget as the other software-rendered walking cases.
+  if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
   const context = await browser.newContext({
     viewport: { width: 1440, height: 1000 },
     deviceScaleFactor: 1,
