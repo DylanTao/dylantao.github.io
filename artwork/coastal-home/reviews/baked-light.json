@@ -351,24 +351,6 @@
       "max": 0.68
     },
     {
-      "mesh": "sleep_reno_wardrobe",
-      "corners": 1920,
-      "min": 0.68,
-      "max": 0.7387126239637535
-    },
-    {
-      "mesh": "sleep_reno_wardrobe_plinth",
-      "corners": 384,
-      "min": 0.68,
-      "max": 0.6941216338115435
-    },
-    {
-      "mesh": "sleep_reno_wardrobe_pulls",
-      "corners": 240,
-      "min": 0.68,
-      "max": 0.7250000013411045
-    },
-    {
       "mesh": "study__milky veined marble",
       "corners": 1668,
       "min": 0.68,
@@ -1459,6 +1441,198 @@
       "corners": 1680,
       "min": 0.68,
       "max": 0.8262500053644181
+    },
+    {
+      "mesh": "sleep_reno_wardrobe__pale oak",
+      "corners": 1536,
+      "min": 0.68,
+      "max": 0.740900307148695
+    },
+    {
+      "mesh": "sleep_reno_wardrobe__honey ash",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7027990486441802
+    },
+    {
+      "mesh": "sleep_reno_wardrobe__polished nickel",
+      "corners": 180,
+      "min": 0.68,
+      "max": 0.7025000006705523
+    },
+    {
+      "mesh": "core_bathwing_lower_slab__warm cut stone",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.9050000107288361
+    },
+    {
+      "mesh": "core_bathwing_lower_ceiling__chalk limestone",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "bath-living__honed travertine",
+      "corners": 5664,
+      "min": 0.68,
+      "max": 0.6961633782088757
+    },
+    {
+      "mesh": "bath-living__chalk limestone",
+      "corners": 4224,
+      "min": 0.68,
+      "max": 0.7093494535237551
+    },
+    {
+      "mesh": "bath-living__pale oak",
+      "corners": 9288,
+      "min": 0.68,
+      "max": 0.7155353829078377
+    },
+    {
+      "mesh": "bath-living__brushed brass",
+      "corners": 6672,
+      "min": 0.68,
+      "max": 0.7039205416291953
+    },
+    {
+      "mesh": "bath-living__bathroom porcelain glaze",
+      "corners": 5088,
+      "min": 0.68,
+      "max": 0.6952145368792118
+    },
+    {
+      "mesh": "bath-living__polished nickel",
+      "corners": 1296,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "bath-living__linen",
+      "corners": 888,
+      "min": 0.68,
+      "max": 0.7160145649189752
+    },
+    {
+      "mesh": "bath-living__honey ash",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.6927829233805339
+    },
+    {
+      "mesh": "bath-living__bathroom satin mirror",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7132273274660111
+    },
+    {
+      "mesh": "bath-living__bathroom warm diffuser",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.6981808821856976
+    },
+    {
+      "mesh": "bath-living__bathroom celadon ceramic",
+      "corners": 744,
+      "min": 0.68,
+      "max": 0.6924681100249291
+    },
+    {
+      "mesh": "bath-living__bathroom clear shower glass",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.682564585984995
+    },
+    {
+      "mesh": "bath-living__charcoal",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7078548958400885
+    },
+    {
+      "mesh": "core_bathwing_upper_slab__warm cut stone",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.8937500053644181
+    },
+    {
+      "mesh": "bath-bedroom__honed travertine",
+      "corners": 4736,
+      "min": 0.68,
+      "max": 0.7026766768159967
+    },
+    {
+      "mesh": "bath-bedroom__chalk limestone",
+      "corners": 4224,
+      "min": 0.68,
+      "max": 0.7400780220205586
+    },
+    {
+      "mesh": "bath-bedroom__pale oak",
+      "corners": 9288,
+      "min": 0.68,
+      "max": 0.7034900006807099
+    },
+    {
+      "mesh": "bath-bedroom__brushed brass",
+      "corners": 6672,
+      "min": 0.68,
+      "max": 0.7152404787143073
+    },
+    {
+      "mesh": "bath-bedroom__bathroom porcelain glaze",
+      "corners": 3520,
+      "min": 0.68,
+      "max": 0.6845569044848283
+    },
+    {
+      "mesh": "bath-bedroom__polished nickel",
+      "corners": 1296,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "bath-bedroom__linen",
+      "corners": 888,
+      "min": 0.68,
+      "max": 0.7037866626679897
+    },
+    {
+      "mesh": "bath-bedroom__honey ash",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.6962330028911432
+    },
+    {
+      "mesh": "bath-bedroom__bathroom satin mirror",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7243346475561461
+    },
+    {
+      "mesh": "bath-bedroom__bathroom warm diffuser",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.6972779887914659
+    },
+    {
+      "mesh": "bath-bedroom__bathroom celadon ceramic",
+      "corners": 3240,
+      "min": 0.68,
+      "max": 0.6930549964805445
+    },
+    {
+      "mesh": "bath-bedroom__bathroom clear shower glass",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.6822598163535198
+    },
+    {
+      "mesh": "bath-bedroom__charcoal",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7034052516520024
     }
   ]
 }

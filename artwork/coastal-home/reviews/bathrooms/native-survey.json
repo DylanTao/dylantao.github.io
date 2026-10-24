@@ -1,0 +1,296 @@
+{
+  "method": "BVH raycasts against retained native Blender triangles",
+  "rooms": [
+    {
+      "room": "bath-living",
+      "doorMeasuredClearWidth": 1.2,
+      "minimumRouteHeadroom": 2.34,
+      "maximumFloorDelta": 0.0025,
+      "cameraEye": [-4.907205104827881, 1.5566067695617676, 5.441188335418701],
+      "route": [
+        {
+          "branch": "route",
+          "index": 0,
+          "point": [3.27, 0.0, 5.6],
+          "floor": "core_reno_floorboards_lower",
+          "floorDelta": 0.0025,
+          "headroom": 2.3575
+        },
+        {
+          "branch": "route",
+          "index": 1,
+          "point": [-2.8, 0.0, 5.6],
+          "floor": "core_reno_floorboards_lower",
+          "floorDelta": 0.0025,
+          "headroom": 2.3575
+        },
+        {
+          "branch": "route",
+          "index": 2,
+          "point": [-4.05, 0.0, 5.6],
+          "floor": "core_reno_floorboards_lower",
+          "floorDelta": 0.0025,
+          "headroom": 2.3575
+        },
+        {
+          "branch": "route",
+          "index": 3,
+          "point": [-4.05, 0.0, 5.15],
+          "floor": "core_reno_floorboards_lower",
+          "floorDelta": 0.0025,
+          "headroom": 2.3575
+        },
+        {
+          "branch": "route",
+          "index": 4,
+          "point": [-5.6, 0.0, 5.15],
+          "floor": "bath-living__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.34
+        },
+        {
+          "branch": "route",
+          "index": 5,
+          "point": [-5.8, 0.0, 4.05],
+          "floor": "bath-living__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.34
+        },
+        {
+          "branch": "wcApproachRoute",
+          "index": 0,
+          "point": [-5.8, 0.0, 4.05],
+          "floor": "bath-living__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.34
+        },
+        {
+          "branch": "wcApproachRoute",
+          "index": 1,
+          "point": [-6.4, 0.0, 4.15],
+          "floor": "bath-living__honed travertine",
+          "floorDelta": -0.0,
+          "headroom": 2.34
+        },
+        {
+          "branch": "wcApproachRoute",
+          "index": 2,
+          "point": [-7.25, 0.0, 4.15],
+          "floor": "bath-living__honed travertine",
+          "floorDelta": -0.0,
+          "headroom": 2.34
+        },
+        {
+          "branch": "wcApproachRoute",
+          "index": 3,
+          "point": [-7.25, 0.0, 4.85],
+          "floor": "bath-living__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.34
+        },
+        {
+          "branch": "wcApproachRoute",
+          "index": 4,
+          "point": [-7.58, 0.0, 4.85],
+          "floor": "bath-living__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.34
+        },
+        {
+          "branch": "showerRoute",
+          "index": 0,
+          "point": [-5.8, 0.0, 4.05],
+          "floor": "bath-living__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.34
+        },
+        {
+          "branch": "showerRoute",
+          "index": 1,
+          "point": [-5.9, 0.0, 3.4],
+          "floor": "bath-living__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.34
+        },
+        {
+          "branch": "showerRoute",
+          "index": 2,
+          "point": [-5.9, 0.0, 2.45],
+          "floor": "bath-living__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.34
+        }
+      ],
+      "hallPrivacy": [
+        {
+          "observer": [-4.05, 1.6, 5.15],
+          "blocker": "bath-living__chalk limestone",
+          "clearanceBeforeWC": 0.8821
+        },
+        {
+          "observer": [-3.1, 1.6, 5.6],
+          "blocker": "bath-living__chalk limestone",
+          "clearanceBeforeWC": 0.8617
+        }
+      ]
+    },
+    {
+      "room": "bath-bedroom",
+      "doorMeasuredClearWidth": 1.2,
+      "minimumRouteHeadroom": 2.35,
+      "maximumFloorDelta": 0.0025,
+      "cameraEye": [-4.907205104827881, 4.156606674194336, 5.441188335418701],
+      "route": [
+        {
+          "branch": "route",
+          "index": 0,
+          "point": [-2.12, 2.6, 6.1],
+          "floor": "core_reno_floorboards_upper",
+          "floorDelta": 0.0025,
+          "headroom": 3.1533
+        },
+        {
+          "branch": "route",
+          "index": 1,
+          "point": [-3.1, 2.6, 6.1],
+          "floor": "core_reno_floorboards_upper",
+          "floorDelta": 0.0025,
+          "headroom": 2.8395
+        },
+        {
+          "branch": "route",
+          "index": 2,
+          "point": [-3.1, 2.6, 5.15],
+          "floor": "core_reno_floorboards_upper",
+          "floorDelta": 0.0025,
+          "headroom": 2.8395
+        },
+        {
+          "branch": "route",
+          "index": 3,
+          "point": [-5.6, 2.6, 5.15],
+          "floor": "bath-bedroom__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.35
+        },
+        {
+          "branch": "route",
+          "index": 4,
+          "point": [-5.8, 2.6, 4.05],
+          "floor": "bath-bedroom__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.35
+        },
+        {
+          "branch": "wcApproachRoute",
+          "index": 0,
+          "point": [-5.8, 2.6, 4.05],
+          "floor": "bath-bedroom__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.35
+        },
+        {
+          "branch": "wcApproachRoute",
+          "index": 1,
+          "point": [-6.4, 2.6, 4.15],
+          "floor": "bath-bedroom__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.35
+        },
+        {
+          "branch": "wcApproachRoute",
+          "index": 2,
+          "point": [-7.25, 2.6, 4.15],
+          "floor": "bath-bedroom__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.35
+        },
+        {
+          "branch": "wcApproachRoute",
+          "index": 3,
+          "point": [-7.25, 2.6, 4.85],
+          "floor": "bath-bedroom__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.35
+        },
+        {
+          "branch": "wcApproachRoute",
+          "index": 4,
+          "point": [-7.58, 2.6, 4.85],
+          "floor": "bath-bedroom__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.35
+        },
+        {
+          "branch": "showerRoute",
+          "index": 0,
+          "point": [-5.8, 2.6, 4.05],
+          "floor": "bath-bedroom__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.35
+        },
+        {
+          "branch": "showerRoute",
+          "index": 1,
+          "point": [-5.9, 2.6, 3.4],
+          "floor": "bath-bedroom__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.35
+        },
+        {
+          "branch": "showerRoute",
+          "index": 2,
+          "point": [-5.9, 2.6, 2.45],
+          "floor": "bath-bedroom__honed travertine",
+          "floorDelta": 0.0,
+          "headroom": 2.35
+        }
+      ],
+      "hallPrivacy": [
+        {
+          "observer": [-4.05, 4.2, 5.15],
+          "blocker": "bath-bedroom__chalk limestone",
+          "clearanceBeforeWC": 0.8821
+        },
+        {
+          "observer": [-3.1, 4.2, 5.6],
+          "blocker": "bath-bedroom__chalk limestone",
+          "clearanceBeforeWC": 0.8617
+        }
+      ]
+    }
+  ],
+  "source": {
+    "file": "artwork/coastal-home/coastal-home.blend",
+    "bytes": 23745123,
+    "gzipBytes": 23361403,
+    "sha256": "2485abd777463ae436d01a0e1197bc2ee6f5148d57b6ee0d603d60ed835fc7d1"
+  },
+  "assets": [
+    {
+      "file": "assets/models/home/home-shell.glb",
+      "bytes": 696800,
+      "gzipBytes": 533778,
+      "sha256": "d7055b9d13eb3662162fa61716e5fc06400a8c751ab604e70c663e207cea6c15"
+    },
+    {
+      "file": "assets/models/home/room-sleep.glb",
+      "bytes": 270816,
+      "gzipBytes": 231373,
+      "sha256": "c6d0b405833b2ad00fc44374391fb4e9c386b5c2fcc6a8ac2e09ae42c18e5195"
+    },
+    {
+      "file": "assets/models/home/room-bath-living.glb",
+      "bytes": 62780,
+      "gzipBytes": 39035,
+      "sha256": "4d0bbd3177bf8dc2c9ae2b45f00f773ad5654a32b05f0c473e12638e15d19da0"
+    },
+    {
+      "file": "assets/models/home/room-bath-bedroom.glb",
+      "bytes": 63544,
+      "gzipBytes": 39329,
+      "sha256": "3e1cbe2075379bf8c273071e72cd41c1dbf162809e2f29deb966d5d5320808dc"
+    }
+  ],
+  "newBathroomTriangles": 36240
+}

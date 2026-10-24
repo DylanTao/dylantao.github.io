@@ -9,10 +9,11 @@ import sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 room=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--room=')),None)
-assert room is None or room in ('study','sleep','kitchen','gym','onsen','lounge'),room
+ROOMS=('study','sleep','kitchen','gym','onsen','lounge','bath-living','bath-bedroom')
+assert room is None or room in ROOMS,room
 # --prefixes=core_,kitchen_ bakes a chosen set (the interior pass rebuilds the shell's floors with a room).
 chosen=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--prefixes=')),None)
-prefixes=tuple(chosen.split(',')) if chosen else (room+'_',) if room else ('core_','study_','kitchen_','lounge_','sleep_','gym_','onsen_')
+prefixes=tuple(chosen.split(',')) if chosen else (room+'_',) if room else ('core_',)+tuple(r+'_' for r in ROOMS)
 source=ROOT/'artwork/coastal-home/coastal-home.blend'
 bpy.ops.wm.open_mainfile(filepath=str(source))
 scene=bpy.context.scene
@@ -79,7 +80,7 @@ bpy.data.objects.remove(light,do_unlink=True)
 bpy.context.preferences.filepaths.save_version=0
 bpy.ops.wm.save_as_mainfile(filepath=str(source),compress=True)
 # A chosen set leaves exporting to optimize_coastal_exports.py -- --only=..., so other files keep their bytes.
-exports=[] if chosen else [('room-'+room,room+'_')] if room else [('home-shell','core_'),('flora','core_flora_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]
+exports=[] if chosen else [('room-'+room,room+'_')] if room else [('home-shell','core_'),('flora','core_flora_')]+[('room-'+r,r+'_') for r in ROOMS]
 for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:

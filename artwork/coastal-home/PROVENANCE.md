@@ -1,5 +1,39 @@
 # Coastal home asset provenance
 
+## October 23: two carved bathrooms
+
+`coastal_bathrooms.py` and `refresh_coastal_bathrooms.py` continue the retained Blender 4.5.9
+house with an original stacked bathroom wing on the bedroom side. The guest bathroom opens from
+the living floor's rear aisle; the upper room is a bedroom en suite. The actual sandstone is
+excavated for both rooms and their 1.2 m wall apertures, preserving unaffected connected coastal
+components. New structural slabs, plaster enclosure and a native lift-away cliff section retain
+the house's enclosed Walk view and cutaway orbit views. Existing entrance, bed, desk and onsen
+anchors stay in place.
+
+Both rooms contain a real hollow wall-hung WC and separate seat/lid, a fluted floating oak vanity,
+an original hollow vessel basin with visible drain, inset mirror storage, satin bronze fittings,
+a curbless walk-in shower, a genuine recessed bathing niche, a linear drain and one folded linen.
+The en suite uses a restrained celadon ceramic shower zone; the guest room uses warm honed stone.
+Fixed shower glass has a thin bronze free-edge stile to make the physical pane readable. A
+full-height rounded plaster nib screens each WC from the hall. The doors are visibly parked oak
+pocket leaves; the actual opening is traversable without ignoring any visible solid.
+
+The fitted bedroom wardrobe is rebuilt as three useful bays, leaving a generous dressing approach.
+The existing guest-threshold planter's pot, soil, stems and leaves move together to an adjacent
+solid wall. These decisions followed tests of the delivered Draco meshes: early tests caught a
+thin wardrobe front left by a Boolean and separate foliage/stem islands left in the route. Both
+were corrected in the native source rather than weakening collision. Transparent shower screens
+are explicitly solid to walking; the open gap remains curbless and usable.
+
+`review_coastal_bathrooms.py` records source-native floors, headroom, real wall aperture widths and
+hall-to-WC occlusion. `reviews/bathrooms/` retains the survey, editable-geometry counts, and three
+actual Eevee renders. The browser supplies its own authored material detail and bounded practical
+light transport. The two original compressed room exports add no texture downloads or render
+passes. Their neutral AO/indirect vertex colours use the existing 24-sample Cycles bake, with
+driver-side lighting and shader compilation remaining runtime work. Fixture-line endpoints and
+bounded lighting regions are authored in each room's manifest entry, rather than approximated by
+new global PointLights. No plumbing simulation or sanitary activity animation is claimed.
+
 ## October 23: main entrance to the living floor
 
 `refresh_coastal_arrival_living.py` continues the retained Blender 4.5.9 source. The original

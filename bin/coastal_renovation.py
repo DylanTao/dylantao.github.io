@@ -74,7 +74,7 @@ def apply_palette():
 
 # Edges ----------------------------------------------------------------------------------------
 
-ROOM_PREFIXES = ("core_", "study_", "kitchen_", "lounge_", "sleep_", "gym_", "onsen_")
+ROOM_PREFIXES = ("core_", "study_", "kitchen_", "lounge_", "sleep_", "gym_", "onsen_", "bath-living_", "bath-bedroom_")
 # Organic, sculpted or carved meshes keep their authored normals; glass, water and paper stay flat.
 KEEP = ("golden coastal sandstone", "liftaway", "shadow_vault", "flora", "duvet", "pillow", "water", "whiteboard_face")
 FLAT_MATERIALS = ("glass", "leaf", "foliage", "paper", "canvas", "cork", "embers", "bulb", "cable", "water", "turquoise")

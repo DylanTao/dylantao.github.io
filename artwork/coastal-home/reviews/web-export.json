@@ -134,13 +134,13 @@
     },
     {
       "mesh": "core_liftaway_cave_ceiling",
-      "facesBefore": 1074,
-      "facesExported": 1074
+      "facesBefore": 1079,
+      "facesExported": 1079
     },
     {
       "mesh": "core__golden coastal sandstone",
-      "facesBefore": 33732,
-      "facesExported": 33732
+      "facesBefore": 33693,
+      "facesExported": 33693
     },
     {
       "mesh": "coast_shared_dry beach sand",
@@ -659,8 +659,8 @@
     },
     {
       "mesh": "core_liftaway_cave_ceiling_rear",
-      "facesBefore": 258,
-      "facesExported": 258
+      "facesBefore": 252,
+      "facesExported": 252
     },
     {
       "mesh": "core_reno_slab_ground",
@@ -691,21 +691,6 @@
       "mesh": "core_reno_stair_guard_rods",
       "facesBefore": 384,
       "facesExported": 384
-    },
-    {
-      "mesh": "sleep_reno_wardrobe",
-      "facesBefore": 490,
-      "facesExported": 490
-    },
-    {
-      "mesh": "sleep_reno_wardrobe_plinth",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "sleep_reno_wardrobe_pulls",
-      "facesBefore": 48,
-      "facesExported": 48
     },
     {
       "mesh": "onsen_shadow_vault",
@@ -1301,6 +1286,176 @@
       "mesh": "core_arrival_lower__honey ash",
       "facesBefore": 420,
       "facesExported": 420
+    },
+    {
+      "mesh": "core_bathwing_liftaway_roof",
+      "facesBefore": 52,
+      "facesExported": 52
+    },
+    {
+      "mesh": "sleep_reno_wardrobe__pale oak",
+      "facesBefore": 392,
+      "facesExported": 392
+    },
+    {
+      "mesh": "sleep_reno_wardrobe__honey ash",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "sleep_reno_wardrobe__polished nickel",
+      "facesBefore": 36,
+      "facesExported": 36
+    },
+    {
+      "mesh": "core_bathwing_lower_slab__warm cut stone",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "core_bathwing_lower_ceiling__chalk limestone",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "bath-living__honed travertine",
+      "facesBefore": 1516,
+      "facesExported": 1516
+    },
+    {
+      "mesh": "bath-living__chalk limestone",
+      "facesBefore": 1078,
+      "facesExported": 1078
+    },
+    {
+      "mesh": "bath-living__pale oak",
+      "facesBefore": 2318,
+      "facesExported": 2318
+    },
+    {
+      "mesh": "bath-living__brushed brass",
+      "facesBefore": 1600,
+      "facesExported": 1600
+    },
+    {
+      "mesh": "bath-living__bathroom porcelain glaze",
+      "facesBefore": 1274,
+      "facesExported": 1274
+    },
+    {
+      "mesh": "bath-living__polished nickel",
+      "facesBefore": 322,
+      "facesExported": 322
+    },
+    {
+      "mesh": "bath-living__linen",
+      "facesBefore": 218,
+      "facesExported": 218
+    },
+    {
+      "mesh": "bath-living__honey ash",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "bath-living__bathroom satin mirror",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "bath-living__bathroom warm diffuser",
+      "facesBefore": 294,
+      "facesExported": 294
+    },
+    {
+      "mesh": "bath-living__bathroom celadon ceramic",
+      "facesBefore": 164,
+      "facesExported": 164
+    },
+    {
+      "mesh": "bath-living__bathroom clear shower glass",
+      "facesBefore": 54,
+      "facesExported": 54
+    },
+    {
+      "mesh": "bath-living__charcoal",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "core_bathwing_upper_slab__warm cut stone",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "core_bathwing_upper_ceiling__chalk limestone",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "bath-bedroom__honed travertine",
+      "facesBefore": 1232,
+      "facesExported": 1232
+    },
+    {
+      "mesh": "bath-bedroom__chalk limestone",
+      "facesBefore": 1078,
+      "facesExported": 1078
+    },
+    {
+      "mesh": "bath-bedroom__pale oak",
+      "facesBefore": 2318,
+      "facesExported": 2318
+    },
+    {
+      "mesh": "bath-bedroom__brushed brass",
+      "facesBefore": 1600,
+      "facesExported": 1600
+    },
+    {
+      "mesh": "bath-bedroom__bathroom porcelain glaze",
+      "facesBefore": 882,
+      "facesExported": 882
+    },
+    {
+      "mesh": "bath-bedroom__polished nickel",
+      "facesBefore": 322,
+      "facesExported": 322
+    },
+    {
+      "mesh": "bath-bedroom__linen",
+      "facesBefore": 218,
+      "facesExported": 218
+    },
+    {
+      "mesh": "bath-bedroom__honey ash",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "bath-bedroom__bathroom satin mirror",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "bath-bedroom__bathroom warm diffuser",
+      "facesBefore": 294,
+      "facesExported": 294
+    },
+    {
+      "mesh": "bath-bedroom__bathroom celadon ceramic",
+      "facesBefore": 840,
+      "facesExported": 840
+    },
+    {
+      "mesh": "bath-bedroom__bathroom clear shower glass",
+      "facesBefore": 54,
+      "facesExported": 54
+    },
+    {
+      "mesh": "bath-bedroom__charcoal",
+      "facesBefore": 98,
+      "facesExported": 98
     }
   ]
 }

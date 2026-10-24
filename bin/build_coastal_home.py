@@ -1430,7 +1430,7 @@ elif "--export-only" in sys.argv:
         [("home-shell", "core_")]
         + [
             ("room-" + r, r + "_")
-            for r in ("study", "sleep", "kitchen", "gym", "onsen", "lounge")
+            for r in (room["id"] for room in CONFIG["rooms"])
         ]
         + [("coast", "coast_")]
     ):

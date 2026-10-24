@@ -6,7 +6,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 room=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--room=')),None)
 interiors_only='--interiors-only' in sys.argv
-assert room is None or room in ('study','sleep','kitchen','gym','onsen','lounge'),room
+ROOMS=('study','sleep','kitchen','gym','onsen','lounge','bath-living','bath-bedroom')
+assert room is None or room in ROOMS,room
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'artwork/coastal-home/coastal-home.blend'))
 scene=bpy.context.scene
 report=[]
@@ -34,7 +35,7 @@ for o in scene.objects:
         bpy.ops.object.modifier_apply(modifier=mod.name)
     report.append({'mesh':o.name,'facesBefore':before,'facesExported':len(o.data.polygons)})
 # The clifftop planting streams after the first frame as its own file (refresh_coastal_flora.py).
-exports=[('room-'+room,room+'_')] if room else [('home-shell','core_'),('flora','core_flora_')]+[('room-'+r,r+'_') for r in ('study','sleep','kitchen','gym','onsen','lounge')]+[('coast','coast_')]
+exports=[('room-'+room,room+'_')] if room else [('home-shell','core_'),('flora','core_flora_')]+[('room-'+r,r+'_') for r in ROOMS]+[('coast','coast_')]
 if interiors_only:exports=[e for e in exports if e[0]!='coast']
 # --only=home-shell,room-kitchen re-exports just those files, so unchanged ones keep their bytes.
 only=next((a.split('=',1)[1].split(',') for a in sys.argv if a.startswith('--only=')),None)

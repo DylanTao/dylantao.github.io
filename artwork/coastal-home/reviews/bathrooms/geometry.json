@@ -1,0 +1,515 @@
+{
+  "rooms": [
+    {
+      "id": "bath-living",
+      "label": "Guest bathroom",
+      "file": "room-bath-living.glb",
+      "floor": 0.0,
+      "offset": [0, 0.0, 0],
+      "target": [-6.7, 1.05, 3.7],
+      "actor": [-5.8, 0.0, 4.05],
+      "facing": 0,
+      "egress": [3.27, 0.0, 5.6],
+      "exitPath": [
+        [-5.6, 0.0, 5.15],
+        [-4.05, 0.0, 5.15],
+        [-4.05, 0.0, 5.6],
+        [-2.8, 0.0, 5.6],
+        [3.27, 0.0, 5.6]
+      ],
+      "camera": {
+        "radius": 2.55,
+        "yaw": 0.8,
+        "pitch": 0.2,
+        "fov": 54,
+        "envelope": {
+          "yaw": [0.45, 0.95],
+          "pitch": [0.12, 0.42],
+          "radius": [1.9, 2.7]
+        }
+      },
+      "bathroom": {
+        "kind": "guest",
+        "entry": [-4.45, 0.0, 5.15],
+        "doorWidth": 1.2,
+        "headroom": 2.35,
+        "route": [
+          [3.27, 0.0, 5.6],
+          [-2.8, 0.0, 5.6],
+          [-4.05, 0.0, 5.6],
+          [-4.05, 0.0, 5.15],
+          [-5.6, 0.0, 5.15],
+          [-5.8, 0.0, 4.05]
+        ],
+        "wcApproachRoute": [
+          [-5.8, 0.0, 4.05],
+          [-6.4, 0.0, 4.15],
+          [-7.25, 0.0, 4.15],
+          [-7.25, 0.0, 4.85],
+          [-7.58, 0.0, 4.85]
+        ],
+        "showerRoute": [
+          [-5.8, 0.0, 4.05],
+          [-5.9, 0.0, 3.4],
+          [-5.9, 0.0, 2.45]
+        ],
+        "headroomProbes": [
+          [-4.45, 0.0, 5.15],
+          [-5.8, 0.0, 4.05],
+          [-5.9, 0.0, 2.45]
+        ],
+        "privacy": {
+          "target": [-7.58, 0.46, 5.53],
+          "observers": [
+            [-4.05, 1.6, 5.15],
+            [-3.1, 1.6, 5.6]
+          ]
+        },
+        "wc": {
+          "center": [-7.58, 0.0, 5.53],
+          "seatHeight": 0.46,
+          "bowlInnerDepth": 0.205
+        },
+        "shower": {
+          "min": [-8.2, 0.0, 1.9],
+          "max": [-4.9, 2.3, 3.0]
+        }
+      },
+      "lightRegion": {
+        "min": [-8.25, 0.0, 1.85],
+        "max": [-4.38, 2.35, 6.1]
+      },
+      "lighting": {
+        "lines": [
+          {
+            "id": "mirror",
+            "a": [-8.1, 2.16, 4.31],
+            "b": [-8.1, 2.16, 2.99],
+            "intensity": 0.7
+          },
+          {
+            "id": "shower",
+            "a": [-7.95, 2.24, 1.96],
+            "b": [-5.12, 2.24, 1.96],
+            "intensity": 0.52
+          }
+        ]
+      }
+    },
+    {
+      "id": "bath-bedroom",
+      "label": "Bedroom en suite",
+      "file": "room-bath-bedroom.glb",
+      "floor": 2.6,
+      "offset": [0, 2.6, 0],
+      "target": [-6.7, 3.65, 3.7],
+      "actor": [-5.8, 2.6, 4.05],
+      "facing": 0,
+      "egress": [-2.12, 2.6, 6.1],
+      "exitPath": [
+        [-5.6, 2.6, 5.15],
+        [-3.1, 2.6, 5.15],
+        [-3.1, 2.6, 6.1],
+        [-2.12, 2.6, 6.1]
+      ],
+      "camera": {
+        "radius": 2.55,
+        "yaw": 0.8,
+        "pitch": 0.2,
+        "fov": 54,
+        "envelope": {
+          "yaw": [0.45, 0.95],
+          "pitch": [0.12, 0.42],
+          "radius": [1.9, 2.7]
+        }
+      },
+      "bathroom": {
+        "kind": "ensuite",
+        "entry": [-4.45, 2.6, 5.15],
+        "doorWidth": 1.2,
+        "headroom": 2.35,
+        "route": [
+          [-2.12, 2.6, 6.1],
+          [-3.1, 2.6, 6.1],
+          [-3.1, 2.6, 5.15],
+          [-5.6, 2.6, 5.15],
+          [-5.8, 2.6, 4.05]
+        ],
+        "wcApproachRoute": [
+          [-5.8, 2.6, 4.05],
+          [-6.4, 2.6, 4.15],
+          [-7.25, 2.6, 4.15],
+          [-7.25, 2.6, 4.85],
+          [-7.58, 2.6, 4.85]
+        ],
+        "showerRoute": [
+          [-5.8, 2.6, 4.05],
+          [-5.9, 2.6, 3.4],
+          [-5.9, 2.6, 2.45]
+        ],
+        "headroomProbes": [
+          [-4.45, 2.6, 5.15],
+          [-5.8, 2.6, 4.05],
+          [-5.9, 2.6, 2.45]
+        ],
+        "privacy": {
+          "target": [-7.58, 3.06, 5.53],
+          "observers": [
+            [-4.05, 4.2, 5.15],
+            [-3.1, 4.2, 5.6]
+          ]
+        },
+        "wc": {
+          "center": [-7.58, 2.6, 5.53],
+          "seatHeight": 0.46,
+          "bowlInnerDepth": 0.205
+        },
+        "shower": {
+          "min": [-8.2, 2.6, 1.9],
+          "max": [-4.9, 4.9, 3.0]
+        }
+      },
+      "lightRegion": {
+        "min": [-8.25, 2.6, 1.85],
+        "max": [-4.38, 4.95, 6.1]
+      },
+      "lighting": {
+        "lines": [
+          {
+            "id": "mirror",
+            "a": [-8.1, 4.76, 4.31],
+            "b": [-8.1, 4.76, 2.99],
+            "intensity": 0.7
+          },
+          {
+            "id": "shower",
+            "a": [-7.95, 4.84, 1.96],
+            "b": [-5.12, 4.84, 1.96],
+            "intensity": 0.52
+          }
+        ]
+      }
+    }
+  ],
+  "cuts": [
+    {
+      "mesh": "core_liftaway_cave_ceiling",
+      "cuts": [
+        {
+          "skippedDisjoint": false,
+          "preservedVertices": 0,
+          "affectedVertices": 1419,
+          "cutNonManifold": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 1425,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": false,
+          "preservedVertices": 0,
+          "affectedVertices": 1425,
+          "cutNonManifold": 0
+        }
+      ]
+    },
+    {
+      "mesh": "core__golden coastal sandstone",
+      "cuts": [
+        {
+          "skippedDisjoint": false,
+          "preservedVertices": 0,
+          "affectedVertices": 34373,
+          "cutNonManifold": 0
+        },
+        {
+          "skippedDisjoint": false,
+          "preservedVertices": 0,
+          "affectedVertices": 34359,
+          "cutNonManifold": 0
+        },
+        {
+          "skippedDisjoint": false,
+          "preservedVertices": 0,
+          "affectedVertices": 34359,
+          "cutNonManifold": 0
+        }
+      ]
+    },
+    {
+      "mesh": "core_lightwell_rim",
+      "cuts": [
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 588,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 588,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 588,
+          "affectedVertices": 0
+        }
+      ]
+    },
+    {
+      "mesh": "core_facade_lunette_frame",
+      "cuts": [
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 356,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 356,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 356,
+          "affectedVertices": 0
+        }
+      ]
+    },
+    {
+      "mesh": "core_facade_lunette_glass",
+      "cuts": [
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 130,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 130,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 130,
+          "affectedVertices": 0
+        }
+      ]
+    },
+    {
+      "mesh": "core_liftaway_cave_ceiling_rear",
+      "cuts": [
+        {
+          "skippedDisjoint": false,
+          "preservedVertices": 0,
+          "affectedVertices": 369,
+          "cutNonManifold": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 374,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": false,
+          "preservedVertices": 0,
+          "affectedVertices": 374,
+          "cutNonManifold": 0
+        }
+      ]
+    },
+    {
+      "mesh": "core_fireplace_cap__blackened steel flue",
+      "cuts": [
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 48,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 48,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 48,
+          "affectedVertices": 0
+        }
+      ]
+    },
+    {
+      "mesh": "core_fireplace_cap__golden coastal sandstone",
+      "cuts": [
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 1134,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 1134,
+          "affectedVertices": 0
+        },
+        {
+          "skippedDisjoint": true,
+          "preservedVertices": 1134,
+          "affectedVertices": 0
+        }
+      ]
+    }
+  ],
+  "geometry": [
+    {
+      "name": "core_bathwing_lower_slab__warm cut stone",
+      "vertices": 96,
+      "triangles": 188
+    },
+    {
+      "name": "core_bathwing_lower_ceiling__chalk limestone",
+      "vertices": 96,
+      "triangles": 188
+    },
+    {
+      "name": "bath-living__honed travertine",
+      "vertices": 1416,
+      "triangles": 2632
+    },
+    {
+      "name": "bath-living__chalk limestone",
+      "vertices": 1056,
+      "triangles": 2068
+    },
+    {
+      "name": "bath-living__pale oak",
+      "vertices": 2408,
+      "triangles": 4652
+    },
+    {
+      "name": "bath-living__brushed brass",
+      "vertices": 1864,
+      "triangles": 3472
+    },
+    {
+      "name": "bath-living__bathroom porcelain glaze",
+      "vertices": 1272,
+      "triangles": 2540
+    },
+    {
+      "name": "bath-living__polished nickel",
+      "vertices": 336,
+      "triangles": 652
+    },
+    {
+      "name": "bath-living__linen",
+      "vertices": 232,
+      "triangles": 452
+    },
+    {
+      "name": "bath-living__honey ash",
+      "vertices": 96,
+      "triangles": 188
+    },
+    {
+      "name": "bath-living__bathroom satin mirror",
+      "vertices": 96,
+      "triangles": 188
+    },
+    {
+      "name": "bath-living__bathroom warm diffuser",
+      "vertices": 288,
+      "triangles": 564
+    },
+    {
+      "name": "bath-living__bathroom celadon ceramic",
+      "vertices": 216,
+      "triangles": 416
+    },
+    {
+      "name": "bath-living__bathroom clear shower glass",
+      "vertices": 56,
+      "triangles": 108
+    },
+    {
+      "name": "bath-living__charcoal",
+      "vertices": 96,
+      "triangles": 188
+    },
+    {
+      "name": "core_bathwing_upper_slab__warm cut stone",
+      "vertices": 96,
+      "triangles": 188
+    },
+    {
+      "name": "core_bathwing_upper_ceiling__chalk limestone",
+      "vertices": 96,
+      "triangles": 188
+    },
+    {
+      "name": "bath-bedroom__honed travertine",
+      "vertices": 1184,
+      "triangles": 2272
+    },
+    {
+      "name": "bath-bedroom__chalk limestone",
+      "vertices": 1056,
+      "triangles": 2068
+    },
+    {
+      "name": "bath-bedroom__pale oak",
+      "vertices": 2408,
+      "triangles": 4652
+    },
+    {
+      "name": "bath-bedroom__brushed brass",
+      "vertices": 1864,
+      "triangles": 3472
+    },
+    {
+      "name": "bath-bedroom__bathroom porcelain glaze",
+      "vertices": 880,
+      "triangles": 1756
+    },
+    {
+      "name": "bath-bedroom__polished nickel",
+      "vertices": 336,
+      "triangles": 652
+    },
+    {
+      "name": "bath-bedroom__linen",
+      "vertices": 232,
+      "triangles": 452
+    },
+    {
+      "name": "bath-bedroom__honey ash",
+      "vertices": 96,
+      "triangles": 188
+    },
+    {
+      "name": "bath-bedroom__bathroom satin mirror",
+      "vertices": 96,
+      "triangles": 188
+    },
+    {
+      "name": "bath-bedroom__bathroom warm diffuser",
+      "vertices": 288,
+      "triangles": 564
+    },
+    {
+      "name": "bath-bedroom__bathroom celadon ceramic",
+      "vertices": 840,
+      "triangles": 1560
+    },
+    {
+      "name": "bath-bedroom__bathroom clear shower glass",
+      "vertices": 56,
+      "triangles": 108
+    },
+    {
+      "name": "bath-bedroom__charcoal",
+      "vertices": 96,
+      "triangles": 188
+    }
+  ]
+}
