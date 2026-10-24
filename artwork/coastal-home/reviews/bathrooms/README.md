@@ -15,6 +15,9 @@ pocket recesses, so access needs no new interaction control.
 
 `geometry.json` records the authored objects and manifest contacts. `native-survey.json` records
 raycasts against retained source triangles, plus exact source/export hashes and compressed sizes.
+The shell also contains persistent `anchor_bath-living` and `anchor_bath-bedroom` EMPTY contacts
+matching the room actor coordinates. `anchor-custody.json` verifies that adding those contacts
+preserved all 291 retained meshes, including topology, material indices and baked vertex colours.
 The authored stone door apertures are 1.2 m; the delivered minimum framed widths are measured
 separately by the native Draco/capsule acceptance test, rather than represented as the same number.
 Room ceilings provide roughly 2.34–2.35 m and the upper doorway about 2.28 m of clear height.
@@ -46,3 +49,8 @@ blender --background --python-exit-code 1 --python bin/refresh_coastal_bathrooms
 The preview does not save the source or manifest. After geometry/metadata integration, regenerate
 the runtime static-light transport cache and loading sketch using their existing owned-preview
 commands; the old transport cache must not be accepted for this geometry.
+
+For an anchor-only repair, `refresh_coastal_bathrooms.py -- --anchors-only` updates the two EMPTY
+contacts without rebuilding furniture or changing its baked colours; then export the shell and
+refresh the source-bound perch metadata and native survey. The normal refresh creates the same
+anchors idempotently.

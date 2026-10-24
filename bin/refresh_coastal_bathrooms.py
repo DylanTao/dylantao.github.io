@@ -16,6 +16,12 @@ manifest = ROOT / "assets/models/home/manifest.json"
 bpy.ops.wm.open_mainfile(filepath=str(source))
 scene = bpy.context.scene
 config = json.loads(manifest.read_text(encoding="utf-8"))
+if "--anchors-only" in sys.argv:
+    anchors = baths.sync_room_anchors(scene, config["rooms"])
+    bpy.context.preferences.filepaths.save_version = 0
+    bpy.ops.wm.save_as_mainfile(filepath=str(source), compress=True)
+    print(json.dumps({"anchors": [o.name for o in anchors], "mode": "anchors-only; retained mesh geometry and baked colours unchanged"}), flush=True)
+    sys.exit(0)
 objects, report = baths.build(scene, config)
 renovation.soften_interiors(objects)
 out = Path(args.get("preview", "artwork/coastal-home/reviews/bathrooms"))

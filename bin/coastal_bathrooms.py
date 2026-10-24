@@ -292,6 +292,26 @@ def _shower(p, m, floor, upper):
             "b": web((-5.12, -1.96, floor+2.24)), "intensity": .52}
 
 
+def sync_room_anchors(scene, rooms):
+    """Persist the same actor contacts as source-native EMPTY anchors in the shell."""
+    anchors = []
+    for room in rooms:
+        if not room.get("bathroom"):
+            continue
+        name = "anchor_"+room["id"]
+        obj = bpy.data.objects.get(name)
+        if obj is None:
+            obj = bpy.data.objects.new(name, None)
+            scene.collection.objects.link(obj)
+        assert obj.type == "EMPTY", (name, obj.type)
+        x, y, z = room["actor"]
+        obj.location = (x, -z, y)
+        obj.empty_display_type = "PLAIN_AXES"
+        obj.empty_display_size = .15
+        anchors.append(obj)
+    return anchors
+
+
 def build(scene, config):
     for obj in list(scene.objects):
         if obj.name.startswith(("bath-living_", "bath-bedroom_", "core_bathwing_")) and not obj.get("closedSolid"):
@@ -346,6 +366,7 @@ def build(scene, config):
              "lighting": {"lines": lines}}
         metadata.append(r)
     config["rooms"] = [r for r in config["rooms"] if r["id"] not in {q[0] for q in ROOMS}]+metadata
+    sync_room_anchors(scene, metadata)
     config["terrain"]["supportSurfaces"] = [s for s in config["terrain"]["supportSurfaces"] if not s["id"].startswith(("bath-living-", "bath-bedroom-"))]+supports
     config["terrain"].setdefault("contacts", {}).update({r["id"]: {k:r[k] for k in ("actor", "egress", "floor", "exitPath")} for r in metadata})
     # Split the retained left-side analytic wall around the real door in each

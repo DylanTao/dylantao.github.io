@@ -262,16 +262,16 @@
   ],
   "source": {
     "file": "artwork/coastal-home/coastal-home.blend",
-    "bytes": 23745123,
-    "gzipBytes": 23361403,
-    "sha256": "2485abd777463ae436d01a0e1197bc2ee6f5148d57b6ee0d603d60ed835fc7d1"
+    "bytes": 23744580,
+    "gzipBytes": 23362039,
+    "sha256": "909c1747e166aa17bbceea58b29a0b751b99f61952a15b8bef7a7b753fd54d62"
   },
   "assets": [
     {
       "file": "assets/models/home/home-shell.glb",
-      "bytes": 696800,
-      "gzipBytes": 533778,
-      "sha256": "d7055b9d13eb3662162fa61716e5fc06400a8c751ab604e70c663e207cea6c15"
+      "bytes": 696996,
+      "gzipBytes": 533829,
+      "sha256": "89b0ce86335b314e54c71259be619de6c0b865ffc9a7cb9696bbbb8ec3324983"
     },
     {
       "file": "assets/models/home/room-sleep.glb",
