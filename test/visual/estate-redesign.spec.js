@@ -17,7 +17,7 @@ async function inputFrame(page, scene, canvas, input) {
   await expect
     .poll(
       async () => {
-        await page.clock.runFor(200);
+        await page.clock.runFor(32);
         return (await stateOf(scene)).frames;
       },
       { timeout: 60000 }
@@ -80,6 +80,19 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
   const receipts = [];
   const pose = async () => (await stateOf(scene)).walk;
   const door = async (id) => (await stateOf(scene)).simulation.estateDoors.doors.find((entry) => entry.id === id);
+  async function settleDoor(id, fraction) {
+    await expect
+      .poll(
+        async () => {
+          const current = await door(id);
+          if (current.fraction === fraction) return current.fraction;
+          await page.clock.runFor(32);
+          return (await door(id)).fraction;
+        },
+        { timeout: 120000 }
+      )
+      .toBe(fraction);
+  }
   async function place(position, yaw) {
     expect(await scene.evaluate((element, value) => element.setLabWalk(value), { position, yaw, pitch: 0 })).toBe(true);
   }
@@ -101,7 +114,7 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
     for (const definition of config.estateDoors) {
       const { id } = definition;
       await inputFrame(page, scene, canvas, () => place(config.walk.start.position, config.walk.start.yaw));
-      await page.clock.runFor(1000);
+      await settleDoor(id, 0);
       expect((await door(id)).fraction, `${id}: closed while the visitor is outside`).toBe(0);
       const resting = await doorParts(scene, id);
       expect(resting.length).toBeGreaterThanOrEqual(2);
@@ -110,7 +123,7 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
       const partial = await door(id);
       expect(partial.fraction, `${id}: the actual leaf begins moving on approach`).toBeGreaterThan(0);
       expect(partial.fraction, `${id}: respects its bounded opening animation`).toBeLessThan(1);
-      await page.clock.runFor(1000);
+      await settleDoor(id, 1);
       const opened = await door(id);
       expect(opened.fraction).toBe(1);
       expect(opened.offset).toBeCloseTo(definition.slideX, 3);
@@ -130,7 +143,7 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
       expect(outside.position[2]).toBeGreaterThan(z + 0.6);
       expect(outside.distance - before.distance, `${id}: complete physical round trip`).toBeGreaterThan(2.6);
       await inputFrame(page, scene, canvas, () => place(config.walk.start.position, config.walk.start.yaw));
-      await page.clock.runFor(1000);
+      await settleDoor(id, 0);
       const closed = await door(id);
       expect(closed.fraction).toBe(0);
       const returned = await doorParts(scene, id);

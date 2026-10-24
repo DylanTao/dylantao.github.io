@@ -88,6 +88,19 @@ assertions. Software rendering uses the existing ten-minute walking-test budget
 for its serial video and evidence collection; the native frame clock and hard
 18-second soak assertion remain intact. The prior five-minute limit expired
 while collecting final backend metadata after the behavior had passed.
+Its frame observer now follows the journey through a rendered arrival and is
+cancelled explicitly during finalization. A pre-refresh 30-second recording window
+could expire before the stair on a slow software renderer. The observer retains
+the actual-frame gate, native clock, 2,000-sample ceiling and the unchanged
+requirement for a rendered walking frame above the stair threshold; reaching the
+sample ceiling fails explicitly. The existing whole-test budget bounds its lifetime.
+The [Linux Mesa rerun](native-journey-observer.json) retains two actual walking
+frames above the stair threshold (Root heights 1.409 m and 2.6 m), then a rendered
+soak arrival. Its observer remained active for 34.65 seconds and stopped at arrival.
+The software door proof likewise waits for actual open/closed endpoints instead
+of advancing a fixed extra second after each placement. Its input polling advances
+32 ms at a time and still requires a new rendered frame. All physical round-trip,
+moving-leaf, body-floor and closure assertions retain the original ten-minute budget.
 
 Night review added useful output to the two actual library task lamps and pavilion
 pendants. The reading lamp's transport radius matches its shade, so the shade does

@@ -3289,16 +3289,30 @@ test("coastal home: a routine boundary walks through the home before settling in
     await expect(ui.locator("[data-world-pause]")).toBeEnabled();
     await scene.evaluate((element) => {
       const initial = element.getSceneEvidence(),
-        deadline = performance.now() + 30000,
         proof = {
           samples: [],
           initialFrames: initial.frames,
           frameClock: window.coastalProofFrameClock,
           pixelEvidence: "Native browser video and original canvas screenshots",
+          observation: { startedAt: performance.now(), stoppedAt: null, stopReason: null, sampleLimit: 2000 },
         };
       window.coastalRoutineJourneyProof = proof;
-      let observedFrame = initial.frames;
+      let observedFrame = initial.frames,
+        observedWalk = false;
+      const observer = {
+        active: true,
+        raf: 0,
+        stop(reason) {
+          if (!this.active) return;
+          this.active = false;
+          cancelAnimationFrame(this.raf);
+          proof.observation.stoppedAt = performance.now();
+          proof.observation.stopReason = reason;
+        },
+      };
+      window.coastalRoutineJourneyObserver = observer;
       function observe(now) {
+        if (!observer.active) return;
         const state = element.getSceneEvidence();
         if (state.frames > observedFrame) {
           observedFrame = state.frames;
@@ -3311,10 +3325,16 @@ test("coastal home: a routine boundary walks through the home before settling in
             root: state.joints.Root,
           };
           proof.samples.push(sample);
+          observedWalk ||= sample.animation === "walk";
+          if (observedWalk && sample.animation === "soak") observer.stop("rendered-arrival");
         }
-        if (now < deadline && proof.samples.length < 2000) requestAnimationFrame(observe);
+        if (proof.samples.length >= proof.observation.sampleLimit) observer.stop("sample-limit");
+        if (observer.active) observer.raf = requestAnimationFrame(observe);
       }
-      requestAnimationFrame(observe);
+      // Setup and screenshots can outlast a short wall-clock window on software
+      // WebGL. Observe the actual route through arrival; finally always cancels
+      // the recorder within the existing whole-test budget.
+      observer.raf = requestAnimationFrame(observe);
     });
     try {
       await page.clock.setSystemTime(new Date("2026-09-13T16:00:01-07:00"));
@@ -3375,9 +3395,13 @@ test("coastal home: a routine boundary walks through the home before settling in
       const renderedStair = await page.evaluate(() =>
         window.coastalRoutineJourneyProof.samples.some((sample) => sample.animation === "walk" && sample.root[1] > 0.5)
       );
+      expect(await page.evaluate(() => window.coastalRoutineJourneyProof.observation.stopReason)).not.toBe("sample-limit");
       expect(renderedStair).toBe(true);
     } finally {
-      const proof = await page.evaluate(() => window.coastalRoutineJourneyProof);
+      const proof = await page.evaluate(() => {
+        window.coastalRoutineJourneyObserver.stop("journey-finalized");
+        return window.coastalRoutineJourneyProof;
+      });
       fs.writeFileSync(testInfo.outputPath("native-journey-frames.json"), JSON.stringify({ ...proof, performanceBenchmark: false }, null, 2));
       await testInfo.attach("native-journey-frames", {
         body: JSON.stringify({ ...proof, performanceBenchmark: false }, null, 2),

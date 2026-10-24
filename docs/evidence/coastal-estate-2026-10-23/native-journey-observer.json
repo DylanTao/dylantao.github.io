@@ -1,0 +1,102 @@
+{
+  "samples": [
+    {
+      "now": 139103.5,
+      "frames": 12,
+      "seconds": 17.53256666666666,
+      "animation": "lounge",
+      "navigation": null,
+      "root": [-0.15, -0.7049999934434891, 0.61]
+    },
+    {
+      "now": 143453.3,
+      "frames": 13,
+      "seconds": 21.88236666666665,
+      "animation": "walk",
+      "navigation": {
+        "progress": 0,
+        "duration": 21.943020335165667,
+        "position": [-0.15, -0.42, 0.61]
+      },
+      "root": [-0.15, -0.42, 0.61]
+    },
+    {
+      "now": 147536.5,
+      "frames": 14,
+      "seconds": 25.96556666666666,
+      "animation": "walk",
+      "navigation": {
+        "progress": 0.1852935438188101,
+        "duration": 21.943020335165667,
+        "position": [2.687216127078334, 0, -2.8937356468365376]
+      },
+      "root": [2.687216127078334, 0, -2.8937356468365376]
+    },
+    {
+      "now": 152119.7,
+      "frames": 15,
+      "seconds": 30.548766666666673,
+      "animation": "walk",
+      "navigation": {
+        "progress": 0.3941617821011682,
+        "duration": 21.943020335165667,
+        "position": [3.27, 0, 3.411854281659454]
+      },
+      "root": [3.27, 0, 3.411854281659454]
+    },
+    {
+      "now": 155802.9,
+      "frames": 16,
+      "seconds": 34.23196666666666,
+      "animation": "walk",
+      "navigation": {
+        "progress": 0.5620147004205905,
+        "duration": 21.943020335165667,
+        "position": [-0.06665428165943421, 0, 5.6]
+      },
+      "root": [-0.06665428165943421, 0, 5.6]
+    },
+    {
+      "now": 160402.7,
+      "frames": 17,
+      "seconds": 38.831766666666674,
+      "animation": "walk",
+      "navigation": {
+        "progress": 0.7716394434933763,
+        "duration": 21.943020335165667,
+        "position": [-0.015909883354097487, 1.4094223739028267, 7.05]
+      },
+      "root": [-0.015909883354097487, 1.4094223739028267, 7.05]
+    },
+    {
+      "now": 164702.6,
+      "frames": 18,
+      "seconds": 43.13166666666667,
+      "animation": "walk",
+      "navigation": {
+        "progress": 0.9675969705029565,
+        "duration": 21.943020335165667,
+        "position": [3.17, 2.6, 4.146530502761899]
+      },
+      "root": [3.17, 2.6, 4.146530502761899]
+    },
+    {
+      "now": 169285.7,
+      "frames": 19,
+      "seconds": 47.71476666666668,
+      "animation": "soak",
+      "navigation": null,
+      "root": [3.17, 2.12, 3.08]
+    }
+  ],
+  "initialFrames": 11,
+  "frameClock": "native RAF and performance; controlled Date and timers",
+  "pixelEvidence": "Native browser video and original canvas screenshots",
+  "observation": {
+    "startedAt": 139130.90000000596,
+    "stoppedAt": 173780.20000000298,
+    "stopReason": "rendered-arrival",
+    "sampleLimit": 2000
+  },
+  "performanceBenchmark": false
+}
