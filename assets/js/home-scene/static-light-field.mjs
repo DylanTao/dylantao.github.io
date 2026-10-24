@@ -32,6 +32,47 @@ export const STATIC_LIGHT_REGIONS = [
   { id: "gym", min: [6.1, -0.05, -3.2], max: [10.9, 2.4, 0.95] },
 ];
 
+// Room additions carry their own world-space cage rather than extending this legacy list.
+// The same metadata bounds the bathroom's direct lights; each floor retains its own probes.
+export function staticLightRegions(config) {
+  const regions = new Map(STATIC_LIGHT_REGIONS.map((region) => [region.id, region]));
+  for (const room of config?.rooms || []) {
+    if (room.lightRegion) regions.set(room.id, { ...room.lightRegion, id: room.id });
+  }
+  return [...regions.values()];
+}
+
+// Bilinear first/second moments in one probe's octahedral tile. Across a chart edge the
+// adjoining half is reflected, never read from the next probe's vertically packed tile.
+export function sampleOctahedralMoments(data, probe, side, uv) {
+  const x = uv[0] * side - 0.5,
+    y = uv[1] * side - 0.5,
+    ix = Math.floor(x),
+    iy = Math.floor(y),
+    fx = x - ix,
+    fy = y - iy,
+    result = [0, 0];
+  for (let corner = 0; corner < 4; corner++) {
+    const right = corner & 1,
+      top = corner >> 1,
+      weight = (right ? fx : 1 - fx) * (top ? fy : 1 - fy);
+    let tx = ix + right,
+      ty = iy + top;
+    if (tx < 0 || tx >= side) {
+      tx = tx < 0 ? -tx - 1 : side * 2 - tx - 1;
+      ty = side - ty - 1;
+    }
+    if (ty < 0 || ty >= side) {
+      ty = ty < 0 ? -ty - 1 : side * 2 - ty - 1;
+      tx = side - tx - 1;
+    }
+    const at = ((probe * side + ty) * side + tx) * 4;
+    result[0] += data[at] * weight;
+    result[1] += data[at + 1] * weight;
+  }
+  return result;
+}
+
 const abortError = () => Object.assign(new Error("Static light bake cancelled"), { name: "AbortError" });
 let nextFieldIdentity = 0;
 const defaultYield = () => new Promise((resolve) => setTimeout(resolve, 0));
@@ -66,8 +107,8 @@ export function createStaticLightField({
   if (!Number.isInteger(skyRaysPerHit) || skyRaysPerHit < 1 || skyRaysPerHit > 16) throw new RangeError("sky rays per hit must be 1..16");
   if (!Number.isFinite(maxTraceDistance) || maxTraceDistance <= 0 || !Number.isInteger(maxTriangles) || maxTriangles < 1)
     throw new RangeError("invalid trace bounds");
-  if (!regions.length || regions.length > 12 || practicalSources.length > 8)
-    throw new RangeError("field supports 1..12 regions and at most 8 practicals");
+  if (!regions.length || regions.length > 12 || practicalSources.length > 12)
+    throw new RangeError("field supports 1..12 regions and at most 12 practicals");
   regions = regions.map((r) => {
     if (r.min.length !== 3 || r.max.length !== 3 || !r.min.every((x, i) => Number.isFinite(x) && Number.isFinite(r.max[i]) && x < r.max[i]))
       throw new RangeError("invalid region bounds");
@@ -75,7 +116,21 @@ export function createStaticLightField({
   });
   practicalSources = practicalSources.map((s) => {
     if (!s.position?.every(Number.isFinite) || s.position.length !== 3) throw new RangeError("invalid practical position");
-    return { ...s, position: [...s.position], color: rgb(s.color, [1, 1, 1]), distance: s.distance ?? 0, emitterRadius: s.emitterRadius ?? 0.18 };
+    if (
+      s.region &&
+      (!s.region.min?.every((v, i) => Number.isFinite(v) && Number.isFinite(s.region.max?.[i]) && v < s.region.max[i]) ||
+        s.region.min.length !== 3 ||
+        s.region.max.length !== 3)
+    )
+      throw new RangeError("invalid practical region");
+    return {
+      ...s,
+      position: [...s.position],
+      color: rgb(s.color, [1, 1, 1]),
+      distance: s.distance ?? 0,
+      emitterRadius: s.emitterRadius ?? 0.18,
+      ...(s.region ? { region: { min: [...s.region.min], max: [...s.region.max] } } : {}),
+    };
   });
   const count = regions.length * 8,
     sourceCount = 3 + practicalSources.length,
@@ -137,7 +192,14 @@ export function createStaticLightField({
   // SHA-256 signature binds the snapshot to the exact authored assets and collector sources.
   const snapshotConfiguration = JSON.stringify({
     regions,
-    practicalSources: practicalSources.map(({ id, position, color, distance, emitterRadius }) => ({ id, position, color, distance, emitterRadius })),
+    practicalSources: practicalSources.map(({ id, position, color, distance, emitterRadius, region }) => ({
+      id,
+      position,
+      color,
+      distance,
+      emitterRadius,
+      ...(region ? { region } : {}),
+    })),
     raysPerProbe,
     skyRaysPerHit,
     maxTraceDistance,
@@ -314,6 +376,7 @@ export function createStaticLightField({
           weight
         );
       practicalSources.forEach((source, s) => {
+        if (source.region && !hit.point.every((value, axis) => value >= source.region.min[axis] && value <= source.region.max[axis])) return;
         const vector = source.position.map((x, a) => x - origin[a]),
           distance = Math.hypot(...vector);
         if (distance < 1e-5 || (source.distance && distance >= source.distance)) return;
@@ -494,6 +557,10 @@ export function createStaticLightField({
     coefficientTexture.needsUpdate = true;
     return true;
   }
+  // Room visits can change the coves without recomputing the sky or tracing any new rays.
+  function setPracticalPowers(practicalPowers) {
+    return setLighting({ ...lighting, practicalPowers });
+  }
   function regionSupport(point, r) {
     const outside = Math.max(...point.map((x, a) => Math.max(r.min[a] - x, x - r.max[a], 0))),
       t = clamp(outside / 0.25, 0, 1);
@@ -515,12 +582,9 @@ export function createStaticLightField({
       const v = biased.map((x, a) => x - probe.position[a]),
         distance = Math.hypot(...v),
         direction = normalize(v),
-        uv = octEncode(direction),
-        ix = clamp(Math.floor(uv[0] * side), 0, side - 1),
-        iy = clamp(Math.floor(uv[1] * side), 0, side - 1),
-        at = (p * raysPerProbe + iy * side + ix) * 4;
-      const mean = momentData[at],
-        variance = Math.max(0.0001, momentData[at + 1] - mean * mean),
+        moments = sampleOctahedralMoments(momentData, p, side, octEncode(direction));
+      const mean = moments[0],
+        variance = Math.max(0.0001, moments[1] - mean * mean),
         excess = Math.max(0, distance - mean);
       weight *= (variance / (variance + excess * excess)) ** 3;
       weight *=
@@ -579,18 +643,37 @@ vec2 slfOct(vec3 v) {
  if(v.z<0.0) v.xy=(1.0-abs(v.yx))*vec2(v.x<0.0?-1.0:1.0,v.y<0.0?-1.0:1.0);
  return v.xy*.5+.5;
 }
+vec2 slfMomentTexel(float probe,vec2 cell) {
+ if(cell.x<0.0||cell.x>=${side.toFixed(1)}) {
+  cell.x=cell.x<0.0?-cell.x-1.0:${(side * 2).toFixed(1)}-cell.x-1.0;
+  cell.y=${(side - 1).toFixed(1)}-cell.y;
+ }
+ if(cell.y<0.0||cell.y>=${side.toFixed(1)}) {
+  cell.y=cell.y<0.0?-cell.y-1.0:${(side * 2).toFixed(1)}-cell.y-1.0;
+  cell.x=${(side - 1).toFixed(1)}-cell.x;
+ }
+ return texture2D(slfMoments,vec2((cell.x+.5)/${side.toFixed(1)},(probe*${side.toFixed(1)}+cell.y+.5)/${(side * count).toFixed(1)})).xy;
+}
+vec2 slfMomentPair(float probe,vec2 oct) {
+ vec2 cell=oct*${side.toFixed(1)}-.5,base=floor(cell),f=fract(cell);
+ vec2 lower=mix(slfMomentTexel(probe,base),slfMomentTexel(probe,base+vec2(1.0,0.0)),f.x);
+ vec2 upper=mix(slfMomentTexel(probe,base+vec2(0.0,1.0)),slfMomentTexel(probe,base+vec2(1.0,1.0)),f.x);
+ return mix(lower,upper,f.y);
+}
 vec3 slfProbeCage(int region, vec3 n) {
  vec3 f=clamp((slfWorldPosition-slfRegionMin[region])/(slfRegionMax[region]-slfRegionMin[region])*2.0-.5,0.0,1.0);
  vec3 result=vec3(0.0);float total=0.0;
  for(int k=0;k<8;k++) {
+  vec3 corner=vec3(float(k-k/2*2),float(k/2-k/4*2),float(k/4));
+  vec3 weights=mix(vec3(1.0)-f,f,corner);float w=weights.x*weights.y*weights.z;
+  // Clamped floor/wall coordinates give exact zero weights. Avoid all nine texture reads
+  // for those corners; relocation and visibility can only multiply this zero contribution.
+  if(w<=0.0)continue;
   float p=float(region*8+k),row=(p+.5)/${count.toFixed(1)};
   vec4 probe=texture2D(slfPositions,vec2((p+.5)/${count.toFixed(1)},.5));
   if(probe.w<.5)continue;
-  vec3 corner=vec3(float(k-k/2*2),float(k/2-k/4*2),float(k/4));
-  vec3 weights=mix(vec3(1.0)-f,f,corner);float w=weights.x*weights.y*weights.z;
   vec3 v=slfWorldPosition+n*.035-probe.xyz;float distance=length(v);vec3 d=v/max(distance,1e-8);
-  vec2 oct=clamp(floor(slfOct(d)*${side.toFixed(1)}),vec2(0.0),vec2(${(side - 1).toFixed(1)}));
-  vec4 moments=texture2D(slfMoments,vec2((oct.x+.5)/${side.toFixed(1)},(p*${side.toFixed(1)}+oct.y+.5)/${(side * count).toFixed(1)}));
+  vec2 moments=slfMomentPair(p,slfOct(d));
   float variance=max(.0001,moments.y-moments.x*moments.x),excess=max(0.0,distance-moments.x);
   float visibility=variance/(variance+excess*excess);w*=visibility*visibility*visibility;
   float facing=max(.05,(dot(n,-d)+1.0)*.5);w*=facing*facing;
@@ -689,7 +772,8 @@ if(slfReady>.5) {
         "First-order directional irradiance; sparse moment visibility is approximate and may leak across unsampled thin walls",
         "Material base color/metalness only; texture, vertex color and procedural detail are not baked",
         "Actual sky gradient plus authored far-ground boundary; solar disk/cloud/stars and direct-sun bounce omitted",
-        "Final .18m practical emitter segment is unoccluded to model a diffuse bulb within its shade",
+        "Final authored emitter-radius segment is unoccluded to model a diffuse bulb within its shade",
+        "Bathroom cove bounce uses an equal-energy midpoint approximation; direct lighting integrates the full segments",
         "Transparent, refracted, volumetric and specular transport remain native approximations; no ray-traced caustics",
         "Native direct practical lights remain unshadowed; only cached indirect bounce includes traced visibility",
         "Outside the bounded regions uses unoccluded actual-sky diffuse fallback",
@@ -708,7 +792,7 @@ if(slfReady>.5) {
     transport = bvh = null;
     roots.length = 0;
   }
-  const api = { addRoot, bake, exportSnapshot, restoreSnapshot, setLighting, bindMaterial, sample, evidence, dispose };
+  const api = { addRoot, bake, exportSnapshot, restoreSnapshot, setLighting, setPracticalPowers, bindMaterial, sample, evidence, dispose };
   setLighting(lighting);
   return api;
 }
