@@ -2360,9 +2360,23 @@ test("coastal bathrooms: both floors retain clear day and night views and safe c
 
 test("coastal home: full exterior orbit and guided interior camera boundaries", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "camera geometry is shared; touch zoom has its own mobile case");
+  const software = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
+  if (software) test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
   const view = await openClockedHome(page);
   const { scene, canvas, ui } = view;
+  if (software) {
+    // Keep the full desktop aspect and every real camera/collision assertion.
+    // This geometry stress loop visits ten views; appearance has its separate
+    // full-size viewport cases. Resize only after the normal visible load.
+    await page.setViewportSize({ width: 720, height: 500 });
+    testInfo.annotations.push({
+      type: "functional-render-size",
+      description: "720x500 software-rendered camera geometry stress; full-size appearance is covered separately",
+    });
+    await canvas.scrollIntoViewIfNeeded();
+    await page.clock.runFor(200);
+  }
   await explore(ui);
   for (const room of ["outside", "overview", ...homeManifest().rooms.map((room) => room.id)]) {
     await sceneInputFrame(page, view, () => ui.locator(`[data-world-room="${room}"]`).first().click());
@@ -2376,8 +2390,17 @@ test("coastal home: full exterior orbit and guided interior camera boundaries", 
       await canvas.evaluate((node, count) => {
         for (let i = 0; i < count; i++) node.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", repeat: true, bubbles: true }));
       }, count);
-      await page.clock.runFor(200);
-      await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
+      // A late field/model callback can queue another draw after a clock step.
+      // Advance the frozen clock while polling so that draw can actually run.
+      await expect
+        .poll(
+          async () => {
+            await page.clock.runFor(200);
+            return (await evidence(scene)).framePending;
+          },
+          { timeout: 60000 }
+        )
+        .toBe(false);
     }
     await canvas.evaluate((node) => {
       for (let i = 0; i < 12; i++) node.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", repeat: true, bubbles: true }));
