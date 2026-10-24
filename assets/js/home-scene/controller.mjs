@@ -133,7 +133,10 @@ export function createCoastalHome(container, records, artifacts) {
     daylight;
   const lightBakeAbort = new AbortController();
   let lightBakeStarted = false,
-    lightBakeError = null;
+    lightBakeError = null,
+    lightBakePromise = null,
+    lightCache = { state: "unavailable", reason: null },
+    steamSetupPromise = null;
   const target = new THREE.Vector3(0, 0.7, 0),
     desiredTarget = target.clone();
   let yaw = 0.36,
@@ -162,6 +165,7 @@ export function createCoastalHome(container, records, artifacts) {
   // shadow (shadow-cache.mjs).
   let resolution = null,
     shadowCache = null;
+  const compactTouch = matchMedia("(pointer: coarse)").matches && Math.min(innerWidth, innerHeight) < 768;
   // Walking in full screen (walk-controls.mjs), and the house model its collision field is sized to.
   let walkMode = null,
     shellRoot = null;
@@ -172,10 +176,10 @@ export function createCoastalHome(container, records, artifacts) {
     clockTimer = 0;
   let compositionReady = false,
     startupStart = 0,
-    firstFrameMilliseconds = null,
-    backgroundTimer = 0;
+    firstFrameMilliseconds = null;
   const startupStages = [],
     modelTimings = [];
+  const textureLoads = new Set();
   // Realistic is the only active treatment, including the authoring lab.
   const style = "realistic";
   const labEnabled = new URLSearchParams(location.search).get("scene-lab") === "1";
@@ -314,8 +318,10 @@ export function createCoastalHome(container, records, artifacts) {
   // instead blocked the main thread for 0.3-1.8 s per program: 13 s before the first composed
   // view and another 6 s when the remaining rooms streamed in (docs/evidence/coastal-startup-2026-10-04).
   let programProbe = null,
-    programQueue = Promise.resolve();
+    programQueue = Promise.resolve(),
+    programPending = 0;
   function compilePrograms(onProgress) {
+    programPending++;
     programQueue = programQueue
       .then(async () => {
         if (!renderer || disposed) return;
@@ -324,7 +330,8 @@ export function createCoastalHome(container, records, artifacts) {
         programProbe ||= own(new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType }));
         await prepareFramePrograms(renderer, scene, camera, { target: programProbe, ...finish?.programWarmup, onProgress });
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => programPending--);
     return programQueue;
   }
 
@@ -335,8 +342,9 @@ export function createCoastalHome(container, records, artifacts) {
     startupStages.push({ stage, milliseconds: performance.now() - startupStart });
     container.dataset.loadingStage = stage;
     status.textContent = message;
+    progressBar?.setAttribute("aria-valuetext", message);
     ui.querySelector("[data-world-view]").disabled = stage !== "ready";
-    const drawing = { coast: "outside", room: "overview", "first-frame": routine?.room }[stage];
+    const drawing = { coast: "outside", room: "overview", lighting: routine?.room, "first-frame": routine?.room }[stage];
     if (drawing) loadingSketch?.stage(drawing);
   }
 
@@ -476,15 +484,22 @@ export function createCoastalHome(container, records, artifacts) {
 
   function imageTexture(url) {
     if (textureCache.has(url)) return textureCache.get(url);
+    let settled;
+    const pending = new Promise((resolve) => (settled = resolve));
+    textureLoads.add(pending);
     const tex = new THREE.TextureLoader().load(
       url,
       () => {
         tex.userData.ready = true;
+        settled();
+        textureLoads.delete(pending);
         requestFrame();
       },
       undefined,
       () => {
         tex.userData.failed = true;
+        settled();
+        textureLoads.delete(pending);
         requestFrame();
       }
     );
@@ -785,6 +800,10 @@ export function createCoastalHome(container, records, artifacts) {
             water.userData.noContactOcclusion = true;
           }
         });
+        // The initial reveal waits for the default pieces, including their embedded textures.
+        // A timeout here exposed placeholder furniture, then replaced it in front of the visitor.
+        // Later, deliberately streamed detail keeps the bounded attach wait.
+        if (firstFrameMilliseconds === null) await furnished;
         // The room's furniture joins it before its programs compile.
         await furniture?.attach(id, root, furnished);
         if (disposed) return null;
@@ -1063,6 +1082,10 @@ export function createCoastalHome(container, records, artifacts) {
   // The key light follows the sky (atmosphere.mjs): the sun through the coast's air, gold and dim
   // when low, or once its light is gone the moon at its true place and phase.
   const keyColor = new THREE.Color();
+  function updateInstallations() {
+    if (routine && daylight)
+      lightInstallations?.update({ minute: routine.minute, daylight: daylight.daylight, activity: routine.id, visit: currentRoom });
+  }
   function updateLight() {
     if (!routine) return;
     daylight = coastalDaylight(routine.dateKey, routine.minute);
@@ -1095,7 +1118,7 @@ export function createCoastalHome(container, records, artifacts) {
     }
     fitSunShadow(true);
     warmPracticals?.update(daylight.daylight, { ...routine, schedule: routine.weekend ? config.weekend : config.weekday });
-    lightInstallations?.update({ minute: routine.minute, daylight: daylight.daylight, activity: routine.id });
+    updateInstallations();
     syncFacadeDoors();
     if (staticLightField && pacific) {
       const colors = pacific.lightColors();
@@ -1178,23 +1201,47 @@ export function createCoastalHome(container, records, artifacts) {
     });
     // Prepare a mature static composition one short task at a time. This
     // setup never increments the visitor's animation clock or owns a RAF.
-    field.prewarmAsync(6, { yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)), shouldContinue: () => !disposed }).then((complete) => {
-      if (!complete || disposed) return;
-      steamReady = true;
-      steamSetupMilliseconds = performance.now() - start;
-      steamVolume.sync();
-      updateLight();
-      requestFrame();
-    });
+    steamSetupPromise = field
+      .prewarmAsync(6, { yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)), shouldContinue: () => !disposed })
+      .then((complete) => {
+        if (!complete || disposed) return;
+        steamReady = true;
+        steamSetupMilliseconds = performance.now() - start;
+        steamVolume.sync();
+        updateLight();
+        requestFrame();
+      });
   }
 
   function prepareStaticLight() {
-    if (!staticLightField || lightBakeStarted || rooms.size !== config.rooms.length || disposed) return;
+    if (!staticLightField || lightBakeStarted || rooms.size !== config.rooms.length || disposed) return lightBakePromise;
     lightBakeStarted = true;
     staticLightField.addRoot(world, { id: "coastal-house" });
     staticLightField.addRoot(warmPracticals.root, { id: "warm-fixtures" });
-    staticLightField
-      .bake({ signal: lightBakeAbort.signal, yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)) })
+    lightBakePromise = (async () => {
+      const cache = config.staticLightFieldCache;
+      if (cache?.url && cache.signature) {
+        lightCache.state = "loading";
+        try {
+          const response = await fetch(new URL(cache.url, manifestUrl).href, { signal: lightBakeAbort.signal });
+          if (!response.ok) throw new Error(`Cached light unavailable: ${response.status}`);
+          const bytes = await response.arrayBuffer();
+          if (cache.sha256) {
+            const hash = await crypto.subtle.digest("SHA-256", bytes);
+            const actual = [...new Uint8Array(hash)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+            if (actual !== cache.sha256) throw new Error("Cached light checksum does not match");
+          }
+          const restored = staticLightField.restoreSnapshot(JSON.parse(new TextDecoder().decode(bytes)), { signature: cache.signature });
+          if (!restored) throw new Error("Cached light does not match this home");
+          lightCache.state = "restored";
+          return;
+        } catch (error) {
+          if (disposed || error.name === "AbortError") throw error;
+          lightCache = { state: "miss", reason: error.message };
+        }
+      }
+      await staticLightField.bake({ signal: lightBakeAbort.signal, yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)) });
+    })()
       .then(() => {
         if (disposed) return;
         updateLight();
@@ -1206,6 +1253,7 @@ export function createCoastalHome(container, records, artifacts) {
         lightBakeError = error.message;
         requestFrame();
       });
+    return lightBakePromise;
   }
 
   function wardrobe() {
@@ -1890,6 +1938,7 @@ export function createCoastalHome(container, records, artifacts) {
       followClock = false;
     }
     currentRoom = id;
+    updateInstallations();
     desiredFov = 38;
     fitSunShadow(true);
     if (id === "outside" && compositionReady) loadFlora();
@@ -2315,6 +2364,7 @@ export function createCoastalHome(container, records, artifacts) {
   function walkRoomChanged(id) {
     if (!id || id === currentRoom) return;
     currentRoom = id;
+    updateInstallations();
     container.dataset.room = id;
     container.dataset.deskView = id === "outside" ? "outside" : "room";
     fitSunShadow(true);
@@ -2350,6 +2400,7 @@ export function createCoastalHome(container, records, artifacts) {
       width: canvas.width,
       height: canvas.height,
       fullscreen: large,
+      compact: compactTouch,
       maxTextureSize: renderer.capabilities.maxTextureSize,
       maxSamples: renderer.capabilities.maxSamples,
     });
@@ -2777,7 +2828,10 @@ export function createCoastalHome(container, records, artifacts) {
       const submit = performance.now() - submitStart;
       frameTimings.push({ interval: delta * 1000, submit });
       if (frameTimings.length > 120) frameTimings.shift();
-      if (resolution?.observe(delta * 1000, submit)) resize();
+      // Background shader jobs contend for CPU cores; a longer interval there is not evidence
+      // that drawing fewer pixels helps. Start a clean adaptive window once their work finishes.
+      if (programPending) resolution?.reset();
+      else if (resolution?.observe(delta * 1000, submit)) resize();
     }
     frames++;
     if (firstFrameMilliseconds === null) {
@@ -2794,10 +2848,8 @@ export function createCoastalHome(container, records, artifacts) {
         loadingSketch?.dispose();
       }
       loadingSketch = null;
-      // Stream detail only after the occupied room/avatar have actually drawn.
-      backgroundTimer = setTimeout(() => {
-        if (!disposed && visible) config.rooms.forEach((r) => loadRoom(r.id).catch(() => {}));
-      }, 1800);
+      // All base interior rooms and their indirect lighting are already composed. Coast-only
+      // planting/hinterland and close furniture detail remain lazy, without rebuilding this view.
     }
     const settledRadius = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope()).radius;
     if (
@@ -2875,7 +2927,11 @@ export function createCoastalHome(container, records, artifacts) {
       // Comparison flags: ?resolution=fixed keeps the pixel budget without the adaptive density;
       // ?shadow-cache=0 and ?draw-order=material restore three's own behaviour.
       const flags = new URLSearchParams(location.search);
-      resolution = createResolutionGovernor({ basePixelRatio: renderer.getPixelRatio(), enabled: flags.get("resolution") !== "fixed" });
+      resolution = createResolutionGovernor({
+        basePixelRatio: renderer.getPixelRatio(),
+        compact: compactTouch,
+        enabled: flags.get("resolution") !== "fixed",
+      });
       // Full screen opened while the scene was still loading.
       if (fullscreen.mode && !embedDetailOnly) resolution.setProfile("fullscreen");
       shadowCache = createShadowCache(renderer, sun, { enabled: flags.get("shadow-cache") !== "0" });
@@ -3081,15 +3137,28 @@ export function createCoastalHome(container, records, artifacts) {
           plan: { routine, daylight, visit: currentRoom },
           bindMaterial: (m) => (staticLightField?.bindMaterial(m), lightInstallations?.bindMaterial(m)),
         });
-      loadingStage("room", "Bringing the room into view.");
-      await Promise.all([loadRoom(routine.room, "room"), setAvatar(avatarId, "sirui")]);
+      loadingStage("room", "Furnishing the home.");
+      let furnishedRooms = 0;
+      // The cutaway shows adjacent rooms too. Loading only the occupied room left a visibly
+      // unfinished house, then populated it and changed the whole light field after the reveal.
+      await Promise.all([
+        ...config.rooms.map(async (room) => {
+          await loadRoom(room.id);
+          progress("room", ++furnishedRooms / config.rooms.length);
+        }),
+        setAvatar(avatarId, "sirui"),
+      ]);
       if (disposed) return;
       progress("room", 1);
       progress("sirui", 1);
-      loadingStage("first-frame", "Preparing the view.");
       setStyle();
       resize();
-      await compilePrograms((fraction) => progress("view", fraction));
+      loadingStage("lighting", "Warming the light.");
+      await Promise.all([prepareStaticLight(), steamSetupPromise, ...textureLoads]);
+      if (disposed) return;
+      progress("view", 0.2);
+      loadingStage("first-frame", "Preparing the view.");
+      await compilePrograms((fraction) => progress("view", 0.2 + 0.8 * fraction));
       if (disposed) return;
       progress("view", 1);
       compositionReady = true;
@@ -3108,6 +3177,7 @@ export function createCoastalHome(container, records, artifacts) {
   if (labEnabled)
     container.labScene = { scene, sun, settings: labSettings, requestFrame: () => requestFrame(), collisionGrid: () => cameraField?.grid };
   if (labEnabled) {
+    container.labScene.exportStaticLightSnapshot = (signature) => staticLightField?.exportSnapshot({ signature });
     container.labScene.captureInkStudy = async (surfaceInk = true) => {
       const { captureInkStudy } = await import("./ink-study.mjs");
       return captureInkStudy({ world, camera, sun, surfaceInk });
@@ -3287,6 +3357,7 @@ export function createCoastalHome(container, records, artifacts) {
       firstFrameMilliseconds,
       models: modelTimings.map((timing) => ({ ...timing })),
       progress: { ...progressFill },
+      lightCache: { ...lightCache },
     },
     frameTiming: {
       samples: frameTimings.length,
@@ -3495,7 +3566,6 @@ export function createCoastalHome(container, records, artifacts) {
       avatarTicket++;
       cancelFrame();
       clearInterval(clockTimer);
-      clearTimeout(backgroundTimer);
       cleanup.forEach((fn) => fn());
       modelRequests.forEach((request) => request.abort());
       lightBakeAbort.abort();

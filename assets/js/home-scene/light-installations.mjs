@@ -24,7 +24,7 @@ import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.
 // Points are isotropic or cone-limited. No installation casts shadows or adds a baked bounce.
 
 export const MAX_LINES = 15;
-export const MAX_POINTS = 8;
+export const MAX_POINTS = 10;
 const WARM = new THREE.Color(1, 0.7, 0.42);
 const FIRE = new THREE.Color(1, 0.46, 0.16);
 const POOL = new THREE.Color(0.42, 0.86, 0.9);
@@ -58,9 +58,13 @@ export const SCHEDULES = {
   steps: ({ dark }) => 0.45 * dark.outside,
   pool: ({ minute, dark, activity }) => (activity === "soak" ? 1 : 0.4 * dark.outside * windowLevel(minute, 19 * 60, 23 * 60, 20)),
   gym: ({ dark, activity }) => (activity === "workout" ? Math.max(0.65, dark.inside) : 0.18 * dark.inside),
-  pendant: ({ minute, dark, activity }) => dark.inside * (MEALS.includes(activity) ? 1 : 0.45 * windowLevel(minute, 17 * 60, 23 * 60 + 30, 30)),
-  downlights: ({ dark, activity }) => (MEALS.includes(activity) ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
-  shelf: ({ dark, activity }) => (MEALS.includes(activity) ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
+  // The dining table is under the gallery, so daylight outside does not replace its task light.
+  pendant: ({ minute, dark, activity }) =>
+    MEALS.includes(activity) ? Math.max(0.65, dark.inside) : dark.inside * 0.45 * windowLevel(minute, 17 * 60, 23 * 60 + 30, 30),
+  dining: ({ dark, activity, visit }) => (MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.65, dark.inside) : 0.3 * dark.inside),
+  entrance: ({ dark }) => 0.3 + 0.7 * dark.inside,
+  downlights: ({ dark, activity, visit }) => (MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
+  shelf: ({ dark, activity, visit }) => (MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
 };
 // The office's screens and RGB (no light of their own, so not an installation above): awake while
 // Sirui works at the desk, a glow otherwise.
@@ -236,11 +240,20 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
         region,
       });
     if (interior.pendant)
-      points.push({ id: "pendant", position: new THREE.Vector3(...interior.pendant), intensity: 1.6, color: LANTERN, cone: null, region });
+      points.push({ id: "pendant", position: new THREE.Vector3(...interior.pendant), intensity: 2.1, color: LANTERN, cone: null, region });
+    // Each saucer lights the table beneath its own authored shade; the former single midpoint
+    // downlight left the six-seat table's ends in shadow and was off outside the meal schedule.
+    for (const at of (interior.dining || []).slice(0, 2))
+      points.push({ id: "dining", position: new THREE.Vector3(...at), intensity: 1.1, color: LANTERN, cone: [0, -1, 0, 0.15], region });
     for (const at of interior.downlights || [])
       points.push({ id: "downlights", position: new THREE.Vector3(...at), intensity: 1.1, color: GYM, cone: [0, -1, 0, 0.6], region });
     for (const at of interior.vault || [])
       points.push({ id: "downlights", position: new THREE.Vector3(...at), intensity: 2.6, color: GYM, cone: [0, -1, 0, 0.82], region });
+    if (interior.entrance?.region) {
+      const entranceRegion = box(interior.entrance.region.min, interior.entrance.region.max);
+      for (const at of (interior.entrance.positions || []).slice(0, 2))
+        points.push({ id: "entrance", position: new THREE.Vector3(...at), intensity: 1.8, color: LANTERN, cone: null, region: entranceRegion });
+    }
   }
   if (terrace?.fire) {
     points.push({
@@ -368,7 +381,8 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     soffitMaterial.emissiveIntensity = 2.4 * levels.soffit;
     stepMaterial.emissiveIntensity = 3 * levels.steps;
     poolMaterial.emissiveIntensity = 4 * levels.pool;
-    // By day every installation is off and the shader term is skipped outright.
+    // Skip the term only when every fixture sleeps. Sheltered task/entrance lighting can remain
+    // useful in daylight; each emitter's region still prevents light crossing the room boundary.
     uniforms.installActive.value = Object.values(levels).some((level) => level > 0) ? 1 : 0;
     for (const m of glowing.festoon) {
       m.emissive?.copy(WARM);
@@ -384,7 +398,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     }
     for (const m of glowing.desk) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * desk;
     for (const m of glowing.lantern) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 1.6 * lantern;
-    for (const m of glowing.pendant) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 1.3 * levels.pendant;
+    for (const m of glowing.pendant) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 1.3 * Math.max(levels.pendant, levels.dining);
     for (const m of glowing.downlights) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 3 * levels.downlights;
   }
 
@@ -397,9 +411,11 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     bindModel,
     setPool,
     // minute after midnight, daylight 0..1, the routine's activity id.
-    update({ minute, daylight, activity }) {
+    update({ minute, daylight, activity, visit = null }) {
       const dark = darkness(daylight);
-      for (const [id, schedule] of Object.entries(SCHEDULES)) levels[id] = THREE.MathUtils.clamp(schedule({ minute, dark, activity }), 0, 1);
+      for (const [id, schedule] of Object.entries(SCHEDULES)) levels[id] = THREE.MathUtils.clamp(schedule({ minute, dark, activity, visit }), 0, 1);
+      if (!interior?.entrance?.positions?.length) levels.entrance = 0;
+      if (!interior?.dining?.length) levels.dining = 0;
       desk = deskLevel(activity);
       lantern = lanternLevel({ dark, activity });
       apply();
@@ -423,7 +439,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     },
     // Irradiance an installation adds at a point, for the steam's ambient light.
     irradianceAt(point) {
-      const total = new THREE.Color();
+      const total = new THREE.Color(0, 0, 0);
       for (const p of points) {
         const level = levels[p.id] * (p.id === "fire" ? flicker : 1);
         if (!level || !new THREE.Box3(p.region.min, p.region.max).containsPoint(point)) continue;

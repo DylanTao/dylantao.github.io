@@ -25,11 +25,15 @@
 // hysteresis of drei's PerformanceMonitor; see docs/performance-notes.md.
 export const PIXEL_BUDGET = 2_100_000;
 export const FULLSCREEN_PIXEL_BUDGET = 8_300_000;
+export const COMPACT_FULLSCREEN_PIXEL_BUDGET = 1_800_000;
 export const RESOLUTION_PROFILES = Object.freeze({
   embed: Object.freeze({ pixelBudget: PIXEL_BUDGET, maxDensity: 1.5, minFactor: 0.7, quick: false }),
   // The floor (0.35 of the linear density) is about where the old 2.1 MP budget's own floor drew;
   // `quick` takes proportional steps and decides on time-bounded windows.
   fullscreen: Object.freeze({ pixelBudget: FULLSCREEN_PIXEL_BUDGET, maxDensity: 2, minFactor: 0.35, quick: true }),
+  // Touch phones: avoid a 2x half-float multisample buffer before adaptation even starts.
+  // Only measured GPU-bound moving frames trade further pixels, and unhelpful probes revert.
+  compactFullscreen: Object.freeze({ pixelBudget: COMPACT_FULLSCREEN_PIXEL_BUDGET, maxDensity: 1.5, minFactor: 0.6, quick: true }),
 });
 
 // The detail that scales with the drawing buffer. Below 3.2 MP (every page embed) nothing changes:
@@ -39,11 +43,11 @@ export const RESOLUTION_PROFILES = Object.freeze({
 // half-float targets), draw the contact pass at about a third of the buffer so its occlusion stays
 // on the objects that cast it, double the sun's shadow resolution and widen the sea mirror to the
 // screen's aspect.
-export function detailFor({ width, height, fullscreen = false, maxTextureSize = 4096, maxSamples = 4 }) {
+export function detailFor({ width, height, fullscreen = false, compact = false, maxTextureSize = 4096, maxSamples = 4 }) {
   const pixels = Math.max(0, width * height),
     long = Math.max(width, height),
     large = fullscreen && pixels > 3_200_000;
-  const samples = Math.min(maxSamples, !large ? 4 : pixels > 6_000_000 ? 0 : 2);
+  const samples = Math.min(maxSamples, compact && fullscreen ? 2 : !large ? 4 : pixels > 6_000_000 ? 0 : 2);
   const contactLongSide = fullscreen ? Math.round(Math.min(1440, Math.max(480, long * 0.36))) : 480;
   const shadowMapSize = fullscreen && pixels > 1_500_000 && maxTextureSize >= 8192 ? 4096 : 2048;
   let reflection = [384, 384];
@@ -79,10 +83,12 @@ export function createResolutionGovernor({
   decisionMs = 1000,
   settleMs = 400,
   quick = false,
+  compact = false,
   enabled = true,
   devicePixelRatio = () => globalThis.devicePixelRatio || 1,
   now = () => globalThis.performance?.now() ?? Date.now(),
 } = {}) {
+  const ordinaryAdaptiveThreshold = adaptiveFromPixels;
   let factor = 1,
     probe = null,
     failedProbes = 0,
@@ -144,10 +150,13 @@ export function createResolutionGovernor({
     // Full screen and the page embed have their own budgets (RESOLUTION_PROFILES). A change restarts
     // adaptation from full density; returns true when the profile changed, and the caller resizes.
     setProfile(name) {
-      const next = RESOLUTION_PROFILES[name];
+      const next = RESOLUTION_PROFILES[compact && name === "fullscreen" ? "compactFullscreen" : name];
       if (!next || name === profile) return false;
       profile = name;
       ({ pixelBudget, maxDensity, minFactor, quick } = next);
+      // A phone's full-screen buffer can be below 1 MP and still be fill-bound. It gets the same
+      // measured probe/revert logic; an embed and a desktop retain their original threshold.
+      adaptiveFromPixels = compact && name === "fullscreen" ? 300_000 : ordinaryAdaptiveThreshold;
       restart();
       if (cssWidth && cssHeight) current = layout(cssWidth, cssHeight);
       return true;
@@ -221,6 +230,7 @@ export function createResolutionGovernor({
       return current
         ? {
             profile,
+            compact,
             css: [Math.round(cssWidth), Math.round(cssHeight)],
             density: current.density,
             cap: Math.round(current.cap * 1000) / 1000,

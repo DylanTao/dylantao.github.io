@@ -1,6 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createResolutionGovernor, detailFor, FULLSCREEN_PIXEL_BUDGET, PIXEL_BUDGET } from "../assets/js/home-scene/resolution.mjs";
+import {
+  createResolutionGovernor,
+  detailFor,
+  FULLSCREEN_PIXEL_BUDGET,
+  PIXEL_BUDGET,
+  COMPACT_FULLSCREEN_PIXEL_BUDGET,
+} from "../assets/js/home-scene/resolution.mjs";
 
 // A governor with a controllable device pixel ratio and clock.
 function governor(options = {}) {
@@ -102,6 +108,35 @@ test("script-bound frames never trade pixels, and the ordinary canvas never adap
   small.g.size(544, 460);
   assert.equal(feed(small.g, small.state, { interval: 60 }), false);
   assert.equal(feed(small.g, small.state, { interval: 60 }), false);
+});
+
+test("touch-phone full screen responds to measured GPU stalls below one megapixel and restores embed detail", () => {
+  const { g, state } = governor({ dpr: 3, base: 1.5, overrides: { compact: true } });
+  const embed = g.size(390, 600);
+  assert.equal(embed.adaptive, false);
+  g.setProfile("fullscreen");
+  const phone = g.size(390, 844);
+  assert.equal(phone.density, 1.5);
+  assert.equal(g.evidence().budget, COMPACT_FULLSCREEN_PIXEL_BUDGET);
+  assert.ok(phone.pixels < 1_000_000 && phone.adaptive, "small phone buffers can still be fill-bound");
+  feed(g, state, { interval: 8, frames: 8 });
+  assert.equal(feed(g, state, { interval: 55, frames: 30 }), true);
+  assert.ok(g.evidence().factor < 1);
+  g.size(390, 844);
+  // Reducing pixels cannot fix draw-bound stalls; the original density must come back.
+  feed(g, state, { interval: 8, frames: 8 });
+  feed(g, state, { interval: 55, frames: 30 });
+  assert.equal(g.evidence().factor, 1);
+  g.setProfile("embed");
+  const returned = g.size(390, 600);
+  assert.equal(returned.pixels, embed.pixels);
+  assert.equal(returned.adaptive, false);
+  const compact = detailFor({ width: 585, height: 1266, fullscreen: true, compact: true });
+  const desktop = detailFor({ width: 585, height: 1266, fullscreen: true });
+  assert.equal(compact.samples, 2);
+  assert.equal(desktop.samples, 4);
+  assert.equal(compact.shadowMapSize, desktop.shadowMapSize);
+  assert.equal(compact.contactLongSide, desktop.contactLongSide);
 });
 
 test("sustained fast frames climb back to full density, and a new canvas size starts fresh", () => {

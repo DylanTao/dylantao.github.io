@@ -80,6 +80,52 @@ test("installations switch at different times of day", () => {
   assert.equal(level("pool", 18 * 60 + 20, day, "soak"), 1);
   // Late coding keeps the soffit glowing after its evening window.
   assert.equal(level("soffit", 1 * 60, night, "coding"), 0.35);
+  assert.equal(level("pendant", 13 * 60, day, "lunch"), 0.65, "the sheltered dining table has daylight meal task light");
+  assert.equal(level("pendant", 20 * 60, night, "dinner"), 1);
+});
+
+test("entrance fixtures light only their authored foyer without adding native lights", () => {
+  const lights = createLightInstallations({
+    interiorLights: {
+      region: { min: [-5, -0.5, -4.5], max: [0, 5, 5] },
+      entrance: {
+        positions: [
+          [-2.8, 2.05, 8.1],
+          [3.42, 4.6, 8.3],
+        ],
+        region: { min: [-3.6, -0.2, 7.3], max: [4.6, 5.3, 9.6] },
+      },
+    },
+  });
+  lights.update({ minute: 13 * 60, daylight: 0.95, activity: "reading" });
+  assert.equal(lights.levels.entrance, 0.3);
+  assert.equal(lights.points.filter((p) => p.id === "entrance").length, 2);
+  assert.ok(lights.points.length <= MAX_POINTS);
+  assert.ok(lights.irradianceAt(v(-2.8, 1, 8.1)).r > 0);
+  assert.equal(lights.irradianceAt(v(0, 1, 0)).r, 0, "the foyer never leaks light through the rear wall");
+  assert.ok(lights.root.children.every((object) => !object.isLight));
+  lights.dispose();
+});
+
+test("the dining saucers and kitchen task light welcome a daytime visitor outside Sirui's meal schedule", () => {
+  const lights = createLightInstallations({
+    interiorLights: {
+      region: { min: [-5.15, -0.5, -4.45], max: [-0.2, 5.4, 4.75] },
+      dining: [
+        [-2.4, 1.49, 3.05],
+        [-1.3, 1.49, 3.05],
+      ],
+    },
+  });
+  lights.update({ minute: 13 * 60 + 20, daylight: 0.95, activity: "reading", visit: "study" });
+  assert.equal(lights.levels.dining, 0);
+  assert.equal(lights.irradianceAt(v(-1.85, 0.74, 3.05)).r, 0);
+  lights.update({ minute: 13 * 60 + 20, daylight: 0.95, activity: "reading", visit: "kitchen" });
+  assert.equal(lights.levels.dining, 0.65);
+  assert.equal(lights.levels.downlights, 0.55);
+  assert.ok(lights.irradianceAt(v(-1.85, 0.74, 3.05)).r > 1);
+  assert.equal(lights.irradianceAt(v(-1.85, 0.74, 5.5)).r, 0);
+  lights.dispose();
 });
 
 test("the bedside lamp wakes Sirui, lights the last minutes before sleep, and is a night light between", () => {

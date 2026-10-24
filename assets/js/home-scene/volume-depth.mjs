@@ -59,6 +59,21 @@ export function createVolumeDepth(renderer, scene) {
     }
   }
   return {
+    // The opaque volume pass is secondary to the beauty view, but it must be compiled before
+    // reveal too: the first walk into the onsen must not synchronously link a new depth program.
+    get programWarmup() {
+      const custom = new Map();
+      scene.traverse((object) => {
+        if (!object.isMesh || object.userData.noVolumeDepth || !object.customDepthMaterial) return;
+        const objects = custom.get(object.customDepthMaterial) || new Set();
+        objects.add(object);
+        custom.set(object.customDepthMaterial, objects);
+      });
+      return [
+        { material, accept: (object) => !object.userData.noVolumeDepth && !object.customDepthMaterial },
+        ...[...custom].map(([material, objects]) => ({ material, accept: (object) => objects.has(object) })),
+      ];
+    },
     resize(width, height) {
       opaque.setSize(width, height);
       transmission.setSize(width, height);
