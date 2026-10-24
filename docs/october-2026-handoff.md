@@ -15,7 +15,36 @@ Originally written October 22 before a token pause, then reconciled October 23 a
 - The inhabited home should feel connected, warm and intentional, with grounded poses, reliable circulation, clear state/recovery, coherent light and bounded loading/rendering cost. Its routine is authored fiction, not live location tracking.
 - Improve the operational question when evidence warrants it and state changed assumptions. Do not redefine success around whatever is easiest to ship, or silently replace Sirui's taste with a generic portfolio style.
 
-### Verified baseline
+### Closeout release verification
+
+The published runtime is `b66903e74a95a9b545611bbe6705d27d68b2f1fa`, served by
+Pages commit `20bdc88eb70c3afe47886b8de2f829a56cee46d9`. The Pages build is `built`
+and its commit names that exact source. Its public runtime assets are identical
+to `a6ac4455a6c76c518b5be4e6767c157f2f82404f`; the follow-up changes only the
+frozen-clock test calls and their scene-brief guidance.
+
+- **CI:** All **41 visual jobs passed**, and the [visual workflow](https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492943) is terminal success. [Integration](https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492993), [formatting](https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492886), [CodeQL](https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492928), [deployment](https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492985) and [post-deployment links](https://github.com/DylanTao/dylantao.github.io/actions/runs/40097648197) passed on `b66903e74`. The push link workflow intentionally skips. Upgrade was not triggered by the test/brief follow-up; it [passed on the identical-runtime source](https://github.com/DylanTao/dylantao.github.io/actions/runs/40096299445). The [final receipt](design-reviews/2026-10-24/RELEASE_VERIFICATION.json) records exact source, workflow and job identities, independently checked at 13:57 UTC.
+- **Local checks at the integrated runtime checkpoint:** 288 Python tests passed; Node reported 699 passed, seven optional GPU skips and zero failures. The 30 focused native-collar/presence tests passed. Style contract, all four changed skill validators, canonical-LF formatting and `git diff --check` passed. The complete production `/al-folio/` Docker build passed. The interrupted native Windows build is not acceptance evidence. The test/brief-only `b66903e74` follow-up additionally passed the targeted Linux recovery and scene-group inventory checks below.
+- **Deployed Walk:** [desktop/mobile receipt and captures](../artwork/coastal-home/reviews/first-person-collar-2026-10-24/README.md#exact-deployed-acceptance) pass on Intel Arc D3D11 with full assets, native clocks and no module overlays. Both actual browser module hashes match canonical source; down-look, liner-hidden diagnostic/restoration, source switch, full native mirror and return to the bath routine pass with no runtime errors. This is touch-viewport evidence, not physical-phone or entrance-route proof.
+- **Deployed counter:** [all six states](design-reviews/2026-10-24/ANALYTICS_REVIEW.md#deployed-verification) pass on the actual built script with synthetic values and no script override. One earlier unlocalized HTTP 503 and the single diagnostic retry are retained; no network-reliability claim follows. No real counter increments or analytics were sent by this check.
+
+The first closeout matrix on `a6ac4455a` exposed frozen-clock shader warmup waits:
+five callers omitted the existing helper's `page` argument. All 13 observed
+failures had that cause; the superseded run was cancelled. `b66903e74` services
+the existing clock-aware wait without changing assertions, timeouts, scene
+quality or runtime. The exact formerly failing mobile breakfast recovery passed
+on qualified Linux Mesa, and the scene-group inventory retains all 112 registered
+cases per viewport with no missing, extra or duplicate cases.
+
+The final receipt commit changes only Jekyll-excluded `docs/` and `artwork/`
+evidence and uses `[skip ci]` to avoid repeating an unchanged runtime matrix.
+Runtime verification belongs to `b66903e74`; the later metadata HEAD is not a
+claim of another deployment. Raw closeout captures/logs remain in ignored
+`.jekyll-cache/`, including all 184 byte-verified files copied from the collar
+worker before removing only that completed worker worktree. Historical
+design/interior/furniture worktrees remain preserved.
+
+### Earlier verified baseline
 
 The latest fully verified runtime before this closeout is `c14e73b3a6df92a8793505acf939532d95accd0b`.
 All [41 visual jobs](https://github.com/DylanTao/dylantao.github.io/actions/runs/40086812406),

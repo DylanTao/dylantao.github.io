@@ -1,0 +1,427 @@
+{
+  "schemaVersion": 1,
+  "queriedAt": "2026-10-24 13:57:23 UTC",
+  "sourceCommit": "b66903e74a95a9b545611bbe6705d27d68b2f1fa",
+  "runtimeCheckpoint": "a6ac4455a6c76c518b5be4e6767c157f2f82404f",
+  "scope": "Final CI and deployed source identity. A later evidence-only [skip ci] metadata commit does not create another verified runtime or deployment.",
+  "pages": {
+    "status": "built",
+    "commit": "20bdc88eb70c3afe47886b8de2f829a56cee46d9",
+    "updatedAt": "2026-10-24T13:23:59Z",
+    "commitMessageSource": "b66903e74a95a9b545611bbe6705d27d68b2f1fa"
+  },
+  "workflows": [
+    {
+      "id": 40097648197,
+      "name": "Check for broken links on site",
+      "headSha": "b66903e74a95a9b545611bbe6705d27d68b2f1fa",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40097648197"
+    },
+    {
+      "id": 40097492897,
+      "name": "Check for broken links",
+      "headSha": "b66903e74a95a9b545611bbe6705d27d68b2f1fa",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492897"
+    },
+    {
+      "id": 40097492886,
+      "name": "Prettier code formatter",
+      "headSha": "b66903e74a95a9b545611bbe6705d27d68b2f1fa",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492886"
+    },
+    {
+      "id": 40097492985,
+      "name": "Deploy site",
+      "headSha": "b66903e74a95a9b545611bbe6705d27d68b2f1fa",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492985"
+    },
+    {
+      "id": 40097492928,
+      "name": "CodeQL Advanced",
+      "headSha": "b66903e74a95a9b545611bbe6705d27d68b2f1fa",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492928"
+    },
+    {
+      "id": 40097492993,
+      "name": "Integration tests",
+      "headSha": "b66903e74a95a9b545611bbe6705d27d68b2f1fa",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492993"
+    },
+    {
+      "id": 40097492943,
+      "name": "Visual checkpoints",
+      "headSha": "b66903e74a95a9b545611bbe6705d27d68b2f1fa",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40097492943"
+    }
+  ],
+  "visual": {
+    "runId": 40097492943,
+    "totalJobs": 41,
+    "passedJobs": 41,
+    "failedJobs": 0,
+    "jobs": [
+      {
+        "id": 120882927025,
+        "name": "Visual checkpoints (desktop-1440, scene-core-2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:39:29Z"
+      },
+      {
+        "id": 120882927091,
+        "name": "Visual checkpoints (desktop-1440, scene-footer-light)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:27:17Z"
+      },
+      {
+        "id": 120882927104,
+        "name": "Visual checkpoints (mobile-390, scene-core-1)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:28:46Z"
+      },
+      {
+        "id": 120882927114,
+        "name": "Visual checkpoints (mobile-390, scene-gym)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:24:32Z"
+      },
+      {
+        "id": 120882927131,
+        "name": "Visual checkpoints (tablet-768, scene-core-1)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:25:15Z"
+      },
+      {
+        "id": 120882927143,
+        "name": "Visual checkpoints (laptop-1280, scene-gym)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:24:49Z"
+      },
+      {
+        "id": 120882927151,
+        "name": "Visual checkpoints (tablet-768, site)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:33:47Z"
+      },
+      {
+        "id": 120882927152,
+        "name": "Visual checkpoints (laptop-1280, scene-live)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:24:16Z"
+      },
+      {
+        "id": 120882927160,
+        "name": "Visual checkpoints (mobile-390, scene-footer-light)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:23:39Z"
+      },
+      {
+        "id": 120882927161,
+        "name": "Visual checkpoints (mobile-390, site)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:31:35Z"
+      },
+      {
+        "id": 120882927169,
+        "name": "Visual checkpoints (desktop-1440, legacy)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:22:12Z",
+        "completedAt": "2026-10-24T13:31:42Z"
+      },
+      {
+        "id": 120882927170,
+        "name": "Visual checkpoints (laptop-1280, scene-core-1)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:25:07Z"
+      },
+      {
+        "id": 120882927175,
+        "name": "Visual checkpoints (desktop-1440, scene-gym)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:26:53Z"
+      },
+      {
+        "id": 120882927184,
+        "name": "Visual checkpoints (desktop-1440, scene-core-1)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:38:55Z"
+      },
+      {
+        "id": 120882927185,
+        "name": "Visual checkpoints (tablet-768, scene-exploration)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:32:16Z"
+      },
+      {
+        "id": 120882927188,
+        "name": "Visual checkpoints (desktop-1440, scene-live)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:24:31Z"
+      },
+      {
+        "id": 120882927189,
+        "name": "Visual checkpoints (laptop-1280, scene-held-stairs)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:28:20Z"
+      },
+      {
+        "id": 120882927191,
+        "name": "Visual checkpoints (laptop-1280, scene-core-2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:30:01Z"
+      },
+      {
+        "id": 120882927205,
+        "name": "Visual checkpoints (tablet-768, scene-gym)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:24:50Z"
+      },
+      {
+        "id": 120882927206,
+        "name": "Visual checkpoints (tablet-768, scene-core-2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:32:03Z"
+      },
+      {
+        "id": 120882927211,
+        "name": "Visual checkpoints (laptop-1280, scene-journey)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:22:11Z"
+      },
+      {
+        "id": 120882927226,
+        "name": "Visual checkpoints (desktop-1440, scene-exploration)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:42:54Z"
+      },
+      {
+        "id": 120882927234,
+        "name": "Visual checkpoints (laptop-1280, site)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:36:19Z"
+      },
+      {
+        "id": 120882927237,
+        "name": "Visual checkpoints (desktop-1440, site)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:44:41Z"
+      },
+      {
+        "id": 120882927240,
+        "name": "Visual checkpoints (mobile-390, scene-held-stairs)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:27:07Z"
+      },
+      {
+        "id": 120882927247,
+        "name": "Visual checkpoints (desktop-1440, scene-choreography)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:29:44Z"
+      },
+      {
+        "id": 120882927250,
+        "name": "Visual checkpoints (mobile-390, scene-live)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:23:51Z"
+      },
+      {
+        "id": 120882927264,
+        "name": "Visual checkpoints (tablet-768, scene-live)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:24:17Z"
+      },
+      {
+        "id": 120882927265,
+        "name": "Visual checkpoints (mobile-390, scene-core-2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:34:17Z"
+      },
+      {
+        "id": 120882927272,
+        "name": "Visual checkpoints (desktop-1440, scene-journey)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:19:37Z",
+        "completedAt": "2026-10-24T13:56:44Z"
+      },
+      {
+        "id": 120882927279,
+        "name": "Visual checkpoints (tablet-768, scene-footer-light)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:23:08Z"
+      },
+      {
+        "id": 120882927281,
+        "name": "Visual checkpoints (mobile-390, scene-choreography)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:27:41Z"
+      },
+      {
+        "id": 120882927289,
+        "name": "Visual checkpoints (laptop-1280, scene-choreography)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:27:57Z"
+      },
+      {
+        "id": 120882927290,
+        "name": "Visual checkpoints (laptop-1280, scene-exploration)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:31:43Z"
+      },
+      {
+        "id": 120882927306,
+        "name": "Visual checkpoints (tablet-768, scene-journey)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:21:56Z"
+      },
+      {
+        "id": 120882927311,
+        "name": "Visual checkpoints (tablet-768, scene-held-stairs)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:28:20Z"
+      },
+      {
+        "id": 120882927339,
+        "name": "Visual checkpoints (mobile-390, scene-exploration)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:21:58Z",
+        "completedAt": "2026-10-24T13:36:00Z"
+      },
+      {
+        "id": 120882927341,
+        "name": "Visual checkpoints (desktop-1440, scene-held-stairs)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:21:36Z",
+        "completedAt": "2026-10-24T13:27:38Z"
+      },
+      {
+        "id": 120882927374,
+        "name": "Visual checkpoints (laptop-1280, scene-footer-light)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:34Z",
+        "completedAt": "2026-10-24T13:23:29Z"
+      },
+      {
+        "id": 120882927375,
+        "name": "Visual checkpoints (tablet-768, scene-choreography)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:28:35Z"
+      },
+      {
+        "id": 120882927407,
+        "name": "Visual checkpoints (mobile-390, scene-journey)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-24T13:18:33Z",
+        "completedAt": "2026-10-24T13:22:47Z"
+      }
+    ]
+  },
+  "upgrade": {
+    "id": 40096299445,
+    "headSha": "a6ac4455a6c76c518b5be4e6767c157f2f82404f",
+    "conclusion": "success",
+    "boundary": "Passed on the identical-runtime checkpoint; not triggered by the test/brief-only follow-up."
+  },
+  "liveEvidence": {
+    "counter": "counter-evidence/live-verification.json",
+    "house": "../../../artwork/coastal-home/reviews/first-person-collar-2026-10-24/house/live-evidence.json"
+  },
+  "localChecks": {
+    "scope": "Integrated runtime checkpoint; not a new rerun for excluded evidence metadata.",
+    "pythonPassed": 288,
+    "nodePassed": 699,
+    "nodeSkipped": 7,
+    "nodeFailed": 0,
+    "nativeCollarPresencePassed": 30,
+    "productionBuild": "complete Docker /al-folio/ production build passed",
+    "harnessFollowUp": "Qualified Linux Mesa mobile breakfast recovery passed; all 112 registered scene cases per viewport preserved with no missing, extra or duplicate cases."
+  }
+}

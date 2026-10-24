@@ -1,0 +1,178 @@
+{
+  "source": "b66903e74a95a9b545611bbe6705d27d68b2f1fa",
+  "pagesCommit": "20bdc88eb70c3afe47886b8de2f829a56cee46d9",
+  "verifiedAt": "2026-10-24T13:27:29.244Z",
+  "expectedBuiltScriptSha256": "7c6c3e598a308b56bd5c7dcb33147f158c4edd9812aed9a02d9d685a44e764dc",
+  "expectedBuiltScriptBytes": 1622,
+  "limitations": "Synthetic display/failure proof on actual deployed script bytes. No real audience data, counter requests or telemetry sent; no collection/settings changes. Endpoint increment/storage accuracy and unique readership are not established.",
+  "custody": {
+    "rawPath": ".jekyll-cache/visual-qa/sirui-closeout-20261024/blog-view-label/live-b66903e74-attempt2/verification.json",
+    "rawSha256": "e3b0ffac5f64cf3a767ab31f140b7fcea381b0812f24c3c8b1102aa15e460aec",
+    "projection": "Per-case public route, synthetic output, actual script bytes and checked assertions; repeated public links/request rows omitted."
+  },
+  "attempts": {
+    "initial": "Three states passed, then one generic console HTTP 503 stopped the run. The URL was not recorded, so its source is unknown. No code was changed in response.",
+    "diagnosticRetry": "One fresh run added failed-response URL logging and per-case progress preservation. All six states passed; failedResponses and runtimeErrors were empty.",
+    "initialLog": ".jekyll-cache/sirui-closeout-live-counter-attempt1.log",
+    "retryLog": ".jekyll-cache/sirui-closeout-live-counter-attempt2.log",
+    "boundary": "A bounded successful retry does not establish endpoint or network reliability."
+  },
+  "cases": [
+    {
+      "id": "index-390-one",
+      "route": "/blog/",
+      "width": 390,
+      "syntheticCount": 1,
+      "status": 200,
+      "counter": {
+        "text": "1 view",
+        "hidden": false,
+        "wrapperHidden": false,
+        "mode": "display"
+      },
+      "allCounterOutputsChecked": 6,
+      "requestMethods": ["GET"],
+      "actualScript": {
+        "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=8fc5b8d049dcbf683302ff0ae04978bc",
+        "sha256": "7c6c3e598a308b56bd5c7dcb33147f158c4edd9812aed9a02d9d685a44e764dc",
+        "bytes": 1622
+      },
+      "nativeLinksChecked": 57,
+      "allLinksNative": true,
+      "overflow": 0,
+      "runtimeErrors": [],
+      "failedResponses": [],
+      "passed": true
+    },
+    {
+      "id": "index-390-many",
+      "route": "/blog/",
+      "width": 390,
+      "syntheticCount": 1234,
+      "status": 200,
+      "counter": {
+        "text": "1,234 views",
+        "hidden": false,
+        "wrapperHidden": false,
+        "mode": "display"
+      },
+      "allCounterOutputsChecked": 6,
+      "requestMethods": ["GET"],
+      "actualScript": {
+        "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=8fc5b8d049dcbf683302ff0ae04978bc",
+        "sha256": "7c6c3e598a308b56bd5c7dcb33147f158c4edd9812aed9a02d9d685a44e764dc",
+        "bytes": 1622
+      },
+      "nativeLinksChecked": 57,
+      "allLinksNative": true,
+      "overflow": 0,
+      "runtimeErrors": [],
+      "failedResponses": [],
+      "passed": true
+    },
+    {
+      "id": "post-390-one",
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "width": 390,
+      "syntheticCount": 1,
+      "status": 200,
+      "counter": {
+        "text": "1 view",
+        "hidden": false,
+        "wrapperHidden": false,
+        "mode": "increment"
+      },
+      "allCounterOutputsChecked": 1,
+      "requestMethods": ["POST"],
+      "actualScript": {
+        "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=8fc5b8d049dcbf683302ff0ae04978bc",
+        "sha256": "7c6c3e598a308b56bd5c7dcb33147f158c4edd9812aed9a02d9d685a44e764dc",
+        "bytes": 1622
+      },
+      "nativeLinksChecked": 18,
+      "allLinksNative": true,
+      "overflow": 0,
+      "runtimeErrors": [],
+      "failedResponses": [],
+      "passed": true
+    },
+    {
+      "id": "post-390-many",
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "width": 390,
+      "syntheticCount": 1234,
+      "status": 200,
+      "counter": {
+        "text": "1,234 views",
+        "hidden": false,
+        "wrapperHidden": false,
+        "mode": "increment"
+      },
+      "allCounterOutputsChecked": 1,
+      "requestMethods": ["POST"],
+      "actualScript": {
+        "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=8fc5b8d049dcbf683302ff0ae04978bc",
+        "sha256": "7c6c3e598a308b56bd5c7dcb33147f158c4edd9812aed9a02d9d685a44e764dc",
+        "bytes": 1622
+      },
+      "nativeLinksChecked": 18,
+      "allLinksNative": true,
+      "overflow": 0,
+      "runtimeErrors": [],
+      "failedResponses": [],
+      "passed": true
+    },
+    {
+      "id": "post-1440-many",
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "width": 1440,
+      "syntheticCount": 1234,
+      "status": 200,
+      "counter": {
+        "text": "1,234 views",
+        "hidden": false,
+        "wrapperHidden": false,
+        "mode": "increment"
+      },
+      "allCounterOutputsChecked": 1,
+      "requestMethods": ["POST"],
+      "actualScript": {
+        "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=8fc5b8d049dcbf683302ff0ae04978bc",
+        "sha256": "7c6c3e598a308b56bd5c7dcb33147f158c4edd9812aed9a02d9d685a44e764dc",
+        "bytes": 1622
+      },
+      "nativeLinksChecked": 18,
+      "allLinksNative": true,
+      "overflow": 0,
+      "runtimeErrors": [],
+      "failedResponses": [],
+      "passed": true
+    },
+    {
+      "id": "post-390-invalid",
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "width": 390,
+      "syntheticCount": "invalid",
+      "status": 200,
+      "counter": {
+        "text": "",
+        "hidden": true,
+        "wrapperHidden": true,
+        "mode": "increment"
+      },
+      "allCounterOutputsChecked": 1,
+      "requestMethods": ["POST"],
+      "actualScript": {
+        "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=8fc5b8d049dcbf683302ff0ae04978bc",
+        "sha256": "7c6c3e598a308b56bd5c7dcb33147f158c4edd9812aed9a02d9d685a44e764dc",
+        "bytes": 1622
+      },
+      "nativeLinksChecked": 18,
+      "allLinksNative": true,
+      "overflow": 0,
+      "runtimeErrors": [],
+      "failedResponses": [],
+      "passed": true
+    }
+  ]
+}

@@ -29,6 +29,28 @@ Across all fresh fits retained in the final software-WebGL host fixture, setup t
 - The [rejected material-membership gate](house-rejected/material-membership.json) and its [native image](house-rejected/desktop-ghibli-upper-down.png) discovered stale initial Ghibli material membership: the actual draw materials had no head plane after a style/receiver rebind, although the recorded Head/clip heights and attached skin matrices were correct. The face remained when the liner was hidden at the same source/pose. The bounded repair refreshes the current material pointers at the start of `withoutHead()`, immediately before applying clipping. It scans only the small native hierarchy/material list, not vertices or triangles. A replacement-material normal/throw regression protects restoration of both the new and obsolete materials. The [final exact-source house receipt](house/evidence.json) passes both viewports with 12/12 actual Ghibli primitives carrying the correct world plane; [desktop](house/desktop-ghibli-upper-down.png) and [mobile](house/mobile-ghibli-upper-down.png) show collar closure and no exposed face. Source switching and the full native [desktop mirror](house/desktop-lizard-upper-mirror.png) / [mobile mirror](house/mobile-lizard-upper-mirror.png) pass before returning to the bath routine. No shader/page errors occurred.
 - The initial default-headless full-house attempt selected CPU SwiftShader and stalled during shader warmup. Its failed receipt is retained in ignored cache; it is not acceptance evidence. The corrected D3D11 backend matches the canonical Windows visual harness. Earlier native-avatar fixture costs remain explicitly software-host measurements.
 
+## Exact deployed acceptance
+
+The [live receipt](house/live-evidence.json) repeats the bounded camera-only gate
+against source `b66903e74a95a9b545611bbe6705d27d68b2f1fa`, served by Pages commit
+`20bdc88eb70c3afe47886b8de2f829a56cee46d9`. There are **no module overlays**. Both
+preflight responses and the actual browser-loaded bytes match canonical Git
+source in both viewports:
+
+- `walk-presence.mjs`: SHA256 `e5f793b66ca6f875bad2f97bd8cc7959bdbd44dafddc4463e0fa501552c2b338`.
+- `walk-collar-liner.mjs`: SHA256 `89284abbdde4b4208bd55871ae76977bd074e6de880ffc269b933c09305b0291`.
+
+Desktop 1440 x 1000 and touch-context 390 x 1000 pass on Intel Arc D3D11 with
+native timers, full assets/quality and no runtime errors. The actual draw camera
+points down at Y = -0.98545; current native materials carry the clipping plane.
+The [live desktop](house/live-desktop-ghibli-upper-down.png) and
+[live mobile](house/live-mobile-ghibli-upper-down.png) captures show the closed
+collar without the stale exposed face. A same-source liner-hidden diagnostic,
+restoration, Ghibli-to-Lizard switch, [full native mobile mirror](house/live-mobile-lizard-upper-mirror.png)
+and return from Walk to the bath routine also pass. Capsule positions are staged
+valid poses, so this does not add entrance-route or physical-phone claims to the
+broader local state-flow evidence.
+
 ## Retained South Park extreme-down defect
 
 [Before](native/evidence/south-park-down80-before.png) and [liner](native/evidence/south-park-down80-liner.png) both show a distracting mouth/teeth/lower-face silhouette below the existing cut. This is a retained **primary-view defect**, not a newly polished silhouette. Collar closure does not repair it.

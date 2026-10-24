@@ -21,8 +21,8 @@ the API locally and overriding only the intended changed script for the after
 state. The mobile index and post cover singular/plural output; the desktop post
 also checks the plural. No counter requests leave the browser. Native links are
 identical before/after; overflow and runtime errors are absent. Malformed data
-still hides the counter and wrapper. This is iteration proof; publication also
-requires checking the newly built script on the live route.
+still hides the counter and wrapper. The deployed check below separately verifies
+the newly built script on the live route.
 
 | Synthetic state     | Before                                               | After                                              |
 | ------------------- | ---------------------------------------------------- | -------------------------------------------------- |
@@ -35,6 +35,26 @@ hashes and checked links. Production's original script is minified, so its byte
 hash is recorded separately from canonical unminified source. No real GA data
 or credentials are included. The shorter truthful label makes no claim of more
 traffic, better engagement or improved reading.
+
+### Deployed verification
+
+The [live receipt](counter-evidence/live-verification.json) covers all six states
+on source `b66903e74a95a9b545611bbe6705d27d68b2f1fa`, served by Pages commit
+`20bdc88eb70c3afe47886b8de2f829a56cee46d9`. There is no script override. The actual
+browser-loaded, minified counter script matches that exact Pages artifact in every
+case (SHA256 `7c6c3e598a308b56bd5c7dcb33147f158c4edd9812aed9a02d9d685a44e764dc`).
+Mobile index/post singular and plural, desktop post plural, and malformed-data
+hiding pass with native links, unchanged GET/POST semantics, zero overflow and
+no runtime errors. The [deployed mobile post](counter-evidence/live-post-390-one.png)
+shows the synthetic `1 view` state. The API is fulfilled locally; these checks send
+no real counter increments or analytics and make no audience claim.
+
+The initial live attempt passed three states, then stopped on a generic console
+HTTP 503. Its URL was not recorded, so the source is unknown. One diagnostic retry
+added response-URL logging and preserved per-case progress; all six states passed
+with no failed responses. No runtime code changed in response. The original
+failure and both runs remain in ignored cache. This bounded retry does not
+establish endpoint or network reliability.
 
 ## The decision
 
