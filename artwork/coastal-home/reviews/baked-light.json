@@ -609,42 +609,6 @@
       "max": 0.8186224955692888
     },
     {
-      "mesh": "lounge_decor woven jute",
-      "corners": 7488,
-      "min": 0.6800322441832396,
-      "max": 0.7513708575069905
-    },
-    {
-      "mesh": "lounge_decor terracotta",
-      "corners": 1728,
-      "min": 0.6803726849604088,
-      "max": 0.7421843907485406
-    },
-    {
-      "mesh": "lounge_decor pale oak",
-      "corners": 648,
-      "min": 0.68,
-      "max": 0.729983807951212
-    },
-    {
-      "mesh": "lounge_decor celadon glaze",
-      "corners": 1036,
-      "min": 0.68,
-      "max": 0.7301112159838279
-    },
-    {
-      "mesh": "lounge_decor tenmoku glaze",
-      "corners": 812,
-      "min": 0.68,
-      "max": 0.8150000000000001
-    },
-    {
-      "mesh": "lounge_decor oatmeal glaze",
-      "corners": 812,
-      "min": 0.68,
-      "max": 0.7296683076520761
-    },
-    {
       "mesh": "core_facade__dark_bronze",
       "corners": 10408,
       "min": 0.68,
@@ -1155,150 +1119,6 @@
       "max": 0.761521703551213
     },
     {
-      "mesh": "lounge__warm cut stone",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.8375000107288362
-    },
-    {
-      "mesh": "lounge__pale oak",
-      "corners": 5872,
-      "min": 0.68,
-      "max": 0.7975357386718195
-    },
-    {
-      "mesh": "lounge__chalk limestone",
-      "corners": 3072,
-      "min": 0.68,
-      "max": 0.7964773900310199
-    },
-    {
-      "mesh": "lounge__honey ash",
-      "corners": 16620,
-      "min": 0.68,
-      "max": 0.8127313986917337
-    },
-    {
-      "mesh": "lounge__cloud boucle textile",
-      "corners": 14400,
-      "min": 0.68,
-      "max": 0.7999114497999351
-    },
-    {
-      "mesh": "lounge__indigo textile",
-      "corners": 792,
-      "min": 0.68,
-      "max": 0.781352353890737
-    },
-    {
-      "mesh": "lounge__ochre textile",
-      "corners": 792,
-      "min": 0.68,
-      "max": 0.7859541710466147
-    },
-    {
-      "mesh": "lounge__terracotta",
-      "corners": 552,
-      "min": 0.68,
-      "max": 0.7822421378393968
-    },
-    {
-      "mesh": "lounge__oatmeal wool textile",
-      "corners": 384,
-      "min": 0.68,
-      "max": 0.7227417523165545
-    },
-    {
-      "mesh": "lounge__linen",
-      "corners": 96,
-      "min": 0.68,
-      "max": 0.7087406080961228
-    },
-    {
-      "mesh": "lounge__ochre knit textile",
-      "corners": 2080,
-      "min": 0.68,
-      "max": 0.9500000000000001
-    },
-    {
-      "mesh": "lounge__washi lantern paper",
-      "corners": 1280,
-      "min": 0.68,
-      "max": 0.8375000107288362
-    },
-    {
-      "mesh": "lounge__matte black device",
-      "corners": 384,
-      "min": 0.6800052709220957,
-      "max": 0.7748479141791662
-    },
-    {
-      "mesh": "lounge__tv black glass",
-      "corners": 24,
-      "min": 0.6800033535397355,
-      "max": 0.7667412549257279
-    },
-    {
-      "mesh": "lounge__charcoal",
-      "corners": 240,
-      "min": 0.68,
-      "max": 0.7669027921309074
-    },
-    {
-      "mesh": "lounge__polished nickel",
-      "corners": 48,
-      "min": 0.68,
-      "max": 0.7587500053644181
-    },
-    {
-      "mesh": "lounge__record sleeve card",
-      "corners": 48,
-      "min": 0.6800004011013289,
-      "max": 0.7401466935873032
-    },
-    {
-      "mesh": "lounge__brushed brass",
-      "corners": 1544,
-      "min": 0.68,
-      "max": 0.8323713669925928
-    },
-    {
-      "mesh": "lounge__woven jute",
-      "corners": 384,
-      "min": 0.68,
-      "max": 0.7965068995455902
-    },
-    {
-      "mesh": "lounge__honed travertine",
-      "corners": 576,
-      "min": 0.68,
-      "max": 0.9500000000000001
-    },
-    {
-      "mesh": "lounge__blackened steel flue",
-      "corners": 192,
-      "min": 0.68,
-      "max": 0.7908380512396495
-    },
-    {
-      "mesh": "lounge__dark bronze",
-      "corners": 624,
-      "min": 0.68,
-      "max": 0.8093112750848135
-    },
-    {
-      "mesh": "lounge_placeholder_living-fireplace",
-      "corners": 2832,
-      "min": 0.68,
-      "max": 0.8086924087752899
-    },
-    {
-      "mesh": "lounge_placeholder_living-eames-lounge",
-      "corners": 3648,
-      "min": 0.68,
-      "max": 0.8222343956679107
-    },
-    {
       "mesh": "core_reno_floorboards_lower",
       "corners": 12208,
       "min": 0.68,
@@ -1327,42 +1147,6 @@
       "corners": 624,
       "min": 0.68,
       "max": 0.9516788532957435
-    },
-    {
-      "mesh": "core_arrival__warm cut stone",
-      "corners": 15360,
-      "min": 0.68,
-      "max": 0.9286353587669631
-    },
-    {
-      "mesh": "core_arrival__pale oak",
-      "corners": 21888,
-      "min": 0.68,
-      "max": 0.9521366830915213
-    },
-    {
-      "mesh": "core_arrival__brushed brass",
-      "corners": 1344,
-      "min": 0.68,
-      "max": 0.8718389670023075
-    },
-    {
-      "mesh": "core_arrival__honey ash",
-      "corners": 1056,
-      "min": 0.68,
-      "max": 0.8613374221604319
-    },
-    {
-      "mesh": "core_arrival__arrival step diffuser",
-      "corners": 3072,
-      "min": 0.68,
-      "max": 0.8388532322241615
-    },
-    {
-      "mesh": "core_arrival__golden coastal sandstone",
-      "corners": 768,
-      "min": 0.68,
-      "max": 0.9185308024038871
     },
     {
       "mesh": "gym_pan_station__honey ash",
@@ -1395,28 +1179,64 @@
       "max": 0.7479682316382726
     },
     {
+      "mesh": "lounge_decor woven jute",
+      "corners": 7488,
+      "min": 0.68002541114809,
+      "max": 0.7511922270432115
+    },
+    {
+      "mesh": "lounge_decor terracotta",
+      "corners": 1728,
+      "min": 0.680357024736392,
+      "max": 0.7431664048383634
+    },
+    {
+      "mesh": "lounge_decor pale oak",
+      "corners": 648,
+      "min": 0.68,
+      "max": 0.7299208351473014
+    },
+    {
+      "mesh": "lounge_decor celadon glaze",
+      "corners": 1036,
+      "min": 0.68,
+      "max": 0.7288347681735953
+    },
+    {
+      "mesh": "lounge_decor tenmoku glaze",
+      "corners": 812,
+      "min": 0.68,
+      "max": 0.8150000000000001
+    },
+    {
+      "mesh": "lounge_decor oatmeal glaze",
+      "corners": 812,
+      "min": 0.68,
+      "max": 0.7297225404282411
+    },
+    {
       "mesh": "lounge_retained_plant_table_stems",
       "corners": 162,
       "min": 0.68,
-      "max": 0.773678954343001
+      "max": 0.7736717693135142
     },
     {
       "mesh": "lounge_retained_plant_table_pot",
       "corners": 440,
       "min": 0.68,
-      "max": 0.7660123618195455
+      "max": 0.7660132660716772
     },
     {
       "mesh": "lounge_retained_plant_table_foliage",
       "corners": 28,
-      "min": 0.6804562249251952,
-      "max": 0.7418282466630142
+      "min": 0.6804556398683539,
+      "max": 0.741830225288868
     },
     {
       "mesh": "lounge_retained_plant_olive_stems",
       "corners": 3576,
       "min": 0.68,
-      "max": 0.8858378106852373
+      "max": 0.885838617583116
     },
     {
       "mesh": "lounge_retained_plant_olive_planter",
@@ -1428,7 +1248,217 @@
       "mesh": "lounge_retained_plant_olive_foliage",
       "corners": 2112,
       "min": 0.68,
-      "max": 0.8209324137866497
+      "max": 0.8245885830620925
+    },
+    {
+      "mesh": "lounge__warm cut stone",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.8375000107288362
+    },
+    {
+      "mesh": "lounge__pale oak",
+      "corners": 5872,
+      "min": 0.68,
+      "max": 0.7980569441616536
+    },
+    {
+      "mesh": "lounge__chalk limestone",
+      "corners": 3072,
+      "min": 0.68,
+      "max": 0.7896783659855525
+    },
+    {
+      "mesh": "lounge__honey ash",
+      "corners": 16620,
+      "min": 0.68,
+      "max": 0.812506362348795
+    },
+    {
+      "mesh": "lounge__cloud boucle textile",
+      "corners": 31680,
+      "min": 0.68,
+      "max": 0.7980552954723439
+    },
+    {
+      "mesh": "lounge__indigo textile",
+      "corners": 1224,
+      "min": 0.68,
+      "max": 0.7819005689521631
+    },
+    {
+      "mesh": "lounge__ochre textile",
+      "corners": 1224,
+      "min": 0.68,
+      "max": 0.7790060315529506
+    },
+    {
+      "mesh": "lounge__terracotta",
+      "corners": 768,
+      "min": 0.68,
+      "max": 0.7840002809961637
+    },
+    {
+      "mesh": "lounge__ochre knit textile",
+      "corners": 2848,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "lounge__oatmeal wool textile",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7225534848372143
+    },
+    {
+      "mesh": "lounge__linen",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7091512422511975
+    },
+    {
+      "mesh": "lounge__washi lantern paper",
+      "corners": 1280,
+      "min": 0.68,
+      "max": 0.8375000107288362
+    },
+    {
+      "mesh": "lounge__matte black device",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7738046245276928
+    },
+    {
+      "mesh": "lounge__tv black glass",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7663996145129205
+    },
+    {
+      "mesh": "lounge__charcoal",
+      "corners": 240,
+      "min": 0.68,
+      "max": 0.7673310337464015
+    },
+    {
+      "mesh": "lounge__polished nickel",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7587500053644181
+    },
+    {
+      "mesh": "lounge__record sleeve card",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7404433800528447
+    },
+    {
+      "mesh": "lounge__brushed brass",
+      "corners": 1544,
+      "min": 0.68,
+      "max": 0.8314567145953576
+    },
+    {
+      "mesh": "lounge__woven jute",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7984325912594796
+    },
+    {
+      "mesh": "lounge__honed travertine",
+      "corners": 576,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "lounge__blackened steel flue",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.7907197166482608
+    },
+    {
+      "mesh": "lounge__dark bronze",
+      "corners": 624,
+      "min": 0.68,
+      "max": 0.8107336907585462
+    },
+    {
+      "mesh": "lounge_placeholder_living-fireplace",
+      "corners": 2832,
+      "min": 0.68,
+      "max": 0.8085368748009205
+    },
+    {
+      "mesh": "lounge_placeholder_living-eames-lounge",
+      "corners": 3648,
+      "min": 0.68,
+      "max": 0.8216034411390623
+    },
+    {
+      "mesh": "core_arrival__warm cut stone",
+      "corners": 15360,
+      "min": 0.68,
+      "max": 0.9286356346557538
+    },
+    {
+      "mesh": "core_arrival__pale oak",
+      "corners": 21888,
+      "min": 0.68,
+      "max": 0.9521367282606662
+    },
+    {
+      "mesh": "core_arrival__brushed brass",
+      "corners": 1344,
+      "min": 0.68,
+      "max": 0.8718390099362782
+    },
+    {
+      "mesh": "core_arrival__honey ash",
+      "corners": 1056,
+      "min": 0.68,
+      "max": 0.8613374221604319
+    },
+    {
+      "mesh": "core_arrival__arrival step diffuser",
+      "corners": 3072,
+      "min": 0.68,
+      "max": 0.8388573695626111
+    },
+    {
+      "mesh": "core_arrival__golden coastal sandstone",
+      "corners": 768,
+      "min": 0.68,
+      "max": 0.9185308639953534
+    },
+    {
+      "mesh": "core_arrival_lower__warm cut stone",
+      "corners": 6528,
+      "min": 0.68,
+      "max": 0.8150000000000001
+    },
+    {
+      "mesh": "core_arrival_lower__pale oak",
+      "corners": 11520,
+      "min": 0.68,
+      "max": 0.7280254722324511
+    },
+    {
+      "mesh": "core_arrival_lower__brushed brass",
+      "corners": 3180,
+      "min": 0.68,
+      "max": 0.717803611556689
+    },
+    {
+      "mesh": "core_arrival_lower__arrival step diffuser",
+      "corners": 2304,
+      "min": 0.68,
+      "max": 0.7158244668319822
+    },
+    {
+      "mesh": "core_arrival_lower__honey ash",
+      "corners": 1680,
+      "min": 0.68,
+      "max": 0.8262500053644181
     }
   ]
 }

@@ -1,0 +1,77 @@
+{
+  "baselineCommit": "8c1e16c318dd22d700d2b363244bb85fccb82f17",
+  "assets": [
+    {
+      "file": "assets/models/home/home-shell.glb",
+      "before": {
+        "bytes": 656572,
+        "triangles": 202075,
+        "primitives": 69,
+        "sha256": "72015bd0ea9e576f6f83024fae3ef8bf0006612c684ac1d4f241ba269e02e945"
+      },
+      "after": {
+        "bytes": 681028,
+        "triangles": 213309,
+        "primitives": 73,
+        "sha256": "61cd4908a84d4514c35bc7e4f6f8cf62b11dad6fea1a24417cc3909b9d047c2f"
+      },
+      "deltaBytes": 24456,
+      "deltaTriangles": 11234
+    },
+    {
+      "file": "assets/models/home/coast.glb",
+      "before": {
+        "bytes": 171856,
+        "triangles": 100066,
+        "primitives": 5,
+        "sha256": "4e39d9ebe968491f4f3b392ffaddd708719c2cb2f1ed54c06338b2fa6f51f533"
+      },
+      "after": {
+        "bytes": 157672,
+        "triangles": 97364,
+        "primitives": 5,
+        "sha256": "addf1779034a83636d6197a65a29dd52a1fea0dd55b4565245009b7bc0e7ef5d"
+      },
+      "deltaBytes": -14184,
+      "deltaTriangles": -2702
+    },
+    {
+      "file": "assets/models/home/room-lounge.glb",
+      "before": {
+        "bytes": 182492,
+        "triangles": 38584,
+        "primitives": 38,
+        "sha256": "580a80b5d9f4d35379f23cb61765f759a629880f61b32237b60e8d5fb965c0f6"
+      },
+      "after": {
+        "bytes": 247092,
+        "triangles": 49128,
+        "primitives": 38,
+        "sha256": "daf70b3af7c297690e9bcadcff8b384b0b4afd80ebe7c83567f4cf0798de70b6"
+      },
+      "deltaBytes": 64600,
+      "deltaTriangles": 10544
+    },
+    {
+      "file": "assets/models/home/room-onsen.glb",
+      "before": {
+        "bytes": 83940,
+        "triangles": 18992,
+        "primitives": 12,
+        "sha256": "fee8d9cc86e02b8b9d8f1e225d839153a725c367558accff1d044f7ea9edc9ad"
+      },
+      "after": {
+        "bytes": 79848,
+        "triangles": 15632,
+        "primitives": 13,
+        "sha256": "be3188b96cbcd5de8c9c52ef5270bd4c4619bff3cf23e9178414cdee5c896851"
+      },
+      "deltaBytes": -4092,
+      "deltaTriangles": -3360
+    }
+  ],
+  "netBytes": 70780,
+  "netTriangles": 15716,
+  "newTextureFiles": 0,
+  "newRuntimeRenderPasses": 0
+}

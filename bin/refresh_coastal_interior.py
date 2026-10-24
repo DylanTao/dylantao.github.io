@@ -123,7 +123,8 @@ if "kitchen" in PHASES:
         # (light-installations.mjs).
         "region": {"min": [-5.15, -0.5, -4.45], "max": [-0.2, 5.4, 4.75]},
         "pendant": three((px, py, pz)),
-        "downlights": [three((x, y, kitchen.SOFFIT - 0.012)) for x, y in kitchen.DOWNLIGHTS] + [three((dx, dy, dz))],
+        "downlights": [three((x, y, kitchen.SOFFIT - 0.012)) for x, y in kitchen.DOWNLIGHTS],
+        "dining": [three((x, y, kitchen.DINING["table"][2] + .75)) for x, y in kitchen.DINING_PENDANTS],
         "vault": [three((-2.45, 0.75, 4.6))],
         "shelf": [three((kitchen.SHELF_LIGHT["x"] + 0.15, lx0, lz)), three((kitchen.SHELF_LIGHT["x"] + 0.15, lx1, lz))],
     }

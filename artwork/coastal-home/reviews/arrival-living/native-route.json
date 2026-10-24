@@ -1,0 +1,473 @@
+{
+  "routePoints": 58,
+  "minimumMeasuredHeadroom": 2.227,
+  "maximumFloorDelta": 0.0025,
+  "nativeRoute": [
+    {
+      "index": 0,
+      "point": [3.42, 7.5172, 18.55],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.3257,
+      "ceiling": "core_arrival__pale oak"
+    },
+    {
+      "index": 1,
+      "point": [3.42, 7.5172, 17.86],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.325,
+      "ceiling": "core_arrival__pale oak"
+    },
+    {
+      "index": 2,
+      "point": [3.42, 7.3635, 17.58],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 4e-5,
+      "headroom": null,
+      "ceiling": null
+    },
+    {
+      "index": 3,
+      "point": [3.42, 7.2099, 17.3],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": -2e-5,
+      "headroom": null,
+      "ceiling": null
+    },
+    {
+      "index": 4,
+      "point": [3.42, 7.0562, 17.02],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 2e-5,
+      "headroom": 2.786,
+      "ceiling": "core_arrival__pale oak"
+    },
+    {
+      "index": 5,
+      "point": [3.42, 6.9026, 16.74],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": -5e-5,
+      "headroom": null,
+      "ceiling": null
+    },
+    {
+      "index": 6,
+      "point": [3.42, 6.7489, 16.46],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": -1e-5,
+      "headroom": null,
+      "ceiling": null
+    },
+    {
+      "index": 7,
+      "point": [3.42, 6.5952, 16.18],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 3e-5,
+      "headroom": null,
+      "ceiling": null
+    },
+    {
+      "index": 8,
+      "point": [3.42, 6.4416, 15.9],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": -3e-5,
+      "headroom": null,
+      "ceiling": null
+    },
+    {
+      "index": 9,
+      "point": [3.42, 6.2879, 15.62],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": 0.0,
+      "headroom": null,
+      "ceiling": null
+    },
+    {
+      "index": 10,
+      "point": [3.42, 6.1342, 15.34],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": 4e-5,
+      "headroom": 5.65,
+      "ceiling": "core_flora_palm_fronds"
+    },
+    {
+      "index": 11,
+      "point": [3.42, 5.9806, 15.06],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": -2e-5,
+      "headroom": 5.9563,
+      "ceiling": "core_flora_palm_fronds"
+    },
+    {
+      "index": 12,
+      "point": [3.42, 5.8269, 14.78],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": 1e-5,
+      "headroom": 7.5797,
+      "ceiling": "core_flora_palm_fronds"
+    },
+    {
+      "index": 13,
+      "point": [3.42, 5.6733, 14.5],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": -5e-5,
+      "headroom": 7.71,
+      "ceiling": "core_flora_palm_fronds"
+    },
+    {
+      "index": 14,
+      "point": [3.42, 5.5196, 14.22],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": -1e-5,
+      "headroom": null,
+      "ceiling": null
+    },
+    {
+      "index": 15,
+      "point": [3.42, 5.3659, 13.94],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 3e-5,
+      "headroom": 7.2849,
+      "ceiling": "core_flora_palm_fronds"
+    },
+    {
+      "index": 16,
+      "point": [3.42, 5.2123, 13.66],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": -4e-5,
+      "headroom": 7.2999,
+      "ceiling": "core_flora_palm_fronds"
+    },
+    {
+      "index": 17,
+      "point": [3.42, 5.0586, 13.38],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": 0.0,
+      "headroom": 7.5522,
+      "ceiling": "core_flora_palm_fronds"
+    },
+    {
+      "index": 18,
+      "point": [3.42, 4.9049, 13.1],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": 4e-5,
+      "headroom": 7.5428,
+      "ceiling": "core_flora_palm_fronds"
+    },
+    {
+      "index": 19,
+      "point": [3.42, 4.7513, 12.82],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": -2e-5,
+      "headroom": 7.8457,
+      "ceiling": "core_flora_palm_fronds"
+    },
+    {
+      "index": 20,
+      "point": [3.42, 4.5976, 12.54],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 1e-5,
+      "headroom": 2.5959,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 21,
+      "point": [3.42, 4.444, 12.26],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": -5e-5,
+      "headroom": 2.6009,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 22,
+      "point": [3.42, 4.2903, 11.98],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": -1e-5,
+      "headroom": 2.6059,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 23,
+      "point": [3.42, 4.1366, 11.7],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 3e-5,
+      "headroom": 2.6108,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 24,
+      "point": [3.42, 3.983, 11.42],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": -4e-5,
+      "headroom": 2.6158,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 25,
+      "point": [3.42, 3.8293, 11.14],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": 0.0,
+      "headroom": 2.6208,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 26,
+      "point": [3.42, 3.6756, 10.86],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": 4e-5,
+      "headroom": 2.6258,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 27,
+      "point": [3.42, 3.522, 10.58],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": -2e-5,
+      "headroom": 2.6308,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 28,
+      "point": [3.42, 3.3683, 10.3],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": 1e-5,
+      "headroom": 2.6357,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 29,
+      "point": [3.42, 3.2147, 10.02],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": -5e-5,
+      "headroom": 2.6407,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 30,
+      "point": [3.42, 3.061, 9.74],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": -1e-5,
+      "headroom": 2.6457,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 31,
+      "point": [3.42, 2.9073, 9.46],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": 3e-5,
+      "headroom": 2.6507,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 32,
+      "point": [3.42, 2.7537, 9.18],
+      "floor": "core_arrival__pale oak",
+      "floorDelta": -4e-5,
+      "headroom": 2.6556,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 33,
+      "point": [3.42, 2.6, 8.92],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.68,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 34,
+      "point": [3.42, 2.6, 8.72],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.68,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 35,
+      "point": [2.59, 2.6, 8.72],
+      "floor": "core_arrival__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.68,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 36,
+      "point": [2.29, 2.6, 8.72],
+      "floor": "core_arrival_lower__pale oak",
+      "floorDelta": 0.0,
+      "headroom": 2.5767,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 37,
+      "point": [2.01, 2.4375, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.5823,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 38,
+      "point": [1.73, 2.275, 8.72],
+      "floor": "core_arrival_lower__pale oak",
+      "floorDelta": 0.0,
+      "headroom": 2.5879,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 39,
+      "point": [1.45, 2.1125, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.5935,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 40,
+      "point": [1.17, 1.95, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.5991,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 41,
+      "point": [0.89, 1.7875, 8.72],
+      "floor": "core_arrival_lower__pale oak",
+      "floorDelta": 0.0,
+      "headroom": 2.6047,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 42,
+      "point": [0.61, 1.625, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.6103,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 43,
+      "point": [0.33, 1.4625, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.6159,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 44,
+      "point": [0.05, 1.3, 8.72],
+      "floor": "core_arrival_lower__pale oak",
+      "floorDelta": 0.0,
+      "headroom": 2.6216,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 45,
+      "point": [-0.23, 1.1375, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.6272,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 46,
+      "point": [-0.51, 0.975, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.6328,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 47,
+      "point": [-0.79, 0.8125, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.6384,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 48,
+      "point": [-1.07, 0.65, 8.72],
+      "floor": "core_arrival_lower__pale oak",
+      "floorDelta": 0.0,
+      "headroom": 2.644,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 49,
+      "point": [-1.35, 0.4875, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.6496,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 50,
+      "point": [-1.63, 0.325, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.6552,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 51,
+      "point": [-1.91, 0.1625, 8.72],
+      "floor": "core_arrival_lower__pale oak",
+      "floorDelta": 0.0,
+      "headroom": 2.6608,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 52,
+      "point": [-2.2, 0, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.7,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 53,
+      "point": [-2.8, 0, 8.72],
+      "floor": "core_arrival_lower__warm cut stone",
+      "floorDelta": 0.0,
+      "headroom": 2.7,
+      "ceiling": "core__golden coastal sandstone"
+    },
+    {
+      "index": 54,
+      "point": [-2.8, 0, 7.2],
+      "floor": "core_reno_floorboards_lower",
+      "floorDelta": 0.0025,
+      "headroom": 2.3575,
+      "ceiling": "core_reno_slab_upper"
+    },
+    {
+      "index": 55,
+      "point": [-2.8, 0, 5.6],
+      "floor": "core_reno_floorboards_lower",
+      "floorDelta": 0.0025,
+      "headroom": 2.3575,
+      "ceiling": "core_reno_slab_upper"
+    },
+    {
+      "index": 56,
+      "point": [3.27, 0, 5.6],
+      "floor": "core_reno_floorboards_lower",
+      "floorDelta": 0.0025,
+      "headroom": 2.3575,
+      "ceiling": "core_reno_slab_upper"
+    },
+    {
+      "index": 57,
+      "point": [3.27, 0, 1.2],
+      "floor": "core_reno_floorboards_lower",
+      "floorDelta": 0.0025,
+      "headroom": 2.227,
+      "ceiling": "core__chalk limestone"
+    }
+  ],
+  "meshCount": 239,
+  "entrySupportCount": 51
+}

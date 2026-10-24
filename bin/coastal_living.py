@@ -93,10 +93,59 @@ def living_materials():
 
 
 def cushion(bm, lo, hi, radius):
-    """A plush cushion: a box with every edge rounded deep, so it reads soft from any side."""
+    """Soft boxed upholstery with a real inset welt, while retaining the fitted seat top.
+
+    The seam uses the same textile/material batch, adding no texture, render pass or draw call.
+    It is intentionally millimetre scale rather than a heavy decorative outline.
+    """
     size = tuple(hi[k] - lo[k] for k in range(3))
     center = tuple((hi[k] + lo[k]) / 2 for k in range(3))
     box(bm, center, size, radius, segments=4)
+    normal = min(range(3), key=lambda k: size[k])
+    axes = [k for k in range(3) if k != normal]
+    u, v = axes
+    corner = min(.055, size[u] * .18, size[v] * .18)
+    # Seats carry the seam just below the top; back cushions carry it on the broad face.
+    plane = hi[normal] - (.032 if normal == 2 else .008)
+    points = []
+    for cu, cv, angle in ((hi[u]-corner, hi[v]-corner, 0), (lo[u]+corner, hi[v]-corner, 90),
+                           (lo[u]+corner, lo[v]+corner, 180), (hi[u]-corner, lo[v]+corner, 270)):
+        for k in range(5):
+            a = math.radians(angle + k*90/4)
+            point = list(center)
+            point[u], point[v], point[normal] = cu+math.cos(a)*corner, cv+math.sin(a)*corner, plane
+            points.append(point)
+    for a, b in zip(points, points[1:]+points[:1]):
+        cylinder(bm, a, b, .0022, 6)
+
+
+def folded_throw(p, m):
+    """A small linen throw settles over one arm and seat; a bounded original cloth mesh."""
+    bm = p.bm(m["knit"])
+    rows = []
+    x0 = PIT["x"][0]
+    for j in range(17):
+        t = j/16
+        # Cross the arm crest, fall down its inner face, then rest on the seat. The unsupported
+        # hem stops above the seat edge and never enters the walking route or Sirui's contact.
+        if t < .23:
+            x, z = x0+.09+t*.55, BACK_TOP+.035
+        elif t < .52:
+            q = (t-.23)/.29
+            x, z = x0+.216+q*.16, BACK_TOP+.035-q*(BACK_TOP-SEAT_TOP+.013)
+        else:
+            q = (t-.52)/.48
+            x, z = x0+.376+q*.25, SEAT_TOP+.022-q*.006
+        row = []
+        for k in range(13):
+            s = k/12
+            y = .5 + .76*s + .014*math.sin(t*math.pi)*math.sin(s*math.pi*3)
+            fold = .008*math.sin(s*math.pi*8 + t*.4)*math.sin(math.pi*t)
+            row.append(bm.verts.new((x, y, z+fold)))
+        rows.append(row)
+    for j in range(16):
+        for k in range(12):
+            bm.faces.new((rows[j][k], rows[j+1][k], rows[j+1][k+1], rows[j][k+1]))
 
 
 def build_pit(p, m):
@@ -166,7 +215,10 @@ def build_pit(p, m):
         ("ochre", (1.6, y0 + UPSTAND + BACK_CUSHION + 0.1), "x"),
     ):
         size = (0.44, 0.15, 0.4) if axis == "x" else (0.15, 0.44, 0.4)
-        box(p.bm(m[mat]), (x, y, SEAT_TOP + 0.19), size, 0.07, segments=3)
+        # A little lean, with restrained unevenness, avoids identical upright blocks.
+        box(p.bm(m[mat]), (x, y, SEAT_TOP + 0.19), size, 0.07,
+            yaw=.035 if mat == "terra" else -.025, segments=4, pitch=-.10 if axis == "x" else .025)
+    folded_throw(p, m)
     # The rug: oatmeal wool with an inset linen border, over the pit floor between the seats.
     rx0, rx1, ry0, ry1 = x0 + RUN + 0.05, x1 - RUN - 0.05, y0 + RUN + 0.05, TREAD[0] - 0.05
     box(p.bm(m["wool"]), ((rx0 + rx1) / 2, (ry0 + ry1) / 2, PIT_FLOOR + 0.006), (rx1 - rx0, ry1 - ry0, 0.012), 0.004)

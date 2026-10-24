@@ -4,6 +4,7 @@ Original geometry; all coordinates are Blender metres, +Z up and +Y toward the P
 The cutters stay inside the retained mainland so its hinterland seam is unchanged.
 """
 import math
+import json
 import bmesh
 import bpy
 from mathutils import Vector
@@ -15,6 +16,10 @@ from coastal_office import Parts, box, cylinder, _mat
 
 ENTRY = {"x": (2.62, 4.22), "back": -18.0, "front": -9.04, "bottom": 2.6, "count": 32}
 ENTRY["top"] = top_height(3.42, ENTRY["back"]) + 0.045
+# A second, perpendicular flight reaches the public living floor. The upper landing retains
+# a side connection to the private gallery, rather than making every visitor enter that floor.
+LOWER_ENTRY = {"x": (-2.05, 2.43), "y": (-9.52, -7.92), "count": 16, "rise": 2.6}
+ENTRY_WASHERS = ((-3.62, -8.1, 2.05), (4.42, -8.3, 4.6))
 POOL = {"x": (-3.55, 1.65), "y": (7.76, 10.24), "floor": -1.22, "surface": -0.09}
 PAN = {"actor": (7.25, 1.2, 0.0), "rest": (6.75, 1.15, 0.85)}
 
@@ -115,18 +120,125 @@ def build_entry(scene, config):
         x, y = 0.60 + k * 0.38, e["back"] - 0.56
         box(stone, (x, y, top_height(x, y) + 0.02), (0.42, 1.05, 0.07), 0.015)
     objects = p.finish()
+    lower_objects, lower_supports, lower_route, lower_report = build_lower_entry(scene)
+    objects += lower_objects
+    supports += lower_supports
+    # Both routes are living-to-clifftop, so reversing this is the physical arrival journey.
+    route = lower_route + route[3:]
     config["entrance"] = {"floor": 2.6, "top": round(top, 4), "stairWidth": x1 - x0, "riser": round(rise, 4), "going": round(run, 4), "route": route,
                           "foyer": web((3.42, -8.35, 2.6)), "portal": web((3.42, e["back"] - 0.55, top)), "headroom": 2.45,
-                          "bounds": {"min": [2.3, 2.4, 7.5], "max": [4.6, top + 2.5, 19.2]}}
+                          "bounds": {"min": [-3.7, -.2, 7.1], "max": [4.6, top + 2.5, 19.2]}}
+    config["entrance"].update(floor=0, foyer=web((-2.8, -8.4, 0)),
+                              privateGallery=web((3.42, -7.35, 2.6)), lowerFlight=lower_report,
+                              privateEntrance={"route": [web((3.42, -8.72, 2.6)), web((3.42, -7.35, 2.6)),
+                                                           web((3.42, -6.1, 2.6)), web((2.35, -6.1, 2.6))]})
     # The whole coast makes the shell's broad Box3 ineligible as a compact Walk bound. Extend the
     # exact existing field explicitly, so its inland treads are actually rasterized and climbable.
-    config["walk"] = {"region": {"min": [-6.0, -1.5, -11.2], "max": [12.0, top + 3.0, 20.5]}}
+    config["walk"] = {"region": {"min": [-18.0, -1.5, -11.2], "max": [18.0, top + 3.0, 35.0]},
+                      "start": {"position": web((3.42, e["back"] - 0.55, top)), "yaw": math.pi, "pitch": -.08},
+                      "mainEntryRoute": list(reversed(route + [web((3.42, e["back"] - 0.55, top))]))}
+    config.setdefault("interiorLights", {})["entrance"] = {
+        "positions": [web(p) for p in ENTRY_WASHERS],
+        "region": {"min": [-3.65, -0.2, 7.3], "max": [4.6, 5.3, 9.6]}}
     # The camera's analytic rear-wall box has the same doorway as the native solid.
     walls = config["cameraCollision"]["walls"]
     walls[:] = [w for w in walls if not (w.get("arrival") or w["min"][2] == 7.75)]
-    walls.extend([{"arrival": True, "min": [-5.2, -0.26, 7.75], "max": [2.42, 6, 8.05]},
+    walls.extend([{"arrival": True, "min": [-5.2, -0.26, 7.75], "max": [-3.68, 6, 8.05]},
+                  {"arrival": True, "min": [-3.68, 2.70, 7.75], "max": [-1.98, 6, 8.05]},
+                  {"arrival": True, "min": [-1.98, -0.26, 7.75], "max": [2.42, 6, 8.05]},
+                  {"arrival": True, "min": [2.42, 5.28, 7.75], "max": [4.48, 6, 8.05]},
                   {"arrival": True, "min": [4.48, -0.26, 7.75], "max": [5.2, 6, 8.05]}])
-    return objects, supports, {"cuts": cut_report, "retiredDecorativeDoorIslands": retired, "risers": count, "rise": rise, "run": run, "headroom": 2.45}
+    return objects, supports, {"cuts": cut_report, "retiredDecorativeDoorIslands": retired, "risers": count, "rise": rise, "run": run, "headroom": 2.45, "lowerFlight": lower_report}
+
+
+def build_lower_entry(scene):
+    """Carved switchback to a ground-floor foyer; built supports match every actual tread."""
+    m = materials()
+    e = LOWER_ENTRY
+    x0, x1 = e["x"]
+    y0, y1 = e["y"]
+    cuts = []
+    if scene.get("lowerArrivalCutVersion", 0) < 1:
+        profile = [(x0 - .08, -.20), (x1 + .08, 2.40), (x1 + .08, 5.30), (x0 - .08, 2.70)]
+        flight = shell._prism("lower arrival flight cutter", profile, "y", y0 - .06, y1 + .06, m["plaster"])
+        foyer = shell._box_object("lower arrival foyer cutter", (-3.68, y0 - .06, -.20), (-1.98, -7.10, 2.70), m["plaster"])
+        for obj in list(scene.objects):
+            if obj.type == "MESH" and (obj.name in ("core__golden coastal sandstone", "coast_shared_golden coastal sandstone") or obj.get("caveRoof")):
+                shell.boolean(obj, flight, "DIFFERENCE")
+                shell.boolean(obj, foyer, "DIFFERENCE")
+                cuts.append({"mesh": obj.name, "nonManifold": shell.clean_solid(obj)})
+        bpy.data.objects.remove(flight, do_unlink=True)
+        bpy.data.objects.remove(foyer, do_unlink=True)
+        scene["lowerArrivalCut"] = True
+        scene["lowerArrivalCutVersion"] = 1
+        scene["lowerArrivalCutReport"] = json.dumps(cuts)
+    # The old free-standing sage cupboard banks obstructed the lower rear circulation. Retire
+    # their separate native islands; the new coat/shoe bench has a deliberate recessed home.
+    cupboards = (((-4.9, -7.76, -.02), (-2.10, -7.0, 2.05)), ((2.15, -7.76, -.02), (4.9, -7.0, 2.05)))
+    removed = 0
+    for obj in scene.objects:
+        if obj.type == "MESH" and obj.name.startswith("core__"):
+            removed += shell.edit_islands(obj, lambda lo, hi: False if any(shell.inside(lo, hi, *bounds) for bounds in cupboards) else None)[1]
+    scene["entryRetiredCupboardIslands"] = int(scene.get("entryRetiredCupboardIslands", 0)) + removed
+    # An old onsen decorative rail crossed the optional gallery doorway. Cut the actual mesh,
+    # rather than instructing the collision system to ignore a visibly solid obstacle.
+    rail_cutter = shell._box_object("arrival doorway rail cutter", (2.43, -8.08, 2.59), (4.47, -7.64, 5.15), m["plaster"])
+    door_pieces = []
+    for obj in scene.objects:
+        if obj.type == "MESH" and obj.name.startswith("onsen_decor"):
+            shell.boolean(obj, rail_cutter, "DIFFERENCE")
+            door_pieces.append(obj.name)
+    bpy.data.objects.remove(rail_cutter, do_unlink=True)
+    p = Parts("core_arrival_lower")
+    stone, oak, bronze = p.bm(m["stone"]), p.bm(m["oak"]), p.bm(m["brass"])
+    box(stone, (-2.835, (y0 - 7.10) / 2, -.12), (1.57, -7.10 - y0, .24), .012)
+    supports = [sunken.support("arrival-lower-foyer", (-3.62, x0, y0, -7.10), 0)]
+    going, rise = (x1 - x0) / e["count"], e["rise"] / e["count"]
+    route = [web((3.27, -1.2, 0)), web((3.27, -5.6, 0)), web((-2.8, -5.6, 0)),
+             web((-2.8, -7.2, 0)), web((-2.8, -8.72, 0)), web((x0 - .15, -8.72, 0))]
+    for k in range(e["count"]):
+        a, b, z = x0 + k * going, x0 + (k + 1) * going, (k + 1) * rise
+        box(stone, ((a + b) / 2, (y0 + y1) / 2, z - .12), (going + .008, y1 - y0, .24), .006)
+        box(oak, ((a + b) / 2, (y0 + y1) / 2, z - .016), (going - .006, y1 - y0 - .04, .032), .006)
+        supports.append(sunken.support(f"arrival-lower-tread-{k+1}", (a, b, y0, y1), z))
+        route.append(web(((a + b) / 2, -8.72, z)))
+        if k % 4 == 0:
+            box(p.bm(m["light"]), (a + .07, y0 + .018, z + .13), (.12, .012, .024), .003)
+    route += [web((2.59, -8.72, 2.6)), web((3.42, -8.72, 2.6))]
+    for y in (y0 + .08, y1 - .08):
+        cylinder(bronze, (x0, y, .88), (x1, y, 3.48), .022, 12)
+        for k in range(0, e["count"] + 1, 4):
+            x, z = x0 + k * going, k * rise
+            cylinder(bronze, (x, y, z), (x, y, z + .88), .012, 10)
+    # Guard the upper stair opening's closed end as well as its gallery edge. The east end
+    # remains the actual stair landing; a visitor cannot mistake the west edge for a descent.
+    guard = p.bm(m["smoked"])
+    for a, b in (((-2.12, -7.73), (1.92, -7.73)), ((-2.12, -7.73), (-2.12, -6.45))):
+        cylinder(guard, (*a, 3.54), (*b, 3.54), .025, 12)
+        length = math.dist(a, b)
+        n = math.ceil(length / .12)
+        for k in range(n+1):
+            t = k/n
+            x, y = a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t
+            cylinder(bronze, (x, y, 2.62), (x, y, 3.52), .008, 8)
+    # A pale-oak recessed entry bench with a shoe bay, vertical coat battens, hooks and warm
+    # wall washers replaces the miscellaneous green cabinets without occupying circulation.
+    smoked = p.bm(m["smoked"])
+    box(oak, (-3.43, -8.46, .47), (.30, 1.25, .08), .025)
+    for y in (-9.03, -7.89):
+        box(smoked, (-3.43, y, .24), (.25, .055, .43), .008)
+    box(oak, (-3.43, -8.46, .13), (.25, 1.17, .035), .008)
+    for k in range(12):
+        box(oak, (-3.59, -9.04 + k * .108, 1.24), (.035, .045, 1.72), .008)
+    for y in (-8.9, -8.55, -8.2):
+        cylinder(bronze, (-3.57, y, 1.75), (-3.49, y, 1.75), .012, 10)
+    # Geometry for two bounded warm wall washers, consumed analytically by interiorLights.
+    for x, y, z in ENTRY_WASHERS:
+        box(p.bm(m["smoked"]), (x, y, z + .035), (.12, .32, .07), .018)
+        box(p.bm(m["light"]), (x, y, z - .008), (.09, .28, .018), .006)
+    return p.finish(), supports, route, {"risers": e["count"], "rise": rise, "run": going, "width": y1-y0,
+            "minimumHeadroom": 2.4, "cuts": cuts or json.loads(scene.get("lowerArrivalCutReport", "[]")),
+            "removedCupboardIslands": int(scene["entryRetiredCupboardIslands"]), "clearedGalleryDoorMeshes": door_pieces}
 
 
 def build_pool(scene, config):

@@ -1,5 +1,29 @@
 # Coastal home asset provenance
 
+## October 23: main entrance to the living floor
+
+`refresh_coastal_arrival_living.py` continues the retained Blender 4.5.9 source. The original
+clifftop stair now turns at its intermediate landing into a second carved, 1.6 m wide flight:
+16 oak-topped treads at 16.25 cm rise and 28 cm going reach a recessed ground-floor foyer. The
+upper gallery remains an optional side entrance. Its obstructing decorative cedar rail is
+actually cut at the doorway; collision does not ignore visible architecture. Additional guards
+close the upper stair void's blind edges. Eight native islands from the old sage cupboard banks
+were retired on the first pass, opening the rear hall; a recessed pale-oak coat and shoe bench
+gives the new foyer a specific use.
+
+The lounge keeps its fitted actor, fireplace and furniture anchors. Its existing boucle cushions
+gain actual 2.2 mm welts, the loose pillows lean slightly, and one original bounded linen-knit
+throw drapes over an arm and seat. These details reuse material batches and add no textures or
+render passes. Two warm entry washers are mounted on the real foyer walls. Dining metadata
+now names the two actual saucer shades rather than a single invented midpoint source.
+
+`reviews/arrival-living/native-route.json` surveys all 58 main-route waypoints against native
+source triangles: maximum floor discrepancy 2.5 mm and minimum measured headroom 2.227 m.
+The runtime's separate delivered-Draco capsule tests traverse the main and optional upper routes
+in both directions, plus a clifftop loop. These are circulation and contact checks, not a
+photorealism claim. Source-only review renders and exported asset costs are retained beside the
+survey; the browser supplies its own coastal lighting and designed furniture replacements.
+
 ## October 23: open kitchen, conversation pit and connected arrival
 
 The retained October 20 interior source is continued by `refresh_coastal_interior.py`,

@@ -89,13 +89,13 @@
     },
     {
       "mesh": "core__brushed brass",
-      "facesBefore": 2842,
-      "facesExported": 2842
+      "facesBefore": 2450,
+      "facesExported": 2450
     },
     {
       "mesh": "core__sage textile",
-      "facesBefore": 392,
-      "facesExported": 392
+      "facesBefore": 0,
+      "facesExported": 0
     },
     {
       "mesh": "core__terracotta",
@@ -129,8 +129,8 @@
     },
     {
       "mesh": "coast_shared_golden coastal sandstone",
-      "facesBefore": 44583,
-      "facesExported": 44583
+      "facesBefore": 42078,
+      "facesExported": 42078
     },
     {
       "mesh": "core_liftaway_cave_ceiling",
@@ -139,8 +139,8 @@
     },
     {
       "mesh": "core__golden coastal sandstone",
-      "facesBefore": 33713,
-      "facesExported": 33713
+      "facesBefore": 33732,
+      "facesExported": 33732
     },
     {
       "mesh": "coast_shared_dry beach sand",
@@ -164,8 +164,8 @@
     },
     {
       "mesh": "onsen_decor cedar wood",
-      "facesBefore": 2225,
-      "facesExported": 2225
+      "facesBefore": 565,
+      "facesExported": 565
     },
     {
       "mesh": "onsen_decor brushed brass",
@@ -174,8 +174,8 @@
     },
     {
       "mesh": "onsen_decor dry bamboo",
-      "facesBefore": 142,
-      "facesExported": 142
+      "facesBefore": 122,
+      "facesExported": 122
     },
     {
       "mesh": "sleep_decor pale oak",
@@ -1028,6 +1028,96 @@
       "facesExported": 268
     },
     {
+      "mesh": "core_reno_floorboards_lower",
+      "facesBefore": 3052,
+      "facesExported": 3052
+    },
+    {
+      "mesh": "core_infinity__warm cut stone",
+      "facesBefore": 784,
+      "facesExported": 784
+    },
+    {
+      "mesh": "core_infinity__sea glass pool mosaic",
+      "facesBefore": 588,
+      "facesExported": 588
+    },
+    {
+      "mesh": "core_infinity__golden coastal sandstone",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "core_infinity__brushed brass",
+      "facesBefore": 124,
+      "facesExported": 124
+    },
+    {
+      "mesh": "core_infinity_water",
+      "facesBefore": 800,
+      "facesExported": 800
+    },
+    {
+      "mesh": "gym_pan_station__honey ash",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "gym_pan_station__matte black device",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "gym_pan_station__pale oak",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "gym_pan_station__gym light diffuser",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "gym_placeholder_gym-pan",
+      "facesBefore": 46,
+      "facesExported": 46
+    },
+    {
+      "mesh": "study_placeholder_study-aeron",
+      "facesBefore": 210,
+      "facesExported": 210
+    },
+    {
+      "mesh": "lounge_retained_plant_table_stems",
+      "facesBefore": 43,
+      "facesExported": 43
+    },
+    {
+      "mesh": "lounge_retained_plant_table_pot",
+      "facesBefore": 102,
+      "facesExported": 102
+    },
+    {
+      "mesh": "lounge_retained_plant_table_foliage",
+      "facesBefore": 7,
+      "facesExported": 7
+    },
+    {
+      "mesh": "lounge_retained_plant_olive_stems",
+      "facesBefore": 968,
+      "facesExported": 968
+    },
+    {
+      "mesh": "lounge_retained_plant_olive_planter",
+      "facesBefore": 202,
+      "facesExported": 202
+    },
+    {
+      "mesh": "lounge_retained_plant_olive_foliage",
+      "facesBefore": 528,
+      "facesExported": 528
+    },
+    {
       "mesh": "lounge__warm cut stone",
       "facesBefore": 6,
       "facesExported": 6
@@ -1049,23 +1139,28 @@
     },
     {
       "mesh": "lounge__cloud boucle textile",
-      "facesBefore": 3600,
-      "facesExported": 3600
+      "facesBefore": 7440,
+      "facesExported": 7440
     },
     {
       "mesh": "lounge__indigo textile",
-      "facesBefore": 202,
-      "facesExported": 202
+      "facesBefore": 306,
+      "facesExported": 306
     },
     {
       "mesh": "lounge__ochre textile",
-      "facesBefore": 202,
-      "facesExported": 202
+      "facesBefore": 306,
+      "facesExported": 306
     },
     {
       "mesh": "lounge__terracotta",
-      "facesBefore": 130,
-      "facesExported": 130
+      "facesBefore": 182,
+      "facesExported": 182
+    },
+    {
+      "mesh": "lounge__ochre knit textile",
+      "facesBefore": 676,
+      "facesExported": 676
     },
     {
       "mesh": "lounge__oatmeal wool textile",
@@ -1076,11 +1171,6 @@
       "mesh": "lounge__linen",
       "facesBefore": 24,
       "facesExported": 24
-    },
-    {
-      "mesh": "lounge__ochre knit textile",
-      "facesBefore": 484,
-      "facesExported": 484
     },
     {
       "mesh": "lounge__washi lantern paper",
@@ -1158,36 +1248,6 @@
       "facesExported": 902
     },
     {
-      "mesh": "core_reno_floorboards_lower",
-      "facesBefore": 3052,
-      "facesExported": 3052
-    },
-    {
-      "mesh": "core_infinity__warm cut stone",
-      "facesBefore": 784,
-      "facesExported": 784
-    },
-    {
-      "mesh": "core_infinity__sea glass pool mosaic",
-      "facesBefore": 588,
-      "facesExported": 588
-    },
-    {
-      "mesh": "core_infinity__golden coastal sandstone",
-      "facesBefore": 98,
-      "facesExported": 98
-    },
-    {
-      "mesh": "core_infinity__brushed brass",
-      "facesBefore": 124,
-      "facesExported": 124
-    },
-    {
-      "mesh": "core_infinity_water",
-      "facesBefore": 800,
-      "facesExported": 800
-    },
-    {
       "mesh": "core_arrival__warm cut stone",
       "facesBefore": 3920,
       "facesExported": 3920
@@ -1218,64 +1278,29 @@
       "facesExported": 196
     },
     {
-      "mesh": "gym_pan_station__honey ash",
-      "facesBefore": 98,
-      "facesExported": 98
+      "mesh": "core_arrival_lower__warm cut stone",
+      "facesBefore": 1666,
+      "facesExported": 1666
     },
     {
-      "mesh": "gym_pan_station__matte black device",
-      "facesBefore": 162,
-      "facesExported": 162
+      "mesh": "core_arrival_lower__pale oak",
+      "facesBefore": 2940,
+      "facesExported": 2940
     },
     {
-      "mesh": "gym_pan_station__pale oak",
-      "facesBefore": 98,
-      "facesExported": 98
+      "mesh": "core_arrival_lower__brushed brass",
+      "facesBefore": 654,
+      "facesExported": 654
     },
     {
-      "mesh": "gym_pan_station__gym light diffuser",
-      "facesBefore": 98,
-      "facesExported": 98
+      "mesh": "core_arrival_lower__arrival step diffuser",
+      "facesBefore": 588,
+      "facesExported": 588
     },
     {
-      "mesh": "gym_placeholder_gym-pan",
-      "facesBefore": 46,
-      "facesExported": 46
-    },
-    {
-      "mesh": "study_placeholder_study-aeron",
-      "facesBefore": 210,
-      "facesExported": 210
-    },
-    {
-      "mesh": "lounge_retained_plant_table_stems",
-      "facesBefore": 43,
-      "facesExported": 43
-    },
-    {
-      "mesh": "lounge_retained_plant_table_pot",
-      "facesBefore": 102,
-      "facesExported": 102
-    },
-    {
-      "mesh": "lounge_retained_plant_table_foliage",
-      "facesBefore": 7,
-      "facesExported": 7
-    },
-    {
-      "mesh": "lounge_retained_plant_olive_stems",
-      "facesBefore": 968,
-      "facesExported": 968
-    },
-    {
-      "mesh": "lounge_retained_plant_olive_planter",
-      "facesBefore": 202,
-      "facesExported": 202
-    },
-    {
-      "mesh": "lounge_retained_plant_olive_foliage",
-      "facesBefore": 528,
-      "facesExported": 528
+      "mesh": "core_arrival_lower__honey ash",
+      "facesBefore": 420,
+      "facesExported": 420
     }
   ]
 }

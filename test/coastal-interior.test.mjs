@@ -117,11 +117,10 @@ test("the light field and the kitchen's installations cover the nook and the din
   assert.ok(inside([table[0], 0.8, table[2]], region("dining")));
   const lights = manifest.interiorLights;
   assert.ok(inside(lights.pendant, lights.region));
-  for (const at of [...lights.downlights, ...lights.vault]) assert.ok(inside(at, lights.region));
-  assert.ok(
-    lights.downlights.some((at) => Math.abs(at[0] - table[0]) < 0.1 && Math.abs(at[2] - table[2]) < 0.1),
-    "a downlight under the dining pendants"
-  );
+  for (const at of [...lights.downlights, ...lights.vault, ...lights.dining]) assert.ok(inside(at, lights.region));
+  assert.equal(lights.dining.length, 2, "each actual saucer pendant has its own emitter");
+  assert.ok(lights.dining.every((at) => Math.abs(at[2] - table[2]) < 0.1 && at[1] > table[1] + 1.4));
+  assert.ok(lights.dining[0][0] < table[0] && lights.dining[1][0] > table[0], "pendants span the table");
 });
 
 test("the ground floor's walk passes behind the dining room, clear of its table", () => {
@@ -135,19 +134,33 @@ test("the ground floor's walk passes behind the dining room, clear of its table"
 test("clifftop arrival is a connected supported stair with native capsule clearance", () => {
   const measured = JSON.parse(fs.readFileSync(new URL("../artwork/coastal-home/reviews/interior-contacts.json", import.meta.url), "utf8"));
   const entry = manifest.entrance;
+  const native = JSON.parse(fs.readFileSync(new URL("../artwork/coastal-home/reviews/arrival-living/native-route.json", import.meta.url), "utf8"));
   assert.equal(measured.arrival.length, 32);
+  assert.equal(entry.floor, 0, "the main arrival reaches public living, with private gallery as a side route");
+  assert.equal(entry.lowerFlight.risers, 16);
+  assert.ok(entry.lowerFlight.rise <= 0.18 && entry.lowerFlight.run >= 0.27);
+  assert.equal(native.routePoints, manifest.walk.mainEntryRoute.length);
+  assert.ok(native.minimumMeasuredHeadroom > 2.1 && native.maximumFloorDelta < 0.01);
   assert.ok(entry.stairWidth >= 1.5 && entry.riser < 0.19 && entry.going >= 0.27);
   for (const tread of measured.arrival) {
     assert.ok(tread.headroom > 2.1);
     assert.ok(Math.abs(tread.floor - tread.point[1]) < 0.025);
   }
   for (const [i, p] of entry.route.entries()) {
-    if (i) assert.ok(distance(p, entry.route[i - 1]) < 1.6, `arrival route segment ${i}`);
+    // Floor-height changes use individual authored treads; long segments belong only to the
+    // clear level rear hall. Native capsule tests check those complete segments both ways.
+    if (i && Math.abs(p[1] - entry.route[i - 1][1]) > 0.01) assert.ok(distance(p, entry.route[i - 1]) < 0.4, `arrival tread ${i}`);
     assert.ok(Math.abs(supportHeight(p[0], p[2], manifest.terrain, p[1]) - p[1]) < 0.03);
   }
   const walls = manifest.cameraCollision.walls.filter((w) => w.arrival);
-  assert.equal(walls.length, 2);
-  assert.ok(walls[0].max[0] < entry.foyer[0] && walls[1].min[0] > entry.foyer[0]);
+  assert.equal(walls.length, 5);
+  for (const eye of [
+    [-2.8, 1.62, 7.9],
+    [3.42, 4.22, 7.9],
+  ])
+    assert.ok(!walls.some((wall) => inside(eye, wall)), "analytic rear-wall boxes preserve both actual doorway apertures");
+  assert.deepEqual(manifest.walk.mainEntryRoute[0], manifest.walk.start.position);
+  assert.equal(entry.privateEntrance.route.at(-1)[1], 2.6, "the optional side entrance retains upper gallery access");
 });
 
 test("living pit seats Sirui with feet on the cushion and a continuous fireplace flue", () => {
