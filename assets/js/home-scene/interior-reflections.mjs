@@ -65,6 +65,7 @@ export function createInteriorReflections({ renderer, scene, world, shell, rooms
   let capturedLight = null;
   let latestLevels = "";
   let lastPose = null;
+  let observed = null;
 
   for (const [id, root] of rooms) {
     root.traverse((mesh) => {
@@ -209,7 +210,10 @@ export function createInteriorReflections({ renderer, scene, world, shell, rooms
     bind(levels);
     for (const record of mirrors.values()) record.uniforms.indoorActive.value = 0;
     const record = mirrors.get(room);
-    if (!record || !camera?.isPerspectiveCamera) return false;
+    if (!record || !camera?.isPerspectiveCamera) {
+      observed = null;
+      return false;
+    }
     camera.updateMatrixWorld(true);
     const position = camera.getWorldPosition(new THREE.Vector3());
     const rotation = camera.getWorldQuaternion(new THREE.Quaternion());
@@ -218,8 +222,17 @@ export function createInteriorReflections({ renderer, scene, world, shell, rooms
     const projectionChanged = !lastPose || projection.some((value, i) => Math.abs(value - lastPose.projection[i]) > 1e-6);
     const shift = lastPose ? position.distanceTo(lastPose.position) : Infinity;
     const turn = lastPose ? rotation.angleTo(lastPose.rotation) : Infinity;
+    const sameRoom = observed?.room === room;
+    const jumpShift = sameRoom ? position.distanceTo(observed.position) : Infinity;
+    const jumpTurn = sameRoom ? rotation.angleTo(observed.rotation) : Infinity;
+    const lensJump =
+      !sameRoom ||
+      Math.abs(camera.aspect - observed.aspect) > 1e-4 ||
+      Math.abs(camera.fov - observed.fov) > 8 ||
+      Math.abs(camera.zoom / observed.zoom - 1) > 0.1;
     const changed = capturedId !== room || light !== capturedLight || projectionChanged || shift > 1e-5 || turn > 1e-5;
-    const immediate = capturedId !== room || light !== capturedLight || projectionChanged || shift > 0.3 || turn > 0.12;
+    const immediate = capturedId !== room || light !== capturedLight || lensJump || jumpShift > 0.3 || jumpTurn > 0.12;
+    observed = { room, position: position.clone(), rotation: rotation.clone(), aspect: camera.aspect, fov: camera.fov, zoom: camera.zoom };
     let captured = false;
     if (changed && (immediate || now - capturedAt >= FRAME_INTERVAL)) {
       const view = reflectInteriorCamera(camera, record.plane, reflected);

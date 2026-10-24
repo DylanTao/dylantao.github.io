@@ -139,6 +139,22 @@ test("one bounded linear target follows only the active bathroom and caps ordina
   f.camera.updateMatrixWorld(true);
   assert.equal(f.reflections.update(f.camera, { room: "bath-living", now: 20, lightKey: "night" }), false);
   assert.equal(f.reflections.update(f.camera, { room: "bath-living", now: 70, lightKey: "night" }), true);
+  f.camera.fov += 0.1;
+  f.camera.updateProjectionMatrix();
+  assert.equal(
+    f.reflections.update(f.camera, { room: "bath-living", now: 75, lightKey: "night" }),
+    false,
+    "ordinary lens animation retains the 15 Hz bound"
+  );
+  for (const now of [76, 77]) {
+    f.camera.position.z += 0.2;
+    f.camera.updateMatrixWorld(true);
+    assert.equal(
+      f.reflections.update(f.camera, { room: "bath-living", now, lightKey: "night" }),
+      false,
+      "continuous travel is not mistaken for a teleport as distance accumulates"
+    );
+  }
   f.camera.position.x += 0.5;
   f.camera.updateMatrixWorld(true);
   assert.equal(f.reflections.update(f.camera, { room: "bath-living", now: 80, lightKey: "night" }), true, "camera jumps refresh immediately");
