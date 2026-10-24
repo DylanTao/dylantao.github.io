@@ -719,7 +719,7 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
       expect(model.parsedMilliseconds).toBeLessThan(ready.loading.firstFrameMilliseconds);
     }
     expect(ready.loading.stages.map((entry) => entry.stage)).toEqual(["home", "coast", "room", "lighting", "first-frame", "ready"]);
-    expect(ready.roomCount).toBe(6);
+    expect(ready.roomCount).toBe(homeManifest().rooms.length);
     expect(ready.simulation.lightField.ready).toBe(true);
     expect(ready.simulation.lightField.cacheHit).toBe(true);
     expect(ready.furniture.placed.length).toBeGreaterThan(10);
@@ -760,7 +760,7 @@ test("coastal loading: a stalled optional light cache falls back before the firs
     expect(ready.simulation.lightField.ready).toBe(true);
     expect(ready.simulation.lightField.error).toBeNull();
     expect(ready.simulation.lightField.bakeMs).toBeGreaterThan(0);
-    expect(ready.roomCount).toBe(6);
+    expect(ready.roomCount).toBe(homeManifest().rooms.length);
     expect(ready.actorCount).toBe(1);
     fs.writeFileSync(testInfo.outputPath("stalled-light-cache-fallback.json"), JSON.stringify(ready, null, 2));
     expect(errors).toEqual([]);
@@ -837,7 +837,7 @@ const evidence = (scene) => scene.evaluate((e) => e.getSceneEvidence());
 async function settleRoomModels(scene) {
   // Readiness now includes all interior base rooms; keep this assertion for callers that switch
   // models or enter through an alternate loading fixture before measuring pause/orbit behavior.
-  await expect.poll(async () => (await evidence(scene)).roomCount, { timeout: 60000 }).toBe(6);
+  await expect.poll(async () => (await evidence(scene)).roomCount, { timeout: 60000 }).toBe(homeManifest().rooms.length);
 }
 async function settleAvatarLoad(ui) {
   // The public loading state covers model parsing behind software GPU work.
@@ -2064,7 +2064,13 @@ test("coastal home: Walk mode walks on the keyboard, stops against the house and
 
 test("coastal home: public entrance reaches the living floor and returns to the clifftop with keyboard controls", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one full physical route complements all-viewport walking controls");
-  test.setTimeout(360000);
+  const software = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
+  test.setTimeout(software ? 900000 : 360000);
+  // This case proves a complete keyboard journey through the real geometry. llvmpipe needed
+  // 13 real seconds per 200ms of walking at 1440px; full-size appearance has separate cases.
+  // Keep every asset and solver, but disclose a smaller functional viewport on software GPUs.
+  if (software) await page.setViewportSize({ width: 480, height: 320 });
+  testInfo.annotations.push({ type: "functional viewport", description: software ? "480x320 software renderer" : "1440x1000 native GPU" });
   const errors = collectRuntimeErrors(page),
     view = await openClockedHome(page),
     { scene, canvas, ui } = view,
@@ -2268,13 +2274,80 @@ test("coastal neighbours: new raccoon and birds expose real close views without 
   expect(errors).toEqual([]);
 });
 
+test("coastal bathrooms: both floors retain clear day and night views and safe cutaways", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page, { time: "2026-10-23T13:20:00-07:00" });
+  const { scene, canvas, ui } = view;
+  await explore(ui);
+  await expect.poll(async () => (await evidence(scene)).cameraCollision?.ready, { timeout: 60000 }).toBe(true);
+  const views = [];
+  for (const id of ["bath-living", "bath-bedroom"]) {
+    const room = homeManifest().rooms.find((room) => room.id === id);
+    expect(room).toBeTruthy();
+    await sceneInputFrame(page, view, () => ui.locator(`[data-world-room="${id}"]`).click());
+    for (const [period, minute] of [
+      ["day", 800],
+      ["night", 1260],
+    ]) {
+      await sceneInputFrame(page, view, () =>
+        ui.locator("[data-world-time]").evaluate((input, minute) => {
+          input.value = minute;
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+        }, minute)
+      );
+      const state = await evidence(scene);
+      expect(state.currentRoom).toBe(id);
+      expect(state.camera.every(Number.isFinite)).toBe(true);
+      expect(state.simulation.installations.levels[`room:${id}`]).toBeGreaterThanOrEqual(0.75);
+      expect(state.simulation.lightField.regions).toContain(id);
+      expect(state.simulation.interiorReflections).toMatchObject({
+        prepared: true,
+        sharedTargets: 1,
+        capturedRoom: id,
+        maximumHz: 15,
+      });
+      expect(state.simulation.interiorReflections.captures).toBeGreaterThan(0);
+      expect((await cameraCell(scene)) & 5).toBe(0);
+      const frame = await canvas.screenshot();
+      expect(screenshotMetrics(frame).uniqueColors).toBeGreaterThan(60);
+      expect(screenshotMetrics(frame).luminanceVariance).toBeGreaterThan(80);
+      await capture(testInfo, `${id}-${period}`, frame);
+      views.push({ id, period, camera: state.camera, lights: state.simulation.installations.levels });
+    }
+    const slabs = await scene.evaluate((element) => {
+      const slabs = [];
+      element.labScene.scene.traverse((object) => {
+        if (object.userData.bathroomCeilingFor && !object.userData.caveRoof) slabs.push(object.visible);
+      });
+      return slabs;
+    });
+    expect(slabs.length).toBeGreaterThan(0);
+    expect(slabs.every((visible) => visible === (id !== "bath-living"))).toBe(true);
+    const before = await canvas.screenshot();
+    await canvas.focus();
+    await sceneInputFrame(page, view, () => canvas.press("ArrowLeft"));
+    expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.002);
+  }
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="overview"]').click());
+  const closed = await scene.evaluate((element) => {
+    const slabs = [];
+    element.labScene.scene.traverse((object) => {
+      if (object.userData.bathroomCeilingFor && !object.userData.caveRoof) slabs.push(object.visible);
+    });
+    return slabs;
+  });
+  expect(closed.every(Boolean)).toBe(true);
+  fs.writeFileSync(testInfo.outputPath("bathroom-views.json"), JSON.stringify(views, null, 2));
+  expect(errors).toEqual([]);
+});
+
 test("coastal home: full exterior orbit and guided interior camera boundaries", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "camera geometry is shared; touch zoom has its own mobile case");
   const errors = collectRuntimeErrors(page);
   const view = await openClockedHome(page);
   const { scene, canvas, ui } = view;
   await explore(ui);
-  for (const room of ["outside", "overview", "study", "kitchen", "gym", "onsen", "sleep", "lounge"]) {
+  for (const room of ["outside", "overview", ...homeManifest().rooms.map((room) => room.id)]) {
     await sceneInputFrame(page, view, () => ui.locator(`[data-world-room="${room}"]`).first().click());
     // Keep a real focused keyboard input, then stress the same browser handler
     // with a burst of repeat events. Hundreds of protocol round trips otherwise
@@ -3070,7 +3143,7 @@ for (const [failure, asset] of [
     await page.locator('[data-home-desk-mode="3d"]').click();
     await expect(page.locator("[data-home-desk-scene]")).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
     await expect(page.locator("[data-world-avatar] option")).toHaveCount(5);
-    await expect(page.locator("[data-world-room-list] button")).toHaveCount(6);
+    await expect(page.locator("[data-world-room-list] button")).toHaveCount(homeManifest().rooms.length);
   });
 }
 

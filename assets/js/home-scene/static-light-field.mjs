@@ -664,11 +664,14 @@ vec3 slfProbeCage(int region, vec3 n) {
  vec3 f=clamp((slfWorldPosition-slfRegionMin[region])/(slfRegionMax[region]-slfRegionMin[region])*2.0-.5,0.0,1.0);
  vec3 result=vec3(0.0);float total=0.0;
  for(int k=0;k<8;k++) {
+  vec3 corner=vec3(float(k-k/2*2),float(k/2-k/4*2),float(k/4));
+  vec3 weights=mix(vec3(1.0)-f,f,corner);float w=weights.x*weights.y*weights.z;
+  // Clamped floor/wall coordinates give exact zero weights. Avoid all nine texture reads
+  // for those corners; relocation and visibility can only multiply this zero contribution.
+  if(w<=0.0)continue;
   float p=float(region*8+k),row=(p+.5)/${count.toFixed(1)};
   vec4 probe=texture2D(slfPositions,vec2((p+.5)/${count.toFixed(1)},.5));
   if(probe.w<.5)continue;
-  vec3 corner=vec3(float(k-k/2*2),float(k/2-k/4*2),float(k/4));
-  vec3 weights=mix(vec3(1.0)-f,f,corner);float w=weights.x*weights.y*weights.z;
   vec3 v=slfWorldPosition+n*.035-probe.xyz;float distance=length(v);vec3 d=v/max(distance,1e-8);
   vec2 moments=slfMomentPair(p,slfOct(d));
   float variance=max(.0001,moments.y-moments.x*moments.x),excess=max(0.0,distance-moments.x);

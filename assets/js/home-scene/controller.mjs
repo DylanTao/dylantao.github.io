@@ -64,11 +64,12 @@ import { prepareFramePrograms } from "./program-warmup.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs";
 import { createWalkMode } from "./walk-controls.mjs";
-import { createLightInstallations } from "./light-installations.mjs";
+import { createLightInstallations, roomLightSources } from "./light-installations.mjs";
 import { createFurniture } from "./furniture.mjs";
 import { createAtmosphere } from "./atmosphere.mjs";
 import { createHaze } from "./haze.mjs";
 import { createInfinityPool } from "./infinity-pool.mjs";
+import { createInteriorReflections } from "./interior-reflections.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
 const clamp = THREE.MathUtils.clamp;
@@ -129,6 +130,7 @@ export function createCoastalHome(container, records, artifacts) {
     lightInstallations,
     steamVolume,
     staticLightField,
+    interiorReflections,
     atmosphere,
     daylight;
   const lightBakeAbort = new AbortController();
@@ -1082,9 +1084,15 @@ export function createCoastalHome(container, records, artifacts) {
   // The key light follows the sky (atmosphere.mjs): the sun through the coast's air, gold and dim
   // when low, or once its light is gone the moon at its true place and phase.
   const keyColor = new THREE.Color();
-  function updateInstallations() {
-    if (routine && daylight)
-      lightInstallations?.update({ minute: routine.minute, daylight: daylight.daylight, activity: routine.id, visit: currentRoom });
+  function updateInstallations(visit = currentRoom, lightDaylight = daylight?.daylight) {
+    if (routine && daylight) {
+      const levels = lightInstallations?.update({ minute: routine.minute, daylight: lightDaylight, activity: routine.id, visit });
+      staticLightField?.setPracticalPowers([
+        ...warmPracticals.lights.map((light) => light.intensity),
+        ...(lightInstallations?.indirectPowers() || []),
+      ]);
+      interiorReflections?.bind(levels);
+    }
   }
   function updateLight() {
     if (!routine) return;
@@ -1126,7 +1134,7 @@ export function createCoastalHome(container, records, artifacts) {
         zenith: colors.zenith,
         horizon: colors.horizon,
         ground: sky ? colors.ground : hemi.groundColor.clone().multiplyScalar(hemi.intensity).toArray(),
-        practicalPowers: warmPracticals.lights.map((light) => light.intensity),
+        practicalPowers: [...warmPracticals.lights.map((light) => light.intensity), ...(lightInstallations?.indirectPowers() || [])],
       });
     }
     if (steamVolume) {
@@ -1904,7 +1912,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (object.userData.caveRoof) object.visible = currentRoom === "outside" || Boolean(walkMode?.active);
       // The stacked bath's slab opens only for its lower-room inspection, preserving the upper
       // bathroom's real floor in every other view and throughout first-person exploration.
-      if (object.userData.bathroomCeilingFor) object.visible = currentRoom !== object.userData.bathroomCeilingFor || Boolean(walkMode?.active);
+      else if (object.userData.bathroomCeilingFor) object.visible = currentRoom !== object.userData.bathroomCeilingFor || Boolean(walkMode?.active);
     });
   }
 
@@ -1993,6 +2001,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (o.userData.renderStyle) o.visible = o.userData.renderStyle === style;
     });
     art.apply(world, style);
+    interiorReflections?.bind(lightInstallations?.evidence().levels);
     pacific?.setStyle(style);
     updateLight();
     wardrobe();
@@ -2828,6 +2837,12 @@ export function createCoastalHome(container, records, artifacts) {
     withoutContactLighting(finish?.contactLighting, () =>
       pacific?.reflect(camera, style === "realistic" && currentRoom === "outside" && labSettings.reflection)
     );
+    interiorReflections?.update(camera, {
+      room: currentRoom,
+      levels: lightInstallations?.evidence().levels,
+      lightKey: JSON.stringify([routine?.dateKey, routine?.minute]),
+      now,
+    });
     if (style === "realistic" && finish)
       finish.render(
         camera,
@@ -2969,7 +2984,7 @@ export function createCoastalHome(container, records, artifacts) {
       warmPracticals = createWarmPracticals(scene, (m) => bindContactLighting(m, finish.contactLighting));
       staticLightField = createStaticLightField({
         regions: staticLightRegions(config),
-        practicalSources: warmPracticals.sources,
+        practicalSources: [...warmPracticals.sources, ...roomLightSources(config)],
         acceptMesh(mesh) {
           if (mesh.geometry?.attributes.coastalPlantWeight) return false;
           for (let parent = mesh; parent; parent = parent.parent) {
@@ -3168,6 +3183,22 @@ export function createCoastalHome(container, records, artifacts) {
       loadingStage("lighting", "Warming the light.");
       await Promise.all([prepareStaticLight(), steamSetupPromise, ...textureLoads]);
       if (disposed) return;
+      interiorReflections = createInteriorReflections({
+        renderer,
+        scene,
+        world,
+        shell: shellRoot,
+        rooms,
+        compact: compactTouch,
+        withoutContact: (draw) => withoutContactLighting(finish?.contactLighting, draw),
+      });
+      await interiorReflections.prepare({
+        camera,
+        lightRoom: (id) => updateInstallations(id, 0),
+        restoreLight: updateLight,
+        shouldContinue: () => !disposed,
+      });
+      if (disposed) return;
       progress("view", 0.2);
       loadingStage("first-frame", "Preparing the view.");
       await compilePrograms((fraction) => progress("view", 0.2 + 0.8 * fraction));
@@ -3235,6 +3266,11 @@ export function createCoastalHome(container, records, artifacts) {
             withoutContactLighting(finish?.contactLighting, () =>
               pacific?.reflect(camera, style === "realistic" && currentRoom === "outside" && labSettings.reflection)
             );
+            interiorReflections?.update(camera, {
+              room: currentRoom,
+              levels: lightInstallations?.evidence().levels,
+              lightKey: JSON.stringify([routine?.dateKey, routine?.minute]),
+            });
             if (style === "realistic" && finish) finish.render(camera, currentRoom === "outside" && !animalFocus);
             else renderer.render(scene, camera);
           },
@@ -3414,6 +3450,7 @@ export function createCoastalHome(container, records, artifacts) {
       curtains: curtainRig?.evidence() ?? null,
       practicals: warmPracticals?.evidence(),
       installations: lightInstallations?.evidence(),
+      interiorReflections: interiorReflections?.evidence(),
       facade: {
         doors: facadeDoors.map((d) => ({ id: d.id, open: d.target !== 0, offset: d.offset, slideX: d.slideX })),
         glazedMeshes: (() => {
@@ -3582,6 +3619,7 @@ export function createCoastalHome(container, records, artifacts) {
       modelRequests.forEach((request) => request.abort());
       lightBakeAbort.abort();
       staticLightField?.dispose();
+      interiorReflections?.dispose();
       mixer?.stopAllAction();
       characterPerformance?.dispose();
       onsenWater?.dispose();

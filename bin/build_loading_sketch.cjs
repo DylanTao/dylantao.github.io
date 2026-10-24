@@ -19,7 +19,8 @@ const CACHE = path.join(ROOT, ".jekyll-cache/visual-qa/loading-sketch");
 const REUSE = process.argv.includes("--reuse");
 const RANGE = { u: 1.65, v: 1 };
 const STROKES = 1400;
-const VIEWS = ["outside", "overview", "study", "sleep", "kitchen", "gym", "onsen", "lounge"];
+const MANIFEST = JSON.parse(fs.readFileSync(path.join(ROOT, "assets/models/home/manifest.json"), "utf8"));
+const VIEWS = ["outside", "overview", ...MANIFEST.rooms.map((room) => room.id)];
 const LIVE = /pip|companion|wildlife|gull|rabbit|raccoon|seal|lion|sandpiper|neighbou?r/i;
 const SEA = /ocean|pacific|sea\b|surf|wave|foam|swash|onsen.*water|water/i;
 
@@ -205,7 +206,7 @@ async function capture() {
     for (let i = 0; i < 60; i++) {
       await page.clock.runFor(400);
       const e = await scene.evaluate((element) => element.getSceneEvidence());
-      if (!e.framePending && e.roomCount === 6) break;
+      if (!e.framePending && e.roomCount === MANIFEST.rooms.length) break;
     }
     await page.clock.runFor(1500);
   };

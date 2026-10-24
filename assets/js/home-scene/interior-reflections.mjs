@@ -267,6 +267,7 @@ export function createInteriorReflections({ renderer, scene, world, shell, rooms
       sharedTargets: 1,
       maximumHz: 15,
       captures,
+      capturedRoom: capturedId,
       milliseconds,
       prepared,
     }),

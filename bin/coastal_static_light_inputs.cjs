@@ -23,6 +23,7 @@ async function coastalLightInputs(root) {
     "assets/js/home-scene/materials.mjs",
     "assets/js/home-scene/realism.mjs",
     "assets/js/home-scene/warm-practicals.mjs",
+    "assets/js/home-scene/light-installations.mjs",
     "assets/js/home-scene/furniture.mjs",
     "assets/js/home-scene/coastal-wind.mjs",
     "assets/js/home-scene/model-loader.mjs",

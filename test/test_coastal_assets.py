@@ -52,7 +52,10 @@ class CoastalAssetsTest(unittest.TestCase):
         )
 
     def test_every_export_and_editable_source_exists(self):
-        self.assertEqual(len(MANIFEST["rooms"]), 6)
+        self.assertEqual(
+            {room["id"] for room in MANIFEST["rooms"]},
+            {"study", "sleep", "kitchen", "gym", "onsen", "lounge", "bath-living", "bath-bedroom"},
+        )
         for entry in MANIFEST["rooms"] + MANIFEST["avatars"]:
             asset = glb(ASSETS / entry["file"])
             self.assertGreater(len(asset["meshes"]), 0)
@@ -121,7 +124,7 @@ class CoastalAssetsTest(unittest.TestCase):
             )
         self.assertTrue(all(c == conventions[0] for c in conventions))
 
-    def test_first_scene_compressed_budget_includes_engine_and_selected_avatar(self):
+    def test_complete_first_scene_budget_includes_all_rooms_furniture_and_selected_avatar(self):
         runtime = list((ROOT / "assets/js/home-scene").glob("*.mjs"))
         runtime += list((ROOT / "assets/js/vendor/three-r164").rglob("*.js"))
         runtime += [
@@ -137,7 +140,7 @@ class CoastalAssetsTest(unittest.TestCase):
             p.stat().st_size
             for p in (ROOT / "assets/js/vendor/three-r164").rglob("*.wasm")
         )
-        largest_room = max(
+        all_rooms = sum(
             len(gzip.compress((ASSETS / r["file"]).read_bytes()))
             for r in MANIFEST["rooms"]
         )
@@ -145,7 +148,17 @@ class CoastalAssetsTest(unittest.TestCase):
             len(gzip.compress((ASSETS / a["file"]).read_bytes()))
             for a in MANIFEST["avatars"]
         )
-        self.assertLess(base + largest_room + largest_actor, 4 * 1024 * 1024)
+        furniture = json.loads((ASSETS / "furniture/index.json").read_text(encoding="utf-8"))
+        default_models = {
+            furniture["items"][anchor["item"]]["lods"][0]["file"]
+            for anchor in MANIFEST["furniture"]
+        }
+        defaults = sum(len(gzip.compress((ASSETS / "furniture" / name).read_bytes())) for name in default_models)
+        auxiliary = sum(
+            len(gzip.compress((ASSETS / name).read_bytes()))
+            for name in ("furniture/index.json", "loading-sketch.json", MANIFEST["staticLightFieldCache"]["url"])
+        )
+        self.assertLess(base + all_rooms + largest_actor + defaults + auxiliary, 4 * 1024 * 1024)
 
     def test_mesh_compression_is_shipped_and_has_a_local_decoder(self):
         for entry in MANIFEST["rooms"] + MANIFEST["avatars"]:

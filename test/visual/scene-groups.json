@@ -281,6 +281,10 @@
       },
       {
         "file": "desk-scene.spec.js",
+        "title": "coastal bathrooms: both floors retain clear day and night views and safe cutaways"
+      },
+      {
+        "file": "desk-scene.spec.js",
         "title": "coastal home: full exterior orbit and guided interior camera boundaries"
       },
       {

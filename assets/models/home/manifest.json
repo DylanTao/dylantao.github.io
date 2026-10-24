@@ -4465,7 +4465,7 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "656f17eac7cb9b319b2cc63d5dd278285ba813e3af131609aa26abb4783bbf3d",
-    "sha256": "c0934464444bf2c3ea75e84fedf5b9c520c19a4db31911dea83725027f43c3b7"
+    "signature": "b27c7396287bd2f80b4575ecb51c81b24fff0d2ed3e7d81ecf4f4b86f2f680c4",
+    "sha256": "0fc03b9e9eea8d4ce7da1249fd2729516c7cd7aee2ffd8f1990dab43add4eaac"
   }
 }

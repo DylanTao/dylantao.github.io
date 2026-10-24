@@ -22,7 +22,8 @@ import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.
 // surface, clipped to the surface's upper hemisphere: E = I |d| (2/D) [n0((2A+B)/|L1| - B/|L0|) -
 // n1((B+2C)/|L1| - 2C/|L0|)], with L(t) = L0 + t d, A = d.d, B = 2 L0.d, C = L0.L0,
 // D = 4AC - B^2, n0 = N.L0 and n1 = N.d (a closed form of the integral of N.L / |L|^3 along t).
-// Points are isotropic or cone-limited. No installation casts shadows or adds a baked bounce.
+// Points are isotropic or cone-limited. No installation adds shadow maps; bathroom coves also
+// contribute bounded, occlusion-tested midpoint energy to the cached diffuse transport.
 
 export const MAX_LINES = 18;
 export const MAX_POINTS = 10;

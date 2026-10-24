@@ -4,6 +4,7 @@
 const { chromium } = require("playwright");
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const { isDeepStrictEqual } = require("node:util");
 const { coastalLightInputs, digest } = require("./coastal_static_light_inputs.cjs");
 const root = path.resolve(__dirname, "..");
 const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
@@ -58,11 +59,22 @@ const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
     snapshot.inputs = inputs;
     const body = JSON.stringify(snapshot) + "\n";
     if (Buffer.byteLength(body) > 800000) throw new Error("Static transport cache exceeds its explicit 800 KB JSON budget");
+    if ((await coastalLightInputs(root)).signature !== signature)
+      throw new Error("Scene inputs changed during the bake; retry after source changes finish");
     const filename = path.join(root, "assets/models/home/static-light-field.json");
     await fs.writeFile(filename + ".tmp", body);
     await fs.rename(filename + ".tmp", filename);
     manifest.staticLightFieldCache = { url: "static-light-field.json", signature, sha256: digest(body) };
-    await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
+    // Update only the descriptor. Re-serializing the whole authored manifest loses its numeric
+    // spelling and creates unrelated geometry-metadata churn on every lighting bake.
+    const source = (await fs.readFile(manifestPath, "utf8")).replace(/\r\n/g, "\n"),
+      descriptor = JSON.stringify(manifest.staticLightFieldCache, null, 2).replace(/\n/g, "\n  "),
+      existing = /"staticLightFieldCache"\s*:\s*\{[^{}]*\}/,
+      updated = existing.test(source)
+        ? source.replace(existing, '"staticLightFieldCache": ' + descriptor)
+        : source.replace(/\n\}\s*$/, ',\n  "staticLightFieldCache": ' + descriptor + "\n}\n");
+    if (!isDeepStrictEqual(JSON.parse(updated), manifest)) throw new Error("Cache descriptor update changed unrelated manifest data");
+    await fs.writeFile(manifestPath, updated);
     console.log(JSON.stringify({ bytes: Buffer.byteLength(body), signature, sha256: digest(body), bake: snapshot.statistics }, null, 2));
   } finally {
     await browser.close();

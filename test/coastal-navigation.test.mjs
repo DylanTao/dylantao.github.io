@@ -13,7 +13,7 @@ const slopes = (route) => route.points.slice(1).flatMap((p, i) => (Math.abs(p[1]
 const mainStair = ([a, b]) => a[2] === stairZ && b[2] === stairZ;
 const sunken = new Set(["kitchen", "lounge"]);
 
-test("all 36 room pairs begin and end on their actual supports and cross the correct stairs", () => {
+test("all room pairs begin and end on their actual supports and cross the correct stairs", () => {
   let pairs = 0;
   for (const from of config.rooms)
     for (const to of config.rooms) {
@@ -54,7 +54,7 @@ test("all 36 room pairs begin and end on their actual supports and cross the cor
         assert.ok(sample.position[1] >= -0.42001 && sample.position[1] <= 2.6 + 1e-8);
       }
     }
-  assert.equal(pairs, 36);
+  assert.equal(pairs, config.rooms.length ** 2);
 });
 
 test("sunken departures retain the authored pit path and use the crossed native nook tread", () => {
