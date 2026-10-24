@@ -92,6 +92,15 @@ export function easeVelocity(current, wanted, dt, tau = WALK.accelTau, reduced =
   return wanted + (current - wanted) * keep;
 }
 
+// Integrate the same exponential over the whole frame, rather than travelling at its end speed.
+// A 30 Hz phone and a 120 Hz desktop therefore cover the same distance while starting or stopping.
+export function integrateVelocity(current, wanted, dt, tau = WALK.accelTau, reduced = false) {
+  dt = Math.max(0, dt);
+  if (reduced || !(tau > 0)) return { velocity: wanted, distance: wanted * dt };
+  const keep = Math.exp(-dt / tau);
+  return { velocity: wanted + (current - wanted) * keep, distance: wanted * dt + (current - wanted) * tau * (1 - keep) };
+}
+
 // Walking speed for an input of `magnitude` (0-1): full keys or a stick past 85 % walk, a held Shift
 // or a controller's run button runs (the touch stick runs at its rim, decided by the caller).
 export function walkSpeed(magnitude, run, walk = WALK) {
@@ -118,15 +127,21 @@ export function walkQuaternion(yaw, pitch, out = new THREE.Quaternion()) {
   return out.setFromEuler(lookEuler);
 }
 
-// Where the walk starts: in a room, a little in front of what the view looks at, on the room's own
+// The main entrance is the first walking arrival, whatever the orbit was looking at. An explicit
+// walk.start wins; otherwise the portal faces the last point on the authored ascending route.
+// Older manifests without an entrance start in a room, a little in front of what the view looks at, on the room's own
 // floor and facing it (the side the current camera is on, so the visitor keeps their bearings); from
 // the coast, on the terrace facing the house; from the whole house, in Sirui's room. A manifest
-// `walk.start` ({ position, yaw }) overrides the coast and whole-house start, for an entrance.
+// `walk.start` ({ position, yaw }) overrides every first arrival, for an entrance.
 export function spawnPlan(config, view) {
   const rooms = config?.rooms || [];
-  const start = config?.walk?.start;
-  if ((view.room === "outside" || view.room === "overview") && start?.position)
-    return { candidates: [[start.position[0], start.position[2]]], floor: start.position[1], yaw: start.yaw ?? 0, pitch: 0 };
+  const start = config?.walk?.start ?? (config?.entrance?.portal ? { position: config.entrance.portal } : null);
+  if (start?.position) {
+    const route = config?.entrance?.route || [];
+    const toward = [...route].reverse().find((point) => Math.hypot(point[0] - start.position[0], point[2] - start.position[2]) > 0.2);
+    const yaw = start.yaw ?? (toward ? Math.atan2(toward[0] - start.position[0], toward[2] - start.position[2]) : Math.PI);
+    return { candidates: [[start.position[0], start.position[2]]], floor: start.position[1], yaw, pitch: start.pitch ?? -0.08 };
+  }
   if (view.room === "outside" && config?.terrace?.region) {
     const { min, max } = config.terrace.region,
       x = (min[0] + max[0]) / 2,
@@ -210,6 +225,7 @@ export function createWalkMode({
     placed = false,
     provisional = false,
     plan = null,
+    resume = null,
     builder = null,
     room = null,
     fov = WALK.fov,
@@ -281,7 +297,7 @@ export function createWalkMode({
     if (!builder) return;
     const fresh = [];
     for (const root of world.children) {
-      if (seenRoots.has(root) || root.name === "coastal-hinterland" || root.name === "active-Sirui") continue;
+      if (seenRoots.has(root) || root.name === "active-Sirui") continue;
       // A streamed room joins once its programs are ready and it is shown.
       if (root.visible === false) continue;
       seenRoots.add(root);
@@ -385,7 +401,11 @@ export function createWalkMode({
     if (active || !isFullscreen() || !isReady() || !getConfig()) return false;
     prepare();
     feedRoots();
-    plan = spawnPlan(getConfig(), view());
+    const config = getConfig(),
+      currentView = view();
+    // Orbit is a temporary change of viewpoint. Re-entering Walk resumes the last safe feet/heading;
+    // a room teleport or a changed manifest starts at the main entrance again.
+    plan = resume?.config === config && resume.room === currentView.room ? resume.plan : spawnPlan(config, currentView);
     if (!plan) return false;
     active = true;
     keys.clear();
@@ -408,6 +428,10 @@ export function createWalkMode({
 
   function exit({ restore = true } = {}) {
     if (!active) return false;
+    resume =
+      restore && placed && !provisional
+        ? { config: getConfig(), room, plan: { candidates: [[state.x, state.z]], floor: state.foot, yaw: state.yaw, pitch: state.pitch } }
+        : null;
     active = false;
     keys.clear();
     drag = pinch = null;
@@ -471,16 +495,18 @@ export function createWalkMode({
     const thumbRun = !keyInput.strafe && !keyInput.forward && Math.hypot(...sticks.state.move) >= 0.95;
     const speed = walkSpeed(magnitude, keyInput.run || pad.run || thumbRun, WALK);
     const [wx, wz] = magnitude > 0 ? walkDirection(state.yaw, strafe / magnitude, forward / magnitude) : [0, 0];
-    state.vx = easeVelocity(state.vx, wx * speed, dt, WALK.accelTau, reduced);
-    state.vz = easeVelocity(state.vz, wz * speed, dt, WALK.accelTau, reduced);
+    const motionX = integrateVelocity(state.vx, wx * speed, dt, WALK.accelTau, reduced),
+      motionZ = integrateVelocity(state.vz, wz * speed, dt, WALK.accelTau, reduced);
+    state.vx = motionX.velocity;
+    state.vz = motionZ.velocity;
     if (Math.abs(state.vx) < 1e-4 && Math.abs(state.vz) < 1e-4) state.vx = state.vz = 0;
     if (placed && builder?.ready && (state.vx || state.vz)) {
-      const result = builder.field.move(state.x, state.z, state.foot, state.vx * dt, state.vz * dt, BODY, dynamicObstacles());
+      const result = builder.field.move(state.x, state.z, state.foot, motionX.distance, motionZ.distance, BODY, dynamicObstacles());
       if (result.moved > 1e-4) firstMove();
       distance += result.moved;
       if (result.blocked) {
         blockedFrames++;
-        lastBlocked = { at: [result.x, result.foot, result.z], wanted: [state.vx * dt, state.vz * dt] };
+        lastBlocked = { at: [result.x, result.foot, result.z], wanted: [motionX.distance, motionZ.distance] };
         // What a wall stops does not build up: the velocity keeps only what was travelled.
         if (dt > 0) {
           state.vx = (result.x - state.x) / dt;
@@ -508,7 +534,8 @@ export function createWalkMode({
     // The camera, gliding in from the orbit view on arrival.
     position.set(state.x, state.eye, state.z);
     walkQuaternion(state.yaw, state.pitch, quaternion);
-    const aspect = camera.aspect || 1;
+    const previousFov = camera.fov,
+      aspect = camera.aspect || 1;
     const wantedFov = isFullscreen() ? portraitFov(fov, aspect, { max: 90 }) : fov;
     if (transition) {
       transition.t = reduced ? 1 : Math.min(1, transition.t + dt / WALK.transition);
@@ -522,7 +549,7 @@ export function createWalkMode({
       camera.quaternion.copy(quaternion);
       camera.fov = wantedFov;
     }
-    camera.updateProjectionMatrix();
+    if (camera.fov !== previousFov) camera.updateProjectionMatrix();
     camera.updateMatrixWorld();
   }
 

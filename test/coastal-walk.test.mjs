@@ -1,11 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { BODY, createWalkField, isWater, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
+import { BODY, createWalkField, createWalkFieldBuilder, isWater, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
+import * as THREE from "../assets/js/three.module.min.js";
 import {
   dragLook,
   easeVelocity,
   keyAxes,
   keyCode,
+  integrateVelocity,
   mouseLook,
   roomAt,
   spawnPlan,
@@ -111,11 +113,30 @@ test("stairs climb tread by tread to the gallery, and the gallery's open edge ho
   }
   assert.ok(s.foot > 2.59 && s.foot <= 2.6001, `reached the gallery at ${s.foot}`);
   assert.ok(heights.size >= 15, `climbed tread by tread (${heights.size} heights)`);
+  for (let i = 0; i < 140 && s.z > -1.4; i++) s = field.move(s.x, s.z, s.foot, 0, -0.05);
+  assert.equal(s.foot, 0, "the same treads descend back to the ground floor");
+  assert.ok(s.z < -1.35, `the return route is continuous at ${s.z}`);
   // On the gallery, walking south toward the open edge over the room stops at the edge.
   let g = { x: 0, z: 4, foot: 2.6 };
   g = field.move(g.x, g.z, g.foot, 0, -3);
   assert.ok(g.blocked);
   assert.ok(g.z > 2.9 && g.z < 2.9 + BODY.radius + 0.1, `${g.z}`);
+});
+
+test("a diagonal walk glides along a wall without alternating stops or crossing it", () => {
+  const field = room();
+  let state = { x: -4.5, z: -1.5, foot: 0 };
+  const distances = [];
+  for (let i = 0; i < 60; i++) {
+    const before = state;
+    state = field.move(state.x, state.z, state.foot, -0.035, 0.035);
+    distances.push(state.z - before.z);
+    assert.ok(state.x >= -5 + BODY.radius - 1e-4, `stays outside the wall: ${state.x}`);
+  }
+  assert.ok(
+    distances.every((distance) => Math.abs(distance - 0.035) < 1e-5),
+    "tangential movement remains smooth at every step"
+  );
 });
 
 test("the cliff is a wall: the walker can never step off the property", () => {
@@ -167,6 +188,7 @@ test("walkKind keeps glass, skips doors, props, roofs and characters, and honour
   });
   assert.equal(walkKind(mesh()), "solid");
   assert.equal(walkKind(mesh({ glazing: true, noOcclusion: true })), "solid");
+  assert.equal(walkKind(mesh({ glazing: true }, { transmission: 1 })), "solid", "transmissive glass is a surface, not extruded pool water");
   for (const tag of ["facadeDoor", "caveRoof", "shadowOnly", "activityProp", "action"]) assert.equal(walkKind(mesh({ [tag]: true })), null, tag);
   assert.equal(walkKind(mesh({}, { opacity: 1 }, { isSkinnedMesh: true })), null);
   assert.equal(walkKind(mesh({ noOcclusion: true })), null, "effects that skip the contact pass");
@@ -175,6 +197,15 @@ test("walkKind keeps glass, skips doors, props, roofs and characters, and honour
   assert.equal(walkKind(mesh({ walk: "water" })), "water");
   const parent = { visible: false, userData: {}, parent: null };
   assert.equal(walkKind(mesh({}, { opacity: 1 }, { parent })), null, "a hidden room is not walked yet");
+});
+
+test("soft clifftop planting permits walking while tree trunks and authored plant barriers stay solid", () => {
+  const plant = (name, data = { flora: true }) => ({ isMesh: true, geometry: { attributes: { position: {} } }, material: { name }, userData: data });
+  for (const name of ["sage stem wood", "coastal sage leaf", "dry coastal grass leaf", "prickly pear pad", "daisy flower"])
+    assert.equal(walkKind(plant(name)), null, name);
+  for (const name of ["torrey pine bark wood", "canary palm trunk"]) assert.equal(walkKind(plant(name)), "solid", name);
+  assert.equal(walkKind(plant("hinterland scrub canopy", {})), null);
+  assert.equal(walkKind(plant("prickly pear pad", { flora: true, walk: "solid" })), "solid");
 });
 
 test("moving neighbours: Sirui and a closed sliding door push the capsule aside", () => {
@@ -223,6 +254,28 @@ test("keys become axes; diagonals are no faster; speeds and eases follow the inp
   assert.equal(easeVelocity(0, 2, 0.016, WALK.accelTau, true), 2, "reduced motion has no inertia");
   const eased = easeVelocity(0, 2, 0.016);
   assert.ok(eased > 0 && eased < 2);
+});
+
+test("starting and releasing movement cover equal distances at phone and desktop frame rates", () => {
+  const run = (hz) => {
+    let velocity = 0,
+      distance = 0;
+    for (const wanted of [WALK.walkSpeed, 0]) {
+      for (let i = 0; i < hz; i++) {
+        const next = integrateVelocity(velocity, wanted, 1 / hz);
+        velocity = next.velocity;
+        distance += next.distance;
+      }
+    }
+    return { velocity, distance };
+  };
+  const baseline = run(120);
+  for (const hz of [24, 30, 60]) {
+    const value = run(hz);
+    assert.ok(Math.abs(value.distance - baseline.distance) < 1e-12, `${hz} Hz: ${value.distance}`);
+    assert.ok(Math.abs(value.velocity - baseline.velocity) < 1e-12);
+  }
+  assert.deepEqual(integrateVelocity(0, 2, 0.05, WALK.accelTau, true), { velocity: 2, distance: 0.1 });
 });
 
 test("directions, mouse and drag look follow the characters' facing convention", () => {
@@ -281,6 +334,65 @@ test("the walk starts in front of what the room view looks at, on that room's fl
   const entrance = spawnPlan({ ...config, walk: { start: { position: [1, 6.2, 9], yaw: 3.1 } } }, { room: "overview", routineRoom: "onsen" });
   assert.deepEqual(entrance.candidates, [[1, 9]]);
   assert.equal(entrance.floor, 6.2);
+});
+
+test("the authored main entrance starts Walk from every orbit view and faces down its native route", () => {
+  const arrival = {
+    ...config,
+    entrance: {
+      portal: [3.42, 7.5172, 18.55],
+      route: [
+        [3.42, 2.6, 8.9],
+        [3.42, 7.5172, 17.86],
+      ],
+    },
+  };
+  for (const room of ["study", "onsen", "lounge", "outside", "overview", "now"]) {
+    const plan = spawnPlan(arrival, { room, routineRoom: "study" });
+    assert.deepEqual(plan.candidates, [[3.42, 18.55]], room);
+    assert.equal(plan.floor, 7.5172);
+    assert.equal(plan.yaw, Math.PI, "looks inland-to-seaward down the actual entry stair");
+    assert.ok(plan.pitch < 0, "a slight downward view makes the descent visible");
+    const authored = spawnPlan({ ...arrival, walk: { start: { position: [3.4, 7.52, 18.9], yaw: 3, pitch: -0.15 } } }, { room });
+    assert.equal(authored.yaw, 3);
+    assert.equal(authored.pitch, -0.15);
+  }
+});
+
+test("a collision worker failure replays native geometry and restores walking in fallback slices", async () => {
+  const previousWorker = globalThis.Worker;
+  let worker;
+  globalThis.Worker = class {
+    constructor(url, options) {
+      assert.equal(options.type, "module");
+      worker = this;
+    }
+    postMessage() {}
+    terminate() {}
+  };
+  let builder;
+  try {
+    let ready;
+    const finished = new Promise((resolve) => {
+      ready = resolve;
+    });
+    builder = createWalkFieldBuilder({ bounds: { min: [-2, -1, -2], max: [2, 3, 2] }, onReady: ready });
+    const root = new THREE.Group(),
+      floor = new THREE.Mesh(new THREE.BoxGeometry(4, 0.1, 4), new THREE.MeshStandardMaterial());
+    floor.position.y = -0.05;
+    root.add(floor);
+    builder.addRoots([root], root);
+    assert.equal(builder.ready, false);
+    worker.onerror({ preventDefault() {} });
+    await finished;
+    assert.equal(builder.ready, true);
+    assert.equal(builder.evidence().worker, false);
+    assert.ok(Math.abs(builder.field.standAt(0, 0, 0)) < 1e-6, "the original floor survives detached worker input");
+    assert.equal(builder.field.move(0, 0, 0, 0.3, 0).blocked, false);
+  } finally {
+    builder?.dispose();
+    globalThis.Worker = previousWorker;
+  }
 });
 
 test("the walker's room: storey and nearest room, the terrace, and a little hysteresis", () => {
