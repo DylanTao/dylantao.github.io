@@ -136,6 +136,8 @@ Bathroom mirrors keep the shared 128/256-pixel target and bounded update rate. T
 
 Cached receiver materials retain mutable appearance too. Reapply the current activity's garment state after switching material groups, and refresh the walking body's clipping bindings. Verify entering and leaving the bath rather than accepting its arrival appearance alone.
 
+Receiver variants also preserve shader callbacks. A material-identity guard alone cannot prevent a streamed-scene binder from adding the same lighting code to a clone twice. Keep contact-lighting declarations and diffuse multiplication singular per compiled shader while preserving the active finish's uniform objects. Exercise a room change, Walk, and wildlife inspection in one browser session; independently passing arrival views do not cover that sequence.
+
 ## Loading And Performance
 
 Startup does not draw a partial house while interior rooms, default furniture, embedded textures, the selected avatar, static lighting, steam composition or the first view's shader variants are unfinished. Keep the accessible opening/coast/furnishing/light/view status until the first composed draw completes, then enable Look around. Preserve the five measured progress segments and the pen-sketch transition; the 2D choice remains available. When inspecting a phone-sized viewport, show the scene before waiting for this readiness state; offscreen rendering stays suspended.

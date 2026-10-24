@@ -1,6 +1,7 @@
 const path = require("path");
 const { devices } = require("@playwright/test");
 const { getPublicBaseURL, getVisualPort, usesExternalVisualServer } = require("./public-routes");
+const { sceneBrowserUse } = require("../../bin/visual_scene_environment.cjs");
 
 const repoRoot = path.resolve(__dirname, "../..");
 const baseURL = getPublicBaseURL();
@@ -42,11 +43,11 @@ module.exports = {
   projects: [
     {
       name: "desktop",
-      use: {
+      use: sceneBrowserUse({
         browserName: "chromium",
         viewport: { width: 1366, height: 1800 },
         launchOptions: process.platform === "win32" ? { args: ["--use-angle=d3d11", "--ignore-gpu-blocklist"] } : {},
-      },
+      }),
     },
     {
       name: "mobile",

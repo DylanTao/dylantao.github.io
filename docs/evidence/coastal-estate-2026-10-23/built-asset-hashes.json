@@ -15,7 +15,7 @@
     "assets/js/home-scene/colliders.mjs": "d1501c520d68152c4019e88d50066234d2cc9d9daa2a38b0a0e3a5c4725f0553",
     "assets/js/home-scene/companion.mjs": "2cae9e05fdbd79ff6acc5c15694f97068f5601f061d3c9701e8b46278987bf3c",
     "assets/js/home-scene/contact-lab.mjs": "586f0cd46c0ae909cbede86f2ef5456541378bcdcf2d565525e0fb6d8882a3be",
-    "assets/js/home-scene/contact-occlusion.mjs": "01e524066808e1963c04a0d8018c4a94727772b1638a7c9405a8b3fabc34746c",
+    "assets/js/home-scene/contact-occlusion.mjs": "c5e45aaf2ed34d379d82c0c45befb434282e769ff6919d1b3714bf7d26c2db73",
     "assets/js/home-scene/controller.mjs": "740e9220ea30db8f995af627c3629face1cd8c7d254765d1a02385ecd9627605",
     "assets/js/home-scene/curtain-cloth.mjs": "e7fc79d2b83c1bdbbbef46efc902fc7c291860b6b9cd4eac7a6024b585c9b84a",
     "assets/js/home-scene/curtain-rig.mjs": "151e152981b0cdd65e0ea0ae67ce742dda6449128eb38a1ede1b7ef75a44da58",

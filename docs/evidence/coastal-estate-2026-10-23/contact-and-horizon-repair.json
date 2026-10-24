@@ -1,0 +1,62 @@
+{
+  "verifiedAt": "2026-10-24T07:14:28.161Z",
+  "source": "complete local production scene with the corrected contact hook",
+  "errors": [],
+  "sequence": ["library", "library-upper", "Walk", "main door", "bathroom self-reflection", "leave Walk", "wildlife orbit", "click animal to return"],
+  "rooms": {
+    "library": {
+      "ready": true,
+      "roomCount": 10,
+      "currentRoom": "library",
+      "cache": "restored"
+    },
+    "library-upper": {
+      "ready": true,
+      "roomCount": 10,
+      "currentRoom": "library-upper",
+      "cache": "restored"
+    }
+  },
+  "mirrorCaptures": 1,
+  "walkingBodyActive": true,
+  "routineBodyHidden": true,
+  "animalOrbit": {
+    "id": "seaLion-0",
+    "cameraArm": {
+      "active": true,
+      "distance": 3.8432558426983583,
+      "wanted": 3.8432558426983583,
+      "limited": false,
+      "minimum": 2.305953505619015,
+      "lift": 0
+    }
+  },
+  "horizon": [
+    {
+      "viewport": "desktop-1440",
+      "capture": "1440-seaward-horizon.png",
+      "canvas": [545, 462],
+      "sharpestMeanRowJump": 4.688404587155965,
+      "unchangedMaximum": 9,
+      "nightCamera": {
+        "target": [3, 1.5, -70],
+        "yaw": 0.02,
+        "pitch": 0.06,
+        "radius": 34
+      }
+    },
+    {
+      "viewport": "mobile-390",
+      "capture": "390-seaward-horizon.png",
+      "canvas": [350, 353],
+      "sharpestMeanRowJump": 5.485534285714287,
+      "unchangedMaximum": 9,
+      "nightCamera": {
+        "target": [3, 1.5, -70],
+        "yaw": 0.02,
+        "pitch": 0.06,
+        "radius": 34
+      }
+    }
+  ]
+}

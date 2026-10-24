@@ -881,18 +881,19 @@ async function beginClockedMotion(page, canvas) {
   await expect(page.locator("[data-world-pause]")).toBeEnabled();
   await page.clock.runFor(1400);
 }
-async function sceneInputFrame(page, { scene, canvas }, input) {
+async function sceneInputFrame(page, { scene, canvas }, input, { clockStep = 200 } = {}) {
   const frames = (await evidence(scene)).frames;
   await input();
   await canvas.scrollIntoViewIfNeeded();
-  // A 200ms boundary includes a real input-triggered draw and the next 10Hz
-  // continuous sample on software WebGL. No solver state is replaced.
+  // The default includes an input draw and the next 10Hz software sample.
+  // Fullscreen transitions use smaller steps so one poll cannot queue several
+  // expensive full-viewport draws before checking its frame predicate.
   // Visibility observers and late model callbacks can queue the input's draw
   // after the first step. Keep advancing virtual time until that draw occurs.
   await expect
     .poll(
       async () => {
-        await page.clock.runFor(200);
+        await page.clock.runFor(clockStep);
         return (await evidence(scene)).frames;
       },
       { timeout: 60000 }
@@ -1354,12 +1355,12 @@ test("coastal horizon: the land continues past the modelled world and the sea me
   await capture(testInfo, "far-land-day", day);
   const above = mean(day, [0.55, 0.85], [0.3, 0.36]);
   expect(above[0]).toBeGreaterThan(above[2]);
-  // At night, from the terrace out to sea: no row-to-row step across the horizon stands out.
+  // At night, seaward of the expanded terrace: no row-to-row step across the ocean horizon stands out.
   // Filling the control can scroll the scene offscreen. A paused offscreen renderer correctly
   // retains its old pixels, so require a new visible frame before measuring the night horizon.
   await sceneInputFrame(page, view, async () => {
     await ui.locator("[data-world-time]").fill("1290");
-    await scene.evaluate((element) => element.setLabCamera({ target: [3, 1.5, -40], yaw: 0.02, pitch: 0.06, radius: 34 }));
+    await scene.evaluate((element) => element.setLabCamera({ target: [3, 1.5, -70], yaw: 0.02, pitch: 0.06, radius: 34 }));
   });
   await page.clock.runFor(1400);
   const nightState = await evidence(scene);
@@ -1970,16 +1971,17 @@ test("coastal home: full screen fills the screen, keeps its controls and returns
   const errors = collectRuntimeErrors(page);
   const view = await openClockedHome(page);
   const { stage, scene, canvas, ui } = view;
+  const inputFrame = (input) => sceneInputFrame(page, view, input, { clockStep: 32 });
   const viewport = page.viewportSize();
   const enter = ui.locator("[data-world-fullscreen]");
   const exit = page.locator("[data-world-exit]");
   await expect(enter).toBeVisible();
   await expect(exit).toBeHidden();
   // Outside first, so Escape is seen to leave full screen without also returning inside.
-  await sceneInputFrame(page, view, () => ui.locator("[data-world-view]").click());
+  await inputFrame(() => ui.locator("[data-world-view]").click());
   await expect(scene).toHaveAttribute("data-room", "outside");
   const scrollBefore = await page.evaluate(() => scrollY);
-  await sceneInputFrame(page, view, () => enter.click());
+  await inputFrame(() => enter.click());
   await expect(stage).toHaveClass(/is-world-immersive/);
   expect(["native", "popover"]).toContain((await evidence(scene)).fullscreen);
   await expect(stage).toHaveAttribute("role", "dialog");
@@ -1992,7 +1994,7 @@ test("coastal home: full screen fills the screen, keeps its controls and returns
   await expect(ui.locator("[data-world-view]")).toBeVisible();
   await expect(enter).toBeHidden();
   await page.screenshot({ path: testInfo.outputPath("fullscreen-outside.png") });
-  await sceneInputFrame(page, view, () => canvas.press("Escape"));
+  await inputFrame(() => canvas.press("Escape"));
   await expect(stage).not.toHaveClass(/is-world-immersive/);
   expect((await evidence(scene)).fullscreen).toBe(null);
   await expect(scene).toHaveAttribute("data-room", "outside");
@@ -2002,13 +2004,13 @@ test("coastal home: full screen fills the screen, keeps its controls and returns
   expect(Math.abs((await page.evaluate(() => scrollY)) - scrollBefore)).toBeLessThanOrEqual(1);
   // F on the scene opens it again, and Back to the site closes it.
   await canvas.focus();
-  await sceneInputFrame(page, view, () => canvas.press("f"));
+  await inputFrame(() => canvas.press("f"));
   await expect(stage).toHaveClass(/is-world-immersive/);
-  await sceneInputFrame(page, view, () => exit.click());
+  await inputFrame(() => exit.click());
   await expect(stage).not.toHaveClass(/is-world-immersive/);
   expect(await page.evaluate(() => document.fullscreenElement)).toBe(null);
   // Leaving 3D while full screen also restores the page.
-  await sceneInputFrame(page, view, () => enter.click());
+  await inputFrame(() => enter.click());
   await expect(stage).toHaveClass(/is-world-immersive/);
   await scene.evaluate((element) => element.dispatchEvent(new CustomEvent("home-scene-unavailable", { bubbles: true })));
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");

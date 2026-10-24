@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 const require = createRequire(import.meta.url);
@@ -55,4 +57,24 @@ test("scene backend rejects missing render target capabilities", () => {
 test("scene backend preserves native configuration outside its qualified environment", () => {
   const native = { browserName: "chromium", launchOptions: { args: ["--use-angle=d3d11"] } };
   assert.equal(sceneBrowserUse(native, {}), native);
+});
+
+test("legacy Chromium uses the qualified renderer while preserving its WebKit mobile project", () => {
+  const result = spawnSync(process.execPath, ["-e", "process.stdout.write(JSON.stringify(require('./test/visual/playwright.config.js').projects))"], {
+    cwd: fileURLToPath(new URL("..", import.meta.url)),
+    env: { ...process.env, VISUAL_SCENE_BACKEND: "llvmpipe", NO_WEBSERVER: "1", VISUAL_BASE_URL: "http://127.0.0.1:4101" },
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 0, result.stderr);
+  const projects = JSON.parse(result.stdout),
+    desktop = projects.find((project) => project.name === "desktop"),
+    mobile = projects.find((project) => project.name === "mobile");
+  assert.equal(projects.length, 2);
+  assert.equal(desktop.use.browserName, "chromium");
+  assert.equal(desktop.use.channel, "chromium");
+  assert.ok(desktop.use.launchOptions.args.includes("--use-angle=gl"));
+  assert.deepEqual(desktop.use.viewport, { width: 1366, height: 1800 });
+  assert.equal(mobile.use.browserName, "webkit");
+  assert.equal(mobile.use.launchOptions, undefined);
+  assert.equal(mobile.use.isMobile, true);
 });

@@ -242,6 +242,7 @@ jobs:
             test-results/public-visual-site
             test-results/public-visual-scene
             test-results/legacy-visual
+            test-results/legacy-environment-*
             test-results/scene-group-inventory
           if-no-files-found: ignore
 

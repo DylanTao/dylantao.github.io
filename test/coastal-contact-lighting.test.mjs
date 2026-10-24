@@ -1,5 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import * as THREE from "../assets/js/three.module.min.js";
 import {
   horizonIntegral,
   bounceVisibility,
@@ -8,6 +10,9 @@ import {
   withoutContactLighting,
 } from "../assets/js/home-scene/contact-occlusion.mjs";
 import { createGpuTimer } from "../assets/js/home-scene/gpu-timer.mjs";
+import { createLightInstallations } from "../assets/js/home-scene/light-installations.mjs";
+import { createStaticLightField } from "../assets/js/home-scene/static-light-field.mjs";
+import { createSkinDiffusion } from "../assets/js/home-scene/skin-diffusion.mjs";
 
 const close = (a, b, epsilon = 1e-8) => assert.ok(Math.abs(a - b) < epsilon, `${a} differs from ${b}`);
 
@@ -94,6 +99,56 @@ test("lighting binding preserves existing material hooks, cache identities and p
     assert.equal(material.onBeforeCompile, callback, "rebinding must not nest shader patches");
   }
   assert.notEqual(stone.customProgramCacheKey(), water.customProgramCacheKey());
+});
+
+test("wildlife contact binding remains singular after an avatar changes native receiver packs", () => {
+  const config = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  const lights = createLightInstallations(config),
+    field = createStaticLightField({ regions: [{ id: "test", min: [-1, 0, -1], max: [1, 2, 1] }], raysPerProbe: 16 }),
+    skin = createSkinDiffusion(),
+    contact = { contactTexture: { value: null }, contactResolution: { value: new THREE.Vector2(1, 1) }, contactEnabled: { value: true } },
+    activeContact = { ...contact, contactEnabled: { value: false } },
+    source = bindContactLighting(new THREE.MeshStandardMaterial({ name: "skin" }), contact);
+  source.onBeforeCompile = ((compile) =>
+    function (shader, renderer) {
+      compile.call(this, shader, renderer);
+      shader.uniforms.authored = { value: 7 };
+    })(source.onBeforeCompile);
+  lights.bindMaterial(source, "upper");
+  field.bindMaterial(source);
+  skin.bind(source);
+  const moved = lights.bindMaterial(source, "bath-living");
+  assert.notEqual(moved, source, "a real receiver change creates a cached material variant");
+  field.bindMaterial(moved);
+  skin.bind(moved);
+  const cacheKey = moved.customProgramCacheKey();
+  bindContactLighting(moved, activeContact);
+  assert.equal(moved.customProgramCacheKey(), cacheKey, "inherited contact code retains its program identity");
+  const callback = moved.onBeforeCompile;
+  bindContactLighting(moved, activeContact);
+  assert.equal(moved.onBeforeCompile, callback);
+  for (let compilation = 0; compilation < 2; compilation++) {
+    const shader = { vertexShader: THREE.ShaderLib.standard.vertexShader, fragmentShader: THREE.ShaderLib.standard.fragmentShader, uniforms: {} };
+    moved.onBeforeCompile(shader, {});
+    for (const declaration of [
+      "uniform sampler2D contactTexture;",
+      "uniform vec2 contactResolution;",
+      "uniform bool contactEnabled;",
+      "vec3 contactBounce(",
+      "reflectedLight.indirectDiffuse*=contactBounce",
+      "uniform vec3 installLineA[",
+      "uniform float slfReady;",
+      "uniform sampler2D skinDiffusionTexture;",
+    ]) {
+      assert.equal(shader.fragmentShader.split(declaration).length - 1, 1, declaration);
+    }
+    assert.equal(shader.uniforms.authored.value, 7);
+    assert.equal(shader.uniforms.contactEnabled, activeContact.contactEnabled, "the active finish owns the contact buffer uniforms");
+  }
+  skin.dispose();
+  field.dispose();
+  lights.dispose();
+  source.dispose();
 });
 
 test("auxiliary cameras suppress main-camera contact lighting and restore it after nested renders or exceptions", () => {

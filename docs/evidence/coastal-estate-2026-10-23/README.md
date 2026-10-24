@@ -38,13 +38,13 @@ follows the mineral path around the portal's solid stone fin and oak brow.
   and real twin-thumb movement/look on mobile. Six viewport-inapplicable repetitions
   are intentional skips. Desktop and mobile self-reflections use the selected native
   avatar, one owned skeleton and the existing 256/128-pixel shared reflection target.
-- **Engineering:** 683 JavaScript tests pass with seven existing skips; 271 Python
+- **Engineering:** 685 JavaScript tests pass with seven existing skips; 271 Python
   tests pass. Style, skill validation and portable Prettier checks pass. Windows CRLF
   differences are separated from formatting changes. The root production build and
   publication/AI-readable output validator pass. The starter `/al-folio` build also
   passes. [Built asset hashes](built-asset-hashes.json) verify 106 byte-exact runtime,
   model and cache assets, plus the three semantically identical JSON projections.
-- **Budget:** the existing first-scene calculation is 4,063,472 of 4,194,304 bytes.
+- **Budget:** the existing first-scene calculation is 4,063,659 of 4,194,304 bytes.
   The exact-source diffuse cache is 725,784 bytes. All 12 loading-sketch views are
   regenerated from the delivered geometry. Materials retain the 18-line/10-point
   analytic-light budget; 20 cached practical channels supply diffuse transport.
@@ -64,6 +64,25 @@ the actual resumed-frame advance for every tested pose; the [mobile animal orbit
 retains its real touch-sized layout. These functional checks use a disclosed 10 Hz
 virtual clock and do not measure device performance.
 
+The final live smoke exposed duplicated contact-lighting declarations when a room
+change created an avatar material variant and wildlife inspection rebound it.
+The corrected hook applies once per compiled shader, keeps the active finish's
+uniforms, and preserves the installation, skin and static-light callbacks. The
+complete library-to-Walk-to-mirror-to-wildlife sequence now passes without runtime
+errors, with a matching CPU regression. Two further horizon cases retain the
+original pixel threshold and sampling region: their camera moved 30 m seaward so
+the expanded pavilion no longer intersects the intended sea-only view.
+[The retained samples](contact-and-horizon-repair.json) record both checks.
+The fullscreen entry/exit/focus/scroll case also passes with its original assertions
+and timeout; smaller virtual-clock steps avoid queueing several expensive
+full-viewport software renders inside one polling operation.
+The legacy outside-view/zoom/scroll/explicit-return case now passes in Linux Docker
+with its original 300-second test budget. It uses the existing
+[qualified Mesa WebGL2 backend](legacy-backend-qualification.json), retaining four-sample
+and floating-point targets. Chromium and WebKit remain separate legacy projects.
+Its input polling observes actual new frames; it does not replace geometry, pixels
+or state assertions.
+
 Night review added useful output to the two actual library task lamps and pavilion
 pendants. The reading lamp's transport radius matches its shade, so the shade does
 not incorrectly eliminate its entire indirect-light contribution. Library cameras
@@ -72,10 +91,6 @@ the lower view. The mirror preserves the complete reflected body and sun shadow.
 
 ## Retained limits and next inspections
 
-- The local Linux Docker software renderer exceeded the existing 120-second
-  readiness limit before the legacy outside-return case could run. This local
-  attempt is retained under `.jekyll-cache/estate-redesign/legacy-ci-repair.log`;
-  it is not counted as a passing interaction check. Hosted CI is checked separately.
 - Physical-phone frame rates still need a device baseline. These captures and the
   desktop host's rendering time establish layout and behavior, not phone performance.
 - The optional first-person body has a small open-neck artifact at an extreme
