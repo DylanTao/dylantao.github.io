@@ -172,7 +172,8 @@ export function createWalkPresence({ renderer }) {
       dt = lastElapsed === null ? 0 : Math.max(0, Math.min(0.1, elapsed - lastElapsed));
     // Ground truth is displacement, not input/desired velocity: a blocked capsule stands still.
     // A deliberate lab/portal placement is not a ten-metre stride.
-    const distance = displacement < 1.5 ? displacement : 0;
+    const distance = displacement < 1.5 ? displacement : 0,
+      wasMoving = moving;
     moving = distance > 1e-5 && Math.hypot(...velocity) > 1e-4;
     const priorIdle = idleTime,
       priorGait = gaitTime;
@@ -187,7 +188,12 @@ export function createWalkPresence({ renderer }) {
       walk.setEffectiveWeight(moving ? 1 : 0);
     }
     const changed =
-      !lastPosition || nextPosition.distanceToSquared(lastPosition) > 1e-12 || yaw !== lastYaw || idleTime !== priorIdle || gaitTime !== priorGait;
+      !lastPosition ||
+      nextPosition.distanceToSquared(lastPosition) > 1e-12 ||
+      yaw !== lastYaw ||
+      moving !== wasMoving ||
+      idleTime !== priorIdle ||
+      gaitTime !== priorGait;
     object.position.copy(nextPosition);
     // Both Walk.forward and the authored avatar face +Z at zero yaw.
     object.rotation.y = yaw;

@@ -117,6 +117,11 @@ test("Pause and reduced motion compose stills, while explicit reduced-motion wal
   assert.equal(f.presence.update({ active: true, position: [0.2, 0, 0], velocity: [2, 0], elapsed: 2, reduced: true }), true);
   assert.ok(f.presence.contentVersion > version);
   const moved = f.presence.evidence();
+  assert.equal(f.presence.update({ active: true, position: [0.2, 0, 0], elapsed: 2, reduced: true }), true);
+  assert.equal(f.presence.contentVersion, moved.contentVersion + 1, "stopping changes native gait weights even with a frozen clock");
+  const stopped = f.presence.contentVersion;
+  assert.equal(f.presence.update({ active: true, position: [0.2, 0, 0], elapsed: 2, reduced: true }), false);
+  assert.equal(f.presence.contentVersion, stopped, "a repeated reduced-motion still does not invalidate the mirror");
   f.presence.update({ active: true, position: [0.2, 0, 0], elapsed: 5, paused: true });
   assert.equal(f.presence.evidence().idleTime, moved.idleTime);
   assert.equal(f.presence.evidence().gaitTime, moved.gaitTime);
