@@ -134,6 +134,8 @@ vec3 contactBounce(float visibility,vec3 albedo) {
 `;
 
 const boundMaterials = new WeakSet();
+const patchedShaders = new WeakSet();
+const contactCacheTag = ":coastal-indirect-contact-v1";
 
 export function withoutContactLighting(uniforms, render) {
   if (!uniforms) return render();
@@ -155,6 +157,11 @@ export function bindContactLighting(material, uniforms) {
   material.onBeforeCompile = function (shader, renderer) {
     compile.call(this, shader, renderer);
     Object.assign(shader.uniforms, uniforms);
+    // Receiver variants preserve their source hook chain, even though Three's
+    // material identity changes. A later streamed-scene binding must keep the
+    // active finish uniforms without declaring or applying contact lighting twice.
+    if (patchedShaders.has(shader)) return;
+    patchedShaders.add(shader);
     shader.fragmentShader =
       `uniform sampler2D contactTexture;
        uniform vec2 contactResolution;
@@ -169,7 +176,7 @@ export function bindContactLighting(material, uniforms) {
        }`
     );
   };
-  material.customProgramCacheKey = () => `${cacheKey}:coastal-indirect-contact-v1`;
+  material.customProgramCacheKey = () => (cacheKey.includes(contactCacheTag) ? cacheKey : `${cacheKey}${contactCacheTag}`);
   material.needsUpdate = true;
   boundMaterials.add(material);
   return material;
