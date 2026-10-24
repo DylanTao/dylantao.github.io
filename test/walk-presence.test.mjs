@@ -1,0 +1,236 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import * as THREE from "../assets/js/three.module.min.js";
+import { cloneWalkSkeleton, createWalkPresence } from "../assets/js/home-scene/walk-presence.mjs";
+
+function avatar() {
+  const source = new THREE.Group(),
+    hips = new THREE.Bone(),
+    head = new THREE.Bone();
+  source.name = "selected-Sirui";
+  hips.name = "Hips";
+  hips.position.y = 0.8;
+  head.name = "Head";
+  head.position.y = 0.8;
+  hips.add(head);
+  source.add(hips);
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute([0, 0.8, 0, 0, 1.6, 0, 0.1, 1.6, 0.1], 3));
+  geometry.setAttribute("skinIndex", new THREE.Uint16BufferAttribute([0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], 4));
+  geometry.setAttribute("skinWeight", new THREE.Float32BufferAttribute([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], 4));
+  const material = new THREE.MeshStandardMaterial(),
+    skeleton = new THREE.Skeleton([hips, head]),
+    mesh = new THREE.SkinnedMesh(geometry, material),
+    eyelids = new THREE.SkinnedMesh(geometry, material);
+  mesh.name = "body";
+  eyelids.name = "eyelids";
+  mesh.castShadow = true;
+  source.add(mesh, eyelids);
+  source.updateMatrixWorld(true);
+  mesh.bind(skeleton);
+  eyelids.bind(skeleton);
+  const idle = new THREE.AnimationClip("idle", 2, [new THREE.NumberKeyframeTrack("Head.rotation[x]", [0, 1, 2], [0, 0.1, 0])]),
+    walk = new THREE.AnimationClip("walk", 2, [new THREE.NumberKeyframeTrack("Head.rotation[x]", [0, 0.5, 1, 1.5, 2], [0, -0.2, 0, 0.2, 0])]);
+  return { source, hips, head, mesh, eyelids, geometry, material, skeleton, clips: [idle, walk] };
+}
+
+function fixture() {
+  const model = avatar(),
+    renderer = { localClippingEnabled: false, compileAsync: async () => {} },
+    presence = createWalkPresence({ renderer }),
+    scene = new THREE.Scene(),
+    camera = new THREE.PerspectiveCamera();
+  presence.setSource(model.source, model.clips);
+  scene.add(model.source, presence.object);
+  return { ...model, renderer, presence, scene, camera };
+}
+
+test("the selected avatar clone has independent bound bones and skeleton buffers with shared GPU assets", () => {
+  const f = avatar(),
+    clone = cloneWalkSkeleton(f.source),
+    mesh = clone.getObjectByName("body"),
+    eyelids = clone.getObjectByName("eyelids"),
+    head = clone.getObjectByName("Head");
+  assert.equal(mesh.geometry, f.geometry);
+  assert.equal(mesh.material, f.material);
+  assert.notEqual(mesh.skeleton, f.skeleton);
+  assert.notEqual(mesh.skeleton.boneMatrices, f.skeleton.boneMatrices);
+  assert.equal(mesh.skeleton.bones[1], head);
+  assert.equal(eyelids.skeleton.bones[1], head);
+  assert.notEqual(head, f.head);
+  head.rotation.x = 0.8;
+  assert.equal(f.head.rotation.x, 0, "new presence cannot mutate the routine's skeleton");
+  assert.deepEqual(mesh.bindMatrix.toArray(), f.mesh.bindMatrix.toArray());
+});
+
+test("activation embodies one Sirui at the exact capsule position and +Z Walk yaw without changing the routine", () => {
+  const f = fixture();
+  f.source.position.set(8, 2.6, -4);
+  f.source.rotation.y = 0.7;
+  f.presence.update({ active: true, position: [-6, 0, 3.4], yaw: Math.PI / 2, elapsed: 10 });
+  assert.equal(f.source.visible, false);
+  assert.equal(f.presence.object.visible, true);
+  assert.deepEqual(f.presence.object.position.toArray(), [-6, 0, 3.4]);
+  assert.equal(f.presence.object.rotation.y, Math.PI / 2);
+  const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(f.presence.object.quaternion);
+  assert.ok(forward.distanceTo(new THREE.Vector3(1, 0, 0)) < 1e-7);
+  assert.deepEqual(f.source.position.toArray(), [8, 2.6, -4]);
+  assert.equal(f.source.rotation.y, 0.7);
+  f.presence.update({ active: false });
+  assert.equal(f.source.visible, true);
+  assert.equal(f.presence.object.visible, false);
+  f.presence.dispose();
+});
+
+test("native gait advances from actual capsule travel while blocked velocity stays in idle", () => {
+  const f = fixture();
+  f.presence.update({ active: true, position: [0, 0, 0], velocity: [2, 0], elapsed: 1 });
+  f.presence.update({ active: true, position: [0.2, 0, 0], velocity: [2, 0], elapsed: 1.1 });
+  const traveling = f.presence.evidence();
+  assert.equal(traveling.moving, true);
+  assert.ok(traveling.gaitTime > 0);
+  f.presence.update({ active: true, position: [0.2, 0, 0], velocity: [2, 0], elapsed: 1.2 });
+  const blocked = f.presence.evidence();
+  assert.equal(blocked.moving, false);
+  assert.equal(blocked.gaitTime, traveling.gaitTime, "a wall does not cause treadmill steps");
+  assert.ok(blocked.idleTime > 0);
+  assert.equal(f.head.rotation.x, 0, "routine bones remain independent of Walk's mixer");
+  f.presence.dispose();
+});
+
+test("Pause and reduced motion compose stills, while explicit reduced-motion walking changes the mirror version", () => {
+  const f = fixture();
+  f.presence.update({ active: true, position: [0, 0, 0], elapsed: 0, reduced: true });
+  const version = f.presence.contentVersion;
+  assert.equal(f.presence.update({ active: true, position: [0, 0, 0], elapsed: 2, reduced: true }), false);
+  assert.equal(f.presence.contentVersion, version);
+  assert.equal(f.presence.update({ active: true, position: [0.2, 0, 0], velocity: [2, 0], elapsed: 2, reduced: true }), true);
+  assert.ok(f.presence.contentVersion > version);
+  const moved = f.presence.evidence();
+  f.presence.update({ active: true, position: [0.2, 0, 0], elapsed: 5, paused: true });
+  assert.equal(f.presence.evidence().idleTime, moved.idleTime);
+  assert.equal(f.presence.evidence().gaitTime, moved.gaitTime);
+  f.presence.dispose();
+});
+
+test("primary-view head clipping preserves full bones and shadows, then restores shared material and renderer state", () => {
+  const f = fixture(),
+    existing = [new THREE.Plane(new THREE.Vector3(1, 0, 0), 12)];
+  f.material.clippingPlanes = existing;
+  f.material.clipIntersection = true;
+  f.material.clipShadows = true;
+  f.presence.update({ active: true, position: [-6, 2.6, 3.4], elapsed: 0, reduced: true });
+  const scale = f.presence.object.getObjectByName("Head").scale.clone();
+  let planes;
+  f.presence.withoutHead(() => {
+    assert.equal(f.renderer.localClippingEnabled, true);
+    assert.equal(f.material.clippingPlanes.length, 2);
+    assert.equal(f.material.clippingPlanes[0], existing[0]);
+    planes = f.material.clippingPlanes;
+    const clip = planes[1],
+      cut = f.presence.evidence().headCutHeight;
+    assert.ok(clip.distanceToPoint(new THREE.Vector3(-6, cut + 0.1, 3.4)) < 0, "eye/head interior is excluded from primary view");
+    assert.ok(clip.distanceToPoint(new THREE.Vector3(-6, cut - 0.2, 3.4)) > 0, "looking down still shows the body");
+    assert.equal(f.material.clipShadows, false, "complete head geometry remains in shadow-map pass");
+    assert.deepEqual(f.presence.object.getObjectByName("Head").scale.toArray(), scale.toArray());
+  });
+  assert.equal(f.renderer.localClippingEnabled, false);
+  assert.equal(f.material.clippingPlanes, existing);
+  assert.equal(f.material.clipShadows, true);
+  assert.equal(f.material.clipIntersection, true);
+  f.presence.withoutHead(() => assert.equal(f.material.clippingPlanes, planes, "stable arrays avoid per-frame allocation"));
+  f.presence.dispose();
+});
+
+test("a failed or asynchronous primary draw always restores clipping custody", async () => {
+  const f = fixture();
+  f.presence.update({ active: true });
+  assert.throws(
+    () =>
+      f.presence.withoutHead(() => {
+        throw new Error("draw failed");
+      }),
+    /draw failed/
+  );
+  assert.equal(f.material.clippingPlanes, null);
+  assert.equal(f.renderer.localClippingEnabled, false);
+  await assert.rejects(
+    f.presence.withoutHead(async () => {
+      await Promise.resolve();
+      assert.equal(f.renderer.localClippingEnabled, true);
+      throw new Error("async failed");
+    }),
+    /async failed/
+  );
+  assert.equal(f.material.clippingPlanes, null);
+  assert.equal(f.renderer.localClippingEnabled, false);
+  f.presence.dispose();
+});
+
+test("warmup compiles full and primary-clipped variants before Walk, then restores the hidden presence", async () => {
+  const f = fixture(),
+    variants = [];
+  f.renderer.compileAsync = async () => {
+    variants.push(Boolean(f.material.clippingPlanes));
+    assert.equal(f.source.visible, false);
+    assert.equal(f.presence.object.visible, true);
+  };
+  await f.presence.prepare({ scene: f.scene, camera: f.camera });
+  assert.deepEqual(variants, [false, true]);
+  assert.equal(f.presence.evidence().prepared, true);
+  assert.equal(f.source.visible, true);
+  assert.equal(f.presence.object.visible, false);
+  assert.equal(f.renderer.localClippingEnabled, false);
+  assert.equal(f.material.clippingPlanes, null);
+  f.presence.dispose();
+});
+
+test("warmup failure and disposal during warmup do not reveal a body or leave the routine hidden", async () => {
+  const f = fixture();
+  f.renderer.compileAsync = async () => {
+    throw new Error("compile failed");
+  };
+  await assert.rejects(f.presence.prepare({ scene: f.scene, camera: f.camera }), /compile failed/);
+  assert.equal(f.source.visible, true);
+  assert.equal(f.presence.object.visible, false);
+  assert.equal(f.presence.evidence().prepared, false);
+  f.renderer.compileAsync = async () => f.presence.dispose();
+  await f.presence.prepare({ scene: f.scene, camera: f.camera });
+  assert.equal(f.source.visible, true);
+  assert.equal(f.presence.object.visible, false);
+});
+
+test("switching avatars and disposal restore source visibility and release only clone-owned skeleton data", () => {
+  const f = fixture(),
+    next = avatar();
+  let geometryDisposals = 0,
+    materialDisposals = 0,
+    originalSkeletonDisposals = 0,
+    cloneSkeletonDisposals = 0;
+  f.geometry.addEventListener("dispose", () => geometryDisposals++);
+  f.material.addEventListener("dispose", () => materialDisposals++);
+  f.skeleton.dispose = () => originalSkeletonDisposals++;
+  f.presence.object.traverse((part) => {
+    if (part.isSkinnedMesh) part.skeleton.dispose = () => cloneSkeletonDisposals++;
+  });
+  f.presence.update({ active: true });
+  f.presence.setSource(next.source, next.clips);
+  assert.equal(f.source.visible, true);
+  assert.equal(next.source.visible, false);
+  assert.equal(cloneSkeletonDisposals, 2);
+  f.presence.dispose();
+  f.presence.dispose();
+  assert.equal(next.source.visible, true);
+  assert.equal(geometryDisposals, 0);
+  assert.equal(materialDisposals, 0);
+  assert.equal(originalSkeletonDisposals, 0);
+});
+
+test("a source originally hidden stays hidden after Walk ends", () => {
+  const f = fixture();
+  f.source.visible = false;
+  f.presence.update({ active: true });
+  f.presence.update({ active: false });
+  assert.equal(f.source.visible, false);
+  f.presence.dispose();
+});

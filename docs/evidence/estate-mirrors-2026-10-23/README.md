@@ -1,0 +1,38 @@
+# Bathroom mirrors and Walk presence
+
+Sirui's October 23 review asked for a bathroom mirror that reflects the surrounding room and himself convincingly, with a practical rendering budget. This checkpoint owns `interior-reflections.mjs`, the new `walk-presence.mjs`, and their focused tests. The coordinator owns controller wiring and final rendered acceptance.
+
+## Observed limitation
+
+The previous capture hid every world child except the active bathroom and the shell. This excluded the actual Sirui avatar, held props and adjoining rooms. Its invalidation key considered camera and light only, so including an animated person without changing that key would freeze him behind a stationary camera. Walk had a physical capsule and camera, but no visible body.
+
+## Delivered approach
+
+- Keep the real reflected camera and oblique near plane. Crop its projection to the mirror's visible rectangle, with a filtering guard band. The unchanged 128-pixel touch / 256-pixel desktop shared linear half-float target now spends its texels on the mirror, rather than on unrelated screen area.
+- Include nearby loaded rooms and supplied live actor/prop roots when their conservative bounds intersect the reflected frustum. A 12-metre context bound excludes distant roots. The shell still encloses the view. Both mirrors remain hidden during capture, preserving the nonrecursive pass.
+- Refresh changed composed content at the existing maximum 15 Hz, including when the camera is still. The composed scene clock and Walk's actual pose version drive invalidation. A paused or reduced-motion still, an unseen actor, a hidden room and a mirror outside the view do not create continuous capture work.
+- Represent Walk with a bound skeletal clone of the selected Sirui avatar, using the existing idle/walk clips and shared geometry/materials. His world transform follows the actual capsule and its existing +Z-facing yaw convention. Native gait follows travelled distance; blocked input does not cause treadmill animation. Explicit reduced-motion movement updates the pose even while the idle clock is frozen.
+- Hide the routine avatar while embodied and restore its prior visibility on leaving Walk. Its schedule, transform and skeleton remain independent. Avatar replacement and disposal release only the clone's skeleton buffers.
+- Use a scoped built-in clipping plane below the actual Head anchor for the primary first-person render. Looking down can still show the body. Reflections render outside this scope and retain the complete person. `clipShadows=false` preserves the complete shadow; bones and geometry are never collapsed. Warm both ordinary and clipped shader variants before presenting Walk, and restore material/renderer state even after asynchronous failure.
+
+The module creates no animation loop, new model download, additional reflection target or screen-space ray marcher. The indoor reflection remains a bounded local view; sky, sea, distant scenery and recursive mirrors are excluded. Near-mirror roughness is still the authored satin material with bilinear target filtering, rather than a claim of a full microfacet reflection convolution.
+
+## Research and decisions
+
+[Eric Lengyel's oblique clipping paper](https://terathon.com/lengyel/Lengyel-Oblique.pdf) explains moving the projection's near plane to the reflector so geometry behind the reflective face is clipped. The existing implementation already follows this construction; the crop changes the X/Y projection before that step and retains the physical mirror plane.
+
+The official [three.js Reflector implementation](https://github.com/mrdoob/three.js/blob/r164/examples/jsm/objects/Reflector.js) uses a reflected camera, projective texture lookup, half-float target, hidden reflector, disabled shadow-map refresh and restored render target. It also explicitly enables depth writes before clearing a reflection target. This checkpoint retains those practical choices and adds a projected crop and local content policy instead of increasing resolution globally.
+
+The official [SkeletonUtils clone](https://github.com/mrdoob/three.js/blob/r164/examples/jsm/utils/SkeletonUtils.js) remaps the cloned meshes' skeleton bones into the cloned hierarchy while sharing geometry and materials. `cloneWalkSkeleton` follows that small correspondence algorithm, with credit and a link to the retained MIT license. Separate mixers preserve the routine's pose.
+
+The [Material clipping contract](https://threejs.org/docs/pages/Material.html#clippingPlanes) specifies world-space clipping planes and a separate `clipShadows` switch. The pinned [WebGLShadowMap implementation](https://github.com/mrdoob/three.js/blob/r164/src/renderers/webgl/WebGLShadowMap.js) supports preserving shadow geometry while the primary view clips the camera's head interior. This avoids a custom fragment shader or cloned materials.
+
+[Stochastic Screen-Space Reflections, SIGGRAPH 2015](https://advances.realtimerendering.com/s2015/) demonstrates the filtering and history machinery required for noisy screen-space reflection rays. [Pixel-Projected Reflections, SIGGRAPH 2017](https://advances.realtimerendering.com/s2017/PixelProjectedReflectionsAC_v_1.92_withNotes.pdf) describes a screen-space alternative limited to planar reflecting areas. For two small bathroom mirrors that must show a person outside the primary view, retaining a bounded real scene capture is the simpler fit. No screen-space reconstruction or temporal-history quality claim is made here.
+
+## Verification
+
+`node --test test/interior-reflections.test.mjs test/walk-presence.test.mjs`: **18 passed**. The assertions cover camera/plane geometry, projective correspondence at three angles, local scene inclusion, content cadence and stills, independent skeleton binding, capsule/yaw, distance-driven gait, clipping/shadow state, warmup, cancellation and resource/visibility restoration.
+
+At the three retained numeric camera positions, the mirror crop occupies 10.47%, 11.94% and 52.82% of the original full-view capture. The geometric mean increase in linear texel density is **3.09×, 2.89× and 1.38×**, respectively, at the same target dimensions. These are projection measurements, not device performance measurements.
+
+Targeted source syntax, Prettier and `git diff --check` pass. Real-browser verification of the selected avatar, mirror pixels, primary body and integration lifecycle remains pending the coordinator's integrated render slot. Physical-phone frame rates require an actual device baseline.
