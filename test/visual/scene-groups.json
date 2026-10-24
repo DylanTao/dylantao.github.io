@@ -1,5 +1,5 @@
 {
-  "head": "a655e4549cd44cd81c4860dac852eb160d27f86b",
+  "head": "f950949300c15df340bb9317e25645e8ff0238f7",
   "manifestOrder": ["companion.spec.js", "duh.spec.js", "desk-scene.spec.js", "footer-coast.spec.js", "static-light-field.spec.js"],
   "groups": {
     "scene-core-1": [
@@ -179,6 +179,10 @@
       },
       {
         "file": "desk-scene.spec.js",
+        "title": "coastal loading: a stalled optional light cache falls back before the first complete view"
+      },
+      {
+        "file": "desk-scene.spec.js",
         "title": "coastal loading sketch: pen strokes fill the empty scene until the first frame takes over"
       },
       {
@@ -353,6 +357,10 @@
       }
     ],
     "scene-journey": [
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: public entrance reaches the living floor and returns to the clifftop with keyboard controls"
+      },
       {
         "file": "desk-scene.spec.js",
         "title": "coastal home: a routine boundary walks through the home before settling into the onsen"
