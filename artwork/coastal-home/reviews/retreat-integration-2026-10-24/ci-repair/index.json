@@ -1,0 +1,93 @@
+{
+  "scope": "Post-matrix repairs; raw inputs preserved. Before gull is full-page Linux Mesa CI; after is native Windows D3D11 canvas, not pixel-matched. Unchanged >80 crop assertion passes. Source/layout/native geometry unchanged except named runtime repairs.",
+  "files": [
+    {
+      "source": ".jekyll-cache/estate-ci-laptop-exploration/test-results/public-visual-scene/desk-scene-coastal-neighbo-41613-thout-extra-public-controls-laptop-1280/test-failed-1.png",
+      "path": "gallery-before-ci-fullpage.png",
+      "rawSha256": "ae6d7b04cfe746891ce868fcb13697d0e34d1aaa752a2aa28b9a16b0542853af",
+      "rawBytes": 422526,
+      "archiveSha256": "ae6d7b04cfe746891ce868fcb13697d0e34d1aaa752a2aa28b9a16b0542853af",
+      "archiveBytes": 422526
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-ci-repair-local/desk-scene-coastal-neighbo-41613-thout-extra-public-controls-laptop-1280/gallery-gull-after-synchronous-cutaway-transition.png",
+      "path": "gallery-after-local-canvas.png",
+      "rawSha256": "d8fb48ca59363216249caa070b6271f211919a65a0aba6e1d18112de938a1126",
+      "rawBytes": 179928,
+      "archiveSha256": "d8fb48ca59363216249caa070b6271f211919a65a0aba6e1d18112de938a1126",
+      "archiveBytes": 179928
+    },
+    {
+      "source": ".jekyll-cache/estate-ci-repair-summary.json",
+      "path": "failures.json.gz",
+      "rawSha256": "7e94dc612d2be10fe01f1b2fd526ecb7e1404955760ca10642c2ac48d8f1d7ba",
+      "rawBytes": 5737,
+      "archiveSha256": "4999094ae27943d431faa5b42d2750a80b222166bd4738b979e9a7ffbf083a61",
+      "archiveBytes": 1645
+    },
+    {
+      "source": ".jekyll-cache/estate-ci-repair-local.log",
+      "path": "local-native-repairs.log.gz",
+      "rawSha256": "3123b63492ce8ca691a90e76e5b00e96243263bb1ab492602c16b70799f315ec",
+      "rawBytes": 2186,
+      "archiveSha256": "c7f3efacd87380078f8a1887ae68e900ea7af44e19c9d686647c28c48bf96a4c",
+      "archiveBytes": 699
+    },
+    {
+      "source": ".jekyll-cache/estate-release-final-node.log",
+      "path": "node-746-tests.log.gz",
+      "rawSha256": "5c079cc1d6b98efa6ac20c0f2c176f057a058607999d443cf59f35e5f26d6410",
+      "rawBytes": 428482,
+      "archiveSha256": "abdbb56524b0df1c171e97221025b2b37dae66a99b19b9330b396a0d4a13421e",
+      "archiveBytes": 50758
+    },
+    {
+      "source": ".jekyll-cache/estate-repair-static-bake.log",
+      "path": "static-light-rebake.log.gz",
+      "rawSha256": "f642dbe73761f498bb743fc2db0cc5d5e38582680a1e607ed7745b77248ea646",
+      "rawBytes": 1436,
+      "archiveSha256": "d26da23afa15e7c739c940022b82ff197ed1449ff4c5ef7a232e0a2825c30b50",
+      "archiveBytes": 497
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-recovery-fixture-20261024/desk-scene-coastal-home-re-d97c0-es-a-changed-clock-activity-laptop-1280/journey-continuity.json",
+      "path": "journey-continuity.json.gz",
+      "rawSha256": "f014faceac36cc0d24e0edb910e88566d22a286fbe0487bbcf3d7a67e5a5b006",
+      "rawBytes": 669928,
+      "archiveSha256": "ccf756330d880e1a8511d1e0df1ad75db33b0a1fda6425c4c82742d5d07010c5",
+      "archiveBytes": 107708
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-recovery-fixture-20261024/desk-scene-coastal-home-re-d97c0-es-a-changed-clock-activity-laptop-1280/before-stair-recovery.png",
+      "path": "before-stair-recovery.png",
+      "rawSha256": "a9ea0c4cdf18959fc866a678c71001b361b2ced035e0368a967a74c0ec3a46a9",
+      "rawBytes": 186033,
+      "archiveSha256": "a9ea0c4cdf18959fc866a678c71001b361b2ced035e0368a967a74c0ec3a46a9",
+      "archiveBytes": 186033
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-recovery-fixture-20261024/desk-scene-coastal-home-re-d97c0-es-a-changed-clock-activity-laptop-1280/after-stair-recovery.png",
+      "path": "after-stair-recovery.png",
+      "rawSha256": "29ae779320000e2699dee71c97bd9a75a930fd77ce03158c12e36bd18551b941",
+      "rawBytes": 186048,
+      "archiveSha256": "29ae779320000e2699dee71c97bd9a75a930fd77ce03158c12e36bd18551b941",
+      "archiveBytes": 186048
+    },
+    {
+      "source": ".jekyll-cache/estate-production-repair.log",
+      "path": "production-rebuild.log.gz",
+      "rawSha256": "033e74a00b03ba4877b3dec4cef0fa197d87e761d523f533bd7979f269da40e6",
+      "rawBytes": 128024,
+      "archiveSha256": "58e73e3b63ecb8f5653d22cadbb8d3946c0a508de926a4d418fbc4a6b7376528",
+      "archiveBytes": 5521
+    },
+    {
+      "source": "artwork/coastal-home/reviews/retreat-integration-2026-10-24/ci-repair/runtime-source-bindings.json",
+      "path": "runtime-source-bindings.json",
+      "rawSha256": "ce8d62173338c132eb762a031f4356e0858af3e87928e25dcce6c15219350648",
+      "rawBytes": 1524,
+      "archiveSha256": "ce8d62173338c132eb762a031f4356e0858af3e87928e25dcce6c15219350648",
+      "archiveBytes": 1524
+    }
+  ]
+}

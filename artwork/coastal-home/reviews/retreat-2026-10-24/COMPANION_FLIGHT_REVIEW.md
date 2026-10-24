@@ -23,23 +23,29 @@ settling lift at 0.005 seconds. All four moved agave nodes participate in this
 fresh native BVH proof; the previous source proof remains historical.
 
 The final native source SHA-256 is `c1fced7e108395b64ca7c8ad96e9a275d131b47115d4cbaf334da48701940027`.
-The final resample manifest SHA-256 is `315c5a55be7e5facbd371f9f48f55716947fbcf4bcab56088183ddfb7b932e24`,
-with static-light-cache signature `82c8917c374a1ba2a06874ae7aa03ae1ef659ccc909524b4649a86afbc3561a3`.
+The final resample manifest SHA-256 is `d18cf00964742ff9579825ab2fd0bc9e4b68f9a244bfd2a8e2f228a6fcf7896b`,
+with static-light-cache signature `5c22d31113986ac2170783ff36986c69721cefea93dc2e5df075f524ec4c4fd8`.
 Only the cache descriptor differs semantically from the retained production
 manifest snapshot; earlier receipts preserve the whitespace-only formatting
 chain. The four runtime modules and both sampler/audit scripts retain their
-exact hashes. Every final flight record is byte-identical to the fresh audit
+exact raw hashes; canonical-LF hashes are also reverified for deployment. Every final flight record is byte-identical to the fresh audit
 input: payload SHA-256
 `9d72e61b9b62bcd5ffb8c10223213af92b9b7582591543bd9192aecc7f219e01`, excluding its context header.
 
 The [final sample binding](companion-final-sample-binding.json) preserves the
 earlier source, heading/cache and formatting stages, then explicitly binds
-this fresh grounded-geometry audit to the final manifest. No old-source
-geometry result substitutes for the new native audit. Its minimum surface
+this fresh grounded-geometry audit to the final manifest. The final post-CI resample verifies identical records after the gull-selection
+and onsen-inlet fixes and subsequent cache refresh. Native geometry and all
+four companion modules remain unchanged, so the fresh agave BVH result is
+retained without another native replay. No old-source geometry result
+substitutes for the fresh grounded-geometry audit. Its minimum surface
 distance is 0.430948168 m; after the conservative between-sample arc allowance,
 every flight remains at least 0.426573168 m clear against the unchanged 0.42 m
 envelope. Each route retains its closest native mesh and position. Large raw
-JSONL and native audit files stay in the evidence worktrees' ignored caches.
+JSONL and native audit files from the removed worker worktrees now live in
+`.jekyll-cache/retreat-worker-custody/2026-10-24/`. Its verified inventory maps
+original paths to copied paths with exact bytes and raw SHA-256. The latest
+resample lives in `.jekyll-cache/retreat-companion-post-ci/` in the root checkout.
 
 ## Authored changes and tradeoffs
 

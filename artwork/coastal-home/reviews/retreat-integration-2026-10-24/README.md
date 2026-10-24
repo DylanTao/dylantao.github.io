@@ -8,6 +8,8 @@ stage, outcome and limitations. PNGs retain exact bytes. Reports/logs use gzip
 with zero mtime and no filename; decompression reproduces the original bytes,
 including UTF-16 log BOMs. No credentials or private analytics are included.
 
+The later [release-matrix repairs](ci-repair/README.md) supersede the controller/inlet/cache snapshot while preserving all original evidence. Their failure witnesses and targeted repairs are separate from this folder's initial architecture checkpoint. Exact final release CI/deployment is recorded separately.
+
 ## Before and after
 
 | View           | Before                                   | Final clear comparison                         |

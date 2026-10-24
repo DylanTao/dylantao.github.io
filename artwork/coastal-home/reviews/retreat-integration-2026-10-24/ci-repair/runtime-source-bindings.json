@@ -1,0 +1,35 @@
+{
+  "scope": "Working-tree runtime repair checkpoint after superseded162685ac; final release commit is recorded separately. Native source/GLBs/routes unchanged.",
+  "sources": [
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "bytes": 175761,
+      "sha256": "ef2e8138205453bd59378e9e540ce6a58b17cd63df5a18095be2e304325990b4",
+      "canonicalLfSha256": "ef2e8138205453bd59378e9e540ce6a58b17cd63df5a18095be2e304325990b4"
+    },
+    {
+      "path": "assets/js/home-scene/onsen-water.mjs",
+      "bytes": 25659,
+      "sha256": "7079fbb40e1101be7bdb2293bdbb6e69d74a7baf18aa72ec143176b9220b76c5",
+      "canonicalLfSha256": "7079fbb40e1101be7bdb2293bdbb6e69d74a7baf18aa72ec143176b9220b76c5"
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "bytes": 304910,
+      "sha256": "d18cf00964742ff9579825ab2fd0bc9e4b68f9a244bfd2a8e2f228a6fcf7896b",
+      "canonicalLfSha256": "d18cf00964742ff9579825ab2fd0bc9e4b68f9a244bfd2a8e2f228a6fcf7896b"
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "bytes": 681032,
+      "sha256": "b370b7f7fd2f48dfc92bfe4cdf7e198d757afceba2c921ec02478930a8d7554f",
+      "canonicalLfSha256": "b370b7f7fd2f48dfc92bfe4cdf7e198d757afceba2c921ec02478930a8d7554f"
+    },
+    {
+      "path": "assets/models/home/loading-sketch.json",
+      "bytes": 68987,
+      "sha256": "f822a3fa5b23d35ffcaa69bdf9617a9bf0e9531a2d72c67f8c3ffe058470ce96",
+      "canonicalLfSha256": "f822a3fa5b23d35ffcaa69bdf9617a9bf0e9531a2d72c67f8c3ffe058470ce96"
+    }
+  ]
+}

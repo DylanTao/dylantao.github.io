@@ -3024,20 +3024,26 @@ for (const activity of ["breakfast", "workout"]) {
 
 test("coastal home: recovery preserves a stair journey and composes a changed clock activity", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const view = await openClockedHome(page, { time: "2026-09-11T19:55:00-07:00" }),
+  const view = await openClockedHome(page, { time: "2026-09-11T19:00:00-07:00" }),
     { scene, canvas, ui } = view;
   await explore(ui);
-  // The relocated study and gym share the living floor. Compose the gym explicitly: this Friday's
-  // training plan finishes at 19:18, so 19:55 already follows the clock into the onsen. Returning
-  // to Now at 20:00 still tests a genuine lower-to-upper stair journey, independent of plan length.
-  await sceneInputFrame(page, view, () => ui.locator("[data-world-activity]").selectOption("workout"));
+  // This Friday's live session is still in the gym at 19:00 and finishes at 19:18.
+  // Now intentionally composes the current activity. Use it before the boundary;
+  // only the ordinary 30-second clock refresh should begin the later stair journey.
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-now]").click());
   await expect(scene).toHaveAttribute("data-activity", "workout");
   await beginClockedMotion(page, canvas);
+  const departure = await evidence(scene);
+  expect(departure.clockMode).toBe("now");
+  expect(departure.traveling).toBe(false);
   await page.clock.setSystemTime(new Date("2026-09-11T20:00:01-07:00"));
-  await sceneInputFrame(page, view, () => ui.locator("[data-world-now]").click());
   await page.clock.fastForward(30001);
   await expect(scene).toHaveAttribute("data-animation", "walk");
   await page.clock.runFor(100);
+  const boundary = await evidence(scene);
+  expect(boundary.activity).toBe("soak");
+  expect(boundary.clockMode).toBe("now");
+  expect(boundary.traveling).toBe(true);
   let walking = await evidence(scene);
   for (let i = 0; i < 40 && !(walking.navigation?.position[1] > 0.45 && walking.navigation.position[1] < 2); i++) {
     await page.clock.fastForward(500);
@@ -3066,7 +3072,7 @@ test("coastal home: recovery preserves a stair journey and composes a changed cl
   await canvas.scrollIntoViewIfNeeded();
   await page.clock.runFor(100);
   const resumed = await evidence(scene);
-  fs.writeFileSync(testInfo.outputPath("journey-continuity.json"), JSON.stringify({ walking, resumed }, null, 2));
+  fs.writeFileSync(testInfo.outputPath("journey-continuity.json"), JSON.stringify({ departure, boundary, walking, resumed }, null, 2));
   expect(resumed.traveling).toBe(true);
   expect(resumed.navigation.progress).toBeGreaterThanOrEqual(walking.navigation.progress);
   expect(resumed.navigation.progress - walking.navigation.progress).toBeLessThan(0.015);
@@ -3085,7 +3091,10 @@ test("coastal home: recovery preserves a stair journey and composes a changed cl
   });
   await page.clock.runFor(100);
   const changed = await evidence(scene);
-  fs.writeFileSync(testInfo.outputPath("journey-continuity.json"), JSON.stringify({ walking, resumed, changed, errors }, null, 2));
+  fs.writeFileSync(
+    testInfo.outputPath("journey-continuity.json"),
+    JSON.stringify({ departure, boundary, walking, resumed, changed, errors }, null, 2)
+  );
   expect(changed.activity).toBe("dinner");
   expect(changed.traveling).toBe(false);
   expect(changed.navigation).toBe(null);

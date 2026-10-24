@@ -192,6 +192,14 @@ The refreshed full-quality checkpoint passes all sixteen stills across 1440, 128
 
 Final local suites: **736 Node passes, seven optional GPU skips, zero failures** (743 tests); **292 Python passes**; ten targeted cache/loading tests pass after regeneration. Style contract, canonical-LF formatting, diff checks and the 80-entry override audit pass. Actual Playwright registration retains 112 cases per viewport, with no missing, extra or duplicated cases. The earlier private-route, ladder and natural weather receipts retain their original hashes/stages; all non-agave geometry is equivalent and the final native compressed-contact/aerial audits supplement them. They are not relabeled as newly rerun screenshots.
 
+## Release-matrix repairs
+
+The first published candidate `162685ac8` did not pass its full visual matrix. Four water cases caught a real bamboo-inlet frame bug, four recovery cases exercised Now's intentional composition rather than a live transition, and three completed wildlife cases caught a cropped gallery gull. The superseded run was cancelled after the fixes passed locally; the archived last active counts are 27 passed, eleven failed and three still running, not final cancellation counts.
+
+[The repair review](../../../artwork/coastal-home/reviews/retreat-integration-2026-10-24/ci-repair/README.md) retains actual failures, images, test witnesses and raw logs. The inlet follows its existing native node, including gravity/fall height; the gull arrival uses the same collision arm as its final rendered view; and recovery observes the normal clock timer beginning the stair journey. Existing thresholds and full registry coverage stay intact. All three targeted native D3D11 cases pass. The final unit suite is 739 Node passes plus seven optional GPU skips (746 total); the complete production rebuild passes in 127.546 seconds. Python's unchanged policy suite retains its 292-pass checkpoint.
+
+The final repair cache signature is `5c22d311...`, SHA `b370b7f7...`, still 681,032 bytes. [Final runtime bindings](../../../artwork/coastal-home/reviews/retreat-integration-2026-10-24/ci-repair/runtime-source-bindings.json) supersede the earlier controller/manifest/cache snapshot. Native geometry, compressed models, human routes and loading drawing geometry stay unchanged. The earlier sixteen-shot/Walk receipts remain accurately dated architecture evidence. New exact-source CI and deployed verification will be appended separately.
+
 ## Successor priorities and remaining limits
 
 1. **Finish publication custody:** local final geometry, cache, drawings, production build and browser proof pass below. Append exact commit/CI/deployed verification after publication; do not borrow the earlier release's 41-job result.
