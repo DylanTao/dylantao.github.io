@@ -1,0 +1,1329 @@
+{
+  "errors": [],
+  "avatars": {
+    "ghibli": {
+      "initial": {
+        "active": true,
+        "source": "sirui-ghibli.glb",
+        "sourceHidden": true,
+        "prepared": true,
+        "skeletons": 1,
+        "sharedGeometryAndMaterials": true,
+        "position": [-6.25, 0, 3.65],
+        "yaw": -1.5707963267948966,
+        "moving": false,
+        "idleTime": 0,
+        "gaitTime": 0,
+        "contentVersion": 3,
+        "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+        "opticalForwardOffset": 0.09164000302553177,
+        "headCutHeight": 1.4000000143051148,
+        "fullShadow": true,
+        "volumeDepth": "first-person body excluded",
+        "sectionCaps": {
+          "updates": 2,
+          "maximumMs": 15.299999997019768,
+          "meanMs": 11.600000001490116,
+          "invalid": 0,
+          "band": 0.1,
+          "rows": [
+            {
+              "material": "skin",
+              "patchTriangles": 13691,
+              "fullTriangles": 62115,
+              "evaluatedVertices": 7087,
+              "loops": 2,
+              "sectionVertices": 321,
+              "valid": true
+            },
+            {
+              "material": "long black hair",
+              "patchTriangles": 6340,
+              "fullTriangles": 29096,
+              "evaluatedVertices": 3240,
+              "loops": 1,
+              "sectionVertices": 316,
+              "valid": true
+            }
+          ]
+        }
+      },
+      "captures": {
+        "ghibli-down80-before": {
+          "pixelHash": "3a1f27c5",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-ghibli.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+            "opticalForwardOffset": 0.09164000302553177,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 15.299999997019768,
+              "meanMs": 11.600000001490116,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 13691,
+                  "fullTriangles": 62115,
+                  "evaluatedVertices": 7087,
+                  "loops": 2,
+                  "sectionVertices": 321,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 6340,
+                  "fullTriangles": 29096,
+                  "evaluatedVertices": 3240,
+                  "loops": 1,
+                  "sectionVertices": 316,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 1,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1357.5,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.23637627960462784,
+            "linearTexelGain": 2.0568283682265087
+          },
+          "glError": 0,
+          "info": {
+            "calls": 44,
+            "triangles": 294660
+          },
+          "capsVisibleAfter": false
+        },
+        "ghibli-down80-cap": {
+          "pixelHash": "3a1f27c5",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-ghibli.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+            "opticalForwardOffset": 0.09164000302553177,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 15.299999997019768,
+              "meanMs": 11.600000001490116,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 13691,
+                  "fullTriangles": 62115,
+                  "evaluatedVertices": 7087,
+                  "loops": 2,
+                  "sectionVertices": 321,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 6340,
+                  "fullTriangles": 29096,
+                  "evaluatedVertices": 3240,
+                  "loops": 1,
+                  "sectionVertices": 316,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 1,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1357.5,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.23637627960462784,
+            "linearTexelGain": 2.0568283682265087
+          },
+          "glError": 0,
+          "info": {
+            "calls": 46,
+            "triangles": 295291
+          },
+          "capsVisibleAfter": false
+        },
+        "ghibli-down69-before": {
+          "pixelHash": "d6e98211",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-ghibli.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+            "opticalForwardOffset": 0.09164000302553177,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 15.299999997019768,
+              "meanMs": 11.600000001490116,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 13691,
+                  "fullTriangles": 62115,
+                  "evaluatedVertices": 7087,
+                  "loops": 2,
+                  "sectionVertices": 321,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 6340,
+                  "fullTriangles": 29096,
+                  "evaluatedVertices": 3240,
+                  "loops": 1,
+                  "sectionVertices": 316,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 1,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1357.5,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.23637627960462784,
+            "linearTexelGain": 2.0568283682265087
+          },
+          "glError": 0,
+          "info": {
+            "calls": 44,
+            "triangles": 294660
+          },
+          "capsVisibleAfter": false
+        },
+        "ghibli-down69-cap": {
+          "pixelHash": "d6e98211",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-ghibli.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+            "opticalForwardOffset": 0.09164000302553177,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 15.299999997019768,
+              "meanMs": 11.600000001490116,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 13691,
+                  "fullTriangles": 62115,
+                  "evaluatedVertices": 7087,
+                  "loops": 2,
+                  "sectionVertices": 321,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 6340,
+                  "fullTriangles": 29096,
+                  "evaluatedVertices": 3240,
+                  "loops": 1,
+                  "sectionVertices": 316,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 1,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1357.5,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.23637627960462784,
+            "linearTexelGain": 2.0568283682265087
+          },
+          "glError": 0,
+          "info": {
+            "calls": 46,
+            "triangles": 295291
+          },
+          "capsVisibleAfter": false
+        },
+        "ghibli-mirror-before": {
+          "pixelHash": "f0f69139",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-ghibli.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+            "opticalForwardOffset": 0.09164000302553177,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 15.299999997019768,
+              "meanMs": 11.600000001490116,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 13691,
+                  "fullTriangles": 62115,
+                  "evaluatedVertices": 7087,
+                  "loops": 2,
+                  "sectionVertices": 321,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 6340,
+                  "fullTriangles": 29096,
+                  "evaluatedVertices": 3240,
+                  "loops": 1,
+                  "sectionVertices": 316,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 2,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1361.1000000089407,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.23637627960462784,
+            "linearTexelGain": 2.0568283682265087
+          },
+          "glError": 0,
+          "info": {
+            "calls": 42,
+            "triangles": 266322
+          },
+          "capsVisibleAfter": false
+        },
+        "ghibli-mirror-cap": {
+          "pixelHash": "f0f69139",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-ghibli.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+            "opticalForwardOffset": 0.09164000302553177,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 15.299999997019768,
+              "meanMs": 11.600000001490116,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 13691,
+                  "fullTriangles": 62115,
+                  "evaluatedVertices": 7087,
+                  "loops": 2,
+                  "sectionVertices": 321,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 6340,
+                  "fullTriangles": 29096,
+                  "evaluatedVertices": 3240,
+                  "loops": 1,
+                  "sectionVertices": 316,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 3,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1364.0000000149012,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.23637627960462784,
+            "linearTexelGain": 2.0568283682265087
+          },
+          "glError": 0,
+          "info": {
+            "calls": 44,
+            "triangles": 266953
+          },
+          "capsVisibleAfter": false
+        }
+      },
+      "idle": {
+        "missing": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "timings": {
+          "median": 6.0999999940395355,
+          "p95": 10.900000005960464,
+          "max": 14.200000002980232
+        },
+        "presence": {
+          "active": true,
+          "source": "sirui-ghibli.glb",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 1,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 4.066666666666666,
+          "gaitTime": 0,
+          "contentVersion": 123,
+          "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+          "opticalForwardOffset": 0.09164000302553177,
+          "headCutHeight": 1.4000000143051148,
+          "fullShadow": true,
+          "volumeDepth": "first-person body excluded",
+          "sectionCaps": {
+            "updates": 122,
+            "maximumMs": 15.299999997019768,
+            "meanMs": 6.350000000635132,
+            "invalid": 0,
+            "band": 0.1,
+            "rows": [
+              {
+                "material": "skin",
+                "patchTriangles": 13691,
+                "fullTriangles": 62115,
+                "evaluatedVertices": 7087,
+                "loops": 2,
+                "sectionVertices": 321,
+                "valid": true
+              },
+              {
+                "material": "long black hair",
+                "patchTriangles": 6340,
+                "fullTriangles": 29096,
+                "evaluatedVertices": 3240,
+                "loops": 1,
+                "sectionVertices": 316,
+                "valid": true
+              }
+            ]
+          }
+        }
+      },
+      "walk": {
+        "missing": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "timings": {
+          "median": 4.700000002980232,
+          "p95": 7.4000000059604645,
+          "max": 13.099999994039536
+        },
+        "presence": {
+          "active": true,
+          "source": "sirui-ghibli.glb",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 1,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 4.166666666666666,
+          "gaitTime": 1.5390666061401332,
+          "contentVersion": 243,
+          "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+          "opticalForwardOffset": 0.09164000302553177,
+          "headCutHeight": 1.4000000143051148,
+          "fullShadow": true,
+          "volumeDepth": "first-person body excluded",
+          "sectionCaps": {
+            "updates": 242,
+            "maximumMs": 15.299999997019768,
+            "meanMs": 5.685950413715741,
+            "invalid": 0,
+            "band": 0.1,
+            "rows": [
+              {
+                "material": "skin",
+                "patchTriangles": 13691,
+                "fullTriangles": 62115,
+                "evaluatedVertices": 7087,
+                "loops": 2,
+                "sectionVertices": 322,
+                "valid": true
+              },
+              {
+                "material": "long black hair",
+                "patchTriangles": 6340,
+                "fullTriangles": 29096,
+                "evaluatedVertices": 3240,
+                "loops": 1,
+                "sectionVertices": 314,
+                "valid": true
+              }
+            ]
+          }
+        }
+      },
+      "animated": {
+        "pixelHash": "7682f2f5",
+        "shadowHash": "ee993de7",
+        "presence": {
+          "active": true,
+          "source": "sirui-ghibli.glb",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 1,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 4.166666666666666,
+          "gaitTime": 1.5390666061401332,
+          "contentVersion": 243,
+          "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+          "opticalForwardOffset": 0.09164000302553177,
+          "headCutHeight": 1.4000000143051148,
+          "fullShadow": true,
+          "volumeDepth": "first-person body excluded",
+          "sectionCaps": {
+            "updates": 242,
+            "maximumMs": 15.299999997019768,
+            "meanMs": 5.685950413715741,
+            "invalid": 0,
+            "band": 0.1,
+            "rows": [
+              {
+                "material": "skin",
+                "patchTriangles": 13691,
+                "fullTriangles": 62115,
+                "evaluatedVertices": 7087,
+                "loops": 2,
+                "sectionVertices": 322,
+                "valid": true
+              },
+              {
+                "material": "long black hair",
+                "patchTriangles": 6340,
+                "fullTriangles": 29096,
+                "evaluatedVertices": 3240,
+                "loops": 1,
+                "sectionVertices": 314,
+                "valid": true
+              }
+            ]
+          }
+        },
+        "mirror": {
+          "method": "cropped planar room and live actor reflections",
+          "rooms": ["bath-living", "bath-bedroom"],
+          "size": 256,
+          "sharedTargets": 1,
+          "maximumHz": 15,
+          "contextReach": 12,
+          "captures": 3,
+          "capturedRoom": "bath-living",
+          "milliseconds": 1364.0000000149012,
+          "prepared": true,
+          "contextRooms": ["bath-living"],
+          "dynamicRoots": ["walking-Sirui"],
+          "cropArea": 0.23637627960462784,
+          "linearTexelGain": 2.0568283682265087
+        },
+        "glError": 0,
+        "info": {
+          "calls": 46,
+          "triangles": 295290
+        },
+        "capsVisibleAfter": false
+      }
+    },
+    "lizard": {
+      "initial": {
+        "active": true,
+        "source": "sirui-lizard.glb",
+        "sourceHidden": true,
+        "prepared": true,
+        "skeletons": 1,
+        "sharedGeometryAndMaterials": true,
+        "position": [-6.25, 0, 3.65],
+        "yaw": -1.5707963267948966,
+        "moving": false,
+        "idleTime": 0,
+        "gaitTime": 0,
+        "contentVersion": 3,
+        "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+        "opticalForwardOffset": 0.19269999861717224,
+        "headCutHeight": 1.4000000143051148,
+        "fullShadow": true,
+        "volumeDepth": "first-person body excluded",
+        "sectionCaps": {
+          "updates": 2,
+          "maximumMs": 4.299999997019768,
+          "meanMs": 4.249999992549419,
+          "invalid": 0,
+          "band": 0.1,
+          "rows": [
+            {
+              "material": "skin",
+              "patchTriangles": 5078,
+              "fullTriangles": 32866,
+              "evaluatedVertices": 2744,
+              "loops": 2,
+              "sectionVertices": 161,
+              "valid": true
+            },
+            {
+              "material": "long black hair",
+              "patchTriangles": 4305,
+              "fullTriangles": 22320,
+              "evaluatedVertices": 2354,
+              "loops": 2,
+              "sectionVertices": 407,
+              "valid": true
+            }
+          ]
+        }
+      },
+      "captures": {
+        "lizard-down80-before": {
+          "pixelHash": "fcf0abf5",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-lizard.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+            "opticalForwardOffset": 0.19269999861717224,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 4.299999997019768,
+              "meanMs": 4.249999992549419,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 5078,
+                  "fullTriangles": 32866,
+                  "evaluatedVertices": 2744,
+                  "loops": 2,
+                  "sectionVertices": 161,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 4305,
+                  "fullTriangles": 22320,
+                  "evaluatedVertices": 2354,
+                  "loops": 2,
+                  "sectionVertices": 407,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 4,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1367.1000000238419,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.24932837939640506,
+            "linearTexelGain": 2.002691907451786
+          },
+          "glError": 0,
+          "info": {
+            "calls": 42,
+            "triangles": 218634
+          },
+          "capsVisibleAfter": false
+        },
+        "lizard-down80-cap": {
+          "pixelHash": "fcf0abf5",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-lizard.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+            "opticalForwardOffset": 0.19269999861717224,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 4.299999997019768,
+              "meanMs": 4.249999992549419,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 5078,
+                  "fullTriangles": 32866,
+                  "evaluatedVertices": 2744,
+                  "loops": 2,
+                  "sectionVertices": 161,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 4305,
+                  "fullTriangles": 22320,
+                  "evaluatedVertices": 2354,
+                  "loops": 2,
+                  "sectionVertices": 407,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 4,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1367.1000000238419,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.24932837939640506,
+            "linearTexelGain": 2.002691907451786
+          },
+          "glError": 0,
+          "info": {
+            "calls": 44,
+            "triangles": 219194
+          },
+          "capsVisibleAfter": false
+        },
+        "lizard-down69-before": {
+          "pixelHash": "7265bc7d",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-lizard.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+            "opticalForwardOffset": 0.19269999861717224,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 4.299999997019768,
+              "meanMs": 4.249999992549419,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 5078,
+                  "fullTriangles": 32866,
+                  "evaluatedVertices": 2744,
+                  "loops": 2,
+                  "sectionVertices": 161,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 4305,
+                  "fullTriangles": 22320,
+                  "evaluatedVertices": 2354,
+                  "loops": 2,
+                  "sectionVertices": 407,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 4,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1367.1000000238419,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.24932837939640506,
+            "linearTexelGain": 2.002691907451786
+          },
+          "glError": 0,
+          "info": {
+            "calls": 41,
+            "triangles": 212758
+          },
+          "capsVisibleAfter": false
+        },
+        "lizard-down69-cap": {
+          "pixelHash": "7265bc7d",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-lizard.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+            "opticalForwardOffset": 0.19269999861717224,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 4.299999997019768,
+              "meanMs": 4.249999992549419,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 5078,
+                  "fullTriangles": 32866,
+                  "evaluatedVertices": 2744,
+                  "loops": 2,
+                  "sectionVertices": 161,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 4305,
+                  "fullTriangles": 22320,
+                  "evaluatedVertices": 2354,
+                  "loops": 2,
+                  "sectionVertices": 407,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 4,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1367.1000000238419,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.24932837939640506,
+            "linearTexelGain": 2.002691907451786
+          },
+          "glError": 0,
+          "info": {
+            "calls": 43,
+            "triangles": 213318
+          },
+          "capsVisibleAfter": false
+        },
+        "lizard-mirror-before": {
+          "pixelHash": "1732c210",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-lizard.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+            "opticalForwardOffset": 0.19269999861717224,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 4.299999997019768,
+              "meanMs": 4.249999992549419,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 5078,
+                  "fullTriangles": 32866,
+                  "evaluatedVertices": 2744,
+                  "loops": 2,
+                  "sectionVertices": 161,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 4305,
+                  "fullTriangles": 22320,
+                  "evaluatedVertices": 2354,
+                  "loops": 2,
+                  "sectionVertices": 407,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 5,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1370.6000000238419,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.24932837939640506,
+            "linearTexelGain": 2.002691907451786
+          },
+          "glError": 0,
+          "info": {
+            "calls": 42,
+            "triangles": 211877
+          },
+          "capsVisibleAfter": false
+        },
+        "lizard-mirror-cap": {
+          "pixelHash": "1732c210",
+          "shadowHash": "ee993de7",
+          "presence": {
+            "active": true,
+            "source": "sirui-lizard.glb",
+            "sourceHidden": true,
+            "prepared": true,
+            "skeletons": 1,
+            "sharedGeometryAndMaterials": true,
+            "position": [-6.25, 0, 3.65],
+            "yaw": -1.5707963267948966,
+            "moving": false,
+            "idleTime": 0,
+            "gaitTime": 0,
+            "contentVersion": 3,
+            "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+            "opticalForwardOffset": 0.19269999861717224,
+            "headCutHeight": 1.4000000143051148,
+            "fullShadow": true,
+            "volumeDepth": "first-person body excluded",
+            "sectionCaps": {
+              "updates": 2,
+              "maximumMs": 4.299999997019768,
+              "meanMs": 4.249999992549419,
+              "invalid": 0,
+              "band": 0.1,
+              "rows": [
+                {
+                  "material": "skin",
+                  "patchTriangles": 5078,
+                  "fullTriangles": 32866,
+                  "evaluatedVertices": 2744,
+                  "loops": 2,
+                  "sectionVertices": 161,
+                  "valid": true
+                },
+                {
+                  "material": "long black hair",
+                  "patchTriangles": 4305,
+                  "fullTriangles": 22320,
+                  "evaluatedVertices": 2354,
+                  "loops": 2,
+                  "sectionVertices": 407,
+                  "valid": true
+                }
+              ]
+            }
+          },
+          "mirror": {
+            "method": "cropped planar room and live actor reflections",
+            "rooms": ["bath-living", "bath-bedroom"],
+            "size": 256,
+            "sharedTargets": 1,
+            "maximumHz": 15,
+            "contextReach": 12,
+            "captures": 6,
+            "capturedRoom": "bath-living",
+            "milliseconds": 1373.300000026822,
+            "prepared": true,
+            "contextRooms": ["bath-living"],
+            "dynamicRoots": ["walking-Sirui"],
+            "cropArea": 0.24932837939640506,
+            "linearTexelGain": 2.002691907451786
+          },
+          "glError": 0,
+          "info": {
+            "calls": 44,
+            "triangles": 212437
+          },
+          "capsVisibleAfter": false
+        }
+      },
+      "idle": {
+        "missing": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "timings": {
+          "median": 3.300000011920929,
+          "p95": 5.700000002980232,
+          "max": 7
+        },
+        "presence": {
+          "active": true,
+          "source": "sirui-lizard.glb",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 1,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 4.066666666666666,
+          "gaitTime": 0,
+          "contentVersion": 123,
+          "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+          "opticalForwardOffset": 0.19269999861717224,
+          "headCutHeight": 1.4000000143051148,
+          "fullShadow": true,
+          "volumeDepth": "first-person body excluded",
+          "sectionCaps": {
+            "updates": 122,
+            "maximumMs": 6.899999991059303,
+            "meanMs": 3.503278687596321,
+            "invalid": 0,
+            "band": 0.1,
+            "rows": [
+              {
+                "material": "skin",
+                "patchTriangles": 5078,
+                "fullTriangles": 32866,
+                "evaluatedVertices": 2744,
+                "loops": 2,
+                "sectionVertices": 161,
+                "valid": true
+              },
+              {
+                "material": "long black hair",
+                "patchTriangles": 4305,
+                "fullTriangles": 22320,
+                "evaluatedVertices": 2354,
+                "loops": 2,
+                "sectionVertices": 407,
+                "valid": true
+              }
+            ]
+          }
+        }
+      },
+      "walk": {
+        "missing": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "timings": {
+          "median": 3.5,
+          "p95": 5.200000002980232,
+          "max": 12.299999997019768
+        },
+        "presence": {
+          "active": true,
+          "source": "sirui-lizard.glb",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 1,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 4.166666666666666,
+          "gaitTime": 1.5390666061401332,
+          "contentVersion": 243,
+          "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+          "opticalForwardOffset": 0.19269999861717224,
+          "headCutHeight": 1.4000000143051148,
+          "fullShadow": true,
+          "volumeDepth": "first-person body excluded",
+          "sectionCaps": {
+            "updates": 242,
+            "maximumMs": 12.200000002980232,
+            "meanMs": 3.5066115695459783,
+            "invalid": 0,
+            "band": 0.1,
+            "rows": [
+              {
+                "material": "skin",
+                "patchTriangles": 5078,
+                "fullTriangles": 32866,
+                "evaluatedVertices": 2744,
+                "loops": 2,
+                "sectionVertices": 161,
+                "valid": true
+              },
+              {
+                "material": "long black hair",
+                "patchTriangles": 4305,
+                "fullTriangles": 22320,
+                "evaluatedVertices": 2354,
+                "loops": 2,
+                "sectionVertices": 410,
+                "valid": true
+              }
+            ]
+          }
+        }
+      },
+      "animated": {
+        "pixelHash": "1466c745",
+        "shadowHash": "ee993de7",
+        "presence": {
+          "active": true,
+          "source": "sirui-lizard.glb",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 1,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 4.166666666666666,
+          "gaitTime": 1.5390666061401332,
+          "contentVersion": 243,
+          "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+          "opticalForwardOffset": 0.19269999861717224,
+          "headCutHeight": 1.4000000143051148,
+          "fullShadow": true,
+          "volumeDepth": "first-person body excluded",
+          "sectionCaps": {
+            "updates": 242,
+            "maximumMs": 12.200000002980232,
+            "meanMs": 3.5066115695459783,
+            "invalid": 0,
+            "band": 0.1,
+            "rows": [
+              {
+                "material": "skin",
+                "patchTriangles": 5078,
+                "fullTriangles": 32866,
+                "evaluatedVertices": 2744,
+                "loops": 2,
+                "sectionVertices": 161,
+                "valid": true
+              },
+              {
+                "material": "long black hair",
+                "patchTriangles": 4305,
+                "fullTriangles": 22320,
+                "evaluatedVertices": 2354,
+                "loops": 2,
+                "sectionVertices": 410,
+                "valid": true
+              }
+            ]
+          }
+        },
+        "mirror": {
+          "method": "cropped planar room and live actor reflections",
+          "rooms": ["bath-living", "bath-bedroom"],
+          "size": 256,
+          "sharedTargets": 1,
+          "maximumHz": 15,
+          "contextReach": 12,
+          "captures": 6,
+          "capturedRoom": "bath-living",
+          "milliseconds": 1373.300000026822,
+          "prepared": true,
+          "contextRooms": ["bath-living"],
+          "dynamicRoots": ["walking-Sirui"],
+          "cropArea": 0.24932837939640506,
+          "linearTexelGain": 2.002691907451786
+        },
+        "glError": 0,
+        "info": {
+          "calls": 44,
+          "triangles": 219197
+        },
+        "capsVisibleAfter": false
+      }
+    }
+  }
+}

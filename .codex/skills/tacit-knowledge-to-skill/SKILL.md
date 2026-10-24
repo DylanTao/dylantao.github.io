@@ -37,10 +37,11 @@ Preserve canonical human files unless the user explicitly wants a migration:
 - `WEBSITE_DESIGN_HEURISTICS.md` stays the canonical design and writing memory.
 - `docs/homepage-desk-scene-brief.md` stays the canonical desk-scene brief and handoff prompt.
 - `docs/design-experiment-backlog.md` stays the durable record of kept, deferred, and removed experiments.
+- `docs/october-2026-handoff.md` holds the current reconciled status for wrap-ups and successor reviews; older queues inside it remain historical custody.
 
 Skills should quote paths and headings, not copy whole sections. If a skill and a human doc disagree, treat the human doc as the source of truth and update the skill to point at the current heading or workflow.
 
-Use the `Agent Quick Index` and `Reflective Practice` in `WEBSITE_DESIGN_HEURISTICS.md` and the current-priority and evidence headings in `docs/homepage-desk-scene-brief.md` as the stable retrieval surfaces. Prefer adding or correcting those indexes over duplicating prose in an overlay.
+Use the `Agent Quick Index`, `Reflective Practice`, and `Continuing And Handing Off` in `WEBSITE_DESIGN_HEURISTICS.md` and the current-priority and evidence headings in `docs/homepage-desk-scene-brief.md` as the stable retrieval surfaces. For wrap-ups, reconcile the owning handoff before promoting a lesson; an older queue is not evidence that work remains. Prefer adding or correcting those indexes over duplicating prose in an overlay.
 
 ## Conversion Workflow
 

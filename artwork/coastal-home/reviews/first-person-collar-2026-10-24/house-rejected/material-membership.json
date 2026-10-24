@@ -1,0 +1,2825 @@
+{
+  "scope": "Complete production house, native RAF/real animation clock, full assets/quality. Lab placement stages valid capsule poses; this is collar/material/mode recovery evidence, not an entrance route or physical-phone performance claim.",
+  "base": "http://127.0.0.1:4191/al-folio/",
+  "overlays": ["walk-presence.mjs", "walk-collar-liner.mjs"],
+  "sourceHashes": {
+    "walk-presence.mjs": "82f275461fc15bf00a6a0e5013ad198e931717e5eb00412a96effb49c17c8963",
+    "walk-collar-liner.mjs": "89284abbdde4b4208bd55871ae76977bd074e6de880ffc269b933c09305b0291"
+  },
+  "loadedHashes": {
+    "walk-presence.mjs": "82f275461fc15bf00a6a0e5013ad198e931717e5eb00412a96effb49c17c8963",
+    "walk-collar-liner.mjs": "89284abbdde4b4208bd55871ae76977bd074e6de880ffc269b933c09305b0291"
+  },
+  "errors": [],
+  "passed": true,
+  "browserArgs": ["--use-angle=d3d11", "--ignore-gpu-blocklist"],
+  "custody": {
+    "scope": "Focused projection of unchanged raw receipt; unrelated lighting/field arrays omitted.",
+    "rawPath": ".jekyll-cache/neck-cap/house-rejected-material-membership.json",
+    "rawSha256": "ee2a011f3ba3b24452e180899599a9682166def10e0c8742f2e1aa9b4288f6fa"
+  },
+  "states": {
+    "desktop": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "hasTouch": false,
+      "errors": [],
+      "graphics": {
+        "renderer": "ANGLE (Intel, Intel(R) Arc(TM) Graphics (0x00007D55) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "vendor": "Google Inc. (Intel)"
+      },
+      "passed": true,
+      "steps": [
+        {
+          "label": "bath-source",
+          "draw": {
+            "position": [-0.9935972681570298, 4.9520500654133865, -0.20135404025071146],
+            "forward": [-0.4787278936017711, -0.37092046941298257, 0.7957622818769836],
+            "meshes": [
+              {
+                "name": "SiruiEyelids",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_1",
+                "material": "warm white",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_2",
+                "material": "warm brown iris",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_3",
+                "material": "ink details",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_4",
+                "material": "wire spectacles",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_5",
+                "material": "long black hair",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_6",
+                "material": "Sirui shirt",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_7",
+                "material": "olive trousers",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_8",
+                "material": "canvas sneaker sole",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_9",
+                "material": "mouth",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_10",
+                "material": "tongue",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "primary-native-collar-liner",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": null
+              }
+            ]
+          },
+          "state": {
+            "ready": true,
+            "avatarId": "ghibli",
+            "currentRoom": "onsen",
+            "activity": "soak",
+            "activityFloor": 2.6,
+            "traveling": false,
+            "animationSeconds": 7.449666666666672,
+            "fullscreen": "native",
+            "clockMode": "preview",
+            "actorPosition": [3.17, 2.12, 3.08],
+            "actorFacing": 3.141593,
+            "actorCount": 1,
+            "roomCount": 10,
+            "frames": 123,
+            "camera": [-0.31070397754830287, 4.78941584338067, -0.7004670691851644],
+            "cameraFov": 38,
+            "cameraClip": {
+              "near": 0.05,
+              "far": 300,
+              "fogNear": 65,
+              "fogFar": 180
+            },
+            "projection": "perspective",
+            "walkPresence": {
+              "active": false,
+              "source": "active-Sirui",
+              "sourceHidden": false,
+              "prepared": true,
+              "skeletons": 1,
+              "sharedGeometryAndMaterials": true,
+              "position": [0, 0, 0],
+              "yaw": 0,
+              "moving": false,
+              "idleTime": 0,
+              "gaitTime": 0,
+              "contentVersion": 3,
+              "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+              "opticalForwardOffset": 0.09164000302553177,
+              "headCutHeight": 1.4,
+              "fullShadow": true,
+              "volumeDepth": "first-person body excluded",
+              "collarLiner": {
+                "method": "native neck-to-collar upper-chest liner",
+                "setupMs": 12.900000005960464,
+                "updates": 1,
+                "perFrameCuts": 0,
+                "meanMs": 0.7000000029802322,
+                "maximumMs": 0.7000000029802322,
+                "maximumInset": 0.0016753562049677008,
+                "trackedVertices": 304,
+                "vertices": 320,
+                "triangles": 512,
+                "upperHeight": 1.3500000143051147,
+                "lowerHeight": 1.3050000143051148,
+                "spine": "Spine",
+                "skinMesh": "shaped_adult_face",
+                "shirtMesh": "shaped_adult_face_6",
+                "upperSection": {
+                  "evaluatedVertices": 168,
+                  "sourceTriangles": 62115,
+                  "selectedTriangles": 224,
+                  "ignoredOpenComponents": 0
+                },
+                "lowerSection": {
+                  "evaluatedVertices": 788,
+                  "sourceTriangles": 37056,
+                  "selectedTriangles": 1062,
+                  "ignoredOpenComponents": 0
+                }
+              },
+              "collarFailure": null
+            },
+            "walk": {
+              "active": false,
+              "ready": true,
+              "placed": false,
+              "position": [0, 0, 0],
+              "eye": 1.6,
+              "yaw": 0,
+              "pitch": 0,
+              "fov": 62,
+              "velocity": [0, 0],
+              "room": null,
+              "distance": 0,
+              "blockedFrames": 0,
+              "body": {
+                "radius": 0.24,
+                "height": 1.75,
+                "maxStep": 0.46,
+                "maxDrop": 0.5,
+                "eyeHeight": 1.6
+              }
+            },
+            "simulation": {
+              "interiorReflections": {
+                "method": "cropped planar room and live actor reflections",
+                "rooms": ["bath-living", "bath-bedroom"],
+                "size": 256,
+                "sharedTargets": 1,
+                "maximumHz": 15,
+                "contextReach": 12,
+                "captures": 0,
+                "capturedRoom": null,
+                "milliseconds": 14586.5,
+                "prepared": true,
+                "contextRooms": [],
+                "dynamicRoots": [],
+                "cropArea": 1,
+                "linearTexelGain": 1
+              }
+            }
+          }
+        },
+        {
+          "label": "ghibli-upper-down",
+          "draw": {
+            "position": [-6.341640003025532, 4.199980592727661, 3.65],
+            "forward": [-0.16996714290024112, -0.9854497299884601, 0],
+            "meshes": [
+              {
+                "name": "SiruiEyelids",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_1",
+                "material": "warm white",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_2",
+                "material": "warm brown iris",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_3",
+                "material": "ink details",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_4",
+                "material": "wire spectacles",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_5",
+                "material": "long black hair",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_6",
+                "material": "Sirui shirt",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_7",
+                "material": "olive trousers",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_8",
+                "material": "canvas sneaker sole",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_9",
+                "material": "mouth",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_10",
+                "material": "tongue",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "primary-native-collar-liner",
+                "material": "skin",
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": null
+              }
+            ]
+          },
+          "state": {
+            "ready": true,
+            "avatarId": "ghibli",
+            "currentRoom": "bath-bedroom",
+            "activity": "soak",
+            "activityFloor": 2.6,
+            "traveling": false,
+            "animationSeconds": 15.432766666666693,
+            "fullscreen": "native",
+            "clockMode": "preview",
+            "actorPosition": [3.17, 2.12, 3.08],
+            "actorFacing": 3.141593,
+            "actorCount": 1,
+            "roomCount": 10,
+            "frames": 192,
+            "camera": [-6.341640003025532, 4.199980592727661, 3.65],
+            "cameraFov": 62,
+            "cameraClip": {
+              "near": 0.05,
+              "far": 300,
+              "fogNear": 65,
+              "fogFar": 180
+            },
+            "projection": "perspective",
+            "walkPresence": {
+              "active": true,
+              "source": "active-Sirui",
+              "sourceHidden": true,
+              "prepared": true,
+              "skeletons": 1,
+              "sharedGeometryAndMaterials": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "yaw": -1.5707963267948966,
+              "moving": false,
+              "idleTime": 1.500000000000006,
+              "gaitTime": 0,
+              "contentVersion": 36,
+              "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+              "opticalForwardOffset": 0.09164000302553177,
+              "headCutHeight": 3.999980607032776,
+              "fullShadow": true,
+              "volumeDepth": "first-person body excluded",
+              "collarLiner": {
+                "method": "native neck-to-collar upper-chest liner",
+                "setupMs": 12.900000005960464,
+                "updates": 33,
+                "perFrameCuts": 0,
+                "meanMs": 0.5,
+                "maximumMs": 1.4000000059604645,
+                "maximumInset": 0.001675356204967729,
+                "trackedVertices": 304,
+                "vertices": 320,
+                "triangles": 512,
+                "upperHeight": 1.3500000143051147,
+                "lowerHeight": 1.3050000143051148,
+                "spine": "Spine",
+                "skinMesh": "shaped_adult_face",
+                "shirtMesh": "shaped_adult_face_6",
+                "upperSection": {
+                  "evaluatedVertices": 168,
+                  "sourceTriangles": 62115,
+                  "selectedTriangles": 224,
+                  "ignoredOpenComponents": 0
+                },
+                "lowerSection": {
+                  "evaluatedVertices": 788,
+                  "sourceTriangles": 37056,
+                  "selectedTriangles": 1062,
+                  "ignoredOpenComponents": 0
+                }
+              },
+              "collarFailure": null
+            },
+            "walk": {
+              "active": true,
+              "ready": true,
+              "placed": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "eye": 4.199980592727661,
+              "yaw": -1.5707963267948966,
+              "pitch": -1.4,
+              "fov": 62,
+              "velocity": [0, 0],
+              "room": "bath-bedroom",
+              "distance": 0,
+              "blockedFrames": 0,
+              "body": {
+                "radius": 0.24,
+                "height": 1.75,
+                "maxStep": 0.46,
+                "maxDrop": 0.5,
+                "eyeHeight": 1.6
+              }
+            },
+            "simulation": {
+              "interiorReflections": {
+                "method": "cropped planar room and live actor reflections",
+                "rooms": ["bath-living", "bath-bedroom"],
+                "size": 256,
+                "sharedTargets": 1,
+                "maximumHz": 15,
+                "contextReach": 12,
+                "captures": 0,
+                "capturedRoom": null,
+                "milliseconds": 14586.5,
+                "prepared": true,
+                "contextRooms": [],
+                "dynamicRoots": [],
+                "cropArea": 1,
+                "linearTexelGain": 1
+              }
+            }
+          }
+        },
+        {
+          "label": "ghibli-upper-no-liner",
+          "draw": {
+            "position": [-6.341640003025532, 4.199980592727661, 3.65],
+            "forward": [-0.16996714290024112, -0.9854497299884601, 0],
+            "meshes": [
+              {
+                "name": "SiruiEyelids",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_1",
+                "material": "warm white",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_2",
+                "material": "warm brown iris",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_3",
+                "material": "ink details",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_4",
+                "material": "wire spectacles",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_5",
+                "material": "long black hair",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_6",
+                "material": "Sirui shirt",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_7",
+                "material": "olive trousers",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_8",
+                "material": "canvas sneaker sole",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_9",
+                "material": "mouth",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_10",
+                "material": "tongue",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "primary-native-collar-liner",
+                "material": "skin",
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": null
+              }
+            ]
+          },
+          "state": {
+            "ready": true,
+            "avatarId": "ghibli",
+            "currentRoom": "bath-bedroom",
+            "activity": "soak",
+            "activityFloor": 2.6,
+            "traveling": false,
+            "animationSeconds": 19.049266666666682,
+            "fullscreen": "native",
+            "clockMode": "preview",
+            "actorPosition": [3.17, 2.12, 3.08],
+            "actorFacing": 3.141593,
+            "actorCount": 1,
+            "roomCount": 10,
+            "frames": 276,
+            "camera": [-6.341640003025532, 4.199980592727661, 3.65],
+            "cameraFov": 62,
+            "cameraClip": {
+              "near": 0.05,
+              "far": 300,
+              "fogNear": 65,
+              "fogFar": 180
+            },
+            "projection": "perspective",
+            "walkPresence": {
+              "active": true,
+              "source": "active-Sirui",
+              "sourceHidden": true,
+              "prepared": true,
+              "skeletons": 1,
+              "sharedGeometryAndMaterials": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "yaw": -1.5707963267948966,
+              "moving": false,
+              "idleTime": 4.4331999999999985,
+              "gaitTime": 0,
+              "contentVersion": 120,
+              "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+              "opticalForwardOffset": 0.09164000302553177,
+              "headCutHeight": 3.999980607032776,
+              "fullShadow": true,
+              "volumeDepth": "first-person body excluded",
+              "collarLiner": {
+                "method": "native neck-to-collar upper-chest liner",
+                "setupMs": 12.900000005960464,
+                "updates": 117,
+                "perFrameCuts": 0,
+                "meanMs": 0.5709401705326178,
+                "maximumMs": 3.2999999970197678,
+                "maximumInset": 0.001675356204967729,
+                "trackedVertices": 304,
+                "vertices": 320,
+                "triangles": 512,
+                "upperHeight": 1.3500000143051147,
+                "lowerHeight": 1.3050000143051148,
+                "spine": "Spine",
+                "skinMesh": "shaped_adult_face",
+                "shirtMesh": "shaped_adult_face_6",
+                "upperSection": {
+                  "evaluatedVertices": 168,
+                  "sourceTriangles": 62115,
+                  "selectedTriangles": 224,
+                  "ignoredOpenComponents": 0
+                },
+                "lowerSection": {
+                  "evaluatedVertices": 788,
+                  "sourceTriangles": 37056,
+                  "selectedTriangles": 1062,
+                  "ignoredOpenComponents": 0
+                }
+              },
+              "collarFailure": null
+            },
+            "walk": {
+              "active": true,
+              "ready": true,
+              "placed": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "eye": 4.199980592727661,
+              "yaw": -1.5707963267948966,
+              "pitch": -1.4,
+              "fov": 62,
+              "velocity": [0, 0],
+              "room": "bath-bedroom",
+              "distance": 0,
+              "blockedFrames": 0,
+              "body": {
+                "radius": 0.24,
+                "height": 1.75,
+                "maxStep": 0.46,
+                "maxDrop": 0.5,
+                "eyeHeight": 1.6
+              }
+            },
+            "simulation": {
+              "interiorReflections": {
+                "method": "cropped planar room and live actor reflections",
+                "rooms": ["bath-living", "bath-bedroom"],
+                "size": 256,
+                "sharedTargets": 1,
+                "maximumHz": 15,
+                "contextReach": 12,
+                "captures": 0,
+                "capturedRoom": null,
+                "milliseconds": 14586.5,
+                "prepared": true,
+                "contextRooms": [],
+                "dynamicRoots": [],
+                "cropArea": 1,
+                "linearTexelGain": 1
+              }
+            }
+          }
+        },
+        {
+          "label": "ghibli-upper-restored",
+          "draw": {
+            "position": [-6.341640003025532, 4.199980592727661, 3.65],
+            "forward": [-0.16996714290024112, -0.9854497299884601, 0],
+            "meshes": [
+              {
+                "name": "SiruiEyelids",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_1",
+                "material": "warm white",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_2",
+                "material": "warm brown iris",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_3",
+                "material": "ink details",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_4",
+                "material": "wire spectacles",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_5",
+                "material": "long black hair",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_6",
+                "material": "Sirui shirt",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_7",
+                "material": "olive trousers",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_8",
+                "material": "canvas sneaker sole",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_9",
+                "material": "mouth",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_10",
+                "material": "tongue",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "primary-native-collar-liner",
+                "material": "skin",
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": null
+              }
+            ]
+          },
+          "state": {
+            "ready": true,
+            "avatarId": "ghibli",
+            "currentRoom": "bath-bedroom",
+            "activity": "soak",
+            "activityFloor": 2.6,
+            "traveling": false,
+            "animationSeconds": 24.83236666666667,
+            "fullscreen": "native",
+            "clockMode": "preview",
+            "actorPosition": [3.17, 2.12, 3.08],
+            "actorFacing": 3.141593,
+            "actorCount": 1,
+            "roomCount": 10,
+            "frames": 362,
+            "camera": [-6.341640003025532, 4.199980592727661, 3.65],
+            "cameraFov": 62,
+            "cameraClip": {
+              "near": 0.05,
+              "far": 300,
+              "fogNear": 65,
+              "fogFar": 180
+            },
+            "projection": "perspective",
+            "walkPresence": {
+              "active": true,
+              "source": "active-Sirui",
+              "sourceHidden": true,
+              "prepared": true,
+              "skeletons": 1,
+              "sharedGeometryAndMaterials": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "yaw": -1.5707963267948966,
+              "moving": false,
+              "idleTime": 9.216399999999982,
+              "gaitTime": 0,
+              "contentVersion": 206,
+              "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+              "opticalForwardOffset": 0.09164000302553177,
+              "headCutHeight": 3.999980607032776,
+              "fullShadow": true,
+              "volumeDepth": "first-person body excluded",
+              "collarLiner": {
+                "method": "native neck-to-collar upper-chest liner",
+                "setupMs": 12.900000005960464,
+                "updates": 203,
+                "perFrameCuts": 0,
+                "meanMs": 0.6463054182200596,
+                "maximumMs": 3.699999988079071,
+                "maximumInset": 0.001675356204967729,
+                "trackedVertices": 304,
+                "vertices": 320,
+                "triangles": 512,
+                "upperHeight": 1.3500000143051147,
+                "lowerHeight": 1.3050000143051148,
+                "spine": "Spine",
+                "skinMesh": "shaped_adult_face",
+                "shirtMesh": "shaped_adult_face_6",
+                "upperSection": {
+                  "evaluatedVertices": 168,
+                  "sourceTriangles": 62115,
+                  "selectedTriangles": 224,
+                  "ignoredOpenComponents": 0
+                },
+                "lowerSection": {
+                  "evaluatedVertices": 788,
+                  "sourceTriangles": 37056,
+                  "selectedTriangles": 1062,
+                  "ignoredOpenComponents": 0
+                }
+              },
+              "collarFailure": null
+            },
+            "walk": {
+              "active": true,
+              "ready": true,
+              "placed": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "eye": 4.199980592727661,
+              "yaw": -1.5707963267948966,
+              "pitch": -1.4,
+              "fov": 62,
+              "velocity": [0, 0],
+              "room": "bath-bedroom",
+              "distance": 0,
+              "blockedFrames": 0,
+              "body": {
+                "radius": 0.24,
+                "height": 1.75,
+                "maxStep": 0.46,
+                "maxDrop": 0.5,
+                "eyeHeight": 1.6
+              }
+            },
+            "simulation": {
+              "interiorReflections": {
+                "method": "cropped planar room and live actor reflections",
+                "rooms": ["bath-living", "bath-bedroom"],
+                "size": 256,
+                "sharedTargets": 1,
+                "maximumHz": 15,
+                "contextReach": 12,
+                "captures": 0,
+                "capturedRoom": null,
+                "milliseconds": 14586.5,
+                "prepared": true,
+                "contextRooms": [],
+                "dynamicRoots": [],
+                "cropArea": 1,
+                "linearTexelGain": 1
+              }
+            }
+          }
+        },
+        {
+          "label": "lizard-upper-down",
+          "draw": {
+            "position": [-6.39, 4.199980592727661, 3.65],
+            "forward": [-0.16996714290024112, -0.9854497299884601, 0],
+            "meshes": [
+              {
+                "name": "SiruiEyelids",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_1",
+                "material": "warm white",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_2",
+                "material": "ink details",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_3",
+                "material": "wire spectacles",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_4",
+                "material": "mouth",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_5",
+                "material": "tongue",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_6",
+                "material": "charcoal shorts",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_7",
+                "material": "long black hair",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_8",
+                "material": "Sirui shirt",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "primary-native-collar-liner",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": null
+              }
+            ]
+          },
+          "state": {
+            "ready": true,
+            "avatarId": "lizard",
+            "currentRoom": "bath-bedroom",
+            "activity": "soak",
+            "activityFloor": 2.6,
+            "traveling": false,
+            "animationSeconds": 30.61546666666667,
+            "fullscreen": "native",
+            "clockMode": "preview",
+            "actorPosition": [3.17, 2.12, 3.08],
+            "actorFacing": 3.141593,
+            "actorCount": 1,
+            "roomCount": 10,
+            "frames": 427,
+            "camera": [-6.39, 4.199980592727661, 3.65],
+            "cameraFov": 62,
+            "cameraClip": {
+              "near": 0.05,
+              "far": 300,
+              "fogNear": 65,
+              "fogFar": 180
+            },
+            "projection": "perspective",
+            "walkPresence": {
+              "active": true,
+              "source": "active-Sirui",
+              "sourceHidden": true,
+              "prepared": true,
+              "skeletons": 1,
+              "sharedGeometryAndMaterials": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "yaw": -1.5707963267948966,
+              "moving": false,
+              "idleTime": 0.38339999999999536,
+              "gaitTime": 0,
+              "contentVersion": 273,
+              "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+              "opticalForwardOffset": 0.19269999861717224,
+              "headCutHeight": 3.999980607032776,
+              "fullShadow": true,
+              "volumeDepth": "first-person body excluded",
+              "collarLiner": {
+                "method": "native neck-to-collar upper-chest liner",
+                "setupMs": 10.899999991059303,
+                "updates": 8,
+                "perFrameCuts": 0,
+                "meanMs": 0.5,
+                "maximumMs": 0.6000000089406967,
+                "maximumInset": 0.0017643095520830643,
+                "trackedVertices": 232,
+                "vertices": 320,
+                "triangles": 512,
+                "upperHeight": 3.949980607032776,
+                "lowerHeight": 3.9049806070327757,
+                "spine": "Spine",
+                "skinMesh": "Sphere002",
+                "shirtMesh": "Sphere002_8",
+                "upperSection": {
+                  "evaluatedVertices": 42,
+                  "sourceTriangles": 32866,
+                  "selectedTriangles": 40,
+                  "ignoredOpenComponents": 0
+                },
+                "lowerSection": {
+                  "evaluatedVertices": 788,
+                  "sourceTriangles": 28352,
+                  "selectedTriangles": 1062,
+                  "ignoredOpenComponents": 0
+                }
+              },
+              "collarFailure": null
+            },
+            "walk": {
+              "active": true,
+              "ready": true,
+              "placed": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "eye": 4.199980592727661,
+              "yaw": -1.5707963267948966,
+              "pitch": -1.4,
+              "fov": 62,
+              "velocity": [0, 0],
+              "room": "bath-bedroom",
+              "distance": 0,
+              "blockedFrames": 0,
+              "body": {
+                "radius": 0.24,
+                "height": 1.75,
+                "maxStep": 0.46,
+                "maxDrop": 0.5,
+                "eyeHeight": 1.6
+              }
+            },
+            "simulation": {
+              "interiorReflections": {
+                "method": "cropped planar room and live actor reflections",
+                "rooms": ["bath-living", "bath-bedroom"],
+                "size": 256,
+                "sharedTargets": 1,
+                "maximumHz": 15,
+                "contextReach": 12,
+                "captures": 0,
+                "capturedRoom": null,
+                "milliseconds": 14586.5,
+                "prepared": true,
+                "contextRooms": [],
+                "dynamicRoots": [],
+                "cropArea": 1,
+                "linearTexelGain": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "mobile": {
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "hasTouch": true,
+      "errors": [],
+      "graphics": {
+        "renderer": "ANGLE (Intel, Intel(R) Arc(TM) Graphics (0x00007D55) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "vendor": "Google Inc. (Intel)"
+      },
+      "passed": true,
+      "steps": [
+        {
+          "label": "bath-source",
+          "draw": {
+            "position": [-0.9935973888468688, 4.952049971902088, -0.20135383963471876],
+            "forward": [-0.4787278936017711, -0.3709204694129827, 0.7957622818769836],
+            "meshes": [
+              {
+                "name": "SiruiEyelids",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_1",
+                "material": "warm white",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_2",
+                "material": "warm brown iris",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_3",
+                "material": "ink details",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_4",
+                "material": "wire spectacles",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_5",
+                "material": "long black hair",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_6",
+                "material": "Sirui shirt",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_7",
+                "material": "olive trousers",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_8",
+                "material": "canvas sneaker sole",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_9",
+                "material": "mouth",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "shaped_adult_face_10",
+                "material": "tongue",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "skin": true,
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "headY": 1.3600000143051147
+              },
+              {
+                "name": "primary-native-collar-liner",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 1.4
+                  }
+                ],
+                "world": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+                "inverse": null
+              }
+            ]
+          },
+          "state": {
+            "ready": true,
+            "avatarId": "ghibli",
+            "currentRoom": "onsen",
+            "activity": "soak",
+            "activityFloor": 2.6,
+            "traveling": false,
+            "animationSeconds": 3.0498666666666665,
+            "fullscreen": "native",
+            "clockMode": "preview",
+            "actorPosition": [3.17, 2.12, 3.08],
+            "actorFacing": 3.141593,
+            "actorCount": 1,
+            "roomCount": 10,
+            "frames": 93,
+            "camera": [-0.5139287836523652, 4.812819616283964, -0.7222298300959165],
+            "cameraFov": 79.99998947242612,
+            "cameraClip": {
+              "near": 0.05,
+              "far": 300,
+              "fogNear": 65,
+              "fogFar": 180
+            },
+            "projection": "perspective",
+            "walkPresence": {
+              "active": false,
+              "source": "active-Sirui",
+              "sourceHidden": false,
+              "prepared": true,
+              "skeletons": 1,
+              "sharedGeometryAndMaterials": true,
+              "position": [0, 0, 0],
+              "yaw": 0,
+              "moving": false,
+              "idleTime": 0,
+              "gaitTime": 0,
+              "contentVersion": 3,
+              "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+              "opticalForwardOffset": 0.09164000302553177,
+              "headCutHeight": 1.4,
+              "fullShadow": true,
+              "volumeDepth": "first-person body excluded",
+              "collarLiner": {
+                "method": "native neck-to-collar upper-chest liner",
+                "setupMs": 11.200000002980232,
+                "updates": 1,
+                "perFrameCuts": 0,
+                "meanMs": 0.5,
+                "maximumMs": 0.5,
+                "maximumInset": 0.0016753562049677008,
+                "trackedVertices": 304,
+                "vertices": 320,
+                "triangles": 512,
+                "upperHeight": 1.3500000143051147,
+                "lowerHeight": 1.3050000143051148,
+                "spine": "Spine",
+                "skinMesh": "shaped_adult_face",
+                "shirtMesh": "shaped_adult_face_6",
+                "upperSection": {
+                  "evaluatedVertices": 168,
+                  "sourceTriangles": 62115,
+                  "selectedTriangles": 224,
+                  "ignoredOpenComponents": 0
+                },
+                "lowerSection": {
+                  "evaluatedVertices": 788,
+                  "sourceTriangles": 37056,
+                  "selectedTriangles": 1062,
+                  "ignoredOpenComponents": 0
+                }
+              },
+              "collarFailure": null
+            },
+            "walk": {
+              "active": false,
+              "ready": true,
+              "placed": false,
+              "position": [0, 0, 0],
+              "eye": 1.6,
+              "yaw": 0,
+              "pitch": 0,
+              "fov": 62,
+              "velocity": [0, 0],
+              "room": null,
+              "distance": 0,
+              "blockedFrames": 0,
+              "body": {
+                "radius": 0.24,
+                "height": 1.75,
+                "maxStep": 0.46,
+                "maxDrop": 0.5,
+                "eyeHeight": 1.6
+              }
+            },
+            "simulation": {
+              "interiorReflections": {
+                "method": "cropped planar room and live actor reflections",
+                "rooms": ["bath-living", "bath-bedroom"],
+                "size": 128,
+                "sharedTargets": 1,
+                "maximumHz": 15,
+                "contextReach": 12,
+                "captures": 0,
+                "capturedRoom": null,
+                "milliseconds": 392.29999999701977,
+                "prepared": true,
+                "contextRooms": [],
+                "dynamicRoots": [],
+                "cropArea": 1,
+                "linearTexelGain": 1
+              }
+            }
+          }
+        },
+        {
+          "label": "ghibli-upper-down",
+          "draw": {
+            "position": [-6.341640003025532, 4.199980592727661, 3.65],
+            "forward": [-0.16996714290024112, -0.9854497299884601, 0],
+            "meshes": [
+              {
+                "name": "SiruiEyelids",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_1",
+                "material": "warm white",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_2",
+                "material": "warm brown iris",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_3",
+                "material": "ink details",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_4",
+                "material": "wire spectacles",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_5",
+                "material": "long black hair",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_6",
+                "material": "Sirui shirt",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_7",
+                "material": "olive trousers",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_8",
+                "material": "canvas sneaker sole",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_9",
+                "material": "mouth",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_10",
+                "material": "tongue",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "primary-native-collar-liner",
+                "material": "skin",
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": null
+              }
+            ]
+          },
+          "state": {
+            "ready": true,
+            "avatarId": "ghibli",
+            "currentRoom": "bath-bedroom",
+            "activity": "soak",
+            "activityFloor": 2.6,
+            "traveling": false,
+            "animationSeconds": 6.01646666666667,
+            "fullscreen": "native",
+            "clockMode": "preview",
+            "actorPosition": [3.17, 2.12, 3.08],
+            "actorFacing": 3.141593,
+            "actorCount": 1,
+            "roomCount": 10,
+            "frames": 164,
+            "camera": [-6.341640003025532, 4.199980592727661, 3.65],
+            "cameraFov": 90,
+            "cameraClip": {
+              "near": 0.05,
+              "far": 300,
+              "fogNear": 65,
+              "fogFar": 180
+            },
+            "projection": "perspective",
+            "walkPresence": {
+              "active": true,
+              "source": "active-Sirui",
+              "sourceHidden": true,
+              "prepared": true,
+              "skeletons": 1,
+              "sharedGeometryAndMaterials": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "yaw": -1.5707963267948966,
+              "moving": false,
+              "idleTime": 1.2166000000000046,
+              "gaitTime": 0,
+              "contentVersion": 38,
+              "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+              "opticalForwardOffset": 0.09164000302553177,
+              "headCutHeight": 3.999980607032776,
+              "fullShadow": true,
+              "volumeDepth": "first-person body excluded",
+              "collarLiner": {
+                "method": "native neck-to-collar upper-chest liner",
+                "setupMs": 11.200000002980232,
+                "updates": 35,
+                "perFrameCuts": 0,
+                "meanMs": 0.4828571434531893,
+                "maximumMs": 1.2000000029802322,
+                "maximumInset": 0.001675356204967729,
+                "trackedVertices": 304,
+                "vertices": 320,
+                "triangles": 512,
+                "upperHeight": 1.3500000143051147,
+                "lowerHeight": 1.3050000143051148,
+                "spine": "Spine",
+                "skinMesh": "shaped_adult_face",
+                "shirtMesh": "shaped_adult_face_6",
+                "upperSection": {
+                  "evaluatedVertices": 168,
+                  "sourceTriangles": 62115,
+                  "selectedTriangles": 224,
+                  "ignoredOpenComponents": 0
+                },
+                "lowerSection": {
+                  "evaluatedVertices": 788,
+                  "sourceTriangles": 37056,
+                  "selectedTriangles": 1062,
+                  "ignoredOpenComponents": 0
+                }
+              },
+              "collarFailure": null
+            },
+            "walk": {
+              "active": true,
+              "ready": true,
+              "placed": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "eye": 4.199980592727661,
+              "yaw": -1.5707963267948966,
+              "pitch": -1.4,
+              "fov": 62,
+              "velocity": [0, 0],
+              "room": "bath-bedroom",
+              "distance": 0,
+              "blockedFrames": 0,
+              "body": {
+                "radius": 0.24,
+                "height": 1.75,
+                "maxStep": 0.46,
+                "maxDrop": 0.5,
+                "eyeHeight": 1.6
+              }
+            },
+            "simulation": {
+              "interiorReflections": {
+                "method": "cropped planar room and live actor reflections",
+                "rooms": ["bath-living", "bath-bedroom"],
+                "size": 128,
+                "sharedTargets": 1,
+                "maximumHz": 15,
+                "contextReach": 12,
+                "captures": 0,
+                "capturedRoom": null,
+                "milliseconds": 392.29999999701977,
+                "prepared": true,
+                "contextRooms": [],
+                "dynamicRoots": [],
+                "cropArea": 1,
+                "linearTexelGain": 1
+              }
+            }
+          }
+        },
+        {
+          "label": "ghibli-upper-no-liner",
+          "draw": {
+            "position": [-6.341640003025532, 4.199980592727661, 3.65],
+            "forward": [-0.16996714290024112, -0.9854497299884601, 0],
+            "meshes": [
+              {
+                "name": "SiruiEyelids",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_1",
+                "material": "warm white",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_2",
+                "material": "warm brown iris",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_3",
+                "material": "ink details",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_4",
+                "material": "wire spectacles",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_5",
+                "material": "long black hair",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_6",
+                "material": "Sirui shirt",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_7",
+                "material": "olive trousers",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_8",
+                "material": "canvas sneaker sole",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_9",
+                "material": "mouth",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_10",
+                "material": "tongue",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "primary-native-collar-liner",
+                "material": "skin",
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": null
+              }
+            ]
+          },
+          "state": {
+            "ready": true,
+            "avatarId": "ghibli",
+            "currentRoom": "bath-bedroom",
+            "activity": "soak",
+            "activityFloor": 2.6,
+            "traveling": false,
+            "animationSeconds": 6.766466666666675,
+            "fullscreen": "native",
+            "clockMode": "preview",
+            "actorPosition": [3.17, 2.12, 3.08],
+            "actorFacing": 3.141593,
+            "actorCount": 1,
+            "roomCount": 10,
+            "frames": 203,
+            "camera": [-6.341640003025532, 4.199980592727661, 3.65],
+            "cameraFov": 90,
+            "cameraClip": {
+              "near": 0.05,
+              "far": 300,
+              "fogNear": 65,
+              "fogFar": 180
+            },
+            "projection": "perspective",
+            "walkPresence": {
+              "active": true,
+              "source": "active-Sirui",
+              "sourceHidden": true,
+              "prepared": true,
+              "skeletons": 1,
+              "sharedGeometryAndMaterials": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "yaw": -1.5707963267948966,
+              "moving": false,
+              "idleTime": 1.96660000000001,
+              "gaitTime": 0,
+              "contentVersion": 77,
+              "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+              "opticalForwardOffset": 0.09164000302553177,
+              "headCutHeight": 3.999980607032776,
+              "fullShadow": true,
+              "volumeDepth": "first-person body excluded",
+              "collarLiner": {
+                "method": "native neck-to-collar upper-chest liner",
+                "setupMs": 11.200000002980232,
+                "updates": 74,
+                "perFrameCuts": 0,
+                "meanMs": 0.38648648580183853,
+                "maximumMs": 1.2000000029802322,
+                "maximumInset": 0.001675356204967729,
+                "trackedVertices": 304,
+                "vertices": 320,
+                "triangles": 512,
+                "upperHeight": 1.3500000143051147,
+                "lowerHeight": 1.3050000143051148,
+                "spine": "Spine",
+                "skinMesh": "shaped_adult_face",
+                "shirtMesh": "shaped_adult_face_6",
+                "upperSection": {
+                  "evaluatedVertices": 168,
+                  "sourceTriangles": 62115,
+                  "selectedTriangles": 224,
+                  "ignoredOpenComponents": 0
+                },
+                "lowerSection": {
+                  "evaluatedVertices": 788,
+                  "sourceTriangles": 37056,
+                  "selectedTriangles": 1062,
+                  "ignoredOpenComponents": 0
+                }
+              },
+              "collarFailure": null
+            },
+            "walk": {
+              "active": true,
+              "ready": true,
+              "placed": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "eye": 4.199980592727661,
+              "yaw": -1.5707963267948966,
+              "pitch": -1.4,
+              "fov": 62,
+              "velocity": [0, 0],
+              "room": "bath-bedroom",
+              "distance": 0,
+              "blockedFrames": 0,
+              "body": {
+                "radius": 0.24,
+                "height": 1.75,
+                "maxStep": 0.46,
+                "maxDrop": 0.5,
+                "eyeHeight": 1.6
+              }
+            },
+            "simulation": {
+              "interiorReflections": {
+                "method": "cropped planar room and live actor reflections",
+                "rooms": ["bath-living", "bath-bedroom"],
+                "size": 128,
+                "sharedTargets": 1,
+                "maximumHz": 15,
+                "contextReach": 12,
+                "captures": 0,
+                "capturedRoom": null,
+                "milliseconds": 392.29999999701977,
+                "prepared": true,
+                "contextRooms": [],
+                "dynamicRoots": [],
+                "cropArea": 1,
+                "linearTexelGain": 1
+              }
+            }
+          }
+        },
+        {
+          "label": "ghibli-upper-restored",
+          "draw": {
+            "position": [-6.341640003025532, 4.199980592727661, 3.65],
+            "forward": [-0.16996714290024112, -0.9854497299884601, 0],
+            "meshes": [
+              {
+                "name": "SiruiEyelids",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face",
+                "material": "skin",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_1",
+                "material": "warm white",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_2",
+                "material": "warm brown iris",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_3",
+                "material": "ink details",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_4",
+                "material": "wire spectacles",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_5",
+                "material": "long black hair",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_6",
+                "material": "Sirui shirt",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_7",
+                "material": "olive trousers",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_8",
+                "material": "canvas sneaker sole",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_9",
+                "material": "mouth",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "shaped_adult_face_10",
+                "material": "tongue",
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "primary-native-collar-liner",
+                "material": "skin",
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": null
+              }
+            ]
+          },
+          "state": {
+            "ready": true,
+            "avatarId": "ghibli",
+            "currentRoom": "bath-bedroom",
+            "activity": "soak",
+            "activityFloor": 2.6,
+            "traveling": false,
+            "animationSeconds": 7.999766666666682,
+            "fullscreen": "native",
+            "clockMode": "preview",
+            "actorPosition": [3.17, 2.12, 3.08],
+            "actorFacing": 3.141593,
+            "actorCount": 1,
+            "roomCount": 10,
+            "frames": 261,
+            "camera": [-6.341640003025532, 4.199980592727661, 3.65],
+            "cameraFov": 90,
+            "cameraClip": {
+              "near": 0.05,
+              "far": 300,
+              "fogNear": 65,
+              "fogFar": 180
+            },
+            "projection": "perspective",
+            "walkPresence": {
+              "active": true,
+              "source": "active-Sirui",
+              "sourceHidden": true,
+              "prepared": true,
+              "skeletons": 1,
+              "sharedGeometryAndMaterials": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "yaw": -1.5707963267948966,
+              "moving": false,
+              "idleTime": 3.199900000000017,
+              "gaitTime": 0,
+              "contentVersion": 135,
+              "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+              "opticalForwardOffset": 0.09164000302553177,
+              "headCutHeight": 3.999980607032776,
+              "fullShadow": true,
+              "volumeDepth": "first-person body excluded",
+              "collarLiner": {
+                "method": "native neck-to-collar upper-chest liner",
+                "setupMs": 11.200000002980232,
+                "updates": 132,
+                "perFrameCuts": 0,
+                "meanMs": 0.36742424231135484,
+                "maximumMs": 1.2000000029802322,
+                "maximumInset": 0.001675356204967729,
+                "trackedVertices": 304,
+                "vertices": 320,
+                "triangles": 512,
+                "upperHeight": 1.3500000143051147,
+                "lowerHeight": 1.3050000143051148,
+                "spine": "Spine",
+                "skinMesh": "shaped_adult_face",
+                "shirtMesh": "shaped_adult_face_6",
+                "upperSection": {
+                  "evaluatedVertices": 168,
+                  "sourceTriangles": 62115,
+                  "selectedTriangles": 224,
+                  "ignoredOpenComponents": 0
+                },
+                "lowerSection": {
+                  "evaluatedVertices": 788,
+                  "sourceTriangles": 37056,
+                  "selectedTriangles": 1062,
+                  "ignoredOpenComponents": 0
+                }
+              },
+              "collarFailure": null
+            },
+            "walk": {
+              "active": true,
+              "ready": true,
+              "placed": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "eye": 4.199980592727661,
+              "yaw": -1.5707963267948966,
+              "pitch": -1.4,
+              "fov": 62,
+              "velocity": [0, 0],
+              "room": "bath-bedroom",
+              "distance": 0,
+              "blockedFrames": 0,
+              "body": {
+                "radius": 0.24,
+                "height": 1.75,
+                "maxStep": 0.46,
+                "maxDrop": 0.5,
+                "eyeHeight": 1.6
+              }
+            },
+            "simulation": {
+              "interiorReflections": {
+                "method": "cropped planar room and live actor reflections",
+                "rooms": ["bath-living", "bath-bedroom"],
+                "size": 128,
+                "sharedTargets": 1,
+                "maximumHz": 15,
+                "contextReach": 12,
+                "captures": 0,
+                "capturedRoom": null,
+                "milliseconds": 392.29999999701977,
+                "prepared": true,
+                "contextRooms": [],
+                "dynamicRoots": [],
+                "cropArea": 1,
+                "linearTexelGain": 1
+              }
+            }
+          }
+        },
+        {
+          "label": "lizard-upper-down",
+          "draw": {
+            "position": [-6.39, 4.199980592727661, 3.65],
+            "forward": [-0.16996714290024112, -0.9854497299884601, 0],
+            "meshes": [
+              {
+                "name": "SiruiEyelids",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_1",
+                "material": "warm white",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_2",
+                "material": "ink details",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_3",
+                "material": "wire spectacles",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_4",
+                "material": "mouth",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_5",
+                "material": "tongue",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_6",
+                "material": "charcoal shorts",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_7",
+                "material": "long black hair",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "Sphere002_8",
+                "material": "Sirui shirt",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "skin": true,
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": [
+                  2.220446049250313e-16, 0, -1, 0, 0, 1, 0, 0, 1, 0, 2.220446049250313e-16, 0, -3.6499999999999986, -2.599980592727661,
+                  -6.250000000000001, 1
+                ],
+                "headY": 3.959980607032776
+              },
+              {
+                "name": "primary-native-collar-liner",
+                "material": "skin",
+                "planes": [
+                  {
+                    "normal": [0, -1, 0],
+                    "constant": 3.999980607032776
+                  }
+                ],
+                "world": [2.220446049250313e-16, 0, 1, 0, 0, 1, 0, 0, -1, 0, 2.220446049250313e-16, 0, -6.25, 2.599980592727661, 3.65, 1],
+                "inverse": null
+              }
+            ]
+          },
+          "state": {
+            "ready": true,
+            "avatarId": "lizard",
+            "currentRoom": "bath-bedroom",
+            "activity": "soak",
+            "activityFloor": 2.6,
+            "traveling": false,
+            "animationSeconds": 10.76626666666667,
+            "fullscreen": "native",
+            "clockMode": "preview",
+            "actorPosition": [3.17, 2.12, 3.08],
+            "actorFacing": 3.141593,
+            "actorCount": 1,
+            "roomCount": 10,
+            "frames": 349,
+            "camera": [-6.39, 4.199980592727661, 3.65],
+            "cameraFov": 90,
+            "cameraClip": {
+              "near": 0.05,
+              "far": 300,
+              "fogNear": 65,
+              "fogFar": 180
+            },
+            "projection": "perspective",
+            "walkPresence": {
+              "active": true,
+              "source": "active-Sirui",
+              "sourceHidden": true,
+              "prepared": true,
+              "skeletons": 1,
+              "sharedGeometryAndMaterials": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "yaw": -1.5707963267948966,
+              "moving": false,
+              "idleTime": 0.5333999999999914,
+              "gaitTime": 0,
+              "contentVersion": 225,
+              "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+              "opticalForwardOffset": 0.19269999861717224,
+              "headCutHeight": 3.999980607032776,
+              "fullShadow": true,
+              "volumeDepth": "first-person body excluded",
+              "collarLiner": {
+                "method": "native neck-to-collar upper-chest liner",
+                "setupMs": 5.4000000059604645,
+                "updates": 25,
+                "perFrameCuts": 0,
+                "meanMs": 0.3279999989271164,
+                "maximumMs": 0.6000000089406967,
+                "maximumInset": 0.0017643095520830643,
+                "trackedVertices": 232,
+                "vertices": 320,
+                "triangles": 512,
+                "upperHeight": 3.949980607032776,
+                "lowerHeight": 3.9049806070327757,
+                "spine": "Spine",
+                "skinMesh": "Sphere002",
+                "shirtMesh": "Sphere002_8",
+                "upperSection": {
+                  "evaluatedVertices": 42,
+                  "sourceTriangles": 32866,
+                  "selectedTriangles": 40,
+                  "ignoredOpenComponents": 0
+                },
+                "lowerSection": {
+                  "evaluatedVertices": 788,
+                  "sourceTriangles": 28352,
+                  "selectedTriangles": 1062,
+                  "ignoredOpenComponents": 0
+                }
+              },
+              "collarFailure": null
+            },
+            "walk": {
+              "active": true,
+              "ready": true,
+              "placed": true,
+              "position": [-6.25, 2.599980592727661, 3.65],
+              "eye": 4.199980592727661,
+              "yaw": -1.5707963267948966,
+              "pitch": -1.4,
+              "fov": 62,
+              "velocity": [0, 0],
+              "room": "bath-bedroom",
+              "distance": 0,
+              "blockedFrames": 0,
+              "body": {
+                "radius": 0.24,
+                "height": 1.75,
+                "maxStep": 0.46,
+                "maxDrop": 0.5,
+                "eyeHeight": 1.6
+              }
+            },
+            "simulation": {
+              "interiorReflections": {
+                "method": "cropped planar room and live actor reflections",
+                "rooms": ["bath-living", "bath-bedroom"],
+                "size": 128,
+                "sharedTargets": 1,
+                "maximumHz": 15,
+                "contextReach": 12,
+                "captures": 0,
+                "capturedRoom": null,
+                "milliseconds": 392.29999999701977,
+                "prepared": true,
+                "contextRooms": [],
+                "dynamicRoots": [],
+                "cropArea": 1,
+                "linearTexelGain": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

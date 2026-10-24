@@ -8,7 +8,7 @@
 
   const formatReadCount = (count) => {
     const formattedCount = count.toLocaleString();
-    return count === 1 ? "1 person read it" : `${formattedCount} people read it`;
+    return count === 1 ? "1 view" : `${formattedCount} views`;
   };
 
   const revealCounter = (counter, count) => {

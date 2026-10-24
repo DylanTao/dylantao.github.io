@@ -52,6 +52,8 @@ The sitemap should list intentional public routes. Assets are excluded by this s
 
 ## Measure outcomes
 
+**October 24 status:** [read-only GA4 reporting](ga4-readonly-analysis.md) is working, with the baseline and executed analysis retained privately. Search Console query/indexing evidence remains unverified. Reporting access does not change collection or authorize new tracking.
+
 When authenticated Search Console or analytics data is available, retain a baseline and compare like periods. Record the date range, source, relevant pages/queries, and any changes to measurement. Separate:
 
 - **Availability:** pages fetch successfully, crawl access, canonical/sitemap coverage, valid links and formats.
@@ -59,6 +61,8 @@ When authenticated Search Console or analytics data is available, retain a basel
 - **Useful visits:** relevant referrals, readers reaching a paper or CV, and meaningful research/student/collaboration inquiries. A private reader message may suggest what is useful, but is not a public testimonial or a traffic estimate.
 
 Avoid interpreting a short before/after window as causality. Search systems change and recrawling takes time. Page-load timing and scroll milestones describe browser behavior, not whether someone understood the work. Consent and existing collection boundaries still apply.
+
+Before interpretation, retain the report's grain, filters, timezone and canonical denominator, and match its window to the event implementation deployed then. A changed event definition starts a new series; do not compare old repeated scroll counts with once-only milestones. Distinct session/user rows need not add to the undimensioned total. Separate source/device and landing/device breakdowns cannot establish a source-to-landing relationship. Keep detailed findings and sparse audience slices in the private report, not a public handoff.
 
 Without authenticated reporting, record that measurement is unavailable and finish the technical improvements that can be verified. Do not substitute invented rankings or add repetitive keyword pages, hidden instructions, fabricated endorsements, or unsupported claims. Google's [people-first content guidance](https://developers.google.com/search/docs/fundamentals/creating-helpful-content) and [guidance on generated content](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content) support useful, accurate material with a clear human purpose.
 

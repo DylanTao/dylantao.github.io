@@ -1,0 +1,2928 @@
+{
+  "verifiedAt": "2026-10-24T11:57:09.658Z",
+  "scope": "Iteration evidence: real live routes and route assets; only intended counter JS overridden after; synthetic API intercepted before any outbound request. Does not prove deployed changed asset or unique readership.",
+  "beforeCanonicalSourceSha256": "53ab9844cd0afed5f1ff28b543bf3add7b2b684400b5f1d98c649bce73313045",
+  "beforeServedAssetSha256": "c96d74607456f25ed1d354c588b30d3f889cada106d1c6539db86ea5528b2df8",
+  "afterAssetSha256": "e4ae22866f58a720babac88765a676b85e069c1dd030a8063cd920a7a07e17c6",
+  "cases": 10,
+  "failure": {
+    "case": "malformed-page_pv",
+    "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+    "counterHidden": true,
+    "wrapperHidden": true,
+    "interceptedRequests": 1,
+    "runtimeErrors": []
+  },
+  "receipts": [
+    {
+      "phase": "before",
+      "id": "index-390-one",
+      "route": "/blog/",
+      "width": 390,
+      "count": 1,
+      "expected": "1 person read it",
+      "status": 200,
+      "facts": {
+        "url": "https://dylantao.github.io/blog/",
+        "title": "blog | Sirui Tao - HCI Researcher at UC San Diego",
+        "overflow": 0,
+        "counts": [
+          {
+            "text": "1 person read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1 person read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1 person read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1 person read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1 person read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1 person read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/",
+            "wrapperHidden": false
+          }
+        ],
+        "links": [
+          {
+            "text": "",
+            "href": "/projects/dogtor-portal/",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "Start here how to start doing research at ucsd A short note for prospective undergraduate and master's research interns at UC San Diego. 7 min read",
+            "href": "/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "tag": "A"
+          },
+          {
+            "text": "When the website talks back",
+            "href": "/blog/2026/when-the-website-talks-back/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "reflection",
+            "href": "/blog/tag/reflection",
+            "tag": "A"
+          },
+          {
+            "text": "website",
+            "href": "/blog/tag/website",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/category/research",
+            "tag": "A"
+          },
+          {
+            "text": "Got to hold an Emmy at the Design Lab retreat!",
+            "href": "/blog/2026/design-lab-retreat-emmy/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design-lab",
+            "href": "/blog/tag/design-lab",
+            "tag": "A"
+          },
+          {
+            "text": "documentary",
+            "href": "/blog/tag/documentary",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "technical papers i want to remember",
+            "href": "/blog/2026/technical-papers-i-want-to-remember/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "reading-notes",
+            "href": "/blog/tag/reading-notes",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "specialists, generalists, and AI as distributed cognition",
+            "href": "/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "writing",
+            "href": "/blog/tag/writing",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "what I learned redesigning my website with an AI coding agent",
+            "href": "/blog/2026/website-redesign-ai-agent/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "portfolio",
+            "href": "/blog/tag/portfolio",
+            "tag": "A"
+          },
+          {
+            "text": "teaching",
+            "href": "/blog/tag/teaching",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "<",
+            "href": "",
+            "tag": "A"
+          },
+          {
+            "text": "1",
+            "href": "/blog/",
+            "tag": "A"
+          },
+          {
+            "text": "2",
+            "href": "/blog/page/2/",
+            "tag": "A"
+          },
+          {
+            "text": "3",
+            "href": "/blog/page/3/",
+            "tag": "A"
+          },
+          {
+            "text": ">",
+            "href": "/blog/page/2/",
+            "tag": "A"
+          },
+          {
+            "text": "Oct 16, 2026 · 2 min read Got to hold an Emmy at the Design Lab retreat! Nadir shared The Last Gift at the Design Lab retreat and brought the documentary's Pacific Southwest Emmy along. #design-lab #documentary #research",
+            "href": "/blog/2026/design-lab-retreat-emmy/",
+            "tag": "A"
+          },
+          {
+            "text": "Jul 5, 2026 · 4 min read technical papers i want to remember Short notes on technical papers that changed how I explain AI systems, research artifacts, and model behavior. #hci #research #gen-ai",
+            "href": "/blog/2026/technical-papers-i-want-to-remember/",
+            "tag": "A"
+          },
+          {
+            "text": "Jul 5, 2026 · 7 min read specialists, generalists, and AI as distributed cognition A short reading note on Don Norman’s “Beyond Human Categories,” and why it helps me think about AI, research taste, and specialist/generalist work. reading don norman · 2 of 2 #hci #research #gen-ai",
+            "href": "/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "tag": "A"
+          },
+          {
+            "text": "Mar 4, 2026 · 4 min read an afternoon with don norman Don gave a talk at DLab about his charity, signed my Yellow Book, and told us to check out his new book reading don norman · 1 of 2 #design #hci #books",
+            "href": "/blog/2026/don-norman-design-lab-talk/",
+            "tag": "A"
+          },
+          {
+            "text": "May 23, 2026 · 7 min read what I learned redesigning my website with an AI coding agent A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio over two days. #design #gen-ai #portfolio",
+            "href": "/blog/2026/website-redesign-ai-agent/",
+            "tag": "A"
+          },
+          {
+            "text": "May 20, 2026 · 7 min read science communication is kindness A short reflection on why scientists should communicate publicly, and how to do it with care. #research #writing #science-communication",
+            "href": "/blog/2026/science-communication-is-kindness/",
+            "tag": "A"
+          },
+          {
+            "text": "May 13, 2026 · 15 min read prototyping to understand humans Working notes on what good HCI research looks like when AI makes prototypes cheap. #hci #research #gen-ai",
+            "href": "/blog/2026/prototyping-to-understand-humans/",
+            "tag": "A"
+          },
+          {
+            "text": "Aug 31, 2025 · 3 min read starting my pottery journey Three commissioned pottery designs, still drafts, from a course with Ellen Fager at the UCSD Craft Center. #pottery #cool-things #art",
+            "href": "/blog/2025/starting-pottery/",
+            "tag": "A"
+          },
+          {
+            "text": "Apr 27, 2026 · 19 min read research skills starter pack An ongoing self-study list for learning research reading, project scoping, writing, reviewing, Ph.D. life, and empirical methods. starting research · 2 of 2 #research #writing #phd",
+            "href": "/blog/2026/research-skills-starter-pack/",
+            "tag": "A"
+          },
+          {
+            "text": "Apr 23, 2026 · 7 min read Pinned how to start doing research at ucsd A short note for prospective undergraduate and master's research interns at UC San Diego. starting research · 1 of 2 #research #ucsd #mentorship",
+            "href": "/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "tag": "A"
+          },
+          {
+            "text": "Oct 23, 2026 · 5 min read When the website talks back A few October design moves, the things that failed, and what they helped me see. #design #reflection #website",
+            "href": "/blog/2026/when-the-website-talks-back/",
+            "tag": "A"
+          },
+          {
+            "text": "Dec 13, 2024 · 2 min read a gallery of random gen-ai images A small gallery of AI-generated images from late 2024, kept as a record of what the tools produced. #gen-ai #cool-things #art",
+            "href": "/blog/2024/image-gallery/",
+            "tag": "A"
+          }
+        ],
+        "fetchOptions": [
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fhow-to-start-doing-research-at-ucsd%2F&_=1792843005951",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843005952",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fdesign-lab-retreat-emmy%2F&_=1792843005952",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Ftechnical-papers-i-want-to-remember%2F&_=1792843005952",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fspecialists-generalists-ai-distributed-cognition%2F&_=1792843005952",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwebsite-redesign-ai-agent%2F&_=1792843005952",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/"
+            }
+          }
+        ]
+      },
+      "api": [
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fhow-to-start-doing-research-at-ucsd%2F&_=1792843005951",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843005952",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fdesign-lab-retreat-emmy%2F&_=1792843005952",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Ftechnical-papers-i-want-to-remember%2F&_=1792843005952",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fspecialists-generalists-ai-distributed-cognition%2F&_=1792843005952",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwebsite-redesign-ai-agent%2F&_=1792843005952",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/"
+          }
+        }
+      ],
+      "asset": [
+        {
+          "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099",
+          "sha256": "c96d74607456f25ed1d354c588b30d3f889cada106d1c6539db86ea5528b2df8"
+        }
+      ],
+      "runtimeErrors": [],
+      "screenshot": "before-index-390-one.png"
+    },
+    {
+      "phase": "before",
+      "id": "index-390-many",
+      "route": "/blog/",
+      "width": 390,
+      "count": 1234,
+      "expected": "1,234 people read it",
+      "status": 200,
+      "facts": {
+        "url": "https://dylantao.github.io/blog/",
+        "title": "blog | Sirui Tao - HCI Researcher at UC San Diego",
+        "overflow": 0,
+        "counts": [
+          {
+            "text": "1,234 people read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1,234 people read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1,234 people read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1,234 people read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1,234 people read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1,234 people read it",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/",
+            "wrapperHidden": false
+          }
+        ],
+        "links": [
+          {
+            "text": "",
+            "href": "/projects/dogtor-portal/",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "Start here how to start doing research at ucsd A short note for prospective undergraduate and master's research interns at UC San Diego. 7 min read",
+            "href": "/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "tag": "A"
+          },
+          {
+            "text": "When the website talks back",
+            "href": "/blog/2026/when-the-website-talks-back/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "reflection",
+            "href": "/blog/tag/reflection",
+            "tag": "A"
+          },
+          {
+            "text": "website",
+            "href": "/blog/tag/website",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/category/research",
+            "tag": "A"
+          },
+          {
+            "text": "Got to hold an Emmy at the Design Lab retreat!",
+            "href": "/blog/2026/design-lab-retreat-emmy/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design-lab",
+            "href": "/blog/tag/design-lab",
+            "tag": "A"
+          },
+          {
+            "text": "documentary",
+            "href": "/blog/tag/documentary",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "technical papers i want to remember",
+            "href": "/blog/2026/technical-papers-i-want-to-remember/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "reading-notes",
+            "href": "/blog/tag/reading-notes",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "specialists, generalists, and AI as distributed cognition",
+            "href": "/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "writing",
+            "href": "/blog/tag/writing",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "what I learned redesigning my website with an AI coding agent",
+            "href": "/blog/2026/website-redesign-ai-agent/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "portfolio",
+            "href": "/blog/tag/portfolio",
+            "tag": "A"
+          },
+          {
+            "text": "teaching",
+            "href": "/blog/tag/teaching",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "<",
+            "href": "",
+            "tag": "A"
+          },
+          {
+            "text": "1",
+            "href": "/blog/",
+            "tag": "A"
+          },
+          {
+            "text": "2",
+            "href": "/blog/page/2/",
+            "tag": "A"
+          },
+          {
+            "text": "3",
+            "href": "/blog/page/3/",
+            "tag": "A"
+          },
+          {
+            "text": ">",
+            "href": "/blog/page/2/",
+            "tag": "A"
+          },
+          {
+            "text": "Oct 16, 2026 · 2 min read Got to hold an Emmy at the Design Lab retreat! Nadir shared The Last Gift at the Design Lab retreat and brought the documentary's Pacific Southwest Emmy along. #design-lab #documentary #research",
+            "href": "/blog/2026/design-lab-retreat-emmy/",
+            "tag": "A"
+          },
+          {
+            "text": "Jul 5, 2026 · 4 min read technical papers i want to remember Short notes on technical papers that changed how I explain AI systems, research artifacts, and model behavior. #hci #research #gen-ai",
+            "href": "/blog/2026/technical-papers-i-want-to-remember/",
+            "tag": "A"
+          },
+          {
+            "text": "Jul 5, 2026 · 7 min read specialists, generalists, and AI as distributed cognition A short reading note on Don Norman’s “Beyond Human Categories,” and why it helps me think about AI, research taste, and specialist/generalist work. reading don norman · 2 of 2 #hci #research #gen-ai",
+            "href": "/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "tag": "A"
+          },
+          {
+            "text": "Mar 4, 2026 · 4 min read an afternoon with don norman Don gave a talk at DLab about his charity, signed my Yellow Book, and told us to check out his new book reading don norman · 1 of 2 #design #hci #books",
+            "href": "/blog/2026/don-norman-design-lab-talk/",
+            "tag": "A"
+          },
+          {
+            "text": "May 23, 2026 · 7 min read what I learned redesigning my website with an AI coding agent A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio over two days. #design #gen-ai #portfolio",
+            "href": "/blog/2026/website-redesign-ai-agent/",
+            "tag": "A"
+          },
+          {
+            "text": "May 20, 2026 · 7 min read science communication is kindness A short reflection on why scientists should communicate publicly, and how to do it with care. #research #writing #science-communication",
+            "href": "/blog/2026/science-communication-is-kindness/",
+            "tag": "A"
+          },
+          {
+            "text": "May 13, 2026 · 15 min read prototyping to understand humans Working notes on what good HCI research looks like when AI makes prototypes cheap. #hci #research #gen-ai",
+            "href": "/blog/2026/prototyping-to-understand-humans/",
+            "tag": "A"
+          },
+          {
+            "text": "Aug 31, 2025 · 3 min read starting my pottery journey Three commissioned pottery designs, still drafts, from a course with Ellen Fager at the UCSD Craft Center. #pottery #cool-things #art",
+            "href": "/blog/2025/starting-pottery/",
+            "tag": "A"
+          },
+          {
+            "text": "Apr 27, 2026 · 19 min read research skills starter pack An ongoing self-study list for learning research reading, project scoping, writing, reviewing, Ph.D. life, and empirical methods. starting research · 2 of 2 #research #writing #phd",
+            "href": "/blog/2026/research-skills-starter-pack/",
+            "tag": "A"
+          },
+          {
+            "text": "Apr 23, 2026 · 7 min read Pinned how to start doing research at ucsd A short note for prospective undergraduate and master's research interns at UC San Diego. starting research · 1 of 2 #research #ucsd #mentorship",
+            "href": "/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "tag": "A"
+          },
+          {
+            "text": "Oct 23, 2026 · 5 min read When the website talks back A few October design moves, the things that failed, and what they helped me see. #design #reflection #website",
+            "href": "/blog/2026/when-the-website-talks-back/",
+            "tag": "A"
+          },
+          {
+            "text": "Dec 13, 2024 · 2 min read a gallery of random gen-ai images A small gallery of AI-generated images from late 2024, kept as a record of what the tools produced. #gen-ai #cool-things #art",
+            "href": "/blog/2024/image-gallery/",
+            "tag": "A"
+          }
+        ],
+        "fetchOptions": [
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fhow-to-start-doing-research-at-ucsd%2F&_=1792843009045",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843009046",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fdesign-lab-retreat-emmy%2F&_=1792843009046",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Ftechnical-papers-i-want-to-remember%2F&_=1792843009046",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fspecialists-generalists-ai-distributed-cognition%2F&_=1792843009046",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwebsite-redesign-ai-agent%2F&_=1792843009047",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/"
+            }
+          }
+        ]
+      },
+      "api": [
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fhow-to-start-doing-research-at-ucsd%2F&_=1792843009045",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843009046",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fdesign-lab-retreat-emmy%2F&_=1792843009046",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Ftechnical-papers-i-want-to-remember%2F&_=1792843009046",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fspecialists-generalists-ai-distributed-cognition%2F&_=1792843009046",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwebsite-redesign-ai-agent%2F&_=1792843009047",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/"
+          }
+        }
+      ],
+      "asset": [
+        {
+          "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099",
+          "sha256": "c96d74607456f25ed1d354c588b30d3f889cada106d1c6539db86ea5528b2df8"
+        }
+      ],
+      "runtimeErrors": [],
+      "screenshot": "before-index-390-many.png"
+    },
+    {
+      "phase": "before",
+      "id": "post-390-one",
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "width": 390,
+      "count": 1,
+      "expected": "1 person read it",
+      "status": 200,
+      "facts": {
+        "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+        "title": "When the website talks back | Sirui Tao - HCI Researcher at UC San Diego",
+        "overflow": 0,
+        "counts": [
+          {
+            "text": "1 person read it",
+            "hidden": false,
+            "mode": "increment",
+            "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+            "wrapperHidden": false
+          }
+        ],
+        "links": [
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "reflection",
+            "href": "/blog/tag/reflection",
+            "tag": "A"
+          },
+          {
+            "text": "website",
+            "href": "/blog/tag/website",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/category/research",
+            "tag": "A"
+          },
+          {
+            "text": "The little mark that kept asking for attention",
+            "href": "#the-little-mark-that-kept-asking-for-attention",
+            "tag": "A"
+          },
+          {
+            "text": "A smaller file was still a large picture",
+            "href": "#a-smaller-file-was-still-a-large-picture",
+            "tag": "A"
+          },
+          {
+            "text": "Hidden has more than one meaning",
+            "href": "#hidden-has-more-than-one-meaning",
+            "tag": "A"
+          },
+          {
+            "text": "Give the move a dimension",
+            "href": "#give-the-move-a-dimension",
+            "tag": "A"
+          },
+          {
+            "text": "1",
+            "href": "#fn:schon",
+            "tag": "A"
+          },
+          {
+            "text": "2",
+            "href": "#fn:aria",
+            "tag": "A"
+          },
+          {
+            "text": "3",
+            "href": "#fn:motion",
+            "tag": "A"
+          },
+          {
+            "text": "publisher’s description",
+            "href": "https://www.routledge.com/the-reflective-practitioner-how-professionals-think-in-action/schon/p/book/9781138458284",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:schon",
+            "tag": "A"
+          },
+          {
+            "text": "WAI-ARIA 1.2, aria-hidden",
+            "href": "https://www.w3.org/TR/wai-aria-1.2/#aria-hidden",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:aria",
+            "tag": "A"
+          },
+          {
+            "text": "WCAG 2.2, Pause, Stop, Hide",
+            "href": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:motion",
+            "tag": "A"
+          }
+        ],
+        "fetchOptions": [
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843011579",
+            "method": "POST",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+            }
+          }
+        ]
+      },
+      "api": [
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843011579",
+          "method": "POST",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+          }
+        }
+      ],
+      "asset": [
+        {
+          "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099",
+          "sha256": "c96d74607456f25ed1d354c588b30d3f889cada106d1c6539db86ea5528b2df8"
+        }
+      ],
+      "runtimeErrors": [],
+      "screenshot": "before-post-390-one.png"
+    },
+    {
+      "phase": "before",
+      "id": "post-390-many",
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "width": 390,
+      "count": 1234,
+      "expected": "1,234 people read it",
+      "status": 200,
+      "facts": {
+        "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+        "title": "When the website talks back | Sirui Tao - HCI Researcher at UC San Diego",
+        "overflow": 0,
+        "counts": [
+          {
+            "text": "1,234 people read it",
+            "hidden": false,
+            "mode": "increment",
+            "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+            "wrapperHidden": false
+          }
+        ],
+        "links": [
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "reflection",
+            "href": "/blog/tag/reflection",
+            "tag": "A"
+          },
+          {
+            "text": "website",
+            "href": "/blog/tag/website",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/category/research",
+            "tag": "A"
+          },
+          {
+            "text": "The little mark that kept asking for attention",
+            "href": "#the-little-mark-that-kept-asking-for-attention",
+            "tag": "A"
+          },
+          {
+            "text": "A smaller file was still a large picture",
+            "href": "#a-smaller-file-was-still-a-large-picture",
+            "tag": "A"
+          },
+          {
+            "text": "Hidden has more than one meaning",
+            "href": "#hidden-has-more-than-one-meaning",
+            "tag": "A"
+          },
+          {
+            "text": "Give the move a dimension",
+            "href": "#give-the-move-a-dimension",
+            "tag": "A"
+          },
+          {
+            "text": "1",
+            "href": "#fn:schon",
+            "tag": "A"
+          },
+          {
+            "text": "2",
+            "href": "#fn:aria",
+            "tag": "A"
+          },
+          {
+            "text": "3",
+            "href": "#fn:motion",
+            "tag": "A"
+          },
+          {
+            "text": "publisher’s description",
+            "href": "https://www.routledge.com/the-reflective-practitioner-how-professionals-think-in-action/schon/p/book/9781138458284",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:schon",
+            "tag": "A"
+          },
+          {
+            "text": "WAI-ARIA 1.2, aria-hidden",
+            "href": "https://www.w3.org/TR/wai-aria-1.2/#aria-hidden",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:aria",
+            "tag": "A"
+          },
+          {
+            "text": "WCAG 2.2, Pause, Stop, Hide",
+            "href": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:motion",
+            "tag": "A"
+          }
+        ],
+        "fetchOptions": [
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843013268",
+            "method": "POST",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+            }
+          }
+        ]
+      },
+      "api": [
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843013268",
+          "method": "POST",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+          }
+        }
+      ],
+      "asset": [
+        {
+          "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099",
+          "sha256": "c96d74607456f25ed1d354c588b30d3f889cada106d1c6539db86ea5528b2df8"
+        }
+      ],
+      "runtimeErrors": [],
+      "screenshot": "before-post-390-many.png"
+    },
+    {
+      "phase": "before",
+      "id": "post-1440-many",
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "width": 1440,
+      "count": 1234,
+      "expected": "1,234 people read it",
+      "status": 200,
+      "facts": {
+        "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+        "title": "When the website talks back | Sirui Tao - HCI Researcher at UC San Diego",
+        "overflow": 0,
+        "counts": [
+          {
+            "text": "1,234 people read it",
+            "hidden": false,
+            "mode": "increment",
+            "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+            "wrapperHidden": false
+          }
+        ],
+        "links": [
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "reflection",
+            "href": "/blog/tag/reflection",
+            "tag": "A"
+          },
+          {
+            "text": "website",
+            "href": "/blog/tag/website",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/category/research",
+            "tag": "A"
+          },
+          {
+            "text": "The little mark that kept asking for attention",
+            "href": "#the-little-mark-that-kept-asking-for-attention",
+            "tag": "A"
+          },
+          {
+            "text": "A smaller file was still a large picture",
+            "href": "#a-smaller-file-was-still-a-large-picture",
+            "tag": "A"
+          },
+          {
+            "text": "Hidden has more than one meaning",
+            "href": "#hidden-has-more-than-one-meaning",
+            "tag": "A"
+          },
+          {
+            "text": "Give the move a dimension",
+            "href": "#give-the-move-a-dimension",
+            "tag": "A"
+          },
+          {
+            "text": "1",
+            "href": "#fn:schon",
+            "tag": "A"
+          },
+          {
+            "text": "2",
+            "href": "#fn:aria",
+            "tag": "A"
+          },
+          {
+            "text": "3",
+            "href": "#fn:motion",
+            "tag": "A"
+          },
+          {
+            "text": "publisher’s description",
+            "href": "https://www.routledge.com/the-reflective-practitioner-how-professionals-think-in-action/schon/p/book/9781138458284",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:schon",
+            "tag": "A"
+          },
+          {
+            "text": "WAI-ARIA 1.2, aria-hidden",
+            "href": "https://www.w3.org/TR/wai-aria-1.2/#aria-hidden",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:aria",
+            "tag": "A"
+          },
+          {
+            "text": "WCAG 2.2, Pause, Stop, Hide",
+            "href": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:motion",
+            "tag": "A"
+          }
+        ],
+        "fetchOptions": [
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843014801",
+            "method": "POST",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+            }
+          }
+        ]
+      },
+      "api": [
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843014801",
+          "method": "POST",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+          }
+        }
+      ],
+      "asset": [
+        {
+          "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099",
+          "sha256": "c96d74607456f25ed1d354c588b30d3f889cada106d1c6539db86ea5528b2df8"
+        }
+      ],
+      "runtimeErrors": [],
+      "screenshot": "before-post-1440-many.png"
+    },
+    {
+      "phase": "after",
+      "id": "index-390-one",
+      "route": "/blog/",
+      "width": 390,
+      "count": 1,
+      "expected": "1 view",
+      "status": 200,
+      "facts": {
+        "url": "https://dylantao.github.io/blog/",
+        "title": "blog | Sirui Tao - HCI Researcher at UC San Diego",
+        "overflow": 0,
+        "counts": [
+          {
+            "text": "1 view",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1 view",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1 view",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1 view",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1 view",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1 view",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/",
+            "wrapperHidden": false
+          }
+        ],
+        "links": [
+          {
+            "text": "",
+            "href": "/projects/dogtor-portal/",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "Start here how to start doing research at ucsd A short note for prospective undergraduate and master's research interns at UC San Diego. 7 min read",
+            "href": "/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "tag": "A"
+          },
+          {
+            "text": "When the website talks back",
+            "href": "/blog/2026/when-the-website-talks-back/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "reflection",
+            "href": "/blog/tag/reflection",
+            "tag": "A"
+          },
+          {
+            "text": "website",
+            "href": "/blog/tag/website",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/category/research",
+            "tag": "A"
+          },
+          {
+            "text": "Got to hold an Emmy at the Design Lab retreat!",
+            "href": "/blog/2026/design-lab-retreat-emmy/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design-lab",
+            "href": "/blog/tag/design-lab",
+            "tag": "A"
+          },
+          {
+            "text": "documentary",
+            "href": "/blog/tag/documentary",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "technical papers i want to remember",
+            "href": "/blog/2026/technical-papers-i-want-to-remember/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "reading-notes",
+            "href": "/blog/tag/reading-notes",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "specialists, generalists, and AI as distributed cognition",
+            "href": "/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "writing",
+            "href": "/blog/tag/writing",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "what I learned redesigning my website with an AI coding agent",
+            "href": "/blog/2026/website-redesign-ai-agent/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "portfolio",
+            "href": "/blog/tag/portfolio",
+            "tag": "A"
+          },
+          {
+            "text": "teaching",
+            "href": "/blog/tag/teaching",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "<",
+            "href": "",
+            "tag": "A"
+          },
+          {
+            "text": "1",
+            "href": "/blog/",
+            "tag": "A"
+          },
+          {
+            "text": "2",
+            "href": "/blog/page/2/",
+            "tag": "A"
+          },
+          {
+            "text": "3",
+            "href": "/blog/page/3/",
+            "tag": "A"
+          },
+          {
+            "text": ">",
+            "href": "/blog/page/2/",
+            "tag": "A"
+          },
+          {
+            "text": "Oct 16, 2026 · 2 min read Got to hold an Emmy at the Design Lab retreat! Nadir shared The Last Gift at the Design Lab retreat and brought the documentary's Pacific Southwest Emmy along. #design-lab #documentary #research",
+            "href": "/blog/2026/design-lab-retreat-emmy/",
+            "tag": "A"
+          },
+          {
+            "text": "Jul 5, 2026 · 4 min read technical papers i want to remember Short notes on technical papers that changed how I explain AI systems, research artifacts, and model behavior. #hci #research #gen-ai",
+            "href": "/blog/2026/technical-papers-i-want-to-remember/",
+            "tag": "A"
+          },
+          {
+            "text": "Jul 5, 2026 · 7 min read specialists, generalists, and AI as distributed cognition A short reading note on Don Norman’s “Beyond Human Categories,” and why it helps me think about AI, research taste, and specialist/generalist work. reading don norman · 2 of 2 #hci #research #gen-ai",
+            "href": "/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "tag": "A"
+          },
+          {
+            "text": "Mar 4, 2026 · 4 min read an afternoon with don norman Don gave a talk at DLab about his charity, signed my Yellow Book, and told us to check out his new book reading don norman · 1 of 2 #design #hci #books",
+            "href": "/blog/2026/don-norman-design-lab-talk/",
+            "tag": "A"
+          },
+          {
+            "text": "May 23, 2026 · 7 min read what I learned redesigning my website with an AI coding agent A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio over two days. #design #gen-ai #portfolio",
+            "href": "/blog/2026/website-redesign-ai-agent/",
+            "tag": "A"
+          },
+          {
+            "text": "May 20, 2026 · 7 min read science communication is kindness A short reflection on why scientists should communicate publicly, and how to do it with care. #research #writing #science-communication",
+            "href": "/blog/2026/science-communication-is-kindness/",
+            "tag": "A"
+          },
+          {
+            "text": "May 13, 2026 · 15 min read prototyping to understand humans Working notes on what good HCI research looks like when AI makes prototypes cheap. #hci #research #gen-ai",
+            "href": "/blog/2026/prototyping-to-understand-humans/",
+            "tag": "A"
+          },
+          {
+            "text": "Aug 31, 2025 · 3 min read starting my pottery journey Three commissioned pottery designs, still drafts, from a course with Ellen Fager at the UCSD Craft Center. #pottery #cool-things #art",
+            "href": "/blog/2025/starting-pottery/",
+            "tag": "A"
+          },
+          {
+            "text": "Apr 27, 2026 · 19 min read research skills starter pack An ongoing self-study list for learning research reading, project scoping, writing, reviewing, Ph.D. life, and empirical methods. starting research · 2 of 2 #research #writing #phd",
+            "href": "/blog/2026/research-skills-starter-pack/",
+            "tag": "A"
+          },
+          {
+            "text": "Apr 23, 2026 · 7 min read Pinned how to start doing research at ucsd A short note for prospective undergraduate and master's research interns at UC San Diego. starting research · 1 of 2 #research #ucsd #mentorship",
+            "href": "/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "tag": "A"
+          },
+          {
+            "text": "Oct 23, 2026 · 5 min read When the website talks back A few October design moves, the things that failed, and what they helped me see. #design #reflection #website",
+            "href": "/blog/2026/when-the-website-talks-back/",
+            "tag": "A"
+          },
+          {
+            "text": "Dec 13, 2024 · 2 min read a gallery of random gen-ai images A small gallery of AI-generated images from late 2024, kept as a record of what the tools produced. #gen-ai #cool-things #art",
+            "href": "/blog/2024/image-gallery/",
+            "tag": "A"
+          }
+        ],
+        "fetchOptions": [
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fhow-to-start-doing-research-at-ucsd%2F&_=1792843016597",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843016598",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fdesign-lab-retreat-emmy%2F&_=1792843016598",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Ftechnical-papers-i-want-to-remember%2F&_=1792843016598",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fspecialists-generalists-ai-distributed-cognition%2F&_=1792843016598",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwebsite-redesign-ai-agent%2F&_=1792843016598",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/"
+            }
+          }
+        ]
+      },
+      "api": [
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fhow-to-start-doing-research-at-ucsd%2F&_=1792843016597",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843016598",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fdesign-lab-retreat-emmy%2F&_=1792843016598",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Ftechnical-papers-i-want-to-remember%2F&_=1792843016598",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fspecialists-generalists-ai-distributed-cognition%2F&_=1792843016598",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwebsite-redesign-ai-agent%2F&_=1792843016598",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/"
+          }
+        }
+      ],
+      "asset": [
+        {
+          "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099",
+          "sha256": "e4ae22866f58a720babac88765a676b85e069c1dd030a8063cd920a7a07e17c6"
+        }
+      ],
+      "runtimeErrors": [],
+      "screenshot": "after-index-390-one.png"
+    },
+    {
+      "phase": "after",
+      "id": "index-390-many",
+      "route": "/blog/",
+      "width": 390,
+      "count": 1234,
+      "expected": "1,234 views",
+      "status": 200,
+      "facts": {
+        "url": "https://dylantao.github.io/blog/",
+        "title": "blog | Sirui Tao - HCI Researcher at UC San Diego",
+        "overflow": 0,
+        "counts": [
+          {
+            "text": "1,234 views",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1,234 views",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1,234 views",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1,234 views",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1,234 views",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "wrapperHidden": false
+          },
+          {
+            "text": "1,234 views",
+            "hidden": false,
+            "mode": "display",
+            "url": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/",
+            "wrapperHidden": false
+          }
+        ],
+        "links": [
+          {
+            "text": "",
+            "href": "/projects/dogtor-portal/",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "Start here how to start doing research at ucsd A short note for prospective undergraduate and master's research interns at UC San Diego. 7 min read",
+            "href": "/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "tag": "A"
+          },
+          {
+            "text": "When the website talks back",
+            "href": "/blog/2026/when-the-website-talks-back/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "reflection",
+            "href": "/blog/tag/reflection",
+            "tag": "A"
+          },
+          {
+            "text": "website",
+            "href": "/blog/tag/website",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/category/research",
+            "tag": "A"
+          },
+          {
+            "text": "Got to hold an Emmy at the Design Lab retreat!",
+            "href": "/blog/2026/design-lab-retreat-emmy/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design-lab",
+            "href": "/blog/tag/design-lab",
+            "tag": "A"
+          },
+          {
+            "text": "documentary",
+            "href": "/blog/tag/documentary",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "technical papers i want to remember",
+            "href": "/blog/2026/technical-papers-i-want-to-remember/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "reading-notes",
+            "href": "/blog/tag/reading-notes",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "specialists, generalists, and AI as distributed cognition",
+            "href": "/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "hci",
+            "href": "/blog/tag/hci",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/tag/research",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "writing",
+            "href": "/blog/tag/writing",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "what I learned redesigning my website with an AI coding agent",
+            "href": "/blog/2026/website-redesign-ai-agent/",
+            "tag": "A"
+          },
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "gen-ai",
+            "href": "/blog/tag/gen-ai",
+            "tag": "A"
+          },
+          {
+            "text": "portfolio",
+            "href": "/blog/tag/portfolio",
+            "tag": "A"
+          },
+          {
+            "text": "teaching",
+            "href": "/blog/tag/teaching",
+            "tag": "A"
+          },
+          {
+            "text": "reflections",
+            "href": "/blog/category/reflections",
+            "tag": "A"
+          },
+          {
+            "text": "<",
+            "href": "",
+            "tag": "A"
+          },
+          {
+            "text": "1",
+            "href": "/blog/",
+            "tag": "A"
+          },
+          {
+            "text": "2",
+            "href": "/blog/page/2/",
+            "tag": "A"
+          },
+          {
+            "text": "3",
+            "href": "/blog/page/3/",
+            "tag": "A"
+          },
+          {
+            "text": ">",
+            "href": "/blog/page/2/",
+            "tag": "A"
+          },
+          {
+            "text": "Oct 16, 2026 · 2 min read Got to hold an Emmy at the Design Lab retreat! Nadir shared The Last Gift at the Design Lab retreat and brought the documentary's Pacific Southwest Emmy along. #design-lab #documentary #research",
+            "href": "/blog/2026/design-lab-retreat-emmy/",
+            "tag": "A"
+          },
+          {
+            "text": "Jul 5, 2026 · 4 min read technical papers i want to remember Short notes on technical papers that changed how I explain AI systems, research artifacts, and model behavior. #hci #research #gen-ai",
+            "href": "/blog/2026/technical-papers-i-want-to-remember/",
+            "tag": "A"
+          },
+          {
+            "text": "Jul 5, 2026 · 7 min read specialists, generalists, and AI as distributed cognition A short reading note on Don Norman’s “Beyond Human Categories,” and why it helps me think about AI, research taste, and specialist/generalist work. reading don norman · 2 of 2 #hci #research #gen-ai",
+            "href": "/blog/2026/specialists-generalists-ai-distributed-cognition/",
+            "tag": "A"
+          },
+          {
+            "text": "Mar 4, 2026 · 4 min read an afternoon with don norman Don gave a talk at DLab about his charity, signed my Yellow Book, and told us to check out his new book reading don norman · 1 of 2 #design #hci #books",
+            "href": "/blog/2026/don-norman-design-lab-talk/",
+            "tag": "A"
+          },
+          {
+            "text": "May 23, 2026 · 7 min read what I learned redesigning my website with an AI coding agent A short reflection on using Codex, screenshots, and design heuristics to redesign a research portfolio over two days. #design #gen-ai #portfolio",
+            "href": "/blog/2026/website-redesign-ai-agent/",
+            "tag": "A"
+          },
+          {
+            "text": "May 20, 2026 · 7 min read science communication is kindness A short reflection on why scientists should communicate publicly, and how to do it with care. #research #writing #science-communication",
+            "href": "/blog/2026/science-communication-is-kindness/",
+            "tag": "A"
+          },
+          {
+            "text": "May 13, 2026 · 15 min read prototyping to understand humans Working notes on what good HCI research looks like when AI makes prototypes cheap. #hci #research #gen-ai",
+            "href": "/blog/2026/prototyping-to-understand-humans/",
+            "tag": "A"
+          },
+          {
+            "text": "Aug 31, 2025 · 3 min read starting my pottery journey Three commissioned pottery designs, still drafts, from a course with Ellen Fager at the UCSD Craft Center. #pottery #cool-things #art",
+            "href": "/blog/2025/starting-pottery/",
+            "tag": "A"
+          },
+          {
+            "text": "Apr 27, 2026 · 19 min read research skills starter pack An ongoing self-study list for learning research reading, project scoping, writing, reviewing, Ph.D. life, and empirical methods. starting research · 2 of 2 #research #writing #phd",
+            "href": "/blog/2026/research-skills-starter-pack/",
+            "tag": "A"
+          },
+          {
+            "text": "Apr 23, 2026 · 7 min read Pinned how to start doing research at ucsd A short note for prospective undergraduate and master's research interns at UC San Diego. starting research · 1 of 2 #research #ucsd #mentorship",
+            "href": "/blog/2026/how-to-start-doing-research-at-ucsd/",
+            "tag": "A"
+          },
+          {
+            "text": "Oct 23, 2026 · 5 min read When the website talks back A few October design moves, the things that failed, and what they helped me see. #design #reflection #website",
+            "href": "/blog/2026/when-the-website-talks-back/",
+            "tag": "A"
+          },
+          {
+            "text": "Dec 13, 2024 · 2 min read a gallery of random gen-ai images A small gallery of AI-generated images from late 2024, kept as a record of what the tools produced. #gen-ai #cool-things #art",
+            "href": "/blog/2024/image-gallery/",
+            "tag": "A"
+          }
+        ],
+        "fetchOptions": [
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fhow-to-start-doing-research-at-ucsd%2F&_=1792843020639",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843020641",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fdesign-lab-retreat-emmy%2F&_=1792843020641",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Ftechnical-papers-i-want-to-remember%2F&_=1792843020641",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fspecialists-generalists-ai-distributed-cognition%2F&_=1792843020642",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/"
+            }
+          },
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwebsite-redesign-ai-agent%2F&_=1792843020642",
+            "method": "GET",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/"
+            }
+          }
+        ]
+      },
+      "api": [
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fhow-to-start-doing-research-at-ucsd%2F&_=1792843020639",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/how-to-start-doing-research-at-ucsd/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843020641",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fdesign-lab-retreat-emmy%2F&_=1792843020641",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/design-lab-retreat-emmy/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Ftechnical-papers-i-want-to-remember%2F&_=1792843020641",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/technical-papers-i-want-to-remember/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fspecialists-generalists-ai-distributed-cognition%2F&_=1792843020642",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/"
+          }
+        },
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwebsite-redesign-ai-agent%2F&_=1792843020642",
+          "method": "GET",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/website-redesign-ai-agent/"
+          }
+        }
+      ],
+      "asset": [
+        {
+          "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099",
+          "sha256": "e4ae22866f58a720babac88765a676b85e069c1dd030a8063cd920a7a07e17c6"
+        }
+      ],
+      "runtimeErrors": [],
+      "screenshot": "after-index-390-many.png"
+    },
+    {
+      "phase": "after",
+      "id": "post-390-one",
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "width": 390,
+      "count": 1,
+      "expected": "1 view",
+      "status": 200,
+      "facts": {
+        "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+        "title": "When the website talks back | Sirui Tao - HCI Researcher at UC San Diego",
+        "overflow": 0,
+        "counts": [
+          {
+            "text": "1 view",
+            "hidden": false,
+            "mode": "increment",
+            "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+            "wrapperHidden": false
+          }
+        ],
+        "links": [
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "reflection",
+            "href": "/blog/tag/reflection",
+            "tag": "A"
+          },
+          {
+            "text": "website",
+            "href": "/blog/tag/website",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/category/research",
+            "tag": "A"
+          },
+          {
+            "text": "The little mark that kept asking for attention",
+            "href": "#the-little-mark-that-kept-asking-for-attention",
+            "tag": "A"
+          },
+          {
+            "text": "A smaller file was still a large picture",
+            "href": "#a-smaller-file-was-still-a-large-picture",
+            "tag": "A"
+          },
+          {
+            "text": "Hidden has more than one meaning",
+            "href": "#hidden-has-more-than-one-meaning",
+            "tag": "A"
+          },
+          {
+            "text": "Give the move a dimension",
+            "href": "#give-the-move-a-dimension",
+            "tag": "A"
+          },
+          {
+            "text": "1",
+            "href": "#fn:schon",
+            "tag": "A"
+          },
+          {
+            "text": "2",
+            "href": "#fn:aria",
+            "tag": "A"
+          },
+          {
+            "text": "3",
+            "href": "#fn:motion",
+            "tag": "A"
+          },
+          {
+            "text": "publisher’s description",
+            "href": "https://www.routledge.com/the-reflective-practitioner-how-professionals-think-in-action/schon/p/book/9781138458284",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:schon",
+            "tag": "A"
+          },
+          {
+            "text": "WAI-ARIA 1.2, aria-hidden",
+            "href": "https://www.w3.org/TR/wai-aria-1.2/#aria-hidden",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:aria",
+            "tag": "A"
+          },
+          {
+            "text": "WCAG 2.2, Pause, Stop, Hide",
+            "href": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:motion",
+            "tag": "A"
+          }
+        ],
+        "fetchOptions": [
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843024050",
+            "method": "POST",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+            }
+          }
+        ]
+      },
+      "api": [
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843024050",
+          "method": "POST",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+          }
+        }
+      ],
+      "asset": [
+        {
+          "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099",
+          "sha256": "e4ae22866f58a720babac88765a676b85e069c1dd030a8063cd920a7a07e17c6"
+        }
+      ],
+      "runtimeErrors": [],
+      "screenshot": "after-post-390-one.png"
+    },
+    {
+      "phase": "after",
+      "id": "post-390-many",
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "width": 390,
+      "count": 1234,
+      "expected": "1,234 views",
+      "status": 200,
+      "facts": {
+        "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+        "title": "When the website talks back | Sirui Tao - HCI Researcher at UC San Diego",
+        "overflow": 0,
+        "counts": [
+          {
+            "text": "1,234 views",
+            "hidden": false,
+            "mode": "increment",
+            "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+            "wrapperHidden": false
+          }
+        ],
+        "links": [
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "reflection",
+            "href": "/blog/tag/reflection",
+            "tag": "A"
+          },
+          {
+            "text": "website",
+            "href": "/blog/tag/website",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/category/research",
+            "tag": "A"
+          },
+          {
+            "text": "The little mark that kept asking for attention",
+            "href": "#the-little-mark-that-kept-asking-for-attention",
+            "tag": "A"
+          },
+          {
+            "text": "A smaller file was still a large picture",
+            "href": "#a-smaller-file-was-still-a-large-picture",
+            "tag": "A"
+          },
+          {
+            "text": "Hidden has more than one meaning",
+            "href": "#hidden-has-more-than-one-meaning",
+            "tag": "A"
+          },
+          {
+            "text": "Give the move a dimension",
+            "href": "#give-the-move-a-dimension",
+            "tag": "A"
+          },
+          {
+            "text": "1",
+            "href": "#fn:schon",
+            "tag": "A"
+          },
+          {
+            "text": "2",
+            "href": "#fn:aria",
+            "tag": "A"
+          },
+          {
+            "text": "3",
+            "href": "#fn:motion",
+            "tag": "A"
+          },
+          {
+            "text": "publisher’s description",
+            "href": "https://www.routledge.com/the-reflective-practitioner-how-professionals-think-in-action/schon/p/book/9781138458284",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:schon",
+            "tag": "A"
+          },
+          {
+            "text": "WAI-ARIA 1.2, aria-hidden",
+            "href": "https://www.w3.org/TR/wai-aria-1.2/#aria-hidden",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:aria",
+            "tag": "A"
+          },
+          {
+            "text": "WCAG 2.2, Pause, Stop, Hide",
+            "href": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:motion",
+            "tag": "A"
+          }
+        ],
+        "fetchOptions": [
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843025594",
+            "method": "POST",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+            }
+          }
+        ]
+      },
+      "api": [
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843025594",
+          "method": "POST",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+          }
+        }
+      ],
+      "asset": [
+        {
+          "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099",
+          "sha256": "e4ae22866f58a720babac88765a676b85e069c1dd030a8063cd920a7a07e17c6"
+        }
+      ],
+      "runtimeErrors": [],
+      "screenshot": "after-post-390-many.png"
+    },
+    {
+      "phase": "after",
+      "id": "post-1440-many",
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "width": 1440,
+      "count": 1234,
+      "expected": "1,234 views",
+      "status": 200,
+      "facts": {
+        "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+        "title": "When the website talks back | Sirui Tao - HCI Researcher at UC San Diego",
+        "overflow": 0,
+        "counts": [
+          {
+            "text": "1,234 views",
+            "hidden": false,
+            "mode": "increment",
+            "url": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/",
+            "wrapperHidden": false
+          }
+        ],
+        "links": [
+          {
+            "text": "2026",
+            "href": "/blog/2026",
+            "tag": "A"
+          },
+          {
+            "text": "design",
+            "href": "/blog/tag/design",
+            "tag": "A"
+          },
+          {
+            "text": "reflection",
+            "href": "/blog/tag/reflection",
+            "tag": "A"
+          },
+          {
+            "text": "website",
+            "href": "/blog/tag/website",
+            "tag": "A"
+          },
+          {
+            "text": "research",
+            "href": "/blog/category/research",
+            "tag": "A"
+          },
+          {
+            "text": "The little mark that kept asking for attention",
+            "href": "#the-little-mark-that-kept-asking-for-attention",
+            "tag": "A"
+          },
+          {
+            "text": "A smaller file was still a large picture",
+            "href": "#a-smaller-file-was-still-a-large-picture",
+            "tag": "A"
+          },
+          {
+            "text": "Hidden has more than one meaning",
+            "href": "#hidden-has-more-than-one-meaning",
+            "tag": "A"
+          },
+          {
+            "text": "Give the move a dimension",
+            "href": "#give-the-move-a-dimension",
+            "tag": "A"
+          },
+          {
+            "text": "1",
+            "href": "#fn:schon",
+            "tag": "A"
+          },
+          {
+            "text": "2",
+            "href": "#fn:aria",
+            "tag": "A"
+          },
+          {
+            "text": "3",
+            "href": "#fn:motion",
+            "tag": "A"
+          },
+          {
+            "text": "publisher’s description",
+            "href": "https://www.routledge.com/the-reflective-practitioner-how-professionals-think-in-action/schon/p/book/9781138458284",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:schon",
+            "tag": "A"
+          },
+          {
+            "text": "WAI-ARIA 1.2, aria-hidden",
+            "href": "https://www.w3.org/TR/wai-aria-1.2/#aria-hidden",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:aria",
+            "tag": "A"
+          },
+          {
+            "text": "WCAG 2.2, Pause, Stop, Hide",
+            "href": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html",
+            "tag": "A"
+          },
+          {
+            "text": "↩",
+            "href": "#fnref:motion",
+            "tag": "A"
+          }
+        ],
+        "fetchOptions": [
+          {
+            "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843027225",
+            "method": "POST",
+            "cache": "no-store",
+            "credentials": "include",
+            "headers": {
+              "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+            }
+          }
+        ]
+      },
+      "api": [
+        {
+          "url": "https://bsz.saop.cc/api?referer=https%3A%2F%2Fdylantao.github.io%2Fblog%2F2026%2Fwhen-the-website-talks-back%2F&_=1792843027225",
+          "method": "POST",
+          "headers": {
+            "accept": "*/*",
+            "accept-language": "en-US",
+            "origin": "https://dylantao.github.io",
+            "referer": "https://dylantao.github.io/",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "x-bsz-referer": "https://dylantao.github.io/blog/2026/when-the-website-talks-back/"
+          }
+        }
+      ],
+      "asset": [
+        {
+          "url": "https://dylantao.github.io/assets/js/blog-read-counter.js?v=1a4cc8c173b1944702ed0e63825eb099",
+          "sha256": "e4ae22866f58a720babac88765a676b85e069c1dd030a8063cd920a7a07e17c6"
+        }
+      ],
+      "runtimeErrors": [],
+      "screenshot": "after-post-1440-many.png"
+    }
+  ]
+}

@@ -112,8 +112,10 @@ the lower view. The mirror preserves the complete reflected body and sun shadow.
 
 - Physical-phone frame rates still need a device baseline. These captures and the
   desktop host's rendering time establish layout and behavior, not phone performance.
-- The optional first-person body has a small open-neck artifact at an extreme
-  straight-down angle. It stays recorded in the [mirror checkpoint](../estate-mirrors-2026-10-23/README.md).
+- The October 24 [collar review](../../../artwork/coastal-home/reviews/first-person-collar-2026-10-24/README.md)
+  closes the native neck-to-shirt opening and stale initial material clipping.
+  South Park's extreme-down lower-face silhouette remains a separate defect,
+  with native ownership measurements and a bounded masking experiment recorded there.
 - The retained broad mainland/coast material batches use bounded receiver approximations.
   A future precision pass can partition those batches locally; it should retain the
   per-material lighting budget. The final night views are the current acceptance.

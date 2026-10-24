@@ -36,6 +36,7 @@ CANONICAL_HEADINGS = {
         "Conservative Inspiration Boundaries",
         "Process Artifacts",
         "Reflective Practice",
+        "Continuing And Handing Off",
         "Maintenance And CI",
     },
     "docs/homepage-desk-scene-brief.md": {
@@ -65,6 +66,7 @@ SKILL_SOURCE_LINKS = {
     "tacit-knowledge-to-skill": {
         "WEBSITE_DESIGN_HEURISTICS.md",
         "docs/homepage-desk-scene-brief.md",
+        "docs/october-2026-handoff.md",
     },
     "website-design-critique": {"WEBSITE_DESIGN_HEURISTICS.md", "docs/design-experiment-backlog.md"},
 }

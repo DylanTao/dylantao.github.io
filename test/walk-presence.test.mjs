@@ -209,6 +209,45 @@ test("receiver material changes retain head clipping on the current walking body
   replacement.dispose();
 });
 
+test("primary draws discover replaced style materials without a lifecycle refresh and restore them after failure", () => {
+  const f = fixture();
+  f.presence.update({ active: true, position: [-6.25, 2.6, 3.65], yaw: -Math.PI / 2 });
+  const replacement = f.material.clone(),
+    originalPlanes = [new THREE.Plane(new THREE.Vector3(1, 0, 0), 5)];
+  replacement.clippingPlanes = originalPlanes;
+  replacement.clipShadows = replacement.clipIntersection = true;
+  f.presence.object.traverse((part) => {
+    if (part.isMesh) part.material = replacement;
+  });
+  const duringDraw = () => {
+    assert.equal(replacement.clippingPlanes.length, 2);
+    assert.equal(replacement.clippingPlanes[0], originalPlanes[0]);
+    assert.ok(Math.abs(replacement.clippingPlanes[1].constant - 4) < 1e-6);
+    assert.equal(replacement.clipShadows, false);
+    assert.equal(replacement.clipIntersection, false);
+    assert.equal(f.material.clippingPlanes, null, "the obsolete material is untouched");
+  };
+  f.presence.withoutHead(duringDraw);
+  assert.equal(replacement.clippingPlanes, originalPlanes);
+  assert.equal(replacement.clipShadows, true);
+  assert.equal(replacement.clipIntersection, true);
+  assert.throws(
+    () =>
+      f.presence.withoutHead(() => {
+        duringDraw();
+        throw new Error("replacement draw failed");
+      }),
+    /replacement draw failed/
+  );
+  assert.equal(replacement.clippingPlanes, originalPlanes);
+  assert.equal(replacement.clipShadows, true);
+  assert.equal(replacement.clipIntersection, true);
+  assert.equal(f.material.clippingPlanes, null);
+  assert.equal(f.renderer.localClippingEnabled, false);
+  f.presence.dispose();
+  replacement.dispose();
+});
+
 test("a failed or asynchronous primary draw always restores clipping custody", async () => {
   const f = fixture();
   f.presence.update({ active: true });

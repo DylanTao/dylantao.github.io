@@ -1,0 +1,49 @@
+{
+  "scope": "Original raw byte custody. Archival text copies are formatted for repository style; source raw attempts remain unchanged in ignored cache.",
+  "raw": {
+    ".jekyll-cache/neck-cap/iteration-1/evidence.json": {
+      "sha256": "eec747e2b956b06e7cbfe854694671c205bd79fb15da4fb62dcf42d0ce226e33",
+      "bytes": 48343
+    },
+    ".jekyll-cache/neck-cap/iteration-1/walk-section-cap.mjs": {
+      "sha256": "a610597cde389f2d974a6f25048cccfa9db4d9638a2d5e6a3d61b5dd89149ac0",
+      "bytes": 8699
+    },
+    ".jekyll-cache/neck-cap/iteration-1/walk-presence.mjs": {
+      "sha256": "04f74ded6babb5f1923d608ff7a61e72c6b53e099eaef1e12b9b29743ee0751b",
+      "bytes": 16753
+    },
+    ".jekyll-cache/neck-cap/iteration-1/fixture.html": {
+      "sha256": "a67ec7fbb97973203cf248274120af953380023e544e8af570ec032a71e62c67",
+      "bytes": 4761
+    },
+    ".jekyll-cache/neck-cap/iteration-1/capture.cjs": {
+      "sha256": "391e987f9b33b1e0b4c621b17aa510957f7897b7f2fa4128b789c2bc26ad232b",
+      "bytes": 2425
+    },
+    ".jekyll-cache/neck-cap/final-native/evidence.json": {
+      "sha256": "60aee3207f75bb68187351257ee2b027130e0cdb19727ee9f30b22fc83992b88",
+      "bytes": 299912
+    },
+    ".jekyll-cache/neck-cap/fixture.html": {
+      "sha256": "bb705ade45ba71bd602c97897bbec93db275438a85f5726548b4efe9f54cfd4e",
+      "bytes": 5446
+    },
+    ".jekyll-cache/neck-cap/capture-final.cjs": {
+      "sha256": "7e672544a71d83dab2c03a340cdf09d6ee68e8a42a9ec30a3e5b09654a8611ad",
+      "bytes": 3740
+    },
+    ".jekyll-cache/neck-cap/house-positive-pitch-state-proof.json": {
+      "sha256": "1d183b15c1a8e570ff2906b44261162fb765d657b775a4481b94ff7ea4b05b8f",
+      "bytes": 2966065
+    },
+    ".jekyll-cache/neck-cap/house-rejected-material-membership.json": {
+      "sha256": "ee2a011f3ba3b24452e180899599a9682166def10e0c8742f2e1aa9b4288f6fa",
+      "bytes": 1996732
+    },
+    ".jekyll-cache/neck-cap/real-house-final/evidence.json": {
+      "sha256": "fe3ee7e8e26a08c40e3435856779717fe6108cba60f05d2a49cc133c71f9c2e0",
+      "bytes": 2809935
+    }
+  }
+}

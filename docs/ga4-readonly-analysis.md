@@ -4,6 +4,8 @@ Use existing aggregate Google Analytics data to choose a small website improveme
 
 ## Current access boundary
 
+**October 24 completion:** authorized property-level Viewer access and a real read-only aggregate export have been verified locally. The executed analysis, reports, configuration and credential remain in the ignored `.codex/local/analytics/` directory. On Sirui's machine, start with `LOCAL_SETUP.md` there; a fresh clone will not contain these private files. This closes the reporting-access task, not the separate consent/settings, outcome-measurement or Search Console questions.
+
 The site's public measurement ID identifies a web stream; it does not grant reporting access. The GA4 Data API requires a separate [numeric property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id), such as the supplied property `467687350`, and an authorized Google identity. No account data was accessed while preparing this utility. Its tests use synthetic fixtures.
 
 The script supports a dedicated service account with the `https://www.googleapis.com/auth/analytics.readonly` scope. A property-level **Viewer** role is sufficient for reading reports. Neither Editor nor Administrator access is needed. [Google role definitions](https://support.google.com/analytics/answer/9305587?hl=en), [Data API authorization](https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/runReport)
@@ -103,4 +105,4 @@ git check-ignore .codex/local/analytics/ga4-reader.json
 git diff --check
 ```
 
-The offline tests cover the plan without site packages, fixed privacy filters, date/property validation, guarded private storage, complete pagination and metadata, schema checks, endpoint restrictions, and suppression of synthetic secret-bearing errors. A passing test suite does not establish valid credentials, property access, historical event coverage, or a measured website improvement. The first real report remains contingent on local credentials and Viewer access.
+The offline tests cover the plan without site packages, fixed privacy filters, date/property validation, guarded private storage, complete pagination and metadata, schema checks, endpoint restrictions, and suppression of synthetic secret-bearing errors. A passing test suite alone does not establish valid credentials, property access, historical event coverage, or a measured website improvement. The separate authenticated export established local reporting access on October 24; the private analysis records the report's scope and coverage limits.

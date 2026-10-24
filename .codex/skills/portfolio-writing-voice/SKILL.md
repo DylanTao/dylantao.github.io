@@ -51,7 +51,7 @@ When a story is testing a new visual or data-storytelling treatment, also read `
 4. Preserve verified links and existing anchors unless the user asks to restructure; verify new references before presenting them as sources.
 5. Check headings, frontmatter, internal links, generated excerpts/cards, and the rendered route when the edit affects public navigation.
 6. For discovery summaries or CV formats, compare visible claims, dates, status, and credit with their canonical sources. Preserve successful wording when the observed problem is a link, semantic structure, or stale snapshot; use `docs/SEO.md` for discovery checks.
-7. Compare the result with the original reader problem. State the observed improvement and remaining uncertainty using `Reflective Practice`; promote only a reusable lesson into `WEBSITE_DESIGN_HEURISTICS.md`.
+7. Compare the result with the original reader problem. State the observed improvement and remaining uncertainty using `Reflective Practice`; use `Continuing And Handing Off` for a successor review rather than treating old copy tasks as automatically open. Promote only a reusable lesson into `WEBSITE_DESIGN_HEURISTICS.md`.
 
 ## Verification
 

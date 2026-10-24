@@ -110,7 +110,8 @@ Source checks are not a substitute for rendered inspection when public UI change
 - `docs/homepage-desk-scene-brief.md` remains the canonical desk-scene brief and handoff prompt.
 - `docs/material-lite-revamp.md` remains the canonical Material-Lite design-grammar intent: orange is the identity source color, the `--md-lite-*` token set is preferred over one-off values, and the navbar brand-mark rules live there.
 - `docs/design-experiment-backlog.md` remains the durable queue for unproven visual and interaction ideas, including hypothesis, licensing, visitor benefit, evidence, Sirui's decision, and revisit trigger.
-- `docs/site-experience-roadmap.md` is the staged September 2026 plan for sitewide accessibility, tokens, wayfinding, navigation motion, hidden-page hygiene, and the desk-scene handoff, with each item tagged Fable, GPT-6, or Sirui decision.
+- `docs/october-2026-handoff.md`, under `October 24 closeout and next review`, is the resume point for sitewide wrap-ups and successor critique. Reconcile its current statuses and evidence before treating an old checkbox or parked WIP as remaining work.
+- `docs/site-experience-roadmap.md` preserves the historical September 2026 plan for accessibility, tokens, wayfinding, motion, hidden-page hygiene and the scene handoff. Its dated model assignments and open lists do not supersede the current handoff or design contracts.
 - `.github/GIT_WORKFLOW.md` remains the canonical commit-message and branch convention.
 - Repo-local `.codex/skills/` files are concise Codex overlays that read those living docs by heading or path. Do not duplicate the long heuristic lists into skills unless the user explicitly asks for a source-of-truth migration.
 

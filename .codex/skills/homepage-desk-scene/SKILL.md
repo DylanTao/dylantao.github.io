@@ -47,6 +47,8 @@ For small source-only edits, run the relevant lint/build checks from `AGENTS.md`
 
 For behavior or visual edits, use the brief's acceptance evidence map and comparable Playwright/browser screenshots at 1440x1000, 1280x800, 768x1024, and 390x1000:
 
+For comparable full-site captures, reuse the browser launch settings in `test/visual/public.config.js` and record the actual rendering backend. Label intentional software fixtures separately; their timings do not establish hardware-preview or physical-phone performance.
+
 - 2D cards and record legibility
 - 3D interior default, side/rear yaw, and interaction movement
 - outside default/zoom and return path

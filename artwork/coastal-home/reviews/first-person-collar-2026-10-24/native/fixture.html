@@ -1,0 +1,187 @@
+<!doctype html><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  html,
+  body {
+    margin: 0;
+    background: #555;
+  }
+  canvas {
+    display: block;
+  }
+</style>
+<script type="module">
+  import * as THREE from "/assets/js/three.module.min.js";
+  import { createModelLoader } from "/assets/js/home-scene/model-loader.mjs";
+  import { createArtDirection } from "/assets/js/home-scene/materials.mjs";
+  import { createWalkPresence } from "/assets/js/home-scene/walk-presence.mjs";
+  import { createInteriorReflections } from "/assets/js/home-scene/interior-reflections.mjs";
+  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+  renderer.setSize(1000, 800);
+  renderer.setPixelRatio(1);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  document.body.append(renderer.domElement);
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color("#aaa89f");
+  const world = new THREE.Group();
+  scene.add(world);
+  scene.add(new THREE.HemisphereLight(0xdceafa, 0x8f755e, 2.0));
+  const sun = new THREE.DirectionalLight(0xffe4c2, 3.2);
+  sun.position.set(-3, 8, 7);
+  sun.target.position.set(-6.25, 0, 3.65);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(1024, 1024);
+  Object.assign(sun.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 0.1, far: 30 });
+  sun.shadow.bias = -0.0001;
+  scene.add(sun, sun.target);
+  const loader = createModelLoader(),
+    art = createArtDirection(),
+    manifest = await fetch("/assets/models/home/manifest.json").then((r) => r.json());
+  const load = async (file) => {
+    const g = await loader.loader.loadAsync("/assets/models/home/" + file);
+    g.scene.name = file;
+    art.apply(g.scene, "realistic");
+    return g;
+  };
+  const shell = (await load(manifest.shell)).scene;
+  world.add(shell);
+  const rooms = new Map();
+  for (const id of ["bath-living", "bath-bedroom"]) {
+    const meta = manifest.rooms.find((r) => r.id === id),
+      root = (await load(meta.file)).scene;
+    root.position.fromArray(meta.offset);
+    world.add(root);
+    rooms.set(id, root);
+  }
+  world.traverse((o) => {
+    if (o.isMesh) {
+      o.castShadow = false;
+      o.receiveShadow = true;
+    }
+  }); // Isolate the real avatar in the shadow target; native room beauty remains.
+  scene.updateMatrixWorld(true);
+  const camera = new THREE.PerspectiveCamera(62, 1.25, 0.025, 50),
+    pos = [-6.25, 0, 3.65],
+    yaw = -Math.PI / 2;
+  let presence = null,
+    actor = null,
+    clips = null,
+    frame = 0;
+  const mirrors = createInteriorReflections({
+    renderer,
+    scene,
+    world,
+    shell,
+    rooms,
+    getDynamicRoots: () => (presence ? [presence.object] : []),
+    getContentVersion: () => ++frame,
+  });
+  const bytes = new Uint8Array(1000 * 800 * 4);
+  function hash(a) {
+    let h = 2166136261;
+    for (const n of a) {
+      h ^= n;
+      h = Math.imul(h, 16777619);
+    }
+    return (h >>> 0).toString(16);
+  }
+  function aim(pitch = 0) {
+    const eye = Math.min(0.14, presence.opticalForwardOffset),
+      p = presence.evidence().position;
+    camera.position.set(p[0] - eye, p[1] + 1.6, p[2]);
+    camera.lookAt(camera.position.clone().add(new THREE.Vector3(-Math.cos(pitch), -Math.sin(pitch), 0)));
+    camera.updateMatrixWorld(true);
+  }
+  function draw(caps = true, pitch = 1.4) {
+    aim(pitch);
+    mirrors.update(camera, { room: "bath-living", levels: "fixture", lightKey: "fixed", now: performance.now() + frame * 100 });
+    presence.withoutHead(() => {
+      if (!caps) presence.object.getObjectByName("primary-collar-liner").visible = false;
+      renderer.render(scene, camera);
+    });
+    const gl = renderer.getContext();
+    gl.readPixels(0, 0, 1000, 800, gl.RGBA, gl.UNSIGNED_BYTE, bytes);
+    const shadow = sun.shadow.map,
+      raw = new Uint8Array(shadow.width * shadow.height * 4);
+    renderer.readRenderTargetPixels(shadow, 0, 0, shadow.width, shadow.height, raw);
+    return {
+      pixelHash: hash(bytes),
+      shadowHash: hash(raw),
+      presence: presence.evidence(),
+      mirror: mirrors.evidence(),
+      glError: gl.getError(),
+      info: { calls: renderer.info.render.calls, triangles: renderer.info.render.triangles },
+      capsVisibleAfter: presence.object.getObjectByName("primary-collar-liner").visible,
+    };
+  }
+  window.api = {
+    async load(id) {
+      presence?.dispose();
+      actor?.removeFromParent();
+      const g = await load(`sirui-${id}.glb`);
+      actor = g.scene;
+      clips = g.animations;
+      actor.traverse((o) => {
+        if (o.isMesh) {
+          o.castShadow = true;
+          o.receiveShadow = true;
+        }
+      });
+      world.add(actor);
+      presence = createWalkPresence({ renderer });
+      world.add(presence.object);
+      presence.setSource(actor, g.animations);
+      presence.update({ active: true, position: pos, yaw, elapsed: 0 });
+      aim(0);
+      await presence.prepare({ scene, camera });
+      await mirrors.prepare({ camera });
+      draw(false, 0);
+      return presence.evidence();
+    },
+    draw,
+    shadowControl() {
+      const visible = draw(false, 0);
+      presence.object.visible = false;
+      const hidden = draw(false, 0);
+      presence.object.visible = true;
+      const restored = draw(true, 0);
+      return {
+        visible: visible.shadowHash,
+        hidden: hidden.shadowHash,
+        restored: restored.shadowHash,
+        avatarSensitive: visible.shadowHash !== hidden.shadowHash,
+        unchanged: visible.shadowHash === restored.shadowHash,
+      };
+    },
+    sweep(name) {
+      presence.setSource(null);
+      presence.setSource(actor, clips);
+      const clip = clips.find((c) => c.name === name),
+        timings = [],
+        frames = [];
+      for (let i = 0; i <= 120; i++) {
+        const moving = name === "walk",
+          position = [pos[0] - (moving ? (2.5 * i) / 120 : 0), 0, pos[2]],
+          start = performance.now();
+        presence.update({ active: true, position, yaw, elapsed: (clip.duration * i) / 120, velocity: moving ? [-2.5 / clip.duration, 0] : [0, 0] });
+        timings.push(performance.now() - start);
+        if (i % 30 === 0) {
+          const evidence = draw(true, 1.4);
+          frames.push({ phase: i / 120, evidence, png: renderer.domElement.toDataURL("image/png") });
+        }
+      }
+      timings.sort((a, b) => a - b);
+      return {
+        clipDuration: clip.duration,
+        presence: presence.evidence(),
+        timings: { median: timings[60], p95: timings[114], maximum: timings.at(-1) },
+        frames,
+      };
+    },
+    getPixels: () => Array.from(bytes),
+  };
+  window.ready = true;
+</script>

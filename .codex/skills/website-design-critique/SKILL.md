@@ -49,7 +49,7 @@ For a new or deferred visual idea, also read `docs/design-experiment-backlog.md`
 5. Preserve approved copy when layout can solve the issue.
 6. Keep motion explanatory, bounded, reduced-motion aware, and quieter than the words.
 7. Capture the same representative state after the change and test the intended visitor benefit. Inspect the heading outline, duplicate IDs, native links, and keyboard focus when the affected page depends on them; use a no-JavaScript or print check when it answers the access question.
-8. Expand to the checkpoint matrix only after the direction is worth keeping. Record the observed outcome, tradeoff, and next decision using `Reflective Practice`; update `WEBSITE_DESIGN_HEURISTICS.md` only when a durable lesson emerges.
+8. Expand to the checkpoint matrix only after the direction is worth keeping. Record the observed outcome, tradeoff, and next decision using `Reflective Practice`; use `Continuing And Handing Off` for a wrap-up or successor critique. Reconcile dated evidence before reopening historical roadmap tasks. Update `WEBSITE_DESIGN_HEURISTICS.md` only when a durable lesson emerges.
 
 ## Verification
 

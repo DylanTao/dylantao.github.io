@@ -2,7 +2,39 @@
 
 **Sirui Tao · dylantao.github.io · 24 October 2026**
 
-**Status: proposal for Sirui's review, not an implementation.** Repository and primary documentation review only. No tracking, GA settings, website, GitHub issue, commit, or deployment was changed. No GA account, dashboard, raw visitor records, or Search Console report was accessed. No current traffic, conversion, or live performance result is claimed.
+**Original review status: proposal for Sirui's review, not an implementation.** The inventory below used repository and primary documentation only. At that checkpoint no tracking, GA settings, website, GitHub issue, commit, or deployment was changed, and no GA account, raw visitor records or Search Console report was accessed.
+
+**October 24 continuation:** Sirui subsequently authorized aggregate GA4 reporting. [Local read-only reporting](../../ga4-readonly-analysis.md) and its first historical export are complete; reports and executed analysis stay private and ignored. This resolves the access question below. It does not enact the proposed instrumentation, audit consent/settings, establish conversion, or supply Search Console visibility data. Collection remains unchanged.
+
+## October 24 counter-label correction
+
+The separate blog counter reads `page_pv` but called the result "people read it."
+That field does not establish distinct people or completed reading. Its display
+now says `1 view` / `1,234 views`; only the formatting line in
+`assets/js/blog-read-counter.js` changes. GET display groups, POST increment,
+credentials, caching, local-preview exclusion and failure hiding stay intact.
+The decision whether to keep that third-party counter remains separate.
+
+**All counts in these captures are synthetic test values, not audience evidence.**
+Eleven focused iteration checks use real blog/post routes and assets, fulfilling
+the API locally and overriding only the intended changed script for the after
+state. The mobile index and post cover singular/plural output; the desktop post
+also checks the plural. No counter requests leave the browser. Native links are
+identical before/after; overflow and runtime errors are absent. Malformed data
+still hides the counter and wrapper. This is iteration proof; publication also
+requires checking the newly built script on the live route.
+
+| Synthetic state     | Before                                               | After                                              |
+| ------------------- | ---------------------------------------------------- | -------------------------------------------------- |
+| Mobile index, 1,234 | [Before](counter-evidence/before-index-390-many.png) | [After](counter-evidence/after-index-390-many.png) |
+| Mobile post, 1      | [Before](counter-evidence/before-post-390-one.png)   | [After](counter-evidence/after-post-390-one.png)   |
+
+The [verification receipt](counter-evidence/verification.json) records the actual
+routes, supplied responses, unchanged request semantics, source/served-script
+hashes and checked links. Production's original script is minified, so its byte
+hash is recorded separately from canonical unminified source. No real GA data
+or credentials are included. The shorter truthful label makes no claim of more
+traffic, better engagement or improved reading.
 
 ## The decision
 
@@ -171,6 +203,6 @@ A before/after improvement remains observational. A/B testing becomes appropriat
 1. Which audience/decision should lead the first learning cycle: research peers, potential collaborators, prospective students, or academic hiring readers?
 2. Which public resource actions are genuinely useful, and should contact intent be a GA key event or only a diagnostic?
 3. What privacy/consent boundary should the site enforce, and should the separate public read counter remain?
-4. Can Sirui provide aggregate GA reports/settings screenshots or authorize a read-only account review?
+4. **Resolved for aggregate reporting on October 24:** Sirui authorized the dedicated property Viewer and the first read-only export. A settings/consent audit remains a separate question; no additional credentials or tracking changes are needed to finish this access task.
 
 **Bottom line:** the repository already has more tracking than a generic setup guide suggests, but its existing events largely measure browser activity. The next improvement is not “track everything.” It is to make a few measures trustworthy, tie them to academic visitor tasks, and use them alongside qualitative evidence to choose restrained changes.

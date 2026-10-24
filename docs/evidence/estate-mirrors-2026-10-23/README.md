@@ -1,5 +1,7 @@
 ﻿# Bathroom mirrors and Walk presence
 
+**October 24 continuation:** the [collar review](../../../artwork/coastal-home/reviews/first-person-collar-2026-10-24/README.md) closes the measured neck-to-shirt gap and repairs clipping after initial material replacement. The original checkpoint below remains dated evidence. South Park's extreme-down lower-face silhouette is still open, with a separate next experiment and acceptance criteria in that review.
+
 Sirui's October 23 review asked for a bathroom mirror that reflects the surrounding room and himself convincingly, with a practical rendering budget. This checkpoint owns `interior-reflections.mjs`, the new `walk-presence.mjs`, and their focused tests. The coordinator owns controller wiring and final rendered acceptance.
 
 ## Observed limitation
