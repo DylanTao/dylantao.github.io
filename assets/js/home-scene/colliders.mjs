@@ -661,7 +661,9 @@ export function createWalkFieldBuilder({ bounds, onReady = () => {} }) {
       });
     }
     if (!sent) {
-      if (!ready && !queue.length) landedNow();
+      // Worker jobs are not in the main-thread queue. A later empty/effect root must not mark its
+      // still-pending first snapshot ready, or Walk briefly starts against an empty collision map.
+      if (!ready && !queue.length && (!worker || version === landed)) landedNow();
       return 0;
     }
     if (worker) worker.postMessage({ type: "snapshot", version: ++version });

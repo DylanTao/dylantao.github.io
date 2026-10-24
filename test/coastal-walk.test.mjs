@@ -383,6 +383,8 @@ test("a collision worker failure replays native geometry and restores walking in
     root.add(floor);
     builder.addRoots([root], root);
     assert.equal(builder.ready, false);
+    builder.addRoots([new THREE.Group()], root);
+    assert.equal(builder.ready, false, "an empty streamed root cannot release a pending native collision snapshot");
     worker.onerror({ preventDefault() {} });
     await finished;
     assert.equal(builder.ready, true);
