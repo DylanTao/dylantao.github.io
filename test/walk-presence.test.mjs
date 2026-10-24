@@ -292,6 +292,28 @@ test("warmup compiles full and primary-clipped variants before Walk, then restor
   f.presence.dispose();
 });
 
+test("warmup primes the renderer's clipping state with empty draws instead of drawing the body", async () => {
+  // A real body draw links its programs on the main thread (25 s frozen on ANGLE/D3D11). The
+  // prime draws an empty scene so r164's clipping state holds 0, then 1, planes for compileAsync.
+  const f = fixture(),
+    primed = [],
+    render = f.renderer.render;
+  f.renderer.render = (scene) => {
+    let meshes = 0;
+    scene.traverse((part) => (meshes += part.isMesh ? 1 : 0));
+    primed.push({ planes: f.renderer.clippingPlanes.length, local: f.renderer.localClippingEnabled, meshes });
+    render(scene);
+  };
+  await f.presence.prepare({ scene: f.scene, camera: f.camera });
+  assert.deepEqual(primed, [
+    { planes: 0, local: true, meshes: 0 },
+    { planes: 1, local: true, meshes: 0 },
+  ]);
+  assert.equal(f.renderer.localClippingEnabled, false);
+  assert.equal(f.presence.evidence().prepared, true);
+  f.presence.dispose();
+});
+
 test("warmup failure and disposal during warmup do not reveal a body or leave the routine hidden", async () => {
   const f = fixture();
   f.renderer.compileAsync = async () => {

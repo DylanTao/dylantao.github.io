@@ -292,6 +292,25 @@ export function createWalkPresence({ renderer }) {
     }
   }
 
+  // r164 WebGLClipping keeps the plane count of the last init/setGlobalState; compile() reads it.
+  // A draw of an empty scene with `count` global planes and local clipping on sets numPlanes to
+  // exactly `count` (the head cut adds one local plane to unclipped bodies), and draws nothing.
+  const primingScene = new THREE.Scene(),
+    primingCamera = new THREE.PerspectiveCamera(),
+    primingPlanes = [new THREE.Plane(new THREE.Vector3(0, -1, 0), 0)];
+  function primeClippingState(count) {
+    const planes = renderer.clippingPlanes,
+      local = renderer.localClippingEnabled;
+    renderer.clippingPlanes = count ? primingPlanes.slice(0, count) : [];
+    renderer.localClippingEnabled = true;
+    try {
+      renderer.render(primingScene, primingCamera);
+    } finally {
+      renderer.clippingPlanes = planes;
+      renderer.localClippingEnabled = local;
+    }
+  }
+
   async function prepare({ scene, camera, shouldContinue = () => true } = {}) {
     if (disposed || prepared || !body || !shouldContinue()) return;
     const expectedBody = body;
@@ -342,7 +361,13 @@ export function createWalkPresence({ renderer }) {
         const submit = () => {
           renderer.state?.buffers?.depth?.setMask(true);
           renderer.clear();
-          renderer.render(scene, camera);
+          // Pinned r164 keys a program's clipping variant on the renderer's live clipping state,
+          // not on the material's planes, and a real draw of the body links its programs on the
+          // main thread: 25 s of one frozen task on the Intel Arc laptop (2026-10-24 profile).
+          // An empty draw sets that state (one plane for the head cut, none otherwise) without
+          // drawing anything, so compileAsync then creates the very variants the walk's draws
+          // request and the driver compiles them on its worker threads.
+          primeClippingState(clipped ? 1 : 0);
           // A plain holder restores withoutHead immediately; compileAsync's promise only
           // polls readiness after its synchronous compile(body,camera,scene) submission.
           return { pending: renderer.compileAsync(expectedBody, camera, scene) };
