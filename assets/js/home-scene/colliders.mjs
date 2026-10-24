@@ -507,27 +507,27 @@ export function walkKind(object, root) {
   let glazing = false,
     ghost = false,
     flora = false,
-    roof = false,
+    cutawayStructure = false,
     authored = null;
   for (let node = object; node && node !== root; node = node.parent) {
     const data = node.userData || {};
     // Furniture keeps the native placeholder's triangles after its visual replacement arrives.
     // Only that placeholder may be hidden: a hidden ancestor room still stays out of the field.
     if (data.furnitureAnchor || data.furnitureCollision === false) return null;
-    // The cutaway changes visibility, never the roof's transform: it remains both a real ceiling
-    // inside and the sandstone support under an outdoor visitor. A hidden ancestor room still
-    // stays out, just as it does for a hidden furniture placeholder.
-    if (node.visible === false && data.furnitureCollision !== true && !data.caveRoof) return null;
+    // Cutaways change visibility, never structural transforms: the roof remains clifftop support,
+    // and the lower bathroom's ceiling is also the upper bathroom's real floor. A hidden ancestor
+    // room still stays out, just as it does for a hidden furniture placeholder.
+    if (node.visible === false && data.furnitureCollision !== true && !data.caveRoof && !data.bathroomCeilingFor) return null;
     authored ??= data.walk ?? null;
     if (data.shadowOnly || data.facadeDoor || data.activityProp || data.action) return null;
-    if (data.caveRoof) roof = true;
+    if (data.caveRoof || data.bathroomCeilingFor) cutawayStructure = true;
     if (data.glazing) glazing = true;
     if (data.flora) flora = true;
     if (data.noOcclusion) ghost = true;
   }
   if (authored === "through") return null;
   if (authored === "solid" || authored === "water") return authored;
-  if (roof) return "solid";
+  if (cutawayStructure) return "solid";
   if (glazing) return "solid";
   // Wind-blown leaves/grass are not rigid walls. Native tree trunks still stop the body, and an
   // authored walk tag can opt any plant back in. Avoid voxelizing the outdoor planting's hundreds

@@ -215,6 +215,49 @@ test("soft clifftop planting permits walking while tree trunks and authored plan
   assert.equal(walkKind(plant("prickly pear pad", { flora: true, walk: "solid" })), "solid");
 });
 
+test("a field rebuilt during the lower bathroom cutaway retains its hidden upper floor and roof", async () => {
+  const world = new THREE.Group(),
+    material = new THREE.MeshStandardMaterial(),
+    floor = new THREE.Mesh(new THREE.BoxGeometry(4, 0.2, 4), material),
+    upper = new THREE.Mesh(new THREE.BoxGeometry(4, 0.15, 4), material),
+    roof = new THREE.Mesh(new THREE.BoxGeometry(4, 0.3, 4), material);
+  floor.position.y = -0.1;
+  upper.position.y = 2.525;
+  upper.userData.bathroomCeilingFor = "bath-living";
+  upper.visible = false;
+  roof.position.y = 5.05;
+  roof.userData.caveRoof = true;
+  roof.visible = false;
+  world.add(floor, upper, roof);
+  let complete;
+  const ready = new Promise((resolve) => {
+    complete = resolve;
+  });
+  const builder = createWalkFieldBuilder({ bounds: { min: [-3, -1, -3], max: [3, 8, 3] }, onReady: complete });
+  try {
+    assert.equal(builder.addRoots([world], world), 3, "a first build while the slab is hidden still collects all three supports");
+    await ready;
+    for (const height of [0, 2.6, 5.2]) {
+      assert.ok(Math.abs(builder.field.standAt(0, 0, height) - height) < 1e-5, `support at ${height}`);
+      const moved = builder.field.move(0, 0, height, 0.6, 0);
+      assert.equal(moved.blocked, false, `walking remains possible at ${height}`);
+      assert.ok(Math.abs(moved.foot - height) < 1e-5);
+    }
+    const hiddenRoom = new THREE.Group();
+    hiddenRoom.visible = false;
+    world.add(hiddenRoom);
+    hiddenRoom.add(upper);
+    assert.equal(walkKind(upper, world), null, "a hidden ancestor room still removes the full assembly");
+    hiddenRoom.visible = true;
+    upper.userData.walk = "through";
+    assert.equal(walkKind(upper, world), null, "an explicit authored exception still takes precedence");
+  } finally {
+    builder.dispose();
+    for (const object of [floor, upper, roof]) object.geometry.dispose();
+    material.dispose();
+  }
+});
+
 test("moving neighbours: Sirui and a closed sliding door push the capsule aside", () => {
   const field = createWalkField({ min: [-4, -1, -4], max: [4, 3, 4] });
   box(field, [-4, -0.2, -4], [4, 0, 4]);
