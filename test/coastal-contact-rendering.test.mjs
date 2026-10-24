@@ -1,11 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
+import { readFileSync } from "node:fs";
 import { chromium, webkit } from "@playwright/test";
 const require = createRequire(import.meta.url),
   { PNG } = require("pngjs"),
   { preparePage, collectRuntimeErrors, screenshotMetrics } = require("./visual/helpers.js"),
-  baseURL = process.env.COASTAL_BASE_URL?.replace(/\/$/, "");
+  baseURL = process.env.COASTAL_BASE_URL?.replace(/\/$/, ""),
+  expectedRoomCount = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8")).rooms.length;
 let browser;
 if (baseURL) {
   test.before(async () => {
@@ -95,7 +97,10 @@ test("the first interior-to-exterior reflection never uses main-camera contact u
     const scene = page.locator("[data-home-desk-scene]"),
       ui = page.locator("[data-home-world-controls]");
     await scene.locator("canvas").waitFor();
-    await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.().roomCount === 6);
+    await page.waitForFunction(
+      (roomCount) => document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.().roomCount === roomCount,
+      expectedRoomCount
+    );
     const details = ui.locator("details").first();
     if (!(await details.evaluate((element) => element.open))) await details.locator("summary").first().click();
     await ui.locator('[data-world-room="study"]').first().click();

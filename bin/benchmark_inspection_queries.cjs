@@ -9,6 +9,7 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
   const base = (process.env.VISUAL_BASE_URL || "http://127.0.0.1:8080").replace(/\/$/, ""),
     output = path.resolve(".jekyll-cache/visual-qa/inspection-query-benchmark"),
     original = "const region = createOcclusionRegion(occluders, arrivalBounds.expandByScalar(0.05));";
+  const expectedRoomCount = JSON.parse(await fs.readFile(path.join(__dirname, "../assets/models/home/manifest.json"), "utf8")).rooms.length;
   let source = await fs.readFile("assets/js/home-scene/controller.mjs", "utf8");
   if (!source.includes(original)) throw new Error("Controlled query patch target missing");
   source = source.replace(
@@ -39,7 +40,10 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
     await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.()?.ecology?.wildlife?.modelsReady);
     await page.locator("[data-world-view]").click();
     await canvas.scrollIntoViewIfNeeded();
-    await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence().roomCount === 6);
+    await page.waitForFunction(
+      (roomCount) => document.querySelector("[data-home-desk-scene]").getSceneEvidence().roomCount === roomCount,
+      expectedRoomCount
+    );
     const count = (await scene.evaluate((element) => element.getSceneEvidence())).neighbours.length,
       rows = [];
     // Warm selection and shader/room startup separately from measurement.
@@ -84,8 +88,7 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
           capturedAt: new Date().toISOString(),
           browser: browser.version(),
           base,
-          method:
-            "One native Windows Chromium context; reduced-motion Date-only override; native performance.now/RAF. Three balanced rounds after warming all six rooms and17 selections. Only controller query-object choice is instrumented; identical product geometry, poses, candidates, finite rays, early exit and scoring. Timings include local subset construction/disposal. This isolates CPU arrival selection, not FPS or the entire prior implementation.",
+          method: `One native Windows Chromium context; reduced-motion Date-only override; native performance.now/RAF. Three balanced rounds after warming all ${expectedRoomCount} rooms and ${count} selections. Only controller query-object choice is instrumented; identical product geometry, poses, candidates, finite rays, early exit and scoring. Timings include local subset construction/disposal. This isolates CPU arrival selection, not FPS or the entire prior implementation.`,
           errors,
           summary,
           rows,

@@ -22,6 +22,7 @@ const types = {
 };
 const shots = process.argv[2] || "garden,coast,night,fft,onsen";
 (async () => {
+  const expectedRoomCount = JSON.parse(await fs.readFile(path.join(__dirname, "../assets/models/home/manifest.json"), "utf8")).rooms.length;
   await fs.mkdir(out, { recursive: true });
   execFileSync("python", ["bin/prepare_environment_preview.py", productionBuild]);
   const browser = await chromium.launch({ headless: true, args: ["--use-angle=d3d11", "--ignore-gpu-blocklist"] });
@@ -112,9 +113,13 @@ const shots = process.argv[2] || "garden,coast,night,fft,onsen";
       await scene.scrollIntoViewIfNeeded();
       await page.waitForTimeout(1500);
       if (name.startsWith("lounge"))
-        await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence().roomCount === 6, null, {
-          timeout: 60000,
-        });
+        await page.waitForFunction(
+          (roomCount) => document.querySelector("[data-home-desk-scene]").getSceneEvidence().roomCount === roomCount,
+          expectedRoomCount,
+          {
+            timeout: 60000,
+          }
+        );
       const poseKey = () =>
         scene.evaluate((e) => {
           const root = e.labScene?.scene,

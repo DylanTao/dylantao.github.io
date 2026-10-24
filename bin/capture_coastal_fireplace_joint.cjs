@@ -6,6 +6,7 @@ const path = require("node:path");
 const { createHash } = require("node:crypto");
 
 const root = path.resolve(__dirname, "..");
+const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(root, "assets/models/home/manifest.json"), "utf8")).rooms.length;
 const output = path.resolve(process.argv[2] || ".jekyll-cache/visual-qa/fireplace-joint/browser");
 const base = process.env.FIREPLACE_URL || "http://127.0.0.1:4153/al-folio/";
 const camera = { target: [0.95, 1.78, -1.15], yaw: Math.PI + 0.4, pitch: 0.06, radius: 1.5 };
@@ -51,11 +52,11 @@ const camera = { target: [0.95, 1.78, -1.15], yaw: Math.PI + 0.4, pitch: 0.06, r
         lab.open = false;
       });
       await page.waitForFunction(
-        () => {
+        (roomCount) => {
           const e = document.querySelector("[data-home-desk-scene]").getSceneEvidence();
-          return e.roomCount === 6 && e.furniture?.placed.find((p) => p.id === "living-fireplace")?.shown >= 0;
+          return e.roomCount === roomCount && e.furniture?.placed.find((p) => p.id === "living-fireplace")?.shown >= 0;
         },
-        null,
+        expectedRoomCount,
         { timeout: 240000 }
       );
       await page.locator("[data-world-fullscreen]").click();

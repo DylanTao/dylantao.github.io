@@ -8,6 +8,7 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
   const label = process.argv[2] || "current",
     output = path.resolve(`.jekyll-cache/visual-qa/animal-inspections-${label}`),
     base = (process.env.VISUAL_BASE_URL || "http://127.0.0.1:8080").replace(/\/$/, "");
+  const expectedRoomCount = JSON.parse(await fs.readFile(path.join(__dirname, "../assets/models/home/manifest.json"), "utf8")).rooms.length;
   await fs.mkdir(output, { recursive: true });
   const engine = process.env.CHARACTER_BROWSER === "webkit" ? webkit : chromium;
   const width = Number(process.env.CHARACTER_VIEWPORT_WIDTH || 1440);
@@ -45,7 +46,10 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
     await controls.locator("[data-world-avatar]").selectOption("ghibli");
     await controls.locator("[data-world-lab]>summary").click();
     await page.locator("[data-world-view]").click();
-    await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence().roomCount === 6);
+    await page.waitForFunction(
+      (roomCount) => document.querySelector("[data-home-desk-scene]").getSceneEvidence().roomCount === roomCount,
+      expectedRoomCount
+    );
     await canvas.scrollIntoViewIfNeeded();
     const rows = [],
       count = (await scene.evaluate((element) => element.getSceneEvidence())).neighbours.length;

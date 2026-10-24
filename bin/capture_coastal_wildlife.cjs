@@ -21,6 +21,7 @@ const out = path.resolve(args.out || ".jekyll-cache/visual-qa/wildlife");
 const time = args.time || "2026-10-15T13:20:00-07:00";
 const fps = Number(args.fps || 12);
 const plan = JSON.parse(fs.readFileSync(args.plan, "utf8"));
+const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../assets/models/home/manifest.json"), "utf8")).rooms.length;
 
 (async () => {
   fs.mkdirSync(out, { recursive: true });
@@ -56,7 +57,7 @@ const plan = JSON.parse(fs.readFileSync(args.plan, "utf8"));
   for (let i = 0; i < 300; i++) {
     await page.clock.runFor(200);
     const view = await evidence();
-    if (view.ecology?.wildlife?.modelsReady && view.roomCount === 6) break;
+    if (view.ecology?.wildlife?.modelsReady && view.roomCount === expectedRoomCount) break;
   }
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.clock.runFor(1400);
