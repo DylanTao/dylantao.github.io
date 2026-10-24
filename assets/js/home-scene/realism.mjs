@@ -692,7 +692,12 @@ export function createFinish(
     // Programs this pipeline draws beyond the scene's own materials (program-warmup.mjs): the
     // contact pass's normal override on every occluding mesh, and its two full-screen passes.
     programWarmup: {
-      overrides: [{ material: contact.normalMaterial, accept: (object) => !object.userData.noOcclusion && !object.userData.noContactOcclusion }],
+      get overrides() {
+        return [
+          { material: contact.normalMaterial, accept: (object) => !object.userData.noOcclusion && !object.userData.noContactOcclusion },
+          ...volumeDepth.programWarmup,
+        ];
+      },
       passes: [
         { material: contact.ssaoMaterial },
         { material: contact.blurMaterial },

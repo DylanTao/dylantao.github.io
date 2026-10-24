@@ -499,31 +499,45 @@ export function isWater(object) {
 
 // How a loaded mesh meets a walker: "solid", "water" (raised into a block) or null (walked through).
 // Glass fronts and the terrace's glass parapet are solid; the sliding doors (they open, and the
-// walk keeps a closed one as a moving obstacle), the lifted roof, shadow-only copies, held props,
+// walk keeps a closed one as a moving obstacle), shadow-only copies, held props,
 // the desk's interactive objects, skinned characters and animals, and faint transparent effects are
 // not. userData.walk = "solid" | "water" | "through" overrides the guess for any authored piece.
 export function walkKind(object, root) {
   if (!object.isMesh || object.isSkinnedMesh || object.isInstancedMesh || !object.geometry?.attributes?.position) return null;
   let glazing = false,
     ghost = false,
+    flora = false,
+    roof = false,
     authored = null;
   for (let node = object; node && node !== root; node = node.parent) {
     const data = node.userData || {};
     // Furniture keeps the native placeholder's triangles after its visual replacement arrives.
     // Only that placeholder may be hidden: a hidden ancestor room still stays out of the field.
     if (data.furnitureAnchor || data.furnitureCollision === false) return null;
-    if (node.visible === false && data.furnitureCollision !== true) return null;
+    // The cutaway changes visibility, never the roof's transform: it remains both a real ceiling
+    // inside and the sandstone support under an outdoor visitor. A hidden ancestor room still
+    // stays out, just as it does for a hidden furniture placeholder.
+    if (node.visible === false && data.furnitureCollision !== true && !data.caveRoof) return null;
     authored ??= data.walk ?? null;
-    if (data.shadowOnly || data.caveRoof || data.facadeDoor || data.activityProp || data.action) return null;
+    if (data.shadowOnly || data.facadeDoor || data.activityProp || data.action) return null;
+    if (data.caveRoof) roof = true;
     if (data.glazing) glazing = true;
+    if (data.flora) flora = true;
     if (data.noOcclusion) ghost = true;
   }
   if (authored === "through") return null;
   if (authored === "solid" || authored === "water") return authored;
-  if (isWater(object)) return "water";
+  if (roof) return "solid";
   if (glazing) return "solid";
+  // Wind-blown leaves/grass are not rigid walls. Native tree trunks still stop the body, and an
+  // authored walk tag can opt any plant back in. Avoid voxelizing the outdoor planting's hundreds
+  // of thousands of leaf triangles, which otherwise creates a thicket of unseen capsule stops.
+  const materials = [object.material].flat();
+  if (flora && !materials.some((material) => /\b(?:bark|trunk)\b/i.test(material?.name || ""))) return null;
+  if (materials.every((material) => material?.name === "hinterland scrub canopy")) return null;
+  if (isWater(object)) return "water";
   if (ghost) return null;
-  return [object.material].flat().some((m) => m && m.visible !== false && !(m.transparent && m.opacity < 0.5)) ? "solid" : null;
+  return materials.some((m) => m && m.visible !== false && !(m.transparent && m.opacity < 0.5)) ? "solid" : null;
 }
 
 // Object-space positions as a fresh Float32Array a worker can own.
@@ -544,9 +558,10 @@ function packedPositions(attribute) {
 // a new state of the field lands. addRoots adds every walkable mesh of the given roots not added
 // before, so streamed rooms join a field that already exists.
 export function createWalkFieldBuilder({ bounds, onReady = () => {} }) {
-  const field = createWalkField(bounds),
-    added = new WeakSet(),
-    queue = [];
+  let field = createWalkField(bounds);
+  const added = new WeakSet(),
+    queue = [],
+    sources = [];
   let worker = null,
     version = 0,
     landed = 0,
@@ -579,7 +594,16 @@ export function createWalkFieldBuilder({ bounds, onReady = () => {} }) {
       next.onerror = (event) => {
         event.preventDefault?.();
         next.terminate();
-        if (worker === next) worker = null;
+        if (disposed || worker !== next) return;
+        worker = null;
+        // A failed module worker has already received transferred (detached) arrays. Replay from
+        // the retained native geometry, rather than leaving Walk permanently immobile or missing
+        // whichever rooms had not reached the last snapshot. Packing happens one fallback job at
+        // a time, so recovery does not copy every loaded model in one main-thread task.
+        field = createWalkField(bounds);
+        ready = false;
+        queue.push(...sources);
+        schedule();
       };
       next.postMessage({ type: "init", bounds: { min: field.bounds.min, max: field.bounds.max, cell: field.cell } });
       worker = next;
@@ -598,11 +622,18 @@ export function createWalkFieldBuilder({ bounds, onReady = () => {} }) {
     else setTimeout(run, 0);
   }
   // Main-thread fallback: about 30 000 triangles a slice.
+  const packedJob = ({ geometry, matrix, extrude }) => ({
+    type: "mesh",
+    positions: packedPositions(geometry.attributes.position),
+    index: geometry.index ? geometry.index.array.slice(0, geometry.index.count) : null,
+    matrix,
+    extrude,
+  });
   function step() {
     if (disposed) return;
     let budget = 30_000;
     while (budget > 0 && queue.length) {
-      const job = queue.shift();
+      const job = packedJob(queue.shift());
       field.addGeometry(job);
       budget -= (job.index ? job.index.length : job.positions.length / 3) / 3;
     }
@@ -621,22 +652,24 @@ export function createWalkFieldBuilder({ bounds, onReady = () => {} }) {
         const kind = walkKind(object, root);
         if (!kind) return;
         added.add(object);
-        const geometry = object.geometry,
-          job = {
-            type: "mesh",
-            positions: packedPositions(geometry.attributes.position),
-            index: geometry.index ? geometry.index.array.slice(0, geometry.index.count) : null,
-            matrix: [...object.matrixWorld.elements],
-            extrude: kind === "water" ? WATER_BLOCK : 0,
-          };
+        const source = {
+          geometry: object.geometry,
+          matrix: [...object.matrixWorld.elements],
+          extrude: kind === "water" ? WATER_BLOCK : 0,
+        };
+        sources.push(source);
         sent++;
         meshCount++;
-        if (worker) worker.postMessage(job, job.index ? [job.positions.buffer, job.index.buffer] : [job.positions.buffer]);
-        else queue.push(job);
+        if (worker) {
+          const job = packedJob(source);
+          worker.postMessage(job, job.index ? [job.positions.buffer, job.index.buffer] : [job.positions.buffer]);
+        } else queue.push(source);
       });
     }
     if (!sent) {
-      if (!ready && !queue.length) landedNow();
+      // Worker jobs are not in the main-thread queue. A later empty/effect root must not mark its
+      // still-pending first snapshot ready, or Walk briefly starts against an empty collision map.
+      if (!ready && !queue.length && (!worker || version === landed)) landedNow();
       return 0;
     }
     if (worker) worker.postMessage({ type: "snapshot", version: ++version });
@@ -645,7 +678,9 @@ export function createWalkFieldBuilder({ bounds, onReady = () => {} }) {
   }
 
   return {
-    field,
+    get field() {
+      return field;
+    },
     addRoots,
     get ready() {
       return ready;
@@ -656,6 +691,7 @@ export function createWalkFieldBuilder({ bounds, onReady = () => {} }) {
       worker?.terminate();
       worker = null;
       queue.length = 0;
+      sources.length = 0;
     },
   };
 }
