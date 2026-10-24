@@ -42,6 +42,37 @@ export function staticLightRegions(config) {
   return [...regions.values()];
 }
 
+// Bilinear first/second moments in one probe's octahedral tile. Across a chart edge the
+// adjoining half is reflected, never read from the next probe's vertically packed tile.
+export function sampleOctahedralMoments(data, probe, side, uv) {
+  const x = uv[0] * side - 0.5,
+    y = uv[1] * side - 0.5,
+    ix = Math.floor(x),
+    iy = Math.floor(y),
+    fx = x - ix,
+    fy = y - iy,
+    result = [0, 0];
+  for (let corner = 0; corner < 4; corner++) {
+    const right = corner & 1,
+      top = corner >> 1,
+      weight = (right ? fx : 1 - fx) * (top ? fy : 1 - fy);
+    let tx = ix + right,
+      ty = iy + top;
+    if (tx < 0 || tx >= side) {
+      tx = tx < 0 ? -tx - 1 : side * 2 - tx - 1;
+      ty = side - ty - 1;
+    }
+    if (ty < 0 || ty >= side) {
+      ty = ty < 0 ? -ty - 1 : side * 2 - ty - 1;
+      tx = side - tx - 1;
+    }
+    const at = ((probe * side + ty) * side + tx) * 4;
+    result[0] += data[at] * weight;
+    result[1] += data[at + 1] * weight;
+  }
+  return result;
+}
+
 const abortError = () => Object.assign(new Error("Static light bake cancelled"), { name: "AbortError" });
 let nextFieldIdentity = 0;
 const defaultYield = () => new Promise((resolve) => setTimeout(resolve, 0));
@@ -551,12 +582,9 @@ export function createStaticLightField({
       const v = biased.map((x, a) => x - probe.position[a]),
         distance = Math.hypot(...v),
         direction = normalize(v),
-        uv = octEncode(direction),
-        ix = clamp(Math.floor(uv[0] * side), 0, side - 1),
-        iy = clamp(Math.floor(uv[1] * side), 0, side - 1),
-        at = (p * raysPerProbe + iy * side + ix) * 4;
-      const mean = momentData[at],
-        variance = Math.max(0.0001, momentData[at + 1] - mean * mean),
+        moments = sampleOctahedralMoments(momentData, p, side, octEncode(direction));
+      const mean = moments[0],
+        variance = Math.max(0.0001, moments[1] - mean * mean),
         excess = Math.max(0, distance - mean);
       weight *= (variance / (variance + excess * excess)) ** 3;
       weight *=
@@ -615,6 +643,23 @@ vec2 slfOct(vec3 v) {
  if(v.z<0.0) v.xy=(1.0-abs(v.yx))*vec2(v.x<0.0?-1.0:1.0,v.y<0.0?-1.0:1.0);
  return v.xy*.5+.5;
 }
+vec2 slfMomentTexel(float probe,vec2 cell) {
+ if(cell.x<0.0||cell.x>=${side.toFixed(1)}) {
+  cell.x=cell.x<0.0?-cell.x-1.0:${(side * 2).toFixed(1)}-cell.x-1.0;
+  cell.y=${(side - 1).toFixed(1)}-cell.y;
+ }
+ if(cell.y<0.0||cell.y>=${side.toFixed(1)}) {
+  cell.y=cell.y<0.0?-cell.y-1.0:${(side * 2).toFixed(1)}-cell.y-1.0;
+  cell.x=${(side - 1).toFixed(1)}-cell.x;
+ }
+ return texture2D(slfMoments,vec2((cell.x+.5)/${side.toFixed(1)},(probe*${side.toFixed(1)}+cell.y+.5)/${(side * count).toFixed(1)})).xy;
+}
+vec2 slfMomentPair(float probe,vec2 oct) {
+ vec2 cell=oct*${side.toFixed(1)}-.5,base=floor(cell),f=fract(cell);
+ vec2 lower=mix(slfMomentTexel(probe,base),slfMomentTexel(probe,base+vec2(1.0,0.0)),f.x);
+ vec2 upper=mix(slfMomentTexel(probe,base+vec2(0.0,1.0)),slfMomentTexel(probe,base+vec2(1.0,1.0)),f.x);
+ return mix(lower,upper,f.y);
+}
 vec3 slfProbeCage(int region, vec3 n) {
  vec3 f=clamp((slfWorldPosition-slfRegionMin[region])/(slfRegionMax[region]-slfRegionMin[region])*2.0-.5,0.0,1.0);
  vec3 result=vec3(0.0);float total=0.0;
@@ -625,8 +670,7 @@ vec3 slfProbeCage(int region, vec3 n) {
   vec3 corner=vec3(float(k-k/2*2),float(k/2-k/4*2),float(k/4));
   vec3 weights=mix(vec3(1.0)-f,f,corner);float w=weights.x*weights.y*weights.z;
   vec3 v=slfWorldPosition+n*.035-probe.xyz;float distance=length(v);vec3 d=v/max(distance,1e-8);
-  vec2 oct=clamp(floor(slfOct(d)*${side.toFixed(1)}),vec2(0.0),vec2(${(side - 1).toFixed(1)}));
-  vec4 moments=texture2D(slfMoments,vec2((oct.x+.5)/${side.toFixed(1)},(p*${side.toFixed(1)}+oct.y+.5)/${(side * count).toFixed(1)}));
+  vec2 moments=slfMomentPair(p,slfOct(d));
   float variance=max(.0001,moments.y-moments.x*moments.x),excess=max(0.0,distance-moments.x);
   float visibility=variance/(variance+excess*excess);w*=visibility*visibility*visibility;
   float facing=max(.05,(dot(n,-d)+1.0)*.5);w*=facing*facing;

@@ -11,13 +11,113 @@ import {
   pointAttenuation,
   sphereQuadrature,
 } from "../assets/js/home-scene/light-trace-core.mjs";
-import { createStaticLightField, STATIC_LIGHT_REGIONS, staticLightRegions } from "../assets/js/home-scene/static-light-field.mjs";
+import {
+  createStaticLightField,
+  sampleOctahedralMoments,
+  STATIC_LIGHT_REGIONS,
+  staticLightRegions,
+} from "../assets/js/home-scene/static-light-field.mjs";
 
 const close = (a, b, tolerance = 1e-6) => assert.ok(Math.abs(a - b) < tolerance, `${a} differs from ${b}`);
 const regions = [{ id: "test", min: [-0.8, 0.15, -0.8], max: [0.8, 1.5, 0.8] }];
 const lighting = { zenith: [1, 1, 1], horizon: [1, 1, 1], ground: [1, 1, 1], practicalPowers: [] };
 const immediate = () => Promise.resolve();
 const snapshotSignature = "a".repeat(64);
+
+test("octahedral moments interpolate the first and second moment together with nonnegative variance", () => {
+  const side = 4,
+    data = new Float32Array(side * side * 4);
+  for (let y = 0; y < side; y++)
+    for (let x = 0; x < side; x++) {
+      const mean = 1 + x * 0.2 + y * 0.3,
+        at = (y * side + x) * 4;
+      data[at] = mean;
+      data[at + 1] = mean * mean + 0.02;
+    }
+  const exact = sampleOctahedralMoments(data, 0, side, [1.5 / side, 2.5 / side]);
+  close(exact[0], 1.8);
+  close(exact[1], 1.8 ** 2 + 0.02);
+  const mixed = sampleOctahedralMoments(data, 0, side, [0.5, 0.5]);
+  close(mixed[0], 1.75);
+  assert.ok(mixed[1] - mixed[0] ** 2 >= 0.02, "mixing moments retains within-texel and between-texel variance");
+  const boundary = 2 / side,
+    before = sampleOctahedralMoments(data, 0, side, [boundary - 1e-7, 0.45]),
+    after = sampleOctahedralMoments(data, 0, side, [boundary + 1e-7, 0.45]);
+  before.forEach((value, channel) => close(value, after[channel], 2e-6));
+});
+
+test("moment filtering wraps every octahedral seam and corner without reading an adjacent probe", () => {
+  const side = 8,
+    data = new Float32Array(2 * side * side * 4);
+  for (let y = 0; y < side; y++)
+    for (let x = 0; x < side; x++) {
+      const mean = 2 + x * 0.4 + y * 0.7,
+        at = (y * side + x) * 4,
+        other = at + side * side * 4;
+      data[at] = mean;
+      data[at + 1] = mean * mean + 0.1;
+      data[other] = 1000;
+      data[other + 1] = 1e6;
+    }
+  for (const [a, b] of [
+    [
+      [0, 0.23],
+      [0, 0.77],
+    ],
+    [
+      [1, 0.23],
+      [1, 0.77],
+    ],
+    [
+      [0.23, 0],
+      [0.77, 0],
+    ],
+    [
+      [0.23, 1],
+      [0.77, 1],
+    ],
+    [
+      [0, 0],
+      [1, 0],
+    ],
+    [
+      [0, 0],
+      [0, 1],
+    ],
+    [
+      [0, 0],
+      [1, 1],
+    ],
+  ]) {
+    const first = sampleOctahedralMoments(data, 0, side, a),
+      second = sampleOctahedralMoments(data, 0, side, b);
+    first.forEach((value, channel) => close(value, second[channel]));
+    assert.ok(first[0] < 10 && first[1] < 100, "the vertically adjacent probe's large moments cannot bleed into this one");
+  }
+  const epsilon = 1e-8;
+  for (const [a, b] of [
+    [
+      [-1, epsilon, -1],
+      [-1, -epsilon, -1],
+    ],
+    [
+      [1, epsilon, -1],
+      [1, -epsilon, -1],
+    ],
+    [
+      [epsilon, -1, -1],
+      [-epsilon, -1, -1],
+    ],
+    [
+      [epsilon, 1, -1],
+      [-epsilon, 1, -1],
+    ],
+  ]) {
+    const first = sampleOctahedralMoments(data, 0, side, octEncode(a)),
+      second = sampleOctahedralMoments(data, 0, side, octEncode(b));
+    first.forEach((value, channel) => close(value, second[channel], 1e-5));
+  }
+});
 
 test("the two bathroom storeys receive separate authored light cages within the existing probe budget", async () => {
   const config = {
