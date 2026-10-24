@@ -1,5 +1,5 @@
 {
-  "head": "f950949300c15df340bb9317e25645e8ff0238f7",
+  "head": "d5462188a89c89a8b1f979eaa1e4aafefd40e375",
   "manifestOrder": ["companion.spec.js", "duh.spec.js", "desk-scene.spec.js", "footer-coast.spec.js", "static-light-field.spec.js"],
   "groups": {
     "scene-core-1": [

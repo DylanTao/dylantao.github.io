@@ -2069,7 +2069,6 @@ test("coastal home: public entrance reaches the living floor and returns to the 
   // This case proves a complete keyboard journey through the real geometry. llvmpipe needed
   // 13 real seconds per 200ms of walking at 1440px; full-size appearance has separate cases.
   // Keep every asset and solver, but disclose a smaller functional viewport on software GPUs.
-  if (software) await page.setViewportSize({ width: 480, height: 320 });
   testInfo.annotations.push({ type: "functional viewport", description: software ? "480x320 software renderer" : "1440x1000 native GPU" });
   const errors = collectRuntimeErrors(page),
     view = await openClockedHome(page),
@@ -2077,6 +2076,9 @@ test("coastal home: public entrance reaches the living floor and returns to the 
     manifest = homeManifest(),
     points = manifest.walk.mainEntryRoute,
     WALK = await page.evaluate(async (url) => (await import(url)).WALK, publicRouteUrl("/assets/js/home-scene/walk-controls.mjs"));
+  // Load at the normal viewport first: in a 320px-tall document the offscreen scene correctly
+  // suspends its first draw, while openClockedHome is still waiting for that draw to finish.
+  if (software) await page.setViewportSize({ width: 480, height: 320 });
   // This is input/path proof at a disclosed cadence, not a frame-rate benchmark. Rendering every
   // virtual 60Hz frame of a minute-long round trip needlessly stalls slow host/CI GPUs.
   await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
