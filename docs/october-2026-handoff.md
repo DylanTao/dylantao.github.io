@@ -1,10 +1,74 @@
 # October 2026 handoff: resume here
 
-**Current resume point: [October 24 retreat revision](#october-24-retreat-revision).** Read that section first, then retain the earlier sitewide goals and unresolved queue below it.
+**Current resume point: [Opus continuation checklist](#opus-continuation-checklist-started-2026-10-24).** Work it top to bottom; then read the [October 24 retreat revision](#october-24-retreat-revision) and the earlier sitewide goals and unresolved queue below it.
 The dated queues, assignments and parked WIPs below it preserve history and custody; they are not a new implementation checklist.
 `main`, the canonical briefs and current rendered evidence take precedence over an older plan.
 
 Originally written October 22 before a token pause, then reconciled October 23 and 24. Local-only sources and private reports remain on Sirui's machine.
+
+## Opus continuation checklist (started 2026-10-24)
+
+Sirui's requests after the retreat revision:
+
+- The site and the 3D home lag on laptop, 4K PC and iPhone (Chrome on iOS, which is WebKit). Loading is long, and zooming and walking flicker and lag.
+- Geometry intersections remain, in rooms, on people and animals, and outside.
+- Commit stats must be refreshed without being asked.
+
+He also approved four decisions:
+
+- standing approval for recount-verified GitHub calendar gaps (see `AGENTS.md`);
+- archiving the October 22 parked branches as `archive/oct22-*` tags;
+- an automatic overlap audit plus a full visual sweep;
+- tuning and verifying the phone tier in WebKit as well as Chromium.
+
+Work the items in order, one agent at a time. Mark each `[x]` with its commit and evidence.
+
+**Window 1: unblock and hygiene**
+
+- [ ] 1a. Fix the focus test `sitewide.spec.js:1863`. It focuses before `load`, so Chromium's later `#research` fragment handling resets focus to `<body>`. Wait for `load` first.
+- [ ] 1b. Fix the night-door test `estate-redesign.spec.js:38/165`, new on Oct 24 and never green in CI. At 21:30 `scheduledOpen` stays true, so the routine and light update (`controller.mjs:1235`) did not apply. Reproduce in the Linux Playwright image and fix the cause.
+- [ ] 1c. Commit Codex's leftover `retreat-integration-2026-10-24/ci-repair` and `deployed` evidence. After CI is green, append the release receipt (workflow and job IDs, Pages commit) and update the retreat section's custody line.
+- [ ] 2. Add the end-of-batch metrics rule to `AGENTS.md` and memory, then refresh. The scan has failed parity nightly since Oct 23. Diagnose with the per-repo, per-day probe, record any recount-verified gap, scan, publish the profile, then import Build Rhythm.
+- [ ] 3. Tag `agent/design`, `agent/scene-interior` and `agent/scene-furniture` as `archive/oct22-*`, then remove their worktrees and branches.
+
+**Windows 2–3: speed and stability.** On Oct 24 the 3D home took 32.3 s to become ready on the Intel Arc laptop, against 7.4–8.8 s on Oct 12. Downloads end at about 2 s, and the batched warmup takes 1.8 s.
+
+- [ ] 4. Baseline: `bin/profile_coastal_startup.cjs` cold and warm at 1440 DPR 1, at 390 DPR 3 with CPU throttling, and in WebKit iPhone emulation; `bin/measure_coastal_views.cjs` frame times; a frame-to-frame flicker metric over a scripted zoom and walk; mobile Lighthouse. Record them in `performance-notes.md`.
+- [ ] 5. Loading. Target: ready in 10 s or less on the laptop and 15 s or less in phone emulation.
+  - Batch or defer the blocking compiles outside `program-warmup.mjs`: `walk-presence.mjs` (plain `render()`) and `interior-reflections.mjs` (a scene-wide `compileAsync` per mirror).
+  - Fetch rooms and the light field in parallel with the shell and coast, and Draco-compress `pip.glb`.
+  - Minify the `.mjs` modules in production (2.53 MB raw, about 776 KB gzipped).
+  - Use `font-display: swap` for Font Awesome, and stop CDN CSS blocking render.
+- [ ] 6. Flicker and lag:
+  - a stable outdoor shadow fit with hysteresis and texel snapping, without a per-frame cache redraw (`controller.mjs:291-321, 2975`);
+  - hold the resolution governor and the MSAA and shadow sizes during interaction;
+  - hysteresis on culling and LOD, idle prewarm of LOD0 shaders, and a fade-in instead of a pop;
+  - hysteresis on semantic zoom;
+  - temporally stable haze and contact noise;
+  - a mirror update rate tied to camera motion.
+- [ ] 7. Phone quality tier (DPR, MSAA, shadows, contact shading, haze, mirrors) plus a `?perf=1` overlay with ready time and frame p50/p95, so Sirui can report real-device numbers.
+
+**Windows 3–4: geometry**
+
+- [ ] 8. A general overlap audit, as a Blender script: mesh-to-mesh overlap volume and coplanar z-fighting faces across the shell, rooms, furniture and fixtures, in a ranked report. Fix the top offenders in the `bin/coastal_*.py` builders, then add a regression threshold.
+- [ ] 9. A full-screen visual sweep of every room, station and key exterior view, fixing the visible intersections. Include people and animals.
+- [ ] 10. Organic cliff transitions: contour cutters plus bevel, remesh or displacement on the box-Boolean faces (`bin/coastal_retreat.py` `_cut`), keeping the support and the terrace.
+- [ ] 11. South Park extreme down-look: exclude the primary-beauty head ownership (see the retained defect below).
+
+**Windows 4–5: house follow-ups**
+
+- [ ] 12. Put the bedroom and library next to each other: an adjacent spiral chamber, a route of 6 m or less (now 15.8 m including a 5.06 m bridge), with the bridge removed.
+- [ ] 13. Build one authored pool activity, with contacts, entry and exit, camera and recovery.
+- [ ] 14. Weather:
+  - a daily workflow running `bin/build_coastal_weather.py --refresh`;
+  - test a seasonal logistic or second-order Markov model, with ENSO, against the current held-out Brier score of 0.0842, and keep it only if it is better;
+  - verify that rain renders, and document it honestly.
+- [ ] 15. Optional: relocate the laundry bay, only if the pool close-up clearly improves.
+
+**Final window**
+
+- [ ] 16. Update this handoff, the performance page and records, and durable heuristics or skills. Refresh the successor prompt.
+- [ ] 17. Refresh the commit stats under the `AGENTS.md` rule, and check Scholar freshness.
 
 ## October 24 retreat revision
 

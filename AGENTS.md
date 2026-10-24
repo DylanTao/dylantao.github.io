@@ -123,6 +123,17 @@ The only data freshness check that gates publishing is Google Scholar. The agent
 - Stage only intended files; do not sweep unrelated dirty files into a data refresh.
 - The project-local Codex hook in `.codex/hooks.json` inspects `git commit`/`git push`: it blocks `git commit -a`, blocks publication commits whose Scholar snapshot is not from today or that stage `_data/citations.yml` without `_data/publication_lens.yml`, and adds an advisory note when Scholar data is more than one day stale. Review and trust it with `/hooks` when Codex reports a new or changed hook.
 
+### End-of-batch commit activity refresh (Sirui's standing rule, 2026-10-24)
+
+When you finish a batch of work, check the latest commit touching `_data/code_activity.json`. If that refresh is more than 12 hours old, refresh Build Rhythm and the GitHub profile before stopping. Don't wait to be asked, and don't make it a publish gate.
+
+1. Fast-forward `D:\dev\github-metrics-private`, then run the scheduled task "Dylan Local GitHub Metrics Refresh". Do not push the site repository while its scan runs; a deploy moves `gh-pages`.
+2. If the scan fails "Personal GitHub contribution parity", compare its `.local/scan-cache.json` rows with GitHub's per-repository, per-day calendar (`gh api graphql` contributionsCollection). Only public repositories count.
+   - The latest day can be short because of pushes made after the scan. That is not a gap.
+   - Sirui gave standing approval: when a recount of the pinned `main` and `gh-pages` heads by raw author-date label exactly matches the scan and GitHub credits fewer, add a bounded reviewed entry to `EXPECTED_PUBLIC_CONTRIBUTION_DAY_GAPS` in `scripts/build_repository_inventory.py`, with the recount in its comment.
+   - Stop and ask Sirui instead if the scan counts more than the recount or the difference is unexplained.
+3. When the scan and profile publish succeed, run `python bin/import_code_activity.py --personal-repo D:\dev\DylanTao --repo-root .` with `--check` first. Run its tests (`test_import_code_activity.py`, `test_github_activity_privacy.py`, `test_build_rhythm_story.py`), commit `_data/code_activity.json` as `chore: refresh code activity`, and push.
+
 ## Agent Routing Rules
 
 - If change is starter wiring/docs/integration/visual testing: edit here.
