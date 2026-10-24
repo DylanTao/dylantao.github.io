@@ -275,6 +275,7 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 ## Acceptance Evidence
 
 - Compare the same route, viewport, theme, and interaction state before and after the change, and name the visitor problem the result improves: comprehension, proof proximity, reading, state clarity, or recovery.
+- Before judging changed canvas pixels, verify the intended state and a newly drawn visible frame. Focusing a control can scroll a paused renderer offscreen and leave valid pixels from the previous state. Restore visibility and wait for a frame before changing the design or a visual threshold.
 - At checkpoint and release, inspect 1440x1000, 1280x800, 768x1024, and 390x1000 rather than extrapolating from one desktop screenshot. During iteration, use the smallest frame that answers the current question.
 - Check light and dark themes when color or surfaces changed; check keyboard focus and reduced motion when interaction changed.
 - Reject changes that introduce overlap, horizontal overflow, primary-media occlusion, broken links, console errors, or a weaker first-glance story.

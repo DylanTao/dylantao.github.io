@@ -21,6 +21,7 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 - Previewing time never lets a later clock tick seize the camera. Now clears both previews.
 - Readable controls and the exact greeting “Welcome to Sirui’s crib.” at every supported viewport.
 - Duh is the default page companion in both homepage modes. It stays clear of reading text and links; P remains on its project page. See [the companion transition](duh-companion.md).
+- Physical-phone walking and orbit performance still need a device baseline. The [bathroom checkpoint](evidence/coastal-bathrooms-2026-10-23/README.md) retains a host-emulated camera stress trace and its limits; keep this inspection open rather than treating phone-sized screenshots as phone frame-rate evidence.
 
 ## Architecture And Assets
 

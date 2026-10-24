@@ -7,6 +7,10 @@ const { pauseSceneClock, useSoftwareSceneCadence, useNativeSceneFrames } = requi
 const { PNG } = require("pngjs");
 const { pathToFileURL } = require("node:url");
 
+// Readiness verifies complete composition, not GPU speed. Software CI retains a bounded
+// two-minute budget; native checks share the existing ninety-second scene helper budget.
+const SCENE_READY_TIMEOUT = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 120000 : 90000;
+
 const homeManifest = () => JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../assets/models/home/manifest.json"), "utf8"));
 
 // The gym's training session as the scene stages it, computed from the same pure modules, so a
@@ -233,7 +237,7 @@ test("coastal transport: cold onsen arrival waits for a delayed avatar before fi
     await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
     await page.locator('[data-home-desk-mode="3d"]').click();
     const scene = page.locator("[data-home-desk-scene]");
-    await expect.poll(() => scene.evaluate((e) => Boolean(e.getSceneEvidence?.()?.simulation.onsen)), { timeout: 30000 }).toBe(true);
+    await expect.poll(() => scene.evaluate((e) => Boolean(e.getSceneEvidence?.()?.simulation.onsen)), { timeout: SCENE_READY_TIMEOUT }).toBe(true);
     await expect(scene).toHaveAttribute("data-scene-state", "loading");
     const waiting = await evidence(scene);
     expect(waiting.activity).toBe("soak");
@@ -241,7 +245,7 @@ test("coastal transport: cold onsen arrival waits for a delayed avatar before fi
     await scene.locator("canvas").screenshot({ path: testInfo.outputPath("onsen-awaiting-avatar.png") });
     expect(errors).toEqual([]);
     releaseAvatar();
-    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
     await expect.poll(async () => (await evidence(scene)).simulation.onsen.obstacle).not.toBeNull();
     const arrived = await evidence(scene);
     expect(arrived.actorCount).toBe(1);
@@ -534,7 +538,7 @@ test("record physics: touch transport keeps cues reachable and preserves spin ac
   await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().mechanics?.phase)).toBe("tracking");
   await page.locator('[data-home-desk-mode="3d"]').tap();
   const scene = page.locator("[data-home-desk-scene]");
-  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
   await expect(scene).toHaveAttribute("data-record-spinning", "true");
   await page.locator('[data-home-desk-mode="2d"]').tap();
   expect((await record.evaluate((e) => e.getRecordEvidence())).playing).toBe(true);
@@ -684,7 +688,7 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
     await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
     await page.locator('[data-home-desk-mode="3d"]').click();
     const scene = page.locator("[data-home-desk-scene]");
-    await expect(scene).toHaveAttribute("data-loading-stage", "room", { timeout: 30000 });
+    await expect(scene).toHaveAttribute("data-loading-stage", "room", { timeout: SCENE_READY_TIMEOUT });
     await expect(scene).toHaveAttribute("data-scene-state", "loading");
     await expect(scene).toHaveAttribute("aria-busy", "true");
     await expect(page.locator("[data-world-status]")).toHaveText("Furnishing the home.");
@@ -708,7 +712,7 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
     expect(waiting.loading.progress.view).toBe(0);
     await capture(testInfo, "coastal-loading-status", await page.locator(".home-hero-media").screenshot());
     releaseAvatar();
-    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
     const ready = await evidence(scene);
     expect(ready.actorCount).toBe(1);
     expect(ready.frames).toBeGreaterThan(0);
@@ -786,7 +790,7 @@ test("coastal loading sketch: pen strokes fill the empty scene until the first f
     await page.goto(publicRouteUrl("/") + "?cinematic=live", { waitUntil: "domcontentloaded" });
     await page.locator('[data-home-desk-mode="3d"]').click();
     const scene = page.locator("[data-home-desk-scene]");
-    await expect(scene).toHaveAttribute("data-loading-stage", "room", { timeout: 30000 });
+    await expect(scene).toHaveAttribute("data-loading-stage", "room", { timeout: SCENE_READY_TIMEOUT });
     const sketch = scene.locator(".home-world-sketch");
     await expect(sketch).toHaveCount(1);
     await expect(sketch).toHaveAttribute("aria-hidden", "true");
@@ -802,7 +806,7 @@ test("coastal loading sketch: pen strokes fill the empty scene until the first f
     expect(ink / (drawing.width * drawing.height)).toBeGreaterThan(0.005);
     await capture(testInfo, "coastal-loading-sketch", await page.locator(".home-hero-media").screenshot());
     releaseAvatar();
-    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
     // The strokes hand over within their 1.4 s bound plus the fade, leaving the scene's one canvas.
     // The bound is page time: Linux CI's software renderer holds the page for seconds per frame,
     // which delays the hand-over's timers to about 20 s there.
@@ -828,7 +832,7 @@ async function openHome(
   if (nativeFrames) await useNativeSceneFrames(page);
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
-  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 90000 });
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
   const canvas = scene.locator("canvas");
   await canvas.scrollIntoViewIfNeeded();
   return { stage, scene, canvas, ui: page.locator("[data-home-world-controls]") };
@@ -1281,7 +1285,8 @@ test("coastal sky: catalogue stars are few and round at night, steady under redu
 // a soft band instead of a line.
 test("coastal horizon: the land continues past the modelled world and the sea meets the night sky without a line", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", time: "2026-10-21T13:30:00-07:00" });
+  const view = await openHome(page, { motion: "reduce", time: "2026-10-21T13:30:00-07:00" });
+  const { scene, canvas, ui } = view;
   await settleRoomModels(scene);
   await pauseSceneClock(page);
   await useSoftwareSceneCadence(page);
@@ -1313,17 +1318,27 @@ test("coastal horizon: the land continues past the modelled world and the sea me
   };
   // By day, low over the sea and looking inland from 160 m out: above the modelled mesa the land goes on
   // (sandy, red above blue), where the dome's open sea and haze once made a blue-grey wall.
-  await scene.evaluate((element) => element.setLabCamera({ target: [3, 4, -6], yaw: 3.4, pitch: 0.1, radius: 160 }));
+  await sceneInputFrame(page, view, () =>
+    scene.evaluate((element) => element.setLabCamera({ target: [3, 4, -6], yaw: 3.4, pitch: 0.1, radius: 160 }))
+  );
   await page.clock.runFor(1400);
   const day = await canvas.screenshot();
   await capture(testInfo, "far-land-day", day);
   const above = mean(day, [0.55, 0.85], [0.3, 0.36]);
   expect(above[0]).toBeGreaterThan(above[2]);
   // At night, from the terrace out to sea: no row-to-row step across the horizon stands out.
-  await ui.locator("[data-world-time]").fill("1290");
-  await scene.evaluate((element) => element.setLabCamera({ target: [3, 1.5, -40], yaw: 0.02, pitch: 0.06, radius: 34 }));
+  // Filling the control can scroll the scene offscreen. A paused offscreen renderer correctly
+  // retains its old pixels, so require a new visible frame before measuring the night horizon.
+  await sceneInputFrame(page, view, async () => {
+    await ui.locator("[data-world-time]").fill("1290");
+    await scene.evaluate((element) => element.setLabCamera({ target: [3, 1.5, -40], yaw: 0.02, pitch: 0.06, radius: 34 }));
+  });
   await page.clock.runFor(1400);
+  const nightState = await evidence(scene);
+  expect(nightState.clockMode).toBe("preview");
+  expect(nightState.daylight.daylight).toBeLessThan(0.05);
   const night = await canvas.screenshot();
+  expect(screenshotDiffRatio(day, night)).toBeGreaterThan(0.01);
   await capture(testInfo, "night-horizon", night);
   const { width, height, data } = PNG.sync.read(night),
     rows = [];
@@ -1401,7 +1416,7 @@ test("coastal home: quiet public controls, capybara wall art and a new arrival o
   await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
-  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
   const first = (await evidence(scene)).avatarId;
   const ui = page.locator("[data-home-world-controls]");
   await expect(ui.locator("button:visible")).toHaveCount(2);
@@ -1420,7 +1435,7 @@ test("coastal home: quiet public controls, capybara wall art and a new arrival o
   await ui.locator("[data-world-view]").click();
   expect((await evidence(scene)).following).toBe(true);
   await page.reload();
-  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
   expect((await evidence(scene)).avatarId).not.toBe(first);
   await expect.poll(async () => (await evidence(scene)).portrait).toContain("/img/home/sirui_capy.jpg");
   expect(errors).toEqual([]);
@@ -2618,7 +2633,7 @@ for (const persisted of [true, false]) {
     }, persisted);
     releaseRoom();
     if (persisted) {
-      await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+      await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
       await expect(stage).toHaveAttribute("data-desk-mode", "3d");
       await expect(scene.locator("canvas")).toHaveCount(1);
       const after = await evidence(scene);
@@ -3143,7 +3158,7 @@ for (const [failure, asset] of [
     await expect(page.locator("#home-profile-image-container")).toBeVisible();
     await page.unroute(asset);
     await page.locator('[data-home-desk-mode="3d"]').click();
-    await expect(page.locator("[data-home-desk-scene]")).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+    await expect(page.locator("[data-home-desk-scene]")).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
     await expect(page.locator("[data-world-avatar] option")).toHaveCount(5);
     await expect(page.locator("[data-world-room-list] button")).toHaveCount(homeManifest().rooms.length);
   });
