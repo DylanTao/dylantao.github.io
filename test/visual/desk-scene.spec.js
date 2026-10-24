@@ -872,8 +872,17 @@ async function sceneInputFrame(page, { scene, canvas }, input) {
   await canvas.scrollIntoViewIfNeeded();
   // A 200ms boundary includes a real input-triggered draw and the next 10Hz
   // continuous sample on software WebGL. No solver state is replaced.
-  await page.clock.runFor(200);
-  await expect.poll(async () => (await evidence(scene)).frames).toBeGreaterThan(frames);
+  // Visibility observers and late model callbacks can queue the input's draw
+  // after the first step. Keep advancing virtual time until that draw occurs.
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(200);
+        return (await evidence(scene)).frames;
+      },
+      { timeout: 60000 }
+    )
+    .toBeGreaterThan(frames);
 }
 async function explore(ui) {
   const details = ui.locator("details").first();
