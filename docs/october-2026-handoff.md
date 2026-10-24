@@ -21,15 +21,16 @@ He also approved four decisions:
 - an automatic overlap audit plus a full visual sweep;
 - tuning and verifying the phone tier in WebKit as well as Chromium.
 
-Work the items in order, one agent at a time. Mark each `[x]` with its commit and evidence.
+Work the items in order. On Oct 24 Sirui allowed a few parallel agents: each works in its own worktree on files no other agent touches, and one coordinator integrates. Mark each `[x]` with its commit and evidence.
 
 **Window 1: unblock and hygiene**
 
-- [ ] 1a. Fix the focus test `sitewide.spec.js:1863`. It focuses before `load`, so Chromium's later `#research` fragment handling resets focus to `<body>`. Wait for `load` first.
-- [ ] 1b. Fix the night-door test `estate-redesign.spec.js:38/165`, new on Oct 24 and never green in CI. At 21:30 `scheduledOpen` stays true, so the routine and light update (`controller.mjs:1235`) did not apply. Reproduce in the Linux Playwright image and fix the cause.
-- [ ] 1c. Commit Codex's leftover `retreat-integration-2026-10-24/ci-repair` and `deployed` evidence. After CI is green, append the release receipt (workflow and job IDs, Pages commit) and update the retreat section's custody line.
-- [ ] 2. Add the end-of-batch metrics rule to `AGENTS.md` and memory, then refresh. The scan has failed parity nightly since Oct 23. Diagnose with the per-repo, per-day probe, record any recount-verified gap, scan, publish the profile, then import Build Rhythm.
-- [ ] 3. Tag `agent/design`, `agent/scene-interior` and `agent/scene-furniture` as `archive/oct22-*`, then remove their worktrees and branches.
+- [x] 1a. Fix the focus test `sitewide.spec.js:1863`. It focuses before `load`, so Chromium's later `#research` fragment handling resets focus to `<body>`. Wait for `load` first. **Done** in `2acd88996`; green in CI on `bbd32e659` (visual run 40137937323).
+- [ ] 1b. Fix the night-door test `estate-redesign.spec.js:38/165`, new on Oct 24 and never green in CI. At 21:30 `scheduledOpen` stays true, so the routine and light update (`controller.mjs:1235`) did not apply. Reproduce in the Linux Playwright image and fix the cause. **Not reproduced:** it passed locally under software GL, and the Linux image timed out earlier in the test. It then passed in CI on `bbd32e659` (run 40137937323, attempt 1), so it is intermittent. `2acd88996` makes the assertion print the clock mode, activity, daylight and door state; if it fails again, start from that message.
+- [ ] 1c. Commit Codex's leftover `retreat-integration-2026-10-24/ci-repair` and `deployed` evidence. After CI is green, append the release receipt (workflow and job IDs, Pages commit) and update the retreat section's custody line. **Evidence committed** in `bbd32e659`; the receipt waits for a fully green visual run.
+- [ ] 1d. Two new intermittent failures on `bbd32e659`: `interactions.spec.js:1474` (legacy job) failed once and passed on rerun; `desk-scene.spec.js:3276` (scene-journey job) timed out, and its rerun was cancelled by the next push. Check the next visual run, and reproduce whichever fails again.
+- [ ] 2. Add the end-of-batch metrics rule to `AGENTS.md` and memory, then refresh. The scan has failed parity nightly since Oct 23. Diagnose with the per-repo, per-day probe, record any recount-verified gap, scan, publish the profile, then import Build Rhythm. **Done:** the rule is in `38ff91361`. The Oct 23 shortfall (114 local commits, GitHub credits 112) is recorded in the metrics repo (`e34b8bb`, `295f490`). The Oct 24 scan passed parity and published profile `048b77c`; Build Rhythm runs through Oct 23 (`695de2001`).
+- [ ] 3. Tag `agent/design`, `agent/scene-interior` and `agent/scene-furniture` as `archive/oct22-*`, then remove their worktrees and branches. **Done:** the `archive/oct22-*` tags exist, and GitHub keeps only `main` and `gh-pages`. The clean Oct 18 publish worktree was also removed, after unlinking its `node_modules` junction.
 
 **Windows 2–3: speed and stability.** On Oct 24 the 3D home took 32.3 s to become ready on the Intel Arc laptop, against 7.4–8.8 s on Oct 12. Downloads end at about 2 s, and the batched warmup takes 1.8 s.
 
