@@ -650,7 +650,9 @@ def build(scene, config):
     garden,garden_report=build_garden(scene,config,tree,m)
     all_objects=terrace+pool+pavilion+garden
     existing=config["terrain"]["supportSurfaces"]
-    existing[:]=[s for s in existing if not s["id"].startswith(("estate-","infinity-deck"))]
+    # The adjacent library owns estate-library/link/spine supports. Retire only this
+    # module's previous deck projection, preserving the other architectural lane.
+    existing[:]=[s for s in existing if not s["id"].startswith(("estate-deck-","infinity-deck"))]
     existing.extend(supports)
     portal,portal_report=build_portal(scene,m)
     all_objects+=portal
