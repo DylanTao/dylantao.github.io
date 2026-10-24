@@ -377,6 +377,15 @@ Reviewer taste and simulated audience readings generate hypotheses; they are not
 - Match evidence to the claim. A resolved anchor proves navigation; a readable outline and keyboard check support accessibility; a valid build proves generation. Search visibility needs observations over time, such as indexed pages, relevant queries, impressions, clicks, and useful inquiries. Passing local checks cannot establish popularity or AI recommendation frequency.
 - Promote the smallest reusable lesson into the owning heading and existing skill. Keep the incident details and failed attempts in the evidence record. Validate the skill's references, then try a realistic task when a behavior change warrants it; passing a frontmatter check alone does not show that the guidance improves decisions.
 
+#### Continuing And Handing Off
+
+Close a bounded pass by reconciling the current implementation and evidence with the existing handoff and backlog. Historical checkboxes, parked worktrees and an older model's plan are custody, not a fresh task list. Distinguish completed work, observed defects, missing evidence, unbuilt features, personal decisions and deferred experiments; do not call them all unfinished polish.
+
+- Review retained attempts before handing a known defect to a future model. Try a new plausible bounded repair when it can test an unresolved hypothesis; record the result and continue while a changed hypothesis can be tested usefully. Stop when the question is answered, or the viable next step needs unavailable evidence or a larger experiment whose cost/risk is disproportionate to the current benefit. Repeating a rejected attempt or an already-passing matrix, or tuning without a criterion, is not progress.
+- Each open item needs the affected route/state, observation, retained attempt/evidence, reason it remains open, and one next decisive action with acceptance criteria or a revisit trigger. "A smarter model can fix it" is not an actionable handoff.
+- A successor is an independent critic. Keep, revise or remove based on the same goal and comparable evidence; no change quota is required. Refine the operational question when evidence warrants it, make changed assumptions visible, and preserve Sirui's identity, factual record, locked copy and privacy decisions.
+- Keep current status in the owning handoff; promote only a reusable decision procedure into these heuristics or an existing skill. Carry private-report locations as local pointers without copying credentials or audience data into public documentation.
+
 ## Maintenance And CI
 
 - Formatter drift is design debt. Pin formatter versions locally and in CI so the same file does not pass on one machine and fail on GitHub.

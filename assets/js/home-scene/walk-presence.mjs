@@ -1,4 +1,5 @@
 import * as THREE from "../three.module.min.js";
+import { createWalkCollarLiner } from "./walk-collar-liner.mjs";
 
 // The bone correspondence follows SkeletonUtils.clone from three.js r164 (MIT):
 // https://github.com/mrdoob/three.js/blob/r164/examples/jsm/utils/SkeletonUtils.js
@@ -43,7 +44,8 @@ export function cloneWalkSkeleton(source) {
 const STRIDE = 1.25;
 // In the delivered rigs Head is the neck root (1.36 m), not the face centre. Keep the
 // closed shirt/shoulders below it and clip just above the neck instead of cutting a broad
-// open cross-section through the torso. The primary camera remains at Walk's 1.6 m eyes.
+// open cross-section through the torso. Walk keeps its 1.6 m eye height and the
+// controller adds the measured native optical forward offset within the capsule.
 const HEAD_CUT_ABOVE_NECK = 0.04;
 
 export function createWalkPresence({ renderer }) {
@@ -64,6 +66,8 @@ export function createWalkPresence({ renderer }) {
     mixer = null,
     idle = null,
     walk = null,
+    collar = null,
+    collarFailure = null,
     active = false,
     sourceVisibility = null,
     disposed = false,
@@ -90,6 +94,9 @@ export function createWalkPresence({ renderer }) {
   }
   function clearBody() {
     restoreSource();
+    collar?.dispose();
+    collar = null;
+    collarFailure = null;
     mixer?.stopAllAction();
     if (body) mixer?.uncacheRoot(body);
     for (const skeleton of skeletons) skeleton.dispose();
@@ -103,7 +110,7 @@ export function createWalkPresence({ renderer }) {
   function refreshMaterials() {
     materials.clear();
     body?.traverse((part) => {
-      if (part.isMesh) for (const material of [part.material].flat()) if (material) materials.add(material);
+      if (part.isMesh && !part.userData.walkCollarLiner) for (const material of [part.material].flat()) if (material) materials.add(material);
     });
   }
   function setSource(next, clips = []) {
@@ -160,6 +167,13 @@ export function createWalkPresence({ renderer }) {
         eyeCount++;
       });
       if (eyeCount) body.worldToLocal(opticalEyeOffset.multiplyScalar(1 / eyeCount));
+      try {
+        head?.getWorldPosition(headPosition);
+        collar = createWalkCollarLiner(body, (head ? headPosition.y : 1.36) + HEAD_CUT_ABOVE_NECK);
+      } catch (error) {
+        // An unsupported future garment must not remove the real walking person.
+        collarFailure = error.message;
+      }
       if (active) hideSource();
     }
     object.visible = active && Boolean(body);
@@ -222,6 +236,7 @@ export function createWalkPresence({ renderer }) {
       head.getWorldPosition(headPosition);
       headClip.constant = headPosition.y + HEAD_CUT_ABOVE_NECK;
     } else headClip.constant = nextPosition.y + 1.4;
+    if (changed) collar?.update();
     lastPosition = nextPosition;
     lastYaw = yaw;
     lastElapsed = elapsed;
@@ -234,8 +249,16 @@ export function createWalkPresence({ renderer }) {
   // Reuse plane/array objects; the renderer changes only its normal clipping-program variant.
   function withoutHead(draw, preparing = false) {
     if ((!active && !preparing) || !body || disposed) return draw();
+    // Style/receiver bindings can replace pointers after update; clip the actual draw materials.
+    refreshMaterials();
     const localClipping = renderer.localClippingEnabled,
       saved = [];
+    const currentCollar = collar,
+      priorCollarVisible = currentCollar?.group.visible;
+    if (currentCollar) {
+      currentCollar.syncMaterial();
+      currentCollar.group.visible = true;
+    }
     for (const material of materials) {
       const original = material.clippingPlanes;
       let binding = planeBindings.get(material);
@@ -250,6 +273,7 @@ export function createWalkPresence({ renderer }) {
     }
     renderer.localClippingEnabled = true;
     const restore = () => {
+      if (currentCollar) currentCollar.group.visible = priorCollarVisible;
       renderer.localClippingEnabled = localClipping;
       for (const [material, planes, shadows, intersection] of saved) {
         material.clippingPlanes = planes;
@@ -381,6 +405,8 @@ export function createWalkPresence({ renderer }) {
       headCutHeight: headClip.constant,
       fullShadow: true,
       volumeDepth: "first-person body excluded",
+      collarLiner: collar?.evidence() ?? null,
+      collarFailure,
     }),
     dispose() {
       if (disposed) return;
