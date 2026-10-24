@@ -174,6 +174,13 @@ export function spawnPlan(config, view) {
 // otherwise the nearest room on the walker's storey, with a little hysteresis; far above the upper
 // storey (the clifftop, an entrance stair's top) is the coast too.
 export function roomAt(config, x, z, foot, previous = null) {
+  // The recessed library projects beyond the original facade plane. Its actual enclosed
+  // footprint takes precedence over the legacy seaward/outdoor shortcut, on both storeys.
+  const enclosed = (config?.rooms || []).filter((room) => {
+    const bounds = room.library?.floorBounds;
+    return bounds && x >= bounds.min[0] && x <= bounds.max[0] && z >= bounds.min[2] && z <= bounds.max[2] && Math.abs(room.floor - foot) <= 1.4;
+  });
+  if (enclosed.length) return enclosed.sort((a, b) => Math.abs(a.floor - foot) - Math.abs(b.floor - foot))[0].id;
   const terrace = config?.terrace?.region;
   if (terrace && x >= terrace.min[0] && x <= terrace.max[0] && z >= terrace.min[2] && z <= terrace.max[2] && foot <= terrace.max[1]) return "outside";
   const planeZ = config?.facade?.planeZ ?? config?.cameraCollision?.facade?.planeZ;
@@ -814,6 +821,8 @@ export function createWalkMode({
       requestFrame();
       return true;
     },
+    // Per-frame consumers need only the live capsule, not a scan of every collision column.
+    pose: () => ({ active, position: [state.x, state.foot, state.z], yaw: state.yaw, velocity: [state.vx, state.vz] }),
     evidence() {
       return {
         active,

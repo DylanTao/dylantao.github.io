@@ -39,6 +39,7 @@ export function staticLightRegions(config) {
   for (const room of config?.rooms || []) {
     if (room.lightRegion) regions.set(room.id, { ...room.lightRegion, id: room.id });
   }
+  for (const region of config?.lightTransportRegions || []) regions.set(region.id, region);
   return [...regions.values()];
 }
 
@@ -107,8 +108,8 @@ export function createStaticLightField({
   if (!Number.isInteger(skyRaysPerHit) || skyRaysPerHit < 1 || skyRaysPerHit > 16) throw new RangeError("sky rays per hit must be 1..16");
   if (!Number.isFinite(maxTraceDistance) || maxTraceDistance <= 0 || !Number.isInteger(maxTriangles) || maxTriangles < 1)
     throw new RangeError("invalid trace bounds");
-  if (!regions.length || regions.length > 12 || practicalSources.length > 12)
-    throw new RangeError("field supports 1..12 regions and at most 12 practicals");
+  if (!regions.length || regions.length > 16 || practicalSources.length > 26)
+    throw new RangeError("field supports 1..16 regions and at most 26 practicals");
   regions = regions.map((r) => {
     if (r.min.length !== 3 || r.max.length !== 3 || !r.min.every((x, i) => Number.isFinite(x) && Number.isFinite(r.max[i]) && x < r.max[i]))
       throw new RangeError("invalid region bounds");
@@ -229,6 +230,8 @@ export function createStaticLightField({
             a.userData.noContactOcclusion ||
             a.userData.noOpaqueShadow ||
             a.userData.dynamic ||
+            a.userData.estateDoor ||
+            a.userData.walkPresence ||
             (a.userData.renderStyle && a.userData.renderStyle !== "realistic");
         const geometry = mesh.geometry,
           position = geometry?.attributes.position;
