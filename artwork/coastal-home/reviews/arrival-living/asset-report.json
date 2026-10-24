@@ -27,13 +27,13 @@
         "sha256": "4e39d9ebe968491f4f3b392ffaddd708719c2cb2f1ed54c06338b2fa6f51f533"
       },
       "after": {
-        "bytes": 157672,
-        "triangles": 97364,
+        "bytes": 172064,
+        "triangles": 100066,
         "primitives": 5,
-        "sha256": "addf1779034a83636d6197a65a29dd52a1fea0dd55b4565245009b7bc0e7ef5d"
+        "sha256": "58e7d51874bcab122982e77147c95cc52590ceae8887670cd34af86b342cd651"
       },
-      "deltaBytes": -14184,
-      "deltaTriangles": -2702
+      "deltaBytes": 208,
+      "deltaTriangles": 0
     },
     {
       "file": "assets/models/home/room-lounge.glb",
@@ -70,8 +70,8 @@
       "deltaTriangles": -3360
     }
   ],
-  "netBytes": 70780,
-  "netTriangles": 15716,
+  "netBytes": 85172,
+  "netTriangles": 18418,
   "newTextureFiles": 0,
   "newRuntimeRenderPasses": 0
 }

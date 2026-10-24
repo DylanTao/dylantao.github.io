@@ -64,9 +64,10 @@ def build_entry(scene, config):
                 continue
             if obj.name in ("core__golden coastal sandstone", "coast_shared_golden coastal sandstone") or obj.get("caveRoof"):
                 before = len(obj.data.polygons)
-                shell.boolean(obj, cutter, "DIFFERENCE")
-                shell.boolean(obj, foyer, "DIFFERENCE")
-                cut_report.append({"mesh": obj.name, "facesBefore": before, "facesAfter": len(obj.data.polygons), "nonManifold": shell.clean_solid(obj)})
+                stair_cut = shell.boolean_preserving_islands(obj, cutter)
+                foyer_cut = shell.boolean_preserving_islands(obj, foyer)
+                cut_report.append({"mesh": obj.name, "facesBefore": before, "facesAfter": len(obj.data.polygons),
+                                   "stair": stair_cut, "foyer": foyer_cut})
         bpy.data.objects.remove(cutter, do_unlink=True)
         bpy.data.objects.remove(foyer, do_unlink=True)
         scene["clifftopArrivalCut"] = True
@@ -164,9 +165,9 @@ def build_lower_entry(scene):
         foyer = shell._box_object("lower arrival foyer cutter", (-3.68, y0 - .06, -.20), (-1.98, -7.10, 2.70), m["plaster"])
         for obj in list(scene.objects):
             if obj.type == "MESH" and (obj.name in ("core__golden coastal sandstone", "coast_shared_golden coastal sandstone") or obj.get("caveRoof")):
-                shell.boolean(obj, flight, "DIFFERENCE")
-                shell.boolean(obj, foyer, "DIFFERENCE")
-                cuts.append({"mesh": obj.name, "nonManifold": shell.clean_solid(obj)})
+                flight_cut = shell.boolean_preserving_islands(obj, flight)
+                foyer_cut = shell.boolean_preserving_islands(obj, foyer)
+                cuts.append({"mesh": obj.name, "flight": flight_cut, "foyer": foyer_cut})
         bpy.data.objects.remove(flight, do_unlink=True)
         bpy.data.objects.remove(foyer, do_unlink=True)
         scene["lowerArrivalCut"] = True

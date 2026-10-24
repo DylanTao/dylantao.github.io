@@ -24,6 +24,15 @@ triangle counts. The additional circulation and upholstery reuse the existing ma
 with no new texture downloads or renderer passes. Source and emitted lighting are a practical
 browser scene, not a claim of photographic materials or physically simulated cloth.
 
+The derivative perch check exposed a remote-geometry regression before publication: an Exact
+Boolean applied to a completely disjoint material batch had discarded 30 disconnected talus
+components. `repair_coastal_arrival_talus.py` restores all 96 original components from the exact
+retained Git source, including their sandstone bedding assignments, and regenerates the actual
+perch triangles. `talus-repair.json` compares every component's polygons, bounds and materials;
+all four measured cormorant roosts are restored within 0.35 mm. The authoring helper now skips
+disjoint batches and cuts only intersecting connected components. A real-batch partial-cut check
+preserves all 95 unaffected components, and repeating repair verification preserves source bytes.
+
 Rebuild with Blender 4.5.9 LTS:
 
 ```powershell

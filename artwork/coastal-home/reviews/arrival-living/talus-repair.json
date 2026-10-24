@@ -1,0 +1,1032 @@
+{
+  "baselineCommit": "8c1e16c318dd22d700d2b363244bb85fccb82f17",
+  "baselineSourceSha256": "342dd722b1946a25c7aca67be1081cae143fd40f2ff50266678cd3c3e993865b",
+  "sourceSha256BeforeRepair": "af24a6d521df2821593d6018569acdab0994d995288c91192681750c3f7dad6a",
+  "originalComponentCount": 66,
+  "originalRoosts": [
+    {
+      "id": "rock-west-0",
+      "expected": -6.053,
+      "height": null
+    },
+    {
+      "id": "rock-west-1",
+      "expected": -6.041,
+      "height": -6.040831565856934
+    },
+    {
+      "id": "rock-east-0",
+      "expected": -6.158,
+      "height": -6.1582489013671875
+    },
+    {
+      "id": "rock-east-1",
+      "expected": -6.158,
+      "height": -6.1582489013671875
+    }
+  ],
+  "sourceSha256AfterRepair": "4240d34ded1430e2318899114cf3c024763918ce43da92f7a07b67b45173623b",
+  "restoredComponentCount": 96,
+  "restoredComponents": [
+    {
+      "vertices": 36239,
+      "faces": 36133,
+      "min": [-36.0, -32.0, -8.399999618530273],
+      "max": [76.0, 19.226606369018555, -0.25999999046325684],
+      "geometrySha256": "003f317cc698c3bf48c674d3ab18841a6115cc340a8ac0b0511ca4d126bb1cde",
+      "materialBindings": {
+        "golden coastal sandstone": 33836,
+        "warm sandstone bedding": 2297
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [24.48605728149414, 17.531211853027344, -7.105924606323242],
+      "max": [26.439647674560547, 19.29102325439453, -6.2122979164123535],
+      "geometrySha256": "0156002596691d2d070dba4e279c02072f7edb1edebd0dc0c0a2db108cc71128",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [23.82305908203125, 18.631065368652344, -7.162684917449951],
+      "max": [25.474185943603516, 20.75074005126953, -6.250643730163574],
+      "geometrySha256": "0178797fbb6f0eb4bec07180e0e636197fa6fa3508ad6362cfcbc17d63afc8eb",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-9.074118614196777, 10.56077766418457, -6.896303653717041],
+      "max": [-7.844815254211426, 11.68383502960205, -6.339890956878662],
+      "geometrySha256": "03a0fea86326658d38611bac2d077434a52f822bb99714f9d0ff4f3f1ed73468",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-9.13328742980957, 11.996661186218262, -6.9462809562683105],
+      "max": [-8.159902572631836, 12.784915924072266, -6.5384087562561035],
+      "geometrySha256": "03abed0aefff01acd31a6f48e6bf6b058bf2e9cad0675a3344a1ee8b71bf2293",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [12.009955406188965, 9.985029220581055, -6.966315746307373],
+      "max": [13.064536094665527, 10.776445388793945, -6.513873100280762],
+      "geometrySha256": "045585007c1bc8b33835cbe279303336d466e8802e807ee8be83654b553bd575",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-13.003157615661621, 14.569711685180664, -6.785851955413818],
+      "max": [-12.204129219055176, 15.34835147857666, -6.430111885070801],
+      "geometrySha256": "05a52ccfede2c66951a91c896baa499b400a5b62c80f191a72c3127b5f790a2f",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-8.846222877502441, 9.529603004455566, -7.003129005432129],
+      "max": [-6.72653341293335, 11.1235933303833, -6.09503173828125],
+      "geometrySha256": "0695ff9ee1bf23f8aa89626a83ce6eece281d6913c24dd87ce5b06b9856643c4",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [36.24803161621094, 9.67240047454834, -6.974731922149658],
+      "max": [37.725128173828125, 11.709234237670898, -6.094503402709961],
+      "geometrySha256": "0d0915197f605b2158f08c725169e86af8a4bf52b9460d1447f22b81208e9f28",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 266,
+      "faces": 288,
+      "min": [-11.69999885559082, 13.411462783813477, -7.568410396575928],
+      "max": [-8.300000190734863, 15.611462593078613, -6.608410358428955],
+      "geometrySha256": "0eb14d6d1dea18ff75b6746b0096b289e4b430f2316d6eeaa6c8a57a64f7e2fc",
+      "materialBindings": {
+        "golden coastal sandstone": 288
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [11.904403686523438, 11.61713695526123, -7.01671838760376],
+      "max": [12.488789558410645, 12.347272872924805, -6.706029891967773],
+      "geometrySha256": "1053fb3f6761d122a851bea4b352b05b8d901ef4f70799f458ab3bf33f5347ba",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [23.64214324951172, 17.65231704711914, -6.885563850402832],
+      "max": [24.089223861694336, 18.081287384033203, -6.680138111114502],
+      "geometrySha256": "11b05c260cb7a2582c3273b4db27e8be90be5046b865c4f4d3b2a98882f22a84",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-8.06342601776123, 9.552596092224121, -6.964718341827393],
+      "max": [-6.840848445892334, 11.202147483825684, -6.248939514160156],
+      "geometrySha256": "12763c5e7fdd0c3697e71ab360de573a0a5efd6b513ad09ca4ee39fb4bffbed0",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-15.304485321044922, 14.215290069580078, -6.95579719543457],
+      "max": [-13.291177749633789, 16.23208236694336, -6.049447059631348],
+      "geometrySha256": "12d369e459907e2ddd641400d6ab2414e4bc00b90586ee4f6d58c4da786d2c1d",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [37.5871696472168, 12.347551345825195, -7.079482555389404],
+      "max": [39.0233039855957, 13.830120086669922, -6.419793128967285],
+      "geometrySha256": "13949cc00a169d64a07aee3a0fbc468ca2f10cf3dd6c5e2782d6911e1a5dbbae",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [9.182770729064941, 8.07301139831543, -7.099136829376221],
+      "max": [11.33260440826416, 10.007739067077637, -6.180294513702393],
+      "geometrySha256": "14a62cfdf487abd55320817db967f29c11abc2beb204d50d34c9afff88c6e0b9",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-8.067718505859375, 10.250344276428223, -6.849422931671143],
+      "max": [-7.431510925292969, 10.918052673339844, -6.556695938110352],
+      "geometrySha256": "165780228f4dac92f2bc52dc8f8c96b5d231f267ae2bc022b077aabad208a9d1",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-8.630707740783691, 9.754598617553711, -6.942451477050781],
+      "max": [-7.044486045837402, 11.023829460144043, -6.2694501876831055],
+      "geometrySha256": "1783f18bf7407e0db06efaebe44a274378889486da93f03143c7a0b934511523",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [30.066537857055664, 12.626070976257324, -6.993995189666748],
+      "max": [31.938268661499023, 14.523396492004395, -6.093660354614258],
+      "geometrySha256": "194b37d07330c7422a3741053ea19ab1fa5a5c54bfd8931bd5b24bb4b4699af7",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-14.490537643432617, 13.991006851196289, -6.938082218170166],
+      "max": [-13.004056930541992, 15.98592758178711, -6.040831565856934],
+      "geometrySha256": "23ed3bbe973e318eb2f08ecf755ccf658afbc040c78080b0cbcd5071e53593a8",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [10.811150550842285, 10.132579803466797, -7.0187482833862305],
+      "max": [11.7660493850708, 11.456243515014648, -6.4387898445129395],
+      "geometrySha256": "241681e4532e7fd739a0a47736fae2a0c06147a832a50c620e05a944ec196aee",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-6.431543827056885, 8.183244705200195, -6.925520420074463],
+      "max": [-5.591021537780762, 8.913993835449219, -6.564064979553223],
+      "geometrySha256": "2a5215a2e804f4d8fe653c792fd5c106c958fbd3a2162fc313d31a4bedb1a3da",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [33.735618591308594, 13.347265243530273, -6.914694786071777],
+      "max": [35.01114273071289, 14.437337875366211, -6.373457908630371],
+      "geometrySha256": "2a73d1b21b09f6e682bfa64ada83ba336bea7d3e2ca74340d4fa7e7f0c4cd055",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [7.2105302810668945, 5.236814498901367, -6.908841609954834],
+      "max": [8.20560359954834, 6.100705623626709, -6.488348960876465],
+      "geometrySha256": "2d5a81f18568b9fd003cc85bea695c3d0f077a413cadf947a43769b2e185979e",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-8.294402122497559, 11.891271591186523, -6.946016311645508],
+      "max": [-7.594671726226807, 12.609376907348633, -6.6216654777526855],
+      "geometrySha256": "391ff6d8dc6a71994abe36088e9730d72bdefd77c74ead5342323f5b7dc2ead4",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-8.307323455810547, 8.608193397521973, -6.986806869506836],
+      "max": [-7.022732257843018, 10.34892463684082, -6.210323810577393],
+      "geometrySha256": "3a26550b29284dae7289c76aa6f1a29fcb0640f0bc1a55fa9b110f3594cc2bc1",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [9.240887641906738, 8.310336112976074, -7.059685230255127],
+      "max": [10.986196517944336, 9.583529472351074, -6.287726402282715],
+      "geometrySha256": "3f2c328c19902f1ba2604b8e99d37a1eca20234f31b01ba17292b22df50d425b",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-16.505369186401367, 14.631047248840332, -6.913878440856934],
+      "max": [-15.661381721496582, 15.684443473815918, -6.456539154052734],
+      "geometrySha256": "42072c3e19e5167f718d5e7555ae12c96c991571a6408eb01732cb4aa6134637",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [12.451813697814941, 12.362589836120605, -7.018496990203857],
+      "max": [13.292252540588379, 12.969954490661621, -6.652889251708984],
+      "geometrySha256": "4b1eb0138a5116d63e08b34b6f9a936ab053412c0f079648f40d48940491765b",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-8.217438697814941, 11.783499717712402, -6.924073696136475],
+      "max": [-7.571955680847168, 12.445662498474121, -6.619222164154053],
+      "geometrySha256": "50c9a6deacdc3e67c15bb07e26ed1e6bae6edf743216dcc2b3604c043a960704",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [35.14924621582031, 11.664770126342773, -6.811745643615723],
+      "max": [35.92911911010742, 12.58411693572998, -6.40958309173584],
+      "geometrySha256": "51bcd68159a5bffc228994110f51fc2e951553d228cd47b28378e271a24c5f14",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [32.31026077270508, 11.028385162353516, -6.875186920166016],
+      "max": [33.83913803100586, 12.29049015045166, -6.231167316436768],
+      "geometrySha256": "54ab50b89b05528981589a524dbb0f21b8c34f07591751d9d1fd9a335b1e6880",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [9.52048397064209, 10.551031112670898, -7.16859769821167],
+      "max": [11.514020919799805, 12.511150360107422, -6.265546798706055],
+      "geometrySha256": "5a2c057b9e545397ebe1968918de9b4af7c79d4bf45ace09ec86abddc80e244f",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [34.20534133911133, 11.458398818969727, -6.7756757736206055],
+      "max": [34.80636978149414, 12.188545227050781, -6.460233688354492],
+      "geometrySha256": "5d386eb77d1499939f8419a36cd304fbdf1fada397921839d88314147829a28e",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 266,
+      "faces": 288,
+      "min": [-10.299999237060547, 13.117929458618164, -7.633724212646484],
+      "max": [-6.90000057220459, 15.3179292678833, -6.673724174499512],
+      "geometrySha256": "5e654ca313b0007a06a3fa7607fa3161503efedc5a197fd239e2930c99b9db86",
+      "materialBindings": {
+        "golden coastal sandstone": 288
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [34.877899169921875, 10.484981536865234, -6.921777248382568],
+      "max": [36.62275695800781, 12.194089889526367, -6.105005741119385],
+      "geometrySha256": "5e73700dc03fa3f141356d7b274bf2e6c780760c17d1f4ae94f68a561cf4bd08",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-15.586447715759277, 15.58626651763916, -6.900965690612793],
+      "max": [-14.409802436828613, 16.764720916748047, -6.3454365730285645],
+      "geometrySha256": "61e049f674fbbb151b4abdbbeede7a1a0d17f3901e6394f18ede6d148e6a54de",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [20.051042556762695, 19.013744354248047, -6.840506553649902],
+      "max": [20.661497116088867, 19.752208709716797, -6.530322074890137],
+      "geometrySha256": "65c1fd5ce66db1114f3fc0406f22a8af72b43398a447c42615740787783a4c5c",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [11.110092163085938, 10.873335838317871, -6.975025653839111],
+      "max": [12.001714706420898, 11.539523124694824, -6.589433670043945],
+      "geometrySha256": "6778546a61cf98fa987b373af0397eb3d93d6e8c03f101bffa35455d8c178803",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [11.13602066040039, 11.140839576721191, -7.06869649887085],
+      "max": [12.640687942504883, 12.288363456726074, -6.431013107299805],
+      "geometrySha256": "6a96681a471251945aec45201e44f655cc2d2443cb3ac0853c740ab17f69c6fb",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-12.437603950500488, 13.850936889648438, -6.988565444946289],
+      "max": [-10.307324409484863, 15.394281387329102, -6.053348541259766],
+      "geometrySha256": "6a98703c2aa88d7fd680b7a2afe9bebdf514c37b610def9751c3a81162f3caac",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-7.3083648681640625, 7.985013961791992, -7.047496318817139],
+      "max": [-5.537145614624023, 10.12881851196289, -6.148099422454834],
+      "geometrySha256": "6b13bff20e2b80b5ec90cde2e5ccc86d03cb381475104d38c910e70b164b3d8c",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-16.2382755279541, 14.781871795654297, -6.956796169281006],
+      "max": [-14.579671859741211, 16.463598251342773, -6.189304828643799],
+      "geometrySha256": "6b91049af5738c5a8591e1798ed0abcea7228e53cbfa74549d04be26e32eb70c",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-14.84514045715332, 14.217611312866211, -6.9215474128723145],
+      "max": [-13.24311351776123, 15.909748077392578, -6.121232032775879],
+      "geometrySha256": "6c15dde88f2af7d1f897974375f872516fd833b6fcea0330bed2863013cfaab1",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-9.410038948059082, 11.199104309082031, -6.79729700088501],
+      "max": [-8.980775833129883, 11.684523582458496, -6.57910680770874],
+      "geometrySha256": "71e151901fa9b4dc91d478031844b354914a3d8a996508a70163fa3c14bf80e1",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-11.239157676696777, 10.431280136108398, -6.868398666381836],
+      "max": [-9.796049118041992, 11.760088920593262, -6.229501724243164],
+      "geometrySha256": "79c927151632536ca4c9f428a88820cb4b7ff23f402b6c1ff0a23a45a8713986",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [32.835540771484375, 12.520976066589355, -6.959604740142822],
+      "max": [34.96492004394531, 14.115547180175781, -6.033854007720947],
+      "geometrySha256": "7e4ead9eab3dc601359b9c8843eb67203f6cf2f9f6088823b00b1550dec25f79",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-13.301932334899902, 15.104681968688965, -6.791734218597412],
+      "max": [-12.562129020690918, 15.661133766174316, -6.476137161254883],
+      "geometrySha256": "802c7e430ef4676b240584eb257717a4f8b7d915afb773fcbf9cd74fd31ada00",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [20.95166015625, 17.45733642578125, -6.965415954589844],
+      "max": [22.45624542236328, 19.40924072265625, -6.123964309692383],
+      "geometrySha256": "833557c1a39188c9f32705867b745268998beeb2df69d0846afb7949c0242fef",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [10.196151733398438, 8.117319107055664, -6.941107749938965],
+      "max": [10.610204696655273, 8.652047157287598, -6.711765289306641],
+      "geometrySha256": "833a2741ca98febea3e3b14400624d40ae742ad6659701f17629c3a62a18725e",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [32.07100296020508, 13.969921112060547, -6.947490215301514],
+      "max": [33.43867492675781, 15.443442344665527, -6.260179042816162],
+      "geometrySha256": "8ba0d5e2346b1399a60edcb51503c476f617048a97d5670620d12fce715f5c1e",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [33.73616409301758, 11.507684707641602, -6.838047504425049],
+      "max": [35.00498962402344, 12.62581729888916, -6.264849662780762],
+      "geometrySha256": "8cfc5d5007449ff9acefec44ca6168bc62ea7f5bf9686f3abf87946cf8287207",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [23.982213973999023, 18.463958740234375, -7.045495510101318],
+      "max": [25.16182518005371, 20.033931732177734, -6.381561279296875],
+      "geometrySha256": "900511d6c72aa95396e6c2fcd88aa2a0130f5278b1d99df9e032d7676f55d390",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-12.711563110351562, 14.303088188171387, -6.8135528564453125],
+      "max": [-11.700044631958008, 15.339539527893066, -6.348575115203857],
+      "geometrySha256": "9180573efc253890f1be6a9b30e9ec7a27acb74d6d65fb7e642ef1205105e203",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [11.688982009887695, 9.426948547363281, -7.058038711547852],
+      "max": [13.58708381652832, 10.976578712463379, -6.251235485076904],
+      "geometrySha256": "935634aaaa4ab833c67ba9f4a0f6231f91710df9de736c14db188907070271c4",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [31.771345138549805, 12.737137794494629, -6.824484348297119],
+      "max": [32.494380950927734, 13.695158958435059, -6.41977071762085],
+      "geometrySha256": "954a422f7d7998ad0d1425c335bba8ab21106f99cae1ba8eea6600260b0b8a9f",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [24.68577003479004, 19.312891006469727, -7.053040027618408],
+      "max": [26.12196159362793, 20.3819522857666, -6.436327934265137],
+      "geometrySha256": "95fed5706268394321f15e65aea913eddc61dcadeb0c615ad54a539ffa018148",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [34.61862564086914, 11.84481430053711, -6.846872806549072],
+      "max": [35.74897384643555, 13.173137664794922, -6.285364151000977],
+      "geometrySha256": "9633d794eb79e3b234212c0980e6767ca4e35901c781eb5797901802466db6c1",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 193,
+      "faces": 193,
+      "min": [7.18019962310791, 7.671462059020996, -6.9771270751953125],
+      "max": [10.337325096130371, 9.42868423461914, -6.777126789093018],
+      "geometrySha256": "989de363d1d91e7cd10efd20ba744742e943e1dbbb5fd687c2f13e8eac3e6cad",
+      "materialBindings": {
+        "golden coastal sandstone": 193
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-12.861367225646973, 14.203771591186523, -6.798802852630615],
+      "max": [-12.020553588867188, 15.1454496383667, -6.376170635223389],
+      "geometrySha256": "9c35579a7f4fc0649258201d94c1696c6d71795d99399de85fb38909cad750df",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [33.15923309326172, 12.502734184265137, -6.861016273498535],
+      "max": [34.35015106201172, 13.719917297363281, -6.26875114440918],
+      "geometrySha256": "a2e5ac354d8a6b5fc0eabf7995f8d96cf5d77d1b93e8727f79631c41504b1ae4",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-14.466858863830566, 13.222167015075684, -6.900400161743164],
+      "max": [-12.897994995117188, 14.677931785583496, -6.22149658203125],
+      "geometrySha256": "a32313cda093d9d312b0ed3d82145319fe66a5eeafa18c167667b586ebd96d22",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [14.38798999786377, 12.225525856018066, -7.078908443450928],
+      "max": [16.144065856933594, 14.371601104736328, -6.1582489013671875],
+      "geometrySha256": "aab2ce01ec2a13e8e3614f28fe3f3bfeae0b86f9912df981b260bfaaf3ec6f00",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [12.183673858642578, 9.04140567779541, -6.932984828948975],
+      "max": [12.676251411437988, 9.536408424377441, -6.703542232513428],
+      "geometrySha256": "adb7b480b8344cb6f4b31f85ee4b9dabeb0ecf8677f96d65424905c4658cc73e",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [22.947689056396484, 17.669891357421875, -6.904208660125732],
+      "max": [23.76871681213379, 18.263999938964844, -6.546491622924805],
+      "geometrySha256": "adf64537ba3a50916d1d026ef1ca3dd28e66260b8dea8ed28716c2889fa243e7",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [22.29131317138672, 18.218578338623047, -6.904479026794434],
+      "max": [23.225492477416992, 19.070802688598633, -6.50089693069458],
+      "geometrySha256": "aea5e194ebd6f2f47eaf3fee1c3a5850d651e64b035b3fd46a110792aef58b66",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [32.32622528076172, 13.686359405517578, -6.968398094177246],
+      "max": [33.92873764038086, 15.219569206237793, -6.234586238861084],
+      "geometrySha256": "af5add45dfb9514a55a592d757dd040b34b8d9f23cb8c4599a5a5ede198e7ce6",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-9.449536323547363, 11.2152099609375, -6.844364643096924],
+      "max": [-8.592782974243164, 11.85592269897461, -6.4756669998168945],
+      "geometrySha256": "b390a48a7ebd898e7e0863ee18ccecc27587465c6391a5d2160e8e71a0af7c94",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [12.806145668029785, 10.960123062133789, -7.009079456329346],
+      "max": [14.532734870910645, 12.25080680847168, -6.261285781860352],
+      "geometrySha256": "b3e0c299732737fb3f718bee6da2c4798c953259f0a756075ec141660f893e82",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-14.235273361206055, 15.666631698608398, -6.817941188812256],
+      "max": [-13.815534591674805, 16.24574851989746, -6.562471389770508],
+      "geometrySha256": "b41c384bb1cdc80f4867c7a41aff2e6053fcc1b3f21c7a85b0a6fc39f2261011",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [30.28680992126465, 14.402496337890625, -6.891146183013916],
+      "max": [31.263622283935547, 15.645764350891113, -6.368810176849365],
+      "geometrySha256": "b6b5bcc84128054ce226b75b06e0197d30873dd1126692a162b9a7b57447863c",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [34.202613830566406, 12.983695983886719, -6.790852069854736],
+      "max": [34.7896728515625, 13.516528129577637, -6.528702735900879],
+      "geometrySha256": "beb45fe3d2293f649dd0a6201169a65e89a34da5d607d88797e400f847a170e6",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [10.790131568908691, 8.98331069946289, -6.956814765930176],
+      "max": [11.455809593200684, 9.631494522094727, -6.655456066131592],
+      "geometrySha256": "c2e064e29d789e6792c0dc55200848adbe42bf87d7d4a1a451343c8a71dd65fb",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [23.421281814575195, 18.793743133544922, -6.971451759338379],
+      "max": [23.988847732543945, 19.330913543701172, -6.719174861907959],
+      "geometrySha256": "c3df28fa9863793234c95e761b8eb921d26d98dc0cbf3fae63ead081fd50ec27",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [21.210954666137695, 18.607786178588867, -6.809157848358154],
+      "max": [21.644773483276367, 19.17546272277832, -6.558897495269775],
+      "geometrySha256": "ca55a9aaf63ad8783ac5fccf86958c2c7be66a147e6f4b76180c24d46daa54f5",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-13.88602066040039, 15.731575012207031, -6.875823974609375],
+      "max": [-12.945859909057617, 16.403003692626953, -6.4634809494018555],
+      "geometrySha256": "ccc7c8bc77b4916b883e1a41a08c45f393823680b92b7c0c5f45dbc9435332d2",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-15.791374206542969, 15.669978141784668, -6.95278263092041],
+      "max": [-14.584826469421387, 17.256763458251953, -6.270632266998291],
+      "geometrySha256": "cfcc2b54ea44d83d9de76d2c37e5bbcb3bc1e45e0a07f51a0ca35feff9cc683c",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-7.697022914886475, 10.587902069091797, -7.067133903503418],
+      "max": [-5.91864538192749, 12.239755630493164, -6.23942232131958],
+      "geometrySha256": "cff44343932ba2da96ebf64d6d53892f1804542bdae2785a8133bed710f2bd57",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [23.559860229492188, 18.099727630615234, -6.908512115478516],
+      "max": [24.060510635375977, 18.776405334472656, -6.615749359130859],
+      "geometrySha256": "d5cfabc492730bf2dc3095108d1138438894dd8f1757822a8a4e7c0c3bc52729",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-14.551033973693848, 14.740267753601074, -6.899775505065918],
+      "max": [-13.25100326538086, 16.342416763305664, -6.211719036102295],
+      "geometrySha256": "d62bc60b949c4e607168ab76e23b87ec1693d7fa038985bd37fc12e9f93a7d9b",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-8.228734970092773, 8.791756629943848, -6.954004287719727],
+      "max": [-6.827018737792969, 9.83716869354248, -6.330382347106934],
+      "geometrySha256": "d8fa2aa0183b1a00120a134a37b18ffb5d106538451e505254a1707ae00b0f99",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [24.438650131225586, 19.293214797973633, -6.952060699462891],
+      "max": [24.9198055267334, 19.644010543823242, -6.743627548217773],
+      "geometrySha256": "df48dfeb014145189fe626a1f64670e41006c5a54fc2632599cfc7f1e6f65852",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [27.317974090576172, 16.468629837036133, -7.038661003112793],
+      "max": [28.772430419921875, 17.793052673339844, -6.36985969543457],
+      "geometrySha256": "e4399eaaafc9ff8a6ad940831d9241e0ce771cdcf521fd78e92375e9931df8c7",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-16.183774948120117, 14.965668678283691, -6.936709403991699],
+      "max": [-14.880197525024414, 16.534996032714844, -6.264465808868408],
+      "geometrySha256": "e43dadf58769950c910994cfa3216d0c3a7a69cc9608c20533804d71a2fc0b04",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-9.582677841186523, 9.49750804901123, -6.858561992645264],
+      "max": [-8.61478328704834, 10.595752716064453, -6.3920512199401855],
+      "geometrySha256": "e50a583eccad1c674053c3863eca298edb3788062eaeba8ee02a3836ec4f47d1",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 193,
+      "faces": 193,
+      "min": [-13.032268524169922, 14.477095603942871, -6.818734645843506],
+      "max": [-10.567731857299805, 15.978233337402344, -6.618734836578369],
+      "geometrySha256": "e62e894c69d7a5ace2b398a4ac9a691c66149bb768e8e2360d6ac8a07025db74",
+      "materialBindings": {
+        "golden coastal sandstone": 193
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [29.186416625976562, 15.53877067565918, -6.951897621154785],
+      "max": [30.583417892456055, 16.833677291870117, -6.3426737785339355],
+      "geometrySha256": "ed69c8930615eb396df1f6b89b24f42ff526d8e0e2f7f7231b9ff7077fa19c4b",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 266,
+      "faces": 288,
+      "min": [9.30000114440918, 12.257655143737793, -7.505261421203613],
+      "max": [12.699999809265137, 14.45765495300293, -6.745261192321777],
+      "geometrySha256": "f1a6602aa049cdfd944ae20a7103f9586de950d0f9e32acdcf663fd89ea20c0e",
+      "materialBindings": {
+        "golden coastal sandstone": 288
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [21.357343673706055, 17.789133071899414, -6.809728145599365],
+      "max": [21.746904373168945, 18.32112693786621, -6.576779842376709],
+      "geometrySha256": "f3e6fce12eccb2a9a9e9614b8a3cdf6702770a091584b6441020ff676227b2ba",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-10.420340538024902, 11.808777809143066, -6.81142520904541],
+      "max": [-9.718923568725586, 12.51889419555664, -6.4690985679626465],
+      "geometrySha256": "f63e1357ea7ebda992b2e26b1d6083b02eba33c3e381f2fe05cbcec0ec3757b4",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [23.336742401123047, 18.517414093017578, -7.085204601287842],
+      "max": [25.05194091796875, 20.12060546875, -6.337582111358643],
+      "geometrySha256": "f6bad825640d15aac25323a2373dd174a0febf3f3f46172b33e60ea37d593297",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [9.501372337341309, 9.64811897277832, -7.034221172332764],
+      "max": [10.88663387298584, 10.754199028015137, -6.432163238525391],
+      "geometrySha256": "f6c3b6a3b57ec9b8eba289460ea67160ab755574038aad35f46708541e275881",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [12.420682907104492, 8.996655464172363, -7.028738975524902],
+      "max": [13.857927322387695, 10.233760833740234, -6.387381553649902],
+      "geometrySha256": "f87185a2372d1f047f6069a69ff9b04de6e3d9a9ed53bb54b8870e485317d3f4",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [-14.286376953125, 16.02382469177246, -6.905605316162109],
+      "max": [-13.442747116088867, 16.78582191467285, -6.541359901428223],
+      "geometrySha256": "fe715ee31b02ff902d63801173a1701f8ea761d64af95bf6f92047d1387bc99f",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [22.618200302124023, 18.691875457763672, -6.997124671936035],
+      "max": [23.625152587890625, 19.45446014404297, -6.570900917053223],
+      "geometrySha256": "ff80faf99e709158936d7675623e39515728ad8de0952feff2a71bfe083287ac",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    },
+    {
+      "vertices": 42,
+      "faces": 80,
+      "min": [20.57256507873535, 17.54106330871582, -6.964895248413086],
+      "max": [22.374805450439453, 19.37281036376953, -6.093697547912598],
+      "geometrySha256": "ffc3b7b2dcfea85eb9a2248d65a5af7a08f24ab8dab4afe769528eea058ce849",
+      "materialBindings": {
+        "golden coastal sandstone": 80
+      }
+    }
+  ],
+  "restoredRoosts": [
+    {
+      "id": "rock-west-0",
+      "expected": -6.053,
+      "height": -6.053348541259766
+    },
+    {
+      "id": "rock-west-1",
+      "expected": -6.041,
+      "height": -6.040831565856934
+    },
+    {
+      "id": "rock-east-0",
+      "expected": -6.158,
+      "height": -6.1582489013671875
+    },
+    {
+      "id": "rock-east-1",
+      "expected": -6.158,
+      "height": -6.1582489013671875
+    }
+  ],
+  "disjointGuard": {
+    "skippedDisjoint": true,
+    "preservedVertices": 41203,
+    "affectedVertices": 0
+  },
+  "partialGuard": {
+    "skippedDisjoint": false,
+    "preservedVertices": 4964,
+    "affectedVertices": 36239,
+    "cutNonManifold": 0
+  },
+  "exactProtectedComponents": 95,
+  "repeatedRunPreservesSourceBytes": true,
+  "nativeMaterialBindings": {
+    "golden coastal sandstone": 42286,
+    "warm sandstone bedding": 2297
+  }
+}

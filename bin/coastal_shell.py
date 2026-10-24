@@ -83,6 +83,69 @@ def boolean(target, tool, operation):
     bpy.ops.object.modifier_apply(modifier=modifier.name)
 
 
+def boolean_preserving_islands(target, tool, operation="DIFFERENCE"):
+    """Cut only native connected components whose bounds overlap the cutter.
+
+    A material batch can contain many mutually overlapping but disconnected coastal rocks.
+    Feeding that whole batch to an Exact Boolean can union or discard remote islands, even
+    when the cutter misses them. Retain those components outside the Boolean and its cleanup.
+    A completely disjoint object is left byte-for-byte untouched.
+    """
+    if operation != "DIFFERENCE":
+        raise ValueError("island-preserving Boolean supports DIFFERENCE only")
+    corners = [tool.matrix_world @ Vector(p) for p in tool.bound_box]
+    cut_lo = Vector([min(p[k] for p in corners) for k in range(3)])
+    cut_hi = Vector([max(p[k] for p in corners) for k in range(3)])
+    bm = bmesh.new()
+    bm.from_mesh(target.data)
+    islands = _islands(bm)
+    protected, affected = [], []
+    for island in islands:
+        points = [target.matrix_world @ v.co for v in island]
+        lo = Vector([min(p[k] for p in points) for k in range(3)])
+        hi = Vector([max(p[k] for p in points) for k in range(3)])
+        overlap = all(lo[k] <= cut_hi[k] + 1e-5 and hi[k] >= cut_lo[k] - 1e-5 for k in range(3))
+        (affected if overlap else protected).extend(v.index for v in island)
+    if not affected:
+        bm.free()
+        return {"skippedDisjoint": True, "preservedVertices": len(protected), "affectedVertices": 0}
+    saved = None
+    if protected:
+        frozen = bm.copy()
+        frozen.verts.ensure_lookup_table()
+        bmesh.ops.delete(frozen, geom=[frozen.verts[i] for i in affected], context="VERTS")
+        saved = bpy.data.meshes.new("unaffected Boolean islands")
+        frozen.to_mesh(saved)
+        frozen.free()
+        bm.verts.ensure_lookup_table()
+        bmesh.ops.delete(bm, geom=[bm.verts[i] for i in protected], context="VERTS")
+        bm.to_mesh(target.data)
+    bm.free()
+    original_materials = list(target.data.materials)
+    boolean(target, tool, operation)
+    open_edges = clean_solid(target)
+    # Blender may remove unused slots while only the affected subset is present. Reinstate the
+    # original indices before appending protected polygons, including their bedding material.
+    result_materials = list(target.data.materials)
+    complete_materials = original_materials + [m for m in result_materials if m not in original_materials]
+    indices = [complete_materials.index(result_materials[p.material_index])
+               if p.material_index < len(result_materials) else 0 for p in target.data.polygons]
+    target.data.materials.clear()
+    for material in complete_materials:
+        target.data.materials.append(material)
+    for polygon, index in zip(target.data.polygons, indices):
+        polygon.material_index = index
+    if saved:
+        combined = bmesh.new()
+        combined.from_mesh(target.data)
+        combined.from_mesh(saved)
+        combined.to_mesh(target.data)
+        combined.free()
+        bpy.data.meshes.remove(saved)
+    return {"skippedDisjoint": False, "preservedVertices": len(protected),
+            "affectedVertices": len(affected), "cutNonManifold": open_edges}
+
+
 def clean_solid(obj):
     """Weld, close coplanar boundary loops left on cut planes, orient outward; return open edges."""
     bm = bmesh.new()

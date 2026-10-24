@@ -24,6 +24,13 @@ in both directions, plus a clifftop loop. These are circulation and contact chec
 photorealism claim. Source-only review renders and exported asset costs are retained beside the
 survey; the browser supplies its own coastal lighting and designed furniture replacements.
 
+The release's source-bound perch check caught a disjoint-Boolean regression in a remote talus
+batch. `repair_coastal_arrival_talus.py` restores every original coastal component and native
+bedding assignment from the exact retained Git source, then reruns the actual perch exporter.
+`talus-repair.json` retains all 96 component comparisons and four measured rock roosts. The
+authoring Boolean now isolates potentially intersecting components and preserves the remainder
+outside both the Boolean and its cleanup; a nonintersecting batch is left untouched.
+
 ## October 23: open kitchen, conversation pit and connected arrival
 
 The retained October 20 interior source is continued by `refresh_coastal_interior.py`,
