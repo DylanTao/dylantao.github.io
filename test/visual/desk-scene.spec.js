@@ -1581,7 +1581,7 @@ test("coastal home: all five avatars retain one actor, shared wall art and album
   await ui.locator("[data-world-activity]").selectOption("workout");
   for (const avatar of ["lizard", "south-park", "simpsons", "ghibli", "rick-and-morty", "lizard"]) {
     await ui.locator("[data-world-avatar]").selectOption(avatar);
-    await settleAvatarLoad(ui);
+    await settleAvatarLoad(ui, page);
     await expect(scene).toHaveAttribute("data-avatar", avatar);
     await expect.poll(async () => (await evidence(scene)).portrait).toContain("/img/home/sirui_capy.jpg");
     await canvas.scrollIntoViewIfNeeded();
@@ -1629,7 +1629,7 @@ test("coastal home: compiled avatar replacements release their bone textures", a
     for (const avatar of avatars) {
       const frame = (await evidence(scene)).frames;
       await ui.locator("[data-world-avatar]").selectOption(avatar);
-      await settleAvatarLoad(ui);
+      await settleAvatarLoad(ui, page);
       await expect(scene).toHaveAttribute("data-avatar", avatar);
       await scene.locator("canvas").scrollIntoViewIfNeeded();
       await page.clock.runFor(100);
@@ -2580,7 +2580,7 @@ test("coastal home: composed activities and previews survive clock changes until
   // These world-space contact bounds describe Lizard's authored proportions.
   // Public arrivals randomize; the animation fixture must remain deterministic.
   await ui.locator("[data-world-avatar]").selectOption("lizard");
-  await settleAvatarLoad(ui);
+  await settleAvatarLoad(ui, page);
   await expect(scene).toHaveAttribute("data-avatar", "lizard");
   for (const activity of ["sleep", "breakfast", "reading", "lunch", "work", "workout", "soak", "dinner", "lounge", "coding"]) {
     await sceneInputFrame(page, view, () => ui.locator("[data-world-activity]").selectOption(activity));
@@ -2892,7 +2892,7 @@ for (const activity of ["breakfast", "workout"]) {
     const rest = gym ? gym.steady(start + 10, (pose) => pose.phase === "rest" && pose.clip === "idle", 8) : 0;
     await explore(ui);
     await ui.locator("[data-world-avatar]").selectOption("ghibli");
-    await settleAvatarLoad(ui);
+    await settleAvatarLoad(ui, page);
     await expect(scene).toHaveAttribute("data-avatar", "ghibli");
     await ui.locator("[data-world-activity]").selectOption(activity);
     await canvas.scrollIntoViewIfNeeded();
@@ -2970,7 +2970,7 @@ for (const activity of ["breakfast", "workout"]) {
     const minute = 1080 + Math.floor(curls / 60);
     await explore(ui);
     await ui.locator("[data-world-avatar]").selectOption("ghibli");
-    await settleAvatarLoad(ui);
+    await settleAvatarLoad(ui, page);
     await expect(scene).toHaveAttribute("data-avatar", "ghibli");
     if (gym) await ui.locator("[data-world-time]").fill(String(minute));
     else await ui.locator("[data-world-activity]").selectOption(activity);
