@@ -612,6 +612,13 @@ export function createWalkMode({
     keys.clear();
     drag = pinch = null;
     touches.clear();
+    pendingYaw = pendingPitch = state.vx = state.vz = 0;
+    // Mobile browsers do not always deliver pointercancel when a held thumb loses the page.
+    // Reset both captured sticks as well as the keys, so returning never resumes an old walk.
+    if (active) {
+      sticks.hide();
+      if (coarse?.matches || touchSeen) sticks.show();
+    }
   };
   on(win, "blur", releaseAll);
   on(doc, "visibilitychange", releaseAll);
