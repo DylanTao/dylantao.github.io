@@ -203,26 +203,35 @@ export function createOnsenWater({
     drip = null,
     nextDrip = Math.sqrt((2 * 0.38) / 9.80665),
     dripCount = 0;
-  // The existing native bamboo kakei supplies the drops. Its endpoint comes from the retained
-  // coastal_decor.py bamboo_spout tip (Blender 3.72,-3.62,3.28); no duplicate fixture is added.
+  // The native kakei's fixture-local endpoint comes from coastal_decor.py bamboo_spout
+  // (Blender 3.72,-3.62,3.28). Its existing node matrix owns the housing setback and
+  // enclosing room transform. Resolve that frame once, without adding another fixture.
   function bindDrip(mesh) {
     if (drip || !mesh?.parent || !mesh.isMesh) return;
     let room = mesh,
-      fixture = false;
+      fixture = null;
     while (room.parent) room = room.parent;
     room.traverse((part) => {
-      if (/onsen_decor.*dry.bamboo/.test(part.name)) fixture = true;
+      if (!fixture && /onsen_decor.*dry.bamboo/.test(part.name)) fixture = part;
     });
     if (!fixture) return;
+    fixture.updateWorldMatrix(true, false);
+    const outlet = fixture.localToWorld(new THREE.Vector3(3.72, 3.28, 3.62)),
+      height = outlet.y - surfaceY;
+    if (!(height > 0) || Math.hypot(outlet.x - center[0], outlet.z - center[1]) >= radius) return;
     const group = new THREE.Group(),
       dropMaterial = new THREE.MeshPhysicalMaterial({ color: 0xb6d7d0, roughness: 0.08, metalness: 0, transparent: true, opacity: 0.8 }),
       dropGeometry = new THREE.SphereGeometry(0.009, 8, 6),
       drop = new THREE.Mesh(dropGeometry, dropMaterial);
     group.name = "Onsen bamboo drip inlet";
     mesh.parent.updateWorldMatrix(true, false);
-    const position = new THREE.Vector3(3.72, surfaceY, 3.62);
-    group.position.copy(mesh.parent.worldToLocal(position));
-    group.quaternion.copy(mesh.parent.getWorldQuaternion(new THREE.Quaternion()).invert());
+    // Keep gravity and metres in world space even under a rotated/scaled parent.
+    group.matrix
+      .copy(mesh.parent.matrixWorld)
+      .invert()
+      .multiply(new THREE.Matrix4().makeTranslation(outlet.x, surfaceY, outlet.z));
+    group.matrixAutoUpdate = false;
+    group.matrixWorldNeedsUpdate = true;
     group.add(drop);
     mesh.parent.add(group);
     drip = {
@@ -230,9 +239,9 @@ export function createOnsenWater({
       drop,
       materials: [dropMaterial],
       geometries: [dropGeometry],
-      x: 3.72,
-      z: 3.62,
-      height: 3.28 - surfaceY,
+      x: outlet.x,
+      z: outlet.z,
+      height,
     };
     nextDrip = Math.sqrt((2 * drip.height) / 9.80665);
     poseDrip();

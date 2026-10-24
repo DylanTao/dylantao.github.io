@@ -1618,7 +1618,7 @@ export function createCoastalHome(container, records, artifacts) {
       let best = -Infinity,
         rays = 0,
         selectedVisibility = null;
-      const elevations = neighbour.id.startsWith("rabbit-") ? [0.46, 0.72] : [0.2, 0.4];
+      const elevations = neighbour.id.startsWith("rabbit-") ? [0.46, 0.72] : neighbour.id === "balcony-gull-0" ? [0.2, 0.4, 0.72] : [0.2, 0.4];
       // Include the actual frontal gap. Side-only candidates missed a narrow
       // clear opening in the authored scrub even after a full orbit found it.
       const candidates = [],
@@ -1634,7 +1634,17 @@ export function createCoastalHome(container, records, artifacts) {
             desiredTarget.y + Math.sin(elevation) * desiredRadius,
             desiredTarget.z + Math.cos(angle) * Math.cos(elevation) * desiredRadius
           );
-          keepCameraClear(position, config, neighbour.id === "balcony-gull-0" ? "study" : "outside");
+          // Score the camera visitors will actually receive. A clear ray from an authored
+          // orbit can still be compressed against a rail by the geometry spring arm.
+          if (cameraField?.ready) {
+            const at = desiredTarget.toArray(),
+              distance = Math.min(
+                desiredRadius,
+                armFor(at, angle, elevation, desiredRadius),
+                hardArm(cameraField.grid, config.cameraCollision, at, angle, elevation, desiredRadius, cameraField.footprint)
+              );
+            position.copy(desiredTarget).addScaledVector(new THREE.Vector3(...ORBIT_DIRECTION(angle, elevation)), distance);
+          } else keepCameraClear(position, config, neighbour.id === "balcony-gull-0" ? "study" : "outside");
           candidates.push({ offset, elevation, angle, position });
           arrivalBounds.expandByPoint(position);
         }
@@ -1648,7 +1658,8 @@ export function createCoastalHome(container, records, artifacts) {
           let score =
             -Math.abs(offset) * 0.02 -
             Math.abs(elevation - elevations[0]) * 0.01 -
-            Math.max(0, origin.distanceTo(desiredTarget) / desiredRadius - 1) * 2;
+            Math.max(0, origin.distanceTo(desiredTarget) / desiredRadius - 1) * 2 -
+            Math.max(0, 0.8 - origin.distanceTo(desiredTarget) / desiredRadius) * 6;
           let visibleFaceSamples = 0,
             visibleBody = false;
           samples.forEach((point, i) => {
@@ -1666,11 +1677,23 @@ export function createCoastalHome(container, records, artifacts) {
             best = score;
             yaw = angle;
             pitch = elevation;
-            selectedVisibility = { visibleFaceSamples, faceSamples: samples.length - 1, visibleBody };
+            selectedVisibility = {
+              visibleFaceSamples,
+              faceSamples: samples.length - 1,
+              visibleBody,
+              cameraDistance: origin.distanceTo(desiredTarget),
+              requestedDistance: desiredRadius,
+            };
           }
           // Prefer the first readable nearby arrival over marginal scoring
           // differences. Repeated full-coast traversals otherwise stall input.
-          if (visibleFaceSamples === samples.length - 1 && visibleBody && origin.distanceTo(desiredTarget) <= desiredRadius * 1.12) break;
+          if (
+            visibleFaceSamples === samples.length - 1 &&
+            visibleBody &&
+            origin.distanceTo(desiredTarget) >= desiredRadius * 0.8 &&
+            origin.distanceTo(desiredTarget) <= desiredRadius * 1.12
+          )
+            break;
         }
       } finally {
         region.dispose();
