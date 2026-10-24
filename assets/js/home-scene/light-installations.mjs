@@ -61,21 +61,73 @@ function roomLines(config) {
 // Transport-only midpoint approximations for the coves. Their energy is the existing line's
 // intensity per metre times its length; no additional native light or arbitrary fill is added.
 export function roomLightSources(config) {
-  return roomLines(config).map((line) => ({
-    id: `${line.room}:${line.source}`,
-    position: line.a.clone().lerp(line.b, 0.5).toArray(),
-    color: line.color.toArray(),
-    distance: 0,
-    emitterRadius: 0.04,
-    region: {
-      min: line.region.min.toArray().map((value) => value - RECEIVER_TOLERANCE),
-      max: line.region.max.toArray().map((value) => value + RECEIVER_TOLERANCE),
-    },
-  }));
+  const extra = authoredInstallations(config);
+  return [...roomLines(config), ...extra.lines.filter((source) => source.transport), ...extra.points.filter((source) => source.transport)].map(
+    (source) => ({
+      id: `${source.room || "installation"}:${source.source}`,
+      position: source.position ? source.position.toArray() : source.a.clone().lerp(source.b, 0.5).toArray(),
+      color: source.color.toArray(),
+      distance: source.distance ?? 0,
+      emitterRadius: source.emitterRadius ?? 0.04,
+      region: {
+        min: source.region.min.toArray().map((value) => value - RECEIVER_TOLERANCE),
+        max: source.region.max.toArray().map((value) => value + RECEIVER_TOLERANCE),
+      },
+    })
+  );
 }
 
 const insideRegion = (point, region) =>
   ["x", "y", "z"].every((axis) => point[axis] >= region.min[axis] - RECEIVER_TOLERANCE && point[axis] <= region.max[axis] + RECEIVER_TOLERANCE);
+
+const finitePoint = (point) => Array.isArray(point) && point.length === 3 && point.every(Number.isFinite);
+function sourceRegion(region, label) {
+  if (!region || !finitePoint(region.min) || !finitePoint(region.max) || !region.min.every((v, i) => v < region.max[i]))
+    throw new RangeError(`Invalid installation receiver region: ${label}`);
+  return { min: new THREE.Vector3(...region.min), max: new THREE.Vector3(...region.max) };
+}
+const regionsOverlap = (a, b) =>
+  ["x", "y", "z"].every((axis) => a.min[axis] <= b.max[axis] + RECEIVER_TOLERANCE && a.max[axis] >= b.min[axis] - RECEIVER_TOLERANCE);
+
+function authoredInstallations(config) {
+  const collect = (source, kind) => {
+    if (typeof source.id !== "string" || !source.id) throw new RangeError("Authored installation needs a stable string id");
+    if (!Object.hasOwn(SCHEDULES, source.schedule)) throw new RangeError(`Unknown installation schedule: ${source.schedule}`);
+    if (!Number.isFinite(source.intensity) || source.intensity < 0) throw new RangeError(`Invalid installation intensity: ${source.id}`);
+    if (
+      (source.distance !== undefined && (!Number.isFinite(source.distance) || source.distance < 0)) ||
+      (source.emitterRadius !== undefined && (!Number.isFinite(source.emitterRadius) || source.emitterRadius <= 0))
+    )
+      throw new RangeError(`Invalid installation transport extent: ${source.id}`);
+    const region = sourceRegion(source.region, source.id);
+    const color =
+      source.color === undefined ? WARM : finitePoint(source.color) && source.color.every((v) => v >= 0) ? new THREE.Color(...source.color) : null;
+    if (!color) throw new RangeError(`Invalid installation color: ${source.id}`);
+    const entry = { ...source, source: source.id, id: source.schedule, region, color };
+    if (kind === "line") {
+      if (!finitePoint(source.a) || !finitePoint(source.b)) throw new RangeError(`Invalid installation line: ${source.id}`);
+      entry.a = new THREE.Vector3(...source.a);
+      entry.b = new THREE.Vector3(...source.b);
+      if (entry.a.distanceToSquared(entry.b) < 1e-8) throw new RangeError(`Empty installation line: ${source.id}`);
+    } else {
+      if (!finitePoint(source.position)) throw new RangeError(`Invalid installation point: ${source.id}`);
+      if (
+        source.cone !== undefined &&
+        source.cone !== null &&
+        (!Array.isArray(source.cone) || source.cone.length !== 4 || !source.cone.every(Number.isFinite) || source.cone[3] < 0 || source.cone[3] >= 1)
+      )
+        throw new RangeError(`Invalid installation cone: ${source.id}`);
+      entry.position = new THREE.Vector3(...source.position);
+      entry.cone = source.cone || null;
+    }
+    return entry;
+  };
+  const lines = (config.installationLines || []).map((source) => collect(source, "line"));
+  const points = (config.installationPoints || []).map((source) => collect(source, "point"));
+  const ids = [...lines, ...points].map((source) => source.source);
+  if (new Set(ids).size !== ids.length) throw new RangeError("Duplicate authored installation id");
+  return { lines, points };
+}
 
 const smooth = (edge0, edge1, x) => {
   const t = THREE.MathUtils.clamp((x - edge0) / (edge1 - edge0), 0, 1);
@@ -188,11 +240,11 @@ vec3 installationIrradiance(vec3 p, vec3 n) {
   return sum;
 }`;
 
-export function createLightInstallations(config, { bind = (m) => m } = {}) {
+function installationUniforms() {
   // Flat Float32Arrays rather than arrays of vectors: three r164 re-flattens an array of vectors
   // element by element on every material switch, which with this scene's thousand-odd materials per
   // frame was a fifth of the script time (docs/performance-notes.md). The GPU receives the same floats.
-  const uniforms = {
+  return {
     installLineA: { value: new Float32Array(MAX_LINES * 3) },
     installLineB: { value: new Float32Array(MAX_LINES * 3) },
     installLineColor: { value: new Float32Array(MAX_LINES * 3) },
@@ -205,6 +257,10 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     installPointMax: { value: new Float32Array(MAX_POINTS * 3) },
     installActive: { value: 0 },
   };
+}
+
+export function createLightInstallations(config, { bind = (m) => m } = {}) {
+  const uniforms = installationUniforms();
   const scaled = new THREE.Vector3();
   const terrace = config.terrace;
   const box = (min, max) => ({ min: new THREE.Vector3(...min), max: new THREE.Vector3(...max) });
@@ -213,11 +269,23 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   const points = [];
   const roomLighting = new Map();
   if (terrace?.festoon) {
-    const region = box([-5.6, -0.12, -7.9], [5.6, 3.6, -2.2]);
+    const region = terrace.region ? sourceRegion(terrace.region, "terrace") : box([-5.6, -0.12, -7.9], [5.6, 3.6, -2.2]);
     const anchors = terrace.festoon.points.map((p) => new THREE.Vector3(...p));
     for (let i = 0; i + 1 < anchors.length; i++) {
       const a = anchors[i],
         b = anchors[i + 1];
+      if (terrace.festoon.sag === 0) {
+        const drop = new THREE.Vector3(0, -0.085, 0);
+        lines.push({
+          id: "festoon",
+          a: a.clone().add(drop),
+          b: b.clone().add(drop),
+          intensity: terrace.festoon.intensity ?? 0.42,
+          color: WARM,
+          region,
+        });
+        continue;
+      }
       const sag = (terrace.festoon.sag * a.distanceTo(b)) / 3;
       // Two chords per swag, through the swag's lowest point, at the bulbs' height under the cable.
       const middle = a
@@ -308,7 +376,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       intensity: 2.2,
       color: FIRE,
       cone: null,
-      region: box([-5.6, -0.12, -7.9], [5.6, 3.6, -2.2]),
+      region: terrace.region ? sourceRegion(terrace.region, "terrace fire") : box([-5.6, -0.12, -7.9], [5.6, 3.6, -2.2]),
     });
   }
   points.push({
@@ -322,14 +390,52 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
 
   // Each bathroom owns a mirror wash and a concealed shower cove. These bounded analytic
   // sources add neither PointLights nor shadow maps, and cannot spill into the other storey.
-  const authoredLines = roomLines(config);
-  for (const line of authoredLines) {
+  const roomAuthoredLines = roomLines(config);
+  for (const line of roomAuthoredLines) {
     if (!roomLighting.has(line.room)) roomLighting.set(line.room, { id: line.id, glowing: new Set() });
     lines.push(line);
   }
-  // Typed shader uniforms must never silently discard an authored fixture.
-  if (lines.length > MAX_LINES || points.length > MAX_POINTS)
-    throw new RangeError(`Light installation capacity exceeded: ${lines.length}/${MAX_LINES} lines, ${points.length}/${MAX_POINTS} points`);
+  const additional = authoredInstallations(config);
+  lines.push(...additional.lines);
+  points.push(...additional.points);
+  const transportSources = [
+    ...roomAuthoredLines,
+    ...additional.lines.filter((source) => source.transport),
+    ...additional.points.filter((source) => source.transport),
+  ];
+  const receivers = config.installationReceivers;
+  const defaultGroup = receivers?.default || "all";
+  const packs = new Map();
+  const addPack = (name, regions = null) => {
+    const accepts = (source) => !regions || regions.some((region) => regionsOverlap(source.region, region));
+    const selectedLines = lines.filter(accepts),
+      selectedPoints = points.filter(accepts);
+    // A receiver is an explicit physical zone, never a camera or distance LOD. Every source
+    // that can reach it is retained. Overflow is an authoring error, not a truncated fixture.
+    if (selectedLines.length > MAX_LINES || selectedPoints.length > MAX_POINTS)
+      throw new RangeError(
+        `Light installation capacity exceeded: ${selectedLines.length}/${MAX_LINES} lines, ${selectedPoints.length}/${MAX_POINTS} points in receiver ${name}`
+      );
+    const pack = { name, regions, lines: selectedLines, points: selectedPoints, uniforms: name === defaultGroup ? uniforms : installationUniforms() };
+    packs.set(name, pack);
+  };
+  if (receivers) {
+    if (!receivers.groups || !Object.hasOwn(receivers.groups, defaultGroup))
+      throw new RangeError(`Unknown default installation receiver: ${defaultGroup}`);
+    for (const [name, value] of Object.entries(receivers.groups)) {
+      const regions = (Array.isArray(value) ? value : [value]).map((region) => sourceRegion(region, name));
+      if (!regions.length) throw new RangeError(`Empty installation receiver: ${name}`);
+      addPack(name, regions);
+    }
+    for (const source of [...lines, ...points])
+      if (![...packs.values()].some((pack) => pack.lines.includes(source) || pack.points.includes(source)))
+        throw new RangeError(`Uncovered installation fixture: ${source.source || source.id}`);
+  } else addPack(defaultGroup);
+  const packFor = (name = defaultGroup) => {
+    const pack = packs.get(name);
+    if (!pack) throw new RangeError(`Unknown installation receiver: ${name}`);
+    return pack;
+  };
 
   // Fixtures the installations need beyond the shell: the soffit's diffuser and the step lights.
   const root = new THREE.Group();
@@ -367,10 +473,30 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
 
   // Shell materials that glow with their installation.
   const glowing = { festoon: [], fire: [], gym: [], desk: [], lantern: [], pendant: [], downlights: [] };
-  function bindModel(model) {
+  const authoredGlow = [...additional.lines, ...additional.points]
+    .filter((source) => source.glowTag)
+    .map((source) => ({ source, materials: new Set() }));
+  function bindModel(model, { group = null } = {}) {
     model.traverse((o) => {
       if (!o.isMesh) return;
+      if (receivers) {
+        let selected = group;
+        for (let parent = o; parent; parent = parent.parent) {
+          if (parent.userData.installationGroup) {
+            selected = parent.userData.installationGroup;
+            break;
+          }
+          if (parent === model) break;
+        }
+        const material = (m) => bindMaterial(m, selected || defaultGroup);
+        o.material = Array.isArray(o.material) ? o.material.map(material) : material(o.material);
+      }
       for (const m of [o.material].flat()) {
+        for (const glow of authoredGlow)
+          if (o.userData.installationGlow === glow.source.glowTag && m.emissive) {
+            m.userData.authoredEmissive ??= m.emissiveIntensity;
+            glow.materials.add(m);
+          }
         const room = roomLighting.get(o.userData.roomLight);
         if (room && m.emissive) {
           m.userData.authoredEmissive ??= m.emissiveIntensity;
@@ -419,33 +545,36 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   const levels = Object.fromEntries([...Object.keys(SCHEDULES), ...[...roomLighting.values()].map((room) => room.id)].map((id) => [id, 0]));
   let flicker = 1;
   function apply() {
-    lines.forEach((line, i) => {
-      line.a.toArray(uniforms.installLineA.value, i * 3);
-      line.b.toArray(uniforms.installLineB.value, i * 3);
-      line.region.min.toArray(uniforms.installLineMin.value, i * 3);
-      line.region.max.toArray(uniforms.installLineMax.value, i * 3);
-      scaled
-        .set(line.color.r, line.color.g, line.color.b)
-        .multiplyScalar(line.intensity * levels[line.id])
-        .toArray(uniforms.installLineColor.value, i * 3);
-    });
-    points.forEach((point, i) => {
-      const level = levels[point.id] * (point.id === "fire" ? flicker : 1);
-      point.position.toArray(uniforms.installPointPosition.value, i * 3);
-      point.region.min.toArray(uniforms.installPointMin.value, i * 3);
-      point.region.max.toArray(uniforms.installPointMax.value, i * 3);
-      uniforms.installPointCone.value.set(point.cone || [0, -1, 0, 0], i * 4);
-      scaled
-        .set(point.color.r, point.color.g, point.color.b)
-        .multiplyScalar(point.intensity * level)
-        .toArray(uniforms.installPointColor.value, i * 3);
-    });
+    for (const pack of packs.values()) {
+      const uniforms = pack.uniforms;
+      pack.lines.forEach((line, i) => {
+        line.a.toArray(uniforms.installLineA.value, i * 3);
+        line.b.toArray(uniforms.installLineB.value, i * 3);
+        line.region.min.toArray(uniforms.installLineMin.value, i * 3);
+        line.region.max.toArray(uniforms.installLineMax.value, i * 3);
+        scaled
+          .set(line.color.r, line.color.g, line.color.b)
+          .multiplyScalar(line.intensity * levels[line.id])
+          .toArray(uniforms.installLineColor.value, i * 3);
+      });
+      pack.points.forEach((point, i) => {
+        const level = levels[point.id] * (point.id === "fire" ? flicker : 1);
+        point.position.toArray(uniforms.installPointPosition.value, i * 3);
+        point.region.min.toArray(uniforms.installPointMin.value, i * 3);
+        point.region.max.toArray(uniforms.installPointMax.value, i * 3);
+        uniforms.installPointCone.value.set(point.cone || [0, -1, 0, 0], i * 4);
+        scaled
+          .set(point.color.r, point.color.g, point.color.b)
+          .multiplyScalar(point.intensity * level)
+          .toArray(uniforms.installPointColor.value, i * 3);
+      });
+      uniforms.installActive.value = [...pack.lines, ...pack.points].some((source) => levels[source.id] > 0) ? 1 : 0;
+    }
     soffitMaterial.emissiveIntensity = 2.4 * levels.soffit;
     stepMaterial.emissiveIntensity = 3 * levels.steps;
     poolMaterial.emissiveIntensity = 4 * levels.pool;
     // Skip the term only when every fixture sleeps. Sheltered task/entrance lighting can remain
     // useful in daylight; each emitter's region still prevents light crossing the room boundary.
-    uniforms.installActive.value = Object.values(levels).some((level) => level > 0) ? 1 : 0;
     for (const m of glowing.festoon) {
       m.emissive?.copy(WARM);
       m.emissiveIntensity = 5 * levels.festoon;
@@ -464,15 +593,82 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     for (const m of glowing.downlights) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 3 * levels.downlights;
     for (const room of roomLighting.values())
       for (const material of room.glowing) material.emissiveIntensity = material.userData.authoredEmissive * levels[room.id];
+    for (const glow of authoredGlow)
+      for (const material of glow.materials) material.emissiveIntensity = material.userData.authoredEmissive * levels[glow.source.id];
   }
 
-  const bindings = new WeakSet();
+  const bindings = new WeakMap();
+  const variants = new WeakMap();
+  const ownedClones = new Set();
+  function bindMaterial(material, group = null, origin = null) {
+    if (!material?.isMeshStandardMaterial) return material;
+    const existing = bindings.get(material);
+    if (existing && (group === null || group === existing.group)) return material;
+    const pack = packFor(group || defaultGroup);
+    const sourceMaterial = existing?.origin || origin || material;
+    let groups = variants.get(sourceMaterial);
+    if (!groups) variants.set(sourceMaterial, (groups = new Map()));
+    if (groups.has(pack.name)) return groups.get(pack.name);
+    if (existing) {
+      const clone = material.clone();
+      // Three's Material.copy does not preserve these callbacks. Restore the chain that
+      // preceded this installation, and let prepareModel bind its later lighting stages.
+      clone.onBeforeCompile = existing.compile;
+      clone.customProgramCacheKey = existing.cache;
+      clone.userData = { ...material.userData };
+      ownedClones.add(clone);
+      return bindMaterial(clone, pack.name, sourceMaterial);
+    }
+    const compile = material.onBeforeCompile,
+      cache = material.customProgramCacheKey;
+    material.onBeforeCompile = function (shader, renderer) {
+      compile.call(this, shader, renderer);
+      Object.assign(shader.uniforms, pack.uniforms);
+      shader.vertexShader = shader.vertexShader
+        .replace("#include <common>", "#include <common>\nvarying vec3 installWorldPosition;")
+        .replace("#include <project_vertex>", "installWorldPosition=(modelMatrix*vec4(transformed,1.0)).xyz;\n#include <project_vertex>");
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          "#include <common>",
+          `#include <common>
+varying vec3 installWorldPosition;
+uniform vec3 installLineA[${MAX_LINES}];
+uniform vec3 installLineB[${MAX_LINES}];
+uniform vec3 installLineColor[${MAX_LINES}];
+uniform vec3 installLineMin[${MAX_LINES}];
+uniform vec3 installLineMax[${MAX_LINES}];
+uniform vec3 installPointPosition[${MAX_POINTS}];
+uniform vec3 installPointColor[${MAX_POINTS}];
+uniform vec4 installPointCone[${MAX_POINTS}];
+uniform vec3 installPointMin[${MAX_POINTS}];
+uniform vec3 installPointMax[${MAX_POINTS}];
+uniform float installActive;
+${LINE_GLSL}`
+        )
+        .replace(
+          "#include <aomap_fragment>",
+          "if(installActive>0.5)reflectedLight.directDiffuse+=installationIrradiance(installWorldPosition,inverseTransformDirection(normal,viewMatrix))*BRDF_Lambert(material.diffuseColor);\n#include <aomap_fragment>"
+        );
+    };
+    material.customProgramCacheKey = function () {
+      return `${cache.call(this)}|light-installations-v2`;
+    };
+    material.needsUpdate = true;
+    bindings.set(material, { group: pack.name, compile, cache, origin: sourceMaterial });
+    groups.set(pack.name, material);
+    material.userData.installationReceiverOrigin = sourceMaterial.uuid;
+    material.userData.installationReceiverGroup = pack.name;
+    material.userData.installationReceiverOwnedVariant = material !== sourceMaterial;
+    return material;
+  }
+
   return {
     root,
     uniforms,
     lines,
     points,
-    indirectPowers: () => authoredLines.map((line) => line.intensity * line.a.distanceTo(line.b) * levels[line.id]),
+    indirectPowers: () =>
+      transportSources.map((source) => source.intensity * (source.position ? 1 : source.a.distanceTo(source.b)) * levels[source.id]),
     bindModel,
     setPool,
     // minute after midnight, daylight 0..1, the routine's activity id.
@@ -480,8 +676,9 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       const dark = darkness(daylight);
       for (const [id, schedule] of Object.entries(SCHEDULES)) levels[id] = THREE.MathUtils.clamp(schedule({ minute, dark, activity, visit }), 0, 1);
       for (const [id, room] of roomLighting) levels[room.id] = visit === id ? Math.max(0.75, dark.inside) : 0.16 * dark.inside;
-      if (!interior?.entrance?.positions?.length) levels.entrance = 0;
-      if (!interior?.dining?.length) levels.dining = 0;
+      if (!interior?.entrance?.positions?.length && ![...additional.lines, ...additional.points].some((source) => source.id === "entrance"))
+        levels.entrance = 0;
+      if (!interior?.dining?.length && ![...additional.lines, ...additional.points].some((source) => source.id === "dining")) levels.dining = 0;
       desk = deskLevel(activity);
       lantern = lanternLevel({ dark, activity });
       apply();
@@ -505,9 +702,10 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     },
     // With a normal this is the shader's direct irradiance reference, including bounded lines.
     // Without one, preserve the isotropic point estimate used for the onsen steam's ambient.
-    irradianceAt(point, normal = null) {
+    irradianceAt(point, normal = null, group = null) {
       const total = new THREE.Color(0, 0, 0);
-      for (const p of points) {
+      const selected = group === null ? { lines, points } : packFor(group);
+      for (const p of selected.points) {
         const level = levels[p.id] * (p.id === "fire" ? flicker : 1);
         if (!level || !insideRegion(point, p.region)) continue;
         const toLight = p.position.clone().sub(point),
@@ -518,52 +716,14 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
         total.add(p.color.clone().multiplyScalar((p.intensity * level * cosine * cone) / r2));
       }
       if (normal)
-        for (const line of lines) {
+        for (const line of selected.lines) {
           if (!insideRegion(point, line.region)) continue;
           const energy = line.intensity * levels[line.id] * lineIrradiance(point, normal, line.a, line.b);
           total.add(line.color.clone().multiplyScalar(energy));
         }
       return total;
     },
-    bindMaterial(material) {
-      if (!material?.isMeshStandardMaterial || bindings.has(material)) return;
-      const compile = material.onBeforeCompile,
-        cache = material.customProgramCacheKey;
-      material.onBeforeCompile = function (shader, renderer) {
-        compile.call(this, shader, renderer);
-        Object.assign(shader.uniforms, uniforms);
-        shader.vertexShader = shader.vertexShader
-          .replace("#include <common>", "#include <common>\nvarying vec3 installWorldPosition;")
-          .replace("#include <project_vertex>", "installWorldPosition=(modelMatrix*vec4(transformed,1.0)).xyz;\n#include <project_vertex>");
-        shader.fragmentShader = shader.fragmentShader
-          .replace(
-            "#include <common>",
-            `#include <common>
-varying vec3 installWorldPosition;
-uniform vec3 installLineA[${MAX_LINES}];
-uniform vec3 installLineB[${MAX_LINES}];
-uniform vec3 installLineColor[${MAX_LINES}];
-uniform vec3 installLineMin[${MAX_LINES}];
-uniform vec3 installLineMax[${MAX_LINES}];
-uniform vec3 installPointPosition[${MAX_POINTS}];
-uniform vec3 installPointColor[${MAX_POINTS}];
-uniform vec4 installPointCone[${MAX_POINTS}];
-uniform vec3 installPointMin[${MAX_POINTS}];
-uniform vec3 installPointMax[${MAX_POINTS}];
-uniform float installActive;
-${LINE_GLSL}`
-          )
-          .replace(
-            "#include <aomap_fragment>",
-            "if(installActive>0.5)reflectedLight.directDiffuse+=installationIrradiance(installWorldPosition,inverseTransformDirection(normal,viewMatrix))*BRDF_Lambert(material.diffuseColor);\n#include <aomap_fragment>"
-          );
-      };
-      material.customProgramCacheKey = function () {
-        return `${cache.call(this)}|light-installations-v1`;
-      };
-      material.needsUpdate = true;
-      bindings.add(material);
-    },
+    bindMaterial,
     get levels() {
       return { ...levels };
     },
@@ -572,6 +732,17 @@ ${LINE_GLSL}`
         levels: { ...levels },
         lines: lines.length,
         points: points.length,
+        receiverPacks: Object.fromEntries(
+          [...packs].map(([name, pack]) => [
+            name,
+            {
+              lines: pack.lines.length,
+              points: pack.points.length,
+              sources: [...pack.lines, ...pack.points].map((source) => source.source || source.id),
+            },
+          ])
+        ),
+        clonedReceiverMaterials: ownedClones.size,
         festoonMaterials: glowing.festoon.length,
         fireMaterials: glowing.fire.length,
         deskMaterials: glowing.desk.length,
@@ -585,6 +756,8 @@ ${LINE_GLSL}`
       soffitMaterial.dispose();
       stepMaterial.dispose();
       poolMaterial.dispose();
+      for (const material of ownedClones) material.dispose();
+      ownedClones.clear();
       root.removeFromParent();
     },
   };
