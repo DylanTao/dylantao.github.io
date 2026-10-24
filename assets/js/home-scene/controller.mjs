@@ -59,7 +59,7 @@ import { createCurtainRig } from "./curtain-rig.mjs";
 import { createWarmPracticals } from "./warm-practicals.mjs";
 import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
-import { createStaticLightField } from "./static-light-field.mjs";
+import { createStaticLightField, staticLightRegions } from "./static-light-field.mjs";
 import { prepareFramePrograms } from "./program-warmup.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs";
@@ -91,8 +91,8 @@ const remember = (key, value) => {
 // ACES, so a comparison shows tone and color rather than a brighter or darker picture.
 const TONE_MAPPING = { aces: THREE.ACESFilmicToneMapping, agx: THREE.AgXToneMapping, neutral: THREE.NeutralToneMapping };
 const TONE_EXPOSURE = { aces: 1, agx: 1.08, neutral: 1.24 };
-const CANVAS_LABEL =
-  "Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag, right-drag or Shift+arrows move the view; plus and minus or Page Up and Page Down zoom, and zooming out past a room shows the whole house, then the coast. Home recentres the view. In the whole house, click a room or press 1 to 6 to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside. F opens full screen; Escape leaves it. In full screen, V walks: W A S D or the arrow keys move, Shift runs, Page Up and Page Down look up and down, and dragging or a click to capture the mouse looks around; V again returns to orbiting.";
+const canvasLabel = (roomCount) =>
+  `Sirui’s coastal home. Drag or use arrow keys to look around; Shift-drag, right-drag or Shift+arrows move the view; plus and minus or Page Up and Page Down zoom, and zooming out past a room shows the whole house, then the coast. Home recentres the view. In the whole house, click a room or press 1 to ${Math.min(roomCount, 9)} to visit it. N visits a coastal neighbour, D discovers a record, Escape returns inside. F opens full screen; Escape leaves it. In full screen, V walks: W A S D or the arrow keys move, Shift runs, Page Up and Page Down look up and down, and dragging or a click to capture the mouse looks around; V again returns to orbiting.`;
 
 export function createCoastalHome(container, records, artifacts) {
   const stage = container.closest("[data-home-artifact-stage]");
@@ -1441,7 +1441,7 @@ export function createCoastalHome(container, records, artifacts) {
     container.removeAttribute("data-focused-desk-object");
     container.removeAttribute("data-coastal-neighbour");
     container.dataset.deskView = currentRoom === "outside" ? "outside" : "room";
-    renderer?.domElement.setAttribute("aria-label", CANVAS_LABEL);
+    renderer?.domElement.setAttribute("aria-label", canvasLabel(config.rooms.length));
   }
 
   function inspectNeighbour(id) {
@@ -1902,6 +1902,9 @@ export function createCoastalHome(container, records, artifacts) {
     world.traverse((object) => {
       // Orbiting opens the section; a visitor inside the house keeps its real enclosing ceiling.
       if (object.userData.caveRoof) object.visible = currentRoom === "outside" || Boolean(walkMode?.active);
+      // The stacked bath's slab opens only for its lower-room inspection, preserving the upper
+      // bathroom's real floor in every other view and throughout first-person exploration.
+      if (object.userData.bathroomCeilingFor) object.visible = currentRoom !== object.userData.bathroomCeilingFor || Boolean(walkMode?.active);
     });
   }
 
@@ -2108,7 +2111,7 @@ export function createCoastalHome(container, records, artifacts) {
     const canvas = renderer.domElement;
     canvas.className = "home-desk-corner-canvas";
     canvas.tabIndex = 0;
-    canvas.setAttribute("aria-label", CANVAS_LABEL);
+    canvas.setAttribute("aria-label", canvasLabel(config.rooms.length));
     // Right-drag moves the viewpoint, so the canvas keeps its own context menu out of the way.
     listen(canvas, "contextmenu", (e) => e.preventDefault());
     listen(canvas, "pointerdown", (e) => {
@@ -2234,7 +2237,7 @@ export function createCoastalHome(container, records, artifacts) {
     );
     listen(canvas, "keydown", (e) => {
       if (e.ctrlKey || e.metaKey || e.altKey || e.isComposing) return;
-      // Shift+arrows move the viewpoint; in the whole house, 1 to 6 visit the rooms in order.
+      // Shift+arrows move the viewpoint; in the whole house, number keys visit rooms in order.
       if (e.shiftKey && e.key.startsWith("Arrow")) {
         e.preventDefault();
         inertia.stop();
@@ -2965,6 +2968,7 @@ export function createCoastalHome(container, records, artifacts) {
       coastalWind = createCoastalWind();
       warmPracticals = createWarmPracticals(scene, (m) => bindContactLighting(m, finish.contactLighting));
       staticLightField = createStaticLightField({
+        regions: staticLightRegions(config),
         practicalSources: warmPracticals.sources,
         acceptMesh(mesh) {
           if (mesh.geometry?.attributes.coastalPlantWeight) return false;

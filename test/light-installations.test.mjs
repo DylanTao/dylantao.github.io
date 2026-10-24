@@ -107,6 +107,77 @@ test("entrance fixtures light only their authored foyer without adding native li
   lights.dispose();
 });
 
+const bathroom = (id, floor) => ({
+  id,
+  lightRegion: { min: [-8.25, floor, 1.85], max: [-4.4, floor + 2.35, 6.1] },
+  lighting: {
+    lines: [
+      { id: "mirror", a: [-8.1, floor + 1.95, 3.1], b: [-8.1, floor + 1.95, 4.2], intensity: 0.55 },
+      { id: "shower", a: [-7.9, floor + 2.2, 2.05], b: [-6.8, floor + 2.2, 2.05], intensity: 0.35 },
+    ],
+  },
+});
+
+test("bathroom mirror and shower lights fit the shader budget and follow each room's own visit", () => {
+  const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  manifest.rooms = [...manifest.rooms.filter((room) => !room.id.startsWith("bath-")), bathroom("bath-living", 0), bathroom("bath-bedroom", 2.6)];
+  const lights = createLightInstallations(manifest);
+  assert.equal(lights.lines.length, 18);
+  assert.equal(lights.points.length, 10, "bathrooms add no point lights or shadow maps");
+  assert.ok(lights.root.children.every((object) => !object.isLight));
+  const root = new THREE.Group(),
+    fixtures = [];
+  for (const id of ["bath-living", "bath-bedroom"]) {
+    const material = new THREE.MeshStandardMaterial({ emissive: 0xffddaa, emissiveIntensity: 2 });
+    const fixture = new THREE.Mesh(new THREE.BoxGeometry(), material);
+    fixture.userData.roomLight = id;
+    root.add(fixture);
+    fixtures.push(fixture);
+  }
+  lights.bindModel(root);
+  lights.update({ minute: 12 * 60, daylight: 0.95, activity: "reading", visit: "bath-living" });
+  assert.equal(lights.levels["room:bath-living"], 0.75, "a sheltered bathroom has useful daytime task light");
+  assert.equal(lights.levels["room:bath-bedroom"], 0);
+  assert.equal(fixtures[0].material.emissiveIntensity, 1.5);
+  assert.equal(fixtures[1].material.emissiveIntensity, 0);
+  for (const [id, floor] of [
+    ["bath-living", 0],
+    ["bath-bedroom", 2.6],
+  ]) {
+    for (const line of lights.lines.filter((line) => line.id === `room:${id}`)) {
+      const index = lights.lines.indexOf(line);
+      assert.equal(line.region.min.y, floor);
+      assert.equal(line.region.max.y, floor + 2.35);
+      const energy = lights.uniforms.installLineColor.value.slice(index * 3, index * 3 + 3);
+      assert.equal(
+        energy.some((value) => value > 0),
+        id === "bath-living"
+      );
+    }
+  }
+  lights.update({ minute: 23 * 60, daylight: 0, activity: "sleep", visit: "bath-bedroom" });
+  assert.equal(lights.levels["room:bath-living"], 0.16);
+  assert.equal(lights.levels["room:bath-bedroom"], 1);
+  assert.equal(fixtures[0].material.emissiveIntensity, 0.32);
+  assert.equal(fixtures[1].material.emissiveIntensity, 2);
+  root.traverse((object) => {
+    object.geometry?.dispose();
+    object.material?.dispose();
+  });
+  lights.dispose();
+});
+
+test("invalid or over-budget bathroom lighting fails before a fixture can be silently dropped", () => {
+  const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  manifest.rooms = [bathroom("bath-living", 0), bathroom("bath-bedroom", 2.6), bathroom("extra", 5.2)];
+  assert.throws(() => createLightInstallations(manifest), /capacity exceeded: 20\/18 lines/);
+  const invalid = bathroom("bath-living", 0);
+  invalid.lighting.lines[0].b = [...invalid.lighting.lines[0].a];
+  assert.throws(() => createLightInstallations({ rooms: [invalid] }), /Empty line light for bath-living/);
+  delete invalid.lightRegion;
+  assert.throws(() => createLightInstallations({ rooms: [invalid] }), /Invalid light region for bath-living/);
+});
+
 test("the dining saucers and kitchen task light welcome a daytime visitor outside Sirui's meal schedule", () => {
   const lights = createLightInstallations({
     interiorLights: {

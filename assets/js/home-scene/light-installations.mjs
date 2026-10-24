@@ -16,14 +16,15 @@ import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.
 //            evening (manifest interiorLights);
 //   downlights the soffit downlights over the working kitchen, two vault downlights over the island
 //            and the light line under the kitchen's lower shelf: task light for every meal, a low
-//            glow after dark otherwise.
+//            glow after dark otherwise;
+//   room     authored mirror and shower coves, bright for a visit and a quiet glow at night.
 // Line emitters use the exact irradiance of a uniformly emitting segment on a Lambertian
 // surface, clipped to the surface's upper hemisphere: E = I |d| (2/D) [n0((2A+B)/|L1| - B/|L0|) -
 // n1((B+2C)/|L1| - 2C/|L0|)], with L(t) = L0 + t d, A = d.d, B = 2 L0.d, C = L0.L0,
 // D = 4AC - B^2, n0 = N.L0 and n1 = N.d (a closed form of the integral of N.L / |L|^3 along t).
 // Points are isotropic or cone-limited. No installation casts shadows or adds a baked bounce.
 
-export const MAX_LINES = 15;
+export const MAX_LINES = 18;
 export const MAX_POINTS = 10;
 const WARM = new THREE.Color(1, 0.7, 0.42);
 const FIRE = new THREE.Color(1, 0.46, 0.16);
@@ -166,6 +167,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   // Emitter geometry (three.js axes: x, up, -Blender y). Intensities are per metre for lines.
   const lines = [];
   const points = [];
+  const roomLighting = new Map();
   if (terrace?.festoon) {
     const region = box([-5.6, -0.12, -7.9], [5.6, 3.6, -2.2]);
     const anchors = terrace.festoon.points.map((p) => new THREE.Vector3(...p));
@@ -274,6 +276,30 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     region: box([1.9, 2.0, 1.2], [5.6, 5.0, 5.6]),
   });
 
+  // Each bathroom owns a mirror wash and a concealed shower cove. These bounded analytic
+  // sources add neither PointLights nor shadow maps, and cannot spill into the other storey.
+  for (const room of config.rooms || []) {
+    if (!room.lighting?.lines?.length) continue;
+    const bounds = room.lightRegion;
+    const finitePoint = (point) => Array.isArray(point) && point.length === 3 && point.every(Number.isFinite);
+    if (!bounds || !finitePoint(bounds.min) || !finitePoint(bounds.max) || !bounds.min.every((v, i) => v < bounds.max[i]))
+      throw new RangeError(`Invalid light region for ${room.id}`);
+    const id = `room:${room.id}`,
+      region = box(bounds.min, bounds.max);
+    roomLighting.set(room.id, { id, glowing: new Set() });
+    for (const source of room.lighting.lines) {
+      if (!finitePoint(source.a) || !finitePoint(source.b) || !Number.isFinite(source.intensity) || source.intensity < 0)
+        throw new RangeError(`Invalid line light for ${room.id}`);
+      const a = new THREE.Vector3(...source.a),
+        b = new THREE.Vector3(...source.b);
+      if (a.distanceToSquared(b) < 1e-8) throw new RangeError(`Empty line light for ${room.id}`);
+      lines.push({ id, a, b, intensity: source.intensity, color: WARM, region });
+    }
+  }
+  // Typed shader uniforms must never silently discard an authored fixture.
+  if (lines.length > MAX_LINES || points.length > MAX_POINTS)
+    throw new RangeError(`Light installation capacity exceeded: ${lines.length}/${MAX_LINES} lines, ${points.length}/${MAX_POINTS} points`);
+
   // Fixtures the installations need beyond the shell: the soffit's diffuser and the step lights.
   const root = new THREE.Group();
   root.name = "Light installations";
@@ -314,6 +340,11 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     model.traverse((o) => {
       if (!o.isMesh) return;
       for (const m of [o.material].flat()) {
+        const room = roomLighting.get(o.userData.roomLight);
+        if (room && m.emissive) {
+          m.userData.authoredEmissive ??= m.emissiveIntensity;
+          room.glowing.add(m);
+        }
         if (m.name === "festoon bulb glass" && !glowing.festoon.includes(m)) glowing.festoon.push(m);
         if (m.name === "fire bowl embers" && !glowing.fire.includes(m)) glowing.fire.push(m);
         if (m.name === "gym light diffuser" && !glowing.gym.includes(m)) glowing.gym.push(m);
@@ -354,7 +385,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     poolMesh.lookAt(center[0], lamp.position.y, center[1]);
   }
 
-  const levels = Object.fromEntries(Object.keys(SCHEDULES).map((id) => [id, 0]));
+  const levels = Object.fromEntries([...Object.keys(SCHEDULES), ...[...roomLighting.values()].map((room) => room.id)].map((id) => [id, 0]));
   let flicker = 1;
   function apply() {
     lines.forEach((line, i) => {
@@ -400,6 +431,8 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     for (const m of glowing.lantern) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 1.6 * lantern;
     for (const m of glowing.pendant) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 1.3 * Math.max(levels.pendant, levels.dining);
     for (const m of glowing.downlights) m.emissiveIntensity = (m.userData.authoredEmissive ?? 1) * 3 * levels.downlights;
+    for (const room of roomLighting.values())
+      for (const material of room.glowing) material.emissiveIntensity = material.userData.authoredEmissive * levels[room.id];
   }
 
   const bindings = new WeakSet();
@@ -414,6 +447,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     update({ minute, daylight, activity, visit = null }) {
       const dark = darkness(daylight);
       for (const [id, schedule] of Object.entries(SCHEDULES)) levels[id] = THREE.MathUtils.clamp(schedule({ minute, dark, activity, visit }), 0, 1);
+      for (const [id, room] of roomLighting) levels[room.id] = visit === id ? Math.max(0.75, dark.inside) : 0.16 * dark.inside;
       if (!interior?.entrance?.positions?.length) levels.entrance = 0;
       if (!interior?.dining?.length) levels.dining = 0;
       desk = deskLevel(activity);

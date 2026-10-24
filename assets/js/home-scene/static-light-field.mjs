@@ -32,6 +32,16 @@ export const STATIC_LIGHT_REGIONS = [
   { id: "gym", min: [6.1, -0.05, -3.2], max: [10.9, 2.4, 0.95] },
 ];
 
+// Room additions carry their own world-space cage rather than extending this legacy list.
+// The same metadata bounds the bathroom's direct lights; each floor retains its own probes.
+export function staticLightRegions(config) {
+  const regions = new Map(STATIC_LIGHT_REGIONS.map((region) => [region.id, region]));
+  for (const room of config?.rooms || []) {
+    if (room.lightRegion) regions.set(room.id, { ...room.lightRegion, id: room.id });
+  }
+  return [...regions.values()];
+}
+
 const abortError = () => Object.assign(new Error("Static light bake cancelled"), { name: "AbortError" });
 let nextFieldIdentity = 0;
 const defaultYield = () => new Promise((resolve) => setTimeout(resolve, 0));

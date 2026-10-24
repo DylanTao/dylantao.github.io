@@ -11,13 +11,38 @@ import {
   pointAttenuation,
   sphereQuadrature,
 } from "../assets/js/home-scene/light-trace-core.mjs";
-import { createStaticLightField, STATIC_LIGHT_REGIONS } from "../assets/js/home-scene/static-light-field.mjs";
+import { createStaticLightField, STATIC_LIGHT_REGIONS, staticLightRegions } from "../assets/js/home-scene/static-light-field.mjs";
 
 const close = (a, b, tolerance = 1e-6) => assert.ok(Math.abs(a - b) < tolerance, `${a} differs from ${b}`);
 const regions = [{ id: "test", min: [-0.8, 0.15, -0.8], max: [0.8, 1.5, 0.8] }];
 const lighting = { zenith: [1, 1, 1], horizon: [1, 1, 1], ground: [1, 1, 1], practicalPowers: [] };
 const immediate = () => Promise.resolve();
 const snapshotSignature = "a".repeat(64);
+
+test("the two bathroom storeys receive separate authored light cages within the existing probe budget", async () => {
+  const config = {
+    rooms: [
+      { id: "bath-living", lightRegion: { min: [-8.25, 0, 1.85], max: [-4.4, 2.35, 6.1] } },
+      { id: "bath-bedroom", lightRegion: { min: [-8.25, 2.6, 1.85], max: [-4.4, 4.95, 6.1] } },
+    ],
+  };
+  const cages = staticLightRegions(config);
+  assert.equal(cages.length, STATIC_LIGHT_REGIONS.length + 2);
+  const field = createStaticLightField({ regions: cages, raysPerProbe: 16, skyRaysPerHit: 2 });
+  field.setLighting(lighting);
+  await field.bake({ yieldTask: immediate });
+  for (const [id, height] of [
+    ["bath-living", 1.15],
+    ["bath-bedroom", 3.75],
+  ]) {
+    const sample = field.sample([-6.3, height, 4], [0, 1, 0]);
+    assert.equal(sample.fallback, false);
+    assert.deepEqual(sample.contributingRegions, [id]);
+    sample.irradiance.forEach((value) => close(value, Math.PI));
+  }
+  assert.throws(() => createStaticLightField({ regions: [...cages, cages[0], cages[1]] }), /1\.\.12 regions/);
+  field.dispose();
+});
 
 test("precomputed transport preserves sampled sky and practical relighting without tracing visitor rays", async () => {
   const practicalSources = [{ id: "lamp", position: [0, 1.4, 0], color: [1, 0.7, 0.4], light: new THREE.PointLight() }],
