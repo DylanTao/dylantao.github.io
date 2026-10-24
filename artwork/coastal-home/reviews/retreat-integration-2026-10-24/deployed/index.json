@@ -1,0 +1,118 @@
+{
+  "sourceCommit": "d684c7eb2265bbc1b1e56c233ac7a37c71f97390",
+  "scope": "Full native assets and synthetic DOM W/Arrow KeyboardEvents held and released by page-side native RAF feedback. This exercises the real input handlers and capsule, but is not trusted hardware keyboard input. Native RAF/performance/timers remain unchanged; only the authored routine Date is fixed. No waypoint teleport, viewport reduction, shader override or quality omission. Mobile is host-GPU touch emulation, not a physical-phone performance measurement.",
+  "files": [
+    {
+      "source": ".jekyll-cache/estate-final-live-asset-check.json",
+      "path": "assets.json.gz",
+      "rawSha256": "ff7cca6922aea7982b3c06c27da66ae45271e627b4ba1e52130e281198d41a1c",
+      "rawBytes": 1741,
+      "archiveSha256": "db676e7eb4214ea7bc8c668e4efb19ae9d019acc20532e13925029cabe4db8f2",
+      "archiveBytes": 610
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/report.json",
+      "path": "walk.json.gz",
+      "rawSha256": "3c0d35a58dffb90e6dfe12f058aa1d72472e4de4fcfe7be0ef5fa2e02dbf2da4",
+      "rawBytes": 5732612,
+      "archiveSha256": "874dd58e7e07ec36fc577c1ccd8c40c88716b926e40eb3abde3986805267615f",
+      "archiveBytes": 392589
+    },
+    {
+      "source": ".jekyll-cache/estate-deployed-routes-final.log",
+      "path": "walk.log.gz",
+      "rawSha256": "65aaa2286a9d63fab7681817bcc26261b4c7c7dee0d6d943b643085f30fc70fb",
+      "rawBytes": 1172,
+      "archiveSha256": "efb27661e3cf73d06af321153e08e83dd2b8ea73e808601b893b9e8ea6487222",
+      "archiveBytes": 314
+    },
+    {
+      "source": ".jekyll-cache/estate-final-pages.json",
+      "path": "pages-build.json.gz",
+      "rawSha256": "6d48157f65f077a31c735a71c88bfda47eee5c8d4cb87e9979679e145bf6c207",
+      "rawBytes": 1385,
+      "archiveSha256": "e4a6271cf87f9b91cb7af3e30e8f85dce2966b0c33737b99702386ec73fa576d",
+      "archiveBytes": 511
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/desktop-main-forward-living.png",
+      "path": "desktop-main-forward-living.png",
+      "rawSha256": "2c67a84adc384e80ac2b26f380e542e263d6c2c19a9543ed1279f175375edf7b",
+      "rawBytes": 516764,
+      "archiveSha256": "2c67a84adc384e80ac2b26f380e542e263d6c2c19a9543ed1279f175375edf7b",
+      "archiveBytes": 516764
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/desktop-main-return-arrival.png",
+      "path": "desktop-main-return-arrival.png",
+      "rawSha256": "1ecf69176faff709e438156bc34a42ff86139f27cf3657f87d71a4f06098dfba",
+      "rawBytes": 330699,
+      "archiveSha256": "1ecf69176faff709e438156bc34a42ff86139f27cf3657f87d71a4f06098dfba",
+      "archiveBytes": 330699
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/desktop-patio-forward-patio.png",
+      "path": "desktop-patio-forward-patio.png",
+      "rawSha256": "22baf55ed8c645d1e810e70faddbed1cc3020cb89a110751dec15f0ea1cb98ca",
+      "rawBytes": 385243,
+      "archiveSha256": "22baf55ed8c645d1e810e70faddbed1cc3020cb89a110751dec15f0ea1cb98ca",
+      "archiveBytes": 385243
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/desktop-patio-return-arrival.png",
+      "path": "desktop-patio-return-arrival.png",
+      "rawSha256": "59c8e6d15b5027dc2d9e2bb34643ec15053dcbd20537055f24fde11b6c1ef0d3",
+      "rawBytes": 416760,
+      "archiveSha256": "59c8e6d15b5027dc2d9e2bb34643ec15053dcbd20537055f24fde11b6c1ef0d3",
+      "archiveBytes": 416760
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/desktop-public-walk-start.png",
+      "path": "desktop-public-walk-start.png",
+      "rawSha256": "49c4cba85dc1f3a3e78e15ca6bb76ffae5edcbb39b264b8d1646055b8013eb98",
+      "rawBytes": 500927,
+      "archiveSha256": "49c4cba85dc1f3a3e78e15ca6bb76ffae5edcbb39b264b8d1646055b8013eb98",
+      "archiveBytes": 500927
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/mobile-main-forward-living.png",
+      "path": "mobile-main-forward-living.png",
+      "rawSha256": "486d0fd1a68b1662c6f21f5e8ae9fbd43b7c99144d9011f12e349ea03302f228",
+      "rawBytes": 197272,
+      "archiveSha256": "486d0fd1a68b1662c6f21f5e8ae9fbd43b7c99144d9011f12e349ea03302f228",
+      "archiveBytes": 197272
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/mobile-main-return-arrival.png",
+      "path": "mobile-main-return-arrival.png",
+      "rawSha256": "438be938f11933f6073ee41f8aa7aeceeb0b3a111f86a5c83ac8cd6a1fabf76c",
+      "rawBytes": 112338,
+      "archiveSha256": "438be938f11933f6073ee41f8aa7aeceeb0b3a111f86a5c83ac8cd6a1fabf76c",
+      "archiveBytes": 112338
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/mobile-patio-forward-patio.png",
+      "path": "mobile-patio-forward-patio.png",
+      "rawSha256": "10d0e438285ef3df113881ac14777bc275c9f01021dbab3799341c8103f9df4d",
+      "rawBytes": 155606,
+      "archiveSha256": "10d0e438285ef3df113881ac14777bc275c9f01021dbab3799341c8103f9df4d",
+      "archiveBytes": 155606
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/mobile-patio-return-arrival.png",
+      "path": "mobile-patio-return-arrival.png",
+      "rawSha256": "a9b7a47521697a90f01322e1c6d8d722241a5777e9338587e60e32a0d87343d3",
+      "rawBytes": 201989,
+      "archiveSha256": "a9b7a47521697a90f01322e1c6d8d722241a5777e9338587e60e32a0d87343d3",
+      "archiveBytes": 201989
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-deployed-routes-final/mobile-public-walk-start.png",
+      "path": "mobile-public-walk-start.png",
+      "rawSha256": "7208602c7c29625ab2a6c251911eb29024456005d984257a120fba3bddd20814",
+      "rawBytes": 156024,
+      "archiveSha256": "7208602c7c29625ab2a6c251911eb29024456005d984257a120fba3bddd20814",
+      "archiveBytes": 156024
+    }
+  ]
+}

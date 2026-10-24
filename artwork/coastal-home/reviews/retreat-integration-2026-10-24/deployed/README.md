@@ -1,0 +1,9 @@
+# Exact deployed acceptance
+
+The public site serves source **d684c7eb2265bbc1b1e56c233ac7a37c71f97390**, through Pages commit **00ad607d0edfe722b31dca43c985386eef944209**. Pages reports built and its commit names that exact source. The [asset receipt](assets.json.gz) matches the final shell, controller, onsen module, cache, manifest and loading drawings: four are byte-exact; manifest/sketch differ only in JSON formatting. No source or shader overlays are used.
+
+The [actual public Walk](walk.json.gz) passes every leg on both desktop and 390-pixel touch emulation: main cliff descent to lower living, dry patio outward/return, and climb back to the cliff. All native waypoints, actual capsule contacts, settled endpoint/floor thresholds, full scene assets and native RAF/performance/timers remain intact. Synthetic DOM W/Arrow keys are explicitly labeled in the report. Both viewports complete one continuous public circuit, without waypoint placement jumps. Date alone is fixed to the authored October24 night routine. Standard external-service stubs avoid real analytics/counter requests.
+
+The ten PNGs preserve actual start/endpoint views, including [living arrival](desktop-main-forward-living.png), [mobile patio](mobile-patio-forward-patio.png) and [mobile cliff return](mobile-main-return-arrival.png). These are movement witnesses, not deliberately framed presentation shots. The return faces inland; the patio endpoint faces the house. The broader landscape remains naturally dark. The screenshots and touch viewport do not establish physical-phone FPS or touch-joystick usability.
+
+[Archive hashes](index.json), [raw command log](walk.log.gz) and [Pages status](pages-build.json.gz) retain source custody. All runs use Intel Arc D3D11. Final full CI status is recorded in the coordinator's release receipt; these live results do not claim CI completion.

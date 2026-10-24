@@ -88,6 +88,22 @@
       "rawBytes": 1524,
       "archiveSha256": "ce8d62173338c132eb762a031f4356e0858af3e87928e25dcce6c15219350648",
       "archiveBytes": 1524
+    },
+    {
+      "source": ".jekyll-cache/estate-repairs-mobile.log",
+      "path": "mobile-three-repairs.log.gz",
+      "rawSha256": "fe8f5a95e94bffe92408a58fca7d6586f69d614761af105e0ac323febb138fec",
+      "rawBytes": 2496,
+      "archiveSha256": "1dcf088e80fdfd8b121472b9223fafba5b308a8aa30c59524f32cc44fdebe221",
+      "archiveBytes": 760
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/estate-repairs-mobile/desk-scene-coastal-neighbo-41613-thout-extra-public-controls-mobile-390/gallery-gull-after-synchronous-cutaway-transition.png",
+      "path": "gallery-after-mobile-canvas.png",
+      "rawSha256": "c1a4c94a88b98f97506185ce12444c6a4f4891133bec3a40890bddee63f27991",
+      "rawBytes": 111927,
+      "archiveSha256": "c1a4c94a88b98f97506185ce12444c6a4f4891133bec3a40890bddee63f27991",
+      "archiveBytes": 111927
     }
   ]
 }
