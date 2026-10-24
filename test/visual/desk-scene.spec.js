@@ -881,7 +881,7 @@ async function beginClockedMotion(page, canvas) {
   await expect(page.locator("[data-world-pause]")).toBeEnabled();
   await page.clock.runFor(1400);
 }
-async function sceneInputFrame(page, { scene, canvas }, input, { clockStep = 200 } = {}) {
+async function sceneInputFrame(page, { scene, canvas }, input, { clockStep = 200, frameTimeout = 60000 } = {}) {
   const frames = (await evidence(scene)).frames;
   await input();
   await canvas.scrollIntoViewIfNeeded();
@@ -896,7 +896,7 @@ async function sceneInputFrame(page, { scene, canvas }, input, { clockStep = 200
         await page.clock.runFor(clockStep);
         return (await evidence(scene)).frames;
       },
-      { timeout: 60000 }
+      { timeout: frameTimeout }
     )
     .toBeGreaterThan(frames);
 }
@@ -1971,7 +1971,9 @@ test("coastal home: full screen fills the screen, keeps its controls and returns
   const errors = collectRuntimeErrors(page);
   const view = await openClockedHome(page);
   const { stage, scene, canvas, ui } = view;
-  const inputFrame = (input) => sceneInputFrame(page, view, input, { clockStep: 32 });
+  // Software fullscreen paints can outlast the ordinary frame helper's limit.
+  // Admit one RAF callback per poll and retain the existing whole-test budget.
+  const inputFrame = (input) => sceneInputFrame(page, view, input, { clockStep: 8, frameTimeout: test.info().timeout });
   const viewport = page.viewportSize();
   const enter = ui.locator("[data-world-fullscreen]");
   const exit = page.locator("[data-world-exit]");

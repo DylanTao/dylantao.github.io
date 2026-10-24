@@ -73,9 +73,10 @@ errors, with a matching CPU regression. Two further horizon cases retain the
 original pixel threshold and sampling region: their camera moved 30 m seaward so
 the expanded pavilion no longer intersects the intended sea-only view.
 [The retained samples](contact-and-horizon-repair.json) record both checks.
-The fullscreen entry/exit/focus/scroll case also passes with its original assertions
-and timeout; smaller virtual-clock steps avoid queueing several expensive
-full-viewport software renders inside one polling operation.
+The fullscreen entry/exit/focus/scroll case retains its original assertions and
+whole-test budget. Eight-millisecond virtual-clock steps admit one input/resize
+RAF callback per poll. Its frame wait uses that existing test budget so a valid
+software paint can finish without tripping a shorter nested synchronization limit.
 The legacy outside-view/zoom/scroll/explicit-return case now passes in Linux Docker
 with its original 300-second test budget. It uses the existing
 [qualified Mesa WebGL2 backend](legacy-backend-qualification.json), retaining four-sample
