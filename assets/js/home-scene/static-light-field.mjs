@@ -132,6 +132,17 @@ export function createStaticLightField({
     relocatedProbes: 0,
     rejectedProbes: 0,
   };
+  // Geometry visibility is independent of the live sky and lamp powers. An authoring bake can
+  // retain this small transport field; the visitor only relights its coefficients. The caller's
+  // SHA-256 signature binds the snapshot to the exact authored assets and collector sources.
+  const snapshotConfiguration = JSON.stringify({
+    regions,
+    practicalSources: practicalSources.map(({ id, position, color, distance, emitterRadius }) => ({ id, position, color, distance, emitterRadius })),
+    raysPerProbe,
+    skyRaysPerHit,
+    maxTraceDistance,
+    maxTriangles,
+  });
   const roiMin = [0, 1, 2].map((a) => Math.min(...regions.map((r) => r.min[a])) - maxTraceDistance),
     roiMax = [0, 1, 2].map((a) => Math.max(...regions.map((r) => r.max[a])) + maxTraceDistance);
 
@@ -392,6 +403,61 @@ export function createStaticLightField({
       baking = false;
     }
   }
+  function exportSnapshot({ signature } = {}) {
+    if (disposed || baking || !uniforms.slfReady.value || !transport) throw new Error("bake the field before exporting a snapshot");
+    if (!/^[a-f0-9]{64}$/.test(signature || "")) throw new TypeError("a source SHA-256 signature is required");
+    if (!transport.every((value) => Number.isFinite(value) && Math.abs(value) <= 1e6)) throw new RangeError("transport exceeds safe cache bounds");
+    return {
+      version: 1,
+      signature,
+      configuration: snapshotConfiguration,
+      probes: probes.map((p) => ({ position: [...p.position], valid: p.valid, relocation: p.relocation })),
+      transport: Array.from(transport),
+      moments: Array.from(momentData),
+      statistics: { ...statistics },
+    };
+  }
+  function restoreSnapshot(snapshot, { signature } = {}) {
+    if (disposed || baking || uniforms.slfReady.value) return false;
+    if (!/^[a-f0-9]{64}$/.test(signature || "") || snapshot?.version !== 1 || snapshot.signature !== signature) return false;
+    if (snapshot.configuration !== snapshotConfiguration) return false;
+    const finiteArray = (values, length) => Array.isArray(values) && values.length === length && values.every(Number.isFinite);
+    if (!finiteArray(snapshot.transport, count * sourceCount * 12) || !finiteArray(snapshot.moments, momentData.length)) return false;
+    // Unit-radiance diffuse transport is small; a generous bound rejects finite JSON payloads that
+    // overflow the float32 coefficient texture after ordinary sky/lamp relighting.
+    if (snapshot.transport.some((value) => Math.abs(value) > 1e6)) return false;
+    if (
+      !Array.isArray(snapshot.probes) ||
+      snapshot.probes.length !== count ||
+      !snapshot.probes.every((p) => finiteArray(p?.position, 3) && typeof p.valid === "boolean" && Number.isFinite(p.relocation) && p.relocation >= 0)
+    )
+      return false;
+    // Validate conversion before mutating any live state: a finite JSON number may overflow float32.
+    const positions = Float32Array.from(snapshot.probes.flatMap((p) => [...p.position, p.valid ? 1 : 0])),
+      moments = Float32Array.from(snapshot.moments);
+    if (!positions.every(Number.isFinite) || !moments.every(Number.isFinite)) return false;
+    const started = performance.now();
+    transport = Float64Array.from(snapshot.transport);
+    positionData.set(positions);
+    momentData.set(moments);
+    snapshot.probes.forEach((p, i) => Object.assign(probes[i], { position: [...p.position], valid: p.valid, relocation: p.relocation }));
+    // Report visitor work separately from the original author's bake; restoring traces no rays.
+    statistics = {
+      ...statistics,
+      ready: true,
+      cacheHit: true,
+      cacheBakeMs: snapshot.statistics?.bakeMs ?? null,
+      triangles: snapshot.statistics?.triangles ?? 0,
+      meshes: snapshot.statistics?.meshes ?? 0,
+      relocatedProbes: snapshot.probes.filter((p) => p.relocation > 0).length,
+      rejectedProbes: snapshot.probes.filter((p) => !p.valid).length,
+      restoreMs: performance.now() - started,
+    };
+    uniforms.slfReady.value = 1;
+    positionTexture.needsUpdate = momentTexture.needsUpdate = true;
+    setLighting(lighting, true);
+    return true;
+  }
   function setLighting(next, force = false) {
     if (disposed) return false;
     lighting = {
@@ -642,7 +708,7 @@ if(slfReady>.5) {
     transport = bvh = null;
     roots.length = 0;
   }
-  const api = { addRoot, bake, setLighting, bindMaterial, sample, evidence, dispose };
+  const api = { addRoot, bake, exportSnapshot, restoreSnapshot, setLighting, bindMaterial, sample, evidence, dispose };
   setLighting(lighting);
   return api;
 }

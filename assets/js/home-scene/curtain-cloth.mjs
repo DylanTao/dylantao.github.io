@@ -1024,8 +1024,8 @@ export function createFacadeCurtains({ panels = {}, draft = {}, ...cloth } = {})
 // and while Sirui sleeps, they are drawn closed, except where his evening activity looks out to sea:
 // the room he is in keeps the panel across its camera's line of sight open (the kitchen and lounge
 // cameras look in through the door openings), so dinner and watching the Pacific stay visible. By day
-// the room a visitor is looking into (`visit`) keeps that panel open too, and its neighbour shows the
-// drawn, sunlit sheer.
+// the room a visitor is looking into (`visit`) gathers its pair, including at night while Sirui is
+// awake: a free orbit can cross either panel. Other rooms keep their normal drapes and sleep closes all.
 //
 // CURTAIN_DRAW: how far each panel draws across in full glare (1 = closed).
 export const CURTAIN_DRAW = Object.freeze({ "kitchen-south": 0.55, "kitchen-north": 0.8, "lounge-south": 0.75, "lounge-north": 0.5 });
@@ -1055,6 +1055,7 @@ const smoothstepRange = (e0, e1, x) => {
 export function curtainSchedule({ activity = null, room = null, visit = null, daylight = null } = {}, panels = Object.keys(CURTAIN_DRAW)) {
   const view = CURTAIN_VIEW_PANELS[room] ?? null,
     visited = CURTAIN_VIEW_PANELS[visit] ?? null,
+    visitedPanels = CURTAIN_TRACKS.find((track) => track.id === visit)?.panels.map((panel) => panel.id) ?? [],
     asleep = activity === "sleep",
     night = !daylight || daylight.daylight <= 0.3,
     glare = asleep || night ? 0 : curtainGlare(daylight),
@@ -1068,6 +1069,7 @@ export function curtainSchedule({ activity = null, room = null, visit = null, da
       open = 1 - glare * (CURTAIN_DRAW[id] ?? 0.6);
       if (id === view || id === visited) open = Math.max(open, CURTAIN_VIEW_OPEN);
     }
+    if (!asleep && visitedPanels.includes(id)) open = 1;
     fractions[id] = Math.round(open * 20) / 20;
   }
   return { state, glare, view, visited, fractions };
