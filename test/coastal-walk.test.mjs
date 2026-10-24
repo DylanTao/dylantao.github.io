@@ -176,7 +176,7 @@ test("water is raised into a block: walked around, never on or into", () => {
   assert.equal(isWater({ name: "kitchen waterfall island", material: { name: "milky veined marble" } }), false);
 });
 
-test("walkKind keeps glass, skips doors, props, roofs and characters, and honours userData.walk", () => {
+test("walkKind keeps glass and static cutaway roofs, skips doors, props and characters, and honours userData.walk", () => {
   const mesh = (userData = {}, material = { opacity: 1 }, extra = {}) => ({
     isMesh: true,
     geometry: { attributes: { position: {} } },
@@ -189,7 +189,14 @@ test("walkKind keeps glass, skips doors, props, roofs and characters, and honour
   assert.equal(walkKind(mesh()), "solid");
   assert.equal(walkKind(mesh({ glazing: true, noOcclusion: true })), "solid");
   assert.equal(walkKind(mesh({ glazing: true }, { transmission: 1 })), "solid", "transmissive glass is a surface, not extruded pool water");
-  for (const tag of ["facadeDoor", "caveRoof", "shadowOnly", "activityProp", "action"]) assert.equal(walkKind(mesh({ [tag]: true })), null, tag);
+  for (const tag of ["facadeDoor", "shadowOnly", "activityProp", "action"]) assert.equal(walkKind(mesh({ [tag]: true })), null, tag);
+  assert.equal(walkKind(mesh({ caveRoof: true })), "solid", "the real roof carries outdoor visitors");
+  assert.equal(walkKind(mesh({ caveRoof: true }, { opacity: 1 }, { visible: false })), "solid", "hiding a cutaway never removes its support");
+  const roof = { visible: false, userData: { caveRoof: true }, parent: null };
+  assert.equal(walkKind(mesh({}, { opacity: 1 }, { parent: roof })), "solid", "a hidden native roof node retains its child triangles");
+  roof.parent = { visible: false, userData: {}, parent: null };
+  assert.equal(walkKind(mesh({}, { opacity: 1 }, { parent: roof })), null, "a hidden ancestor room still removes the whole assembly");
+  assert.equal(walkKind(mesh({ caveRoof: true, walk: "through" })), null, "an explicit authored exception remains possible");
   assert.equal(walkKind(mesh({}, { opacity: 1 }, { isSkinnedMesh: true })), null);
   assert.equal(walkKind(mesh({ noOcclusion: true })), null, "effects that skip the contact pass");
   assert.equal(walkKind(mesh({}, { transparent: true, opacity: 0.2 })), null);

@@ -499,7 +499,7 @@ export function isWater(object) {
 
 // How a loaded mesh meets a walker: "solid", "water" (raised into a block) or null (walked through).
 // Glass fronts and the terrace's glass parapet are solid; the sliding doors (they open, and the
-// walk keeps a closed one as a moving obstacle), the lifted roof, shadow-only copies, held props,
+// walk keeps a closed one as a moving obstacle), shadow-only copies, held props,
 // the desk's interactive objects, skinned characters and animals, and faint transparent effects are
 // not. userData.walk = "solid" | "water" | "through" overrides the guess for any authored piece.
 export function walkKind(object, root) {
@@ -507,21 +507,27 @@ export function walkKind(object, root) {
   let glazing = false,
     ghost = false,
     flora = false,
+    roof = false,
     authored = null;
   for (let node = object; node && node !== root; node = node.parent) {
     const data = node.userData || {};
     // Furniture keeps the native placeholder's triangles after its visual replacement arrives.
     // Only that placeholder may be hidden: a hidden ancestor room still stays out of the field.
     if (data.furnitureAnchor || data.furnitureCollision === false) return null;
-    if (node.visible === false && data.furnitureCollision !== true) return null;
+    // The cutaway changes visibility, never the roof's transform: it remains both a real ceiling
+    // inside and the sandstone support under an outdoor visitor. A hidden ancestor room still
+    // stays out, just as it does for a hidden furniture placeholder.
+    if (node.visible === false && data.furnitureCollision !== true && !data.caveRoof) return null;
     authored ??= data.walk ?? null;
-    if (data.shadowOnly || data.caveRoof || data.facadeDoor || data.activityProp || data.action) return null;
+    if (data.shadowOnly || data.facadeDoor || data.activityProp || data.action) return null;
+    if (data.caveRoof) roof = true;
     if (data.glazing) glazing = true;
     if (data.flora) flora = true;
     if (data.noOcclusion) ghost = true;
   }
   if (authored === "through") return null;
   if (authored === "solid" || authored === "water") return authored;
+  if (roof) return "solid";
   if (glazing) return "solid";
   // Wind-blown leaves/grass are not rigid walls. Native tree trunks still stop the body, and an
   // authored walk tag can opt any plant back in. Avoid voxelizing the outdoor planting's hundreds

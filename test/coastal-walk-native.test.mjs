@@ -14,6 +14,11 @@ async function deliveredField() {
     );
     for (const file of files) {
       const root = await nativeGeometry(file);
+      // Full screen commonly opens from an interior cutaway. Hide the actual native roof nodes as
+      // the controller does, then prove their static triangles still carry a visitor outside.
+      root.traverse((object) => {
+        if (object.userData.caveRoof) object.visible = false;
+      });
       root.traverse((object) => {
         const kind = walkKind(object, root);
         if (!kind) return;
@@ -104,4 +109,42 @@ test("the clifftop walking field extends beyond the entrance over real terrain",
   assert.ok(outward.travelled > 10, "the clifftop is more than the door's landing");
   const inward = traverse(field, [...points].reverse());
   t.diagnostic(JSON.stringify({ inward, outward }));
+});
+
+test("the hidden cutaway roof remains real clifftop support while crossing the dwelling and returning", async (t) => {
+  const field = await deliveredField();
+  // These points are above the dwelling itself, unlike the inland terrain loop. Without the
+  // retained roof triangles they incorrectly stand on the upper floor or have no support at all.
+  const rooftop = [
+    [0, 0],
+    [0, 6],
+    [-2, 3],
+  ];
+  for (const [x, z] of rooftop) {
+    const foot = field.floorBelow(x, z, 9);
+    assert.ok(foot > 6.5 && foot < 8, `actual sandstone roof support at ${x}, ${z}: ${foot}`);
+  }
+  const points = [manifest.walk.start.position];
+  // Leave beside the portal's real stone cheek, then use the gap between the native agaves.
+  // Probe below the 9.91 m entrance canopy, so an approach point means its real walking floor.
+  for (const [x, z] of [
+    [3.2, 18.6],
+    [2.6, 19.2],
+    [2.2, 19.2],
+    [1.8, 18.8],
+    [1.8, 9.6],
+    [-0.2, 7.6],
+    [-0.2, 0.2],
+    [0, 0],
+    [0, 6],
+    [-2, 3],
+  ]) {
+    const foot = field.floorBelow(x, z, 9);
+    assert.ok(Number.isFinite(foot), `native support on roof route at ${x}, ${z}`);
+    points.push([x, foot, z]);
+  }
+  const outward = traverse(field, points),
+    inward = traverse(field, [...points].reverse());
+  assert.ok(outward.travelled > 30 && inward.travelled > 30, "crossed the actual house roof and returned through continuous native supports");
+  t.diagnostic(JSON.stringify({ inward, outward, supports: rooftop.map(([x, z]) => ({ x, z, foot: field.floorBelow(x, z, 12) })) }));
 });
