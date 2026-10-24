@@ -70,7 +70,8 @@ class CvMentorshipTests(unittest.TestCase):
 
     def test_p5_target_preserves_the_historical_rejections(self) -> None:
         p5 = next(entry for entry in self.resume["publications"] if entry["paperLabel"] == "P5")
-        self.assertEqual(p5["publisher"], "Preparing for submission to DIS 2027")
+        self.assertEqual(p5["name"], "Manuscript under review.")
+        self.assertEqual(p5["publisher"], "Under review")
         self.assertEqual(p5["rejectionNote"], "[Rejected at CHI26 & UIST 2026] :-<")
         self.assertEqual(p5["summary"], "Sirui Tao and Steven P. Dow.")
 

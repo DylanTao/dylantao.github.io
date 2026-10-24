@@ -81,8 +81,10 @@ class CurrentCvPdfTests(unittest.TestCase):
                 self.assertIn(visible(keyword), skills_text)
         self.assertNotIn("ResubmittingtoCHI27", self.text)
         self.assertNotIn("Citation=226", self.text)
-        self.assertIn("XXX:abcdefg", self.text)
-        self.assertIn("PreparingforsubmissiontoDIS2027", self.text)
+        self.assertIn("Manuscriptunderreview.", self.text)
+        self.assertIn("Underreview", self.text)
+        self.assertNotIn("XXX:abcdefg", self.text)
+        self.assertNotIn("Preparingforsubmission", self.text)
 
     def test_every_current_destination_is_a_real_pdf_link(self):
         links = []
