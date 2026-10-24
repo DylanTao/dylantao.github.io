@@ -1899,6 +1899,9 @@ test("Human focus and AI research keep reciprocal format context", async ({ page
   await expect(focusAiLink).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(aiResearchUrl.href);
+  // The URL commits before DOMContentLoaded. Chromium then handles the #research fragment, whose section cannot take
+  // focus, and moves focus back to <body>. Focusing earlier raced that (CI d684c7eb2), so wait for the page to load.
+  await page.waitForLoadState("load");
 
   const researchHumanLink = page.locator('[data-site-format="human"]');
   await expect.poll(async () => new URL((await researchHumanLink.getAttribute("href")) || "", page.url()).href).toBe(humanFocusUrl.href);

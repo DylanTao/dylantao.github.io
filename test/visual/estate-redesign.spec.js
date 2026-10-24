@@ -162,7 +162,13 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
       })
     );
     const facade = async () => (await stateOf(scene)).simulation.facade.doors;
-    expect((await facade()).every((leaf) => !leaf.scheduledOpen)).toBe(true);
+    // CI (d684c7eb2) once saw a leaf still scheduled open here, with the preview label at 9:30 pm; keep the state that
+    // decides the schedule in the failure message so a recurrence says why.
+    const night = await stateOf(scene);
+    expect(
+      night.simulation.facade.doors.every((leaf) => !leaf.scheduledOpen),
+      `night facade schedule: ${JSON.stringify({ clockMode: night.clockMode, activity: night.activity, daylight: night.daylight?.daylight, doors: night.simulation.facade.doors })}`
+    ).toBe(true);
     await expect
       .poll(
         async () => {
