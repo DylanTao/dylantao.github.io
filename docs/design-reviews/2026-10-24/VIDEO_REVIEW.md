@@ -4,7 +4,7 @@ Prepared and revised 2026-10-24. Primary-source study and original adaptation; d
 
 ## Source and honest coverage
 
-Primary source: [Y Combinator, *How To Stand Out In A World Of AI Designs*](https://www.youtube.com/watch?v=2tZT2-pS_pI), Aaron Epstein with Alex Danilowicz, 47:43; YouTube description dated October 22, 2026.
+Primary source: [Y Combinator, _How To Stand Out In A World Of AI Designs_](https://www.youtube.com/watch?v=2tZT2-pS_pI), Aaron Epstein with Alex Danilowicz, 47:43; YouTube description dated October 22, 2026.
 
 The follow-up local-browser study read the full available spoken auto-caption transcript from **0:00 to 47:32**, sampled actual visual frames across all four critiques, and played portions of the video. The focused Slashy email-edit sequence was revisited after the initial pass. This supersedes the earlier caption-only, black/buffering-frame limitation recorded in the first version.
 
