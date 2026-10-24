@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const { test, expect } = require("@playwright/test");
 const { collectRuntimeErrors, preparePage, stabilizeVisuals } = require("./helpers");
 const { getPublicBaseURL, publicRouteUrl } = require("./public-routes");
-const { pauseSceneClock } = require("./scene-clock");
+const { pauseSceneClock, useSoftwareSceneCadence } = require("./scene-clock");
 
 async function openOptionalStarterRoute(page, path) {
   const response = await page.goto(path, { waitUntil: "networkidle" });
@@ -1267,7 +1267,10 @@ async function coastalHome(page, { openLab = true, controlledFrames = false } = 
   await scene.scrollIntoViewIfNeeded();
   // The first draw compiles every first-view program, which takes longer on software WebGL.
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: software ? 120000 : 30000 });
-  if (controlledFrames) await pauseSceneClock(page);
+  if (controlledFrames) {
+    await pauseSceneClock(page);
+    await useSoftwareSceneCadence(page);
+  }
   if (openLab) {
     await page.locator("[data-world-lab] > summary").click();
     await page.locator('[data-world-room="study"]').first().click();
@@ -1287,6 +1290,9 @@ test("home 3D outside visit survives zoom and scrolling until an explicit return
   // Advance requested still frames explicitly; CPU WebGL input round trips
   // otherwise trigger redundant paints throughout the 120-second proof.
   await pauseSceneClock(page, { advanceDate: false });
+  // Full-size assets and shaders still render; sample the same functional clock
+  // at 10 Hz on software WebGL instead of painting its whole 60 Hz backlog.
+  await useSoftwareSceneCadence(page);
   await canvas.focus();
   await canvas.press("+");
   await page.clock.runFor(100);

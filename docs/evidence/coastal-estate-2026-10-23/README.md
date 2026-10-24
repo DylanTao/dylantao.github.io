@@ -38,16 +38,16 @@ follows the mineral path around the portal's solid stone fin and oak brow.
   and real twin-thumb movement/look on mobile. Six viewport-inapplicable repetitions
   are intentional skips. Desktop and mobile self-reflections use the selected native
   avatar, one owned skeleton and the existing 256/128-pixel shared reflection target.
-- **Engineering:** 681 JavaScript tests pass with seven existing skips; 271 Python
+- **Engineering:** 683 JavaScript tests pass with seven existing skips; 271 Python
   tests pass. Style, skill validation and portable Prettier checks pass. Windows CRLF
   differences are separated from formatting changes. The root production build and
   publication/AI-readable output validator pass. The starter `/al-folio` build also
   passes. [Built asset hashes](built-asset-hashes.json) verify 106 byte-exact runtime,
   model and cache assets, plus the three semantically identical JSON projections.
-- **Budget:** the existing first-scene calculation is 4,063,774 of 4,194,304 bytes.
-  The exact-source diffuse cache is 742,275 bytes. All 12 loading-sketch views are
+- **Budget:** the existing first-scene calculation is 4,063,472 of 4,194,304 bytes.
+  The exact-source diffuse cache is 725,784 bytes. All 12 loading-sketch views are
   regenerated from the delivered geometry. Materials retain the 18-line/10-point
-  analytic-light budget; 25 cached practical channels supply diffuse transport.
+  analytic-light budget; 20 cached practical channels supply diffuse transport.
 
 ## Visual review
 
@@ -57,6 +57,13 @@ The [exterior](1440-exterior-day.png), [terrace](1440-pool-day.png), [pavilion](
 are actual browser captures. The [mobile library](390-library.png) and
 [mobile mirror](390-mirror-guest.png) use a real 390-pixel page layout.
 
+The post-integration repair run passes seven further browser cases: the full water/
+clothing recovery proof, wildlife orbit/zoom/return at all four widths, and gym
+framing on desktop and mobile. [Mobile gym samples](mobile-gym-framing.json) retain
+the actual resumed-frame advance for every tested pose; the [mobile animal orbit](390-sea-lion-orbit.png)
+retains its real touch-sized layout. These functional checks use a disclosed 10 Hz
+virtual clock and do not measure device performance.
+
 Night review added useful output to the two actual library task lamps and pavilion
 pendants. The reading lamp's transport radius matches its shade, so the shade does
 not incorrectly eliminate its entire indirect-light contribution. Library cameras
@@ -65,6 +72,10 @@ the lower view. The mirror preserves the complete reflected body and sun shadow.
 
 ## Retained limits and next inspections
 
+- The local Linux Docker software renderer exceeded the existing 120-second
+  readiness limit before the legacy outside-return case could run. This local
+  attempt is retained under `.jekyll-cache/estate-redesign/legacy-ci-repair.log`;
+  it is not counted as a passing interaction check. Hosted CI is checked separately.
 - Physical-phone frame rates still need a device baseline. These captures and the
   desktop host's rendering time establish layout and behavior, not phone performance.
 - The optional first-person body has a small open-neck artifact at an extreme
@@ -74,6 +85,18 @@ the lower view. The mirror preserves the complete reflected body and sun shadow.
   per-material lighting budget. The final night views are the current acceptance.
 - Pool swimming, stool seating and lounger activity animations remain future interactions;
   the pool's distinct spaces are modelled, and Walk retains its water exclusion.
+
+The broader Linux release matrix also caught the wildlife orbit entering a new
+terrace pier, five empty outdoor transport channels, and clocked fixture
+issues. Wildlife inspection now uses the real collision field down to the nearby
+beach, preserving its opaque-picking check. Compare the [blocked view](1440-sea-lion-before.png)
+with the [repaired orbit](1440-sea-lion-orbit.png); the [native ray diagnosis](inspection-pier-diagnosis.json)
+identifies the new pier and the duplicate terrain lift. The five garden/portal fixtures remain
+direct analytic lights; they no longer store empty diffuse channels outside the
+16 receiver cages. Activity clothing is reapplied when the actor changes cached material groups, so
+leaving the bath restores the authored shirt; [recovery evidence](transport-recovery.json)
+retains the before/after materials and all 20 positive channels. Gym sampling waits for a real resumed frame, and legacy software
+checks use the existing disclosed 10 Hz functional cadence at full viewport size.
 
 Architectural source references and original-geometry boundaries are in
 [asset provenance](../../../artwork/coastal-home/PROVENANCE.md). The scene skill points

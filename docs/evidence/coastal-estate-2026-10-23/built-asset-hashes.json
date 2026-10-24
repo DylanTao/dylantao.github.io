@@ -8,7 +8,7 @@
     "assets/js/home-scene/camera-field-worker.mjs": "5325474f837ad1e6410d53466bdef26e62ce6ab59506fd56e7935273f157a5cf",
     "assets/js/home-scene/camera-field.mjs": "c059c12abe6e80006d5762ce361d87cbacb957bfa7ba39b2f46bed871f951836",
     "assets/js/home-scene/camera-motion.mjs": "bb40c1289d623def704511f76514e05471ff6d3362ab5a4cfe6b4c978dcacb0e",
-    "assets/js/home-scene/camera.mjs": "fbf934bb7c17a63f95403af29bfbe517349309f09277c4591db004a478144863",
+    "assets/js/home-scene/camera.mjs": "dae635b332f94d9b2464a8fb74ec6692ae33a030a4b7681707608d18de95f050",
     "assets/js/home-scene/character-performance.mjs": "ca4ead9aac7ab222436befbd7cbc8f409571f46ae060019dac4a288de582b7ff",
     "assets/js/home-scene/cloth-solver.mjs": "5aa51d5e64e8a9c2c01f986a80895e021b13966e0af7d99d9b73fd69a50292f4",
     "assets/js/home-scene/coastal-wind.mjs": "0f99d8fde65b9704ec7c0de266036f26adece866ff850f91be43d71e28f95564",
@@ -16,7 +16,7 @@
     "assets/js/home-scene/companion.mjs": "2cae9e05fdbd79ff6acc5c15694f97068f5601f061d3c9701e8b46278987bf3c",
     "assets/js/home-scene/contact-lab.mjs": "586f0cd46c0ae909cbede86f2ef5456541378bcdcf2d565525e0fb6d8882a3be",
     "assets/js/home-scene/contact-occlusion.mjs": "01e524066808e1963c04a0d8018c4a94727772b1638a7c9405a8b3fabc34746c",
-    "assets/js/home-scene/controller.mjs": "243cf3758477b4a822f94847074ca72df16ff16d4f4b5514f1eb1e1aa64ceac5",
+    "assets/js/home-scene/controller.mjs": "740e9220ea30db8f995af627c3629face1cd8c7d254765d1a02385ecd9627605",
     "assets/js/home-scene/curtain-cloth.mjs": "e7fc79d2b83c1bdbbbef46efc902fc7c291860b6b9cd4eac7a6024b585c9b84a",
     "assets/js/home-scene/curtain-rig.mjs": "151e152981b0cdd65e0ea0ae67ce742dda6449128eb38a1ede1b7ef75a44da58",
     "assets/js/home-scene/daylight.mjs": "e88eacd50abce6436ba973acde205f82c0a7a95a1862a9002172dfe2c14241f7",
@@ -105,12 +105,12 @@
     "assets/models/home/room-sleep.glb": "5f8cb7c87dc4d0444e75cfd2a92315039aac9c1dc1b8a3d6c9d3554495da9ce7",
     "assets/models/home/room-library.glb": "28e3bdd586468b507485bddce5a85e85f462f7af9969fcb476874c950f8b639d",
     "assets/models/home/room-library-upper.glb": "333a6816bf7c3824385b282019f6e1ba43144287c1327d4e5b0f8d8aff20a819",
-    "assets/models/home/static-light-field.json": "da7b4877a1250cd9fcb7d1286da1dfb02041513a6b2446808be1348fe542fbb6"
+    "assets/models/home/static-light-field.json": "caf44cde97136441d0613184b387ddbb581daf4c42e3d75d61eaf5f20aabdf59"
   },
   "sameJSON": {
     "manifest.json": {
-      "sourceSha256": "5503f9c1d44b34a71c8cbce50dbaee71c511537f739b819e0e58d71578abcf4b",
-      "builtSha256": "b7cb91ad9cfb588470cd59f1c61eac132148325943e7d8c7701aa465a7b8456a"
+      "sourceSha256": "0b58471c25889f164dbcf7f766f1ccba43b534b7ae7e47f1e37c8eb1779c4724",
+      "builtSha256": "8807c183d3408ea39c1fc0c4b619f34041a1c6fd2c12760400dde96b63edfa48"
     },
     "loading-sketch.json": {
       "sourceSha256": "dde14646df0b1f62a43fa270e677bbb9735bd7950ca7767cfb42c80457129439",
@@ -118,7 +118,7 @@
     },
     "wildlife-perch-support.json": {
       "sourceSha256": "9490b1cf7382366296b4953aab8fdab3b4b0928b3a992fbcca8889c37f380fc8",
-      "builtSha256": "85a2b860ca1f9b5e5ac5931f32561f47ac966047d73b40f59bb33c218c870753"
+      "builtSha256": "270eb8dea17b049c1c1dc12718a26ada54fbbe7e6a19724e08a98b74dd184e3d"
     }
   }
 }

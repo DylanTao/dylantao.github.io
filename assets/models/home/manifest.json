@@ -624,7 +624,7 @@
       "minute": 1320
     },
     "coding": {
-      "label": "One more idea\u2026",
+      "label": "One more idea…",
       "room": "study",
       "clip": "typing",
       "minute": 60
@@ -4116,7 +4116,7 @@
   "flora": "flora.glb",
   "training": {
     "source": "Sirui's lifting app on October 15, 2026 (Templates, Cycles and Progress screens): nSuns 5/3/1 LP, six days, Squat and Deadlift templates in turn",
-    "program": "nSuns 5/3/1 LP \u00b7 6-day",
+    "program": "nSuns 5/3/1 LP · 6-day",
     "unit": "lb",
     "asOf": "2026-10-15",
     "seed": "la-jolla",
@@ -4932,8 +4932,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "5f7561526e2f83d191a6e079c1f6f3b01d892c565359f278108c8a31704171d1",
-    "sha256": "da7b4877a1250cd9fcb7d1286da1dfb02041513a6b2446808be1348fe542fbb6"
+    "signature": "38818f831d85685ea5ab9255ccead596ade46beb6327a5e298a3be03ee883944",
+    "sha256": "caf44cde97136441d0613184b387ddbb581daf4c42e3d75d61eaf5f20aabdf59"
   },
   "estateDoors": [
     {
@@ -6148,7 +6148,7 @@
         "min": [2, 7.35, 16.65],
         "max": [4.9, 10.2, 19.5]
       },
-      "transport": true,
+      "transport": false,
       "glowTag": "outdoor-portal"
     },
     {
@@ -6176,7 +6176,7 @@
         "min": [1.0999999999999999, 7.4852, 18.98],
         "max": [3.7, 8.2852, 21.580000000000002]
       },
-      "transport": true,
+      "transport": false,
       "emitterRadius": 0.025,
       "glowTag": "garden-path"
     },
@@ -6191,7 +6191,7 @@
         "min": [-1.84, 7.9563, 18.54],
         "max": [0.76, 8.7563, 21.14]
       },
-      "transport": true,
+      "transport": false,
       "emitterRadius": 0.025,
       "glowTag": "garden-path"
     },
@@ -6206,7 +6206,7 @@
         "min": [-5.15, 8.2537, 15.419999999999998],
         "max": [-2.55, 9.0537, 18.02]
       },
-      "transport": true,
+      "transport": false,
       "emitterRadius": 0.025,
       "glowTag": "garden-path"
     },
@@ -6221,7 +6221,7 @@
         "min": [3.8, 6.9425, 17.599999999999998],
         "max": [6.3999999999999995, 7.7425, 20.2]
       },
-      "transport": true,
+      "transport": false,
       "emitterRadius": 0.025,
       "glowTag": "garden-path"
     },

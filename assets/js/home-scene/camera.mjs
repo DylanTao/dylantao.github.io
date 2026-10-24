@@ -111,11 +111,19 @@ export function collisionBounds(config) {
   }
   if (!Number.isFinite(min[0])) return null;
   const margin = { below: [4.2, 2.2, 6.8], above: [4.2, 5.4, 4.2] };
-  return {
+  const bounds = {
     min: min.map((v, k) => Math.floor((v - margin.below[k]) * 10) / 10),
     max: max.map((v, k) => Math.ceil((v + margin.above[k]) * 10) / 10),
     cell: 0.12,
   };
+  // The terrace's piers and beach neighbours sit below the inhabited floors.
+  // Cover that vertical slice without widening the field to the whole coast.
+  const nearBeach = (config.beach?.samples || []).filter((row) => row[0] >= bounds.min[0] && row[0] <= bounds.max[0]);
+  for (const row of nearBeach)
+    for (const height of row.slice(4))
+      if (Number.isFinite(height))
+        bounds.min[1] = Math.min(bounds.min[1], Math.floor((height - (config.cameraCollision?.clearance ?? 0.32) - 0.15) * 10) / 10);
+  return bounds;
 }
 
 // How surfaces become obstacles. Every connected piece of a mesh is sorted by size first: a piece

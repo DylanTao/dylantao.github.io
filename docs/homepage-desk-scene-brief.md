@@ -126,11 +126,15 @@ The larger terrace uses a thick ring beam and three broad piers visibly socketed
 
 Compose additive native modules before the final bake/export. Namespace ownership includes metadata: an outdoor refresh replaces its deck supports while preserving library floors, galleries and stair treads. A complete journey connects the stair landing to the usable side of a writing table, rather than proving each location in isolation. When furniture changes, carry its chair, lamp, book, light endpoints and actor/camera anchors together. Recheck compressed geometry, hidden-cutaway supports, real moving door leaves, outdoor circulation and source-bound coastal contacts after integration.
 
+New structural supports also change wildlife inspection. Keep the nearby beach inside the camera field's vertical bounds, use the geometry spring arm during inspection, and avoid applying a second height-field projection to a valid under-deck camera. Prove orbit, zoom and clicking the animal to return; a clear initial arrival is insufficient. Keep the normal opaque picking check intact.
+
 ## Walking Presence And Mirrors
 
 Walk uses one skeletal instance of the chosen Sirui avatar, driven by the visitor's actual capsule and travelled distance. The authored routine avatar is hidden during that walk and restored on exit. Held routine props stay with the routine. Native eye locations define a small optical forward offset within the unchanged capsule; native neck measurements define a primary-view head clip. Mirrors and sun shadows retain the complete body. The optional first-person body is omitted from volumetric depth so an invisible head cannot occlude steam. A small lower-neck opening at an extreme straight-down view remains an inspection limit, documented with actual native captures.
 
 Bathroom mirrors keep the shared 128/256-pixel target and bounded update rate. Their projected crop concentrates those pixels on the visible mirror; nearby room context and the actual walking body participate. Moving-to-idle pose changes invalidate a still mirror once. A compiled program alone does not prove the right beauty variant: preparation must cover the actual render-target format, clipping state and scene lights, restore shared state before asynchronous linking, and avoid flashing a duplicate avatar. Reflection evidence distinguishes face/body pixels, room context, stale-frame behavior and phone layout from physical phone frame rate.
+
+Cached receiver materials retain mutable appearance too. Reapply the current activity's garment state after switching material groups, and refresh the walking body's clipping bindings. Verify entering and leaving the bath rather than accepting its arrival appearance alone.
 
 ## Loading And Performance
 

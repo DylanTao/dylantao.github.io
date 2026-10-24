@@ -149,6 +149,25 @@ test("bathroom transport sources share authored cove positions and line energy w
   lights.dispose();
 });
 
+test("garden fixtures retain direct illumination without empty out-of-cage transport channels", () => {
+  const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  const sources = roomLightSources(manifest);
+  const fixtures = [...manifest.installationLines, ...manifest.installationPoints].filter(
+    (fixture) => fixture.id === "portal-brow" || fixture.id.startsWith("garden-path-")
+  );
+  assert.equal(fixtures.length, 5);
+  const lights = createLightInstallations(manifest);
+  lights.update({ minute: 1200, daylight: 0, activity: "reading", visit: "outside" });
+  for (const fixture of fixtures) {
+    assert.equal(fixture.transport, false);
+    assert.ok(!sources.some((source) => source.id === `installation:${fixture.id}`));
+    const receiver = fixture.position ? [...fixture.position] : fixture.a.map((value, axis) => (value + fixture.b[axis]) / 2);
+    receiver[1] -= 0.15;
+    assert.ok(lights.irradianceAt(v(...receiver), v(0, 1, 0), "exterior").r > 0, fixture.id);
+  }
+  lights.dispose();
+});
+
 test("Draco-rounded floors retain direct bathroom cove light without lighting the storey gap", () => {
   const lights = createLightInstallations({ rooms: [bathroom("bath-living", 0), bathroom("bath-bedroom", 2.6)] });
   const up = v(0, 1, 0),

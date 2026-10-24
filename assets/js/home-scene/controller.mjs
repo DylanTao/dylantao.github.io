@@ -1709,13 +1709,13 @@ export function createCoastalHome(container, records, artifacts) {
     return open;
   }
 
-  // The spring arm runs in rooms (the visible path to the target, against the collision field and
+  // The spring arm runs in rooms and selected wildlife (the visible path to the target, against the collision field and
   // then the terrain) and the whole house (only somewhere in open air to stand: its target sits
   // behind interior partitions the view is meant to look across). Outside, the camera rides over
   // the terrain instead (a terrace target hidden by the cliff would otherwise pull it into the
   // terrace). The collision field itself is built by camera-field.mjs as the models load.
   let cameraField = null;
-  const armActive = () => !labFreeCamera && !animalFocus && currentRoom !== "outside" && Boolean(config) && !walkMode?.active;
+  const armActive = () => !labFreeCamera && (Boolean(animalFocus) || currentRoom !== "outside") && Boolean(config) && !walkMode?.active;
   const armReady = () => (currentRoom === "overview" ? Boolean(config?.cameraCollision) : Boolean(cameraField?.ready));
   const targetPoint = [0, 0, 0];
   function armFor(at, orbitYaw, orbitPitch, length) {
@@ -2656,9 +2656,13 @@ export function createCoastalHome(container, records, artifacts) {
     } else outsideLift = 0;
     // The gallery rail is inside the carved home. A mainland height field
     // would lift its inspection camera onto the cliff and into the sandstone.
-    keepCameraClear(camera.position, config, animalFocus?.id === "balcony-gull-0" ? "study" : currentRoom, {
-      walls: !(armActive() && cameraField?.ready),
-    });
+    // A selected animal may stand below the terrace. The real geometry arm already
+    // keeps that camera clear; projecting it onto the cliff's height field would
+    // lift a valid under-deck view into a pier or the pool's underside.
+    if (!(animalFocus && cameraField?.ready))
+      keepCameraClear(camera.position, config, animalFocus?.id === "balcony-gull-0" ? "study" : currentRoom, {
+        walls: !(armActive() && cameraField?.ready),
+      });
     // Walking puts the camera at the visitor's eyes (walk-controls.mjs). The orbit above keeps
     // settling unseen, so leaving the walk resumes from wherever its springs are.
     const walking = Boolean(walkMode?.active);
@@ -2904,7 +2908,7 @@ export function createCoastalHome(container, records, artifacts) {
     worldCompanion?.update(Math.min(delta, 0.25), elapsed, camera, currentRoom, moving);
     orientProp();
     walkPresence?.update({ ...walkPose, elapsed, reduced, paused });
-    if (actor) bindReceiver(actor, receiverAt(actor.position));
+    if (actor && bindReceiver(actor, receiverAt(actor.position))) wardrobe();
     if (walkPresence?.object.visible && bindReceiver(walkPresence.object, receiverAt(walkPresence.object.position))) walkPresence.refreshMaterials();
     // The marine fog drifts with the coast's breeze on the scene's clock (haze.mjs).
     finish?.haze?.advance(elapsed, coastWind.state);

@@ -291,6 +291,19 @@ test("the field covers every room in the manifest, including one added later, an
     assert.ok(cameraArm(null, c.cameraCollision, o.target, yaw, pitch, 25, house) < 25 * 0.4, `yaw ${yaw} pitch ${pitch} is refused`);
   for (const yaw of [0, 1.6, 3.2, 4.8]) assert.equal(cameraArm(null, c.cameraCollision, o.target, yaw, 1.2, 18.5, house), 18.5);
 });
+test("the nearby beach extends camera coverage below the terrace without widening it to the coast", () => {
+  const bounds = collisionBounds(c);
+  const houseOnly = collisionBounds({ ...c, beach: undefined });
+  assert.ok(bounds.min[1] < -8.1, "piers and beach inspection cameras belong to the real geometry field");
+  for (const axis of [0, 2]) {
+    assert.equal(bounds.min[axis], houseOnly.min[axis]);
+    assert.equal(bounds.max[axis], houseOnly.max[axis]);
+  }
+  const voxels = bounds.min.reduce((count, value, axis) => count * Math.ceil((bounds.max[axis] - value) / bounds.cell), 1);
+  assert.ok(voxels < 8000000, `the vertical extension stays bounded: ${voxels}`);
+  assert.deepEqual(collisionBounds({ ...c, beach: { samples: [[10000, 0, 0, 0, -10000]] } }), houseOnly);
+});
+
 test("once the voxel field keeps the camera clear, the old wall boxes no longer move it; the glass rule stays", () => {
   const wall = c.cameraCollision.walls[1],
     beside = { x: wall.max[0] + 0.2, y: 1.5, z: 0 };

@@ -820,12 +820,13 @@ test("coastal loading sketch: pen strokes fill the empty scene until the first f
 });
 async function openHome(
   page,
-  { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00", nativeFrames = false, retainedP = false } = {}
+  { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00", nativeFrames = false, nativeStartup = false, retainedP = false } = {}
 ) {
   await preparePage(page, theme);
   if (retainedP) await useRetainedPFixture(page);
   await page.emulateMedia({ reducedMotion: motion });
-  await page.clock.install({ time: new Date(time) });
+  if (nativeStartup) await page.clock.setFixedTime(new Date(time));
+  else await page.clock.install({ time: new Date(time) });
   await page.goto(publicRouteUrl("/") + "?scene-lab=1", { waitUntil: "domcontentloaded" });
   const stage = page.locator("[data-home-artifact-stage]");
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
@@ -843,9 +844,23 @@ async function settleRoomModels(scene) {
   // models or enter through an alternate loading fixture before measuring pause/orbit behavior.
   await expect.poll(async () => (await evidence(scene)).roomCount, { timeout: 60000 }).toBe(homeManifest().rooms.length);
 }
-async function settleAvatarLoad(ui) {
+async function settleAvatarLoad(ui, clockedPage = null) {
   // The public loading state covers model parsing behind software GPU work.
   // Keep the subsequent strict avatar, frame and resource assertions intact.
+  if (clockedPage) {
+    await expect
+      .poll(
+        async () => {
+          // Native parallel shader linking polls with timers too. A frozen
+          // fixture must service those tasks while waiting for the public state.
+          await clockedPage.clock.runFor(100);
+          return ui.getAttribute("aria-busy");
+        },
+        { timeout: 60000 }
+      )
+      .not.toBe("true");
+    return;
+  }
   await expect(ui).not.toHaveAttribute("aria-busy", "true", { timeout: 60000 });
 }
 async function openClockedHome(page, options = {}) {
@@ -927,7 +942,7 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   const errors = collectRuntimeErrors(page);
   // Let native field preparation finish without continuous software-rendered
   // frames competing for CI's CPU. Restore motion before all simulation proof.
-  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", time: "2026-10-02T13:20:00-07:00" });
+  const { scene, canvas, ui } = await openHome(page, { motion: "reduce", time: "2026-10-02T13:20:00-07:00", nativeStartup: true });
   await settleRoomModels(scene);
   await page.waitForFunction(
     () => {
@@ -937,6 +952,12 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
     null,
     { timeout: 60000 }
   );
+  // Finish this fixture's cold character preparation before freezing timers.
+  // Its native shader-link polling uses real asynchronous tasks.
+  await explore(ui);
+  await ui.locator("[data-world-avatar]").selectOption("ghibli");
+  await settleAvatarLoad(ui);
+  await expect(scene).toHaveAttribute("data-avatar", "ghibli");
   // Freeze wall time while the pause command crosses browser IPC. Software
   // WebGL can take longer than a future one-second deadline to receive it.
   // Restore an advancing Date before runFor so routine and simulation clocks
@@ -946,8 +967,6 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await explore(ui);
   await ui.locator("[data-world-pause]").click();
-  await ui.locator("[data-world-avatar]").selectOption("ghibli");
-  await expect(scene).toHaveAttribute("data-avatar", "ghibli");
   await ui.locator("[data-world-activity]").selectOption("soak");
   await ui.locator("[data-world-lab]>summary").click();
   await canvas.scrollIntoViewIfNeeded();
@@ -1892,7 +1911,9 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
     await canvas.press("ArrowRight");
     await canvas.press("+");
   });
-  expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.015);
+  const orbited = await canvas.screenshot();
+  expect(screenshotDiffRatio(before, orbited)).toBeGreaterThan(0.015);
+  await capture(testInfo, "sea-lion-orbit", orbited);
   const after = await evidence(scene);
   const point = after.neighbours.find((item) => item.id === "seaLion-0").projected;
   const rect = await canvas.boundingBox();
@@ -2707,7 +2728,7 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
   const gymFov = gym.config.rooms.find((r) => r.id === "gym").camera.fov;
   await explore(ui);
   await ui.locator("[data-world-avatar]").selectOption("ghibli");
-  await settleAvatarLoad(ui);
+  await settleAvatarLoad(ui, page);
   await expect(scene).toHaveAttribute("data-avatar", "ghibli");
   await canvas.scrollIntoViewIfNeeded();
   await page.emulateMedia({ reducedMotion: "no-preference" });
@@ -2731,14 +2752,22 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
     const minute = 1080 + Math.floor(seconds / 60);
     await ui.locator("[data-world-time]").fill(String(minute));
     await ui.locator('[data-world-room="gym"]').click();
-    await ui.locator("[data-world-pause]").click();
-    await canvas.scrollIntoViewIfNeeded();
+    const sequenceBaseline = (await evidence(scene)).animationSeconds;
+    await sceneInputFrame(page, view, () => ui.locator("[data-world-pause]").click());
+    // Scrolling the controls can suspend a mobile canvas. Wait for a real moving
+    // frame before advancing the phase clock, then subtract that frame's advance.
+    await expect
+      .poll(async () => {
+        await page.clock.runFor(100);
+        return (await evidence(scene)).animationSeconds;
+      })
+      .toBeGreaterThan(sequenceBaseline);
+    const resumedAdvance = (await evidence(scene)).animationSeconds - sequenceBaseline;
+    const targetAdvance = seconds - (minute - 1080) * 60 + 0.6;
+    expect(resumedAdvance).toBeLessThan(targetAdvance);
+    await page.clock.fastForward((targetAdvance - resumedAdvance) * 1000);
     await page.clock.runFor(100);
-    await page.clock.fastForward((seconds - (minute - 1080) * 60) * 1000);
-    await page.clock.runFor(500);
-    await ui.locator("[data-world-pause]").click();
-    await canvas.scrollIntoViewIfNeeded();
-    await page.clock.runFor(100);
+    await sceneInputFrame(page, view, () => ui.locator("[data-world-pause]").click());
     const pose = await evidence(scene);
     expect(pose.activityPhase).toBe(phase);
     expect(pose.cameraFov).toBe(gymFov);
@@ -2758,7 +2787,20 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
     }, publicRouteUrl("/assets/js/three.module.min.js"));
     fs.writeFileSync(
       testInfo.outputPath(`framing-${phase.replace(/[^a-z0-9]+/gi, "-")}.json`),
-      JSON.stringify({ seconds, phase, camera: pose.camera, target: pose.target, fov: pose.cameraFov, framed, joints: pose.joints }, null, 2)
+      JSON.stringify(
+        {
+          seconds,
+          phase,
+          sampling: { sequenceBaseline, resumedAdvance, targetAdvance, animationSeconds: pose.animationSeconds },
+          camera: pose.camera,
+          target: pose.target,
+          fov: pose.cameraFov,
+          framed,
+          joints: pose.joints,
+        },
+        null,
+        2
+      )
     );
     for (const point of Object.values(framed)) {
       expect(point.x).toBeGreaterThan(0.075);

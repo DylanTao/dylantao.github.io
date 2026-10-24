@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "method": "CPU reconstruction: delivered Draco master rest bounds and authored t=0 pinniped acting; actual home-shell/coast/flora triangles. No renderer or replacement collider. Raw and legacy height-projected ray segments tested double-sided conservatively. Initial native candidate selection earlier found first clear offset +0.4 at pitch0.2; these exact states replay that choice.",
+  "regressedCommit": "af3199147e5d77fcee881be618bd50a113a6c12f",
+  "assetSha256": {
+    "home-shell.glb": "9516680294d8df58e03dc73a393e2c9e27cf6af662050373d1d89d4844719a45",
+    "coast.glb": "9afec3df9a28d3f0e540867dcb468a6e0b35c1e0da927c84e24d2399c795a8af",
+    "CaliforniaSeaLion.glb": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103"
+  },
+  "target": [-10.030157394026334, -6.105924298727512, -14.5827752201747],
+  "modelRadius": 1.325244871308453,
+  "originalCameraField": {
+    "min": [-15.3, -1.8, -16.2],
+    "max": [13, 9.5, 8],
+    "cell": 0.12
+  },
+  "states": [
+    {
+      "id": "arrival",
+      "yaw": 0.7973491869195553,
+      "pitch": 0.2,
+      "radius": 4.770881536710431,
+      "raw": [-6.6846042173537406, -5.158096456526738, -11.3162469467735],
+      "rawTargetRayHits": [],
+      "legacyHeightProjected": [-6.6846042173537406, -5.158096456526738, -11.3162469467735],
+      "legacyLift": 0,
+      "legacyCameraToAnimalHits": [],
+      "terrainHeight": -5.5166628189879985
+    },
+    {
+      "id": "after-arrow-right",
+      "yaw": 0.6173491869195553,
+      "pitch": 0.2,
+      "radius": 4.770881536710431,
+      "raw": [-7.3234611656401505, -5.158096456526738, -10.770069022981753],
+      "rawTargetRayHits": [
+        {
+          "mesh": "core_estate_terrace__warm cut stone primitive 0",
+          "distance": 4.587099650919675,
+          "point": [-7.427727375833776, -5.1946082807890415, -10.91694048258403]
+        }
+      ],
+      "legacyHeightProjected": [-7.3234611656401505, -1.7309748248685646, -10.770069022981753],
+      "legacyLift": 3.4271216316581734,
+      "legacyCameraToAnimalHits": [
+        {
+          "mesh": "core_estate_pool__warm cut stone primitive 0",
+          "distance": 0.13615589398715078,
+          "point": [-7.381014108233512, -1.8240001201629639, -10.851139243788626]
+        },
+        {
+          "mesh": "core_estate_terrace__warm cut stone primitive 0",
+          "distance": 0.13629931649296062,
+          "point": [-7.3810747327647155, -1.8240981101989746, -10.851224640710303]
+        },
+        {
+          "mesh": "core_estate_terrace__warm cut stone primitive 0",
+          "distance": 2.01380226320536,
+          "point": [-8.17469310760498, -3.106857606827952, -11.96913128432497]
+        }
+      ],
+      "terrainHeight": -2.0509748248685646
+    },
+    {
+      "id": "after-arrow-right-and-plus",
+      "yaw": 0.6173491869195553,
+      "pitch": 0.2,
+      "radius": 4.112828910957268,
+      "raw": [-7.6967985764520375, -5.288831331313051, -11.2959595329394],
+      "rawTargetRayHits": [],
+      "legacyHeightProjected": [-7.6967985764520375, -2.925959014284274, -11.2959595329394],
+      "legacyLift": 2.362872317028777,
+      "legacyCameraToAnimalHits": [
+        {
+          "mesh": "core_estate_terrace__warm cut stone primitive 0",
+          "distance": 0.8480970606714071,
+          "point": [-8.08223717882129, -3.4512452949827273, -11.838896022257536]
+        }
+      ],
+      "terrainHeight": -3.245959014284274
+    }
+  ],
+  "conclusion": "ArrowRight crosses the new opaque terrace pier below the previous field. Legacy terrain height projection then lifts camera into pool/terrace underside. Extend field vertically to nearby beach, apply collision spring arm during inspection, and skip duplicate legacy height lift after field ready. Keep native opaque geometry and Walk capsule unchanged.",
+  "ciArtifacts": [
+    "ci-desktop-exploration-artifact/test-results/public-visual-scene/desk-scene-coastal-neighbo-d946b-ide-preserve-the-room-state-desktop-1440/test-failed-1.png",
+    "ci-desktop-exploration-artifact/test-results/public-visual-scene/desk-scene-coastal-neighbo-d946b-ide-preserve-the-room-state-desktop-1440/attachments/sea-lion-inspection-6068431ed3a8c6e18b69d5cbbd19cab689d4a7b3.png"
+  ]
+}
