@@ -10,6 +10,8 @@ import sys
 from pathlib import Path
 
 import bpy
+import bmesh
+from mathutils import Vector
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"bin"))
@@ -23,6 +25,53 @@ source=source if source.is_absolute() else ROOT/source
 bpy.ops.wm.open_mainfile(filepath=str(source))
 scene=bpy.context.scene
 config=json.loads((ROOT/"assets/models/home/manifest.json").read_text(encoding="utf-8"))
+if "--repair-arrival-clearance" in sys.argv:
+    # The final decoded capsule caught two lower vestibule walls overlapping
+    # the existing stair foyer. Remove only these measured connected islands.
+    # The upstairs pair encloses the private bedroom vestibule and stays intact.
+    import coastal_shell as shell
+    name="core_estate_structure__chalk limestone"
+    obj=bpy.data.objects.get(name)
+    if obj is None or obj.type!="MESH":
+        raise RuntimeError("Missing retained estate plaster batch; no source was saved")
+    expected=[((-2.45,-8.65,0.0),(-2.33,-7.50,2.36)),
+              ((-4.55,-8.77,0.0),(-2.45,-8.65,2.36))]
+    def matches(lo,hi,bounds):
+        return all(abs(lo[k]-bounds[0][k])<.002 and abs(hi[k]-bounds[1][k])<.002 for k in range(3))
+    bm=bmesh.new()
+    bm.from_mesh(obj.data)
+    found=[]
+    for island in shell._islands(bm):
+        points=[obj.matrix_world@vertex.co for vertex in island]
+        lo=Vector([min(p[k] for p in points) for k in range(3)])
+        hi=Vector([max(p[k] for p in points) for k in range(3)])
+        for index,bounds in enumerate(expected):
+            if matches(lo,hi,bounds):
+                found.append({"index":index,"lo":list(lo),"hi":list(hi),"vertices":len(island)})
+    bm.free()
+    if not found and scene.get("estateArrivalClearanceRepairVersion")==1:
+        print(json.dumps({"repair":"arrival clearance","alreadyRepaired":True}),flush=True)
+        sys.exit(0)
+    if sorted(item["index"] for item in found)!=[0,1] or any(item["vertices"]!=96 for item in found):
+        raise RuntimeError(f"Expected exactly two original 96-vertex lower wall islands; no source saved: {found}")
+    before_vertices=len(obj.data.vertices)
+    deleted=shell.edit_islands(obj,lambda lo,hi:False if any(matches(lo,hi,bounds) for bounds in expected) else None)[1]
+    if deleted!=2 or len(obj.data.vertices)!=before_vertices-192:
+        raise RuntimeError("Arrival repair did not remove exactly its two verified islands; no source saved")
+    scene["estateArrivalClearanceRepairVersion"]=1
+    output=Path(args.get("output",str(source)))
+    output=output if output.is_absolute() else ROOT/output
+    output.parent.mkdir(parents=True,exist_ok=True)
+    bpy.context.preferences.filepaths.save_version=0
+    bpy.ops.wm.save_as_mainfile(filepath=str(output),compress=True)
+    report={"repair":"arrival clearance","mesh":name,"removed":found,"removedVertices":192,
+            "sourceSha256":hashlib.sha256(output.read_bytes()).hexdigest(),
+            "untouched":["upper vestibule walls","stairs","doors","manifest","supports","outdoors","other mesh objects"]}
+    out=ROOT/".jekyll-cache/estate-architecture"
+    out.mkdir(parents=True,exist_ok=True)
+    (out/"arrival-clearance-repair.json").write_text(json.dumps(report,indent=2)+"\n",encoding="utf-8")
+    print(json.dumps(report),flush=True)
+    sys.exit(0)
 if "furniture-only" in args:
     room=args["furniture-only"]
     if room!="library-upper":

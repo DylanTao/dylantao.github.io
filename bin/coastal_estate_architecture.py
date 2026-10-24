@@ -176,8 +176,11 @@ def structure(scene, m):
         box(plaster, (9.375, -9.84, f+1.18), (4.35, .12, 2.36), .025)
         box(plaster, (11.49, -5.05, f+1.18), (.12, 9.70, 2.36), .025)
         box(plaster, (13.01, -5.05, f+1.18), (.12, 9.70, 2.36), .025)
-        box(plaster,(6.50,-11.41,f+1.18),(2.10,.12,2.36),.025)
-        box(plaster,(5.39,-10.775,f+1.18),(.12,1.15,2.36),.025)
+        if f>0:
+            # Downstairs this footprint is already the open public stair foyer.
+            # Adding vestibule walls there traps a body at the first oak tread.
+            box(plaster,(6.50,-11.41,f+1.18),(2.10,.12,2.36),.025)
+            box(plaster,(5.39,-10.775,f+1.18),(.12,1.15,2.36),.025)
         # Recessed oak reveals and one continuous warm line give the long
         # connection a deliberate rhythm without freestanding corridor clutter.
         for x in (7.7,9.2,10.7,12.2):
