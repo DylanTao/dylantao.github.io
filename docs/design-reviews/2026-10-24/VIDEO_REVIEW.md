@@ -1,23 +1,26 @@
 # Sirui brand-language study — video evidence and adaptation
 
-Prepared 2026-10-24. Research only; no site, repository, analytics, or external publishing changes.
+Prepared and revised 2026-10-24. Primary-source study and original adaptation; documentation only. No site code, analytics collection/settings, or visitor records are changed or accessed.
 
 ## Source and honest coverage
 
 Primary source: [Y Combinator, *How To Stand Out In A World Of AI Designs*](https://www.youtube.com/watch?v=2tZT2-pS_pI), Aaron Epstein with Alex Danilowicz, 47:43; YouTube description dated October 22, 2026.
 
-**This is a targeted primary-caption study, not a full audiovisual viewing or a full transcript review.** I read the official description/chapter list and visible closed captions reached through ordinary YouTube chapter links and five-second keyboard seeking. Sampled ranges: approximately 18:17–23:47, 23:59–31:59, 32:01–36:41, 36:59–43:29, and 43:33–46:03. Samples omit intervening clauses; timestamps below are approximate segment locators, not exact quote offsets. The public transcript panel remained on its loading spinner after one ordinary reload. Video frames remained black/buffering, so I cannot independently assess the presented designs' visual details. The caption text did load and change at seek positions.
+The follow-up local-browser study read the full available spoken auto-caption transcript from **0:00 to 47:32**, sampled actual visual frames across all four critiques, and played portions of the video. The focused Slashy email-edit sequence was revisited after the initial pass. This supersedes the earlier caption-only, black/buffering-frame limitation recorded in the first version.
 
-The opening product demo and closing predictions were not studied closely. The design recommendations below deliberately do not depend on those unreviewed sections.
+**This was not uninterrupted audiovisual viewing.** Opening demos and closing discussion were studied through transcript only; the final music was not reviewed. Auto-captions can contain recognition errors. Timestamps below locate discussion segments, not exact quotation boundaries. Visual observations are limited to the sampled frames and played portions; transcript completeness does not imply continuous visual coverage.
 
-## Episode evidence synopsis — 171 words, no direct quotations
+## Episode evidence synopsis — no direct quotations
 
-- **18:17–23:59, Ego:** Make purpose and next action understandable early. Fake input affordances distract. The reviewers also appreciate a distinctive retro identity; they are not simply asking every site to look restrained. Conversion anecdotes are offered, while actual performance of this reviewed site is unknown.
-- **23:59–28:20, Sentient OS:** Scroll-jacking undermines predictable control. Motion is praised when the laptop sequence explains the concept. Small, difficult-to-read actions and excessive effects obscure priorities.
-- **28:20–32:01:** Data-intensive AI products should explain privacy. Deliberate brand choices and a design system are preferred to fashionable defaults; familiar fonts are discussed as period markers.
-- **32:01–36:59, Cerenovus:** Polished appearance does not rescue vague positioning. Explain concrete usefulness rather than presenting investor-oriented categories. Seek candid outsider feedback.
-- **36:59–43:33, Slashy:** Clearer positioning helps. Dense, fast demos and timed tabs can hide meaning. Social proof can accidentally imply a narrow audience. Length and professional presentation are discussed as trust cues.
-- **43:33–46:03:** Design concerns lived user experience, not merely surface precision. Direct exposure to user frustration should guide refinement.
+- **7:16–8:43; 15:00–15:24:** Consider responsive variants and loading/error states; supply existing components and context before generating iterations.
+- **18:18–23:28, Ego:** Matching red dot-matrix eye, type, and portraits create a coherent identity, especially at 22:42. Small labels, a buried join action, and a fake editable phone input at 21:31 undermine clarity.
+- **24:07–28:12, Sentient:** A laptop gathers information, closes overnight, and reopens with results: motion explains states, unlike scroll hijacking. A glowing download competes with tiny installation/free/open-source context.
+- **29:53–31:46:** Recurring Space Grotesk/Instrument Serif choices prompt a call for deliberate brand direction before iterations, not proof that common fonts are bad.
+- **32:15–35:15, Cerenovus:** Warm texture and elegant serif polish coexist with vague meaning and an early enterprise/private-equity/advisory selector.
+- **37:29–43:17, Slashy:** Competing inbox/composer/agent areas and timed tabs overload attention; focused email style editing at 41:30–41:49 is clearer. Testimonials imply founder/VC audiences; long-page credibility is anecdotal.
+- **36:28–36:51; 43:23–45:57:** Audience response outranks reviewer taste. Art, everyday objects, and lived user frustrations develop judgment.
+
+The synopsis is under 200 words. The source offers practitioner judgments and anecdotes, not quantified conversion evidence or demonstrated academic efficacy.
 
 ## Original critique: what transfers to an academic personal website
 
@@ -25,11 +28,11 @@ The opening product demo and closing predictions were not studied closely. The d
 
 A startup acquisition page often asks a visitor to enter a product funnel. A researcher's site serves several legitimate outcomes: understand a research agenda; assess methods and evidence; find a paper, code, or CV; identify collaboration fit; or simply remember the person. Do not collapse these into one contact-button conversion rate. A visitor who quickly finds the relevant paper and leaves may have succeeded completely.
 
-The useful translation is **comprehension → credible evidence → appropriate next step**, not **attention → signup**. This is my adaptation, not an empirical result established by the episode.
+The useful translation is **intellectual orientation and personal identity → a relevant optional path**, not **attention → signup**. Evidence stays near the claims that need it, but does not mandate a paper/project-first homepage. Sirui's current direction prioritizes taste, personal voice, and a coherent evolving identity while keeping papers accessible. This is our adaptation, not an empirical result established by the episode.
 
 ### 2. Treat conversion assertions as hypotheses, not transferable effect sizes
 
-The sampled discussion provides practitioner judgments and anecdotes, not an inspectable experiment report. It does not establish that removing a prompt box, adding scroll-jacking, or extending a landing page has the same causal effect for another audience. We lack sample sizes, effect estimates, traffic composition, experimental allocation, uncertainty, and downstream-quality measures. The explicit admission that the reviewed site's conversion is unknown matters.
+The discussion provides practitioner judgments and anecdotes, not an inspectable experiment report. It does not establish that changing an affordance, removing an effect, or extending a page has the same causal effect for another audience. We lack sample sizes, effect estimates, traffic composition, experimental allocation, uncertainty, and downstream-quality measures. The reviewed sites' actual performance is not established here.
 
 For Sirui, an animation or a longer visit is neither automatically good nor bad. Assess whether it helps someone understand a research relationship or retrieve a useful artifact, and whether it creates friction for others. Do not promise a percentage uplift from this video.
 
@@ -37,7 +40,7 @@ For Sirui, an animation or a longer visit is neither automatically good nor bad.
 
 Calling a typeface fashionable is not evidence that it is unusable, dishonest, or generated by AI. Replacing Inter merely to appear less AI-made would be trend chasing in reverse. Sirui's existing Inter, orange accent, warm research-studio direction, and established copy are design inputs to refine, not a blank canvas to discard.
 
-A distinctive academic identity should come from recurring, recognizably authored choices: real project evidence, precise framing of the research questions, useful annotations, a consistent way to explain systems, and restrained personality. A coherent treatment of research diagrams can be more ownable than a novel display font.
+A distinctive academic identity should come from recurring, recognizably authored choices: precise intellectual framing, personal voice, useful annotations, related control behavior, and a coherent composition. Explain why Inter, orange identity cues, time-of-day accents, and the coastal studio work together before generating alternatives. A consistent way of revealing design judgment can be more specific to Sirui than a novel display font; it need not become a new motif on every page.
 
 ### 4. Translate trust into scholarship rather than enterprise theater
 
@@ -47,24 +50,24 @@ Use evidence relevant to the intended reader. Institution logos and prestigious 
 
 ### 5. Make play an invitation, not a toll gate
 
-The video itself is not uniformly anti-expression: it recognizes coherent personality and explanatory motion. Preserve room for Sirui's playful studio or exploratory tools, but keep the ordinary path to papers, project context, CV, and contact intact. A decorative diagram should not have to be decoded before a visitor encounters concrete work.
+Preserve room for Sirui's playful studio and exploratory tools while keeping ordinary paths to papers, project context, CV, and contact intact. A visitor should understand the site's intellectual direction and personal relevance without decoding an illustration or selecting an audience category first. Existing restraint and native scrolling are foundations to preserve, not newly discovered work.
 
-Motion can demonstrate a transformation, relationship, or interaction. It should not seize scroll control or be the only carrier of meaning. Interactive-looking controls should work; static figures should not falsely invite interaction. Avoid auto-advancing panels as the sole home of key evidence.
+Every substantive choice needs a purpose; motion is one example. State what the visitor should understand, notice, feel, or do, and compare a simpler alternative. Give a sequence one relationship to explain, a readable context, and an inspectable consequence. Its static/reduced-motion equivalent must retain the meaning. Interactive-looking controls should work; static figures should not falsely invite interaction. Essential content remains available without timed reading.
 
 ### 6. Keep homepage breadth and research depth distinct
 
-Clarity does not mean forcing every page into shallow sales copy. The homepage can provide orientation and concise proof; project pages can support sustained reading, uncertainty, methods, chronology, and technical detail. Progressive depth is compatible with an academic identity. A long homepage is not inherently more credible, and reducing scrolling is not inherently better. Judge the information sequence rather than its length alone.
+Clarity does not mean forcing every page into shallow sales copy. The homepage can communicate the intellectual thread and person; project pages can support sustained reading, uncertainty, methods, chronology, and technical detail. Progressive depth is compatible with an academic identity. A long homepage is not inherently more credible, and reducing scrolling is not inherently better. Judge the information sequence rather than its length alone.
 
 ## Proposed researcher-specific tests — hypotheses, not implementation instructions
 
-1. **First impression:** After a brief view, can an unfamiliar researcher say what Sirui studies, how he approaches it, and name one concrete example? Record the actual paraphrase, not a self-rated clarity score alone.
-2. **Evidence retrieval:** Ask a reader to find a relevant paper, artifact, and Sirui's role. Observe completion, wrong turns, missing context, and whether the destination resolves the task.
+1. **First impression:** After a brief view, can an unfamiliar reader describe Sirui's intellectual direction, approach to design judgment, and what feels personal? Record the actual paraphrase; naming a paper or project is not required for this task.
+2. **Evidence retrieval, as a separate task:** Ask a reader who wants a paper to find a relevant paper, artifact, and Sirui's role. Observe completion, wrong turns, missing context, and whether the destination resolves the task.
 3. **Positioning fit:** Show the site to research peers, possible collaborators, and non-specialist visitors separately. Check whether each understands who the site is for without making all audiences take the same action.
-4. **Identity recall:** Later, ask what felt specific to Sirui. A remembered color is weaker evidence than remembering an intellectual stance together with a project.
+4. **Identity recall:** Later, ask what felt specific to Sirui. A remembered color alone does not establish that the intellectual stance and personal voice came through.
 5. **Purposeful interaction:** Compare a static explanation against an optional interactive one for comprehension and task success, retaining the static path. Do not equate interaction count with understanding.
 
 With modest traffic, small qualitative sessions and a clearly logged before/after observation may be more useful than a poorly powered A/B test. Analytics can complement these observations but cannot directly measure understanding, trust, or scholarly value.
 
 ## How to use this review
 
-Use the official episode and coverage limits above rather than treating generated search summaries as verified quotations or timestamps. See [DESIGN_REVIEW.md](DESIGN_REVIEW.md) for the repository-specific proposal and [ANALYTICS_REVIEW.md](ANALYTICS_REVIEW.md) for measurement definitions. All changes remain proposals pending Sirui's review.
+Use the official episode and coverage limits above rather than treating generated search summaries as verified quotations or timestamps. Reusable lessons are integrated under their owning headings in [WEBSITE_DESIGN_HEURISTICS.md](../../../WEBSITE_DESIGN_HEURISTICS.md), not maintained as another checklist. See [DESIGN_REVIEW.md](DESIGN_REVIEW.md) for the corrected repository-specific direction and bounded handoff. The companion [ANALYTICS_REVIEW.md](ANALYTICS_REVIEW.md) remains a proposal; this documentation approval does not authorize new telemetry or a broad redesign.

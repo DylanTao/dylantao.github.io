@@ -1,80 +1,73 @@
 # Sirui personal website design and measurement proposal
 
-24 October 2026. For Sirui's review, not an implementation instruction until approved.
+24 October 2026. Revised after Sirui's direction and the fuller video study. The reusable guidance is approved for documentation; this is not a wholesale redesign or analytics authorization.
 
 ## Recommendation
 
-Keep the site's established identity. Make its research easier to understand through concrete evidence earlier in the reading path, rather than adding a new visual theme or more explanatory sections. The strongest opportunity is to make the interface demonstrate Sirui's research judgment as clearly as the writing describes it.
+Strengthen the site's intellectual direction, design judgment, taste, personal voice, and coherent evolving Sirui identity. Make every substantive design choice purposeful, including composition, wording, imagery, annotations, controls, and motion. Preserve the existing Inter typography, orange identity, coastal research-studio setting, and locked language.
 
-This proposal builds on the repository's “Less, but more Sirui” direction, Inter typography, orange identity, coastal research-studio setting and locked research language. It does not replace those contracts. No production code, analytics settings or visitor data were changed or accessed for this review.
+**This revision supersedes the earlier paper/project-showcase-first recommendation.** Do not bring selected papers, a DesignWeaver figure, or a new project showcase into the opening as the default next step. Papers and projects stay accessible; they are not the organizing priority of this iteration. The homepage should communicate a person and an intellectual direction, not become an acquisition funnel or a bibliography with atmosphere.
 
-## What the existing site already does well
+The canonical additions live in the existing [WEBSITE_DESIGN_HEURISTICS.md](../../../WEBSITE_DESIGN_HEURISTICS.md), especially Identity Through The Whole Composition, First-Glance Story, Visual Hierarchy, Motion, and Reflective Practice. This review is the dated rationale and handoff, not a competing design checklist.
 
-The reviewed main commit is `af3199147e5d77fcee881be618bd50a113a6c12f`. The primary contracts are [WEBSITE_DESIGN_HEURISTICS.md](../../../WEBSITE_DESIGN_HEURISTICS.md), [material-lite-revamp.md](../../material-lite-revamp.md) and [homepage-desk-scene-brief.md](../../homepage-desk-scene-brief.md).
+## What is established, and what still needs evidence
 
-The public desktop homepage was inspected in a cloud browser on 24 October. Its opening names the research concern, shows Sirui's portrait and academic context, and provides direct publication, project and contact routes. Its thesis and Design/Evaluate/Situate sections explain a coherent agenda. Selected papers already include real figures, resources, attribution and useful context. These are assets to strengthen, not replace with generic landing-page formulas.
+The original desktop inspection used main at `af3199147e5d77fcee881be618bd50a113a6c12f`. The documentation revision was prepared against `76659ecb2436ac0d565caecb62027066d380ceb8`; it does not claim a new rendered audit of that commit. Relevant contracts also include [material-lite-revamp.md](../../material-lite-revamp.md) and [homepage-desk-scene-brief.md](../../homepage-desk-scene-brief.md).
 
-The observed desktop sequence also contains several layers of research framing and a large abstract visualization before the selected-paper evidence. My design hypothesis is that a concrete example earlier would help a new academic reader connect the agenda to an actual contribution. This is a hypothesis from inspection, not a measured comprehension failure. This review did not establish mobile usability, all theme states or current visitor behavior.
+- **Already established:** the site follows “Less, but more Sirui,” preserves native scrolling, uses Inter, and provides direct publication, project, and contact routes. Do not turn restraint or avoiding scroll hijacking into new implementation work.
+- **Worth preserving:** the opening research concern, portrait and academic context; the thesis and Design/Evaluate/Situate agenda; personal studio discoveries; and accessible, attributed paper resources.
+- **Documentation gap addressed here:** the earlier recommendation over-weighted immediate paper evidence. The heuristics now distinguish intellectual orientation from evidence retrieval, and make the purpose/identity/attention questions explicit.
+- **Implementation questions, not diagnosed defects:** whether the current composition communicates one recognizable person; whether emphasis matches meaning; whether annotations and controls feel related; and whether an optional interaction explains its relationship as well in a still state. Inspect the current rendered route before claiming any of these fails.
+
+The original desktop observation did not establish mobile usability, every theme/state, or actual visitor understanding. More source study is not new evidence about this site's visitors.
 
 ## The academic adaptation
 
-The video is about company websites. A personal research site has different successful visits: a researcher finds a relevant paper, a student understands the work, a hiring reader assesses contributions, or a collaborator decides whether to contact Sirui. A short visit that accomplishes one of these can be better than a long visit filled with decorative interactions.
+The [video review](VIDEO_REVIEW.md) separates a compact source synopsis from our original adaptation. Company-page critique is useful for sharpening judgment, not for importing startup goals.
 
-Three distinctions should guide the adaptation:
+A researcher's site supports several valid visits: understand an intellectual agenda, enjoy a personal voice, assess collaboration fit, find a specific paper, or retrieve a CV. Do not require all readers to recall one project or take the same action. Evidence remains accurate and near the claim it supports; this local relationship does not force papers ahead of the research direction.
 
-- Preserve personality when it reveals the person or research practice. A playful inhabited studio is not automatically waste because it does not drive a sales conversion.
-- Make credible evidence easy to inspect. Academic trust comes from accurate roles, collaborators, paper status, limitations and working resources, not enterprise badges or exaggerated impact claims.
-- Give different readers clear paths. One primary action per local cluster is useful; one mandatory funnel for every visitor is not.
+Trust comes from accurate roles, dates, collaborators, status, limitations, and working resources. A playful studio can reveal character without a measurable sales conversion. Familiar fonts are not evidence of AI authorship. Keep source credit, privacy boundaries, and authentic research figures intact.
 
-See [VIDEO_REVIEW.md](VIDEO_REVIEW.md) for the source-grounded episode findings, timestamps and coverage limits. The recommendations below are our application to this repository, not claims that the speakers evaluated this site.
+## Refinements within the existing design language
 
-## Proposed design language
+**A thoughtful, inhabited research studio where design decisions become visible.** This remains an internal design description, not replacement homepage copy.
 
-**A thoughtful, inhabited research studio where design decisions become visible.** This is an internal design description, not a replacement homepage slogan.
+1. **Explain the choices already made.** Inter carries a readable shared hierarchy; orange identifies the site; time-of-day accents signal actions and states; the coastal setting adds personal place and warmth. Ask whether the whole composition expresses that rationale before adding another motif or changing a font.
+2. **Give each treatment a job.** What should the visitor understand, notice, feel, or do? Which simpler alternative was considered? Atmosphere and delight are legitimate purposes when they reveal Sirui, remain coherent, and do not obstruct reading.
+3. **Repeat a meaningful grammar.** Use related annotations to connect observations to decisions, and consistent labels, focus, selected states, and disclosures to explain controls. Do not impose a new numbered-marker system across every figure; preserve original diagrams, credits, and uncropped sources.
+4. **Make prominence match meaning.** Identify the first, second, and optional thing to notice. Compare that order with actual size, contrast, placement, and motion. Important explanations should not become tiny qualifications beside a loud secondary action.
+5. **Make behavior truthful and inspectable.** Interactive-looking elements must perform the promised action. A sequence should establish context, clarify one change, and leave its consequence available to inspect. Static and reduced-motion equivalents retain the relationship, not merely a decorative endpoint.
+6. **Invite, rather than sort, readers.** Explain relevance before asking for audience choices. Check whether examples and prestige cues unintentionally exclude people. Keep ordinary paths to publications, projects, CV, writing, and contact.
 
-1. **Warm but precise.** Use the existing orange and coastal supporting palette to orient attention, not to decorate every surface. Keep Inter and the established type hierarchy. A recognizable font is not evidence of AI authorship or poor design.
-2. **Evidence before atmosphere when they compete.** Use authentic interface crops, annotated comparisons and research artifacts to explain the work. Ambient illustration can frame them, but should not require an extra screen of scrolling before a visitor encounters proof.
-3. **Editorial hierarchy rather than container hierarchy.** Reserve cards for meaningful groups or actions. Distinguish headline, explanation, evidence caption and metadata through typography and spacing before introducing another border or badge.
-4. **One characteristic annotation grammar.** Across project figures, use a consistent small numbered marker, short observation and linked explanation of why it matters. A repeatable way of showing research reasoning can become more distinctive than a novel background effect. Keep the original figure legible, credited and available uncropped.
-5. **Motion explains a change.** Animate a real comparison, state transition or relationship when it helps understanding. Preserve native scrolling, reduced-motion behavior and immediate access to static evidence. No fake inputs, timed reading or mandatory animated introductions.
-6. **Personal without becoming noisy.** Keep the portrait, occasional warm aside and optional studio discoveries. Concentrate delight in bounded places. Do not let a floating element obstruct a paper link, body text or keyboard focus.
+Preserve every phrase in the canonical [Signature Copy Locklist](../../../WEBSITE_DESIGN_HEURISTICS.md#signature-copy-locklist) exactly. This revision does not authorize rewriting them, changing the established research sequence, removing papers, or replacing the studio identity.
 
-Preserve the exact locked phrases, including “Making AI tools that sharpen design judgment.”, “Scaffolding taste in an age of generative abundance.”, “Design, Evaluate, Situate.”, “Vibes -> Variables -> Value” and “Make better design decisions visible.” Changes to their placement or supporting explanation should not silently rewrite them.
+## A bounded next iteration
 
-## A focused first implementation after approval
+Start with the current site and concurrent work, not a preselected component. Use the canonical [Reflective Practice](../../../WEBSITE_DESIGN_HEURISTICS.md#reflective-practice) decision record:
 
-Avoid a site-wide revamp. First compare one revised homepage reading path with the current baseline. Start with one existing research figure, a source-checked caption and its resource route near the opening. Do not simultaneously reorder the entire homepage or apply annotations site-wide. The section sequence below describes a direction to assess, not a single all-at-once implementation.
+1. Identify one observed mismatch between intended meaning and the actual reading/interaction experience.
+2. Decide what to keep, adjust, remove, or defer. If the purpose is already served, keep it; a review need not generate work.
+3. Compare one small change with the same route, viewport, theme, and state. Supply existing components, tokens, copy, and constraints to any implementation agent.
+4. Check the relevant desktop/phone, keyboard, loading/error, interruption, and reduced-motion states. Expand to the repository's checkpoint matrix only when a direction is worth keeping.
+5. Record the outcome and remaining uncertainty. Retain, revise, or revert from the evidence and Sirui's judgment; put unproven ideas in the existing [experiment backlog](../../design-experiment-backlog.md).
 
-**Opening:** preserve the current headline, portrait, affiliation and direct routes. Offer a compact, real research example in or immediately after the opening. For example, an existing DesignWeaver figure could show the dimensional palette with a short source-checked explanation of the design decision it supports. Do not invent a new result or imply an image alone demonstrates learning.
+Possible slices are a clearer supporting sentence, a better emphasis relationship, one consistent annotation, or one more truthful affordance. These are candidates, not a finding that the site currently needs all four. No simultaneous homepage reorder, new theme, broad font swap, or site-wide component rollout.
 
-**Evidence:** bring a small selection of existing paper contributions forward. For each: the problem, a concrete interaction or artifact, Sirui's role, what the evidence supports, and a working resource link. Reuse the existing “when this paper helps” material rather than adding another summary layer. Keep complete author lists and detailed citation metadata available without making them the first thing a new reader must parse.
+## What to learn, without expanding telemetry
 
-**Research agenda:** retain the thesis and Design/Evaluate/Situate framework, but connect each to the preceding concrete evidence. Remove repeated supporting explanation where it says the same thing twice. Keep the abstract visualization only where it adds an understandable relationship; it need not be deleted merely because it is expressive.
+For the identity/orientation question, ask a relevant unfamiliar reader what Sirui cares about, what feels distinctive, and where they would go for their own purpose. Record their actual words and wrong turns. For a paper-retrieval task, assess paper/resource findability separately. Do not substitute a simulated reader's score, dwell time, or interaction count for understanding.
 
-**Depth and personality:** provide publications, projects, CV, notes and studio exploration as clear optional continuations. Deep-linked paper visitors should not need to return to the homepage to understand or access a paper.
-
-## What to measure
-
-The companion [ANALYTICS_REVIEW.md](ANALYTICS_REVIEW.md) inventories current code and gives exact event definitions, denominators, privacy boundaries and official documentation. Its main recommendations are:
-
-- **Understanding and findability:** a few task-based sessions with relevant readers. Can they explain the research concern, choose a relevant paper and identify the contribution and next resource? Record actual successes, failures and confusion, not a simulated reader's score as human evidence.
-- **Useful resource access:** distinct measured sessions with an allowlisted paper/code/demo/citation action divided by sessions viewing relevant public research pages. An activation is not proof of reading, reuse or citation.
-- **Relevant inquiries:** a private monthly count of actual site-assisted conversations where the connection is credible or volunteered. A contact-link click is not a sent email, and no personal inquiry content belongs in analytics.
-
-Existing instrumentation needs an audit before expansion. The repository has custom timing, scroll and conditional search events. One event mixes load milliseconds with elapsed seconds; the blog counter labels pageviews as people reading. Verify collection and consent behavior, fix meanings and duplication, and preserve intentionally untracked features before adding at most two justified custom event gaps. Do not optimize raw dwell time or scroll counts.
-
-Collect a dated baseline, annotate changes and compare similar acquisition/device contexts. Low traffic and changing audiences make short-window A/B claims unreliable. Pair aggregate trends with actual task feedback. Treat accessibility, broken links and Core Web Vitals as guardrails, not substitutes for research communication.
+The companion [ANALYTICS_REVIEW.md](ANALYTICS_REVIEW.md) remains an unchanged proposal and source-code inventory, not authorization to access visitor records or change collection/settings. Its research-resource outcomes apply when resource access is the question; they do not override this iteration's identity-first direction. Existing measurement semantics and privacy boundaries need their own authorized audit before expansion. No new events or analytics changes belong to this design-documentation update.
 
 ## Review and acceptance
 
-Sirui's review should decide whether the earlier-evidence layout and consistent annotation treatment fit his taste. This document does not authorize silently replacing the existing brand rules or enabling new telemetry.
+For any later authorized UI slice, preserve Human/AI routes, 2D/3D state, private material, existing access, locked copy, and concurrent edits. Use the repository's proportional checks and matched before/after evidence; cover the affected journey, including repeated actions and recovery where relevant. Technical passes prove their named contracts, not improved recall, trust, conversion, or scholarly value.
 
-After approval, the laptop agent should inspect current main and concurrent work; implement one bounded slice; preserve the Human/AI routes, existing 2D/3D state, privacy contracts and locked phrases; run the repository's relevant checks; and compare actual desktop and phone renders. Verify keyboard access, reduced motion, Back/Forward, repeated navigation, resource links and contact behavior. Report what changed, what did not, exact tests and unresolved tradeoffs. Technical passes are not a claim that readers understand the site better.
+## Short laptop handoff
 
-## Short laptop handoff after review
-
-Read `docs/design-reviews/2026-10-24/DESIGN_REVIEW.md` and its video and analytics companions on main. Apply only Sirui's approved recommendations to the existing site, preserving canonical brand rules, locked copy, concurrent changes and privacy contracts. Prioritize earlier concrete research evidence and clearer reading order, not a new theme. Audit existing measurement before adding events. Test the affected desktop/phone journeys and report before/after evidence, exact checks and remaining limitations.
+Read current main's `WEBSITE_DESIGN_HEURISTICS.md` and `docs/design-reviews/2026-10-24/{DESIGN_REVIEW,VIDEO_REVIEW}.md`. Preserve concurrent work and locked copy. Study the updated identity, purpose, attention, and validation guidance; inspect the current site and iterate on one evidenced gap, not a paper/project-first showcase or wholesale redesign. Keep Inter/orange/coastal identity and papers accessible. Leave analytics unchanged. Use the existing proportional QA and report the result and tradeoffs.
 
 ## Review validation
 
-This is a documentation-only proposal. Source links and reviewed commit are recorded. The companion analytics review ran 11 isolated existing JavaScript tests successfully; those do not validate live GA collection. No full Jekyll build or implementation regression suite was run for this proposal, and no live analytics or measured comprehension results are asserted.
+Documentation only: canonical phrases, headings, repository-relative links, scope, whitespace, and the source-synopsis word limit are checked before publication. No site code, analytics settings, or visitor records are changed or accessed. Formatter availability and checks actually run are reported with the commit; no Jekyll, UI, or live-analytics pass is claimed. Push-triggered CI/deployment is intentionally skipped for this documentation commit; existing workflows/settings remain untouched.
