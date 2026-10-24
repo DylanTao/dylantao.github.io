@@ -1,6 +1,8 @@
 # Force LF line endings, needed for Docker to work on Windows
 *.sh text eol=lf
 *.pdf binary
+# The manifest binds this generated cache to its exact response bytes.
+assets/models/home/static-light-field.json text eol=lf
 # Keep recorded upstream source hashes identical on Windows and Linux.
 assets/vendor/paper-shaders/** text eol=lf
 assets/js/vendor/three-r164/** text eol=lf whitespace=-blank-at-eof

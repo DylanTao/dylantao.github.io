@@ -687,7 +687,7 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
     await expect(scene).toHaveAttribute("data-loading-stage", "room", { timeout: 30000 });
     await expect(scene).toHaveAttribute("data-scene-state", "loading");
     await expect(scene).toHaveAttribute("aria-busy", "true");
-    await expect(page.locator("[data-world-status]")).toHaveText("Bringing the room into view.");
+    await expect(page.locator("[data-world-status]")).toHaveText("Furnishing the home.");
     await expect(page.locator("[data-world-view]")).toBeDisabled();
     await expect(page.locator('[data-home-desk-mode="2d"]')).toBeEnabled();
     await page.waitForTimeout(100);
@@ -718,7 +718,11 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
       expect(model.bytes).toBeGreaterThan(0);
       expect(model.parsedMilliseconds).toBeLessThan(ready.loading.firstFrameMilliseconds);
     }
-    expect(ready.loading.stages.map((entry) => entry.stage)).toEqual(["home", "coast", "room", "first-frame", "ready"]);
+    expect(ready.loading.stages.map((entry) => entry.stage)).toEqual(["home", "coast", "room", "lighting", "first-frame", "ready"]);
+    expect(ready.roomCount).toBe(6);
+    expect(ready.simulation.lightField.ready).toBe(true);
+    expect(ready.simulation.lightField.cacheHit).toBe(true);
+    expect(ready.furniture.placed.length).toBeGreaterThan(10);
     expect(Object.values(ready.loading.progress)).toEqual([1, 1, 1, 1, 1]);
     await expect(page.locator("[data-world-progress]")).toBeHidden();
     await expect(scene).not.toHaveAttribute("aria-busy", "true");
@@ -733,6 +737,38 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
     releaseAvatar();
   }
 });
+test("coastal loading: a stalled optional light cache falls back before the first complete view", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one native timeout/fallback path is independent of viewport layout");
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
+  let release;
+  const held = new Promise((resolve) => (release = resolve));
+  await page.route("**/static-light-field.json", async (route) => {
+    await held;
+    await route.continue().catch(() => {});
+  });
+  try {
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    const scene = page.locator("[data-home-desk-scene]");
+    await scene.scrollIntoViewIfNeeded();
+    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 120000 });
+    const ready = await evidence(scene);
+    expect(ready.loading.lightCache.state).toBe("miss");
+    expect(ready.simulation.lightField.ready).toBe(true);
+    expect(ready.simulation.lightField.error).toBeNull();
+    expect(ready.simulation.lightField.bakeMs).toBeGreaterThan(0);
+    expect(ready.roomCount).toBe(6);
+    expect(ready.actorCount).toBe(1);
+    fs.writeFileSync(testInfo.outputPath("stalled-light-cache-fallback.json"), JSON.stringify(ready, null, 2));
+    expect(errors).toEqual([]);
+  } finally {
+    release();
+  }
+});
+
 test("coastal loading sketch: pen strokes fill the empty scene until the first frame takes over", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
@@ -792,16 +828,15 @@ async function openHome(
   if (nativeFrames) await useNativeSceneFrames(page);
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
-  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 30000 });
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 90000 });
   const canvas = scene.locator("canvas");
   await canvas.scrollIntoViewIfNeeded();
   return { stage, scene, canvas, ui: page.locator("[data-home-world-controls]") };
 }
 const evidence = (scene) => scene.evaluate((e) => e.getSceneEvidence());
 async function settleRoomModels(scene) {
-  // Readiness covers the occupied room; five additional GLBs then stream and
-  // compile on the software-rendered CI worker. Verify every actual room before
-  // measuring pause/orbit behavior, with a load budget rather than the 15s UI one.
+  // Readiness now includes all interior base rooms; keep this assertion for callers that switch
+  // models or enter through an alternate loading fixture before measuring pause/orbit behavior.
   await expect.poll(async () => (await evidence(scene)).roomCount, { timeout: 60000 }).toBe(6);
 }
 async function settleAvatarLoad(ui) {
@@ -1941,6 +1976,7 @@ test("coastal home: Walk mode walks on the keyboard, stops against the house and
   if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
   const view = await openClockedHome(page);
+  await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
   const { stage, scene, canvas, ui } = view;
   const walkSwitch = page.locator("[data-world-walk]");
   await expect(walkSwitch).toBeHidden();
@@ -1950,7 +1986,7 @@ test("coastal home: Walk mode walks on the keyboard, stops against the house and
   await expect(walkSwitch).toHaveAttribute("aria-pressed", "false");
   await expect(walkSwitch).toHaveAccessibleName(/Walk/);
   await expect(canvas).toBeFocused();
-  // V walks from where the orbit stood; the collision field comes from the loaded house itself.
+  // First Walk arrives at the authored public entrance; the collision field is the loaded house.
   await sceneInputFrame(page, view, () => canvas.press("v"));
   await expect(walkSwitch).toHaveAttribute("aria-pressed", "true");
   await expect(stage).toHaveClass(/is-world-walking/);
@@ -1959,15 +1995,27 @@ test("coastal home: Walk mode walks on the keyboard, stops against the house and
   let state = await evidence(scene);
   expect(state.walk).toMatchObject({ active: true, placed: true });
   expect(state.walk.field.meshes).toBeGreaterThan(20);
-  const room = homeManifest().rooms.find((r) => r.id === state.walk.room);
-  expect(room, `the walk starts in a room (${state.walk.room})`).toBeTruthy();
-  expect(Math.abs(state.walk.position[1] - room.floor)).toBeLessThan(0.5);
+  const manifest = homeManifest(),
+    entry = manifest.walk.start.position;
+  expect(state.walk.room).toBe("outside");
+  expect(Math.hypot(...state.walk.position.map((value, axis) => value - entry[axis]))).toBeLessThan(0.15);
   expect(state.camera[1] - state.walk.position[1]).toBeCloseTo(1.6, 1);
   expect(state.currentRoom).toBe(state.walk.room);
-  // The eyes are never inside anything the orbit's own collision field calls solid.
+  // The orbit's field covers the interior, while native route tests cover clifftop headroom.
   const solidAt = (point) => scene.evaluate((element, p) => (element.labScene.collisionGrid()?.flagAt(...p) ?? 0) & 1, point);
-  expect(await solidAt(state.camera)).toBe(0);
   await capture(testInfo, "walk-start", await page.screenshot());
+  // Exercise an interior wall independently of the much longer public entrance journey below.
+  const nav = manifest.navigation;
+  expect(
+    await scene.evaluate((element, pose) => element.setLabWalk(pose), {
+      position: [nav.stairX, nav.stairs.at(-1)[1], nav.upperAisleZ],
+      yaw: Math.PI / 2,
+      pitch: 0,
+    })
+  ).toBe(true);
+  await page.clock.runFor(300);
+  state = await evidence(scene);
+  expect(await solidAt(state.camera)).toBe(0);
   // Holding W walks.
   const start = state.walk.position;
   await page.keyboard.down("KeyW");
@@ -1976,11 +2024,8 @@ test("coastal home: Walk mode walks on the keyboard, stops against the house and
   await page.clock.runFor(200);
   state = await evidence(scene);
   expect(Math.hypot(state.camera[0] - start[0], state.camera[2] - start[2])).toBeGreaterThan(0.25);
-  // Turned with the arrows and walking on, the walker meets the house and then stays put however
-  // long the key is held.
-  await page.keyboard.down("ArrowLeft");
-  await page.clock.runFor(800);
-  await page.keyboard.up("ArrowLeft");
+  // Keep facing the closed end of the gallery. The old room-relative turn could aim through an open
+  // facade door, where continued movement was correct and did not demonstrate wall blocking.
   await page.keyboard.down("KeyW");
   await page.clock.runFor(4500);
   const pressed = (await evidence(scene)).walk;
@@ -2017,6 +2062,84 @@ test("coastal home: Walk mode walks on the keyboard, stops against the house and
   expect(errors).toEqual([]);
 });
 
+test("coastal home: public entrance reaches the living floor and returns to the clifftop with keyboard controls", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "one full physical route complements all-viewport walking controls");
+  test.setTimeout(360000);
+  const errors = collectRuntimeErrors(page),
+    view = await openClockedHome(page),
+    { scene, canvas, ui } = view,
+    manifest = homeManifest(),
+    points = manifest.walk.mainEntryRoute,
+    WALK = await page.evaluate(async (url) => (await import(url)).WALK, publicRouteUrl("/assets/js/home-scene/walk-controls.mjs"));
+  // This is input/path proof at a disclosed cadence, not a frame-rate benchmark. Rendering every
+  // virtual 60Hz frame of a minute-long round trip needlessly stalls slow host/CI GPUs.
+  await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click());
+  await sceneInputFrame(page, view, () => canvas.press("v"));
+  await expect.poll(async () => (await evidence(scene)).walk?.ready, { timeout: 90000 }).toBe(true);
+  await page.clock.runFor(300);
+  const pose = () => scene.evaluate((element) => element.getSceneEvidence().walk),
+    wrap = (angle) => Math.atan2(Math.sin(angle), Math.cos(angle)),
+    // A full-speed arrow turn is quantized to one frame at this functional cadence. Accept half
+    // that angle rather than alternating two sub-frame presses that can never converge.
+    headingTolerance = (WALK.turnRate / 10) * 0.6,
+    turns = points.filter((point, i) => {
+      if (!i || i === points.length - 1) return true;
+      const a = points[i - 1],
+        b = points[i + 1];
+      return Math.abs((point[0] - a[0]) * (b[2] - point[2]) - (point[2] - a[2]) * (b[0] - point[0])) > 0.001;
+    }),
+    samples = [];
+  async function walkTo(target) {
+    for (let step = 0; step < 140; step++) {
+      let state = await pose();
+      const dx = target[0] - state.position[0],
+        dz = target[2] - state.position[2],
+        distance = Math.hypot(dx, dz);
+      if (distance < 0.13) {
+        expect(Math.abs(state.position[1] - target[1]), "the capsule climbs actual treads without injected height").toBeLessThan(0.25);
+        samples.push({ target, pose: state });
+        return;
+      }
+      const angle = wrap(Math.atan2(dx, dz) - state.yaw);
+      if (Math.abs(angle) > headingTolerance) {
+        const key = angle > 0 ? "ArrowLeft" : "ArrowRight";
+        await page.keyboard.down(key);
+        await page.clock.runFor(Math.min(400, (Math.abs(angle) / WALK.turnRate) * 1000));
+        await page.keyboard.up(key);
+        await page.clock.runFor(17);
+        continue;
+      }
+      await page.keyboard.down("KeyW");
+      await page.clock.runFor(Math.max(17, Math.min(200, ((distance - 0.06) / WALK.walkSpeed) * 1000)));
+      await page.keyboard.up("KeyW");
+      await page.clock.runFor(17);
+    }
+    throw new Error(`Keyboard path stopped before ${JSON.stringify(target)}: ${JSON.stringify(await pose())}`);
+  }
+  for (const target of turns.slice(1)) await walkTo(target);
+  const living = await pose();
+  expect(living.position[1]).toBeCloseTo(0, 1);
+  expect(living.room).toBe("lounge");
+  const roofs = await scene.evaluate((element) => {
+    const visible = [];
+    element.labScene.scene.traverse((object) => {
+      if (object.userData.caveRoof) visible.push(object.visible);
+    });
+    return visible;
+  });
+  expect(roofs.length).toBeGreaterThan(0);
+  expect(roofs.every(Boolean), "first-person rooms retain their enclosing roof").toBe(true);
+  await capture(testInfo, "main-entrance-living-arrival", await page.screenshot());
+  for (const target of turns.slice(0, -1).reverse()) await walkTo(target);
+  const returned = await pose();
+  expect(returned.position[1]).toBeCloseTo(manifest.walk.start.position[1], 1);
+  expect(returned.room).toBe("outside");
+  await capture(testInfo, "main-entrance-clifftop-return", await page.screenshot());
+  fs.writeFileSync(testInfo.outputPath("main-entrance-keyboard.json"), JSON.stringify({ turns, samples, living, returned, errors }, null, 2));
+  expect(errors).toEqual([]);
+});
+
 test("coastal home: Walk mode on a touch screen walks and looks with twin thumb sticks", async ({ browser }, testInfo) => {
   if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
   test.skip(testInfo.project.name !== "mobile-390", "One Chromium touch context exercises the thumb sticks.");
@@ -2024,6 +2147,7 @@ test("coastal home: Walk mode on a touch screen walks and looks with twin thumb 
   const page = await context.newPage();
   const errors = collectRuntimeErrors(page);
   const view = await openClockedHome(page);
+  await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
   const { stage, scene, ui } = view;
   await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").tap());
   await expect(stage).toHaveClass(/is-world-immersive/);
@@ -2061,6 +2185,10 @@ test("coastal home: Walk mode on a touch screen walks and looks with twin thumb 
   await page.clock.runFor(700);
   const during = (await evidence(scene)).walk;
   await capture(testInfo, "walk-thumb-sticks", await page.screenshot());
+  // A phone can lose focus without delivering pointercancel. A held thumb must not keep walking.
+  await page.evaluate(() => window.dispatchEvent(new Event("blur")));
+  await page.clock.runFor(200);
+  expect((await evidence(scene)).walk.velocity).toEqual([0, 0]);
   await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
   await page.clock.runFor(200);
   const after = (await evidence(scene)).walk;

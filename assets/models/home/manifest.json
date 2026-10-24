@@ -113,7 +113,7 @@
       "egress": [-3.45, 0, -1.4],
       "camera": {
         "radius": 3.2,
-        "yaw": 1.96,
+        "yaw": 1.65,
         "pitch": 0.24,
         "envelope": {
           "yaw": [1.6, 2.2],
@@ -4208,5 +4208,10 @@
       [3.27, 0, 5.6],
       [3.27, 0, 1.2]
     ]
+  },
+  "staticLightFieldCache": {
+    "url": "static-light-field.json",
+    "signature": "656f17eac7cb9b319b2cc63d5dd278285ba813e3af131609aa26abb4783bbf3d",
+    "sha256": "c0934464444bf2c3ea75e84fedf5b9c520c19a4db31911dea83725027f43c3b7"
   }
 }

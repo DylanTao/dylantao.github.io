@@ -106,7 +106,7 @@ if "kitchen" in PHASES:
     # enough that the view passes under the bronze door head and the gallery soffit.
     # Inside the open sliding door, the primary meal view stays clear of the hanging sheer's stack.
     room["target"] = [-3.85, 0.95, -3.0]
-    room["camera"] = {"radius": 3.2, "yaw": 1.96, "pitch": 0.24, "envelope": {"yaw": [1.6, 2.2], "pitch": [0.15, 0.55], "radius": [2.6, 4.1]}}
+    room["camera"] = {"radius": 3.2, "yaw": 1.65, "pitch": 0.24, "envelope": {"yaw": [1.6, 2.2], "pitch": [0.15, 0.55], "radius": [2.6, 4.1]}}
     if args.get("kcam"):  # previews: --kcam=tx,ty,tz,yaw,pitch,radius (Blender target)
         tx, ty, tz, yaw, pitch, radius = (float(v) for v in args["kcam"].split(","))
         room["target"] = three((tx, ty, tz))

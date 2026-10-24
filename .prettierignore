@@ -29,5 +29,7 @@ assets/js/vendor/three-r164/
 artwork/coastal-home/splat-lab/vendor/
 # The light lab's reference grid, written on one line by bin/make_light_lab_reference.mjs.
 assets/js/light-lab/onsen-reference.json
+# Generated source-bound floating-point transport, written by bin/bake_coastal_static_light.cjs.
+assets/models/home/static-light-field.json
 # Liquid-templated JSON: front matter and a jsonify filter that Jekyll renders into each design record's endpoint.
 assets/json/design-records/

@@ -7,9 +7,10 @@ async function pauseSceneClock(page, { advanceDate = true } = {}) {
   if (advanceDate) await page.clock.setSystemTime(time);
 }
 
-async function useSoftwareSceneCadence(page, { continuousHz = 10 } = {}) {
-  if (process.platform !== "linux" && process.env.VISUAL_TRANSPORT_SOFTWARE !== "1") return;
+async function useSoftwareSceneCadence(page, { continuousHz = 10, force = false } = {}) {
+  if (!force && process.platform !== "linux" && process.env.VISUAL_TRANSPORT_SOFTWARE !== "1") return;
   await page.evaluate((virtualHz) => {
+    if (window.coastalProofCadence?.virtualHz === virtualHz) return;
     const pending = new Set(),
       cancelOriginal = window.cancelAnimationFrame.bind(window);
     let inFrame = false;

@@ -62,14 +62,20 @@ test("the curtains are open by day, partly drawn against the low western sun and
   const lounge = at(22 * 60);
   assert.equal(lounge.routine.room, "lounge");
   assert.deepEqual(lounge.plan.fractions, { "kitchen-south": 0, "kitchen-north": 0, "lounge-south": 0, "lounge-north": 1 });
-  // By day an occupied or visited room's view panel never draws across its camera's sightline; its
-  // neighbour still draws. At night only Sirui's own room keeps its view.
+  // The occupied room keeps its view panel clear. An explicit visit gathers both panels so the
+  // visitor can orbit across either one, including at night; unvisited rooms keep their drapes.
   const busy = at(16 * 60 + 45, { room: "lounge" });
   assert.ok(busy.plan.fractions[CURTAIN_VIEW_PANELS.lounge] >= CURTAIN_VIEW_OPEN);
   const visited = at(16 * 60 + 45, { visit: "kitchen" });
   assert.ok(visited.plan.fractions[CURTAIN_VIEW_PANELS.kitchen] >= CURTAIN_VIEW_OPEN);
-  assert.ok(visited.plan.fractions["kitchen-north"] < 0.5, "the neighbouring panel stays drawn");
-  assert.equal(at(22 * 60, { visit: "kitchen" }).plan.fractions[CURTAIN_VIEW_PANELS.kitchen], 0);
+  assert.equal(visited.plan.fractions["kitchen-north"], 1);
+  assert.deepEqual(at(22 * 60, { visit: "kitchen" }).plan.fractions, {
+    "kitchen-south": 1,
+    "kitchen-north": 1,
+    "lounge-south": 0,
+    "lounge-north": 1,
+  });
+  assert.deepEqual(Object.values(at(540, { visit: "kitchen" }).plan.fractions), [0, 0, 0, 0], "sleep keeps its closed drapes");
 });
 
 test("glare needs a low sun standing out to sea, and the schedule moves in small steps", () => {
@@ -300,19 +306,21 @@ test("the scene's rig steps only the panels a camera can see, follows the doors 
   for (let k = 0; k < 120; k++) frame(true);
   assert.ok(rig.evidence().stepping);
   assert.deepEqual(rig.curtains.cloth.panel("lounge-north").positions.slice(), lounge, "an off-screen panel holds its pose");
-  // The schedule: the visited room's view panel stays open, its neighbour is drawn against the sun.
+  // The visited room gathers both panels; the neighbouring room keeps its own sun schedule.
   assert.equal(
     rig.curtains.cloth.targetOpenFraction("kitchen-south"),
     view.plan.fractions["kitchen-south"] >= 0.8 ? view.plan.fractions["kitchen-south"] : 0.8
   );
-  assert.ok(rig.curtains.cloth.targetOpenFraction("kitchen-north") < 0.5);
-  // A paused frame at dusk composes the settled, closed drape at once and steps nothing.
+  assert.equal(rig.curtains.cloth.targetOpenFraction("kitchen-north"), 1);
+  // A paused frame at dusk composes the visited room's gathered drape at once and steps nothing.
   const dusk = at(19 * 60 + 30);
   const steps = rig.evidence().cloth.steps;
   frame(false, { ...dusk, visit: "kitchen" });
   assert.equal(rig.evidence().cloth.steps, steps);
-  assert.equal(rig.curtains.cloth.openFraction("kitchen-north"), 0);
-  assert.ok(rig.evidence().cloth.panels.find((p) => p.id === "kitchen-north").sleeping);
+  assert.equal(rig.curtains.cloth.openFraction("kitchen-north"), 1);
+  const heldRevision = rig.evidence().revision;
+  frame(false, { ...dusk, visit: "kitchen" });
+  assert.equal(rig.evidence().revision, heldRevision, "the gathered panels hold their paused pose");
   assert.equal(rig.evidence().plan.state, "night");
   // Far outside, about 48 m away, nothing is big enough to step.
   camera.position.set(3 - 48 * Math.sin(0.3), 17, -6 - 48 * Math.cos(0.3));

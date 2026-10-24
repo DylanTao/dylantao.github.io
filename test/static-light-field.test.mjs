@@ -17,6 +17,72 @@ const close = (a, b, tolerance = 1e-6) => assert.ok(Math.abs(a - b) < tolerance,
 const regions = [{ id: "test", min: [-0.8, 0.15, -0.8], max: [0.8, 1.5, 0.8] }];
 const lighting = { zenith: [1, 1, 1], horizon: [1, 1, 1], ground: [1, 1, 1], practicalPowers: [] };
 const immediate = () => Promise.resolve();
+const snapshotSignature = "a".repeat(64);
+
+test("precomputed transport preserves sampled sky and practical relighting without tracing visitor rays", async () => {
+  const practicalSources = [{ id: "lamp", position: [0, 1.4, 0], color: [1, 0.7, 0.4], light: new THREE.PointLight() }],
+    floor = new THREE.Mesh(new THREE.BoxGeometry(6, 0.1, 6), new THREE.MeshStandardMaterial({ color: 0xc6a886 }));
+  floor.position.y = -0.1;
+  const original = createStaticLightField({ regions, practicalSources, raysPerProbe: 16, skyRaysPerHit: 2 });
+  original.addRoot(floor);
+  await original.bake({ yieldTask: immediate });
+  const snapshot = JSON.parse(JSON.stringify(original.exportSnapshot({ signature: snapshotSignature }))),
+    restored = createStaticLightField({
+      regions,
+      practicalSources: practicalSources.map((source) => ({ ...source, light: new THREE.PointLight() })),
+      raysPerProbe: 16,
+      skyRaysPerHit: 2,
+    });
+  assert.equal(restored.restoreSnapshot(snapshot, { signature: snapshotSignature }), true);
+  assert.equal(restored.evidence().cacheHit, true);
+  assert.equal(restored.evidence().trace.rays ?? 0, 0);
+  assert.equal(restored.evidence().bakeMs, 0);
+  for (const powers of [0, 0.6, 2]) {
+    const live = { zenith: [0.12, 0.25, 0.4], horizon: [0.6, 0.4, 0.2], ground: [0.1, 0.1, 0.1], practicalPowers: [powers] };
+    original.setLighting(live);
+    restored.setLighting(live);
+    for (const normal of [
+      [0, 1, 0],
+      [0.7, 0.7, 0],
+      [0, 0, 1],
+    ])
+      assert.deepEqual(restored.sample([0.1, 0.6, -0.2], normal), original.sample([0.1, 0.6, -0.2], normal));
+  }
+  original.dispose();
+  restored.dispose();
+});
+
+test("stale, incompatible and corrupt precomputed fields reject atomically and retain the live bake fallback", async () => {
+  const original = createStaticLightField({ regions, raysPerProbe: 16 });
+  await original.bake({ yieldTask: immediate });
+  const snapshot = original.exportSnapshot({ signature: snapshotSignature });
+  const changes = [
+    (s) => (s.version = 99),
+    (s) => (s.signature = "b".repeat(64)),
+    (s) => (s.configuration += "stale"),
+    (s) => s.transport.pop(),
+    (s) => (s.transport[0] = NaN),
+    (s) => (s.transport[0] = 1e100),
+    (s) => (s.moments[0] = 1e100),
+    (s) => (s.probes[0].valid = "yes"),
+    (s) => (s.probes[0].position[0] = Infinity),
+  ];
+  for (const change of changes) {
+    const field = createStaticLightField({ regions, raysPerProbe: 16 }),
+      broken = structuredClone(snapshot);
+    change(broken);
+    assert.equal(field.restoreSnapshot(broken, { signature: snapshotSignature }), false);
+    assert.equal(field.evidence().ready, false);
+    field.setLighting(lighting);
+    await field.bake({ yieldTask: immediate });
+    field.sample([0, 0.7, 0], [0, 1, 0]).irradiance.forEach((value) => close(value, Math.PI));
+    field.dispose();
+  }
+  const changedSampling = createStaticLightField({ regions, raysPerProbe: 64 });
+  assert.equal(changedSampling.restoreSnapshot(snapshot, { signature: snapshotSignature }), false);
+  changedSampling.dispose();
+  original.dispose();
+});
 
 test("octahedral solid-angle quadrature preserves constant radiance and symmetry", () => {
   const rays = sphereQuadrature(),

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from hashlib import sha256
 from datetime import date
 import json
 import re
@@ -539,6 +540,22 @@ def validate(site_dir: Path) -> None:
         raise AssertionError("What Happened and Why must show the April 15, 2026 publication date consistently")
 
     validate_discovery_outputs(site_dir)
+    validate_coastal_cache(site_dir)
+
+
+def validate_coastal_cache(site_dir: Path) -> None:
+    manifest_path = site_dir / "assets" / "models" / "home" / "manifest.json"
+    if not manifest_path.exists():
+        return
+    descriptor = json.loads(manifest_path.read_text(encoding="utf-8")).get("staticLightFieldCache")
+    if not descriptor:
+        return
+    body = (manifest_path.parent / descriptor["url"]).read_bytes()
+    if sha256(body).hexdigest() != descriptor["sha256"]:
+        raise AssertionError("Built coastal light cache bytes changed; preserve its minifier exclusion")
+    snapshot = json.loads(body)
+    if snapshot.get("version") != 1 or snapshot.get("signature") != descriptor["signature"]:
+        raise AssertionError("Built coastal light cache signature does not match the manifest")
 
 
 def main() -> None:

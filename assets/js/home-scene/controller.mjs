@@ -1222,8 +1222,12 @@ export function createCoastalHome(container, records, artifacts) {
       const cache = config.staticLightFieldCache;
       if (cache?.url && cache.signature) {
         lightCache.state = "loading";
+        const cacheAbort = new AbortController(),
+          abortCache = () => cacheAbort.abort(),
+          cacheTimeout = setTimeout(abortCache, 8000);
+        lightBakeAbort.signal.addEventListener("abort", abortCache, { once: true });
         try {
-          const response = await fetch(new URL(cache.url, manifestUrl).href, { signal: lightBakeAbort.signal });
+          const response = await fetch(new URL(cache.url, manifestUrl).href, { signal: cacheAbort.signal });
           if (!response.ok) throw new Error(`Cached light unavailable: ${response.status}`);
           const bytes = await response.arrayBuffer();
           if (cache.sha256) {
@@ -1236,8 +1240,11 @@ export function createCoastalHome(container, records, artifacts) {
           lightCache.state = "restored";
           return;
         } catch (error) {
-          if (disposed || error.name === "AbortError") throw error;
+          if (disposed || lightBakeAbort.signal.aborted) throw error;
           lightCache = { state: "miss", reason: error.message };
+        } finally {
+          clearTimeout(cacheTimeout);
+          lightBakeAbort.signal.removeEventListener("abort", abortCache);
         }
       }
       await staticLightField.bake({ signal: lightBakeAbort.signal, yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)) });
@@ -1893,7 +1900,8 @@ export function createCoastalHome(container, records, artifacts) {
 
   function syncCutaway() {
     world.traverse((object) => {
-      if (object.userData.caveRoof) object.visible = currentRoom === "outside";
+      // Orbiting opens the section; a visitor inside the house keeps its real enclosing ceiling.
+      if (object.userData.caveRoof) object.visible = currentRoom === "outside" || Boolean(walkMode?.active);
     });
   }
 

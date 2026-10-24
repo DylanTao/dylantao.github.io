@@ -402,6 +402,8 @@ jekyll-minifier:
     - "llms.txt"
     - "llms-full.txt"
     - "ai/publications.json"
+    # The runtime verifies this generated response against its manifest SHA-256.
+    - "assets/models/home/static-light-field.json"
     - "ai/**/*.md"
     - "ai/**/*.bib"
     - "ai/**/*.ris"
