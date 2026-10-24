@@ -1,0 +1,414 @@
+{
+  "desktop": {
+    "ghibli": {
+      "diff": {
+        "changedPixels": 16115,
+        "meanRgbDelta": 1.2246229166666667,
+        "mirrorChanged": 16115,
+        "mirrorMeanRgbDelta": 4.3185150900702345,
+        "mirrorPixels": 226860,
+        "roi": {
+          "left": 202,
+          "right": 798,
+          "bottom": 239,
+          "top": 618
+        }
+      },
+      "evidence": {
+        "avatar": "ghibli",
+        "mirror": {
+          "method": "cropped planar room and live actor reflections",
+          "rooms": ["bath-living", "bath-bedroom"],
+          "size": 256,
+          "sharedTargets": 1,
+          "maximumHz": 15,
+          "contextReach": 12,
+          "captures": 4,
+          "capturedRoom": "bath-living",
+          "milliseconds": 1317.7999999970198,
+          "prepared": true,
+          "contextRooms": ["bath-living", "bath-bedroom"],
+          "dynamicRoots": ["walking-Sirui"],
+          "cropArea": 0.298224754895534,
+          "linearTexelGain": 1.8311678502514668
+        },
+        "presence": {
+          "active": true,
+          "source": "selected-ghibli",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 12,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 0,
+          "gaitTime": 0,
+          "contentVersion": 6,
+          "headCutHeight": 1.2800000143051147,
+          "fullShadow": true
+        },
+        "programs": 49,
+        "glError": 0
+      }
+    },
+    "lizard": {
+      "diff": {
+        "changedPixels": 24336,
+        "meanRgbDelta": 1.7782070833333334,
+        "mirrorChanged": 24336,
+        "mirrorMeanRgbDelta": 6.270676481824326,
+        "mirrorPixels": 226860,
+        "roi": {
+          "left": 202,
+          "right": 798,
+          "bottom": 239,
+          "top": 618
+        }
+      },
+      "evidence": {
+        "avatar": "lizard",
+        "mirror": {
+          "method": "cropped planar room and live actor reflections",
+          "rooms": ["bath-living", "bath-bedroom"],
+          "size": 256,
+          "sharedTargets": 1,
+          "maximumHz": 15,
+          "contextReach": 12,
+          "captures": 7,
+          "capturedRoom": "bath-living",
+          "milliseconds": 1339.199999973178,
+          "prepared": true,
+          "contextRooms": ["bath-living", "bath-bedroom"],
+          "dynamicRoots": ["walking-Sirui"],
+          "cropArea": 0.298224754895534,
+          "linearTexelGain": 1.8311678502514668
+        },
+        "presence": {
+          "active": true,
+          "source": "selected-lizard",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 10,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 0,
+          "gaitTime": 0,
+          "contentVersion": 9,
+          "headCutHeight": 1.2800000143051147,
+          "fullShadow": true
+        },
+        "programs": 49,
+        "glError": 0
+      }
+    },
+    "south-park": {
+      "diff": {
+        "changedPixels": 30612,
+        "meanRgbDelta": 1.94799375,
+        "mirrorChanged": 30612,
+        "mirrorMeanRgbDelta": 6.869412853742396,
+        "mirrorPixels": 226860,
+        "roi": {
+          "left": 202,
+          "right": 798,
+          "bottom": 239,
+          "top": 618
+        }
+      },
+      "evidence": {
+        "avatar": "south-park",
+        "mirror": {
+          "method": "cropped planar room and live actor reflections",
+          "rooms": ["bath-living", "bath-bedroom"],
+          "size": 256,
+          "sharedTargets": 1,
+          "maximumHz": 15,
+          "contextReach": 12,
+          "captures": 10,
+          "capturedRoom": "bath-living",
+          "milliseconds": 1392.0999999940395,
+          "prepared": true,
+          "contextRooms": ["bath-living", "bath-bedroom"],
+          "dynamicRoots": ["walking-Sirui"],
+          "cropArea": 0.298224754895534,
+          "linearTexelGain": 1.8311678502514668
+        },
+        "presence": {
+          "active": true,
+          "source": "selected-south-park",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 10,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 0,
+          "gaitTime": 0,
+          "contentVersion": 12,
+          "headCutHeight": 1.2800000143051147,
+          "fullShadow": true
+        },
+        "programs": 49,
+        "glError": 0
+      }
+    },
+    "simpsons": {
+      "diff": {
+        "changedPixels": 21674,
+        "meanRgbDelta": 1.554425,
+        "mirrorChanged": 21674,
+        "mirrorMeanRgbDelta": 5.481530459314114,
+        "mirrorPixels": 226860,
+        "roi": {
+          "left": 202,
+          "right": 798,
+          "bottom": 239,
+          "top": 618
+        }
+      },
+      "evidence": {
+        "avatar": "simpsons",
+        "mirror": {
+          "method": "cropped planar room and live actor reflections",
+          "rooms": ["bath-living", "bath-bedroom"],
+          "size": 256,
+          "sharedTargets": 1,
+          "maximumHz": 15,
+          "contextReach": 12,
+          "captures": 13,
+          "capturedRoom": "bath-living",
+          "milliseconds": 1420.0000000149012,
+          "prepared": true,
+          "contextRooms": ["bath-living", "bath-bedroom"],
+          "dynamicRoots": ["walking-Sirui"],
+          "cropArea": 0.298224754895534,
+          "linearTexelGain": 1.8311678502514668
+        },
+        "presence": {
+          "active": true,
+          "source": "selected-simpsons",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 10,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 0,
+          "gaitTime": 0,
+          "contentVersion": 15,
+          "headCutHeight": 1.2800000143051147,
+          "fullShadow": true
+        },
+        "programs": 49,
+        "glError": 0
+      }
+    },
+    "rick-and-morty": {
+      "diff": {
+        "changedPixels": 19023,
+        "meanRgbDelta": 1.203705,
+        "mirrorChanged": 19023,
+        "mirrorMeanRgbDelta": 4.244750066120074,
+        "mirrorPixels": 226860,
+        "roi": {
+          "left": 202,
+          "right": 798,
+          "bottom": 239,
+          "top": 618
+        }
+      },
+      "evidence": {
+        "avatar": "rick-and-morty",
+        "mirror": {
+          "method": "cropped planar room and live actor reflections",
+          "rooms": ["bath-living", "bath-bedroom"],
+          "size": 256,
+          "sharedTargets": 1,
+          "maximumHz": 15,
+          "contextReach": 12,
+          "captures": 16,
+          "capturedRoom": "bath-living",
+          "milliseconds": 1466.800000026822,
+          "prepared": true,
+          "contextRooms": ["bath-living", "bath-bedroom"],
+          "dynamicRoots": ["walking-Sirui"],
+          "cropArea": 0.298224754895534,
+          "linearTexelGain": 1.8311678502514668
+        },
+        "presence": {
+          "active": true,
+          "source": "selected-rick-and-morty",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 11,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 0,
+          "gaitTime": 0,
+          "contentVersion": 18,
+          "headCutHeight": 1.2800000143051147,
+          "fullShadow": true
+        },
+        "programs": 49,
+        "glError": 0
+      }
+    },
+    "upper": {
+      "diff": {
+        "changedPixels": 16141,
+        "meanRgbDelta": 1.25867375,
+        "mirrorChanged": 16141,
+        "mirrorMeanRgbDelta": 4.438592083223133,
+        "mirrorPixels": 226860,
+        "roi": {
+          "left": 202,
+          "right": 798,
+          "bottom": 239,
+          "top": 618
+        }
+      },
+      "evidence": {
+        "avatar": "ghibli",
+        "mirror": {
+          "method": "cropped planar room and live actor reflections",
+          "rooms": ["bath-living", "bath-bedroom"],
+          "size": 256,
+          "sharedTargets": 1,
+          "maximumHz": 15,
+          "contextReach": 12,
+          "captures": 19,
+          "capturedRoom": "bath-bedroom",
+          "milliseconds": 1512.0000000149012,
+          "prepared": true,
+          "contextRooms": ["bath-bedroom"],
+          "dynamicRoots": ["walking-Sirui"],
+          "cropArea": 0.2982247548955341,
+          "linearTexelGain": 1.8311678502514666
+        },
+        "presence": {
+          "active": true,
+          "source": "selected-ghibli",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 12,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 2.6, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 0,
+          "gaitTime": 0,
+          "contentVersion": 22,
+          "headCutHeight": 3.8800000143051148,
+          "fullShadow": true
+        },
+        "programs": 49,
+        "glError": 0
+      }
+    },
+    "still": {
+      "before": 19,
+      "after": 19
+    },
+    "exit": {
+      "routineVisible": true,
+      "presenceVisible": false
+    }
+  },
+  "mobile": {
+    "initial": {
+      "avatar": "ghibli",
+      "mirror": {
+        "method": "cropped planar room and live actor reflections",
+        "rooms": ["bath-living", "bath-bedroom"],
+        "size": 128,
+        "sharedTargets": 1,
+        "maximumHz": 15,
+        "contextReach": 12,
+        "captures": 1,
+        "capturedRoom": "bath-living",
+        "milliseconds": 3338.300000011921,
+        "prepared": true,
+        "contextRooms": ["bath-living", "bath-bedroom"],
+        "dynamicRoots": ["walking-Sirui"],
+        "cropArea": 0.4872949469654928,
+        "linearTexelGain": 1.4325310565255542
+      },
+      "presence": {
+        "active": true,
+        "source": "selected-ghibli",
+        "sourceHidden": true,
+        "prepared": true,
+        "skeletons": 12,
+        "sharedGeometryAndMaterials": true,
+        "position": [-6.25, 0, 3.65],
+        "yaw": -1.5707963267948966,
+        "moving": false,
+        "idleTime": 0,
+        "gaitTime": 0,
+        "contentVersion": 3,
+        "headCutHeight": 1.2800000143051147,
+        "fullShadow": true
+      },
+      "programs": 49,
+      "glError": 0
+    },
+    "diff": {
+      "changedPixels": 88744,
+      "meanRgbDelta": 2.7442770513549366,
+      "mirrorChanged": 88744,
+      "mirrorMeanRgbDelta": 5.7879896083133495,
+      "mirrorPixels": 817320,
+      "roi": {
+        "left": -164,
+        "right": 1144,
+        "bottom": 526,
+        "top": 1359
+      }
+    },
+    "evidence": {
+      "avatar": "ghibli",
+      "mirror": {
+        "method": "cropped planar room and live actor reflections",
+        "rooms": ["bath-living", "bath-bedroom"],
+        "size": 128,
+        "sharedTargets": 1,
+        "maximumHz": 15,
+        "contextReach": 12,
+        "captures": 3,
+        "capturedRoom": "bath-living",
+        "milliseconds": 3347.800000011921,
+        "prepared": true,
+        "contextRooms": ["bath-living", "bath-bedroom"],
+        "dynamicRoots": ["walking-Sirui"],
+        "cropArea": 0.4872949469654928,
+        "linearTexelGain": 1.4325310565255542
+      },
+      "presence": {
+        "active": true,
+        "source": "selected-ghibli",
+        "sourceHidden": true,
+        "prepared": true,
+        "skeletons": 12,
+        "sharedGeometryAndMaterials": true,
+        "position": [-6.25, 0, 3.65],
+        "yaw": -1.5707963267948966,
+        "moving": false,
+        "idleTime": 0,
+        "gaitTime": 0,
+        "contentVersion": 3,
+        "headCutHeight": 1.2800000143051147,
+        "fullShadow": true
+      },
+      "programs": 49,
+      "glError": 0
+    }
+  },
+  "errors": []
+}

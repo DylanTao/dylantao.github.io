@@ -1,0 +1,121 @@
+{
+  "errors": [],
+  "avatars": {
+    "ghibli": {
+      "evidence": {
+        "avatar": "ghibli",
+        "mirror": {
+          "method": "cropped planar room and live actor reflections",
+          "rooms": ["bath-living", "bath-bedroom"],
+          "size": 256,
+          "sharedTargets": 1,
+          "maximumHz": 15,
+          "contextReach": 12,
+          "captures": 2,
+          "capturedRoom": "bath-living",
+          "milliseconds": 1235.5,
+          "prepared": true,
+          "contextRooms": ["bath-living", "bath-bedroom"],
+          "dynamicRoots": ["walking-Sirui"],
+          "cropArea": 0.32871506865059863,
+          "linearTexelGain": 1.7441755469839408
+        },
+        "presence": {
+          "active": true,
+          "source": "selected-ghibli",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 1,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 0,
+          "gaitTime": 0,
+          "contentVersion": 6,
+          "opticalEyeOffset": [0, 1.5409600734710693, 0.09164000302553177],
+          "opticalForwardOffset": 0.09164000302553177,
+          "headCutHeight": 1.4000000143051148,
+          "fullShadow": true
+        },
+        "programs": 49,
+        "glError": 0
+      },
+      "diff": {
+        "changedPixels": 17368,
+        "meanRgbDelta": 1.3062729166666667,
+        "mirrorChanged": 17368,
+        "mirrorMeanRgbDelta": 4.190549707602339,
+        "mirrorPixels": 249375,
+        "roi": {
+          "left": 188,
+          "right": 812,
+          "bottom": 231,
+          "top": 629
+        }
+      },
+      "camera": [-6.341640003025532, 1.6, 3.65]
+    },
+    "lizard": {
+      "evidence": {
+        "avatar": "lizard",
+        "mirror": {
+          "method": "cropped planar room and live actor reflections",
+          "rooms": ["bath-living", "bath-bedroom"],
+          "size": 256,
+          "sharedTargets": 1,
+          "maximumHz": 15,
+          "contextReach": 12,
+          "captures": 5,
+          "capturedRoom": "bath-living",
+          "milliseconds": 1258.7999999970198,
+          "prepared": true,
+          "contextRooms": ["bath-living", "bath-bedroom"],
+          "dynamicRoots": ["walking-Sirui"],
+          "cropArea": 0.3467268183039259,
+          "linearTexelGain": 1.6982682206643693
+        },
+        "presence": {
+          "active": true,
+          "source": "selected-lizard",
+          "sourceHidden": true,
+          "prepared": true,
+          "skeletons": 1,
+          "sharedGeometryAndMaterials": true,
+          "position": [-6.25, 0, 3.65],
+          "yaw": -1.5707963267948966,
+          "moving": false,
+          "idleTime": 0,
+          "gaitTime": 0,
+          "contentVersion": 9,
+          "opticalEyeOffset": [0, 1.6908800601959229, 0.19269999861717224],
+          "opticalForwardOffset": 0.19269999861717224,
+          "headCutHeight": 1.4000000143051148,
+          "fullShadow": true
+        },
+        "programs": 49,
+        "glError": 0
+      },
+      "diff": {
+        "changedPixels": 27072,
+        "meanRgbDelta": 1.9748466666666666,
+        "mirrorChanged": 27072,
+        "mirrorMeanRgbDelta": 5.992782814297817,
+        "mirrorPixels": 263630,
+        "roi": {
+          "left": 179,
+          "right": 821,
+          "bottom": 226,
+          "top": 635
+        }
+      },
+      "camera": [-6.39, 1.6, 3.65]
+    }
+  },
+  "source_sha256": {
+    "assets/js/home-scene/interior-reflections.mjs": "158f2805569008255b4f2fcd6d08044d049bf88ab6b534b7f74e6d92bbceb426",
+    "assets/js/home-scene/walk-presence.mjs": "52d65ea6aa3c410272994fb760d8478e76b605b53b651277ce32a2ebc6a62f1d"
+  },
+  "evidence_scope": "Focused native GLB harness, controlled lights, not final integrated production scene or physical phone",
+  "head_clip": "Head native neck root plus 0.04 metres; full geometry remains intact in reflections and shadows"
+}

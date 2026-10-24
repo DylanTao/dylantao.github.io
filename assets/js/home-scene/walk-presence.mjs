@@ -7,7 +7,8 @@ import * as THREE from "../three.module.min.js";
 // to this presence, so disposing it must never release the selected avatar's GPU assets.
 export function cloneWalkSkeleton(source) {
   const clone = source.clone(true),
-    correspondence = new Map();
+    correspondence = new Map(),
+    skeletonCopies = new Map();
   function pair(original, copy) {
     correspondence.set(original, copy);
     copy.userData = { ...original.userData };
@@ -21,12 +22,18 @@ export function cloneWalkSkeleton(source) {
   source.traverse((original) => {
     if (!original.isSkinnedMesh) return;
     const copy = correspondence.get(original);
-    copy.skeleton = original.skeleton.clone();
-    copy.skeleton.bones = original.skeleton.bones.map((bone) => {
-      const clonedBone = correspondence.get(bone);
-      if (!clonedBone) throw new Error("Walk avatar bones must belong to the selected avatar hierarchy.");
-      return clonedBone;
-    });
+    // The delivered GLB has one skin shared by 10-12 material primitives. Keep that sharing
+    // instead of allocating/uploading an identical bone texture for every primitive.
+    if (!skeletonCopies.has(original.skeleton)) {
+      const skeleton = original.skeleton.clone();
+      skeleton.bones = original.skeleton.bones.map((bone) => {
+        const clonedBone = correspondence.get(bone);
+        if (!clonedBone) throw new Error("Walk avatar bones must belong to the selected avatar hierarchy.");
+        return clonedBone;
+      });
+      skeletonCopies.set(original.skeleton, skeleton);
+    }
+    copy.skeleton = skeletonCopies.get(original.skeleton);
     copy.bindMatrix.copy(original.bindMatrix);
     copy.bind(copy.skeleton, copy.bindMatrix);
   });
@@ -34,7 +41,10 @@ export function cloneWalkSkeleton(source) {
 }
 
 const STRIDE = 1.25;
-const HEAD_CLEARANCE = 0.08;
+// In the delivered rigs Head is the neck root (1.36 m), not the face centre. Keep the
+// closed shirt/shoulders below it and clip just above the neck instead of cutting a broad
+// open cross-section through the torso. The primary camera remains at Walk's 1.6 m eyes.
+const HEAD_CUT_ABOVE_NECK = 0.04;
 
 export function createWalkPresence({ renderer }) {
   const object = new THREE.Group();
@@ -45,7 +55,8 @@ export function createWalkPresence({ renderer }) {
   object.userData.walkPresence = true;
   object.userData.noContactOcclusion = true;
   const headClip = new THREE.Plane(new THREE.Vector3(0, -1, 0), 1.4),
-    headPosition = new THREE.Vector3();
+    headPosition = new THREE.Vector3(),
+    opticalEyeOffset = new THREE.Vector3();
   let source = null,
     body = null,
     head = null,
@@ -56,7 +67,7 @@ export function createWalkPresence({ renderer }) {
     sourceVisibility = null,
     disposed = false,
     prepared = false,
-    warming = false,
+    warmCount = 0,
     version = 0,
     idleTime = 0,
     gaitTime = 0,
@@ -86,6 +97,7 @@ export function createWalkPresence({ renderer }) {
     materials.clear();
     body?.removeFromParent();
     body = head = mixer = idle = walk = null;
+    opticalEyeOffset.set(0, 0, 0);
     prepared = false;
   }
   function setSource(next, clips = []) {
@@ -118,6 +130,17 @@ export function createWalkPresence({ renderer }) {
       idle?.setEffectiveWeight(1);
       walk?.setEffectiveWeight(0);
       mixer.update(0);
+      // Measure the native optical anchor after bind/idle composition, never from the
+      // routine's current sleep/lounge pose. Root may shift the Walk camera forward by a
+      // conservative portion of this offset while leaving its height and capsule intact.
+      body.updateWorldMatrix(true, true);
+      let eyeCount = 0;
+      body.traverse((part) => {
+        if (!part.isBone || !/^Eye[._]?[LR]$/.test(part.name)) return;
+        opticalEyeOffset.add(part.getWorldPosition(new THREE.Vector3()));
+        eyeCount++;
+      });
+      if (eyeCount) body.worldToLocal(opticalEyeOffset.multiplyScalar(1 / eyeCount));
       if (active) hideSource();
     }
     object.visible = active && Boolean(body);
@@ -172,7 +195,7 @@ export function createWalkPresence({ renderer }) {
     object.updateWorldMatrix(true, true);
     if (head) {
       head.getWorldPosition(headPosition);
-      headClip.constant = headPosition.y - HEAD_CLEARANCE;
+      headClip.constant = headPosition.y + HEAD_CUT_ABOVE_NECK;
     } else headClip.constant = nextPosition.y + 1.4;
     lastPosition = nextPosition;
     lastYaw = yaw;
@@ -185,7 +208,7 @@ export function createWalkPresence({ renderer }) {
   // bones and shadow remain intact. Mirrors run outside this scope and see the whole person.
   // Reuse plane/array objects; the renderer changes only its normal clipping-program variant.
   function withoutHead(draw) {
-    if ((!active && !warming) || !body || disposed) return draw();
+    if ((!active && warmCount === 0) || !body || disposed) return draw();
     const localClipping = renderer.localClippingEnabled,
       saved = [];
     for (const material of materials) {
@@ -226,7 +249,7 @@ export function createWalkPresence({ renderer }) {
       expectedSource = source,
       visible = object.visible,
       heldSource = sourceVisibility !== null;
-    warming = true;
+    warmCount++;
     object.visible = true;
     hideSource();
     object.updateWorldMatrix(true, true);
@@ -236,7 +259,7 @@ export function createWalkPresence({ renderer }) {
       await withoutHead(() => renderer.compileAsync(scene, camera));
       prepared = !disposed && body === expectedBody && shouldContinue();
     } finally {
-      warming = false;
+      warmCount--;
       if (!disposed && body === expectedBody) {
         object.visible = active || visible;
         if (source === expectedSource && !active && !heldSource) restoreSource();
@@ -253,6 +276,9 @@ export function createWalkPresence({ renderer }) {
     get contentVersion() {
       return version;
     },
+    get opticalForwardOffset() {
+      return Math.max(0, opticalEyeOffset.z);
+    },
     evidence: () => ({
       active,
       source: source?.name || null,
@@ -266,6 +292,8 @@ export function createWalkPresence({ renderer }) {
       idleTime,
       gaitTime,
       contentVersion: version,
+      opticalEyeOffset: opticalEyeOffset.toArray(),
+      opticalForwardOffset: Math.max(0, opticalEyeOffset.z),
       headCutHeight: headClip.constant,
       fullShadow: true,
     }),

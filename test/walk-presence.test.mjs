@@ -11,7 +11,16 @@ function avatar() {
   hips.name = "Hips";
   hips.position.y = 0.8;
   head.name = "Head";
-  head.position.y = 0.8;
+  head.position.y = 0.56; // The delivered rigs' neck-root Head anchor is at 1.36 m.
+  for (const [name, x] of [
+    ["Eye.L", -0.045],
+    ["Eye.R", 0.045],
+  ]) {
+    const eye = new THREE.Bone();
+    eye.name = name;
+    eye.position.set(x, 0.16, 0.11);
+    head.add(eye);
+  }
   hips.add(head);
   source.add(hips);
   const geometry = new THREE.BufferGeometry();
@@ -55,6 +64,7 @@ test("the selected avatar clone has independent bound bones and skeleton buffers
   assert.equal(mesh.material, f.material);
   assert.notEqual(mesh.skeleton, f.skeleton);
   assert.notEqual(mesh.skeleton.boneMatrices, f.skeleton.boneMatrices);
+  assert.equal(mesh.skeleton, eyelids.skeleton, "material primitives retain the source's single shared skin");
   assert.equal(mesh.skeleton.bones[1], head);
   assert.equal(eyelids.skeleton.bones[1], head);
   assert.notEqual(head, f.head);
@@ -120,6 +130,7 @@ test("primary-view head clipping preserves full bones and shadows, then restores
   f.material.clipIntersection = true;
   f.material.clipShadows = true;
   f.presence.update({ active: true, position: [-6, 2.6, 3.4], elapsed: 0, reduced: true });
+  assert.ok(Math.abs(f.presence.evidence().headCutHeight - 4) < 1e-7, "the cut retains the native shirt and shoulders below the neck");
   const scale = f.presence.object.getObjectByName("Head").scale.clone();
   let planes;
   f.presence.withoutHead(() => {
@@ -217,7 +228,7 @@ test("switching avatars and disposal restore source visibility and release only 
   f.presence.setSource(next.source, next.clips);
   assert.equal(f.source.visible, true);
   assert.equal(next.source.visible, false);
-  assert.equal(cloneSkeletonDisposals, 2);
+  assert.equal(cloneSkeletonDisposals, 1);
   f.presence.dispose();
   f.presence.dispose();
   assert.equal(next.source.visible, true);
@@ -232,5 +243,54 @@ test("a source originally hidden stays hidden after Walk ends", () => {
   f.presence.update({ active: true });
   f.presence.update({ active: false });
   assert.equal(f.source.visible, false);
+  f.presence.dispose();
+});
+
+test("native optical offset is measured in bind/idle space independently of the source's routine pose", () => {
+  const f = fixture();
+  assert.ok(Math.abs(f.presence.opticalForwardOffset - 0.11) < 1e-7);
+  f.presence.update({ active: true, position: [3, 2.6, -4], yaw: 1.2 });
+  assert.ok(Math.abs(f.presence.opticalForwardOffset - 0.11) < 1e-7);
+  const next = avatar();
+  next.source.position.set(10, 2.6, 12);
+  next.source.rotation.y = 0.8;
+  next.head.rotation.x = 0.7;
+  for (const eye of next.head.children) eye.position.z = 0.2;
+  f.presence.setSource(next.source, next.clips);
+  assert.ok(Math.abs(f.presence.opticalForwardOffset - 0.2) < 1e-7, "sleep/reading head tilt does not rotate the optical measurement");
+  assert.ok(Math.abs(f.presence.evidence().opticalEyeOffset[0]) < 1e-7);
+  f.presence.setSource(null);
+  assert.equal(f.presence.opticalForwardOffset, 0);
+  f.presence.dispose();
+});
+
+test("an obsolete asynchronous warmup cannot steal visibility or clipping from a replacement avatar", async () => {
+  const f = fixture(),
+    next = avatar(),
+    releases = [],
+    variants = [];
+  f.renderer.compileAsync = () =>
+    new Promise((resolve) => {
+      variants.push(Boolean(next.material.clippingPlanes));
+      releases.push(resolve);
+    });
+  const obsolete = f.presence.prepare({ scene: f.scene, camera: f.camera });
+  f.presence.setSource(next.source, next.clips);
+  f.scene.add(next.source);
+  const current = f.presence.prepare({ scene: f.scene, camera: f.camera });
+  releases.shift()();
+  await obsolete;
+  assert.equal(f.source.visible, true);
+  assert.equal(next.source.visible, false, "the current warmup still owns its source's visibility");
+  releases.shift()();
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.equal(variants.at(-1), true, "the replacement warms its primary clipped program too");
+  releases.shift()();
+  await current;
+  assert.equal(next.source.visible, true);
+  assert.equal(next.material.clippingPlanes, null);
+  assert.equal(f.renderer.localClippingEnabled, false);
+  assert.equal(f.presence.evidence().prepared, true);
   f.presence.dispose();
 });
