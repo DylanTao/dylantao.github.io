@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 room=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--room=')),None)
 interiors_only='--interiors-only' in sys.argv
-ROOMS=('study','sleep','kitchen','gym','onsen','lounge','bath-living','bath-bedroom')
+ROOMS=tuple(room['id'] for room in json.loads((ROOT/'assets/models/home/manifest.json').read_text(encoding='utf-8'))['rooms'])
 assert room is None or room in ROOMS,room
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'artwork/coastal-home/coastal-home.blend'))
 scene=bpy.context.scene

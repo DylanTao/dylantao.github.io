@@ -176,7 +176,15 @@ test("living pit seats Sirui with feet on the cushion and a continuous fireplace
 
 test("infinity basin has a supported dry approach and native water excluded from Walk", () => {
   const pool = manifest.infinityPool;
-  assert.ok(pool.depth > 1 && pool.depth < 1.3);
+  assert.equal(pool.depth, 1.35);
+  assert.deepEqual(
+    pool.zones.filter((zone) => Number.isFinite(zone.depth)).map((zone) => [zone.id, zone.depth]),
+    [
+      ["swim", 1.35],
+      ["sun-shelf", 0.22],
+      ["social", 0.85],
+    ]
+  );
   assert.equal(pool.waterline, -0.09);
   assert.ok(pool.waveAmplitude <= 0.005);
   for (const p of pool.access) assert.ok(Math.abs(supportHeight(p[0], p[2], manifest.terrain, p[1]) - p[1]) < 0.03);

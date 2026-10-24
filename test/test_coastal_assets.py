@@ -54,7 +54,7 @@ class CoastalAssetsTest(unittest.TestCase):
     def test_every_export_and_editable_source_exists(self):
         self.assertEqual(
             {room["id"] for room in MANIFEST["rooms"]},
-            {"study", "sleep", "kitchen", "gym", "onsen", "lounge", "bath-living", "bath-bedroom"},
+            {"study", "sleep", "kitchen", "gym", "onsen", "lounge", "bath-living", "bath-bedroom", "library", "library-upper"},
         )
         for entry in MANIFEST["rooms"] + MANIFEST["avatars"]:
             asset = glb(ASSETS / entry["file"])

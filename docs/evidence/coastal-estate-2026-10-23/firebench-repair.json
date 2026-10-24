@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "before": [
+    {
+      "mesh": "core_facade__golden_coastal_sandstone",
+      "min": [-5.199999809265137, 5.0, 0.0],
+      "max": [-4.699999809265137, 6.850000381469727, 0.3799999952316284],
+      "vertices": 8,
+      "faces": 6
+    },
+    {
+      "mesh": "core_facade__weathered_teak_wood",
+      "min": [-5.199999809265137, 5.0, 0.3799999952316284],
+      "max": [-4.659999847412109, 6.850000381469727, 0.42000001668930054],
+      "vertices": 56,
+      "faces": 54
+    },
+    {
+      "mesh": "core_facade__outdoor_canvas_cotton",
+      "min": [-5.139999866485596, 5.03000020980835, 0.41999998688697815],
+      "max": [-4.700000286102295, 6.820000171661377, 0.5199999809265137],
+      "vertices": 8,
+      "faces": 6
+    },
+    {
+      "mesh": "core_facade__outdoor_canvas_cotton",
+      "min": [-5.200042724609375, 5.048830032348633, 0.4874546229839325],
+      "max": [-4.939957618713379, 5.591170310974121, 0.9925453662872314],
+      "vertices": 8,
+      "faces": 6
+    },
+    {
+      "mesh": "core_facade__outdoor_canvas_cotton",
+      "min": [-5.196775913238525, 5.659999847412109, 0.49973466992378235],
+      "max": [-4.9432244300842285, 6.180000305175781, 0.9802653789520264],
+      "vertices": 8,
+      "faces": 6
+    },
+    {
+      "mesh": "core_facade__outdoor_canvas_cotton",
+      "min": [-5.200042724609375, 6.2488298416137695, 0.4874546229839325],
+      "max": [-4.939957618713379, 6.791170120239258, 0.9925453662872314],
+      "vertices": 8,
+      "faces": 6
+    }
+  ],
+  "after": [
+    {
+      "mesh": "core_facade__golden_coastal_sandstone",
+      "min": [-6.800000190734863, 6.0, 0.0],
+      "max": [-4.949999809265137, 6.5, 0.3799999952316284],
+      "vertices": 8,
+      "faces": 6
+    },
+    {
+      "mesh": "core_facade__weathered_teak_wood",
+      "min": [-6.800000190734863, 6.0, 0.3799999952316284],
+      "max": [-4.949999809265137, 6.539999961853027, 0.42000001668930054],
+      "vertices": 56,
+      "faces": 54
+    },
+    {
+      "mesh": "core_facade__outdoor_canvas_cotton",
+      "min": [-6.769999980926514, 6.059999942779541, 0.41999998688697815],
+      "max": [-4.980000019073486, 6.499999523162842, 0.5199999809265137],
+      "vertices": 8,
+      "faces": 6
+    },
+    {
+      "mesh": "core_facade__outdoor_canvas_cotton",
+      "min": [-5.541170120239258, 5.999957084655762, 0.4874546229839325],
+      "max": [-4.9988298416137695, 6.260042190551758, 0.9925453662872314],
+      "vertices": 8,
+      "faces": 6
+    },
+    {
+      "mesh": "core_facade__outdoor_canvas_cotton",
+      "min": [-6.130000114440918, 6.003223896026611, 0.49973466992378235],
+      "max": [-5.609999656677246, 6.256775379180908, 0.9802653789520264],
+      "vertices": 8,
+      "faces": 6
+    },
+    {
+      "mesh": "core_facade__outdoor_canvas_cotton",
+      "min": [-6.7411699295043945, 5.999957084655762, 0.4874546229839325],
+      "max": [-6.198829650878906, 6.260042190551758, 0.9925453662872314],
+      "vertices": 8,
+      "faces": 6
+    }
+  ],
+  "changedMeshes": ["core_facade__golden_coastal_sandstone", "core_facade__weathered_teak_wood", "core_facade__outdoor_canvas_cotton"],
+  "islands": 6,
+  "vertices": 96,
+  "rotationDegrees": 90,
+  "nativeCenter": [-5.875, 6.25, 0],
+  "firePreserved": "Bowl, travertine drum, logs, embers and scheduled emitter unchanged",
+  "circulation": "Rear dry crosswalk; verify the exported Draco route with a 56 cm capsule",
+  "repeatCheck": "Every native mesh and stored normal is unchanged on second call",
+  "source": "D:\\dev\\dylantao.github.io\\artwork\\coastal-home\\coastal-home.blend",
+  "sourceSha256": "008c300ffbcfbe2c2d9ff6400ff9f7c31c9eba3eb9d0aa8146f2b6e01bc54680",
+  "mode": "repair-firebench-only",
+  "unchangedOtherMeshes": 374,
+  "beforeMeshHashes": {
+    "core_facade__golden_coastal_sandstone": "406b4775b7764384a52ca4057023c5c0ecb41c053c35dc95d3b5f45fa1788f9d",
+    "core_facade__weathered_teak_wood": "e78704266c0b2734305c1f00fde0bdefeba4145e9590b81fac955ddb7f3817f6",
+    "core_facade__outdoor_canvas_cotton": "d8ada37ebe0aef4663c0b7e1eeed5d052253c75aafb73ea7c8f4ca3aa97cc95e"
+  },
+  "afterMeshHashes": {
+    "core_facade__golden_coastal_sandstone": "c825db6d8d26c5262dc794614bc78d28913e75ba24ec0f854c7f13ebdca4c5c8",
+    "core_facade__weathered_teak_wood": "974153c0d438f025e96622256969fefd61a4a0cd7ef840db4e7024ede59347b7",
+    "core_facade__outdoor_canvas_cotton": "9e6564cde23977e74e1e15cadcba75b73ff0ccacc60ea37e389a91a5cf6f0dd8"
+  },
+  "manifestSha256": "6c18aa89f6fb6ea6e51ee27f0d61c23ea32b92ed902ae25f512c28d829c70725"
+}

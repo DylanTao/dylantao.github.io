@@ -1,6 +1,13 @@
 {
-  "head": "d5462188a89c89a8b1f979eaa1e4aafefd40e375",
-  "manifestOrder": ["companion.spec.js", "duh.spec.js", "desk-scene.spec.js", "footer-coast.spec.js", "static-light-field.spec.js"],
+  "head": "d7ceac3173f15602ea19416cccf3e7ed2b2509af",
+  "manifestOrder": [
+    "companion.spec.js",
+    "duh.spec.js",
+    "desk-scene.spec.js",
+    "footer-coast.spec.js",
+    "static-light-field.spec.js",
+    "estate-redesign.spec.js"
+  ],
   "groups": {
     "scene-core-1": [
       {
@@ -368,6 +375,10 @@
       {
         "file": "desk-scene.spec.js",
         "title": "coastal home: a routine boundary walks through the home before settling into the onsen"
+      },
+      {
+        "file": "estate-redesign.spec.js",
+        "title": "estate thresholds: real leaves open before the body, cross both ways and close after leaving"
       }
     ],
     "scene-footer-light": [

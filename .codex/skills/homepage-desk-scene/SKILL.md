@@ -38,6 +38,8 @@ Start with `Current Priority Order`, `Known Inspection Targets`, `Non-Goals`, an
 - The active world is Blender-authored with manifest-defined rooms, five adult male avatars, Realistic as its only active treatment, and an authored Pacific-time routine. Room expansion follows the brief's architecture and acceptance evidence; keep anchors, circulation, light, loading and test coverage aligned with the delivered layout. Sirui removed the style switch from both public and authoring views on October 1. Historical art directions and single-room geometry rules are archived; preserve functional interactions rather than obsolete primitive counts.
 - Fix functional state, anchor continuity, object legibility, and responsive access before adding richer geometry or effects.
 - Keep the public handoff prompt in `docs/homepage-desk-scene-brief.md`; update it only when the actual next-task contract changes.
+- For room, garden or pool expansion, read `Architectural Continuity` in the brief before assigning geometry lanes. Establish screen-to-native orientation, connect whole journeys, and preserve each module's support metadata when combining native sources.
+- For first-person embodiment or reflection work, read `Walking Presence And Mirrors` in the brief. Native rig measurements and actual reflected pixels govern acceptance; a bone name or successful shader compilation alone does not prove an eye origin or a prepared beauty variant.
 
 ## Verification
 

@@ -20,6 +20,23 @@ import {
 import { createGamepads, radialDeadzone, readGamepad } from "../assets/js/home-scene/gamepad.mjs";
 import { stickVector } from "../assets/js/home-scene/virtual-joysticks.mjs";
 
+test("the recessed two-storey library stays indoors beyond the old facade", () => {
+  const config = {
+    facade: { planeZ: -4.5 },
+    rooms: [0, 2.6].map((floor, i) => ({
+      id: i ? "library-upper" : "library",
+      floor,
+      target: [-10.5, floor + 1.2, -7],
+      library: { floorBounds: { min: [-12.55, floor, -12.15], max: [-8.55, floor + 2.4, -2.5] } },
+    })),
+  };
+  assert.equal(roomAt(config, -10.5, -10, 0), "library");
+  assert.equal(roomAt(config, -10.5, -7, 2.6), "library-upper");
+  assert.equal(roomAt(config, -9.3, -5, 0.975), "library");
+  assert.equal(roomAt(config, -9.3, -7, 2.275), "library-upper");
+  assert.equal(roomAt(config, 0, -10, 0), "outside");
+});
+
 // A small world built from boxes, the way the loaded meshes reach the field: as triangles.
 function box(field, [x0, y0, z0], [x1, y1, z1], extrude = 0) {
   const p = [

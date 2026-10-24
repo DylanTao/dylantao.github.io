@@ -100,6 +100,12 @@ export function createWalkPresence({ renderer }) {
     opticalEyeOffset.set(0, 0, 0);
     prepared = false;
   }
+  function refreshMaterials() {
+    materials.clear();
+    body?.traverse((part) => {
+      if (part.isMesh) for (const material of [part.material].flat()) if (material) materials.add(material);
+    });
+  }
   function setSource(next, clips = []) {
     if (disposed || next === source) return;
     clearBody();
@@ -347,6 +353,7 @@ export function createWalkPresence({ renderer }) {
   return {
     object,
     setSource,
+    refreshMaterials,
     update,
     withoutHead,
     prepare,

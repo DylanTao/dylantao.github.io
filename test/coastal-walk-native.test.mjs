@@ -125,12 +125,12 @@ test("the hidden cutaway roof remains real clifftop support while crossing the d
     assert.ok(foot > 6.5 && foot < 8, `actual sandstone roof support at ${x}, ${z}: ${foot}`);
   }
   const points = [manifest.walk.start.position];
-  // Leave beside the portal's real stone cheek, then use the gap between the native agaves.
-  // Probe below the 9.91 m entrance canopy, so an approach point means its real walking floor.
+  // Follow the mineral garden path out around the portal's real stone fin and oak brow,
+  // then use the agave gap to cross the roof. Do not shortcut through the new solid portal.
+  // Probe below its canopy so each approach point means the actual walking floor.
   for (const [x, z] of [
-    [3.2, 18.6],
-    [2.6, 19.2],
-    [2.2, 19.2],
+    [3.42, 20.4],
+    [1.6, 21.1],
     [1.8, 18.8],
     [1.8, 9.6],
     [-0.2, 7.6],

@@ -192,6 +192,23 @@ test("primary-view head clipping preserves full bones and shadows, then restores
   f.presence.dispose();
 });
 
+test("receiver material changes retain head clipping on the current walking body", () => {
+  const f = fixture();
+  f.presence.update({ active: true });
+  const replacement = f.material.clone();
+  f.presence.object.traverse((part) => {
+    if (part.isMesh) part.material = replacement;
+  });
+  f.presence.refreshMaterials();
+  f.presence.withoutHead(() => {
+    assert.equal(replacement.clippingPlanes.length, 1);
+    assert.equal(f.material.clippingPlanes, null);
+  });
+  assert.equal(replacement.clippingPlanes, null);
+  f.presence.dispose();
+  replacement.dispose();
+});
+
 test("a failed or asynchronous primary draw always restores clipping custody", async () => {
   const f = fixture();
   f.presence.update({ active: true });

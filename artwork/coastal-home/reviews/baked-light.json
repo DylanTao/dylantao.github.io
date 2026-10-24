@@ -105,36 +105,6 @@
       "max": 0.716931330425044
     },
     {
-      "mesh": "sleep_decor pale oak",
-      "corners": 864,
-      "min": 0.68,
-      "max": 0.7069243151197832
-    },
-    {
-      "mesh": "sleep_decor linen canvas sky",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6811053895112128
-    },
-    {
-      "mesh": "sleep_decor linen canvas sea",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6828332235291601
-    },
-    {
-      "mesh": "sleep_decor linen canvas sand",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6814894180310269
-    },
-    {
-      "mesh": "sleep_decor linen canvas sun",
-      "corners": 32,
-      "min": 0.6804818165131534,
-      "max": 0.6834458303824068
-    },
-    {
       "mesh": "sleep_pillow_empty",
       "corners": 8320,
       "min": 0.68,
@@ -579,12 +549,6 @@
       "max": 0.7532989268253247
     },
     {
-      "mesh": "core__golden coastal sandstone",
-      "corners": 136042,
-      "min": 0.68,
-      "max": 0.9584075443446637
-    },
-    {
       "mesh": "core__blue sage agave leaf",
       "corners": 13824,
       "min": 0.68,
@@ -603,12 +567,6 @@
       "max": 0.9253344720602036
     },
     {
-      "mesh": "core_facade__golden_coastal_sandstone",
-      "corners": 11180,
-      "min": 0.68,
-      "max": 0.9439979811509451
-    },
-    {
       "mesh": "core_facade__travertine_paving_stone",
       "corners": 26172,
       "min": 0.68,
@@ -625,18 +583,6 @@
       "corners": 3960,
       "min": 0.6809267576349278,
       "max": 0.9548873994499446
-    },
-    {
-      "mesh": "core_facade__weathered_teak_wood",
-      "corners": 9364,
-      "min": 0.68,
-      "max": 0.8882027475287517
-    },
-    {
-      "mesh": "core_facade__outdoor_canvas_cotton",
-      "corners": 192,
-      "min": 0.68,
-      "max": 0.8844082811971506
     },
     {
       "mesh": "core_facade__aged_copper",
@@ -1413,36 +1359,6 @@
       "max": 0.9185308639953534
     },
     {
-      "mesh": "core_arrival_lower__warm cut stone",
-      "corners": 6528,
-      "min": 0.68,
-      "max": 0.8150000000000001
-    },
-    {
-      "mesh": "core_arrival_lower__pale oak",
-      "corners": 11520,
-      "min": 0.68,
-      "max": 0.7280254722324511
-    },
-    {
-      "mesh": "core_arrival_lower__brushed brass",
-      "corners": 3180,
-      "min": 0.68,
-      "max": 0.717803611556689
-    },
-    {
-      "mesh": "core_arrival_lower__arrival step diffuser",
-      "corners": 2304,
-      "min": 0.68,
-      "max": 0.7158244668319822
-    },
-    {
-      "mesh": "core_arrival_lower__honey ash",
-      "corners": 1680,
-      "min": 0.68,
-      "max": 0.8262500053644181
-    },
-    {
       "mesh": "sleep_reno_wardrobe__pale oak",
       "corners": 1536,
       "min": 0.68,
@@ -1633,6 +1549,594 @@
       "corners": 384,
       "min": 0.68,
       "max": 0.7034052516520024
+    },
+    {
+      "mesh": "core__golden coastal sandstone",
+      "corners": 133514,
+      "min": 0.68,
+      "max": 0.9584814655284087
+    },
+    {
+      "mesh": "sleep_decor pale oak",
+      "corners": 864,
+      "min": 0.68,
+      "max": 0.7423302255570889
+    },
+    {
+      "mesh": "sleep_decor linen canvas sky",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6812571576051415
+    },
+    {
+      "mesh": "sleep_decor linen canvas sea",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6804246836605793
+    },
+    {
+      "mesh": "sleep_decor linen canvas sand",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6811676299540947
+    },
+    {
+      "mesh": "sleep_decor linen canvas sun",
+      "corners": 32,
+      "min": 0.68,
+      "max": 0.6841263130803903
+    },
+    {
+      "mesh": "core_arrival_lower__warm cut stone",
+      "corners": 6528,
+      "min": 0.68,
+      "max": 0.8150000000000001
+    },
+    {
+      "mesh": "core_arrival_lower__pale oak",
+      "corners": 11520,
+      "min": 0.68,
+      "max": 0.72713021385173
+    },
+    {
+      "mesh": "core_arrival_lower__brushed brass",
+      "corners": 3180,
+      "min": 0.68,
+      "max": 0.7180733962108693
+    },
+    {
+      "mesh": "core_arrival_lower__arrival step diffuser",
+      "corners": 2304,
+      "min": 0.68,
+      "max": 0.7143441333171602
+    },
+    {
+      "mesh": "core_arrival_lower__honey ash",
+      "corners": 1680,
+      "min": 0.68,
+      "max": 0.8262500053644181
+    },
+    {
+      "mesh": "core_estate_link_ceiling_0__chalk limestone",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7250000013411045
+    },
+    {
+      "mesh": "core_estate_spine_ceiling_0__chalk limestone",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.6826537841496368
+    },
+    {
+      "mesh": "core_estate_link_ceiling_vestibule_0__chalk limestone",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.6800817923340947
+    },
+    {
+      "mesh": "core_estate_library_mezzanine_0__warm cut stone",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.805373021978885
+    },
+    {
+      "mesh": "core_estate_library_mezzanine_1__warm cut stone",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7025291573011783
+    },
+    {
+      "mesh": "core_estate_library_mezzanine_2__warm cut stone",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7625164037446182
+    },
+    {
+      "mesh": "core_estate_library_mezzanine_finish__pale oak",
+      "corners": 2496,
+      "min": 0.68,
+      "max": 0.8158326530922205
+    },
+    {
+      "mesh": "core_estate_library_stair__honey ash",
+      "corners": 6288,
+      "min": 0.68,
+      "max": 0.7749591266363859
+    },
+    {
+      "mesh": "core_estate_library_stair__pale oak",
+      "corners": 6144,
+      "min": 0.68,
+      "max": 0.7168059537932278
+    },
+    {
+      "mesh": "core_estate_library_stair__brushed brass",
+      "corners": 4848,
+      "min": 0.68,
+      "max": 0.7987394094467163
+    },
+    {
+      "mesh": "library__honey ash",
+      "corners": 7872,
+      "min": 0.68,
+      "max": 0.8858826276039085
+    },
+    {
+      "mesh": "library__library warm paper edges",
+      "corners": 16032,
+      "min": 0.68,
+      "max": 0.8054527635251483
+    },
+    {
+      "mesh": "library__library olive cloth",
+      "corners": 10152,
+      "min": 0.68,
+      "max": 0.8163320509965222
+    },
+    {
+      "mesh": "library__library slate cloth",
+      "corners": 12384,
+      "min": 0.68,
+      "max": 0.8217409468193849
+    },
+    {
+      "mesh": "library__library clay cloth",
+      "corners": 11880,
+      "min": 0.68,
+      "max": 0.8183169399326047
+    },
+    {
+      "mesh": "library__library ochre cloth",
+      "corners": 12528,
+      "min": 0.68,
+      "max": 0.8197843924413125
+    },
+    {
+      "mesh": "library__estate warm opal diffuser",
+      "corners": 528,
+      "min": 0.68,
+      "max": 0.8286160453284781
+    },
+    {
+      "mesh": "library__pale oak",
+      "corners": 1824,
+      "min": 0.68,
+      "max": 0.7843404958645502
+    },
+    {
+      "mesh": "library__linen",
+      "corners": 2688,
+      "min": 0.68,
+      "max": 0.9100284736355145
+    },
+    {
+      "mesh": "library__honed travertine",
+      "corners": 768,
+      "min": 0.68,
+      "max": 0.7748668315758308
+    },
+    {
+      "mesh": "library__brushed brass",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7187372792015474
+    },
+    {
+      "mesh": "core_estate_library_facade__brushed brass",
+      "corners": 2868,
+      "min": 0.68,
+      "max": 0.9539678314079841
+    },
+    {
+      "mesh": "core_estate_door_main__estate fluted bronze glass",
+      "corners": 1896,
+      "min": 0.68,
+      "max": 0.6902822766949733
+    },
+    {
+      "mesh": "core_estate_door_main__brushed brass",
+      "corners": 1608,
+      "min": 0.68,
+      "max": 0.7026857897685841
+    },
+    {
+      "mesh": "core_estate_door_private__estate fluted bronze glass",
+      "corners": 2328,
+      "min": 0.68,
+      "max": 0.6934816018243631
+    },
+    {
+      "mesh": "core_estate_door_private__brushed brass",
+      "corners": 1608,
+      "min": 0.68,
+      "max": 0.7030403571017086
+    },
+    {
+      "mesh": "core_estate_arrival__pale oak",
+      "corners": 2304,
+      "min": 0.68,
+      "max": 0.7259289712551982
+    },
+    {
+      "mesh": "core_estate_arrival__brushed brass",
+      "corners": 768,
+      "min": 0.68,
+      "max": 0.7039437436622878
+    },
+    {
+      "mesh": "core_estate_arrival__estate warm opal diffuser",
+      "corners": 768,
+      "min": 0.68,
+      "max": 0.7069853351575633
+    },
+    {
+      "mesh": "core_estate_arrival__chalk limestone",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7265771411421399
+    },
+    {
+      "mesh": "library-upper__honey ash",
+      "corners": 3744,
+      "min": 0.68,
+      "max": 0.7373352553074559
+    },
+    {
+      "mesh": "library-upper__library warm paper edges",
+      "corners": 6912,
+      "min": 0.68,
+      "max": 0.7416017062962056
+    },
+    {
+      "mesh": "library-upper__library slate cloth",
+      "corners": 5328,
+      "min": 0.68,
+      "max": 0.7149115107456844
+    },
+    {
+      "mesh": "library-upper__library ochre cloth",
+      "corners": 4464,
+      "min": 0.68,
+      "max": 0.725000634644548
+    },
+    {
+      "mesh": "library-upper__library olive cloth",
+      "corners": 4536,
+      "min": 0.68,
+      "max": 0.7146855786566934
+    },
+    {
+      "mesh": "library-upper__library clay cloth",
+      "corners": 5256,
+      "min": 0.68,
+      "max": 0.7153670289677879
+    },
+    {
+      "mesh": "library-upper__estate warm opal diffuser",
+      "corners": 504,
+      "min": 0.68,
+      "max": 0.7506829945122203
+    },
+    {
+      "mesh": "library-upper__honed travertine",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.7594898301983873
+    },
+    {
+      "mesh": "library-upper__charcoal",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7427086785435677
+    },
+    {
+      "mesh": "library-upper__brushed brass",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.7506007087479035
+    },
+    {
+      "mesh": "library-upper__pale oak",
+      "corners": 912,
+      "min": 0.68,
+      "max": 0.7369653707214943
+    },
+    {
+      "mesh": "library-upper__linen",
+      "corners": 768,
+      "min": 0.68,
+      "max": 0.7377726001664997
+    },
+    {
+      "mesh": "core_estate_structure__warm cut stone",
+      "corners": 3456,
+      "min": 0.68,
+      "max": 0.9511297713965178
+    },
+    {
+      "mesh": "core_estate_structure__chalk limestone",
+      "corners": 4992,
+      "min": 0.68,
+      "max": 0.8375000107288362
+    },
+    {
+      "mesh": "core_estate_structure__golden coastal sandstone",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.8375000107288362
+    },
+    {
+      "mesh": "core_estate_structure__pale oak",
+      "corners": 11808,
+      "min": 0.68,
+      "max": 0.71609734993428
+    },
+    {
+      "mesh": "core_estate_structure__honey ash",
+      "corners": 3072,
+      "min": 0.68,
+      "max": 0.695730540342629
+    },
+    {
+      "mesh": "core_estate_structure__estate warm opal diffuser",
+      "corners": 1536,
+      "min": 0.68,
+      "max": 0.7092060371736686
+    },
+    {
+      "mesh": "core_facade__golden_coastal_sandstone",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7792301922043164
+    },
+    {
+      "mesh": "core_facade__weathered_teak_wood",
+      "corners": 648,
+      "min": 0.68,
+      "max": 0.8635061979914705
+    },
+    {
+      "mesh": "core_facade__outdoor_canvas_cotton",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.8606852218353501
+    },
+    {
+      "mesh": "core_estate_terrace__warm cut stone",
+      "corners": 1410,
+      "min": 0.68,
+      "max": 0.9514174565051994
+    },
+    {
+      "mesh": "core_estate_terrace__travertine paving stone",
+      "corners": 8736,
+      "min": 0.68,
+      "max": 0.9523721431692442
+    },
+    {
+      "mesh": "core_estate_terrace__brushed brass",
+      "corners": 1620,
+      "min": 0.68,
+      "max": 0.9513422273409864
+    },
+    {
+      "mesh": "core_estate_terrace__charcoal",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "core_estate_pool__warm cut stone",
+      "corners": 1056,
+      "min": 0.68,
+      "max": 0.8347414203981559
+    },
+    {
+      "mesh": "core_estate_pool__sea glass pool mosaic",
+      "corners": 3216,
+      "min": 0.68,
+      "max": 0.8395880013580125
+    },
+    {
+      "mesh": "core_estate_pool__travertine paving stone",
+      "corners": 432,
+      "min": 0.68,
+      "max": 0.9331926963478328
+    },
+    {
+      "mesh": "core_estate_pool__charcoal",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7739460363611579
+    },
+    {
+      "mesh": "core_estate_pool__ivory pool chaise ceramic",
+      "corners": 564,
+      "min": 0.68,
+      "max": 0.7064467747385303
+    },
+    {
+      "mesh": "core_estate_pool__brushed brass",
+      "corners": 168,
+      "min": 0.68,
+      "max": 0.7035409311950207
+    },
+    {
+      "mesh": "core_estate_pavilion__pale oak",
+      "corners": 16248,
+      "min": 0.68,
+      "max": 0.9548576242600879
+    },
+    {
+      "mesh": "core_estate_pavilion__brushed brass",
+      "corners": 1560,
+      "min": 0.68,
+      "max": 0.9332224149753651
+    },
+    {
+      "mesh": "core_estate_pavilion__warm cut stone",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.8182983813683192
+    },
+    {
+      "mesh": "core_estate_pavilion__honey ash",
+      "corners": 3652,
+      "min": 0.68,
+      "max": 0.9289249883840482
+    },
+    {
+      "mesh": "core_estate_pavilion__festoon bulb glass",
+      "corners": 720,
+      "min": 0.68,
+      "max": 0.8257838777204355
+    },
+    {
+      "mesh": "core_estate_pavilion__travertine paving stone",
+      "corners": 1088,
+      "min": 0.68,
+      "max": 0.8897594545781613
+    },
+    {
+      "mesh": "core_estate_pavilion__polished nickel",
+      "corners": 1920,
+      "min": 0.68,
+      "max": 0.8262500053644181
+    },
+    {
+      "mesh": "core_estate_pavilion__charcoal",
+      "corners": 960,
+      "min": 0.68,
+      "max": 0.7981016865124306
+    },
+    {
+      "mesh": "core_estate_pavilion__linen",
+      "corners": 2304,
+      "min": 0.68,
+      "max": 0.8678625352680684
+    },
+    {
+      "mesh": "core_estate_sink__polished nickel",
+      "corners": 1280,
+      "min": 0.68,
+      "max": 0.78125
+    },
+    {
+      "mesh": "core_estate_garden__warm cut stone",
+      "corners": 4664,
+      "min": 0.68,
+      "max": 0.952059210340182
+    },
+    {
+      "mesh": "core_estate_garden__pale oak",
+      "corners": 768,
+      "min": 0.68,
+      "max": 0.9407461503831049
+    },
+    {
+      "mesh": "core_estate_garden__travertine paving stone",
+      "corners": 776,
+      "min": 0.68,
+      "max": 0.9513154939437907
+    },
+    {
+      "mesh": "core_estate_garden__garden mineral mulch",
+      "corners": 3312,
+      "min": 0.68,
+      "max": 0.9514304725453259
+    },
+    {
+      "mesh": "core_estate_garden__honey ash",
+      "corners": 864,
+      "min": 0.68,
+      "max": 0.9511036884815743
+    },
+    {
+      "mesh": "core_estate_garden__festoon bulb glass",
+      "corners": 864,
+      "min": 0.68,
+      "max": 0.821880412871639
+    },
+    {
+      "mesh": "core_estate_garden__brushed brass",
+      "corners": 864,
+      "min": 0.6821364221970241,
+      "max": 0.9511054710329822
+    },
+    {
+      "mesh": "core_estate_garden_flora_leaf",
+      "corners": 6468,
+      "min": 0.68,
+      "max": 0.9403774590852361
+    },
+    {
+      "mesh": "core_estate_garden_flora_stem",
+      "corners": 2800,
+      "min": 0.68,
+      "max": 0.7137871973961593
+    },
+    {
+      "mesh": "core_estate_garden_flora_grass",
+      "corners": 4144,
+      "min": 0.68,
+      "max": 0.9084857883304358
+    },
+    {
+      "mesh": "core_estate_garden_flora_flower",
+      "corners": 1960,
+      "min": 0.68,
+      "max": 0.9505677990925809
+    },
+    {
+      "mesh": "core_estate_portal__warm cut stone",
+      "corners": 3504,
+      "min": 0.68,
+      "max": 0.9502961641526781
+    },
+    {
+      "mesh": "core_estate_portal__pale oak",
+      "corners": 5616,
+      "min": 0.68,
+      "max": 0.8338100667794546
+    },
+    {
+      "mesh": "core_estate_portal__brushed brass",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.8375000107288362
+    },
+    {
+      "mesh": "core_estate_portal__honey ash",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.800153534313043
+    },
+    {
+      "mesh": "core_estate_portal__festoon bulb glass",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.8188665685181817
     }
   ]
 }

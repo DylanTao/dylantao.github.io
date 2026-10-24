@@ -21,7 +21,18 @@ export function collidable(object, world) {
     // Native placeholders are the stable proxies, including after they are visually hidden.
     // Streamed levels and held props must not change a field already built for this room.
     if (data.furnitureAnchor || data.furnitureCollision === false) return false;
-    if (data.glazing || data.noOcclusion || data.shadowOnly || data.caveRoof || data.facadeDoor || data.activityProp || data.action) return false;
+    if (
+      data.glazing ||
+      data.noOcclusion ||
+      data.shadowOnly ||
+      data.caveRoof ||
+      data.facadeDoor ||
+      data.estateDoor ||
+      data.walkPresence ||
+      data.activityProp ||
+      data.action
+    )
+      return false;
     if (data.bedding && data.bedding !== "empty") return false;
   }
   return [object.material].flat().some((m) => m && !(m.transparent && m.opacity < 0.5));

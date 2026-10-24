@@ -140,7 +140,7 @@ test("the two bathroom storeys receive separate authored light cages within the 
     assert.deepEqual(sample.contributingRegions, [id]);
     sample.irradiance.forEach((value) => close(value, Math.PI));
   }
-  assert.throws(() => createStaticLightField({ regions: [...cages, cages[0], cages[1]] }), /1\.\.12 regions/);
+  assert.throws(() => createStaticLightField({ regions: Array.from({ length: 17 }, (_, i) => cages[i % cages.length]) }), /1\.\.16 regions/);
   field.dispose();
 });
 
@@ -175,6 +175,14 @@ test("precomputed transport preserves sampled sky and practical relighting witho
   }
   original.dispose();
   restored.dispose();
+});
+
+test("the expanded house retains bounded transport storage without adding analytic fragment lights", () => {
+  const cages = Array.from({ length: 16 }, (_, i) => ({ id: `cage-${i}`, min: [i * 2, 0, 0], max: [i * 2 + 1, 2, 1] }));
+  const practicalSources = Array.from({ length: 26 }, (_, i) => ({ id: `cove-${i}`, position: [i, 1.5, 0.5], color: [1, 0.7, 0.4] }));
+  const field = createStaticLightField({ regions: cages, practicalSources, raysPerProbe: 16, skyRaysPerHit: 2 });
+  assert.equal(field.evidence().regions.length, 16);
+  field.dispose();
 });
 
 test("four bounded cove channels add occluded indirect bounce to closed bathroom storeys and restore exactly", async () => {
@@ -269,7 +277,10 @@ test("four bounded cove channels add occluded indirect bounce to closed bathroom
     blocked.sample(...query).irradiance.every((value) => value < 1e-8),
     "opaque geometry blocks every practical transport path"
   );
-  assert.throws(() => createStaticLightField({ ...options, practicalSources: [...sources, sources[0]] }), /at most 12 practicals/);
+  assert.throws(
+    () => createStaticLightField({ ...options, practicalSources: Array.from({ length: 27 }, (_, i) => sources[i % sources.length]) }),
+    /at most 26 practicals/
+  );
   for (const item of [field, restored, incompatible, blocked]) item.dispose();
   scene.traverse((object) => {
     object.geometry?.dispose();
@@ -373,7 +384,7 @@ test("original BVH agrees with native double-sided ray hits including parallel s
   assert.ok(accelerator.evidence().triangleTests < accelerator.evidence().rays * accelerator.count);
 });
 
-test("empty field recovers π radiance, deterministic coefficients and no lighting-update rays", async () => {
+test("empty field recovers Ï€ radiance, deterministic coefficients and no lighting-update rays", async () => {
   const make = async () => {
     const field = createStaticLightField({ regions });
     field.setLighting(lighting);

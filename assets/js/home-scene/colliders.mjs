@@ -517,10 +517,10 @@ export function walkKind(object, root) {
     // Cutaways change visibility, never structural transforms: the roof remains clifftop support,
     // and the lower bathroom's ceiling is also the upper bathroom's real floor. A hidden ancestor
     // room still stays out, just as it does for a hidden furniture placeholder.
-    if (node.visible === false && data.furnitureCollision !== true && !data.caveRoof && !data.bathroomCeilingFor) return null;
+    if (node.visible === false && data.furnitureCollision !== true && !data.caveRoof && !data.bathroomCeilingFor && !data.roomCeilingFor) return null;
     authored ??= data.walk ?? null;
-    if (data.shadowOnly || data.facadeDoor || data.activityProp || data.action) return null;
-    if (data.caveRoof || data.bathroomCeilingFor) cutawayStructure = true;
+    if (data.shadowOnly || data.facadeDoor || data.estateDoor || data.walkPresence || data.activityProp || data.action) return null;
+    if (data.caveRoof || data.bathroomCeilingFor || data.roomCeilingFor) cutawayStructure = true;
     if (data.glazing) glazing = true;
     if (data.flora) flora = true;
     if (data.noOcclusion) ghost = true;

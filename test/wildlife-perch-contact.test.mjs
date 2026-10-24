@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import * as THREE from "../assets/js/three.module.min.js";
+import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
 import { gullMotion, gullSchedule } from "../assets/js/home-scene/wildlife-neighbor-motion.mjs";
 import { solvePerchLanding, samplePerchActing, perchSurface, perchContactWeight } from "../assets/js/home-scene/wildlife-perch-contact.mjs";
 
@@ -23,7 +24,7 @@ function footGaps(acting, patch, scale) {
   return gaps;
 }
 
-test("perch contact metadata matches retained geometry and stays bounded", () => {
+test("perch contact metadata matches retained geometry and stays bounded", async () => {
   const hash = (path) =>
     createHash("sha256")
       .update(readFileSync(new URL(path, import.meta.url)))
@@ -39,9 +40,20 @@ test("perch contact metadata matches retained geometry and stays bounded", () =>
   assert.ok(data.patches.every((patch) => patch.triangles.length > 0 && patch.triangles.length < (patch.kind === "rock" ? 64 : 32)));
   for (const foot of Object.values(data.feet))
     assert.ok(foot.sole.length > 100 && foot.sole.length < 256 && foot.legLength > 0.11 && foot.legLength < 0.12);
-  // Independent retained-surface BVH samples from the decoded-before audit.
-  near(perchSurface(data.patches[0], -8.091734886169434, 1.1014457941055298).height, 8.827728271484375);
-  near(perchSurface(data.patches[3], 4.149580001831055, 1.3122085332870483).height, 3.461085319519043);
+  // Compare the source-derived local patches with independently decoded delivered triangles.
+  // New cliff excavations can retessellate an original broad face; a historical height golden
+  // would reject a correct refreshed contact while missing a stale deployed export.
+  const roots = await Promise.all(["home-shell.glb", "coast.glb"].map((file) => nativeGeometry(file)));
+  for (const [index, x, z] of [
+    [0, -8.091734886169434, 1.1014457941055298],
+    [3, 4.149580001831055, 1.3122085332870483],
+  ]) {
+    const surface = perchSurface(data.patches[index], x, z);
+    const ray = new THREE.Raycaster(new THREE.Vector3(x, surface.height + 0.4, z), new THREE.Vector3(0, -1, 0), 0, 1);
+    const hit = ray.intersectObjects(roots, true)[0];
+    assert.ok(hit, "the actual delivered shell retains the surveyed support");
+    near(surface.height, hit.point.y, 0.0002);
+  }
 });
 
 test("stable gull soles fit actual local support for changing arrival headings", () => {

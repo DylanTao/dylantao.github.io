@@ -1,5 +1,41 @@
 # Coastal home asset provenance
 
+## October 23: coastal estate, library and arrival garden
+
+The estate continues the retained Blender source with original geometry in
+`coastal_estate_architecture.py` and `coastal_estate_outdoors.py`. The screen-right cave library
+has two connected levels, fitted book walls, an ocean-facing reading bay, a private writing
+gallery and a bedroom connection behind the bathrooms. Its internal stair reaches the usable
+side of the writing desk through an 82 cm passage. The public lower foyer and private upper
+arrival have separate fluted-glass pocket doors. Only the complete bedroom artwork and foyer
+bench assemblies move; existing routine, desk, bed and bathing anchors remain intact.
+
+The terrace has a continuous stone ring beam and three broad cliff sockets. Its pool separates
+a 10.8 m swimming lane, 22 cm chaise shelf and 85 cm stool bay. A sheltered cooking, wet-bar and
+dining pavilion occupies the social side. The retained fire bench turns toward the sea to keep
+the dry promenade connected. The garden uses a curved mineral path, terrain-fitted meadow beds,
+low view seats and shielded path fixtures. All 123 plant roots are sampled from retained native
+triangles. Source checks, images and the exact circulation repairs live in `reviews/estate-*`.
+
+The layout study used [WOHA's Alila Villas Uluwatu](https://woha.net/project/alila-villas-uluwatu/)
+for cliff/pavilion continuity, [Amangiri](https://www.aman.com/resorts/amangiri) for distinct pool
+and lounging spaces around retained rock, and the shallow-water typology documented by
+[Ledge Lounger](https://ledgeloungers.com/collections/in-pool-chaise-loungers). No plans, product
+meshes or project photographs are copied into the scene; every added mesh is authored here.
+
+Actual native door leaves remain solid moving obstacles, while their old positions are excluded
+from static collision fields. The active library cameras keep the mezzanine and vault enclosed,
+avoiding floating guard balusters in cutaways. Lighting uses static receiver groups with the
+unchanged 18-line/10-point analytic material budget. The original broad mainland/coast batches
+have a documented receiver approximation; cached transport and local room fixtures remain
+separate. Two measured library task lamps and stronger pavilion pendants follow the combined
+night review. No new native PointLights, shadow maps or texture downloads are added.
+
+Walk's selected-avatar instance and the live cropped bathroom reflection are documented in
+`docs/evidence/estate-mirrors-2026-10-23/`. They share original GPU assets, preserve full sun shadows,
+and keep the 128/256 reflection target and 15 Hz cap. The optional extreme look-down neck opening
+and unmeasured physical-phone frame rates remain explicit limitations.
+
 ## October 23: two carved bathrooms
 
 `coastal_bathrooms.py` and `refresh_coastal_bathrooms.py` continue the retained Blender 4.5.9
