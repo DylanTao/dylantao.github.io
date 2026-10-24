@@ -22,6 +22,7 @@ from coastal_landscape import web
 from coastal_office import Parts, box, cylinder, _mat
 
 VERSION = 1
+FIREBENCH_LAYOUT_VERSION = 1
 DECK = {"x": (-8.5, 8.0), "y": (4.58, 12.8), "floor": 0.0}
 POOL = {"x": (-7.8, 3.0), "y": (6.90, 11.65), "surface": -.09,
         "deep": -1.44, "shelf": -.31, "bar": -.94, "laneBack": 9.3}
@@ -31,6 +32,120 @@ GARDEN_PATH = ((3.42, -18.75), (3.42, -20.4), (1.6, -21.1),
                (-1.2, -20.3), (-3.5, -17.4), (-4.55, -13.5))
 MEADOWS = ((-2.45, -16.7, 2.05, 2.55), (6.55, -17.3, 1.4, 3.1),
            (-4.8, -10.9, 1.0, 1.3))
+
+# These are the six retained native islands, not a bounding-box approximation of
+# the whole facade batch. The other teak islands include an old bistro component.
+FIREBENCH_ISLANDS = {
+    "core_facade__golden_coastal_sandstone": (
+        ((-5.2, 5.0, 0.0), (-4.7, 6.85, .38), 8, 6),),
+    "core_facade__weathered_teak_wood": (
+        ((-5.2, 5.0, .38), (-4.66, 6.85, .42), 56, 54),),
+    "core_facade__outdoor_canvas_cotton": (
+        ((-5.14, 5.03, .42), (-4.7, 6.82, .52), 8, 6),
+        ((-5.200043, 5.048830, .487455), (-4.939958, 5.591170, .992545), 8, 6),
+        ((-5.196776, 5.66, .499735), (-4.943224, 6.18, .980265), 8, 6),
+        ((-5.200043, 6.248830, .487455), (-4.939958, 6.791170, .992545), 8, 6)),
+}
+
+
+def _firebench_position(point):
+    """Turn the complete bench sea-facing, behind the unchanged fire bowl."""
+    return Vector((-5.875 - (point.y - 5.925),
+                   6.25 + (point.x + 4.95), point.z))
+
+
+def _firebench_selection(scene, repaired):
+    """Fail closed on changed native topology or bounds before modifying a mesh."""
+    selected = []
+    for name, specifications in FIREBENCH_ISLANDS.items():
+        obj = scene.objects.get(name)
+        if obj is None or obj.type != "MESH":
+            raise ValueError(f"Fire-bench repair requires retained mesh {name}")
+        bm = bmesh.new()
+        bm.from_mesh(obj.data)
+        bm.verts.ensure_lookup_table()
+        islands = []
+        for island in shell._islands(bm):
+            points = [obj.matrix_world @ v.co for v in island]
+            lo = Vector([min(p[k] for p in points) for k in range(3)])
+            hi = Vector([max(p[k] for p in points) for k in range(3)])
+            faces = len({f for v in island for f in v.link_faces})
+            islands.append((lo, hi, tuple(v.index for v in island), faces))
+        bm.free()
+        used = set()
+        for expected_lo, expected_hi, vertex_count, face_count in specifications:
+            if repaired:
+                corners = [_firebench_position(Vector((x, y, z)))
+                           for x in (expected_lo[0], expected_hi[0])
+                           for y in (expected_lo[1], expected_hi[1])
+                           for z in (expected_lo[2], expected_hi[2])]
+                expected_lo = [min(p[k] for p in corners) for k in range(3)]
+                expected_hi = [max(p[k] for p in corners) for k in range(3)]
+            matches = [i for i, (lo, hi, indices, faces) in enumerate(islands)
+                       if len(indices) == vertex_count and faces == face_count
+                       and all(abs(lo[k] - expected_lo[k]) < .0002 and
+                               abs(hi[k] - expected_hi[k]) < .0002 for k in range(3))]
+            if len(matches) != 1 or matches[0] in used:
+                raise ValueError(f"Fire-bench island changed in {name}: expected "
+                                 f"{expected_lo}..{expected_hi}, {vertex_count} vertices/"
+                                 f"{face_count} faces; got {len(matches)} exact matches")
+            index = matches[0]
+            used.add(index)
+            lo, hi, indices, faces = islands[index]
+            selected.append((obj, indices, {"mesh": name, "min": list(lo), "max": list(hi),
+                                            "vertices": len(indices), "faces": faces}))
+        zone_lo, zone_hi = ((-6.91, 5.89, -.06), (-4.84, 6.66, 1.06)) if repaired else (
+            (-5.31, 4.89, -.06), (-4.59, 6.96, 1.06))
+        unexpected = [i for i, (lo, hi, _, _) in enumerate(islands) if i not in used
+                      and all(lo[k] <= zone_hi[k] and hi[k] >= zone_lo[k] for k in range(3))]
+        if unexpected:
+            raise ValueError(f"Unexpected extra fire-bench islands in {name}: {unexpected}")
+    return selected
+
+
+def repair_firebench(scene):
+    """One-time physical circulation repair; leave the fire and every other island intact.
+
+    The old 1.85 m bench crossed almost the entire new rear promenade. Rotating its
+    six exact islands opens the landward crosswalk without shrinking a collider or
+    shortening the seat. Normals turn with the geometry, including custom normals.
+    """
+    marker = int(scene.get("estateFirebenchLayoutVersion", 0))
+    if marker not in (0, FIREBENCH_LAYOUT_VERSION):
+        raise ValueError(f"Unknown fire-bench layout version: {marker}")
+    selected = _firebench_selection(scene, repaired=marker == FIREBENCH_LAYOUT_VERSION)
+    objects = list(dict.fromkeys(obj for obj, _, _ in selected))
+    if marker == FIREBENCH_LAYOUT_VERSION:
+        return objects, json.loads(scene["estateFirebenchLayoutReport"])
+    before = [record for _, _, record in selected]
+    rotation = Matrix.Rotation(math.pi / 2, 3, "Z")
+    for obj in objects:
+        mesh = obj.data
+        indices = {index for item, vertices, _ in selected if item == obj for index in vertices}
+        matrix = obj.matrix_world
+        inverse = matrix.inverted()
+        normals = None
+        if mesh.has_custom_normals:
+            normal_rotation = matrix.to_3x3().transposed() @ rotation @ inverse.to_3x3().transposed()
+            normals = [tuple((normal_rotation @ normal.vector).normalized())
+                       if loop.vertex_index in indices else tuple(normal.vector)
+                       for loop, normal in zip(mesh.loops, mesh.corner_normals)]
+        for index in indices:
+            vertex = mesh.vertices[index]
+            vertex.co = inverse @ _firebench_position(matrix @ vertex.co)
+        mesh.update()
+        if normals is not None:
+            mesh.normals_split_custom_set(normals)
+    after = [record for _, _, record in _firebench_selection(scene, repaired=True)]
+    report = {"version": FIREBENCH_LAYOUT_VERSION, "before": before, "after": after,
+              "changedMeshes": [obj.name for obj in objects], "islands": len(selected),
+              "vertices": sum(len(indices) for _, indices, _ in selected),
+              "rotationDegrees": 90, "nativeCenter": [-5.875, 6.25, 0],
+              "firePreserved": "Bowl, travertine drum, logs, embers and scheduled emitter unchanged",
+              "circulation": "Rear dry crosswalk; verify the exported Draco route with a 56 cm capsule"}
+    scene["estateFirebenchLayoutVersion"] = FIREBENCH_LAYOUT_VERSION
+    scene["estateFirebenchLayoutReport"] = json.dumps(report)
+    return objects, report
 
 
 def materials():
@@ -639,6 +754,7 @@ def build(scene, config):
         if obj.get("estateOutdoors"):
             bpy.data.objects.remove(obj,do_unlink=True)
     retirement=retire_previous(scene)
+    _,firebench_report=repair_firebench(scene)
     cuts=excavate_terrace(scene,materials())
     tree,terrain_names=terrain_tree(scene)
     m=materials()
@@ -663,7 +779,7 @@ def build(scene, config):
     config["terrace"]["festoon"]={"points":[web(v) for v in ((3.78,6.72,2.70),(3.78,11.53,2.70),
                     (7.76,11.53,2.70),(7.76,6.72,2.70),(3.78,6.72,2.70))],"sag":0,"bulbs":[],
                     "type":"concealed pavilion perimeter strips"}
-    report={"version":VERSION,"terrainMeshes":terrain_names,"retirement":retirement,
+    report={"version":VERSION,"terrainMeshes":terrain_names,"retirement":retirement,"firebench":firebench_report,
             "terrace":terrace_report,"pool":pool_report,"pavilion":pavilion_report,"garden":garden_report,
             "portal":portal_report,"excavation":cuts,
             "meshes":len(all_objects),"vertices":sum(len(o.data.vertices) for o in all_objects),

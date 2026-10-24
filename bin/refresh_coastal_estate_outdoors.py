@@ -4,7 +4,12 @@ Default outputs are ignored preview files. This never overwrites the retained so
 public manifest unless the coordinator explicitly supplies those paths as output arguments.
 Example: blender -b --python-exit-code 1 --python bin/refresh_coastal_estate_outdoors.py
  -- --render --only=estate,arrival,pool --repeat-check
+
+The coordinator can use --repair-firebench-only to migrate only the six retained
+bench islands. That mode never rebuilds outdoors, softens other meshes, renders,
+or writes the manifest; it saves only the explicitly chosen blend and report.
 """
+from array import array
 import hashlib
 import json
 import sys
@@ -29,8 +34,61 @@ output=path("output",".jekyll-cache/estate-outdoors/coastal-estate-preview.blend
 config_output=path("config-output",".jekyll-cache/estate-outdoors/manifest-preview.json")
 report_output=path("report-output",".jekyll-cache/estate-outdoors/geometry.json")
 source_hash=hashlib.sha256(source.read_bytes()).hexdigest()
+repair_only="--repair-firebench-only" in sys.argv
+if repair_only and ("--render" in sys.argv or "config-output" in args):
+    raise ValueError("--repair-firebench-only cannot render or write a manifest")
 bpy.ops.wm.open_mainfile(filepath=str(source))
 scene=bpy.context.scene
+
+
+def geometry_digest(obj):
+    """Exact source geometry/transform fingerprint, including stored corner normals."""
+    mesh=obj.data
+    digest=hashlib.sha256()
+    for collection,attribute,typecode,count in ((mesh.vertices,"co","f",3),
+                                               (mesh.loops,"vertex_index","I",1),
+                                               (mesh.polygons,"material_index","I",1)):
+        values=array(typecode,[0])*(len(collection)*count)
+        collection.foreach_get(attribute,values)
+        digest.update(values.tobytes())
+    digest.update(array("d",[value for row in obj.matrix_world for value in row]).tobytes())
+    if mesh.has_custom_normals:
+        digest.update(array("f",[value for normal in mesh.corner_normals for value in normal.vector]).tobytes())
+    return digest.hexdigest()
+
+
+if repair_only:
+    manifest_hash=hashlib.sha256(manifest.read_bytes()).hexdigest() if manifest.exists() else None
+    before={obj.name:geometry_digest(obj) for obj in scene.objects if obj.type=="MESH"}
+    objects,report=outdoors.repair_firebench(scene)
+    changed={obj.name for obj in objects}
+    after={obj.name:geometry_digest(obj) for obj in scene.objects if obj.type=="MESH"}
+    unexpected=[name for name in before.keys()|after.keys()
+                if name not in changed and before.get(name)!=after.get(name)]
+    if unexpected:
+        raise AssertionError({"unexpectedGeometryChanges":unexpected})
+    if "--repeat-check" in sys.argv:
+        outdoors.repair_firebench(scene)
+        repeated={obj.name:geometry_digest(obj) for obj in scene.objects if obj.type=="MESH"}
+        if after!=repeated:
+            raise AssertionError("Fire-bench repair changed geometry on a second call")
+        report["repeatCheck"]="Every native mesh and stored normal is unchanged on second call"
+    report.update(source=str(source),sourceSha256=source_hash,mode="repair-firebench-only",
+                  unchangedOtherMeshes=len(before)-len(changed),
+                  beforeMeshHashes={name:before[name] for name in changed},
+                  afterMeshHashes={name:after[name] for name in changed},
+                  manifestSha256=manifest_hash)
+    for p in (output,report_output):p.parent.mkdir(parents=True,exist_ok=True)
+    bpy.context.preferences.filepaths.save_version=0
+    bpy.ops.wm.save_as_mainfile(filepath=str(output),compress=True)
+    if manifest_hash is not None and hashlib.sha256(manifest.read_bytes()).hexdigest()!=manifest_hash:
+        raise AssertionError("The manifest changed during a source-only fire-bench repair")
+    report_output.write_text(json.dumps(report,indent=2)+"\n",encoding="utf-8")
+    print(json.dumps({"source":str(source),"output":str(output),"report":str(report_output),
+                      "changedMeshes":sorted(changed),"unchangedOtherMeshes":report["unchangedOtherMeshes"],
+                      "manifestUntouched":True}),flush=True)
+    sys.exit(0)
+
 config=json.loads(manifest.read_text(encoding="utf-8"))
 objects,report=outdoors.build(scene,config)
 renovation.soften_interiors(objects)
