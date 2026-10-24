@@ -250,20 +250,20 @@ def stair_and_gallery(m):
     return p.finish(),supports
 
 
-def _books(p,m,x,y,floor,side,seed):
+def _books(p,m,x,y,floor,side,seed,length=4.35):
     """One long book wall: real book blocks, thin covers and readable shelf edges."""
     rng=random.Random(seed)
     oak=p.bm(m["smoked"])
-    box(oak,(x,y,floor+1.14),(.055,4.35,2.28),.012)
+    box(oak,(x,y,floor+1.14),(.055,length,2.28),.012)
     for j in range(5):
         z=floor+.14+j*.43
-        box(oak,(x-side*.14,y,z),(.36,4.38,.037),.009)
-        cursor=y-2.07
-        while cursor<y+2.02:
+        box(oak,(x-side*.14,y,z),(.36,length+.03,.037),.009)
+        cursor=y-length/2+.105
+        while cursor<y+length/2-.155:
             thick=rng.uniform(.035,.075)
             height=rng.uniform(.24,.355)
             depth=rng.uniform(.19,.245)
-            if cursor+thick>y+2.04:break
+            if cursor+thick>y+length/2-.135:break
             material=m[rng.choice(("bookOlive","bookOchre","bookBrick","bookBlue"))]
             xx=x-side*(.035+depth/2)
             box(p.bm(m["paper"]),(xx,cursor+thick/2,z+.024+height/2),
@@ -273,34 +273,40 @@ def _books(p,m,x,y,floor,side,seed):
             box(p.bm(material),(x-side*(.035+depth),cursor+thick/2,z+.024+height/2),
                 (.008,thick,height))
             cursor+=thick+.008
-    for yy in (y-2.20,y,y+2.20):
+    for yy in (y-length/2-.025,y,y+length/2+.025):
         box(oak,(x-side*.14,yy,floor+1.14),(.36,.035,2.28),.006)
 
 
-def furniture(m):
+def furniture(m,room=None):
+    if room is not None and room not in ("library","library-upper"):
+        raise ValueError(f"Unknown estate furniture room: {room}")
     out=[]
     for id,f in (("library",0.0),("library-upper",2.6)):
+        if room is not None and id!=room:
+            continue
         p=Parts(id)
         # A two-level book wall on the sheltered east side, mirrored lower
         # shelving to the west beyond the staircase. All books share six batches.
-        _books(p,m,15.43,2.62,f,1,37+int(f*10))
+        _books(p,m,15.43,2.20 if f else 2.62,f,1,37+int(f*10),length=3.70 if f else 4.35)
         if not f:
             _books(p,m,11.67,7.0,0,-1,71)
         # Cove light is set into real oak joinery, with metadata for the runtime's
         # existing analytic-line lighting rather than extra shadowed point lights.
-        box(p.bm(m["light"]),(15.22,2.62,f+2.27),(.015,4.20,.022),.004)
+        box(p.bm(m["light"]),(15.22,2.20 if f else 2.62,f+2.27),(.015,3.54 if f else 4.20,.022),.004)
         if f:
             # Private ocean-view writing table, two waterfall legs, leather pad,
             # a task light and one intentionally open paper book.
-            box(p.bm(m["travertine"]),(14.02,4.55,3.35),(2.35,.72,.065),.035)
-            for x in (13.04,15.0):
+            # The east-side 82cm passage joins the stair landing to the rear
+            # office. A wall-to-wall desktop would strand the landing at sea.
+            box(p.bm(m["travertine"]),(14.60,4.55,3.35),(1.60,.72,.065),.035)
+            for x in (14.0,15.20):
                 box(p.bm(m["travertine"]),(x,4.55,2.96),(.085,.63,.72),.025)
-            box(p.bm(m["ink"]),(14.0,4.56,3.388),(.72,.38,.008),.015)
-            box(p.bm(m["paper"]),(14.60,4.58,3.407),(.32,.25,.028),.006)
-            cylinder(p.bm(m["bronze"]),(13.13,4.71,3.39),(13.13,4.71,3.83),.012,12)
-            cylinder(p.bm(m["bronze"]),(13.13,4.71,3.83),(13.43,4.71,3.83),.012,12)
-            cylinder(p.bm(m["light"]),(13.43,4.71,3.80),(13.43,4.71,3.84),.07,20)
-            _chair(p,m,(14.0,3.64,2.6),0)
+            box(p.bm(m["ink"]),(14.55,4.56,3.388),(.72,.38,.008),.015)
+            box(p.bm(m["paper"]),(15.03,4.58,3.407),(.32,.25,.028),.006)
+            cylinder(p.bm(m["bronze"]),(14.0,4.71,3.39),(14.0,4.71,3.83),.012,12)
+            cylinder(p.bm(m["bronze"]),(14.0,4.71,3.83),(14.30,4.71,3.83),.012,12)
+            cylinder(p.bm(m["light"]),(14.30,4.71,3.80),(14.30,4.71,3.84),.07,20)
+            _chair(p,m,(14.60,3.64,2.6),0)
         else:
             # Ocean-facing twin reading chairs, a low carved table, and a
             # continuous upholstered window seat beneath the double-height void.
@@ -406,7 +412,7 @@ def manifest_rooms():
     for id,label,f in (("library","Cave library",0.0),("library-upper","Private library gallery",2.6)):
         route=[wing_web((x,y,f)) for x,y in base]
         target=(13.65,6.65,1.15) if not f else (14.05,4.12,3.75)
-        actor=(13.55,6.05,0) if not f else (13.25,3.0,2.6)
+        actor=(13.55,6.05,0) if not f else (13.50,3.0,2.6)
         rooms.append({"id":id,"label":label,"file":"room-"+id+".glb","floor":f,"offset":[0,f,0],
                       "target":wing_web(target),"actor":wing_web(actor),"facing":0,"egress":route[0],
                       "exitPath":list(reversed(route[1:])),
@@ -415,7 +421,7 @@ def manifest_rooms():
                       "library":{"private":bool(f),"route":route+[wing_web(actor)],
                                  "headroom":2.38,"floorBounds":{"min":wing_web((15.55,9.45 if not f else 6.05,f)),"max":wing_web((11.55,-.2,f+2.38))}},
                       "lightRegion":{"min":[-12.55,f,-12.15],"max":[-8.55,f+2.4,-2.5]},
-                      "lighting":{"lines":[{"id":"books","a":wing_web((15.22,.52,f+2.27)),"b":wing_web((15.22,4.72,f+2.27)),"intensity":.65}]}})
+                      "lighting":{"lines":[{"id":"books","a":wing_web((15.22,.43 if f else .52,f+2.27)),"b":wing_web((15.22,3.97 if f else 4.72,f+2.27)),"intensity":.65}]}})
     return rooms
 
 
