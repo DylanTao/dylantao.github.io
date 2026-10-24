@@ -169,8 +169,8 @@ test("bathroom mirror and shower lights fit the shader budget and follow each ro
   const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
   manifest.rooms = [...manifest.rooms.filter((room) => !room.id.startsWith("bath-")), bathroom("bath-living", 0), bathroom("bath-bedroom", 2.6)];
   const lights = createLightInstallations(manifest);
-  assert.equal(lights.lines.length, 18);
-  assert.equal(lights.points.length, 10, "bathrooms add no point lights or shadow maps");
+  assert.equal(lights.lines.filter((line) => line.room?.startsWith("bath-")).length, 4);
+  for (const pack of Object.values(lights.evidence().receiverPacks)) assert.ok(pack.lines <= MAX_LINES && pack.points <= MAX_POINTS);
   assert.ok(lights.root.children.every((object) => !object.isLight));
   const root = new THREE.Group(),
     fixtures = [];
@@ -178,6 +178,7 @@ test("bathroom mirror and shower lights fit the shader budget and follow each ro
     const material = new THREE.MeshStandardMaterial({ emissive: 0xffddaa, emissiveIntensity: 2 });
     const fixture = new THREE.Mesh(new THREE.BoxGeometry(), material);
     fixture.userData.roomLight = id;
+    if (manifest.installationReceivers) fixture.userData.installationGroup = id;
     root.add(fixture);
     fixtures.push(fixture);
   }
@@ -192,10 +193,17 @@ test("bathroom mirror and shower lights fit the shader budget and follow each ro
     ["bath-bedroom", 2.6],
   ]) {
     for (const line of lights.lines.filter((line) => line.id === `room:${id}`)) {
-      const index = lights.lines.indexOf(line);
+      const index = manifest.installationReceivers ? lights.evidence().receiverPacks[id].sources.indexOf(line.source) : lights.lines.indexOf(line);
       assert.equal(line.region.min.y, floor);
       assert.equal(line.region.max.y, floor + 2.35);
-      const energy = lights.uniforms.installLineColor.value.slice(index * 3, index * 3 + 3);
+      const material = lights.bindMaterial(fixtures[id === "bath-living" ? 0 : 1].material);
+      const shader = {
+        uniforms: {},
+        vertexShader: "#include <common>\n#include <project_vertex>",
+        fragmentShader: "#include <common>\n#include <aomap_fragment>",
+      };
+      material.onBeforeCompile(shader, {});
+      const energy = shader.uniforms.installLineColor.value.slice(index * 3, index * 3 + 3);
       assert.equal(
         energy.some((value) => value > 0),
         id === "bath-living"
@@ -215,9 +223,8 @@ test("bathroom mirror and shower lights fit the shader budget and follow each ro
 });
 
 test("invalid or over-budget bathroom lighting fails before a fixture can be silently dropped", () => {
-  const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
-  manifest.rooms = [bathroom("bath-living", 0), bathroom("bath-bedroom", 2.6), bathroom("extra", 5.2)];
-  assert.throws(() => createLightInstallations(manifest), /capacity exceeded: 20\/18 lines/);
+  const overBudget = { rooms: Array.from({ length: 10 }, (_, index) => bathroom(`extra-${index}`, index * 2.6)) };
+  assert.throws(() => createLightInstallations(overBudget), /capacity exceeded: 21\/18 lines/);
   const invalid = bathroom("bath-living", 0);
   invalid.lighting.lines[0].b = [...invalid.lighting.lines[0].a];
   assert.throws(() => createLightInstallations({ rooms: [invalid] }), /Empty line light for bath-living/);
@@ -331,7 +338,7 @@ test("the office's RGB drifts through the hues only while the scene moves, and i
 test("the dining lantern, the kitchen's downlights and its shelf line follow the meals and fit the shader's arrays", () => {
   const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
   const lights = createLightInstallations(manifest);
-  assert.ok(lights.lines.length <= MAX_LINES && lights.points.length <= MAX_POINTS, `${lights.lines.length} lines, ${lights.points.length} points`);
+  for (const pack of Object.values(lights.evidence().receiverPacks)) assert.ok(pack.lines <= MAX_LINES && pack.points <= MAX_POINTS);
   const interior = manifest.interiorLights;
   if (!interior) return lights.dispose();
   assert.equal(lights.points.filter((p) => p.id === "pendant").length, 1);
@@ -349,8 +356,21 @@ test("the dining lantern, the kitchen's downlights and its shelf line follow the
   // A downlight is cone-limited and points down; the lantern is isotropic. The cones are a flat vec4
   // array (four floats per point).
   const coneOf = (id) => {
-    const at = lights.points.findIndex((p) => p.id === id) * 4;
-    return Array.from(lights.uniforms.installPointCone.value.subarray(at, at + 4));
+    const group = manifest.installationReceivers ? "living" : null;
+    const at =
+      (group
+        ? lights.evidence().receiverPacks[group].sources.slice(lights.evidence().receiverPacks[group].lines).indexOf(id)
+        : lights.points.findIndex((p) => p.id === id)) * 4;
+    const material = lights.bindMaterial(new THREE.MeshStandardMaterial(), group);
+    const shader = {
+      uniforms: {},
+      vertexShader: "#include <common>\n#include <project_vertex>",
+      fragmentShader: "#include <common>\n#include <aomap_fragment>",
+    };
+    material.onBeforeCompile(shader, {});
+    const value = Array.from(shader.uniforms.installPointCone.value.subarray(at, at + 4));
+    material.dispose();
+    return value;
   };
   const cone = coneOf("downlights");
   assert.deepEqual(cone.slice(0, 3), [0, -1, 0]);
