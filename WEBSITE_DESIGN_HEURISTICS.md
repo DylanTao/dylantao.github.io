@@ -16,7 +16,7 @@ When two heuristics compete, protect the earlier concern first:
 4. Discoverable interaction state, bounded motion, and clear recovery paths.
 5. Materiality, atmosphere, personality, and delight.
 
-A more expressive result is not better if it weakens an earlier concern. Treat `must` and `never` rules as contracts; treat named visual references as taste guidance that still needs rendered evidence.
+A more expressive result is not better if it weakens an earlier concern. Treat `must` and `never` rules as contracts; treat named visual references as taste guidance that still needs rendered evidence. Apply this order to every substantive choice, not only motion: what should the visitor understand, notice, feel, or do, and why is this treatment better than the simpler alternative?
 
 ## Less, But More Sirui
 
@@ -30,6 +30,15 @@ A more expressive result is not better if it weakens an earlier concern. Treat `
 ### An Evolving Spine
 
 The spine is stable enough to guide decisions and open enough to learn. Experiments are welcome when they strengthen meaning, personality, or discovery and survive rendered critique across the required viewports, themes, input modes, and accessibility states. Record uncertain ideas in [`docs/design-experiment-backlog.md`](docs/design-experiment-backlog.md) with a hypothesis and a revisit trigger instead of freezing the design language or shipping an effect without evidence.
+
+### Identity Through The Whole Composition
+
+Explain the existing choices before generating alternatives. Inter supports a readable shared hierarchy; orange is a recognizable identity cue, while time-of-day accents communicate action and state; the coastal studio brings personal place, warmth, and curiosity. These are complementary roles, not a prescription to put every motif on every page. Keep the [Material-Lite grammar](docs/material-lite-revamp.md#2026-10-design-language-refresh) and scene contract rather than inventing another brand system.
+
+- Ask what the composition implies about Sirui before reading its labels. Do the voice, imagery, spacing, annotations, and control behavior suggest the same thoughtful person and intellectual direction, or several unrelated templates?
+- Repeat meaning, not decoration. A motif needs a recognizable role; annotations should consistently connect an observation to the decision it informs. Reuse existing label, focus, selection, and disclosure behavior; do not stamp numbered markers onto every figure.
+- Keep a short rationale beside a proposed variation: intended meaning, existing choices retained, one change, and what would show it works. A familiar typeface is not an AI-provenance test; do not swap Inter merely to appear distinctive.
+- Let real art, places, objects, and reader frustrations sharpen judgment. Translate their useful relationships into this site's language rather than borrowing a visual costume.
 
 ### Signature Copy Locklist
 
@@ -79,7 +88,8 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 
 ## First-Glance Story
 
-- A rushed visitor should learn, within 15-30 seconds: who Sirui is, what problem space he studies, what he has built, why it matters, and where to click next.
+- A rushed visitor should learn, within 15-30 seconds: who Sirui is, his intellectual direction, what design judgment and taste mean in that work, and where to explore next. Do not require paper or project recall as the only sign of a successful first impression.
+- Current direction (2026-10-24): strengthen personal voice, thoughtful design, and a coherent evolving Sirui identity, not a paper/project-showcase-first homepage. Keep papers and projects accessible; do not move them forward merely to satisfy an earlier-evidence formula.
 - Lead with the research motivation, then Scaffolding for Taste → the full Research Focus → selected publications → compact updates. Keep that three-section research sequence intact; project links remain available in the opening actions.
 - Every section answers one visitor question:
   - Start: Who is this?
@@ -95,7 +105,8 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - One dominant headline per viewport.
 - Section labels help scanning; keep them quiet and consistent. Category headings on index pages are real headings set in the heading role, so a reader sees the groups before the labels inside them.
 - Prefer fewer, stronger calls to action over many equal buttons.
-- Put proof close to claims: projects, publications, venue labels, and updates sit near the research story they support.
+- Put proof close to the claims that need it: projects, publications, venue labels, and updates sit near the research story they support. This is a local evidence relationship, not a rule to foreground papers before the intellectual direction.
+- Rank attention by meaning: what should be noticed first, second, and only on request? Check whether size, contrast, motion, and placement actually produce that order. An important explanation must not whisper beside a glowing but secondary action.
 - Every ounce of ink should matter: black text, colored text, borders, cards, shadows, and lines alike. Whitespace clarifies grouping; it does not create empty drama.
 - Repeat information only when it improves orientation. Pinned content is a route into the work, not a reason to remove that work from the chronological archive.
 - When comparable time series begin on different dates, keep every verified earlier segment and let later series join when their evidence begins; never truncate shared history to force a common start.
@@ -127,6 +138,7 @@ Begin with the rendered route and the visitor problem, not with a preferred effe
 - Surfaces and decks (2026-10-19, `_sass/_glass.scss`, replacing the October 18 glass cards): content is flat and tonal, and only chrome that floats above it (navbar, theme menu, back-to-top, search palette, the deck trail) is translucent, never one glass over another. A hovered card lifts on the confident spring while a soft light pools under the pointer; it never tilts, and its picture never drifts. A pressed button squares its corners on the morph spring and springs back; touch gets the press only. Parent projects are decks that open in place: the opened card becomes the level's banner, its children fan out in a ripple, and the level above folds into a trail that walks back up. A level change measures layout once before and once after and writes nothing in between; focus waits for the next frame. A card's or level's one scroll is planned in the new layout and rides the change's own spring, so the page arrives as the motion settles, never after it.
 - Autoplay is acceptable only when it is slow, pauses offscreen or in a hidden tab, and stays visually secondary to the words. Ambient motion echoes the main interaction, quieter than the text and strongest near the relevant section.
 - If an animation competes with the explanation, change the layout before decorating the animation. Claim and controls come before the moving field.
+- Choreograph attention around one understandable relationship at a time: establish context, show the relevant change, then let the reader inspect its consequence. Keep essential content available without waiting for timed tabs or replaying a sequence; the static/reduced-motion version must communicate the same relationship, not merely its final decorative frame. Native scrolling is an existing contract, not a new feature to add.
 
 ### Research Motion Rules
 
@@ -179,9 +191,10 @@ The October 6 concept A refinement keeps cumulative recorded history visible abo
 - Material effects are quiet evidence framing: white stock first, warm hairline edges, paper-thickness shadows, and restrained stains placed on or directly behind a specific artifact. Avoid fake crosshatch grain, visible fibers, decorative connector lines, colored fills, clip-art stains, and large rounded app-card shapes when the metaphor is paper. Use CSS texture first; add image assets only when the object is itself evidence.
 - Keep one material language per stage and one slip per claim. A coffee ring stays thin, broken, partly hidden, and quieter than the artifact titles in both themes; it lies beneath the slips (a dried coffee ring since 2026-10-19, after the brushed ensō read heavy and rigid), so it can peek out but never crosses their words. Dark-mode materiality is native to the theme: muted theme-aware surfaces, not white paper forced into evening.
 - Never fake copyrighted music. The album is a visual artifact with liner-note metadata and a source link; no unrelated free music, generated tones, progress bars, elapsed time, or volume UI. Future audio must be owned or licensed, explicitly activated, visibly controlled, and never triggered by keyboard focus.
+- Interactive appearance is a promise. An input, drag handle, button, or playback cue must perform the implied action; otherwise present it as clearly static illustration. Can a first-time visitor predict what happens, find its current state, and recover after interruption?
 - Annotations and speech bubbles point to a real idea and never cover a face, evidence, or a primary figure. Color in a bubble separates roles; neutral stays the default. Portrait hovers preload and crossfade.
 - Extend the paper language only where it clarifies process: case-study process notes, teaching artifacts, and the website-revamp story. Publications, CV, and archives stay utilitarian, and a playful object in a blog post needs a reason inside the story. Reuse the homepage's paper system before inventing a new effect.
-- The thesis and research proof above the fold stay more important than the desk vibe.
+- The intellectual thesis and a clear next step stay more important than the desk atmosphere; that does not require a paper showcase above the fold.
 
 ## Navigation
 
@@ -189,6 +202,7 @@ The October 6 concept A refinement keeps cumulative recorded history visible abo
 - Use in-page navigation only when it helps a reader understand the structure: a compact story rail on desktop, inline or collapsed on narrow pages, then a small on-demand control after the top of the page rather than a sticky card.
 - Floating reading aids need exit conditions: hide near the footer, reappear on scroll-up or section change, and keep the trigger out of the text column. Active state matches the section being read.
 - Anchor links land with enough top spacing below the fixed nav.
+- Explain relevance before asking visitors to categorize themselves. Offer useful routes without a mandatory audience selector; check whether labels, examples, or prestige cues unintentionally suggest that only one kind of reader belongs.
 
 ## Content
 
@@ -333,6 +347,7 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 - AI in Design 2026 frames the moment: infinite output, craft, taste, tool fluency, role blur, and messy collaboration. Borrow the questions, not the tone.
 - The site stays a personal academic portfolio with research credibility first.
 - Give credit where credit is due. Cite inspiration, reports, talks, books, collaborators, and tools near the lesson they shaped, quieter than the main story.
+- The October 2026 [YC design study](docs/design-reviews/2026-10-24/VIDEO_REVIEW.md) informed the identity, purpose, and attention questions above. Its practitioner critique is inspiration, not evidence of academic efficacy or a mandate to imitate startup pages; source coverage and original adaptation are recorded separately.
 
 ## Process Artifacts
 
@@ -344,6 +359,17 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 ### Reflective Practice
 
 Start with an observation, separate it from your interpretation, and choose a change that can produce an observable benefit. During the work, inspect the result and revise the move if it misses the intended effect. Afterward, record what improved, what remains uncertain, and the next decision. A sentence or two is enough for a small fix; a substantial experiment can retain comparable captures and measurements in its existing evidence record.
+
+Use this small decision record inside the existing experiment or review note, not a parallel checklist:
+
+| Decision        | Operational question                                                 | Evidence to keep                                                                                                                              |
+| --------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Keep            | Is the purpose already served?                                       | The working behavior or observed benefit; do not relabel existing restraint or native scrolling as unfinished work.                           |
+| Adjust          | Which specific visitor misunderstanding or friction warrants change? | Separate the observation from interpretation; choose one bounded route/state and a comparable baseline.                                       |
+| Validate        | Did the change help the intended reader and preserve the identity?   | Actual task/paraphrase feedback when available, matched renders, and relevant responsive, loading/error, keyboard, and reduced-motion states. |
+| Remove or defer | Is the purpose unclear, the cost too high, or evidence missing?      | The tradeoff, Sirui's decision, and a concrete revisit trigger in the existing backlog.                                                       |
+
+Reviewer taste and simulated audience readings generate hypotheses; they are not user evidence. Ask a relevant reader what they understood, what felt specific to Sirui, and where they would go for their own task. A successful paper lookup matters when that is the task, not as the universal homepage goal. Technical passes establish their named contracts, not comprehension, recall, trust, or conversion. Change one meaningful variable at a time and stop when the bounded question is answered.
 
 - Preserve what already works. If a reader values the writing, investigate links, semantics, freshness, and access before rewriting the voice. A private compliment is a useful qualitative signal; it is not permission to publish a testimonial or evidence of a ranking increase.
 - Discovery claims must agree across visible copy, structured data, machine views, and downloads. Use actual collection membership and known dates; omit unsupported precision. For a format refresh, regenerate affected public formats from the canonical record and check the actual output's fields, links, and rendered pages. Label a manually maintained snapshot when the current web record has moved on.
