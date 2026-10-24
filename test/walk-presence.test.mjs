@@ -44,14 +44,48 @@ function avatar() {
 }
 
 function fixture() {
+  let target = { original: true },
+    probeDisposals = 0;
+  const knownProbes = new WeakSet();
   const model = avatar(),
-    renderer = { localClippingEnabled: false, compileAsync: async () => {} },
+    draws = [],
+    renderer = {
+      localClippingEnabled: false,
+      compileAsync: async () => {},
+      shadowMap: { autoUpdate: true, needsUpdate: true },
+      autoClear: false,
+      xr: { enabled: true },
+      getRenderTarget: () => target,
+      setRenderTarget: (next) => {
+        target = next;
+      },
+      clear: () => {},
+      render: (scene) => {
+        assert.equal(target.width, 1);
+        assert.equal(target.height, 1);
+        assert.equal(target.texture.colorSpace, THREE.LinearSRGBColorSpace);
+        assert.equal(target.texture.type, THREE.HalfFloatType);
+        if (!knownProbes.has(target)) {
+          knownProbes.add(target);
+          target.addEventListener("dispose", () => probeDisposals++);
+        }
+        assert.equal(renderer.shadowMap.autoUpdate, false);
+        assert.equal(renderer.shadowMap.needsUpdate, false);
+        scene.traverseVisible((part) => {
+          if (!part.isMesh) return;
+          let insidePresence = false;
+          for (let parent = part; parent; parent = parent.parent) insidePresence ||= parent === presence.object;
+          assert.ok(insidePresence, "the one-pixel prime draws only the selected walking body");
+        });
+        draws.push({ clipped: Boolean(model.material.clippingPlanes), target });
+      },
+    },
     presence = createWalkPresence({ renderer }),
     scene = new THREE.Scene(),
     camera = new THREE.PerspectiveCamera();
   presence.setSource(model.source, model.clips);
   scene.add(model.source, presence.object);
-  return { ...model, renderer, presence, scene, camera };
+  return { ...model, renderer, presence, scene, camera, draws, probeDisposals: () => probeDisposals };
 }
 
 test("the selected avatar clone has independent bound bones and skeleton buffers with shared GPU assets", () => {
@@ -198,6 +232,7 @@ test("warmup compiles full and primary-clipped variants before Walk, then restor
   assert.equal(f.presence.object.visible, false);
   assert.equal(f.renderer.localClippingEnabled, false);
   assert.equal(f.material.clippingPlanes, null);
+  assert.equal(f.probeDisposals(), 1, "the temporary one-pixel target is released after both variants finish");
   f.presence.dispose();
 });
 
@@ -210,6 +245,7 @@ test("warmup failure and disposal during warmup do not reveal a body or leave th
   assert.equal(f.source.visible, true);
   assert.equal(f.presence.object.visible, false);
   assert.equal(f.presence.evidence().prepared, false);
+  assert.equal(f.probeDisposals(), 1, "failed warmup releases its temporary target too");
   f.renderer.compileAsync = async () => f.presence.dispose();
   await f.presence.prepare({ scene: f.scene, camera: f.camera });
   assert.equal(f.source.visible, true);
@@ -286,7 +322,7 @@ test("an obsolete asynchronous warmup cannot steal visibility or clipping from a
   releases.shift()();
   await obsolete;
   assert.equal(f.source.visible, true);
-  assert.equal(next.source.visible, false, "the current warmup still owns its source's visibility");
+  assert.equal(next.source.visible, true, "driver polling never hides the current routine between frames");
   releases.shift()();
   await Promise.resolve();
   await Promise.resolve();
@@ -297,5 +333,82 @@ test("an obsolete asynchronous warmup cannot steal visibility or clipping from a
   assert.equal(next.material.clippingPlanes, null);
   assert.equal(f.renderer.localClippingEnabled, false);
   assert.equal(f.presence.evidence().prepared, true);
+  f.presence.dispose();
+});
+
+test("driver polling retains no render target, visibility, clipping or shadow mutation between warmup submissions", async () => {
+  const f = fixture(),
+    releases = [],
+    originalTarget = f.renderer.getRenderTarget();
+  f.renderer.compileAsync = (body, camera, lightingScene) => {
+    assert.equal(body, f.presence.object.children[0], "compile only the avatar while using real scene lighting");
+    assert.equal(lightingScene, f.scene);
+    assert.equal(camera, f.camera);
+    return new Promise((resolve) => releases.push(resolve));
+  };
+  const pending = f.presence.prepare({ scene: f.scene, camera: f.camera });
+  function restored() {
+    assert.equal(f.renderer.getRenderTarget(), originalTarget);
+    assert.equal(f.source.visible, true);
+    assert.equal(f.presence.object.visible, false);
+    assert.equal(f.material.clippingPlanes, null);
+    assert.equal(f.renderer.localClippingEnabled, false);
+    assert.equal(f.renderer.shadowMap.autoUpdate, true);
+    assert.equal(f.renderer.shadowMap.needsUpdate, true);
+    assert.equal(f.renderer.xr.enabled, true);
+    assert.equal(f.renderer.autoClear, false);
+  }
+  restored();
+  f.presence.withoutHead(() => assert.equal(f.material.clippingPlanes, null, "ordinary frames stay unclipped during inactive warmup"));
+  releases.shift()();
+  await Promise.resolve();
+  await Promise.resolve();
+  restored();
+  assert.deepEqual(
+    f.draws.map((d) => d.clipped),
+    [false, true],
+    "the actual one-pixel draws prime both native variants"
+  );
+  releases.shift()();
+  await pending;
+  restored();
+  f.presence.dispose();
+});
+
+test("ephemeral held props are excluded and optional first-person geometry cannot write un-clipped volume depth", () => {
+  const f = fixture(),
+    prop = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial());
+  prop.name = "routine-book";
+  prop.userData.activityProp = "book";
+  f.head.add(prop);
+  f.presence.setSource(null);
+  f.presence.setSource(f.source, f.clips);
+  assert.equal(f.presence.object.getObjectByName("routine-book"), undefined);
+  assert.equal(prop.parent, f.head, "routine ownership and source contact remain unchanged");
+  assert.equal(f.presence.object.userData.noVolumeDepth, true);
+  f.presence.object.traverse((part) => {
+    if (part.isMesh) assert.equal(part.userData.noVolumeDepth, true);
+  });
+  assert.equal(f.mesh.userData.noVolumeDepth, undefined, "shared source metadata is not changed");
+  f.presence.dispose();
+});
+
+test("a failed actual clipped warmup draw restores shared state and releases the one-pixel target", async () => {
+  const f = fixture(),
+    render = f.renderer.render,
+    originalTarget = f.renderer.getRenderTarget();
+  f.renderer.render = (scene) => {
+    if (f.material.clippingPlanes) throw new Error("prime draw failed");
+    render(scene);
+  };
+  await assert.rejects(f.presence.prepare({ scene: f.scene, camera: f.camera }), /prime draw failed/);
+  assert.equal(f.material.clippingPlanes, null);
+  assert.equal(f.renderer.localClippingEnabled, false);
+  assert.equal(f.renderer.getRenderTarget(), originalTarget);
+  assert.equal(f.source.visible, true);
+  assert.equal(f.presence.object.visible, false);
+  assert.equal(f.renderer.shadowMap.autoUpdate, true);
+  assert.equal(f.renderer.shadowMap.needsUpdate, true);
+  assert.equal(f.probeDisposals(), 1);
   f.presence.dispose();
 });

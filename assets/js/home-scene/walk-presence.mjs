@@ -54,6 +54,7 @@ export function createWalkPresence({ renderer }) {
   // not treat this animated representation as an additional wall or static-light occluder.
   object.userData.walkPresence = true;
   object.userData.noContactOcclusion = true;
+  object.userData.noVolumeDepth = true;
   const headClip = new THREE.Plane(new THREE.Vector3(0, -1, 0), 1.4),
     headPosition = new THREE.Vector3(),
     opticalEyeOffset = new THREE.Vector3();
@@ -67,7 +68,6 @@ export function createWalkPresence({ renderer }) {
     sourceVisibility = null,
     disposed = false,
     prepared = false,
-    warmCount = 0,
     version = 0,
     idleTime = 0,
     gaitTime = 0,
@@ -113,9 +113,22 @@ export function createWalkPresence({ renderer }) {
       body.rotation.set(0, 0, 0);
       body.visible = true;
       object.add(body);
+      const ephemeral = [];
+      body.traverse((part) => {
+        // Held routine props have their own lifetime and pose. They are not part of the
+        // walking avatar and must not retain assets that propFor() can release later.
+        if (part !== body && (part.userData.activityProp || part.userData.action)) ephemeral.push(part);
+      });
+      for (const part of ephemeral) part.removeFromParent();
       body.traverse((part) => {
         if (part.isSkinnedMesh) skeletons.add(part.skeleton);
-        if (part.isMesh) for (const material of [part.material].flat()) materials.add(material);
+        if (part.isMesh) {
+          // The volume pass substitutes a generic depth material, losing primary-view head
+          // clipping. Exclude this optional first-person body from that approximation so an
+          // invisible full head cannot occlude onsen steam. Beauty, mirror and shadow remain.
+          part.userData.noVolumeDepth = true;
+          for (const material of [part.material].flat()) materials.add(material);
+        }
         if (part.isBone && part.name === "Head") head = part;
       });
       // Start from bind pose, not a snapshot of the routine's lounge/sleep/performance layer.
@@ -213,8 +226,8 @@ export function createWalkPresence({ renderer }) {
   // Built-in material clipping affects the primary view only. The head's actual geometry,
   // bones and shadow remain intact. Mirrors run outside this scope and see the whole person.
   // Reuse plane/array objects; the renderer changes only its normal clipping-program variant.
-  function withoutHead(draw) {
-    if ((!active && warmCount === 0) || !body || disposed) return draw();
+  function withoutHead(draw, preparing = false) {
+    if ((!active && !preparing) || !body || disposed) return draw();
     const localClipping = renderer.localClippingEnabled,
       saved = [];
     for (const material of materials) {
@@ -251,25 +264,83 @@ export function createWalkPresence({ renderer }) {
 
   async function prepare({ scene, camera, shouldContinue = () => true } = {}) {
     if (disposed || prepared || !body || !shouldContinue()) return;
-    const expectedBody = body,
-      expectedSource = source,
-      visible = object.visible,
-      heldSource = sourceVisibility !== null;
-    warmCount++;
-    object.visible = true;
-    hideSource();
-    object.updateWorldMatrix(true, true);
+    const expectedBody = body;
+    const probe = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, stencilBuffer: false });
+    probe.texture.colorSpace = THREE.LinearSRGBColorSpace;
+    // Pinned r164 compile() does not initialize per-material clipping. Prime the real
+    // variants with a one-pixel, body-only draw in the beauty pass's linear target state,
+    // then await their compilation. No temporary scene mutation spans driver link polling.
+    function queueVariant(clipped) {
+      const visibility = new Map(),
+        culling = new Map(),
+        meshes = new Set();
+      expectedBody.traverse((part) => part.isMesh && meshes.add(part));
+      const remember = (part, visible) => {
+        if (!visibility.has(part)) visibility.set(part, part.visible);
+        part.visible = visible;
+      };
+      const state = {
+        target: renderer.getRenderTarget(),
+        background: scene.background,
+        override: scene.overrideMaterial,
+        autoClear: renderer.autoClear,
+        shadowAuto: renderer.shadowMap.autoUpdate,
+        shadowNeeds: renderer.shadowMap.needsUpdate,
+        xr: renderer.xr?.enabled,
+        viewport: renderer.getViewport?.(new THREE.Vector4()),
+        scissor: renderer.getScissor?.(new THREE.Vector4()),
+        scissorTest: renderer.getScissorTest?.(),
+      };
+      try {
+        scene.traverse((part) => {
+          if ((part.isMesh || part.isPoints || part.isLine) && !meshes.has(part)) remember(part, false);
+        });
+        remember(object, true);
+        if (source) remember(source, false);
+        for (const mesh of meshes) {
+          culling.set(mesh, mesh.frustumCulled);
+          mesh.frustumCulled = false;
+        }
+        scene.background = null;
+        scene.overrideMaterial = null;
+        renderer.shadowMap.autoUpdate = renderer.shadowMap.needsUpdate = false;
+        renderer.autoClear = true;
+        if (renderer.xr) renderer.xr.enabled = false;
+        renderer.setRenderTarget(probe);
+        renderer.setScissorTest?.(false);
+        object.updateWorldMatrix(true, true);
+        const submit = () => {
+          renderer.state?.buffers?.depth?.setMask(true);
+          renderer.clear();
+          renderer.render(scene, camera);
+          // A plain holder restores withoutHead immediately; compileAsync's promise only
+          // polls readiness after its synchronous compile(body,camera,scene) submission.
+          return { pending: renderer.compileAsync(expectedBody, camera, scene) };
+        };
+        return (clipped ? withoutHead(submit, true) : submit()).pending;
+      } finally {
+        for (const [part, visible] of visibility) part.visible = visible;
+        for (const [mesh, culled] of culling) mesh.frustumCulled = culled;
+        scene.background = state.background;
+        scene.overrideMaterial = state.override;
+        renderer.autoClear = state.autoClear;
+        renderer.shadowMap.autoUpdate = state.shadowAuto;
+        renderer.shadowMap.needsUpdate = state.shadowNeeds;
+        if (renderer.xr) renderer.xr.enabled = state.xr;
+        renderer.setRenderTarget(state.target);
+        if (state.viewport) renderer.setViewport(state.viewport);
+        if (state.scissor) renderer.setScissor(state.scissor);
+        if (state.scissorTest !== undefined) renderer.setScissorTest(state.scissorTest);
+        if (disposed) object.visible = false;
+      }
+    }
     try {
-      await renderer.compileAsync(scene, camera);
+      await queueVariant(false);
       if (disposed || body !== expectedBody || !shouldContinue()) return;
-      await withoutHead(() => renderer.compileAsync(scene, camera));
+      await queueVariant(true);
       prepared = !disposed && body === expectedBody && shouldContinue();
     } finally {
-      warmCount--;
-      if (!disposed && body === expectedBody) {
-        object.visible = active || visible;
-        if (source === expectedSource && !active && !heldSource) restoreSource();
-      }
+      probe.dispose();
     }
   }
 
@@ -302,6 +373,7 @@ export function createWalkPresence({ renderer }) {
       opticalForwardOffset: Math.max(0, opticalEyeOffset.z),
       headCutHeight: headClip.constant,
       fullShadow: true,
+      volumeDepth: "first-person body excluded",
     }),
     dispose() {
       if (disposed) return;
