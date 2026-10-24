@@ -35,7 +35,13 @@ export const STATIC_LIGHT_REGIONS = [
 // Room additions carry their own world-space cage rather than extending this legacy list.
 // The same metadata bounds the bathroom's direct lights; each floor retains its own probes.
 export function staticLightRegions(config) {
-  const regions = new Map(STATIC_LIGHT_REGIONS.map((region) => [region.id, region]));
+  const setback = Number(config?.retreat?.setbackMetres) || 0;
+  const native = config?.retreat?.workstationNativeTranslation || [0, 0, 0];
+  const shifted = (point, id) =>
+    point.map((value, axis) => value + (axis === 2 ? setback : 0) + (id === "study" ? [native[0], native[2], -native[1]][axis] : 0));
+  const regions = new Map(
+    STATIC_LIGHT_REGIONS.map((region) => [region.id, { ...region, min: shifted(region.min, region.id), max: shifted(region.max, region.id) }])
+  );
   for (const room of config?.rooms || []) {
     if (room.lightRegion) regions.set(room.id, { ...room.lightRegion, id: room.id });
   }

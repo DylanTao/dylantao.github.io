@@ -519,7 +519,8 @@ export function walkKind(object, root) {
     // room still stays out, just as it does for a hidden furniture placeholder.
     if (node.visible === false && data.furnitureCollision !== true && !data.caveRoof && !data.bathroomCeilingFor && !data.roomCeilingFor) return null;
     authored ??= data.walk ?? null;
-    if (data.shadowOnly || data.facadeDoor || data.estateDoor || data.walkPresence || data.activityProp || data.action) return null;
+    if (data.shadowOnly || data.facadeDoor || data.estateDoor || data.libraryLadder || data.walkPresence || data.activityProp || data.action)
+      return null;
     if (data.caveRoof || data.bathroomCeilingFor || data.roomCeilingFor) cutawayStructure = true;
     if (data.glazing) glazing = true;
     if (data.flora) flora = true;

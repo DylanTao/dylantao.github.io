@@ -3,12 +3,13 @@ import { coastWind } from "./wind-field.mjs";
 import { CURTAIN_FACADE, CURTAIN_HARDWARE, CURTAIN_TRACKS, createFacadeCurtains, curtainSchedule } from "./curtain-cloth.mjs";
 import { createCurtainMeshes, createSheerFabric } from "./sheer-fabric.mjs";
 import { createLaundryRig } from "./laundry-rig.mjs";
+import { localSceneOffset, localSceneWind } from "./local-scene-frame.mjs";
 
 // The linen curtains in the live scene (Sirui, 2026-10-16; rebuilt 2026-10-18): the four panels of
 // curtain-cloth.mjs in the coast's one wind (wind-field.mjs), drawn in sheer-fabric.mjs's linen, hung
 // from rings on two bronze rods with return brackets and finials, on curtainSchedule's hours. The
 // doorway panels billow in the jet through an open door, the panels over fixed glass sway in the
-// indoor air, and the schedule draws them against a low western sun and at night. The controller
+// indoor air. The schedule parks them at the sides overnight and softens only the low-sun edges. The controller
 // creates the rig once the facade doors exist, steps it each frame and reads its evidence.
 //
 // Budget: a panel steps only while the scene moves and the panel is on screen and about 90 px tall or
@@ -31,7 +32,9 @@ export function createCurtainRig({
   bindMaterial = () => {},
   coverage = null,
   laundry: withLaundry = true,
+  offset = [0, 0, 0],
 }) {
+  const translation = new THREE.Vector3(...localSceneOffset(offset));
   // The panels start settled at the schedule's fractions (and composed under reduced motion), once.
   const initial = plan.routine
     ? curtainSchedule({ activity: plan.routine.id, room: plan.routine.room, visit: plan.visit, daylight: plan.daylight })
@@ -44,7 +47,7 @@ export function createCurtainRig({
     profile: true,
     reducedMotion: reduced,
     panels: { openFractions: initial?.fractions ?? {} },
-    draft: { coast },
+    draft: { coast: localSceneWind(coast, translation.toArray()) },
   });
   const cloth = curtains.cloth;
   const group = new THREE.Group(),
@@ -57,6 +60,7 @@ export function createCurtainRig({
     solveTimings = [],
     drawTimings = [];
   group.name = "Facade curtains";
+  group.position.copy(translation);
   let schedule = null,
     inView = false,
     stepping = false,
@@ -91,9 +95,11 @@ export function createCurtainRig({
       cloth.island(k).bounds(bound, 0.15);
       sphere.center.set(bound[0], bound[1], bound[2]);
       sphere.radius = bound[3];
+      // Buffer geometry bounds stay local for Three's normal frustum culling.
       meshes.meshes[k].geometry.boundingSphere.copy(sphere);
-      box.min.set(bound[4], bound[5], bound[6]);
-      box.max.set(bound[7], bound[8], bound[9]);
+      sphere.center.add(translation);
+      box.min.set(bound[4], bound[5], bound[6]).add(translation);
+      box.max.set(bound[7], bound[8], bound[9]).add(translation);
       const seen = frustum.intersectsBox(box) && (panel.fabricSize[1] / Math.max(0.1, camera.position.distanceTo(sphere.center))) * pixels > 90;
       cloth.setActive(panel.id, seen);
       any ||= seen;
@@ -113,7 +119,7 @@ export function createCurtainRig({
   group.add(hardware.rods, hardware.rings);
   scene.add(group);
   // The facade's other cloth: the laundry on the terrace outside it (laundry-rig.mjs).
-  const laundry = withLaundry ? createLaundryRig({ scene, coast, reduced, bindMaterial }) : null;
+  const laundry = withLaundry ? createLaundryRig({ scene, coast, reduced, bindMaterial, offset }) : null;
   // The starting drapes settle on background tasks while the page loads (one panel, then the laundry, a
   // task each of a few tens of milliseconds), so no frame has to; a frame that comes first settles what
   // is left, one a frame. scheduler.postTask keeps working under a paused page clock.
@@ -139,7 +145,7 @@ export function createCurtainRig({
   // The linen and the glass are both blended; draw the one nearer the camera last.
   function orderAgainstGlass(camera) {
     if (!camera) return;
-    const outside = camera.position.z < CURTAIN_FACADE.glassZ;
+    const outside = camera.position.z - translation.z < CURTAIN_FACADE.glassZ;
     if (outside === outsideOrder) return;
     outsideOrder = outside;
     for (const mesh of meshes.meshes) mesh.renderOrder = outside ? 1 : 3;
@@ -202,6 +208,7 @@ export function createCurtainRig({
         median = (list) => [...list].sort((a, b) => a - b)[Math.floor(list.length / 2)] ?? null;
       return {
         plan: schedule,
+        offset: translation.toArray(),
         inView,
         stepping,
         // Starting drapes still to settle (panels, then the laundry); zero once the page has loaded.

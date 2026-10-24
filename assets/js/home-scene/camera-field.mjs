@@ -28,6 +28,7 @@ export function collidable(object, world) {
       data.caveRoof ||
       data.facadeDoor ||
       data.estateDoor ||
+      data.libraryLadder ||
       data.walkPresence ||
       data.activityProp ||
       data.action

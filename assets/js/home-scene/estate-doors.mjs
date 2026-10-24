@@ -1,7 +1,7 @@
 import * as THREE from "../three.module.min.js";
 
-// The two landward thresholds are real sliding leaves. Their frame stays static; the leaf
-// opens before a walking capsule arrives and cannot close on that capsule. They are excluded
+// The authored landward thresholds are real sliding leaves. Their frame stays static; the leaf
+// opens before a visitor, Sirui or P arrives and cannot close on that occupant. They are excluded
 // from the static walk map, like the existing facade leaves, rather than leaving a voxel wall
 // behind after the visible leaf has moved into its pocket.
 export function nearDoor(bounds, pose, radius = 2.8) {
@@ -42,12 +42,13 @@ export function createEstateDoors(root, definitions = []) {
   let disposed = false;
   return {
     objects: doors.flatMap((door) => door.parts.map((part) => part.object)),
-    update(dt, { walk = null, reduced = false } = {}) {
+    update(dt, { walk = null, visitors = [], reduced = false } = {}) {
       if (disposed) return false;
       let changed = false;
       for (const door of doors) {
         // Hysteresis prevents a visitor lingering at the sensor boundary from cycling the leaf.
-        const near = nearDoor(door.bounds, walk, door.radius + (door.target ? 0.5 : 0));
+        const radius = door.radius + (door.target ? 0.5 : 0);
+        const near = nearDoor(door.bounds, walk, radius) || visitors.some((pose) => nearDoor(door.bounds, pose, radius));
         door.target = near ? 1 : 0;
         const before = door.fraction;
         const step = Math.max(0, Number.isFinite(dt) ? dt : 0) / 0.6;

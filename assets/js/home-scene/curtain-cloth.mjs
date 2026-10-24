@@ -1017,22 +1017,18 @@ export function createFacadeCurtains({ panels = {}, draft = {}, ...cloth } = {})
   };
 }
 
-// When the curtains are drawn (Sirui, 2026-10-15). Panels are gathered by day, so the sea stays in
-// view and the doorway panels billow in the breeze. Against a low western sun they draw part way, the
-// panels over fixed glass deeper than the doorway ones, which keeps the breeze coming in and leaves
-// gaps where the sun falls through onto the floor. At night, with the house lit and the doors shut,
-// and while Sirui sleeps, they are drawn closed, except where his evening activity looks out to sea:
-// the room he is in keeps the panel across its camera's line of sight open (the kitchen and lounge
-// cameras look in through the door openings), so dinner and watching the Pacific stay visible. By day
-// the room a visitor is looking into (`visit`) gathers its pair, including at night while Sirui is
-// awake: a free orbit can cross either panel. Other rooms keep their normal drapes and sleep closes all.
+// The public living facade is a prospect, not a bedroom privacy screen (Sirui, 2026-10-24).
+// Park its linen at the sides even overnight and while the private upstairs quarter sleeps.
+// A low western sun can soften only the edge of the fixed panes; the centre of the Pacific
+// view and either visited doorway stay clear. The cloth, hardware and coastal wind keep
+// their existing motion and reduced-motion/paused behaviour.
 //
 // CURTAIN_DRAW: how far each panel draws across in full glare (1 = closed).
-export const CURTAIN_DRAW = Object.freeze({ "kitchen-south": 0.55, "kitchen-north": 0.8, "lounge-south": 0.75, "lounge-north": 0.5 });
+export const CURTAIN_DRAW = Object.freeze({ "kitchen-south": 0.12, "kitchen-north": 0.2, "lounge-south": 0.2, "lounge-north": 0.12 });
 // The panel that crosses each room camera's line of sight when drawn: the kitchen camera's sightline
 // crosses the rail near x -2.0 m, the lounge camera's near x 2.9 m.
 export const CURTAIN_VIEW_PANELS = Object.freeze({ kitchen: "kitchen-south", lounge: "lounge-north" });
-// A view panel never draws past this open fraction while its room is occupied by day.
+// The small glare response may cover at most one fifth of a panel's travel.
 export const CURTAIN_VIEW_OPEN = 0.8;
 // The sun's glare through the west-facing glass: sun low (altitude under 32°, full under 16°), above
 // the horizon, and standing out to sea rather than along the front.
@@ -1063,13 +1059,12 @@ export function curtainSchedule({ activity = null, room = null, visit = null, da
     fractions = {};
   for (const id of panels) {
     let open;
-    if (state === "asleep") open = 0;
-    else if (state === "night") open = id === view ? 1 : 0;
+    if (state === "asleep" || state === "night") open = 1;
     else {
       open = 1 - glare * (CURTAIN_DRAW[id] ?? 0.6);
       if (id === view || id === visited) open = Math.max(open, CURTAIN_VIEW_OPEN);
     }
-    if (!asleep && visitedPanels.includes(id)) open = 1;
+    if (visitedPanels.includes(id)) open = 1;
     fractions[id] = Math.round(open * 20) / 20;
   }
   return { state, glare, view, visited, fractions };

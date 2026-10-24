@@ -17,6 +17,7 @@ import {
   weatherFor,
 } from "./atmosphere-model.mjs";
 import { farFieldGLSL, farFieldUniforms } from "./far-field.mjs";
+import { weatherAt, rainAt } from "./coastal-weather.mjs";
 
 // The coast's sky, sun, moon and haze on the GPU (atmosphere-model.mjs holds the physics and its
 // tests). Three small tables, after Hillaire 2020: the transmittance of every ray to space (256×64,
@@ -623,12 +624,13 @@ export function sunDisc(direction) {
   return { centre: [(n / h) * Math.cos(centre), Math.sin(centre), (e / h) * Math.cos(centre)], squash, topElevation: topTrue + refraction(topTrue) };
 }
 
-// Comparison flag (session URL): ?weather=clear|marine|cirrus pins the day's mood instead of drawing
+// Comparison flag (session URL): ?weather=clear|marine|cirrus|rain pins the day's mood instead of drawing
 // it from the date.
 const FORCED_WEATHER = {
-  clear: { marine: 0, eveningMarine: false, cirrus: 0 },
-  marine: { marine: 0.85, eveningMarine: true, cirrus: 0.1 },
-  cirrus: { marine: 0, eveningMarine: false, cirrus: 0.85 },
+  clear: { marine: 0, eveningMarine: false, cirrus: 0, cloudCover: 0, rainOverride: 0 },
+  marine: { marine: 0.85, eveningMarine: true, cirrus: 0.1, cloudCover: 0.75, rainOverride: 0 },
+  cirrus: { marine: 0, eveningMarine: false, cirrus: 0.85, cloudCover: 0.15, rainOverride: 0 },
+  rain: { marine: 0.35, eveningMarine: true, cirrus: 0.6, cloudCover: 0.96, rainOverride: 0.65 },
 };
 export function weatherOverride(search = globalThis.location?.search || "") {
   return FORCED_WEATHER[new URLSearchParams(search).get("weather")] || null;
@@ -744,10 +746,13 @@ export function createAtmosphere(renderer, { site = { latitude: 32.83, longitude
       disc = sunDisc(daylight.direction),
       moon = moonPosition(utc, site),
       moonDirection = apparentDirection(moon.direction),
-      weather = forcedWeather ? { ...weatherFor(dateKey), ...forcedWeather } : weatherFor(dateKey),
+      baseWeather = weatherAt(dateKey, minute, { utcMilliseconds: utc }),
+      weather = forcedWeather ? { ...baseWeather, ...forcedWeather, source: "authoring-override" } : baseWeather,
       marine = marineLayerAt(weather, minute),
-      overcast = smoothstepRange(0.62, 1, marine),
+      rain = rainAt(weather, minute),
+      overcast = Math.max(smoothstepRange(0.62, 1, marine), (weather.cloudCover || 0) * 0.72, rain * 0.95),
       light = skyLighting({ sun, moon: moonDirection, moonIllumination: moon.illumination, marine: overcast });
+    weather.rain = rain;
     if (!tablesDrawn) {
       draw(transmittanceMaterial, transmittanceTarget);
       draw(multipleMaterial, multipleTarget);
@@ -791,7 +796,7 @@ export function createAtmosphere(renderer, { site = { latitude: 32.83, longitude
         away = raw.map((v, c) => v * shoulder + (light.night.horizon[c] + (light.night.zenith[c] - light.night.horizon[c]) * basis) * nightWeight);
       uniforms.atmoHazeAway.value.fromArray(away);
     }
-    uniforms.atmoHaze.value.x = HAZE.density * (1 + 2.5 * marine);
+    uniforms.atmoHaze.value.x = HAZE.density * (1 + 2.5 * marine + 1.8 * rain);
     state = { utc, light, sun, disc, moon, moonDirection, weather, marine, marineTop: marineTop(marine), overcast, daylight };
     return state;
   }

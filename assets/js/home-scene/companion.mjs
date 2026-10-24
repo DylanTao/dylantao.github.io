@@ -45,6 +45,7 @@ export async function createWorldCompanion(scene, config, container, loader) {
     hoverHeight = null,
     performancePose = {},
     flightPose = null;
+  const doorPose = { active: false, position: [0, 0, 0] };
   const shadowMaterial = new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
@@ -95,6 +96,14 @@ export async function createWorldCompanion(scene, config, container, loader) {
     needsMotorReset = true,
     taskObject = "Sirui";
   const perches = config.companion.perches;
+  const unavailableRooms = new Set(config.companion.unavailableRooms || []);
+  const validPerch = (p) => Array.isArray(p) && p.length === 3 && p.every(Number.isFinite);
+  const hasPerches = (id) => !unavailableRooms.has(id) && Array.isArray(perches[id]) && perches[id].some(validPerch);
+  // A newly authored room can precede its safe P anchors. Hold a known authored
+  // room rather than invent an unmeasured perch or throw during a room visit.
+  const authoredRoom = (id) =>
+    config.rooms.find((candidate) => candidate.id === id && hasPerches(id)) ||
+    (room && hasPerches(room.id) ? room : config.rooms.find((candidate) => hasPerches(candidate.id)));
   function closeToP(x, y) {
     const rect = container.getBoundingClientRect(),
       p = companion.projected;
@@ -148,18 +157,19 @@ export async function createWorldCompanion(scene, config, container, loader) {
   const ownerEvents = typeof window === "undefined" ? null : window;
   ownerEvents?.addEventListener("pip:change", releaseOwnership);
   function startFlight(points, endHover = away ? 0.72 : config.companion.hover[room.id] || 0.72) {
-    route = createPipClearanceFlight(points, hoverHeight ?? endHover, endHover);
+    route = createPipClearanceFlight(points, hoverHeight ?? endHover, endHover, { config });
     routeStart = now;
     flightPose = samplePipClearanceFlight(route, 0);
   }
   function roomGoal(id, instant = false) {
-    const next = config.rooms.find((r) => r.id === id) || config.rooms[0];
-    const list = perches[next.id],
+    const next = authoredRoom(id);
+    if (!next) return;
+    const list = perches[next.id].filter(validPerch),
       candidates = list.filter((p) => position.distanceTo(new THREE.Vector3(...p)) > 0.02),
       p = (candidates.length ? candidates : list)[Math.floor(random() * (candidates.length || list.length))];
     goal.fromArray(p);
     if (room && room.id !== next.id && !instant) {
-      const corridor = roomRoute(config, room, next, position.toArray());
+      const corridor = roomRoute(config, room, next, position.toArray(), { companion: true });
       // The robot's endpoint is its safe perch, not the human activity anchor.
       startFlight([...corridor.points.slice(0, -1), goal.toArray()], config.companion.hover[next.id] || 0.72);
     } else if (room && !instant) startFlight([position.toArray(), goal.toArray()], config.companion.hover[next.id] || 0.72);
@@ -202,7 +212,11 @@ export async function createWorldCompanion(scene, config, container, loader) {
       companion.motion.update(0, { still: true, autonomous: false });
       needsMotorReset = false;
     }
-    const actualRoom = config.rooms.some((r) => r.id === id) ? id : room?.id || "study";
+    const actualRoom = authoredRoom(id)?.id;
+    if (!actualRoom) {
+      group.visible = shadow.visible = false;
+      return;
+    }
     if (!room) roomGoal(actualRoom, paused);
     // Camera/human selection is immediate; P keeps its current safe journey.
     // Its logical destination is not a physical floor until arrival. Starting
@@ -263,17 +277,20 @@ export async function createWorldCompanion(scene, config, container, loader) {
     if (!paused && !performancePose.hold && now > nextWander && !away && !route) roomGoal(actualRoom);
     if (!paused && !performancePose.hold && now > nextTrip && !route && !away) {
       nextTrip = now + 65 + random() * 50;
-      if (random() < 0.45) {
-        const lounge = config.rooms.find((r) => r.id === "lounge");
-        const corridor = roomRoute(config, room, lounge, position.toArray());
-        outing = [
-          ...corridor.points.slice(0, -1),
-          perches.lounge[0],
-          [3.4, 0, -4.4],
-          [3.8, 0, -7.4],
-          [3.8, -5.8, -10.5],
-          beachPoint(6, 0.35, config.beach),
-        ];
+      const lounge = config.rooms.find((r) => r.id === "lounge"),
+        coastPerch = Array.isArray(perches.lounge) ? perches.lounge.find(validPerch) : null;
+      if (random() < 0.45 && lounge && coastPerch) {
+        const corridor = roomRoute(config, room, lounge, position.toArray(), { companion: true });
+        const authoredCoast = config.companion.beachApproach;
+        const approach =
+          Array.isArray(authoredCoast) && authoredCoast.length > 1 && authoredCoast.every(validPerch)
+            ? authoredCoast
+            : [
+                [3.4, 0, -4.4],
+                [3.8, 0, -7.4],
+                [3.8, -5.8, -10.5],
+              ];
+        outing = [...corridor.points.slice(0, -1), coastPerch, ...approach, beachPoint(6, 0.35, config.beach)];
         startFlight(outing, 0.72);
         away = true;
         returning = false;
@@ -393,6 +410,13 @@ export async function createWorldCompanion(scene, config, container, loader) {
   }
   return {
     update,
+    get doorPose() {
+      // Proximity sensors need the source base/storey, before P's hover/lift.
+      // Reuse this record so the door controller need not allocate full evidence.
+      doorPose.active = group.visible && companion.owner === "world";
+      position.toArray(doorPose.position);
+      return doorPose;
+    },
     pick: (raycaster) => (group.visible ? raycaster.intersectObjects(meshes, false)[0] : null),
     evidence: () => ({
       visible: group.visible,
