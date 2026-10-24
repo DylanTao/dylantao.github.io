@@ -10,6 +10,7 @@ import {
   MAX_LINES,
   MAX_POINTS,
   rgbColor,
+  roomLightSources,
   SCHEDULES,
   windowLevel,
 } from "../assets/js/home-scene/light-installations.mjs";
@@ -116,6 +117,52 @@ const bathroom = (id, floor) => ({
       { id: "shower", a: [-7.9, floor + 2.2, 2.05], b: [-6.8, floor + 2.2, 2.05], intensity: 0.35 },
     ],
   },
+});
+
+test("bathroom transport sources share authored cove positions and line energy with the direct lights", () => {
+  const config = { rooms: [bathroom("bath-living", 0), bathroom("bath-bedroom", 2.6)] };
+  const sources = roomLightSources(config),
+    lights = createLightInstallations(config);
+  assert.equal(sources.length, 4);
+  for (const [index, source] of sources.entries()) {
+    const room = config.rooms[Math.floor(index / 2)],
+      line = room.lighting.lines[index % 2];
+    assert.deepEqual(
+      source.position,
+      line.a.map((value, axis) => (value + line.b[axis]) / 2)
+    );
+    assert.equal(source.region.min[1], room.lightRegion.min[1] - 0.05);
+    assert.equal(source.region.max[1], room.lightRegion.max[1] + 0.05);
+    assert.equal(source.light, undefined, "these are cached transport channels, not native lights");
+  }
+  lights.update({ minute: 720, daylight: 0.95, activity: "reading", visit: "bath-living" });
+  const powers = lights.indirectPowers();
+  for (let index = 0; index < 2; index++) {
+    const line = config.rooms[0].lighting.lines[index],
+      length = Math.hypot(...line.a.map((value, axis) => value - line.b[axis]));
+    assert.ok(Math.abs(powers[index] - line.intensity * length * 0.75) < 1e-12);
+  }
+  assert.deepEqual(powers.slice(2), [0, 0]);
+  lights.update({ minute: 720, daylight: 0.95, activity: "reading", visit: "bath-bedroom" });
+  assert.deepEqual(lights.indirectPowers().slice(0, 2), [0, 0]);
+  assert.deepEqual(lights.indirectPowers().slice(2), powers.slice(0, 2));
+  lights.dispose();
+});
+
+test("Draco-rounded floors retain direct bathroom cove light without lighting the storey gap", () => {
+  const lights = createLightInstallations({ rooms: [bathroom("bath-living", 0), bathroom("bath-bedroom", 2.6)] });
+  const up = v(0, 1, 0),
+    lower = v(-6.3, -0.0000196509, 4),
+    upper = v(-6.3, 2.5999805927, 4);
+  lights.update({ minute: 720, daylight: 0.95, activity: "reading", visit: "bath-living" });
+  assert.ok(lights.irradianceAt(lower, up).r > 0.01, "the delivered ground floor falls within the 5 cm receiver tolerance");
+  assert.equal(lights.irradianceAt(upper, up).r, 0);
+  assert.equal(lights.irradianceAt(v(-6.3, -0.051, 4), up).r, 0);
+  assert.equal(lights.irradianceAt(v(-6.3, 2.48, 4), up).r, 0, "the tolerance cannot bridge the two storeys");
+  lights.update({ minute: 720, daylight: 0.95, activity: "reading", visit: "bath-bedroom" });
+  assert.ok(lights.irradianceAt(upper, up).r > 0.01);
+  assert.equal(lights.irradianceAt(lower, up).r, 0);
+  lights.dispose();
 });
 
 test("bathroom mirror and shower lights fit the shader budget and follow each room's own visit", () => {

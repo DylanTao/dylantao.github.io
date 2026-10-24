@@ -76,8 +76,8 @@ export function createStaticLightField({
   if (!Number.isInteger(skyRaysPerHit) || skyRaysPerHit < 1 || skyRaysPerHit > 16) throw new RangeError("sky rays per hit must be 1..16");
   if (!Number.isFinite(maxTraceDistance) || maxTraceDistance <= 0 || !Number.isInteger(maxTriangles) || maxTriangles < 1)
     throw new RangeError("invalid trace bounds");
-  if (!regions.length || regions.length > 12 || practicalSources.length > 8)
-    throw new RangeError("field supports 1..12 regions and at most 8 practicals");
+  if (!regions.length || regions.length > 12 || practicalSources.length > 12)
+    throw new RangeError("field supports 1..12 regions and at most 12 practicals");
   regions = regions.map((r) => {
     if (r.min.length !== 3 || r.max.length !== 3 || !r.min.every((x, i) => Number.isFinite(x) && Number.isFinite(r.max[i]) && x < r.max[i]))
       throw new RangeError("invalid region bounds");
@@ -85,7 +85,21 @@ export function createStaticLightField({
   });
   practicalSources = practicalSources.map((s) => {
     if (!s.position?.every(Number.isFinite) || s.position.length !== 3) throw new RangeError("invalid practical position");
-    return { ...s, position: [...s.position], color: rgb(s.color, [1, 1, 1]), distance: s.distance ?? 0, emitterRadius: s.emitterRadius ?? 0.18 };
+    if (
+      s.region &&
+      (!s.region.min?.every((v, i) => Number.isFinite(v) && Number.isFinite(s.region.max?.[i]) && v < s.region.max[i]) ||
+        s.region.min.length !== 3 ||
+        s.region.max.length !== 3)
+    )
+      throw new RangeError("invalid practical region");
+    return {
+      ...s,
+      position: [...s.position],
+      color: rgb(s.color, [1, 1, 1]),
+      distance: s.distance ?? 0,
+      emitterRadius: s.emitterRadius ?? 0.18,
+      ...(s.region ? { region: { min: [...s.region.min], max: [...s.region.max] } } : {}),
+    };
   });
   const count = regions.length * 8,
     sourceCount = 3 + practicalSources.length,
@@ -147,7 +161,14 @@ export function createStaticLightField({
   // SHA-256 signature binds the snapshot to the exact authored assets and collector sources.
   const snapshotConfiguration = JSON.stringify({
     regions,
-    practicalSources: practicalSources.map(({ id, position, color, distance, emitterRadius }) => ({ id, position, color, distance, emitterRadius })),
+    practicalSources: practicalSources.map(({ id, position, color, distance, emitterRadius, region }) => ({
+      id,
+      position,
+      color,
+      distance,
+      emitterRadius,
+      ...(region ? { region } : {}),
+    })),
     raysPerProbe,
     skyRaysPerHit,
     maxTraceDistance,
@@ -324,6 +345,7 @@ export function createStaticLightField({
           weight
         );
       practicalSources.forEach((source, s) => {
+        if (source.region && !hit.point.every((value, axis) => value >= source.region.min[axis] && value <= source.region.max[axis])) return;
         const vector = source.position.map((x, a) => x - origin[a]),
           distance = Math.hypot(...vector);
         if (distance < 1e-5 || (source.distance && distance >= source.distance)) return;
@@ -503,6 +525,10 @@ export function createStaticLightField({
     }
     coefficientTexture.needsUpdate = true;
     return true;
+  }
+  // Room visits can change the coves without recomputing the sky or tracing any new rays.
+  function setPracticalPowers(practicalPowers) {
+    return setLighting({ ...lighting, practicalPowers });
   }
   function regionSupport(point, r) {
     const outside = Math.max(...point.map((x, a) => Math.max(r.min[a] - x, x - r.max[a], 0))),
@@ -699,7 +725,8 @@ if(slfReady>.5) {
         "First-order directional irradiance; sparse moment visibility is approximate and may leak across unsampled thin walls",
         "Material base color/metalness only; texture, vertex color and procedural detail are not baked",
         "Actual sky gradient plus authored far-ground boundary; solar disk/cloud/stars and direct-sun bounce omitted",
-        "Final .18m practical emitter segment is unoccluded to model a diffuse bulb within its shade",
+        "Final authored emitter-radius segment is unoccluded to model a diffuse bulb within its shade",
+        "Bathroom cove bounce uses an equal-energy midpoint approximation; direct lighting integrates the full segments",
         "Transparent, refracted, volumetric and specular transport remain native approximations; no ray-traced caustics",
         "Native direct practical lights remain unshadowed; only cached indirect bounce includes traced visibility",
         "Outside the bounded regions uses unoccluded actual-sky diffuse fallback",
@@ -718,7 +745,7 @@ if(slfReady>.5) {
     transport = bvh = null;
     roots.length = 0;
   }
-  const api = { addRoot, bake, exportSnapshot, restoreSnapshot, setLighting, bindMaterial, sample, evidence, dispose };
+  const api = { addRoot, bake, exportSnapshot, restoreSnapshot, setLighting, setPracticalPowers, bindMaterial, sample, evidence, dispose };
   setLighting(lighting);
   return api;
 }

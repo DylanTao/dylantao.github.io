@@ -26,12 +26,55 @@ import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.
 
 export const MAX_LINES = 18;
 export const MAX_POINTS = 10;
+// Draco can put a delivered floor a few micrometres below its authored region. A bounded
+// tolerance keeps those receivers lit without crossing the 25 cm gap between the storeys.
+export const RECEIVER_TOLERANCE = 0.05;
 const WARM = new THREE.Color(1, 0.7, 0.42);
 const FIRE = new THREE.Color(1, 0.46, 0.16);
 const POOL = new THREE.Color(0.42, 0.86, 0.9);
 const GYM = new THREE.Color(1, 0.88, 0.74);
 const LANTERN = new THREE.Color(1, 0.76, 0.5);
 const MEALS = ["breakfast", "lunch", "dinner"];
+
+function roomLines(config) {
+  const lines = [];
+  const finitePoint = (point) => Array.isArray(point) && point.length === 3 && point.every(Number.isFinite);
+  for (const room of config.rooms || []) {
+    if (!room.lighting?.lines?.length) continue;
+    const bounds = room.lightRegion;
+    if (!bounds || !finitePoint(bounds.min) || !finitePoint(bounds.max) || !bounds.min.every((v, i) => v < bounds.max[i]))
+      throw new RangeError(`Invalid light region for ${room.id}`);
+    const region = { min: new THREE.Vector3(...bounds.min), max: new THREE.Vector3(...bounds.max) };
+    for (const [index, source] of room.lighting.lines.entries()) {
+      if (!finitePoint(source.a) || !finitePoint(source.b) || !Number.isFinite(source.intensity) || source.intensity < 0)
+        throw new RangeError(`Invalid line light for ${room.id}`);
+      const a = new THREE.Vector3(...source.a),
+        b = new THREE.Vector3(...source.b);
+      if (a.distanceToSquared(b) < 1e-8) throw new RangeError(`Empty line light for ${room.id}`);
+      lines.push({ id: `room:${room.id}`, room: room.id, source: source.id || index, a, b, intensity: source.intensity, color: WARM, region });
+    }
+  }
+  return lines;
+}
+
+// Transport-only midpoint approximations for the coves. Their energy is the existing line's
+// intensity per metre times its length; no additional native light or arbitrary fill is added.
+export function roomLightSources(config) {
+  return roomLines(config).map((line) => ({
+    id: `${line.room}:${line.source}`,
+    position: line.a.clone().lerp(line.b, 0.5).toArray(),
+    color: line.color.toArray(),
+    distance: 0,
+    emitterRadius: 0.04,
+    region: {
+      min: line.region.min.toArray().map((value) => value - RECEIVER_TOLERANCE),
+      max: line.region.max.toArray().map((value) => value + RECEIVER_TOLERANCE),
+    },
+  }));
+}
+
+const insideRegion = (point, region) =>
+  ["x", "y", "z"].every((axis) => point[axis] >= region.min[axis] - RECEIVER_TOLERANCE && point[axis] <= region.max[axis] + RECEIVER_TOLERANCE);
 
 const smooth = (edge0, edge1, x) => {
   const t = THREE.MathUtils.clamp((x - edge0) / (edge1 - edge0), 0, 1);
@@ -123,7 +166,7 @@ float installationLine(vec3 p, vec3 n, vec3 a, vec3 b) {
   return max(f, 0.0) * sqrt(A);
 }
 bool installationInside(vec3 p, vec3 lo, vec3 hi) {
-  return all(greaterThanEqual(p, lo)) && all(lessThanEqual(p, hi));
+  return all(greaterThanEqual(p, lo - vec3(${RECEIVER_TOLERANCE}))) && all(lessThanEqual(p, hi + vec3(${RECEIVER_TOLERANCE})));
 }
 vec3 installationIrradiance(vec3 p, vec3 n) {
   vec3 sum = vec3(0.0);
@@ -278,23 +321,10 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
 
   // Each bathroom owns a mirror wash and a concealed shower cove. These bounded analytic
   // sources add neither PointLights nor shadow maps, and cannot spill into the other storey.
-  for (const room of config.rooms || []) {
-    if (!room.lighting?.lines?.length) continue;
-    const bounds = room.lightRegion;
-    const finitePoint = (point) => Array.isArray(point) && point.length === 3 && point.every(Number.isFinite);
-    if (!bounds || !finitePoint(bounds.min) || !finitePoint(bounds.max) || !bounds.min.every((v, i) => v < bounds.max[i]))
-      throw new RangeError(`Invalid light region for ${room.id}`);
-    const id = `room:${room.id}`,
-      region = box(bounds.min, bounds.max);
-    roomLighting.set(room.id, { id, glowing: new Set() });
-    for (const source of room.lighting.lines) {
-      if (!finitePoint(source.a) || !finitePoint(source.b) || !Number.isFinite(source.intensity) || source.intensity < 0)
-        throw new RangeError(`Invalid line light for ${room.id}`);
-      const a = new THREE.Vector3(...source.a),
-        b = new THREE.Vector3(...source.b);
-      if (a.distanceToSquared(b) < 1e-8) throw new RangeError(`Empty line light for ${room.id}`);
-      lines.push({ id, a, b, intensity: source.intensity, color: WARM, region });
-    }
+  const authoredLines = roomLines(config);
+  for (const line of authoredLines) {
+    if (!roomLighting.has(line.room)) roomLighting.set(line.room, { id: line.id, glowing: new Set() });
+    lines.push(line);
   }
   // Typed shader uniforms must never silently discard an authored fixture.
   if (lines.length > MAX_LINES || points.length > MAX_POINTS)
@@ -441,6 +471,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     uniforms,
     lines,
     points,
+    indirectPowers: () => authoredLines.map((line) => line.intensity * line.a.distanceTo(line.b) * levels[line.id]),
     bindModel,
     setPool,
     // minute after midnight, daylight 0..1, the routine's activity id.
@@ -471,15 +502,26 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       apply();
       return true;
     },
-    // Irradiance an installation adds at a point, for the steam's ambient light.
-    irradianceAt(point) {
+    // With a normal this is the shader's direct irradiance reference, including bounded lines.
+    // Without one, preserve the isotropic point estimate used for the onsen steam's ambient.
+    irradianceAt(point, normal = null) {
       const total = new THREE.Color(0, 0, 0);
       for (const p of points) {
         const level = levels[p.id] * (p.id === "fire" ? flicker : 1);
-        if (!level || !new THREE.Box3(p.region.min, p.region.max).containsPoint(point)) continue;
-        const r2 = Math.max(0.04, p.position.distanceToSquared(point));
-        total.add(p.color.clone().multiplyScalar((p.intensity * level) / r2));
+        if (!level || !insideRegion(point, p.region)) continue;
+        const toLight = p.position.clone().sub(point),
+          r2 = Math.max(normal ? 1e-4 : 0.04, toLight.lengthSq()),
+          direction = toLight.normalize(),
+          cosine = normal ? Math.max(0, normal.dot(direction)) : 1,
+          cone = normal && p.cone ? smooth(p.cone[3], 1, -direction.dot(new THREE.Vector3(...p.cone))) : 1;
+        total.add(p.color.clone().multiplyScalar((p.intensity * level * cosine * cone) / r2));
       }
+      if (normal)
+        for (const line of lines) {
+          if (!insideRegion(point, line.region)) continue;
+          const energy = line.intensity * levels[line.id] * lineIrradiance(point, normal, line.a, line.b);
+          total.add(line.color.clone().multiplyScalar(energy));
+        }
       return total;
     },
     bindMaterial(material) {

@@ -77,6 +77,106 @@ test("precomputed transport preserves sampled sky and practical relighting witho
   restored.dispose();
 });
 
+test("four bounded cove channels add occluded indirect bounce to closed bathroom storeys and restore exactly", async () => {
+  const cages = [
+    { id: "lower", min: [-1, 0.2, -1], max: [1, 2.1, 1] },
+    { id: "upper", min: [-1, 2.8, -1], max: [1, 4.7, 1] },
+  ];
+  const coves = [0, 2.6].flatMap((floor, storey) => [
+    {
+      id: `mirror-${storey}`,
+      position: [-1.7, floor + 2.16, 0],
+      color: [1, 0.7, 0.42],
+      emitterRadius: 0.04,
+      region: { min: [-2.05, floor - 0.05, -2.05], max: [2.05, floor + 2.4, 2.05] },
+    },
+    {
+      id: `shower-${storey}`,
+      position: [0, floor + 2.24, -1.75],
+      color: [1, 0.7, 0.42],
+      emitterRadius: 0.04,
+      region: { min: [-2.05, floor - 0.05, -2.05], max: [2.05, floor + 2.4, 2.05] },
+    },
+  ]);
+  const sources = [...Array.from({ length: 8 }, (_, index) => ({ id: `existing-${index}`, position: [100, 100, 100] })), ...coves];
+  const closedRoom = (floor) => {
+    const room = new THREE.Mesh(new THREE.BoxGeometry(4, 2.35, 4), new THREE.MeshStandardMaterial({ color: 0xe3d2b8 }));
+    room.position.y = floor + 1.175;
+    const index = room.geometry.index;
+    for (let i = 0; i < index.count; i += 3) {
+      const first = index.getX(i);
+      index.setX(i, index.getX(i + 2));
+      index.setX(i + 2, first);
+    }
+    return room;
+  };
+  const scene = new THREE.Group();
+  scene.add(closedRoom(0), closedRoom(2.6));
+  const options = { regions: cages, practicalSources: sources, raysPerProbe: 64, skyRaysPerHit: 2 },
+    field = createStaticLightField(options);
+  field.addRoot(scene);
+  field.setLighting({ ...lighting, practicalPowers: sources.map(() => 0) });
+  await field.bake({ yieldTask: immediate });
+  const query = [
+      [0, 0.7, 0],
+      [0, 1, 0],
+    ],
+    upperQuery = [
+      [0, 3.3, 0],
+      [0, 1, 0],
+    ];
+  assert.ok(
+    field.sample(...query).irradiance.every((value) => value < 1e-6),
+    "closed shells receive no unoccluded sky fill"
+  );
+  const rays = field.evidence().trace.rays,
+    powers = [...Array(8).fill(0), 0.924, 1.4716, 0, 0];
+  field.setPracticalPowers(powers);
+  const first = field.sample(...query).irradiance;
+  assert.ok(first[0] > 0.001, `actual albedo bounce reaches the lower bathroom: ${first}`);
+  assert.ok(
+    field.sample(...upperQuery).irradiance.every((value) => value < 1e-8),
+    "the upper storey cannot receive the lower cove's bounce"
+  );
+  field.setPracticalPowers(powers.map((power) => power * 2));
+  field.sample(...query).irradiance.forEach((value, channel) => close(value, first[channel] * 2));
+  assert.equal(field.evidence().trace.rays, rays, "changing the visit traces no visitor rays");
+  const snapshot = JSON.parse(JSON.stringify(field.exportSnapshot({ signature: snapshotSignature }))),
+    restored = createStaticLightField(options);
+  assert.equal(restored.restoreSnapshot(snapshot, { signature: snapshotSignature }), true);
+  restored.setLighting({ ...lighting, practicalPowers: powers.map((power) => power * 2) });
+  assert.deepEqual(restored.sample(...query), field.sample(...query));
+  assert.equal(restored.evidence().trace.rays ?? 0, 0);
+  const incompatible = createStaticLightField({
+    ...options,
+    practicalSources: sources.map((source, index) => (index === 8 ? { ...source, region: { ...source.region, max: [3, 2.4, 3] } } : source)),
+  });
+  assert.equal(
+    incompatible.restoreSnapshot(snapshot, { signature: snapshotSignature }),
+    false,
+    "source bounds participate in snapshot compatibility"
+  );
+  const blocked = createStaticLightField(options);
+  for (const source of coves.slice(0, 2)) {
+    const shade = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), new THREE.MeshStandardMaterial({ color: 0 }));
+    shade.position.fromArray(source.position);
+    scene.add(shade);
+  }
+  blocked.addRoot(scene);
+  blocked.setLighting({ ...lighting, practicalPowers: powers });
+  await blocked.bake({ yieldTask: immediate });
+  assert.ok(
+    blocked.sample(...query).irradiance.every((value) => value < 1e-8),
+    "opaque geometry blocks every practical transport path"
+  );
+  assert.throws(() => createStaticLightField({ ...options, practicalSources: [...sources, sources[0]] }), /at most 12 practicals/);
+  for (const item of [field, restored, incompatible, blocked]) item.dispose();
+  scene.traverse((object) => {
+    object.geometry?.dispose();
+    object.material?.dispose();
+  });
+});
+
 test("stale, incompatible and corrupt precomputed fields reject atomically and retain the live bake fallback", async () => {
   const original = createStaticLightField({ regions, raysPerProbe: 16 });
   await original.bake({ yieldTask: immediate });
