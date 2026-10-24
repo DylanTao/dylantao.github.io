@@ -2089,7 +2089,10 @@ test("coastal home: Walk mode walks on the keyboard, stops against the house and
 test("coastal home: public entrance reaches the living floor and returns to the clifftop with keyboard controls", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "one full physical route complements all-viewport walking controls");
   const software = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
-  test.setTimeout(software ? 900000 : 360000);
+  // One full llvmpipe round trip passed in 12.7m; a slower runner took 12.7m
+  // just to reach the living room while still making measured return progress.
+  // Bound renderer variability without shortening the route or solver cadence.
+  test.setTimeout(software ? 1800000 : 360000);
   // This case proves a complete keyboard journey through the real geometry. llvmpipe needed
   // 13 real seconds per 200ms of walking at 1440px; full-size appearance has separate cases.
   // Keep every asset and solver, but disclose a smaller functional viewport on software GPUs.
@@ -2121,16 +2124,24 @@ test("coastal home: public entrance reaches the living floor and returns to the 
         b = points[i + 1];
       return Math.abs((point[0] - a[0]) * (b[2] - point[2]) - (point[2] - a[2]) * (b[0] - point[0])) > 0.001;
     }),
-    samples = [];
+    samples = [],
+    progress = [],
+    journeyStartedAt = Date.now();
+  const recordProgress = (target, step, pose, reached = false) => {
+    progress.push({ elapsedSeconds: (Date.now() - journeyStartedAt) / 1000, target, step, pose, reached });
+    fs.writeFileSync(testInfo.outputPath("main-entrance-progress.json"), JSON.stringify({ turns, samples, progress, errors }, null, 2));
+  };
   async function walkTo(target) {
     for (let step = 0; step < 140; step++) {
       let state = await pose();
+      if (step % 10 === 0) recordProgress(target, step, state);
       const dx = target[0] - state.position[0],
         dz = target[2] - state.position[2],
         distance = Math.hypot(dx, dz);
       if (distance < 0.13) {
         expect(Math.abs(state.position[1] - target[1]), "the capsule climbs actual treads without injected height").toBeLessThan(0.25);
         samples.push({ target, pose: state });
+        recordProgress(target, step, state, true);
         return;
       }
       const angle = wrap(Math.atan2(dx, dz) - state.yaw);
