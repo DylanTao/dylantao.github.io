@@ -8,6 +8,7 @@ import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
 // Use delivered, decoded triangles and the same capsule solver as Walk. Authored routes name
 // destinations; their Y coordinates are assertions, never positions injected during a journey.
 const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+const setback = manifest.retreat?.setbackMetres || 0;
 const distance = (a, b) => Math.hypot(...a.map((value, i) => value - b[i]));
 const vector = (point) => new THREE.Vector3(...point);
 const delivered = new Map();
@@ -239,8 +240,8 @@ for (const floor of [0, 2.6]) {
     const room = bathroomAt(floor),
       { field } = await deliveredHouse(),
       // Authored native pane: X -8.185 to -6.355, Z 3.02. The open approach is east of it.
-      start = field.findStand(-7, 3.6, floor, { reach: 0.06, tolerance: 0.04 });
-    assert.ok(start && Math.hypot(start.x + 7, start.z - 3.6) < 0.06, `${room.id}: native dry-floor approach in front of the glass`);
+      start = field.findStand(-7, 3.6 + setback, floor, { reach: 0.06, tolerance: 0.04 });
+    assert.ok(start && Math.hypot(start.x + 7, start.z - 3.6 - setback) < 0.06, `${room.id}: native dry-floor approach in front of the glass`);
     let state = start,
       held = null,
       maximumRise = 0;
@@ -250,7 +251,10 @@ for (const floor of [0, 2.6]) {
       maximumRise = Math.max(maximumRise, Math.abs(state.foot - before.foot));
       if (i === 40) held = { ...state };
     }
-    assert.ok(state.z >= 3.22 && state.z <= 3.52, `${room.id}: stops at the actual pane, rather than walking through to ${state.z}`);
+    assert.ok(
+      state.z >= 3.22 + setback && state.z <= 3.52 + setback,
+      `${room.id}: stops at the actual pane, rather than walking through to ${state.z}`
+    );
     assert.ok(Math.hypot(state.x - held.x, state.z - held.z) < 0.005, `${room.id}: sustained input cannot creep through the glass`);
     assert.ok(maximumRise < 0.03, `${room.id}: blocked without a vertical teleport`);
     const properEntrance = traverse(field, room.showerRoute, `${room.id} shower gap`);
@@ -273,12 +277,13 @@ test("a first Walk field built during the lower bathroom cutaway retains the upp
   const inward = traverse(cutaway.field, upper.route, "hidden-slab en suite inward"),
     outward = traverse(cutaway.field, [...upper.route].reverse(), "hidden-slab en suite outward"),
     roof = [];
-  for (const [x, z] of [
+  for (const [x, originalZ] of [
     [-6.4, 2.3],
     [-6.4, 4.0],
     [-7.5, 5.5],
   ]) {
-    const before = visible.field.floorBelow(x, z, 12),
+    const z = originalZ + (manifest.retreat?.setbackMetres || 0),
+      before = visible.field.floorBelow(x, z, 12),
       after = cutaway.field.floorBelow(x, z, 12);
     assert.ok(before > 6.5 && before < 11, `native cliff roof above the bathroom at ${x},${z}: ${before}`);
     assert.ok(Math.abs(after - before) < 0.001, `cutaway preserves native roof support at ${x},${z}: ${after} vs ${before}`);

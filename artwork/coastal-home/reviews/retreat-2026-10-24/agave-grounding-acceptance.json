@@ -1,0 +1,79 @@
+{
+  "accepted": true,
+  "sourceBeforeSha256": "8772152ae84d4116e87e70dc0ad98a2fcddac4f37863b46a3c855b9d095f39a1",
+  "sourceAfterSha256": "c1fced7e108395b64ca7c8ad96e9a275d131b47115d4cbaf334da48701940027",
+  "export": {
+    "home-shell.glb": {
+      "beforeSha256": "9471ddfa4ec964b911755791394ac912a9f49969583b89bd670a7384050a247c",
+      "afterSha256": "209d5a926f53105fe27c7782f080557a9a72898e11fb460e124cad955f9f5039",
+      "bytes": 867300
+    }
+  },
+  "unchangedGLBSha256": {
+    "BrandtsCormorant.glb": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a",
+    "BrownPelican.glb": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c",
+    "BrushRabbit.glb": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4",
+    "CaliforniaSeaLion.glb": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103",
+    "coast.glb": "63847dcbb720d92cc538badf0f029b36f8efbf91c30d637e360b3126696522f6",
+    "flora.glb": "997cba7c8bfecc0e9ca29e39a51a4b9e2a5e337c622d9a97774e3c8759b86698",
+    "HarborSeal.glb": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6",
+    "hinterland.glb": "e7299a7ac669e5e99150006b4688b78d737ee6013fec0b68e0b30be6888bcd6f",
+    "Raccoon.glb": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808",
+    "room-bath-bedroom.glb": "1df8358f8c7dae4cf81ef8f7d9aa7393bcb0c70984ec31e1963537178a1a55e9",
+    "room-bath-living.glb": "c724875c7f3c1c6f278eea0ea339f056d315f76fb76ce2190f17ea56e95814fe",
+    "room-gym.glb": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
+    "room-kitchen.glb": "297f502691c778019b30b7508c2442719e16e667ea0453f802e72460e2b30cb4",
+    "room-library-upper.glb": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
+    "room-library.glb": "86118a72c9c2eb26587e3ad30f2ed0c975cf5d3ba68321fe2f1e62f5f106915b",
+    "room-lounge.glb": "56fc6f792e8f59bb5f33fabf18119bc7e3512e00e287aeea84128ed461594802",
+    "room-onsen.glb": "b013c1540cdfbfc080eb3ac7f7734b2039d40e72420281af125abaf0366e580b",
+    "room-sleep.glb": "72e5433b2d65ecb5e6451506d4b78da48647fc882916205e16267b2d03100790",
+    "room-study.glb": "8e2805d09631f8e434144619e9a75868ddda854c54c9daf946293ef5815ce181",
+    "Sandpiper.glb": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381",
+    "sirui-ghibli.glb": "47167029b02671063a509aa9f1c0bd36a7ea1b18ac37a5884a9365377615c7ce",
+    "sirui-lizard.glb": "3ac88825c77493b6e00bd5721cba51b166d8051d8585eef583e75a73093caac6",
+    "sirui-rick-and-morty.glb": "06d8f41e0740929fef63a90e71a2bca8976ac2adb7c54bb69992eedc58a88e91",
+    "sirui-simpsons.glb": "6214fae6762b2257cd3060ac64f7eb4b662a1bb672e663385f676d9f132634f4",
+    "sirui-south-park.glb": "8a94d3f20fbd8fa52520b4035b01f736a72a6fd013fc6583d839f8b7f8ee3324",
+    "WesternGull.glb": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29"
+  },
+  "manifestChanged": false,
+  "nativeRootContact": {
+    "rosettes": 32,
+    "embedMetres": 0.022,
+    "minimumGap": -0.02200031280517578,
+    "maximumGap": -0.021999359130859375
+  },
+  "deliveredRootContact": {
+    "leaves": 282,
+    "rosettes": 32,
+    "minimumGap": -0.031341552734375,
+    "maximumGap": -0.0034723281860351562,
+    "allNonpositive": true
+  },
+  "relativeGeometryErrorMaximum": 3.129243850708008e-7,
+  "other389MeshesUnchanged": true,
+  "freshCompanionAudit": {
+    "passed": true,
+    "flights": 420,
+    "centers": 2832715,
+    "sourceSha256": "c1fced7e108395b64ca7c8ad96e9a275d131b47115d4cbaf334da48701940027",
+    "manifestSha256": "7c958ecf5c3331a0809319d643133baffeba34a6b1e3805b81c978c01dfe7e18",
+    "minimumConservativeClearance": 0.4265731680393219,
+    "runtimeSha256": {
+      "home-scene/navigation.mjs": "c2acb426cd8e1defcaf4fccb0c70c7e6024f04b4bc25a20afe5e13d595def0d0",
+      "home-scene/companion.mjs": "7fb11dd5f9726fd3ecc23068d424fdefd4873043b0025032d59e1d43af63eb4f",
+      "companion/clearance.mjs": "5176185d288dba7ac5285d4628668f01d36c503f1dc909f4bf1cd9c5b96d625d",
+      "companion/performance.mjs": "3214df7fa76505c8696c8b789348aae4a14ff605b7151e9d1fc4dd5461954b0d"
+    },
+    "note": "All four moved agave nodes are included; this is a fresh native audit, not reuse of the old geometry result."
+  },
+  "verification": {
+    "deliveredWalkAndPerchTests": 9,
+    "strictNativeAnchorTest": "pass",
+    "rabbitBodyRays": 71040,
+    "rabbitRigidFloraHits": 0,
+    "rabbitSupportVoids": 0
+  },
+  "history": "The 8mm embed was rejected after decoded contact found a positive 10.528mm root gap. Original roof-partition position custody is pre-grounding history. Existing baked foliage colors and all other geometry remain intact."
+}

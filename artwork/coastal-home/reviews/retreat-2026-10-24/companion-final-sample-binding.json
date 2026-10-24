@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 3,
+  "completedUtc": "2026-10-24T17:36:04.248001+00:00",
+  "scope": "Final read-only runtime resample bound to the fresh native audit of grounded agave geometry. Previous source stages are history, not the final geometry proof.",
+  "inputRoot": "D:/dev/dylantao.github.io",
+  "sampleManifestSha256": "315c5a55be7e5facbd371f9f48f55716947fbcf4bcab56088183ddfb7b932e24",
+  "sourceSha256": "c1fced7e108395b64ca7c8ad96e9a275d131b47115d4cbaf334da48701940027",
+  "shellSha256": "209d5a926f53105fe27c7782f080557a9a72898e11fb460e124cad955f9f5039",
+  "runtimeSha256": {
+    "home-scene/navigation.mjs": "c2acb426cd8e1defcaf4fccb0c70c7e6024f04b4bc25a20afe5e13d595def0d0",
+    "home-scene/companion.mjs": "7fb11dd5f9726fd3ecc23068d424fdefd4873043b0025032d59e1d43af63eb4f",
+    "companion/clearance.mjs": "5176185d288dba7ac5285d4628668f01d36c503f1dc909f4bf1cd9c5b96d625d",
+    "companion/performance.mjs": "3214df7fa76505c8696c8b789348aae4a14ff605b7151e9d1fc4dd5461954b0d"
+  },
+  "scriptsSha256": {
+    "bin/sample_coastal_companion_flights.mjs": "59a9d116dd35ba4114fb4951d2f3541049aa75633a92eba7129348692ea4ee97",
+    "bin/audit_coastal_companion_flights.py": "ae18f74248798fdf206dcdbdfe9def750e25a49b7a33275ddcfed8f398db6614"
+  },
+  "staticLightFieldCache": {
+    "url": "static-light-field.json",
+    "signature": "82c8917c374a1ba2a06874ae7aa03ae1ef659ccc909524b4649a86afbc3561a3",
+    "sha256": "730bb556a65bf1950e6d90220f850dd8af47084e55328fcec18e2b1ac3db13e3"
+  },
+  "inputsStillMatchAfterReplay": true,
+  "nodeVersion": "v22.14.0",
+  "blenderVersion": "4.5.9 LTS; build 8bf95cbd38d1, 2026-04-21",
+  "commands": {
+    "sample": {
+      "exitCode": 0,
+      "command": "node D:/dev/dylantao.github.io/bin/sample_coastal_companion_flights.mjs D:/dev/dylantao.github.io/assets/models/home/manifest.json D:/dev/dylantao-companion-final-20261024/.jekyll-cache/final-companion/flights-grounded-final.jsonl",
+      "wallSeconds": 7.482804799999999
+    },
+    "freshNativeAudit": {
+      "exitCode": 0,
+      "command": "D:/tools/blender-4.5.9-windows-x64/blender.exe -b --python-exit-code 1 --python D:/dev/dylantao.github.io/bin/audit_coastal_companion_flights.py -- --source artwork/coastal-home/coastal-home.blend --flights D:/dev/dylantao-companion-final-20261024/.jekyll-cache/final-companion/flights-final.jsonl --output .jekyll-cache/retreat-grounding/companion-native-grounded.json",
+      "workingDirectory": "D:/dev/dylantao-estate-revision-20261024",
+      "wallSeconds": null,
+      "timingNote": "Fresh final-geometry audit exited successfully; precise wall time was not retained."
+    }
+  },
+  "sampledFlights": {
+    "path": "D:/dev/dylantao-companion-final-20261024/.jekyll-cache/final-companion/flights-grounded-final.jsonl",
+    "sha256": "76239677ebf0cfcbecd392245c57469f6e3cbd3911908b41fb1c235f37c0a5f2",
+    "bytes": 115657333,
+    "flightRecordsExcludingContextSha256": "9d72e61b9b62bcd5ffb8c10223213af92b9b7582591543bd9192aecc7f219e01",
+    "flightRecordBytes": 115656816,
+    "timeStride": 0.005,
+    "flights": 420,
+    "centers": 2832715
+  },
+  "freshNativeAudit": {
+    "path": "agave-companion-native-flight-audit.json",
+    "receiptSha256": "b9b4f4febfb833843176c6a3d37349356b2ed87ffe5f23e86c766e4edbba2e6e",
+    "sourceSha256": "c1fced7e108395b64ca7c8ad96e9a275d131b47115d4cbaf334da48701940027",
+    "manifestSha256": "7c958ecf5c3331a0809319d643133baffeba34a6b1e3805b81c978c01dfe7e18",
+    "actualGeometryReaudited": true,
+    "agavesIncluded": true
+  },
+  "finalContextRebinding": {
+    "nativeAuditManifestSha256": "7c958ecf5c3331a0809319d643133baffeba34a6b1e3805b81c978c01dfe7e18",
+    "finalSampleManifestSha256": "315c5a55be7e5facbd371f9f48f55716947fbcf4bcab56088183ddfb7b932e24",
+    "semanticComparisonSnapshotSha256": "3e6ee5f925254e00cbb92ea7585bf17cac5f4af47b0ce0bcf7a955d66888b00a",
+    "semanticManifestDifferences": ["staticLightFieldCache"],
+    "priorProductionFormatting": {
+      "sourceManifestSha256": "3e6ee5f925254e00cbb92ea7585bf17cac5f4af47b0ce0bcf7a955d66888b00a",
+      "builtManifestSha256": "73708f44000c818a39c21da263b800b4ecc0dd767c62a829d972aded25cee8b4",
+      "semanticEqualityChecked": true,
+      "scope": "After the accepted final resample, Prettier reformatted only JSON whitespace. The complete production build minifies JSON. Parsed objects are exactly equal, including every flight route and the final cache descriptor; the sampled payload and native audit remain unchanged."
+    },
+    "note": "Only the static-light-cache descriptor differs semantically from the retained production source snapshot; prior formatting receipts preserve the whitespace-only chain. All 420 sampled flight records are byte-identical. Runtime modules, sampler/audit scripts and final native geometry match the fresh audit."
+  },
+  "acceptance": {
+    "passed": true,
+    "nativeEnvelopeRadius": 0.42,
+    "minimumSurfaceDistance": 0.4309481680393219,
+    "minimumConservativeClearance": 0.4265731680393219,
+    "maximumCenterSpeedBound": 1.75,
+    "minimumAfterArcBoundExceedsRadius": true
+  },
+  "previousStages": [
+    {
+      "status": "Historical; superseded by fresh c1fced7e geometry proof",
+      "binding": {
+        "schemaVersion": 2,
+        "completedUtc": "2026-10-24T16:41:04.630687+00:00",
+        "scope": "Final read-only runtime resample from coordinator working tree; original native BVH result reused only after exact equality of every flight record and unchanged source/module/script hashes. No GPU, geometry, manifest or runtime edits.",
+        "inputRoot": "D:/dev/dylantao.github.io",
+        "sampleManifestSha256": "7c958ecf5c3331a0809319d643133baffeba34a6b1e3805b81c978c01dfe7e18",
+        "sourceSha256": "8772152ae84d4116e87e70dc0ad98a2fcddac4f37863b46a3c855b9d095f39a1",
+        "runtimeSha256": {
+          "home-scene/navigation.mjs": "c2acb426cd8e1defcaf4fccb0c70c7e6024f04b4bc25a20afe5e13d595def0d0",
+          "home-scene/companion.mjs": "7fb11dd5f9726fd3ecc23068d424fdefd4873043b0025032d59e1d43af63eb4f",
+          "companion/clearance.mjs": "5176185d288dba7ac5285d4628668f01d36c503f1dc909f4bf1cd9c5b96d625d",
+          "companion/performance.mjs": "3214df7fa76505c8696c8b789348aae4a14ff605b7151e9d1fc4dd5461954b0d"
+        },
+        "scriptsSha256": {
+          "bin/sample_coastal_companion_flights.mjs": "59a9d116dd35ba4114fb4951d2f3541049aa75633a92eba7129348692ea4ee97",
+          "bin/audit_coastal_companion_flights.py": "ae18f74248798fdf206dcdbdfe9def750e25a49b7a33275ddcfed8f398db6614"
+        },
+        "staticLightFieldCache": {
+          "url": "static-light-field.json",
+          "signature": "6b222b43fb5b86e6264bb4d0f1d685a4190badc5f85d2f5be9fe3fe2208b724e",
+          "sha256": "be97a51b36ce29312f6c31650be587180601ca6ce983a9d9f3dd165b803c090b"
+        },
+        "inputsStillMatchAfterReplay": true,
+        "nodeVersion": "v22.14.0",
+        "blenderVersion": "4.5.9 LTS; build 8bf95cbd38d1, 2026-04-21",
+        "commands": {
+          "sample": {
+            "exitCode": 0,
+            "command": "node D:/dev/dylantao.github.io/bin/sample_coastal_companion_flights.mjs D:/dev/dylantao.github.io/assets/models/home/manifest.json D:/dev/dylantao-companion-final-20261024/.jekyll-cache/final-companion/flights-final.jsonl",
+            "wallSeconds": 11.651266699999999
+          },
+          "native": {
+            "exitCode": 0,
+            "command": "D:/tools/blender-4.5.9-windows-x64/blender.exe -b --python-exit-code 1 --python D:/dev/dylantao.github.io/bin/audit_coastal_companion_flights.py -- --source D:/dev/dylantao.github.io/artwork/coastal-home/coastal-home.blend --flights D:/dev/dylantao-companion-final-20261024/.jekyll-cache/final-companion/flights.jsonl --output D:/dev/dylantao-companion-final-20261024/.jekyll-cache/final-companion/native-audit.json",
+            "wallSeconds": 78.5334275,
+            "reused": true
+          },
+          "originalSample": {
+            "exitCode": 0,
+            "command": "node D:/dev/dylantao.github.io/bin/sample_coastal_companion_flights.mjs D:/dev/dylantao.github.io/assets/models/home/manifest.json D:/dev/dylantao-companion-final-20261024/.jekyll-cache/final-companion/flights.jsonl",
+            "wallSeconds": 4.8841198
+          }
+        },
+        "sampledFlights": {
+          "path": "D:/dev/dylantao-companion-final-20261024/.jekyll-cache/final-companion/flights-final.jsonl",
+          "sha256": "35c22f441cd19f050232f501cf639f709d4e502608b1db33e9f5cc21d6f3eceb",
+          "bytes": 115657333,
+          "timeStride": 0.005,
+          "flights": 420,
+          "centers": 2832715,
+          "flightRecordsExcludingContextSha256": "9d72e61b9b62bcd5ffb8c10223213af92b9b7582591543bd9192aecc7f219e01"
+        },
+        "rawNativeAudit": {
+          "path": "D:/dev/dylantao-companion-final-20261024/.jekyll-cache/final-companion/native-audit.json",
+          "sha256": "8ff69c208a01e3732f653fee6a51400c6e156515af2c9212789f4cfbe1f5d465",
+          "bytes": 260900
+        },
+        "acceptance": {
+          "passed": true,
+          "nativeEnvelopeRadius": 0.42,
+          "minimumSurfaceDistance": 0.4309481680393219,
+          "minimumConservativeClearance": 0.4265731680393219,
+          "maximumCenterSpeedBound": 1.75,
+          "minimumAfterArcBoundExceedsRadius": true
+        },
+        "limits": "Native audit assumes proximity leaves open; delivered compressed geometry, door automation, loading, mobile performance and rendered motion are separate coordinator evidence.",
+        "nativeAuditReuse": {
+          "reused": true,
+          "reason": "Walk spawn yaw and regenerated static-light-cache metadata changed; actual 420 flight records are byte-identical, with unchanged native geometry, sampler/audit scripts and runtime module hashes.",
+          "nativeAuditManifestSha256": "d67eb04dbced93a2b6bdaa0a047943723840149fefe13f2c44e51ddd633d25b7",
+          "finalSampleManifestSha256": "7c958ecf5c3331a0809319d643133baffeba34a6b1e3805b81c978c01dfe7e18",
+          "nativeAuditSampleSha256": "3e50781950f41867faa5197e618c78f29efc01f228539b5effb4c163a3b2ff88",
+          "finalSampleSha256": "35c22f441cd19f050232f501cf639f709d4e502608b1db33e9f5cc21d6f3eceb",
+          "flightRecordsExcludingContextSha256": "9d72e61b9b62bcd5ffb8c10223213af92b9b7582591543bd9192aecc7f219e01",
+          "flightRecordBytes": 115656816,
+          "flightRecordsExactlyEqual": true,
+          "flights": 420,
+          "centers": 2832715,
+          "runtimeModulesUnchanged": true,
+          "nativeSourceUnchanged": true,
+          "scriptsUnchanged": true
+        },
+        "productionFormatting": {
+          "sourceManifestSha256": "3e6ee5f925254e00cbb92ea7585bf17cac5f4af47b0ce0bcf7a955d66888b00a",
+          "builtManifestSha256": "73708f44000c818a39c21da263b800b4ecc0dd767c62a829d972aded25cee8b4",
+          "semanticEqualityChecked": true,
+          "scope": "After the accepted final resample, Prettier reformatted only JSON whitespace. The complete production build minifies JSON. Parsed objects are exactly equal, including every flight route and the final cache descriptor; the sampled payload and native audit remain unchanged."
+        }
+      }
+    }
+  ],
+  "limits": "Native audit assumes proximity leaves open; delivered compressed geometry, door automation, loading, mobile performance and rendered motion are separate coordinator evidence.",
+  "lineEndings": {
+    "scope": "Original audit/sample hashes retain the Windows working-file bytes. Git stores these text modules as LF; the canonical LF hashes below identify the same source bodies after checkout/deployment. No source statements or flight records change.",
+    "canonicalLfRuntimeSha256": {
+      "home-scene/navigation.mjs": "819e68aac23af31d143f203c7ea731b871bd4f5633b74abe9dda560f7d7be9e6",
+      "home-scene/companion.mjs": "6348eba3e51b4f5be9244a4b32a6353e3613846c2146245aa57e19be25e9df97",
+      "companion/clearance.mjs": "4cfa87b3c48512bde85e4b6bb0e36847d450d17cf75935a3d8c3612fad354935",
+      "companion/performance.mjs": "9ae4bbb677961c51d23c7aa271b8826a5e0fe5f922f12b4d6f7b6a30fdfbba11"
+    },
+    "canonicalLfScriptsSha256": {
+      "bin/sample_coastal_companion_flights.mjs": "c69c35f864e07c885f11982eb158c652c22550e89cac26851e66678f734be053",
+      "bin/audit_coastal_companion_flights.py": "78a3ae07730a2a1a5d292a210753e663b31f393fdef08d33e944ec5c49a0fd3b"
+    }
+  }
+}

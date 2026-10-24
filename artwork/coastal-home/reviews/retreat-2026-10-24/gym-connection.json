@@ -1,0 +1,26 @@
+{
+  "cuts": [
+    {
+      "mesh": "coast_shared_golden coastal sandstone",
+      "skippedDisjoint": false,
+      "preservedVertices": 4964,
+      "affectedVertices": 35803,
+      "cutNonManifold": 0
+    },
+    {
+      "mesh": "core__golden coastal sandstone",
+      "skippedDisjoint": false,
+      "preservedVertices": 0,
+      "affectedVertices": 32304,
+      "cutNonManifold": 0
+    }
+  ],
+  "route": [
+    [7.6, 0.0, 6.75],
+    [7.6, 0, 5.9],
+    [6.2, 0, 5.9],
+    [5.5, 0, 6.3],
+    [4.45, 0, 6.3],
+    [3.5, 0, 6.45]
+  ]
+}

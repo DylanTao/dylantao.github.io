@@ -285,7 +285,15 @@ test("the combined estate suggestion retains every authored source within fixed 
   );
   assert.equal(roomLightSources(config).length + 8, 23);
   lights.update({ minute: 1260, daylight: 0, activity: "reading", visit: "library" });
-  assert.deepEqual(lights.indirectPowers(), report.transportChannels.powers);
+  // This retained receipt predates the October 24 walking-light adjustment.
+  // Keep its immutable source/receiver geometry, scaling only idle room power
+  // from the dated 0.16 baseline to the current 0.26 wayfinding level.
+  const powers = lights.indirectPowers();
+  for (const [index, power] of report.transportChannels.powers.entries()) {
+    const id = report.transportChannels.orderedIds[index];
+    const idleRoom = /^(bath-living|bath-bedroom|library-upper):/.test(id);
+    assert.ok(Math.abs(powers[index] - power * (idleRoom ? 0.26 / 0.16 : 1)) < 1e-10, id);
+  }
   const samples = [
     ["living", [0, 1, 0]],
     ["upper", [0, 3.6, 2]],

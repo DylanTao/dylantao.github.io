@@ -1,0 +1,19 @@
+[
+  {
+    "file": ".jekyll-cache/retreat/pre-anchor-fix.blend",
+    "sourceSha256": "68fe2f49033ac3f1f77d3ba97356347cf7239c48c2dc559f7868a5f3d9604a83",
+    "meshGeometrySha256": "9a1a3b691155ed97dcff6afcad10988444f266e3168dab92728c16f07106617b",
+    "meshes": 393,
+    "vertices": 746285,
+    "faces": 553140,
+    "extractedFrom": "215f0b337:artwork/coastal-home/coastal-home.blend"
+  },
+  {
+    "file": "artwork/coastal-home/coastal-home.blend",
+    "sourceSha256": "8772152ae84d4116e87e70dc0ad98a2fcddac4f37863b46a3c855b9d095f39a1",
+    "meshGeometrySha256": "9a1a3b691155ed97dcff6afcad10988444f266e3168dab92728c16f07106617b",
+    "meshes": 393,
+    "vertices": 746285,
+    "faces": 553140
+  }
+]

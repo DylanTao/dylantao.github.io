@@ -268,6 +268,46 @@ Sources:
 - [Wellons, Prospecting for Hash Functions (2018)](https://nullprogram.com/blog/2018/07/31/), for the lowbias32 hash.
 - [Windsock](https://en.wikipedia.org/wiki/Windsock), which cites FAA AC 150/5345-27D for a cone that stands straight out at 15 knots.
 
+## Weather and housing frame: October 24 revision
+
+The house's eight-meter landward move is architectural; the shoreline, Pacific
+and outdoor weather field stay in their existing world frame. Legacy fixture
+and light-cage literals shift once. Native manifest lights, room/stair anchors
+and weather shelter volumes are already in final world coordinates. The old
+workstation receives its native `[-10.4, 6.7, -2.6]` translation as one assembly
+before the house setback. Rebuild source-bound transport and perch contacts
+after integrating the geometry.
+
+`local-scene-frame.mjs` lets curtain/laundry solvers retain their authored local
+constraints: rendered groups, world culling and glazing order receive the house
+offset, while their coast samplers query actual world positions once. CPU
+indoor wind and GPU rooted-plant exposure share the relocated shelter glass
+plane. Neither the ocean's world wind nor already-transformed manifest fixtures
+receive a second housing shift.
+
+`coastal-weather.mjs` consumes the small precomputed NWS hourly snapshot only
+inside its recorded UTC intervals. Outside those intervals it uses an explicitly
+identified seasonal wet/dry simulation fitted to NOAA daily precipitation.
+The monthly first-order Markov choice beat monthly climatology, persistence
+and always-dry baselines on a chronological holdout; this supports that bounded
+one-day statistical comparison, not a SOTA claim or validation of synthetic
+multiweek weather. Data custody, held-out scores, forecast expiry and authored
+rain intensity/timing are recorded in
+[the weather review](../../../artwork/coastal-home/weather-2026-10-24/README.md).
+Daily gauge totals do not establish within-day rain timing or a physical rain
+rate; NWS cloud text does not identify a marine inversion height.
+
+`coastal-rain.mjs` is one bounded, seeded line draw, not a particle-fluid model.
+It clips falling segments to terrain and authored covered volumes, including
+physical roofs hidden by an orbit cutaway. The compact profile lowers the
+maximum line count; it adds no new rendering pass or shadow caster. Positions
+sample active elapsed time and hold during Pause, reduced motion and hidden
+views. The existing live routine clock may refresh weather intensity while
+paused; holding the geometry clock does not freeze civil time. Materials join
+the existing complete-scene program warmup. Integrated desktop/mobile images,
+shelter probes and costs remain coordinator acceptance work; these equations
+and source tests alone do not prove visible rainfall or phone performance.
+
 ## Curtain cloth
 
 On October 15, 2026, `curtain-cloth.mjs` and `sheer-fabric.mjs` added sheer curtains on rails inside the glass front, and on October 16 they joined the scene in the coast's one wind. On October 18 Sirui found them "a bit weird", and they were rebuilt: the panels now hang in sheer linen from rings on two bronze rods, simulated by `cloth-solver.mjs`, which also moves the laundry on the terrace (see "Laundry on the terrace" below). They are a real-time approximation for a browser scene, not a validated textile, airflow or measured-BSDF model.
@@ -363,15 +403,14 @@ Off screen, asleep, paused or in reduced motion the cloth costs nothing. Pause h
 
 `curtainSchedule` (pure, in `curtain-cloth.mjs`) sets each panel's open fraction (0 drawn closed, 1 gathered):
 
-| When                                                                                 | Panels                                                                                                                                           |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Sirui asleep                                                                         | All drawn                                                                                                                                        |
-| Night: daylight ≤ 0.3, the threshold that also shuts the doors                       | All drawn, except the panel across the camera's sightline in the room Sirui occupies (dinner in the kitchen, Watching the Pacific in the lounge) |
-| Day                                                                                  | All gathered: the doorway panels' stacks billow in the jets, and the panels over fixed glass sway in the indoor air                              |
-| Low western sun: glare g rises as the sun drops from 32° to 16°, standing out to sea | Each panel draws to 1 − g × depth: kitchen-south 0.55, kitchen-north 0.8, lounge-south 0.75, lounge-north 0.5                                    |
-| By day, the occupied or visited room                                                 | Its view panel stays at least 0.8 open                                                                                                           |
+| When                           | Panels                                                                                                                  |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| Private-quarter sleep or night | Public kitchen/living panels stay fully gathered; the facade doors may close independently                              |
+| Day                            | All gathered; doorway stacks retain their breeze and fixed-glass panels sway gently                                     |
+| Low western sun                | Open fraction `1 - glare * depth`; depth is 0.12 for kitchen-south/lounge-north and 0.20 for kitchen-north/lounge-south |
+| Explicit kitchen/lounge visit  | Both panels in that room are fully gathered                                                                             |
 
-The doorway panels draw least, which keeps the breeze coming in. Fractions are quantized to 0.05. On October 15 the panels start drawing at 15:35, are fully drawn from 16:50 to 18:00, reopen for the sunset from 18:05 to 18:25, and close with the doors at 18:30.
+The small low-sun response leaves every public living panel at least 0.8 open, quantized to 0.05. These are view-first sheers, not the upstairs privacy enclosure. The earlier October 15 evening closure schedule is historical and must not be restored when refreshing the solver.
 
 ### Sources
 

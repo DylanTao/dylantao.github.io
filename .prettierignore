@@ -31,5 +31,7 @@ artwork/coastal-home/splat-lab/vendor/
 assets/js/light-lab/onsen-reference.json
 # Generated source-bound floating-point transport, written by bin/bake_coastal_static_light.cjs.
 assets/models/home/static-light-field.json
+# Generated native/delivered perch contacts have a strict 32 KiB transfer budget.
+assets/models/home/wildlife-perch-support.json
 # Liquid-templated JSON: front matter and a jsonify filter that Jekyll renders into each design record's endpoint.
 assets/json/design-records/

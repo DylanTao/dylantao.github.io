@@ -9,6 +9,7 @@ import { solvePerchLanding, samplePerchActing, perchSurface, perchContactWeight 
 
 const file = readFileSync(new URL("../assets/models/home/wildlife-perch-support.json", import.meta.url));
 const data = JSON.parse(file);
+const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
 const near = (a, b, tolerance = 2e-5) => assert.ok(Math.abs(a - b) <= tolerance, `${a} != ${b}`);
 
 function footGaps(acting, patch, scale) {
@@ -31,6 +32,8 @@ test("perch contact metadata matches retained geometry and stays bounded", async
       .digest("hex");
   assert.equal(data.coastSha256, hash("../artwork/coastal-home/coastal-home.blend"));
   assert.equal(data.gullSha256, hash("../assets/models/home/WesternGull.glb"));
+  for (const [name, expected] of Object.entries(data.deliveredSha256)) assert.equal(expected, hash(`../assets/models/home/${name}`));
+  assert.ok(data.patches[0].nativeTriangles.length > 0, "the complete original native patch remains inspectable beside delivered contact geometry");
   assert.ok(file.byteLength < 32 * 1024);
   // Three coast perches and the gallery rail for the gulls, four rock roosts for the cormorants.
   assert.deepEqual(
@@ -38,15 +41,17 @@ test("perch contact metadata matches retained geometry and stays bounded", async
     ["coast", "coast", "coast", "rail", "rock", "rock", "rock", "rock"]
   );
   assert.ok(data.patches.every((patch) => patch.triangles.length > 0 && patch.triangles.length < (patch.kind === "rock" ? 64 : 32)));
+  for (let index = 0; index < 3; index++) assert.deepEqual(data.patches[index].original, manifest.terrain.perches[index]);
+  assert.deepEqual(data.patches[3].original, manifest.retreat.galleryPerch);
   for (const foot of Object.values(data.feet))
     assert.ok(foot.sole.length > 100 && foot.sole.length < 256 && foot.legLength > 0.11 && foot.legLength < 0.12);
-  // Compare the source-derived local patches with independently decoded delivered triangles.
-  // New cliff excavations can retessellate an original broad face; a historical height golden
-  // would reject a correct refreshed contact while missing a stale deployed export.
+  // Compare Blender-surveyed contacts with independently decoded browser triangles. The
+  // displaced west perch retains both its native patch and its exact delivered contact patch;
+  // the rail retains its native patch. Historical absolute coordinates miss real source drift.
   const roots = await Promise.all(["home-shell.glb", "coast.glb"].map((file) => nativeGeometry(file)));
   for (const [index, x, z] of [
-    [0, -8.091734886169434, 1.1014457941055298],
-    [3, 4.149580001831055, 1.3122085332870483],
+    [0, manifest.terrain.perches[0][0] - 0.091734886169434, manifest.terrain.perches[0][2] + 0.1014457941055298],
+    [3, manifest.retreat.galleryPerch[0] - 0.050419998168945, manifest.retreat.galleryPerch[2] + 0.0022085332870483],
   ]) {
     const surface = perchSurface(data.patches[index], x, z);
     const ray = new THREE.Raycaster(new THREE.Vector3(x, surface.height + 0.4, z), new THREE.Vector3(0, -1, 0), 0, 1);
@@ -74,9 +79,9 @@ test("stable gull soles fit actual local support for changing arrival headings",
   }
 });
 
-test("gallery rail contact preserves the original perch and intentional toe overhang", () => {
+test("gallery rail contact follows its native relocated support and intentional toe overhang", () => {
   const landing = solvePerchLanding(data, 3, 0.4, 1.1);
-  assert.deepEqual(landing.position.toArray(), [4.2, 3.46, 1.31]);
+  assert.deepEqual(landing.position.toArray(), manifest.retreat.galleryPerch);
   const acting = samplePerchActing(data, landing, landing.position, landing.quaternion, 1);
   for (const [side, gaps] of Object.entries(footGaps(acting, data.patches[3], 1.1))) {
     assert.ok(gaps.length > 0 && gaps.length < data.feet[side].sole.length);

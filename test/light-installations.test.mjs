@@ -82,7 +82,14 @@ test("installations switch at different times of day", () => {
   // Late coding keeps the soffit glowing after its evening window.
   assert.equal(level("soffit", 1 * 60, night, "coding"), 0.35);
   assert.equal(level("pendant", 13 * 60, day, "lunch"), 0.65, "the sheltered dining table has daylight meal task light");
+  const sheltered = { minute: 13 * 60, dark: day, activity: "reading", sheltered: true };
+  assert.ok(SCHEDULES.pendant(sheltered) > 0, "the deeply recessed table remains readable between meals");
+  assert.ok(SCHEDULES.dining(sheltered) > 0);
+  assert.ok(SCHEDULES.soffit(sheltered) > 0, "the rear wall retains its concealed guide wash in daylight");
   assert.equal(level("pendant", 20 * 60, night, "dinner"), 1);
+  assert.equal(level("libraryHearth", 20 * 60, night, "coding"), 0.75);
+  assert.equal(level("libraryHearth", 13 * 60, day, "reading"), 0);
+  assert.equal(SCHEDULES.libraryHearth({ dark: darkness(0.95), visit: "study" }), 0.55);
 });
 
 test("entrance fixtures light only their authored foyer without adding native lights", () => {
@@ -108,13 +115,13 @@ test("entrance fixtures light only their authored foyer without adding native li
   lights.dispose();
 });
 
-const bathroom = (id, floor) => ({
+const bathroom = (id, floor, setback = 0) => ({
   id,
-  lightRegion: { min: [-8.25, floor, 1.85], max: [-4.4, floor + 2.35, 6.1] },
+  lightRegion: { min: [-8.25, floor, 1.85 + setback], max: [-4.4, floor + 2.35, 6.1 + setback] },
   lighting: {
     lines: [
-      { id: "mirror", a: [-8.1, floor + 1.95, 3.1], b: [-8.1, floor + 1.95, 4.2], intensity: 0.55 },
-      { id: "shower", a: [-7.9, floor + 2.2, 2.05], b: [-6.8, floor + 2.2, 2.05], intensity: 0.35 },
+      { id: "mirror", a: [-8.1, floor + 1.95, 3.1 + setback], b: [-8.1, floor + 1.95, 4.2 + setback], intensity: 0.55 },
+      { id: "shower", a: [-7.9, floor + 2.2, 2.05 + setback], b: [-6.8, floor + 2.2, 2.05 + setback], intensity: 0.35 },
     ],
   },
 });
@@ -163,7 +170,8 @@ test("garden fixtures retain direct illumination without empty out-of-cage trans
     assert.ok(!sources.some((source) => source.id === `installation:${fixture.id}`));
     const receiver = fixture.position ? [...fixture.position] : fixture.a.map((value, axis) => (value + fixture.b[axis]) / 2);
     receiver[1] -= 0.15;
-    assert.ok(lights.irradianceAt(v(...receiver), v(0, 1, 0), "exterior").r > 0, fixture.id);
+    const group = manifest.installationReceivers.groups.garden ? "garden" : "exterior";
+    assert.ok(lights.irradianceAt(v(...receiver), v(0, 1, 0), group).r > 0, fixture.id);
   }
   lights.dispose();
 });
@@ -184,9 +192,31 @@ test("Draco-rounded floors retain direct bathroom cove light without lighting th
   lights.dispose();
 });
 
+test("two authored visits to the same tall library share its actual book-wall coves", () => {
+  const room = bathroom("library", 0);
+  room.lighting.visits = ["study", "library"];
+  const lights = createLightInstallations({ rooms: [room] });
+  try {
+    for (const visit of ["study", "library"]) {
+      lights.update({ minute: 920, daylight: 0.95, activity: "work", visit });
+      assert.equal(lights.levels["room:library"], 0.75);
+      assert.ok(lights.irradianceAt(v(-7.3, 1, 3), v(0, 1, 0)).r > 0);
+    }
+    lights.update({ minute: 920, daylight: 0.95, activity: "work", visit: "outside" });
+    assert.equal(lights.levels["room:library"], 0);
+  } finally {
+    lights.dispose();
+  }
+});
+
 test("bathroom mirror and shower lights fit the shader budget and follow each room's own visit", () => {
   const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
-  manifest.rooms = [...manifest.rooms.filter((room) => !room.id.startsWith("bath-")), bathroom("bath-living", 0), bathroom("bath-bedroom", 2.6)];
+  const setback = manifest.retreat?.setbackMetres || 0;
+  manifest.rooms = [
+    ...manifest.rooms.filter((room) => !room.id.startsWith("bath-")),
+    bathroom("bath-living", 0, setback),
+    bathroom("bath-bedroom", 2.6, setback),
+  ];
   const lights = createLightInstallations(manifest);
   assert.equal(lights.lines.filter((line) => line.room?.startsWith("bath-")).length, 4);
   for (const pack of Object.values(lights.evidence().receiverPacks)) assert.ok(pack.lines <= MAX_LINES && pack.points <= MAX_POINTS);
@@ -230,9 +260,9 @@ test("bathroom mirror and shower lights fit the shader budget and follow each ro
     }
   }
   lights.update({ minute: 23 * 60, daylight: 0, activity: "sleep", visit: "bath-bedroom" });
-  assert.equal(lights.levels["room:bath-living"], 0.16);
+  assert.equal(lights.levels["room:bath-living"], 0.26);
   assert.equal(lights.levels["room:bath-bedroom"], 1);
-  assert.equal(fixtures[0].material.emissiveIntensity, 0.32);
+  assert.equal(fixtures[0].material.emissiveIntensity, 0.52);
   assert.equal(fixtures[1].material.emissiveIntensity, 2);
   root.traverse((object) => {
     object.geometry?.dispose();
@@ -395,10 +425,11 @@ test("the dining lantern, the kitchen's downlights and its shelf line follow the
   assert.deepEqual(cone.slice(0, 3), [0, -1, 0]);
   assert.ok(cone[3] > 0.5 && cone[3] < 1);
   assert.equal(coneOf("pendant")[3], 0);
-  // Lunch by day still lights the working kitchen; a sunny afternoon away from the kitchen does not.
+  // Lunch lights the working kitchen; the deeper retreat retains a dim dining pendant between
+  // meals while the unused cooking downlights remain off.
   assert.ok(lights.update({ minute: 14 * 60 + 10, daylight: 0.9, activity: "lunch" }).downlights >= 0.55);
   const afternoon = lights.update({ minute: 16 * 60, daylight: 0.9, activity: "work" });
-  assert.equal(afternoon.pendant, 0);
+  assert.equal(afternoon.pendant, manifest.retreat?.version ? 0.22 : 0);
   assert.equal(afternoon.downlights, 0);
   lights.dispose();
 });

@@ -258,7 +258,11 @@ test("actual animated palm wakes converge across ordinary render cadences", (t) 
       water = createHeightfieldWater({ depth: 0.12747, obstacle: { x: 0, z: -0.1, radius: 0.17 } });
     frame(rig, stroke, 0, 1 / hz);
     for (let i = 1; i <= hz * 7; i++) {
-      const contacts = frame(rig, stroke, i / hz, 1 / hz).map((c) => ({ ...c, x: c.x - 3.17, z: c.z - 3.18 }));
+      const contacts = frame(rig, stroke, i / hz, 1 / hz).map((c) => ({
+        ...c,
+        x: c.x - 3.17,
+        z: c.z - 3.18 - (manifest.retreat?.setbackMetres || 0),
+      }));
       water.advance(1 / hz, { contacts });
     }
     return { hz, water, palm: stroke.evidence().palm };

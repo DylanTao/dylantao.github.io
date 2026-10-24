@@ -1,0 +1,61 @@
+{
+  "anchors": [
+    {
+      "name": "anchor_study",
+      "previousNative": [-10.75999927520752, -4.850000381469727, 0.0],
+      "actor": [-10.76, 0.0, 4.85]
+    },
+    {
+      "name": "anchor_kitchen",
+      "previousNative": [-3.950000047683716, -5.260000228881836, -0.4749999940395355],
+      "actor": [-3.95, -0.475, 5.26]
+    },
+    {
+      "name": "anchor_gym",
+      "previousNative": [7.599999904632568, -6.75, 0.0],
+      "actor": [7.6, 0.0, 6.75]
+    },
+    {
+      "name": "anchor_onsen",
+      "previousNative": [3.1700000762939453, -11.079999923706055, 2.119999885559082],
+      "actor": [3.17, 2.12, 11.08]
+    },
+    {
+      "name": "anchor_lounge",
+      "previousNative": [-0.15000000596046448, -8.609999656677246, -0.4950000047683716],
+      "actor": [-0.15, -0.495, 8.61]
+    },
+    {
+      "name": "anchor_sleep",
+      "previousNative": [-3.0999999046325684, -11.489999771118164, 2.5999999046325684],
+      "actor": [-3.1, 2.6, 11.49]
+    },
+    {
+      "name": "anchor_library",
+      "previousNative": [-10.550000190734863, 0.75, 0.0],
+      "actor": [-10.55, 0, 2.25]
+    },
+    {
+      "name": "anchor_library-upper",
+      "previousNative": [-10.5, -2.3000001907348633, 2.5999999046325684],
+      "actor": [0, 2.6, 11.6]
+    },
+    {
+      "name": "anchor_bath-living",
+      "previousNative": [-5.800000190734863, -12.050000190734863, 0.0],
+      "actor": [-5.8, 0.0, 12.05]
+    },
+    {
+      "name": "anchor_bath-bedroom",
+      "previousNative": [-5.800000190734863, -12.050000190734863, 2.5999999046325684],
+      "actor": [-5.8, 2.6, 12.05]
+    }
+  ],
+  "coastalPerch": {
+    "previous": [-8, 8.8168, 1],
+    "current": [-13.6, 11.7472, 1.0],
+    "support": "core__golden coastal sandstone",
+    "contact": [-13.6, 11.6972, 1.0],
+    "reason": "Original west perch was inside the actual new courtyard excavation"
+  }
+}

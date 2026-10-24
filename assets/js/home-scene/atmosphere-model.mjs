@@ -405,37 +405,8 @@ export function moonPosition(utcMilliseconds, site = { latitude: 32.83, longitud
 }
 
 // ── Weather moods, deterministic from the date ──────────────────────────────────────────────────
-// La Jolla's marine layer: May Gray and June Gloom mornings, with low cloud that burns off by late
-// morning and returns on some evenings; high cloud gives the best sunsets in autumn and winter.
-// The monthly chances are authored to follow that well-known seasonal shape (low cloud most often
-// from May to July, least in winter), not fitted to a station record. Each day draws from a hash of
-// its date, so every visitor and every test sees the same weather on the same day.
-const MARINE_CHANCE = [0.18, 0.2, 0.28, 0.42, 0.62, 0.7, 0.52, 0.4, 0.32, 0.26, 0.18, 0.16];
-const CIRRUS_CHANCE = [0.42, 0.42, 0.38, 0.3, 0.2, 0.14, 0.16, 0.2, 0.26, 0.36, 0.42, 0.44];
-function dateHash(text, salt) {
-  let h = 2166136261 ^ salt;
-  for (let i = 0; i < text.length; i++) h = Math.imul(h ^ text.charCodeAt(i), 16777619);
-  h ^= h >>> 15;
-  h = Math.imul(h, 2246822519);
-  h ^= h >>> 13;
-  return (h >>> 0) / 4294967296;
-}
-export function weatherFor(dateKey) {
-  const month = Math.max(1, Math.min(12, Number(dateKey.slice(5, 7)) || 1)) - 1,
-    marineDraw = dateHash(dateKey, 17),
-    cirrusDraw = dateHash(dateKey, 91),
-    marine = marineDraw < MARINE_CHANCE[month] ? 0.55 + 0.45 * dateHash(dateKey, 5) : 0,
-    cirrus = cirrusDraw < CIRRUS_CHANCE[month] ? 0.35 + 0.65 * dateHash(dateKey, 23) : 0.08 * dateHash(dateKey, 29);
-  return {
-    // How thick the morning marine layer is (0 clear), and whether it returns in the evening.
-    marine,
-    eveningMarine: marine > 0 && dateHash(dateKey, 41) < 0.45,
-    // High cloud cover for the sunset (0 to 1).
-    cirrus,
-    // A fixed drift direction and phase for the day's cloud field.
-    seed: dateHash(dateKey, 7),
-  };
-}
+// Data-backed rain spells and a bounded NWS snapshot; optical scattering stays unchanged.
+export { weatherFor, weatherAt, rainAt, WEATHER_PROVENANCE } from "./coastal-weather.mjs";
 const smooth = (a, b, x) => {
   const t = clamp((x - a) / (b - a), 0, 1);
   return t * t * (3 - 2 * t);

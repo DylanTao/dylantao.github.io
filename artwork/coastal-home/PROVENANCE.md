@@ -1,5 +1,54 @@
 # Coastal home asset provenance
 
+## October 24: house retreat and a more open living prospect
+
+This is the current design/source contract. The [dated house review](../../docs/design-reviews/2026-10-24/HOUSE_REVISION.md) records final native/browser evidence, release custody and remaining limits. The dated October 23
+records below preserve their actual earlier geometry and evidence. Their broad
+piers, two-level library, rear bedroom corridor and upper arrival glass door do
+not override Sirui's subsequent correction.
+
+`bin/coastal_retreat.py` and `refresh_coastal_retreat.py` move the dwelling eight
+meters landward into the cave while preserving the coast and shoreline. The
+lighter terrace/pool should read as borne by rock, with a relaxed clifftop
+hangout and useful lower-living-to-patio circulation. A curved 48-tread main
+descent enters the lower living foyer through an oak proximity door. One bowed
+16-tread internal stair replaces the duplicated straight routes. A discreet
+private spiral approach serves the onsen without the former obstructing glass
+door.
+
+The screen-right cave library becomes one tall room with high bookshelves,
+a rolling ladder that is nonclimbable in Walk, a recessed warm hearth and the
+complete original workstation. Its native workstation translation is
+`[-10.4, 6.7, -2.6]` before the final eight-meter setback. A compact spiral connects the bedroom wing through the retained upper bridge; immediate adjacency remains partial, as recorded in the house review. The former main-house study becomes private chill space. Original desk devices, props, source links and fitted activity
+contacts belong to that assembly, rather than being independently approximated.
+
+`coastal_bathrooms.py` refines the flush stone floors and vanity lighting;
+`coastal_interior_refinement.py` supplies fitted Strelitzia, Asplenium and
+Epipremnum compositions plus the library hearth. The matched pre-setback native
+images and their bounded proof are retained in
+[the interior source review](reviews/interior-refinement-2026-10-24/README.md).
+Living curtains remain parked for the panorama at night and during private
+sleep, with only a small low-sun response. No new texture set, PointLight or
+shadow map is attributed to those decoration changes.
+
+The short-window NWS forecast and NOAA daily precipitation custody, chronological
+validation and seasonal fallback are recorded in
+[the weather source review](weather-2026-10-24/README.md). The fallback is a small
+statistical scene model, not a claim of SOTA forecasting. Outside recorded NWS
+hourly intervals, the runtime identifies seasonal simulation explicitly.
+`coastal-rain.mjs` renders a bounded authored line field in one draw, with no
+extra rendering pass or shadow caster. Pause holds its active-time positions;
+the existing live routine clock may still refresh the weather plan.
+
+The final native refresh must keep one housing frame across geometry, actors,
+anchors, CPU/GPU wind shelter, fixtures, materials, reflections and wildlife
+perches. Manifest world coordinates are transformed once, not again at render
+time. A manifold result alone is insufficient: this revision exposed a foliage
+Boolean that produced an unintended grass sheet. Native/rendered inspection
+and actual bearing/circulation probes remain acceptance gates alongside
+closed-solid checks. No final release SHA or completed browser proof is claimed
+by this source contract.
+
 ## October 23: coastal estate, library and arrival garden
 
 The estate continues the retained Blender source with original geometry in

@@ -304,6 +304,7 @@ vec3 coastWindVelocity(vec3 p, float lag) {
 // sampler and the shared GLSL uniforms then describe the same instant. Samplers allocate nothing
 // when given an output array.
 export function createCoastWind({ minute = 900, seconds = 0, doors = 0 } = {}) {
+  let glassZ = COAST_SHELTER.glassZ;
   const uniforms = {
     coastWindState: { value: new Float32Array(4) },
     coastWindClock: { value: 0 },
@@ -366,7 +367,7 @@ export function createCoastWind({ minute = 900, seconds = 0, doors = 0 } = {}) {
   // Inside the house: the leak through the glass front, which feels each gust when it meets the
   // glass at the same x, plus the six eddy modes at the same share of the breeze.
   function sampleIndoor(x, y, z, t = state.seconds, out = [0, 0, 0]) {
-    const zf = COAST_SHELTER.glassZ,
+    const zf = glassZ,
       share = state.indoorLeak * state.meanSpeed,
       mean = share * coastGustAt(retarded(x, zf, t), across(x, zf)),
       eddy = COAST_SHELTER.eddy * share;
@@ -386,7 +387,7 @@ export function createCoastWind({ minute = 900, seconds = 0, doors = 0 } = {}) {
   // createSteamDensity wind format: a mean vector and an eddy amplitude for the six modes.
   const drift = { mean: [0, 0, 0], gust: 0, rate: 1 };
   function indoorDrift(x, z, shelter = 1, t = state.seconds) {
-    const zf = COAST_SHELTER.glassZ,
+    const zf = glassZ,
       share = shelter * state.indoorLeak * state.meanSpeed,
       mean = share * coastGustAt(retarded(x, zf, t), across(x, zf));
     drift.mean[0] = mean * state.direction[0];
@@ -414,6 +415,14 @@ export function createCoastWind({ minute = 900, seconds = 0, doors = 0 } = {}) {
     uniforms,
     state,
     update,
+    setShelter({ glassZ: next = COAST_SHELTER.glassZ } = {}) {
+      if (!Number.isFinite(next)) throw new TypeError("The facade wind plane must be finite.");
+      glassZ = next;
+      return api;
+    },
+    get shelterGlassZ() {
+      return glassZ;
+    },
     gust,
     sample,
     sampleIndoor,
@@ -436,7 +445,8 @@ export function createCoastWind({ minute = 900, seconds = 0, doors = 0 } = {}) {
         doorsOpen: state.doors,
         indoorLeak: state.indoorLeak,
         gustBase: COAST_GUST_BASE,
-        gust: { sea: at(0, -40), beach: at(0, -14), glass: at(0, COAST_SHELTER.glassZ), bluff: at(0, 14) },
+        shelterGlassZ: glassZ,
+        gust: { sea: at(0, -40), beach: at(0, -14), glass: at(0, glassZ), bluff: at(0, 14) },
       };
     },
   };

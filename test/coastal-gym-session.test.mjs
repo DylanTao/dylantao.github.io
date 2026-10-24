@@ -4,7 +4,7 @@ import fs from "node:fs";
 import { trainingAt, sessionState, LIFT_STATION } from "../assets/js/home-scene/training.mjs";
 import { sessionPose, gymLayout, planRoute } from "../assets/js/home-scene/gym-session.mjs";
 
-const config = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+const config = JSON.parse(fs.readFileSync(process.env.COASTAL_MANIFEST_PATH || new URL("../assets/models/home/manifest.json", import.meta.url)));
 const gym = config.equipment.gym;
 const layout = gymLayout(gym);
 // A squat day, a bench and press day with curls, a Saturday deadlift day.
@@ -25,6 +25,73 @@ const each = (callback, step = 0.25) => {
 const deep = (p, [x0, x1, z0, z1]) => p[0] > x0 + 0.05 && p[0] < x1 - 0.05 && p[2] > z0 + 0.05 && p[2] < z1 - 0.05;
 // Staged entries: off the platform behind its bar, out of the cage after racking, onto the bench.
 const staged = (pose) => /step out|walk to|back to the bar|to the bar|walk to rest|then on/.test(pose.phase);
+
+test("the whole gym choreography translates once with its source origin and equipment", () => {
+  const delta = [1.25, 0, 3.4];
+  const move = (value) => {
+    if (Array.isArray(value)) {
+      if (value.length === 3 && value.every(Number.isFinite)) return value.map((n, i) => n + delta[i]);
+      return value.map(move);
+    }
+    return value && typeof value === "object" ? Object.fromEntries(Object.entries(value).map(([key, entry]) => [key, move(entry)])) : value;
+  };
+  const shifted = move(gym);
+  shifted.choreographyOrigin = (gym.choreographyOrigin || [0, 0, 0]).map((n, i) => n + delta[i]);
+  for (const [axis, amount] of [
+    ["x", delta[0]],
+    ["z", delta[2]],
+  ])
+    shifted.rack.posts[axis] = gym.rack.posts[axis].map((n) => n + amount);
+  const actual = gymLayout(shifted),
+    equal = (a, b) => a.forEach((value, i) => assert.ok(Math.abs(value - b[i]) < 1e-9));
+  for (const [id, spot] of Object.entries(layout.spots)) {
+    equal(
+      actual.spots[id].at,
+      spot.at.map((n, i) => n + delta[i])
+    );
+    assert.equal(actual.spots[id].facing, spot.facing, `${id}: a translation cannot rotate the body`);
+  }
+  layout.waypoints.forEach((point, i) =>
+    equal(
+      actual.waypoints[i],
+      point.map((n, axis) => n + delta[axis])
+    )
+  );
+  layout.approaches.forEach((entry, i) =>
+    equal(
+      actual.approaches[i].via,
+      entry.via.map((n, axis) => n + delta[axis])
+    )
+  );
+  layout.obstacles.forEach((box, i) =>
+    equal(
+      actual.obstacles[i],
+      box.map((n, axis) => n + delta[axis < 2 ? 0 : 2])
+    )
+  );
+  equal(
+    actual.panGrip,
+    layout.panGrip.map((n, axis) => n + delta[axis])
+  );
+  for (const [day, minute] of sessions) {
+    const info = trainingAt(config.training, day, minute);
+    for (let seconds = 0; seconds < info.timeline.duration; seconds += 17) {
+      const state = sessionState(info.timeline, seconds),
+        before = sessionPose({ ...info, state }, gym),
+        after = sessionPose({ ...info, state }, shifted);
+      equal(
+        after.position,
+        before.position.map((n, axis) => n + delta[axis])
+      );
+      assert.ok(Math.abs(after.facing - before.facing) < 1e-9);
+      if (Array.isArray(before.lift?.ctx.grip))
+        equal(
+          after.lift.ctx.grip,
+          before.lift.ctx.grip.map((n, axis) => n + delta[axis])
+        );
+    }
+  }
+});
 
 test("walks take routes around the rack, the bars, the bench and the dip frame at walking pace", () => {
   let previous = null,

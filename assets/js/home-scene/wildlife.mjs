@@ -700,7 +700,7 @@ export function createWildlife(parent, config) {
   }
   function poseBalcony(t) {
     const pose = balconyGullActing(t);
-    balcony.group.position.set(4.2, 3.46, 1.31);
+    balcony.group.position.fromArray(config.retreat?.galleryPerch || [4.2, 3.46, 1.31]);
     balcony.group.rotation.set(0, 0.4, 0);
     balcony.group.userData.state = pose.state === "perch" ? "perch" : pose.state;
     balcony.pose = pose;

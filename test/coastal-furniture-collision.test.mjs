@@ -135,9 +135,10 @@ test("delivered placeholders supply identical collision before index arrival and
   roots.get("kitchen").visible = true;
 
   // Walk the delivered kitchen proxies, rather than replacing chairs with full-height boxes.
-  const field = createWalkField({ min: [-5, -1, 1], max: [0, 4, 5] }),
+  const setback = manifest.retreat?.setbackMetres || 0;
+  const field = createWalkField({ min: [-5, -1, 1 + setback], max: [0, 4, 5 + setback] }),
     floor = new THREE.Mesh(new THREE.BoxGeometry(5, 0.1, 4));
-  floor.position.set(-2.5, -0.05, 3);
+  floor.position.set(-2.5, -0.05, 3 + setback);
   world.add(floor);
   world.updateMatrixWorld(true);
   for (const mesh of [floor, ...beforeWalk.filter((o) => roots.get("kitchen").getObjectById(o.id))]) {
@@ -147,10 +148,10 @@ test("delivered placeholders supply identical collision before index arrival and
       matrix: mesh.matrixWorld.elements,
     });
   }
-  assert.ok(Number.isNaN(field.standAt(-1.85, 3.05, 0)), "the real dining tabletop blocks passage");
-  const seat = field.standAt(-2.6, 3.82, 0);
+  assert.ok(Number.isNaN(field.standAt(-1.85, 3.05 + setback, 0)), "the real dining tabletop blocks passage");
+  const seat = field.standAt(-2.6, 3.82 + setback, 0);
   assert.ok(seat > 0.43 && seat < 0.47, `the authored chair seat stays accessible at ${seat}`);
-  const aisle = field.move(-3.6, 4.6, 0, 3.2, 0);
+  const aisle = field.move(-3.6, 4.6 + setback, 0, 3.2, 0);
   assert.ok(!aisle.blocked && aisle.x > -0.41, "the capsule can pass close behind the chairs");
   furniture.dispose();
 });

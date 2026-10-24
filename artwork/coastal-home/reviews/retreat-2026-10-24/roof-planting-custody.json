@@ -1,0 +1,38 @@
+[
+  {
+    "source": ".jekyll-cache/retreat/pre-roof-plants.blend",
+    "vertices": 5922,
+    "triangles": 6768,
+    "positionsSha256": "2f5adff777ab8bd4b02e0be29134455709f456d10c4b85dc0a15b56bae72f080",
+    "nodes": [
+      {
+        "name": "core__blue sage agave leaf",
+        "colors": ["Baked contact and bounce"]
+      }
+    ]
+  },
+  {
+    "source": "artwork/coastal-home/coastal-home.blend",
+    "vertices": 5922,
+    "triangles": 6768,
+    "positionsSha256": "2f5adff777ab8bd4b02e0be29134455709f456d10c4b85dc0a15b56bae72f080",
+    "nodes": [
+      {
+        "name": "core__blue sage agave leaf",
+        "colors": ["Baked contact and bounce"]
+      },
+      {
+        "name": "core_retreat_roof_planting__core_estate_library_liftaway_roof",
+        "colors": ["Baked contact and bounce"]
+      },
+      {
+        "name": "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
+        "colors": ["Baked contact and bounce"]
+      },
+      {
+        "name": "core_retreat_roof_planting__core_retreat_liftaway_roof",
+        "colors": ["Baked contact and bounce"]
+      }
+    ]
+  }
+]

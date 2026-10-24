@@ -1,0 +1,673 @@
+{
+  "schemaVersion": 1,
+  "archiveStatus": "final-local-evidence-complete; CI/deployment pending coordinator",
+  "workingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3",
+  "workingTreeParentMeaning": "Parent commit recorded during dirty working-tree captures; NOT the final release SHA. Actual response hashes and raw/canonical-LF hashes bind each snapshot.",
+  "publication": {
+    "finalSourceCommit": null,
+    "ci": "pending coordinator receipt",
+    "deployment": "pending coordinator receipt"
+  },
+  "sourceBindingsAtArchive": [
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "rawSha256": "c1fced7e108395b64ca7c8ad96e9a275d131b47115d4cbaf334da48701940027",
+      "rawBytes": 23217833
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "rawSha256": "209d5a926f53105fe27c7782f080557a9a72898e11fb460e124cad955f9f5039",
+      "rawBytes": 867300
+    },
+    {
+      "path": "assets/models/home/coast.glb",
+      "rawSha256": "63847dcbb720d92cc538badf0f029b36f8efbf91c30d637e360b3126696522f6",
+      "rawBytes": 184500
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "rawSha256": "315c5a55be7e5facbd371f9f48f55716947fbcf4bcab56088183ddfb7b932e24",
+      "rawBytes": 304910,
+      "canonicalLfSha256": "315c5a55be7e5facbd371f9f48f55716947fbcf4bcab56088183ddfb7b932e24"
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "rawSha256": "730bb556a65bf1950e6d90220f850dd8af47084e55328fcec18e2b1ac3db13e3",
+      "rawBytes": 681032,
+      "canonicalLfSha256": "730bb556a65bf1950e6d90220f850dd8af47084e55328fcec18e2b1ac3db13e3"
+    },
+    {
+      "path": "assets/models/home/loading-sketch.json",
+      "rawSha256": "f822a3fa5b23d35ffcaa69bdf9617a9bf0e9531a2d72c67f8c3ffe058470ce96",
+      "rawBytes": 68987,
+      "canonicalLfSha256": "f822a3fa5b23d35ffcaa69bdf9617a9bf0e9531a2d72c67f8c3ffe058470ce96"
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "rawSha256": "c25166505a7a400f548a4323a11a150aa0e83300fe669468ac9489018b4de16d",
+      "rawBytes": 174659,
+      "canonicalLfSha256": "c25166505a7a400f548a4323a11a150aa0e83300fe669468ac9489018b4de16d"
+    },
+    {
+      "path": "assets/js/home-scene/coastal-weather.mjs",
+      "rawSha256": "4de5e53bfd6056c5d83cfb7898434c6722a43af3b45fdc4607d8b52ae5374f94",
+      "rawBytes": 6859,
+      "canonicalLfSha256": "a4637cacfccaa231f63ec52d722ec6fb31e531755dfbd3756a1d5a61cf96b6df"
+    },
+    {
+      "path": "assets/js/home-scene/weather-data.mjs",
+      "rawSha256": "e7adb9a301b9bc043277002840efaeca693d795cfc7ff260b7d85d130dc455bf",
+      "rawBytes": 13260,
+      "canonicalLfSha256": "457e7c12fc88ae8dc682d649be0679304bb628dd2860e75039eabfe68a269042"
+    },
+    {
+      "path": "bin/capture_coastal_interior.cjs",
+      "rawSha256": "1ae07bb90d1bb0c4754f3273a72d40c4b2ad23733087478dd567ed0ce00a1291",
+      "rawBytes": 15385,
+      "canonicalLfSha256": "1ae07bb90d1bb0c4754f3273a72d40c4b2ad23733087478dd567ed0ce00a1291"
+    },
+    {
+      "path": "bin/capture_coastal_retreat_checkpoint.cjs",
+      "rawSha256": "c1bb5f107c60013c4751442d1de8fad9ca19610b8acf12bcbdb74fff820abf6f",
+      "rawBytes": 16703,
+      "canonicalLfSha256": "c1bb5f107c60013c4751442d1de8fad9ca19610b8acf12bcbdb74fff820abf6f"
+    },
+    {
+      "path": "bin/verify_coastal_routes.cjs",
+      "rawSha256": "961b19557d6c9267a9f9968cd0d584be012adbf0f7f2bb1a948c1d701d58d826",
+      "rawBytes": 31702,
+      "canonicalLfSha256": "c2cf982682b1db35d48b93aa32925b898042f593487e0155185bd52169232f73"
+    },
+    {
+      "path": "bin/verify_coastal_retreat_interactions.cjs",
+      "rawSha256": "4889cab85397fb89473077a584736ef0abb94eae8055d49e71a7c7878a98e8b6",
+      "rawBytes": 28442,
+      "canonicalLfSha256": "e4556ff0af85d206b8e247f0bc03736207eb8886cbd21aa22b6bf72adef6466e"
+    }
+  ],
+  "comparisonPairs": [
+    {
+      "shot": "overview",
+      "beforeImage": "before/overview-clear.png",
+      "afterImage": "matched-final-clear/overview.png",
+      "fixedPacificTime": "2026-10-02T13:20:00-07:00",
+      "weatherOverride": "clear",
+      "beforeCamera": [-2.6526305129957004, 9.362109844940399, -16.4053278528639],
+      "afterCamera": [-2.6526305129957004, 9.362109844940399, -8.405327852863898],
+      "beforeTarget": [0, 1.65, 0.2],
+      "afterTarget": [0, 1.65, 8.2],
+      "beforeCanvas": [1440, 1000],
+      "afterCanvas": [1440, 1000],
+      "cameraDelta": [0.0, 0.0, 8.0],
+      "limitation": "Matched authored shot/time/clear mood; cameras follow changed room/outside framing, not identical world coordinates."
+    },
+    {
+      "shot": "infinity-pool",
+      "beforeImage": "before/infinity-pool-clear.png",
+      "afterImage": "matched-final-clear/infinity-pool.png",
+      "fixedPacificTime": "2026-10-02T13:20:00-07:00",
+      "weatherOverride": "clear",
+      "beforeCamera": [4.3865624277928825, 3.1100559096235294, -4.82],
+      "afterCamera": [4.3865624277928825, 3.1100559096235294, 3.18],
+      "beforeTarget": [-0.95, -0.2, -8.7],
+      "afterTarget": [-0.95, -0.2, -0.6999999999999993],
+      "beforeCanvas": [1440, 1000],
+      "afterCanvas": [1440, 1000],
+      "cameraDelta": [0.0, 0.0, 8.0],
+      "limitation": "Matched authored shot/time/clear mood; cameras follow changed room/outside framing, not identical world coordinates."
+    },
+    {
+      "shot": "outside-night",
+      "beforeImage": "before/outside-night-clear.png",
+      "afterImage": "matched-final-clear/outside-night.png",
+      "fixedPacificTime": "2026-10-02T21:30:00-07:00",
+      "weatherOverride": "clear",
+      "beforeCamera": [-11.856905727089124, 17.157540734318175, -48.21360126633206],
+      "afterCamera": [-11.856905727089124, 17.157540734318175, -44.61360126633206],
+      "beforeTarget": [3, -0.2, -6],
+      "afterTarget": [3, -0.2, -2.4],
+      "beforeCanvas": [1440, 1000],
+      "afterCanvas": [1440, 1000],
+      "cameraDelta": [0.0, 0.0, 3.6000000000000014],
+      "limitation": "Matched authored shot/time/clear mood; cameras follow changed room/outside framing, not identical world coordinates."
+    }
+  ],
+  "entries": [
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-revision-20261024/before-clear/overview-fullscreen.png",
+      "rawSha256": "1a94e0ee2f52e202721381e013bdbf7b9400d8ed66d2ee47e197803899e9a2f5",
+      "rawBytes": 1358434,
+      "archivePath": "before/overview-clear.png",
+      "archiveSha256": "1a94e0ee2f52e202721381e013bdbf7b9400d8ed66d2ee47e197803899e9a2f5",
+      "archiveBytes": 1358434,
+      "compression": "none; exact bytes",
+      "stage": "baseline-e065-clear",
+      "outcome": "reference",
+      "limitations": ["Source-overlay inspection still; housing-relative cameras differ from final world coordinates."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-revision-20261024/before-clear/infinity-pool-fullscreen.png",
+      "rawSha256": "3e8662942f135097a8d2747e5484d1d61f6319c1d002a66955c3f4366d25a986",
+      "rawBytes": 1010255,
+      "archivePath": "before/infinity-pool-clear.png",
+      "archiveSha256": "3e8662942f135097a8d2747e5484d1d61f6319c1d002a66955c3f4366d25a986",
+      "archiveBytes": 1010255,
+      "compression": "none; exact bytes",
+      "stage": "baseline-e065-clear",
+      "outcome": "reference",
+      "limitations": ["Source-overlay inspection still; housing-relative cameras differ from final world coordinates."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-revision-20261024/before-clear/outside-night-fullscreen.png",
+      "rawSha256": "497812154840d135a5b8b102df6d34896cf21847de52a010b65b6b16c23d48cc",
+      "rawBytes": 813521,
+      "archivePath": "before/outside-night-clear.png",
+      "archiveSha256": "497812154840d135a5b8b102df6d34896cf21847de52a010b65b6b16c23d48cc",
+      "archiveBytes": 813521,
+      "compression": "none; exact bytes",
+      "stage": "baseline-e065-clear",
+      "outcome": "reference",
+      "limitations": ["Source-overlay inspection still; housing-relative cameras differ from final world coordinates."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-revision-20261024/before/study-fullscreen.png",
+      "rawSha256": "71f5a2ad044cd5c0fe3a8cc2d6c8bd50a7242bb2ad6c1561e3371ae263d39b50",
+      "rawBytes": 1150520,
+      "archivePath": "before/study-earlier.png",
+      "archiveSha256": "71f5a2ad044cd5c0fe3a8cc2d6c8bd50a7242bb2ad6c1561e3371ae263d39b50",
+      "archiveBytes": 1150520,
+      "compression": "none; exact bytes",
+      "stage": "baseline-e065-study",
+      "outcome": "reference",
+      "limitations": ["Context only: relocated study and revised camera are not a pixel-registered A/B."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-clifftop-framing/1440x1000-entrance-garden-day.png",
+      "rawSha256": "c432bf30ecfb0b9dfc9b56ad98836512564d207ce87fdc97e5b1508bb2c42050",
+      "rawBytes": 1306870,
+      "archivePath": "before/clifftop-before-grounding.png",
+      "archiveSha256": "c432bf30ecfb0b9dfc9b56ad98836512564d207ce87fdc97e5b1508bb2c42050",
+      "archiveBytes": 1306870,
+      "compression": "none; exact bytes",
+      "stage": "pre-grounding-clifftop",
+      "outcome": "historical-reference",
+      "limitations": ["Shows the subsequently repaired agave root gap; not a current defect."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/1280x800-overview-day.png",
+      "rawSha256": "289a24ec45be5cf0cd8636721af41f6c7886f7a057c05f632d1cf5d8906113ee",
+      "rawBytes": 980832,
+      "archivePath": "final/1280x800-overview-day.png",
+      "archiveSha256": "289a24ec45be5cf0cd8636721af41f6c7886f7a057c05f632d1cf5d8906113ee",
+      "archiveBytes": 980832,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/1440x1000-bath-bedroom-day.png",
+      "rawSha256": "a4ef5a2ed21f696e0a467a806b4ad3c15761a889f7c5000b402335656e1ff00e",
+      "rawBytes": 551420,
+      "archivePath": "final/1440x1000-bath-bedroom-day.png",
+      "archiveSha256": "a4ef5a2ed21f696e0a467a806b4ad3c15761a889f7c5000b402335656e1ff00e",
+      "archiveBytes": 551420,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/1440x1000-bath-bedroom-night.png",
+      "rawSha256": "31b438a83b2a364590daf15eb0c004f7323cc2da2ac4cbe9d32e088167f0cac5",
+      "rawBytes": 568359,
+      "archivePath": "final/1440x1000-bath-bedroom-night.png",
+      "archiveSha256": "31b438a83b2a364590daf15eb0c004f7323cc2da2ac4cbe9d32e088167f0cac5",
+      "archiveBytes": 568359,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/1440x1000-bath-living-day.png",
+      "rawSha256": "9b0e719abbe55714cad7555c7caca645f6bbfefe3a7ae4f46d89f6d81d4dc01c",
+      "rawBytes": 595577,
+      "archivePath": "final/1440x1000-bath-living-day.png",
+      "archiveSha256": "9b0e719abbe55714cad7555c7caca645f6bbfefe3a7ae4f46d89f6d81d4dc01c",
+      "archiveBytes": 595577,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/1440x1000-bath-living-night.png",
+      "rawSha256": "7d4491c73e1d41567825ec047faf381799107d237591ff9ac0110054276f353d",
+      "rawBytes": 609656,
+      "archivePath": "final/1440x1000-bath-living-night.png",
+      "archiveSha256": "7d4491c73e1d41567825ec047faf381799107d237591ff9ac0110054276f353d",
+      "archiveBytes": 609656,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/1440x1000-entrance-garden-day.png",
+      "rawSha256": "d10b243cf6e34e3882d555b9ff0cf52f667a0f3ca593a58cb6877690668bd455",
+      "rawBytes": 1309750,
+      "archivePath": "final/1440x1000-entrance-garden-day.png",
+      "archiveSha256": "d10b243cf6e34e3882d555b9ff0cf52f667a0f3ca593a58cb6877690668bd455",
+      "archiveBytes": 1309750,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/1440x1000-outside-night.png",
+      "rawSha256": "ba3d7b6c3c7a470bc7a03543300487a3c53ae2b8c20046a58b3e5920b2634244",
+      "rawBytes": 1177064,
+      "archivePath": "final/1440x1000-outside-night.png",
+      "archiveSha256": "ba3d7b6c3c7a470bc7a03543300487a3c53ae2b8c20046a58b3e5920b2634244",
+      "archiveBytes": 1177064,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/1440x1000-overview-day.png",
+      "rawSha256": "0b1e156400f20df6bb048523c06b014ec7bac7c9f3015fa6ffb3ef95a452a20d",
+      "rawBytes": 1293725,
+      "archivePath": "final/1440x1000-overview-day.png",
+      "archiveSha256": "0b1e156400f20df6bb048523c06b014ec7bac7c9f3015fa6ffb3ef95a452a20d",
+      "archiveBytes": 1293725,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/1440x1000-pool-day.png",
+      "rawSha256": "2573241d5cf58332986b1a274565fbee07716fca0c610349777fea8274579104",
+      "rawBytes": 1088840,
+      "archivePath": "final/1440x1000-pool-day.png",
+      "archiveSha256": "2573241d5cf58332986b1a274565fbee07716fca0c610349777fea8274579104",
+      "archiveBytes": 1088840,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/1440x1000-study-day.png",
+      "rawSha256": "77dab970ac139d36eb8a5c61adb3e5b173603cd24645ef460a0d5f815f59bc3f",
+      "rawBytes": 942886,
+      "archivePath": "final/1440x1000-study-day.png",
+      "archiveSha256": "77dab970ac139d36eb8a5c61adb3e5b173603cd24645ef460a0d5f815f59bc3f",
+      "archiveBytes": 942886,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/390x1000-bath-bedroom-night.png",
+      "rawSha256": "6a40320232eba9de329ca31d13c813210625e9c1b9529b61c59b85282379a753",
+      "rawBytes": 171295,
+      "archivePath": "final/390x1000-bath-bedroom-night.png",
+      "archiveSha256": "6a40320232eba9de329ca31d13c813210625e9c1b9529b61c59b85282379a753",
+      "archiveBytes": 171295,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/390x1000-bath-living-night.png",
+      "rawSha256": "cd3ccf01c0dbe561774529bf90e6941e6e3eaa73f92641acb76c0aee7d66c9dd",
+      "rawBytes": 181279,
+      "archivePath": "final/390x1000-bath-living-night.png",
+      "archiveSha256": "cd3ccf01c0dbe561774529bf90e6941e6e3eaa73f92641acb76c0aee7d66c9dd",
+      "archiveBytes": 181279,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/390x1000-outside-night.png",
+      "rawSha256": "72027a2c7c9749bcc0857dbafc8724df1c2d23a363c140269b99b5a206fe6191",
+      "rawBytes": 268296,
+      "archivePath": "final/390x1000-outside-night.png",
+      "archiveSha256": "72027a2c7c9749bcc0857dbafc8724df1c2d23a363c140269b99b5a206fe6191",
+      "archiveBytes": 268296,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/390x1000-overview-day.png",
+      "rawSha256": "2eca188e28e836a4c3b2b5c93f4f075a9bcfcd13bb4b5f5a6de5485ff35d6cc1",
+      "rawBytes": 355828,
+      "archivePath": "final/390x1000-overview-day.png",
+      "archiveSha256": "2eca188e28e836a4c3b2b5c93f4f075a9bcfcd13bb4b5f5a6de5485ff35d6cc1",
+      "archiveBytes": 355828,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/390x1000-study-day.png",
+      "rawSha256": "4351eceae6fd2e551c30fea23b1624034a6df4de3d4dd4943a0d0e70ade52c7b",
+      "rawBytes": 367603,
+      "archivePath": "final/390x1000-study-day.png",
+      "archiveSha256": "4351eceae6fd2e551c30fea23b1624034a6df4de3d4dd4943a0d0e70ade52c7b",
+      "archiveBytes": 367603,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/768x1024-overview-day.png",
+      "rawSha256": "617224b37d4ff590ef3166bb0c1390384d310fc7fbac9fc3e090ab0f7d2e6708",
+      "rawBytes": 799268,
+      "archivePath": "final/768x1024-overview-day.png",
+      "archiveSha256": "617224b37d4ff590ef3166bb0c1390384d310fc7fbac9fc3e090ab0f7d2e6708",
+      "archiveBytes": 799268,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-local",
+      "outcome": "accepted-local",
+      "limitations": ["Reduced-motion diagnostic framing; not route or physical-phone performance proof."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-revision-20261024/grounded-final-clear/overview-fullscreen.png",
+      "rawSha256": "736eacab126a838aafc31b612a385aa464db65f8ae5375fe50227d6c68ac361f",
+      "rawBytes": 1279888,
+      "archivePath": "matched-final-clear/overview.png",
+      "archiveSha256": "736eacab126a838aafc31b612a385aa464db65f8ae5375fe50227d6c68ac361f",
+      "archiveBytes": 1279888,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-clear-comparison",
+      "outcome": "completed-local",
+      "limitations": ["Working-tree source-overlay inspection; compare recorded cameras and time, not pixel registration."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-revision-20261024/grounded-final-clear/infinity-pool-fullscreen.png",
+      "rawSha256": "dc740e7e1674e6daa77cb571ed31033ef9551e2d083522a9944824db230cf7b6",
+      "rawBytes": 943983,
+      "archivePath": "matched-final-clear/infinity-pool.png",
+      "archiveSha256": "dc740e7e1674e6daa77cb571ed31033ef9551e2d083522a9944824db230cf7b6",
+      "archiveBytes": 943983,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-clear-comparison",
+      "outcome": "completed-local",
+      "limitations": ["Working-tree source-overlay inspection; compare recorded cameras and time, not pixel registration."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-revision-20261024/grounded-final-clear/outside-night-fullscreen.png",
+      "rawSha256": "811fe939df323605bfd04e2ec74969505d3994a7a63bf8d15cf4182aa4f742fa",
+      "rawBytes": 858275,
+      "archivePath": "matched-final-clear/outside-night.png",
+      "archiveSha256": "811fe939df323605bfd04e2ec74969505d3994a7a63bf8d15cf4182aa4f742fa",
+      "archiveBytes": 858275,
+      "compression": "none; exact bytes",
+      "stage": "final-grounded-clear-comparison",
+      "outcome": "completed-local",
+      "limitations": ["Working-tree source-overlay inspection; compare recorded cameras and time, not pixel registration."]
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-revision-20261024/before-clear/captures.json",
+      "rawSha256": "6eb4af6ab23639ddae4e18d87447c3e1b01279a7e89e49045483e5b6b2da7f9b",
+      "rawBytes": 25429,
+      "archivePath": "reports/before-clear-captures.json.gz",
+      "archiveSha256": "ed9327fafed5c0507ace3abffe449607c3b1e386d8daf2dce3476371372576d3",
+      "archiveBytes": 2727,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "baseline-e065-clear",
+      "outcome": "reference",
+      "limitations": ["Raw report unchanged; original machine-local paths are provenance, not portable links."],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3"
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-revision-20261024/before/captures.json",
+      "rawSha256": "45e48613ae92790ad7e7aff3860159a4c8adaa66721bded79809edb10791ec47",
+      "rawBytes": 7217,
+      "archivePath": "reports/before-study-captures.json.gz",
+      "archiveSha256": "dd78964f1cca43b7ff1189b95543cdf8cf014d6027fb820b17d7a7b10df9ac41",
+      "archiveBytes": 1077,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "baseline-e065-study",
+      "outcome": "reference",
+      "limitations": ["Raw report unchanged; original machine-local paths are provenance, not portable links."],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3"
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-clifftop-framing/report.json",
+      "rawSha256": "54dda9e6d109b986f91b7351d95b02b9de0a328c610da4916f99325a32f475d8",
+      "rawBytes": 241206,
+      "archivePath": "reports/clifftop-before-grounding.json.gz",
+      "archiveSha256": "7ac0d0307958b82479572b2823b0b9042a037c1ed4763413d708de5c8dfd8d9d",
+      "archiveBytes": 36747,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "pre-grounding-clifftop",
+      "outcome": "historical-reference",
+      "limitations": ["Raw report unchanged; original machine-local paths are provenance, not portable links."],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3",
+      "recordedPassed": true
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-checkpoint/report.json",
+      "rawSha256": "6847d0cd972e7bd41aed6603ff8414102c3b9d931347f5c56d891ce57b6ae6f6",
+      "rawBytes": 3139429,
+      "archivePath": "reports/final-grounded-checkpoint.json.gz",
+      "archiveSha256": "5cfa1b433e4ac090d9e220676f2b393ff5c42d33e8750b0bf5d02a70e6748ca0",
+      "archiveBytes": 424436,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "final-grounded-local",
+      "outcome": "passed",
+      "limitations": ["Raw report unchanged; original machine-local paths are provenance, not portable links."],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3",
+      "recordedPassed": true
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-revision-20261024/grounded-final-clear/captures.json",
+      "rawSha256": "e5c00d81fb9ef5a9c19f030f1da62fbf1fda66787cf4c7e0089faeac1c0ff05a",
+      "rawBytes": 108469,
+      "archivePath": "reports/final-grounded-clear-captures.json.gz",
+      "archiveSha256": "a4db4d7c6a369b46a7b5f1c6bbb9bda13dcf01cb93ebf1f735399f7ac772a7a0",
+      "archiveBytes": 18789,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "final-grounded-clear-comparison",
+      "outcome": "completed-local",
+      "limitations": ["Raw report unchanged; original machine-local paths are provenance, not portable links."],
+      "recordedWorkingTreeParent": null
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-grounded-routes/report.json",
+      "rawSha256": "6b88e998a8809d42524ba33da0ce0e0574022d3aa54c335f6859d1ec3f69d29a",
+      "rawBytes": 5508445,
+      "archivePath": "reports/final-grounded-public-routes.json.gz",
+      "archiveSha256": "f8943fdfeaf016a3559947dbd9f72286b50ced4e4cd5316f1444742ef59285df",
+      "archiveBytes": 379056,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "final-grounded-public-routes",
+      "outcome": "passed",
+      "limitations": ["Raw report unchanged; original machine-local paths are provenance, not portable links."],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3",
+      "recordedPassed": true
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-private-routes/report.json",
+      "rawSha256": "7668342eeda07b3e05cd6621e2e74b16385300bd458f19e0521aeb0bdfecb3a2",
+      "rawBytes": 1733442,
+      "archivePath": "reports/private-routes.json.gz",
+      "archiveSha256": "46171cd3cf41be17ec65e06394c8b06c6d08e61e255c40bd50ed12d5eca17c99",
+      "archiveBytes": 120765,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "pre-grounding-runtime-private-routes",
+      "outcome": "passed-earlier-asset-snapshot",
+      "limitations": [
+        "Raw report unchanged; original machine-local paths are provenance, not portable links.",
+        "Predates final agave grounding; retains its own recorded asset hashes, not a fresh final-asset assertion."
+      ],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3",
+      "recordedPassed": true
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-ladder-ui/report.json",
+      "rawSha256": "59573b37842051e7dbe69c75837905b618fd28e10247061bcce86e668b051519",
+      "rawBytes": 124161,
+      "archivePath": "reports/desktop-ladder.json.gz",
+      "archiveSha256": "13f0e37f016aa6883e41ed64a39c359f429e82525995a44b5e130d4dcabd136d",
+      "archiveBytes": 16094,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "pre-grounding-runtime-ladder",
+      "outcome": "passed-earlier-asset-snapshot",
+      "limitations": [
+        "Raw report unchanged; original machine-local paths are provenance, not portable links.",
+        "Predates final agave grounding; retains its own recorded asset hashes, not a fresh final-asset assertion."
+      ],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3",
+      "recordedPassed": true
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-weather-production/report.json",
+      "rawSha256": "e24a38b58f31cc52e1b2d8513ff2573f0bf0cee320c0679d74a25e4995d67316",
+      "rawBytes": 163734,
+      "archivePath": "reports/desktop-weather.json.gz",
+      "archiveSha256": "cde46a87399d448da7fe47c730adb73dbe2e18ec54d7a942d4b3eca06d79b2cd",
+      "archiveBytes": 28955,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "pre-grounding-runtime-weather",
+      "outcome": "passed-earlier-asset-snapshot",
+      "limitations": [
+        "Raw report unchanged; original machine-local paths are provenance, not portable links.",
+        "Predates final agave grounding; retains its own recorded asset hashes, not a fresh final-asset assertion."
+      ],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3",
+      "recordedPassed": true
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-mobile-clear-isolated/report.json",
+      "rawSha256": "d9e1e7626f4c4309dce643f21252a27bd8dc5e5d31b1ee0f91e7fcb05c683c86",
+      "rawBytes": 89489,
+      "archivePath": "reports/mobile-clear-isolated.json.gz",
+      "archiveSha256": "b792de0bb5ce1aed4339e51a62c1dc38c4cd6f02d6a765fb0ba0d84190ebebd3",
+      "archiveBytes": 15460,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "pre-grounding-runtime-isolated-mobile",
+      "outcome": "passed-earlier-asset-snapshot",
+      "limitations": [
+        "Raw report unchanged; original machine-local paths are provenance, not portable links.",
+        "Predates final agave grounding; retains its own recorded asset hashes, not a fresh final-asset assertion."
+      ],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3",
+      "recordedPassed": true
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-mobile-rain-isolated/report.json",
+      "rawSha256": "384fa8c6b547c37f3b424e43c7ca3219f262d0a8fee7c9dcfd681564af83fa69",
+      "rawBytes": 85242,
+      "archivePath": "reports/mobile-rain-isolated.json.gz",
+      "archiveSha256": "ae9c031cd9e4a5ef48e4e530e565eb3d4e8312287e5dcab03cb968ceedfc7fbb",
+      "archiveBytes": 15121,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "pre-grounding-runtime-isolated-mobile",
+      "outcome": "passed-earlier-asset-snapshot",
+      "limitations": [
+        "Raw report unchanged; original machine-local paths are provenance, not portable links.",
+        "Predates final agave grounding; retains its own recorded asset hashes, not a fresh final-asset assertion."
+      ],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3",
+      "recordedPassed": true
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/visual-qa/estate-mobile-production/report.json",
+      "rawSha256": "76bb54fd65325f7a460da56dbef04da28448bc8dee5e3df0e0cb080edf254141",
+      "rawBytes": 284455,
+      "archivePath": "reports/mobile-mixed-FAILED.json.gz",
+      "archiveSha256": "38f2243bde37ee949df3effd5afdd6c9db6db0bd2b710dc06faee633af1b8d0c",
+      "archiveBytes": 44971,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "historical-mixed-mobile-diagnostic",
+      "outcome": "FAILED-retained",
+      "limitations": [
+        "Raw report unchanged; original machine-local paths are provenance, not portable links.",
+        "Rain resume timed out in the mixed session; isolated passes do not erase or explain this historical failure."
+      ],
+      "recordedWorkingTreeParent": "e0658c636aef561a3397de3e94c12f81266c56a3",
+      "recordedPassed": false
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/estate-release-node.log",
+      "rawSha256": "87932481a6a07aa626339632ac0f79ccda327c2b0c62e73c7de1c4e2aee2c5ad",
+      "rawBytes": 426344,
+      "archivePath": "logs/node-743-tests.log.gz",
+      "archiveSha256": "d4b00c0f7bfb4f050619ef88796c94ee66754849abc47799a08dc39491a6adff",
+      "archiveBytes": 50645,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "final-local-checks",
+      "outcome": "736 passed; 7 optional GPU skips; 0 failures",
+      "limitations": ["Local evidence only; does not establish CI or deployment."],
+      "rawTextEncoding": "UTF-16 with BOM; bytes preserved"
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/estate-release-python.log",
+      "rawSha256": "a0ef3b707e7d12fbc1102b6f82e84964bc50bea5098d8aa29de438770585f187",
+      "rawBytes": 1482,
+      "archivePath": "logs/python-292-tests.log.gz",
+      "archiveSha256": "322653cc526d44d0ed72ca8747d1ab8dcbaf1f2ba8bdeaede1302f31b9d4e72f",
+      "archiveBytes": 331,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "final-local-checks",
+      "outcome": "292 tests; OK",
+      "limitations": ["Local evidence only; does not establish CI or deployment."],
+      "rawTextEncoding": "UTF-16 with BOM; bytes preserved"
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/estate-production-grounded.log",
+      "rawSha256": "0a50acf536d3c63972be01c98d1cd6b0fb85535102cf770c15511bc922b45d35",
+      "rawBytes": 128042,
+      "archivePath": "logs/production-build-grounded.log.gz",
+      "archiveSha256": "1b37b6879908857685613074c1b93037a74c5360f43de42284f79113428c4428",
+      "archiveBytes": 5528,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "final-local-checks",
+      "outcome": "Production /al-folio build completed in 143.563 seconds",
+      "limitations": ["Local evidence only; does not establish CI or deployment."],
+      "rawTextEncoding": "UTF-16 with BOM; bytes preserved"
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/estate-light-bake-grounded.log",
+      "rawSha256": "b97733a413b96d935826a3afbe3b171892b4b41bf71a037627718ef095e24461",
+      "rawBytes": 1436,
+      "archivePath": "logs/static-light-bake-grounded.log.gz",
+      "archiveSha256": "c71773bce29c92212042bd1abc9e4ea8d0917321c6d2a8fa651beb59fba1d0ab",
+      "archiveBytes": 497,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "final-local-checks",
+      "outcome": "Final source-bound static-light bake",
+      "limitations": ["Local evidence only; does not establish CI or deployment."],
+      "rawTextEncoding": "UTF-16 with BOM; bytes preserved"
+    },
+    {
+      "rawLocalPath": ".jekyll-cache/estate-loading-sketch-grounded.log",
+      "rawSha256": "592a9d0f65b70a4c9592ebbe62f8017dff7b3b5eceb7fdf380317934dce73e27",
+      "rawBytes": 2802,
+      "archivePath": "logs/loading-sketch-grounded.log.gz",
+      "archiveSha256": "0d26bed4bae1d9d9782346758da310dd5dba6c844039052373bf69f5b5e8eb37",
+      "archiveBytes": 470,
+      "compression": "gzip; mtime=0; empty filename",
+      "stage": "final-local-checks",
+      "outcome": "12 drawings; 1400 strokes each; 68987-byte artifact",
+      "limitations": ["Local evidence only; does not establish CI or deployment."],
+      "rawTextEncoding": "UTF-16 with BOM; bytes preserved"
+    }
+  ]
+}

@@ -1,12 +1,13 @@
 """Clifftop brush-rabbit loops along the existing scrub's clear edges.
 
-Coordinates are Blender X/Y. The dense original loops ran through sage crowns;
-these nearby loops were checked against the retained planted coast. Heights must
-still be sampled from the actual finished support, never this plan alone.
+Coordinates are Blender X/Y. The west loop follows intact mainland outside the
+excavated retreat, rotated around its relocated gull perch. Its retained shape
+still exercises the rabbit's give-way behavior. Heights must be sampled from the
+actual finished support, never this plan alone.
 """
 
 RABBIT_HABITAT_LOOPS = {
-    "rabbitWest": [(-7.9, -.9), (-6.9, -.8), (-6.7, -.3), (-7.8, -.2)],
+    "rabbitWest": [(-13.7, -1.1), (-14.7, -1.2), (-14.9, -1.7), (-13.8, -1.8)],
     "rabbitEast": [(7.9, -5.3), (9.1, -5.3), (9.3, -5.7), (8.1, -5.7)],
 }
 

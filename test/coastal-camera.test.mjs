@@ -1,6 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+import * as THREE from "../assets/js/three.module.min.js";
+import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
 import {
   envelopeFor,
   wildlifeEnvelope,
@@ -28,7 +32,10 @@ import {
 import { activityPose } from "../assets/js/home-scene/activities.mjs";
 import { trainingAt, sessionState } from "../assets/js/home-scene/training.mjs";
 import { sessionPose } from "../assets/js/home-scene/gym-session.mjs";
-const c = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+const manifestURL = process.env.COASTAL_MANIFEST_PATH
+  ? pathToFileURL(resolve(process.env.COASTAL_MANIFEST_PATH))
+  : new URL("../assets/models/home/manifest.json", import.meta.url);
+const c = JSON.parse(fs.readFileSync(manifestURL));
 
 test("the gym arrival shows the front of steady exercise poses without a clearance correction", () => {
   const room = c.rooms.find((r) => r.id === "gym"),
@@ -266,16 +273,28 @@ test("the far view keeps the authored haze to 48 m and hides the sea plane's edg
   assert.ok(outsideClearance(160) > outsideClearance(48) && outsideClearance(10) === 0.6);
 });
 
-test("the field covers every room in the manifest, including one added later, and the roof footprint opens the whole house", () => {
+test("the field covers every room in the manifest, including one added later, and the roof footprint opens the whole house", async () => {
   const bounds = collisionBounds(c);
   for (const r of c.rooms) for (let k = 0; k < 3; k++) assert.ok(r.target[k] > bounds.min[k] + 2 && r.target[k] < bounds.max[k] - 2);
-  const added = collisionBounds({ ...c, rooms: [...c.rooms, { id: "new", target: [7.2, 1.1, -1.5] }] });
-  assert.ok(added.max[0] >= 7.2 + 4, "a room north of the lounge extends the field");
-  const footprint = cutawayFootprint([
+  const future = [bounds.max[0] + 5, 1.1, c.views.overview.target[2]],
+    added = collisionBounds({ ...c, rooms: [...c.rooms, { id: "new", target: future }] });
+  assert.ok(added.max[0] >= future[0] + 4, "a room beyond the current house extends the field");
+  let footprint = cutawayFootprint([
     { min: [-5.65, 3.9, -7.19], max: [5.65, 8.17, 5.35] },
     { min: [0.69, 7.09, 2.46], max: [2.16, 7.37, 3.9] },
   ]);
   assert.deepEqual(footprint, { min: [-5.65, -7.19], max: [5.65, 5.35] });
+  if (c.retreat) {
+    const root = await nativeGeometry(c.shell, new URL("./", manifestURL)),
+      roofs = [];
+    root.traverse((object) => {
+      if (!object.userData.caveRoof) return;
+      const box = new THREE.Box3().setFromObject(object, true);
+      roofs.push({ min: box.min.toArray(), max: box.max.toArray() });
+    });
+    assert.ok(roofs.length, "the actual delivered cutaway must supply its footprint");
+    footprint = cutawayFootprint(roofs);
+  }
   // The whole-house arrival leans over the cut-away roof unobstructed; low views past the cave
   // mouth into the cliff, or behind a headland, are held well short of the default 18.5 m (the
   // controller refuses any orbit shorter than 40% of the requested distance), and from above the
@@ -283,11 +302,18 @@ test("the field covers every room in the manifest, including one added later, an
   const o = c.views.overview,
     house = { footprint, stand: true };
   assert.equal(cameraArm(null, c.cameraCollision, o.target, o.yaw, o.pitch, o.radius, house), o.radius);
-  for (const [yaw, pitch] of [
-    [3.96, 0.25],
-    [2.38, 0.25],
-    [1.6, 0.3],
-  ])
+  const lowCliffRays = c.retreat
+    ? [
+        [0, 0.1],
+        [0.3, 0.1],
+        [-0.3, 0.1],
+      ]
+    : [
+        [3.96, 0.25],
+        [2.38, 0.25],
+        [1.6, 0.3],
+      ];
+  for (const [yaw, pitch] of lowCliffRays)
     assert.ok(cameraArm(null, c.cameraCollision, o.target, yaw, pitch, 25, house) < 25 * 0.4, `yaw ${yaw} pitch ${pitch} is refused`);
   for (const yaw of [0, 1.6, 3.2, 4.8]) assert.equal(cameraArm(null, c.cameraCollision, o.target, yaw, 1.2, 18.5, house), 18.5);
 });
@@ -306,13 +332,17 @@ test("the nearby beach extends camera coverage below the terrace without widenin
 
 test("once the voxel field keeps the camera clear, the old wall boxes no longer move it; the glass rule stays", () => {
   const wall = c.cameraCollision.walls[1],
-    beside = { x: wall.max[0] + 0.2, y: 1.5, z: 0 };
+    beside = { x: wall.max[0] + 0.2, y: 1.5, z: (wall.min[2] + wall.max[2]) / 2 };
   const boxed = { ...beside };
   keepCameraClear(boxed, c, "lounge");
   assert.notDeepEqual(boxed, beside, "the box proxy teleports a camera near the old east wall");
   const field = { ...beside };
   keepCameraClear(field, c, "lounge", { walls: false });
   assert.deepEqual(field, beside, "a room beyond that wall keeps its camera");
+  assert.ok(
+    Math.abs(c.cameraCollision.facade.planeZ - c.facade.planeZ) < 1e-9,
+    "the camera near-plane rule must follow the actual relocated glazing"
+  );
   const pane = { x: 0, y: 1.5, z: c.cameraCollision.facade.planeZ + 0.02 };
   keepCameraClear(pane, c, "kitchen", { walls: false });
   assert.ok(Math.abs(pane.z - c.cameraCollision.facade.planeZ) >= c.cameraCollision.facade.clearance - 1e-9);
@@ -372,7 +402,7 @@ test("a portrait canvas widens the lens to keep the authored horizontal coverage
 });
 
 test("the gym's tripod keeps its authored position while it turns to each station", () => {
-  const config = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  const config = c;
   const room = config.rooms.find((r) => r.id === "gym");
   const authored = { target: room.target, ...room.camera };
   const position = ({ yaw, pitch, radius }, at) => ORBIT_DIRECTION(yaw, pitch).map((v, i) => at[i] + radius * v);

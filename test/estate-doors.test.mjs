@@ -49,6 +49,22 @@ test("reduced motion snaps functional doors and disposal restores the authored p
   assert.equal(doors.update(1, { walk: { active: true, position: [-2.8, 0, 7.35] } }), false);
 });
 
+test("autonomous house occupants open the same physical leaf on their actual storey", () => {
+  const { leaf, doors, rest } = fixture();
+  const visitor = { active: true, position: [-2.8, 0, 8] };
+  try {
+    doors.update(0.6, { visitors: [{ ...visitor, position: [-2.8, 2.6, 8] }] });
+    assert.equal(leaf.position.x, rest.x, "someone upstairs does not open the lower foyer");
+    doors.update(0.6, { visitors: [visitor] });
+    assert.equal(leaf.position.x, rest.x - 1.6, "a real base pose admits Sirui or P without a walking visitor");
+    visitor.active = false;
+    doors.update(0.6, { visitors: [visitor] });
+    assert.equal(leaf.position.x, rest.x, "page-owned or hidden P cannot hold a door open");
+  } finally {
+    doors.dispose();
+  }
+});
+
 test("material-batched glass and pulls travel together as one logical threshold", () => {
   const root = new THREE.Group();
   const parts = [new THREE.BoxGeometry(1.5, 2.3, 0.06), new THREE.BoxGeometry(0.04, 0.5, 0.07)].map((geometry, i) => {

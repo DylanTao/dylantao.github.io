@@ -43,9 +43,33 @@ async function deliveredField(config) {
     });
   }
   assert.ok(hiddenStructure.length > 5);
-  assert.ok(movingLeaves.length >= 4);
+  assert.ok(movingLeaves.length >= 2, "the new main oak pocket door has separately owned moving wood and hardware");
   return { field, BODY, hiddenStructure, movingLeaves };
 }
+
+test("native roof planting follows only its actual retained support and companion paths have one final-frame source", async () => {
+  const config = manifest();
+  const root = await nativeGeometry(config.shell);
+  const plants = [];
+  root.traverse((node) => {
+    if (node.userData.cutawayVegetationSupport) plants.push(node);
+  });
+  assert.equal(plants.length, 3, "only three measured roof-supported leaf batches are partitioned");
+  for (const plant of plants) {
+    const support = root.getObjectByName(plant.userData.cutawayVegetationSupport);
+    assert.ok(support?.userData.caveRoof, `${plant.name}: actual native liftaway roof remains present`);
+    assert.equal(plant.userData.caveRoof, undefined, "leaf cards cannot become structural roof colliders");
+    assert.equal(plant.userData.closedSolid, undefined);
+    plant.visible = false;
+    plant.traverse((node) => {
+      if (node.isMesh) assert.equal(walkKind(node, root), null, "hidden leaves leave no static airwall");
+    });
+  }
+  const preset = JSON.parse(readFileSync(new URL("../artwork/coastal-home/companion-flight-paths.json", import.meta.url), "utf8"));
+  assert.equal(preset.routeFrame, "world-after-retreat");
+  assert.equal(preset.routeSetbackMetres, config.retreat.setbackMetres);
+  for (const [key, value] of Object.entries(preset)) assert.deepEqual(config.companion[key], value, `${key}: delivered route preset has not drifted`);
+});
 
 function traverse(field, BODY, points, label, body = BODY) {
   assert.ok(points?.length >= 2, `${label}: complete authored route`);
@@ -132,52 +156,76 @@ function dryPromenade(field, BODY, config) {
   throw new Error(`The actual 56cm capsule cannot cross the dry rear promenade: ${JSON.stringify({ x0, x1, z0, z1, explored: queue.length })}`);
 }
 
-test("estate circulation: delivered Draco joins both entrances, bedroom, library floors and the dry promenade", { timeout: 300000 }, async (t) => {
-  const config = manifest();
-  const lower = config.rooms.find((room) => room.id === "library");
-  const upper = config.rooms.find((room) => room.id === "library-upper");
-  assert.ok(lower?.library);
-  assert.equal(upper?.library?.private, true);
-  assert.ok(lower.actor[0] < -8, "library is screen-right when viewed inland from the sea");
-  const { field, BODY, hiddenStructure, movingLeaves } = await deliveredField(config);
-  const evidence = { field: field.evidence(), hiddenStructure, movingLeaves, routes: {} };
-  function bothWays(id, points) {
-    evidence.routes[id] = {
-      outward: traverse(field, BODY, points, id),
-      return: traverse(field, BODY, [...points].reverse(), `${id} return`),
-    };
+test(
+  "estate circulation: delivered Draco joins both independent entrances, tall study, bedroom spiral and dry patio",
+  { timeout: 300000 },
+  async (t) => {
+    const config = manifest();
+    const lower = config.rooms.find((room) => room.id === "library");
+    const upper = config.rooms.find((room) => room.id === "library-upper");
+    assert.ok(lower?.library);
+    assert.equal(upper?.floor, 2.6);
+    assert.equal(upper?.label, "Private living");
+    assert.equal(upper?.library, undefined, "the private living room is not a second library floor");
+    assert.equal(config.rooms.find((room) => room.id === "study").floor, 0);
+    assert.equal(config.entrance.floor, 0);
+    assert.equal(config.entrance.curved, true);
+    assert.ok(config.retreat.setbackMetres >= 8, "house/terrace are actually inset into the native rock");
+    assert.ok(lower.actor[0] < -8, "library is screen-right when viewed inland from the sea");
+    const { field, BODY, hiddenStructure, movingLeaves } = await deliveredField(config);
+    const evidence = { field: field.evidence(), hiddenStructure, movingLeaves, routes: {} };
+    const failures = [];
+    function bothWays(id, points) {
+      try {
+        evidence.routes[id] = {
+          outward: traverse(field, BODY, points, id),
+          return: traverse(field, BODY, [...points].reverse(), `${id} return`),
+        };
+      } catch (error) {
+        failures.push({ id, message: error.message });
+        evidence.routes[id] = { error: error.message };
+      }
+    }
+    try {
+      bothWays("main entry", config.walk.mainEntryRoute);
+      bothWays("private onsen entry", config.privateEntrance.route);
+      bothWays("lower library", lower.library.route);
+      bothWays("working study", config.rooms.find((room) => room.id === "study").library.route);
+      const gym = config.rooms.find((room) => room.id === "gym");
+      bothWays("gym actual routine exit", config.retreat.gymConnection.route);
+      bothWays("living to actual gym", [[3.27, 0, 9.2], [3.5, 0, 9.2], gym.egress, ...[...gym.exitPath].reverse(), gym.actor]);
+      for (const id of ["study", "library"]) {
+        const room = config.rooms.find((room) => room.id === id);
+        bothWays(`${id} actual routine exit`, room.exitPath);
+        assert.deepEqual(config.terrain.contacts[id].exitPath, room.exitPath, `${id}: routine and room share authored floor path`);
+      }
+      bothWays("bedroom spiral to study aisle", config.estateLibrary.privateConnection);
+      bothWays("bedroom egress to compact bridge", config.estateLibrary.bedroomApproach);
+      bothWays("living to dry patio", config.retreat.patioRoute);
+      bothWays("living to pool-entry coping", config.retreat.poolEdgeRoute);
+      const treads = config.estateLibrary.stairRoute;
+      assert.ok(treads.length >= 16);
+      bothWays("all compact spiral risers", [config.estateLibrary.stairApproach.bottom, ...treads, config.estateLibrary.stairApproach.top]);
+      assert.ok(
+        treads.some((q, i) => i && Math.abs(q[0] - treads[i - 1][0]) > 0.1),
+        "spiral is modeled in plan, not a relabeled straight flight"
+      );
+      const promenade = dryPromenade(field, BODY, config);
+      evidence.promenade = { ...promenade, body: promenade.body };
+      evidence.routes["dry promenade"] = {
+        outward: traverse(field, BODY, promenade.points, "dry promenade", promenade.body),
+        return: traverse(field, BODY, [...promenade.points].reverse(), "dry promenade return", promenade.body),
+      };
+      assert.ok(evidence.routes["dry promenade"].outward.travelled > 12);
+      const [px, , pz] = config.infinityPool.center;
+      assert.equal(
+        field.findStand(px, pz, lower.floor, { reach: 0, tolerance: 0.1 }),
+        null,
+        "pool water cannot become a shortcut across the dry promenade"
+      );
+      assert.deepEqual(failures, [], "every authored journey passes both real-capsule directions");
+    } finally {
+      t.diagnostic(JSON.stringify(evidence));
+    }
   }
-  try {
-    bothWays("main entry", config.walk.mainEntryRoute);
-    bothWays("private entry", config.entrance.privateEntrance.route);
-    bothWays("lower library", lower.library.route);
-    bothWays("upper library", upper.library.route);
-    bothWays("bedroom to private library", config.estateLibrary.privateConnection);
-    const treads = config.estateLibrary.stairRoute;
-    assert.ok(treads.length >= 16);
-    const going = Math.abs(treads[1][2] - treads[0][2]);
-    const direction = Math.sign(treads[1][2] - treads[0][2]);
-    const bottom = [treads[0][0], lower.floor, treads[0][2] - direction * going * 1.2];
-    const top = [treads.at(-1)[0], upper.floor, treads.at(-1)[2] + direction * going * 1.2];
-    bothWays("all library stair risers", [bottom, ...treads, top]);
-    // This connection caught the original wall-to-wall writing table: reaching
-    // the top tread alone does not prove that the visitor can enter the office.
-    const passageX = upper.actor[0] + 0.1;
-    bothWays("stair landing to private office", [top, [passageX, upper.floor, top[2]], [passageX, upper.floor, upper.actor[2]], upper.actor]);
-    const promenade = dryPromenade(field, BODY, config);
-    evidence.promenade = { ...promenade, body: promenade.body };
-    evidence.routes["dry promenade"] = {
-      outward: traverse(field, BODY, promenade.points, "dry promenade", promenade.body),
-      return: traverse(field, BODY, [...promenade.points].reverse(), "dry promenade return", promenade.body),
-    };
-    assert.ok(evidence.routes["dry promenade"].outward.travelled > 12);
-    const [px, , pz] = config.infinityPool.center;
-    assert.equal(
-      field.findStand(px, pz, lower.floor, { reach: 0, tolerance: 0.1 }),
-      null,
-      "pool water cannot become a shortcut across the dry promenade"
-    );
-  } finally {
-    t.diagnostic(JSON.stringify(evidence));
-  }
-});
+);

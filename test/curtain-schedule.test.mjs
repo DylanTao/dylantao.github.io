@@ -29,17 +29,17 @@ function at(minute, overrides = {}) {
 // The controller's door rule (syncFacadeDoors): open by day while Sirui is up.
 const doorsOpen = ({ routine, daylight }) => daylight.daylight > 0.3 && routine.id !== "sleep";
 
-test("the curtains are open by day, partly drawn against the low western sun and closed at night", () => {
-  // 02:00, coding upstairs with the house lit: every panel drawn closed.
+test("living curtains preserve the Pacific by day, low sun, night and private-quarter sleep", () => {
+  // The lower living facade stays open while Sirui codes upstairs.
   const night = at(120);
   assert.equal(night.plan.state, "night");
-  assert.deepEqual(Object.values(night.plan.fractions), [0, 0, 0, 0]);
-  // 09:00, asleep: still closed, though the sun is up.
+  assert.deepEqual(Object.values(night.plan.fractions), [1, 1, 1, 1]);
+  // Sleeping in the private quarter does not close the public living facade.
   const asleep = at(540);
   assert.equal(asleep.routine.id, "sleep");
   assert.ok(asleep.daylight.daylight > 0.3);
   assert.equal(asleep.plan.state, "asleep");
-  assert.deepEqual(Object.values(asleep.plan.fractions), [0, 0, 0, 0]);
+  assert.deepEqual(Object.values(asleep.plan.fractions), [1, 1, 1, 1]);
   // 12:30, reading: the sun stands high in the south, so the sea stays in full view.
   const noon = at(750);
   assert.equal(noon.plan.state, "day");
@@ -50,20 +50,19 @@ test("the curtains are open by day, partly drawn against the low western sun and
   assert.equal(lowSun.plan.state, "low sun");
   assert.ok(lowSun.plan.glare > 0.8, `glare ${lowSun.plan.glare}`);
   const f = lowSun.plan.fractions;
-  for (const id of Object.keys(CURTAIN_DRAW)) assert.ok(f[id] > 0 && f[id] < 1, `${id} ${f[id]}`);
+  for (const id of Object.keys(CURTAIN_DRAW)) assert.ok(f[id] >= 0.8 && f[id] < 1, `${id} ${f[id]}`);
   assert.ok(f["kitchen-north"] < f["kitchen-south"] && f["lounge-south"] < f["lounge-north"], JSON.stringify(f));
-  // 20:45, dinner in the kitchen after dark (after training and the onsen): closed, except the panel
-  // across the kitchen camera's view.
+  // The lower public rooms retain their prospect through dinner and ocean time.
   const dinner = at(20 * 60 + 45);
   assert.equal(dinner.routine.room, "kitchen");
   assert.equal(dinner.plan.state, "night");
-  assert.deepEqual(dinner.plan.fractions, { "kitchen-south": 1, "kitchen-north": 0, "lounge-south": 0, "lounge-north": 0 });
+  assert.deepEqual(dinner.plan.fractions, { "kitchen-south": 1, "kitchen-north": 1, "lounge-south": 1, "lounge-north": 1 });
   // 22:00, watching the Pacific from the lounge: the lounge's view panel stays open.
   const lounge = at(22 * 60);
   assert.equal(lounge.routine.room, "lounge");
-  assert.deepEqual(lounge.plan.fractions, { "kitchen-south": 0, "kitchen-north": 0, "lounge-south": 0, "lounge-north": 1 });
-  // The occupied room keeps its view panel clear. An explicit visit gathers both panels so the
-  // visitor can orbit across either one, including at night; unvisited rooms keep their drapes.
+  assert.deepEqual(lounge.plan.fractions, { "kitchen-south": 1, "kitchen-north": 1, "lounge-south": 1, "lounge-north": 1 });
+  // An explicit room visit gathers both panels even during the small low-sun
+  // adjustment, preserving free orbit through the door openings.
   const busy = at(16 * 60 + 45, { room: "lounge" });
   assert.ok(busy.plan.fractions[CURTAIN_VIEW_PANELS.lounge] >= CURTAIN_VIEW_OPEN);
   const visited = at(16 * 60 + 45, { visit: "kitchen" });
@@ -72,10 +71,10 @@ test("the curtains are open by day, partly drawn against the low western sun and
   assert.deepEqual(at(22 * 60, { visit: "kitchen" }).plan.fractions, {
     "kitchen-south": 1,
     "kitchen-north": 1,
-    "lounge-south": 0,
+    "lounge-south": 1,
     "lounge-north": 1,
   });
-  assert.deepEqual(Object.values(at(540, { visit: "kitchen" }).plan.fractions), [0, 0, 0, 0], "sleep keeps its closed drapes");
+  assert.deepEqual(Object.values(at(540, { visit: "kitchen" }).plan.fractions), [1, 1, 1, 1], "private sleep keeps the living prospect open");
 });
 
 test("glare needs a low sun standing out to sea, and the schedule moves in small steps", () => {
@@ -101,12 +100,13 @@ test("glare needs a low sun standing out to sea, and the schedule moves in small
   }
 });
 
-test("the curtains change with the doors: open with them by day, drawn when they shut", () => {
+test("the curtain state follows daylight and sleep, while closed doors retain the open view", () => {
   let checked = 0;
   for (let minute = 0; minute < 1440; minute += 5) {
     const view = at(minute);
     const open = view.plan.state === "day" || view.plan.state === "low sun";
     assert.equal(open, doorsOpen(view), `minute ${minute}: ${view.plan.state} with the doors ${doorsOpen(view) ? "open" : "shut"}`);
+    for (const value of Object.values(view.plan.fractions)) assert.ok(value >= 0.8, `the view stays clear at minute ${minute}`);
     checked++;
   }
   assert.equal(checked, 288);

@@ -559,6 +559,10 @@ html.is-world-immersive {
     background-color var(--motion-standard),
     color var(--motion-standard);
 
+  &[hidden] {
+    display: none;
+  }
+
   &:hover {
     background: var(--home-paper);
     color: var(--home-accent-strong);
@@ -580,6 +584,10 @@ html.is-world-immersive {
     font-size: var(--type-meta);
     line-height: 1.5;
   }
+}
+
+.home-world-ladder {
+  padding-inline: 0.55rem;
 }
 
 @media (pointer: coarse) {

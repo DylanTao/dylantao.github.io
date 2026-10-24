@@ -54,7 +54,7 @@ def main():
     bvh = BVHTree.FromPolygons(vertices, [tuple(range(i, i + 3)) for i in range(0, len(vertices), 3)])
     patches = []
     places = [(f'coast-{i}', 'coast', p) for i, p in enumerate(manifest['terrain']['perches'])]
-    places.append(('gallery-rail', 'rail', [4.2, 3.46, 1.31]))
+    places.append(('gallery-rail', 'rail', manifest.get('retreat', {}).get('galleryPerch', [4.2, 3.46, 1.31])))
     places += [(name, 'rock', point) for name, point in ROOSTS]
     for name, kind, original in places:
         x, height, z = original
@@ -73,6 +73,43 @@ def main():
             raise ValueError(f'Empty physical support patch at {name}')
         patches.append({'id': name, 'kind': kind, 'original': original, 'origin': three(origin),
                         'radius': .27, 'maximumHeight': .22, 'triangles': local})
+
+    # The displaced west perch now lies on a differently quantized broad rock
+    # face. Preserve its complete native patch, and derive contact against the
+    # actual delivered surface so a millimetre of Draco rounding cannot put the
+    # webbed sole inside the rendered rock. Other retained perch patches keep
+    # their original native survey. No triangle is discarded to meet the budget.
+    exported = set(bpy.context.scene.objects)
+    delivered_files = [ROOT / 'assets/models/home/home-shell.glb', ROOT / 'assets/models/home/coast.glb']
+    for delivered in delivered_files:
+        bpy.ops.import_scene.gltf(filepath=str(delivered))
+    decoded = [o for o in set(bpy.context.scene.objects) - exported if o.type == 'MESH']
+    delivered_triangles = []
+    for obj in decoded:
+        obj.data.calc_loop_triangles()
+        delivered_triangles += [[obj.matrix_world @ obj.data.vertices[i].co for i in face.vertices]
+                                for face in obj.data.loop_triangles]
+    delivered_vertices = [vertex for triangle in delivered_triangles for vertex in triangle]
+    delivered_bvh = BVHTree.FromPolygons(delivered_vertices,
+        [tuple(range(i, i + 3)) for i in range(0, len(delivered_vertices), 3)])
+    patch = patches[0]
+    x, height, z = patch['original']
+    hit, _, _, _ = delivered_bvh.ray_cast(Vector((x, -z, height + .2)), Vector((0, 0, -1)), 1)
+    if hit is None or abs(hit.z-height) > .051:
+        raise ValueError('Displaced west perch is not supported by the delivered rock')
+    origin = Vector((x, -z, hit.z))
+    actual = []
+    for triangle in delivered_triangles:
+        if (min(v.x for v in triangle) > x + .27 or max(v.x for v in triangle) < x - .27
+                or min(v.y for v in triangle) > -z + .27 or max(v.y for v in triangle) < -z - .27
+                or min(v.z for v in triangle) > hit.z + .28 or max(v.z for v in triangle) < hit.z - .28):
+            continue
+        actual.append([coordinate for vertex in triangle for coordinate in three(vertex - origin)])
+    if not actual:
+        raise ValueError('Empty delivered west-perch patch')
+    patch['nativeOrigin'] = patch['origin']
+    patch['nativeTriangles'] = patch['triangles']
+    patch.update(origin=three(origin), triangles=actual, contactGeometry='decoded delivered shell/coast')
 
     existing = set(bpy.context.scene.objects)
     bpy.ops.import_scene.gltf(filepath=str(glb))
@@ -119,6 +156,7 @@ def main():
                       'legLength': round(-min(v.z for v in leg_vertices), 7), 'sole': list(samples.values())}
     result = {'version': 1, 'units': 'metres', 'coastSha256': hashlib.sha256(source.read_bytes()).hexdigest(),
               'gullSha256': hashlib.sha256(glb.read_bytes()).hexdigest(),
+              'deliveredSha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in delivered_files},
               'method': 'Retained physical local triangles and decoded native sole/ankle/tarsus geometry',
               'patches': patches, 'feet': feet}
     destination = ROOT / 'assets/models/home/wildlife-perch-support.json'

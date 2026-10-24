@@ -115,7 +115,9 @@ export function createCoastalWind({ coast: coastSource = coastWind } = {}) {
       uniforms.coastalWindMean.value.set(meanSpeed * direction[0], 0, meanSpeed * direction[1]);
       uniforms.coastalWindGust.value = COAST_SHELTER.eddy * meanSpeed;
       const exposure = plants.coastalPlantExposure.value;
-      exposure[0] = COAST_SHELTER.glassZ;
+      // The CPU indoor sampler and the GPU plant classifier share the moved
+      // facade plane. Authored local cloth adapters already sample world wind.
+      exposure[0] = Number.isFinite(coast.shelterGlassZ) ? coast.shelterGlassZ : COAST_SHELTER.glassZ;
       exposure[1] = indoorLeak;
       exposure[2] = COAST_SHELTER.terrace;
       exposure[3] = 1;
@@ -129,6 +131,7 @@ export function createCoastalWind({ coast: coastSource = coastWind } = {}) {
       meanMetersPerSecond: uniforms.coastalWindMean.value.toArray(),
       gustBoundMetersPerSecond: uniforms.coastalWindGust.value,
       indoorShare: plants.coastalPlantExposure.value[1],
+      shelterGlassZ: plants.coastalPlantExposure.value[0],
       terraceShare: plants.coastalPlantExposure.value[2],
       followsCoast: plants.coastalPlantExposure.value[3] > 0,
       complianceSeconds: plants.coastalPlantCompliance.value,

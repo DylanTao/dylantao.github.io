@@ -1,0 +1,1147 @@
+{
+  "baselineCommit": "e0658c636",
+  "source": {
+    "path": "artwork/coastal-home/coastal-home.blend",
+    "sha256": "8772152ae84d4116e87e70dc0ad98a2fcddac4f37863b46a3c855b9d095f39a1"
+  },
+  "geometry": {
+    "newObjects": 81,
+    "newTriangles": 138219,
+    "roof": {
+      "mainlandOpenEdges": 0,
+      "roofOpenEdges": 0
+    },
+    "setbackMetres": 8.0
+  },
+  "nativeGate": {
+    "passed": true,
+    "routeCount": 10,
+    "contacts": 167,
+    "bearing": 12,
+    "companionSphereChecks": 124,
+    "companionScope": "all room perches and main curved stair; full runtime flight audit is separate"
+  },
+  "compressedTests": {
+    "passed": 21,
+    "failed": 0,
+    "evidence": [
+      {
+        "id": "bath-living",
+        "evidence": {
+          "entry": {
+            "inward": {
+              "state": {
+                "x": -5.799965216377347,
+                "z": 12.050181695524302,
+                "foot": 8.814036846160889e-5,
+                "moved": 0.03499999999999927,
+                "blocked": false
+              },
+              "travelled": 10.394999999999998,
+              "maximumRise": 0.0024472717195749283
+            },
+            "outward": {
+              "state": {
+                "x": 3.263529144325061,
+                "z": 13.59999931253007,
+                "foot": 0.0026175621896982193,
+                "moved": 0.03500000000000002,
+                "blocked": false
+              },
+              "travelled": 10.360000000000001,
+              "maximumRise": 0.0024472717195749283
+            }
+          },
+          "shower": {
+            "inward": {
+              "state": {
+                "x": -5.899860912607235,
+                "z": 10.482334573008636,
+                "foot": 8.814036846160889e-5,
+                "moved": 0.034999999999999525,
+                "blocked": false
+              },
+              "travelled": 1.5749999999999993,
+              "maximumRise": 0
+            },
+            "outward": {
+              "state": {
+                "x": -5.8049185220783395,
+                "z": 12.017783680386874,
+                "foot": 8.814036846160889e-5,
+                "moved": 0.034999999999999344,
+                "blocked": false
+              },
+              "travelled": 1.5749999999999904,
+              "maximumRise": 0
+            }
+          },
+          "wc": {
+            "inward": {
+              "state": {
+                "x": -7.564985232092673,
+                "z": 12.849980020740349,
+                "foot": 8.814036846160889e-5,
+                "moved": 0.03499999999999981,
+                "blocked": false
+              },
+              "travelled": 2.4499999999999855,
+              "maximumRise": 0
+            },
+            "outward": {
+              "state": {
+                "x": -5.822841200401115,
+                "z": 12.053744508655356,
+                "foot": 8.814036846160889e-5,
+                "moved": 0.03500000000000032,
+                "blocked": false
+              },
+              "travelled": 2.450000000000004,
+              "maximumRise": 0
+            }
+          }
+        },
+        "field": {
+          "cell": 0.1,
+          "size": [360, 462],
+          "columns": 166320,
+          "filled": 154033,
+          "intervals": 449038,
+          "triangles": 928197,
+          "samples": 14508940,
+          "overflows": 11187,
+          "meshes": 510
+        }
+      },
+      {
+        "id": "bath-living",
+        "clearWidth": 1.1075429916381836,
+        "headroom": [
+          {
+            "point": [-4.45, 0, 13.15],
+            "floor": 0.0026175621896982054,
+            "ceiling": 2.359999895095825,
+            "clearance": 2.357382332906127
+          },
+          {
+            "point": [-5.8, 0, 12.05],
+            "floor": 8.814036846160889e-5,
+            "ceiling": 2.3400001525878906,
+            "clearance": 2.339912012219429
+          },
+          {
+            "point": [-5.9, 0, 10.45],
+            "floor": 8.814036846160889e-5,
+            "ceiling": 2.3400001525878906,
+            "clearance": 2.339912012219429
+          }
+        ]
+      },
+      {
+        "id": "bath-living",
+        "evidence": [
+          {
+            "observer": [-4.05, 1.6, 13.15],
+            "target": [-7.58, 0.46, 13.53],
+            "blocker": "bath-living__chalk limestone",
+            "distance": 2.8469976832743398,
+            "point": [-6.745118618011475, 0.7296217494240563, 13.440126083525314]
+          },
+          {
+            "observer": [-3.1, 1.6, 13.6],
+            "target": [-7.58, 0.46, 13.53],
+            "blocker": "bath-living__chalk limestone",
+            "distance": 3.7617133409331194,
+            "point": [-6.745118618011475, 0.672447494523866, 13.54304502159357]
+          }
+        ]
+      },
+      {
+        "id": "bath-living",
+        "start": {
+          "x": -7,
+          "z": 11.6,
+          "foot": 8.814036846160889e-5
+        },
+        "stopped": {
+          "x": -7,
+          "z": 11.340003499650038,
+          "foot": 8.814036846160889e-5,
+          "moved": 0,
+          "blocked": true
+        },
+        "maximumRise": 0,
+        "properEntrance": {
+          "state": {
+            "x": -5.899860912607235,
+            "z": 10.482334573008636,
+            "foot": 8.814036846160889e-5,
+            "moved": 0.034999999999999525,
+            "blocked": false
+          },
+          "travelled": 1.5749999999999993,
+          "maximumRise": 0
+        }
+      },
+      {
+        "id": "bath-bedroom",
+        "evidence": {
+          "entry": {
+            "inward": {
+              "state": {
+                "x": -5.799829267298878,
+                "z": 12.05087267422237,
+                "foot": 2.600088357925415,
+                "moved": 0.034999999999999414,
+                "blocked": false
+              },
+              "travelled": 5.494999999999988,
+              "maximumRise": 0.002313375473022461
+            },
+            "outward": {
+              "state": {
+                "x": -2.1201378575661685,
+                "z": 14.09999922539759,
+                "foot": 2.6023969650268555,
+                "moved": 0.03499999999999989,
+                "blocked": false
+              },
+              "travelled": 5.494999999999979,
+              "maximumRise": 0.002313375473022461
+            }
+          },
+          "shower": {
+            "inward": {
+              "state": {
+                "x": -5.899860912607235,
+                "z": 10.482334573008636,
+                "foot": 2.600088357925415,
+                "moved": 0.034999999999999525,
+                "blocked": false
+              },
+              "travelled": 1.5749999999999993,
+              "maximumRise": 0
+            },
+            "outward": {
+              "state": {
+                "x": -5.8049185220783395,
+                "z": 12.017783680386874,
+                "foot": 2.600088357925415,
+                "moved": 0.034999999999999344,
+                "blocked": false
+              },
+              "travelled": 1.5749999999999904,
+              "maximumRise": 0
+            }
+          },
+          "wc": {
+            "inward": {
+              "state": {
+                "x": -7.564985232092673,
+                "z": 12.849980020740349,
+                "foot": 2.600088357925415,
+                "moved": 0.03499999999999981,
+                "blocked": false
+              },
+              "travelled": 2.4499999999999855,
+              "maximumRise": 0
+            },
+            "outward": {
+              "state": {
+                "x": -5.822841200401115,
+                "z": 12.053744508655356,
+                "foot": 2.600088357925415,
+                "moved": 0.03500000000000032,
+                "blocked": false
+              },
+              "travelled": 2.450000000000004,
+              "maximumRise": 0
+            }
+          }
+        },
+        "field": {
+          "cell": 0.1,
+          "size": [360, 462],
+          "columns": 166320,
+          "filled": 154033,
+          "intervals": 449038,
+          "triangles": 928197,
+          "samples": 14508940,
+          "overflows": 11187,
+          "meshes": 510
+        }
+      },
+      {
+        "id": "bath-bedroom",
+        "clearWidth": 1.1551241874694824,
+        "headroom": [
+          {
+            "point": [-4.45, 2.6, 13.15],
+            "floor": 2.6023969650268555,
+            "ceiling": 5.202247619628906,
+            "clearance": 2.599850654602051
+          },
+          {
+            "point": [-5.8, 2.6, 12.05],
+            "floor": 2.600088357925415,
+            "ceiling": 4.949999809265137,
+            "clearance": 2.3499114513397217
+          },
+          {
+            "point": [-5.9, 2.6, 10.45],
+            "floor": 2.600088357925415,
+            "ceiling": 4.949999809265137,
+            "clearance": 2.3499114513397217
+          }
+        ]
+      },
+      {
+        "id": "bath-bedroom",
+        "evidence": [
+          {
+            "observer": [-4.05, 4.2, 13.15],
+            "target": [-7.58, 3.06, 13.53],
+            "blocker": "bath-bedroom__chalk limestone",
+            "distance": 2.8469976832743398,
+            "point": [-6.745118618011475, 3.3296217494240565, 13.440126083525314]
+          },
+          {
+            "observer": [-3.1, 4.2, 13.6],
+            "target": [-7.58, 3.06, 13.53],
+            "blocker": "bath-bedroom__chalk limestone",
+            "distance": 3.7617133409331194,
+            "point": [-6.745118618011475, 3.272447494523866, 13.54304502159357]
+          }
+        ]
+      },
+      {
+        "id": "bath-bedroom",
+        "start": {
+          "x": -7,
+          "z": 11.6,
+          "foot": 2.600088357925415
+        },
+        "stopped": {
+          "x": -7,
+          "z": 11.340003499650038,
+          "foot": 2.600088357925415,
+          "moved": 0,
+          "blocked": true
+        },
+        "maximumRise": 0,
+        "properEntrance": {
+          "state": {
+            "x": -5.899860912607235,
+            "z": 10.482334573008636,
+            "foot": 2.600088357925415,
+            "moved": 0.034999999999999525,
+            "blocked": false
+          },
+          "travelled": 1.5749999999999993,
+          "maximumRise": 0
+        }
+      },
+      {
+        "hiddenStructure": [
+          "core_liftaway_cave_ceiling",
+          "core_lightwell_rim",
+          "core_facade_lunette_frame",
+          "core_facade_lunette_glass",
+          "core_liftaway_cave_ceiling_rear",
+          "core_fireplace_cap__blackened steel flue",
+          "core_fireplace_cap__golden coastal sandstone",
+          "core_bathwing_liftaway_roof",
+          "core_estate_library_liftaway_roof",
+          "core_estate_library_liftaway_roof",
+          "core_bathwing_lower_ceiling__chalk limestone",
+          "core_bathwing_upper_slab__warm cut stone",
+          "core_bathwing_upper_ceiling__chalk limestone",
+          "core_retreat_library_ceiling__chalk limestone",
+          "core_retreat_liftaway_roof"
+        ],
+        "inward": {
+          "state": {
+            "x": -5.799829267298878,
+            "z": 12.05087267422237,
+            "foot": 2.600088357925415,
+            "moved": 0.034999999999999414,
+            "blocked": false
+          },
+          "travelled": 5.494999999999988,
+          "maximumRise": 0.002313375473022461
+        },
+        "outward": {
+          "state": {
+            "x": -2.1201378575661685,
+            "z": 14.09999922539759,
+            "foot": 2.6023969650268555,
+            "moved": 0.03499999999999989,
+            "blocked": false
+          },
+          "travelled": 5.494999999999979,
+          "maximumRise": 0.002313375473022461
+        },
+        "roof": [
+          {
+            "x": -6.4,
+            "z": 10.3,
+            "before": 8.887255668640137,
+            "after": 8.887255668640137
+          },
+          {
+            "x": -6.4,
+            "z": 12,
+            "before": 8.963988304138184,
+            "after": 8.963988304138184
+          },
+          {
+            "x": -7.5,
+            "z": 13.5,
+            "before": 9.34742546081543,
+            "after": 9.34742546081543
+          }
+        ]
+      },
+      {
+        "field": {
+          "cell": 0.1,
+          "size": [360, 462],
+          "columns": 166320,
+          "filled": 154033,
+          "intervals": 449038,
+          "triangles": 928197,
+          "samples": 14508940,
+          "overflows": 11187,
+          "meshes": 510
+        },
+        "hiddenStructure": [
+          "core_liftaway_cave_ceiling",
+          "core_lightwell_rim",
+          "core_facade_lunette_frame",
+          "core_facade_lunette_glass",
+          "core_liftaway_cave_ceiling_rear",
+          "core_fireplace_cap__blackened steel flue",
+          "core_fireplace_cap__golden coastal sandstone",
+          "core_bathwing_liftaway_roof",
+          "core_estate_library_liftaway_roof",
+          "core_bathwing_lower_ceiling__chalk limestone",
+          "core_bathwing_upper_slab__warm cut stone",
+          "core_bathwing_upper_ceiling__chalk limestone",
+          "core_retreat_library_ceiling__chalk limestone",
+          "core_retreat_liftaway_roof"
+        ],
+        "movingLeaves": [
+          "core_retreat_door_main__pale oak primitive 0",
+          "core_retreat_door_main__honey ash primitive 0",
+          "core_retreat_door_main__brushed brass primitive 0"
+        ],
+        "routes": {
+          "main entry": {
+            "outward": {
+              "position": [3.2699119229160476, 0.0026175621896982193, 9.225091149303239],
+              "travelled": 30.380000000000056,
+              "maximumRise": 0.16832447052001953
+            },
+            "return": {
+              "position": [3.419942274857022, 8.057849884033203, 23.17330783625749],
+              "travelled": 30.380000000000138,
+              "maximumRise": 0.16832447052001953
+            }
+          },
+          "private onsen entry": {
+            "outward": {
+              "position": [3.449734348003263, 2.6023969650268555, 15.352511956999695],
+              "travelled": 10.605000000000004,
+              "maximumRise": 0.1565408706665039
+            },
+            "return": {
+              "position": [7.430800831852429, 7.60842752456665, 13.979274740270572],
+              "travelled": 10.605000000000004,
+              "maximumRise": 0.1565408706665039
+            }
+          },
+          "lower library": {
+            "outward": {
+              "position": [-10.549906334033178, 8.553266525268555e-6, 2.2557789817732683],
+              "travelled": 18.687893314005194,
+              "maximumRise": 0.013411551713943481
+            },
+            "return": {
+              "position": [-2.8100147502096484, 0.0026175621896982193, 13.599960432431144],
+              "travelled": 18.64757455767186,
+              "maximumRise": 0.013411551713943481
+            }
+          },
+          "working study": {
+            "outward": {
+              "position": [-9.769999227368094, 0.01342010498046875, 4.8500040201202115],
+              "travelled": 15.680000000000025,
+              "maximumRise": 0.013411551713943481
+            },
+            "return": {
+              "position": [-2.810014451587442, 0.0026175621896982193, 13.599960990751514],
+              "travelled": 15.678542263607817,
+              "maximumRise": 0.013411551713943481
+            }
+          },
+          "gym actual routine exit": {
+            "outward": {
+              "position": [3.5176293389558273, 0.0026175621896982193, 6.447219602044405],
+              "travelled": 5.040000000000008,
+              "maximumRise": 0.03884538635611534
+            },
+            "return": {
+              "position": [7.599838201095844, -0.014938652515411377, 6.739964886466297],
+              "travelled": 5.040000000000026,
+              "maximumRise": 0.032868701964616776
+            }
+          },
+          "living to actual gym": {
+            "outward": {
+              "position": [7.599807121077659, -0.014938652515411377, 6.739949555239361],
+              "travelled": 7.980000000000027,
+              "maximumRise": 0.032868701964616776
+            },
+            "return": {
+              "position": [3.291172475630154, 0.0026175621896982193, 9.197899150212109],
+              "travelled": 7.980000000000021,
+              "maximumRise": 0.03884538635611534
+            }
+          },
+          "study actual routine exit": {
+            "outward": {
+              "position": [-2.81001591262252, 0.0026175621896982193, 13.599958303267117],
+              "travelled": 14.87353057189931,
+              "maximumRise": 0.0025150123983621597
+            },
+            "return": {
+              "position": [-8.9999992342812, 8.553266525268555e-6, 4.850107200547363],
+              "travelled": 14.910000000000021,
+              "maximumRise": 0.0025150123983621597
+            }
+          },
+          "library actual routine exit": {
+            "outward": {
+              "position": [-2.8100150597192566, 0.0026175621896982193, 13.599959858766654],
+              "travelled": 17.61179246042632,
+              "maximumRise": 0.013411551713943481
+            },
+            "return": {
+              "position": [-10.533416087779338, 8.553266525268555e-6, 3.3055734044246523],
+              "travelled": 17.63125572111882,
+              "maximumRise": 0.013411551713943481
+            }
+          },
+          "bedroom spiral to study aisle": {
+            "outward": {
+              "position": [-9.769876318084165, 0.01342010498046875, 4.850760489237012],
+              "travelled": 15.750000000000027,
+              "maximumRise": 0.16254448890686035
+            },
+            "return": {
+              "position": [-3.1100253604503534, 2.6023969650268555, 9.749991344581344],
+              "travelled": 15.750000000000043,
+              "maximumRise": 0.16254448890686035
+            }
+          },
+          "bedroom egress to compact bridge": {
+            "outward": {
+              "position": [-3.098509396484972, 2.6023969650268555, 9.738828918029386],
+              "travelled": 4.165000000000004,
+              "maximumRise": 0
+            },
+            "return": {
+              "position": [-1.4000423389482228, 2.6023969650268555, 11.9450326418091],
+              "travelled": 4.164999999999981,
+              "maximumRise": 0
+            }
+          },
+          "living to dry patio": {
+            "outward": {
+              "position": [4.78479664221158, 0.0011761579662561417, 2.4002729326632846],
+              "travelled": 8.575000000000035,
+              "maximumRise": 0.005806690081954002
+            },
+            "return": {
+              "position": [3.269964777804109, 0.0026175621896982193, 9.167893426910432],
+              "travelled": 8.574999999999932,
+              "maximumRise": 0.005806690081954002
+            }
+          },
+          "living to pool-entry coping": {
+            "outward": {
+              "position": [-1.4995850069775432, 0.0011761579662561417, 1.6654113715985357],
+              "travelled": 12.005000000000049,
+              "maximumRise": 0.005806690081954002
+            },
+            "return": {
+              "position": [3.2699641919904696, 0.0026175621896982193, 9.16767436145624],
+              "travelled": 12.005000000000038,
+              "maximumRise": 0.005806690081954002
+            }
+          },
+          "all compact spiral risers": {
+            "outward": {
+              "position": [-9.382034026544044, 2.5999999046325684, 8.807973166562869],
+              "travelled": 4.689999999999992,
+              "maximumRise": 0.16254448890686035
+            },
+            "return": {
+              "position": [-9.623192736318652, 8.553266525268555e-6, 7.610704294409838],
+              "travelled": 4.690000000000004,
+              "maximumRise": 0.16254448890686035
+            }
+          },
+          "dry promenade": {
+            "outward": {
+              "position": [4.845000000000033, 0.0011761579662561417, 2.9899999999999998],
+              "travelled": 12.845000000000052,
+              "maximumRise": 0
+            },
+            "return": {
+              "position": [-7.965000000000032, 0.0011761579662561417, 2.9899999999999998],
+              "travelled": 12.845000000000052,
+              "maximumRise": 0
+            }
+          }
+        },
+        "promenade": {
+          "points": [
+            [-8, 0.0011761579662561417, 2.9899999999999998],
+            [-7.859999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-7.719999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-7.579999999999998, 0.0011761579662561417, 2.9899999999999998],
+            [-7.439999999999998, 0.0011761579662561417, 2.9899999999999998],
+            [-7.300000000000001, 0.0011761579662561417, 2.9899999999999998],
+            [-7.16, 0.0011761579662561417, 2.9899999999999998],
+            [-7.02, 0.0011761579662561417, 2.9899999999999998],
+            [-6.879999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-6.739999999999998, 0.0011761579662561417, 2.9899999999999998],
+            [-6.599999999999998, 0.0011761579662561417, 2.9899999999999998],
+            [-6.460000000000001, 0.0011761579662561417, 2.9899999999999998],
+            [-6.32, 0.0011761579662561417, 2.9899999999999998],
+            [-6.18, 0.0011761579662561417, 2.9899999999999998],
+            [-6.039999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-5.899999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-5.759999999999998, 0.0011761579662561417, 2.9899999999999998],
+            [-5.619999999999997, 0.0011761579662561417, 2.9899999999999998],
+            [-5.48, 0.0011761579662561417, 2.9899999999999998],
+            [-5.34, 0.0011761579662561417, 2.9899999999999998],
+            [-5.199999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-5.059999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-4.919999999999998, 0.0011761579662561417, 2.9899999999999998],
+            [-4.779999999999998, 0.0011761579662561417, 2.9899999999999998],
+            [-4.640000000000001, 0.0011761579662561417, 2.9899999999999998],
+            [-4.5, 0.0011761579662561417, 2.9899999999999998],
+            [-4.359999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-4.219999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-4.079999999999998, 0.0011761579662561417, 2.9899999999999998],
+            [-3.9399999999999986, 0.0011761579662561417, 2.9899999999999998],
+            [-3.8, 0.0011761579662561417, 2.9899999999999998],
+            [-3.6599999999999993, 0.0011761579662561417, 2.9899999999999998],
+            [-3.5199999999999987, 0.0011761579662561417, 2.9899999999999998],
+            [-3.38, 0.0011761579662561417, 2.9899999999999998],
+            [-3.2399999999999993, 0.0011761579662561417, 2.9899999999999998],
+            [-3.0999999999999988, 0.0011761579662561417, 2.9899999999999998],
+            [-2.959999999999998, 0.0011761579662561417, 2.9899999999999998],
+            [-2.8199999999999994, 0.0011761579662561417, 2.9899999999999998],
+            [-2.679999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-2.5399999999999983, 0.0011761579662561417, 2.9899999999999998],
+            [-2.3999999999999995, 0.0011761579662561417, 2.9899999999999998],
+            [-2.259999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-2.1199999999999983, 0.0011761579662561417, 2.9899999999999998],
+            [-1.9799999999999995, 0.0011761579662561417, 2.9899999999999998],
+            [-1.8399999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-1.6999999999999993, 0.0011761579662561417, 2.9899999999999998],
+            [-1.5599999999999996, 0.0011761579662561417, 2.9899999999999998],
+            [-1.419999999999999, 0.0011761579662561417, 2.9899999999999998],
+            [-1.2799999999999994, 0.0011761579662561417, 2.9899999999999998],
+            [-1.1399999999999997, 0.0011761579662561417, 2.9899999999999998],
+            [-0.9999999999999991, 0.0011761579662561417, 2.9899999999999998],
+            [-0.8599999999999994, 0.0011761579662561417, 2.9899999999999998],
+            [-0.7199999999999989, 0.0011761579662561417, 2.9899999999999998],
+            [-0.5799999999999992, 0.0011761579662561417, 2.9899999999999998],
+            [-0.4399999999999995, 0.0011761579662561417, 2.9899999999999998],
+            [-0.29999999999999893, 0.0011761579662561417, 2.9899999999999998],
+            [-0.15999999999999925, 0.0011761579662561417, 2.9899999999999998],
+            [-0.019999999999999574, 0.0011761579662561417, 2.9899999999999998],
+            [0.120000000000001, 0.0011761579662561417, 2.9899999999999998],
+            [0.26000000000000156, 0.0011761579662561417, 2.9899999999999998],
+            [0.40000000000000036, 0.0011761579662561417, 2.9899999999999998],
+            [0.5400000000000009, 0.0011761579662561417, 2.9899999999999998],
+            [0.6800000000000015, 0.0011761579662561417, 2.9899999999999998],
+            [0.8200000000000003, 0.0011761579662561417, 2.9899999999999998],
+            [0.9600000000000009, 0.0011761579662561417, 2.9899999999999998],
+            [1.1000000000000014, 0.0011761579662561417, 2.9899999999999998],
+            [1.2400000000000002, 0.0011761579662561417, 2.9899999999999998],
+            [1.3800000000000008, 0.0011761579662561417, 2.9899999999999998],
+            [1.5200000000000014, 0.0011761579662561417, 2.9899999999999998],
+            [1.6600000000000001, 0.0011761579662561417, 2.9899999999999998],
+            [1.8000000000000007, 0.0011761579662561417, 2.9899999999999998],
+            [1.9400000000000013, 0.0011761579662561417, 2.9899999999999998],
+            [2.080000000000002, 0.0011761579662561417, 2.9899999999999998],
+            [2.2200000000000006, 0.0011761579662561417, 2.9899999999999998],
+            [2.360000000000001, 0.0011761579662561417, 2.9899999999999998],
+            [2.5000000000000018, 0.0011761579662561417, 2.9899999999999998],
+            [2.6400000000000006, 0.0011761579662561417, 2.9899999999999998],
+            [2.780000000000001, 0.0011761579662561417, 2.9899999999999998],
+            [2.9200000000000017, 0.0011761579662561417, 2.9899999999999998],
+            [3.0600000000000005, 0.0011761579662561417, 2.9899999999999998],
+            [3.200000000000001, 0.0011761579662561417, 2.9899999999999998],
+            [3.3400000000000016, 0.0011761579662561417, 2.9899999999999998],
+            [3.4800000000000004, 0.0011761579662561417, 2.9899999999999998],
+            [3.620000000000001, 0.0011761579662561417, 2.9899999999999998],
+            [3.7600000000000016, 0.0011761579662561417, 2.9899999999999998],
+            [3.9000000000000004, 0.0011761579662561417, 2.9899999999999998],
+            [4.040000000000001, 0.0011761579662561417, 2.9899999999999998],
+            [4.1800000000000015, 0.0011761579662561417, 2.9899999999999998],
+            [4.320000000000002, 0.0011761579662561417, 2.9899999999999998],
+            [4.460000000000003, 0.0011761579662561417, 2.9899999999999998],
+            [4.600000000000003, 0.0011761579662561417, 2.9899999999999998],
+            [4.740000000000004, 0.0011761579662561417, 2.9899999999999998],
+            [4.880000000000001, 0.0011761579662561417, 2.9899999999999998]
+          ],
+          "body": {
+            "radius": 0.28,
+            "height": 1.75,
+            "maxStep": 0.46,
+            "maxDrop": 0.5
+          },
+          "domain": {
+            "x": [-8, 4.9],
+            "z": [1.4499999999999997, 3.02]
+          },
+          "explored": 824
+        }
+      },
+      {
+        "inward": {
+          "state": {
+            "x": 3.2699119229160476,
+            "z": 9.225091149303239,
+            "foot": 0.0026175621896982193,
+            "moved": 0.03500000000000057,
+            "blocked": false
+          },
+          "travelled": 30.380000000000056,
+          "maximumRise": 0.16832447052001953
+        },
+        "outward": {
+          "state": {
+            "x": 3.419942274857022,
+            "z": 23.17330783625749,
+            "foot": 8.057849884033203,
+            "moved": 0.03499999999999882,
+            "blocked": false
+          },
+          "travelled": 30.380000000000138,
+          "maximumRise": 0.16832447052001953
+        },
+        "field": {
+          "cell": 0.1,
+          "size": [360, 462],
+          "columns": 166320,
+          "filled": 154033,
+          "intervals": 449038,
+          "triangles": 928197,
+          "samples": 14508940,
+          "overflows": 11187,
+          "meshes": 510
+        }
+      },
+      {
+        "inward": {
+          "state": {
+            "x": 3.449734348003263,
+            "z": 15.352511956999695,
+            "foot": 2.6023969650268555,
+            "moved": 0.03500000000000022,
+            "blocked": false
+          },
+          "travelled": 10.605000000000004,
+          "maximumRise": 0.1565408706665039
+        },
+        "outward": {
+          "state": {
+            "x": 7.430800831852429,
+            "z": 13.979274740270572,
+            "foot": 7.60842752456665,
+            "moved": 0.03499999999999995,
+            "blocked": false
+          },
+          "travelled": 10.605000000000004,
+          "maximumRise": 0.1565408706665039
+        }
+      },
+      {
+        "inward": {
+          "state": {
+            "x": 3.419874450172194,
+            "z": 23.21506182859827,
+            "foot": 8.057849884033203,
+            "moved": 0.03499999999999959,
+            "blocked": false
+          },
+          "travelled": 10.185000000000041,
+          "maximumRise": 0.08099079132080078
+        },
+        "outward": {
+          "state": {
+            "x": -2.9999619988940696,
+            "z": 23.005055805986007,
+            "foot": 8.365474700927734,
+            "moved": 0.034999999999998775,
+            "blocked": false
+          },
+          "travelled": 10.184999999999938,
+          "maximumRise": 0.08099079132080078
+        }
+      },
+      {
+        "inward": {
+          "state": {
+            "x": 3.4147456493284727,
+            "z": 23.20000215722057,
+            "foot": 8.057849884033203,
+            "moved": 0.03499999999999986,
+            "blocked": false
+          },
+          "travelled": 32.060000000000066,
+          "maximumRise": 0.14949989318847656
+        },
+        "outward": {
+          "state": {
+            "x": -1.997445320451115,
+            "z": 11.002568752457082,
+            "foot": 7.735912322998047,
+            "moved": 0.034999999999999955,
+            "blocked": false
+          },
+          "travelled": 32.0600000000001,
+          "maximumRise": 0.14949989318847656
+        },
+        "supports": [
+          {
+            "x": 0,
+            "z": 8,
+            "foot": 7.002140045166016
+          },
+          {
+            "x": 0,
+            "z": 14,
+            "foot": 7.387203693389893
+          },
+          {
+            "x": -2,
+            "z": 11,
+            "foot": 7.735912322998047
+          }
+        ]
+      }
+    ]
+  },
+  "lightBudget": {
+    "stats": {
+      "levels": {
+        "festoon": 0,
+        "fire": 0,
+        "soffit": 0,
+        "steps": 0,
+        "pool": 0,
+        "gym": 0,
+        "pendant": 0,
+        "dining": 0,
+        "entrance": 0,
+        "downlights": 0,
+        "shelf": 0,
+        "libraryHearth": 0,
+        "room:library": 0,
+        "room:bath-living": 0,
+        "room:bath-bedroom": 0
+      },
+      "lines": 23,
+      "points": 17,
+      "receiverPacks": {
+        "exterior": {
+          "lines": 7,
+          "points": 4,
+          "sources": [
+            "festoon",
+            "festoon",
+            "festoon",
+            "festoon",
+            "tall-books-west",
+            "tall-books-east",
+            "wet-bar",
+            "fire",
+            "pavilion-pendant-0",
+            "pavilion-pendant-1",
+            "library-hearth"
+          ]
+        },
+        "living": {
+          "lines": 11,
+          "points": 10,
+          "sources": [
+            "festoon",
+            "festoon",
+            "festoon",
+            "festoon",
+            "soffit",
+            "steps",
+            "shelf",
+            "mirror",
+            "vanity-underlight",
+            "shower",
+            "short-bedroom-link",
+            "pendant",
+            "dining",
+            "dining",
+            "downlights",
+            "downlights",
+            "downlights",
+            "entrance",
+            "entrance",
+            "fire",
+            "pool"
+          ]
+        },
+        "upper": {
+          "lines": 10,
+          "points": 8,
+          "sources": [
+            "festoon",
+            "festoon",
+            "festoon",
+            "festoon",
+            "steps",
+            "shelf",
+            "mirror",
+            "vanity-underlight",
+            "shower",
+            "short-bedroom-link",
+            "pendant",
+            "dining",
+            "dining",
+            "downlights",
+            "downlights",
+            "downlights",
+            "fire",
+            "pool"
+          ]
+        },
+        "gym": {
+          "lines": 7,
+          "points": 1,
+          "sources": ["festoon", "festoon", "festoon", "festoon", "gym", "gym", "gym", "fire"]
+        },
+        "bath-living": {
+          "lines": 6,
+          "points": 8,
+          "sources": [
+            "soffit",
+            "shelf",
+            "mirror",
+            "vanity-underlight",
+            "shower",
+            "short-bedroom-link",
+            "pendant",
+            "dining",
+            "dining",
+            "downlights",
+            "downlights",
+            "downlights",
+            "entrance",
+            "entrance"
+          ]
+        },
+        "bath-bedroom": {
+          "lines": 5,
+          "points": 6,
+          "sources": [
+            "shelf",
+            "mirror",
+            "vanity-underlight",
+            "shower",
+            "short-bedroom-link",
+            "pendant",
+            "dining",
+            "dining",
+            "downlights",
+            "downlights",
+            "downlights"
+          ]
+        },
+        "library": {
+          "lines": 7,
+          "points": 2,
+          "sources": [
+            "festoon",
+            "festoon",
+            "festoon",
+            "festoon",
+            "tall-books-west",
+            "tall-books-east",
+            "short-bedroom-link",
+            "fire",
+            "library-hearth"
+          ]
+        },
+        "gallery": {
+          "lines": 11,
+          "points": 7,
+          "sources": [
+            "soffit",
+            "shelf",
+            "tall-books-west",
+            "tall-books-east",
+            "mirror",
+            "vanity-underlight",
+            "shower",
+            "mirror",
+            "vanity-underlight",
+            "shower",
+            "short-bedroom-link",
+            "pendant",
+            "dining",
+            "dining",
+            "downlights",
+            "downlights",
+            "downlights",
+            "library-hearth"
+          ]
+        },
+        "architecture": {
+          "lines": 14,
+          "points": 10,
+          "sources": [
+            "festoon",
+            "festoon",
+            "festoon",
+            "festoon",
+            "soffit",
+            "steps",
+            "shelf",
+            "mirror",
+            "vanity-underlight",
+            "shower",
+            "mirror",
+            "vanity-underlight",
+            "shower",
+            "short-bedroom-link",
+            "pendant",
+            "dining",
+            "dining",
+            "downlights",
+            "downlights",
+            "downlights",
+            "entrance",
+            "entrance",
+            "fire",
+            "pool"
+          ]
+        },
+        "garden": {
+          "lines": 3,
+          "points": 4,
+          "sources": [
+            "portal-brow",
+            "clifftop-lounge--12.82",
+            "clifftop-lounge--9.18",
+            "garden-path-0",
+            "garden-path-1",
+            "garden-path-2",
+            "garden-path-3"
+          ]
+        },
+        "arrival": {
+          "lines": 5,
+          "points": 2,
+          "sources": ["soffit", "steps", "mirror", "vanity-underlight", "shower", "entrance", "entrance"]
+        },
+        "clifftop": {
+          "lines": 2,
+          "points": 0,
+          "sources": ["clifftop-lounge--12.82", "clifftop-lounge--9.18"]
+        }
+      },
+      "clonedReceiverMaterials": 0,
+      "festoonMaterials": 0,
+      "fireMaterials": 0,
+      "deskMaterials": 0,
+      "lanternMaterials": 0,
+      "rgb": "ffffff",
+      "pool": null
+    },
+    "regions": 15,
+    "practicals": 8
+  },
+  "assets": [
+    {
+      "file": "home-shell.glb",
+      "bytes": 867288,
+      "sha256": "9471ddfa4ec964b911755791394ac912a9f49969583b89bd670a7384050a247c"
+    },
+    {
+      "file": "coast.glb",
+      "bytes": 184500,
+      "sha256": "63847dcbb720d92cc538badf0f029b36f8efbf91c30d637e360b3126696522f6"
+    },
+    {
+      "file": "room-study.glb",
+      "bytes": 164452,
+      "sha256": "8e2805d09631f8e434144619e9a75868ddda854c54c9daf946293ef5815ce181"
+    },
+    {
+      "file": "room-kitchen.glb",
+      "bytes": 244028,
+      "sha256": "297f502691c778019b30b7508c2442719e16e667ea0453f802e72460e2b30cb4"
+    },
+    {
+      "file": "room-gym.glb",
+      "bytes": 222576,
+      "sha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de"
+    },
+    {
+      "file": "room-onsen.glb",
+      "bytes": 90548,
+      "sha256": "b013c1540cdfbfc080eb3ac7f7734b2039d40e72420281af125abaf0366e580b"
+    },
+    {
+      "file": "room-lounge.glb",
+      "bytes": 233312,
+      "sha256": "56fc6f792e8f59bb5f33fabf18119bc7e3512e00e287aeea84128ed461594802"
+    },
+    {
+      "file": "room-sleep.glb",
+      "bytes": 277792,
+      "sha256": "72e5433b2d65ecb5e6451506d4b78da48647fc882916205e16267b2d03100790"
+    },
+    {
+      "file": "room-library.glb",
+      "bytes": 207544,
+      "sha256": "86118a72c9c2eb26587e3ad30f2ed0c975cf5d3ba68321fe2f1e62f5f106915b"
+    },
+    {
+      "file": "room-library-upper.glb",
+      "bytes": 22272,
+      "sha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85"
+    },
+    {
+      "file": "room-bath-living.glb",
+      "bytes": 96196,
+      "sha256": "c724875c7f3c1c6f278eea0ea339f056d315f76fb76ce2190f17ea56e95814fe"
+    },
+    {
+      "file": "room-bath-bedroom.glb",
+      "bytes": 97508,
+      "sha256": "1df8358f8c7dae4cf81ef8f7d9aa7393bcb0c70984ec31e1963537178a1a55e9"
+    }
+  ],
+  "followup": "Complete native P flight proof is retained separately. Coordinator owns final browser keyboard/mobile/night/cache acceptance.",
+  "companionFlightReview": "COMPANION_FLIGHT_REVIEW.md",
+  "roofPlantingReview": "roof-planting.json",
+  "gymConnectionReview": "gym-connection.json",
+  "anchorMeshEquivalence": "anchor-geometry-equivalence.json",
+  "anchorPerchClosure": "anchor-perch-closure.json"
+}

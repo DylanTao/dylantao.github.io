@@ -1,0 +1,358 @@
+{
+  "version": 1,
+  "coordinates": "native before the final estate setback",
+  "removed": ["lounge_retained_plant_olive_stems", "lounge_retained_plant_olive_planter", "lounge_retained_plant_olive_foliage"],
+  "planting": [
+    {
+      "room": "lounge",
+      "species": "Strelitzia",
+      "root": [4.89, 0.324, -3.65],
+      "support": "floor-mounted limestone bed at the north glazing return"
+    },
+    {
+      "room": "bath-living",
+      "species": "Asplenium",
+      "root": [-8.055, 0.928, 3.12],
+      "support": "small inset oak liner on the actual vanity stone"
+    },
+    {
+      "room": "bath-bedroom",
+      "species": "Asplenium",
+      "root": [-8.055, 3.528, 3.12],
+      "support": "small inset oak liner on the actual vanity stone"
+    },
+    {
+      "room": "library",
+      "species": "Epipremnum",
+      "root": [-11.65, 3.169, 2.16],
+      "support": "fitted bookshelf liner, clear of the spiral and fireplace"
+    }
+  ],
+  "hearth": {
+    "base": [-12.3, 5.1, 0.0],
+    "flueTop": [-12.45, 5.57, -5.1],
+    "newAnalyticPoints": 1,
+    "newPointLights": 0,
+    "newShadowMaps": 0
+  },
+  "objects": [
+    {
+      "name": "lounge_refined_botanical__honed travertine",
+      "vertices": 480,
+      "triangles": 940
+    },
+    {
+      "name": "lounge_refined_botanical__interior botanical mineral soil",
+      "vertices": 8,
+      "triangles": 12
+    },
+    {
+      "name": "lounge_refined_botanical__interior botanical leaf stem",
+      "vertices": 470,
+      "triangles": 760
+    },
+    {
+      "name": "lounge_refined_botanical__interior Strelitzia broadleaf",
+      "vertices": 135,
+      "triangles": 160
+    },
+    {
+      "name": "bath-living_refined_botanical__pale oak",
+      "vertices": 480,
+      "triangles": 940
+    },
+    {
+      "name": "bath-living_refined_botanical__interior botanical mineral soil",
+      "vertices": 8,
+      "triangles": 12
+    },
+    {
+      "name": "bath-living_refined_botanical__interior botanical leaf stem",
+      "vertices": 846,
+      "triangles": 1368
+    },
+    {
+      "name": "bath-living_refined_botanical__interior Asplenium fern leaf",
+      "vertices": 243,
+      "triangles": 288
+    },
+    {
+      "name": "bath-bedroom_refined_botanical__pale oak",
+      "vertices": 480,
+      "triangles": 940
+    },
+    {
+      "name": "bath-bedroom_refined_botanical__interior botanical mineral soil",
+      "vertices": 8,
+      "triangles": 12
+    },
+    {
+      "name": "bath-bedroom_refined_botanical__interior botanical leaf stem",
+      "vertices": 846,
+      "triangles": 1368
+    },
+    {
+      "name": "bath-bedroom_refined_botanical__interior Asplenium fern leaf",
+      "vertices": 243,
+      "triangles": 288
+    },
+    {
+      "name": "library_refined_botanical__pale oak",
+      "vertices": 576,
+      "triangles": 1128
+    },
+    {
+      "name": "library_refined_botanical__interior botanical mineral soil",
+      "vertices": 8,
+      "triangles": 12
+    },
+    {
+      "name": "library_refined_botanical__interior botanical leaf stem",
+      "vertices": 504,
+      "triangles": 780
+    },
+    {
+      "name": "library_refined_botanical__interior Epipremnum leaf",
+      "vertices": 120,
+      "triangles": 60
+    },
+    {
+      "name": "library_refined_hearth__honed travertine",
+      "vertices": 384,
+      "triangles": 752
+    },
+    {
+      "name": "library_refined_hearth__library hearth blackened steel",
+      "vertices": 228,
+      "triangles": 444
+    },
+    {
+      "name": "library_refined_hearth__honey ash",
+      "vertices": 72,
+      "triangles": 128
+    },
+    {
+      "name": "library_refined_hearth__library hearth ember glow",
+      "vertices": 216,
+      "triangles": 384
+    },
+    {
+      "name": "library_refined_hearth__library hearth warm flame",
+      "vertices": 25,
+      "triangles": 15
+    },
+    {
+      "name": "library_refined_hearth__brushed brass",
+      "vertices": 20,
+      "triangles": 36
+    }
+  ],
+  "idempotent": true,
+  "bathroomFloorProbes": [
+    {
+      "room": "bath-living",
+      "branch": "route",
+      "point": [3.27, 0.0, 5.6],
+      "delta": 0.002500012516975403
+    },
+    {
+      "room": "bath-living",
+      "branch": "route",
+      "point": [-2.8, 0.0, 5.6],
+      "delta": 0.002499982714653015
+    },
+    {
+      "room": "bath-living",
+      "branch": "route",
+      "point": [-4.05, 0.0, 5.6],
+      "delta": 0.002499997615814209
+    },
+    {
+      "room": "bath-living",
+      "branch": "route",
+      "point": [-4.05, 0.0, 5.15],
+      "delta": 0.002500012516975403
+    },
+    {
+      "room": "bath-living",
+      "branch": "route",
+      "point": [-5.6, 0.0, 5.15],
+      "delta": -1.4901161193847656e-8
+    },
+    {
+      "room": "bath-living",
+      "branch": "route",
+      "point": [-5.8, 0.0, 4.05],
+      "delta": -1.4901161193847656e-8
+    },
+    {
+      "room": "bath-living",
+      "branch": "wcApproachRoute",
+      "point": [-5.8, 0.0, 4.05],
+      "delta": -1.4901161193847656e-8
+    },
+    {
+      "room": "bath-living",
+      "branch": "wcApproachRoute",
+      "point": [-6.4, 0.0, 4.15],
+      "delta": -1.4901161193847656e-8
+    },
+    {
+      "room": "bath-living",
+      "branch": "wcApproachRoute",
+      "point": [-7.25, 0.0, 4.15],
+      "delta": -1.4901161193847656e-8
+    },
+    {
+      "room": "bath-living",
+      "branch": "wcApproachRoute",
+      "point": [-7.25, 0.0, 4.85],
+      "delta": -1.4901161193847656e-8
+    },
+    {
+      "room": "bath-living",
+      "branch": "wcApproachRoute",
+      "point": [-7.58, 0.0, 4.85],
+      "delta": 1.4901161193847656e-8
+    },
+    {
+      "room": "bath-living",
+      "branch": "showerRoute",
+      "point": [-5.8, 0.0, 4.05],
+      "delta": -1.4901161193847656e-8
+    },
+    {
+      "room": "bath-living",
+      "branch": "showerRoute",
+      "point": [-5.9, 0.0, 3.4],
+      "delta": -1.4901161193847656e-8
+    },
+    {
+      "room": "bath-living",
+      "branch": "showerRoute",
+      "point": [-5.9, 0.0, 2.45],
+      "delta": 0.0
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "route",
+      "point": [-2.12, 2.6, 6.1],
+      "delta": 0.0025000572204589844
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "route",
+      "point": [-3.1, 2.6, 6.1],
+      "delta": 0.0025000572204589844
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "route",
+      "point": [-3.1, 2.6, 5.15],
+      "delta": 0.0025000572204589844
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "route",
+      "point": [-5.6, 2.6, 5.15],
+      "delta": 0.0
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "route",
+      "point": [-5.8, 2.6, 4.05],
+      "delta": 0.0
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "wcApproachRoute",
+      "point": [-5.8, 2.6, 4.05],
+      "delta": 0.0
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "wcApproachRoute",
+      "point": [-6.4, 2.6, 4.15],
+      "delta": 0.0
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "wcApproachRoute",
+      "point": [-7.25, 2.6, 4.15],
+      "delta": 0.0
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "wcApproachRoute",
+      "point": [-7.25, 2.6, 4.85],
+      "delta": 0.0
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "wcApproachRoute",
+      "point": [-7.58, 2.6, 4.85],
+      "delta": 0.0
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "showerRoute",
+      "point": [-5.8, 2.6, 4.05],
+      "delta": 0.0
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "showerRoute",
+      "point": [-5.9, 2.6, 3.4],
+      "delta": 0.0
+    },
+    {
+      "room": "bath-bedroom",
+      "branch": "showerRoute",
+      "point": [-5.9, 2.6, 2.45],
+      "delta": 0.0
+    }
+  ],
+  "bathroomFloorMaterials": ["bathroom honed travertine ivory", "bathroom honed travertine oat", "bathroom honed travertine sand"],
+  "bathroomLines": {
+    "bath-living": [
+      {
+        "id": "mirror",
+        "a": [-8.1, 2.16, 4.31],
+        "b": [-8.1, 2.16, 2.99],
+        "intensity": 0.78
+      },
+      {
+        "id": "vanity-underlight",
+        "a": [-7.93, 0.352, 4.27],
+        "b": [-7.93, 0.352, 3.03],
+        "intensity": 0.075
+      },
+      {
+        "id": "shower",
+        "a": [-7.95, 2.24, 1.96],
+        "b": [-5.12, 2.24, 1.96],
+        "intensity": 0.52
+      }
+    ],
+    "bath-bedroom": [
+      {
+        "id": "mirror",
+        "a": [-8.1, 4.76, 4.31],
+        "b": [-8.1, 4.76, 2.99],
+        "intensity": 0.78
+      },
+      {
+        "id": "vanity-underlight",
+        "a": [-7.93, 2.952, 4.27],
+        "b": [-7.93, 2.952, 3.03],
+        "intensity": 0.075
+      },
+      {
+        "id": "shower",
+        "a": [-7.95, 4.84, 1.96],
+        "b": [-5.12, 4.84, 1.96],
+        "intensity": 0.52
+      }
+    ]
+  }
+}

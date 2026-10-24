@@ -52,11 +52,24 @@ export function sleepWindow(schedule) {
   return { bed: schedule[index][0], wake: schedule[(index + 1) % schedule.length][0] };
 }
 
-export function createWarmPracticals(scene, bind = (m) => m) {
+export function practicalSourcesFor(config) {
+  const setback = Number(config?.retreat?.setbackMetres) || 0;
+  const native = config?.retreat?.workstationNativeTranslation || [0, 0, 0];
+  return PRACTICAL_SOURCES.map((source) => ({
+    ...source,
+    position: source.position.map((value, axis) => {
+      const global = axis === 2 ? setback : 0;
+      const desk = source.id === "study" ? [native[0], native[2], -native[1]][axis] : 0;
+      return value + global + desk;
+    }),
+  }));
+}
+
+export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTICAL_SOURCES } = {}) {
   const root = new THREE.Group();
   root.name = "Warm architectural fixtures";
   const color = new THREE.Color(0xffc18b),
-    lights = PRACTICAL_SOURCES.map((source) => {
+    lights = sources.map((source) => {
       const light = new THREE.PointLight(color, source.day, source.distance, 2);
       light.position.fromArray(source.position);
       light.name = `${source.id} practical`;
@@ -74,7 +87,7 @@ export function createWarmPracticals(scene, bind = (m) => m) {
     geometry.translate(...position);
     target.push(geometry);
   }
-  for (const source of PRACTICAL_SOURCES.filter((s) => /bath|terrace/.test(s.id))) {
+  for (const source of sources.filter((s) => /bath|terrace/.test(s.id))) {
     const [x, y, z] = source.position;
     cylinder(housings, source.id === "bath" ? 0.1 : 0.135, 0.035, [x, y - 0.15, z]);
     cylinder(housings, 0.123, 0.024, [x, y + 0.14, z]);
@@ -110,18 +123,18 @@ export function createWarmPracticals(scene, bind = (m) => m) {
   }
   scene.add(root);
   let nightMix = 0;
-  const levels = Object.fromEntries(PRACTICAL_SOURCES.map((s) => [s.id, 1]));
+  const levels = Object.fromEntries(sources.map((s) => [s.id, 1]));
   return {
     root,
     lights,
-    sources: PRACTICAL_SOURCES.map((source, i) => ({ ...source, color: color.toArray(), light: lights[i] })),
+    sources: sources.map((source, i) => ({ ...source, color: color.toArray(), light: lights[i] })),
     // routine: { minute, id, schedule }. Without one, every lamp follows daylight alone.
     update(daylight, routine = null) {
       const t = THREE.MathUtils.clamp((0.3 - daylight) / 0.3, 0, 1);
       nightMix = t * t * (3 - 2 * t);
       const state = routine && { minute: routine.minute, activity: routine.id, ...sleepWindow(routine.schedule || []) };
       lights.forEach((light, i) => {
-        const source = PRACTICAL_SOURCES[i];
+        const source = sources[i];
         const level = state ? PRACTICAL_SCHEDULES[source.id](state) : 1;
         levels[source.id] = level;
         light.intensity = source.day + (source.night - source.day) * level * (source.anyHour ? 1 : nightMix);

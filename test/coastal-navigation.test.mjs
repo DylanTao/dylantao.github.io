@@ -4,13 +4,20 @@ import { readFileSync } from "node:fs";
 import { roomRoute, sampleRoute } from "../assets/js/home-scene/navigation.mjs";
 import { supportHeight } from "../assets/js/home-scene/shore.mjs";
 
-const config = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+const config = JSON.parse(readFileSync(process.env.COASTAL_MANIFEST_PATH || new URL("../assets/models/home/manifest.json", import.meta.url)));
 // The stair runs along the landward wall (2.4 m further inland since the October 2026 renovation).
 const stairZ = config.navigation.stairs[1][2];
 const room = (id) => config.rooms.find((r) => r.id === id);
 const supported = (point) => [point[0], supportHeight(point[0], point[2], config.terrain, point[1]), point[2]];
 const slopes = (route) => route.points.slice(1).flatMap((p, i) => (Math.abs(p[1] - route.points[i][1]) > 0.01 ? [[route.points[i], p]] : []));
-const mainStair = ([a, b]) => a[2] === stairZ && b[2] === stairZ;
+const near = (a, b) => Math.hypot(...a.map((v, i) => v - b[i])) < 1e-5;
+const edges = (points) => points.slice(1).flatMap((p, i) => (Math.abs(p[1] - points[i][1]) > 0.01 ? [[points[i], p]] : []));
+const exactEdge = ([a, b], route) => edges(route).some(([x, y]) => (near(a, x) && near(b, y)) || (near(a, y) && near(b, x)));
+const mainStair = (pair) => exactEdge(pair, config.navigation.stairs);
+const privateStair = (pair) => exactEdge(pair, config.estateLibrary?.privateConnection || []);
+const interstorey = (pair) => mainStair(pair) || privateStair(pair);
+const mainRisers = config.retreat ? 16 : 15;
+const setback = Number(config.retreat?.setbackMetres) || 0;
 const sunken = new Set(["kitchen", "lounge"]);
 
 test("all room pairs begin and end on their actual supports and cross the correct stairs", () => {
@@ -24,15 +31,14 @@ test("all room pairs begin and end on their actual supports and cross the correc
       assert.deepEqual(sampleRoute(route, 0).position, supported(from.actor), name);
       sampleRoute(route, 1).position.forEach((v, i) => assert.ok(Math.abs(v - supported(to.actor)[i]) < 1e-8, name));
       const changes = slopes(route),
-        central = changes.filter(mainStair),
-        local = changes.filter((pair) => !mainStair(pair));
+        central = changes.filter(interstorey),
+        local = changes.filter((pair) => !interstorey(pair));
       if (from.egress[1] === to.egress[1]) assert.equal(central.length, 0, `${name}: same corridor level never visits the main stair`);
       else {
-        assert.equal(central.length, 15, `${name}: all 15 main risers`);
+        assert.equal(central.length, mainRisers, `${name}: all exact authored interstorey risers`);
         const direction = Math.sign(to.egress[1] - from.egress[1]);
         central.forEach(([a, b]) => {
-          assert.equal(a[2], stairZ);
-          assert.equal(b[2], stairZ);
+          assert.ok(mainStair([a, b]) || privateStair([a, b]), `${name}: each exact curved or spiral tread is retained`);
           assert.ok(Math.abs(a[1] - b[1]) < 0.175);
           assert.equal(Math.sign(b[1] - a[1]), direction);
         });
@@ -62,7 +68,7 @@ test("sunken departures retain the authored pit path and use the crossed native 
     kitchen = room("kitchen"),
     gym = room("gym");
   const pit = roomRoute(config, lounge, gym, lounge.actor);
-  assert.deepEqual(pit.points[0], [-0.15, -0.42, 0.61], "the seated root at -.495 stands on the -.42 floor");
+  assert.deepEqual(pit.points[0], [-0.15, -0.42, 0.61 + setback], "the seated root at -.495 stands on the -.42 floor");
   assert.deepEqual(pit.points.slice(1, 1 + lounge.exitPath.length), lounge.exitPath, "the authored pit circulation remains exact");
   assert.deepEqual(
     slopes(pit).map(([a, b]) => [a[1], b[1]]),
@@ -72,7 +78,7 @@ test("sunken departures retain the authored pit path and use the crossed native 
     ]
   );
   const nook = roomRoute(config, kitchen, gym, kitchen.actor);
-  assert.deepEqual(nook.points[0], [-3.95, -0.42, -2.74], "the seated root at -.475 stands on the nook floor");
+  assert.deepEqual(nook.points[0], [-3.95, -0.42, -2.74 + setback], "the seated root at -.475 stands on the nook floor");
   const tread = nook.points.find((p) => p[1] === -0.21);
   assert.ok(tread, "the direct coffee path visits the exported intermediate tread");
   const nativeTread = { ...config.terrain, supportSurfaces: config.terrain.supportSurfaces.filter((s) => s.id.startsWith("nook-tread-")) };
@@ -96,19 +102,56 @@ test("corridor levels choose the main stair independently of seated roots or roo
   assert.equal(upstairs.actor[1], 2.12, "bathing pose root is below the gallery floor");
   const descending = roomRoute(copy, upstairs, lounge, upstairs.actor);
   assert.equal(descending.points[0][1], 2.6, "walking starts on the gallery's support, rather than the bathing root");
-  assert.equal(slopes(descending).filter(mainStair).length, 15);
+  assert.equal(slopes(descending).filter(mainStair).length, mainRisers);
 });
 
-test("floor contact follows the landward treads and preserves the gallery opening", () => {
-  for (let i = 0; i < 15; i++) {
-    const x = -2 + (i + 0.5) * 0.26;
-    assert.ok(Math.abs(supportHeight(x, stairZ, config.terrain, 0, true) - ((i + 1) * 2.6) / 15) < 0.00001);
+test("floor contact follows every actual curved or legacy tread and its supported landing", () => {
+  const risers = edges(config.navigation.stairs);
+  assert.equal(risers.length, mainRisers);
+  for (const [a, b] of risers) {
+    // Legacy route points include tread edges. Probe the actual polygon's
+    // centre, independently of which adjacent edge a half-open test chooses.
+    const treads = config.terrain.supportSurfaces.filter((s) => /^(tread-|retreat-house-tread-)/.test(s.id) && Math.abs(s.height - b[1]) < 1e-4);
+    const centres = treads.map((s) => [
+      s.polygon.reduce((sum, p) => sum + p[0], 0) / s.polygon.length,
+      s.polygon.reduce((sum, p) => sum + p[1], 0) / s.polygon.length,
+    ]);
+    centres.sort((x, y) => Math.hypot(x[0] - b[0], x[1] - b[2]) - Math.hypot(y[0] - b[0], y[1] - b[2]));
+    assert.ok(centres.length && Math.hypot(centres[0][0] - b[0], centres[0][1] - b[2]) < 0.4, "each route riser belongs to its nearby real tread");
+    assert.ok(
+      Math.abs(supportHeight(centres[0][0], centres[0][1], config.terrain, b[1], true) - b[1]) < 0.0001,
+      "legacy route coordinates retain their documented four-decimal precision"
+    );
+    assert.ok(Math.abs(b[1] - a[1]) < 0.175);
   }
-  // The upper walk in front of the stair opening, the opening itself, and the landing beside it.
-  assert.equal(stairZ, 7.05);
-  assert.equal(supportHeight(0, 6.3, config.terrain, 2.6), 2.6);
-  assert.equal(supportHeight(0, 7.1, config.terrain, 2.6), 0);
-  assert.equal(supportHeight(3, 7.1, config.terrain, 2.6), 2.6);
+  const top = config.navigation.stairs.at(-1);
+  assert.equal(top[2], config.navigation.upperAisleZ);
+  assert.equal(supportHeight(top[0], top[2], config.terrain, 2.6), 2.6);
+  if (config.retreat) assert.ok(new Set(risers.map(([, b]) => b[2])).size > 3, "accepted main stair is bowed");
+  else {
+    assert.equal(stairZ, 7.05);
+    assert.equal(supportHeight(0, 6.3, config.terrain, 2.6), 2.6);
+    assert.equal(supportHeight(0, 7.1, config.terrain, 2.6), 0);
+    assert.equal(supportHeight(3, 7.1, config.terrain, 2.6), 2.6);
+  }
+});
+
+test("retreat bedroom/study uses the whole compact spiral and library destinations share their actual aisle", () => {
+  if (!config.retreat) return;
+  assert.ok(config.estateLibrary.bedroomApproach?.length > 1, "native bedroom actor connector must be authored");
+  const sleep = room("sleep"),
+    study = room("study"),
+    reading = room("library");
+  const down = roomRoute(config, sleep, study, sleep.actor),
+    up = roomRoute(config, study, sleep, study.actor);
+  assert.equal(down.connection, "bedroom-study");
+  assert.equal(slopes(down).filter(privateStair).length, 16);
+  assert.equal(slopes(down).filter(mainStair).length, 0);
+  assert.deepEqual(up.points, [...down.points].reverse(), "same authored route both directions");
+  const shared = roomRoute(config, study, reading, study.actor);
+  assert.equal(shared.connection, "shared-aisle");
+  assert.ok(Math.max(...shared.points.map((p) => p[2])) < config.navigation.lowerAisleZ - 2, "no rear-hall exit and retrace");
+  assert.equal(slopes(shared).length, 0);
 });
 
 test("stairs use constant travel speed and never overshoot landings", () => {

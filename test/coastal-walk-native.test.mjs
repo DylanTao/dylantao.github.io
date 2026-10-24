@@ -68,22 +68,75 @@ function traverse(field, route) {
   return { state, travelled, maximumRise };
 }
 
+// The inland migration changes where native stair openings and retaining faces
+// sit. Find a genuine top-surface journey around them rather than carrying an
+// obsolete straight line across a new shaft. Every edge is the runtime capsule
+// solver; a route cannot descend through the house to satisfy a rooftop check.
+function roofJourney(field, from, to) {
+  const step = 0.2;
+  const start = field.findStand(from[0], from[2], from[1], { reach: 0.08, tolerance: 0.08 });
+  assert.ok(start, "roof search starts at the actual current support");
+  const queue = [{ state: start, ix: 0, iz: 0, parent: null }],
+    seen = new Set(["0,0"]);
+  for (let cursor = 0; cursor < queue.length && cursor < 18000; cursor++) {
+    const node = queue[cursor],
+      state = node.state;
+    if (Math.hypot(state.x - to[0], state.z - to[2]) < 0.3) {
+      const final = field.move(state.x, state.z, state.foot, to[0] - state.x, to[2] - state.z);
+      if (Math.hypot(final.x - to[0], final.z - to[2]) < 0.02 && Math.abs(final.foot - to[1]) < 0.1) {
+        const points = [[final.x, final.foot, final.z]];
+        for (let at = node; at; at = at.parent) points.push([at.state.x, at.state.foot, at.state.z]);
+        return points.reverse();
+      }
+    }
+    for (const [dx, dz] of [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ]) {
+      const ix = node.ix + dx,
+        iz = node.iz + dz,
+        key = `${ix},${iz}`;
+      if (seen.has(key)) continue;
+      const x = start.x + ix * step,
+        z = start.z + iz * step;
+      if (x < -14 || x > 14 || z < 3 || z > 29) continue;
+      const next = field.move(state.x, state.z, state.foot, x - state.x, z - state.z);
+      if (Math.hypot(next.x - x, next.z - z) > 0.015 || next.foot < 6.5 || next.foot > 12) continue;
+      seen.add(key);
+      queue.push({ state: next, ix, iz, parent: node });
+    }
+  }
+  throw Error(`No genuine rooftop capsule journey to ${JSON.stringify(to)} after ${queue.length} native states`);
+}
+
 test("the delivered main entrance continuously descends into the living floor and climbs back outside", async (t) => {
   assert.equal(manifest.entrance.floor, 0, "the main door enters the shared living floor");
   const route = manifest.walk.mainEntryRoute;
-  assert.ok(route?.length >= 50, "the complete entry, both native stair flights and lower circulation are authored");
+  assert.ok(route?.length >= 50, "the complete curved descent and actual lower foyer circulation are authored");
   assert.deepEqual(route[0], manifest.walk.start.position, "Walk starts at the top of its actual main-entry route");
+  const [arrival, next] = route,
+    dx = next[0] - arrival[0],
+    dz = next[2] - arrival[2],
+    yaw = manifest.walk.start.yaw,
+    forwardDot = (Math.sin(yaw) * dx + Math.cos(yaw) * dz) / Math.hypot(dx, dz);
+  assert.ok(forwardDot > 0.99, `Walk arrival faces down its public descent: forward dot ${forwardDot}`);
   const field = await deliveredField(),
     inward = traverse(field, route),
     outward = traverse(field, [...route].reverse());
-  assert.ok(inward.travelled > 20 && outward.travelled > 20);
+  const planLength = route.slice(1).reduce((sum, point, i) => sum + Math.hypot(point[0] - route[i][0], point[2] - route[i][2]), 0);
+  assert.ok(
+    Math.abs(inward.travelled - planLength) < 0.3 && Math.abs(outward.travelled - planLength) < 0.3,
+    "both walks cover the actual complete, shorter curved route"
+  );
   assert.ok(Math.abs(inward.state.foot) < 0.08, "inside at the shared living floor");
   assert.ok(Math.abs(outward.state.foot - manifest.entrance.top) < 0.08, "outside on the actual clifftop portal");
   t.diagnostic(JSON.stringify({ inward, outward, field: field.evidence() }));
 });
 
 test("the optional upper private entrance remains traversable in both directions", async (t) => {
-  const route = manifest.entrance.privateEntrance?.route;
+  const route = manifest.privateEntrance?.route;
   assert.ok(route?.length >= 2, "the optional private entry has an authored route");
   const field = await deliveredField();
   const inward = traverse(field, route),
@@ -96,10 +149,10 @@ test("the clifftop walking field extends beyond the entrance over real terrain",
   const field = await deliveredField(),
     points = [manifest.walk.start.position];
   for (const [x, z] of [
-    [3.42, 22],
-    [0, 22],
-    [-3, 22],
-    [-3, 20],
+    [3.42, 25],
+    [0, 25],
+    [-3, 25],
+    [-3, 23],
   ]) {
     const foot = field.floorBelow(x, z, 12);
     assert.ok(Number.isFinite(foot), `real native clifftop support at ${x}, ${z}`);
@@ -115,33 +168,21 @@ test("the hidden cutaway roof remains real clifftop support while crossing the d
   const field = await deliveredField();
   // These points are above the dwelling itself, unlike the inland terrain loop. Without the
   // retained roof triangles they incorrectly stand on the upper floor or have no support at all.
+  const setback = manifest.retreat.setbackMetres;
   const rooftop = [
-    [0, 0],
-    [0, 6],
-    [-2, 3],
+    [0, setback],
+    [0, 6 + setback],
+    [-2, 3 + setback],
   ];
   for (const [x, z] of rooftop) {
-    const foot = field.floorBelow(x, z, 9);
-    assert.ok(foot > 6.5 && foot < 8, `actual sandstone roof support at ${x}, ${z}: ${foot}`);
+    const foot = field.floorBelow(x, z, 12);
+    assert.ok(foot > 6.5 && foot < 12, `actual sandstone roof support at ${x}, ${z}: ${foot}`);
   }
   const points = [manifest.walk.start.position];
-  // Follow the mineral garden path out around the portal's real stone fin and oak brow,
-  // then use the agave gap to cross the roof. Do not shortcut through the new solid portal.
-  // Probe below its canopy so each approach point means the actual walking floor.
-  for (const [x, z] of [
-    [3.42, 20.4],
-    [1.6, 21.1],
-    [1.8, 18.8],
-    [1.8, 9.6],
-    [-0.2, 7.6],
-    [-0.2, 0.2],
-    [0, 0],
-    [0, 6],
-    [-2, 3],
-  ]) {
-    const foot = field.floorBelow(x, z, 9);
+  for (const [x, z] of rooftop) {
+    const foot = field.floorBelow(x, z, 12);
     assert.ok(Number.isFinite(foot), `native support on roof route at ${x}, ${z}`);
-    points.push([x, foot, z]);
+    points.push(...roofJourney(field, points.at(-1), [x, foot, z]).slice(1));
   }
   const outward = traverse(field, points),
     inward = traverse(field, [...points].reverse());

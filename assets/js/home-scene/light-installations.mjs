@@ -150,18 +150,22 @@ export function darkness(daylight) {
 export const SCHEDULES = {
   festoon: ({ minute, dark }) => dark.outside * windowLevel(minute, 16 * 60, 23 * 60 + 30, 20),
   fire: ({ minute, dark }) => dark.outside * windowLevel(minute, 19 * 60 + 30, 22 * 60 + 45, 12),
-  soffit: ({ minute, dark, activity }) =>
-    dark.inside * Math.max(windowLevel(minute, 17 * 60 + 30, 23 * 60 + 30, 25), activity === "coding" ? 0.35 : 0),
+  soffit: ({ minute, dark, activity, sheltered }) =>
+    Math.max(sheltered ? 0.18 : 0, dark.inside * Math.max(windowLevel(minute, 17 * 60 + 30, 23 * 60 + 30, 25), activity === "coding" ? 0.35 : 0)),
   steps: ({ dark }) => 0.45 * dark.outside,
   pool: ({ minute, dark, activity }) => (activity === "soak" ? 1 : 0.4 * dark.outside * windowLevel(minute, 19 * 60, 23 * 60, 20)),
   gym: ({ dark, activity }) => (activity === "workout" ? Math.max(0.65, dark.inside) : 0.18 * dark.inside),
   // The dining table is under the gallery, so daylight outside does not replace its task light.
-  pendant: ({ minute, dark, activity }) =>
-    MEALS.includes(activity) ? Math.max(0.65, dark.inside) : dark.inside * 0.45 * windowLevel(minute, 17 * 60, 23 * 60 + 30, 30),
-  dining: ({ dark, activity, visit }) => (MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.65, dark.inside) : 0.3 * dark.inside),
+  pendant: ({ minute, dark, activity, sheltered }) =>
+    MEALS.includes(activity)
+      ? Math.max(0.65, dark.inside)
+      : Math.max(sheltered ? 0.22 : 0, dark.inside * 0.45 * windowLevel(minute, 17 * 60, 23 * 60 + 30, 30)),
+  dining: ({ dark, activity, visit, sheltered }) =>
+    MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.65, dark.inside) : Math.max(sheltered ? 0.22 : 0, 0.3 * dark.inside),
   entrance: ({ dark }) => 0.3 + 0.7 * dark.inside,
   downlights: ({ dark, activity, visit }) => (MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
   shelf: ({ dark, activity, visit }) => (MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
+  libraryHearth: ({ dark, visit }) => Math.max(visit === "study" || visit === "library" ? 0.55 : 0, 0.75 * dark.inside),
 };
 // The office's screens and RGB (no light of their own, so not an installation above): awake while
 // Sirui works at the desk, a glow otherwise.
@@ -264,12 +268,17 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   const scaled = new THREE.Vector3();
   const terrace = config.terrace;
   const box = (min, max) => ({ min: new THREE.Vector3(...min), max: new THREE.Vector3(...max) });
+  const setback = Number(config.retreat?.setbackMetres) || 0;
+  // Only historical in-module fixtures need this translation. Manifest room,
+  // kitchen, terrace, installation and stair coordinates are already world-space.
+  const legacyPoint = (point) => new THREE.Vector3(point[0], point[1], point[2] + setback);
+  const legacyBox = (min, max) => ({ min: legacyPoint(min), max: legacyPoint(max) });
   // Emitter geometry (three.js axes: x, up, -Blender y). Intensities are per metre for lines.
   const lines = [];
   const points = [];
   const roomLighting = new Map();
   if (terrace?.festoon) {
-    const region = terrace.region ? sourceRegion(terrace.region, "terrace") : box([-5.6, -0.12, -7.9], [5.6, 3.6, -2.2]);
+    const region = terrace.region ? sourceRegion(terrace.region, "terrace") : legacyBox([-5.6, -0.12, -7.9], [5.6, 3.6, -2.2]);
     const anchors = terrace.festoon.points.map((p) => new THREE.Vector3(...p));
     for (let i = 0; i + 1 < anchors.length; i++) {
       const a = anchors[i],
@@ -299,16 +308,16 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   }
   // The stair runs along the landward wall (navigation.stairs); the house reaches a little past it.
   const stairs = config.navigation?.stairs || [];
-  const stairZ = stairs.length ? stairs.map((p) => p[2]) : [4.65];
-  const back = Math.max(5.6, Math.max(...stairZ) + 0.6);
+  const stairZ = stairs.length ? stairs.map((p) => p[2]) : [4.65 + setback];
+  const back = Math.max(5.6 + setback, Math.max(...stairZ) + 0.6);
   // Under the gallery's front edge, the full width of the living floor.
   lines.push({
     id: "soffit",
-    a: new THREE.Vector3(-4.45, 2.3, 1.42),
-    b: new THREE.Vector3(4.45, 2.3, 1.42),
+    a: legacyPoint([-4.45, 2.3, 1.42]),
+    b: legacyPoint([4.45, 2.3, 1.42]),
     intensity: 0.55,
     color: WARM,
-    region: box([-5.25, -0.1, -1.2], [5.25, 2.34, back]),
+    region: box([-5.25, -0.1, -1.2 + setback], [5.25, 2.34, back]),
   });
   // Beside the stair, a hand's width above the treads, from the foot to the landing.
   if (stairs.length > 2) {
@@ -326,13 +335,13 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   // The gym's pendants: a long one over the lifting bay, a short one over the bench, hung from the
   // vault (bin/coastal_gym.py build_lights). The region keeps them inside the gym and its ledge.
   if (config.equipment?.gym) {
-    const region = box([6.0, -0.1, -4.2], [11.0, 3.6, 1.0]);
-    lines.push({ id: "gym", a: new THREE.Vector3(6.55, 2.45, -2.2), b: new THREE.Vector3(7.8, 2.45, -2.2), intensity: 1.1, color: GYM, region });
-    lines.push({ id: "gym", a: new THREE.Vector3(7.02, 2.935, -0.9), b: new THREE.Vector3(10.38, 2.935, -0.9), intensity: 1.15, color: GYM, region });
+    const region = legacyBox([6.0, -0.1, -4.2], [11.0, 3.6, 1.0]);
+    lines.push({ id: "gym", a: legacyPoint([6.55, 2.45, -2.2]), b: legacyPoint([7.8, 2.45, -2.2]), intensity: 1.1, color: GYM, region });
+    lines.push({ id: "gym", a: legacyPoint([7.02, 2.935, -0.9]), b: legacyPoint([10.38, 2.935, -0.9]), intensity: 1.15, color: GYM, region });
     lines.push({
       id: "gym",
-      a: new THREE.Vector3(9.62, 2.552, -2.65),
-      b: new THREE.Vector3(10.78, 2.552, -2.65),
+      a: legacyPoint([9.62, 2.552, -2.65]),
+      b: legacyPoint([10.78, 2.552, -2.65]),
       intensity: 0.92,
       color: GYM,
       region,
@@ -376,23 +385,28 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
       intensity: 2.2,
       color: FIRE,
       cone: null,
-      region: terrace.region ? sourceRegion(terrace.region, "terrace fire") : box([-5.6, -0.12, -7.9], [5.6, 3.6, -2.2]),
+      region: terrace.region ? sourceRegion(terrace.region, "terrace fire") : legacyBox([-5.6, -0.12, -7.9], [5.6, 3.6, -2.2]),
     });
   }
   points.push({
     id: "pool",
-    position: new THREE.Vector3(3.17, 2.75, 3.18),
+    position: legacyPoint([3.17, 2.75, 3.18]),
     intensity: 1.4,
     color: POOL,
     cone: null,
-    region: box([1.9, 2.0, 1.2], [5.6, 5.0, 5.6]),
+    region: legacyBox([1.9, 2.0, 1.2], [5.6, 5.0, 5.6]),
   });
 
   // Each bathroom owns a mirror wash and a concealed shower cove. These bounded analytic
   // sources add neither PointLights nor shadow maps, and cannot spill into the other storey.
   const roomAuthoredLines = roomLines(config);
   for (const line of roomAuthoredLines) {
-    if (!roomLighting.has(line.room)) roomLighting.set(line.room, { id: line.id, glowing: new Set() });
+    if (!roomLighting.has(line.room))
+      roomLighting.set(line.room, {
+        id: line.id,
+        glowing: new Set(),
+        visits: new Set([line.room, ...(config.rooms.find((room) => room.id === line.room)?.lighting?.visits || [])]),
+      });
     lines.push(line);
   }
   const additional = authoredInstallations(config);
@@ -446,7 +460,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     stepMaterial = glow(WARM),
     poolMaterial = glow(POOL);
   const strip = new THREE.BoxGeometry(8.9, 0.012, 0.03);
-  strip.translate(0, 2.338, 1.42);
+  strip.translate(0, 2.338, 1.42 + setback);
   const soffitMesh = new THREE.Mesh(strip, soffitMaterial);
   soffitMesh.name = "Gallery soffit light";
   const steps = [];
@@ -674,8 +688,11 @@ ${LINE_GLSL}`
     // minute after midnight, daylight 0..1, the routine's activity id.
     update({ minute, daylight, activity, visit = null }) {
       const dark = darkness(daylight);
-      for (const [id, schedule] of Object.entries(SCHEDULES)) levels[id] = THREE.MathUtils.clamp(schedule({ minute, dark, activity, visit }), 0, 1);
-      for (const [id, room] of roomLighting) levels[room.id] = visit === id ? Math.max(0.75, dark.inside) : 0.16 * dark.inside;
+      for (const [id, schedule] of Object.entries(SCHEDULES))
+        levels[id] = THREE.MathUtils.clamp(schedule({ minute, dark, activity, visit, sheltered: Boolean(config.retreat?.version) }), 0, 1);
+      // A low wayfinding level remains while walking between room visits. It
+      // uses the authored coves rather than adding unbounded fill lights.
+      for (const room of roomLighting.values()) levels[room.id] = room.visits.has(visit) ? Math.max(0.75, dark.inside) : 0.26 * dark.inside;
       if (!interior?.entrance?.positions?.length && ![...additional.lines, ...additional.points].some((source) => source.id === "entrance"))
         levels.entrance = 0;
       if (!interior?.dining?.length && ![...additional.lines, ...additional.points].some((source) => source.id === "dining")) levels.dining = 0;

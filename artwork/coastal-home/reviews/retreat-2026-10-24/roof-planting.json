@@ -1,0 +1,1723 @@
+{
+  "version": 1,
+  "leaves": 282,
+  "roofLeaves": 111,
+  "groundLeaves": 171,
+  "nodes": [
+    {
+      "name": "core_retreat_roof_planting__core_estate_library_liftaway_roof",
+      "support": "core_estate_library_liftaway_roof",
+      "vertices": 945,
+      "faces": 540
+    },
+    {
+      "name": "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
+      "support": "core_liftaway_cave_ceiling_rear",
+      "vertices": 567,
+      "faces": 324
+    },
+    {
+      "name": "core_retreat_roof_planting__core_retreat_liftaway_roof",
+      "support": "core_retreat_liftaway_roof",
+      "vertices": 819,
+      "faces": 468
+    }
+  ],
+  "contacts": [
+    {
+      "root": [-11.635699272155762, -2.457801103591919, 11.154961585998535],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.08186531066894531,
+      "roof": true
+    },
+    {
+      "root": [-11.635699272155762, -2.457801103591919, 11.154961585998535],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.08186531066894531,
+      "roof": true
+    },
+    {
+      "root": [-11.635699272155762, -2.457801103591919, 11.154961585998535],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.08186531066894531,
+      "roof": true
+    },
+    {
+      "root": [-11.635699272155762, -2.457801103591919, 11.154961585998535],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.08186531066894531,
+      "roof": true
+    },
+    {
+      "root": [-11.635699272155762, -2.457801103591919, 11.154961585998535],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.08186531066894531,
+      "roof": true
+    },
+    {
+      "root": [-11.635699272155762, -2.457801103591919, 11.154961585998535],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.08186531066894531,
+      "roof": true
+    },
+    {
+      "root": [-11.635699272155762, -2.457801103591919, 11.154961585998535],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.08186531066894531,
+      "roof": true
+    },
+    {
+      "root": [-11.635699272155762, -2.457801103591919, 11.154961585998535],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.08186531066894531,
+      "roof": true
+    },
+    {
+      "root": [-11.635699272155762, -2.457801103591919, 11.154961585998535],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.08186531066894531,
+      "roof": true
+    },
+    {
+      "root": [25.270170211791992, 4.831063747406006, 13.174840927124023],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07842350006103516,
+      "roof": false
+    },
+    {
+      "root": [25.270170211791992, 4.831063747406006, 13.174840927124023],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07842350006103516,
+      "roof": false
+    },
+    {
+      "root": [25.270170211791992, 4.831063747406006, 13.174840927124023],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07842350006103516,
+      "roof": false
+    },
+    {
+      "root": [25.270170211791992, 4.831063747406006, 13.174840927124023],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07842350006103516,
+      "roof": false
+    },
+    {
+      "root": [25.270170211791992, 4.831063747406006, 13.174840927124023],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07842350006103516,
+      "roof": false
+    },
+    {
+      "root": [25.270170211791992, 4.831063747406006, 13.174840927124023],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07842350006103516,
+      "roof": false
+    },
+    {
+      "root": [25.270170211791992, 4.831063747406006, 13.174840927124023],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07842350006103516,
+      "roof": false
+    },
+    {
+      "root": [25.270170211791992, 4.831063747406006, 13.174840927124023],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07842350006103516,
+      "roof": false
+    },
+    {
+      "root": [25.270170211791992, 4.831063747406006, 13.174840927124023],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07842350006103516,
+      "roof": false
+    },
+    {
+      "root": [11.28862476348877, -3.155529022216797, 8.210250854492188],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08032608032226562,
+      "roof": false
+    },
+    {
+      "root": [11.28862476348877, -3.155529022216797, 8.210250854492188],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08032608032226562,
+      "roof": false
+    },
+    {
+      "root": [11.28862476348877, -3.155529022216797, 8.210250854492188],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08032608032226562,
+      "roof": false
+    },
+    {
+      "root": [11.28862476348877, -3.155529022216797, 8.210250854492188],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08032608032226562,
+      "roof": false
+    },
+    {
+      "root": [11.28862476348877, -3.155529022216797, 8.210250854492188],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08032608032226562,
+      "roof": false
+    },
+    {
+      "root": [11.28862476348877, -3.155529022216797, 8.210250854492188],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08032608032226562,
+      "roof": false
+    },
+    {
+      "root": [11.28862476348877, -3.155529022216797, 8.210250854492188],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08032608032226562,
+      "roof": false
+    },
+    {
+      "root": [11.28862476348877, -3.155529022216797, 8.210250854492188],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08032608032226562,
+      "roof": false
+    },
+    {
+      "root": [11.28862476348877, -3.155529022216797, 8.210250854492188],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08032608032226562,
+      "roof": false
+    },
+    {
+      "root": [-17.49053192138672, 0.5210896730422974, 11.153230667114258],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08094310760498047,
+      "roof": false
+    },
+    {
+      "root": [-17.49053192138672, 0.5210896730422974, 11.153230667114258],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08094310760498047,
+      "roof": false
+    },
+    {
+      "root": [-17.49053192138672, 0.5210896730422974, 11.153230667114258],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08094310760498047,
+      "roof": false
+    },
+    {
+      "root": [-17.49053192138672, 0.5210896730422974, 11.153230667114258],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08094310760498047,
+      "roof": false
+    },
+    {
+      "root": [-17.49053192138672, 0.5210896730422974, 11.153230667114258],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08094310760498047,
+      "roof": false
+    },
+    {
+      "root": [-17.49053192138672, 0.5210896730422974, 11.153230667114258],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08094310760498047,
+      "roof": false
+    },
+    {
+      "root": [-17.49053192138672, 0.5210896730422974, 11.153230667114258],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08094310760498047,
+      "roof": false
+    },
+    {
+      "root": [-17.49053192138672, 0.5210896730422974, 11.153230667114258],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08094310760498047,
+      "roof": false
+    },
+    {
+      "root": [-17.49053192138672, 0.5210896730422974, 11.153230667114258],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.08094310760498047,
+      "roof": false
+    },
+    {
+      "root": [0.8741883635520935, -7.24037504196167, 6.9513444900512695],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.06483125686645508,
+      "roof": true
+    },
+    {
+      "root": [0.8741883635520935, -7.24037504196167, 6.9513444900512695],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.06483125686645508,
+      "roof": true
+    },
+    {
+      "root": [0.8741883635520935, -7.24037504196167, 6.9513444900512695],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.06483125686645508,
+      "roof": true
+    },
+    {
+      "root": [0.8741883635520935, -7.24037504196167, 6.9513444900512695],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.06483125686645508,
+      "roof": true
+    },
+    {
+      "root": [0.8741883635520935, -7.24037504196167, 6.9513444900512695],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.06483125686645508,
+      "roof": true
+    },
+    {
+      "root": [0.8741883635520935, -7.24037504196167, 6.9513444900512695],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.06483125686645508,
+      "roof": true
+    },
+    {
+      "root": [0.8741883635520935, -7.24037504196167, 6.9513444900512695],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.06483125686645508,
+      "roof": true
+    },
+    {
+      "root": [0.8741883635520935, -7.24037504196167, 6.9513444900512695],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.06483125686645508,
+      "roof": true
+    },
+    {
+      "root": [0.8741883635520935, -7.24037504196167, 6.9513444900512695],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.06483125686645508,
+      "roof": true
+    },
+    {
+      "root": [3.029848337173462, -9.296067237854004, 7.106903553009033],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.05952310562133789,
+      "roof": true
+    },
+    {
+      "root": [3.029848337173462, -9.296067237854004, 7.106903553009033],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.05952310562133789,
+      "roof": true
+    },
+    {
+      "root": [3.029848337173462, -9.296067237854004, 7.106903553009033],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.05952310562133789,
+      "roof": true
+    },
+    {
+      "root": [3.029848337173462, -9.296067237854004, 7.106903553009033],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.05952310562133789,
+      "roof": true
+    },
+    {
+      "root": [3.029848337173462, -9.296067237854004, 7.106903553009033],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.05952310562133789,
+      "roof": true
+    },
+    {
+      "root": [3.029848337173462, -9.296067237854004, 7.106903553009033],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.05952310562133789,
+      "roof": true
+    },
+    {
+      "root": [3.029848337173462, -9.296067237854004, 7.106903553009033],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.05952310562133789,
+      "roof": true
+    },
+    {
+      "root": [3.029848337173462, -9.296067237854004, 7.106903553009033],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.05952310562133789,
+      "roof": true
+    },
+    {
+      "root": [3.029848337173462, -9.296067237854004, 7.106903553009033],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.05952310562133789,
+      "roof": true
+    },
+    {
+      "root": [13.820413589477539, 1.5668352842330933, 8.585577964782715],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.035935401916503906,
+      "roof": false
+    },
+    {
+      "root": [13.820413589477539, 1.5668352842330933, 8.585577964782715],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.035935401916503906,
+      "roof": false
+    },
+    {
+      "root": [13.820413589477539, 1.5668352842330933, 8.585577964782715],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.035935401916503906,
+      "roof": false
+    },
+    {
+      "root": [13.820413589477539, 1.5668352842330933, 8.585577964782715],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.035935401916503906,
+      "roof": false
+    },
+    {
+      "root": [13.820413589477539, 1.5668352842330933, 8.585577964782715],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.035935401916503906,
+      "roof": false
+    },
+    {
+      "root": [13.820413589477539, 1.5668352842330933, 8.585577964782715],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.035935401916503906,
+      "roof": false
+    },
+    {
+      "root": [13.820413589477539, 1.5668352842330933, 8.585577964782715],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.035935401916503906,
+      "roof": false
+    },
+    {
+      "root": [13.820413589477539, 1.5668352842330933, 8.585577964782715],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.035935401916503906,
+      "roof": false
+    },
+    {
+      "root": [13.820413589477539, 1.5668352842330933, 8.585577964782715],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.035935401916503906,
+      "roof": false
+    },
+    {
+      "root": [-9.950876235961914, -4.475180625915527, 10.263666152954102],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.038109779357910156,
+      "roof": true
+    },
+    {
+      "root": [-9.950876235961914, -4.475180625915527, 10.263666152954102],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.038109779357910156,
+      "roof": true
+    },
+    {
+      "root": [-9.950876235961914, -4.475180625915527, 10.263666152954102],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.038109779357910156,
+      "roof": true
+    },
+    {
+      "root": [-9.950876235961914, -4.475180625915527, 10.263666152954102],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.038109779357910156,
+      "roof": true
+    },
+    {
+      "root": [-9.950876235961914, -4.475180625915527, 10.263666152954102],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.038109779357910156,
+      "roof": true
+    },
+    {
+      "root": [-9.950876235961914, -4.475180625915527, 10.263666152954102],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.038109779357910156,
+      "roof": true
+    },
+    {
+      "root": [-9.950876235961914, -4.475180625915527, 10.263666152954102],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.038109779357910156,
+      "roof": true
+    },
+    {
+      "root": [-9.950876235961914, -4.475180625915527, 10.263666152954102],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.038109779357910156,
+      "roof": true
+    },
+    {
+      "root": [-9.950876235961914, -4.475180625915527, 10.263666152954102],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.038109779357910156,
+      "roof": true
+    },
+    {
+      "root": [28.236576080322266, 1.5296967029571533, 12.473694801330566],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06861019134521484,
+      "roof": false
+    },
+    {
+      "root": [28.236576080322266, 1.5296967029571533, 12.473694801330566],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06861019134521484,
+      "roof": false
+    },
+    {
+      "root": [28.236576080322266, 1.5296967029571533, 12.473694801330566],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06861019134521484,
+      "roof": false
+    },
+    {
+      "root": [28.236576080322266, 1.5296967029571533, 12.473694801330566],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06861019134521484,
+      "roof": false
+    },
+    {
+      "root": [28.236576080322266, 1.5296967029571533, 12.473694801330566],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06861019134521484,
+      "roof": false
+    },
+    {
+      "root": [28.236576080322266, 1.5296967029571533, 12.473694801330566],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06861019134521484,
+      "roof": false
+    },
+    {
+      "root": [28.236576080322266, 1.5296967029571533, 12.473694801330566],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06861019134521484,
+      "roof": false
+    },
+    {
+      "root": [28.236576080322266, 1.5296967029571533, 12.473694801330566],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06861019134521484,
+      "roof": false
+    },
+    {
+      "root": [28.236576080322266, 1.5296967029571533, 12.473694801330566],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06861019134521484,
+      "roof": false
+    },
+    {
+      "root": [11.813929557800293, -2.812734603881836, 8.279882431030273],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06254386901855469,
+      "roof": false
+    },
+    {
+      "root": [11.813929557800293, -2.812734603881836, 8.279882431030273],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06254386901855469,
+      "roof": false
+    },
+    {
+      "root": [11.813929557800293, -2.812734603881836, 8.279882431030273],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06254386901855469,
+      "roof": false
+    },
+    {
+      "root": [11.813929557800293, -2.812734603881836, 8.279882431030273],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06254386901855469,
+      "roof": false
+    },
+    {
+      "root": [11.813929557800293, -2.812734603881836, 8.279882431030273],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06254386901855469,
+      "roof": false
+    },
+    {
+      "root": [11.813929557800293, -2.812734603881836, 8.279882431030273],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06254386901855469,
+      "roof": false
+    },
+    {
+      "root": [11.813929557800293, -2.812734603881836, 8.279882431030273],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06254386901855469,
+      "roof": false
+    },
+    {
+      "root": [11.813929557800293, -2.812734603881836, 8.279882431030273],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06254386901855469,
+      "roof": false
+    },
+    {
+      "root": [11.813929557800293, -2.812734603881836, 8.279882431030273],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.06254386901855469,
+      "roof": false
+    },
+    {
+      "root": [-16.66156005859375, 2.7237741947174072, 11.471756935119629],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.045760154724121094,
+      "roof": false
+    },
+    {
+      "root": [-16.66156005859375, 2.7237741947174072, 11.471756935119629],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.045760154724121094,
+      "roof": false
+    },
+    {
+      "root": [-16.66156005859375, 2.7237741947174072, 11.471756935119629],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.045760154724121094,
+      "roof": false
+    },
+    {
+      "root": [-16.66156005859375, 2.7237741947174072, 11.471756935119629],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.045760154724121094,
+      "roof": false
+    },
+    {
+      "root": [-16.66156005859375, 2.7237741947174072, 11.471756935119629],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.045760154724121094,
+      "roof": false
+    },
+    {
+      "root": [-16.66156005859375, 2.7237741947174072, 11.471756935119629],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.045760154724121094,
+      "roof": false
+    },
+    {
+      "root": [-16.66156005859375, 2.7237741947174072, 11.471756935119629],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.045760154724121094,
+      "roof": false
+    },
+    {
+      "root": [-16.66156005859375, 2.7237741947174072, 11.471756935119629],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.045760154724121094,
+      "roof": false
+    },
+    {
+      "root": [-16.66156005859375, 2.7237741947174072, 11.471756935119629],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.045760154724121094,
+      "roof": false
+    },
+    {
+      "root": [1.0799555778503418, -7.198611736297607, 6.935925483703613],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0718226432800293,
+      "roof": true
+    },
+    {
+      "root": [1.0799555778503418, -7.198611736297607, 6.935925483703613],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0718226432800293,
+      "roof": true
+    },
+    {
+      "root": [1.0799555778503418, -7.198611736297607, 6.935925483703613],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0718226432800293,
+      "roof": true
+    },
+    {
+      "root": [1.0799555778503418, -7.198611736297607, 6.935925483703613],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0718226432800293,
+      "roof": true
+    },
+    {
+      "root": [1.0799555778503418, -7.198611736297607, 6.935925483703613],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0718226432800293,
+      "roof": true
+    },
+    {
+      "root": [1.0799555778503418, -7.198611736297607, 6.935925483703613],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0718226432800293,
+      "roof": true
+    },
+    {
+      "root": [1.0799555778503418, -7.198611736297607, 6.935925483703613],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0718226432800293,
+      "roof": true
+    },
+    {
+      "root": [1.0799555778503418, -7.198611736297607, 6.935925483703613],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0718226432800293,
+      "roof": true
+    },
+    {
+      "root": [1.0799555778503418, -7.198611736297607, 6.935925483703613],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0718226432800293,
+      "roof": true
+    },
+    {
+      "root": [4.2767438888549805, -7.930384635925293, 7.465104103088379],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07791996002197266,
+      "roof": true
+    },
+    {
+      "root": [4.2767438888549805, -7.930384635925293, 7.465104103088379],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07791996002197266,
+      "roof": true
+    },
+    {
+      "root": [4.2767438888549805, -7.930384635925293, 7.465104103088379],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07791996002197266,
+      "roof": true
+    },
+    {
+      "root": [4.2767438888549805, -7.930384635925293, 7.465104103088379],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07791996002197266,
+      "roof": true
+    },
+    {
+      "root": [4.2767438888549805, -7.930384635925293, 7.465104103088379],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07791996002197266,
+      "roof": true
+    },
+    {
+      "root": [4.2767438888549805, -7.930384635925293, 7.465104103088379],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07791996002197266,
+      "roof": true
+    },
+    {
+      "root": [4.2767438888549805, -7.930384635925293, 7.465104103088379],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07791996002197266,
+      "roof": true
+    },
+    {
+      "root": [4.2767438888549805, -7.930384635925293, 7.465104103088379],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07791996002197266,
+      "roof": true
+    },
+    {
+      "root": [4.2767438888549805, -7.930384635925293, 7.465104103088379],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07791996002197266,
+      "roof": true
+    },
+    {
+      "root": [20.70441246032715, 2.9985854625701904, 12.502032279968262],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03773212432861328,
+      "roof": false
+    },
+    {
+      "root": [20.70441246032715, 2.9985854625701904, 12.502032279968262],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03773212432861328,
+      "roof": false
+    },
+    {
+      "root": [20.70441246032715, 2.9985854625701904, 12.502032279968262],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03773212432861328,
+      "roof": false
+    },
+    {
+      "root": [20.70441246032715, 2.9985854625701904, 12.502032279968262],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03773212432861328,
+      "roof": false
+    },
+    {
+      "root": [20.70441246032715, 2.9985854625701904, 12.502032279968262],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03773212432861328,
+      "roof": false
+    },
+    {
+      "root": [20.70441246032715, 2.9985854625701904, 12.502032279968262],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03773212432861328,
+      "roof": false
+    },
+    {
+      "root": [20.70441246032715, 2.9985854625701904, 12.502032279968262],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03773212432861328,
+      "roof": false
+    },
+    {
+      "root": [20.70441246032715, 2.9985854625701904, 12.502032279968262],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03773212432861328,
+      "roof": false
+    },
+    {
+      "root": [20.70441246032715, 2.9985854625701904, 12.502032279968262],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03773212432861328,
+      "roof": false
+    },
+    {
+      "root": [-9.370386123657227, -3.795652151107788, 9.943973541259766],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.058363914489746094,
+      "roof": true
+    },
+    {
+      "root": [-9.370386123657227, -3.795652151107788, 9.943973541259766],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.058363914489746094,
+      "roof": true
+    },
+    {
+      "root": [-9.370386123657227, -3.795652151107788, 9.943973541259766],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.058363914489746094,
+      "roof": true
+    },
+    {
+      "root": [-9.370386123657227, -3.795652151107788, 9.943973541259766],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.058363914489746094,
+      "roof": true
+    },
+    {
+      "root": [-9.370386123657227, -3.795652151107788, 9.943973541259766],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.058363914489746094,
+      "roof": true
+    },
+    {
+      "root": [-9.370386123657227, -3.795652151107788, 9.943973541259766],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.058363914489746094,
+      "roof": true
+    },
+    {
+      "root": [-9.370386123657227, -3.795652151107788, 9.943973541259766],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.058363914489746094,
+      "roof": true
+    },
+    {
+      "root": [-9.370386123657227, -3.795652151107788, 9.943973541259766],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.058363914489746094,
+      "roof": true
+    },
+    {
+      "root": [-9.370386123657227, -3.795652151107788, 9.943973541259766],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.058363914489746094,
+      "roof": true
+    },
+    {
+      "root": [25.8579044342041, 3.3043100833892822, 13.073725700378418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05569648742675781,
+      "roof": false
+    },
+    {
+      "root": [25.8579044342041, 3.3043100833892822, 13.073725700378418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05569648742675781,
+      "roof": false
+    },
+    {
+      "root": [25.8579044342041, 3.3043100833892822, 13.073725700378418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05569648742675781,
+      "roof": false
+    },
+    {
+      "root": [25.8579044342041, 3.3043100833892822, 13.073725700378418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05569648742675781,
+      "roof": false
+    },
+    {
+      "root": [25.8579044342041, 3.3043100833892822, 13.073725700378418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05569648742675781,
+      "roof": false
+    },
+    {
+      "root": [25.8579044342041, 3.3043100833892822, 13.073725700378418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05569648742675781,
+      "roof": false
+    },
+    {
+      "root": [25.8579044342041, 3.3043100833892822, 13.073725700378418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05569648742675781,
+      "roof": false
+    },
+    {
+      "root": [25.8579044342041, 3.3043100833892822, 13.073725700378418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05569648742675781,
+      "roof": false
+    },
+    {
+      "root": [25.8579044342041, 3.3043100833892822, 13.073725700378418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05569648742675781,
+      "roof": false
+    },
+    {
+      "root": [9.578058242797852, -2.0470683574676514, 8.002994537353516],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05440473556518555,
+      "roof": false
+    },
+    {
+      "root": [9.578058242797852, -2.0470683574676514, 8.002994537353516],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05440473556518555,
+      "roof": false
+    },
+    {
+      "root": [9.578058242797852, -2.0470683574676514, 8.002994537353516],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05440473556518555,
+      "roof": false
+    },
+    {
+      "root": [9.578058242797852, -2.0470683574676514, 8.002994537353516],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05440473556518555,
+      "roof": false
+    },
+    {
+      "root": [9.578058242797852, -2.0470683574676514, 8.002994537353516],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05440473556518555,
+      "roof": false
+    },
+    {
+      "root": [9.578058242797852, -2.0470683574676514, 8.002994537353516],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05440473556518555,
+      "roof": false
+    },
+    {
+      "root": [9.578058242797852, -2.0470683574676514, 8.002994537353516],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05440473556518555,
+      "roof": false
+    },
+    {
+      "root": [9.578058242797852, -2.0470683574676514, 8.002994537353516],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05440473556518555,
+      "roof": false
+    },
+    {
+      "root": [9.578058242797852, -2.0470683574676514, 8.002994537353516],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.05440473556518555,
+      "roof": false
+    },
+    {
+      "root": [-21.039186477661133, 2.5726664066314697, 9.071235656738281],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07969284057617188,
+      "roof": false
+    },
+    {
+      "root": [-21.039186477661133, 2.5726664066314697, 9.071235656738281],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07969284057617188,
+      "roof": false
+    },
+    {
+      "root": [-21.039186477661133, 2.5726664066314697, 9.071235656738281],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07969284057617188,
+      "roof": false
+    },
+    {
+      "root": [-21.039186477661133, 2.5726664066314697, 9.071235656738281],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07969284057617188,
+      "roof": false
+    },
+    {
+      "root": [-21.039186477661133, 2.5726664066314697, 9.071235656738281],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07969284057617188,
+      "roof": false
+    },
+    {
+      "root": [-21.039186477661133, 2.5726664066314697, 9.071235656738281],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07969284057617188,
+      "roof": false
+    },
+    {
+      "root": [-21.039186477661133, 2.5726664066314697, 9.071235656738281],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07969284057617188,
+      "roof": false
+    },
+    {
+      "root": [-21.039186477661133, 2.5726664066314697, 9.071235656738281],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07969284057617188,
+      "roof": false
+    },
+    {
+      "root": [-21.039186477661133, 2.5726664066314697, 9.071235656738281],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07969284057617188,
+      "roof": false
+    },
+    {
+      "root": [-1.3960974216461182, -7.251156330108643, 7.322434425354004],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0774226188659668,
+      "roof": true
+    },
+    {
+      "root": [-1.3960974216461182, -7.251156330108643, 7.322434425354004],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0774226188659668,
+      "roof": true
+    },
+    {
+      "root": [-1.3960974216461182, -7.251156330108643, 7.322434425354004],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0774226188659668,
+      "roof": true
+    },
+    {
+      "root": [-1.3960974216461182, -7.251156330108643, 7.322434425354004],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0774226188659668,
+      "roof": true
+    },
+    {
+      "root": [-1.3960974216461182, -7.251156330108643, 7.322434425354004],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0774226188659668,
+      "roof": true
+    },
+    {
+      "root": [-1.3960974216461182, -7.251156330108643, 7.322434425354004],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0774226188659668,
+      "roof": true
+    },
+    {
+      "root": [-1.3960974216461182, -7.251156330108643, 7.322434425354004],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0774226188659668,
+      "roof": true
+    },
+    {
+      "root": [-1.3960974216461182, -7.251156330108643, 7.322434425354004],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0774226188659668,
+      "roof": true
+    },
+    {
+      "root": [-1.3960974216461182, -7.251156330108643, 7.322434425354004],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "gap": 0.0774226188659668,
+      "roof": true
+    },
+    {
+      "root": [5.184024810791016, -7.882556438446045, 7.723369121551514],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07597923278808594,
+      "roof": true
+    },
+    {
+      "root": [5.184024810791016, -7.882556438446045, 7.723369121551514],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07597923278808594,
+      "roof": true
+    },
+    {
+      "root": [5.184024810791016, -7.882556438446045, 7.723369121551514],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07597923278808594,
+      "roof": true
+    },
+    {
+      "root": [5.184024810791016, -7.882556438446045, 7.723369121551514],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07597923278808594,
+      "roof": true
+    },
+    {
+      "root": [5.184024810791016, -7.882556438446045, 7.723369121551514],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07597923278808594,
+      "roof": true
+    },
+    {
+      "root": [5.184024810791016, -7.882556438446045, 7.723369121551514],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07597923278808594,
+      "roof": true
+    },
+    {
+      "root": [5.184024810791016, -7.882556438446045, 7.723369121551514],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07597923278808594,
+      "roof": true
+    },
+    {
+      "root": [5.184024810791016, -7.882556438446045, 7.723369121551514],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07597923278808594,
+      "roof": true
+    },
+    {
+      "root": [5.184024810791016, -7.882556438446045, 7.723369121551514],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07597923278808594,
+      "roof": true
+    },
+    {
+      "root": [14.069925308227539, 0.6933085322380066, 8.811525344848633],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04923534393310547,
+      "roof": false
+    },
+    {
+      "root": [14.069925308227539, 0.6933085322380066, 8.811525344848633],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04923534393310547,
+      "roof": false
+    },
+    {
+      "root": [14.069925308227539, 0.6933085322380066, 8.811525344848633],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04923534393310547,
+      "roof": false
+    },
+    {
+      "root": [14.069925308227539, 0.6933085322380066, 8.811525344848633],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04923534393310547,
+      "roof": false
+    },
+    {
+      "root": [14.069925308227539, 0.6933085322380066, 8.811525344848633],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04923534393310547,
+      "roof": false
+    },
+    {
+      "root": [14.069925308227539, 0.6933085322380066, 8.811525344848633],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04923534393310547,
+      "roof": false
+    },
+    {
+      "root": [14.069925308227539, 0.6933085322380066, 8.811525344848633],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04923534393310547,
+      "roof": false
+    },
+    {
+      "root": [14.069925308227539, 0.6933085322380066, 8.811525344848633],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04923534393310547,
+      "roof": false
+    },
+    {
+      "root": [14.069925308227539, 0.6933085322380066, 8.811525344848633],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04923534393310547,
+      "roof": false
+    },
+    {
+      "root": [-12.609487533569336, -2.0381948947906494, 11.621931076049805],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07677841186523438,
+      "roof": true
+    },
+    {
+      "root": [-12.609487533569336, -2.0381948947906494, 11.621931076049805],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07677841186523438,
+      "roof": true
+    },
+    {
+      "root": [-12.609487533569336, -2.0381948947906494, 11.621931076049805],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07677841186523438,
+      "roof": true
+    },
+    {
+      "root": [-12.609487533569336, -2.0381948947906494, 11.621931076049805],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07677841186523438,
+      "roof": true
+    },
+    {
+      "root": [-12.609487533569336, -2.0381948947906494, 11.621931076049805],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07677841186523438,
+      "roof": true
+    },
+    {
+      "root": [-12.609487533569336, -2.0381948947906494, 11.621931076049805],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07677841186523438,
+      "roof": true
+    },
+    {
+      "root": [-12.609487533569336, -2.0381948947906494, 11.621931076049805],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07677841186523438,
+      "roof": true
+    },
+    {
+      "root": [-12.609487533569336, -2.0381948947906494, 11.621931076049805],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07677841186523438,
+      "roof": true
+    },
+    {
+      "root": [-12.609487533569336, -2.0381948947906494, 11.621931076049805],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07677841186523438,
+      "roof": true
+    },
+    {
+      "root": [23.266897201538086, 4.597023963928223, 13.251551628112793],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07555103302001953,
+      "roof": false
+    },
+    {
+      "root": [23.266897201538086, 4.597023963928223, 13.251551628112793],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07555103302001953,
+      "roof": false
+    },
+    {
+      "root": [23.266897201538086, 4.597023963928223, 13.251551628112793],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07555103302001953,
+      "roof": false
+    },
+    {
+      "root": [23.266897201538086, 4.597023963928223, 13.251551628112793],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07555103302001953,
+      "roof": false
+    },
+    {
+      "root": [23.266897201538086, 4.597023963928223, 13.251551628112793],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07555103302001953,
+      "roof": false
+    },
+    {
+      "root": [23.266897201538086, 4.597023963928223, 13.251551628112793],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07555103302001953,
+      "roof": false
+    },
+    {
+      "root": [23.266897201538086, 4.597023963928223, 13.251551628112793],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07555103302001953,
+      "roof": false
+    },
+    {
+      "root": [23.266897201538086, 4.597023963928223, 13.251551628112793],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07555103302001953,
+      "roof": false
+    },
+    {
+      "root": [23.266897201538086, 4.597023963928223, 13.251551628112793],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07555103302001953,
+      "roof": false
+    },
+    {
+      "root": [8.155922889709473, 0.36768844723701477, 7.7457780838012695],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.047080039978027344,
+      "roof": false
+    },
+    {
+      "root": [8.155922889709473, 0.36768844723701477, 7.7457780838012695],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.047080039978027344,
+      "roof": false
+    },
+    {
+      "root": [8.155922889709473, 0.36768844723701477, 7.7457780838012695],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.047080039978027344,
+      "roof": false
+    },
+    {
+      "root": [8.155922889709473, 0.36768844723701477, 7.7457780838012695],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.047080039978027344,
+      "roof": false
+    },
+    {
+      "root": [8.155922889709473, 0.36768844723701477, 7.7457780838012695],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.047080039978027344,
+      "roof": false
+    },
+    {
+      "root": [8.155922889709473, 0.36768844723701477, 7.7457780838012695],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.047080039978027344,
+      "roof": false
+    },
+    {
+      "root": [8.155922889709473, 0.36768844723701477, 7.7457780838012695],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.047080039978027344,
+      "roof": false
+    },
+    {
+      "root": [8.155922889709473, 0.36768844723701477, 7.7457780838012695],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.047080039978027344,
+      "roof": false
+    },
+    {
+      "root": [8.155922889709473, 0.36768844723701477, 7.7457780838012695],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.047080039978027344,
+      "roof": false
+    },
+    {
+      "root": [-19.078468322753906, 1.0355255603790283, 10.45113754272461],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04344654083251953,
+      "roof": false
+    },
+    {
+      "root": [-19.078468322753906, 1.0355255603790283, 10.45113754272461],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04344654083251953,
+      "roof": false
+    },
+    {
+      "root": [-19.078468322753906, 1.0355255603790283, 10.45113754272461],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04344654083251953,
+      "roof": false
+    },
+    {
+      "root": [-19.078468322753906, 1.0355255603790283, 10.45113754272461],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04344654083251953,
+      "roof": false
+    },
+    {
+      "root": [-19.078468322753906, 1.0355255603790283, 10.45113754272461],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04344654083251953,
+      "roof": false
+    },
+    {
+      "root": [-19.078468322753906, 1.0355255603790283, 10.45113754272461],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04344654083251953,
+      "roof": false
+    },
+    {
+      "root": [-19.078468322753906, 1.0355255603790283, 10.45113754272461],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04344654083251953,
+      "roof": false
+    },
+    {
+      "root": [-19.078468322753906, 1.0355255603790283, 10.45113754272461],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04344654083251953,
+      "roof": false
+    },
+    {
+      "root": [-19.078468322753906, 1.0355255603790283, 10.45113754272461],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.04344654083251953,
+      "roof": false
+    },
+    {
+      "root": [-0.21907877922058105, -9.569892883300781, 7.1374125480651855],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07512712478637695,
+      "roof": true
+    },
+    {
+      "root": [-0.21907877922058105, -9.569892883300781, 7.1374125480651855],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07512712478637695,
+      "roof": true
+    },
+    {
+      "root": [-0.21907877922058105, -9.569892883300781, 7.1374125480651855],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.07512712478637695,
+      "roof": true
+    },
+    {
+      "root": [4.062254905700684, -10.079536437988281, 7.386122703552246],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.052838802337646484,
+      "roof": true
+    },
+    {
+      "root": [4.062254905700684, -10.079536437988281, 7.386122703552246],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.052838802337646484,
+      "roof": true
+    },
+    {
+      "root": [4.062254905700684, -10.079536437988281, 7.386122703552246],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.052838802337646484,
+      "roof": true
+    },
+    {
+      "root": [4.062254905700684, -10.079536437988281, 7.386122703552246],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.052838802337646484,
+      "roof": true
+    },
+    {
+      "root": [4.062254905700684, -10.079536437988281, 7.386122703552246],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.052838802337646484,
+      "roof": true
+    },
+    {
+      "root": [4.062254905700684, -10.079536437988281, 7.386122703552246],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.052838802337646484,
+      "roof": true
+    },
+    {
+      "root": [4.062254905700684, -10.079536437988281, 7.386122703552246],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.052838802337646484,
+      "roof": true
+    },
+    {
+      "root": [4.062254905700684, -10.079536437988281, 7.386122703552246],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.052838802337646484,
+      "roof": true
+    },
+    {
+      "root": [4.062254905700684, -10.079536437988281, 7.386122703552246],
+      "support": "core_retreat_liftaway_roof",
+      "gap": 0.052838802337646484,
+      "roof": true
+    },
+    {
+      "root": [13.817299842834473, 4.504692077636719, 8.571825981140137],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03847694396972656,
+      "roof": false
+    },
+    {
+      "root": [13.817299842834473, 4.504692077636719, 8.571825981140137],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03847694396972656,
+      "roof": false
+    },
+    {
+      "root": [13.817299842834473, 4.504692077636719, 8.571825981140137],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03847694396972656,
+      "roof": false
+    },
+    {
+      "root": [13.817299842834473, 4.504692077636719, 8.571825981140137],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03847694396972656,
+      "roof": false
+    },
+    {
+      "root": [13.817299842834473, 4.504692077636719, 8.571825981140137],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03847694396972656,
+      "roof": false
+    },
+    {
+      "root": [13.817299842834473, 4.504692077636719, 8.571825981140137],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03847694396972656,
+      "roof": false
+    },
+    {
+      "root": [13.817299842834473, 4.504692077636719, 8.571825981140137],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03847694396972656,
+      "roof": false
+    },
+    {
+      "root": [13.817299842834473, 4.504692077636719, 8.571825981140137],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03847694396972656,
+      "roof": false
+    },
+    {
+      "root": [13.817299842834473, 4.504692077636719, 8.571825981140137],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.03847694396972656,
+      "roof": false
+    },
+    {
+      "root": [-9.123635292053223, -3.7469921112060547, 9.84270191192627],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07103538513183594,
+      "roof": true
+    },
+    {
+      "root": [-9.123635292053223, -3.7469921112060547, 9.84270191192627],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07103538513183594,
+      "roof": true
+    },
+    {
+      "root": [-9.123635292053223, -3.7469921112060547, 9.84270191192627],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07103538513183594,
+      "roof": true
+    },
+    {
+      "root": [-9.123635292053223, -3.7469921112060547, 9.84270191192627],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07103538513183594,
+      "roof": true
+    },
+    {
+      "root": [-9.123635292053223, -3.7469921112060547, 9.84270191192627],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07103538513183594,
+      "roof": true
+    },
+    {
+      "root": [-9.123635292053223, -3.7469921112060547, 9.84270191192627],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07103538513183594,
+      "roof": true
+    },
+    {
+      "root": [-9.123635292053223, -3.7469921112060547, 9.84270191192627],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07103538513183594,
+      "roof": true
+    },
+    {
+      "root": [-9.123635292053223, -3.7469921112060547, 9.84270191192627],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07103538513183594,
+      "roof": true
+    },
+    {
+      "root": [-9.123635292053223, -3.7469921112060547, 9.84270191192627],
+      "support": "core_estate_library_liftaway_roof",
+      "gap": 0.07103538513183594,
+      "roof": true
+    },
+    {
+      "root": [25.988224029541016, 2.5344715118408203, 13.052087783813477],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.031090736389160156,
+      "roof": false
+    },
+    {
+      "root": [25.988224029541016, 2.5344715118408203, 13.052087783813477],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.031090736389160156,
+      "roof": false
+    },
+    {
+      "root": [25.988224029541016, 2.5344715118408203, 13.052087783813477],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.031090736389160156,
+      "roof": false
+    },
+    {
+      "root": [25.988224029541016, 2.5344715118408203, 13.052087783813477],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.031090736389160156,
+      "roof": false
+    },
+    {
+      "root": [25.988224029541016, 2.5344715118408203, 13.052087783813477],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.031090736389160156,
+      "roof": false
+    },
+    {
+      "root": [25.988224029541016, 2.5344715118408203, 13.052087783813477],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.031090736389160156,
+      "roof": false
+    },
+    {
+      "root": [25.988224029541016, 2.5344715118408203, 13.052087783813477],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.031090736389160156,
+      "roof": false
+    },
+    {
+      "root": [25.988224029541016, 2.5344715118408203, 13.052087783813477],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.031090736389160156,
+      "roof": false
+    },
+    {
+      "root": [25.988224029541016, 2.5344715118408203, 13.052087783813477],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.031090736389160156,
+      "roof": false
+    },
+    {
+      "root": [8.633708953857422, -1.8659909963607788, 8.060853958129883],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07092428207397461,
+      "roof": false
+    },
+    {
+      "root": [8.633708953857422, -1.8659909963607788, 8.060853958129883],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07092428207397461,
+      "roof": false
+    },
+    {
+      "root": [8.633708953857422, -1.8659909963607788, 8.060853958129883],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07092428207397461,
+      "roof": false
+    },
+    {
+      "root": [8.633708953857422, -1.8659909963607788, 8.060853958129883],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07092428207397461,
+      "roof": false
+    },
+    {
+      "root": [8.633708953857422, -1.8659909963607788, 8.060853958129883],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07092428207397461,
+      "roof": false
+    },
+    {
+      "root": [8.633708953857422, -1.8659909963607788, 8.060853958129883],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07092428207397461,
+      "roof": false
+    },
+    {
+      "root": [8.633708953857422, -1.8659909963607788, 8.060853958129883],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07092428207397461,
+      "roof": false
+    },
+    {
+      "root": [8.633708953857422, -1.8659909963607788, 8.060853958129883],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07092428207397461,
+      "roof": false
+    },
+    {
+      "root": [8.633708953857422, -1.8659909963607788, 8.060853958129883],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.07092428207397461,
+      "roof": false
+    },
+    {
+      "root": [-21.208356857299805, 2.3185911178588867, 8.93891716003418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.060375213623046875,
+      "roof": false
+    },
+    {
+      "root": [-21.208356857299805, 2.3185911178588867, 8.93891716003418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.060375213623046875,
+      "roof": false
+    },
+    {
+      "root": [-21.208356857299805, 2.3185911178588867, 8.93891716003418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.060375213623046875,
+      "roof": false
+    },
+    {
+      "root": [-21.208356857299805, 2.3185911178588867, 8.93891716003418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.060375213623046875,
+      "roof": false
+    },
+    {
+      "root": [-21.208356857299805, 2.3185911178588867, 8.93891716003418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.060375213623046875,
+      "roof": false
+    },
+    {
+      "root": [-21.208356857299805, 2.3185911178588867, 8.93891716003418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.060375213623046875,
+      "roof": false
+    },
+    {
+      "root": [-21.208356857299805, 2.3185911178588867, 8.93891716003418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.060375213623046875,
+      "roof": false
+    },
+    {
+      "root": [-21.208356857299805, 2.3185911178588867, 8.93891716003418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.060375213623046875,
+      "roof": false
+    },
+    {
+      "root": [-21.208356857299805, 2.3185911178588867, 8.93891716003418],
+      "support": "core__golden coastal sandstone",
+      "gap": 0.060375213623046875,
+      "roof": false
+    }
+  ],
+  "positionsChanged": false,
+  "partitionSourceSha256": "bd262cf65c99db0278759596dac6231c9903b01940c000a00d6edae6b14855b8",
+  "acceptedSourceSha256": "68fe2f49033ac3f1f77d3ba97356347cf7239c48c2dc559f7868a5f3d9604a83"
+}

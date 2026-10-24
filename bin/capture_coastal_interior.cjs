@@ -100,7 +100,7 @@ const TYPES = {
 function fromSource(rel) {
   if (ref) {
     try {
-      return execFileSync("git", ["show", `${ref}:${rel}`], { cwd: ROOT, maxBuffer: 256 << 20 });
+      return execFileSync("git", ["show", `${ref}:${rel}`], { cwd: ROOT, maxBuffer: 256 << 20, stdio: ["ignore", "pipe", "ignore"] });
     } catch {
       return null;
     }
@@ -124,6 +124,12 @@ function fixDate(time) {
 }
 
 async function capture(shot, mode) {
+  const manifest = JSON.parse(fromSource("assets/models/home/manifest.json"));
+  const setback = Number(manifest.retreat?.setbackMetres) || 0;
+  // Fixed inspection cameras follow the same architectural bay when the house moves inland.
+  // Outside views retain the coast's world frame; authored room cameras come from the manifest.
+  if (shot.camera && setback)
+    shot = { ...shot, camera: { ...shot.camera, target: shot.camera.target.map((v, axis) => v + (axis === 2 ? setback : 0)) } };
   const fullscreen = mode === "fullscreen";
   const browser = await chromium.launch({
     headless: true,
@@ -141,6 +147,7 @@ async function capture(shot, mode) {
   const page = await context.newPage();
   page.setDefaultTimeout(240000);
   const errors = [];
+  const servedModels = new Map();
   page.on("pageerror", (error) => errors.push(String(error.stack || error)));
   page.on("console", (message) => {
     if (message.type() === "error" && /THREE|WebGL|shader|infinity|home-scene/i.test(message.text())) errors.push(message.text());
@@ -154,6 +161,13 @@ async function capture(shot, mode) {
     const rel = decodeURIComponent(url.pathname).replace(/^.*?(?=assets\/)/, "");
     const body = fromSource(rel);
     if (!body) return route.continue();
+    if (rel.startsWith("assets/models/"))
+      servedModels.set(rel, {
+        file: rel,
+        bytes: body.length,
+        sha256: createHash("sha256").update(body).digest("hex"),
+        source: ref || "working-tree",
+      });
     return route.fulfill({ status: 200, body, contentType: TYPES[path.extname(rel)] || "application/octet-stream" });
   });
   await page.addInitScript(seedPage, 7);
@@ -168,6 +182,7 @@ async function capture(shot, mode) {
   await page.emulateMedia({ reducedMotion: "reduce" });
   const url = new URL(baseURL);
   url.searchParams.set("scene-lab", "1");
+  if (process.env.COAST_WEATHER) url.searchParams.set("weather", process.env.COAST_WEATHER);
   await page.goto(url.href, { waitUntil: "domcontentloaded" });
   const host = page.locator("[data-home-desk-scene]");
   await page.locator('[data-home-desk-mode="3d"]').click();
@@ -193,6 +208,19 @@ async function capture(shot, mode) {
   }, shot.room);
   await page.waitForFunction((room) => document.querySelector("[data-home-desk-scene]").getSceneEvidence().currentRoom === room, shot.room);
   if (shot.camera) await host.evaluate((e, camera) => e.setLabCamera(camera), shot.camera);
+  const cameraSweep = [];
+  if (process.env.COAST_CAMERA_SWEEP) {
+    const candidates = JSON.parse(fs.readFileSync(process.env.COAST_CAMERA_SWEEP, "utf8"));
+    for (const candidate of candidates) {
+      if (!/^[a-z0-9-]+$/.test(candidate.name)) throw new Error("Camera inspection names must be simple filename segments");
+      await host.evaluate((e, camera) => e.setLabCamera({ ...camera, free: false }), candidate.camera);
+      await page.waitForTimeout(1200);
+      const file = path.join(outDir, `${shot.name}-${mode}-${candidate.name}.png`);
+      await host.screenshot({ path: file, timeout: 120000 });
+      const state = await host.evaluate((e) => e.getSceneEvidence());
+      cameraSweep.push({ name: candidate.name, requested: candidate.camera, camera: state.camera, target: state.target, arm: state.cameraArm, file });
+    }
+  }
   await page.waitForTimeout(2500);
   const frames = await host.evaluate((e) => e.getSceneEvidence().frames);
   await page.mouse.move(2, 2);
@@ -212,14 +240,26 @@ async function capture(shot, mode) {
       drawCalls: x.drawCalls,
       triangles: x.triangles,
       infinityPool: x.simulation?.infinityPool,
+      weather: x.ecology?.atmosphere?.weather,
+      rain: x.simulation?.rain,
+      curtains: x.simulation?.curtains,
+      ladder: x.simulation?.libraryLadder,
+      windPlants: x.simulation?.wind?.plants,
+      installations: x.simulation?.installations,
+      cameraArm: x.cameraArm,
+      cameraOrbit: x.cameraOrbit,
+      loading: x.loading,
     };
   });
-  const models = await page.evaluate(() =>
+  const observedModels = await page.evaluate(() =>
     performance
       .getEntriesByType("resource")
       .filter((r) => /\/assets\/models\//.test(r.name))
-      .map((r) => ({ file: new URL(r.name).pathname.split("/").pop(), bytes: r.decodedBodySize || r.encodedBodySize || 0 }))
+      .map((r) => ({ file: new URL(r.name).pathname.replace(/^.*?(?=assets\/)/, ""), bytes: r.decodedBodySize || r.encodedBodySize || 0 }))
   );
+  // Fulfilled Playwright responses often report zero resource size. Use their actual source
+  // bodies, not that zero, when accounting for the complete loaded scene.
+  const models = [...new Map([...observedModels.map((model) => [model.file, model]), ...servedModels]).values()];
   let interaction = null;
   if (process.env.COAST_INTERACTION_PROBE === "1" && fullscreen) {
     const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
@@ -260,7 +300,20 @@ async function capture(shot, mode) {
     await page.locator("[data-world-walk]").click();
   }
   await browser.close();
-  return { shot: shot.name, mode, file, evidence, errors, walk, interaction, modelBytes: models.reduce((s, m) => s + m.bytes, 0), models };
+  return {
+    shot: shot.name,
+    mode,
+    file,
+    inspectionCamera: shot.camera || null,
+    cameraSweep,
+    setback,
+    evidence,
+    errors,
+    walk,
+    interaction,
+    modelBytes: models.reduce((s, m) => s + m.bytes, 0),
+    models,
+  };
 }
 
 (async () => {
@@ -269,7 +322,7 @@ async function capture(shot, mode) {
   for (const area of areas)
     for (const shot of SHOTS[area] || [])
       for (const mode of modes) {
-        const result = await capture(shot, mode);
+        const result = await capture(process.env.COAST_DATE ? { ...shot, time: process.env.COAST_DATE } : shot, mode);
         report.shots.push(result);
         console.log(result.file, result.errors.length ? `errors: ${result.errors.length}` : "ok");
       }

@@ -29,7 +29,15 @@ def materials():
             "glass": _mat("bathroom clear shower glass", (.70, .84, .78), .06, alpha=.14),
             "mirror": _mat("bathroom satin mirror", (.64, .69, .68), .055, .98),
             "light": _mat("bathroom warm diffuser", (.90, .78, .58), .35, 0,
-                           (1.0, .74, .43), 2.1)}
+                           (1.0, .74, .43), 2.1),
+            # Three adjacent cuts of the same stone; names retain the existing
+            # world-scale travertine shader, without a downloaded texture set.
+            "floor": tuple(_mat("bathroom honed travertine "+name, color, .68)
+                           for name, color in (("ivory", (.68, .61, .49)),
+                                               ("oat", (.63, .565, .46)),
+                                               ("sand", (.655, .59, .475)))),
+            "grout": _mat("bathroom warm mineral grout", (.43, .405, .35), .93),
+            "fern": _mat("bathroom fern leaf", (.12, .22, .095), .79)}
 
 
 def _ellipse(bm, center, radii, profile, segments=48):
@@ -131,14 +139,44 @@ def excavate(scene, m):
 
 def _tile_floor(p, m, floor, upper):
     stone = p.bm(m["travertine"])
-    # Large honed slabs; hairline joints are geometry, not an extra texture.
+    border = p.bm(m["stone"])
+    # A warm perimeter frame makes the room read as a considered stone carpet.
+    # Every exposed top stays at the existing support height, including the
+    # flush shower transition and doorway: no new walking curb or raised mat.
     x0, x1 = BOUNDS["x"]
     y0, y1 = BOUNDS["y"]
-    for ix in range(4):
-        for iy in range(5):
-            xa, xb = x0+(x1-x0)*ix/4, x0+(x1-x0)*(ix+1)/4
-            ya, yb = y0+(y1-y0)*iy/5, y0+(y1-y0)*(iy+1)/5
-            box(stone, ((xa+xb)/2, (ya+yb)/2, floor-.018), (xb-xa-.002, yb-ya-.002, .036), .002, segments=1)
+    box(p.bm(m["grout"]), ((x0+x1)/2, (y0+y1)/2, floor-.023), (x1-x0, y1-y0, .040))
+    edge, wet = .14, -3.02
+    for xa, xb, ya, yb in ((x0, x0+edge, y0, y1), (x1-edge, x1, y0, y1),
+                           (x0+edge, x1-edge, y0, y0+edge),
+                           (x0+edge, x1-edge, y1-edge, y1)):
+        box(border, ((xa+xb)/2, (ya+yb)/2, floor-.018), (xb-xa-.002, yb-ya-.002, .036), .0015, segments=1)
+    # Long quiet slabs in a half-bond arrangement, rather than the former
+    # uniform square grid. End cuts stay beside the perimeter border.
+    a, b = x0+edge, x1-edge
+    dy = (wet-(y0+edge))/2
+    width = (b-a)/3
+    for row in range(2):
+        cuts = [a] + [a+(j+.5*row)*width for j in range(1-row, 3)
+                      if a+.01 < a+(j+.5*row)*width < b-.01] + [b]
+        for col, (xa, xb) in enumerate(zip(cuts, cuts[1:])):
+            ya, yb = y0+edge+row*dy, y0+edge+(row+1)*dy
+            batch = p.bm(m["floor"][(col+row+(1 if upper else 0))%3])
+            box(batch, ((xa+xb)/2, (ya+yb)/2, floor-.018), (xb-xa-.002, yb-ya-.002, .036), .0015, segments=1)
+    # Smaller cuts distinguish the wet zone. Their 2 mm recessed joints are
+    # explicit geometry; this suggests a grippier finish, not a safety rating.
+    rows, cols = 7, 19
+    for row in range(rows):
+        for col in range(cols):
+            xa, xb = a+(b-a)*col/cols, a+(b-a)*(col+1)/cols
+            ya, yb = wet+(y1-edge-wet)*row/rows, wet+(y1-edge-wet)*(row+1)/rows
+            batch = p.bm(m["floor"][(col//4+row//3)%3])
+            box(batch, ((xa+xb)/2, (ya+yb)/2, floor-.018), (xb-xa-.002, yb-ya-.002, .036))
+    # The skirting is quiet and continuous behind the vanity and WC. The
+    # doorway and glass shower approach remain entirely clear.
+    for center, size in (((-8.235, -3.975, floor+.055), (.026, 4.19, .11)),
+                         ((-6.60, -6.085, floor+.055), (3.27, .025, .11))):
+        box(border, center, size, .004, segments=1)
     # Door's continuous stone threshold overlaps the old native floor; no curb.
     box(stone, (-4.68, -5.15, floor-.018), (.94, 1.198, .036), .002, segments=1)
     # Native slab below each storey. Upper slab is only hidden while inspecting
@@ -232,14 +270,19 @@ def _vanity(p, m, floor, upper):
     box(metal, (-8.202, -3.65, floor+1.67), (.025, 1.50, .97), .06)
     box(p.bm(m["mirror"]), (-8.185, -3.65, floor+1.67), (.012, 1.46, .93), .055)
     box(p.bm(m["light"]), (-8.16, -3.65, floor+2.225), (.025, 1.42, .024), .009)
+    # Hidden under the floating cabinet, a soft night guide makes the floor
+    # and toe clearance readable without shining another lamp into the mirror.
+    box(p.bm(m["light"]), (-7.93, -3.65, floor+.352), (.025, 1.28, .014), .004)
     # One considered soap bottle and a linen hand towel on a warm metal bar.
     cylinder(p.bm(m["sea"]), (-7.95, -4.24, floor+.868), (-7.95, -4.24, floor+1.00), .038, 20)
     cylinder(metal, (-7.95, -4.24, floor+1), (-7.95, -4.24, floor+1.035), .013, 12)
     box(metal, (-7.92, -4.24, floor+1.035), (.075, .018, .014), .005)
     cylinder(metal, (-7.64, -3.02, floor+.68), (-7.64, -3.37, floor+.68), .011, 12)
     box(p.bm(m["linen"]), (-7.625, -3.19, floor+.535), (.028, .28, .31), .015)
-    return {"id": "mirror", "a": web((-8.10, -4.31, floor+2.16)),
-            "b": web((-8.10, -2.99, floor+2.16)), "intensity": .70}
+    return [{"id": "mirror", "a": web((-8.10, -4.31, floor+2.16)),
+             "b": web((-8.10, -2.99, floor+2.16)), "intensity": .78},
+            {"id": "vanity-underlight", "a": web((-7.93, -4.27, floor+.352)),
+             "b": web((-7.93, -3.03, floor+.352)), "intensity": .075}]
 
 
 def _shower(p, m, floor, upper):
@@ -325,7 +368,7 @@ def build(scene, config):
         objects += _tile_floor(p, m, floor, upper)
         objects += _walls(p, m, floor, upper)
         wc = _toilet(p, m, floor)
-        lines = [_vanity(p, m, floor, upper), _shower(p, m, floor, upper)]
+        lines = _vanity(p, m, floor, upper)+[_shower(p, m, floor, upper)]
         # A folded bath sheet in the dry zone and a small oak perch furnish the
         # room without crowding its broad circulation spine.
         box(p.bm(m["oak"]), (-5.40, -5.86, floor+.43), (.44, .42, .08), .045)

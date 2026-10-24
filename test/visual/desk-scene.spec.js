@@ -1008,10 +1008,11 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(still.simulation.onsen.caustics.overheadFloorGain.maximum).toBeCloseTo(1, 4);
   expect(still.simulation.onsen.optics.opaqueShadow).toBe(false);
   expect(still.simulation.onsen.optics.normalDepthOccluder).toBe(false);
-  // 403 rooted groups: 22 core, 108 facade, 28 study, 183 retained lounge (176 olive + seven small
-  // plant), 40 kitchen, 11 onsen and 11 sleep. The study's 30 unsupported trailing groups hang still.
-  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.enabled, 0)).toBe(403);
-  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.disabled, 0)).toBe(30);
+  // The retreat replaces the old facade/study planters and terrace olive with fitted planting.
+  // Its retained animated inventory is 22 core, 40 kitchen, 11 onsen, seven lounge and 11 sleep
+  // rooted groups. No unsupported hanging group survives the native replacement.
+  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.enabled, 0)).toBe(91);
+  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.disabled, 0)).toBe(0);
   const before = await canvas.screenshot();
   await explore(ui);
   await ui.locator("[data-world-pause]").click();
@@ -2492,14 +2493,14 @@ test("coastal home: navigation keeps the camera out of walls, screens and rock, 
   await explore(ui);
   // The field is voxelized off the main thread once the rooms have streamed in.
   await expect.poll(async () => (await evidence(scene)).cameraCollision?.ready, { timeout: 60000 }).toBe(true);
-  const rows = [];
-  // Three angles the October 14 arcs allowed: behind the study's cedar slats, inside the terrace
-  // olive tree beside the lounge, and inside the cave-mouth rock beside the whole house. The arm
-  // now holds each camera on the visible side, in open air.
+  const rows = [],
+    setback = homeManifest().retreat?.setbackMetres ?? 0;
+  // Delivered-mesh obstruction witnesses: the fitted library desk aisle, the lounge bay,
+  // and cave-mouth rock. The arm holds each camera on the visible side in open air.
   for (const [room, yaw, pitch, radius, target] of [
-    ["study", 1.79, 0.12, 4.248, [-0.27, 3.64, 3.26]],
-    ["lounge", 2.75, 0.12, 4.72, [3.17, 0.96, -2.5]],
-    ["overview", 3.96, 0.25, 9.1, [0, 1.65, 0.2]],
+    ["study", 2.5, 0.3, 3.3, [-10.8, 1.4, 4.75]],
+    ["lounge", 2.75, 0.12, 4.72, [3.17, 0.96, -2.5 + setback]],
+    ["overview", 0, 0.2, 9.1, [0, 1.65, 0.2 + setback]],
   ]) {
     await sceneInputFrame(page, view, () => ui.locator(`[data-world-room="${room}"]`).first().click());
     await sceneInputFrame(page, view, () => scene.evaluate((e, orbit) => e.setLabCamera({ ...orbit, free: false }), { target, yaw, pitch, radius }));
@@ -2525,9 +2526,11 @@ test("coastal home: navigation keeps the camera out of walls, screens and rock, 
     expect((await cameraCell(scene)) & 5).toBe(0);
     expect(state.cameraArm.distance).toBeGreaterThanOrEqual(Math.min(state.cameraArm.minimum, state.cameraOrbit.radius) - 0.05);
   }
-  // Four 0.18 rad turns from the study's authored yaw, unless geometry stopped them sooner.
-  expect(turns[0]).toBeLessThan(homeManifest().rooms.find((r) => r.id === "study").camera.yaw - 0.5);
-  expect(Math.abs(turns.at(-1) - turns.at(-2))).toBeLessThan(0.001);
+  // Four 0.18 rad turns. Room transitions retain an equivalent unwrapped yaw near the previous
+  // view, so compare signed angles rather than raw values separated by a complete revolution.
+  const signedTurn = (from, to) => Math.atan2(Math.sin(to - from), Math.cos(to - from));
+  expect(signedTurn(homeManifest().rooms.find((r) => r.id === "study").camera.yaw, turns[0])).toBeLessThan(-0.5);
+  expect(Math.abs(signedTurn(turns.at(-2), turns.at(-1)))).toBeLessThan(0.001);
   await capture(testInfo, "study-turned-to-the-wall", await canvas.screenshot());
   // Moving the viewpoint: the study's target starts beside the desk and the onsen's inside its
   // steam; both slide, stay within reach of their authored point, and never enter a solid.
@@ -3021,9 +3024,17 @@ for (const activity of ["breakfast", "workout"]) {
 
 test("coastal home: recovery preserves a stair journey and composes a changed clock activity", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
-  const { scene, canvas } = await openClockedHome(page);
+  const view = await openClockedHome(page, { time: "2026-09-11T19:55:00-07:00" }),
+    { scene, canvas, ui } = view;
+  await explore(ui);
+  // The relocated study and gym share the living floor. Compose the gym explicitly: this Friday's
+  // training plan finishes at 19:18, so 19:55 already follows the clock into the onsen. Returning
+  // to Now at 20:00 still tests a genuine lower-to-upper stair journey, independent of plan length.
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-activity]").selectOption("workout"));
+  await expect(scene).toHaveAttribute("data-activity", "workout");
   await beginClockedMotion(page, canvas);
-  await page.clock.setSystemTime(new Date("2026-09-11T18:15:01-07:00"));
+  await page.clock.setSystemTime(new Date("2026-09-11T20:00:01-07:00"));
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-now]").click());
   await page.clock.fastForward(30001);
   await expect(scene).toHaveAttribute("data-animation", "walk");
   await page.clock.runFor(100);
@@ -3455,7 +3466,10 @@ test("facade cloth: linen curtains move in the doorway breeze, the terrace laund
   await capture(testInfo, "curtains-kitchen-1530", await canvas.screenshot());
 
   // The laundry from inside the parapet: it steps in the open wind, and its pixels move.
-  await sceneInputFrame(page, view, () => scene.evaluate((e) => e.setLabCamera({ target: [-1.0, 1.5, -7.25], yaw: 0.15, pitch: 0.06, radius: 2.0 })));
+  const laundryTarget = [-1.0, 1.5, -7.25 + (homeManifest().retreat?.setbackMetres ?? 0)];
+  await sceneInputFrame(page, view, () =>
+    scene.evaluate((e, target) => e.setLabCamera({ target, yaw: 0.15, pitch: 0.06, radius: 2.0 }), laundryTarget)
+  );
   await page.clock.runFor(1500);
   await expect.poll(async () => (await cloth()).laundry.stepping).toBe(true);
   const first = await canvas.screenshot(),

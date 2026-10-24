@@ -16,8 +16,9 @@ test("the native world rig returns quietly when a visitor leaves during hello", 
     container = new EventTarget();
   globalThis.matchMedia = () => ({ matches: false });
   container.getBoundingClientRect = () => ({ left: 0, top: 0, right: 600, bottom: 600, width: 600, height: 600 });
-  camera.position.set(0, 4, 8);
-  camera.lookAt(0, 3, 0);
+  const perch = config.companion.perches.study[0];
+  camera.position.set(perch[0], perch[1] + 1.3, perch[2] + 4);
+  camera.lookAt(perch[0], perch[1] + (config.companion.hover.study || 0.72), perch[2]);
   camera.updateMatrixWorld();
   Object.assign(companion, {
     owner: "world",

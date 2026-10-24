@@ -36,6 +36,11 @@ const layouts = new WeakMap();
 // Stations, standing spots and obstacles from the manifest's gym block (three.js metres).
 export function gymLayout(gym) {
   if (layouts.has(gym)) return layouts.get(gym);
+  // Equipment anchors are already world coordinates. Only the original staged
+  // floor spots and visibility graph below follow this source-frame origin.
+  const origin = gym.choreographyOrigin || [0, 0, 0],
+    source = ([x, y, z]) => [x + origin[0], y + origin[1], z + origin[2]],
+    sourceZ = (z) => z + origin[2];
   const at = (p) => [p[0], 0, p[2]];
   const rackBar = gym.rack.bar,
     platformBar = gym.platform.bar,
@@ -45,7 +50,7 @@ export function gymLayout(gym) {
   const spots = {
     // Between sets: a clear spot by the dumbbells, looking out to sea. (The room's own arrival
     // point is by the platform's plates.)
-    rest: spot([7.3, 0, -0.95], Math.PI),
+    rest: spot(source([7.3, 0, -0.95]), Math.PI),
     arrival: spot(gym.rest.actor, Math.PI),
     board: spot(gym.whiteboard.actor, 0),
     rackEntry: spot(gym.rack.entry, 0),
@@ -64,7 +69,7 @@ export function gymLayout(gym) {
     loadRack: spot([rackBar[0] + half + 0.4, 0, rackBar[2]], -Math.PI / 2),
     loadPlatform: spot([platformBar[0] - half - 0.4, 0, platformBar[2]], Math.PI / 2),
     loadBench: spot([benchBar[0], 0, benchBar[2] + half + 0.4], Math.PI),
-    exit: spot(gym.exit || [6.9, 0, -1.55], Math.PI),
+    exit: spot(gym.exit || source([6.9, 0, -1.55]), Math.PI),
   };
   // Plan rectangles [x0, x1, z0, z1], already widened by a body radius. Entering the cage, the dip
   // bars, the platform and the bench are staged moves, so their footprints stay closed here.
@@ -77,36 +82,43 @@ export function gymLayout(gym) {
     // The cage, its safeties and the bar's plates either side.
     box(px0 - 0.5, px1 + 0.5, pz0 - 0.05, pz1 + 0.05),
     // The pull-up and dip frame.
-    box(Math.min(...dipX) - 0.05, Math.max(...dipX) + 0.05, 0.27, 1.0),
+    box(Math.min(...dipX) - 0.05, Math.max(...dipX) + 0.05, sourceZ(0.27), sourceZ(1.0)),
     // The platform bar with its plates.
     box(platformBar[0] - half, platformBar[0] + half, platformBar[2] - 0.23, platformBar[2] + 0.23),
     // The bench, its uprights and the bar on them.
     box(gym.bench.mount[0] + 0.2, gym.bench.bar[0] + 0.26, gym.bench.bar[2] - 0.16, gym.bench.bar[2] + 0.16),
     box(benchBar[0] - 0.23, benchBar[0] + 0.23, benchBar[2] - half, benchBar[2] + half),
     // The dumbbell rack along the wall and the plate tree by the glass.
-    box(6.14, 6.6, -0.79, 0.89),
+    box(6.14 + origin[0], 6.6 + origin[0], sourceZ(-0.79), sourceZ(0.89)),
     box(gym.plates.tree[0] - 0.25, gym.plates.tree[0] + 0.25, gym.plates.tree[2] - 0.25, gym.plates.tree[2] + 0.25),
   ];
   // Open floor between the stations, including the narrow lane between the platform bar's plates
   // and the bench bar's.
   const lane = (platformBar[0] + half + benchBar[0] - 0.23) / 2;
   const waypoints = [
-    [6.95, 0, -1.0],
-    [rackBar[0], 0, -0.9],
-    [10.25, 0, -0.9],
-    [7.2, 0, -2.4],
-    [gym.bench.mount[0], 0, -2.2],
-    [7.35, 0, 0.1],
-    [lane, 0, -2.2],
-    [lane, 0, -1.25],
+    source([6.95, 0, -1.0]),
+    [rackBar[0], 0, sourceZ(-0.9)],
+    source([10.25, 0, -0.9]),
+    source([7.2, 0, -2.4]),
+    [gym.bench.mount[0], 0, sourceZ(-2.2)],
+    source([7.35, 0, 0.1]),
+    [lane, 0, sourceZ(-2.2)],
+    [lane, 0, sourceZ(-1.25)],
   ];
   // Stations that stand inside a footprint (on the platform behind the bar, at the bench's end)
   // are reached only through their approach, so no walk cuts across a bar.
   const approaches = [
-    { at: spots.platform.at, via: [platformBar[0], 0, -0.9] },
-    { at: spots.benchMount.at, via: [gym.bench.mount[0], 0, -2.2] },
+    { at: spots.platform.at, via: [platformBar[0], 0, sourceZ(-0.9)] },
+    { at: spots.benchMount.at, via: [gym.bench.mount[0], 0, sourceZ(-2.2)] },
   ];
-  const layout = { spots, obstacles, waypoints, approaches, bars: { rack: rackBar, platform: platformBar, bench: benchBar } };
+  const layout = {
+    spots,
+    obstacles,
+    waypoints,
+    approaches,
+    bars: { rack: rackBar, platform: platformBar, bench: benchBar },
+    panGrip: gym.pan?.grip || source([6.75, 0.908, -0.95]),
+  };
   layouts.set(gym, layout);
   return layout;
 }
@@ -686,7 +698,7 @@ function supersetPose(base, layout, segment, t, span, gym) {
       clip: "idle",
       phase: t < pick ? "take the cast-iron pan" : t > span - pick ? "return the pan" : "pan wrist raises × 8",
       pan: take > 0.001,
-      lift: lift("pan-raise", u, { take, grip: gym.pan?.grip || [6.75, 0.908, -0.95] }, ramp(t, span)),
+      lift: lift("pan-raise", u, { take, grip: layout.panGrip }, ramp(t, span)),
     };
   }
   if (name === "pullup") {

@@ -1,0 +1,400 @@
+{
+  "version": 1,
+  "rosettes": 32,
+  "embed": 0.022,
+  "contacts": [
+    {
+      "rootBefore": [25.270170211791992, 4.831063747406006, 13.17484188079834],
+      "rootAfter": [25.270170211791992, 4.831063747406006, 13.074417114257812],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.07842445373535156,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.10042445373535155]
+    },
+    {
+      "rootBefore": [11.288625717163086, -3.155529022216797, 8.210250854492188],
+      "rootAfter": [11.288625717163086, -3.155529022216797, 8.115568161010742],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.07268238067626953,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.09468238067626952]
+    },
+    {
+      "rootBefore": [-17.49053382873535, 0.5210896134376526, 11.153229713439941],
+      "rootAfter": [-17.49053382873535, 0.5210896134376526, 11.050286293029785],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.08094310760498047,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.10294310760498046]
+    },
+    {
+      "rootBefore": [13.820412635803223, 1.5668352842330933, 8.585577964782715],
+      "rootAfter": [13.820412635803223, 1.5668352842330933, 8.527641296386719],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.03593635559082031,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.05793635559082031]
+    },
+    {
+      "rootBefore": [28.236574172973633, 1.5296965837478638, 12.473694801330566],
+      "rootAfter": [28.236574172973633, 1.5296965837478638, 12.383085250854492],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.06860923767089844,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.09060923767089843]
+    },
+    {
+      "rootBefore": [11.813928604125977, -2.812734603881836, 8.27988338470459],
+      "rootAfter": [11.813928604125977, -2.812734603881836, 8.195338249206543],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.0625448226928711,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.08454482269287109]
+    },
+    {
+      "rootBefore": [-16.66156005859375, 2.7237741947174072, 11.471756935119629],
+      "rootAfter": [-16.66156005859375, 2.7237741947174072, 11.403996467590332],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.045760154724121094,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.06776015472412109]
+    },
+    {
+      "rootBefore": [20.70441246032715, 2.9985852241516113, 12.502031326293945],
+      "rootAfter": [20.70441246032715, 2.9985852241516113, 12.442299842834473],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.037731170654296875,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.059731170654296874]
+    },
+    {
+      "rootBefore": [25.857906341552734, 3.3043100833892822, 13.073724746704102],
+      "rootAfter": [25.857906341552734, 3.3043100833892822, 12.996027946472168],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.05569648742675781,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.0776964874267578]
+    },
+    {
+      "rootBefore": [9.578057289123535, -2.0470683574676514, 8.002994537353516],
+      "rootAfter": [9.578057289123535, -2.0470683574676514, 7.9265899658203125],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.05440473556518555,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.07640473556518554]
+    },
+    {
+      "rootBefore": [-21.039186477661133, 2.5726664066314697, 9.071235656738281],
+      "rootAfter": [-21.039186477661133, 2.5726664066314697, 8.969542503356934],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.07969284057617188,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.10169284057617187]
+    },
+    {
+      "rootBefore": [14.069924354553223, 0.6933084726333618, 8.811524391174316],
+      "rootAfter": [14.069924354553223, 0.6933084726333618, 8.740289688110352],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.04923439025878906,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.07123439025878905]
+    },
+    {
+      "rootBefore": [23.266895294189453, 4.5970234870910645, 13.251550674438477],
+      "rootAfter": [23.266895294189453, 4.5970234870910645, 13.154000282287598],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.07555007934570312,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.09755007934570312]
+    },
+    {
+      "rootBefore": [8.155922889709473, 0.36768844723701477, 7.745777606964111],
+      "rootAfter": [8.155922889709473, 0.36768844723701477, 7.676698207855225],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.04707956314086914,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.06907956314086913]
+    },
+    {
+      "rootBefore": [-19.078468322753906, 1.0355254411697388, 10.451138496398926],
+      "rootAfter": [-19.078468322753906, 1.0355254411697388, 10.385690689086914],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.04344749450683594,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.06544749450683593]
+    },
+    {
+      "rootBefore": [13.817299842834473, 4.504692077636719, 8.571825981140137],
+      "rootAfter": [13.817299842834473, 4.504692077636719, 8.511348724365234],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.03847694396972656,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.06047694396972656]
+    },
+    {
+      "rootBefore": [25.988222122192383, 2.5344715118408203, 13.05208683013916],
+      "rootAfter": [25.988222122192383, 2.5344715118408203, 12.998997688293457],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.031088829040527344,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.05308882904052734]
+    },
+    {
+      "rootBefore": [8.633709907531738, -1.8659909963607788, 8.060853004455566],
+      "rootAfter": [8.633709907531738, -1.8659909963607788, 7.967929840087891],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.0709233283996582,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.0929233283996582]
+    },
+    {
+      "rootBefore": [-21.208356857299805, 2.318591356277466, 8.938918113708496],
+      "rootAfter": [-21.208356857299805, 2.318591356277466, 8.856541633605957],
+      "support": "core__golden coastal sandstone",
+      "roofOwner": null,
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.06037616729736328,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.08237616729736327]
+    },
+    {
+      "rootBefore": [-11.635698318481445, -2.457801103591919, 11.154961585998535],
+      "rootAfter": [-11.635698318481445, -2.457801103591919, 11.051095962524414],
+      "support": "core_estate_library_liftaway_roof",
+      "roofOwner": "core_estate_library_liftaway_roof",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.08186531066894531,
+      "newGap": -0.021999359130859375,
+      "translation": [0, 0, -0.1038653106689453]
+    },
+    {
+      "rootBefore": [-9.950875282287598, -4.4751811027526855, 10.263665199279785],
+      "rootAfter": [-9.950875282287598, -4.4751811027526855, 10.203556060791016],
+      "support": "core_estate_library_liftaway_roof",
+      "roofOwner": "core_estate_library_liftaway_roof",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.03810882568359375,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.06010882568359375]
+    },
+    {
+      "rootBefore": [-9.37038516998291, -3.795652151107788, 9.943973541259766],
+      "rootAfter": [-9.37038516998291, -3.795652151107788, 9.863609313964844],
+      "support": "core_estate_library_liftaway_roof",
+      "roofOwner": "core_estate_library_liftaway_roof",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.058363914489746094,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.08036391448974609]
+    },
+    {
+      "rootBefore": [-12.609488487243652, -2.0381948947906494, 11.621932029724121],
+      "rootAfter": [-12.609488487243652, -2.0381948947906494, 11.523152351379395],
+      "support": "core_estate_library_liftaway_roof",
+      "roofOwner": "core_estate_library_liftaway_roof",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.07677936553955078,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.09877936553955077]
+    },
+    {
+      "rootBefore": [-9.123635292053223, -3.746992349624634, 9.84270191192627],
+      "rootAfter": [-9.123635292053223, -3.746992349624634, 9.749666213989258],
+      "support": "core_estate_library_liftaway_roof",
+      "roofOwner": "core_estate_library_liftaway_roof",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.07103538513183594,
+      "newGap": -0.02200031280517578,
+      "translation": [0, 0, -0.09303538513183593]
+    },
+    {
+      "rootBefore": [0.8741883635520935, -7.24037504196167, 6.951344013214111],
+      "rootAfter": [0.8741883635520935, -7.24037504196167, 6.864513397216797],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "roofOwner": "core_liftaway_cave_ceiling_rear",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.06483078002929688,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.08683078002929687]
+    },
+    {
+      "rootBefore": [1.0799556970596313, -7.198611736297607, 6.935925006866455],
+      "rootAfter": [1.0799556970596313, -7.198611736297607, 6.842103004455566],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "roofOwner": "core_liftaway_cave_ceiling_rear",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.0718221664428711,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.09382216644287109]
+    },
+    {
+      "rootBefore": [-1.3960973024368286, -7.251156330108643, 7.322434425354004],
+      "rootAfter": [-1.3960973024368286, -7.251156330108643, 7.2230119705200195],
+      "support": "core_liftaway_cave_ceiling_rear",
+      "roofOwner": "core_liftaway_cave_ceiling_rear",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.0774226188659668,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.09942261886596679]
+    },
+    {
+      "rootBefore": [3.029848337173462, -9.296067237854004, 7.106903553009033],
+      "rootAfter": [3.029848337173462, -9.296067237854004, 7.025380611419678],
+      "support": "core_retreat_liftaway_roof",
+      "roofOwner": "core_retreat_liftaway_roof",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.05952310562133789,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.08152310562133788]
+    },
+    {
+      "rootBefore": [4.276744365692139, -7.930385112762451, 7.465104103088379],
+      "rootAfter": [4.276744365692139, -7.930385112762451, 7.365184307098389],
+      "support": "core_retreat_liftaway_roof",
+      "roofOwner": "core_retreat_liftaway_roof",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.07791996002197266,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.09991996002197265]
+    },
+    {
+      "rootBefore": [5.184024810791016, -7.882556438446045, 7.723369121551514],
+      "rootAfter": [5.184024810791016, -7.882556438446045, 7.62539005279541],
+      "support": "core_retreat_liftaway_roof",
+      "roofOwner": "core_retreat_liftaway_roof",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.07597923278808594,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.09797923278808593]
+    },
+    {
+      "rootBefore": [-0.21907877922058105, -9.569892883300781, 7.1374125480651855],
+      "rootAfter": [-0.21907877922058105, -9.569892883300781, 7.040285587310791],
+      "support": "core_retreat_liftaway_roof",
+      "roofOwner": "core_retreat_liftaway_roof",
+      "leaves": 3,
+      "vertices": 63,
+      "oldGap": 0.07512712478637695,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.09712712478637694]
+    },
+    {
+      "rootBefore": [4.062255382537842, -10.079536437988281, 7.386122703552246],
+      "rootAfter": [4.062255382537842, -10.079536437988281, 7.311284065246582],
+      "support": "core_retreat_liftaway_roof",
+      "roofOwner": "core_retreat_liftaway_roof",
+      "leaves": 9,
+      "vertices": 189,
+      "oldGap": 0.052838802337646484,
+      "newGap": -0.021999835968017578,
+      "translation": [0, 0, -0.07483880233764648]
+    }
+  ],
+  "maximumRigidTranslationError": 3.129243850708008e-7,
+  "positionsChanged": true,
+  "shapeMaterialAndRoofOwnershipPreserved": true,
+  "sourceBeforeSha256": "8772152ae84d4116e87e70dc0ad98a2fcddac4f37863b46a3c855b9d095f39a1",
+  "companionIncludedBVHBefore": {
+    "sha256": "51f587d13c70fab60ea0fa07ff9b0d405c1ed58c0e091a0be6bd28259439822c",
+    "meshes": 362,
+    "vertices": 420425,
+    "faces": 408192
+  },
+  "companionIncludedBVHAfter": {
+    "sha256": "a5e448ae73e981c9d768b658b4e8e821311d3bdef6f96fc02703a209af643384",
+    "meshes": 362,
+    "vertices": 420425,
+    "faces": 408192
+  },
+  "otherGeometryBefore": {
+    "sha256": "e885958f39b93ab4b4ffd3c3af655814401dacf4415876f6fb13a315ba273d8c",
+    "meshes": 389,
+    "vertices": 740363,
+    "faces": 549756
+  },
+  "otherGeometryAfter": {
+    "sha256": "e885958f39b93ab4b4ffd3c3af655814401dacf4415876f6fb13a315ba273d8c",
+    "meshes": 389,
+    "vertices": 740363,
+    "faces": 549756
+  },
+  "changedNodesIncludedInCompanionBVH": [
+    "core__blue sage agave leaf",
+    "core_retreat_roof_planting__core_estate_library_liftaway_roof",
+    "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
+    "core_retreat_roof_planting__core_retreat_liftaway_roof"
+  ],
+  "changedObjects": [
+    "core__blue sage agave leaf",
+    "core_retreat_roof_planting__core_estate_library_liftaway_roof",
+    "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
+    "core_retreat_roof_planting__core_retreat_liftaway_roof"
+  ],
+  "sourceAfterSha256": "c1fced7e108395b64ca7c8ad96e9a275d131b47115d4cbaf334da48701940027"
+}

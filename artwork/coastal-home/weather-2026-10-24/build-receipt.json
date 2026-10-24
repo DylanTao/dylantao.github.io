@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "sources": [
+    {
+      "file": "source/USW00023188.dly.gz",
+      "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/USW00023188.dly",
+      "decodedBytes": 4300290,
+      "decodedSha256": "6ef949af9371f50a611d4b776d98ae756a3e48e613edbf176ef98728e0a13474"
+    },
+    {
+      "file": "source/US1CASD0030.dly.gz",
+      "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/US1CASD0030.dly",
+      "decodedBytes": 131220,
+      "decodedSha256": "14f23dd20dd50bcc60e70f86fb130e0128d78ccb305340e389db1c1f81c39fc5"
+    },
+    {
+      "file": "source/ghcn-readme.txt.gz",
+      "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt",
+      "decodedBytes": 29587,
+      "decodedSha256": "0e4e6f0e6947cf1add884c328a01760f31c56ef5fb86b85ed57dd5dc4c4aeaa6"
+    },
+    {
+      "file": "source/ghcnd-version.txt.gz",
+      "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-version.txt",
+      "decodedBytes": 270,
+      "decodedSha256": "ba07ba51f2da801ae9c3dd89c619fe729f0985df7abbf9891ad8322daa58877a"
+    },
+    {
+      "file": "source/points.json.gz",
+      "url": "https://api.weather.gov/points/32.8328,-117.2713",
+      "decodedBytes": 3926,
+      "decodedSha256": "f9547bd6936378936255c90b4d190f2056e70005826140d131add46f512d9224"
+    },
+    {
+      "file": "source/forecast-hourly.json.gz",
+      "url": "https://api.weather.gov/gridpoints/SGX/53,20/forecast/hourly",
+      "decodedBytes": 162754,
+      "decodedSha256": "4e9a2bfb5f61736dcd323db11853c1a4508d2f546888f652ee79af1a112521bf"
+    }
+  ],
+  "station": {
+    "id": "USW00023188",
+    "name": "San Diego Lindbergh Field",
+    "lat": 32.7336,
+    "lon": -117.1831,
+    "limitation": "Nearby coastal regional proxy, not the house microclimate; gauge-day totals do not establish within-day rain timing."
+  },
+  "coverage": {
+    "1991_2025AcceptedDays": 12784,
+    "1991_2025ExpectedDays": 12784,
+    "rejectedOrMissingByYear": {},
+    "localComparison": {
+      "id": "US1CASD0030",
+      "accepted2010_2025": 5732,
+      "expected2010_2025": 5844,
+      "rejectedOrMissingByYear": {
+        "2010": 6,
+        "2011": 8,
+        "2012": 6,
+        "2013": 2,
+        "2014": 1,
+        "2015": 1,
+        "2017": 9,
+        "2018": 2,
+        "2020": 2,
+        "2021": 14,
+        "2022": 8,
+        "2023": 30,
+        "2024": 3,
+        "2025": 20
+      }
+    }
+  },
+  "validation": {
+    "train": [1991, 2015],
+    "heldOut": [2016, 2025],
+    "days": 3653,
+    "brier": {
+      "monthly_climatology": 0.09512018,
+      "seasonal_markov": 0.08416261,
+      "persistence": 0.12236518,
+      "always_dry": 0.11360526
+    },
+    "skillVsClimatology": 0.1152,
+    "yearly": {
+      "2016": {
+        "monthly_climatology": 0.09446299,
+        "seasonal_markov": 0.07931549,
+        "persistence": 0.1010929,
+        "always_dry": 0.10928962,
+        "days": 366
+      },
+      "2017": {
+        "monthly_climatology": 0.07620997,
+        "seasonal_markov": 0.06850852,
+        "persistence": 0.10684932,
+        "always_dry": 0.08767123,
+        "days": 365
+      },
+      "2018": {
+        "monthly_climatology": 0.07100328,
+        "seasonal_markov": 0.06802057,
+        "persistence": 0.10684932,
+        "always_dry": 0.07671233,
+        "days": 365
+      },
+      "2019": {
+        "monthly_climatology": 0.13224797,
+        "seasonal_markov": 0.11656043,
+        "persistence": 0.16712329,
+        "always_dry": 0.16986301,
+        "days": 365
+      },
+      "2020": {
+        "monthly_climatology": 0.09382932,
+        "seasonal_markov": 0.0831796,
+        "persistence": 0.12021858,
+        "always_dry": 0.11202186,
+        "days": 366
+      },
+      "2021": {
+        "monthly_climatology": 0.09255401,
+        "seasonal_markov": 0.08482596,
+        "persistence": 0.13150685,
+        "always_dry": 0.10958904,
+        "days": 365
+      },
+      "2022": {
+        "monthly_climatology": 0.07509542,
+        "seasonal_markov": 0.06960549,
+        "persistence": 0.10684932,
+        "always_dry": 0.08219178,
+        "days": 365
+      },
+      "2023": {
+        "monthly_climatology": 0.1252183,
+        "seasonal_markov": 0.10309925,
+        "persistence": 0.1369863,
+        "always_dry": 0.16164384,
+        "days": 365
+      },
+      "2024": {
+        "monthly_climatology": 0.0832487,
+        "seasonal_markov": 0.07552653,
+        "persistence": 0.11748634,
+        "always_dry": 0.10382514,
+        "days": 366
+      },
+      "2025": {
+        "monthly_climatology": 0.10736974,
+        "seasonal_markov": 0.09302386,
+        "persistence": 0.12876712,
+        "always_dry": 0.12328767,
+        "days": 365
+      }
+    }
+  },
+  "productionRefitYears": [1991, 2025],
+  "monthlyCounts": [
+    [857, 228],
+    [751, 238],
+    [851, 234],
+    [922, 128],
+    [1006, 79],
+    [1025, 25],
+    [1064, 21],
+    [1072, 13],
+    [1013, 37],
+    [1001, 84],
+    [919, 131],
+    [885, 200]
+  ],
+  "monthlyTransitionCounts": [
+    [
+      [752, 108],
+      [104, 120]
+    ],
+    [
+      [634, 115],
+      [117, 123]
+    ],
+    [
+      [735, 111],
+      [116, 123]
+    ],
+    [
+      [840, 79],
+      [82, 49]
+    ],
+    [
+      [950, 54],
+      [56, 25]
+    ],
+    [
+      [1006, 20],
+      [19, 5]
+    ],
+    [
+      [1045, 19],
+      [19, 2]
+    ],
+    [
+      [1060, 11],
+      [12, 2]
+    ],
+    [
+      [989, 25],
+      [24, 12]
+    ],
+    [
+      [948, 52],
+      [53, 32]
+    ],
+    [
+      [844, 82],
+      [75, 49]
+    ],
+    [
+      [773, 114],
+      [112, 86]
+    ]
+  ],
+  "precomputedSequence": {
+    "start": "2000-01-01",
+    "end": "2099-12-31",
+    "wetDays": 3880,
+    "days": 36525
+  },
+  "forecast": {
+    "source": "NWS SGX/53,20 hourly",
+    "issued": "2026-10-24T10:11:18+00:00",
+    "generated": "2026-10-24T14:03:20+00:00",
+    "validFrom": "2026-10-24T07:00:00-07:00",
+    "validThrough": "2026-10-30T19:00:00-07:00"
+  },
+  "runtimeBytes": 13256,
+  "runtimeCanonicalLfSha256": "457e7c12fc88ae8dc682d649be0679304bb628dd2860e75039eabfe68a269042"
+}
