@@ -64,6 +64,14 @@ sink_hit,_,_,_=rigid.ray_cast(Vector((6.94,7.0,1.18)),Vector((0,0,-1)),1.0)
 if sink_hit is None or not .82<sink_hit.z<.89:
     raise AssertionError({"sinkBowl":None if sink_hit is None else list(sink_hit),"expected":"Recessed native bowl below the .985m countertop"})
 report["recessedSinkBowl"]=list(sink_hit)
+report["entrySteps"]=[]
+for k in range(7):
+    expected=-.18*(k+1)
+    y=outdoors.POOL["y"][0]+.16+k*.31
+    hit,_,_,_=rigid.ray_cast(Vector((-1.14,y,.25)),Vector((0,0,-1)),3)
+    if hit is None or abs(hit.z-expected)>.003:
+        raise AssertionError({"poolEntryTread":k+1,"expected":expected,"hit":None if hit is None else list(hit)})
+    report["entrySteps"].append({"point":list(hit),"expected":expected,"riser":.18})
 for root in estate["garden"]["roots"]:
     x,y,z=root["point"]
     actual,triangle=outdoors.grounded(terrain,x,y)

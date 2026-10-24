@@ -286,10 +286,10 @@ def build_pool(scene, config, m):
     # Catch trough sits behind the low infinity lip; perimeter deck has its own glass guard.
     box(p.bm(m["dark"]),((x0+x1)/2,y1+.14,-.15),(x1-x0,.18,.06),.004,segments=1)
     # Entry treads at the shelf's north end leave both chaises and the dry circulation clear.
-    for k in range(6):
-        z=-.19-.2*k
-        yy=y0+.19+k*.34
-        box(tile,(-1.14,yy,(floor+z)/2),(1.25,.36,z-floor),.006,segments=2)
+    for k in range(7):
+        z=-.18*(k+1)
+        yy=y0+.16+k*.31
+        box(tile,(-1.14,yy,(floor+z)/2),(1.25,.33,z-floor),.006,segments=2)
     for x in (-6.65,-5.20):
         _chaise(p.bm(m["shell"]),x,7.97,POOL["shelf"])
     # Two submerged round seats, a low underwater bench and a separate dry-side service counter.
@@ -311,7 +311,7 @@ def build_pool(scene, config, m):
     bsdf.inputs["IOR"].default_value=1.333
     zones=[{"id":"swim","bounds":[x0,x1,POOL["laneBack"],y1],"bottom":floor,"depth":1.35},
            {"id":"sun-shelf","bounds":[x0,-3.3,y0,POOL["laneBack"]],"bottom":POOL["shelf"],"depth":.22},
-           {"id":"entry","bounds":[-3.3,.3,y0,POOL["laneBack"]],"bottom":floor,"steps":6},
+           {"id":"entry","bounds":[-3.3,.3,y0,POOL["laneBack"]],"bottom":floor,"steps":7,"riser":.18},
            {"id":"social","bounds":[.3,x1,y0,POOL["laneBack"]],"bottom":POOL["bar"],"depth":.85}]
     config["infinityPool"]={"center":web(((x0+x1)/2,(y0+y1)/2,POOL["surface"])),"size":[x1-x0,y1-y0],
                             "depth":1.35,"waterline":POOL["surface"],"node":water.name,"zones":zones,

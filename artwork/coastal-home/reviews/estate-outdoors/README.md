@@ -15,7 +15,7 @@ X appears on the left in a frontal sea view.
 | Connected terrace       | X −8.5…8, Y 4.58…12.8, finished Z 0; 79.65 m² of dry slab around the actual pool aperture                                                                                     |
 | Uninterrupted swim lane | X −7.8…3, Y 9.3…11.65; 10.8 m long, finished water depth 1.35 m                                                                                                               |
 | Sun shelf               | X −7.8…−3.3, Y 6.9…9.3; 22 cm water over the actual tiled floor, with two original curved shell chaises                                                                       |
-| Pool entry              | X −3.3…0.3, Y 6.9…9.3; six genuine descending treads                                                                                                                          |
+| Pool entry              | X −3.3…0.3, Y 6.9…9.3; seven genuine treads with uniform 18 cm risers                                                                                                         |
 | Social pool bay         | X 0.3…3, Y 6.9…9.3; 85 cm water, two submerged round stools and a low bench, beside the dry wet bar                                                                           |
 | Entertaining pavilion   | X 3.65…7.9, Y 6.6…11.7; supported oak cover, barbecue and recessed prep sink, wet bar, elliptical stone dining table and six chairs                                           |
 | Arrival landscape       | Existing stair and landing retained; three edged native-grounded meadow beds, a contour-following mineral path, two view benches, low lanterns and a layered stone/oak portal |
@@ -56,7 +56,7 @@ The positive-X pavilion leaves X 8…11.5 clear toward the gym.
 
 Blender 4.5.9 LTS builds the module twice with identical delivered object names and
 vertex/face counts. After the final weighted-normal pass, the addition has 39
-material-batched meshes, 29,988 vertices and 45,012 triangles. It adds no texture
+material-batched meshes, 30,044 vertices and 45,120 triangles. It adds no texture
 downloads and no native lights.
 
 The native contact audit checks 21 pool-floor samples, all 123 planted roots and
