@@ -1,0 +1,3 @@
+# Optional local reporting only; never installed by the website build.
+google-auth>=2.40,<3
+requests>=2.32.4,<3

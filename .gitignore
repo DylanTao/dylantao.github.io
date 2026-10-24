@@ -8,6 +8,8 @@ _site
 .sass-cache
 .tweet-cache
 .venv
+# Local GA4 read-only credentials, configuration, and private report exports.
+.codex/local/analytics/
 __pycache__/
 *.pyc
 assets/libs/
