@@ -1,0 +1,1262 @@
+{
+  "phase": "before",
+  "source": "0876a30ae7d6582f32d7dfae537ecd48a399a7d6",
+  "base": "https://dylantao.github.io/",
+  "selectors": {
+    "heading": "#focus-title",
+    "controls": "#focus .home-motion-controls",
+    "buttons": "#focus [data-research-mode]",
+    "design": "#focus [data-research-mode=\"design\"]",
+    "evaluate": "#focus [data-research-mode=\"evaluate\"]",
+    "situate": "#focus [data-research-mode=\"situated\"]",
+    "detail": "#focus .home-motion-detail.is-active",
+    "stage": "#focus [data-research-motion]",
+    "status": "#focus [data-research-motion-status]"
+  },
+  "receipts": [
+    {
+      "phase": "before",
+      "source": "0876a30ae7d6582f32d7dfae537ecd48a399a7d6",
+      "base": "https://dylantao.github.io/",
+      "url": "https://dylantao.github.io/",
+      "verifiedAt": "2026-10-24T10:14:11.739Z",
+      "screenshot": "1440-noon.png",
+      "selectors": {
+        "heading": "#focus-title",
+        "controls": "#focus .home-motion-controls",
+        "buttons": "#focus [data-research-mode]",
+        "design": "#focus [data-research-mode=\"design\"]",
+        "evaluate": "#focus [data-research-mode=\"evaluate\"]",
+        "situate": "#focus [data-research-mode=\"situated\"]",
+        "detail": "#focus .home-motion-detail.is-active",
+        "stage": "#focus [data-research-motion]",
+        "status": "#focus [data-research-motion-status]"
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "devicePixelRatio": 1
+      },
+      "theme": {
+        "mode": "noon",
+        "theme": "light"
+      },
+      "reducedMotion": true,
+      "scroll": {
+        "x": 0,
+        "y": 1286,
+        "headingViewportY": 83.516,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 60,
+          "documentY": 1286
+        },
+        "alignmentRule": "focus-title top = fixed navbar bottom + 24 CSS px after fonts, hero images, and two animation frames"
+      },
+      "heading": {
+        "x": 55,
+        "y": 83.516,
+        "width": 832,
+        "height": 35.563,
+        "documentY": 1369.516
+      },
+      "controls": {
+        "x": 55,
+        "y": 230.625,
+        "width": 1330,
+        "height": 131.188,
+        "documentY": 1516.625
+      },
+      "stage": {
+        "x": 55,
+        "y": 380.203,
+        "width": 1330,
+        "height": 368,
+        "documentY": 1666.203
+      },
+      "overflow": {
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "buttons": [
+        {
+          "mode": "design",
+          "pressed": "true",
+          "rect": {
+            "x": 55,
+            "y": 230.625,
+            "width": 435.016,
+            "height": 131.188,
+            "documentY": 1516.625
+          },
+          "style": {
+            "gridTemplateColumns": "401.016px",
+            "padding": "15.2px 16px",
+            "borderInlineStart": "1px solid rgba(155, 189, 225, 0.38)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "color": "rgb(35, 40, 42)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Design",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 72,
+                "y": 246.813,
+                "width": 401.016,
+                "height": 13.813,
+                "documentY": 1532.813
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Scaffold design thinking",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "16.32px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 72,
+                "y": 266.219,
+                "width": 401.016,
+                "height": 20.391,
+                "documentY": 1552.219
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "block",
+              "rect": {
+                "x": 72,
+                "y": 292.203,
+                "width": 401.016,
+                "height": 42.219,
+                "documentY": 1578.203
+              }
+            }
+          ]
+        },
+        {
+          "mode": "evaluate",
+          "pressed": "false",
+          "rect": {
+            "x": 502.484,
+            "y": 230.625,
+            "width": 435.016,
+            "height": 131.188,
+            "documentY": 1516.625
+          },
+          "style": {
+            "gridTemplateColumns": "401.016px",
+            "padding": "15.2px 16px",
+            "borderInlineStart": "1px solid color(srgb 0.231373 0.415686 0.596078 / 0.156)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "color": "rgb(35, 40, 42)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Evaluate",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 519.484,
+                "y": 246.813,
+                "width": 401.016,
+                "height": 13.813,
+                "documentY": 1532.813
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Study process, not just output",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "16.32px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 519.484,
+                "y": 266.219,
+                "width": 401.016,
+                "height": 20.391,
+                "documentY": 1552.219
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "block",
+              "rect": {
+                "x": 519.484,
+                "y": 292.203,
+                "width": 401.016,
+                "height": 42.219,
+                "documentY": 1578.203
+              }
+            }
+          ]
+        },
+        {
+          "mode": "situated",
+          "pressed": "false",
+          "rect": {
+            "x": 949.969,
+            "y": 230.625,
+            "width": 435.031,
+            "height": 131.188,
+            "documentY": 1516.625
+          },
+          "style": {
+            "gridTemplateColumns": "401.031px",
+            "padding": "15.2px 16px",
+            "borderInlineStart": "1px solid color(srgb 0.231373 0.415686 0.596078 / 0.156)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "color": "rgb(35, 40, 42)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Situate",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 966.969,
+                "y": 246.813,
+                "width": 401.031,
+                "height": 13.813,
+                "documentY": 1532.813
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Fit help to everyday contexts",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "16.32px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 966.969,
+                "y": 266.219,
+                "width": 401.031,
+                "height": 20.391,
+                "documentY": 1552.219
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "block",
+              "rect": {
+                "x": 966.969,
+                "y": 292.203,
+                "width": 401.031,
+                "height": 42.219,
+                "documentY": 1578.203
+              }
+            }
+          ]
+        }
+      ],
+      "copy": {
+        "title": "Design, Evaluate, Situate.",
+        "intro": "Research focus Design, Evaluate, Situate. I keep testing the same loop: how to make alternatives comparable, let evidence sharpen the next question, and fit assistance to the situation where judgment happens.",
+        "buttons": [
+          {
+            "id": "design",
+            "text": "Design Scaffold design thinking Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity."
+          },
+          {
+            "id": "evaluate",
+            "text": "Evaluate Study process, not just output Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking."
+          },
+          {
+            "id": "situated",
+            "text": "Situate Fit help to everyday contexts Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics."
+          }
+        ],
+        "details": [
+          {
+            "id": "design",
+            "text": "Design lens Human-AI for design thinking I study interfaces that support design thinking beyond artifact generation: dimensional scaffolds that make the design space visible, variation mechanisms that expose alternatives, structured comparison that helps people reason across options, and staged fidelity that lets ideas mature from rough intent to defensible direction. See DesignWeaver Moves 01 Externalize useful dimensions so people can see what matters. 02 Use variation and structured comparison to reason across alternatives. 03 Move from coarse ideas to committed artifact choices through staged fidelity.",
+            "links": [
+              {
+                "text": "See DesignWeaver",
+                "href": "/projects/designweaver/"
+              }
+            ]
+          },
+          {
+            "id": "evaluate",
+            "text": "Evaluate lens Evaluation for design thinking I evaluate AI tools with evidence between controlled psychology tasks and outcome-only benchmarks: process traces, artifact changes, rationales, preservation and explanation behavior, and learning probes that show what users carry beyond the interface. Read CHI 2026 workshop paper Evidence loop 01 Treat final artifact quality as one layer of evidence. 02 Connect traces and rationales to concrete design questions. 03 Measure explanation, preservation, revision, and transfer.",
+            "links": [
+              {
+                "text": "Read CHI 2026 workshop paper",
+                "href": "/projects/what-happened-and-why/"
+              }
+            ]
+          },
+          {
+            "id": "situated",
+            "text": "Situate lens Interfaces fitted to context I use situated work for settings where judgment depends on practice and medium: studio critique, mixed reality, everyday robotics, and civic or urban projects each change what help should do, when it should appear, and when it should stay out of the way. Situations 01 Let practice shape what assistance should do. 02 Match the interface to the medium and setting. 03 Make help fit the situation instead of interrupting it.",
+            "links": []
+          }
+        ]
+      },
+      "copySha256": "08d411499b046b3d28ae250e2372cc9ac47ca70a14fd9d089b4ee6b273d3c88d",
+      "runtimeErrors": []
+    },
+    {
+      "phase": "before",
+      "source": "0876a30ae7d6582f32d7dfae537ecd48a399a7d6",
+      "base": "https://dylantao.github.io/",
+      "url": "https://dylantao.github.io/",
+      "verifiedAt": "2026-10-24T10:14:14.432Z",
+      "screenshot": "1440-evening.png",
+      "selectors": {
+        "heading": "#focus-title",
+        "controls": "#focus .home-motion-controls",
+        "buttons": "#focus [data-research-mode]",
+        "design": "#focus [data-research-mode=\"design\"]",
+        "evaluate": "#focus [data-research-mode=\"evaluate\"]",
+        "situate": "#focus [data-research-mode=\"situated\"]",
+        "detail": "#focus .home-motion-detail.is-active",
+        "stage": "#focus [data-research-motion]",
+        "status": "#focus [data-research-motion-status]"
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "devicePixelRatio": 1
+      },
+      "theme": {
+        "mode": "evening",
+        "theme": "dark"
+      },
+      "reducedMotion": true,
+      "scroll": {
+        "x": 0,
+        "y": 1286,
+        "headingViewportY": 83.516,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 60,
+          "documentY": 1286
+        },
+        "alignmentRule": "focus-title top = fixed navbar bottom + 24 CSS px after fonts, hero images, and two animation frames"
+      },
+      "heading": {
+        "x": 55,
+        "y": 83.516,
+        "width": 832,
+        "height": 35.563,
+        "documentY": 1369.516
+      },
+      "controls": {
+        "x": 55,
+        "y": 230.625,
+        "width": 1330,
+        "height": 131.188,
+        "documentY": 1516.625
+      },
+      "stage": {
+        "x": 55,
+        "y": 380.203,
+        "width": 1330,
+        "height": 368,
+        "documentY": 1666.203
+      },
+      "overflow": {
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "buttons": [
+        {
+          "mode": "design",
+          "pressed": "true",
+          "rect": {
+            "x": 55,
+            "y": 230.625,
+            "width": 435.016,
+            "height": 131.188,
+            "documentY": 1516.625
+          },
+          "style": {
+            "gridTemplateColumns": "401.016px",
+            "padding": "15.2px 16px",
+            "borderInlineStart": "1px solid rgba(141, 136, 199, 0.38)",
+            "backgroundColor": "rgb(25, 39, 45)",
+            "color": "rgb(248, 243, 236)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Design",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 72,
+                "y": 246.813,
+                "width": 401.016,
+                "height": 13.813,
+                "documentY": 1532.813
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Scaffold design thinking",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "16.32px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 72,
+                "y": 266.219,
+                "width": 401.016,
+                "height": 20.391,
+                "documentY": 1552.219
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "block",
+              "rect": {
+                "x": 72,
+                "y": 292.203,
+                "width": 401.016,
+                "height": 42.219,
+                "documentY": 1578.203
+              }
+            }
+          ]
+        },
+        {
+          "mode": "evaluate",
+          "pressed": "false",
+          "rect": {
+            "x": 502.484,
+            "y": 230.625,
+            "width": 435.016,
+            "height": 131.188,
+            "documentY": 1516.625
+          },
+          "style": {
+            "gridTemplateColumns": "401.016px",
+            "padding": "15.2px 16px",
+            "borderInlineStart": "1px solid color(srgb 0.717647 0.698039 0.890196 / 0.175686)",
+            "backgroundColor": "rgb(25, 39, 45)",
+            "color": "rgb(248, 243, 236)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Evaluate",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 519.484,
+                "y": 246.813,
+                "width": 401.016,
+                "height": 13.813,
+                "documentY": 1532.813
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Study process, not just output",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "16.32px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 519.484,
+                "y": 266.219,
+                "width": 401.016,
+                "height": 20.391,
+                "documentY": 1552.219
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "block",
+              "rect": {
+                "x": 519.484,
+                "y": 292.203,
+                "width": 401.016,
+                "height": 42.219,
+                "documentY": 1578.203
+              }
+            }
+          ]
+        },
+        {
+          "mode": "situated",
+          "pressed": "false",
+          "rect": {
+            "x": 949.969,
+            "y": 230.625,
+            "width": 435.031,
+            "height": 131.188,
+            "documentY": 1516.625
+          },
+          "style": {
+            "gridTemplateColumns": "401.031px",
+            "padding": "15.2px 16px",
+            "borderInlineStart": "1px solid color(srgb 0.717647 0.698039 0.890196 / 0.175686)",
+            "backgroundColor": "rgb(25, 39, 45)",
+            "color": "rgb(248, 243, 236)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Situate",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 966.969,
+                "y": 246.813,
+                "width": 401.031,
+                "height": 13.813,
+                "documentY": 1532.813
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Fit help to everyday contexts",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "16.32px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 966.969,
+                "y": 266.219,
+                "width": 401.031,
+                "height": 20.391,
+                "documentY": 1552.219
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "block",
+              "rect": {
+                "x": 966.969,
+                "y": 292.203,
+                "width": 401.031,
+                "height": 42.219,
+                "documentY": 1578.203
+              }
+            }
+          ]
+        }
+      ],
+      "copy": {
+        "title": "Design, Evaluate, Situate.",
+        "intro": "Research focus Design, Evaluate, Situate. I keep testing the same loop: how to make alternatives comparable, let evidence sharpen the next question, and fit assistance to the situation where judgment happens.",
+        "buttons": [
+          {
+            "id": "design",
+            "text": "Design Scaffold design thinking Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity."
+          },
+          {
+            "id": "evaluate",
+            "text": "Evaluate Study process, not just output Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking."
+          },
+          {
+            "id": "situated",
+            "text": "Situate Fit help to everyday contexts Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics."
+          }
+        ],
+        "details": [
+          {
+            "id": "design",
+            "text": "Design lens Human-AI for design thinking I study interfaces that support design thinking beyond artifact generation: dimensional scaffolds that make the design space visible, variation mechanisms that expose alternatives, structured comparison that helps people reason across options, and staged fidelity that lets ideas mature from rough intent to defensible direction. See DesignWeaver Moves 01 Externalize useful dimensions so people can see what matters. 02 Use variation and structured comparison to reason across alternatives. 03 Move from coarse ideas to committed artifact choices through staged fidelity.",
+            "links": [
+              {
+                "text": "See DesignWeaver",
+                "href": "/projects/designweaver/"
+              }
+            ]
+          },
+          {
+            "id": "evaluate",
+            "text": "Evaluate lens Evaluation for design thinking I evaluate AI tools with evidence between controlled psychology tasks and outcome-only benchmarks: process traces, artifact changes, rationales, preservation and explanation behavior, and learning probes that show what users carry beyond the interface. Read CHI 2026 workshop paper Evidence loop 01 Treat final artifact quality as one layer of evidence. 02 Connect traces and rationales to concrete design questions. 03 Measure explanation, preservation, revision, and transfer.",
+            "links": [
+              {
+                "text": "Read CHI 2026 workshop paper",
+                "href": "/projects/what-happened-and-why/"
+              }
+            ]
+          },
+          {
+            "id": "situated",
+            "text": "Situate lens Interfaces fitted to context I use situated work for settings where judgment depends on practice and medium: studio critique, mixed reality, everyday robotics, and civic or urban projects each change what help should do, when it should appear, and when it should stay out of the way. Situations 01 Let practice shape what assistance should do. 02 Match the interface to the medium and setting. 03 Make help fit the situation instead of interrupting it.",
+            "links": []
+          }
+        ]
+      },
+      "copySha256": "08d411499b046b3d28ae250e2372cc9ac47ca70a14fd9d089b4ee6b273d3c88d",
+      "runtimeErrors": []
+    },
+    {
+      "phase": "before",
+      "source": "0876a30ae7d6582f32d7dfae537ecd48a399a7d6",
+      "base": "https://dylantao.github.io/",
+      "url": "https://dylantao.github.io/",
+      "verifiedAt": "2026-10-24T10:14:16.818Z",
+      "screenshot": "390-noon.png",
+      "selectors": {
+        "heading": "#focus-title",
+        "controls": "#focus .home-motion-controls",
+        "buttons": "#focus [data-research-mode]",
+        "design": "#focus [data-research-mode=\"design\"]",
+        "evaluate": "#focus [data-research-mode=\"evaluate\"]",
+        "situate": "#focus [data-research-mode=\"situated\"]",
+        "detail": "#focus .home-motion-detail.is-active",
+        "stage": "#focus [data-research-motion]",
+        "status": "#focus [data-research-motion-status]"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 1000,
+        "devicePixelRatio": 1
+      },
+      "theme": {
+        "mode": "noon",
+        "theme": "light"
+      },
+      "reducedMotion": true,
+      "scroll": {
+        "x": 0,
+        "y": 2223,
+        "headingViewportY": 93.609,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 69.594,
+          "documentY": 2223
+        },
+        "alignmentRule": "focus-title top = fixed navbar bottom + 24 CSS px after fonts, hero images, and two animation frames"
+      },
+      "heading": {
+        "x": 20,
+        "y": 93.609,
+        "width": 350,
+        "height": 33.797,
+        "documentY": 2316.609
+      },
+      "controls": {
+        "x": 20,
+        "y": 262.281,
+        "width": 350,
+        "height": 82.391,
+        "documentY": 2485.281
+      },
+      "stage": {
+        "x": 20,
+        "y": 360.672,
+        "width": 350,
+        "height": 265.188,
+        "documentY": 2583.672
+      },
+      "overflow": {
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "buttons": [
+        {
+          "mode": "design",
+          "pressed": "true",
+          "rect": {
+            "x": 20,
+            "y": 262.281,
+            "width": 111.875,
+            "height": 82.391,
+            "documentY": 2485.281
+          },
+          "style": {
+            "gridTemplateColumns": "93.875px",
+            "padding": "9.6px 8px",
+            "borderInlineStart": "1px solid rgba(155, 189, 225, 0.38)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "color": "rgb(35, 40, 42)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Design",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "9.28px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 29,
+                "y": 272.875,
+                "width": 34.938,
+                "height": 11.125,
+                "documentY": 2495.875
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Scaffold design thinking",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 29,
+                "y": 286.875,
+                "width": 93.875,
+                "height": 27.156,
+                "documentY": 2509.875
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "none",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "documentY": 2223
+              }
+            }
+          ]
+        },
+        {
+          "mode": "evaluate",
+          "pressed": "false",
+          "rect": {
+            "x": 139.063,
+            "y": 262.281,
+            "width": 111.875,
+            "height": 82.391,
+            "documentY": 2485.281
+          },
+          "style": {
+            "gridTemplateColumns": "93.875px",
+            "padding": "9.6px 8px",
+            "borderInlineStart": "1px solid color(srgb 0.231373 0.415686 0.596078 / 0.156)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "color": "rgb(35, 40, 42)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Evaluate",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "9.28px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 148.063,
+                "y": 272.875,
+                "width": 48.016,
+                "height": 11.125,
+                "documentY": 2495.875
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Study process, not just output",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 148.063,
+                "y": 286.875,
+                "width": 93.875,
+                "height": 27.156,
+                "documentY": 2509.875
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "none",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "documentY": 2223
+              }
+            }
+          ]
+        },
+        {
+          "mode": "situated",
+          "pressed": "false",
+          "rect": {
+            "x": 258.125,
+            "y": 262.281,
+            "width": 111.875,
+            "height": 82.391,
+            "documentY": 2485.281
+          },
+          "style": {
+            "gridTemplateColumns": "93.875px",
+            "padding": "9.6px 8px",
+            "borderInlineStart": "1px solid color(srgb 0.231373 0.415686 0.596078 / 0.156)",
+            "backgroundColor": "rgb(255, 255, 255)",
+            "color": "rgb(35, 40, 42)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Situate",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "9.28px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 267.125,
+                "y": 272.875,
+                "width": 39.078,
+                "height": 11.125,
+                "documentY": 2495.875
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Fit help to everyday contexts",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 267.125,
+                "y": 286.875,
+                "width": 93.875,
+                "height": 40.734,
+                "documentY": 2509.875
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "none",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "documentY": 2223
+              }
+            }
+          ]
+        }
+      ],
+      "copy": {
+        "title": "Design, Evaluate, Situate.",
+        "intro": "Research focus Design, Evaluate, Situate. I keep testing the same loop: how to make alternatives comparable, let evidence sharpen the next question, and fit assistance to the situation where judgment happens.",
+        "buttons": [
+          {
+            "id": "design",
+            "text": "Design Scaffold design thinking Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity."
+          },
+          {
+            "id": "evaluate",
+            "text": "Evaluate Study process, not just output Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking."
+          },
+          {
+            "id": "situated",
+            "text": "Situate Fit help to everyday contexts Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics."
+          }
+        ],
+        "details": [
+          {
+            "id": "design",
+            "text": "Design lens Human-AI for design thinking I study interfaces that support design thinking beyond artifact generation: dimensional scaffolds that make the design space visible, variation mechanisms that expose alternatives, structured comparison that helps people reason across options, and staged fidelity that lets ideas mature from rough intent to defensible direction. See DesignWeaver Moves 01 Externalize useful dimensions so people can see what matters. 02 Use variation and structured comparison to reason across alternatives. 03 Move from coarse ideas to committed artifact choices through staged fidelity.",
+            "links": [
+              {
+                "text": "See DesignWeaver",
+                "href": "/projects/designweaver/"
+              }
+            ]
+          },
+          {
+            "id": "evaluate",
+            "text": "Evaluate lens Evaluation for design thinking I evaluate AI tools with evidence between controlled psychology tasks and outcome-only benchmarks: process traces, artifact changes, rationales, preservation and explanation behavior, and learning probes that show what users carry beyond the interface. Read CHI 2026 workshop paper Evidence loop 01 Treat final artifact quality as one layer of evidence. 02 Connect traces and rationales to concrete design questions. 03 Measure explanation, preservation, revision, and transfer.",
+            "links": [
+              {
+                "text": "Read CHI 2026 workshop paper",
+                "href": "/projects/what-happened-and-why/"
+              }
+            ]
+          },
+          {
+            "id": "situated",
+            "text": "Situate lens Interfaces fitted to context I use situated work for settings where judgment depends on practice and medium: studio critique, mixed reality, everyday robotics, and civic or urban projects each change what help should do, when it should appear, and when it should stay out of the way. Situations 01 Let practice shape what assistance should do. 02 Match the interface to the medium and setting. 03 Make help fit the situation instead of interrupting it.",
+            "links": []
+          }
+        ]
+      },
+      "copySha256": "08d411499b046b3d28ae250e2372cc9ac47ca70a14fd9d089b4ee6b273d3c88d",
+      "runtimeErrors": []
+    },
+    {
+      "phase": "before",
+      "source": "0876a30ae7d6582f32d7dfae537ecd48a399a7d6",
+      "base": "https://dylantao.github.io/",
+      "url": "https://dylantao.github.io/",
+      "verifiedAt": "2026-10-24T10:14:19.112Z",
+      "screenshot": "390-evening.png",
+      "selectors": {
+        "heading": "#focus-title",
+        "controls": "#focus .home-motion-controls",
+        "buttons": "#focus [data-research-mode]",
+        "design": "#focus [data-research-mode=\"design\"]",
+        "evaluate": "#focus [data-research-mode=\"evaluate\"]",
+        "situate": "#focus [data-research-mode=\"situated\"]",
+        "detail": "#focus .home-motion-detail.is-active",
+        "stage": "#focus [data-research-motion]",
+        "status": "#focus [data-research-motion-status]"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 1000,
+        "devicePixelRatio": 1
+      },
+      "theme": {
+        "mode": "evening",
+        "theme": "dark"
+      },
+      "reducedMotion": true,
+      "scroll": {
+        "x": 0,
+        "y": 2223,
+        "headingViewportY": 93.609,
+        "nav": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 69.594,
+          "documentY": 2223
+        },
+        "alignmentRule": "focus-title top = fixed navbar bottom + 24 CSS px after fonts, hero images, and two animation frames"
+      },
+      "heading": {
+        "x": 20,
+        "y": 93.609,
+        "width": 350,
+        "height": 33.797,
+        "documentY": 2316.609
+      },
+      "controls": {
+        "x": 20,
+        "y": 262.281,
+        "width": 350,
+        "height": 82.391,
+        "documentY": 2485.281
+      },
+      "stage": {
+        "x": 20,
+        "y": 360.672,
+        "width": 350,
+        "height": 265.188,
+        "documentY": 2583.672
+      },
+      "overflow": {
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "buttons": [
+        {
+          "mode": "design",
+          "pressed": "true",
+          "rect": {
+            "x": 20,
+            "y": 262.281,
+            "width": 111.875,
+            "height": 82.391,
+            "documentY": 2485.281
+          },
+          "style": {
+            "gridTemplateColumns": "93.875px",
+            "padding": "9.6px 8px",
+            "borderInlineStart": "1px solid rgba(141, 136, 199, 0.38)",
+            "backgroundColor": "rgb(25, 39, 45)",
+            "color": "rgb(248, 243, 236)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Design",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "9.28px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 29,
+                "y": 272.875,
+                "width": 34.938,
+                "height": 11.125,
+                "documentY": 2495.875
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Scaffold design thinking",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 29,
+                "y": 286.875,
+                "width": 93.875,
+                "height": 27.156,
+                "documentY": 2509.875
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "none",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "documentY": 2223
+              }
+            }
+          ]
+        },
+        {
+          "mode": "evaluate",
+          "pressed": "false",
+          "rect": {
+            "x": 139.063,
+            "y": 262.281,
+            "width": 111.875,
+            "height": 82.391,
+            "documentY": 2485.281
+          },
+          "style": {
+            "gridTemplateColumns": "93.875px",
+            "padding": "9.6px 8px",
+            "borderInlineStart": "1px solid color(srgb 0.717647 0.698039 0.890196 / 0.175686)",
+            "backgroundColor": "rgb(25, 39, 45)",
+            "color": "rgb(248, 243, 236)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Evaluate",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "9.28px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 148.063,
+                "y": 272.875,
+                "width": 48.016,
+                "height": 11.125,
+                "documentY": 2495.875
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Study process, not just output",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 148.063,
+                "y": 286.875,
+                "width": 93.875,
+                "height": 27.156,
+                "documentY": 2509.875
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "none",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "documentY": 2223
+              }
+            }
+          ]
+        },
+        {
+          "mode": "situated",
+          "pressed": "false",
+          "rect": {
+            "x": 258.125,
+            "y": 262.281,
+            "width": 111.875,
+            "height": 82.391,
+            "documentY": 2485.281
+          },
+          "style": {
+            "gridTemplateColumns": "93.875px",
+            "padding": "9.6px 8px",
+            "borderInlineStart": "1px solid color(srgb 0.717647 0.698039 0.890196 / 0.175686)",
+            "backgroundColor": "rgb(25, 39, 45)",
+            "color": "rgb(248, 243, 236)"
+          },
+          "text": [
+            {
+              "tag": "SPAN",
+              "text": "Situate",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "9.28px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 267.125,
+                "y": 272.875,
+                "width": 39.078,
+                "height": 11.125,
+                "documentY": 2495.875
+              }
+            },
+            {
+              "tag": "STRONG",
+              "text": "Fit help to everyday contexts",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "11.52px",
+              "weight": "600",
+              "display": "block",
+              "rect": {
+                "x": 267.125,
+                "y": 286.875,
+                "width": 93.875,
+                "height": 40.734,
+                "documentY": 2509.875
+              }
+            },
+            {
+              "tag": "SMALL",
+              "text": "Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics.",
+              "font": "Inter, \"Inter Fallback\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+              "size": "14.08px",
+              "weight": "400",
+              "display": "none",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "documentY": 2223
+              }
+            }
+          ]
+        }
+      ],
+      "copy": {
+        "title": "Design, Evaluate, Situate.",
+        "intro": "Research focus Design, Evaluate, Situate. I keep testing the same loop: how to make alternatives comparable, let evidence sharpen the next question, and fit assistance to the situation where judgment happens.",
+        "buttons": [
+          {
+            "id": "design",
+            "text": "Design Scaffold design thinking Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity."
+          },
+          {
+            "id": "evaluate",
+            "text": "Evaluate Study process, not just output Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking."
+          },
+          {
+            "id": "situated",
+            "text": "Situate Fit help to everyday contexts Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics."
+          }
+        ],
+        "details": [
+          {
+            "id": "design",
+            "text": "Design lens Human-AI for design thinking I study interfaces that support design thinking beyond artifact generation: dimensional scaffolds that make the design space visible, variation mechanisms that expose alternatives, structured comparison that helps people reason across options, and staged fidelity that lets ideas mature from rough intent to defensible direction. See DesignWeaver Moves 01 Externalize useful dimensions so people can see what matters. 02 Use variation and structured comparison to reason across alternatives. 03 Move from coarse ideas to committed artifact choices through staged fidelity.",
+            "links": [
+              {
+                "text": "See DesignWeaver",
+                "href": "/projects/designweaver/"
+              }
+            ]
+          },
+          {
+            "id": "evaluate",
+            "text": "Evaluate lens Evaluation for design thinking I evaluate AI tools with evidence between controlled psychology tasks and outcome-only benchmarks: process traces, artifact changes, rationales, preservation and explanation behavior, and learning probes that show what users carry beyond the interface. Read CHI 2026 workshop paper Evidence loop 01 Treat final artifact quality as one layer of evidence. 02 Connect traces and rationales to concrete design questions. 03 Measure explanation, preservation, revision, and transfer.",
+            "links": [
+              {
+                "text": "Read CHI 2026 workshop paper",
+                "href": "/projects/what-happened-and-why/"
+              }
+            ]
+          },
+          {
+            "id": "situated",
+            "text": "Situate lens Interfaces fitted to context I use situated work for settings where judgment depends on practice and medium: studio critique, mixed reality, everyday robotics, and civic or urban projects each change what help should do, when it should appear, and when it should stay out of the way. Situations 01 Let practice shape what assistance should do. 02 Match the interface to the medium and setting. 03 Make help fit the situation instead of interrupting it.",
+            "links": []
+          }
+        ]
+      },
+      "copySha256": "08d411499b046b3d28ae250e2372cc9ac47ca70a14fd9d089b4ee6b273d3c88d",
+      "runtimeErrors": []
+    }
+  ]
+}
