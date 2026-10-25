@@ -157,6 +157,25 @@ function swayInBreeze(material, mesh) {
   mesh.customDistanceMaterial = distance;
 }
 
+// One program per surface finish (2026-10-24). Most of the coast and a few house pieces were
+// exported without the baked vertex colour that every other piece of the same surface carries;
+// eleven materials came in both forms, so each compiled a second program (the cliff's sandstone
+// alone takes 10-25 s on ANGLE/D3D11). Those meshes draw with white, which multiplies the diffuse
+// colour by exactly one and is all that vertex colour does in these shaders, so they share the
+// painted program. The attribute matches the exports' normalized 8-bit RGBA, keeping one vertex
+// layout; about 65,000 vertices, 260 KB.
+function shareVertexColorProgram(material, mesh) {
+  const geometry = mesh.geometry;
+  if (mesh.isSkinnedMesh || mesh.isInstancedMesh || !geometry?.attributes.position) return;
+  if (material.vertexColors || material.transparent || material.transmission > 0) return;
+  // A geometry shared by several meshes is painted once; each of them then opts in.
+  if (!geometry.attributes.color) {
+    geometry.setAttribute("color", new THREE.BufferAttribute(new Uint8Array(geometry.attributes.position.count * 4).fill(255), 4, true));
+    geometry.userData.whiteVertexColor = true;
+  }
+  if (geometry.userData.whiteVertexColor) material.vertexColors = true;
+}
+
 export function finishPhysicalMaterial(source, mesh, contactLighting) {
   const name = source.name;
   const m =
@@ -190,6 +209,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
         : surfaceLook.sheen && !mesh.isSkinnedMesh && /linen|textile|cotton|woven/i.test(name)
           ? sheenFabric(source)
           : source.clone();
+  shareVertexColorProgram(m, mesh);
   if (mesh.isSkinnedMesh) {
     m.roughness = /hair/i.test(name) ? 0.7 : /skin/i.test(name) ? 0.68 : 0.9;
     m.envMapIntensity = /hair/i.test(name) ? 0.28 : 0.5;
