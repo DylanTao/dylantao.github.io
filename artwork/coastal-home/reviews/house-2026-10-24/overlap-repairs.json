@@ -1,0 +1,1119 @@
+{
+  "version": 1,
+  "source": ".jekyll-cache/overlap-repair/pristine.blend",
+  "sourceSha256": "c1fced7e108395b64ca7c8ad96e9a275d131b47115d4cbaf334da48701940027",
+  "flushCaps": [
+    {
+      "module": "library",
+      "stone": "core_retreat_library__warm cut stone",
+      "oak": "core_retreat_library__pale oak",
+      "lowered": [
+        {
+          "stoneTopBefore": 0.0,
+          "stoneTopAfter": -0.022,
+          "capThickness": 0.022,
+          "caps": 19,
+          "movedVertices": 48,
+          "plan": [
+            [-12.61, -10.56],
+            [-8.49, -0.79]
+          ]
+        }
+      ],
+      "skipped": []
+    },
+    {
+      "module": "gallery",
+      "stone": "core_retreat_gallery__warm cut stone",
+      "oak": "core_retreat_gallery__pale oak",
+      "lowered": [
+        {
+          "stoneTopBefore": 0.0,
+          "stoneTopAfter": -0.022,
+          "capThickness": 0.022,
+          "caps": 27,
+          "movedVertices": 48,
+          "plan": [
+            [-9.7, -9.72],
+            [-3.8, -8.32]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.6,
+          "stoneTopAfter": 2.578,
+          "capThickness": 0.022,
+          "caps": 27,
+          "movedVertices": 48,
+          "plan": [
+            [-9.42, -9.72],
+            [-3.8, -8.32]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.6,
+          "stoneTopAfter": 2.578,
+          "capThickness": 0.022,
+          "caps": 15,
+          "movedVertices": 48,
+          "plan": [
+            [-3.85, -10.3],
+            [-0.9, -8.75]
+          ]
+        }
+      ],
+      "skipped": []
+    },
+    {
+      "module": "arrival",
+      "stone": "core_retreat_arrival__warm cut stone",
+      "oak": "core_retreat_arrival__pale oak",
+      "lowered": [
+        {
+          "stoneTopBefore": 7.8897,
+          "stoneTopAfter": 7.8617,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.594, -22.569],
+            [4.244, -22.196]
+          ]
+        },
+        {
+          "stoneTopBefore": 7.7218,
+          "stoneTopAfter": 7.6938,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.583, -22.349],
+            [4.237, -21.944]
+          ]
+        },
+        {
+          "stoneTopBefore": 7.554,
+          "stoneTopAfter": 7.526,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.561, -22.145],
+            [4.221, -21.678]
+          ]
+        },
+        {
+          "stoneTopBefore": 7.3861,
+          "stoneTopAfter": 7.3581,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.532, -21.942],
+            [4.195, -21.414]
+          ]
+        },
+        {
+          "stoneTopBefore": 7.2182,
+          "stoneTopAfter": 7.1902,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.494, -21.74],
+            [4.159, -21.151]
+          ]
+        },
+        {
+          "stoneTopBefore": 7.0504,
+          "stoneTopAfter": 7.0224,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.449, -21.539],
+            [4.112, -20.89]
+          ]
+        },
+        {
+          "stoneTopBefore": 6.8825,
+          "stoneTopAfter": 6.8545,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.396, -21.339],
+            [4.055, -20.631]
+          ]
+        },
+        {
+          "stoneTopBefore": 6.7146,
+          "stoneTopAfter": 6.6866,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.335, -21.141],
+            [3.988, -20.375]
+          ]
+        },
+        {
+          "stoneTopBefore": 6.5468,
+          "stoneTopAfter": 6.5188,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.267, -20.946],
+            [3.911, -20.123]
+          ]
+        },
+        {
+          "stoneTopBefore": 6.3789,
+          "stoneTopAfter": 6.3509,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.191, -20.753],
+            [3.824, -19.874]
+          ]
+        },
+        {
+          "stoneTopBefore": 6.211,
+          "stoneTopAfter": 6.183,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.108, -20.562],
+            [3.727, -19.629]
+          ]
+        },
+        {
+          "stoneTopBefore": 6.0432,
+          "stoneTopAfter": 6.0152,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [2.017, -20.375],
+            [3.62, -19.388]
+          ]
+        },
+        {
+          "stoneTopBefore": 5.8753,
+          "stoneTopAfter": 5.8473,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.92, -20.191],
+            [3.504, -19.153]
+          ]
+        },
+        {
+          "stoneTopBefore": 5.7074,
+          "stoneTopAfter": 5.6794,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.815, -20.01],
+            [3.378, -18.922]
+          ]
+        },
+        {
+          "stoneTopBefore": 5.5396,
+          "stoneTopAfter": 5.5116,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.704, -19.833],
+            [3.243, -18.697]
+          ]
+        },
+        {
+          "stoneTopBefore": 5.3717,
+          "stoneTopAfter": 5.3437,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.586, -19.661],
+            [3.099, -18.478]
+          ]
+        },
+        {
+          "stoneTopBefore": 5.2038,
+          "stoneTopAfter": 5.1758,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.461, -19.492],
+            [2.946, -18.265]
+          ]
+        },
+        {
+          "stoneTopBefore": 5.036,
+          "stoneTopAfter": 5.008,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.331, -19.329],
+            [2.785, -18.059]
+          ]
+        },
+        {
+          "stoneTopBefore": 4.8681,
+          "stoneTopAfter": 4.8401,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.194, -19.17],
+            [2.616, -17.859]
+          ]
+        },
+        {
+          "stoneTopBefore": 4.7002,
+          "stoneTopAfter": 4.6722,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.052, -19.016],
+            [2.438, -17.667]
+          ]
+        },
+        {
+          "stoneTopBefore": 4.5324,
+          "stoneTopAfter": 4.5044,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [0.904, -18.868],
+            [2.253, -17.482]
+          ]
+        },
+        {
+          "stoneTopBefore": 4.3645,
+          "stoneTopAfter": 4.3365,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [0.75, -18.726],
+            [2.061, -17.304]
+          ]
+        },
+        {
+          "stoneTopBefore": 4.1966,
+          "stoneTopAfter": 4.1686,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [0.591, -18.589],
+            [1.861, -17.135]
+          ]
+        },
+        {
+          "stoneTopBefore": 4.0288,
+          "stoneTopAfter": 4.0008,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [0.428, -18.459],
+            [1.655, -16.974]
+          ]
+        },
+        {
+          "stoneTopBefore": 3.8609,
+          "stoneTopAfter": 3.8329,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [0.259, -18.334],
+            [1.442, -16.821]
+          ]
+        },
+        {
+          "stoneTopBefore": 3.693,
+          "stoneTopAfter": 3.665,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [0.087, -18.216],
+            [1.223, -16.677]
+          ]
+        },
+        {
+          "stoneTopBefore": 3.5252,
+          "stoneTopAfter": 3.4972,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-0.09, -18.105],
+            [0.998, -16.542]
+          ]
+        },
+        {
+          "stoneTopBefore": 3.3573,
+          "stoneTopAfter": 3.3293,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-0.271, -18.0],
+            [0.767, -16.416]
+          ]
+        },
+        {
+          "stoneTopBefore": 3.1894,
+          "stoneTopAfter": 3.1614,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-0.455, -17.903],
+            [0.532, -16.3]
+          ]
+        },
+        {
+          "stoneTopBefore": 3.0216,
+          "stoneTopAfter": 2.9936,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-0.642, -17.812],
+            [0.291, -16.193]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.8537,
+          "stoneTopAfter": 2.8257,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-0.833, -17.729],
+            [0.046, -16.096]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.6859,
+          "stoneTopAfter": 2.6579,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-1.026, -17.653],
+            [-0.203, -16.009]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.518,
+          "stoneTopAfter": 2.49,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-1.221, -17.585],
+            [-0.455, -15.932]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.3501,
+          "stoneTopAfter": 2.3221,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-1.419, -17.524],
+            [-0.711, -15.865]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.1823,
+          "stoneTopAfter": 2.1543,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-1.619, -17.471],
+            [-0.97, -15.808]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.0144,
+          "stoneTopAfter": 1.9864,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-1.82, -17.426],
+            [-1.231, -15.761]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.8465,
+          "stoneTopAfter": 1.8185,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-2.022, -17.388],
+            [-1.494, -15.725]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.6787,
+          "stoneTopAfter": 1.6507,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-2.225, -17.359],
+            [-1.758, -15.699]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.5108,
+          "stoneTopAfter": 1.4828,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-2.429, -17.337],
+            [-2.024, -15.683]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.3429,
+          "stoneTopAfter": 1.3149,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-2.633, -17.324],
+            [-2.291, -15.679]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.1751,
+          "stoneTopAfter": 1.1471,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-2.869, -17.324],
+            [-2.527, -15.679]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.0072,
+          "stoneTopAfter": 0.9792,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-3.136, -17.337],
+            [-2.731, -15.683]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.8393,
+          "stoneTopAfter": 0.8113,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-3.402, -17.359],
+            [-2.935, -15.699]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.6715,
+          "stoneTopAfter": 0.6435,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-3.666, -17.388],
+            [-3.138, -15.725]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.5036,
+          "stoneTopAfter": 0.4756,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-3.929, -17.426],
+            [-3.34, -15.761]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.3357,
+          "stoneTopAfter": 0.3077,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-4.19, -17.471],
+            [-3.541, -15.808]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.1679,
+          "stoneTopAfter": 0.1399,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-4.449, -17.524],
+            [-3.741, -15.865]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.0,
+          "stoneTopAfter": -0.028,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-4.69, -17.586],
+            [-3.953, -15.93]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.0,
+          "stoneTopAfter": -0.028,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-6.65, -17.908],
+            [-1.95, -12.8]
+          ]
+        }
+      ],
+      "skipped": []
+    },
+    {
+      "module": "clifftop",
+      "stone": "core_retreat_clifftop__warm cut stone",
+      "oak": "core_retreat_clifftop__pale oak",
+      "lowered": [
+        {
+          "stoneTopBefore": 7.219,
+          "stoneTopAfter": 7.197,
+          "capThickness": 0.022,
+          "caps": 22,
+          "movedVertices": 48,
+          "plan": [
+            [5.4, -13.0],
+            [10.1, -9.0]
+          ]
+        }
+      ],
+      "skipped": []
+    },
+    {
+      "module": "house_stair",
+      "stone": "core_retreat_house_stair__warm cut stone",
+      "oak": "core_retreat_house_stair__pale oak",
+      "lowered": [
+        {
+          "stoneTopBefore": 0.1625,
+          "stoneTopAfter": 0.1345,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-2.157, -15.584],
+            [-1.693, -14.527]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.325,
+          "stoneTopAfter": 0.297,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-1.904, -15.634],
+            [-1.446, -14.577]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.4875,
+          "stoneTopAfter": 0.4595,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-1.647, -15.681],
+            [-1.203, -14.624]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.65,
+          "stoneTopAfter": 0.622,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-1.386, -15.723],
+            [-0.964, -14.667]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.8125,
+          "stoneTopAfter": 0.7845,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-1.123, -15.757],
+            [-0.727, -14.705]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.975,
+          "stoneTopAfter": 0.947,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-0.857, -15.784],
+            [-0.493, -14.735]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.1375,
+          "stoneTopAfter": 1.1095,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-0.589, -15.8],
+            [-0.261, -14.758]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.3,
+          "stoneTopAfter": 1.272,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-0.32, -15.806],
+            [-0.03, -14.771]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.4625,
+          "stoneTopAfter": 1.4345,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [-0.07, -15.806],
+            [0.22, -14.771]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.625,
+          "stoneTopAfter": 1.597,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [0.161, -15.8],
+            [0.489, -14.758]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.7875,
+          "stoneTopAfter": 1.7595,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [0.393, -15.784],
+            [0.757, -14.735]
+          ]
+        },
+        {
+          "stoneTopBefore": 1.95,
+          "stoneTopAfter": 1.922,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [0.627, -15.757],
+            [1.023, -14.705]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.1125,
+          "stoneTopAfter": 2.0845,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [0.864, -15.723],
+            [1.286, -14.667]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.275,
+          "stoneTopAfter": 2.247,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.103, -15.681],
+            [1.547, -14.624]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.4375,
+          "stoneTopAfter": 2.4095,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.346, -15.634],
+            [1.804, -14.577]
+          ]
+        },
+        {
+          "stoneTopBefore": 2.6,
+          "stoneTopAfter": 2.572,
+          "capThickness": 0.028,
+          "caps": 1,
+          "movedVertices": 48,
+          "plan": [
+            [1.593, -15.584],
+            [2.057, -14.527]
+          ]
+        }
+      ],
+      "skipped": []
+    }
+  ],
+  "terraceTiles": [
+    {
+      "module": "core_estate_terrace",
+      "stone": "core_estate_terrace__warm cut stone",
+      "oak": "core_estate_terrace__travertine paving stone",
+      "lowered": [
+        {
+          "stoneTopBefore": 0.0,
+          "stoneTopAfter": -0.025,
+          "capThickness": 0.025,
+          "caps": 45,
+          "movedVertices": 28,
+          "plan": [
+            [-8.5, -3.42],
+            [8.0, -1.1]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.0,
+          "stoneTopAfter": -0.025,
+          "capThickness": 0.025,
+          "caps": 6,
+          "movedVertices": 28,
+          "plan": [
+            [-8.5, -1.1],
+            [-8.02, 4.8]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.0,
+          "stoneTopAfter": -0.025,
+          "capThickness": 0.025,
+          "caps": 30,
+          "movedVertices": 28,
+          "plan": [
+            [3.22, -1.1],
+            [8.0, 4.8]
+          ]
+        },
+        {
+          "stoneTopBefore": 0.0,
+          "stoneTopAfter": -0.025,
+          "capThickness": 0.025,
+          "caps": 10,
+          "movedVertices": 28,
+          "plan": [
+            [-8.02, 3.88],
+            [3.22, 4.8]
+          ]
+        }
+      ],
+      "skipped": []
+    }
+  ],
+  "lunetteReveal": {
+    "mesh": "core_facade_lunette_frame",
+    "inset": 0.005,
+    "movedVertices": 91,
+    "rock": ["core_liftaway_cave_ceiling", "core__golden coastal sandstone"]
+  },
+  "fridgeOlive": {
+    "region": [
+      [-4.900000095367432, -12.399999618530273, -0.05000000074505806],
+      [-3.5999999046325684, -10.600000381469727, 1.2000000476837158]
+    ],
+    "plantBefore": [
+      [-4.67, -12.133, 0.0],
+      [-3.974, -11.319, 0.947]
+    ],
+    "delta": [-1.9778, -2.954, 0.0],
+    "meshes": [
+      {
+        "mesh": "core__terracotta",
+        "movedIslands": 2
+      },
+      {
+        "mesh": "core__charcoal",
+        "movedIslands": 1
+      },
+      {
+        "mesh": "core__olive leaf",
+        "movedIslands": 11
+      },
+      {
+        "mesh": "core__honey ash",
+        "movedIslands": 11
+      }
+    ]
+  },
+  "oliveLeavesSoft": {
+    "mesh": "core__olive leaf",
+    "flora": true
+  },
+  "guestBathPocketLeaf": {
+    "region": [
+      [-4.699999809265137, -12.600000381469727, -0.05000000074505806],
+      [-4.579999923706055, -11.399999618530273, 2.299999952316284]
+    ],
+    "delta": [-0.12, 0.0, 0.0],
+    "meshes": [
+      {
+        "mesh": "bath-living__pale oak",
+        "movedIslands": 1
+      },
+      {
+        "mesh": "bath-living__brushed brass",
+        "movedIslands": 1
+      }
+    ]
+  },
+  "pantryDoorway": {
+    "region": [
+      [-4.76, -12.65, -0.02],
+      [-3.96, -11.99, 2.4]
+    ],
+    "pivotY": -12.02,
+    "factor": 0.8,
+    "meshes": [
+      {
+        "mesh": "kitchen__pale oak",
+        "scaledIslands": 3
+      },
+      {
+        "mesh": "kitchen__honey ash",
+        "scaledIslands": 1
+      },
+      {
+        "mesh": "kitchen__polished nickel",
+        "scaledIslands": 2
+      }
+    ]
+  },
+  "foyerSlab": {
+    "mesh": "core_retreat_arrival__warm cut stone",
+    "box": [
+      [-8.7, -14.4, -0.4],
+      [-4.74, -9.55, 0.06]
+    ],
+    "skippedDisjoint": false,
+    "preservedVertices": 4808,
+    "affectedVertices": 96,
+    "cutNonManifold": 0
+  },
+  "kitchenHob": [
+    {
+      "region": [
+        [-4.619999885559082, -6.400000095367432, 0.8999999761581421],
+        [-4.179999828338623, -5.900000095367432, 0.9200000166893005]
+      ],
+      "delta": [0, 0, 0.003],
+      "meshes": [
+        {
+          "mesh": "kitchen__satin appliance stainless",
+          "movedIslands": 1
+        }
+      ]
+    },
+    {
+      "region": [
+        [-4.599999904632568, -6.380000114440918, 0.9100000262260437],
+        [-4.199999809265137, -5.920000076293945, 0.9200000166893005]
+      ],
+      "delta": [0, 0, 0.007],
+      "meshes": [
+        {
+          "mesh": "kitchen__charcoal",
+          "movedIslands": 1
+        }
+      ]
+    }
+  ],
+  "facadeTile": {
+    "region": [
+      [-4.300000190734863, -2.299999952316284, -0.05000000074505806],
+      [-3.549999952316284, -1.5499999523162842, 0.3499999940395355]
+    ],
+    "delta": [0, 0, 0.005],
+    "meshes": [
+      {
+        "mesh": "core_facade__travertine_paving_stone",
+        "movedIslands": 2
+      }
+    ]
+  },
+  "poolChaises": {
+    "region": [
+      [-7.099999904632568, -1.100000023841858, -0.3199999928474426],
+      [-4.800000190734863, 1.0499999523162842, 0.44999998807907104]
+    ],
+    "delta": [0, 0, 0.003],
+    "meshes": [
+      {
+        "mesh": "core_estate_pool__ivory pool chaise ceramic",
+        "movedIslands": 2
+      }
+    ]
+  },
+  "terraceFace": {
+    "mesh": "core_estate_terrace__warm cut stone",
+    "region": [
+      [-8.6, -3.5, -0.3],
+      [8.1, -1.0, 0.05]
+    ],
+    "delta": [0, -0.005, 0],
+    "islands": 1,
+    "movedVertices": 28
+  },
+  "gymPassageFloor": {
+    "mesh": "core_gym_passage_floor",
+    "region": [
+      [4.5, -7.1, -0.3],
+      [6.3, -5.8, 0.0]
+    ],
+    "delta": [-0.25, 0, 0],
+    "islands": 1,
+    "movedVertices": 4
+  },
+  "privateThresholdSoffit": {
+    "mesh": "core_retreat_private_arrival__warm cut stone",
+    "region": [
+      [3.25, -16.25, 2.3],
+      [5.65, -14.65, 2.65]
+    ],
+    "delta": [0, 0, 0.02],
+    "islands": 1,
+    "movedVertices": 48
+  },
+  "gallerySoffit": {
+    "mesh": "core_retreat_gallery__warm cut stone",
+    "region": [
+      [-9.8, -10.4, 2.3],
+      [-0.8, -8.2, 2.65]
+    ],
+    "delta": [0, 0, 0.02],
+    "islands": 2,
+    "movedVertices": 96
+  },
+  "laptopDeck": {
+    "region": [
+      [-11.550000190734863, -4.230000019073486, 0.8849999904632568],
+      [-11.1899995803833, -3.9200000762939453, 0.8949999809265137]
+    ],
+    "delta": [0, 0, 0.002],
+    "meshes": [
+      {
+        "mesh": "study__matte black device",
+        "movedIslands": 1
+      }
+    ]
+  },
+  "privateGardenPad": {
+    "mesh": "core_retreat_private_arrival__warm cut stone",
+    "region": [
+      [6.95, -14.55, 7.3],
+      [8.0, -13.4, 7.7]
+    ],
+    "delta": [0, 0, -0.006],
+    "islands": 1,
+    "movedVertices": 48
+  },
+  "corridorBoards": {
+    "mesh": "core_retreat_gallery__pale oak",
+    "region": [
+      [-9.8, -9.8, -0.05],
+      [-3.7, -8.2, 0.01]
+    ],
+    "xMin": -8.55,
+    "deletedVertices": 120,
+    "clampedIslands": 1,
+    "untouchedIslands": 21
+  },
+  "corridorBed": {
+    "mesh": "core_retreat_gallery__warm cut stone",
+    "box": [
+      [-10.0, -9.9, -0.4],
+      [-8.55, -8.15, 0.01]
+    ],
+    "skippedDisjoint": false,
+    "preservedVertices": 192,
+    "affectedVertices": 96,
+    "cutNonManifold": 0
+  },
+  "gardenPath": {
+    "mesh": "core_estate_garden__travertine paving stone",
+    "ground": [
+      "core_retreat_liftaway_roof",
+      "core__golden coastal sandstone",
+      "core_estate_garden__garden mineral mulch",
+      "core_liftaway_cave_ceiling_rear",
+      "core_liftaway_cave_ceiling",
+      "core_estate_library_liftaway_roof"
+    ],
+    "clearance": 0.012,
+    "radius": 0.3,
+    "upVertices": 113,
+    "lifted": 99,
+    "maxLift": 0.1605,
+    "meanLift": 0.057,
+    "capped": 0
+  },
+  "output": ".jekyll-cache/overlap-repair/coastal-home.blend",
+  "outputSha256": "38f468194a7ee612824c1168eddc655780613be0da8a143537799a212cd114a6"
+}

@@ -1,0 +1,435 @@
+{
+  "description": "Reviewed verdicts for the October 24 overlap audit's ranked pairs. Each bound is about 25% above the measured value, so a reviewed pair that grows is ranked for review again. Verdicts: designed (an intended joint, inlay or soft compression), hidden (faces no camera reaches), built-into-rock, planting, deferred (to a named item), follow-up (a recorded small defect).",
+  "pairs": {
+    "bath-bedroom__bathroom celadon ceramic | bath-bedroom__chalk limestone": {
+      "verdict": "designed",
+      "reason": "En suite celadon wall tiles and niche lining set about 1 cm into the plaster walls (triage tile #13).",
+      "maxDepthM": 0.014,
+      "maxSeamM": 89.73
+    },
+    "bath-bedroom__bathroom honed travertine ivory | bath-bedroom__honed travertine": {
+      "verdict": "hidden",
+      "reason": "Undersides of floor tiles bedded in the slab.",
+      "maxVisibleAreaM2": 0.2016
+    },
+    "bath-bedroom__bathroom honed travertine ivory | core_bathwing_upper_slab__warm cut stone": {
+      "verdict": "hidden",
+      "reason": "En suite floor tiles bedded 1.6 cm into their structural slab.",
+      "maxDepthM": 0.02,
+      "maxSeamM": 33.05
+    },
+    "bath-bedroom__bathroom warm mineral grout | bath-bedroom__warm cut stone": {
+      "verdict": "hidden",
+      "reason": "As in the guest bath: cladding and grout backs against the plaster wall.",
+      "maxVisibleAreaM2": 0.2666
+    },
+    "bath-bedroom__honed travertine | bath-bedroom__warm cut stone": {
+      "verdict": "hidden",
+      "reason": "Undersides of floor tiles and border stones bedded in the slab.",
+      "maxVisibleAreaM2": 0.2275
+    },
+    "bath-living__bathroom honed travertine sand | bath-living__honed travertine": {
+      "verdict": "hidden",
+      "reason": "Undersides of floor tiles bedded in the slab.",
+      "maxVisibleAreaM2": 0.2016
+    },
+    "bath-living__bathroom honed travertine sand | core_bathwing_lower_slab__warm cut stone": {
+      "verdict": "hidden",
+      "reason": "Guest bath floor tiles bedded 1.6 cm into their structural slab.",
+      "maxDepthM": 0.02,
+      "maxSeamM": 32.24
+    },
+    "bath-living__bathroom warm mineral grout | bath-living__warm cut stone": {
+      "verdict": "hidden",
+      "reason": "Back faces of the wall cladding and its grout bed against the plaster wall; the open plaster batch defeats the automatic burial test.",
+      "maxVisibleAreaM2": 0.2666
+    },
+    "bath-living__chalk limestone | bath-living__honed travertine": {
+      "verdict": "designed",
+      "reason": "Guest bath stone cladding, shelf and niche pieces set up to 3 cm into the plaster walls they line.",
+      "maxDepthM": 0.035,
+      "maxSeamM": 93.88
+    },
+    "bath-living__honed travertine | bath-living__warm cut stone": {
+      "verdict": "hidden",
+      "reason": "Undersides of floor tiles and border stones bedded in the slab.",
+      "maxVisibleAreaM2": 0.1976
+    },
+    "coast_shared_golden coastal sandstone | core_estate_pool__sea glass pool mosaic": {
+      "verdict": "built-into-rock",
+      "reason": "The pool's mosaic floor and walls are set into the rock basin.",
+      "maxDepthM": 0.05,
+      "maxSeamM": 15.78
+    },
+    "coast_shared_golden coastal sandstone | core_estate_pool__warm cut stone": {
+      "verdict": "built-into-rock",
+      "reason": "The pool basin's stone lining and coping are set into the excavated coastal sandstone; the buried outer faces are inside rock. Deck and water views show no rock inside the basin (context views r6/r7).",
+      "maxDepthM": 0.382,
+      "maxSeamM": 101.92
+    },
+    "coast_shared_golden coastal sandstone | kitchen__chalk limestone": {
+      "verdict": "built-into-rock",
+      "reason": "The nook's plaster base runs into the coastal sandstone below the floor line (z -0.26); hidden under the floor.",
+      "maxDepthM": 0.188,
+      "maxSeamM": 2.78
+    },
+    "core__chalk limestone | core__golden coastal sandstone": {
+      "verdict": "built-into-rock",
+      "reason": "The vault's plaster lining continues into the excavated sandstone at the upper back corner; the room side reads as a plaster-lined corner by the wardrobe (context view r1).",
+      "maxDepthM": 0.472,
+      "maxSeamM": 2.97
+    },
+    "core__chalk limestone | core_reno_slab_upper": {
+      "verdict": "designed",
+      "reason": "The upper floor slab bears into the vault's plaster lining and the upper guard upstand.",
+      "maxDepthM": 0.139,
+      "maxSeamM": 4.48
+    },
+    "core__chalk limestone | core_retreat_gallery__warm cut stone": {
+      "verdict": "deferred",
+      "reason": "The bedside apron slab bearing into the vault lining; rebuilt in item 12.",
+      "maxDepthM": 0.125,
+      "maxSeamM": 1.71
+    },
+    "core__golden coastal sandstone | core_estate_garden__travertine paving stone": {
+      "verdict": "built-into-rock",
+      "reason": "The clifftop path's buried underside and edge run into the mainland where the path meets the slope.",
+      "maxDepthM": 0.153,
+      "maxSeamM": 2.89,
+      "maxVisibleAreaM2": 0.0004
+    },
+    "core__golden coastal sandstone | core_estate_garden__warm cut stone": {
+      "verdict": "built-into-rock",
+      "reason": "Garden curbs and steps set into the ground (triage tile #34).",
+      "maxDepthM": 0.143,
+      "maxSeamM": 3.25,
+      "maxVisibleAreaM2": 0.015
+    },
+    "core__golden coastal sandstone | core_facade__warm_cut_stone": {
+      "verdict": "built-into-rock",
+      "reason": "Facade stone piers and sills are built into the excavated cliff face (context view r3).",
+      "maxDepthM": 0.331,
+      "maxSeamM": 4.05
+    },
+    "core__golden coastal sandstone | core_flora_lemonade_berry_shade": {
+      "verdict": "planting",
+      "reason": "Lemonade berry shrub masses on the slope: the uphill side of each mass sits in the ground, the downhill side is exposed, as on a real hillside.",
+      "maxDepthM": 0.391,
+      "maxSeamM": 10.59
+    },
+    "core__golden coastal sandstone | core_flora_sage": {
+      "verdict": "planting",
+      "reason": "Sage clumps rooted in the slope.",
+      "maxDepthM": 0.104,
+      "maxSeamM": 1.77
+    },
+    "core__golden coastal sandstone | core_flora_yucca_skirt": {
+      "verdict": "planting",
+      "reason": "Yucca skirts rooted in the slope.",
+      "maxDepthM": 0.217,
+      "maxSeamM": 2.62
+    },
+    "core__golden coastal sandstone | core_gym_passage_floor": {
+      "verdict": "built-into-rock",
+      "reason": "The gym passage floor bed runs under the carved rock jambs.",
+      "maxDepthM": 0.141,
+      "maxSeamM": 0.98
+    },
+    "core__golden coastal sandstone | core_retreat_private_arrival__pale oak": {
+      "verdict": "hidden",
+      "reason": "The cedar pocket panel parked beside the private onsen threshold stands in its rock pocket; only its edge shows in the threshold.",
+      "maxDepthM": 0.405,
+      "maxSeamM": 2.54
+    },
+    "core_bathwing_lower_slab__warm cut stone | core_retreat_gallery__warm cut stone": {
+      "verdict": "hidden",
+      "reason": "The corridor floor bed meets the bathroom wing's lower slab under the corridor floor.",
+      "maxDepthM": 0.088,
+      "maxSeamM": 5.26
+    },
+    "core_bathwing_upper_slab__warm cut stone | core_retreat_gallery__warm cut stone": {
+      "verdict": "deferred",
+      "reason": "The upper bridge slab bears on the bathroom wing's upper slab; the bridge is removed in item 12.",
+      "maxDepthM": 0.088,
+      "maxSeamM": 5.03
+    },
+    "core_estate_garden__brushed brass | core_estate_garden__honey ash": {
+      "verdict": "designed",
+      "reason": "Garden bollard caps on their posts (triage tile #71).",
+      "maxDepthM": 0.047,
+      "maxSeamM": 2.13
+    },
+    "core_estate_garden__garden mineral mulch | core_estate_garden__travertine paving stone": {
+      "verdict": "designed",
+      "reason": "The conformed path's set-in edges pass through the mulch bed it bridges; its top clears the mulch by at least 12 mm.",
+      "maxDepthM": 0.155,
+      "maxSeamM": 8.02
+    },
+    "core_estate_garden__garden mineral mulch | core_estate_garden__warm cut stone": {
+      "verdict": "designed",
+      "reason": "Mulch bed laid against garden curbs.",
+      "maxDepthM": 0.08,
+      "maxSeamM": 6.66
+    },
+    "core_estate_garden__pale oak | core_estate_garden__warm cut stone": {
+      "verdict": "designed",
+      "reason": "Oak garden bench seat on its stone plinth.",
+      "maxDepthM": 0.057,
+      "maxSeamM": 4.46
+    },
+    "core_estate_garden__travertine paving stone | core_retreat_liftaway_roof": {
+      "verdict": "built-into-rock",
+      "reason": "The conformed clifftop path's underside and edges stay in the roof terrain; its top now clears the ground.",
+      "maxDepthM": 0.165,
+      "maxSeamM": 1.76
+    },
+    "core_estate_garden__warm cut stone | core_retreat_liftaway_roof": {
+      "verdict": "built-into-rock",
+      "reason": "Garden curbs set into the roof terrain (triage tile #48).",
+      "maxDepthM": 0.136,
+      "maxSeamM": 2.29,
+      "maxVisibleAreaM2": 0.0257
+    },
+    "core_estate_library_facade__brushed brass | core_estate_library_glazing__facade low-iron glass": {
+      "verdict": "designed",
+      "reason": "Library glazing set into its bronze mullions (triage tile #55).",
+      "maxDepthM": 0.018,
+      "maxSeamM": 23.24
+    },
+    "core_estate_library_liftaway_roof | core_flora_lemonade_berry_shade": {
+      "verdict": "planting",
+      "reason": "Shrub masses planted on the library's roof terrain; their bases sit in the ground surface.",
+      "maxDepthM": 0.471,
+      "maxSeamM": 4.65
+    },
+    "core_estate_pavilion__brushed brass | core_estate_pavilion__honey ash": {
+      "verdict": "designed",
+      "reason": "Pavilion brass shoes and brackets on oak members.",
+      "maxDepthM": 0.088,
+      "maxSeamM": 3.48
+    },
+    "core_estate_pavilion__brushed brass | core_estate_pavilion__warm cut stone": {
+      "verdict": "designed",
+      "reason": "Pavilion brass feet seated in stone bases (triage tile #52).",
+      "maxDepthM": 0.2,
+      "maxSeamM": 0.88
+    },
+    "core_estate_pavilion__festoon bulb glass | core_estate_pavilion__honey ash": {
+      "verdict": "designed",
+      "reason": "Festoon bulbs seated in their oak holders.",
+      "maxDepthM": 0.084,
+      "maxSeamM": 0.67
+    },
+    "core_estate_pavilion__honey ash | core_estate_pavilion__pale oak": {
+      "verdict": "designed",
+      "reason": "Pavilion oak frame joints (triage tile #54).",
+      "maxDepthM": 0.02,
+      "maxSeamM": 7.7
+    },
+    "core_estate_pool__travertine paving stone | core_estate_pool__warm cut stone": {
+      "verdict": "designed",
+      "reason": "Pool deck paving meets the coping blocks.",
+      "maxDepthM": 0.044,
+      "maxSeamM": 2.82
+    },
+    "core_estate_pool__warm cut stone | core_estate_terrace__travertine paving stone": {
+      "verdict": "designed",
+      "reason": "Terrace paving meets the pool coping.",
+      "maxDepthM": 0.075,
+      "maxSeamM": 5.31
+    },
+    "core_estate_pool__warm cut stone | core_estate_terrace__warm cut stone": {
+      "verdict": "designed",
+      "reason": "Terrace slab and pool coping blocks of the same stone meet at the pool edge.",
+      "maxDepthM": 0.029,
+      "maxSeamM": 3.12
+    },
+    "core_estate_terrace__travertine paving stone | core_facade__warm_cut_stone": {
+      "verdict": "designed",
+      "reason": "Terrace paving meets the facade sill stone.",
+      "maxDepthM": 0.147,
+      "maxSeamM": 1.72
+    },
+    "core_estate_terrace__warm cut stone | core_reno_slab_ground": {
+      "verdict": "hidden",
+      "reason": "Two floor-bed slabs meet beneath the facade threshold line (y -3.42); both are under finished floors.",
+      "maxDepthM": 0.146,
+      "maxSeamM": 1.87
+    },
+    "core_fireplace_cap__blackened steel flue | core_liftaway_cave_ceiling_rear": {
+      "verdict": "designed",
+      "reason": "The fireplace flue rises through the rock roof to its clifftop cap.",
+      "maxDepthM": 0.431,
+      "maxSeamM": 0.79
+    },
+    "core_fireplace_cap__golden coastal sandstone | core_retreat_roof_planting__core_liftaway_cave_ceiling_rear": {
+      "verdict": "planting",
+      "reason": "Roof planting rooted around the chimney cap's rock base.",
+      "maxDepthM": 0.052,
+      "maxSeamM": 13.32
+    },
+    "core_gym_floor | core_retreat_gym_threshold__warm cut stone": {
+      "verdict": "hidden",
+      "reason": "The gym floor slab runs under the stone threshold.",
+      "maxDepthM": 0.143,
+      "maxSeamM": 3.8
+    },
+    "core_gym_passage_floor | core_reno_slab_ground": {
+      "verdict": "hidden",
+      "reason": "Floor beds of the gym passage and the living slab meet below the passage threshold.",
+      "maxDepthM": 0.157,
+      "maxSeamM": 2.67
+    },
+    "core_gym_passage_floor | core_retreat_gym_threshold__warm cut stone": {
+      "verdict": "hidden",
+      "reason": "The passage floor bed lies under the stone threshold.",
+      "maxDepthM": 0.143,
+      "maxSeamM": 3.04
+    },
+    "core_reno_floorboards_lower | core_retreat_gallery__pale oak": {
+      "verdict": "designed",
+      "reason": "Corridor boards meet the living floorboards at the kitchen threshold (1 cm).",
+      "maxDepthM": 0.014,
+      "maxSeamM": 21.52
+    },
+    "core_reno_floorboards_lower | lounge__honey ash": {
+      "verdict": "designed",
+      "reason": "The sofa base and media wall stand on the living floorboards.",
+      "maxDepthM": 0.015,
+      "maxSeamM": 28.21,
+      "maxVisibleAreaM2": 0.0121
+    },
+    "core_reno_floorboards_upper | core_retreat_gallery__pale oak": {
+      "verdict": "deferred",
+      "reason": "Old bedside apron boards meeting the upper floorboards; the apron and bridge are rebuilt in item 12.",
+      "maxDepthM": 0.014,
+      "maxSeamM": 67.58
+    },
+    "core_reno_slab_ground | core_retreat_gallery__warm cut stone": {
+      "verdict": "hidden",
+      "reason": "Floor beds meet at the corridor's kitchen threshold.",
+      "maxDepthM": 0.137,
+      "maxSeamM": 0.76
+    },
+    "core_reno_slab_upper | core_retreat_gallery__warm cut stone": {
+      "verdict": "deferred",
+      "reason": "The bedside apron's slab within the upper slab; rebuilt in item 12.",
+      "maxDepthM": 0.124,
+      "maxSeamM": 1.7
+    },
+    "core_retreat_arrival__brushed brass | core_retreat_arrival__warm cut stone": {
+      "verdict": "designed",
+      "reason": "Arrival shade posts seated in their stone piers (triage tile #51).",
+      "maxDepthM": 0.039,
+      "maxSeamM": 6.11,
+      "maxVisibleAreaM2": 0.0016
+    },
+    "core_retreat_arrival__pale oak | core_retreat_arrival__warm cut stone": {
+      "verdict": "designed",
+      "reason": "Each curved arrival tread's stone riser block rests on the oak cap of the tread below (adjacent treads overlap about 7 cm in plan). Their tops are no longer coplanar after the flush-cap repair.",
+      "maxDepthM": 0.034,
+      "maxSeamM": 64.73
+    },
+    "core_retreat_gallery__pale oak | core_retreat_spiral__pale oak": {
+      "verdict": "deferred",
+      "reason": "Bridge boards over the old spiral landing; both removed in item 12.",
+      "maxVisibleAreaM2": 0.1236
+    },
+    "core_retreat_gallery__warm cut stone | core_retreat_spiral__pale oak": {
+      "verdict": "deferred",
+      "reason": "The old spiral's top landing over the bridge slab; both are replaced in item 12.",
+      "maxDepthM": 0.072,
+      "maxSeamM": 3.76
+    },
+    "core_retreat_house_stair__pale oak | core_retreat_house_stair__warm cut stone": {
+      "verdict": "designed",
+      "reason": "Each bowed stair tread's stone block rests on the cap below; tops no longer coplanar after the flush-cap repair.",
+      "maxDepthM": 0.018,
+      "maxSeamM": 7.87
+    },
+    "core_retreat_private_arrival__brushed brass | core_retreat_private_arrival__pale oak": {
+      "verdict": "designed",
+      "reason": "Private spiral balusters seated in their oak treads.",
+      "maxDepthM": 0.01,
+      "maxSeamM": 6.15
+    },
+    "furniture:kitchen-glass-fridge/glass-fridge.lod0__fridge bottle | furniture:kitchen-glass-fridge/glass-fridge.lod0__fridge label ": {
+      "verdict": "follow-up",
+      "reason": "Wine bottle labels coplanar with the bottle bodies inside the glass fridge; offset the labels in build_coastal_furniture.py at the next furniture export.",
+      "maxVisibleAreaM2": 0.1718
+    },
+    "gym__gym rubber | gym__powder coated gym steel": {
+      "verdict": "designed",
+      "reason": "Rack and bench feet standing in the rubber floor tiles (triage tile #49).",
+      "maxDepthM": 0.038,
+      "maxSeamM": 10.43
+    },
+    "kitchen__dining lantern paper | kitchen__honey ash": {
+      "verdict": "designed",
+      "reason": "The washi lantern's oak ribs, crown and hanger are set into its paper skin (triage tile #6).",
+      "maxDepthM": 0.374,
+      "maxSeamM": 32.03
+    },
+    "kitchen__dining lantern paper | kitchen__pale oak": {
+      "verdict": "designed",
+      "reason": "The dining lantern's paper skin meets its oak rim (triage tile #30).",
+      "maxDepthM": 0.123,
+      "maxSeamM": 7.46
+    },
+    "library__honey ash | library__library olive cloth": {
+      "verdict": "follow-up",
+      "reason": "One end book cover flush with its shelf upright; inset the end books in coastal_estate_architecture._books.",
+      "maxVisibleAreaM2": 0.0832
+    },
+    "library__honey ash | library__library warm paper edges": {
+      "verdict": "follow-up",
+      "reason": "End book page edges flush with a shelf upright; same follow-up as the end covers.",
+      "maxDepthM": 0.033,
+      "maxSeamM": 25.41,
+      "maxVisibleAreaM2": 0.0627
+    },
+    "library_reading_seat__linen | library_reading_seat__pale oak": {
+      "verdict": "designed",
+      "reason": "Reading chair cushion compressed between its oak back and seat frame (triage tile #66).",
+      "maxDepthM": 0.056,
+      "maxSeamM": 2.56
+    },
+    "library_reading_seat__linen.001 | library_reading_seat__pale oak.001": {
+      "verdict": "designed",
+      "reason": "Second reading chair: cushion compressed into its oak frame (triage tile #67).",
+      "maxDepthM": 0.056,
+      "maxSeamM": 2.56
+    },
+    "lounge__blackened steel flue | lounge__dark bronze": {
+      "verdict": "designed",
+      "reason": "Bronze collar around the fireplace flue (triage tile #36).",
+      "maxDepthM": 0.125,
+      "maxSeamM": 4.71
+    },
+    "lounge__cloud boucle textile | lounge__honey ash": {
+      "verdict": "designed",
+      "reason": "The cloud sofa's boucle cushions are compressed into their oak base, up to 7.5 cm at the arm corners (triage tile #22); recheck in the item 9 sweep.",
+      "maxDepthM": 0.094,
+      "maxSeamM": 14.84
+    },
+    "lounge__honey ash | lounge__washi lantern paper": {
+      "verdict": "designed",
+      "reason": "The lounge washi lantern's oak ring and rod pass through its paper globe (triage tile #20).",
+      "maxDepthM": 0.223,
+      "maxSeamM": 13.44
+    },
+    "onsen__warm cut stone | onsen_decor warm cut stone": {
+      "verdict": "designed",
+      "reason": "Onsen rim boulders set into the stone basin wall.",
+      "maxDepthM": 0.078,
+      "maxSeamM": 14.56
+    },
+    "study__honey ash | study__pale oak": {
+      "verdict": "designed",
+      "reason": "Workstation shelf boards pass through their uprights as housed joints (triage tile #21).",
+      "maxDepthM": 0.022,
+      "maxSeamM": 32.74,
+      "maxVisibleAreaM2": 0.0016
+    }
+  }
+}

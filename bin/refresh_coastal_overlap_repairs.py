@@ -36,7 +36,7 @@ scene = bpy.context.scene
 if scene.get("overlapRepairVersion") == repairs.VERSION:
     print(json.dumps({"retained": True, "version": repairs.VERSION, "source": str(source)}), flush=True)
     sys.exit(0)
-report = {"version": repairs.VERSION, "source": str(source.relative_to(ROOT)) if source.is_relative_to(ROOT) else str(source),
+report = {"version": repairs.VERSION, "source": source.relative_to(ROOT).as_posix() if source.is_relative_to(ROOT) else str(source),
           "sourceSha256": hashlib.sha256(source.read_bytes()).hexdigest()}
 # 1. Stone bases flush with their oak boards and tread caps.
 report["flushCaps"] = repairs.lower_flush_caps(scene)
@@ -120,7 +120,7 @@ scene["overlapRepairVersion"] = repairs.VERSION
 output.parent.mkdir(parents=True, exist_ok=True)
 bpy.context.preferences.filepaths.save_version = 0
 bpy.ops.wm.save_as_mainfile(filepath=str(output), compress=True)
-report["output"] = str(output)
+report["output"] = output.relative_to(ROOT).as_posix() if output.is_relative_to(ROOT) else str(output)
 report["outputSha256"] = hashlib.sha256(output.read_bytes()).hexdigest()
 report_path.parent.mkdir(parents=True, exist_ok=True)
 report_path.write_text(json.dumps(report, indent=1) + "\n", encoding="utf-8", newline="\n")
