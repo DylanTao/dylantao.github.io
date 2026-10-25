@@ -262,6 +262,20 @@ body:has(.coastal-page-footer) #back-to-top:not(.hidden) {
   width: min(100%, 580px);
   justify-self: end;
 }
+@media (min-width: 992px) {
+  // The model fills the middle three fifths of its square frame, while the copy beside it keeps
+  // about the same height at every width. Crop the empty frame above and below (the camera keeps
+  // its fixed width, so the model keeps its size) so the caption ends near the copy's last line
+  // (Sirui, 2026-10-24). The frame stays at least 78% as tall as it is wide, which leaves 10 px
+  // or more around the model at every orbit limit (measured from 1024 to 2560 px wide).
+  .home-connect-grid > .coastal-miniature {
+    container-type: inline-size;
+  }
+  .home-connect-grid > .coastal-miniature .footer-coast__scene {
+    aspect-ratio: auto;
+    height: clamp(78cqw, 23.75rem, 100cqw);
+  }
+}
 .home-connect-copy {
   min-width: 0;
 }
@@ -282,7 +296,8 @@ body:has(.coastal-page-footer) #back-to-top:not(.hidden) {
   margin-inline: 0;
 }
 .coastal-miniature {
-  margin: -2rem 0 0;
+  // Rise beside Connect's heading: the model's top meets the kicker (Sirui, 2026-10-24).
+  margin: -3.5rem 0 0;
   .footer-coast__scene {
     height: auto;
     aspect-ratio: 1;
@@ -326,10 +341,13 @@ body:has(.coastal-page-footer) #back-to-top:not(.hidden) {
 }
 .coastal-miniature__atlas {
   position: absolute;
+  // Square and centred on the model in any frame: a cropped frame keeps the map's proportions
+  // (margins resolve against the width; in a square frame this is the former top: -4%).
   width: 125%;
-  height: 125%;
+  height: auto;
   left: -12.5%;
-  top: -4%;
+  top: 50%;
+  margin-top: -54%;
   opacity: 0.5;
   pointer-events: none;
   transform: rotate(-12deg) scaleY(0.75);
