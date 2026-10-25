@@ -186,7 +186,8 @@ export function createCoastalHome(container, records, artifacts) {
     elapsed = 0,
     frames = 0,
     clockTimer = 0,
-    lastCameraMove = -Infinity;
+    lastCameraMove = -Infinity,
+    restFrame = 0;
   const lastCameraPose = new Float64Array(16);
   let compositionReady = false,
     startupStart = 0,
@@ -3149,12 +3150,13 @@ export function createCoastalHome(container, records, artifacts) {
       else renderer.render(scene, camera);
     });
     // Any change of the camera's pose (a drag, a zoom, a pan, coasting, walking, a view's springs
-    // settling) holds adaptive resolution until the view has rested 0.6 s.
+    // settling) holds adaptive resolution until the view has rested 0.6 s. The first frame's pose
+    // is where the view starts, not a move.
     const cameraPose = camera.matrixWorld.elements;
     for (let i = 0; i < 16; i++)
-      if (lastCameraPose[i] !== cameraPose[i]) {
+      if (Math.abs(lastCameraPose[i] - cameraPose[i]) > 1e-6) {
+        if (frames) lastCameraMove = now;
         lastCameraPose.set(cameraPose);
-        lastCameraMove = now;
         break;
       }
     if (moving && consecutive) {
@@ -3211,6 +3213,17 @@ export function createCoastalHome(container, records, artifacts) {
       Math.abs(cameraPitch - pitch) > 0.003
     )
       requestFrame();
+    // A paused or reduced-motion view draws nothing once it settles, so a coast view that has just
+    // stopped would keep its moving shadow fit (fitSunShadow). One more frame after the 0.6 s rest
+    // returns it to the exact fit.
+    else if (currentRoom === "outside" && !restFrame && now - lastCameraMove <= 600)
+      restFrame = setTimeout(
+        () => {
+          restFrame = 0;
+          requestFrame();
+        },
+        620 - (now - lastCameraMove)
+      );
   }
 
   function fail(message) {
