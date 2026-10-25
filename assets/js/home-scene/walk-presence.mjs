@@ -48,7 +48,47 @@ const STRIDE = 1.25;
 // controller adds the measured native optical forward offset within the capsule.
 const HEAD_CUT_ABOVE_NECK = 0.04;
 
-export function createWalkPresence({ renderer }) {
+// Every delivered rig binds its head rigidly: Head and Eye vertices carry the whole skin
+// weight, and no triangle mixes head and body. The plane cut still leaves the head's
+// lower parts in the primary view (South Park's jaw, mouth and teeth, chins, long hair).
+// Those primitives draw a body-only index there. Cached per shared geometry, so switching
+// styles never rebuilds or re-uploads it.
+const bodyOnlyIndices = new WeakMap();
+export function headFreeIndex(mesh, headBones) {
+  const geometry = mesh.geometry;
+  if (bodyOnlyIndices.has(geometry)) return bodyOnlyIndices.get(geometry);
+  const index = geometry.index,
+    skinIndex = geometry.attributes.skinIndex,
+    skinWeight = geometry.attributes.skinWeight;
+  let result = null;
+  // Material groups would address the original index; no delivered avatar primitive has any.
+  if (mesh.isSkinnedMesh && index && skinIndex && skinWeight && !geometry.groups.length) {
+    const slots = mesh.skeleton.bones.map((bone) => headBones.has(bone)),
+      owned = new Uint8Array(skinIndex.count);
+    for (let vertex = 0; vertex < skinIndex.count; vertex++) {
+      let weight = 0;
+      for (let k = 0; k < 4; k++) if (slots[skinIndex.getComponent(vertex, k)]) weight += skinWeight.getComponent(vertex, k);
+      owned[vertex] = weight >= 0.5 ? 1 : 0;
+    }
+    const source = index.array,
+      kept = new source.constructor(source.length);
+    let count = 0;
+    for (let i = 0; i < source.length; i += 3) {
+      const a = source[i],
+        b = source[i + 1],
+        c = source[i + 2];
+      if (owned[a] && owned[b] && owned[c]) continue;
+      kept[count++] = a;
+      kept[count++] = b;
+      kept[count++] = c;
+    }
+    if (count < source.length) result = { index: new THREE.BufferAttribute(kept.slice(0, count), 1), headTriangles: (source.length - count) / 3 };
+  }
+  bodyOnlyIndices.set(geometry, result);
+  return result;
+}
+
+export function createWalkPresence({ renderer, excludeHead = true }) {
   const object = new THREE.Group();
   object.name = "walking-Sirui";
   object.visible = false;
@@ -78,10 +118,13 @@ export function createWalkPresence({ renderer }) {
     lastElapsed = null,
     lastPosition = null,
     lastYaw = null,
-    moving = false;
+    moving = false,
+    primaryView = false,
+    headFree = { primitives: 0, triangles: 0 };
   const materials = new Set(),
     skeletons = new Set(),
-    planeBindings = new WeakMap();
+    planeBindings = new WeakMap(),
+    swapped = new Map();
 
   function restoreSource() {
     if (source && sourceVisibility !== null && source.visible === false) source.visible = sourceVisibility;
@@ -105,7 +148,38 @@ export function createWalkPresence({ renderer }) {
     body?.removeFromParent();
     body = head = mixer = idle = walk = null;
     opticalEyeOffset.set(0, 0, 0);
+    headFree = { primitives: 0, triangles: 0 };
     prepared = false;
+  }
+  // three's shadow pass calls onBeforeShadow, not onBeforeRender, and mirrors draw outside
+  // withoutHead, so both keep the complete person; only primary-view draws swap the index.
+  function excludeHeadFromPrimaryView(headBones) {
+    body.traverse((part) => {
+      if (!part.isSkinnedMesh || part.userData.walkCollarLiner) return;
+      const cut = headFreeIndex(part, headBones);
+      if (!cut) return;
+      headFree.primitives++;
+      headFree.triangles += cut.headTriangles;
+      const before = part.onBeforeRender,
+        after = part.onAfterRender;
+      part.onBeforeRender = function (...args) {
+        before.apply(this, args);
+        if (!primaryView || swapped.has(this)) return;
+        swapped.set(this, this.geometry.index);
+        this.geometry.index = cut.index;
+      };
+      part.onAfterRender = function (...args) {
+        restoreIndex(this);
+        after.apply(this, args);
+      };
+    });
+  }
+  // The geometry is shared with the routine avatar; a draw that throws mid-pass must not
+  // leave it headless for shadows, mirrors or the 3D view.
+  function restoreIndex(part) {
+    if (!swapped.has(part)) return;
+    part.geometry.index = swapped.get(part);
+    swapped.delete(part);
   }
   function refreshMaterials() {
     materials.clear();
@@ -173,6 +247,11 @@ export function createWalkPresence({ renderer }) {
       } catch (error) {
         // An unsupported future garment must not remove the real walking person.
         collarFailure = error.message;
+      }
+      if (excludeHead && head) {
+        const headBones = new Set();
+        head.traverse((part) => part.isBone && headBones.add(part));
+        excludeHeadFromPrimaryView(headBones);
       }
       if (active) hideSource();
     }
@@ -272,7 +351,10 @@ export function createWalkPresence({ renderer }) {
       material.clipIntersection = false;
     }
     renderer.localClippingEnabled = true;
+    primaryView = true;
     const restore = () => {
+      primaryView = false;
+      for (const part of [...swapped.keys()]) restoreIndex(part);
       if (currentCollar) currentCollar.group.visible = priorCollarVisible;
       renderer.localClippingEnabled = localClipping;
       for (const [material, planes, shadows, intersection] of saved) {
@@ -428,6 +510,7 @@ export function createWalkPresence({ renderer }) {
       opticalEyeOffset: opticalEyeOffset.toArray(),
       opticalForwardOffset: Math.max(0, opticalEyeOffset.z),
       headCutHeight: headClip.constant,
+      primaryHeadExclusion: { ...headFree },
       fullShadow: true,
       volumeDepth: "first-person body excluded",
       collarLiner: collar?.evidence() ?? null,
