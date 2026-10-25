@@ -2690,7 +2690,21 @@ test("coastal home: composed activities and previews survive clock changes until
   for (const activity of ["sleep", "breakfast", "reading", "lunch", "work", "workout", "soak", "dinner", "lounge", "coding"]) {
     await sceneInputFrame(page, view, () => ui.locator("[data-world-activity]").selectOption(activity));
     await expect(scene).toHaveAttribute("data-activity", activity);
-    const info = await evidence(scene);
+    let info = await evidence(scene);
+    if (["breakfast", "lunch", "dinner", "lounge"].includes(activity)) {
+      // A meal's setting (dining.mjs) streams in after the activity changes, then its first
+      // composed frame puts the utensil or glass in the hand. Advance the paused clock until then.
+      await expect
+        .poll(
+          async () => {
+            await page.clock.runFor(200);
+            info = await evidence(scene);
+            return Boolean(info.prop);
+          },
+          { timeout: 60000 }
+        )
+        .toBe(true);
+    }
     expect(info.following).toBe(false);
     expect(info.clockMode).toBe("preview");
     if (activity === "work") {
@@ -3108,7 +3122,9 @@ for (const activity of ["breakfast", "workout"]) {
     expect(resumed.activityPhase).toBe(before.activityPhase);
     expect(resumed[owner]).toBe("hand");
     expect(resumed.animationSeconds - before.animationSeconds).toBeLessThan(0.6);
-    expect(Math.hypot(...resumed[key].map((v, i) => v - resumed.joints.HandR[i]))).toBeLessThan(0.07);
+    // The coffee cup now rides in the fingers by its handle (dining.mjs), so its centre sits a
+    // hand's width from the wrist joint; a weight's grip stays at the palm.
+    expect(Math.hypot(...resumed[key].map((v, i) => v - resumed.joints.HandR[i]))).toBeLessThan(activity === "breakfast" ? 0.14 : 0.07);
     await ui.locator("[data-world-pause]").click();
     await ui.locator("[data-world-activity]").selectOption("reading");
     await canvas.scrollIntoViewIfNeeded();
