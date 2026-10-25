@@ -1541,7 +1541,9 @@ def main():
     print(f"FURNITURE done in {time.time() - started:.1f} s")
 
 
-if option("patch-fireplace-neck"):
-    patch_fireplace_neck()
-else:
-    main()
+# Imported by bin/build_coastal_table_setting.py for its geometry helpers; run directly to build.
+if __name__ == "__main__":
+    if option("patch-fireplace-neck"):
+        patch_fireplace_neck()
+    else:
+        main()
