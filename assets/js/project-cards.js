@@ -546,7 +546,23 @@
     if (target.closest("[data-project-card]")) return;
     if (target.closest("a, button, input, textarea, select, summary, [role='button']")) return;
 
+    const card = activeCard;
+    const returnTo = card.contains(document.activeElement) ? card.querySelector("[data-project-card-trigger]") : null;
     setActiveCard(null, { restoreFocus: true });
+    if (!returnTo) return;
+    // The browser moves focus to the page when it handles this press's mousedown, after this
+    // listener. Hand it back as the press's click lands instead of when the closing motion
+    // settles, which can take seconds; onSettled still covers a press that ends in a drag.
+    const pressedAt = event.timeStamp;
+    document.addEventListener(
+      "click",
+      (click) => {
+        if (activeCard || click.timeStamp - pressedAt > 1500) return;
+        const active = document.activeElement;
+        if (!active || active === document.body || active === document.documentElement) returnTo.focus({ preventScroll: true });
+      },
+      { capture: true, once: true }
+    );
   });
 
   document.addEventListener("keydown", (event) => {
