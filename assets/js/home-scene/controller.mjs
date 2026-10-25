@@ -3175,10 +3175,10 @@ export function createCoastalHome(container, records, artifacts) {
       container.removeAttribute("aria-busy");
       if (progressBar) progressBar.hidden = true;
       loadingStage("ready", routine.label);
-      // Traced now, in the task that drew the frame, before its drawing buffer is released. The
-      // sketch must never stop the render loop, so a failure only removes it.
+      // The pen sketch hands over to the drawn view. It must never stop the render loop, so a
+      // failure only removes it.
       try {
-        loadingSketch?.finish(renderer.domElement);
+        loadingSketch?.finish();
       } catch {
         loadingSketch?.dispose();
       }
