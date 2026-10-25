@@ -357,8 +357,8 @@ export function createCoastalHome(container, records, artifacts) {
     return programQueue;
   }
 
-  // The loading sketch follows the work: the cliff once the house is in, the cut-away house once
-  // the coast is, then the occupied room while its programs compile.
+  // The loading sketch (loading-sketch.mjs) follows the work: it receives each stage with the
+  // occupied room once that is known, and every change of the progress bar's fills.
   let loadingSketch = null;
   function loadingStage(stage, message) {
     startupStages.push({ stage, milliseconds: performance.now() - startupStart });
@@ -366,8 +366,7 @@ export function createCoastalHome(container, records, artifacts) {
     status.textContent = message;
     progressBar?.setAttribute("aria-valuetext", message);
     ui.querySelector("[data-world-view]").disabled = stage !== "ready";
-    const drawing = { coast: "outside", room: "overview", lighting: routine?.room, "first-frame": routine?.room }[stage];
-    if (drawing) loadingSketch?.stage(drawing);
+    loadingSketch?.stage(stage, routine?.room);
   }
 
   // An honest loading bar: one segment per piece of first-view work, each filled only by what has
@@ -378,6 +377,7 @@ export function createCoastalHome(container, records, artifacts) {
   function progress(step, fill) {
     if (!progressBar || !(step in progressFill) || !(fill > progressFill[step])) return;
     progressFill[step] = Math.min(1, fill);
+    loadingSketch?.progress?.(progressFill);
     progressBar.querySelector(`[data-progress-step="${step}"]`)?.style.setProperty("--fill", progressFill[step].toFixed(3));
     const steps = Object.values(progressFill);
     progressBar.setAttribute("aria-valuenow", String(Math.round((100 * steps.reduce((sum, value) => sum + value, 0)) / steps.length)));
