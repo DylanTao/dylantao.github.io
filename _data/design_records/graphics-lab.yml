@@ -775,7 +775,7 @@ systems:
           gone; the probe field's three sky colours are fitted to the scattering sky's irradiance, weighted toward the west
           the house faces; the eye's adaptation lifts twilight by a gain taken from the model itself (`adaptationGain`); and
           the reflections' capture is rebuilt every half degree of sun near the horizon and every 20 minutes otherwise
-          (`setPalette`, `makeEnvironment`). `weatherFor` draws the day's mood from its date.
+          (`setPalette`, `makeEnvironment`). `weatherAt` draws the day's weather: the National Weather Service's hourly forecast for the coming week, otherwise a calibrated statistical model of the San Diego rain gauge, with the marine layer and high cloud authored.
         files:
           - path: assets/js/home-scene/atmosphere-model.mjs
             role: The atmosphere, refraction, the moon and the weather.
@@ -1043,7 +1043,7 @@ systems:
         limits:
           - Single scattering with an isotropic allowance for the fog's multiple scattering; no froxel volume and no temporal accumulation, so the 24 samples show as a faint grain in thin shafts.
           - Shafts exist only inside the sun's shadow square (36 m around the authored coast view, 120 m at 160 m), and surfaces inside the fog keep their direct sunlight.
-          - The weather's monthly chances follow the season's known shape, not a fit to a station record.
+          - The marine layer's monthly chances follow the season's known shape, not a fit to a station record; rain comes from a model fitted to the San Diego airport gauge and, for the coming week, the NWS forecast.
         next: []
 
   - id: cloth-bodies

@@ -285,11 +285,12 @@ indoor wind and GPU rooted-plant exposure share the relocated shelter glass
 plane. Neither the ocean's world wind nor already-transformed manifest fixtures
 receive a second housing shift.
 
-`coastal-weather.mjs` consumes the small precomputed NWS hourly snapshot only
+`coastal-weather.mjs` consumes the small daily-refreshed NWS hourly snapshot only
 inside its recorded UTC intervals. Outside those intervals it uses an explicitly
 identified seasonal wet/dry simulation fitted to NOAA daily precipitation.
-The monthly first-order Markov choice beat monthly climatology, persistence
-and always-dry baselines on a chronological holdout; this supports that bounded
+A ridge-penalized logistic GLM, chosen by cross-validation inside 1991-2015,
+beat the previous monthly Markov chain, monthly climatology, persistence and
+always-dry baselines on the 2016-2025 holdout; this supports that bounded
 one-day statistical comparison, not a SOTA claim or validation of synthetic
 multiweek weather. Data custody, held-out scores, forecast expiry and authored
 rain intensity/timing are recorded in
