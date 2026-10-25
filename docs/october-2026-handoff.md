@@ -79,6 +79,12 @@ Sirui reviewed live on a laptop, then on a 4K PC with an RTX 3080. Each request 
 - [ ] 20. Footer dusk (sky worker, S2). Sirui chose all four parts: sky gradient, page-to-sky edge, change over time, and sun, sea and haze. The background band must read as the hills behind the coast, with lit houses, not as sea.
 - [ ] 21. Loading sketch: more detailed line drawing that reveals real progress (sketch worker, formerly weather).
 - [ ] 22. Characters at 4K, hand-table contacts, gourmet food, drink and dessert by day, natural eating and drinking, and comfortable furniture (life worker).
+  - Dining chairs become comfortable armchairs with armrests, so people can sit and chat for a long time (Sirui, Oct 25).
+  - The study gets a whiskey corner facing the ocean, built with the house worker (Sirui, Oct 25):
+    - a comfy small loveseat and ottoman;
+    - a side table with a decanter and tumblers;
+    - a small display of five to eight bottles with invented labels;
+    - an evening-drink routine there on whiskey days.
 - [ ] 23. Architecture, all in the house worker's queue:
   - the exterior blended into the cliff, with no carved holes;
   - pool and patio cantilevered modestly on a feasible structure;
