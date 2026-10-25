@@ -188,6 +188,8 @@ export function createCoastalHome(container, records, artifacts) {
   let compositionReady = false,
     startupStart = 0,
     firstFrameMilliseconds = null;
+  // Work the first composed view does not need, started once that view is drawn.
+  const afterFirstFrame = [];
   const startupStages = [],
     modelTimings = [];
   const textureLoads = new Set();
@@ -338,7 +340,9 @@ export function createCoastalHome(container, records, artifacts) {
   let programProbe = null,
     programQueue = Promise.resolve(),
     programPending = 0;
-  function compilePrograms(onProgress) {
+  // `wait: false` submits without waiting for the driver (program-warmup.mjs): the next call starts
+  // at once, and the one that waits covers what is still compiling.
+  function compilePrograms(onProgress, { wait = true } = {}) {
     programPending++;
     programQueue = programQueue
       .then(async () => {
@@ -346,7 +350,7 @@ export function createCoastalHome(container, records, artifacts) {
         // The beauty pass draws into a linear, untoned half-float target; programs are keyed by
         // that output state, so they are prepared while an equivalent target is bound.
         programProbe ||= own(new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType }));
-        await prepareFramePrograms(renderer, scene, camera, { target: programProbe, ...finish?.programWarmup, onProgress });
+        await prepareFramePrograms(renderer, scene, camera, { target: programProbe, ...finish?.programWarmup, onProgress, wait });
       })
       .catch(() => {})
       .finally(() => programPending--);
@@ -386,9 +390,11 @@ export function createCoastalHome(container, records, artifacts) {
 
   // GitHub Pages gzips models, so Content-Length counts compressed bytes while the stream yields
   // decompressed ones; the fraction is held short of complete until the last byte arrives.
+  // Without a length every chunk still reports, at zero, so a caller can tell a slow body from a
+  // stalled one.
   async function readWithProgress(response, report) {
     const length = Number(response.headers.get("content-length")) || 0;
-    if (!response.body || !length) return response.arrayBuffer();
+    if (!response.body) return response.arrayBuffer();
     const reader = response.body.getReader(),
       chunks = [];
     let received = 0;
@@ -397,7 +403,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (done) break;
       chunks.push(value);
       received += value.byteLength;
-      report(Math.min(0.97, received / length));
+      report(length ? Math.min(0.97, received / length) : 0);
     }
     const bytes = new Uint8Array(received);
     let offset = 0;
@@ -408,7 +414,48 @@ export function createCoastalHome(container, records, artifacts) {
     return bytes.buffer;
   }
 
+  // The arrival's files are requested together once the manifest is in (initialize), the house and
+  // coast first and the rest at low priority, so rooms, the avatar and the cached light download
+  // while the house is prepared. Their bytes wait here; parsing keeps its order, so decoding the
+  // furniture never queues ahead of the house in the shared Draco pool.
+  const prefetched = new Map();
+  function prefetch(url, { step = null, priority = "low" } = {}) {
+    if (prefetched.has(url)) return;
+    const abort = new AbortController();
+    const timing = { asset: new URL(url).pathname.split("/").pop(), startMilliseconds: performance.now() - startupStart, prefetched: true };
+    modelRequests.add(abort);
+    const bytes = (async () => {
+      try {
+        const response = await fetch(url, { signal: abort.signal, priority });
+        if (!response.ok) throw new Error(`Model unavailable: ${response.status}`);
+        timing.headersMilliseconds = performance.now() - startupStart;
+        const body = step ? await readWithProgress(response, (fraction) => progress(step, 0.85 * fraction)) : await response.arrayBuffer();
+        timing.downloadedMilliseconds = performance.now() - startupStart;
+        return body;
+      } finally {
+        modelRequests.delete(abort);
+      }
+    })();
+    // A failed early request is repeated by the load that needs it.
+    bytes.catch(() => {});
+    prefetched.set(url, { bytes, timing });
+  }
+
   async function loadModel(url, step = null) {
+    const early = prefetched.get(url);
+    prefetched.delete(url);
+    const bytes = early ? await early.bytes.catch(() => null) : null;
+    if (bytes) {
+      const timing = early.timing;
+      modelTimings.push(timing);
+      timing.bytes = bytes.byteLength;
+      timing.parseStartMilliseconds = performance.now() - startupStart;
+      if (step) progress(step, 0.85);
+      const model = await loader.parseAsync(bytes, new URL(".", url).href);
+      timing.parsedMilliseconds = performance.now() - startupStart;
+      if (step) progress(step, 1);
+      return model;
+    }
     const abort = new AbortController();
     const timing = { asset: new URL(url).pathname.split("/").pop(), startMilliseconds: performance.now() - startupStart };
     modelTimings.push(timing);
@@ -1050,7 +1097,12 @@ export function createCoastalHome(container, records, artifacts) {
       ui.querySelector("[data-world-avatar]").value = avatarId;
       updateRoutine(true);
       walkPresence?.setSource(actor, gltf.animations);
-      await walkPresence?.prepare({ scene, camera, shouldContinue: () => !disposed && ticket === avatarTicket });
+      const prepareWalk = () => walkPresence?.prepare({ scene, camera, shouldContinue: () => !disposed && ticket === avatarTicket });
+      // The first composed view never draws the walking body, whose head-cut variants were most
+      // of the room stage (eight programs, about 30 s of D3D compiler time on the Intel Arc
+      // laptop). They compile right after that view instead; a later avatar change waits as before.
+      if (compositionReady) await prepareWalk();
+      else afterFirstFrame.push(prepareWalk);
     } catch (error) {
       if (disposed) return;
       status.textContent = "This character couldn’t load. Try another.";
@@ -1326,6 +1378,47 @@ export function createCoastalHome(container, records, artifacts) {
       });
   }
 
+  // The cached light is requested, checked and parsed with the arrival's first requests, while the
+  // page is idle; restoring it after the rooms is a copy. Fetched only then, under compile load,
+  // its 8 s budget ran out before the body was read, and the fallback was the 10-60 s runtime
+  // bake (2026-10-24). Only a stalled request gives up now: 20 s without a byte. A slow phone
+  // connection that is still delivering always finishes, since the bake would cost far more.
+  const LIGHT_CACHE_STALL = 20000;
+  let lightCachePrefetch = null;
+  function prefetchLightCache() {
+    const cache = config?.staticLightFieldCache;
+    if (lightCachePrefetch || !cache?.url || !cache.signature) return lightCachePrefetch;
+    lightCache.state = "loading";
+    lightCachePrefetch = (async () => {
+      const cacheAbort = new AbortController(),
+        abortCache = () => cacheAbort.abort();
+      let stall = setTimeout(abortCache, LIGHT_CACHE_STALL);
+      const progressed = () => {
+        clearTimeout(stall);
+        stall = setTimeout(abortCache, LIGHT_CACHE_STALL);
+      };
+      lightBakeAbort.signal.addEventListener("abort", abortCache, { once: true });
+      let bytes;
+      try {
+        const response = await fetch(new URL(cache.url, manifestUrl).href, { signal: cacheAbort.signal, priority: "low" });
+        if (!response.ok) throw new Error(`Cached light unavailable: ${response.status}`);
+        progressed();
+        bytes = await readWithProgress(response, progressed);
+      } finally {
+        clearTimeout(stall);
+        lightBakeAbort.signal.removeEventListener("abort", abortCache);
+      }
+      if (cache.sha256) {
+        const hash = await crypto.subtle.digest("SHA-256", bytes);
+        const actual = [...new Uint8Array(hash)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+        if (actual !== cache.sha256) throw new Error("Cached light checksum does not match");
+      }
+      return JSON.parse(new TextDecoder().decode(bytes));
+    })();
+    lightCachePrefetch.catch(() => {});
+    return lightCachePrefetch;
+  }
+
   function prepareStaticLight() {
     if (!staticLightField || lightBakeStarted || rooms.size !== config.rooms.length || disposed) return lightBakePromise;
     lightBakeStarted = true;
@@ -1334,30 +1427,15 @@ export function createCoastalHome(container, records, artifacts) {
     lightBakePromise = (async () => {
       const cache = config.staticLightFieldCache;
       if (cache?.url && cache.signature) {
-        lightCache.state = "loading";
-        const cacheAbort = new AbortController(),
-          abortCache = () => cacheAbort.abort(),
-          cacheTimeout = setTimeout(abortCache, 8000);
-        lightBakeAbort.signal.addEventListener("abort", abortCache, { once: true });
         try {
-          const response = await fetch(new URL(cache.url, manifestUrl).href, { signal: cacheAbort.signal });
-          if (!response.ok) throw new Error(`Cached light unavailable: ${response.status}`);
-          const bytes = await response.arrayBuffer();
-          if (cache.sha256) {
-            const hash = await crypto.subtle.digest("SHA-256", bytes);
-            const actual = [...new Uint8Array(hash)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
-            if (actual !== cache.sha256) throw new Error("Cached light checksum does not match");
-          }
-          const restored = staticLightField.restoreSnapshot(JSON.parse(new TextDecoder().decode(bytes)), { signature: cache.signature });
+          const snapshot = await prefetchLightCache();
+          const restored = staticLightField.restoreSnapshot(snapshot, { signature: cache.signature });
           if (!restored) throw new Error("Cached light does not match this home");
           lightCache.state = "restored";
           return;
         } catch (error) {
           if (disposed || lightBakeAbort.signal.aborted) throw error;
           lightCache = { state: "miss", reason: error.message };
-        } finally {
-          clearTimeout(cacheTimeout);
-          lightBakeAbort.signal.removeEventListener("abort", abortCache);
         }
       }
       await staticLightField.bake({ signal: lightBakeAbort.signal, yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)) });
@@ -3075,6 +3153,19 @@ export function createCoastalHome(container, records, artifacts) {
       loadingSketch = null;
       // All base interior rooms and their indirect lighting are already composed. Coast-only
       // planting/hinterland and close furniture detail remain lazy, without rebuilding this view.
+      // Deferred preparation runs in later tasks; the browser scheduler is not virtualized by a
+      // paused test clock, which may stop timers right after this frame.
+      for (const task of afterFirstFrame.splice(0)) {
+        const run = async () => {
+          try {
+            await task();
+          } catch {
+            /* Optional preparation; the draw that needs it compiles on demand. */
+          }
+        };
+        if (globalThis.scheduler?.postTask) globalThis.scheduler.postTask(run, { priority: "user-visible" }).catch(() => {});
+        else setTimeout(run, 0);
+      }
     }
     const settledRadius = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope()).radius;
     if (
@@ -3121,6 +3212,11 @@ export function createCoastalHome(container, records, artifacts) {
       const response = await fetch(manifestUrl);
       if (!response.ok) throw new Error("Scene manifest unavailable");
       config = await response.json();
+      // The arrival avatar is still chosen later, so seeded captures draw it at the same point.
+      prefetch(new URL(config.shell, manifestUrl).href, { step: "house", priority: "high" });
+      prefetch(new URL(config.coast, manifestUrl).href, { step: "coast", priority: "high" });
+      for (const room of config.rooms) prefetch(new URL(room.file, manifestUrl).href);
+      prefetchLightCache();
       furniture = createFurniture({
         config,
         baseUrl: manifestUrl,
@@ -3140,7 +3236,9 @@ export function createCoastalHome(container, records, artifacts) {
       coastWind.setShelter({ glassZ: COAST_SHELTER.glassZ + (Number(config.retreat?.setbackMetres) || 0) });
       coastWind.update({ seconds: elapsed, minute: livePacificMinute(config.timeZone) });
       syncOceanWind(coastWind.state);
-      cameraField = createCameraField({ config, world, onReady: () => requestFrame() });
+      // The field is classified once, when the arrival's models are in (held below until then):
+      // each earlier pass was a full-grid classification, about 4 s of worker time apiece.
+      cameraField = createCameraField({ config, world, onReady: () => requestFrame(), hold: true });
       cleanup.push(() => cameraField?.dispose());
       // The composer multisamples its own target and finishes with one full-screen triangle, so a
       // multisampled canvas would only add a resolve without changing a pixel.
@@ -3380,6 +3478,11 @@ export function createCoastalHome(container, records, artifacts) {
           plan: { routine, daylight, visit: currentRoom },
           bindMaterial: (m) => (staticLightField?.bindMaterial(m), lightInstallations?.bindMaterial(m)),
         });
+      // The house, coast, desk and companion are in, and the sky has set the scene's fog and
+      // environment, so their programs keep their keys from here on. Their compiles (the cliff's
+      // sandstone and the plaster walls are the slowest, 10-25 s each on ANGLE/D3D11) start now,
+      // while the rooms download; the warmup before the first frame waits for every program.
+      compilePrograms(null, { wait: false });
       loadingStage("room", "Furnishing the home.");
       let furnishedRooms = 0;
       // The cutaway shows adjacent rooms too. Loading only the occupied room left a visibly
@@ -3392,6 +3495,7 @@ export function createCoastalHome(container, records, artifacts) {
         setAvatar(avatarId, "sirui"),
       ]);
       if (disposed) return;
+      cameraField?.release();
       progress("room", 1);
       progress("sirui", 1);
       if (config.estateLibrary?.ladder) {
@@ -3415,16 +3519,18 @@ export function createCoastalHome(container, records, artifacts) {
         getDynamicRoots: () => (walkPresence?.object.visible ? [walkPresence.object] : [actor, selectedProp].filter(Boolean)),
         getContentVersion: () => `${avatarId}|${elapsed}|${walkPresence?.contentVersion}`,
       });
+      loadingStage("first-frame", "Preparing the view.");
+      // The mirrors draw the beauty pass's own programs (their hooks are installed above), so the
+      // batched warmup prepares them too; each mirror's whole-scene compileAsync then finds them
+      // ready. Run first, it submitted every program of the house at once, starving the page.
+      await compilePrograms((fraction) => progress("view", 0.9 * fraction));
+      if (disposed) return;
       await interiorReflections.prepare({
         camera,
         lightRoom: (id) => updateInstallations(id, 0),
         restoreLight: updateLight,
         shouldContinue: () => !disposed,
       });
-      if (disposed) return;
-      progress("view", 0.2);
-      loadingStage("first-frame", "Preparing the view.");
-      await compilePrograms((fraction) => progress("view", 0.2 + 0.8 * fraction));
       if (disposed) return;
       progress("view", 1);
       compositionReady = true;
