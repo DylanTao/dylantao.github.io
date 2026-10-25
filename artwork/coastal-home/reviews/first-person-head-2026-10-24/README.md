@@ -95,6 +95,15 @@ The primary view also stops submitting the head's skinned triangles. In the nati
 
 Before adding an overlay to a script that calls the test helper `preparePage()`, note that its catch-all `page.route("**/*")` continues to the network. Playwright runs the newest matching route first, so register overlays after it. An overlay registered earlier is silently bypassed. The first run of this check loaded the old module this way and is not evidence.
 
+## Deployed acceptance
+
+The same `house-check.cjs`, run with `BASE_URL=https://dylantao.github.io/` and no overlays, passes against source `a7c8534e536a91d09303c5701364eec8deb23aa6`, served by Pages commit `c4a910d41f8dc5708e32876cc98862b7cd800139`.
+
+- Desktop and touch both cover all five avatars, with the exclusion active, at pitch −1.4 with the draw camera looking down.
+- Desktop also walks a short distance; the routine returns, and there are no runtime errors.
+- Receipt: [live receipt](house/evidence-live.json). Captures: [desktop](house/live-desktop-south-park-down.webp), [mobile](house/live-mobile-south-park-down.webp).
+- The first attempt began while Pages was still building, and its desktop half loaded the previous module from the CDN. Only the rerun is evidence.
+
 ## Limits
 
 - Hair ends below the cut belong to the head, so first person now hides them in every style. Mirrors and shadows still show them.
