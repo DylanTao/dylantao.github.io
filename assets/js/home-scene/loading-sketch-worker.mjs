@@ -1,11 +1,14 @@
 // Draws the loading sketch off the main thread, so model parsing and the first upload never stall
-// the strokes. Messages come from loading-sketch.mjs.
-import { createSketchEngine, frameStrokes } from "./loading-sketch-core.mjs";
+// the pen, and fetches and decodes the drawings here too. Messages come from loading-sketch.mjs.
+import { createSketchEngine, loadSketches } from "./loading-sketch-core.mjs";
 
 let engine = null,
   canvas = null,
+  loader = null,
+  room = null,
   scheduled = false,
-  settled = false;
+  settled = false,
+  reported = -Infinity;
 const nextFrame = self.requestAnimationFrame ? (run) => self.requestAnimationFrame(run) : (run) => setTimeout(() => run(performance.now()), 16);
 
 function schedule() {
@@ -18,9 +21,13 @@ function run(time) {
   scheduled = false;
   if (!engine) return;
   const more = engine.tick(time);
+  if (time - reported > 250) {
+    reported = time;
+    self.postMessage({ type: "state", state: { ...engine.state(), pending: loader?.pending() ?? [] } });
+  }
   if (engine.settled && !settled) {
     settled = true;
-    self.postMessage({ type: "settled" });
+    self.postMessage({ type: "settled", state: { ...engine.state(), pending: loader?.pending() ?? [] } });
   }
   if (more) schedule();
 }
@@ -30,42 +37,50 @@ function size(width, height, ratio) {
   canvas.height = Math.max(1, Math.round(height * ratio));
 }
 
-self.onmessage = ({ data }) => {
-  if (data.type === "init") {
-    canvas = data.canvas;
+self.onmessage = ({ data: message }) => {
+  if (message.type === "init") {
+    canvas = message.canvas;
     const context = canvas.getContext("2d");
     if (!context) {
       self.postMessage({ type: "unsupported" });
       return;
     }
-    size(data.options.width, data.options.height, data.options.dpr);
-    engine = createSketchEngine(context, data.options);
+    size(message.options.width, message.options.height, message.options.dpr);
+    engine = createSketchEngine(context, { ...message.options, layer: (width, height) => new OffscreenCanvas(width, height) });
     self.postMessage({ type: "running" });
+    // Only the coast drawing and the room the visitor will arrive in are ever fetched and decoded.
+    loader = loadSketches(message.url, {
+      onIndex: (index) => engine?.focus(index.focus),
+      onDrawing: (id, drawing, plan) => {
+        if (!engine || engine.has(id)) return;
+        engine.add(id, drawing, plan);
+        schedule();
+      },
+    });
+    loader.want("outside");
+    loader.want(room);
     schedule();
   } else if (!engine) {
     return;
-  } else if (data.type === "resize") {
-    size(data.width, data.height, data.dpr);
-    engine.resize(data.width, data.height, data.dpr);
+  } else if (message.type === "resize") {
+    size(message.width, message.height, message.dpr);
+    engine.resize(message.width, message.height, message.dpr);
     schedule();
-  } else if (data.type === "colors") {
-    engine.colors(data.ink, data.accent);
+  } else if (message.type === "colors") {
+    engine.colors(message.ink, message.accent);
     schedule();
-  } else if (data.type === "morph") {
-    engine.morph(data.kind, data.targets);
+  } else if (message.type === "stage") {
+    if (message.room) room = message.room;
+    loader?.want(room);
+    engine.stage(message.stage, message.room);
     schedule();
-  } else if (data.type === "finish") {
-    let targets = null;
-    if (data.bitmap) {
-      const { width, height } = data.bitmap;
-      const reader = new OffscreenCanvas(width, height).getContext("2d", { willReadFrequently: true });
-      reader.drawImage(data.bitmap, 0, 0);
-      targets = frameStrokes(reader.getImageData(0, 0, width, height).data, width, height, engine.count);
-      data.bitmap.close();
-    }
-    engine.finish(targets);
+  } else if (message.type === "progress") {
+    engine.progress(message.fills);
     schedule();
-  } else if (data.type === "dispose") {
+  } else if (message.type === "finish") {
+    engine.finish();
+    schedule();
+  } else if (message.type === "dispose") {
     engine = null;
     self.close();
   }
