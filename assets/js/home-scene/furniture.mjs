@@ -437,7 +437,9 @@ export function createFurniture({
         let roomVisible = true;
         for (let o = entry.root; o; o = o.parent) if (!o.visible) roomVisible = false;
         const inView = roomVisible && frustum.intersectsSphere(sphere);
-        const culled = pixels < DETAIL.cullPixels;
+        // Hysteresis: a culled piece returns only once it is clearly larger than the threshold, so a
+        // zoom that hovers around it does not blink it on and off.
+        const culled = pixels < DETAIL.cullPixels * (entry.culled ? 1.35 : 1);
         if (culled !== entry.culled) {
           entry.culled = culled;
           entry.group.visible = !culled;

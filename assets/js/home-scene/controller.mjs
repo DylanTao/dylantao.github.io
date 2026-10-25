@@ -10,6 +10,7 @@ import { createFootContacts } from "./locomotion.mjs";
 import { createResolutionGovernor, detailFor } from "./resolution.mjs";
 import { setMirrorSize } from "./reflection.mjs";
 import { createShadowCache } from "./shadow-cache.mjs";
+import { shadowDrift, steppedShadowExtent } from "./shadow-fit.mjs";
 import { sortOpaqueByProgram } from "./draw-order.mjs";
 import {
   envelopeFor,
@@ -184,7 +185,10 @@ export function createCoastalHome(container, records, artifacts) {
     lastFrame = 0,
     elapsed = 0,
     frames = 0,
-    clockTimer = 0;
+    clockTimer = 0,
+    lastCameraMove = -Infinity,
+    restFrame = 0;
+  const lastCameraPose = new Float64Array(16);
   let compositionReady = false,
     startupStart = 0,
     firstFrameMilliseconds = null;
@@ -282,22 +286,36 @@ export function createCoastalHome(container, records, artifacts) {
   // where one 12 cm shadow texel is about one screen pixel), so walking along the cliff keeps fine
   // shadows under every tree and rock. The centre is snapped to whole shadow texels along the
   // light's axes, so moving the camera never makes shadow edges crawl.
+  // While the view moves on the coast, the square moves in steps instead, its size along a ladder
+  // and its centre held until the focus drifts (shadow-fit.mjs), so zooming, panning and walking
+  // neither shimmer the shadows' texels nor redraw the static shadow cache every frame. Once the
+  // view has rested 0.6 s it returns to the exact fit above, so a still view is drawn as before.
   const shadowCentre = new THREE.Vector3(),
+    shadowFocus = new THREE.Vector3(),
+    shadowHeld = new THREE.Vector3(),
     shadowSnapped = new THREE.Vector3(),
     sunDirection = new THREE.Vector3(-4, 9, 5).normalize(),
     shadowAxes = [new THREE.Vector3(), new THREE.Vector3()];
-  let shadowExtent = 10;
+  let shadowExtent = 10,
+    shadowHeldValid = false;
   function fitSunShadow(force = false) {
     const outside = currentRoom === "outside";
     const walking = Boolean(walkMode?.active);
-    const extent = outside ? (walking ? 12 : clamp(Math.round(radius * 0.75), 12, 120)) : config?.retreat ? 16 : 10;
+    const resting = performance.now() - lastCameraMove > 600;
+    const wanted = clamp(Math.round(radius * 0.75), 12, 120);
+    const extent = outside ? (walking ? 12 : resting ? wanted : steppedShadowExtent(wanted, shadowExtent, force)) : config?.retreat ? 16 : 10;
     // A fixed complete-house square retains the static-shadow cache while walking indoors.
     // The coast follows the actual walker's eye instead of an unseen orbit's old target.
-    const centre = outside
-      ? walking
-        ? camera.position
-        : target
+    const focus = outside
+      ? shadowFocus.copy(walking ? camera.position : target)
       : shadowCentre.fromArray(config?.retreat ? config.views.overview.target : [0, 0, 0]);
+    let centre = focus;
+    if (outside) {
+      if (force || resting || !shadowHeldValid || extent !== shadowExtent || shadowHeld.distanceTo(focus) > shadowDrift(extent, walking, wanted))
+        shadowHeld.copy(focus);
+      shadowHeldValid = true;
+      centre = shadowHeld;
+    } else shadowHeldValid = false;
     const direction = sunDirection;
     const right = shadowAxes[0].set(0, 1, 0).cross(direction).normalize(),
       up = shadowAxes[1].copy(direction).cross(right);
@@ -2651,9 +2669,13 @@ export function createCoastalHome(container, records, artifacts) {
   function applyDetail() {
     const canvas = renderer.domElement,
       large = resolution?.profile === "fullscreen";
+    // Detail follows the budgeted buffer before adaptation (2026-10-24): an adaptive step changed
+    // MSAA, the sun's shadow map and the mirror's size with it, reallocating them mid-motion and
+    // visibly switching edge quality; it now changes only the pixel count.
+    const adapted = resolution?.evidence()?.factor || 1;
     const next = detailFor({
-      width: canvas.width,
-      height: canvas.height,
+      width: canvas.width / adapted,
+      height: canvas.height / adapted,
       fullscreen: large,
       compact: compactTouch,
       maxTextureSize: renderer.capabilities.maxTextureSize,
@@ -3127,6 +3149,16 @@ export function createCoastalHome(container, records, artifacts) {
         );
       else renderer.render(scene, camera);
     });
+    // Any change of the camera's pose (a drag, a zoom, a pan, coasting, walking, a view's springs
+    // settling) holds adaptive resolution until the view has rested 0.6 s. The first frame's pose
+    // is where the view starts, not a move.
+    const cameraPose = camera.matrixWorld.elements;
+    for (let i = 0; i < 16; i++)
+      if (Math.abs(lastCameraPose[i] - cameraPose[i]) > 1e-6) {
+        if (frames) lastCameraMove = now;
+        lastCameraPose.set(cameraPose);
+        break;
+      }
     if (moving && consecutive) {
       const submit = performance.now() - submitStart;
       frameTimings.push({ interval: delta * 1000, submit });
@@ -3134,7 +3166,7 @@ export function createCoastalHome(container, records, artifacts) {
       // Background shader jobs contend for CPU cores; a longer interval there is not evidence
       // that drawing fewer pixels helps. Start a clean adaptive window once their work finishes.
       if (programPending) resolution?.reset();
-      else if (resolution?.observe(delta * 1000, submit)) resize();
+      else if (resolution?.observe(delta * 1000, submit, { holding: now - lastCameraMove < 600 })) resize();
     }
     frames++;
     if (firstFrameMilliseconds === null) {
@@ -3143,10 +3175,10 @@ export function createCoastalHome(container, records, artifacts) {
       container.removeAttribute("aria-busy");
       if (progressBar) progressBar.hidden = true;
       loadingStage("ready", routine.label);
-      // Traced now, in the task that drew the frame, before its drawing buffer is released. The
-      // sketch must never stop the render loop, so a failure only removes it.
+      // The pen sketch hands over to the drawn view. It must never stop the render loop, so a
+      // failure only removes it.
       try {
-        loadingSketch?.finish(renderer.domElement);
+        loadingSketch?.finish();
       } catch {
         loadingSketch?.dispose();
       }
@@ -3181,6 +3213,17 @@ export function createCoastalHome(container, records, artifacts) {
       Math.abs(cameraPitch - pitch) > 0.003
     )
       requestFrame();
+    // A paused or reduced-motion view draws nothing once it settles, so a coast view that has just
+    // stopped would keep its moving shadow fit (fitSunShadow). One more frame after the 0.6 s rest
+    // returns it to the exact fit.
+    else if (currentRoom === "outside" && !restFrame && now - lastCameraMove <= 600)
+      restFrame = setTimeout(
+        () => {
+          restFrame = 0;
+          requestFrame();
+        },
+        620 - (now - lastCameraMove)
+      );
   }
 
   function fail(message) {

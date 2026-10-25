@@ -165,8 +165,10 @@ export function createResolutionGovernor({
       return profile;
     },
     // One consecutive moving frame: its interval and the page's own script time in it. Returns true
-    // when the factor changed, and the caller then resizes.
-    observe(intervalMs, submitMs) {
+    // when the factor changed, and the caller then resizes. While `holding` (the visitor is dragging,
+    // zooming or walking) the frame still counts, but no change is made until the view rests: a
+    // resize reallocates every target and visibly re-sharpens or softens the picture mid-motion.
+    observe(intervalMs, submitMs, { holding = false } = {}) {
       if (!current?.adaptive || !(intervalMs > 0)) return false;
       if (settleFrames > 0) {
         settleFrames--;
@@ -184,7 +186,7 @@ export function createResolutionGovernor({
       }
       const t = now();
       const full = intervals.length >= windowFrames || (quick && intervals.length >= minWindowFrames && windowTime >= windowMs);
-      if (!full || t - lastDecision < decisionMs) return false;
+      if (holding || !full || t - lastDecision < decisionMs) return false;
       lastDecision = t;
       const p75 = quantile(intervals, 0.75),
         p90 = quantile(intervals, 0.9),
