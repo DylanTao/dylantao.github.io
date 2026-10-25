@@ -169,15 +169,24 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
       night.simulation.facade.doors.every((leaf) => !leaf.scheduledOpen),
       `night facade schedule: ${JSON.stringify({ clockMode: night.clockMode, activity: night.activity, daylight: night.daylight?.daylight, doors: night.simulation.facade.doors })}`
     ).toBe(true);
+    // The leaves ease shut over about 2.2 s of scene time. On Linux software GL each 100 ms step
+    // is one ~1.6 s frame plus a ~1.1 s evidence read, so a 60 s poll at 100 ms ran out of wall
+    // time just short of closed (CI a7c8534e5). Step further per read, allow the same budget as
+    // the other polls here, and keep the last state for a recurrence.
+    let lastFacade = null;
     await expect
       .poll(
         async () => {
-          await page.clock.runFor(100);
-          return (await facade()).every((leaf) => Math.abs(leaf.offset) < 0.01);
+          await page.clock.runFor(300);
+          lastFacade = await facade();
+          return lastFacade.every((leaf) => Math.abs(leaf.offset) < 0.01);
         },
-        { timeout: 60000 }
+        { timeout: 120000 }
       )
-      .toBe(true);
+      .toBe(true)
+      .catch((error) => {
+        throw new Error(`${error.message}\nlast night facade state: ${JSON.stringify(lastFacade)}`);
+      });
     const inside = config.retreat.patioRoute[1],
       outside = [inside[0], inside[1], config.facade.planeZ - 0.85];
     await inputFrame(page, scene, canvas, () => place(inside, Math.PI));
