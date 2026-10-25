@@ -38,7 +38,7 @@ Work the items in order. On Oct 24 Sirui allowed a few parallel agents: each wor
 **Windows 2–3: speed and stability.** On Oct 24 the 3D home took 32.3 s to become ready on the Intel Arc laptop, against 7.4–8.8 s on Oct 12. Downloads end at about 2 s, and the batched warmup takes 1.8 s.
 
 - [ ] 4. Baseline: `bin/profile_coastal_startup.cjs` cold and warm at 1440 DPR 1, at 390 DPR 3 with CPU throttling, and in WebKit iPhone emulation; `bin/measure_coastal_views.cjs` frame times; a frame-to-frame flicker metric over a scripted zoom and walk; mobile Lighthouse. Record them in `performance-notes.md`.
-- [ ] 5. Loading. Target: ready in 10 s or less on the laptop and 15 s or less in phone emulation.
+- [ ] 5. Loading. Target: ready in 10 s or less on the laptop and 15 s or less in phone emulation. **In progress:** checkpoint 1 (`8e9f92a58`..`1fb356c1f`, light cache re-signed in `15e894f83`) is a median of 3 interleaved pairs under heavy load. Cold desktop ready fell from 48.2 to 33.7 s: one camera-field classification, the light cache fetched with the first requests and aborted only on a stall, rooms requested at the manifest, the house compiled while they download, and the Walk head-cut variants moved after the first frame. Fewer and smaller programs come next.
   - Batch or defer the blocking compiles outside `program-warmup.mjs`: `walk-presence.mjs` (plain `render()`) and `interior-reflections.mjs` (a scene-wide `compileAsync` per mirror).
   - Fetch rooms and the light field in parallel with the shell and coast, and Draco-compress `pip.glb`.
   - Minify the `.mjs` modules in production (2.53 MB raw, about 776 KB gzipped).
@@ -63,12 +63,32 @@ Work the items in order. On Oct 24 Sirui allowed a few parallel agents: each wor
 
 - [ ] 12. Put the bedroom and library next to each other: an adjacent spiral chamber, a route of 6 m or less (now 15.8 m including a 5.06 m bridge), with the bridge removed.
 - [ ] 13. Build one authored pool activity, with contacts, entry and exit, camera and recovery.
-- [ ] 14. Weather (14a and 14b done in `6d0efabe5` and `e8d734208`; 14c rain rendering is open):
+- [x] 14. Weather: 14a and 14b in `6d0efabe5` and `e8d734208`, 14c and 14d in `93789ceee` (rain is now a world-stable shower that reads as rain, still one draw) and `551610ecf`. Overcast lighting still keeps crisp shadows; that follow-up belongs to `atmosphere.mjs`.
   - [x] a daily workflow. `.github/workflows/update-weather.yml` refreshes the NWS hourly snapshot at 10:25 UTC with `GITHUB_TOKEN`, so its pushes start no CI and the scheduled deploy publishes them. On an outage or stale data it keeps the last valid snapshot.
   - Follow-up: `bin/verify_coastal_retreat_interactions.cjs` pins a natural rain case on 2026-10-30 inside the Oct 24 snapshot. Re-point or retire that case the next time it is used. It is not in CI.
   - [x] a better long-range model. A CV-selected ridge logistic weather generator (14 terms: harmonics, wet-day memory, yesterday's amount, days since rain) scores held-out Brier 0.08089 against 0.08416 for the old model, and is better in 9 of 10 held-out years. ENSO did not help and is left out. See `artwork/coastal-home/weather-2026-10-24/README.md` and `model-evaluation.json`.
   - [ ] verify that rain renders, and document it honestly (14c, in progress).
 - [ ] 15. Optional: relocate the laundry bay, only if the pool close-up clearly improves.
+
+**Sirui's Oct 24 evening requests (parallel streams; the coordinator integrates)**
+
+Sirui reviewed live on a laptop, then on a 4K PC with an RTX 3080. Each request went to one worker, in its own worktree:
+
+- [x] 18. Coffee ring, for "doesn't look like a stain from coffee", the over-busy animation, and on top of the cards. **Done** in `a38862db7`. It now draws the band a mug's foot prints: coffee at both pinned edges and a clean inside. The drop-shaped rim had caused a Cornsweet pale-disc illusion. It rests on the top slip clear of the words, and arrives as one soft 3.2 s settle.
+- [ ] 19. Connect balance, with the La Jolla miniature moved up (sky worker, S1).
+- [ ] 20. Footer dusk (sky worker, S2). Sirui chose all four parts: sky gradient, page-to-sky edge, change over time, and sun, sea and haze. The background band must read as the hills behind the coast, with lit houses, not as sea.
+- [ ] 21. Loading sketch: more detailed line drawing that reveals real progress (sketch worker, formerly weather).
+- [ ] 22. Characters at 4K, hand-table contacts, gourmet food, drink and dessert by day, natural eating and drinking, and comfortable furniture (life worker).
+- [ ] 23. Architecture, all in the house worker's queue:
+  - the exterior blended into the cliff, with no carved holes;
+  - pool and patio cantilevered modestly on a feasible structure;
+  - entrance geometry, and privacy from the onsen path;
+  - one stair, with the main pivot door on the textured lower-living wall;
+  - a spacious study with unblocked views and a door to the patio;
+  - the bed chamber beside the library (option B);
+  - a corridor with rounded niches, sculptures and soft light.
+- [ ] 24. Hardware-adaptive quality, with a high tier for strong GPUs that never lags or crashes (perf worker, with item 7).
+- [ ] 25. A build-diary timeline on the 3D world's project page, plus sub-pages (story worker).
 
 **Final window**
 
