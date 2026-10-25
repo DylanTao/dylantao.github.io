@@ -1619,8 +1619,10 @@ test("coastal home: compiled avatar replacements release their bone textures", a
     window.__coastalRigDisposals = [];
     Skeleton.prototype.dispose = function () {
       const hadTexture = Boolean(this.boneTexture);
+      let walk = false;
+      for (let node = this.bones[0]; node; node = node.parent) walk ||= Boolean(node.userData?.walkPresence);
       dispose.call(this);
-      window.__coastalRigDisposals.push({ hadTexture, cleared: this.boneTexture === null });
+      window.__coastalRigDisposals.push({ hadTexture, cleared: this.boneTexture === null, walk });
     };
   });
   const avatars = ["lizard", "south-park", "simpsons", "ghibli", "rick-and-morty"];
@@ -1656,8 +1658,13 @@ test("coastal home: compiled avatar replacements release their bone textures", a
   await expect(scene.locator("canvas")).toHaveCount(0);
   const disposals = await page.evaluate(() => window.__coastalRigDisposals);
   expect(disposals).toHaveLength(beforeDisposal + rigs);
-  // Replaced avatars were drawn, so each released a real bone texture.
-  expect(disposals.slice(0, beforeDisposal).every((entry) => entry.hadTexture && entry.cleared)).toBe(true);
+  // Replaced avatars were drawn, so each released a real bone texture. Each style's Walk body
+  // is a separate rig that is only compiled (off the main thread) until someone walks; one
+  // that never drew never allocated a texture, and it must still leave none behind.
+  const replaced = disposals.slice(0, beforeDisposal),
+    drawn = replaced.filter((entry) => !entry.walk);
+  expect(drawn.length).toBeGreaterThan(0);
+  expect(drawn.every((entry) => entry.hadTexture && entry.cleared)).toBe(true);
   expect(disposals.every((entry) => entry.cleared)).toBe(true);
   const report = testInfo.outputPath("compiled-avatar-resource-cycles.json");
   fs.mkdirSync(path.dirname(report), { recursive: true });
