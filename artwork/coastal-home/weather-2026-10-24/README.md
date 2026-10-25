@@ -253,7 +253,9 @@ used below (2026-10-30 09:30, 31% chance, amplitude 0.28) shows sparse drizzle o
 
 Stills, retained locally under `.jekyll-cache/visual-qa/weather-2026-10-24/`:
 `before-forced-rain`, `before-forced-clear`, `after-forced-rain` and `after-nws-rain`, each
-`outside-day-embed.png` and `outside-day-fullscreen.png` where captured.
+`outside-day-embed.png` and `outside-day-fullscreen.png` where captured. From inside the kitchen
+(`after-forced-rain-kitchen`), 600 of the 666 forced drops land on the covered volumes and no streak
+falls indoors.
 
 Cost: the field is still one line draw of at most 1,024 segments, and its CPU update measured 0.16 ms
 per frame for 287 drops and 0.19–0.40 ms for 666 drops in Node on this host. The browser probe
