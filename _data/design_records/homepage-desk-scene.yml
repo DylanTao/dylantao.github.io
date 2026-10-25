@@ -303,11 +303,11 @@ systems:
           into about 15,000 simplified polylines in a planned order: the shell, then the coast, then interior glimpses; in a
           room, its structure and furniture, then the fine detail. Each group is drawn only as far as the loading segment
           that brings it has finished (house, coast, rooms, the view's programs), and only once every earlier group is
-          complete. `loading-sketch.mjs` hands an OffscreenCanvas to a worker that fetches, decodes and draws, so model
-          parsing never stalls the pen. While work stalls, the pen rests and the drawing breathes; it never adds ink. CSS
-          transitions hand over to the render within 1.4 s, so a paused page clock cannot hold the scene. Reduced motion
-          shows each stage's drawing still, and automation sees the plain loading state unless the URL carries
-          `?cinematic=live`.
+          complete. `loading-sketch.mjs` hands an OffscreenCanvas to a worker that fetches only the coast drawing and the
+          arrival room's, decodes and draws, so model parsing never stalls the pen. While work stalls, the pen rests and
+          the drawing breathes; it never adds ink. CSS transitions hand over to the render within 1.4 s, so a paused page
+          clock cannot hold the scene. Reduced motion shows each stage's drawing still, and automation sees the plain
+          loading state unless the URL carries `?cinematic=live`.
         files:
           - path: assets/js/home-scene/loading-sketch.mjs
             role: Page side, worker hand-off, stage and progress messages and the hand-over.
@@ -318,7 +318,9 @@ systems:
           - path: bin/build_loading_sketch.cjs
             role: Traces and orders the drawings from the views.
           - path: assets/models/home/loading-sketch.json
-            role: The packed drawings and their plans.
+            role: The index, with the plans, the dive points and the coast view's drawing.
+          - path: assets/models/home/loading-sketch/
+            role: One drawing per room; a load fetches only the room it arrives in.
         tests:
           - test/loading-sketch.test.mjs
           - test/visual/desk-scene.spec.js

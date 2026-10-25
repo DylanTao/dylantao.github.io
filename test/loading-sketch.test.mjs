@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { gzipSync } from "node:zlib";
 import {
@@ -10,14 +10,18 @@ import {
   breathDepth,
   createSketchEngine,
   decodeDrawing,
+  loadSketches,
   parsePlan,
   stageFills,
 } from "../assets/js/home-scene/loading-sketch-core.mjs";
 
 const require = createRequire(import.meta.url);
 const generator = require("../bin/build_loading_sketch.cjs");
-const sketch = JSON.parse(readFileSync(new URL("../assets/models/home/loading-sketch.json", import.meta.url), "utf8"));
-const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+const MODELS = new URL("../assets/models/home/", import.meta.url);
+const sketch = JSON.parse(readFileSync(new URL("loading-sketch.json", MODELS), "utf8"));
+const manifest = JSON.parse(readFileSync(new URL("manifest.json", MODELS), "utf8"));
+// The coast view's strokes sit in the index; each room's sit in the file the index names.
+const strokesOf = (id) => sketch.views[id].strokes ?? JSON.parse(readFileSync(new URL(sketch.views[id].file, MODELS), "utf8")).strokes;
 
 // A 2D context that records what is stroked, and a layer factory that hands out recording canvases.
 function recordingContext(width, height) {
@@ -231,14 +235,26 @@ test("a resting drawing's breath eases in, never exceeds its depth and decays to
 });
 
 test("the shipped drawings cover the coast and every room an activity opens in, within budget", () => {
-  assert.equal(sketch.version, 2);
+  assert.equal(sketch.version, 3);
   const rooms = [...new Set(Object.values(manifest.activities).map((activity) => activity.room))].sort();
   assert.deepEqual(Object.keys(sketch.views), ["outside", ...rooms]);
-  const gzipped = gzipSync(readFileSync(new URL("../assets/models/home/loading-sketch.json", import.meta.url))).length;
-  assert.ok(gzipped < 250 * 1024, `${gzipped} gzipped bytes`);
+  // The index carries the coast view; each room is its own file beside it, and nothing else is there.
+  assert.ok(sketch.views.outside.strokes);
+  assert.deepEqual(
+    rooms.map((room) => sketch.views[room].file),
+    rooms.map((room) => `loading-sketch/${room}.json`)
+  );
+  assert.deepEqual(readdirSync(new URL("loading-sketch/", MODELS)).sort(), rooms.map((room) => `${room}.json`).sort());
+  for (const room of rooms) assert.equal(JSON.parse(readFileSync(new URL(sketch.views[room].file, MODELS), "utf8")).view, room);
+  const gzipped = (file) => gzipSync(readFileSync(new URL(file, MODELS))).length,
+    index = gzipped("loading-sketch.json"),
+    roomFiles = rooms.map((room) => gzipped(sketch.views[room].file));
+  // A load fetches the index and its arrival room only; all seven drawings stay within the original allowance.
+  assert.ok(index + Math.max(...roomFiles) < 100 * 1024, `${index} + ${Math.max(...roomFiles)} gzipped bytes per load`);
+  assert.ok(index + roomFiles.reduce((sum, size) => sum + size, 0) < 250 * 1024);
   for (const [id, view] of Object.entries(sketch.views)) {
     const plan = parsePlan(sketch.plan[id === "outside" ? "outside" : "room"]),
-      drawing = decodeDrawing(Buffer.from(view.strokes, "base64"), sketch.grid, sketch.range);
+      drawing = decodeDrawing(Buffer.from(strokesOf(id), "base64"), sketch.grid, sketch.range);
     assert.equal(drawing.strokes.length, view.count, id);
     assert.ok(drawing.strokes.length > 200, `${id} has ${drawing.strokes.length} strokes`);
     // Pen order follows the plan: layers never go backward.
@@ -250,4 +266,45 @@ test("the shipped drawings cover the coast and every room an activity opens in, 
     assert.equal(allowedInk(drawing, plan, { house: 1, coast: 1, room: 1, sirui: 1, view: 1 }).toFixed(6), drawing.ink.toFixed(6));
   }
   for (const room of rooms) assert.ok(Number.isFinite(sketch.focus[room]?.u), `${room} has a dive point`);
+});
+
+test("a load fetches the index and only the rooms it is told about, each once", async () => {
+  const requested = [];
+  const fetch = async (target) => {
+    const file = new URL(target).pathname.split("/models/home/")[1];
+    requested.push(file);
+    if (file === "loading-sketch/gym.json") return { ok: false, json: async () => null };
+    return { ok: true, json: async () => JSON.parse(readFileSync(new URL(file, MODELS), "utf8")) };
+  };
+  const delivered = [];
+  let focus = null;
+  const loader = loadSketches("https://example.test/assets/models/home/loading-sketch.json", {
+    fetch,
+    onIndex: (index) => (focus = index.focus),
+    onDrawing: (id, drawing, plan) => delivered.push({ id, strokes: drawing.strokes.length, plan }),
+  });
+  const settle = () => new Promise((resolve) => setTimeout(resolve, 20));
+  // Wanted before the index arrives, and again after: each file is fetched once.
+  loader.want("outside");
+  loader.want("study");
+  loader.want(null);
+  assert.deepEqual(loader.pending(), ["outside", "study"], "both are on their way");
+  await settle();
+  assert.deepEqual(loader.pending(), []);
+  loader.want("study");
+  loader.want("gym");
+  loader.want("attic");
+  await settle();
+  assert.deepEqual(requested, ["loading-sketch.json", "loading-sketch/study.json", "loading-sketch/gym.json"]);
+  // A missing room file, or a room the index does not know, leaves only that drawing out.
+  assert.deepEqual(loader.pending(), []);
+  assert.deepEqual(
+    delivered.map(({ id }) => id),
+    ["outside", "study"]
+  );
+  assert.equal(delivered[0].strokes, sketch.views.outside.count);
+  assert.equal(delivered[0].plan, sketch.plan.outside);
+  assert.equal(delivered[1].strokes, sketch.views.study.count);
+  assert.equal(delivered[1].plan, sketch.plan.room);
+  assert.ok(Number.isFinite(focus.study.u));
 });

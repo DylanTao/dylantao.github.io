@@ -1,28 +1,15 @@
 // Draws the loading sketch off the main thread, so model parsing and the first upload never stall
 // the pen, and fetches and decodes the drawings here too. Messages come from loading-sketch.mjs.
-import { createSketchEngine, decodeDrawing } from "./loading-sketch-core.mjs";
+import { createSketchEngine, loadSketches } from "./loading-sketch-core.mjs";
 
 let engine = null,
   canvas = null,
-  data = null,
+  loader = null,
   room = null,
   scheduled = false,
   settled = false,
   reported = -Infinity;
 const nextFrame = self.requestAnimationFrame ? (run) => self.requestAnimationFrame(run) : (run) => setTimeout(() => run(performance.now()), 16);
-
-function bytesOf(text) {
-  const binary = atob(text),
-    bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return bytes;
-}
-
-// Only the coast drawing and the room the visitor will arrive in are ever decoded.
-function addView(id) {
-  if (!engine || !data || !id || engine.has(id) || !data.views?.[id]) return;
-  engine.add(id, decodeDrawing(bytesOf(data.views[id].strokes), data.grid, data.range), data.plan?.[id === "outside" ? "outside" : "room"]);
-}
 
 function schedule() {
   if (scheduled || !engine) return;
@@ -36,11 +23,11 @@ function run(time) {
   const more = engine.tick(time);
   if (time - reported > 250) {
     reported = time;
-    self.postMessage({ type: "state", state: engine.state() });
+    self.postMessage({ type: "state", state: { ...engine.state(), pending: loader?.pending() ?? [] } });
   }
   if (engine.settled && !settled) {
     settled = true;
-    self.postMessage({ type: "settled", state: engine.state() });
+    self.postMessage({ type: "settled", state: { ...engine.state(), pending: loader?.pending() ?? [] } });
   }
   if (more) schedule();
 }
@@ -61,17 +48,17 @@ self.onmessage = ({ data: message }) => {
     size(message.options.width, message.options.height, message.options.dpr);
     engine = createSketchEngine(context, { ...message.options, layer: (width, height) => new OffscreenCanvas(width, height) });
     self.postMessage({ type: "running" });
-    fetch(message.url)
-      .then((response) => (response.ok ? response.json() : null))
-      .then((json) => {
-        if (!json || !engine) return;
-        data = json;
-        engine.focus(json.focus);
-        addView("outside");
-        addView(room);
+    // Only the coast drawing and the room the visitor will arrive in are ever fetched and decoded.
+    loader = loadSketches(message.url, {
+      onIndex: (index) => engine?.focus(index.focus),
+      onDrawing: (id, drawing, plan) => {
+        if (!engine || engine.has(id)) return;
+        engine.add(id, drawing, plan);
         schedule();
-      })
-      .catch(() => {});
+      },
+    });
+    loader.want("outside");
+    loader.want(room);
     schedule();
   } else if (!engine) {
     return;
@@ -84,7 +71,7 @@ self.onmessage = ({ data: message }) => {
     schedule();
   } else if (message.type === "stage") {
     if (message.room) room = message.room;
-    addView(room);
+    loader?.want(room);
     engine.stage(message.stage, message.room);
     schedule();
   } else if (message.type === "progress") {

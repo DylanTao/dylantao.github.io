@@ -129,6 +129,64 @@ export function decodeDrawing(bytes, grid = 4096, range = SKETCH_RANGE) {
   return { strokes, ink, layerInk };
 }
 
+function bytesOf(text) {
+  const binary = atob(text),
+    bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+}
+
+// The drawings' files: loading-sketch.json is an index with the plans, the dive points and the coast
+// view's drawing, which every load draws; each room's drawing is its own file beside it, fetched
+// only once that room is wanted, so a load fetches just the room the visitor arrives in. Each
+// drawing reaches onDrawing once, decoded, with its plan. Missing files leave the pen without that
+// drawing; nothing throws. pending() names the drawings still on their way, so a pen that waits on
+// its own data can be told from one that has drawn all that finished work allows.
+export function loadSketches(url, { fetch: get = globalThis.fetch, onIndex = () => {}, onDrawing = () => {} } = {}) {
+  let index = null,
+    unavailable = false;
+  const wanted = new Set(),
+    requested = new Set(),
+    settled = new Set();
+  const read = (target) => get(target).then((response) => (response.ok ? response.json() : null));
+  const deliver = (id, strokes) => {
+    try {
+      onDrawing(id, decodeDrawing(bytesOf(strokes), index.grid, index.range), index.plan?.[id === "outside" ? "outside" : "room"]);
+    } catch {
+      // A drawing that cannot be decoded is left out; the others still arrive.
+    }
+    settled.add(id);
+  };
+  function request(id) {
+    if (requested.has(id)) return;
+    requested.add(id);
+    const view = index.views?.[id];
+    if (!view) settled.add(id);
+    else if (view.strokes) deliver(id, view.strokes);
+    else
+      read(new URL(view.file, url))
+        .then((room) => room?.strokes && deliver(id, room.strokes))
+        .catch(() => {})
+        .finally(() => settled.add(id));
+  }
+  read(url)
+    .then((value) => {
+      if (!value) return (unavailable = true);
+      index = value;
+      onIndex(index);
+      for (const id of wanted) request(id);
+    })
+    .catch(() => (unavailable = true));
+  return {
+    want(id) {
+      if (!id) return;
+      wanted.add(id);
+      if (index) request(id);
+    },
+    pending: () => (unavailable ? [] : [...wanted].filter((id) => !settled.has(id))),
+  };
+}
+
 function withAlpha(color, alpha) {
   const hex = /^#([\da-f]{6})$/i.exec(color.trim());
   if (!hex) return color;

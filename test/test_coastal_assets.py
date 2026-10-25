@@ -158,6 +158,8 @@ class CoastalAssetsTest(unittest.TestCase):
             len(gzip.compress((ASSETS / name).read_bytes()))
             for name in ("furniture/index.json", "loading-sketch.json", MANIFEST["staticLightFieldCache"]["url"])
         )
+        # The loading sketch's index carries the coast view; a load adds only its arrival room's drawing.
+        auxiliary += max(len(gzip.compress(path.read_bytes())) for path in (ASSETS / "loading-sketch").glob("*.json"))
         self.assertLess(base + all_rooms + largest_actor + defaults + auxiliary, 4 * 1024 * 1024)
 
     def test_mesh_compression_is_shipped_and_has_a_local_decoder(self):

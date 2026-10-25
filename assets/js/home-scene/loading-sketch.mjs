@@ -2,9 +2,10 @@
 // browser can hand it an OffscreenCanvas (so model parsing never stalls the pen, and the drawings
 // are fetched and decoded off the main thread) and on the main thread otherwise. The controller
 // reports each loading stage and, where it can, the per-segment progress the loading bar shows;
-// the pen draws only what that finished work allows. The drawings come from loading-sketch.json,
-// which bin/build_loading_sketch.cjs traces from the scene's own views.
-import { createSketchEngine, decodeDrawing } from "./loading-sketch-core.mjs";
+// the pen draws only what that finished work allows. The drawings come from loading-sketch.json
+// (an index with the coast view) and one file per room, of which a load fetches only the room it
+// arrives in; bin/build_loading_sketch.cjs traces them from the scene's own views.
+import { createSketchEngine, loadSketches } from "./loading-sketch-core.mjs";
 
 const SKETCHES = new URL("../../models/home/loading-sketch.json", import.meta.url);
 const STAGES = new Set(["home", "coast", "room", "lighting", "first-frame", "ready"]);
@@ -12,13 +13,6 @@ const STAGES = new Set(["home", "coast", "room", "lighting", "first-frame", "rea
 const REVEAL_DELAY = 240,
   FADE_DELAY = 820,
   FADE = 560;
-
-function bytesOf(text) {
-  const binary = atob(text),
-    bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return bytes;
-}
 
 // Where the sun stands in the opening mark: the share of today's daylight already gone, or null
 // at night for a crescent moon.
@@ -51,7 +45,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
   let canvas = null,
     worker = null,
     engine = null,
-    data = null,
+    loader = null,
     frame = 0,
     reported = -Infinity,
     disposed = false,
@@ -70,8 +64,8 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
     return next;
   }
 
-  // The pen's own account, for tests and evidence: the drawing, the share finished work allows
-  // and the share drawn.
+  // The pen's own account, for tests and evidence: the drawing, the share finished work allows,
+  // the share drawn, and the drawings still on their way.
   function report(state) {
     if (!canvas || !state) return;
     canvas.dataset.sketchDrawing = state.drawing || "";
@@ -79,11 +73,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
     canvas.dataset.sketchDrawn = String(state.drawn);
     canvas.dataset.sketchStrokes = String(state.strokes);
     canvas.dataset.sketchResting = String(Boolean(state.resting));
-  }
-
-  function addView(id) {
-    if (!engine || !data || !id || engine.has(id) || !data.views?.[id]) return;
-    engine.add(id, decodeDrawing(bytesOf(data.views[id].strokes), data.grid, data.range), data.plan?.[id === "outside" ? "outside" : "room"]);
+    canvas.dataset.sketchPending = (state.pending || []).join(" ");
   }
 
   function wake() {
@@ -94,7 +84,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
       const more = engine.tick(time);
       if (time - reported > 250) {
         reported = time;
-        report(engine.state());
+        report({ ...engine.state(), pending: loader?.pending() ?? [] });
       }
       if (more) frame = requestAnimationFrame(run);
     });
@@ -115,17 +105,16 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
     engine.progress(said.fills);
     for (const [stage, room] of said.stages) engine.stage(stage, room);
     if (said.finished) engine.finish();
-    fetch(SKETCHES)
-      .then((response) => (response.ok ? response.json() : null))
-      .then((json) => {
-        if (!json || disposed || !engine) return;
-        data = json;
-        engine.focus(json.focus);
-        addView("outside");
-        for (const [, room] of said.stages) addView(room);
+    loader = loadSketches(SKETCHES, {
+      onIndex: (index) => engine?.focus(index.focus),
+      onDrawing: (id, drawing, plan) => {
+        if (disposed || !engine || engine.has(id)) return;
+        engine.add(id, drawing, plan);
         wake();
-      })
-      .catch(() => {});
+      },
+    });
+    loader.want("outside");
+    for (const [, room] of said.stages) loader.want(room);
     wake();
     return true;
   }
@@ -134,7 +123,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
     if (worker) return worker.postMessage(message);
     if (!engine) return;
     if (message.type === "stage") {
-      addView(message.room);
+      loader?.want(message.room);
       engine.stage(message.stage, message.room);
     } else if (message.type === "progress") engine.progress(message.fills);
     else if (message.type === "finish") engine.finish();

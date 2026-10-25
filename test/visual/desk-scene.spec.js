@@ -830,6 +830,12 @@ test("coastal loading sketch: the pen draws only what finished work allows, dens
     await avatarGate;
     await route.continue();
   });
+  // The drawings the load fetches (the sketch's worker requests them on the page's behalf).
+  const sketchFiles = [];
+  page.on("request", (request) => {
+    const file = /\/models\/home\/(loading-sketch[^?]*)/.exec(request.url())?.[1];
+    if (file) sketchFiles.push(file);
+  });
   try {
     await page.goto(publicRouteUrl("/") + "?cinematic=live", { waitUntil: "domcontentloaded" });
     await page.locator('[data-home-desk-mode="3d"]').click();
@@ -847,15 +853,32 @@ test("coastal loading sketch: the pen draws only what finished work allows, dens
           allowed: Number(canvas.dataset.sketchAllowed),
           drawn: Number(canvas.dataset.sketchDrawn),
           resting: canvas.dataset.sketchResting === "true",
+          pending: canvas.dataset.sketchPending || "",
           stage: canvas.closest("[data-home-desk-scene]").dataset.loadingStage,
         }))
         .catch(() => null);
       if (state && Number.isFinite(state.drawn)) samples.push(state);
       return state;
     };
+    const roomsIn = () => scene.evaluate((host) => host.getSceneEvidence?.()?.loading?.progress?.room ?? 0).catch(() => 0);
     await expect(scene).toHaveAttribute("data-loading-stage", "room", { timeout: SCENE_READY_TIMEOUT });
-    // Sirui is held back: the pen draws what the finished work allows, then rests without adding ink.
-    await expect.poll(async () => (await sample())?.resting, { timeout: SCENE_READY_TIMEOUT }).toBe(true);
+    // Sirui is held back. Once every room is in and the pen has the drawings it asked for, it draws
+    // what that finished work allows, then rests without adding ink. The rest must outlast two of the
+    // worker's 250 ms reports, so a report sent before the last rooms arrived cannot pass for it.
+    const holding = async () => {
+      const state = await sample();
+      return Boolean(state?.resting && !state.pending && (await roomsIn()) >= 1);
+    };
+    await expect
+      .poll(
+        async () => {
+          if (!(await holding())) return false;
+          await page.waitForTimeout(600);
+          return holding();
+        },
+        { timeout: SCENE_READY_TIMEOUT }
+      )
+      .toBe(true);
     const held = samples.at(-1);
     await page.waitForTimeout(1500);
     await sample();
@@ -878,7 +901,12 @@ test("coastal loading sketch: the pen draws only what finished work allows, dens
       room = samples.filter((state) => state.drawing === last.drawing);
     expect(last.drawing).toBe(ready.currentRoom);
     expect(last.drawn).toBe(Math.max(...room.map((state) => state.drawn)));
-    fs.writeFileSync(testInfo.outputPath("coastal-loading-sketch-progress.json"), JSON.stringify({ samples, stages: ready.loading.stages }, null, 2));
+    // Of the room drawings, only the arrival room's was fetched, after the index with the coast view.
+    expect(sketchFiles).toEqual(["loading-sketch.json", `loading-sketch/${ready.currentRoom}.json`]);
+    fs.writeFileSync(
+      testInfo.outputPath("coastal-loading-sketch-progress.json"),
+      JSON.stringify({ samples, sketchFiles, stages: ready.loading.stages }, null, 2)
+    );
     await expect(sketch).toHaveCount(0, { timeout: 45000 });
     expect(errors).toEqual([]);
   } finally {

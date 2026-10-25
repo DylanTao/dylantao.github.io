@@ -1543,7 +1543,8 @@ systems:
         how: >-
           `traceView` in `bin/build_loading_sketch.cjs` marks one-pixel edges in each view's object-ID, normal and depth
           passes (`edgeMap`), after Saito and Takahashi's geometry buffers, links them into simplified polylines and orders
-          each layer as one hand would draw it (`orderLayer`). Seven drawings, about 65,000 points, pack into 165 KB gzipped.
+          each layer as one hand would draw it (`orderLayer`). Seven drawings, about 65,000 points, pack into 165 KB gzipped,
+          of which a load fetches at most 81 KB (`loadSketches`): the coast view and the room it arrives in.
           `createSketchEngine` draws with a pen whose ink never exceeds what `allowedInk` grants from the loading segments
           through the plan `parsePlan` reads, and lets a resting drawing breathe (`breathDepth`). `createLoadingSketch`
           hands an OffscreenCanvas to a worker, so model parsing never stalls the pen.
@@ -1552,15 +1553,17 @@ systems:
             role: Traces and orders the drawings from the views.
             functions: [traceView, edgeMap, orderLayer]
           - path: assets/js/home-scene/loading-sketch-core.mjs
-            role: Decoding, plan gating, the pen and breathing.
-            functions: [createSketchEngine, decodeDrawing, allowedInk, parsePlan, breathDepth]
+            role: Loading, decoding, plan gating, the pen and breathing.
+            functions: [createSketchEngine, loadSketches, decodeDrawing, allowedInk, parsePlan, breathDepth]
           - path: assets/js/home-scene/loading-sketch.mjs
             role: The page side and the worker hand-off.
             functions: [createLoadingSketch]
           - path: assets/js/home-scene/loading-sketch-worker.mjs
             role: Draws off the main thread.
           - path: assets/models/home/loading-sketch.json
-            role: The packed drawings.
+            role: The index, with the coast view's drawing.
+          - path: assets/models/home/loading-sketch/
+            role: One drawing per room.
         tests:
           - test/loading-sketch.test.mjs
         sources: [saito1990comprehensible]

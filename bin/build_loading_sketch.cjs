@@ -2,7 +2,11 @@
 //
 //   node bin/build_loading_sketch.cjs              capture the passes, then trace
 //   node bin/build_loading_sketch.cjs --reuse      re-trace the cached passes
-//   node bin/build_loading_sketch.cjs --check      re-trace the cached passes; fail if the JSON would change
+//   node bin/build_loading_sketch.cjs --check      re-trace the cached passes; fail if any drawing file would change
+//
+// It writes loading-sketch.json, an index with the plans, the dive points and the coast view's
+// drawing, which every load draws, and one file per room in loading-sketch/, so a load fetches only
+// the room the visitor arrives in.
 //
 // The sketch draws the coast view while the house and coast stream in, then the room the visitor
 // will arrive in while the rooms, Sirui and the view's programs load (loading-sketch.mjs). So only
@@ -21,6 +25,7 @@ const zlib = require("node:zlib");
 const ROOT = path.resolve(__dirname, "..");
 const BASE = (process.env.VISUAL_BASE_URL || "http://127.0.0.1:8080").replace(/\/$/, "");
 const OUT = path.join(ROOT, "assets/models/home/loading-sketch.json");
+const ROOM_DIR = path.join(ROOT, "assets/models/home/loading-sketch");
 const CACHE = path.join(ROOT, ".jekyll-cache/visual-qa/loading-sketch");
 const REUSE = process.argv.includes("--reuse") || process.argv.includes("--check");
 const CHECK = process.argv.includes("--check");
@@ -647,12 +652,22 @@ function traceView(view, budget) {
   };
 }
 
-function writeSketch({ check = false } = {}) {
+// Every file the trace produces, by absolute path: the index with the coast view inline, and one
+// file per room that the index names.
+function sketchFiles() {
   const views = {},
+    rooms = new Map(),
     report = {};
   for (const view of VIEWS) {
-    const result = traceView(view, view === "outside" ? 26000 : 22000);
-    views[view] = { strokes: result.bytes.toString("base64"), count: result.count, points: result.points, ink: result.ink };
+    const result = traceView(view, view === "outside" ? 26000 : 22000),
+      strokes = result.bytes.toString("base64"),
+      summary = { count: result.count, points: result.points, ink: result.ink };
+    if (view === "outside") views[view] = { strokes, ...summary };
+    else {
+      const file = `loading-sketch/${view}.json`;
+      views[view] = { file, ...summary };
+      rooms.set(path.join(path.dirname(OUT), file), { view, strokes });
+    }
     report[view] = { aspect: result.aspect, bytes: result.bytes.length, layers: result.counts };
     console.log(
       view,
@@ -663,17 +678,38 @@ function writeSketch({ check = false } = {}) {
   const plan = Object.fromEntries(
     Object.entries(PLAN).map(([kind, groups]) => [kind, groups.map(([segment, layers]) => `${segment}:${layers.join(",")}`).join(" ")])
   );
-  const sketch = { version: 2, generator: "bin/build_loading_sketch.cjs", range: RANGE, grid: GRID, plan, views, focus, report };
-  // Objects and strings only, indented as Prettier formats JSON, so the file passes the format check.
-  const text = JSON.stringify(sketch, null, 2) + "\n";
+  const index = { version: 3, generator: "bin/build_loading_sketch.cjs", range: RANGE, grid: GRID, plan, views, focus, report };
+  // Objects and strings only, indented as Prettier formats JSON, so every file passes the format check.
+  const text = (value) => JSON.stringify(value, null, 2) + "\n";
+  return new Map([[OUT, text(index)], ...[...rooms].map(([file, room]) => [file, text(room)])]);
+}
+
+function writeSketch({ check = false } = {}) {
+  const files = sketchFiles(),
+    stale = fs.existsSync(ROOM_DIR)
+      ? fs
+          .readdirSync(ROOM_DIR)
+          .filter((name) => name.endsWith(".json"))
+          .map((name) => path.join(ROOM_DIR, name))
+          .filter((file) => !files.has(file))
+      : [];
   if (check) {
-    const current = fs.existsSync(OUT) ? fs.readFileSync(OUT, "utf8").replace(/\r\n/g, "\n") : "";
-    if (current !== text) throw new Error("loading-sketch.json is not the trace of the cached passes; rerun bin/build_loading_sketch.cjs");
-    console.log("loading-sketch.json matches the cached passes");
+    const changed = [...files].filter(([file, text]) => !fs.existsSync(file) || fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n") !== text);
+    const wrong = [...changed.map(([file]) => file), ...stale].map((file) => path.relative(ROOT, file));
+    if (wrong.length) throw new Error(`${wrong.join(", ")}: not the trace of the cached passes; rerun bin/build_loading_sketch.cjs`);
+    console.log("loading-sketch.json and its room drawings match the cached passes");
     return;
   }
-  fs.writeFileSync(OUT, text);
-  console.log("wrote", path.relative(ROOT, OUT), Buffer.byteLength(text), "bytes,", zlib.gzipSync(text, { level: 9 }).length, "gzipped");
+  fs.mkdirSync(ROOM_DIR, { recursive: true });
+  for (const file of stale) fs.rmSync(file);
+  const gzipped = new Map();
+  for (const [file, text] of files) {
+    fs.writeFileSync(file, text);
+    gzipped.set(file, zlib.gzipSync(text, { level: 9 }).length);
+    console.log("wrote", path.relative(ROOT, file), Buffer.byteLength(text), "bytes,", gzipped.get(file), "gzipped");
+  }
+  const largest = Math.max(...[...gzipped].filter(([file]) => file !== OUT).map(([, size]) => size));
+  console.log("a load fetches at most", gzipped.get(OUT) + largest, "gzipped bytes: the index and its largest room");
 }
 
 module.exports = { VIEWS, RANGE, CACHE, OUT, GRID, LAYERS, classify, simplify, encode, thin, chains, mergeChains, orderLayer, zigzag };
