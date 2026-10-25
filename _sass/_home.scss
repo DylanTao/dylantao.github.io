@@ -1672,25 +1672,25 @@ html[data-theme="dark"] .home-record-card-link {
     transform var(--motion-slow);
 }
 
-// The coffee ring (home-coffee-stain.js paints a new, dried one on each visit) lies on the desk
-// beneath the slips: it peeks out above the top one and never crosses their words. For people it
-// dries in once as it comes into view: the wet film (::after) fades while its colour gathers at the
-// rim (::before), about a second and a half (Sirui, 2026-10-19: the brushed ensō read heavy).
+// The coffee ring (home-coffee-stain.js paints a new, dried one on each visit) rests on the slips,
+// where the mug stood on the top one: about half the ring lies over the slip's empty right side and
+// the rest on the desk above it, never across their words (Sirui, 2026-10-24: "I thought the stain
+// will be on top of cards"). Light themes multiply it into the slip and the page; the evening desk
+// shows dull brown residue. For people it settles once as it comes into view: a slow, soft bloom
+// whose edge sharpens as the liquid pins, without a wet-to-dry play (the same review).
 .home-artifact-stack.has-coffee-stain {
   --home-coffee-stain-strength: calc(var(--home-coffee-stain-opacity) * 0.8);
 }
 
-.home-artifact-stack.has-coffee-stain::before,
-.home-artifact-stack.has-coffee-stain::after {
+.home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  // About half the ring shows above the top slip, enough to read as a ring, and the rest lies
-  // under it (2026-10-22, with the slips aligned).
-  top: -7rem;
+  top: -6.2rem;
   // Inside the column: the hero clips at its edge, and the ring should stay whole.
   right: 0.4rem;
   width: min(13.4rem, 42%);
   aspect-ratio: 1 / 1;
-  z-index: 1;
+  // Above the slips (z-index 2) inside the stack's isolated group, so the multiply reaches the slip.
+  z-index: 4;
   background: var(--home-coffee-stain-image, none) center / contain no-repeat;
   content: "";
   mix-blend-mode: var(--home-coffee-stain-blend);
@@ -1702,10 +1702,6 @@ html[data-theme="dark"] .home-record-card-link {
   transition: opacity 420ms ease;
 }
 
-.home-artifact-stack.has-coffee-stain::after {
-  background-image: var(--home-coffee-stain-wet, none);
-}
-
 .home-artifact-stack.has-coffee-stain[data-coffee-stain-ready]::before {
   opacity: var(--home-coffee-stain-strength);
 }
@@ -1715,35 +1711,26 @@ html[data-theme="dark"] .home-record-card-link {
 }
 
 .home-artifact-stack.has-coffee-stain[data-coffee-stain-drying="true"]::before {
-  animation: home-coffee-stain-dry 1500ms var(--md-lite-easing-decelerate, ease-out) both;
+  animation: home-coffee-stain-settle 3200ms var(--md-lite-easing-decelerate, ease-out) both;
 }
 
-.home-artifact-stack.has-coffee-stain[data-coffee-stain-drying="true"]::after {
-  animation: home-coffee-stain-wet 1500ms var(--md-lite-easing-decelerate, ease-out) both;
-}
-
-@keyframes home-coffee-stain-dry {
-  0%,
-  25% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: var(--home-coffee-stain-strength);
-  }
-}
-
-@keyframes home-coffee-stain-wet {
+@keyframes home-coffee-stain-settle {
   0% {
     opacity: 0;
+    filter: blur(1.1px);
+    transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, 0deg))
+      scale(calc(var(--home-coffee-stain-scale, 1) * 0.985));
   }
 
-  12% {
-    opacity: var(--home-coffee-stain-strength);
+  55% {
+    filter: blur(0);
   }
 
   100% {
-    opacity: 0;
+    opacity: var(--home-coffee-stain-strength);
+    filter: blur(0);
+    transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, 0deg))
+      scale(var(--home-coffee-stain-scale, 1));
   }
 }
 
@@ -3352,9 +3339,8 @@ html.home-motion-ready .home-reveal.home-visible {
     transform: none;
   }
 
-  .home-artifact-stack.has-coffee-stain::before,
-  .home-artifact-stack.has-coffee-stain::after {
-    top: -5.4rem;
+  .home-artifact-stack.has-coffee-stain::before {
+    top: -6.4rem;
     right: 0.5rem;
     width: min(10.5rem, 42vw);
   }
@@ -3492,7 +3478,6 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-card::after,
   .home-artifact-stack,
   .home-artifact-stack.has-coffee-stain::before,
-  .home-artifact-stack.has-coffee-stain::after,
   .home-artifact-card,
   .home-artifact-thumb img,
   html.home-motion-ready .home-reveal {

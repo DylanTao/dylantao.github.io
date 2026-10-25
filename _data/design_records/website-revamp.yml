@@ -731,19 +731,20 @@ systems:
         since: "2026-06-18"
         what: The homepage's coffee stain is a raster painted fresh on every visit from a per-pixel coffee density, not a drawn outline.
         how: >-
-          `assets/js/home-coffee-stain.js` paints the wet ring a mug's foot leaves (a dark pinned edge fading inward, tide
-          lines, dry breaks, heavier where it pooled), sometimes a second placement, a puddle and spills that dry as washes
-          with dark edges and backrun veins, under the paper's mottle. Density maps from amber to espresso and multiplies into
-          the page; evening paints pale residue. It renders in time-boxed idle slices and is read back as a data URL, because
-          the page's Content-Security-Policy admits `data:` images but not `blob:` ones. `?coffeeSeed=` reproduces one stain.
-          The ring follows Deegan and colleagues' account of capillary flow, and the washes Curtis and colleagues'
-          computer-generated watercolor.
+          `assets/js/home-coffee-stain.js` paints the band a mug's foot prints: coffee gathered at both of its pinned edges,
+          most at the outer one, with grainy solids between and a clean circle inside, wider and darker where the mug leaned,
+          a dry break where the foot sat dry, and sometimes a second placement. Density maps from amber to espresso and
+          multiplies into the slips and the page; evening paints dull brown residue. It rests on the top slip, clear of the
+          words, and for people settles in once as it comes into view. It renders in idle slices and is read back as a data
+          URL, because the page's Content-Security-Policy admits `data:` images but not `blob:` ones. `?coffeeSeed=`
+          reproduces one stain. The ring follows Deegan and colleagues' account of capillary flow, and its granulation
+          Curtis and colleagues' computer-generated watercolor.
         files:
           - path: assets/js/home-coffee-stain.js
             role: The seeded density painter.
         sources: [deegan1997coffee, curtis1997watercolor]
         limits:
-          - The stain is a desk cue; it must stay quiet enough that any text it crosses reads easily.
+          - The stain is a desk cue; it rests clear of the slips' words and stays quieter than their titles.
         next: []
       - id: la-jolla-footer
         name: La Jolla along the footer
@@ -1606,6 +1607,15 @@ history:
     reframe: Render golden-hour and dusk stills, so a visitor arriving at sunset no longer sees the day still first.
     commit: "bedc73290"
     sources: [noaa-solar, henyey1941, toth2009volumetric, wcag-contrast]
+  - date: "2026-10-24"
+    title: The ring a mug's foot leaves
+    system: objects-place
+    frame: Sirui found the stain still did not look like coffee and its drying play too animated, and expected it to rest on the slips rather than under them.
+    dimensions: [what a mug's foot prints, the edge that made a pale disc, colour in light and dark themes, where the ring rests, how it arrives]
+    move: The stain now draws the band a mug's foot prints, with coffee gathered at both pinned edges and a clean circle inside. It rests on the top slip clear of the words and settles in once, softly, instead of drying from a wet film.
+    backtalk: Every drop-shaped version read as a pale disc in the day themes or a dark hole in the evening, because a rim sharp outside and feathered inside makes the interior look lighter than the page (a Cornsweet edge). Photographs of real mug rings showed a grainy band with a clean centre instead, and the pale evening outline read as chalk rather than coffee.
+    reframe: Check a stain against a photograph of the real thing before tuning its parameters.
+    sources: [deegan1997coffee, curtis1997watercolor]
   # Append new moves here, oldest first.
 
 open_problems:

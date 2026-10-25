@@ -2770,7 +2770,7 @@ test("Research Focus Paper field stays semantic, bounded, pausable, and optional
   }
 });
 
-test("the desk's coffee ring lies beneath the slips, stays whole, and dries in only for people", async ({ page }, testInfo) => {
+test("the desk's coffee ring rests on the top slip clear of its words, stays whole, and settles in only for people", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "one desktop and one phone viewport cover the stain");
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
@@ -2779,17 +2779,42 @@ test("the desk's coffee ring lies beneath the slips, stays whole, and dries in o
     stack.evaluate((node) => {
       const stain = getComputedStyle(node, "::before");
       const wet = getComputedStyle(node, "::after");
-      const card = getComputedStyle(node.querySelector(".home-artifact-card"));
+      const card = node.querySelector(".home-artifact-card");
       const box = node.getBoundingClientRect();
       const column = node.parentElement.getBoundingClientRect();
+      // The ring lies within an annulus around the stain box's centre (the painted radius is 30-32% of the
+      // box, its band up to about a sixth of that inward, the placement scale at most 6% larger). No line of
+      // the top slip's words may reach into it.
+      const size = parseFloat(stain.width);
+      const left = box.right - parseFloat(stain.right) - size,
+        top = box.top + parseFloat(stain.top);
+      const matrix = new DOMMatrixReadOnly(stain.transform === "none" ? undefined : stain.transform);
+      const cx = left + size / 2 + matrix.e,
+        cy = top + size / 2 + matrix.f;
+      const outer = size * 0.34,
+        inner = size * 0.22;
+      const words = [];
+      for (const text of card.querySelectorAll(".home-artifact-copy > *")) {
+        const range = document.createRange();
+        range.selectNodeContents(text);
+        words.push(...range.getClientRects());
+      }
+      const crossed = words.some((rect) => {
+        const nx = Math.max(rect.left, Math.min(cx, rect.right)),
+          ny = Math.max(rect.top, Math.min(cy, rect.bottom));
+        const nearest = Math.hypot(nx - cx, ny - cy);
+        const farthest = Math.max(...[rect.left, rect.right].flatMap((x) => [rect.top, rect.bottom].map((y) => Math.hypot(x - cx, y - cy))));
+        return nearest < outer && farthest > inner;
+      });
       return {
         painted: stain.backgroundImage.startsWith('url("data:image/png'),
-        beneath: Number(stain.zIndex) < Number(card.zIndex) && Number(wet.zIndex) < Number(card.zIndex),
-        // A dried ring, not a brush stroke: no mask sweeps it open any more.
+        onTop: Number(stain.zIndex) > Number(getComputedStyle(card).zIndex),
+        // One dried ring: no wet layer, and no mask sweeping it open.
+        wetLayer: wet.content !== "none" && wet.content !== "normal",
         unmasked: !(stain.maskImage || stain.webkitMaskImage || "").includes("gradient"),
         multiplied: stain.mixBlendMode === "multiply",
+        clearOfWords: words.length > 0 && !crossed,
         animation: stain.animationName,
-        wetAnimation: wet.animationName,
         drying: node.getAttribute("data-coffee-stain-drying"),
         seed: node.dataset.coffeeStainSeed,
         // The stain box ends inside the hero column, which clips at its edge.
@@ -2798,23 +2823,25 @@ test("the desk's coffee ring lies beneath the slips, stays whole, and dries in o
     });
   await page.goto(publicRouteUrl("/?coffeeSeed=52"));
   await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
-  // Beneath the slips, a ring can peek out above them but never crosses their words.
+  // Where the mug stood: on the top slip, multiplied into it, never across its words.
   expect(await read()).toMatchObject({
     painted: true,
-    beneath: true,
+    onTop: true,
+    wetLayer: false,
     unmasked: true,
     multiplied: true,
+    clearOfWords: true,
     insideColumn: true,
     seed: "52",
     drying: null,
     animation: "none",
   });
   await attachScreenshot(page, testInfo, `home-coffee-ring-${testInfo.project.name}`, { locator: stack });
-  // A person sees the wet drop dry in once the slips are in view...
+  // A person sees the mark settle in once the slips are in view...
   await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));
   await stack.scrollIntoViewIfNeeded();
   await expect(stack).toHaveAttribute("data-coffee-stain-drying", "true", { timeout: 20000 });
-  expect(await read()).toMatchObject({ animation: "home-coffee-stain-dry", wetAnimation: "home-coffee-stain-wet" });
+  expect(await read()).toMatchObject({ animation: "home-coffee-stain-settle", wetLayer: false });
   // ...unless they prefer stillness; a theme change repaints it for the evening desk.
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));
