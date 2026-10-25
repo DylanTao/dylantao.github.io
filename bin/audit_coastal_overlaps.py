@@ -777,9 +777,10 @@ def main():
     if DELIVERED:
         bpy.ops.wm.read_factory_settings(use_empty=True)
         scene = bpy.context.scene
-        delivered = import_delivered(scene, config)
-        log("delivered", delivered)
+        delivered_files = import_delivered(scene, config)
+        log("delivered", delivered_files)
     else:
+        delivered_files = []
         bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
         scene = bpy.context.scene
     furniture = import_furniture(scene, config) if FURNITURE else []
@@ -808,6 +809,7 @@ def main():
         "tool": "bin/audit_coastal_overlaps.py",
         "toolSha256": hashlib.sha256(Path(__file__).read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
         "delivered": DELIVERED,
+        "deliveredFiles": delivered_files,
         "source": SOURCE.relative_to(ROOT).as_posix() if SOURCE.is_relative_to(ROOT) else str(SOURCE),
         "sourceSha256": sha256(SOURCE),
         "manifestSha256": sha256(MANIFEST),

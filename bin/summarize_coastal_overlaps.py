@@ -2,14 +2,17 @@
 
     python bin/summarize_coastal_overlaps.py --audit=.jekyll-cache/overlap-audit/final.json \
         [--before=.jekyll-cache/overlap-audit/before.json] \
+        [--delivered=.jekyll-cache/overlap-audit/delivered.json] \
         [--verdicts=artwork/coastal-home/reviews/house-2026-10-24/overlap-verdicts.json] \
         [--out=artwork/coastal-home/reviews/house-2026-10-24/overlap-audit.json]
 
 The full Blender report (tens of MB) stays in the ignored cache. The compact report keeps
 every visible z-fighting pair, every grazing (patchy) crossing and the ranked deep crossings
-aggregated per mesh pair, each matched to a reviewed verdict when one exists. It binds the
-audited source, the delivered GLBs, the streamed furniture and the audit tool by SHA-256, so
-``test/test_coastal_overlap_audit.py`` fails when any of them changes without a re-audit.
+aggregated per mesh pair, each matched to a reviewed verdict when one exists, plus the
+z-fighting of the decoded delivery (an ``--delivered=1`` audit of the same source). It binds the
+audited source, the delivered GLBs and the audit tool by SHA-256 and records the streamed
+furniture, so ``test/test_coastal_overlap_audit.py`` fails when house geometry or the tool
+changes without a re-audit.
 """
 import hashlib
 import json
@@ -59,6 +62,10 @@ def totals(report):
 
 def main():
     audit = json.loads(path("audit", ".jekyll-cache/overlap-audit/final.json").read_text(encoding="utf-8"))
+    delivered_path = path("delivered", ".jekyll-cache/overlap-audit/delivered.json")
+    delivered = json.loads(delivered_path.read_text(encoding="utf-8")) if delivered_path.exists() else None
+    if delivered and (not delivered.get("delivered") or delivered["sourceSha256"] != audit["sourceSha256"]):
+        raise SystemExit(f"{delivered_path} is not a delivered audit of the same source; re-run it with --delivered=1")
     before_path = path("before", ".jekyll-cache/overlap-audit/before.json")
     before = json.loads(before_path.read_text(encoding="utf-8")) if before_path.exists() else None
     verdict_path = path("verdicts", str(REVIEW / "overlap-verdicts.json"))
@@ -116,13 +123,20 @@ def main():
         "foliageOverlap": audit.get("foliageOverlap"),
         "totals": totals(audit),
         "before": ({"sourceSha256": before["sourceSha256"], "totals": totals(before)} if before else None),
+        # The decoded Draco GLBs, audited the same way: quantization can collapse a few-millimetre
+        # native gap into a delivered depth tie, so delivery has its own z-fighting ratchet.
+        "delivered": ({"exportsSha256": {f["file"]: f["sha256"] for f in delivered.get("deliveredFiles", [])},
+                       "totals": totals(delivered),
+                       "zFighting": [{"pair": pair_key(r["a"], r["b"]), "visibleAreaM2": r["visibleAreaM2"], "at": r["at"], "normal": r["normal"]}
+                                     for r in delivered["coplanar"] if r["verdict"] == "z-fighting"]}
+                      if delivered else None),
         "zFighting": zf,
         "grazing": gz,
         "deepOffenderPairs": pairs,
     }
     out = path("out", str(REVIEW / "overlap-audit.json"))
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(compact, indent=1) + "\n", encoding="utf-8")
+    out.write_text(json.dumps(compact, indent=1) + "\n", encoding="utf-8", newline="\n")
     t, b = compact["totals"], (compact["before"] or {}).get("totals", {})
     print(json.dumps({"out": str(out), "totals": t, "before": b, "unreviewedTopPairs": [p["pair"] for p in pairs if not p["verdict"]][:20]}, indent=1))
 
