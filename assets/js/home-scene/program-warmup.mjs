@@ -169,20 +169,25 @@ async function compileSceneInBatches(renderer, scene, camera, target, queue, slo
     pending = new Set();
   scene.traverse((object) => {
     if (!object.material) return;
-    holders.push([object, object.material]);
+    holders.push(object);
     for (const material of [object.material].flat()) if (material) pending.add(material);
   });
   const all = [...pending];
   for (let start = 0; start < all.length; start += size) {
     const batch = new Set(all.slice(start, start + size)),
       compiled = [];
+    // Materials are read at each batch, not at the start: a warmup spans tasks while models load,
+    // and restoring an earlier snapshot would undo a receiver or style binding made meanwhile.
+    const current = holders.map((object) => object.material);
     withTarget(renderer, target, () => {
       try {
-        for (const [object, material] of holders)
+        holders.forEach((object, i) => {
+          const material = current[i];
           object.material = Array.isArray(material) ? material.filter((entry) => batch.has(entry)) : batch.has(material) ? material : null;
+        });
         for (const material of renderer.compile(scene, camera)) compiled.push(material);
       } finally {
-        for (const [object, material] of holders) object.material = material;
+        holders.forEach((object, i) => (object.material = current[i]));
       }
     });
     queue.add(compiled);
@@ -268,6 +273,9 @@ const compileSlots = () => Math.max(2, Math.floor((globalThis.navigator?.hardwar
  * Resolves to true when every program is ready, false after `timeout` (a lost context never
  * reports completion; the first draw then falls back to the blocking path) or at once when the
  * driver cannot compile in parallel or is a software rasterizer.
+ * With `wait: false` it resolves once every program has been submitted, without waiting for the
+ * last of them: an early start for models already loaded, whose slowest programs then compile
+ * while later models download. A later call that waits covers those programs too.
  */
 // Software rasterizers (SwiftShader, llvmpipe) compile on the same few CPU cores that draw, so
 // warming every variant up front only adds work there; they keep the draw-time path.
@@ -277,7 +285,12 @@ function softwareRenderer(renderer) {
   return /swiftshader|llvmpipe|softpipe|software/i.test(String(renderer.getContext().getParameter(info.UNMASKED_RENDERER_WEBGL)));
 }
 
-export async function prepareFramePrograms(renderer, scene, camera, { target, overrides = [], passes = [], timeout = 12000, onProgress } = {}) {
+export async function prepareFramePrograms(
+  renderer,
+  scene,
+  camera,
+  { target, overrides = [], passes = [], timeout = 12000, onProgress, wait = true } = {}
+) {
   if (!renderer.extensions.has("KHR_parallel_shader_compile") || softwareRenderer(renderer)) return false;
   const queue = createCompileQueue(renderer, timeout),
     slots = compileSlots();
@@ -297,6 +310,7 @@ export async function prepareFramePrograms(renderer, scene, camera, { target, ov
     extra.add(material);
   }
   queue.add(extra);
+  if (!wait) return false;
   const report = () => onProgress?.(0.4 + 0.6 * (queue.seen ? queue.resolved / queue.seen : 1));
   report();
   return queue.drain(0, report);

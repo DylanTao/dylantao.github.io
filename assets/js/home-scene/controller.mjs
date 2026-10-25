@@ -338,7 +338,9 @@ export function createCoastalHome(container, records, artifacts) {
   let programProbe = null,
     programQueue = Promise.resolve(),
     programPending = 0;
-  function compilePrograms(onProgress) {
+  // `wait: false` submits without waiting for the driver (program-warmup.mjs): the next call starts
+  // at once, and the one that waits covers what is still compiling.
+  function compilePrograms(onProgress, { wait = true } = {}) {
     programPending++;
     programQueue = programQueue
       .then(async () => {
@@ -346,7 +348,7 @@ export function createCoastalHome(container, records, artifacts) {
         // The beauty pass draws into a linear, untoned half-float target; programs are keyed by
         // that output state, so they are prepared while an equivalent target is bound.
         programProbe ||= own(new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType }));
-        await prepareFramePrograms(renderer, scene, camera, { target: programProbe, ...finish?.programWarmup, onProgress });
+        await prepareFramePrograms(renderer, scene, camera, { target: programProbe, ...finish?.programWarmup, onProgress, wait });
       })
       .catch(() => {})
       .finally(() => programPending--);
@@ -3456,6 +3458,11 @@ export function createCoastalHome(container, records, artifacts) {
           plan: { routine, daylight, visit: currentRoom },
           bindMaterial: (m) => (staticLightField?.bindMaterial(m), lightInstallations?.bindMaterial(m)),
         });
+      // The house, coast, desk and companion are in, and the sky has set the scene's fog and
+      // environment, so their programs keep their keys from here on. Their compiles (the cliff's
+      // sandstone and the plaster walls are the slowest, 10-25 s each on ANGLE/D3D11) start now,
+      // while the rooms download; the warmup before the first frame waits for every program.
+      compilePrograms(null, { wait: false });
       loadingStage("room", "Furnishing the home.");
       let furnishedRooms = 0;
       // The cutaway shows adjacent rooms too. Loading only the occupied room left a visibly
@@ -3492,16 +3499,18 @@ export function createCoastalHome(container, records, artifacts) {
         getDynamicRoots: () => (walkPresence?.object.visible ? [walkPresence.object] : [actor, selectedProp].filter(Boolean)),
         getContentVersion: () => `${avatarId}|${elapsed}|${walkPresence?.contentVersion}`,
       });
+      loadingStage("first-frame", "Preparing the view.");
+      // The mirrors draw the beauty pass's own programs (their hooks are installed above), so the
+      // batched warmup prepares them too; each mirror's whole-scene compileAsync then finds them
+      // ready. Run first, it submitted every program of the house at once, starving the page.
+      await compilePrograms((fraction) => progress("view", 0.9 * fraction));
+      if (disposed) return;
       await interiorReflections.prepare({
         camera,
         lightRoom: (id) => updateInstallations(id, 0),
         restoreLight: updateLight,
         shouldContinue: () => !disposed,
       });
-      if (disposed) return;
-      progress("view", 0.2);
-      loadingStage("first-frame", "Preparing the view.");
-      await compilePrograms((fraction) => progress("view", 0.2 + 0.8 * fraction));
       if (disposed) return;
       progress("view", 1);
       compositionReady = true;
