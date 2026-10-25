@@ -10,6 +10,7 @@ import { createFootContacts } from "./locomotion.mjs";
 import { createResolutionGovernor, detailFor } from "./resolution.mjs";
 import { setMirrorSize } from "./reflection.mjs";
 import { createShadowCache } from "./shadow-cache.mjs";
+import { shadowDrift, steppedShadowExtent } from "./shadow-fit.mjs";
 import { sortOpaqueByProgram } from "./draw-order.mjs";
 import {
   envelopeFor,
@@ -284,22 +285,36 @@ export function createCoastalHome(container, records, artifacts) {
   // where one 12 cm shadow texel is about one screen pixel), so walking along the cliff keeps fine
   // shadows under every tree and rock. The centre is snapped to whole shadow texels along the
   // light's axes, so moving the camera never makes shadow edges crawl.
+  // While the view moves on the coast, the square moves in steps instead, its size along a ladder
+  // and its centre held until the focus drifts (shadow-fit.mjs), so zooming, panning and walking
+  // neither shimmer the shadows' texels nor redraw the static shadow cache every frame. Once the
+  // view has rested 0.6 s it returns to the exact fit above, so a still view is drawn as before.
   const shadowCentre = new THREE.Vector3(),
+    shadowFocus = new THREE.Vector3(),
+    shadowHeld = new THREE.Vector3(),
     shadowSnapped = new THREE.Vector3(),
     sunDirection = new THREE.Vector3(-4, 9, 5).normalize(),
     shadowAxes = [new THREE.Vector3(), new THREE.Vector3()];
-  let shadowExtent = 10;
+  let shadowExtent = 10,
+    shadowHeldValid = false;
   function fitSunShadow(force = false) {
     const outside = currentRoom === "outside";
     const walking = Boolean(walkMode?.active);
-    const extent = outside ? (walking ? 12 : clamp(Math.round(radius * 0.75), 12, 120)) : config?.retreat ? 16 : 10;
+    const resting = performance.now() - lastCameraMove > 600;
+    const wanted = clamp(Math.round(radius * 0.75), 12, 120);
+    const extent = outside ? (walking ? 12 : resting ? wanted : steppedShadowExtent(wanted, shadowExtent, force)) : config?.retreat ? 16 : 10;
     // A fixed complete-house square retains the static-shadow cache while walking indoors.
     // The coast follows the actual walker's eye instead of an unseen orbit's old target.
-    const centre = outside
-      ? walking
-        ? camera.position
-        : target
+    const focus = outside
+      ? shadowFocus.copy(walking ? camera.position : target)
       : shadowCentre.fromArray(config?.retreat ? config.views.overview.target : [0, 0, 0]);
+    let centre = focus;
+    if (outside) {
+      if (force || resting || !shadowHeldValid || extent !== shadowExtent || shadowHeld.distanceTo(focus) > shadowDrift(extent, walking, wanted))
+        shadowHeld.copy(focus);
+      shadowHeldValid = true;
+      centre = shadowHeld;
+    } else shadowHeldValid = false;
     const direction = sunDirection;
     const right = shadowAxes[0].set(0, 1, 0).cross(direction).normalize(),
       up = shadowAxes[1].copy(direction).cross(right);
