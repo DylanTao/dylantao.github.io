@@ -300,7 +300,7 @@ systems:
         how: >-
           `bin/build_loading_sketch.cjs` renders object-ID, surface-normal and depth passes of the coast view and of every
           room an activity opens in, marks one-pixel outlines, depth silhouettes and creases sharper than 40°, and links them
-          into about 13,000 simplified polylines in a planned order: the shell, then the coast, then interior glimpses; in a
+          into about 15,000 simplified polylines in a planned order: the shell, then the coast, then interior glimpses; in a
           room, its structure and furniture, then the fine detail. Each group is drawn only as far as the loading segment
           that brings it has finished (house, coast, rooms, the view's programs), and only once every earlier group is
           complete. `loading-sketch.mjs` hands an OffscreenCanvas to a worker that fetches, decodes and draws, so model
@@ -3067,7 +3067,7 @@ history:
       ]
     move: >-
       Continuous pen lines traced from the views' object-ID, normal and depth passes, with Zhang and Suen's thinning and
-      Douglas and Peucker's simplification, replace the morphing dashes: about 13,000 strokes over the coast view and the
+      Douglas and Peucker's simplification, replace the morphing dashes: about 15,000 strokes over the coast view and the
       six rooms an activity opens in. The pen draws the shell and its arched facade as the house streams in, the cliff and
       beach with the coast, then dives into the arrival room and draws its structure and furniture as the rooms arrive and
       its books, screens and textiles while the view's programs compile. Its ink never exceeds the finished work, a stall

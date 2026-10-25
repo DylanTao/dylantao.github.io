@@ -1543,7 +1543,7 @@ systems:
         how: >-
           `traceView` in `bin/build_loading_sketch.cjs` marks one-pixel edges in each view's object-ID, normal and depth
           passes (`edgeMap`), after Saito and Takahashi's geometry buffers, links them into simplified polylines and orders
-          each layer as one hand would draw it (`orderLayer`). Seven drawings, about 56,000 points, pack into 143 KB gzipped.
+          each layer as one hand would draw it (`orderLayer`). Seven drawings, about 65,000 points, pack into 165 KB gzipped.
           `createSketchEngine` draws with a pen whose ink never exceeds what `allowedInk` grants from the loading segments
           through the plan `parsePlan` reads, and lets a resting drawing breathe (`breathDepth`). `createLoadingSketch`
           hands an OffscreenCanvas to a worker, so model parsing never stalls the pen.
