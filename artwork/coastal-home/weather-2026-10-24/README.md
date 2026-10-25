@@ -1,16 +1,16 @@
-# La Jolla weather, October 24
+# La Jolla weather
 
-The scene now has a small, precomputed NWS forecast and a data-backed seasonal rain simulation.
-The existing solar position, moon, scattering atmosphere, coastal wind field and authored
-morning marine-layer schedule remain separate. Browser weather sampling makes no network request,
-loads no ML weights and adds no dependency.
+The 3D home's weather has two sources. For the next six to seven days it shows the National Weather
+Service's hourly forecast for the La Jolla point, refreshed each morning by
+`.github/workflows/update-weather.yml`. Outside those forecast hours it draws each day from a calibrated
+statistical model of the San Diego airport rain gauge: mostly sun, with rain concentrated between
+November and March and often lasting two or three days. The morning marine layer and high cirrus
+remain authored art direction. The browser makes no weather request, loads no ML weights and adds no
+dependency. The scene is an authored home, not a weather service or a claim about Sirui's current
+location.
 
-Before this change, `weatherFor` drew independent daily marine/cirrus moods from authored monthly
-chances and had no rain. Those original marine chances remain an explicit art direction outside
-the forecast interval. After this change, real forecast hours can supply cloud conditions and rain;
-otherwise a reproducible wet/dry sequence supplies mostly sunny weather with occasional winter rain
-and multiday wet spells. The scene is an authored home, not a weather service or a claim about
-Sirui's current location.
+This directory was created on October 24, 2026. Its station records and model are that day's
+retrieval; only the NWS forecast pair under `source/` rolls forward.
 
 ## Data custody and scope
 
@@ -20,111 +20,228 @@ Sirui's current location.
 - The closer **US1CASD0030, La Jolla 2.1 SE** gauge was considered: 5,732 accepted days out of
   5,844 during 2010–2025. Its shorter, incomplete coverage motivated using the long airport record.
   The local record is retained as a coverage comparison, not silently filled or merged.
-- A wet day means **at least 0.3 mm**. GHCN stores tenths of a millimetre, so it cannot represent
-  an exact 0.01-inch threshold. Missing values and nonblank quality flags are excluded; multiday
-  `MDPR` totals are not treated as single-day observations. The accepted airport data contain only
-  blank/trace measurement flags during the fitting interval. Trace precipitation stays below the
-  wet threshold.
-- The **NWS SGX/53,20 hourly** forecast is for the La Jolla point at 32.8328, −117.2713. Its issued
-  time is **2026-10-24T10:11:18Z**; retained hourly intervals run from
-  **2026-10-24T07:00:00−07:00** through **2026-10-30T19:00:00−07:00**. Each interval carries its own
-  UTC start. Outside an actual interval, `source` immediately becomes `seasonal-simulation`, with
-  null forecast timestamps. Old forecast data are never relabeled as current.
+- A wet day means **at least 0.3 mm**. US gauges report hundredths of an inch, which GHCN stores in
+  tenths of a millimetre, so one recorded hundredth appears as 0.3 mm and is the smallest wet amount.
+  Missing values and nonblank quality flags are excluded; multiday `MDPR` totals are not treated as
+  single-day observations. Trace precipitation stays below the wet threshold.
+- The **NWS SGX/53,20 hourly** forecast is for the La Jolla point at 32.8328, −117.2713. Each refresh
+  keeps NWS's own `updateTime` (recorded as `issued`) and `generatedAt`, the runner's clock when the
+  refresh requested it (`retrieved`), and the response's HTTP `Date` and `Last-Modified` headers, in
+  `source/retrieval.json` and the receipt's `forecast` block. Each hourly interval carries its own UTC
+  start. Outside an actual interval, `source` immediately becomes `seasonal-simulation`, with null
+  forecast timestamps. Old forecast data are never relabeled as current.
+- NOAA CPC's **Oceanic Niño Index** table (`source/oni.ascii.txt.gz`, retrieved
+  2026-10-24T23:48:29Z, last modified 2026-10-03) feeds only the model comparison below; the
+  production model does not use it.
+- The GHCN files were retrieved for commit `162685ac8` on October 24; their request time was not
+  recorded, and `retrieval.json` says so rather than inventing one. `ghcnd-version.txt` names
+  GHCN-Daily 3.35-upd-2026102217.
 
 The compressed files under `source/` retain the original response bytes. The build receipt records
-their decoded byte lengths, SHA-256 hashes and source URLs. This entire artwork directory is
-Jekyll-excluded. Only the generated **13,256-byte** `weather-data.mjs` is loaded at runtime.
+their decoded byte lengths, SHA-256 hashes and URLs, the model and its validation, and the runtime's
+hash. This entire artwork directory is Jekyll-excluded. Only the generated `weather-data.mjs`, about
+13.7 KB, is loaded at runtime.
 
 Primary sources: [GHCN file layout and flags](https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt),
 [airport station record](https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/USW00023188.dly),
 [La Jolla station metadata](https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/stations/GHCND%3AUS1CASD0030/detail),
-[NWS point metadata](https://api.weather.gov/points/32.8328,-117.2713) and
-[hourly forecast](https://api.weather.gov/gridpoints/SGX/53,20/forecast/hourly).
+[NWS point metadata](https://api.weather.gov/points/32.8328,-117.2713),
+[hourly forecast](https://api.weather.gov/gridpoints/SGX/53,20/forecast/hourly) and
+[CPC ONI table](https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt).
 
-## Validation and the model choice
+## The daily forecast refresh
 
-A monthly first-order wet/dry Markov model conditions tomorrow's probability on the previous wet/dry
-state. Each monthly transition uses a fixed 12-day Beta prior centered on that month's wet-day
-frequency. This small prior was specified before holdout scoring. Training uses 1991–2015;
-**2016–2025 is a chronological, 3,653-day holdout**. The candidate's one-day conditional probabilities
-are evaluated with the observed previous day's state; missing pairs would be excluded.
+`update-weather.yml` runs at 10:25 UTC, five minutes after the code-activity import and before the
+11:20 UTC scheduled deploy, in the shared `main-autocommit` concurrency group. It runs
+`python bin/build_coastal_weather.py --refresh-forecast`, which:
 
-| Predictor                 | Held-out Brier score, lower is better |
-| ------------------------- | ------------------------------------: |
-| Seasonal Markov           |                            0.08416261 |
-| Monthly climatology       |                            0.09512018 |
-| Yesterday's wet/dry state |                            0.12236518 |
-| Always dry                |                            0.11360526 |
+1. requests the NWS point metadata and hourly forecast with a `User-Agent` naming the site, and
+   retries server errors and timeouts twice;
+2. **rejects** a response that no longer validates (a moved grid cell, malformed GeoJSON, fewer than
+   72 hours, a missing or non-hourly period, an impossible probability, or an issue time in the
+   future) with exit 1, which fails the run visibly;
+3. **defers** with exit 75 when NWS is unreachable, or serves a forecast issued more than 36 hours
+   ago, covering fewer than 72 future hours, starting more than three hours ahead, or older than the
+   retained snapshot; the run stays green and records a notice while the published snapshot still
+   has 72 hours left, and fails visibly after that, so a person looks before the hours run out;
+4. writes nothing when the forecast is unchanged (NWS regenerates `generatedAt` on every request, so
+   that field alone is not a change);
+5. otherwise rebuilds the runtime and receipt from the retained bytes and replaces each file
+   atomically.
 
-This is **11.52% Brier skill relative to monthly climatology**, with improvement in all ten held-out
-years. It establishes a useful one-day statistical baseline. It does **not** validate the subsequent
-synthetic sequence as a real multiweek forecast, demonstrate NWS accuracy, or establish a SOTA result.
-No future outcome observations were used to score this particular NWS snapshot.
+On any failure the last valid snapshot stays published and expires to the seasonal model after its
+own last hour, so the scene needs no maintenance to stay correct. Before committing, the workflow
+reruns the weather tests and Prettier and refuses to commit anything outside the five snapshot paths.
+It commits only when the data changed, at most once a day, as `GitHub Actions <actions@github.com>`
+with `chore: refresh coastal weather forecast`, mirroring the citation and code-activity bots. If
+someone pushes to `main` while it runs, it rebuilds once on the new head and pushes again.
 
-The production model is then explicitly refitted on 1991–2025. Its precomputed 2000–2099 sequence
-contains 3,880 wet days in 36,525 days: about 38.8 wet days per year. This is predominantly dry
-weather; wet days cluster in the cool season and spells persist rather than flickering between
-independent daily draws. Dates outside that precomputed range use monthly climatology with a
-deterministic hash, retaining the seasonal frequency but losing spell persistence.
+**Why this trigger design.** The push uses the default `GITHUB_TOKEN`, and pushes made with it start
+no workflow runs: the October 17 citation commit `30bf85de7` has no push-triggered run. A weather
+commit therefore cannot cancel an in-flight visual run of someone's change or start the 41-job
+matrix, and the existing scheduled deploy publishes it, as it publishes the other data commits. The
+alternatives were worse here. Path filters would mean editing several workflows for pushes that never
+trigger them.
+`[skip ci]` is redundant with `GITHUB_TOKEN`, and an explicit deploy dispatch would need
+`actions: write` and move `gh-pages` twice a day. Fetching at deploy time would publish bytes that are
+in no commit, so the receipt, tests and history would stop describing the live site.
 
-Current modern forecasting was considered. ECMWF's operational **AIFS v2** includes deterministic
-and ensemble forecasts initialized from a global operational atmospheric analysis, rather than one
-local rain gauge. Its operational data product is a sensible future source if real forecast fidelity
-becomes a product goal. Downloading model weights, building global initial conditions or repeatedly
-transferring global fields is disproportionate for the visitor benefit here. The lighter NWS point
-snapshot supplies an actual local forecast without representing this small statistical model as
-modern global ML forecasting. See [ECMWF's current AIFS data description](https://www.ecmwf.int/en/forecasts/datasets/aifs-machine-learning-data)
+**Risks.** In October 2026 GitHub started these crons two to nine hours late, but kept their
+order. If the weather run ever lands after the deploy starts, the new snapshot waits for the next
+deploy (a human push or the next day), and visitors see a forecast up to a day older that still
+covers about five days. A third `main-autocommit` run queued while this one is pending would cancel the
+pending run. Scene specs pin past instants, which a refresh never reaches; `test/coastal-weather.test.mjs`
+fails if a 3D-home spec pins an instant inside the rolling window or one the seasonal model makes
+rainy. A few specs that only check controls, avatars or physics run on the live clock and therefore
+see that day's forecast; none of them asserts lighting or rain.
+
+Locally, `python bin/build_coastal_weather.py --refresh-forecast --dry-run` fetches and validates
+without writing, and `--check` confirms that the committed runtime and receipt rebuild byte for byte
+from the retained sources. The workflow's script was exercised against a throwaway bare origin for a
+dry run, an outage, a malformed response, a real update, an unchanged rerun and a concurrent push.
+
+## The seasonal model
+
+Each simulated day's wet/dry draw comes from a ridge-penalized logistic regression, the
+generalized-linear-model form of a stochastic weather generator (Furrer and Katz, "Generalized linear
+modeling approach to stochastic weather generators", _Climate Research_ 34, 2007). Its 14 terms are
+three annual harmonics of the day of year; whether yesterday and the day before were wet, with
+yesterday's effect varying through the year; the logarithm of yesterday's total on a wet day; and the
+logarithm of the days since the last wet day. In the 1991–2025 production fit, a wet yesterday adds
+0.92 to the log-odds on average through the year and its total adds 0.54 per unit of ln(1 + mm);
+two wet days in a row lower the next day's log-odds by 0.52 against one, and a long dry spell lowers
+it by 0.25 per unit of ln(days).
+
+The model was selected inside the training years, before its held-out comparison with the previous
+model. Ten pre-registered candidates were scored by five-fold blocked cross-validation over
+1991–2015, with five-year folds and each ridge strength chosen from 0, 1, 3, 10 and 30. The rule was
+the lowest CV Brier score; among candidates within one paired block-bootstrap standard error of it,
+the fewest terms; then the lower CV Brier. It selected the dry-spell model.
+`python bin/build_coastal_weather.py --evaluate` reruns the comparison into `model-evaluation.json`.
+
+| Predictor                               | Terms | CV Brier, 1991–2015 | Held-out Brier, 2016–2025 | Held-out log loss |
+| --------------------------------------- | ----: | ------------------: | ------------------------: | ----------------: |
+| Previous monthly Markov chain (Oct 24)  |    24 |             0.08240 |                   0.08416 |            0.2901 |
+| Harmonic climatology                    |     7 |             0.09162 |                   0.09408 |            0.3187 |
+| First-order GLM                         |    10 |             0.08222 |                   0.08238 |            0.2835 |
+| Second-order GLM                        |    12 |             0.08184 |                   0.08211 |            0.2831 |
+| + yesterday's amount                    |    13 |             0.08024 |                   0.08077 |            0.2804 |
+| **+ days since rain (production)**      |    14 |         **0.08012** |               **0.08089** |        **0.2809** |
+| + wet days in the last 30               |    14 |             0.08017 |                   0.08056 |            0.2798 |
+| + rain total in the last 30 days        |    14 |             0.08016 |                   0.08071 |            0.2802 |
+| Third-order GLM with amount             |    14 |             0.08028 |                   0.08069 |            0.2802 |
+| Second-order GLM with amount + ENSO     |    16 |             0.08035 |                   0.08074 |            0.2804 |
+| Production + ENSO                       |    17 |             0.08021 |                   0.08087 |            0.2809 |
+| Monthly climatology                     |    12 |                     |                   0.09512 |            0.3234 |
+| Yesterday's wet/dry state (persistence) |       |                     |                   0.12237 |                   |
+| Always dry                              |       |                     |                   0.11361 |                   |
+
+The five memory variants at the top are statistically indistinguishable: their CV scores lie within
+two paired standard errors of each other, each about 0.0001. The rule's choice among them is
+therefore close to arbitrary, and every one improves the previous model by about 4%. Choosing by the held-out column would have
+picked the 30-day wet count; that is exactly why the held-out years do not choose.
+
+On the held-out decade, with the model fitted only on 1991–2015:
+
+- The Brier score is **0.08089 against 0.08416** for the previous model, 3.9% better, and the skill
+  against monthly climatology rises from 11.5% to **15.0%**. A 30-day moving-block bootstrap puts the
+  mean daily difference at −0.00327, with a 95% interval of −0.00486 to −0.00164. The new model is
+  better in 9 of the 10 years; 2017 is the exception.
+- The log loss is 0.2809 against 0.2901.
+- Calibration improved. Murphy's reliability term fell from 0.00106 to 0.00022 while resolution rose
+  from 0.0180 to 0.0197 (uncertainty 0.1007). Days the previous model put at 20–30% rained 44% of the
+  time; at the same forecast level the new model's days rained 30% of the time. The receipt keeps both
+  reliability tables.
+
+The precomputed 2000–2099 scene sequence behaves like the gauge. It is one 100-year draw, not a
+forecast of those years:
+
+| Sequence              | Wet days per year | Year-to-year SD | Mean wet spell | Spells of 3+ days |
+| --------------------- | ----------------: | --------------: | -------------: | ----------------: |
+| Observed 1991–2025    |              40.5 |            10.1 |      1.79 days |             18.4% |
+| Production, 2000–2099 |              39.6 |             9.3 |      1.76 days |             18.4% |
+| Previous, from Oct 24 |              38.8 |             7.7 |      1.73 days |             17.3% |
+
+Each wet day draws one of its month's 20 midpoint-quantile totals, up from five, and that draw feeds
+the next day's amount term. On the 415 held-out wet days, the CRPS of this amount distribution falls
+from 3.95 mm to 3.85 mm. The rain's display intensity and duration remain authored mappings of the
+amount. The browser's `modelChance` recomputes each day's probability from the published
+coefficients, and the unit test re-derives all 36,525 precomputed days in JavaScript without a single
+disagreement with Python. Dates outside 2000–2099 fall back to monthly climatology with a date hash,
+which keeps the seasonal frequency but loses spells.
+
+## What did not help, and what "state of the art" means here
+
+- **ENSO.** The ONI already published when each month began made cross-validation slightly worse in
+  both forms tried (+0.00011 and +0.00009 Brier) and improved the held-out Brier by only 0.00002.
+  ENSO matters at the seasonal scale: November–March wet days correlate with that autumn's ONI at
+  r = 0.36 over 34 seasons. Tomorrow's chance, though, is dominated by the last few days, so the
+  production model leaves ENSO out. It therefore does not encode the strong El Niño now under way
+  (the retained table's July–September 2026 ONI is +2.16); the simulated winter is an ordinary one.
+  The NWS forecast carries whatever the coming week actually holds.
+- **Longer memory.** Thirty-day counts or totals and a third lag changed the CV Brier by less than its
+  standard error.
+- **A flexible ML model.** An exploratory scikit-learn 1.6.1 gradient-boosting classifier on the same
+  history features plus ONI, tuned on the same folds, scored a CV Brier of 0.0806 and a held-out Brier
+  of 0.0819 (log loss 0.2843): no better than the GLM. It is outside the standard-library builder, so
+  `--evaluate` does not reproduce it.
+
+For days one to seven, the NWS forecast, prepared by forecasters from numerical weather prediction, is
+the best signal available, and the scene shows it as published; no outcomes were used to score these
+particular snapshots. Beyond a week, daily skill can come only from the season, the last few days and,
+weakly, slow climate states such as ENSO. The held-out score above measures one-day-ahead
+probabilities given the observed yesterday. It validates the generator's day-to-day behaviour, not a
+multiweek forecast. Within that frame this is a careful, calibrated statistical model, in the
+established family of GLM weather generators; it is not modern global weather forecasting. ECMWF's
+operational **AIFS** produces deterministic and ensemble forecasts from a global atmospheric analysis.
+Its data would be the sensible source if real forecast fidelity became a product goal, but downloading
+model weights or repeatedly transferring global fields is disproportionate to the visitor benefit
+here. See ECMWF's [AIFS data description](https://www.ecmwf.int/en/forecasts/datasets/aifs-machine-learning-data)
 and [May 2026 operational update](https://www.ecmwf.int/en/about/media-centre/news/2026/ifs-cycle-50r1-aifsv2-live).
 
 ## Authored interpretation and integration
 
-`weatherAt(dateKey, minute, { utcMilliseconds })` returns the original
-`marine`, `eveningMarine`, `cirrus`, `seed`, plus `cloudCover`, `rain`, `rainChance`,
-`rainAmountMm`, `rainWindows`, `source` and forecast timestamps. Pass the atmosphere's existing UTC
-value to distinguish the repeated Pacific hour at the autumn DST transition. Date/minute-only
-authoring previews deterministically select the first occurrence.
+`weatherAt(dateKey, minute, { utcMilliseconds })` returns the original `marine`, `eveningMarine`,
+`cirrus` and `seed`, plus `cloudCover`, `rain`, `rainChance`, `rainAmountMm`, `rainWindows`, `source`
+and forecast timestamps. Pass the atmosphere's existing UTC value to distinguish the repeated Pacific
+hour at the autumn DST transition; date/minute-only authoring previews deterministically select the
+first occurrence. On a simulated day `rainChance` is the model's probability given the simulated days
+before it; on a forecast hour it is the NWS probability of precipitation.
 
 `rainAt(weather, minute)` returns a bounded 0–1 display amplitude. Production weather stays at or
 below 0.65; an explicit `rainOverride` permits QA. Rain windows ease in and out over 15 minutes.
-Daily gauge amounts select a fitted monthly amount quantile; their within-day start, 2–8 hour
-duration and amplitude are authored. NWS rain text plus a 30% probability threshold enables an
-authored light-rain amplitude, with a separate amplitude for explicitly heavy rain. Probability
-does not become a purported physical rain rate. NOAA's [probability glossary](https://www.noaa.gov/jetstream/appendix/weather-glossary-p)
-explains that precipitation probability does not measure intensity.
+A simulated wet day's start, 2–8 hour duration and amplitude are authored from its drawn total. NWS
+rain text plus a 30% probability threshold enables an authored light-rain amplitude, with a separate
+amplitude for explicitly heavy rain. Probability does not become a purported physical rain rate;
+NOAA's [probability glossary](https://www.noaa.gov/jetstream/appendix/weather-glossary-p) explains
+that precipitation probability does not measure intensity.
 
 NWS text maps to a generic cloud fraction; it does not identify the marine inversion's height.
-Forecast mode therefore leaves the invented low marine bank off. Outside forecast hours, the
-retained seasonal morning/evening marine art direction remains available, and generic rain cloud
-cover eases with the rain. The seasonal marine shape is consistent with the
+Forecast mode therefore leaves the invented low marine bank off. Outside forecast hours, the retained
+seasonal morning/evening marine art direction remains available, and generic rain cloud cover eases
+with the rain. The seasonal marine shape is consistent with the
 [NWS San Diego boating guide](https://www.weather.gov/media/sgx/marine/BoatersWeatherBooklet.pdf),
 but its exact probabilities and burnoff times are not station-fitted predictions. It does not
 guarantee that every real La Jolla afternoon clears.
 
-These pure functions contain no timers, active clock, random state or browser networking.
-The renderer owns Pause/hidden/reduced-motion behavior by sampling the existing scene clock and
-holding precipitation geometry still. New geometry/materials must participate in the existing
-program warmup. Root integration owns actual rain/cloud rendering and its desktop/mobile evidence;
-these source tests alone do not prove rendered rainfall, frame rate or shelter occlusion.
+These pure functions contain no timers, active clock, random state or browser networking. The
+renderer owns Pause, hidden and reduced-motion behaviour by sampling the existing scene clock and
+holding precipitation geometry still. `weatherFor` remains re-exported by `atmosphere-model.mjs`; the
+atmospheric optics and `marineLayerAt` equations are unchanged.
 
 ## Reproduce and refresh
 
 From the repository root:
 
 ```powershell
-python bin/build_coastal_weather.py
-npx.cmd prettier --write artwork/coastal-home/weather-2026-10-24/build-receipt.json
+python bin/build_coastal_weather.py            # offline rebuild from the retained bytes
+python bin/build_coastal_weather.py --check    # fail if the committed outputs differ from that rebuild
+python bin/build_coastal_weather.py --refresh-forecast --dry-run
+python bin/build_coastal_weather.py --evaluate # the candidate comparison, a few minutes
 node --test test/coastal-weather.test.mjs test/atmosphere.test.mjs
 python -m unittest discover -s test -p test_coastal_weather.py
 ```
 
-The default build is entirely offline and reproduces the retained snapshot. To deliberately refresh
-source data and the small forecast artifact, run `python bin/build_coastal_weather.py --refresh`,
-review the changed provenance/date coverage and rerun the focused checks. No scheduled workflow,
-background visitor fetch or credential was added. Expiry is safe without maintenance; refreshing
-weekly would be an explicit maintenance choice, not a requirement for a functioning scene.
-
-`weatherFor` remains re-exported by `atmosphere-model.mjs`; the atmospheric optics and
-`marineLayerAt` equations are unchanged. The next meaningful weather improvement, if needed, is a
-rendered comparison of forecast cloud versus seasonal marine/rain at the same camera and minute,
-then a bounded shelter/phone-performance check. Further model complexity needs a visitor-facing
-benefit and a forecast validation target before adding infrastructure.
+The default build is entirely offline, needs only the Python standard library and writes
+Prettier-formatted JSON. `--refresh` deliberately refreshes every source, including the station
+records and ONI; review the changed provenance, coverage and validation before committing it.

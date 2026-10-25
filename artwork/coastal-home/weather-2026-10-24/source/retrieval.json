@@ -1,0 +1,27 @@
+{
+  "USW00023188.dly.gz": {
+    "note": "Retrieved for commit 162685ac8 on 2026-10-24; the request time was not recorded. ghcnd-version.txt names GHCN-Daily 3.35-upd-2026102217."
+  },
+  "US1CASD0030.dly.gz": {
+    "note": "Retrieved for commit 162685ac8 on 2026-10-24; the request time was not recorded. ghcnd-version.txt names GHCN-Daily 3.35-upd-2026102217."
+  },
+  "ghcn-readme.txt.gz": {
+    "note": "Retrieved for commit 162685ac8 on 2026-10-24; the request time was not recorded."
+  },
+  "ghcnd-version.txt.gz": {
+    "note": "Retrieved for commit 162685ac8 on 2026-10-24; the request time was not recorded."
+  },
+  "oni.ascii.txt.gz": {
+    "retrieved": "2026-10-24T23:48:29Z",
+    "httpDate": "Sat, 24 Oct 2026 23:48:29 GMT",
+    "lastModified": "Sat, 03 Oct 2026 18:32:01 GMT"
+  },
+  "points.json.gz": {
+    "note": "Retrieved for commit 162685ac8 on 2026-10-24; the request time was not recorded. A 2026-10-25T00:14:57Z request returned identical bytes."
+  },
+  "forecast-hourly.json.gz": {
+    "retrieved": "2026-10-25T00:44:21Z",
+    "httpDate": "Sun, 25 Oct 2026 00:44:22 GMT",
+    "lastModified": "Sun, 25 Oct 2026 00:00:00 GMT"
+  }
+}

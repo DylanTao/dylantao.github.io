@@ -1,0 +1,134 @@
+{
+  "split": {
+    "train": [1991, 2015],
+    "heldOut": [2016, 2025],
+    "production": [1991, 2025]
+  },
+  "folds": [
+    [1991, 1995],
+    [1996, 2000],
+    [2001, 2005],
+    [2006, 2010],
+    [2011, 2015]
+  ],
+  "lambdaGrid": [0.0, 1.0, 3.0, 10.0, 30.0],
+  "rule": "Lowest CV Brier; among candidates within one paired block-bootstrap standard error of it, the fewest parameters, then the lower CV Brier. Held-out scores are reported for every candidate after selection.",
+  "selected": "second-order-amount-dry-spell",
+  "production": "second-order-amount-dry-spell",
+  "ensoInput": "CPC ONI season ending two months before the target month, published before that month begins",
+  "ensoSeasonal": {
+    "seasons": "November-March, starting 1991 through 2024",
+    "correlationWetDaysWithSonOni": 0.359,
+    "count": 34
+  },
+  "candidates": {
+    "harmonic-climatology": {
+      "parameters": 7,
+      "lambda": 10.0,
+      "cvBrier": 0.091621,
+      "cvLogLoss": 0.311891,
+      "heldOutBrier": 0.09408351,
+      "heldOutLogLoss": 0.318689,
+      "cvBrierAboveBest": 0.0115,
+      "pairedBlockStandardError": 0.00130446
+    },
+    "first-order": {
+      "parameters": 10,
+      "lambda": 1.0,
+      "cvBrier": 0.082215,
+      "cvLogLoss": 0.282387,
+      "heldOutBrier": 0.08237887,
+      "heldOutLogLoss": 0.283534,
+      "cvBrierAboveBest": 0.002093,
+      "pairedBlockStandardError": 0.00048276
+    },
+    "second-order": {
+      "parameters": 12,
+      "lambda": 3.0,
+      "cvBrier": 0.081843,
+      "cvLogLoss": 0.281296,
+      "heldOutBrier": 0.08211397,
+      "heldOutLogLoss": 0.283064,
+      "cvBrierAboveBest": 0.001722,
+      "pairedBlockStandardError": 0.00042535
+    },
+    "second-order-amount": {
+      "parameters": 13,
+      "lambda": 3.0,
+      "cvBrier": 0.080236,
+      "cvLogLoss": 0.277949,
+      "heldOutBrier": 0.08076609,
+      "heldOutLogLoss": 0.280429,
+      "cvBrierAboveBest": 0.000115,
+      "pairedBlockStandardError": 0.00010173
+    },
+    "second-order-amount-dry-spell": {
+      "parameters": 14,
+      "lambda": 10.0,
+      "cvBrier": 0.080121,
+      "cvLogLoss": 0.277696,
+      "heldOutBrier": 0.08089045,
+      "heldOutLogLoss": 0.280943,
+      "cvBrierAboveBest": 0.0,
+      "pairedBlockStandardError": 0.0
+    },
+    "second-order-amount-wet-30-days": {
+      "parameters": 14,
+      "lambda": 3.0,
+      "cvBrier": 0.080174,
+      "cvLogLoss": 0.277724,
+      "heldOutBrier": 0.08056359,
+      "heldOutLogLoss": 0.27982,
+      "cvBrierAboveBest": 5.3e-5,
+      "pairedBlockStandardError": 0.0001059
+    },
+    "second-order-amount-rain-30-days": {
+      "parameters": 14,
+      "lambda": 3.0,
+      "cvBrier": 0.080157,
+      "cvLogLoss": 0.277698,
+      "heldOutBrier": 0.08070859,
+      "heldOutLogLoss": 0.280201,
+      "cvBrierAboveBest": 3.6e-5,
+      "pairedBlockStandardError": 0.00010341
+    },
+    "third-order-amount": {
+      "parameters": 14,
+      "lambda": 3.0,
+      "cvBrier": 0.080282,
+      "cvLogLoss": 0.278022,
+      "heldOutBrier": 0.08069448,
+      "heldOutLogLoss": 0.280235,
+      "cvBrierAboveBest": 0.000161,
+      "pairedBlockStandardError": 9.664e-5
+    },
+    "second-order-amount-enso": {
+      "parameters": 16,
+      "lambda": 3.0,
+      "cvBrier": 0.080349,
+      "cvLogLoss": 0.278114,
+      "heldOutBrier": 0.08074337,
+      "heldOutLogLoss": 0.280423,
+      "cvBrierAboveBest": 0.000228,
+      "pairedBlockStandardError": 0.00014954
+    },
+    "production-plus-enso": {
+      "parameters": 17,
+      "lambda": 10.0,
+      "cvBrier": 0.080212,
+      "cvLogLoss": 0.277816,
+      "heldOutBrier": 0.08086816,
+      "heldOutLogLoss": 0.28089,
+      "cvBrierAboveBest": 9.1e-5,
+      "pairedBlockStandardError": 9.023e-5
+    },
+    "previous_monthly_markov": {
+      "parameters": 24,
+      "lambda": null,
+      "cvBrier": 0.082401,
+      "cvLogLoss": 0.283914,
+      "heldOutBrier": 0.08416261,
+      "heldOutLogLoss": 0.29006
+    }
+  }
+}
