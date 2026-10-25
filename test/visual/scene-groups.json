@@ -194,6 +194,10 @@
       },
       {
         "file": "desk-scene.spec.js",
+        "title": "coastal loading sketch: the pen draws only what finished work allows, densest before the first frame"
+      },
+      {
+        "file": "desk-scene.spec.js",
         "title": "coastal transport: native skin, rooted wind and conserved onsen waves survive pause and recovery"
       },
       {

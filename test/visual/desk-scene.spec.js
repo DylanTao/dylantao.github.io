@@ -818,6 +818,71 @@ test("coastal loading sketch: pen strokes fill the empty scene until the first f
     releaseAvatar();
   }
 });
+test("coastal loading sketch: the pen draws only what finished work allows, densest before the first frame", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
+  let releaseAvatar;
+  const avatarGate = new Promise((resolve) => {
+    releaseAvatar = resolve;
+  });
+  await page.route("**/sirui-*.glb", async (route) => {
+    await avatarGate;
+    await route.continue();
+  });
+  try {
+    await page.goto(publicRouteUrl("/") + "?cinematic=live", { waitUntil: "domcontentloaded" });
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    const scene = page.locator("[data-home-desk-scene]"),
+      sketch = scene.locator(".home-world-sketch");
+    await expect(sketch).toHaveAttribute("data-sketch-version", "2");
+    // The pen's own account (loading-sketch.mjs): its drawing, the share finished work allows, the share drawn.
+    const samples = [];
+    const sample = async () => {
+      const state = await sketch
+        .evaluate((canvas) => ({
+          drawing: canvas.dataset.sketchDrawing || "",
+          allowed: Number(canvas.dataset.sketchAllowed),
+          drawn: Number(canvas.dataset.sketchDrawn),
+          resting: canvas.dataset.sketchResting === "true",
+          stage: canvas.closest("[data-home-desk-scene]").dataset.loadingStage,
+        }))
+        .catch(() => null);
+      if (state && Number.isFinite(state.drawn)) samples.push(state);
+      return state;
+    };
+    await expect(scene).toHaveAttribute("data-loading-stage", "room", { timeout: SCENE_READY_TIMEOUT });
+    // Sirui is held back: the pen draws what the finished work allows, then rests without adding ink.
+    await expect.poll(async () => (await sample())?.resting, { timeout: 60000 }).toBe(true);
+    const held = samples.at(-1);
+    await page.waitForTimeout(1500);
+    await sample();
+    expect(samples.at(-1).drawing).toBe(held.drawing);
+    expect(samples.at(-1).drawn).toBe(held.drawn);
+    await capture(testInfo, "coastal-loading-sketch-held", await page.locator(".home-hero-media").screenshot());
+    releaseAvatar();
+    while ((await scene.getAttribute("data-scene-state")) !== "ready") {
+      await sample();
+      await page.waitForTimeout(150);
+    }
+    const ready = await evidence(scene);
+    for (const [k, state] of samples.entries()) {
+      expect(state.drawn, `sample ${k} ${JSON.stringify(state)}`).toBeLessThanOrEqual(state.allowed + 1e-4);
+      const previous = samples[k - 1];
+      if (previous?.drawing === state.drawing) expect(state.drawn).toBeGreaterThanOrEqual(previous.drawn);
+    }
+    // The last drawing before the hand-off is the room the visitor arrives in, at its densest.
+    const last = samples.at(-1),
+      room = samples.filter((state) => state.drawing === last.drawing);
+    expect(last.drawing).toBe(ready.currentRoom);
+    expect(last.drawn).toBe(Math.max(...room.map((state) => state.drawn)));
+    fs.writeFileSync(testInfo.outputPath("coastal-loading-sketch-progress.json"), JSON.stringify({ samples, stages: ready.loading.stages }, null, 2));
+    await expect(sketch).toHaveCount(0, { timeout: 45000 });
+    expect(errors).toEqual([]);
+  } finally {
+    releaseAvatar();
+  }
+});
 async function openHome(
   page,
   { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00", nativeFrames = false, nativeStartup = false, retainedP = false } = {}

@@ -1,144 +1,223 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { gzipSync } from "node:zlib";
 import {
   BREATH,
+  PEN,
+  allowedInk,
   breathDepth,
   createSketchEngine,
-  decodeSketch,
-  frameStrokes,
-  hilbertIndex,
-  springStep,
-  strokeBudget,
+  decodeDrawing,
+  parsePlan,
+  stageFills,
 } from "../assets/js/home-scene/loading-sketch-core.mjs";
 
+const require = createRequire(import.meta.url);
+const generator = require("../bin/build_loading_sketch.cjs");
+const sketch = JSON.parse(readFileSync(new URL("../assets/models/home/loading-sketch.json", import.meta.url), "utf8"));
+const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+
+// A 2D context that records what is stroked, and a layer factory that hands out recording canvases.
 function recordingContext(width, height) {
-  const segments = [];
-  let alpha = 1,
-    color = "";
-  return {
+  const strokes = [];
+  let path = [],
+    alpha = 1;
+  const context = {
     canvas: { width, height },
-    segments,
+    strokes,
+    images: 0,
     setTransform() {},
-    clearRect() {
-      segments.length = 0;
+    clearRect() {},
+    fillRect() {},
+    beginPath() {
+      path = [];
     },
-    beginPath() {},
     moveTo(x, y) {
-      segments.push({ x0: x, y0: y, alpha, color });
+      path.push([x, y]);
     },
     lineTo(x, y) {
-      Object.assign(segments.at(-1), { x1: x, y1: y });
+      path.push([x, y]);
     },
-    stroke() {},
+    arc() {},
+    fill() {},
+    stroke() {
+      strokes.push({ points: path, alpha });
+    },
+    drawImage() {
+      context.images++;
+    },
     set globalAlpha(value) {
       alpha = value;
     },
     get globalAlpha() {
       return alpha;
     },
-    set strokeStyle(value) {
-      color = value;
-    },
+    strokeStyle: "",
+    fillStyle: "",
     lineCap: "",
+    lineJoin: "",
     lineWidth: 1,
   };
+  return context;
+}
+const layers = [];
+function layer(width, height) {
+  const canvas = { width, height, context: recordingContext(width, height), getContext: () => canvas.context };
+  layers.push(canvas);
+  return canvas;
 }
 
-test("the stroke spring starts still, overshoots by about five percent and settles by its end", () => {
-  assert.equal(springStep(0), 0);
-  let peak = 0;
-  for (let s = 0; s <= 1.5; s += 0.005) peak = Math.max(peak, springStep(s));
-  assert.ok(peak > 1.03 && peak < 1.08, `overshoot ${peak}`);
-  assert.ok(Math.abs(springStep(1) - 1) < 0.01);
-  assert.ok(springStep(0.02) < 0.01, "a stroke leaves gently");
-});
+// Three straight lines, one per layer, packed by the generator's own encoder.
+function syntheticDrawing() {
+  const lines = [0, 1, 2].map((layerIndex) => ({
+    layer: layerIndex,
+    weight: 3 - layerIndex,
+    kind: 3,
+    uv: Array.from({ length: 11 }, (_, k) => [-1 + 0.2 * k, -0.5 + 0.5 * layerIndex]),
+  }));
+  return generator.encode(lines).bytes;
+}
 
-test("Hilbert order visits every cell once and keeps neighbours close", () => {
-  const seen = new Set();
-  for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) seen.add(hilbertIndex(x, y, 16));
-  assert.equal(seen.size, 256);
-  const cells = [];
-  for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) cells[hilbertIndex(x, y, 16)] = [x, y];
-  for (let d = 1; d < 256; d++) assert.equal(Math.abs(cells[d][0] - cells[d - 1][0]) + Math.abs(cells[d][1] - cells[d - 1][1]), 1);
-});
-
-test("packed sketches decode inside the view and keep their directions modulo pi", () => {
-  const bytes = Uint8Array.from([0, 0, 0, 255, 255, 255, 128, 128, 64]);
-  const strokes = decodeSketch(bytes);
-  assert.equal(strokes.length, 9);
-  for (let i = 0; i < 3; i++) {
-    assert.ok(Math.abs(strokes[i * 3]) <= 1.66 && Math.abs(strokes[i * 3 + 1]) <= 1.01);
-    assert.ok(strokes[i * 3 + 2] >= 0 && strokes[i * 3 + 2] < Math.PI);
+test("the generator's packed polylines decode to the same points, layers and lengths", () => {
+  const drawing = decodeDrawing(syntheticDrawing(), generator.GRID, generator.RANGE);
+  assert.equal(drawing.strokes.length, 3);
+  for (const [index, stroke] of drawing.strokes.entries()) {
+    assert.equal(stroke.layer, index);
+    assert.equal(stroke.weight, 3 - index);
+    assert.ok(Math.abs(stroke.points[0] + 1) < 1e-3 && Math.abs(stroke.points.at(-2) - 1) < 1e-3);
+    assert.ok(Math.abs(stroke.points[1] - (-0.5 + 0.5 * index)) < 1e-3);
+    assert.ok(Math.abs(stroke.length - 2) < 2e-3, `length ${stroke.length}`);
   }
-  assert.ok(Math.abs(strokes[8] - Math.PI / 4) < 1e-6);
+  assert.ok(Math.abs(drawing.ink - 6) < 6e-3);
+  assert.ok(Math.abs(drawing.layerInk[1] - 2) < 2e-3);
+  assert.deepEqual([0, -1, 1, -2, 63, -64].map(generator.zigzag), [0, 1, 2, 3, 126, 127]);
 });
 
-test("the stroke budget scales with the scene's area within bounds", () => {
-  assert.equal(strokeBudget(100, 100), 480);
-  assert.equal(strokeBudget(545, 461), 1256);
-  assert.equal(strokeBudget(2000, 1200), 1400);
+test("a plan gates each group by its own segment and never runs past an unfinished group", () => {
+  const plan = parsePlan("house:a,b coast:c room:d");
+  assert.deepEqual(
+    plan.map((g) => [g.segment, g.from, g.to]),
+    [
+      ["house", 0, 2],
+      ["coast", 2, 3],
+      ["room", 3, 4],
+    ]
+  );
+  const drawing = { ink: 10, layerInk: [2, 2, 3, 3] };
+  assert.equal(allowedInk(drawing, plan, {}), 0);
+  assert.equal(allowedInk(drawing, plan, { house: 0.5 }), 2);
+  // The coast is complete but the house is not: the pen waits on the house.
+  assert.equal(allowedInk(drawing, plan, { house: 0.5, coast: 1, room: 1 }), 2);
+  assert.equal(allowedInk(drawing, plan, { house: 1, coast: 1 / 3 }), 5);
+  assert.equal(allowedInk(drawing, plan, { house: 1, coast: 1, room: 1 }), 10);
+  assert.deepEqual(stageFills("lighting"), { house: 1, coast: 1, room: 1, sirui: 1 });
 });
 
-test("frame strokes follow a drawn edge and run along it", () => {
-  const width = 160,
-    height = 120,
-    rgba = new Uint8ClampedArray(width * height * 4);
-  for (let y = 0; y < height; y++)
-    for (let x = 0; x < width; x++) {
-      const i = (y * width + x) * 4,
-        dark = x > 80;
-      rgba[i] = rgba[i + 1] = rgba[i + 2] = dark ? 40 : 220;
-      rgba[i + 3] = 255;
-    }
-  const strokes = frameStrokes(rgba, width, height, 200);
-  assert.ok(strokes.length >= 30 * 3, `found ${strokes.length / 3}`);
-  for (let i = 0; i < strokes.length; i += 3) {
-    const x = strokes[i] * (height / 2) + width / 2;
-    assert.ok(Math.abs(x - 80.5) < 2.5, `stroke at x=${x}`);
-    // A vertical edge gives vertical strokes.
-    assert.ok(Math.abs(Math.cos(strokes[i + 2])) < 0.2, `direction ${strokes[i + 2]}`);
+function engineWith(drawings, options = {}) {
+  const context = recordingContext(400, 300),
+    engine = createSketchEngine(context, { width: 400, height: 300, dpr: 1, layer, ...options });
+  for (const [id, plan] of drawings) engine.add(id, decodeDrawing(syntheticDrawing(), generator.GRID, generator.RANGE), plan);
+  return { context, engine };
+}
+function run(engine, seconds, clock = { t: 0 }) {
+  for (let frame = 0; frame < seconds * 60; frame++) engine.tick((clock.t += 1000 / 60));
+  return clock;
+}
+
+test("the pen follows finished work, never runs ahead and holds through a stall", () => {
+  const { engine } = engineWith([["outside", "house:a coast:b room:c"]]);
+  const clock = run(engine, 0.5);
+  assert.equal(engine.state().drawn, 0, "nothing is drawn before work finishes");
+  engine.progress({ house: 0.5 });
+  let last = 0;
+  for (let frame = 0; frame < 120; frame++) {
+    engine.tick((clock.t += 1000 / 60));
+    const { allowed, drawn } = engine.state();
+    assert.ok(drawn <= allowed + 1e-9, `drawn ${drawn} > allowed ${allowed}`);
+    assert.ok(drawn >= last, "ink never disappears");
+    last = drawn;
   }
-  assert.equal(frameStrokes(new Uint8ClampedArray(width * height * 4), width, height, 200).length, 0);
+  assert.ok(Math.abs(engine.state().drawn - 1 / 6) < 1e-3, "the pen catches up within a second");
+  // A stall: no new work for ten seconds. The pen rests and breathes; no ink is added.
+  run(engine, 10, clock);
+  assert.ok(Math.abs(engine.state().drawn - 1 / 6) < 1e-3);
+  assert.equal(engine.state().resting, true);
+  engine.progress({ house: 1, coast: 1, room: 1 });
+  run(engine, 2.5, clock);
+  assert.equal(engine.state().drawn, 1, "a jump to complete work is drawn within a few seconds");
 });
 
-test("a stage lands every stroke on the drawing; reduced motion places it at once", () => {
-  const targets = new Float32Array(600 * 3);
-  for (let i = 0; i < 600; i++) {
-    targets[i * 3] = -0.5 + (i % 30) / 30;
-    targets[i * 3 + 1] = -0.3 + Math.floor(i / 30) / 40;
-    targets[i * 3 + 2] = 0;
-  }
-  for (const reduced of [false, true]) {
-    const context = recordingContext(400, 300);
-    const engine = createSketchEngine(context, { width: 400, height: 300, dpr: 1, reduced });
-    let time = 0;
-    engine.tick(time);
-    engine.morph("overview", targets);
-    for (let frame = 0; frame < 300; frame++) engine.tick((time += 1000 / 60));
-    assert.equal(engine.stage, "overview");
-    const half = 150;
-    const misses = context.segments.filter(({ x0, y0, x1, y1 }) => {
-      const u = ((x0 + x1) / 2 - 200) / half,
-        v = ((y0 + y1) / 2 - half) / half;
-      return u < -0.56 || u > 0.52 || v < -0.36 || v > 0.2;
-    });
-    assert.equal(misses.length, 0, `${misses.length} strokes outside the drawing (reduced=${reduced})`);
-    assert.equal(context.segments.length, engine.count);
-  }
+test("without measured progress only completed stages count, and the room drawing takes over", () => {
+  const { engine } = engineWith([
+    ["outside", "house:a coast:b room:c"],
+    ["study", "room:a,b view:c"],
+  ]);
+  const clock = run(engine, 0.2);
+  engine.stage("coast");
+  run(engine, 1.5, clock);
+  assert.equal(engine.state().drawing, "outside");
+  assert.ok(Math.abs(engine.state().drawn - 1 / 3) < 1e-3, "the house layer once the shell is in");
+  engine.stage("room", "study");
+  run(engine, 1.5, clock);
+  // The room's work has not begun: the coast drawing stays, complete as far as house and coast.
+  assert.equal(engine.state().drawing, "outside");
+  assert.ok(Math.abs(engine.state().drawn - 2 / 3) < 1e-3);
+  engine.stage("lighting", "study");
+  run(engine, 2, clock);
+  assert.equal(engine.state().drawing, "study");
+  assert.ok(Math.abs(engine.state().drawn - 2 / 3) < 1e-3, "structure and furniture before the view's programs");
+  engine.stage("first-frame", "study");
+  run(engine, 1, clock);
+  assert.ok(Math.abs(engine.state().drawn - (2 + 0.2) / 3) < 1e-3);
+  engine.finish();
+  run(engine, 1, clock);
+  assert.equal(engine.state().drawn, 1);
+  assert.equal(engine.settled, true);
 });
 
-test("finishing on a blank frame keeps the last drawing and reports settled", () => {
-  const context = recordingContext(320, 240);
-  const engine = createSketchEngine(context, { width: 320, height: 240 });
-  const targets = new Float32Array(500 * 3).map((_, i) => (i % 3 === 2 ? 1 : ((i * 7919) % 100) / 200 - 0.25));
-  let time = 0;
-  engine.tick(time);
-  engine.morph("room", targets);
-  for (let frame = 0; frame < 150; frame++) engine.tick((time += 1000 / 60));
-  engine.finish(new Float32Array(0));
-  for (let frame = 0; frame < 120 && !engine.settled; frame++) engine.tick((time += 1000 / 60));
-  assert.equal(engine.stage, "frame");
-  assert.ok(engine.settled);
+test("measured progress hands over once the room's own work has begun", () => {
+  const { engine } = engineWith([
+    ["outside", "house:a coast:b room:c"],
+    ["study", "room:a,b view:c"],
+  ]);
+  const clock = run(engine, 0.2);
+  engine.progress({ house: 1, coast: 1 });
+  engine.stage("room", "study");
+  run(engine, 1, clock);
+  assert.equal(engine.state().drawing, "outside");
+  engine.progress({ room: (PEN.handover * 3) / 2 + 0.01 });
+  run(engine, 1, clock);
+  assert.equal(engine.state().drawing, "study");
+  assert.ok(engine.state().drawn > PEN.handover && engine.state().drawn <= engine.state().allowed + 1e-9);
+});
+
+test("reduced motion draws what is allowed at once and needs no further frames", () => {
+  const { engine } = engineWith([["outside", "house:a coast:b room:c"]], { reduced: true });
+  engine.progress({ house: 1, coast: 0.5 });
+  engine.tick(0);
+  assert.equal(engine.state().drawn, 0.5);
+  assert.equal(engine.tick(16), false, "a still drawing asks for no animation frames");
+  // New work redraws once, on the frame the page schedules for the message, and stays still.
+  engine.progress({ coast: 1 });
+  assert.equal(engine.tick(32), false);
+  assert.ok(Math.abs(engine.state().drawn - 2 / 3) < 1e-3);
+});
+
+test("the opening sun is a flourish in amber, never counted as progress ink", () => {
+  const context = recordingContext(400, 300);
+  let accentStrokes = 0;
+  const stroke = context.stroke;
+  context.stroke = () => {
+    if (context.strokeStyle === "#c46a2c") accentStrokes++;
+    stroke();
+  };
+  const engine = createSketchEngine(context, { width: 400, height: 300, dpr: 1, layer, daylight: 0.4 });
+  engine.add("outside", decodeDrawing(syntheticDrawing(), generator.GRID, generator.RANGE), "house:a coast:b room:c");
+  run(engine, 1.5);
+  assert.ok(accentStrokes > 0, "the sun is drawn before any work finishes");
+  assert.equal(engine.state().drawn, 0);
 });
 
 test("a resting drawing's breath eases in, never exceeds its depth and decays to a quiet floor", () => {
@@ -148,41 +227,27 @@ test("a resting drawing's breath eases in, never exceeds its depth and decays to
   for (let t = 0; t < 60; t += 0.05) peak = Math.max(peak, breathDepth(t));
   assert.ok(peak <= BREATH.depth + 1e-12);
   assert.ok(breathDepth(40) < 0.4 * peak, "it decays");
-  assert.ok(Math.abs(breathDepth(60) - BREATH.depth * BREATH.floor) < 1e-3 * BREATH.depth, "toward a floor, not to stillness");
+  assert.ok(breathDepth(40) > 0, "it never stops entirely");
 });
 
-function midpoints(context) {
-  return context.segments.map(({ x0, y0, x1, y1 }) => [(x0 + x1) / 2, (y0 + y1) / 2]);
-}
-
-test("a landed drawing keeps breathing until the hand-off, which stills it without a jump", () => {
-  const targets = new Float32Array(500 * 3).map((_, i) => (i % 3 === 2 ? 1 : ((i * 7919) % 100) / 200 - 0.25));
-  for (const reduced of [false, true]) {
-    const context = recordingContext(320, 240);
-    const engine = createSketchEngine(context, { width: 320, height: 240, reduced });
-    let time = 0;
-    engine.tick(time);
-    engine.morph("room", targets);
-    for (let frame = 0; frame < 240; frame++) engine.tick((time += 1000 / 60));
-    // Two seconds into the rest: the drawing still moves frame to frame (unless motion is reduced).
-    const before = midpoints(context);
-    for (let frame = 0; frame < 30; frame++) engine.tick((time += 1000 / 60));
-    const after = midpoints(context);
-    const drift = Math.max(...before.map(([x, y], k) => Math.hypot(x - after[k][0], y - after[k][1])));
-    if (reduced) assert.ok(drift === 0, `reduced motion moved ${drift}`);
-    else assert.ok(drift > 0.05 && drift < 3, `breathing moved ${drift} px in half a second`);
-    // The hand-off: no stroke leaps in one frame, and the frame drawing still settles.
-    engine.finish(new Float32Array(0));
-    let last = midpoints(context),
-      leap = 0;
-    for (let frame = 0; frame < 120 && !engine.settled; frame++) {
-      engine.tick((time += 1000 / 60));
-      const now = midpoints(context);
-      if (now.length === last.length) leap = Math.max(leap, ...now.map(([x, y], k) => Math.hypot(x - last[k][0], y - last[k][1])));
-      last = now;
-    }
-    assert.equal(engine.stage, "frame");
-    assert.ok(engine.settled);
-    assert.ok(leap < 12, `a stroke leapt ${leap} px in one frame`);
+test("the shipped drawings cover the coast and every room an activity opens in, within budget", () => {
+  assert.equal(sketch.version, 2);
+  const rooms = [...new Set(Object.values(manifest.activities).map((activity) => activity.room))].sort();
+  assert.deepEqual(Object.keys(sketch.views), ["outside", ...rooms]);
+  const gzipped = gzipSync(readFileSync(new URL("../assets/models/home/loading-sketch.json", import.meta.url))).length;
+  assert.ok(gzipped < 250 * 1024, `${gzipped} gzipped bytes`);
+  for (const [id, view] of Object.entries(sketch.views)) {
+    const plan = parsePlan(sketch.plan[id === "outside" ? "outside" : "room"]),
+      drawing = decodeDrawing(Buffer.from(view.strokes, "base64"), sketch.grid, sketch.range);
+    assert.equal(drawing.strokes.length, view.count, id);
+    assert.ok(drawing.strokes.length > 200, `${id} has ${drawing.strokes.length} strokes`);
+    // Pen order follows the plan: layers never go backward.
+    for (let k = 1; k < drawing.strokes.length; k++) assert.ok(drawing.strokes[k].layer >= drawing.strokes[k - 1].layer, `${id} stroke ${k}`);
+    assert.ok(drawing.strokes.at(-1).layer < plan.at(-1).to);
+    for (const stroke of drawing.strokes)
+      for (let k = 0; k < stroke.points.length; k += 2)
+        assert.ok(Math.abs(stroke.points[k]) <= sketch.range.u + 1e-6 && Math.abs(stroke.points[k + 1]) <= sketch.range.v + 1e-6);
+    assert.equal(allowedInk(drawing, plan, { house: 1, coast: 1, room: 1, sirui: 1, view: 1 }).toFixed(6), drawing.ink.toFixed(6));
   }
+  for (const room of rooms) assert.ok(Number.isFinite(sketch.focus[room]?.u), `${room} has a dive point`);
 });
