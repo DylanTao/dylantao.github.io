@@ -29,7 +29,7 @@ import {
   CLEARANCE,
   INSIDE,
 } from "../assets/js/home-scene/camera.mjs";
-import { activityPose } from "../assets/js/home-scene/activities.mjs";
+import { COFFEE_TIMELINE, activityPose } from "../assets/js/home-scene/activities.mjs";
 import { trainingAt, sessionState } from "../assets/js/home-scene/training.mjs";
 import { sessionPose } from "../assets/js/home-scene/gym-session.mjs";
 const manifestURL = process.env.COASTAL_MANIFEST_PATH
@@ -378,7 +378,8 @@ test("the coffee sequence has approaches, rests and equipment contacts", () => {
   const phases = new Set();
   for (const [name, id] of [["coffee", "kitchen"]]) {
     const room = c.rooms.find((r) => r.id === id);
-    for (let t = 0; t < 100; t += 0.25) {
+    // Breakfast is one story per visit (activities.mjs COFFEE_TIMELINE): sample all of it.
+    for (let t = 0; t < COFFEE_TIMELINE.back + 10; t += 0.25) {
       const p = activityPose(name, t, c.equipment, room);
       assert.ok(p.position.every(Number.isFinite));
       phases.add(p.phase);
