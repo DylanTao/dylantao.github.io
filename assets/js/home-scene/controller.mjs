@@ -188,6 +188,8 @@ export function createCoastalHome(container, records, artifacts) {
   let compositionReady = false,
     startupStart = 0,
     firstFrameMilliseconds = null;
+  // Work the first composed view does not need, started once that view is drawn.
+  const afterFirstFrame = [];
   const startupStages = [],
     modelTimings = [];
   const textureLoads = new Set();
@@ -1095,7 +1097,12 @@ export function createCoastalHome(container, records, artifacts) {
       ui.querySelector("[data-world-avatar]").value = avatarId;
       updateRoutine(true);
       walkPresence?.setSource(actor, gltf.animations);
-      await walkPresence?.prepare({ scene, camera, shouldContinue: () => !disposed && ticket === avatarTicket });
+      const prepareWalk = () => walkPresence?.prepare({ scene, camera, shouldContinue: () => !disposed && ticket === avatarTicket });
+      // The first composed view never draws the walking body, whose head-cut variants were most
+      // of the room stage (eight programs, about 30 s of D3D compiler time on the Intel Arc
+      // laptop). They compile right after that view instead; a later avatar change waits as before.
+      if (compositionReady) await prepareWalk();
+      else afterFirstFrame.push(prepareWalk);
     } catch (error) {
       if (disposed) return;
       status.textContent = "This character couldn’t load. Try another.";
@@ -3146,6 +3153,19 @@ export function createCoastalHome(container, records, artifacts) {
       loadingSketch = null;
       // All base interior rooms and their indirect lighting are already composed. Coast-only
       // planting/hinterland and close furniture detail remain lazy, without rebuilding this view.
+      // Deferred preparation runs in later tasks; the browser scheduler is not virtualized by a
+      // paused test clock, which may stop timers right after this frame.
+      for (const task of afterFirstFrame.splice(0)) {
+        const run = async () => {
+          try {
+            await task();
+          } catch {
+            /* Optional preparation; the draw that needs it compiles on demand. */
+          }
+        };
+        if (globalThis.scheduler?.postTask) globalThis.scheduler.postTask(run, { priority: "user-visible" }).catch(() => {});
+        else setTimeout(run, 0);
+      }
     }
     const settledRadius = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope()).radius;
     if (
