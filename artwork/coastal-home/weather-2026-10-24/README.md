@@ -229,6 +229,48 @@ renderer owns Pause, hidden and reduced-motion behaviour by sampling the existin
 holding precipitation geometry still. `weatherFor` remains re-exported by `atmosphere-model.mjs`; the
 atmospheric optics and `marineLayerAt` equations are unchanged.
 
+## Rain in the rendered scene
+
+Each light step, `atmosphere.mjs` samples `weatherAt` for the scene's Pacific date and minute. The
+rain amplitude then drives three things: the overcast sky and haze, a veil over the sun's light, and
+`coastal-rain.mjs`, one depth-tested `LineSegments` draw with no extra pass and no shadow casters.
+`?weather=clear|marine|cirrus|rain` pins an authoring override; `rain` forces the 0.65 maximum. On
+`[data-home-desk-scene]`, `getSceneEvidence()` reports `ecology.atmosphere.weather` (source, rain,
+cloud cover, chance, forecast timestamps) and `simulation.rain` (intensity, drops, landed,
+near-camera and field extent).
+
+The first captures showed that rain rendered but did not read as rain. At the forced maximum, 333
+streaks were spread through a 64 m world square from 31 m down, and only a few fell inside the view.
+A 1100 × 650 crop of the 4K full-screen view held three hairlines, and the 545 × 462 embedded canvas
+showed only a few faint specks. The field had a second fault: it was placed relative to the camera snapped to a 4 m
+grid, so the whole shower jumped 4 m when the camera crossed a grid line. The field is now a
+world-stable box 30 m wide, centred 12 m ahead of the camera, from 20 m below it to 8 m above. Drops
+fall at a light-rain drop's 4 m/s and drift with the coastal wind from their entry at the box's top.
+Up to 1,024 drops (256 on touch devices) scale with the amplitude, and any drop within 3.5 m of the
+lens is held degenerate rather than slashing across the view. Under the same fixed Date, camera and
+forced maximum, the full-screen and embedded views now show a legible shower. The natural NWS hour
+used below (2026-10-30 09:30, 31% chance, amplitude 0.28) shows sparse drizzle over a grey morning.
+
+Stills, retained locally under `.jekyll-cache/visual-qa/weather-2026-10-24/`:
+`before-forced-rain`, `before-forced-clear`, `after-forced-rain` and `after-nws-rain`, each
+`outside-day-embed.png` and `outside-day-fullscreen.png` where captured.
+
+Cost: the field is still one line draw of at most 1,024 segments, and its CPU update measured 0.16 ms
+per frame for 287 drops and 0.19–0.40 ms for 666 drops in Node on this host. The browser probe
+(`bin/measure_coastal_views.cjs`, outside view at the 545 × 461 embed, the same natural rain hour,
+fresh browser per run in ABBA order) compared the previous field, the new field and `?weather=clear`.
+The host was heavily shared and ran at 6–10 frames per second. Medians for the same variant differed
+by 33–66 ms between runs, more than the variants' means differed (133, 142 and 167 ms), and draw
+counts matched. That probe therefore cannot resolve the field's cost on this machine; a quiet-host
+and real-phone measurement remains open.
+
+Limits: WebGL draws lines one pixel wide, so 4K streaks stay fine hairlines; there are no splashes,
+ripples or wet surfaces. Under forecast overcast the sun's light is veiled to about 40% but its shadow
+edges stay crisp, which reads more like a dim day than rain. That lighting belongs to `atmosphere.mjs`
+and `controller.mjs`, not this module. Scene specs pin past instants, which a forecast refresh never
+reaches, and `test/coastal-weather.test.mjs` fails if a 3D-home spec pins an instant inside the
+rolling forecast window or one the seasonal model makes rainy.
+
 ## Reproduce and refresh
 
 From the repository root:
