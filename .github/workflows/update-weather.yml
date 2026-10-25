@@ -1,0 +1,133 @@
+name: Update coastal weather
+
+# Keeps the 3D home's seven-day NWS hourly snapshot current. The station-fitted seasonal model is not
+# refitted here; `python bin/build_coastal_weather.py --refresh` remains a deliberate, reviewed refresh.
+on:
+  # Just behind the 10:20 UTC code-activity import and well before the 11:20 UTC scheduled deploy,
+  # which publishes data commits. In October 2026 GitHub started these crons two to nine hours late
+  # but kept their order, so this run sits next to the import rather than close to the deploy.
+  schedule:
+    - cron: "25 10 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Fetch and validate the forecast without committing
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+# Serialized with the other data refreshes, never cancelled: this workflow pushes commits.
+concurrency:
+  group: main-autocommit
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DRY_RUN: ${{ inputs.dry_run && '--dry-run' || '' }}
+      # The only files a forecast refresh may change.
+      WEATHER_PATHS: >-
+        assets/js/home-scene/weather-data.mjs
+        artwork/coastal-home/weather-2026-10-24/build-receipt.json
+        artwork/coastal-home/weather-2026-10-24/source/forecast-hourly.json.gz
+        artwork/coastal-home/weather-2026-10-24/source/points.json.gz
+        artwork/coastal-home/weather-2026-10-24/source/retrieval.json
+      PRETTIER_PATHS: >-
+        assets/js/home-scene/weather-data.mjs
+        artwork/coastal-home/weather-2026-10-24/build-receipt.json
+        artwork/coastal-home/weather-2026-10-24/source/retrieval.json
+    steps:
+      - name: Checkout site
+        uses: actions/checkout@v4
+        with:
+          # Keep the default GITHUB_TOKEN: its pushes start no workflow runs, so this daily data commit
+          # can neither cancel an in-flight visual run nor start the full matrix. The scheduled deploy
+          # publishes it, as it does the citation and code-activity commits.
+          token: ${{ github.token }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # Prettier only; the weather tests themselves need nothing beyond the standard libraries.
+      - name: Install Prettier
+        run: npm ci
+
+      - name: Refresh, validate and publish the forecast
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          refresh() {
+            local status=0
+            python bin/build_coastal_weather.py --refresh-forecast $DRY_RUN || status=$?
+            if [ "$status" -eq 75 ]; then
+              echo "::notice::The NWS forecast was unavailable, stale or older than the snapshot; the last valid snapshot stays published."
+              echo "### Weather refresh deferred" >> "$GITHUB_STEP_SUMMARY"
+              echo "No weather file changed. The next scheduled run tries again; the published snapshot expires to the seasonal model on its own." >> "$GITHUB_STEP_SUMMARY"
+            fi
+            return "$status"
+          }
+
+          validate() {
+            python -m unittest discover -s test -p test_coastal_weather.py
+            node --test test/coastal-weather.test.mjs test/atmosphere.test.mjs
+            npx prettier --check $PRETTIER_PATHS
+            git diff --check
+            local stray
+            stray="$(git status --porcelain --untracked-files=all -- . $(printf ' :!%s' $WEATHER_PATHS))"
+            if [ -n "$stray" ]; then
+              echo "::error::The refresh changed files outside the weather snapshot:"
+              echo "$stray"
+              return 1
+            fi
+          }
+
+          status=0
+          refresh || status=$?
+          if [ "$status" -eq 75 ]; then exit 0; fi
+          if [ "$status" -ne 0 ]; then exit "$status"; fi
+          validate
+          if [ -n "$DRY_RUN" ]; then
+            echo "Dry run: validated without committing." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git add -- $WEATHER_PATHS
+          if git diff --cached --quiet; then
+            echo "The NWS forecast has not changed since the last snapshot." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -m "chore: refresh coastal weather forecast"
+          if git push origin HEAD:main; then
+            echo "Published the refreshed NWS snapshot; the scheduled deploy serves it." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # Someone pushed while this ran. Rebuild once on the new head, so the snapshot always comes
+          # from that head's own builder and tests, then try one more push.
+          echo "::warning::main moved during the refresh; rebuilding once on the new head."
+          git fetch --depth=1 origin main
+          git reset --hard FETCH_HEAD
+          status=0
+          refresh || status=$?
+          if [ "$status" -eq 75 ]; then exit 0; fi
+          if [ "$status" -ne 0 ]; then exit "$status"; fi
+          validate
+          git add -- $WEATHER_PATHS
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: refresh coastal weather forecast"
+          git push origin HEAD:main
+          echo "Published the refreshed NWS snapshot after one rebuild on the new head." >> "$GITHUB_STEP_SUMMARY"
