@@ -410,7 +410,48 @@ export function createCoastalHome(container, records, artifacts) {
     return bytes.buffer;
   }
 
+  // The arrival's files are requested together once the manifest is in (initialize), the house and
+  // coast first and the rest at low priority, so rooms, the avatar and the cached light download
+  // while the house is prepared. Their bytes wait here; parsing keeps its order, so decoding the
+  // furniture never queues ahead of the house in the shared Draco pool.
+  const prefetched = new Map();
+  function prefetch(url, { step = null, priority = "low" } = {}) {
+    if (prefetched.has(url)) return;
+    const abort = new AbortController();
+    const timing = { asset: new URL(url).pathname.split("/").pop(), startMilliseconds: performance.now() - startupStart, prefetched: true };
+    modelRequests.add(abort);
+    const bytes = (async () => {
+      try {
+        const response = await fetch(url, { signal: abort.signal, priority });
+        if (!response.ok) throw new Error(`Model unavailable: ${response.status}`);
+        timing.headersMilliseconds = performance.now() - startupStart;
+        const body = step ? await readWithProgress(response, (fraction) => progress(step, 0.85 * fraction)) : await response.arrayBuffer();
+        timing.downloadedMilliseconds = performance.now() - startupStart;
+        return body;
+      } finally {
+        modelRequests.delete(abort);
+      }
+    })();
+    // A failed early request is repeated by the load that needs it.
+    bytes.catch(() => {});
+    prefetched.set(url, { bytes, timing });
+  }
+
   async function loadModel(url, step = null) {
+    const early = prefetched.get(url);
+    prefetched.delete(url);
+    const bytes = early ? await early.bytes.catch(() => null) : null;
+    if (bytes) {
+      const timing = early.timing;
+      modelTimings.push(timing);
+      timing.bytes = bytes.byteLength;
+      timing.parseStartMilliseconds = performance.now() - startupStart;
+      if (step) progress(step, 0.85);
+      const model = await loader.parseAsync(bytes, new URL(".", url).href);
+      timing.parsedMilliseconds = performance.now() - startupStart;
+      if (step) progress(step, 1);
+      return model;
+    }
     const abort = new AbortController();
     const timing = { asset: new URL(url).pathname.split("/").pop(), startMilliseconds: performance.now() - startupStart };
     modelTimings.push(timing);
@@ -3149,6 +3190,10 @@ export function createCoastalHome(container, records, artifacts) {
       const response = await fetch(manifestUrl);
       if (!response.ok) throw new Error("Scene manifest unavailable");
       config = await response.json();
+      // The arrival avatar is still chosen later, so seeded captures draw it at the same point.
+      prefetch(new URL(config.shell, manifestUrl).href, { step: "house", priority: "high" });
+      prefetch(new URL(config.coast, manifestUrl).href, { step: "coast", priority: "high" });
+      for (const room of config.rooms) prefetch(new URL(room.file, manifestUrl).href);
       prefetchLightCache();
       furniture = createFurniture({
         config,
