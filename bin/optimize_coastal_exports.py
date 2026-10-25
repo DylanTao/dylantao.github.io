@@ -50,4 +50,4 @@ if room and output.exists():
     report=[m for m in json.loads(output.read_text())['meshes'] if not m['mesh'].startswith(room+'_')]+report
 elif interiors_only and output.exists():
     report=[m for m in json.loads(output.read_text())['meshes'] if m['mesh'].startswith('coast_')]+report
-output.write_text(json.dumps({'bakedColorQuantization':'32 grayscale steps, shared per vertex','dracoColorBits':6,'meshes':report},indent=2)+'\n')
+output.write_text(json.dumps({'bakedColorQuantization':'32 grayscale steps, shared per vertex','dracoColorBits':6,'meshes':report},indent=2)+'\n',encoding='utf-8',newline='\n')

@@ -160,7 +160,7 @@ def main():
               'method': 'Retained physical local triangles and decoded native sole/ankle/tarsus geometry',
               'patches': patches, 'feet': feet}
     destination = ROOT / 'assets/models/home/wildlife-perch-support.json'
-    destination.write_text(json.dumps(result, separators=(',', ':')) + '\n', encoding='utf-8')
+    destination.write_text(json.dumps(result, separators=(',', ':')) + '\n', encoding='utf-8', newline='\n')
     print('PERCH SUPPORT', destination.stat().st_size, 'bytes;', [(p['id'], len(p['triangles'])) for p in patches],
           'sole samples', {side: len(foot['sole']) for side, foot in feet.items()})
 

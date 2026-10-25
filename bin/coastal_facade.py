@@ -69,6 +69,23 @@ def arch_polyline(samples=96):
     return points
 
 
+ARCH_REVEAL = 0.005
+
+
+def inset_path(path, distance, inside=(0.0, 2.2)):
+    """Offset an xz polyline toward the inside point by ``distance`` along its local normals."""
+    out = []
+    for i, (x, z) in enumerate(path):
+        a, b = path[max(0, i - 1)], path[min(len(path) - 1, i + 1)]
+        tx, tz = b[0] - a[0], b[1] - a[1]
+        length = math.hypot(tx, tz) or 1.0
+        nx, nz = -tz / length, tx / length
+        if nx * (inside[0] - x) + nz * (inside[1] - z) < 0:
+            nx, nz = -nx, -nz
+        out.append((x + nx * distance, z + nz * distance))
+    return out
+
+
 def sweep(bm, path, width, depth, y, inside=(0.0, 2.2)):
     """A rectangular bar along an xz polyline: `width` toward the inside point, `depth` along y."""
     rings = []
@@ -161,7 +178,9 @@ def front(bronze, glass, stone):
         side = sorted(side, key=lambda p: p[1])
         sweep(frame, [(side[0][0], 0.0)] + side[1:] + [(side[-1][0], HEAD_TOP)], FRAME[0], FRAME[1], FACADE_Y)
     upper = [p for p in path if p[1] >= HEAD_TOP - 0.02]
-    sweep(lunette_frame, upper, FRAME[0], FRAME[1], FACADE_Y)
+    # A 5 mm shadow reveal below the rock arch: the frame's outer face and the rock's double-sided
+    # underside must not share one surface, or their depth tie flips as draws regroup.
+    sweep(lunette_frame, inset_path(upper, ARCH_REVEAL), FRAME[0], FRAME[1], FACADE_Y)
     # The door head: a deeper beam from jamb to jamb.
     span = arch_x(HEAD_TOP) - 0.02
     box(frame, Vector((0, FACADE_Y, (DOOR_HEAD + HEAD_TOP) / 2)), (2 * span, 0.16, HEAD_TOP - DOOR_HEAD))
@@ -170,7 +189,8 @@ def front(bronze, glass, stone):
         box(frame, Vector((x, FACADE_Y, (0.004 + DOOR_HEAD) / 2)), (0.06, 0.14, DOOR_HEAD - 0.004))
     box(frame, Vector((-0.06, (TERRACE["back"] + 4.37) / 2, 0.0035)), (10.28, TERRACE["back"] - 4.37, 0.007))
     for x in MULLIONS:
-        box(lunette_frame, Vector((x, FACADE_Y, (HEAD_TOP + arch_z(x)) / 2)), (0.05, 0.12, arch_z(x) - HEAD_TOP))
+        top = arch_z(x) - ARCH_REVEAL
+        box(lunette_frame, Vector((x, FACADE_Y, (HEAD_TOP + top) / 2)), (0.05, 0.12, top - HEAD_TOP))
     # Fixed lower panes on the outer track: south of the kitchen door, the gym bay, north of the lounge door.
     heights = [0.012 + k * (DOOR_HEAD - 0.012) / 8 for k in range(9)]
     south_pane = [(-3.425, 0.012), (-3.425, DOOR_HEAD)] + [(jamb_x(z, -1, inner), z) for z in reversed(heights)]

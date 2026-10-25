@@ -292,7 +292,8 @@ def _curved_house_stair(scene,m):
         y=-7.03-.26*math.sin(t*math.pi)
         z=(k+1)*2.6/count
         yaw=math.atan2(-.26*math.pi*math.cos(t*math.pi),4.)
-        box(p.bm(m["stone"]),(x,y,z-.095),(.27,1.03,.19),.014,yaw=yaw)
+        # Stone tread under a 28 mm oak cap; the two tops are never coplanar.
+        box(p.bm(m["stone"]),(x,y,z-.109),(.27,1.03,.162),.014,yaw=yaw)
         box(p.bm(m["oak"]),(x,y,z-.014),(.266,1.015,.028),.006,yaw=yaw)
         supports.append(sunken.support(f"retreat-house-tread-{k+1}",(x-.135,x+.135,y-.505,y+.505),z))
         centers.append((x,y,z))
@@ -318,7 +319,8 @@ def _library_structure(scene,m):
     link=Parts("core_retreat_gallery")
     x0,x1=LIBRARY["x"]; y0,y1=LIBRARY["y"]
     stone,oak,plaster=p.bm(m["stone"]),p.bm(m["oak"]),p.bm(m["plaster"])
-    box(stone,((x0+x1)/2,(y0+y1)/2,-.13),(x1-x0+.12,y1-y0+.12,.26),.018)
+    # The stone bed stops under the 22 mm boards: a flush stone top z-fought with the oak.
+    box(stone,((x0+x1)/2,(y0+y1)/2,-.141),(x1-x0+.12,y1-y0+.12,.238),.018)
     library._floor(p,m["oak"],(x0,x1,y0,y1),0)
     # Ground aperture opens at the east side in front of the bathroom wing. The
     # enclosing east wall leaves this real 1.4m passage, rather than a route through rock.
@@ -331,13 +333,13 @@ def _library_structure(scene,m):
     supports=[sunken.support("retreat-library-floor",(x0,x1,y0,y1),0)]
     for f in (0.,2.6):
         b=(-9.42 if f else -9.7,-3.80,-1.72,-.32)
-        box(link.bm(m["stone"]),((b[0]+b[1])/2,(b[2]+b[3])/2,f-.12),(b[1]-b[0],b[3]-b[2],.24),.012)
+        box(link.bm(m["stone"]),((b[0]+b[1])/2,(b[2]+b[3])/2,f-.131),(b[1]-b[0],b[3]-b[2],.218),.012)
         library._floor(link,m["oak"],b,f)
         supports.append(sunken.support(f"retreat-library-bridge-{f:g}",b,f))
     # A short bedside apron joins the existing upper floor to the close bridge.
     # Its actual front edge gives room to pass the retained bed/duvet and planter.
     b=(-3.85,-.90,-2.30,-.75)
-    box(link.bm(m["stone"]),((b[0]+b[1])/2,(b[2]+b[3])/2,2.48),(b[1]-b[0],b[3]-b[2],.24),.02)
+    box(link.bm(m["stone"]),((b[0]+b[1])/2,(b[2]+b[3])/2,2.469),(b[1]-b[0],b[3]-b[2],.218),.02)
     library._floor(link,m["oak"],b,2.6)
     supports.append(sunken.support("retreat-bedroom-bridge-apron",b,2.6))
     for x in (-3.75,-2.5,-1.25):
@@ -680,7 +682,7 @@ def _entry(scene,config,m):
         yaw=math.atan2(b[1]-a[1],b[0]-a[0])
         # Points live in final coords; move back before common housing shift.
         x,y,z=q; y+=SETBACK
-        box(p.bm(m["stone"]),(x,y,z-.105),(.31,1.64,.21),.012,yaw=yaw)
+        box(p.bm(m["stone"]),(x,y,z-.119),(.31,1.64,.182),.012,yaw=yaw)
         box(p.bm(m["oak"]),(x,y,z-.014),(.30,1.60,.028),.005,yaw=yaw)
         # Oriented tread footprint, not a bounding rectangle that invents corners.
         poly=[]
@@ -783,7 +785,7 @@ def _clifftop_retreat(scene,config,m):
     top=min(ground(x,y) for x in (x0,x1) for y in (y0,y1))-.04
     cuts=_cut(scene,"retreat clifftop sunken lounge",(x0-.1,y0-.1,top-.20),(x1+.1,y1+.1,30),m["rock"])
     p=Parts("core_retreat_clifftop")
-    box(p.bm(m["stone"]),((x0+x1)/2,(y0+y1)/2,top-.08),(x1-x0,y1-y0,.16),.04)
+    box(p.bm(m["stone"]),((x0+x1)/2,(y0+y1)/2,top-.091),(x1-x0,y1-y0,.138),.04)
     library._floor(p,m["oak"],(x0,x1,y0,y1),top)
     # Low wraparound conversation seating keeps the prospect open above waist.
     for x in (6.0,6.95,7.9):

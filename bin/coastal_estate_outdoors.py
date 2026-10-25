@@ -307,7 +307,9 @@ def build_terrace(scene, config, tree, m):
                   (px1 + .22, x1, py0, y1), (px0 - .22, px1 + .22, py1 + .23, y1))
     supports = []
     for k, (a, b, c, d) in enumerate(rectangles):
-        box(stone, ((a+b)/2, (c+d)/2, -.25), (b-a, d-c, .50), .018, segments=2)
+        # The bed stops under the 26 mm pavers: a bed only 1 mm below their tops met them once
+        # Draco quantized each mesh separately, and the two fought across the whole terrace.
+        box(stone, ((a+b)/2, (c+d)/2, -.2625), (b-a, d-c, .475), .018, segments=2)
         # Large-format pavers use actual thin joints, with a bounded geometry count.
         nx, ny = max(1, math.ceil((b-a)/1.15)), max(1, math.ceil((d-c)/1.15))
         for i in range(nx):

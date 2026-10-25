@@ -1599,13 +1599,13 @@
     },
     {
       "mesh": "core_retreat_gallery__warm cut stone",
-      "facesBefore": 294,
-      "facesExported": 294
+      "facesBefore": 254,
+      "facesExported": 254
     },
     {
       "mesh": "core_retreat_gallery__pale oak",
-      "facesBefore": 1742,
-      "facesExported": 1742
+      "facesBefore": 1612,
+      "facesExported": 1612
     },
     {
       "mesh": "core_retreat_gallery__brushed brass",
@@ -1859,8 +1859,8 @@
     },
     {
       "mesh": "core_retreat_arrival__warm cut stone",
-      "facesBefore": 5004,
-      "facesExported": 5004
+      "facesBefore": 4989,
+      "facesExported": 4989
     },
     {
       "mesh": "core_retreat_arrival__pale oak",
