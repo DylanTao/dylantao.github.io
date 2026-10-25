@@ -3140,7 +3140,9 @@ export function createCoastalHome(container, records, artifacts) {
       coastWind.setShelter({ glassZ: COAST_SHELTER.glassZ + (Number(config.retreat?.setbackMetres) || 0) });
       coastWind.update({ seconds: elapsed, minute: livePacificMinute(config.timeZone) });
       syncOceanWind(coastWind.state);
-      cameraField = createCameraField({ config, world, onReady: () => requestFrame() });
+      // The field is classified once, when the arrival's models are in (held below until then):
+      // each earlier pass was a full-grid classification, about 4 s of worker time apiece.
+      cameraField = createCameraField({ config, world, onReady: () => requestFrame(), hold: true });
       cleanup.push(() => cameraField?.dispose());
       // The composer multisamples its own target and finishes with one full-screen triangle, so a
       // multisampled canvas would only add a resolve without changing a pixel.
@@ -3392,6 +3394,7 @@ export function createCoastalHome(container, records, artifacts) {
         setAvatar(avatarId, "sirui"),
       ]);
       if (disposed) return;
+      cameraField?.release();
       progress("room", 1);
       progress("sirui", 1);
       if (config.estateLibrary?.ladder) {

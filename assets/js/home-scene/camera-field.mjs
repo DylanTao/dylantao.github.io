@@ -69,7 +69,9 @@ export function airSeeds(config) {
   return seeds;
 }
 
-export function createCameraField({ config, world, onReady = () => {} }) {
+// `hold` voxelizes as meshes arrive but classifies only after release(): every classification is
+// a pass over the whole grid, so a burst of models (the arrival's house, coast and rooms) needs one.
+export function createCameraField({ config, world, onReady = () => {}, hold = false }) {
   const bounds = collisionBounds(config);
   const seeds = airSeeds(config);
   const grid = bounds ? createCollisionGrid({ ...bounds, seeds }) : null;
@@ -82,7 +84,14 @@ export function createCameraField({ config, world, onReady = () => {} }) {
     work = null,
     scheduled = false,
     disposed = false,
-    footprint = null;
+    footprint = null,
+    held = hold,
+    classifyPending = false;
+  function requestClassify() {
+    if (held) classifyPending = true;
+    else if (worker) worker.postMessage({ type: "classify" });
+    else schedule();
+  }
 
   function startWorker() {
     if (!grid || typeof Worker !== "function") return;
@@ -151,7 +160,7 @@ export function createCameraField({ config, world, onReady = () => {} }) {
       sent = true;
     });
     if (roof) footprint = cutawayFootprint(roofBoxes);
-    if (sent) worker.postMessage({ type: "classify" });
+    if (sent) requestClassify();
     else schedule();
   }
 
@@ -160,10 +169,20 @@ export function createCameraField({ config, world, onReady = () => {} }) {
     solids.push([min, max]);
     if (worker) {
       worker.postMessage({ type: "solid", min, max });
-      worker.postMessage({ type: "classify" });
+      requestClassify();
     } else {
       grid.addSolid(min, max);
       schedule();
+    }
+  }
+
+  function release() {
+    if (!held) return;
+    held = false;
+    if (classifyPending || grid?.dirty) {
+      classifyPending = false;
+      if (worker) worker.postMessage({ type: "classify" });
+      else schedule();
     }
   }
 
@@ -208,7 +227,7 @@ export function createCameraField({ config, world, onReady = () => {} }) {
         stats.meshes++;
       }
     }
-    if (!queue.length) {
+    if (!queue.length && !held) {
       if (!work && grid.dirty) work = grid.classify();
       if (work && work.next().done) {
         work = null;
@@ -216,7 +235,7 @@ export function createCameraField({ config, world, onReady = () => {} }) {
         onReady();
       }
     }
-    if (queue.length || work || grid.dirty) schedule();
+    if (queue.length || work || (grid.dirty && !held)) schedule();
   }
 
   startWorker();
@@ -230,7 +249,8 @@ export function createCameraField({ config, world, onReady = () => {} }) {
     },
     addRoot,
     addSolid,
-    evidence: () => (grid ? { ...grid.evidence(), queued: queue.length, ...stats } : null),
+    release,
+    evidence: () => (grid ? { ...grid.evidence(), queued: queue.length, ...stats, holding: held } : null),
     dispose() {
       disposed = true;
       worker?.terminate();
