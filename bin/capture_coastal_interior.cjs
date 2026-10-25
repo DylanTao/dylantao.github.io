@@ -221,6 +221,10 @@ const SURVEYS = {
     { name: "corridor-from-library", room: "library", camera: { target: [-4.5, 1.4, 9.0], yaw: -1.571, pitch: 0.039, radius: 5.1 } },
     { name: "upper-bridge", room: "sleep", camera: { target: [-9.0, 3.6, 8.8], yaw: 1.571, pitch: 0.086, radius: 7.53 } },
     { name: "private-spiral-clifftop", room: "outside", camera: { target: [6.2, 7.2, 14.9], yaw: 0.832, pitch: 0.514, radius: 5.28 } },
+    { name: "bedroom-bed", room: "sleep", camera: { target: [-3.1, 3.32, 11.3], yaw: 2.6, pitch: 0.38, radius: 4.4 } },
+    { name: "library-spiral", room: "library", camera: { target: [-9.8, 1.4, 8.4], yaw: 2.9, pitch: 0.22, radius: 4.2 } },
+    { name: "study-sea-corner", room: "library", camera: { target: [-11.0, 1.1, 1.3], yaw: 0.638, pitch: 0.118, radius: 3.38 } },
+    { name: "private-link", room: "overview", camera: { target: [-6.8, 1.8, 9.0], yaw: 2.64, pitch: 0.75, radius: 10 } },
   ].map((view) => ({ ...view, camera: { ...view.camera, free: true } })),
 };
 const TYPES = {

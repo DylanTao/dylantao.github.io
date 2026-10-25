@@ -1,6 +1,8 @@
 # House geometry pass, October 24
 
-This is the house worker's evidence for checklist items 8, 12, 10 and 9 in `docs/october-2026-handoff.md`. Raw captures and full reports stay in the ignored `.jekyll-cache/visual-qa/house-2026-10-24/` and `.jekyll-cache/overlap-audit/`. The durable picks are kept here.
+This is the house worker's evidence for checklist items 8, 12, 10 and 9 in `docs/october-2026-handoff.md`, and for Sirui's October 24 feedback on the house. Raw captures and full reports stay in the ignored `.jekyll-cache/visual-qa/house-2026-10-24/` and `.jekyll-cache/overlap-audit/`. The durable picks are kept here.
+
+[feedback-log.md](feedback-log.md) lists each of Sirui's feedback points with fixed before views (and after views as each group lands).
 
 ## Item 8: overlap audit and repairs
 
