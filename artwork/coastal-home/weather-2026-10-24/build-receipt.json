@@ -42,17 +42,18 @@
       "file": "source/points.json.gz",
       "url": "https://api.weather.gov/points/32.8328,-117.2713",
       "decodedBytes": 3926,
-      "decodedSha256": "f9547bd6936378936255c90b4d190f2056e70005826140d131add46f512d9224",
-      "note": "Retrieved for commit 162685ac8 on 2026-10-24; the request time was not recorded. A 2026-10-25T00:14:57Z request returned identical bytes."
+      "decodedSha256": "c9391764f06a47067e2f0e16a6b384916a312a66052bb07d07b4293457e76fbd",
+      "retrieved": "2026-10-25T14:28:08Z",
+      "httpDate": "Sun, 25 Oct 2026 14:28:08 GMT"
     },
     {
       "file": "source/forecast-hourly.json.gz",
       "url": "https://api.weather.gov/gridpoints/SGX/53,20/forecast/hourly",
-      "decodedBytes": 162867,
-      "decodedSha256": "3d85234fb55033b333ba86e3c34ccc5ea23878c97f2ebb3f13791b88103fbc23",
-      "retrieved": "2026-10-25T00:44:21Z",
-      "httpDate": "Sun, 25 Oct 2026 00:44:22 GMT",
-      "lastModified": "Sun, 25 Oct 2026 00:00:00 GMT"
+      "decodedBytes": 163279,
+      "decodedSha256": "f031b2b3c51c79dede4b7b42a8ec4b41807bd9a4a8cd56e6ed2a9d214d266e15",
+      "retrieved": "2026-10-25T14:28:08Z",
+      "httpDate": "Sun, 25 Oct 2026 14:28:09 GMT",
+      "lastModified": "Sun, 25 Oct 2026 14:00:00 GMT"
     }
   ],
   "station": {
@@ -294,15 +295,15 @@
   },
   "forecast": {
     "source": "NWS SGX/53,20 hourly",
-    "issued": "2026-10-24T19:03:46+00:00",
-    "generated": "2026-10-25T00:37:41+00:00",
-    "retrieved": "2026-10-25T00:44:21Z",
-    "validFrom": "2026-10-24T17:00:00-07:00",
-    "validThrough": "2026-10-31T05:00:00-07:00",
+    "issued": "2026-10-25T07:08:22+00:00",
+    "generated": "2026-10-25T14:28:09+00:00",
+    "retrieved": "2026-10-25T14:28:08Z",
+    "validFrom": "2026-10-25T07:00:00-07:00",
+    "validThrough": "2026-10-31T19:00:00-07:00",
     "hours": 156,
-    "rainHours": 18,
-    "maximumPrecipitationChance": 0.35
+    "rainHours": 32,
+    "maximumPrecipitationChance": 0.5
   },
-  "runtimeBytes": 13695,
-  "runtimeCanonicalLfSha256": "f0b7583fceb3f0876deb36968011a65b0ded53721271bc00b07b45e2b50740dd"
+  "runtimeBytes": 13736,
+  "runtimeCanonicalLfSha256": "444e54f67db982efb42736c330e9896929b8050ba11e21216992eeced7b8427d"
 }

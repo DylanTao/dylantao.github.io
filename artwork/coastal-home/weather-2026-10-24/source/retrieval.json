@@ -17,11 +17,12 @@
     "lastModified": "Sat, 03 Oct 2026 18:32:01 GMT"
   },
   "points.json.gz": {
-    "note": "Retrieved for commit 162685ac8 on 2026-10-24; the request time was not recorded. A 2026-10-25T00:14:57Z request returned identical bytes."
+    "retrieved": "2026-10-25T14:28:08Z",
+    "httpDate": "Sun, 25 Oct 2026 14:28:08 GMT"
   },
   "forecast-hourly.json.gz": {
-    "retrieved": "2026-10-25T00:44:21Z",
-    "httpDate": "Sun, 25 Oct 2026 00:44:22 GMT",
-    "lastModified": "Sun, 25 Oct 2026 00:00:00 GMT"
+    "retrieved": "2026-10-25T14:28:08Z",
+    "httpDate": "Sun, 25 Oct 2026 14:28:09 GMT",
+    "lastModified": "Sun, 25 Oct 2026 14:00:00 GMT"
   }
 }
