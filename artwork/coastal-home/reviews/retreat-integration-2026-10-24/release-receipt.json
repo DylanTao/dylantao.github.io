@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "queriedAt": "2026-10-25 07:05:44 UTC",
+  "sourceCommit": "85a6ece96e83a2040e2684a2a76c7b9100e67b67",
+  "scope": "First fully green CI and deployed source identity after the October 24 retreat revision. The source commit contains the retreat runtime plus the later integrated batches (first-person head exclusion, startup checkpoint 1, weather model and refresh, coffee ring, Connect balance, shared surface programs). A later data-only bot commit does not create another verified runtime.",
+  "pages": {
+    "status": "built",
+    "commit": "539e817eaccb02c409616e59c7044a1a8efd6949",
+    "updatedAt": "2026-10-25T03:55:34Z",
+    "commitMessage": "Deploying to gh-pages from @ DylanTao/dylantao.github.io@85a6ece96e83a2040e2684a2a76c7b9100e67b67 \u00f0\u0178\u0161\u20ac"
+  },
+  "workflows": [
+    {
+      "id": 40159669566,
+      "name": "Check for broken links",
+      "headSha": "85a6ece96e83a2040e2684a2a76c7b9100e67b67",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40159669566"
+    },
+    {
+      "id": 40159851815,
+      "name": "Check for broken links on site",
+      "headSha": "85a6ece96e83a2040e2684a2a76c7b9100e67b67",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40159851815"
+    },
+    {
+      "id": 40159669550,
+      "name": "CodeQL Advanced",
+      "headSha": "85a6ece96e83a2040e2684a2a76c7b9100e67b67",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40159669550"
+    },
+    {
+      "id": 40159669597,
+      "name": "Deploy site",
+      "headSha": "85a6ece96e83a2040e2684a2a76c7b9100e67b67",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40159669597"
+    },
+    {
+      "id": 40159669537,
+      "name": "Integration tests",
+      "headSha": "85a6ece96e83a2040e2684a2a76c7b9100e67b67",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40159669537"
+    },
+    {
+      "id": 40159669533,
+      "name": "Prettier code formatter",
+      "headSha": "85a6ece96e83a2040e2684a2a76c7b9100e67b67",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40159669533"
+    },
+    {
+      "id": 40159669532,
+      "name": "Upgrade contract checks",
+      "headSha": "85a6ece96e83a2040e2684a2a76c7b9100e67b67",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40159669532"
+    },
+    {
+      "id": 40159669524,
+      "name": "Visual checkpoints",
+      "headSha": "85a6ece96e83a2040e2684a2a76c7b9100e67b67",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40159669524"
+    }
+  ],
+  "visual": {
+    "runId": 40159669524,
+    "attempt": 1,
+    "jobs": 41,
+    "conclusions": {
+      "success": 41
+    },
+    "notSuccessful": []
+  },
+  "allConcluded": true,
+  "allPassed": true
+}
