@@ -37,13 +37,14 @@ export function breathDepth(seconds) {
 
 // Reaching a stage proves the work before it finished. With the controller's per-segment fills
 // (house, coast, room, sirui, view) these are only a floor; without them, only completed stages
-// count.
+// count. "first-frame" proves the lighting, which no segment measures, so the view's own layers
+// still wait for its programs.
 const STAGE_FILLS = {
   home: {},
   coast: { house: 1 },
   room: { house: 1, coast: 1 },
   lighting: { house: 1, coast: 1, room: 1, sirui: 1 },
-  "first-frame": { house: 1, coast: 1, room: 1, sirui: 1, view: 0.2 },
+  "first-frame": { house: 1, coast: 1, room: 1, sirui: 1 },
   ready: { house: 1, coast: 1, room: 1, sirui: 1, view: 1 },
 };
 export function stageFills(stage) {

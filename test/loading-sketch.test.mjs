@@ -170,7 +170,7 @@ test("without measured progress only completed stages count, and the room drawin
   assert.ok(Math.abs(engine.state().drawn - 2 / 3) < 1e-3, "structure and furniture before the view's programs");
   engine.stage("first-frame", "study");
   run(engine, 1, clock);
-  assert.ok(Math.abs(engine.state().drawn - (2 + 0.2) / 3) < 1e-3);
+  assert.ok(Math.abs(engine.state().drawn - 2 / 3) < 1e-3, "the view's layers wait for its programs, which no stage reports");
   engine.finish();
   run(engine, 1, clock);
   assert.equal(engine.state().drawn, 1);
