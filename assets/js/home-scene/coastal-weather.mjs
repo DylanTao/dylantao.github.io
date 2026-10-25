@@ -1,14 +1,16 @@
 import { COASTAL_WEATHER_DATA as DATA } from "./weather-data.mjs";
 
 // The small NWS snapshot is a forecast only inside its published hourly intervals. Beyond those
-// intervals this is authored scene weather: measured seasonal rain frequency and spell persistence,
-// plus the retained May Gray / June Gloom art direction. It does not predict the real house's weather.
+// intervals this is scene weather drawn from a calibrated statistical model of the San Diego gauge:
+// seasonal wet-day chances, multiday spells and storm-size persistence, plus the retained May Gray /
+// June Gloom art direction. It simulates plausible days; it does not predict the real house's weather.
 const MARINE_CHANCE = [0.18, 0.2, 0.28, 0.42, 0.62, 0.7, 0.52, 0.4, 0.32, 0.26, 0.18, 0.16];
 const CIRRUS_CHANCE = [0.42, 0.42, 0.38, 0.3, 0.2, 0.14, 0.16, 0.2, 0.26, 0.36, 0.42, 0.44];
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 const DAY = 86400000;
 const FIRST_DAY = Date.parse(`${DATA.sequence.start}T00:00:00Z`);
 const LAST_DAY = Date.parse(`${DATA.sequence.end}T00:00:00Z`);
+const MODEL = DATA.model;
 const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
 const smooth = (a, b, x) => {
   const t = clamp((x - a) / (b - a));
@@ -31,10 +33,54 @@ function dateInfo(dateKey) {
   return { stamp, month: Number(dateKey.slice(5, 7)) - 1 };
 }
 
+const inSequence = (stamp) => stamp >= FIRST_DAY && stamp <= LAST_DAY;
+// The precomputed 2000-2099 wet/dry bits; days before the sequence count as dry, as in the builder.
+const sequenceWet = (day) => day >= 0 && Boolean((ALPHABET.indexOf(DATA.sequence.wetBits[Math.floor(day / 6)]) >> (day % 6)) & 1);
+
 function syntheticWet(dateKey, stamp, month) {
-  if (stamp < FIRST_DAY || stamp > LAST_DAY) return weatherDateHash(dateKey, 317) < DATA.monthlyChance[month];
-  const day = Math.round((stamp - FIRST_DAY) / DAY);
-  return Boolean((ALPHABET.indexOf(DATA.sequence.wetBits[Math.floor(day / 6)]) >> (day % 6)) & 1);
+  if (!inSequence(stamp)) return weatherDateHash(dateKey, 317) < DATA.monthlyChance[month];
+  return sequenceWet(Math.round((stamp - FIRST_DAY) / DAY));
+}
+
+// A wet day's gauge total: one of the month's midpoint quantiles, chosen by the date.
+function drawnAmount(dateKey, month) {
+  const table = DATA.amountQuantilesMm[month];
+  return table[Math.min(table.length - 1, Math.floor(weatherDateHash(dateKey, 319) * table.length))];
+}
+
+// The model's chance of a wet day, given the simulated days before it: the same logistic equation,
+// feature order and arithmetic order as bin/build_coastal_weather.py, which precomputed the bits.
+export function modelChance(dateKey) {
+  const { stamp, month } = dateInfo(dateKey);
+  if (!inSequence(stamp)) return DATA.monthlyChance[month];
+  const day = Math.round((stamp - FIRST_DAY) / DAY),
+    previous = new Date(stamp - DAY).toISOString().slice(0, 10),
+    w1 = sequenceWet(day - 1) ? 1 : 0,
+    phase = (2 * Math.PI * ((stamp - Date.UTC(Number(dateKey.slice(0, 4)), 0, 1)) / DAY)) / 365.25;
+  let since = MODEL.dryDayCap;
+  for (let k = 1; k < MODEL.dryDayCap; k++)
+    if (sequenceWet(day - k)) {
+      since = k;
+      break;
+    }
+  const values = {
+    1: 1,
+    w1,
+    w2: sequenceWet(day - 2) ? 1 : 0,
+    a1: w1 ? Math.log1p(drawnAmount(previous, Number(previous.slice(5, 7)) - 1)) : 0,
+    dsl: Math.log(since),
+  };
+  for (const k of [1, 2, 3]) {
+    values[`s${k}`] = Math.sin(k * phase);
+    values[`c${k}`] = Math.cos(k * phase);
+  }
+  let eta = 0;
+  MODEL.features.forEach((name, i) => {
+    let value = 1;
+    for (const part of name.split("*")) value *= values[part];
+    eta += MODEL.coefficients[i] * value;
+  });
+  return 1 / (1 + Math.exp(-eta));
 }
 
 function forecastWindows(rows) {
@@ -56,8 +102,7 @@ export function weatherFor(dateKey) {
     wet = syntheticWet(dateKey, stamp, month),
     marine = weatherDateHash(dateKey, 17) < MARINE_CHANCE[month] ? 0.55 + 0.45 * weatherDateHash(dateKey, 5) : 0,
     cirrus = weatherDateHash(dateKey, 91) < CIRRUS_CHANCE[month] ? 0.35 + 0.65 * weatherDateHash(dateKey, 23) : 0.08 * weatherDateHash(dateKey, 29),
-    quantiles = DATA.amountQuantilesMm[month],
-    amount = wet ? quantiles[Math.min(4, Math.floor(weatherDateHash(dateKey, 319) * 5))] : 0,
+    amount = wet ? drawnAmount(dateKey, month) : 0,
     duration = clamp(90 + amount * 32, 120, 480),
     start = 30 + weatherDateHash(dateKey, 323) * (1380 - duration);
   return {
@@ -68,7 +113,7 @@ export function weatherFor(dateKey) {
     source: "seasonal-simulation",
     dateKey,
     cloudCover: 0,
-    rainChance: DATA.monthlyChance[month],
+    rainChance: modelChance(dateKey),
     rainAmountMm: amount,
     // Durations, within-day timing and display intensity are authored; daily gauge totals do not
     // provide them. The interval envelope reaches zero before midnight and never advances itself.
@@ -134,6 +179,7 @@ export function weatherAt(dateKey, minute, { utcMilliseconds } = {}) {
 export const WEATHER_PROVENANCE = Object.freeze({
   station: DATA.station,
   fitYears: Object.freeze([...DATA.fitYears]),
+  model: MODEL.id,
   wetThresholdMm: DATA.wetThresholdMm,
   forecastSource: DATA.forecast.source,
   forecastIssued: DATA.forecast.issued,
