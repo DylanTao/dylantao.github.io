@@ -27,6 +27,25 @@ float stoneNoise(vec3 p) {
 }
 `;
 
+// The same noise for the stone surfaces below that call stoneNoise at up to a dozen sites
+// (sandstone, plaster, marble, travertine). Its three octaves are computed in a loop whose count is
+// a uniform, so ANGLE's Direct3D compiler keeps one octave instead of unrolling three at every
+// site: 40-45 % of the cliff sandstone's compile time, 25-35 % of the marble's and travertine's
+// on the Intel Arc laptop (docs/performance-notes.md). They are summed by the original expression,
+// so the values match the unrolled form. Surfaces with one or two calls keep the plain form,
+// which compiles as fast there.
+const LOOPED_NOISE_KINDS = new Set([3, 5, 6, 7]);
+const surfaceOctaves = { value: 3 };
+const loopedSurfaceNoise = surfaceNoise.replace(
+  /float stoneNoise\(vec3 p\) \{\s*return grainNoise\(p\)\*\.57 \+ grainNoise\(p\*2\.03\)\*\.28 \+ grainNoise\(p\*4\.17\)\*\.15;\s*\}/,
+  `uniform int surfaceOctaves;
+float stoneNoise(vec3 p) {
+  float octaves[3];
+  for (int octave = 0; octave < surfaceOctaves; octave++) octaves[octave] = grainNoise(octave == 0 ? p : p * (octave == 1 ? 2.03 : 4.17));
+  return octaves[0]*.57 + octaves[1]*.28 + octaves[2]*.15;
+}`
+);
+
 export const physicalTime = { value: 0 };
 
 // Look-lab surface options (look.mjs), set before any room loads; the shipped look turns sheen on.
@@ -280,13 +299,15 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
                 ? 4
                 : 0;
   m.onBeforeCompile = (shader) => {
+    shader.uniforms.surfaceOctaves = surfaceOctaves;
     shader.vertexShader = "varying vec3 surfacePoint;\n" + shader.vertexShader;
     shader.vertexShader = shader.vertexShader.replace(
       "#include <project_vertex>",
       "#include <project_vertex>\nsurfacePoint = (modelMatrix * vec4(transformed, 1.0)).xyz;"
     );
     shader.fragmentShader =
-      `varying vec3 surfacePoint;\n${surfaceNoise}\n${kind === 3 ? cellsGLSL : ""}\n${kind === 5 ? plasterGLSL : ""}\n` + shader.fragmentShader;
+      `varying vec3 surfacePoint;\n${LOOPED_NOISE_KINDS.has(kind) ? loopedSurfaceNoise : surfaceNoise}\n${kind === 3 ? cellsGLSL : ""}\n${kind === 5 ? plasterGLSL : ""}\n` +
+      shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <color_fragment>",
       `
