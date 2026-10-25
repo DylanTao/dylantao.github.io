@@ -2702,7 +2702,7 @@ for (const persisted of [true, false]) {
     await request;
     const scene = page.locator("[data-home-desk-scene]"),
       stage = page.locator("[data-home-artifact-stage]");
-    await expect.poll(() => evidence(scene).then((e) => e.actorCount)).toBe(1);
+    await expect.poll(() => evidence(scene).then((e) => e.actorCount), { timeout: SCENE_READY_TIMEOUT }).toBe(1);
     const before = await evidence(scene);
     await expect(scene).toHaveAttribute("data-scene-state", "loading");
     await page.evaluate((persisted) => {
