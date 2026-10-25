@@ -3137,8 +3137,16 @@ test("coastal home: live animation pauses offscreen and recovers after a hidden 
     media.addEventListener("change", () => window.coastalLiveMediaChanges++);
     return { frames: state.frames, seconds: state.animationSeconds, reducedMotion: media.matches, frameClock: window.coastalProofFrameClock };
   });
-  await page.waitForTimeout(650);
-  expect(screenshotDiffRatio(before, await canvas.screenshot())).toBeGreaterThan(0.0002);
+  // The opening view is an interior where little moves (breath, curtains), and on Linux software GL
+  // each canvas capture takes seconds, so one 650 ms window caught only ~150 changed pixels twice
+  // (7d656809c, 024c479e1). Keep observing against the same first capture until the live animation
+  // visibly changes the canvas; a frozen animation still never passes.
+  let liveDiff = 0;
+  for (let window = 0; window < 6 && liveDiff <= 0.0002; window++) {
+    await page.waitForTimeout(650);
+    liveDiff = screenshotDiffRatio(before, await canvas.screenshot());
+  }
+  expect(liveDiff).toBeGreaterThan(0.0002);
   const liveEnd = await scene.evaluate((element) => {
     const state = element.getSceneEvidence();
     return {
