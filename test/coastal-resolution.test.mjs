@@ -233,3 +233,20 @@ test("the embed keeps every detail it had; large full-screen buffers trade sampl
   assert.equal(detailFor({ width: 3840, height: 2160, fullscreen: true, maxTextureSize: 4096 }).shadowMapSize, 2048);
   assert.equal(detailFor({ width: 1200, height: 800, fullscreen: true, maxSamples: 2 }).samples, 2);
 });
+
+test("a moving view holds the density; the frames it saw decide once the view rests", () => {
+  const { g, state } = governor({ dpr: 1.5 });
+  g.size(2560, 1440);
+  feed(g, state, { interval: 8, frames: 8 }); // the settle frames after a resize
+  let changed = false;
+  for (let i = 0; i < 60; i++) {
+    state.time += 40;
+    if (g.observe(40, 4, { holding: true })) changed = true;
+  }
+  state.time += 1000;
+  assert.equal(changed, false, "no resize while the visitor drags, zooms or walks");
+  assert.equal(g.evidence().factor, 1);
+  state.time += 40;
+  assert.equal(g.observe(40, 4), true, "the held slow window steps down at the first resting frame");
+  assert.equal(g.evidence().factor, 0.85);
+});

@@ -184,7 +184,9 @@ export function createCoastalHome(container, records, artifacts) {
     lastFrame = 0,
     elapsed = 0,
     frames = 0,
-    clockTimer = 0;
+    clockTimer = 0,
+    lastCameraMove = -Infinity;
+  const lastCameraPose = new Float64Array(16);
   let compositionReady = false,
     startupStart = 0,
     firstFrameMilliseconds = null;
@@ -2651,9 +2653,13 @@ export function createCoastalHome(container, records, artifacts) {
   function applyDetail() {
     const canvas = renderer.domElement,
       large = resolution?.profile === "fullscreen";
+    // Detail follows the budgeted buffer before adaptation (2026-10-24): an adaptive step changed
+    // MSAA, the sun's shadow map and the mirror's size with it, reallocating them mid-motion and
+    // visibly switching edge quality; it now changes only the pixel count.
+    const adapted = resolution?.evidence()?.factor || 1;
     const next = detailFor({
-      width: canvas.width,
-      height: canvas.height,
+      width: canvas.width / adapted,
+      height: canvas.height / adapted,
       fullscreen: large,
       compact: compactTouch,
       maxTextureSize: renderer.capabilities.maxTextureSize,
@@ -3127,6 +3133,15 @@ export function createCoastalHome(container, records, artifacts) {
         );
       else renderer.render(scene, camera);
     });
+    // Any change of the camera's pose (a drag, a zoom, a pan, coasting, walking, a view's springs
+    // settling) holds adaptive resolution until the view has rested 0.6 s.
+    const cameraPose = camera.matrixWorld.elements;
+    for (let i = 0; i < 16; i++)
+      if (lastCameraPose[i] !== cameraPose[i]) {
+        lastCameraPose.set(cameraPose);
+        lastCameraMove = now;
+        break;
+      }
     if (moving && consecutive) {
       const submit = performance.now() - submitStart;
       frameTimings.push({ interval: delta * 1000, submit });
@@ -3134,7 +3149,7 @@ export function createCoastalHome(container, records, artifacts) {
       // Background shader jobs contend for CPU cores; a longer interval there is not evidence
       // that drawing fewer pixels helps. Start a clean adaptive window once their work finishes.
       if (programPending) resolution?.reset();
-      else if (resolution?.observe(delta * 1000, submit)) resize();
+      else if (resolution?.observe(delta * 1000, submit, { holding: now - lastCameraMove < 600 })) resize();
     }
     frames++;
     if (firstFrameMilliseconds === null) {
