@@ -386,9 +386,11 @@ export function createCoastalHome(container, records, artifacts) {
 
   // GitHub Pages gzips models, so Content-Length counts compressed bytes while the stream yields
   // decompressed ones; the fraction is held short of complete until the last byte arrives.
+  // Without a length every chunk still reports, at zero, so a caller can tell a slow body from a
+  // stalled one.
   async function readWithProgress(response, report) {
     const length = Number(response.headers.get("content-length")) || 0;
-    if (!response.body || !length) return response.arrayBuffer();
+    if (!response.body) return response.arrayBuffer();
     const reader = response.body.getReader(),
       chunks = [];
     let received = 0;
@@ -397,7 +399,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (done) break;
       chunks.push(value);
       received += value.byteLength;
-      report(Math.min(0.97, received / length));
+      report(length ? Math.min(0.97, received / length) : 0);
     }
     const bytes = new Uint8Array(received);
     let offset = 0;
@@ -1326,6 +1328,47 @@ export function createCoastalHome(container, records, artifacts) {
       });
   }
 
+  // The cached light is requested, checked and parsed with the arrival's first requests, while the
+  // page is idle; restoring it after the rooms is a copy. Fetched only then, under compile load,
+  // its 8 s budget ran out before the body was read, and the fallback was the 10-60 s runtime
+  // bake (2026-10-24). Only a stalled request gives up now: 20 s without a byte. A slow phone
+  // connection that is still delivering always finishes, since the bake would cost far more.
+  const LIGHT_CACHE_STALL = 20000;
+  let lightCachePrefetch = null;
+  function prefetchLightCache() {
+    const cache = config?.staticLightFieldCache;
+    if (lightCachePrefetch || !cache?.url || !cache.signature) return lightCachePrefetch;
+    lightCache.state = "loading";
+    lightCachePrefetch = (async () => {
+      const cacheAbort = new AbortController(),
+        abortCache = () => cacheAbort.abort();
+      let stall = setTimeout(abortCache, LIGHT_CACHE_STALL);
+      const progressed = () => {
+        clearTimeout(stall);
+        stall = setTimeout(abortCache, LIGHT_CACHE_STALL);
+      };
+      lightBakeAbort.signal.addEventListener("abort", abortCache, { once: true });
+      let bytes;
+      try {
+        const response = await fetch(new URL(cache.url, manifestUrl).href, { signal: cacheAbort.signal, priority: "low" });
+        if (!response.ok) throw new Error(`Cached light unavailable: ${response.status}`);
+        progressed();
+        bytes = await readWithProgress(response, progressed);
+      } finally {
+        clearTimeout(stall);
+        lightBakeAbort.signal.removeEventListener("abort", abortCache);
+      }
+      if (cache.sha256) {
+        const hash = await crypto.subtle.digest("SHA-256", bytes);
+        const actual = [...new Uint8Array(hash)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+        if (actual !== cache.sha256) throw new Error("Cached light checksum does not match");
+      }
+      return JSON.parse(new TextDecoder().decode(bytes));
+    })();
+    lightCachePrefetch.catch(() => {});
+    return lightCachePrefetch;
+  }
+
   function prepareStaticLight() {
     if (!staticLightField || lightBakeStarted || rooms.size !== config.rooms.length || disposed) return lightBakePromise;
     lightBakeStarted = true;
@@ -1334,30 +1377,15 @@ export function createCoastalHome(container, records, artifacts) {
     lightBakePromise = (async () => {
       const cache = config.staticLightFieldCache;
       if (cache?.url && cache.signature) {
-        lightCache.state = "loading";
-        const cacheAbort = new AbortController(),
-          abortCache = () => cacheAbort.abort(),
-          cacheTimeout = setTimeout(abortCache, 8000);
-        lightBakeAbort.signal.addEventListener("abort", abortCache, { once: true });
         try {
-          const response = await fetch(new URL(cache.url, manifestUrl).href, { signal: cacheAbort.signal });
-          if (!response.ok) throw new Error(`Cached light unavailable: ${response.status}`);
-          const bytes = await response.arrayBuffer();
-          if (cache.sha256) {
-            const hash = await crypto.subtle.digest("SHA-256", bytes);
-            const actual = [...new Uint8Array(hash)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
-            if (actual !== cache.sha256) throw new Error("Cached light checksum does not match");
-          }
-          const restored = staticLightField.restoreSnapshot(JSON.parse(new TextDecoder().decode(bytes)), { signature: cache.signature });
+          const snapshot = await prefetchLightCache();
+          const restored = staticLightField.restoreSnapshot(snapshot, { signature: cache.signature });
           if (!restored) throw new Error("Cached light does not match this home");
           lightCache.state = "restored";
           return;
         } catch (error) {
           if (disposed || lightBakeAbort.signal.aborted) throw error;
           lightCache = { state: "miss", reason: error.message };
-        } finally {
-          clearTimeout(cacheTimeout);
-          lightBakeAbort.signal.removeEventListener("abort", abortCache);
         }
       }
       await staticLightField.bake({ signal: lightBakeAbort.signal, yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)) });
@@ -3121,6 +3149,7 @@ export function createCoastalHome(container, records, artifacts) {
       const response = await fetch(manifestUrl);
       if (!response.ok) throw new Error("Scene manifest unavailable");
       config = await response.json();
+      prefetchLightCache();
       furniture = createFurniture({
         config,
         baseUrl: manifestUrl,
