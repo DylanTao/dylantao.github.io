@@ -21,8 +21,8 @@ const { collectRuntimeErrors } = require("../test/visual/helpers");
 // nook's table (a 0.5 m disc, 5 cm thick, its top measured by dining.mjs or the authored 0.795 m
 // above the seat anchor), how deep the seated body sinks below the banquette's cushion top, and
 // where the held utensil's working end is relative to the mouth or the food.
-async function measureContacts(page) {
-  return page.evaluate(async () => {
+async function measureContacts(page, table = true) {
+  return page.evaluate(async (table) => {
     const THREE = await import("/assets/js/three.module.min.js");
     const element = document.querySelector("[data-home-desk-scene]");
     const e = element.getSceneEvidence();
@@ -38,7 +38,9 @@ async function measureContacts(page) {
     const surface = e.dining?.layout?.surface ?? 0.795;
     const centre = [-0.03, 0.76];
     const cushion = surface - 0.795 + 0.515; // the banquette's cushion top in the seat frame
-    const out = { surface, hands: { depth: 0, vertices: 0 }, seat: { depth: 0, vertices: 0 } };
+    const out = { surface, hands: { depth: 0, vertices: 0, parts: {} }, seat: { depth: 0, vertices: 0 } };
+    // The lounge has neither the nook's table nor its banquette: nothing to measure against.
+    if (!table) return { surface: null, hands: null, seat: null, dining: null };
     const v = new THREE.Vector3();
     actor.traverse((o) => {
       if (!o.isSkinnedMesh) return;
@@ -65,6 +67,13 @@ async function measureContacts(page) {
           const inside = Math.hypot(v.x - centre[0], v.z - centre[1]) < 0.5 && v.y < surface && v.y > surface - 0.05;
           if (inside) {
             out.hands.vertices++;
+            // Which bone sinks deepest, and where (seat frame), to tell a palm from a forearm on the edge.
+            const part = (out.hands.parts[name] ||= { vertices: 0, depth: 0, at: null });
+            part.vertices++;
+            if (surface - v.y > part.depth) {
+              part.depth = surface - v.y;
+              part.at = [v.x, v.y, v.z].map((n) => Math.round(n * 1000) / 1000);
+            }
             out.hands.depth = Math.max(out.hands.depth, surface - v.y);
           }
         } else if (Math.abs(v.x) < 0.3 && v.z > -0.25 && v.z < 0.3 && v.y < cushion) {
@@ -76,7 +85,7 @@ async function measureContacts(page) {
     const probe = element.labScene && element.getSceneEvidence().dining;
     out.dining = probe ? { phase: probe.phase, beat: probe.beat, contacts: probe.contacts } : null;
     return out;
-  });
+  }, table);
 }
 
 const args = process.argv.slice(2);
@@ -146,11 +155,28 @@ const CAMERAS = {
     // Count shader programs linked by the page: the setting should add none of its own.
     await page.addInitScript(() => {
       window.__programLinks = 0;
+      // Each linked program's identity: its main #define lines and a hash of both sources.
+      window.__programs = [];
+      const hash = (text) => {
+        let h = 2166136261;
+        for (let i = 0; i < text.length; i++) h = Math.imul(h ^ text.charCodeAt(i), 16777619);
+        return (h >>> 0).toString(16);
+      };
       for (const Context of [globalThis.WebGL2RenderingContext, globalThis.WebGLRenderingContext]) {
         if (!Context) continue;
         const link = Context.prototype.linkProgram;
         Context.prototype.linkProgram = function (program) {
           window.__programLinks++;
+          try {
+            const sources = this.getAttachedShaders(program).map((shader) => this.getShaderSource(shader) || "");
+            const defines = sources[1]
+              .split("\n")
+              .filter((line) => /^#define (SHADER_NAME|USE_|DOUBLE_SIDED|FLIP_SIDED|ALPHA|PHYSICAL|STANDARD|OPAQUE)/.test(line))
+              .join(" ");
+            window.__programs.push({ id: hash(sources.join("\n")), defines });
+          } catch (error) {
+            window.__programs.push({ id: "unreadable", defines: String(error) });
+          }
           return link.call(this, program);
         };
       }
@@ -234,8 +260,9 @@ const CAMERAS = {
             const file = path.join(out, `${stem}.png`);
             await (viewportName === "phone" ? scene : page).screenshot({ path: file });
             const e = await evidence();
-            const contacts = flag("measure") ? await measureContacts(page) : null;
+            const contacts = flag("measure") ? await measureContacts(page, activity !== "lounge") : null;
             if (contacts) contacts.programLinks = await page.evaluate(() => window.__programLinks);
+            if (contacts) contacts.programs = await page.evaluate(() => window.__programs.map((p) => p.id));
             report.captures.push({ file, avatar, activity, camera: cameraName, evidence: summarize(e), contacts });
             console.log(
               JSON.stringify({
@@ -265,6 +292,7 @@ const CAMERAS = {
       }
     }
     report.errors = errors;
+    report.programs = await page.evaluate(() => window.__programs);
     await fs.writeFile(
       path.join(out, `evidence-${viewportName}-${cameraNames.join("+").replace(/[{}":,]/g, "")}.json`),
       JSON.stringify(report, null, 2) + "\n"

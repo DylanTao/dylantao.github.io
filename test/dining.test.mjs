@@ -13,7 +13,7 @@ import {
   dayNumber,
   menuFor,
 } from "../assets/js/home-scene/dining-menu.mjs";
-import { BEATS, eveningPose, levelAt, mealPose, planMeal, remainingAt, stillTime, stageAt } from "../assets/js/home-scene/dining-motion.mjs";
+import { BEATS, edgeAt, eveningPose, levelAt, mealPose, planMeal, remainingAt, stillTime, stageAt } from "../assets/js/home-scene/dining-motion.mjs";
 import { COFFEE_TIMELINE, activityPose, coffeeTableClock } from "../assets/js/home-scene/activities.mjs";
 
 const index = JSON.parse(fs.readFileSync(new URL("../assets/models/home/table-setting/index.json", import.meta.url), "utf8"));
@@ -128,6 +128,29 @@ test("a meal's choreography stays on the table, eats in order and never loops", 
   }
   assert.equal(stageAt("dinner", 0.7).stage, "dessert");
   assert.equal(stageAt("lunch", 0.95).stage, "linger");
+});
+
+test("a resting hand keeps 13 cm onto the table from its measured near edge", () => {
+  // A round top whose near edge recedes at the sides, as the nook's does (seat frame).
+  const edge = [-0.42, -0.3, -0.18, -0.06, 0.06, 0.18, 0.3, 0.42].map((x) => [x, 0.76 - Math.sqrt(0.25 - (x + 0.03) ** 2)]);
+  assert.ok(Math.abs(edgeAt(edge, -0.24) - (0.76 - Math.sqrt(0.25 - 0.0441))) < 0.01);
+  // With the plate near the diner, the resting palms move in from the edge; the rest stay put.
+  const near = { ...layout, plate: [-0.01, 0.43], edge };
+  const plan = planMeal({ meal: "lunch", seed: 3, progress: 0.5, bites: { main: 8, dessert: 0 } });
+  let rests = 0;
+  for (let t = 0; t < 240; t += 0.1) {
+    const p = mealPose(plan, t, anchors, near);
+    for (const hand of Object.values(p.hands)) {
+      if (hand?.mode !== "rest" || (hand.reach ?? 1) < 1) continue;
+      rests++;
+      assert.ok(hand.palm[2] >= edgeAt(edge, hand.palm[0]) + 0.13 - 1e-9, `palm ${hand.palm} at ${t}`);
+    }
+  }
+  assert.ok(rests > 0, "the free hand rests during lunch");
+  // Without a measured edge the authored places stand.
+  const free = mealPose(plan, 30, anchors, { ...layout, plate: [-0.01, 0.43] });
+  const held = mealPose(plan, 30, anchors, near);
+  for (const side of ["R", "L"]) if (free.hands[side]?.mode === "rest") assert.ok(held.hands[side].palm[2] >= free.hands[side].palm[2]);
 });
 
 test("a sip tips the glass to the lips and lowers the level; the still is the same every time", () => {

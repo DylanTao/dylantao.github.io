@@ -388,6 +388,25 @@ export function levelAt(plan, t, { start = 0.8, perSip = 0.13, floor = 0.16 } = 
   return clamp(level, 0, 1);
 }
 
+// The table's near edge under x, from the layout's measured profile ([[x, z], ...] in the seat
+// frame, sorted by x), or null where the setting has none.
+export function edgeAt(edge, x) {
+  if (!edge?.length) return null;
+  if (x <= edge[0][0]) return edge[0][1];
+  for (let i = 1; i < edge.length; i++)
+    if (x <= edge[i][0]) {
+      const [x0, z0] = edge[i - 1],
+        [x1, z1] = edge[i];
+      return z0 + ((z1 - z0) * (x - x0)) / Math.max(1e-6, x1 - x0);
+    }
+  return edge[edge.length - 1][1];
+}
+const REST_INSET = 0.13;
+function onTable(layout, point) {
+  const edge = edgeAt(layout.edge, point[0]);
+  return edge == null ? point : [point[0], point[1], Math.max(point[2], edge + REST_INSET)];
+}
+
 // Where hands and items live, from the layout.
 function homes(layout, plates) {
   const y = layout.surface;
@@ -400,10 +419,11 @@ function homes(layout, plates) {
     // The utensil held low over the near rim, tines toward the food.
     utensilRest: (name) => [course(name)[0] + 0.075, y + 0.04, course(name)[1] - 0.075],
     utensilDir: vnorm([-0.34, -0.52, 0.78]),
-    // The free hand flat on the table beside the plate, fingers toward its far side.
-    palmRest: (name) => [course(name)[0] - 0.22, y, course(name)[1] - 0.1],
+    // The free hand flat on the table beside the plate, fingers toward its far side, and at least
+    // 13 cm in from the table's near edge, so the wrist and forearm lie on the top, not over the edge.
+    palmRest: (name) => onTable(layout, [course(name)[0] - 0.22, y, course(name)[1] - 0.1]),
     // The utensil hand at rest, on its own side, clear of the napkin and the cutlery on it.
-    palmRestR: (name) => [course(name)[0] + 0.21, y, course(name)[1] - 0.125],
+    palmRestR: (name) => onTable(layout, [course(name)[0] + 0.21, y, course(name)[1] - 0.125]),
     palmDir: vnorm([0.28, 0, 1]),
     // The utensil laid with its handle on the plate's rim while the hand is busy, or done.
     utensilDown: (name) => [course(name)[0] + 0.07, y + rimOf(name) - 0.006, course(name)[1] + 0.02],

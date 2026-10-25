@@ -54,6 +54,7 @@ export function createDining({
     barCup = null; // the coffee bar's cup, which the controller owns and props() places
   const models = new Map(); // file -> { state, source, promise }
   const raycaster = new THREE.Raycaster();
+  const box = new THREE.Box3();
 
   function loadIndex() {
     if (indexState !== "idle") return indexReady;
@@ -82,6 +83,15 @@ export function createDining({
       .then(() => loadModel(new URL(`table-setting/${file}`, baseUrl).href))
       .then((gltf) => {
         if (disposed || !gltf?.scene) throw new Error("released");
+        // The house's surfaces carry RGBA vertex colour. Some setting exports carry RGB, which would
+        // compile program variants of their own; these copies take an opaque alpha instead.
+        gltf.scene.traverse((o) => {
+          const color = o.isMesh && o.geometry.attributes.color;
+          if (!color || color.itemSize !== 3) return;
+          const rgba = new Float32Array(color.count * 4);
+          for (let i = 0; i < color.count; i++) rgba.set([color.getX(i), color.getY(i), color.getZ(i), 1], i * 4);
+          o.geometry.setAttribute("color", new THREE.BufferAttribute(rgba, 4));
+        });
         entry.source = gltf.scene;
         entry.state = "ready";
         requestFrame();
@@ -111,6 +121,41 @@ export function createDining({
     root.traverse((o) => o.isMesh && o.visible && !o.userData.diningProp && meshes.push(o));
     const hit = raycaster.intersectObjects(meshes, false)[0];
     return hit ? hit.point.applyMatrix4(frame.inverse).y : null;
+  }
+
+  // The table's near edge in the seat frame, found from its own top: for each x across the setting,
+  // the nearest z (toward the diner) where the top is still under the point. Resting hands keep to
+  // the top by it (dining-motion.mjs onTable).
+  function tableEdge(root, frame, surface) {
+    if (!root) return null;
+    // Only the meshes over the setting's square metre take part.
+    const region = new THREE.Box3(new THREE.Vector3(-0.6, surface - 0.1, -0.1), new THREE.Vector3(0.6, surface + 0.1, 1.4)).applyMatrix4(
+      frame.matrix
+    );
+    const meshes = [];
+    root.updateWorldMatrix(true, true);
+    root.traverse((o) => {
+      if (!o.isMesh || !o.visible || o.userData.diningProp) return;
+      if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+      if (box.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld).intersectsBox(region)) meshes.push(o);
+    });
+    const down = new THREE.Vector3(0, -1, 0);
+    const isTop = (x, z) => {
+      raycaster.set(new THREE.Vector3(x, surface + 0.3, z).applyMatrix4(frame.matrix), down);
+      raycaster.far = 0.6;
+      const hit = raycaster.intersectObjects(meshes, false)[0];
+      return Boolean(hit) && Math.abs(hit.point.applyMatrix4(frame.inverse).y - surface) < 0.012;
+    };
+    const edge = [];
+    for (let x = -0.42; x <= 0.421; x += 0.06) {
+      // Start from a point on the open top (something may stand at the table's centre).
+      let z = [0.8, 0.66, 0.52].find((start) => isTop(x, start));
+      if (z === undefined) continue;
+      while (z > 0.02 && isTop(x, z - 0.04)) z -= 0.04;
+      for (let step = 0.02; step >= 0.005; step /= 2) if (isTop(x, z - step)) z -= step;
+      edge.push([Math.round(x * 1000) / 1000, Math.round(z * 1000) / 1000]);
+    }
+    return edge.length >= 2 ? edge : null;
   }
 
   // ── A setting for an activity ──────────────────────────────────────────────────────────────────
@@ -228,20 +273,23 @@ export function createDining({
     const next = { group, items, liquids: [] };
     const layout = resolveLayout(s, root);
     buildLiquids(s, next, layout);
-    Promise.resolve(compile())
-      .catch(() => {})
-      .then(() => {
-        if (disposed || setting !== s || s.group === group) return;
-        if (previous) {
-          s.bite?.forEach((m) => m.removeFromParent());
-          s.bite = null;
-          s.biteKey = null;
-          previous.removeFromParent();
-        }
-        Object.assign(s, next, { layout, level, ready: true, removed: {} });
-        group.visible = true;
-        requestFrame();
-      });
+    // No scene-wide warmup here: run when a meal changed, it compiled much of the house again (82
+    // more program links over a five-style, four-meal lab session than without it). The setting's
+    // materials share the house's programs, so it simply joins the next frame.
+    Promise.resolve().then(() => {
+      // A setting replaced meanwhile (the activity changed) never shows: its copy leaves the room.
+      if (disposed || setting !== s) return group.removeFromParent();
+      if (s.group === group) return;
+      if (previous) {
+        s.bite?.forEach((m) => m.removeFromParent());
+        s.bite = null;
+        s.biteKey = null;
+        previous.removeFromParent();
+      }
+      Object.assign(s, next, { layout, level, ready: true, removed: {} });
+      group.visible = true;
+      requestFrame();
+    });
     s.pendingLevel = level;
     return true;
   }
@@ -294,6 +342,7 @@ export function createDining({
       surface,
       plate,
       charger,
+      edge: tableEdge(root, s.frame, surface),
       // The fork rests on the folded napkin.
       forkLift: around.napkin ? spec.napkinHeight || 0.009 : 0,
       // Breakfast drinks from the bar's cup on its saucer; the other meals from their glass.
@@ -319,10 +368,10 @@ export function createDining({
     const wall = segments * (rings + 1);
     const count = wall + segments + 1;
     const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 4); // RGBA, as the house's surfaces (one program)
     const body = new THREE.Color().setRGB(...drink.color, THREE.SRGBColorSpace);
     const top = new THREE.Color().setRGB(...(drink.top || drink.color), THREE.SRGBColorSpace);
-    for (let i = 0; i < count; i++) colors.set(i < wall ? [body.r, body.g, body.b] : [top.r, top.g, top.b], i * 3);
+    for (let i = 0; i < count; i++) colors.set(i < wall ? [body.r, body.g, body.b, 1] : [top.r, top.g, top.b, 1], i * 4);
     const indices = [];
     for (let j = 0; j < segments; j++)
       for (let k = 0; k < rings; k++) {
@@ -333,7 +382,7 @@ export function createDining({
     for (let j = 0; j < segments; j++) indices.push(wall + segments, wall + ((j + 1) % segments), wall + j);
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 4));
     geometry.setIndex(indices);
     const material = new THREE.MeshStandardMaterial({
       name: "table liquid",
@@ -730,7 +779,13 @@ export function createDining({
     if (hand.mode === "rest") {
       handRotation(side, "rest", hand, r.actor.quaternion, rotation);
       const palmPoint = new THREE.Vector3((side === "R" ? -1 : 1) * palm, 0.062, 0).applyQuaternion(rotation);
-      return { wrist: toWorld(hand.palm).sub(palmPoint), rotation };
+      const top = toWorld(hand.palm);
+      const wrist = top.clone().sub(palmPoint);
+      // The hand's own lowest point (its pad, thumb or knuckles) settles on the top, measured from
+      // the avatar's skinned hand rather than assumed from a palm thickness.
+      const lowest = lowestOfHand(r.limbs[side], rotation);
+      if (lowest !== null) wrist.y = top.y + 0.002 - lowest;
+      return { wrist, rotation };
     }
     if (hand.mode === "vessel") {
       const grip = vesselInHand(side, index.tableware.items[hand.item] || {}, palm);
@@ -773,23 +828,74 @@ export function createDining({
       const reach = hand.reach ?? 1;
       limb.hand.updateWorldMatrix(true, false);
       bendW.copy(BEND[side]).applyQuaternion(r.actor.quaternion);
-      const goal = targetFor(r, s, p, side, hand);
-      if (reach < 1) {
-        // Blend from the pose this grip leaves, or from the authored clip at arrival.
-        const from = hand.from
-          ? targetFor(r, s, p, side, hand.from)
-          : { wrist: limb.hand.getWorldPosition(v3()), rotation: limb.hand.getWorldQuaternion(q4()) };
-        goal.wrist = from.wrist.lerp(goal.wrist, reach);
-        goal.rotation = from.rotation.slerp(goal.rotation, reach);
+      // Blend from the pose this grip leaves, or from the authored clip at arrival.
+      const clip = hand.from ? null : { wrist: limb.hand.getWorldPosition(v3()), rotation: limb.hand.getWorldQuaternion(q4()) };
+      const place = () => {
+        const goal = targetFor(r, s, p, side, hand);
+        if (reach < 1) {
+          const from = hand.from ? targetFor(r, s, p, side, hand.from) : { wrist: clip.wrist.clone(), rotation: clip.rotation.clone() };
+          goal.wrist = from.wrist.lerp(goal.wrist, reach);
+          goal.rotation = from.rotation.slerp(goal.rotation, reach);
+        }
+        targetW.copy(goal.wrist);
+        solveLimb(limb, targetW, bendW);
+        setWorldRotation(limb.hand, goal.rotation);
+        limb.hand.updateWorldMatrix(true, false);
+        hand.drift = limb.hand.getWorldPosition(v3()).distanceTo(targetW);
+      };
+      place();
+      const rest = hand.mode === "rest";
+      curlFingers(limb, side, rest ? 0.12 : hand.mode === "vessel" ? 0.95 : 1.15, reach, rest ? 0 : 0.45);
+      // The first time a hand rests, its relaxed shape is measured, and it settles again on it.
+      if (rest && limb.shape === undefined) {
+        limb.shape = handShape(r, limb);
+        if (limb.shape) place();
       }
-      targetW.copy(goal.wrist);
-      solveLimb(limb, targetW, bendW);
-      setWorldRotation(limb.hand, goal.rotation);
-      limb.hand.updateWorldMatrix(true, false);
-      hand.drift = limb.hand.getWorldPosition(v3()).distanceTo(targetW);
-      curlFingers(limb, side, hand.mode === "rest" ? 0.12 : hand.mode === "vessel" ? 0.95 : 1.15, reach);
     }
     r.actor.updateMatrixWorld(true);
+  }
+
+  // The hand and its fingers' skinned vertices in the hand bone's frame (world scale), as they are
+  // now; lowestOfHand turns them by a hand rotation to find how far below the wrist they reach.
+  function handShape(r, limb) {
+    const owners = new Set([limb.hand, ...(limb.fingers || []).flat()]);
+    limb.hand.updateWorldMatrix(true, true);
+    const origin = limb.hand.getWorldPosition(v3());
+    const inverse = limb.hand.getWorldQuaternion(q4()).invert();
+    const points = [];
+    const point = v3();
+    r.actor.traverse((o) => {
+      if (!o.isSkinnedMesh || o.userData.outline) return;
+      const skin = o.geometry.attributes.skinIndex,
+        weight = o.geometry.attributes.skinWeight;
+      if (!skin || !weight) return;
+      const bones = o.skeleton.bones;
+      for (let i = 0; i < skin.count; i++) {
+        let best = 0,
+          bone = null;
+        for (let k = 0; k < 4; k++) {
+          const w = weight.getComponent(i, k);
+          if (w > best) {
+            best = w;
+            bone = bones[skin.getComponent(i, k)];
+          }
+        }
+        if (!owners.has(bone)) continue;
+        o.getVertexPosition(i, point);
+        point.applyMatrix4(o.matrixWorld).sub(origin).applyQuaternion(inverse);
+        points.push(point.x, point.y, point.z);
+      }
+    });
+    return points.length ? new Float32Array(points) : null;
+  }
+  const turn = new THREE.Matrix4();
+  function lowestOfHand(limb, rotation) {
+    const shape = limb.shape;
+    if (!shape) return null;
+    const e = turn.makeRotationFromQuaternion(rotation).elements;
+    let lowest = Infinity;
+    for (let i = 0; i < shape.length; i += 3) lowest = Math.min(lowest, e[1] * shape[i] + e[5] * shape[i + 1] + e[9] * shape[i + 2]);
+    return lowest;
   }
 
   // Each segment turns toward the palm about the axis across the finger: a grip, not a pose.
@@ -797,7 +903,7 @@ export function createDining({
     palmNormal = v3(),
     curlAxis = v3(),
     joint = v3();
-  function curlFingers(limb, side, amount, reach) {
+  function curlFingers(limb, side, amount, reach, thumbShare = 0.45) {
     if (!limb.fingers?.length) return;
     limb.hand.updateWorldMatrix(true, false);
     palmNormal
@@ -816,7 +922,8 @@ export function createDining({
         curlAxis.crossVectors(fingerDir, palmNormal);
         if (curlAxis.lengthSq() < 1e-8) return;
         curlAxis.normalize();
-        rotateAbout(bone, curlAxis, amount * (thumb ? 0.45 : segment ? 1.05 : 0.95) * reach);
+        // A hand laid flat keeps its thumb beside the palm instead of curling it under.
+        rotateAbout(bone, curlAxis, amount * (thumb ? thumbShare : segment ? 1.05 : 0.95) * reach);
       });
     }
   }
@@ -1130,13 +1237,22 @@ export function createDining({
     // view once its own programs are ready.
     attach(roomId, root) {
       if (disposed || !root || !["kitchen", "lounge"].includes(roomId)) return;
-      loadIndex().then((data) => {
-        if (!data?.settings?.[roomId] || disposed) return;
-        const routine = resolveRoutine(config, new Date());
-        if (!settingKey(routine) || routine.room !== roomId) return;
-        const course = courseFor(menuFor(routine.dateKey, routine.prop), routine.id);
-        if (course) for (const file of filesFor(course, 0)) model(file);
-      });
+      loadIndex()
+        .then((data) => {
+          if (!data?.settings?.[roomId] || disposed) return null;
+          const routine = resolveRoutine(config, new Date());
+          if (!settingKey(routine) || routine.room !== roomId) return null;
+          const course = courseFor(menuFor(routine.dateKey, routine.prop), routine.id);
+          if (!course) return null;
+          return Promise.all(filesFor(course, 0).map((file) => model(file).promise)).then(() => routine);
+        })
+        .then((routine) => {
+          // The arrival's meal is laid (hidden) while the house loads, so the first view's program
+          // warmup prepares it with everything else instead of the first frame compiling it.
+          if (!routine || disposed || setting || !roomRoot(roomId)) return;
+          setting = createSetting(routine);
+          if (setting) assemble(setting, 0);
+        });
     },
     pose,
     props,
