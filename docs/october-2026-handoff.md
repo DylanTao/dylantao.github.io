@@ -28,7 +28,7 @@ Work the items in order. On Oct 24 Sirui allowed a few parallel agents: each wor
 - [x] 1a. Fix the focus test `sitewide.spec.js:1863`. It focuses before `load`, so Chromium's later `#research` fragment handling resets focus to `<body>`. Wait for `load` first. **Done** in `2acd88996`; green in CI on `bbd32e659` (visual run 40137937323).
 - [ ] 1b. Fix the night-door test `estate-redesign.spec.js:38/165`, new on Oct 24 and never green in CI. At 21:30 `scheduledOpen` stays true, so the routine and light update (`controller.mjs:1235`) did not apply. Reproduce in the Linux Playwright image and fix the cause. **Not reproduced:** it passed locally under software GL, and the Linux image timed out earlier in the test. It then passed in CI on `bbd32e659` (run 40137937323, attempt 1), so it is intermittent. `2acd88996` makes the assertion print the clock mode, activity, daylight and door state; if it fails again, start from that message.
 - [ ] 1c. Commit Codex's leftover `retreat-integration-2026-10-24/ci-repair` and `deployed` evidence. After CI is green, append the release receipt (workflow and job IDs, Pages commit) and update the retreat section's custody line. **Evidence committed** in `bbd32e659`; the receipt waits for a fully green visual run.
-- [ ] 1d. Two new intermittent failures on `bbd32e659`: `interactions.spec.js:1474` (legacy job) failed once and passed on rerun; `desk-scene.spec.js:3276` (scene-journey job) timed out, and its rerun was cancelled by the next push. Check the next visual run, and reproduce whichever fails again.
+- [x] 1d. Two new intermittent failures on `bbd32e659`: `interactions.spec.js:1474` (legacy job) failed once and passed on rerun; `desk-scene.spec.js:3276` (scene-journey job) timed out, and its rerun was cancelled by the next push. Check the next visual run, and reproduce whichever fails again. **Resolved:** `desk-scene.spec.js:3276` passed on `effe8aa15` and `a7c8534e5`. `interactions.spec.js:1474` failed again on `a7c8534e5`. The cause was real: after an outside click, focus stayed on `<body>` until the closing motion settled (0.7–4 s locally). `2eba41d12` returns focus when the press's click lands, so locally it comes back 0–4 ms after the click in 12 of 12 runs. On `a7c8534e5` the night-facade poll (`estate-redesign.spec.js:172`) also ran out of wall time 22 software frames in, just short of closed. `9258c6684` gives it 300 ms steps and a 120 s budget, and keeps the last state.
 - [x] 1e. Two deterministic failures on `effe8aa15`, both fixed:
   - `desk-scene.spec.js:1608` (bone-texture release, scene-core-2 job) expected every replaced rig to have drawn. Since `9afa1dd00` the Walk body is only compiled until someone walks, so it never allocates a bone texture. `8b63a94c8` tags Walk rigs at disposal and keeps the leak check for every rig.
   - The Generated metrics contracts job runs the whole Python suite without `pypdf`, which the Oct 23 CV PDF test imports; it surfaced only because a code-activity refresh triggered that workflow. `be108a555` installs `requirements-cv-pdf.txt` there as `unit-tests.yml` does.
@@ -63,10 +63,11 @@ Work the items in order. On Oct 24 Sirui allowed a few parallel agents: each wor
 
 - [ ] 12. Put the bedroom and library next to each other: an adjacent spiral chamber, a route of 6 m or less (now 15.8 m including a 5.06 m bridge), with the bridge removed.
 - [ ] 13. Build one authored pool activity, with contacts, entry and exit, camera and recovery.
-- [ ] 14. Weather:
-  - a daily workflow running `bin/build_coastal_weather.py --refresh`;
-  - test a seasonal logistic or second-order Markov model, with ENSO, against the current held-out Brier score of 0.0842, and keep it only if it is better;
-  - verify that rain renders, and document it honestly.
+- [ ] 14. Weather (14a and 14b done in `6d0efabe5` and `e8d734208`; 14c rain rendering is open):
+  - [x] a daily workflow. `.github/workflows/update-weather.yml` refreshes the NWS hourly snapshot at 10:25 UTC with `GITHUB_TOKEN`, so its pushes start no CI and the scheduled deploy publishes them. On an outage or stale data it keeps the last valid snapshot.
+  - Follow-up: `bin/verify_coastal_retreat_interactions.cjs` pins a natural rain case on 2026-10-30 inside the Oct 24 snapshot. Re-point or retire that case the next time it is used. It is not in CI.
+  - [x] a better long-range model. A CV-selected ridge logistic weather generator (14 terms: harmonics, wet-day memory, yesterday's amount, days since rain) scores held-out Brier 0.08089 against 0.08416 for the old model, and is better in 9 of 10 held-out years. ENSO did not help and is left out. See `artwork/coastal-home/weather-2026-10-24/README.md` and `model-evaluation.json`.
+  - [ ] verify that rain renders, and document it honestly (14c, in progress).
 - [ ] 15. Optional: relocate the laundry bay, only if the pool close-up clearly improves.
 
 **Final window**
