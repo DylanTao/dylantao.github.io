@@ -1,0 +1,284 @@
+{
+  "scope": "Delivered native avatars/material hooks, real bathroom mirror module, controlled lights. Static room casters disabled to isolate the actual full-avatar shadow target. Before = excludeHead false (the previous primary view), after = the default. Not production illumination or physical-phone FPS.",
+  "rawSha256": "48708691874feee7c4908cb2066ac9a8ad0689b19cc3f1de7e9919e8161c6645",
+  "walkPresenceSha256": "c8887a7a758872e9ebd0ae0e3424238a5e8bab48e5443657cc9cd731e6c46962",
+  "passed": true,
+  "errors": [],
+  "avatars": {
+    "ghibli": {
+      "exclusion": {
+        "primitives": 9,
+        "triangles": 84062
+      },
+      "mirrorUnchanged": true,
+      "downLookChanged": {
+        "down80": true,
+        "down69": true
+      },
+      "pixelHashes": {
+        "down80-before": "78c51e33",
+        "down69-before": "562cd9f6",
+        "mirror-before": "a2191ad7",
+        "down80-after": "a0598e1d",
+        "down69-after": "1688933d",
+        "mirror-after": "a2191ad7"
+      },
+      "shadowHashes": {
+        "down80-before": "b68cbaa2",
+        "down69-before": "b68cbaa2",
+        "mirror-before": "b68cbaa2",
+        "down80-after": "b68cbaa2",
+        "down69-after": "b68cbaa2",
+        "mirror-after": "b68cbaa2"
+      },
+      "trianglesPerFrame": {
+        "down80-before": 537432,
+        "down69-before": 540552,
+        "mirror-before": 230461,
+        "down80-after": 369308,
+        "down69-after": 372428,
+        "mirror-after": 149520
+      },
+      "glErrors": [0],
+      "shadowControl": {
+        "visible": "b68cbaa2",
+        "hidden": "ac5c9dc5",
+        "restored": "b68cbaa2",
+        "avatarSensitive": true,
+        "unchanged": true
+      },
+      "presenceUpdateMs": {
+        "idle": {
+          "median": 1.5,
+          "p95": 21,
+          "maximum": 82.5
+        },
+        "walk": {
+          "median": 0.4000000059604645,
+          "p95": 2.9000000059604645,
+          "maximum": 15.800000011920929
+        }
+      }
+    },
+    "lizard": {
+      "exclusion": {
+        "primitives": 8,
+        "triangles": 55670
+      },
+      "mirrorUnchanged": true,
+      "downLookChanged": {
+        "down80": true,
+        "down69": false
+      },
+      "pixelHashes": {
+        "down80-before": "63a98be0",
+        "down69-before": "350aa15e",
+        "mirror-before": "d43d64da",
+        "down80-after": "61b8366e",
+        "down69-after": "350aa15e",
+        "mirror-after": "d43d64da"
+      },
+      "shadowHashes": {
+        "down80-before": "f795681a",
+        "down69-before": "f795681a",
+        "mirror-before": "f795681a",
+        "down80-after": "f795681a",
+        "down69-after": "f795681a",
+        "mirror-after": "f795681a"
+      },
+      "trianglesPerFrame": {
+        "down80-before": 385380,
+        "down69-before": 388500,
+        "mirror-before": 182268,
+        "down80-after": 274040,
+        "down69-after": 277160,
+        "mirror-after": 126598
+      },
+      "glErrors": [0],
+      "shadowControl": {
+        "visible": "f795681a",
+        "hidden": "ac5c9dc5",
+        "restored": "f795681a",
+        "avatarSensitive": true,
+        "unchanged": true
+      },
+      "presenceUpdateMs": {
+        "idle": {
+          "median": 0.4000000059604645,
+          "p95": 1.4000000059604645,
+          "maximum": 3.600000023841858
+        },
+        "walk": {
+          "median": 0.30000001192092896,
+          "p95": 3.4000000059604645,
+          "maximum": 7.800000011920929
+        }
+      }
+    },
+    "south-park": {
+      "exclusion": {
+        "primitives": 7,
+        "triangles": 97424
+      },
+      "mirrorUnchanged": true,
+      "downLookChanged": {
+        "down80": true,
+        "down69": true
+      },
+      "pixelHashes": {
+        "down80-before": "1847709",
+        "down69-before": "db53a11f",
+        "mirror-before": "d43d64da",
+        "down80-after": "fd1a8c14",
+        "down69-after": "50d7eee8",
+        "mirror-after": "d43d64da"
+      },
+      "shadowHashes": {
+        "down80-before": "e22dbf4",
+        "down69-before": "e22dbf4",
+        "mirror-before": "e22dbf4",
+        "down80-after": "e22dbf4",
+        "down69-after": "e22dbf4",
+        "mirror-after": "e22dbf4"
+      },
+      "trianglesPerFrame": {
+        "down80-before": 566672,
+        "down69-before": 569792,
+        "mirror-before": 245717,
+        "down80-after": 371824,
+        "down69-after": 374944,
+        "mirror-after": 148880
+      },
+      "glErrors": [0],
+      "shadowControl": {
+        "visible": "e22dbf4",
+        "hidden": "ac5c9dc5",
+        "restored": "e22dbf4",
+        "avatarSensitive": true,
+        "unchanged": true
+      },
+      "presenceUpdateMs": {
+        "idle": {
+          "median": 0.699999988079071,
+          "p95": 3.2999999821186066,
+          "maximum": 15.400000005960464
+        },
+        "walk": {
+          "median": 0.3999999761581421,
+          "p95": 2.300000011920929,
+          "maximum": 19.5
+        }
+      }
+    },
+    "simpsons": {
+      "exclusion": {
+        "primitives": 7,
+        "triangles": 80370
+      },
+      "mirrorUnchanged": true,
+      "downLookChanged": {
+        "down80": true,
+        "down69": true
+      },
+      "pixelHashes": {
+        "down80-before": "678a9bd8",
+        "down69-before": "15714218",
+        "mirror-before": "d43d64da",
+        "down80-after": "e8532163",
+        "down69-after": "beead691",
+        "mirror-after": "d43d64da"
+      },
+      "shadowHashes": {
+        "down80-before": "75c2c110",
+        "down69-before": "75c2c110",
+        "mirror-before": "75c2c110",
+        "down80-after": "75c2c110",
+        "down69-after": "75c2c110",
+        "mirror-after": "75c2c110"
+      },
+      "trianglesPerFrame": {
+        "down80-before": 521856,
+        "down69-before": 524976,
+        "mirror-before": 225134,
+        "down80-after": 361116,
+        "down69-after": 364236,
+        "mirror-after": 145424
+      },
+      "glErrors": [0],
+      "shadowControl": {
+        "visible": "75c2c110",
+        "hidden": "ac5c9dc5",
+        "restored": "75c2c110",
+        "avatarSensitive": true,
+        "unchanged": true
+      },
+      "presenceUpdateMs": {
+        "idle": {
+          "median": 0.9000000059604645,
+          "p95": 9.599999994039536,
+          "maximum": 66.30000001192093
+        },
+        "walk": {
+          "median": 0.5,
+          "p95": 4,
+          "maximum": 9.299999982118607
+        }
+      }
+    },
+    "rick-and-morty": {
+      "exclusion": {
+        "primitives": 8,
+        "triangles": 80638
+      },
+      "mirrorUnchanged": true,
+      "downLookChanged": {
+        "down80": true,
+        "down69": false
+      },
+      "pixelHashes": {
+        "down80-before": "dc8f3d69",
+        "down69-before": "4b169b3e",
+        "mirror-before": "d43d64da",
+        "down80-after": "b6f343e0",
+        "down69-after": "4b169b3e",
+        "mirror-after": "d43d64da"
+      },
+      "shadowHashes": {
+        "down80-before": "5e12a3dd",
+        "down69-before": "5e12a3dd",
+        "mirror-before": "5e12a3dd",
+        "down80-after": "5e12a3dd",
+        "down69-after": "5e12a3dd",
+        "mirror-after": "5e12a3dd"
+      },
+      "trianglesPerFrame": {
+        "down80-before": 513172,
+        "down69-before": 516292,
+        "mirror-before": 189336,
+        "down80-after": 351896,
+        "down69-after": 355016,
+        "mirror-after": 109968
+      },
+      "glErrors": [0],
+      "shadowControl": {
+        "visible": "5e12a3dd",
+        "hidden": "ac5c9dc5",
+        "restored": "5e12a3dd",
+        "avatarSensitive": true,
+        "unchanged": true
+      },
+      "presenceUpdateMs": {
+        "idle": {
+          "median": 0.4000000059604645,
+          "p95": 2,
+          "maximum": 5.800000011920929
+        },
+        "walk": {
+          "median": 0.4000000059604645,
+          "p95": 3.100000023841858,
+          "maximum": 11.900000005960464
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "base": "http://127.0.0.1:4160/",
+  "overlay": true,
+  "overlaySha256": "c8887a7a758872e9ebd0ae0e3424238a5e8bab48e5443657cc9cd731e6c46962",
+  "passed": true,
+  "viewports": {
+    "desktop": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "touch": false,
+      "errors": [],
+      "passed": true,
+      "steps": [
+        {
+          "label": "south-park-down",
+          "avatar": "south-park",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.057849884033203, 23.2],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 7,
+              "triangles": 97424
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        },
+        {
+          "label": "ghibli-down",
+          "avatar": "ghibli",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.057849884033203, 23.2],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 9,
+              "triangles": 84062
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        },
+        {
+          "label": "lizard-down",
+          "avatar": "lizard",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.057849884033203, 23.2],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 8,
+              "triangles": 55670
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        },
+        {
+          "label": "simpsons-down",
+          "avatar": "simpsons",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.057849884033203, 23.2],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 7,
+              "triangles": 80370
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        },
+        {
+          "label": "rick-and-morty-down",
+          "avatar": "rick-and-morty",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.057849884033203, 23.2],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 8,
+              "triangles": 80638
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        },
+        {
+          "label": "rick-and-morty-walked-down",
+          "avatar": "rick-and-morty",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.19995403289795, 24.233117473324018],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 8,
+              "triangles": 80638
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        }
+      ]
+    },
+    "mobile": {
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "touch": true,
+      "errors": [],
+      "passed": true,
+      "steps": [
+        {
+          "label": "south-park-down",
+          "avatar": "south-park",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.057849884033203, 23.2],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 7,
+              "triangles": 97424
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        },
+        {
+          "label": "ghibli-down",
+          "avatar": "ghibli",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.057849884033203, 23.2],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 9,
+              "triangles": 84062
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        },
+        {
+          "label": "lizard-down",
+          "avatar": "lizard",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.057849884033203, 23.2],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 8,
+              "triangles": 55670
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        },
+        {
+          "label": "simpsons-down",
+          "avatar": "simpsons",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.057849884033203, 23.2],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 7,
+              "triangles": 80370
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        },
+        {
+          "label": "rick-and-morty-down",
+          "avatar": "rick-and-morty",
+          "walk": {
+            "active": true,
+            "position": [3.42, 8.057849884033203, 23.2],
+            "pitch": -1.4,
+            "room": "outside"
+          },
+          "presence": {
+            "active": true,
+            "prepared": true,
+            "sourceHidden": true,
+            "exclusion": {
+              "primitives": 8,
+              "triangles": 80638
+            }
+          },
+          "drawForward": [-2.08149717513001e-17, -0.9854497299884603, 0.16996714290024117]
+        }
+      ]
+    }
+  }
+}

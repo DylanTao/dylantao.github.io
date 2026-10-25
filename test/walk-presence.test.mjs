@@ -490,3 +490,51 @@ test("a failed actual clipped warmup draw restores shared state and releases the
   assert.equal(f.probeDisposals(), 1);
   f.presence.dispose();
 });
+
+test("primary draws submit a body-only index for rigid Head-owned triangles; shadows, mirrors and the source keep the head", () => {
+  const f = fixture();
+  // One rigid body triangle (Hips) and one rigid head triangle (Head), as in the delivered rigs.
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute([0, 0.8, 0, 0.1, 0.8, 0, 0, 1.0, 0, 0, 1.3, 0, 0.1, 1.3, 0, 0, 1.5, 0], 3));
+  geometry.setAttribute("skinIndex", new THREE.Uint16BufferAttribute([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], 4));
+  geometry.setAttribute("skinWeight", new THREE.Float32BufferAttribute([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], 4));
+  geometry.setIndex([0, 1, 2, 3, 4, 5]);
+  const face = new THREE.SkinnedMesh(geometry, f.material);
+  face.name = "jaw";
+  f.source.add(face);
+  f.source.updateMatrixWorld(true);
+  face.bind(f.skeleton);
+  f.presence.setSource(null);
+  f.presence.setSource(f.source, f.clips);
+  f.presence.update({ active: true, position: [0, 0, 0], elapsed: 0, reduced: true });
+  assert.deepEqual(f.presence.evidence().primaryHeadExclusion, { primitives: 1, triangles: 1 });
+  const walking = f.presence.object.getObjectByName("jaw"),
+    full = geometry.index,
+    draw = () => {
+      walking.onBeforeRender(f.renderer, f.scene, f.camera, geometry, f.material, null);
+      const submitted = Array.from(geometry.index.array);
+      walking.onAfterRender(f.renderer, f.scene, f.camera, geometry, f.material, null);
+      return submitted;
+    };
+  assert.equal(walking.geometry, geometry, "the walking clone shares the delivered geometry");
+  assert.deepEqual(draw(), [0, 1, 2, 3, 4, 5], "mirror and other draws outside the primary scope see the whole person");
+  f.presence.withoutHead(() => {
+    assert.deepEqual(draw(), [0, 1, 2], "the primary view draws only the body triangle");
+    assert.equal(geometry.index, full, "the full index returns after each draw");
+  });
+  assert.equal(walking.onBeforeShadow, THREE.Object3D.prototype.onBeforeShadow, "the shadow pass is untouched and keeps the head");
+  assert.throws(
+    () =>
+      f.presence.withoutHead(() => {
+        walking.onBeforeRender(f.renderer, f.scene, f.camera, geometry, f.material, null);
+        throw new Error("draw failed mid-pass");
+      }),
+    /mid-pass/
+  );
+  assert.equal(geometry.index, full, "a failed primary draw cannot leave the shared geometry headless");
+  const rebuilt = f.presence.evidence().primaryHeadExclusion;
+  f.presence.setSource(null);
+  f.presence.setSource(f.source, f.clips);
+  assert.deepEqual(f.presence.evidence().primaryHeadExclusion, rebuilt, "a style switch reuses the cached body-only index");
+  f.presence.dispose();
+});
