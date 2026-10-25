@@ -66,8 +66,9 @@ const STILLS = {
   // Capture it in a run of its own: once earlier stills have compiled the house's programs, the browser's shader
   // cache lets the house appear before the sketch has drawn.
   "loading-sketch": { sketch: [1600, 2600, 3600, 4600, 6000] },
-  // At 04:00 Sirui is asleep, so the sketch draws the bedroom (the card teaser's frame).
-  "loading-sketch-bedroom": { sketch: [2600, 4600], date: "2026-10-16T04:00:00-07:00" },
+  // At 04:00 Sirui is asleep, so the sketch draws the bedroom (the card teaser's frame). The pen draws only
+  // what finished work allows, so the frame waits for its own account: the bedroom, at least half drawn.
+  "loading-sketch-bedroom": { sketchUntil: { drawing: "sleep", drawn: 0.5 }, date: "2026-10-16T04:00:00-07:00" },
   // The land past the mainland loads on the first visit outside, so these wait for it.
   "camera-field": { room: "outside", minute: 15 * 60, wait: 20000, camera: { target: [0, 8, -10], yaw: 3.45, pitch: 0.3, radius: 155 } },
   "hinterland-a": { room: "outside", minute: 15 * 60, wait: 9000, camera: { target: [130, 18, 5], yaw: 3.3, pitch: 0.1, radius: 120 } },
@@ -158,7 +159,7 @@ async function objectPosition(scene, pattern, actor = false) {
       });
       // A dated still fixes what Date reports; timers and animation frames keep running.
       await page.clock.setFixedTime(new Date(still.date || WEEKDAY));
-      await page.goto(`${baseURL}/?scene-lab=1${still.sketch ? "&cinematic=live" : ""}${still.query ? `&${still.query}` : ""}`, {
+      await page.goto(`${baseURL}/?scene-lab=1${still.sketch || still.sketchUntil ? "&cinematic=live" : ""}${still.query ? `&${still.query}` : ""}`, {
         waitUntil: "domcontentloaded",
       });
       // A 4:3 canvas without the homepage's feathered edge, so a frame needs no crop and reads on either theme.
@@ -179,6 +180,26 @@ async function objectPosition(scene, pattern, actor = false) {
           report.push({ name: `${name}-${at}`, file: path.relative(process.cwd(), file), still, errors });
         }
         console.log(name, "loading", errors.length ? errors : "ok");
+        await page.close();
+        continue;
+      }
+      if (still.sketchUntil) {
+        // The sketch canvas reports its drawing and the share drawn (loading-sketch.mjs).
+        const sketch = scene.locator(".home-world-sketch");
+        await page.waitForFunction(
+          ({ drawing, drawn }) => {
+            const canvas = document.querySelector("[data-home-desk-scene] .home-world-sketch");
+            return canvas?.dataset.sketchDrawing === drawing && Number(canvas.dataset.sketchDrawn) >= drawn;
+          },
+          still.sketchUntil,
+          { timeout: 180000 }
+        );
+        await scene.scrollIntoViewIfNeeded();
+        const file = path.join(output, `${name}-drawn.png`);
+        await scene.screenshot({ path: file });
+        const state = await sketch.evaluate((canvas) => ({ ...canvas.dataset }));
+        report.push({ name: `${name}-drawn`, file: path.relative(process.cwd(), file), still, sketch: state, errors });
+        console.log(name, "drawn", JSON.stringify(state), errors.length ? errors : "ok");
         await page.close();
         continue;
       }

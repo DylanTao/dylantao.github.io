@@ -1537,26 +1537,25 @@ systems:
         since: "2026-10-14"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/loading-sketch.webp
-          alt: Pen strokes drawing the bedroom while the 3D home loads, the bed and its duvet, a plant, the bedside lamp and a tall cupboard
-          frame: The homepage 4.6 s into loading, at 04:00 on Friday, October 16, 2026 (page clock fixed), reduced motion (each drawing still).
-        what: Pen strokes traced offline from geometry buffers draw the sea, the cliff, the cut-away house and the occupied room while the scene loads, then trace the first rendered frame.
+          alt: Pen lines drawing the bedroom while the 3D home loads, the bed and its duvet, a potted plant, tall cupboards and the floorboards
+          frame: The homepage loading at 04:00 on Friday, October 16, 2026 (page clock fixed), once the rooms had arrived and the pen had drawn 73% of the bedroom, reduced motion (each stage's drawing still).
+        what: A pen draws the house from its own traced outlines, silhouettes and creases while it loads, gated by finished work and densest just before the first frame.
         how: >-
-          `strokesFrom` in `bin/build_loading_sketch.cjs` traces each authored view's object-ID and surface-normal passes,
-          after Saito and Takahashi's geometry buffers: object outlines weighted by how much of the frame each object fills,
-          creases sharper than about 57°, and long straight runs favoured by the structure tensor's coherence. Eight
-          drawings pack into 45 KB. `createSketchEngine` flies strokes on a damped spring (`springStep`), pairs them with
-          their next targets in Hilbert-curve order (`hilbertIndex`) so a morph flows instead of tangling, and lets a
-          resting drawing breathe (`breathDepth`). `createLoadingSketch` hands an OffscreenCanvas to a worker so model
-          parsing never stalls the strokes.
+          `traceView` in `bin/build_loading_sketch.cjs` marks one-pixel edges in each view's object-ID, normal and depth
+          passes (`edgeMap`), after Saito and Takahashi's geometry buffers, links them into simplified polylines and orders
+          each layer as one hand would draw it (`orderLayer`). Seven drawings, about 56,000 points, pack into 143 KB gzipped.
+          `createSketchEngine` draws with a pen whose ink never exceeds what `allowedInk` grants from the loading segments
+          through the plan `parsePlan` reads, and lets a resting drawing breathe (`breathDepth`). `createLoadingSketch`
+          hands an OffscreenCanvas to a worker, so model parsing never stalls the pen.
         files:
           - path: bin/build_loading_sketch.cjs
-            role: Traces the drawings from the authored views.
-            functions: [strokesFrom]
+            role: Traces and orders the drawings from the views.
+            functions: [traceView, edgeMap, orderLayer]
           - path: assets/js/home-scene/loading-sketch-core.mjs
-            role: Stroke motion, Hilbert pairing, breathing and edge tracing.
-            functions: [createSketchEngine, springStep, hilbertIndex, breathDepth, frameStrokes]
+            role: Decoding, plan gating, the pen and breathing.
+            functions: [createSketchEngine, decodeDrawing, allowedInk, parsePlan, breathDepth]
           - path: assets/js/home-scene/loading-sketch.mjs
-            role: The page side, the worker hand-off and the first-frame trace.
+            role: The page side and the worker hand-off.
             functions: [createLoadingSketch]
           - path: assets/js/home-scene/loading-sketch-worker.mjs
             role: Draws off the main thread.
@@ -1570,7 +1569,7 @@ systems:
             techniques: [loading-sketch]
         limits:
           - The drawings are fixed captures of the authored views and go stale when a room or a camera changes.
-          - Image-space outlines and creases only, with no view-dependent lines such as suggestive contours.
+          - Image-space outlines, silhouettes and creases only, with no view-dependent lines such as suggestive contours.
         watchlist:
           - source: decarlo2003suggestive
             effort: medium

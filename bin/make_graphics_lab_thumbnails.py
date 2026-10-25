@@ -43,7 +43,7 @@ FRAMES = {
     "hair": STILLS / "hair-b.png",
     "gym-lifts": STILLS / "gym-b.png",
     "wildlife": STILLS / "wildlife-cormorants-b.png",
-    "loading-sketch": STILLS / "loading-sketch-bedroom-4600.png",
+    "loading-sketch": STILLS / "loading-sketch-bedroom-drawn.png",
     "camera-field": STILLS / "camera-field-golden.png",
     "hinterland": STILLS / "hinterland-golden.png",
     "gliders": STILLS / "gliders-golden.png",
