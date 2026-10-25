@@ -835,7 +835,9 @@ test("coastal loading sketch: the pen draws only what finished work allows, dens
     await page.locator('[data-home-desk-mode="3d"]').click();
     const scene = page.locator("[data-home-desk-scene]"),
       sketch = scene.locator(".home-world-sketch");
-    await expect(sketch).toHaveAttribute("data-sketch-version", "2");
+    // The sketch starts once the scene's modules have loaded, which a busy host can take longer than
+    // the default assertion timeout to do.
+    await expect(sketch).toHaveAttribute("data-sketch-version", "2", { timeout: SCENE_READY_TIMEOUT });
     // The pen's own account (loading-sketch.mjs): its drawing, the share finished work allows, the share drawn.
     const samples = [];
     const sample = async () => {
@@ -853,7 +855,7 @@ test("coastal loading sketch: the pen draws only what finished work allows, dens
     };
     await expect(scene).toHaveAttribute("data-loading-stage", "room", { timeout: SCENE_READY_TIMEOUT });
     // Sirui is held back: the pen draws what the finished work allows, then rests without adding ink.
-    await expect.poll(async () => (await sample())?.resting, { timeout: 60000 }).toBe(true);
+    await expect.poll(async () => (await sample())?.resting, { timeout: SCENE_READY_TIMEOUT }).toBe(true);
     const held = samples.at(-1);
     await page.waitForTimeout(1500);
     await sample();
