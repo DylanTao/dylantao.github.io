@@ -2,7 +2,7 @@ import * as THREE from "../three.module.min.js";
 import { menuFor, courseFor, DRINKS } from "./dining-menu.mjs";
 import { planMeal, mealPose, eveningPose, stillTime, hashString } from "./dining-motion.mjs";
 import { COFFEE_TIMELINE, coffeeTableClock } from "./activities.mjs";
-import { resolveRoutine } from "./routine.mjs";
+import { resolveRoutine, routineRoom } from "./routine.mjs";
 
 // Meals and drinks at their settings (Sirui, 2026-10-24: "i don't even see food, you should prep
 // differnt gormetn food and drink and deserts for differnt day and design better aniaiton").
@@ -104,8 +104,8 @@ export function createDining({
   }
 
   // ── The seat and its table ─────────────────────────────────────────────────────────────────────
-  function seatFrame(roomId) {
-    const room = config?.rooms?.find((r) => r.id === roomId);
+  function seatFrame(routine) {
+    const room = routineRoom(config, routine);
     if (!room) return null;
     const quaternion = new THREE.Quaternion().setFromAxisAngle(UP, room.facing || 0);
     const matrix = new THREE.Matrix4().compose(new THREE.Vector3(...room.actor), quaternion, new THREE.Vector3(1, 1, 1));
@@ -179,8 +179,8 @@ export function createDining({
   function createSetting(routine) {
     const menu = menuFor(routine.dateKey, routine.prop);
     const course = courseFor(menu, routine.id);
-    const frame = seatFrame(routine.room);
-    const spec = index.settings?.[routine.room];
+    const frame = seatFrame(routine);
+    const spec = index.settings?.[routine.station || routine.room];
     if (!course || !frame || !spec) return null;
     return {
       key: settingKey(routine),
@@ -314,6 +314,7 @@ export function createDining({
   // and while the nook still carries its own plate, the dish stacked on it as on a charger.
   function resolveLayout(s, root) {
     const spec = s.spec;
+    if (spec.whiskey) return whiskeyLayout(s, root);
     if (spec.knee) return { ...spec, rim: index.tableware.items[vesselFor(s.course)]?.rim || 0.1 };
     const probe = spec.probe || spec.glass || [-0.22, 0.74];
     const measured = surfaceUnder(root, s.frame, probe[0], probe[1], spec.surface);
@@ -353,6 +354,47 @@ export function createDining({
         main: (dish?.bites || []).map((p) => [p[0], p[1] + charger, p[2]]),
         dessert: (dessert?.bites || []).map((p) => [p[0], p[1], p[2]]),
       },
+    };
+  }
+
+  // Probe a streamed furniture piece itself, excluding its retired proxy and other table objects.
+  function furnitureTop(root, id, point, fallback) {
+    const meshes = [];
+    root.updateWorldMatrix(true, true);
+    root.traverse((o) => {
+      if (o.userData.furnitureAnchor === id) o.traverseVisible((child) => child.isMesh && !child.userData.diningProp && meshes.push(child));
+    });
+    raycaster.set(point.clone().setY(fallback + 0.5), new THREE.Vector3(0, -1, 0));
+    raycaster.far = 1.0;
+    return raycaster.intersectObjects(meshes, false)[0]?.point.y ?? fallback;
+  }
+  function whiskeyLayout(s, root) {
+    const anchorPoint = (id, offset) => {
+      const anchor = config.furniture.find((a) => a.id === id);
+      if (!anchor) return null;
+      return new THREE.Vector3(...offset).applyAxisAngle(UP, anchor.yaw || 0).add(new THREE.Vector3(...anchor.position));
+    };
+    const table = anchorPoint(s.spec.sideTable, s.spec.tableOffset);
+    if (!table) return null;
+    table.y = furnitureTop(root, s.spec.sideTable, table, table.y + s.spec.surface);
+    const surface = table.y;
+    const feet = {};
+    for (const side of ["L", "R"]) {
+      const offset = [...s.spec.ankleOffset];
+      offset[0] += (side === "R" ? 1 : -1) * s.spec.ankleSpread;
+      const point = anchorPoint(s.spec.ottoman, offset);
+      if (!point) return null;
+      point.y = furnitureTop(root, s.spec.ottoman, point, point.y + (s.spec.ottomanTop ?? 0.42));
+      const support = point.y;
+      point.y += s.spec.ankleLift;
+      feet[side] = { target: point.toArray(), support };
+    }
+    return {
+      ...s.spec,
+      surface,
+      glassRest: table.applyMatrix4(s.frame.inverse).toArray(),
+      feet,
+      rim: index.tableware.items[vesselFor(s.course)]?.rim || 0.1,
     };
   }
 
@@ -474,6 +516,9 @@ export function createDining({
       hipsApplied: null,
       head: bones.get("Head"),
       limbs: { R: limb("R"), L: limb("L") },
+      legs: Object.fromEntries(
+        ["L", "R"].map((side) => [side, { upper: bones.get("Thigh" + side), lower: bones.get("Shin" + side), hand: bones.get("Foot" + side) }])
+      ),
       avatar,
       base: new Map(),
       applied: new Map(),
@@ -487,6 +532,7 @@ export function createDining({
       rig.spine,
       rig.head,
       ...["R", "L"].flatMap((s) => [rig.limbs[s].upper, rig.limbs[s].lower, rig.limbs[s].hand, ...rig.limbs[s].fingers.flat()]),
+      ...Object.values(rig.legs).flatMap((leg) => [leg.upper, leg.lower, leg.hand]),
     ].filter(Boolean);
     rig.broken = rig.touched.length < 8;
     return rig;
@@ -514,6 +560,15 @@ export function createDining({
   // Some styles sit lower in their clip than the nook's banquette cushion allows (the Lizard by
   // 1.2 cm, measured): the hips rise by the avatar's own nookLift there, the hands following by IK.
   function liftSeat(r, s) {
+    if (s.spec.whiskey) {
+      const shift = s.spec.seatFits?.[r.avatarId];
+      if (!shift || !r.hips?.parent) return;
+      r.hips.parent.updateWorldMatrix(true, false);
+      const delta = new THREE.Vector3(...shift).applyQuaternion(s.frame.quaternion);
+      r.hips.position.copy(r.hips.parent.worldToLocal(r.hips.getWorldPosition(v3()).add(delta)));
+      r.actor.updateMatrixWorld(true);
+      return;
+    }
     const lift = r.avatar.nookLift;
     if (!lift || !r.hips?.parent || s.roomId !== "kitchen" || s.layout?.knee) return;
     r.hips.parent.updateWorldMatrix(true, false);
@@ -692,7 +747,8 @@ export function createDining({
       dessertUtensil: s.course.dessert?.utensil || "spoon",
       knife: s.course.dish?.side === "knife",
     };
-    if (s.meal === "evening") s.plan = planMeal({ ...common, meal: "evening", vessel: "glass" });
+    if (s.meal === "evening")
+      s.plan = planMeal({ ...common, meal: "evening", vessel: s.spec.whiskey ? vesselFor(s.course) : "glass", pauseScale: s.spec.whiskey ? 3 : 1 });
     else if (s.meal === "breakfast") {
       s.plan = planMeal({
         ...common,
@@ -754,10 +810,11 @@ export function createDining({
       return null;
     }
     // Paused: the bones, props and phase hold exactly as they were.
-    if (paused && !reduced && last?.s === s && last.pose) return { phase: phase(last.pose) };
+    const held = paused && !reduced && last?.s === s && last.pose;
+    if (held && !s.spec.whiskey) return { phase: phase(last.pose) };
     const r = rigFor(actor);
     if (r.broken) return null;
-    const now = planNow(s, seconds, reduced);
+    const now = held ? { plan: s.plan, t: last.t } : planNow(s, seconds, reduced);
     if (!now) {
       last = { s, pose: null, rest: true };
       return null;
@@ -772,10 +829,37 @@ export function createDining({
     // The head moved: the lips the hand travels to move with it.
     const final = sample(mouthLocal(r));
     final.body = first.body;
+    if (s.spec.whiskey) applyWhiskeyFeet(r, s, final);
     applyHands(r, s, final);
     endApplication(r);
     last = { s, pose: final, t: now.t, after: now.after, rest: false };
-    return { phase: phase(final) };
+    return { phase: phase(final), protectHead: Boolean(s.spec.whiskey && final.glass?.holder === "R") };
+  }
+
+  function applyWhiskeyFeet(r, s, pose) {
+    pose.feet = {};
+    for (const side of ["L", "R"]) {
+      const leg = r.legs[side],
+        contact = s.layout.feet[side];
+      if (!leg.upper || !leg.lower || !leg.hand || !contact) continue;
+      const rotation = leg.hand.getWorldQuaternion(q4());
+      const target = new THREE.Vector3(...contact.target);
+      bendW.set(side === "R" ? 0.12 : -0.12, 1, 0).applyQuaternion(r.actor.quaternion);
+      solveLimb(leg, target, bendW);
+      // Preserve the authored foot's orientation while the knee rises; an ankle target alone
+      // otherwise inherits the shin's turn and drives the toes through the cushion.
+      setWorldRotation(leg.hand, rotation);
+      const hip = leg.upper.getWorldPosition(v3()),
+        knee = leg.lower.getWorldPosition(v3()),
+        ankle = leg.hand.getWorldPosition(v3());
+      pose.feet[side] = {
+        target: contact.target,
+        support: contact.support,
+        ankle: ankle.toArray(),
+        drift: ankle.distanceTo(target),
+        kneeRise: knee.y - (hip.y + ankle.y) / 2,
+      };
+    }
   }
 
   function applyBody(r, body) {
@@ -910,7 +994,7 @@ export function createDining({
       };
       place();
       const rest = hand.mode === "rest";
-      curlFingers(limb, side, rest ? 0.12 : hand.mode === "vessel" ? 0.95 : 1.15, reach, rest ? 0 : 0.45);
+      curlFingers(limb, side, rest ? 0.12 : hand.mode === "vessel" ? (hand.grasp ?? 1) * 0.95 : 1.15, reach, rest ? 0 : 0.45);
       // The first time a hand rests, its relaxed shape is measured, and it settles again on it.
       if (rest && limb.shape === undefined) {
         limb.shape = handShape(r, limb);
@@ -1115,7 +1199,7 @@ export function createDining({
           itemP.addScaledVector(v3().set(0, 1, 0).applyQuaternion(itemQ), -grip.height);
           placeWorld(glass, itemP, itemQ, s.group);
         } else if (evening) {
-          const base = p?.glass?.base || L.knee;
+          const base = p?.glass?.base || L.glassRest || L.knee;
           glass.position.fromArray(base);
           glass.quaternion.identity();
         } else {
@@ -1288,6 +1372,11 @@ export function createDining({
   function clear() {
     const s = setting;
     if (!s) return;
+    if (s.spec.whiskey && rig) {
+      beginApplication(rig);
+      rig.applied.clear();
+      rig.hipsApplied = null;
+    }
     s.group?.removeFromParent();
     for (const g of s.owned.geometries) g.dispose();
     for (const m of s.owned.materials) m.dispose();
@@ -1301,10 +1390,11 @@ export function createDining({
     // room (a frozen page clock or a slow model cannot stall the house); the setting joins the
     // view once its own programs are ready.
     attach(roomId, root) {
-      if (disposed || !root || !["kitchen", "lounge"].includes(roomId)) return;
+      const whiskeyRoom = config.furniture?.find((a) => a.id === config.activities.lounge?.whiskeyStation)?.room;
+      if (disposed || !root || !["kitchen", "lounge", whiskeyRoom].includes(roomId)) return;
       loadIndex()
         .then((data) => {
-          if (!data?.settings?.[roomId] || disposed) return null;
+          if (!data || disposed) return null;
           const routine = resolveRoutine(config, new Date());
           if (!settingKey(routine) || routine.room !== roomId) return null;
           const course = courseFor(menuFor(routine.dateKey, routine.prop), routine.id);
@@ -1326,13 +1416,15 @@ export function createDining({
       if (!s?.ready || !last?.pose || last.rest) return null;
       const p = last.pose;
       const name =
-        s.meal === "evening" || p.glass?.holder === "R"
+        (s.meal === "evening" && ["R", "L"].includes(p.glass?.holder)) || p.glass?.holder === "R"
           ? vesselFor(s.course)
-          : p.dessertUtensil?.holder === "R"
-            ? utensilName(s, p, "dessert")
-            : p.utensil?.holder === "R"
-              ? utensilName(s, p, "main")
-              : null;
+          : s.meal === "evening"
+            ? null
+            : p.dessertUtensil?.holder === "R"
+              ? utensilName(s, p, "dessert")
+              : p.utensil?.holder === "R"
+                ? utensilName(s, p, "main")
+                : null;
       // At breakfast the hand holds the bar's own cup, not a copy from the setting.
       const object = name === "cup" ? barCup : name ? s.items.get(name) : null;
       if (!object?.visible) return null;
@@ -1399,6 +1491,8 @@ export function createDining({
         utensil: p?.utensil?.holder || null,
         layout: s?.layout ? { surface: s.layout.surface, plate: s.layout.plate, charger: s.layout.charger } : null,
         contacts,
+        feet: p?.feet || null,
+        station: s?.spec.whiskey ? s.frame.room.id + "/study-whiskey-lounge" : null,
         draws,
         triangles,
         models: [...models].map(([file, m]) => ({ file, state: m.state })),

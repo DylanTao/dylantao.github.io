@@ -992,6 +992,23 @@
     },
     "lounge": {
       "knee": [0.12, 0.62, 0.3]
+    },
+    "study-whiskey-lounge": {
+      "whiskey": true,
+      "ottoman": "study-whiskey-ottoman",
+      "sideTable": "study-whiskey-side-table",
+      "surface": 0.578,
+      "tableOffset": [-0.19, 0.0, 0.03],
+      "ankleOffset": [0.0, 0.0, -0.12],
+      "ankleLift": 0.075,
+      "ankleSpread": 0.09,
+      "seatFits": {
+        "lizard": [0.28, -0.0533, 0.0187],
+        "south-park": [0.28, -0.0869, -0.0037],
+        "simpsons": [0.28, -0.0869, -0.0037],
+        "ghibli": [0.28, -0.0869, -0.0037],
+        "rick-and-morty": [0.28, -0.0869, -0.0037]
+      }
     }
   },
   "avatars": {

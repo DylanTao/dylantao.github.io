@@ -2,7 +2,7 @@
   "tool": "bin/audit_coastal_overlaps.py",
   "toolSha256": "4970297877b0cc3fed6f43c4c55a8ad7dfab16e1397e1f258804e1a0e1763665",
   "source": "artwork/coastal-home/coastal-home.blend",
-  "sourceSha256": "1b7f912fc3496a103b49fa2e5ed1055ded79dbfd78a10ac51b85bb800ea53f60",
+  "sourceSha256": "e02516794b801764aca0ae62dddb68f3ccab9eaa7054e1b67ba7b9959de120b3",
   "exportsSha256": {
     "coast.glb": "63847dcbb720d92cc538badf0f029b36f8efbf91c30d637e360b3126696522f6",
     "flora.glb": "997cba7c8bfecc0e9ca29e39a51a4b9e2a5e337c622d9a97774e3c8759b86698",
@@ -12,7 +12,7 @@
     "room-gym.glb": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
     "room-kitchen.glb": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
     "room-library-upper.glb": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
-    "room-library.glb": "36e0798be8ead317589ff16a834c2f8e7fa58900f2fdb7874289acac2afb40fa",
+    "room-library.glb": "9c7a0869f02cceb04118373b8aacd4fb02e750673cc661172708341f982f1bde",
     "room-lounge.glb": "7f98056c77046dfb33aeb180124a4f74b475cf64f16cb78dc91e7f6b710477f3",
     "room-onsen.glb": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
     "room-sleep.glb": "72e5433b2d65ecb5e6451506d4b78da48647fc882916205e16267b2d03100790",
@@ -95,7 +95,7 @@
       "anchor": "living-eames-lounge",
       "item": "eames-lounge",
       "file": "eames-lounge-lod0.glb",
-      "sha256": "cd04a42079abd52010065d54b502826a2d347d70ecf35b6b9df4c626d3cd10e8"
+      "sha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691"
     },
     {
       "anchor": "gym-pan",
@@ -122,6 +122,18 @@
       "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
     },
     {
+      "anchor": "nook-banquette",
+      "item": "banquette",
+      "file": "banquette-lod0.glb",
+      "sha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027"
+    },
+    {
+      "anchor": "living-sofa",
+      "item": "cloud-sofa",
+      "file": "cloud-sofa-lod0.glb",
+      "sha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e"
+    },
+    {
       "anchor": "study-whiskey-lounge",
       "item": "whiskey-loveseat",
       "file": "whiskey-loveseat-lod0.glb",
@@ -146,7 +158,7 @@
       "sha256": "b33a347333fb60c47f18c0df317117a8f94a1c47081af557bc4b99b1d5cb51bd"
     }
   ],
-  "furnitureAnchorsSha256": "066e60626b842ef91103b8e8a95d2b349405dbc5f0f8ea46a004aa7597ed6928",
+  "furnitureAnchorsSha256": "37f78858b593eb57af917a0ee51327d75325548cef9df1ed93d08e88d622a589",
   "scope": "Native source triangles (shell, rooms, fixtures, planting, coast) plus the streamed furniture items placed exactly as furniture.mjs places them. Delivered Draco geometry of the repaired families is checked separately in test/coastal-overlap-delivered.test.mjs; browser poses of people and animals are separate captured evidence.",
   "tolerances": {
     "planeMm": 1.0,
@@ -225,25 +237,25 @@
     "never-drawn": 1
   },
   "counts": {
-    "meshes": 449,
-    "triangles": 1129115,
+    "meshes": 458,
+    "triangles": 1172155,
     "closedMeshes": 326,
-    "pairsTested": 3679,
-    "crossingPairs": 771,
-    "sites": 16820,
-    "offenders": 1033,
-    "coplanarPairs": 294,
+    "pairsTested": 3762,
+    "crossingPairs": 785,
+    "sites": 17043,
+    "offenders": 1048,
+    "coplanarPairs": 299,
     "zFightingPairs": 32,
-    "coplanarTrianglePairsTested": 54268
+    "coplanarTrianglePairsTested": 55094
   },
   "ruleCounts": {
-    "unclassified": 1033,
-    "one-sided-embed": 2141,
+    "unclassified": 1048,
+    "one-sided-embed": 2173,
     "support-rest": 560,
-    "shallow-seam": 8821,
+    "shallow-seam": 8993,
     "water-in-basin": 187,
     "structural-joint": 111,
-    "planting-root": 1500,
+    "planting-root": 1504,
     "terrain-landform": 2467
   },
   "foliageOverlap": {
@@ -253,11 +265,11 @@
   "totals": {
     "zFightingPairs": 32,
     "zFightingVisibleAreaM2": 1.4848,
-    "grazingSites": 14,
-    "grazingSeamM": 1.753,
-    "deepSites": 1019,
-    "deepSitesOver5cm": 344,
-    "deepSeverity": 48725.4,
+    "grazingSites": 15,
+    "grazingSeamM": 1.991,
+    "deepSites": 1033,
+    "deepSitesOver5cm": 345,
+    "deepSeverity": 49067.8,
     "maxDeepSeverity": 1338.8
   },
   "before": {
@@ -284,7 +296,7 @@
       "room-onsen.glb": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
       "room-lounge.glb": "7f98056c77046dfb33aeb180124a4f74b475cf64f16cb78dc91e7f6b710477f3",
       "room-sleep.glb": "72e5433b2d65ecb5e6451506d4b78da48647fc882916205e16267b2d03100790",
-      "room-library.glb": "36e0798be8ead317589ff16a834c2f8e7fa58900f2fdb7874289acac2afb40fa",
+      "room-library.glb": "9c7a0869f02cceb04118373b8aacd4fb02e750673cc661172708341f982f1bde",
       "room-library-upper.glb": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
       "room-bath-living.glb": "e84ed849b1c557ccde0a722c1161912d82d29752afe14f099418b098be4282f8",
       "room-bath-bedroom.glb": "1df8358f8c7dae4cf81ef8f7d9aa7393bcb0c70984ec31e1963537178a1a55e9"
@@ -292,11 +304,11 @@
     "totals": {
       "zFightingPairs": 39,
       "zFightingVisibleAreaM2": 1.8193,
-      "grazingSites": 5,
-      "grazingSeamM": 0.44,
-      "deepSites": 515,
-      "deepSitesOver5cm": 57,
-      "deepSeverity": 12132.2,
+      "grazingSites": 6,
+      "grazingSeamM": 0.673,
+      "deepSites": 527,
+      "deepSitesOver5cm": 56,
+      "deepSeverity": 12396.2,
       "maxDeepSeverity": 1389.7
     },
     "zFighting": [
@@ -849,6 +861,13 @@
       "verdict": "designed"
     },
     {
+      "pair": "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | lounge__chalk limestone",
+      "grazingSeamM": 0.2379,
+      "depthM": 0.0367,
+      "center": [-0.989, -6.071, -0.031],
+      "verdict": null
+    },
+    {
       "pair": "core_estate_library_liftaway_roof | core_flora_iceplant",
       "grazingSeamM": 0.0882,
       "depthM": 0.0185,
@@ -1041,8 +1060,8 @@
       "pair": "lounge__honey ash | lounge__washi lantern paper",
       "sites": 2,
       "seamM": 10.751,
-      "maxDepthM": 0.1778,
-      "severity": 619.1,
+      "maxDepthM": 0.1774,
+      "severity": 617.8,
       "worstSite": [-0.72, -5.82, 0.959],
       "categories": ["room"],
       "verdict": "designed"
@@ -1358,6 +1377,16 @@
       "verdict": "designed"
     },
     {
+      "pair": "core_fireplace_cap__golden coastal sandstone | core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
+      "sites": 1,
+      "seamM": 10.649,
+      "maxDepthM": 0.054,
+      "severity": 176.2,
+      "worstSite": [1.056, -7.113, 7.405],
+      "categories": ["plant", "rock"],
+      "verdict": "planting"
+    },
+    {
       "pair": "core_estate_pavilion__honey ash | core_estate_pavilion__pale oak",
       "sites": 24,
       "seamM": 6.157,
@@ -1398,14 +1427,14 @@
       "verdict": "built-into-rock"
     },
     {
-      "pair": "core_fireplace_cap__golden coastal sandstone | core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
-      "sites": 1,
-      "seamM": 10.649,
-      "maxDepthM": 0.045,
-      "severity": 146.8,
-      "worstSite": [1.056, -7.113, 7.405],
-      "categories": ["plant", "rock"],
-      "verdict": "planting"
+      "pair": "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | lounge__chalk limestone",
+      "sites": 5,
+      "seamM": 9.518,
+      "maxDepthM": 0.0378,
+      "severity": 140.9,
+      "worstSite": [2.771, -8.305, 0.129],
+      "categories": ["furniture", "room"],
+      "verdict": null
     },
     {
       "pair": "core_arrival_hall__golden coastal sandstone | core_arrival_hall__warm cut stone",
@@ -1582,7 +1611,7 @@
       "sites": 4,
       "seamM": 0.236,
       "maxDepthM": 0.0987,
-      "severity": 78.9,
+      "severity": 78.0,
       "worstSite": [5.623, -17.954, 7.373],
       "categories": ["plant", "shell"],
       "verdict": null
@@ -1598,6 +1627,26 @@
       "verdict": null
     },
     {
+      "pair": "core_fireplace_cap__blackened steel flue | core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
+      "sites": 1,
+      "seamM": 1.057,
+      "maxDepthM": 0.0752,
+      "severity": 77.3,
+      "worstSite": [0.95, -6.85, 7.448],
+      "categories": ["plant", "rock"],
+      "verdict": null
+    },
+    {
+      "pair": "furniture:nook-banquette/banquette.lod0__rust boucle textile | kitchen__chalk limestone",
+      "sites": 3,
+      "seamM": 2.371,
+      "maxDepthM": 0.0365,
+      "severity": 77.0,
+      "worstSite": [-4.902, -5.535, 0.17],
+      "categories": ["furniture", "room"],
+      "verdict": null
+    },
+    {
       "pair": "sleep__linen | sleep_duvet_lizard",
       "sites": 4,
       "seamM": 4.618,
@@ -1605,16 +1654,6 @@
       "severity": 75.4,
       "worstSite": [-3.727, -12.036, 3.053],
       "categories": ["room"],
-      "verdict": null
-    },
-    {
-      "pair": "core_fireplace_cap__blackened steel flue | core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
-      "sites": 1,
-      "seamM": 1.057,
-      "maxDepthM": 0.0721,
-      "severity": 74.1,
-      "worstSite": [0.95, -6.85, 7.448],
-      "categories": ["plant", "rock"],
       "verdict": null
     },
     {
@@ -1706,26 +1745,6 @@
       "worstSite": [-4.13, -10.563, 0.178],
       "categories": ["furniture"],
       "verdict": null
-    },
-    {
-      "pair": "library__honey ash | library__library slate cloth",
-      "sites": 10,
-      "seamM": 4.715,
-      "maxDepthM": 0.0163,
-      "severity": 57.1,
-      "worstSite": [-12.193, -7.7, 3.076],
-      "categories": ["room"],
-      "verdict": null
-    },
-    {
-      "pair": "core_estate_garden__brushed brass | core_estate_garden__honey ash",
-      "sites": 2,
-      "seamM": 1.132,
-      "maxDepthM": 0.0375,
-      "severity": 56.4,
-      "worstSite": [-3.85, -16.72, 8.994],
-      "categories": ["shell"],
-      "verdict": "designed"
     }
   ]
 }

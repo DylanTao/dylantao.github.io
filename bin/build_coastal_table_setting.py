@@ -86,6 +86,22 @@ SETTINGS = {
     },
     # The sofa has no table: the evening glass rests in the hand on the thigh.
     "lounge": {"knee": [0.12, 0.62, 0.3]},
+    # The whiskey setting uses the furniture station, not the library's public visit spot.
+    "study-whiskey-lounge": {
+        "whiskey": True,
+        "ottoman": "study-whiskey-ottoman",
+        "sideTable": "study-whiskey-side-table",
+        "surface": 0.578,
+        "tableOffset": [-0.19, 0.0, 0.03],
+        "ankleOffset": [0.0, 0.0, -0.12],
+        "ankleLift": 0.075,
+        "ankleSpread": 0.09,
+        # These fitted roots come from actual deformed source skin at the lounge clip's middle.
+        "seatFits": {
+            name: [entry["shift"][0], entry["shift"][2], -entry["shift"][1]]
+            for name, entry in json.loads((ROOT / "artwork/coastal-home/reviews/whiskey-2026-10-26/seating-whiskey-loveseat-lounge.json").read_text(encoding="utf-8"))["avatars"].items()
+        },
+    },
 }
 # Mouths in each avatar's Head-bone frame (+y up the bone, +z forward), measured from the retained
 # sources' mouth surfaces (centre height, front lip); palms are the hand surfaces' half-thickness.

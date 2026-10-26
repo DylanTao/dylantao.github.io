@@ -4,7 +4,7 @@ import { createArtDirection } from "./materials.mjs";
 import { createPacific } from "./environment.mjs";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
-import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
+import { createExplorationState, resolveRoutine, routineRoom, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
 import { createResolutionGovernor, detailFor } from "./resolution.mjs";
@@ -1564,6 +1564,7 @@ export function createCoastalHome(container, records, artifacts) {
     const compose = force || (composeOnChange && changed);
     // A deliberate change of time, activity or motion recomposes the wind, even in a still.
     if (force || changed || routine?.live !== next.live) windCompose = true;
+    const priorRoutine = routine;
     routine = next;
     clockLabel.textContent = `${routine.live ? "" : "Preview · "}${formatMinute(routine.minute)} · La Jolla`;
     ui.querySelector("[data-world-now]").setAttribute("aria-pressed", String(explore.following && followClock));
@@ -1578,13 +1579,13 @@ export function createCoastalHome(container, records, artifacts) {
       poolStroke?.reset();
       sequenceStart = elapsed;
       sequencePose = null;
-      const room = config.rooms.find((r) => r.id === routine.room);
+      const room = routineRoom(config, routine);
       const goal = new THREE.Vector3(...room.actor);
       loadRoom(room.id).catch(() => {
         if (!disposed) status.textContent = "Room detail unavailable. You can still explore.";
       });
       if (actorGoal && !compose && actor.position.distanceTo(goal) > 0.5 && !reduced && !paused && visible && inViewport) {
-        const priorRoom = config.rooms.find((r) => actorGoal && new THREE.Vector3(...r.actor).distanceTo(actorGoal) < 0.1);
+        const priorRoom = routineRoom(config, priorRoutine);
         const route = roomRoute(config, priorRoom, room, actor.position.toArray());
         travel = {
           route,
@@ -3118,7 +3119,10 @@ export function createCoastalHome(container, records, artifacts) {
       hands: handContacts,
     });
     if (meal?.phase) container.dataset.activityPhase = meal.phase;
-    characterPerformance?.update(delta, { active: moving && !travel, clip: liftThisFrame ? "workout" : container.dataset.animation });
+    characterPerformance?.update(delta, {
+      active: moving && !travel,
+      clip: liftThisFrame ? "workout" : meal?.protectHead ? "drink" : container.dataset.animation,
+    });
     const holdActivityProps = paused && !reduced && Boolean(sequencePose);
     let cupCreated = false;
     // Move the authored cup itself; there is never a second coffee cup in a hand.

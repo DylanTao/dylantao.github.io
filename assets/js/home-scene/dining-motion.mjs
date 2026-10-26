@@ -143,6 +143,7 @@ export function planMeal({
   sameHand = false,
   prelude = 0,
   horizon = 1800,
+  pauseScale = 1,
 } = {}) {
   const draw = random(seed);
   const span = (beat) => lerp(BEATS[beat][0], BEATS[beat][1], draw());
@@ -196,7 +197,11 @@ export function planMeal({
   };
   const pause = (long = false) => {
     const roll = draw();
-    push({ type: "pause", gaze: roll < 0.58 ? "sea" : roll < 0.82 ? "room" : "plate", beats: [["rest", long ? span("linger") : span("pause")]] });
+    push({
+      type: "pause",
+      gaze: roll < 0.58 ? "sea" : roll < 0.82 ? "room" : "plate",
+      beats: [["rest", (long ? span("linger") : span("pause")) * pauseScale]],
+    });
   };
   // Breakfast's first minute: the fresh coffee stays in the hand while he looks out, sips, and
   // only then sets it on its saucer and takes up the fork.
@@ -766,6 +771,7 @@ export function mealPose(plan, t, anchors, layout) {
 // The evening drink: the glass rests in the hand on the thigh between sips (no table on the sofa).
 //   layout: { knee: [x,y,z] the glass's resting base, rim }
 export function eveningPose(plan, t, anchors, layout) {
+  if (layout.whiskey) return whiskeyPose(plan, t, anchors, layout);
   const action = findAction(plan, t);
   const rest = layout.knee;
   const lip = vadd(anchors.mouth, [0, -0.006, 0.016]);
@@ -812,6 +818,54 @@ export function eveningPose(plan, t, anchors, layout) {
       L: null,
     },
     glass: { holder: "R", level: levelAt(plan, t, { start: 0.78, perSip: 0.09, floor: 0.18 }), tilt, base },
+  };
+}
+
+// A supported glass between sips: approach, grasp, lift, sip, lower, release, then
+// let the hand return to the authored armrest pose. Other evening drinks retain
+// their thigh-held setting above.
+function whiskeyPose(plan, t, anchors, layout) {
+  const action = findAction(plan, t),
+    b = action ? beatAt(action, t) : null;
+  const rest = layout.glassRest;
+  const lip = vadd(anchors.mouth, [0, -0.006, 0.016]);
+  const raised = vadd(lip, [-0.02, -(layout.rim || 0.1) - 0.06, 0.08]);
+  const atLips = vadd(lip, [0, -(layout.rim || 0.1), 0.02]);
+  let base = rest,
+    tilt = 0,
+    holder = "table",
+    hand = null;
+  let phase = "watching the Pacific",
+    body = { lean: -0.02, headPitch: 0, headYaw: 0, chew: 0, mouthOpen: 0 };
+  const grip = () => ({ mode: "vessel", item: plan.vessel, base, tilt, toward: lip, lip, contact: 0, reach: 1 });
+  if (action?.type === "sip" && b) {
+    phase = b.name === "drink" ? "sipping" : "taking a slow sip";
+    if (b.name === "reach") hand = { ...grip(), reach: smooth(b.u), grasp: 0 };
+    else if (b.name === "grasp") hand = { ...grip(), grasp: smooth(b.u) };
+    else if (["lift", "drink", "lower"].includes(b.name)) {
+      holder = "R";
+      if (b.name === "lift") base = arc(rest, raised, 0.1, smooth(b.u));
+      else if (b.name === "drink") {
+        base = vlerp(raised, atLips, smooth(Math.min(1, b.u * 2.2)));
+        tilt = lerp(0.3, 0.9, smooth(Math.min(1, b.u * 1.6))) * (1 - 0.35 * smooth(clamp01((b.u - 0.75) / 0.25)));
+        body = { ...body, headPitch: lerp(0, -0.14, smooth(b.u)), mouthOpen: 0.2 };
+      } else {
+        base = arc(atLips, rest, 0.1, smooth(b.u));
+        tilt = 0.45 * (1 - smooth(b.u));
+      }
+      hand = { ...grip(), base, tilt, contact: b.name === "drink" ? smooth(Math.min(1, b.u * 2.5)) * (1 - smooth(clamp01((b.u - 0.86) / 0.14))) : 0 };
+    } else if (b.name === "release") hand = { ...grip(), grasp: 1 - smooth(b.u) };
+    else if (b.name === "return") hand = { ...grip(), reach: 1 - smooth(b.u), grasp: 0 };
+  } else if (action?.type === "pause" && b) {
+    const look = smooth(Math.min(1, b.u * 3)) * (1 - smooth(clamp01((b.u - 0.82) / 0.18)));
+    body = { ...body, headYaw: (action.gaze === "room" ? -0.25 : 0.18) * look, headPitch: -0.04 * look };
+  }
+  return {
+    phase,
+    beat: b?.name || null,
+    body,
+    hands: { R: hand, L: null },
+    glass: { holder, level: levelAt(plan, t, { start: 0.78, perSip: 0.04, floor: 0.18 }), tilt, base },
   };
 }
 

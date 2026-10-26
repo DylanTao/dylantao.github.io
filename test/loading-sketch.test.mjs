@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { gzipSync } from "node:zlib";
+import { resolveRoutine } from "../assets/js/home-scene/routine.mjs";
 import {
   BREATH,
   PEN,
@@ -236,7 +237,16 @@ test("a resting drawing's breath eases in, never exceeds its depth and decays to
 
 test("the shipped drawings cover the coast and every room an activity opens in, within budget", () => {
   assert.equal(sketch.version, 3);
-  const rooms = [...new Set(Object.values(manifest.activities).map((activity) => activity.room))].sort();
+  // Include the actual daily routine's furniture stations as well as each base activity.
+  const rooms = [
+    ...new Set(
+      Array.from({ length: 7 }, (_, day) =>
+        Object.entries(manifest.activities).map(
+          ([activity, spec]) => resolveRoutine(manifest, new Date(`2026-10-0${day + 1}T12:00:00-07:00`), { activity, minute: spec.minute }).room
+        )
+      ).flat()
+    ),
+  ].sort();
   assert.deepEqual(Object.keys(sketch.views), ["outside", ...rooms]);
   // The index carries the coast view; each room is its own file beside it, and nothing else is there.
   assert.ok(sketch.views.outside.strokes);
@@ -249,7 +259,7 @@ test("the shipped drawings cover the coast and every room an activity opens in, 
   const gzipped = (file) => gzipSync(readFileSync(new URL(file, MODELS))).length,
     index = gzipped("loading-sketch.json"),
     roomFiles = rooms.map((room) => gzipped(sketch.views[room].file));
-  // A load fetches the index and its arrival room only; all seven drawings stay within the original allowance.
+  // A load fetches the index and its arrival room only; all drawings keep the original allowance.
   assert.ok(index + Math.max(...roomFiles) < 100 * 1024, `${index} + ${Math.max(...roomFiles)} gzipped bytes per load`);
   assert.ok(index + roomFiles.reduce((sum, size) => sum + size, 0) < 250 * 1024);
   for (const [id, view] of Object.entries(sketch.views)) {

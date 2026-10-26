@@ -9,7 +9,8 @@
 // clock is fixed by a Date-only override, native RAF and performance.now keep running), --viewport
 // (4k | phone | desktop), --camera (default | table | close | <json {target,yaw,pitch,radius}>),
 // --still (reduced-motion composed still; the default for single captures), --frames/--interval
-// (a live sequence sampled every interval seconds), --out (output directory).
+// (a live sequence sampled every interval seconds), --freeze-capture (pause only while each live
+// PNG is taken, binding the reported pose to its pixels), --out (output directory).
 // Every capture records getSceneEvidence() beside its PNG. No product asset is replaced.
 const { chromium } = require("playwright");
 const fs = require("node:fs/promises");
@@ -203,9 +204,21 @@ const CAMERAS = {
     await page.goto(`${base}/?scene-lab=1&weather=clear`, { waitUntil: "domcontentloaded", timeout: 120000 });
     await page.locator('[data-home-desk-mode="3d"]').click();
     const scene = page.locator("[data-home-desk-scene]");
+    await scene.scrollIntoViewIfNeeded();
     await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.dataset.sceneState === "ready", null, { timeout: 240000 });
     const controls = page.locator("[data-home-world-controls]");
     const evidence = () => scene.evaluate((element) => element.getSceneEvidence());
+    report.renderer = await scene.evaluate((element) => {
+      const canvas = element.querySelector("canvas");
+      const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
+      const debug = gl?.getExtension("WEBGL_debug_renderer_info");
+      return {
+        renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl?.getParameter(gl.RENDERER),
+        vendor: debug ? gl.getParameter(debug.UNMASKED_VENDOR_WEBGL) : gl?.getParameter(gl.VENDOR),
+        version: gl?.getParameter(gl.VERSION),
+        viewport: { width: innerWidth, height: innerHeight, devicePixelRatio },
+      };
+    });
     // A composed still draws only on request; ask for each frame rather than waiting for motion.
     const waitFrames = async (count = 3) => {
       const start = (await evidence()).frames;
@@ -290,9 +303,21 @@ const CAMERAS = {
                 { timeout: 60000 }
               );
               const file = path.join(out, `${stem}-f${String(i).padStart(3, "0")}.png`);
+              const pause = page.locator("[data-world-pause]");
+              const pauseCapture = async () => {
+                await controls.locator("[data-world-lab]>summary").click();
+                await pause.click();
+                await controls.locator("[data-world-lab]>summary").click();
+              };
+              if (flag("freeze-capture")) {
+                await pauseCapture();
+                await page.waitForFunction(() => document.querySelector("[data-world-pause]").getAttribute("aria-pressed") === "true");
+              }
+              const beforeCapture = flag("freeze-capture") ? summarize(await evidence()) : null;
               await (viewportName === "phone" ? scene : page).screenshot({ path: file });
               const e = await evidence();
-              report.captures.push({ file, avatar, activity, camera: cameraName, frame: i, evidence: summarize(e) });
+              report.captures.push({ file, avatar, activity, camera: cameraName, frame: i, evidence: summarize(e), beforeCapture });
+              if (flag("freeze-capture")) await pauseCapture();
             }
             console.log(JSON.stringify({ avatar, activity, camera: cameraName, frames }));
           }
@@ -323,6 +348,7 @@ function summarize(e) {
     actorPosition: e.actorPosition,
     actorFacing: e.actorFacing,
     gripDrift: e.gripDrift,
+    resolution: e.resolution,
     dining: e.dining ?? null,
     drawCalls: e.drawCalls,
     triangles: e.triangles,

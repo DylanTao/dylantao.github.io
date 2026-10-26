@@ -1,0 +1,187 @@
+{
+  "item": "whiskey-loveseat",
+  "with": ["whiskey-ottoman"],
+  "clip": "lounge",
+  "avatars": {
+    "lizard": {
+      "frame": 49,
+      "shift": [0.28, -0.0187, -0.0533],
+      "soft": {
+        "vertices": 104,
+        "depth": 0.0726,
+        "bones": {
+          "Thigh.L": [2, 0.0072],
+          "Thigh.R": [3, 0.0089],
+          "Tail": [86, 0.0726],
+          "Hips": [13, 0.0086]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "feet": {
+        "L": {
+          "top": 0.419,
+          "gap": 0.0628,
+          "kneeBend": 32.1,
+          "kneeRise": -0.025
+        },
+        "R": {
+          "top": 0.419,
+          "gap": 0.0628,
+          "kneeBend": 0.2,
+          "kneeRise": 0.001
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.1802
+    },
+    "south-park": {
+      "frame": 49,
+      "shift": [0.28, 0.0037, -0.0869],
+      "soft": {
+        "vertices": 616,
+        "depth": 0.0146,
+        "bones": {
+          "Thigh.L": [232, 0.0146],
+          "Shin.L": [1, 0.0008],
+          "Thigh.R": [319, 0.0144],
+          "Foot.L": [30, 0.0078],
+          "Foot.R": [34, 0.0083]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "feet": {
+        "L": {
+          "top": 0.419,
+          "gap": 0.0817,
+          "kneeBend": 34.2,
+          "kneeRise": -0.042
+        },
+        "R": {
+          "top": 0.419,
+          "gap": 0.0817,
+          "kneeBend": 0.2,
+          "kneeRise": 0.002
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.4102
+    },
+    "simpsons": {
+      "frame": 49,
+      "shift": [0.28, 0.0037, -0.0869],
+      "soft": {
+        "vertices": 588,
+        "depth": 0.0142,
+        "bones": {
+          "Thigh.L": [218, 0.014],
+          "Shin.L": [1, 0.0001],
+          "Thigh.R": [305, 0.0142],
+          "Shin.R": [1, 0.0014],
+          "Foot.L": [29, 0.0076],
+          "Foot.R": [34, 0.0083]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "feet": {
+        "L": {
+          "top": 0.419,
+          "gap": 0.0817,
+          "kneeBend": 34.2,
+          "kneeRise": -0.042
+        },
+        "R": {
+          "top": 0.419,
+          "gap": 0.0817,
+          "kneeBend": 0.2,
+          "kneeRise": 0.002
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.4102
+    },
+    "ghibli": {
+      "frame": 49,
+      "shift": [0.28, 0.0037, -0.0869],
+      "soft": {
+        "vertices": 588,
+        "depth": 0.0142,
+        "bones": {
+          "Thigh.L": [218, 0.014],
+          "Shin.L": [1, 0.0001],
+          "Thigh.R": [305, 0.0142],
+          "Shin.R": [1, 0.0014],
+          "Foot.L": [29, 0.0076],
+          "Foot.R": [34, 0.0083]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "feet": {
+        "L": {
+          "top": 0.419,
+          "gap": 0.0817,
+          "kneeBend": 34.2,
+          "kneeRise": -0.042
+        },
+        "R": {
+          "top": 0.419,
+          "gap": 0.0817,
+          "kneeBend": 0.2,
+          "kneeRise": 0.002
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.4102
+    },
+    "rick-and-morty": {
+      "frame": 49,
+      "shift": [0.28, 0.0037, -0.0869],
+      "soft": {
+        "vertices": 561,
+        "depth": 0.0142,
+        "bones": {
+          "Thigh.L": [211, 0.0134],
+          "Thigh.R": [287, 0.0142],
+          "Foot.L": [29, 0.0076],
+          "Foot.R": [34, 0.0083]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "feet": {
+        "L": {
+          "top": 0.419,
+          "gap": 0.0817,
+          "kneeBend": 34.2,
+          "kneeRise": -0.042
+        },
+        "R": {
+          "top": 0.419,
+          "gap": 0.0817,
+          "kneeBend": 0.2,
+          "kneeRise": 0.002
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.4102
+    }
+  }
+}

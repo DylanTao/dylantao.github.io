@@ -52,18 +52,27 @@ export function resolveRoutine(config, date = new Date(), preview = null) {
   const activity = config.activities[id];
   const dayHash = [...clock.dateKey].reduce((sum, char) => sum * 31 + char.charCodeAt(0), 0) >>> 0;
   const drink = ["whiskey", "cocktail", "beer", "coffee"][dayHash % 4];
+  const station = id === "lounge" && drink === "whiskey" && config.furniture?.find((a) => a.id === activity.whiskeyStation);
   const palette = minute < 300 || minute >= 1200 ? "evening" : minute < 660 ? "morning" : minute < 900 ? "noon" : "afternoon";
   return {
     ...activity,
+    ...(station ? { room: station.room, station: station.id } : {}),
     ...clock,
     minute,
     id,
-    clip: id === "lounge" && minute % 6 >= 2 ? "lounge" : activity.clip,
+    clip: station || (id === "lounge" && minute % 6 >= 2) ? "lounge" : activity.clip,
     prop: activity.prop === "evening" ? drink : activity.prop,
     palette,
     live: preview === null,
     training,
   };
+}
+
+// A routine may occupy a furniture station without moving the room's public visit spot.
+export function routineRoom(config, routine) {
+  const room = config?.rooms?.find((r) => r.id === routine?.room);
+  const station = routine?.station && config?.furniture?.find((a) => a.id === routine.station && a.room === room?.id);
+  return station ? { ...room, actor: [...station.position], facing: station.yaw || 0 } : room;
 }
 
 export function formatMinute(minute) {

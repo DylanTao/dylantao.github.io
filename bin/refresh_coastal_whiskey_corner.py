@@ -13,8 +13,8 @@ the glass and the desk with the hearth on its west wall, becomes that corner:
   hearth's honed travertine, with a warm line of light hidden under its lintel;
 - four furniture anchors, with plain placeholders until the life worker's items stream: the loveseat
   (anchor ``study-whiskey-lounge``, its origin, facing the sea), the ottoman and the side table placed
-  in the loveseat's frame as the life worker's feet-up fixture asks (ottoman centre at x -0.28,
-  z +0.86 under the left seat; table at x +0.95, z +0.05 by the right hand), and the bottle display
+  in the loveseat's frame (ottoman centre at x +0.28, z +0.86 under the occupied seat;
+  table at x +0.95, z +0.05 by the reaching hand), and the bottle display
   on the niche's shelf;
 - the library's visit spot and route move to the window past the loveseat's east side, and the
   companion's first exit point to its own perch, clear of the loveseat's back.
@@ -37,7 +37,7 @@ import coastal_anchors as anchors  # noqa: E402
 import coastal_arrival_hall as hall  # noqa: E402
 from coastal_office import Parts  # noqa: E402
 
-VERSION = 1
+VERSION = 2
 ARGS = {a[2:].split("=", 1)[0]: a.split("=", 1)[1] for a in sys.argv if a.startswith("--") and "=" in a}
 
 
@@ -51,7 +51,7 @@ ORIGIN = (-10.50, 0.0, 2.55)
 YAW = math.pi
 # Item bounds from the life worker's furniture index (x across, z front-back, local metres).
 LOVESEAT = {"half": (0.73, 0.456), "seat": 0.46, "back": 0.82}
-OTTOMAN = {"at": (-0.28, 0.86), "half": (0.33, 0.25), "top": 0.42}
+OTTOMAN = {"at": (0.28, 0.86), "half": (0.33, 0.25), "top": 0.42}
 TABLE = {"at": (0.95, 0.05), "half": (0.26, 0.26), "top": 0.896}
 # The niche: its opening in the west wall (lining face at x -12.55), the shelf and lintel, 2 cm liners.
 NICHE = {"zw": (0.89, 1.93), "h": (0.93, 1.57), "face": -12.55, "back": -12.85, "liner": 0.02, "proud": 0.005}
@@ -94,7 +94,36 @@ config = json.loads(manifest_path.read_text(encoding="utf-8"))
 if scene.get("whiskeyCornerVersion") == VERSION:
     print(json.dumps({"retained": True, "version": VERSION}), flush=True)
     sys.exit(0)
+if scene.get("whiskeyCornerVersion") == 1:
+    # The original left seat was 0.84-0.92 m from the side table, beyond every
+    # delivered arm's 0.513 m chain. Occupy the other seat and align its ottoman;
+    # moving the table instead would narrow the library's east passage.
+    entry = next(a for a in config["furniture"] if a["id"] == "study-whiskey-ottoman")
+    previous = list(entry["position"])
+    target = world(*OTTOMAN["at"])
+    dx, dz = target[0] - previous[0], target[1] - previous[2]
+    objects = [o for o in scene.objects if o.get("furniturePlaceholder") == entry["id"]]
+    if len(objects) != 1:
+        raise RuntimeError(f"expected one retained ottoman placeholder, found {[o.name for o in objects]}")
+    for obj in objects:
+        obj.matrix_world.translation.x += dx
+        obj.matrix_world.translation.y -= dz
+    entry["position"] = [round(target[0], 4), previous[1], round(target[1], 4)]
+    config["activities"]["lounge"]["whiskeyStation"] = "study-whiskey-lounge"
+    scene["whiskeyCornerVersion"] = VERSION
+    for p in (output, config_output):
+        p.parent.mkdir(parents=True, exist_ok=True)
+    bpy.context.preferences.filepaths.save_version = 0
+    bpy.ops.wm.save_as_mainfile(filepath=str(output), compress=True)
+    config_output.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8", newline="\n")
+    report = {"version": VERSION, "sourceSha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+              "ottomanBefore": previous, "ottomanAfter": entry["position"], "objects": [o.name for o in objects],
+              "reason": "The other seat reaches the retained side table without narrowing the east passage."}
+    (output.parent / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
+    print(json.dumps(report), flush=True)
+    sys.exit(0)
 report = {"version": VERSION}
+config["activities"]["lounge"]["whiskeyStation"] = "study-whiskey-lounge"
 
 # 1. The two reading chairs leave the sea end.
 retired = [o.name for o in scene.objects if o.name.startswith("library_reading_seat")]

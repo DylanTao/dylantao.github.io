@@ -1,0 +1,77 @@
+{
+  "claim": "The same strict reviewed overlap bound fails before and after the ottoman shift; no threshold or verdict was changed.",
+  "boundM": 0.052,
+  "beforeRaw": {
+    "path": ".jekyll-cache\\visual-qa\\whiskey-2026-10-26\\overlap-before-whiskey.json",
+    "sha256": "4f59a0a495d78966912630160c5708b3fc2896e93dd5a61e9adce2a05b5bd8c4",
+    "sourceSha256": "1b7f912fc3496a103b49fa2e5ed1055ded79dbfd78a10ac51b85bb800ea53f60"
+  },
+  "afterRaw": {
+    "path": ".jekyll-cache\\visual-qa\\whiskey-2026-10-26\\overlap-native.json",
+    "sha256": "e455e2fba16e0a91d9cb7fb0937aec510b29464f5afeb9516f40ef94e1468e27",
+    "sourceSha256": "e02516794b801764aca0ae62dddb68f3ccab9eaa7054e1b67ba7b9959de120b3"
+  },
+  "identicalFailingSite": {
+    "a": "core_fireplace_cap__golden coastal sandstone",
+    "b": "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
+    "categoryA": "rock",
+    "categoryB": "plant",
+    "roomA": "core",
+    "roomB": "core",
+    "closedA": true,
+    "closedB": false,
+    "seamM": 10.6489,
+    "crossings": 466,
+    "grazingSeamM": 0.0077,
+    "center": [1.056, -7.113, 7.405],
+    "bounds": [
+      [0.562, -7.515, 7.245],
+      [1.55, -6.711, 7.565]
+    ],
+    "crossedA": {
+      "up": 0.0,
+      "down": 0.314,
+      "vertical": 0.593,
+      "coherence": 0.374,
+      "mean": [0.039, -0.221, -0.3]
+    },
+    "crossedB": {
+      "up": 0.0,
+      "down": 0.354,
+      "vertical": 0.004,
+      "coherence": 0.629,
+      "mean": [-0.038, 0.169, -0.604]
+    },
+    "partA": [
+      [0.252, -7.515, 7.225],
+      [1.631, -6.261, 7.847]
+    ],
+    "partsA": 4,
+    "partB": [
+      [0.281, -7.862, 6.842],
+      [1.752, -6.537, 7.584]
+    ],
+    "partsB": 17,
+    "aInsideB": null,
+    "bInsideA": {
+      "depth": 0.054,
+      "at": [0.92, -6.982, 7.375],
+      "inside": 13,
+      "samples": 32,
+      "insideZ": [7.27, 7.54]
+    },
+    "depth": 0.054,
+    "penetrating": "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
+    "hiddenFraction": 0.035,
+    "grazing": false,
+    "contactRule": null,
+    "openPair": false,
+    "severity": 176.216
+  },
+  "unchangedNativeMeshHashes": {
+    "core_fireplace_cap__golden coastal sandstone": "32c0af0693057c00adbdd44f00998d9bee8fdb2d56812ce926cdf986300187ec",
+    "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear": "be90236208b8b00aa53743d224a486337c12f707ee06d00ebf3584464573f61e"
+  },
+  "auditMethodUnchanged": true,
+  "historicalBeforeRecordPreserved": true
+}

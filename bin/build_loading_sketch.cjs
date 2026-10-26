@@ -32,7 +32,14 @@ const CHECK = process.argv.includes("--check");
 const CAPTURE_ONLY = process.argv.includes("--capture-only");
 const RANGE = { u: 1.65, v: 1 };
 const MANIFEST = JSON.parse(fs.readFileSync(path.join(ROOT, "assets/models/home/manifest.json"), "utf8"));
-const ROOMS = [...new Set(Object.values(MANIFEST.activities).map((activity) => activity.room))].sort();
+const ROOMS = [
+  ...new Set(
+    Object.values(MANIFEST.activities).flatMap((activity) => [
+      activity.room,
+      ...(activity.whiskeyStation ? [MANIFEST.furniture.find((a) => a.id === activity.whiskeyStation)?.room].filter(Boolean) : []),
+    ])
+  ),
+].sort();
 const VIEWS = ["outside", ...ROOMS];
 const LIVE = /pip|companion|wildlife|gull|rabbit|raccoon|seal|lion|sandpiper|neighbou?r|active-Sirui|sirui-/i;
 const SEA = /ocean|pacific|sea\b|surf|wave|foam|swash|onsen.*water|water/i;

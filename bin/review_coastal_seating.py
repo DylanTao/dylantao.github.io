@@ -44,7 +44,7 @@ FEET = tuple(float(v) for v in option("feet").split(",")) if option("feet") else
 # --view=x,y sets the stills' camera offset from the seat (Blender frame; default front-right).
 VIEW = tuple(float(v) for v in (option("view") or "1.5,-1.7").split(","))
 WITH = [(w.split("@")[0], tuple(float(v) for v in w.split("@")[1].split(","))) for w in (option("with", "") or "").split(";") if w]
-OUT = ROOT / "artwork" / "coastal-home" / "reviews" / "life-2026-10-24"
+OUT = ROOT / option("out", "artwork/coastal-home/reviews/life-2026-10-24")
 SOFT = ("linen", "leather", "boucle", "velvet", "cushion", "textile", "cotton")
 
 
@@ -74,6 +74,8 @@ def furniture():
         faces.extend(tuple(base + i for i in p.vertices) for p in o.data.polygons)
     trees = {k: BVHTree.FromPolygons(v, f) for k, (v, f) in parts.items() if f}
     seat = Vector(entry["seat"])  # three.js: x, y up, z forward
+    if option("seat-x") is not None:
+        seat.x = float(option("seat-x"))
     return entry, trees, Vector((seat.x, -seat.z, seat.y)), entry["seatHeight"]
 
 
@@ -143,7 +145,9 @@ def feet_up(arm, trees, feet):
 
 
 def main():
-    report = {"item": ITEM, "with": [w[0] for w in WITH], "clip": CLIP, "avatars": {}}
+    report = {"item": ITEM, "with": [w[0] for w in WITH], "withOffsets": {name: list(offset) for name, offset in WITH},
+              "feetAt": list(FEET) if FEET else None, "seatX": float(option("seat-x")) if option("seat-x") is not None else None,
+              "clip": CLIP, "avatars": {}}
     for style in STYLES:
         bpy.ops.wm.open_mainfile(filepath=str(ROOT / "artwork/coastal-home" / f"sirui-{style}.blend"))
         entry, trees, seat, seat_height = furniture()

@@ -996,6 +996,7 @@ async function openHome(
   if (nativeFrames) await useNativeSceneFrames(page);
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
+  await scene.scrollIntoViewIfNeeded();
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
   const canvas = scene.locator("canvas");
   await canvas.scrollIntoViewIfNeeded();
@@ -2102,7 +2103,7 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
   await expect(scene).toHaveAttribute("data-room", "study");
   expect((await evidence(scene)).inspection).toBeNull();
   expect((await evidence(scene)).currentRecord).toBe(initial.currentRecord);
-  await expect(canvas).toHaveAttribute("aria-label", /Sirui’s coastal home/);
+  await expect(canvas).toHaveAttribute("aria-label", /Siruiâ€™s coastal home/);
   expect(errors).toEqual([]);
 });
 
@@ -3068,7 +3069,7 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
 
 for (const activity of ["breakfast", "workout"]) {
   test(`coastal home: ${activity} choreography resumes through visibility and mode recovery`, async ({ page }, testInfo) => {
-    // Linux takes 124 s for the original 2 s warm-up and 38–44 s per
+    // Linux takes 124 s for the original 2 s warm-up and 38â€“44 s per
     // 700 ms recovery sample. Retain all four modes and the 10 Hz frames.
     if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
     const errors = collectRuntimeErrors(page);
@@ -3715,5 +3716,71 @@ test("facade cloth: linen curtains move in the doorway breeze, the terrace laund
   expect(still.laundry.kineticEnergy).toBe(0);
   await page.clock.runFor(1000);
   expect((await cloth()).cloth.steps).toBe(still.cloth.steps);
+  expect(errors).toEqual([]);
+});
+
+test("coastal home: whiskey evenings support feet and set the glass on the side table", async ({ page }, testInfo) => {
+  test.setTimeout(900000);
+  const errors = collectRuntimeErrors(page);
+  const view = await openHome(page, { time: "2026-10-01T22:00:00-07:00", nativeStartup: true });
+  const { stage, scene, canvas, ui } = view;
+  await settleRoomModels(scene);
+  await explore(ui);
+  const rows = [];
+  const ids = testInfo.project.name === "desktop-1440" ? homeManifest().avatars.map((a) => a.id) : ["ghibli"];
+  const ready = async () => {
+    await expect.poll(async () => (await evidence(scene)).dining?.ready, { timeout: 120000 }).toBe(true);
+    await expect.poll(async () => Object.keys((await evidence(scene)).dining?.feet || {}).length, { timeout: 120000 }).toBe(2);
+    return evidence(scene);
+  };
+  for (const id of ids) {
+    await ui.locator("[data-world-avatar]").selectOption(id);
+    await settleAvatarLoad(ui);
+    const state = await ready();
+    expect(state.activity).toBe("lounge");
+    expect(state.currentRoom).toBe("library");
+    expect(state.dining.station).toBe("library/study-whiskey-lounge");
+    expect(state.dining.glass.holder).toBe("R");
+    for (const foot of Object.values(state.dining.feet)) {
+      expect(foot.drift).toBeLessThan(0.001);
+      expect(foot.kneeRise).toBeGreaterThan(0.02);
+      expect(foot.ankle[1] - foot.support).toBeCloseTo(0.075, 3);
+    }
+    for (const hand of Object.values(state.dining.contacts)) expect(hand.wristDrift).toBeLessThan(0.003);
+    const picture = await canvas.screenshot();
+    expect(screenshotMetrics(picture).uniqueColors).toBeGreaterThan(80);
+    await capture(testInfo, `whiskey-${id}`, picture);
+    rows.push({ avatar: id, dining: state.dining, actor: state.actorPosition });
+  }
+  // A live pause holds a supported glass and the exact two-leg pose.
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(ui.locator("[data-world-pause]")).toBeEnabled();
+  await expect.poll(async () => (await evidence(scene)).dining?.glass?.holder, { timeout: 30000 }).toBe("table");
+  await ui.locator("[data-world-pause]").click();
+  await expect(ui.locator("[data-world-pause]")).toHaveAttribute("aria-pressed", "true");
+  const paused = (await evidence(scene)).dining;
+  await page.waitForTimeout(250);
+  const held = (await evidence(scene)).dining;
+  expect(held.feet).toEqual(paused.feet);
+  expect(held.glass).toEqual(paused.glass);
+  expect((await evidence(scene)).prop).toBeNull();
+  // Walking leaves the setting on its table, then the routine recovers its seat.
+  await ui.locator("[data-world-fullscreen]").click({ timeout: 30000 });
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  await page.locator("[data-world-walk]").click({ timeout: 120000 });
+  await expect(stage).toHaveClass(/is-world-walking/);
+  expect((await evidence(scene)).prop).toBeNull();
+  await page.keyboard.press("Escape");
+  await expect(stage).not.toHaveClass(/is-world-walking/);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await explore(ui);
+  await ui.locator("[data-world-activity]").selectOption("coding");
+  await expect.poll(async () => (await evidence(scene)).activity).toBe("coding");
+  await expect.poll(async () => (await evidence(scene)).dining?.ready).toBe(false);
+  await ui.locator("[data-world-now]").click();
+  const returned = await ready();
+  expect(returned.following).toBe(true);
+  expect(returned.currentRoom).toBe("library");
+  fs.writeFileSync(testInfo.outputPath("whiskey-contacts.json"), JSON.stringify({ rows, paused, returned: returned.dining }, null, 2));
   expect(errors).toEqual([]);
 });
