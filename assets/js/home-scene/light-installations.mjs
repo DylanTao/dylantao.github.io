@@ -162,7 +162,8 @@ export const SCHEDULES = {
       : Math.max(sheltered ? 0.22 : 0, dark.inside * 0.45 * windowLevel(minute, 17 * 60, 23 * 60 + 30, 30)),
   dining: ({ dark, activity, visit, sheltered }) =>
     MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.65, dark.inside) : Math.max(sheltered ? 0.22 : 0, 0.3 * dark.inside),
-  entrance: ({ dark }) => 0.3 + 0.7 * dark.inside,
+  // The arrival is a windowless stair hall in the rock: its lights stay well up by day, full after dark.
+  entrance: ({ dark }) => 0.6 + 0.4 * dark.inside,
   downlights: ({ dark, activity, visit }) => (MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
   shelf: ({ dark, activity, visit }) => (MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
   libraryHearth: ({ dark, visit }) => Math.max(visit === "study" || visit === "library" ? 0.55 : 0, 0.75 * dark.inside),

@@ -5,9 +5,9 @@ import { createCameraMotion } from "../home-scene/camera-motion.mjs";
 import { sampleCoastWave } from "./wave-motion.mjs";
 import { createPeople } from "./people.mjs?v=coast-water-20261018";
 import { createCoastWater } from "./water.mjs?v=coast-sky-20261019";
-import { createSky, sceneColor } from "./sky.mjs?v=coast-sky-20261019";
+import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-hills-20261024";
 import { createMarineLayer } from "./marine-layer.mjs?v=coast-sky-20261019";
-import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, sunOnScreen } from "./sky-look.mjs?v=coast-sky-20261019";
+import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-hills-20261024";
 import { localDateKey, sunState } from "../la-jolla-sun.mjs?v=coast-sky-20261019";
 
 // People keep a composed still pose under reduced motion and under automation, as the
@@ -150,6 +150,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   const clock = { value: 0 };
   const finish = createFinish(renderer, scene, camera, { transparentOutput: true });
   let model, manifest;
+  // The hills' relief (sky.mjs) loads beside the model; the miniature sits on its map instead.
+  const relief = miniature ? null : loadRelief();
   try {
     manifest = await coastManifest();
     model = await acquireCoast(miniature ? manifest.miniature.model : manifest.model);
@@ -163,13 +165,13 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   const water = createCoastWater(renderer, { clock, miniature, profile: manifest.coastProfile });
   const lamps = miniature ? null : createPierLamps(model.scene);
   let lampsOn = 0;
-  // The sky behind the coast at the ends of the day (sky.mjs); the miniature sits on its map.
-  const sky = miniature ? null : createSky();
+  // The hills and the sky behind the coast (sky.mjs); the miniature sits on its map.
+  const sky = miniature ? null : createSky({ relief: await relief, onLate: () => draw() });
   if (!miniature) scene.add(water.mesh);
   if (lamps) scene.add(...lamps.objects);
   if (sky) {
-    scene.add(sky.mesh);
-    water.exclude([sky.mesh]);
+    scene.add(sky.mesh, sky.lights);
+    water.exclude([sky.mesh, sky.lights]);
   }
   // The marine layer's low fog over the surf line and the beach (marine-layer.mjs), lit through the
   // sun's shadow map.
@@ -332,7 +334,10 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   const KEY_DISTANCE = 23.83;
   const haze = new THREE.Color(),
     fogAmbient = new THREE.Color(),
-    fogSun = new THREE.Color();
+    fogSun = new THREE.Color(),
+    pageColor = new THREE.Color(),
+    reflected = new THREE.Color(),
+    surfaceSize = { width: 1, height: 1 };
   function placeSun() {
     sun.position.set(sunAnchorX + keyDir[0] * KEY_DISTANCE, keyDir[1] * KEY_DISTANCE, keyDir[2] * KEY_DISTANCE);
     sun.target.position.set(sunAnchorX, 0, 0);
@@ -340,30 +345,13 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     // A low sun meets surfaces at grazing angles; a little more normal bias keeps them clean.
     sun.shadow.normalBias = 0.025 + 0.12 * (1 - Math.min(keyDir[1] / 0.5, 1));
   }
-  // The open sea's horizon lies just above the coast's skyline (SEA_HORIZON units up at the target's
-  // plane), so the setting sun sinks into the Pacific beyond the coast instead of behind a roof; the
-  // sun stands 0.6 units above it per degree of altitude. Both scale and pan with the view.
-  const SEA_HORIZON = 7.9;
+  // The hills and the sky follow the camera (they pan with the coast on a phone and with the
+  // pointer's parallax); the sea's glitter path follows the rising sun's disk.
   function placeSky() {
-    const height = camera.top - camera.bottom;
-    const horizon = 0.5 + (0.922 * (SEA_HORIZON - target.y)) / height;
-    const place = sunNow ? sunOnScreen(sunNow) : { x: 0.6, up: -10, setting: false, visible: false };
-    sky?.place({
-      horizon,
-      aspect: (camera.right - camera.left) / height,
-      sunX: place.x,
-      sunUp: place.up,
-      degree: 0.6 / height,
-      radius: 0.5 / height,
-    });
-    water.setSun({
-      x: place.x,
-      y: horizon + (place.up * 0.6) / height,
-      visible: place.visible,
-      glitter: place.visible ? theme.glitter : 0,
-      color: theme.sunDisk,
-      rays: theme.rays,
-    });
+    if (!sky) return;
+    sky.place(camera, surfaceSize);
+    const sun = sky.sun;
+    water.setSun({ x: sun.x, y: sun.y, visible: sun.visible, glitter: sun.visible ? theme.glitter : 0, color: theme.sunDisk, rays: theme.rays });
   }
 
   function syncTheme() {
@@ -410,15 +398,16 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
         water.invalidate();
       }
     }
+    // The page color behind the transparent canvas.
+    const page = getComputedStyle(root).getPropertyValue("--global-bg-color").trim();
+    pageColor.set(/^#[0-9a-f]{6}$/i.test(page) ? page : (PAGE[selected] ?? PAGE.noon));
+    sky?.set(theme, sunNow, { page: pageColor, keyDir, anchor: selected });
     if (scene.fog) {
-      // The page color behind the transparent canvas, lifted so the output pass's tone mapping lands
-      // near it; when the sky shows, the farthest hills fade into its haze instead.
-      const page = getComputedStyle(root).getPropertyValue("--global-bg-color").trim();
-      scene.fog.color.set(/^#[0-9a-f]{6}$/i.test(page) ? page : (PAGE[selected] ?? PAGE.noon));
-      scene.fog.color.multiplyScalar(1 + 1.4 * scene.fog.color.getHSL({}).l);
-      if (theme.skyAlpha > 0) scene.fog.color.lerp(sceneColor(haze.set(theme.bank), theme.exposure, haze), theme.skyAlpha);
+      // The coast's back fades into the air the hills stand in: the page, lifted so the output
+      // pass's tone mapping lands near it, and while the sky shows the low sky over the hills.
+      scene.fog.color.copy(pageColor).multiplyScalar(1 + 1.4 * pageColor.getHSL({}).l);
+      if (sky?.weight > 0) scene.fog.color.lerp(sceneColor(sky.skyColor(1.5, haze), theme.exposure, haze), sky.weight);
     }
-    sky?.set(theme, sunNow ? sunOnScreen(sunNow) : null);
     marine?.set({
       density: theme.fog,
       ambient: sceneColor(haze.set(theme.fogColor), theme.exposure, fogAmbient).multiplyScalar(0.5),
@@ -426,7 +415,13 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       shafts: theme.rays * 2,
       lightDir: keyDir,
     });
-    water.setTheme(theme);
+    // The sea mirrors the sky over the hills: at this camera's pitch the sky some 24 degrees up, and
+    // near the beach, where ripples tilt it lower, the sky just above the crests.
+    if (sky?.weight > 0) {
+      const mirror = sky.skyColor(24, reflected).getHex(),
+        mirrorFar = sky.skyColor(7, reflected).getHex();
+      water.setTheme({ ...theme, mirror: mixHex(theme.mirror, mirror, sky.weight), mirrorFar: mixHex(theme.mirrorFar, mirrorFar, sky.weight) });
+    } else water.setTheme(theme);
     placeSky();
     lampsOn = clamp((theme.night - 0.35) / 0.45);
     lamps?.set(lampsOn);
@@ -457,6 +452,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
 
   function resize() {
     const { width, height } = surface.getBoundingClientRect();
+    surfaceSize.width = width;
+    surfaceSize.height = height;
     const narrow = narrowViewport.matches;
     surface.tabIndex = miniature || narrow ? 0 : -1;
     surface.setAttribute("aria-keyshortcuts", miniature ? "ArrowLeft ArrowRight ArrowUp ArrowDown Home" : narrow ? "ArrowLeft ArrowRight Home" : "");
@@ -562,6 +559,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       camera.position.copy(target).add(orbitOffset.setFromSpherical(orbitSphere));
     }
     camera.lookAt(target);
+    placeSky();
     // Every frame poses the people against the current boards, courts and theme; a still
     // frame holds the composed pose the posters show. People outside the camera's
     // horizontal span are skipped, not posed.
@@ -606,7 +604,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     currentX = motion.step("parallax", currentX, pointerX, dt, false, 5);
     renderedOrbitX = clamp(motion.step("orbitX", renderedOrbitX, orbitX, dt, false, drag ? 28 : 16), -Math.PI / 6, Math.PI / 6);
     renderedOrbitY = clamp(motion.step("orbitY", renderedOrbitY, orbitY, dt, false, drag ? 28 : 16), -Math.PI / 18, Math.PI / 18);
-    sky?.tick(elapsed);
+    sky?.tick(elapsed, peopleLive());
     crowns.forEach((o, i) => {
       o.rotation.z = Math.sin(elapsed * 0.65 + i) * 0.008;
     });

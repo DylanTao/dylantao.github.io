@@ -1,10 +1,13 @@
 // The footer coast's light through La Jolla's day, as a pure function of the sun (la-jolla-sun.mjs):
-// lights, sea, sky, marine layer and the credit's halo. Node tests sample it; scene.mjs applies it.
+// lights, sea, marine layer and the credit's halo. Node tests sample it; scene.mjs applies it. The
+// sky and the hills behind the coast are physically based (sky.mjs, atmosphere.mjs) and take their
+// light from these looks.
 //
-// The footer looks south-west from the bay at La Jolla Shores, so the sun sets beyond the coast (in
-// winter just beyond Point La Jolla, about 240 degrees from the Shores) and rises behind the viewer.
-// The four theme looks the site always had stay exact anchors (a manual theme and its still show
-// them); dawn, golden hour, sunset, afterglow and the blue hour blend between them by solar altitude.
+// The footer looks at the land from La Jolla Bay (skyline.mjs): the setting sun is behind the
+// viewer, raking the coast and Mount Soledad with golden light, and the rising sun comes up over the
+// hills ahead. The four theme looks the site always had stay exact anchors (a manual theme and its
+// still show them); dawn, golden hour, sunset, afterglow and the blue hour blend between them by
+// solar altitude.
 
 const COLOR_KEYS = [
   "sky",
@@ -16,13 +19,7 @@ const COLOR_KEYS = [
   "mirror",
   "mirrorFar",
   "rimColor",
-  "skyHorizon",
-  "skyMid",
-  "skyTop",
-  "seaFar",
-  "bank",
   "sunDisk",
-  "sunHalo",
   "fogColor",
   "haloLight",
   "haloDark",
@@ -33,25 +30,15 @@ const COLOR_KEYS = [
 // env: the strength of the studio's soft reflections, which light every surface evenly (1 by day);
 // rimColor/rim: the back fill that rims roofs and bluff tops; water: the Connect miniature's sea tint;
 // deep/shallow and caustic/reflect/glow/foam: the footer's sea (water.mjs), whose mirror shows the
-// sky as `mirror` in the foreground and `mirrorFar` near the beach; night: windows, lamps and the
-// fire; sky*: the backdrop behind the coast (sky.mjs), with the open sea beyond the coast (seaFar),
-// the marine layer's haze bank, the sun's disk and halo, rays, and the glitter path; fog: the marine
+// sky as `mirror` in the foreground and `mirrorFar` near the beach (blended toward the physical sky
+// while it shows); night: windows, lamps, the fire and the hillside houses; sunDisk, rays and
+// glitter: the rising sun's glitter path and its shafts through the marine layer; fog: the marine
 // layer's wisps; halo*/glow*: the credit. Colors are display colors; the four theme anchors keep
-// the values the site always had and show no sky.
+// the values the site always had.
 const base = {
   env: 1,
   rimColor: 0xd3e7ec,
-  skyAlpha: 0,
-  skyHorizon: 0xf6dcc0,
-  skyMid: 0xf1d6d2,
-  skyTop: 0xe8e4ec,
-  seaFar: 0x9aa8b6,
-  bank: 0xf6e2d2,
-  bankAlpha: 0,
   sunDisk: 0xfff2d0,
-  sunWhite: 0,
-  sunHalo: 0xffd890,
-  sunGlow: 0,
   rays: 0,
   glitter: 0,
   fog: 0,
@@ -129,8 +116,7 @@ export const LOOKS = Object.freeze({
     haloLight: 0xfbfaf7,
     haloAlpha: 0.5,
   },
-  // The sun six degrees up: low light rakes the coast from behind; the sky turns pale gold and the
-  // far sea silver under a broad glitter path.
+  // The sun six degrees up behind the viewer: low golden light rakes the coast and the hills.
   golden: {
     ...base,
     sky: 0xe6e2e2,
@@ -152,16 +138,7 @@ export const LOOKS = Object.freeze({
     night: 0.15,
     rimColor: 0xffcf8a,
     rim: 0.8,
-    skyAlpha: 0.8,
-    skyHorizon: 0xffe3a8,
-    skyMid: 0xfbe0c6,
-    skyTop: 0xeee6ea,
-    seaFar: 0xa8b0bc,
-    bank: 0xe8d6c4,
-    bankAlpha: 0.4,
     sunDisk: 0xfff2d4,
-    sunHalo: 0xffd68a,
-    sunGlow: 0.85,
     rays: 0.3,
     glitter: 0.75,
     fog: 0.5,
@@ -170,10 +147,9 @@ export const LOOKS = Object.freeze({
     glowColor: 0xffc878,
     glowAlpha: 0.3,
     haloAlpha: 0.7,
-    sunWhite: 0.7,
   },
-  // The sun on the horizon: the coast stands against a gold, apricot, rose and violet sky, lit by
-  // the lavender east behind the viewer and rimmed in orange; the disk sinks into the sea.
+  // The sun on the horizon behind the viewer: the coast and Mount Soledad glow orange (alpenglow)
+  // under the rising Earth's shadow and the pink Belt of Venus.
   sunset: {
     ...base,
     sky: 0xc8a8c0,
@@ -195,16 +171,7 @@ export const LOOKS = Object.freeze({
     night: 0.4,
     rimColor: 0xffa45c,
     rim: 0.9,
-    skyAlpha: 1,
-    skyHorizon: 0xffbc5a,
-    skyMid: 0xf49478,
-    skyTop: 0x9c80c0,
-    seaFar: 0x8c7e9c,
-    bank: 0xd8a098,
-    bankAlpha: 0.6,
     sunDisk: 0xffa34e,
-    sunHalo: 0xff9a50,
-    sunGlow: 1,
     rays: 0.45,
     glitter: 1,
     fog: 0.65,
@@ -213,9 +180,9 @@ export const LOOKS = Object.freeze({
     glowColor: 0xffa860,
     glowAlpha: 0.5,
     haloAlpha: 0.9,
-    sunWhite: 0.15,
   },
-  // Three degrees down: an orange band on the horizon under rose and violet; windows and lamps on.
+  // Three degrees down: the bright west behind the viewer lights the coast softly; windows, lamps
+  // and the hillside houses come on.
   afterglow: {
     ...base,
     sky: 0x9c8cb4,
@@ -237,16 +204,7 @@ export const LOOKS = Object.freeze({
     night: 0.75,
     rimColor: 0xff9c8c,
     rim: 0.45,
-    skyAlpha: 0.95,
-    skyHorizon: 0xff9e62,
-    skyMid: 0xdc86a2,
-    skyTop: 0x6c64a8,
-    seaFar: 0x7a6c96,
-    bank: 0xc08aa0,
-    bankAlpha: 0.5,
     sunDisk: 0xff8a50,
-    sunHalo: 0xff8a60,
-    sunGlow: 0.55,
     rays: 0.15,
     glitter: 0,
     fog: 0.7,
@@ -257,7 +215,7 @@ export const LOOKS = Object.freeze({
     glowAlpha: 0.45,
     haloAlpha: 0.9,
   },
-  // Eight degrees down: deep blue over a last warm line; the moon takes over the key light.
+  // Eight degrees down: the blue hour; the moon takes over the key light.
   blue: {
     ...base,
     sky: 0x5d6fa8,
@@ -279,16 +237,7 @@ export const LOOKS = Object.freeze({
     night: 0.95,
     rimColor: 0x8fa4e0,
     rim: 0.25,
-    skyAlpha: 0.6,
-    skyHorizon: 0x9a6c84,
-    skyMid: 0x3f4a86,
-    skyTop: 0x1d2648,
-    seaFar: 0x34406c,
-    bank: 0x5c5e8c,
-    bankAlpha: 0.35,
     sunDisk: 0xffb090,
-    sunHalo: 0xd07a70,
-    sunGlow: 0.25,
     fog: 0.55,
     fogColor: 0x5a6494,
     haloLight: 0xf2f0ff,
@@ -316,10 +265,6 @@ export const LOOKS = Object.freeze({
     foam: 0.55,
     night: 1,
     rim: 0.2,
-    skyHorizon: 0x23345a,
-    skyMid: 0x1b2747,
-    skyTop: 0x111c22,
-    seaFar: 0x1c2a44,
     fogColor: 0x3a4a66,
     haloLight: 0xeef2ff,
     haloDark: 0x0c1620,
@@ -348,13 +293,6 @@ export const LOOKS = Object.freeze({
     night: 0.85,
     rimColor: 0xa0b0e8,
     rim: 0.25,
-    skyAlpha: 0.45,
-    skyHorizon: 0x6a7098,
-    skyMid: 0x3c4678,
-    skyTop: 0x1f2a4c,
-    seaFar: 0x343f68,
-    bank: 0x7880a8,
-    bankAlpha: 0.35,
     fog: 0.7,
     fogColor: 0x7a84b0,
     haloLight: 0xf2f2ff,
@@ -363,10 +301,14 @@ export const LOOKS = Object.freeze({
     glowAlpha: 0.28,
     haloAlpha: 0.85,
   },
-  // The sun just under the horizon behind the viewer: looking west, the Earth's blue-grey shadow lies
-  // on the sea under the pink Belt of Venus; the marine layer blushes, and the coast is lit from the front.
+  // The sun just under the hills ahead: dawn glows behind them, the marine layer blushes, and the
+  // coast is lit from behind.
   dawn: {
     ...base,
+    // The rising sun over the hills lays its glitter path across the bay toward the viewer.
+    glitter: 0.8,
+    sunDisk: 0xffb070,
+    rays: 0.3,
     sky: 0xf0c0c8,
     ground: 0x707088,
     sun: 0xffb090,
@@ -386,13 +328,6 @@ export const LOOKS = Object.freeze({
     night: 0.5,
     rimColor: 0xffc4b4,
     rim: 0.6,
-    skyAlpha: 0.7,
-    skyHorizon: 0x9ea6cc,
-    skyMid: 0xf0b6c8,
-    skyTop: 0xf6e6ea,
-    seaFar: 0x9aa2c4,
-    bank: 0xe6ccd4,
-    bankAlpha: 0.55,
     fog: 0.85,
     fogColor: 0xf0d2d8,
     haloLight: 0xfff4f4,
@@ -467,18 +402,29 @@ export function lookAt(state) {
   return climb <= 0.6 ? low : mixLooks(LOOKS.afternoon, LOOKS.noon, smooth(0.6, 0.92, climb));
 }
 
-// Where the setting sun stands on screen: across the view by its azimuth (the winter sun near the
-// middle, the summer sun far to the right), and up from the haze bank by its altitude. Fractions of
-// the view's width; `up` in degrees above the bank's top. Rising suns are behind the viewer.
+// The frieze faces the land from La Jolla Bay; its centre looks along this bearing (skyline.mjs).
+export const VIEW_BEARING = 104;
+
+// Where the sun stands for the frieze: its bearing, and whether its disk can show. The setting sun
+// (bearings 242 to 299 through the year) is behind the viewer, so its disk never shows; the far
+// right, where the land opens to the sea past the headland, glows toward it. The rising sun comes up
+// over the hills ahead (bearings 61 to 118) and shows once it clears them (sky.mjs), until it has
+// climbed into the page's own daylight.
 export function sunOnScreen(state) {
-  const x = 0.55 + ((state.azimuth - 240) / 60) * 0.38;
-  return { x: Math.min(Math.max(x, 0.4), 0.94), up: state.altitude, setting: !state.rising, visible: !state.rising && state.altitude > -1.5 };
+  return {
+    bearing: state.azimuth,
+    up: state.altitude,
+    setting: !state.rising,
+    visible: state.rising && state.altitude > -1.2 && state.altitude < 14,
+  };
 }
 
 // The key light's direction (toward the light, scene axes: x right, y up, z toward the viewer). By
-// day it keeps the composition's authored sun; the setting sun swings it behind the coast toward the
-// sun on screen, low enough to rake the bluffs, and the rising sun lights the coast from behind the
-// viewer. Through the twilight the moon takes the authored direction back.
+// day it keeps the composition's authored sun. Low suns light the coast from where they truly are:
+// the setting sun from behind the viewer and to one side (in October from the right), raking the
+// coast and the hills with golden light; the rising sun from behind the hills, rimming the bluffs
+// and throwing long shadows toward the viewer. Through the twilight the moon takes the authored
+// direction back.
 export const DAY_KEY = (() => {
   const v = [-10, 18, 12],
     n = Math.hypot(...v);
@@ -496,19 +442,20 @@ function slerp(a, b, t) {
   return normalize(a.map((x, i) => (Math.sin((1 - t) * angle) * x + Math.sin(t * angle) * b[i]) / s));
 }
 export function keyDirection(state) {
-  // A low sun stands a little higher than it is, so its long shadows reach across the lawns and the
-  // beach toward the viewer instead of vanishing at a grazing angle.
+  // A low sun stands a little higher than it is, so its long shadows stay legible instead of
+  // vanishing at a grazing angle.
   const lift = Math.max(Math.sin((Math.max(state.altitude, 0) * Math.PI) / 180), state.rising ? 0.07 : 0.16);
+  // Toward the sun's bearing: forward (-z) is VIEW_BEARING, right (+x) a quarter turn clockwise.
+  const b = ((state.azimuth - VIEW_BEARING) * Math.PI) / 180;
+  const toward = normalize([Math.sin(b), lift, -Math.cos(b)]);
   if (state.rising) {
-    const dawn = normalize([-0.35, lift, 0.94]);
-    if (state.altitude < -2) return slerp(dawn, DAY_KEY, smooth(-2, -8, state.altitude));
-    return slerp(dawn, DAY_KEY, smooth(2, 16, state.altitude));
+    if (state.altitude < -2) return slerp(toward, DAY_KEY, smooth(-2, -8, state.altitude));
+    return slerp(toward, DAY_KEY, smooth(2, 16, state.altitude));
   }
-  const side = (sunOnScreen(state).x - 0.5) * 2;
-  const behind = normalize([0.45 * side, lift, -0.9]);
-  // The afterglow still lights the coast from the west; by the blue hour the moon has the key.
-  if (state.altitude < -1) return slerp(behind, DAY_KEY, smooth(-1, -8, state.altitude));
-  return slerp(behind, DAY_KEY, smooth(3, 16, state.altitude));
+  // The afterglow, the bright west behind the viewer, still lights the coast's seaward faces; by
+  // the blue hour the moon has the key.
+  if (state.altitude < -1) return slerp(toward, DAY_KEY, smooth(-1, -8, state.altitude));
+  return slerp(toward, DAY_KEY, smooth(3, 16, state.altitude));
 }
 
 // The credit's halo: a light veil under dark ink by day and a dark one under the evening theme's
