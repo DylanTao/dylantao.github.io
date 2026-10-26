@@ -3518,16 +3518,19 @@ test("coastal home: a routine boundary walks through the home before settling in
       await ui.locator('[data-world-room="overview"]').click();
       await canvas.scrollIntoViewIfNeeded();
       await capture(testInfo, "walking-between-rooms", await canvas.screenshot());
-      const climbSamples = [];
+      // Read the climb from the in-page recorder, which samples every rendered frame. On CI's
+      // software WebGL one fresh evidence call can outlast the whole wait (2026-10-26: 30 s for
+      // a 25 s poll), leaving no sample although the recorded frames show the actor upstairs.
+      const climbBudget = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 120000 : 25000;
+      let climbSamples = [];
       try {
         await expect
           .poll(
             async () => {
-              const sample = await evidence(scene);
-              climbSamples.push({ frames: sample.frames, seconds: sample.animationSeconds, navigation: sample.navigation, root: sample.joints.Root });
-              return sample.joints.Root[1];
+              climbSamples = await page.evaluate(() => window.coastalRoutineJourneyProof.samples);
+              return Math.max(-Infinity, ...climbSamples.map((sample) => sample.root[1]));
             },
-            { timeout: 25000 }
+            { timeout: climbBudget }
           )
           .toBeGreaterThan(0.5);
       } finally {
