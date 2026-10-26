@@ -997,7 +997,8 @@
   "avatars": {
     "lizard": {
       "mouth": [0.0, 0.163, 0.275],
-      "palm": 0.036
+      "palm": 0.036,
+      "nookLift": 0.012
     },
     "south-park": {
       "mouth": [0.0, 0.008, 0.19],

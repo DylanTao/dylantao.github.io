@@ -469,6 +469,9 @@ export function createDining({
       actor,
       avatarId,
       spine: bones.get("Spine"),
+      hips: bones.get("Hips"),
+      hipsBase: null,
+      hipsApplied: null,
       head: bones.get("Head"),
       limbs: { R: limb("R"), L: limb("L") },
       avatar,
@@ -497,10 +500,25 @@ export function createDining({
       if (applied && applied.equals(bone.quaternion)) bone.quaternion.copy(r.base.get(bone));
       else r.base.set(bone, bone.quaternion.clone());
     }
+    // The hips' position likewise (a seat lift moves it), so a redraw never lifts twice.
+    if (r.hips) {
+      if (r.hipsApplied && r.hipsApplied.equals(r.hips.position)) r.hips.position.copy(r.hipsBase);
+      else r.hipsBase = r.hips.position.clone();
+    }
     r.actor.updateMatrixWorld(true);
   }
   function endApplication(r) {
     for (const bone of r.touched) r.applied.set(bone, bone.quaternion.clone());
+    if (r.hips) r.hipsApplied = r.hips.position.clone();
+  }
+  // Some styles sit lower in their clip than the nook's banquette cushion allows (the Lizard by
+  // 1.2 cm, measured): the hips rise by the avatar's own nookLift there, the hands following by IK.
+  function liftSeat(r, s) {
+    const lift = r.avatar.nookLift;
+    if (!lift || !r.hips?.parent || s.roomId !== "kitchen" || s.layout?.knee) return;
+    r.hips.parent.updateWorldMatrix(true, false);
+    r.hips.position.copy(r.hips.parent.worldToLocal(r.hips.getWorldPosition(v3()).addScaledVector(UP, lift)));
+    r.actor.updateMatrixWorld(true);
   }
 
   const a = v3(),
@@ -745,6 +763,7 @@ export function createDining({
       return null;
     }
     beginApplication(r);
+    liftSeat(r, s);
     actorInv.copy(actor.matrixWorld).invert();
     const evening = s.meal === "evening";
     const sample = (mouth) => (evening ? eveningPose(now.plan, now.t, { mouth }, s.layout) : mealPose(now.plan, now.t, { mouth }, s.layout));

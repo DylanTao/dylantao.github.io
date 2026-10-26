@@ -90,7 +90,8 @@ SETTINGS = {
 # Mouths in each avatar's Head-bone frame (+y up the bone, +z forward), measured from the retained
 # sources' mouth surfaces (centre height, front lip); palms are the hand surfaces' half-thickness.
 AVATARS = {
-    "lizard": {"mouth": [0.0, 0.163, 0.275], "palm": 0.036},
+    # nookLift: the Lizard sits 1.2 cm into the nook's banquette cushion in its own seated clips.
+    "lizard": {"mouth": [0.0, 0.163, 0.275], "palm": 0.036, "nookLift": 0.012},
     "south-park": {"mouth": [0.0, 0.008, 0.19], "palm": 0.033},
     "simpsons": {"mouth": [0.0, 0.143, 0.15], "palm": 0.03},
     "ghibli": {"mouth": [0.0, 0.094, 0.088], "palm": 0.03},
