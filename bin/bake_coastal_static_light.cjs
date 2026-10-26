@@ -18,7 +18,7 @@ const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
   });
   try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, reducedMotion: "reduce" });
-    page.setDefaultTimeout(180000);
+    page.setDefaultTimeout(Number(process.env.COASTAL_BAKE_TIMEOUT_MS) || 180000);
     page.on("pageerror", (error) => errors.push(error.message));
     await page.route("**/assets/**", async (route) => {
       const pathname = decodeURIComponent(new URL(route.request().url()).pathname),

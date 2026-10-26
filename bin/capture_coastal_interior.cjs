@@ -225,6 +225,13 @@ const SURVEYS = {
     { name: "library-spiral", room: "library", camera: { target: [-9.8, 1.4, 8.4], yaw: 2.9, pitch: 0.22, radius: 4.2 } },
     { name: "study-sea-corner", room: "library", camera: { target: [-11.0, 1.1, 1.3], yaw: 0.638, pitch: 0.118, radius: 3.38 } },
     { name: "private-link", room: "overview", camera: { target: [-6.8, 1.8, 9.0], yaw: 2.64, pitch: 0.75, radius: 10 } },
+    // The October 24 stair hall behind the pivot door (new spaces: before frames show the rock).
+    { name: "hall-from-vestibule", room: "lounge", camera: { target: [-0.5, 3.4, 22.0], yaw: 3.005, pitch: -0.336, radius: 5.45 } },
+    { name: "hall-from-landing", room: "lounge", camera: { target: [-1.5, 1.0, 21.0], yaw: 2.35, pitch: 0.502, radius: 6.65 } },
+    { name: "hall-top-flight", room: "lounge", camera: { target: [-2.8, 8.6, 23.0], yaw: 3.142, pitch: -0.237, radius: 5.97 } },
+    { name: "pavilion-portal", room: "outside", camera: { target: [-2.8, 8.6, 22.0], yaw: 0.0, pitch: 0.3, radius: 4.4 } },
+    { name: "clifftop-oculi", room: "outside", camera: { target: [-0.5, 8.3, 19.7], yaw: 0.395, pitch: 0.316, radius: 5.47 } },
+    { name: "back-wall-door", room: "lounge", camera: { target: [0.0, 1.6, 15.6], yaw: 3.093, pitch: 0.0, radius: 4.1 } },
   ].map((view) => ({ ...view, camera: { ...view.camera, free: true } })),
 };
 const TYPES = {
@@ -371,6 +378,62 @@ async function capture(shot, mode) {
       const state = await host.evaluate((e) => e.getSceneEvidence());
       cameraSweep.push({ name: candidate.name, requested: candidate.camera, camera: state.camera, target: state.target, arm: state.cameraArm, file });
     }
+  }
+  // After the sweep, so streamed files have arrived. COAST_PROBE_BOX={"min":[x,y,z],"max":[x,y,z]} lists every drawn mesh whose world bounds meet the box
+  // (three.js world coordinates), with its parent chain: which delivered file put something there.
+  if (process.env.COAST_PROBE_BOX) {
+    const found = await host.evaluate((e, box) => {
+      const out = [];
+      e.labScene.scene.updateMatrixWorld(true);
+      e.labScene.scene.traverse((o) => {
+        if (!o.isMesh || !o.geometry) return;
+        if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+        const outside = (b) => ["x", "y", "z"].some((k, i) => b.max[k] < box.min[i] || b.min[k] > box.max[i]);
+        let b = o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld),
+          instances;
+        if (o.isInstancedMesh) {
+          // Each instance's own bounds: the base geometry's bounds say nothing about where they stand.
+          const m = o.matrixWorld.clone().multiply(new o.matrixWorld.constructor()),
+            each = o.geometry.boundingBox.clone(),
+            local = new o.matrixWorld.constructor();
+          instances = [];
+          for (let k = 0; k < o.count; k++) {
+            o.getMatrixAt(k, local);
+            const ib = each.clone().applyMatrix4(m.clone().multiply(local));
+            if (!outside(ib)) instances.push({ k, min: ib.min.toArray().map((v) => +v.toFixed(2)), max: ib.max.toArray().map((v) => +v.toFixed(2)) });
+          }
+          if (!instances.length) return;
+        } else if (outside(b)) return;
+        // How many of its triangles actually stand in the box (by centroid), for merged batches.
+        let inside = 0;
+        const pos = o.geometry.attributes.position,
+          index = o.geometry.index,
+          v = new b.min.constructor(),
+          c = new b.min.constructor();
+        if (!o.isInstancedMesh && pos) {
+          const triangles = index ? index.count / 3 : pos.count / 3;
+          for (let t = 0; t < triangles; t++) {
+            c.set(0, 0, 0);
+            for (let j = 0; j < 3; j++) c.add(v.fromBufferAttribute(pos, index ? index.getX(3 * t + j) : 3 * t + j));
+            c.multiplyScalar(1 / 3).applyMatrix4(o.matrixWorld);
+            if (c.x >= box.min[0] && c.x <= box.max[0] && c.y >= box.min[1] && c.y <= box.max[1] && c.z >= box.min[2] && c.z <= box.max[2]) inside++;
+          }
+          if (!inside) return;
+        }
+        const chain = [];
+        for (let p = o; p; p = p.parent) chain.push(p.name || p.type);
+        out.push({
+          chain: chain.slice(0, 5).join(" < "),
+          visible: o.visible,
+          min: b.min.toArray().map((v) => +v.toFixed(2)),
+          max: b.max.toArray().map((v) => +v.toFixed(2)),
+          inside,
+          instances,
+        });
+      });
+      return out;
+    }, JSON.parse(process.env.COAST_PROBE_BOX));
+    console.log(JSON.stringify({ probe: found }, null, 1));
   }
   await page.waitForTimeout(2500);
   const frames = await host.evaluate((e) => e.getSceneEvidence().frames);
