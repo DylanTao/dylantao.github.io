@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <title>Eames delivery review fixture</title>
+  <link rel="icon" href="data:," />
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #d8d4cd;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+  <script type="module">
+    import * as THREE from "/assets/js/three.module.min.js";
+    import { createModelLoader } from "/assets/js/home-scene/model-loader.mjs";
+
+    const params = new URLSearchParams(location.search);
+    const variant = params.get("variant") || "candidate";
+    const lod = Number(params.get("lod") || 0);
+    const view = params.get("view") || "front";
+    const base = variant === "baseline" ? "/.jekyll-cache/visual-qa/eames-2026-10-26/baseline/furniture/" : "/assets/models/home/furniture/";
+    const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(1);
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    document.body.append(renderer.domElement);
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xd8d4cd);
+    scene.add(new THREE.HemisphereLight(0xf5f2e9, 0x8a8277, 2.1));
+    const key = new THREE.DirectionalLight(0xfff6e6, 3.2);
+    key.position.set(-3, 4, 3);
+    key.castShadow = true;
+    key.shadow.mapSize.set(2048, 2048);
+    Object.assign(key.shadow.camera, { left: -2, right: 2, top: 2, bottom: -2, near: 0.1, far: 12 });
+    key.shadow.normalBias = 0.003;
+    scene.add(key);
+    const fill = new THREE.DirectionalLight(0xdce9ff, 1.0);
+    fill.position.set(3, 2, -2);
+    scene.add(fill);
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({ color: 0xbcb5a9, roughness: 0.95 }));
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -0.001;
+    floor.receiveShadow = true;
+    scene.add(floor);
+    const { loader } = createModelLoader();
+    const model = (await loader.loadAsync(`${base}eames-lounge-lod${lod}.glb`)).scene;
+    model.traverse((object) => {
+      if (!object.isMesh) return;
+      object.castShadow = object.receiveShadow = true;
+    });
+    scene.add(model);
+    const camera = new THREE.PerspectiveCamera(38, innerWidth / innerHeight, 0.02, 250);
+    const directions = { front: [0.72, 0.55, 1.0], side: [1.0, 0.42, 0.02], rear: [-0.7, 0.52, -1.0], detail: [0.2, 0.5, 1.0] };
+    const target = view === "detail" ? new THREE.Vector3(0, 0.52, -0.3) : new THREE.Vector3(0, 0.36, 0);
+    camera.position.copy(target).addScaledVector(new THREE.Vector3(...directions[view]).normalize(), view === "detail" ? 1.35 : 2.8);
+    camera.lookAt(target);
+    await renderer.compileAsync(scene, camera);
+    renderer.render(scene, camera);
+    const gl = renderer.getContext();
+    const debug = gl.getExtension("WEBGL_debug_renderer_info");
+    window.review = {
+      variant,
+      lod,
+      view,
+      ready: true,
+      renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+      buffer: [renderer.domElement.width, renderer.domElement.height],
+      camera: { position: camera.position.toArray(), target: target.toArray(), fov: camera.fov },
+      bounds:
+        new THREE.Box3().setFromObject(model).toArray?.() ||
+        (() => {
+          const b = new THREE.Box3().setFromObject(model);
+          return { min: b.min.toArray(), max: b.max.toArray() };
+        })(),
+      meshes: renderer.info.render.calls - 1,
+      triangles: renderer.info.render.triangles - 2,
+    };
+  </script>
+</html>

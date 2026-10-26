@@ -1,0 +1,276 @@
+{
+  "baselineCommit": "78d4ceec6",
+  "rebasedBuilderCommit": "9c32ed976d5fde8774f9cd3287df6573fd10a62e",
+  "blender": "4.5.9 LTS",
+  "blenderBuildHash": "8bf95cbd38d1",
+  "fullBuild": {
+    "items": 17,
+    "levelsPerItem": 2,
+    "seconds": 12.6,
+    "bake": "Cycles vertex AO, original builder defaults",
+    "unchangedExportsBesidesEames": true,
+    "fireplaceOutputsIndexAndReportRestoredExactly": true
+  },
+  "scope": "Delivery GLBs in a neutral Three.js r164 studio; this does not verify their final house lighting or avatar contacts.",
+  "allCaptureCount": 16,
+  "errors": [],
+  "captures": [
+    {
+      "variant": "baseline",
+      "lod": 0,
+      "view": "front",
+      "ready": true,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": [3840, 2160],
+      "camera": {
+        "position": [1.4939892750915709, 1.5012418073616165, 2.0749851042938485],
+        "target": [0, 0.36, 0],
+        "fov": 38
+      },
+      "bounds": {
+        "min": [-0.4109492599964142, 0, -0.8029539585113525],
+        "max": [0.4109492599964142, 0.8011581897735596, 0.8029539585113525]
+      },
+      "meshes": 5,
+      "triangles": 36130,
+      "file": "baseline-lod0-front.png",
+      "sha256": "5554b50c25e6e8ff290b2107d34d4a80308714ddedb38b5804301dda871ae03a",
+      "bytes": 972883
+    },
+    {
+      "variant": "baseline",
+      "lod": 0,
+      "view": "side",
+      "ready": true,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": [3840, 2160],
+      "camera": {
+        "position": [2.581111117776868, 1.4440666694662845, 0.051622222355537366],
+        "target": [0, 0.36, 0],
+        "fov": 38
+      },
+      "bounds": {
+        "min": [-0.4109492599964142, 0, -0.8029539585113525],
+        "max": [0.4109492599964142, 0.8011581897735596, 0.8029539585113525]
+      },
+      "meshes": 5,
+      "triangles": 36130,
+      "file": "baseline-lod0-side.png",
+      "sha256": "2fe403212c882c962f81718911ec7f3930a849c73c584ce52b644b0afe0dc2c3",
+      "bytes": 822611
+    },
+    {
+      "variant": "candidate",
+      "lod": 0,
+      "view": "front",
+      "ready": true,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": [3840, 2160],
+      "camera": {
+        "position": [1.4939892750915709, 1.5012418073616165, 2.0749851042938485],
+        "target": [0, 0.36, 0],
+        "fov": 38
+      },
+      "bounds": {
+        "min": [-0.4109494686126709, 0, -0.8029539585113525],
+        "max": [0.4109494686126709, 0.8018528819084167, 0.8029539585113525]
+      },
+      "meshes": 5,
+      "triangles": 36130,
+      "file": "candidate-lod0-front.png",
+      "sha256": "0d173661bdfe388999a30be07886033532a8e8082b74074938c80fb3a6a3f158",
+      "bytes": 993752
+    },
+    {
+      "variant": "candidate",
+      "lod": 0,
+      "view": "side",
+      "ready": true,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": [3840, 2160],
+      "camera": {
+        "position": [2.581111117776868, 1.4440666694662845, 0.051622222355537366],
+        "target": [0, 0.36, 0],
+        "fov": 38
+      },
+      "bounds": {
+        "min": [-0.4109494686126709, 0, -0.8029539585113525],
+        "max": [0.4109494686126709, 0.8018528819084167, 0.8029539585113525]
+      },
+      "meshes": 5,
+      "triangles": 36130,
+      "file": "candidate-lod0-side.png",
+      "sha256": "cb0503684a8e2c83afdd582f1822c181474c8b0a4b38b39f7fd8298d69e1e39c",
+      "bytes": 842530
+    },
+    {
+      "variant": "candidate",
+      "lod": 0,
+      "view": "rear",
+      "ready": true,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": [3840, 2160],
+      "camera": {
+        "position": [-1.4772377300440394, 1.4573765994612864, -2.1103396143486277],
+        "target": [0, 0.36, 0],
+        "fov": 38
+      },
+      "bounds": {
+        "min": [-0.4109494686126709, 0, -0.8029539585113525],
+        "max": [0.4109494686126709, 0.8018528819084167, 0.8029539585113525]
+      },
+      "meshes": 5,
+      "triangles": 36130,
+      "file": "candidate-lod0-rear.png",
+      "sha256": "49af3a9852444c56c8c525d615fb1ab93db9599b7ee4f5d4e6524912e45c20e6",
+      "bytes": 903726
+    },
+    {
+      "variant": "candidate",
+      "lod": 1,
+      "view": "front",
+      "ready": true,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": [3840, 2160],
+      "camera": {
+        "position": [1.4939892750915709, 1.5012418073616165, 2.0749851042938485],
+        "target": [0, 0.36, 0],
+        "fov": 38
+      },
+      "bounds": {
+        "min": [-0.4050000011920929, 0, -0.8029539585113525],
+        "max": [0.4050000011920929, 0.8011581897735596, 0.8029539585113525]
+      },
+      "meshes": 5,
+      "triangles": 6376,
+      "file": "candidate-lod1-front.png",
+      "sha256": "31bee61669e44f73f42870ebbbf5296c48ed3fdea347f8faacc5eb44fda5d131",
+      "bytes": 465451
+    }
+  ],
+  "assets": {
+    "eames-lounge": {
+      "before": {
+        "label": "Eames lounge chair and ottoman",
+        "lods": [
+          {
+            "file": "eames-lounge-lod1.glb",
+            "triangles": 6376,
+            "bytes": 66580
+          },
+          {
+            "file": "eames-lounge-lod0.glb",
+            "triangles": 36130,
+            "bytes": 444044,
+            "near": 1.6,
+            "fullscreen": true
+          }
+        ],
+        "bounds": {
+          "min": [-0.4109, 0.0, -0.803],
+          "max": [0.4109, 0.8012, 0.803]
+        },
+        "origin": "floor-center",
+        "front": "+z",
+        "seatHeight": 0.38,
+        "seat": [0.0, 0.33, -0.3233],
+        "provenance": "Original Blender geometry after the Eames Lounge Chair and Ottoman (Herman Miller): published dimensions and a measured reference from Sirui's configurator download, whose terms do not allow redistribution; nothing from the download is shipped."
+      },
+      "after": {
+        "label": "Eames lounge chair and ottoman",
+        "lods": [
+          {
+            "file": "eames-lounge-lod1.glb",
+            "triangles": 6376,
+            "bytes": 66616
+          },
+          {
+            "file": "eames-lounge-lod0.glb",
+            "triangles": 36130,
+            "bytes": 444892,
+            "near": 1.6,
+            "fullscreen": true
+          }
+        ],
+        "bounds": {
+          "min": [-0.4109, 0.0, -0.803],
+          "max": [0.4109, 0.8019, 0.803]
+        },
+        "origin": "floor-center",
+        "front": "+z",
+        "seatHeight": 0.4,
+        "seat": [0.0, 0.35, -0.3233],
+        "provenance": "Original Blender geometry after the Eames Lounge Chair and Ottoman (Herman Miller): published dimensions and a measured reference from Sirui's configurator download, whose terms do not allow redistribution; nothing from the download is shipped."
+      }
+    },
+    "floating-fireplace": {
+      "before": {
+        "label": "Suspended UFO fireplace",
+        "lods": [
+          {
+            "file": "floating-fireplace-lod1.glb",
+            "triangles": 1112,
+            "bytes": 12588
+          },
+          {
+            "file": "floating-fireplace-lod0.glb",
+            "triangles": 2128,
+            "bytes": 17264,
+            "near": 1.6,
+            "fullscreen": true
+          }
+        ],
+        "bounds": {
+          "min": [-0.45, 0.71, -0.45],
+          "max": [0.45, 2.2, 0.45]
+        },
+        "origin": "floor-center",
+        "front": "+z",
+        "emitters": {
+          "fire": [0, 0.84, 0]
+        },
+        "provenance": "Original suspended graphite fireplace with open combustion bowl and canopy; its 10 cm radius neck reaches 2.20 m above the pit floor to meet the native room flue. Runtime fire uses deterministic bounded flame geometry and a still reduced-motion state."
+      },
+      "after": {
+        "label": "Suspended UFO fireplace",
+        "lods": [
+          {
+            "file": "floating-fireplace-lod1.glb",
+            "triangles": 1112,
+            "bytes": 12588
+          },
+          {
+            "file": "floating-fireplace-lod0.glb",
+            "triangles": 2128,
+            "bytes": 17264,
+            "near": 1.6,
+            "fullscreen": true
+          }
+        ],
+        "bounds": {
+          "min": [-0.45, 0.71, -0.45],
+          "max": [0.45, 2.2, 0.45]
+        },
+        "origin": "floor-center",
+        "front": "+z",
+        "emitters": {
+          "fire": [0, 0.84, 0]
+        },
+        "provenance": "Original suspended graphite fireplace with open combustion bowl and canopy; its 10 cm radius neck reaches 2.20 m above the pit floor to meet the native room flue. Runtime fire uses deterministic bounded flame geometry and a still reduced-motion state."
+      }
+    }
+  },
+  "sourceSha256": "6887cfd306ca55641f680f6d230afe2de27c451d02922d8e8ade885c3556747b",
+  "candidateGlbSha256": {
+    "eames-lounge-lod0.glb": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691",
+    "eames-lounge-lod1.glb": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4"
+  },
+  "localEvidence": ".jekyll-cache/visual-qa/eames-2026-10-26/",
+  "checks": {
+    "furnitureNodeTests": 14,
+    "coastalAssetsPythonTests": 7,
+    "styleContract": "pass",
+    "diffCheck": "pass"
+  },
+  "remaining": "Coordinator must re-bake final static-light cache and verify final house renders/CI/deployment; no item22 completion claim."
+}

@@ -187,24 +187,24 @@
         {
           "file": "eames-lounge-lod1.glb",
           "triangles": 6376,
-          "bytes": 66580
+          "bytes": 66616
         },
         {
           "file": "eames-lounge-lod0.glb",
           "triangles": 36130,
-          "bytes": 444044,
+          "bytes": 444892,
           "near": 1.6,
           "fullscreen": true
         }
       ],
       "bounds": {
         "min": [-0.4109, 0.0, -0.803],
-        "max": [0.4109, 0.8012, 0.803]
+        "max": [0.4109, 0.8019, 0.803]
       },
       "origin": "floor-center",
       "front": "+z",
-      "seatHeight": 0.38,
-      "seat": [0.0, 0.33, -0.3233],
+      "seatHeight": 0.4,
+      "seat": [0.0, 0.35, -0.3233],
       "provenance": "Original Blender geometry after the Eames Lounge Chair and Ottoman (Herman Miller): published dimensions and a measured reference from Sirui's configurator download, whose terms do not allow redistribution; nothing from the download is shipped."
     },
     "floating-fireplace": {
