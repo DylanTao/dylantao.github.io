@@ -1,9 +1,10 @@
 import * as THREE from "../three.module.min.js";
 
-// The authored landward thresholds are real sliding leaves. Their frame stays static; the leaf
-// opens before a visitor, Sirui or P arrives and cannot close on that occupant. They are excluded
-// from the static walk map, like the existing facade leaves, rather than leaving a voxel wall
-// behind after the visible leaf has moved into its pocket.
+// The authored landward thresholds are real leaves: sliding pocket leaves, or a pivot leaf that
+// turns about a vertical axis (the main entrance in the living's back wall). Their frame stays
+// static; the leaf opens before a visitor, Sirui or P arrives and cannot close on that occupant.
+// They are excluded from the static walk map, like the existing facade leaves, rather than leaving
+// a voxel wall behind after the visible leaf has moved into its pocket or turned open.
 export function nearDoor(bounds, pose, radius = 2.8) {
   if (!pose?.active || !pose.position?.every(Number.isFinite)) return false;
   const [x, foot, z] = pose.position;
@@ -13,6 +14,9 @@ export function nearDoor(bounds, pose, radius = 2.8) {
   return dx * dx + dz * dz <= radius * radius;
 }
 
+const UP = new THREE.Vector3(0, 1, 0),
+  TURN = new THREE.Quaternion();
+
 export function createEstateDoors(root, definitions = []) {
   const configured = new Map((Array.isArray(definitions) ? definitions : Object.values(definitions)).map((entry) => [entry.id, entry]));
   const groups = new Map();
@@ -21,20 +25,30 @@ export function createEstateDoors(root, definitions = []) {
     if (!object.userData.estateDoor) return;
     const id = object.userData.estateDoor;
     const entry = configured.get(id) || {};
-    const slide = entry.slideX ?? object.userData.slideX ?? object.userData.estateSlideX;
-    if (!Number.isFinite(slide) || Math.abs(slide) < 0.5) throw new RangeError(`Missing pocket travel for estate door ${id}`);
+    const pivot = entry.pivot ?? null;
+    const slide = pivot ? 0 : (entry.slideX ?? object.userData.slideX ?? object.userData.estateSlideX);
+    if (pivot && !(Number.isFinite(pivot.x) && Number.isFinite(pivot.z) && Number.isFinite(pivot.angle) && Math.abs(pivot.angle) >= 0.5))
+      throw new RangeError(`Invalid pivot for estate door ${id}`);
+    if (!pivot && (!Number.isFinite(slide) || Math.abs(slide) < 0.5)) throw new RangeError(`Missing pocket travel for estate door ${id}`);
     if (!groups.has(id))
       groups.set(id, {
         id,
         parts: [],
         bounds: new THREE.Box3(),
         slide,
+        pivot,
         fraction: 0,
         target: 0,
         radius: entry.openRadius ?? entry.activationDistance ?? 2.8,
       });
     const door = groups.get(id);
-    door.parts.push({ object, rest: object.position.clone() });
+    // A pivot turns each part about the authored world axis, expressed in that part's parent frame.
+    const axis = pivot
+      ? object.parent
+        ? object.parent.worldToLocal(new THREE.Vector3(pivot.x, 0, pivot.z))
+        : new THREE.Vector3(pivot.x, 0, pivot.z)
+      : null;
+    door.parts.push({ object, rest: object.position.clone(), restQuaternion: object.quaternion.clone(), axis });
     door.bounds.union(new THREE.Box3().setFromObject(object));
     object.userData.dynamic = true;
   });
@@ -56,9 +70,18 @@ export function createEstateDoors(root, definitions = []) {
         if (door.fraction === before) continue;
         changed = true;
         const smooth = door.fraction * door.fraction * (3 - 2 * door.fraction);
-        for (const { object, rest } of door.parts) {
+        for (const { object, rest, restQuaternion, axis } of door.parts) {
           object.position.copy(rest);
-          object.position.x += door.slide * smooth;
+          if (door.pivot) {
+            const angle = door.pivot.angle * smooth,
+              c = Math.cos(angle),
+              s = Math.sin(angle),
+              dx = rest.x - axis.x,
+              dz = rest.z - axis.z;
+            object.position.x = axis.x + dx * c + dz * s;
+            object.position.z = axis.z - dx * s + dz * c;
+            object.quaternion.copy(restQuaternion).premultiply(TURN.setFromAxisAngle(UP, angle));
+          } else object.position.x += door.slide * smooth;
           object.updateMatrix();
           object.updateMatrixWorld(true);
         }
@@ -74,6 +97,7 @@ export function createEstateDoors(root, definitions = []) {
         fraction: door.fraction,
         open: door.target === 1,
         offset: door.slide * door.fraction ** 2 * (3 - 2 * door.fraction),
+        angle: door.pivot ? door.pivot.angle * door.fraction ** 2 * (3 - 2 * door.fraction) : 0,
       })),
       automatic: true,
       motionSeconds: 0.6,
@@ -82,8 +106,9 @@ export function createEstateDoors(root, definitions = []) {
       if (disposed) return;
       disposed = true;
       for (const door of doors) {
-        for (const { object, rest } of door.parts) {
+        for (const { object, rest, restQuaternion } of door.parts) {
           object.position.copy(rest);
+          object.quaternion.copy(restQuaternion);
           object.updateMatrix();
           object.updateMatrixWorld(true);
         }

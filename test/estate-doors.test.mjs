@@ -83,3 +83,42 @@ test("material-batched glass and pulls travel together as one logical threshold"
   doors.dispose();
   parts.forEach((mesh, i) => assert.deepEqual(mesh.position.toArray(), rest[i].toArray()));
 });
+
+test("a pivot leaf turns its batched parts about the authored axis and closes back flush", () => {
+  // The living's main entrance: a 1.5 m sandstone leaf in the back wall (z 15.62..15.72) whose axis
+  // stands 0.35 m in from its west jamb; it turns a quarter into the stair hall behind the wall.
+  const root = new THREE.Group();
+  const leaf = new THREE.Mesh(new THREE.BoxGeometry(1.5, 3, 0.1), new THREE.MeshStandardMaterial());
+  leaf.geometry.translate(0, 1.5, 15.67);
+  const pull = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.9, 0.03), new THREE.MeshStandardMaterial());
+  pull.geometry.translate(0.59, 1.25, 15.77);
+  for (const mesh of [leaf, pull]) {
+    mesh.userData.estateDoor = "main";
+    root.add(mesh);
+  }
+  const doors = createEstateDoors(root, [{ id: "main", pivot: { x: -0.4, z: 15.67, angle: -Math.PI / 2 }, activationDistance: 2.4 }]);
+  doors.update(0, { walk: { active: true, position: [0.2, 0, 14.4] }, reduced: true });
+  root.updateMatrixWorld(true);
+  const open = new THREE.Box3().setFromObject(leaf);
+  assert.ok(Math.abs(open.min.x + 0.45) < 0.01 && Math.abs(open.max.x + 0.35) < 0.01, "the open leaf stands edge-on at the axis");
+  assert.ok(
+    Math.abs(open.min.z - 15.32) < 0.01 && Math.abs(open.max.z - 16.82) < 0.01,
+    "the long side turns into the hall, the short side into the living"
+  );
+  const handle = new THREE.Box3().setFromObject(pull);
+  assert.ok(handle.max.x < -0.2 && handle.min.z > 16.5, "the pull travels with the leaf");
+  assert.ok(Math.abs(doors.evidence().doors[0].angle + Math.PI / 2) < 1e-9);
+  doors.update(0, { walk: { active: true, position: [0.2, 0, 9] }, reduced: true });
+  root.updateMatrixWorld(true);
+  const closed = new THREE.Box3().setFromObject(leaf);
+  assert.ok(Math.abs(closed.min.x + 0.75) < 1e-6 && Math.abs(closed.max.z - 15.72) < 1e-6, "closed flush with the wall again");
+  doors.dispose();
+});
+
+test("a pivot needs a real axis and a real turn", () => {
+  const root = new THREE.Group();
+  const leaf = new THREE.Mesh(new THREE.BoxGeometry(1, 2, 0.1), new THREE.MeshStandardMaterial());
+  leaf.userData.estateDoor = "main";
+  root.add(leaf);
+  assert.throws(() => createEstateDoors(root, [{ id: "main", pivot: { x: 0, z: 0, angle: 0.1 } }]), /Invalid pivot/);
+});
