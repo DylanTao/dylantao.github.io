@@ -106,7 +106,7 @@ test("entrance fixtures light only their authored foyer without adding native li
     },
   });
   lights.update({ minute: 13 * 60, daylight: 0.95, activity: "reading" });
-  assert.equal(lights.levels.entrance, 0.3);
+  assert.equal(lights.levels.entrance, 0.6, "the windowless stair hall stays lit by day");
   assert.equal(lights.points.filter((p) => p.id === "entrance").length, 2);
   assert.ok(lights.points.length <= MAX_POINTS);
   assert.ok(lights.irradianceAt(v(-2.8, 1, 8.1)).r > 0);

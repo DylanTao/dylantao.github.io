@@ -215,7 +215,8 @@ test("generic line and point transport channels retain their authored energy and
   assert.equal(channels[1].emitterRadius, 0.025);
   const lights = createLightInstallations(config);
   lights.update({ minute: 720, daylight: 0.95, activity: "reading" });
-  assert.deepEqual(lights.indirectPowers(), [0.04 * 2 * 0.3, 0.12 * 0.3]);
+  // The fixtures follow the entrance schedule, 0.6 by day.
+  assert.deepEqual(lights.indirectPowers(), [0.04 * 2 * 0.6, 0.12 * 0.6]);
   lights.dispose();
 });
 
@@ -254,7 +255,7 @@ test("authored diffuser tags follow their own schedule through a shared legacy m
   lights.bindModel(root, { group: "west" });
   lights.update({ minute: 720, daylight: 0.95, activity: "reading" });
   assert.equal(lights.levels.festoon, 0);
-  assert.equal(mesh.material.emissiveIntensity, 0.6);
+  assert.equal(mesh.material.emissiveIntensity, 2 * 0.6, "the entrance schedule's daytime level");
   lights.dispose();
   mesh.geometry.dispose();
   material.dispose();
