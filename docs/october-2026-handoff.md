@@ -144,18 +144,34 @@ Work the items in order. On Oct 24 Sirui allowed a few parallel agents: each wor
 Sirui reviewed live on a laptop, then on a 4K PC with an RTX 3080. Each request went to one worker, in its own worktree:
 
 - [x] 18. Coffee ring, for "doesn't look like a stain from coffee", the over-busy animation, and on top of the cards. **Done** in `a38862db7`. It now draws the band a mug's foot prints: coffee at both pinned edges and a clean inside. The drop-shaped rim had caused a Cornsweet pale-disc illusion. It rests on the top slip clear of the words, and arrives as one soft 3.2 s settle.
-- [ ] 19. Connect balance, with the La Jolla miniature moved up (sky worker, S1).
+- [x] 19. Connect balance, with the La Jolla miniature moved up (sky worker, S1). **Done** in `b6cdf7695`.
 - [ ] 20. Footer dusk (sky worker, S2). Sirui chose all four parts: sky gradient, page-to-sky edge, change over time, and sun, sea and haze. The background band must read as the hills behind the coast, with lit houses, not as sea.
+  - **Integrated 2026-10-26** (sky's `167687120` and `4119abdb3`). Hills measured from USGS 3DEP replace the false second sea: Torrey Pines mesa, the hills above La Jolla Shores and Mount Soledad, with 1,200 OpenStreetMap hillside houses whose windows light at dusk. The sky is physically based (after Hillaire 2020, with Bruneton–Neyret parameters, written from the papers). The dusk is honest: alpenglow on the crests, then the Belt of Venus over Earth's shadow, then blue hour, and a dawn sun with a glitter path. The OSM and USGS credits are in `_projects/la-jolla.md` and the footer's screen-reader caption. Evidence: sky's pairs and sequence sheets (laptop-local `.jekyll-cache/visual-qa/sky-2026-10-24/`), and the footer spec passed 53 of 53 runnable cases.
+  - **Best effort so far: not photoreal.** The coast is still a stylized miniature, so the claim stays "physically based".
+    - What falls short: soft hill canyons (a coarse 1° × 0.08° relief map), faint vertical banding near the Village, daytime houses reading as pale specks, and deep twilight leaning slightly purple.
+    - Next hypotheses: a finer relief map (about 40 KB), houses drawn as small footprint-sized bars, and a warmer twilight white point.
+  - **Known jump:** the cream-to-navy theme turn at 3° below the horizon switches the top of the sky band abruptly. Fixing it needs a crossfade owned by `theme.js`.
+  - **For Sirui to review on the live site:** faint hills and houses now show in the daytime footer, and the sunset frieze reads dusty rose rather than the old blazing gold, which follows from the honest geometry.
+  - **Unverified:** performance on a quiet machine, WebKit and phone-class sky-rebuild cost (12–45 ms of CPU per rebuild, split across tasks).
 - [ ] 21. Loading sketch: more detailed line drawing that reveals real progress (sketch worker, formerly weather).
 - [ ] 22. Characters at 4K, hand-table contacts, gourmet food, drink and dessert by day, natural eating and drinking, and comfortable furniture (life worker).
-  - **Paused 2026-10-26.** Meals (L1–L3) are on `main`.
-    - The Lizard's rebuilt face skin is on `main` as `af630dc87`.
-    - WIP `1fc4d2cdf` is not for `main` as it stands. It holds the dining armchairs (baked; seated fixture `bin/review_coastal_seating.py`), fridge labels 1.5 mm proud of the glass, and the whiskey corner furniture with six text-free bottles. The whiskey corner is exported but not baked.
+  - **Status 2026-10-26.** On `main`:
+    - meals L1–L3;
+    - the Lizard's rebuilt face (`af630dc87`);
+    - the dining armchairs, with the Lizard 1.2 cm higher on the banquette (`a1de49cd2`);
+    - in the final laptop batch: fuller glasses that read at night, the Lizard's utensils reaching its lips (wrist drift 0 for all five styles), joined poke and quinoa surfaces, and a soft banquette and cloud sofa on house's F12 anchors.
+  - The whiskey loveseat, ottoman, side table and six text-free bottles are built and baked but not placed. The feet-up fixture is committed.
   - **Remaining:**
-    - Re-export the armchairs with the crowned cushion and review them at the table.
-    - Raise the Lizard 1.2 cm on the banquette.
-    - Bake and review the whiskey corner, run its feet-up fixture, and wire the whiskey-evening routine to the house's `study-whiskey-lounge` anchor.
-    - Then the banquette, cloud sofa and Eames lounge.
+    - **The Eames lounge.** Fuller cushions are written in the builder only, on branch `wip/life-eames`. Export them, then check that the white leather and walnut still read as an Eames at 4K.
+    - **The final full furniture build** (`blender -b --factory-startup --python-exit-code 1 --python bin/build_coastal_furniture.py`). Then restore the committed `floating-fireplace-lod0/1.glb` and their index entries, which come from `--patch-fireplace-neck`.
+    - **The whiskey-evening routine,** once house lands the `study-whiskey-lounge` anchor. Place the ottoman 0.86 m in front of the loveseat origin, in line with the left seat (x −0.28), and the side table near x +0.95, z +0.05.
+      - Best effort so far: the authored `lounge` clip keeps the feet down, so feet-up needs a runtime two-leg IK (knees up, ankles 7.5 cm over the ottoman).
+      - A whiskey setting in `dining.mjs` is also needed: the glass rests on the side table between sips.
+    - **The cloud-sofa shin press:** 6–8 cm into the right side run in the lounge and drink clips.
+      - Best effort so far: pulling the side seats back cut it from 8.5 to 7 cm.
+      - Next hypothesis: house moves its lounge actor about 0.25 m inward (sofa frame x ≈ 0.8).
+    - The banquette and sofa are checked only by the Blender fixture and in-room renders; they need a live look.
+  - Evidence: `artwork/coastal-home/reviews/life-2026-10-24/` (README with Kare's credit, seating fixtures, stills). Tools: `bin/review_coastal_seating.py` and `bin/capture_coastal_dining.cjs`.
   - Dining chairs become comfortable armchairs with armrests, so people can sit and chat for a long time (Sirui, Oct 25).
   - The study gets a whiskey corner facing the ocean, built with the house worker (Sirui, Oct 25):
     - a comfy small loveseat and ottoman;
@@ -172,6 +188,7 @@ Sirui reviewed live on a laptop, then on a 4K PC with an RTX 3080. Each request 
   - a corridor with rounded niches, sculptures and soft light.
 - [ ] 24. Hardware-adaptive quality, with a high tier for strong GPUs that never lags or crashes (perf worker, with item 7).
 - [ ] 25. A build-diary timeline on the 3D world's project page, plus sub-pages (story worker).
+  - **Best effort so far:** the story worker's unverified WIP is on branch `wip/story-diary`, based on an older `main`: a timeline include and script, `_data/home_world_diary.yml`, a "house in the cliff" sub-page, before and after images, and tests. It has never been reviewed or rendered by the coordinator. Rebase it, render it at desktop and phone widths, check the claims against the review folders, then integrate it.
 - [x] 26. Logo, after the Susan Kare study (Sirui, Oct 25–26). Sirui chose direction C of three: an orange that is also the sun going down into the Pacific, the same on every visit. The navbar, favicon set (16-pixel grid, `bin/build_brand_icons.cjs`) and home-screen icon now share it, replacing the 2024 "S" tab icon. The procedural orange grows on the 404 page. The contract is in `material-lite-revamp.md` under Brand Mark.
 
 **Final window**
