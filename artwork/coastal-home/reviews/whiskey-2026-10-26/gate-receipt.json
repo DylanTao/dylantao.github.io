@@ -1,0 +1,39 @@
+{
+  "node": {
+    "cases": 811,
+    "passed": 804,
+    "skipped": 7,
+    "failed": 0,
+    "logSha256": "b3e2370b4e1cdde62132d9b420ea1954a0acd339a8d5d3edb054023c332fcd4b"
+  },
+  "python": {
+    "cases": 307,
+    "passed": 306,
+    "failed": 1,
+    "remainingFailure": "0.054m unchanged roof/fireplace overlap against retained0.052m bound",
+    "logSha256": "42425a38cc6deb26202fb008eb83c0f39ecb6bffb076a48fe27057e28929f332"
+  },
+  "chromium": {
+    "passed": 4,
+    "widths": [1440, 1280, 768, 390]
+  },
+  "webkit": {
+    "passed": 1,
+    "device": "iPhone 13"
+  },
+  "nativeWalk": {
+    "routes": 9,
+    "samples": 133,
+    "failures": 0
+  },
+  "cacheSourceTests": "pass",
+  "sketchRetrace": "pass",
+  "sceneRegistry": {
+    "casesPerViewport": 115,
+    "viewports": 4,
+    "missing": 0,
+    "extra": 0,
+    "duplicates": 0
+  },
+  "scope": "Local worker checkpoint only; publication and deployed acceptance belong to coordinator."
+}

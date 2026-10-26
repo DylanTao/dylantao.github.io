@@ -1,0 +1,1200 @@
+{
+  "label": "whiskey-close",
+  "base": "http://127.0.0.1:4103/al-folio",
+  "date": "2026-10-12T22:00:00-07:00",
+  "viewport": "4k",
+  "cameras": ["close"],
+  "still": true,
+  "captures": [
+    {
+      "file": "4k-close-lounge-lizard.png",
+      "avatar": "lizard",
+      "activity": "lounge",
+      "camera": "close",
+      "evidence": {
+        "activity": "lounge",
+        "animation": "lounge",
+        "phase": null,
+        "seconds": 0,
+        "actorPosition": [-10.5, 0, 2.55],
+        "actorFacing": 3.1416,
+        "gripDrift": [],
+        "dining": {
+          "index": "ready",
+          "key": "2026-10-12|lounge|whiskey",
+          "meal": "evening",
+          "menu": {
+            "dish": null,
+            "dessert": null,
+            "drink": "whisky-rocks",
+            "coffee": null
+          },
+          "labels": {
+            "dish": null,
+            "dessert": null,
+            "drink": "Japanese whisky on one clear cube"
+          },
+          "ready": true,
+          "level": 1,
+          "phase": "sipping",
+          "beat": "drink",
+          "planSeconds": 33.16519687106833,
+          "remaining": null,
+          "glass": {
+            "holder": "R",
+            "level": 0.765764955,
+            "tilt": 0.8914086604800004
+          },
+          "utensil": null,
+          "layout": {
+            "surface": 0.577995240688324
+          },
+          "contacts": {
+            "R": {
+              "mode": "vessel",
+              "wristDrift": 2.2078185184379933e-7,
+              "reach": [0.43542507431239813, 0.5129807401588979]
+            }
+          },
+          "feet": {
+            "L": {
+              "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+              "support": 0.4152441494404778,
+              "ankle": [-10.689999115543182, 0.49024417065126247, 1.8099993732388175],
+              "drift": 4.053289279652095e-8,
+              "kneeRise": 0.13777589507111465
+            },
+            "R": {
+              "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+              "support": 0.4152445158912317,
+              "ankle": [-10.869999121318461, 0.4902445371019598, 1.8100006955926828],
+              "drift": 4.0532893883726446e-8,
+              "kneeRise": 0.13777556558179838
+            }
+          },
+          "station": "library/study-whiskey-lounge",
+          "draws": 4,
+          "triangles": 1566,
+          "models": [
+            {
+              "file": "tableware-lod1.glb",
+              "state": "ready"
+            },
+            {
+              "file": "tableware-lod0.glb",
+              "state": "ready"
+            }
+          ]
+        },
+        "drawCalls": 1476,
+        "triangles": 3115998,
+        "programs": null,
+        "geometries": 506,
+        "textures": 77
+      },
+      "contacts": null,
+      "sha256": "3a88b37133e931b64b68d73e0d19e7f226c3dda1225af13dd1f1621893843338",
+      "pixels": [3840, 2160]
+    },
+    {
+      "file": "4k-close-lounge-south-park.png",
+      "avatar": "south-park",
+      "activity": "lounge",
+      "camera": "close",
+      "evidence": {
+        "activity": "lounge",
+        "animation": "lounge",
+        "phase": null,
+        "seconds": 0,
+        "actorPosition": [-10.5, 0, 2.55],
+        "actorFacing": 3.1416,
+        "gripDrift": [],
+        "dining": {
+          "index": "ready",
+          "key": "2026-10-12|lounge|whiskey",
+          "meal": "evening",
+          "menu": {
+            "dish": null,
+            "dessert": null,
+            "drink": "whisky-rocks",
+            "coffee": null
+          },
+          "labels": {
+            "dish": null,
+            "dessert": null,
+            "drink": "Japanese whisky on one clear cube"
+          },
+          "ready": true,
+          "level": 1,
+          "phase": "sipping",
+          "beat": "drink",
+          "planSeconds": 33.16519687106833,
+          "remaining": null,
+          "glass": {
+            "holder": "R",
+            "level": 0.765764955,
+            "tilt": 0.8914086604800004
+          },
+          "utensil": null,
+          "layout": {
+            "surface": 0.577995240688324
+          },
+          "contacts": {
+            "R": {
+              "mode": "vessel",
+              "wristDrift": 1.9373604025710231e-7,
+              "reach": [0.3248523696549885, 0.5129809075851194]
+            }
+          },
+          "feet": {
+            "L": {
+              "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+              "support": 0.4152441494404778,
+              "ankle": [-10.689999115848677, 0.4902441663276401, 1.8099993756907986],
+              "drift": 4.063647842179721e-8,
+              "kneeRise": 0.11525389503224792
+            },
+            "R": {
+              "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+              "support": 0.4152445158912317,
+              "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+              "drift": 4.063648019755532e-8,
+              "kneeRise": 0.11525345369544326
+            }
+          },
+          "station": "library/study-whiskey-lounge",
+          "draws": 4,
+          "triangles": 1566,
+          "models": [
+            {
+              "file": "tableware-lod1.glb",
+              "state": "ready"
+            },
+            {
+              "file": "tableware-lod0.glb",
+              "state": "ready"
+            }
+          ]
+        },
+        "drawCalls": 1473,
+        "triangles": 3411678,
+        "programs": null,
+        "geometries": 506,
+        "textures": 78
+      },
+      "contacts": null,
+      "sha256": "18ef2ad47df86db76736a3717cd43db87dd3adaa18e5e61da6a97cfb1396063a",
+      "pixels": [3840, 2160]
+    },
+    {
+      "file": "4k-close-lounge-simpsons.png",
+      "avatar": "simpsons",
+      "activity": "lounge",
+      "camera": "close",
+      "evidence": {
+        "activity": "lounge",
+        "animation": "lounge",
+        "phase": null,
+        "seconds": 0,
+        "actorPosition": [-10.5, 0, 2.55],
+        "actorFacing": 3.1416,
+        "gripDrift": [],
+        "dining": {
+          "index": "ready",
+          "key": "2026-10-12|lounge|whiskey",
+          "meal": "evening",
+          "menu": {
+            "dish": null,
+            "dessert": null,
+            "drink": "whisky-rocks",
+            "coffee": null
+          },
+          "labels": {
+            "dish": null,
+            "dessert": null,
+            "drink": "Japanese whisky on one clear cube"
+          },
+          "ready": true,
+          "level": 1,
+          "phase": "sipping",
+          "beat": "drink",
+          "planSeconds": 33.16519687106833,
+          "remaining": null,
+          "glass": {
+            "holder": "R",
+            "level": 0.765764955,
+            "tilt": 0.8914086604800004
+          },
+          "utensil": null,
+          "layout": {
+            "surface": 0.577995240688324
+          },
+          "contacts": {
+            "R": {
+              "mode": "vessel",
+              "wristDrift": 7.502488088487308e-7,
+              "reach": [0.34041025206697334, 0.5129812402058954]
+            }
+          },
+          "feet": {
+            "L": {
+              "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+              "support": 0.4152441494404778,
+              "ankle": [-10.689999115848677, 0.4902441663276402, 1.8099993756907986],
+              "drift": 4.063647844486579e-8,
+              "kneeRise": 0.11525389503224792
+            },
+            "R": {
+              "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+              "support": 0.4152445158912317,
+              "ankle": [-10.869999121012954, 0.4902445327783252, 1.8100006980446635],
+              "drift": 4.063648022062381e-8,
+              "kneeRise": 0.11525345369544326
+            }
+          },
+          "station": "library/study-whiskey-lounge",
+          "draws": 4,
+          "triangles": 1566,
+          "models": [
+            {
+              "file": "tableware-lod1.glb",
+              "state": "ready"
+            },
+            {
+              "file": "tableware-lod0.glb",
+              "state": "ready"
+            }
+          ]
+        },
+        "drawCalls": 1473,
+        "triangles": 3322046,
+        "programs": null,
+        "geometries": 506,
+        "textures": 78
+      },
+      "contacts": null,
+      "sha256": "d4e6abceb591228796d4c10b876203af7155d18a0905a12fc4b93d853ac95dc0",
+      "pixels": [3840, 2160]
+    },
+    {
+      "file": "4k-close-lounge-ghibli.png",
+      "avatar": "ghibli",
+      "activity": "lounge",
+      "camera": "close",
+      "evidence": {
+        "activity": "lounge",
+        "animation": "lounge",
+        "phase": null,
+        "seconds": 0,
+        "actorPosition": [-10.5, 0, 2.55],
+        "actorFacing": 3.1416,
+        "gripDrift": [],
+        "dining": {
+          "index": "ready",
+          "key": "2026-10-12|lounge|whiskey",
+          "meal": "evening",
+          "menu": {
+            "dish": null,
+            "dessert": null,
+            "drink": "whisky-rocks",
+            "coffee": null
+          },
+          "labels": {
+            "dish": null,
+            "dessert": null,
+            "drink": "Japanese whisky on one clear cube"
+          },
+          "ready": true,
+          "level": 1,
+          "phase": "sipping",
+          "beat": "drink",
+          "planSeconds": 33.16519687106833,
+          "remaining": null,
+          "glass": {
+            "holder": "R",
+            "level": 0.765764955,
+            "tilt": 0.8914086604800004
+          },
+          "utensil": null,
+          "layout": {
+            "surface": 0.577995240688324
+          },
+          "contacts": {
+            "R": {
+              "mode": "vessel",
+              "wristDrift": 7.235214577182423e-7,
+              "reach": [0.28341853243487874, 0.51298141598717]
+            }
+          },
+          "feet": {
+            "L": {
+              "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+              "support": 0.4152441494404778,
+              "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+              "drift": 4.0636478467934366e-8,
+              "kneeRise": 0.11525389503224792
+            },
+            "R": {
+              "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+              "support": 0.4152445158912317,
+              "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+              "drift": 4.063648019755532e-8,
+              "kneeRise": 0.11525345369544326
+            }
+          },
+          "station": "library/study-whiskey-lounge",
+          "draws": 4,
+          "triangles": 1566,
+          "models": [
+            {
+              "file": "tableware-lod1.glb",
+              "state": "ready"
+            },
+            {
+              "file": "tableware-lod0.glb",
+              "state": "ready"
+            }
+          ]
+        },
+        "drawCalls": 1481,
+        "triangles": 3353198,
+        "programs": null,
+        "geometries": 508,
+        "textures": 78
+      },
+      "contacts": null,
+      "sha256": "4f6be970044f648dad3016cc9577bad1d6b58aeb3157ac2362c94ba74b9844a1",
+      "pixels": [3840, 2160]
+    },
+    {
+      "file": "4k-close-lounge-rick-and-morty.png",
+      "avatar": "rick-and-morty",
+      "activity": "lounge",
+      "camera": "close",
+      "evidence": {
+        "activity": "lounge",
+        "animation": "lounge",
+        "phase": null,
+        "seconds": 0,
+        "actorPosition": [-10.5, 0, 2.55],
+        "actorFacing": 3.1416,
+        "gripDrift": [],
+        "dining": {
+          "index": "ready",
+          "key": "2026-10-12|lounge|whiskey",
+          "meal": "evening",
+          "menu": {
+            "dish": null,
+            "dessert": null,
+            "drink": "whisky-rocks",
+            "coffee": null
+          },
+          "labels": {
+            "dish": null,
+            "dessert": null,
+            "drink": "Japanese whisky on one clear cube"
+          },
+          "ready": true,
+          "level": 1,
+          "phase": "sipping",
+          "beat": "drink",
+          "planSeconds": 33.16519687106833,
+          "remaining": null,
+          "glass": {
+            "holder": "R",
+            "level": 0.765764955,
+            "tilt": 0.8914086604800004
+          },
+          "utensil": null,
+          "layout": {
+            "surface": 0.577995240688324
+          },
+          "contacts": {
+            "R": {
+              "mode": "vessel",
+              "wristDrift": 3.537305789466415e-7,
+              "reach": [0.2817892797040958, 0.5129811225056795]
+            }
+          },
+          "feet": {
+            "L": {
+              "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+              "support": 0.4152441494404778,
+              "ankle": [-10.689999115848677, 0.4902441663276402, 1.8099993756907986],
+              "drift": 4.063647844486579e-8,
+              "kneeRise": 0.11525389503224792
+            },
+            "R": {
+              "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+              "support": 0.4152445158912317,
+              "ankle": [-10.869999121012954, 0.4902445327783252, 1.8100006980446635],
+              "drift": 4.063648022062381e-8,
+              "kneeRise": 0.11525345369544326
+            }
+          },
+          "station": "library/study-whiskey-lounge",
+          "draws": 4,
+          "triangles": 1566,
+          "models": [
+            {
+              "file": "tableware-lod1.glb",
+              "state": "ready"
+            },
+            {
+              "file": "tableware-lod0.glb",
+              "state": "ready"
+            }
+          ]
+        },
+        "drawCalls": 1477,
+        "triangles": 3304678,
+        "programs": null,
+        "geometries": 507,
+        "textures": 78
+      },
+      "contacts": null,
+      "sha256": "c8f0fdd96db131de8ae8a8811dfac556c03e6a03301f469d2b6a6912100b1b1a",
+      "pixels": [3840, 2160]
+    }
+  ],
+  "browser": "145.0.7632.6",
+  "errors": [],
+  "programs": [
+    {
+      "id": "4c1b1045",
+      "defines": ""
+    },
+    {
+      "id": "47c36f5a",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "dbbf0097",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "921ab2ae",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "283bf08e",
+      "defines": "#define SHADER_NAME Coastal atmosphere dome #define FLIP_SIDED #define OPAQUE"
+    },
+    {
+      "id": "205f0d39",
+      "defines": "#define SHADER_NAME  #define FLIP_SIDED #define OPAQUE"
+    },
+    {
+      "id": "b75ff187",
+      "defines": "#define SHADER_NAME SphericalGaussianBlur"
+    },
+    {
+      "id": "bd441062",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define OPAQUE"
+    },
+    {
+      "id": "50eea19",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define OPAQUE"
+    },
+    {
+      "id": "f2246c2d",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "94ad6eac",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "a935064f",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "7e36c76c",
+      "defines": "#define SHADER_NAME chalk limestone #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "ef911451",
+      "defines": "#define SHADER_NAME honey ash #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "d21fed7d",
+      "defines": "#define SHADER_NAME brushed brass #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "a47bab17",
+      "defines": "#define SHADER_NAME terracotta #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "c60ffdaa",
+      "defines": "#define SHADER_NAME olive leaf #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "2ab9815d",
+      "defines": "#define SHADER_NAME golden coastal sandstone #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "b554f190",
+      "defines": "#define SHADER_NAME warm cut stone #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "8968b3d9",
+      "defines": "#define SHADER_NAME facade low-iron glass #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define FLIP_SIDED #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "12fce9e9",
+      "defines": "#define SHADER_NAME facade low-iron glass #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "f9734f01",
+      "defines": "#define SHADER_NAME milky veined marble #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "cd46d9f6",
+      "defines": "#define SHADER_NAME indigo textile #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_SHEEN #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "34ae9360",
+      "defines": "#define SHADER_NAME pc tempered glass #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define FLIP_SIDED #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "cc004424",
+      "defines": "#define SHADER_NAME pc tempered glass #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "31901e3b",
+      "defines": "#define SHADER_NAME warm glazed porcelain #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_CLEARCOAT #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "4fe967bd",
+      "defines": "#define SHADER_NAME coffee hopper glass #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_TRANSMISSION #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "67c41c65",
+      "defines": "#define SHADER_NAME dining walnut wood #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "85d5104",
+      "defines": "#define SHADER_NAME onsen turquoise #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_TRANSMISSION #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "4ecdafbe",
+      "defines": "#define SHADER_NAME warm cut stone #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "ef8cad99",
+      "defines": "#define SHADER_NAME  #define USE_FOG #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "273f5c0c",
+      "defines": "#define SHADER_NAME  #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "819423c7",
+      "defines": "#define SHADER_NAME  #define FLIP_SIDED #define USE_SHADOWMAP"
+    },
+    {
+      "id": "4842c0aa",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "58e8c94",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "eb1871fa",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "492b4f7b",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "3c0af6e3",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "37da43d2",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "86e492c3",
+      "defines": "#define SHADER_NAME travertine paving stone #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "b69cc43f",
+      "defines": "#define SHADER_NAME aeron arm pad #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "1cb54c34",
+      "defines": "#define SHADER_NAME hood warm plaster #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "3e9e693c",
+      "defines": "#define SHADER_NAME fridge glass #define STANDARD  #define USE_FOG #define USE_ENVMAP #define FLIP_SIDED #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "369df228",
+      "defines": "#define SHADER_NAME fridge glass #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "24a1ce63",
+      "defines": "#define SHADER_NAME dining smoked oak #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "b0d3d582",
+      "defines": "#define SHADER_NAME dining oatmeal linen #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_SHEEN #define USE_COLOR #define USE_COLOR_ALPHA #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "1f7180ab",
+      "defines": "#define SHADER_NAME  #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "d4d5b28e",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP"
+    },
+    {
+      "id": "ed456916",
+      "defines": "#define SHADER_NAME eames veneer (lod1) #define STANDARD  #define USE_FOG #define USE_MAP #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "43c7c45e",
+      "defines": "#define SHADER_NAME facade low-iron glass #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define FLIP_SIDED #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "791904ae",
+      "defines": "#define SHADER_NAME facade low-iron glass #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "31da5598",
+      "defines": "#define SHADER_NAME bathroom satin mirror #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "1c456756",
+      "defines": "#define SHADER_NAME infinity pool water #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_TRANSMISSION #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "5ce2470b",
+      "defines": "#define SHADER_NAME coastal sage leaf #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "bd424b72",
+      "defines": "#define SHADER_NAME golden coastal sandstone #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "4bdf898e",
+      "defines": "#define SHADER_NAME dry beach sand #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "ea435e7c",
+      "defines": "#define SHADER_NAME tide pool sea glass #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define USE_COLOR_ALPHA #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "1559e87e",
+      "defines": "#define SHADER_NAME  #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "150f39a1",
+      "defines": "#define SHADER_NAME  #define STANDARD  #define USE_FOG #define USE_MAP #define USE_ENVMAP #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "e823ba1f",
+      "defines": "#define SHADER_NAME  #define STANDARD  #define USE_FOG #define USE_ENVMAP #define FLIP_SIDED #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "645070d",
+      "defines": "#define SHADER_NAME  #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "3c9585ca",
+      "defines": "#define SHADER_NAME  #define USE_FOG #define USE_SHADOWMAP"
+    },
+    {
+      "id": "327c2d0",
+      "defines": "#define SHADER_NAME installation diffuser #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "bb2f836d",
+      "defines": "#define SHADER_NAME  #define FLIP_SIDED #define USE_SHADOWMAP"
+    },
+    {
+      "id": "b7352c25",
+      "defines": "#define SHADER_NAME Brush rabbit agouti coat #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_COLOR #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "fc945b97",
+      "defines": "#define SHADER_NAME  #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "91ea4c60",
+      "defines": "#define SHADER_NAME  #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "6bcf0618",
+      "defines": "#define SHADER_NAME  #define USE_SHADOWMAP"
+    },
+    {
+      "id": "d53b07b2",
+      "defines": "#define SHADER_NAME  #define USE_SHADOWMAP"
+    },
+    {
+      "id": "6c2c50f6",
+      "defines": "#define SHADER_NAME Coastal atmosphere dome #define FLIP_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "bd18872e",
+      "defines": "#define SHADER_NAME Coastal night stars #define USE_SHADOWMAP"
+    },
+    {
+      "id": "28b7d2ec",
+      "defines": "#define SHADER_NAME  #define USE_FOG #define USE_SHADOWMAP"
+    },
+    {
+      "id": "c398aaae",
+      "defines": "#define SHADER_NAME Pip porcelain #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_CLEARCOAT #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "fd1abb46",
+      "defines": "#define SHADER_NAME  #define USE_SHADOWMAP"
+    },
+    {
+      "id": "fc546e45",
+      "defines": "#define SHADER_NAME coastal sheer voile #define USE_FOG #define USE_ENVMAP #define USE_SHEEN #define DOUBLE_SIDED #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "f1b06497",
+      "defines": "#define SHADER_NAME curtain rod bronze #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "2fec481d",
+      "defines": "#define SHADER_NAME curtain rod bronze #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "2532606b",
+      "defines": "#define SHADER_NAME terrace towel linen #define USE_FOG #define USE_ENVMAP #define USE_SHEEN #define DOUBLE_SIDED #define USE_SHADOWMAP #define STANDARD"
+    },
+    {
+      "id": "165c692c",
+      "defines": "#define SHADER_NAME  #define USE_SHADOWMAP"
+    },
+    {
+      "id": "31e63b22",
+      "defines": "#define SHADER_NAME  #define USE_SHADOWMAP"
+    },
+    {
+      "id": "aedb92d1",
+      "defines": "#define SHADER_NAME  #define USE_SHADOWMAP"
+    },
+    {
+      "id": "f7c9d42d",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "26c695fa",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "a3c4b908",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "67a111a3",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "a637a774",
+      "defines": "#define SHADER_NAME  #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "9b76ede2",
+      "defines": "#define SHADER_NAME  #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "982e509d",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "e749342b",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "57cd1c0a",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "cee32456",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "96dc7f2a",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "d08eb796",
+      "defines": "#define SHADER_NAME  #define FLIP_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "b4992d1",
+      "defines": "#define SHADER_NAME  #define USE_MAP #define FLIP_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "5e548f00",
+      "defines": "#define SHADER_NAME coastal sheer voile depth #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "4d86f724",
+      "defines": "#define SHADER_NAME  #define FLIP_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "39f8651d",
+      "defines": "#define SHADER_NAME coffee hopper glass #define STANDARD  #define PHYSICAL  #define USE_FOG #define USE_ENVMAP #define USE_TRANSMISSION #define FLIP_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "592f17e7",
+      "defines": "#define SHADER_NAME "
+    },
+    {
+      "id": "4f34f5ea",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "c3de5b99",
+      "defines": "#define SHADER_NAME Coastal haze #define OPAQUE"
+    },
+    {
+      "id": "a9b49dc2",
+      "defines": "#define SHADER_NAME Coastal light in the air #define OPAQUE"
+    },
+    {
+      "id": "c575e415",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "e1a0922b",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "1f3b612b",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "56ee1f13",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "8bf92373",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "c5d9c817",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "eee43b73",
+      "defines": "#define SHADER_NAME  #define OPAQUE"
+    },
+    {
+      "id": "2476ee37",
+      "defines": "#define SHADER_NAME "
+    },
+    {
+      "id": "2a5b3dd5",
+      "defines": "#define SHADER_NAME OutputShader"
+    },
+    {
+      "id": "cee32456",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "96dc7f2a",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "94e8d63d",
+      "defines": "#define SHADER_NAME  #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE"
+    },
+    {
+      "id": "8a3a8f7b",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "fa9d0941",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "e87f3d85",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "94644154",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "b9439d9a",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "d35295a4",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "2a6681cb",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "ca1a7551",
+      "defines": "#define SHADER_NAME whiskey cognac leather #define STANDARD  #define USE_FOG #define USE_ENVMAP #define USE_NORMALMAP #define USE_NORMALMAP_TANGENTSPACE #define USE_COLOR #define USE_COLOR_ALPHA #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "4842c0aa",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "58e8c94",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "eb1871fa",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "492b4f7b",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "3c0af6e3",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "2a6681cb",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "8a3a8f7b",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "fa9d0941",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "e87f3d85",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "94644154",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "b9439d9a",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "d35295a4",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "4842c0aa",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "58e8c94",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "eb1871fa",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "492b4f7b",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "3c0af6e3",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "2a6681cb",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "8a3a8f7b",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "fa9d0941",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "e87f3d85",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "94644154",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "b9439d9a",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "d35295a4",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "4842c0aa",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "58e8c94",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "eb1871fa",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "492b4f7b",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "3c0af6e3",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "2a6681cb",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "8a3a8f7b",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "fa9d0941",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "e87f3d85",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "94644154",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "b9439d9a",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "d35295a4",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "4842c0aa",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "58e8c94",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "eb1871fa",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "492b4f7b",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "3c0af6e3",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "2a6681cb",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "8a3a8f7b",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "fa9d0941",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "e87f3d85",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "94644154",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "b9439d9a",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "d35295a4",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "4842c0aa",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "58e8c94",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "eb1871fa",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "492b4f7b",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "3c0af6e3",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "2a6681cb",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "8a3a8f7b",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "fa9d0941",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "e87f3d85",
+      "defines": "#define SHADER_NAME warm white #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "94644154",
+      "defines": "#define SHADER_NAME long black hair #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "b9439d9a",
+      "defines": "#define SHADER_NAME Sirui shirt #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    },
+    {
+      "id": "d35295a4",
+      "defines": "#define SHADER_NAME skin #define STANDARD  #define USE_FOG #define USE_ENVMAP #define DOUBLE_SIDED #define USE_SHADOWMAP #define OPAQUE #define STANDARD"
+    }
+  ],
+  "sourceFiles": {
+    "artwork/coastal-home/coastal-home.blend": "e02516794b801764aca0ae62dddb68f3ccab9eaa7054e1b67ba7b9959de120b3",
+    "assets/models/home/room-library.glb": "9c7a0869f02cceb04118373b8aacd4fb02e750673cc661172708341f982f1bde",
+    "assets/models/home/table-setting/index.json": "dab21ee2622d81fa0b8cef6e91414ba3b4c5badae7467ff32982a55ac55af612",
+    "assets/js/home-scene/dining-menu.mjs": "48f076799f411989538912a32c2cb09b780a144c7089b0b9b21b86bb1630934b",
+    "assets/js/home-scene/dining-motion.mjs": "83303c2c4b5105194dc4087fd519e3b400cd10fbc6e3c0945fae1255c4199a5e",
+    "assets/js/home-scene/dining.mjs": "2c99409679c8281c5884a402816e572edf252e6e583aef2d368f8cacc1c8063c",
+    "assets/js/home-scene/routine.mjs": "88bca5f77a4cd9a85802c78827536d86178b3cefa81423e3a2a5ef88b08b51b0",
+    "assets/js/home-scene/controller.mjs": "a91b04394db2297151a6b29cc2602b14bf2e75f22331828f243b658ef2131e64",
+    "assets/models/home/manifest.json": "56767adf37a34501ec49e1e27f0023c1458a9dc51393c8159be891a093a7de1e"
+  },
+  "lighting": "Captured before the final whiskey cache bake; scene inputs are this worktree, prior cache is the integrated Eames baseline."
+}

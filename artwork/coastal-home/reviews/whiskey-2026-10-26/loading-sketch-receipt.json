@@ -1,0 +1,16 @@
+{
+  "sourceSha256": "e02516794b801764aca0ae62dddb68f3ccab9eaa7054e1b67ba7b9959de120b3",
+  "generatorSha256": "376b5f93ecd19c0a766f39d76d313c40d38114ef7842743080f3b2bd15bf2b9b",
+  "method": "Fresh source-routed object-ID, normal and depth capture; --check re-traced identical cached passes.",
+  "newPossibleArrival": "library",
+  "drawings": {
+    "assets/models/home/loading-sketch.json": "50346bd23c94cc145710c79a79f1bdac802346c4ed2a14de5289141f5af675ea",
+    "assets/models/home/loading-sketch/gym.json": "e6a368cecfa3a69e9ad97c5bc1dd6cd8452860f45387b8261fdcf57fd483e499",
+    "assets/models/home/loading-sketch/kitchen.json": "a25d5a1bcba9b251fdea0379848f60d306f5bd0c334103332a40610f7bb0295f",
+    "assets/models/home/loading-sketch/library.json": "e462220ab0187ef0bda6bbd05a9e9319959d4af5c2a39592d68d4d55868c4046",
+    "assets/models/home/loading-sketch/lounge.json": "c88272c8d0cd02cdd39bb4f69cc6a764389866e26577761237882c45743aa7bb",
+    "assets/models/home/loading-sketch/onsen.json": "cb733a921b1398fe9256dc77556dd876c3298e4663642af93a10d90842b74d07",
+    "assets/models/home/loading-sketch/sleep.json": "a8215193a6001235527f1d9f486ea3960a0ce88611851b9014a66d2440664bed",
+    "assets/models/home/loading-sketch/study.json": "3dd039f24a3a95b22784167c0eea4042787a181b949baf124af81d063b88413b"
+  }
+}

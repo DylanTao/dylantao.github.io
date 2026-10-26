@@ -1,0 +1,1256 @@
+{
+  "case": "coastal home: whiskey evenings support feet and set the glass on the side table",
+  "date": "2026-10-01T22:00:00-07:00",
+  "result": "4 passed (1.8m)",
+  "source": "Playwright public.config.js, one worker, no assertion changes",
+  "specSha256": "1556c00395b3de715aa08e39d538618b20a89f9dcc34d1c77622c132b002ba97",
+  "projects": {
+    "desktop-1440": {
+      "rows": [
+        {
+          "avatar": "lizard",
+          "dining": {
+            "index": "ready",
+            "key": "2026-10-01|lounge|whiskey",
+            "meal": "evening",
+            "menu": {
+              "dish": null,
+              "dessert": null,
+              "drink": "highball",
+              "coffee": null
+            },
+            "labels": {
+              "dish": null,
+              "dessert": null,
+              "drink": "Whisky highball"
+            },
+            "ready": true,
+            "level": 0,
+            "phase": "sipping",
+            "beat": "drink",
+            "planSeconds": 22.734520744842012,
+            "remaining": null,
+            "glass": {
+              "holder": "R",
+              "level": 0.7657649550000001,
+              "tilt": 0.8914086604800002
+            },
+            "utensil": null,
+            "layout": {
+              "surface": 0.577995240688324
+            },
+            "contacts": {
+              "R": {
+                "mode": "vessel",
+                "wristDrift": 2.100700178047194e-7,
+                "reach": [0.4432256304758218, 0.5129807227921259]
+              }
+            },
+            "feet": {
+              "L": {
+                "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+                "support": 0.4152441494404778,
+                "ankle": [-10.689999115543182, 0.49024417065126247, 1.8099993732388175],
+                "drift": 4.053289279652095e-8,
+                "kneeRise": 0.13777589507111465
+              },
+              "R": {
+                "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+                "support": 0.4152445158912317,
+                "ankle": [-10.869999121318461, 0.4902445371019598, 1.8100006955926828],
+                "drift": 4.0532893883726446e-8,
+                "kneeRise": 0.13777556558179838
+              }
+            },
+            "station": "library/study-whiskey-lounge",
+            "draws": 5,
+            "triangles": 1086,
+            "models": [
+              {
+                "file": "tableware-lod1.glb",
+                "state": "ready"
+              }
+            ]
+          },
+          "actor": [-10.5, 0, 2.55]
+        },
+        {
+          "avatar": "south-park",
+          "dining": {
+            "index": "ready",
+            "key": "2026-10-01|lounge|whiskey",
+            "meal": "evening",
+            "menu": {
+              "dish": null,
+              "dessert": null,
+              "drink": "highball",
+              "coffee": null
+            },
+            "labels": {
+              "dish": null,
+              "dessert": null,
+              "drink": "Whisky highball"
+            },
+            "ready": true,
+            "level": 0,
+            "phase": "sipping",
+            "beat": "drink",
+            "planSeconds": 22.734520744842012,
+            "remaining": null,
+            "glass": {
+              "holder": "R",
+              "level": 0.7657649550000001,
+              "tilt": 0.8914086604800002
+            },
+            "utensil": null,
+            "layout": {
+              "surface": 0.577995240688324
+            },
+            "contacts": {
+              "R": {
+                "mode": "vessel",
+                "wristDrift": 1.957219757043263e-7,
+                "reach": [0.3454433913062767, 0.5129809093046946]
+              }
+            },
+            "feet": {
+              "L": {
+                "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+                "support": 0.4152441494404778,
+                "ankle": [-10.689999115848677, 0.4902441663276401, 1.8099993756907986],
+                "drift": 4.063647842179721e-8,
+                "kneeRise": 0.11525389503224792
+              },
+              "R": {
+                "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+                "support": 0.4152445158912317,
+                "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+                "drift": 4.063648019755532e-8,
+                "kneeRise": 0.11525345369544326
+              }
+            },
+            "station": "library/study-whiskey-lounge",
+            "draws": 5,
+            "triangles": 1086,
+            "models": [
+              {
+                "file": "tableware-lod1.glb",
+                "state": "ready"
+              }
+            ]
+          },
+          "actor": [-10.5, 0, 2.55]
+        },
+        {
+          "avatar": "simpsons",
+          "dining": {
+            "index": "ready",
+            "key": "2026-10-01|lounge|whiskey",
+            "meal": "evening",
+            "menu": {
+              "dish": null,
+              "dessert": null,
+              "drink": "highball",
+              "coffee": null
+            },
+            "labels": {
+              "dish": null,
+              "dessert": null,
+              "drink": "Whisky highball"
+            },
+            "ready": true,
+            "level": 0,
+            "phase": "sipping",
+            "beat": "drink",
+            "planSeconds": 22.734520744842012,
+            "remaining": null,
+            "glass": {
+              "holder": "R",
+              "level": 0.7657649550000001,
+              "tilt": 0.8914086604800002
+            },
+            "utensil": null,
+            "layout": {
+              "surface": 0.577995240688324
+            },
+            "contacts": {
+              "R": {
+                "mode": "vessel",
+                "wristDrift": 7.454033675360789e-7,
+                "reach": [0.3431343348603953, 0.5129812067394119]
+              }
+            },
+            "feet": {
+              "L": {
+                "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+                "support": 0.4152441494404778,
+                "ankle": [-10.689999115848677, 0.4902441663276402, 1.8099993756907986],
+                "drift": 4.063647844486579e-8,
+                "kneeRise": 0.11525389503224792
+              },
+              "R": {
+                "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+                "support": 0.4152445158912317,
+                "ankle": [-10.869999121012954, 0.4902445327783252, 1.8100006980446635],
+                "drift": 4.063648022062381e-8,
+                "kneeRise": 0.11525345369544326
+              }
+            },
+            "station": "library/study-whiskey-lounge",
+            "draws": 5,
+            "triangles": 1086,
+            "models": [
+              {
+                "file": "tableware-lod1.glb",
+                "state": "ready"
+              }
+            ]
+          },
+          "actor": [-10.5, 0, 2.55]
+        },
+        {
+          "avatar": "ghibli",
+          "dining": {
+            "index": "ready",
+            "key": "2026-10-01|lounge|whiskey",
+            "meal": "evening",
+            "menu": {
+              "dish": null,
+              "dessert": null,
+              "drink": "highball",
+              "coffee": null
+            },
+            "labels": {
+              "dish": null,
+              "dessert": null,
+              "drink": "Whisky highball"
+            },
+            "ready": true,
+            "level": 0,
+            "phase": "sipping",
+            "beat": "drink",
+            "planSeconds": 22.734520744842012,
+            "remaining": null,
+            "glass": {
+              "holder": "R",
+              "level": 0.7657649550000001,
+              "tilt": 0.8914086604800002
+            },
+            "utensil": null,
+            "layout": {
+              "surface": 0.577995240688324
+            },
+            "contacts": {
+              "R": {
+                "mode": "vessel",
+                "wristDrift": 8.026010391033393e-7,
+                "reach": [0.28765882312985724, 0.5129812677212825]
+              }
+            },
+            "feet": {
+              "L": {
+                "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+                "support": 0.4152441494404778,
+                "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+                "drift": 4.0636478467934366e-8,
+                "kneeRise": 0.11525389503224792
+              },
+              "R": {
+                "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+                "support": 0.4152445158912317,
+                "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+                "drift": 4.063648019755532e-8,
+                "kneeRise": 0.11525345369544326
+              }
+            },
+            "station": "library/study-whiskey-lounge",
+            "draws": 5,
+            "triangles": 1086,
+            "models": [
+              {
+                "file": "tableware-lod1.glb",
+                "state": "ready"
+              }
+            ]
+          },
+          "actor": [-10.5, 0, 2.55]
+        },
+        {
+          "avatar": "rick-and-morty",
+          "dining": {
+            "index": "ready",
+            "key": "2026-10-01|lounge|whiskey",
+            "meal": "evening",
+            "menu": {
+              "dish": null,
+              "dessert": null,
+              "drink": "highball",
+              "coffee": null
+            },
+            "labels": {
+              "dish": null,
+              "dessert": null,
+              "drink": "Whisky highball"
+            },
+            "ready": true,
+            "level": 0,
+            "phase": "sipping",
+            "beat": "drink",
+            "planSeconds": 22.734520744842012,
+            "remaining": null,
+            "glass": {
+              "holder": "R",
+              "level": 0.7657649550000001,
+              "tilt": 0.8914086604800002
+            },
+            "utensil": null,
+            "layout": {
+              "surface": 0.577995240688324
+            },
+            "contacts": {
+              "R": {
+                "mode": "vessel",
+                "wristDrift": 3.769625398383108e-7,
+                "reach": [0.28227570800424595, 0.512981110579709]
+              }
+            },
+            "feet": {
+              "L": {
+                "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+                "support": 0.4152441494404778,
+                "ankle": [-10.689999115848677, 0.4902441663276402, 1.8099993756907986],
+                "drift": 4.063647844486579e-8,
+                "kneeRise": 0.11525389503224792
+              },
+              "R": {
+                "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+                "support": 0.4152445158912317,
+                "ankle": [-10.869999121012954, 0.4902445327783252, 1.8100006980446635],
+                "drift": 4.063648022062381e-8,
+                "kneeRise": 0.11525345369544326
+              }
+            },
+            "station": "library/study-whiskey-lounge",
+            "draws": 5,
+            "triangles": 1086,
+            "models": [
+              {
+                "file": "tableware-lod1.glb",
+                "state": "ready"
+              }
+            ]
+          },
+          "actor": [-10.5, 0, 2.55]
+        }
+      ],
+      "paused": {
+        "index": "ready",
+        "key": "2026-10-01|lounge|whiskey",
+        "meal": "evening",
+        "menu": {
+          "dish": null,
+          "dessert": null,
+          "drink": "highball",
+          "coffee": null
+        },
+        "labels": {
+          "dish": null,
+          "dessert": null,
+          "drink": "Whisky highball"
+        },
+        "ready": true,
+        "level": 0,
+        "phase": "watching the Pacific",
+        "beat": "rest",
+        "planSeconds": 0.30466666666666664,
+        "remaining": null,
+        "glass": {
+          "holder": "table",
+          "level": 0.78,
+          "tilt": 0
+        },
+        "utensil": null,
+        "layout": {
+          "surface": 0.577995240688324
+        },
+        "contacts": {},
+        "feet": {
+          "L": {
+            "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+            "support": 0.4152441494404778,
+            "ankle": [-10.689999115848677, 0.4902441663276402, 1.8099993756907986],
+            "drift": 4.063647844486579e-8,
+            "kneeRise": 0.11525389503224792
+          },
+          "R": {
+            "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+            "support": 0.4152445158912317,
+            "ankle": [-10.869999121012954, 0.4902445327783252, 1.8100006980446635],
+            "drift": 4.063648022062381e-8,
+            "kneeRise": 0.11525345369544326
+          }
+        },
+        "station": "library/study-whiskey-lounge",
+        "draws": 5,
+        "triangles": 1086,
+        "models": [
+          {
+            "file": "tableware-lod1.glb",
+            "state": "ready"
+          }
+        ]
+      },
+      "returned": {
+        "index": "ready",
+        "key": "2026-10-01|lounge|whiskey",
+        "meal": "evening",
+        "menu": {
+          "dish": null,
+          "dessert": null,
+          "drink": "highball",
+          "coffee": null
+        },
+        "labels": {
+          "dish": null,
+          "dessert": null,
+          "drink": "Whisky highball"
+        },
+        "ready": true,
+        "level": 0,
+        "phase": "sipping",
+        "beat": "drink",
+        "planSeconds": 22.734520744842012,
+        "remaining": null,
+        "glass": {
+          "holder": "R",
+          "level": 0.7657649550000001,
+          "tilt": 0.8914086604800002
+        },
+        "utensil": null,
+        "layout": {
+          "surface": 0.577995240688324
+        },
+        "contacts": {
+          "R": {
+            "mode": "vessel",
+            "wristDrift": 3.769625398383108e-7,
+            "reach": [0.28227570800424595, 0.512981110579709]
+          }
+        },
+        "feet": {
+          "L": {
+            "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+            "support": 0.4152441494404778,
+            "ankle": [-10.689999115848677, 0.4902441663276402, 1.8099993756907986],
+            "drift": 4.063647844486579e-8,
+            "kneeRise": 0.11525389503224792
+          },
+          "R": {
+            "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+            "support": 0.4152445158912317,
+            "ankle": [-10.869999121012954, 0.4902445327783252, 1.8100006980446635],
+            "drift": 4.063648022062381e-8,
+            "kneeRise": 0.11525345369544326
+          }
+        },
+        "station": "library/study-whiskey-lounge",
+        "draws": 5,
+        "triangles": 1086,
+        "models": [
+          {
+            "file": "tableware-lod1.glb",
+            "state": "ready"
+          },
+          {
+            "file": "tableware-lod0.glb",
+            "state": "ready"
+          }
+        ]
+      }
+    },
+    "laptop-1280": {
+      "rows": [
+        {
+          "avatar": "ghibli",
+          "dining": {
+            "index": "ready",
+            "key": "2026-10-01|lounge|whiskey",
+            "meal": "evening",
+            "menu": {
+              "dish": null,
+              "dessert": null,
+              "drink": "highball",
+              "coffee": null
+            },
+            "labels": {
+              "dish": null,
+              "dessert": null,
+              "drink": "Whisky highball"
+            },
+            "ready": true,
+            "level": 0,
+            "phase": "sipping",
+            "beat": "drink",
+            "planSeconds": 22.734520744842012,
+            "remaining": null,
+            "glass": {
+              "holder": "R",
+              "level": 0.7657649550000001,
+              "tilt": 0.8914086604800002
+            },
+            "utensil": null,
+            "layout": {
+              "surface": 0.577995240688324
+            },
+            "contacts": {
+              "R": {
+                "mode": "vessel",
+                "wristDrift": 8.026010391033393e-7,
+                "reach": [0.28765882312985724, 0.5129812677212825]
+              }
+            },
+            "feet": {
+              "L": {
+                "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+                "support": 0.4152441494404778,
+                "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+                "drift": 4.0636478467934366e-8,
+                "kneeRise": 0.11525389503224792
+              },
+              "R": {
+                "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+                "support": 0.4152445158912317,
+                "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+                "drift": 4.063648019755532e-8,
+                "kneeRise": 0.11525345369544326
+              }
+            },
+            "station": "library/study-whiskey-lounge",
+            "draws": 5,
+            "triangles": 1086,
+            "models": [
+              {
+                "file": "tableware-lod1.glb",
+                "state": "ready"
+              }
+            ]
+          },
+          "actor": [-10.5, 0, 2.55]
+        }
+      ],
+      "paused": {
+        "index": "ready",
+        "key": "2026-10-01|lounge|whiskey",
+        "meal": "evening",
+        "menu": {
+          "dish": null,
+          "dessert": null,
+          "drink": "highball",
+          "coffee": null
+        },
+        "labels": {
+          "dish": null,
+          "dessert": null,
+          "drink": "Whisky highball"
+        },
+        "ready": true,
+        "level": 0,
+        "phase": "watching the Pacific",
+        "beat": "rest",
+        "planSeconds": 0.49766666666666676,
+        "remaining": null,
+        "glass": {
+          "holder": "table",
+          "level": 0.78,
+          "tilt": 0
+        },
+        "utensil": null,
+        "layout": {
+          "surface": 0.577995240688324
+        },
+        "contacts": {},
+        "feet": {
+          "L": {
+            "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+            "support": 0.4152441494404778,
+            "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+            "drift": 4.0636478467934366e-8,
+            "kneeRise": 0.11525389503224792
+          },
+          "R": {
+            "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+            "support": 0.4152445158912317,
+            "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+            "drift": 4.063648019755532e-8,
+            "kneeRise": 0.11525345369544326
+          }
+        },
+        "station": "library/study-whiskey-lounge",
+        "draws": 5,
+        "triangles": 1086,
+        "models": [
+          {
+            "file": "tableware-lod1.glb",
+            "state": "ready"
+          }
+        ]
+      },
+      "returned": {
+        "index": "ready",
+        "key": "2026-10-01|lounge|whiskey",
+        "meal": "evening",
+        "menu": {
+          "dish": null,
+          "dessert": null,
+          "drink": "highball",
+          "coffee": null
+        },
+        "labels": {
+          "dish": null,
+          "dessert": null,
+          "drink": "Whisky highball"
+        },
+        "ready": true,
+        "level": 0,
+        "phase": "sipping",
+        "beat": "drink",
+        "planSeconds": 22.734520744842012,
+        "remaining": null,
+        "glass": {
+          "holder": "R",
+          "level": 0.7657649550000001,
+          "tilt": 0.8914086604800002
+        },
+        "utensil": null,
+        "layout": {
+          "surface": 0.577995240688324
+        },
+        "contacts": {
+          "R": {
+            "mode": "vessel",
+            "wristDrift": 8.026010391033393e-7,
+            "reach": [0.28765882312985724, 0.5129812677212825]
+          }
+        },
+        "feet": {
+          "L": {
+            "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+            "support": 0.4152441494404778,
+            "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+            "drift": 4.0636478467934366e-8,
+            "kneeRise": 0.11525389503224792
+          },
+          "R": {
+            "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+            "support": 0.4152445158912317,
+            "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+            "drift": 4.063648019755532e-8,
+            "kneeRise": 0.11525345369544326
+          }
+        },
+        "station": "library/study-whiskey-lounge",
+        "draws": 5,
+        "triangles": 1086,
+        "models": [
+          {
+            "file": "tableware-lod1.glb",
+            "state": "ready"
+          },
+          {
+            "file": "tableware-lod0.glb",
+            "state": "ready"
+          }
+        ]
+      }
+    },
+    "mobile-390": {
+      "rows": [
+        {
+          "avatar": "ghibli",
+          "dining": {
+            "index": "ready",
+            "key": "2026-10-01|lounge|whiskey",
+            "meal": "evening",
+            "menu": {
+              "dish": null,
+              "dessert": null,
+              "drink": "highball",
+              "coffee": null
+            },
+            "labels": {
+              "dish": null,
+              "dessert": null,
+              "drink": "Whisky highball"
+            },
+            "ready": true,
+            "level": 0,
+            "phase": "sipping",
+            "beat": "drink",
+            "planSeconds": 22.734520744842012,
+            "remaining": null,
+            "glass": {
+              "holder": "R",
+              "level": 0.7657649550000001,
+              "tilt": 0.8914086604800002
+            },
+            "utensil": null,
+            "layout": {
+              "surface": 0.577995240688324
+            },
+            "contacts": {
+              "R": {
+                "mode": "vessel",
+                "wristDrift": 8.026010391033393e-7,
+                "reach": [0.28765882312985724, 0.5129812677212825]
+              }
+            },
+            "feet": {
+              "L": {
+                "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+                "support": 0.4152441494404778,
+                "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+                "drift": 4.0636478467934366e-8,
+                "kneeRise": 0.11525389503224792
+              },
+              "R": {
+                "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+                "support": 0.4152445158912317,
+                "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+                "drift": 4.063648019755532e-8,
+                "kneeRise": 0.11525345369544326
+              }
+            },
+            "station": "library/study-whiskey-lounge",
+            "draws": 5,
+            "triangles": 1086,
+            "models": [
+              {
+                "file": "tableware-lod1.glb",
+                "state": "ready"
+              }
+            ]
+          },
+          "actor": [-10.5, 0, 2.55]
+        }
+      ],
+      "paused": {
+        "index": "ready",
+        "key": "2026-10-01|lounge|whiskey",
+        "meal": "evening",
+        "menu": {
+          "dish": null,
+          "dessert": null,
+          "drink": "highball",
+          "coffee": null
+        },
+        "labels": {
+          "dish": null,
+          "dessert": null,
+          "drink": "Whisky highball"
+        },
+        "ready": true,
+        "level": 0,
+        "phase": "watching the Pacific",
+        "beat": "rest",
+        "planSeconds": 0.39066666666666666,
+        "remaining": null,
+        "glass": {
+          "holder": "table",
+          "level": 0.78,
+          "tilt": 0
+        },
+        "utensil": null,
+        "layout": {
+          "surface": 0.577995240688324
+        },
+        "contacts": {},
+        "feet": {
+          "L": {
+            "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+            "support": 0.4152441494404778,
+            "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+            "drift": 4.0636478467934366e-8,
+            "kneeRise": 0.11525389503224792
+          },
+          "R": {
+            "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+            "support": 0.4152445158912317,
+            "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+            "drift": 4.063648019755532e-8,
+            "kneeRise": 0.11525345369544326
+          }
+        },
+        "station": "library/study-whiskey-lounge",
+        "draws": 5,
+        "triangles": 1086,
+        "models": [
+          {
+            "file": "tableware-lod1.glb",
+            "state": "ready"
+          }
+        ]
+      },
+      "returned": {
+        "index": "ready",
+        "key": "2026-10-01|lounge|whiskey",
+        "meal": "evening",
+        "menu": {
+          "dish": null,
+          "dessert": null,
+          "drink": "highball",
+          "coffee": null
+        },
+        "labels": {
+          "dish": null,
+          "dessert": null,
+          "drink": "Whisky highball"
+        },
+        "ready": true,
+        "level": 0,
+        "phase": "sipping",
+        "beat": "drink",
+        "planSeconds": 22.734520744842012,
+        "remaining": null,
+        "glass": {
+          "holder": "R",
+          "level": 0.7657649550000001,
+          "tilt": 0.8914086604800002
+        },
+        "utensil": null,
+        "layout": {
+          "surface": 0.577995240688324
+        },
+        "contacts": {
+          "R": {
+            "mode": "vessel",
+            "wristDrift": 8.026010391033393e-7,
+            "reach": [0.28765882312985724, 0.5129812677212825]
+          }
+        },
+        "feet": {
+          "L": {
+            "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+            "support": 0.4152441494404778,
+            "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+            "drift": 4.0636478467934366e-8,
+            "kneeRise": 0.11525389503224792
+          },
+          "R": {
+            "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+            "support": 0.4152445158912317,
+            "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+            "drift": 4.063648019755532e-8,
+            "kneeRise": 0.11525345369544326
+          }
+        },
+        "station": "library/study-whiskey-lounge",
+        "draws": 5,
+        "triangles": 1086,
+        "models": [
+          {
+            "file": "tableware-lod1.glb",
+            "state": "ready"
+          },
+          {
+            "file": "tableware-lod0.glb",
+            "state": "ready"
+          }
+        ]
+      }
+    },
+    "tablet-768": {
+      "rows": [
+        {
+          "avatar": "ghibli",
+          "dining": {
+            "index": "ready",
+            "key": "2026-10-01|lounge|whiskey",
+            "meal": "evening",
+            "menu": {
+              "dish": null,
+              "dessert": null,
+              "drink": "highball",
+              "coffee": null
+            },
+            "labels": {
+              "dish": null,
+              "dessert": null,
+              "drink": "Whisky highball"
+            },
+            "ready": true,
+            "level": 0,
+            "phase": "sipping",
+            "beat": "drink",
+            "planSeconds": 22.734520744842012,
+            "remaining": null,
+            "glass": {
+              "holder": "R",
+              "level": 0.7657649550000001,
+              "tilt": 0.8914086604800002
+            },
+            "utensil": null,
+            "layout": {
+              "surface": 0.577995240688324
+            },
+            "contacts": {
+              "R": {
+                "mode": "vessel",
+                "wristDrift": 8.026010391033393e-7,
+                "reach": [0.28765882312985724, 0.5129812677212825]
+              }
+            },
+            "feet": {
+              "L": {
+                "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+                "support": 0.4152441494404778,
+                "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+                "drift": 4.0636478467934366e-8,
+                "kneeRise": 0.11525389503224792
+              },
+              "R": {
+                "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+                "support": 0.4152445158912317,
+                "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+                "drift": 4.063648019755532e-8,
+                "kneeRise": 0.11525345369544326
+              }
+            },
+            "station": "library/study-whiskey-lounge",
+            "draws": 5,
+            "triangles": 1086,
+            "models": [
+              {
+                "file": "tableware-lod1.glb",
+                "state": "ready"
+              }
+            ]
+          },
+          "actor": [-10.5, 0, 2.55]
+        }
+      ],
+      "paused": {
+        "index": "ready",
+        "key": "2026-10-01|lounge|whiskey",
+        "meal": "evening",
+        "menu": {
+          "dish": null,
+          "dessert": null,
+          "drink": "highball",
+          "coffee": null
+        },
+        "labels": {
+          "dish": null,
+          "dessert": null,
+          "drink": "Whisky highball"
+        },
+        "ready": true,
+        "level": 0,
+        "phase": "watching the Pacific",
+        "beat": "rest",
+        "planSeconds": 0.4336666666666667,
+        "remaining": null,
+        "glass": {
+          "holder": "table",
+          "level": 0.78,
+          "tilt": 0
+        },
+        "utensil": null,
+        "layout": {
+          "surface": 0.577995240688324
+        },
+        "contacts": {},
+        "feet": {
+          "L": {
+            "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+            "support": 0.4152441494404778,
+            "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+            "drift": 4.0636478467934366e-8,
+            "kneeRise": 0.11525389503224792
+          },
+          "R": {
+            "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+            "support": 0.4152445158912317,
+            "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+            "drift": 4.063648019755532e-8,
+            "kneeRise": 0.11525345369544326
+          }
+        },
+        "station": "library/study-whiskey-lounge",
+        "draws": 5,
+        "triangles": 1086,
+        "models": [
+          {
+            "file": "tableware-lod1.glb",
+            "state": "ready"
+          }
+        ]
+      },
+      "returned": {
+        "index": "ready",
+        "key": "2026-10-01|lounge|whiskey",
+        "meal": "evening",
+        "menu": {
+          "dish": null,
+          "dessert": null,
+          "drink": "highball",
+          "coffee": null
+        },
+        "labels": {
+          "dish": null,
+          "dessert": null,
+          "drink": "Whisky highball"
+        },
+        "ready": true,
+        "level": 0,
+        "phase": "sipping",
+        "beat": "drink",
+        "planSeconds": 22.734520744842012,
+        "remaining": null,
+        "glass": {
+          "holder": "R",
+          "level": 0.7657649550000001,
+          "tilt": 0.8914086604800002
+        },
+        "utensil": null,
+        "layout": {
+          "surface": 0.577995240688324
+        },
+        "contacts": {
+          "R": {
+            "mode": "vessel",
+            "wristDrift": 8.026010391033393e-7,
+            "reach": [0.28765882312985724, 0.5129812677212825]
+          }
+        },
+        "feet": {
+          "L": {
+            "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+            "support": 0.4152441494404778,
+            "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+            "drift": 4.0636478467934366e-8,
+            "kneeRise": 0.11525389503224792
+          },
+          "R": {
+            "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+            "support": 0.4152445158912317,
+            "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+            "drift": 4.063648019755532e-8,
+            "kneeRise": 0.11525345369544326
+          }
+        },
+        "station": "library/study-whiskey-lounge",
+        "draws": 5,
+        "triangles": 1086,
+        "models": [
+          {
+            "file": "tableware-lod1.glb",
+            "state": "ready"
+          },
+          {
+            "file": "tableware-lod0.glb",
+            "state": "ready"
+          }
+        ]
+      }
+    }
+  },
+  "secondEngine": {
+    "project": "webkit-phone",
+    "result": "1 passed (41.2s)",
+    "contacts": {
+      "rows": [
+        {
+          "avatar": "ghibli",
+          "dining": {
+            "index": "ready",
+            "key": "2026-10-01|lounge|whiskey",
+            "meal": "evening",
+            "menu": {
+              "dish": null,
+              "dessert": null,
+              "drink": "highball",
+              "coffee": null
+            },
+            "labels": {
+              "dish": null,
+              "dessert": null,
+              "drink": "Whisky highball"
+            },
+            "ready": true,
+            "level": 0,
+            "phase": "sipping",
+            "beat": "drink",
+            "planSeconds": 22.734520744842012,
+            "remaining": null,
+            "glass": {
+              "holder": "R",
+              "level": 0.7657649550000001,
+              "tilt": 0.8914086604800002
+            },
+            "utensil": null,
+            "layout": {
+              "surface": 0.577995240688324
+            },
+            "contacts": {
+              "R": {
+                "mode": "vessel",
+                "wristDrift": 8.026010391033393e-7,
+                "reach": [0.28765882312985724, 0.5129812677212825]
+              }
+            },
+            "feet": {
+              "L": {
+                "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+                "support": 0.4152441494404778,
+                "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+                "drift": 4.0636478467934366e-8,
+                "kneeRise": 0.11525389503224792
+              },
+              "R": {
+                "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+                "support": 0.4152445158912317,
+                "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+                "drift": 4.063648019755532e-8,
+                "kneeRise": 0.11525345369544326
+              }
+            },
+            "station": "library/study-whiskey-lounge",
+            "draws": 5,
+            "triangles": 1086,
+            "models": [
+              {
+                "file": "tableware-lod1.glb",
+                "state": "ready"
+              }
+            ]
+          },
+          "actor": [-10.5, 0, 2.55]
+        }
+      ],
+      "paused": {
+        "index": "ready",
+        "key": "2026-10-01|lounge|whiskey",
+        "meal": "evening",
+        "menu": {
+          "dish": null,
+          "dessert": null,
+          "drink": "highball",
+          "coffee": null
+        },
+        "labels": {
+          "dish": null,
+          "dessert": null,
+          "drink": "Whisky highball"
+        },
+        "ready": true,
+        "level": 0,
+        "phase": "watching the Pacific",
+        "beat": "rest",
+        "planSeconds": 1.600666666666667,
+        "remaining": null,
+        "glass": {
+          "holder": "table",
+          "level": 0.78,
+          "tilt": 0
+        },
+        "utensil": null,
+        "layout": {
+          "surface": 0.577995240688324
+        },
+        "contacts": {},
+        "feet": {
+          "L": {
+            "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+            "support": 0.4152441494404778,
+            "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+            "drift": 4.0636478467934366e-8,
+            "kneeRise": 0.11525389503224792
+          },
+          "R": {
+            "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+            "support": 0.4152445158912317,
+            "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+            "drift": 4.063648019755532e-8,
+            "kneeRise": 0.11525345369544326
+          }
+        },
+        "station": "library/study-whiskey-lounge",
+        "draws": 5,
+        "triangles": 1086,
+        "models": [
+          {
+            "file": "tableware-lod1.glb",
+            "state": "ready"
+          }
+        ]
+      },
+      "returned": {
+        "index": "ready",
+        "key": "2026-10-01|lounge|whiskey",
+        "meal": "evening",
+        "menu": {
+          "dish": null,
+          "dessert": null,
+          "drink": "highball",
+          "coffee": null
+        },
+        "labels": {
+          "dish": null,
+          "dessert": null,
+          "drink": "Whisky highball"
+        },
+        "ready": true,
+        "level": 0,
+        "phase": "sipping",
+        "beat": "drink",
+        "planSeconds": 22.734520744842012,
+        "remaining": null,
+        "glass": {
+          "holder": "R",
+          "level": 0.7657649550000001,
+          "tilt": 0.8914086604800002
+        },
+        "utensil": null,
+        "layout": {
+          "surface": 0.577995240688324
+        },
+        "contacts": {
+          "R": {
+            "mode": "vessel",
+            "wristDrift": 8.026010391033393e-7,
+            "reach": [0.28765882312985724, 0.5129812677212825]
+          }
+        },
+        "feet": {
+          "L": {
+            "target": [-10.689999118433203, 0.49024414944047784, 1.8099993388198432],
+            "support": 0.4152441494404778,
+            "ankle": [-10.689999115848677, 0.49024416632764023, 1.8099993756907986],
+            "drift": 4.0636478467934366e-8,
+            "kneeRise": 0.11525389503224792
+          },
+          "R": {
+            "target": [-10.869999118428346, 0.4902445158912317, 1.8100006611736803],
+            "support": 0.4152445158912317,
+            "ankle": [-10.869999121012954, 0.49024453277832514, 1.8100006980446635],
+            "drift": 4.063648019755532e-8,
+            "kneeRise": 0.11525345369544326
+          }
+        },
+        "station": "library/study-whiskey-lounge",
+        "draws": 5,
+        "triangles": 1086,
+        "models": [
+          {
+            "file": "tableware-lod1.glb",
+            "state": "ready"
+          },
+          {
+            "file": "tableware-lod0.glb",
+            "state": "ready"
+          }
+        ]
+      }
+    }
+  }
+}
