@@ -3795,23 +3795,51 @@ test("coastal home: whiskey evenings support feet and set the glass on the side 
   // A live pause holds a supported glass and the exact two-leg pose.
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(ui.locator("[data-world-pause]")).toBeEnabled();
-  await expect.poll(async () => (await evidence(scene)).dining?.glass?.holder, { timeout: 30000 }).toBe("table");
+  let rested;
+  await expect
+    .poll(
+      async () => {
+        const sample = await evidence(scene);
+        if (sample.dining?.glass?.holder === "table") rested = sample;
+        return sample.dining?.glass?.holder;
+      },
+      { timeout: 30000 }
+    )
+    .toBe("table");
+  // Read the placed glass and carried prop from the same frame. A slow native
+  // click can pause a later sip, which must hold its supported hand pose too.
+  expect(rested.prop).toBeNull();
   await ui.locator("[data-world-pause]").click();
   await expect(ui.locator("[data-world-pause]")).toHaveAttribute("aria-pressed", "true");
-  const paused = (await evidence(scene)).dining;
+  const pausedState = await evidence(scene),
+    paused = pausedState.dining;
+  expect(["table", "R"]).toContain(paused.glass.holder);
+  if (paused.glass.holder === "table") expect(pausedState.prop).toBeNull();
+  else {
+    expect(pausedState.prop).toMatchObject({ kind: "highball", source: "dining", ancestorsVisible: true });
+    for (const hand of Object.values(paused.contacts)) expect(hand.wristDrift).toBeLessThan(0.003);
+  }
   await page.waitForTimeout(250);
-  const held = (await evidence(scene)).dining;
+  const heldState = await evidence(scene),
+    held = heldState.dining;
   expect(held.feet).toEqual(paused.feet);
   expect(held.glass).toEqual(paused.glass);
-  expect((await evidence(scene)).prop).toBeNull();
+  expect(heldState.prop).toEqual(pausedState.prop);
   // Walking leaves the setting on its table, then the routine recovers its seat.
   await ui.locator("[data-world-fullscreen]").click({ timeout: 30000 });
   await expect(stage).toHaveClass(/is-world-immersive/);
   await page.locator("[data-world-walk]").click({ timeout: 120000 });
   await expect(stage).toHaveClass(/is-world-walking/);
-  expect((await evidence(scene)).prop).toBeNull();
+  await expect.poll(async () => (await evidence(scene)).prop, { timeout: 60000 }).toBeNull();
+  await expect(canvas).toBeFocused();
   await page.keyboard.press("Escape");
-  await expect(stage).not.toHaveClass(/is-world-walking/);
+  // The Linux software-rendered trace shows the page restored within 3 s, but
+  // renderer-side assertion polling stalls during redraw past its 15 s budget.
+  // Bound that response wait and require both modes to close before continuing.
+  await expect(stage).not.toHaveClass(/is-world-(walking|immersive)/, { timeout: process.platform === "linux" ? 60000 : 15000 });
+  const leftWalk = await evidence(scene);
+  expect(leftWalk.walk.active).toBe(false);
+  expect(leftWalk.fullscreen).toBeNull();
   await page.emulateMedia({ reducedMotion: "reduce" });
   await explore(ui);
   await ui.locator("[data-world-activity]").selectOption("coding");

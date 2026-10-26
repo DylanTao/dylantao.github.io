@@ -1,0 +1,92 @@
+{
+  "source": "d061cdd2273cce60c7d19e4d0510e962cf8c5737",
+  "visualRun": 40384488048,
+  "failedJob": 121789404770,
+  "artifact": 12681393032,
+  "project": "tablet-768",
+  "case": "coastal home: whiskey evenings support feet and set the glass on the side table",
+  "traceSha256": "296cc5d7847503fe4b8bdbcd0b989cae1bb1c094e46e046cf1f3e2f2b2d023f9",
+  "observations": {
+    "escapeCall": "call@12441",
+    "escapeStartMilliseconds": 724280.295,
+    "escapeEndMilliseconds": 724347.529,
+    "assertionCall": "call@12443",
+    "assertionDeadlineMilliseconds": 739390.809,
+    "afterSnapshotMilliseconds": 745163.776,
+    "afterSnapshotStageClass": "home-hero-media is-desk-3d",
+    "afterSnapshotWalkAriaPressed": "false",
+    "pageCloseStartMilliseconds": 754072.111,
+    "interpretation": "Browser screencast already shows the ordinary page at 727301.280, about 3.021 seconds after Escape. Renderer-side assertion polling stalled after 725260.981 and expired at its 15-second deadline. The after-snapshot confirms cleared classes and Walk state at 745163.776, before teardown. This is not evidence of a 21-second native full-screen exit.",
+    "firstConfirmedExitedScreencastMilliseconds": 727301.28,
+    "lastAssertionPollMilliseconds": 725260.981,
+    "screencastFrames": [
+      {
+        "file": "tablet-exit-page.jpeg",
+        "traceResource": "resources/page@751aaa1c1a32ef9b0de8458584364515-1793043019422.jpeg",
+        "timestampMilliseconds": 727301.28,
+        "sha256": "54dea8445bd21eabb02398ed65099fcb032d3a08b39a752cfe880856d35ed915"
+      },
+      {
+        "file": "tablet-exit-webgl-restored.jpeg",
+        "traceResource": "resources/page@751aaa1c1a32ef9b0de8458584364515-1793043039310.jpeg",
+        "timestampMilliseconds": 747188.88,
+        "sha256": "f91dc098372a04641bf869bca0e583c12da13f9930157fa19c56824b098700d1"
+      }
+    ]
+  },
+  "repair": {
+    "runtimeChanged": false,
+    "linuxTransitionTimeoutMilliseconds": 60000,
+    "otherPlatformsTimeoutMilliseconds": 15000,
+    "assertions": [
+      "Canvas already has keyboard focus before Escape.",
+      "Neither immersive nor walking class remains.",
+      "Walk active is false.",
+      "Fullscreen mode is null.",
+      "Original return-to-routine assertions remain."
+    ],
+    "skipsAdded": false
+  },
+  "localUnmodifiedTabletCase": "1 passed in 24.9 seconds on native host Chromium; no Linux pass inferred.",
+  "rawEvidence": ".jekyll-cache/visual-qa/pc-fidelity-2026-10-26/ci-tablet-exploration/",
+  "localRepairedTabletCase": "1 passed in 24.2 seconds on native host Chromium, including both closed modes and existing canvas focus.",
+  "localContractCasesPassed": 22,
+  "localLinuxRepairedTabletCase": {
+    "result": "1 passed",
+    "duration": "3.3 minutes",
+    "browser": "Chromium 145.0.7632.6",
+    "renderer": "ANGLE Mesa llvmpipe LLVM20.1.2",
+    "msaa": 4,
+    "floatColorBuffer": true,
+    "note": "Functional software proof, not a performance benchmark."
+  },
+  "desktopPauseRace": {
+    "job": 121789404504,
+    "line": 3806,
+    "failure": "The glass was observed on its table, but the later native Pause click latched a supported sip. Exact feet/glass freeze assertions passed; expecting no held prop in every paused phase was incorrect.",
+    "receivedProp": {
+      "kind": "highball",
+      "source": "dining",
+      "ancestorsVisible": true
+    },
+    "repair": "Capture table holder and null carried prop atomically from the same scene evidence sample. Verify either valid paused support (table or right hand), exact unchanged feet/glass/prop across pause, and existing 3 mm wrist tolerance for a paused sip. Wait for a rendered prop-free Walk state, then retain the strict exit and return-to-routine checks.",
+    "runtimeChanged": false,
+    "contactTolerancesChanged": false
+  },
+  "localFinalNativeCases": {
+    "passed": 2,
+    "projects": ["desktop-1440", "tablet-768"],
+    "durationSeconds": 58.7
+  },
+  "localFinalLinuxCases": {
+    "passed": 2,
+    "projects": ["desktop-1440", "tablet-768"],
+    "duration": "5.2 minutes",
+    "browser": "Chromium 145.0.7632.6",
+    "renderer": "ANGLE Mesa llvmpipe LLVM20.1.2",
+    "maxSamples": 4,
+    "floatColorBuffer": true,
+    "caseScope": "Both pause-state and Escape/renderer-response repairs; actual complete site from owned production server, no runtime asset overlays.",
+    "performanceBenchmark": false
+  }
+}
