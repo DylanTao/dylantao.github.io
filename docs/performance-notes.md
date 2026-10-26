@@ -7,6 +7,9 @@ How fast the coastal home and the site are, what has been done about it, and wha
 - `bin/measure_coastal_views.cjs`: per-view frame cost of the 3D home (the occupied study, the authored outside view, the 160 m coast with the hinterland and planting loaded, optionally a turned coast pose and full screen). It attributes every draw to a pass by viewport size (2048x2048 shadow map, 384x384 sea mirror, the canvas size for beauty and output, the contact pass's size for its prepass), times the whole frame with a GPU timer query, and records process CPU time, so a busy GPU process shows even when the page is idle. `COASTAL_VIEWS_AB=HEAD` compares the committed scene files with the working tree in ABBA order, a fresh browser per run; `COASTAL_VIEWS_EXTRA` adds working-tree variants with URL flags; `COASTAL_VIEWS_TOGGLES` resamples a view with one pass removed.
 - `bin/compare_coastal_stills.cjs`: pixel parity for changes that must not change a still (reduced motion, seeded randomness, fixed routine time), base, work, work, base. The base-vs-base pair is the control.
 - `bin/profile_coastal_startup.cjs`: the cold-start timeline (program warmup, model transfers, long tasks).
+- `bin/measure_coastal_startup.cjs`: click-to-ready time, cold or warm (a second session on the first one's profile), at 1440x900 or in phone emulation (`--device phone`, with `--throttle 4` for CPU throttling), with the loading stages, the programs linked before ready, long tasks and idle frame intervals.
+- `bin/coastal_shader_census.cjs`: `dump` saves every program the home links, with its full sources; `bench` compiles each one alone in a fresh browser and times it, optionally beside edited variants of its source, which is how the shares of compile time below were measured.
+- `bin/measure_coastal_flicker.cjs`: frame-to-frame change while the view zooms, orbits, pans or walks with the world paused (mean change, acceleration, A-B-A flips, pops), with the scene's static shadow redraws and resolution changes over each recording.
 - Run them from PowerShell against a no-watch server (`bundle exec jekyll serve --port 4136 --baseurl /al-folio --no-watch`); `COASTAL_VIEWS_URL` / `COASTAL_STILLS_URL` point at it. The A/B tools serve changed modules themselves, so the server need not be rebuilt between variants.
 
 This laptop is shared: other agents' servers and browsers use about half the CPU and sometimes the same integrated GPU, which stretches frame intervals without any page work (a 0.9 s gap with an idle page is GPU contention, not script). Compare only interleaved runs, report medians with their range, and prefer draw counts, script time per frame and pixel parity over frame rates.
@@ -84,3 +87,129 @@ The same seeded native Chromium host at 390×844, DPR 3 and touch reached the ne
 Compact coarse-touch screens now begin full screen with a 1.5× density cap and a 1.8 MP ceiling. Moving frames may probe lower densities down to a bounded floor, including buffers below 1 MP; an unhelpful probe reverts. Desktop and embedded profiles retain their previous pixel budgets. The phone sample reverted a probe when it did not help, which demonstrates the guard rather than a speed gain. Native GPU programs still warm up in batches with nonblocking completion where supported, as recommended by [WebGL best practices](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices#prefer_khr_parallel_shader_compile); the static transport cache does not bypass driver compilation.
 
 Walking excludes 180,289 soft-plant triangles from collision while retaining 4,020 trunk triangles; those plants still draw normally. This removes leaf/grass barriers and field-building work, without claiming a measured frame-rate change. The real cedar barrier across the rear doorway was removed in Blender instead of weakening wall collision. [The checkpoint](evidence/coastal-arrival-2026-10-23/README.md) records return-route, browser and rendering evidence.
+
+## October 24: what the arrival waited on, and what changed
+
+Sirui's report: the 3D home lagged and took long to load on his Intel Arc laptop, a 4K desktop and an iPhone, and flickered while zooming and walking. Measurements were made on the Intel Arc laptop (ANGLE on Direct3D 11) in headless Chromium 145 at 1440x900 and DPR 1, with a cold profile and no lab flag, timed from the 3D click to `sceneState === "ready"`. Three other agents shared the machine, keeping 8-12 of its 22 logical cores busy, so every comparison below is a median of interleaved runs.
+
+### Baseline (main a7c8534e5)
+
+| Arrival | Coast | Room stage | Lighting stage | First-frame stage | Ready  |
+| ------- | ----- | ---------- | -------------- | ----------------- | ------ |
+| Cold    | 1.5 s | 12.6 s     | 24.3 s         | 5.3 s             | 46.4 s |
+| Warm    | 1.0 s | 11.5 s     | 16.9 s         | 5.2 s             | 36.1 s |
+
+The room stage was the rooms, the avatar and the walking body's compiles. The lighting stage was the light-cache restore plus each bathroom mirror's whole-scene `compileAsync`. The first-frame stage was the batched warmup and the first draw. A second visit on the same profile saved only network time and some compiles: the GPU program cache is not what the arrival waits on. Other runs that day ranged from 32 s on a quieter machine to 61 s.
+
+A Chrome trace with the `gpu.angle` category settled where the time went. ANGLE's Direct3D compiler (`D3DCompile`, FXC) used 503 s of CPU across 341 calls during a 63 s arrival. Fragment shaders took 129 ms at the median, 7.6 s at the 90th percentile and 25 s at most; the eight slowest (three sandstone, three plaster, the onsen's caustic stone and the marble) took 15-25 s each, so the slowest shader alone set a floor whatever the parallelism. Of 169 pixel compiles, 32 repeated identical HLSL. They were legitimate vertex variants (skinning, morph targets, instancing, wind sway), which ANGLE compiles once per program. The GPU process's main thread was busy for 26 s, mostly compositing, and was not a bottleneck. The camera-field worker spent 43 s re-running full-grid classifications. Compiling each program alone, then again with one part of its shader removed, attributed the cost:
+
+| Part of a lit program                                 | Share of its FXC time |
+| ----------------------------------------------------- | --------------------- |
+| Static light field (static-light-field.mjs)           | 25-53 %               |
+| Eight unrolled warm-practical point lights (three.js) | 20-28 %               |
+| Light installations (light-installations.mjs)         | 12-23 %               |
+| Light well (light-well.mjs), PCF-soft sun shadow      | 5-10 % each           |
+| Procedural stone noise (realism.mjs)                  | 4-11 s per stone kind |
+
+The first view draws 74 of about 124 programs, about 63 % of the isolated compile cost. The walking body's head-cut variants (eight programs, about 30 s) are drawn only in Walk.
+
+### What changed
+
+| Commit    | Change                                                                                                                                                 |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 8e9f92a58 | The camera field voxelizes as models arrive and classifies once, when the rooms are in.                                                                |
+| 75be6307a | The light cache is fetched, checked and parsed right after the manifest; only a failed check or a request that stalls for 20 s falls back to the bake. |
+| 9671276d0 | The ten room models download right after the manifest, at low priority, behind the house and coast.                                                    |
+| 4dfd7c06e | The house, coast, desk and companion programs start compiling while the rooms download; the mirrors' compile runs after the batched warmup.            |
+| 83c2a311a | The walking body's head-cut variants compile after the first frame.                                                                                    |
+| 8df284b16 | Meshes exported without vertex colour draw with white, so painted and unpainted copies of a surface share one program (123 to 120 programs).           |
+| 229d4e12e | Sandstone, plaster, marble and travertine loop their noise octaves under a uniform count instead of unrolling three per call site.                     |
+
+The first five took ready from a median of 48.2 s (42.5, 48.9, 48.2) to 33.7 s (33.7, 34.5, 33.6) under heavy load, and from 40.2 and 35.8 s to 34.0 and 34.5 s on a quieter machine. The old arrival degraded with load; the new one held 33.6-34.5 s in every run. The light-cache fix matters most on a busy or slow device. Fetched after the rooms under compile load, the cache missed its 8 s budget in two of three runs of an intermediate version, and the fallback bake took ready to 55-72 s.
+
+The last two took ready from a median of 41.4 s (46.4, 41.4, 38.9) to 39.1 s (54.8, 39.1, 36.4), with 116-122 programs at ready instead of 128-129; the arrival avatar is random, and the slow 54.8 s run stalled in parsing under a load spike. Isolated compile of the eleven heaviest stone programs fell from 92.2 to 73.0 s, the cliff sandstone from 17.5 to 9.7 s. Drawn full screen at 1440x900, the looped marble also ran faster on the GPU (9.4 to 8.1 ms and 9.6 to 8.4 ms per draw, 100 interleaved rounds in each order).
+
+Stills (`bin/compare_coastal_stills.cjs`) are identical in the study for every change. Outside, merging the colour variants flips 4 exact-depth-tie pixels on a coplanar arch-frame edge, because merged programs regroup the opaque draws (identical under `?draw-order=material`), and the noise loop moves 12 isolated distant sandstone pixels by 1/255. The remaining exterior differences are the reduced-motion wildlife race, which also differs base to base.
+
+### Measured non-wins
+
+- `#pragma optimize(off)` and `#pragma debug(on)`: ANGLE ignores both; FXC time was unchanged.
+- Uniform loop bounds for the light-installation and light-well loops: no change in FXC time.
+- Branchless rewrites of the static light field's octahedral wrap and border remap: no reliable change, and one marble program compiled three times slower.
+- Binding the light well only to meshes whose bounds reach the bath: it split program families that span the bath box (chalk limestone, brass, cut stone, porcelain, olive leaf), which cancelled the merges.
+- Playwright WebKit on Windows: no first frame after 70 minutes, with its GPU process compiling serially on ANGLE/Direct3D 11 (3,200 s of CPU). It is not a proxy for iOS, whose WebKit compiles through Metal; only an actual iPhone can measure that.
+
+### Flicker and lag while the view moves
+
+Three things changed the whole picture while the view moved:
+
+- Outside, the sun's shadow square was refitted on every frame. Its half-width followed the zoom in 1 m steps and its centre followed the orbit target or the walker, so shadow texels changed size or position from frame to frame and shadow edges shimmered. Every change of the light's matrix also redrew the static shadow cache, about 260 casters on the coast.
+- In full screen, the resolution governor changed the drawing buffer during a drag (three to six changes in one 7 s orbit, down to a factor of 0.35), and the detail level followed the adapted buffer, so a density step could also reallocate MSAA, the shadow map and the mirror target mid-drag.
+- Furniture below 1.5 px of projected radius was culled without hysteresis, so a zoom resting near that size blinked distant pieces.
+
+| Commit    | Change                                                                                                                                                                                                                                                                                                        |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 28266ea98 | Adaptive resolution and the detail level hold while the camera has moved in the last 0.6 s; the frames seen meanwhile decide once the view rests. Detail follows the buffer before adaptation.                                                                                                                |
+| a63d4fac9 | While the coast view moves, the shadow square's half-width moves along a ladder of nine sizes from 12 to 120 m, with one step of hysteresis and an 8 % margin, and its centre holds until the focus has drifted by that margin (1 m around a walker). 0.6 s after the view rests it returns to the exact fit. |
+| 234bdcaa3 | A culled furniture piece returns only at 1.35 times the threshold.                                                                                                                                                                                                                                            |
+| 0f9d1b1e6 | A paused or reduced-motion coast view that stops moving draws one more frame after the rest, so the exact fit always returns; without it a still's shadows depended on the path the camera took.                                                                                                              |
+
+Driving the lab camera from inside the page on every animation frame, with the world paused, counted the static shadow redraws over 4 s of motion and 1.5 s of rest (two interleaved pairs; frames came 60-200 ms apart under this load):
+
+| Motion over 4 s                   | Before                       | After                        |
+| --------------------------------- | ---------------------------- | ---------------------------- |
+| Zoom out and back in, 48 to 106 m | 21 of 25 and 34 of 35 frames | 9 of 30 and 10 of 31 frames  |
+| Pan 20 m                          | 37 of 37 and 59 of 59 frames | 13 of 46 and 16 of 65 frames |
+| Orbit 1.2 rad around the target   | 2 of 32 and 2 of 49 frames   | 3 of 39 and 4 of 24 frames   |
+
+An orbit around a fixed target moved neither the square's centre nor its size before, so it rarely redrew; entering and leaving the stepped fit now adds one or two redraws to it. The full-screen resolution hold is covered by its unit test; in the browser, one Playwright drag pair went from six resolution changes (down to a factor of 0.36) to one after the drag, and a lab-driven pair never adapted in either version because background compiles kept restarting the governor's window, so that part is not separately confirmed.
+
+Checked and left alone: furniture levels of detail already switch with 12 % hysteresis (`detail-levels.mjs`); semantic zoom changes view only after a further 0.32 push past the limit and forgets a partial push after 0.7 s; the haze march's jitter is a fixed screen pattern and the contact pass has no random term, so neither changes between frames of a still view. The bathroom mirrors re-capture at most 15 times a second while the camera moves, and at once after a jump. Capturing every moving frame removed the mirror's stepping, but that bound is a tested contract (`test/interior-reflections.test.mjs`) and the change would add a room render to every moving frame in the two bathroom views, so it was dropped.
+
+Stills: with all four changes the study, outside and 160 m stills match base exactly in three of four captures; the fourth differs only in the reduced-motion wildlife (gulls and sea lions), the race that also separates base captures. Under this load the frames of a scripted interaction came 100-800 ms apart, so the frame-image metrics were dominated by real motion between frames and moved within run-to-run noise; the redraw counts carry the result. Playwright's own mouse and wheel events stalled for more than 0.6 s under the same load, which the scene correctly takes as rests, so the counts from those runs vary (a zoom took 8-30 redraws against 20-21) and are not the measure. Frame-time effects were not measured here: on a quiet machine or Sirui's hardware, `?perf=1` shows them.
+
+### Quality tiers and the `?perf=1` readout
+
+Sirui asked for detail that follows the device: more on a 4K desktop with a strong GPU, less on a phone, without lag or crashes. `quality.mjs` defines three tiers that change what the home costs, never what it shows: every tier draws the same house, coast, people and animals with the same shader programs. No tier setting is part of a program's key, so a tier change compiles nothing (118-120 programs at every tier).
+
+| Setting                                  | Low                                                  | Standard (as before)                          | High                                          |
+| ---------------------------------------- | ---------------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
+| Page embed: pixel budget, density cap    | 1.2 MP, 1.25                                         | 2.1 MP, 1.5                                   | 4.2 MP, 2                                     |
+| Full screen: budget, density, floor      | 1.8 MP, 1.25, 0.6                                    | 8.3 MP, 2, 0.35 (1.8 MP, 1.5, 0.6 on a phone) | 8.3 MP, 2, 0.5                                |
+| MSAA ceiling                             | 2                                                    | 4                                             | 4                                             |
+| Sun shadow map                           | 1024                                                 | 2048, 4096 in large full screen               | 4096 where the GPU allows 8192 textures       |
+| Contact pass, sea mirror                 | half, two thirds                                     | 480 px, 384 px in the embed                   | 1.5 times                                     |
+| Bathroom mirrors                         | 128                                                  | 256 (128 on a phone)                          | 512                                           |
+| Haze march                               | two thirds of the steps, one resolution step coarser | 24 steps outside, 18 inside                   | 1.25 times the steps, half resolution at most |
+| Texture filtering, embed and full screen | 1, 4                                                 | 1, 8                                          | 8, 16                                         |
+| Furniture detail reach and bytes         | 0.8 times                                            | as authored                                   | 1.4 times                                     |
+
+How a tier is chosen:
+
+- A phone (coarse pointer, short side under 768 px), a GPU without 8192-pixel textures or a device reporting 2 GB of memory or less starts at low; everything else starts at standard. `?quality=low|standard|high` pins a tier.
+- High is offered only where the GPU allows 8192-pixel textures, the device does not report less than 8 GB, and the high tier's render targets at the screen's own full-screen size fit a 1.28 GB estimate. A standard device earns it after 90 frames at rest with a 75th-percentile interval of 19 ms or less and a median GPU time of 6 ms or less (one frame in eight is timed). Without a GPU timer it needs a median under 15 ms, so 60 Hz pacing alone never qualifies.
+- 90 frames with a 75th-percentile interval over 40 ms demote one tier, but only while the page's own script takes less than 60 % of the frame: frames bound by script would not get faster with fewer pixels. The laptop's coast view (about 49 ms of script in a 50-67 ms frame) therefore stays where it is. A demotion is final for the session.
+- Nothing switches while the camera moves or background shaders compile.
+- A lost WebGL context stores a cap one tier lower in sessionStorage, so switching to 3D again restarts lower.
+- Automation (`navigator.webdriver`) draws standard and holds it, as it holds the cinematic layer still, unless the URL asks with `?quality=auto` or a tier. Visual tests are unchanged.
+
+Render-target memory estimated by `targetMemory()` (the composer, three's transmission target, bloom, contact, haze, the shadow map and its cache copy, both mirrors; an estimate for budgeting, not a driver measurement):
+
+| View                                       | Low    | Standard | High        |
+| ------------------------------------------ | ------ | -------- | ----------- |
+| Laptop embed, 1000x480 CSS at DPR 1.5      | 115 MB | 258 MB   | 457 MB      |
+| 4K desktop embed, DPR 2                    | 115 MB | 258 MB   | 604 MB      |
+| 4K desktop full screen, 1920x1080 at DPR 2 | 251 MB | 1,166 MB | 1,193 MB    |
+| Phone full screen, 390x844 at DPR 3        | 84 MB  | 164 MB   | not offered |
+
+Measured on the shared laptop (headless Chromium on ANGLE/Direct3D 11, 1440x900 at DPR 1, cold profiles, heavy load from other agents):
+
+- Each pinned tier applied its settings with no errors and no new programs (118-121 programs in every run). Low drew MSAA 2, a 1024 shadow map, a 240 px contact pass, 257 px sea and 128 px bathroom mirrors and 16 haze steps outside. High drew a 4096 shadow map, a 720 px contact pass, 576 px sea and 512 px bathroom mirrors and 8x filtering (16x in full screen). Estimated targets at the 544x460 embed: 50, 113 and 313 MB.
+- Time to ready, pinned and interleaved: standard 37.5 and 46.7 s, high 51.1 and 43.9 s, a difference inside the run-to-run spread. Switching a resting standard view to high in the lab drew the next frame 0.65-0.85 s after the switch and the one after it 0.57-0.6 s later, against a usual 83 ms here: one hitch while the larger shadow map, mirrors and targets are allocated and drawn, once per session.
+- Unpinned, one standard session demoted to low after about 20 s of 33 ms median and 50 ms 75th-percentile frames with 20 ms of script (other agents' browsers shared the GPU); it then held 17 ms frames. Another, at 117 ms medians, did not demote within 20 s.
+- In phone emulation (390x844 at DPR 3, touch) an unpinned session started low (a 437x440 buffer, 43 MB); under automation it holds standard.
+- Stills of the standard tier against main: the study and the 160 m coast are identical; outside, 37 pixels at the foot of the frame move by 1/255 between captures of the same version too. They track whether a capture lands within 0.6 s of the last camera move, before the rest refit from the October 24 motion work, not the tiers.
+
+Not verified: a real phone, the 4K desktop, promotion to high (this machine never had 6 ms of GPU headroom) and recovery after an actual context loss (only the stored cap is exercised by its code path).
+
+`?perf=1` adds a three-line readout over the scene's top-left corner, below the full-screen bar when that shows: ready time (or the loading stage), tier, frame p50 and p95, GPU time per frame where a timer exists, buffer size and density factor, MSAA, shadow map, programs, draws, estimated target memory and the view. Its copy button puts the whole summary, with the GPU's name, cores and pixel ratio, on the clipboard as JSON (or shows it to select when the clipboard is refused), so a phone can report its numbers. `getSceneEvidence().quality` reports the tier, its settings and history, the memory estimate and the cost of the last switch; in the lab, `setQualityTier(tier)` switches at once.
