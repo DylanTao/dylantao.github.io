@@ -573,6 +573,60 @@ function hoverState(time, raid) {
   };
 }
 
+// Integral of a quintic rate window. The rise/fall windows here never overlap.
+// Multiplying elapsed time by a changing rate would instead add t*rate' to the
+// physical frequency, making a five-minute gull beat thousands of times a second.
+function rateWindowIntegral(t, start, end, rise, fall = rise) {
+  const primitive = (u) => u ** 4 * (2.5 + u * (-3 + u));
+  const age = t - start,
+    duration = end - start;
+  if (age <= 0) return 0;
+  if (age < rise) return rise * primitive(age / rise);
+  if (age <= duration - fall) return age - rise / 2;
+  if (age < duration) {
+    const u = (age - duration + fall) / fall;
+    return duration - fall - rise / 2 + fall * (u - primitive(u));
+  }
+  return duration - (rise + fall) / 2;
+}
+
+const BRAKE_CYCLES = 1.8 * (2.1 - (0.35 + 0.25) / 2);
+const TAKEOFF_CYCLES = 0.4 * (3.6 - (0.12 + 1) / 2);
+const HOVER_CYCLES = 1.6 * (5.4 - 0.6);
+// A checkpoint is one scalar per 96 minutes of active time. This memoizes sums of
+// deterministic epoch plans, never a frame-integrated oscillator or its previous pose.
+const raidPhaseCheckpoints = new Map([[0, 0]]);
+function raidPhaseBefore(k) {
+  let checkpoint = Math.floor(k / 64) * 64;
+  while (!raidPhaseCheckpoints.has(checkpoint)) checkpoint -= 64;
+  let cycles = raidPhaseCheckpoints.get(checkpoint);
+  for (let epoch = checkpoint; epoch < k; epoch++) {
+    if (gullRaid(epoch, [0, 0, 0])) cycles += HOVER_CYCLES;
+    if ((epoch + 1) % 64 === 0) raidPhaseCheckpoints.set(epoch + 1, cycles);
+  }
+  return cycles;
+}
+function gullPhase(t, index, schedule, raid) {
+  let phase =
+    3 * t +
+    schedule.k * (BRAKE_CYCLES + TAKEOFF_CYCLES) +
+    1.8 * rateWindowIntegral(t, schedule.perchStart - 2.1, schedule.perchStart, 0.35, 0.25) +
+    0.4 * rateWindowIntegral(t, schedule.perchEnd, schedule.perchEnd + 3.6, 0.12, 1);
+  if (index === 3) {
+    phase += raidPhaseBefore(schedule.k);
+    if (raid) phase += 1.6 * rateWindowIntegral(t, raid.arrive - 1.2, raid.leave + 1.2, 0.6);
+  }
+  return phase;
+}
+const gullPhaseOrigins = new Map();
+function initialGullPhase(index, perch) {
+  if (!gullPhaseOrigins.has(index)) {
+    const schedule = gullSchedule(0, index);
+    gullPhaseOrigins.set(index, gullPhase(0, index, schedule, index === 3 ? gullRaid(schedule.k, perch) : null));
+  }
+  return gullPhaseOrigins.get(index);
+}
+
 // Perched repertoire: glances, preening, a wing stretch, a long call, a ruffle-shake.
 const perchedPlans = new Map();
 export function perchedPlan(seed, start, end, { threat = null } = {}) {
@@ -734,7 +788,8 @@ export function gullMotion(time, index, perch) {
     state === "squabble" ? 1 : raid && t >= raid.arrive - 1.2 && t < raid.leave + 1.2 ? window01(t, raid.arrive - 1.2, raid.leave + 1.2, 0.6) : 0;
   const flap = state === "perch" ? 0 : Math.max(randomFlap, climbFlap, brake, takeoff, hover);
   const beatRate = 3 + brake * 1.8 + hover * 1.6 + takeoff * 0.4;
-  const beat = wingbeat(t * beatRate + index * 0.3, 0.13);
+  const beatPhase = gullPhase(t, index, schedule, raid) - initialGullPhase(index, perch) + index * 0.3;
+  const beat = wingbeat(beatPhase, 0.13);
   const amplitude = 0.5 + takeoff * 0.25 + hover * 0.1 - brake * 0.18;
   // Landing: wings rise and the tail fans over the last 1.8 s and stay so through touchdown,
   // easing after it; the flare's nose-up pitch peaks just before and is level at touchdown.
@@ -797,6 +852,8 @@ export function gullMotion(time, index, perch) {
     wingBeat: flap * beat.stroke * amplitude,
     wingTipLag: flap * beat.lag * amplitude,
     flap,
+    wingPhase: beatPhase,
+    wingRate: beatRate,
     downstroke: beat.downstroke,
     wingRaise: (state === "glide" ? 0.1 : 0.04) + reach * 0.85 + (perched ? perched.wingRaise : 0) + settleUp * 0.3,
     wingSweep: speedFlex * 0.42 + flare * -0.35 + (flap > 0.3 && !beat.downstroke ? flap * 0.25 : 0),

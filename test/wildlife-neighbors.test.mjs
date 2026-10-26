@@ -25,6 +25,47 @@ const perches = manifest.terrain.perches;
 const grid = manifest.cameraCollision;
 const ground = (x, z) => cameraTerrainHeight(x, z, grid);
 
+test("gull wing phase integrates the authored rate through complete cycles, hover and long active time", () => {
+  const h = 1e-5;
+  for (let index = 0; index < 4; index++) {
+    const perch = perches[index % 3];
+    const original = gullMotion(300.25, index, perch).wingPhase;
+    gullMotion(10000, index, perch);
+    near(gullMotion(300.25, index, perch).wingPhase, original, 1e-9);
+    for (let epoch = 0; epoch < 105; epoch++) {
+      const s = gullSchedule(epoch * 90 + 1 - index * 19, index);
+      const instants = [
+        s.start + 0.01,
+        s.glideEnd,
+        s.perchStart - 2.05,
+        s.perchStart - 1.95,
+        s.perchStart - 1.85,
+        s.perchStart,
+        s.perchEnd + 0.03,
+        s.perchEnd + 0.06,
+        s.perchEnd + 0.09,
+        s.end - 1e-4,
+        s.end + 1e-4,
+      ];
+      const raid = index === 3 ? gullRaid(s.k, perch) : null;
+      if (raid) instants.push(raid.arrive - 1, raid.arrive - 0.9, raid.arrive, raid.leave, raid.leave + 0.9, raid.leave + 1);
+      for (const t of instants.filter((t) => t > 0)) {
+        const before = gullMotion(t - h, index, perch),
+          pose = gullMotion(t, index, perch),
+          after = gullMotion(t + h, index, perch);
+        const physicalRate = (after.wingPhase - before.wingPhase) / (2 * h);
+        assert.ok(physicalRate >= 3 - 2e-5 && physicalRate <= 4.8 + 2e-5, `${index} at ${t}: ${physicalRate} cycles/s`);
+        near(physicalRate, pose.wingRate, 2e-5);
+        if (Math.abs(t - s.end) <= 1e-4) {
+          const a = gullMotion(s.end - h, index, perch),
+            b = gullMotion(s.end + h, index, perch);
+          assert.ok(b.wingPhase > a.wingPhase && b.wingPhase - a.wingPhase < 1e-3, "no phase reset at an epoch boundary");
+        }
+      }
+    }
+  }
+});
+
 test("stance anchors remain planted and swing joins have zero lift", () => {
   for (const offset of [0, 0.25, 0.5, 0.75]) {
     const poses = [0.03, 0.32, 0.67].map((u) => plantedFoot((5 + u - offset) * 0.18, offset));
