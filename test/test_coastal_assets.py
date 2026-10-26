@@ -149,9 +149,11 @@ class CoastalAssetsTest(unittest.TestCase):
             for a in MANIFEST["avatars"]
         )
         furniture = json.loads((ASSETS / "furniture/index.json").read_text(encoding="utf-8"))
+        # An anchor whose item has not landed yet streams nothing (its room placeholder stands in).
         default_models = {
             furniture["items"][anchor["item"]]["lods"][0]["file"]
             for anchor in MANIFEST["furniture"]
+            if anchor["item"] in furniture["items"]
         }
         defaults = sum(len(gzip.compress((ASSETS / "furniture" / name).read_bytes())) for name in default_models)
         auxiliary = sum(

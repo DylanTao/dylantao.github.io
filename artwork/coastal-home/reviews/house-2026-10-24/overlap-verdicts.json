@@ -91,6 +91,42 @@
       "maxDepthM": 0.125,
       "maxSeamM": 1.71
     },
+    "core__chalk limestone | onsen_privacy__warm cut stone": {
+      "verdict": "designed",
+      "reason": "The onsen screen's stone curb is bedded on the limestone pier at the gallery's east end.",
+      "maxDepthM": 0.125,
+      "maxSeamM": 2.31
+    },
+    "core__golden coastal sandstone | core_arrival_court__travertine paving stone": {
+      "verdict": "designed",
+      "reason": "The forecourt's paving is bedded in the ground along its edges.",
+      "maxDepthM": 0.061,
+      "maxSeamM": 2.3
+    },
+    "core__golden coastal sandstone | core_arrival_court__warm cut stone": {
+      "verdict": "built-into-rock",
+      "reason": "The arrival's oculus rims and tubes are set into the clifftop ground they light through (arrival hall, October 25).",
+      "maxDepthM": 0.252,
+      "maxSeamM": 37.88
+    },
+    "core__golden coastal sandstone | core_arrival_hall__warm cut stone": {
+      "verdict": "built-into-rock",
+      "reason": "The stone reveals, sills and floor of the arrival hall's two doors are set into the rock around the cut.",
+      "maxDepthM": 0.075,
+      "maxSeamM": 10.58
+    },
+    "core__golden coastal sandstone | core_arrival_living__warm cut stone": {
+      "verdict": "built-into-rock",
+      "reason": "The upper floor's edge stone, where the retired onsen threshold left the floor open, is set into the rock.",
+      "maxDepthM": 0.115,
+      "maxSeamM": 1.25
+    },
+    "core__golden coastal sandstone | core_arrival_paths__travertine paving stone": {
+      "verdict": "designed",
+      "reason": "The clifftop path ribbons are 14 cm slabs bedded in the ground, 2.5 cm proud at their edges and centre line.",
+      "maxDepthM": 0.154,
+      "maxSeamM": 6.12
+    },
     "core__golden coastal sandstone | core_estate_garden__travertine paving stone": {
       "verdict": "built-into-rock",
       "reason": "The clifftop path's buried underside and edge run into the mainland where the path meets the slope.",
@@ -140,6 +176,42 @@
       "reason": "The cedar pocket panel parked beside the private onsen threshold stands in its rock pocket; only its edge shows in the threshold.",
       "maxDepthM": 0.405,
       "maxSeamM": 2.54
+    },
+    "core_arrival_court__golden coastal sandstone | core_arrival_paths__travertine paving stone": {
+      "verdict": "designed",
+      "reason": "The east path is bedded in the grade patch that closes the old trench.",
+      "maxDepthM": 0.151,
+      "maxSeamM": 2.7
+    },
+    "core_arrival_court__warm cut stone | core_arrival_hall__golden coastal sandstone": {
+      "verdict": "designed",
+      "reason": "Each oculus tube passes through the well's ceiling slab, whose hole sits inside the tube's wall.",
+      "maxDepthM": 0.05,
+      "maxSeamM": 24.96
+    },
+    "core_arrival_hall__golden coastal sandstone | core_arrival_hall__warm cut stone": {
+      "verdict": "designed",
+      "reason": "The upper door's stone reveal is bedded 5 cm into the hall's sandstone lining.",
+      "maxDepthM": 0.063,
+      "maxSeamM": 3.23
+    },
+    "core_arrival_hall__warm cut stone | core_reno_slab_ground": {
+      "verdict": "designed",
+      "reason": "The hall's floor stone runs through the pivot door's threshold onto the living's ground slab.",
+      "maxDepthM": 0.143,
+      "maxSeamM": 2.92
+    },
+    "core_arrival_living__warm cut stone | core_reno_slab_upper": {
+      "verdict": "designed",
+      "reason": "The upper floor's edge stone is bedded into the upper slab it finishes.",
+      "maxDepthM": 0.107,
+      "maxSeamM": 1.17
+    },
+    "core_arrival_paths__travertine paving stone | core_retreat_liftaway_roof": {
+      "verdict": "designed",
+      "reason": "Where the east path crosses the rooms' lift-away roof it is bedded in that roof's surface, and its stretch there lifts away with it.",
+      "maxDepthM": 0.144,
+      "maxSeamM": 4.67
     },
     "core_bathwing_lower_slab__warm cut stone | core_retreat_gallery__warm cut stone": {
       "verdict": "hidden",

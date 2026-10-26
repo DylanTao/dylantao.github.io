@@ -135,9 +135,12 @@ test("the delivered main entrance continuously descends into the living floor an
   t.diagnostic(JSON.stringify({ inward, outward, field: field.evidence() }));
 });
 
-test("the optional upper private entrance remains traversable in both directions", async (t) => {
-  const route = manifest.privateEntrance?.route;
-  assert.ok(route?.length >= 2, "the optional private entry has an authored route");
+test("the stair hall's landing door joins the upper floor in both directions", async (t) => {
+  // One stair (Sirui, October 24): from the living aisle through the pivot door, up the hall's
+  // first flight to its landing, and through the landing's pocket door onto the upper floor.
+  const route = [...manifest.navigation.lowerStairApproach, ...manifest.navigation.stairs];
+  assert.equal(manifest.privateEntrance, undefined, "the private onsen spiral is retired");
+  assert.equal(route.at(-1)[1], 2.6, "the house stair ends on the upper floor");
   const field = await deliveredField();
   const inward = traverse(field, route),
     outward = traverse(field, [...route].reverse());
@@ -152,7 +155,7 @@ test("the clifftop walking field extends beyond the entrance over real terrain",
     [3.42, 25],
     [0, 25],
     [-3, 25],
-    [-3, 23],
+    [-3, 24.2],
   ]) {
     const foot = field.floorBelow(x, z, 12);
     assert.ok(Number.isFinite(foot), `real native clifftop support at ${x}, ${z}`);

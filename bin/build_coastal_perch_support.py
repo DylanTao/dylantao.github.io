@@ -92,24 +92,27 @@ def main():
     delivered_vertices = [vertex for triangle in delivered_triangles for vertex in triangle]
     delivered_bvh = BVHTree.FromPolygons(delivered_vertices,
         [tuple(range(i, i + 3)) for i in range(0, len(delivered_vertices), 3)])
-    patch = patches[0]
-    x, height, z = patch['original']
-    hit, _, _, _ = delivered_bvh.ray_cast(Vector((x, -z, height + .2)), Vector((0, 0, -1)), 1)
-    if hit is None or abs(hit.z-height) > .051:
-        raise ValueError('Displaced west perch is not supported by the delivered rock')
-    origin = Vector((x, -z, hit.z))
-    actual = []
-    for triangle in delivered_triangles:
-        if (min(v.x for v in triangle) > x + .27 or max(v.x for v in triangle) < x - .27
-                or min(v.y for v in triangle) > -z + .27 or max(v.y for v in triangle) < -z - .27
-                or min(v.z for v in triangle) > hit.z + .28 or max(v.z for v in triangle) < hit.z - .28):
-            continue
-        actual.append([coordinate for vertex in triangle for coordinate in three(vertex - origin)])
-    if not actual:
-        raise ValueError('Empty delivered west-perch patch')
-    patch['nativeOrigin'] = patch['origin']
-    patch['nativeTriangles'] = patch['triangles']
-    patch.update(origin=three(origin), triangles=actual, contactGeometry='decoded delivered shell/coast')
+    # The gallery rail (moved west of the onsen's screen on October 25) is a thin honey ash rail in
+    # a house-wide batch, quantized to about a millimetre: it takes the same delivered contact.
+    for index, label in ((0, 'west perch'), (3, 'gallery rail')):
+        patch = patches[index]
+        x, height, z = patch['original']
+        hit, _, _, _ = delivered_bvh.ray_cast(Vector((x, -z, height + .2)), Vector((0, 0, -1)), 1)
+        if hit is None or abs(hit.z-height) > .051:
+            raise ValueError(f'The {label} is not supported by the delivered geometry')
+        origin = Vector((x, -z, hit.z))
+        actual = []
+        for triangle in delivered_triangles:
+            if (min(v.x for v in triangle) > x + .27 or max(v.x for v in triangle) < x - .27
+                    or min(v.y for v in triangle) > -z + .27 or max(v.y for v in triangle) < -z - .27
+                    or min(v.z for v in triangle) > hit.z + .28 or max(v.z for v in triangle) < hit.z - .28):
+                continue
+            actual.append([coordinate for vertex in triangle for coordinate in three(vertex - origin)])
+        if not actual:
+            raise ValueError(f'Empty delivered {label} patch')
+        patch['nativeOrigin'] = patch['origin']
+        patch['nativeTriangles'] = patch['triangles']
+        patch.update(origin=three(origin), triangles=actual, contactGeometry='decoded delivered shell/coast')
 
     existing = set(bpy.context.scene.objects)
     bpy.ops.import_scene.gltf(filepath=str(glb))

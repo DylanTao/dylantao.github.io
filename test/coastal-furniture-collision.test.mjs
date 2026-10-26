@@ -109,7 +109,8 @@ test("delivered placeholders supply identical collision before index arrival and
   });
   assert.equal(proxies.length, manifest.furniture.length);
   const staticProxies = proxies.filter((o) => o.userData.furnitureCollision);
-  assert.equal(staticProxies.length, 14);
+  // Sixteen static pieces, including the nook banquette and the living's cloud sofa (October 24).
+  assert.equal(staticProxies.length, 16);
   for (const object of proxies) {
     const anchor = manifest.furniture.find((a) => a.id === object.userData.furniturePlaceholder),
       movable = Boolean(anchor.activityProp) || ["cast-iron-pan", "dumbbell"].includes(anchor.item);

@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builtVertices": {
+    "core_arrival_paths__travertine paving stone": 570,
+    "core_arrival_court__warm cut stone": 1136,
+    "core_arrival_court__travertine paving stone": 154,
+    "core_arrival_court__honey ash": 408,
+    "core_arrival_court__golden coastal sandstone": 1001,
+    "core_arrival_court__facade low-iron glass": 240,
+    "core_arrival_court__estate warm opal diffuser": 24
+  },
+  "clearance": 2.2,
+  "touch": 1.0,
+  "removedParts": {
+    "hinterland_flora_09_09": 6,
+    "hinterland_flora_10_09": 6
+  },
+  "export": {
+    "bytes": 1465588
+  }
+}

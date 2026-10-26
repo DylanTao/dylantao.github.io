@@ -16,7 +16,10 @@ const exactEdge = ([a, b], route) => edges(route).some(([x, y]) => (near(a, x) &
 const mainStair = (pair) => exactEdge(pair, config.navigation.stairs);
 const privateStair = (pair) => exactEdge(pair, config.estateLibrary?.privateConnection || []);
 const interstorey = (pair) => mainStair(pair) || privateStair(pair);
-const mainRisers = config.retreat ? 16 : 15;
+// The October 24 stair hall's first flight climbs the 2.6 m storey in 15 risers (14 treads and the landing).
+const mainRisers = config.entrance?.hall ? 15 : config.retreat ? 16 : 15;
+// The bedroom-study spiral keeps its own 16 risers.
+const privateRisers = 16;
 const setback = Number(config.retreat?.setbackMetres) || 0;
 const sunken = new Set(["kitchen", "lounge"]);
 
@@ -35,7 +38,8 @@ test("all room pairs begin and end on their actual supports and cross the correc
         local = changes.filter((pair) => !interstorey(pair));
       if (from.egress[1] === to.egress[1]) assert.equal(central.length, 0, `${name}: same corridor level never visits the main stair`);
       else {
-        assert.equal(central.length, mainRisers, `${name}: all exact authored interstorey risers`);
+        const expected = route.connection === "bedroom-study" ? privateRisers : mainRisers;
+        assert.equal(central.length, expected, `${name}: all exact authored interstorey risers`);
         const direction = Math.sign(to.egress[1] - from.egress[1]);
         central.forEach(([a, b]) => {
           assert.ok(mainStair([a, b]) || privateStair([a, b]), `${name}: each exact curved or spiral tread is retained`);
@@ -111,7 +115,9 @@ test("floor contact follows every actual curved or legacy tread and its supporte
   for (const [a, b] of risers) {
     // Legacy route points include tread edges. Probe the actual polygon's
     // centre, independently of which adjacent edge a half-open test chooses.
-    const treads = config.terrain.supportSurfaces.filter((s) => /^(tread-|retreat-house-tread-)/.test(s.id) && Math.abs(s.height - b[1]) < 1e-4);
+    const treads = config.terrain.supportSurfaces.filter(
+      (s) => /^(tread-|retreat-house-tread-|arrival-hall-tread-|arrival-hall-upper-landing)/.test(s.id) && Math.abs(s.height - b[1]) < 1e-4
+    );
     const centres = treads.map((s) => [
       s.polygon.reduce((sum, p) => sum + p[0], 0) / s.polygon.length,
       s.polygon.reduce((sum, p) => sum + p[1], 0) / s.polygon.length,

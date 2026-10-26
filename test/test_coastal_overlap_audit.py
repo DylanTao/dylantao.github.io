@@ -23,8 +23,11 @@ MAX_ZFIGHT_AREA_M2 = 2.2
 MAX_ZFIGHT_PAIR_M2 = 0.35
 MAX_GRAZING_SEAM_M = 5.6
 MAX_DELIVERED_ZFIGHT_AREA_M2 = 2.5
-MAX_DEEP_OVER_5CM = 315
-MAX_DEEP_SEVERITY = 47500.0
+# Raised once, on October 25, for the arrival hall's designed embeds (303 -> 340 deep sites): oculus
+# rims and tubes set into the clifftop, stone door reveals and sills into the rock, path ribbons and
+# paving bedded in the ground. Each new pair among the top ranked carries its own bounded verdict.
+MAX_DEEP_OVER_5CM = 350
+MAX_DEEP_SEVERITY = 50250.0
 REVIEWED_TOP_PAIRS = 60
 VERDICTS = {"designed", "hidden", "built-into-rock", "terrain", "planting", "deferred", "follow-up"}
 

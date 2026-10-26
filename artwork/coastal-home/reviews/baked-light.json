@@ -1323,42 +1323,6 @@
       "max": 0.8216034411390623
     },
     {
-      "mesh": "core_arrival__warm cut stone",
-      "corners": 15360,
-      "min": 0.68,
-      "max": 0.9286356346557538
-    },
-    {
-      "mesh": "core_arrival__pale oak",
-      "corners": 21888,
-      "min": 0.68,
-      "max": 0.9521367282606662
-    },
-    {
-      "mesh": "core_arrival__brushed brass",
-      "corners": 1344,
-      "min": 0.68,
-      "max": 0.8718390099362782
-    },
-    {
-      "mesh": "core_arrival__honey ash",
-      "corners": 1056,
-      "min": 0.68,
-      "max": 0.8613374221604319
-    },
-    {
-      "mesh": "core_arrival__arrival step diffuser",
-      "corners": 3072,
-      "min": 0.68,
-      "max": 0.8388573695626111
-    },
-    {
-      "mesh": "core_arrival__golden coastal sandstone",
-      "corners": 768,
-      "min": 0.68,
-      "max": 0.9185308639953534
-    },
-    {
       "mesh": "sleep_reno_wardrobe__pale oak",
       "corners": 1536,
       "min": 0.68,
@@ -1411,36 +1375,6 @@
       "corners": 32,
       "min": 0.68,
       "max": 0.6841263130803903
-    },
-    {
-      "mesh": "core_arrival_lower__warm cut stone",
-      "corners": 6528,
-      "min": 0.68,
-      "max": 0.8150000000000001
-    },
-    {
-      "mesh": "core_arrival_lower__pale oak",
-      "corners": 11520,
-      "min": 0.68,
-      "max": 0.72713021385173
-    },
-    {
-      "mesh": "core_arrival_lower__brushed brass",
-      "corners": 3180,
-      "min": 0.68,
-      "max": 0.7180733962108693
-    },
-    {
-      "mesh": "core_arrival_lower__arrival step diffuser",
-      "corners": 2304,
-      "min": 0.68,
-      "max": 0.7143441333171602
-    },
-    {
-      "mesh": "core_arrival_lower__honey ash",
-      "corners": 1680,
-      "min": 0.68,
-      "max": 0.8262500053644181
     },
     {
       "mesh": "core_estate_link_ceiling_0__chalk limestone",
@@ -2533,6 +2467,162 @@
       "corners": 384,
       "min": 0.68,
       "max": 0.7372341564390809
+    },
+    {
+      "mesh": "core_arrival_wall__golden coastal sandstone",
+      "corners": 452,
+      "min": 0.68,
+      "max": 0.8712500107288361
+    },
+    {
+      "mesh": "core_arrival_hall__warm cut stone",
+      "corners": 972,
+      "min": 0.68,
+      "max": 0.6914197133310761
+    },
+    {
+      "mesh": "core_arrival_hall__golden coastal sandstone",
+      "corners": 1132,
+      "min": 0.68,
+      "max": 0.770000002682209
+    },
+    {
+      "mesh": "core_arrival_hall__pale oak",
+      "corners": 4512,
+      "min": 0.68,
+      "max": 0.7042555802781135
+    },
+    {
+      "mesh": "core_arrival_hall__honey ash",
+      "corners": 1752,
+      "min": 0.68,
+      "max": 0.7393168600896995
+    },
+    {
+      "mesh": "core_arrival_hall__brushed brass",
+      "corners": 4032,
+      "min": 0.68,
+      "max": 0.7372460486988227
+    },
+    {
+      "mesh": "core_arrival_hall__estate warm opal diffuser",
+      "corners": 1344,
+      "min": 0.68,
+      "max": 0.7502747413143516
+    },
+    {
+      "mesh": "core_arrival_door_main__golden coastal sandstone",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7147062665596605
+    },
+    {
+      "mesh": "core_arrival_door_main__brushed brass",
+      "corners": 168,
+      "min": 0.68,
+      "max": 0.6912500003352762
+    },
+    {
+      "mesh": "core_arrival_door_upper__pale oak",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.691730146513631
+    },
+    {
+      "mesh": "core_arrival_door_upper__brushed brass",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6805530373309739
+    },
+    {
+      "mesh": "core_arrival_court__warm cut stone",
+      "corners": 4536,
+      "min": 0.68,
+      "max": 0.9509626392275096
+    },
+    {
+      "mesh": "core_arrival_court__golden coastal sandstone",
+      "corners": 3960,
+      "min": 0.68,
+      "max": 0.9510520162060857
+    },
+    {
+      "mesh": "core_arrival_court__estate warm opal diffuser",
+      "corners": 96,
+      "min": 0.6803687055238212,
+      "max": 0.7399488877505065
+    },
+    {
+      "mesh": "core_arrival_court__honey ash",
+      "corners": 1632,
+      "min": 0.68,
+      "max": 0.7666253140072028
+    },
+    {
+      "mesh": "core_arrival_court__travertine paving stone",
+      "corners": 608,
+      "min": 0.68,
+      "max": 0.9392511321231723
+    },
+    {
+      "mesh": "core_arrival_paths__travertine paving stone",
+      "corners": 2040,
+      "min": 0.68,
+      "max": 0.9505856080446393
+    },
+    {
+      "mesh": "core_arrival_paths_roof__travertine paving stone",
+      "corners": 228,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_arrival_living__chalk limestone",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7028238167256738
+    },
+    {
+      "mesh": "core_arrival_living__golden coastal sandstone",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.6928375768164794
+    },
+    {
+      "mesh": "core_arrival_living__warm cut stone",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7362500026822091
+    },
+    {
+      "mesh": "core_arrival_living__honey ash",
+      "corners": 1368,
+      "min": 0.68,
+      "max": 0.7285031635065874
+    },
+    {
+      "mesh": "core_arrival_living__brushed brass",
+      "corners": 2352,
+      "min": 0.68,
+      "max": 0.7178511064002913
+    },
+    {
+      "mesh": "core_arrival_living__estate warm opal diffuser",
+      "corners": 96,
+      "min": 0.6800092483784101,
+      "max": 0.7275882308123013
+    },
+    {
+      "mesh": "onsen_privacy__cedar wood",
+      "corners": 2592,
+      "min": 0.68,
+      "max": 0.78125
+    },
+    {
+      "mesh": "onsen_privacy__warm cut stone",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7309815651178361
     }
   ]
 }

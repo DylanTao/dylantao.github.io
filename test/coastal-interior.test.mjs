@@ -34,6 +34,9 @@ const ITEMS = new Set([
   "cast-iron-pan",
   "dumbbells",
   "dumbbell",
+  // October 24: the nook banquette and the living's cloud sofa are streamed pieces too.
+  "banquette",
+  "cloud-sofa",
 ]);
 
 test("furniture anchors follow the shared interface", () => {
@@ -132,36 +135,45 @@ test("the ground floor's walk passes behind the dining room, clear of its table"
   assert.equal(nav.lowerStairApproach[0][2], nav.lowerAisleZ);
 });
 
-test("clifftop arrival is a connected supported stair with native capsule clearance", () => {
+test("clifftop arrival is one connected stair hall with native capsule clearance", () => {
+  // Sirui, October 24: one stair, in a hall cut into the rock behind the living's back wall; the
+  // main entrance is a pivot door in that wall, and the hall's landing door serves the upper floor.
   const entry = manifest.entrance;
   const measured = JSON.parse(
     fs.readFileSync(new URL("../artwork/coastal-home/reviews/retreat-2026-10-24/native-contacts.json", import.meta.url), "utf8")
   );
   const contacts = measured.samples.filter((sample) => sample.route === "main-entry");
-  const treads = manifest.terrain.supportSurfaces.filter((surface) => surface.id.startsWith("retreat-arrival-tread-"));
+  const flight = (key) => manifest.terrain.supportSurfaces.filter((surface) => surface.id.startsWith(`arrival-hall-tread-${key}`));
+  const [a, b, c] = ["A", "B", "C"].map(flight);
   assert.equal(entry.floor, 0, "the main arrival reaches public living directly");
-  assert.equal(entry.curved, true);
-  assert.equal(treads.length, 48);
-  assert.ok(Math.abs(entry.riser * treads.length - entry.top) < 1e-8);
-  assert.ok(
-    Math.abs(entry.going - (6 * Math.PI * 0.6) / 48) < 1e-9,
-    "the curved centre spacing is measured independently of its overlapping 31cm tread patches"
-  );
+  assert.ok(entry.hall && entry.pivotDoor, "a stair hall and a pivot door in the back wall");
+  assert.deepEqual([a.length, b.length, c.length], [14, 15, 15], "three straight flights around the well");
+  const landing = (id) => manifest.terrain.supportSurfaces.find((surface) => surface.id === id).height;
+  const rises = [
+    [a, 0, landing("arrival-hall-upper-landing")],
+    [b, landing("arrival-hall-upper-landing"), landing("arrival-hall-mid-landing")],
+    [c, landing("arrival-hall-mid-landing"), entry.top],
+  ];
+  for (const [treads, bottom, top] of rises) {
+    const heights = treads.map((tread) => tread.height).sort((p, q) => p - q),
+      riser = (top - bottom) / (treads.length + 1);
+    assert.ok(riser > 0.15 && riser < 0.19, `even risers below 19 cm: ${riser}`);
+    heights.forEach((height, i) => assert.ok(Math.abs(height - bottom - (i + 1) * riser) < 1e-3, "every riser in a flight is equal"));
+  }
+  assert.equal(landing("arrival-hall-upper-landing"), 2.6, "the landing door sits at the upper floor");
+  assert.ok(Math.abs(entry.going - 0.28) < 1e-9 && entry.stairWidth >= 1.2);
   assert.equal(contacts.length, manifest.walk.mainEntryRoute.length);
-  assert.ok(entry.stairWidth >= 1.5 && entry.riser < 0.19);
   for (const tread of contacts) {
     assert.ok(tread.headroom > 2.1);
     assert.ok(tread.floorError < 0.01);
-  }
-  for (const [i, tread] of treads.entries()) {
-    if (i) assert.ok(Math.abs(treads[i - 1].height - tread.height - entry.riser) < 1e-5);
   }
   for (const p of entry.route) {
     assert.ok(Math.abs(supportHeight(p[0], p[2], manifest.terrain, p[1]) - p[1]) < 0.03);
   }
   assert.deepEqual(manifest.walk.mainEntryRoute[0], manifest.walk.start.position);
   assert.equal(manifest.walk.mainEntryRoute.at(-1)[1], 0);
-  assert.equal(manifest.privateEntrance.route.at(-1)[1], 2.6, "the discreet separate arrival retains private onsen access");
+  assert.equal(manifest.privateEntrance, undefined, "the private onsen spiral is retired");
+  assert.equal(manifest.navigation.stairs.at(-1)[1], 2.6, "the house stair reaches the upper floor through the landing door");
   assert.equal(measured.passed, true, "actual native floor/headroom/body probes pass, alongside the delivered capsule suite");
 });
 

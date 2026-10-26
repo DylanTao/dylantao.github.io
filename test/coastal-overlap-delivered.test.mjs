@@ -56,9 +56,10 @@ const overlaps = (p, q, inset = 0.01) => p.x0 < q.x1 - inset && q.x0 < p.x1 - in
 
 test("retreat stone beds sit under their oak boards and tread caps, never flush with them", async () => {
   const root = await nativeGeometry(manifest.shell);
-  for (const module of ["library", "arrival", "clifftop", "house_stair"]) {
-    const stone = tops(triangles(root, (name) => name === `core_retreat_${module}__warm cut stone`));
-    const oak = tops(triangles(root, (name) => name === `core_retreat_${module}__pale oak`));
+  // The retreat's arrival and house stairs are retired; the arrival hall's flights replace them.
+  for (const module of ["core_retreat_library", "core_retreat_clifftop", "core_arrival_hall"]) {
+    const stone = tops(triangles(root, (name) => name === `${module}__warm cut stone`));
+    const oak = tops(triangles(root, (name) => name === `${module}__pale oak`));
     assert.ok(stone.length && oak.length, `${module}: delivered stone and oak batches`);
     let closest = Infinity;
     for (const s of stone) for (const o of oak) if (overlaps(s, o)) closest = Math.min(closest, Math.abs(o.y - s.y));

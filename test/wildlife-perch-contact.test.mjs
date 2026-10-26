@@ -33,7 +33,11 @@ test("perch contact metadata matches retained geometry and stays bounded", async
   assert.equal(data.coastSha256, hash("../artwork/coastal-home/coastal-home.blend"));
   assert.equal(data.gullSha256, hash("../assets/models/home/WesternGull.glb"));
   for (const [name, expected] of Object.entries(data.deliveredSha256)) assert.equal(expected, hash(`../assets/models/home/${name}`));
-  assert.ok(data.patches[0].nativeTriangles.length > 0, "the complete original native patch remains inspectable beside delivered contact geometry");
+  for (const index of [0, 3])
+    assert.ok(
+      data.patches[index].nativeTriangles.length > 0,
+      "the complete original native patch remains inspectable beside delivered contact geometry"
+    );
   assert.ok(file.byteLength < 32 * 1024);
   // Three coast perches and the gallery rail for the gulls, four rock roosts for the cormorants.
   assert.deepEqual(
@@ -46,8 +50,8 @@ test("perch contact metadata matches retained geometry and stays bounded", async
   for (const foot of Object.values(data.feet))
     assert.ok(foot.sole.length > 100 && foot.sole.length < 256 && foot.legLength > 0.11 && foot.legLength < 0.12);
   // Compare Blender-surveyed contacts with independently decoded browser triangles. The
-  // displaced west perch retains both its native patch and its exact delivered contact patch;
-  // the rail retains its native patch. Historical absolute coordinates miss real source drift.
+  // displaced west perch and the gallery rail retain both their native patch and their exact
+  // delivered contact patch. Historical absolute coordinates miss real source drift.
   const roots = await Promise.all(["home-shell.glb", "coast.glb"].map((file) => nativeGeometry(file)));
   for (const [index, x, z] of [
     [0, manifest.terrain.perches[0][0] - 0.091734886169434, manifest.terrain.perches[0][2] + 0.1014457941055298],

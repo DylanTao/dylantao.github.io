@@ -50,11 +50,18 @@ async function deliveredField(config) {
 test("native roof planting follows only its actual retained support and companion paths have one final-frame source", async () => {
   const config = manifest();
   const root = await nativeGeometry(config.shell);
-  const plants = [];
+  const plants = [],
+    owned = [];
   root.traverse((node) => {
-    if (node.userData.cutawayVegetationSupport) plants.push(node);
+    if (node.userData.cutawayVegetationSupport) (node.userData.roofPlanting ? plants : owned).push(node);
   });
   assert.equal(plants.length, 3, "only three measured roof-supported leaf batches are partitioned");
+  // The arrival's clifftop path also hands its stretch on the rooms' roof to that roof.
+  assert.deepEqual(
+    owned.map((node) => node.name),
+    ["core_arrival_paths_roof__travertine paving stone"]
+  );
+  plants.push(...owned);
   for (const plant of plants) {
     const support = root.getObjectByName(plant.userData.cutawayVegetationSupport);
     assert.ok(support?.userData.caveRoof, `${plant.name}: actual native liftaway roof remains present`);
@@ -157,7 +164,7 @@ function dryPromenade(field, BODY, config) {
 }
 
 test(
-  "estate circulation: delivered Draco joins both independent entrances, tall study, bedroom spiral and dry patio",
+  "estate circulation: delivered Draco joins the arrival, the house stair, tall study, bedroom spiral and dry patio",
   { timeout: 300000 },
   async (t) => {
     const config = manifest();
@@ -169,7 +176,8 @@ test(
     assert.equal(upper?.library, undefined, "the private living room is not a second library floor");
     assert.equal(config.rooms.find((room) => room.id === "study").floor, 0);
     assert.equal(config.entrance.floor, 0);
-    assert.equal(config.entrance.curved, true);
+    assert.ok(config.entrance.hall && config.entrance.pivotDoor, "one stair hall behind the pivot door in the back wall");
+    assert.equal(config.privateEntrance, undefined, "the private onsen spiral is retired");
     assert.ok(config.retreat.setbackMetres >= 8, "house/terrace are actually inset into the native rock");
     assert.ok(lower.actor[0] < -8, "library is screen-right when viewed inland from the sea");
     const { field, BODY, hiddenStructure, movingLeaves } = await deliveredField(config);
@@ -188,7 +196,7 @@ test(
     }
     try {
       bothWays("main entry", config.walk.mainEntryRoute);
-      bothWays("private onsen entry", config.privateEntrance.route);
+      bothWays("house stair to the upper floor", [...config.navigation.lowerStairApproach, ...config.navigation.stairs]);
       bothWays("lower library", lower.library.route);
       bothWays("working study", config.rooms.find((room) => room.id === "study").library.route);
       const gym = config.rooms.find((room) => room.id === "gym");
