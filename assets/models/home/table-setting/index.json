@@ -207,13 +207,13 @@
       },
       "cup": {
         "rim": 0.097,
+        "rimRadius": 0.052,
         "originHeight": 0.047,
         "gripRadius": 0.064,
         "gripHeight": 0.045,
         "handle": true,
         "saucerLift": 0.012,
-        "cremaDrop": 0.05,
-        "rimRadius": 0.052
+        "cremaDrop": 0.05
       }
     }
   },
@@ -545,15 +545,15 @@
       "lods": [
         {
           "file": "dish-poke-bowl-lod1.glb",
-          "triangles": 4599,
-          "bytes": 27224,
-          "sha256": "ba340074b91fc3083f2b03f2036d36356510afd0bab5df923107be350a32949e"
+          "triangles": 4671,
+          "bytes": 27408,
+          "sha256": "42f3c96b9a9c01e8599f3d3f5a6073be3931dfb1fc477dd1dc9502694f79a8e7"
         },
         {
           "file": "dish-poke-bowl-lod0.glb",
-          "triangles": 8442,
-          "bytes": 39004,
-          "sha256": "87eb713f48da3609a578558401436d6af1ec88d4fa52c42956f6f8119daa9187",
+          "triangles": 8589,
+          "bytes": 39232,
+          "sha256": "9532d73a2bbdbac5f9771c5b027a42ca6cd9cf9dd5658d8f948681507ae96ad8",
           "near": 1.9,
           "fullscreen": true
         }
@@ -568,9 +568,9 @@
         [-0.0427, 0.0578, -0.004],
         [-0.0175, 0.0576, -0.0055],
         [0.0287, 0.0568, -0.0176],
-        [0.0209, 0.0487, -0.0363],
-        [-0.0418, 0.0487, -0.0],
-        [0.022, 0.0491, 0.038]
+        [0.0223, 0.0486, -0.0387],
+        [-0.0452, 0.0486, 0.0007],
+        [0.0229, 0.0486, 0.0396]
       ],
       "vessel": "bowl",
       "radius": 0.09
@@ -796,15 +796,15 @@
       "lods": [
         {
           "file": "dish-shrimp-bowl-lod1.glb",
-          "triangles": 3479,
-          "bytes": 26616,
-          "sha256": "26de34eed56c9a9ab240655014ae469b3b41c25a5b94c411a6e8a4054d71bcbc"
+          "triangles": 3551,
+          "bytes": 26688,
+          "sha256": "c57fc06a3ceb10d5fd1403a210d738a553db8381ac6976e2be50f48b6b440ba6"
         },
         {
           "file": "dish-shrimp-bowl-lod0.glb",
-          "triangles": 5609,
-          "bytes": 30732,
-          "sha256": "3236a18384e102ae6fc50d385f905f536a7a2d0f1d2f177b311aaa184f4d8422",
+          "triangles": 5765,
+          "bytes": 31536,
+          "sha256": "49e675d613b9220d89f3e9a7c1213c6ac79390033a07d584b2e6776176f38a38",
           "near": 1.9,
           "fullscreen": true
         }
@@ -817,9 +817,9 @@
         [-0.0137, 0.0437, 0.0394],
         [0.0273, 0.0437, 0.0316],
         [-0.012, 0.0425, 0.012],
-        [-0.0232, 0.0329, -0.0451],
-        [-0.0271, 0.0331, 0.0422],
-        [0.0482, 0.0333, 0.0023]
+        [-0.0236, 0.0329, -0.0458],
+        [-0.0275, 0.0329, 0.0444],
+        [0.0528, 0.0329, 0.0025]
       ],
       "vessel": "bowl",
       "radius": 0.13

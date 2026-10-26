@@ -371,8 +371,9 @@ def cylinder(center, radius, height, segments=24, bevel=0.0, turn=(0.0, 0.0)):
     return rotated
 
 
-def bumpy(make, amount, scale=180.0, seed=0.0, up_only=False):
-    """Run `make`, then push its vertices along their normals by noise: crumb, mash, cream, rice."""
+def bumpy(make, amount, scale=180.0, seed=0.0, up_only=False, vertical=False):
+    """Run `make`, then push its vertices along their normals by noise: crumb, mash, cream, rice.
+    `vertical` pushes straight up instead, so wedges cut from one mound stay joined at their seams."""
 
     def run(bm):
         temp = bmesh.new()
@@ -384,7 +385,7 @@ def bumpy(make, amount, scale=180.0, seed=0.0, up_only=False):
             if up_only and v.normal.z < 0.2:
                 continue
             d = noise.noise(Vector((v.co.x * scale + seed, v.co.y * scale, v.co.z * scale)))
-            v.co += v.normal * (amount * d)
+            v.co += (Vector((0.0, 0.0, 1.0)) if vertical else v.normal) * (amount * d)
         data = bpy.data.meshes.new("tmp")
         temp.to_mesh(data)
         temp.free()

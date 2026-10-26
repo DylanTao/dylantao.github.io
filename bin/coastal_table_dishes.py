@@ -308,9 +308,14 @@ def dish_poke(b):
     # avocado, cucumber half-moons, edamame, nori, scallion.
     prof = [(0.0, floor), (0.07, floor + 0.012), (0.074, floor + 0.026), (0.05, floor + 0.034), (0.0, floor + 0.036)]
     rice = speckle((244, 240, 228), (210, 204, 190), 0.3, 1800)
+    # The spoonfuls meet without a gap and share one grain noise, so the rice reads as one surface
+    # (a gap or a per-spoonful noise drew thin dark seams across it at the table).
     for k in range(3):
-        a0, a1 = k * TAU / 3 + 0.003, (k + 1) * TAU / 3 - 0.003
-        b.add("food", bumpy(lathe(prof, (0, 0, 0), q["lathe"], a0, a1), 0.0012, 500.0, k, up_only=True), rice, piece=[10, 11, 12][k])
+        a0, a1 = k * TAU / 3, (k + 1) * TAU / 3
+        b.add("food", bumpy(lathe(prof, (0, 0, 0), q["lathe"], a0, a1), 0.0012, 500.0, 0, up_only=True, vertical=True), rice, piece=[10, 11, 12][k])
+    # A layer of rice that stays under the spoonfuls: a spoonful eaten shows rice rather than the
+    # dark glaze of the bowl.
+    b.add("food", lathe([(0.0, floor + 0.0005), (0.068, floor + 0.004), (0.07, floor + 0.01), (0.0, floor + 0.01)], (0, 0, 0), q["lathe"]), rice)
     top = floor + 0.034
     tuna = speckle((196, 40, 62), (250, 246, 236), 0.07, 1500)
     spots = [(-0.042, 0.022, 0.3), (-0.028, 0.033, 1.1), (-0.03, 0.012, 0.7), (-0.016, 0.026, 2.0), (-0.044, 0.004, 1.6), (-0.018, 0.008, 0.2)]
@@ -432,8 +437,10 @@ def dish_shrimp_bowl(b):
     prof = [(0.0, floor), (0.08, floor + 0.004), (0.084, floor + 0.012), (0.06, floor + 0.02), (0.0, floor + 0.022)]
     quinoa = speckle((222, 204, 162), (150, 108, 70), 0.22, 1700)
     for k in range(3):
-        a0, a1 = k * TAU / 3 + 1.0 + 0.003, (k + 1) * TAU / 3 + 1.0 - 0.003
-        b.add("food", bumpy(lathe(prof, (0, 0, 0), q["lathe"], a0, a1), 0.0012, 600.0, k, up_only=True), quinoa, piece=[8, 9, 10][k])
+        a0, a1 = k * TAU / 3 + 1.0, (k + 1) * TAU / 3 + 1.0
+        b.add("food", bumpy(lathe(prof, (0, 0, 0), q["lathe"], a0, a1), 0.0012, 600.0, 0, up_only=True, vertical=True), quinoa, piece=[8, 9, 10][k])
+    # The quinoa that stays under the spoonfuls, as under the poke bowl's rice.
+    b.add("food", lathe([(0.0, floor + 0.0005), (0.078, floor + 0.003), (0.08, floor + 0.007), (0.0, floor + 0.007)], (0, 0, 0), q["lathe"]), quinoa)
     top = floor + 0.02
     shrimp = lambda p, n: (232, 120, 78) if math.sin(math.atan2(p.y, p.x) * 40) > 0.55 else (244, 152, 106)
     for k in range(6):
