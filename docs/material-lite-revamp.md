@@ -87,9 +87,9 @@ The October 18 pass gave cards and their controls one frosted glass material: a 
 
 ## Brand Mark
 
-The mark is an orange that is also the sun going down into the Pacific below the house: an inline SVG in `_includes/brand-orange.liquid`, the same on every visit. Two sea lines cross the lower half of the fruit as a mask in the mark's own space; on hover or keyboard focus the fruit and its leaf dip a little into them while the lines stay level. Sirui chose this direction on 2026-10-26 from three shown side by side, after a study of Susan Kare's icon lessons (credited in `WEBSITE_DESIGN_HEURISTICS.md`): a mark should be meaningful and memorable, and, as she passed on from Paul Rand, nobody should play with it until people know it well.
+The mark is an orange that is also the sun going down into the Pacific below the house: an inline SVG in `_includes/brand-orange.liquid`, the same on every visit. Sirui chose this concept on 2026-10-26, after a study of Susan Kare's icon lessons (credited in `WEBSITE_DESIGN_HEURISTICS.md`): a mark should be meaningful and memorable, and, as she passed on from Paul Rand, nobody should play with it until people know it well. His follow-up rejected the execution. The PC pass removes its glossy highlight, halo and stacked horizontal bands: one curved sea cut now crosses a flat orange disk, with a simpler leaf. On hover or keyboard focus the fruit and leaf dip a little while the sea cut stays level; the leaf is still at rest.
 
-The browser tab and home screen show the same mark. `assets/img/favicon.svg` draws it on a 16-pixel grid with the sea lines on whole pixel rows, and `node bin/build_brand_icons.cjs` rasterizes it into `favicon.ico` (16, 32 and 48 px) and the 180 px `apple-touch-icon.png`. Edit the SVG, rerun the script, inspect the 16 px entry magnified and commit all three.
+The browser tab and home screen show the same mark. `assets/img/favicon.svg` and the navbar use the same geometry on a 16-pixel grid, and `node bin/build_brand_icons.cjs` rasterizes the SVG into `favicon.ico` (16, 32 and 48 px) and the 180 px `apple-touch-icon.png`. Edit both SVG sources, rerun the script, inspect the actual 16 px entry at native size and magnified in light and dark, and commit all three icon assets.
 
 The procedural orange that used to change in the navbar on every load now grows on the 404 page (`_includes/orange-specimen.liquid`, driven by `assets/js/brand-orange.js`). Add `?orangeSeed=...` there when one generated orange needs repeatable inspection.
 
@@ -98,8 +98,8 @@ Keep the stem and leaf: they stop the mark reading as a plain retro sun. Do not 
 Keep these behaviors intact:
 
 - no layout shift: the mark is static markup and needs no script;
-- the orange sun stays readable in all four themes, with the page showing through the sea lines;
-- the dip, leaf sway and press motion stop under `prefers-reduced-motion: reduce`;
+- the orange sun stays readable in all four themes, with the page showing through the sea cut;
+- the dip and press motion stop under `prefers-reduced-motion: reduce`;
 - clicking the logo still navigates home;
 - no heavy animation or 3D dependency for the navbar mark.
 

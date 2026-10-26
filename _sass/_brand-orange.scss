@@ -11,9 +11,7 @@
   &:focus-visible .brand-orange {
     outline: var(--md-lite-focus-ring);
     outline-offset: 3px;
-    box-shadow:
-      var(--md-lite-focus-shadow),
-      0 0.72rem 1.55rem rgba(var(--global-brand-orange-rgb), 0.18);
+    box-shadow: var(--md-lite-focus-shadow);
   }
 }
 
@@ -46,16 +44,8 @@
   border: 0;
   border-radius: 0;
   background: transparent;
-  filter: drop-shadow(0 0.16rem 0.22rem rgba(var(--global-brand-orange-rgb), 0.16));
   transform-origin: 50% 58%;
-  transition:
-    filter var(--motion-standard),
-    transform var(--motion-standard);
-}
-
-.navbar.navbar-light .site-brand:hover .brand-orange,
-.navbar.navbar-light .site-brand:focus-visible .brand-orange {
-  filter: drop-shadow(0 0.22rem 0.32rem rgba(var(--global-brand-orange-rgb), 0.22)) saturate(1.04);
+  transition: transform var(--motion-standard);
 }
 
 .navbar.navbar-light .site-brand:active .brand-orange {
@@ -71,7 +61,7 @@
   pointer-events: none;
 }
 
-// The sun sets a little into the sea while the pointer rests on the mark. The sea lines are the
+// The sun sets a little into the sea while the pointer rests on the mark. The single sea cut is the
 // mask around the body, so they stay level while the fruit and its leaf sink.
 .site-brand-mark .brand-orange-crown,
 .site-brand-mark .brand-orange-body-shell {
@@ -82,21 +72,24 @@
 .site-brand:hover .site-brand-mark .brand-orange-body-shell,
 .site-brand:focus-visible .site-brand-mark .brand-orange-crown,
 .site-brand:focus-visible .site-brand-mark .brand-orange-body-shell {
-  transform: translateY(2.6px);
+  transform: translateY(0.65px);
 }
 
 .site-brand-mark .brand-orange-body {
-  fill: url("#brand-orange-sun-gradient");
+  fill: var(--brand-orange-rind);
 }
 
-// A setting sun is golden above and redder at its lower limb, nearest the horizon.
-.brand-orange-sun-top {
-  stop-color: color-mix(in srgb, var(--brand-orange-highlight) 46%, var(--brand-orange-rind));
+.site-brand-mark .brand-orange-stem {
+  stroke-width: 0.75;
 }
 
-.brand-orange-glint {
-  fill: #fff;
-  opacity: 0.36;
+.site-brand-mark .brand-orange-leaf-group {
+  animation: none;
+}
+
+.site-brand-mark .brand-orange-leaf {
+  fill: #4e9b50;
+  stroke: none;
 }
 
 .orange-specimen {

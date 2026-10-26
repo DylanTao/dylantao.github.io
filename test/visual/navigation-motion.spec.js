@@ -1,7 +1,62 @@
 const { test, expect } = require("@playwright/test");
-const { preparePage, collectRuntimeErrors } = require("./helpers");
+const { PNG } = require("pngjs");
+const { writeFile } = require("node:fs/promises");
+const { preparePage, collectRuntimeErrors, screenshotDiffRatio } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
 const { pauseSceneClock } = require("./scene-clock");
+
+function readingShapeDifference(actual, reference) {
+  const a = PNG.sync.read(actual),
+    b = PNG.sync.read(reference);
+  // Native mobile scrolling can settle by one device pixel between compositor captures.
+  // Register that whole-frame translation; a local stretch at the header still fails.
+  let best = { ratio: 1, translationY: 0 };
+  for (const translationY of [-1, 0, 1]) {
+    const height = a.height - 4;
+    const ca = new PNG({ width: a.width, height }),
+      cb = new PNG({ width: b.width, height });
+    PNG.bitblt(a, ca, 0, 2, a.width, height, 0, 0);
+    PNG.bitblt(b, cb, 0, 2 + translationY, b.width, height, 0, 0);
+    const ratio = screenshotDiffRatio(PNG.sync.write(ca), PNG.sync.write(cb), { threshold: 0.05 });
+    if (ratio < best.ratio) best = { ratio, translationY };
+  }
+  return best;
+}
+
+for (const theme of ["light", "dark"]) {
+  test(`article lines keep their shape as they pass the fixed header (${theme})`, async ({ page }, testInfo) => {
+    const errors = collectRuntimeErrors(page);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await preparePage(page, theme);
+    await page.goto(`${publicRouteUrl("/blog/2026/research-skills-starter-pack/")}?cinematic=live`, { waitUntil: "domcontentloaded" });
+    await page.evaluate(() => document.fonts.ready);
+    const paragraph = page.locator("#markdown-content p").first();
+    await expect(paragraph).toBeVisible();
+    const clip = await paragraph.evaluate(async (node) => {
+      const header = document.querySelector("#navbar");
+      // Use real scrolling and live animation. A paused/reduced-motion page can conceal a
+      // compositor-only displacement of glyphs as they cross the fixed header's lower edge.
+      for (let i = 0; i < 2; i++) {
+        window.scrollTo({ top: scrollY + node.getBoundingClientRect().top - header.getBoundingClientRect().bottom + 10, behavior: "instant" });
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      }
+      const r = node.getBoundingClientRect();
+      return { x: Math.ceil(r.x), y: Math.ceil(header.getBoundingClientRect().bottom + 1), width: Math.floor(r.width) - 1, height: 50 };
+    });
+    const reading = await page.screenshot({ clip, path: testInfo.outputPath(`reading-${theme}.png`) });
+    // The reference removes only an overlay outside the bar; it keeps fonts, theme, layout,
+    // frosted header and the actual article unchanged. Visible glyphs must retain their shape.
+    await page.addStyleTag({ content: "header#top::after { content: none !important; }" });
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    const unobstructed = await page.screenshot({ clip, path: testInfo.outputPath(`reading-reference-${theme}.png`) });
+    await testInfo.attach(`reading-${theme}`, { body: reading, contentType: "image/png" });
+    await testInfo.attach(`reading-reference-${theme}`, { body: unobstructed, contentType: "image/png" });
+    const difference = readingShapeDifference(reading, unobstructed);
+    await writeFile(testInfo.outputPath(`reading-${theme}.json`), JSON.stringify({ clip, ...difference, errors }, null, 2));
+    expect(difference.ratio, "the reading edge must not bend article glyphs").toBeLessThan(0.002);
+    expect(errors).toEqual([]);
+  });
+}
 
 test("theme stops remain available during comparisons and Escape returns focus", async ({ page }) => {
   const errors = collectRuntimeErrors(page);

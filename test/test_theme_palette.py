@@ -362,7 +362,7 @@ class CoastalThemePaletteTests(unittest.TestCase):
 
         brand = BRAND_ORANGE_PATH.read_text(encoding="utf-8")
         self.assertIn("--brand-orange-rind: var(--global-brand-orange-color);", brand)
-        self.assertGreaterEqual(brand.count("rgba(var(--global-brand-orange-rgb)"), 3)
+        self.assertIn("rgba(var(--global-brand-orange-rgb)", brand)
         self.assertNotIn("rgba(var(--global-accent-rgb)", brand)
         self.assertNotIn('[data-theme-mode="', brand)
 

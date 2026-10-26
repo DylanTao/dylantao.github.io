@@ -1,5 +1,6 @@
 """The site mark is one orange sun in the navbar, the browser tab and on the home screen."""
 
+import re
 import struct
 import unittest
 from pathlib import Path
@@ -30,9 +31,10 @@ class BrandMarkTest(unittest.TestCase):
 
         svg = (IMG / "favicon.svg").read_text(encoding="utf-8")
         self.assertIn('viewBox="0 0 16 16"', svg)
-        # Sea lines on whole pixel rows stay crisp at 16, 32 and 48 px.
-        self.assertIn('<rect y="11" width="16" height="1"', svg)
-        self.assertIn('<rect y="13" width="16" height="1"', svg)
+        # The navbar and tiny icon share geometry, rather than drifting into different marks.
+        mark = (REPO_ROOT / "_includes" / "brand-orange.liquid").read_text(encoding="utf-8")
+        for geometry in re.findall(r'\b(?:d|cx|cy|r)="([^"]+)"', svg):
+            self.assertIn(f'="{geometry}"', mark)
 
         ico = (IMG / "favicon.ico").read_bytes()
         reserved, kind, count = struct.unpack_from("<HHH", ico, 0)

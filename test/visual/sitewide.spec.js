@@ -2012,6 +2012,7 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
     { route: "/publications/designweaver/", hash: "#designweaver", alternate: true },
     { route: "/projects/", hash: "#projects", alternate: true },
     { route: "/projects/designweaver/", hash: "#project-designweaver", alternate: true },
+    { route: "/projects/house-in-the-cliff/", hash: "#project-house-in-the-cliff", alternate: true },
     { route: "/blog/", hash: "#writing", alternate: true },
     { route: "/blog/2026/research-skills-starter-pack/", hash: "#writing", alternate: true },
     { route: "/cv/", hash: "#cv", alternate: true },
@@ -2097,6 +2098,7 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
     { hash: "#research", human: "/#focus", alternate: true },
     { hash: "#projects", human: "/projects/", alternate: true },
     { hash: "#project-designweaver", human: "/projects/designweaver/", alternate: true },
+    { hash: "#project-house-in-the-cliff", human: "/projects/house-in-the-cliff/", alternate: true },
     { hash: "#publications", human: "/publications/", alternate: true },
     { hash: "#designweaver", human: "/publications/designweaver/", alternate: true },
     { hash: "#writing", human: "/blog/", alternate: true },
@@ -2169,7 +2171,11 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.goto(publicRouteUrl("/ai/#projects"), { waitUntil: "domcontentloaded" });
   await expect(page.locator(".ai-jump-nav")).toHaveCount(0);
-  await expect(page.locator("[data-project-slug]")).toHaveCount(22);
+  await expect(page.locator("[data-project-slug]")).toHaveCount(23);
+  const houseRecord = page.locator('[data-project-slug="house-in-the-cliff"]');
+  await expect(houseRecord).toHaveCount(1);
+  await expect(houseRecord.locator('a[href$="/projects/house-in-the-cliff/"]')).toHaveText("Human project page");
+  await expect(houseRecord.locator('a[href$="/ai/projects/house-in-the-cliff.md"]')).toHaveText("Machine-readable Markdown");
   await expect(page.locator('#project-website-revamp a[href$="/projects/website-revamp/"]')).toHaveText("Human project page");
   await expect(page.locator('#writing a[href$="/blog/"]')).toHaveText("Human writing index");
   await expect(page.locator('#cv a[href$="/cv/"]')).toHaveText("Current human CV");

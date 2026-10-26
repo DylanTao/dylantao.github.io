@@ -1,0 +1,138 @@
+{
+  "baselineCommit": "4b77a54d9cda04d81ed416f38a7d4d999970753e",
+  "scope": "navbar reading edge and orange-sun mark; AI counterpart regression for new diary child",
+  "sourceSha256": {
+    ".al-folio-overrides.yml": "c2cddf437641951c17d1b0aba49e6b270489c6ad7c37d66190d4c780f221cc66",
+    "_includes/brand-orange.liquid": "ac66b9c7f5546d1b7b9ec2442339d48641584be47338dc72899a25921b0ea7bf",
+    "_sass/_brand-orange.scss": "1298b0cc0e6b57c9393e4769016c1422e80de4fc90ae45dc1398fd3668e4f4b4",
+    "_sass/_navbar.scss": "81e88b98373c4c3d3fccd86490b60480969ac55a3979b635d9c18a0e382bdb6e",
+    "assets/img/apple-touch-icon.png": "ad12c50aa0b8d46c553055281e810f9aead533863073cb935de0c54d6d6c43e9",
+    "assets/img/favicon.ico": "79effe9fad73466fed7ba932fce6c4ed9714df670f085af67e79dbf095efbac8",
+    "assets/img/favicon.svg": "d9097a81e1336480ed852a2d688c3ecfb193bc3b95c80afc2ee6e63fa25d3a94",
+    "assets/js/liquid-glass.js": "ca766c1852b23ff3632c0f9f7e9dee76bc5b6696e4005e1208fb20ba98c28956",
+    "docs/material-lite-revamp.md": "14e78600e4e8dbcebbd87becb462675c7d219afebdb3cfbcee4a9269f812da98",
+    "test/test_brand_mark.py": "f89b8ed44868e0ecf123f5ad6f57642e770e3b76de20cb0038a51bc12ce46ac7",
+    "test/test_liquid_glass.py": "a56baa17230ba1fe12ec9143a8a8b13df1252232c3fbd7c4047430fefe1e4e2b",
+    "test/test_theme_palette.py": "9ee9049b9f140a3582e4450156f9fb6b4a127fe1fd227622ea4bd84dd8e62318",
+    "test/visual/navigation-motion.spec.js": "401ca044757345d5b1008905fc9430558e8a1e6e2bdfee702ae31b5766e44421",
+    "test/visual/sitewide.spec.js": "b5c0f7596b0e15371b35031c722e91897d3b6621c7d5f4ff4345364e69d52942"
+  },
+  "readingBefore": [
+    {
+      "clip": {
+        "x": 452,
+        "y": 61,
+        "width": 535,
+        "height": 50
+      },
+      "ratio": 0.04794798862251117,
+      "translationY": 0,
+      "errors": []
+    }
+  ],
+  "readingAfter": [
+    {
+      "state": "navigation-motion-article--1d6ef-ass-the-fixed-header-light--desktop-1440",
+      "clip": {
+        "x": 452,
+        "y": 61,
+        "width": 535,
+        "height": 50
+      },
+      "ratio": 0,
+      "translationY": 0,
+      "errors": []
+    },
+    {
+      "state": "navigation-motion-article--1d6ef-ass-the-fixed-header-light--laptop-1280",
+      "clip": {
+        "x": 372,
+        "y": 61,
+        "width": 535,
+        "height": 50
+      },
+      "ratio": 0,
+      "translationY": 0,
+      "errors": []
+    },
+    {
+      "state": "navigation-motion-article--1d6ef-ass-the-fixed-header-light--mobile-390",
+      "clip": {
+        "x": 15,
+        "y": 71,
+        "width": 359,
+        "height": 50
+      },
+      "ratio": 0,
+      "translationY": -1,
+      "errors": []
+    },
+    {
+      "state": "navigation-motion-article--1d6ef-ass-the-fixed-header-light--tablet-768",
+      "clip": {
+        "x": 116,
+        "y": 61,
+        "width": 535,
+        "height": 50
+      },
+      "ratio": 0,
+      "translationY": -1,
+      "errors": []
+    },
+    {
+      "state": "navigation-motion-article--b7be2-pass-the-fixed-header-dark--desktop-1440",
+      "clip": {
+        "x": 452,
+        "y": 61,
+        "width": 535,
+        "height": 50
+      },
+      "ratio": 0,
+      "translationY": 0,
+      "errors": []
+    },
+    {
+      "state": "navigation-motion-article--b7be2-pass-the-fixed-header-dark--laptop-1280",
+      "clip": {
+        "x": 372,
+        "y": 61,
+        "width": 535,
+        "height": 50
+      },
+      "ratio": 0,
+      "translationY": 0,
+      "errors": []
+    },
+    {
+      "state": "navigation-motion-article--b7be2-pass-the-fixed-header-dark--mobile-390",
+      "clip": {
+        "x": 15,
+        "y": 71,
+        "width": 359,
+        "height": 50
+      },
+      "ratio": 0,
+      "translationY": 0,
+      "errors": []
+    },
+    {
+      "state": "navigation-motion-article--b7be2-pass-the-fixed-header-dark--tablet-768",
+      "clip": {
+        "x": 116,
+        "y": 61,
+        "width": 535,
+        "height": 50
+      },
+      "ratio": 0,
+      "translationY": 0,
+      "errors": []
+    }
+  ],
+  "images": {
+    "icon-16-comparison.png": "d6317ac95ee9ad35a3590ed91da2cb0b6a7d54fefd85dd9419d3a2ccd7ebde97",
+    "navbar-desktop-light.png": "106448d47157e2fae9193ad9ec9e7cfafda9cd5a50d2ce07d0898ec9a483ac07",
+    "navbar-phone-dark.png": "575ba62e3d859ff94d618a19e2116b3353b985604637fdd77ef13800cdc15d7b",
+    "reading-before.png": "8670e47b5b13654c7735616a87391e1f89e17ee216c43203dd2a3a9f464d9070",
+    "reading-after.png": "5816095fd6badde90b3a31c43577c02e6f049c49d026a1bdff082efcfca5130d"
+  }
+}

@@ -1,38 +1,26 @@
 {% comment %}
   The site mark: an orange that is also the sun going down into the Pacific below the house. It is
   the same on every visit; the favicon set in assets/img draws the same idea on a 16-pixel grid
-  (docs/material-lite-revamp.md, Brand Mark). The sea lines are a mask in the mark's own space, so
-  the sun can dip into them on hover while they stay level.
+  (docs/material-lite-revamp.md, Brand Mark). One curved sea cut crosses a flat orange disk. The
+  sea stays level while the sun dips a little on hover or focus.
 {% endcomment %}
 <span class="site-brand-mark brand-orange" data-brand-orange aria-hidden="true">
-  <svg class="brand-orange-svg" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
+  <svg class="brand-orange-svg" viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <defs>
-      <linearGradient id="brand-orange-sun-gradient" x1="0" x2="0" y1="16" y2="57" gradientUnits="userSpaceOnUse">
-        <stop class="brand-orange-sun-top" offset="0%"></stop>
-        <stop class="brand-orange-stop-rind" offset="52%"></stop>
-        <stop class="brand-orange-stop-deep" offset="100%"></stop>
-      </linearGradient>
-      <mask id="brand-orange-sea" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">
-        <rect width="64" height="64" fill="#fff"></rect>
-        <rect y="41" width="64" height="2.6" fill="#000"></rect>
-        <rect y="48" width="64" height="3.6" fill="#000"></rect>
-        <rect y="57" width="64" height="7" fill="#000"></rect>
+      <mask id="brand-orange-sea" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+        <rect width="16" height="16" fill="#fff"></rect>
+        <path d="M0 11C3 10 5 12 8 11S13 12 16 11V12.5C13 13.5 11 11.5 8 12.5S3 11.5 0 12.5Z" fill="#000"></path>
       </mask>
     </defs>
     <g class="brand-orange-crown">
-      <path class="brand-orange-stem" d="M32.4 17.4C32.2 14.6 33 12.4 34.8 10.6"></path>
+      <path class="brand-orange-stem" d="M8.1 4C8.05 3.25 8.3 2.55 8.8 2"></path>
       <g class="brand-orange-leaf-group">
-        <path class="brand-orange-leaf" d="M34.2 12.4C38 6.2 46.4 4.4 52.8 7.4C49.8 13.8 41.2 16.6 34.2 12.4Z"></path>
-        <path class="brand-orange-leaf-vein" d="M36.6 11.8C41.2 10 45.8 8.8 50.2 8"></path>
+        <path class="brand-orange-leaf" d="M8.6 2.8C9.2 1.1 11.3.5 13.4 1C12.7 2.7 10.5 3.5 8.6 2.8Z"></path>
       </g>
     </g>
     <g mask="url(#brand-orange-sea)">
       <g class="brand-orange-body-shell">
-        <path
-          class="brand-orange-body"
-          d="M53.4 36.2C53.4 47.8 44.4 56.8 32.4 56.8C20.4 56.8 11 48.4 11 36.6C11 24.4 20.2 15.6 32.8 15.9C45.2 16.2 53.4 25.2 53.4 36.2Z"
-        ></path>
-        <path class="brand-orange-glint" d="M17.4 34.4C17.2 26.6 23 20.6 31 20.2C25.8 23.4 22.2 28 21.4 34.2C20.4 35.6 18 35.6 17.4 34.4Z"></path>
+        <circle class="brand-orange-body" cx="8" cy="9.3" r="6"></circle>
       </g>
     </g>
   </svg>
