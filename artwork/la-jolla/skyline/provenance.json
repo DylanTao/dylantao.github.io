@@ -1,0 +1,32 @@
+{
+  "ground": {
+    "source": "USGS 3D Elevation Program (3DEP), The National Map, 3DEPElevation ImageServer",
+    "license": "U.S. Geological Survey data, public domain",
+    "request": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?bbox=-117.32%2C32.8%2C-117.18%2C32.92&bboxSR=4326&imageSR=4326&size=1120%2C960&format=tiff&pixelType=F32&interpolation=RSP_BilinearInterpolation&f=image",
+    "bounds_west_south_east_north": [-117.32, 32.8, -117.18, 32.92],
+    "pixels": [1120, 960]
+  },
+  "houses": {
+    "source": "OpenStreetMap contributors",
+    "license": "ODbL 1.0",
+    "attribution": "https://www.openstreetmap.org/copyright",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "query": "[out:json][timeout:120];way[\"building\"](32.825,-117.285,32.895,-117.215);out center;",
+    "osm_base": "2026-10-25T03:25:50Z",
+    "footprints": 15157,
+    "facing_the_bay": 2178,
+    "lights": 1200
+  },
+  "view": {
+    "latitude": 32.862,
+    "longitude": -117.266,
+    "eye_m": 15.0,
+    "refraction": 0.13
+  },
+  "skyline_peak": {
+    "bearing": 161.5,
+    "angle_deg": 4.996,
+    "distance_km": 2.35,
+    "height_m": 221
+  }
+}
