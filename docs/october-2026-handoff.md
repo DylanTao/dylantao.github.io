@@ -6,6 +6,71 @@ The dated queues, assignments and parked WIPs below it preserve history and cust
 
 Originally written October 22 before a token pause, then reconciled October 23 and 24. Local-only sources and private reports remain on Sirui's machine.
 
+## Codex continuation brief (from 2026-10-26)
+
+From October 24 to 26, 2026, Claude Opus coordinated this site with up to six parallel workers; Codex continues from here. This brief gives Sirui's intent and the working conventions. The checklist below gives each item's status, evidence and "Best effort so far" notes. Choose your own implementation. The intent, constraints and acceptance evidence matter more than any approach sketched here. Resume procedures further down this file are history.
+
+**Sirui's intent, by stream.** Each item's details live in its checklist entry and owning brief.
+
+- **The whole site.** Make it awesome, not minimal: polish the playful pieces (the 3D home, the La Jolla miniature, the coffee ring) rather than cutting them. Susan Kare's lessons in `WEBSITE_DESIGN_HEURISTICS.md` apply everywhere: meaningful and memorable first, just enough detail, a little motion. Make only claims the evidence shows (nothing "photoreal" or "state of the art" unless proven), and credit sources.
+- **Brand.** The orange sun (item 26) is settled. Keep it the same everywhere (`material-lite-revamp.md`, Brand Mark).
+- **The house** (items 8–10, 12 and 23). A retreat set into the La Jolla cliff that blends with the landform, with no carved-hole look. The pool and patio cantilever modestly, on a structure an engineer would believe. The house has:
+  - one stair, and a sandstone pivot door at arrival;
+  - living spaces kept private from the onsen path;
+  - a spacious study with an open ocean view and a door to the patio;
+  - the bed chamber beside the library;
+  - a corridor of soft, rounded niches with sculpture and light;
+  - a whiskey corner facing the sea.
+
+  The interior, material and kitchen lessons came from a private study on October 25. Never name or link its source anywhere.
+
+- **Life** (item 22). The five avatars:
+  - hold up on a 4K screen;
+  - meet tables, cups and cutlery without passing through them;
+  - eat gourmet meals that change by day, naturally rather than in robotic loops;
+  - sit in furniture you would stay in for hours (the dining armchairs are done);
+  - enjoy whiskey evenings in the study.
+- **Performance** (items 4–7 and 24). Push strong GPUs, such as a 4K PC with an RTX 3080, without lag or crashes. Keep phones smooth and load fast: the targets are ready in 10 s or less on the laptop and 15 s or less in phone emulation. Never flicker while zooming or walking. The quality tiers and `?perf=1` are on `main`; real-device numbers are the missing evidence.
+- **Footer and miniature** (items 19–20). An honest, physically based dusk over measured hills with lit houses. It is not yet photoreal; the sky notes say why and what to try next.
+- **Build diary** (item 25). A scrollable timeline on the 3D world's project page, like a construction team's record of a house going up, with sub-pages that show how human and AI iterations polished the world. Use the before and after captures the workers left in the review folders.
+- **Loading sketch** (item 21). A line drawing that grows more intricate as loading really progresses.
+
+**How the work was run.** Keep what helps.
+
+- **Integration.**
+  - One coordinator integrated through a detached LF worktree (`.claude/worktrees/integration`, with `git -c core.autocrlf=false`). It cherry-picked verified worker commits, ran the gates, pushed to `main` and fast-forwarded the main checkout. Workers never pushed.
+  - Before deleting any `agent/*` branch or worktree, run `git log main..agent/<name>`: unintegrated work may remain.
+- **Gates for each batch:**
+  - Prettier on the changed files;
+  - `npm.cmd run lint:style-contract` and `git diff --check`;
+  - `python -m unittest discover -s test -p "test_*.py"` and `node --test test/*.test.mjs`;
+  - when scene specs change, `node bin/run_visual_scene_group.cjs scene-core-1 --project all --verify-only`. Register any new scene test in `test/visual/scene-groups.json`.
+- **Static light cache.**
+  - When a signature input changes (home GLBs, the manifest, the furniture index, `controller.mjs` and other scene modules), re-bake with `node bin/bake_coastal_static_light.cjs`. Commit only the cache and its manifest descriptor.
+  - Point `COASTAL_CACHE_URL` at a server whose baseurl matches the `_site` build. A root server for an `/al-folio` build 404s every asset, and the bake then times out at `lightField.ready`.
+  - Expect only `inputs`, `signature` and `statistics` to change unless lighting geometry changed.
+- **`coastal-home.blend`** has one writer at a time. Other 3D work uses separate `.blend` files and JSON anchors.
+- **CI.**
+  - Watch every push to success: eight workflows, 41 of them visual jobs.
+  - Scene tests run on software WebGL in CI, where one page call can take 30 s. Read state from in-page recorders rather than tight polls.
+- **Metrics.** Never push the site repo while the nightly "Dylan Local GitHub Metrics Refresh" task runs (1:15 AM Pacific, about two hours). At the end of a batch, follow the commit-activity rule in `AGENTS.md`.
+- **Windows.**
+  - Build `--baseurl /al-folio` from PowerShell, not Git Bash.
+  - A worktree without `node_modules` can set `NODE_PATH` to the main checkout's; never junction it.
+
+**Where to look:**
+
+- the checklist below;
+- `docs/homepage-desk-scene-brief.md` for the 3D home;
+- `WEBSITE_DESIGN_HEURISTICS.md`;
+- `docs/material-lite-revamp.md`;
+- `docs/performance-notes.md`;
+- the review folders under `artwork/coastal-home/reviews/` (house, life, first-person) and `.jekyll-cache/visual-qa/`, for evidence and rejected attempts.
+
+**Starting prompt for Codex:**
+
+> Continue Sirui's website from the current `main`. Read `AGENTS.md`, then the Codex continuation brief and the Opus continuation checklist at the top of `docs/october-2026-handoff.md`, then the owning brief for the item you pick. Take an open item whose evidence you can produce. Read its "Best effort so far" note and the retained attempts before trying again. Preserve Sirui's intent, the orange-sun identity, Inter, locked copy, personal voice and accurate credit. Prefer one verified checkpoint to a broad half-change: run the gates, re-bake the light cache when its inputs change, watch CI to green and check the live site. Mark an item done only when it is verified; otherwise leave an honest note with what you tried, the evidence and the next hypothesis.
+
 ## Opus continuation checklist (started 2026-10-24)
 
 **How to read this list (Sirui, 2026-10-26):** there is no rush to finish it, because more usage windows will come. What matters is a clear picture of every item and a genuine best effort on each. Mark an item `[x]` only when it is verified. When an item still resists after a real attempt, leave it `[ ]` and add a **Best effort so far** note. The note says what was tried, the evidence, why it fell short, and the next hypothesis, so that a later model can pick it up rather than start over. A weak fix that passes a test is not a finish.
