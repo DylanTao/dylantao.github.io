@@ -15,7 +15,7 @@ async function decoderModule() {
   return decoderPromise;
 }
 
-export async function loadNativeAvatar(id) {
+export async function loadNativeModel(file, baseUrl = new URL("assets/models/home/", repo)) {
   const d = await decoderModule();
   const kinds = Object.fromEntries(
     [
@@ -69,8 +69,10 @@ export async function loadNativeAvatar(id) {
       }
     },
   };
-  const bytes = fs.readFileSync(new URL(`assets/models/home/sirui-${id}.glb`, repo));
-  return new GLTFLoader()
-    .setDRACOLoader(decoder)
-    .parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), new URL("assets/models/home/", repo).href);
+  const bytes = fs.readFileSync(new URL(file, baseUrl));
+  return new GLTFLoader().setDRACOLoader(decoder).parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), baseUrl.href);
+}
+
+export async function loadNativeAvatar(id) {
+  return loadNativeModel(`sirui-${id}.glb`);
 }

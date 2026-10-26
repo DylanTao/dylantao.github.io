@@ -13,6 +13,7 @@ import {
 } from "./wildlife-neighbor-motion.mjs";
 import { pelicanMotion, cormorantMotion, seaSurface } from "./wildlife-seabird-motion.mjs";
 import { solvePerchLanding, samplePerchActing, perchSurface, perchContactWeight } from "./wildlife-perch-contact.mjs";
+import { createGroundPatch, footSole, fitFootSole, groundFootQuaternion } from "./wildlife-ground-contact.mjs";
 import { OCEAN_WAVES, oceanWindState } from "./ocean-spectrum.mjs";
 import { coastWind } from "./wind-field.mjs";
 
@@ -69,7 +70,7 @@ const shift = (bones, name, x = 0, y = 0, z = 0) => {
 };
 const size = (bones, name, x = 1, y = x, z = x) => bones[name]?.object.scale.set(x, y, z);
 
-export function createWildlife(parent, config) {
+export function createWildlife(parent, config, services = {}) {
   const beach = config.beach,
     habitats = config.terrain.habitats;
   const root = new THREE.Group();
@@ -106,6 +107,7 @@ export function createWildlife(parent, config) {
   // coastal_section exports clifftop paths 25 mm above the retained soil.
   // The articulated master already accounts for its paw thickness.
   const raccoonRoute = createHabitatRoute(habitats.raccoon.path.map(([x, y, z]) => [x, y - 0.025, z]));
+  const raccoonGround = createGroundPatch(habitats.raccoon.path);
   const gulls = Array.from({ length: 4 }, (_, i) => make("WesternGull", `gull-${i}`, "Western gull", 1.55, { index: i }));
   const balcony = make("WesternGull", "balcony-gull-0", "Balcony gull", 1.1);
   const shorebirds = Array.from({ length: 3 }, (_, i) => make("Sandpiper", `sandpiper-${i}`, "Sandpiper", 1.35, { index: i }));
@@ -239,6 +241,10 @@ export function createWildlife(parent, config) {
       }
     });
     animalTarget(animal);
+    if (animal.kind === "Raccoon")
+      animal.soles = Object.fromEntries(
+        ["FrontPawL", "FrontPawR", "HindPawL", "HindPawR"].map((name) => [name, footSole(model, animal.bones[name].object)])
+      );
   }
   function retain(master) {
     master.scene.traverse((o) => {
@@ -247,7 +253,7 @@ export function createWildlife(parent, config) {
     });
     return master;
   }
-  const { loader, decoder } = createModelLoader();
+  const { loader, decoder } = (services.createModelLoader || createModelLoader)();
   const loadMaster = (name) =>
     loader.loadAsync(new URL(`../../models/home/${name}.glb`, import.meta.url).href).then((master) => {
       retain(master);
@@ -259,10 +265,12 @@ export function createWildlife(parent, config) {
     });
   Promise.all([
     ...SPECIES.map(loadMaster),
-    fetch(new URL("../../models/home/wildlife-perch-support.json", import.meta.url)).then((response) => {
-      if (!response.ok) throw new Error("The coastal perch supports could not load.");
-      return response.json();
-    }),
+    services.loadPerchSupport
+      ? services.loadPerchSupport()
+      : fetch(new URL("../../models/home/wildlife-perch-support.json", import.meta.url)).then((response) => {
+          if (!response.ok) throw new Error("The coastal perch supports could not load.");
+          return response.json();
+        }),
   ])
     .then((loaded) => {
       if (disposed) return;
@@ -286,7 +294,7 @@ export function createWildlife(parent, config) {
     return new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(right, up, forward));
   }
   function plantedOrientation(group, foot, gait) {
-    const ground = groundOrientation(gait.yaw, gait.gradient);
+    const ground = gait.orientation ? new THREE.Quaternion().fromArray(gait.orientation) : groundOrientation(gait.yaw, gait.gradient);
     foot.quaternion.copy(group.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(ground));
   }
   // Two-segment leg (raccoon) or single tarsus (sandpiper) reaching a world foot target from a hip
@@ -590,13 +598,34 @@ export function createWildlife(parent, config) {
         const position = new THREE.Vector3(...gait.position)
           .addScaledVector(forward, -tuck * 0.9 + (fore ? pose.dig * 0.05 * (side > 0 ? pose.pawScrub : -pose.pawScrub) : 0))
           .addScaledVector(across, -side * curl * 0.06);
-        position.y += fore ? pose.dig * Math.max(0, side * pose.pawScrub) * 0.03 : 0;
+        const digLift = fore ? pose.dig * Math.max(0, side * pose.pawScrub) * 0.03 : 0;
+        // Tucking/scraping changes x/z on a slope. Fit the loaded paw's lower envelope at
+        // its final footprint, before adding intentional swing, digging or rearing lift.
+        const support = raccoonGround.sample(position.x, position.z, position.y + 0.5);
+        const orientation = support ? groundFootQuaternion(gait.yaw, support.normal) : groundOrientation(gait.yaw, gait.gradient);
+        position.y -= gait.lift;
+        const fitted = fitFootSole(raccoonGround, raccoon.soles[paw], position, orientation);
+        position.copy(fitted.position);
+        position.y += gait.lift + digLift;
         if (raised > 0) {
           const chest = bones.Chest.object.localToWorld(new THREE.Vector3(side * 0.06, -0.02 - pose.wash * 0.08, 0.16 + pose.wash * 0.04));
           chest.x += side * pose.pawScrub * 0.01 * pose.wash;
           position.lerp(chest, raised);
         }
-        raccoon.contacts.push({ foot: paw, ...gait, position: position.toArray(), contact: gait.contact && raised < 0.2 });
+        const clear = fitFootSole(raccoonGround, raccoon.soles[paw], position, orientation, true);
+        raccoon.contacts.push({
+          foot: paw,
+          ...gait,
+          position: clear.position.toArray(),
+          orientation: orientation.toArray(),
+          contact: gait.contact && raised < 1e-4 && digLift < 1e-4,
+          intentionalLift: gait.lift + digLift,
+          raised,
+          supported: fitted.supported,
+          supportVisible: fitted.visible,
+          supportMesh: support?.mesh || null,
+          correction: fitted.correction + clear.correction,
+        });
       }
     settleRaccoonBody();
     for (const gait of raccoon.contacts) {
@@ -990,6 +1019,12 @@ export function createWildlife(parent, config) {
     }));
   return {
     update,
+    // The environment calls this once after both authored shell and coast have loaded.
+    // Repeating the same capture is harmless; meshes/triangles are retained only once.
+    captureGround(roots) {
+      raccoonGround.capture(roots);
+      if (modelsReady) update(lastTime, lastPalette, { force: true });
+    },
     waterMarks: () => waterMarks,
     targets: () => inspectable.map(describeTarget),
     target(id) {
@@ -1032,12 +1067,17 @@ export function createWildlife(parent, config) {
         state: raccoon.group.userData.state,
         bodyAccommodation: raccoon.group.userData.bodyAccommodation || 0,
         contacts: raccoon.contacts,
+        ground: raccoonGround.evidence(),
       },
       birds: gulls.map((bird) => ({
         position: bird.group.position.toArray(),
         state: bird.group.userData.state,
         perched: bird.pose?.perchedState || null,
         velocity: bird.pose?.velocity,
+        wingPhase: bird.pose?.wingPhase,
+        wingRate: bird.pose?.wingRate,
+        wingBeat: bird.pose?.wingBeat,
+        wingFold: bird.pose?.wingFold,
         contacts: bird.contacts || [],
       })),
       balconyGullContacts: balcony.contacts || [],

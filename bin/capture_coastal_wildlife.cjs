@@ -26,7 +26,10 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
 (async () => {
   fs.mkdirSync(out, { recursive: true });
   const browser = await chromium.launch({ args: ["--use-angle=d3d11", "--ignore-gpu-blocklist"] });
-  const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: Number(args.dpr || 2) });
+  const page = await browser.newPage({
+    viewport: { width: Number(args.width || 1280), height: Number(args.height || 800) },
+    deviceScaleFactor: Number(args.dpr || 2),
+  });
   const errors = [];
   page.on("pageerror", (error) => errors.push(String(error)));
   page.on("console", (message) => {
@@ -37,9 +40,11 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
   await page.goto(base + "/?scene-lab=1", { waitUntil: "domcontentloaded" });
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
+  await scene.scrollIntoViewIfNeeded();
   await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.dataset.sceneState === "ready", null, { timeout: 120000 });
   const canvas = scene.locator("canvas");
   await canvas.scrollIntoViewIfNeeded();
+  if (args.fullscreen) await page.locator("[data-world-fullscreen]").click();
   const now = await page.evaluate(() => Date.now());
   await page.clock.setFixedTime(now);
   await page.clock.pauseAt(now);
@@ -98,13 +103,16 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
       states = [];
     for (let i = 0; i < count; i++) {
       await canvas.screenshot({ path: path.join(dir, `frame-${String(i).padStart(4, "0")}.png`) });
-      if (i % Math.max(1, Math.round(fps / 2)) === 0) {
+      if (args["state-every-frame"] || i % Math.max(1, Math.round(fps / 2)) === 0) {
         const view = await evidence(),
           wildlife = view.ecology.wildlife;
         states.push({
           seconds: view.ecology.water.seconds,
+          camera: view.camera,
+          currentRoom: view.currentRoom,
           inspection: view.inspection?.id || null,
           gulls: wildlife.birds.map((bird) => bird.perched || bird.state),
+          gullActing: wildlife.birds,
           sandpipers: wildlife.shorebirdContacts.map((bird) => bird.state),
           pelicans: wildlife.pelicanStates.map((bird) => bird.state),
           cormorants: wildlife.cormorantStates.map((bird) => bird.state),

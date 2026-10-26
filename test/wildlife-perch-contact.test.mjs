@@ -2,14 +2,20 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 import * as THREE from "../assets/js/three.module.min.js";
 import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
 import { gullMotion, gullSchedule } from "../assets/js/home-scene/wildlife-neighbor-motion.mjs";
 import { solvePerchLanding, samplePerchActing, perchSurface, perchContactWeight } from "../assets/js/home-scene/wildlife-perch-contact.mjs";
 
-const file = readFileSync(new URL("../assets/models/home/wildlife-perch-support.json", import.meta.url));
+const verifiedRoot = process.env.COASTAL_VERIFY_ROOT
+  ? pathToFileURL(path.resolve(process.env.COASTAL_VERIFY_ROOT) + path.sep)
+  : new URL("../", import.meta.url);
+const models = new URL("assets/models/home/", verifiedRoot);
+const file = readFileSync(new URL("wildlife-perch-support.json", models));
 const data = JSON.parse(file);
-const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+const manifest = JSON.parse(readFileSync(new URL("manifest.json", models)));
 const near = (a, b, tolerance = 2e-5) => assert.ok(Math.abs(a - b) <= tolerance, `${a} != ${b}`);
 
 function footGaps(acting, patch, scale) {
@@ -28,16 +34,18 @@ function footGaps(acting, patch, scale) {
 test("perch contact metadata matches retained geometry and stays bounded", async () => {
   const hash = (path) =>
     createHash("sha256")
-      .update(readFileSync(new URL(path, import.meta.url)))
+      .update(readFileSync(new URL(path.replace(/^\.\.\//, ""), verifiedRoot)))
       .digest("hex");
   assert.equal(data.coastSha256, hash("../artwork/coastal-home/coastal-home.blend"));
   assert.equal(data.gullSha256, hash("../assets/models/home/WesternGull.glb"));
   for (const [name, expected] of Object.entries(data.deliveredSha256)) assert.equal(expected, hash(`../assets/models/home/${name}`));
-  for (const index of [0, 3])
+  for (const index of [0, 1, 2, 3]) {
     assert.ok(
       data.patches[index].nativeTriangles.length > 0,
       "the complete original native patch remains inspectable beside delivered contact geometry"
     );
+    assert.equal(data.patches[index].contactGeometry, "decoded delivered shell/coast");
+  }
   assert.ok(file.byteLength < 32 * 1024);
   // Three coast perches and the gallery rail for the gulls, four rock roosts for the cormorants.
   assert.deepEqual(
@@ -52,9 +60,11 @@ test("perch contact metadata matches retained geometry and stays bounded", async
   // Compare Blender-surveyed contacts with independently decoded browser triangles. The
   // displaced west perch and the gallery rail retain both their native patch and their exact
   // delivered contact patch. Historical absolute coordinates miss real source drift.
-  const roots = await Promise.all(["home-shell.glb", "coast.glb"].map((file) => nativeGeometry(file)));
+  const roots = await Promise.all(["home-shell.glb", "coast.glb"].map((file) => nativeGeometry(file, models)));
   for (const [index, x, z] of [
     [0, manifest.terrain.perches[0][0] - 0.091734886169434, manifest.terrain.perches[0][2] + 0.1014457941055298],
+    [1, manifest.terrain.perches[1][0], manifest.terrain.perches[1][2]],
+    [2, manifest.terrain.perches[2][0], manifest.terrain.perches[2][2]],
     [3, manifest.retreat.galleryPerch[0] - 0.050419998168945, manifest.retreat.galleryPerch[2] + 0.0022085332870483],
   ]) {
     const surface = perchSurface(data.patches[index], x, z);
@@ -72,7 +82,7 @@ test("stable gull soles fit actual local support for changing arrival headings",
       const landing = solvePerchLanding(data, index, yaw, 1.55);
       near(landing.position.x, patch.original[0]);
       near(landing.position.z, patch.original[2]);
-      assert.ok(Math.abs(landing.position.y - patch.original[1]) < 0.051);
+      assert.ok(Math.abs(landing.position.y - patch.nativeOrigin[1]) < 0.01, "decoded root height stays within 10mm of the actual retained support");
       const acting = samplePerchActing(data, landing, landing.position, landing.quaternion, 1);
       for (const [side, gaps] of Object.entries(footGaps(acting, patch, 1.55))) {
         assert.equal(gaps.length, data.feet[side].sole.length);

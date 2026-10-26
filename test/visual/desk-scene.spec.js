@@ -3784,3 +3784,161 @@ test("coastal home: whiskey evenings support feet and set the glass on the side 
   fs.writeFileSync(testInfo.outputPath("whiskey-contacts.json"), JSON.stringify({ rows, paused, returned: returned.dining }, null, 2));
   expect(errors).toEqual([]);
 });
+
+test("coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion", async ({ page }, testInfo) => {
+  test.setTimeout(900000);
+  const errors = collectRuntimeErrors(page),
+    view = await openClockedHome(page, { time: "2026-10-01T13:20:00-07:00" });
+  const { scene, canvas, ui } = view;
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(100);
+        return (await evidence(scene)).ecology?.wildlife?.modelsReady;
+      },
+      { timeout: 120000 }
+    )
+    .toBe(true);
+  expect((await evidence(scene)).neighbours).toHaveLength(28);
+  await explore(ui);
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="outside"]').first().click());
+  const witnesses = async () =>
+    scene.evaluate(async (element) => {
+      const source = new URL("assets/js/home-scene/wildlife-ground-contact.mjs", document.baseURI);
+      const { isCoastalGround } = await import(source.href);
+      const THREE = await import(new URL("../three.module.min.js", source).href),
+        world = element.labScene.scene;
+      world.updateMatrixWorld(true);
+      const paws = { FrontPawL: [], FrontPawR: [], HindPawL: [], HindPawR: [] },
+        point = new THREE.Vector3();
+      world.traverse((mesh) => {
+        if (!mesh.isSkinnedMesh || mesh.userData.action?.id !== "raccoon-0") return;
+        mesh.skeleton.update();
+        const skin = mesh.geometry.attributes.skinIndex,
+          weights = mesh.geometry.attributes.skinWeight;
+        for (let i = 0; i < skin.count; i++)
+          for (const name of Object.keys(paws)) {
+            let weight = 0;
+            for (let k = 0; k < 4; k++) if (mesh.skeleton.bones[skin.getComponent(i, k)].name === name) weight += weights.getComponent(i, k);
+            if (weight >= 0.999) paws[name].push(mesh.getVertexPosition(i, new THREE.Vector3()).applyMatrix4(mesh.matrixWorld));
+          }
+      });
+      const all = Object.values(paws).flat(),
+        box = new THREE.Box3().setFromPoints(all).expandByScalar(0.1),
+        vertices = [];
+      const a = new THREE.Vector3(),
+        b = a.clone(),
+        c = a.clone();
+      // Exact local query copies of visible triangles; rendered geometry and materials stay intact.
+      world.traverseVisible((mesh) => {
+        if (!isCoastalGround(mesh)) return;
+        const positions = mesh.geometry.attributes.position,
+          ix = mesh.geometry.index;
+        for (let i = 0; i < (ix?.count ?? positions.count); i += 3) {
+          a.fromBufferAttribute(positions, ix ? ix.getX(i) : i).applyMatrix4(mesh.matrixWorld);
+          b.fromBufferAttribute(positions, ix ? ix.getX(i + 1) : i + 1).applyMatrix4(mesh.matrixWorld);
+          c.fromBufferAttribute(positions, ix ? ix.getX(i + 2) : i + 2).applyMatrix4(mesh.matrixWorld);
+          if (
+            Math.max(a.x, b.x, c.x) < box.min.x ||
+            Math.min(a.x, b.x, c.x) > box.max.x ||
+            Math.max(a.z, b.z, c.z) < box.min.z ||
+            Math.min(a.z, b.z, c.z) > box.max.z
+          )
+            continue;
+          vertices.push(...a.toArray(), ...b.toArray(), ...c.toArray());
+        }
+      });
+      const geometry = new THREE.BufferGeometry().setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
+      const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }),
+        mesh = new THREE.Mesh(geometry, material),
+        ray = new THREE.Raycaster();
+      mesh.updateMatrixWorld(true);
+      const feet = {};
+      for (const [name, points] of Object.entries(paws)) {
+        let minimum = Infinity,
+          missing = 0;
+        for (const p of points) {
+          ray.set(point.copy(p).add(new THREE.Vector3(0, 0.5, 0)), new THREE.Vector3(0, -1, 0));
+          ray.far = 2;
+          const hit = ray.intersectObject(mesh, false)[0];
+          if (!hit) {
+            missing++;
+            continue;
+          }
+          minimum = Math.min(minimum, p.y - hit.point.y);
+        }
+        feet[name] = { vertices: points.length, missing, minimum };
+      }
+      geometry.dispose();
+      material.dispose();
+      return { feet, triangles: vertices.length / 9, ground: element.getSceneEvidence().ecology.wildlife.raccoon.ground };
+    });
+  const supported = (row) => {
+    expect(row.ground.ready).toBe(true);
+    expect(row.triangles).toBeGreaterThan(0);
+    for (const foot of Object.values(row.feet)) {
+      expect(foot.vertices).toBeGreaterThan(100);
+      expect(foot.missing).toBe(0);
+      expect(foot.minimum).toBeGreaterThanOrEqual(-0.002);
+      expect(foot.minimum).toBeLessThan(0.002);
+    }
+  };
+  const outside = await witnesses();
+  supported(outside);
+  // The habitat must remain physically visible when a visitor opens the house section.
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="overview"]').first().click());
+  const raccoon = (await evidence(scene)).ecology.wildlife.raccoon.position;
+  await sceneInputFrame(page, view, () =>
+    scene.evaluate((e, p) => e.setLabCamera({ target: [p[0], p[1] + 0.28, p[2]], yaw: 2.7, pitch: 0.3, radius: 1.6 }), raccoon)
+  );
+  const cutaway = await witnesses();
+  fs.writeFileSync(testInfo.outputPath("wildlife-support-witness.json"), JSON.stringify({ outside, cutaway }, null, 2));
+  await capture(testInfo, "raccoon-visible-support", await canvas.screenshot());
+  supported(cutaway);
+  const phase = await page.evaluate(async () => {
+    const { gullMotion, gullSchedule } = await import(new URL("assets/js/home-scene/wildlife-neighbor-motion.mjs", document.baseURI));
+    const manifest = await (await fetch(new URL("assets/models/home/manifest.json", document.baseURI))).json();
+    const rows = [];
+    for (let i = 0; i < 4; i++) {
+      const s = gullSchedule(270 + 1 - i * 19, i),
+        t = s.perchStart - 1.95,
+        h = 1e-5,
+        p = manifest.terrain.perches[i % 3];
+      rows.push((gullMotion(t + h, i, p).wingPhase - gullMotion(t - h, i, p).wingPhase) / (2 * h));
+    }
+    return rows;
+  });
+  for (const rate of phase) {
+    expect(rate).toBeGreaterThanOrEqual(3 - 2e-5);
+    expect(rate).toBeLessThanOrEqual(4.8 + 2e-5);
+  }
+  await beginClockedMotion(page, canvas);
+  await explore(ui);
+  await ui.locator("[data-world-pause]").click();
+  await page.clock.runFor(100);
+  const bones = () =>
+    scene.evaluate((e) => {
+      const out = [];
+      e.labScene.scene.traverse((o) => {
+        if (o.isSkinnedMesh && o.userData.action?.id === "raccoon-0")
+          for (const b of o.skeleton.bones) out.push([...b.position.toArray(), ...b.quaternion.toArray()]);
+      });
+      return out;
+    });
+  const paused = await bones();
+  await page.clock.runFor(600);
+  expect(await bones()).toEqual(paused);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.runFor(200);
+  const reduced = await bones();
+  await page.clock.runFor(600);
+  expect(await bones()).toEqual(reduced);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(ui.locator("[data-world-pause]")).toBeEnabled();
+  await ui.locator("[data-world-pause]").click();
+  const before = (await evidence(scene)).animationSeconds;
+  await page.clock.runFor(400);
+  expect((await evidence(scene)).animationSeconds).toBeGreaterThan(before);
+  fs.writeFileSync(testInfo.outputPath("wildlife-delivered-contact.json"), JSON.stringify({ outside, cutaway, phase }, null, 2));
+  expect(errors).toEqual([]);
+});
