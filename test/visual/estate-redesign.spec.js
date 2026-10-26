@@ -25,14 +25,37 @@ async function inputFrame(page, scene, canvas, input) {
     .toBeGreaterThan(frames);
 }
 
-async function doorParts(scene, id) {
-  return scene.evaluate((element, id) => {
-    const parts = [];
-    element.labScene.scene.traverse((object) => {
-      if (object.userData.estateDoor === id) parts.push({ name: object.name, x: object.position.x });
-    });
-    return parts;
-  }, id);
+async function doorParts(scene, id, pivot = null) {
+  return scene.evaluate(
+    (element, { id, pivot }) => {
+      const parts = [];
+      element.labScene.scene.traverse((object) => {
+        if (object.userData.estateDoor !== id) return;
+        const part = { name: object.name, x: object.position.x, z: object.position.z };
+        if (pivot) {
+          // The hinge axis in the part's parent frame, where estate-doors.mjs turns the part.
+          const axis = object.position.clone().set(pivot.x, 0, pivot.z);
+          if (object.parent) object.parent.worldToLocal(axis);
+          part.dx = object.position.x - axis.x;
+          part.dz = object.position.z - axis.z;
+          part.quaternion = object.quaternion.toArray();
+        }
+        parts.push(part);
+      });
+      return parts;
+    },
+    { id, pivot }
+  );
+}
+
+const wrapAngle = (angle) => Math.atan2(Math.sin(angle), Math.cos(angle));
+
+// The turn about +Y that takes a part from one orientation to another: estate-doors.mjs
+// premultiplies it, so it is open * inverse(rest), whose y and w components carry the angle.
+function yawTurn([ax, ay, az, aw], [bx, by, bz, bw]) {
+  const y = by * aw - bw * ay + bx * az - bz * ax,
+    w = bw * aw + bx * ax + by * ay + bz * az;
+  return wrapAngle(2 * Math.atan2(y, w));
 }
 
 test("estate thresholds: real leaves open before the body, cross both ways and close after leaving", async ({ page }, testInfo) => {
@@ -76,9 +99,10 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
   await expect(page.locator("[data-world-pause]")).toBeEnabled();
   await page.clock.runFor(800);
   const initial = await stateOf(scene);
-  // The lower living foyer retains its real moving oak leaf. The discreet onsen approach
-  // deliberately has no intrusive glass leaf across the bathing room's view.
-  expect(initial.simulation.estateDoors.doors.map((door) => door.id).sort()).toEqual(["main"]);
+  // The arrival's sandstone pivot leaf and the stair hall's oak pocket leaf onto the upper floor
+  // are real moving leaves. The discreet onsen approach deliberately has no intrusive glass leaf
+  // across the bathing room's view.
+  expect(initial.simulation.estateDoors.doors.map((door) => door.id).sort()).toEqual(["main", "upper"]);
   const receipts = [];
   const pose = async () => (await stateOf(scene)).walk;
   const door = async (id) => (await stateOf(scene)).simulation.estateDoors.doors.find((entry) => entry.id === id);
@@ -118,7 +142,7 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
       await inputFrame(page, scene, canvas, () => place(config.walk.start.position, config.walk.start.yaw));
       await settleDoor(id, 0);
       expect((await door(id)).fraction, `${id}: closed while the visitor is outside`).toBe(0);
-      const resting = await doorParts(scene, id);
+      const resting = await doorParts(scene, id, definition.pivot);
       expect(resting.length).toBeGreaterThanOrEqual(2);
       const [x, , z] = definition.center;
       await inputFrame(page, scene, canvas, () => place([x, definition.floor, z + 0.8], Math.PI));
@@ -128,9 +152,23 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
       await settleDoor(id, 1);
       const opened = await door(id);
       expect(opened.fraction).toBe(1);
-      expect(opened.offset).toBeCloseTo(definition.slideX, 3);
-      const shifted = await doorParts(scene, id);
-      for (const part of shifted) expect(part.x - resting.find((entry) => entry.name === part.name).x).toBeCloseTo(definition.slideX, 3);
+      if (definition.pivot) {
+        expect(opened.angle).toBeCloseTo(definition.pivot.angle, 3);
+        expect(opened.offset).toBe(0);
+      } else expect(opened.offset).toBeCloseTo(definition.slideX, 3);
+      const shifted = await doorParts(scene, id, definition.pivot);
+      for (const part of shifted) {
+        const rest = resting.find((entry) => entry.name === part.name);
+        if (definition.pivot) {
+          // A pivot leaf turns about its hinge: every part keeps its distance from the axis,
+          // swings through the authored angle around it and turns by that angle itself.
+          const radius = Math.hypot(rest.dx, rest.dz);
+          expect(Math.hypot(part.dx, part.dz), `${id} ${part.name}: stays on its hinge circle`).toBeCloseTo(radius, 3);
+          if (radius > 0.05)
+            expect(wrapAngle(Math.atan2(rest.dz, rest.dx) - Math.atan2(part.dz, part.dx) - definition.pivot.angle)).toBeCloseTo(0, 2);
+          expect(yawTurn(rest.quaternion, part.quaternion), `${id} ${part.name}: turns with the leaf`).toBeCloseTo(definition.pivot.angle, 2);
+        } else expect(part.x - rest.x).toBeCloseTo(definition.slideX, 3);
+      }
       const before = await pose();
       const inside = await walkAcross(id, definition, z - 0.8);
       expect(inside.position[2]).toBeLessThan(z - 0.6);
@@ -148,8 +186,13 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
       await settleDoor(id, 0);
       const closed = await door(id);
       expect(closed.fraction).toBe(0);
-      const returned = await doorParts(scene, id);
-      for (const part of returned) expect(part.x).toBeCloseTo(resting.find((entry) => entry.name === part.name).x, 3);
+      const returned = await doorParts(scene, id, definition.pivot);
+      for (const part of returned) {
+        const rest = resting.find((entry) => entry.name === part.name);
+        expect(part.x).toBeCloseTo(rest.x, 3);
+        expect(part.z).toBeCloseTo(rest.z, 3);
+        if (definition.pivot) expect(yawTurn(rest.quaternion, part.quaternion)).toBeCloseTo(0, 3);
+      }
       receipts.push({ id, partial, opened, inside, outside, closed, resting, shifted, returned });
     }
     // The living facade closes at night, but its real lift-and-slide leaves must still admit
