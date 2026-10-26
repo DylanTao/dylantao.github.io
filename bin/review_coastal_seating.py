@@ -38,6 +38,9 @@ CLIP = option("clip", "eat")
 STYLES = option("avatar", "lizard,south-park,simpsons,ghibli,rick-and-morty").split(",")
 RENDER = bool(option("render"))
 # --with=whiskey-ottoman@0,-0.8 adds another piece at a Blender-frame offset (x, y) from this one.
+# --feet=x,y lays both ankles on whatever top is under that point (a Blender-frame offset from this
+# piece), by an IK solve of each leg with the knees up: feet up on an ottoman.
+FEET = tuple(float(v) for v in option("feet").split(",")) if option("feet") else None
 WITH = [(w.split("@")[0], tuple(float(v) for v in w.split("@")[1].split(","))) for w in (option("with", "") or "").split(";") if w]
 OUT = ROOT / "artwork" / "coastal-home" / "reviews" / "life-2026-10-24"
 SOFT = ("linen", "leather", "boucle", "velvet", "cushion", "textile", "cotton")
@@ -80,6 +83,63 @@ def inside(tree, p, reach=0.12):
     return (p - location).dot(normal) < 0, distance
 
 
+def posed_skin(arm):
+    graph = bpy.context.evaluated_depsgraph_get()
+    skin = []
+    for o in arm.children:
+        if o.type != "MESH":
+            continue
+        names = {g.index: g.name for g in o.vertex_groups}
+        evaluated = o.evaluated_get(graph)
+        mesh = evaluated.to_mesh()
+        for v, source in zip(mesh.vertices, o.data.vertices):
+            best = max(source.groups, key=lambda g: g.weight, default=None)
+            skin.append((evaluated.matrix_world @ v.co, names.get(best.group, "") if best else ""))
+        evaluated.to_mesh_clear()
+    return skin
+
+
+def feet_up(arm, trees, feet):
+    """Both ankles 7.5 cm above the top under `feet` (9 cm either side of it), knees up. Reports how far
+    each ankle stayed from its target (an unreachable top leaves a gap) and how bent each knee is."""
+    scene = bpy.context.scene
+    result = {}
+    for side, dx in (("L", -0.09), ("R", 0.09)):
+        x, y = feet[0] + dx, feet[1]
+        top = None
+        for tree in trees.values():
+            hit = tree.ray_cast(Vector((x, y, 2.0)), Vector((0, 0, -1)), 3.0)
+            if hit[0] is not None and (top is None or hit[0].z > top):
+                top = hit[0].z
+        target = bpy.data.objects.new(f"ankle {side}", None)
+        target.location = (x, y, (top or 0.0) + 0.075)
+        pole = bpy.data.objects.new(f"knee {side}", None)
+        hip = arm.matrix_world @ arm.pose.bones[f"Thigh.{side}"].head
+        pole.location = ((hip.x + x) / 2, (hip.y + y) / 2, hip.z + 0.6)
+        scene.collection.objects.link(target)
+        scene.collection.objects.link(pole)
+        ik = arm.pose.bones[f"Shin.{side}"].constraints.new("IK")
+        ik.target, ik.pole_target, ik.chain_count = target, pole, 2
+        best = None
+        for angle in (-math.pi / 2, math.pi / 2, 0.0, math.pi):
+            ik.pole_angle = angle
+            bpy.context.view_layer.update()
+            knee = arm.matrix_world @ arm.pose.bones[f"Shin.{side}"].head
+            # The knee should rise above the line from hip to ankle (feet up, not a bent-down knee).
+            mid = (hip + target.location) / 2
+            score = knee.z - mid.z
+            if best is None or score > best[0]:
+                best = (score, angle)
+        ik.pole_angle = best[1]
+        bpy.context.view_layer.update()
+        ankle = arm.matrix_world @ arm.pose.bones[f"Shin.{side}"].tail
+        knee = arm.matrix_world @ arm.pose.bones[f"Shin.{side}"].head
+        a, b = (knee - hip), (ankle - knee)
+        bend = math.degrees(a.angle(b)) if a.length and b.length else 0.0
+        result[side] = {"top": round(top or 0.0, 3), "gap": round((ankle - target.location).length, 4), "kneeBend": round(bend, 1), "kneeRise": round(best[0], 3)}
+    return result
+
+
 def main():
     report = {"item": ITEM, "with": [w[0] for w in WITH], "clip": CLIP, "avatars": {}}
     for style in STYLES:
@@ -118,6 +178,11 @@ def main():
         shift = Vector((seat.x, (back - 0.005 - rear) if back is not None else seat.y, seat_height - 0.01 - lowest))
         moved = [(p + shift, bone) for p, bone in skin]
         out = {"frame": frame, "shift": [round(c, 4) for c in shift], "soft": {"vertices": 0, "depth": 0.0}, "hard": {"vertices": 0, "depth": 0.0, "bones": {}}}
+        if FEET:
+            arm.location += shift
+            out["feet"] = feet_up(arm, trees, FEET)
+            moved = posed_skin(arm)
+            arm.location -= shift
         clearance = math.inf
         for p, bone in moved:
             for kind, tree in trees.items():

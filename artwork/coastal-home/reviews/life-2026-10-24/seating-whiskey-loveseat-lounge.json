@@ -1,0 +1,152 @@
+{
+  "item": "whiskey-loveseat",
+  "with": ["whiskey-ottoman"],
+  "clip": "lounge",
+  "avatars": {
+    "lizard": {
+      "frame": 49,
+      "shift": [-0.28, -0.0187, -0.0533],
+      "soft": {
+        "vertices": 99,
+        "depth": 0.0726
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "feet": {
+        "L": {
+          "top": 0.417,
+          "gap": 0.0,
+          "kneeBend": 37.4,
+          "kneeRise": 0.083
+        },
+        "R": {
+          "top": 0.417,
+          "gap": 0.0,
+          "kneeBend": 34.9,
+          "kneeRise": 0.112
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.1802
+    },
+    "south-park": {
+      "frame": 49,
+      "shift": [-0.28, 0.0037, -0.0869],
+      "soft": {
+        "vertices": 184,
+        "depth": 0.0227
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "feet": {
+        "L": {
+          "top": 0.417,
+          "gap": 0.0,
+          "kneeBend": 32.4,
+          "kneeRise": 0.035
+        },
+        "R": {
+          "top": 0.417,
+          "gap": 0.0,
+          "kneeBend": 24.5,
+          "kneeRise": 0.08
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.3951
+    },
+    "simpsons": {
+      "frame": 49,
+      "shift": [-0.28, 0.0037, -0.0869],
+      "soft": {
+        "vertices": 182,
+        "depth": 0.0227
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "feet": {
+        "L": {
+          "top": 0.417,
+          "gap": 0.0,
+          "kneeBend": 32.4,
+          "kneeRise": 0.035
+        },
+        "R": {
+          "top": 0.417,
+          "gap": 0.0,
+          "kneeBend": 24.5,
+          "kneeRise": 0.08
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.3951
+    },
+    "ghibli": {
+      "frame": 49,
+      "shift": [-0.28, 0.0037, -0.0869],
+      "soft": {
+        "vertices": 182,
+        "depth": 0.0227
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "feet": {
+        "L": {
+          "top": 0.417,
+          "gap": 0.0,
+          "kneeBend": 32.4,
+          "kneeRise": 0.035
+        },
+        "R": {
+          "top": 0.417,
+          "gap": 0.0,
+          "kneeBend": 24.5,
+          "kneeRise": 0.08
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.3951
+    },
+    "rick-and-morty": {
+      "frame": 49,
+      "shift": [-0.28, 0.0037, -0.0869],
+      "soft": {
+        "vertices": 182,
+        "depth": 0.0227
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "feet": {
+        "L": {
+          "top": 0.417,
+          "gap": 0.0,
+          "kneeBend": 32.4,
+          "kneeRise": 0.035
+        },
+        "R": {
+          "top": 0.417,
+          "gap": 0.0,
+          "kneeBend": 24.5,
+          "kneeRise": 0.08
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.3951
+    }
+  }
+}
