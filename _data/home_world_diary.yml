@@ -1,0 +1,575 @@
+# The 3D home's build diary: what I noticed, what changed, and the same view before and after.
+#
+# _includes/build-diary.liquid renders every entry on /projects/homepage-desk-scene/ and one stream's
+# entries, with their `detail` and `extra` pairs, on that stream's own page. test/test_home_world_diary.py
+# checks this file, its images and the pages that render it.
+#
+# To add an entry:
+#   1. Make the images with `python bin/build_diary_images.py <name> <capture>`; both halves of a slider
+#      pair come out the same size. Copy the printed width and height, and keep the capture's path in
+#      `source`.
+#   2. Append the entry under `entries`, oldest first, and name its phase (add a phase when a new
+#      stretch of work begins).
+#   3. A `quote` is only Sirui's own words, with typos fixed and the wording kept (a [bracket] marks an
+#      added word). Otherwise write `text` in his first person from the review record, and say who
+#      noticed: `by: sirui` for his review, `by: review` for a problem the builders' own review found.
+#   4. Name the crew only when a commit trailer or a record names it.
+#
+# Fields:
+#   start              the day the 3D view first shipped; each entry counts its day from it
+#   image_dir          where bin/build_diary_images.py writes the WebP files
+#   streams.<id>       label, short (the entry's stamp), url (the stream's deeper page)
+#   phases[]           id, when, title, summary (a phase shows only when it has entries)
+#   entries[]          id, date, phase, stream, title, status (done | in-progress | open)
+#     note             by (sirui | review), quote or text, said (date, optional), context (optional)
+#     change           what changed, one to three sentences; required once the entry is done
+#     detail           more for the stream's page (optional)
+#     crew             who built it, only when recorded
+#     compare          kind (slider: the same camera | pair: different cameras), view (the caption),
+#                      before and after {img, width, height, alt, stamp, source}; the page labels each
+#                      view Before or After and adds the stamp (a date or a short label) when there is one.
+#                      `source` is the capture's repository path; a path under .jekyll-cache/ is a local
+#                      capture the coordinator kept outside the repository.
+#     extra[]          further compares, shown on the stream's page
+#     metrics[]        label, before, after (exact values from the record)
+#     links[]          label, url (a site path or an https URL)
+
+schema_version: 1
+start: "2026-06-17"
+image_dir: /assets/img/project_pics/homepage-desk-scene/diary/
+
+streams:
+  house:
+    label: The House in the Cliff
+    short: House
+    url: /projects/house-in-the-cliff/
+  people:
+    label: the people who live there
+    short: People
+    url: /projects/homepage-desk-scene/record/#characters
+  coast:
+    label: A little La Jolla
+    short: La Jolla
+    url: /projects/la-jolla/
+  speed:
+    label: Making the 3D home fast
+    short: Speed
+    url: /projects/graphics-performance/
+  desk:
+    label: the 2D desk
+    short: 2D desk
+    url: /projects/website-revamp/record/#coffee-stain
+
+phases:
+  - id: first-room
+    when: June–July
+    title: The first room
+    summary: A 3D view joins the paper desk, then becomes one room seen from inside and out.
+  - id: moving-in
+    when: September
+    title: Moving in
+    summary: Between 8 pm and 3 am on September 12, four review rounds turned the room into a two-floor home in a sandstone cliff.
+  - id: up-close
+    when: October 1–12
+    title: Details that hold up close
+    summary: Fingers, lamps and loading get the attention a close look asks for.
+  - id: retreat
+    when: October 24
+    title: A long day of fixes
+    summary: The house moves eight metres into the rock, and the plants, the first-person view and the desk's coffee ring get their fixes.
+  - id: walk-through
+    when: October 24, evening
+    title: The walk-through
+    summary: I checked the home on my laptop and on a 4K PC with an RTX 3080, then sent these notes. Each one has an agent on it; finished ones gain their before and after here.
+
+entries:
+  - id: first-room
+    date: "2026-07-14"
+    phase: first-room
+    stream: house
+    title: One room, seen from inside and out
+    status: done
+    note:
+      by: sirui
+      text: The first 3D version copied the desk into a small stage. At ordinary screen sizes, furniture disappeared, dropped cards floated, and the outside looked like a separate dollhouse.
+    change: The desk stage became a room in the cliff, with an onsen, a lounge chair and an ocean window, and inside and outside became two camera views of that one room. The 2D desk's record and discoveries carry into it.
+    crew: GPT-5.5/xhigh in June, then GPT-5.6 Sol/ultra
+    compare:
+      kind: slider
+      view: The 3D view on the homepage at 1440 × 1000 in the light theme, with Yellow Submarine stopped and no cards found, cropped to the scene. June's frame replays commit 588e36509; July's is the accepted checkpoint.
+      before:
+        img: first-room-before
+        width: 640
+        height: 610
+        alt: The June 3D view, a small floating stage with a low wooden table, a record player, a mug and a window, with no room around it
+        stamp: Jun 21
+        source: assets/img/project_pics/site-experiments/homepage-desk-588e36509-3d-2026-07-16.png
+      after:
+        img: first-room-after
+        width: 640
+        height: 610
+        alt: The July 3D view, a room inside the cliff with a round onsen, a lounge chair, the record player, a Welcome to Sirui's cave note and an ocean window
+        stamp: Jul 14
+        source: assets/img/project_pics/site-experiments/homepage-desk-3d-2026-07-16.png
+    links:
+      - label: All four frames
+        url: /projects/homepage-desk-scene/#desk-comparison-june-title
+      - label: Commit 1b07cea4c
+        url: https://github.com/DylanTao/dylantao.github.io/commit/1b07cea4c
+
+  - id: sandstone
+    date: "2026-09-13"
+    phase: moving-in
+    stream: house
+    title: The cliff turns to sandstone
+    status: done
+    note:
+      by: sirui
+      text: Build the Pacific, the cliffs and the outside as real geometry, never a picture behind the room, and keep only the Realistic look in public.
+      context: reviewing commit 564ca01fe
+    change: The public 3D view keeps one Realistic look. The cliff has continuous fluting and erosion instead of detached relief chips, and sky, haze, moving water and a shoreline wash are drawn in the scene. No scenic image sits behind the home.
+    detail: Architectural and Illustrated stayed behind as experiments in the authoring lab, with a note on what a future attempt would have to change in form, materials and composition before they come back.
+    compare:
+      kind: slider
+      view: The outside view at the scene's 4:00 pm, split from the review's comparison sheet.
+      before:
+        img: sandstone-before
+        width: 545
+        height: 462
+        alt: The outside view before the change, a smooth pale cliff block with flat bands holding the open room, under an orange sky above a turquoise sea
+        stamp: Sep 12, 10 pm
+        source: docs/evidence/coastal-realism/compare-outside.webp
+      after:
+        img: sandstone-after
+        width: 545
+        height: 462
+        alt: The same view after the change, a fluted and eroded sandstone headland with the room under a rock overhang, more headlands behind it and a blue sky
+        stamp: Midnight
+        source: docs/evidence/coastal-realism/compare-outside.webp
+    links:
+      - label: Review notes
+        url: https://github.com/DylanTao/dylantao.github.io/tree/main/docs/evidence/coastal-realism
+      - label: Commit 788508a82
+        url: https://github.com/DylanTao/dylantao.github.io/commit/788508a82
+
+  - id: two-floors
+    date: "2026-09-13"
+    phase: moving-in
+    stream: house
+    title: Two floors carved into one cliff
+    status: done
+    note:
+      by: sirui
+      text: A room on a freestanding pedestal reads as a stage, not a home in a cliff. Carve the cave into land that continues inland, with the beach at its foot and the ocean beyond.
+      context: the left image is my own review screenshot
+    change: The study, sleeping alcove and onsen moved to an upper gallery 2.6 m above the kitchen, lounge and gym, joined by fifteen closed risers. The cave is carved from one continuous mainland, the beach follows the shore beneath it, and the cutaway lifts only the local ceiling.
+    detail: Hiding the whole roof had erased the mountain behind the rooms, which is why only the local ceiling lifts. Walking began to follow the exported stair treads instead of an approximate equation.
+    compare:
+      kind: pair
+      view: Not the same camera. My screenshot shows the house on its pedestal at night; the new view frames the whole shore and the two floors by day.
+      before:
+        img: two-floors-before
+        width: 627
+        height: 661
+        alt: My night screenshot of the 3D home, the lit room sitting on a dark rock pedestal surrounded by water, with the caption One more idea at 1:16 am
+        stamp: my screenshot, 1:16 am
+        source: docs/evidence/coastal-section/before-exterior.webp
+      after:
+        img: two-floors-after
+        width: 545
+        height: 462
+        alt: The rebuilt exterior by day, a tall sandstone cliff with the two-floor cave room cut into it, gulls along the face and a pebbled beach and surf at its foot
+        stamp: 3 am
+        source: docs/evidence/coastal-section/exterior-day.webp
+    links:
+      - label: Review notes
+        url: https://github.com/DylanTao/dylantao.github.io/tree/main/docs/evidence/coastal-section
+      - label: Commit 5cd5432fc
+        url: https://github.com/DylanTao/dylantao.github.io/commit/5cd5432fc
+
+  - id: likeness
+    date: "2026-09-13"
+    phase: moving-in
+    stream: people
+    title: A face that looks like me
+    status: done
+    note:
+      by: sirui
+      text: I rejected the first face. It read as a doll with paired hair locks, not my swept-back long hair, exposed forehead, glasses and clean-shaven face.
+      said: "2026-09-12"
+    change: All five versions of me were re-authored in Blender against my portrait, with a broader jaw, a higher forehead, lower brows and new eye, nose and glasses proportions. The hair is side-parted, tucked behind the ears and layered at the neck; the Ghibli version has smaller almond eyes and a smaller head.
+    compare:
+      kind: slider
+      view: The Ghibli version in the same Blender review camera; the earlier model is from commit c25f20546.
+      before:
+        img: face-before
+        width: 384
+        height: 480
+        alt: The earlier Ghibli model of Sirui, a large head with long hair falling in two thick locks beside the face and large round glasses
+        stamp: Sep 13, 1 am
+        source: docs/evidence/coastal-section/character-ghibli.webp
+      after:
+        img: face-after
+        width: 384
+        height: 480
+        alt: The rebuilt Ghibli model in the same camera, a smaller head with side-parted hair tucked behind the ears, layered at the neck, and round glasses
+        stamp: 3 am
+        source: docs/evidence/coastal-section/character-ghibli.webp
+    links:
+      - label: Review notes
+        url: https://github.com/DylanTao/dylantao.github.io/tree/main/docs/evidence/coastal-section
+      - label: Commit 5cd5432fc
+        url: https://github.com/DylanTao/dylantao.github.io/commit/5cd5432fc
+
+  - id: grips
+    date: "2026-10-01"
+    phase: up-close
+    stream: people
+    title: Fingers that hold the bar
+    status: done
+    note:
+      by: review
+      text: In the gym, the Ghibli hands stayed open above the pull-up handles, and the handle passed through the wrist.
+    change: Twenty finger joints joined the Ghibli rig, and both grip clips were fitted to the real wrist positions beside the bars. In 132 sampled grip frames every finger came within 2 mm of its bar.
+    compare:
+      kind: slider
+      view: The pull-up grip in the same Blender contact-study camera.
+      before:
+        img: grips-before
+        width: 800
+        height: 800
+        alt: Close-up of the Ghibli avatar's raised hand during a pull-up, open and flat above the dark bar, which cuts through the wrist
+        source: artwork/coastal-home/reviews/grips/before-pullup-hand.png
+      after:
+        img: grips-after
+        width: 800
+        height: 800
+        alt: The same close-up after the change, the fingers curled around the dark bar in a closed grip
+        stamp: Oct 1
+        source: artwork/coastal-home/reviews/grips/after-pullup-hand.png
+    links:
+      - label: Review notes
+        url: https://github.com/DylanTao/dylantao.github.io/tree/main/docs/evidence/coastal-grips-2026-10-01
+      - label: Commit 0fc3b00ef
+        url: https://github.com/DylanTao/dylantao.github.io/commit/0fc3b00ef
+
+  - id: warm-night
+    date: "2026-10-02"
+    phase: up-close
+    stream: house
+    title: A warmer home after dark
+    status: done
+    note:
+      by: review
+      text: At night every room was lit evenly, the lamps were weakly placed, and the bath shirt read as skin.
+    change: A light field traced on the CPU now carries sky and lamp light through the house with one bounce, and four warm fixtures light it at night. The bath shirt became opaque teal fabric.
+    compare:
+      kind: slider
+      view: The kitchen at 22:00 Pacific in the same camera, from the review's render sheet.
+      before:
+        img: warm-night-before
+        width: 523
+        height: 437
+        alt: The kitchen at night before the change, grey walls, the island and the cabinets all lit to the same flat brightness
+        source: docs/evidence/warm-house-2026-10-02/night-lighting-before-after.png
+      after:
+        img: warm-night-after
+        width: 523
+        height: 437
+        alt: The same kitchen after the change, darker overall, with a warm wall lamp lighting the framed print and the island while the corners fall into shadow
+        stamp: Oct 2
+        source: docs/evidence/warm-house-2026-10-02/night-lighting-before-after.png
+    links:
+      - label: Review notes
+        url: https://github.com/DylanTao/dylantao.github.io/tree/main/docs/evidence/warm-house-2026-10-02
+      - label: Commit 780f1292f
+        url: https://github.com/DylanTao/dylantao.github.io/commit/780f1292f
+
+  - id: warmup
+    date: "2026-10-12"
+    phase: up-close
+    stream: speed
+    title: Twenty-six seconds of shaders, moved off the page
+    status: done
+    note:
+      by: review
+      text: Opening the 3D home froze the page for about 13 seconds, then again when the rooms streamed in and on the first Look around.
+    change: Every shader program the first view needs is now created ahead of time and compiled on the driver's worker threads, so the page keeps scrolling while the house compiles. Streamed rooms join once their programs are ready, and no pixel changed.
+    metrics:
+      - label: Blocking shader work
+        before: 26 s
+        after: 0.6 s
+      - label: Ready to explore
+        before: 11.3 s
+        after: 7.5 s
+    links:
+      - label: How the house opens without freezing
+        url: /projects/graphics-performance/#opening-without-freezing-the-page
+      - label: Commit 011fe99b2
+        url: https://github.com/DylanTao/dylantao.github.io/commit/011fe99b2
+
+  - id: retreat
+    date: "2026-10-24"
+    phase: retreat
+    stream: house
+    title: The house steps eight metres into the cliff
+    status: done
+    note:
+      by: sirui
+      text: The house belongs inside the cliff. The pool should read as a light court on real rock, with a dry walk from the living room, and upstairs should be a quiet private floor.
+    change: Only the house moved, eight metres landward; the coast stayed where it was. The pool now sits in a basin cut into the rock, without the deep girder and three exposed piers. My desk moved into a tall library, and the old upstairs office became a quiet room with two chaises.
+    detail: The setback has a cost I kept visible. From the pool, the cliff faces now enter its sideward ocean view, and the playful laundry line still crosses that camera. The excavated sandstone is still angular, and the bedroom is still a long walk from the library.
+    crew: Codex
+    compare:
+      kind: slider
+      view: The same authored overview at 1:20 pm on October 2 in clear weather, at 1440 × 1000 without the page controls. The camera moves eight metres with the house, so the coast shifts between frames.
+      before:
+        img: retreat-before
+        width: 1440
+        height: 810
+        alt: The cutaway house before the retreat, its upper floor holding my desk, bookshelves and a bed above the double-height living room with its hanging fireplace
+        source: artwork/coastal-home/reviews/retreat-integration-2026-10-24/before/overview-clear.png
+      after:
+        img: retreat-after
+        width: 1440
+        height: 810
+        alt: The same overview after the retreat, the house set deeper under the sandstone, its upper floor now holding two chaises and a low table above the same living room
+        stamp: Oct 24
+        source: artwork/coastal-home/reviews/retreat-integration-2026-10-24/matched-final-clear/overview.png
+    extra:
+      - kind: slider
+        view: The pool court in the same authored shot. It belongs to the rock now, but its sideward view of the ocean is narrower, and the laundry still crosses it.
+        before:
+          img: retreat-pool-before
+          width: 1440
+          height: 810
+          alt: The pool before the retreat, a long turquoise basin on a pale terrace with a glass rail and open sea beyond, and a laundry line with towels at its far end
+          source: artwork/coastal-home/reviews/retreat-integration-2026-10-24/before/infinity-pool-clear.png
+        after:
+          img: retreat-pool-after
+          width: 1440
+          height: 810
+          alt: The pool after the retreat, a lighter terrace edge and retained sandstone beside the water, with rock faces now entering the view of the sea and the laundry line still in place
+          stamp: Oct 24
+          source: artwork/coastal-home/reviews/retreat-integration-2026-10-24/matched-final-clear/infinity-pool.png
+    links:
+      - label: Review notes
+        url: https://github.com/DylanTao/dylantao.github.io/blob/main/docs/design-reviews/2026-10-24/HOUSE_REVISION.md
+      - label: Commit 162685ac8
+        url: https://github.com/DylanTao/dylantao.github.io/commit/162685ac8
+
+  - id: plants
+    date: "2026-10-24"
+    phase: retreat
+    stream: house
+    title: Plants placed on purpose
+    status: done
+    note:
+      by: sirui
+      text: I wanted the view to lead, the plants to feel deliberately placed, the bathroom finishes to feel considered, and the library to have a warm hearth.
+    change: The freestanding olive left the doorway to the glass front. A stone bed at the north window now holds a fan of Strelitzia, small ferns sit on the vanity stone, and a pothos trails from the library shelves. The library gained a recessed stone hearth.
+    detail: The bathrooms gained a narrow limestone border, larger stone cuts in the dry zone and finer ones in the shower, and a concealed light under each vanity. These renders are Blender previews of the source, not the browser, so they show placement and form rather than the page's night lighting.
+    compare:
+      kind: slider
+      view: The north window of the living room in the same Blender room camera, in afternoon light. These are Blender previews of the source, not browser captures.
+      before:
+        img: plants-before
+        width: 1050
+        height: 744
+        alt: The living room's north window before the change, a freestanding olive's grey trunk and angular leaves crowding the foreground in front of two orange lounge chairs
+        source: artwork/coastal-home/reviews/interior-refinement-2026-10-24/native/lounge-plant-before.png
+      after:
+        img: plants-after
+        width: 1050
+        height: 744
+        alt: The same window after the change, the olive gone and a white stone planter holding a tall fan of Strelitzia leaves beside the lounge chairs and a brass floor lamp
+        stamp: Oct 24
+        source: artwork/coastal-home/reviews/interior-refinement-2026-10-24/native/lounge-plant-after.png
+    extra:
+      - kind: slider
+        view: The bedroom's bathroom in the same Blender room camera, afternoon light.
+        before:
+          img: bath-before
+          width: 1050
+          height: 744
+          alt: The bedroom bathroom before the change, a pale tiled floor in even squares, a timber vanity with a basin, and a glass shower with teal wall panels
+          source: artwork/coastal-home/reviews/interior-refinement-2026-10-24/native/bath-bedroom-before.png
+        after:
+          img: bath-after
+          width: 1050
+          height: 744
+          alt: The same bathroom after the change, the floor framed by a limestone border with larger stone cuts, a small fern on the vanity and finer cuts in the shower floor
+          stamp: Oct 24
+          source: artwork/coastal-home/reviews/interior-refinement-2026-10-24/native/bath-bedroom-after.png
+    links:
+      - label: Review notes
+        url: https://github.com/DylanTao/dylantao.github.io/tree/main/artwork/coastal-home/reviews/interior-refinement-2026-10-24
+      - label: Commit 162685ac8
+        url: https://github.com/DylanTao/dylantao.github.io/commit/162685ac8
+
+  - id: walk-head
+    date: "2026-10-24"
+    phase: retreat
+    stream: people
+    title: Keeping the head out of first person
+    status: done
+    note:
+      by: review
+      text: At the deepest Walk down-look, the cut through the body left the head's lower parts in view, South Park's whole mouth and teeth among them.
+    change: In the first-person view only, the walking body swaps in a version of its mesh without the head. Mirrors and the sun's shadow still draw the whole person, and no draw call or shader was added.
+    crew: Claude Opus 5.5
+    compare:
+      kind: slider
+      view: Walk at the study desk as South Park, looking straight down, at 1440 × 1000 without the page controls. The after frame comes from the live site.
+      before:
+        img: head-before
+        width: 1440
+        height: 810
+        alt: First-person view looking down while walking as the South Park avatar, the inside of the character's mouth, with four white teeth, filling the middle of the frame
+        source: artwork/coastal-home/reviews/first-person-head-2026-10-24/house/desktop-south-park-down-before.webp
+      after:
+        img: head-after
+        width: 1440
+        height: 810
+        alt: The same down-look on the live site after the fix, showing only the shoulders of a black shirt, the wooden floor and a pair of shoes below
+        stamp: Oct 24
+        source: artwork/coastal-home/reviews/first-person-head-2026-10-24/house/live-desktop-south-park-down.webp
+    links:
+      - label: Review notes
+        url: https://github.com/DylanTao/dylantao.github.io/tree/main/artwork/coastal-home/reviews/first-person-head-2026-10-24
+      - label: Commit 43968a1f5
+        url: https://github.com/DylanTao/dylantao.github.io/commit/43968a1f5
+
+  - id: coffee-ring
+    date: "2026-10-24"
+    phase: retreat
+    stream: desk
+    title: The ring a mug's foot leaves
+    status: done
+    note:
+      by: sirui
+      quote: The coffee mug stain doesn't really look like a stain from coffee… the animation there feel a bit too much… I thought the stain will be on top of cards?
+      said: "2026-10-24"
+      context: about the 2D desk
+    change: The stain now draws the band a mug's foot prints, with coffee gathered at both pinned edges and a clean circle inside. It rests on the top slip, clear of the words, and settles in once instead of drying from a wet film.
+    detail: Every drop-shaped version had read as a pale disc by day or a dark hole at night, because a rim sharp outside and feathered inside makes the inside look lighter than the page. Photographs of real mug rings showed a grainy band with a clean centre instead.
+    crew: Claude Opus 5.5
+    compare:
+      kind: slider
+      view: The 2D desk's slips at 1440 wide in the light theme, the same crop before and after.
+      before:
+        img: coffee-before
+        width: 604
+        height: 353
+        alt: The 2D desk before the change, a pale cream disc with a faint brown rim, partly hidden under the Design loop slip
+        source: .jekyll-cache/visual-qa/coord-2026-10-24/coffee/before-light-desktop.png
+      after:
+        img: coffee-after
+        width: 604
+        height: 353
+        alt: The same crop after the change, a thin amber coffee ring with a clean centre resting on the right end of the Design loop slip, clear of its words
+        stamp: Oct 24
+        source: .jekyll-cache/visual-qa/coord-2026-10-24/coffee/v6-light-desktop.png
+    links:
+      - label: Design record
+        url: /projects/website-revamp/record/#coffee-stain
+      - label: Commit a38862db7
+        url: https://github.com/DylanTao/dylantao.github.io/commit/a38862db7
+
+  - id: connect-model
+    date: "2026-10-24"
+    phase: walk-through
+    stream: coast
+    title: Lift the La Jolla miniature in Connect
+    status: done
+    note:
+      by: sirui
+      quote: The 3D model on top right could maybe be moved a bit up…
+      said: "2026-10-24"
+      context: about the homepage's Connect section
+    change: In the two-column layout the miniature's frame is cropped above and below the model, which keeps its size, and the figure rises until its top meets the Connect label. Its caption now ends within 16 px of the copy's last line from 1024 to 1440 px wide; at 1440 it used to sit 151 px lower.
+    crew: Claude Opus 5.5
+    compare:
+      kind: slider
+      view: The homepage's Connect section at 1440 × 1000 in the evening theme. The section is shorter after the change, so the after view's lower band is page background.
+      before:
+        img: connect-before
+        width: 1330
+        height: 582
+        alt: The Connect section before the change, the La Jolla miniature sitting low on the right so that its caption ends well below the links and the note on the left
+        source: .jekyll-cache/visual-qa/sky-2026-10-24/s1-before-connect-1440x1000-evening.png
+      after:
+        img: connect-after
+        width: 1330
+        height: 582
+        alt: The same section after the change, the miniature raised so its top meets the Connect label and its caption ends level with the note, leaving the section shorter
+        stamp: Oct 24
+        source: .jekyll-cache/visual-qa/sky-2026-10-24/s1-after-connect-1440x1000-evening.png
+    links:
+      - label: Commit b6cdf7695
+        url: https://github.com/DylanTao/dylantao.github.io/commit/b6cdf7695
+
+  - id: character-4k
+    date: "2026-10-24"
+    phase: walk-through
+    stream: people
+    title: Characters that hold up at 4K
+    status: in-progress
+    note:
+      by: sirui
+      quote: I [was] just checking the scene in my 4K screen on a PC with 3080, but realize that the character geometry is still rough…
+      said: "2026-10-24"
+
+  - id: carved-holes
+    date: "2026-10-24"
+    phase: walk-through
+    stream: house
+    title: Blend the house into the cliff
+    status: in-progress
+    note:
+      by: sirui
+      quote: You moved the house, but left many space just like carved holes… the pool and patio can cantilever a bit out…
+      said: "2026-10-24"
+
+  - id: entrance
+    date: "2026-10-24"
+    phase: walk-through
+    stream: house
+    title: A cleaner entrance and a private living room
+    status: in-progress
+    note:
+      by: sirui
+      quote: The geometry for entrance is a bit rough, also why entrance to onsen… my living space is so exposed…
+      said: "2026-10-24"
+
+  - id: dusk
+    date: "2026-10-24"
+    phase: walk-through
+    stream: coast
+    title: Keep the sunset, then finish the dusk
+    status: in-progress
+    note:
+      by: sirui
+      quote: Love the sunset thing you did…
+      said: "2026-10-24"
+      context: about the footer's La Jolla coast
+
+  - id: loading-sketch
+    date: "2026-10-24"
+    phase: walk-through
+    stream: speed
+    title: A loading sketch that shows real progress
+    status: in-progress
+    note:
+      by: sirui
+      text: While the house loads, I want a more detailed line drawing, one that reveals how much is really done.
+
+  - id: strong-gpus
+    date: "2026-10-24"
+    phase: walk-through
+    stream: speed
+    title: A high tier for strong GPUs
+    status: in-progress
+    note:
+      by: sirui
+      text: On a strong GPU the home should look its best and never lag or crash, and it should still open quickly everywhere.

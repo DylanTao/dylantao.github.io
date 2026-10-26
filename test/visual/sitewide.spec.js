@@ -3,6 +3,7 @@ const { attachScreenshot, collectRuntimeErrors, preparePage, screenshotDiffRatio
 const { ALL_SITEWIDE_ROUTES, SITEWIDE_ROUTES, publicRouteUrl } = require("./public-routes");
 
 const FUN_PROJECT_ROUTE_IDS = new Set([
+  "project-house-in-the-cliff",
   "project-graphics-performance",
   "project-graphics-lab",
   "project-openai-build-week",
@@ -435,6 +436,68 @@ async function expectStableHumanCounterpart(page, expectedPathAndHash, frameCoun
   expect(samples, `Human counterpart changed during settled scroll frames: ${samples.join(", ")}`).toEqual(
     Array(frameCount).fill(expectedPathAndHash)
   );
+}
+
+// The 3D home's build diary (_includes/build-diary.liquid, 2026-10-24): dated entries in chapters, a
+// before/after slider for every same-camera pair, side-by-side views for the rest, and a still page under
+// automation. The slider answers the keyboard and keeps its value in words for screen readers.
+async function exerciseBuildDiary(page, route) {
+  const diary = page.locator("[data-build-diary]");
+  await expect(diary).toHaveCount(1);
+  await expect(page.locator("html")).not.toHaveClass(/cinematic-live/);
+
+  const entries = diary.locator(".build-diary-entry");
+  const entryCount = await entries.count();
+  expect(entryCount, `${route.path} diary has too few entries`).toBeGreaterThanOrEqual(route.id === "project-homepage-desk-scene" ? 12 : 5);
+  expect(
+    await entries.evaluateAll((items) => items.every((item) => item.querySelector(".build-diary-title") && item.querySelector(".build-diary-note")))
+  ).toBe(true);
+
+  // Chapter links land on real chapters.
+  const chapterTargets = await diary
+    .locator(".build-diary-chapters a")
+    .evaluateAll((links) => links.map((link) => Boolean(document.getElementById(link.getAttribute("href").slice(1)))));
+  expect(chapterTargets.length).toBeGreaterThan(1);
+  expect(chapterTargets.every(Boolean)).toBe(true);
+
+  const sliders = diary.locator('[data-diary-compare="slider"]');
+  const sliderCount = await sliders.count();
+  expect(sliderCount).toBeGreaterThan(0);
+  await expect(diary.locator('[data-diary-compare="slider"].is-slider')).toHaveCount(sliderCount);
+  await expect(diary.locator('[data-diary-compare="pair"].is-slider')).toHaveCount(0);
+
+  const slider = sliders.first();
+  await slider.scrollIntoViewIfNeeded();
+  const images = slider.locator("img");
+  await expect(images).toHaveCount(2);
+  await expect.poll(() => images.evaluateAll((items) => items.every((image) => image.complete && image.naturalWidth > 0))).toBe(true);
+  expect(await images.evaluateAll((items) => items.every((image) => image.alt.trim().length >= 40))).toBe(true);
+
+  const range = slider.locator('input[type="range"]');
+  await expect(range).toBeVisible();
+  const rangeBox = await range.boundingBox();
+  expect(rangeBox.height, `${route.path} diary slider is shorter than 44px`).toBeGreaterThanOrEqual(44);
+  await expect(range).toHaveAttribute("aria-valuetext", "50% before, 50% after");
+  await range.focus();
+  for (let step = 0; step < 5; step += 1) await range.press("ArrowRight");
+  await expect(range).toHaveAttribute("aria-valuetext", "55% before, 45% after");
+  await expect(slider).toHaveClass(/is-adjusted/);
+  expect(await slider.evaluate((figure) => getComputedStyle(figure).getPropertyValue("--diary-split").trim())).toBe("55%");
+  await range.press("End");
+  await expect(range).toHaveAttribute("aria-valuetext", "All before");
+  const focusRing = await range.evaluate((element) => getComputedStyle(element).outlineStyle);
+  expect(focusRing, `${route.path} diary slider has no focus outline`).not.toBe("none");
+
+  // The same-camera views overlap in one frame; the before view is cut at the divider, so it reads
+  // before on the left and after on the right.
+  const overlap = await slider.evaluate((figure) => {
+    const [before, after] = figure.querySelectorAll(".build-diary-frame");
+    const a = before.getBoundingClientRect();
+    const b = after.getBoundingClientRect();
+    return { sameTop: Math.abs(a.top - b.top) < 1, sameLeft: Math.abs(a.left - b.left) < 1, clip: getComputedStyle(before).clipPath };
+  });
+  expect(overlap.sameTop && overlap.sameLeft).toBe(true);
+  expect(overlap.clip).toContain("inset");
 }
 
 async function exercisePublicRoute(page, route, theme, testInfo) {
@@ -1119,6 +1182,10 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
     expect(eraBoxes[1].top, "evidence eras should follow the article's reading order").toBeGreaterThan(eraBoxes[0].bottom);
     expect(figureBoxes[1].top, "June 3D should follow June 2D").toBeGreaterThan(figureBoxes[0].bottom);
     expect(figureBoxes[3].top, "July 3D should follow July 2D").toBeGreaterThan(figureBoxes[2].bottom);
+  }
+
+  if (route.id === "project-homepage-desk-scene" || route.id === "project-house-in-the-cliff") {
+    await exerciseBuildDiary(page, route);
   }
 
   if (route.id === "secret-locked") {
@@ -2530,9 +2597,10 @@ test("projects nest the site experiments under the website revamp, newest first 
   // Its face names what it holds, the 3D home's branch first, each name a link to its page (2026-10-19: Sirui
   // could not find the graphics work two closed decks down).
   const revampInside = revamp.locator(":scope > .card [data-project-deck-inside]");
-  await expect(revampInside.locator("a")).toHaveText(["The 3D home", "Graphics Lab", "Performance", "Light Paths", "La Jolla", "duh & P"]);
+  // The 3D home's build-diary pages (2026-10-24) are its newest children, so they lead its branch.
+  await expect(revampInside.locator("a")).toHaveText(["The 3D home", "The house", "Graphics Lab", "Performance", "Light Paths", "La Jolla"]);
   await expect(revampInside.getByRole("link", { name: "Performance", exact: true })).toHaveAttribute("href", /\/projects\/graphics-performance\/$/);
-  await expect(revampInside.locator(".project-deck-inside-more")).toHaveText("and 8 more");
+  await expect(revampInside.locator(".project-deck-inside-more")).toHaveText("and 9 more");
 
   // Wide screens start with the revamp open and leave the address alone; narrower ones open it with a click.
   if (page.viewportSize().width >= 992) {
@@ -2586,7 +2654,7 @@ test("projects nest the site experiments under the website revamp, newest first 
   // (_data/design_records/graphics-lab.yml), grouped by system, plus one card for the performance write-up; the
   // deck and each group name their own count, so the check follows the record as it grows.
   const desk = cards.filter({ has: page.getByRole("heading", { name: "The Desk That Learned Depth", exact: true }) });
-  await expect(desk.locator(":scope > .card [data-project-deck-inside] a")).toHaveText(["Graphics Lab", "Performance", "Light Paths"]);
+  await expect(desk.locator(":scope > .card [data-project-deck-inside] a")).toHaveText(["Graphics Lab", "Performance", "Light Paths", "The house"]);
   await desk.locator(":scope > .card [data-project-deck-trigger]").click({ position: { x: 12, y: 12 } });
   await expect(page.locator("[data-project-deck-trail] li")).toHaveText([
     "Site experiments",

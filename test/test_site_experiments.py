@@ -23,6 +23,7 @@ STORY_LAYOUT = REPO_ROOT / "_sass" / "_layout.scss"
 RESEARCH_SKILLS_POST = REPO_ROOT / "_posts" / "2026-04-27-research-skills-starter-pack.md"
 
 EXPECTED_CHRONOLOGY = [
+    ("house-in-the-cliff", "The House in the Cliff", "2026-10-24T21:30:00-07:00"),
     ("graphics-performance", "Making the 3D home fast", "2026-10-19T13:00:00-07:00"),
     ("graphics-lab", "Graphics Lab", "2026-10-18T00:30:00-07:00"),
     ("light-paths", "Light Paths in the Onsen", "2026-10-14T21:00:00-07:00"),
@@ -53,6 +54,7 @@ REPRODUCTION_GUIDES = [
 ]
 
 FUN_PROJECT_SLUGS = (
+    "house-in-the-cliff",
     "graphics-performance",
     "graphics-lab",
     "light-paths",
@@ -134,6 +136,7 @@ class SiteExperimentsTests(unittest.TestCase):
     def test_fun_project_cards_have_evidence_bound_origins_and_one_icon_family(self) -> None:
         project_cards = yaml.safe_load(PROJECT_CARD_DATA.read_text(encoding="utf-8"))
         expected_icons = {
+            "house-in-the-cliff": "house",
             "graphics-performance": "gauge",
             "graphics-lab": "lab",
             "light-paths": "light",
@@ -208,7 +211,15 @@ class SiteExperimentsTests(unittest.TestCase):
             "openai-build-week",
         }
         expected = {slug: "website-revamp" for slug in revamp_children}
-        expected.update({"graphics-lab": "homepage-desk-scene", "light-paths": "graphics-lab", "graphics-performance": "graphics-lab"})
+        # The 3D home's build diary keeps a deeper page per stream of work (2026-10-24): the house first.
+        expected.update(
+            {
+                "graphics-lab": "homepage-desk-scene",
+                "house-in-the-cliff": "homepage-desk-scene",
+                "light-paths": "graphics-lab",
+                "graphics-performance": "graphics-lab",
+            }
+        )
         self.assertEqual(children, expected)
 
         site_experiments = {path.stem for path in PROJECTS_DIR.glob("*.md") if frontmatter(path).get("site_experiment") == "true"}

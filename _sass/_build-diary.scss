@@ -1,0 +1,580 @@
+// The 3D home's build diary (_includes/build-diary.liquid, entries in _data/home_world_diary.yml): a dated
+// spine of my review notes, what changed, and the same view before and after, kept the way a building
+// crew keeps a site diary. Content stays flat and tonal (docs/material-lite-revamp.md); the spine is the
+// one hairline. Each entry is a small grid: the date rail beside the words, then the pictures, which span
+// the rail too when they are wide. A same-camera pair becomes one frame with a divider, before on the
+// left and after on the right (assets/js/build-diary.mjs); without the script, and for pairs from
+// different cameras, the two views stand side by side.
+//
+// Motion follows the cinematic layer: only under html.cinematic-live (no reduced motion, no automation
+// unless ?cinematic=live) and never while Pause motion is on. As each frame scrolls in, its divider sweeps
+// from the right edge to the middle, so the after view slides in over the before one (a CSS scroll-driven
+// animation, like the website revamp's laptop), and entries settle in once on the gentle spring. Under
+// reduced motion the diary is a still list.
+
+@property --diary-split {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 50%;
+}
+
+.post.project-case-page article > .build-diary {
+  width: 100%;
+  max-width: min(100%, 58rem);
+  margin: 1.5rem auto 2.75rem;
+}
+
+.build-diary {
+  --diary-rail: 5.75rem;
+  --diary-gap: 1.25rem;
+  --diary-dot: 0.625rem;
+  --diary-indent: calc(var(--diary-dot) + 0.95rem);
+}
+
+// Chapters: plain links to each stretch of work, so a long diary can be entered in the middle.
+.build-diary-chapters {
+  margin: 0 0 1.75rem;
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.2rem 0;
+    color: var(--md-lite-on-surface);
+    line-height: 1.3;
+    text-decoration: none;
+
+    &:hover .build-diary-chapter-title,
+    &:focus-visible .build-diary-chapter-title {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+
+    &:focus-visible {
+      border-radius: var(--md-lite-shape-xs);
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 3px;
+    }
+  }
+}
+
+.build-diary-chapter-when {
+  color: var(--md-lite-on-surface-variant);
+  font-size: var(--type-meta);
+  font-weight: 500;
+}
+
+.build-diary-chapter-title {
+  font-weight: 600;
+}
+
+// The spine: one hairline down the left edge, a dot for each entry.
+.build-diary-timeline {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0.35rem;
+    bottom: 1.5rem;
+    left: calc(var(--diary-dot) / 2 - 0.5px);
+    width: 1px;
+    background: var(--md-lite-outline-variant);
+  }
+}
+
+.build-diary-phase,
+.build-diary-entry {
+  scroll-margin-top: 6.5rem;
+}
+
+.build-diary-phase + .build-diary-phase {
+  margin-top: 0.75rem;
+}
+
+.build-diary-phase-header {
+  display: grid;
+  grid-template-columns: var(--diary-rail) minmax(0, 1fr);
+  column-gap: var(--diary-gap);
+  padding: 0 0 1.35rem var(--diary-indent);
+
+  h3,
+  h4 {
+    margin: 0 0 0.35rem;
+    font-size: var(--type-subheading);
+    font-weight: 600;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0;
+    max-width: 40rem;
+    color: var(--md-lite-on-surface-variant);
+  }
+}
+
+.build-diary-phase-when {
+  margin: 0.3rem 0 0;
+  font-size: var(--type-meta);
+  font-weight: 600;
+}
+
+.build-diary-phase-header p.build-diary-phase-when {
+  color: var(--md-lite-on-surface);
+}
+
+.build-diary-entries {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.build-diary-entry {
+  position: relative;
+  padding: 0 0 2.6rem var(--diary-indent);
+
+  // The entry's dot on the spine; work still under way is a ring in the action colour.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0.4rem;
+    left: 0;
+    width: var(--diary-dot);
+    height: var(--diary-dot);
+    border-radius: 50%;
+    background: var(--md-lite-on-surface-variant);
+    box-shadow: 0 0 0 3px var(--global-bg-color);
+  }
+
+  &[data-diary-status="in-progress"]::before,
+  &[data-diary-status="open"]::before {
+    border: 2px solid var(--md-lite-ink-accent);
+    background: var(--global-bg-color);
+  }
+
+  // A note still being worked on has no pictures yet, so it takes less room.
+  &[data-diary-status="in-progress"],
+  &[data-diary-status="open"] {
+    padding-bottom: 1.7rem;
+  }
+
+  > .build-diary-item {
+    display: grid;
+    grid-template-columns: var(--diary-rail) minmax(0, 1fr);
+    column-gap: var(--diary-gap);
+    align-items: start;
+    transition: translate var(--spring-gentle-duration) var(--spring-gentle);
+  }
+
+  &.is-arriving > .build-diary-item {
+    translate: 0 1.5rem;
+    transition: none;
+  }
+}
+
+// The rail: the date, the day count since June 17, and the stream's page.
+.build-diary-rail {
+  grid-column: 1;
+  display: grid;
+  justify-items: start;
+  gap: 0.1rem;
+  color: var(--md-lite-on-surface-variant);
+  font-size: var(--type-meta);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+
+  time {
+    color: var(--md-lite-on-surface);
+    font-size: var(--type-reading);
+    font-weight: 600;
+  }
+}
+
+.build-diary-stream {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  margin-top: 0.4rem;
+  padding: 0 0.55rem;
+  border-radius: var(--md-lite-shape-sm);
+  background: var(--md-lite-surface-container);
+  color: var(--md-lite-on-surface);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a.build-diary-stream {
+  &:hover {
+    background: var(--md-lite-surface-container-high);
+    color: var(--md-lite-on-surface);
+  }
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+.build-diary-body {
+  grid-column: 2;
+  min-width: 0;
+
+  p {
+    max-width: 40rem;
+  }
+}
+
+.build-diary-title {
+  margin: 0 0 0.7rem;
+  font-size: var(--type-reading);
+  font-weight: 600;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.build-diary-status {
+  display: inline-block;
+  margin: 0 0 0.7rem;
+  padding: 0.1rem 0.55rem;
+  border-radius: var(--md-lite-shape-sm);
+  background: var(--md-lite-tonal);
+  color: var(--md-lite-on-tonal);
+  font-size: var(--type-meta);
+  font-weight: 600;
+}
+
+.build-diary-label {
+  margin: 0 0 0.3rem;
+  color: var(--md-lite-on-surface-variant);
+  font-size: var(--type-meta);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+// My note sits on the desk's slip tone; what changed is plain prose beside it.
+.build-diary-note {
+  margin: 0 0 0.95rem;
+  padding: 0.8rem 1rem 0.9rem;
+  border-radius: var(--md-lite-shape-md);
+  background: var(--md-lite-surface-container);
+
+  p {
+    margin: 0;
+  }
+
+  blockquote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: inherit;
+
+    p {
+      font-size: var(--type-reading);
+      line-height: 1.6;
+    }
+  }
+}
+
+.build-diary-change p {
+  margin: 0 0 0.6rem;
+}
+
+.build-diary-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr));
+  gap: 0.75rem;
+  max-width: 40rem;
+  margin: 0.9rem 0 0.4rem;
+
+  > div {
+    padding: 0.75rem 1rem 0.85rem;
+    border-radius: var(--md-lite-shape-md);
+    background: var(--md-lite-surface-container-low);
+  }
+
+  dt {
+    margin: 0 0 0.2rem;
+    color: var(--md-lite-on-surface-variant);
+    font-size: var(--type-meta);
+    font-weight: 500;
+  }
+
+  dd {
+    margin: 0;
+    font-size: var(--type-subheading);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+}
+
+.build-diary-metric-before {
+  color: var(--md-lite-on-surface-variant);
+  font-weight: 500;
+}
+
+.build-diary-metric-arrow {
+  margin: 0 0.2rem;
+  color: var(--md-lite-on-surface-variant);
+  font-weight: 400;
+}
+
+// Comparisons. Side by side by default; a same-camera pair becomes one frame with a divider.
+.build-diary-compare {
+  --diary-split: 50%;
+  grid-column: 2;
+  min-width: 0;
+  margin: 0.4rem 0 0.6rem;
+
+  figcaption {
+    max-width: 40rem;
+    margin-top: 0.45rem;
+    color: var(--md-lite-on-surface-variant);
+    font-size: var(--type-meta);
+    line-height: 1.5;
+  }
+}
+
+.build-diary-frames {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.build-diary-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--md-lite-shape-md);
+  background: var(--md-lite-surface-container);
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+// A stamp in the corner of each view, like the date on a site photo. Solid enough to read on any frame.
+.build-diary-stamp {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--md-lite-shape-xs);
+  background: color-mix(in srgb, var(--md-lite-surface-container-lowest) 94%, transparent);
+  color: var(--md-lite-on-surface);
+  font-size: var(--type-meta);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 1.45;
+  pointer-events: none;
+}
+
+.build-diary-compare--wide {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 640px) {
+  .build-diary-frames {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.build-diary-compare.is-slider {
+  .build-diary-frames {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    max-width: var(--diary-width);
+    aspect-ratio: var(--diary-ratio);
+    overflow: hidden;
+    border-radius: var(--md-lite-shape-md);
+    background: var(--md-lite-surface-container);
+    cursor: ew-resize;
+    touch-action: pan-y;
+    user-select: none;
+
+    // The divider.
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--diary-split);
+      width: 2px;
+      margin-left: -1px;
+      background: rgb(255 255 255 / 92%);
+      box-shadow: 0 0 0 1px rgb(0 0 0 / 22%);
+      pointer-events: none;
+    }
+  }
+
+  .build-diary-frame {
+    grid-area: 1 / 1;
+    border-radius: 0;
+
+    img {
+      height: 100%;
+      object-fit: cover;
+      -webkit-user-drag: none;
+    }
+  }
+
+  // The before view lies over the after view and is cut at the divider: before on the left, after on
+  // the right, in reading order.
+  .build-diary-frame--before {
+    z-index: 1;
+    clip-path: inset(0 calc(100% - var(--diary-split)) 0 0);
+  }
+
+  .build-diary-frame--after .build-diary-stamp {
+    right: 0.5rem;
+    left: auto;
+  }
+
+  figcaption {
+    max-width: min(40rem, var(--diary-width));
+  }
+}
+
+.build-diary-control {
+  display: grid;
+  max-width: var(--diary-width);
+  margin-top: 0.2rem;
+
+  &[hidden] {
+    display: none;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    min-height: 2.75rem;
+    margin: 0;
+    background: transparent;
+    accent-color: var(--global-theme-color);
+    cursor: ew-resize;
+
+    &:focus-visible {
+      border-radius: var(--md-lite-shape-xs);
+      outline: var(--md-lite-focus-ring);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.build-diary-meta {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1.1rem;
+  margin: 0.35rem 0 0;
+  color: var(--md-lite-on-surface-variant);
+  font-size: var(--type-meta);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    min-height: 2.75rem;
+    font-weight: 500;
+  }
+}
+
+.build-diary-crew {
+  font-weight: 500;
+}
+
+// Narrow screens: the rail becomes one line above each entry, and the spine stays on the left.
+@media (max-width: 767.98px) {
+  .build-diary-phase-header,
+  .build-diary-entry > .build-diary-item {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .build-diary-phase-header {
+    padding-bottom: 1.1rem;
+  }
+
+  .build-diary-phase-when {
+    margin: 0 0 0.2rem;
+  }
+
+  .build-diary-rail,
+  .build-diary-body,
+  .build-diary-compare,
+  .build-diary-meta {
+    grid-column: 1;
+  }
+
+  .build-diary-rail {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.7rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .build-diary-stream {
+    margin-top: 0;
+  }
+
+  .build-diary-entry {
+    padding-bottom: 2.2rem;
+  }
+}
+
+@keyframes build-diary-reveal {
+  from {
+    --diary-split: 100%;
+  }
+
+  to {
+    --diary-split: 50%;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  html.cinematic-live:not([data-motion="paused"]) .build-diary-compare.is-slider:not(.is-adjusted) .build-diary-frames {
+    animation: build-diary-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 10% entry 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .build-diary-entry > .build-diary-item {
+    transition: none;
+  }
+
+  .build-diary-entry.is-arriving > .build-diary-item {
+    translate: none;
+  }
+
+  .build-diary-compare .build-diary-frames {
+    animation: none !important;
+  }
+}
+
+html[data-motion="paused"] {
+  .build-diary-entry > .build-diary-item {
+    transition: none;
+  }
+
+  .build-diary-entry.is-arriving > .build-diary-item {
+    translate: none;
+  }
+}

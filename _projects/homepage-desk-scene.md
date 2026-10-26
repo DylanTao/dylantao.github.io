@@ -18,6 +18,9 @@ year: 2026
 role: Designer, reviewer, world builder
 status: Living site experiment
 hide_title: true
+# The build diary's frames sweep in as they scroll into view (_sass/_build-diary.scss); a still page under
+# reduced motion and automation.
+cinematic: true
 ---
 
 <section class="project-case-hero site-experiment-hero">
@@ -35,6 +38,7 @@ hide_title: true
     </div>
     <div class="project-case-actions">
       <a href="{{ '/' | relative_url }}">Try the homepage desk</a>
+      <a href="#build-diary">Scroll the build diary</a>
       <a href="{{ '/assets/downloads/site-experiments/homepage-desk-scene-reproduction.md' | relative_url }}" download>Download reproduction MD</a>
     </div>
   </div>
@@ -45,6 +49,12 @@ hide_title: true
   <div><span>What</span><p>A quick 2D desk and an inhabited home with six connected spaces, sharing the same records, papers, and discoveries.</p></div>
   <div><span>Try</span><p>Switch views, play a record, find a hidden card, and check that it is still there when you switch back.</p></div>
 </section>
+
+## The build diary {#build-diary}
+
+A building crew keeps a site diary: dated photos taken from the same spot, the client's notes, and what changed. This is mine for the 3D home. I look at the rendered place and write down what looks wrong; AI coding agents change the geometry, light and code; then I look again. When the agents' own review caught a problem first, the entry says so. Each entry keeps one note, what changed, and the same view before and after: drag across a picture, or use the slider under it, to compare. Day 1 is June 17, when the 3D view first shipped, and quotes are from my review messages with the typos fixed.
+
+{% include build-diary.liquid %}
 
 ## September: a home with a daily rhythm
 

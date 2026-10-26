@@ -1,0 +1,78 @@
+{%- comment -%}
+  One before/after comparison in the build diary (_includes/build-diary.liquid).
+  kind "slider": the same camera. assets/js/build-diary.mjs stacks the two views in one frame, the before
+  view left of a divider and the after view right of it, with a range under the frame that moves the
+  divider. kind "pair": different cameras, which always stand side by side (stacked on narrow screens).
+  A landscape picture at least 800 px wide, and every pair, spans the entry's full width; a smaller or
+  squarer one keeps the text column, so it is never scaled past its own pixels or allowed to tower over
+  the words. Every image is lazy WebP with the widths
+  bin/build_diary_images.py writes.
+  Usage: {% include build-diary-compare.liquid compare=entry.compare title=entry.title dir=diary.image_dir %}
+{%- endcomment -%}
+{%- assign compare = include.compare -%}
+{%- assign compare_kind = compare.kind | default: 'slider' -%}
+{%- assign compare_dir = include.dir -%}
+{%- assign compare_sides = 'before,after' | split: ',' -%}
+{%- comment -%} Wide: a pair, or a landscape picture (at least 6:5) at least 800 px wide. {%- endcomment -%}
+{%- assign compare_wide = false -%}
+{%- assign compare_width_five = compare.after.width | times: 5 -%}
+{%- assign compare_height_six = compare.after.height | times: 6 -%}
+{%- if compare_kind == 'pair' -%}
+  {%- assign compare_wide = true -%}
+{%- elsif compare.after.width >= 800 and compare_width_five >= compare_height_six -%}
+  {%- assign compare_wide = true -%}
+{%- endif -%}
+{%- if compare_kind == 'slider' -%}
+  {%- assign compare_sizes = '(min-width: 992px) 44rem, 94vw' -%}
+{%- else -%}
+  {%- assign compare_sizes = '(min-width: 992px) 22rem, (min-width: 640px) 46vw, 94vw' -%}
+{%- endif %}
+<figure
+  class="build-diary-compare build-diary-compare--{{ compare_kind }}{% if compare_wide %} build-diary-compare--wide{% endif %}"
+  data-diary-compare="{{ compare_kind }}"
+  style="--diary-width: {{ compare.after.width }}px; --diary-ratio: {{ compare.after.width }} / {{ compare.after.height }};"
+>
+  <div class="build-diary-frames">
+    {%- for side in compare_sides -%}
+      {%- assign shot = compare[side] -%}
+      {%- capture shot_base -%}{{ compare_dir }}{{ shot.img }}{%- endcapture -%}
+      {%- capture shot_srcset -%}
+        {%- if shot.width > 960 -%}
+          {{ shot_base | append: '-480.webp' | relative_url }} 480w, {{ shot_base | append: '-960.webp' | relative_url }} 960w, {{ shot_base | append: '.webp' | relative_url }} {{ shot.width }}w
+        {%- elsif shot.width > 480 -%}
+          {{ shot_base | append: '-480.webp' | relative_url }} 480w, {{ shot_base | append: '.webp' | relative_url }} {{ shot.width }}w
+        {%- endif -%}
+      {%- endcapture %}
+      <div class="build-diary-frame build-diary-frame--{{ side }}">
+        <img
+          src="{{ shot_base | append: '.webp' | relative_url }}"
+          {% if shot_srcset != '' %}
+            srcset="{{ shot_srcset }}" sizes="{{ compare_sizes }}"
+          {% endif %}
+          width="{{ shot.width }}"
+          height="{{ shot.height }}"
+          alt="{{ shot.alt | escape }}"
+          loading="lazy"
+          decoding="async"
+        >
+        <span class="build-diary-stamp">
+          {%- if side == 'before' -%}Before{%- else -%}After{%- endif -%}
+          {%- if shot.stamp %} · {{ shot.stamp }}{%- endif -%}
+        </span>
+      </div>
+    {%- endfor %}
+  </div>
+  {%- if compare_kind == 'slider' %}
+    <div class="build-diary-control" data-diary-control hidden>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        step="1"
+        value="50"
+        aria-label="Divider between before and after: {{ include.title | escape }}"
+      >
+    </div>
+  {%- endif %}
+  <figcaption>{{ compare.view }}</figcaption>
+</figure>

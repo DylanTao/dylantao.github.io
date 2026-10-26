@@ -123,6 +123,12 @@ const ALL_SITEWIDE_ROUTES = [
     contentSelector: ".project-detail article",
   },
   {
+    id: "project-house-in-the-cliff",
+    path: "/projects/house-in-the-cliff/",
+    readySelector: ".project-detail [data-build-diary] .build-diary-entry",
+    contentSelector: ".project-detail article",
+  },
+  {
     id: "project-graphics-performance",
     path: "/projects/graphics-performance/",
     readySelector: ".project-detail .project-case-hero",

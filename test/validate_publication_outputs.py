@@ -37,6 +37,7 @@ EXPECTED_PROJECT_SLUGS = {
     "hci-spooder-man",
     "homepage-desk-scene",
     "hotspot",
+    "house-in-the-cliff",
     "ikea-project-cards",
     "la-jolla",
     "light-paths",

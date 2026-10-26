@@ -1,0 +1,175 @@
+{%- comment -%}
+  The 3D home's build diary (2026-10-24): dated notes from my reviews, what changed, and the same view
+  before and after, kept like a building site's diary. The entries are data (_data/home_world_diary.yml);
+  this include only renders them, so a new entry is a new item in that file.
+
+  Usage, on /projects/homepage-desk-scene/ (every entry):
+    {% include build-diary.liquid %}
+  On a stream's own page (its entries, with their detail and extra pairs):
+    {% include build-diary.liquid stream="house" detail=true %}
+
+  heading_level sets the chapters' heading (default 3); entries take the next level.
+  assets/js/build-diary.mjs turns each same-camera pair into a before/after slider. Without it, or
+  without JavaScript, every pair stands side by side. The scroll-driven reveal is CSS
+  (_sass/_build-diary.scss) and runs only while the cinematic layer is live.
+{%- endcomment -%}
+{%- assign diary = site.data.home_world_diary -%}
+{%- assign diary_entries = diary.entries -%}
+{%- if include.stream -%}
+  {%- assign diary_entries = diary_entries | where: 'stream', include.stream -%}
+{%- endif -%}
+{%- assign diary_heading = include.heading_level | default: 3 -%}
+{%- assign diary_entry_heading = diary_heading | plus: 1 -%}
+{%- assign diary_start = diary.start | date: '%s' | plus: 0 -%}
+<section
+  class="build-diary"
+  data-build-diary
+  {% if include.stream %}
+    data-diary-stream="{{ include.stream }}"
+  {% endif %}
+>
+  <nav class="build-diary-chapters" aria-label="Build diary chapters">
+    <ol>
+      {%- for phase in diary.phases -%}
+        {%- assign phase_entries = diary_entries | where: 'phase', phase.id -%}
+        {%- if phase_entries.size > 0 %}
+          <li>
+            <a href="#diary-chapter-{{ phase.id }}">
+              <span class="build-diary-chapter-when">{{ phase.when }}</span>
+              <span class="build-diary-chapter-title">{{ phase.title }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+      {%- endfor %}
+    </ol>
+  </nav>
+
+  <div class="build-diary-timeline">
+    {%- for phase in diary.phases -%}
+      {%- assign phase_entries = diary_entries | where: 'phase', phase.id -%}
+      {%- if phase_entries.size == 0 -%}
+        {%- continue -%}
+      {%- endif %}
+      <section class="build-diary-phase" id="diary-chapter-{{ phase.id }}" aria-labelledby="diary-chapter-{{ phase.id }}-title">
+        <header class="build-diary-phase-header">
+          <p class="build-diary-phase-when">{{ phase.when }}</p>
+          <div class="build-diary-phase-copy">
+            <h{{ diary_heading }} id="diary-chapter-{{ phase.id }}-title">{{ phase.title }}</h{{ diary_heading }}>
+            <p>{{ phase.summary }}</p>
+          </div>
+        </header>
+        <ol class="build-diary-entries">
+          {%- for entry in phase_entries -%}
+            {%- assign entry_stream = diary.streams[entry.stream] -%}
+            {%- assign entry_status = entry.status | default: 'done' -%}
+            {%- assign entry_seconds = entry.date | date: '%s' | plus: 0 -%}
+            {%- assign entry_day = entry_seconds | minus: diary_start | plus: 43200 | divided_by: 86400 | plus: 1 -%}
+            {%- assign note = entry.note %}
+            <li class="build-diary-entry" id="diary-{{ entry.id }}" data-diary-status="{{ entry_status }}">
+              <div class="build-diary-item">
+                <div class="build-diary-rail">
+                  <time datetime="{{ entry.date }}">{{ entry.date | date: '%b %-d' }}</time>
+                  <span class="build-diary-day">Day {{ entry_day }}</span>
+                  {%- if entry_stream.url and include.stream != entry.stream %}
+                    <a
+                      class="build-diary-stream"
+                      href="{{ entry_stream.url | relative_url }}"
+                      aria-label="{{ entry_stream.short }}: {{ entry_stream.label }}"
+                    >
+                      {{- entry_stream.short -}}
+                    </a>
+                  {%- else %}
+                    <span class="build-diary-stream">{{ entry_stream.short }}</span>
+                  {%- endif %}
+                </div>
+                <div class="build-diary-body">
+                  <h{{ diary_entry_heading }} class="build-diary-title" id="diary-{{ entry.id }}-title">{{ entry.title }}</h{{ diary_entry_heading }}>
+                  {%- if entry_status != 'done' %}
+                    <p class="build-diary-status">
+                      {%- if entry_status == 'in-progress' -%}In progress{%- else -%}Open{%- endif -%}
+                    </p>
+                  {%- endif -%}
+
+                  {%- capture note_label -%}
+                    {%- if note.by == 'review' -%}The review found{%- else -%}My note{%- endif -%}
+                    {%- if note.said %} · <time datetime="{{ note.said }}">{{ note.said | date: '%b %-d' }}</time>{%- endif -%}
+                    {%- if note.context %} · {{ note.context }}{%- endif -%}
+                  {%- endcapture -%}
+                  {%- if note.quote %}
+                    <figure class="build-diary-note" data-diary-note="{{ note.by }}">
+                      <figcaption class="build-diary-label">{{ note_label }}</figcaption>
+                      <blockquote>
+                        <p>“{{ note.quote }}”</p>
+                      </blockquote>
+                    </figure>
+                  {%- else %}
+                    <div class="build-diary-note" data-diary-note="{{ note.by }}">
+                      <p class="build-diary-label">{{ note_label }}</p>
+                      <p>{{ note.text }}</p>
+                    </div>
+                  {%- endif -%}
+
+                  {%- if entry.change %}
+                    <div class="build-diary-change">
+                      <p class="build-diary-label">What changed</p>
+                      <p>{{ entry.change }}</p>
+                      {%- if include.detail and entry.detail %}
+                        <p>{{ entry.detail }}</p>
+                      {%- endif %}
+                    </div>
+                  {%- endif -%}
+
+                  {%- if entry.metrics %}
+                    <dl class="build-diary-metrics">
+                      {%- for metric in entry.metrics %}
+                        <div>
+                          <dt>{{ metric.label }}</dt>
+                          <dd>
+                            <span class="build-diary-metric-before">{{ metric.before }}</span>
+                            <span class="build-diary-metric-arrow" aria-hidden="true">→</span>
+                            <span class="sr-only">to</span>
+                            <span class="build-diary-metric-after">{{ metric.after }}</span>
+                          </dd>
+                        </div>
+                      {%- endfor %}
+                    </dl>
+                  {%- endif %}
+                </div>
+
+                {%- if entry.compare %}
+                  {% include build-diary-compare.liquid compare=entry.compare title=entry.title dir=diary.image_dir %}
+                {%- endif -%}
+                {%- if include.detail and entry.extra -%}
+                  {%- for extra in entry.extra %}
+                    {% include build-diary-compare.liquid compare=extra title=entry.title dir=diary.image_dir %}
+                  {%- endfor -%}
+                {%- endif -%}
+
+                {%- if entry.crew or entry.links %}
+                  <p class="build-diary-meta">
+                    {%- if entry.crew %}
+                      <span class="build-diary-crew">Built with {{ entry.crew }}</span>
+                    {%- endif -%}
+                    {%- for link in entry.links -%}
+                      {%- assign link_external = false -%}
+                      {%- if link.url contains '://' -%}
+                        {%- assign link_external = true -%}
+                      {%- endif %}
+                      <a href="{% if link_external %}{{ link.url }}{% else %}{{ link.url | relative_url }}{% endif %}">
+                        {{- link.label -}}
+                        {%- if link_external %}
+                          {% include icon.liquid name='arrow-up-right' %}
+                        {%- endif -%}
+                      </a>
+                    {%- endfor %}
+                  </p>
+                {%- endif %}
+              </div>
+            </li>
+          {%- endfor %}
+        </ol>
+      </section>
+    {%- endfor %}
+  </div>
+</section>
+<script type="module" src="{{ '/assets/js/build-diary.mjs' | relative_url | bust_file_cache }}"></script>

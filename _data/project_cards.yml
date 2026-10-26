@@ -186,6 +186,21 @@ homepage-desk-scene:
     - "Visitors can skim the research in 2D, explore the room in 3D, and switch without losing their music or discoveries."
     - "Inside and outside share one room."
 
+house-in-the-cliff:
+  origin_line: "In September my own screenshot showed the 3D home sitting on a rock pedestal, a stage set rather than a home in a cliff."
+  evolution_line: "Each review moved it deeper into the rock: two carved floors, a sandstone face, a glass front, and on October 24 an eight-metre retreat."
+  icon: house
+  chip: The house
+  teaser_alt: "The 3D home's house cut away under its sandstone overhang on October 24, the upper floor's chaises above the double-height living room and its hanging fireplace"
+  accents:
+    morning: "#d4a27f"
+    noon: "#5a8ea0"
+    afternoon: "#8ba59b"
+    evening: "#a8c2cd"
+  takeaways:
+    - "Visitors can watch one house move from a rock pedestal into a cliff, with the same view before and after each change."
+    - "Every open problem names the geometry it needs, not a better camera angle."
+
 scholar-lens:
   origin_line: "A highlighter suggestion made me notice that each paper's bibliography row, citation count, and yearly bars were far apart."
   evolution_line: "Selecting DesignWeaver now highlights its bibliography row, lifetime citation chip, and yearly bars together."
