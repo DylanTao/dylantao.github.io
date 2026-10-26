@@ -1,70 +1,38 @@
+{% comment %}
+  The site mark: an orange that is also the sun going down into the Pacific below the house. It is
+  the same on every visit; the favicon set in assets/img draws the same idea on a 16-pixel grid
+  (docs/material-lite-revamp.md, Brand Mark). The sea lines are a mask in the mark's own space, so
+  the sun can dip into them on hover while they stay level.
+{% endcomment %}
 <span class="site-brand-mark brand-orange" data-brand-orange aria-hidden="true">
-  <span class="brand-orange-text-fallback"></span>
   <svg class="brand-orange-svg" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
     <defs>
-      <linearGradient id="brand-orange-body-gradient" data-brand-gradient x1="18" x2="48" y1="14" y2="54" gradientUnits="userSpaceOnUse">
-        <stop class="brand-orange-stop-highlight" offset="0%"></stop>
-        <stop class="brand-orange-stop-rind" offset="58%"></stop>
+      <linearGradient id="brand-orange-sun-gradient" x1="0" x2="0" y1="16" y2="57" gradientUnits="userSpaceOnUse">
+        <stop class="brand-orange-sun-top" offset="0%"></stop>
+        <stop class="brand-orange-stop-rind" offset="52%"></stop>
         <stop class="brand-orange-stop-deep" offset="100%"></stop>
       </linearGradient>
-      <clipPath id="brand-orange-body-clip">
-        <path data-brand-body-clip d="M52.4 34.2C52.4 45.4 43.7 54.2 32.1 54.2C20.5 54.2 11.4 46.1 11.4 34.6C11.4 22.7 20.4 14.2 32.7 14.5C44.9 14.8 52.4 23.5 52.4 34.2Z"></path>
-      </clipPath>
+      <mask id="brand-orange-sea" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">
+        <rect width="64" height="64" fill="#fff"></rect>
+        <rect y="41" width="64" height="2.6" fill="#000"></rect>
+        <rect y="48" width="64" height="3.6" fill="#000"></rect>
+        <rect y="57" width="64" height="7" fill="#000"></rect>
+      </mask>
     </defs>
-    <g class="brand-orange-crown" data-brand-crown>
-      <g class="brand-orange-calyx" data-brand-calyx>
-        <path class="brand-orange-calyx-sepal" d="M31.2 16.8Q31.9 14.4 32.9 12.6Q33.8 14.7 33.2 16.9Z"></path>
-        <path class="brand-orange-calyx-sepal" d="M31.7 17.1Q29.8 15.8 28.8 13.9Q31.1 14.2 32.4 16.6Z"></path>
-        <path class="brand-orange-calyx-sepal" d="M32.7 16.9Q35 15.6 37 14.1Q36.5 16.6 33.3 17.3Z"></path>
-        <path class="brand-orange-calyx-sepal" d="M32 17.4Q30.4 18.9 28 18.8Q29.7 16.8 32 16.8Z"></path>
-        <path class="brand-orange-calyx-sepal" d="M32.9 17.2Q35.4 17.5 37.2 18.9Q34.7 19.1 32.3 17.4Z"></path>
-      </g>
-      <path class="brand-orange-stem" data-brand-stem d="M31.8 17.6C31.7 13.2 33.9 10.2 37.1 8.4"></path>
-      <g class="brand-orange-leaves" data-brand-leaves>
-        <path class="brand-orange-leaf brand-orange-leaf-a" d="M33.8 14.2C39.6 7.9 47.5 8.8 50.7 12.8C45.4 17.4 38.8 18.4 33.8 14.2Z"></path>
-        <path class="brand-orange-leaf brand-orange-leaf-b" d="M30.8 15.1C26.4 10 20.8 10.8 17.8 14.4C22.7 18.2 27.8 18.1 30.8 15.1Z"></path>
+    <g class="brand-orange-crown">
+      <path class="brand-orange-stem" d="M32.4 17.4C32.2 14.6 33 12.4 34.8 10.6"></path>
+      <g class="brand-orange-leaf-group">
+        <path class="brand-orange-leaf" d="M34.2 12.4C38 6.2 46.4 4.4 52.8 7.4C49.8 13.8 41.2 16.6 34.2 12.4Z"></path>
+        <path class="brand-orange-leaf-vein" d="M36.6 11.8C41.2 10 45.8 8.8 50.2 8"></path>
       </g>
     </g>
-    <g class="brand-orange-body-shell" data-brand-body-shell>
-      <path class="brand-orange-body" data-brand-body d="M52.4 34.2C52.4 45.4 43.7 54.2 32.1 54.2C20.5 54.2 11.4 46.1 11.4 34.6C11.4 22.7 20.4 14.2 32.7 14.5C44.9 14.8 52.4 23.5 52.4 34.2Z"></path>
-      <g class="brand-orange-detail" clip-path="url(#brand-orange-body-clip)">
-        <path class="brand-orange-segment brand-orange-segment-a" data-brand-segment-a d="M20.6 30.2C27.2 34.3 36.5 35.2 45.5 31.2"></path>
-        <path class="brand-orange-segment brand-orange-segment-b" data-brand-segment-b d="M24.2 45.6C28.7 38.2 31.9 28.3 32.2 17.4"></path>
-        <path class="brand-orange-segment brand-orange-segment-c" data-brand-segment-c d="M40.8 46.4C35.8 39.4 33.4 28.8 35.9 17.6"></path>
-        <path class="brand-orange-highlight" data-brand-highlight d="M18.4 25.2C21.4 20.8 26.1 18.7 31.6 18.9"></path>
-        <g class="brand-orange-navel" data-brand-navel>
-          <circle class="brand-orange-navel-dot" cx="32.4" cy="50.1" r="0.86"></circle>
-          <path class="brand-orange-navel-crease" d="M32.4 50.1L30.7 49.3"></path>
-          <path class="brand-orange-navel-crease" d="M32.4 50.1L34.1 49.2"></path>
-          <path class="brand-orange-navel-crease" d="M32.4 50.1L32.2 52.1"></path>
-        </g>
-        <g class="brand-orange-pores" data-brand-pores>
-          <circle class="brand-orange-pore brand-orange-pore-glint" cx="22.6" cy="26.2" r="0.28" style="--brand-orange-pore-opacity: .28"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="25.5" cy="21.9" r="0.22" style="--brand-orange-pore-opacity: .2"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-glint" cx="30.4" cy="20.3" r="0.24" style="--brand-orange-pore-opacity: .24"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="35.8" cy="21.1" r="0.26" style="--brand-orange-pore-opacity: .19"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-glint" cx="39.6" cy="23.4" r="0.2" style="--brand-orange-pore-opacity: .22"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="20.2" cy="30.7" r="0.32" style="--brand-orange-pore-opacity: .22"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-glint" cx="25.8" cy="30.6" r="0.2" style="--brand-orange-pore-opacity: .28"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="31.3" cy="29.1" r="0.24" style="--brand-orange-pore-opacity: .18"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="37.7" cy="29.7" r="0.28" style="--brand-orange-pore-opacity: .22"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-dimple" cx="43.1" cy="30.9" r="0.22" style="--brand-orange-pore-opacity: .18"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="18.9" cy="35.5" r="0.23" style="--brand-orange-pore-opacity: .2"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-glint" cx="23.2" cy="34.2" r="0.3" style="--brand-orange-pore-opacity: .3"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="28.2" cy="35.9" r="0.22" style="--brand-orange-pore-opacity: .18"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="33.2" cy="34.8" r="0.24" style="--brand-orange-pore-opacity: .17"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-dimple" cx="38.8" cy="35.7" r="0.22" style="--brand-orange-pore-opacity: .2"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-shadow" cx="44.5" cy="36.8" r="0.3" style="--brand-orange-pore-opacity: .17"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="21.4" cy="40.1" r="0.2" style="--brand-orange-pore-opacity: .18"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="26.7" cy="41.2" r="0.27" style="--brand-orange-pore-opacity: .2"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-glint" cx="31.6" cy="39.4" r="0.18" style="--brand-orange-pore-opacity: .22"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-dimple" cx="36.5" cy="41.1" r="0.24" style="--brand-orange-pore-opacity: .18"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-shadow" cx="42.1" cy="42.6" r="0.28" style="--brand-orange-pore-opacity: .18"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-soft" cx="24.4" cy="45.4" r="0.22" style="--brand-orange-pore-opacity: .16"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-dimple" cx="29.4" cy="46.3" r="0.2" style="--brand-orange-pore-opacity: .18"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-shadow" cx="35.1" cy="45.7" r="0.22" style="--brand-orange-pore-opacity: .18"></circle>
-          <circle class="brand-orange-pore brand-orange-pore-dimple" cx="39.5" cy="47.1" r="0.18" style="--brand-orange-pore-opacity: .16"></circle>
-        </g>
+    <g mask="url(#brand-orange-sea)">
+      <g class="brand-orange-body-shell">
+        <path
+          class="brand-orange-body"
+          d="M53.4 36.2C53.4 47.8 44.4 56.8 32.4 56.8C20.4 56.8 11 48.4 11 36.6C11 24.4 20.2 15.6 32.8 15.9C45.2 16.2 53.4 25.2 53.4 36.2Z"
+        ></path>
+        <path class="brand-orange-glint" d="M17.4 34.4C17.2 26.6 23 20.6 31 20.2C25.8 23.4 22.2 28 21.4 34.2C20.4 35.6 18 35.6 17.4 34.4Z"></path>
       </g>
     </g>
   </svg>

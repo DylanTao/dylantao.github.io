@@ -1,3 +1,5 @@
+// Grows the procedural orange specimen on the 404 page: a new shape, rind, pores, calyx and leaves on
+// every visit (?orangeSeed= repeats one). The navbar mark is the fixed orange sun and needs no script.
 (function () {
   const SVG_NS = "http://www.w3.org/2000/svg";
   const DEBUG_QUERY_KEY = "orangeSeed";
@@ -385,7 +387,7 @@
   }
 
   function init() {
-    const marks = Array.from(document.querySelectorAll("[data-brand-orange]"));
+    const marks = Array.from(document.querySelectorAll("[data-orange-specimen]"));
     if (!marks.length) return;
 
     const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;

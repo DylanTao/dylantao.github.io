@@ -1,5 +1,6 @@
 /*******************************************************************************
- * Procedural orange brand mark
+ * Brand mark: the orange sun in the navbar, and the procedural orange specimen
+ * that brand-orange.js grows on the 404 page
  ******************************************************************************/
 
 .navbar.navbar-light .site-brand {
@@ -16,7 +17,8 @@
   }
 }
 
-.navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
+.navbar.navbar-light .site-brand .site-brand-mark.brand-orange,
+.orange-specimen {
   --brand-orange-highlight: #ffdc92;
   --brand-orange-rind: var(--global-brand-orange-color);
   --brand-orange-deep: #dc5d0d;
@@ -33,7 +35,9 @@
   --brand-orange-tilt: 0deg;
   --brand-orange-nudge-x: 0px;
   --brand-orange-nudge-y: 0px;
+}
 
+.navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
   position: relative;
   flex: 0 0 2.12rem;
   width: 2.12rem;
@@ -43,8 +47,6 @@
   border-radius: 0;
   background: transparent;
   filter: drop-shadow(0 0.16rem 0.22rem rgba(var(--global-brand-orange-rgb), 0.16));
-  font-family: var(--font-mono);
-  transform: translateY(0) rotate(var(--brand-orange-tilt));
   transform-origin: 50% 58%;
   transition:
     filter var(--motion-standard),
@@ -54,17 +56,10 @@
 .navbar.navbar-light .site-brand:hover .brand-orange,
 .navbar.navbar-light .site-brand:focus-visible .brand-orange {
   filter: drop-shadow(0 0.22rem 0.32rem rgba(var(--global-brand-orange-rgb), 0.22)) saturate(1.04);
-  transform: translateY(-1px) rotate(var(--brand-orange-tilt));
 }
 
-.brand-orange-text-fallback {
-  position: absolute;
-  inset: 0;
-  display: block;
-  overflow: hidden;
-  border-radius: 50%;
-  background: var(--brand-orange-rind);
-  clip-path: circle(0);
+.navbar.navbar-light .site-brand:active .brand-orange {
+  transform: scale(0.97);
 }
 
 .brand-orange-svg {
@@ -74,6 +69,63 @@
   height: calc(100% + 0.32rem);
   overflow: visible;
   pointer-events: none;
+}
+
+// The sun sets a little into the sea while the pointer rests on the mark. The sea lines are the
+// mask around the body, so they stay level while the fruit and its leaf sink.
+.site-brand-mark .brand-orange-crown,
+.site-brand-mark .brand-orange-body-shell {
+  transition: transform var(--motion-standard);
+}
+
+.site-brand:hover .site-brand-mark .brand-orange-crown,
+.site-brand:hover .site-brand-mark .brand-orange-body-shell,
+.site-brand:focus-visible .site-brand-mark .brand-orange-crown,
+.site-brand:focus-visible .site-brand-mark .brand-orange-body-shell {
+  transform: translateY(2.6px);
+}
+
+.site-brand-mark .brand-orange-body {
+  fill: url("#brand-orange-sun-gradient");
+}
+
+// A setting sun is golden above and redder at its lower limb, nearest the horizon.
+.brand-orange-sun-top {
+  stop-color: color-mix(in srgb, var(--brand-orange-highlight) 46%, var(--brand-orange-rind));
+}
+
+.brand-orange-glint {
+  fill: #fff;
+  opacity: 0.36;
+}
+
+.orange-specimen {
+  position: relative;
+  display: block;
+  width: 7.5rem;
+  height: 7.5rem;
+  margin: 0.25rem 0 1.5rem;
+  filter: drop-shadow(0 0.4rem 0.6rem rgba(var(--global-brand-orange-rgb), 0.2));
+  transform: rotate(var(--brand-orange-tilt));
+  transform-origin: 50% 58%;
+  transition: transform var(--motion-standard);
+
+  &.brand-orange--pressed {
+    transform: scale(0.98) rotate(var(--brand-orange-tilt));
+  }
+
+  .brand-orange-body-shell {
+    transform: translate(var(--brand-orange-nudge-x), var(--brand-orange-nudge-y)) rotate(var(--brand-orange-tilt)) scale(var(--brand-orange-scale));
+    transform-box: view-box;
+    transform-origin: 32px 36px;
+    transition: transform var(--motion-standard);
+  }
+
+  .brand-orange-body {
+    fill: url("#orange-specimen-body-gradient");
+    stroke: var(--brand-orange-outline);
+    stroke-width: 1.45;
+  }
 }
 
 .brand-orange-stop-highlight {
@@ -86,19 +138,6 @@
 
 .brand-orange-stop-deep {
   stop-color: var(--brand-orange-deep);
-}
-
-.brand-orange-body-shell {
-  transform: translate(var(--brand-orange-nudge-x), var(--brand-orange-nudge-y)) rotate(var(--brand-orange-tilt)) scale(var(--brand-orange-scale));
-  transform-box: view-box;
-  transform-origin: 32px 36px;
-  transition: transform var(--motion-standard);
-}
-
-.brand-orange-body {
-  fill: url("#brand-orange-body-gradient");
-  stroke: var(--brand-orange-outline);
-  stroke-width: 1.45;
 }
 
 .brand-orange-highlight {
@@ -207,15 +246,9 @@
   opacity: 0.5;
 }
 
-.site-brand:hover .brand-orange-leaf,
 .site-brand:hover .brand-orange-leaf-group,
-.site-brand:focus-visible .brand-orange-leaf,
 .site-brand:focus-visible .brand-orange-leaf-group {
   animation-duration: 4.1s;
-}
-
-.brand-orange--pressed {
-  transform: translateY(0) scale(0.98) rotate(var(--brand-orange-tilt)) !important;
 }
 
 @keyframes brand-orange-leaf-wind {
@@ -231,8 +264,18 @@
 
 @media (prefers-reduced-motion: reduce) {
   .navbar.navbar-light .site-brand .site-brand-mark.brand-orange,
-  .brand-orange-body-shell {
+  .site-brand-mark .brand-orange-crown,
+  .site-brand-mark .brand-orange-body-shell,
+  .orange-specimen,
+  .orange-specimen .brand-orange-body-shell {
     transition-duration: 0.001ms !important;
+  }
+
+  .site-brand:hover .site-brand-mark .brand-orange-crown,
+  .site-brand:hover .site-brand-mark .brand-orange-body-shell,
+  .site-brand:focus-visible .site-brand-mark .brand-orange-crown,
+  .site-brand:focus-visible .site-brand-mark .brand-orange-body-shell {
+    transform: none;
   }
 
   .brand-orange-leaf,

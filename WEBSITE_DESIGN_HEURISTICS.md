@@ -353,12 +353,13 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 
 Source: Susan Kare, [Designing Icons & Graphics for the Original Mac](https://www.youtube.com/watch?v=YEvLKzsEwMw), Startup School 2026 (Y Combinator), studied at Sirui's request on 2026-10-25. Credit her near any change that follows one of these.
 
-- **Meaningful and memorable first** (her Paul Rand lesson). Settle the idea, and the form will follow. Before polishing a scene object or an icon, name what it should mean to a visitor.
+- **Meaningful and memorable first** (her Paul Rand lesson). Settle the idea, and the form will follow. Before polishing a scene object or an icon, name what it should mean to a visitor. The site mark follows it: one orange that is also the sun setting into the Pacific, the same in the navbar, the tab and on the home screen, and the same on every visit, because a logo people have not yet learned is not one to play with (`docs/material-lite-revamp.md`, Brand Mark).
 - **Just enough detail.** Give an icon or object a salient detail or two. Extra detail narrows who can see themselves in it (her reading of Scott McCloud's _Understanding Comics_). For the cartoon avatars, clean the faces and edges rather than adding realism. For plated food, show one or two telling ingredients that read at phone size.
 - **Metaphor over product depiction.** An icon drawn as one particular device ages badly, as the floppy-disk Save did. Draw the idea instead.
 - **Reassure during waits.** The Happy Mac said "everything is OK" while the machine started up. The loading sketch's honest, progressing pen has the same job, so keep it calm and friendly.
 - **Never alarm.** A bomb that meant "system error" made a visitor fear an explosion. Error and fallback states stay calm and say what happens next.
 - **Constraints are creative.** Design within the frame-time, byte and compile budgets, not around them.
+- **Draw small icons on their grid.** A vector shrunk to 16 px blurs its finest detail. Put thin lines on whole pixel rows, give a leaf or stem at least one solid pixel, and inspect the 16 px result magnified before shipping it.
 - **Iterate a lot, and show a few options.** Offer two or three directions for a big design choice, then refine. Requests and placeholders are good starting points.
 - **A little motion.** Motion that repeats stays subtle, so it never grows irritating; the coffee ring's soft settle is an example.
 - **Few fonts, used well** (Paul Rand, via Kare). Keep the type system small.

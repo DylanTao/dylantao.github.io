@@ -1616,6 +1616,25 @@ history:
     backtalk: Every drop-shaped version read as a pale disc in the day themes or a dark hole in the evening, because a rim sharp outside and feathered inside makes the interior look lighter than the page (a Cornsweet edge). Photographs of real mug rings showed a grainy band with a clean centre instead, and the pale evening outline read as chalk rather than coffee.
     reframe: Check a stain against a photograph of the real thing before tuning its parameters.
     sources: [deegan1997coffee, curtis1997watercolor]
+  - date: "2026-10-26"
+    title: An orange that is also the sun
+    system: color-themes
+    frame: >-
+      A study of Susan Kare's icon lessons, at Sirui's request, found two marks: a procedural orange in the navbar that
+      changed shape on every visit, and an old S from 2024 in the browser tab.
+    dimensions:
+      [what the mark means, one mark in navbar tab and home screen, legibility at 16 px, variation against recognition, where the generator lives]
+    move: >-
+      Sirui chose the third of three directions shown side by side, an orange that doubles as the sun going down into
+      the Pacific below the house, and the same mark on every visit. The navbar draws it as fixed SVG whose sea lines are
+      a mask, so the sun dips into them on hover while they stay level. The favicon and home-screen icon draw the same
+      idea on a 16-pixel grid with the sea lines on whole pixel rows, and the procedural orange now grows on the 404 page.
+    backtalk: >-
+      A plain orange read at every size but meant only orange. A leaf drawn as an arrow pointer read as a generic up
+      arrow until it stood upright, and blurred at 16 px. Rasterized straight from the vector, the 16 px leaf came out
+      pale and the stem straddled two pixel columns; a fuller leaf and a stem on one column fixed both.
+    reframe: Kare passed on Paul Rand's advice to leave a logo alone until people know it well, so the play moved to the hover and the 404 page.
+    sources: [kare2026icons]
   # Append new moves here, oldest first.
 
 open_problems:
@@ -1928,3 +1947,7 @@ sources:
     label: Atmospheric Optics, Earth's shadow
     citation: Atmospheric Optics. *Earth Shadow* (the blue-grey shadow and the pink anti-twilight arch, the Belt of Venus, above it, opposite the low sun).
     url: https://atoptics.co.uk/blog/earth-shadow/
+  - id: kare2026icons
+    label: Kare, Startup School 2026
+    citation: Susan Kare. *Designing Icons & Graphics for the Original Mac*, Startup School 2026 (Y Combinator), with the lessons she learned from Paul Rand.
+    url: https://www.youtube.com/watch?v=YEvLKzsEwMw
