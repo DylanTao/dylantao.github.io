@@ -1,0 +1,31 @@
+{
+  "source": "9f6c06ce10465c0ae5d104eef94720a4870df572",
+  "visualRun": 40392104681,
+  "job": 121815463861,
+  "artifact": 12685038050,
+  "case": "coastal physics: dispersive water changes visible pixels, shares La Jolla light, and suspends cleanly",
+  "project": "mobile-390",
+  "failedAssertion": "framePending must become false after Pause",
+  "originalWait": "Advance the virtual clock once by 500 ms, then poll without advancing the frozen clock. A subsequently queued frame cannot execute.",
+  "repair": "Advance the controlled clock on each bounded poll until the final paused draw drains; also service it during the resume wait. The existing framePending=false, exact frozen water time, resumed time increase and actual-water-pixel assertions remain unchanged. This matches the existing paused orbit-drain pattern in the same spec.",
+  "runtimeChanged": false,
+  "tolerancesChanged": false,
+  "skipsAdded": false,
+  "traceSha256": "e0f1ec81bc85141ac03bf6d99543f64b5efa0681282eee2030e6321ec5396b6e",
+  "rawEvidence": ".jekyll-cache/visual-qa/pc-fidelity-2026-10-26/ci-mobile-water/",
+  "traceObservation": {
+    "failedAssertionStartMs": 317565.488,
+    "failedAssertionEndMs": 331765.916,
+    "clockStepsDuringWait": 0,
+    "lastClockStepStartMs": 314593.291,
+    "lastClockStepVirtualMs": 500
+  },
+  "localHarnessSelectionAttempt": "The first qualified fixture retained the whiskey scene-exploration filter, so the water case was excluded and no tests ran. That failed selection log is retained; the fixture now selects scene-core-2. It is not counted as a test pass.",
+  "localVerification": {
+    "nativeMobileChromium": "1 passed in 31.1 seconds",
+    "qualifiedLinuxMobileChromium": "1 passed in 2.3 minutes",
+    "linuxRenderer": "Mesa llvmpipe, four-sample floating-point targets",
+    "runtimeOverlays": false,
+    "pixelAndPauseResumeAssertionsRetained": true
+  }
+}

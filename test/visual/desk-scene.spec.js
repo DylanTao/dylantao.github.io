@@ -1390,15 +1390,31 @@ test("coastal physics: dispersive water changes visible pixels, shares La Jolla 
   await capture(testInfo, "moving-water-region", seaRegion(after));
   await capture(testInfo, "physical-pacific", after);
   await ui.locator("[data-world-pause]").click();
-  await page.clock.runFor(500);
-  await expect.poll(async () => (await evidence(scene)).framePending).toBe(false);
+  // A late model or visibility callback may queue the final paused draw after
+  // a clock step. Service the frozen clock while waiting for the queue to drain.
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(500);
+        return (await evidence(scene)).framePending;
+      },
+      { timeout: 60000 }
+    )
+    .toBe(false);
   const frozen = (await evidence(scene)).ecology.water.seconds;
   await page.clock.runFor(250);
   expect((await evidence(scene)).ecology.water.seconds).toBe(frozen);
   await ui.locator("[data-world-pause]").click();
   await canvas.scrollIntoViewIfNeeded();
-  await page.clock.runFor(100);
-  await expect.poll(async () => (await evidence(scene)).ecology.water.seconds).toBeGreaterThan(frozen);
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(100);
+        return (await evidence(scene)).ecology.water.seconds;
+      },
+      { timeout: 60000 }
+    )
+    .toBeGreaterThan(frozen);
   // At golden hour the water's sun is the scene's key light, which the atmosphere already turns gold
   // through the coast's air (atmosphere.mjs), so its hue is one; its mirror lobe stays apart for the
   // glitter (environment.mjs). 18:30 on the test's September 11: the sun 5.9 degrees up, 32 minutes

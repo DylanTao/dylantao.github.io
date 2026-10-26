@@ -1,0 +1,66 @@
+{
+  "source": "9f6c06ce10465c0ae5d104eef94720a4870df572",
+  "pagesCommit": "0befede8519cd8ebe99bc0a214b70a6a5c1ad515",
+  "scope": "Actual deployed routes; native Chromium desktop and touch/phone viewport emulation at fixed October 1, 13:20 local routine time with reduced motion. Public 3D/view/fullscreen/exit/scroll controls; no source asset overlays. Not physical-phone performance.",
+  "desktop": {
+    "width": 1440,
+    "evidence": {
+      "rooms": 10,
+      "actors": 1,
+      "ready": true,
+      "room": "outside",
+      "cache": {
+        "state": "restored",
+        "reason": null
+      },
+      "buffer": [1440, 1000],
+      "quality": "standard"
+    },
+    "metrics": {
+      "height": 1000,
+      "luminanceVariance": 1684.723035160885,
+      "opaqueRatio": 1,
+      "sampledPixels": 57600,
+      "uniqueColors": 4096,
+      "width": 1440
+    },
+    "footerState": {
+      "state": "ready",
+      "canvas": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  "phoneDiagnostic": {
+    "passed": true,
+    "scene": {
+      "ready": true,
+      "rooms": 10,
+      "actors": 1,
+      "cache": {
+        "state": "restored",
+        "reason": null
+      },
+      "canvas": [390, 1000],
+      "quality": "standard"
+    },
+    "overflow": false,
+    "pageErrors": 0,
+    "requestFailures": 0,
+    "httpErrors": 0,
+    "warnings": 9,
+    "elapsedMilliseconds": 27850
+  },
+  "retainedFailedAttempt": {
+    "scope": "The earlier paired live desktop/phone smoke. Desktop passed; phone scene-ready wait timed out after 180 seconds.",
+    "cause": "Undetermined: that first failure did not retain a trace or network diagnostics.",
+    "followup": "One instrumented phone-only attempt passed in 27.85 seconds, with retained trace, no request failures, no page errors and no overflow. This does not establish the first timeout cause.",
+    "log": ".jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\final-live-render.log"
+  },
+  "headerProof": {
+    "file": "artwork/site-fidelity/reviews/chrome-2026-10-26/navbar-2k-localhost.png",
+    "source": "Visible localhost preview, 2K browser window, Students section matching the reported text; not a deployed-site screenshot.",
+    "sha256": "0ebdaba926e666630d7af65ce203ae4f04757740332b04c089e893afdabd3505"
+  },
+  "rawEvidenceRoot": ".jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26"
+}
