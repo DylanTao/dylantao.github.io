@@ -3,7 +3,7 @@
 // slow GPU; `elapsed` jumps the scene's active time without rendering the frames in between.
 // Usage: node bin/capture_coastal_wildlife.cjs --plan=<plan.json> [--base-url=http://127.0.0.1:4121]
 //        [--out=.jekyll-cache/visual-qa/wildlife] [--time=2026-10-15T13:20:00-07:00] [--fps=12] [--dpr=2]
-// A plan is a list of shots: {name, mode: "outside" | "inspect" | "lab", id?, target?, yaw?, pitch?,
+// A plan is a list of shots: {name, mode: "outside" | "inspect" | "lab", time?, id?, target?, yaw?, pitch?,
 // radius?, elapsed?, seconds?, settle?}. Frames are PNGs under <out>/<name>/; pass the folder to any
 // encoder (the review used Playwright's bundled ffmpeg through a PNG-to-MJPEG pipe).
 const { chromium } = require("playwright");
@@ -51,6 +51,11 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
   await page.clock.setSystemTime(now);
   const evidence = () => scene.evaluate((element) => element.getSceneEvidence());
   const controls = page.locator("[data-home-world-controls]");
+  const controlsOpen = () =>
+    controls
+      .locator("details")
+      .first()
+      .evaluate((element) => element.open);
   if (
     !(await controls
       .locator("details")
@@ -74,6 +79,15 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
     const dir = path.join(out, shot.name);
     fs.mkdirSync(dir, { recursive: true });
     for (const file of fs.readdirSync(dir)) if (file.endsWith(".png")) fs.unlinkSync(path.join(dir, file));
+    // A declared wall-clock change exercises the real night/day recovery while
+    // the animal's active-time clock continues monotonically.
+    if (shot.time) {
+      await page.clock.setSystemTime(new Date(shot.time));
+      // The production clock refreshes every thirty seconds. Selecting Now
+      // composes the new real hour immediately through the public control.
+      if (!(await controlsOpen())) await controls.locator("[data-world-lab] > summary").click();
+      await controls.locator("[data-world-now]").click();
+    }
     let view = await evidence();
     const settle = (shot.settle ?? 2.5) * 1000;
     if (shot.elapsed !== undefined) {
@@ -85,7 +99,10 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
       await canvas.press("Enter");
       await page.clock.runFor(100);
     }
-    if (shot.mode === "outside") await controls.locator('[data-world-room="outside"]').first().click();
+    if (shot.mode === "outside") {
+      if (!(await controlsOpen())) await controls.locator("[data-world-lab] > summary").click();
+      await controls.locator('[data-world-room="outside"]').first().click();
+    }
     if (shot.mode === "inspect") {
       await canvas.focus();
       for (let i = 0; i < 40 && (await evidence()).inspection?.id !== shot.id; i++) {
@@ -99,6 +116,9 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
       await scene.evaluate((element, camera) => element.setLabCamera(camera), { target, yaw: shot.yaw, pitch: shot.pitch, radius: shot.radius });
     }
     await frames(settle);
+    // Full-screen controls cover the camera target; close the visitor's menu
+    // before recording the rendered animal rather than hiding it with CSS.
+    if (args.fullscreen && (await controlsOpen())) await controls.locator("[data-world-lab] > summary").click();
     const count = Math.round((shot.seconds || 6) * fps),
       states = [];
     for (let i = 0; i < count; i++) {
@@ -109,8 +129,14 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
         states.push({
           seconds: view.ecology.water.seconds,
           camera: view.camera,
+          target: view.target,
+          palette: view.palette,
+          activity: view.activity,
+          resolution: { width: view.canvasWidth, height: view.canvasHeight, ...view.resolution },
           currentRoom: view.currentRoom,
           inspection: view.inspection?.id || null,
+          inspectionDetails: view.inspection,
+          selectedNeighbour: view.neighbours.find((animal) => animal.id === shot.id),
           gulls: wildlife.birds.map((bird) => bird.perched || bird.state),
           gullActing: wildlife.birds,
           sandpipers: wildlife.shorebirdContacts.map((bird) => bird.state),
@@ -118,6 +144,7 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
           cormorants: wildlife.cormorantStates.map((bird) => bird.state),
           swimmers: wildlife.swimmers.map((bird) => bird.state),
           raccoon: wildlife.raccoon.state,
+          raccoonActing: wildlife.raccoon,
           rabbits: wildlife.rabbitHabitats.map((rabbit) => rabbit.state),
           marine: wildlife.contacts.map((animal) => animal.state),
         });
@@ -125,7 +152,7 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
       await page.clock.runFor(1000 / fps);
     }
     fs.copyFileSync(path.join(dir, `frame-${String(Math.floor(count / 2)).padStart(4, "0")}.png`), path.join(out, `${shot.name}.png`));
-    summary.shots.push({ name: shot.name, frames: count, states });
+    summary.shots.push({ name: shot.name, time: shot.time || time, frames: count, states });
     fs.writeFileSync(path.join(out, "summary.json"), JSON.stringify({ ...summary, errors }, null, 2));
     console.log("shot", shot.name, count, "frames");
   }
