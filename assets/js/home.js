@@ -829,6 +829,8 @@
   const createDeskCornerSceneController = (container, records, artifacts) => {
     let controller = null;
     let loading = null;
+    let generation = 0;
+    const ui = container.closest("[data-home-artifact-stage]").querySelector("[data-home-world-controls]");
     const state = { visible: false, index: 0, spinning: false, dropped: [], callbacks: {} };
     // Committed sun-arc changes move the home's routine; "Now" returns it to San Diego time.
     window.addEventListener("siteTimeChange", (event) => {
@@ -836,11 +838,22 @@
       if (event.detail.preview != null) controller.setTimePreview(event.detail.preview);
       else controller.returnToNow();
     });
+    const setPendingVisibility = (value) => {
+      container.classList.toggle("is-visible", value);
+      container.setAttribute("aria-hidden", String(!value));
+      ui.hidden = !value;
+      ui.inert = !value;
+      if (!value) container.removeAttribute("aria-busy");
+    };
     const get = () => {
       if (controller) return Promise.resolve(controller);
-      if (!loading)
+      if (!loading) {
+        const ticket = generation;
         loading = import(new URL("home-scene/controller.mjs", homeScriptBase).href)
           .then((module) => {
+            // Module fetches cannot be aborted. A 2D escape or disposal must
+            // not let their late completion create another inhabited world.
+            if (ticket !== generation || !state.visible) return null;
             controller = module.createCoastalHome(container, records, artifacts);
             controller.setCallbacks(state.callbacks);
             controller.setActiveRecord(state.index);
@@ -851,18 +864,40 @@
             return controller;
           })
           .catch(() => {
-            loading = null;
+            if (ticket !== generation || !state.visible) return null;
+            container.dataset.sceneState = "failed";
+            container.dataset.loadingStage = "failed";
+            container.removeAttribute("aria-busy");
+            ui.querySelector("[data-world-status]").textContent = "3D couldn’t load. The 2D desk is ready.";
             container.dispatchEvent(new CustomEvent("home-scene-unavailable", { bubbles: true }));
             return null;
+          })
+          .finally(() => {
+            if (ticket === generation) loading = null;
           });
+      }
       return loading;
     };
     return {
       preload() {},
       setVisible(value) {
         state.visible = value;
-        if (value) get().then((instance) => instance?.setVisible(state.visible));
-        else controller?.setVisible(false);
+        if (controller) {
+          controller.setVisible(value);
+          return;
+        }
+        setPendingVisibility(value);
+        if (value) {
+          container.dataset.sceneState = "loading";
+          container.dataset.loadingStage = "modules";
+          container.setAttribute("aria-busy", "true");
+          ui.querySelector("[data-world-status]").textContent = "Opening the 3D scene.";
+          ui.querySelector("[data-world-view]").disabled = true;
+          const ticket = generation;
+          get().then((instance) => {
+            if (ticket === generation && state.visible) instance?.setVisible(true);
+          });
+        }
       },
       setActiveRecord(index) {
         state.index = index;
@@ -884,9 +919,12 @@
         controller?.resetView();
       },
       dispose() {
+        generation++;
+        state.visible = false;
         controller?.dispose();
         controller = null;
         loading = null;
+        setPendingVisibility(false);
       },
     };
   };
