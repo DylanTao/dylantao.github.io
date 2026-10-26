@@ -25,20 +25,20 @@ export const DETAIL = {
   concurrent: 2,
 };
 
-// How far a finer level reaches for this view, in metres.
-export function reachFor(level, { bufferHeight = DETAIL.referenceHeight, fullscreen = false } = {}) {
+// How far a finer level reaches for this view, in metres. A quality tier (quality.mjs) scales it.
+export function reachFor(level, { bufferHeight = DETAIL.referenceHeight, fullscreen = false, reachScale = 1 } = {}) {
   if (!(level?.near > 0)) return 0;
   const scale = Math.max(1, bufferHeight / DETAIL.referenceHeight);
-  return level.near * scale * (fullscreen && level.fullscreen ? DETAIL.fullscreenBoost : 1);
+  return level.near * scale * (fullscreen && level.fullscreen ? DETAIL.fullscreenBoost : 1) * reachScale;
 }
 
 // The level an anchor wants: 0 (the default) unless it is in view and within a finer level's reach.
 // `current` is the level it shows now, for the hysteresis.
-export function chooseLevel(levels, current, { distance, bufferHeight, fullscreen = false, inView = true }) {
+export function chooseLevel(levels, current, { distance, bufferHeight, fullscreen = false, inView = true, reachScale = 1 }) {
   let wanted = 0;
   if (!inView || !Array.isArray(levels)) return 0;
   for (let i = 1; i < levels.length; i++) {
-    const reach = reachFor(levels[i], { bufferHeight, fullscreen });
+    const reach = reachFor(levels[i], { bufferHeight, fullscreen, reachScale });
     if (!reach) break;
     const threshold = reach * (current >= i ? 1 + DETAIL.hysteresis : 1 - DETAIL.hysteresis);
     if (distance <= threshold) wanted = i;

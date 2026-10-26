@@ -94,8 +94,8 @@ export function createInteriorReflections({
   getContentVersion = () => 0,
   withoutContact = (draw) => draw(),
 }) {
-  const size = compact ? 128 : 256;
-  const target = new THREE.WebGLRenderTarget(size, size, {
+  const ownSize = compact ? 128 : 256;
+  const target = new THREE.WebGLRenderTarget(ownSize, ownSize, {
     type: THREE.HalfFloatType,
     minFilter: THREE.LinearFilter,
     magFilter: THREE.LinearFilter,
@@ -366,10 +366,19 @@ export function createInteriorReflections({
     prepare,
     update,
     bind,
+    // A quality tier's mirror size (quality.mjs); null keeps the device's own. The next update
+    // re-captures into the resized target.
+    setSize(next = null) {
+      const side = Math.round(next || ownSize);
+      if (side === target.width) return false;
+      target.setSize(side, side);
+      capturedId = null;
+      return true;
+    },
     evidence: () => ({
       method: "cropped planar room and live actor reflections",
       rooms: [...mirrors.keys()],
-      size,
+      size: target.width,
       sharedTargets: 1,
       maximumHz: 15,
       contextReach: LOCAL_REACH,

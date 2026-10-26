@@ -21,6 +21,9 @@
 // What else should follow the buffer (multisampling, the contact pass, the sun's shadow map and the
 // sea mirror) is detailFor's choice below; the controller applies it with each resize.
 //
+// A quality tier (quality.mjs) can replace a profile's budget and density (setTier) and scale or cap
+// that detail (detailFor's `tier`). The standard tier replaces nothing.
+//
 // Dynamic resolution follows Binks, "Dynamic Resolution Rendering" (Intel, GDC 2011) and the
 // hysteresis of drei's PerformanceMonitor; see docs/performance-notes.md.
 export const PIXEL_BUDGET = 2_100_000;
@@ -43,7 +46,7 @@ export const RESOLUTION_PROFILES = Object.freeze({
 // half-float targets), draw the contact pass at about a third of the buffer so its occlusion stays
 // on the objects that cast it, double the sun's shadow resolution and widen the sea mirror to the
 // screen's aspect.
-export function detailFor({ width, height, fullscreen = false, compact = false, maxTextureSize = 4096, maxSamples = 4 }) {
+export function detailFor({ width, height, fullscreen = false, compact = false, maxTextureSize = 4096, maxSamples = 4, tier = null }) {
   const pixels = Math.max(0, width * height),
     long = Math.max(width, height),
     large = fullscreen && pixels > 3_200_000;
@@ -55,7 +58,16 @@ export function detailFor({ width, height, fullscreen = false, compact = false, 
     const mirrorWidth = Math.round(Math.min(1024, Math.max(384, width / 3)));
     reflection = [mirrorWidth, Math.max(216, Math.round((mirrorWidth * height) / Math.max(1, width)))];
   }
-  return { samples, contactLongSide, shadowMapSize, reflection };
+  if (!tier) return { samples, contactLongSide, shadowMapSize, reflection };
+  // A tier caps multisampling, scales the contact pass and the sea mirror, and may set the sun's
+  // shadow map (4096 only where the texture limit allowed it above).
+  const scale = (value, factor = 1) => Math.round(value * factor);
+  return {
+    samples: Math.min(samples, tier.maxSamples ?? samples),
+    contactLongSide: Math.min(1920, scale(contactLongSide, tier.contactScale)),
+    shadowMapSize: tier.shadowMapSize ? Math.min(tier.shadowMapSize, maxTextureSize >= 8192 ? 4096 : 2048) : shadowMapSize,
+    reflection: reflection.map((side) => Math.min(1536, scale(side, tier.reflectionScale))),
+  };
 }
 
 const quantile = (values, fraction) => {
@@ -104,6 +116,8 @@ export function createResolutionGovernor({
   const intervals = [],
     submits = [];
   const history = [];
+  let tierProfiles = {};
+  const profileValues = (name) => ({ ...RESOLUTION_PROFILES[compact && name === "fullscreen" ? "compactFullscreen" : name], ...tierProfiles[name] });
   const clear = (settle = 8) => {
     intervals.length = submits.length = 0;
     settleFrames = settle;
@@ -150,10 +164,9 @@ export function createResolutionGovernor({
     // Full screen and the page embed have their own budgets (RESOLUTION_PROFILES). A change restarts
     // adaptation from full density; returns true when the profile changed, and the caller resizes.
     setProfile(name) {
-      const next = RESOLUTION_PROFILES[compact && name === "fullscreen" ? "compactFullscreen" : name];
-      if (!next || name === profile) return false;
+      if (!RESOLUTION_PROFILES[name] || name === profile) return false;
       profile = name;
-      ({ pixelBudget, maxDensity, minFactor, quick } = next);
+      ({ pixelBudget, maxDensity, minFactor, quick } = profileValues(name));
       // A phone's full-screen buffer can be below 1 MP and still be fill-bound. It gets the same
       // measured probe/revert logic; an embed and a desktop retain their original threshold.
       adaptiveFromPixels = compact && name === "fullscreen" ? 300_000 : ordinaryAdaptiveThreshold;
@@ -163,6 +176,17 @@ export function createResolutionGovernor({
     },
     get profile() {
       return profile;
+    },
+    // A quality tier's budget and density for the page embed and full screen (null keeps the
+    // profile's own). A change restarts adaptation; returns true when the caller should resize.
+    setTier({ embed = null, fullscreen = null } = {}) {
+      tierProfiles = { embed: embed || {}, fullscreen: fullscreen || {} };
+      const before = [pixelBudget, maxDensity, minFactor].join();
+      ({ pixelBudget, maxDensity, minFactor, quick } = profileValues(profile));
+      if ([pixelBudget, maxDensity, minFactor].join() === before) return false;
+      restart();
+      if (cssWidth && cssHeight) current = layout(cssWidth, cssHeight);
+      return true;
     },
     // One consecutive moving frame: its interval and the page's own script time in it. Returns true
     // when the factor changed, and the caller then resizes. While `holding` (the visitor is dragging,

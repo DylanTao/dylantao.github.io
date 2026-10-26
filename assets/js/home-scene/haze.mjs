@@ -282,10 +282,13 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
   // What the march is for this frame; when nothing would show, it is skipped and the haze stays
   // analytic (open air, no shafts, no fog).
   const plan = { exterior: false, fog: 0, dust: false, shafts: false };
+  // A quality tier (quality.mjs) scales the march's steps and moves its resolution a step; the
+  // standard tier leaves both as they were.
+  const quality = { steps: 1, divisor: 0 };
   function sizeVolume(width, height) {
     // Half resolution for the ordinary canvas, a third or a quarter for full screen.
     const pixels = width * height,
-      divisor = pixels > 1.4e6 ? 4 : pixels > 5e5 ? 3 : 2,
+      divisor = Math.max(2, (pixels > 1.4e6 ? 4 : pixels > 5e5 ? 3 : 2) + quality.divisor),
       w = Math.max(1, Math.ceil(width / divisor)),
       h = Math.max(1, Math.ceil(height / divisor));
     if (volumeTarget.width !== w || volumeTarget.height !== h) volumeTarget.setSize(w, h);
@@ -312,7 +315,12 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
       volumeUniforms.hazeShadowMatrix.value.copy(light.shadow.matrix);
       volumeUniforms.hazeDust.value = plan.dust ? INDOOR_DUST : 0;
       // The march reaches the far view's dissolve, where the dome takes over.
-      volumeUniforms.hazeMarch.value.set(Math.min(420, compositeUniforms.hazeDissolve.value.y), plan.exterior ? 24 : 18, 0, 0);
+      volumeUniforms.hazeMarch.value.set(
+        Math.min(420, compositeUniforms.hazeDissolve.value.y),
+        Math.min(48, Math.round((plan.exterior ? 24 : 18) * quality.steps)),
+        0,
+        0
+      );
       renderer.setRenderTarget(volumeTarget);
       volumeQuad.render(renderer);
       volumeDraws++;
@@ -354,6 +362,10 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
       if (fog && scene.fog?.isFog) [scene.fog.near, scene.fog.far] = fog;
       fog = null;
     },
+    setQuality({ steps = 1, divisor = 0 } = {}) {
+      quality.steps = steps;
+      quality.divisor = divisor;
+    },
     // The fog bank's state at this light step and its drift with the breeze (scene clock, so pause
     // and reduced motion hold it still). `wind` is wind-field.mjs's coast state.
     advance(seconds, wind) {
@@ -377,6 +389,7 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
         plan: { ...plan },
         size: [volumeTarget.width, volumeTarget.height],
         steps: volumeUniforms.hazeMarch.value.y,
+        quality: { ...quality },
         fog: shared.hazeFog.value.toArray().map((v) => +v.toFixed(4)),
         draws: volumeDraws,
       },

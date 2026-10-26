@@ -413,7 +413,9 @@ export function createFurniture({
       }
     },
     // Each frame, before drawing: which level each anchor draws, what to fetch and what to release.
-    update({ camera, bufferHeight = DETAIL.referenceHeight, fullscreen = false, seconds = 0, reduced = false } = {}) {
+    // `reach` is the quality tier's scale for how far finer levels reach and how many bytes of them
+    // stay resident (quality.mjs).
+    update({ camera, bufferHeight = DETAIL.referenceHeight, fullscreen = false, seconds = 0, reduced = false, reach = 1 } = {}) {
       if (!index || disposed || !camera) return false;
       const time = now();
       camera.updateMatrixWorld();
@@ -453,10 +455,10 @@ export function createFurniture({
               ? inView && !culled
                 ? levels.length - 1
                 : 0
-              : chooseLevel(levels, Math.max(entry.shown, 0), { distance, bufferHeight, fullscreen, inView: inView && !culled });
+              : chooseLevel(levels, Math.max(entry.shown, 0), { distance, bufferHeight, fullscreen, inView: inView && !culled, reachScale: reach });
         for (let level = 1; level <= entry.wanted; level++) {
-          const reach = reachFor(levels[level], { bufferHeight, fullscreen }) || 1;
-          requests.push({ key: `${anchor.item}#${level}`, bytes: levels[level].bytes || 0, priority: distance / reach });
+          const levelReach = reachFor(levels[level], { bufferHeight, fullscreen, reachScale: reach }) || 1;
+          requests.push({ key: `${anchor.item}#${level}`, bytes: levels[level].bytes || 0, priority: distance / levelReach });
           const fine = models.get(`${anchor.item}#${level}`);
           if (fine) fine.lastWanted = time;
           if (fine?.state === "ready" && !entry.instances.has(level)) addInstance(entry, level, false);
@@ -468,7 +470,7 @@ export function createFurniture({
       for (const entry of models.values())
         if (entry.level > 0 && entry.state !== "failed")
           resident[entry.key] = { bytes: entry.bytes, lastWanted: entry.lastWanted, loading: entry.state === "loading" };
-      const plan = planDetail(requests, resident, { budget: fullscreen ? DETAIL.budget.fullscreen : DETAIL.budget.embed, now: time });
+      const plan = planDetail(requests, resident, { budget: (fullscreen ? DETAIL.budget.fullscreen : DETAIL.budget.embed) * reach, now: time });
       for (const key of plan.release) {
         releaseModel(key);
         changed = true;
