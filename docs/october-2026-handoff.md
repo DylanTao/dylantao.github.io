@@ -186,6 +186,53 @@ Sirui reviewed live on a laptop, then on a 4K PC with an RTX 3080. Each request 
   - a spacious study with unblocked views and a door to the patio;
   - the bed chamber beside the library (option B);
   - a corridor with rounded niches, sculptures and soft light.
+  - **Status 2026-10-26 (house worker's final report).**
+    - **On `main`:** the arrival checkpoint (F1–F5, F12). A stair hall cut into the cliff, with three stone flights and three oculi, runs from a clifftop pavilion down to the living; its first landing is the upper floor's oak pocket door. It also brought:
+      - a 1.5 × 3 m sandstone pivot door in the back wall, with the trench, private spiral and old private-stair channel closed at grade;
+      - gallery lighting kept inside the rock, cedar louvers that guard the onsen gallery, and a Walk start at the pavilion mouth;
+      - the banquette and sofa anchors;
+      - daytime hall light (entrance schedule 0.6 + 0.4·dark.inside);
+      - a door proof updated for the pivot leaf.
+    - **On branch `wip/house-whiskey`:** the whiskey corner (F9), built to life's spec and verified by house. The four anchors are in the library:
+      - the loveseat at [-10.50, 0, 2.55], yaw π;
+      - the ottoman 0.86 m in front of its left seat;
+      - the side table at its right hand;
+      - the bottles in a 1.04 × 0.30 m travertine niche in the west wall between the window and hearth, lit on the `libraryHearth` schedule.
+
+      The reading chairs are retired, and the library's visit spot moves to [-9.41, 0, 1.55] via the east passage. Browser scene tests have not been run on it. After integrating, wire life's whiskey-evening routine (item 22).
+
+    - **Overlap state** (committed report): visible z-fighting 1.48 m² native and 1.82 m² decoded; grazing seams 1.75 m; 344 deep sites over 5 cm against a ratchet of 350. The ratchet was raised once, from 315 to 350, for the hall's designed embeds, with the reason in the test. Every top-60 pair has a verdict.
+
+  - **Best effort so far:**
+    - **The hall** is still moderate by day from some angles. Next: raise the rail intensity from 1.6 to 2.0 in `refresh_coastal_arrival_hall.py`. If that isn't enough, add an entrance point over the mid landing (about [-2.8, 6.4, 17.0]), keeping its region at zw ≥ 16.14 because of the architecture receiver's ten-point cap.
+    - **The clifftop pavilion** reads as a plain box. F6 should bury its sides and back in the rock, deepen and plant the roof overhang, and soften the forecourt edge.
+    - **A faint crease** remains where the channel lid meets the trench patch. Sample the lid's edges from the post-cut ground, as `court()` does for the patch.
+    - The large palm trunk by the clifftop lounge predates this work.
+  - **Remaining queue:**
+    - F6 exterior: rock blending, a modest 1.5–3 m cantilever on a plausible structure, board-formed concrete, planting and night lighting.
+    - F7: retire the freestanding shelves and keep the books on the walls.
+    - F8: a patio door in the library's east wall near the sea end. The east bookshelf spans zw 1.16–3.44, and the terrace starts at x −8.4.
+    - F10: the bed chamber (option B), with a compact spiral by the desk and the bridge removed.
+    - F11: corridor niches with simple abstract sculptures, each with one salient gesture, crediting Kare.
+    - The item 9 sweep, then optional item 15.
+  - **Rebuild order for house changes.** The worker's pipeline script stayed on the laptop. Run:
+    1. `refresh_coastal_arrival_hall.py`
+    2. `refresh_coastal_seat_anchors.py`
+    3. `refresh_coastal_whiskey_corner.py`
+    4. Prettier on the manifest and `companion-flight-paths.json`
+    5. `coastal_hinterland_clearings.py`
+    6. `bake_coastal_light.py --prefixes=<changed objects> --cpu`
+    7. `optimize_coastal_exports.py --only=<changed rooms>`
+    8. `build_coastal_perch_support.py`
+    9. `bake_coastal_static_light.cjs`, with `COASTAL_BAKE_TIMEOUT_MS=900000`
+    10. `build_loading_sketch.cjs`
+    11. `review_coastal_retreat.py` for native contacts
+    12. Prettier on the generated review JSON
+
+    Run the overlap audit last, because every Blender save changes the source SHA the report binds. The refresh scripts have version guards, so make changes incrementally on the canonical blend and manifest.
+
+  - Evidence: `artwork/coastal-home/reviews/house-2026-10-24/README.md` and `feedback-log.md`.
+
 - [ ] 24. Hardware-adaptive quality, with a high tier for strong GPUs that never lags or crashes (perf worker, with item 7).
 - [ ] 25. A build-diary timeline on the 3D world's project page, plus sub-pages (story worker).
   - **Best effort so far:** the story worker's unverified WIP is on branch `wip/story-diary`, based on an older `main`: a timeline include and script, `_data/home_world_diary.yml`, a "house in the cliff" sub-page, before and after images, and tests. It has never been reviewed or rendered by the coordinator. Rebase it, render it at desktop and phone widths, check the claims against the review folders, then integrate it.
