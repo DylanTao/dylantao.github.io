@@ -46,3 +46,39 @@ The browser garden-path still also shows a bollard light standing in the middle 
 - People and animals in their live runtime poses. That pose capture and audit runs with the item 9 sweep, after item 12 moves the bed.
 - A fresh Cycles vertex-colour bake. The edits are rigid moves, hidden faces, a 1–16 cm path lift and two trims under walls, so the retained baked colours stay plausible. This follows the agave-grounding precedent; the next geometry checkpoint re-bakes.
 - Physical-phone or deployment checks.
+
+## Arrival and entrance (feedback F1–F5 and F12)
+
+Built by `bin/coastal_arrival_hall.py` through `bin/refresh_coastal_arrival_hall.py`, and `bin/refresh_coastal_seat_anchors.py` for F12. Both apply once to the source and say what they changed. The before and after views are listed per point in [feedback-log.md](feedback-log.md).
+
+- **One stair, in the rock.** The floating stair in front of the back wall is gone. A stair hall cut into the cliff behind the wall now carries the house's only stair. It has three straight flights of stone treads with oak caps, laid around a well lit by three round oculi. Sandstone lines the walls and stone paves the floor.
+  - The top flight rises into a small sandstone pavilion on the clifftop. The pavilion opens onto a paved forecourt that eases into the ground with no step.
+  - The first flight's landing is at the upper floor, behind an oak pocket door.
+  - On the well side, bronze-rod guards run under the hall's lower ceiling and end where its sandstone wall takes over, so the top flight climbs between two walls toward the light of the portal.
+- **The main entrance.** A 1.5 × 3.0 m pivot door sits in the back wall. Its face is the wall's own sandstone, so the texture runs across it. It turns into the hall on an axis 0.35 m in from its west jamb. The back wall is now one sandstone plane across the vault. A hidden linear light at the top of the slot grazes it at night.
+- **Walk.** Walk now begins in the pavilion's mouth, at the head of the stair, and the public route runs down the three flights and through the pivot door into the living.
+- **Light in the hall.** The hall has no window, only three small oculi, so it is lit like a gallery all day. A line of light under each wall handrail grazes the sandstone and lights every tread, and a cove at the top of the well washes the landward wall. They follow the entrance's schedule (dimmer by day, full after dark) and feed the cached bounce. At night the portal's lit brow and the glow through the oculi mark the way down.
+- **The spiral and the trenches.** The private onsen spiral is retired, and its clifftop hole is closed with ground that follows the slope. The open arrival trench and the old portal are closed at grade. The old private stair's channel was still open: it ran down from the clifftop and opened onto the sky over the upper passage between the onsen and the hall's upper door. It is now closed at grade too, and its level soffit continues the passage's ceiling and lifts away with the rooms' roof. The clifftop path is re-laid as two ribbons from the forecourt: east past the oculi, and west a metre clear of the pavilion, over the gentle ground beside it.
+- **The land around it.** The hinterland's transition planting had grown where the pavilion now stands. `bin/coastal_hinterland_clearings.py` removes the 12 plant parts within 2.2 m of the built arrival from the delivered hinterland, and `bin/build_coastal_hinterland.py` now keeps clear of the arrival in any later rebuild.
+- **Privacy.** The hall's only opening to the living is the pivot door.
+  - At the onsen's open edge, deep horizontal cedar blades stand on the gallery's edge and serve as its guard there, in place of the brass posts. They let a level view of the sea through but stop any line tilted more than about 10 degrees. So the living cannot see into the sunken tub, and the tub cannot look down into the living. The onsen's own camera looks over the blades, and the companion's onsen perch keeps its full clearance.
+- **Kitchen and living batch.** The nook's breakfast plate and celadon carafe are removed. The banquette and the cloud sofa are now streamed furniture: anchors `nook-banquette` (item `banquette`) and `living-sofa` (item `cloud-sofa`). Their current geometry stays as each anchor's placeholder until the items land.
+
+Design principles applied:
+
+- a pivot door set into a textured stone wall;
+- one family of materials used consistently (sandstone, warm cut stone, oak and bronze);
+- light that grazes textured stone: lines under the handrails and a cove over the well in the hall, a hidden slot along the back wall at night;
+- round light wells as shaped openings in the rock;
+- a screen that keeps the view while hiding the room;
+- wayfinding by light and threshold instead of signs: the portal's lit brow, the oculi over the stair and the grazed wall around the pivot door lead the way down. This applies a lesson from Susan Kare's Startup School 2026 talk (see "Lessons From Susan Kare" in `WEBSITE_DESIGN_HEURISTICS.md`): clear metaphors carry meaning without added labels.
+
+### Checks run for the arrival checkpoint
+
+- **Native contacts.** `bin/review_coastal_retreat.py` walks the 9 authored routes (133 samples) with no failure: the arrival from the pavilion's mouth down three flights and through the pivot door, and the house stair from the living up to the upper landing.
+- **Companion.** The native clearance audit passes all 420 flights against the 0.42 m envelope; the closest is 0.427 m, at the onsen perch beside the new louvers.
+- **Overlap re-audit.** Visible z-fighting is 1.61 m² natively and 1.92 m² decoded, grazing seams 1.64 m. Deep crossings over 5 cm rose from 303 to 340 with the hall's designed embeds: oculus rims in the ground, stone reveals in the rock, paths bedded in the grade. Every new pair among the top 60 has a bounded verdict in [overlap-verdicts.json](overlap-verdicts.json), and the deep ratchet in `test/test_coastal_overlap_audit.py` rose once, to 350, with that reason.
+- **Delivery.** The first-scene budget stays within 4 MiB. The moved seats keep their baked colour as the active attribute, so they ship quantized like the batches they came from.
+- **Wildlife.** The gull's gallery perch moves west of the screen, midway between two of the rail's brass posts, and takes the rail's decoded delivered surface as its contact, as the displaced west perch already did.
+- **Suites.** The Node and Python suites, Prettier on the changed files and the style contract pass. The light cache is re-signed after rebasing on `main`, and the loading sketch is re-traced.
+- **Not covered.** The browser Walk journey in `test/visual/desk-scene.spec.js` was not run here; the native route checks above cover the same path.
