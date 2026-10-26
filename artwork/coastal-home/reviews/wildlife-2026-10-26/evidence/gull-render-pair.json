@@ -1,0 +1,11 @@
+{
+  "sameRecordedTimes": true,
+  "samplesPerRun": 12,
+  "maximumCameraCoordinateDifference": 1.2434497875801753e-14,
+  "beforeMotionPhaseEvidence": "wingPhase absent in source-routed original module",
+  "afterMotionPhaseEvidence": "wingPhase present in integrated module",
+  "times": [
+    329.84066666666973, 329.8886666666698, 329.93666666666985, 329.9686666666699, 330.01666666666995, 330.06466666667, 330.09666666667005,
+    330.1446666666701, 330.17666666667014, 330.2246666666702, 330.27266666667026, 330.3046666666703
+  ]
+}

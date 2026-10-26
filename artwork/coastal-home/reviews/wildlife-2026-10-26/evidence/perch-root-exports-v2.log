@@ -1,0 +1,17 @@
+(node:41900) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/wildlife/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\wildlife\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ perch contact metadata matches retained geometry and stays bounded (284.4065ms)
+✔ stable gull soles fit actual local support for changing arrival headings (16.4459ms)
+✔ gallery rail contact follows its native relocated support and intentional toe overhang (0.6601ms)
+✔ landing and toe-off keep root C2 joins and visible deployed feet out of the surface (65.1323ms)
+✔ cormorant roosts sit on measured rock at the cliff foot, with support under both feet (0.5211ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 511.5083

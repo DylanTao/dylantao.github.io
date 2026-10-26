@@ -1,0 +1,47 @@
+(node:49432) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/wildlife/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\wildlife\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual delivered raccoon paws meet decoded terrain through sleep, wake, forage and complete walking strides (5641.3675ms)
+✔ loaded paws follow changed paths and slopes, while leaves, furniture and missing patches cannot count as ground (3356.1356ms)
+✔ actual gull skins clear delivered rock and rail through four land/perch/depart cycles, with intentional airborne hover (9306.7304ms)
+(node:50360) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/wildlife/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\wildlife\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ perch contact metadata matches retained geometry and stays bounded (291.6498ms)
+✖ stable gull soles fit actual local support for changing arrival headings (14.3389ms)
+✔ gallery rail contact follows its native relocated support and intentional toe overhang (1.0667ms)
+✔ landing and toe-off keep root C2 joins and visible deployed feet out of the surface (80.5364ms)
+✔ cormorant roosts sit on measured rock at the cliff foot, with support under both feet (0.9132ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18505.5047
+
+✖ failing tests:
+
+test at test\wildlife-perch-contact.test.mjs:78:1
+✖ stable gull soles fit actual local support for changing arrival headings (14.3389ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(Math.abs(landing.position.y - patch.original[1]) < 0.051)
+  
+      at TestContext.<anonymous> (file:///C:/dev/site-takeover-worktrees/wildlife/test/wildlife-perch-contact.test.mjs:85:14)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1106:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:788:18)
+      at Test.postRun (node:internal/test_runner/test:1235:19)
+      at Test.run (node:internal/test_runner/test:1163:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

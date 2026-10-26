@@ -1,0 +1,132 @@
+[
+  {
+    "name": "public-mainland-sleep",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 10,
+    "seconds": 0.08333333333333333,
+    "settle": 1
+  },
+  {
+    "name": "public-night-wake",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 20,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5,
+    "time": "2026-10-15T20:30:00-07:00"
+  },
+  {
+    "name": "public-night-030",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 30,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-040",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 40,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-050",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 50,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-060",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 60,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-070",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 70,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-080",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 80,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-090",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 90,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-100",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 100,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-110",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 110,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-120",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 120,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-130",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 130,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-140",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 140,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-night-150",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 150,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5
+  },
+  {
+    "name": "public-day-return",
+    "mode": "inspect",
+    "id": "raccoon-0",
+    "elapsed": 155,
+    "seconds": 0.08333333333333333,
+    "settle": 0.5,
+    "time": "2026-10-15T13:20:00-07:00"
+  }
+]

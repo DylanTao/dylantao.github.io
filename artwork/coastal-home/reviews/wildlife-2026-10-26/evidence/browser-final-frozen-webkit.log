@@ -1,0 +1,19 @@
+
+Running 1 test using 1 worker
+
+
+
+node : [1A[2K(node:34852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:104
++ ... ORT='4105'; node C:/dev/dylantao.github.io/node_modules/@playwright/t ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([1A[2K(node:3... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K(node:34852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/1] [webkit-iphone] › ..\..\dylantao.github.io\test\visual\desk-scene.spec.js:3828:1 › coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion
+[1A[2K  1 passed (56.2s)

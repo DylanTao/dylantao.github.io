@@ -1,0 +1,37 @@
+
+Running 3 tests using 1 worker
+
+
+
+npx.cmd : [1A[2K(node:12640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:104
++ ... ORT='4105'; npx.cmd playwright test --config test/visual/public.confi ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([1A[2K(node:1... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:12640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K[1/3] [laptop-1280] › test\visual\desk-scene.spec.js:3788:1 › coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion
+[1A[2K(node:42352) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:42352) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[2/3] [tablet-768] › test\visual\desk-scene.spec.js:3788:1 › coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion
+[1A[2K(node:48636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:48636) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[3/3] [mobile-390] › test\visual\desk-scene.spec.js:3788:1 › coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion
+[1A[2K  3 passed (1.4m)

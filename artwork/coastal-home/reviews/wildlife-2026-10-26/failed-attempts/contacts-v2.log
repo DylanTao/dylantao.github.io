@@ -1,0 +1,32 @@
+(node:10880) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/wildlife/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\wildlife\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual delivered raccoon paws meet decoded terrain through sleep, wake, forage and complete walking strides (16399.0713ms)
+✔ loaded paws follow changed paths and slopes, while leaves, furniture and missing patches cannot count as ground (2818.3562ms)
+✖ actual gull skins clear delivered rock and rail through four land/perch/depart cycles, with intentional airborne hover (260.5454ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19657.1417
+
+✖ failing tests:
+
+test at test\wildlife-delivered-contact.test.mjs:203:1
+✖ actual gull skins clear delivered rock and rail through four land/perch/depart cycles, with intentional airborne hover (260.5454ms)
+  AssertionError [ERR_ASSERTION]: real paw vertices, not nominal ankle targets
+      at pawVertices (file:///C:/dev/site-takeover-worktrees/wildlife/test/wildlife-delivered-contact.test.mjs:97:55)
+      at TestContext.<anonymous> (file:///C:/dev/site-takeover-worktrees/wildlife/test/wildlife-delivered-contact.test.mjs:215:19)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:788:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

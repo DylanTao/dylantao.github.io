@@ -1,0 +1,198 @@
+{
+  "verdict": "At the same16sampledviews, higher-first arrival preserves visible follow: 60-110s distances3.458m instead of.027m/zero. Nightlights and final static exports are outside this receipt.",
+  "views": [
+    {
+      "name": "public-mainland-sleep",
+      "seconds": 10.91266666666667,
+      "state": "sleep",
+      "cameraTargetDistance": 3.4123999987643097,
+      "projection": {
+        "x": 0.49999092513540805,
+        "y": 0.5000078887908455,
+        "depth": 0.9710228786811577
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-wake",
+      "seconds": 20.944666666666514,
+      "state": "wake",
+      "cameraTargetDistance": 1.7694971008380533,
+      "projection": {
+        "x": 0.5152113922267413,
+        "y": 0.5024900981062917,
+        "depth": 0.9426559349920111
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-030",
+      "seconds": 30.032666666666444,
+      "state": "walk",
+      "cameraTargetDistance": 3.4581575808815472,
+      "projection": {
+        "x": 0.5004661151409612,
+        "y": 0.5060231345657796,
+        "depth": 0.9712224217011731
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-040",
+      "seconds": 40.03266666666637,
+      "state": "walk",
+      "cameraTargetDistance": 3.4581623121657397,
+      "projection": {
+        "x": 0.5003718262336498,
+        "y": 0.5049153693894413,
+        "depth": 0.9712505333365853
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-050",
+      "seconds": 50.03266666666631,
+      "state": "walk",
+      "cameraTargetDistance": 3.4581623121695193,
+      "projection": {
+        "x": 0.4997439755064728,
+        "y": 0.5051018828161211,
+        "depth": 0.9712175466715227
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-060",
+      "seconds": 60.04866666666624,
+      "state": "dig",
+      "cameraTargetDistance": 3.4581623121695193,
+      "projection": {
+        "x": 0.49994929579978414,
+        "y": 0.5003694645587837,
+        "depth": 0.9713973241045355
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-070",
+      "seconds": 70.04866666666642,
+      "state": "dig",
+      "cameraTargetDistance": 3.4581623121695193,
+      "projection": {
+        "x": 0.49991993216114805,
+        "y": 0.5004296554618572,
+        "depth": 0.9713928626892502
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-080",
+      "seconds": 80.04866666666662,
+      "state": "look",
+      "cameraTargetDistance": 3.4581623121695193,
+      "projection": {
+        "x": 0.4998174981944726,
+        "y": 0.5002649345985857,
+        "depth": 0.9713986418543302
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-090",
+      "seconds": 90.04866666666682,
+      "state": "walk",
+      "cameraTargetDistance": 3.4581623121695193,
+      "projection": {
+        "x": 0.4976070988039214,
+        "y": 0.4961114723432387,
+        "depth": 0.9715626820798924
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-100",
+      "seconds": 100.04866666666703,
+      "state": "dig",
+      "cameraTargetDistance": 3.4581623121695193,
+      "projection": {
+        "x": 0.49965833724808345,
+        "y": 0.49956348267623396,
+        "depth": 0.971427364172632
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-110",
+      "seconds": 110.04866666666723,
+      "state": "stand",
+      "cameraTargetDistance": 3.4581623121695193,
+      "projection": {
+        "x": 0.50014844933773,
+        "y": 0.4994812958915548,
+        "depth": 0.9714327472131203
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-120",
+      "seconds": 120.04866666666743,
+      "state": "dig",
+      "cameraTargetDistance": 3.4581623121695197,
+      "projection": {
+        "x": 0.5003019909383116,
+        "y": 0.49949829192632533,
+        "depth": 0.9714306640089879
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-130",
+      "seconds": 130.04866666666717,
+      "state": "walk",
+      "cameraTargetDistance": 3.4581623121695193,
+      "projection": {
+        "x": 0.500465888403424,
+        "y": 0.5029233951449184,
+        "depth": 0.9713200562088448
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-140",
+      "seconds": 140.04866666666683,
+      "state": "look",
+      "cameraTargetDistance": 3.4581623121695197,
+      "projection": {
+        "x": 0.5000012007876086,
+        "y": 0.5000567148308825,
+        "depth": 0.9714093846993884
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-night-150",
+      "seconds": 150.0486666666665,
+      "state": "walk",
+      "cameraTargetDistance": 3.4581623121695197,
+      "projection": {
+        "x": 0.5005033872541829,
+        "y": 0.5059234527213626,
+        "depth": 0.9712195333916044
+      },
+      "actualBackingBuffer": [3840, 2160]
+    },
+    {
+      "name": "public-day-return",
+      "seconds": 155.93666666666567,
+      "state": "walk",
+      "cameraTargetDistance": 1.6173956648065337,
+      "projection": {
+        "x": 0.5174300190479068,
+        "y": 0.5058821703688415,
+        "depth": 0.9368115873699402
+      },
+      "actualBackingBuffer": [3840, 2160]
+    }
+  ],
+  "runtimeErrors": []
+}

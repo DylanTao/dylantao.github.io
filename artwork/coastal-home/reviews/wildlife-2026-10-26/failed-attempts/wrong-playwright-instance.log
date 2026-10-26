@@ -1,0 +1,26 @@
+Error: Playwright Test did not expect test() to be called here.
+Most common reasons include:
+- You are calling test() in a configuration file.
+- You are calling test() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+
+   at desk-scene.spec.js:37
+
+  35 | }
+  36 |
+> 37 | test("coastal temporal: moving geometry history improves edges and rejects disocclusion", async ({ page }, testInfo) => {
+     | ^
+  38 |   test.skip(testInfo.project.name !== "desktop-1440", "one native GPU fixture covers the temporal integrator independently of page layout");
+  39 |   const errors = collectRuntimeErrors(page),
+  40 |     url = publicRouteUrl("/temporal-aa-fixture/"),
+    at TestTypeImpl._currentSuite (C:\dev\dylantao.github.io\node_modules\playwright\lib\common\testType.js:75:13)
+    at TestTypeImpl._createTest (C:\dev\dylantao.github.io\node_modules\playwright\lib\common\testType.js:88:24)
+    at test (C:\dev\dylantao.github.io\node_modules\playwright\lib\transform\transform.js:282:12)
+    at Object.<anonymous> (C:\dev\dylantao.github.io\test\visual\desk-scene.spec.js:37:1)
+
+Error: No tests found.
+Make sure that arguments are regular expressions matching test files.
+You may need to escape symbols like "$" or "*" and quote the arguments.
+
+[1A[2K

@@ -1,0 +1,67 @@
+{
+  "ready": true,
+  "palette": "noon",
+  "currentRoom": "outside",
+  "camera": [-6.689531054252891, 11.93394651296617, 23.2694085460356],
+  "target": [-7.5228880001177485, 9.653687291132162, 20.806722886165588],
+  "cameraOrbit": {
+    "yaw": 12.89266843038072,
+    "pitch": 0.72,
+    "radius": 3.458162312169519
+  },
+  "cameraArm": {
+    "active": true,
+    "distance": 3.458162312169519,
+    "wanted": 3.458162312169519,
+    "limited": false,
+    "minimum": 1.6714451175486007,
+    "lift": 0
+  },
+  "resolution": {
+    "profile": "embed",
+    "compact": true,
+    "css": [350, 352],
+    "density": 1,
+    "cap": 1,
+    "factor": 1,
+    "adaptive": false,
+    "pixels": 123200,
+    "budget": 2100000,
+    "minFactor": 0.7,
+    "failedProbes": 0,
+    "history": []
+  },
+  "canvasWidth": 350,
+  "canvasHeight": 352,
+  "inspection": {
+    "id": "raccoon-0",
+    "name": "Raccoon",
+    "radius": 0.9606006422693107,
+    "arrival": {
+      "visibleFaceSamples": 3,
+      "faceSamples": 3,
+      "visibleBody": true,
+      "cameraDistance": 3.4581623121695193,
+      "requestedDistance": 3.458162312169519,
+      "rays": 4,
+      "sourceTriangles": 86988,
+      "retainedTriangles": 140,
+      "proxyMeshes": 2,
+      "milliseconds": 0
+    }
+  },
+  "selectedNeighbour": {
+    "id": "raccoon-0",
+    "name": "Raccoon",
+    "worldCenter": [-7.5228880001177485, 9.653687291132162, 20.806722886165588],
+    "radius": 0.9606006422693107,
+    "faceAnchorSource": "named acting pivots",
+    "projected": {
+      "x": 0.5000000000000008,
+      "y": 0.4999999999999996,
+      "depth": 0.9714114759234632
+    }
+  },
+  "neighbours": 28,
+  "rawEvidenceSha256": "a97c918261194f4c3ff5382c44a84a02cfe726c1f64625695b7fed75498eb9d0"
+}

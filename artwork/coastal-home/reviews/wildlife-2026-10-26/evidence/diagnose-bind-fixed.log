@@ -1,0 +1,154 @@
+node : (node:61380) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of 
+file:///C:/dev/site-takeover-worktrees/wildlife/assets/js/three.module.min.js is not specified and it doesn't parse as 
+CommonJS.
+At line:2 char:1
++ node .jekyll-cache/visual-qa/wildlife-2026-10-26/diagnose_once.mjs *> ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:61380) [M...se as CommonJS.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\wildlife\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "position": [
+    -6.6786211800645425,
+    8.959461705922985,
+    7.839310590032271
+  ],
+  "state": "walk",
+  "bodyAccommodation": 0,
+  "contacts": [
+    {
+      "foot": "FrontPawL",
+      "position": [
+        -6.9549454126505115,
+        9.16656114042809,
+        7.809891415781657
+      ],
+      "yaw": -1.106687379975622,
+      "slope": 0.5282301954326348,
+      "gradient": [
+        -0.6326813656403835,
+        0.03973242292149452
+      ],
+      "contact": true,
+      "lift": 0,
+      "orientation": [
+        -0.16513677671527666,
+        -0.5287616273774833,
+        -0.2276940104532631,
+        0.8008098550797896
+      ],
+      "intentionalLift": 0,
+      "raised": 0,
+      "supported": 152,
+      "supportVisible": true,
+      "supportMesh": "core_retreat_liftaway_roof primitive 0",
+      "correction": 0.00851621947662018
+    },
+    {
+      "foot": "HindPawL",
+      "position": [
+        -6.596946104338921,
+        8.927532778073582,
+        7.608407125678447
+      ],
+      "yaw": -1.1071480857170073,
+      "slope": 0.5279260577853381,
+      "gradient": [
+        -0.6320323004685884,
+        0.039864053864646004
+      ],
+      "contact": true,
+      "lift": 0,
+      "orientation": [
+        -0.17315609237859314,
+        -0.5276369414263978,
+        -0.22575950430863198,
+        0.8004054422158141
+      ],
+      "intentionalLift": 0,
+      "raised": 0,
+      "supported": 144,
+      "supportVisible": true,
+      "supportMesh": "core_retreat_liftaway_roof primitive 0",
+      "correction": 0.003474237195389307
+    },
+    {
+      "foot": "FrontPawR",
+      "position": [
+        -6.851411087001124,
+        9.163624178812167,
+        8.09341229245647
+      ],
+      "yaw": -1.1071425661974252,
+      "slope": 0.528007309033556,
+      "gradient": [
+        -0.632157713015641,
+        0.039859753572841466
+      ],
+      "contact": false,
+      "lift": 0.05541589832190461,
+      "orientation": [
+        -0.16518261629734088,
+        -0.5289228482594829,
+        -0.22766075791266102,
+        0.8007033802656726
+      ],
+      "intentionalLift": 0.05541589832190461,
+      "raised": 0,
+      "supported": 151,
+      "supportVisible": true,
+      "supportMesh": "core_retreat_liftaway_roof primitive 0",
+      "correction": 0.004036926459173529
+    },
+    {
+      "foot": "HindPawR",
+      "position": [
+        -6.373606825376482,
+        8.797298903298438,
+        7.876198531482563
+      ],
+      "yaw": -1.1042955522035678,
+      "slope": 0.5281082351072536,
+      "gradient": [
+        -0.6332462713389553,
+        0.039567985582284006
+      ],
+      "contact": true,
+      "lift": 0,
+      "orientation": [
+        -0.16363890003794887,
+        -0.5269235135953361,
+        -0.21843937800521668,
+        0.8048963655970935
+      ],
+      "intentionalLift": 0,
+      "raised": 0,
+      "supported": 143,
+      "supportVisible": true,
+      "supportMesh": "core_retreat_liftaway_roof primitive 0",
+      "correction": 0.005058493918649987
+    }
+  ],
+  "ground": {
+    "ready": true,
+    "triangles": 184,
+    "cells": 88,
+    "meshes": [
+      "core__golden coastal sandstone primitive 0",
+      "core_liftaway_cave_ceiling_rear primitive 0",
+      "core_bathwing_liftaway_roof primitive 0",
+      "core_retreat_liftaway_roof primitive 0",
+      "coast_shared_golden coastal sandstone primitive 0"
+    ],
+    "bounds": {
+      "minX": -8.25,
+      "maxX": -4.85,
+      "minZ": 6.35,
+      "maxZ": 8.950000000000001
+    },
+    "captureMilliseconds": 47.57049999999998
+  }
+}

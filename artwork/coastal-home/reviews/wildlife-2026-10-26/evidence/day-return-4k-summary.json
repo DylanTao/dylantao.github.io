@@ -1,0 +1,2371 @@
+{
+  "time": "2026-10-15T20:30:00-07:00",
+  "fps": 12,
+  "shots": [
+    {
+      "name": "night-walk-control",
+      "time": "2026-10-15T20:30:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 50.04866666666639,
+          "camera": [-8.373126652019371, 10.573846279750548, 19.81347697591795],
+          "target": [-9.108051521769534, 10.041909907759957, 21.368124566846],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": null,
+          "gulls": ["approach", "stretch", "depart", "glide"],
+          "gullActing": [
+            {
+              "position": [-4.341575087422564, 9.710996530379942, -13.592283482874748],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-1.2611401266692137, 1.1800603737948538, 1.3651694544181805],
+              "wingPhase": 149.8579999999992,
+              "wingRate": 3,
+              "wingBeat": 0.3443498875443412,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "stretch",
+              "velocity": [0, 0, 0],
+              "wingPhase": 153.34999999999923,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [11.219694567689196, 10.57774518058981, -5.7521784408422],
+              "state": "depart",
+              "perched": null,
+              "velocity": [-6.882303123151513, 1.9908682970556413, -6.7432923713384145],
+              "wingPhase": 154.34626666666577,
+              "wingRate": 3.4,
+              "wingBeat": -0.561774611293749,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-6.74730597492109, 11.925773890919011, -25.706653926318882],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.3897843551315958, -0.02061732868874344, -0.6550061225105708],
+              "wingPhase": 155.06999999999923,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["run", "sprint", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "raft"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "bark", "rest", "look", "banana", "banana"]
+        }
+      ]
+    },
+    {
+      "name": "daylight-return-walk",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 24,
+      "states": [
+        {
+          "seconds": 53.056666666666324,
+          "camera": [-7.866359255592349, 10.393336731618918, 19.5064988307177],
+          "target": [-8.605143215791962, 9.858607161769122, 21.069309876057687],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-7.341941091599594, 13.0102271874236, -8.070700752049346],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8134711542634006, 0.6482621272254425, 1.9374180659769917],
+              "wingPhase": 159.16999999999896,
+              "wingRate": 3,
+              "wingBeat": 0.18730329671130805,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 162.70999999999898,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-7.0038225171368875, 11.532777325551345, -24.2636569106531],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.28065000311539023, 0.12230368410026671, 0.1761686648382721],
+              "wingPhase": 164.22599999999895,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-2.5548178103646073, 11.659503668962655, -28.350861639645533],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.1900753931552988, -0.14066275576141152, -0.9205180609797026],
+              "wingPhase": 164.47799999999899,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["probe", "probe", "probe"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "rest", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.136666666666315,
+          "camera": [-7.86281718778023, 10.413522555282931, 19.555964161558506],
+          "target": [-8.599165144310149, 9.880556157435537, 21.11362212609737],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-7.407038950653755, 13.060844370110068, -7.915954651853893],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.814077673517456, 0.6171366578813482, 1.9310673944637666],
+              "wingPhase": 159.40999999999894,
+              "wingRate": 3,
+              "wingBeat": -0.4806291038479063,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 162.94999999999897,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-7.0038225171368875, 11.532777325551345, -24.2636569106531],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.28065000311539023, 0.12230368410026671, 0.1761686648382721],
+              "wingPhase": 164.22599999999895,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-2.5548178103646073, 11.659503668962655, -28.350861639645533],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.1900753931552988, -0.14066275576141152, -0.9205180609797026],
+              "wingPhase": 164.47799999999899,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["probe", "probe", "probe"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "rest", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.216666666666306,
+          "camera": [-7.861500880022739, 10.421024037360663, 19.57434653219953],
+          "target": [-8.596943565699736, 9.888712871786652, 21.130089502147026],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-7.4722097487694725, 13.108964914927784, -7.761756389500293],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8152927583200134, 0.585856014948805, 1.9237260128743687],
+              "wingPhase": 159.64999999999893,
+              "wingRate": 3,
+              "wingBeat": -0.206575410031126,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 163.18999999999895,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-7.0038225171368875, 11.532777325551345, -24.2636569106531],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.28065000311539023, 0.12230368410026671, 0.1761686648382721],
+              "wingPhase": 164.22599999999895,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-2.5548178103646073, 11.659503668962655, -28.350861639645533],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.1900753931552988, -0.14066275576141152, -0.9205180609797026],
+              "wingPhase": 164.47799999999899,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["probe", "run", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "rest", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.2966666666663,
+          "camera": [-7.861018994014879, 10.423770248827113, 19.58107611929447],
+          "target": [-8.596130269823275, 9.891698956701942, 21.136118030433046],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-7.537501706907721, 13.154578764750722, -7.608184263041824],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8171046155088969, 0.5544790701243074, 1.9154181956083],
+              "wingPhase": 159.8899999999989,
+              "wingRate": 3,
+              "wingBeat": 0.39081225524070595,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 163.42999999999893,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.953771253370711, 11.555020718761485, -24.229751308170822],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.24074296470644185, 0.10927948548822286, 0.17617522550494868],
+              "wingPhase": 164.80199999999888,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-2.328797801959464, 11.632010498481186, -28.526959243438245],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.1642086662113638, -0.14565950665623717, -0.9133505363259076],
+              "wingPhase": 165.0539999999989,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["probe", "run", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "rest", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.39266666666629,
+          "camera": [-7.8608265810542175, 10.42486678762614, 19.58376318598062],
+          "target": [-8.595805527731047, 9.892891274921494, 21.13852517032114],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-7.6160784169057925, 13.205999328936105, -7.424831466252233],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8200483282249041, 0.5167820051314531, 1.9042100087571123],
+              "wingPhase": 160.17799999999886,
+              "wingRate": 3,
+              "wingBeat": 0.1430566553255949,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 163.71799999999888,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.953771253370711, 11.555020718761485, -24.229751308170822],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.24074296470644185, 0.10927948548822286, 0.17617522550494868],
+              "wingPhase": 164.80199999999888,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-2.328797801959464, 11.632010498481186, -28.526959243438245],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.1642086662113638, -0.14565950665623717, -0.9133505363259076],
+              "wingPhase": 165.0539999999989,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["run", "probe", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "rest", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.47266666666628,
+          "camera": [-7.860775765614481, 10.425156378843885, 19.58447282882582],
+          "target": [-8.5957197647324, 9.893206161075446, 21.139160885693613],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-7.6818016633931485, 13.24608614879196, -7.27290229970851],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8231260704386464, 0.48539860916375316, 1.8938705142446115],
+              "wingPhase": 160.41799999999884,
+              "wingRate": 3,
+              "wingBeat": -0.3829434534246582,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 163.95799999999886,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.911354099128766, 11.574697221655398, -24.196326880246534],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.2011970698143628, 0.09557688295025457, 0.17116317026832917],
+              "wingPhase": 165.37799999999882,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-2.107790752269926, 11.603595705834287, -28.70140434813169],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.1378875962542168, -0.15026121103822732, -0.9033099796500466],
+              "wingPhase": 165.62999999999886,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["run", "probe", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "rest", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.55266666666627,
+          "camera": [-7.860757730669327, 10.425259157879438, 19.584724688698326],
+          "target": [-8.59568932652301, 9.893317917555702, 21.13938650791155],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-7.747793296665485, 13.283665488464383, -7.121835557247111],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8267553437913062, 0.45410451804733915, 1.8826545830738257],
+              "wingPhase": 160.65799999999882,
+              "wingRate": 3,
+              "wingBeat": -0.12263289182968284,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 164.19799999999884,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.911354099128766, 11.574697221655398, -24.196326880246534],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.2011970698143628, 0.09557688295025457, 0.17116317026832917],
+              "wingPhase": 165.37799999999882,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-2.107790752269926, 11.603595705834287, -28.70140434813169],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.1378875962542168, -0.15026121103822732, -0.9033099796500466],
+              "wingPhase": 165.62999999999886,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["run", "probe", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.63266666666626,
+          "camera": [-7.8607513715286395, 10.42529539787674, 19.584813494757327],
+          "target": [-8.595678593978159, 9.893357323009555, 21.139466062545644],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-7.814096787352796, 13.318746767129047, -6.971700087024384],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8309196656654321, 0.42295648029429234, 1.8705941902317405],
+              "wingPhase": 160.89799999999877,
+              "wingRate": 3,
+              "wingBeat": 0.21454086409737574,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 164.4379999999988,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.876462081413903, 11.591683424911276, -24.164342219957177],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.1624243860947061, 0.08126788451434663, 0.16119009752912916],
+              "wingPhase": 165.95399999999876,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.8918664351390948, 11.574336085525466, -28.87364889309053],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.1112934014735343, -0.15445842108530172, -0.8904356732681862],
+              "wingPhase": 166.20599999999877,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.72866666666625,
+          "camera": [-7.8607489147205545, 10.425309398938325, 19.584847804337713],
+          "target": [-8.59567444753692, 9.893372547022446, 21.139496797904744],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-7.894131813870502, 13.357566786008487, -6.792859841472406],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8365982577490838, 0.3858503682254711, 1.8550547608035957],
+              "wingPhase": 161.18599999999876,
+              "wingRate": 3,
+              "wingBeat": 0.046120788918900875,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 164.72599999999878,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.876462081413903, 11.591683424911276, -24.164342219957177],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.1624243860947061, 0.08126788451434663, 0.16119009752912916],
+              "wingPhase": 165.95399999999876,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.8918664351390948, 11.574336085525466, -28.87364889309053],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.1112934014735343, -0.15445842108530172, -0.8904356732681862],
+              "wingPhase": 166.20599999999877,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.80866666666624,
+          "camera": [-7.860748284729088, 10.42531298918599, 19.584856602234222],
+          "target": [-8.595673384278202, 9.893376450867622, 21.139504679275063],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-7.9612675572344145, 13.387207609270147, -6.645002331603422],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.841876165262808, 0.35521940376485955, 1.8412581395948193],
+              "wingPhase": 161.42599999999874,
+              "wingRate": 3,
+              "wingBeat": -0.10693671477551621,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 164.96599999999876,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.876462081413903, 11.591683424911276, -24.164342219957177],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.1624243860947061, 0.08126788451434663, 0.16119009752912916],
+              "wingPhase": 165.95399999999876,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.6810602375571257, 11.544310014541347, -29.043153602826905],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.0846029123048329, -0.15824409999787292, -0.8747797690880077],
+              "wingPhase": 166.78199999999873,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.88866666666623,
+          "camera": [-7.860748065995766, 10.425314235721636, 19.584859656867952],
+          "target": [-8.59567301511429, 9.89337780628447, 21.139507415690478],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.028844662665476, 13.414410475294588, -6.498278002654301],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8476288737937152, 0.3249103276976469, 1.826731697613067],
+              "wingPhase": 161.6659999999987,
+              "wingRate": 3,
+              "wingBeat": -0.019324694851061388,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 165.2059999999987,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.848907649122227, 11.605870140203447, -24.134741586564434],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.12483090446080425, 0.06642853451666042, 0.1463476361696081],
+              "wingPhase": 166.5299999999987,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.6810602375571257, 11.544310014541347, -29.043153602826905],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.0846029123048329, -0.15824409999787292, -0.8747797690880077],
+              "wingPhase": 166.78199999999873,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 53.96866666666622,
+          "camera": [-7.860747990327187, 10.425314666948031, 19.58486071358758],
+          "target": [-8.59567288740577, 9.893378275177215, 21.139508362325703],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.096900274805725, 13.43920325352929, -6.35274366548707],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8538352112690749, 0.2949759043995742, 1.8115151104328],
+              "wingPhase": 161.90599999999867,
+              "wingRate": 3,
+              "wingBeat": 0.020935210981842308,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 165.4459999999987,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.848907649122227, 11.605870140203447, -24.134741586564434],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.12483090446080425, 0.06642853451666042, 0.1463476361696081],
+              "wingPhase": 166.5299999999987,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.6810602375571257, 11.544310014541347, -29.043153602826905],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.0846029123048329, -0.15824409999787292, -0.8747797690880077],
+              "wingPhase": 166.78199999999873,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "scratch", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 54.06466666666621,
+          "camera": [-7.860747961605244, 10.425314830631029, 19.58486111469252],
+          "target": [-8.595672838930739, 9.893378453157437, 21.13950872164529],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.179248362513045, 13.465818675013114, -6.179748430124453],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.861850145479536, 0.2596216161732921, 1.7924027879700815],
+              "wingPhase": 162.19399999999865,
+              "wingRate": 3,
+              "wingBeat": 0.0008945938983041223,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 165.73399999999867,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.828426105171979, 11.617163126485856, -24.108448426947497],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.08881378297065368, 0.05113840199388875, 0.12676083171214714],
+              "wingPhase": 167.10599999999863,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.4753740857960378, 11.51359699017469, -29.209390411236637],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.057987707268504, -0.16161361172972732, -0.8564067918523932],
+              "wingPhase": 167.35799999999864,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "scratch", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 54.144666666666204,
+          "camera": [-7.860747954361264, 10.425314871913633, 19.584861215855476],
+          "target": [-8.595672826704817, 9.893378498045955, 21.139508812269536],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.248478739528732, 13.485427773430235, -6.037015829150411],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8689744386425142, 0.2306909771835084, 1.7758165747311765],
+              "wingPhase": 162.4339999999986,
+              "wingRate": 3,
+              "wingBeat": -0.00009110685939891642,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 165.97399999999863,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.828426105171979, 11.617163126485856, -24.108448426947497],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.08881378297065368, 0.05113840199388875, 0.12676083171214714],
+              "wingPhase": 167.10599999999863,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.4753740857960378, 11.51359699017469, -29.209390411236637],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.057987707268504, -0.16161361172972732, -0.8564067918523932],
+              "wingPhase": 167.35799999999864,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "scratch", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 54.224666666666195,
+          "camera": [-7.860747951878304, 10.425314886063733, 19.58486125053028],
+          "target": [-8.595672822514238, 9.893378513432024, 21.13950884333207],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.31829436369319, 13.502743493043962, -5.895632469461786],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.876477106988791, 0.20229509923353006, 1.7586794990720136],
+              "wingPhase": 162.67399999999859,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 166.2139999999986,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.8146775623544045, 11.62548371560426, -24.086359036618944],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.05475865064985541, 0.03548004426168205, 0.10258730698708973],
+              "wingPhase": 167.68199999999857,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.274777532971551, 11.482277171281709, -29.371844784819327],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.0316132962523428, -0.164564695554148, -0.835393084354763],
+              "wingPhase": 167.9339999999986,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "scratch", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 54.304666666666186,
+          "camera": [-7.860747951029208, 10.425314890902634, 19.584861262388003],
+          "target": [-8.59567282108119, 9.893378518693588, 21.139508853954506],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.388724478003546, 13.517810502263853, -5.755640537228903],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8843322889903614, 0.1744809016108364, 1.7410389371545358],
+              "wingPhase": 162.91399999999857,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 166.4539999999986,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.8146775623544045, 11.62548371560426, -24.086359036618944],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.05475865064985541, 0.03548004426168205, 0.10258730698708973],
+              "wingPhase": 167.68199999999857,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.274777532971551, 11.482277171281709, -29.371844784819327],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.0316132962523428, -0.164564695554148, -0.835393084354763],
+              "wingPhase": 167.9339999999986,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "scratch", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 54.400666666666176,
+          "camera": [-7.860747950710443, 10.425314892719236, 19.58486126683958],
+          "target": [-8.595672820543198, 9.893378520668865, 21.139508857942342],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.474089786304113, 13.532990952422452, -5.589540580547114],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.8941857616975617, 0.1419352756324047, 1.7192750772353953],
+              "wingPhase": 163.20199999999852,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 166.74199999999854,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.807249409610948, 11.63076933284377, -24.06933640306626],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.023036989773128624, 0.019538449564926452, 0.07401620332281311],
+              "wingPhase": 168.2579999999985,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.0792089985464937, 11.450430925854329, -29.53001793414953],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.005638355120575, -0.1670974257841351, -0.8118261989160658],
+              "wingPhase": 168.5099999999985,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["bark", "scratch", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 54.48066666666617,
+          "camera": [-7.8607479506308975, 10.425314893172557, 19.584861267950444],
+          "target": [-8.595672820408947, 9.893378521161782, 21.13950885893748],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.545964166489682, 13.543286000329564, -5.45273902819539],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.9027199388680454, 0.11555756471830503, 1.700702644995647],
+              "wingPhase": 163.4419999999985,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 166.98199999999852,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.807249409610948, 11.63076933284377, -24.06933640306626],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.023036989773128624, 0.019538449564926452, 0.07401620332281311],
+              "wingPhase": 168.2579999999985,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.0792089985464937, 11.450430925854329, -29.53001793414953],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.005638355120575, -0.1670974257841351, -0.8118261989160658],
+              "wingPhase": 168.5099999999985,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["bark", "scratch", "scratch", "look", "banana", "banana"]
+        },
+        {
+          "seconds": 54.56066666666616,
+          "camera": [-7.860747950603861, 10.42531489332663, 19.584861268328005],
+          "target": [-8.595672820363317, 9.893378521329314, 21.139508859275708],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.61853197094579, 13.551499367406123, -5.317437213953593],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.9115163696757913, 0.08989996059663313, 1.6817906511557683],
+              "wingPhase": 163.68199999999848,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 167.2219999999985,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.807249409610948, 11.63076933284377, -24.06933640306626],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.023036989773128624, 0.019538449564926452, 0.07401620332281311],
+              "wingPhase": 168.2579999999985,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.0792089985464937, 11.450430925854329, -29.53001793414953],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.005638355120575, -0.1670974257841351, -0.8118261989160658],
+              "wingPhase": 168.5099999999985,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["run", "run", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["bark", "scratch", "scratch", "rest", "banana", "banana"]
+        },
+        {
+          "seconds": 54.64066666666615,
+          "camera": [-7.860747950594688, 10.425314893378912, 19.584861268456127],
+          "target": [-8.595672820347835, 9.893378521386163, 21.13950885939048],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.691812965367706, 13.557690244434152, -5.183660111902935],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.9205445031375271, 0.06500167651468883, 1.6625941724651898],
+              "wingPhase": 163.92199999999843,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 167.46199999999845,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.805659271929738, 11.632973908776057, -24.058204272902852],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.0059963853478173235, 0.003400462818881067, 0.041266909382997596],
+              "wingPhase": 168.83399999999844,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-0.8885771495919144, 11.418138387702209, -29.683428903723126],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.9802140150212413, -0.16921415724802102, -0.7858042397685949],
+              "wingPhase": 169.08599999999848,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["run", "run", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["bark", "scratch", "scratch", "rest", "banana", "banana"]
+        },
+        {
+          "seconds": 54.73666666666614,
+          "camera": [-7.86074795059127, 10.425314893398392, 19.584861268503865],
+          "target": [-8.595672820342065, 9.893378521407344, 21.139508859433246],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.780715714892093, 13.562537454611613, -5.025168741905214],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.9316394443221783, 0.036178126045920966, 1.6392631367035493],
+              "wingPhase": 164.20999999999842,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 167.74999999999844,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.805659271929738, 11.632973908776057, -24.058204272902852],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.0059963853478173235, 0.003400462818881067, 0.041266909382997596],
+              "wingPhase": 168.83399999999844,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-0.8885771495919144, 11.418138387702209, -29.683428903723126],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.9802140150212413, -0.16921415724802102, -0.7858042397685949],
+              "wingPhase": 169.08599999999848,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "probe", "probe"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["bark", "scratch", "scratch", "rest", "banana", "banana"]
+        },
+        {
+          "seconds": 54.81666666666613,
+          "camera": [-7.8607479505904205, 10.425314893403218, 19.584861268515688],
+          "target": [-8.595672820340633, 9.893378521412592, 21.139508859443836],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.85562290591948, 13.564501996063353, -4.894811623720324],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.9410642818673904, 0.013077827261565145, 1.6196436968553718],
+              "wingPhase": 164.4499999999984,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 167.98999999999842,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.809358443661792, 11.632068179554798, -24.053741482762337],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.032005735773221744, -0.012845801431460302, 0.004587586571958013],
+              "wingPhase": 169.40999999999838,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-0.7027624130003653, 11.3854790249357, -29.83161653120341],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.9554832094826882, -0.17091945699920785, -0.7574351610788455],
+              "wingPhase": 169.6619999999984,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "probe", "probe"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["bark", "scratch", "scratch", "rest", "banana", "banana"]
+        },
+        {
+          "seconds": 54.89666666666612,
+          "camera": [-7.860747950590134, 10.425314893404849, 19.584861268519685],
+          "target": [-8.59567282034015, 9.893378521414364, 21.139508859447417],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-8.931289372620114, 13.564653112072344, -4.766028309859799],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.950615555791688, -0.009152361869594727, 1.5999283386946186],
+              "wingPhase": 164.68999999999835,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 168.22999999999837,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.809358443661792, 11.632068179554798, -24.053741482762337],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.032005735773221744, -0.012845801431460302, 0.004587586571958013],
+              "wingPhase": 169.40999999999838,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-0.7027624130003653, 11.3854790249357, -29.83161653120341],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.9554832094826882, -0.17091945699920785, -0.7574351610788455],
+              "wingPhase": 169.6619999999984,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "probe", "probe"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["bark", "scratch", "scratch", "rest", "banana", "banana"]
+        },
+        {
+          "seconds": 54.97666666666611,
+          "camera": [-7.860747950590039, 10.425314893405398, 19.58486126852103],
+          "target": [-8.595672820339988, 9.893378521414963, 21.139508859448625],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.35,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "study",
+          "inspection": null,
+          "gulls": ["approach", "preen", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-9.007723827730356, 13.56306161392368, -4.638823974918321],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.9602580256565184, -0.030482795092366288, 1.580179839558187],
+              "wingPhase": 164.92999999999833,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 168.46999999999835,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-6.817735771807242, 11.62803987361307, -24.056676592041146],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.05467667505199003, -0.0291115545714149, -0.035746498779687386],
+              "wingPhase": 169.9859999999983,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-0.5216186073002251, 11.352531222820925, -29.974141268030017],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.9315800818358033, -0.17222002300520955, -0.7268360256116324],
+              "wingPhase": 170.23799999999835,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "run", "probe"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "walk",
+          "rabbits": ["graze", "graze"],
+          "marine": ["bark", "scratch", "scratch", "rest", "banana", "banana"]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

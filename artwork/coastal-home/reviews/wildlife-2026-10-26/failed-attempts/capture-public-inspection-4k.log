@@ -1,0 +1,10 @@
+node : page.waitForFunction: Timeout 120000ms exceeded.
+At line:12 char:1
++ node bin/capture_coastal_wildlife.cjs --plan=.jekyll-cache/visual-qa/ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (page.waitForFun...000ms exceeded.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    at C:\dev\site-takeover-worktrees\wildlife\bin\capture_coastal_wildlife.cjs:44:14 {
+  name: 'TimeoutError'
+}

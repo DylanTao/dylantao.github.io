@@ -1,0 +1,22 @@
+{
+  "home-shell.glb": {
+    "bytes": 763180,
+    "sha256": "67fca6f64fa4192e09a0c3760aabb2beb54c6f4dd64aec376e760961ba4460b3"
+  },
+  "coast.glb": {
+    "bytes": 215792,
+    "sha256": "d1c9ecd1bc25fb2f6c070cb3f2eb1081a5d52efffa7f5c1ab9303aa658956162"
+  },
+  "manifest.json": {
+    "bytes": 272273,
+    "sha256": "885e8b10a21f8750f68df042a3e7c3df3d2ea8b0171e35ef88eb50c3a0eb8e95"
+  },
+  "wildlife-perch-support.json": {
+    "bytes": 27544,
+    "sha256": "bc604310ffde6ec2b059ed061761a26795b0d70b7929355424c206466ff80bde"
+  },
+  "static-light-field.json": {
+    "bytes": 742602,
+    "sha256": "feec269b818e620d6f158a241ae2dae1d7cd212646a292617164064109989533"
+  }
+}

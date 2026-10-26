@@ -1,0 +1,34 @@
+{
+  "home-shell.glb": {
+    "bytes": 763180,
+    "sha256": "67fca6f64fa4192e09a0c3760aabb2beb54c6f4dd64aec376e760961ba4460b3"
+  },
+  "coast.glb": {
+    "bytes": 215792,
+    "sha256": "d1c9ecd1bc25fb2f6c070cb3f2eb1081a5d52efffa7f5c1ab9303aa658956162"
+  },
+  "manifest.json": {
+    "bytes": 272273,
+    "sha256": "885e8b10a21f8750f68df042a3e7c3df3d2ea8b0171e35ef88eb50c3a0eb8e95"
+  },
+  "wildlife-perch-support.json": {
+    "bytes": 27544,
+    "sha256": "bc604310ffde6ec2b059ed061761a26795b0d70b7929355424c206466ff80bde"
+  },
+  "static-light-field.json": {
+    "bytes": 742602,
+    "sha256": "feec269b818e620d6f158a241ae2dae1d7cd212646a292617164064109989533"
+  },
+  "assets/js/home-scene/controller.mjs": {
+    "bytes": 192828,
+    "sha256": "dd34e2634bc303627368114035966cc0958236be6cd4c56387f1391233ee1766"
+  },
+  "assets/js/home-scene/environment.mjs": {
+    "bytes": 45716,
+    "sha256": "e7a7322cf4e4f19a63cf7e1af53f1bbfd4484eb9f8b4c2938d7c75ca5f3d797b"
+  },
+  "test/visual/desk-scene.spec.js": {
+    "bytes": 218783,
+    "sha256": "339a008308898a3633b2197be55e2b6ca5aff513a4d49d0571aa2451fcfa6a3f"
+  }
+}

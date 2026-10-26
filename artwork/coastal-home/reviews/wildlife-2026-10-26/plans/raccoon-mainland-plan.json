@@ -1,0 +1,5 @@
+[
+  { "name": "raccoon-mainland-walk", "mode": "inspect", "id": "raccoon-0", "elapsed": 50, "seconds": 1.5, "settle": 2.5 },
+  { "name": "raccoon-mainland-wash", "mode": "inspect", "id": "raccoon-0", "elapsed": 80, "seconds": 0.5, "settle": 2.5 },
+  { "name": "raccoon-mainland-dig", "mode": "inspect", "id": "raccoon-0", "elapsed": 116, "seconds": 1, "settle": 2.5 }
+]

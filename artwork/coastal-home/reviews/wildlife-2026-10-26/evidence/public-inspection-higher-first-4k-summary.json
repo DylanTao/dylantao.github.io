@@ -1,0 +1,3506 @@
+{
+  "time": "2026-10-15T13:20:00-07:00",
+  "fps": 12,
+  "shots": [
+    {
+      "name": "public-mainland-sleep",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 10.91266666666667,
+          "camera": [-6.700541748022443, 11.903728884452558, 23.236732657791645],
+          "target": [-7.522876689956361, 9.653644636168885, 20.806638036081022],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 105,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-7.522888000117743, 9.653687291132162, 20.80672288616559],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.49999092513540805,
+              "y": 0.5000078887908455,
+              "depth": 0.9710228786811577
+            }
+          },
+          "gulls": ["glide", "glide", "approach", "look"],
+          "gullActing": [
+            {
+              "position": [-1.8169605142918104, 9.810737798098762, -16.908238462428873],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-1.2618402853545874, 0.2440466832460686, 0.5596228311279816],
+              "wingPhase": 32.738000000000014,
+              "wingRate": 3,
+              "wingBeat": 0.03709380247926514,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-11.636581830115162, 9.946540199570176, -22.113259628440286],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.24405983056841052, 0.021918512781660127, -0.06503451618478095],
+              "wingPhase": 33.03800000000001,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [2.9002141935382446, 11.402657781927116, -16.250430277590347],
+              "state": "approach",
+              "perched": null,
+              "velocity": [2.91854932537554, -0.08934268525407604, 3.657424745196368],
+              "wingPhase": 33.338000000000015,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-13.6000004, 11.6972351, 1],
+              "state": "perch",
+              "perched": "look",
+              "velocity": [0, 0, 0],
+              "wingPhase": 36.878000000000014,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-13.667980205380422, 11.712503161485728, 1.003946018302064],
+                  "hipAccommodation": 0.007354508231536707,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-13.536144175088927, 11.712174728515194, 1.0236475694333644],
+                  "hipAccommodation": 0.0076682815776488,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            }
+          ],
+          "sandpipers": ["sprint", "probe", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "gulp"],
+          "cormorants": ["dry", "stretch", "dry", "stand"],
+          "swimmers": ["raft", "raft"],
+          "raccoon": "sleep",
+          "raccoonActing": {
+            "position": [-7.500000000000019, 9.368100000000004, 21.000000000000004],
+            "state": "sleep",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-7.584890618138103, 9.414329118365812, 21.126152879116134],
+                "yaw": 0.29669900051463216,
+                "slope": -0.05424260616593761,
+                "gradient": [-0.21272121114328188, 0.00825715905171575],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.00006756832568100521, 0.1487187517461227, -0.11266165282497664, 0.9824408787791461],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0010787173696602537
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-7.620651681894669, 9.417792099789002, 20.90378600378037],
+                "yaw": 0.024226986269168638,
+                "slope": 0.00564800122867911,
+                "gradient": [-0.21439360995295817, 0.01084484675333785],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.0013352220704842066, 0.012328512185691844, -0.10766565747013414, 0.9941098184661661],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": -0.01931153169053168
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-7.3895855010901705, 9.371697416453848, 20.966493328052763],
+                "yaw": 0.7658141246785145,
+                "slope": -0.13984610231137595,
+                "gradient": [-0.21443984495098986, 0.010916027402870471],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.05745779664002821, 0.37740688610813994, -0.10380780035409391, 0.9184152571190634],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.026130315911723656
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-7.510176730856727, 9.393578414782244, 20.857503870406543],
+                "yaw": 0.5743009758545194,
+                "slope": -0.10782962457121138,
+                "gradient": [-0.21322205556625917, 0.009031940837474316],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.031050127731015432, 0.2866952895410815, -0.10309978750871113, 0.9519517500054832],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.003988684793105435
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["graze", "graze"],
+          "marine": ["bark", "rest", "rest", "rest", "rest", "roll"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-wake",
+      "time": "2026-10-15T20:30:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 20.944666666666514,
+          "camera": [-8.372210255427156, 10.74846721948633, 21.58256721868615],
+          "target": [-7.275623940540299, 9.581714309486912, 20.829369973016046],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-7.280912133547352, 9.602839085207874, 20.87217952907789],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.5152113922267413,
+              "y": 0.5024900981062917,
+              "depth": 0.9426559349920111
+            }
+          },
+          "gulls": ["glide", "glide", "preen", "perch"],
+          "gullActing": [
+            {
+              "position": [-9.500549692170365, 9.265949008797612, -24.549887459458215],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.279715070510612, 0.14948929675373535, -0.4625455346616292],
+              "wingPhase": 62.64199999999956,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-2.082556353383727, 9.121331329222144, -28.642558252160384],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.899387659318629, -0.18108993338739054, -0.31890518075705643],
+              "wingPhase": 62.893999999999565,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [14, 8.6038342, -3],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 66.67399999999954,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [13.960172569065277, 8.600110231642269, -2.944767756290913],
+                  "hipAccommodation": 0.022653595388580593,
+                  "surfaceLift": 1.7763568394002505e-15,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [14.0586345360225, 8.6570559208007, -3.0346239250436167],
+                  "hipAccommodation": 0.03214977807593188,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-13.6000004, 11.6972351, 1],
+              "state": "perch",
+              "perched": "perch",
+              "velocity": [0, 0, 0],
+              "wingPhase": 66.97399999999955,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-13.667980205380422, 11.712503161485728, 1.003946018302064],
+                  "hipAccommodation": 0.007354508231536707,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-13.536144175088927, 11.712174728515194, 1.0236475694333644],
+                  "hipAccommodation": 0.0076682815776488,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            }
+          ],
+          "sandpipers": ["probe", "probe", "run"],
+          "pelicans": ["flap", "flap", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "dry", "stretch"],
+          "swimmers": ["raft", "raft"],
+          "raccoon": "wake",
+          "raccoonActing": {
+            "position": [-7.5, 9.3681, 21],
+            "state": "wake",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-7.659436193372005, 9.429364025522439, 21.00134422517013],
+                "yaw": -0.9097880871607111,
+                "slope": 0.17129055407129576,
+                "gradient": [-0.21272121114328071, 0.008257159051713958],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.047855827135768254, -0.44186743242322707, -0.09645463402867292, 0.8905950233115224],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": -0.0261689760683943
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-7.524226770481987, 9.396657875154231, 20.870810190193648],
+                "yaw": -0.9097050643263281,
+                "slope": 0.17410350659113885,
+                "gradient": [-0.21439360995295573, 0.010844846753334093],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.04785184720603368, -0.44183068451940216, -0.09645660856273233, 0.8906132547860842],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.010862311296955696
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-7.52926401850138, 9.402352778433455, 21.145408179849674],
+                "yaw": -0.909816038496637,
+                "slope": 0.17027702396405406,
+                "gradient": [-0.21211914757179773, 0.007325591479130729],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.06453965461713673, -0.4414400257171146, -0.09234330276005348, 0.890189896096411],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": -0.013348015545238567
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-7.33807893555673, 9.354957533313764, 21.022063956843134],
+                "yaw": -0.909816038496637,
+                "slope": 0.17027702396405406,
+                "gradient": [-0.21211914757179773, 0.007325591479130729],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.0402840959135819, -0.44262976042106006, -0.11160040065119653, 0.8888202503209032],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.01911935498756634
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["sit", "sit"],
+          "marine": ["flipper", "lie", "rest", "rest", "rest", "shuffle"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-030",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 30.032666666666444,
+          "camera": [-9.672290568222433, 11.932247366151431, 22.538050796890577],
+          "target": [-7.529343930952483, 9.65199126405619, 21.06595512307065],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-7.549893073573303, 9.656082887272968, 21.082449974478415],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.5004661151409612,
+              "y": 0.5060231345657796,
+              "depth": 0.9712224217011731
+            }
+          },
+          "gulls": ["glide", "approach", "perch", "depart"],
+          "gullActing": [
+            {
+              "position": [0.06049302380920296, 8.080701081039425, -27.36990438488549],
+              "state": "glide",
+              "perched": null,
+              "velocity": [2.0160677231934043, -0.13451418392396164, -0.39729024625145826],
+              "wingPhase": 89.66599999999937,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [6.97128200225017, 9.888532195111196, -5.975927857925484],
+              "state": "approach",
+              "perched": null,
+              "velocity": [0.5980381365744902, -0.32915259294183896, 2.668257480004281],
+              "wingPhase": 90.39799999999933,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [14, 8.6038342, -3],
+              "state": "perch",
+              "perched": "perch",
+              "velocity": [0, 0, 0],
+              "wingPhase": 93.93799999999933,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [13.960172569065277, 8.600110231642269, -2.944767756290913],
+                  "hipAccommodation": 0.022653595388580593,
+                  "surfaceLift": 1.7763568394002505e-15,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [14.0586345360225, 8.6570559208007, -3.0346239250436167],
+                  "hipAccommodation": 0.03214977807593188,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-13.149346724195405, 12.563867599653133, 0.418579256776925],
+              "state": "depart",
+              "perched": null,
+              "velocity": [1.0000447226781777, 1.2442740229900024, -1.2902296755435239],
+              "wingPhase": 94.62706666666591,
+              "wingRate": 3.4,
+              "wingBeat": -0.3980044291462404,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["probe", "probe", "probe"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "dry", "stand"],
+          "swimmers": ["periscope", "porpoise"],
+          "raccoon": "walk",
+          "raccoonActing": {
+            "position": [-7.77243109571956, 9.425502426448709, 21.211869771739337],
+            "state": "walk",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-8.043906681480737, 9.52368461845203, 21.233002893932934],
+                "yaw": -0.9097195739918035,
+                "slope": 0.18593572428449268,
+                "gradient": [-0.22664766586087395, 0.01499810113096323],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.07032345443776891, -0.4420000416550142, -0.10379437629403912, 0.88821016791221],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.011017663388759757
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-7.732399750639657, 9.44228482425987, 20.965326211178045],
+                "yaw": -0.9096324174740913,
+                "slope": 0.18697318963277887,
+                "gradient": [-0.22907655696584078, 0.013643803336910853],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.04784836459868126, -0.44179852854465357, -0.09645833619592153, 0.8906292065496871],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.005020687943943614
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-7.909501265136731, 9.53309019387959, 21.50856021807358],
+                "yaw": -0.909580507288353,
+                "slope": 0.18754681452342925,
+                "gradient": [-0.23017602622622377, 0.013209347355195057],
+                "contact": false,
+                "lift": 0.031928630953816324,
+                "orientation": [-0.06452892655683747, -0.44133660838217187, -0.09235079978081662, 0.8902411726711966],
+                "intentionalLift": 0.031928630953816324,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.016386751348301587
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-7.460848400499288, 9.3818703101881, 21.18492539908534],
+                "yaw": -0.9098013944332266,
+                "slope": 0.18489677813851121,
+                "gradient": [-0.2242187747559071, 0.016352398925015606],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.05375095587735349, -0.44250866434579095, -0.10793955534666758, 0.8886202614799747],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0004167900821627768
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["sit", "graze"],
+          "marine": ["roll", "rest", "bark", "look", "roll", "yawn"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-040",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 40.03266666666637,
+          "camera": [-9.955835811485427, 12.003075701846981, 22.7516627294269],
+          "target": [-7.81288624233938, 9.722816480015464, 21.27956504155677],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-7.8301856927131235, 9.726683450585146, 21.2933481875015],
+            "radius": 0.9606006422693112,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.5003718262336498,
+              "y": 0.5049153693894413,
+              "depth": 0.9712505333365853
+            }
+          },
+          "gulls": ["glide", "preen", "perch", "glide"],
+          "gullActing": [
+            {
+              "position": [7.130362444062498, 7.435855585764509, -19.67376941290413],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.5388939941228799, -0.10349511336027462, 0.2967897248566942],
+              "wingPhase": 120.09799999999912,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 123.63799999999912,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [14, 8.6038342, -3],
+              "state": "perch",
+              "perched": "perch",
+              "velocity": [0, 0, 0],
+              "wingPhase": 123.93799999999912,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1.0004190299016638,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [13.960172569065277, 8.600110231642269, -2.944767756290913],
+                  "hipAccommodation": 0.022653595388580593,
+                  "surfaceLift": 1.7763568394002505e-15,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [14.0586345360225, 8.6570559208007, -3.0346239250436167],
+                  "hipAccommodation": 0.03214977807593188,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-7.385728994841621, 11.642077335755504, -23.268051664346896],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-1.3508533534078992, -0.06922892361860278, -0.8543112881511661],
+              "wingPhase": 125.21399999999916,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["probe", "probe", "probe"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["preen", "dry", "dry", "stand"],
+          "swimmers": ["raft", "raft"],
+          "raccoon": "walk",
+          "raccoonActing": {
+            "position": [-8.052158853828256, 9.499428430477947, 21.429447694180936],
+            "state": "walk",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-8.2949762150536, 9.591638849852192, 21.428289564116124],
+                "yaw": -0.9096473721881909,
+                "slope": 0.19928840208997528,
+                "gradient": [-0.22485898795973255, 0.03988600331461226],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.07197735235499776, -0.4402714270647107, -0.07825444001702819, 0.8915472920019379],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.01232175410779135
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-7.983477842225584, 9.50299293557783, 21.16060452717302],
+                "yaw": -0.9095591478343735,
+                "slope": 0.20124827018518265,
+                "gradient": [-0.2266479154394082, 0.040925174017331395],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.0645279536202516, -0.44132722949987685, -0.09235147960004139, 0.8902458221857763],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.004919231682224634
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-8.173489519201684, 9.573140012484137, 21.71392894951908],
+                "yaw": -0.9095480415294784,
+                "slope": 0.20307466841074584,
+                "gradient": [-0.2297048908583317, 0.0400974067137827],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.07031469466579106, -0.4419250813367694, -0.10380031073357211, 0.8882474664704426],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.010193634569088061
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-7.8140063491947975, 9.519836179896991, 21.459564195346736],
+                "yaw": -0.9095702262358559,
+                "slope": 0.20353997754799685,
+                "gradient": [-0.23047967419394122, 0.03988761100898838],
+                "contact": false,
+                "lift": 0.04512267537223341,
+                "orientation": [-0.06452845824942521, -0.4413320940051847, -0.09235112700279507, 0.8902434106570319],
+                "intentionalLift": 0.04512267537223341,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.005003116964436671
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["graze", "freeze"],
+          "marine": ["rest", "rest", "rest", "rest", "rest", "banana"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-050",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 50.03266666666631,
+          "camera": [-10.376001636042442, 12.114755684770817, 23.093509022864975],
+          "target": [-8.233052066894054, 9.834496462936807, 21.621411334993233],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-8.254494646109958, 9.840610750508835, 21.634834999605694],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.4997439755064728,
+              "y": 0.5051018828161211,
+              "depth": 0.9712175466715227
+            }
+          },
+          "gulls": ["approach", "stretch", "depart", "glide"],
+          "gullActing": [
+            {
+              "position": [-4.441649565012566, 9.80590435927118, -13.481803495251407],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-1.240753133402049, 1.192371078747532, 1.3967480890581463],
+              "wingPhase": 150.09799999999893,
+              "wingRate": 3,
+              "wingBeat": 0.3874722443544435,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "stretch",
+              "velocity": [0, 0, 0],
+              "wingPhase": 153.63799999999895,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [10.349897538987342, 10.808937173946136, -6.604218848325647],
+              "state": "depart",
+              "perched": null,
+              "velocity": [-8.642945765554831, 2.1184334112692875, -8.465640347216075],
+              "wingPhase": 154.72706666666545,
+              "wingRate": 3.4,
+              "wingBeat": 0.008853373664412202,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-6.791755937665197, 11.926411761546937, -25.685784630934155],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.3883231040270338, -0.019249983774116686, -0.6493185523250844],
+              "wingPhase": 154.97399999999897,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "stand", "dry"],
+          "swimmers": ["porpoise", "raft"],
+          "raccoon": "walk",
+          "raccoonActing": {
+            "position": [-8.498958230468622, 9.624892677988242, 21.749479115234312],
+            "state": "walk",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-8.813364135456816, 9.734899868701637, 21.747047317880718],
+                "yaw": -1.0773454458867853,
+                "slope": 0.2515124826658745,
+                "gradient": [-0.25791748875609144, 0.06292340355809825],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.09034561976739447, -0.5122554910787229, -0.09237274165246816, 0.8490578646053214],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.00435381062915674
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-8.413130628708961, 9.678139750364513, 21.508149498103712],
+                "yaw": -1.0710491669322995,
+                "slope": 0.2501929525064689,
+                "gradient": [-0.2569195711794367, 0.06270443399672733],
+                "contact": false,
+                "lift": 0.06018413574182465,
+                "orientation": [-0.0779417746350305, -0.5094135892645282, -0.072315810174237, 0.8539281576562612],
+                "intentionalLift": 0.06018413574182465,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0053713696730781635
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-8.591632846089995, 9.696150681647033, 21.980363833941237],
+                "yaw": -1.0430538921987056,
+                "slope": 0.24458696088136203,
+                "gradient": [-0.2540873176890327, 0.059704211733895014],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.10399667904892478, -0.49650294398912664, -0.08907494405049379, 0.8571669450575696],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.009358622778197656
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-8.229150495414792, 9.586944121024063, 21.79373109632389],
+                "yaw": -1.0615085360336862,
+                "slope": 0.24827882472915463,
+                "gradient": [-0.2556505481247411, 0.06215269040141793],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.077843167738141, -0.5067911697706228, -0.09828073071981708, 0.8529033060366189],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0033071266143167577
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "bark", "rest", "look", "banana", "banana"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-060",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 60.04866666666624,
+          "camera": [-10.749765460061953, 12.21794925345215, 23.29422405613383],
+          "target": [-8.606815890913564, 9.937690031618141, 21.82212636826209],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-8.608463415272173, 9.938144072477083, 21.8229978213276],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.49994929579978414,
+              "y": 0.5003694645587837,
+              "depth": 0.9713973241045355
+            }
+          },
+          "gulls": ["approach", "look", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-13.59980934162482, 11.697535144087489, 0.9997783782671883],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.006625777057141219, -0.010329463388518204, 0.00768569392063261],
+              "wingPhase": 183.3761538047381,
+              "wingRate": 3.4025964748750215,
+              "wingBeat": -0.08946264231972474,
+              "wingFold": 0,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-13.65914737996575, 11.710219301874682, 0.9665334058324923],
+                  "hipAccommodation": 0.010435294385414016,
+                  "surfaceLift": 0,
+                  "weight": 0.9999050204186457
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-13.55807731855285, 11.715599345379221, 1.0534457771361434],
+                  "hipAccommodation": 0.005293879322596904,
+                  "surfaceLift": 0,
+                  "weight": 0.9999050204186457
+                }
+              ]
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "look",
+              "velocity": [0, 0, 0],
+              "wingPhase": 183.68599999999876,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.94043562606888, 7.926007622802997, 1.0329986417628605],
+                  "hipAccommodation": 0.005613688634397715,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.06779832219413, 7.920141040048664, 0.9936586667284723],
+                  "hipAccommodation": 0.01158846977578474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-5.908094412290553, 10.72326611922609, -27.544747936608445],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.8870809270806745, -0.2276407016017501, -1.1532678514001304],
+              "wingPhase": 185.15399999999872,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [3.4569589402211234, 10.571878807322346, -30.873342487669166],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.8001077078956254, -0.11695367954889235, 0.38683524388538615],
+              "wingPhase": 185.50199999999873,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "stand", "dry", "dry"],
+          "swimmers": ["periscope", "raft"],
+          "raccoon": "dig",
+          "raccoonActing": {
+            "position": [-8.862433184995847, 9.730230490018787, 21.931216592497922],
+            "state": "dig",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-9.097180822178743, 9.82404674662345, 21.880885312776883],
+                "yaw": -1.1071487177940995,
+                "slope": 0.27386466087345157,
+                "gradient": [-0.27881378268449075, 0.07053599945068703],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.1136012329997346, -0.5224102885265577, -0.09226681440419768, 0.8400411211733865],
+                "intentionalLift": 0.000002925760699786251,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.005876118874107661
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-8.73918934594018, 9.708550652301456, 21.67952889488261],
+                "yaw": -1.1071487177940957,
+                "slope": 0.2767647684936145,
+                "gradient": [-0.2822084921794359, 0.0707489124601512],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.09167192381803853, -0.5244796801143257, -0.09105664607840534, 0.841561649991031],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.005614570967932053
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-9.034129719131553, 9.834052804534974, 22.18476995787826],
+                "yaw": -1.1071487177940924,
+                "slope": 0.2796601058297833,
+                "gradient": [-0.2856032016743811, 0.0709618254696154],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.11377985762098893, -0.5227310280024474, -0.09740294413885844, 0.8392372029625084],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.012492745329149457
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-8.643734235390603, 9.709836410178754, 22.011932895782785],
+                "yaw": -1.1071487177940904,
+                "slope": 0.28125910363340434,
+                "gradient": [-0.28708673355571823, 0.07186690122379578],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.10669925512297473, -0.5227505549861361, -0.08581913462046799, 0.8414167827841819],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.012520841403109273
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "rest", "scratch", "rest", "rest"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-070",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 70.04866666666642,
+          "camera": [-11.197501674935422, 12.364830100256377, 23.51529044760353],
+          "target": [-9.054552105787034, 10.084570878422367, 22.043192759731788],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-9.05667793247437, 10.085268672445107, 22.044242094277227],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.49991993216114805,
+              "y": 0.5004296554618572,
+              "depth": 0.9713928626892502
+            }
+          },
+          "gulls": ["perch", "depart", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-13.6000004, 11.6972351, 1],
+              "state": "perch",
+              "perched": "perch",
+              "velocity": [0, 0, 0],
+              "wingPhase": 213.38599999999929,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-13.65958984176345, 11.70949437843675, 0.9670466476618805],
+                  "hipAccommodation": 0.010435337154889441,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-13.55862825578856, 11.71487749761726, 1.0540848470770512],
+                  "hipAccommodation": 0.005293433216236666,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [6.359070291125355, 11.119217791414641, -19.137813347300064],
+              "state": "depart",
+              "perched": null,
+              "velocity": [-1.3792478818949652, -0.7270437924982864, -14.38662747353788],
+              "wingPhase": 214.8594986312521,
+              "wingRate": 3.2382303174035685,
+              "wingBeat": 0.26854754619543403,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9.453283334297936, 10.054855173339442, -26.303914000384164],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.5333306930044301, -0.10133003586076939, 1.1027219387820253],
+              "wingPhase": 215.20199999999926,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [12.212805783015913, 9.79674729527302, -24.32434260274332],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.44283739306827385, -0.03612772658012631, 0.5117739865099225],
+              "wingPhase": 215.50199999999927,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["stand", "dry", "dry", "dry"],
+          "swimmers": ["raft", "raft"],
+          "raccoon": "dig",
+          "raccoonActing": {
+            "position": [-9.31357768802718, 9.883338613121486, 22.15678884401359],
+            "state": "dig",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-9.56111182320588, 9.98120113099529, 22.112361063921394],
+                "yaw": -1.1092778265286745,
+                "slope": 0.29986579130450525,
+                "gradient": [-0.29997988296454176, 0.0911593670301871],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.11950929804542727, -0.523245342461476, -0.10165349137403165, 0.8376147127197155],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": -0.009635483457616445
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-9.165919537155448, 9.841751035497545, 21.892893990490244],
+                "yaw": -1.1071487177941035,
+                "slope": 0.2986867615311625,
+                "gradient": [-0.29898132934033134, 0.09051804794010046],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.11360123299973482, -0.5224102885265592, -0.09226681440419747, 0.8400411211733855],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0014614161178556628
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-9.496871696787164, 10.014951789992063, 22.41558506787912],
+                "yaw": -1.1089168773968363,
+                "slope": 0.299808225062498,
+                "gradient": [-0.29994671772813675, 0.09112659853015453],
+                "contact": false,
+                "lift": 0,
+                "orientation": [-0.11367938011477947, -0.5231219609529737, -0.09217051435289995, 0.839598123383656],
+                "intentionalLift": 0.023846487643946673,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0164921345293223
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-9.086267037045793, 9.851305421527217, 22.23808553492371],
+                "yaw": -1.128139958228344,
+                "slope": 0.30149862561261465,
+                "gradient": [-0.3006316515198368, 0.09180333885853753],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.11475239417174192, -0.5311336181738364, -0.09625527288945403, 0.8339447764201172],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0037532849163977033
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["sit", "sit"],
+          "marine": ["rest", "rest", "rest", "banana", "yawn", "banana"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-080",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 80.04866666666662,
+          "camera": [-11.56735902747342, 12.47970404344511, 23.5699316532869],
+          "target": [-9.424409458325032, 10.1994448216111, 22.09783396541516],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-9.426140035851027, 10.199982103931747, 22.098085787337762],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.4998174981944726,
+              "y": 0.5002649345985857,
+              "depth": 0.9713986418543302
+            }
+          },
+          "gulls": ["preen", "glide", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-13.6000004, 11.6972351, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 243.38599999999985,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-13.65958984176345, 11.70949437843675, 0.9670466476618805],
+                  "hipAccommodation": 0.010435337154889441,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-13.55862825578856, 11.71487749761726, 1.0540848470770512],
+                  "hipAccommodation": 0.005293433216236666,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [7.182553277352607, 8.654245392062528, -20.1007696765652],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.4303303134376435, 0.03638969913133394, 1.6018507843860164],
+              "wingPhase": 244.90199999999984,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9.286747003142969, 8.937196556972056, -21.0443958877494],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.20207360454893575, 0.008464648192152424, 0.5979985919388753],
+              "wingPhase": 245.20199999999983,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [6.888647204885733, 10.03338005289311, -19.030308503437386],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-1.1542596469631405, 0.08088201870748435, 0.7297102254053556],
+              "wingPhase": 245.50199999999984,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "trail"],
+          "cormorants": ["dry", "dry", "dry", "stand"],
+          "swimmers": ["raft", "porpoise"],
+          "raccoon": "look",
+          "raccoonActing": {
+            "position": [-9.406253469073393, 9.890889158217082, 21.9447688622806],
+            "state": "look",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-9.16420575538291, 9.83663836505841, 21.814291347093555],
+                "yaw": 2.642197089946643,
+                "slope": -0.21988138532191673,
+                "gradient": [-0.2934865338090413, 0.09448487404099087],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.12137384638511357, 0.9558393854564899, -0.08177282307124725, 0.254858125298765],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.004063813430651209
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-9.343124128913894, 9.92115292339307, 22.184011380025844],
+                "yaw": 2.6421483485175723,
+                "slope": -0.21888373196266206,
+                "gradient": [-0.29236310620101563, 0.09389302591661018],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.12137186342264131, 0.9558332050659272, -0.08177576626772971, 0.25488130357882],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0013710706456819821
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-9.403176659595697, 9.887001022805949, 21.625948549720416],
+                "yaw": 2.6421347883452704,
+                "slope": -0.21859589992445988,
+                "gradient": [-0.2921077680816042, 0.09368497968962251],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.12184869485366355, 0.9569226586292459, -0.06919267788273863, 0.25429175034163076],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0020250590374324418
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-9.679655718893569, 10.012764279219075, 22.091005738980066],
+                "yaw": 2.6422444129686826,
+                "slope": -0.22085603949856303,
+                "gradient": [-0.29477039886240425, 0.0949619580724482],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.13210227270591374, 0.9538441529108973, -0.08464569790469861, 0.2560574688031023],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0021832453363117565
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["graze", "graze"],
+          "marine": ["lie", "rest", "bark", "banana", "yawn", "rest"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-090",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 90.04866666666682,
+          "camera": [-11.468110060744936, 12.431673058977863, 23.383131282104216],
+          "target": [-9.325160491596547, 10.151413837143853, 21.911033594232475],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-9.314605070676524, 10.146428453608454, 21.891426922351712],
+            "radius": 0.9606006422693109,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.4976070988039214,
+              "y": 0.4961114723432387,
+              "depth": 0.9715626820798924
+            }
+          },
+          "gulls": ["depart", "glide", "glide", "approach"],
+          "gullActing": [
+            {
+              "position": [-6.74028255697095, 7.970112992023725, -19.012143119482616],
+              "state": "depart",
+              "perched": null,
+              "velocity": [-0.24167917708225034, -0.18464840626400472, -0.6530113366183015],
+              "wingPhase": 274.0740000000003,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-2.2752021388608306, 8.073644459540912, -18.170326809293485],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-2.040307717706913, -0.09779295658507436, -0.16801556670742457],
+              "wingPhase": 274.9020000000005,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.5553610019457418, 9.425108490409713, -16.389694414243245],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-1.4967824382634554, 0.09430521931008684, -0.27639845711213695],
+              "wingPhase": 275.2020000000005,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-3.9835717753590316, 13.754550245387758, -9.506312463858825],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-1.314567965286452, 0.3020925299208194, 1.5467331404608822],
+              "wingPhase": 275.50200000000046,
+              "wingRate": 3,
+              "wingBeat": -0.029650470139851063,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["probe", "run", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "glide"],
+          "cormorants": ["dry", "dry", "shake", "stand"],
+          "swimmers": ["raft", "raft"],
+          "raccoon": "walk",
+          "raccoonActing": {
+            "position": [-9.292762789429684, 9.838157729664498, 21.736726955814042],
+            "state": "walk",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-9.02901868207599, 9.827655499881569, 21.56643967433018],
+                "yaw": 2.6422341555738753,
+                "slope": -0.21120515007653448,
+                "gradient": [-0.2843320350173402, 0.08913045367944442],
+                "contact": false,
+                "lift": 0.04969528177308701,
+                "orientation": [0.12185213775577192, 0.9569353110950498, -0.06918661456144555, 0.25424413320526107],
+                "intentionalLift": 0.04969528177308701,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0049746430735364555
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-9.266928682700517, 9.885586666944848, 22.04439937610905],
+                "yaw": 2.642255202870744,
+                "slope": -0.21416908898920553,
+                "gradient": [-0.2874577930499522, 0.09096411594044486],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.12137621052867283, 0.9558467534478825, -0.08176931390844579, 0.25483049021611265],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0017930457213264361
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-9.313351742637485, 9.849674539188134, 21.46120826784333],
+                "yaw": 2.6422829352656043,
+                "slope": -0.21280346636929257,
+                "gradient": [-0.28588523676363153, 0.09019975494466569],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.12185382778709652, 0.9569415214009276, -0.06918363797718549, 0.25422075743092337],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.005495095772364067
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-9.5273504063351, 9.93789458499707, 21.811775349962637],
+                "yaw": 2.642238836824539,
+                "slope": -0.21135156930979612,
+                "gradient": [-0.2844743146532641, 0.08922840605109988],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.1321020375184311, 0.9538434414548629, -0.0846460649488215, 0.25606011904570897],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.001304441482430363
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["hop", "graze"],
+          "marine": ["look", "rest", "bark", "banana", "shuffle", "banana"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-100",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 100.04866666666703,
+          "camera": [-11.2507643419108, 12.321405080321687, 22.832478298554214],
+          "target": [-9.107814772762412, 10.041145858487678, 21.360380610682473],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-9.10689108155827, 10.040674485053735, 21.357990180657044],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.49965833724808345,
+              "y": 0.49956348267623396,
+              "depth": 0.971427364172632
+            }
+          },
+          "gulls": ["glide", "glide", "glide", "perch"],
+          "gullActing": [
+            {
+              "position": [-8.018051058211194, 7.116304358663754, -26.78232518625123],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.9702644330497066, 0.11134488386499442, -0.8457925644709263],
+              "wingPhase": 304.45800000000105,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-9.201891020230544, 8.846188711145727, -22.38907393788572],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.14470631040364168, 0.0641637645228954, -1.209256829888261],
+              "wingPhase": 304.71000000000106,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-8.645673482158266, 10.585264237151607, -22.27129029430366],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.04900483084302465, 0.13420210711867497, -0.42332937302980156],
+              "wingPhase": 304.96200000000107,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-13.6000004, 11.6972351, 1],
+              "state": "perch",
+              "perched": "perch",
+              "velocity": [0, 0, 0],
+              "wingPhase": 308.7420000000011,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-13.657629978045264, 11.7092066688369, 0.9637280172264486],
+                  "hipAccommodation": 0.010755132087013997,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-13.561754503980675, 11.715098396595105, 1.05633894246149],
+                  "hipAccommodation": 0.005127630374559523,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            }
+          ],
+          "sandpipers": ["probe", "look", "run"],
+          "pelicans": ["flap", "flap", "flap", "flap", "flap"],
+          "cormorants": ["dry", "preen", "dry", "stand"],
+          "swimmers": ["porpoise", "periscope"],
+          "raccoon": "dig",
+          "raccoonActing": {
+            "position": [-9.024810137082019, 9.72436911839694, 21.24550179140842],
+            "state": "dig",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-8.74897097149144, 9.686170334266953, 21.19619890371808],
+                "yaw": 2.327428404597764,
+                "slope": -0.2393118585857003,
+                "gradient": [-0.25714688098988353, 0.08303646819815946],
+                "contact": false,
+                "lift": 0,
+                "orientation": [0.09132931776204105, 0.9092530359922935, -0.07915636973610807, 0.39831161342109744],
+                "intentionalLift": 0.002881553154306054,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.007672351550089829
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-9.072714062866106, 9.780941694528371, 21.48322206346224],
+                "yaw": 2.23063329268629,
+                "slope": -0.24788136343111417,
+                "gradient": [-0.2543043492483056, 0.0850954434249591],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.10540872253010865, 0.8860628629913144, -0.0923240614612259, 0.4418799290729433],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": -0.0006226934553357211
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-8.897789017506579, 9.700166618027772, 20.947355249271354],
+                "yaw": 2.1885830762955525,
+                "slope": -0.250725247903467,
+                "gradient": [-0.253104153302076, 0.08596480002156137],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.08574370057804619, 0.880108574771121, -0.0851750724323829, 0.45913192163218935],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.010090798868407802
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-9.315580794145857, 9.837874647144577, 21.33439088147972],
+                "yaw": 2.416394327863551,
+                "slope": -0.22896106996705634,
+                "gradient": [-0.2599894127314615, 0.08097749297135982],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.11334841144448939, 0.9224908408513333, -0.08238245403686631, 0.3596886395693843],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.005285748720487149
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["sit", "sit"],
+          "marine": ["rest", "rest", "roll", "banana", "rest", "rest"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-110",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 110.04866666666723,
+          "camera": [-10.67531874128491, 12.15577651156861, 22.60369556750755],
+          "target": [-8.532369172136521, 9.8755172897346, 21.13159787963581],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-8.529763929150176, 9.874768363335525, 21.130571274826945],
+            "radius": 0.9606006422693112,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.50014844933773,
+              "y": 0.4994812958915548,
+              "depth": 0.9714327472131203
+            }
+          },
+          "gulls": ["glide", "glide", "approach", "preen"],
+          "gullActing": [
+            {
+              "position": [5.534917215312931, 7.837195431306156, -25.168181153845683],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.2824287628259157, 0.07335034828681586, 0.10709165800548703],
+              "wingPhase": 334.6020000000017,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-1.2340363566755674, 9.902502133193437, -27.228960628114383],
+              "state": "glide",
+              "perched": null,
+              "velocity": [1.6658084248949434, 0.10490944252161682, 0.02717037353150431],
+              "wingPhase": 334.51800000000156,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [2.327573099299859, 11.705887414808583, -14.226398136023658],
+              "state": "approach",
+              "perched": null,
+              "velocity": [2.645481085222164, -0.2773202789209905, 2.681694020057753],
+              "wingPhase": 335.2020000000017,
+              "wingRate": 3,
+              "wingBeat": 0.020268466931363225,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-13.6000004, 11.6972351, 1],
+              "state": "perch",
+              "perched": "preen",
+              "velocity": [0, 0, 0],
+              "wingPhase": 338.74200000000167,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-13.657629978045264, 11.7092066688369, 0.9637280172264486],
+                  "hipAccommodation": 0.010755132087013997,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-13.561754503980675, 11.715098396595105, 1.05633894246149],
+                  "hipAccommodation": 0.005127630374559523,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            }
+          ],
+          "sandpipers": ["sprint", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "glide"],
+          "cormorants": ["stand", "stand", "dry", "look"],
+          "swimmers": ["raft", "raft"],
+          "raccoon": "stand",
+          "raccoonActing": {
+            "position": [-8.390180279809513, 9.558831882317406, 21.118715941158705],
+            "state": "stand",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-8.032112967900044, 9.9486321303338, 21.120352422213283],
+                "yaw": 1.7030986506009143,
+                "slope": -0.2320464728345806,
+                "gradient": [-0.2310157309193624, 0.055385161623856455],
+                "contact": false,
+                "lift": 0,
+                "orientation": [0.057223500419119964, 0.7491501229678565, -0.08961008667665234, 0.6538115910740887],
+                "intentionalLift": 0,
+                "raised": 1,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.013344055320967385
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-8.577950200772404, 9.644791256702558, 21.315219792074526],
+                "yaw": 1.7031803014370044,
+                "slope": -0.229174804660163,
+                "gradient": [-0.22795637508318325, 0.05538986652991577],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.07526308820163743, 0.7470950891675524, -0.1050262917840137, 0.6520382452971443],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.007209702200801971
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-8.048601552541157, 9.945806281126002, 21.00152422205529],
+                "yaw": 1.7032638240610154,
+                "slope": -0.2269469052188,
+                "gradient": [-0.2258617317730078, 0.05331766756041418],
+                "contact": false,
+                "lift": 0,
+                "orientation": [0.06332608364656227, 0.7488025810910468, -0.07766367368107738, 0.6551739123864243],
+                "intentionalLift": 0,
+                "raised": 1,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.012571435999472413
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-8.610891308304288, 9.631503809400423, 20.976614765749463],
+                "yaw": 1.7032056069711494,
+                "slope": -0.22830397099409325,
+                "gradient": [-0.22702940998592694, 0.055391292086123145],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.06345850347851027, 0.7484036968699747, -0.1028581231062827, 0.6521388896229665],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.005744057651995149
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["graze", "hop"],
+          "marine": ["rest", "rest", "rest", "look", "look", "rest"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-120",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 120.04866666666743,
+          "camera": [-10.048217621370908, 12.017716533813633, 22.520247327324675],
+          "target": [-7.905268052222518, 9.737457311979623, 21.048149639452934],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-7.902471146856115, 9.736842342320656, 21.047780500883693],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.5003019909383116,
+              "y": 0.49949829192632533,
+              "depth": 0.9714306640089879
+            }
+          },
+          "gulls": ["glide", "approach", "look", "depart"],
+          "gullActing": [
+            {
+              "position": [3.487990572764005, 9.211701213962588, -16.84267127630941],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-1.452513819636625, 0.04892909630349607, 0.06825781295560773],
+              "wingPhase": 364.6020000000023,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [8.306528360897218, 11.146169189772756, -16.516453169351564],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.045293667603781174, -0.11920228519886505, 3.415512842908217],
+              "wingPhase": 364.9020000000023,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [14, 8.6038342, -3],
+              "state": "perch",
+              "perched": "look",
+              "velocity": [0, 0, 0],
+              "wingPhase": 368.44200000000234,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [13.96567213476612, 8.604058708691523, -2.9411916445691206],
+                  "hipAccommodation": 0.018231466180379474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [14.055030742402597, 8.654781120242735, -3.0401053910418465],
+                  "hipAccommodation": 0.03073037627318688,
+                  "surfaceLift": 1.7763568394002505e-15,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-13.076622688539649, 12.583645769585281, 0.4462948283623037],
+              "state": "depart",
+              "perched": null,
+              "velocity": [1.1362341004198813, 1.227856315404176, -1.202073920645459],
+              "wingPhase": 369.13746666666924,
+              "wingRate": 3.4,
+              "wingBeat": 0.4303252846053377,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "run", "sprint"],
+          "pelicans": ["glide", "glide", "glide", "glide", "glide"],
+          "cormorants": ["stand", "stand", "stand", "preen"],
+          "swimmers": ["raft", "porpoise"],
+          "raccoon": "dig",
+          "raccoonActing": {
+            "position": [-7.75882196373689, 9.422791429025189, 21.034478614355248],
+            "state": "dig",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-7.511561417942435, 9.416917597723362, 21.155869229338755],
+                "yaw": 1.696799956080714,
+                "slope": -0.21551606399897366,
+                "gradient": [-0.218153742745885, 0.019827405576074472],
+                "contact": false,
+                "lift": 0,
+                "orientation": [0.10450379945169601, 0.7412838246116057, -0.0925532776746155, 0.6565143852658792],
+                "intentionalLift": 0.019626626595891768,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": -0.005861310171711764
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-7.955019774260889, 9.498664095198908, 21.223595653032444],
+                "yaw": 1.6636287290801892,
+                "slope": -0.21522719341658095,
+                "gradient": [-0.21790368755421397, 0.017776027979325388],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.07109439965155515, 0.7349300647778513, -0.08739701894755424, 0.6687190346497467],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.004775507907494259
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-7.517770540739773, 9.398314023174525, 20.87795484053408],
+                "yaw": 1.5899507984395116,
+                "slope": -0.21469755575463806,
+                "gradient": [-0.21777538030815818, 0.016860572020348925],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.0768459065043917, 0.7095416677889128, -0.07542137144054098, 0.6963885015240232],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.012839908481611317
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-7.966010928166141, 9.4911849380424, 20.877139262459274],
+                "yaw": 1.638041003935674,
+                "slope": -0.21509765088168312,
+                "gradient": [-0.21781990969919557, 0.01711315927326526],
+                "contact": true,
+                "lift": 0,
+                "orientation": [0.04625810682377186, 0.728716427541509, -0.06620144263559977, 0.6800367084041762],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0009212036554018255
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["freeze", "groom"],
+          "marine": ["flipper", "rest", "look", "rest", "look", "rest"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-130",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 130.04866666666717,
+          "camera": [-9.767903784137104, 11.951939427820198, 22.61294970150096],
+          "target": [-7.6249542149887155, 9.671680205986188, 21.140852013629218],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-7.6343651618702095, 9.673647613026587, 21.149702332887898],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.500465888403424,
+              "y": 0.5029233951449184,
+              "depth": 0.9713200562088448
+            }
+          },
+          "gulls": ["glide", "perch", "call", "glide"],
+          "gullActing": [
+            {
+              "position": [-9.608309190619316, 9.687405495742775, -18.562247840655335],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-1.005299152426531, -0.02356240805756471, -0.8552292256283067],
+              "wingPhase": 394.4580000000016,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "perch",
+              "velocity": [0, 0, 0],
+              "wingPhase": 398.1420000000016,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.935420893473319, 7.925853787352524, 1.0215954624913512],
+                  "hipAccommodation": 0.005654319413732952,
+                  "surfaceLift": 8.881784197001252e-16,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.067819040573825, 7.921091911032104, 1.0061157775994525],
+                  "hipAccommodation": 0.01050999045003933,
+                  "surfaceLift": 8.881784197001252e-16,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [14, 8.6038342, -3],
+              "state": "perch",
+              "perched": "call",
+              "velocity": [0, 0, 0],
+              "wingPhase": 398.4420000000016,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1.0141061113727248,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [13.96567213476612, 8.604058708691523, -2.9411916445691206],
+                  "hipAccommodation": 0.018231466180379474,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [14.055030742402597, 8.654781120242735, -3.0401053910418465],
+                  "hipAccommodation": 0.03073037627318688,
+                  "surfaceLift": 1.7763568394002505e-15,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [12.234066137019338, 9.688263322579152, -23.479911716212207],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.8038285279114987, -0.050456270950682836, 0.544029601137197],
+              "wingPhase": 399.9580000000015,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["sprint", "run", "run"],
+          "pelicans": ["glide", "glide", "glide", "glide", "glide"],
+          "cormorants": ["dry", "dry", "preen", "preen"],
+          "swimmers": ["raft", "periscope"],
+          "raccoon": "walk",
+          "raccoonActing": {
+            "position": [-7.858102851822562, 9.443905156931867, 21.2785427539525],
+            "state": "walk",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-8.169416270327785, 9.558978492666109, 21.330686501013425],
+                "yaw": -0.9096510976354263,
+                "slope": 0.19039018142609845,
+                "gradient": [-0.2320283239683108, 0.015613384368299711],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.07031995757619998, -0.4419701176967016, -0.10379674542494573, 0.88822505834323],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.01649701955177818
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-7.804474486306835, 9.521087642138424, 21.02142852697986],
+                "yaw": -0.9095889945671628,
+                "slope": 0.18918305327678003,
+                "gradient": [-0.23288885510221763, 0.012482201382764823],
+                "contact": false,
+                "lift": 0.06300561742728739,
+                "orientation": [-0.04784628291873533, -0.4417793077594767, -0.09645936878973496, 0.8906387408029722],
+                "intentionalLift": 0.06300561742728739,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.005060557492301498
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-7.922433758061586, 9.504444462364573, 21.518641316932197],
+                "yaw": -0.9095443599820862,
+                "slope": 0.1879369068235508,
+                "gradient": [-0.23083067148462763, 0.013033876404103632],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.06452728001954007, -0.4413207361575075, -0.09235195025560677, 0.8902490411422309],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.01682474885500085
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-7.586370676807948, 9.416547138877094, 21.28250992299955],
+                "yaw": -0.9095628519830041,
+                "slope": 0.18889562780133767,
+                "gradient": [-0.23241743476907223, 0.012608560770782921],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.06251906458093966, -0.44347068285417063, -0.124813941016535, 0.8853511168687261],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.010709610334680875
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["graze", "graze"],
+          "marine": ["rest", "rest", "rest", "banana", "rest", "rest"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-140",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 140.04866666666683,
+          "camera": [-9.834143657313314, 11.969509660416396, 22.662805636164695],
+          "target": [-7.691194088164925, 9.689250438582386, 21.190707948292953],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-7.691419549171939, 9.6893137672459, 21.19086899592122],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.5000012007876086,
+              "y": 0.5000567148308825,
+              "depth": 0.9714093846993884
+            }
+          },
+          "gulls": ["approach", "call", "depart", "glide"],
+          "gullActing": [
+            {
+              "position": [-9.587611352816664, 12.291887086609716, -18.465310410706508],
+              "state": "approach",
+              "perched": null,
+              "velocity": [-0.5831518579845993, 0.7580769984567215, 2.5889818055922964],
+              "wingPhase": 424.2660000000007,
+              "wingRate": 3,
+              "wingBeat": -0.14117072842378778,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "call",
+              "velocity": [0, 0, 0],
+              "wingPhase": 428.14200000000056,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.935420893473319, 7.925853787352524, 1.0215954624913512],
+                  "hipAccommodation": 0.005654319413732952,
+                  "surfaceLift": 8.881784197001252e-16,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.067819040573825, 7.921091911032104, 1.0061157775994525],
+                  "hipAccommodation": 0.01050999045003933,
+                  "surfaceLift": 8.881784197001252e-16,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [10.423247661341856, 10.588098472451252, -5.875167059824507],
+              "state": "depart",
+              "perched": null,
+              "velocity": [-7.4876105372508945, 1.1225503607052123, -5.969511126592399],
+              "wingPhase": 429.23746666666733,
+              "wingRate": 3.4,
+              "wingBeat": -0.06519293652110637,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [3.468316614027802, 10.398382645446208, -16.40669923856243],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.8263223970979006, 0.11224832223266645, 0.13805158463675582],
+              "wingPhase": 429.9580000000005,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["probe", "run", "probe"],
+          "pelicans": ["glide", "glide", "glide", "glide", "glide"],
+          "cormorants": ["stand", "dry", "look", "dry"],
+          "swimmers": ["porpoise", "raft"],
+          "raccoon": "look",
+          "raccoonActing": {
+            "position": [-7.914251212577933, 9.460108053074833, 21.32221127591058],
+            "state": "look",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-8.169416270327785, 9.558978492666109, 21.330686501013425],
+                "yaw": -0.9096510976354263,
+                "slope": 0.19039018142609845,
+                "gradient": [-0.2320283239683108, 0.015613384368299711],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.07031995757619998, -0.4419701176967016, -0.10379674542494573, 0.88822505834323],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.01649701955177818
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-7.857883677013833, 9.47109938735756, 21.062996988531026],
+                "yaw": -0.9097374855737916,
+                "slope": 0.19263927588771457,
+                "gradient": [-0.2288010053010514, 0.02354536816344177],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.06453607676927703, -0.4414055353816667, -0.09234580325041404, 0.8902069988220099],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.004632160443152955
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-8.048033351188492, 9.537860186300206, 21.616258474201228],
+                "yaw": -0.9098144315691491,
+                "slope": 0.19488353375101058,
+                "gradient": [-0.22563372704599716, 0.0313993685015641],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.07032829834774353, -0.44204149311227503, -0.10379109425109809, 0.888189539216006],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.010854132795653726
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-7.620914299824648, 9.425709852752798, 21.309412331777512],
+                "yaw": -0.9096599674427431,
+                "slope": 0.19061712875828585,
+                "gradient": [-0.23170291317495648, 0.01641316691405085],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.064532545946147, -0.4413714986290133, -0.09234827067380649, 0.8902238749973204],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.01050063944044588
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["graze", "sit"],
+          "marine": ["rest", "rest", "rest", "rest", "scratch", "rest"]
+        }
+      ]
+    },
+    {
+      "name": "public-night-150",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 150.0486666666665,
+          "camera": [-10.059434544886662, 12.025658555926135, 22.835274980221072],
+          "target": [-7.916484975738272, 9.745399334092125, 21.36317729234933],
+          "palette": "evening",
+          "activity": "dinner",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 36195,
+              "retainedTriangles": 85,
+              "proxyMeshes": 1,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-7.937030675686473, 9.749897184267612, 21.379859727310755],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.5005033872541829,
+              "y": 0.5059234527213626,
+              "depth": 0.9712195333916044
+            }
+          },
+          "gulls": ["perch", "look", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-13.6000004, 11.6972351, 1],
+              "state": "perch",
+              "perched": "perch",
+              "velocity": [0, 0, 0],
+              "wingPhase": 457.84199999999953,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0.00005387680881898224,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-13.66784795109553, 11.712645763784158, 1.0057909248259131],
+                  "hipAccommodation": 0.007220089078241328,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-13.535525453807175, 11.712029440371387, 1.0219044815832772],
+                  "hipAccommodation": 0.007808901901665313,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "look",
+              "velocity": [0, 0, 0],
+              "wingPhase": 458.14199999999954,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.935420893473319, 7.925853787352524, 1.0215954624913512],
+                  "hipAccommodation": 0.005654319413732952,
+                  "surfaceLift": 8.881784197001252e-16,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.067819040573825, 7.921091911032104, 1.0061157775994525],
+                  "hipAccommodation": 0.01050999045003933,
+                  "surfaceLift": 8.881784197001252e-16,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-8.411393551389393, 9.918273922084813, -21.236192572238853],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.5605761392839526, 0.10415784127726369, -0.35555118808261454],
+              "wingPhase": 459.6099999999995,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-7.08293576484737, 11.510731889926747, -20.488169549365637],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-1.0069851630878368, 0.09037109827758627, -0.5240458686301963],
+              "wingPhase": 459.86199999999945,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["run", "sprint", "sprint"],
+          "pelicans": ["glide", "glide", "flap", "flap", "glide"],
+          "cormorants": ["look", "dry", "look", "dry"],
+          "swimmers": ["raft", "raft"],
+          "raccoon": "walk",
+          "raccoonActing": {
+            "position": [-8.161786190006644, 9.524652014494865, 21.51472846503183],
+            "state": "walk",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-8.420500000263612, 9.623630419429931, 21.52583496892008],
+                "yaw": -0.9100697790873057,
+                "slope": 0.20694321804609644,
+                "gradient": [-0.23617973454555855, 0.038250487019107667],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.07199360270518565, -0.4404565743430792, -0.07823949005420501, 0.8914558370909608],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.011645906380557847
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-8.108604935085925, 9.537924124140998, 21.25834532395599],
+                "yaw": -0.9110692861534069,
+                "slope": 0.2090092143160527,
+                "gradient": [-0.2395275164206839, 0.037268502143268545],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.07039236081766455, -0.44258973645164157, -0.10374765699930426, 0.8879164737706676],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.010889295731301374
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-8.300340507239333, 9.608756720826682, 21.811068847499904],
+                "yaw": -0.9144677687675216,
+                "slope": 0.2120187853264534,
+                "gradient": [-0.24166741661737692, 0.03899587177702927],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.07056570238356133, -0.44407349051079403, -0.10362983374223951, 0.8871753345484928],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.014289147962808002
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-7.8558003671781185, 9.524692855852114, 21.49219560988541],
+                "yaw": -0.910030267163654,
+                "slope": 0.20612795962350342,
+                "gradient": [-0.2347908740906757, 0.03865787316677745],
+                "contact": false,
+                "lift": 0.0393681948796843,
+                "orientation": [-0.06454941153020276, -0.4415340834162635, -0.09233648278897529, 0.8901432472355366],
+                "intentionalLift": 0.0393681948796843,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.007161133357131533
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["sit", "sit"],
+          "marine": ["rest", "rest", "skypoint", "banana", "rest", "rest"]
+        }
+      ]
+    },
+    {
+      "name": "public-day-return",
+      "time": "2026-10-15T13:20:00-07:00",
+      "frames": 1,
+      "states": [
+        {
+          "seconds": 155.93666666666567,
+          "camera": [-9.276846680602395, 10.881785747577974, 22.209176413677447],
+          "target": [-8.234204229745282, 9.815322634824074, 21.58345931678708],
+          "palette": "noon",
+          "activity": "reading",
+          "resolution": {
+            "width": 3840,
+            "height": 2160,
+            "profile": "fullscreen",
+            "compact": false,
+            "css": [1920, 1080],
+            "density": 2,
+            "cap": 1,
+            "factor": 1,
+            "adaptive": true,
+            "pixels": 8294400,
+            "budget": 8300000,
+            "minFactor": 0.8,
+            "failedProbes": 0,
+            "history": []
+          },
+          "currentRoom": "outside",
+          "inspection": "raccoon-0",
+          "inspectionDetails": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "radius": 0.960600642269311,
+            "arrival": {
+              "visibleFaceSamples": 3,
+              "faceSamples": 3,
+              "visibleBody": true,
+              "cameraDistance": 3.4581623121695197,
+              "requestedDistance": 3.4581623121695197,
+              "rays": 4,
+              "sourceTriangles": 86988,
+              "retainedTriangles": 141,
+              "proxyMeshes": 2,
+              "milliseconds": 0
+            }
+          },
+          "selectedNeighbour": {
+            "id": "raccoon-0",
+            "name": "Raccoon",
+            "worldCenter": [-8.24815718611236, 9.838795086754212, 21.631017956589243],
+            "radius": 0.960600642269311,
+            "faceAnchorSource": "named acting pivots",
+            "projected": {
+              "x": 0.5174300190479068,
+              "y": 0.5058821703688415,
+              "depth": 0.9368115873699402
+            }
+          },
+          "gulls": ["threat", "perch", "glide", "glide"],
+          "gullActing": [
+            {
+              "position": [-13.6000004, 11.6972351, 1],
+              "state": "perch",
+              "perched": "threat",
+              "velocity": [0, 0, 0],
+              "wingPhase": 475.505999999997,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0.5167535988684195,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [-13.66784795109553, 11.712645763784158, 1.0057909248259131],
+                  "hipAccommodation": 0.007220089078241328,
+                  "surfaceLift": 0,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [-13.535525453807175, 11.712029440371387, 1.0219044815832772],
+                  "hipAccommodation": 0.007808901901665313,
+                  "surfaceLift": 0,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [9, 7.908968, 1],
+              "state": "perch",
+              "perched": "perch",
+              "velocity": [0, 0, 0],
+              "wingPhase": 475.805999999997,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 1,
+              "contacts": [
+                {
+                  "foot": "FootL",
+                  "position": [8.935420893473319, 7.925853787352524, 1.0215954624913512],
+                  "hipAccommodation": 0.005654319413732952,
+                  "surfaceLift": 8.881784197001252e-16,
+                  "weight": 1
+                },
+                {
+                  "foot": "FootR",
+                  "position": [9.067819040573825, 7.921091911032104, 1.0061157775994525],
+                  "hipAccommodation": 0.01050999045003933,
+                  "surfaceLift": 8.881784197001252e-16,
+                  "weight": 1
+                }
+              ]
+            },
+            {
+              "position": [-8.810196787936091, 10.371930528587281, -26.1391244676045],
+              "state": "glide",
+              "perched": null,
+              "velocity": [0.7159716112878911, 0.09547319008529342, -1.027189452184274],
+              "wingPhase": 477.27399999999705,
+              "wingRate": 3,
+              "wingBeat": 0,
+              "wingFold": 0,
+              "contacts": []
+            },
+            {
+              "position": [-13.132962590748129, 12.812151107027859, -0.5393961267259115],
+              "state": "glide",
+              "perched": null,
+              "velocity": [-0.4279198223917291, 0.06686314661162435, 2.868880373160588],
+              "wingPhase": 477.87234869754525,
+              "wingRate": 4.441246240649368,
+              "wingBeat": 0.39638612860170586,
+              "wingFold": 0,
+              "contacts": []
+            }
+          ],
+          "sandpipers": ["probe", "probe", "probe"],
+          "pelicans": ["glide", "glide", "glide", "glide", "climb"],
+          "cormorants": ["stand", "dry", "dry", "dry"],
+          "swimmers": ["raft", "raft"],
+          "raccoon": "walk",
+          "raccoonActing": {
+            "position": [-8.492259075496191, 9.622916427271376, 21.746129537748097],
+            "state": "walk",
+            "bodyAccommodation": 0,
+            "contacts": [
+              {
+                "foot": "FrontPawL",
+                "position": [-8.813364135456817, 9.734899868701635, 21.747047317880718],
+                "yaw": -1.077345445886786,
+                "slope": 0.2515124826658746,
+                "gradient": [-0.2579174887560915, 0.06292340355809826],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.09034561976739448, -0.512255491078723, -0.09237274165246809, 0.8490578646053214],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 152,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.004353810629154964
+              },
+              {
+                "foot": "HindPawL",
+                "position": [-8.37912513046202, 9.670673963476698, 21.486933893104517],
+                "yaw": -1.0524008815697004,
+                "slope": 0.2464373925609481,
+                "gradient": [-0.25485564519388726, 0.06090763860068005],
+                "contact": false,
+                "lift": 0.06106830330989461,
+                "orientation": [-0.07727803531596789, -0.5015930843668834, -0.07302466632664736, 0.858545212019089],
+                "intentionalLift": 0.06106830330989461,
+                "raised": 0,
+                "supported": 144,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.006453998489570623
+              },
+              {
+                "foot": "FrontPawR",
+                "position": [-8.591632846089995, 9.696150681647033, 21.980363833941237],
+                "yaw": -1.043053892198706,
+                "slope": 0.24458696088136214,
+                "gradient": [-0.25408731768903275, 0.05970421173389507],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.10399667904892478, -0.49650294398912675, -0.08907494405049375, 0.8571669450575696],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 151,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.009358622778197656
+              },
+              {
+                "foot": "HindPawR",
+                "position": [-8.229150495414794, 9.586944121024063, 21.79373109632389],
+                "yaw": -1.0615085360336867,
+                "slope": 0.24827882472915475,
+                "gradient": [-0.2556505481247411, 0.062152690401417986],
+                "contact": true,
+                "lift": 0,
+                "orientation": [-0.07784316773814101, -0.5067911697706229, -0.09828073071981706, 0.8529033060366188],
+                "intentionalLift": 0,
+                "raised": 0,
+                "supported": 143,
+                "supportVisible": true,
+                "supportMesh": "core_carved_mainland002",
+                "correction": 0.0033071266143167577
+              }
+            ],
+            "ground": {
+              "ready": true,
+              "triangles": 112,
+              "cells": 88,
+              "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+              "bounds": {
+                "minX": -10.25,
+                "maxX": -6.85,
+                "minZ": 20.35,
+                "maxZ": 22.95
+              },
+              "captureMilliseconds": 11
+            }
+          },
+          "rabbits": ["sit", "graze"],
+          "marine": ["rest", "rest", "roll", "banana", "rest", "rest"]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,902 @@
+{
+  "sourceSha256": "f875fa8aef7bc1530a47f86e944e81597e4f7a17b93071382233b0d84a143324",
+  "method": "Finite difference of source phase t*changingRate; actual wingBeat derivative from exported gullMotion, h=1e-5 seconds.",
+  "rows": [
+    {
+      "index": 0,
+      "epoch": 0,
+      "time": 58.084295576252046,
+      "intendedRate": 3.0418754090557605,
+      "actualPhaseRate": 137.4095450501045,
+      "wingRadiansPerSecond": 8.677750988926851
+    },
+    {
+      "index": 0,
+      "epoch": 0,
+      "time": 58.18429557625204,
+      "intendedRate": 3.662188373891818,
+      "actualPhaseRate": 542.0581919238998,
+      "wingRadiansPerSecond": -324.9413230395154
+    },
+    {
+      "index": 0,
+      "epoch": 0,
+      "time": 58.28429557625204,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 379.0682403149503,
+      "wingRadiansPerSecond": 442.73533790398494
+    },
+    {
+      "index": 0,
+      "epoch": 0,
+      "time": 58.38429557625204,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.800001232752038,
+      "wingRadiansPerSecond": -10.622881424923388
+    },
+    {
+      "index": 0,
+      "epoch": 0,
+      "time": 86.03,
+      "intendedRate": 3.041406250000004,
+      "actualPhaseRate": 305.4906226168441,
+      "wingRadiansPerSecond": 319.12376503512377
+    },
+    {
+      "index": 0,
+      "epoch": 0,
+      "time": 86.06,
+      "intendedRate": 3.2000000000000144,
+      "actualPhaseRate": 541.0749902097223,
+      "wingRadiansPerSecond": -569.1694678532338
+    },
+    {
+      "index": 0,
+      "epoch": 0,
+      "time": 86.09,
+      "intendedRate": 3.3585937500000123,
+      "actualPhaseRate": 306.0187475995235,
+      "wingRadiansPerSecond": -1152.273384389449
+    },
+    {
+      "index": 0,
+      "epoch": 3,
+      "time": 329.8797362305224,
+      "intendedRate": 3.041875409055777,
+      "actualPhaseRate": 766.15987231321,
+      "wingRadiansPerSecond": 0.152163850136635
+    },
+    {
+      "index": 0,
+      "epoch": 3,
+      "time": 329.9797362305224,
+      "intendedRate": 3.6621883738921466,
+      "actualPhaseRate": 3057.0594835239713,
+      "wingRadiansPerSecond": -102.14005321452778
+    },
+    {
+      "index": 0,
+      "epoch": 3,
+      "time": 330.07973623052237,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 2125.5969161984467,
+      "wingRadiansPerSecond": -1230.1166523461386
+    },
+    {
+      "index": 0,
+      "epoch": 3,
+      "time": 330.1797362305224,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.800006945515634,
+      "wingRadiansPerSecond": 6.195594708184593
+    },
+    {
+      "index": 0,
+      "epoch": 3,
+      "time": 356.03,
+      "intendedRate": 3.041406249999904,
+      "actualPhaseRate": 1254.7093615353333,
+      "wingRadiansPerSecond": 322.17941991375153
+    },
+    {
+      "index": 0,
+      "epoch": 3,
+      "time": 356.06,
+      "intendedRate": 3.2000000000000144,
+      "actualPhaseRate": 2228.5749531647525,
+      "wingRadiansPerSecond": -1918.2672480187928
+    },
+    {
+      "index": 0,
+      "epoch": 3,
+      "time": 356.09,
+      "intendedRate": 3.3585937499999123,
+      "actualPhaseRate": 1255.2374865208549,
+      "wingRadiansPerSecond": 1018.8016784451247
+    },
+    {
+      "index": 0,
+      "epoch": 20,
+      "time": 1861.7964461965487,
+      "intendedRate": 3.0418754090556455,
+      "actualPhaseRate": 4309.9762475776515,
+      "wingRadiansPerSecond": -214.9875531831335
+    },
+    {
+      "index": 0,
+      "epoch": 20,
+      "time": 1861.8964461965486,
+      "intendedRate": 3.6621883738905687,
+      "actualPhaseRate": 17232.32488634494,
+      "wingRadiansPerSecond": 10772.517641048493
+    },
+    {
+      "index": 0,
+      "epoch": 20,
+      "time": 1861.9964461965487,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 11969.531230261053,
+      "wingRadiansPerSecond": 14263.32721377431
+    },
+    {
+      "index": 0,
+      "epoch": 20,
+      "time": 1862.0964461965486,
+      "intendedRate": 4.799999999999997,
+      "actualPhaseRate": 4.800039096153341,
+      "wingRadiansPerSecond": -4.561850812115353
+    },
+    {
+      "index": 0,
+      "epoch": 20,
+      "time": 1886.03,
+      "intendedRate": 3.041406249999904,
+      "actualPhaseRate": 6633.615553710114,
+      "wingRadiansPerSecond": -22510.613008224405
+    },
+    {
+      "index": 0,
+      "epoch": 20,
+      "time": 1886.06,
+      "intendedRate": 3.199999999999659,
+      "actualPhaseRate": 11791.074751909035,
+      "wingRadiansPerSecond": -18939.279384563608
+    },
+    {
+      "index": 0,
+      "epoch": 20,
+      "time": 1886.09,
+      "intendedRate": 3.358593749999712,
+      "actualPhaseRate": 6634.143678729742,
+      "wingRadiansPerSecond": 21218.82813249668
+    },
+    {
+      "index": 0,
+      "epoch": 100,
+      "time": 9055.527193782666,
+      "intendedRate": 3.0418754090582754,
+      "actualPhaseRate": 20951.39018892951,
+      "wingRadiansPerSecond": 42152.725719837705
+    },
+    {
+      "index": 0,
+      "epoch": 100,
+      "time": 9055.627193782664,
+      "intendedRate": 3.6621883738884646,
+      "actualPhaseRate": 83797.98018650035,
+      "wingRadiansPerSecond": 4991.549401207619
+    },
+    {
+      "index": 0,
+      "epoch": 100,
+      "time": 9055.727193782664,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 58195.68077531584,
+      "wingRadiansPerSecond": -13316.878673050744
+    },
+    {
+      "index": 0,
+      "epoch": 100,
+      "time": 9055.827193782665,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.8001900722738355,
+      "wingRadiansPerSecond": 1.4699673841600533
+    },
+    {
+      "index": 0,
+      "epoch": 100,
+      "time": 9086.03,
+      "intendedRate": 3.0414062500023022,
+      "actualPhaseRate": 31946.114556012613,
+      "wingRadiansPerSecond": -4147.946931435043
+    },
+    {
+      "index": 0,
+      "epoch": 100,
+      "time": 9086.06,
+      "intendedRate": 3.199999999996817,
+      "actualPhaseRate": 56791.07251344248,
+      "wingRadiansPerSecond": 6846.959810020655
+    },
+    {
+      "index": 0,
+      "epoch": 100,
+      "time": 9086.09,
+      "intendedRate": 3.358593750000512,
+      "actualPhaseRate": 31946.642679940847,
+      "wingRadiansPerSecond": 1150.1087560973954
+    },
+    {
+      "index": 1,
+      "epoch": 0,
+      "time": 32.85596216078848,
+      "intendedRate": 3.0418754090557605,
+      "actualPhaseRate": 79.04829032199245,
+      "wingRadiansPerSecond": -6.3935077380658285
+    },
+    {
+      "index": 1,
+      "epoch": 0,
+      "time": 32.955962160788474,
+      "intendedRate": 3.662188373891818,
+      "actualPhaseRate": 308.613174630068,
+      "wingRadiansPerSecond": 16.43484361662367
+    },
+    {
+      "index": 1,
+      "epoch": 0,
+      "time": 33.055962160788475,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 216.95364486333798,
+      "wingRadiansPerSecond": -267.15111285249696
+    },
+    {
+      "index": 1,
+      "epoch": 0,
+      "time": 33.15596216078848,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.800000699844986,
+      "wingRadiansPerSecond": -0.10343093656828282
+    },
+    {
+      "index": 1,
+      "epoch": 0,
+      "time": 67.03,
+      "intendedRate": 3.041406250000004,
+      "actualPhaseRate": 238.69374814466934,
+      "wingRadiansPerSecond": -81.0272766106285
+    },
+    {
+      "index": 1,
+      "epoch": 0,
+      "time": 67.06,
+      "intendedRate": 3.2000000000000144,
+      "actualPhaseRate": 422.3249923725802,
+      "wingRadiansPerSecond": 445.6186377127774
+    },
+    {
+      "index": 1,
+      "epoch": 0,
+      "time": 67.09,
+      "intendedRate": 3.3585937500000123,
+      "actualPhaseRate": 239.22187312734874,
+      "wingRadiansPerSecond": 750.0698343201856
+    },
+    {
+      "index": 1,
+      "epoch": 3,
+      "time": 313.54822655003517,
+      "intendedRate": 3.041875409055777,
+      "actualPhaseRate": 728.3798343621582,
+      "wingRadiansPerSecond": -1254.8005018559654
+    },
+    {
+      "index": 1,
+      "epoch": 3,
+      "time": 313.6482265500352,
+      "intendedRate": 3.6621883738921466,
+      "actualPhaseRate": 2905.9393327770517,
+      "wingRadiansPerSecond": 2450.4486189514837
+    },
+    {
+      "index": 1,
+      "epoch": 3,
+      "time": 313.74822655003516,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 2020.652366991271,
+      "wingRadiansPerSecond": 2553.2179769818235
+    },
+    {
+      "index": 1,
+      "epoch": 3,
+      "time": 313.8482265500352,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.800006615823804,
+      "wingRadiansPerSecond": 8.466126161112141
+    },
+    {
+      "index": 1,
+      "epoch": 3,
+      "time": 337.03,
+      "intendedRate": 3.041406249999904,
+      "actualPhaseRate": 1187.9124872621105,
+      "wingRadiansPerSecond": -304.97683307037016
+    },
+    {
+      "index": 1,
+      "epoch": 3,
+      "time": 337.06,
+      "intendedRate": 3.2000000000000144,
+      "actualPhaseRate": 2109.824955653039,
+      "wingRadiansPerSecond": 2182.8857918460994
+    },
+    {
+      "index": 1,
+      "epoch": 3,
+      "time": 337.09,
+      "intendedRate": 3.3585937499999123,
+      "actualPhaseRate": 1188.4406122362634,
+      "wingRadiansPerSecond": -97.17886858896517
+    },
+    {
+      "index": 1,
+      "epoch": 20,
+      "time": 1841.129420859553,
+      "intendedRate": 3.0418754090556455,
+      "actualPhaseRate": 4262.166766602604,
+      "wingRadiansPerSecond": 261.37983526170177
+    },
+    {
+      "index": 1,
+      "epoch": 20,
+      "time": 1841.2294208595529,
+      "intendedRate": 3.6621883738905687,
+      "actualPhaseRate": 17041.08696367257,
+      "wingRadiansPerSecond": -14807.426972000872
+    },
+    {
+      "index": 1,
+      "epoch": 20,
+      "time": 1841.329420859553,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 11836.727117224653,
+      "wingRadiansPerSecond": -12091.473257617856
+    },
+    {
+      "index": 1,
+      "epoch": 20,
+      "time": 1841.429420859553,
+      "intendedRate": 4.799999999999997,
+      "actualPhaseRate": 4.80003864140599,
+      "wingRadiansPerSecond": -9.677810101277329
+    },
+    {
+      "index": 1,
+      "epoch": 20,
+      "time": 1867.03,
+      "intendedRate": 3.041406249999904,
+      "actualPhaseRate": 6566.818679402785,
+      "wingRadiansPerSecond": 1967.673134475664
+    },
+    {
+      "index": 1,
+      "epoch": 20,
+      "time": 1867.06,
+      "intendedRate": 3.199999999999659,
+      "actualPhaseRate": 11672.32475440869,
+      "wingRadiansPerSecond": 11177.777239579606
+    },
+    {
+      "index": 1,
+      "epoch": 20,
+      "time": 1867.09,
+      "intendedRate": 3.358593749999712,
+      "actualPhaseRate": 6567.346804422413,
+      "wingRadiansPerSecond": -17964.576347825303
+    },
+    {
+      "index": 1,
+      "epoch": 100,
+      "time": 9041.737474774756,
+      "intendedRate": 3.0418754090582754,
+      "actualPhaseRate": 20919.49013138219,
+      "wingRadiansPerSecond": -967.7008254848848
+    },
+    {
+      "index": 1,
+      "epoch": 100,
+      "time": 9041.837474774755,
+      "intendedRate": 3.6621883738884646,
+      "actualPhaseRate": 83670.37995813007,
+      "wingRadiansPerSecond": 14441.407227655744
+    },
+    {
+      "index": 1,
+      "epoch": 100,
+      "time": 9041.937474774755,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 58107.06950542225,
+      "wingRadiansPerSecond": -1741.980327612702
+    },
+    {
+      "index": 1,
+      "epoch": 100,
+      "time": 9042.037474774756,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.8001900722738355,
+      "wingRadiansPerSecond": -5.675020142051345
+    },
+    {
+      "index": 1,
+      "epoch": 100,
+      "time": 9067.03,
+      "intendedRate": 3.0414062500023022,
+      "actualPhaseRate": 31879.317683160476,
+      "wingRadiansPerSecond": 4110.10503699619
+    },
+    {
+      "index": 1,
+      "epoch": 100,
+      "time": 9067.06,
+      "intendedRate": 3.199999999996817,
+      "actualPhaseRate": 56672.32251889799,
+      "wingRadiansPerSecond": -5548.571789221498
+    },
+    {
+      "index": 1,
+      "epoch": 100,
+      "time": 9067.09,
+      "intendedRate": 3.358593750000512,
+      "actualPhaseRate": 31879.84580708871,
+      "wingRadiansPerSecond": -1353.8543553843983
+    },
+    {
+      "index": 2,
+      "epoch": 0,
+      "time": 16.331017905659973,
+      "intendedRate": 3.041875409055752,
+      "actualPhaseRate": 40.82077582374666,
+      "wingRadiansPerSecond": -3.2976092144724674
+    },
+    {
+      "index": 2,
+      "epoch": 0,
+      "time": 16.431017905659974,
+      "intendedRate": 3.6621883738918504,
+      "actualPhaseRate": 155.7031176993462,
+      "wingRadiansPerSecond": 137.03391108403386
+    },
+    {
+      "index": 2,
+      "epoch": 0,
+      "time": 16.531017905659972,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 110.76610525648788,
+      "wingRadiansPerSecond": 166.86376643984394
+    },
+    {
+      "index": 2,
+      "epoch": 0,
+      "time": 16.631017905659974,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.800000350968503,
+      "wingRadiansPerSecond": -1.5749388730473821
+    },
+    {
+      "index": 2,
+      "epoch": 0,
+      "time": 48.03,
+      "intendedRate": 3.041406250000004,
+      "actualPhaseRate": 171.8968736739157,
+      "wingRadiansPerSecond": 50.32774075266815
+    },
+    {
+      "index": 2,
+      "epoch": 0,
+      "time": 48.06,
+      "intendedRate": 3.2000000000000144,
+      "actualPhaseRate": 303.57499453401715,
+      "wingRadiansPerSecond": -271.65606781937856
+    },
+    {
+      "index": 2,
+      "epoch": 0,
+      "time": 48.09,
+      "intendedRate": 3.3585937500000123,
+      "actualPhaseRate": 172.42499865517402,
+      "wingRadiansPerSecond": -555.442799652614
+    },
+    {
+      "index": 2,
+      "epoch": 3,
+      "time": 286.7569216515869,
+      "intendedRate": 3.041875409055777,
+      "actualPhaseRate": 666.402923741316,
+      "wingRadiansPerSecond": 28.49927277902746
+    },
+    {
+      "index": 2,
+      "epoch": 3,
+      "time": 286.8569216515869,
+      "intendedRate": 3.6621883738921466,
+      "actualPhaseRate": 2658.0316919989855,
+      "wingRadiansPerSecond": -2242.110899933666
+    },
+    {
+      "index": 2,
+      "epoch": 3,
+      "time": 286.95692165158687,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 1848.494283012769,
+      "wingRadiansPerSecond": -3743.600409995144
+    },
+    {
+      "index": 2,
+      "epoch": 3,
+      "time": 287.0569216515869,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.800006047389616,
+      "wingRadiansPerSecond": 1.1604523417807489
+    },
+    {
+      "index": 2,
+      "epoch": 3,
+      "time": 318.03,
+      "intendedRate": 3.041406249999904,
+      "actualPhaseRate": 1121.115612977519,
+      "wingRadiansPerSecond": 255.3282719917872
+    },
+    {
+      "index": 2,
+      "epoch": 3,
+      "time": 318.06,
+      "intendedRate": 3.2000000000000144,
+      "actualPhaseRate": 1991.074958152694,
+      "wingRadiansPerSecond": -1716.3871112558347
+    },
+    {
+      "index": 2,
+      "epoch": 3,
+      "time": 318.09,
+      "intendedRate": 3.3585937499999123,
+      "actualPhaseRate": 1121.6437379630406,
+      "wingRadiansPerSecond": 1513.8153003280752
+    },
+    {
+      "index": 2,
+      "epoch": 20,
+      "time": 1823.5982983212918,
+      "intendedRate": 3.0418754090556455,
+      "actualPhaseRate": 4221.611638013201,
+      "wingRadiansPerSecond": 270.44811573921373
+    },
+    {
+      "index": 2,
+      "epoch": 20,
+      "time": 1823.6982983212918,
+      "intendedRate": 3.6621883738905687,
+      "actualPhaseRate": 16878.866450542773,
+      "wingRadiansPerSecond": -11313.135852009575
+    },
+    {
+      "index": 2,
+      "epoch": 20,
+      "time": 1823.798298321292,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 11724.073983077686,
+      "wingRadiansPerSecond": 16710.82862449066
+    },
+    {
+      "index": 2,
+      "epoch": 20,
+      "time": 1823.8982983212918,
+      "intendedRate": 4.799999999999997,
+      "actualPhaseRate": 4.80003827760811,
+      "wingRadiansPerSecond": -8.81267608532632
+    },
+    {
+      "index": 2,
+      "epoch": 20,
+      "time": 1848.03,
+      "intendedRate": 3.041406249999904,
+      "actualPhaseRate": 6500.021805140931,
+      "wingRadiansPerSecond": -2372.838579949933
+    },
+    {
+      "index": 2,
+      "epoch": 20,
+      "time": 1848.06,
+      "intendedRate": 3.199999999999659,
+      "actualPhaseRate": 11553.57475695382,
+      "wingRadiansPerSecond": -9302.497313707581
+    },
+    {
+      "index": 2,
+      "epoch": 20,
+      "time": 1848.09,
+      "intendedRate": 3.358593749999712,
+      "actualPhaseRate": 6500.549930160559,
+      "wingRadiansPerSecond": 16265.631631324328
+    },
+    {
+      "index": 2,
+      "epoch": 100,
+      "time": 9019.733036894166,
+      "intendedRate": 3.0418754090582754,
+      "actualPhaseRate": 20868.58678594581,
+      "wingRadiansPerSecond": 232.23766031029118
+    },
+    {
+      "index": 2,
+      "epoch": 100,
+      "time": 9019.833036894164,
+      "intendedRate": 3.6621883738884646,
+      "actualPhaseRate": 83466.76657747594,
+      "wingRadiansPerSecond": -4663.6294631022765
+    },
+    {
+      "index": 2,
+      "epoch": 100,
+      "time": 9019.933036894165,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 57965.67132420022,
+      "wingRadiansPerSecond": -3480.502246066064
+    },
+    {
+      "index": 2,
+      "epoch": 100,
+      "time": 9020.033036894165,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.800189344678074,
+      "wingRadiansPerSecond": 8.613080324840205
+    },
+    {
+      "index": 2,
+      "epoch": 100,
+      "time": 9048.03,
+      "intendedRate": 3.0414062500023022,
+      "actualPhaseRate": 31812.520810490238,
+      "wingRadiansPerSecond": -3786.8066736559335
+    },
+    {
+      "index": 2,
+      "epoch": 100,
+      "time": 9048.06,
+      "intendedRate": 3.199999999996817,
+      "actualPhaseRate": 56553.57252398971,
+      "wingRadiansPerSecond": 6619.357561468229
+    },
+    {
+      "index": 2,
+      "epoch": 100,
+      "time": 9048.09,
+      "intendedRate": 3.358593750000512,
+      "actualPhaseRate": 31813.04893441847,
+      "wingRadiansPerSecond": -8660.467142408992
+    },
+    {
+      "index": 3,
+      "epoch": 0,
+      "time": 2.9867345288395883,
+      "intendedRate": 3.041875409055751,
+      "actualPhaseRate": 9.951153632759002,
+      "wingRadiansPerSecond": 0.6846746959841657
+    },
+    {
+      "index": 3,
+      "epoch": 0,
+      "time": 3.086734528839588,
+      "intendedRate": 3.66218837389183,
+      "actualPhaseRate": 32.22462979310947,
+      "wingRadiansPerSecond": -35.24974567551738
+    },
+    {
+      "index": 3,
+      "epoch": 0,
+      "time": 3.186734528839588,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 25.017155265505405,
+      "wingRadiansPerSecond": -29.08800791211613
+    },
+    {
+      "index": 3,
+      "epoch": 0,
+      "time": 3.286734528839588,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.800000069060673,
+      "wingRadiansPerSecond": 8.436695084817341
+    },
+    {
+      "index": 3,
+      "epoch": 0,
+      "time": 29.03,
+      "intendedRate": 3.041406250000004,
+      "actualPhaseRate": 105.09999916408218,
+      "wingRadiansPerSecond": -375.17155325982804
+    },
+    {
+      "index": 3,
+      "epoch": 0,
+      "time": 29.06,
+      "intendedRate": 3.199999999999992,
+      "actualPhaseRate": 184.8249966300841,
+      "wingRadiansPerSecond": 384.89022304636353
+    },
+    {
+      "index": 3,
+      "epoch": 0,
+      "time": 29.09,
+      "intendedRate": 3.3585937499999994,
+      "actualPhaseRate": 105.62812414605104,
+      "wingRadiansPerSecond": 331.1833741517139
+    },
+    {
+      "index": 3,
+      "epoch": 3,
+      "time": 275.0927251929417,
+      "intendedRate": 3.041875409055777,
+      "actualPhaseRate": 639.4198833788778,
+      "wingRadiansPerSecond": 41.51411173411003
+    },
+    {
+      "index": 3,
+      "epoch": 3,
+      "time": 275.19272519294174,
+      "intendedRate": 3.6621883738921466,
+      "actualPhaseRate": 2550.09953130525,
+      "wingRadiansPerSecond": 2304.6422204918426
+    },
+    {
+      "index": 3,
+      "epoch": 3,
+      "time": 275.2927251929417,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 1773.5413935838549,
+      "wingRadiansPerSecond": 2278.8040331787383
+    },
+    {
+      "index": 3,
+      "epoch": 3,
+      "time": 275.3927251929417,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.800005797278573,
+      "wingRadiansPerSecond": 8.262022638925309
+    },
+    {
+      "index": 3,
+      "epoch": 3,
+      "time": 299.03,
+      "intendedRate": 3.041406249999904,
+      "actualPhaseRate": 1054.3187386929276,
+      "wingRadiansPerSecond": -212.19410015200154
+    },
+    {
+      "index": 3,
+      "epoch": 3,
+      "time": 299.06,
+      "intendedRate": 3.2000000000000144,
+      "actualPhaseRate": 1872.3249606580337,
+      "wingRadiansPerSecond": 1939.2374057549314
+    },
+    {
+      "index": 3,
+      "epoch": 3,
+      "time": 299.09,
+      "intendedRate": 3.3585937499999123,
+      "actualPhaseRate": 1054.8468636727648,
+      "wingRadiansPerSecond": -942.3291671176058
+    },
+    {
+      "index": 3,
+      "epoch": 20,
+      "time": 1798.9271623481065,
+      "intendedRate": 3.0418754090556455,
+      "actualPhaseRate": 4164.539360454,
+      "wingRadiansPerSecond": -31.74050689875359
+    },
+    {
+      "index": 3,
+      "epoch": 20,
+      "time": 1799.0271623481065,
+      "intendedRate": 3.6621883738905687,
+      "actualPhaseRate": 16650.577341897588,
+      "wingRadiansPerSecond": -13714.6216772043
+    },
+    {
+      "index": 3,
+      "epoch": 20,
+      "time": 1799.1271623481066,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 11565.539879711649,
+      "wingRadiansPerSecond": -14266.739717281853
+    },
+    {
+      "index": 3,
+      "epoch": 20,
+      "time": 1799.2271623481065,
+      "intendedRate": 4.799999999999997,
+      "actualPhaseRate": 4.800037822860759,
+      "wingRadiansPerSecond": -10.411689311086436
+    },
+    {
+      "index": 3,
+      "epoch": 20,
+      "time": 1829.03,
+      "intendedRate": 3.041406249999904,
+      "actualPhaseRate": 6433.224930833602,
+      "wingRadiansPerSecond": 1955.5047371323283
+    },
+    {
+      "index": 3,
+      "epoch": 20,
+      "time": 1829.06,
+      "intendedRate": 3.199999999999659,
+      "actualPhaseRate": 11434.824759408,
+      "wingRadiansPerSecond": 10988.607717218847
+    },
+    {
+      "index": 3,
+      "epoch": 20,
+      "time": 1829.09,
+      "intendedRate": 3.358593749999712,
+      "actualPhaseRate": 6433.753055898705,
+      "wingRadiansPerSecond": -13266.089759284196
+    },
+    {
+      "index": 3,
+      "epoch": 100,
+      "time": 9000.38888318073,
+      "intendedRate": 3.0418754090582754,
+      "actualPhaseRate": 20823.83753386239,
+      "wingRadiansPerSecond": 123.4452989007194
+    },
+    {
+      "index": 3,
+      "epoch": 100,
+      "time": 9000.48888318073,
+      "intendedRate": 3.6621883738884646,
+      "actualPhaseRate": 83287.76957023365,
+      "wingRadiansPerSecond": 6993.9045206262035
+    },
+    {
+      "index": 3,
+      "epoch": 100,
+      "time": 9000.58888318073,
+      "intendedRate": 4.539537097637888,
+      "actualPhaseRate": 57841.36784677684,
+      "wingRadiansPerSecond": 6487.378877138997
+    },
+    {
+      "index": 3,
+      "epoch": 100,
+      "time": 9000.68888318073,
+      "intendedRate": 4.8,
+      "actualPhaseRate": 4.800188980880193,
+      "wingRadiansPerSecond": -10.635746572112621
+    },
+    {
+      "index": 3,
+      "epoch": 100,
+      "time": 9029.03,
+      "intendedRate": 3.0414062500023022,
+      "actualPhaseRate": 31745.7239376381,
+      "wingRadiansPerSecond": 34096.71775682829
+    },
+    {
+      "index": 3,
+      "epoch": 100,
+      "time": 9029.06,
+      "intendedRate": 3.199999999996817,
+      "actualPhaseRate": 56434.82252926332,
+      "wingRadiansPerSecond": -10705.873996111242
+    },
+    {
+      "index": 3,
+      "epoch": 100,
+      "time": 9029.09,
+      "intendedRate": 3.358593750000512,
+      "actualPhaseRate": 31746.252061566334,
+      "wingRadiansPerSecond": 9696.379554026717
+    }
+  ]
+}

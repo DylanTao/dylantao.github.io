@@ -1,0 +1,112 @@
+{
+  "probe-rigid-paws-before.json": {
+    "poses": 726,
+    "staticUpwardTriangles": 573,
+    "states": {
+      "sleep": {
+        "poses": 5,
+        "minimumOfAllRigidPawVertices": -0.06947713095340013,
+        "maximumOfPerPawMinimum": 0.04875156441151596,
+        "missingVertices": 0
+      },
+      "wake": {
+        "poses": 14,
+        "minimumOfAllRigidPawVertices": -0.08806368665387154,
+        "maximumOfPerPawMinimum": 0.08577559056878847,
+        "missingVertices": 0
+      },
+      "walk": {
+        "poses": 367,
+        "minimumOfAllRigidPawVertices": -0.02346161877793662,
+        "maximumOfPerPawMinimum": 0.00724676847296557,
+        "missingVertices": 0
+      },
+      "dig": {
+        "poses": 114,
+        "minimumOfAllRigidPawVertices": -0.03741411534981687,
+        "maximumOfPerPawMinimum": 0.05098105929233121,
+        "missingVertices": 0
+      },
+      "sniff": {
+        "poses": 41,
+        "minimumOfAllRigidPawVertices": -0.022147038851150214,
+        "maximumOfPerPawMinimum": -1.3802999889733769e-5,
+        "missingVertices": 0
+      },
+      "look": {
+        "poses": 121,
+        "minimumOfAllRigidPawVertices": -0.010110721429388292,
+        "maximumOfPerPawMinimum": 0.0013659664960492535,
+        "missingVertices": 0
+      },
+      "stand": {
+        "poses": 47,
+        "minimumOfAllRigidPawVertices": -0.009362399759467621,
+        "maximumOfPerPawMinimum": 0.06798827838080612,
+        "missingVertices": 0
+      },
+      "wash": {
+        "poses": 17,
+        "minimumOfAllRigidPawVertices": -0.00864317316108476,
+        "maximumOfPerPawMinimum": 0.054280749281208074,
+        "missingVertices": 0
+      }
+    },
+    "note": "Raised swing/dig/front-rearing paws are intentionally airborne; maximum of all paw minima is not a planted-foot acceptance metric. The new native-skin tests distinguish intentional lift and still check all paws for penetration."
+  },
+  "probe-after-bind-fix.json": {
+    "poses": 726,
+    "staticUpwardTriangles": 573,
+    "states": {
+      "sleep": {
+        "poses": 5,
+        "minimumOfAllRigidPawVertices": -1.7763568394002505e-15,
+        "maximumOfPerPawMinimum": 3.552713678800501e-15,
+        "missingVertices": 0
+      },
+      "wake": {
+        "poses": 14,
+        "minimumOfAllRigidPawVertices": -1.7763568394002505e-15,
+        "maximumOfPerPawMinimum": 1.0658141036401503e-14,
+        "missingVertices": 0
+      },
+      "walk": {
+        "poses": 367,
+        "minimumOfAllRigidPawVertices": -1.0658141036401503e-14,
+        "maximumOfPerPawMinimum": 8.881784197001252e-15,
+        "missingVertices": 0
+      },
+      "dig": {
+        "poses": 114,
+        "minimumOfAllRigidPawVertices": -7.105427357601002e-15,
+        "maximumOfPerPawMinimum": 9.735164962876297e-5,
+        "missingVertices": 0
+      },
+      "sniff": {
+        "poses": 41,
+        "minimumOfAllRigidPawVertices": -3.552713678800501e-15,
+        "maximumOfPerPawMinimum": 5.329070518200751e-15,
+        "missingVertices": 0
+      },
+      "look": {
+        "poses": 121,
+        "minimumOfAllRigidPawVertices": -1.0658141036401503e-14,
+        "maximumOfPerPawMinimum": 5.329070518200751e-15,
+        "missingVertices": 0
+      },
+      "stand": {
+        "poses": 47,
+        "minimumOfAllRigidPawVertices": -7.105427357601002e-15,
+        "maximumOfPerPawMinimum": 3.303558262501838e-7,
+        "missingVertices": 0
+      },
+      "wash": {
+        "poses": 17,
+        "minimumOfAllRigidPawVertices": -5.329070518200751e-15,
+        "maximumOfPerPawMinimum": 1.7763568394002505e-15,
+        "missingVertices": 0
+      }
+    },
+    "note": "Raised swing/dig/front-rearing paws are intentionally airborne; maximum of all paw minima is not a planted-foot acceptance metric. The new native-skin tests distinguish intentional lift and still check all paws for penetration."
+  }
+}

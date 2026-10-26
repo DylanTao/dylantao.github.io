@@ -1,0 +1,52 @@
+
+Running 1 test using 1 worker
+
+
+
+npx.cmd : [1A[2K(node:21640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:104
++ ... ORT='4105'; npx.cmd playwright test --config test/visual/public.confi ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([1A[2K(node:2... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K(node:21640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/1] [desktop-1440] › test\visual\desk-scene.spec.js:3788:1 › coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion
+[1A[2K  1) [desktop-1440] › test\visual\desk-scene.spec.js:3788:1 › coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m445[39m
+
+      3879 |     for (const foot of Object.values(row.feet)) {
+      3880 |       expect(foot.vertices).toBeGreaterThan(100);
+    > 3881 |       expect(foot.missing).toBe(0);
+           |                            ^
+      3882 |       expect(foot.minimum).toBeGreaterThanOrEqual(-0.002);
+      3883 |       expect(foot.minimum).toBeLessThan(0.002);
+      3884 |     }
+        at supported (C:\dev\site-takeover-worktrees\wildlife\test\visual\desk-scene.spec.js:3881:28)
+        at C:\dev\site-takeover-worktrees\wildlife\test\visual\desk-scene.spec.js:3895:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    .jekyll-cache\visual-qa\wildlife-2026-10-26\browser-old-habitat\desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-desktop-1440\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: .jekyll-cache\visual-qa\wildlife-2026-10-26\browser-old-habitat\desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-desktop-1440\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    .jekyll-cache\visual-qa\wildlife-2026-10-26\browser-old-habitat\desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-desktop-1440\trace.zip
+    Usage:
+
+        npx playwright show-trace .jekyll-cache\visual-qa\wildlife-2026-10-26\browser-old-habitat\desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-desktop-1440\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K  1 failed
+    [desktop-1440] › test\visual\desk-scene.spec.js:3788:1 › coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion 

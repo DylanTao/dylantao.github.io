@@ -1,0 +1,79 @@
+{
+  "outside": {
+    "feet": {
+      "FrontPawL": {
+        "vertices": 445,
+        "missing": 0,
+        "minimum": 0
+      },
+      "FrontPawR": {
+        "vertices": 445,
+        "missing": 0,
+        "minimum": 0
+      },
+      "HindPawL": {
+        "vertices": 424,
+        "missing": 0,
+        "minimum": 1.7763568394002505e-15
+      },
+      "HindPawR": {
+        "vertices": 424,
+        "missing": 0,
+        "minimum": 0
+      }
+    },
+    "triangles": 32,
+    "ground": {
+      "ready": true,
+      "triangles": 112,
+      "cells": 88,
+      "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+      "bounds": {
+        "minX": -10.25,
+        "maxX": -6.85,
+        "minZ": 20.35,
+        "maxZ": 22.95
+      },
+      "captureMilliseconds": 17
+    }
+  },
+  "cutaway": {
+    "feet": {
+      "FrontPawL": {
+        "vertices": 445,
+        "missing": 0,
+        "minimum": 0
+      },
+      "FrontPawR": {
+        "vertices": 445,
+        "missing": 0,
+        "minimum": 0
+      },
+      "HindPawL": {
+        "vertices": 424,
+        "missing": 0,
+        "minimum": 1.7763568394002505e-15
+      },
+      "HindPawR": {
+        "vertices": 424,
+        "missing": 0,
+        "minimum": 0
+      }
+    },
+    "triangles": 32,
+    "ground": {
+      "ready": true,
+      "triangles": 112,
+      "cells": 88,
+      "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+      "bounds": {
+        "minX": -10.25,
+        "maxX": -6.85,
+        "minZ": 20.35,
+        "maxZ": 22.95
+      },
+      "captureMilliseconds": 17
+    }
+  },
+  "phase": [3.6621883680254537, 3.6621883680254537, 3.6621883680254537, 3.6621883680254537]
+}

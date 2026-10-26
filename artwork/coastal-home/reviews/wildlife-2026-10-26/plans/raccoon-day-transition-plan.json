@@ -1,0 +1,25 @@
+[
+  {
+    "name": "night-walk-control",
+    "mode": "lab",
+    "id": "raccoon-0",
+    "yaw": 2.7,
+    "pitch": 0.3,
+    "radius": 1.8,
+    "elapsed": 50,
+    "seconds": 0.0833333333,
+    "settle": 2.5
+  },
+  {
+    "name": "daylight-return-walk",
+    "mode": "lab",
+    "id": "raccoon-0",
+    "yaw": 2.7,
+    "pitch": 0.3,
+    "radius": 1.8,
+    "elapsed": 53,
+    "seconds": 2,
+    "settle": 0.5,
+    "time": "2026-10-15T13:20:00-07:00"
+  }
+]

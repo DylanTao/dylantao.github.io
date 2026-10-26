@@ -1,0 +1,66 @@
+{
+  "method": "Raw bytes read from coordinator export directory when assembling this checkpoint; source-routed captures used this directory, not copies committed by the worker. Final export/cache may supersede it.",
+  "assets": {
+    "manifest.json": {
+      "bytes": 272273,
+      "sha256": "248cf92ad51626f3490a011a31660fdb5232ec32d3f695935225c40366a10862"
+    },
+    "wildlife-perch-support.json": {
+      "bytes": 27544,
+      "sha256": "f06fcc377b9ef5ee8d4ff6ba23be260f22045c2a5e4bc03a636e1e5dcd10c38f"
+    },
+    "home-shell.glb": {
+      "bytes": 766196,
+      "sha256": "4472f20d272732d66de4ca0e7ec9a4f2cd585a86757d75575bae9dbd55c7fe19"
+    },
+    "coast.glb": {
+      "bytes": 260992,
+      "sha256": "750a94d859a2002371014a70693fcb786e9735aaeae8df232c53b50ba5d1f1d0"
+    }
+  },
+  "sources": {
+    "assets/js/home-scene/wildlife.mjs": "03f0e3355f05f84b1c3e09c642d01cbc855136b0ba7535d0a9c57a17d471dcd7",
+    "assets/js/home-scene/wildlife-ground-contact.mjs": "9fabbbc4b1e457236088843e5698f180699759ff372fa164a651197838d061bf",
+    "assets/js/home-scene/wildlife-neighbor-motion.mjs": "8cd97aa53ebacb42bb53890596bf4922184e6fbf35c1a826dd73fad1cc7bf387",
+    "test/wildlife-delivered-contact.test.mjs": "5118bcc770dbe5a60880d2fddc1541b8f0fcd8ce0006a8fb0f9603041c7a37c9",
+    "test/wildlife-perch-contact.test.mjs": "280410a791f05420b6ab3c5a7fe60856078b0aab0d12ae3cea8d9409bca8432c"
+  },
+  "retainedBaseline": {
+    "gitCommit": "8f13a4646",
+    "method": "Git object readback for the worker baseline used by old-route native-skin replay and matched gull phase captures. The worker kept these static files unchanged.",
+    "files": {
+      "assets/models/home/home-shell.glb": {
+        "bytes": 767100,
+        "sha256": "19d17dffc8931f819df44ba6bea3e2c735d9bbcbe391d07947568c3590c0d172"
+      },
+      "assets/models/home/coast.glb": {
+        "bytes": 184500,
+        "sha256": "63847dcbb720d92cc538badf0f029b36f8efbf91c30d637e360b3126696522f6"
+      },
+      "assets/models/home/manifest.json": {
+        "bytes": 272232,
+        "sha256": "b1f751fbe99c7ed2019b9a8ac2bbd785411ebaa40b2886a3f35b93f5d1e519ea"
+      },
+      "assets/models/home/wildlife-perch-support.json": {
+        "bytes": 25986,
+        "sha256": "04d6af0cb6a8a89a3619d2f43a42cbf2b75d4b8a902633f20271224ea7e304ab"
+      },
+      "assets/js/home-scene/wildlife-neighbor-motion.mjs": {
+        "bytes": 37908,
+        "sha256": "f875fa8aef7bc1530a47f86e944e81597e4f7a17b93071382233b0d84a143324"
+      }
+    }
+  },
+  "rawReplayFiles": {
+    "probe-after-bind-fix.json.gz": {
+      "uncompressedBytes": 1803151,
+      "uncompressedSha256": "ea645da8f4f8c676ed05cda52eef6d6ea7f842260f2ff78b972e3d194610bce9",
+      "bytePreserved": true
+    },
+    "probe-rigid-paws-before.json.gz": {
+      "uncompressedBytes": 1901305,
+      "uncompressedSha256": "d5fd922cfb9ee7eb6d9312a9b67e8a5d774a6940cb2a4431c25b5344dc376d9c",
+      "bytePreserved": true
+    }
+  }
+}

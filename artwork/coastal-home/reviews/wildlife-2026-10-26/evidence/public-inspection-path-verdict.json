@@ -1,0 +1,373 @@
+{
+  "verdict": "Initial daylight arrival readable; follow fails when collision boom compresses into target at60-110s. No path-level public inspection acceptance.",
+  "rows": [
+    {
+      "name": "public-mainland-sleep",
+      "time": 10.912666666666668,
+      "state": "sleep",
+      "cameraTargetDistance": 3.3637384836193713,
+      "selectedNeighbourProjection": {
+        "x": 0.49999075264789505,
+        "y": 0.4999885342619023,
+        "depth": 0.970598866681977
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.45816231216952,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 4,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 140,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-wake",
+      "time": 20.94466666666651,
+      "state": "wake",
+      "cameraTargetDistance": 1.100883797385946,
+      "selectedNeighbourProjection": {
+        "x": 0.5200730682677185,
+        "y": 0.4908319823717332,
+        "depth": 0.9070839048932429
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-030",
+      "time": 30.048666666666442,
+      "state": "walk",
+      "cameraTargetDistance": 3.458153987748753,
+      "selectedNeighbourProjection": {
+        "x": 0.5004636941141515,
+        "y": 0.5027117546788124,
+        "depth": 0.9711958609868765
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-040",
+      "time": 40.04866666666637,
+      "state": "walk",
+      "cameraTargetDistance": 3.458162312162521,
+      "selectedNeighbourProjection": {
+        "x": 0.5003804823017628,
+        "y": 0.5021484908088041,
+        "depth": 0.971226843060913
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-050",
+      "time": 50.0326666666663,
+      "state": "walk",
+      "cameraTargetDistance": 3.4581623121695197,
+      "selectedNeighbourProjection": {
+        "x": 0.49974463558584936,
+        "y": 0.5017988830369278,
+        "depth": 0.9711937384194221
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-060",
+      "time": 60.03266666666624,
+      "state": "dig",
+      "cameraTargetDistance": 0.02724508662808255,
+      "selectedNeighbourProjection": {
+        "x": 0.49276084395521197,
+        "y": 0.5180360064542401,
+        "depth": -2.9543426322531765
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-070",
+      "time": 70.0326666666664,
+      "state": "dig",
+      "cameraTargetDistance": 0.0,
+      "selectedNeighbourProjection": {
+        "x": 2.15475833438477,
+        "y": 1.465631683671845,
+        "depth": 91.72229655322049
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-080",
+      "time": 80.03266666666661,
+      "state": "look",
+      "cameraTargetDistance": 0.0,
+      "selectedNeighbourProjection": {
+        "x": 6.1132974447079516,
+        "y": 3.5981827182448916,
+        "depth": 379.031449726968
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-090",
+      "time": 90.03266666666681,
+      "state": "walk",
+      "cameraTargetDistance": 0.0,
+      "selectedNeighbourProjection": {
+        "x": 0.9397153856485366,
+        "y": 0.8693859859334954,
+        "depth": -4.097203756814221
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-100",
+      "time": 100.04866666666702,
+      "state": "dig",
+      "cameraTargetDistance": 0.0,
+      "selectedNeighbourProjection": {
+        "x": 0.8157497939023994,
+        "y": 0.7864223043637903,
+        "depth": -38.78297961066048
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-110",
+      "time": 110.04866666666723,
+      "state": "stand",
+      "cameraTargetDistance": 0.0,
+      "selectedNeighbourProjection": {
+        "x": 2.5728392326267384,
+        "y": 1.5593366482708302,
+        "depth": -91.72615250362625
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-120",
+      "time": 120.04866666666743,
+      "state": "dig",
+      "cameraTargetDistance": 3.18322993657326,
+      "selectedNeighbourProjection": {
+        "x": 0.5003446105756383,
+        "y": 0.4998023442784558,
+        "depth": 0.9689399983736666
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-130",
+      "time": 130.04866666666715,
+      "state": "walk",
+      "cameraTargetDistance": 3.458161810925627,
+      "selectedNeighbourProjection": {
+        "x": 0.5004770163124441,
+        "y": 0.5013208248401936,
+        "depth": 0.9713075231032366
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-140",
+      "time": 140.0486666666668,
+      "state": "look",
+      "cameraTargetDistance": 3.4581623121691067,
+      "selectedNeighbourProjection": {
+        "x": 0.5000011925890809,
+        "y": 0.5000214247479307,
+        "depth": 0.9714090532707625
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-night-150",
+      "time": 150.04866666666646,
+      "state": "walk",
+      "cameraTargetDistance": 3.4581623121695193,
+      "selectedNeighbourProjection": {
+        "x": 0.5005075743711619,
+        "y": 0.5026013968412372,
+        "depth": 0.9711912876635396
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695197,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 112,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    },
+    {
+      "name": "public-day-return",
+      "time": 155.9526666666656,
+      "state": "walk",
+      "cameraTargetDistance": 0.0,
+      "selectedNeighbourProjection": {
+        "x": 0.7662132073644403,
+        "y": 1.2158276977368447,
+        "depth": 3.5151703723183516
+      },
+      "initialSelection": {
+        "visibleFaceSamples": 3,
+        "faceSamples": 3,
+        "visibleBody": true,
+        "cameraDistance": 3.4581623121695184,
+        "requestedDistance": 3.4581623121695197,
+        "rays": 8,
+        "sourceTriangles": 86988,
+        "retainedTriangles": 141,
+        "proxyMeshes": 2,
+        "milliseconds": 0
+      }
+    }
+  ]
+}

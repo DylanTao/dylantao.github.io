@@ -1,0 +1,35 @@
+[
+  {
+    "name": "raccoon-mainland-walk",
+    "mode": "lab",
+    "id": "raccoon-0",
+    "yaw": 2.7,
+    "pitch": 0.3,
+    "radius": 1.6,
+    "elapsed": 50,
+    "seconds": 1.5,
+    "settle": 2.5
+  },
+  {
+    "name": "raccoon-mainland-wash",
+    "mode": "lab",
+    "id": "raccoon-0",
+    "yaw": 2.7,
+    "pitch": 0.3,
+    "radius": 1.6,
+    "elapsed": 80,
+    "seconds": 0.5,
+    "settle": 2.5
+  },
+  {
+    "name": "raccoon-mainland-dig",
+    "mode": "lab",
+    "id": "raccoon-0",
+    "yaw": 2.7,
+    "pitch": 0.3,
+    "radius": 1.6,
+    "elapsed": 116,
+    "seconds": 1,
+    "settle": 2.5
+  }
+]
