@@ -1,19 +1,19 @@
-
-Running 1 test using 1 worker
-
-
-
-npx.cmd : [1A[2K(node:58268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-At line:3 char:104
-+ ... ORT='4105'; npx.cmd playwright test --config .jekyll-cache/visual-qa/ ...
-+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: ([1A[2K(node:5... env being set.:String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
-(Use `node --trace-warnings ...` to show where the warning was created)
-
-
-[1A[2K(node:58268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-(Use `node --trace-warnings ...` to show where the warning was created)
-[1A[2K[1/1] [webkit-iphone] › test\visual\desk-scene.spec.js:3788:1 › coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion
-[1A[2K  1 passed (52.2s)
+
+Running 1 test using 1 worker
+
+
+
+npx.cmd : [1A[2K(node:58268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:3 char:104
++ ... ORT='4105'; npx.cmd playwright test --config .jekyll-cache/visual-qa/ ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([1A[2K(node:5... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:58268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K[1/1] [webkit-iphone] › test\visual\desk-scene.spec.js:3788:1 › coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion
+[1A[2K  1 passed (52.2s)
