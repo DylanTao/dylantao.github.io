@@ -14,7 +14,7 @@ import {
 } from "../assets/js/la-jolla-sun.mjs";
 import { ANCHORS, DAY_KEY, LOOKS, anchorLook, creditHalo, keyDirection, lookAt, sunOnScreen } from "../assets/js/footer-coast/sky-look.mjs";
 import * as THREE from "../assets/js/three.module.min.js";
-import { sceneColor } from "../assets/js/footer-coast/sky.mjs";
+import { sceneColor, skyWeight } from "../assets/js/footer-coast/sky.mjs";
 import { minuteToPoint, modeForMinute, modeMinute, pointToMinute, GEOMETRY } from "../assets/js/sun-arc-math.mjs";
 
 const clock = (minute) => `${Math.floor(minute / 60)}:${String(Math.floor(minute % 60)).padStart(2, "0")}`;
@@ -109,8 +109,7 @@ test("the four theme anchors keep the looks the site always had", () => {
   for (const [mode, look] of Object.entries(ANCHORS)) {
     const anchor = anchorLook(mode);
     assert.deepEqual(anchor, { ...LOOKS[look] });
-    // No sky, no reflected sky gradient and full studio light: the stills stay valid.
-    assert.equal(anchor.skyAlpha, 0);
+    // No reflected sky gradient and full studio light: the stills stay valid.
     assert.equal(anchor.mirrorFar, anchor.mirror);
     assert.equal(anchor.env, 1);
     assert.equal(anchor.fog, 0);
@@ -136,18 +135,21 @@ test("the coast's light moves continuously through the day and returns to the an
     const events = sunEvents(key);
     assert.deepEqual(lookAt(sunState(key, 0)), anchorLook("evening"));
     const noon = lookAt(sunState(key, events.solarNoon));
-    for (const name of ["key", "fill", "exposure", "skyAlpha"]) assert.ok(Math.abs(noon[name] - LOOKS.noon[name]) < 1e-9, `${key} noon ${name}`);
+    for (const name of ["key", "fill", "exposure"]) assert.ok(Math.abs(noon[name] - LOOKS.noon[name]) < 1e-9, `${key} noon ${name}`);
+    // By day the page is the sky; a chosen theme's anchor shows none.
+    assert.equal(skyWeight(sunState(key, events.solarNoon)), 0);
   }
 });
 
-test("the sun shows over the sea only while it sets, and the key light stays a unit vector", () => {
+test("the setting sun stays behind the viewer, the rising sun comes up over the hills, and the key light stays a unit vector", () => {
   const events = sunEvents("2026-10-19");
-  assert.equal(sunOnScreen(sunState("2026-10-19", events.sunrise + 10)).visible, false);
-  assert.equal(sunOnScreen(sunState("2026-10-19", events.sunset - 10)).visible, true);
-  assert.equal(sunOnScreen(sunState("2026-10-19", events.sunset + 12)).visible, false);
-  // October's sun sets right of center; December's nearer the middle, June's far right.
-  const x = (key) => sunOnScreen(sunState(key, sunEvents(key).sunset)).x;
-  assert.ok(x("2026-12-21") < x("2026-10-19") && x("2026-10-19") < x("2026-06-21"));
+  // Looking at the land from the bay, no setting sun's disk ever shows; the rising one does.
+  for (const key of ["2026-06-21", "2026-10-19", "2026-12-21"]) {
+    const day = sunEvents(key);
+    for (let minute = Math.ceil(day.solarNoon); minute < 1440; minute += 5)
+      assert.equal(sunOnScreen(sunState(key, minute)).visible, false, `${key} ${minute}`);
+    assert.equal(sunOnScreen(sunState(key, day.sunrise + 10)).visible, true, key);
+  }
   let previous = null;
   for (let minute = 0; minute < 1440; minute += 1) {
     const direction = keyDirection(sunState("2026-10-19", minute));
@@ -156,9 +158,11 @@ test("the sun shows over the sea only while it sets, and the key light stays a u
     previous = direction;
   }
   assert.deepEqual(keyDirection(sunState("2026-10-19", events.solarNoon)), DAY_KEY);
-  // The setting sun lights the coast from behind (negative z), the rising sun from the viewer's side.
-  assert.ok(keyDirection(sunState("2026-10-19", events.sunset - 5))[2] < -0.8);
-  assert.ok(keyDirection(sunState("2026-10-19", events.sunrise + 5))[2] > 0.8);
+  // The setting sun lights the coast from the viewer's side and, in October, from the right; the
+  // rising sun lights it from behind the hills.
+  const evening = keyDirection(sunState("2026-10-19", events.sunset - 5));
+  assert.ok(evening[2] > 0.8 && evening[0] > 0.3, `evening key ${evening}`);
+  assert.ok(keyDirection(sunState("2026-10-19", events.sunrise + 5))[2] < -0.8);
 });
 
 test("the credit's halo follows the hour: faint at noon, warm at sunset, moonlit at night", () => {
