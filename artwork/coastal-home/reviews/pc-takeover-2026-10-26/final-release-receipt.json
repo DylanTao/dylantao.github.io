@@ -1,0 +1,506 @@
+{
+  "status": "Verified PC checkpoint; broader open items remain open",
+  "runtimeImplementationSource": "ee6371781710702e04aaf68a2d2d4775b447448f",
+  "latestTestRepairSource": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+  "recovery": {
+    "initialHead": "10becbff1",
+    "initialChangedFiles": 17,
+    "activeMergeOrRebaseFound": false,
+    "backupBranch": "backup/pc-2026-10-26",
+    "backupCommit": "1e8be26859dd3df02f00c06de7e0baf6ef18ea48",
+    "originalHeadTag": "backup/pc-head-2026-10-26",
+    "verifiedExternalBundleAndSettings": "C:/dev/site-takeover-backup-2026-10-26/",
+    "backupPushed": false,
+    "kept": [
+      "Profiler readiness scrolls the sleeping scene into view.",
+      "Dated historical shader reports, without reactivating the rejected runtime.",
+      "Lazy 3D lifecycle safeguards ported onto the laptop adapter, with twelve regression cases."
+    ],
+    "notReplayed": [
+      "Older homepage ordering/thesis/research-summary prototype superseded by approved current main.",
+      "Older inline Build Rhythm and README prototypes superseded by current main.",
+      "Historical backlog snapshot and diagnostic log preserved only in the local backup."
+    ],
+    "report": "docs/pc-takeover-2026-10-26.md",
+    "bundleVerification": [
+      {
+        "file": "C:\\dev\\site-takeover-backup-2026-10-26\\pc-checkout.bundle",
+        "bytes": 1003928891,
+        "gitBundleVerify": "passed"
+      }
+    ]
+  },
+  "integration": [
+    {
+      "branch": "wip/story-diary",
+      "result": "Rendered and claim-reviewed diary integrated; branch deletion already verified after 2b8da5d00 green CI and live checks.",
+      "review": "artwork/coastal-home/reviews/build-diary-2026-10-26/README.md"
+    },
+    {
+      "branch": "wip/life-eames",
+      "result": "Full furniture build and fuller cushions exported; committed fireplace GLBs restored; matched 4K review and fresh light bake integrated. Branch deletion already verified after 2b8da5d00 green CI and live checks.",
+      "review": "artwork/coastal-home/reviews/eames-2026-10-26/README.md"
+    },
+    {
+      "branch": "wip/house-whiskey",
+      "result": "Corner and feet-up evening routine integrated and verified. Local and origin WIP branch deleted after the final 41-job CI run and deployed readback.",
+      "review": "artwork/coastal-home/reviews/whiskey-2026-10-26/README.md",
+      "generatedCacheCommitNotReplayed": "87405d6a9e94013310f5507145b54c9679a64ffd",
+      "reason": "Generated cache and manifest descriptor only. Superseded by a fresh source-bound bake after the source, furniture and support changes; never hand-merged."
+    }
+  ],
+  "visualChanges": [
+    {
+      "area": "Header",
+      "result": "Flatter coherent orange-sun/nav/favicon set; removed navbar refraction that stretched passing text, preserving the separate blog lens, Inter and locked copy.",
+      "review": "artwork/site-fidelity/reviews/chrome-2026-10-26/README.md"
+    },
+    {
+      "area": "Wildlife",
+      "result": "Actual skinned soles fit decoded delivered rock support; analytic gull phase fixes the reproduced rate spike; landward raccoon path and elevated first public inspection prevent the reproduced camera collapse. All 28 animals remain.",
+      "review": "artwork/coastal-home/reviews/wildlife-2026-10-26/README.md"
+    },
+    {
+      "area": "Resolution/quality",
+      "result": "Protect a useful desktop full-screen resolution floor, restore the governor to its full rest scale within the selected quality budget, and make quality probes recoverable and tied to measured GPU cost. Rejected pixel-changing material-sharing trials are retained, with runtime reverted.",
+      "review": "artwork/coastal-home/reviews/pc-quality-2026-10-26/README.md"
+    },
+    {
+      "area": "Cliff",
+      "result": "Paler exterior sandstone, erosion ribs, beveled/contoured selected openings and tessellated reveals; protected bearing surfaces, grounded agaves and regenerated support patches, cache and loading drawings. Partial massing repair only.",
+      "review": "artwork/coastal-home/reviews/pc-cliff-2026-10-26/README.md"
+    },
+    {
+      "area": "Footer",
+      "result": "Underwater relief, depth-aware absorption/refraction/scattering and Fresnel reflections; closer relief and OSM footprint-derived distant building glyphs; WebKit static-frame preservation.",
+      "review": "artwork/la-jolla/reviews/pc-fidelity-2026-10-26/README.md"
+    }
+  ],
+  "localAcceptance": {
+    "pythonPassed": 314,
+    "nodePassed": 817,
+    "nodeReportedSkips": 7,
+    "exactFrozenImplementationBuild": {
+      "source": "ee6371781710702e04aaf68a2d2d4775b447448f",
+      "seconds": 131.594,
+      "baseurl": "/al-folio",
+      "publicationOutputValidation": "passed"
+    },
+    "combinedProductionBuildSeconds": 231.641,
+    "sceneRegistry": {
+      "casesPerProject": 118,
+      "projects": 4,
+      "missing": 0,
+      "duplicates": 0
+    },
+    "homeCheckpoint": "Four standard widths, light/dark; passed.",
+    "selectedProductionJourneys": {
+      "passed": 5,
+      "intentionalSkips": 3
+    },
+    "wildlifePublicCase": "Four Chromium widths and WebKit/iPhone emulation passed on frozen delivery.",
+    "overrideAudit": "passed; no new override baseline change",
+    "testRepairEvidence": [
+      "artwork/coastal-home/reviews/pc-takeover-2026-10-26/ci-repair.json",
+      "artwork/coastal-home/reviews/pc-takeover-2026-10-26/tablet-whiskey-transition.json",
+      "artwork/coastal-home/reviews/pc-takeover-2026-10-26/water-clock-drain.json"
+    ]
+  },
+  "staticLightCache": {
+    "url": "static-light-field.json",
+    "signature": "be3e36f521bc1fd547339eff3d68fa63b163fa28caa4983ba3ebaa17ff2fc914",
+    "sha256": "feec269b818e620d6f158a241ae2dae1d7cd212646a292617164064109989533"
+  },
+  "stillOpen": [
+    "Large side/under-terrace cliff cuts and pavilion massing need a deliberate geometry rebuild; partial fixes do not complete the broader architectural request.",
+    "Wide-view native 2K/4K frame cost remains high; no broad frame-rate win or WebGPU port/benchmark is claimed.",
+    "Real-phone cost and context-loss recovery remain unverified; viewport emulation is functional evidence only.",
+    "Footer far-plane relief/building glyphs remain simplified; authored underwater relief is not a measured seafloor survey. Most selected OSM footprints lack height tags and use an explicit display assumption.",
+    "The first paired live phone attempt timed out at scene readiness without enough diagnostics to identify its cause. A subsequent instrumented attempt passed without network or runtime errors; the failure and limitations are retained.",
+    "Existing checklist items remain open except those with their documented complete acceptance evidence."
+  ],
+  "laptopOnlyMetrics": "Explicitly skipped; no refresh or private analytics imported on this PC.",
+  "vscode": {
+    "gitEnabled": true,
+    "autofetch": false,
+    "postCommitCommand": "none",
+    "confirmSync": true,
+    "uiVerified": "Source Control changes/history graph showed main and origin/main at the latest pushed checkpoint."
+  },
+  "preview": "http://localhost:4101/al-folio/?perf=1",
+  "forcePushUsed": false,
+  "verifiedSource": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+  "recordedAtUtc": "2026-10-26T21:29:34.738728+00:00",
+  "recordScope": "This receipt records the accepted source and deployed build. The subsequent receipt-only commit changes no runtime inputs or public UI.",
+  "ci": {
+    "visualRun": 40397695955,
+    "visualUrl": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40397695955",
+    "visualJobsPassed": 41,
+    "visualJobsTotal": 41,
+    "conclusion": "success",
+    "sourceRuns": [
+      {
+        "conclusion": "success",
+        "databaseId": 40398155441,
+        "headSha": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+        "status": "completed",
+        "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40398155441",
+        "workflowName": "Check for broken links on site"
+      },
+      {
+        "conclusion": "skipped",
+        "databaseId": 40397696014,
+        "headSha": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+        "status": "completed",
+        "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40397696014",
+        "workflowName": "Check for broken links"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 40397696041,
+        "headSha": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+        "status": "completed",
+        "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40397696041",
+        "workflowName": "Prettier code formatter"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 40397696007,
+        "headSha": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+        "status": "completed",
+        "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40397696007",
+        "workflowName": "Deploy site"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 40397695954,
+        "headSha": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+        "status": "completed",
+        "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40397695954",
+        "workflowName": "Integration tests"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 40397696139,
+        "headSha": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+        "status": "completed",
+        "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40397696139",
+        "workflowName": "CodeQL Advanced"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 40397695955,
+        "headSha": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+        "status": "completed",
+        "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40397695955",
+        "workflowName": "Visual checkpoints"
+      }
+    ],
+    "note": "Every triggered source workflow succeeded except the configured conditional source-link skip. Earlier failed/cancelled runs are not counted as successful acceptance."
+  },
+  "branchCleanup": {
+    "auditedAgainst": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+    "localBranches": [
+      {
+        "branch": "wip/house-whiskey",
+        "worktree": "C:/dev/site-takeover-worktrees/whiskey",
+        "tip": "37b174632d1381070f82fc367976daec26947975",
+        "tag": "archive/pc-2026-10-26/house-whiskey",
+        "worktreeClean": true,
+        "equivalentPatches": 4,
+        "uniquePatches": 0,
+        "rawIgnoredEvidence": "Retain in detached worktree; do not remove directory.",
+        "branchDeleted": true,
+        "worktreeRetainedDetached": true
+      },
+      {
+        "branch": "codex/pc-wildlife",
+        "worktree": "C:/dev/site-takeover-worktrees/wildlife",
+        "tip": "dff458064cb9a51238b8888d5cea1b28822d8e5a",
+        "tag": "archive/pc-2026-10-26/wildlife",
+        "worktreeClean": true,
+        "equivalentPatches": 10,
+        "uniquePatches": 0,
+        "rawIgnoredEvidence": "Retain in detached worktree; do not remove directory.",
+        "branchDeleted": true,
+        "worktreeRetainedDetached": true
+      },
+      {
+        "branch": "codex/pc-site-fidelity",
+        "worktree": "C:/dev/site-takeover-worktrees/story",
+        "tip": "e5895e0ebb0f8da47b67a5312521a4b5bb5717f6",
+        "tag": "archive/pc-2026-10-26/site-fidelity",
+        "worktreeClean": true,
+        "equivalentPatches": 2,
+        "uniquePatches": 0,
+        "rawIgnoredEvidence": "Retain in detached worktree; do not remove directory.",
+        "branchDeleted": true,
+        "worktreeRetainedDetached": true
+      }
+    ],
+    "remoteHouseWhiskey": {
+      "tip": "80e111ee060301aaae1851839f5bc47681616ca6",
+      "cherry": [
+        "- cc4b344eeb54e93c90c17a3ef245db41eb8c71c3",
+        "+ 87405d6a9e94013310f5507145b54c9679a64ffd",
+        "- 80e111ee060301aaae1851839f5bc47681616ca6"
+      ],
+      "uniqueGeneratedCacheCommit": "87405d6a9e94013310f5507145b54c9679a64ffd",
+      "dropReason": "Old generated cache plus descriptor only, superseded by the fresh source-bound bake; its original history is locally tagged."
+    },
+    "deletionPerformed": true,
+    "deletedAtUtc": "2026-10-26T21:26:57.141515+00:00",
+    "remoteBranchesAfter": {
+      "refs/heads/gh-pages": "a8ff414fb6336c9af5b1bd7265160f938cd6e54b",
+      "refs/heads/main": "1380460ff68737cdfe5928f1c9f91503b12d2463"
+    },
+    "remoteHouseWhiskeyDeleted": true,
+    "unrelatedLocalBranches": "Preserved",
+    "backupBranchPreserved": "1e8be26859dd3df02f00c06de7e0baf6ef18ea48"
+  },
+  "publication": {
+    "source": "1380460ff68737cdfe5928f1c9f91503b12d2463",
+    "pagesCommit": "a8ff414fb6336c9af5b1bd7265160f938cd6e54b",
+    "pagesCommitMessage": "a8ff414fb6336c9af5b1bd7265160f938cd6e54b\nDeploying to gh-pages from @ DylanTao/dylantao.github.io@1380460ff68737cdfe5928f1c9f91503b12d2463 \ud83d\ude80",
+    "assets": [
+      {
+        "path": "assets/js/home-scene/controller.mjs",
+        "url": "https://dylantao.github.io/assets/js/home-scene/controller.mjs",
+        "bytes": 192828,
+        "sha256": "dd34e2634bc303627368114035966cc0958236be6cd4c56387f1391233ee1766",
+        "pagesSha256": "dd34e2634bc303627368114035966cc0958236be6cd4c56387f1391233ee1766",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-2f13c\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/js/home-scene/wildlife-neighbor-motion.mjs",
+        "url": "https://dylantao.github.io/assets/js/home-scene/wildlife-neighbor-motion.mjs",
+        "bytes": 40355,
+        "sha256": "8cd97aa53ebacb42bb53890596bf4922184e6fbf35c1a826dd73fad1cc7bf387",
+        "pagesSha256": "8cd97aa53ebacb42bb53890596bf4922184e6fbf35c1a826dd73fad1cc7bf387",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-9da3\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/js/home-scene/wildlife-ground-contact.mjs",
+        "url": "https://dylantao.github.io/assets/js/home-scene/wildlife-ground-contact.mjs",
+        "bytes": 7801,
+        "sha256": "9fabbbc4b1e457236088843e5698f180699759ff372fa164a651197838d061bf",
+        "pagesSha256": "9fabbbc4b1e457236088843e5698f180699759ff372fa164a651197838d061bf",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-1e79\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/js/footer-coast/water.mjs",
+        "url": "https://dylantao.github.io/assets/js/footer-coast/water.mjs",
+        "bytes": 37403,
+        "sha256": "2e683c63d1d1c123a4587c46a3ff97788175acd951f085b90977373c5a9f43cb",
+        "pagesSha256": "2e683c63d1d1c123a4587c46a3ff97788175acd951f085b90977373c5a9f43cb",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-921b\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/js/footer-coast/skyline-data.mjs",
+        "url": "https://dylantao.github.io/assets/js/footer-coast/skyline-data.mjs",
+        "bytes": 49555,
+        "sha256": "75a6efe0ba07be28bea101873cb83bd6b24edcb4cc32a388bb5d2d9ad03ae04d",
+        "pagesSha256": "75a6efe0ba07be28bea101873cb83bd6b24edcb4cc32a388bb5d2d9ad03ae04d",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-c193\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/models/home/home-shell.glb",
+        "url": "https://dylantao.github.io/assets/models/home/home-shell.glb",
+        "bytes": 763180,
+        "sha256": "67fca6f64fa4192e09a0c3760aabb2beb54c6f4dd64aec376e760961ba4460b3",
+        "pagesSha256": "67fca6f64fa4192e09a0c3760aabb2beb54c6f4dd64aec376e760961ba4460b3",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-ba52c\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/models/home/coast.glb",
+        "url": "https://dylantao.github.io/assets/models/home/coast.glb",
+        "bytes": 215792,
+        "sha256": "d1c9ecd1bc25fb2f6c070cb3f2eb1081a5d52efffa7f5c1ab9303aa658956162",
+        "pagesSha256": "d1c9ecd1bc25fb2f6c070cb3f2eb1081a5d52efffa7f5c1ab9303aa658956162",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-34af0\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/models/home/manifest.json",
+        "url": "https://dylantao.github.io/assets/models/home/manifest.json",
+        "bytes": 191390,
+        "sha256": "2a6b8a71520ecfc41d440c42c0fcada9bf46b79cddd157bf7a51ff9e26012705",
+        "pagesSha256": "2a6b8a71520ecfc41d440c42c0fcada9bf46b79cddd157bf7a51ff9e26012705",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-2eb9e\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/models/home/static-light-field.json",
+        "url": "https://dylantao.github.io/assets/models/home/static-light-field.json",
+        "bytes": 742602,
+        "sha256": "feec269b818e620d6f158a241ae2dae1d7cd212646a292617164064109989533",
+        "pagesSha256": "feec269b818e620d6f158a241ae2dae1d7cd212646a292617164064109989533",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-b54ca\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/models/home/wildlife-perch-support.json",
+        "url": "https://dylantao.github.io/assets/models/home/wildlife-perch-support.json",
+        "bytes": 27543,
+        "sha256": "78b82e77d14f73e83c6e8a0f6610c668bffd46ebda7dd6a7ea420f381b11fab9",
+        "pagesSha256": "78b82e77d14f73e83c6e8a0f6610c668bffd46ebda7dd6a7ea420f381b11fab9",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-6b97\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/models/la-jolla/hills.png",
+        "url": "https://dylantao.github.io/assets/models/la-jolla/hills.png",
+        "bytes": 60822,
+        "sha256": "071eef43c30605b340ff980130b8fcafe4c461b28e390a657a5147c367061b5e",
+        "pagesSha256": "071eef43c30605b340ff980130b8fcafe4c461b28e390a657a5147c367061b5e",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-ed96\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/img/favicon.svg",
+        "url": "https://dylantao.github.io/assets/img/favicon.svg",
+        "bytes": 707,
+        "sha256": "d9097a81e1336480ed852a2d688c3ecfb193bc3b95c80afc2ee6e63fa25d3a94",
+        "pagesSha256": "d9097a81e1336480ed852a2d688c3ecfb193bc3b95c80afc2ee6e63fa25d3a94",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-2c3\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/css/main.css",
+        "url": "https://dylantao.github.io/assets/css/main.css",
+        "bytes": 598664,
+        "sha256": "84bec4fc4fb32342892d2123caecba3d9754120541215edfe9229743d7160e7c",
+        "pagesSha256": "84bec4fc4fb32342892d2123caecba3d9754120541215edfe9229743d7160e7c",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-92288\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "projects/house-in-the-cliff/index.html",
+        "url": "https://dylantao.github.io/projects/house-in-the-cliff/index.html",
+        "bytes": 89399,
+        "sha256": "396fcd6edc362ad4e89668442de063133b350f43f7572185e07c2f1c87250d55",
+        "pagesSha256": "396fcd6edc362ad4e89668442de063133b350f43f7572185e07c2f1c87250d55",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-15d37\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "projects/homepage-desk-scene/index.html",
+        "url": "https://dylantao.github.io/projects/homepage-desk-scene/index.html",
+        "bytes": 119545,
+        "sha256": "6f8c61fb622d483c446d3c408f1c3e80afb649b5e0884be6745c7c2ba23a804a",
+        "pagesSha256": "6f8c61fb622d483c446d3c408f1c3e80afb649b5e0884be6745c7c2ba23a804a",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-1d2f9\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      },
+      {
+        "path": "assets/models/home/furniture/eames-lounge-lod0.glb",
+        "url": "https://dylantao.github.io/assets/models/home/furniture/eames-lounge-lod0.glb",
+        "bytes": 444892,
+        "sha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691",
+        "pagesSha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691",
+        "matches": true,
+        "headers": {
+          "last-modified": "Mon, 26 Oct 2026 20:47:09 GMT",
+          "etag": "\"6adfbc4d-6c9dc\"",
+          "cache-control": "max-age=600",
+          "age": "0"
+        }
+      }
+    ],
+    "renderEvidenceSource": "9f6c06ce10465c0ae5d104eef94720a4870df572",
+    "runtimeContentPathsChangedSinceRenderEvidence": [],
+    "renderReceipt": "artwork/coastal-home/reviews/pc-takeover-2026-10-26/live-smoke.json",
+    "initialReadbackPropagation": "The first post-push readback still returned the preceding HTML CSS build stamp on two pages; after the Pages build completed, all sixteen plain URLs matched the new Pages blobs exactly. Both attempts are retained locally.",
+    "actualRenderEvidence": "artwork/coastal-home/reviews/pc-takeover-2026-10-26/live-smoke.json"
+  },
+  "archiveTags": [
+    "archive/pc-2026-10-26/house-whiskey 37b174632d1381070f82fc367976daec26947975",
+    "archive/pc-2026-10-26/life-eames 469867750f5da500e343737f27804359d26ea590",
+    "archive/pc-2026-10-26/origin-house-whiskey 80e111ee060301aaae1851839f5bc47681616ca6",
+    "archive/pc-2026-10-26/site-fidelity e5895e0ebb0f8da47b67a5312521a4b5bb5717f6",
+    "archive/pc-2026-10-26/story-diary b780022e63135ab3a40a6528a97d0a4a5032adf7",
+    "archive/pc-2026-10-26/wildlife dff458064cb9a51238b8888d5cea1b28822d8e5a"
+  ],
+  "remainingChecklistIsComplete": false
+}
