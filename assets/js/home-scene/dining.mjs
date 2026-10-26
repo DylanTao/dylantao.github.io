@@ -39,7 +39,6 @@ export function createDining({
   baseUrl,
   loadModel,
   prepare = (root) => root,
-  compile = () => Promise.resolve(),
   requestFrame = () => {},
   roomRoot = () => null,
   fetchIndex = (url) => fetch(url).then((response) => (response.ok ? response.json() : null)),

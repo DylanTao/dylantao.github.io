@@ -3420,7 +3420,6 @@ export function createCoastalHome(container, records, artifacts) {
         baseUrl: manifestUrl,
         loadModel,
         prepare: (root, room) => prepareModel(root, { group: receiverForRoom(room) }),
-        compile: () => compilePrograms(),
         requestFrame: () => requestFrame(),
         roomRoot: (id) => rooms.get(id),
       });
