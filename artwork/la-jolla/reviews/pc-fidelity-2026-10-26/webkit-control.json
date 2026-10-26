@@ -1,0 +1,749 @@
+{
+  "at": "2026-10-26T11:56:04.401Z",
+  "pin": "4b77a54d9",
+  "scope": "Windows WebKit viewport emulation; complete assets; before/candidate/preserve-buffer control, no performance or physical-phone claim",
+  "sources": {
+    "before": {
+      "assets/js/footer-coast/assets.mjs": "b681c6357c2f6bf221789cd57bca0b586e255fa66ccad5302f3ccd5e1173b784",
+      "assets/js/footer-coast/atmosphere.mjs": "cef9dc7fa6a4874b6ab0e74747703234b7cf142c1f51c0e4e257df065df80404",
+      "assets/js/footer-coast/entry.mjs": "e4576eeee59939ecf40998c1a0e1fe70c6007d451d6be78effb2e5c350bae0c2",
+      "assets/js/footer-coast/marine-layer.mjs": "a2f9dcf02407873c35bc7866d8b3d7279ad68cefdd53e1dc63f442aaae8c0a93",
+      "assets/js/footer-coast/people-pose.mjs": "6fe5ea31b16b7a2219bdd98424527a04277dcae1c1d479bf8a31393fd34eae66",
+      "assets/js/footer-coast/people.mjs": "ea242065c3592ef59a3dd9d402a9c00ea9b8951dc1df68e2f09108dda9a0cf19",
+      "assets/js/footer-coast/scene.mjs": "8b3a67c81a3936e455dc1175e4d97d87adeca2a40c726e69532da0aec006fabb",
+      "assets/js/footer-coast/sky-look.mjs": "0f3793fce8ef94a91394c9bd98c5eeaa78f7e9e0b8f33604ec7c68bf1858dc9a",
+      "assets/js/footer-coast/sky.mjs": "23e149e1abf1f246654eadf51404a6e1faf2c5908bbbe5219d626ab98d2dc7fc",
+      "assets/js/footer-coast/skyline-data.mjs": "2545434808abeda3b1f792a103fb07bd9efed759670cf3d0dff5229a6d1737b9",
+      "assets/js/footer-coast/skyline.mjs": "3b0f9fff350aa5cfba070a542c184eb3e21565e1f51502ccf98556a327b2818c",
+      "assets/js/footer-coast/water-optics.mjs": "a51c846259ccdae2bd5d161195cd57250cbd6231e78f883a3558544304589bc5",
+      "assets/js/footer-coast/water.mjs": "87fd2866bca97475c442dcd1d82c71bd6f6f7a20891026fb44947e3ef88fe861",
+      "assets/js/footer-coast/wave-motion.mjs": "9e2d7f7d3e9ba2d5d0a676d530f89bcb23841001b0ccf0a038b812a3fdc03370",
+      "assets/models/la-jolla/hills.png": "87230a4684e6b0314dd5281d550ef0efba4557449a648e55008a28ee0a100173"
+    },
+    "candidate": {
+      "assets/js/footer-coast/assets.mjs": "0a224f59858cd8b2bbe1bda66b8c84a75fbbddad497b0832413e5ed88ccd331f",
+      "assets/js/footer-coast/atmosphere.mjs": "c3c5d4d1bc1bc7fcf6c656ebef5f1adfa43dcde0ca053ee5ccb0a23edc0a9947",
+      "assets/js/footer-coast/entry.mjs": "2d2dc4a83f312c4419fc0de2071b44d118fee6dbfaa8ed2fe7bef89b5d52c0e2",
+      "assets/js/footer-coast/marine-layer.mjs": "351f9ec6b13fa3c8f68ca0808beeeca5ee37bc8e42aa6fde3f4e7f9e21627e8f",
+      "assets/js/footer-coast/people-pose.mjs": "532a1f488a938b5db3f74589d52f2814e701d228ac327268d2139d1d3bf4be1a",
+      "assets/js/footer-coast/people.mjs": "aa2bc438620a86370d8afd16f1bd3c8a7a32e8c32f27b7edaee027720879f3a1",
+      "assets/js/footer-coast/scene.mjs": "ebfb444c40ef3a1857ff0f2665fa732d83d80ef24195e6069384dc418c28cc57",
+      "assets/js/footer-coast/sky-look.mjs": "4691baef69db1da42d22fda0524342de84ac1b4ea59316fbbb36bad778d40d43",
+      "assets/js/footer-coast/sky.mjs": "e535bb4932332339f4c336ee8311bb1cd68f722dab11fdd4504bdf74ec842580",
+      "assets/js/footer-coast/skyline-data.mjs": "75a6efe0ba07be28bea101873cb83bd6b24edcb4cc32a388bb5d2d9ad03ae04d",
+      "assets/js/footer-coast/skyline.mjs": "b926f8aea974888dddad68b154624296e0f815e50147441449a98ea78bf29b44",
+      "assets/js/footer-coast/water-optics.mjs": "0009cdbe0e20a011ed2d0afb77de09f2bbe00facd49cf5d96e04fb275f317936",
+      "assets/js/footer-coast/water.mjs": "2e683c63d1d1c123a4587c46a3ff97788175acd951f085b90977373c5a9f43cb",
+      "assets/js/footer-coast/wave-motion.mjs": "d8beb51ab1e1b78541a945d44a1a29d9d374230b9fe221836ea63674314016c9",
+      "assets/js/footer-coast/bed-relief.mjs": "237a77c5c86a9330113433b1a71f051ac8cdae940f74167da2df717f859a9039",
+      "assets/models/la-jolla/hills.png": "071eef43c30605b340ff980130b8fcafe4c461b28e390a657a5147c367061b5e"
+    },
+    "preserve": {
+      "assets/js/footer-coast/assets.mjs": "0a224f59858cd8b2bbe1bda66b8c84a75fbbddad497b0832413e5ed88ccd331f",
+      "assets/js/footer-coast/atmosphere.mjs": "c3c5d4d1bc1bc7fcf6c656ebef5f1adfa43dcde0ca053ee5ccb0a23edc0a9947",
+      "assets/js/footer-coast/entry.mjs": "2d2dc4a83f312c4419fc0de2071b44d118fee6dbfaa8ed2fe7bef89b5d52c0e2",
+      "assets/js/footer-coast/marine-layer.mjs": "351f9ec6b13fa3c8f68ca0808beeeca5ee37bc8e42aa6fde3f4e7f9e21627e8f",
+      "assets/js/footer-coast/people-pose.mjs": "532a1f488a938b5db3f74589d52f2814e701d228ac327268d2139d1d3bf4be1a",
+      "assets/js/footer-coast/people.mjs": "aa2bc438620a86370d8afd16f1bd3c8a7a32e8c32f27b7edaee027720879f3a1",
+      "assets/js/footer-coast/scene.mjs": "fee55b8b930eecc2c9b507425f5526453b3b327a5e33086976632c3575b8810b",
+      "assets/js/footer-coast/sky-look.mjs": "4691baef69db1da42d22fda0524342de84ac1b4ea59316fbbb36bad778d40d43",
+      "assets/js/footer-coast/sky.mjs": "e535bb4932332339f4c336ee8311bb1cd68f722dab11fdd4504bdf74ec842580",
+      "assets/js/footer-coast/skyline-data.mjs": "75a6efe0ba07be28bea101873cb83bd6b24edcb4cc32a388bb5d2d9ad03ae04d",
+      "assets/js/footer-coast/skyline.mjs": "b926f8aea974888dddad68b154624296e0f815e50147441449a98ea78bf29b44",
+      "assets/js/footer-coast/water-optics.mjs": "0009cdbe0e20a011ed2d0afb77de09f2bbe00facd49cf5d96e04fb275f317936",
+      "assets/js/footer-coast/water.mjs": "2e683c63d1d1c123a4587c46a3ff97788175acd951f085b90977373c5a9f43cb",
+      "assets/js/footer-coast/wave-motion.mjs": "d8beb51ab1e1b78541a945d44a1a29d9d374230b9fe221836ea63674314016c9",
+      "assets/js/footer-coast/bed-relief.mjs": "237a77c5c86a9330113433b1a71f051ac8cdae940f74167da2df717f859a9039",
+      "assets/models/la-jolla/hills.png": "071eef43c30605b340ff980130b8fcafe4c461b28e390a657a5147c367061b5e"
+    }
+  },
+  "states": [
+    {
+      "variant": "before",
+      "target": "miniature",
+      "renderer": "Apple GPU",
+      "attributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": false,
+        "stencil": false
+      },
+      "evidence": {
+        "miniature": true,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "afternoon",
+        "running": false,
+        "buildings": 3,
+        "landmarks": ["Salk", "Geisel", "DIB"],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "afternoon",
+          "pose": 0,
+          "actors": 3,
+          "visible": ["surf-wait", "surf-ride", "surf-paddle"],
+          "drawn": ["surf-wait", "surf-ride", "surf-paddle"],
+          "people": 3,
+          "instances": {
+            "rod": 30,
+            "torso": 3,
+            "ball": 12
+          }
+        },
+        "water": {
+          "sea": "miniature",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 217,
+            "height": 109
+          },
+          "caustics": 0.8,
+          "wakes": 2,
+          "glints": []
+        },
+        "sky": null,
+        "marineLayer": null,
+        "sun": null,
+        "resources": {
+          "geometries": 37,
+          "textures": 11
+        },
+        "framing": {
+          "width": 29,
+          "height": 29,
+          "center": [0, 1, -1]
+        }
+      },
+      "readyMetrics": {
+        "height": 351,
+        "luminanceVariance": 1.915165030353819,
+        "opaqueRatio": 1,
+        "sampledPixels": 122850,
+        "uniqueColors": 208,
+        "width": 350
+      },
+      "redrawnMetrics": {
+        "height": 351,
+        "luminanceVariance": 756.3867258943646,
+        "opaqueRatio": 1,
+        "sampledPixels": 122850,
+        "uniqueColors": 4096,
+        "width": 350
+      },
+      "errors": []
+    },
+    {
+      "variant": "before",
+      "target": "footer",
+      "renderer": "Apple GPU",
+      "attributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": false,
+        "stencil": false
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "afternoon",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "afternoon",
+          "pose": 0,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 242,
+            "height": 79
+          },
+          "caustics": 0.8,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 13.18,
+          "lights": 0,
+          "buildMs": 18,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 156,
+          "textures": 14
+        },
+        "framing": {
+          "width": 21,
+          "height": 17.76923076923077,
+          "center": [5.1, 2, 0]
+        }
+      },
+      "readyMetrics": {
+        "height": 331,
+        "luminanceVariance": 106.74052685996867,
+        "opaqueRatio": 1,
+        "sampledPixels": 129090,
+        "uniqueColors": 223,
+        "width": 390
+      },
+      "redrawnMetrics": {
+        "height": 331,
+        "luminanceVariance": 1045.3288989150024,
+        "opaqueRatio": 1,
+        "sampledPixels": 129090,
+        "uniqueColors": 4096,
+        "width": 390
+      },
+      "errors": []
+    },
+    {
+      "variant": "candidate",
+      "target": "miniature",
+      "renderer": "Apple GPU",
+      "attributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": false,
+        "stencil": false
+      },
+      "evidence": {
+        "miniature": true,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "afternoon",
+        "running": false,
+        "buildings": 3,
+        "landmarks": ["Salk", "Geisel", "DIB"],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "afternoon",
+          "pose": 0,
+          "actors": 3,
+          "visible": ["surf-wait", "surf-ride", "surf-paddle"],
+          "drawn": ["surf-wait", "surf-ride", "surf-paddle"],
+          "people": 3,
+          "instances": {
+            "rod": 30,
+            "torso": 3,
+            "ball": 12
+          }
+        },
+        "water": {
+          "sea": "miniature",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 18721,
+            "triangles": 36864,
+            "depthRange": [0.02, 3.7625],
+            "renders": 1,
+            "width": 350,
+            "height": 350,
+            "depthTexture": true,
+            "cpuBuildMs": 29,
+            "lastSubmissionMs": 33
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 217,
+            "height": 109
+          },
+          "caustics": 0.8,
+          "wakes": 2,
+          "glints": []
+        },
+        "sky": null,
+        "marineLayer": null,
+        "sun": null,
+        "resources": {
+          "geometries": 38,
+          "textures": 14
+        },
+        "framing": {
+          "width": 29,
+          "height": 29,
+          "center": [0, 1, -1]
+        }
+      },
+      "readyMetrics": {
+        "height": 351,
+        "luminanceVariance": 1.915165030353819,
+        "opaqueRatio": 1,
+        "sampledPixels": 122850,
+        "uniqueColors": 208,
+        "width": 350
+      },
+      "redrawnMetrics": {
+        "height": 351,
+        "luminanceVariance": 1806.185074859175,
+        "opaqueRatio": 1,
+        "sampledPixels": 122850,
+        "uniqueColors": 4096,
+        "width": 350
+      },
+      "errors": []
+    },
+    {
+      "variant": "candidate",
+      "target": "footer",
+      "renderer": "Apple GPU",
+      "attributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": false,
+        "stencil": false
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "afternoon",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "afternoon",
+          "pose": 0,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 390,
+            "height": 330,
+            "depthTexture": true,
+            "cpuBuildMs": 70,
+            "lastSubmissionMs": 31
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 242,
+            "height": 79
+          },
+          "caustics": 0.8,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 13.18,
+          "lights": 0,
+          "buildMs": 22,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 157,
+          "textures": 17
+        },
+        "framing": {
+          "width": 21,
+          "height": 17.76923076923077,
+          "center": [5.1, 2, 0]
+        }
+      },
+      "readyMetrics": {
+        "height": 331,
+        "luminanceVariance": 106.33549460828362,
+        "opaqueRatio": 1,
+        "sampledPixels": 129090,
+        "uniqueColors": 259,
+        "width": 390
+      },
+      "redrawnMetrics": {
+        "height": 331,
+        "luminanceVariance": 3723.359116417687,
+        "opaqueRatio": 1,
+        "sampledPixels": 129090,
+        "uniqueColors": 4096,
+        "width": 390
+      },
+      "errors": []
+    },
+    {
+      "variant": "preserve",
+      "target": "miniature",
+      "renderer": "Apple GPU",
+      "attributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": true,
+        "stencil": false
+      },
+      "evidence": {
+        "miniature": true,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "afternoon",
+        "running": false,
+        "buildings": 3,
+        "landmarks": ["Salk", "Geisel", "DIB"],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "afternoon",
+          "pose": 0,
+          "actors": 3,
+          "visible": ["surf-wait", "surf-ride", "surf-paddle"],
+          "drawn": ["surf-wait", "surf-ride", "surf-paddle"],
+          "people": 3,
+          "instances": {
+            "rod": 30,
+            "torso": 3,
+            "ball": 12
+          }
+        },
+        "water": {
+          "sea": "miniature",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 18721,
+            "triangles": 36864,
+            "depthRange": [0.02, 3.7625],
+            "renders": 1,
+            "width": 350,
+            "height": 350,
+            "depthTexture": true,
+            "cpuBuildMs": 41,
+            "lastSubmissionMs": 25
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 217,
+            "height": 109
+          },
+          "caustics": 0.8,
+          "wakes": 2,
+          "glints": []
+        },
+        "sky": null,
+        "marineLayer": null,
+        "sun": null,
+        "resources": {
+          "geometries": 38,
+          "textures": 14
+        },
+        "framing": {
+          "width": 29,
+          "height": 29,
+          "center": [0, 1, -1]
+        }
+      },
+      "readyMetrics": {
+        "height": 351,
+        "luminanceVariance": 1806.1853785288404,
+        "opaqueRatio": 1,
+        "sampledPixels": 122850,
+        "uniqueColors": 4096,
+        "width": 350
+      },
+      "redrawnMetrics": {
+        "height": 351,
+        "luminanceVariance": 1806.185074859175,
+        "opaqueRatio": 1,
+        "sampledPixels": 122850,
+        "uniqueColors": 4096,
+        "width": 350
+      },
+      "errors": []
+    },
+    {
+      "variant": "preserve",
+      "target": "footer",
+      "renderer": "Apple GPU",
+      "attributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": true,
+        "stencil": false
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "afternoon",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "afternoon",
+          "pose": 0,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 390,
+            "height": 330,
+            "depthTexture": true,
+            "cpuBuildMs": 65,
+            "lastSubmissionMs": 24
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 242,
+            "height": 79
+          },
+          "caustics": 0.8,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 13.18,
+          "lights": 0,
+          "buildMs": 21,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 157,
+          "textures": 17
+        },
+        "framing": {
+          "width": 21,
+          "height": 17.76923076923077,
+          "center": [5.1, 2, 0]
+        }
+      },
+      "readyMetrics": {
+        "height": 331,
+        "luminanceVariance": 3723.35737837942,
+        "opaqueRatio": 1,
+        "sampledPixels": 129090,
+        "uniqueColors": 4096,
+        "width": 390
+      },
+      "redrawnMetrics": {
+        "height": 331,
+        "luminanceVariance": 3723.3570295744394,
+        "opaqueRatio": 1,
+        "sampledPixels": 129090,
+        "uniqueColors": 4096,
+        "width": 390
+      },
+      "errors": []
+    }
+  ]
+}

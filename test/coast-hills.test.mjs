@@ -98,10 +98,14 @@ test("the measured skyline and houses are consistent", () => {
   for (let i = 0; i < SKYLINE.far.length; i++) assert.ok(SKYLINE.near[i] <= SKYLINE.far[i], `near ridge over the skyline at ${i}`);
   const lights = houseLights();
   assert.ok(lights.length >= 400, `${lights.length} houses`);
+  assert.equal(SKYLINE.footprints.length, lights.length * 6, "every selected building carries its polygon dimensions and height provenance");
   for (const light of lights) {
     // Every house stands on the hills, at or below the skyline of its bearing.
     assert.ok(light.angle < skylineAt(light.bearing).far, `house at ${light.bearing} above the skyline`);
     assert.ok(light.seed >= 0 && light.seed < 1);
+    assert.ok(light.width > 0 && light.depth > 0 && light.height > 0, "positive footprint and facade dimensions");
+    assert.ok(light.distance >= 450 && light.distance <= 7000, "dimensions retain the building's actual bay distance");
+    if (!light.heightTagged) assert.equal(light.height, 6, "untagged heights keep the documented display assumption");
   }
   // Mount Soledad's slopes carry the densest lights.
   const soledad = lights.filter((l) => l.bearing > 130 && l.bearing < 175).length,

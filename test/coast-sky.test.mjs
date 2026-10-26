@@ -165,7 +165,7 @@ test("the setting sun stays behind the viewer, the rising sun comes up over the 
   assert.ok(keyDirection(sunState("2026-10-19", events.sunrise + 5))[2] < -0.8);
 });
 
-test("the credit's halo follows the hour: faint at noon, warm at sunset, moonlit at night", () => {
+test("the credit's halo follows the hour: legible at noon, warm at sunset, moonlit at night", () => {
   const alpha = (rgba) => Number(rgba.match(/[\d.]+\)$/)[0].slice(0, -1));
   const noon = creditHalo(LOOKS.noon, true),
     sunset = creditHalo(LOOKS.sunset, true),

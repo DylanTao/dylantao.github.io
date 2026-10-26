@@ -17,12 +17,16 @@ committed; artwork/la-jolla/skyline/provenance.json records the sources, queries
 Usage: python bin/coastal_skyline.py [--refresh]
 """
 import gzip
+import hashlib
 import json
 import math
 import random
+import re
 import sys
 import urllib.parse
 import urllib.request
+import xml.etree.ElementTree as ET
+from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
@@ -54,7 +58,8 @@ DEM_URL = (
     )
 )
 OSM_BOUNDS = (32.825, -117.285, 32.895, -117.215)  # south, west, north, east
-OSM_QUERY = f'[out:json][timeout:120];way["building"]({",".join(map(str, OSM_BOUNDS))});out center;'
+OSM_ENDPOINT = "https://api.openstreetmap.org/api/0.6/map"
+OSM_TILE_COUNT = 4  # bounded 0.0175-degree map reads; public API's node limit applies per tile
 
 # A boat in La Jolla Bay, about 1 km off the Shores, with an eye 15 m above the water.
 VIEW = (32.862, -117.266)
@@ -64,12 +69,13 @@ REFRACTION = 0.13  # the standard coefficient for a ray near the ground
 BEARINGS = (0.0, 232.0, 0.5)  # first, last, step (degrees from north)
 LIGHT_BEARINGS = (8.0, 214.0)
 MAX_LIGHTS = 1200
-# The relief as the bay sees it: one column per degree of bearing, one row per RELIEF_STEP degrees
+# The relief as the bay sees it: one column per RELIEF_BEARING_STEP degrees, one row per RELIEF_STEP
 # of elevation from RELIEF_LOW up to the highest crest.
-RELIEF_BEARINGS = 233
+RELIEF_BEARINGS = 929
+RELIEF_BEARING_STEP = 0.25
 RELIEF_LOW = -0.4
-RELIEF_STEP = 0.08
-RELIEF_ROWS = 73
+RELIEF_STEP = 0.04
+RELIEF_ROWS = 147
 RELIEF_KM = 8.0
 NEAR_REACH = 1700.0  # metres: the foothills in front of Mount Soledad and the Shores ridge
 NEAR_FALLOFF = 2.5 / 600  # degrees per metre beyond the reach
@@ -100,13 +106,83 @@ def load_ground():
 
 
 def load_buildings():
-    path = CACHE / "osm-buildings.json.gz"
+    path = CACHE / "osm-footprints.json.gz"
     if not path.exists() or "--refresh" in sys.argv:
-        body = fetch("https://overpass-api.de/api/interpreter", CACHE / "osm-buildings.json", data=urllib.parse.urlencode({"data": OSM_QUERY}).encode())
-        path.write_bytes(gzip.compress(body))
-        (CACHE / "osm-buildings.json").unlink()
+        data = load_map_tiles()
+        path.write_bytes(gzip.compress(json.dumps(data, separators=(",", ":")).encode()))
     data = json.loads(gzip.decompress(path.read_bytes()))
-    return data, [(e["center"]["lat"], e["center"]["lon"]) for e in data["elements"] if "center" in e]
+    return data, [footprint(e) for e in data["elements"] if "center" in e and len(e.get("geometry", [])) >= 3]
+
+
+def load_map_tiles():
+    """The Overpass services failed during the PC attempt. Read the same bounded area through
+    OpenStreetMap's primary map API, retaining every raw tile and its hash. This is a sequence of
+    map reads, not a claim of a single atomic historical snapshot. Ways shared by tiles are deduped.
+    """
+    south, west, north, east = OSM_BOUNDS
+    ways, receipts = {}, []
+    for j in range(OSM_TILE_COUNT):
+        for i in range(OSM_TILE_COUNT):
+            bounds = [round(west + (east - west) * i / OSM_TILE_COUNT, 6), round(south + (north - south) * j / OSM_TILE_COUNT, 6), round(west + (east - west) * (i + 1) / OSM_TILE_COUNT, 6), round(south + (north - south) * (j + 1) / OSM_TILE_COUNT, 6)]
+            url = OSM_ENDPOINT + "?" + urllib.parse.urlencode({"bbox": ",".join(map(str, bounds))})
+            raw = CACHE / f"osm-map-{j}-{i}.osm"
+            packed = raw.with_suffix(".osm.gz")
+            if packed.exists() and "--refresh" not in sys.argv:
+                body = gzip.decompress(packed.read_bytes())
+                retrieved = datetime.fromtimestamp(packed.stat().st_mtime, timezone.utc).isoformat()
+            else:
+                body = fetch(url, raw)
+                packed.write_bytes(gzip.compress(body))
+                raw.unlink()
+                retrieved = datetime.now(timezone.utc).isoformat()
+            root = ET.fromstring(body)
+            nodes = {n.attrib["id"]: {"lat": float(n.attrib["lat"]), "lon": float(n.attrib["lon"])} for n in root.findall("node")}
+            kept = 0
+            for way in root.findall("way"):
+                tags = {t.attrib["k"]: t.attrib["v"] for t in way.findall("tag")}
+                if "building" not in tags or tags["building"] == "no":
+                    continue
+                points = [nodes[n.attrib["ref"]] for n in way.findall("nd") if n.attrib["ref"] in nodes]
+                if len(points) < 3:
+                    continue
+                lat = (min(p["lat"] for p in points) + max(p["lat"] for p in points)) / 2
+                lon = (min(p["lon"] for p in points) + max(p["lon"] for p in points)) / 2
+                if not (south <= lat <= north and west <= lon <= east):
+                    continue
+                ways[way.attrib["id"]] = {"type": "way", "id": int(way.attrib["id"]), "center": {"lat": lat, "lon": lon}, "geometry": points, "tags": tags}
+                kept += 1
+            receipts.append({"url": url, "bounds_west_south_east_north": bounds, "retrieved_at_utc": retrieved, "raw_sha256": hashlib.sha256(body).hexdigest(), "building_ways_in_tile": kept})
+    return {"source": "OpenStreetMap map API, bounded tile reads", "requests": receipts, "elements": sorted(ways.values(), key=lambda e: e["id"])}
+
+
+def footprint(element):
+    """The building's real footprint width across the bay view and depth along it.
+
+    Height comes from OSM height/levels when encoded; otherwise 6 m is an explicit display
+    assumption. No individual house, occupancy, or surveyed building height is inferred.
+    """
+    lat, lon = element["center"]["lat"], element["center"]["lon"]
+    _, distance = place(lat, lon)
+    dx = (lon - VIEW[1]) * 111320.0 * math.cos(math.radians(VIEW[0]))
+    dy = (lat - VIEW[0]) * 110574.0
+    along = np.array([dx, dy]) / max(distance, 1.0)
+    across = np.array([-along[1], along[0]])
+    points = np.array([[(p["lon"] - lon) * 111320.0 * math.cos(math.radians(lat)), (p["lat"] - lat) * 110574.0] for p in element["geometry"]])
+    width = float(np.ptp(points @ across))
+    depth = float(np.ptp(points @ along))
+    tags = element.get("tags", {})
+    def number(value):
+        match = re.search(r"[0-9]+(?:\.[0-9]+)?", str(value or ""))
+        return float(match[0]) if match else None
+    height = number(tags.get("height"))
+    if height and re.search(r"ft|feet|'", tags.get("height", "")):
+        height *= 0.3048
+    levels = number(tags.get("building:levels"))
+    tagged = height is not None or levels is not None
+    if height is None:
+        height = levels * 3.0 if levels is not None else 6.0
+    roof = 0 if tags.get("roof:shape") == "flat" else 1 if tags.get("roof:shape") in {"gabled", "hipped", "pyramidal"} else 0
+    return {"lat": lat, "lon": lon, "width": width, "depth": depth, "height": max(2.0, min(height, 65.0)), "tagged_height": tagged, "roof": roof}
 
 
 class Ground:
@@ -180,7 +256,8 @@ def relief(ground):
     the skyline repeat the crest, so the shader's filtering never mixes the sky into the slopes."""
     image = np.zeros((RELIEF_ROWS, RELIEF_BEARINGS, 3), dtype=np.uint8)
     for b in range(RELIEF_BEARINGS):
-        samples = ray(ground, float(b), step=10.0)
+        bearing = b * RELIEF_BEARING_STEP
+        samples = ray(ground, bearing, step=8.0)
         filled = None
         for j in range(RELIEF_ROWS):
             elevation = RELIEF_LOW + j * RELIEF_STEP
@@ -188,7 +265,7 @@ def relief(ground):
             if hit is None:
                 break
             d, h, _ = hit
-            lat, lon = ground.point(float(b), d)
+            lat, lon = ground.point(bearing, d)
             # The slope over about 40 m, from the ground's gradient.
             step_lon = 20.0 / (111320.0 * ground.cos)
             step_lat = 20.0 / 110574.0
@@ -202,14 +279,13 @@ def relief(ground):
             for j in range(RELIEF_ROWS):
                 if image[RELIEF_ROWS - 1 - j, b, 2] == 0:
                     image[RELIEF_ROWS - 1 - j, b] = filled
-    # A degree of bearing spans several pixels on a wide screen: soften the slopes across three
-    # bearings and three rows, and the distances across nine bearings, so neighbouring columns
-    # (which can meet a nearer or a farther ridge) do not stripe the hills.
+    # A small angular filter keeps source-raster noise from striping the hills without averaging
+    # across the old nine degrees of distance, which erased the canyon's relief.
     slopes = image[..., :2].astype(np.float64)
     padded = np.pad(slopes, ((1, 1), (1, 1), (0, 0)), mode="edge")
     image[..., :2] = np.round(sum(padded[dy : dy + RELIEF_ROWS, dx : dx + RELIEF_BEARINGS] for dy in range(3) for dx in range(3)) / 9).astype(np.uint8)
-    distance = np.pad(image[..., 2].astype(np.float64), ((0, 0), (4, 4)), mode="edge")
-    image[..., 2] = np.round(sum(distance[:, dx : dx + RELIEF_BEARINGS] for dx in range(9)) / 9).astype(np.uint8)
+    distance = np.pad(image[..., 2].astype(np.float64), ((0, 0), (1, 1)), mode="edge")
+    image[..., 2] = np.round(sum(distance[:, dx : dx + RELIEF_BEARINGS] for dx in range(3)) / 3).astype(np.uint8)
     return image
 
 
@@ -217,12 +293,13 @@ def visible_houses(ground, buildings):
     """Houses seen from the bay on the slopes behind the shore, each with its window height."""
     lo, hi = LIGHT_BEARINGS
     seen = []
-    for lat, lon in buildings:
+    for building in buildings:
+        lat, lon = building["lat"], building["lon"]
         bearing, distance = place(lat, lon)
         if not (lo <= bearing <= hi) or distance < 450 or distance > 7000:
             continue
         h = ground.at(lat, lon)
-        window = elevation_angle(h + 4.0, distance)
+        window = elevation_angle(h + building["height"] * 0.55, distance)
         if window < 0.3:
             continue  # on the flat shore: the frieze's own coast stands there
         hidden = False
@@ -233,7 +310,7 @@ def visible_houses(ground, buildings):
                 break
             d += 15.0
         if not hidden:
-            seen.append((bearing, window, distance, h))
+            seen.append((bearing, window, distance, h, building))
     return seen
 
 
@@ -245,7 +322,7 @@ def main():
     Image.fromarray(view, "RGB").save(RELIEF, optimize=True)
     houses = visible_houses(ground, buildings)
     rng = random.Random(20261024)
-    lights = sorted(rng.sample(houses, min(MAX_LIGHTS, len(houses))))
+    lights = sorted(rng.sample(houses, min(MAX_LIGHTS, len(houses))), key=lambda r: (r[0], r[1]))
     peak = max(profile, key=lambda r: r[1])
     print(f"Skyline: {len(profile)} bearings; highest {peak[1]:.2f} deg at {peak[0]:.1f} deg, {peak[2] / 1000:.2f} km, {peak[3]:.0f} m")
     print(f"Houses: {len(buildings)} footprints, {len(houses)} facing the bay, {len(lights)} kept as lights")
@@ -262,11 +339,12 @@ def main():
     far_km = [round(v / 100) for v in smoothed([r[2] for r in profile])[::2]]
     near_km = [round(v / 100) for v in smoothed([r[5] for r in profile])[::2]]
     crest = [round(v) for v in smoothed([r[3] for r in profile])[::2]]
-    flat, previous = [], 0
-    for bearing, angle, _distance, _h in lights:
+    flat, footprints, previous = [], [], 0
+    for bearing, angle, distance, _h, building in lights:
         b = round(bearing * 100)
         flat += [b - previous, round(angle * 100)]
         previous = b
+        footprints += [round(building["width"] * 10), round(building["depth"] * 10), round(building["height"] * 10), round(distance / 10), int(building["tagged_height"]), building["roof"]]
     js = f"""// Generated by bin/coastal_skyline.py; do not edit. The hills and houses behind the footer
 // coast, as seen from a boat in La Jolla Bay ({VIEW[0]} N, {-VIEW[1]} W, eye {EYE:g} m).
 // Ground: USGS 3D Elevation Program (3DEP), U.S. Geological Survey, public domain.
@@ -286,6 +364,9 @@ export const SKYLINE = Object.freeze({{
   near: {json.dumps(near, separators=(',', ':'))},
   nearDistance: {json.dumps(near_km, separators=(',', ':'))},
   lights: {json.dumps(flat, separators=(',', ':'))},
+  // Per selected building: footprint width/depth and height (dm), distance (10 m), tagged-height
+  // flag, roof form. Untagged heights assume 6 m; widths/depths come from the actual OSM polygons.
+  footprints: {json.dumps(footprints, separators=(',', ':'))},
 }});
 """
     OUT.write_text(js, encoding="utf8", newline="\n")
@@ -299,17 +380,25 @@ export const SKYLINE = Object.freeze({{
                     "request": DEM_URL,
                     "bounds_west_south_east_north": DEM_BOUNDS,
                     "pixels": DEM_SIZE,
+                    "raw_sha256": hashlib.sha256((CACHE / "3dep.tif").read_bytes()).hexdigest(),
+                    "relief_bearing_step_deg": RELIEF_BEARING_STEP,
+                    "relief_elevation_step_deg": RELIEF_STEP,
+                    "relief_pixels": [RELIEF_BEARINGS, RELIEF_ROWS],
                 },
                 "houses": {
                     "source": "OpenStreetMap contributors",
                     "license": "ODbL 1.0",
                     "attribution": "https://www.openstreetmap.org/copyright",
-                    "endpoint": "https://overpass-api.de/api/interpreter",
-                    "query": OSM_QUERY,
-                    "osm_base": osm.get("osm3s", {}).get("timestamp_osm_base"),
+                    "endpoint": OSM_ENDPOINT,
+                    "read_method": osm.get("source"),
+                    "snapshot_boundary": "sequential tile reads, not an atomic snapshot",
+                    "normalized_sha256": hashlib.sha256(gzip.decompress((CACHE / "osm-footprints.json.gz").read_bytes())).hexdigest(),
+                    "requests": osm.get("requests", []),
                     "footprints": len(buildings),
                     "facing_the_bay": len(houses),
                     "lights": len(lights),
+                    "selected_with_height_tags": sum(int(r[4]["tagged_height"]) for r in lights),
+                    "untagged_height_assumption_m": 6.0,
                 },
                 "view": {"latitude": VIEW[0], "longitude": VIEW[1], "eye_m": EYE, "refraction": REFRACTION},
                 "skyline_peak": {"bearing": peak[0], "angle_deg": round(peak[1], 3), "distance_km": round(peak[2] / 1000, 2), "height_m": round(peak[3])},

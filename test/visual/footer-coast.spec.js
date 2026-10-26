@@ -279,6 +279,7 @@ for (const theme of process.env.COAST_THEME ? [process.env.COAST_THEME] : ["morn
     const contrast = await creditContrast(page);
     expect(contrast.samples).toBeGreaterThan(100);
     expect(contrast.median, "credit contrast over the sea").toBeGreaterThanOrEqual(4.5);
+    await writeFile(testInfo.outputPath(`credit-contrast-${theme}.json`), JSON.stringify(contrast, null, 2));
     await testInfo.attach(`credit-contrast-${theme}`, { body: JSON.stringify(contrast), contentType: "application/json" });
     await attachScreenshot(page, testInfo, `coast-${theme}`, { locator: page.locator("footer") });
     expect(errors).toEqual([]);
@@ -312,6 +313,43 @@ test("coastal sea: a mirror drawn on demand, night glitter from the fire and pie
   await attachScreenshot(page, testInfo, "coast-sea-night", { locator: page.locator("footer") });
   expect(errors).toEqual([]);
 });
+test("coastal sea: refracted bottom and volumetric light use the current relief", async ({ page }, testInfo) => {
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
+  const errors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const host = await open(page, "noon");
+  const initial = await evidence(host);
+  expect(initial.water.bottom.vertices).toBeGreaterThan(40000);
+  expect(initial.water.bottom.triangles).toBeGreaterThan(90000);
+  expect(initial.water.bottom.depthRange[0]).toBeGreaterThan(0);
+  expect(initial.water.bottom.depthRange[1]).toBeGreaterThan(3);
+  expect(initial.water.bottom.depthTexture).toBe(true);
+  const canvas = host.locator("canvas"),
+    bounds = await canvas.boundingBox();
+  expect(initial.water.bottom.width).toBeGreaterThanOrEqual(bounds.width - 1);
+  const clip = { x: bounds.x + bounds.width * 0.12, y: bounds.y + bounds.height * 0.7, width: bounds.width * 0.68, height: bounds.height * 0.28 };
+  const complete = await page.screenshot({ clip, path: testInfo.outputPath("water-complete.png") });
+  const comparisons = [];
+  for (const [name, options] of [
+    ["no-bottom", { bottom: 0 }],
+    ["no-scattering", { scattering: 0 }],
+    ["no-reflection", { reflection: 0 }],
+    ["no-depth-attenuation", { depth: 0 }],
+  ]) {
+    await host.evaluate((element, options) => element.setCoastWaterProof(options), options);
+    const image = await page.screenshot({ clip, path: testInfo.outputPath(`water-${name}.png`) });
+    const changed = screenshotDiffRatio(complete, image, { threshold: 0.025 });
+    comparisons.push({ name, changed });
+    expect(changed, `${name} must change the actual water pixels`).toBeGreaterThan(0.0005);
+    expect((await evidence(host)).water.bottom.renders).toBe(initial.water.bottom.renders);
+  }
+  await host.evaluate((element) => element.setCoastWaterProof({}));
+  const restored = await page.screenshot({ clip });
+  expect(screenshotDiffRatio(complete, restored)).toBeLessThan(0.002);
+  await writeFile(testInfo.outputPath("water-transport.json"), JSON.stringify({ initial: initial.water, comparisons, errors }, null, 2));
+  expect(errors).toEqual([]);
+});
+
 test("coastal sky: La Jolla's real sunset, dusk and dawn keep the theme, the credit and the coast on one clock", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
   const errors = collectRuntimeErrors(page);

@@ -6,19 +6,19 @@
 // its own cove shoreline, canyon and reefs. Numbers shared with node tests live in water-optics.mjs.
 import * as THREE from "../three.module.min.js";
 import {
-  ABSORB,
+  EXTINCTION,
   CANYON,
   KELVIN_HALF_ANGLE,
   REEFS,
-  SHELF,
-  SUN_PATH,
+  SCATTER,
   SURF,
   WATER_IOR,
   WATER_LEVEL,
   createReflectionSchedule,
   mirrorPoint,
   shoreline,
-} from "./water-optics.mjs?v=coast-water-20261018";
+} from "./water-optics.mjs?v=coast-water-20261026";
+import { buildBottomRelief } from "./bed-relief.mjs?v=coast-water-20261026";
 
 const f = (value) => {
   const text = Number(value).toFixed(9);
@@ -65,9 +65,55 @@ function seaUniforms(sea) {
   const scale = (SHORE_TEXELS - 1) / (2 * sea.span * SHORE_TEXELS);
   return {
     coastShoreMap: { value: new THREE.Vector2(scale, sea.span * scale + 0.5 / SHORE_TEXELS) },
-    coastCanyon: { value: new THREE.Vector4(sea.canyon.x, 1 / sea.canyon.width, sea.canyon.depth, 1 / sea.canyon.reach) },
     coastReefs: { value: reefs },
     coastReefCount: { value: Math.min(sea.reefs.length, MAX_REEFS) },
+  };
+}
+
+function createBottom(sea) {
+  const started = performance.now();
+  const relief = buildBottomRelief(sea, sea.name === "miniature" ? { columns: 193, rows: 97, z0: -10, z1: 26 } : {});
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(relief.positions, 3));
+  geometry.setAttribute("color", new THREE.BufferAttribute(relief.colors, 3));
+  geometry.setIndex(new THREE.BufferAttribute(relief.indices, 1));
+  geometry.computeVertexNormals();
+  const material = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.94, metalness: 0 });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.name = "SubmergedSandAndReef";
+  const scene = new THREE.Scene();
+  const key = new THREE.DirectionalLight(0xfff4d5, 2.6),
+    sky = new THREE.HemisphereLight(0xddebf1, 0x394b3c, 1.15);
+  scene.add(mesh, key, key.target, sky);
+  const heights = new THREE.DataTexture(
+    Uint16Array.from(relief.depths, (v) => THREE.DataUtils.toHalfFloat(v)),
+    relief.columns,
+    relief.rows,
+    THREE.RedFormat,
+    THREE.HalfFloatType
+  );
+  heights.minFilter = heights.magFilter = THREE.LinearFilter;
+  heights.needsUpdate = true;
+  const sx = (relief.columns - 1) / (2 * relief.span * relief.columns),
+    sz = (relief.rows - 1) / ((relief.z1 - relief.z0) * relief.rows);
+  const mapping = new THREE.Vector4(sx, relief.span * sx + 0.5 / relief.columns, sz, -relief.z0 * sz + 0.5 / relief.rows);
+  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, depthBuffer: true, stencilBuffer: false });
+  target.texture.name = "CoastSubmergedRadiance";
+  target.depthTexture = new THREE.DepthTexture(1, 1, THREE.UnsignedIntType);
+  return {
+    relief,
+    geometry,
+    material,
+    mesh,
+    scene,
+    key,
+    sky,
+    heights,
+    mapping,
+    target,
+    renders: 0,
+    cpuBuildMs: performance.now() - started,
+    submissionMs: 0,
   };
 }
 
@@ -76,12 +122,8 @@ function seaUniforms(sea) {
 function seaShader(material, uniforms) {
   const declarations = `
     uniform float coastTime;
-    uniform vec3 coastDeep;
-    uniform vec3 coastShallow;
     uniform vec3 coastBed;
-    uniform vec3 coastRock;
     uniform float coastCaustic;
-    uniform float coastReflect;
     uniform float coastFoam;
     uniform float coastHot;
     uniform float coastGlow;
@@ -105,9 +147,19 @@ function seaShader(material, uniforms) {
     uniform sampler2D coastReflection;
     uniform mat4 coastReflectMatrix;
     uniform vec4 coastReflectAxes;
+    uniform sampler2D coastBottom;
+    uniform sampler2D coastBottomDepth;
+    uniform sampler2D coastBottomRelief;
+    uniform mat4 coastBottomMatrix;
+    uniform vec4 coastBottomMap;
+    uniform float coastBottomMax;
+    uniform int coastBedSteps;
+    uniform vec3 coastSunDirection;
+    uniform vec3 coastIrradiance;
+    uniform vec3 coastAmbient;
+    uniform vec4 coastProof;  // bottom, scattering, reflection, depth: automation-only ablation
     uniform sampler2D coastShoreline;
     uniform vec2 coastShoreMap;
-    uniform vec4 coastCanyon;
     uniform vec2 coastReefs[${MAX_REEFS}];
     uniform int coastReefCount;
     varying vec3 coastPosition;
@@ -115,6 +167,7 @@ function seaShader(material, uniforms) {
     vec2 coastSlope;
     float coastFoamAmount;
     float coastDepth;
+    vec3 coastTransmission;
     // The waterline (water-optics.mjs shoreline), sampled from a strip texture: one fetch instead of
     // a long chain of profile segments, which kept the shader slow to compile.
     float coastShore(float x) {
@@ -162,11 +215,8 @@ function seaShader(material, uniforms) {
         }
       return sqrt(d2) - sqrt(d1);
     }
-    // Seabed below the surface (water-optics.mjs seabedDepth): a sandy shelf, and the canyon's head off the pier.
-    float coastBedDepth(float d, float x) {
-      float t = max(d, 0.), c = (x - coastCanyon.x) * coastCanyon.y;
-      return ${f(SHELF.start)} + ${f(SHELF.depth)} * (1. - exp(-t * ${f(1 / SHELF.reach)})) + ${f(SHELF.slope)} * t
-        + coastCanyon.z * exp(-c * c) * (1. - exp(-t * coastCanyon.w));
+    float coastBedDepth(vec2 p) {
+      return textureLod(coastBottomRelief, vec2(p.x * coastBottomMap.x + coastBottomMap.y, p.y * coastBottomMap.z + coastBottomMap.w), 0.).r;
     }
     // Short wind ripples that bend light without moving the surface: their slope (dh/dx, dh/dz).
     vec2 coastRipples(vec2 p, float t) {
@@ -221,23 +271,29 @@ function seaShader(material, uniforms) {
           coastDepth = d;
           // Surface slope: the vertex waves (wave-motion.mjs) and the wind ripples.
           float wa = p.y * 3.8 - p.x * .28 - coastTime * .8, wb = p.x * 2.7 + p.y * 1.2 - coastTime * .6;
-          coastSlope = vec2(-.00644 * cos(wa) + .0351 * cos(wb), .0874 * cos(wa) + .0156 * cos(wb)) * .6 + coastRipples(p, coastTime);
+          coastSlope = vec2(-.00644 * cos(wa) + .0351 * cos(wb), .0874 * cos(wa) + .0156 * cos(wb)) + coastRipples(p, coastTime);
           coastNormal = normalize(vec3(-coastSlope.x, 1., -coastSlope.y));
           // Clear shallows: follow the refracted view ray down to the seabed it meets.
           vec3 ray = refract(-coastView, coastNormal, ${f(1 / WATER_IOR)});
-          float run = coastBedDepth(d, p.x) / max(-ray.y, .25);
-          vec2 bedP = p + ray.xz * run;
-          float bedD = d + bedP.y - p.y;
-          float bedDepth = coastBedDepth(bedD, bedP.x);
-          // Wet sand with ripple marks; dark reef rock off the coves; caustics where the sun focuses.
-          vec3 seabed = coastBed * (.93 + .07 * sin(bedD * 19. + sin(bedP.x * 1.1) * 2. + sin(bedP.x * 2.9 + bedD * 3.) * 1.2));
-          float reefX = coastReef(p.x);
-          float reef = reefX * (1. - smoothstep(2.2, 3.4, bedD));
-          if (reef > .01) {
-            float blob = coastNoise(bedP * vec2(1.6, 2.4) + 3.1) * .74 + (.5 + .5 * sin(bedP.x * 7.1 + bedP.y * 5.3)) * .26;
-            float rock = smoothstep(.66 - .3 * reef, .76 - .3 * reef, blob) * smoothstep(.08, .3, reef);
-            seabed = mix(seabed, coastRock * (.55 + .9 * fract(blob * 7.3)), rock);
+          float surfaceOffset = coastPosition.y - ${f(WATER_LEVEL)};
+          float lo = 0., hi = (coastBottomMax + abs(surfaceOffset) + .05) / max(-ray.y, .25);
+          for (int i = 0; i < coastBedSteps; i++) {
+            float mid = (lo + hi) * .5;
+            if (-surfaceOffset - ray.y * mid < coastBedDepth(p + ray.xz * mid)) lo = mid; else hi = mid;
           }
+          float run = (lo + hi) * .5;
+          vec2 bedP = p + ray.xz * run;
+          float bedD = bedP.y - coastShore(bedP.x);
+          float bedDepth = coastBedDepth(bedP);
+          // Sample radiance from actual submerged geometry, rendered with the coast's light and
+          // its own depth buffer. Height-field intersection chooses the refracted point on it.
+          vec4 bc = coastBottomMatrix * vec4(bedP.x, ${f(WATER_LEVEL)} - bedDepth, bedP.y, 1.);
+          vec2 buv = bc.xy / bc.w;
+          vec4 bottom = textureLod(coastBottom, buv, 0.);
+          float recordedDepth = textureLod(coastBottomDepth, buv, 0.).r;
+          float validBed = step(0., buv.x) * step(buv.x, 1.) * step(0., buv.y) * step(buv.y, 1.) * (1. - step(.999999, recordedDepth));
+          vec3 seabed = mix(coastBed * coastAmbient, bottom.rgb, validBed * bottom.a);
+          float reefX = coastReef(p.x);
           if (coastCaustic > .001 && bedDepth < 1.4) {
             // Cells stretched along z, so the view's foreshortening leaves them readable at footer scale.
             float ca = coastCells(bedP * vec2(1.7, 1.05) + vec2(0., coastTime * .06), coastTime * .7);
@@ -245,9 +301,23 @@ function seaShader(material, uniforms) {
             float caustic = (1. - smoothstep(.02, .2, ca)) * .75 + (1. - smoothstep(.02, .16, cb)) * .55;
             seabed *= 1. + caustic * coastCaustic * exp(-bedDepth * 1.5) * smoothstep(.02, .2, bedD);
           }
-          // Beer-Lambert absorption: red fades first, so sand turns aqua, turquoise, then open sea.
-          vec3 transmit = exp(-${vec3(ABSORB)} * (run + bedDepth * ${f(SUN_PATH)}));
-          vec3 water = seabed * transmit + mix(coastDeep, coastShallow, exp(-bedDepth * 1.9)) * (1. - transmit);
+          // Water is a participating volume, not a translucent solid with a skin-SSS term.
+          // Extinction includes absorption and out-scattering. Integrate constant ambient and
+          // one directional source through a homogeneous column (PBRT 4e, chapter 11).
+          vec3 sigma = ${vec3(EXTINCTION)}, scatter = ${vec3(SCATTER)};
+          vec3 sunRay = refract(-coastSunDirection, vec3(0., 1., 0.), ${f(1 / WATER_IOR)});
+          float sunCos = max(-sunRay.y, .25), sunlightPath = bedDepth / sunCos * coastProof.w;
+          float opticalRun = run * coastProof.w;
+          vec3 transmit = exp(-sigma * opticalRun);
+          vec3 water = seabed * transmit * exp(-sigma * sunlightPath) * coastProof.x;
+          vec3 ambientScatter = scatter / sigma * (1. - transmit) * coastAmbient;
+          float mu = clamp(dot(sunRay, -ray), -1., 1.);
+          const float g = .72;
+          float phaseHG = (1. - g*g) / (12.5663706 * pow(1. + g*g - 2.*g*mu, 1.5));
+          float slope = 1. + max(-ray.y, 0.) / sunCos;
+          vec3 sunScatter = scatter * (1. - exp(-sigma * opticalRun * slope)) / (sigma * slope) * coastIrradiance * phaseHG;
+          water += (ambientScatter + sunScatter) * coastProof.y;
+          coastTransmission = water;
           // Surf: crests run shoreward, spacing shrinking as they shoal, and break into lacy whitewater.
           float bend = coastSurfBend(p.x, reefX);
           float w = d + bend;
@@ -264,7 +334,7 @@ function seaShader(material, uniforms) {
           foam = max(foam, shoreFoam * smoothstep(.25, .55, (.5 + .5 * sin(p.x * 3.1 + sin(p.x * .9) * 2. + coastTime * .3)) * .7 + .3));
           foam = max(foam, coastWakes(p));
           coastFoamAmount = clamp(foam * coastFoam, 0., 1.);
-          diffuseColor.rgb = mix(water, vec3(.86, .93, .9), coastFoamAmount);
+          diffuseColor.rgb = vec3(.86, .93, .9);
           diffuseColor.a *= smoothstep(0., .12, d);
           if (diffuseColor.a < .008) discard;
         }`
@@ -285,7 +355,7 @@ function seaShader(material, uniforms) {
           // The mirrored coast. A slope across the view sways it; a slope along the view draws lights into
           // the long streaks rippled water makes, and a few taps along the view soften the rest.
           vec4 rc = coastReflectMatrix * vec4(coastPosition.x, ${f(WATER_LEVEL)}, coastPosition.z, 1.);
-          vec2 ruv = rc.xy / rc.w + coastReflectAxes.xy * coastSlope.x * 1.8 + coastReflectAxes.zw * coastSlope.y * 6.;
+          vec2 ruv = rc.xy / rc.w + coastReflectAxes.xy * coastSlope.x * 1.8 + coastReflectAxes.zw * coastSlope.y * 3.2;
           vec2 along = coastReflectAxes.zw;
           // The mirror leaves the sky clear: water near the beach mirrors the low sky, nearer water the
           // sky higher up, as a perspective view would.
@@ -300,11 +370,12 @@ function seaShader(material, uniforms) {
             hot += max(textureLod(coastReflection, ruv + along * reach, 0.).rgb - coastHot, 0.) * (1.1 - float(i) * .2);
             hot += max(textureLod(coastReflection, ruv - along * reach * .55, 0.).rgb - coastHot, 0.) * (1. - float(i) * .2);
           }
-          // Schlick's Fresnel, normalized to the flat surface's view so the theme sets the overall strength.
-          // Lights keep their own strength: at night the coast's walls reflect dimly, its lamps brightly.
-          float level = pow(1. - clamp(coastView.y, 0., 1.), 5.);
-          float facing = (.55 + .45 * pow(1. - clamp(dot(coastNormal, coastView), 0., 1.), 5.) / max(level, .001)) * (1. - coastFoamAmount);
-          outgoingLight = mix(outgoingLight, mirrored, clamp(coastReflect * facing, 0., .9)) + hot * coastGlow * .22 * facing;
+          // A dielectric surface reflects about 2% head-on and more at grazing angles. The
+          // previous view-normalized boost made most of the water a 90%-strength mirror.
+          const float f0 = ${f(((WATER_IOR - 1) / (WATER_IOR + 1)) ** 2)};
+          float facing = (f0 + (1. - f0) * pow(1. - clamp(dot(coastNormal, coastView), 0., 1.), 5.)) * (1. - coastFoamAmount) * coastProof.z;
+          outgoingLight = mix(coastTransmission, outgoingLight, coastFoamAmount);
+          outgoingLight = mix(outgoingLight, mirrored, facing) + hot * coastGlow * .22 * facing;
           // Glitter paths of the fire and the pier lamps: each light's mirror point stretched into a long
           // streak toward the viewer, lit only on ripple facets tilted back toward the light.
           float glitter = 0.;
@@ -317,7 +388,7 @@ function seaShader(material, uniforms) {
             float path = exp(-dx * dx) * exp(-dz * dz / (dz > 0. ? 3.2 : .45));
             glitter += path * g.z * (.3 + .7 * smoothstep(-.02, .09, coastSlope.y + .025 * sin(coastPosition.x * 23. + coastTime * 2.6)));
           }
-          outgoingLight += coastGlintColor * glitter * (1. - coastFoamAmount) * smoothstep(.15, .45, coastDepth);
+          outgoingLight += coastGlintColor * glitter * (1. - coastFoamAmount) * smoothstep(.15, .45, coastDepth) * coastProof.z;
           // The setting sun's glitter path: a column of sparkle beneath it that broadens toward the viewer,
           // lit on ripple facets tilted back toward the light, from where the land stops shading the sea.
           vec2 frag = gl_FragCoord.xy / coastResolution;
@@ -326,7 +397,7 @@ function seaShader(material, uniforms) {
             float dx = (frag.x - coastSun.x) / spread;
             float facets = smoothstep(.02, .11, coastSlope.y + .03 * sin(coastPosition.x * 31. + coastTime * 3.1) + .02 * sin(coastPosition.z * 17. - coastTime * 2.3));
             // A soft sheen under the sparkle, so the path reads as one road of light.
-            outgoingLight += coastSunColor * (exp(-dx * dx) * (.22 + 1.7 * facets) + exp(-dx * dx * .1) * .1) * coastSun.z * smoothstep(.15, .9, coastDepth) * (1. - coastFoamAmount);
+            outgoingLight += coastSunColor * (exp(-dx * dx) * (.22 + 1.7 * facets) + exp(-dx * dx * .1) * .1) * coastSun.z * smoothstep(.15, .9, coastDepth) * (1. - coastFoamAmount) * coastProof.z;
           }
           // The marine layer: soft wisps drifting low over the water, lit by the hour; while the sun shows,
           // light shafts fan through them from it. Sine fields, so the shader stays quick to compile.
@@ -393,6 +464,7 @@ export function mirrorMatrix(mirror, out = new THREE.Matrix4()) {
 
 export function createCoastWater(renderer, { clock, miniature = false, profile = [] } = {}) {
   const sea = miniature ? SEAS.miniature() : SEAS.footer(profile);
+  const bottom = createBottom(sea);
   const material = new THREE.MeshStandardMaterial({
     color: 0x337e90,
     roughness: 0.3,
@@ -415,13 +487,9 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     glints = new Float32Array(16);
   const uniforms = {
     coastTime: clock,
-    coastDeep: { value: new THREE.Color(0x337e90) },
-    coastShallow: { value: new THREE.Color(0x3fc4cc) },
     // Linear albedos: a cool wet sand close to the authored tidal sand (la-jolla.glb) and a dark, weedy reef stone.
     coastBed: { value: new THREE.Color().setRGB(0.62, 0.61, 0.53) },
-    coastRock: { value: new THREE.Color().setRGB(0.16, 0.15, 0.1) },
     coastCaustic: { value: 1 },
-    coastReflect: { value: 0.2 },
     coastFoam: { value: 1 },
     coastHot: { value: 1.4 },
     coastGlow: { value: 0.4 },
@@ -445,6 +513,17 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     coastReflection: { value: target.texture },
     coastReflectMatrix: { value: new THREE.Matrix4() },
     coastReflectAxes: { value: new THREE.Vector4() },
+    coastBottom: { value: bottom.target.texture },
+    coastBottomDepth: { value: bottom.target.depthTexture },
+    coastBottomRelief: { value: bottom.heights },
+    coastBottomMap: { value: bottom.mapping },
+    coastBottomMax: { value: bottom.relief.range[1] },
+    coastBottomMatrix: { value: new THREE.Matrix4() },
+    coastBedSteps: { value: 14 },
+    coastSunDirection: { value: new THREE.Vector3(-0.2, 0.8, 0.55).normalize() },
+    coastIrradiance: { value: new THREE.Color(0xfff4d5).multiplyScalar(2.6) },
+    coastAmbient: { value: new THREE.Color(0xddebf1).multiplyScalar(1.15 / Math.PI) },
+    coastProof: { value: new THREE.Vector4(1, 1, 1, 1) },
     coastShoreline: { value: shorelineTexture(sea) },
     ...seaUniforms(sea),
   };
@@ -524,28 +603,60 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     rendered = { width, height };
   }
 
+  function renderBottom(camera, size) {
+    const started = performance.now();
+    const width = Math.max(1, Math.round(size.x)),
+      height = Math.max(1, Math.round(size.y));
+    if (bottom.target.width !== width || bottom.target.height !== height) bottom.target.setSize(width, height);
+    mirrorMatrix(camera, uniforms.coastBottomMatrix.value);
+    const previousTarget = renderer.getRenderTarget(),
+      previousAlpha = renderer.getClearAlpha();
+    renderer.getClearColor(clearColor);
+    try {
+      renderer.setRenderTarget(bottom.target);
+      renderer.setClearColor(0x000000, 0);
+      renderer.clear(true, true, false);
+      renderer.render(bottom.scene, camera);
+      bottom.renders++;
+    } finally {
+      renderer.setRenderTarget(previousTarget);
+      renderer.setClearColor(clearColor, previousAlpha);
+      bottom.submissionMs = performance.now() - started;
+    }
+  }
+
   return {
     mesh,
     material,
+    // No visitor-facing control: scene.mjs exposes this only to automation for matched ablations.
+    setProof({ bottom = 1, scattering = 1, reflection = 1, depth = 1 } = {}) {
+      uniforms.coastProof.value.set(...[bottom, scattering, reflection, depth].map((v) => THREE.MathUtils.clamp(v, 0, 1)));
+    },
     // Objects that never appear in the mirror (people, boards).
     exclude(objects) {
       for (const object of objects) if (object) excluded.add(object);
     },
-    setTheme(theme) {
+    setTheme(theme, { direction = [-0.2, 0.8, 0.55] } = {}) {
       // The mirror holds the lit coast: redraw it only when the light it was drawn under changed.
       const signature = JSON.stringify(theme, (key, value) => (typeof value === "number" ? Math.round(value * 1000) : value));
       if (signature !== lastTheme) schedule.invalidate();
       lastTheme = signature;
       uniforms.coastFog.value = theme.fog ?? 0;
       uniforms.coastFogColor.value.set(theme.fogColor ?? 0xf2f0ea);
-      uniforms.coastDeep.value.set(theme.deep);
-      uniforms.coastShallow.value.set(theme.shallow);
       uniforms.coastSkyNear.value.set(theme.mirror);
       uniforms.coastSkyFar.value.set(theme.mirrorFar ?? theme.mirror);
       uniforms.coastCaustic.value = theme.caustic;
-      uniforms.coastReflect.value = theme.reflect;
       uniforms.coastGlow.value = theme.glow;
       uniforms.coastFoam.value = theme.foam;
+      bottom.key.color.set(theme.sun);
+      bottom.key.intensity = theme.key;
+      bottom.key.position.set(...direction).multiplyScalar(20);
+      bottom.sky.color.set(theme.sky);
+      bottom.sky.groundColor.set(theme.ground);
+      bottom.sky.intensity = theme.fill;
+      uniforms.coastSunDirection.value.set(...direction).normalize();
+      uniforms.coastIrradiance.value.set(theme.sun).multiplyScalar(theme.key);
+      uniforms.coastAmbient.value.set(theme.sky).multiplyScalar(theme.fill / Math.PI);
       // Lit windows and lamps outshine the night; by day only a much brighter highlight would streak,
       // so one pair of long taps suffices.
       uniforms.coastHot.value = 1.6 - theme.night * 1.15;
@@ -588,11 +699,26 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
       uniforms.coastView.value.setFromMatrixColumn(camera.matrixWorld, 2).normalize();
       uniforms.coastResolution.value.copy(size);
       if (changed(camera, size)) schedule.invalidate();
-      if (schedule.due(live)) renderReflection(scene, camera, size);
+      if (schedule.due(live)) {
+        renderBottom(camera, size);
+        renderReflection(scene, camera, size);
+      }
     },
     evidence() {
       return {
         sea: sea.name,
+        proof: uniforms.coastProof.value.toArray(),
+        bottom: {
+          vertices: bottom.relief.depths.length,
+          triangles: bottom.relief.indices.length / 3,
+          depthRange: bottom.relief.range.map((v) => +v.toFixed(4)),
+          renders: bottom.renders,
+          width: bottom.target.width,
+          height: bottom.target.height,
+          depthTexture: Boolean(bottom.target.depthTexture),
+          cpuBuildMs: +bottom.cpuBuildMs.toFixed(3),
+          lastSubmissionMs: +bottom.submissionMs.toFixed(3),
+        },
         reflection: { renders: schedule.renders, pending: schedule.dirty, ...rendered },
         caustics: uniforms.coastCaustic.value,
         wakes: moverPower.filter((power) => power > 0.01).length,
@@ -604,6 +730,10 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
       material.dispose();
       target.dispose();
       uniforms.coastShoreline.value.dispose();
+      bottom.geometry.dispose();
+      bottom.material.dispose();
+      bottom.heights.dispose();
+      bottom.target.dispose();
     },
   };
 }

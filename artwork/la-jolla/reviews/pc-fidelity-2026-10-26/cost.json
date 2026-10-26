@@ -1,0 +1,3586 @@
+{
+  "at": "2026-10-26T12:05:21.976Z",
+  "baseline": "4b77a54d9",
+  "method": "Complete bare footer, noon, live motion, native ANGLE/D3D11; three interleaved pairs per viewport; fresh contexts in one browser process; 24 actually drawn callbacks each. GPU EXT_disjoint_timer_query_webgl2 covers submitted GL work, not later compositor/presentation or retained-buffer copies. Only owned GPU jobs were quiet; concurrent CPU work and other PC apps uncontrolled. Viewport emulation is not physical phone performance.",
+  "sources": {
+    "baseline": {
+      "assets/js/footer-coast/assets.mjs": "b681c6357c2f6bf221789cd57bca0b586e255fa66ccad5302f3ccd5e1173b784",
+      "assets/js/footer-coast/atmosphere.mjs": "cef9dc7fa6a4874b6ab0e74747703234b7cf142c1f51c0e4e257df065df80404",
+      "assets/js/footer-coast/entry.mjs": "e4576eeee59939ecf40998c1a0e1fe70c6007d451d6be78effb2e5c350bae0c2",
+      "assets/js/footer-coast/marine-layer.mjs": "a2f9dcf02407873c35bc7866d8b3d7279ad68cefdd53e1dc63f442aaae8c0a93",
+      "assets/js/footer-coast/people-pose.mjs": "6fe5ea31b16b7a2219bdd98424527a04277dcae1c1d479bf8a31393fd34eae66",
+      "assets/js/footer-coast/people.mjs": "ea242065c3592ef59a3dd9d402a9c00ea9b8951dc1df68e2f09108dda9a0cf19",
+      "assets/js/footer-coast/scene.mjs": "8b3a67c81a3936e455dc1175e4d97d87adeca2a40c726e69532da0aec006fabb",
+      "assets/js/footer-coast/sky-look.mjs": "0f3793fce8ef94a91394c9bd98c5eeaa78f7e9e0b8f33604ec7c68bf1858dc9a",
+      "assets/js/footer-coast/sky.mjs": "23e149e1abf1f246654eadf51404a6e1faf2c5908bbbe5219d626ab98d2dc7fc",
+      "assets/js/footer-coast/skyline-data.mjs": "2545434808abeda3b1f792a103fb07bd9efed759670cf3d0dff5229a6d1737b9",
+      "assets/js/footer-coast/skyline.mjs": "3b0f9fff350aa5cfba070a542c184eb3e21565e1f51502ccf98556a327b2818c",
+      "assets/js/footer-coast/water-optics.mjs": "a51c846259ccdae2bd5d161195cd57250cbd6231e78f883a3558544304589bc5",
+      "assets/js/footer-coast/water.mjs": "87fd2866bca97475c442dcd1d82c71bd6f6f7a20891026fb44947e3ef88fe861",
+      "assets/js/footer-coast/wave-motion.mjs": "9e2d7f7d3e9ba2d5d0a676d530f89bcb23841001b0ccf0a038b812a3fdc03370",
+      "assets/models/la-jolla/hills.png": "87230a4684e6b0314dd5281d550ef0efba4557449a648e55008a28ee0a100173"
+    },
+    "candidate": {
+      "assets/js/footer-coast/assets.mjs": "0a224f59858cd8b2bbe1bda66b8c84a75fbbddad497b0832413e5ed88ccd331f",
+      "assets/js/footer-coast/atmosphere.mjs": "c3c5d4d1bc1bc7fcf6c656ebef5f1adfa43dcde0ca053ee5ccb0a23edc0a9947",
+      "assets/js/footer-coast/entry.mjs": "2d2dc4a83f312c4419fc0de2071b44d118fee6dbfaa8ed2fe7bef89b5d52c0e2",
+      "assets/js/footer-coast/marine-layer.mjs": "351f9ec6b13fa3c8f68ca0808beeeca5ee37bc8e42aa6fde3f4e7f9e21627e8f",
+      "assets/js/footer-coast/people-pose.mjs": "532a1f488a938b5db3f74589d52f2814e701d228ac327268d2139d1d3bf4be1a",
+      "assets/js/footer-coast/people.mjs": "aa2bc438620a86370d8afd16f1bd3c8a7a32e8c32f27b7edaee027720879f3a1",
+      "assets/js/footer-coast/scene.mjs": "84e0ac639b031eedd0ce403ae77e834a9ffe7e1587199d1f8428b3511593c195",
+      "assets/js/footer-coast/sky-look.mjs": "4691baef69db1da42d22fda0524342de84ac1b4ea59316fbbb36bad778d40d43",
+      "assets/js/footer-coast/sky.mjs": "e535bb4932332339f4c336ee8311bb1cd68f722dab11fdd4504bdf74ec842580",
+      "assets/js/footer-coast/skyline-data.mjs": "75a6efe0ba07be28bea101873cb83bd6b24edcb4cc32a388bb5d2d9ad03ae04d",
+      "assets/js/footer-coast/skyline.mjs": "885c249d07bf654cf1afcdc31108b0b6c158a075c3930a80accd869bd10e94f8",
+      "assets/js/footer-coast/water-optics.mjs": "0009cdbe0e20a011ed2d0afb77de09f2bbe00facd49cf5d96e04fb275f317936",
+      "assets/js/footer-coast/water.mjs": "2e683c63d1d1c123a4587c46a3ff97788175acd951f085b90977373c5a9f43cb",
+      "assets/js/footer-coast/wave-motion.mjs": "d8beb51ab1e1b78541a945d44a1a29d9d374230b9fe221836ea63674314016c9",
+      "assets/js/footer-coast/bed-relief.mjs": "237a77c5c86a9330113433b1a71f051ac8cdae940f74167da2df717f859a9039",
+      "assets/models/la-jolla/hills.png": "071eef43c30605b340ff980130b8fcafe4c461b28e390a657a5147c367061b5e"
+    }
+  },
+  "runs": [
+    {
+      "width": 2560,
+      "variant": "baseline",
+      "firstReadyWallMs": 1184,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 2560,
+        "height": 480,
+        "cssWidth": 2560,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": false,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 4.299999997019768,
+          "draws": 324,
+          "callbackGapMs": null,
+          "gpuMs": 3.264512
+        },
+        {
+          "cpuMs": 3.4000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 1.180672
+        },
+        {
+          "cpuMs": 3.5,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.477056
+        },
+        {
+          "cpuMs": 2.6000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 1.289216
+        },
+        {
+          "cpuMs": 4.100000008940697,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.483328
+        },
+        {
+          "cpuMs": 3.0999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.505728
+        },
+        {
+          "cpuMs": 3.0999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.4864
+        },
+        {
+          "cpuMs": 2.8999999910593033,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.922496
+        },
+        {
+          "cpuMs": 3.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.47616
+        },
+        {
+          "cpuMs": 2.3999999910593033,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 3.34336
+        },
+        {
+          "cpuMs": 3.3999999910593033,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.783232
+        },
+        {
+          "cpuMs": 3.5,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.48128
+        },
+        {
+          "cpuMs": 2.9000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 2.486272
+        },
+        {
+          "cpuMs": 2.4000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 1.806336
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.484352
+        },
+        {
+          "cpuMs": 3.3999999910593033,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.479232
+        },
+        {
+          "cpuMs": 3,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.944448
+        },
+        {
+          "cpuMs": 2.9000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.480256
+        },
+        {
+          "cpuMs": 3.1000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.480256
+        },
+        {
+          "cpuMs": 2.8999999910593033,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.482304
+        },
+        {
+          "cpuMs": 3.5,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 2.10432
+        },
+        {
+          "cpuMs": 2.9000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.475136
+        },
+        {
+          "cpuMs": 3.7000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 6.10304
+        },
+        {
+          "cpuMs": 2.1000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.477184
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 29,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 1.2769999999910593,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 1.2769999999910593,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1587,
+            "height": 89
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 8.7,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 188,
+          "textures": 14
+        },
+        "framing": {
+          "width": 77.33333333333333,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.299999999999955,
+        "cpuP50": 3.0999999940395355,
+        "cpuP75": 3.5,
+        "gpuP50": 1.289216,
+        "gpuP75": 2.783232,
+        "drawsP50": 324
+      }
+    },
+    {
+      "width": 2560,
+      "variant": "candidate",
+      "firstReadyWallMs": 1122,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 2560,
+        "height": 480,
+        "cssWidth": 2560,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": true,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 4,
+          "draws": 324,
+          "callbackGapMs": null,
+          "gpuMs": 9.155584
+        },
+        {
+          "cpuMs": 4,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 1.467392
+        },
+        {
+          "cpuMs": 2.300000011920929,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 2.197504
+        },
+        {
+          "cpuMs": 2.6000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 4.606976
+        },
+        {
+          "cpuMs": 2.9000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.333696
+        },
+        {
+          "cpuMs": 3.5999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 2.65216
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 1.680384
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 5.296128
+        },
+        {
+          "cpuMs": 3,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 9.4464
+        },
+        {
+          "cpuMs": 3.2000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 4.860928
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 2.8672
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.19999999999982,
+          "gpuMs": 2.835456
+        },
+        {
+          "cpuMs": 3.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 1.94048
+        },
+        {
+          "cpuMs": 3.0999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.393088
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.372608
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 1.337344
+        },
+        {
+          "cpuMs": 2.9000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 2.64704
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 3.004416
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.238464
+        },
+        {
+          "cpuMs": 2.1000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.565568
+        },
+        {
+          "cpuMs": 3.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 1.711104
+        },
+        {
+          "cpuMs": 2.6000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.081216
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 2.675712
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.19999999999982,
+          "gpuMs": 3.753984
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 29,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 1.3353999999850987,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 1.3353999999850987,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 2560,
+            "height": 480,
+            "depthTexture": true,
+            "cpuBuildMs": 41.5,
+            "lastSubmissionMs": 23.7
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1587,
+            "height": 89
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 10,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 189,
+          "textures": 17
+        },
+        "framing": {
+          "width": 77.33333333333333,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.299999999999955,
+        "cpuP50": 2.7999999970197678,
+        "cpuP75": 3.2000000029802322,
+        "gpuP50": 2.675712,
+        "gpuP75": 3.753984,
+        "drawsP50": 324
+      }
+    },
+    {
+      "width": 2560,
+      "variant": "candidate",
+      "firstReadyWallMs": 733,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 2560,
+        "height": 480,
+        "cssWidth": 2560,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": true,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 3.7000000029802322,
+          "draws": 324,
+          "callbackGapMs": null,
+          "gpuMs": 5.076992
+        },
+        {
+          "cpuMs": 2.7000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.969024
+        },
+        {
+          "cpuMs": 3,
+          "draws": 324,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 1.722368
+        },
+        {
+          "cpuMs": 3.7000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 8.530944
+        },
+        {
+          "cpuMs": 2.8999999910593033,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.521088
+        },
+        {
+          "cpuMs": 3.199999988079071,
+          "draws": 324,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 3.122176
+        },
+        {
+          "cpuMs": 3.699999988079071,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 3.382272
+        },
+        {
+          "cpuMs": 3.300000011920929,
+          "draws": 324,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 2.8928
+        },
+        {
+          "cpuMs": 2.1000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.200000000000045,
+          "gpuMs": 2.312192
+        },
+        {
+          "cpuMs": 2.1000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.866304
+        },
+        {
+          "cpuMs": 2.199999988079071,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 2.276352
+        },
+        {
+          "cpuMs": 4.700000002980232,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 4.880384
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.115584
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 2.659328
+        },
+        {
+          "cpuMs": 2,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.5088
+        },
+        {
+          "cpuMs": 4.299999997019768,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 1.907712
+        },
+        {
+          "cpuMs": 2.4000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 3.258368
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 3.16928
+        },
+        {
+          "cpuMs": 2.3999999910593033,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.390464
+        },
+        {
+          "cpuMs": 3.0999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 1.83296
+        },
+        {
+          "cpuMs": 2.5999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 11.505664
+        },
+        {
+          "cpuMs": 2.199999988079071,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 3.28192
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 1.994752
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 8.438784
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 30,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 0.9147000000059607,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 0.9147000000059607,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 2560,
+            "height": 480,
+            "depthTexture": true,
+            "cpuBuildMs": 44.6,
+            "lastSubmissionMs": 9.3
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1587,
+            "height": 89
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 8.4,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 189,
+          "textures": 17
+        },
+        "framing": {
+          "width": 77.33333333333333,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.30000000000018,
+        "cpuP50": 2.7000000029802322,
+        "cpuP75": 3.300000011920929,
+        "gpuP50": 3.122176,
+        "gpuP75": 3.969024,
+        "drawsP50": 324
+      }
+    },
+    {
+      "width": 2560,
+      "variant": "baseline",
+      "firstReadyWallMs": 554,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 2560,
+        "height": 480,
+        "cssWidth": 2560,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": false,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 3.300000011920929,
+          "draws": 324,
+          "callbackGapMs": null,
+          "gpuMs": 4.128768
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 1.590272
+        },
+        {
+          "cpuMs": 3.0999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 1.353728
+        },
+        {
+          "cpuMs": 2,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 4.16768
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 2.940928
+        },
+        {
+          "cpuMs": 2,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 3.301376
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 1.488896
+        },
+        {
+          "cpuMs": 5.799999997019768,
+          "draws": 324,
+          "callbackGapMs": 33.19999999999993,
+          "gpuMs": 0.750592
+        },
+        {
+          "cpuMs": 3.8999999910593033,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 4.011008
+        },
+        {
+          "cpuMs": 2.1000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.286592
+        },
+        {
+          "cpuMs": 3.5,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.478528
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 7.770112
+        },
+        {
+          "cpuMs": 3.5999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 11.177984
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 7.446528
+        },
+        {
+          "cpuMs": 2.5999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 2.838528
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.07712
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.7632
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 2.330624
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 4.487168
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.702336
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 2.739904
+        },
+        {
+          "cpuMs": 2.300000011920929,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.8656
+        },
+        {
+          "cpuMs": 1.5999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.490816
+        },
+        {
+          "cpuMs": 2.199999988079071,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 3.23584
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 28,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 0.8360000000119212,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 0.8360000000119212,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1587,
+            "height": 89
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 7.6,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 188,
+          "textures": 14
+        },
+        "framing": {
+          "width": 77.33333333333333,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.299999999999955,
+        "cpuP50": 2.2999999970197678,
+        "cpuP75": 3.0999999940395355,
+        "gpuP50": 3.301376,
+        "gpuP75": 4.128768,
+        "drawsP50": 324
+      }
+    },
+    {
+      "width": 2560,
+      "variant": "baseline",
+      "firstReadyWallMs": 546,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 2560,
+        "height": 480,
+        "cssWidth": 2560,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": false,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 3.5,
+          "draws": 324,
+          "callbackGapMs": null,
+          "gpuMs": 3.857408
+        },
+        {
+          "cpuMs": 3,
+          "draws": 324,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 1.071104
+        },
+        {
+          "cpuMs": 2.7000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.19999999999993,
+          "gpuMs": 2.2528
+        },
+        {
+          "cpuMs": 4.4000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.5,
+          "gpuMs": 8.651776
+        },
+        {
+          "cpuMs": 3.300000011920929,
+          "draws": 324,
+          "callbackGapMs": 33.200000000000045,
+          "gpuMs": 2.44224
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 2.737152
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 10.966016
+        },
+        {
+          "cpuMs": 2.5999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 4.846592
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 3.600384
+        },
+        {
+          "cpuMs": 3.1000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 1.7152
+        },
+        {
+          "cpuMs": 2.3999999910593033,
+          "draws": 324,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.594944
+        },
+        {
+          "cpuMs": 2,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.531776
+        },
+        {
+          "cpuMs": 2.6000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 3.746816
+        },
+        {
+          "cpuMs": 3.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.842752
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 3.064832
+        },
+        {
+          "cpuMs": 2.6000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.505728
+        },
+        {
+          "cpuMs": 3.0999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 1.39776
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 2.988032
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.19999999999982,
+          "gpuMs": 4.852736
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.863232
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.331648
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 3.06176
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.581952
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 3.764224
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 28,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 0.8354000000000003,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 0.8354000000000003,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1587,
+            "height": 89
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 8.3,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 188,
+          "textures": 14
+        },
+        "framing": {
+          "width": 77.33333333333333,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.30000000000007,
+        "cpuP50": 2.5999999940395355,
+        "cpuP75": 3.0999999940395355,
+        "gpuP50": 3.06176,
+        "gpuP75": 3.764224,
+        "drawsP50": 324
+      }
+    },
+    {
+      "width": 2560,
+      "variant": "candidate",
+      "firstReadyWallMs": 736,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 2560,
+        "height": 480,
+        "cssWidth": 2560,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": true,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 4.200000002980232,
+          "draws": 324,
+          "callbackGapMs": null,
+          "gpuMs": 14.934016
+        },
+        {
+          "cpuMs": 4.100000008940697,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 1.076224
+        },
+        {
+          "cpuMs": 5.0999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 1.155072
+        },
+        {
+          "cpuMs": 3.2000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.570688
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.67104
+        },
+        {
+          "cpuMs": 2,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 2.849792
+        },
+        {
+          "cpuMs": 3.5,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 1.015808
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.477824
+        },
+        {
+          "cpuMs": 2.1000000089406967,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 2.895872
+        },
+        {
+          "cpuMs": 1.7000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 3.07712
+        },
+        {
+          "cpuMs": 2.9000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 7.820288
+        },
+        {
+          "cpuMs": 2.7000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.19999999999982,
+          "gpuMs": 0.488448
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 324,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 2.58048
+        },
+        {
+          "cpuMs": 2.300000011920929,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 2.06848
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 3.729408
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 1.303552
+        },
+        {
+          "cpuMs": 3.2999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 1.494016
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 10.166272
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 1.012736
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 9.22624
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 324,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 1.3056
+        },
+        {
+          "cpuMs": 2.699999988079071,
+          "draws": 324,
+          "callbackGapMs": 33.200000000000045,
+          "gpuMs": 10.29632
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 324,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 2.85696
+        },
+        {
+          "cpuMs": 2.699999988079071,
+          "draws": 324,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.493568
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 30,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 0.9106999999940396,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 0.9106999999940396,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 2560,
+            "height": 480,
+            "depthTexture": true,
+            "cpuBuildMs": 43.9,
+            "lastSubmissionMs": 11.6
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1587,
+            "height": 89
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 7.8,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 189,
+          "textures": 17
+        },
+        "framing": {
+          "width": 77.33333333333333,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.299999999999955,
+        "cpuP50": 2.699999988079071,
+        "cpuP75": 3.2000000029802322,
+        "gpuP50": 2.849792,
+        "gpuP75": 3.729408,
+        "drawsP50": 324
+      }
+    },
+    {
+      "width": 390,
+      "variant": "baseline",
+      "firstReadyWallMs": 729,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 390,
+        "height": 480,
+        "cssWidth": 390,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": false,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": null,
+          "gpuMs": 2.284544
+        },
+        {
+          "cpuMs": 1.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.180224
+        },
+        {
+          "cpuMs": 2,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.178176
+        },
+        {
+          "cpuMs": 1.8999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.181248
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.183296
+        },
+        {
+          "cpuMs": 1.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.180224
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.185344
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.182272
+        },
+        {
+          "cpuMs": 1.699999988079071,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.203776
+        },
+        {
+          "cpuMs": 2,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.192288
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.180224
+        },
+        {
+          "cpuMs": 2.4000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.18432
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.180224
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.1792
+        },
+        {
+          "cpuMs": 2.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.182272
+        },
+        {
+          "cpuMs": 1.4000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.192512
+        },
+        {
+          "cpuMs": 2.3999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.200000000000045,
+          "gpuMs": 0.180224
+        },
+        {
+          "cpuMs": 1.4000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.182272
+        },
+        {
+          "cpuMs": 1.800000011920929,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 1.699999988079071,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.180224
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.180224
+        },
+        {
+          "cpuMs": 1.5,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.183296
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 31,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 0.93999999999702,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 0.93999999999702,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 242,
+            "height": 117
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 8,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 156,
+          "textures": 14
+        },
+        "framing": {
+          "width": 21,
+          "height": 25.846153846153847,
+          "center": [5.1, 2, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.30000000000007,
+        "cpuP50": 2,
+        "cpuP75": 2.2999999970197678,
+        "gpuP50": 0.182272,
+        "gpuP75": 0.18944,
+        "drawsP50": 200
+      }
+    },
+    {
+      "width": 390,
+      "variant": "candidate",
+      "firstReadyWallMs": 731,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 390,
+        "height": 480,
+        "cssWidth": 390,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": true,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 2.4000000059604645,
+          "draws": 200,
+          "callbackGapMs": null,
+          "gpuMs": 0.182272
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 3.199999988079071,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 1.8999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.192512
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 1.6000000089406967,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.19999999999993,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 2,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.193536
+        },
+        {
+          "cpuMs": 1.3999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.192512
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.200000000000045,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.192512
+        },
+        {
+          "cpuMs": 1.8999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.185344
+        },
+        {
+          "cpuMs": 2,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.187392
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.191488
+        },
+        {
+          "cpuMs": 2.4000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 2.6000000089406967,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.193536
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 1.699999988079071,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 1.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.196608
+        },
+        {
+          "cpuMs": 2.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 2.199999988079071,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.196608
+        },
+        {
+          "cpuMs": 1.5,
+          "draws": 200,
+          "callbackGapMs": 33.19999999999982,
+          "gpuMs": 0.196608
+        },
+        {
+          "cpuMs": 1.5,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.191488
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 31,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 0.9324000000059608,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 0.9324000000059608,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 390,
+            "height": 480,
+            "depthTexture": true,
+            "cpuBuildMs": 43.4,
+            "lastSubmissionMs": 11.1
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 242,
+            "height": 117
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 8.7,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 157,
+          "textures": 17
+        },
+        "framing": {
+          "width": 21,
+          "height": 25.846153846153847,
+          "center": [5.1, 2, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.30000000000007,
+        "cpuP50": 2,
+        "cpuP75": 2.4000000059604645,
+        "gpuP50": 0.190464,
+        "gpuP75": 0.192512,
+        "drawsP50": 200
+      }
+    },
+    {
+      "width": 390,
+      "variant": "candidate",
+      "firstReadyWallMs": 726,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 390,
+        "height": 480,
+        "cssWidth": 390,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": true,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 2.4000000059604645,
+          "draws": 200,
+          "callbackGapMs": null,
+          "gpuMs": 10.947584
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 3.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 2.5999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.19456
+        },
+        {
+          "cpuMs": 4.199999988079071,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.197632
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 3.3999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.193536
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.188416
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 2,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 3.2999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.198656
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.19456
+        },
+        {
+          "cpuMs": 3,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.202464
+        },
+        {
+          "cpuMs": 2.4000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.187392
+        },
+        {
+          "cpuMs": 3.2999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 2.6000000089406967,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 2.4000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.193536
+        },
+        {
+          "cpuMs": 3.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 2.3999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.197632
+        },
+        {
+          "cpuMs": 3,
+          "draws": 200,
+          "callbackGapMs": 33.200000000000045,
+          "gpuMs": 0.200704
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.195584
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.187392
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 31,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 0.9449999999880793,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 0.9449999999880793,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 390,
+            "height": 480,
+            "depthTexture": true,
+            "cpuBuildMs": 43.2,
+            "lastSubmissionMs": 9.7
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 242,
+            "height": 117
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 8,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 157,
+          "textures": 17
+        },
+        "framing": {
+          "width": 21,
+          "height": 25.846153846153847,
+          "center": [5.1, 2, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.30000000000007,
+        "cpuP50": 2.5,
+        "cpuP75": 3.0999999940395355,
+        "gpuP50": 0.190464,
+        "gpuP75": 0.197632,
+        "drawsP50": 200
+      }
+    },
+    {
+      "width": 390,
+      "variant": "baseline",
+      "firstReadyWallMs": 683,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 390,
+        "height": 480,
+        "cssWidth": 390,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": false,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 2.1000000089406967,
+          "draws": 200,
+          "callbackGapMs": null,
+          "gpuMs": 2.945024
+        },
+        {
+          "cpuMs": 3.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.188416
+        },
+        {
+          "cpuMs": 4.299999997019768,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.189248
+        },
+        {
+          "cpuMs": 3.5,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.181248
+        },
+        {
+          "cpuMs": 2.800000011920929,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 2.300000011920929,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.191488
+        },
+        {
+          "cpuMs": 2,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.188416
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.193536
+        },
+        {
+          "cpuMs": 2.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 2.800000011920929,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.187392
+        },
+        {
+          "cpuMs": 2.5999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.19999999999982,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 3.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.183296
+        },
+        {
+          "cpuMs": 2.8999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.187392
+        },
+        {
+          "cpuMs": 1.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.183296
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.18432
+        },
+        {
+          "cpuMs": 3.5,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.185344
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.18432
+        },
+        {
+          "cpuMs": 1.5999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.185344
+        },
+        {
+          "cpuMs": 2.5999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 3.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 1.6000000089406967,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.178176
+        },
+        {
+          "cpuMs": 1.800000011920929,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.177152
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.1792
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 31,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 0.9364000000059608,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 0.9364000000059608,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 242,
+            "height": 117
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 7.9,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 156,
+          "textures": 14
+        },
+        "framing": {
+          "width": 21,
+          "height": 25.846153846153847,
+          "center": [5.1, 2, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.299999999999955,
+        "cpuP50": 2.5999999940395355,
+        "cpuP75": 3.0999999940395355,
+        "gpuP50": 0.186368,
+        "gpuP75": 0.18944,
+        "drawsP50": 200
+      }
+    },
+    {
+      "width": 390,
+      "variant": "baseline",
+      "firstReadyWallMs": 670,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 390,
+        "height": 480,
+        "cssWidth": 390,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": false,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 3.4000000059604645,
+          "draws": 200,
+          "callbackGapMs": null,
+          "gpuMs": 0.202752
+        },
+        {
+          "cpuMs": 4.5,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.185344
+        },
+        {
+          "cpuMs": 4.200000002980232,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.210944
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.188416
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.18432
+        },
+        {
+          "cpuMs": 2.300000011920929,
+          "draws": 200,
+          "callbackGapMs": 33.200000000000045,
+          "gpuMs": 0.182272
+        },
+        {
+          "cpuMs": 2.3999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.187392
+        },
+        {
+          "cpuMs": 2,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.181248
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.181248
+        },
+        {
+          "cpuMs": 2.6000000089406967,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.177152
+        },
+        {
+          "cpuMs": 3.2000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.193536
+        },
+        {
+          "cpuMs": 2.0999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.180224
+        },
+        {
+          "cpuMs": 1.800000011920929,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.181248
+        },
+        {
+          "cpuMs": 2.5,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.185344
+        },
+        {
+          "cpuMs": 2.699999988079071,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.180224
+        },
+        {
+          "cpuMs": 2.4000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.200000000000045,
+          "gpuMs": 0.177152
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.180224
+        },
+        {
+          "cpuMs": 2.8999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 2.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.177152
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.18432
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.19999999999982,
+          "gpuMs": 0.188416
+        },
+        {
+          "cpuMs": 3.1000000089406967,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.182272
+        },
+        {
+          "cpuMs": 2.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.181248
+        },
+        {
+          "cpuMs": 1.8999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.180224
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 32,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 0.9676000000000001,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 0.9676000000000001,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 242,
+            "height": 117
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 7.4,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 156,
+          "textures": 14
+        },
+        "framing": {
+          "width": 21,
+          "height": 25.846153846153847,
+          "center": [5.1, 2, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.299999999999955,
+        "cpuP50": 2.4000000059604645,
+        "cpuP75": 2.8999999910593033,
+        "gpuP50": 0.182272,
+        "gpuP75": 0.188416,
+        "drawsP50": 200
+      }
+    },
+    {
+      "width": 390,
+      "variant": "candidate",
+      "firstReadyWallMs": 724,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "buffer": {
+        "width": 390,
+        "height": 480,
+        "cssWidth": 390,
+        "cssHeight": 480
+      },
+      "contextAttributes": {
+        "alpha": true,
+        "antialias": false,
+        "depth": true,
+        "desynchronized": false,
+        "failIfMajorPerformanceCaveat": false,
+        "powerPreference": "low-power",
+        "premultipliedAlpha": true,
+        "preserveDrawingBuffer": true,
+        "stencil": false,
+        "xrCompatible": false
+      },
+      "timerQuery": true,
+      "disjoint": false,
+      "records": [
+        {
+          "cpuMs": 1.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": null,
+          "gpuMs": 0.185344
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 1.5,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.192512
+        },
+        {
+          "cpuMs": 2,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.18944
+        },
+        {
+          "cpuMs": 1.5,
+          "draws": 200,
+          "callbackGapMs": 33.39999999999998,
+          "gpuMs": 0.185344
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.191488
+        },
+        {
+          "cpuMs": 1.5999999940395355,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000007,
+          "gpuMs": 0.186368
+        },
+        {
+          "cpuMs": 1.5,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.187392
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.200704
+        },
+        {
+          "cpuMs": 1.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.197632
+        },
+        {
+          "cpuMs": 2.2999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.198656
+        },
+        {
+          "cpuMs": 2.2000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 1.9000000059604645,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.198656
+        },
+        {
+          "cpuMs": 1.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.190464
+        },
+        {
+          "cpuMs": 1.3999999910593033,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.196608
+        },
+        {
+          "cpuMs": 1.7000000029802322,
+          "draws": 200,
+          "callbackGapMs": 33.40000000000009,
+          "gpuMs": 0.192512
+        },
+        {
+          "cpuMs": 2,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.193536
+        },
+        {
+          "cpuMs": 1.5,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.187392
+        },
+        {
+          "cpuMs": 1.5,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.193536
+        },
+        {
+          "cpuMs": 1.7999999970197678,
+          "draws": 200,
+          "callbackGapMs": 33.299999999999955,
+          "gpuMs": 0.188416
+        },
+        {
+          "cpuMs": 3,
+          "draws": 200,
+          "callbackGapMs": 33.399999999999864,
+          "gpuMs": 0.196608
+        },
+        {
+          "cpuMs": 2.6000000089406967,
+          "draws": 200,
+          "callbackGapMs": 33.30000000000018,
+          "gpuMs": 0.183296
+        }
+      ],
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 31,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": true,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {
+          "parallax": 0,
+          "orbitX": 0,
+          "orbitY": 0
+        },
+        "elapsed": 0.9406999999970203,
+        "people": {
+          "live": true,
+          "period": "noon",
+          "pose": 0.9406999999970203,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 390,
+            "height": 480,
+            "depthTexture": true,
+            "cpuBuildMs": 42.5,
+            "lastSubmissionMs": 9.9
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 242,
+            "height": 117
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 7.7,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 157,
+          "textures": 17
+        },
+        "framing": {
+          "width": 21,
+          "height": 25.846153846153847,
+          "center": [5.1, 2, 0]
+        }
+      },
+      "errors": [],
+      "summary": {
+        "samples": 24,
+        "callbackGapP50": 33.30000000000007,
+        "cpuP50": 1.7999999970197678,
+        "cpuP75": 2,
+        "gpuP50": 0.190464,
+        "gpuP75": 0.196608,
+        "drawsP50": 200
+      }
+    }
+  ],
+  "sharedInputsSha256": {
+    "assets/models/la-jolla/la-jolla.glb": "1a26a2b07dc4badd93979f2194c281b6bb858ffa4d4a237ac137ed24d0de2c05",
+    "assets/models/la-jolla/miniature.glb": "e4c86068bceeb7bf2f8623f7fc04b69bb1c67b55ac7069719c4dc18fa5b732aa",
+    "assets/models/la-jolla/manifest.json": "438c67f487aba0edbadb574d2f900527a4b7017a6c65c0c6cb1313389fb06578",
+    "assets/js/home-scene/realism.mjs": "d29206aa0ce59c4aff490b3fe2ff9f1ccf84cb25a068673a1a64d9e67c42e5e4",
+    "assets/js/home-scene/model-loader.mjs": "2442bd5a59f8fe927ecc0c415600a0d6af256fe07538d64f47891c5d570d466b",
+    "assets/js/home-scene/camera-motion.mjs": "bb40c1289d623def704511f76514e05471ff6d3362ab5a4cfe6b4c978dcacb0e"
+  }
+}

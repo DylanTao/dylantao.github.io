@@ -77,6 +77,11 @@ export function reefAmount(x) {
 // Absorption per world unit of path. Red goes first, so the sand turns aqua, then turquoise,
 // then the open water's own color takes over.
 export const ABSORB = [2.4, 0.85, 0.62];
+// A homogeneous coastal-water approximation, in the scene's compressed world units. These are
+// authored coefficients, not measurements of today's La Jolla visibility. Extinction includes
+// out-scattering as well as absorption (PBRT, Volume Scattering / Transmittance).
+export const SCATTER = [0.12, 0.32, 0.42];
+export const EXTINCTION = ABSORB.map((a, i) => a + SCATTER[i]);
 
 export function transmittance(path) {
   const p = Math.max(path, 0);
@@ -113,6 +118,15 @@ export function seabedOffset(view, normal, bedDepth) {
 export function schlick(cosTheta, f0 = 0.02) {
   const c = Math.min(Math.max(cosTheta, 0), 1);
   return f0 + (1 - f0) * (1 - c) ** 5;
+}
+
+// Single scattering integrated through a homogeneous water column, for constant incident
+// radiance. Sunlight additionally attenuates on its path down to each sample. The result is a
+// bounded radiance weight; with zero distance it contributes no light.
+export function scatteringIntegral(distance, lightPathSlope = 0) {
+  const d = Math.max(distance, 0),
+    slope = 1 + Math.max(lightPathSlope, 0);
+  return EXTINCTION.map((sigma, i) => (SCATTER[i] * (1 - Math.exp(-sigma * d * slope))) / (sigma * slope));
 }
 
 // Surf: crests travel shoreward and break over the shelf. Their spacing shrinks toward the beach as

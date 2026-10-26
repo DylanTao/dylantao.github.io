@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const { test, expect } = require("@playwright/test");
-const { collectRuntimeErrors, preparePage, stabilizeVisuals } = require("./helpers");
+const { collectRuntimeErrors, preparePage, stabilizeVisuals, screenshotMetrics, screenshotDiffRatio } = require("./helpers");
 const { getPublicBaseURL, publicRouteUrl } = require("./public-routes");
 const { pauseSceneClock, useSoftwareSceneCadence } = require("./scene-clock");
 
@@ -1887,4 +1887,27 @@ test("core pages no longer emit jQuery-style runtime errors", async ({ page }) =
 
   const jqueryFailures = failures.filter((message) => /\$\s*is not defined|lightbox/i.test(message));
   expect(jqueryFailures).toEqual([]);
+});
+
+test("coastal reduced-motion first frame stays painted before any interaction", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await preparePage(page, "afternoon");
+  await page.goto(publicRouteUrl("/projects/la-jolla/"), { waitUntil: "domcontentloaded" });
+  const viewer = page.locator("[data-miniature]").first();
+  await viewer.scrollIntoViewIfNeeded();
+  await expect(viewer).toHaveAttribute("data-state", "ready", { timeout: 60000 });
+  await expect(viewer.locator(".footer-coast__poster")).toBeHidden();
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  const surface = viewer.locator(".footer-coast__scene");
+  const first = await surface.screenshot({ path: testInfo.outputPath("coastal-static-first.png") });
+  const metrics = screenshotMetrics(first);
+  expect(metrics.uniqueColors).toBeGreaterThan(300);
+  expect(metrics.luminanceVariance, "ready must show the model before a pointer or theme redraw").toBeGreaterThan(100);
+  expect(await viewer.evaluate((element) => element.getCoastEvidence().running)).toBe(false);
+  await viewer.evaluate((element) => element.dispatchEvent(new Event("coast:place")));
+  const redrawn = await surface.screenshot({ path: testInfo.outputPath("coastal-static-redrawn.png") });
+  expect(screenshotDiffRatio(first, redrawn), "a deliberate redraw must preserve the same composed still").toBeLessThan(0.02);
+  expect(errors).toEqual([]);
 });

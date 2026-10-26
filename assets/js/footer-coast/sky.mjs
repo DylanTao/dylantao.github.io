@@ -27,8 +27,8 @@ import {
   sunTransmittance,
   DEG,
 } from "./atmosphere.mjs?v=coast-hills-20261024";
-import { HEADLAND, bearingAt, houseLights, skylineAt, skylineStrip, xAtBearing } from "./skyline.mjs?v=coast-hills-20261024";
-import { VIEW_BEARING, lookAt } from "./sky-look.mjs?v=coast-hills-20261024";
+import { HEADLAND, bearingAt, houseLights, skylineAt, skylineStrip, xAtBearing } from "./skyline.mjs?v=coast-hills-20261026";
+import { VIEW_BEARING, lookAt } from "./sky-look.mjs?v=coast-hills-20261026";
 
 // three's ACES input and output matrices, row-major, and their inverses.
 const ACES_IN = [0.59719, 0.35458, 0.04823, 0.076, 0.90834, 0.01566, 0.0284, 0.13383, 0.83777];
@@ -70,8 +70,8 @@ export const HORIZON_Y = -3.4;
 export const DEGREE = 0.5;
 const STRIP = { width: 1024, x0: -96, x1: 96 };
 // The relief image's layout (bin/coastal_skyline.py RELIEF_*).
-const RELIEF = { bearings: 233, rows: 73, low: -0.4, step: 0.08, km: 8 };
-export const RELIEF_URL = new URL("../../models/la-jolla/hills.png?v=coast-hills-20261024", import.meta.url).href;
+const RELIEF = { bearings: 929, bearingStep: 0.25, rows: 147, low: -0.4, step: 0.04, km: 8 };
+export const RELIEF_URL = new URL("../../models/la-jolla/hills.png?v=coast-hills-20261026", import.meta.url).href;
 
 const vertexShader = `
   varying vec2 vScreen;
@@ -176,12 +176,9 @@ const fragmentShader = `
     float edge = fwidth(elevation) * .8 + .002;
     float far = smoothstep(ridge.x + edge, ridge.x - edge, elevation) * more.z;
     if (far > 0.) {
-      vec3 land = texture2D(uRelief, vec2((more.y + .5) / ${RELIEF.bearings}., ((elevation - ${RELIEF.low.toFixed(3)}) / ${RELIEF.step.toFixed(3)} + .5) / ${RELIEF.rows}.)).rgb;
+      vec3 land = texture2D(uRelief, vec2((more.y / ${RELIEF.bearingStep.toFixed(2)} + .5) / ${RELIEF.bearings}., ((elevation - ${RELIEF.low.toFixed(3)}) / ${RELIEF.step.toFixed(3)} + .5) / ${RELIEF.rows}.)).rgb;
       vec2 slope = land.xy * 2. - 1.;
       vec3 normal = vec3(slope, sqrt(max(1. - dot(slope, slope), 0.)));
-      // Toward the bay from this ground (compass east, north, up).
-      float b = radians(more.y);
-      vec3 back = vec3(-sin(b), -cos(b), 0.);
       float km = land.z * ${RELIEF.km.toFixed(1)};
       // The ground's height at this pixel (m), from its elevation angle and distance.
       float height = km * 1000. * tan(radians(max(elevation, 0.))) + 15. + km * km * .0683;
@@ -192,11 +189,9 @@ const fragmentShader = `
       // The coast's light on the slopes; at sunset the Earth's shadow climbs them and the crests keep
       // the glow longest.
       vec3 key = mix(uHillLight, uHillCrest, clamp(height / 250., 0., 1.));
-      // Sunlit slopes and shaded canyons under the coast's key; the open sky lights flatter ground.
-      // A third of the hillside is walls, trees and roofs facing the bay, and rough ground shows
-      // its brightest face (it hides its own shadows) with the sun behind the viewer: the
-      // opposition hot spot that makes hills glow at sunset.
-      float sun = max(dot(normalize(mix(normal, back, .35)), uKey), 0.) * (1. + .9 * pow(max(dot(back, uKey), 0.), 4.)) * 1.3;
+      // Sunlight follows the measured ground normal. The coast's presentation studio does not
+      // illuminate hills kilometres away; canyons retain shade instead of becoming a flat band.
+      float sun = max(dot(normal, uKey), 0.);
       vec3 surface = uAlbedo * (key * sun + uHillSky * (.55 + .45 * normal.z));
       vec3 ground = aces(surface * uSceneExposure);
       // The air between: lit haze along a level path, whose limit is the sky at the horizon.
@@ -231,7 +226,8 @@ const ACES_GLSL = `
     return max(uAcesInInverse * v, 0.) * (.6 / uSceneExposure);
   }`;
 const lightVertex = `
-  attribute vec4 aHouse;     // seed, haze transmittance, size, bearing (degrees)
+  attribute vec4 aHouse;     // seed, haze transmittance, projected footprint width (world), bearing
+  attribute vec2 aBuilding;  // facade height / width from footprint and height, roof form
   uniform float uOn;         // the windows: 0 by day, 1 at night
   uniform float uTime;
   uniform float uTwinkle;
@@ -244,8 +240,14 @@ const lightVertex = `
   varying vec3 vWall;
   varying float vCover;
   varying vec3 vGlow;
+  varying vec2 vAspect;
+  varying float vRoof;
+  varying float vSeed;
   void main() {
     float seed = aHouse.x, b = radians(aHouse.w);
+    vSeed = seed;
+    vRoof = aBuilding.y;
+    vAspect = vec2(1., aBuilding.x) / max(1., aBuilding.x);
     // Walls and roofs face the bay; rough walls glow brightest with the sun behind the viewer.
     vec3 back = vec3(-sin(b), -cos(b), 0.);
     float facing = max(dot(normalize(back + vec3(0., 0., .3)), uKey), 0.) * (1. + .9 * pow(max(dot(back, uKey), 0.), 4.));
@@ -258,20 +260,30 @@ const lightVertex = `
     float flicker = 1. + uTwinkle * .18 * sin(uTime * (1.7 + seed * 2.9) + seed * 40.) * sin(uTime * .63 + seed * 17.);
     // Warm interiors, a few cooler LED porches.
     vGlow = mix(vec3(1., .5, .2), vec3(1., .7, .42), fract(seed * 7.13)) * on * aHouse.y * flicker * .95;
-    gl_PointSize = uPixel * aHouse.z;
+    gl_PointSize = clamp(uPixel * aHouse.z * max(1., aBuilding.x), 1.4, 14.);
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
   }`;
 const lightFragment = `
   varying vec3 vWall;
   varying float vCover;
   varying vec3 vGlow;
+  varying vec2 vAspect;
+  varying float vRoof;
+  varying float vSeed;
   void main() {
-    float r = length(gl_PointCoord * 2. - 1.);
-    float body = 1. - smoothstep(.5, .95, r), window = 1. - smoothstep(.1, .5, r);
+    vec2 q = vec2(gl_PointCoord.x * 2. - 1., 1. - gl_PointCoord.y * 2.) / vAspect;
+    float aa = max(fwidth(q.x), fwidth(q.y)) * .65;
+    float roofline = mix(.72, .9 - abs(q.x) * .4, vRoof);
+    float body = (1. - smoothstep(.9 - aa, .9 + aa, abs(q.x))) * smoothstep(-.85 - aa, -.85 + aa, q.y) * (1. - smoothstep(roofline - aa, roofline + aa, q.y));
+    float paneX = 1. - smoothstep(.18, .35, abs(fract((q.x + .9) / 1.8 * (2. + step(.6, vSeed))) - .5));
+    float paneY = 1. - smoothstep(.16, .34, abs(q.y + .15));
+    float window = paneX * paneY * body;
     float cover = body * vCover;
     if (cover < .004 && dot(vGlow, vGlow) < 1e-6) discard;
     // Premultiplied walls over the hills, the windows' light added on top.
-    gl_FragColor = vec4(vWall * cover + vGlow * (window + .25 * body), cover);
+    vec3 roof = vWall * vec3(.62, .5, .43);
+    vec3 surface = mix(vWall, roof, smoothstep(.25 - aa, .25 + aa, q.y));
+    gl_FragColor = vec4(surface * cover + vGlow * window, cover);
   }`;
 
 function halfFloatTexture(data, width, height) {
@@ -312,20 +324,14 @@ export function skyExposure(reference) {
   return 0.7 / Math.pow(Math.max(reference, 2e-7), 0.85);
 }
 
-// Light on the hills, as three r164 lights the coast's own surfaces under a look (sky-look.mjs):
-// the key's irradiance over pi (the shader turns it by each slope's normal), the hemisphere's, and
-// the studio's soft reflections (scene.mjs reflectionStudio, about 0.48 on average), which do not
-// reach hills two kilometres off at night.
-const STUDIO = [0.46, 0.49, 0.5];
+// Sun and sky on the distant hills under the same look as the coast (sky-look.mjs). The key's
+// irradiance is divided by pi for diffuse ground. The presentation studio around the miniature
+// contributes no illumination to distant terrain.
 export function hillLight(look, out = { key: new THREE.Color(), sky: new THREE.Color() }) {
   out.key.set(look.sun).multiplyScalar(look.key / Math.PI);
   // At night the coast keeps a legible moonlit fill; the hills fall to a silhouette.
   const sky = new THREE.Color(look.sky).multiplyScalar(0.7).add(new THREE.Color(look.ground).multiplyScalar(0.3));
   out.sky.copy(sky).multiplyScalar(((1 - 0.75 * look.night) * look.fill) / Math.PI);
-  const studio = look.env * (1 - 0.85 * look.night);
-  out.sky.r += STUDIO[0] * studio;
-  out.sky.g += STUDIO[1] * studio;
-  out.sky.b += STUDIO[2] * studio;
   return out;
 }
 
@@ -375,11 +381,11 @@ export function createSky({ relief, onLate = null }) {
     uFade: { value: new THREE.Vector2(0.8, 1) },
     // Late-October hills: dry golden grass and chaparral, pale stucco and tile roofs.
     // Chaparral, dry grass and eucalyptus between the houses.
-    uAlbedo: { value: new THREE.Color(0.24, 0.23, 0.18) },
+    uAlbedo: { value: new THREE.Color(0.18, 0.145, 0.095) },
     uHillLight: { value: new THREE.Color(1, 1, 1) },
     uHillCrest: { value: new THREE.Color(1, 1, 1) },
     uHillSky: { value: new THREE.Color(0.3, 0.3, 0.3) },
-    uHaze: { value: new THREE.Vector3(0.22, 0.24, 0.27) },
+    uHaze: { value: new THREE.Vector3(0.11, 0.12, 0.14) },
     uClearAir: { value: new THREE.Vector3(0.0058, 0.0136, 0.0331) },
     uHazeHeight: { value: 0.5 },
     uSceneExposure: { value: 1 },
@@ -400,17 +406,23 @@ export function createSky({ relief, onLate = null }) {
   // The houses on the hills' plane.
   const houses = houseLights();
   const positions = new Float32Array(houses.length * 3),
-    attributes = new Float32Array(houses.length * 4);
+    attributes = new Float32Array(houses.length * 4),
+    footprints = new Float32Array(houses.length * 2);
   houses.forEach((house, i) => {
     const ground = skylineAt(house.bearing);
     const km = house.angle < ground.near + 0.02 ? ground.nearKm : ground.farKm;
     positions.set([house.x, HORIZON_Y + house.angle * DEGREE, HILLS_Z], i * 3);
-    // Haze between the bay and the house, a slightly larger dot for the nearer ones, its bearing.
-    attributes.set([house.seed, Math.exp(-0.3 * km), km < 1.8 ? 1.25 : 1, house.bearing], i * 4);
+    const distance = Math.max(house.distance, 100),
+      widthAngle = (Math.atan2(house.width, distance) * 180) / Math.PI,
+      width = Math.abs(xAtBearing(house.bearing + widthAngle / 2) - xAtBearing(house.bearing - widthAngle / 2)),
+      height = ((Math.atan2(house.height, distance) * 180) / Math.PI) * DEGREE;
+    attributes.set([house.seed, Math.exp(-0.14 * km), width, house.bearing], i * 4);
+    footprints.set([Math.min(1.5, Math.max(0.3, height / Math.max(width, 0.01))), house.roof], i * 2);
   });
   const lightGeometry = new THREE.BufferGeometry();
   lightGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
   lightGeometry.setAttribute("aHouse", new THREE.BufferAttribute(attributes, 4));
+  lightGeometry.setAttribute("aBuilding", new THREE.BufferAttribute(footprints, 2));
   const lightUniforms = {
     uOn: { value: 0 },
     uTime: { value: 0 },
@@ -530,7 +542,7 @@ export function createSky({ relief, onLate = null }) {
       build(altitude);
       uniforms.uSkyWeight.value = weight;
       // The midday haze over the hills thins toward evening as the sea breeze dies.
-      const hazy = 0.24 + 0.12 * smooth(4, 20, altitude);
+      const hazy = 0.1 + 0.05 * smooth(4, 20, altitude);
       uniforms.uHaze.value.set(hazy * 0.92, hazy, hazy * 1.12);
       uniforms.uPage.value.copy(page);
       uniforms.uSceneExposure.value = look.exposure;
@@ -581,7 +593,7 @@ export function createSky({ relief, onLate = null }) {
       // sky over the hills keeps its color and no line marks where the page begins.
       const horizon = -(uniforms.uMapE.value.z + uniforms.uMapE.value.x * 0.5) / uniforms.uMapE.value.y;
       uniforms.uFade.value.set(horizon + (1 - horizon) * 0.5, 1);
-      lightUniforms.uPixel.value = Math.max(1.6, Math.min(2.6, height / 150)) * Math.min(devicePixelRatio, 1.5);
+      lightUniforms.uPixel.value = (height / Math.max(camera.top - camera.bottom, 1)) * Math.min(devicePixelRatio, 1.5);
       if (sunState) {
         const x = xAtBearing(sunState.azimuth);
         const apparent = sunState.altitude + refraction(sunState.altitude * DEG) / DEG;

@@ -1,0 +1,1148 @@
+{
+  "baseline": "4b77a54d9cda04d81ed416f38a7d4d999970753e",
+  "candidateParent": "b6b707a4e670433c4e2d4e1597d71052c5ce6bf3",
+  "method": "Complete built page; only footer modules and hill relief are source-routed to the pinned before/after variants. Every model, texture, font and page asset remains available. Fixed theme anchors, reduced motion, same page foundation and camera. Native PC GPU; 2K/4K viewport widths are not a physical display or phone claim.",
+  "base": "http://127.0.0.1:4102/al-folio",
+  "sources": {
+    "before": {
+      "assets/js/footer-coast/assets.mjs": "b681c6357c2f6bf221789cd57bca0b586e255fa66ccad5302f3ccd5e1173b784",
+      "assets/js/footer-coast/atmosphere.mjs": "cef9dc7fa6a4874b6ab0e74747703234b7cf142c1f51c0e4e257df065df80404",
+      "assets/js/footer-coast/entry.mjs": "e4576eeee59939ecf40998c1a0e1fe70c6007d451d6be78effb2e5c350bae0c2",
+      "assets/js/footer-coast/marine-layer.mjs": "a2f9dcf02407873c35bc7866d8b3d7279ad68cefdd53e1dc63f442aaae8c0a93",
+      "assets/js/footer-coast/people-pose.mjs": "6fe5ea31b16b7a2219bdd98424527a04277dcae1c1d479bf8a31393fd34eae66",
+      "assets/js/footer-coast/people.mjs": "ea242065c3592ef59a3dd9d402a9c00ea9b8951dc1df68e2f09108dda9a0cf19",
+      "assets/js/footer-coast/scene.mjs": "8b3a67c81a3936e455dc1175e4d97d87adeca2a40c726e69532da0aec006fabb",
+      "assets/js/footer-coast/sky-look.mjs": "0f3793fce8ef94a91394c9bd98c5eeaa78f7e9e0b8f33604ec7c68bf1858dc9a",
+      "assets/js/footer-coast/sky.mjs": "23e149e1abf1f246654eadf51404a6e1faf2c5908bbbe5219d626ab98d2dc7fc",
+      "assets/js/footer-coast/skyline-data.mjs": "2545434808abeda3b1f792a103fb07bd9efed759670cf3d0dff5229a6d1737b9",
+      "assets/js/footer-coast/skyline.mjs": "3b0f9fff350aa5cfba070a542c184eb3e21565e1f51502ccf98556a327b2818c",
+      "assets/js/footer-coast/water-optics.mjs": "a51c846259ccdae2bd5d161195cd57250cbd6231e78f883a3558544304589bc5",
+      "assets/js/footer-coast/water.mjs": "87fd2866bca97475c442dcd1d82c71bd6f6f7a20891026fb44947e3ef88fe861",
+      "assets/js/footer-coast/wave-motion.mjs": "9e2d7f7d3e9ba2d5d0a676d530f89bcb23841001b0ccf0a038b812a3fdc03370",
+      "assets/models/la-jolla/hills.png": "87230a4684e6b0314dd5281d550ef0efba4557449a648e55008a28ee0a100173"
+    },
+    "after": {
+      "assets/js/footer-coast/assets.mjs": "0a224f59858cd8b2bbe1bda66b8c84a75fbbddad497b0832413e5ed88ccd331f",
+      "assets/js/footer-coast/atmosphere.mjs": "c3c5d4d1bc1bc7fcf6c656ebef5f1adfa43dcde0ca053ee5ccb0a23edc0a9947",
+      "assets/js/footer-coast/entry.mjs": "2d2dc4a83f312c4419fc0de2071b44d118fee6dbfaa8ed2fe7bef89b5d52c0e2",
+      "assets/js/footer-coast/marine-layer.mjs": "351f9ec6b13fa3c8f68ca0808beeeca5ee37bc8e42aa6fde3f4e7f9e21627e8f",
+      "assets/js/footer-coast/people-pose.mjs": "532a1f488a938b5db3f74589d52f2814e701d228ac327268d2139d1d3bf4be1a",
+      "assets/js/footer-coast/people.mjs": "aa2bc438620a86370d8afd16f1bd3c8a7a32e8c32f27b7edaee027720879f3a1",
+      "assets/js/footer-coast/scene.mjs": "84e0ac639b031eedd0ce403ae77e834a9ffe7e1587199d1f8428b3511593c195",
+      "assets/js/footer-coast/sky-look.mjs": "4691baef69db1da42d22fda0524342de84ac1b4ea59316fbbb36bad778d40d43",
+      "assets/js/footer-coast/sky.mjs": "e535bb4932332339f4c336ee8311bb1cd68f722dab11fdd4504bdf74ec842580",
+      "assets/js/footer-coast/skyline-data.mjs": "75a6efe0ba07be28bea101873cb83bd6b24edcb4cc32a388bb5d2d9ad03ae04d",
+      "assets/js/footer-coast/skyline.mjs": "885c249d07bf654cf1afcdc31108b0b6c158a075c3930a80accd869bd10e94f8",
+      "assets/js/footer-coast/water-optics.mjs": "0009cdbe0e20a011ed2d0afb77de09f2bbe00facd49cf5d96e04fb275f317936",
+      "assets/js/footer-coast/water.mjs": "2e683c63d1d1c123a4587c46a3ff97788175acd951f085b90977373c5a9f43cb",
+      "assets/js/footer-coast/wave-motion.mjs": "d8beb51ab1e1b78541a945d44a1a29d9d374230b9fe221836ea63674314016c9",
+      "assets/js/footer-coast/bed-relief.mjs": "237a77c5c86a9330113433b1a71f051ac8cdae940f74167da2df717f859a9039",
+      "assets/models/la-jolla/hills.png": "071eef43c30605b340ff980130b8fcafe4c461b28e390a657a5147c367061b5e"
+    }
+  },
+  "sharedInputs": {
+    "assets/models/la-jolla/manifest.json": "438c67f487aba0edbadb574d2f900527a4b7017a6c65c0c6cb1313389fb06578",
+    "assets/models/la-jolla/la-jolla.glb": "1a26a2b07dc4badd93979f2194c281b6bb858ffa4d4a237ac137ed24d0de2c05",
+    "assets/js/home-scene/realism.mjs": "d29206aa0ce59c4aff490b3fe2ff9f1ccf84cb25a068673a1a64d9e67c42e5e4",
+    "assets/js/home-scene/model-loader.mjs": "2442bd5a59f8fe927ecc0c415600a0d6af256fe07538d64f47891c5d570d466b",
+    "assets/js/home-scene/camera-motion.mjs": "bb40c1289d623def704511f76514e05471ff6d3362ab5a4cfe6b4c978dcacb0e"
+  },
+  "states": [
+    {
+      "variant": "before",
+      "width": 2560,
+      "theme": "noon",
+      "file": "before-2560-noon.png",
+      "sha256": "44304600e29605caad3783438bbcb154b521e19bfde3c3d6a485888941f35955",
+      "at": "2026-10-26T12:08:20.850Z",
+      "renderer": {
+        "buffer": [2560, 480],
+        "css": [2560, 480],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "noon",
+          "pose": 0,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1587,
+            "height": 89
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 13.4,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 188,
+          "textures": 14
+        },
+        "framing": {
+          "width": 77.33333333333333,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": []
+    },
+    {
+      "variant": "after",
+      "width": 2560,
+      "theme": "noon",
+      "file": "after-2560-noon.png",
+      "sha256": "11796eccb769b268c3cbb61a83c6070da011c1e9b39b9732f59129d2d05c8362",
+      "at": "2026-10-26T12:08:24.258Z",
+      "renderer": {
+        "buffer": [2560, 480],
+        "css": [2560, 480],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "noon",
+          "pose": 0,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 2560,
+            "height": 480,
+            "depthTexture": true,
+            "cpuBuildMs": 47.8,
+            "lastSubmissionMs": 10.3
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1587,
+            "height": 89
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 8.2,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 189,
+          "textures": 17
+        },
+        "framing": {
+          "width": 77.33333333333333,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": []
+    },
+    {
+      "variant": "before",
+      "width": 2560,
+      "theme": "evening",
+      "file": "before-2560-evening.png",
+      "sha256": "b9de2be24c1bed80fde485020759725ef36462f0abb39cdc2b05bc617d2255cc",
+      "at": "2026-10-26T12:08:26.672Z",
+      "renderer": {
+        "buffer": [2560, 480],
+        "css": [2560, 480],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": false,
+        "theme": "evening",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "evening",
+          "pose": 0,
+          "actors": 17,
+          "visible": ["fire", "shore-couple", "bench-2"],
+          "drawn": ["fire", "shore-couple", "bench-2"],
+          "people": 6,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1587,
+            "height": 89
+          },
+          "caustics": 0,
+          "wakes": 0,
+          "glints": [
+            [1, 2.033, 0.998, 0.24],
+            [13.26, 5.174, 0.34, 0.11],
+            [11.74, 7.374, 0.34, 0.11],
+            [13.26, 9.574, 0.34, 0.11]
+          ]
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 346116.69,
+          "lights": 1,
+          "buildMs": 7.4,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 188,
+          "textures": 14
+        },
+        "framing": {
+          "width": 77.33333333333333,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": []
+    },
+    {
+      "variant": "after",
+      "width": 2560,
+      "theme": "evening",
+      "file": "after-2560-evening.png",
+      "sha256": "bde5ca0192b3c7ffb192f0ad88671debb343f3f681faaf4e4d7c36094715ee4c",
+      "at": "2026-10-26T12:08:29.375Z",
+      "renderer": {
+        "buffer": [2560, 480],
+        "css": [2560, 480],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": false,
+        "theme": "evening",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "evening",
+          "pose": 0,
+          "actors": 17,
+          "visible": ["fire", "shore-couple", "bench-2"],
+          "drawn": ["fire", "shore-couple", "bench-2"],
+          "people": 6,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 2560,
+            "height": 480,
+            "depthTexture": true,
+            "cpuBuildMs": 53.1,
+            "lastSubmissionMs": 11.3
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1587,
+            "height": 89
+          },
+          "caustics": 0,
+          "wakes": 0,
+          "glints": [
+            [1, 2.033, 0.998, 0.24],
+            [13.26, 5.174, 0.34, 0.11],
+            [11.74, 7.374, 0.34, 0.11],
+            [13.26, 9.574, 0.34, 0.11]
+          ]
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 346116.69,
+          "lights": 1,
+          "buildMs": 6.8,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 189,
+          "textures": 17
+        },
+        "framing": {
+          "width": 77.33333333333333,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": []
+    },
+    {
+      "variant": "before",
+      "width": 3840,
+      "theme": "noon",
+      "file": "before-3840-noon.png",
+      "sha256": "d193aedd2666b39dc9af9ccdfbd537c4884084a1f436b3c0d5f9cf22fb298d04",
+      "at": "2026-10-26T12:08:31.823Z",
+      "renderer": {
+        "buffer": [3840, 480],
+        "css": [3840, 480],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "noon",
+          "pose": 0,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1600,
+            "height": 89
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 7.6,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 188,
+          "textures": 14
+        },
+        "framing": {
+          "width": 116,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": []
+    },
+    {
+      "variant": "after",
+      "width": 3840,
+      "theme": "noon",
+      "file": "after-3840-noon.png",
+      "sha256": "14938cf6fdcd34cd310f138533f552b7d9c5c01e2ab667df3668b0ddf7235b81",
+      "at": "2026-10-26T12:08:34.415Z",
+      "renderer": {
+        "buffer": [3840, 480],
+        "css": [3840, 480],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": true,
+        "theme": "noon",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "noon",
+          "pose": 0,
+          "actors": 17,
+          "visible": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "drawn": [
+            "tennis",
+            "volleyball",
+            "shore-walk",
+            "bluff-walk",
+            "surf-wait",
+            "surf-ride",
+            "surf-paddle",
+            "swimmer",
+            "sunbather",
+            "bench-0",
+            "bench-1",
+            "bench-2",
+            "bench-3",
+            "dib-laptop"
+          ],
+          "people": 16,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 3840,
+            "height": 480,
+            "depthTexture": true,
+            "cpuBuildMs": 43.7,
+            "lastSubmissionMs": 11.5
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1600,
+            "height": 89
+          },
+          "caustics": 1,
+          "wakes": 3,
+          "glints": []
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 11.85,
+          "lights": 0,
+          "buildMs": 10.2,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 189,
+          "textures": 17
+        },
+        "framing": {
+          "width": 116,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": []
+    },
+    {
+      "variant": "before",
+      "width": 3840,
+      "theme": "evening",
+      "file": "before-3840-evening.png",
+      "sha256": "aacc1d7983858963eb63fe5199a3ece7cbc49f60797c8bc32704d45cc7d6d9de",
+      "at": "2026-10-26T12:08:37.025Z",
+      "renderer": {
+        "buffer": [3840, 480],
+        "css": [3840, 480],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": false,
+        "theme": "evening",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "evening",
+          "pose": 0,
+          "actors": 17,
+          "visible": ["fire", "shore-couple", "bench-2"],
+          "drawn": ["fire", "shore-couple", "bench-2"],
+          "people": 6,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1600,
+            "height": 89
+          },
+          "caustics": 0,
+          "wakes": 0,
+          "glints": [
+            [1, 2.033, 0.998, 0.24],
+            [13.26, 5.174, 0.34, 0.11],
+            [11.74, 7.374, 0.34, 0.11],
+            [13.26, 9.574, 0.34, 0.11]
+          ]
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 346116.69,
+          "lights": 1,
+          "buildMs": 6.8,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 188,
+          "textures": 14
+        },
+        "framing": {
+          "width": 116,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": []
+    },
+    {
+      "variant": "after",
+      "width": 3840,
+      "theme": "evening",
+      "file": "after-3840-evening.png",
+      "sha256": "ae2ed3940c0134824621e1149e2935658c3b525fb4665fe669c276655437166e",
+      "at": "2026-10-26T12:08:39.509Z",
+      "renderer": {
+        "buffer": [3840, 480],
+        "css": [3840, 480],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "evidence": {
+        "miniature": false,
+        "selectedPlace": null,
+        "frames": 5,
+        "reveal": 1,
+        "targetReveal": 1,
+        "office": false,
+        "theme": "evening",
+        "running": false,
+        "buildings": 13,
+        "landmarks": [
+          "SalkCoast",
+          "GeiselCoast",
+          "Tennis",
+          "CliffVilla",
+          "CasitaApricot",
+          "BeachVolleyball",
+          "CasitaCream",
+          "CasitaRose",
+          "DIB",
+          "CasitaEast",
+          "Lifeguard",
+          "BrocktonVilla",
+          "LaValencia"
+        ],
+        "orbit": [0, 0],
+        "renderedOrbit": [0, 0],
+        "motion": {},
+        "elapsed": 0,
+        "people": {
+          "live": false,
+          "period": "evening",
+          "pose": 0,
+          "actors": 17,
+          "visible": ["fire", "shore-couple", "bench-2"],
+          "drawn": ["fire", "shore-couple", "bench-2"],
+          "people": 6,
+          "instances": {
+            "rod": 228,
+            "torso": 22,
+            "ball": 102,
+            "box": 4
+          }
+        },
+        "water": {
+          "sea": "footer",
+          "proof": [1, 1, 1, 1],
+          "bottom": {
+            "vertices": 49665,
+            "triangles": 98304,
+            "depthRange": [0.02, 5.1435],
+            "renders": 1,
+            "width": 3840,
+            "height": 480,
+            "depthTexture": true,
+            "cpuBuildMs": 51.4,
+            "lastSubmissionMs": 9.8
+          },
+          "reflection": {
+            "renders": 1,
+            "pending": false,
+            "width": 1600,
+            "height": 89
+          },
+          "caustics": 0,
+          "wakes": 0,
+          "glints": [
+            [1, 2.033, 0.998, 0.24],
+            [13.26, 5.174, 0.34, 0.11],
+            [11.74, 7.374, 0.34, 0.11],
+            [13.26, 9.574, 0.34, 0.11]
+          ]
+        },
+        "sky": {
+          "visible": true,
+          "weight": 0,
+          "exposure": 346116.69,
+          "lights": 1,
+          "buildMs": 6.8,
+          "sun": null
+        },
+        "marineLayer": {
+          "visible": false,
+          "density": 0,
+          "shafts": 0
+        },
+        "sun": null,
+        "resources": {
+          "geometries": 189,
+          "textures": 17
+        },
+        "framing": {
+          "width": 116,
+          "height": 14.5,
+          "center": [0, 4.5, 0]
+        }
+      },
+      "errors": []
+    }
+  ],
+  "checks": {
+    "production_build_seconds": 89.118,
+    "python": {
+      "passed": 314
+    },
+    "node": {
+      "passed": 806,
+      "skipped": 7
+    },
+    "initial_full_chromium": {
+      "passed": 53,
+      "skipped": 37,
+      "failed": 2,
+      "failure": "tablet and phone afternoon median credit contrast, each 4.287:1"
+    },
+    "after_halo_theme_clock": {
+      "passed": 18,
+      "skipped": 2
+    },
+    "after_preservation_loading_context_transport": {
+      "passed": 14,
+      "skipped": 6
+    },
+    "webkit_focused": {
+      "passed": 4
+    },
+    "legacy_first_static_frame": {
+      "passed": 2,
+      "engines": ["Chromium desktop", "Windows WebKit mobile emulation"]
+    },
+    "release_boundary": "local checks only; coordinator owns registry, CI, push and live verification"
+  },
+  "credit_repair": [
+    {
+      "state": "footer-coast-coastal-foote-10aab--and-full-width-composition-mobile-390",
+      "samples": 1957,
+      "median": 6.150870225116579,
+      "worst": 2.6526347063603053
+    },
+    {
+      "state": "footer-coast-coastal-foote-10aab--and-full-width-composition-tablet-768",
+      "samples": 1130,
+      "median": 5.978520152135642,
+      "worst": 2.9197631394121517
+    }
+  ],
+  "transport": [
+    {
+      "state": "footer-coast-coastal-sea-r-fb247-ight-use-the-current-relief-desktop-1440",
+      "initial": {
+        "sea": "footer",
+        "proof": [1, 1, 1, 1],
+        "bottom": {
+          "vertices": 49665,
+          "triangles": 98304,
+          "depthRange": [0.02, 5.1435],
+          "renders": 1,
+          "width": 1440,
+          "height": 345,
+          "depthTexture": true,
+          "cpuBuildMs": 50.3,
+          "lastSubmissionMs": 11.5
+        },
+        "reflection": {
+          "renders": 1,
+          "pending": false,
+          "width": 893,
+          "height": 64
+        },
+        "caustics": 1,
+        "wakes": 3,
+        "glints": []
+      },
+      "comparisons": [
+        {
+          "name": "no-bottom",
+          "changed": 0.36954162410623087
+        },
+        {
+          "name": "no-scattering",
+          "changed": 0.37644705481784135
+        },
+        {
+          "name": "no-reflection",
+          "changed": 0.3738827885597549
+        },
+        {
+          "name": "no-depth-attenuation",
+          "changed": 0.46053583588695945
+        }
+      ],
+      "errors": []
+    },
+    {
+      "state": "footer-coast-coastal-sea-r-fb247-ight-use-the-current-relief-mobile-390",
+      "initial": {
+        "sea": "footer",
+        "proof": [1, 1, 1, 1],
+        "bottom": {
+          "vertices": 49665,
+          "triangles": 98304,
+          "depthRange": [0.02, 5.1435],
+          "renders": 1,
+          "width": 390,
+          "height": 330,
+          "depthTexture": true,
+          "cpuBuildMs": 66.8,
+          "lastSubmissionMs": 12.5
+        },
+        "reflection": {
+          "renders": 1,
+          "pending": false,
+          "width": 242,
+          "height": 79
+        },
+        "caustics": 1,
+        "wakes": 3,
+        "glints": []
+      },
+      "comparisons": [
+        {
+          "name": "no-bottom",
+          "changed": 0.1522149302707137
+        },
+        {
+          "name": "no-scattering",
+          "changed": 0.9538556193601313
+        },
+        {
+          "name": "no-reflection",
+          "changed": 0.9294913863822806
+        },
+        {
+          "name": "no-depth-attenuation",
+          "changed": 0.964766201804758
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "selected_images_sha256": {
+    "before-2k-noon.png": "44304600e29605caad3783438bbcb154b521e19bfde3c3d6a485888941f35955",
+    "after-2k-noon.png": "11796eccb769b268c3cbb61a83c6070da011c1e9b39b9732f59129d2d05c8362",
+    "after-4k-noon.png": "14938cf6fdcd34cd310f138533f552b7d9c5c01e2ab667df3668b0ddf7235b81",
+    "after-4k-evening.png": "ae2ed3940c0134824621e1149e2935658c3b525fb4665fe669c276655437166e",
+    "webkit-before-first.png": "23d17296f94c83a9bc0d084809e8bf4b174f91b4cf914e36fcc5b20e0fa024f4",
+    "webkit-preserved-first.png": "c00dea9972d14300aa066328d31c72e2c30485441a622cd1892be78bd0e8bf12",
+    "water-ablations.png": "1bae517bb1f06bd0f7464328cc5e144758ace0e756b881276b938720663ed79a"
+  },
+  "cost_sha256": "bbb858bf081959a452c386b9db7540d0816b99707fbd0964c14ab3db5e51406f",
+  "webkit_control_sha256": "c06caf762d7f038e2ea92f9b5f5fdb043e76fc6ae4535378a6b2838ca0094394",
+  "geodata_provenance_sha256": "6d62c25d5bd14bc97aab12f2d565f86035073516823b0cf479200458530be480",
+  "reproducer_sha256": {
+    "capture.cjs": "392ffbbae73fab60d7a7d30d225992ce4b3445667387134509ab0c409a43ed81",
+    "measure.cjs": "68b8fabcfc520c19693d950a262d98b80489c290dba9ec385d902c8408d73dbb"
+  }
+}

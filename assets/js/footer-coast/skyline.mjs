@@ -8,7 +8,7 @@
 // lies to the south-west, where the sun sets; the viewer faces away from it. Bearings pass through
 // the frieze's own landmarks (Salk, Geisel, Brockton Villa) and keep their order, but the distances
 // between them are compressed as the coast's are. Pure functions, so node tests can check the map.
-import { SKYLINE } from "./skyline-data.mjs?v=coast-hills-20261024";
+import { SKYLINE } from "./skyline-data.mjs?v=coast-hills-20261026";
 
 // [frieze x, bearing in degrees east of north]: the Salk and Geisel copies on the mesa
 // (coastal_panorama.py campus_panorama), the inhabited centre facing east across the bay, Mount
@@ -105,7 +105,20 @@ export function houseLights() {
     const x = xAtBearing(bearing),
       h = Math.imul((i / 2 + 1) ^ 0x9e3779b9, 0x85ebca6b) >>> 0,
       seed = ((h ^ (h >>> 13)) >>> 0) / 4294967296;
-    out.push({ x, bearing, angle: Math.min(SKYLINE.lights[i + 1] / 100, skylineAt(bearing).far - 0.05), seed });
+    const at = (i / 2) * 6,
+      footprint = SKYLINE.footprints.slice(at, at + 6);
+    out.push({
+      x,
+      bearing,
+      angle: Math.min(SKYLINE.lights[i + 1] / 100, skylineAt(bearing).far - 0.05),
+      seed,
+      width: footprint[0] / 10,
+      depth: footprint[1] / 10,
+      height: footprint[2] / 10,
+      distance: footprint[3] * 10,
+      heightTagged: Boolean(footprint[4]),
+      roof: footprint[5],
+    });
   }
   return out;
 }
