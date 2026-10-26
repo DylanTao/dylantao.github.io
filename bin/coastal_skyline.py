@@ -29,9 +29,6 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 
-import numpy as np
-from PIL import Image
-
 ROOT = Path(__file__).resolve().parents[1]
 CACHE = ROOT / ".jekyll-cache" / "coastal-skyline"
 OUT = ROOT / "assets" / "js" / "footer-coast" / "skyline-data.mjs"
@@ -93,6 +90,9 @@ def fetch(url, path, data=None):
 
 
 def load_ground():
+    import numpy as np
+    from PIL import Image
+
     path = CACHE / "3dep.tif"
     fetch(DEM_URL, path)
     ground = np.array(Image.open(path), dtype=np.float64)
@@ -165,11 +165,14 @@ def footprint(element):
     _, distance = place(lat, lon)
     dx = (lon - VIEW[1]) * 111320.0 * math.cos(math.radians(VIEW[0]))
     dy = (lat - VIEW[0]) * 110574.0
-    along = np.array([dx, dy]) / max(distance, 1.0)
-    across = np.array([-along[1], along[0]])
-    points = np.array([[(p["lon"] - lon) * 111320.0 * math.cos(math.radians(lat)), (p["lat"] - lat) * 110574.0] for p in element["geometry"]])
-    width = float(np.ptp(points @ across))
-    depth = float(np.ptp(points @ along))
+    along = (dx / max(distance, 1.0), dy / max(distance, 1.0))
+    across = (-along[1], along[0])
+    points = [((p["lon"] - lon) * 111320.0 * math.cos(math.radians(lat)), (p["lat"] - lat) * 110574.0) for p in element["geometry"]]
+    def span(axis):
+        projected = [x * axis[0] + y * axis[1] for x, y in points]
+        return max(projected) - min(projected)
+    width = span(across)
+    depth = span(along)
     tags = element.get("tags", {})
     def number(value):
         match = re.search(r"[0-9]+(?:\.[0-9]+)?", str(value or ""))
@@ -254,6 +257,8 @@ def relief(ground):
     """What the bay sees along each bearing and elevation: the ground's slope (its normal's east and
     north components) and its distance, as an RGB image with the highest elevation on top. Rows above
     the skyline repeat the crest, so the shader's filtering never mixes the sky into the slopes."""
+    import numpy as np
+
     image = np.zeros((RELIEF_ROWS, RELIEF_BEARINGS, 3), dtype=np.uint8)
     for b in range(RELIEF_BEARINGS):
         bearing = b * RELIEF_BEARING_STEP
@@ -315,6 +320,8 @@ def visible_houses(ground, buildings):
 
 
 def main():
+    from PIL import Image
+
     ground = Ground(load_ground())
     osm, buildings = load_buildings()
     profile = skyline(ground)

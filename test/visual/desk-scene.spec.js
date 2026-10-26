@@ -2143,7 +2143,7 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
   await expect(scene).toHaveAttribute("data-room", "study");
   expect((await evidence(scene)).inspection).toBeNull();
   expect((await evidence(scene)).currentRecord).toBe(initial.currentRecord);
-  await expect(canvas).toHaveAttribute("aria-label", /Siruiâ€™s coastal home/);
+  await expect(canvas).toHaveAttribute("aria-label", /Sirui’s coastal home/);
   expect(errors).toEqual([]);
 });
 
@@ -3109,7 +3109,7 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
 
 for (const activity of ["breakfast", "workout"]) {
   test(`coastal home: ${activity} choreography resumes through visibility and mode recovery`, async ({ page }, testInfo) => {
-    // Linux takes 124 s for the original 2 s warm-up and 38â€“44 s per
+    // Linux takes 124 s for the original 2 s warm-up and 38–44 s per
     // 700 ms recovery sample. Retain all four modes and the 10 Hz frames.
     if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
     const errors = collectRuntimeErrors(page);

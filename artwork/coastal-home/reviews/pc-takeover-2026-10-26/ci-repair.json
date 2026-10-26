@@ -1,0 +1,35 @@
+{
+  "initialSource": "ee6371781710702e04aaf68a2d2d4775b447448f",
+  "integrationRun": 40379430848,
+  "visualRun": 40379430918,
+  "integrationFailure": "The footprint unit test imported the offline raster builders NumPy/Pillow dependencies, unavailable in the minimal integration environment.",
+  "repair": "Use standard-library scalar projections for footprints and import raster dependencies inside raster functions. No generated skyline/relief or runtime modules changed.",
+  "footprintParity": {
+    "scope": "Existing cached public OSM polygons; no download and no runtime data regenerated. Existing NumPy projection versus standard-library scalar dot products.",
+    "buildings": 15075,
+    "maximumWidthDepthDeltaMetres": 2.842170943040401e-14,
+    "toleranceMetres": 1e-8,
+    "heightRoofAssumptionFieldsMatch": true,
+    "stdlibOnlyFootprintTests": 3
+  },
+  "visualFailure": "Four exploration jobs reached the correct returned canvas label but a transferred test apostrophe was UTF-8/CP1252 mojibake.",
+  "assertionRepair": {
+    "restored": "Sirui\u2019s coastal home",
+    "reference": "2b8da5d00",
+    "patternBroadened": false,
+    "secondRepair": "Comment 38\u201344 restored too."
+  },
+  "encodingAudit": {
+    "changedPaths": 279,
+    "strictUtf8TextFiles": 176,
+    "newlySuspiciousLines": 2,
+    "otherReversibleEncodingDefects": 0
+  },
+  "localVerification": {
+    "stdlibOnlyFootprintTests": 3,
+    "fullPythonPassed": 314,
+    "nativeExactBrowserCase": "1 passed,28.6seconds",
+    "linuxExactBrowserAttempt": "Stopped at the first sceneInputFrame predicate before N or label assertions; retained trace. No Linux pass inferred from that attempt."
+  },
+  "rawEvidenceRoot": ".jekyll-cache/visual-qa/pc-fidelity-2026-10-26/"
+}
