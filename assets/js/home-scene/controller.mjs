@@ -67,6 +67,7 @@ import { createWorldFullscreen } from "./world-fullscreen.mjs";
 import { createWalkMode } from "./walk-controls.mjs";
 import { createLightInstallations, roomLightSources } from "./light-installations.mjs";
 import { createFurniture } from "./furniture.mjs";
+import { createDining } from "./dining.mjs";
 import { createAtmosphere } from "./atmosphere.mjs";
 import { createHaze } from "./haze.mjs";
 import { createInfinityPool } from "./infinity-pool.mjs";
@@ -170,6 +171,8 @@ export function createCoastalHome(container, records, artifacts) {
     inViewport = true;
   // Sirui's furniture at the house's anchors, by level of detail (furniture.mjs).
   let furniture = null;
+  // Meals and drinks at their settings, and the hands that use them (dining.mjs).
+  let dining = null;
   // The drawing buffer's pixel budget and adaptive density (resolution.mjs) and the cached static sun
   // shadow (shadow-cache.mjs).
   let resolution = null,
@@ -975,6 +978,7 @@ export function createCoastalHome(container, records, artifacts) {
         if (firstFrameMilliseconds === null) await furnished;
         // The room's furniture joins it before its programs compile.
         await furniture?.attach(id, root, furnished);
+        await dining?.attach(id, root);
         if (disposed) return null;
         // The arrival room compiles with the first composed view. Rooms streamed afterwards stay
         // hidden until their programs are ready, so the visible view keeps drawing meanwhile.
@@ -1154,6 +1158,8 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   function propFor(kind) {
+    // The setting's own cutlery, cups and glasses replace the primitive props (dining.mjs).
+    if (dining?.provides(kind)) kind = null;
     propHand = null;
     if (selectedProp) {
       release(selectedProp);
@@ -2998,6 +3004,20 @@ export function createCoastalHome(container, records, artifacts) {
     }
     if (gymProps && routine?.sequence !== "session") gymProps.update(null, null, frameDelta, moving);
     if (container.dataset.animation === "sleep" || covers.size) breatheBedding(moving, delta);
+    // A meal or drink at its setting: the hands, lean and bites after the clip (dining.mjs).
+    const meal = dining?.pose({
+      routine,
+      actor,
+      sequencePose,
+      seconds: elapsed - sequenceStart,
+      moving,
+      reduced,
+      paused,
+      walking,
+      travel: Boolean(travel),
+      hands: handContacts,
+    });
+    if (meal?.phase) container.dataset.activityPhase = meal.phase;
     characterPerformance?.update(delta, { active: moving && !travel, clip: liftThisFrame ? "workout" : container.dataset.animation });
     const holdActivityProps = paused && !reduced && Boolean(sequencePose);
     let cupCreated = false;
@@ -3027,6 +3047,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (moving) coffeeCup.position.lerp(cupTarget, 1 - Math.exp(-frameDelta * 16));
       else coffeeCup.position.copy(cupTarget);
     }
+    dining?.props({ cup: coffeeCup, moving, frameDelta });
     if (vinyl) {
       if (moving) recordMotion.advance(delta);
       else if (reduced) recordMotion.compose();
@@ -3274,6 +3295,16 @@ export function createCoastalHome(container, records, artifacts) {
         aeronVariant: detailFlags.get("aeron"),
       });
       cleanup.push(() => furniture?.dispose());
+      dining = createDining({
+        config,
+        baseUrl: manifestUrl,
+        loadModel,
+        prepare: (root, room) => prepareModel(root, { group: receiverForRoom(room) }),
+        compile: () => compilePrograms(),
+        requestFrame: () => requestFrame(),
+        roomRoot: (id) => rooms.get(id),
+      });
+      cleanup.push(() => dining?.dispose());
       if (disposed) return;
       // The coast's wind starts at this Pacific minute, so the spray and dust prewarm in today's breeze.
       coastWind.setShelter({ glassZ: COAST_SHELTER.glassZ + (Number(config.retreat?.setbackMetres) || 0) });
@@ -3896,6 +3927,7 @@ export function createCoastalHome(container, records, artifacts) {
     walkPresence: walkPresence?.evidence() ?? null,
     shadowCache: shadowCache?.evidence() ?? null,
     furniture: furniture?.evidence() ?? null,
+    dining: dining?.evidence() ?? null,
     prop: selectedProp
       ? {
           kind: selectedProp.userData.kind,
@@ -3910,7 +3942,7 @@ export function createCoastalHome(container, records, artifacts) {
             return true;
           })(),
         }
-      : null,
+      : (dining?.heldProp() ?? null),
     targets: picks
       .filter((o) => o.visible && o.parent)
       .map((o) => {

@@ -349,6 +349,22 @@ Visual evidence matches the decision being made. Do not spend a release-sized te
 - Give credit where credit is due. Cite inspiration, reports, talks, books, collaborators, and tools near the lesson they shaped, quieter than the main story.
 - The October 2026 [YC design study](docs/design-reviews/2026-10-24/VIDEO_REVIEW.md) informed the identity, purpose, and attention questions above. Its practitioner critique is inspiration, not evidence of academic efficacy or a mandate to imitate startup pages; source coverage and original adaptation are recorded separately.
 
+## Lessons From Susan Kare
+
+Source: Susan Kare, [Designing Icons & Graphics for the Original Mac](https://www.youtube.com/watch?v=YEvLKzsEwMw), Startup School 2026 (Y Combinator), studied at Sirui's request on 2026-10-25. Credit her near any change that follows one of these.
+
+- **Meaningful and memorable first** (her Paul Rand lesson). Settle the idea, and the form will follow. Before polishing a scene object or an icon, name what it should mean to a visitor.
+- **Just enough detail.** Give an icon or object a salient detail or two. Extra detail narrows who can see themselves in it (her reading of Scott McCloud's _Understanding Comics_). For the cartoon avatars, clean the faces and edges rather than adding realism. For plated food, show one or two telling ingredients that read at phone size.
+- **Metaphor over product depiction.** An icon drawn as one particular device ages badly, as the floppy-disk Save did. Draw the idea instead.
+- **Reassure during waits.** The Happy Mac said "everything is OK" while the machine started up. The loading sketch's honest, progressing pen has the same job, so keep it calm and friendly.
+- **Never alarm.** A bomb that meant "system error" made a visitor fear an explosion. Error and fallback states stay calm and say what happens next.
+- **Constraints are creative.** Design within the frame-time, byte and compile budgets, not around them.
+- **Iterate a lot, and show a few options.** Offer two or three directions for a big design choice, then refine. Requests and placeholders are good starting points.
+- **A little motion.** Motion that repeats stays subtle, so it never grows irritating; the coffee ring's soft settle is an example.
+- **Few fonts, used well** (Paul Rand, via Kare). Keep the type system small.
+- **Nest the complexity** (Alan Kay, via Kare). Not everything sits at one level; detail appears when it is wanted.
+- **Make it visual.** Show, don't tell, in the build diary and on project pages.
+
 ## Process Artifacts
 
 - A project page or blog post about the website teaches the design process, not just the screenshots: before/after evidence, the critique loop, and what changed because of taste rather than because it was possible.
