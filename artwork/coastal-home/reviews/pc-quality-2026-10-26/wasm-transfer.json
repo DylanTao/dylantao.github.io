@@ -1,0 +1,17 @@
+{
+  "url": "https://dylantao.github.io/assets/js/vendor/three-r164/libs/draco/draco_decoder.wasm",
+  "headers": {
+    "content-length": "64272",
+    "content-type": "application/wasm",
+    "etag": "W/\"6adf33f3-2efa4\"",
+    "content-encoding": "gzip",
+    "date": "Mon, 26 Oct 2026 13:06:43 GMT",
+    "vary": "Accept-Encoding"
+  },
+  "wireBytes": 64272,
+  "localGzipBytes": 63164,
+  "decodedBytes": 192420,
+  "decodedSha256": "a680d927bed9cb864ddbd63521868891af2bfbe755092761b4837487618df8ac",
+  "matchesLocalDecoder": true,
+  "meaning": "The four-MiB first-arrival transfer budget counts this gzip response consistently with the other gzip-served assets. No geometry or optical precision was reduced."
+}

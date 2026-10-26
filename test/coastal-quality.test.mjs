@@ -77,7 +77,7 @@ test("low and high move the budget, density, samples, shadow map, contact pass, 
   assert.equal(g.size(1000, 480).density, 1.25);
   g.setProfile("fullscreen");
   assert.equal(g.evidence().budget, QUALITY_TIERS.low.fullscreen.pixelBudget);
-  assert.equal(g.evidence().minFactor, 0.6);
+  assert.equal(g.evidence().minFactor, 0.8, "desktop retains its readable floor even at the low tier");
   g.setTier(QUALITY_TIERS.standard);
   assert.equal(g.evidence().budget, RESOLUTION_PROFILES.fullscreen.pixelBudget, "standard restores the full-screen profile");
 
@@ -143,15 +143,55 @@ test("a device without a GPU timer needs clearly fast frames to earn high", () =
   assert.equal(frames(unable, clock, 120, 8, 1), null, "no promotion past the memory budget");
 });
 
-test("sustained slow GPU-bound frames demote one tier, and a demoted device is never promoted again", () => {
+test("GPU pressure can reduce a tier, then measured recovery restores detail after its cooldown", () => {
   const clock = { t: 5000 };
   const governor = createQualityGovernor({ tier: "high", now: () => clock.t });
   assert.equal(frames(governor, clock, 90, 60, 30), "standard", "one full window of slow frames");
-  clock.t += 4000;
-  assert.equal(frames(governor, clock, 120, 16.7, 2), null, "no promotion after a demotion");
-  assert.equal(frames(governor, clock, 90, 60, 30), "low");
+  assert.equal(frames(governor, clock, 90, 40, 20), null, "the reduction helped, but recovery waits");
+  assert.equal(frames(governor, clock, 120, 16.7, 2), null, "no immediate tier oscillation");
+  clock.t += 16000;
+  assert.equal(frames(governor, clock, 90, 16.7, 2), "high");
   assert.equal(governor.evidence().demoted, true);
   assert.equal(governor.evidence().history.length, 2);
+  assert.equal(governor.evidence().history[1].reason, "recovered headroom");
+});
+
+test("long wall gaps with inexpensive timed GPU passes preserve detail", () => {
+  const clock = { t: 5000 };
+  const governor = createQualityGovernor({ now: () => clock.t });
+  assert.equal(frames(governor, clock, 200, 50, 16, { submitMs: 16 }), null);
+  assert.equal(frames(governor, clock, 200, 533, 20, { submitMs: 19 }), null);
+  assert.equal(governor.tier, "standard");
+  assert.deepEqual(governor.evidence().history, []);
+});
+
+test("a tier reduction which does not improve pacing is reverted, with bounded retries", () => {
+  const clock = { t: 5000 };
+  const governor = createQualityGovernor({ now: () => clock.t });
+  for (let attempt = 0; attempt < 2; attempt++) {
+    clock.t += 4000;
+    assert.equal(frames(governor, clock, 90, 60, 35), "low");
+    clock.t += 4000;
+    assert.equal(frames(governor, clock, 90, 60, 35), "standard", "unhelpful detail loss is undone");
+  }
+  assert.equal(frames(governor, clock, 200, 60, 35), null);
+  assert.equal(governor.evidence().failedReductions, 2);
+});
+
+test("baseline detail recovers without permission for high, while a small-device starting tier stays low", () => {
+  const clock = { t: 5000 };
+  const governor = createQualityGovernor({ canPromote: false, now: () => clock.t });
+  assert.equal(frames(governor, clock, 90, 60, 35), "low");
+  clock.t += 4000;
+  assert.equal(frames(governor, clock, 90, 25, 10), null, "the pressure reduction helped");
+  clock.t += 16000;
+  assert.equal(frames(governor, clock, 90, 16.7, 3), "standard");
+  clock.t += 16000;
+  assert.equal(frames(governor, clock, 180, 16.7, 3), null, "the high-tier memory guard remains");
+  const compact = createQualityGovernor({ tier: "low", canPromote: false, now: () => clock.t });
+  clock.t += 16000;
+  assert.equal(frames(compact, clock, 180, 8, 1), null);
+  assert.equal(compact.tier, "low");
 });
 
 test("slow frames spent in the page's own script keep their tier", () => {

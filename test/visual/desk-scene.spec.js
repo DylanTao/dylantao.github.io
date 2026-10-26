@@ -1074,6 +1074,46 @@ async function settle(page) {
   await page.waitForTimeout(200);
 }
 
+test("coastal quality: tier switches keep a complete home and compose full-screen pixels at each budget", async ({ page }, testInfo) => {
+  if (process.platform === "linux") test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page);
+  const { scene, canvas, ui } = await openHome(page, {
+    motion: "reduce",
+    time: "2026-10-01T13:20:00-07:00",
+    nativeStartup: true,
+  });
+  await settleRoomModels(scene);
+  await ui.locator("[data-world-fullscreen]").click();
+  await expect(page.locator("[data-home-artifact-stage]")).toHaveClass(/is-world-immersive/);
+  const rows = [];
+  for (const tier of ["low", "high", "standard"]) {
+    const before = (await evidence(scene)).frames;
+    expect(await scene.evaluate((host, tier) => host.setQualityTier(tier), tier)).toBe(true);
+    await expect.poll(async () => (await evidence(scene)).frames, { timeout: 60000 }).toBeGreaterThan(before);
+    await expect.poll(async () => (await evidence(scene)).quality.tier).toBe(tier);
+    const state = await evidence(scene);
+    expect(state.ready).toBe(true);
+    expect(state.roomCount).toBe(homeManifest().rooms.length);
+    expect(state.actorCount).toBe(1);
+    expect(state.resolution.profile).toBe("fullscreen");
+    expect(state.resolution.factor).toBe(1);
+    const dimensions = await canvas.evaluate((element) => ({ width: element.width, height: element.height }));
+    const [cssWidth, cssHeight] = state.resolution.css;
+    const density = state.resolution.density;
+    const expected = Math.min(state.resolution.budget, cssWidth * cssHeight * density ** 2);
+    expect(Math.abs(dimensions.width * dimensions.height - expected) / expected).toBeLessThan(0.01);
+    const picture = await canvas.screenshot();
+    expect(screenshotMetrics(picture).uniqueColors).toBeGreaterThan(60);
+    expect(screenshotMetrics(picture).luminanceVariance).toBeGreaterThan(80);
+    await capture(testInfo, `coastal-quality-${tier}`, picture);
+    rows.push({ tier, dimensions, expectedPixels: expected, quality: state.quality, resolution: state.resolution });
+  }
+  fs.writeFileSync(testInfo.outputPath("coastal-quality-tiers.json"), JSON.stringify(rows, null, 2));
+  await page.getByRole("button", { name: "Back to the site", exact: true }).click();
+  await expect(page.locator("[data-home-artifact-stage]")).not.toHaveClass(/is-world-immersive/);
+  expect(errors).toEqual([]);
+});
+
 // Project a clear front-side patch of the native onsen into its actual camera.
 // It excludes the bather and foliage. Volume compositing can affect this patch;
 // conserved water state and measured palm coupling supply the independent proof.
@@ -3939,6 +3979,29 @@ test("coastal neighbours: delivered paws and gull wings keep physical contact an
   const before = (await evidence(scene)).animationSeconds;
   await page.clock.runFor(400);
   expect((await evidence(scene)).animationSeconds).toBeGreaterThan(before);
+  // Use the visitor's N journey too: the relocated animal needs a clear orbit above its sloping
+  // mainland habitat, not merely a lab camera that can see grounded paws.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.runFor(100);
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="outside"]').first().click());
+  const neighbourIndex = (await evidence(scene)).neighbours.findIndex((item) => item.id === "raccoon-0");
+  expect(neighbourIndex).toBeGreaterThanOrEqual(0);
+  for (let i = 0; i <= neighbourIndex; i++) await sceneInputFrame(page, view, () => canvas.press("n"));
+  const publicInspection = await evidence(scene);
+  expect(publicInspection.inspection.id).toBe("raccoon-0");
+  expect(publicInspection.inspection.arrival.visibleFaceSamples).toBe(publicInspection.inspection.arrival.faceSamples);
+  expect(publicInspection.inspection.arrival.visibleBody).toBe(true);
+  expect(publicInspection.cameraOrbit.pitch).toBeGreaterThanOrEqual(0.7);
+  expect(publicInspection.cameraArm.distance).toBeGreaterThan(1.8);
+  const projected = publicInspection.neighbours.find((item) => item.id === "raccoon-0").projected;
+  expect(projected.x).toBeGreaterThan(0.4);
+  expect(projected.x).toBeLessThan(0.6);
+  expect(projected.y).toBeGreaterThan(0.4);
+  expect(projected.y).toBeLessThan(0.6);
+  expect(projected.depth).toBeGreaterThan(0);
+  expect(projected.depth).toBeLessThan(1);
+  await capture(testInfo, "raccoon-public-arrival", await canvas.screenshot());
+  fs.writeFileSync(testInfo.outputPath("raccoon-public-arrival.json"), JSON.stringify(publicInspection, null, 2));
   fs.writeFileSync(testInfo.outputPath("wildlife-delivered-contact.json"), JSON.stringify({ outside, cutaway, phase }, null, 2));
   expect(errors).toEqual([]);
 });

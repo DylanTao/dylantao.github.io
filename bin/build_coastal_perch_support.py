@@ -74,11 +74,10 @@ def main():
         patches.append({'id': name, 'kind': kind, 'original': original, 'origin': three(origin),
                         'radius': .27, 'maximumHeight': .22, 'triangles': local})
 
-    # The displaced west perch now lies on a differently quantized broad rock
-    # face. Preserve its complete native patch, and derive contact against the
-    # actual delivered surface so a millimetre of Draco rounding cannot put the
-    # webbed sole inside the rendered rock. Other retained perch patches keep
-    # their original native survey. No triangle is discarded to meet the budget.
+    # All coastal perches use the decoded surfaces that the visitor sees. A native
+    # face can differ by several millimetres after Draco quantization; fitting a
+    # gull to that face leaves its webbed sole visibly above or below the rock.
+    # Preserve every original native patch alongside its delivered replacement.
     exported = set(bpy.context.scene.objects)
     delivered_files = [ROOT / 'assets/models/home/home-shell.glb', ROOT / 'assets/models/home/coast.glb']
     for delivered in delivered_files:
@@ -94,12 +93,15 @@ def main():
         [tuple(range(i, i + 3)) for i in range(0, len(delivered_vertices), 3)])
     # The gallery rail (moved west of the onsen's screen on October 25) is a thin honey ash rail in
     # a house-wide batch, quantized to about a millimetre: it takes the same delivered contact.
-    for index, label in ((0, 'west perch'), (3, 'gallery rail')):
-        patch = patches[index]
-        x, height, z = patch['original']
-        hit, _, _, _ = delivered_bvh.ray_cast(Vector((x, -z, height + .2)), Vector((0, 0, -1)), 1)
-        if hit is None or abs(hit.z-height) > .051:
-            raise ValueError(f'The {label} is not supported by the delivered geometry')
+    for patch in patches:
+        if patch['kind'] not in ('coast', 'rail'):
+            continue
+        label = patch['id']
+        x, _, z = patch['original']
+        native_height = patch['origin'][1]
+        hit, _, _, _ = delivered_bvh.ray_cast(Vector((x, -z, native_height + .15)), Vector((0, 0, -1)), .5)
+        if hit is None or abs(hit.z-native_height) > .01:
+            raise ValueError(f'The {label} native height {native_height} has no delivered support within 10 mm: {hit}')
         origin = Vector((x, -z, hit.z))
         actual = []
         for triangle in delivered_triangles:

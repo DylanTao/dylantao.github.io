@@ -1,0 +1,336 @@
+{
+  "checkedAt": "2026-10-26T11:50:39.020202+00:00",
+  "sourceCommit": "2b8da5d0017a063548f2999bc691588282c94f80",
+  "pagesCommit": "e639b4c56e9e8b79a140499c2aa5707790eb833e",
+  "workflows": [
+    {
+      "conclusion": "success",
+      "databaseId": 40312183720,
+      "name": "Check for broken links on site",
+      "status": "completed",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40312183720"
+    },
+    {
+      "conclusion": "skipped",
+      "databaseId": 40311688218,
+      "name": "Check for broken links",
+      "status": "completed",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40311688218"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40311688208,
+      "name": "Prettier code formatter",
+      "status": "completed",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40311688208"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40311688293,
+      "name": "Upgrade contract checks",
+      "status": "completed",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40311688293"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40311688242,
+      "name": "Deploy site",
+      "status": "completed",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40311688242"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40311688300,
+      "name": "CodeQL Advanced",
+      "status": "completed",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40311688300"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40311688207,
+      "name": "Integration tests",
+      "status": "completed",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40311688207"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40311688228,
+      "name": "Visual checkpoints",
+      "status": "completed",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40311688228"
+    }
+  ],
+  "visualJobs": [
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-journey)",
+      "id": 121534176609,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-core-1)",
+      "id": 121534176826,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-exploration)",
+      "id": 121534176828,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-core-2)",
+      "id": 121534176873,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-journey)",
+      "id": 121534176897,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-footer-light)",
+      "id": 121534176903,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-choreography)",
+      "id": 121534176935,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-held-stairs)",
+      "id": 121534176938,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-choreography)",
+      "id": 121534176956,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-core-2)",
+      "id": 121534176957,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, legacy)",
+      "id": 121534176976,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, site)",
+      "id": 121534176980,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-core-1)",
+      "id": 121534176983,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-live)",
+      "id": 121534176993,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-exploration)",
+      "id": 121534177006,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-core-1)",
+      "id": 121534177023,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-held-stairs)",
+      "id": 121534177024,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-core-1)",
+      "id": 121534177046,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-held-stairs)",
+      "id": 121534177069,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-exploration)",
+      "id": 121534177097,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-choreography)",
+      "id": 121534177107,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-footer-light)",
+      "id": 121534177111,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-core-2)",
+      "id": 121534177123,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-gym)",
+      "id": 121534177128,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-footer-light)",
+      "id": 121534177148,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-live)",
+      "id": 121534177164,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-core-2)",
+      "id": 121534177170,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, site)",
+      "id": 121534177176,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-gym)",
+      "id": 121534177212,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, site)",
+      "id": 121534177216,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-gym)",
+      "id": 121534177292,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-live)",
+      "id": 121534177354,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-live)",
+      "id": 121534177387,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-journey)",
+      "id": 121534177409,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-gym)",
+      "id": 121534177477,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, site)",
+      "id": 121534177478,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-exploration)",
+      "id": 121534177480,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-footer-light)",
+      "id": 121534177501,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-held-stairs)",
+      "id": 121534177510,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-journey)",
+      "id": 121534177581,
+      "conclusion": "success"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-choreography)",
+      "id": 121534177729,
+      "conclusion": "success"
+    }
+  ],
+  "deployedFiles": [
+    {
+      "path": "assets/js/home.js",
+      "url": "https://dylantao.github.io/assets/js/home.js",
+      "status": 200,
+      "bytes": 36701,
+      "pagesSha256": "e16be08b9abce6da3583bc73034e650b528ed9505b630de21d16266ec7db6f14",
+      "liveSha256": "e16be08b9abce6da3583bc73034e650b528ed9505b630de21d16266ec7db6f14",
+      "matches": true
+    },
+    {
+      "path": "assets/img/favicon.svg",
+      "url": "https://dylantao.github.io/assets/img/favicon.svg",
+      "status": 200,
+      "bytes": 707,
+      "pagesSha256": "d9097a81e1336480ed852a2d688c3ecfb193bc3b95c80afc2ee6e63fa25d3a94",
+      "liveSha256": "d9097a81e1336480ed852a2d688c3ecfb193bc3b95c80afc2ee6e63fa25d3a94",
+      "matches": true
+    },
+    {
+      "path": "assets/css/main.css",
+      "url": "https://dylantao.github.io/assets/css/main.css",
+      "status": 200,
+      "bytes": 598664,
+      "pagesSha256": "84bec4fc4fb32342892d2123caecba3d9754120541215edfe9229743d7160e7c",
+      "liveSha256": "84bec4fc4fb32342892d2123caecba3d9754120541215edfe9229743d7160e7c",
+      "matches": true
+    },
+    {
+      "path": "assets/models/home/furniture/eames-lounge-lod0.glb",
+      "url": "https://dylantao.github.io/assets/models/home/furniture/eames-lounge-lod0.glb",
+      "status": 200,
+      "bytes": 444892,
+      "pagesSha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691",
+      "liveSha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691",
+      "matches": true
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "url": "https://dylantao.github.io/assets/models/home/static-light-field.json",
+      "status": 200,
+      "bytes": 742145,
+      "pagesSha256": "247b40192ef5744afb5b2d27dcad4185126f591f7fdf5e4c1ca6c2a6ca9c3d01",
+      "liveSha256": "247b40192ef5744afb5b2d27dcad4185126f591f7fdf5e4c1ca6c2a6ca9c3d01",
+      "matches": true
+    },
+    {
+      "path": "projects/homepage-desk-scene/index.html",
+      "url": "https://dylantao.github.io/projects/homepage-desk-scene/index.html",
+      "status": 200,
+      "bytes": 119545,
+      "pagesSha256": "eca10f0059373b5d32756df6c2d6c19ec95f66c029bab3f78680f3518b2c5dee",
+      "liveSha256": "eca10f0059373b5d32756df6c2d6c19ec95f66c029bab3f78680f3518b2c5dee",
+      "matches": true
+    },
+    {
+      "path": "projects/house-in-the-cliff/index.html",
+      "url": "https://dylantao.github.io/projects/house-in-the-cliff/index.html",
+      "status": 200,
+      "bytes": 89399,
+      "pagesSha256": "5d52128130f877ac5c5c1e893e2695303803312f20a94b05de9966d2f2db4807",
+      "liveSha256": "5d52128130f877ac5c5c1e893e2695303803312f20a94b05de9966d2f2db4807",
+      "matches": true
+    }
+  ],
+  "scope": "Published recovery, Eames, diary and header checkpoint. Later local whiskey, quality, cliff and footer work is not verified by this receipt."
+}

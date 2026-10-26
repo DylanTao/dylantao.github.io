@@ -1735,7 +1735,15 @@ export function createCoastalHome(container, records, artifacts) {
       let best = -Infinity,
         rays = 0,
         selectedVisibility = null;
-      const elevations = neighbour.id.startsWith("rabbit-") ? [0.46, 0.72] : neighbour.id === "balcony-gull-0" ? [0.2, 0.4, 0.72] : [0.2, 0.4];
+      // The raccoon's intact mainland habitat slopes behind its former lifted roof. Low-only
+      // candidates can all finish behind rock; score higher real-mesh sightlines as well.
+      const elevations = neighbour.id.startsWith("rabbit-")
+        ? [0.46, 0.72]
+        : neighbour.id === "raccoon-0"
+          ? [0.72, 0.92, 0.4, 0.2]
+          : neighbour.id === "balcony-gull-0"
+            ? [0.2, 0.4, 0.72]
+            : [0.2, 0.4];
       // Include the actual frontal gap. Side-only candidates missed a narrow
       // clear opening in the authored scrub even after a full orbit found it.
       const candidates = [],
@@ -2858,6 +2866,7 @@ export function createCoastalHome(container, records, artifacts) {
     const frameDelta = Math.min(delta, 1);
     lastFrame = now;
     const moving = !reduced && !paused;
+    if (!moving && resolution?.restore()) resize();
     if (moving) elapsed += delta;
     physicalTime.value = elapsed;
     stepWind(moving);
@@ -3439,7 +3448,7 @@ export function createCoastalHome(container, records, artifacts) {
       cleanup.push(() => cameraField?.dispose());
       // The composer multisamples its own target and finishes with one full-screen triangle, so a
       // multisampled canvas would only add a resolve without changing a pixel.
-      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: "low-power" });
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: "high-performance" });
       renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = TONE_MAPPING[look.tone];

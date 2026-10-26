@@ -31,9 +31,9 @@ export const FULLSCREEN_PIXEL_BUDGET = 8_300_000;
 export const COMPACT_FULLSCREEN_PIXEL_BUDGET = 1_800_000;
 export const RESOLUTION_PROFILES = Object.freeze({
   embed: Object.freeze({ pixelBudget: PIXEL_BUDGET, maxDensity: 1.5, minFactor: 0.7, quick: false }),
-  // The floor (0.35 of the linear density) is about where the old 2.1 MP budget's own floor drew;
-  // `quick` takes proportional steps and decides on time-bounded windows.
-  fullscreen: Object.freeze({ pixelBudget: FULLSCREEN_PIXEL_BUDGET, maxDensity: 2, minFactor: 0.35, quick: true }),
+  // Preserve readable geometry and material grain on desktop. A GPU pressure probe may trade up to
+  // 20% of linear density; phone full screen keeps its separate, more conservative memory profile.
+  fullscreen: Object.freeze({ pixelBudget: FULLSCREEN_PIXEL_BUDGET, maxDensity: 2, minFactor: 0.8, quick: true }),
   // Touch phones: avoid a 2x half-float multisample buffer before adaptation even starts.
   // Only measured GPU-bound moving frames trade further pixels, and unhelpful probes revert.
   compactFullscreen: Object.freeze({ pixelBudget: COMPACT_FULLSCREEN_PIXEL_BUDGET, maxDensity: 1.5, minFactor: 0.6, quick: true }),
@@ -251,6 +251,17 @@ export function createResolutionGovernor({
     reset() {
       clear();
       probe = null;
+    },
+    // Paused/reduced-motion views pay for one composed still, so show the full budgeted image.
+    // Keep failed-probe history: resuming should not repeat a reduction already shown unhelpful.
+    restore() {
+      if (factor === 1) return false;
+      factor = 1;
+      probe = null;
+      fastStreak = 0;
+      clear();
+      if (cssWidth && cssHeight) current = layout(cssWidth, cssHeight);
+      return true;
     },
     evidence() {
       return current

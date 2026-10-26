@@ -1,0 +1,153 @@
+{
+  "checkedAt": "2026-10-26T11:34:53.950Z",
+  "baseURL": "http://127.0.0.1:4104/al-folio/",
+  "abRef": "8f13a4646",
+  "changed": [
+    "assets/js/home-scene/controller.mjs",
+    "assets/js/home-scene/materials.mjs",
+    "assets/js/home-scene/quality.mjs",
+    "assets/js/home-scene/realism.mjs",
+    "assets/js/home-scene/resolution.mjs"
+  ],
+  "held": ["assets/js/home-scene/controller.mjs", "assets/js/home-scene/quality.mjs", "assets/js/home-scene/resolution.mjs"],
+  "workQuery": "",
+  "width": 1440,
+  "height": 1000,
+  "dpr": 1,
+  "seed": 7,
+  "fixedTime": "2026-10-02T13:20:00-07:00",
+  "comparisons": {
+    "study": {
+      "control_base1_base2": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 0,
+        "maxChannelDelta": 0,
+        "pixelmatchDifferent": 0
+      },
+      "control_work1_work2": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 0,
+        "maxChannelDelta": 0,
+        "pixelmatchDifferent": 0
+      },
+      "base1_work1": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 28850,
+        "maxChannelDelta": 21,
+        "pixelmatchDifferent": 0
+      },
+      "base2_work2": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 28850,
+        "maxChannelDelta": 21,
+        "pixelmatchDifferent": 0
+      }
+    },
+    "outside": {
+      "control_base1_base2": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 0,
+        "maxChannelDelta": 0,
+        "pixelmatchDifferent": 0
+      },
+      "control_work1_work2": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 2384,
+        "maxChannelDelta": 54,
+        "pixelmatchDifferent": 97
+      },
+      "base1_work1": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 3820,
+        "maxChannelDelta": 54,
+        "pixelmatchDifferent": 97
+      },
+      "base2_work2": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 1439,
+        "maxChannelDelta": 15,
+        "pixelmatchDifferent": 0
+      }
+    },
+    "coast160": {
+      "control_base1_base2": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 0,
+        "maxChannelDelta": 0,
+        "pixelmatchDifferent": 0
+      },
+      "control_work1_work2": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 675,
+        "maxChannelDelta": 33,
+        "pixelmatchDifferent": 0
+      },
+      "base1_work1": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 887,
+        "maxChannelDelta": 33,
+        "pixelmatchDifferent": 0
+      },
+      "base2_work2": {
+        "sameSize": true,
+        "pixels": 251790,
+        "exactDifferent": 222,
+        "maxChannelDelta": 6,
+        "pixelmatchDifferent": 0
+      }
+    }
+  },
+  "captures": [
+    {
+      "variant": "base",
+      "round": 1,
+      "shots": {
+        "study": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\study-base-1.png",
+        "outside": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\outside-base-1.png",
+        "coast160": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\coast160-base-1.png"
+      },
+      "errors": []
+    },
+    {
+      "variant": "work",
+      "round": 1,
+      "shots": {
+        "study": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\study-work-1.png",
+        "outside": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\outside-work-1.png",
+        "coast160": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\coast160-work-1.png"
+      },
+      "errors": []
+    },
+    {
+      "variant": "work",
+      "round": 2,
+      "shots": {
+        "study": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\study-work-2.png",
+        "outside": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\outside-work-2.png",
+        "coast160": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\coast160-work-2.png"
+      },
+      "errors": []
+    },
+    {
+      "variant": "base",
+      "round": 2,
+      "shots": {
+        "study": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\study-base-2.png",
+        "outside": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\outside-base-2.png",
+        "coast160": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\pc-fidelity-2026-10-26\\material-parity-v2\\coast160-base-2.png"
+      },
+      "errors": []
+    }
+  ]
+}

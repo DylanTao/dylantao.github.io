@@ -1,6 +1,6 @@
 # Whiskey evening, October 26
 
-This checkpoint connects the existing whiskey corner to whiskey nights in the authored routine. It is **not release acceptance**: the strict house-overlap audit still fails the retained roof-planting/fireplace depth bound. Item 22 remains open for the broader character and routine review.
+This checkpoint connects the existing whiskey corner to whiskey nights in the authored routine. The original strict house-overlap blocker is retained below as history; the subsequent [PC cliff repair](../pc-cliff-2026-10-26/README.md) physically moves complete agave rosettes clear of the chimney and passes both native/decoded audits without changing their ratchets. Final production/CI/live acceptance is recorded by the coordinator. Item 22 remains open for the broader character and routine review.
 
 ## Placement and contact
 
@@ -49,7 +49,7 @@ The [cache receipt](cache-receipt.json) records the generated cache and proves t
 
 Both named objects' exact geometry/world-matrix hashes are unchanged. The audit tool, thresholds and verdicts are unchanged, and the historical compact report's `before` record is preserved exactly as data. Full raw native, delivered and before-control audits remain under `.jekyll-cache/visual-qa/whiskey-2026-10-26/`; their hashes are recorded in the control. The coordinator will inspect the physical seam and sampling method in the subsequent geometry pass before publication.
 
-The coordinator's native follow-up identifies the second object as an agave leaf batch, rather than the solid rock roof. The planned physical repair moves the complete rosette clear of the chimney and re-grounds it on the roof. This checkpoint makes no change to that planting, its threshold or its verdict.
+The coordinator's native follow-up identifies the second object as an agave leaf batch, rather than the solid rock roof. The subsequent physical repair moves the complete rosettes clear of the chimney and re-grounds them on their roof. All 282 delivered leaves/32 rosettes pass the unchanged grounding limits. This whiskey-only checkpoint did not change that planting, its threshold or its verdict; the combined source and later audit are bound separately in the PC cliff review.
 
 ## Reproduction
 

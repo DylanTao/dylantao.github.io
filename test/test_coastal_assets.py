@@ -125,6 +125,12 @@ class CoastalAssetsTest(unittest.TestCase):
         self.assertTrue(all(c == conventions[0] for c in conventions))
 
     def test_complete_first_scene_budget_includes_all_rooms_furniture_and_selected_avatar(self):
+        # Pages serves the unchanged Draco WASM as gzip too (verified response/body hash in
+        # reviews/pc-quality-2026-10-26/wasm-transfer.json). Count a level-six transfer consistently
+        # for every input; the four-MiB ceiling is unchanged. This is not allocated/decoded memory.
+        def transfer_size(path):
+            return len(gzip.compress(path.read_bytes(), compresslevel=6))
+
         runtime = list((ROOT / "assets/js/home-scene").glob("*.mjs"))
         runtime += list((ROOT / "assets/js/vendor/three-r164").rglob("*.js"))
         runtime += [
@@ -133,19 +139,19 @@ class CoastalAssetsTest(unittest.TestCase):
             ASSETS / "manifest.json",
             ROOT / "assets/img/home/coastal-vignette.svg",
         ]
-        base = sum(len(gzip.compress(p.read_bytes())) for p in runtime)
-        base += len(gzip.compress((ASSETS / MANIFEST["shell"]).read_bytes()))
-        base += len(gzip.compress((ASSETS / MANIFEST["wallArt"]["file"]).read_bytes()))
+        base = sum(transfer_size(p) for p in runtime)
+        base += transfer_size(ASSETS / MANIFEST["shell"])
+        base += transfer_size(ASSETS / MANIFEST["wallArt"]["file"])
         base += sum(
-            p.stat().st_size
+            transfer_size(p)
             for p in (ROOT / "assets/js/vendor/three-r164").rglob("*.wasm")
         )
         all_rooms = sum(
-            len(gzip.compress((ASSETS / r["file"]).read_bytes()))
+            transfer_size(ASSETS / r["file"])
             for r in MANIFEST["rooms"]
         )
         largest_actor = max(
-            len(gzip.compress((ASSETS / a["file"]).read_bytes()))
+            transfer_size(ASSETS / a["file"])
             for a in MANIFEST["avatars"]
         )
         furniture = json.loads((ASSETS / "furniture/index.json").read_text(encoding="utf-8"))
@@ -155,13 +161,13 @@ class CoastalAssetsTest(unittest.TestCase):
             for anchor in MANIFEST["furniture"]
             if anchor["item"] in furniture["items"]
         }
-        defaults = sum(len(gzip.compress((ASSETS / "furniture" / name).read_bytes())) for name in default_models)
+        defaults = sum(transfer_size(ASSETS / "furniture" / name) for name in default_models)
         auxiliary = sum(
-            len(gzip.compress((ASSETS / name).read_bytes()))
+            transfer_size(ASSETS / name)
             for name in ("furniture/index.json", "loading-sketch.json", MANIFEST["staticLightFieldCache"]["url"])
         )
         # The loading sketch's index carries the coast view; a load adds only its arrival room's drawing.
-        auxiliary += max(len(gzip.compress(path.read_bytes())) for path in (ASSETS / "loading-sketch").glob("*.json"))
+        auxiliary += max(transfer_size(path) for path in (ASSETS / "loading-sketch").glob("*.json"))
         self.assertLess(base + all_rooms + largest_actor + defaults + auxiliary, 4 * 1024 * 1024)
 
     def test_mesh_compression_is_shipped_and_has_a_local_decoder(self):

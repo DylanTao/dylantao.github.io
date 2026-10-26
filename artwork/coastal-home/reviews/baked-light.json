@@ -549,12 +549,6 @@
       "max": 0.7532989268253247
     },
     {
-      "mesh": "core__blue sage agave leaf",
-      "corners": 13824,
-      "min": 0.68,
-      "max": 0.8186224955692888
-    },
-    {
       "mesh": "core_facade__dark_bronze",
       "corners": 10408,
       "min": 0.68,
@@ -1339,12 +1333,6 @@
       "corners": 180,
       "min": 0.68,
       "max": 0.7025000006705523
-    },
-    {
-      "mesh": "core__golden coastal sandstone",
-      "corners": 133514,
-      "min": 0.68,
-      "max": 0.9584814655284087
     },
     {
       "mesh": "sleep_decor pale oak",
@@ -2659,6 +2647,42 @@
       "corners": 144,
       "min": 0.68,
       "max": 0.7597160229024787
+    },
+    {
+      "mesh": "coast_shared_golden coastal sandstone",
+      "corners": 215780,
+      "min": 0.68,
+      "max": 0.9562056937565406
+    },
+    {
+      "mesh": "core__golden coastal sandstone",
+      "corners": 186288,
+      "min": 0.68,
+      "max": 0.9583623684942723
+    },
+    {
+      "mesh": "core__blue sage agave leaf",
+      "corners": 8208,
+      "min": 0.68,
+      "max": 0.8705234989523889
+    },
+    {
+      "mesh": "core_retreat_roof_planting__core_estate_library_liftaway_roof",
+      "corners": 2160,
+      "min": 0.68,
+      "max": 0.8306258940200011
+    },
+    {
+      "mesh": "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
+      "corners": 1296,
+      "min": 0.68,
+      "max": 0.7670169728994369
+    },
+    {
+      "mesh": "core_retreat_roof_planting__core_retreat_liftaway_roof",
+      "corners": 1872,
+      "min": 0.68,
+      "max": 0.7769056438406309
     }
   ]
 }

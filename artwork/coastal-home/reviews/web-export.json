@@ -129,18 +129,18 @@
     },
     {
       "mesh": "coast_shared_golden coastal sandstone",
-      "facesBefore": 43958,
-      "facesExported": 43958
+      "facesBefore": 55498,
+      "facesExported": 55498
     },
     {
       "mesh": "core_liftaway_cave_ceiling",
-      "facesBefore": 250,
-      "facesExported": 250
+      "facesBefore": 762,
+      "facesExported": 762
     },
     {
       "mesh": "core__golden coastal sandstone",
-      "facesBefore": 31484,
-      "facesExported": 31484
+      "facesBefore": 45896,
+      "facesExported": 45896
     },
     {
       "mesh": "coast_shared_dry beach sand",
@@ -1144,13 +1144,13 @@
     },
     {
       "mesh": "core_bathwing_liftaway_roof",
-      "facesBefore": 46,
-      "facesExported": 46
+      "facesBefore": 293,
+      "facesExported": 293
     },
     {
       "mesh": "core_estate_library_liftaway_roof",
-      "facesBefore": 435,
-      "facesExported": 435
+      "facesBefore": 1101,
+      "facesExported": 1101
     },
     {
       "mesh": "core_estate_terrace__warm cut stone",

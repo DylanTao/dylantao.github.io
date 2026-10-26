@@ -6,6 +6,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 room=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--room=')),None)
 interiors_only='--interiors-only' in sys.argv
+draco_level=int(next((a.split('=',1)[1] for a in sys.argv if a.startswith('--draco-level=')),'7'))
+assert 0 <= draco_level <= 10,draco_level
 ROOMS=tuple(room['id'] for room in json.loads((ROOT/'assets/models/home/manifest.json').read_text(encoding='utf-8'))['rooms'])
 assert room is None or room in ROOMS,room
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'artwork/coastal-home/coastal-home.blend'))
@@ -26,6 +28,14 @@ for o in scene.objects:
             v=round(sums[i]/max(1,counts[i])*32)/32
             c.color=(v,v,v,1)
         o.data.color_attributes.active_color=attr
+    # These rock finishes sample world-space position/normal, never UVs. Keep their authoring UV
+    # layers in the native source, but avoid encoding an unused coordinate stream in delivered GLBs.
+    used_materials=[o.data.materials[i] for i in {face.material_index for face in o.data.polygons}]
+    if used_materials and all(m and 'sandstone' in m.name.lower() and
+            not (m.use_nodes and any(n.type=='TEX_IMAGE' and n.image and
+                 any(output.is_linked for output in n.outputs) for n in m.node_tree.nodes))
+            for m in used_materials):
+        for layer in list(o.data.uv_layers):o.data.uv_layers.remove(layer)
     before=len(o.data.polygons)
     # Batching renames the mainland by material. Preserve those contact meshes
     # and their authored split normals; decimation here facets the cave jambs.
@@ -44,7 +54,7 @@ for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:
         if o.name.startswith(prefix) and not (name=='home-shell' and o.name.startswith('core_flora_')) or name=='home-shell' and o.type=='EMPTY':o.select_set(True)
-    bpy.ops.export_scene.gltf(filepath=str(ROOT/'assets/models/home'/f'{name}.glb'),export_format='GLB',use_selection=True,export_extras=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7,export_draco_color_quantization=6,export_draco_normal_quantization=8,export_draco_position_quantization=14)
+    bpy.ops.export_scene.gltf(filepath=str(ROOT/'assets/models/home'/f'{name}.glb'),export_format='GLB',use_selection=True,export_extras=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=draco_level,export_draco_color_quantization=6,export_draco_normal_quantization=8,export_draco_position_quantization=14)
 output=ROOT/'artwork/coastal-home/reviews/web-export.json'
 if room and output.exists():
     report=[m for m in json.loads(output.read_text())['meshes'] if not m['mesh'].startswith(room+'_')]+report

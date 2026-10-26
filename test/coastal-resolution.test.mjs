@@ -184,7 +184,7 @@ test("full screen draws a 4K screen at its native pixels and gives the embed its
   assert.deepEqual([back.width, back.height, back.density], [1000, 480, 1.5]);
 });
 
-test("full screen steps down in proportion to slow frames, and a slow GPU finds its level within seconds", () => {
+test("desktop full screen probes pressure within seconds while preserving a readable density", () => {
   const { g, state } = governor({ dpr: 1.5 });
   g.setProfile("fullscreen");
   g.size(2560, 1440);
@@ -195,18 +195,38 @@ test("full screen steps down in proportion to slow frames, and a slow GPU finds 
     frames++;
   }
   assert.ok(frames <= 14, `decided after ${frames} frames`);
-  assert.ok(Math.abs(g.evidence().factor - 0.6) < 1e-9, "the largest single step");
-  // The step helped (250 -> 90 ms) and frames are still slow: another proportional step, to the floor.
+  assert.equal(g.evidence().factor, 0.8, "the desktop floor keeps 64% of native pixels");
+  // Even extreme pressure cannot turn a 4K desktop into the former 0.35-density image.
   for (let i = 0; i < 40 && !g.observe(90, 20); i++) state.time += 90;
-  assert.ok(Math.abs(g.evidence().factor - 0.36) < 1e-9, `${g.evidence().factor}`);
+  assert.equal(g.evidence().factor, 0.8);
   for (let i = 0; i < 80 && !g.observe(40, 20); i++) state.time += 40;
-  assert.equal(g.evidence().factor, 0.35, "never below the full-screen floor");
+  assert.equal(g.evidence().factor, 0.8);
   // A frame just over the slow line takes the ordinary 0.85 step, not a proportional leap.
   const mild = governor({ dpr: 1.5 });
   mild.g.setProfile("fullscreen");
   mild.g.size(2560, 1440);
   for (let i = 0; i < 80 && !mild.g.observe(26, 4); i++) mild.state.time += 26;
   assert.equal(mild.g.evidence().factor, 0.85);
+});
+
+test("a composed still restores its full budget without erasing failed pressure probes", () => {
+  const { g, state } = governor({ dpr: 1.5 });
+  g.setProfile("fullscreen");
+  g.size(2560, 1440);
+  feed(g, state, { interval: 8, frames: 8 });
+  feed(g, state, { interval: 60, frames: 26 });
+  assert.equal(g.evidence().factor, 0.8);
+  feed(g, state, { interval: 8, frames: 8 });
+  feed(g, state, { interval: 60, frames: 26 });
+  assert.equal(g.evidence().failedProbes, 1);
+  feed(g, state, { interval: 8, frames: 8 });
+  feed(g, state, { interval: 60, frames: 26 });
+  assert.equal(g.evidence().factor, 0.8);
+  assert.equal(g.restore(), true);
+  assert.equal(g.evidence().factor, 1);
+  assert.equal(g.evidence().pixels, 3840 * 2160);
+  assert.equal(g.restore(), false, "only the first still requests a resize");
+  assert.equal(g.evidence().failedProbes, 1);
 });
 
 test("the embed keeps every detail it had; large full-screen buffers trade samples for pixels", () => {

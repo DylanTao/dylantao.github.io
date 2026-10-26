@@ -1,0 +1,10 @@
+{
+  "scope": "All source scene modules, vendor/decoder, all room GLBs, largest avatar, default furniture, wall art, manifest, light cache and worst loading-sketch room; gzip level6 consistently including verified gzip-served WASM. This is transfer, not decoded/GPU memory.",
+  "results": [
+    {
+      "gzipLevelSixCompleteArrivalBytes": 4087959,
+      "unchangedLimitBytes": 4194304,
+      "headroomBytes": 106345
+    }
+  ]
+}

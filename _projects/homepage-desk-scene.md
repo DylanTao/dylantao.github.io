@@ -46,7 +46,7 @@ cinematic: true
 
 <section class="project-case-summary" aria-label="Homepage desk experiment summary">
   <div><span>Why</span><p>I wanted the paper desk to feel like a place without making the quick 2D homepage slower to read.</p></div>
-  <div><span>What</span><p>A quick 2D desk and an inhabited home with six connected spaces, sharing the same records, papers, and discoveries.</p></div>
+  <div><span>What</span><p>A quick 2D desk and an inhabited home with ten connected spaces, sharing the same records, papers, and discoveries.</p></div>
   <div><span>Try</span><p>Switch views, play a record, find a hidden card, and check that it is still there when you switch back.</p></div>
 </section>
 

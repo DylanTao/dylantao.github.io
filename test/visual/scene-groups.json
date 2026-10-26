@@ -1,5 +1,5 @@
 {
-  "head": "d7ceac3173f15602ea19416cccf3e7ed2b2509af",
+  "head": "a0cbf867736141314ba823e143a2d7489ef11c2c",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -10,6 +10,10 @@
   ],
   "groups": {
     "scene-core-1": [
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal quality: tier switches keep a complete home and compose full-screen pixels at each budget"
+      },
       {
         "file": "companion.spec.js",
         "title": "P: its former project address redirects to the current page"
@@ -341,6 +345,10 @@
       {
         "file": "desk-scene.spec.js",
         "title": "coastal home: whiskey evenings support feet and set the glass on the side table"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion"
       }
     ],
     "scene-gym": [
@@ -485,6 +493,10 @@
       {
         "file": "static-light-field.spec.js",
         "title": "static light field: native linear GPU diffuse matches traced cache without doubled hemisphere"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal sea: refracted bottom and volumetric light use the current relief"
       }
     ]
   }

@@ -508,6 +508,12 @@
       "maxDepthM": 0.022,
       "maxSeamM": 32.74,
       "maxVisibleAreaM2": 0.0016
+    },
+    "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | lounge__chalk limestone": {
+      "verdict": "follow-up",
+      "reason": "Retained sofa/limestone crossing near native [2.768,-6.077,-0.119]. The delivered sofa and lounge meshes are unchanged by this cliff/plant repair. Removing the chimney/agave interference exposes this formerly lower-ranked pair in the top 60; no repair of it is claimed. Inspect the sofa base and floor before moving either.",
+      "maxDepthM": 0.04,
+      "maxSeamM": 9.6
     }
   }
 }

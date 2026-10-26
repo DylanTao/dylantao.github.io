@@ -3,6 +3,7 @@ from pathlib import Path
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
 root=Path(__file__).resolve().parents[1];sys.path.insert(0,str(root/'bin'))
+args={a[2:].split('=',1)[0]:a.split('=',1)[1] for a in sys.argv if a.startswith('--') and '=' in a}
 import coastal_shell as shell
 bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
 bpy.ops.import_scene.gltf(filepath=str(root/'assets/models/home/home-shell.glb'))
@@ -13,7 +14,8 @@ supports=[]
 for o in scene.objects:
  if o.type=='MESH' and (o.get('caveRoof') or o.get('closedSolid') or 'golden coastal sandstone' in o.name.replace('_',' ')):
   supports.append((o,BVHTree.FromPolygons([o.matrix_world@v.co for v in o.data.vertices],[list(f.vertices) for f in o.data.polygons])))
-reference=json.loads((root/'artwork/coastal-home/reviews/retreat-2026-10-24/agave-grounding.json').read_text())['contacts']
+reference_path=root/args.get('reference','artwork/coastal-home/reviews/retreat-2026-10-24/agave-grounding.json')
+reference=json.loads(reference_path.read_text())['contacts']
 contacts=[]
 for obj in agaves:
  bm=__import__('bmesh').new();bm.from_mesh(obj.data);bm.verts.ensure_lookup_table()
@@ -35,5 +37,7 @@ report={'scope':'Actual decoded delivered Draco agave leaf roots versus decoded 
 assert report['rosettes']==32
 assert report['maximumGap']<0, 'Delivered agave roots still float'
 assert report['minimumGap']>-.045, 'Delivered agave roots sink excessively'
-(root/'.jekyll-cache/retreat-grounding/delivered-agave-contact.json').write_text(json.dumps(report,indent=2)+'\n')
+destination=root/args.get('out','.jekyll-cache/retreat-grounding/delivered-agave-contact.json')
+destination.parent.mkdir(parents=True,exist_ok=True)
+destination.write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps({k:v for k,v in report.items() if k!='contacts'}))
