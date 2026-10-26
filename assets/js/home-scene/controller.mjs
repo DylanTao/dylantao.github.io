@@ -8,6 +8,7 @@ import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvat
 
 import { createFootContacts } from "./locomotion.mjs";
 import { createResolutionGovernor, detailFor } from "./resolution.mjs";
+import { createQualityGovernor, initialTier, lowerTier, QUALITY_CAP_KEY, QUALITY_TIERS, requestedTier, targetMemory } from "./quality.mjs";
 import { setMirrorSize } from "./reflection.mjs";
 import { createShadowCache } from "./shadow-cache.mjs";
 import { shadowDrift, steppedShadowExtent } from "./shadow-fit.mjs";
@@ -203,6 +204,19 @@ export function createCoastalHome(container, records, artifacts) {
   // Realistic is the only active treatment, including the authoring lab.
   const style = "realistic";
   const labEnabled = new URLSearchParams(location.search).get("scene-lab") === "1";
+  // Hardware quality tiers (quality.mjs): standard draws the home as before, measured frames may move
+  // a device to high or low, and ?quality=low|standard|high pins one. Automation draws standard and
+  // holds it, as it holds the cinematic layer still, unless the URL asks (?quality=auto or a tier).
+  // ?perf=1 adds a corner readout of the live numbers (perf-overlay.mjs) for reports from devices.
+  const qualityAutomated =
+      Boolean(navigator.webdriver) && !requestedTier(location.search) && new URLSearchParams(location.search).get("quality") !== "auto",
+    qualityPinned = requestedTier(location.search) ?? (qualityAutomated ? "standard" : null),
+    perfRequested = new URLSearchParams(location.search).get("perf") === "1";
+  let quality = null,
+    qualitySwitch = null,
+    perfOverlay = null,
+    rendererName;
+  const qualitySettings = () => QUALITY_TIERS[quality?.tier ?? "standard"];
   let avatarId,
     activeGripOffsets,
     actor,
@@ -2557,6 +2571,12 @@ export function createCoastalHome(container, records, artifacts) {
     });
     listen(canvas, "webglcontextlost", (e) => {
       e.preventDefault();
+      // The next start in this tab begins one quality tier lower (quality.mjs).
+      try {
+        sessionStorage.setItem(QUALITY_CAP_KEY, lowerTier(quality?.tier ?? "standard"));
+      } catch {
+        /* Storage can be refused; the retry then starts at the device's own tier. */
+      }
       fail("3D paused. Switch to 3D again to retry.");
     });
     listen(document, "visibilitychange", () => {
@@ -2679,6 +2699,7 @@ export function createCoastalHome(container, records, artifacts) {
     // MSAA, the sun's shadow map and the mirror's size with it, reallocating them mid-motion and
     // visibly switching edge quality; it now changes only the pixel count.
     const adapted = resolution?.evidence()?.factor || 1;
+    const tier = qualitySettings();
     const next = detailFor({
       width: canvas.width / adapted,
       height: canvas.height / adapted,
@@ -2686,10 +2707,12 @@ export function createCoastalHome(container, records, artifacts) {
       compact: compactTouch,
       maxTextureSize: renderer.capabilities.maxTextureSize,
       maxSamples: renderer.capabilities.maxSamples,
+      tier,
     });
     if (pinnedSamples !== null) next.samples = Math.min(pinnedSamples, renderer.capabilities.maxSamples);
-    next.anisotropy = large ? Math.min(8, renderer.capabilities.getMaxAnisotropy()) : 1;
+    next.anisotropy = Math.min(large ? tier.anisotropy.fullscreen : tier.anisotropy.embed, renderer.capabilities.getMaxAnisotropy());
     finish?.setDetail({ samples: next.samples, contactLongSide: next.contactLongSide });
+    applyTierDetail();
     if (sun.shadow.mapSize.x !== next.shadowMapSize) {
       // three allocates the light's map again on its next shadow pass; the shadow cache follows the
       // new map (shadow-cache.mjs), and the texel snapping and biases follow the new texel.
@@ -2708,7 +2731,7 @@ export function createCoastalHome(container, records, artifacts) {
           const map = material?.map;
           if (!map || map.isRenderTargetTexture) continue;
           map.userData.baseAnisotropy ??= map.anisotropy;
-          const wanted = large ? Math.max(next.anisotropy, map.userData.baseAnisotropy) : map.userData.baseAnisotropy;
+          const wanted = Math.max(next.anisotropy, map.userData.baseAnisotropy);
           if (map.anisotropy !== wanted) {
             map.anisotropy = wanted;
             map.needsUpdate = true;
@@ -2717,6 +2740,83 @@ export function createCoastalHome(container, records, artifacts) {
       });
     }
     detail = next;
+  }
+  // What a tier sets beyond the buffer's detail: the bathroom mirrors' size and the haze march.
+  function applyTierDetail() {
+    const tier = qualitySettings();
+    interiorReflections?.setSize(tier.mirrorSize);
+    finish?.haze?.setQuality({ steps: tier.hazeSteps, divisor: tier.hazeDivisor });
+  }
+  // High is offered only on a GPU with large textures, a device that does not report little memory,
+  // and where the high tier's targets at this screen's full-screen size fit its memory budget.
+  function highTierFits() {
+    const { maxTextureSize, maxSamples } = renderer.capabilities;
+    if (compactTouch || maxTextureSize < 8192 || (Number.isFinite(navigator.deviceMemory) && navigator.deviceMemory < 8)) return false;
+    const high = QUALITY_TIERS.high,
+      density = Math.min(globalThis.devicePixelRatio || 1, high.fullscreen.maxDensity),
+      native = screen.width * screen.height * density * density,
+      cap = Math.min(1, Math.sqrt(high.fullscreen.pixelBudget / Math.max(1, native))),
+      width = screen.width * density * cap,
+      height = screen.height * density * cap;
+    const next = detailFor({ width, height, fullscreen: true, maxTextureSize, maxSamples, tier: high });
+    return targetMemory({ width, height, ...next, mirrorSize: high.mirrorSize }) <= high.memoryBudget;
+  }
+  // A tier change reallocates the drawing buffer and what follows it, once and while the view rests.
+  // The first frame drawn after it, and the interval to the next, are kept as what the change cost.
+  function applyQuality(tier) {
+    qualitySwitch = { tier, at: performance.now(), frame: frames, firstFrameMs: null, nextIntervalMs: null };
+    resolution?.setTier(QUALITY_TIERS[tier]);
+    resize();
+  }
+  function qualityMemory() {
+    if (!renderer || !detail) return null;
+    const { width, height } = renderer.domElement,
+      pixels = width * height;
+    const hazeDivisor = Math.max(2, (pixels > 1.4e6 ? 4 : pixels > 5e5 ? 3 : 2) + qualitySettings().hazeDivisor);
+    return targetMemory({
+      width,
+      height,
+      ...detail,
+      shadowMapSize: sun.shadow.mapSize.x,
+      mirrorSize: interiorReflections?.evidence().size ?? 256,
+      hazeDivisor,
+    });
+  }
+  // The numbers ?perf=1 shows and copies (perf-overlay.mjs).
+  function perfSummary() {
+    if (rendererName === undefined && renderer) {
+      const gl = renderer.getContext(),
+        info = gl.getExtension("WEBGL_debug_renderer_info");
+      rendererName = (info && gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) || null;
+    }
+    const memory = qualityMemory();
+    return {
+      readyMs: firstFrameMilliseconds,
+      stage: container.dataset.loadingStage || null,
+      tier: quality?.tier ?? null,
+      frameP50: frameTimings.length ? quantile("interval", 0.5) : null,
+      frameP95: frameTimings.length ? quantile("interval", 0.95) : null,
+      frameSamples: frameTimings.length,
+      gpuMs: finish?.evidence.gpu.medianMs ?? null,
+      buffer: renderer ? [renderer.domElement.width, renderer.domElement.height] : null,
+      factor: resolution?.evidence()?.factor ?? 1,
+      samples: detail?.samples ?? null,
+      shadowMap: sun.shadow.mapSize.x,
+      memoryMB: memory === null ? null : Math.round(memory / 2 ** 20),
+      programs: renderer?.info.programs?.length ?? null,
+      draws: renderer?.info.render.calls ?? null,
+      view: currentRoom,
+      dpr: globalThis.devicePixelRatio || 1,
+      cores: navigator.hardwareConcurrency ?? null,
+      parallelCompile: renderer ? renderer.extensions.has("KHR_parallel_shader_compile") : null,
+      renderer: rendererName ?? null,
+    };
+  }
+  async function showPerfOverlay() {
+    const { createPerfOverlay } = await import("./perf-overlay.mjs");
+    if (disposed) return;
+    perfOverlay = createPerfOverlay(stage, perfSummary, { anchor: container });
+    cleanup.push(() => perfOverlay?.dispose());
   }
 
   function cancelFrame() {
@@ -3125,7 +3225,14 @@ export function createCoastalHome(container, records, artifacts) {
       canvasHeight: renderer.domElement.height,
     });
     lightInstallations?.tick(elapsed, moving);
-    furniture?.update({ camera, bufferHeight: renderer.domElement.height, fullscreen: fullscreen.mode, seconds: elapsed, reduced });
+    furniture?.update({
+      camera,
+      bufferHeight: renderer.domElement.height,
+      fullscreen: fullscreen.mode,
+      seconds: elapsed,
+      reduced,
+      reach: qualitySettings().lodReach,
+    });
     if (steamVolume) {
       // The small volume is a close bath detail. Do not capture two complete
       // coast depth buffers or evolve hidden steam in distant exterior views.
@@ -3186,8 +3293,20 @@ export function createCoastalHome(container, records, artifacts) {
       if (frameTimings.length > 120) frameTimings.shift();
       // Background shader jobs contend for CPU cores; a longer interval there is not evidence
       // that drawing fewer pixels helps. Start a clean adaptive window once their work finishes.
-      if (programPending) resolution?.reset();
-      else if (resolution?.observe(delta * 1000, submit, { holding: now - lastCameraMove < 600 })) resize();
+      if (programPending) {
+        resolution?.reset();
+        quality?.reset();
+      } else {
+        const holding = now - lastCameraMove < 600;
+        if (resolution?.observe(delta * 1000, submit, { holding })) resize();
+        // The GPU's time is read only when the tier governor is ready to decide.
+        const tier = quality?.observe(delta * 1000, () => finish?.evidence.gpu.medianMs, { holding, submitMs: submit });
+        if (tier) applyQuality(tier);
+      }
+    }
+    if (qualitySwitch && frames > qualitySwitch.frame) {
+      if (qualitySwitch.firstFrameMs === null) qualitySwitch.firstFrameMs = Math.round(performance.now() - qualitySwitch.at);
+      else if (qualitySwitch.nextIntervalMs === null) qualitySwitch.nextIntervalMs = Math.round(delta * 1000);
     }
     frames++;
     if (firstFrameMilliseconds === null) {
@@ -3264,6 +3383,7 @@ export function createCoastalHome(container, records, artifacts) {
     if (initPromise) return initPromise;
     initPromise = (async () => {
       startupStart = performance.now();
+      if (perfRequested) showPerfOverlay().catch(() => {});
       container.dataset.sceneState = "loading";
       container.setAttribute("aria-busy", "true");
       // A pen sketch fills the empty scene until the first frame replaces it. Automation keeps the
@@ -3335,6 +3455,24 @@ export function createCoastalHome(container, records, artifacts) {
         compact: compactTouch,
         enabled: flags.get("resolution") !== "fixed",
       });
+      let qualityCap = null;
+      try {
+        qualityCap = sessionStorage.getItem(QUALITY_CAP_KEY);
+      } catch {
+        /* Storage can be refused; the device then starts at its own tier. */
+      }
+      quality = createQualityGovernor({
+        tier: initialTier({
+          pinned: qualityPinned,
+          cap: qualityCap,
+          compact: compactTouch,
+          maxTextureSize: renderer.capabilities.maxTextureSize,
+          deviceMemory: navigator.deviceMemory ?? null,
+        }),
+        pinned: Boolean(qualityPinned),
+        canPromote: highTierFits(),
+      });
+      resolution.setTier(qualitySettings());
       // Full screen opened while the scene was still loading.
       if (fullscreen.mode && !embedDetailOnly) resolution.setProfile("fullscreen");
       shadowCache = createShadowCache(renderer, sun, { enabled: flags.get("shadow-cache") !== "0" });
@@ -3356,13 +3494,15 @@ export function createCoastalHome(container, records, artifacts) {
       });
       cleanup.push(() => coastalRain?.dispose());
       finish = createFinish(renderer, scene, perspective, {
-        profileGPU: labEnabled,
+        // The GPU timer samples one frame in eight; it also decides whether a device earns high.
+        profileGPU: labEnabled || perfRequested || (quality.evidence().canPromote && !qualityPinned),
         temporalFactory: temporal?.createTemporalAA,
         // 1.6 sits above sunlit walls (no bloom at midday) and below the lamps and sconces.
         bloom: bloom && { Pass: bloom.UnrealBloomPass, strength: 0.28, radius: 0.42, threshold: 1.6 },
         // ?light-air=0 keeps the haze analytic (no march for shafts, marine fog or sunbeams).
         haze: flags.get("haze") === "0" ? null : createHaze(atmosphere, scene, sun, { volume: flags.get("light-air") !== "0" }),
       });
+      applyTierDetail();
       skinDiffusion = createSkinDiffusion();
       coastalWind = createCoastalWind();
       warmPracticals = createWarmPracticals(scene, (m) => bindContactLighting(m, finish.contactLighting), { sources: practicalSourcesFor(config) });
@@ -3593,6 +3733,7 @@ export function createCoastalHome(container, records, artifacts) {
         getDynamicRoots: () => (walkPresence?.object.visible ? [walkPresence.object] : [actor, selectedProp].filter(Boolean)),
         getContentVersion: () => `${avatarId}|${elapsed}|${walkPresence?.contentVersion}`,
       });
+      applyTierDetail();
       loadingStage("first-frame", "Preparing the view.");
       // The mirrors draw the beauty pass's own programs (their hooks are installed above), so the
       // batched warmup prepares them too; each mirror's whole-scene compileAsync then finds them
@@ -3765,6 +3906,8 @@ export function createCoastalHome(container, records, artifacts) {
       followClock = false;
       requestFrame();
     };
+  // Lab only: switch the quality tier now, to compare tiers and time a switch (quality.mjs).
+  if (labEnabled) container.setQualityTier = (tier) => Boolean(quality?.set(tier, "lab") && (applyQuality(tier), true));
   container.getSceneEvidence = () => ({
     ready: container.dataset.sceneState === "ready",
     style,
@@ -3922,6 +4065,9 @@ export function createCoastalHome(container, records, artifacts) {
     canvasWidth: renderer?.domElement.width,
     canvasHeight: renderer?.domElement.height,
     resolution: resolution?.evidence() ?? null,
+    quality: quality
+      ? { ...quality.evidence(), settings: qualitySettings(), memoryBytes: qualityMemory(), lastSwitch: qualitySwitch && { ...qualitySwitch } }
+      : null,
     detail: detail ? { ...detail, shadowMap: sun.shadow.mapSize.x } : null,
     walk: walkMode?.evidence() ?? null,
     walkPresence: walkPresence?.evidence() ?? null,
