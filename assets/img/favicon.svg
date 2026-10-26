@@ -1,19 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-  <!-- The site mark on a 16-pixel grid: an orange that is also the sun going down into the sea.
-       The sea lines sit on whole pixel rows so they stay crisp at 16, 32 and 48 px. -->
+  <!-- The same flat orange sun and single sea cut as the navbar, drawn on a 16-pixel grid. -->
   <defs>
-    <linearGradient id="sun" x1="0" x2="0" y1="3.3" y2="15.5" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f7a761" />
-      <stop offset=".52" stop-color="#f07a38" />
-      <stop offset="1" stop-color="#dc5d0d" />
-    </linearGradient>
     <mask id="sea" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
       <rect width="16" height="16" fill="#fff" />
-      <rect y="11" width="16" height="1" fill="#000" />
-      <rect y="13" width="16" height="1" fill="#000" />
+      <path d="M0 11C3 10 5 12 8 11S13 12 16 11V12.5C13 13.5 11 11.5 8 12.5S3 11.5 0 12.5Z" fill="#000" />
     </mask>
   </defs>
-  <path d="M8.45 4.2C8.45 3.3 8.5 2.7 8.85 2.1" fill="none" stroke="#81552e" stroke-width="1" stroke-linecap="round" />
-  <path d="M8.6 2.7C9.3 0.8 12 0.1 14.5 0.9C13.9 3 11.2 3.9 8.6 2.7Z" fill="#4e9b50" />
-  <circle cx="8" cy="9.4" r="6.1" fill="url(#sun)" mask="url(#sea)" />
+  <path d="M8.1 4C8.05 3.25 8.3 2.55 8.8 2" fill="none" stroke="#81552e" stroke-width=".75" stroke-linecap="round" />
+  <path d="M8.6 2.8C9.2 1.1 11.3.5 13.4 1C12.7 2.7 10.5 3.5 8.6 2.8Z" fill="#4e9b50" />
+  <circle cx="8" cy="9.3" r="6" fill="#f07a38" mask="url(#sea)" />
 </svg>
