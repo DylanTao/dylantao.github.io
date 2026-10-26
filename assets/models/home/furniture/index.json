@@ -29,6 +29,32 @@
       "variants": ["carbon", "mineral"],
       "provenance": "Original procedural ergonomic chair geometry after the Aeron silhouette; no downloaded mesh or texture. Carbon default, Mineral alternative."
     },
+    "banquette": {
+      "label": "Nook banquette",
+      "lods": [
+        {
+          "file": "banquette-lod1.glb",
+          "triangles": 4360,
+          "bytes": 31432
+        },
+        {
+          "file": "banquette-lod0.glb",
+          "triangles": 20432,
+          "bytes": 107644,
+          "near": 1.6,
+          "fullscreen": true
+        }
+      ],
+      "bounds": {
+        "min": [-0.6635, 0.0, -0.755],
+        "max": [0.6635, 0.88, 0.755]
+      },
+      "origin": "floor-center",
+      "front": "+z",
+      "seatHeight": 0.46,
+      "seat": [-0.3165, 0.46, -0.36],
+      "provenance": "Original L banquette for the nook after the house's placeholder: honey-ash plinths, deep rust boucle cushions, reclined backs and two pillows."
+    },
     "cast-iron-pan": {
       "label": "Large cast-iron wrist-training pan",
       "lods": [
@@ -53,6 +79,32 @@
       "front": "+z",
       "grip": [0.0, 0.058, 0.2005],
       "provenance": "Original 40 cm seasoned cast-iron pan with 25 cm integral handle, helper loop and generated sand-cast normal texture; used by the pan-raise activity."
+    },
+    "cloud-sofa": {
+      "label": "Cloud sofa",
+      "lods": [
+        {
+          "file": "cloud-sofa-lod1.glb",
+          "triangles": 8576,
+          "bytes": 55376
+        },
+        {
+          "file": "cloud-sofa-lod0.glb",
+          "triangles": 22608,
+          "bytes": 130840,
+          "near": 2.4,
+          "fullscreen": true
+        }
+      ],
+      "bounds": {
+        "min": [-1.922, 0.0, -1.4405],
+        "max": [1.922, 0.8666, 1.4405]
+      },
+      "origin": "floor-center",
+      "front": "+z",
+      "seatHeight": 0.44,
+      "seat": [1.045, 0.44, -1.0145],
+      "provenance": "Original U sectional for the lounge after the house's placeholder: puffy cloud boucle seats and pillow backs on honey-ash plinths, with pillows in the room's colours."
     },
     "dining-chair": {
       "label": "Upholstered oak dining armchair",

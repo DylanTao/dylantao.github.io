@@ -253,6 +253,14 @@ MATERIALS = {
     "whiskey label ink": dict(color=(0.03, 0.03, 0.035), roughness=0.6),
     "whiskey label burgundy": dict(color=(0.25, 0.03, 0.04), roughness=0.7),
     "whiskey cork": dict(color=(0.45, 0.3, 0.17), roughness=0.9),
+    # The house's own room textiles and wood (room-kitchen.glb, room-lounge.glb): same names, so the
+    # same shading programs and colours as the rooms they furnish.
+    "rust boucle textile": dict(color=(0.42, 0.16, 0.075), roughness=0.95),
+    "indigo textile": dict(color=(0.03, 0.045, 0.13), roughness=0.9),
+    "terracotta": dict(color=(0.61, 0.25, 0.12), roughness=0.65),
+    "honey ash": dict(color=(0.13, 0.085, 0.055), roughness=0.45),
+    "cloud boucle textile": dict(color=(0.86, 0.845, 0.81), roughness=0.95),
+    "ochre textile": dict(color=(0.55, 0.33, 0.08), roughness=0.9),
     "pan seasoned iron": dict(color=(0.028, 0.03, 0.028), roughness=0.55, metallic=0.48, normal=("cast-iron", {0: 512})),
     "dumbbell rubber": dict(color=(0.022, 0.026, 0.024), roughness=0.83),
     "fireplace graphite": dict(color=(0.025, 0.026, 0.025), roughness=0.48, metallic=0.5),
@@ -1441,6 +1449,170 @@ def build_whiskey_bottles(parts, q):
     )
 
 
+# ── The nook's banquette (item banquette, anchor nook-banquette) ────────────────────────────────
+# Sirui: "the furntirue doesn't feel comfrotable, a bit too rgiid and ugly". The house's placeholder
+# was an L of upright boxes; this keeps its L, its 1.32 x 1.51 m footprint and its 0.46 m seat, in
+# the room's rust boucle on honey ash, with deep cushions and reclined backs.
+
+
+def soft_cushion(parts, mat, width, length, thickness, spine, s0, x0=0.0, cup=0.0, roll=0.04, dome=0.012, turn=None, light=False):
+    """A plain piped cushion (crowned, no buttons) on a YZ spine, optionally turned about +Z
+    (`turn`, a Matrix) to lie along X instead. `light` halves the fine level's tessellation for
+    pieces made of many cushions."""
+    lod0 = parts.lod == 0
+    q = dict(segments=36 if lod0 else 20, rings=7 if lod0 else 3, roll=4 if lod0 else 2, under=2 if lod0 else 1, pipe=6 if lod0 else 0)
+    if lod0 and light:
+        q.update(segments=26, rings=5, roll=3, pipe=4)
+    temp = bmesh.new()
+    temp.loops.layers.uv.verify()
+    spec = dict(
+        width=width,
+        length=length,
+        exponent=3.6,
+        spine=spine,
+        s0=s0,
+        x0=x0,
+        thickness=thickness,
+        cup=cup,
+        roll=roll,
+        lower=0.014,
+        seam=0.5,
+        dome=dome,
+        piping=0.0045,
+        pipe_bm=temp,
+        crown=True,
+    )
+    cushion(temp, spec, q)
+    if turn is not None:
+        bmesh.ops.transform(temp, matrix=turn, verts=list(temp.verts))
+    _merge(parts.bm(mat), temp)
+
+
+def build_banquette(parts, q):
+    """An L banquette for the nook (front -y; the corner at +x, +y): the long bench runs along +x's
+    wall, the short one along +y's, where Sirui sits. Honey-ash plinths with a shadow-gap toe kick,
+    16 cm boucle seat cushions (top 0.46 m) and back cushions reclined 10 degrees against thin
+    upholstered panels. The back cushions' faces stand where the placeholder's upright backs stood,
+    so the seat keeps its 0.42 m depth and the seated clips their contacts. Two throw pillows."""
+    boucle, ash = "rust boucle textile", "honey ash"
+    r = 3 if parts.lod == 0 else 1
+    # Plinths to the walls, with a 3 cm toe kick set back 4 cm.
+    box(parts.bm(ash), (-0.3, 0.45, 0.165), (0.72, 0.61, 0.27), 0.012, r)
+    box(parts.bm(ash), (0.36, -0.05, 0.165), (0.6, 1.41, 0.27), 0.012, r)
+    box(parts.bm(ash), (-0.28, 0.47, 0.015), (0.68, 0.57, 0.03), 0.0, 1)
+    box(parts.bm(ash), (0.38, -0.03, 0.015), (0.56, 1.37, 0.03), 0.0, 1)
+    # Thin upholstered panels against the walls, to 0.88 m.
+    box(parts.bm(boucle), (0.0, 0.745, 0.59), (1.32, 0.02, 0.58), 0.008, r)
+    box(parts.bm(boucle), (0.65, -0.005, 0.59), (0.02, 1.5, 0.58), 0.008, r)
+    seat = Spine([(-0.85, 0.302), (-0.76, 0.301), (0.0, 0.3), (0.66, 0.299), (0.75, 0.299)])
+    thick = lambda x, y: 0.16 - 0.006 * (y / 0.25)
+    # The short bench along +y: two seat cushions facing -y, running under the back cushions.
+    s_short = spine_offset(seat, 0.145)
+    for x0 in (-0.48, -0.115):
+        soft_cushion(parts, boucle, 0.36, 0.515, thick, seat, s_short, x0=x0)
+    # The long bench along +x: three seat cushions facing -x, built along y and turned a quarter
+    # (+90 degrees: the plan's y becomes -x, its x becomes y).
+    turn = Matrix.Rotation(math.pi / 2, 4, "Z")
+    for y0, width in ((-0.52, 0.44), (-0.075, 0.44), (0.4, 0.5)):
+        soft_cushion(parts, boucle, width, 0.52, thick, seat, spine_offset(seat, -0.58), x0=y0, turn=turn)
+    # Back cushions, 10 cm with a 1.5 cm lumbar swell, reclined against the panels.
+    lumbar = lambda x, y: 0.1 + 0.015 * math.exp(-(((y + 0.06) / 0.08) ** 2))
+    back_y = Spine([(0.655, 0.4), (0.665, 0.46), (0.68, 0.56), (0.695, 0.66), (0.71, 0.76), (0.722, 0.84)])
+    by0 = spine_offset(back_y, 0.47, axis="z")
+    for x0, width in ((-0.48, 0.36), (-0.115, 0.36), (0.27, 0.4)):
+        soft_cushion(parts, boucle, width, 0.36, lumbar, back_y, by0, x0=x0, cup=0.01)
+    # Along +x the same backs, 9 cm further in (the long bench is 0.60 m deep to its wall), turned a
+    # quarter the other way (-90 degrees: the plan's x becomes -y).
+    back_x = Spine([(0.565, 0.4), (0.575, 0.46), (0.59, 0.56), (0.605, 0.66), (0.62, 0.76), (0.632, 0.84)])
+    bx0 = spine_offset(back_x, 0.47, axis="z")
+    for y0, width in ((-0.52, 0.42), (-0.075, 0.42), (0.36, 0.38)):
+        soft_cushion(parts, boucle, width, 0.36, lumbar, back_x, bx0, x0=-y0, cup=0.01, turn=Matrix.Rotation(-math.pi / 2, 4, "Z"))
+    # Two throw pillows, clear of Sirui's place at the short bench's left: terracotta in the corner,
+    # indigo along the long bench.
+    plump = lambda x, y: 0.1 * (1 - 0.5 * (x / 0.18) ** 2) * (1 - 0.5 * (y / 0.17) ** 2) + 0.02
+    pillow_y = Spine([(0.45, 0.44), (0.46, 0.5), (0.48, 0.6), (0.5, 0.7), (0.51, 0.74)])
+    soft_cushion(parts, "terracotta", 0.36, 0.34, plump, pillow_y, spine_offset(pillow_y, 0.47, axis="z"), x0=0.28, roll=0.05)
+    pillow_x = Spine([(0.36, 0.44), (0.37, 0.5), (0.39, 0.6), (0.41, 0.7), (0.42, 0.74)])
+    soft_cushion(parts, "indigo textile", 0.36, 0.34, plump, pillow_x, spine_offset(pillow_x, 0.47, axis="z"), x0=0.35, roll=0.05, turn=Matrix.Rotation(-math.pi / 2, 4, "Z"))
+    return dict(
+        label="Nook banquette",
+        seat=(-0.32, 0.36, 0.46),
+        seatHeight=0.46,
+        near=1.6,
+        provenance="Original L banquette for the nook after the house's placeholder: honey-ash plinths, deep rust boucle cushions, reclined backs and two pillows.",
+    )
+
+# ── The lounge's cloud sofa (item cloud-sofa, anchor living-sofa) ────────────────────────────────
+# The house's placeholder was a U of upright slabs; this keeps its U, its 3.83 x 2.87 m footprint
+# and its 0.44 m seat, in the room's cloud boucle on honey ash: puffy seats, pillow backs that lean
+# by tapering (their faces stand where the placeholder's did, so Sirui's lounge seat keeps its
+# contacts), soft rolled arms and a few pillows in the room's ochre, indigo and terracotta.
+
+
+def build_cloud_sofa(parts, q):
+    """A U sectional open to -y: a back run along +y (five seats) and two side runs (three seats
+    each), on low honey-ash plinths."""
+    boucle, ash = "cloud boucle textile", "honey ash"
+    r = 3 if parts.lod == 0 else 1
+    # Plinths, with a 3 cm toe kick set back 4 cm.
+    for side in (-1, 1):
+        box(parts.bm(ash), (side * 1.55, -0.23, 0.14), (0.5, 2.08, 0.22), 0.012, r)
+        box(parts.bm(ash), (side * 1.55, -0.23, 0.015), (0.42, 2.0, 0.03), 0.0, 1)
+    box(parts.bm(ash), (0.0, 1.13, 0.14), (3.78, 0.54, 0.22), 0.012, r)
+    box(parts.bm(ash), (0.0, 1.13, 0.015), (3.7, 0.46, 0.03), 0.0, 1)
+    seat = Spine([(-1.6, 0.252), (-1.5, 0.251), (0.0, 0.25), (1.5, 0.249), (1.6, 0.249)])
+    puffy = lambda x, y: 0.19 - 0.008 * (y / 0.3)
+    # The back run: five seats from the front (y 0.82) to under the backs (y 1.435).
+    s_back = spine_offset(seat, 0.82)
+    for x0 in (-1.535, -0.7675, 0.0, 0.7675, 1.535):
+        soft_cushion(parts, boucle, 0.76, 0.615, puffy, seat, s_back, x0=x0, roll=0.06, dome=0.02, light=True)
+    # The side runs: three seats each, front edge at x = +-1.28 (the placeholder's, which leaves
+    # room for Sirui's legs from his place by the back run's corner), built along y and turned a
+    # quarter.
+    for side in (-1, 1):
+        # Built facing -y; +90 degrees takes the plan's y to -x (right run, front at +1.28) and -90 to
+        # +x (left run, front at -1.28).
+        turn = Matrix.Rotation(side * math.pi / 2, 4, "Z")
+        s_side = spine_offset(seat, -1.84)
+        for y0 in (-0.92, -0.23, 0.46):
+            soft_cushion(parts, boucle, 0.68, 0.56, puffy, seat, s_side, x0=side * y0, roll=0.06, dome=0.02, turn=turn, light=True)
+    # Pillow backs, upright against the plinths' backs and tapering from 16 to 10 cm, so their faces
+    # lean back about 8 degrees from where the placeholder's stood.
+    back = Spine([(1.435, 0.4), (1.435, 0.44), (1.435, 0.6), (1.435, 0.8), (1.435, 0.88)])
+    b0 = spine_offset(back, 0.44, axis="z")
+    taper = lambda x, y: (0.16 - 0.06 * ((y + 0.21) / 0.42)) * (1 - 0.05 * (x / 0.38) ** 2)
+    for x0 in (-1.535, -0.7675, 0.0, 0.7675, 1.535):
+        soft_cushion(parts, boucle, 0.76, 0.42, taper, back, b0, x0=x0, cup=0.015, roll=0.06, dome=0.02, light=True)
+    side_back = Spine([(1.84, 0.4), (1.84, 0.44), (1.84, 0.6), (1.84, 0.8), (1.84, 0.88)])
+    sb0 = spine_offset(side_back, 0.44, axis="z")
+    for side in (-1, 1):
+        # Along the side runs the backs reach from the arms to the back run's corner backs.
+        turn = Matrix.Rotation(-side * math.pi / 2, 4, "Z")
+        for y0, width in ((-0.92, 0.7), (-0.23, 0.68), (0.68, 1.12)):
+            soft_cushion(parts, boucle, width, 0.42, taper, side_back, sb0, x0=-side * y0, cup=0.015, roll=0.06, dome=0.02, turn=turn, light=True)
+    # Soft rolled arms at the open ends.
+    for side in (-1, 1):
+        box(parts.bm(boucle), (side * 1.6, -1.355, 0.3), (0.62, 0.16, 0.56), 0.075, r)
+    # Pillows in the room's colours: two on the back run, one on each side run.
+    plump = lambda x, y: 0.11 * (1 - 0.5 * (x / 0.21) ** 2) * (1 - 0.5 * (y / 0.2) ** 2) + 0.02
+    pillow = Spine([(1.14, 0.42), (1.15, 0.5), (1.17, 0.6), (1.19, 0.7), (1.2, 0.8)])
+    pz = spine_offset(pillow, 0.46, axis="z")
+    soft_cushion(parts, "ochre textile", 0.42, 0.4, plump, pillow, pz, x0=-0.95, roll=0.06, light=True)
+    # Clear of Sirui's place on the back run (x 1.045, his arms resting out to the sides).
+    soft_cushion(parts, "terracotta", 0.42, 0.4, plump, pillow, pz, x0=-0.15, roll=0.06, light=True)
+    side_pillow = Spine([(1.56, 0.42), (1.57, 0.5), (1.59, 0.6), (1.61, 0.7), (1.62, 0.8)])
+    spz = spine_offset(side_pillow, 0.46, axis="z")
+    soft_cushion(parts, "indigo textile", 0.42, 0.4, plump, side_pillow, spz, x0=0.6, roll=0.06, turn=Matrix.Rotation(math.pi / 2, 4, "Z"), light=True)
+    soft_cushion(parts, "ochre textile", 0.42, 0.4, plump, side_pillow, spz, x0=-0.2, roll=0.06, turn=Matrix.Rotation(-math.pi / 2, 4, "Z"), light=True)
+    return dict(
+        label="Cloud sofa",
+        seat=(1.045, 1.02, 0.44),
+        seatHeight=0.44,
+        near=2.4,
+        provenance="Original U sectional for the lounge after the house's placeholder: puffy cloud boucle seats and pillow backs on honey-ash plinths, with pillows in the room's colours.",
+    )
+
+
 def build_pan(parts,q):
     iron="pan seasoned iron"
     lathe(parts.bm(iron),[(.16,0),(.19,.002),(.205,.065),(.203,.077),(.193,.08),(.181,.022),(.015,.018)],segments=64 if parts.lod==0 else 32)
@@ -1485,7 +1657,8 @@ ITEMS = {"eames-lounge": build_eames, "aeron": build_aeron, "italian-range": bui
          "dining-table": build_table, "dining-chair": build_chair, "cast-iron-pan": build_pan,
          "dumbbell": build_dumbbell, "floating-fireplace": build_fireplace,
          "whiskey-loveseat": build_whiskey_loveseat, "whiskey-ottoman": build_whiskey_ottoman,
-         "whiskey-side-table": build_whiskey_side_table, "whiskey-bottles": build_whiskey_bottles}
+         "whiskey-side-table": build_whiskey_side_table, "whiskey-bottles": build_whiskey_bottles,
+         "banquette": build_banquette, "cloud-sofa": build_cloud_sofa}
 
 
 # ── Realize, bake, export ────────────────────────────────────────────────────────────────────────

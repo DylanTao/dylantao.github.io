@@ -419,8 +419,64 @@
           "baked": [0.688, 1.0]
         }
       }
+    },
+    "banquette": {
+      "levels": {
+        "0": {
+          "file": "banquette-lod0.glb",
+          "triangles": 20432,
+          "bytes": 107644,
+          "bounds": {
+            "min": [-0.6635, 0.0, -0.755],
+            "max": [0.6635, 0.88, 0.755]
+          },
+          "shift": [0.0035, -0.0, 0.0],
+          "sha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "banquette-lod1.glb",
+          "triangles": 4360,
+          "bytes": 31432,
+          "bounds": {
+            "min": [-0.66, 0.0, -0.755],
+            "max": [0.66, 0.88, 0.755]
+          },
+          "shift": [-0.0, -0.0, 0.0],
+          "sha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "cloud-sofa": {
+      "levels": {
+        "0": {
+          "file": "cloud-sofa-lod0.glb",
+          "triangles": 22608,
+          "bytes": 130840,
+          "bounds": {
+            "min": [-1.922, 0.0, -1.4405],
+            "max": [1.922, 0.8666, 1.4405]
+          },
+          "shift": [0.0, -0.0055, 0.0],
+          "sha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "cloud-sofa-lod1.glb",
+          "triangles": 8576,
+          "bytes": 55376,
+          "bounds": {
+            "min": [-1.915, 0.0, -1.437],
+            "max": [1.915, 0.8597, 1.437]
+          },
+          "shift": [-0.0, -0.002, 0.0],
+          "sha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0",
+          "baked": [0.688, 1.0]
+        }
+      }
     }
   },
   "blender": "4.5.9 LTS",
-  "built": "2026-10-25"
+  "built": "2026-10-26"
 }

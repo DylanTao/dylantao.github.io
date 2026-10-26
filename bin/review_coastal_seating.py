@@ -41,6 +41,8 @@ RENDER = bool(option("render"))
 # --feet=x,y lays both ankles on whatever top is under that point (a Blender-frame offset from this
 # piece), by an IK solve of each leg with the knees up: feet up on an ottoman.
 FEET = tuple(float(v) for v in option("feet").split(",")) if option("feet") else None
+# --view=x,y sets the stills' camera offset from the seat (Blender frame; default front-right).
+VIEW = tuple(float(v) for v in (option("view") or "1.5,-1.7").split(","))
 WITH = [(w.split("@")[0], tuple(float(v) for v in w.split("@")[1].split(","))) for w in (option("with", "") or "").split(";") if w]
 OUT = ROOT / "artwork" / "coastal-home" / "reviews" / "life-2026-10-24"
 SOFT = ("linen", "leather", "boucle", "velvet", "cushion", "textile", "cotton")
@@ -177,7 +179,7 @@ def main():
                 back = hit[0].y
         shift = Vector((seat.x, (back - 0.005 - rear) if back is not None else seat.y, seat_height - 0.01 - lowest))
         moved = [(p + shift, bone) for p, bone in skin]
-        out = {"frame": frame, "shift": [round(c, 4) for c in shift], "soft": {"vertices": 0, "depth": 0.0}, "hard": {"vertices": 0, "depth": 0.0, "bones": {}}}
+        out = {"frame": frame, "shift": [round(c, 4) for c in shift], "soft": {"vertices": 0, "depth": 0.0, "bones": {}}, "hard": {"vertices": 0, "depth": 0.0, "bones": {}}}
         if FEET:
             arm.location += shift
             out["feet"] = feet_up(arm, trees, FEET)
@@ -192,8 +194,9 @@ def main():
                 if is_in:
                     out[kind]["vertices"] += 1
                     out[kind]["depth"] = max(out[kind]["depth"], distance)
-                    if kind == "hard":
-                        out["hard"]["bones"][bone] = out["hard"]["bones"].get(bone, 0) + 1
+                    # Which bones press in, and how deep each goes (a palm in a cushion, not a hip).
+                    deepest = out[kind]["bones"].get(bone, [0, 0.0])
+                    out[kind]["bones"][bone] = [deepest[0] + 1, round(max(deepest[1], distance), 4)]
                 elif kind == "hard" and bone in ("Hips", "Thigh.L", "Thigh.R"):
                     clearance = min(clearance, distance)
         out["soft"]["depth"] = round(out["soft"]["depth"], 4)
@@ -216,7 +219,7 @@ def render(path, seat):
     camera = bpy.data.objects.new("seating", data)
     scene.collection.objects.link(camera)
     target = Vector((seat.x, seat.y, 0.75))
-    camera.location = target + Vector((1.5, -1.7, 0.55))
+    camera.location = target + Vector((VIEW[0], VIEW[1], 0.55))
     camera.rotation_euler = (target - camera.location).to_track_quat("-Z", "Y").to_euler()
     scene.camera = camera
     scene.render.engine = "BLENDER_WORKBENCH"

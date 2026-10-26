@@ -1,0 +1,108 @@
+{
+  "item": "banquette",
+  "with": [],
+  "clip": "eat",
+  "avatars": {
+    "lizard": {
+      "frame": 49,
+      "shift": [-0.3165, 0.4379, -0.0533],
+      "soft": {
+        "vertices": 52,
+        "depth": 0.0503,
+        "bones": {
+          "Tail": [29, 0.0503],
+          "Hips": [23, 0.0092]
+        }
+      },
+      "hard": {
+        "vertices": 3,
+        "depth": 0.011,
+        "bones": {
+          "Tail": [3, 0.011]
+        }
+      },
+      "hipFrameClearance": null,
+      "floor": 0.1651
+    },
+    "south-park": {
+      "frame": 49,
+      "shift": [-0.3165, 0.4603, -0.0869],
+      "soft": {
+        "vertices": 183,
+        "depth": 0.0113,
+        "bones": {
+          "Spine": [133, 0.0113],
+          "Thigh.L": [33, 0.0025],
+          "Hips": [17, 0.0022]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": null,
+      "floor": 0.1331
+    },
+    "simpsons": {
+      "frame": 49,
+      "shift": [-0.3165, 0.4603, -0.0869],
+      "soft": {
+        "vertices": 176,
+        "depth": 0.011,
+        "bones": {
+          "Spine": [129, 0.011],
+          "Thigh.L": [30, 0.0025],
+          "Hips": [17, 0.0022]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": null,
+      "floor": 0.133
+    },
+    "ghibli": {
+      "frame": 49,
+      "shift": [-0.3165, 0.4603, -0.0869],
+      "soft": {
+        "vertices": 319,
+        "depth": 0.0128,
+        "bones": {
+          "Spine": [272, 0.0128],
+          "Thigh.L": [30, 0.0025],
+          "Hips": [17, 0.0022]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": null,
+      "floor": 0.133
+    },
+    "rick-and-morty": {
+      "frame": 49,
+      "shift": [-0.3165, 0.4603, -0.0869],
+      "soft": {
+        "vertices": 135,
+        "depth": 0.0102,
+        "bones": {
+          "Spine": [91, 0.0102],
+          "Thigh.L": [27, 0.0024],
+          "Hips": [17, 0.0022]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": null,
+      "floor": 0.1331
+    }
+  }
+}

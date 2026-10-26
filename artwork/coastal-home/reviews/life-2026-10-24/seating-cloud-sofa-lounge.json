@@ -1,0 +1,105 @@
+{
+  "item": "cloud-sofa",
+  "with": [],
+  "clip": "lounge",
+  "avatars": {
+    "lizard": {
+      "frame": 49,
+      "shift": [1.045, 1.1542, -0.0733],
+      "soft": {
+        "vertices": 286,
+        "depth": 0.0832,
+        "bones": {
+          "Shin.R": [23, 0.0832],
+          "Foot.R": [219, 0.0357],
+          "Tail": [34, 0.0634],
+          "Hips": [10, 0.0059]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": null,
+      "floor": 0.1451
+    },
+    "south-park": {
+      "frame": 49,
+      "shift": [1.045, 1.1766, -0.1069],
+      "soft": {
+        "vertices": 362,
+        "depth": 0.1164,
+        "bones": {
+          "Shin.L": [76, 0.0091],
+          "Shin.R": [284, 0.074],
+          "Head": [2, 0.1164]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": null,
+      "floor": 0.1131
+    },
+    "simpsons": {
+      "frame": 49,
+      "shift": [1.045, 1.1766, -0.1069],
+      "soft": {
+        "vertices": 325,
+        "depth": 0.0696,
+        "bones": {
+          "Shin.L": [70, 0.0087],
+          "Shin.R": [255, 0.0696]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": null,
+      "floor": 0.113
+    },
+    "ghibli": {
+      "frame": 49,
+      "shift": [1.045, 1.1766, -0.1069],
+      "soft": {
+        "vertices": 325,
+        "depth": 0.0696,
+        "bones": {
+          "Shin.L": [70, 0.0087],
+          "Shin.R": [255, 0.0696]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": null,
+      "floor": 0.113
+    },
+    "rick-and-morty": {
+      "frame": 49,
+      "shift": [1.045, 1.1766, -0.1069],
+      "soft": {
+        "vertices": 311,
+        "depth": 0.0635,
+        "bones": {
+          "Shin.L": [65, 0.0083],
+          "Shin.R": [246, 0.0635]
+        }
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": null,
+      "floor": 0.1131
+    }
+  }
+}
