@@ -115,7 +115,15 @@ const CAMERAS = {
   const avatars = option("avatars", "lizard,south-park,simpsons,ghibli,rick-and-morty").split(",");
   const activities = option("activities", "dinner").split(",");
   const viewportName = option("viewport", "4k");
-  const cameraOption = option("camera", "table,close");
+  // --target=x,y,z with --yaw, --pitch and --radius frames a fixed world point (shells mangle JSON).
+  if (option("target", null))
+    CAMERAS.fixed = {
+      target: option("target").split(",").map(Number),
+      yaw: Number(option("yaw", "0")),
+      pitch: Number(option("pitch", "0.4")),
+      radius: Number(option("radius", "3")),
+    };
+  const cameraOption = option("camera", CAMERAS.fixed ? "fixed" : "table,close");
   const cameraNames = cameraOption.startsWith("{") ? [cameraOption] : cameraOption.split(",");
   const date = option("date", "2026-10-24T19:11:00-07:00");
   const frames = Number(option("frames", "0"));
