@@ -68,7 +68,7 @@ phases:
   - id: moving-in
     when: September
     title: Moving in
-    summary: Between 8 pm and 3 am on September 12, four review rounds turned the room into a two-floor home in a sandstone cliff.
+    summary: September's reviews turned the room into a two-floor home in a sandstone cliff.
   - id: up-close
     when: October 1–12
     title: Details that hold up close
@@ -80,7 +80,7 @@ phases:
   - id: walk-through
     when: October 24, evening
     title: The walk-through
-    summary: I checked the home on my laptop and on a 4K PC with an RTX 3080, then sent these notes. Each one has an agent on it; finished ones gain their before and after here.
+    summary: I checked the home on my laptop and on a 4K PC with an RTX 3080, then sent these notes. The work continues; finished entries gain their before and after here.
 
 entries:
   - id: first-room
@@ -95,21 +95,21 @@ entries:
     change: The desk stage became a room in the cliff, with an onsen, a lounge chair and an ocean window, and inside and outside became two camera views of that one room. The 2D desk's record and discoveries carry into it.
     crew: GPT-5.5/xhigh in June, then GPT-5.6 Sol/ultra
     compare:
-      kind: slider
-      view: The 3D view on the homepage at 1440 × 1000 in the light theme, with Yellow Submarine stopped and no cards found, cropped to the scene. June's frame replays commit 588e36509; July's is the accepted checkpoint.
+      kind: pair
+      view: Two eras of the homepage at 1440 × 1000 in the light theme, with Yellow Submarine stopped and no cards found, cropped to the scene. The cameras differ. Both frames were captured July 16; June's replays commit 588e36509 and July's shows the accepted checkpoint.
       before:
         img: first-room-before
         width: 640
         height: 610
         alt: The June 3D view, a small floating stage with a low wooden table, a record player, a mug and a window, with no room around it
-        stamp: Jun 21
+        stamp: Jun 21 source
         source: assets/img/project_pics/site-experiments/homepage-desk-588e36509-3d-2026-07-16.png
       after:
         img: first-room-after
         width: 640
         height: 610
         alt: The July 3D view, a room inside the cliff with a round onsen, a lounge chair, the record player, a Welcome to Sirui's cave note and an ocean window
-        stamp: Jul 14
+        stamp: Jul 14 checkpoint
         source: assets/img/project_pics/site-experiments/homepage-desk-3d-2026-07-16.png
     links:
       - label: All four frames
@@ -230,7 +230,7 @@ entries:
     note:
       by: review
       text: In the gym, the Ghibli hands stayed open above the pull-up handles, and the handle passed through the wrist.
-    change: Twenty finger joints joined the Ghibli rig, and both grip clips were fitted to the real wrist positions beside the bars. In 132 sampled grip frames every finger came within 2 mm of its bar.
+    change: Twenty finger joints joined the Ghibli rig, and both grip clips were fitted to the wrist positions beside the bars. In 132 left/right hand samples across the two clips, every digit had source vertices within 2 mm of its bar. Those samples do not prove continuous collision clearance.
     compare:
       kind: slider
       view: The pull-up grip in the same Blender contact-study camera.
@@ -289,20 +289,23 @@ entries:
     date: "2026-10-12"
     phase: up-close
     stream: speed
-    title: Twenty-six seconds of shaders, moved off the page
+    title: Moving shader work off the page
     status: done
     note:
       by: review
       text: Opening the 3D home froze the page for about 13 seconds, then again when the rooms streamed in and on the first Look around.
-    change: Every shader program the first view needs is now created ahead of time and compiled on the driver's worker threads, so the page keeps scrolling while the house compiles. Streamed rooms join once their programs are ready, and no pixel changed.
+    change: The October 12 checkpoint prepared the first view's shader programs before drawing and waited for parallel driver compilation. On the tested Windows desktop with an RTX 3080 Ti, blocking program-log reads across the session fell from 26.0 to 0.6 seconds. Two fixed study and exterior views were pixel-identical. The house has grown since, and loading remains an open task.
+    detail: These were same-day local measurements, not a phone benchmark or a current loading guarantee. The back-to-back ready measurements fell from 11.3 seconds to 7.4–7.6 seconds; later runs on the shared workstation ranged from 8.3 to 13.8 seconds. Software rendering keeps a separate compile path.
     metrics:
-      - label: Blocking shader work
+      - label: Oct 12 blocking reads, session
         before: 26 s
         after: 0.6 s
-      - label: Ready to explore
+      - label: Oct 12 desktop ready, paired runs
         before: 11.3 s
-        after: 7.5 s
+        after: 7.4–7.6 s
     links:
+      - label: October 12 measurements and limits
+        url: https://github.com/DylanTao/dylantao.github.io/blob/main/docs/evidence/coastal-startup-2026-10-12/README.md
       - label: How the house opens without freezing
         url: /projects/graphics-performance/#opening-without-freezing-the-page
       - label: Commit 011fe99b2
@@ -321,8 +324,8 @@ entries:
     detail: The setback has a cost I kept visible. From the pool, the cliff faces now enter its sideward ocean view, and the playful laundry line still crosses that camera. The excavated sandstone is still angular, and the bedroom is still a long walk from the library.
     crew: Codex
     compare:
-      kind: slider
-      view: The same authored overview at 1:20 pm on October 2 in clear weather, at 1440 × 1000 without the page controls. The camera moves eight metres with the house, so the coast shifts between frames.
+      kind: pair
+      view: Comparable authored overviews at 1:20 pm on October 2 in clear weather, at 1440 × 1000 without the page controls. The camera moves eight metres with the house, so these are not pixel-registered views.
       before:
         img: retreat-before
         width: 1440
@@ -337,8 +340,8 @@ entries:
         stamp: Oct 24
         source: artwork/coastal-home/reviews/retreat-integration-2026-10-24/matched-final-clear/overview.png
     extra:
-      - kind: slider
-        view: The pool court in the same authored shot. It belongs to the rock now, but its sideward view of the ocean is narrower, and the laundry still crosses it.
+      - kind: pair
+        view: Comparable authored pool-court shots, with the camera following the house's move. The court belongs to the rock now, but its sideward view of the ocean is narrower, and the laundry still crosses it.
         before:
           img: retreat-pool-before
           width: 1440
@@ -448,7 +451,7 @@ entries:
     status: done
     note:
       by: sirui
-      quote: The coffee mug stain doesn't really look like a stain from coffee… the animation there feel a bit too much… I thought the stain will be on top of cards?
+      text: The coffee stain did not look like coffee, its animation felt too busy, and I expected it to sit on top of the cards.
       said: "2026-10-24"
       context: about the 2D desk
     change: The stain now draws the band a mug's foot prints, with coffee gathered at both pinned edges and a clean circle inside. It rests on the top slip, clear of the words, and settles in once instead of drying from a wet film.
@@ -484,7 +487,7 @@ entries:
     status: done
     note:
       by: sirui
-      quote: The 3D model on top right could maybe be moved a bit up…
+      text: The miniature at the top right of Connect could move up so the two columns felt more balanced.
       said: "2026-10-24"
       context: about the homepage's Connect section
     change: In the two-column layout the miniature's frame is cropped above and below the model, which keeps its size, and the figure rises until its top meets the Connect label. Its caption now ends within 16 px of the copy's last line from 1024 to 1440 px wide; at 1440 it used to sit 151 px lower.
@@ -517,7 +520,7 @@ entries:
     status: in-progress
     note:
       by: sirui
-      quote: I [was] just checking the scene in my 4K screen on a PC with 3080, but realize that the character geometry is still rough…
+      text: On my 4K PC with an RTX 3080, the character geometry still looked rough.
       said: "2026-10-24"
 
   - id: carved-holes
@@ -528,7 +531,7 @@ entries:
     status: in-progress
     note:
       by: sirui
-      quote: You moved the house, but left many space just like carved holes… the pool and patio can cantilever a bit out…
+      text: Moving the house left spaces that looked like carved holes. The pool and patio could cantilever a little beyond the cliff.
       said: "2026-10-24"
 
   - id: entrance
@@ -539,7 +542,7 @@ entries:
     status: in-progress
     note:
       by: sirui
-      quote: The geometry for entrance is a bit rough, also why entrance to onsen… my living space is so exposed…
+      text: The entrance geometry felt rough, and the onsen arrival exposed too much of my living space.
       said: "2026-10-24"
 
   - id: dusk
@@ -550,7 +553,7 @@ entries:
     status: in-progress
     note:
       by: sirui
-      quote: Love the sunset thing you did…
+      text: I liked the sunset. The dusk and the hills behind it still needed work.
       said: "2026-10-24"
       context: about the footer's La Jolla coast
 

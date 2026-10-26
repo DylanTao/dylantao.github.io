@@ -1,0 +1,1847 @@
+{
+  "base": "http://127.0.0.1:4102/al-folio/",
+  "launchOptions": {
+    "args": ["--use-angle=d3d11", "--ignore-gpu-blocklist"]
+  },
+  "scope": "Desktop and phone viewport emulation on this host; no physical-device performance claim",
+  "states": [
+    {
+      "route": "homepage-desk-scene",
+      "width": 1440,
+      "javaScriptEnabled": true,
+      "outline": [
+        {
+          "level": 1,
+          "text": "The Desk That Learned Depth"
+        },
+        {
+          "level": 2,
+          "text": "The build diary"
+        },
+        {
+          "level": 3,
+          "text": "The first room"
+        },
+        {
+          "level": 4,
+          "text": "One room, seen from inside and out"
+        },
+        {
+          "level": 3,
+          "text": "Moving in"
+        },
+        {
+          "level": 4,
+          "text": "The cliff turns to sandstone"
+        },
+        {
+          "level": 4,
+          "text": "Two floors carved into one cliff"
+        },
+        {
+          "level": 4,
+          "text": "A face that looks like me"
+        },
+        {
+          "level": 3,
+          "text": "Details that hold up close"
+        },
+        {
+          "level": 4,
+          "text": "Fingers that hold the bar"
+        },
+        {
+          "level": 4,
+          "text": "A warmer home after dark"
+        },
+        {
+          "level": 4,
+          "text": "Moving shader work off the page"
+        },
+        {
+          "level": 3,
+          "text": "A long day of fixes"
+        },
+        {
+          "level": 4,
+          "text": "The house steps eight metres into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "Plants placed on purpose"
+        },
+        {
+          "level": 4,
+          "text": "Keeping the head out of first person"
+        },
+        {
+          "level": 4,
+          "text": "The ring a mug's foot leaves"
+        },
+        {
+          "level": 3,
+          "text": "The walk-through"
+        },
+        {
+          "level": 4,
+          "text": "Lift the La Jolla miniature in Connect"
+        },
+        {
+          "level": 4,
+          "text": "Characters that hold up at 4K"
+        },
+        {
+          "level": 4,
+          "text": "Blend the house into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "A cleaner entrance and a private living room"
+        },
+        {
+          "level": 4,
+          "text": "Keep the sunset, then finish the dusk"
+        },
+        {
+          "level": 4,
+          "text": "A loading sketch that shows real progress"
+        },
+        {
+          "level": 4,
+          "text": "A high tier for strong GPUs"
+        },
+        {
+          "level": 2,
+          "text": "September: a home with a daily rhythm"
+        },
+        {
+          "level": 2,
+          "text": "Why the desk has two views"
+        },
+        {
+          "level": 2,
+          "text": "Two eras, four frames"
+        },
+        {
+          "level": 3,
+          "text": "June 21: the first room"
+        },
+        {
+          "level": 3,
+          "text": "July 16: one room, viewed from both sides"
+        },
+        {
+          "level": 2,
+          "text": "The July decisions"
+        },
+        {
+          "level": 2,
+          "text": "Make the two views share a memory first."
+        },
+        {
+          "level": 2,
+          "text": "Credit and provenance"
+        }
+      ],
+      "chapterLinks": [
+        {
+          "hash": "#diary-chapter-first-room",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-moving-in",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-up-close",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-retreat",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-walk-through",
+          "target": true
+        }
+      ],
+      "imageStates": [
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-before-480.webp",
+          "width": 352,
+          "height": 335
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-after-480.webp",
+          "width": 352,
+          "height": 335
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-before.webp",
+          "width": 703,
+          "height": 596
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-after.webp",
+          "width": 703,
+          "height": 596
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-before-480.webp",
+          "width": 352,
+          "height": 371
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-after-480.webp",
+          "width": 352,
+          "height": 298
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/face-before.webp",
+          "width": 384,
+          "height": 480
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/face-after.webp",
+          "width": 384,
+          "height": 480
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/grips-before.webp",
+          "width": 704,
+          "height": 704
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/grips-after.webp",
+          "width": 704,
+          "height": 704
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-before.webp",
+          "width": 704,
+          "height": 588
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-after.webp",
+          "width": 704,
+          "height": 588
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-before-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-after-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-before-960.webp",
+          "width": 704,
+          "height": 498
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-after-960.webp",
+          "width": 704,
+          "height": 498
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/head-before-960.webp",
+          "width": 704,
+          "height": 396
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/head-after-960.webp",
+          "width": 704,
+          "height": 396
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/coffee-before.webp",
+          "width": 704,
+          "height": 411
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/coffee-after.webp",
+          "width": 704,
+          "height": 411
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/connect-before-960.webp",
+          "width": 704,
+          "height": 308
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/connect-after-960.webp",
+          "width": 704,
+          "height": 308
+        }
+      ],
+      "overflow": 0,
+      "errors": [],
+      "screenshot": "homepage-desk-scene-1440-script.png"
+    },
+    {
+      "route": "homepage-desk-scene",
+      "width": 1440,
+      "javaScriptEnabled": false,
+      "outline": [
+        {
+          "level": 1,
+          "text": "The Desk That Learned Depth"
+        },
+        {
+          "level": 2,
+          "text": "The build diary"
+        },
+        {
+          "level": 3,
+          "text": "The first room"
+        },
+        {
+          "level": 4,
+          "text": "One room, seen from inside and out"
+        },
+        {
+          "level": 3,
+          "text": "Moving in"
+        },
+        {
+          "level": 4,
+          "text": "The cliff turns to sandstone"
+        },
+        {
+          "level": 4,
+          "text": "Two floors carved into one cliff"
+        },
+        {
+          "level": 4,
+          "text": "A face that looks like me"
+        },
+        {
+          "level": 3,
+          "text": "Details that hold up close"
+        },
+        {
+          "level": 4,
+          "text": "Fingers that hold the bar"
+        },
+        {
+          "level": 4,
+          "text": "A warmer home after dark"
+        },
+        {
+          "level": 4,
+          "text": "Moving shader work off the page"
+        },
+        {
+          "level": 3,
+          "text": "A long day of fixes"
+        },
+        {
+          "level": 4,
+          "text": "The house steps eight metres into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "Plants placed on purpose"
+        },
+        {
+          "level": 4,
+          "text": "Keeping the head out of first person"
+        },
+        {
+          "level": 4,
+          "text": "The ring a mug's foot leaves"
+        },
+        {
+          "level": 3,
+          "text": "The walk-through"
+        },
+        {
+          "level": 4,
+          "text": "Lift the La Jolla miniature in Connect"
+        },
+        {
+          "level": 4,
+          "text": "Characters that hold up at 4K"
+        },
+        {
+          "level": 4,
+          "text": "Blend the house into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "A cleaner entrance and a private living room"
+        },
+        {
+          "level": 4,
+          "text": "Keep the sunset, then finish the dusk"
+        },
+        {
+          "level": 4,
+          "text": "A loading sketch that shows real progress"
+        },
+        {
+          "level": 4,
+          "text": "A high tier for strong GPUs"
+        },
+        {
+          "level": 2,
+          "text": "September: a home with a daily rhythm"
+        },
+        {
+          "level": 2,
+          "text": "Why the desk has two views"
+        },
+        {
+          "level": 2,
+          "text": "Two eras, four frames"
+        },
+        {
+          "level": 3,
+          "text": "June 21: the first room"
+        },
+        {
+          "level": 3,
+          "text": "July 16: one room, viewed from both sides"
+        },
+        {
+          "level": 2,
+          "text": "The July decisions"
+        },
+        {
+          "level": 2,
+          "text": "Make the two views share a memory first."
+        },
+        {
+          "level": 2,
+          "text": "Credit and provenance"
+        }
+      ],
+      "chapterLinks": [
+        {
+          "hash": "#diary-chapter-first-room",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-moving-in",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-up-close",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-retreat",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-walk-through",
+          "target": true
+        }
+      ],
+      "imageStates": [
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-before-480.webp",
+          "width": 352,
+          "height": 335
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-after-480.webp",
+          "width": 352,
+          "height": 335
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-before.webp",
+          "width": 703,
+          "height": 596
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-after.webp",
+          "width": 703,
+          "height": 596
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-before-480.webp",
+          "width": 352,
+          "height": 371
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-after-480.webp",
+          "width": 352,
+          "height": 298
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/face-before.webp",
+          "width": 384,
+          "height": 480
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/face-after.webp",
+          "width": 384,
+          "height": 480
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/grips-before.webp",
+          "width": 704,
+          "height": 704
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/grips-after.webp",
+          "width": 704,
+          "height": 704
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-before.webp",
+          "width": 704,
+          "height": 588
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-after.webp",
+          "width": 704,
+          "height": 588
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-before-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-after-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-before-960.webp",
+          "width": 704,
+          "height": 498
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-after-960.webp",
+          "width": 704,
+          "height": 498
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/head-before-960.webp",
+          "width": 704,
+          "height": 396
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/head-after-960.webp",
+          "width": 704,
+          "height": 396
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/coffee-before.webp",
+          "width": 704,
+          "height": 411
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/coffee-after.webp",
+          "width": 704,
+          "height": 411
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/connect-before-960.webp",
+          "width": 704,
+          "height": 308
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/connect-after-960.webp",
+          "width": 704,
+          "height": 308
+        }
+      ],
+      "overflow": 0,
+      "errors": [],
+      "screenshot": "homepage-desk-scene-1440-native.png"
+    },
+    {
+      "route": "house-in-the-cliff",
+      "width": 1440,
+      "javaScriptEnabled": true,
+      "outline": [
+        {
+          "level": 1,
+          "text": "The House in the Cliff"
+        },
+        {
+          "level": 2,
+          "text": "How the house grew"
+        },
+        {
+          "level": 3,
+          "text": "The first room"
+        },
+        {
+          "level": 4,
+          "text": "One room, seen from inside and out"
+        },
+        {
+          "level": 3,
+          "text": "Moving in"
+        },
+        {
+          "level": 4,
+          "text": "The cliff turns to sandstone"
+        },
+        {
+          "level": 4,
+          "text": "Two floors carved into one cliff"
+        },
+        {
+          "level": 3,
+          "text": "Details that hold up close"
+        },
+        {
+          "level": 4,
+          "text": "A warmer home after dark"
+        },
+        {
+          "level": 3,
+          "text": "A long day of fixes"
+        },
+        {
+          "level": 4,
+          "text": "The house steps eight metres into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "Plants placed on purpose"
+        },
+        {
+          "level": 3,
+          "text": "The walk-through"
+        },
+        {
+          "level": 4,
+          "text": "Blend the house into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "A cleaner entrance and a private living room"
+        },
+        {
+          "level": 2,
+          "text": "What is still open"
+        },
+        {
+          "level": 2,
+          "text": "Sources and credits"
+        }
+      ],
+      "chapterLinks": [
+        {
+          "hash": "#diary-chapter-first-room",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-moving-in",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-up-close",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-retreat",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-walk-through",
+          "target": true
+        }
+      ],
+      "imageStates": [
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-before-480.webp",
+          "width": 352,
+          "height": 335
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-after-480.webp",
+          "width": 352,
+          "height": 335
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-before.webp",
+          "width": 703,
+          "height": 596
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-after.webp",
+          "width": 703,
+          "height": 596
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-before-480.webp",
+          "width": 352,
+          "height": 371
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-after-480.webp",
+          "width": 352,
+          "height": 298
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-before.webp",
+          "width": 704,
+          "height": 588
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-after.webp",
+          "width": 704,
+          "height": 588
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-before-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-after-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-pool-before-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-pool-after-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-before-960.webp",
+          "width": 704,
+          "height": 498
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-after-960.webp",
+          "width": 704,
+          "height": 498
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/bath-before-960.webp",
+          "width": 704,
+          "height": 498
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/bath-after-960.webp",
+          "width": 704,
+          "height": 498
+        }
+      ],
+      "overflow": 0,
+      "errors": [],
+      "screenshot": "house-in-the-cliff-1440-script.png"
+    },
+    {
+      "route": "house-in-the-cliff",
+      "width": 1440,
+      "javaScriptEnabled": false,
+      "outline": [
+        {
+          "level": 1,
+          "text": "The House in the Cliff"
+        },
+        {
+          "level": 2,
+          "text": "How the house grew"
+        },
+        {
+          "level": 3,
+          "text": "The first room"
+        },
+        {
+          "level": 4,
+          "text": "One room, seen from inside and out"
+        },
+        {
+          "level": 3,
+          "text": "Moving in"
+        },
+        {
+          "level": 4,
+          "text": "The cliff turns to sandstone"
+        },
+        {
+          "level": 4,
+          "text": "Two floors carved into one cliff"
+        },
+        {
+          "level": 3,
+          "text": "Details that hold up close"
+        },
+        {
+          "level": 4,
+          "text": "A warmer home after dark"
+        },
+        {
+          "level": 3,
+          "text": "A long day of fixes"
+        },
+        {
+          "level": 4,
+          "text": "The house steps eight metres into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "Plants placed on purpose"
+        },
+        {
+          "level": 3,
+          "text": "The walk-through"
+        },
+        {
+          "level": 4,
+          "text": "Blend the house into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "A cleaner entrance and a private living room"
+        },
+        {
+          "level": 2,
+          "text": "What is still open"
+        },
+        {
+          "level": 2,
+          "text": "Sources and credits"
+        }
+      ],
+      "chapterLinks": [
+        {
+          "hash": "#diary-chapter-first-room",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-moving-in",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-up-close",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-retreat",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-walk-through",
+          "target": true
+        }
+      ],
+      "imageStates": [
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-before-480.webp",
+          "width": 352,
+          "height": 335
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-after-480.webp",
+          "width": 352,
+          "height": 335
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-before.webp",
+          "width": 703,
+          "height": 596
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-after.webp",
+          "width": 703,
+          "height": 596
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-before-480.webp",
+          "width": 352,
+          "height": 371
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-after-480.webp",
+          "width": 352,
+          "height": 298
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-before.webp",
+          "width": 704,
+          "height": 588
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-after.webp",
+          "width": 704,
+          "height": 588
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-before-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-after-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-pool-before-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-pool-after-480.webp",
+          "width": 352,
+          "height": 198
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-before-960.webp",
+          "width": 704,
+          "height": 498
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-after-960.webp",
+          "width": 704,
+          "height": 498
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/bath-before-960.webp",
+          "width": 704,
+          "height": 498
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/bath-after-960.webp",
+          "width": 704,
+          "height": 498
+        }
+      ],
+      "overflow": 0,
+      "errors": [],
+      "screenshot": "house-in-the-cliff-1440-native.png"
+    },
+    {
+      "route": "homepage-desk-scene",
+      "width": 390,
+      "javaScriptEnabled": true,
+      "outline": [
+        {
+          "level": 1,
+          "text": "The Desk That Learned Depth"
+        },
+        {
+          "level": 2,
+          "text": "The build diary"
+        },
+        {
+          "level": 3,
+          "text": "The first room"
+        },
+        {
+          "level": 4,
+          "text": "One room, seen from inside and out"
+        },
+        {
+          "level": 3,
+          "text": "Moving in"
+        },
+        {
+          "level": 4,
+          "text": "The cliff turns to sandstone"
+        },
+        {
+          "level": 4,
+          "text": "Two floors carved into one cliff"
+        },
+        {
+          "level": 4,
+          "text": "A face that looks like me"
+        },
+        {
+          "level": 3,
+          "text": "Details that hold up close"
+        },
+        {
+          "level": 4,
+          "text": "Fingers that hold the bar"
+        },
+        {
+          "level": 4,
+          "text": "A warmer home after dark"
+        },
+        {
+          "level": 4,
+          "text": "Moving shader work off the page"
+        },
+        {
+          "level": 3,
+          "text": "A long day of fixes"
+        },
+        {
+          "level": 4,
+          "text": "The house steps eight metres into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "Plants placed on purpose"
+        },
+        {
+          "level": 4,
+          "text": "Keeping the head out of first person"
+        },
+        {
+          "level": 4,
+          "text": "The ring a mug's foot leaves"
+        },
+        {
+          "level": 3,
+          "text": "The walk-through"
+        },
+        {
+          "level": 4,
+          "text": "Lift the La Jolla miniature in Connect"
+        },
+        {
+          "level": 4,
+          "text": "Characters that hold up at 4K"
+        },
+        {
+          "level": 4,
+          "text": "Blend the house into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "A cleaner entrance and a private living room"
+        },
+        {
+          "level": 4,
+          "text": "Keep the sunset, then finish the dusk"
+        },
+        {
+          "level": 4,
+          "text": "A loading sketch that shows real progress"
+        },
+        {
+          "level": 4,
+          "text": "A high tier for strong GPUs"
+        },
+        {
+          "level": 2,
+          "text": "September: a home with a daily rhythm"
+        },
+        {
+          "level": 2,
+          "text": "Why the desk has two views"
+        },
+        {
+          "level": 2,
+          "text": "Two eras, four frames"
+        },
+        {
+          "level": 3,
+          "text": "June 21: the first room"
+        },
+        {
+          "level": 3,
+          "text": "July 16: one room, viewed from both sides"
+        },
+        {
+          "level": 2,
+          "text": "The July decisions"
+        },
+        {
+          "level": 2,
+          "text": "Make the two views share a memory first."
+        },
+        {
+          "level": 2,
+          "text": "Credit and provenance"
+        }
+      ],
+      "chapterLinks": [
+        {
+          "hash": "#diary-chapter-first-room",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-moving-in",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-up-close",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-retreat",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-walk-through",
+          "target": true
+        }
+      ],
+      "imageStates": [
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-before-480.webp",
+          "width": 366,
+          "height": 349
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-after-480.webp",
+          "width": 366,
+          "height": 349
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-before-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-after-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-before-480.webp",
+          "width": 366,
+          "height": 386
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-after-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/face-before.webp",
+          "width": 384,
+          "height": 480
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/face-after.webp",
+          "width": 384,
+          "height": 480
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/grips-before-480.webp",
+          "width": 366,
+          "height": 366
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/grips-after-480.webp",
+          "width": 366,
+          "height": 366
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-before-480.webp",
+          "width": 366,
+          "height": 306
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-after-480.webp",
+          "width": 366,
+          "height": 306
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-before-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-after-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-before-480.webp",
+          "width": 366,
+          "height": 259
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-after-480.webp",
+          "width": 366,
+          "height": 259
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/head-before-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/head-after-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/coffee-before-480.webp",
+          "width": 366,
+          "height": 214
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/coffee-after-480.webp",
+          "width": 366,
+          "height": 214
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/connect-before-480.webp",
+          "width": 366,
+          "height": 160
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/connect-after-480.webp",
+          "width": 366,
+          "height": 160
+        }
+      ],
+      "overflow": 0,
+      "errors": [],
+      "screenshot": "homepage-desk-scene-390-script.png"
+    },
+    {
+      "route": "homepage-desk-scene",
+      "width": 390,
+      "javaScriptEnabled": false,
+      "outline": [
+        {
+          "level": 1,
+          "text": "The Desk That Learned Depth"
+        },
+        {
+          "level": 2,
+          "text": "The build diary"
+        },
+        {
+          "level": 3,
+          "text": "The first room"
+        },
+        {
+          "level": 4,
+          "text": "One room, seen from inside and out"
+        },
+        {
+          "level": 3,
+          "text": "Moving in"
+        },
+        {
+          "level": 4,
+          "text": "The cliff turns to sandstone"
+        },
+        {
+          "level": 4,
+          "text": "Two floors carved into one cliff"
+        },
+        {
+          "level": 4,
+          "text": "A face that looks like me"
+        },
+        {
+          "level": 3,
+          "text": "Details that hold up close"
+        },
+        {
+          "level": 4,
+          "text": "Fingers that hold the bar"
+        },
+        {
+          "level": 4,
+          "text": "A warmer home after dark"
+        },
+        {
+          "level": 4,
+          "text": "Moving shader work off the page"
+        },
+        {
+          "level": 3,
+          "text": "A long day of fixes"
+        },
+        {
+          "level": 4,
+          "text": "The house steps eight metres into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "Plants placed on purpose"
+        },
+        {
+          "level": 4,
+          "text": "Keeping the head out of first person"
+        },
+        {
+          "level": 4,
+          "text": "The ring a mug's foot leaves"
+        },
+        {
+          "level": 3,
+          "text": "The walk-through"
+        },
+        {
+          "level": 4,
+          "text": "Lift the La Jolla miniature in Connect"
+        },
+        {
+          "level": 4,
+          "text": "Characters that hold up at 4K"
+        },
+        {
+          "level": 4,
+          "text": "Blend the house into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "A cleaner entrance and a private living room"
+        },
+        {
+          "level": 4,
+          "text": "Keep the sunset, then finish the dusk"
+        },
+        {
+          "level": 4,
+          "text": "A loading sketch that shows real progress"
+        },
+        {
+          "level": 4,
+          "text": "A high tier for strong GPUs"
+        },
+        {
+          "level": 2,
+          "text": "September: a home with a daily rhythm"
+        },
+        {
+          "level": 2,
+          "text": "Why the desk has two views"
+        },
+        {
+          "level": 2,
+          "text": "Two eras, four frames"
+        },
+        {
+          "level": 3,
+          "text": "June 21: the first room"
+        },
+        {
+          "level": 3,
+          "text": "July 16: one room, viewed from both sides"
+        },
+        {
+          "level": 2,
+          "text": "The July decisions"
+        },
+        {
+          "level": 2,
+          "text": "Make the two views share a memory first."
+        },
+        {
+          "level": 2,
+          "text": "Credit and provenance"
+        }
+      ],
+      "chapterLinks": [
+        {
+          "hash": "#diary-chapter-first-room",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-moving-in",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-up-close",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-retreat",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-walk-through",
+          "target": true
+        }
+      ],
+      "imageStates": [
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-before-480.webp",
+          "width": 366,
+          "height": 349
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-after-480.webp",
+          "width": 366,
+          "height": 349
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-before-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-after-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-before-480.webp",
+          "width": 366,
+          "height": 386
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-after-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/face-before.webp",
+          "width": 384,
+          "height": 480
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/face-after.webp",
+          "width": 384,
+          "height": 480
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/grips-before-480.webp",
+          "width": 366,
+          "height": 366
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/grips-after-480.webp",
+          "width": 366,
+          "height": 366
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-before-480.webp",
+          "width": 366,
+          "height": 306
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-after-480.webp",
+          "width": 366,
+          "height": 306
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-before-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-after-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-before-480.webp",
+          "width": 366,
+          "height": 259
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-after-480.webp",
+          "width": 366,
+          "height": 259
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/head-before-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/head-after-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/coffee-before-480.webp",
+          "width": 366,
+          "height": 214
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/coffee-after-480.webp",
+          "width": 366,
+          "height": 214
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/connect-before-480.webp",
+          "width": 366,
+          "height": 160
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/connect-after-480.webp",
+          "width": 366,
+          "height": 160
+        }
+      ],
+      "overflow": 0,
+      "errors": [],
+      "screenshot": "homepage-desk-scene-390-native.png"
+    },
+    {
+      "route": "house-in-the-cliff",
+      "width": 390,
+      "javaScriptEnabled": true,
+      "outline": [
+        {
+          "level": 1,
+          "text": "The House in the Cliff"
+        },
+        {
+          "level": 2,
+          "text": "How the house grew"
+        },
+        {
+          "level": 3,
+          "text": "The first room"
+        },
+        {
+          "level": 4,
+          "text": "One room, seen from inside and out"
+        },
+        {
+          "level": 3,
+          "text": "Moving in"
+        },
+        {
+          "level": 4,
+          "text": "The cliff turns to sandstone"
+        },
+        {
+          "level": 4,
+          "text": "Two floors carved into one cliff"
+        },
+        {
+          "level": 3,
+          "text": "Details that hold up close"
+        },
+        {
+          "level": 4,
+          "text": "A warmer home after dark"
+        },
+        {
+          "level": 3,
+          "text": "A long day of fixes"
+        },
+        {
+          "level": 4,
+          "text": "The house steps eight metres into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "Plants placed on purpose"
+        },
+        {
+          "level": 3,
+          "text": "The walk-through"
+        },
+        {
+          "level": 4,
+          "text": "Blend the house into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "A cleaner entrance and a private living room"
+        },
+        {
+          "level": 2,
+          "text": "What is still open"
+        },
+        {
+          "level": 2,
+          "text": "Sources and credits"
+        }
+      ],
+      "chapterLinks": [
+        {
+          "hash": "#diary-chapter-first-room",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-moving-in",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-up-close",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-retreat",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-walk-through",
+          "target": true
+        }
+      ],
+      "imageStates": [
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-before-480.webp",
+          "width": 366,
+          "height": 349
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-after-480.webp",
+          "width": 366,
+          "height": 349
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-before-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-after-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-before-480.webp",
+          "width": 366,
+          "height": 386
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-after-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-before-480.webp",
+          "width": 366,
+          "height": 306
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-after-480.webp",
+          "width": 366,
+          "height": 306
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-before-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-after-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-pool-before-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-pool-after-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-before-480.webp",
+          "width": 366,
+          "height": 259
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-after-480.webp",
+          "width": 366,
+          "height": 259
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/bath-before-480.webp",
+          "width": 366,
+          "height": 259
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/bath-after-480.webp",
+          "width": 366,
+          "height": 259
+        }
+      ],
+      "overflow": 0,
+      "errors": [],
+      "screenshot": "house-in-the-cliff-390-script.png"
+    },
+    {
+      "route": "house-in-the-cliff",
+      "width": 390,
+      "javaScriptEnabled": false,
+      "outline": [
+        {
+          "level": 1,
+          "text": "The House in the Cliff"
+        },
+        {
+          "level": 2,
+          "text": "How the house grew"
+        },
+        {
+          "level": 3,
+          "text": "The first room"
+        },
+        {
+          "level": 4,
+          "text": "One room, seen from inside and out"
+        },
+        {
+          "level": 3,
+          "text": "Moving in"
+        },
+        {
+          "level": 4,
+          "text": "The cliff turns to sandstone"
+        },
+        {
+          "level": 4,
+          "text": "Two floors carved into one cliff"
+        },
+        {
+          "level": 3,
+          "text": "Details that hold up close"
+        },
+        {
+          "level": 4,
+          "text": "A warmer home after dark"
+        },
+        {
+          "level": 3,
+          "text": "A long day of fixes"
+        },
+        {
+          "level": 4,
+          "text": "The house steps eight metres into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "Plants placed on purpose"
+        },
+        {
+          "level": 3,
+          "text": "The walk-through"
+        },
+        {
+          "level": 4,
+          "text": "Blend the house into the cliff"
+        },
+        {
+          "level": 4,
+          "text": "A cleaner entrance and a private living room"
+        },
+        {
+          "level": 2,
+          "text": "What is still open"
+        },
+        {
+          "level": 2,
+          "text": "Sources and credits"
+        }
+      ],
+      "chapterLinks": [
+        {
+          "hash": "#diary-chapter-first-room",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-moving-in",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-up-close",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-retreat",
+          "target": true
+        },
+        {
+          "hash": "#diary-chapter-walk-through",
+          "target": true
+        }
+      ],
+      "imageStates": [
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-before-480.webp",
+          "width": 366,
+          "height": 349
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/first-room-after-480.webp",
+          "width": 366,
+          "height": 349
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-before-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/sandstone-after-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-before-480.webp",
+          "width": 366,
+          "height": 386
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/two-floors-after-480.webp",
+          "width": 366,
+          "height": 310
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-before-480.webp",
+          "width": 366,
+          "height": 306
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/warm-night-after-480.webp",
+          "width": 366,
+          "height": 306
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-before-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-after-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-pool-before-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/retreat-pool-after-480.webp",
+          "width": 366,
+          "height": 206
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-before-480.webp",
+          "width": 366,
+          "height": 259
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/plants-after-480.webp",
+          "width": 366,
+          "height": 259
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/bath-before-480.webp",
+          "width": 366,
+          "height": 259
+        },
+        {
+          "src": "/al-folio/assets/img/project_pics/homepage-desk-scene/diary/bath-after-480.webp",
+          "width": 366,
+          "height": 259
+        }
+      ],
+      "overflow": 0,
+      "errors": [],
+      "screenshot": "house-in-the-cliff-390-native.png"
+    }
+  ],
+  "backendProbe": {
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "vendor": "Google Inc. (NVIDIA)",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "scope": "A separate WebGL2 context using the same browser and launch flags; no timing or physical-phone claim"
+  }
+}

@@ -52,7 +52,7 @@ cinematic: true
 
 ## The build diary {#build-diary}
 
-A building crew keeps a site diary: dated photos taken from the same spot, the client's notes, and what changed. This is mine for the 3D home. I look at the rendered place and write down what looks wrong; AI coding agents change the geometry, light and code; then I look again. When the agents' own review caught a problem first, the entry says so. Each entry keeps one note, what changed, and the same view before and after: drag across a picture, or use the slider under it, to compare. Day 1 is June 17, when the 3D view first shipped, and quotes are from my review messages with the typos fixed.
+A building crew keeps a site diary: dated photos, the client's notes, and what changed. This is mine for the 3D home. I look at the rendered place and write down what looks wrong; AI coding agents change the geometry, light and code; then I look again. When the agents' own review caught a problem first, the entry says so. Each entry keeps one note and the evidence for what changed. Matched views have a divider you can drag or move with the slider; different cameras stand side by side and say why. Day 1 is June 17, when the 3D view first shipped. The notes draw from the retained reviews and commit records.
 
 {% include build-diary.liquid %}
 

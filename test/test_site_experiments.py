@@ -23,7 +23,7 @@ STORY_LAYOUT = REPO_ROOT / "_sass" / "_layout.scss"
 RESEARCH_SKILLS_POST = REPO_ROOT / "_posts" / "2026-04-27-research-skills-starter-pack.md"
 
 EXPECTED_CHRONOLOGY = [
-    ("house-in-the-cliff", "The House in the Cliff", "2026-10-24T21:30:00-07:00"),
+    ("house-in-the-cliff", "The House in the Cliff", "2026-10-26T00:00:00-07:00"),
     ("graphics-performance", "Making the 3D home fast", "2026-10-19T13:00:00-07:00"),
     ("graphics-lab", "Graphics Lab", "2026-10-18T00:30:00-07:00"),
     ("light-paths", "Light Paths in the Onsen", "2026-10-14T21:00:00-07:00"),

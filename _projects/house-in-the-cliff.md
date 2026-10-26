@@ -13,7 +13,7 @@ status: Living site experiment
 site_experiment: true
 # A child of the 3D home: its build diary keeps every entry; this page holds the house's entries in full.
 parent: homepage-desk-scene
-debut_date: 2026-10-24T21:30:00-07:00
+debut_date: 2026-10-26T00:00:00-07:00
 hide_title: true
 cinematic: true
 og_image: /assets/img/project_pics/homepage-desk-scene/house-in-the-cliff-teaser.jpg
@@ -39,7 +39,7 @@ og_image_height: 675
 <section class="project-case-summary" aria-label="The House in the Cliff summary">
   <div><span>Why</span><p>A room on a pedestal reads as a stage set. I wanted a home you could believe was cut into a La Jolla cliff.</p></div>
   <div><span>What</span><p>Two floors carved from one continuous cliff, a glass front, a library and a pool court cut into the rock.</p></div>
-  <div><span>How</span><p>The same camera before and after each change, measured contacts for every stair and route, and my review of the result.</p></div>
+  <div><span>How</span><p>Before and after views, measured contacts on the reviewed routes, and another look at the result.</p></div>
 </section>
 
 ## How the house grew
@@ -50,7 +50,7 @@ These are the house's entries from the [build diary]({{ '/projects/homepage-desk
 
 ## What is still open
 
-The notes from my October 24 walk-through are with an agent now. Beside them, three problems from the retreat stay open on purpose, because the honest fixes need new geometry, not a better camera angle:
+The October 24–26 walk-through is still guiding the work. Three problems from the retreat remain open because they need new geometry and another review:
 
 - **The bedroom is still a long walk from the library**, across a five-metre bridge. A stair beside the library needs its own chamber, new floor openings and fresh checks that people and P can still get through.
 - **The excavated sandstone is angular.** Matching its colour to the cliff does not make it look eroded. Softer cliff transitions mean real new geometry that still holds up the pool and the terrace.
@@ -60,12 +60,11 @@ The notes from my October 24 walk-through are with an agent now. Beside them, th
   <summary>How these comparisons were made</summary>
   <div class="project-story-disclosure-body">
     <ul>
-      <li><strong>Browser frames.</strong> Most pairs are captures of the real page in Chromium at 1440 × 1000, with motion reduced and randomness seeded, so the two frames differ only by the change. The retreat's overview follows the house: its camera moves eight metres with it, so the coast shifts between the frames.</li>
+      <li><strong>Browser frames.</strong> Each caption names its view and capture conditions. The retreat's camera moves eight metres with the house, so those views stand side by side rather than pretending to line up pixel for pixel.</li>
       <li><strong>Blender previews.</strong> The plants and the bathroom are Eevee previews of the source file in the same room camera, before and after. They show placement and form, not the browser's night lighting.</li>
       <li><strong>Review screenshots.</strong> The September pedestal image is my own screenshot from a review, so it is not the camera of the frame beside it.</li>
-      <li><strong>Custody.</strong> Each entry links its review notes and its commit. The original captures, measurements and failed attempts stay in the repository's <code>docs/evidence/</code> and <code>artwork/coastal-home/reviews/</code> folders.</li>
-      <!-- Sirui: confirm -->
-      <li><strong>Credit.</strong> Sirui Tao, with AI coding agents (Codex and Claude): the reviews, the geometry and their checks. Anthropic's Claude compiled this page from the review records for Sirui to review.</li>
+      <li><strong>Custody.</strong> Entries link their retained review notes and commits. This house page draws its images from <code>docs/evidence/</code> and <code>artwork/coastal-home/reviews/</code>. In the full diary, the coffee-ring and Connect originals were laptop-local; their WebP derivatives are retained here.</li>
+      <li><strong>Credit.</strong> Sirui Tao set the direction and reviewed the world. AI coding agents built and checked it; an entry names a model only when the commit or review records it. Claude drafted this diary from those records, and Codex checked its claims and rendered pages for the October 26 continuation.</li>
     </ul>
   </div>
 </details>
