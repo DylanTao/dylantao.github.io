@@ -145,25 +145,25 @@
         "0": {
           "file": "glass-fridge-lod0.glb",
           "triangles": 9112,
-          "bytes": 46968,
+          "bytes": 47092,
           "bounds": {
             "min": [-0.38, 0.0, -0.371],
             "max": [0.38, 2.13, 0.371]
           },
           "shift": [-0.0, 0.021, 0.0],
-          "sha256": "dbb584e3238f224bcfbaee6e7b5ea1ba0f2cba67e551026a11499f32ac547347",
+          "sha256": "6f41c93fe08d8519669e47fee42c0a2390143a77019d98d1704b3d3d53fa11a9",
           "baked": [0.688, 1.0]
         },
         "1": {
           "file": "glass-fridge-lod1.glb",
           "triangles": 4048,
-          "bytes": 33328,
+          "bytes": 33380,
           "bounds": {
             "min": [-0.38, 0.0, -0.3701],
             "max": [0.38, 2.13, 0.3701]
           },
           "shift": [-0.0, 0.0201, 0.0],
-          "sha256": "61ad93a89a348b6da3da3becc80246bd7e76f800d3918fe5da1a6eea06bafcfd",
+          "sha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e",
           "baked": [0.688, 1.0]
         }
       }
@@ -200,26 +200,26 @@
       "levels": {
         "0": {
           "file": "dining-chair-lod0.glb",
-          "triangles": 4676,
-          "bytes": 30636,
+          "triangles": 9676,
+          "bytes": 45364,
           "bounds": {
-            "min": [-0.3065, -0.0024, -0.2754],
-            "max": [0.3065, 0.7779, 0.2754]
+            "min": [-0.299, -0.0016, -0.3253],
+            "max": [0.299, 0.851, 0.3253]
           },
-          "shift": [-0.0, -0.0375, 0.0],
-          "sha256": "bc8a8b1bd4e6b842265c5a98dc640bca1293985b7f42b146c4bbbda8f82f70d0",
+          "shift": [-0.0, -0.0503, 0.0],
+          "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671",
           "baked": [0.688, 1.0]
         },
         "1": {
           "file": "dining-chair-lod1.glb",
-          "triangles": 1384,
-          "bytes": 17416,
+          "triangles": 2252,
+          "bytes": 17196,
           "bounds": {
-            "min": [-0.3045, -0.0024, -0.2733],
-            "max": [0.3045, 0.7779, 0.2733]
+            "min": [-0.299, -0.0016, -0.3253],
+            "max": [0.299, 0.851, 0.3253]
           },
-          "shift": [0.0, -0.0378, 0.0],
-          "sha256": "5209cdf46b91fd2a968edb7eabed4b029bf2aa0d808160fb6af86f473e14403e",
+          "shift": [-0.0, -0.0503, 0.0],
+          "sha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6",
           "baked": [0.688, 1.0]
         }
       }
@@ -307,8 +307,120 @@
           "baked": [0.688, 1.0]
         }
       }
+    },
+    "whiskey-loveseat": {
+      "levels": {
+        "0": {
+          "file": "whiskey-loveseat-lod0.glb",
+          "triangles": 9824,
+          "bytes": 91396,
+          "bounds": {
+            "min": [-0.73, 0.0, -0.456],
+            "max": [0.73, 0.8197, 0.456]
+          },
+          "shift": [-0.0, -0.006, 0.0],
+          "sha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "whiskey-loveseat-lod1.glb",
+          "triangles": 2080,
+          "bytes": 14860,
+          "bounds": {
+            "min": [-0.73, 0.0, -0.456],
+            "max": [0.73, 0.8129, 0.456]
+          },
+          "shift": [-0.0, -0.006, 0.0],
+          "sha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "whiskey-ottoman": {
+      "levels": {
+        "0": {
+          "file": "whiskey-ottoman-lod0.glb",
+          "triangles": 3980,
+          "bytes": 62492,
+          "bounds": {
+            "min": [-0.33, 0.0, -0.25],
+            "max": [0.33, 0.42, 0.25]
+          },
+          "shift": [-0.0, -0.0, 0.0],
+          "sha256": "878367c94474eb41f9cea3e41fcd052d85690f87037840eb6c444769c3037205",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "whiskey-ottoman-lod1.glb",
+          "triangles": 796,
+          "bytes": 7924,
+          "bounds": {
+            "min": [-0.33, 0.0, -0.25],
+            "max": [0.33, 0.42, 0.25]
+          },
+          "shift": [-0.0, -0.0, 0.0],
+          "sha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e",
+          "baked": [0.719, 1.0]
+        }
+      }
+    },
+    "whiskey-side-table": {
+      "levels": {
+        "0": {
+          "file": "whiskey-side-table-lod0.glb",
+          "triangles": 5260,
+          "bytes": 52508,
+          "bounds": {
+            "min": [-0.26, 0.0, -0.26],
+            "max": [0.26, 0.896, 0.26]
+          },
+          "shift": [-0.0, -0.0, 0.0],
+          "sha256": "ba32afceae5854ba441a22d15157282c218eb16bdc632034d4fdaa5989126b3b",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "whiskey-side-table-lod1.glb",
+          "triangles": 2754,
+          "bytes": 35292,
+          "bounds": {
+            "min": [-0.26, 0.0, -0.26],
+            "max": [0.26, 0.896, 0.26]
+          },
+          "shift": [-0.0, -0.0, 0.0],
+          "sha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e",
+          "baked": [0.688, 1.0]
+        }
+      }
+    },
+    "whiskey-bottles": {
+      "levels": {
+        "0": {
+          "file": "whiskey-bottles-lod0.glb",
+          "triangles": 5088,
+          "bytes": 45924,
+          "bounds": {
+            "min": [-0.467, 0.0, -0.0628],
+            "max": [0.467, 0.367, 0.0628]
+          },
+          "shift": [-0.0015, -0.0, 0.0],
+          "sha256": "b33a347333fb60c47f18c0df317117a8f94a1c47081af557bc4b99b1d5cb51bd",
+          "baked": [0.688, 1.0]
+        },
+        "1": {
+          "file": "whiskey-bottles-lod1.glb",
+          "triangles": 2464,
+          "bytes": 31808,
+          "bounds": {
+            "min": [-0.467, 0.0, -0.0628],
+            "max": [0.467, 0.367, 0.0628]
+          },
+          "shift": [-0.0015, -0.0, 0.0],
+          "sha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af",
+          "baked": [0.688, 1.0]
+        }
+      }
     }
   },
   "blender": "4.5.9 LTS",
-  "built": "2026-10-23"
+  "built": "2026-10-25"
 }

@@ -1,0 +1,86 @@
+{
+  "item": "dining-chair",
+  "with": [],
+  "clip": "eat",
+  "avatars": {
+    "lizard": {
+      "frame": 49,
+      "shift": [0.0, -0.0054, -0.0433],
+      "soft": {
+        "vertices": 30,
+        "depth": 0.0373
+      },
+      "hard": {
+        "vertices": 5,
+        "depth": 0.0077,
+        "bones": {
+          "Tail": 5
+        }
+      },
+      "hipFrameClearance": 0.0336,
+      "floor": 0.1751
+    },
+    "south-park": {
+      "frame": 49,
+      "shift": [0.0, 0.017, -0.0769],
+      "soft": {
+        "vertices": 86,
+        "depth": 0.0067
+      },
+      "hard": {
+        "vertices": 40,
+        "depth": 0.0019,
+        "bones": {
+          "Hand.L": 40
+        }
+      },
+      "hipFrameClearance": 0.0319,
+      "floor": 0.1431
+    },
+    "simpsons": {
+      "frame": 49,
+      "shift": [0.0, 0.017, -0.0769],
+      "soft": {
+        "vertices": 84,
+        "depth": 0.0067
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": 0.0515,
+      "floor": 0.143
+    },
+    "ghibli": {
+      "frame": 49,
+      "shift": [0.0, 0.017, -0.0769],
+      "soft": {
+        "vertices": 142,
+        "depth": 0.0067
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": 0.0515,
+      "floor": 0.143
+    },
+    "rick-and-morty": {
+      "frame": 49,
+      "shift": [0.0, 0.017, -0.0769],
+      "soft": {
+        "vertices": 85,
+        "depth": 0.0067
+      },
+      "hard": {
+        "vertices": 0,
+        "depth": 0.0,
+        "bones": {}
+      },
+      "hipFrameClearance": 0.0732,
+      "floor": 0.1431
+    }
+  }
+}

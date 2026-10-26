@@ -242,6 +242,17 @@ MATERIALS = {
     "dining light oak": dict(color=(0.55, 0.37, 0.19), roughness=0.49),
     "dining travertine": dict(color=(0.65, 0.59, 0.47), roughness=0.64),
     "dining woven cord": dict(color=(0.58, 0.46, 0.29), roughness=0.94),
+    "dining oatmeal linen": dict(color=(0.53, 0.46, 0.36), roughness=0.95),
+    # The whiskey corner: cognac leather; crystal blended like the refrigerator's glass (its program).
+    "whiskey cognac leather": dict(color=(0.3, 0.115, 0.04), roughness=0.46, normal=("leather", {0: 512})),
+    "whiskey crystal": dict(color=(0.8, 0.84, 0.82), roughness=0.045, alphaValue=0.13, doubleSided=True, bakeClear=True),
+    "whiskey ice": dict(color=(0.86, 0.91, 0.93), roughness=0.045, alphaValue=0.13, doubleSided=True, bakeClear=True),
+    "whiskey amber": dict(color=(0.36, 0.11, 0.012), roughness=0.08),
+    "whiskey gold": dict(color=(0.55, 0.26, 0.04), roughness=0.08),
+    "whiskey label cream": dict(color=(0.8, 0.7, 0.5), roughness=0.85),
+    "whiskey label ink": dict(color=(0.03, 0.03, 0.035), roughness=0.6),
+    "whiskey label burgundy": dict(color=(0.25, 0.03, 0.04), roughness=0.7),
+    "whiskey cork": dict(color=(0.45, 0.3, 0.17), roughness=0.9),
     "pan seasoned iron": dict(color=(0.028, 0.03, 0.028), roughness=0.55, metallic=0.48, normal=("cast-iron", {0: 512})),
     "dumbbell rubber": dict(color=(0.022, 0.026, 0.024), roughness=0.83),
     "fireplace graphite": dict(color=(0.025, 0.026, 0.025), roughness=0.48, metallic=0.5),
@@ -678,7 +689,9 @@ def cushion(bm, spec, quality):
         f = (k - 1) / quality.get("under", 2) * 0.999 + 0.001
         rows.append([place(p.x * f, p.y * f, 0.0) for p in under])
         uvs.append([(p.x * f / tile, p.y * f / tile) for p in under])
-    centre = place(0, 0, T(0, 0) - dome - tufting(0, 0))
+    # A buttoned cushion dips at its centre; a plain one (spec crown=True) keeps the dome's crown
+    # there, where the first ring already is, instead of a dimple.
+    centre = place(0, 0, T(0, 0) - (0.0 if spec.get("crown") else dome) - tufting(0, 0))
     # The rings run counter-clockwise seen from the face, so quads face outward as built.
     grid(bm, rows, uvs, close=True, flip=True)
     fan(bm, centre, rows[0], (0, 0), uvs[0], flip=False)
@@ -1102,7 +1115,9 @@ def build_fridge(parts,q):
         for k in range(3):
             x=-.20+k*.20
             lathe(parts.bm("fridge bottle green"),[(.048,0),(.05,.02),(.05,.19),(.021,.22),(.021,.28)],(x,.08,z+.012),20 if parts.lod==0 else 10)
-            lathe(parts.bm("fridge label cream"),[(.0505,.075),(.0505,.15)],(x,.08,z+.012),20 if parts.lod==0 else 10)
+            # The paper label stands 1.5 mm proud of the glass: the house's overlap audit counts
+            # faces within 1 mm as coplanar, and the earlier 0.5 mm z-fought inside the door.
+            lathe(parts.bm("fridge label cream"),[(.0515,.075),(.0515,.15)],(x,.08,z+.012),20 if parts.lod==0 else 10)
             lathe(parts.bm("fridge terracotta jar"),[(.05,.28),(.05,.31)],(x,.08,z+.012),12)
     door=parts.node("fridge door",origin=(-.35,-.33,0),extras={"furniturePivot":"fridge-door"})
     for x in (0,.70): plate(parts,nickel,(x,0,1.065),(.035,.045,2.06),.012,node=door)
@@ -1123,26 +1138,307 @@ def build_table(parts,q):
     return dict(label="Travertine dining table",near=1.8,provenance="Original 2.2 by 1 metre rounded travertine table with smoked-oak trestles and brass foot rails.")
 
 
-def build_chair(parts,q):
-    oak="dining light oak"
-    for side in (-1,1):
-        tube(parts,oak,[(side*.23,-.22,0),(side*.205,-.18,.43)],.018)
-        tube(parts,oak,[(side*.225,.21,0),(side*.20,.16,.46),(side*.23,.22,.76)],.020)
-        tube(parts,oak,[(side*.21,-.18,.20),(side*.22,.18,.20)],.009)
-    # Bent back crest and characteristic fork support (an original continuous construction).
-    crest=[(.29*math.sin(a),.16+.13*math.cos(a),.73+.025*math.cos(a)) for a in [(-1.40+2.8*k/32) for k in range(33)]]
-    tube(parts,oak,crest,.023)
-    for side in (-1,1): tube(parts,oak,[(0,.205,.435),(side*.035,.25,.62),(side*.15,.26,.74)],.013)
-    for y in (-.205,.205): tube(parts,oak,[(-.21,y,.435),(.21,y,.435)],.016)
-    for x in (-.21,.21): tube(parts,oak,[(x,-.205,.435),(x,.205,.435)],.016)
-    count=36 if parts.lod==0 else 16
-    for k in range(count):
-        x=-.195+.39*k/(count-1)
-        tube(parts,"dining woven cord",[(x,-.197,.45),(x,0,.442),(x,.197,.45)],.003 if parts.lod==0 else .006)
-    for k in range(12 if parts.lod==0 else 6):
-        y=-.185+.37*k/(11 if parts.lod==0 else 5)
-        tube(parts,"dining woven cord",[(-.195,y,.451),(0,y,.444),(.195,y,.451)],.002)
-    return dict(label="Oak and woven-cord dining chair",seat=(0,-.025,.45),seatHeight=.45,near=1.2,provenance="Original bent-oak chair with woven cord and forked back after the Danish wishbone tradition; all six instances share these exported resources.")
+def oak_member(parts, points, width, depth, foot=1.0, samples=None, wood="dining light oak"):
+    """A solid wooden member: a rounded-square section swept through `points`, narrowing to `foot`
+    (a fraction of the section) at its first point."""
+    lod0 = parts.lod == 0
+    pts = [Vector(p) for p in points]
+    if len(pts) > 2:
+        pts = catmull(pts, samples or (16 if lod0 else 6))
+    section = rounded_rect(width, depth, min(width, depth) * 0.36, 3 if lod0 else 1)
+    scale = None if foot == 1.0 else (lambda i, t: (foot + (1 - foot) * min(1.0, t * 2.2),) * 2)
+    sweep(parts.bm(wood), pts, section, caps=True, scale=scale)
+
+
+# The dining armchair's back plane (the back cushion's underside) in the chair frame: 12.5 degrees
+# behind vertical above the seat deck (a 102.5 degree seat-to-back angle), with a slight lumbar curve.
+CHAIR_BACK_RECLINE = math.tan(math.radians(12.5))
+
+
+def chair_back_y(z):
+    return 0.236 + (z - 0.39) * CHAIR_BACK_RECLINE - 0.007 * math.exp(-(((z - 0.53) / 0.08) ** 2))
+
+
+def build_chair(parts, q):
+    """Sirui's dining armchairs (2026-10-24: "comfortable chairs with airrest so ppl can sit
+    comfrtably there long time to chat"): open oak arms at 0.65 m, a deep piped linen seat (8 cm) on
+    an oak pan, and an upholstered back with a lumbar swell, reclined 12.5 degrees on a curved oak shell.
+    0.60 m wide for the table's 0.75 m spacing; the arms clear the 0.68 m underside of its top."""
+    oak, linen = "dining light oak", "dining oatmeal linen"
+    lod0 = parts.lod == 0
+    fabric = parts.bm(linen)
+    soft_q = dict(segments=40 if lod0 else 28, rings=8 if lod0 else 3, roll=4 if lod0 else 2, under=2 if lod0 else 1, pipe=6 if lod0 else 0)
+    shell_q = dict(segments=40 if lod0 else 32, rings=8 if lod0 else 4)
+
+    # Seat: an 8 cm cushion on an oak pan, its deck falling 1 cm from front to back.
+    seat_spine = Spine([(-0.33, 0.392), (-0.255, 0.391), (-0.1, 0.389), (0.05, 0.386), (0.185, 0.383), (0.25, 0.382)])
+    seat_s0 = spine_offset(seat_spine, -0.255)
+    seat = dict(
+        width=0.47,
+        length=0.44,
+        exponent=3.8,
+        spine=seat_spine,
+        s0=seat_s0,
+        thickness=lambda x, y: (0.08 - 0.004 * (y / 0.22)) * (1 - 0.05 * (x / 0.235) ** 2),
+        cup=0.006,
+        roll=0.04,
+        dome=0.012,
+        lower=0.012,
+        seam=0.55,
+        piping=0.0042,
+        pipe_bm=fabric,
+        crown=True,
+    )
+    cushion(fabric, seat, soft_q)
+    panel(parts, dict(width=0.5, length=0.51, exponent=3.6, spine=seat_spine, s0=seat_s0 - 0.015, thickness=0.016, gap=0.002, face=oak, edge=oak), shell_q)
+
+    # Back: a cushion swelling 2 cm at the lumbar and wrapping 2 cm at its sides, on an oak shell.
+    zs = (0.33, 0.39, 0.45, 0.53, 0.62, 0.71, 0.8, 0.86)
+    back_spine = Spine([(chair_back_y(z), z) for z in zs])
+    back_s0 = spine_offset(back_spine, 0.455, axis="z")
+    back_len = 0.35
+    back = dict(
+        width=0.46,
+        length=back_len,
+        exponent=3.6,
+        spine=back_spine,
+        s0=back_s0,
+        thickness=lambda x, y: (0.066 + 0.02 * math.exp(-(((y + 0.075) / 0.08) ** 2))) * (1 - 0.08 * (x / 0.23) ** 2),
+        cup=0.02,
+        roll=0.036,
+        dome=0.01,
+        lower=0.012,
+        seam=0.5,
+        piping=0.0042,
+        pipe_bm=fabric,
+        crown=True,
+    )
+    cushion(fabric, back, soft_q)
+    panel(parts, dict(width=0.49, length=back_len + 0.05, exponent=3.6, spine=back_spine, s0=back_s0 - 0.03, cup=0.024, thickness=0.014, face=oak, edge=oak), shell_q)
+
+    # The frame: front legs that rise into the arms, rear legs that bend up into the back posts,
+    # an apron under the pan, side stretchers and a crest rail capping the posts.
+    post_x = 0.262
+    for side in (-1, 1):
+        x = side * post_x
+        oak_member(parts, [(x, -0.25, 0.0), (x, -0.251, 0.3), (x, -0.254, 0.632)], 0.036, 0.036, foot=0.8)
+        rear = [(x, 0.29, 0.0), (x, 0.268, 0.2), (x, 0.258, 0.39)] + [(x, chair_back_y(z) + 0.012, z) for z in (0.47, 0.6, 0.72, 0.83)]
+        oak_member(parts, rear, 0.034, 0.034, foot=0.82, samples=22 if lod0 else 8)
+        # The armrest: a 54 mm oak plank, its top at 0.65 m, from 25 mm past the post into the back post.
+        arm_back = chair_back_y(0.638) + 0.012
+        plate(parts, oak, (side * 0.272, (arm_back - 0.275) / 2, 0.638), (0.054, arm_back + 0.275, 0.024), 0.01 if lod0 else 0.006)
+        plate(parts, oak, (side * 0.25, 0.004, 0.348), (0.022, 0.5, 0.05), 0.006 if lod0 else 0.0)
+        tube(parts, oak, [(x, -0.25, 0.15), (x, 0.282, 0.15)], 0.0095)
+    for y in (-0.25, 0.258):
+        plate(parts, oak, (0, y, 0.348), (0.5, 0.022, 0.05), 0.006 if lod0 else 0.0)
+    crest = [(post_x * u, chair_back_y(0.826) + 0.016 + 0.014 * (1 - u * u), 0.826) for u in [(-1 + 2 * k / 12) for k in range(13)]]
+    sweep(parts.bm(oak), catmull([Vector(p) for p in crest], 18 if lod0 else 7), rounded_rect(0.05, 0.026, 0.01, 3 if lod0 else 1), caps=True)
+    return dict(
+        label="Upholstered oak dining armchair",
+        seat=(0.0, -0.04, 0.47),
+        seatHeight=0.47,
+        near=1.2,
+        provenance="Original oak dining armchair with a piped linen seat and back, open arms at 0.65 m and a 102.5 degree seat-to-back angle, after mid-century Scandinavian dining armchairs; all six instances share these exported resources.",
+    )
+
+
+# ── The study's whiskey corner (Sirui, 2026-10-24: "i like whiskey so my study, i want a nice place and
+# comfy small sofa with ottoman for me to enjoy whiskry and enjoy the ocean view ... also include some
+# nice bootles there"). Cognac leather on dark oak; the glass shares the refrigerator's blended glass.
+
+
+def leather_cushion(parts, width, length, thickness, spine, s0, x0=0.0, cup=0.0, roll=0.045, dome=0.012):
+    lod0 = parts.lod == 0
+    q = dict(segments=40 if lod0 else 24, rings=8 if lod0 else 3, roll=4 if lod0 else 2, under=2 if lod0 else 1, pipe=6 if lod0 else 0)
+    leather = parts.bm("whiskey cognac leather")
+    spec = dict(
+        width=width,
+        length=length,
+        exponent=3.6,
+        spine=spine,
+        s0=s0,
+        x0=x0,
+        thickness=thickness,
+        cup=cup,
+        roll=roll,
+        lower=0.014,
+        seam=0.5,
+        dome=dome,
+        piping=0.0045,
+        pipe_bm=leather,
+        crown=True,
+    )
+    cushion(leather, spec, q)
+
+
+def dark_legs(parts, corners, height, top=0.034, foot=0.7):
+    for x, y in corners:
+        oak_member(parts, [(x, y, 0.0), (x, y, height * 0.5), (x, y, height)], top, top, foot=foot, wood="dining smoked oak")
+
+
+def build_whiskey_loveseat(parts, q):
+    """A small two-seat sofa in cognac leather: deep seat cushions, two reclined back cushions and
+    broad rounded arms on a leather base, standing on short dark-oak legs. 1.46 m wide; the seat's
+    cushion top is 0.46 m high and the arms 0.62 m."""
+    leather = "whiskey cognac leather"
+    r = 3 if parts.lod == 0 else 1
+    dark_legs(parts, [(sx * 0.66, sy) for sx in (-1, 1) for sy in (-0.36, 0.34)], 0.09)
+    box(parts.bm(leather), (0, -0.02, 0.2), (1.46, 0.86, 0.22), 0.035, r)
+    for side in (-1, 1):
+        box(parts.bm(leather), (side * 0.645, -0.02, 0.355), (0.17, 0.86, 0.53), 0.06, r)
+    box(parts.bm(leather), (0, 0.365, 0.555), (1.12, 0.13, 0.49), 0.05, r, Matrix.Rotation(-0.17, 4, "X"))
+    seat = Spine([(-0.5, 0.312), (-0.42, 0.311), (0.0, 0.308), (0.2, 0.306), (0.28, 0.305)])
+    s0 = spine_offset(seat, -0.42)
+    for side in (-1, 1):
+        leather_cushion(parts, 0.555, 0.62, lambda x, y: 0.15 - 0.01 * (y / 0.31), seat, s0, x0=side * 0.2825)
+    back = Spine([(0.25, 0.4), (0.268, 0.45), (0.29, 0.55), (0.312, 0.65), (0.334, 0.75), (0.345, 0.82)])
+    b0 = spine_offset(back, 0.47, axis="z")
+    for side in (-1, 1):
+        leather_cushion(
+            parts,
+            0.55,
+            0.34,
+            lambda x, y: (0.15 + 0.02 * math.exp(-(((y + 0.06) / 0.08) ** 2))) * (1 - 0.06 * (x / 0.275) ** 2),
+            back,
+            b0,
+            x0=side * 0.2825,
+            cup=0.02,
+        )
+    return dict(
+        label="Cognac leather loveseat",
+        seat=(-0.28, -0.12, 0.46),
+        seatHeight=0.46,
+        near=1.6,
+        provenance="Original two-seat sofa in cognac leather after mid-century club sofas: deep cushions, broad rounded arms and short dark-oak legs; no downloaded mesh.",
+    )
+
+
+def build_whiskey_ottoman(parts, q):
+    """The loveseat's ottoman: a leather block with a cushioned top at seat height, for feet up."""
+    leather = "whiskey cognac leather"
+    r = 3 if parts.lod == 0 else 1
+    dark_legs(parts, [(sx * 0.27, sy * 0.19) for sx in (-1, 1) for sy in (-1, 1)], 0.07, top=0.03)
+    box(parts.bm(leather), (0, 0, 0.185), (0.66, 0.5, 0.23), 0.035, r)
+    top = Spine([(-0.3, 0.301), (-0.24, 0.3), (0.0, 0.3), (0.24, 0.3), (0.3, 0.301)])
+    leather_cushion(parts, 0.64, 0.48, 0.12, top, spine_offset(top, -0.24), roll=0.04)
+    return dict(label="Cognac leather ottoman", near=1.2, provenance="Original leather ottoman matching the whiskey loveseat; no downloaded mesh.")
+
+def liquid_radius(profile, z):
+    for (r0, z0), (r1, z1) in zip(profile, profile[1:]):
+        if z0 <= z <= z1:
+            return r0 + (r1 - r0) * ((z - z0) / max(1e-6, z1 - z0))
+    return profile[-1][0]
+
+
+def glass_vessel(parts, outer, inner, center, segments, liquid=None, fill=0.0, liquid_name="whiskey amber"):
+    """A glass shell from an outer and an inner profile ((radius, z), base up and back down), and the
+    liquid inside it up to `fill` metres."""
+    lathe(parts.bm("whiskey crystal"), outer + inner, center, segments, cap_bottom=True, cap_top=False)
+    if liquid and fill > 0:
+        body = [(max(0.0, rr - 0.0015), z) for rr, z in liquid if z <= fill]
+        body.append((max(0.0, liquid_radius(liquid, fill) - 0.0015), fill))
+        lathe(parts.bm(liquid_name), [(0.0, body[0][1])] + body + [(0.0, fill)], center, segments)
+
+
+def ice_sphere(parts, center, radius, segments):
+    profile = [(0.0, 0.0)] + [(radius * math.sin(math.pi * k / 10), radius - radius * math.cos(math.pi * k / 10)) for k in range(1, 10)] + [(0.0, 2 * radius)]
+    lathe(parts.bm("whiskey ice"), profile, center, segments)
+
+
+def rocks_glass(parts, at, segments, fill=0.028):
+    x, y, z = at
+    outer = [(0.0, 0.0), (0.041, 0.0), (0.0435, 0.004), (0.045, 0.088)]
+    inner = [(0.0412, 0.088), (0.0395, 0.02), (0.0, 0.017)]
+    glass_vessel(parts, outer, inner, (x, y, z), segments, liquid=[(0.0395, 0.017), (0.041, 0.088)], fill=0.017 + fill)
+    ice_sphere(parts, (x + 0.006, y, z + 0.018), 0.026, max(10, segments // 2))
+
+
+def build_whiskey_side_table(parts, q):
+    """A round dark-oak side table on a brass pedestal, set for a dram: a crystal decanter, a bottle,
+    two rocks glasses with ice spheres and a small nickel ice bucket."""
+    lod0 = parts.lod == 0
+    seg = 32 if lod0 else 14
+    lathe(parts.bm("dining smoked oak"), [(0.0, 0.552), (0.255, 0.552), (0.26, 0.558), (0.26, 0.572), (0.255, 0.578), (0.0, 0.578)], (0, 0, 0), 48 if lod0 else 20)
+    lathe(
+        parts.bm("furniture brushed brass"),
+        [(0.0, 0.0), (0.17, 0.0), (0.172, 0.008), (0.16, 0.018), (0.024, 0.024), (0.02, 0.06), (0.02, 0.552), (0.0, 0.552)],
+        (0, 0, 0),
+        40 if lod0 else 16,
+    )
+    top = 0.578
+    # The decanter: a heavy round body, a slim neck and a faceted stopper.
+    decanter = [(0.0, 0.0), (0.05, 0.0), (0.06, 0.012), (0.064, 0.08), (0.058, 0.13), (0.03, 0.17), (0.019, 0.19), (0.021, 0.205)]
+    decanter_inner = [(0.016, 0.205), (0.015, 0.19), (0.026, 0.168), (0.053, 0.128), (0.058, 0.08), (0.054, 0.016), (0.0, 0.014)]
+    glass_vessel(parts, decanter, decanter_inner, (-0.09, 0.07, top), seg, liquid=[(0.054, 0.014), (0.058, 0.08), (0.053, 0.128)], fill=0.095)
+    lathe(parts.bm("whiskey crystal"), [(0.0, 0.198), (0.014, 0.2), (0.016, 0.215), (0.03, 0.235), (0.026, 0.255), (0.0, 0.262)], (-0.09, 0.07, top), 12 if lod0 else 8)
+    # The bottle: round shoulders, a cream label, a cork.
+    bottle = [(0.0, 0.0), (0.038, 0.0), (0.04, 0.008), (0.04, 0.19), (0.032, 0.222), (0.016, 0.245), (0.015, 0.29)]
+    bottle_inner = [(0.012, 0.29), (0.013, 0.245), (0.03, 0.222), (0.037, 0.19), (0.037, 0.01), (0.0, 0.008)]
+    glass_vessel(parts, bottle, bottle_inner, (0.1, 0.09, top), seg, liquid=[(0.037, 0.008), (0.037, 0.19)], fill=0.14)
+    lathe(parts.bm("whiskey label cream"), [(0.0415, 0.06), (0.0415, 0.15)], (0.1, 0.09, top), seg, cap_bottom=False, cap_top=False)
+    lathe(parts.bm("whiskey cork"), [(0.0, 0.285), (0.0135, 0.285), (0.0135, 0.3), (0.017, 0.302), (0.017, 0.318), (0.0, 0.318)], (0.1, 0.09, top), 10)
+    rocks_glass(parts, (-0.07, -0.11, top), seg)
+    rocks_glass(parts, (0.08, -0.09, top), seg, fill=0.0)
+    lathe(
+        parts.bm("furniture polished nickel"),
+        [(0.0, 0.0), (0.045, 0.0), (0.05, 0.01), (0.055, 0.1), (0.057, 0.104), (0.052, 0.104), (0.048, 0.012), (0.0, 0.012)],
+        (0.0, -0.005, top),
+        seg,
+        cap_top=False,
+    )
+    for k, (dx, dy) in enumerate(((-0.018, 0.01), (0.017, -0.008), (0.002, 0.02))):
+        ice_sphere(parts, (dx, -0.005 + dy, top + 0.06 + 0.012 * k), 0.022, 10)
+    return dict(
+        label="Whiskey side table",
+        near=1.2,
+        provenance="Original round dark-oak side table on a brass pedestal with a crystal decanter, a bottle, rocks glasses with ice spheres and an ice bucket; the bottle is invented and unlabelled.",
+    )
+
+# Six bottles for the study's lit niche: invented makers, plain colour labels, no text. Each row is the
+# outer profile (or "square"), the label band (z0, z1, material), the closure, the fill and its tone.
+WHISKEY_BOTTLES = [
+    ([(0.0, 0.0), (0.037, 0.0), (0.039, 0.008), (0.039, 0.19), (0.03, 0.225), (0.0155, 0.248), (0.0155, 0.3)], (0.055, 0.155, "whiskey label cream"), "cork", 0.17, "whiskey amber"),
+    ("square", (0.06, 0.16, "whiskey label ink"), "cork", 0.12, "whiskey gold"),
+    ([(0.0, 0.0), (0.05, 0.0), (0.06, 0.012), (0.062, 0.1), (0.05, 0.15), (0.022, 0.175), (0.018, 0.2), (0.02, 0.21)], (0.04, 0.1, "whiskey label burgundy"), "stopper", 0.11, "whiskey amber"),
+    ([(0.0, 0.0), (0.034, 0.0), (0.036, 0.008), (0.036, 0.205), (0.028, 0.24), (0.014, 0.27), (0.0135, 0.335)], (0.07, 0.16, "whiskey label ink"), "cork", 0.2, "whiskey gold"),
+    ([(0.0, 0.0), (0.045, 0.0), (0.05, 0.02), (0.05, 0.09), (0.04, 0.16), (0.022, 0.21), (0.016, 0.235), (0.016, 0.262)], (0.045, 0.12, "whiskey label cream"), "cap", 0.08, "whiskey amber"),
+    ([(0.0, 0.0), (0.04, 0.0), (0.042, 0.01), (0.042, 0.17), (0.036, 0.2), (0.018, 0.232), (0.016, 0.285)], (0.05, 0.14, "whiskey label burgundy"), "cap", 0.15, "whiskey gold"),
+]
+
+
+def build_whiskey_bottles(parts, q):
+    """Six distinct bottles in a row for the study's 1.1 x 0.3 m niche: one material per surface for the
+    whole row (few draws), labels standing 1.5 mm proud of the glass."""
+    lod0 = parts.lod == 0
+    seg = 28 if lod0 else 12
+    for k, (outer, label, closure, fill, tone) in enumerate(WHISKEY_BOTTLES):
+        x = -0.425 + 0.17 * k
+        if outer == "square":
+            # A square-shouldered bottle: a rounded block of glass, its liquid a block inside it.
+            box(parts.bm("whiskey crystal"), (x, 0, 0.12), (0.078, 0.078, 0.24), 0.012, 2 if lod0 else 1)
+            lathe(parts.bm("whiskey crystal"), [(0.016, 0.24), (0.015, 0.29), (0.0, 0.29)], (x, 0, 0), 12, cap_bottom=False)
+            box(parts.bm(tone), (x, 0, 0.012 + fill / 2), (0.068, 0.068, fill), 0.006, 1)
+            box(parts.bm(label[2]), (x, -0.0405, (label[0] + label[1]) / 2), (0.06, 0.002, label[1] - label[0]), 0.0, 1)
+            top = 0.29
+        else:
+            inner = [(max(0.0, rr - 0.0025), z) for rr, z in reversed(outer[1:])]
+            inner[-1] = (0.0, 0.006)
+            liquid = [(max(0.0, rr - 0.0025), z) for rr, z in outer[1:]]
+            glass_vessel(parts, outer, inner, (x, 0, 0), seg, liquid=liquid, fill=fill, liquid_name=tone)
+            radius = liquid_radius(outer, (label[0] + label[1]) / 2) + 0.0015
+            lathe(parts.bm(label[2]), [(radius, label[0]), (radius, label[1])], (x, 0, 0), seg, cap_bottom=False, cap_top=False)
+            top = outer[-1][1]
+        if closure == "cork":
+            lathe(parts.bm("whiskey cork"), [(0.0, top - 0.005), (0.0135, top - 0.005), (0.0135, top + 0.012), (0.018, top + 0.014), (0.018, top + 0.032), (0.0, top + 0.032)], (x, 0, 0), 10)
+        elif closure == "stopper":
+            lathe(parts.bm("furniture brushed brass"), [(0.0, top - 0.004), (0.017, top - 0.004), (0.017, top + 0.012), (0.028, top + 0.03), (0.0, top + 0.036)], (x, 0, 0), 12)
+        else:
+            lathe(parts.bm("whiskey label ink"), [(0.0, top - 0.004), (0.0175, top - 0.004), (0.0175, top + 0.03), (0.0, top + 0.03)], (x, 0, 0), 12)
+    return dict(
+        label="Whiskey bottles for the study niche",
+        near=1.4,
+        provenance="Six original bottle forms with invented, text-free colour labels; no brand, label art or downloaded mesh.",
+    )
 
 
 def build_pan(parts,q):
@@ -1187,7 +1483,9 @@ def build_fireplace(parts,q):
 ITEMS = {"eames-lounge": build_eames, "aeron": build_aeron, "italian-range": build_range,
          "range-hood": build_hood, "pot-filler": build_filler, "glass-fridge": build_fridge,
          "dining-table": build_table, "dining-chair": build_chair, "cast-iron-pan": build_pan,
-         "dumbbell": build_dumbbell, "floating-fireplace": build_fireplace}
+         "dumbbell": build_dumbbell, "floating-fireplace": build_fireplace,
+         "whiskey-loveseat": build_whiskey_loveseat, "whiskey-ottoman": build_whiskey_ottoman,
+         "whiskey-side-table": build_whiskey_side_table, "whiskey-bottles": build_whiskey_bottles}
 
 
 # ── Realize, bake, export ────────────────────────────────────────────────────────────────────────
