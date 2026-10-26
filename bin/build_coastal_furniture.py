@@ -847,8 +847,10 @@ def build_eames(parts, q):
     cushion_q = dict(segments=q["segments"], rings=q["rings"], roll=q["roll"], under=q["under"], pipe=q["pipe"])
     small_q = dict(segments=max(16, q["segments"] * 3 // 4), rings=max(2, q["rings"] // 2), roll=q["roll"], under=1, pipe=q["pipe"])
     lod0 = parts.lod == 0
-    crease = 0.0075 if lod0 else 0.0
-    tuft = 0.02 if lod0 else 0.008
+    # Plump, deeply creased cushions (Sirui: the furniture felt rigid): each about a fifth fuller
+    # than the first pass, with deeper folds between the buttons.
+    crease = 0.009 if lod0 else 0.0
+    tuft = 0.022 if lod0 else 0.009
 
     # Seat: a deep cushion on a shell that dips toward the back.
     seat_spine = Spine([(-0.43, 0.264), (-0.408, 0.262), (-0.31, 0.256), (-0.21, 0.246), (-0.10, 0.232), (0.0, 0.212), (0.05, 0.195), (0.088, 0.176), (0.11, 0.165)])
@@ -859,9 +861,9 @@ def build_eames(parts, q):
         exponent=3.3,
         spine=seat_spine,
         s0=seat_s0,
-        thickness=lambda x, y: (0.112 - 0.012 * (y / 0.248)) * (1 - 0.07 * (x / 0.307) ** 2),
+        thickness=lambda x, y: (0.132 - 0.012 * (y / 0.248)) * (1 - 0.07 * (x / 0.307) ** 2),
         cup=0.012,
-        roll=0.046,
+        roll=0.052,
         lower=0.02,
         seam=0.5,
         buttons=[(0.0, 0.03)],
@@ -883,9 +885,9 @@ def build_eames(parts, q):
         exponent=3.4,
         spine=back_spine,
         s0=back_s0,
-        thickness=lambda x, y: (0.082 + 0.022 * math.exp(-(((y + 0.06) / 0.07) ** 2))) * (1 - 0.06 * (x / 0.3) ** 2),
+        thickness=lambda x, y: (0.096 + 0.026 * math.exp(-(((y + 0.06) / 0.07) ** 2))) * (1 - 0.06 * (x / 0.3) ** 2),
         cup=0.034,
-        roll=0.044,
+        roll=0.05,
         lower=0.016,
         seam=0.45,
         buttons=[(-0.125, 0.01), (0.125, 0.01)],
@@ -907,9 +909,9 @@ def build_eames(parts, q):
         exponent=3.4,
         spine=head_spine,
         s0=head_s0,
-        thickness=lambda x, y: (0.068 + 0.024 * math.exp(-(((y + 0.085) / 0.06) ** 2))) * (1 - 0.06 * (x / 0.296) ** 2),
+        thickness=lambda x, y: (0.078 + 0.026 * math.exp(-(((y + 0.085) / 0.06) ** 2))) * (1 - 0.06 * (x / 0.296) ** 2),
         cup=0.03,
-        roll=0.04,
+        roll=0.046,
         lower=0.015,
         seam=0.45,
         buttons=[(-0.122, 0.018), (0.122, 0.018)],
@@ -931,7 +933,7 @@ def build_eames(parts, q):
             spine=arm_spine,
             s0=spine_offset(arm_spine, -0.218),
             x0=side * 0.346,
-            thickness=lambda x, y: 0.066 * (1 - 0.1 * (x / 0.059) ** 2),
+            thickness=lambda x, y: 0.074 * (1 - 0.1 * (x / 0.059) ** 2),
             roll=0.03,
             lower=0.014,
             seam=0.42,
@@ -970,9 +972,9 @@ def build_eames(parts, q):
         exponent=3.4,
         spine=otto_spine,
         s0=otto_s0,
-        thickness=lambda x, y: 0.135 * (1 - 0.07 * (x / 0.318) ** 2) * (1 - 0.06 * (y / 0.262) ** 2),
+        thickness=lambda x, y: 0.15 * (1 - 0.07 * (x / 0.318) ** 2) * (1 - 0.06 * (y / 0.262) ** 2),
         cup=0.01,
-        roll=0.05,
+        roll=0.056,
         lower=0.02,
         seam=0.48,
         buttons=[(-0.13, 0.0), (0.13, 0.0)],
@@ -987,8 +989,8 @@ def build_eames(parts, q):
     star_base(parts, "eames black aluminium", (0.0, oy), 4, 0.218, 0.095, 0.032, math.pi / 4, q, width=(0.04, 0.028), height=(0.028, 0.019))
     return dict(
         label="Eames lounge chair and ottoman",
-        seat=(0.0, -0.06, 0.33),
-        seatHeight=0.38,
+        seat=(0.0, -0.06, 0.35),
+        seatHeight=0.40,
         near=1.6,
         provenance="Original Blender geometry after the Eames Lounge Chair and Ottoman (Herman Miller): published dimensions and a measured reference from Sirui's configurator download, whose terms do not allow redistribution; nothing from the download is shipped.",
     )
