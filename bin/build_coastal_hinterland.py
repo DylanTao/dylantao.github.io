@@ -65,10 +65,16 @@ for obj in dst.objects:
     reference.objects.link(obj)
     mainland.append(obj)
 assert len(mainland) == len(MAINLAND), [o.name for o in mainland]
-# Where the retained clifftop is already planted or walked (flora.glb, the doorway and its
-# stepping stones): read once so the transition planting keeps clear, then removed again.
+# Where the retained clifftop is already planted, walked or built (flora.glb, the doorway and its
+# stepping stones, the arrival's pavilion, forecourt, oculi and paths): read once so the transition
+# planting keeps clear, then removed again. coastal_hinterland_clearings.py applies the same rule to
+# a built hinterland.
 with bpy.data.libraries.load(str(SOURCE), link=False) as (src, dst):
-    dst.objects = [name for name in src.objects if name.startswith(("core_flora_", "core_landward_path", "core_entry", "core_recessed_entry"))]
+    dst.objects = [
+        name
+        for name in src.objects
+        if name.startswith(("core_flora_", "core_landward_path", "core_entry", "core_recessed_entry", "core_arrival_court", "core_arrival_paths"))
+    ]
 occupied_points = []
 for obj in dst.objects:
     step = 3 if obj.name.startswith("core_flora_") else 1
