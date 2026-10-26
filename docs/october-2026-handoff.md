@@ -8,6 +8,8 @@ Originally written October 22 before a token pause, then reconciled October 23 a
 
 ## Opus continuation checklist (started 2026-10-24)
 
+**How to read this list (Sirui, 2026-10-26):** there is no rush to finish it, because more usage windows will come. What matters is a clear picture of every item and a genuine best effort on each. Mark an item `[x]` only when it is verified. When an item still resists after a real attempt, leave it `[ ]` and add a **Best effort so far** note. The note says what was tried, the evidence, why it fell short, and the next hypothesis, so that a later model can pick it up rather than start over. A weak fix that passes a test is not a finish.
+
 Sirui's requests after the retreat revision:
 
 - The site and the 3D home lag on laptop, 4K PC and iPhone (Chrome on iOS, which is WebKit). Loading is long, and zooming and walking flicker and lag.
