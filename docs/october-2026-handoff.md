@@ -51,6 +51,8 @@ Work the items in order. On Oct 24 Sirui allowed a few parallel agents: each wor
   - temporally stable haze and contact noise;
   - a mirror update rate tied to camera motion.
 - [ ] 7. Phone quality tier (DPR, MSAA, shadows, contact shading, haze, mirrors) plus a `?perf=1` overlay with ready time and frame p50/p95, so Sirui can report real-device numbers.
+  - **Paused 2026-10-26, not yet on `main`:** branch `agent/perf` holds `50c67e0a8`, `ae7a98a3f`, `0c81c2d6a` and `cec220c49` on top of `f29278806`. They add `quality.mjs` with a low/standard/high ladder and its governor, `?quality=low|standard|high`, and the `?perf=1` overlay. Standard draws exactly as before; automation stays pinned to standard unless `?quality=auto`. Furniture and controller are light-cache inputs, so re-sign the cache when integrating.
+  - **Still to do:** real-device numbers (an iPhone with `?perf=1`, and promotion on the 4K desktop), a `WEBGL_lose_context` test, and optionally a scene test for `quality` (it needs a `scene-groups.json` entry). Evidence is in `.jekyll-cache/visual-qa/perf-2026-10-24/`.
 
 **Windows 3–4: geometry**
 
@@ -79,6 +81,14 @@ Sirui reviewed live on a laptop, then on a 4K PC with an RTX 3080. Each request 
 - [ ] 20. Footer dusk (sky worker, S2). Sirui chose all four parts: sky gradient, page-to-sky edge, change over time, and sun, sea and haze. The background band must read as the hills behind the coast, with lit houses, not as sea.
 - [ ] 21. Loading sketch: more detailed line drawing that reveals real progress (sketch worker, formerly weather).
 - [ ] 22. Characters at 4K, hand-table contacts, gourmet food, drink and dessert by day, natural eating and drinking, and comfortable furniture (life worker).
+  - **Paused 2026-10-26.** Meals (L1–L3) are on `main`.
+    - `agent/life` `9059c18b9` rebuilds the Lizard's face skin and is ready to merge. The GLB is a light-cache input, so re-sign the cache when merging.
+    - WIP `1fc4d2cdf` is not for `main` as it stands. It holds the dining armchairs (baked; seated fixture `bin/review_coastal_seating.py`), fridge labels 1.5 mm proud of the glass, and the whiskey corner furniture with six text-free bottles. The whiskey corner is exported but not baked.
+  - **Remaining:**
+    - Re-export the armchairs with the crowned cushion and review them at the table.
+    - Raise the Lizard 1.2 cm on the banquette.
+    - Bake and review the whiskey corner, run its feet-up fixture, and wire the whiskey-evening routine to the house's `study-whiskey-lounge` anchor.
+    - Then the banquette, cloud sofa and Eames lounge.
   - Dining chairs become comfortable armchairs with armrests, so people can sit and chat for a long time (Sirui, Oct 25).
   - The study gets a whiskey corner facing the ocean, built with the house worker (Sirui, Oct 25):
     - a comfy small loveseat and ottoman;
@@ -95,6 +105,7 @@ Sirui reviewed live on a laptop, then on a 4K PC with an RTX 3080. Each request 
   - a corridor with rounded niches, sculptures and soft light.
 - [ ] 24. Hardware-adaptive quality, with a high tier for strong GPUs that never lags or crashes (perf worker, with item 7).
 - [ ] 25. A build-diary timeline on the 3D world's project page, plus sub-pages (story worker).
+- [x] 26. Logo, after the Susan Kare study (Sirui, Oct 25–26). Sirui chose direction C of three: an orange that is also the sun going down into the Pacific, the same on every visit. The navbar, favicon set (16-pixel grid, `bin/build_brand_icons.cjs`) and home-screen icon now share it, replacing the 2024 "S" tab icon. The procedural orange grows on the 404 page. The contract is in `material-lite-revamp.md` under Brand Mark.
 
 **Final window**
 
