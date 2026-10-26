@@ -4,10 +4,10 @@ import { createFinish } from "../home-scene/realism.mjs";
 import { createCameraMotion } from "../home-scene/camera-motion.mjs";
 import { sampleCoastWave } from "./wave-motion.mjs";
 import { createPeople } from "./people.mjs?v=coast-water-20261018";
-import { createCoastWater } from "./water.mjs?v=coast-sky-20261019";
-import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-hills-20261024";
+import { createCoastWater } from "./water.mjs?v=coast-water-20261026";
+import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-hills-20261026";
 import { createMarineLayer } from "./marine-layer.mjs?v=coast-sky-20261019";
-import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-hills-20261024";
+import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-hills-20261026";
 import { localDateKey, sunState } from "../la-jolla-sun.mjs?v=coast-sky-20261019";
 
 // People keep a composed still pose under reduced motion and under automation, as the
@@ -117,7 +117,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   const narrowViewport = matchMedia("(max-width: 599px)");
   // The finish multisamples its own target and ends with one full-screen triangle (realism.mjs),
   // so the canvas itself does not need multisampling.
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "low-power" });
+  // This scene deliberately stops after one frame under reduced motion. Preserve that frame:
+  // WebKit otherwise discarded its first buffer while the formerly hidden canvas was revealed.
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "low-power", preserveDrawingBuffer: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.setClearColor(0, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -420,8 +422,11 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     if (sky?.weight > 0) {
       const mirror = sky.skyColor(24, reflected).getHex(),
         mirrorFar = sky.skyColor(7, reflected).getHex();
-      water.setTheme({ ...theme, mirror: mixHex(theme.mirror, mirror, sky.weight), mirrorFar: mixHex(theme.mirrorFar, mirrorFar, sky.weight) });
-    } else water.setTheme(theme);
+      water.setTheme(
+        { ...theme, mirror: mixHex(theme.mirror, mirror, sky.weight), mirrorFar: mixHex(theme.mirrorFar, mirrorFar, sky.weight) },
+        { direction: keyDir }
+      );
+    } else water.setTheme(theme, { direction: keyDir });
     placeSky();
     lampsOn = clamp((theme.night - 0.35) / 0.45);
     lamps?.set(lampsOn);
@@ -869,5 +874,11 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       ? Object.fromEntries(["GeiselCoast", "SalkCoast", "BrocktonVilla", "LaValencia", "ChildrensPool"].map((name) => [name, landmarkFrame(name)]))
       : undefined,
   });
+  if (navigator.webdriver) {
+    host.setCoastWaterProof = (options) => {
+      water.setProof(options);
+      draw();
+    };
+  }
   syncRunning();
 }

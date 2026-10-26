@@ -816,6 +816,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     // frame; the hinterland's coves later without waiting on the GPU (`done` runs once it lands).
     captureSeabed: (roots) => {
       farField.captureNear(roots, false);
+      wildlife.captureGround([scene]);
       return bathymetry.capture(roots);
     },
     captureSeabedAsync: (roots, done) => {

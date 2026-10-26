@@ -466,7 +466,9 @@ export function creditHalo(look, darkInk) {
     // Light ink (dusk and night) keeps a dense dark halo: at 0.8 the dusk credit sat at 4.48:1 on
     // CI's Linux text rendering, and at 0.92 it still dipped to 4.46:1 on 2026-10-22 as the sea
     // behind it rendered a hair differently from run to run; 0.97 leaves margin over 4.5:1.
-    inner: darkInk ? hex(look.haloLight, look.haloAlpha) : hex(look.haloDark, Math.max(look.haloAlpha, 0.97)),
+    // The deeper PC water put the tablet afternoon ring at 4.29:1 with the earlier faint veil.
+    // Keep a dense light core under dark ink as well; the outer glow can still follow the hour.
+    inner: darkInk ? hex(look.haloLight, Math.max(look.haloAlpha, 0.86)) : hex(look.haloDark, Math.max(look.haloAlpha, 0.97)),
     glow: hex(look.glowColor, look.glowAlpha),
   };
 }

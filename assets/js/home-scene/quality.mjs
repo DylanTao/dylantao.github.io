@@ -9,8 +9,9 @@
 // Standard is the home exactly as it was drawn before tiers (null below keeps a device's own
 // value). A device starts at standard, or low on a compact touch screen or a small GPU. Measured
 // frames, and only while the view rests, promote a device with clear GPU headroom to high and demote
-// one whose GPU keeps missing its frames. A demotion is final for the session, a lost WebGL context
-// restarts one tier lower (sessionStorage), and ?quality=low|standard|high pins a tier.
+// one whose GPU keeps missing its frames. A reduction must improve frame pacing to stay, and a
+// recovered device can regain detail after a longer cooldown. A lost WebGL context restarts one
+// tier lower (sessionStorage), and ?quality=low|standard|high pins a tier.
 
 export const TIERS = Object.freeze(["low", "standard", "high"]);
 export const QUALITY_CAP_KEY = "sirui-scene-quality-cap";
@@ -18,7 +19,7 @@ export const QUALITY_CAP_KEY = "sirui-scene-quality-cap";
 export const QUALITY_TIERS = Object.freeze({
   low: Object.freeze({
     embed: Object.freeze({ pixelBudget: 1_200_000, maxDensity: 1.25 }),
-    fullscreen: Object.freeze({ pixelBudget: 1_800_000, maxDensity: 1.25, minFactor: 0.6 }),
+    fullscreen: Object.freeze({ pixelBudget: 1_800_000, maxDensity: 1.25 }),
     maxSamples: 2,
     shadowMapSize: 1024,
     contactScale: 0.5,
@@ -46,7 +47,7 @@ export const QUALITY_TIERS = Object.freeze({
   }),
   high: Object.freeze({
     embed: Object.freeze({ pixelBudget: 4_200_000, maxDensity: 2 }),
-    fullscreen: Object.freeze({ pixelBudget: 8_300_000, maxDensity: 2, minFactor: 0.5 }),
+    fullscreen: Object.freeze({ pixelBudget: 8_300_000, maxDensity: 2 }),
     maxSamples: 4,
     shadowMapSize: 4096,
     contactScale: 1.5,
@@ -119,6 +120,8 @@ export function createQualityGovernor({
   promoteGpuMs = 6,
   promoteIntervalMs = 19,
   demoteIntervalMs = 40,
+  demoteGpuMs = 25,
+  recoveryMs = 15000,
   scriptBound = 0.6,
   settleMs = 3000,
   now = () => globalThis.performance?.now() ?? Date.now(),
@@ -127,6 +130,9 @@ export function createQualityGovernor({
     submits = [];
   let current = tier,
     demoted = false,
+    trial = null,
+    failedReductions = 0,
+    lastReduction = -Infinity,
     lastChange = now(),
     history = [];
   const quantile = (values, fraction) => {
@@ -162,16 +168,42 @@ export function createQualityGovernor({
       const p50 = quantile(intervals, 0.5),
         p75 = quantile(intervals, 0.75),
         script = quantile(submits, 0.5);
-      const evidence = { p50: Math.round(p50 * 10) / 10, p75: Math.round(p75 * 10) / 10, script: Math.round(script * 10) / 10 };
-      if (p75 > demoteIntervalMs && current !== "low" && script < scriptBound * p50)
-        return change(lowerTier(current), "sustained slow frames", evidence);
-      if (current !== "standard" || !canPromote || demoted || p75 > promoteIntervalMs) return null;
+      const gpu = typeof gpuMs === "function" ? gpuMs() : gpuMs;
+      const evidence = {
+        p50: Math.round(p50 * 10) / 10,
+        p75: Math.round(p75 * 10) / 10,
+        script: Math.round(script * 10) / 10,
+        gpu: Number.isFinite(gpu) ? Math.round(gpu * 10) / 10 : null,
+      };
+      // A paced/background/compositor gap is not evidence that the scene's GPU work is slow.
+      // Without timer support the reduction remains a measured, reversible trial.
+      const gpuBound = !Number.isFinite(gpu) || (gpu >= demoteGpuMs && gpu >= p50 * 0.4);
+      if (trial) {
+        const { from, before } = trial;
+        trial = null;
+        if (p75 > before * 0.85) {
+          failedReductions++;
+          return change(from, "tier reduction did not help", evidence);
+        }
+      }
+      if (p75 > demoteIntervalMs && current !== "low" && script < scriptBound * p50 && gpuBound && failedReductions < 2) {
+        trial = { from: current, before: p75 };
+        lastReduction = now();
+        return change(lowerTier(current), "sustained GPU pressure", evidence);
+      }
+      if (p75 > promoteIntervalMs || (demoted && now() - lastReduction < recoveryMs)) return null;
+      // Low on a compact/small device is its starting tier, not a temporary pressure reduction.
+      // Recover standard only when this session actually lost it; high keeps its memory guard.
+      if (current === "low" && demoted && tier !== "low") {
+        const recovered = Number.isFinite(gpu) ? gpu <= promoteGpuMs : p50 <= promoteIntervalMs * 0.8;
+        return recovered ? change("standard", "recovered headroom", evidence) : null;
+      }
+      if (current !== "standard" || !canPromote) return null;
       // High needs measured GPU headroom where a timer exists, and clearly fast frames without one
       // (a 60 Hz display's paced frames alone are not headroom).
-      const gpu = typeof gpuMs === "function" ? gpuMs() : gpuMs;
       const headroom = Number.isFinite(gpu) ? gpu <= promoteGpuMs : p50 <= promoteIntervalMs * 0.8;
       if (!headroom) return null;
-      return change("high", "headroom", { ...evidence, gpu: Number.isFinite(gpu) ? Math.round(gpu * 10) / 10 : null });
+      return change("high", demoted ? "recovered headroom" : "headroom", evidence);
     },
     // View, visibility and background-work changes start a clean window (the tier stays).
     reset: clear,
@@ -182,7 +214,15 @@ export function createQualityGovernor({
       return true;
     },
     evidence() {
-      return { tier: current, pinned, demoted, canPromote, history: history.map((entry) => ({ ...entry })) };
+      return {
+        tier: current,
+        pinned,
+        demoted,
+        canPromote,
+        failedReductions,
+        trial: trial ? { ...trial } : null,
+        history: history.map((entry) => ({ ...entry })),
+      };
     },
   };
 }

@@ -4,7 +4,7 @@ import { createArtDirection } from "./materials.mjs";
 import { createPacific } from "./environment.mjs";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
-import { createExplorationState, resolveRoutine, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
+import { createExplorationState, resolveRoutine, routineRoom, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
 import { createResolutionGovernor, detailFor } from "./resolution.mjs";
@@ -1564,6 +1564,7 @@ export function createCoastalHome(container, records, artifacts) {
     const compose = force || (composeOnChange && changed);
     // A deliberate change of time, activity or motion recomposes the wind, even in a still.
     if (force || changed || routine?.live !== next.live) windCompose = true;
+    const priorRoutine = routine;
     routine = next;
     clockLabel.textContent = `${routine.live ? "" : "Preview · "}${formatMinute(routine.minute)} · La Jolla`;
     ui.querySelector("[data-world-now]").setAttribute("aria-pressed", String(explore.following && followClock));
@@ -1578,13 +1579,13 @@ export function createCoastalHome(container, records, artifacts) {
       poolStroke?.reset();
       sequenceStart = elapsed;
       sequencePose = null;
-      const room = config.rooms.find((r) => r.id === routine.room);
+      const room = routineRoom(config, routine);
       const goal = new THREE.Vector3(...room.actor);
       loadRoom(room.id).catch(() => {
         if (!disposed) status.textContent = "Room detail unavailable. You can still explore.";
       });
       if (actorGoal && !compose && actor.position.distanceTo(goal) > 0.5 && !reduced && !paused && visible && inViewport) {
-        const priorRoom = config.rooms.find((r) => actorGoal && new THREE.Vector3(...r.actor).distanceTo(actorGoal) < 0.1);
+        const priorRoom = routineRoom(config, priorRoutine);
         const route = roomRoute(config, priorRoom, room, actor.position.toArray());
         travel = {
           route,
@@ -1734,7 +1735,15 @@ export function createCoastalHome(container, records, artifacts) {
       let best = -Infinity,
         rays = 0,
         selectedVisibility = null;
-      const elevations = neighbour.id.startsWith("rabbit-") ? [0.46, 0.72] : neighbour.id === "balcony-gull-0" ? [0.2, 0.4, 0.72] : [0.2, 0.4];
+      // The raccoon's intact mainland habitat slopes behind its former lifted roof. Low-only
+      // candidates can all finish behind rock; score higher real-mesh sightlines as well.
+      const elevations = neighbour.id.startsWith("rabbit-")
+        ? [0.46, 0.72]
+        : neighbour.id === "raccoon-0"
+          ? [0.72, 0.92, 0.4, 0.2]
+          : neighbour.id === "balcony-gull-0"
+            ? [0.2, 0.4, 0.72]
+            : [0.2, 0.4];
       // Include the actual frontal gap. Side-only candidates missed a narrow
       // clear opening in the authored scrub even after a full orbit found it.
       const candidates = [],
@@ -2857,6 +2866,7 @@ export function createCoastalHome(container, records, artifacts) {
     const frameDelta = Math.min(delta, 1);
     lastFrame = now;
     const moving = !reduced && !paused;
+    if (!moving && resolution?.restore()) resize();
     if (moving) elapsed += delta;
     physicalTime.value = elapsed;
     stepWind(moving);
@@ -3118,7 +3128,10 @@ export function createCoastalHome(container, records, artifacts) {
       hands: handContacts,
     });
     if (meal?.phase) container.dataset.activityPhase = meal.phase;
-    characterPerformance?.update(delta, { active: moving && !travel, clip: liftThisFrame ? "workout" : container.dataset.animation });
+    characterPerformance?.update(delta, {
+      active: moving && !travel,
+      clip: liftThisFrame ? "workout" : meal?.protectHead ? "drink" : container.dataset.animation,
+    });
     const holdActivityProps = paused && !reduced && Boolean(sequencePose);
     let cupCreated = false;
     // Move the authored cup itself; there is never a second coffee cup in a hand.
@@ -3435,7 +3448,7 @@ export function createCoastalHome(container, records, artifacts) {
       cleanup.push(() => cameraField?.dispose());
       // The composer multisamples its own target and finishes with one full-screen triangle, so a
       // multisampled canvas would only add a resolve without changing a pixel.
-      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: "low-power" });
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: "high-performance" });
       renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = TONE_MAPPING[look.tone];
