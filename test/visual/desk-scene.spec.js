@@ -903,15 +903,22 @@ test("coastal loading sketch: the pen draws only what finished work allows, dens
     // The pen's own account (loading-sketch.mjs): its drawing, the share finished work allows, the share drawn.
     const samples = [];
     const sample = async () => {
-      const state = await sketch
-        .evaluate((canvas) => ({
-          drawing: canvas.dataset.sketchDrawing || "",
-          allowed: Number(canvas.dataset.sketchAllowed),
-          drawn: Number(canvas.dataset.sketchDrawn),
-          resting: canvas.dataset.sketchResting === "true",
-          pending: canvas.dataset.sketchPending || "",
-          stage: canvas.closest("[data-home-desk-scene]").dataset.loadingStage,
-        }))
+      // Ready removes the sketch between polls. Query through the persistent scene so an already
+      // removed canvas returns null instead of waiting for it to be attached for the whole test.
+      const state = await scene
+        .evaluate((host) => {
+          const canvas = host.querySelector(".home-world-sketch");
+          return canvas
+            ? {
+                drawing: canvas.dataset.sketchDrawing || "",
+                allowed: Number(canvas.dataset.sketchAllowed),
+                drawn: Number(canvas.dataset.sketchDrawn),
+                resting: canvas.dataset.sketchResting === "true",
+                pending: canvas.dataset.sketchPending || "",
+                stage: host.dataset.loadingStage,
+              }
+            : null;
+        })
         .catch(() => null);
       if (state && Number.isFinite(state.drawn)) samples.push(state);
       return state;
@@ -942,10 +949,15 @@ test("coastal loading sketch: the pen draws only what finished work allows, dens
     expect(samples.at(-1).drawn).toBe(held.drawn);
     await capture(testInfo, "coastal-loading-sketch-held", await page.locator(".home-hero-media").screenshot());
     releaseAvatar();
-    while ((await scene.getAttribute("data-scene-state")) !== "ready") {
-      await sample();
-      await page.waitForTimeout(150);
-    }
+    await expect
+      .poll(
+        async () => {
+          await sample();
+          return scene.getAttribute("data-scene-state");
+        },
+        { timeout: SCENE_READY_TIMEOUT, intervals: [150] }
+      )
+      .toBe("ready");
     const ready = await evidence(scene);
     for (const [k, state] of samples.entries()) {
       expect(state.drawn, `sample ${k} ${JSON.stringify(state)}`).toBeLessThanOrEqual(state.allowed + 1e-4);
