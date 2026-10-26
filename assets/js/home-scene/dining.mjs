@@ -835,9 +835,48 @@ export function createDining({
     }
     const name = hand.item === "knife" ? "knife" : utensilName(s, p);
     const grip = utensilInHand(side, index.tableware.items[name] || index.tableware.items.fork, palm);
-    handRotation(side, "hold", hand, r.actor.quaternion, rotation);
-    return { wrist: toWorld(hand.tip).sub(grip.tip.clone().applyQuaternion(rotation)), rotation };
+    const tip = toWorld(hand.tip);
+    const place = (dir) => {
+      handRotation(side, "hold", dir === hand.dir ? hand : { ...hand, dir }, r.actor.quaternion, rotation);
+      return tip.clone().sub(grip.tip.clone().applyQuaternion(rotation));
+    };
+    let wrist = place(hand.dir);
+    // A long muzzle puts the lips beyond the arm when the utensil comes in from the front (the
+    // Lizard's wrist stopped 4-6 cm short). Tip the utensil up toward the lips just enough that the
+    // wrist is within reach, so the hand rises under the mouth; only if that is not enough does it
+    // turn toward the shoulder and come in from the side.
+    const limb = r.limbs[side];
+    limb.upper.getWorldPosition(shoulder);
+    const reach = 0.97 * armLength(limb);
+    if (wrist.distanceTo(shoulder) > reach) {
+      const toShoulder = tip.clone().sub(shoulder).applyQuaternion(actorQInv.copy(r.actor.quaternion).invert()).normalize().toArray();
+      const toward = [[0, 1, 0], toShoulder].find((goal) => place(blendDir(hand.dir, goal, 1)).distanceTo(shoulder) <= reach) || toShoulder;
+      let lo = 0,
+        hi = 1;
+      for (let k = 0; k < 10; k++) {
+        const mid = (lo + hi) / 2;
+        if (place(blendDir(hand.dir, toward, mid)).distanceTo(shoulder) > reach) lo = mid;
+        else hi = mid;
+      }
+      wrist = place(blendDir(hand.dir, toward, hi));
+    }
+    return { wrist, rotation };
   }
+  function armLength(limb) {
+    if (!limb.length) {
+      limb.upper.getWorldPosition(a);
+      limb.lower.getWorldPosition(b);
+      limb.hand.getWorldPosition(c);
+      limb.length = a.distanceTo(b) + b.distanceTo(c);
+    }
+    return limb.length;
+  }
+  const actorQInv = new THREE.Quaternion();
+  const blendDir = (from, to, t) => {
+    const v = from.map((d, i) => d + (to[i] - d) * t),
+      l = Math.hypot(...v) || 1;
+    return v.map((x) => x / l);
+  };
 
   function applyHands(r, s, p) {
     for (const side of ["R", "L"]) {
@@ -861,6 +900,13 @@ export function createDining({
         setWorldRotation(limb.hand, goal.rotation);
         limb.hand.updateWorldMatrix(true, false);
         hand.drift = limb.hand.getWorldPosition(v3()).distanceTo(targetW);
+        // Lab evidence: how far the wrist target sits from the shoulder against the arm's length.
+        limb.upper.getWorldPosition(shoulder);
+        hand.reach = [
+          shoulder.distanceTo(targetW),
+          limb.upper.getWorldPosition(v3()).distanceTo(limb.lower.getWorldPosition(v3())) +
+            limb.lower.getWorldPosition(v3()).distanceTo(limb.hand.getWorldPosition(v3())),
+        ];
       };
       place();
       const rest = hand.mode === "rest";
@@ -1322,7 +1368,8 @@ export function createDining({
       const contacts = {};
       if (p)
         for (const side of ["R", "L"])
-          if (p.hands?.[side]?.drift != null) contacts[side] = { mode: p.hands[side].mode, wristDrift: p.hands[side].drift };
+          if (p.hands?.[side]?.drift != null)
+            contacts[side] = { mode: p.hands[side].mode, wristDrift: p.hands[side].drift, reach: p.hands[side].reach };
       return {
         index: indexState,
         key: s?.key || null,
