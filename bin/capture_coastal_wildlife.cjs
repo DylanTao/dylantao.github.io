@@ -41,7 +41,17 @@ const expectedRoomCount = JSON.parse(fs.readFileSync(path.join(__dirname, "../as
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
   await scene.scrollIntoViewIfNeeded();
-  await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.dataset.sceneState === "ready", null, { timeout: 120000 });
+  try {
+    await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.dataset.sceneState === "ready", null, { timeout: 120000 });
+  } catch (error) {
+    fs.writeFileSync(
+      path.join(out, "startup-failure.json"),
+      JSON.stringify({ error: String(error), errors, scene: await scene.evaluate((e) => ({ ...e.dataset })) }, null, 2)
+    );
+    await page.screenshot({ path: path.join(out, "startup-failure.png") });
+    await browser.close();
+    throw error;
+  }
   const canvas = scene.locator("canvas");
   await canvas.scrollIntoViewIfNeeded();
   if (args.fullscreen) await page.locator("[data-world-fullscreen]").click();
