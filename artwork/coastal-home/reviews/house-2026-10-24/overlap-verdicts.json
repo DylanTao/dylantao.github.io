@@ -195,6 +195,12 @@
       "maxDepthM": 0.063,
       "maxSeamM": 3.23
     },
+    "core_arrival_hall__warm cut stone | core_arrival_wall__golden coastal sandstone": {
+      "verdict": "designed",
+      "reason": "The upper door's stone reveal and lintel are bedded 2 cm into the back wall's opening, which sits 1 cm behind them.",
+      "maxDepthM": 0.025,
+      "maxSeamM": 6.39
+    },
     "core_arrival_hall__warm cut stone | core_reno_slab_ground": {
       "verdict": "designed",
       "reason": "The hall's floor stone runs through the pivot door's threshold onto the living's ground slab.",

@@ -139,8 +139,8 @@
     },
     {
       "mesh": "core__golden coastal sandstone",
-      "facesBefore": 31475,
-      "facesExported": 31475
+      "facesBefore": 31484,
+      "facesExported": 31484
     },
     {
       "mesh": "coast_shared_dry beach sand",
@@ -1564,8 +1564,8 @@
     },
     {
       "mesh": "core_retreat_library__chalk limestone",
-      "facesBefore": 392,
-      "facesExported": 392
+      "facesBefore": 396,
+      "facesExported": 396
     },
     {
       "mesh": "core_retreat_library__brushed brass",
@@ -1631,36 +1631,6 @@
       "mesh": "library__library clay cloth",
       "facesBefore": 5076,
       "facesExported": 5076
-    },
-    {
-      "mesh": "library_reading_seat__honey ash",
-      "facesBefore": 56,
-      "facesExported": 56
-    },
-    {
-      "mesh": "library_reading_seat__pale oak",
-      "facesBefore": 224,
-      "facesExported": 224
-    },
-    {
-      "mesh": "library_reading_seat__linen",
-      "facesBefore": 196,
-      "facesExported": 196
-    },
-    {
-      "mesh": "library_reading_seat__honey ash.001",
-      "facesBefore": 56,
-      "facesExported": 56
-    },
-    {
-      "mesh": "library_reading_seat__pale oak.001",
-      "facesBefore": 224,
-      "facesExported": 224
-    },
-    {
-      "mesh": "library_reading_seat__linen.001",
-      "facesBefore": 196,
-      "facesExported": 196
     },
     {
       "mesh": "core_estate_library_facade__brushed brass",
@@ -2031,6 +2001,36 @@
       "mesh": "lounge_placeholder_living-sofa",
       "facesBefore": 8676,
       "facesExported": 8676
+    },
+    {
+      "mesh": "library_whiskey_niche__honed travertine",
+      "facesBefore": 30,
+      "facesExported": 30
+    },
+    {
+      "mesh": "library_whiskey_niche__estate warm opal diffuser",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "library_placeholder_study-whiskey-lounge",
+      "facesBefore": 12,
+      "facesExported": 12
+    },
+    {
+      "mesh": "library_placeholder_study-whiskey-ottoman",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "library_placeholder_study-whiskey-side-table",
+      "facesBefore": 12,
+      "facesExported": 12
+    },
+    {
+      "mesh": "library_placeholder_study-whiskey-bottles",
+      "facesBefore": 36,
+      "facesExported": 36
     }
   ]
 }

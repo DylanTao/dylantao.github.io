@@ -57,7 +57,7 @@ Built by `bin/coastal_arrival_hall.py` through `bin/refresh_coastal_arrival_hall
   - On the well side, bronze-rod guards run under the hall's lower ceiling and end where its sandstone wall takes over, so the top flight climbs between two walls toward the light of the portal.
 - **The main entrance.** A 1.5 × 3.0 m pivot door sits in the back wall. Its face is the wall's own sandstone, so the texture runs across it. It turns into the hall on an axis 0.35 m in from its west jamb. The back wall is now one sandstone plane across the vault. A hidden linear light at the top of the slot grazes it at night.
 - **Walk.** Walk now begins in the pavilion's mouth, at the head of the stair, and the public route runs down the three flights and through the pivot door into the living.
-- **Light in the hall.** The hall has no window, only three small oculi, so it is lit like a gallery all day. A line of light under each wall handrail grazes the sandstone and lights every tread, and a cove at the top of the well washes the landward wall. They follow the entrance's schedule (dimmer by day, full after dark) and feed the cached bounce. At night the portal's lit brow and the glow through the oculi mark the way down.
+- **Light in the hall.** The hall has no window, only three small oculi, so it is lit like a gallery all day. A line of light under each wall handrail grazes the sandstone and lights every tread, and a cove at the top of the well washes the landward wall. They follow the entrance's schedule, which now stays at 0.6 by day for this windowless hall and reaches full brightness after dark, and they feed the cached bounce. At night the portal's lit brow and the glow through the oculi mark the way down.
 - **The spiral and the trenches.** The private onsen spiral is retired, and its clifftop hole is closed with ground that follows the slope. The open arrival trench and the old portal are closed at grade. The old private stair's channel was still open: it ran down from the clifftop and opened onto the sky over the upper passage between the onsen and the hall's upper door. It is now closed at grade too, and its level soffit continues the passage's ceiling and lifts away with the rooms' roof. The clifftop path is re-laid as two ribbons from the forecourt: east past the oculi, and west a metre clear of the pavilion, over the gentle ground beside it.
 - **The land around it.** The hinterland's transition planting had grown where the pavilion now stands. `bin/coastal_hinterland_clearings.py` removes the 12 plant parts within 2.2 m of the built arrival from the delivered hinterland, and `bin/build_coastal_hinterland.py` now keeps clear of the arrival in any later rebuild.
 - **Privacy.** The hall's only opening to the living is the pivot door.
@@ -82,3 +82,20 @@ Design principles applied:
 - **Wildlife.** The gull's gallery perch moves west of the screen, midway between two of the rail's brass posts, and takes the rail's decoded delivered surface as its contact, as the displaced west perch already did.
 - **Suites.** The Node and Python suites, Prettier on the changed files and the style contract pass. The light cache is re-signed after rebasing on `main`, and the loading sketch is re-traced.
 - **Not covered.** The browser Walk journey in `test/visual/desk-scene.spec.js` was not run here; the native route checks above cover the same path.
+
+## Study: the whiskey corner (feedback F9)
+
+Built by `bin/refresh_coastal_whiskey_corner.py`, which applies once to the source and says what it changed. Sirui asked for "a nice place and comfy small sofa with ottoman for me to enjoy whiskry and enjoy the ocean view", with "some nice bottles there".
+
+- **The corner.** It sits at the library's sea end, between the glass and the desk, with the hearth on its west wall. The two reading chairs there are retired.
+- **The anchors,** each with a plain placeholder until the life worker's item streams:
+  - `study-whiskey-lounge` (item `whiskey-loveseat`): the loveseat's origin at [-10.50, 0, 2.55], at yaw π, facing the sea.
+  - `study-whiskey-ottoman`: at [-10.17, 0, 1.69], that is x -0.28 and z +0.86 in the loveseat's frame, under its left seat.
+  - `study-whiskey-side-table`: at [-11.40, 0, 2.50], that is x +0.95 and z +0.05, by the right hand and the fire.
+  - `study-whiskey-bottles`: on the niche's shelf at [-12.69, 0.97, 1.41], at yaw π/2, facing the room.
+- **The niche.** A 1.04 × 0.30 m niche is cut into the west wall between the window and the hearth. It is lined in the hearth's honed travertine, and a warm line of light is hidden under its lintel. The light follows the hearth's evening schedule. From the loveseat, the niche glows beside the fire.
+- **Circulation.** The library's visit spot moves to the window, reached down the 0.72 m between the loveseat and the east shelf. The companion's first exit point moves to its own perch, clear of the loveseat's back.
+
+Design principles applied: a warm, low-lit corner turned to the view; one material family, the hearth's travertine carried into the niche; and light hidden in the architecture rather than added as fixtures.
+
+Checks: the native contacts still pass all 9 routes (133 samples), and the targeted Node suites pass (64 tests: furniture collision, interior, navigation, Walk, light installations, light cache and sketch). Day and night captures from the sea corner and the niche show the life worker's items, already in `main`'s furniture index, standing at these anchors.

@@ -37,6 +37,11 @@ const ITEMS = new Set([
   // October 24: the nook banquette and the living's cloud sofa are streamed pieces too.
   "banquette",
   "cloud-sofa",
+  // October 25: the study's whiskey corner, the life worker's items at the house's anchors.
+  "whiskey-loveseat",
+  "whiskey-ottoman",
+  "whiskey-side-table",
+  "whiskey-bottles",
 ]);
 
 test("furniture anchors follow the shared interface", () => {
@@ -51,10 +56,10 @@ test("furniture anchors follow the shared interface", () => {
     assert.ok(rooms.has(anchor.room), `${anchor.id} names a room`);
     assert.equal(anchor.position.length, 3);
     assert.ok(anchor.position.every(Number.isFinite) && Number.isFinite(anchor.yaw));
-    // Inside the house's plan, at most a pit's depth below the ground floor.
+    // Inside the house's plan (the retreat's tall library reaches x -12.7), at most a pit's depth below the ground floor.
     const native = anchor.room === "study" ? manifest.retreat?.workstationNativeTranslation || [0, 0, 0] : [0, 0, 0];
     const [x, y, z] = anchor.position.map((value, axis) => value - [native[0], native[2], -native[1] + (manifest.retreat?.setbackMetres || 0)][axis]);
-    assert.ok(x > -5.3 && x < 11.5 && z > -7.8 && z < 8.5 && y > -0.5 && y < 3, `${anchor.id} stands in the house`);
+    assert.ok(x > -12.8 && x < 11.5 && z > -7.8 && z < 8.5 && y > -0.5 && y < 3, `${anchor.id} stands in the house`);
   }
   for (const id of ["kitchen-range", "kitchen-range-hood", "kitchen-pot-filler", "kitchen-glass-fridge", "dining-table"]) assert.ok(ids.has(id), id);
   assert.equal(manifest.furniture.filter((a) => a.item === "dining-chair").length, 6);

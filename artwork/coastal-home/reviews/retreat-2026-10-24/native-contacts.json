@@ -1,5 +1,5 @@
 {
-  "sourceSha256": "91a29eab6d3a8de1d811db110e6412f42311ef47a123ce12271dfe5bd5ebd418",
+  "sourceSha256": "1b7f912fc3496a103b49fa2e5ed1055ded79dbfd78a10ac51b85bb800ea53f60",
   "routeCount": 9,
   "samples": [
     {
@@ -1330,7 +1330,7 @@
         "mesh": "core__golden coastal sandstone",
         "position": [-3.0999999046325684, -9.75, 5.4420166015625],
         "normal": [0.40958794951438904, 0.0, -0.9122706055641174],
-        "triangle": 31025,
+        "triangle": 31028,
         "distance": 2.752016544342041
       }
     },
@@ -1351,7 +1351,7 @@
         "mesh": "core__golden coastal sandstone",
         "position": [-4.300000190734863, -9.75, 5.179999828338623],
         "normal": [0.0, 0.0, -1.0],
-        "triangle": 31063,
+        "triangle": 31067,
         "distance": 2.489999771118164
       }
     },
@@ -1372,7 +1372,7 @@
         "mesh": "core__golden coastal sandstone",
         "position": [-4.300000190734863, -9.050000190734863, 5.179999828338623],
         "normal": [0.0, 0.0, -1.0],
-        "triangle": 31063,
+        "triangle": 31067,
         "distance": 2.489999771118164
       }
     },
@@ -2212,7 +2212,7 @@
         "mesh": "core__golden coastal sandstone",
         "position": [-3.0999999046325684, -9.600000381469727, 5.4420166015625],
         "normal": [0.40958794951438904, 0.0, -0.9122706055641174],
-        "triangle": 31025,
+        "triangle": 31028,
         "distance": 2.752016544342041
       }
     },
@@ -2233,7 +2233,7 @@
         "mesh": "core__golden coastal sandstone",
         "position": [-3.0999999046325684, -9.75, 5.4420166015625],
         "normal": [0.40958794951438904, 0.0, -0.9122706055641174],
-        "triangle": 31025,
+        "triangle": 31028,
         "distance": 2.752016544342041
       }
     },
@@ -2362,7 +2362,7 @@
         "mesh": "core__golden coastal sandstone",
         "position": [7.599999904632568, -6.75, 3.700000286102295],
         "normal": [4.94972915987546e-8, 0.0, -1.0],
-        "triangle": 31048,
+        "triangle": 31051,
         "distance": 3.6100003719329834
       }
     },
@@ -2383,7 +2383,7 @@
         "mesh": "core__golden coastal sandstone",
         "position": [7.599999904632568, -5.900000095367432, 3.700000286102295],
         "normal": [4.94972915987546e-8, 0.0, -1.0],
-        "triangle": 31048,
+        "triangle": 31051,
         "distance": 3.6100003719329834
       }
     },
@@ -2404,7 +2404,7 @@
         "mesh": "core__golden coastal sandstone",
         "position": [6.199999809265137, -5.900000095367432, 3.700000047683716],
         "normal": [4.94972915987546e-8, 0.0, -1.0],
-        "triangle": 31048,
+        "triangle": 31051,
         "distance": 3.6100001335144043
       }
     },
@@ -2420,13 +2420,13 @@
         "distance": 0.25
       },
       "floorError": 0.0,
-      "headroom": 2.450000047683716,
+      "headroom": 2.4499998092651367,
       "ceiling": {
         "mesh": "core__golden coastal sandstone",
-        "position": [5.5, -6.300000190734863, 2.450000047683716],
+        "position": [5.5, -6.300000190734863, 2.4499998092651367],
         "normal": [-5.773701516886831e-8, 0.0, -1.0],
-        "triangle": 31288,
-        "distance": 2.3600001335144043
+        "triangle": 31292,
+        "distance": 2.359999895095825
       }
     },
     {
@@ -2726,19 +2726,19 @@
     {
       "route": "library",
       "index": 6,
-      "point": [-10.55, 0, 3.3],
+      "point": [-9.41, 0, 3.8],
       "floor": {
         "mesh": "core_retreat_library__pale oak",
-        "position": [-10.550000190734863, -3.299999952316284, 0.0],
+        "position": [-9.40999984741211, -3.799999952316284, 0.0],
         "normal": [0.0, 0.0, 1.0],
-        "triangle": 257,
+        "triangle": 387,
         "distance": 0.25
       },
       "floorError": 0.0,
       "headroom": 5.649999618530273,
       "ceiling": {
         "mesh": "core_retreat_library_ceiling__chalk limestone",
-        "position": [-10.550000190734863, -3.299999952316284, 5.649999618530273],
+        "position": [-9.40999984741211, -3.799999952316284, 5.649999618530273],
         "normal": [0.0, 0.0, -0.9999999403953552],
         "triangle": 92,
         "distance": 5.559999465942383
@@ -2747,19 +2747,19 @@
     {
       "route": "library",
       "index": 7,
-      "point": [-10.55, 0, 2.25],
+      "point": [-9.41, 0, 1.55],
       "floor": {
         "mesh": "core_retreat_library__pale oak",
-        "position": [-10.550000190734863, -2.25, 0.0],
+        "position": [-9.40999984741211, -1.5499999523162842, 0.0],
         "normal": [0.0, 0.0, 1.0],
-        "triangle": 257,
+        "triangle": 387,
         "distance": 0.25
       },
       "floorError": 0.0,
       "headroom": 5.649999618530273,
       "ceiling": {
         "mesh": "core_retreat_library_ceiling__chalk limestone",
-        "position": [-10.550000190734863, -2.25, 5.649999618530273],
+        "position": [-9.40999984741211, -1.5499999523162842, 5.649999618530273],
         "normal": [0.0, 0.0, -0.9999999403953552],
         "triangle": 92,
         "distance": 5.559999465942383
