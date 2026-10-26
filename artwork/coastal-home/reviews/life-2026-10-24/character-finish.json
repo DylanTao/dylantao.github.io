@@ -1,0 +1,21 @@
+{
+  "avatars": {
+    "lizard": {
+      "clips": 14,
+      "beforeBytes": 499996,
+      "beforeTriangles": 97470,
+      "faceSkinBefore": 13873,
+      "faceSkinAfter": 26291,
+      "mouthTool": {
+        "centre": [0.0, -0.2679, 1.5245],
+        "radii": [0.1213, 0.1504, 0.0592]
+      },
+      "lipVertices": 3436,
+      "sleeveVertices": 0,
+      "partialRigidWeights": 0,
+      "mixedTriangles": 0,
+      "afterTriangles": 111148,
+      "afterBytes": 539072
+    }
+  }
+}
