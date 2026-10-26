@@ -182,6 +182,10 @@
       },
       {
         "file": "desk-scene.spec.js",
+        "title": "coastal loading: a delayed module shows status, cancels in 2D and retries one complete world"
+      },
+      {
+        "file": "desk-scene.spec.js",
         "title": "coastal loading: the occupied room and avatar precede the first ready frame"
       },
       {

@@ -1,0 +1,43 @@
+# PC takeover, October 26, 2026
+
+This record distinguishes recovered PC work, the laptop handoff and new verification. The current work queue remains [the October handoff](october-2026-handoff.md).
+
+## Preservation and reconciliation
+
+The initial checkout was on `main` at `10becbff1`, with two local commits, fifteen modified tracked files and two untracked files. The cached remote was 420 commits ahead. There were no stashes, unmerged index entries, or merge, rebase or cherry-pick operations to abort.
+
+- Local backup branch: `backup/pc-2026-10-26`, commit `1e8be2685`, containing all seventeen changed or untracked files, including the diagnostic log.
+- Original HEAD tag: `backup/pc-head-2026-10-26` at `10becbff1`.
+- A self-contained, verified Git bundle and original VS Code settings are saved outside the repository in `C:/dev/site-takeover-backup-2026-10-26/`. Neither backup was pushed.
+- VS Code Git integration and autofetch were temporarily disabled before changing branches. The sidebar is now restored and visually verified with its changes list and history graph. Autofetch and post-commit sync remain disabled; Sync Changes requires confirmation.
+- After `git fetch origin --prune`, `git log origin/main..backup/pc-2026-10-26` and `git cherry origin/main backup/pc-2026-10-26` identified the two original commits and the backup snapshot as unique patches. Local `main` was reset to the fetched remote only after preservation, then the two original commits were replayed. A subsequent fetch incorporated laptop documentation commit `30cbf00ae`; the replayed commits were rebased onto it.
+
+| Recovered change                                                              | Decision and reason                                                                                                                                                                                                                      |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bec47b7bf`: scroll the scene into view before waiting for profiler readiness | Kept. Offscreen rendering intentionally sleeps; the current remote profiler still waited before scrolling. The laptop's newer deterministic-seed support is preserved.                                                                   |
+| `bec47b7bf` and `10becbff1`: October 4 shader experiments                     | Kept as dated historical reports. Their local raw QA folders remain on this PC. The rejected experimental runtime is not activated, and its timings do not describe the current house.                                                   |
+| Lazy 3D module lifecycle in `assets/js/home.js`, with its untracked test      | Ported onto the current adapter. It prevents late imports from constructing a hidden world, exposes module-loading feedback and guards retries after disposal. The laptop's sun-arc integration remains, with an added regression check. |
+| Earlier homepage ordering, research-summary split and corresponding tests     | Not replayed. The October 5 prototype contradicts the current approved thesis → full Research Focus → publications → updates order. The complete prototype remains in the backup. Locked copy is preserved.                              |
+| Thesis layout and always-readable text                                        | The current remote already contains the layout and removes the older word-opacity treatment. Its newer motion implementation is retained.                                                                                                |
+| Build Rhythm weekly overview, disclosures, styling and tests                  | The current remote has a newer implementation in `build-rhythm-overview.mjs` with its own evidence and checks. The older inline prototype is retained only in the backup.                                                                |
+| README rewrite                                                                | The remote already replaced the older starter/Build Week README and has since extended it. Its current project inventory, credits and setup instructions take precedence over the older draft.                                           |
+| October 5 experiment-backlog note                                             | Preserved in the backup as historical prototype evidence; its pending decisions and snapshot dates do not reopen superseded design work.                                                                                                 |
+| `debug.log`                                                                   | Preserved in the local backup as diagnostic output; excluded from the integrated site changes.                                                                                                                                           |
+
+The laptop's `AGENTS.md`, handoff, model assets and light-cache source remain authoritative. Generated light-cache JSON and its manifest descriptor are rebuilt with the bake tool when their inputs change.
+
+## Setup and working scope
+
+`npm.cmd ci`, the two Python requirements files and Playwright Chromium/WebKit installation completed on this PC. Blender 4.5.9 LTS is installed at `D:/tools/blender-4.5.9-windows-x64/blender.exe`; build `8bf95cbd38d1` and the official archive checksum were verified. Ruby 3.3 with DevKit is installed at `C:/tools/Ruby33`; Bundler 4.0.6 installed all 116 gems without changing the lockfile. ImageMagick 7 is installed too. Its local `C:/tools/site-bin/convert.cmd` adapter routes the image plugin to `magick.exe` rather than Windows filesystem conversion; put that directory before System32 on the build process PATH. The production `/al-folio` build completed with all 369 responsive-image transformations, and generated publication/AI output validation passed. The earlier missing-directory and Windows `convert` failures remain in ignored diagnostic logs.
+
+The commit-activity and private metrics pipeline remains laptop-only and is explicitly skipped on this PC. No credentials or private analytics are part of this change.
+
+## Verification and remaining work
+
+- Recovered lazy-adapter acceptance: twelve lifecycle tests pass, including sun-arc preview and Now behavior. Eight native Chromium browser cases pass at 1440, 1280, 768 and 390 px: delayed-module feedback, 2D cancellation, retry and first complete composition. Desktop and phone status/ready images were inspected. The new test is registered in `scene-groups.json`; all four actual registries have no omissions or duplicates.
+- Initial Python gate: 307 tests pass. The initial Node gate passes 801 tests with seven reported skips; the native production build and generated-output validation pass. The existing override audit ran successfully; no new plugin override was introduced.
+- Laptop commit `30cbf00ae`: deployment and formatting succeeded at the first check. Integration run `40299050282` succeeded. Visual run `40299050364` is still running; no final visual success is claimed here.
+- `wip/story-diary` and `wip/life-eames` are being reviewed in separate worktrees. Neither is integrated or deleted yet.
+- `wip/house-whiskey` appeared on the second fetch. Read the expanded item 23 rebuild order before integrating it; browser acceptance and the evening routine remain required.
+
+Before publishing, complete the affected rendered checks, cache rebuild if required, source gates and override audit. After publishing, record the exact source commit, all CI conclusions and deployed asset readback, then remove only integrated or explicitly archived temporary branches. Open handoff items remain unchecked until their acceptance evidence is complete.

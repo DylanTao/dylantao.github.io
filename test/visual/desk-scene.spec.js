@@ -671,6 +671,62 @@ function seaRegion(buffer) {
     source.data.copy(crop.data, row * width * 4, ((y + row) * source.width + x) * 4, ((y + row) * source.width + x + width) * 4);
   return PNG.sync.write(crop);
 }
+test("coastal loading: a delayed module shows status, cancels in 2D and retries one complete world", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
+  let releaseModule;
+  const gate = new Promise((resolve) => (releaseModule = resolve));
+  const modelRequests = [];
+  page.on("request", (request) => {
+    if (/\/assets\/models\/home\/.*\.glb(?:\?|$)/.test(request.url())) modelRequests.push(request.url());
+  });
+  await page.route("**/home-scene/controller.mjs", async (route) => {
+    await gate;
+    await route.continue().catch(() => {});
+  });
+  try {
+    await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    const scene = page.locator("[data-home-desk-scene]");
+    await scene.scrollIntoViewIfNeeded();
+    await expect(scene).toHaveAttribute("data-loading-stage", "modules");
+    await expect(scene).toHaveAttribute("aria-busy", "true");
+    await expect(page.locator("[data-world-status]")).toBeVisible();
+    await expect(page.locator("[data-world-status]")).toHaveText("Opening the 3D scene.");
+    await expect(page.locator("[data-world-view]")).toBeDisabled();
+    await capture(testInfo, "coastal-module-loading", await page.locator(".home-hero-media").screenshot());
+    await page.locator('[data-home-desk-mode="2d"]').click();
+    await expect(scene).toHaveAttribute("aria-hidden", "true");
+    await expect(scene).not.toHaveAttribute("aria-busy", "true");
+    releaseModule();
+    // Await actual evaluation of the same import, so the canceled activation's
+    // completion has run before checking that it constructed no hidden world.
+    await page.evaluate(async (url) => {
+      await import(url);
+    }, publicRouteUrl("/assets/js/home-scene/controller.mjs"));
+    await expect(scene.locator("canvas")).toHaveCount(0);
+    expect(await scene.evaluate((element) => typeof element.getSceneEvidence)).toBe("undefined");
+    expect(modelRequests).toEqual([]);
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    await scene.scrollIntoViewIfNeeded();
+    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
+    const ready = await evidence(scene);
+    expect(ready.actorCount).toBe(1);
+    expect(ready.roomCount).toBe(homeManifest().rooms.length);
+    expect(ready.frames).toBeGreaterThan(0);
+    await expect(page.locator("[data-world-view]")).toBeEnabled();
+    const frame = await scene.locator("canvas").screenshot();
+    expect(screenshotMetrics(frame).uniqueColors).toBeGreaterThan(60);
+    expect(screenshotMetrics(frame).luminanceVariance).toBeGreaterThan(80);
+    await capture(testInfo, "coastal-module-retry-ready", frame);
+    expect(errors).toEqual([]);
+  } finally {
+    releaseModule();
+  }
+});
+
 test("coastal loading: the occupied room and avatar precede the first ready frame", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
