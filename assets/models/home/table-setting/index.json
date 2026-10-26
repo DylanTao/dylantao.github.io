@@ -5,15 +5,15 @@
     "lods": [
       {
         "file": "tableware-lod1.glb",
-        "triangles": 9472,
-        "bytes": 66608,
-        "sha256": "fd404d00f43c662067b703f88c09119c0be27e943e4af7141a1b832c43068310"
+        "triangles": 11760,
+        "bytes": 84140,
+        "sha256": "ba3dfb80225f3a819ea61e47087b73922d9a815ff7fc1f3d4d18deab4dfbdb41"
       },
       {
         "file": "tableware-lod0.glb",
-        "triangles": 16320,
-        "bytes": 89392,
-        "sha256": "9934c2a2b5d992f47de787effa3544a1a54d1b73d18dc2ea07e1abed4c8ede43",
+        "triangles": 22656,
+        "bytes": 119736,
+        "sha256": "0a8c3528848e98bd96e84e269d188a45b050d4ec0ad3ea837eb7293bf8560e62",
         "near": 1.9,
         "fullscreen": true
       }
@@ -89,7 +89,7 @@
         "rim": 0.205,
         "gripHeight": 0.045,
         "gripRadius": 0.006,
-        "triangles": 1534
+        "triangles": 2686
       },
       "tumbler": {
         "profile": [
@@ -100,7 +100,7 @@
         "rim": 0.103,
         "gripHeight": 0.045,
         "gripRadius": 0.038,
-        "triangles": 574
+        "triangles": 1150
       },
       "juice": {
         "profile": [
@@ -111,7 +111,7 @@
         "rim": 0.095,
         "gripHeight": 0.042,
         "gripRadius": 0.033,
-        "triangles": 574
+        "triangles": 1150
       },
       "rocks": {
         "profile": [
@@ -122,7 +122,7 @@
         "rim": 0.087,
         "gripHeight": 0.04,
         "gripRadius": 0.045,
-        "triangles": 574
+        "triangles": 1150
       },
       "highball": {
         "profile": [
@@ -133,7 +133,7 @@
         "rim": 0.151,
         "gripHeight": 0.06,
         "gripRadius": 0.032,
-        "triangles": 574
+        "triangles": 1150
       },
       "coupe": {
         "profile": [
@@ -145,7 +145,7 @@
         "rim": 0.15,
         "gripHeight": 0.06,
         "gripRadius": 0.006,
-        "triangles": 1150
+        "triangles": 2302
       },
       "tulip": {
         "profile": [
@@ -158,7 +158,7 @@
         "rim": 0.17,
         "gripHeight": 0.09,
         "gripRadius": 0.04,
-        "triangles": 1246
+        "triangles": 2398
       },
       "gibraltar": {
         "profile": [
@@ -169,7 +169,7 @@
         "rim": 0.091,
         "gripHeight": 0.04,
         "gripRadius": 0.036,
-        "triangles": 574
+        "triangles": 1150
       },
       "lime-wheel": {
         "rim": true,

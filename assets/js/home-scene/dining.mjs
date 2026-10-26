@@ -299,7 +299,8 @@ export function createDining({
       for (const material of [o.material].flat()) {
         if (!/^table glass/.test(material?.name || "")) continue;
         material.transparent = true;
-        material.opacity = 0.2;
+        // The lip is drawn a shade more opaque, so a glass keeps its outline at night.
+        material.opacity = /rim/.test(material.name) ? 0.55 : 0.2;
         material.depthWrite = false;
         material.side = THREE.DoubleSide;
         o.renderOrder = 2;

@@ -50,6 +50,8 @@ MATERIALS = {
     "table cast iron": dict(color=(0.03, 0.03, 0.03), roughness=0.58, metallic=0.4),
     "furniture polished nickel": dict(color=(0.61, 0.65, 0.64), roughness=0.21, metallic=0.95),
     "table glass": dict(color=(0.84, 0.9, 0.89), roughness=0.04, alpha=0.2, clear=True),
+    # The lip of a glass: where its thickness shows, so a glass still reads as one in a dark room.
+    "table glass rim": dict(color=(0.9, 0.94, 0.93), roughness=0.04, alpha=0.55, clear=True),
     "oatmeal linen": dict(color=(0.7, 0.64, 0.54), roughness=0.9),
     "steamer bamboo": dict(color=(0.7, 0.53, 0.3), roughness=0.78),
     "chopstick walnut": dict(color=(0.2, 0.11, 0.06), roughness=0.42),
@@ -587,6 +589,12 @@ def glass_build(b, kind):
     inner = [(max(0.0, r - wall), z) for r, z in reversed(outer) if z >= g["floor"]]
     profile = outer + [(inner[0][0], outer[-1][1])] + inner[1:] + [(0.0, g["floor"])]
     b.add("table glass", lathe(profile, segments=b.q["lathe"]), (220, 232, 230))
+    # A rounded lip, a shade more opaque than the bowl: the line a drawn glass would have. A
+    # stemmed glass's thin foot gets the same edge, or it vanishes in a dark room.
+    sides = 4 if b.lod else 6
+    b.add("table glass rim", torus((0, 0, outer[-1][1] - wall * 0.4), outer[-1][0] - wall * 0.5, wall * 0.75, b.q["lathe"], sides), (230, 240, 238))
+    if outer[2][0] < outer[1][0] * 0.5:
+        b.add("table glass rim", torus((0, 0, outer[1][1] * 0.5), outer[1][0] - 0.0008, 0.0013, b.q["lathe"], sides), (230, 240, 238))
     # The liquid's profile (three.js y, r) along the inside, from the floor up.
     pts = sorted(((round(z, 4), round(max(0.0, r - wall - 0.0004), 4)) for r, z in outer if z >= g["floor"]), key=lambda p: p[0])
     if not pts or pts[0][0] > g["floor"]:
