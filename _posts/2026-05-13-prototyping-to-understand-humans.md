@@ -20,6 +20,11 @@ toc:
 
 _Some working thoughts on good HCI research in the age of AI._
 
+_Updated in October 2026 after conversations with Björn Hartmann and Scott
+Klemmer. If you only read one thing from this note, read Björn's three-page
+UIST vision paper,
+[The Systems Paper is Dead. Long Live the Systems Paper](https://arxiv.org/abs/2608.25219)._
+
 I have been thinking about what counts as good HCI research, especially now
 that AI makes system-building much easier.
 
@@ -119,6 +124,21 @@ chains, generated UI code, and existing infrastructure.
 
 That does not make artifact or system research obsolete. But it does raise the
 bar for what the artifact needs to show.
+
+[Björn Hartmann](https://people.eecs.berkeley.edu/~bjoern/) asks the same
+question from the systems side in his UIST 2026 vision paper: what should an
+impactful UIST paper look like when building working systems is no longer hard?
+The standard recipe is to invent a concept, build a prototype, and ask "does it
+work?" That recipe assumed building was slow and hard. His answer is not to
+produce more of the same, faster. It is to ask more of our papers.
+
+Scott Klemmer put the same worry to me more bluntly, when I asked him how to find
+an interesting research question once many techniques have been explored and
+systems are easy to build. If prior work already gives me a hunch that a system
+will work, and I build it and it works, what did anyone learn? Instantiating
+thousands of such systems spends a lot of scientific effort without moving what
+we know. Research should advance knowledge. If a project produces genuinely
+interesting knowledge, that is good research.
 
 "AI applied to X" is usually not enough.
 
@@ -232,6 +252,26 @@ happen in practice.
 
 The prototype is not the endpoint. It is a probe.
 
+Björn's vision paper gives this a shape I find useful. He contrasts a "funnel"
+model of systems research, where a broad motivation narrows to one system and a
+confirmatory evaluation of whether it performs as expected, with an "hourglass"
+model, where the evaluation is discovery-oriented and opens back out into
+theory and implications for a broader area. Now that a novel system is cheap
+enough to build, it can be a probe for learning things the researchers had not
+already suspected, not only a product to validate.
+
+He also suggests thinking in multiples. Instead of one polished prototype, build
+a family of prototypes that enact competing ideas, and map the trade-offs
+between them. Design space analysis does not have to stay a diagram in a paper;
+it can become a population of systems compared against each other.
+
+When I described my own work to him, it mapped onto his directions more than I
+expected. I explore a design space rather than a single point. I use the system
+as a probe to understand both people and the system, aiming for strong concepts
+and, ideally, theory. And although I do not build malleable software, I have
+been thinking about how evidence about what people do, what they make, and what
+they learn could assess software that keeps changing.
+
 ## What survives after the prototype dies?
 
 The test I want to use is:
@@ -254,6 +294,13 @@ An even better answer includes a boundary or trade-off:
 
 This kind of claim feels more durable. Other people can reuse it, test it,
 disagree with it, or build better systems from it.
+
+Björn added a study-design rule when we talked that makes boundaries easier to
+find. Ideally, a study is designed so that the hypothesis could be wrong. The aim
+is not to show that every new system beats its baseline. If the design allows
+the idea to fail, and it does fail in some condition, that failure draws the
+boundary of what we know. A study that could only ever confirm the hunch cannot
+draw that line.
 
 It also helps me avoid confusing product improvement with research contribution.
 If the only thing that survives is "our tool was better," I may have built
@@ -389,6 +436,13 @@ that others can reuse.
 graduate seminar, which helped me connect AI use with researcher judgment and
 training.
 
+[Scott Klemmer](https://designlab.ucsd.edu/people/faculty.html) pushed me to ask
+what knowledge a project advances, not only whether the system works.
+
+[Björn Hartmann](https://people.eecs.berkeley.edu/~bjoern/) talked with me
+during his visit to the UCSD Design Lab about his UIST vision talk, and about
+designing studies whose hypotheses can fail.
+
 Main references:
 
 - [Jacob O. Wobbrock](https://faculty.washington.edu/wobbrock/) and
@@ -412,7 +466,11 @@ Main references:
 - Minas Karamanis.
   [_The machines are fine. I'm worried about us._](https://ergosphere.blog/posts/the-machines-are-fine/).
   March 30, 2026.
+- Björn Hartmann.
+  [_The Systems Paper is Dead. Long Live the Systems Paper._](https://arxiv.org/abs/2608.25219)
+  UIST Adjunct 2026, three pages.
+  [DOI](https://doi.org/10.1145/3830397.3841886).
 
 ---
 
-Last updated: June 28, 2026.
+Last updated: October 26, 2026.
