@@ -1,6 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const { publicRouteUrl } = require("./public-routes");
 const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetrics } = require("./helpers");
+const { pauseSceneClock, useSoftwareSceneCadence } = require("./scene-clock");
 const evidence = (page) => page.locator(".duh-companion").evaluate((e) => e.getDuhEvidence());
 async function open(page, route = "/projects/p/", reduced = false) {
   const errors = collectRuntimeErrors(page);
@@ -363,7 +364,8 @@ test("duh: lifecycle suspends rendering and refresh restores the intact default"
 });
 
 test("duh: homepage mode and Human/AI transitions keep one intentional companion", async ({ page }, info) => {
-  test.setTimeout(120000);
+  const software = process.env.VISUAL_SCENE_BACKEND === "llvmpipe" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
+  test.setTimeout(software ? 600000 : 120000);
   test.skip(info.project.name !== "desktop-1440", "One full mode-integration proof; companion viewport and touch matrices run separately.");
   const errors = await open(page, "/", true);
   await expect(page.locator(".pip-companion")).toHaveCount(0);
@@ -378,21 +380,39 @@ test("duh: homepage mode and Human/AI transitions keep one intentional companion
   const canvas = scene.locator("canvas");
   const before = await canvas.screenshot();
   expect(screenshotMetrics(before).uniqueColors).toBeGreaterThan(60);
+  // CI's trace showed 11s to focus and 25/30s per key while continuous
+  // software frames monopolized the page. Keep the full scene and real keys,
+  // but advance this functional sample explicitly after native readiness.
+  if (software) {
+    await pauseSceneClock(page);
+    await useSoftwareSceneCadence(page);
+    info.annotations.push({
+      type: "functional clock",
+      description: "Full assets; controlled Date/timers and 10 Hz software frames; no performance claim.",
+    });
+  }
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await canvas.focus();
   await canvas.press("ArrowRight");
   await canvas.press("ArrowRight");
-  await page.waitForTimeout(350);
+  if (software) await page.clock.runFor(350);
+  else await page.waitForTimeout(350);
   const moving = await scene.evaluate((e) => e.getSceneEvidence());
   expect(Object.values(moving.cameraVelocity).every(Number.isFinite)).toBe(true);
   await canvas.press("ArrowLeft");
   await canvas.press("+");
-  await page.waitForTimeout(900);
+  if (software) await page.clock.runFor(900);
+  else await page.waitForTimeout(900);
   const after = await canvas.screenshot();
   expect(screenshotDiffRatio(before, after)).toBeGreaterThan(0.006);
   await page.screenshot({ path: info.outputPath("duh-home-3d-settled.png") });
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect.poll(() => scene.evaluate((e) => Object.keys(e.getSceneEvidence().cameraVelocity).length)).toBe(0);
+  await expect
+    .poll(async () => {
+      if (software) await page.clock.runFor(100);
+      return scene.evaluate((e) => Object.keys(e.getSceneEvidence().cameraVelocity).length);
+    })
+    .toBe(0);
 
   await page.getByRole("button", { name: "2D", exact: true }).click();
   await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");

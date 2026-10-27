@@ -1,0 +1,38 @@
+{
+  "sourceCommit": "c843cbf2465f48c0bdb840fcf4389e9cad5b07d2",
+  "servedControllerSha256": "dd34e2634bc303627368114035966cc0958236be6cd4c56387f1391233ee1766",
+  "originalCi": {
+    "run": 40435008870,
+    "job": 121961482106,
+    "artifact": 12704391975,
+    "failure": "120s total budget exhausted during third real key; trace focus11.341s, presses24.888/30.002s while continuous software frames occupied page"
+  },
+  "repair": "After native first-frame readiness only, use existing explicit10Hz software functional clock. Original keys, pixels, single-companion counts and Human/AI assertions unchanged. Step the reduced-motion listener before asserting cleared velocity. Native120s budget unchanged; software600s accommodates actual full-frame work.",
+  "renderer": "ANGLE Mesa llvmpipe LLVM20.1.2 256bits OpenGL4.5; Chromium145.0.7632.6; Playwright1.58.2",
+  "measurements": [
+    {
+      "backend": "native",
+      "stats": {
+        "startTime": "2026-10-27T02:29:19.975Z",
+        "duration": 26499.244000000002,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    {
+      "backend": "llvmpipe",
+      "stats": {
+        "startTime": "2026-10-27T02:30:25.048Z",
+        "duration": 83927.764,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "performanceClaim": false,
+  "retainedFailedAttempt": "duh-ci-followup/run.log: first controlled-clock run omitted stepping the reduced-motion listener, failed honestly with8velocityfields, then corrected."
+}
