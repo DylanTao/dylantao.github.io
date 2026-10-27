@@ -7,7 +7,9 @@
     "footer-coast.spec.js",
     "static-light-field.spec.js",
     "estate-redesign.spec.js",
-    "footer-dusk.spec.js"
+    "footer-dusk.spec.js",
+    "coastal-finish.spec.js",
+    "loading-drawing.spec.js"
   ],
   "groups": {
     "scene-core-1": [
@@ -386,6 +388,10 @@
       {
         "file": "desk-scene.spec.js",
         "title": "coastal home: live animation pauses offscreen and recovers after a hidden tab"
+      },
+      {
+        "file": "coastal-finish.spec.js",
+        "title": "coastal quality: a lost graphics context returns to the desk and retries a complete lower tier"
       }
     ],
     "scene-journey": [
@@ -510,6 +516,14 @@
       {
         "file": "footer-dusk.spec.js",
         "title": "footer dusk: interruption, reduced motion and fallback keep the latest light"
+      },
+      {
+        "file": "loading-drawing.spec.js",
+        "title": "coastal loading drawing: complete geometric detail stays legible through the real frame handoff"
+      },
+      {
+        "file": "loading-drawing.spec.js",
+        "title": "coastal loading drawing: reduced-motion page fallback stays still while unfinished work is held"
       }
     ]
   }

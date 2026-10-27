@@ -1,0 +1,64 @@
+{
+  "scope": "Actual WEBGL_lose_context on an allocated standard tier; public2D fallback+new complete lower-tier canvas. Chromium D3D11 desktop/phone emulation and WebKit phone emulation on Windows. No physicaliPhone or performance claim.",
+  "testSha256": "bb51002fc86e7b8fc3b8b23e26f1c8d1239e812d1517a91cd387c4f4de285be3",
+  "results": [
+    {
+      "engine": "chromium",
+      "project": "desktop-1440",
+      "status": "passed",
+      "durationMs": 32776,
+      "msaaBeforeLoss": 4,
+      "beforeTier": "standard",
+      "afterTier": "low",
+      "pixels": {
+        "height": 462,
+        "luminanceVariance": 5261.255083600718,
+        "opaqueRatio": 1,
+        "sampledPixels": 63063,
+        "uniqueColors": 4096,
+        "width": 545
+      }
+    },
+    {
+      "engine": "chromium",
+      "project": "mobile-390",
+      "status": "passed",
+      "durationMs": 34000,
+      "msaaBeforeLoss": 2,
+      "beforeTier": "standard",
+      "afterTier": "low",
+      "pixels": {
+        "height": 353,
+        "luminanceVariance": 4756.321831395675,
+        "opaqueRatio": 1,
+        "sampledPixels": 123550,
+        "uniqueColors": 4096,
+        "width": 350
+      }
+    },
+    {
+      "engine": "webkit",
+      "project": "mobile-390",
+      "status": "passed",
+      "durationMs": 92328,
+      "msaaBeforeLoss": 2,
+      "beforeTier": "standard",
+      "afterTier": "low",
+      "pixels": {
+        "height": 1059,
+        "luminanceVariance": 5021.7175044064825,
+        "opaqueRatio": 1,
+        "sampledPixels": 44520,
+        "uniqueColors": 4096,
+        "width": 1050
+      }
+    }
+  ],
+  "retainedInitialAttempts": [
+    "Original retry checks passed, but test did not wait for allocation after changingphone tier; now requires a new actual renderedframe.",
+    "First4samplephoneassertionfailed becausecompactfullscreenlegitimatelycaps2; finalchecksactualplatformbudgetandstandardmax4.",
+    "A finaldesktoprepeatcaught asynchronous nativefullscreen exit; now waits for the actual document.fullscreenElementnull state instead of inspecting it synchronously."
+  ],
+  "controllerSourceCommit": "c843cbf2465f48c0bdb840fcf4389e9cad5b07d2",
+  "previewCohort": "Worker full production preview: accepted footer/G plus the loading drawing candidate. Home controller and model geometry match c843cbf24; these checks do not certify unpushed runtime prototypes."
+}

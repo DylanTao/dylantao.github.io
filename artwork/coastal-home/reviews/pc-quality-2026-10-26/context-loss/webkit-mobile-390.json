@@ -1,0 +1,442 @@
+{
+  "loss": {
+    "supported": true,
+    "tier": "standard",
+    "pinned": false
+  },
+  "before": {
+    "currentRecord": 1,
+    "quality": {
+      "tier": "low",
+      "pinned": false,
+      "demoted": false,
+      "canPromote": false,
+      "failedReductions": 0,
+      "trial": null,
+      "history": [],
+      "settings": {
+        "embed": {
+          "pixelBudget": 1200000,
+          "maxDensity": 1.25
+        },
+        "fullscreen": {
+          "pixelBudget": 1800000,
+          "maxDensity": 1.25
+        },
+        "maxSamples": 2,
+        "shadowMapSize": 1024,
+        "contactScale": 0.5,
+        "reflectionScale": 0.67,
+        "mirrorSize": 128,
+        "hazeSteps": 0.67,
+        "hazeDivisor": 1,
+        "anisotropy": {
+          "embed": 1,
+          "fullscreen": 4
+        },
+        "lodReach": 0.8,
+        "memoryBudget": 201326592
+      },
+      "memoryBytes": 44834471,
+      "lastSwitch": null
+    },
+    "fullscreen": null,
+    "roomCount": 10,
+    "avatarId": "lizard",
+    "canvasWidth": 437,
+    "canvasHeight": 440,
+    "frames": 5,
+    "rendering": {
+      "contactShadows": true,
+      "contactActive": true,
+      "method": "cosine-weighted horizons / indirect diffuse",
+      "slices": 4,
+      "samples": 32,
+      "radiusMeters": 0.36,
+      "aoWidth": 239,
+      "aoHeight": 240,
+      "width": 291.6666666666667,
+      "height": 293.33333333333337,
+      "msaaSamples": 2,
+      "gpu": {
+        "available": false,
+        "samples": 0,
+        "medianMs": null,
+        "p95Ms": null
+      },
+      "volumeDepth": {
+        "method": "opaque / nearest transmissive raster depth",
+        "width": 437.5,
+        "height": 440.00000000000006,
+        "captures": 5,
+        "passes": 2
+      },
+      "bloom": {
+        "strength": 0.28,
+        "radius": 0.42,
+        "threshold": 1.6
+      },
+      "haze": {
+        "method": "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
+        "dissolve": [180, 285],
+        "density": 0.0007142857142857143,
+        "scaleHeight": 30,
+        "volume": {
+          "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+          "enabled": true,
+          "marching": false,
+          "plan": {
+            "exterior": false,
+            "fog": 0,
+            "dust": false,
+            "shafts": false
+          },
+          "size": [1, 1],
+          "steps": 24,
+          "quality": {
+            "steps": 0.67,
+            "divisor": 1
+          },
+          "fog": [0, -5.35, 0, 0],
+          "draws": 0
+        },
+        "draws": 5,
+        "reason": "analytic"
+      },
+      "temporal": null
+    },
+    "resources": {
+      "geometries": 475,
+      "textures": 69
+    },
+    "loading": {
+      "firstFrameMilliseconds": 33238.00000000001,
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 1.999999999998181
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 1736.9999999999982
+        },
+        {
+          "stage": "room",
+          "milliseconds": 3004.999999999998
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 4861.999999999998
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 9012.999999999998
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 33240
+        }
+      ],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      }
+    }
+  },
+  "allocated": {
+    "currentRecord": 1,
+    "quality": {
+      "tier": "standard",
+      "pinned": false,
+      "demoted": false,
+      "canPromote": false,
+      "failedReductions": 0,
+      "trial": null,
+      "history": [
+        {
+          "from": "low",
+          "to": "standard",
+          "reason": "lab",
+          "at": 56167
+        }
+      ],
+      "settings": {
+        "embed": null,
+        "fullscreen": null,
+        "maxSamples": 4,
+        "shadowMapSize": null,
+        "contactScale": 1,
+        "reflectionScale": 1,
+        "mirrorSize": null,
+        "hazeSteps": 1,
+        "hazeDivisor": 0,
+        "anisotropy": {
+          "embed": 1,
+          "fullscreen": 8
+        },
+        "lodReach": 1,
+        "memoryBudget": 805306368
+      },
+      "memoryBytes": 190541380,
+      "lastSwitch": {
+        "tier": "standard",
+        "at": 56167,
+        "frame": 18,
+        "firstFrameMs": 1886,
+        "nextIntervalMs": null
+      }
+    },
+    "fullscreen": "popover",
+    "roomCount": 10,
+    "avatarId": "lizard",
+    "canvasWidth": 585,
+    "canvasHeight": 1500,
+    "frames": 20,
+    "rendering": {
+      "contactShadows": true,
+      "contactActive": true,
+      "method": "cosine-weighted horizons / indirect diffuse",
+      "slices": 4,
+      "samples": 32,
+      "radiusMeters": 0.36,
+      "aoWidth": 211,
+      "aoHeight": 540,
+      "width": 390,
+      "height": 1000,
+      "msaaSamples": 2,
+      "gpu": {
+        "available": false,
+        "samples": 0,
+        "medianMs": null,
+        "p95Ms": null
+      },
+      "volumeDepth": {
+        "method": "opaque / nearest transmissive raster depth",
+        "width": 585,
+        "height": 1500,
+        "captures": 20,
+        "passes": 2
+      },
+      "bloom": {
+        "strength": 0.28,
+        "radius": 0.42,
+        "threshold": 1.6
+      },
+      "haze": {
+        "method": "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
+        "dissolve": [180, 285],
+        "density": 0.0007142857142857143,
+        "scaleHeight": 30,
+        "volume": {
+          "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+          "enabled": true,
+          "marching": false,
+          "plan": {
+            "exterior": false,
+            "fog": 0,
+            "dust": false,
+            "shafts": false
+          },
+          "size": [1, 1],
+          "steps": 24,
+          "quality": {
+            "steps": 1,
+            "divisor": 0
+          },
+          "fog": [0, -5.35, 0, 0],
+          "draws": 0
+        },
+        "draws": 20,
+        "reason": "analytic"
+      },
+      "temporal": null
+    },
+    "resources": {
+      "geometries": 475,
+      "textures": 71
+    },
+    "loading": {
+      "firstFrameMilliseconds": 33238.00000000001,
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 1.999999999998181
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 1736.9999999999982
+        },
+        {
+          "stage": "room",
+          "milliseconds": 3004.999999999998
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 4861.999999999998
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 9012.999999999998
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 33240
+        }
+      ],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      }
+    }
+  },
+  "after": {
+    "currentRecord": 1,
+    "quality": {
+      "tier": "low",
+      "pinned": false,
+      "demoted": false,
+      "canPromote": false,
+      "failedReductions": 0,
+      "trial": null,
+      "history": [],
+      "settings": {
+        "embed": {
+          "pixelBudget": 1200000,
+          "maxDensity": 1.25
+        },
+        "fullscreen": {
+          "pixelBudget": 1800000,
+          "maxDensity": 1.25
+        },
+        "maxSamples": 2,
+        "shadowMapSize": 1024,
+        "contactScale": 0.5,
+        "reflectionScale": 0.67,
+        "mirrorSize": 128,
+        "hazeSteps": 0.67,
+        "hazeDivisor": 1,
+        "anisotropy": {
+          "embed": 1,
+          "fullscreen": 4
+        },
+        "lodReach": 0.8,
+        "memoryBudget": 201326592
+      },
+      "memoryBytes": 44834471,
+      "lastSwitch": null
+    },
+    "fullscreen": null,
+    "roomCount": 10,
+    "avatarId": "simpsons",
+    "canvasWidth": 437,
+    "canvasHeight": 440,
+    "frames": 6,
+    "rendering": {
+      "contactShadows": true,
+      "contactActive": true,
+      "method": "cosine-weighted horizons / indirect diffuse",
+      "slices": 4,
+      "samples": 32,
+      "radiusMeters": 0.36,
+      "aoWidth": 239,
+      "aoHeight": 240,
+      "width": 291.6666666666667,
+      "height": 293.33333333333337,
+      "msaaSamples": 2,
+      "gpu": {
+        "available": false,
+        "samples": 0,
+        "medianMs": null,
+        "p95Ms": null
+      },
+      "volumeDepth": {
+        "method": "opaque / nearest transmissive raster depth",
+        "width": 437.5,
+        "height": 440.00000000000006,
+        "captures": 6,
+        "passes": 2
+      },
+      "bloom": {
+        "strength": 0.28,
+        "radius": 0.42,
+        "threshold": 1.6
+      },
+      "haze": {
+        "method": "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
+        "dissolve": [180, 285],
+        "density": 0.0007142857142857143,
+        "scaleHeight": 30,
+        "volume": {
+          "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+          "enabled": true,
+          "marching": false,
+          "plan": {
+            "exterior": false,
+            "fog": 0,
+            "dust": false,
+            "shafts": false
+          },
+          "size": [1, 1],
+          "steps": 24,
+          "quality": {
+            "steps": 0.67,
+            "divisor": 1
+          },
+          "fog": [0, -5.35, 0, 0],
+          "draws": 0
+        },
+        "draws": 6,
+        "reason": "analytic"
+      },
+      "temporal": null
+    },
+    "resources": {
+      "geometries": 475,
+      "textures": 68
+    },
+    "loading": {
+      "firstFrameMilliseconds": 25481,
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 0
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 996
+        },
+        {
+          "stage": "room",
+          "milliseconds": 2278.0000000000073
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 4929
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 9790
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 25481
+        }
+      ],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      }
+    }
+  },
+  "pixels": {
+    "height": 1059,
+    "luminanceVariance": 5021.7175044064825,
+    "opaqueRatio": 1,
+    "sampledPixels": 44520,
+    "uniqueColors": 4096,
+    "width": 1050
+  },
+  "errors": [],
+  "fullLocalAttachmentSha256": "dc931686eeeb34ee0f8661faffb850abae208e7aac21a1a0a47c3e0a4635e54a",
+  "scope": "Portable fields for context-loss recovery; full attachment retained in .jekyll-cache/visual-qa/finish-todos-2026-10-26/context-final2-*.json."
+}
