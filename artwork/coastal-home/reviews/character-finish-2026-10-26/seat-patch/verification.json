@@ -1,21 +1,22 @@
 {
-  "scope": "Read-only source-bound contact interface for the current five published rigs; later character exports require regeneration. No mattress placement, continuous collision, CI or live acceptance is claimed.",
+  "scope": "Read-only source-bound contact interface for the current five sleeve exports and their separate master; later character exports require regeneration. No mattress placement, continuous collision, CI or live acceptance is claimed.",
+  "sourceTextHashMethod": "SHA-256 of source text with CRLF normalized to LF, matching repository blobs",
   "sourceFiles": [
     {
       "file": "bin/measure_coastal_character_contacts.py",
-      "sha256": "faf422ba23dee47098ba65e6091b57702e50a462477fd4243feb1a5a47b942ff"
+      "sha256": "0f4a87a31eaff280d85738b93ecf2093646619c79cbff83d65d68b4dabcce7b3"
     },
     {
       "file": "bin/measure_coastal_character_contacts.mjs",
-      "sha256": "41b32e37fbb8a99ccd1b5f557c2db9800eff926ac29e2d8b411b9c48a48e0c1c"
+      "sha256": "bb433571cbec0d03b23feb482d646acc1ea24e53f474342a500c7a6ff5f600e5"
     },
     {
       "file": "test/character-contacts.test.mjs",
-      "sha256": "ab6ddc07bd8fd11e760b76ac3d608d602d0d793d618798971c0acbe06711c731"
+      "sha256": "78a317036db8ef6069f52fab45e492c5653c7eb4ca2ddc273693df945a706e6c"
     },
     {
       "file": "assets/models/home/character-contacts.json",
-      "sha256": "63488df1c4b5622286e74be7b93efa9dcac4be3d02748c39d405eb4cedd0b1f0"
+      "sha256": "e8f56cecdc25f2817eb77ee60befbab215cd675099ee5db5858f4f5c8aaf5582"
     },
     {
       "file": "assets/js/home-scene/character-contacts.mjs",
@@ -24,93 +25,83 @@
   ],
   "rawReceipts": [
     {
-      "file": "native-seat-contacts.json",
-      "sha256": "bd8bb877ebb83ee4941a091829d05718d4c1e3ac4d06dd12a3cd0eb6e8399fe4"
+      "file": "sleeves-native-seat-contacts.json",
+      "sha256": "b44118588e3b7835413a98a964a91a16775a1bea61b044e472d52bc14141b3be"
     },
     {
-      "file": "decoded-seat-contacts.json",
-      "sha256": "283d80ff86cf5c8502fd8b5f82aa8f12efc748f455e259a594783609d14674d0"
+      "file": "sleeves-decoded-seat-contacts.json",
+      "sha256": "cac775fce58ce93e7f95372249e482c00d8a293c3ab7259efc8c7b70dd53e527"
     }
   ],
   "nativeSourceBytesPreserved": true,
   "nativeSourceHashReadback": [
     {
       "style": "lizard",
-      "sourceFile": "artwork/coastal-home/sirui-lizard.blend",
-      "receiptSha256": "8923262178ca419d9cde9e6da61f581c32e8c3c5b0d511c88ec4b1abad76316e",
-      "readbackSha256": "8923262178ca419d9cde9e6da61f581c32e8c3c5b0d511c88ec4b1abad76316e"
+      "sourceFile": "artwork/coastal-home/character-finish.blend",
+      "receiptSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+      "readbackSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6"
     },
     {
       "style": "south-park",
-      "sourceFile": "artwork/coastal-home/sirui-south-park.blend",
-      "receiptSha256": "ec4f99de7c46dc7d0f1f4d95342a2b9a9c8755cd5a4b0fe38b6054fff46a8d41",
-      "readbackSha256": "ec4f99de7c46dc7d0f1f4d95342a2b9a9c8755cd5a4b0fe38b6054fff46a8d41"
+      "sourceFile": "artwork/coastal-home/character-finish.blend",
+      "receiptSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+      "readbackSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6"
     },
     {
       "style": "simpsons",
-      "sourceFile": "artwork/coastal-home/sirui-simpsons.blend",
-      "receiptSha256": "5b19bc1da5824908213ad4bb7e997989449d854db37c268f2c504418e03ad8e5",
-      "readbackSha256": "5b19bc1da5824908213ad4bb7e997989449d854db37c268f2c504418e03ad8e5"
+      "sourceFile": "artwork/coastal-home/character-finish.blend",
+      "receiptSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+      "readbackSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6"
     },
     {
       "style": "ghibli",
-      "sourceFile": "artwork/coastal-home/sirui-ghibli.blend",
-      "receiptSha256": "19e1591587386f4b645ffe2bdbb69acaf4cf33ff6dd571ad8ac8c67f3612c773",
-      "readbackSha256": "19e1591587386f4b645ffe2bdbb69acaf4cf33ff6dd571ad8ac8c67f3612c773"
+      "sourceFile": "artwork/coastal-home/character-finish.blend",
+      "receiptSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+      "readbackSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6"
     },
     {
       "style": "rick-and-morty",
-      "sourceFile": "artwork/coastal-home/sirui-rick-and-morty.blend",
-      "receiptSha256": "a8b120732a5fc0bb99391bc29ce176783d55376b1eef207813237f9b9b261846",
-      "readbackSha256": "a8b120732a5fc0bb99391bc29ce176783d55376b1eef207813237f9b9b261846"
+      "sourceFile": "artwork/coastal-home/character-finish.blend",
+      "receiptSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+      "readbackSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6"
     }
   ],
   "logs": [
     {
-      "file": "native-seat-measure-final.log",
-      "sha256": "7fbf47ba6498b5f5a976fcede97d20cc137ddcf77894b9d714b146a4bca9d08c",
+      "file": "sleeves-native-seat-contacts.log",
+      "sha256": "5a4b71aecd5391413b94e8d6a04981a7de388494a08e4c163912b3d946c42c06",
       "signals": []
     },
     {
-      "file": "decoded-seat-measure-final.log",
-      "sha256": "1327407c6351d21e0ff2722f2ff6be1e7a8dbd0c6633dfb8e49218245e76f0f0",
+      "file": "sleeves-decoded-seat-contacts.log",
+      "sha256": "ec8d4dbce6d3d5f85826af2405adb706376a62098e86d8e903387237bdcced36",
       "signals": []
     },
     {
-      "file": "decoded-seat-measure-with-feet.log",
-      "sha256": "84f9eadf7768e97e125b41512bb59b16bfadbb6e81ade36e5fa6cf2e36df7265",
-      "signals": []
-    },
-    {
-      "file": "seat-unit.log",
-      "sha256": "cce39cf52140074bc5e853efeca2a503b0967bc4015ee6f700c19b06645efc18",
+      "file": "sleeves-contact-unit.log",
+      "sha256": "6ed8431e5887452153a4b660c268cea0210519bbd75737d9b177db5e74320a89",
       "signals": ["\u2139 tests 2", "\u2139 pass 2", "\u2139 fail 0", "\u2139 skipped 0"]
     },
     {
-      "file": "seat-foot-reference-unit.log",
-      "sha256": "9b23429507bd125ef225ecc8be725e5cc5af4b83edf03e6352b70b90affdc814",
-      "signals": ["\u2139 tests 2", "\u2139 pass 2", "\u2139 fail 0", "\u2139 skipped 0"]
-    },
-    {
-      "file": "seat-node-all.log",
-      "sha256": "e4b5059ce639307655bcdceaa1ce5edf097e27888338eb5536e5543f7f5b74d1",
+      "file": "sleeves-node-all.log",
+      "sha256": "ab84930387b70b2e4905ad9e30f9824e8fe53c5cf64964c9f1e40a2c7e91e082",
       "signals": [
-        "\u2714 without anchors nothing is fetched, and missing pieces on either side are skipped (52.625ms)",
+        "\u2714 without anchors nothing is fetched, and missing pieces on either side are skipped (46.925ms)",
         "\u2139 tests 830",
-        "\u2139 pass 823",
-        "\u2139 fail 0",
+        "\u2139 pass 822",
+        "\u2139 fail 1",
         "\u2139 skipped 7"
       ]
     },
     {
-      "file": "seat-python-all.log",
-      "sha256": "58306260f922a60693aa04a5df0ba0b06c01b320c740d5d8ec23f7e69ee971b4",
-      "signals": ["Ran 314 tests in 52.873s", "OK"]
+      "file": "sleeves-python-all.log",
+      "sha256": "7c184c902fe28fbac8d1caed56c660c0813985abf882029f00e3453712e81455",
+      "signals": ["Ran 314 tests in 40.254s", "OK"]
     },
     {
-      "file": "seat-source-gates.log",
-      "sha256": "9e989d1546129dda71fd1d273cc588c8ce9db27e890ac5045b1c933699c548ec",
-      "signals": ["Starter style contract check passed."]
+      "file": "sleeves-source-gates.log",
+      "sha256": "c9be8c35b13e5acca0c46d0d18d03cc50231e2b647bc3f521c0a246aeffe0737",
+      "signals": ["All matched files use Prettier code style!", "Starter style contract check passed."]
     }
   ]
 }

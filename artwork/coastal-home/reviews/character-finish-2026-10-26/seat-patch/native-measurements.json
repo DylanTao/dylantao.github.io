@@ -5,8 +5,9 @@
   "proximalHipToKneeFraction": 0.45,
   "avatars": {
     "lizard": {
-      "sourceSha256": "8923262178ca419d9cde9e6da61f581c32e8c3c5b0d511c88ec4b1abad76316e",
-      "sourceFile": "artwork/coastal-home/sirui-lizard.blend",
+      "sourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+      "sourceFile": "artwork/coastal-home/character-finish.blend",
+      "sourceScene": "character-lizard",
       "fps": 24.0,
       "stripFrames": [1.0, 97.0],
       "sampledFrames": [1.0, 9.0, 17.0, 25.0, 33.0, 41.0, 49.0, 57.0, 65.0, 73.0, 81.0, 89.0, 97.0],
@@ -244,8 +245,9 @@
       ]
     },
     "south-park": {
-      "sourceSha256": "ec4f99de7c46dc7d0f1f4d95342a2b9a9c8755cd5a4b0fe38b6054fff46a8d41",
-      "sourceFile": "artwork/coastal-home/sirui-south-park.blend",
+      "sourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+      "sourceFile": "artwork/coastal-home/character-finish.blend",
+      "sourceScene": "character-south-park",
       "fps": 24.0,
       "stripFrames": [1.0, 97.0],
       "sampledFrames": [1.0, 9.0, 17.0, 25.0, 33.0, 41.0, 49.0, 57.0, 65.0, 73.0, 81.0, 89.0, 97.0],
@@ -378,8 +380,9 @@
       ]
     },
     "simpsons": {
-      "sourceSha256": "5b19bc1da5824908213ad4bb7e997989449d854db37c268f2c504418e03ad8e5",
-      "sourceFile": "artwork/coastal-home/sirui-simpsons.blend",
+      "sourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+      "sourceFile": "artwork/coastal-home/character-finish.blend",
+      "sourceScene": "character-simpsons",
       "fps": 24.0,
       "stripFrames": [1.0, 97.0],
       "sampledFrames": [1.0, 9.0, 17.0, 25.0, 33.0, 41.0, 49.0, 57.0, 65.0, 73.0, 81.0, 89.0, 97.0],
@@ -519,8 +522,9 @@
       ]
     },
     "ghibli": {
-      "sourceSha256": "19e1591587386f4b645ffe2bdbb69acaf4cf33ff6dd571ad8ac8c67f3612c773",
-      "sourceFile": "artwork/coastal-home/sirui-ghibli.blend",
+      "sourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+      "sourceFile": "artwork/coastal-home/character-finish.blend",
+      "sourceScene": "character-ghibli",
       "fps": 24.0,
       "stripFrames": [1.0, 97.0],
       "sampledFrames": [1.0, 9.0, 17.0, 25.0, 33.0, 41.0, 49.0, 57.0, 65.0, 73.0, 81.0, 89.0, 97.0],
@@ -660,8 +664,9 @@
       ]
     },
     "rick-and-morty": {
-      "sourceSha256": "a8b120732a5fc0bb99391bc29ce176783d55376b1eef207813237f9b9b261846",
-      "sourceFile": "artwork/coastal-home/sirui-rick-and-morty.blend",
+      "sourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+      "sourceFile": "artwork/coastal-home/character-finish.blend",
+      "sourceScene": "character-rick-and-morty",
       "fps": 24.0,
       "stripFrames": [1.0, 97.0],
       "sampledFrames": [1.0, 9.0, 17.0, 25.0, 33.0, 41.0, 49.0, 57.0, 65.0, 73.0, 81.0, 89.0, 97.0],

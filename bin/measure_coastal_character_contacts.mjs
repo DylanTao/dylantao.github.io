@@ -216,6 +216,8 @@ async function main() {
           ])
         ),
         nativeSourceSha256: nativeEntry.sourceSha256,
+        nativeSourceFile: nativeEntry.sourceFile,
+        nativeSourceScene: nativeEntry.sourceScene,
         nativeSampling: {
           fps: nativeEntry.fps,
           stripFrames: nativeEntry.stripFrames,

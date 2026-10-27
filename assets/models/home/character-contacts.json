@@ -8,7 +8,7 @@
   "avatars": {
     "lizard": {
       "lounge": {
-        "sourceGlbSha256": "8c0e6a54e936000cd647c0b54d9ab93e6a2f7a4d5ba567853878409850689f47",
+        "sourceGlbSha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d",
         "clip": "lounge",
         "decodedDurationSeconds": 4.041666507720947,
         "sampledSeconds": [
@@ -304,7 +304,9 @@
             "soleCenterOffsetXYZ": [0.000889735603228553, -0.06752981015668952, 0.1025573317984661]
           }
         },
-        "nativeSourceSha256": "8923262178ca419d9cde9e6da61f581c32e8c3c5b0d511c88ec4b1abad76316e",
+        "nativeSourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+        "nativeSourceFile": "artwork/coastal-home/character-finish.blend",
+        "nativeSourceScene": "character-lizard",
         "nativeSampling": {
           "fps": 24,
           "stripFrames": [1, 97],
@@ -321,7 +323,7 @@
     },
     "south-park": {
       "lounge": {
-        "sourceGlbSha256": "8a94d3f20fbd8fa52520b4035b01f736a72a6fd013fc6583d839f8b7f8ee3324",
+        "sourceGlbSha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
         "clip": "lounge",
         "decodedDurationSeconds": 4.041666507720947,
         "sampledSeconds": [
@@ -497,7 +499,9 @@
             "soleCenterOffsetXYZ": [0.000004847426800624888, -0.06599155833773285, 0.006101275353481539]
           }
         },
-        "nativeSourceSha256": "ec4f99de7c46dc7d0f1f4d95342a2b9a9c8755cd5a4b0fe38b6054fff46a8d41",
+        "nativeSourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+        "nativeSourceFile": "artwork/coastal-home/character-finish.blend",
+        "nativeSourceScene": "character-south-park",
         "nativeSampling": {
           "fps": 24,
           "stripFrames": [1, 97],
@@ -514,7 +518,7 @@
     },
     "simpsons": {
       "lounge": {
-        "sourceGlbSha256": "6214fae6762b2257cd3060ac64f7eb4b662a1bb672e663385f676d9f132634f4",
+        "sourceGlbSha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
         "clip": "lounge",
         "decodedDurationSeconds": 4.041666507720947,
         "sampledSeconds": [
@@ -539,7 +543,7 @@
         "witnesses": [
           {
             "vertex": 3957,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20754083982953098,
@@ -547,7 +551,7 @@
           },
           {
             "vertex": 4185,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20697913695303835,
@@ -555,7 +559,7 @@
           },
           {
             "vertex": 3775,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20237169744111586,
@@ -563,7 +567,7 @@
           },
           {
             "vertex": 4184,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1873130081473878,
@@ -571,7 +575,7 @@
           },
           {
             "vertex": 3776,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20349538702577077,
@@ -579,7 +583,7 @@
           },
           {
             "vertex": 4378,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20933891346398079,
@@ -587,7 +591,7 @@
           },
           {
             "vertex": 3590,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1940557133186595,
@@ -595,7 +599,7 @@
           },
           {
             "vertex": 3956,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1821438657589733,
@@ -603,7 +607,7 @@
           },
           {
             "vertex": 4570,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1902347713664931,
@@ -611,7 +615,7 @@
           },
           {
             "vertex": 4571,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20922651612234822,
@@ -619,7 +623,7 @@
           },
           {
             "vertex": 3774,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.18416645024501802,
@@ -627,7 +631,7 @@
           },
           {
             "vertex": 3592,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20383257905066848,
@@ -635,7 +639,7 @@
           },
           {
             "vertex": 4377,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1793342160498292,
@@ -643,7 +647,7 @@
           },
           {
             "vertex": 3591,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1879873921971838,
@@ -651,7 +655,7 @@
           },
           {
             "vertex": 4763,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20450667926879257,
@@ -659,7 +663,7 @@
           },
           {
             "vertex": 4186,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.225296497659098,
@@ -667,7 +671,7 @@
           },
           {
             "vertex": 3589,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.19147114212445196,
@@ -675,7 +679,7 @@
           },
           {
             "vertex": 4569,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face001_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1866389079292632,
@@ -698,7 +702,9 @@
             "soleCenterOffsetXYZ": [-0.0000020220086095618095, -0.06599403580354063, 0.006095750826123403]
           }
         },
-        "nativeSourceSha256": "5b19bc1da5824908213ad4bb7e997989449d854db37c268f2c504418e03ad8e5",
+        "nativeSourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+        "nativeSourceFile": "artwork/coastal-home/character-finish.blend",
+        "nativeSourceScene": "character-simpsons",
         "nativeSampling": {
           "fps": 24,
           "stripFrames": [1, 97],
@@ -715,7 +721,7 @@
     },
     "ghibli": {
       "lounge": {
-        "sourceGlbSha256": "47167029b02671063a509aa9f1c0bd36a7ea1b18ac37a5884a9365377615c7ce",
+        "sourceGlbSha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
         "clip": "lounge",
         "decodedDurationSeconds": 4.041666507720947,
         "sampledSeconds": [
@@ -740,7 +746,7 @@
         "witnesses": [
           {
             "vertex": 3957,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20754083982953098,
@@ -748,7 +754,7 @@
           },
           {
             "vertex": 4185,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20697913695303835,
@@ -756,7 +762,7 @@
           },
           {
             "vertex": 3775,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20237169744111586,
@@ -764,7 +770,7 @@
           },
           {
             "vertex": 4184,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1873130081473878,
@@ -772,7 +778,7 @@
           },
           {
             "vertex": 3776,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20349538702577077,
@@ -780,7 +786,7 @@
           },
           {
             "vertex": 4378,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20933891346398079,
@@ -788,7 +794,7 @@
           },
           {
             "vertex": 3590,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1940557133186595,
@@ -796,7 +802,7 @@
           },
           {
             "vertex": 3956,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1821438657589733,
@@ -804,7 +810,7 @@
           },
           {
             "vertex": 4570,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1902347713664931,
@@ -812,7 +818,7 @@
           },
           {
             "vertex": 4571,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20922651612234822,
@@ -820,7 +826,7 @@
           },
           {
             "vertex": 3774,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.18416645024501802,
@@ -828,7 +834,7 @@
           },
           {
             "vertex": 3592,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20383257905066848,
@@ -836,7 +842,7 @@
           },
           {
             "vertex": 4377,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1793342160498292,
@@ -844,7 +850,7 @@
           },
           {
             "vertex": 3591,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1879873921971838,
@@ -852,7 +858,7 @@
           },
           {
             "vertex": 4763,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20450667926879257,
@@ -860,7 +866,7 @@
           },
           {
             "vertex": 4186,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.225296497659098,
@@ -868,7 +874,7 @@
           },
           {
             "vertex": 3589,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.19147114212445196,
@@ -876,7 +882,7 @@
           },
           {
             "vertex": 4569,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face002_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1866389079292632,
@@ -899,7 +905,9 @@
             "soleCenterOffsetXYZ": [-0.000002022008608035253, -0.06599403580354302, 0.006095750826123458]
           }
         },
-        "nativeSourceSha256": "19e1591587386f4b645ffe2bdbb69acaf4cf33ff6dd571ad8ac8c67f3612c773",
+        "nativeSourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+        "nativeSourceFile": "artwork/coastal-home/character-finish.blend",
+        "nativeSourceScene": "character-ghibli",
         "nativeSampling": {
           "fps": 24,
           "stripFrames": [1, 97],
@@ -916,7 +924,7 @@
     },
     "rick-and-morty": {
       "lounge": {
-        "sourceGlbSha256": "06d8f41e0740929fef63a90e71a2bca8976ac2adb7c54bb69992eedc58a88e91",
+        "sourceGlbSha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
         "clip": "lounge",
         "decodedDurationSeconds": 4.041666507720947,
         "sampledSeconds": [
@@ -941,7 +949,7 @@
         "witnesses": [
           {
             "vertex": 4286,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20762102227652895,
@@ -949,7 +957,7 @@
           },
           {
             "vertex": 4446,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20705917748420094,
@@ -957,7 +965,7 @@
           },
           {
             "vertex": 4113,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.2024521637197846,
@@ -965,7 +973,7 @@
           },
           {
             "vertex": 4445,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1872830639061195,
@@ -973,7 +981,7 @@
           },
           {
             "vertex": 4112,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20368825064607213,
@@ -981,7 +989,7 @@
           },
           {
             "vertex": 4640,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.2093064147376754,
@@ -989,7 +997,7 @@
           },
           {
             "vertex": 4111,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1942495703498086,
@@ -997,7 +1005,7 @@
           },
           {
             "vertex": 4285,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.18233900003264095,
@@ -1005,7 +1013,7 @@
           },
           {
             "vertex": 4803,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.19031679871935123,
@@ -1013,7 +1021,7 @@
           },
           {
             "vertex": 4284,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.184698634627748,
@@ -1021,7 +1029,7 @@
           },
           {
             "vertex": 4804,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20919401739604282,
@@ -1029,7 +1037,7 @@
           },
           {
             "vertex": 3948,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20391290341350185,
@@ -1037,7 +1045,7 @@
           },
           {
             "vertex": 4639,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.17941752064520583,
@@ -1045,7 +1053,7 @@
           },
           {
             "vertex": 4110,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighR",
             "material": "olive trousers",
             "hipToKneeFraction": 0.1886314062582048,
@@ -1053,7 +1061,7 @@
           },
           {
             "vertex": 4960,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.20447474820582878,
@@ -1061,7 +1069,7 @@
           },
           {
             "vertex": 4447,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.2252621540269325,
@@ -1069,7 +1077,7 @@
           },
           {
             "vertex": 4959,
-            "mesh": "shaped_adult_face_7",
+            "mesh": "shaped_adult_face003_7",
             "bone": "ThighL",
             "material": "olive trousers",
             "hipToKneeFraction": 0.18660882177215954,
@@ -1092,7 +1100,9 @@
             "soleCenterOffsetXYZ": [-0.0000020220086095618095, -0.06599403580354063, 0.006095750826123403]
           }
         },
-        "nativeSourceSha256": "a8b120732a5fc0bb99391bc29ce176783d55376b1eef207813237f9b9b261846",
+        "nativeSourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+        "nativeSourceFile": "artwork/coastal-home/character-finish.blend",
+        "nativeSourceScene": "character-rick-and-morty",
         "nativeSampling": {
           "fps": 24,
           "stripFrames": [1, 97],

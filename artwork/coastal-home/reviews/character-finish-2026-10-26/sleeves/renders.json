@@ -1,0 +1,352 @@
+{
+  "base": "http://127.0.0.1:4106/al-folio",
+  "date": "2026-10-01T22:00:00-07:00",
+  "activity": "lounge",
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "deviceScaleFactor": 2
+  },
+  "browser": "145.0.7632.6",
+  "sourceModels": {
+    "sirui-lizard.glb": {
+      "sha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d",
+      "bytes": 540496
+    },
+    "sirui-south-park.glb": {
+      "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+      "bytes": 714480
+    },
+    "sirui-simpsons.glb": {
+      "sha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
+      "bytes": 666964
+    },
+    "sirui-ghibli.glb": {
+      "sha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
+      "bytes": 858356
+    },
+    "sirui-rick-and-morty.glb": {
+      "sha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
+      "bytes": 661616
+    }
+  },
+  "errors": [],
+  "scope": "Complete public runtime/assets with the five exact candidate model responses; all selected 4K PNGs retained locally. JPEGs retain dimensions but use lossy compression. No FPS or physical-phone claim.",
+  "captures": [
+    {
+      "file": "lounge-lizard-full.png",
+      "pngSha256": "0babfb6e7f3baa554840b33cb221b39432fc244c0075cfa0d3be3790bc8805cd",
+      "selected": "lounge-lizard-full.jpg",
+      "selectedSha256": "2361b6b3e4ff72d86091436390881f50b939072d36b096037dfa9d69a8e0cec1",
+      "avatar": "lizard",
+      "view": "full",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.500000073464102, 0.84, 2.5400000000002696],
+        "yaw": 3.5216
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-lizard-body.png",
+      "pngSha256": "e867eabeb1526014809949606672762d4ae6498972c15cf8fcab6eb52de41c46",
+      "selected": null,
+      "selectedSha256": null,
+      "avatar": "lizard",
+      "view": "body",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.500000146928205, 0.95, 2.5300000000005394],
+        "yaw": 3.5216
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-lizard-side.png",
+      "pngSha256": "02cbf0da9d1125cb3b20b7628311c2337ad100abf600b2689df58b3197bdb088",
+      "selected": null,
+      "selectedSha256": null,
+      "avatar": "lizard",
+      "view": "side",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.5, 0.82, 2.55],
+        "yaw": 1.9916
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-south-park-full.png",
+      "pngSha256": "44d56e20562701d547f4e1b7291919fabe645d69be12e6c0b4534894d80deb05",
+      "selected": "lounge-south-park-full.jpg",
+      "selectedSha256": "318ce44aad39781cbca7e3e1ca0371403683f058abe39829af869c20277d410f",
+      "avatar": "south-park",
+      "view": "full",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.500000073464102, 0.84, 2.5400000000002696],
+        "yaw": 3.5216
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-south-park-body.png",
+      "pngSha256": "a5358dc085cb851f3c99e31dd54bbfc03058f38f557ac7bfdc8562e2fb41c3ed",
+      "selected": null,
+      "selectedSha256": null,
+      "avatar": "south-park",
+      "view": "body",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.500000146928205, 0.95, 2.5300000000005394],
+        "yaw": 3.5216
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-south-park-side.png",
+      "pngSha256": "3092dc35305adbc6374bd2afc49a6be2a7c8d4644d63976cdd9d7bcf54fdcf6b",
+      "selected": null,
+      "selectedSha256": null,
+      "avatar": "south-park",
+      "view": "side",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.5, 0.82, 2.55],
+        "yaw": 1.9916
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-simpsons-full.png",
+      "pngSha256": "71351d2951997cc579dc87151c72c0934487d69ed9bcb82a6e7aa56256da662d",
+      "selected": "lounge-simpsons-full.jpg",
+      "selectedSha256": "782b38cf4c394c799e9d82f109366408ab4361dfb0449dc8c7c19b7d1d12f7fd",
+      "avatar": "simpsons",
+      "view": "full",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.500000073464102, 0.84, 2.5400000000002696],
+        "yaw": 3.5216
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-simpsons-body.png",
+      "pngSha256": "469a0016ed3cd397a4dd251c76809aaa1ac619f0ceba1e4b2881a909d2aff43e",
+      "selected": null,
+      "selectedSha256": null,
+      "avatar": "simpsons",
+      "view": "body",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.500000146928205, 0.95, 2.5300000000005394],
+        "yaw": 3.5216
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-simpsons-side.png",
+      "pngSha256": "fb45af34abc8b7f3913596b9746e2f92e5c8d94fe1ae8170a0b800d16e1d7960",
+      "selected": null,
+      "selectedSha256": null,
+      "avatar": "simpsons",
+      "view": "side",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.5, 0.82, 2.55],
+        "yaw": 1.9916
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-ghibli-full.png",
+      "pngSha256": "55a6277e08668a9b3d9b96fae6123a87edac7f7b434e9bbaa76c070987177c68",
+      "selected": "lounge-ghibli-full.jpg",
+      "selectedSha256": "a97b33706a36c27797bea708c35c41e3735bf9062f14a10145220d3feff6826e",
+      "avatar": "ghibli",
+      "view": "full",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.500000073464102, 0.84, 2.5400000000002696],
+        "yaw": 3.5216
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-ghibli-body.png",
+      "pngSha256": "661115882ab3b384d1a40a6283e6145a4dedc7f4a319a9f5510bcbc4e0cf2574",
+      "selected": null,
+      "selectedSha256": null,
+      "avatar": "ghibli",
+      "view": "body",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.500000146928205, 0.95, 2.5300000000005394],
+        "yaw": 3.5216
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-ghibli-side.png",
+      "pngSha256": "152f9ab014924a24f8e343f740a7a589abbb7eaecb19ff46d049b92d7614d9ee",
+      "selected": null,
+      "selectedSha256": null,
+      "avatar": "ghibli",
+      "view": "side",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.5, 0.82, 2.55],
+        "yaw": 1.9916
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-rick-and-morty-full.png",
+      "pngSha256": "146d91e44d7474479851e0ee2ba5e765420479506ffbc7cc99196c7ac4851ee9",
+      "selected": "lounge-rick-and-morty-full.jpg",
+      "selectedSha256": "e3649ff4ad832b392ccc4260a30f9933b59d75b65d62bdb69782f1be1be14d6c",
+      "avatar": "rick-and-morty",
+      "view": "full",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.500000073464102, 0.84, 2.5400000000002696],
+        "yaw": 3.5216
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-rick-and-morty-body.png",
+      "pngSha256": "bdcecfa5bb2c67c8d656a4546596162d917eae316172ef861f21ca4c30becf4a",
+      "selected": null,
+      "selectedSha256": null,
+      "avatar": "rick-and-morty",
+      "view": "body",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.500000146928205, 0.95, 2.5300000000005394],
+        "yaw": 3.5216
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    },
+    {
+      "file": "lounge-rick-and-morty-side.png",
+      "pngSha256": "b9038aa4e8a73c4699c950f0814fa0bf883a6f2d94f83865baf18fbdc8328840",
+      "selected": null,
+      "selectedSha256": null,
+      "avatar": "rick-and-morty",
+      "view": "side",
+      "backend": {
+        "buffer": [3840, 2160],
+        "css": [1920, 1080],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "camera": {
+        "target": [-10.5, 0.82, 2.55],
+        "yaw": 1.9916
+      },
+      "animationSecondsBefore": 0,
+      "animationSecondsAfter": 0,
+      "actorPosition": [-10.5, 0, 2.55],
+      "phase": "sipping"
+    }
+  ]
+}

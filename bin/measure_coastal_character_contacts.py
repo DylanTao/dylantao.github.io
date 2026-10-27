@@ -22,15 +22,21 @@ def main():
     args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-dir", type=Path, default=ROOT / "artwork/coastal-home")
+    parser.add_argument("--master", type=Path, help="Measure the five tagged scenes in the final character library")
     parser.add_argument("--out", type=Path, default=ROOT / ".jekyll-cache/visual-qa/character-finish-2026-10-26/native-seat-contacts.json")
     opts = parser.parse_args(args)
+    opts.source_dir = opts.source_dir.resolve()
+    opts.master = opts.master.resolve() if opts.master else None
+    opts.out = opts.out.resolve()
     receipt = {"blender": bpy.app.version_string, "units": "metres", "scope": "13 sampled native lounge frames, not a continuous contact guarantee", "proximalHipToKneeFraction": PROXIMAL, "avatars": {}}
     for style in STYLES:
-        source = opts.source_dir / f"sirui-{style}.blend"
+        source = opts.master or opts.source_dir / f"sirui-{style}.blend"
         before = hashlib.sha256(source.read_bytes()).hexdigest()
         bpy.ops.wm.open_mainfile(filepath=str(source))
+        if opts.master:
+            bpy.context.window.scene = next(scene for scene in bpy.data.scenes if scene.get("finishAvatar") == style)
         arm = next(o for o in bpy.context.scene.objects if o.type == "ARMATURE")
-        mesh = next(o for o in arm.children if o.name == "SiruiMesh")
+        mesh = next(o for o in arm.children if o.get("finishCanonicalName", o.name) == "SiruiMesh")
         names = {g.index: g.name for g in mesh.vertex_groups}
         pants = {vi: re.sub(r"\.\d{3}$", "", mesh.data.materials[p.material_index].name) for p in mesh.data.polygons if re.sub(r"\.\d{3}$", "", mesh.data.materials[p.material_index].name) in ("olive trousers", "charcoal shorts") for vi in p.vertices}
         chosen = {}
@@ -70,7 +76,7 @@ def main():
             samples.append({"frame": frame, "secondsFromStripStart": (frame - strip.frame_start) / fps, "minY": minimum, "witnesses": [p for p in points if p["point"][1] <= minimum + .002]})
             evaluated.to_mesh_clear()
         assert hashlib.sha256(source.read_bytes()).hexdigest() == before
-        entry = {"sourceSha256": before, "sourceFile": str(source.relative_to(ROOT)).replace("\\", "/") if source.is_relative_to(ROOT) else source.name, "fps": fps, "stripFrames": [strip.frame_start, strip.frame_end], "sampledFrames": frames, "minYRange": [min(s["minY"] for s in samples), max(s["minY"] for s in samples)], "patchVertices": len(chosen), "samples": samples}
+        entry = {"sourceSha256": before, "sourceFile": str(source.relative_to(ROOT)).replace("\\", "/") if source.is_relative_to(ROOT) else source.name, "sourceScene": bpy.context.scene.name, "fps": fps, "stripFrames": [strip.frame_start, strip.frame_end], "sampledFrames": frames, "minYRange": [min(s["minY"] for s in samples), max(s["minY"] for s in samples)], "patchVertices": len(chosen), "samples": samples}
         receipt["avatars"][style] = entry
         print("NATIVE-SEAT", style, entry["minYRange"], len(chosen), flush=True)
     opts.out.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,1128 @@
+{
+  "blender": "4.5.9 LTS",
+  "masterSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+  "originalInputSha256": {
+    "lizard": "8923262178ca419d9cde9e6da61f581c32e8c3c5b0d511c88ec4b1abad76316e",
+    "south-park": "ec4f99de7c46dc7d0f1f4d95342a2b9a9c8755cd5a4b0fe38b6054fff46a8d41",
+    "simpsons": "5b19bc1da5824908213ad4bb7e997989449d854db37c268f2c504418e03ad8e5",
+    "ghibli": "19e1591587386f4b645ffe2bdbb69acaf4cf33ff6dd571ad8ac8c67f3612c773",
+    "rick-and-morty": "a8b120732a5fc0bb99391bc29ce176783d55376b1eef207813237f9b9b261846"
+  },
+  "avatars": {
+    "lizard": {
+      "skinSha256": "27e5b44c83d3a2ab95201c88e1b4d6fcc234be460aedcb0370473b7774c05571",
+      "skinVertices": 23294,
+      "skinFaces": 37039,
+      "rigSha256": "8f6b3e911bfa6c9ead87dabb722f608a9c7a67e6296c99b6f1d52e8adc85b1b5",
+      "bones": 20,
+      "clips": {
+        "idle": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "cde41830587532da5885e7a1fcfe3208a214407deda15c493ee98229bd810cd2"
+        },
+        "walk": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "6d08ea5282e8faaeb1bb19b9dc4d106111cdb39f4801c3e953fc57df8cc3cceb"
+        },
+        "typing": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "819b4501f14a8a57109d088dc64efab52a49710848681dba4fd4c8ac18366c0d"
+        },
+        "reading": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "5d5f4acdaaca955b34f6d04c0150d43d8950cb725628c018b87089394b218273"
+        },
+        "eat": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "9c42fdd4f6c271dc305485ddd1a2ea1025fc9bbbaf8a5cb72fb6761fe1bfb5aa"
+        },
+        "drink": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "9c42fdd4f6c271dc305485ddd1a2ea1025fc9bbbaf8a5cb72fb6761fe1bfb5aa"
+        },
+        "workout": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "7d2e6d540247d845e9dcd5d90b9f4a879f79a46acb5505105057ddcbac0fc22f"
+        },
+        "pullup": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "cffadaf0e051fa6e7a799bc840aaec60b909e7fb2b1cb46201b3d7169a2061eb"
+        },
+        "dip": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "0547b50afea876d49b6835c6ba5ed9043b60aa85c89a61e7e97ff932d91a9e69"
+        },
+        "coffee-prep": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "8ca3d97c2ca94f342ff6534f93e1859255c103af5c01e72c452c9248a3d02707"
+        },
+        "carry": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "45f7991cc9792090eecd3f50052efaf229c34feb37862b8f80e23c4bf2e83cb3"
+        },
+        "soak": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "f3f9feaea7728bf9f1005bbb67dde8aaf99f7c1c3f808dca154e93f591aab65f"
+        },
+        "lounge": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "f3f9feaea7728bf9f1005bbb67dde8aaf99f7c1c3f808dca154e93f591aab65f"
+        },
+        "sleep": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "c9d64d4e4d7530317b57bcd79b41145df7464cdfd0feb628d0daad9839514ee4"
+        }
+      },
+      "blinks": [
+        {
+          "object": "SiruiEyelids",
+          "key": "BlinkL",
+          "sha256": "3ece0895971e6d6c99586a651d545cb0804d8870e6a1856e3b555ba04544b6ee"
+        },
+        {
+          "object": "SiruiEyelids",
+          "key": "BlinkR",
+          "sha256": "c3862ddc8469821247f63148e83a6af803d98e56b3fc6ab198889046eda58181"
+        }
+      ],
+      "allVertices": 55722,
+      "allFaces": 69485,
+      "maximumClothRestDisplacement": 0.0459406817061683,
+      "cuffContactScope": "Actual arm-skin/shirt triangle-intersection segments in nine explicit native poses, including hidden upper attachment; not a continuous or exposed-surface guarantee.",
+      "cuffContacts": {
+        "before": [
+          {
+            "clip": "idle",
+            "frame": 1,
+            "crossingTrianglePairs": 1876,
+            "intersectionLength": 3.4793976527011345
+          },
+          {
+            "clip": "idle",
+            "frame": 49,
+            "crossingTrianglePairs": 1876,
+            "intersectionLength": 3.4793976527011345
+          },
+          {
+            "clip": "idle",
+            "frame": 97,
+            "crossingTrianglePairs": 1876,
+            "intersectionLength": 3.4793976527011345
+          },
+          {
+            "clip": "lounge",
+            "frame": 1,
+            "crossingTrianglePairs": 1512,
+            "intersectionLength": 2.575279588352532
+          },
+          {
+            "clip": "lounge",
+            "frame": 49,
+            "crossingTrianglePairs": 1512,
+            "intersectionLength": 2.575279588352532
+          },
+          {
+            "clip": "lounge",
+            "frame": 97,
+            "crossingTrianglePairs": 1512,
+            "intersectionLength": 2.575279588352532
+          },
+          {
+            "clip": "drink",
+            "frame": 1,
+            "crossingTrianglePairs": 1525,
+            "intersectionLength": 2.577514616900002
+          },
+          {
+            "clip": "drink",
+            "frame": 49,
+            "crossingTrianglePairs": 1501,
+            "intersectionLength": 2.7218592101130277
+          },
+          {
+            "clip": "drink",
+            "frame": 97,
+            "crossingTrianglePairs": 1525,
+            "intersectionLength": 2.577514616900002
+          }
+        ],
+        "after": [
+          {
+            "clip": "idle",
+            "frame": 1,
+            "crossingTrianglePairs": 48,
+            "intersectionLength": 0.10704530428825897
+          },
+          {
+            "clip": "idle",
+            "frame": 49,
+            "crossingTrianglePairs": 48,
+            "intersectionLength": 0.10704530428825897
+          },
+          {
+            "clip": "idle",
+            "frame": 97,
+            "crossingTrianglePairs": 48,
+            "intersectionLength": 0.10704530428825897
+          },
+          {
+            "clip": "lounge",
+            "frame": 1,
+            "crossingTrianglePairs": 48,
+            "intersectionLength": 0.10703278801375636
+          },
+          {
+            "clip": "lounge",
+            "frame": 49,
+            "crossingTrianglePairs": 48,
+            "intersectionLength": 0.10703278801375636
+          },
+          {
+            "clip": "lounge",
+            "frame": 97,
+            "crossingTrianglePairs": 48,
+            "intersectionLength": 0.10703278801375636
+          },
+          {
+            "clip": "drink",
+            "frame": 1,
+            "crossingTrianglePairs": 48,
+            "intersectionLength": 0.10703547370394001
+          },
+          {
+            "clip": "drink",
+            "frame": 49,
+            "crossingTrianglePairs": 48,
+            "intersectionLength": 0.10703642707858503
+          },
+          {
+            "clip": "drink",
+            "frame": 97,
+            "crossingTrianglePairs": 48,
+            "intersectionLength": 0.10703547370394001
+          }
+        ]
+      }
+    },
+    "south-park": {
+      "skinSha256": "b48d9ab0909f3b28ba41e84f0a968070ebe7577efe7c021b3deac9047869cd4b",
+      "skinVertices": 39654,
+      "skinFaces": 59329,
+      "rigSha256": "03b2334c818f23a187251a104fc274b7731871df8feb3a8aee6b683e3f1213ed",
+      "bones": 18,
+      "clips": {
+        "idle": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "18e0e9a2ddb4808f54293b5deda0cb1cb3b829623c200369baa13cd267f5ac8a"
+        },
+        "walk": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "69411aae783c399ba1faf12efe617b82022c30dc621d368947beb31373313c1c"
+        },
+        "typing": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "546c49e8d053a1ab88d18eeefdc3e7153ed4dca1a970eaa6b1c0c31c89818656"
+        },
+        "reading": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "d584eb24ef06c3f834efde8f2e60b4a0bfe6c9734015ea1d2df6a726bd785215"
+        },
+        "eat": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "9c0c6ffbafc8597ba0ac991b87a086d69342609638eea5c3afc7a225e34f8a63"
+        },
+        "drink": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "9c0c6ffbafc8597ba0ac991b87a086d69342609638eea5c3afc7a225e34f8a63"
+        },
+        "workout": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "4e880eec0f97de3e0935f8a6deb6baac8a1d4191b3395eeba4a2ef72de9d9404"
+        },
+        "pullup": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "c69ef39d51ebea01d15b1d6fb3bb2c909bb38ebb025cd999c89ceb828745f286"
+        },
+        "dip": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "d185f42415199676ad105f3dceea321d97b64dbe6ce743ace61f7332e8dfcb4c"
+        },
+        "coffee-prep": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "23a5a9fb155c66607d8ba7dfafadbc71496337a48147aa78d950bb2fc18e42a3"
+        },
+        "carry": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "dfda8d3d575e512e44e6ca43f43c288a46de3e20fa183b0307d6687109cd3295"
+        },
+        "soak": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "5e59fa2233aa65c81ecd289de7c24cc3537be12fdf4e8ee34a10c97ec51251e5"
+        },
+        "lounge": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "5e59fa2233aa65c81ecd289de7c24cc3537be12fdf4e8ee34a10c97ec51251e5"
+        },
+        "sleep": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "988e2813b0bbd38a0415af72535125a13eed061a785211e4294b782d792f4a26"
+        }
+      },
+      "blinks": [
+        {
+          "object": "SiruiEyelids",
+          "key": "BlinkL",
+          "sha256": "35394cf5565eabf33de633704da940e63461486c3ef68e720ed061d22f35e3b0"
+        },
+        {
+          "object": "SiruiEyelids",
+          "key": "BlinkR",
+          "sha256": "6faa902cd6a906100afa6476d545d852a6e1c2644b0a6e04a2955c2dd0c20333"
+        }
+      ],
+      "allVertices": 94246,
+      "allFaces": 119693,
+      "maximumClothRestDisplacement": 0.027562136464151284,
+      "cuffContactScope": "Actual arm-skin/shirt triangle-intersection segments in nine explicit native poses, including hidden upper attachment; not a continuous or exposed-surface guarantee.",
+      "cuffContacts": {
+        "before": [
+          {
+            "clip": "idle",
+            "frame": 1,
+            "crossingTrianglePairs": 1631,
+            "intersectionLength": 1.9022358175416674
+          },
+          {
+            "clip": "idle",
+            "frame": 49,
+            "crossingTrianglePairs": 1631,
+            "intersectionLength": 1.9022358175416674
+          },
+          {
+            "clip": "idle",
+            "frame": 97,
+            "crossingTrianglePairs": 1631,
+            "intersectionLength": 1.9022358175416674
+          },
+          {
+            "clip": "lounge",
+            "frame": 1,
+            "crossingTrianglePairs": 1466,
+            "intersectionLength": 1.7551258386301338
+          },
+          {
+            "clip": "lounge",
+            "frame": 49,
+            "crossingTrianglePairs": 1466,
+            "intersectionLength": 1.7551258386301338
+          },
+          {
+            "clip": "lounge",
+            "frame": 97,
+            "crossingTrianglePairs": 1466,
+            "intersectionLength": 1.7551258386301338
+          },
+          {
+            "clip": "drink",
+            "frame": 1,
+            "crossingTrianglePairs": 1479,
+            "intersectionLength": 1.7485630366691416
+          },
+          {
+            "clip": "drink",
+            "frame": 49,
+            "crossingTrianglePairs": 1722,
+            "intersectionLength": 1.982300300225818
+          },
+          {
+            "clip": "drink",
+            "frame": 97,
+            "crossingTrianglePairs": 1479,
+            "intersectionLength": 1.7485630366691416
+          }
+        ],
+        "after": [
+          {
+            "clip": "idle",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "idle",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "idle",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          }
+        ]
+      }
+    },
+    "simpsons": {
+      "skinSha256": "2e84acdc71320773c52d0156029695c79eb8be639720c150f63cd11bef9eb8c9",
+      "skinVertices": 29580,
+      "skinFaces": 43257,
+      "rigSha256": "7e9aa50cea28136e0d59aafe8f6dddb02fa0cf4ed66fb93168d60f2a1e99548f",
+      "bones": 18,
+      "clips": {
+        "idle": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "18e0e9a2ddb4808f54293b5deda0cb1cb3b829623c200369baa13cd267f5ac8a"
+        },
+        "walk": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "69411aae783c399ba1faf12efe617b82022c30dc621d368947beb31373313c1c"
+        },
+        "typing": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "2f821140c46c2c9a80b131e4d8093f0469ced686c730e2e52d39d9a8d454e115"
+        },
+        "reading": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "720e358c77daa56d9e4e5455322323f2c8afeb826aa07104a409a65ffb9efcd4"
+        },
+        "eat": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "66cd87ca9a5c2004fea34eebe8455bea7d966f7394a284baa58a412bab8e40d2"
+        },
+        "drink": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "66cd87ca9a5c2004fea34eebe8455bea7d966f7394a284baa58a412bab8e40d2"
+        },
+        "workout": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "4e880eec0f97de3e0935f8a6deb6baac8a1d4191b3395eeba4a2ef72de9d9404"
+        },
+        "pullup": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "195af3ca75140528d9ba804a79405ef2ac6651d932f708b558dfc7ff17317cfc"
+        },
+        "dip": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "4eff43b67405584e2f0c0b326f4059566aa01c76760f4e56144a1f890b98ef8b"
+        },
+        "coffee-prep": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "12ed5242484fcd4a3eec519ba731fced9e4656141d3c76d305ec47482dbdb263"
+        },
+        "carry": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "4dfff5d3588f3ce533da3fb6d8b6178b70355ee31319d0b1753c80518a9e2457"
+        },
+        "soak": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "5e59fa2233aa65c81ecd289de7c24cc3537be12fdf4e8ee34a10c97ec51251e5"
+        },
+        "lounge": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "5e59fa2233aa65c81ecd289de7c24cc3537be12fdf4e8ee34a10c97ec51251e5"
+        },
+        "sleep": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "e1696c5da000d61e434d8a78e6ecc231f06a4e2c356f53d579efcd965b7a5202"
+        }
+      },
+      "blinks": [
+        {
+          "object": "SiruiEyelids",
+          "key": "BlinkL",
+          "sha256": "a984336e36074c3c578c99625e025217364a18375b59cfe63889111190c85edf"
+        },
+        {
+          "object": "SiruiEyelids",
+          "key": "BlinkR",
+          "sha256": "690b28744face3b24c9372a258a4d2fb36eb81e11abf2822b1f5242d550680c2"
+        }
+      ],
+      "allVertices": 83048,
+      "allFaces": 102217,
+      "maximumClothRestDisplacement": 0.024749407701383477,
+      "cuffContactScope": "Actual arm-skin/shirt triangle-intersection segments in nine explicit native poses, including hidden upper attachment; not a continuous or exposed-surface guarantee.",
+      "cuffContacts": {
+        "before": [
+          {
+            "clip": "idle",
+            "frame": 1,
+            "crossingTrianglePairs": 985,
+            "intersectionLength": 1.1046332642583199
+          },
+          {
+            "clip": "idle",
+            "frame": 49,
+            "crossingTrianglePairs": 985,
+            "intersectionLength": 1.1046332642583199
+          },
+          {
+            "clip": "idle",
+            "frame": 97,
+            "crossingTrianglePairs": 985,
+            "intersectionLength": 1.1046332642583199
+          },
+          {
+            "clip": "lounge",
+            "frame": 1,
+            "crossingTrianglePairs": 1213,
+            "intersectionLength": 1.3803109060814074
+          },
+          {
+            "clip": "lounge",
+            "frame": 49,
+            "crossingTrianglePairs": 1213,
+            "intersectionLength": 1.3803109060814074
+          },
+          {
+            "clip": "lounge",
+            "frame": 97,
+            "crossingTrianglePairs": 1213,
+            "intersectionLength": 1.3803109060814074
+          },
+          {
+            "clip": "drink",
+            "frame": 1,
+            "crossingTrianglePairs": 1253,
+            "intersectionLength": 1.3955613197904047
+          },
+          {
+            "clip": "drink",
+            "frame": 49,
+            "crossingTrianglePairs": 1467,
+            "intersectionLength": 1.6927110921595672
+          },
+          {
+            "clip": "drink",
+            "frame": 97,
+            "crossingTrianglePairs": 1253,
+            "intersectionLength": 1.3955613197904047
+          }
+        ],
+        "after": [
+          {
+            "clip": "idle",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "idle",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "idle",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          }
+        ]
+      }
+    },
+    "ghibli": {
+      "skinSha256": "9fbb469ecb6dd299188cca575db20dc588791c0dc13ee0d942c69399dc2d40c1",
+      "skinVertices": 31181,
+      "skinFaces": 46138,
+      "rigSha256": "1b3c04d3f3eb34b85e04191cf5924ae6a409e943df7069a427ed0c2aa0e2310f",
+      "bones": 38,
+      "clips": {
+        "idle": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "9a3b863bb40222a52242ab2f1380d75cc918d16b70fffba83faa21404a9503ee"
+        },
+        "walk": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "253f15737bba038a212954c0da8e205156638f9dc0bd60f62330eb6047eadde0"
+        },
+        "typing": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "c397bbdd02b89141fb6b89385b6a6a9a0e6006c42400af1031c0fb5e3b2d7beb"
+        },
+        "reading": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "a466d777bff737bd1e485c6d93c63c058f7885c2d9282f04fd92e48cf4e08514"
+        },
+        "eat": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "a39d7905749fa4133ccd13d4d11fdae4388954941d889a8ada680df6998729eb"
+        },
+        "drink": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "a39d7905749fa4133ccd13d4d11fdae4388954941d889a8ada680df6998729eb"
+        },
+        "workout": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "5ff338c59be5e4aca776cfbb07ec1a6e5b97a1560f8064b3b131c13e691efa57"
+        },
+        "pullup": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "85db6535da9c427282d8e5f668837035251ccffece8e7da867a987320e25ee5e"
+        },
+        "dip": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "b9d80a9100e92d72de52bf44f08dea085d65494ef6c4f7300f49655ea6aafa44"
+        },
+        "coffee-prep": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "b585d33924c7019a78736e6b8d58ab304dd0b20b8abed466cfac2d2befc98165"
+        },
+        "carry": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "40f48f580a9bc3dc300bac6bd2b270c9f02c13cb8f8177582c8089c514283c0c"
+        },
+        "soak": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "efeadfe12df27cacd864b95d1bdf9d54b7e5ba8b176c2477c16eee96033bd452"
+        },
+        "lounge": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "efeadfe12df27cacd864b95d1bdf9d54b7e5ba8b176c2477c16eee96033bd452"
+        },
+        "sleep": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "a614170d9142d2aaaa52dcf992dc7c6f14d028b6b666932ae549623bd7454473"
+        }
+      },
+      "blinks": [
+        {
+          "object": "SiruiEyelids",
+          "key": "BlinkL",
+          "sha256": "6ab38c5e82b0181da055d6b9b21b4e6f11a575f4e5a990577d539bf54b595694"
+        },
+        {
+          "object": "SiruiEyelids",
+          "key": "BlinkR",
+          "sha256": "85512e21555331d133066f0b2ed183cf286a41add23f468941bc40021815230f"
+        }
+      ],
+      "allVertices": 86938,
+      "allFaces": 107446,
+      "maximumClothRestDisplacement": 0.024749139915245032,
+      "cuffContactScope": "Actual arm-skin/shirt triangle-intersection segments in nine explicit native poses, including hidden upper attachment; not a continuous or exposed-surface guarantee.",
+      "cuffContacts": {
+        "before": [
+          {
+            "clip": "idle",
+            "frame": 1,
+            "crossingTrianglePairs": 987,
+            "intersectionLength": 1.1046239097058406
+          },
+          {
+            "clip": "idle",
+            "frame": 49,
+            "crossingTrianglePairs": 987,
+            "intersectionLength": 1.1046239097058406
+          },
+          {
+            "clip": "idle",
+            "frame": 97,
+            "crossingTrianglePairs": 987,
+            "intersectionLength": 1.1046239097058406
+          },
+          {
+            "clip": "lounge",
+            "frame": 1,
+            "crossingTrianglePairs": 1216,
+            "intersectionLength": 1.3804321593536282
+          },
+          {
+            "clip": "lounge",
+            "frame": 49,
+            "crossingTrianglePairs": 1216,
+            "intersectionLength": 1.3804321593536282
+          },
+          {
+            "clip": "lounge",
+            "frame": 97,
+            "crossingTrianglePairs": 1216,
+            "intersectionLength": 1.3804321593536282
+          },
+          {
+            "clip": "drink",
+            "frame": 1,
+            "crossingTrianglePairs": 1246,
+            "intersectionLength": 1.395329500013559
+          },
+          {
+            "clip": "drink",
+            "frame": 49,
+            "crossingTrianglePairs": 1430,
+            "intersectionLength": 1.6373264886352343
+          },
+          {
+            "clip": "drink",
+            "frame": 97,
+            "crossingTrianglePairs": 1246,
+            "intersectionLength": 1.395329500013559
+          }
+        ],
+        "after": [
+          {
+            "clip": "idle",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "idle",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "idle",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          }
+        ]
+      }
+    },
+    "rick-and-morty": {
+      "skinSha256": "3e53e9201008e3b6e9107734497430ec007d6821104e840e9f015546149f6341",
+      "skinVertices": 28064,
+      "skinFaces": 41202,
+      "rigSha256": "c5303689e073b43459ba0878f78b5d6da3f6e634eb5d64405649525fc22e2255",
+      "bones": 18,
+      "clips": {
+        "idle": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "18e0e9a2ddb4808f54293b5deda0cb1cb3b829623c200369baa13cd267f5ac8a"
+        },
+        "walk": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "69411aae783c399ba1faf12efe617b82022c30dc621d368947beb31373313c1c"
+        },
+        "typing": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "5601879d920374cab7be9153610476e2f787acd86b5dd5e7b8b082ac08ea0c1d"
+        },
+        "reading": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "8fcbc3a9e94f701a66170582646c1079390b3344d14aadfa40a349ad1c1e531a"
+        },
+        "eat": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "6006dad7eafdf388041c8ad3993c0d6a91b2e9b67a08bef45906d9449f381705"
+        },
+        "drink": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "6006dad7eafdf388041c8ad3993c0d6a91b2e9b67a08bef45906d9449f381705"
+        },
+        "workout": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "4e880eec0f97de3e0935f8a6deb6baac8a1d4191b3395eeba4a2ef72de9d9404"
+        },
+        "pullup": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "251798ebc4b8980f8cd9567ec33b0493ae6e7d608b6f4fdaf8789509951c7537"
+        },
+        "dip": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "4dd93bb3dd313cc74b5c88ac1b884e8f8cce84f27daf268e7c64bdf271455cb3"
+        },
+        "coffee-prep": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "859c02268072196fb67de98fb1137d9cb0e83ba638a919a557d03e1861c29cd8"
+        },
+        "carry": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "5e8557aabf35f893e4831f36d4681563f787776eb9a2717158661f0581b74acb"
+        },
+        "soak": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "5e59fa2233aa65c81ecd289de7c24cc3537be12fdf4e8ee34a10c97ec51251e5"
+        },
+        "lounge": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "5e59fa2233aa65c81ecd289de7c24cc3537be12fdf4e8ee34a10c97ec51251e5"
+        },
+        "sleep": {
+          "frames": [1.0, 97.0],
+          "actionFrames": [1.0, 97.0],
+          "repeat": 1.0,
+          "curvesSha256": "8f9330aecb8ab0fab11a0028e563afd6872575c468bfbb12913377565a544f20"
+        }
+      },
+      "blinks": [
+        {
+          "object": "SiruiEyelids",
+          "key": "BlinkL",
+          "sha256": "a984336e36074c3c578c99625e025217364a18375b59cfe63889111190c85edf"
+        },
+        {
+          "object": "SiruiEyelids",
+          "key": "BlinkR",
+          "sha256": "690b28744face3b24c9372a258a4d2fb36eb81e11abf2822b1f5242d550680c2"
+        }
+      ],
+      "allVertices": 80877,
+      "allFaces": 99161,
+      "maximumClothRestDisplacement": 0.022209847067640346,
+      "cuffContactScope": "Actual arm-skin/shirt triangle-intersection segments in nine explicit native poses, including hidden upper attachment; not a continuous or exposed-surface guarantee.",
+      "cuffContacts": {
+        "before": [
+          {
+            "clip": "idle",
+            "frame": 1,
+            "crossingTrianglePairs": 701,
+            "intersectionLength": 0.7555531908827273
+          },
+          {
+            "clip": "idle",
+            "frame": 49,
+            "crossingTrianglePairs": 701,
+            "intersectionLength": 0.7555531908827273
+          },
+          {
+            "clip": "idle",
+            "frame": 97,
+            "crossingTrianglePairs": 701,
+            "intersectionLength": 0.7555531908827273
+          },
+          {
+            "clip": "lounge",
+            "frame": 1,
+            "crossingTrianglePairs": 1060,
+            "intersectionLength": 1.1699415803116344
+          },
+          {
+            "clip": "lounge",
+            "frame": 49,
+            "crossingTrianglePairs": 1060,
+            "intersectionLength": 1.1699415803116344
+          },
+          {
+            "clip": "lounge",
+            "frame": 97,
+            "crossingTrianglePairs": 1060,
+            "intersectionLength": 1.1699415803116344
+          },
+          {
+            "clip": "drink",
+            "frame": 1,
+            "crossingTrianglePairs": 1108,
+            "intersectionLength": 1.204291809890674
+          },
+          {
+            "clip": "drink",
+            "frame": 49,
+            "crossingTrianglePairs": 1389,
+            "intersectionLength": 1.5775543071664038
+          },
+          {
+            "clip": "drink",
+            "frame": 97,
+            "crossingTrianglePairs": 1108,
+            "intersectionLength": 1.204291809890674
+          }
+        ],
+        "after": [
+          {
+            "clip": "idle",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "idle",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "idle",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "lounge",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 1,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 49,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          },
+          {
+            "clip": "drink",
+            "frame": 97,
+            "crossingTrianglePairs": 0,
+            "intersectionLength": 0
+          }
+        ]
+      }
+    }
+  }
+}

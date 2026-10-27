@@ -6,7 +6,7 @@
   "extensionMargin": 0.02,
   "avatars": {
     "lizard": {
-      "sourceGlbSha256": "8c0e6a54e936000cd647c0b54d9ab93e6a2f7a4d5ba567853878409850689f47",
+      "sourceGlbSha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d",
       "root": [-7.437989488244057, 1.5366647988557816, 6.970009930431843],
       "sides": {
         "L": {
@@ -46,7 +46,7 @@
       }
     },
     "south-park": {
-      "sourceGlbSha256": "8a94d3f20fbd8fa52520b4035b01f736a72a6fd013fc6583d839f8b7f8ee3324",
+      "sourceGlbSha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
       "root": [-7.354210048514584, 1.5031086044914128, 6.972980955463898],
       "sides": {
         "L": {
@@ -86,7 +86,7 @@
       }
     },
     "simpsons": {
-      "sourceGlbSha256": "6214fae6762b2257cd3060ac64f7eb4b662a1bb672e663385f676d9f132634f4",
+      "sourceGlbSha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
       "root": [-7.354221006048865, 1.5030849105483906, 6.970011601838685],
       "sides": {
         "L": {
@@ -126,7 +126,7 @@
       }
     },
     "ghibli": {
-      "sourceGlbSha256": "47167029b02671063a509aa9f1c0bd36a7ea1b18ac37a5884a9365377615c7ce",
+      "sourceGlbSha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
       "root": [-7.354221006048865, 1.5030849105483906, 6.970011601838685],
       "sides": {
         "L": {
@@ -166,7 +166,7 @@
       }
     },
     "rick-and-morty": {
-      "sourceGlbSha256": "06d8f41e0740929fef63a90e71a2bca8976ac2adb7c54bb69992eedc58a88e91",
+      "sourceGlbSha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
       "root": [-7.354210771354426, 1.5031135949806225, 6.973008500199582],
       "sides": {
         "L": {

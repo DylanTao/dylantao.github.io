@@ -1,0 +1,125 @@
+{
+  "scope": "Sleeve-only worker checkpoint. Static-light-cache binding is deliberately recorded as failing until coordinator rebake; no push, CI, production-build or deployed acceptance is claimed here.",
+  "sourceTextHashMethod": "SHA-256 of source text with CRLF normalized to LF, matching repository blobs",
+  "sourceFiles": [
+    {
+      "file": "bin/coastal_character_finish.py",
+      "sha256": "565308298b5d92c4e8ad65afd52bd72656f1350eaaa675a1094b9b87f45f13df"
+    },
+    {
+      "file": "bin/build_coastal_character_finish.py",
+      "sha256": "1a0002aeb66a0b348b699b1739214d51c50db791b2f38b7dfc4bc744585764e5"
+    },
+    {
+      "file": "bin/build_coastal_character_library.py",
+      "sha256": "a83ccc10e5af850cd6a19a602f8e190e996ac378db93899afef31f3da6dd64c6"
+    },
+    {
+      "file": "bin/audit_coastal_character_finish.py",
+      "sha256": "601f65eb87474d332d9bb5752f6f160684cf30a01af2478af5f5cf004b0863e5"
+    },
+    {
+      "file": "bin/verify_coastal_character_finish.mjs",
+      "sha256": "22c51b69a3e35527cbda5d95258e4b360b7c7387ca9a1a84fc66d93cc88ef6d1"
+    },
+    {
+      "file": "bin/capture_coastal_character_finish.cjs",
+      "sha256": "c34ea7af1f7e572d6649c69a706226a49807b5bbad2e4922c6266ba2ccfc3a93"
+    },
+    {
+      "file": "bin/measure_coastal_character_contacts.py",
+      "sha256": "0f4a87a31eaff280d85738b93ecf2093646619c79cbff83d65d68b4dabcce7b3"
+    },
+    {
+      "file": "bin/measure_coastal_character_contacts.mjs",
+      "sha256": "bb433571cbec0d03b23feb482d646acc1ea24e53f474342a500c7a6ff5f600e5"
+    },
+    {
+      "file": "test/character-contacts.test.mjs",
+      "sha256": "78a317036db8ef6069f52fab45e492c5653c7eb4ca2ddc273693df945a706e6c"
+    },
+    {
+      "file": "assets/models/home/character-contacts.json",
+      "sha256": "e8f56cecdc25f2817eb77ee60befbab215cd675099ee5db5858f4f5c8aaf5582"
+    }
+  ],
+  "masterSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+  "logs": [
+    {
+      "file": "sleeves-native-audit.log",
+      "sha256": "c62c4e178f78bdbedca3817d042d256b1cfaf05a1908988be4cdab4da9e38cd1",
+      "signals": [
+        "CUFF-CONTACTS lizard 26.040920167074034 0.963341651392511",
+        "CUFF-CONTACTS south-park 16.451511342079506 0",
+        "CUFF-CONTACTS simpsons 11.938666242759558 0",
+        "CUFF-CONTACTS ghibli 11.883153695840758 0",
+        "CUFF-CONTACTS rick-and-morty 9.762622240530838 0"
+      ]
+    },
+    {
+      "file": "sleeves-decoded-audit.log",
+      "sha256": "f8c69cec2f9fb97ca6f2e1bf954af1e5e02bef13e8340e4c1503f4433d4c69d0",
+      "signals": [
+        "DECODED-CHARACTER-AUDIT lizard 0 0",
+        "DECODED-CHARACTER-AUDIT south-park 0 0",
+        "DECODED-CHARACTER-AUDIT simpsons 0 0",
+        "DECODED-CHARACTER-AUDIT ghibli 0 0",
+        "DECODED-CHARACTER-AUDIT rick-and-morty 0 0"
+      ]
+    },
+    {
+      "file": "sleeves-native-seat-contacts.log",
+      "sha256": "5a4b71aecd5391413b94e8d6a04981a7de388494a08e4c163912b3d946c42c06",
+      "signals": []
+    },
+    {
+      "file": "sleeves-decoded-seat-contacts.log",
+      "sha256": "ec8d4dbce6d3d5f85826af2405adb706376a62098e86d8e903387237bdcced36",
+      "signals": []
+    },
+    {
+      "file": "sleeves-viewport-check.log",
+      "sha256": "e7b0211acedfdf75090549082b3f15faa02c36190e1e37d6493bc66159bac27a",
+      "signals": ["  12 passed (3.5m)"]
+    },
+    {
+      "file": "sleeves-webkit-check.log",
+      "sha256": "b643f6d20151e919477087b79efdeec520a3af5fb3d1e392c7a79a646bd00257",
+      "signals": ["  1 passed (1.1m)"]
+    },
+    {
+      "file": "sleeves-node-all.log",
+      "sha256": "ab84930387b70b2e4905ad9e30f9824e8fe53c5cf64964c9f1e40a2c7e91e082",
+      "signals": [
+        "\u2139 {\"avatar\":\"rick-and-morty\",\"samples\":600,\"measuredContacts\":314,\"maximumSpeed\":0.12979358479920403,\"horizontalSweep\":0.18000045198130596}",
+        "\u2139 {\"hz\":30,\"surfaceRange\":0.0029968420794126704,\"rmsVersus144\":0.00000634066847984343,\"massError\":5.62619328869925e-15}",
+        "\u2139 {\"hz\":60,\"surfaceRange\":0.0030034721909460715,\"rmsVersus144\":0.000007243328806482062,\"massError\":4.850166628189008e-15}",
+        "\u2139 {\"hz\":144,\"surfaceRange\":0.0029779482770352916,\"rmsVersus144\":0,\"massError\":4.656159963061448e-15}",
+        "\u2139 tests 830",
+        "\u2139 suites 0",
+        "\u2139 pass 822",
+        "\u2139 fail 1",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 7",
+        "\u2139 todo 0",
+        "\u2139 duration_ms 41672.2893"
+      ]
+    },
+    {
+      "file": "sleeves-python-all.log",
+      "sha256": "7c184c902fe28fbac8d1caed56c660c0813985abf882029f00e3453712e81455",
+      "signals": ["Ran 314 tests in 40.254s", "OK"]
+    },
+    {
+      "file": "sleeves-source-gates.log",
+      "sha256": "c9be8c35b13e5acca0c46d0d18d03cc50231e2b647bc3f521c0a246aeffe0737",
+      "signals": ["All matched files use Prettier code style!", "Starter style contract check passed."]
+    }
+  ],
+  "rawReceiptHashes": {
+    "sleeves-native-audit.json": "fe75ffaf48f385ab0e9c55f9e90258f79674a8577ef6dcaf7cda993c53b7cda1",
+    "sleeves-decoded-audit.json": "acc6f6e3e6ea83ef179ee8047a16cb427c524f31fc0f62ae890e780a05a06c9b",
+    "sleeves-final-4k/receipt.json": "af7a84fc896f1b253be21c307809416a9722df1706fda55b75de0458dc644ebb"
+  },
+  "tailIncluded": false
+}

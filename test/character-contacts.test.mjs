@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { createHash } from "node:crypto";
 import { measureSeatPatch, PROXIMAL_HIP_TO_KNEE, SAMPLE_COUNT, STYLES } from "../bin/measure_coastal_character_contacts.mjs";
 import { fitSeatedRoot } from "../assets/js/home-scene/character-contacts.mjs";
 
@@ -19,6 +20,13 @@ test("seat offsets follow the actual decoded proximal patch across each complete
     const actual = await measureSeatPatch(style),
       saved = asset.avatars[style].lounge;
     assert.equal(actual.sourceGlbSha256, saved.sourceGlbSha256, `${style}: contacts bind the actual delivered model`);
+    assert.equal(
+      createHash("sha256")
+        .update(fs.readFileSync(new URL("../" + saved.nativeSourceFile, import.meta.url)))
+        .digest("hex"),
+      saved.nativeSourceSha256,
+      `${style}: native witnesses bind the actual editable source`
+    );
     assert.equal(actual.decodedDurationSeconds, saved.decodedDurationSeconds);
     assert.equal(actual.sampledSeconds.length, SAMPLE_COUNT);
     assert.equal(actual.sampledSeconds[0], 0);
