@@ -1,0 +1,106 @@
+{
+  "scope": "Read-only source-bound contact interface for the current five published rigs; later character exports require regeneration. No mattress placement, continuous collision, CI or live acceptance is claimed.",
+  "sourceFiles": [
+    {
+      "file": "bin/measure_coastal_character_contacts.py",
+      "sha256": "faf422ba23dee47098ba65e6091b57702e50a462477fd4243feb1a5a47b942ff"
+    },
+    {
+      "file": "bin/measure_coastal_character_contacts.mjs",
+      "sha256": "4e942e8ec83008e285f37a5a954dcf3f5beae7e4c216dd541fae2844f7a4af96"
+    },
+    {
+      "file": "test/character-contacts.test.mjs",
+      "sha256": "f17681f10ed184a13a970b40dd16f7cac85f79462acb90be6f8a1a1d029d56e2"
+    },
+    {
+      "file": "assets/models/home/character-contacts.json",
+      "sha256": "af8ad3b7a82593a5dbadaa9f004995ba8b10e89deb5a092c432074f24ae55376"
+    },
+    {
+      "file": "assets/js/home-scene/character-contacts.mjs",
+      "sha256": "138dd34f926a8b84faa8aff72f06059774ebb369c80b23ff17bbbbf4363b8f83"
+    }
+  ],
+  "rawReceipts": [
+    {
+      "file": "native-seat-contacts.json",
+      "sha256": "bd8bb877ebb83ee4941a091829d05718d4c1e3ac4d06dd12a3cd0eb6e8399fe4"
+    },
+    {
+      "file": "decoded-seat-contacts.json",
+      "sha256": "8adc318e89bdadffd7b52b2ed215af07765c682836bc77c3db486184c03b9279"
+    }
+  ],
+  "nativeSourceBytesPreserved": true,
+  "nativeSourceHashReadback": [
+    {
+      "style": "lizard",
+      "sourceFile": "artwork/coastal-home/sirui-lizard.blend",
+      "receiptSha256": "8923262178ca419d9cde9e6da61f581c32e8c3c5b0d511c88ec4b1abad76316e",
+      "readbackSha256": "8923262178ca419d9cde9e6da61f581c32e8c3c5b0d511c88ec4b1abad76316e"
+    },
+    {
+      "style": "south-park",
+      "sourceFile": "artwork/coastal-home/sirui-south-park.blend",
+      "receiptSha256": "ec4f99de7c46dc7d0f1f4d95342a2b9a9c8755cd5a4b0fe38b6054fff46a8d41",
+      "readbackSha256": "ec4f99de7c46dc7d0f1f4d95342a2b9a9c8755cd5a4b0fe38b6054fff46a8d41"
+    },
+    {
+      "style": "simpsons",
+      "sourceFile": "artwork/coastal-home/sirui-simpsons.blend",
+      "receiptSha256": "5b19bc1da5824908213ad4bb7e997989449d854db37c268f2c504418e03ad8e5",
+      "readbackSha256": "5b19bc1da5824908213ad4bb7e997989449d854db37c268f2c504418e03ad8e5"
+    },
+    {
+      "style": "ghibli",
+      "sourceFile": "artwork/coastal-home/sirui-ghibli.blend",
+      "receiptSha256": "19e1591587386f4b645ffe2bdbb69acaf4cf33ff6dd571ad8ac8c67f3612c773",
+      "readbackSha256": "19e1591587386f4b645ffe2bdbb69acaf4cf33ff6dd571ad8ac8c67f3612c773"
+    },
+    {
+      "style": "rick-and-morty",
+      "sourceFile": "artwork/coastal-home/sirui-rick-and-morty.blend",
+      "receiptSha256": "a8b120732a5fc0bb99391bc29ce176783d55376b1eef207813237f9b9b261846",
+      "readbackSha256": "a8b120732a5fc0bb99391bc29ce176783d55376b1eef207813237f9b9b261846"
+    }
+  ],
+  "logs": [
+    {
+      "file": "native-seat-measure-final.log",
+      "sha256": "7fbf47ba6498b5f5a976fcede97d20cc137ddcf77894b9d714b146a4bca9d08c",
+      "signals": []
+    },
+    {
+      "file": "decoded-seat-measure-final.log",
+      "sha256": "1327407c6351d21e0ff2722f2ff6be1e7a8dbd0c6633dfb8e49218245e76f0f0",
+      "signals": []
+    },
+    {
+      "file": "seat-unit.log",
+      "sha256": "cce39cf52140074bc5e853efeca2a503b0967bc4015ee6f700c19b06645efc18",
+      "signals": ["\u2139 tests 2", "\u2139 pass 2", "\u2139 fail 0", "\u2139 skipped 0"]
+    },
+    {
+      "file": "seat-node-all.log",
+      "sha256": "e4b5059ce639307655bcdceaa1ce5edf097e27888338eb5536e5543f7f5b74d1",
+      "signals": [
+        "\u2714 without anchors nothing is fetched, and missing pieces on either side are skipped (52.625ms)",
+        "\u2139 tests 830",
+        "\u2139 pass 823",
+        "\u2139 fail 0",
+        "\u2139 skipped 7"
+      ]
+    },
+    {
+      "file": "seat-python-all.log",
+      "sha256": "58306260f922a60693aa04a5df0ba0b06c01b320c740d5d8ec23f7e69ee971b4",
+      "signals": ["Ran 314 tests in 52.873s", "OK"]
+    },
+    {
+      "file": "seat-source-gates.log",
+      "sha256": "9e989d1546129dda71fd1d273cc588c8ce9db27e890ac5045b1c933699c548ec",
+      "signals": ["Starter style contract check passed."]
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "source": "House retained v44 before-massing-manifest.json; source-bound historical target control, not final geometry acceptance",
+  "sourceManifestSha256": "fae171caf163f0657a7320a289f4e3964d62aa417f3f854cdd822c10cf2b0505",
+  "bedTransfer": {
+    "lyingActor": [-6.8, 1.5, 6.97],
+    "seat": {
+      "position": [-7.425000190734863, 2.0399999618530273, 6.96999979019165],
+      "nativeSupport": "sleep__linen",
+      "nativePolygon": 95,
+      "normal": [0.0, 1.0, -0.0],
+      "facing": -1.5707963267948966,
+      "clip": "lounge"
+    },
+    "feet": {
+      "L": {
+        "position": [-8.029999732971191, 1.5, 6.829999923706055],
+        "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+        "nativePolygon": 60,
+        "normal": [0.0, 1.0, -0.0]
+      },
+      "R": {
+        "position": [-8.029999732971191, 1.5, 7.110000133514404],
+        "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+        "nativePolygon": 60,
+        "normal": [0.0, 1.0, -0.0]
+      }
+    },
+    "standingActor": [-8.03, 1.5, 6.97],
+    "supportSurfaces": [
+      {
+        "id": "bedside-floor-60",
+        "height": 1.5,
+        "polygon": [
+          [-8.009000778198242, 7.42],
+          [-8.009000778198242, 6.52],
+          [-8.174369818234199, 6.52],
+          [-8.178236961364746, 6.528534889221191],
+          [-8.209999999999999, 6.587959679174077],
+          [-8.209999999999999, 7.42]
+        ],
+        "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+        "nativePolygon": 60
+      },
+      {
+        "id": "bedside-floor-86",
+        "height": 1.5,
+        "polygon": [
+          [-8.003000259399414, 6.52],
+          [-8.003000259399414, 7.42],
+          [-7.85, 7.42],
+          [-7.85, 6.52]
+        ],
+        "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+        "nativePolygon": 86
+      }
+    ],
+    "nominalSeatedRoot": [-7.425000190734863, 1.5249999618530272, 6.96999979019165],
+    "nominalRootRoute": [
+      [-6.8, 1.5, 6.97],
+      [-7.425000190734863, 1.5249999618530272, 6.96999979019165],
+      [-8.03, 1.5, 6.97],
+      [-8.33208798397888, 1.5, 6.370860527481753],
+      [-8.536159699810856, 1.5, 6.093978858398437],
+      [-8.536159699810856, 1.35, 5.906021141601562],
+      [-8.584806736591874, 1.2, 5.724467928697136],
+      [-8.67878559499031, 1.05, 5.561691771113721],
+      [-8.811691771113722, 0.9, 5.428785594990311],
+      [-8.974467928697136, 0.75, 5.334806736591874],
+      [-9.156021141601563, 0.6, 5.286159699810856],
+      [-9.343978858398437, 0.45, 5.286159699810857],
+      [-9.525532071302866, 0.3, 5.334806736591874],
+      [-9.68830822888628, 0.15, 5.428785594990311],
+      [-10.041389857711337, 0, 4.968640657621394],
+      [-10.1, 0, 4.85],
+      [-10.76, 0.0, 4.85]
+    ],
+    "nominalRootRouteMetres": 5.801648277443279,
+    "referenceSeatOffset": 0.515,
+    "referenceScope": "The0.515m authored lounge seat offset is a reference; each delivered skin must be fit to this actual mattress and floor. Full pose-root journey, actual contact and decoded triangles remain verification gates."
+  }
+}

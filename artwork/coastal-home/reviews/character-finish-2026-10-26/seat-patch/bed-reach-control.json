@@ -1,0 +1,209 @@
+{
+  "scope": "Actual decoded neutral foot orientation. Sole centers use complete <=1mm lower-envelope witness extents. Kinematic reach only; house must survey whole-foot floor and bed-frame clearance. No rig/geometry/IK is changed.",
+  "sourceBedManifestSha256": "fae171caf163f0657a7320a289f4e3964d62aa417f3f854cdd822c10cf2b0505",
+  "seat": [-7.425000190734863, 2.0399999618530273, 6.96999979019165],
+  "facing": -1.5707963267948966,
+  "extensionMargin": 0.02,
+  "avatars": {
+    "lizard": {
+      "sourceGlbSha256": "8c0e6a54e936000cd647c0b54d9ab93e6a2f7a4d5ba567853878409850689f47",
+      "root": [-7.437989488244057, 1.5366647988557816, 6.970009930431843],
+      "sides": {
+        "L": {
+          "hipWorld": [-7.437989488244057, 2.1866648197174072, 6.860009931027889],
+          "neutralKneeWorld": [-7.85798729121624, 2.1880103476506365, 6.860009995302984],
+          "neutralAnkleWorld": [-7.865286695112901, 1.8230832559519672, 6.860010021500672],
+          "soleToAnkleWorld": [0.10255733166827169, 0.06752981164478891, -0.0009028337239180902],
+          "requestedSoleCenter": [-8.029999732971191, 1.5, 6.829999923706055],
+          "requestedAnkleTarget": [-7.92744240130292, 1.5675298116447889, 6.829097089982136],
+          "upperLength": 0.4199999582700985,
+          "lowerLength": 0.3650000870587516,
+          "maximumLength": 0.7850000453288501,
+          "requestedDistance": 0.7898404370911939,
+          "requestedReachSlack": -0.004840391762343743,
+          "soleCenterXIntervalWith2cmExtensionMargin": [-7.988811593668355, -7.092282046156302],
+          "preferredSoleCenterX": -7.967844026781172,
+          "preferredScope": "Authored neutral horizontal sole projection, clamped to kinematic interval; not an approved floor point",
+          "preferredReachSlack": 0.03209456323928739
+        },
+        "R": {
+          "hipWorld": [-7.437989488244057, 2.1866648197174072, 7.080009929835796],
+          "neutralKneeWorld": [-7.857987291278198, 2.1880103283113024, 7.080009994110893],
+          "neutralAnkleWorld": [-7.865286654979492, 1.8230832358086315, 7.080010027759158],
+          "soleToAnkleWorld": [0.1025573317984661, 0.06752981015668952, -0.0008897356032285593],
+          "requestedSoleCenter": [-8.029999732971191, 1.5, 7.110000133514404],
+          "requestedAnkleTarget": [-7.927442401172725, 1.5675298101566895, 7.109110397911175],
+          "upperLength": 0.41999995827009934,
+          "lowerLength": 0.3650000870587537,
+          "maximumLength": 0.785000045328853,
+          "requestedDistance": 0.7897715817122791,
+          "requestedReachSlack": -0.004771536383426089,
+          "soleCenterXIntervalWith2cmExtensionMargin": [-7.988932894812013, -7.092160745273032],
+          "preferredSoleCenterX": -7.967843986777958,
+          "preferredScope": "Authored neutral horizontal sole projection, clamped to kinematic interval; not an approved floor point",
+          "preferredReachSlack": 0.03216681943742972
+        }
+      }
+    },
+    "south-park": {
+      "sourceGlbSha256": "8a94d3f20fbd8fa52520b4035b01f736a72a6fd013fc6583d839f8b7f8ee3324",
+      "root": [-7.354210048514584, 1.5031086044914128, 6.972980955463898],
+      "sides": {
+        "L": {
+          "hipWorld": [-7.354210048514584, 2.1531086253530383, 6.862980956059944],
+          "neutralKneeWorld": [-7.774207851486767, 2.1544541532862675, 6.862981020335039],
+          "neutralAnkleWorld": [-7.781507255383426, 1.7895270615875982, 6.862981046532703],
+          "soleToAnkleWorld": [0.006101275225279756, 0.06599155982163257, 4.82342681404309e-6],
+          "requestedSoleCenter": [-8.029999732971191, 1.5, 6.829999923706055],
+          "requestedAnkleTarget": [-8.023898457745911, 1.5659915598216325, 6.830004747132869],
+          "upperLength": 0.4199999582700985,
+          "lowerLength": 0.36500008705875164,
+          "maximumLength": 0.7850000453288501,
+          "requestedDistance": 0.89122188283962,
+          "requestedReachSlack": -0.10622183751076986,
+          "soleCenterXIntervalWith2cmExtensionMargin": [-7.849628389005047, -6.87099425847468],
+          "preferredSoleCenterX": -7.787608530608706,
+          "preferredScope": "Authored neutral horizontal sole projection, clamped to kinematic interval; not an approved floor point",
+          "preferredReachSlack": 0.05810474200702698
+        },
+        "R": {
+          "hipWorld": [-7.354210048514584, 2.1531086253530383, 7.0829809548678515],
+          "neutralKneeWorld": [-7.7742078515487245, 2.154454133946934, 7.082981019142948],
+          "neutralAnkleWorld": [-7.781507215250023, 1.7895270414442628, 7.0829810527911885],
+          "soleToAnkleWorld": [0.006101275353481539, 0.06599155833773285, -4.847426800625261e-6],
+          "requestedSoleCenter": [-8.029999732971191, 1.5, 7.110000133514404],
+          "requestedAnkleTarget": [-8.02389845761771, 1.5659915583377328, 7.109995286087604],
+          "upperLength": 0.41999995827009934,
+          "lowerLength": 0.3650000870587537,
+          "maximumLength": 0.785000045328853,
+          "requestedDistance": 0.8910212061219315,
+          "requestedReachSlack": -0.10602116079307844,
+          "soleCenterXIntervalWith2cmExtensionMargin": [-7.849993715711229, -6.870628932024901],
+          "preferredSoleCenterX": -7.787608490603504,
+          "preferredScope": "Authored neutral horizontal sole projection, clamped to kinematic interval; not an approved floor point",
+          "preferredReachSlack": 0.058350822407615244
+        }
+      }
+    },
+    "simpsons": {
+      "sourceGlbSha256": "6214fae6762b2257cd3060ac64f7eb4b662a1bb672e663385f676d9f132634f4",
+      "root": [-7.354221006048865, 1.5030849105483906, 6.970011601838685],
+      "sides": {
+        "L": {
+          "hipWorld": [-7.354221006048865, 2.1530849314100164, 6.8600116024347315],
+          "neutralKneeWorld": [-7.774218809021049, 2.1544304593432453, 6.860011666709826],
+          "neutralAnkleWorld": [-7.781518212917708, 1.789503367644576, 6.860011692907488],
+          "soleToAnkleWorld": [0.006095750696719915, 0.06599403728728331, -2.0199313644085183e-6],
+          "requestedSoleCenter": [-8.029999732971191, 1.5, 6.829999923706055],
+          "requestedAnkleTarget": [-8.023903982274472, 1.5659940372872834, 6.82999790377469],
+          "upperLength": 0.4199999582700985,
+          "lowerLength": 0.36500008705875164,
+          "maximumLength": 0.7850000453288501,
+          "requestedDistance": 0.891095858320233,
+          "requestedReachSlack": -0.10609581299138282,
+          "soleCenterXIntervalWith2cmExtensionMargin": [-7.8498558555763704, -6.8707776579148],
+          "preferredSoleCenterX": -7.787613963614428,
+          "preferredScope": "Authored neutral horizontal sole projection, clamped to kinematic interval; not an approved floor point",
+          "preferredReachSlack": 0.058254255477267924
+        },
+        "R": {
+          "hipWorld": [-7.354221006048865, 2.1530849314100164, 7.080011601242639],
+          "neutralKneeWorld": [-7.774218809083006, 2.154430440003911, 7.080011665517735],
+          "neutralAnkleWorld": [-7.781518172784304, 1.7895033475012405, 7.080011699165974],
+          "soleToAnkleWorld": [0.006095750826123403, 0.06599403580354063, 2.0220086095614364e-6],
+          "requestedSoleCenter": [-8.029999732971191, 1.5, 7.110000133514404],
+          "requestedAnkleTarget": [-8.023903982145068, 1.5659940358035407, 7.110002155523014],
+          "upperLength": 0.41999995827009934,
+          "lowerLength": 0.3650000870587537,
+          "maximumLength": 0.785000045328853,
+          "requestedDistance": 0.8910950799567493,
+          "requestedReachSlack": -0.10609503462789627,
+          "soleCenterXIntervalWith2cmExtensionMargin": [-7.849857272361796, -6.870776241388181],
+          "preferredSoleCenterX": -7.787613923610428,
+          "preferredScope": "Authored neutral horizontal sole projection, clamped to kinematic interval; not an approved floor point",
+          "preferredReachSlack": 0.05825523334173499
+        }
+      }
+    },
+    "ghibli": {
+      "sourceGlbSha256": "47167029b02671063a509aa9f1c0bd36a7ea1b18ac37a5884a9365377615c7ce",
+      "root": [-7.354221006048865, 1.5030849105483906, 6.970011601838685],
+      "sides": {
+        "L": {
+          "hipWorld": [-7.354221006048865, 2.1530849314100164, 6.8600116024347315],
+          "neutralKneeWorld": [-7.774218809021049, 2.1544304593432453, 6.860011666709826],
+          "neutralAnkleWorld": [-7.7815182129177085, 1.789503367644576, 6.860011692907495],
+          "soleToAnkleWorld": [0.006095750696719859, 0.06599403728728098, -2.019931365921197e-6],
+          "requestedSoleCenter": [-8.029999732971191, 1.5, 6.829999923706055],
+          "requestedAnkleTarget": [-8.023903982274472, 1.565994037287281, 6.8299979037746885],
+          "upperLength": 0.4199999582700985,
+          "lowerLength": 0.36500008705875164,
+          "maximumLength": 0.7850000453288501,
+          "requestedDistance": 0.8910958583202346,
+          "requestedReachSlack": -0.10609581299138449,
+          "soleCenterXIntervalWith2cmExtensionMargin": [-7.849855855576367, -6.870777657914804],
+          "preferredSoleCenterX": -7.787613963614428,
+          "preferredScope": "Authored neutral horizontal sole projection, clamped to kinematic interval; not an approved floor point",
+          "preferredReachSlack": 0.058254255477265815
+        },
+        "R": {
+          "hipWorld": [-7.354221006048865, 2.1530849314100164, 7.080011601242639],
+          "neutralKneeWorld": [-7.774218809083006, 2.154430440003911, 7.080011665517735],
+          "neutralAnkleWorld": [-7.781518172784304, 1.7895033475012405, 7.080011699165981],
+          "soleToAnkleWorld": [0.006095750826123458, 0.06599403580354302, 2.0220086080348797e-6],
+          "requestedSoleCenter": [-8.029999732971191, 1.5, 7.110000133514404],
+          "requestedAnkleTarget": [-8.023903982145068, 1.5659940358035431, 7.110002155523012],
+          "upperLength": 0.41999995827009934,
+          "lowerLength": 0.3650000870587537,
+          "maximumLength": 0.785000045328853,
+          "requestedDistance": 0.8910950799567476,
+          "requestedReachSlack": -0.1060950346278946,
+          "soleCenterXIntervalWith2cmExtensionMargin": [-7.849857272361799, -6.870776241388178],
+          "preferredSoleCenterX": -7.787613923610428,
+          "preferredScope": "Authored neutral horizontal sole projection, clamped to kinematic interval; not an approved floor point",
+          "preferredReachSlack": 0.0582552333417371
+        }
+      }
+    },
+    "rick-and-morty": {
+      "sourceGlbSha256": "06d8f41e0740929fef63a90e71a2bca8976ac2adb7c54bb69992eedc58a88e91",
+      "root": [-7.354210771354426, 1.5031135949806225, 6.973008500199582],
+      "sides": {
+        "L": {
+          "hipWorld": [-7.354210771354426, 2.153113615842248, 6.863008500795629],
+          "neutralKneeWorld": [-7.774208574326609, 2.1544591437754774, 6.863008565070723],
+          "neutralAnkleWorld": [-7.781507978223268, 1.789532052076808, 6.863008591268385],
+          "soleToAnkleWorld": [0.006095750696719915, 0.06599403728728331, -2.0199313644085183e-6],
+          "requestedSoleCenter": [-8.029999732971191, 1.5, 6.829999923706055],
+          "requestedAnkleTarget": [-8.023903982274472, 1.5659940372872834, 6.82999790377469],
+          "upperLength": 0.4199999582700985,
+          "lowerLength": 0.36500008705875164,
+          "maximumLength": 0.7850000453288501,
+          "requestedDistance": 0.8912284195371241,
+          "requestedReachSlack": -0.10622837420827391,
+          "soleCenterXIntervalWith2cmExtensionMargin": [-7.849618253276654, -6.8709947908256375],
+          "preferredSoleCenterX": -7.787603728919988,
+          "preferredScope": "Authored neutral horizontal sole projection, clamped to kinematic interval; not an approved floor point",
+          "preferredReachSlack": 0.05810115137168337
+        },
+        "R": {
+          "hipWorld": [-7.354210771354426, 2.153113615842248, 7.083008499603536],
+          "neutralKneeWorld": [-7.774208574388567, 2.1544591244361433, 7.083008563878632],
+          "neutralAnkleWorld": [-7.781507938089865, 1.7895320319334727, 7.083008597526871],
+          "soleToAnkleWorld": [0.006095750826123403, 0.06599403580354063, 2.0220086095614364e-6],
+          "requestedSoleCenter": [-8.029999732971191, 1.5, 7.110000133514404],
+          "requestedAnkleTarget": [-8.023903982145068, 1.5659940358035407, 7.110002155523014],
+          "upperLength": 0.41999995827009934,
+          "lowerLength": 0.3650000870587537,
+          "maximumLength": 0.785000045328853,
+          "requestedDistance": 0.8910258443523438,
+          "requestedReachSlack": -0.10602579902349074,
+          "soleCenterXIntervalWith2cmExtensionMargin": [-7.8499870411196015, -6.8706260032414965],
+          "preferredSoleCenterX": -7.787603688915988,
+          "preferredScope": "Authored neutral horizontal sole projection, clamped to kinematic interval; not an approved floor point",
+          "preferredReachSlack": 0.05834956027784799
+        }
+      }
+    }
+  }
+}

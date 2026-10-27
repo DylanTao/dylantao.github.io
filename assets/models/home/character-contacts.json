@@ -1,0 +1,1031 @@
+{
+  "version": 1,
+  "units": "metres",
+  "frame": "Avatar GLTF scene at identity; +Y up, +Z forward. Witness XZ offsets are relative to the avatar root, not the seat anchor.",
+  "method": "Lower exterior of Hips and proximal-Thigh trouser/short vertices. Proximal is <=0.45 along the actual bind-pose hip-to-knee segment. Tail, distal thigh and knee are excluded. Each actual decoded lounge duration is sampled 13 times; no continuous guarantee.",
+  "compression": 0,
+  "placement": "rootY = actualSeatTopY - seatOffsetY. Any soft compression is a later explicit bounded choice. Use witness XZ offsets against the actual support polygon.",
+  "avatars": {
+    "lizard": {
+      "lounge": {
+        "sourceGlbSha256": "8c0e6a54e936000cd647c0b54d9ab93e6a2f7a4d5ba567853878409850689f47",
+        "clip": "lounge",
+        "decodedDurationSeconds": 4.041666507720947,
+        "sampledSeconds": [
+          0, 0.3368055423100789, 0.6736110846201578, 1.0104166269302368, 1.3472221692403157, 1.6840277115503948, 2.0208332538604736,
+          2.3576387961705527, 2.6944443384806314, 3.0312498807907104, 3.3680554231007895, 3.704860965410868, 4.041666507720947
+        ],
+        "patchVertices": 192,
+        "selectedThighFractionRange": [-0.02708066354168027, 0.44441128344424086],
+        "minYRange": [0.5033351629972458, 0.5033351629972458],
+        "boneMinYRanges": {
+          "Hips": [0.5033351629972458, 0.5033351629972458],
+          "ThighL": [0.5256051082187501, 0.5256051082187501],
+          "ThighR": [0.525605108219765, 0.525605108219765]
+        },
+        "seatOffsetY": 0.5033351629972458,
+        "contactCenterXZ": [-0.00001014024019241333, -0.01298929750919342],
+        "contactCenterMethod": "Midpoint of the complete lower-envelope witness XZ extents; not a vertex-density centroid or a seat-anchor assumption.",
+        "witnessBoundsXZ": [
+          [-0.1610061079263687, -0.11598964035511017],
+          [0.1609858274459839, 0.09001104533672333]
+        ],
+        "witnesses": [
+          {
+            "vertex": 3,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.0894458144903183, 0.5033351629972458, 0.07265061140060425]
+          },
+          {
+            "vertex": 8,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.1338767409324646, 0.5033351629972458, 0.044226571917533875]
+          },
+          {
+            "vertex": 16,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.1338767409324646, 0.5033351629972458, -0.07023458927869797]
+          },
+          {
+            "vertex": 21,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.0894458144903183, 0.5033351629972458, -0.09862920641899109]
+          },
+          {
+            "vertex": 47,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.031400471925735474, 0.5033351629972458, 0.08801017701625824]
+          },
+          {
+            "vertex": 50,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.031420767307281494, 0.5033351629972458, 0.08801017701625824]
+          },
+          {
+            "vertex": 51,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.06161026656627655, 0.5033351629972458, 0.08215472102165222]
+          },
+          {
+            "vertex": 52,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.11383868753910065, 0.5033351629972458, 0.05982154607772827]
+          },
+          {
+            "vertex": 53,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.1487361043691635, 0.5033351629972458, 0.02642478048801422]
+          },
+          {
+            "vertex": 54,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.15791654586791992, 0.5033351629972458, 0.007092908024787903]
+          },
+          {
+            "vertex": 57,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.15791654586791992, 0.5033351629972458, -0.0331009179353714]
+          },
+          {
+            "vertex": 58,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.1487361043691635, 0.5033351629972458, -0.052403368055820465]
+          },
+          {
+            "vertex": 59,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.11383868753910065, 0.5033351629972458, -0.08582955598831177]
+          },
+          {
+            "vertex": 60,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.06161026656627655, 0.5033351629972458, -0.10816273093223572]
+          },
+          {
+            "vertex": 61,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.031420767307281494, 0.5033351629972458, -0.11401820182800293]
+          },
+          {
+            "vertex": 64,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.031400471925735474, 0.5033351629972458, -0.11401820182800293]
+          },
+          {
+            "vertex": 65,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.06161940097808838, 0.5033351629972458, -0.10816273093223572]
+          },
+          {
+            "vertex": 66,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.08945494890213013, 0.5033351629972458, -0.09862920641899109]
+          },
+          {
+            "vertex": 69,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.13385644555091858, 0.5033351629972458, -0.07023458927869797]
+          },
+          {
+            "vertex": 79,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.08945494890213013, 0.5033351629972458, 0.07265061140060425]
+          },
+          {
+            "vertex": 80,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.06161940097808838, 0.5033351629972458, 0.08215472102165222]
+          },
+          {
+            "vertex": 81,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.000004559755325317383, 0.5033351629972458, 0.09001104533672333]
+          },
+          {
+            "vertex": 82,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [-0.1610061079263687, 0.5033351629972458, -0.013004004955291748]
+          },
+          {
+            "vertex": 83,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.000004559755325317383, 0.5033351629972458, -0.11598964035511017]
+          },
+          {
+            "vertex": 84,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.11384782195091248, 0.5033351629972458, -0.08582955598831177]
+          },
+          {
+            "vertex": 85,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.14874523878097534, 0.5033351629972458, -0.052403368055820465]
+          },
+          {
+            "vertex": 86,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.1578962504863739, 0.5033351629972458, -0.0331009179353714]
+          },
+          {
+            "vertex": 91,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.13385644555091858, 0.5033351629972458, 0.044226571917533875]
+          },
+          {
+            "vertex": 92,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.11384782195091248, 0.5033351629972458, 0.05982154607772827]
+          },
+          {
+            "vertex": 93,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.1609858274459839, 0.5033351629972458, -0.013004004955291748]
+          },
+          {
+            "vertex": 94,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.1578962504863739, 0.5033351629972458, 0.007092908024787903]
+          },
+          {
+            "vertex": 95,
+            "mesh": "Sphere002_6",
+            "bone": "Hips",
+            "material": "charcoal shorts",
+            "hipToKneeFraction": null,
+            "point": [0.14874523878097534, 0.5033351629972458, 0.02642478048801422]
+          }
+        ],
+        "nativeSourceSha256": "8923262178ca419d9cde9e6da61f581c32e8c3c5b0d511c88ec4b1abad76316e",
+        "nativeSampling": {
+          "fps": 24,
+          "stripFrames": [1, 97],
+          "sampledFrames": [1, 9, 17, 25, 33, 41, 49, 57, 65, 73, 81, 89, 97],
+          "secondsFromStripStart": [
+            0, 0.3333333333333333, 0.6666666666666666, 1, 1.3333333333333333, 1.6666666666666667, 2, 2.3333333333333335, 2.6666666666666665, 3,
+            3.3333333333333335, 3.6666666666666665, 4
+          ]
+        },
+        "nativeMinYRange": [0.503333330154419, 0.503333330154419],
+        "nativeDecodedMaxYError": 0.0000018328428268432617,
+        "nativeDecodedWitnessMaxDistance": 0.00001565928468896031
+      }
+    },
+    "south-park": {
+      "lounge": {
+        "sourceGlbSha256": "8a94d3f20fbd8fa52520b4035b01f736a72a6fd013fc6583d839f8b7f8ee3324",
+        "clip": "lounge",
+        "decodedDurationSeconds": 4.041666507720947,
+        "sampledSeconds": [
+          0, 0.3368055423100789, 0.6736110846201578, 1.0104166269302368, 1.3472221692403157, 1.6840277115503948, 2.0208332538604736,
+          2.3576387961705527, 2.6944443384806314, 3.0312498807907104, 3.3680554231007895, 3.704860965410868, 4.041666507720947
+        ],
+        "patchVertices": 6284,
+        "selectedThighFractionRange": [0.07971157025614357, 0.44999964521041136],
+        "minYRange": [0.5368913573616145, 0.5368913573616145],
+        "boneMinYRanges": {
+          "ThighR": [0.5368913573616145, 0.5368913573616145],
+          "ThighL": [0.5370046426147608, 0.5370046426147608],
+          "Hips": [0.571793164783892, 0.571793164783892]
+        },
+        "seatOffsetY": 0.5368913573616145,
+        "contactCenterXZ": [-0.0029811652722472534, 0.07079014222027935],
+        "contactCenterMethod": "Midpoint of the complete lower-envelope witness XZ extents; not a vertex-density centroid or a seat-anchor assumption.",
+        "witnessBoundsXZ": [
+          [-0.034496115333969936, 0.04660309835967223],
+          [0.02853378478947543, 0.09497718608088646]
+        ],
+        "witnesses": [
+          {
+            "vertex": 4673,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20752508717180215,
+            "point": [0.0018109968595395724, 0.5368913573616145, 0.07716703330893379]
+          },
+          {
+            "vertex": 4877,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20696295854780336,
+            "point": [-0.006876275736884474, 0.5370046426147608, 0.07652649719040382]
+          },
+          {
+            "vertex": 4470,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.2024664972191595,
+            "point": [0.011678604413333155, 0.5370826073705949, 0.07153180398950107]
+          },
+          {
+            "vertex": 4876,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.18729072736123084,
+            "point": [-0.001257870306807009, 0.5371988040450637, 0.05496511302416607]
+          },
+          {
+            "vertex": 4262,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20370300989295317,
+            "point": [0.020271434361084594, 0.5374118617651733, 0.07288147264366301]
+          },
+          {
+            "vertex": 5092,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20932358655375816,
+            "point": [-0.016932726044174336, 0.5374624444678266, 0.07913081370728683]
+          },
+          {
+            "vertex": 4261,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1942603559532986,
+            "point": [0.023387519022000303, 0.5375864021339871, 0.06260077806648993]
+          },
+          {
+            "vertex": 4672,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.18234453475022136,
+            "point": [0.010073344589434161, 0.5377553823595791, 0.04968107499491477]
+          },
+          {
+            "vertex": 5305,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.19032588133281647,
+            "point": [-0.02273998056191869, 0.5378262190420378, 0.058305566479502274]
+          },
+          {
+            "vertex": 4469,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.18470516275617613,
+            "point": [0.01743863108068086, 0.53785337995335, 0.05226994165158805]
+          },
+          {
+            "vertex": 5306,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.2092111892121256,
+            "point": [-0.025006221218594766, 0.5379245200389098, 0.07903186497680349]
+          },
+          {
+            "vertex": 4048,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.2039278045762183,
+            "point": [0.02853378478947543, 0.538044174168922, 0.07318439299191037]
+          },
+          {
+            "vertex": 5091,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1794217781202677,
+            "point": [-0.011644830208916665, 0.5381600589063349, 0.04660309835967223]
+          },
+          {
+            "vertex": 4260,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.18863963737665768,
+            "point": [0.028392148155157865, 0.538235933222243, 0.05659295622768952]
+          },
+          {
+            "vertex": 5507,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.204489933200216,
+            "point": [-0.034496115333969936, 0.5387215054097121, 0.07389219987168061]
+          },
+          {
+            "vertex": 4878,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.2252862797189496,
+            "point": [-0.00508215884773328, 0.5387252530935243, 0.09497718608088646]
+          },
+          {
+            "vertex": 5304,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.18661620139560006,
+            "point": [-0.033032510267550136, 0.538857192153064, 0.054450116456900205]
+          }
+        ],
+        "nativeSourceSha256": "ec4f99de7c46dc7d0f1f4d95342a2b9a9c8755cd5a4b0fe38b6054fff46a8d41",
+        "nativeSampling": {
+          "fps": 24,
+          "stripFrames": [1, 97],
+          "sampledFrames": [1, 9, 17, 25, 33, 41, 49, 57, 65, 73, 81, 89, 97],
+          "secondsFromStripStart": [
+            0, 0.3333333333333333, 0.6666666666666666, 1, 1.3333333333333333, 1.6666666666666667, 2, 2.3333333333333335, 2.6666666666666665, 3,
+            3.3333333333333335, 3.6666666666666665, 4
+          ]
+        },
+        "nativeMinYRange": [0.5368908047676086, 0.5368908047676086],
+        "nativeDecodedMaxYError": 5.525940058870304e-7,
+        "nativeDecodedWitnessMaxDistance": 0.000036738325484733634
+      }
+    },
+    "simpsons": {
+      "lounge": {
+        "sourceGlbSha256": "6214fae6762b2257cd3060ac64f7eb4b662a1bb672e663385f676d9f132634f4",
+        "clip": "lounge",
+        "decodedDurationSeconds": 4.041666507720947,
+        "sampledSeconds": [
+          0, 0.3368055423100789, 0.6736110846201578, 1.0104166269302368, 1.3472221692403157, 1.6840277115503948, 2.0208332538604736,
+          2.3576387961705527, 2.6944443384806314, 3.0312498807907104, 3.3680554231007895, 3.704860965410868, 4.041666507720947
+        ],
+        "patchVertices": 5904,
+        "selectedThighFractionRange": [0.07965622308033966, 0.4496001521337755],
+        "minYRange": [0.5369150513046368, 0.5369150513046368],
+        "boneMinYRanges": {
+          "ThighR": [0.5369150513046368, 0.5369150513046368],
+          "ThighL": [0.5369802046733928, 0.5369802046733928],
+          "Hips": [0.5712573843564275, 0.5712573843564275]
+        },
+        "seatOffsetY": 0.5369150513046368,
+        "contactCenterXZ": [-0.00001181164703497467, 0.07077918468599839],
+        "contactCenterMethod": "Midpoint of the complete lower-envelope witness XZ extents; not a vertex-density centroid or a seat-anchor assumption.",
+        "witnessBoundsXZ": [
+          [-0.034513682644423296, 0.04657695961064283],
+          [0.03449005935035335, 0.09498140976135394]
+        ],
+        "witnesses": [
+          {
+            "vertex": 3957,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20754083982953098,
+            "point": [0.0018289081310814297, 0.5369150513046368, 0.07715279135268263]
+          },
+          {
+            "vertex": 4185,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20697913695303835,
+            "point": [-0.0069027552233680385, 0.5369802046733928, 0.07653486308661085]
+          },
+          {
+            "vertex": 3775,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20237169744111586,
+            "point": [0.011787726125754393, 0.5371127784134373, 0.07145142479320019]
+          },
+          {
+            "vertex": 4184,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1873130081473878,
+            "point": [-0.001238975690988648, 0.5372166535836767, 0.05498322485062948]
+          },
+          {
+            "vertex": 3776,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20349538702577077,
+            "point": [0.020377798073667828, 0.5374039240533324, 0.07272888779481032]
+          },
+          {
+            "vertex": 4378,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20933891346398079,
+            "point": [-0.01695595727144996, 0.5374827943532534, 0.07914059583177328]
+          },
+          {
+            "vertex": 3590,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1940557133186595,
+            "point": [0.023634475402446665, 0.5376431630419134, 0.06236227248259092]
+          },
+          {
+            "vertex": 3956,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1821438657589733,
+            "point": [0.010182987307995344, 0.5378055309893628, 0.04952469774521499]
+          },
+          {
+            "vertex": 4570,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1902347713664931,
+            "point": [-0.022714141616574188, 0.5378493888673238, 0.058280568326806434]
+          },
+          {
+            "vertex": 4571,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20922651612234822,
+            "point": [-0.024979651704755548, 0.5379446942884113, 0.0790416570008085]
+          },
+          {
+            "vertex": 3774,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.18416645024501802,
+            "point": [0.01820668100758964, 0.5379692363238118, 0.05175063145159334]
+          },
+          {
+            "vertex": 3592,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20383257905066848,
+            "point": [0.028543084158068135, 0.5380769534092724, 0.07307897527953239]
+          },
+          {
+            "vertex": 4377,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1793342160498292,
+            "point": [-0.01162256804763874, 0.5381433588137999, 0.04657695961064283]
+          },
+          {
+            "vertex": 3591,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1879873921971838,
+            "point": [0.02934544963907248, 0.5384135904593655, 0.05591297195933731]
+          },
+          {
+            "vertex": 4763,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20450667926879257,
+            "point": [-0.034513682644423296, 0.5386999685497614, 0.07387663118033327]
+          },
+          {
+            "vertex": 4186,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.225296497659098,
+            "point": [-0.005109219359020817, 0.5387464412795067, 0.09498140976135394]
+          },
+          {
+            "vertex": 3589,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.19147114212445196,
+            "point": [0.03449005935035335, 0.5388658719282144, 0.059702737668734046]
+          },
+          {
+            "vertex": 4569,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1866389079292632,
+            "point": [-0.033050541657961355, 0.5388744625740307, 0.05446841704795745]
+          }
+        ],
+        "nativeSourceSha256": "5b19bc1da5824908213ad4bb7e997989449d854db37c268f2c504418e03ad8e5",
+        "nativeSampling": {
+          "fps": 24,
+          "stripFrames": [1, 97],
+          "sampledFrames": [1, 9, 17, 25, 33, 41, 49, 57, 65, 73, 81, 89, 97],
+          "secondsFromStripStart": [
+            0, 0.3333333333333333, 0.6666666666666666, 1, 1.3333333333333333, 1.6666666666666667, 2, 2.3333333333333335, 2.6666666666666665, 3,
+            3.3333333333333335, 3.6666666666666665, 4
+          ]
+        },
+        "nativeMinYRange": [0.5368916392326355, 0.5368916392326355],
+        "nativeDecodedMaxYError": 0.00002341207200129425,
+        "nativeDecodedWitnessMaxDistance": 0.00004091468618951099
+      }
+    },
+    "ghibli": {
+      "lounge": {
+        "sourceGlbSha256": "47167029b02671063a509aa9f1c0bd36a7ea1b18ac37a5884a9365377615c7ce",
+        "clip": "lounge",
+        "decodedDurationSeconds": 4.041666507720947,
+        "sampledSeconds": [
+          0, 0.3368055423100789, 0.6736110846201578, 1.0104166269302368, 1.3472221692403157, 1.6840277115503948, 2.0208332538604736,
+          2.3576387961705527, 2.6944443384806314, 3.0312498807907104, 3.3680554231007895, 3.704860965410868, 4.041666507720947
+        ],
+        "patchVertices": 5904,
+        "selectedThighFractionRange": [0.07965622308033966, 0.4496001521337755],
+        "minYRange": [0.5369150513046368, 0.5369150513046368],
+        "boneMinYRanges": {
+          "ThighR": [0.5369150513046368, 0.5369150513046368],
+          "ThighL": [0.5369802046733928, 0.5369802046733928],
+          "Hips": [0.5712573843564275, 0.5712573843564275]
+        },
+        "seatOffsetY": 0.5369150513046368,
+        "contactCenterXZ": [-0.00001181164703497467, 0.07077918468599839],
+        "contactCenterMethod": "Midpoint of the complete lower-envelope witness XZ extents; not a vertex-density centroid or a seat-anchor assumption.",
+        "witnessBoundsXZ": [
+          [-0.034513682644423296, 0.04657695961064283],
+          [0.03449005935035335, 0.09498140976135394]
+        ],
+        "witnesses": [
+          {
+            "vertex": 3957,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20754083982953098,
+            "point": [0.0018289081310814297, 0.5369150513046368, 0.07715279135268263]
+          },
+          {
+            "vertex": 4185,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20697913695303835,
+            "point": [-0.0069027552233680385, 0.5369802046733928, 0.07653486308661085]
+          },
+          {
+            "vertex": 3775,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20237169744111586,
+            "point": [0.011787726125754393, 0.5371127784134373, 0.07145142479320019]
+          },
+          {
+            "vertex": 4184,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1873130081473878,
+            "point": [-0.001238975690988648, 0.5372166535836767, 0.05498322485062948]
+          },
+          {
+            "vertex": 3776,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20349538702577077,
+            "point": [0.020377798073667828, 0.5374039240533324, 0.07272888779481032]
+          },
+          {
+            "vertex": 4378,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20933891346398079,
+            "point": [-0.01695595727144996, 0.5374827943532534, 0.07914059583177328]
+          },
+          {
+            "vertex": 3590,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1940557133186595,
+            "point": [0.023634475402446665, 0.5376431630419134, 0.06236227248259092]
+          },
+          {
+            "vertex": 3956,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1821438657589733,
+            "point": [0.010182987307995344, 0.5378055309893628, 0.04952469774521499]
+          },
+          {
+            "vertex": 4570,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1902347713664931,
+            "point": [-0.022714141616574188, 0.5378493888673238, 0.058280568326806434]
+          },
+          {
+            "vertex": 4571,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20922651612234822,
+            "point": [-0.024979651704755548, 0.5379446942884113, 0.0790416570008085]
+          },
+          {
+            "vertex": 3774,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.18416645024501802,
+            "point": [0.01820668100758964, 0.5379692363238118, 0.05175063145159334]
+          },
+          {
+            "vertex": 3592,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20383257905066848,
+            "point": [0.028543084158068135, 0.5380769534092724, 0.07307897527953239]
+          },
+          {
+            "vertex": 4377,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1793342160498292,
+            "point": [-0.01162256804763874, 0.5381433588137999, 0.04657695961064283]
+          },
+          {
+            "vertex": 3591,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1879873921971838,
+            "point": [0.02934544963907248, 0.5384135904593655, 0.05591297195933731]
+          },
+          {
+            "vertex": 4763,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20450667926879257,
+            "point": [-0.034513682644423296, 0.5386999685497614, 0.07387663118033327]
+          },
+          {
+            "vertex": 4186,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.225296497659098,
+            "point": [-0.005109219359020817, 0.5387464412795067, 0.09498140976135394]
+          },
+          {
+            "vertex": 3589,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.19147114212445196,
+            "point": [0.03449005935035335, 0.5388658719282144, 0.059702737668734046]
+          },
+          {
+            "vertex": 4569,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1866389079292632,
+            "point": [-0.033050541657961355, 0.5388744625740307, 0.05446841704795745]
+          }
+        ],
+        "nativeSourceSha256": "19e1591587386f4b645ffe2bdbb69acaf4cf33ff6dd571ad8ac8c67f3612c773",
+        "nativeSampling": {
+          "fps": 24,
+          "stripFrames": [1, 97],
+          "sampledFrames": [1, 9, 17, 25, 33, 41, 49, 57, 65, 73, 81, 89, 97],
+          "secondsFromStripStart": [
+            0, 0.3333333333333333, 0.6666666666666666, 1, 1.3333333333333333, 1.6666666666666667, 2, 2.3333333333333335, 2.6666666666666665, 3,
+            3.3333333333333335, 3.6666666666666665, 4
+          ]
+        },
+        "nativeMinYRange": [0.5368916392326355, 0.5368916392326355],
+        "nativeDecodedMaxYError": 0.00002341207200129425,
+        "nativeDecodedWitnessMaxDistance": 0.00004091468618951099
+      }
+    },
+    "rick-and-morty": {
+      "lounge": {
+        "sourceGlbSha256": "06d8f41e0740929fef63a90e71a2bca8976ac2adb7c54bb69992eedc58a88e91",
+        "clip": "lounge",
+        "decodedDurationSeconds": 4.041666507720947,
+        "sampledSeconds": [
+          0, 0.3368055423100789, 0.6736110846201578, 1.0104166269302368, 1.3472221692403157, 1.6840277115503948, 2.0208332538604736,
+          2.3576387961705527, 2.6944443384806314, 3.0312498807907104, 3.3680554231007895, 3.704860965410868, 4.041666507720947
+        ],
+        "patchVertices": 5601,
+        "selectedThighFractionRange": [0.07941312125430906, 0.4497664774928583],
+        "minYRange": [0.5368863668724049, 0.5368863668724049],
+        "boneMinYRanges": {
+          "ThighR": [0.5368863668724049, 0.5368863668724049],
+          "ThighL": [0.5369962662148133, 0.5369962662148133],
+          "Hips": [0.5717832766648776, 0.5717832766648776]
+        },
+        "seatOffsetY": 0.5368863668724049,
+        "contactCenterXZ": [-0.0030087100079320642, 0.07078941938043767],
+        "contactCenterMethod": "Midpoint of the complete lower-envelope witness XZ extents; not a vertex-density centroid or a seat-anchor assumption.",
+        "witnessBoundsXZ": [
+          [-0.034510093139900604, 0.04661176469519683],
+          [0.028492673124036475, 0.0949670740656785]
+        ],
+        "witnesses": [
+          {
+            "vertex": 4286,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20762102227652895,
+            "point": [0.0018285802610676237, 0.5368863668724049, 0.07719195309068386]
+          },
+          {
+            "vertex": 4446,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20705917748420094,
+            "point": [-0.006902129191465341, 0.5369962662148133, 0.07657559334268792]
+          },
+          {
+            "vertex": 4113,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.2024521637197846,
+            "point": [0.011644749150276565, 0.5370774316790794, 0.07153288497528333]
+          },
+          {
+            "vertex": 4445,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1872830639061195,
+            "point": [-0.001286167685513494, 0.5372385693185908, 0.05496115829717746]
+          },
+          {
+            "vertex": 4112,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20368825064607213,
+            "point": [0.02028107480923333, 0.5374062970694915, 0.0728834130605126]
+          },
+          {
+            "vertex": 4640,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.2093064147376754,
+            "point": [-0.016954258914481227, 0.5374559137201933, 0.0791368594849293]
+          },
+          {
+            "vertex": 4111,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1942495703498086,
+            "point": [0.02339581792300318, 0.5375827422617928, 0.06259601648436694]
+          },
+          {
+            "vertex": 4285,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.18233900003264095,
+            "point": [0.010087366728658486, 0.5377904139951151, 0.049698323132221514]
+          },
+          {
+            "vertex": 4803,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.19031679871935123,
+            "point": [-0.022711817536336894, 0.5378234602821468, 0.05829798487912215]
+          },
+          {
+            "vertex": 4284,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.184698634627748,
+            "point": [0.017449493506020746, 0.5378520881647137, 0.0522585566130207]
+          },
+          {
+            "vertex": 4804,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20919401739604282,
+            "point": [-0.025024280962363032, 0.5379209002583061, 0.07901314017743633]
+          },
+          {
+            "vertex": 3948,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20391290341350185,
+            "point": [0.028492673124036475, 0.5380383473492881, 0.07318645391790683]
+          },
+          {
+            "vertex": 4639,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.17941752064520583,
+            "point": [-0.01162145028516956, 0.5381550005549864, 0.04661176469519683]
+          },
+          {
+            "vertex": 4110,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighR",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.1886314062582048,
+            "point": [0.028398286586778645, 0.5382333777575012, 0.05658431088336255]
+          },
+          {
+            "vertex": 4960,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.20447474820582878,
+            "point": [-0.034510093139900604, 0.538718608727154, 0.07387030088050374]
+          },
+          {
+            "vertex": 4447,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.2252621540269325,
+            "point": [-0.005108802124498247, 0.5387187535567065, 0.0949670740656785]
+          },
+          {
+            "vertex": 4959,
+            "mesh": "shaped_adult_face_7",
+            "bone": "ThighL",
+            "material": "olive trousers",
+            "hipToKneeFraction": 0.18660882177215954,
+            "point": [-0.03304709850139319, 0.5388503449096134, 0.05446378054652516]
+          }
+        ],
+        "nativeSourceSha256": "a8b120732a5fc0bb99391bc29ce176783d55376b1eef207813237f9b9b261846",
+        "nativeSampling": {
+          "fps": 24,
+          "stripFrames": [1, 97],
+          "sampledFrames": [1, 9, 17, 25, 33, 41, 49, 57, 65, 73, 81, 89, 97],
+          "secondsFromStripStart": [
+            0, 0.3333333333333333, 0.6666666666666666, 1, 1.3333333333333333, 1.6666666666666667, 2, 2.3333333333333335, 2.6666666666666665, 3,
+            3.3333333333333335, 3.6666666666666665, 4
+          ]
+        },
+        "nativeMinYRange": [0.5368908047676086, 0.5368908047676086],
+        "nativeDecodedMaxYError": 0.0000044378952037682495,
+        "nativeDecodedWitnessMaxDistance": 0.000038535713802642085
+      }
+    }
+  }
+}
