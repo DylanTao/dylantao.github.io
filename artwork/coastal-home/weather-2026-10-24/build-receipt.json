@@ -49,11 +49,11 @@
     {
       "file": "source/forecast-hourly.json.gz",
       "url": "https://api.weather.gov/gridpoints/SGX/53,20/forecast/hourly",
-      "decodedBytes": 163737,
-      "decodedSha256": "65685bc94b8674657af84632aefe6e133c670e00e423c3c56a242e6b8f927869",
-      "retrieved": "2026-10-26T16:50:48Z",
-      "httpDate": "Mon, 26 Oct 2026 16:50:49 GMT",
-      "lastModified": "Mon, 26 Oct 2026 16:00:00 GMT"
+      "decodedBytes": 163921,
+      "decodedSha256": "03f35e0af99447a449451d77aa4e41014d22a6428dd5723c55a1eba112e77029",
+      "retrieved": "2026-10-27T15:56:32Z",
+      "httpDate": "Tue, 27 Oct 2026 15:56:32 GMT",
+      "lastModified": "Tue, 27 Oct 2026 14:59:58 GMT"
     }
   ],
   "station": {
@@ -295,15 +295,15 @@
   },
   "forecast": {
     "source": "NWS SGX/53,20 hourly",
-    "issued": "2026-10-26T08:20:39+00:00",
-    "generated": "2026-10-26T16:50:49+00:00",
-    "retrieved": "2026-10-26T16:50:48Z",
-    "validFrom": "2026-10-26T09:00:00-07:00",
-    "validThrough": "2026-11-01T20:00:00-08:00",
+    "issued": "2026-10-27T08:16:23+00:00",
+    "generated": "2026-10-27T15:56:32+00:00",
+    "retrieved": "2026-10-27T15:56:32Z",
+    "validFrom": "2026-10-27T08:00:00-07:00",
+    "validThrough": "2026-11-02T19:00:00-08:00",
     "hours": 156,
-    "rainHours": 34,
-    "maximumPrecipitationChance": 0.64
+    "rainHours": 36,
+    "maximumPrecipitationChance": 0.67
   },
-  "runtimeBytes": 13789,
-  "runtimeCanonicalLfSha256": "b4942645eb661357118016d28b52d0f32ce62d9f559fdd0090639d110234dd6a"
+  "runtimeBytes": 13767,
+  "runtimeCanonicalLfSha256": "65ce67a50161250cc2331cd818295ee9df620c7cb7e185a9ace719c0e9c9f023"
 }

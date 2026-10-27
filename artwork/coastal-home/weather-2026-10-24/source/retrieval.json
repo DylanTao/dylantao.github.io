@@ -21,8 +21,8 @@
     "httpDate": "Mon, 26 Oct 2026 16:50:49 GMT"
   },
   "forecast-hourly.json.gz": {
-    "retrieved": "2026-10-26T16:50:48Z",
-    "httpDate": "Mon, 26 Oct 2026 16:50:49 GMT",
-    "lastModified": "Mon, 26 Oct 2026 16:00:00 GMT"
+    "retrieved": "2026-10-27T15:56:32Z",
+    "httpDate": "Tue, 27 Oct 2026 15:56:32 GMT",
+    "lastModified": "Tue, 27 Oct 2026 14:59:58 GMT"
   }
 }
