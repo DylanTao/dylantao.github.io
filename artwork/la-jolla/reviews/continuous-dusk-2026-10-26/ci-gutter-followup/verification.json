@@ -1,0 +1,399 @@
+{
+  "scope": "Test-only repair; no numeric threshold or production-runtime change. Complete assets. No hardware-performance claim.",
+  "testSourceSha256": "52d690a8d6d9d2cd422dcb1d8601c7ed44e8e913d6ffa0beda93774999b1e9e3",
+  "positiveLinux": [
+    {
+      "case": "footer-dusk-footer-dusk-au-a1200-ries-crossfade-continuously-mobile-390",
+      "clip": {
+        "x": 2,
+        "y": 100,
+        "width": 4,
+        "height": 16
+      },
+      "backend": {
+        "buffer": [390, 330],
+        "css": [390, 330],
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 1963],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "means": [
+        [251, 250, 247],
+        [221, 221, 219],
+        [134, 139, 141],
+        [47, 57, 62],
+        [17, 28, 34]
+      ],
+      "progress": [0, 0.12999216914643696, 0.4992871915346465, 0.870007830853563, 1],
+      "repeatedMean": [221, 221, 219],
+      "repeatState": {
+        "sameDriver": true,
+        "sameFrames": true,
+        "sameAnimations": true,
+        "body": "rgb(221, 221, 219)"
+      },
+      "errors": []
+    },
+    {
+      "case": "footer-dusk-footer-dusk-pa-97c4b-s-retain-intermediate-light-mobile-390",
+      "clip": {
+        "x": 2,
+        "y": 100,
+        "width": 4,
+        "height": 16
+      },
+      "backend": {
+        "buffer": [390, 330],
+        "css": [390, 330],
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 0],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "means": [
+        [241.96875, 234.78125, 231.859375],
+        [215.03125, 209.953125, 209.78125],
+        [137.40625, 140.109375, 146.640625],
+        [59.09375, 70.265625, 83.125],
+        [32.15625, 45.6875, 61.296875]
+      ],
+      "progress": [0, 0.12962669875048435, 0.49945672025500104, 0.8711991912320391, 0.9999999999999998],
+      "repeatedMean": [215.03125, 209.953125, 209.78125],
+      "repeatState": {
+        "sameDriver": true,
+        "sameFrames": true,
+        "sameAnimations": true,
+        "body": "rgb(17, 28, 34)"
+      },
+      "errors": []
+    }
+  ],
+  "positiveNative": [
+    {
+      "case": "footer-dusk-footer-dusk-au-a1200-ries-crossfade-continuously-desktop-1440",
+      "clip": {
+        "x": 2,
+        "y": 100,
+        "width": 4,
+        "height": 16
+      },
+      "backend": {
+        "buffer": [1440, 345],
+        "css": [1440, 346],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 966],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "means": [
+        [251, 250, 247],
+        [221, 221, 219],
+        [134, 139, 141],
+        [47, 57, 62],
+        [17, 28, 34]
+      ],
+      "progress": [0, 0.12999216914643696, 0.4992871915346465, 0.870007830853563, 1],
+      "repeatedMean": [221, 221, 219],
+      "repeatState": {
+        "sameDriver": true,
+        "sameFrames": true,
+        "sameAnimations": true,
+        "body": "rgb(221, 221, 219)"
+      },
+      "errors": []
+    },
+    {
+      "case": "footer-dusk-footer-dusk-au-a1200-ries-crossfade-continuously-mobile-390",
+      "clip": {
+        "x": 2,
+        "y": 100,
+        "width": 4,
+        "height": 16
+      },
+      "backend": {
+        "buffer": [390, 330],
+        "css": [390, 330],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 1963],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "means": [
+        [251, 250, 247],
+        [221, 221, 219],
+        [134, 139, 141],
+        [47, 57, 62],
+        [17, 28, 34]
+      ],
+      "progress": [0, 0.12999216914643696, 0.4992871915346465, 0.870007830853563, 1],
+      "repeatedMean": [221, 221, 219],
+      "repeatState": {
+        "sameDriver": true,
+        "sameFrames": true,
+        "sameAnimations": true,
+        "body": "rgb(221, 221, 219)"
+      },
+      "errors": []
+    },
+    {
+      "case": "footer-dusk-footer-dusk-pa-97c4b-s-retain-intermediate-light-desktop-1440",
+      "clip": {
+        "x": 2,
+        "y": 100,
+        "width": 4,
+        "height": 16
+      },
+      "backend": {
+        "buffer": [1440, 345],
+        "css": [1440, 346],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 0],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "means": [
+        [250.234375, 248.46875, 245.125],
+        [221.234375, 221.46875, 219.125],
+        [136, 143, 144.765625],
+        [50.71875, 64.34375, 70.640625],
+        [21.71875, 37.34375, 44.640625]
+      ],
+      "progress": [0, 0.12804064478209232, 0.49998792192462604, 0.8719593552179077, 1.0000000000000002],
+      "repeatedMean": [221.234375, 221.46875, 219.125],
+      "repeatState": {
+        "sameDriver": true,
+        "sameFrames": true,
+        "sameAnimations": true,
+        "body": "rgb(17, 28, 34)"
+      },
+      "errors": []
+    },
+    {
+      "case": "footer-dusk-footer-dusk-pa-97c4b-s-retain-intermediate-light-mobile-390",
+      "clip": {
+        "x": 2,
+        "y": 100,
+        "width": 4,
+        "height": 16
+      },
+      "backend": {
+        "buffer": [390, 330],
+        "css": [390, 330],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 0],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "means": [
+        [241.90625, 234.59375, 231.328125],
+        [214.859375, 210.484375, 209.328125],
+        [136.546875, 139.765625, 146.1875],
+        [58.53125, 69.28125, 83.328125],
+        [31.484375, 45.171875, 61.328125]
+      ],
+      "progress": [0, 0.12835459664710686, 0.5007091512258638, 0.8716454033528932, 1],
+      "repeatedMean": [214.859375, 210.484375, 209.328125],
+      "repeatState": {
+        "sameDriver": true,
+        "sameFrames": true,
+        "sameAnimations": true,
+        "body": "rgb(17, 28, 34)"
+      },
+      "errors": []
+    }
+  ],
+  "positiveWebKit": [
+    {
+      "case": "footer-dusk-footer-dusk-au-a1200-ries-crossfade-continuously-mobile-390",
+      "clip": {
+        "x": 2,
+        "y": 100,
+        "width": 4,
+        "height": 16
+      },
+      "backend": {
+        "buffer": [390, 330],
+        "css": [390, 330],
+        "renderer": "Apple GPU"
+      },
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 1937],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "means": [
+        [251, 250, 247],
+        [221, 221, 219],
+        [134, 139, 141],
+        [47, 57, 62],
+        [17, 28, 34]
+      ],
+      "progress": [0, 0.12999216914643696, 0.4992871915346465, 0.870007830853563, 1],
+      "repeatedMean": [221, 221, 219],
+      "repeatState": {
+        "sameDriver": true,
+        "sameFrames": true,
+        "sameAnimations": true,
+        "body": "rgb(221, 221, 219)"
+      },
+      "errors": []
+    },
+    {
+      "case": "footer-dusk-footer-dusk-pa-97c4b-s-retain-intermediate-light-mobile-390",
+      "clip": {
+        "x": 2,
+        "y": 100,
+        "width": 4,
+        "height": 16
+      },
+      "backend": {
+        "buffer": [390, 330],
+        "css": [390, 330],
+        "renderer": "Apple GPU"
+      },
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 0],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "means": [
+        [241.734375, 234.703125, 230.703125],
+        [213.734375, 208.984375, 207.703125],
+        [135.734375, 138.984375, 144.984375],
+        [58.734375, 69.28125, 82.953125],
+        [32, 45.28125, 61.9375]
+      ],
+      "progress": [0, 0.13498598944183363, 0.5060354942432135, 0.8735594626566042, 1.0000000000000004],
+      "repeatedMean": [213.734375, 208.984375, 207.703125],
+      "repeatState": {
+        "sameDriver": true,
+        "sameFrames": true,
+        "sameAnimations": true,
+        "body": "rgb(17, 28, 34)"
+      },
+      "errors": []
+    }
+  ],
+  "negative": {
+    "method": "Only the real repeated-mode guard is disabled in the routed theme.js; rejection expected.",
+    "repeatState": {
+      "sameDriver": true,
+      "sameFrames": false,
+      "sameAnimations": false,
+      "body": "rgb(221, 221, 219)"
+    },
+    "mean175": [221, 221, 219],
+    "repeatedMean": [221, 221, 219]
+  },
+  "logs": [
+    {
+      "file": "linux.log",
+      "sha256": "936c4b4e41f2439ae1d5c143fda1153b76c2729a6a28983cd8be4afc783fa5ec",
+      "tail": [
+        "[1/3] [mobile-390] \u203a test/visual/footer-dusk.spec.js:210:1 \u203a footer dusk: automatic page and sky boundaries crossfade continuously",
+        "[2/3] [mobile-390] \u203a test/visual/footer-dusk.spec.js:214:1 \u203a footer dusk: page-head snapshots retain intermediate light",
+        "[3/3] [mobile-390] \u203a test/visual/footer-dusk.spec.js:218:1 \u203a footer dusk: interruption, reduced motion and fallback keep the latest light",
+        "  3 passed (3.3m)"
+      ]
+    },
+    {
+      "file": "negative.log",
+      "sha256": "cc9695e15e8390d636fbd58c447497e798c9fc146c242f758b74da812db66931",
+      "tail": [
+        "",
+        "",
+        "  1 failed",
+        "    [mobile-390] \u203a .jekyll-cache/visual-qa/footer-linux-78671568e/negative/negative.spec.js:220:1 \u203a footer dusk: automatic page and sky boundaries crossfade continuously"
+      ]
+    },
+    {
+      "file": "native.log",
+      "sha256": "e81fb4864da6964ac6c68b5d16078ccfaef9d642ed4412b6dc0df3122babd332",
+      "tail": [
+        "",
+        "[3/4] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:210:1 \u203a footer dusk: automatic page and sky boundaries crossfade continuously",
+        "[4/4] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:214:1 \u203a footer dusk: page-head snapshots retain intermediate light",
+        "  4 passed (34.7s)"
+      ]
+    },
+    {
+      "file": "webkit.log",
+      "sha256": "72d34f7aeb0f290fd231538885f3c292c842cdb2e644f7c3f3b9f00fc1ac9fa4",
+      "tail": [
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "[1/2] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:210:1 \u203a footer dusk: automatic page and sky boundaries crossfade continuously",
+        "[2/2] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:214:1 \u203a footer dusk: page-head snapshots retain intermediate light",
+        "  2 passed (16.8s)"
+      ]
+    }
+  ]
+}

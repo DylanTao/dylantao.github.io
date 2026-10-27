@@ -32,14 +32,24 @@ const meanPatch = (buffer) => {
 async function recordBoundary(page, testInfo, reading = true) {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
   const errors = collectRuntimeErrors(page);
-  await openClockBoundary(page);
+  const host = await openClockBoundary(page);
+  const backend = await host.locator(".footer-coast__canvas").evaluate((canvas) => {
+    const gl = canvas.getContext("webgl2"),
+      extension = gl.getExtension("WEBGL_debug_renderer_info");
+    return {
+      buffer: [canvas.width, canvas.height],
+      css: [canvas.clientWidth, canvas.clientHeight],
+      renderer: gl.getParameter(extension ? extension.UNMASKED_RENDERER_WEBGL : gl.RENDERER),
+    };
+  });
   if (!reading) {
     await page.evaluate(() => scrollTo({ top: 0, left: 0, behavior: "instant" }));
     await twoFrames(page);
   }
-  // A reading-page patch above the coast contains no moving water or actors. Its pixels must
-  // pass through intermediate colors, rather than jumping from the cream palette to navy.
-  const clip = { x: 8, y: 100, width: page.viewportSize().width - 16, height: 16 };
+  // Read the actual blank page gutter below the fixed header. A wide content-row sample also
+  // includes text whose inherited color transitions can continue during a slow screenshot.
+  // The page's own painted background must pass through the same strict intermediate colors.
+  const clip = { x: 2, y: 100, width: 4, height: 16 };
   const before = await page.screenshot({ clip });
   const beforeState = await page.evaluate(() => ({
     mode: document.documentElement.dataset.themeMode,
@@ -107,7 +117,7 @@ async function recordBoundary(page, testInfo, reading = true) {
   });
   await page.waitForFunction(() => Boolean(window.__duskAnimation));
   const frames = [];
-  let repeatedMean;
+  let repeatedMean, repeatState;
   for (const time of [0, 175, 350, 525, 700]) {
     await page.evaluate((time) => {
       window.__duskAnimations.forEach((animation) => (animation.currentTime = time));
@@ -136,9 +146,32 @@ async function recordBoundary(page, testInfo, reading = true) {
     }));
     frames.push({ time, mean: meanPatch(frame), animation });
     if (time === 175) {
-      await page.evaluate(() => setThemeSetting("evening", { persist: false, manual: false }));
+      await page.evaluate(() => {
+        const owned = () =>
+          window.__duskAnimations.filter(
+            (a) => a.animationName === "site-theme-crossfade" || a.effect.target?.classList?.contains("theme-coast-retained")
+          );
+        window.__duskRepeatBefore = {
+          driver: window.__duskAnimation,
+          frames: [...document.querySelectorAll(".theme-coast-retained")],
+          animations: owned(),
+          owned,
+        };
+        setThemeSetting("evening", { persist: false, manual: false });
+      });
       await twoFrames(page);
-      repeatedMean = meanPatch(await page.screenshot({ clip }));
+      repeatedMean = meanPatch(await page.screenshot({ clip, path: testInfo.outputPath("dusk-repeat.png") }));
+      repeatState = await page.evaluate(() => {
+        const before = window.__duskRepeatBefore,
+          frames = [...document.querySelectorAll(".theme-coast-retained")],
+          animations = before.owned();
+        return {
+          sameDriver: window.__duskAnimation === before.driver,
+          sameFrames: frames.length === before.frames.length && frames.every((frame, i) => frame === before.frames[i]),
+          sameAnimations: animations.length === before.animations.length && animations.every((animation, i) => animation === before.animations[i]),
+          body: getComputedStyle(document.body).backgroundColor,
+        };
+      });
     }
     if ([0, 350, 700].includes(time)) {
       if (reading) await page.locator("footer").screenshot({ path: testInfo.outputPath(`dusk-coast-${time}.png`) });
@@ -149,9 +182,12 @@ async function recordBoundary(page, testInfo, reading = true) {
     end = frames.at(-1).mean;
   await writeFile(
     testInfo.outputPath("dusk-transition-recorder.json"),
-    JSON.stringify({ before: meanPatch(before), beforeState, frames, repeatedMean, errors }, null, 2)
+    JSON.stringify({ clip, backend, before: meanPatch(before), beforeState, frames, repeatedMean, repeatState, errors }, null, 2)
   );
   if (reading) expect(frames[0].animation.credit, "the credit's old halo stays with its old ink when the blend starts").toEqual(beforeState.credit);
+  expect(repeatState.sameDriver, "repeating a mode keeps the current palette animation").toBe(true);
+  expect(repeatState.sameFrames, "repeating a mode keeps the retained coastal frame").toBe(true);
+  expect(repeatState.sameAnimations, "repeating a mode does not replace the live blend").toBe(true);
   expect(Math.hypot(...repeatedMean.map((v, c) => v - frames[1].mean[c])), "repeated arc positions do not replace a live blend").toBeLessThan(2);
   const distance = Math.hypot(...end.map((v, c) => v - start[c]));
   expect(distance, "the actual page palette changes").toBeGreaterThan(100);
