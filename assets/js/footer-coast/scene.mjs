@@ -5,9 +5,9 @@ import { createCameraMotion } from "../home-scene/camera-motion.mjs";
 import { sampleCoastWave } from "./wave-motion.mjs";
 import { createPeople } from "./people.mjs?v=coast-water-20261018";
 import { createCoastWater } from "./water.mjs?v=coast-water-20261026";
-import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-hills-20261026";
+import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-dusk-20261026";
 import { createMarineLayer } from "./marine-layer.mjs?v=coast-sky-20261019";
-import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-hills-20261026";
+import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-dusk-20261026";
 import { localDateKey, sunState } from "../la-jolla-sun.mjs?v=coast-sky-20261019";
 
 // People keep a composed still pose under reduced motion and under automation, as the
