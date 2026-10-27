@@ -6,7 +6,7 @@ const repoRoot = path.resolve(__dirname, "../..");
 const baseURL = getPublicBaseURL();
 const visualPort = getVisualPort();
 const suiteName = process.argv.some((argument) =>
-  /(?:desk-scene|estate-redesign|static-light-field|companion|duh|footer-coast)\.spec\.js/.test(argument)
+  /(?:desk-scene|estate-redesign|static-light-field|companion|duh|footer-coast|footer-dusk)\.spec\.js/.test(argument)
 )
   ? "scene"
   : process.argv.some((argument) => argument.includes("sitewide.spec.js"))
@@ -37,6 +37,8 @@ module.exports = {
     "companion.spec.js",
     "duh.spec.js",
     "footer-coast.spec.js",
+    "footer-dusk.spec.js",
+    "brand-finish.spec.js",
     "reading-effects.spec.js",
     "navigation-motion.spec.js",
   ],

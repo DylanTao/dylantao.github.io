@@ -6,7 +6,8 @@
     "desk-scene.spec.js",
     "footer-coast.spec.js",
     "static-light-field.spec.js",
-    "estate-redesign.spec.js"
+    "estate-redesign.spec.js",
+    "footer-dusk.spec.js"
   ],
   "groups": {
     "scene-core-1": [
@@ -497,6 +498,18 @@
       {
         "file": "footer-coast.spec.js",
         "title": "coastal sea: refracted bottom and volumetric light use the current relief"
+      },
+      {
+        "file": "footer-dusk.spec.js",
+        "title": "footer dusk: automatic page and sky boundaries crossfade continuously"
+      },
+      {
+        "file": "footer-dusk.spec.js",
+        "title": "footer dusk: page-head snapshots retain intermediate light"
+      },
+      {
+        "file": "footer-dusk.spec.js",
+        "title": "footer dusk: interruption, reduced motion and fallback keep the latest light"
       }
     ]
   }
