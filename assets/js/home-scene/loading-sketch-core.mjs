@@ -1,7 +1,7 @@
 // While the 3D home loads, a pen draws it (Sirui, 2026-10-14, 2026-10-25): first the coast view, its
 // cliff and the arched house, as the shell and the coast stream in; then the room the visitor will
 // arrive in, structure first and the books last, as the rooms, Sirui and the view's programs load.
-// The lines are the scene's own outlines, silhouettes and creases, traced by
+// The lines are the scene's own outlines, silhouettes, creases and normal-derived form contours, traced by
 // bin/build_loading_sketch.cjs. Ink is gated by honest progress: the pen never runs ahead of the
 // work it reports, and while the work stalls it only rests and breathes.
 //
