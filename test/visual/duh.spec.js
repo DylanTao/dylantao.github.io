@@ -539,6 +539,7 @@ test("duh: dropped on the 3D home, it can be caught, settles clear, and the canv
     .poll(() => evidence(page).then((e) => e.visible && e.state === "REST" && !e.navigating), { timeout: software ? 120000 : 20000 })
     .toBe(true);
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
+  if (software) await useSoftwareSceneCadence(page);
   const canvas = scene.locator("canvas.home-desk-corner-canvas");
   const orbit = () => scene.evaluate((node) => node.getSceneEvidence().cameraOrbit);
   const box = await canvas.boundingBox();
@@ -576,11 +577,20 @@ test("duh: dropped on the 3D home, it can be caught, settles clear, and the canv
   if (!settled.parked) expect(overlaps(settled, await canvas.boundingBox()), JSON.stringify(settled)).toBe(false);
   expect(await pressDuh(page, isMobile)).toBe(true);
   await page.screenshot({ path: info.outputPath("duh-3d-drop-settled.png") });
-  // Away from duh, a drag across the canvas still turns the camera.
+  // Visit the unbounded study through its public keyboard shortcut. The live
+  // routine can arrive in a narrow bath whose geometry blocks this fixed turn;
+  // a blocked room angle there says nothing about duh capture.
+  await canvas.scrollIntoViewIfNeeded();
+  await canvas.press("Escape");
+  await page.clock.runFor(800);
+  expect(await scene.evaluate((node) => node.getSceneEvidence().currentRoom)).toBe("study");
+  // Away from duh, a real drag across the visible canvas still turns the camera.
   const now = await canvas.boundingBox();
   const from = { x: now.x + now.width * 0.3, y: now.y + now.height * 0.55 };
   const to = { x: now.x + now.width * 0.7, y: from.y };
   const turning = await orbit();
+  const targets = await canvas.evaluate((node, points) => points.map((p) => document.elementFromPoint(p.x, p.y) === node), [from, to]);
+  expect(targets).toEqual([true, true]);
   if (isMobile) {
     const touch = await page.context().newCDPSession(page);
     await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ ...from, id: 7 }] });
@@ -595,7 +605,12 @@ test("duh: dropped on the 3D home, it can be caught, settles clear, and the canv
     await page.mouse.up();
   }
   await page.clock.runFor(800);
-  expect(Math.abs((await orbit()).yaw - turning.yaw)).toBeGreaterThan(0.02);
+  const turned = await orbit();
+  await info.attach("unobstructed-study-drag", {
+    body: JSON.stringify({ turning, turned, from, to, targets, software }),
+    contentType: "application/json",
+  });
+  expect(Math.abs(turned.yaw - turning.yaw)).toBeGreaterThan(0.02);
   expect(errors).toEqual([]);
 });
 

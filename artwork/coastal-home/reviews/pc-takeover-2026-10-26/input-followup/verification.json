@@ -1,0 +1,70 @@
+{
+  "duh-drop-study-llvmpipe": {
+    "stats": {
+      "startTime": "2026-10-27T03:53:33.023Z",
+      "duration": 102757.38399999999,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "backend": {
+      "webgl2": true,
+      "renderer": "ANGLE (Mesa, llvmpipe (LLVM 20.1.2 256 bits), OpenGL 4.5)",
+      "maxSamples": 4,
+      "floatColorBuffer": true,
+      "attempts": 1,
+      "browserVersion": "145.0.7632.6",
+      "headless": true,
+      "channel": "chromium",
+      "args": ["--use-gl=angle", "--use-angle=gl", "--ignore-gpu-blocklist"],
+      "softwareFunctionalProof": true,
+      "performanceBenchmark": false
+    },
+    "reportSha256": "68e285dd484f19e581cb87226a8ab5d1784ebdd0e319546dddae3b4890355ecc"
+  },
+  "entrance-resize-llvmpipe": {
+    "stats": {
+      "startTime": "2026-10-27T04:05:48.258Z",
+      "duration": 708457.83,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "backend": {
+      "webgl2": true,
+      "renderer": "ANGLE (Mesa, llvmpipe (LLVM 20.1.2 256 bits), OpenGL 4.5)",
+      "maxSamples": 4,
+      "floatColorBuffer": true,
+      "attempts": 1,
+      "browserVersion": "145.0.7632.6",
+      "headless": true,
+      "channel": "chromium",
+      "args": ["--use-gl=angle", "--use-angle=gl", "--ignore-gpu-blocklist"],
+      "softwareFunctionalProof": true,
+      "performanceBenchmark": false
+    },
+    "reportSha256": "1dda9ae58a0892172a0531a862265a3e2a617545ecfd82407874d7e6c0b2cee1"
+  },
+  "native-same-time-public-study-control": {
+    "stats": {
+      "startTime": "2026-10-27T04:03:22.755Z",
+      "duration": 32319.847999999998,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "reportSha256": "4621a1109577c2251ea05acc90ac4d3ead2a0a87a5796311c264c44e4c369858"
+  },
+  "source": {
+    "duhSpecSha256": "3b3780da765a600be5ab02fb6aacf88d71d928dd89d627f059369608d5da56e8",
+    "sourceScope": "Native study/drag and qualified input/route proof on the c843 controller cohort; shaders, quality, assets, path/collision solver and numerical gates unchanged.",
+    "originalCiRun": 40443874660,
+    "failedJobs": [121990372154, 121990372160],
+    "localNativeDropBothWidths": "2 pass / 58.1 seconds",
+    "localNativeEntrance": "1 pass / 1.7 minutes",
+    "limits": "The original onsen fixed turn remains a separate camera-geometry follow-up; this does not claim to repair that room."
+  }
+}

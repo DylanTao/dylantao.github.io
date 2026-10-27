@@ -2362,6 +2362,10 @@ test("coastal home: public entrance reaches the living floor and returns to the 
   // This is input/path proof at a disclosed cadence, not a frame-rate benchmark. Rendering every
   // virtual 60Hz frame of a minute-long round trip needlessly stalls slow host/CI GPUs.
   await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
+  // The responsive resize can move the embed below the short functional
+  // viewport and queue an offscreen observation. Settle its visible draw
+  // before starting the independent native fullscreen transition.
+  await sceneInputFrame(page, view, () => canvas.scrollIntoViewIfNeeded());
   await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click());
   await sceneInputFrame(page, view, () => canvas.press("v"));
   await expect.poll(async () => (await evidence(scene)).walk?.ready, { timeout: 90000 }).toBe(true);
@@ -2566,10 +2570,21 @@ test("coastal neighbours: new raccoon and birds expose real close views without 
 
 test("coastal bathrooms: both floors retain clear day and night views and safe cutaways", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
+  await page.addInitScript(() => {
+    window.__coastalRoomPrograms = 0;
+    for (const prototype of [window.WebGL2RenderingContext?.prototype, window.WebGLRenderingContext?.prototype].filter(Boolean)) {
+      const link = prototype.linkProgram;
+      prototype.linkProgram = function (program) {
+        if (this.canvas?.closest?.("[data-home-desk-scene]")) window.__coastalRoomPrograms++;
+        return link.call(this, program);
+      };
+    }
+  });
   const view = await openClockedHome(page, { time: "2026-10-23T13:20:00-07:00" });
   const { scene, canvas, ui } = view;
   await explore(ui);
   await expect.poll(async () => (await evidence(scene)).cameraCollision?.ready, { timeout: 60000 }).toBe(true);
+  const programsAtArrival = await page.evaluate(() => window.__coastalRoomPrograms);
   const views = [];
   for (const id of ["bath-living", "bath-bedroom"]) {
     const room = homeManifest().rooms.find((room) => room.id === id);
@@ -2597,12 +2612,16 @@ test("coastal bathrooms: both floors retain clear day and night views and safe c
         maximumHz: 15,
       });
       expect(state.simulation.interiorReflections.captures).toBeGreaterThan(0);
+      const programs = await page.evaluate(() => window.__coastalRoomPrograms);
+      // Retain actual link counts for matched comparisons. The baseline also
+      // links a post-arrival program on the first visit, so zero later links is
+      // not an existing invariant of this complete-room visual check.
       expect((await cameraCell(scene)) & 5).toBe(0);
       const frame = await canvas.screenshot();
       expect(screenshotMetrics(frame).uniqueColors).toBeGreaterThan(60);
       expect(screenshotMetrics(frame).luminanceVariance).toBeGreaterThan(80);
       await capture(testInfo, `${id}-${period}`, frame);
-      views.push({ id, period, camera: state.camera, lights: state.simulation.installations.levels });
+      views.push({ id, period, camera: state.camera, lights: state.simulation.installations.levels, programs, programsAtArrival });
     }
     const slabs = await scene.evaluate((element) => {
       const slabs = [];
