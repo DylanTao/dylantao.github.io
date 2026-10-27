@@ -1,0 +1,1061 @@
+{
+  "sourceBase": "41dac7943 / 75d956485 geometry-bound loading family; footer/G runtime published separately as 78671568e.",
+  "sourceFiles": [
+    {
+      "file": "bin/build_loading_sketch.cjs",
+      "sha256": "7ff020cb3c76dd842cf708c71c26dd9814e65c536fda2af21787d812322b6bed"
+    },
+    {
+      "file": "assets/js/home-scene/loading-sketch-core.mjs",
+      "sha256": "20c3c7fa58f490bc4722110c22721f0b96a8b0697d3da850b5a0e433261d0982"
+    },
+    {
+      "file": "test/loading-sketch.test.mjs",
+      "sha256": "e74371c14409236ca77b32cdacc1ee99576001bead42c761d4be246ca2afa8a8"
+    },
+    {
+      "file": "test/visual/loading-drawing.spec.js",
+      "sha256": "ee6cd6a454ad6fa4159a0d105cbbcc9f2cb750bbcc52fd4c2ae914b31c84ce4b"
+    },
+    {
+      "file": "assets/models/home/loading-sketch.json",
+      "sha256": "c256e6b6e7b4b9b533ccd6ae1b49bc5ed29729de0ffcf6f42e3907b167145cc5"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/gym.json",
+      "sha256": "324952fe100e604f6735745f927a225f355cafe20a1b6ba711dbe1b4f3d6ef5f"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/kitchen.json",
+      "sha256": "2bc2d8708c7d475fcf2e567bbc67b4328c50ba48fe727a5c8ea4e709a60edc40"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/library.json",
+      "sha256": "eb4d4cfc70e896dbf9b55eb34f00c88b54c9fb1bbd4a01ba158f0e74958eac33"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/lounge.json",
+      "sha256": "634f0b9f6d430fda2a0bd4d027f28a82141266be07f014fa04a372dc0de3d8b0"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/onsen.json",
+      "sha256": "2752683e3c6a29c25a641fb8fa57bb649c87e13196dfad4115d0aef8fb65b135"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/sleep.json",
+      "sha256": "f64837d9e0d84d821a2c05b9895ad65acdc475351f78429bf8fdfbe2762a3436"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/study.json",
+      "sha256": "43b08ef6c3ae4e1a1aee7d05adf9d8e63151c99ef2fe786d17760865af47596d"
+    }
+  ],
+  "publicMethod": "Complete assets. Only the final overlay removal is held, after real model/program completion and first composed frame. No stage or progress is injected. The served drawing-family canonical digests must match authored data. Ordinary unmodified loading regressions are separate.",
+  "public": [
+    {
+      "project": "desktop-1440",
+      "engine": "Chromium/D3D11",
+      "theme": "dark",
+      "image": "public-desktop-1440-dark.png",
+      "imageSha256": "48c881635a578b78a53f11ba0c671234a1b42c318fce5f27ac5f9b753a25abb3",
+      "method": "Real completed progress and first frame; only overlay removal is held for inspection.",
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "pending": "",
+        "stage": "ready"
+      },
+      "coverage": 0.03881806267127368,
+      "requested": ["loading-sketch.json", "loading-sketch/study.json"],
+      "received": [
+        {
+          "file": "loading-sketch.json",
+          "digest": "7a938dfa74f9e784b1d02ea0d838195598e24cfe0dfd10b46177f019aa99ff64"
+        },
+        {
+          "file": "loading-sketch/study.json",
+          "digest": "0e27e186e71c1686d5a9fb6f62cbda75fcc5f37c211fc5408a8af9244c151cce"
+        }
+      ],
+      "backend": {
+        "buffer": [544, 460],
+        "css": [545, 461],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "frame": {
+        "height": 462,
+        "luminanceVariance": 1188.447265452532,
+        "opaqueRatio": 1,
+        "sampledPixels": 63063,
+        "uniqueColors": 4096,
+        "width": 545
+      },
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 5
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 643
+        },
+        {
+          "stage": "room",
+          "milliseconds": 1318
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 1920
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 3816
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 4111
+        }
+      ],
+      "errors": []
+    },
+    {
+      "project": "desktop-1440",
+      "engine": "Chromium/D3D11",
+      "theme": "light",
+      "image": "public-desktop-1440-light.png",
+      "imageSha256": "5323dfe326fc09c1e79a73dbe7a9d6e6dd8386bbd4f3ef549b14680c58277304",
+      "method": "Real completed progress and first frame; only overlay removal is held for inspection.",
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "pending": "",
+        "stage": "ready"
+      },
+      "coverage": 0.13678462210572304,
+      "requested": ["loading-sketch.json", "loading-sketch/study.json"],
+      "received": [
+        {
+          "file": "loading-sketch.json",
+          "digest": "7a938dfa74f9e784b1d02ea0d838195598e24cfe0dfd10b46177f019aa99ff64"
+        },
+        {
+          "file": "loading-sketch/study.json",
+          "digest": "0e27e186e71c1686d5a9fb6f62cbda75fcc5f37c211fc5408a8af9244c151cce"
+        }
+      ],
+      "backend": {
+        "buffer": [544, 460],
+        "css": [545, 461],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "frame": {
+        "height": 462,
+        "luminanceVariance": 7904.44122423207,
+        "opaqueRatio": 1,
+        "sampledPixels": 63063,
+        "uniqueColors": 4096,
+        "width": 545
+      },
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 4
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 517
+        },
+        {
+          "stage": "room",
+          "milliseconds": 1587
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 3422
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 6071
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 13134
+        }
+      ],
+      "errors": []
+    },
+    {
+      "project": "laptop-1280",
+      "engine": "Chromium/D3D11",
+      "theme": "dark",
+      "image": "public-laptop-1280-dark.png",
+      "imageSha256": "594cffc49fc707317882b1b0aa5901d0d3225183456299b5387ee7d9e8515601",
+      "method": "Real completed progress and first frame; only overlay removal is held for inspection.",
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "pending": "",
+        "stage": "ready"
+      },
+      "coverage": 0.0630253540708974,
+      "requested": ["loading-sketch.json", "loading-sketch/study.json"],
+      "received": [
+        {
+          "file": "loading-sketch.json",
+          "digest": "7a938dfa74f9e784b1d02ea0d838195598e24cfe0dfd10b46177f019aa99ff64"
+        },
+        {
+          "file": "loading-sketch/study.json",
+          "digest": "0e27e186e71c1686d5a9fb6f62cbda75fcc5f37c211fc5408a8af9244c151cce"
+        }
+      ],
+      "backend": {
+        "buffer": [496, 409],
+        "css": [496, 410],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "frame": {
+        "height": 411,
+        "luminanceVariance": 1237.1469351840535,
+        "opaqueRatio": 1,
+        "sampledPixels": 51294,
+        "uniqueColors": 4096,
+        "width": 497
+      },
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 4
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 497
+        },
+        {
+          "stage": "room",
+          "milliseconds": 989
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 1647
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 3450
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 3841
+        }
+      ],
+      "errors": []
+    },
+    {
+      "project": "laptop-1280",
+      "engine": "Chromium/D3D11",
+      "theme": "light",
+      "image": "public-laptop-1280-light.png",
+      "imageSha256": "3c9469f6e7d4f2b0b42a58bf38bc57e03024d1564f9e0dcc4afea7cc0f032238",
+      "method": "Real completed progress and first frame; only overlay removal is held for inspection.",
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "pending": "",
+        "stage": "ready"
+      },
+      "coverage": 0.15068513269397407,
+      "requested": ["loading-sketch.json", "loading-sketch/study.json"],
+      "received": [
+        {
+          "file": "loading-sketch.json",
+          "digest": "7a938dfa74f9e784b1d02ea0d838195598e24cfe0dfd10b46177f019aa99ff64"
+        },
+        {
+          "file": "loading-sketch/study.json",
+          "digest": "0e27e186e71c1686d5a9fb6f62cbda75fcc5f37c211fc5408a8af9244c151cce"
+        }
+      ],
+      "backend": {
+        "buffer": [496, 409],
+        "css": [496, 410],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "frame": {
+        "height": 411,
+        "luminanceVariance": 7998.605830533448,
+        "opaqueRatio": 1,
+        "sampledPixels": 51294,
+        "uniqueColors": 4096,
+        "width": 497
+      },
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 5
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 532
+        },
+        {
+          "stage": "room",
+          "milliseconds": 1695
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 4507
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 6929
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 14044
+        }
+      ],
+      "errors": []
+    },
+    {
+      "project": "mobile-390",
+      "engine": "Chromium/D3D11",
+      "theme": "dark",
+      "image": "public-mobile-390-dark.png",
+      "imageSha256": "e99097bc580f703be1c787f2b587c1a4ae092b1758577b042911c32b00928335",
+      "method": "Real completed progress and first frame; only overlay removal is held for inspection.",
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "pending": "",
+        "stage": "ready"
+      },
+      "coverage": 0.08901659247268312,
+      "requested": ["loading-sketch.json", "loading-sketch/study.json"],
+      "received": [
+        {
+          "file": "loading-sketch.json",
+          "digest": "7a938dfa74f9e784b1d02ea0d838195598e24cfe0dfd10b46177f019aa99ff64"
+        },
+        {
+          "file": "loading-sketch/study.json",
+          "digest": "0e27e186e71c1686d5a9fb6f62cbda75fcc5f37c211fc5408a8af9244c151cce"
+        }
+      ],
+      "backend": {
+        "buffer": [350, 352],
+        "css": [350, 352],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "frame": {
+        "height": 353,
+        "luminanceVariance": 1168.445721867065,
+        "opaqueRatio": 1,
+        "sampledPixels": 123550,
+        "uniqueColors": 4096,
+        "width": 350
+      },
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 6
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 587
+        },
+        {
+          "stage": "room",
+          "milliseconds": 1304
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 2120
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 4171
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 4578
+        }
+      ],
+      "errors": []
+    },
+    {
+      "project": "mobile-390",
+      "engine": "Chromium/D3D11",
+      "theme": "light",
+      "image": "public-mobile-390-light.png",
+      "imageSha256": "c1e2c684f0cc24a651de2af6a79f120f2992cde5ee0c06fdabb11be378114836",
+      "method": "Real completed progress and first frame; only overlay removal is held for inspection.",
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "pending": "",
+        "stage": "ready"
+      },
+      "coverage": 0.19654390934844193,
+      "requested": ["loading-sketch.json", "loading-sketch/study.json"],
+      "received": [
+        {
+          "file": "loading-sketch.json",
+          "digest": "7a938dfa74f9e784b1d02ea0d838195598e24cfe0dfd10b46177f019aa99ff64"
+        },
+        {
+          "file": "loading-sketch/study.json",
+          "digest": "0e27e186e71c1686d5a9fb6f62cbda75fcc5f37c211fc5408a8af9244c151cce"
+        }
+      ],
+      "backend": {
+        "buffer": [350, 352],
+        "css": [350, 352],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "frame": {
+        "height": 353,
+        "luminanceVariance": 8214.038843313314,
+        "opaqueRatio": 1,
+        "sampledPixels": 123550,
+        "uniqueColors": 4096,
+        "width": 350
+      },
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 4
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 642
+        },
+        {
+          "stage": "room",
+          "milliseconds": 1839
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 4520
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 6241
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 14225
+        }
+      ],
+      "errors": []
+    },
+    {
+      "project": "tablet-768",
+      "engine": "Chromium/D3D11",
+      "theme": "dark",
+      "image": "public-tablet-768-dark.png",
+      "imageSha256": "b6699f22bdd7833fcb40e37d3fb0f4ca23067e40126d267b9e1cdd70b18b85a9",
+      "method": "Real completed progress and first frame; only overlay removal is held for inspection.",
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "pending": "",
+        "stage": "ready"
+      },
+      "coverage": 0.06499443302500857,
+      "requested": ["loading-sketch.json", "loading-sketch/study.json"],
+      "received": [
+        {
+          "file": "loading-sketch.json",
+          "digest": "7a938dfa74f9e784b1d02ea0d838195598e24cfe0dfd10b46177f019aa99ff64"
+        },
+        {
+          "file": "loading-sketch/study.json",
+          "digest": "0e27e186e71c1686d5a9fb6f62cbda75fcc5f37c211fc5408a8af9244c151cce"
+        }
+      ],
+      "backend": {
+        "buffer": [672, 416],
+        "css": [672, 416],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "frame": {
+        "height": 417,
+        "luminanceVariance": 1316.5549880678764,
+        "opaqueRatio": 1,
+        "sampledPixels": 70224,
+        "uniqueColors": 4096,
+        "width": 672
+      },
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 4
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 527
+        },
+        {
+          "stage": "room",
+          "milliseconds": 1087
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 1783
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 3588
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 3982
+        }
+      ],
+      "errors": []
+    },
+    {
+      "project": "tablet-768",
+      "engine": "Chromium/D3D11",
+      "theme": "light",
+      "image": "public-tablet-768-light.png",
+      "imageSha256": "fe7868a666ff93460d96547dfa8905a24577004f4986312f1c79a8992863996a",
+      "method": "Real completed progress and first frame; only overlay removal is held for inspection.",
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "pending": "",
+        "stage": "ready"
+      },
+      "coverage": 0.12170977503711317,
+      "requested": ["loading-sketch.json", "loading-sketch/study.json"],
+      "received": [
+        {
+          "file": "loading-sketch.json",
+          "digest": "7a938dfa74f9e784b1d02ea0d838195598e24cfe0dfd10b46177f019aa99ff64"
+        },
+        {
+          "file": "loading-sketch/study.json",
+          "digest": "0e27e186e71c1686d5a9fb6f62cbda75fcc5f37c211fc5408a8af9244c151cce"
+        }
+      ],
+      "backend": {
+        "buffer": [672, 416],
+        "css": [672, 416],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "frame": {
+        "height": 417,
+        "luminanceVariance": 7690.367042590953,
+        "opaqueRatio": 1,
+        "sampledPixels": 70224,
+        "uniqueColors": 4096,
+        "width": 672
+      },
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 5
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 549
+        },
+        {
+          "stage": "room",
+          "milliseconds": 1757
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 4094
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 6237
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 14682
+        }
+      ],
+      "errors": []
+    },
+    {
+      "project": "webkit-phone",
+      "engine": "WebKit host iPhone emulation",
+      "theme": "dark",
+      "image": "public-webkit-phone-dark.png",
+      "imageSha256": "196ce6bf23956a65840d4f2ca5203c52b47ca3acd17564d02ca0acb26437c2f3",
+      "method": "Real completed progress and first frame; only overlay removal is held for inspection.",
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "pending": "",
+        "stage": "ready"
+      },
+      "coverage": 0.09596924322136786,
+      "requested": ["loading-sketch.json", "loading-sketch/study.json"],
+      "received": [
+        {
+          "file": "loading-sketch.json",
+          "digest": "7a938dfa74f9e784b1d02ea0d838195598e24cfe0dfd10b46177f019aa99ff64"
+        },
+        {
+          "file": "loading-sketch/study.json",
+          "digest": "0e27e186e71c1686d5a9fb6f62cbda75fcc5f37c211fc5408a8af9244c151cce"
+        }
+      ],
+      "backend": {
+        "buffer": [350, 352],
+        "css": [350, 352],
+        "renderer": "Apple GPU"
+      },
+      "frame": {
+        "height": 353,
+        "luminanceVariance": 1175.269268626595,
+        "opaqueRatio": 1,
+        "sampledPixels": 123550,
+        "uniqueColors": 4096,
+        "width": 350
+      },
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 2
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 871
+        },
+        {
+          "stage": "room",
+          "milliseconds": 1875
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 3881
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 9329
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 18053
+        }
+      ],
+      "errors": []
+    },
+    {
+      "project": "webkit-phone",
+      "engine": "WebKit host iPhone emulation",
+      "theme": "light",
+      "image": "public-webkit-phone-light.png",
+      "imageSha256": "bd565ca56931138369da95bb18f41247e59b7d4423f329bb49d7e5093c9aa3a7",
+      "method": "Real completed progress and first frame; only overlay removal is held for inspection.",
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "pending": "",
+        "stage": "ready"
+      },
+      "coverage": 0.19893160663698908,
+      "requested": ["loading-sketch.json", "loading-sketch/study.json"],
+      "received": [
+        {
+          "file": "loading-sketch.json",
+          "digest": "7a938dfa74f9e784b1d02ea0d838195598e24cfe0dfd10b46177f019aa99ff64"
+        },
+        {
+          "file": "loading-sketch/study.json",
+          "digest": "0e27e186e71c1686d5a9fb6f62cbda75fcc5f37c211fc5408a8af9244c151cce"
+        }
+      ],
+      "backend": {
+        "buffer": [350, 352],
+        "css": [350, 352],
+        "renderer": "Apple GPU"
+      },
+      "frame": {
+        "height": 353,
+        "luminanceVariance": 8239.406193852268,
+        "opaqueRatio": 1,
+        "sampledPixels": 123550,
+        "uniqueColors": 4096,
+        "width": 350
+      },
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 4
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 1012
+        },
+        {
+          "stage": "room",
+          "milliseconds": 2123
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 4065
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 9197
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 18650
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "pageFallback": [
+    {
+      "engine": "Chromium/D3D11",
+      "source": "fallback-fixed-results/loading-drawing-coastal-lo-4a153-ile-unfinished-work-is-held-desktop-1440/drawing-page-fallback.json",
+      "state": {
+        "drawing": "study",
+        "allowed": 0.3067,
+        "drawn": 0.3067,
+        "strokes": 730,
+        "pending": "",
+        "stage": "room"
+      },
+      "backend": {
+        "buffer": [544, 460],
+        "css": [545, 461],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "errors": []
+    },
+    {
+      "engine": "Chromium/D3D11",
+      "source": "public-rest-results/loading-drawing-coastal-lo-4a153-ile-unfinished-work-is-held-mobile-390/drawing-page-fallback.json",
+      "state": {
+        "drawing": "study",
+        "allowed": 0.46,
+        "drawn": 0.46,
+        "strokes": 1436,
+        "pending": "",
+        "stage": "room"
+      },
+      "backend": {
+        "buffer": [350, 352],
+        "css": [350, 352],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "errors": []
+    },
+    {
+      "engine": "WebKit host iPhone emulation",
+      "source": "webkit-results/loading-drawing-coastal-lo-4a153-ile-unfinished-work-is-held-mobile-390/drawing-page-fallback.json",
+      "state": {
+        "drawing": "study",
+        "allowed": 0.3067,
+        "drawn": 0.3067,
+        "strokes": 730,
+        "pending": "",
+        "stage": "room"
+      },
+      "backend": {
+        "buffer": [350, 352],
+        "css": [350, 352],
+        "renderer": "Apple GPU"
+      },
+      "errors": []
+    }
+  ],
+  "transfer": {
+    "cap": "Existing normal-gzip index-plus-room cap remains below 100 KiB; no cap change.",
+    "gzipLevel9Pairs": [
+      {
+        "room": "gym",
+        "indexPlusRoomGzip9": 54078
+      },
+      {
+        "room": "kitchen",
+        "indexPlusRoomGzip9": 45584
+      },
+      {
+        "room": "library",
+        "indexPlusRoomGzip9": 61705
+      },
+      {
+        "room": "lounge",
+        "indexPlusRoomGzip9": 36520
+      },
+      {
+        "room": "onsen",
+        "indexPlusRoomGzip9": 69201
+      },
+      {
+        "room": "sleep",
+        "indexPlusRoomGzip9": 53122
+      },
+      {
+        "room": "study",
+        "indexPlusRoomGzip9": 77443
+      }
+    ]
+  },
+  "retainedFailure": {
+    "log": "public-first.log",
+    "cause": "The first fallback fixture disabled every Worker, preventing Draco decoding. Production runtime was unchanged. Corrected fixture removes only OffscreenCanvas transfer; failed screenshot/trace and first spec copy remain in the raw evidence directory."
+  },
+  "firstFormAttempt": {
+    "directory": "first-form-attempt/",
+    "sourceCustody": "Reconstructed semantic source after formatting, proven output-equivalent with --check; not original executed-byte custody.",
+    "files": [
+      {
+        "file": "gym.json",
+        "sha256": "40f40948054fb5c24728f7ecbc4e34558c5275d02b9a93f92bd8139174976876"
+      },
+      {
+        "file": "kitchen.json",
+        "sha256": "1bcb5492a3a935a9323620b76225c493a178f521a484715c8d7c9e2261c6058d"
+      },
+      {
+        "file": "library.json",
+        "sha256": "b7544a4c38030e5fd3d3f9a36c9cf5e2cac6b452a31ae3bd26a34d29fca8db02"
+      },
+      {
+        "file": "loading-sketch.json",
+        "sha256": "e1a2290db3ca04c023e34bd002e931117479e0c6c83da0ecaf804ee826273817"
+      },
+      {
+        "file": "lounge.json",
+        "sha256": "2c3b7ff38e6167d0b45028fb7fbe29762a7ccb9d219b8e1fc8e13772f2354a8a"
+      },
+      {
+        "file": "onsen.json",
+        "sha256": "2752683e3c6a29c25a641fb8fa57bb649c87e13196dfad4115d0aef8fb65b135"
+      },
+      {
+        "file": "receipt.json",
+        "sha256": "2c1f792f46355b5b9c61f83ce2f7d4e65a8d63f2b3e4570b4c80eb190fee2937"
+      },
+      {
+        "file": "reconstructed-generator.cjs.txt",
+        "sha256": "b51dcc4d107298e7c5a5381ecb4c5389a3eb3354d6fe77fe76cc80667dc6f015"
+      },
+      {
+        "file": "sleep.json",
+        "sha256": "f64837d9e0d84d821a2c05b9895ad65acdc475351f78429bf8fdfbe2762a3436"
+      },
+      {
+        "file": "study.json",
+        "sha256": "f89f63824d460a883860072f02bbbb460623c5b46b9748ec03e078f4f1935e9d"
+      }
+    ]
+  },
+  "logs": [
+    {
+      "file": "node-strict.log",
+      "sha256": "66c388cd90459cb7198ecc33613c7cf5e9853baf429a4b246137b412c5c9480d",
+      "signals": ["\u2139 tests 12", "\u2139 pass 12", "\u2139 fail 0", "\u2139 skipped 0"],
+      "tail": [
+        "\u2139 tests 12",
+        "\u2139 suites 0",
+        "\u2139 pass 12",
+        "\u2139 fail 0",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0",
+        "\u2139 todo 0",
+        "\u2139 duration_ms 293.8574"
+      ]
+    },
+    {
+      "file": "node-all.log",
+      "sha256": "761c401bd86ff393779149543670a6e4114761a071dcc724317823f7bc799dde",
+      "signals": [
+        "\u2714 without anchors nothing is fetched, and missing pieces on either side are skipped (58.5918ms)",
+        "\u2139 tests 828",
+        "\u2139 pass 821",
+        "\u2139 fail 0",
+        "\u2139 skipped 7"
+      ],
+      "tail": [
+        "\u2139 tests 828",
+        "\u2139 suites 0",
+        "\u2139 pass 821",
+        "\u2139 fail 0",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 7",
+        "\u2139 todo 0",
+        "\u2139 duration_ms 35791.6788"
+      ]
+    },
+    {
+      "file": "python-final.log",
+      "sha256": "251eba28f743e0dc8c7e942474b5a3a7346de78a84bb0ca3cc869227464b434d",
+      "signals": ["Ran 314 tests in 16.017s", "OK"],
+      "tail": [
+        "At line:2 char:1",
+        "+ python -m unittest discover -s test -p \"test_*.py\" *> .jekyll-cache/v ...",
+        "+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "    + CategoryInfo          : NotSpecified: (.................................:String) [], RemoteException",
+        "    + FullyQualifiedErrorId : NativeCommandError",
+        "----------------------------------------------------------------------",
+        "Ran 314 tests in 16.017s",
+        "OK"
+      ]
+    },
+    {
+      "file": "final-trace-check.log",
+      "sha256": "33fdb5112471ad225ee82e94ac234ba006a6df26999c13631032c10c7a79e5f0",
+      "signals": ["loading-sketch.json and its room drawings match the cached passes"],
+      "tail": [
+        "gym {\"strokes\":2023,\"points\":8284,\"bytes\":25231,\"ink\":118.48,\"layers\":{\"shell\":1488,\"cliff\":43,\"furniture\":259,\"detail\":233}}",
+        "kitchen {\"strokes\":1225,\"points\":4754,\"bytes\":15093,\"ink\":120.16,\"layers\":{\"shell\":512,\"stairs\":19,\"cliff\":22,\"furniture\":271,\"plants\":62,\"detail\":339}}",
+        "library {\"strokes\":2659,\"points\":11206,\"bytes\":34077,\"ink\":176.88,\"layers\":{\"shell\":391,\"cliff\":19,\"sea\":2,\"furniture\":246,\"detail\":2001}}",
+        "lounge {\"strokes\":370,\"points\":1528,\"bytes\":4914,\"ink\":83.89,\"layers\":{\"shell\":178,\"sea\":7,\"furniture\":57,\"detail\":128}}",
+        "onsen {\"strokes\":4173,\"points\":12866,\"bytes\":43398,\"ink\":213.94,\"layers\":{\"shell\":2092,\"sea\":1955,\"furniture\":23,\"detail\":103}}",
+        "sleep {\"strokes\":2011,\"points\":8161,\"bytes\":25041,\"ink\":128.41,\"layers\":{\"shell\":660,\"stairs\":5,\"cliff\":20,\"sea\":2,\"furniture\":275,\"plants\":75,\"detail\":974}}",
+        "study {\"strokes\":4232,\"points\":17092,\"bytes\":52393,\"ink\":229.21,\"layers\":{\"shell\":437,\"stairs\":212,\"furniture\":1301,\"plants\":2,\"detail\":2280}}",
+        "loading-sketch.json and its room drawings match the cached passes"
+      ]
+    },
+    {
+      "file": "production-strict-build.log",
+      "sha256": "6df1c4d838a4f4541c7b1de8fc3f05c16284a5a9a44bd5b224b071a152002894",
+      "signals": [
+        "     al_folio_core: Notebook rendering will be skipped for Jupyter posts until Python deps are installed.",
+        "                    done in 77.342 seconds."
+      ],
+      "tail": [
+        "UserWarning: IPython3 lexer unavailable, falling back on Python 3",
+        "  return _pygments_highlight(",
+        "        AlImgTools: Successfully copied lightbox2-adapter.css from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/css/lightbox2-adapter.css to C:/dev/site-takeover-worktrees/finish-brand-footer/.jekyll-cache/finish-brand-site/assets/al_img_tools/css/lightbox2-adapter.css",
+        "        AlImgTools: Successfully copied lightbox2-adapter.js from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/js/lightbox2-adapter.js to C:/dev/site-takeover-worktrees/finish-brand-footer/.jekyll-cache/finish-brand-site/assets/al_img_tools/js/lightbox2-adapter.js",
+        "        AlImgTools: Successfully copied venobox-setup.js from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/js/venobox-setup.js to C:/dev/site-takeover-worktrees/finish-brand-footer/.jekyll-cache/finish-brand-site/assets/al_img_tools/js/venobox-setup.js",
+        "        AlImgTools: Successfully copied zoom.js from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/js/zoom.js to C:/dev/site-takeover-worktrees/finish-brand-footer/.jekyll-cache/finish-brand-site/assets/al_img_tools/js/zoom.js",
+        "                    done in 77.342 seconds.",
+        " Auto-regeneration: disabled. Use --watch to enable."
+      ]
+    },
+    {
+      "file": "public-first.log",
+      "sha256": "022f3a97119c520651875d9a84446a3d9b0448d22b7ad579b673ae34696ab6ad",
+      "signals": ["  1 passed (2.1m)"],
+      "tail": [
+        "    attachment #3: trace (application/zip) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+        "    .jekyll-cache\\visual-qa\\loading-density-2026-10-26\\public-first-results\\loading-drawing-coastal-lo-4a153-ile-unfinished-work-is-held-desktop-1440\\trace.zip",
+        "    Usage:",
+        "        npx playwright show-trace .jekyll-cache\\visual-qa\\loading-density-2026-10-26\\public-first-results\\loading-drawing-coastal-lo-4a153-ile-unfinished-work-is-held-desktop-1440\\trace.zip",
+        "    \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+        "  1 failed",
+        "    [desktop-1440] \u203a test\\visual\\loading-drawing.spec.js:150:1 \u203a coastal loading drawing: reduced-motion page fallback stays still while unfinished work is held ",
+        "  1 passed (2.1m)"
+      ]
+    },
+    {
+      "file": "fallback-fixed.log",
+      "sha256": "476204e9eabb5f1c2aca4fa24998e11188fc2004efcc3b9a31f518c3bbde6bcb",
+      "signals": ["  1 passed (23.9s)"],
+      "tail": [
+        "+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+        "    + CategoryInfo          : NotSpecified: ((node:4... env being set.:String) [], RemoteException",
+        "    + FullyQualifiedErrorId : NativeCommandError",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "(node:47740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "[1/1] [desktop-1440] \u203a test\\visual\\loading-drawing.spec.js:150:1 \u203a coastal loading drawing: reduced-motion page fallback stays still while unfinished work is held",
+        "  1 passed (23.9s)"
+      ]
+    },
+    {
+      "file": "public-rest.log",
+      "sha256": "98d47e0ea2d742a4c07af9aaeb6e46d0ef341d45d8ffa17a263558676b6b52be",
+      "signals": ["  2 skipped", "  4 passed (1.9m)"],
+      "tail": [
+        "(node:32292) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "(node:32292) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "[5/6] [mobile-390] \u203a test\\visual\\loading-drawing.spec.js:57:1 \u203a coastal loading drawing: complete geometric detail stays legible through the real frame handoff",
+        "[6/6] [mobile-390] \u203a test\\visual\\loading-drawing.spec.js:150:1 \u203a coastal loading drawing: reduced-motion page fallback stays still while unfinished work is held",
+        "  2 skipped",
+        "  4 passed (1.9m)"
+      ]
+    },
+    {
+      "file": "existing.log",
+      "sha256": "ad3e666735066d756889c727ebcf072b57ced54dbca24a5ed93a07842717f48e",
+      "signals": ["  8 passed (2.5m)"],
+      "tail": [
+        "[6/8] [tablet-768] \u203a test\\visual\\desk-scene.spec.js:877:1 \u203a coastal loading sketch: the pen draws only what finished work allows, densest before the first frame",
+        "(node:52560) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "(node:52560) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "[7/8] [mobile-390] \u203a test\\visual\\desk-scene.spec.js:832:1 \u203a coastal loading sketch: pen strokes fill the empty scene until the first frame takes over",
+        "[8/8] [mobile-390] \u203a test\\visual\\desk-scene.spec.js:877:1 \u203a coastal loading sketch: the pen draws only what finished work allows, densest before the first frame",
+        "  8 passed (2.5m)"
+      ]
+    },
+    {
+      "file": "webkit.log",
+      "sha256": "181f706af7b9ede271621f0c9e1ef4ffa22cda8ec7ec4783b38c12978429cf6d",
+      "signals": ["  2 passed (1.3m)"],
+      "tail": [
+        "    + CategoryInfo          : NotSpecified: ((node:4... env being set.:String) [], RemoteException",
+        "    + FullyQualifiedErrorId : NativeCommandError",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "(node:46940) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "[1/2] [mobile-390] \u203a test\\visual\\loading-drawing.spec.js:57:1 \u203a coastal loading drawing: complete geometric detail stays legible through the real frame handoff",
+        "[2/2] [mobile-390] \u203a test\\visual\\loading-drawing.spec.js:150:1 \u203a coastal loading drawing: reduced-motion page fallback stays still while unfinished work is held",
+        "  2 passed (1.3m)"
+      ]
+    },
+    {
+      "file": "final-source-gates.log",
+      "sha256": "79a52cefbabd74d457603668725e981cbfad592c275e4ae462777de2be3b47a7",
+      "signals": [
+        "Publication and AI-readable output validation passed.",
+        "Starter style contract check passed.",
+        "All matched files use Prettier code style!"
+      ],
+      "tail": [
+        "warning: in the working copy of 'assets/models/home/loading-sketch/sleep.json', LF will be replaced by CRLF the next ",
+        "time Git touches it",
+        "warning: in the working copy of 'assets/models/home/loading-sketch/study.json', LF will be replaced by CRLF the next ",
+        "time Git touches it",
+        "warning: in the working copy of 'bin/build_loading_sketch.cjs', LF will be replaced by CRLF the next time Git touches ",
+        "it",
+        "warning: in the working copy of 'test/loading-sketch.test.mjs', LF will be replaced by CRLF the next time Git touches ",
+        "it"
+      ]
+    }
+  ],
+  "limits": [
+    "Host desktop/phone emulation; no physical-phone performance claim.",
+    "Canvas2D completed-progress comparison is an artwork fixture, not observed loading progress.",
+    "Fresh geometry-bound capture/regeneration and verification remain required after the final house export.",
+    "No later house geometry freshness, CI, publication or live acceptance is claimed by this local receipt."
+  ]
+}

@@ -14,8 +14,10 @@
 // preview (VISUAL_BASE_URL, default Docker on 127.0.0.1:8080) renders three passes with characters,
 // wildlife and glass hidden: object IDs, view-space normals and depth. Scene modules and models are
 // served from this working tree, so a stale server never feeds the trace. Object outlines, depth
-// silhouettes and sharp creases become one-pixel edges, linked into chains, simplified, ordered for
-// drawing (the cliff and the house before furniture and plants, long lines before short, each layer
+// silhouettes and sharp creases become one-pixel edges, linked into chains, while restrained
+// normal-derived form contours describe smooth furniture and architecture in the late detail group.
+// These are simplified and ordered for drawing (the cliff and the house before furniture and
+// plants, long lines before short, each layer
 // walked as one hand would draw it) and packed as delta-encoded polylines. The capture uses the
 // tablet layout, the widest scene aspect, so narrower canvases only crop the drawing.
 const fs = require("node:fs");
@@ -336,6 +338,123 @@ function edgeMap(pass) {
   return kind;
 }
 
+// Fine form lines from the real view-space normals, not image color or invented surface marks.
+// Equal normal·light contours describe a rounded cushion or vault that has no sharp crease.
+// They stay within one visible object and continuous depth, and arrive with the view's detail.
+// This is an authored pen treatment with a fixed upper-left drawing light, not a relighting model.
+function normalContourLines(pass) {
+  const { width, height, id, normal, depth, categories } = pass,
+    scalar = new Float32Array(width * height).fill(NaN),
+    light = [-0.5, 0.6, 0.6245],
+    levels = [-0.1, 0.15, 0.4, 0.65, 0.85],
+    step = 3,
+    forms = new Set(["shell", "stairs", "furniture", "detail"]),
+    eligible = (i) => id[i] > 0 && forms.has(categories.get(id[i]));
+  for (let y = 1; y < height - 1; y++)
+    for (let x = 1; x < width - 1; x++) {
+      const i = y * width + x;
+      if (!eligible(i)) continue;
+      let sum = 0,
+        count = 0;
+      for (let dy = -1; dy <= 1; dy++)
+        for (let dx = -1; dx <= 1; dx++) {
+          const p = i + dy * width + dx;
+          if (id[p] !== id[i] || Math.abs(depth[p] - depth[i]) > 0.018 * depth[i] + 0.003) continue;
+          sum += normal[p * 3] * light[0] + normal[p * 3 + 1] * light[1] + normal[p * 3 + 2] * light[2];
+          count++;
+        }
+      scalar[i] = sum / count;
+    }
+  const groups = new Map(),
+    segmentsFor = (object, level) => {
+      const key = `${object}:${level}`;
+      if (!groups.has(key)) groups.set(key, []);
+      return groups.get(key);
+    };
+  for (let y = 2; y < height - step - 2; y += step)
+    for (let x = 2; x < width - step - 2; x += step) {
+      const corners = [y * width + x, y * width + x + step, (y + step) * width + x + step, (y + step) * width + x],
+        values = corners.map((i) => scalar[i]);
+      if (!Number.isFinite(values[0]) || corners.some((i) => id[i] !== id[corners[0]])) continue;
+      const depths = corners.map((i) => depth[i]),
+        near = Math.min(...depths);
+      if (Math.max(...depths) - near > near * 0.018 + 0.003 || Math.max(...values) - Math.min(...values) < 0.006) continue;
+      // Sampling only four corners could bridge a one-pixel gap or a thin foreground object.
+      // Every pixel the small contour cell spans must belong to the same continuous surface.
+      let interrupted = false;
+      for (let dy = 0; dy <= step && !interrupted; dy++)
+        for (let dx = 0; dx <= step; dx++) {
+          const i = (y + dy) * width + x + dx;
+          if (id[i] !== id[corners[0]] || Math.abs(depth[i] - near) > near * 0.018 + 0.003) {
+            interrupted = true;
+            break;
+          }
+        }
+      if (interrupted) continue;
+      // A sharp normal jump already belongs to the structural edge trace, not a soft form line.
+      if (
+        corners.some((i) => {
+          const a = corners[0];
+          return normal[a * 3] * normal[i * 3] + normal[a * 3 + 1] * normal[i * 3 + 1] + normal[a * 3 + 2] * normal[i * 3 + 2] < 0.94;
+        })
+      )
+        continue;
+      const points = [
+        [x, y],
+        [x + step, y],
+        [x + step, y + step],
+        [x, y + step],
+      ];
+      for (let level = 0; level < levels.length; level++) {
+        const at = levels[level],
+          hits = [];
+        for (let edge = 0; edge < 4; edge++) {
+          const next = (edge + 1) % 4,
+            a = values[edge],
+            b = values[next];
+          if (a < at === b < at) continue;
+          const t = (at - a) / (b - a);
+          hits.push([points[edge][0] + (points[next][0] - points[edge][0]) * t, points[edge][1] + (points[next][1] - points[edge][1]) * t]);
+        }
+        // Ambiguous saddles are left blank rather than inventing a connection across a fold.
+        if (hits.length === 2) segmentsFor(id[corners[0]], level).push(hits);
+      }
+    }
+  const lines = [];
+  for (const segments of groups.values()) {
+    const nodes = new Map(),
+      key = ([x, y]) => `${Math.round(x * 1024)},${Math.round(y * 1024)}`;
+    segments.forEach((segment, index) => {
+      for (const point of segment) {
+        const name = key(point);
+        if (!nodes.has(name)) nodes.set(name, []);
+        nodes.get(name).push(index);
+      }
+    });
+    const used = new Set(),
+      walk = (index, start) => {
+        const points = [start];
+        while (!used.has(index)) {
+          used.add(index);
+          const segment = segments[index],
+            next = key(segment[0]) === key(points.at(-1)) ? segment[1] : segment[0];
+          points.push(next);
+          const linked = nodes.get(key(next)).filter((i) => !used.has(i));
+          if (linked.length !== 1) break;
+          index = linked[0];
+        }
+        if (points.length > 2) lines.push({ points, category: "detail", kind: KIND.crease, form: true });
+      };
+    for (const [index, segment] of segments.entries()) {
+      if (used.has(index)) continue;
+      const end = segment.find((point) => nodes.get(key(point)).length === 1);
+      if (end) walk(index, end);
+    }
+    for (const [index, segment] of segments.entries()) if (!used.has(index)) walk(index, segment[0]);
+  }
+  return lines;
+}
+
 // Zhang-Suen thinning of one category's edge pixels, so chains are one pixel wide.
 function thin(mask, width, height) {
   let points = [];
@@ -613,8 +732,8 @@ function traceView(view, budget) {
       lines.push({ category, points, kind });
     }
   }
-  lines = mergeChains(lines).map((line) => {
-    const organic = ORGANIC.has(line.category),
+  lines = [...mergeChains(lines), ...normalContourLines(pass)].map((line) => {
+    const organic = ORGANIC.has(line.category) || line.form,
       points = organic ? simplify(smooth(simplify(line.points, 0.9)), 0.45) : simplify(line.points, 0.9);
     return { ...line, points, length: lengthOf(points) };
   });
@@ -623,7 +742,9 @@ function traceView(view, budget) {
   // Fit the budget by dropping the shortest lines of the latest layers first.
   let total = lines.reduce((sum, l) => sum + l.points.length, 0);
   if (total > budget) {
-    const ranked = [...lines].sort((a, b) => layers.indexOf(b.category) - layers.indexOf(a.category) || a.length - b.length);
+    const ranked = [...lines].sort(
+      (a, b) => layers.indexOf(b.category) - layers.indexOf(a.category) || Number(Boolean(b.form)) - Number(Boolean(a.form)) || a.length - b.length
+    );
     const drop = new Set();
     for (const line of ranked) {
       if (total <= budget) break;
@@ -655,6 +776,7 @@ function traceView(view, budget) {
     count: ordered.length,
     ink: +ordered.reduce((sum, l) => sum + l.length / cy, 0).toFixed(2),
     counts,
+    formStrokes: ordered.filter((line) => line.form).length,
     aspect: +(width / height).toFixed(3),
   };
 }
@@ -675,7 +797,7 @@ function sketchFiles() {
       views[view] = { file, ...summary };
       rooms.set(path.join(path.dirname(OUT), file), { view, strokes });
     }
-    report[view] = { aspect: result.aspect, bytes: result.bytes.length, layers: result.counts };
+    report[view] = { aspect: result.aspect, bytes: result.bytes.length, formStrokes: result.formStrokes, layers: result.counts };
     console.log(
       view,
       JSON.stringify({ strokes: result.count, points: result.points, bytes: result.bytes.length, ink: result.ink, layers: result.counts })
@@ -719,7 +841,23 @@ function writeSketch({ check = false } = {}) {
   console.log("a load fetches at most", gzipped.get(OUT) + largest, "gzipped bytes: the index and its largest room");
 }
 
-module.exports = { VIEWS, RANGE, CACHE, OUT, GRID, LAYERS, classify, simplify, encode, thin, chains, mergeChains, orderLayer, zigzag };
+module.exports = {
+  VIEWS,
+  RANGE,
+  CACHE,
+  OUT,
+  GRID,
+  LAYERS,
+  classify,
+  simplify,
+  encode,
+  thin,
+  chains,
+  mergeChains,
+  orderLayer,
+  zigzag,
+  normalContourLines,
+};
 
 if (require.main === module)
   (async () => {

@@ -24,6 +24,61 @@ const manifest = JSON.parse(readFileSync(new URL("manifest.json", MODELS), "utf8
 // The coast view's strokes sit in the index; each room's sit in the file the index names.
 const strokesOf = (id) => sketch.views[id].strokes ?? JSON.parse(readFileSync(new URL(sketch.views[id].file, MODELS), "utf8")).strokes;
 
+function formFixture({ split = null, category = "furniture", flat = false } = {}) {
+  const width = 128,
+    height = 80,
+    id = new Int32Array(width * height),
+    normal = new Float32Array(width * height * 3),
+    depth = new Float32Array(width * height);
+  for (let y = 0; y < height; y++)
+    for (let x = 0; x < width; x++) {
+      const i = y * width + x,
+        angle = flat ? 0 : -0.8 + (1.6 * x) / (width - 1);
+      id[i] = split === "gap" && y === 39 ? 0 : split === "object" && y >= height / 2 ? 2 : 1;
+      depth[i] = (split === "thin-depth" && y === 39) || (split === "depth" && y >= height / 2) ? 2 : 1;
+      normal[i * 3] = Math.sin(angle);
+      normal[i * 3 + 2] = Math.cos(angle);
+    }
+  return {
+    width,
+    height,
+    id,
+    normal,
+    depth,
+    categories: new Map([
+      [1, category],
+      [2, category],
+    ]),
+  };
+}
+
+test("fine form lines follow real normal variation and leave a planar surface blank", () => {
+  assert.deepEqual(generator.normalContourLines(formFixture({ flat: true })), []);
+  const lines = generator.normalContourLines(formFixture());
+  assert.ok(lines.length >= 3, "the smooth curved fixture has several distinct form contours");
+  for (const line of lines) {
+    assert.equal(line.category, "detail", "form curves wait for the existing late detail group");
+    assert.equal(line.form, true);
+    for (const [x] of line.points) {
+      const angle = -0.8 + (1.6 * x) / 127,
+        value = -0.5 * Math.sin(angle) + 0.6245 * Math.cos(angle);
+      assert.ok(Math.min(...[-0.1, 0.15, 0.4, 0.65, 0.85].map((level) => Math.abs(value - level))) < 0.01);
+    }
+  }
+});
+
+test("fine form lines stop at object and depth boundaries and never hatch water or foliage", () => {
+  for (const split of ["object", "depth", "gap", "thin-depth"]) {
+    const lines = generator.normalContourLines(formFixture({ split }));
+    assert.ok(lines.length >= 6, `${split} splits each curved contour into separate visible pieces`);
+    for (const line of lines) {
+      const ys = line.points.map((point) => point[1]);
+      assert.ok(Math.max(...ys) < 40 || Math.min(...ys) >= 40, `${split}: no invented line crosses the discontinuity`);
+    }
+  }
+  for (const category of ["sea", "cliff", "plants", "background"]) assert.deepEqual(generator.normalContourLines(formFixture({ category })), []);
+});
+
 // A 2D context that records what is stroked, and a layer factory that hands out recording canvases.
 function recordingContext(width, height) {
   const strokes = [];

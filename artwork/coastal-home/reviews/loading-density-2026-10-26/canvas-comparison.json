@@ -1,0 +1,1309 @@
+{
+  "method": "Static browser Canvas2D comparison using the real loading-sketch core, with every progress group explicitly complete. This is artwork-density evidence, not measured public loading progress or performance.",
+  "browser": "145.0.7632.6",
+  "coreSha256": "20c3c7fa58f490bc4722110c22721f0b96a8b0697d3da850b5a0e433261d0982",
+  "drawings": {
+    "before": {
+      "assets/models/home/loading-sketch.json": "cc265a20fa056de3c85cc07c2ee51316a232db8ae24c97bb3635083fd9cd4476",
+      "assets/models/home/loading-sketch/gym.json": "19e33338f0f8305d0ce2c0e9ee542e8b287547e88851a69ef1a040e80e10f153",
+      "assets/models/home/loading-sketch/kitchen.json": "906378300a939763c813e2ffcf9aad5b1ba30fc32d94795116a192a3396dbe23",
+      "assets/models/home/loading-sketch/library.json": "ca1386d4eca4b9ad99fa605701d4780e216820f1fc306a66412239c17cacfea3",
+      "assets/models/home/loading-sketch/lounge.json": "c88272c8d0cd02cdd39bb4f69cc6a764389866e26577761237882c45743aa7bb",
+      "assets/models/home/loading-sketch/onsen.json": "cb733a921b1398fe9256dc77556dd876c3298e4663642af93a10d90842b74d07",
+      "assets/models/home/loading-sketch/sleep.json": "500d623b5429dcebb12a0077de22ec1e0b26e0b4649f3131aa325d88c64d5416",
+      "assets/models/home/loading-sketch/study.json": "3dd039f24a3a95b22784167c0eea4042787a181b949baf124af81d063b88413b"
+    },
+    "form-contours": {
+      "assets/models/home/loading-sketch.json": "c256e6b6e7b4b9b533ccd6ae1b49bc5ed29729de0ffcf6f42e3907b167145cc5",
+      "assets/models/home/loading-sketch/gym.json": "324952fe100e604f6735745f927a225f355cafe20a1b6ba711dbe1b4f3d6ef5f",
+      "assets/models/home/loading-sketch/kitchen.json": "2bc2d8708c7d475fcf2e567bbc67b4328c50ba48fe727a5c8ea4e709a60edc40",
+      "assets/models/home/loading-sketch/library.json": "eb4d4cfc70e896dbf9b55eb34f00c88b54c9fb1bbd4a01ba158f0e74958eac33",
+      "assets/models/home/loading-sketch/lounge.json": "634f0b9f6d430fda2a0bd4d027f28a82141266be07f014fa04a372dc0de3d8b0",
+      "assets/models/home/loading-sketch/onsen.json": "2752683e3c6a29c25a641fb8fa57bb649c87e13196dfad4115d0aef8fb65b135",
+      "assets/models/home/loading-sketch/sleep.json": "f64837d9e0d84d821a2c05b9895ad65acdc475351f78429bf8fdfbe2762a3436",
+      "assets/models/home/loading-sketch/study.json": "43b08ef6c3ae4e1a1aee7d05adf9d8e63151c99ef2fe786d17760865af47596d"
+    }
+  },
+  "states": [
+    {
+      "variant": "before",
+      "view": "outside",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-outside-light-545.png",
+      "sha256": "af678d125b944db8b044faa0103146d931137d8918f851ddfa13035388404ad7",
+      "ink": "#23282a",
+      "alphaIntegral": 20168.67450980392,
+      "visiblePixels": 33285,
+      "state": {
+        "drawing": "outside",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2411,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "outside",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-outside-light-545.png",
+      "sha256": "ee28c1b1db543a66de4b463583da439bef2f0e4a5496ba5cd7a0a6178a2c15ba",
+      "ink": "#23282a",
+      "alphaIntegral": 20400.090196078432,
+      "visiblePixels": 34356,
+      "state": {
+        "drawing": "outside",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2478,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "study",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-study-light-545.png",
+      "sha256": "56be4211bee645e4db30c64edb29648eaf579bf8920b685c98033f68e1c20692",
+      "ink": "#23282a",
+      "alphaIntegral": 30552.266666666666,
+      "visiblePixels": 58685,
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 3664,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "study",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-study-light-545.png",
+      "sha256": "31e44c8653a5b75ef43e21ef475150e000f0aae74b2c01e617c83b9cc994182b",
+      "ink": "#23282a",
+      "alphaIntegral": 31578.13725490196,
+      "visiblePixels": 63251,
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "library",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-library-light-545.png",
+      "sha256": "53f6722ea7690133f577b1093f23a229c002a2c5ccd4944a8be3d11e1ed3156f",
+      "ink": "#23282a",
+      "alphaIntegral": 22814.89019607843,
+      "visiblePixels": 44602,
+      "state": {
+        "drawing": "library",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2216,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "library",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-library-light-545.png",
+      "sha256": "5bdce1495bfa03d587c3a264c00f9c5ba6a1ffb862705f56f825212c416e26fe",
+      "ink": "#23282a",
+      "alphaIntegral": 23943.439215686274,
+      "visiblePixels": 49693,
+      "state": {
+        "drawing": "library",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2659,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "lounge",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-lounge-light-545.png",
+      "sha256": "a3946ac2675818d1bb92cf1adeeeedc631114060c8d3d0745e5a12a626035a3c",
+      "ink": "#23282a",
+      "alphaIntegral": 9538.06274509804,
+      "visiblePixels": 17512,
+      "state": {
+        "drawing": "lounge",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 253,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "lounge",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-lounge-light-545.png",
+      "sha256": "10bb14bd6bc071926f24c6c7af3604a68ffe4ad18c211621f52f681c6038ffa4",
+      "ink": "#23282a",
+      "alphaIntegral": 11107.184313725491,
+      "visiblePixels": 25348,
+      "state": {
+        "drawing": "lounge",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 370,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "gym",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-gym-light-545.png",
+      "sha256": "4971671d78ed07d39e8501fa74eeb28fa17574ce5704eb517254d682d4605085",
+      "ink": "#23282a",
+      "alphaIntegral": 17331.49411764706,
+      "visiblePixels": 32529,
+      "state": {
+        "drawing": "gym",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1806,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "gym",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-gym-light-545.png",
+      "sha256": "632037a04228f18b2c32725ba180b1fc8756c0797c223cf266e7e0c40b77463b",
+      "ink": "#23282a",
+      "alphaIntegral": 17705.61568627451,
+      "visiblePixels": 33966,
+      "state": {
+        "drawing": "gym",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2023,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "kitchen",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-kitchen-light-545.png",
+      "sha256": "8e1a7b8276c935ad828722b3ef89a0ab4214728835f825514278a02c4b7d25ce",
+      "ink": "#23282a",
+      "alphaIntegral": 15900.027450980393,
+      "visiblePixels": 31122,
+      "state": {
+        "drawing": "kitchen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 954,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "kitchen",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-kitchen-light-545.png",
+      "sha256": "1fc259e991b8bd31af0ac9ff84c05b91f9206e48de8126c0caf242e3093f44e9",
+      "ink": "#23282a",
+      "alphaIntegral": 16883.188235294117,
+      "visiblePixels": 35692,
+      "state": {
+        "drawing": "kitchen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1225,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "onsen",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-onsen-light-545.png",
+      "sha256": "c37e794b323ac1f5fdc06092cc0937a06d7de279ced4c33e64bcb34873d2eea5",
+      "ink": "#23282a",
+      "alphaIntegral": 33369.69411764706,
+      "visiblePixels": 54626,
+      "state": {
+        "drawing": "onsen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4070,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "onsen",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-onsen-light-545.png",
+      "sha256": "3dfa7768a9de93a71340c261960e65c174d2796e74187ba8e3d49d03d5042013",
+      "ink": "#23282a",
+      "alphaIntegral": 33943.79215686274,
+      "visiblePixels": 57337,
+      "state": {
+        "drawing": "onsen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4173,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "sleep",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-sleep-light-545.png",
+      "sha256": "2a5da048002c1f3f0f21ba7f4ad2d092011d95d105c0972f32a29b96c19c2e84",
+      "ink": "#23282a",
+      "alphaIntegral": 13856.011764705883,
+      "visiblePixels": 30003,
+      "state": {
+        "drawing": "sleep",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1707,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "sleep",
+      "theme": "light",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-sleep-light-545.png",
+      "sha256": "6d874e6295a61f80a2a0840c402b7e84363fbb8f3e63962b5daea65fbdc52831",
+      "ink": "#23282a",
+      "alphaIntegral": 15328.043137254903,
+      "visiblePixels": 37039,
+      "state": {
+        "drawing": "sleep",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2011,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "outside",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-outside-light-358.png",
+      "sha256": "d606bbe9f8f4d365f1fb4eb70214c34f020a959353f23811e51e13fd9266bc3b",
+      "ink": "#23282a",
+      "alphaIntegral": 15225.407843137255,
+      "visiblePixels": 24800,
+      "state": {
+        "drawing": "outside",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2411,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "outside",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-outside-light-358.png",
+      "sha256": "b16df8d9bbb519c134d1b1a368aa315864c8a90c2d0c9409babc7ce169afb548",
+      "ink": "#23282a",
+      "alphaIntegral": 15382.749019607843,
+      "visiblePixels": 25517,
+      "state": {
+        "drawing": "outside",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2478,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "study",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-study-light-358.png",
+      "sha256": "303ee9bbbbd51e1fce9b88d79e4b722bd60f5fb6e65a05addddba95c9287ef27",
+      "ink": "#23282a",
+      "alphaIntegral": 23838.30980392157,
+      "visiblePixels": 45362,
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 3664,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "study",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-study-light-358.png",
+      "sha256": "f0f06c7e2878808aaba6426d8b482304fc0c7f12142ebc4c43a83fe300bb4ef7",
+      "ink": "#23282a",
+      "alphaIntegral": 24483.141176470588,
+      "visiblePixels": 48124,
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "library",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-library-light-358.png",
+      "sha256": "e696de9e3d3c38ad32c8e95f056737160594d1c4afe35bbd44feb7fa02cbbe65",
+      "ink": "#23282a",
+      "alphaIntegral": 13236.227450980392,
+      "visiblePixels": 25300,
+      "state": {
+        "drawing": "library",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2216,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "library",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-library-light-358.png",
+      "sha256": "56302e6d5cecf9211932898c2010b9ec6f3179f48a2c18ca5fbab701825b1931",
+      "ink": "#23282a",
+      "alphaIntegral": 13976.113725490197,
+      "visiblePixels": 28621,
+      "state": {
+        "drawing": "library",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2659,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "lounge",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-lounge-light-358.png",
+      "sha256": "07c72d84ca34cec741f425bd517ddbc7946b6e759941387623d8380a7c4a1863",
+      "ink": "#23282a",
+      "alphaIntegral": 6080.992156862745,
+      "visiblePixels": 10984,
+      "state": {
+        "drawing": "lounge",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 253,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "lounge",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-lounge-light-358.png",
+      "sha256": "b9afe836e3901dc791abbbea3b5a25af95a8438793625c60470f37f8ae1643c6",
+      "ink": "#23282a",
+      "alphaIntegral": 6887.180392156863,
+      "visiblePixels": 14914,
+      "state": {
+        "drawing": "lounge",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 370,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "gym",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-gym-light-358.png",
+      "sha256": "34e12ebf2ff887df5237be0c037c4f2e30ec1817f06feaf7ad27c8b813dfd091",
+      "ink": "#23282a",
+      "alphaIntegral": 10723.341176470589,
+      "visiblePixels": 19561,
+      "state": {
+        "drawing": "gym",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1806,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "gym",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-gym-light-358.png",
+      "sha256": "9acb408d6a39543c3f4f46bebe84c80134c8147935cee688bde9800e8aa60634",
+      "ink": "#23282a",
+      "alphaIntegral": 10958.725490196079,
+      "visiblePixels": 20388,
+      "state": {
+        "drawing": "gym",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2023,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "kitchen",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-kitchen-light-358.png",
+      "sha256": "f7c7df20146f69fadc93bc9f987643a0dc5af13a8064117ecc571283b184cfcb",
+      "ink": "#23282a",
+      "alphaIntegral": 9707.447058823529,
+      "visiblePixels": 19194,
+      "state": {
+        "drawing": "kitchen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 954,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "kitchen",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-kitchen-light-358.png",
+      "sha256": "fe8e7ef2ec151b7c818d038c247054661d8c7241e6faf1d6cc10bc09d1ba955c",
+      "ink": "#23282a",
+      "alphaIntegral": 10428.043137254903,
+      "visiblePixels": 22533,
+      "state": {
+        "drawing": "kitchen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1225,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "onsen",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-onsen-light-358.png",
+      "sha256": "dbe2c5ad96634d9708d2d21ce20986ac436105227269f4b3a536ad8a63a7f9a8",
+      "ink": "#23282a",
+      "alphaIntegral": 21318.960784313724,
+      "visiblePixels": 34233,
+      "state": {
+        "drawing": "onsen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4070,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "onsen",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-onsen-light-358.png",
+      "sha256": "a5374ef8f2e1336e196c6baa56b13386e5b3260245592f39d8532e4f85ff71d0",
+      "ink": "#23282a",
+      "alphaIntegral": 21705.78431372549,
+      "visiblePixels": 36007,
+      "state": {
+        "drawing": "onsen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4173,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "sleep",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-sleep-light-358.png",
+      "sha256": "0bb74ecc83239b58f79e088b16686f81323636e2655d9c661e0c5f0e84e46ead",
+      "ink": "#23282a",
+      "alphaIntegral": 9036.30980392157,
+      "visiblePixels": 18963,
+      "state": {
+        "drawing": "sleep",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1707,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "sleep",
+      "theme": "light",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-sleep-light-358.png",
+      "sha256": "044f9e2d55cdcf2a5a22b7ea97650172a35d56b5cd3737af67275c3e375e027b",
+      "ink": "#23282a",
+      "alphaIntegral": 10126.501960784313,
+      "visiblePixels": 24113,
+      "state": {
+        "drawing": "sleep",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2011,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "outside",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-outside-dark-545.png",
+      "sha256": "f1f83bb5abbae11be19f71ea3fe8d72e79a7a3d70a8bba989a7ca8c09d875ddb",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 20168.67450980392,
+      "visiblePixels": 33285,
+      "state": {
+        "drawing": "outside",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2411,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "outside",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-outside-dark-545.png",
+      "sha256": "b8bd741ff3446c86062f5b84b8c9be947156cf750fd038941d35a6c1baa0d21e",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 20400.090196078432,
+      "visiblePixels": 34356,
+      "state": {
+        "drawing": "outside",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2478,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "study",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-study-dark-545.png",
+      "sha256": "0b1273788661aededc8ba852690881845ed4aa72e2d1207bddcfb4767e41b44d",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 30552.266666666666,
+      "visiblePixels": 58685,
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 3664,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "study",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-study-dark-545.png",
+      "sha256": "273f8c49088886d35179ab0e529f78eb8cf3e485155e291e5ce859e262ac8f46",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 31578.13725490196,
+      "visiblePixels": 63251,
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "library",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-library-dark-545.png",
+      "sha256": "d2445cb061c471455e6ec5ac448564abcdb9fe4f0dc58cf61762abcf41ff2c72",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 22814.89019607843,
+      "visiblePixels": 44602,
+      "state": {
+        "drawing": "library",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2216,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "library",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-library-dark-545.png",
+      "sha256": "5089fca7d95f0c281b85db546197ae6ba654495d6c3e2ea6a56772a34dc0c372",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 23943.439215686274,
+      "visiblePixels": 49693,
+      "state": {
+        "drawing": "library",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2659,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "lounge",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-lounge-dark-545.png",
+      "sha256": "7b4b72900fa2200cc86eb9558e66dde8c43f539fc21acf3fcd5511bc3c37e381",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 9538.06274509804,
+      "visiblePixels": 17512,
+      "state": {
+        "drawing": "lounge",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 253,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "lounge",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-lounge-dark-545.png",
+      "sha256": "8ddd7e3d1c901d249344a1cc8daca5b814eaad573b98670a9e5c03654cb24caa",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 11107.184313725491,
+      "visiblePixels": 25348,
+      "state": {
+        "drawing": "lounge",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 370,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "gym",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-gym-dark-545.png",
+      "sha256": "29b4aaae3d8e5f64f40541b2422ed4d9dc506dec02f6e7d2ecaf641796f3fb83",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 17331.49411764706,
+      "visiblePixels": 32529,
+      "state": {
+        "drawing": "gym",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1806,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "gym",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-gym-dark-545.png",
+      "sha256": "b7f07b2c3c86b8df91a7bc86b281e30c9960fe7ae93eb81505c3e1dc24d358dd",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 17705.61568627451,
+      "visiblePixels": 33966,
+      "state": {
+        "drawing": "gym",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2023,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "kitchen",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-kitchen-dark-545.png",
+      "sha256": "351a76b6de9b74c1e0931b35e586f30b5f065daabf2099efda86a007a2992a7b",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 15900.027450980393,
+      "visiblePixels": 31122,
+      "state": {
+        "drawing": "kitchen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 954,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "kitchen",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-kitchen-dark-545.png",
+      "sha256": "fe72a0988eaa6dc0ab20e205399cf1573d6c53a2512b1e893a58ff35137c6263",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 16883.188235294117,
+      "visiblePixels": 35692,
+      "state": {
+        "drawing": "kitchen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1225,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "onsen",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-onsen-dark-545.png",
+      "sha256": "67497134faf51cd92ed0c78d406042e762a01d480a8a9486ff0ee7f211cfe32a",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 33369.69411764706,
+      "visiblePixels": 54626,
+      "state": {
+        "drawing": "onsen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4070,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "onsen",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-onsen-dark-545.png",
+      "sha256": "57dc0f2be9a6fda12857dfcbf69e69e26844f5445ec771f138a794e86386aa8c",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 33943.79215686274,
+      "visiblePixels": 57337,
+      "state": {
+        "drawing": "onsen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4173,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "sleep",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-before-sleep-dark-545.png",
+      "sha256": "ebad270958b606eadad9970af69b21fc0e4c9ce2d32abe804f3a5397c3908293",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 13856.011764705883,
+      "visiblePixels": 30003,
+      "state": {
+        "drawing": "sleep",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1707,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "sleep",
+      "theme": "dark",
+      "width": 545,
+      "height": 461,
+      "file": "canvas-form-contours-sleep-dark-545.png",
+      "sha256": "99f665b49950f7619b5b825c9f6b3b41f1430af7dfef45504104af39ffe0e809",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 15328.043137254903,
+      "visiblePixels": 37039,
+      "state": {
+        "drawing": "sleep",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2011,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "outside",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-outside-dark-358.png",
+      "sha256": "7af19fc1302c3cec96ffff713a8056138eef3e5e7235fa958fa0221b342938b4",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 15225.407843137255,
+      "visiblePixels": 24800,
+      "state": {
+        "drawing": "outside",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2411,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "outside",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-outside-dark-358.png",
+      "sha256": "7bc199392167df727d726e5477269c92181fecd6acc02516d368c8f2e6c3a790",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 15382.749019607843,
+      "visiblePixels": 25517,
+      "state": {
+        "drawing": "outside",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2478,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "study",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-study-dark-358.png",
+      "sha256": "f931aa56187bb3e4359ff4b6ef3d4ac31e7387594b53bea2cbede2dddab9c916",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 23838.30980392157,
+      "visiblePixels": 45362,
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 3664,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "study",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-study-dark-358.png",
+      "sha256": "b9c842f63d79aa1ea5133a54d708acd5f941f971136e92edf96d8d4b99e55d8d",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 24483.141176470588,
+      "visiblePixels": 48124,
+      "state": {
+        "drawing": "study",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4232,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "library",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-library-dark-358.png",
+      "sha256": "31ba1323d6b1dfba2fa252a505f224b3e4dfbcaf4ee55f153251f215315470d0",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 13236.227450980392,
+      "visiblePixels": 25300,
+      "state": {
+        "drawing": "library",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2216,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "library",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-library-dark-358.png",
+      "sha256": "b40d333c19df021a2931214179251b1ab1e666f3d41372f1af56acadd2204374",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 13976.113725490197,
+      "visiblePixels": 28621,
+      "state": {
+        "drawing": "library",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2659,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "lounge",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-lounge-dark-358.png",
+      "sha256": "7fbab5dacaaa26a0a3827ab18b6b1534942b9b7e2f89ecb1997cdb0daf5afd6e",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 6080.992156862745,
+      "visiblePixels": 10984,
+      "state": {
+        "drawing": "lounge",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 253,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "lounge",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-lounge-dark-358.png",
+      "sha256": "8c099689655973fb78957ac1e32359c0fd825b31f95cf4fd76a8604b74f0e687",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 6887.180392156863,
+      "visiblePixels": 14914,
+      "state": {
+        "drawing": "lounge",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 370,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "gym",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-gym-dark-358.png",
+      "sha256": "3cece65f15888190dbb77499811f908da4768342e136c7f443e2490b501420cb",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 10723.341176470589,
+      "visiblePixels": 19561,
+      "state": {
+        "drawing": "gym",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1806,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "gym",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-gym-dark-358.png",
+      "sha256": "bff7088bca3ce5a8a51bf7159ecc8523b39055e8a1f2a61c0bdac38ef6194276",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 10958.725490196079,
+      "visiblePixels": 20388,
+      "state": {
+        "drawing": "gym",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2023,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "kitchen",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-kitchen-dark-358.png",
+      "sha256": "5bc65b453dbf7983d2cf4124a6a5aecc5da61cf4e047779ce41aaba78d5778b6",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 9707.447058823529,
+      "visiblePixels": 19194,
+      "state": {
+        "drawing": "kitchen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 954,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "kitchen",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-kitchen-dark-358.png",
+      "sha256": "a7d634dd4f89f814492316c057468bb156a53181a86d768861b3de19abc8830f",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 10428.043137254903,
+      "visiblePixels": 22533,
+      "state": {
+        "drawing": "kitchen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1225,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "onsen",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-onsen-dark-358.png",
+      "sha256": "5051621902b4707c602ad6a7bfbddf5e185f091287bf5de9eeb5bdae75063a32",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 21318.960784313724,
+      "visiblePixels": 34233,
+      "state": {
+        "drawing": "onsen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4070,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "onsen",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-onsen-dark-358.png",
+      "sha256": "f012ee399319bdf65d4edbcc4c9378dcd8375bf93bc4a113c50492bc1c8056de",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 21705.78431372549,
+      "visiblePixels": 36007,
+      "state": {
+        "drawing": "onsen",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 4173,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "before",
+      "view": "sleep",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-before-sleep-dark-358.png",
+      "sha256": "c1543faa8a4363365d6c09c1c0074f3c3ee08745eb815fe350069d1a23adba90",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 9036.30980392157,
+      "visiblePixels": 18963,
+      "state": {
+        "drawing": "sleep",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 1707,
+        "resting": false,
+        "finishing": false
+      }
+    },
+    {
+      "variant": "form-contours",
+      "view": "sleep",
+      "theme": "dark",
+      "width": 358,
+      "height": 400,
+      "file": "canvas-form-contours-sleep-dark-358.png",
+      "sha256": "1c96ade425fb97ea333f87b4f886ad2c727ed30bc87c95f7e0b6ffedeac51604",
+      "ink": "#f8f3ec",
+      "alphaIntegral": 10126.501960784313,
+      "visiblePixels": 24113,
+      "state": {
+        "drawing": "sleep",
+        "allowed": 1,
+        "drawn": 1,
+        "strokes": 2011,
+        "resting": false,
+        "finishing": false
+      }
+    }
+  ]
+}

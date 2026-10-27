@@ -1,0 +1,299 @@
+{
+  "custody": "Read-only copies of the retained eight-view ID, normal, depth and metadata pass bag. Baseline --check reproduced the committed 41dac7943 family before any generator edits. These hashes identify cached inputs, not a fresh capture of a later house revision.",
+  "rawDirectory": ".jekyll-cache/visual-qa/loading-sketch/",
+  "files": [
+    {
+      "file": "gym-depth.bin",
+      "bytes": 4472832,
+      "sha256": "51b2fa7f82106a91a5b3cab668d7b1a1c80a5b34e5d7dfcb9023b19688459d80"
+    },
+    {
+      "file": "gym-ids.bin",
+      "bytes": 4472832,
+      "sha256": "f8016317a01e09514dfbfacee9e9d9d500dc2f360c68014b6db7c15d0df29b2d"
+    },
+    {
+      "file": "gym-normals.bin",
+      "bytes": 4472832,
+      "sha256": "b40d17d6ca4557958a152d975ba66c469a7c82893ad5cf530960acc8265c1c1e"
+    },
+    {
+      "file": "gym.json",
+      "bytes": 70727,
+      "sha256": "527cebf2a2760cd08f9856d28e0c4d34cfd52a226f50d3d5da92112fe2837e09",
+      "view": {
+        "width": 1344,
+        "height": 832,
+        "near": 0.05,
+        "far": 300,
+        "camera": {
+          "position": [9.164921010092488, 1.7460079923851834, 4.089224325304883],
+          "fov": 52,
+          "aspect": 1.6153846153846154
+        },
+        "focus": {}
+      },
+      "inventoryCount": 683
+    },
+    {
+      "file": "kitchen-depth.bin",
+      "bytes": 4472832,
+      "sha256": "3a8b91ad00c1b1d4a34cc677866038a88fd48301197e833b34c621d2b65aefcf"
+    },
+    {
+      "file": "kitchen-ids.bin",
+      "bytes": 4472832,
+      "sha256": "9088bfbc20f894cdcd2655be3d2c4017bc0095e366be2b232f1be99280d3549f"
+    },
+    {
+      "file": "kitchen-normals.bin",
+      "bytes": 4472832,
+      "sha256": "6a856095416c20e0988d7701278ee2d2d856a235d4e6a561a8c18a51ad869320"
+    },
+    {
+      "file": "kitchen.json",
+      "bytes": 70729,
+      "sha256": "90909a60b9a11d53357b7b274d37581919c5d15018c6a481d5723e7f40efb96d",
+      "view": {
+        "width": 1344,
+        "height": 832,
+        "near": 0.05,
+        "far": 300,
+        "camera": {
+          "position": [-0.7514628545944304, 1.7106484045668306, 4.754070003513519],
+          "fov": 38,
+          "aspect": 1.6153846153846154
+        },
+        "focus": {}
+      },
+      "inventoryCount": 683
+    },
+    {
+      "file": "library-depth.bin",
+      "bytes": 4472832,
+      "sha256": "0503ad3b0acffe2f017d63f8dd30f0d734abfcf6489a532e9112c189ff73c7c5"
+    },
+    {
+      "file": "library-ids.bin",
+      "bytes": 4472832,
+      "sha256": "cfde79070a9871bf43f5c7ad7bd1be9c1203ed36b7bcd40d8e433a7eda6dc9e1"
+    },
+    {
+      "file": "library-normals.bin",
+      "bytes": 4472832,
+      "sha256": "f93489fc33508a5cd34ba25469fd0ced3120e286b314d66dafaa8535ce1a6d5e"
+    },
+    {
+      "file": "library.json",
+      "bytes": 71803,
+      "sha256": "213d1f7f533b605ff163a843a5c813bb682612c32d9c2c1cfca360eea04f3767",
+      "view": {
+        "width": 1344,
+        "height": 832,
+        "near": 0.05,
+        "far": 300,
+        "camera": {
+          "position": [-11.150549603862016, 1.784574264931924, 6.123591407598823],
+          "fov": 52,
+          "aspect": 1.6153846153846154
+        },
+        "focus": {}
+      },
+      "inventoryCount": 695
+    },
+    {
+      "file": "lounge-depth.bin",
+      "bytes": 4472832,
+      "sha256": "113f858eb0dd1debc16da7649338271f0385ab351bde66713a81d12785bcc42b"
+    },
+    {
+      "file": "lounge-ids.bin",
+      "bytes": 4472832,
+      "sha256": "a035345d5d5ef9db30e2d14daee0bf2d7a59172f4bc1195af97d3c8df78a1fec"
+    },
+    {
+      "file": "lounge-normals.bin",
+      "bytes": 4472832,
+      "sha256": "2375ffba16bf5f3d8a0cce166dac86289200afb70c8f1aa91a5bada617d7e68d"
+    },
+    {
+      "file": "lounge.json",
+      "bytes": 71957,
+      "sha256": "2a7b2f03cca5932bb212e6fae02a4032617b179ab2eccbba68fdda316849c7f9",
+      "view": {
+        "width": 1344,
+        "height": 832,
+        "near": 0.05,
+        "far": 300,
+        "camera": {
+          "position": [0.55, 0.42, 7.45],
+          "fov": 40,
+          "aspect": 1.6153846153846154
+        },
+        "focus": {}
+      },
+      "inventoryCount": 691
+    },
+    {
+      "file": "onsen-depth.bin",
+      "bytes": 4472832,
+      "sha256": "d3f343dc98bb22df19c23d7742e9e4714a228f978b6c01fca4f0886354c32294"
+    },
+    {
+      "file": "onsen-ids.bin",
+      "bytes": 4472832,
+      "sha256": "833e5c852aa7a4d499de3245180c75e3f08b6fe004737a7819adc2227975c0cc"
+    },
+    {
+      "file": "onsen-normals.bin",
+      "bytes": 4472832,
+      "sha256": "986fed70037c31dcddd3ba1d4e1a5a533fc873c741ab5e4cd4b2136387f519d7"
+    },
+    {
+      "file": "onsen.json",
+      "bytes": 72071,
+      "sha256": "cfd39e39d4bc7587f51ab7c44f9c99dcb7f08a8d1d5f79f78a919fa922f21ded",
+      "view": {
+        "width": 1344,
+        "height": 832,
+        "near": 0.05,
+        "far": 300,
+        "camera": {
+          "position": [2.7907427288085307, 3.756956510784928, 9.837528536782946],
+          "fov": 38,
+          "aspect": 1.6153846153846154
+        },
+        "focus": {}
+      },
+      "inventoryCount": 692
+    },
+    {
+      "file": "outside-depth.bin",
+      "bytes": 4472832,
+      "sha256": "9584de7a1d5e331bd25951256eb12e9ad7ffd8765312cf89950f602312520196"
+    },
+    {
+      "file": "outside-ids.bin",
+      "bytes": 4472832,
+      "sha256": "f771d9b6e6ea84dcf6c8da1d33d18dcbd0a4e3aa7d890c8efd270c696ccde2da"
+    },
+    {
+      "file": "outside-normals.bin",
+      "bytes": 4472832,
+      "sha256": "b89a8f5c96292ee671cef752d48c3a1b5131528d076e88fc5e0466975898998f"
+    },
+    {
+      "file": "outside.json",
+      "bytes": 72039,
+      "sha256": "cdccdafe4bc37d798a816ab1884249653b282e12b919c5d59c6528f66897cfc0",
+      "view": {
+        "width": 1344,
+        "height": 832,
+        "near": 0.05,
+        "far": 300,
+        "camera": {
+          "position": [-11.856905727089124, 17.157540734318175, -44.61360126633206],
+          "fov": 38,
+          "aspect": 1.6153846153846154
+        },
+        "focus": {
+          "gym": {
+            "u": -0.1331,
+            "v": -0.2659
+          },
+          "kitchen": {
+            "u": 0.4705,
+            "v": -0.2695
+          },
+          "library": {
+            "u": 0.9143,
+            "v": -0.2256
+          },
+          "lounge": {
+            "u": 0.2251,
+            "v": -0.3164
+          },
+          "onsen": {
+            "u": 0.2111,
+            "v": -0.4992
+          },
+          "sleep": {
+            "u": 0.5454,
+            "v": -0.3938
+          },
+          "study": {
+            "u": 0.8797,
+            "v": -0.1269
+          }
+        }
+      },
+      "inventoryCount": 695
+    },
+    {
+      "file": "sleep-depth.bin",
+      "bytes": 4472832,
+      "sha256": "d442ba26ce482c9587416a3303399f31971a19b0c70713e8229764e868135b2b"
+    },
+    {
+      "file": "sleep-ids.bin",
+      "bytes": 4472832,
+      "sha256": "a4718ebaa9372e0e71a05723985f32e0958cb5c614517528bb80cc8000f78156"
+    },
+    {
+      "file": "sleep-normals.bin",
+      "bytes": 4472832,
+      "sha256": "192937fae526af2eab22fc07bfc16773f1f6945755e74738d1c143f0d6136a7c"
+    },
+    {
+      "file": "sleep.json",
+      "bytes": 71998,
+      "sha256": "4f597cba62cef111a57b8756cfd6b346ed08c3447b3f3032d639a1e3fa7e025a",
+      "view": {
+        "width": 1344,
+        "height": 832,
+        "near": 0.05,
+        "far": 300,
+        "camera": {
+          "position": [-0.9935972681522061, 4.952050065417124, 7.798645959741274],
+          "fov": 38,
+          "aspect": 1.6153846153846154
+        },
+        "focus": {}
+      },
+      "inventoryCount": 691
+    },
+    {
+      "file": "study-depth.bin",
+      "bytes": 4472832,
+      "sha256": "53aff2208e77ca04e0968b7736f2261392a38abb5fdcf9e6a2fc35979cfafbc3"
+    },
+    {
+      "file": "study-ids.bin",
+      "bytes": 4472832,
+      "sha256": "549f253481be364ca90c299dd73b7e1d71ac0f61a184b959e637703de931ffd8"
+    },
+    {
+      "file": "study-normals.bin",
+      "bytes": 4472832,
+      "sha256": "a1bb2a24a4c05f11dabbd39aac6ac3524660d2bf4e7b89da6670202793337375"
+    },
+    {
+      "file": "study.json",
+      "bytes": 73073,
+      "sha256": "ba80df012654d9685c6c30e29ef21236fa3e631ff10b6d8397c63d7e43bb0e01",
+      "view": {
+        "width": 1344,
+        "height": 832,
+        "near": 0.05,
+        "far": 300,
+        "camera": {
+          "position": [-9.36816583188611, 2.8363571897323157, 1.7711223123753523],
+          "fov": 55,
+          "aspect": 1.6153846153846154
+        },
+        "focus": {}
+      },
+      "inventoryCount": 703
+    }
+  ]
+}
