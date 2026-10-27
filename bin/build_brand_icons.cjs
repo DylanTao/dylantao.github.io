@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Rasterizes assets/img/favicon.svg, the orange sun drawn on a 16-pixel grid, into the icons the
+// Rasterizes assets/img/favicon.svg, the mandarin sun drawn at two units per 16 px icon pixel, into the icons the
 // browser and home screen use: favicon.ico with 16, 32 and 48 px PNG entries, and a 180 px
 // apple-touch-icon on the light page colour (iOS fills transparent icon pixels with black).
 // Usage: node bin/build_brand_icons.cjs

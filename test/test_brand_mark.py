@@ -12,8 +12,8 @@ IMG = REPO_ROOT / "assets" / "img"
 class BrandMarkTest(unittest.TestCase):
     def test_navbar_mark_is_the_same_orange_sun_on_every_visit(self) -> None:
         mark = (REPO_ROOT / "_includes" / "brand-orange.liquid").read_text(encoding="utf-8")
-        self.assertIn('<mask id="brand-orange-sea"', mark)
-        self.assertIn('mask="url(#brand-orange-sea)"', mark)
+        self.assertIn("data-brand-orange", mark)
+        self.assertIn('<svg class="brand-orange-svg"', mark)
         self.assertNotIn("data-orange-specimen", mark)
 
         # Only the 404 specimen is grown per visit; the script never touches the navbar mark.
@@ -30,10 +30,10 @@ class BrandMarkTest(unittest.TestCase):
             self.assertIn(link, head)
 
         svg = (IMG / "favicon.svg").read_text(encoding="utf-8")
-        self.assertIn('viewBox="0 0 16 16"', svg)
+        self.assertIn('viewBox="0 0 32 32"', svg)
         # The navbar and tiny icon share geometry, rather than drifting into different marks.
         mark = (REPO_ROOT / "_includes" / "brand-orange.liquid").read_text(encoding="utf-8")
-        for geometry in re.findall(r'\b(?:d|cx|cy|r)="([^"]+)"', svg):
+        for geometry in re.findall(r'\b(?:d|cx|cy|r|transform)="([^"]+)"', svg):
             self.assertIn(f'="{geometry}"', mark)
 
         ico = (IMG / "favicon.ico").read_bytes()

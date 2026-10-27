@@ -1,0 +1,175 @@
+{
+  "scope": "G is the reviewed implementation after retaining A\u2013F and comparing G/H at native size beside Inter. Local technical/visual acceptance only; Sirui taste approval is not presumed.",
+  "selected": [
+    {
+      "file": "navbar-native-comparison.png",
+      "sha256": "0f01d9e5beac223421f5ae0301730ac5d86a9252f7429e2a139959555be18dc5",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/navbar-native-comparison.png"
+    },
+    {
+      "file": "navbar-positive-native.png",
+      "sha256": "ae7ffc32c05227b6d691915b95d6538ddac0d7d01a0a6410e85ff2e62b04217e",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/navbar-positive-native.png"
+    },
+    {
+      "file": "positive-water-light.png",
+      "sha256": "2fb5cb3ac335dea9e827e8443b708333cdd7b5c6d99825d768ae4843ae45fe4d",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/positive-water-light.png"
+    },
+    {
+      "file": "positive-water-dark.png",
+      "sha256": "cfbde9565854832ae5daa79d5661e6e9386adb51d2a3462bec34ffc4ec3a0e71",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/positive-water-dark.png"
+    },
+    {
+      "file": "final-navbar-noon.png",
+      "sha256": "3ea6accff30286db29b37e1623b65ae748bb505e87df7eed4fd3146690498d6d",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/brand-final-results/brand-finish-brand-mark-th-58272--and-small-screen-home-link-desktop-1440/navbar-noon.png"
+    },
+    {
+      "file": "final-navbar-evening.png",
+      "sha256": "7dba95396c99efccce827b407f6878e476ff3be25256891b69a10d9220e89888",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/brand-final-results/brand-finish-brand-mark-th-58272--and-small-screen-home-link-desktop-1440/navbar-evening.png"
+    },
+    {
+      "file": "native-icon-family.png",
+      "sha256": "ebd7f0efc8a765c234dfaf74febb6c7c3f88c570655af14ad84f4b808bf82d03",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/brand-final-results/brand-finish-brand-mark-br-c8609-and-Pacific-at-native-sizes-desktop-1440/native-icon-family.png"
+    },
+    {
+      "file": "recovery-phone.png",
+      "sha256": "83d5a38d27ccad31c5feca772e650751192a9b3ee17856778dca8b2967ccba0e",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/brand-final-results/brand-finish-brand-mark-th-b17b6-e-home-identity-stays-fixed-mobile-390/recovery-52.png"
+    }
+  ],
+  "motion": [
+    {
+      "case": "brand-finish-brand-mark-th-58272--and-small-screen-home-link-desktop-1440",
+      "reducedArtworkDifference": 0,
+      "focusCrownShift": 0.7925043106079102,
+      "seaBounds": {
+        "x": 49.28173828125,
+        "y": 36.713623046875,
+        "width": 36.5771484375,
+        "height": 8.014656066894531
+      },
+      "bounds": [
+        [0, 0, 0, 0],
+        [66.35107421875, 16.718114852905273, 0.609619140625, 6.218114852905273],
+        [66.59492492675781, 13.41572093963623, 12.070457458496094, 6.223584175109863],
+        [66.960693359375, 15.255029678344727, 9.631980895996094, 3.746583938598633],
+        [51.82206344604492, 20.342628479003906, 30.886775970458984, 25.043514251708984],
+        [51.747615814208984, 22.936229705810547, 9.970352172851562, 21.336669921875],
+        [49.28173828125, 36.713623046875, 36.5771484375, 8.014656066894531]
+      ]
+    },
+    {
+      "case": "brand-finish-brand-mark-th-58272--and-small-screen-home-link-laptop-1280",
+      "reducedArtworkDifference": 0,
+      "focusCrownShift": 0.7925043106079102,
+      "seaBounds": {
+        "x": 25.28173828125,
+        "y": 36.713623046875,
+        "width": 36.5771484375,
+        "height": 8.014656066894531
+      },
+      "bounds": [
+        [0, 0, 0, 0],
+        [42.35107421875, 16.718114852905273, 0.609619140625, 6.218114852905273],
+        [42.59492111206055, 13.41572093963623, 12.07046127319336, 6.223584175109863],
+        [42.960693359375, 15.255029678344727, 9.631980895996094, 3.746583938598633],
+        [27.822063446044922, 20.342628479003906, 30.886775970458984, 25.043514251708984],
+        [27.747617721557617, 22.936229705810547, 9.97035026550293, 21.336669921875],
+        [25.28173828125, 36.713623046875, 36.5771484375, 8.014656066894531]
+      ]
+    },
+    {
+      "case": "brand-finish-brand-mark-th-58272--and-small-screen-home-link-mobile-390",
+      "reducedArtworkDifference": 0,
+      "focusCrownShift": 0.7372798919677734,
+      "seaBounds": {
+        "x": 25.19677734375,
+        "y": 41.043212890625,
+        "width": 34.0283203125,
+        "height": 7.456169128417969
+      },
+      "bounds": [
+        [0, 0, 0, 0],
+        [41.07666015625, 22.441064834594727, 0.567138671875, 5.784814834594727],
+        [41.30351257324219, 19.368793487548828, 11.229347229003906, 5.7899017333984375],
+        [41.643798828125, 21.079931259155273, 8.960792541503906, 3.4855079650878906],
+        [27.560083389282227, 25.813007354736328, 28.73447608947754, 23.29839324951172],
+        [27.490825653076172, 28.225879669189453, 9.275581359863281, 19.849853515625],
+        [25.19677734375, 41.043212890625, 34.0283203125, 7.456169128417969]
+      ]
+    },
+    {
+      "case": "brand-finish-brand-mark-th-58272--and-small-screen-home-link-tablet-768",
+      "reducedArtworkDifference": 0,
+      "focusCrownShift": 0.7925043106079102,
+      "seaBounds": {
+        "x": 25.28173828125,
+        "y": 36.713623046875,
+        "width": 36.5771484375,
+        "height": 8.014656066894531
+      },
+      "bounds": [
+        [0, 0, 0, 0],
+        [42.35107421875, 16.718114852905273, 0.609619140625, 6.218114852905273],
+        [42.59492111206055, 13.41572093963623, 12.07046127319336, 6.223584175109863],
+        [42.960693359375, 15.255029678344727, 9.631980895996094, 3.746583938598633],
+        [27.822063446044922, 20.342628479003906, 30.886775970458984, 25.043514251708984],
+        [27.747617721557617, 22.936229705810547, 9.97035026550293, 21.336669921875],
+        [25.28173828125, 36.713623046875, 36.5771484375, 8.014656066894531]
+      ]
+    }
+  ],
+  "source_hashes_raw_worktree_bytes": {
+    "_includes/brand-orange.liquid": "2f63c1fa0ff7ff4ad3ed0d0efde76f5f2cb3813f114a2fb9b9a84126f5777b17",
+    "_sass/_brand-orange.scss": "9002d2d669fa7eb7434c23e979243aa6f403734563ce1d90e0aaa366e9f16ebc",
+    "assets/img/favicon.svg": "53970ed0ec2507443fefb6eed238d55e6ed3c2089e192a63d55365a8468f7c6b",
+    "assets/img/favicon.ico": "10a0c397ea12c81badd5c56c5d082247950e665efd2bf99311264bd5b3e65d07",
+    "assets/img/apple-touch-icon.png": "f865ddd684c534c4bf22db6cc1ae899ed88e6b2a1dac849caecb0b6c849f63c8",
+    "bin/build_brand_icons.cjs": "bae53aaf50c49e9d7845fbaf90cf3e128c27bcf53d3dc8d591f384e3858783ad"
+  },
+  "gates": [
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/brand-final.log",
+      "sha256": "1ad95eac20fa6cbc5781708a49d8b540c267c8a87a2ee0098e6eccfdca9d3adf",
+      "tail": [
+        "[26/28] [mobile-390] \u203a test\\visual\\navigation-motion.spec.js:27:3 \u203a article lines keep their shape as they pass the fixed header (light)",
+        "[27/28] [mobile-390] \u203a test\\visual\\navigation-motion.spec.js:27:3 \u203a article lines keep their shape as they pass the fixed header (dark)",
+        "[28/28] [mobile-390] \u203a test\\visual\\navigation-motion.spec.js:61:1 \u203a theme stops remain available during comparisons and Escape returns focus",
+        "  5 skipped",
+        "  23 passed (1.2m)"
+      ]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/brand-webkit-final.log",
+      "sha256": "e83ac4c3921e095bee7241feea805e87ff658ae3849637597dfcba2b90e4b84f",
+      "tail": [
+        "[2/4] [mobile-390] \u203a test\\visual\\brand-finish.spec.js:85:1 \u203a brand mark: the same home identity remains visible without JavaScript",
+        "[3/4] [mobile-390] \u203a test\\visual\\brand-finish.spec.js:96:1 \u203a brand mark: the recovery specimen varies while the home identity stays fixed",
+        "[4/4] [mobile-390] \u203a test\\visual\\brand-finish.spec.js:122:1 \u203a brand mark: browser and home-screen icons keep the sun, leaf and Pacific at native sizes",
+        "  1 skipped",
+        "  3 passed (15.1s)"
+      ]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/checkpoint-final.log",
+      "sha256": "2beb533e7b078009a88be9700ef26ffb9d5ea7b1749c0b48a78133c92c7d0dd5",
+      "tail": [
+        "(node:61956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "[7/8] [mobile-390] \u203a test\\visual\\sitewide.spec.js:1465:3 \u203a public route: blog-index",
+        "[8/8] [mobile-390] \u203a test\\visual\\sitewide.spec.js:1465:3 \u203a public route: blog-research-skills",
+        "  8 passed (35.7s)"
+      ]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/icons-g.log",
+      "sha256": "b1aea7b739d00804dc7f84d9319a2ecfd6ad5ce5addedc9674d3282ed7f2a892",
+      "tail": ["Wrote favicon.ico (16, 32, 48) and apple-touch-icon.png (180) from favicon.svg"]
+    }
+  ]
+}

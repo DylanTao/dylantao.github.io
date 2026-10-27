@@ -4,6 +4,8 @@
  ******************************************************************************/
 
 .navbar.navbar-light .site-brand {
+  min-height: 44px;
+
   &:focus-visible {
     outline: none;
   }
@@ -61,8 +63,8 @@
   pointer-events: none;
 }
 
-// The sun sets a little into the sea while the pointer rests on the mark. The single sea cut is the
-// mask around the body, so they stay level while the fruit and its leaf sink.
+// The sun sets a little while the pointer rests on the mark. The horizon clip and positive
+// Pacific foreground stay level while the fruit and its connected crown sink behind them.
 .site-brand-mark .brand-orange-crown,
 .site-brand-mark .brand-orange-body-shell {
   transition: transform var(--motion-standard);
@@ -80,7 +82,8 @@
 }
 
 .site-brand-mark .brand-orange-stem {
-  stroke-width: 0.75;
+  stroke: #3d714b;
+  stroke-width: 2.2;
 }
 
 .site-brand-mark .brand-orange-leaf-group {
@@ -88,8 +91,20 @@
 }
 
 .site-brand-mark .brand-orange-leaf {
-  fill: #4e9b50;
+  fill: #568b60;
   stroke: none;
+}
+
+.site-brand-mark .brand-orange-leaf-fold {
+  fill: #3d714b;
+}
+
+.site-brand-mark .brand-orange-rind-plane {
+  fill: #df692e;
+}
+
+.site-brand-mark .brand-orange-sea {
+  fill: #4f96a7;
 }
 
 .orange-specimen {

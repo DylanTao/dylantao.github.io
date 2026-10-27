@@ -18,7 +18,7 @@ This site keeps its al-folio academic/editorial identity while borrowing a small
 - `_sass/_themes.scss`: four time-of-day palettes. Keep morning, noon, afternoon, and evening visually distinct.
 - `_sass/_components.scss`, `_sass/_publications.scss`, `_sass/_blog.scss`, `_sass/_utilities.scss`: broad card, chip, button, and surface usage.
 - `_sass/_navbar.scss`, `_sass/_home.scss`, `_sass/_layout.scss`, `_sass/_cv.scss`: global chrome and page-specific polish.
-- `_includes/brand-orange.liquid`, `_sass/_brand-orange.scss`, `assets/js/brand-orange.js`: procedural 2D orange mark.
+- `_includes/brand-orange.liquid`, `_sass/_brand-orange.scss`, `assets/js/brand-orange.js`: fixed orange-sun identity and the procedural 404 specimen.
 
 ## Token Use
 
@@ -87,9 +87,9 @@ The October 18 pass gave cards and their controls one frosted glass material: a 
 
 ## Brand Mark
 
-The mark is an orange that is also the sun going down into the Pacific below the house: an inline SVG in `_includes/brand-orange.liquid`, the same on every visit. Sirui chose this concept on 2026-10-26, after a study of Susan Kare's icon lessons (credited in `WEBSITE_DESIGN_HEURISTICS.md`): a mark should be meaningful and memorable, and, as she passed on from Paul Rand, nobody should play with it until people know it well. His follow-up rejected the execution. The PC pass removes its glossy highlight, halo and stacked horizontal bands: one curved sea cut now crosses a flat orange disk, with a simpler leaf. On hover or keyboard focus the fruit and leaf dip a little while the sea cut stays level; the leaf is still at rest.
+The mark is an orange that is also the sun going down into the Pacific below the house: an inline SVG in `_includes/brand-orange.liquid`, the same on every visit. Sirui chose this concept on 2026-10-26, after a study of Susan Kare's icon lessons (credited in `WEBSITE_DESIGN_HEURISTICS.md`): a mark should be meaningful and memorable, and, as she passed on from Paul Rand, nobody should play with it until people know it well. He rejected the flat disk and smile-like sea cut. The current construction uses a shouldered mandarin sun with a short connected stem and full leaf, partly hidden by a separate positive Pacific swell that extends beyond it. Restrained rind and leaf planes give the form craft without gloss. On hover or keyboard focus the fruit and crown dip behind the level horizon; the water stays still. There is no motion at rest.
 
-The browser tab and home screen show the same mark. `assets/img/favicon.svg` and the navbar use the same geometry on a 16-pixel grid, and `node bin/build_brand_icons.cjs` rasterizes the SVG into `favicon.ico` (16, 32 and 48 px) and the 180 px `apple-touch-icon.png`. Edit both SVG sources, rerun the script, inspect the actual 16 px entry at native size and magnified in light and dark, and commit all three icon assets.
+The browser tab and home screen show the same mark. `assets/img/favicon.svg` and the navbar use identical geometry on a 32-unit drawing grid, two drawing units per pixel at the 16 px tab size. `node bin/build_brand_icons.cjs` rasterizes the SVG into `favicon.ico` (16, 32 and 48 px) and the 180 px `apple-touch-icon.png`. Edit both SVG sources, rerun the script, inspect the actual 16 px entry at native size and magnified in light and dark, and commit all three icon assets. Review 24/32/40 px silhouettes beside the actual Inter name as well.
 
 The procedural orange that used to change in the navbar on every load now grows on the 404 page (`_includes/orange-specimen.liquid`, driven by `assets/js/brand-orange.js`). Add `?orangeSeed=...` there when one generated orange needs repeatable inspection.
 
@@ -98,7 +98,7 @@ Keep the stem and leaf: they stop the mark reading as a plain retro sun. Do not 
 Keep these behaviors intact:
 
 - no layout shift: the mark is static markup and needs no script;
-- the orange sun stays readable in all four themes, with the page showing through the sea cut;
+- the orange sun and separate Pacific swell stay readable in all four themes;
 - the dip and press motion stop under `prefers-reduced-motion: reduce`;
 - clicking the logo still navigates home;
 - no heavy animation or 3D dependency for the navbar mark.

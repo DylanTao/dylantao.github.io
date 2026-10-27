@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <mask id="cove" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
+      <rect width="32" height="32" fill="white"/>
+      <path d="M1 22.8C5.2 20 8.4 21 11.7 23.1C16.1 26 20.1 25.4 25.8 22.1C23.1 26.5 18.4 29 12.9 27.3C8.5 25.9 6.5 22.9 1.8 24.7Z" fill="black"/>
+    </mask>
+  </defs>
+  <path d="M15.5 10.5C15 8.6 15.3 6.7 16.2 5" fill="none" stroke="#42734d" stroke-width="2" stroke-linecap="round"/>
+  <path d="M15.8 6.4C16.2 2.9 20.7 1.1 25 2.7C24.7 6.2 20.8 8.6 15.8 6.4Z" fill="#568c5b"/>
+  <g transform="translate(0 -2)" mask="url(#cove)">
+    <path d="M15.8 10.2C12.4 7.9 7.2 8.9 4.6 12.5C.8 17.6 2.3 25.4 7.4 28.9C11.8 31.9 20.5 31.7 25.1 28C29.8 24.2 30.6 17.4 27.4 12.8C24.5 8.8 19.9 8.2 16.9 10.2C16.5 10.5 16.1 10.5 15.8 10.2Z" fill="#f07a38"/>
+  </g>
+</svg>
