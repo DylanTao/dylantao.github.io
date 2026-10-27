@@ -1,4 +1,4 @@
-{% assign coast_preview_version = '/assets/models/la-jolla/posters/coast-noon.webp' | bust_file_cache | split: '?v=' | last %}
+{% assign coast_preview_version = '/assets/models/la-jolla/posters/version.txt' | bust_file_cache | split: '?v=' | last %}
 <picture data-coast-preview="{{ '/assets/models/la-jolla/posters/' | relative_url }}" data-coast-preview-version="{{ coast_preview_version }}">
   {% if include.miniature %}
     <img

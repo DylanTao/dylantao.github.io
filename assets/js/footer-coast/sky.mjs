@@ -28,7 +28,7 @@ import {
   DEG,
 } from "./atmosphere.mjs?v=coast-hills-20261024";
 import { HEADLAND, bearingAt, houseLights, skylineAt, skylineStrip, xAtBearing } from "./skyline.mjs?v=coast-hills-20261026";
-import { VIEW_BEARING, lookAt } from "./sky-look.mjs?v=coast-hills-20261026";
+import { VIEW_BEARING, lookAt } from "./sky-look.mjs?v=coast-dusk-20261026";
 
 // three's ACES input and output matrices, row-major, and their inverses.
 const ACES_IN = [0.59719, 0.35458, 0.04823, 0.076, 0.90834, 0.01566, 0.0284, 0.13383, 0.83777];
@@ -103,6 +103,7 @@ const fragmentShader = `
   uniform vec3 uClearAir;    // the air's own extinction (per km)
   uniform float uHazeHeight; // the aerosol's scale height (km)
   uniform float uSceneExposure;
+  uniform vec3 uWhiteBalance; // display adaptation in deep twilight, not altered atmosphere coefficients
   uniform mat3 uAcesIn;
   uniform mat3 uAcesOut;
   uniform mat3 uAcesInInverse;
@@ -145,6 +146,15 @@ const fragmentShader = `
     float t = clamp((x - a) / (b - a), 0., 1.);
     return t * t * t * (t * (t * 6. - 15.) + 10.);
   }
+  vec3 skyDisplay(vec3 radiance, float elevation, float fromSun) {
+    vec3 display = aces(radiance);
+    // The shadowed, low eastern sky is blue; keep the higher anti-twilight band and the warm
+    // toward-sun sector. This is camera green/magenta balance at the same display luminance.
+    float balance = (1. - smoothstep(3., 12., elevation)) * smoothstep(35., 110., fromSun);
+    vec3 balanced = display * mix(vec3(1.), uWhiteBalance, balance);
+    const vec3 Y = vec3(.2126, .7152, .0722);
+    return balanced * (dot(display, Y) / max(dot(balanced, Y), 1e-7));
+  }
 
   void main() {
     vec3 q = vec3(vScreen, 1.);
@@ -160,7 +170,7 @@ const fragmentShader = `
     // the sky over it.
     float sea = step(elevation, 0.);
     sky = mix(sky, skyAt(fromSun, -elevation) * .55 + vec3(.004, .007, .011), sea);
-    vec3 color = aces(sky);
+    vec3 color = skyDisplay(sky, abs(elevation), fromSun);
     float weight = uSkyWeight * (1. - smoother(uFade.x, uFade.y, vScreen.y));
     color = mixLab(uPage, color, weight);
     float alpha = step(.0004, weight);
@@ -195,7 +205,7 @@ const fragmentShader = `
       vec3 surface = uAlbedo * (key * sun + uHillSky * (.55 + .45 * normal.z));
       vec3 ground = aces(surface * uSceneExposure);
       // The air between: lit haze along a level path, whose limit is the sky at the horizon.
-      vec3 air = mixLab(uPage, aces(skyAt(fromSun, .6)), uSkyWeight);
+      vec3 air = mixLab(uPage, skyDisplay(skyAt(fromSun, .6), .6, fromSun), uSkyWeight);
       vec3 hill = mix(air, ground, clear);
       color = mix(color, hill, far);
       alpha = max(alpha, far);
@@ -255,11 +265,12 @@ const lightVertex = `
     vWall = sceneLinear(mix(uAir, aces(wall * uSceneExposure), aHouse.y));
     // The walls fade into the dark as the windows take over.
     vCover = .8 * (1. - .85 * uOn);
-    // Nine in ten houses light up as dusk deepens, each at its own moment; a few stay dark.
-    float on = smoothstep(seed * .88, seed * .88 + .07, uOn) * step(seed, .92);
-    float flicker = 1. + uTwinkle * .18 * sin(uTime * (1.7 + seed * 2.9) + seed * 40.) * sin(uTime * .63 + seed * 17.);
-    // Warm interiors, a few cooler LED porches.
-    vGlow = mix(vec3(1., .5, .2), vec3(1., .7, .42), fract(seed * 7.13)) * on * aHouse.y * flicker * .95;
+    // Selected houses and selected panes light through dusk, rather than every facade becoming
+    // one luminous dash. This is an authored neighborhood rhythm, never live occupancy data.
+    float on = smoothstep(fract(seed * 17.3) * .88, fract(seed * 17.3) * .88 + .07, uOn) * step(seed, .62);
+    float flicker = 1. + uTwinkle * .04 * sin(uTime * (.2 + seed * .3) + seed * 40.) * sin(uTime * .1 + seed * 17.);
+    // Mostly warm interior light, with a few cooler porches; no saturated orange light ribbon.
+    vGlow = mix(vec3(1., .72, .46), vec3(.74, .84, 1.), step(.84, fract(seed * 7.13))) * on * aHouse.y * flicker * .72;
     gl_PointSize = clamp(uPixel * aHouse.z * max(1., aBuilding.x), 1.4, 14.);
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
   }`;
@@ -275,9 +286,11 @@ const lightFragment = `
     float aa = max(fwidth(q.x), fwidth(q.y)) * .65;
     float roofline = mix(.72, .9 - abs(q.x) * .4, vRoof);
     float body = (1. - smoothstep(.9 - aa, .9 + aa, abs(q.x))) * smoothstep(-.85 - aa, -.85 + aa, q.y) * (1. - smoothstep(roofline - aa, roofline + aa, q.y));
-    float paneX = 1. - smoothstep(.18, .35, abs(fract((q.x + .9) / 1.8 * (2. + step(.6, vSeed))) - .5));
+    float column = (q.x + .9) / 1.8 * (2. + step(.6, vSeed));
+    float paneX = 1. - smoothstep(.18, .35, abs(fract(column) - .5));
     float paneY = 1. - smoothstep(.16, .34, abs(q.y + .15));
-    float window = paneX * paneY * body;
+    float litPane = step(fract(vSeed * 31.7 + floor(column) * .371), .7);
+    float window = paneX * paneY * body * litPane;
     float cover = body * vCover;
     if (cover < .004 && dot(vGlow, vGlow) < 1e-6) discard;
     // Premultiplied walls over the hills, the windows' light added on top.
@@ -322,6 +335,21 @@ export function skyWeight(state) {
 // about 12.5 degrees the adaptation stops and the sky darkens into the night page.
 export function skyExposure(reference) {
   return 0.7 / Math.pow(Math.max(reference, 2e-7), 0.85);
+}
+
+// A camera/display adaptation, not a claim of spectral accuracy: keep blue hour from acquiring
+// the old violet wash while leaving sunset, the higher Belt of Venus and all four manual anchors.
+export function twilightWhiteBalance(altitude) {
+  const weight = altitude == null ? 0 : smooth(-3, -7, altitude) * smooth(-15, -11, altitude);
+  return [1 - 0.28 * weight, 1 + 0.14 * weight, 1];
+}
+
+function balanceSkyDisplay(display, balance, elevation, fromSun) {
+  const weight = (1 - smooth(3, 12, elevation)) * smooth(35, 110, fromSun),
+    before = display.r * 0.2126 + display.g * 0.7152 + display.b * 0.0722;
+  display.r *= 1 + (balance.x - 1) * weight;
+  display.g *= 1 + (balance.y - 1) * weight;
+  return display.multiplyScalar(before / Math.max(display.r * 0.2126 + display.g * 0.7152 + display.b * 0.0722, 1e-7));
 }
 
 // Sun and sky on the distant hills under the same look as the coast (sky-look.mjs). The key's
@@ -389,6 +417,7 @@ export function createSky({ relief, onLate = null }) {
     uClearAir: { value: new THREE.Vector3(0.0058, 0.0136, 0.0331) },
     uHazeHeight: { value: 0.5 },
     uSceneExposure: { value: 1 },
+    uWhiteBalance: { value: new THREE.Vector3(1, 1, 1) },
     uAcesIn: { value: ACES_IN_M },
     uAcesOut: { value: ACES_OUT_M },
     uAcesInInverse: { value: ACES_IN_INVERSE },
@@ -546,6 +575,7 @@ export function createSky({ relief, onLate = null }) {
       uniforms.uHaze.value.set(hazy * 0.92, hazy, hazy * 1.12);
       uniforms.uPage.value.copy(page);
       uniforms.uSceneExposure.value = look.exposure;
+      uniforms.uWhiteBalance.value.set(...twilightWhiteBalance(state?.altitude));
       uniforms.uSun.value.x = state ? state.azimuth : 180;
       // The slopes face the bay, toward the viewer and a little up: the coast's key and sky light
       // fall on them as on its roofs and bluff faces. Mount Soledad's crest, 250 m up, sees a horizon
@@ -564,8 +594,11 @@ export function createSky({ relief, onLate = null }) {
       // House windows light through the afterglow, on the coast's own night scale: a few at sunset,
       // most by the blue hour. By day the houses show as sunlit walls in the hills' haze.
       lightUniforms.uOn.value = Math.min(1, Math.max(0, (look.night - 0.45) / 0.5));
-      const air = sampleSkyView(view, 0.6 * DEG, state ? (Math.abs(((bearingAt(0) - state.azimuth + 540) % 360) - 180) * Math.PI) / 180 : Math.PI);
-      lightUniforms.uAir.value.copy(page).lerp(displayColor(color.setRGB(air[0], air[1], air[2])), weight);
+      const fromSun = state ? Math.abs(((bearingAt(0) - state.azimuth + 540) % 360) - 180) : 180,
+        air = sampleSkyView(view, 0.6 * DEG, fromSun * DEG);
+      lightUniforms.uAir.value
+        .copy(page)
+        .lerp(balanceSkyDisplay(displayColor(color.setRGB(air[0], air[1], air[2])), uniforms.uWhiteBalance.value, 0.6, fromSun), weight);
       // The rising sun's disk, once it clears the horizon; the setting sun is behind the viewer.
       const rising = state?.rising && state.altitude > -1.2;
       if (rising) {
@@ -611,12 +644,10 @@ export function createSky({ relief, onLate = null }) {
     },
     // The sky at a direction from the frieze's centre, as a display color: the sea mirrors it.
     skyColor(elevation, out = new THREE.Color()) {
-      const c = sampleSkyView(
-        view,
-        elevation * DEG,
-        sunState ? (Math.abs(((bearingAt(0) - sunState.azimuth + 540) % 360) - 180) * Math.PI) / 180 : Math.PI
-      );
-      return displayColor(color.setRGB(c[0], c[1], c[2]), out);
+      const fromSun = sunState ? Math.abs(((bearingAt(0) - sunState.azimuth + 540) % 360) - 180) : 180;
+      const c = sampleSkyView(view, elevation * DEG, fromSun * DEG);
+      displayColor(color.setRGB(c[0], c[1], c[2]), out);
+      return balanceSkyDisplay(out, uniforms.uWhiteBalance.value, elevation, fromSun);
     },
     get weight() {
       return weight;

@@ -1,0 +1,27 @@
+const fs=require('node:fs'),path=require('node:path'),{chromium,webkit}=require('playwright'),{PNG}=require('pngjs');
+const out=path.join(__dirname,'transition-probe');fs.mkdirSync(out,{recursive:true});
+const average=b=>{const p=PNG.sync.read(b),sum=[0,0,0];for(let i=0;i<p.data.length;i+=4)for(let c=0;c<3;c++)sum[c]+=p.data[i+c];return sum.map(x=>x/(p.width*p.height));};
+const sheet=`html,body{margin:0;width:100%;height:100%;background:#fbfaf7}html.cross::view-transition-old(root){animation:none;mix-blend-mode:normal}html.cross::view-transition-new(root){animation:cross 700ms ease-in-out both;mix-blend-mode:normal}@keyframes cross{from{opacity:0}to{opacity:1}}#old{position:fixed;inset:0;background:#fbfaf7}`;
+(async()=>{const receipt=[];for(const engine of ['webkit','chromium']){
+ const browser=await({webkit,chromium})[engine].launch(engine==='chromium'?{args:['--use-angle=d3d11','--ignore-gpu-blocklist']}:{});
+ try{for(const mode of ['view-transition','view-transition-body-background','view-transition-scrolled','view-transition-body-background-scrolled','ordinary-layer','ordinary-layer-scrolled']){
+  const page=await browser.newPage({viewport:{width:390,height:600},deviceScaleFactor:1,reducedMotion:'no-preference'});await page.setContent(`<style>${sheet}${mode.includes('body-background')?'html{background:transparent}':''}${mode.endsWith('scrolled')?'body{height:5000px}':''}</style>`);
+  if(mode.endsWith('scrolled'))await page.evaluate(()=>scrollTo(0,4000));
+  const before=average(await page.screenshot({clip:{x:5,y:100,width:380,height:16}}));
+  await page.evaluate(async mode=>{
+   const update=()=>{document.body.style.background='#111c22';if(!mode.includes('body-background'))document.documentElement.style.background='#111c22';};
+   if(mode.startsWith('view-transition')){
+    document.documentElement.classList.add('cross');const t=document.startViewTransition(update);window.__finished=false;t.finished.then(()=>window.__finished=true);await t.ready;
+    window.__a=document.getAnimations().find(a=>a.animationName==='cross');
+   }else{document.body.insertAdjacentHTML('beforeend','<div id="old"></div>');update();window.__a=document.querySelector('#old').animate([{opacity:1},{opacity:0}],{duration:700,easing:'ease-in-out',fill:'both'});}
+   window.__a.pause();window.__a.currentTime=0;
+  },mode);
+  const frames=[];for(const time of [0,350,700]){
+   await page.evaluate(t=>window.__a.currentTime=t,time);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
+   const state=()=>page.evaluate(()=>({time:window.__a.currentTime,playState:window.__a.playState,progress:window.__a.effect.getComputedTiming().progress,pseudo:window.__a.effect.pseudoElement,opacity:getComputedStyle(document.documentElement,'::view-transition-new(root)').opacity,active:document.documentElement.classList.contains('cross'),finished:window.__finished,animations:document.getAnimations().map(a=>({name:a.animationName,state:a.playState}))}));
+   const pre=await state(),pixels=await page.screenshot({clip:{x:5,y:100,width:380,height:16},path:path.join(out,`${engine}-${mode}-${time}.png`)}),post=await state();frames.push({time,mean:average(pixels),pre,post});
+  }
+  receipt.push({engine,mode,before,frames});await page.close();fs.writeFileSync(path.join(out,'receipt.json'),JSON.stringify(receipt,null,2));
+ }}finally{await browser.close();}}
+ console.log(JSON.stringify(receipt.map(r=>({engine:r.engine,mode:r.mode,before:r.before,frames:r.frames.map(f=>({time:f.time,mean:f.mean,opacity:f.pre.opacity,active:f.post.active,finished:f.post.finished,progress:f.pre.progress}))})),null,2));
+})();

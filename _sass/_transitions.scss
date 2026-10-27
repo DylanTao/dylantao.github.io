@@ -189,6 +189,57 @@ html.theme-revealing .nav-indicator {
   view-transition-name: none;
 }
 
+// The automatic clock and sun-arc boundaries have no point of origin. Blend the whole painted
+// view, including the coast and fixed chrome, so the cream page cannot jump above a dusk canvas.
+html.theme-crossfading #navbar,
+html.theme-crossfading #progress,
+html.theme-crossfading .nav-indicator,
+html.theme-crossfading [data-theme-stop-indicator] {
+  view-transition-name: none;
+}
+
+html.theme-crossfading::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.theme-crossfading::view-transition-new(root) {
+  animation: site-theme-crossfade 700ms ease-in-out both;
+  mix-blend-mode: normal;
+}
+
+@keyframes site-theme-crossfade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+// Reading positions and fallback engines retain only an on-screen coastal framebuffer.
+// It cannot intercept input, and the page's CSS colors blend underneath it.
+.theme-coast-retained {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+html.theme-crossfading.transition,
+html.theme-crossfading.transition *,
+html.theme-crossfading.transition *::before,
+html.theme-crossfading.transition *::after {
+  // The coast's light/dark credit halo must follow its ink, rather than jumping to a dark
+  // shadow beneath the still-dark words at the start of the retained-frame blend.
+  transition-property: color, background-color, border-color, box-shadow, text-shadow, fill, stroke !important;
+  transition-duration: 700ms !important;
+  transition-timing-function: ease-in-out !important;
+}
+
 html.theme-revealing::view-transition-old(root) {
   animation: none;
 }

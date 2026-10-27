@@ -1,0 +1,781 @@
+{
+  "scope": "Local built-source acceptance on this Windows PC. Full assets retained; no phone-hardware, photorealism, performance, CI or publication claim.",
+  "selected": [
+    {
+      "file": "before-2560-blue-hour.png",
+      "sha256": "ace31840bc3c8c0e545c3bd38f7eb67a7c09c6011a0bbdb09a5f67aedd3ecefc",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/matched-settled/before-2560-blue-hour.png"
+    },
+    {
+      "file": "after-2560-blue-hour.png",
+      "sha256": "20bffdaeed410b914f3ca3b82438139bc4fe81562115e742106831b1665fc343",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/matched-settled/after-2560-blue-hour.png"
+    },
+    {
+      "file": "after-3840-sunset.png",
+      "sha256": "ba7cc3092a9bec4dd41bf232c1eb383b0db17db859416699dd52f7f777ab67bb",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/matched-settled/after-3840-sunset.png"
+    },
+    {
+      "file": "after-390-blue-hour.png",
+      "sha256": "e935a3d0cc8c592a923cf9515977910a098526912cc465c20ca2c4a27b128361",
+      "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/matched-settled/after-390-blue-hour.png"
+    }
+  ],
+  "transitions": [
+    {
+      "engine": "chromium",
+      "viewport": "desktop",
+      "path": "reading colors and retained coast",
+      "progress": [0, 0.12010150549133713, 0.4993338854613689, 0.8699506528609313, 1.0000000000000002],
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 966],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "repeatedMean": [219.9897735252809, 220.45729459269663, 218.57816889044943],
+      "errors": [],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [245.9989466292135, 245.32500877808988, 242.4579529494382],
+          "credit": {
+            "color": "rgb(40, 50, 52)",
+            "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 966],
+          "animationCount": 286,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 175,
+          "mean": [219.54626053370785, 219.96326369382024, 218.08172401685394],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(223, 212, 215, 0.91) 0px 0px 1px, rgba(223, 212, 215, 0.91) 0px 0px 2px, rgba(223, 212, 215, 0.91) 0px 0px 2px, rgba(223, 212, 215, 0.91) 0px 0px 3px, rgba(223, 212, 215, 0.91) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 966],
+          "animationCount": 286,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 350,
+          "mean": [134.92200667134833, 140.11139396067415, 142.07931004213484],
+          "credit": {
+            "color": "rgb(144, 147, 144)",
+            "shadow": "rgba(136, 135, 142, 0.937) 0px 0px 1px, rgba(136, 135, 142, 0.937) 0px 0px 2px, rgba(136, 135, 142, 0.937) 0px 0px 2px, rgba(136, 135, 142, 0.937) 0px 0px 3px, rgba(136, 135, 142, 0.937) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 966],
+          "animationCount": 286,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 525,
+          "mean": [52.35928721910113, 62.432496488764045, 67.27624648876404],
+          "credit": {
+            "color": "rgb(221, 218, 212)",
+            "shadow": "rgba(53, 63, 72, 0.96) 0px 0px 1px, rgba(53, 63, 72, 0.96) 0px 0px 2px, rgba(53, 63, 72, 0.96) 0px 0px 2px, rgba(53, 63, 72, 0.96) 0px 0px 3px, rgba(53, 63, 72, 0.96) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 966],
+          "animationCount": 286,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 700,
+          "mean": [23.885621488764045, 34.93214536516854, 40.733277738764045],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 966],
+          "animationCount": 286,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        }
+      ],
+      "selected": [
+        {
+          "file": "transition-chromium-desktop-0.png",
+          "sha256": "66c2f39134e910c69598643f68a67b90870ffa27e1b7d8d9b714ec9dbc19b516",
+          "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/footer-built-halo-results/footer-dusk-footer-dusk-au-a1200-ries-crossfade-continuously-desktop-1440/dusk-coast-0.png"
+        },
+        {
+          "file": "transition-chromium-desktop-350.png",
+          "sha256": "261ac3336cd35e1bd3daa6cbb79f03b073e788f7bfa60e58f859068a494f3a30",
+          "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/footer-built-halo-results/footer-dusk-footer-dusk-au-a1200-ries-crossfade-continuously-desktop-1440/dusk-coast-350.png"
+        },
+        {
+          "file": "transition-chromium-desktop-700.png",
+          "sha256": "e9bcd1bd7e26fd137c1de17553b95d46365373af06f12946f5ad69eb4b5ec6d4",
+          "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/footer-built-halo-results/footer-dusk-footer-dusk-au-a1200-ries-crossfade-continuously-desktop-1440/dusk-coast-700.png"
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "viewport": "phone",
+      "path": "reading colors and retained coast",
+      "progress": [0, 0.06573563281107388, 0.5173413516047498, 0.8812936976225392, 1.0000000000000004],
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 1963],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "repeatedMean": [223.77272727272728, 223.2755681818182, 220.74465240641712],
+      "errors": [],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [235.86747994652407, 235.65324197860963, 233.038435828877],
+          "credit": {
+            "color": "rgb(40, 50, 52)",
+            "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 1963],
+          "animationCount": 265,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 175,
+          "mean": [223.77272727272728, 223.2755681818182, 220.74465240641712],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(223, 212, 215, 0.91) 0px 0px 1px, rgba(223, 212, 215, 0.91) 0px 0px 2px, rgba(223, 212, 215, 0.91) 0px 0px 2px, rgba(223, 212, 215, 0.91) 0px 0px 3px, rgba(223, 212, 215, 0.91) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 1963],
+          "animationCount": 265,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 350,
+          "mean": [134.80982620320856, 139.65975935828877, 141.235628342246],
+          "credit": {
+            "color": "rgb(144, 147, 144)",
+            "shadow": "rgba(136, 135, 142, 0.937) 0px 0px 1px, rgba(136, 135, 142, 0.937) 0px 0px 2px, rgba(136, 135, 142, 0.937) 0px 0px 2px, rgba(136, 135, 142, 0.937) 0px 0px 3px, rgba(136, 135, 142, 0.937) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 1963],
+          "animationCount": 265,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 525,
+          "mean": [63.68382352941177, 72.41711229946524, 76.38519385026738],
+          "credit": {
+            "color": "rgb(221, 218, 212)",
+            "shadow": "rgba(53, 63, 72, 0.96) 0px 0px 1px, rgba(53, 63, 72, 0.96) 0px 0px 2px, rgba(53, 63, 72, 0.96) 0px 0px 2px, rgba(53, 63, 72, 0.96) 0px 0px 3px, rgba(53, 63, 72, 0.96) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 1963],
+          "animationCount": 265,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 700,
+          "mean": [40.93399064171123, 50.29461898395722, 54.94117647058823],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 1963],
+          "animationCount": 265,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "viewport": "phone",
+      "path": "reading colors and retained coast",
+      "progress": [0, 0.15404848524421857, 0.5499468392031709, 0.8944402176682504, 0.9999999999999999],
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 1937],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "repeatedMean": [194.4052473262032, 195.757185828877, 194.27924465240642],
+      "errors": [],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [216.6139705882353, 217.41594251336898, 215.19251336898395],
+          "credit": {
+            "color": "rgb(40, 50, 52)",
+            "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 1937],
+          "animationCount": 243,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 175,
+          "mean": [194.4052473262032, 195.757185828877, 194.27924465240642],
+          "credit": {
+            "color": "rgb(67, 75, 76)",
+            "shadow": "rgba(223, 212, 215, 0.91) 0px 0px 1px, rgba(223, 212, 215, 0.91) 0px 0px 2px, rgba(223, 212, 215, 0.91) 0px 0px 2px, rgba(223, 212, 215, 0.91) 0px 0px 3px, rgba(223, 212, 215, 0.91) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 1937],
+          "animationCount": 243,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 350,
+          "mean": [135.961564171123, 140.52139037433156, 141.5773729946524],
+          "credit": {
+            "color": "rgb(144, 147, 144)",
+            "shadow": "rgba(136, 135, 142, 0.937) 0px 0px 1px, rgba(136, 135, 142, 0.937) 0px 0px 2px, rgba(136, 135, 142, 0.937) 0px 0px 2px, rgba(136, 135, 142, 0.937) 0px 0px 3px, rgba(136, 135, 142, 0.937) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 1937],
+          "animationCount": 243,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 525,
+          "mean": [85.46524064171123, 92.60461229946524, 95.17580213903743],
+          "credit": {
+            "color": "rgb(221, 218, 212)",
+            "shadow": "rgba(53, 63, 72, 0.96) 0px 0px 1px, rgba(53, 63, 72, 0.96) 0px 0px 2px, rgba(53, 63, 72, 0.96) 0px 0px 2px, rgba(53, 63, 72, 0.96) 0px 0px 3px, rgba(53, 63, 72, 0.96) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 1937],
+          "animationCount": 243,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        },
+        {
+          "time": 700,
+          "mean": [70.42179144385027, 77.71607620320856, 80.70421122994652],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 1937],
+          "animationCount": 243,
+          "animationProperties": [
+            "background-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-right-color",
+            "border-top-color",
+            "box-shadow",
+            "color",
+            "retained coast",
+            "text-shadow"
+          ]
+        }
+      ],
+      "selected": [
+        {
+          "file": "transition-webkit-phone-0.png",
+          "sha256": "4850f68b156395088ea0bbfd97a31441bec5a346c7b5ce0972a427b4f9f275c0",
+          "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/footer-webkit-final-results/footer-dusk-footer-dusk-au-a1200-ries-crossfade-continuously-mobile-390/dusk-coast-0.png"
+        },
+        {
+          "file": "transition-webkit-phone-350.png",
+          "sha256": "ee18c401043050bf04a2651f57854aae965e09a0b47a97d890321ddc698cb427",
+          "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/footer-webkit-final-results/footer-dusk-footer-dusk-au-a1200-ries-crossfade-continuously-mobile-390/dusk-coast-350.png"
+        },
+        {
+          "file": "transition-webkit-phone-700.png",
+          "sha256": "94e01da388498373f559e86a979b27f4d25b8f73a797d5a2057ee232b2fd3dda",
+          "retained_source": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/footer-webkit-final-results/footer-dusk-footer-dusk-au-a1200-ries-crossfade-continuously-mobile-390/dusk-coast-700.png"
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "viewport": "desktop",
+      "path": "native snapshot",
+      "progress": [0, 0.1287839689972352, 0.5002978229173484, 0.8716074003924843, 0.9999999999999999],
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 0],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "repeatedMean": [216.94724367977528, 214.0576720505618, 212.79674332865167],
+      "errors": [],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [245.10046523876406, 240.1923279494382, 237.29393433988764],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 175,
+          "mean": [216.94724367977528, 214.0576720505618, 212.79674332865167],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 350,
+          "mean": [135.33334796348313, 138.34058988764045, 142.94079178370785],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 525,
+          "mean": [53.72441186797753, 62.655108848314605, 73.18052141853933],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 700,
+          "mean": [25.72090063202247, 36.5604371488764, 48.72572858146067],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "viewport": "phone",
+      "path": "native snapshot",
+      "progress": [0, 0.12971213424211997, 0.5000047776016638, 0.8703971280158901, 0.9999999999999998],
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 0],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "repeatedMean": [209.9513703208556, 201.09258021390374, 201.67613636363637],
+      "errors": [],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [235.61046122994654, 223.98696524064172, 221.47426470588235],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 175,
+          "mean": [209.9513703208556, 201.09258021390374, 201.67613636363637],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 350,
+          "mean": [136.61079545454547, 136.0758689839572, 144.88469251336898],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 525,
+          "mean": [63.20989304812834, 71.09558823529412, 88.06851604278074],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 700,
+          "mean": [37.60243983957219, 48.20120320855615, 68.27038770053476],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "viewport": "phone",
+      "path": "native snapshot",
+      "progress": [0, 0.1353817757343488, 0.5069921054003943, 0.8738328259562687, 1.0000000000000002],
+      "beforeState": {
+        "mode": "afternoon",
+        "theme": "light",
+        "body": "rgb(251, 250, 247)",
+        "htmlBackground": "rgba(0, 0, 0, 0)",
+        "root": "#fbfaf7",
+        "scroll": [0, 0],
+        "credit": {
+          "color": "rgb(40, 50, 52)",
+          "shadow": "rgba(255, 240, 242, 0.9) 0px 0px 1px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 2px, rgba(255, 240, 242, 0.9) 0px 0px 3px, rgba(255, 240, 242, 0.9) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+        }
+      },
+      "repeatedMean": [208.85778743315507, 200.31751336898395, 200.58054812834226],
+      "errors": [],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [235.6086229946524, 224.09725935828877, 221.38285427807486],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 175,
+          "mean": [208.85778743315507, 200.31751336898395, 200.58054812834226],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 350,
+          "mean": [135.42680481283423, 134.91326871657753, 143.63385695187165],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 525,
+          "mean": [62.745153743315505, 70.43014705882354, 87.5740307486631],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        },
+        {
+          "time": 700,
+          "mean": [37.69552139037433, 48.28592914438503, 68.32269385026738],
+          "credit": {
+            "color": "rgb(248, 243, 236)",
+            "shadow": "rgba(25, 38, 48, 0.97) 0px 0px 1px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 2px, rgba(25, 38, 48, 0.97) 0px 0px 3px, rgba(25, 38, 48, 0.97) 0px 0px 6px, rgba(229, 174, 156, 0.45) 0px 0px 14px, rgba(229, 174, 156, 0.45) 0px 0px 30px"
+          },
+          "scroll": [0, 0],
+          "animationCount": 1,
+          "animationProperties": ["site-theme-crossfade"]
+        }
+      ]
+    }
+  ],
+  "source_hashes_raw_worktree_bytes": {
+    "assets/js/theme.js": "27993109bdab552b170d67e43b8d9cacbf678f1d9a01367c32da2be6f535c703",
+    "_sass/_transitions.scss": "263a0cbe698f6e4478f27c575c39bd0ae6aa15067662e71df2ae878598859155",
+    "_includes/la-jolla-poster.liquid": "0ffe1cd244f42055db4a03833aaa7723fc618158cd3a7238da9914977e1445f2",
+    "assets/js/footer-coast/scene.mjs": "bcc335c80671321a948ea8ab4f5b9965599159ed606af7f5a5448597928f20b4",
+    "assets/js/footer-coast/sky.mjs": "4586c768c1275b1913384cc04a3d9ef660c7e347f3b4b319abf2b97500e2c1f4",
+    "assets/js/footer-coast/sky-look.mjs": "97e4aa23c2f2c6837604e7c76f4cbd66a671610977f01512c61ee83430d7eab2",
+    "bin/render_coast_posters.cjs": "faa39f3a2a5cde04a45f521fddea9940aad70b3be18922ea52de163b681dec21",
+    "assets/models/la-jolla/posters/version.txt": "2c3982faf7df0449ecccbdda3b15dd4e3dbe98d55e8f8342724640907a524318"
+  },
+  "gates": [
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/footer-built-halo.log",
+      "sha256": "5c7f003d2c2e82d192c85c6ad36916d54fe440317ea194e7d3ecb787ff5565dc",
+      "tail": [
+        "[10/12] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:173:1 \u203a footer dusk: automatic page and sky boundaries crossfade continuously",
+        "[11/12] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:177:1 \u203a footer dusk: page-head snapshots retain intermediate light",
+        "[12/12] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:181:1 \u203a footer dusk: interruption, reduced motion and fallback keep the latest light",
+        "  6 skipped",
+        "  6 passed (1.0m)"
+      ]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/footer-webkit-final.log",
+      "sha256": "243a069df1dea0c70619ec9dd1c8b2bbbf908a048bfd186cae6bceef18cc3c3c",
+      "tail": [
+        "[1/4] [mobile-390] \u203a test\\visual\\footer-coast.spec.js:353:1 \u203a coastal sky: La Jolla's real sunset, dusk and dawn keep the theme, the credit and the coast on one clock",
+        "[2/4] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:173:1 \u203a footer dusk: automatic page and sky boundaries crossfade continuously",
+        "[3/4] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:177:1 \u203a footer dusk: page-head snapshots retain intermediate light",
+        "[4/4] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:181:1 \u203a footer dusk: interruption, reduced motion and fallback keep the latest light",
+        "  4 passed (37.4s)"
+      ]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/native-head-final.log",
+      "sha256": "3b9ec57ea912d229c24bf54f29da126f210450269193c5768c87848ccf46cee5",
+      "tail": [
+        "",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "[4/4] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:178:1 \u203a footer dusk: page-head snapshots retain intermediate light",
+        "  2 skipped",
+        "  2 passed (17.0s)"
+      ]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/native-head-webkit-final.log",
+      "sha256": "744a849e4031b36d0b700973072a688b0e444b4b1763e3a0a3d556765cf22cbc",
+      "tail": [
+        "",
+        "(node:61140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.",
+        "(Use `node --trace-warnings ...` to show where the warning was created)",
+        "[1/1] [mobile-390] \u203a test\\visual\\footer-dusk.spec.js:178:1 \u203a footer dusk: page-head snapshots retain intermediate light",
+        "  1 passed (7.6s)"
+      ]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/final-halo-build.log",
+      "sha256": "00adc2ada5771c985375ded95feb54e5a91e945fcdd0d0da9d71b8b91ec6333a",
+      "tail": [
+        "        AlImgTools: Successfully copied lightbox2-adapter.js from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/js/lightbox2-adapter.js to C:/dev/site-takeover-worktrees/finish-brand-footer/.jekyll-cache/finish-brand-site/assets/al_img_tools/js/lightbox2-adapter.js",
+        "        AlImgTools: Successfully copied venobox-setup.js from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/js/venobox-setup.js to C:/dev/site-takeover-worktrees/finish-brand-footer/.jekyll-cache/finish-brand-site/assets/al_img_tools/js/venobox-setup.js",
+        "        AlImgTools: Successfully copied zoom.js from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/js/zoom.js to C:/dev/site-takeover-worktrees/finish-brand-footer/.jekyll-cache/finish-brand-site/assets/al_img_tools/js/zoom.js",
+        "                    done in 77.085 seconds.",
+        " Auto-regeneration: disabled. Use --watch to enable."
+      ]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/validator-final.log",
+      "sha256": "b162d924702936044bcff9eaead6db99798b2fdb11a53420eeeaf0a39f480331",
+      "tail": ["Publication and AI-readable output validation passed."]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/node-final.log",
+      "sha256": "e9b9cd375ec1104a8d3b48033724ca6298ed7dce13ebd06294e3eaf0be7c5462",
+      "tail": ["\u2139 fail 0", "\u2139 cancelled 0", "\u2139 skipped 7", "\u2139 todo 0", "\u2139 duration_ms 28808.123"]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/python-final.log",
+      "sha256": "24b05b5e3140b9e54739fa817a61a1dd70bb253a22bcdd53129d6fc32f30fbc5",
+      "tail": [" ", "----------------------------------------------------------------------", "Ran 314 tests in 14.115s", "", "OK"]
+    },
+    {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/overrides-final.log",
+      "sha256": "1814b44d9af11267a2a1a846e36f6051608d8386e85bcc5bf22d8a6c113809c5",
+      "tail": [
+        "- assets/js/progress-bar.js: local_changed (al_folio_core 1.0.11, upstream assets/js/progress-bar.js)",
+        "- assets/js/theme.js: acknowledged (al_folio_core 1.0.11, upstream assets/js/theme.js)",
+        "- assets/js/tooltips-setup.js: local_changed (al_folio_core 1.0.11, upstream assets/js/tooltips-setup.js)",
+        "- assets/js/typograms.js: local_changed (al_folio_core 1.0.11, upstream assets/js/typograms.js)",
+        "Acknowledgement file: .al-folio-overrides.yml"
+      ]
+    }
+  ],
+  "superseded_head_controls": "The initial built-source head-control setup followed site smooth scrolling in Chromium. Its actual scroll positions are retained in footer-built-halo-results; those records are excluded here. The final native-head suites force instant scroll and assert [0,0] before capture.",
+  "earlier_full_coast_suite": {
+    "log": {
+      "retained_log": ".jekyll-cache/visual-qa/finish-brand-footer-2026-10-26/footer-gates.log",
+      "sha256": "283cfdd68433ccef51d4673dd007d1bc05c1def5688790ab1b3f1c9b8c616b0f",
+      "tail": [
+        "[34/36] [mobile-390] \u203a test\\visual\\footer-coast.spec.js:316:1 \u203a coastal sea: refracted bottom and volumetric light use the current relief",
+        "[35/36] [mobile-390] \u203a test\\visual\\footer-coast.spec.js:353:1 \u203a coastal sky: La Jolla's real sunset, dusk and dawn keep the theme, the credit and the coast on one clock",
+        "[36/36] [mobile-390] \u203a test\\visual\\footer-coast.spec.js:656:1 \u203a coastal scenes: reduced motion and WebGL context recovery",
+        "  8 skipped",
+        "  28 passed (2.6m)"
+      ]
+    },
+    "scope": "28 pass and 8 scoped skips before the final reading-position/color-lifetime changes. The water, sky, models and regenerated posters were the same; the final focused suites recheck changed theme behavior and the real clock."
+  }
+}

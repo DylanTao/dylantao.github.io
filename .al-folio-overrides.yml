@@ -545,8 +545,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: assets/js/theme.js
     upstream_sha256: 404c3e26402451496cffea06946c5dd061c76c8512328bfdcbe2c3572052855e
-    local_sha256: 98b666856532e4477ae2f1a7663d592efbc002d53ed8ab843d571cd21980b5db
-    acknowledged_at: "2026-10-23"
+    local_sha256: 27993109bdab552b170d67e43b8d9cacbf678f1d9a01367c32da2be6f535c703
+    acknowledged_at: "2026-10-26"
   assets/js/tooltips-setup.js:
     owner: al_folio_core
     gem_version: 1.0.11

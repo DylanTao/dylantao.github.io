@@ -1,0 +1,846 @@
+{
+  "executed_source_sha256": "4de81c418a0c44e9b89e92d8c96c4181a57431e7a6b4287c31090d3bae9ba65f",
+  "scope": "Retained plain-page controls on this Windows host, not a physical-phone result or a general browser-compositor diagnosis. Native snapshot and ordinary retained-layer fade, flat and scrolled, with both html/body or body-only backgrounds. Each real animation is paused at its stated time.",
+  "cases": [
+    {
+      "engine": "webkit",
+      "mode": "view-transition",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [251, 250, 247],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [133, 138, 139],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.49999999999999994,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0.5",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 0.9999999999999999,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "1",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "mode": "view-transition-body-background",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [251, 250, 247],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [133, 138, 139],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.49999999999999994,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0.5",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 0.9999999999999999,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "1",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "mode": "view-transition-scrolled",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.49999999999999994,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0.5",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 0.9999999999999999,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "1",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "mode": "view-transition-body-background-scrolled",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.49999999999999994,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0.5",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 0.9999999999999999,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "1",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "mode": "ordinary-layer",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [251, 250, 247],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [134, 139, 141],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.5,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 1,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "mode": "ordinary-layer-scrolled",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [251, 250, 247],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [134, 139, 141],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.5,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 1,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "mode": "view-transition",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [251, 250, 247],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [134, 139, 141],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.5,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0.5",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 1,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "1",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "mode": "view-transition-body-background",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [251, 250, 247],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [134, 139, 141],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.5,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0.5",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 1,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "1",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "mode": "view-transition-scrolled",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [251, 250, 247],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [134, 139, 141],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.5,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0.5",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 1,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "1",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "mode": "view-transition-body-background-scrolled",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [251, 250, 247],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [134, 139, 141],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.5,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "0.5",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 1,
+            "pseudo": "::view-transition-new(root)",
+            "opacity": "1",
+            "active": true,
+            "finished": false,
+            "animations": [
+              {
+                "name": "-ua-view-transition-group-anim-root",
+                "state": "running"
+              },
+              {
+                "name": "cross",
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "mode": "ordinary-layer",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [251, 250, 247],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [134, 139, 140],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.5,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 1,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "engine": "chromium",
+      "mode": "ordinary-layer-scrolled",
+      "before": [251, 250, 247],
+      "frames": [
+        {
+          "time": 0,
+          "mean": [251, 250, 247],
+          "animation": {
+            "time": 0,
+            "playState": "paused",
+            "progress": 0,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 350,
+          "mean": [134, 139, 140],
+          "animation": {
+            "time": 350,
+            "playState": "paused",
+            "progress": 0.5,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        },
+        {
+          "time": 700,
+          "mean": [17, 28, 34],
+          "animation": {
+            "time": 700,
+            "playState": "paused",
+            "progress": 1,
+            "pseudo": null,
+            "opacity": "1",
+            "active": false,
+            "animations": [
+              {
+                "state": "paused"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

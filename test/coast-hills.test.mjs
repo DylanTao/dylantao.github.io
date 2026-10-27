@@ -17,11 +17,26 @@ import {
 } from "../assets/js/footer-coast/atmosphere.mjs";
 import { FRIEZE_BEARINGS, SKYLINE_PEAK, bearingAt, houseLights, skylineAt, xAtBearing } from "../assets/js/footer-coast/skyline.mjs";
 import { SKYLINE } from "../assets/js/footer-coast/skyline-data.mjs";
-import { skyExposure, skyWeight } from "../assets/js/footer-coast/sky.mjs";
+import { skyExposure, skyWeight, twilightWhiteBalance } from "../assets/js/footer-coast/sky.mjs";
 import { sunEvents, sunState } from "../assets/js/la-jolla-sun.mjs";
 
 const tables = defaultTables();
 const ratio = (c) => c[0] / c[2];
+
+test("blue-hour display adaptation is bounded, continuous and leaves anchor daylight neutral", () => {
+  for (const altitude of [null, 55, 0, -3, -15, -24]) assert.deepEqual(twilightWhiteBalance(altitude), [1, 1, 1]);
+  const middle = twilightWhiteBalance(-8);
+  assert.ok(middle[0] < 1 && middle[1] > 1 && middle[2] === 1, "reduce a magenta cast without a blue intensity boost");
+  let previous = twilightWhiteBalance(-24);
+  for (let altitude = -24; altitude < 15; altitude += 0.01) {
+    const current = twilightWhiteBalance(altitude);
+    current.forEach((value, i) => {
+      assert.ok(value >= 0.7 && value <= 1.15);
+      assert.ok(Math.abs(value - previous[i]) < 0.002, "less than 0.2% channel-gain change per 0.01 degree");
+    });
+    previous = current;
+  }
+});
 
 test("the day sky is blue overhead and the low sun is red and dim", () => {
   const zenith = skyRadiance(Math.PI / 2, 0, 50 * DEG, { tables });

@@ -5,6 +5,7 @@ const { chromium } = require("playwright");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const { execFileSync } = require("node:child_process");
+const { createHash } = require("node:crypto");
 
 const base = (process.argv[2] || "http://127.0.0.1:4101/al-folio").replace(/\/$/, "");
 const root = path.resolve(__dirname, "..");
@@ -17,10 +18,31 @@ const views = [
   { name: "coast-mobile", width: 560, height: 560, quality: 80 },
   { name: "miniature", width: 1000, height: 1000, miniature: true, quality: 88 },
 ];
+const themes = ["morning", "noon", "afternoon", "evening"];
 
-(async () => {
+function posterSetVersion(entries) {
+  const hash = createHash("sha256");
+  for (const { name, bytes } of [...entries].sort((a, b) => a.name.localeCompare(b.name))) {
+    hash.update(`${name}\0${bytes.length}\0`);
+    hash.update(bytes);
+  }
+  return hash.digest("hex");
+}
+
+async function writeVersion() {
+  const names = views.flatMap((view) => themes.map((theme) => `${view.name}-${theme}.webp`));
+  const entries = await Promise.all(names.map(async (name) => ({ name, bytes: await fs.readFile(path.join(output, name)) })));
+  await fs.writeFile(path.join(output, "version.txt"), `${posterSetVersion(entries)}\n`);
+  console.log("version.txt (all twelve poster bytes)");
+}
+
+async function main() {
   await fs.mkdir(scratch, { recursive: true });
   await fs.mkdir(output, { recursive: true });
+  if (process.argv.includes("--version-only")) {
+    await writeVersion();
+    return;
+  }
   const browser = await chromium.launch({ args: process.platform === "win32" ? ["--use-angle=d3d11", "--ignore-gpu-blocklist"] : [] });
   try {
     for (const view of views) {
@@ -44,7 +66,7 @@ const views = [
       );
       await page.goto(route);
       await page.waitForSelector('[data-state="ready"]', { timeout: 30000 });
-      for (const theme of ["morning", "noon", "afternoon", "evening"]) {
+      for (const theme of themes) {
         await page.evaluate((value) => {
           document.documentElement.dataset.themeMode = value;
         }, theme);
@@ -66,7 +88,12 @@ const views = [
   } finally {
     await browser.close();
   }
-})().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+  await writeVersion();
+}
+
+module.exports = { posterSetVersion };
+if (require.main === module)
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });

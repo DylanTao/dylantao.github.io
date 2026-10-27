@@ -116,6 +116,7 @@ const themeModes = ["morning", "noon", "afternoon", "evening"];
 const themeStorageKey = "theme";
 const themeManualStorageKey = "theme-manual";
 let themeBoundaryTimer = null;
+let themeRequestedSetting = null;
 const themeModeMeta = {
   morning: { label: "Morning", computedTheme: "light" },
   noon: { label: "Noon", computedTheme: "light" },
@@ -211,16 +212,28 @@ let toggleThemeSetting = () => {
 // Change the theme setting and apply the compatible light/dark theme.
 let setThemeSetting = (themeSetting, options = { persist: true, manual: true }) => {
   const nextThemeSetting = normalizeThemeSetting(themeSetting);
-
-  if (options.persist) {
-    writeSessionThemeSetting(nextThemeSetting, options.manual !== false);
+  const root = document.documentElement;
+  const previous = root.getAttribute("data-theme-mode");
+  const repeated = themeRequestedSetting === nextThemeSetting;
+  themeRequestedSetting = nextThemeSetting;
+  if (repeated && (themeTransition || themeFadeCleanup) && !themeRevealActive) {
+    // The arc can send many positions inside one mode. Keep the current blend instead of
+    // replacing its old frame with the already-relit one; a manual pick still holds the choice.
+    if (options.persist) writeSessionThemeSetting(nextThemeSetting, options.manual !== false);
+    return;
   }
-
-  document.documentElement.setAttribute("data-theme-setting", nextThemeSetting);
-  document.documentElement.setAttribute("data-theme-mode", nextThemeSetting);
-
-  applyTheme();
-  scheduleAutomaticThemeCheck();
+  const update = () => {
+    if (options.persist) writeSessionThemeSetting(nextThemeSetting, options.manual !== false);
+    root.setAttribute("data-theme-setting", nextThemeSetting);
+    root.setAttribute("data-theme-mode", nextThemeSetting);
+    applyTheme();
+    scheduleAutomaticThemeCheck();
+  };
+  // A clock or arc boundary changes the complete view, including its canvas and gradients.
+  // Initial paint and a stop's existing water reveal already own their transitions.
+  if (previous && (previous !== nextThemeSetting || themeTransition || themeFadeCleanup) && !themeRevealActive && document.readyState !== "loading")
+    crossfadeTheme(update);
+  else update();
 };
 
 // Apply the computed dark or light theme to integrations while preserving the richer mode.
@@ -466,29 +479,128 @@ let setCookieConsentTheme = (theme) => {
   }
 };
 
+let themeColorTimer = 0;
 let transTheme = () => {
+  const root = document.documentElement;
+  window.clearTimeout(themeColorTimer);
   // A pick revealed as one view transition needs no per-property color transition on top.
-  if (themeRevealActive) return;
-  document.documentElement.classList.add("transition");
-  window.setTimeout(() => {
-    document.documentElement.classList.remove("transition");
-  }, 500);
+  if (themeRevealActive) {
+    root.classList.remove("transition");
+    return;
+  }
+  root.classList.add("transition");
+  // A retained coastal frame owns the fade's lifetime, including interruption. A fixed timer
+  // must not remove these colors while that frame is still blending into the next light.
+  if (root.classList.contains("theme-crossfading")) return;
+  themeColorTimer = window.setTimeout(() => root.classList.remove("transition"), 500);
 };
 
 // A time-of-day pick spreads from the option that was chosen: the new light grows out of it in a
 // soft water edge on the site's gentle spring (site-motion.mjs), as one view transition, so gradients
-// and canvases change together with everything else. Dragging the sun arc and the automatic clock
-// keep the brief color transition; reduced motion swaps at once, and automation keeps the instant
+// and canvases change together with everything else. Away from the page head, a retained coast
+// and CSS colors preserve the reading position. Reduced motion swaps at once, and automation keeps the instant
 // change its captures rely on unless the URL asks for ?cinematic=live.
 let themeRevealActive = false;
 let themeTransition = null;
 let themeRevealRevision = 0;
-let revealThemeFrom = (origin, update) => {
+let themeFadeCleanup = null;
+
+// The automatic clock and the arc have no clicked origin. Crossfade their complete view instead
+// of changing the CSS page underneath an abruptly relit WebGL sky. A native view transition keeps
+// the old frame while DOM and canvas receive the next theme, then blends one over the other.
+// At a reading position, or without that API, retain only visible coastal canvases and let CSS
+// carry the page colors. Scrolled root snapshots did not retain intermediate pixels in the WebKit
+// check; the same reading-position path serves every engine. No animation loop or DOM copy is added.
+let crossfadeTheme = (update) => {
   const root = document.documentElement;
   const revision = ++themeRevealRevision;
   themeTransition?.skipTransition();
   themeTransition = null;
-  root.classList.remove("theme-revealing", "theme-water-revealing");
+  themeFadeCleanup?.();
+  root.classList.remove("theme-revealing", "theme-water-revealing", "theme-crossfading");
+  const live = /[?&]cinematic=live(?:&|$)/.test(window.location.search);
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || (navigator.webdriver && !live) || document.visibilityState === "hidden") {
+    update();
+    return;
+  }
+  const done = () => {
+    if (revision !== themeRevealRevision) return;
+    themeTransition = null;
+    root.classList.remove("theme-crossfading");
+  };
+  if (!document.startViewTransition || window.scrollX || window.scrollY) {
+    const retained = [];
+    for (const canvas of document.querySelectorAll('[data-footer-coast][data-state="ready"] .footer-coast__canvas')) {
+      const box = canvas.getBoundingClientRect();
+      if (!box.width || !box.height || box.bottom <= 0 || box.top >= innerHeight) continue;
+      const copy = document.createElement("canvas");
+      copy.width = canvas.width;
+      copy.height = canvas.height;
+      copy.className = "theme-coast-retained";
+      copy.setAttribute("aria-hidden", "true");
+      try {
+        const context = copy.getContext("2d");
+        if (!context) continue;
+        context.drawImage(canvas, 0, 0);
+        canvas.parentElement.append(copy);
+        retained.push(copy);
+      } catch {
+        // Retaining a graphics frame is an enhancement; the next theme must still apply.
+      }
+    }
+    let cleaned = false;
+    const cleanup = () => {
+      if (cleaned) return;
+      cleaned = true;
+      retained.forEach((copy) => copy.remove());
+      if (themeFadeCleanup === cleanup) {
+        themeFadeCleanup = null;
+        root.classList.remove("transition");
+      }
+      done();
+    };
+    themeFadeCleanup = cleanup;
+    root.classList.add("theme-crossfading");
+    update();
+    const animations = retained.map((copy) =>
+      copy.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 700, easing: "ease-in-out", fill: "forwards" })
+    );
+    if (animations.length) Promise.allSettled(animations.map((animation) => animation.finished)).then(cleanup);
+    else window.setTimeout(cleanup, 700);
+    return;
+  }
+  root.classList.add("theme-crossfading");
+  try {
+    const transition = document.startViewTransition(() => {
+      if (revision !== themeRevealRevision) return;
+      themeRevealActive = true;
+      try {
+        update();
+      } finally {
+        themeRevealActive = false;
+      }
+    });
+    themeTransition = transition;
+    transition.ready.catch(() => {});
+    transition.finished.then(done, done);
+  } catch {
+    done();
+    update();
+  }
+};
+
+let revealThemeFrom = (origin, update) => {
+  if (window.scrollX || window.scrollY) {
+    // setThemeSetting owns the reading-position fade without nesting view transitions.
+    update();
+    return;
+  }
+  const root = document.documentElement;
+  const revision = ++themeRevealRevision;
+  themeTransition?.skipTransition();
+  themeTransition = null;
+  themeFadeCleanup?.();
+  root.classList.remove("theme-revealing", "theme-water-revealing", "theme-crossfading");
   const live = /[?&]cinematic=live(?:&|$)/.test(window.location.search);
   if (!origin || !document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches || (navigator.webdriver && !live)) {
     update();
@@ -531,7 +643,10 @@ let revealThemeFrom = (origin, update) => {
 };
 
 window.matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", (event) => {
-  if (event.matches) themeTransition?.skipTransition();
+  if (event.matches) {
+    themeTransition?.skipTransition();
+    themeFadeCleanup?.();
+  }
 });
 
 let normalizeThemeSetting = (themeSetting) => {
@@ -763,6 +878,9 @@ let initTheme = () => {
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") {
       applyAutomaticThemeIfNeeded();
+    } else {
+      themeTransition?.skipTransition();
+      themeFadeCleanup?.();
     }
   });
 
