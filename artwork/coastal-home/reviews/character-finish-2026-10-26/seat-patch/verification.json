@@ -7,15 +7,15 @@
     },
     {
       "file": "bin/measure_coastal_character_contacts.mjs",
-      "sha256": "4e942e8ec83008e285f37a5a954dcf3f5beae7e4c216dd541fae2844f7a4af96"
+      "sha256": "41b32e37fbb8a99ccd1b5f557c2db9800eff926ac29e2d8b411b9c48a48e0c1c"
     },
     {
       "file": "test/character-contacts.test.mjs",
-      "sha256": "f17681f10ed184a13a970b40dd16f7cac85f79462acb90be6f8a1a1d029d56e2"
+      "sha256": "ab6ddc07bd8fd11e760b76ac3d608d602d0d793d618798971c0acbe06711c731"
     },
     {
       "file": "assets/models/home/character-contacts.json",
-      "sha256": "af8ad3b7a82593a5dbadaa9f004995ba8b10e89deb5a092c432074f24ae55376"
+      "sha256": "63488df1c4b5622286e74be7b93efa9dcac4be3d02748c39d405eb4cedd0b1f0"
     },
     {
       "file": "assets/js/home-scene/character-contacts.mjs",
@@ -29,7 +29,7 @@
     },
     {
       "file": "decoded-seat-contacts.json",
-      "sha256": "8adc318e89bdadffd7b52b2ed215af07765c682836bc77c3db486184c03b9279"
+      "sha256": "283d80ff86cf5c8502fd8b5f82aa8f12efc748f455e259a594783609d14674d0"
     }
   ],
   "nativeSourceBytesPreserved": true,
@@ -77,8 +77,18 @@
       "signals": []
     },
     {
+      "file": "decoded-seat-measure-with-feet.log",
+      "sha256": "84f9eadf7768e97e125b41512bb59b16bfadbb6e81ade36e5fa6cf2e36df7265",
+      "signals": []
+    },
+    {
       "file": "seat-unit.log",
       "sha256": "cce39cf52140074bc5e853efeca2a503b0967bc4015ee6f700c19b06645efc18",
+      "signals": ["\u2139 tests 2", "\u2139 pass 2", "\u2139 fail 0", "\u2139 skipped 0"]
+    },
+    {
+      "file": "seat-foot-reference-unit.log",
+      "sha256": "9b23429507bd125ef225ecc8be725e5cc5af4b83edf03e6352b70b90affdc814",
       "signals": ["\u2139 tests 2", "\u2139 pass 2", "\u2139 fail 0", "\u2139 skipped 0"]
     },
     {

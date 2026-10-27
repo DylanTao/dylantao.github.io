@@ -37,7 +37,11 @@ function neutralLegGeometry(actor) {
       }
     });
     if (!points.length) throw new Error(`Foot${side} has no actual foot geometry`);
-    const minY = Math.min(...points.map((point) => point.y));
+    const minY = Math.min(...points.map((point) => point.y)),
+      soleWitnesses = points.filter((point) => point.y < minY + 0.001).map((point) => point.toArray()),
+      soleCenter = [0, 1, 2].map(
+        (axis) => (Math.min(...soleWitnesses.map((point) => point[axis])) + Math.max(...soleWitnesses.map((point) => point[axis]))) / 2
+      );
     sides[side] = {
       hip: hip.toArray(),
       knee: knee.toArray(),
@@ -46,7 +50,12 @@ function neutralLegGeometry(actor) {
       lowerLength: knee.distanceTo(ankle),
       footMinY: minY,
       ankleToSoleY: ankle.y - minY,
-      soleWitnesses: points.filter((point) => point.y < minY + 0.001).map((point) => point.toArray()),
+      footQuaternion: bones
+        .get("Foot" + side)
+        .getWorldQuaternion(new THREE.Quaternion())
+        .toArray(),
+      soleCenterOffsetXYZ: soleCenter.map((value, axis) => value - ankle.getComponent(axis)),
+      soleWitnesses,
     };
   }
   return {
@@ -194,6 +203,18 @@ async function main() {
     asset.avatars[style] = {
       lounge: {
         ...summary,
+        legs: Object.fromEntries(
+          Object.entries(neutralLegs.sides).map(([side, leg]) => [
+            side,
+            {
+              upperLength: leg.upperLength,
+              lowerLength: leg.lowerLength,
+              ankleToSoleY: leg.ankleToSoleY,
+              footQuaternion: leg.footQuaternion,
+              soleCenterOffsetXYZ: leg.soleCenterOffsetXYZ,
+            },
+          ])
+        ),
         nativeSourceSha256: nativeEntry.sourceSha256,
         nativeSampling: {
           fps: nativeEntry.fps,

@@ -43,6 +43,12 @@ test("seat offsets follow the actual decoded proximal patch across each complete
       assert.deepEqual(decoded.ankle, recorded.ankle);
       assert.equal(decoded.upperLength, recorded.upperLength);
       assert.equal(decoded.lowerLength, recorded.lowerLength);
+      assert.equal(saved.legs[side].upperLength, decoded.upperLength);
+      assert.equal(saved.legs[side].lowerLength, decoded.lowerLength);
+      assert.equal(saved.legs[side].ankleToSoleY, decoded.ankleToSoleY);
+      assert.deepEqual(saved.legs[side].footQuaternion, decoded.footQuaternion);
+      assert.deepEqual(saved.legs[side].soleCenterOffsetXYZ, decoded.soleCenterOffsetXYZ);
+      assert.ok(Math.abs(Math.hypot(...decoded.footQuaternion) - 1) < 1e-7);
     }
     // A nominal offset can silently float or bury every rig. This control must remain visibly wrong.
     assert.ok(Math.abs(actual.seatOffsetY - 0.515) > 0.005, `${style}: the retired nominal constant is rejected by the real patch`);
