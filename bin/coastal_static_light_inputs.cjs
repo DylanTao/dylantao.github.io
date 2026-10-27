@@ -17,6 +17,8 @@ async function coastalLightInputs(root) {
   const manifest = JSON.parse(await fs.readFile(path.join(root, "assets/models/home/manifest.json"), "utf8"));
   delete manifest.staticLightFieldCache;
   const files = [
+    "_plugins/site_module_assets.rb",
+    "Gemfile.lock",
     "assets/js/home-scene/static-light-field.mjs",
     "assets/js/home-scene/light-trace-core.mjs",
     "assets/js/home-scene/controller.mjs",

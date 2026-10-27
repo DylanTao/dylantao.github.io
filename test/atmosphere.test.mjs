@@ -22,6 +22,26 @@ import { coastalDaylight, LA_JOLLA } from "../assets/js/home-scene/daylight.mjs"
 const luminance = (c) => 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 const r0 = ATMOSPHERE.bottomRadius + 0.03;
 
+test("a closed cloud deck removes the directional key while retaining finite diffuse daylight", () => {
+  const sun = coastalDaylight("2026-10-26", 750).direction;
+  const clear = skyLighting({ sun });
+  let previous = clear.sunLuminance;
+  for (const marine of [0.25, 0.5, 0.75, 1]) {
+    const cloudy = skyLighting({ sun, marine });
+    assert.ok(cloudy.sunLuminance < previous, "thicker clouds cannot strengthen the hard key");
+    for (const color of [cloudy.zenith, cloudy.horizon, cloudy.irradiance, cloudy.ground])
+      assert.ok(
+        color.every((value) => Number.isFinite(value) && value >= 0),
+        "cloudy daylight remains a nonnegative finite light field"
+      );
+    assert.ok(luminance(cloudy.irradiance) > 0, "obscuring the sun leaves diffuse sky illumination");
+    previous = cloudy.sunLuminance;
+  }
+  const overcast = skyLighting({ sun, marine: 1 });
+  assert.ok(overcast.sunLuminance < clear.sunLuminance * 0.001, "a closed deck cannot retain crisp high-contrast sunlight");
+  assert.ok(luminance(overcast.ground) < luminance(clear.ground), "cloud-covered ground does not keep clear-sky sun bounce");
+});
+
 // An independent reference: NOAA's solar calculator spreadsheet (after Meeus, Astronomical
 // Algorithms), Julian-century form, iterated once at the sunset it finds. The scene uses NOAA's other
 // form, the fractional-year series in daylight.mjs; the two must agree on La Jolla's sunset.

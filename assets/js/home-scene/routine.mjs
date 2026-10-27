@@ -1,3 +1,4 @@
+import { poolActivityRoom } from "./pool-activity.mjs";
 import { trainingAt } from "./training.mjs";
 
 // Pure clock/state functions. The scene follows an authored routine, never telemetry.
@@ -70,6 +71,7 @@ export function resolveRoutine(config, date = new Date(), preview = null) {
 
 // A routine may occupy a furniture station without moving the room's public visit spot.
 export function routineRoom(config, routine) {
+  if (routine?.sequence === "pool") return poolActivityRoom(config, routine.room);
   const room = config?.rooms?.find((r) => r.id === routine?.room);
   const station = routine?.station && config?.furniture?.find((a) => a.id === routine.station && a.room === room?.id);
   return station ? { ...room, actor: [...station.position], facing: station.yaw || 0 } : room;

@@ -54,6 +54,7 @@ import { createSkinDiffusion } from "./skin-diffusion.mjs";
 import { createOnsenWater } from "./onsen-water.mjs";
 import { measurePoolGeometry } from "./pool-geometry.mjs";
 import { createPoolStroke } from "./pool-stroke.mjs";
+import { createPoolActivity, poolActivityRoom } from "./pool-activity.mjs";
 import { createCoastalWind } from "./coastal-wind.mjs";
 import { coastWind, livePacificMinute, COAST_SHELTER } from "./wind-field.mjs";
 import { syncOceanWind } from "./ocean-spectrum.mjs";
@@ -76,6 +77,7 @@ import { createInteriorReflections } from "./interior-reflections.mjs";
 import { createWalkPresence } from "./walk-presence.mjs";
 import { createEstateDoors, nearDoor } from "./estate-doors.mjs";
 import { createCoastalRain } from "./coastal-rain.mjs";
+import { createRainRoofField } from "./rain-roof-field.mjs";
 import { createLibraryLadder } from "./library-ladder.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
@@ -237,6 +239,8 @@ export function createCoastalHome(container, records, artifacts) {
     footContacts,
     handContacts,
     poolStroke,
+    poolVisit,
+    poolFootContacts,
     characterPerformance,
     sequenceStart = 0,
     sequencePose = null,
@@ -1116,6 +1120,7 @@ export function createCoastalHome(container, records, artifacts) {
       actor.name = "active-Sirui";
       activeGripOffsets = entry.gripWristOffsets;
       footContacts = createFootContacts(actor, config.terrain);
+      poolFootContacts = poolVisit ? createFootContacts(actor, poolVisit.terrain) : null;
       handContacts = createHandContacts(actor);
       liftRig = createLiftRig(actor);
       liftActive = false;
@@ -1149,15 +1154,16 @@ export function createCoastalHome(container, records, artifacts) {
     }
   }
 
-  function playClip(name) {
+  function playClip(name, walkingSpeed = 1.5) {
     characterPerformance?.restore();
     const next = actions?.get(name) || actions?.get("idle");
-    if (!next || next === currentAction) return;
-    next
-      .reset()
-      .setEffectiveWeight(1)
-      .setEffectiveTimeScale(name === "walk" ? 3.6 : 1)
-      .play();
+    if (!next) return;
+    const timeScale = name === "walk" ? (3.6 * Math.max(0.1, walkingSpeed)) / 1.5 : 1;
+    if (next === currentAction) {
+      next.setEffectiveTimeScale(timeScale);
+      return;
+    }
+    next.reset().setEffectiveWeight(1).setEffectiveTimeScale(timeScale).play();
     if (reduced || paused) {
       const stillTimes = { typing: 1, reading: 1.5, eat: 1.7, drink: 1.8, workout: 1.3, soak: 1, lounge: 1.5, sleep: 1 };
       next.time = stillTimes[name] || 0;
@@ -2165,7 +2171,9 @@ export function createCoastalHome(container, records, artifacts) {
     const enclosedLibrary = currentRoom === "library" || currentRoom === (config?.retreat?.version ? "study" : "library-upper");
     world.traverse((object) => {
       // Orbiting opens the section; a visitor inside the house keeps its real enclosing ceiling.
-      if (object.userData.caveRoof) object.visible = currentRoom === "outside" || enclosedLibrary || Boolean(walkMode?.active);
+      if (object.userData.caveRoof)
+        object.visible =
+          currentRoom === "outside" || (routine?.sequence === "pool" && currentRoom === routine.room) || enclosedLibrary || Boolean(walkMode?.active);
       // The stacked bath's slab opens only for its lower-room inspection, preserving the upper
       // bathroom's real floor in every other view and throughout first-person exploration.
       else if (object.userData.roomCeilingFor || object.userData.bathroomCeilingFor)
@@ -2221,8 +2229,8 @@ export function createCoastalHome(container, records, artifacts) {
     updateInstallations();
     desiredFov = 38;
     fitSunShadow(true);
-    if (id === "outside" && compositionReady) loadFlora();
-    if ((id === "outside" || id === "overview") && compositionReady) loadHinterland();
+    if ((id === "outside" || (routine?.sequence === "pool" && id === routine.room)) && compositionReady) loadFlora();
+    if ((id === "outside" || id === "overview" || (routine?.sequence === "pool" && id === routine.room)) && compositionReady) loadHinterland();
     clearFocus();
     container.dataset.room = id;
     container.dataset.deskView = id === "outside" ? "outside" : "room";
@@ -2238,7 +2246,8 @@ export function createCoastalHome(container, records, artifacts) {
         loadRoom(r.id).catch(() => {});
       });
     } else {
-      const room = config.rooms.find((r) => r.id === id);
+      const room =
+        config.rooms.find((r) => r.id === id) || (routine?.sequence === "pool" && routine.room === id ? poolActivityRoom(config, id) : null);
       if (!room) return;
       desiredTarget.fromArray(room.target);
       desiredRadius = room.camera?.radius || 4.4;
@@ -3051,7 +3060,20 @@ export function createCoastalHome(container, records, artifacts) {
       gymProps = createGymProps({ room: rooms.get("gym"), world, gym: config.equipment.gym, training: config.training, material });
       gymProps.drawBoard(boardInfo());
     }
-    if (actor && !travel && routine?.sequence === "session" && routine.training?.plan && config.equipment?.gym) {
+    if (actor && !travel && poolVisit && routine?.sequence === "pool") {
+      if (moving || reduced || !sequencePose) {
+        sequencePose = poolVisit.pose(elapsed - sequenceStart, { reduced });
+        const pose = sequencePose;
+        playClip(pose.clip, pose.walkingSpeed);
+        actor.position.fromArray(pose.position);
+        if (moving)
+          actor.rotation.y +=
+            Math.atan2(Math.sin(pose.facing - actor.rotation.y), Math.cos(pose.facing - actor.rotation.y)) * (1 - Math.exp(-delta * 6));
+        else actor.rotation.y = pose.facing;
+        poolFootContacts?.(pose.onStairs);
+        container.dataset.activityPhase = pose.phase;
+      }
+    } else if (actor && !travel && routine?.sequence === "session" && routine.training?.plan && config.equipment?.gym) {
       const info = trainingSession();
       if (info?.state) {
         // Paused, the last pose holds; a reduced-motion still shows the start of the current lift.
@@ -3409,6 +3431,7 @@ export function createCoastalHome(container, records, artifacts) {
       const response = await fetch(manifestUrl);
       if (!response.ok) throw new Error("Scene manifest unavailable");
       config = await response.json();
+      poolVisit = config.infinityPool?.activity?.path ? createPoolActivity(config.infinityPool.activity) : null;
       // The arrival avatar is still chosen later, so seeded captures draw it at the same point.
       prefetch(new URL(config.shell, manifestUrl).href, { step: "house", priority: "high" });
       prefetch(new URL(config.coast, manifestUrl).href, { step: "coast", priority: "high" });
@@ -3498,11 +3521,18 @@ export function createCoastalHome(container, records, artifacts) {
       // share one set of tables. ?haze=0 keeps three's linear fog for comparison.
       atmosphere = createAtmosphere(renderer);
       cleanup.push(() => atmosphere?.dispose());
+      const rainRoofs = createRainRoofField(world);
+      cleanup.push(() => rainRoofs.dispose());
       coastalRain = createCoastalRain({
         scene,
         compact: compactTouch,
-        terrainHeight: (x, z) => cameraTerrainHeight(x, z, config.cameraCollision),
-        shelters: config.weatherShelters || [],
+        terrainHeight: (x, z, endX, endZ) =>
+          Math.max(
+            cameraTerrainHeight(x, z, config.cameraCollision),
+            cameraTerrainHeight(endX, endZ, config.cameraCollision),
+            rainRoofs.height(x, z, endX, endZ)
+          ),
+        roofEvidence: () => rainRoofs.evidence(),
       });
       cleanup.push(() => coastalRain?.dispose());
       finish = createFinish(renderer, scene, perspective, {
@@ -3989,7 +4019,20 @@ export function createCoastalHome(container, records, artifacts) {
     rendering: finish?.evidence,
     simulation: {
       rain: coastalRain?.evidence(),
-      infinityPool: infinityPool?.evidence(),
+      infinityPool: infinityPool
+        ? {
+            ...infinityPool.evidence(),
+            activity:
+              routine?.sequence === "pool" && sequencePose
+                ? {
+                    ...sequencePose,
+                    entrySeconds: poolVisit?.entrySeconds,
+                    duration: poolVisit?.duration,
+                    supportScope: "activity-local; excluded from first-person Walk",
+                  }
+                : null,
+          }
+        : null,
       skin: skinDiffusion?.evidence,
       onsen: onsenWater
         ? {

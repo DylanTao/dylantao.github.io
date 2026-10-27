@@ -338,16 +338,21 @@ export function skyLighting({ sun, moon = null, moonIllumination = 0, marine = 0
     basisA += (1 - basis) * solidAngle * cosine;
     basisB += basis * solidAngle * cosine;
   });
+  // An authored cloud optical-depth approximation, not a cloud-transport solver: direct light
+  // follows Beer-Lambert attenuation; a quarter of the removed downward sunlight becomes broad
+  // diffuse light. The rest is backscattered/absorbed. A full deck must not keep a crisp 15% sun.
+  const cloud = Math.max(0, Math.min(1, marine)),
+    veil = Math.exp(-8 * cloud * cloud),
+    transmittance = transmittanceToTop(ATMOSPHERE.bottomRadius + VIEW_ALTITUDE, sun[1]),
+    sunColor = SOLAR_WHITE.map((w, c) => w * SUN_ILLUMINANCE * transmittance[c] * gain);
+  irradiance = irradiance.map((e, c) => e * (1 - 0.25 * cloud) + sunColor[c] * Math.max(0, sun[1]) * (1 - veil) * 0.25);
   const night = nightSky(moon ? Math.max(0, Math.min(1, moon[1] * 6 + 0.3)) : 0, moonIllumination),
     nightWeight = Math.max(0, Math.min(1, (-elevation / DEG - 3) / 10));
   const horizon = bandMeans[0].map((v, c) => v + night.horizon[c] * nightWeight);
   const zenith = irradiance.map((e, c) => Math.max(0.15 * horizon[c], (e - horizon[c] * basisA) / basisB) + night.zenith[c] * nightWeight * 0.6);
   irradiance = irradiance.map((e, c) => e + (night.horizon[c] * 0.55 + night.zenith[c] * 0.45) * Math.PI * nightWeight);
-  // The direct sun, attenuated along its refracted (apparent) path; zero once the disc is under the sea.
-  const transmittance = transmittanceToTop(ATMOSPHERE.bottomRadius + VIEW_ALTITUDE, sun[1]),
-    sunColor = SOLAR_WHITE.map((w, c) => w * SUN_ILLUMINANCE * transmittance[c] * gain);
   // The ground below the horizon: sand, sandstone and sea, about 18 % albedo, lit by sun and sky.
-  const sunOnGround = sunColor.map((v) => v * Math.max(0, sun[1])),
+  const sunOnGround = sunColor.map((v) => v * veil * Math.max(0, sun[1])),
     ground = [0.21, 0.17, 0.13].map((albedo, c) => (albedo * (sunOnGround[c] + irradiance[c])) / Math.PI);
   // Moonlight, authored rather than physical (a full moon is 400 000 times dimmer than the sun): the
   // night's key light, brighter with the illuminated fraction, reddened near the horizon like the sun.
@@ -356,17 +361,15 @@ export function skyLighting({ sun, moon = null, moonIllumination = 0, marine = 0
     moonColor = [0.74, 0.82, 1.0].map(
       (tint, c) => tint * 0.22 * (0.25 + 0.75 * moonIllumination) * moonUp * Math.sqrt(moonTransmittance[c]) * nightWeight
     );
-  // A marine layer greys and flattens the light: the sun is veiled, the sky brightens to a grey deck.
-  const veil = 1 - 0.85 * marine;
   // Partial chromatic adaptation (von Kries): the eye discounts a little of the light's colour cast
   // (ADAPTATION), so a frame lit by the last red sun keeps some distinction between its colours. The white is the chromaticity of everything lighting a level
   // surface (sun and sky); every natural light below is divided by it.
-  const total = irradiance.map((e, c) => e + sunColor[c] * Math.max(0.05, sun[1])),
+  const total = irradiance.map((e, c) => e + sunColor[c] * veil * Math.max(0.05, sun[1])),
     totalLuminance = Math.max(1e-9, luminance(total)),
     white = total.map((e) => 1 + ADAPTATION * (e / totalLuminance - 1)),
     balance = (color) => color.map((v, c) => v / Math.max(0.2, white[c]));
   const balancedSun = balance(sunColor.map((v) => v * veil)),
-    balancedMoon = balance(moonColor.map((v) => v * (1 - 0.7 * marine)));
+    balancedMoon = balance(moonColor.map((v) => v * veil));
   return {
     elevation,
     gain,
@@ -380,6 +383,7 @@ export function skyLighting({ sun, moon = null, moonIllumination = 0, marine = 0
     nightWeight,
     sunColor: balancedSun,
     sunTransmittance: transmittance,
+    cloudTransmission: veil,
     sunLuminance: luminance(balancedSun),
     moonColor: balancedMoon,
     moonLuminance: luminance(balancedMoon),
@@ -767,7 +771,7 @@ export function createAtmosphere(renderer, { site = { latitude: 32.83, longitude
     uniforms.atmoScale.value.fromArray(light.skyScale);
     uniforms.atmoMarine.value.set(marine, marineTop(marine), overcast, 0);
     uniforms.atmoSunLight.value.fromArray(light.sunColor);
-    const discScale = (SUN_ILLUMINANCE * light.gain * (1 - 0.95 * overcast)) / (Math.PI * DISC_RADIUS * DISC_RADIUS * disc.squash),
+    const discScale = (SUN_ILLUMINANCE * light.gain * light.cloudTransmission) / (Math.PI * DISC_RADIUS * DISC_RADIUS * disc.squash),
       balanced = SOLAR_WHITE.map((w, c) => (w * discScale) / Math.max(0.2, light.white[c]));
     uniforms.atmoSunDisc.value.set(...balanced, DISC_RADIUS);
     // The moon's disc radiance is sunlit regolith's (albedo 0.12), lifted with the eye's adaptation

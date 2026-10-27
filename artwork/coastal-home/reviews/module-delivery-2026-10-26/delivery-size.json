@@ -1,0 +1,45 @@
+{
+  "scope": "Built authored module cohort; independent per-file gzip9, no transport timing claim",
+  "pipeline": {
+    "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+    "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+    "compiler": "1.2.7",
+    "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3"
+  },
+  "totals": {
+    "modules": 167,
+    "rawBytes": 2563843,
+    "rawGzip9": 860953,
+    "compiledBytes": 1362308,
+    "compiledGzip9": 550382
+  },
+  "css": {
+    "assets/css/main.css": {
+      "bytes": 546214,
+      "gzip9": 90038
+    },
+    "assets/css/site-icons.css": {
+      "bytes": 77050,
+      "gzip9": 20597
+    }
+  },
+  "verification": {
+    "jekyllBuildSeconds": 133.781,
+    "publicationOutputs": "pass",
+    "affectedRoutes": 5,
+    "viewports": 4,
+    "themes": ["light", "dark"],
+    "routeCasesPassed": 20,
+    "pythonTests": 314,
+    "javascriptTests": 840,
+    "javascriptPassed": 833,
+    "javascriptExistingNativeSkips": 7,
+    "rubyRuns": 2,
+    "rubyAssertions": 12,
+    "registryCasesPerProject": 125,
+    "registryProjects": 4,
+    "registryMissing": 0,
+    "registryExtra": 0,
+    "registryDuplicates": 0
+  }
+}

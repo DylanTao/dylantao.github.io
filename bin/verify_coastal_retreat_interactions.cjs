@@ -9,7 +9,9 @@ const { execFileSync } = require("node:child_process");
 const { setTimeout: delay } = require("node:timers/promises");
 const ROOT = path.resolve(__dirname, "..");
 const sha = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
-const CASES = Object.freeze({ ladder: "2026-10-24T13:20:00-07:00", clear: "2026-10-24T12:30:00-07:00", rain: "2026-10-30T12:30:00-07:00" });
+// This retained NWS interval is actually wet; October 30 became dry in the newer snapshot.
+// preflight still rejects a dry or simulated replacement instead of forcing a rain override.
+const CASES = Object.freeze({ ladder: "2026-10-24T13:20:00-07:00", clear: "2026-10-24T12:30:00-07:00", rain: "2026-10-31T12:30:00-07:00" });
 function parseOptions(argv) {
   const values = {};
   for (let i = 0; i < argv.length; i++) {
@@ -136,6 +138,7 @@ async function main(options) {
             errors,
             assets: [],
             failedResponses: [],
+            failedRequests: [],
             captures: [],
             steps: [],
             passed: false,
@@ -143,6 +146,7 @@ async function main(options) {
           tasks = [];
         report.states.push(state);
         page.setDefaultTimeout(30000);
+        page.on("requestfailed", (request) => state.failedRequests.push({ url: request.url(), error: request.failure()?.errorText }));
         page.on("response", (response) => {
           const url = new URL(response.url()),
             at = url.pathname.indexOf("/assets/"),
@@ -469,10 +473,16 @@ async function main(options) {
                   witnesses = [];
                 for (let i = 0; i < count; i++) {
                   const k = i * 6;
-                  if (Math.abs(a[k + 1] - a[k + 4]) < 0.00001) continue;
                   ray.set(new T.Vector3(a[k + 3], 64, a[k + 5]), new T.Vector3(0, -1, 0));
                   const hit = ray.intersectObjects(roofs, false)[0];
-                  if (hit) witnesses.push({ drop: i, bottom: a[k + 4], roof: hit.point.y, mesh: hit.object.name });
+                  if (hit)
+                    witnesses.push({
+                      drop: i,
+                      bottom: a[k + 4],
+                      roof: hit.point.y,
+                      mesh: hit.object.name,
+                      landed: Math.abs(a[k + 1] - a[k + 4]) < 0.00001,
+                    });
                   if (witnesses.length >= 16) break;
                 }
                 return {
@@ -488,6 +498,16 @@ async function main(options) {
                 "No actual roof/rain triangle witness; cannot claim roof protection"
               );
               assert.deepEqual(state.roof.failed, [], "Actual rendered rain penetrates native roof triangles");
+              // A buried room can correctly clip every nearby line. Prove separately that
+              // the same natural shower has actual nondegenerate segments in the open air.
+              await click(page.locator("[data-world-view]"));
+              state.openAir = await until(
+                "Actual exposed rain in the public outside view",
+                (s) => s.room === "outside" && s.rain.drops - s.rain.sheltered - s.rain.nearCamera > 0,
+                45000
+              );
+              assert.ok(state.openAir.rain.visible);
+              await capture("rain-open-air");
             }
             await capture("weather-complete");
           }

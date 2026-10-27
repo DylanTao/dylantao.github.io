@@ -22,6 +22,7 @@
 // exposes it. Process CPU time comes from SystemInfo.getProcessInfo, so a busy GPU process shows
 // up even when the page's own thread is idle (wall time vs CPU time).
 const { chromium } = require("playwright");
+const { pinArrivalAvatar } = require("./coastal_probe_avatar.cjs");
 const fs = require("node:fs");
 const path = require("node:path");
 const { execFileSync } = require("node:child_process");
@@ -37,6 +38,7 @@ const width = Number(process.env.COASTAL_VIEWS_WIDTH || 1440);
 const height = Number(process.env.COASTAL_VIEWS_HEIGHT || 1000);
 const dpr = Number(process.env.COASTAL_VIEWS_DPR || 1);
 const seed = Number(process.env.COASTAL_VIEWS_SEED || 7);
+const pinnedAvatar = process.env.COASTAL_VIEWS_AVATAR || "lizard";
 const abRef = process.env.COASTAL_VIEWS_AB || null;
 // Uncapped frames emulate a high-refresh display (and show the scene's maximum throughput).
 const uncapped = process.env.COASTAL_VIEWS_UNCAPPED === "1";
@@ -281,12 +283,15 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
         const body = variantBody(variant, rel);
         if (!body) return request.fulfill({ status: 404, body: "" });
         let text = body.toString("utf8");
+        if (rel.endsWith("home-scene/routine.mjs")) text = pinArrivalAvatar(text, pinnedAvatar);
         if (rel.endsWith("three.module.min.js")) text = text.replaceAll("4294967295*Math.random()|0", "4294967295*__profileUuidRandom()|0");
         return request.fulfill({ status: 200, body: text, contentType: "text/javascript; charset=utf-8" });
       }
-      if (rel.endsWith("three.module.min.js")) {
+      if (rel.endsWith("three.module.min.js") || rel.endsWith("home-scene/routine.mjs")) {
         const response = await request.fetch();
-        const text = (await response.text()).replaceAll("4294967295*Math.random()|0", "4294967295*__profileUuidRandom()|0");
+        let text = await response.text();
+        if (rel.endsWith("home-scene/routine.mjs")) text = pinArrivalAvatar(text, pinnedAvatar);
+        else text = text.replaceAll("4294967295*Math.random()|0", "4294967295*__profileUuidRandom()|0");
         return request.fulfill({ response, body: text });
       }
       return request.continue();
@@ -358,6 +363,7 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
     startup.stages = first.loading?.stages;
     result.startup = startup;
     result.avatar = first.avatarId;
+    if (result.avatar !== pinnedAvatar) throw new Error(`Arrival identity ${result.avatar} differs from pinned ${pinnedAvatar}`);
 
     const sample = async (name, duration = seconds) => {
       const t0 = await page.evaluate(() => performance.now());
@@ -416,6 +422,16 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
         camera: { room: after.currentRoom, radius: round(after.cameraOrbit?.radius, 2) },
         resolution: after.resolution || null,
         shadowCache: after.shadowCache || null,
+        seaReflection: after.ecology?.water?.reflection ?? null,
+        lightFieldReceivers: after.simulation?.lightField?.shaderReceivers ?? null,
+        uniformArrays: after.uniformArrays
+          ? {
+              ...after.uniformArrays,
+              windowUploads: after.uniformArrays.uploads - (before.uniformArrays?.uploads || 0),
+              windowSkipped: after.uniformArrays.skipped - (before.uniformArrays?.skipped || 0),
+              windowAvoidedBytes: after.uniformArrays.avoidedBytes - (before.uniformArrays?.avoidedBytes || 0),
+            }
+          : null,
         // The facade curtains' and the terrace laundry's own per-frame time while they step.
         cloth: after.simulation?.curtains
           ? {
@@ -537,6 +553,8 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
       frames: e.frames,
       resources: e.resources,
       lightField: e.simulation?.lightField?.ready,
+      lightFieldReceivers: e.simulation?.lightField?.shaderReceivers ?? null,
+      uniformArrays: e.uniformArrays ?? null,
     }));
   } finally {
     await browser.close();

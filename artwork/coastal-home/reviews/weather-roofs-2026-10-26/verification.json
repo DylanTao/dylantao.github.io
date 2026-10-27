@@ -1,0 +1,2896 @@
+{
+  "scope": "Release candidate with original per-mirror warmup retained, on the accepted PC geometry; final architecture needs another run",
+  "passed": true,
+  "sourceCommitBeforeCandidate": "2aa060e1afc4fbd0aed7f0dda4097c8c207d19f0",
+  "rawReportSha256": "16e7a3301560fd8bec4c5b9b67594a02474df2f1c42ba6fe819e4e0e0e6a4b6e",
+  "assets": [
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "bytes": 93071,
+      "servedSha256": "8aabf40743e2434ba8d7721c21e09a2b89eddd7d152a293838028fb633f21161",
+      "sourceSha256": "43e0702488c617f336764e84c78e42a053e771e3bf655b7a597b92fb7c0524d4",
+      "canonicalLfSha256": "43e0702488c617f336764e84c78e42a053e771e3bf655b7a597b92fb7c0524d4",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "8aabf40743e2434ba8d7721c21e09a2b89eddd7d152a293838028fb633f21161"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/model-loader.mjs",
+      "bytes": 1349,
+      "servedSha256": "6d463c135243f233423cf2487572fa48c231a12e462e31112d414994e163a59a",
+      "sourceSha256": "2442bd5a59f8fe927ecc0c415600a0d6af256fe07538d64f47891c5d570d466b",
+      "canonicalLfSha256": "782e53d6c676e6efbbece8d6c09380214ac3b82c8a0766bca5d1fbf5c067960f",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "6d463c135243f233423cf2487572fa48c231a12e462e31112d414994e163a59a"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/materials.mjs",
+      "bytes": 5306,
+      "servedSha256": "42b5abd197b7b27905df6e80b86a94a7e36a961a296383820157488cf11cace6",
+      "sourceSha256": "154469b4c45733d6179688b43f6d3b7eee0b19799653f5376cb1f9218570bebb",
+      "canonicalLfSha256": "154469b4c45733d6179688b43f6d3b7eee0b19799653f5376cb1f9218570bebb",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "42b5abd197b7b27905df6e80b86a94a7e36a961a296383820157488cf11cace6"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/environment.mjs",
+      "bytes": 28434,
+      "servedSha256": "eeb711bd9d926148d0bffd557602b597b6b6e00be3b17f662e953361ac22b9d7",
+      "sourceSha256": "201e1fcaadbad4e55c28ca84b6f68721309e3d1bf8930eceef77b801d6bba209",
+      "canonicalLfSha256": "e7a7322cf4e4f19a63cf7e1af53f1bbfd4484eb9f8b4c2938d7c75ca5f3d797b",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "eeb711bd9d926148d0bffd557602b597b6b6e00be3b17f662e953361ac22b9d7"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/routine.mjs",
+      "bytes": 2350,
+      "servedSha256": "5a42b78ee62709cac16f3dc5eaf3f152f665435ff4dd5f116ef2c03960567790",
+      "sourceSha256": "d33a8400479b36c7c2d7904745576dcd79fb70447d1619193892e95c08f71c51",
+      "canonicalLfSha256": "d33a8400479b36c7c2d7904745576dcd79fb70447d1619193892e95c08f71c51",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "5a42b78ee62709cac16f3dc5eaf3f152f665435ff4dd5f116ef2c03960567790"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/locomotion.mjs",
+      "bytes": 1540,
+      "servedSha256": "67f06f1d0407a6f98600f549a52a2a2aa526de94ead62fca775bf7dcc1042401",
+      "sourceSha256": "4653d3ae89f81e4c1276e695673d7dd5c597b3210bbc2e86da26cd5ac1415883",
+      "canonicalLfSha256": "4653d3ae89f81e4c1276e695673d7dd5c597b3210bbc2e86da26cd5ac1415883",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "67f06f1d0407a6f98600f549a52a2a2aa526de94ead62fca775bf7dcc1042401"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/look.mjs",
+      "bytes": 642,
+      "servedSha256": "4ab0b9d58c0d61ca3a9cbd87d19df11f996983faee08530c03095eaabec83480",
+      "sourceSha256": "1d5184320a900a2caf724a58cc56efa57df1c93cf82c8d274d577deca04762f2",
+      "canonicalLfSha256": "7ba16fbb9c0fdfbd4f34b1e0c43caa207ae0e9476656ac5ca3826bd1d314c5f6",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "4ab0b9d58c0d61ca3a9cbd87d19df11f996983faee08530c03095eaabec83480"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/realism.mjs",
+      "bytes": 27991,
+      "servedSha256": "160e93740f9e8928fb51bcebde28cb00bc8d412e7b9cc96c74ff90d3a04c3d76",
+      "sourceSha256": "d29206aa0ce59c4aff490b3fe2ff9f1ccf84cb25a068673a1a64d9e67c42e5e4",
+      "canonicalLfSha256": "222e231fe8d7620e755766c49c7e89c212045f4901a0baa558b3665c2b573ad6",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "160e93740f9e8928fb51bcebde28cb00bc8d412e7b9cc96c74ff90d3a04c3d76"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/quality.mjs",
+      "bytes": 3921,
+      "servedSha256": "b860cc79b51e9bbc163243536972a555736942e04f77c98d43503aab32d17706",
+      "sourceSha256": "2cf236812344738cc900b1192be8a58342bca880d83283ab3d10da2f2319d400",
+      "canonicalLfSha256": "812cd13af834e5d13b9284a26b53eb3f7e27b1789248b4b0ca81f66586513158",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "b860cc79b51e9bbc163243536972a555736942e04f77c98d43503aab32d17706"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/reflection.mjs",
+      "bytes": 4845,
+      "servedSha256": "22f1e7ea76613f02b667f9957c5ca8faf043ec268c32bc866029652bc218e14f",
+      "sourceSha256": "41642a95574e98706e368efd1627006ebab47057aa3304537a67d9d1668244d3",
+      "canonicalLfSha256": "79d492bd1eb63aac25821986463db0ecf8ecfeaf12b84b92466d6d692f5ed1f2",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "22f1e7ea76613f02b667f9957c5ca8faf043ec268c32bc866029652bc218e14f"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/resolution.mjs",
+      "bytes": 4238,
+      "servedSha256": "8018f5686d736fee2214dc4bec22a59fd86fbd1506bd57c28757023ca34b5061",
+      "sourceSha256": "15babc9b765fbc253819ee985d6690c2bdfe1537271459ad881024f17009a194",
+      "canonicalLfSha256": "ca7c9b7d32e006948ec8aa79978ae09b5efb7123a837b9e7f4e9cb8b314f82d1",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "8018f5686d736fee2214dc4bec22a59fd86fbd1506bd57c28757023ca34b5061"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/shadow-fit.mjs",
+      "bytes": 436,
+      "servedSha256": "6ac5aba3e3fa3810a8120120c5a56c8f58d59b6b7bab13fb449a59cbb9bcb6ee",
+      "sourceSha256": "65eb1da2425fa525fa0cb22e41b5115ae5206c800f9b420b9ca7f454c3102fea",
+      "canonicalLfSha256": "f800541b6ed6cc379bbf0ced3c5421cbb730db0d054463c7e22d4d3590bb6808",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "6ac5aba3e3fa3810a8120120c5a56c8f58d59b6b7bab13fb449a59cbb9bcb6ee"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/shadow-cache.mjs",
+      "bytes": 4757,
+      "servedSha256": "7e0009f1bdc8e9a096992f4395e2d8ddcd57d395f08cc7799b707098204b3790",
+      "sourceSha256": "27f4617053df08be14b8b00054089f739c90d68b529846dbb97d665c2ba5551e",
+      "canonicalLfSha256": "3cc511cc7ab01bbd08b1f9086489375bfa0900c790d4b6212f44655a975e89a7",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "7e0009f1bdc8e9a096992f4395e2d8ddcd57d395f08cc7799b707098204b3790"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/activities.mjs",
+      "bytes": 3667,
+      "servedSha256": "c77e9b023bdb17c28655d74ec5ccd401e29f2c1b12b0df6c37aaa23c72eadf57",
+      "sourceSha256": "d90e1ba8005765ad07a6b9c5afbbef9e0252fef2be3daee2c1c09aadb7dcc96c",
+      "canonicalLfSha256": "ebbee3004ab8a1dffa44a233993ec08d0b0c9e5153b0869281aeadc2b8de8a37",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "c77e9b023bdb17c28655d74ec5ccd401e29f2c1b12b0df6c37aaa23c72eadf57"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/draw-order.mjs",
+      "bytes": 402,
+      "servedSha256": "60682595fd4c32ff9ea687cc0be386b9e5e7d91863eca8cff7653efe39ffeda0",
+      "sourceSha256": "85690ebf60dde4f85f6a1cbde7aed28b0b33b7b2c48cc258a6446dd831a0892e",
+      "canonicalLfSha256": "59334426aa673638aeb59da933f08d20c3ff9faddcb6ed13025be1bd3438cca7",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "60682595fd4c32ff9ea687cc0be386b9e5e7d91863eca8cff7653efe39ffeda0"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/camera-field.mjs",
+      "bytes": 4390,
+      "servedSha256": "ebec2228f6eb1358d1d53f268a3815c0c9977865dc6bf169f835db2d4ed6fbe2",
+      "sourceSha256": "a483225e04ac1a5cf45f45857136af57b94ea5fb6bf06f5d6ff7dc2a82280cac",
+      "canonicalLfSha256": "c63b2569eafef41e41019c7ca3b8d3cf9efbe31e17cb903ea6d038b974aa98a0",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "ebec2228f6eb1358d1d53f268a3815c0c9977865dc6bf169f835db2d4ed6fbe2"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/gym-props.mjs",
+      "bytes": 9271,
+      "servedSha256": "7d28112d66a55da0395f7e82f73c091f130342d47e6c3b8924155bee7ff70b6a",
+      "sourceSha256": "d2fe5bdd66b08e310d3124aa9c32dbbe6c6254da611a8680f602b915bcb27fc0",
+      "canonicalLfSha256": "01ac98d4822d757b48def9226e1ab0d19ad4712dbab8b41e4d86fc54d1ec85ee",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "7d28112d66a55da0395f7e82f73c091f130342d47e6c3b8924155bee7ff70b6a"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/bedding-breath.mjs",
+      "bytes": 2482,
+      "servedSha256": "67cb4b6c86aa4ca788cc41b431a5498f3e5474500bffe74c512f099d2db70bb5",
+      "sourceSha256": "9e56728edcb89e1d10ba29130cd0dde1bf02ec3cf8ab9ee7b7959d5cdc8f9c47",
+      "canonicalLfSha256": "85a0bec48c81db47967a639692a7c339aa641811b711d6b1a114bcebb796a009",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "67cb4b6c86aa4ca788cc41b431a5498f3e5474500bffe74c512f099d2db70bb5"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/lift-rig.mjs",
+      "bytes": 16332,
+      "servedSha256": "6654c120b1541078fcf6cdd04b03f025516af7d72a1b8475cbce748098d352f0",
+      "sourceSha256": "04ec8f9befa98b0fc2e67667dc06bb66332eab1e61a4a9d089bde947237d2344",
+      "canonicalLfSha256": "1b605908dd26793ba0bee5e6a6af528448a9c2768defe237d389b0f81e4f0522",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "6654c120b1541078fcf6cdd04b03f025516af7d72a1b8475cbce748098d352f0"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/camera.mjs",
+      "bytes": 13608,
+      "servedSha256": "28fa5964f3174244e2bfa3933626b00a3c4b0e044fca0854dfd70c929d4f6f6d",
+      "sourceSha256": "b1734f40fa3d3dfd21538911f99a19840d6b0cbfb5c2221fa54c56055f4069eb",
+      "canonicalLfSha256": "dae635b332f94d9b2464a8fb74ec6692ae33a030a4b7681707608d18de95f050",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "28fa5964f3174244e2bfa3933626b00a3c4b0e044fca0854dfd70c929d4f6f6d"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/gym-session.mjs",
+      "bytes": 17158,
+      "servedSha256": "ed51fc11627fb34392e134ea8a88bde5d00555533468024f297a64a05acfaa5d",
+      "sourceSha256": "703b7b2143bd17e79cafdcec481ba0b5ad41411a3c94f50f6fada26f9e7f5b93",
+      "canonicalLfSha256": "df6353c1cb1851341cfb0031f8bf5bf8f8e3a215c7e3e76e0217b69405bae281",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "ed51fc11627fb34392e134ea8a88bde5d00555533468024f297a64a05acfaa5d"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/grip-targets.mjs",
+      "bytes": 224,
+      "servedSha256": "010912bdd2fcc4d426998262e1f34f3cb0d700a93eec71e71263d99c9efa39db",
+      "sourceSha256": "048cc2f10a01353e0245bb28b5f4dacfd9e311a6bd7ab50206fc356d02fb7416",
+      "canonicalLfSha256": "048cc2f10a01353e0245bb28b5f4dacfd9e311a6bd7ab50206fc356d02fb7416",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "010912bdd2fcc4d426998262e1f34f3cb0d700a93eec71e71263d99c9efa39db"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/record-motion.mjs",
+      "bytes": 1602,
+      "servedSha256": "9c4ef3d22ebf14e004a734b3aa49822066eda1efe50e22796f96f59e52930d5b",
+      "sourceSha256": "90a6df17ca9b6300b6c75311f6ac648daf5e9284ece38cff7058d5cea7d5368d",
+      "canonicalLfSha256": "f8edd45f7fa1dd02ef4dd2c99960a772cb6e184f05e523ce61e70a14878a912b",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "9c4ef3d22ebf14e004a734b3aa49822066eda1efe50e22796f96f59e52930d5b"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/navigation.mjs",
+      "bytes": 3429,
+      "servedSha256": "9105df9f02ba4fe231f048bd93c8ee82c73ee3132b5153ede464ce5ec9cf1dff",
+      "sourceSha256": "c2acb426cd8e1defcaf4fccb0c70c7e6024f04b4bc25a20afe5e13d595def0d0",
+      "canonicalLfSha256": "819e68aac23af31d143f203c7ea731b871bd4f5633b74abe9dda560f7d7be9e6",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "9105df9f02ba4fe231f048bd93c8ee82c73ee3132b5153ede464ce5ec9cf1dff"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/daylight.mjs",
+      "bytes": 1256,
+      "servedSha256": "dda276ab9fca11b6abd7ac6f865a15e7b11dbc6d39e944e5abe8291d3bdbec10",
+      "sourceSha256": "e88eacd50abce6436ba973acde205f82c0a7a95a1862a9002172dfe2c14241f7",
+      "canonicalLfSha256": "172d9e3ca90367f9608b3586451d5072168d5446cbbd168183ffdf15e874bbbc",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "dda276ab9fca11b6abd7ac6f865a15e7b11dbc6d39e944e5abe8291d3bdbec10"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/camera-motion.mjs",
+      "bytes": 1295,
+      "servedSha256": "0f8e07c229986768488090f3b3125bee867d6bd8de9a53f2d65cd6bea9bc6142",
+      "sourceSha256": "bb40c1289d623def704511f76514e05471ff6d3362ab5a4cfe6b4c978dcacb0e",
+      "canonicalLfSha256": "99f3532d15993e23c041a46e3492b3f150b642f1b184ee80e0b1c47ab8fa1f45",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "0f8e07c229986768488090f3b3125bee867d6bd8de9a53f2d65cd6bea9bc6142"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/companion.mjs",
+      "bytes": 10284,
+      "servedSha256": "72ad4043ea04230f3510a3fd80ed991547397ab8955f4e27477ad7e0e8d691f0",
+      "sourceSha256": "7fb11dd5f9726fd3ecc23068d424fdefd4873043b0025032d59e1d43af63eb4f",
+      "canonicalLfSha256": "6348eba3e51b4f5be9244a4b32a6353e3613846c2146245aa57e19be25e9df97",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "72ad4043ea04230f3510a3fd80ed991547397ab8955f4e27477ad7e0e8d691f0"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/training.mjs",
+      "bytes": 6807,
+      "servedSha256": "8c039b67bab4410c3c850cb24da2c8ebd1c23c7f7abdf0ac8d8f2052a1b9e304",
+      "sourceSha256": "ee9b9741952ae0b7932c69fc0af141deadb26fdc8add92b7ee699fb351d74125",
+      "canonicalLfSha256": "433e045aee912bd3d0dbbba90833e3a5c03223c33e60a798f071f2d421efbd84",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "8c039b67bab4410c3c850cb24da2c8ebd1c23c7f7abdf0ac8d8f2052a1b9e304"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/loading-sketch.mjs",
+      "bytes": 4714,
+      "servedSha256": "ea6952927bac965363e158b98ddd04e3ac3981cefb320bdb0af021371047aa58",
+      "sourceSha256": "59755084f7e9b5b2a385bcef6e413e3dbef8680dc58b0f0de39080746b62f3f1",
+      "canonicalLfSha256": "31453f060d04d1ff8616f81a2c815eabbea13b75464560856722fde5f78a97c9",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "ea6952927bac965363e158b98ddd04e3ac3981cefb320bdb0af021371047aa58"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/light-well.mjs",
+      "bytes": 11052,
+      "servedSha256": "4218a805c1e80718dda68bdae99d7a0ca5d8f9d9f372fbed987c443d2168281b",
+      "sourceSha256": "28091da2cd529362e737114741ae04d3bb1f622976b56fa4ecc3be55902dbc44",
+      "canonicalLfSha256": "b623bdf61048a5614f47412e1f7ab680eee068a6afa3798a9c05d9e9f905fa53",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "4218a805c1e80718dda68bdae99d7a0ca5d8f9d9f372fbed987c443d2168281b"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/contact-occlusion.mjs",
+      "bytes": 6603,
+      "servedSha256": "a2c05aa4311b8f48e6ec7a1fff8e9ee94ed17ea755bdc414f8c2ab0b6a104ec9",
+      "sourceSha256": "588296c04101a8b068d920553af3e126273ea45309368063af36f34443eef03b",
+      "canonicalLfSha256": "c5e45aaf2ed34d379d82c0c45befb434282e769ff6919d1b3714bf7d26c2db73",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "a2c05aa4311b8f48e6ec7a1fff8e9ee94ed17ea755bdc414f8c2ab0b6a104ec9"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/occlusion-region.mjs",
+      "bytes": 1701,
+      "servedSha256": "e66ae82897a665c4006f47d93ac7f4b9cc2c21a09f50164780f6dc4fc2dc4600",
+      "sourceSha256": "ec422fd21a2e42a8ac9bd04f0bc9aaf3968647541e0ac8dd2e4aeb92563c639c",
+      "canonicalLfSha256": "ec422fd21a2e42a8ac9bd04f0bc9aaf3968647541e0ac8dd2e4aeb92563c639c",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "e66ae82897a665c4006f47d93ac7f4b9cc2c21a09f50164780f6dc4fc2dc4600"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/pool-stroke.mjs",
+      "bytes": 3302,
+      "servedSha256": "aa89ff964ce1626bfd0dcefce055ee636869a86b2c0bb7ec5d217ba9c71a236e",
+      "sourceSha256": "7db281acc0bfffaeff02a7d6472e15b50ee38d945bd54a8070294380d515df85",
+      "canonicalLfSha256": "7db281acc0bfffaeff02a7d6472e15b50ee38d945bd54a8070294380d515df85",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "aa89ff964ce1626bfd0dcefce055ee636869a86b2c0bb7ec5d217ba9c71a236e"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/pool-geometry.mjs",
+      "bytes": 978,
+      "servedSha256": "c00b146c28811850a9ae8f014fda3cd4a9114a2d2e0ddf0d7881057862eafcb5",
+      "sourceSha256": "2418f959be8eb6b3a49748ceb89ab422f4f92ef8d9aec45224e47bc993803213",
+      "canonicalLfSha256": "2418f959be8eb6b3a49748ceb89ab422f4f92ef8d9aec45224e47bc993803213",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "c00b146c28811850a9ae8f014fda3cd4a9114a2d2e0ddf0d7881057862eafcb5"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/character-performance.mjs",
+      "bytes": 4764,
+      "servedSha256": "26494294d1abb116724a131dcfe6d25b2b749c715bc5c34881dd16b9f8884f94",
+      "sourceSha256": "ca4ead9aac7ab222436befbd7cbc8f409571f46ae060019dac4a288de582b7ff",
+      "canonicalLfSha256": "af535a365da0ff52dcdf0252caa2f011eadd29dd430e0c792ae155bff437103c",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "26494294d1abb116724a131dcfe6d25b2b749c715bc5c34881dd16b9f8884f94"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/skin-diffusion.mjs",
+      "bytes": 5470,
+      "servedSha256": "22e6ed04a1b4883e8ba6745f81530aec5449f4aaa68f83fd99f3046ea7cff6cf",
+      "sourceSha256": "e4af05566bdd28c91279e71c801c8be79fd30f9c0b0814cc991680897c99e3af",
+      "canonicalLfSha256": "f5521c06aea8419deebdea185395dc948cef3bfb8e3487065b34f9bd294257e2",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "22e6ed04a1b4883e8ba6745f81530aec5449f4aaa68f83fd99f3046ea7cff6cf"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/onsen-water.mjs",
+      "bytes": 15711,
+      "servedSha256": "d23664c9c90f777759707f3668cf08dd5822567c1c1d305c70555490a7dfaf20",
+      "sourceSha256": "bcfc491176ce2e0ad88d0f67f7791fa391fe54da2fb5cfd3111b271bd8593399",
+      "canonicalLfSha256": "7079fbb40e1101be7bdb2293bdbb6e69d74a7baf18aa72ec143176b9220b76c5",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "d23664c9c90f777759707f3668cf08dd5822567c1c1d305c70555490a7dfaf20"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/coastal-wind.mjs",
+      "bytes": 3783,
+      "servedSha256": "fc75c385300245fed7a7d76cc9d392d3e4ebb4584e01b1bc3c8b920a2ccb9ceb",
+      "sourceSha256": "596984bb7d46d2dc92c2d25d7888b5b5ec560b8faab64e5f09d9ce933cea022f",
+      "canonicalLfSha256": "e1ba922ed1669620fbfe03a85ed3e13fb334fe224855ceb95beab8dbd3da464e",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "fc75c385300245fed7a7d76cc9d392d3e4ebb4584e01b1bc3c8b920a2ccb9ceb"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/pool-activity.mjs",
+      "bytes": 2317,
+      "servedSha256": "2427b7c6aa5f51e175606ab728e04c3915efe6337589c21af3ba2a4ac094b6e6",
+      "sourceSha256": "0933a74540d506c9c6890a767b8131a0ef04273a05c76fc40941e8e944552751",
+      "canonicalLfSha256": "0933a74540d506c9c6890a767b8131a0ef04273a05c76fc40941e8e944552751",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "2427b7c6aa5f51e175606ab728e04c3915efe6337589c21af3ba2a4ac094b6e6"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/wind-field.mjs",
+      "bytes": 11048,
+      "servedSha256": "a1e7ad9f3930becd168e0be492c4dba61f2f6faf00ee9ea597ae3cb773dfcf13",
+      "sourceSha256": "8a17b900e26f0fa4e55c9459b59bb53d251d917e759317c35dfd3f0bf55763dc",
+      "canonicalLfSha256": "87d75a352304b3da214a7b2e9a272dc03575f6bc31e52a42126128a97e723961",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "a1e7ad9f3930becd168e0be492c4dba61f2f6faf00ee9ea597ae3cb773dfcf13"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/program-warmup.mjs",
+      "bytes": 5189,
+      "servedSha256": "9a3e87647b75032b1045c54e0c937452ad5fb418f361f7d476497e6657300e4b",
+      "sourceSha256": "d374ad59331c622e8c490f1928f00c9cce5a66e1dd9e5db2b934dcdb947f7fea",
+      "canonicalLfSha256": "c0c936cc963ef56033cbfa1545f325337b4245eae17c83068b7b83fc6d86169a",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "9a3e87647b75032b1045c54e0c937452ad5fb418f361f7d476497e6657300e4b"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/ocean-spectrum.mjs",
+      "bytes": 9329,
+      "servedSha256": "a165cf2a5b5c9f51c6562122d87af733c1372c2daa52648f27f6de834539ed3d",
+      "sourceSha256": "e04caba220c4daa5f64db2226c943c1a7478e13bcce8fffd127955d3f9669e7b",
+      "canonicalLfSha256": "6dd70789a11a5109b02e7219e0b3bc8e1e7320aa8178a8cc857259df4c6832d0",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "a165cf2a5b5c9f51c6562122d87af733c1372c2daa52648f27f6de834539ed3d"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/warm-practicals.mjs",
+      "bytes": 3844,
+      "servedSha256": "cc05eaeb4659b048c39c68db5bde2e98c70276e0a50e0c7c9da1a1ab314c43d1",
+      "sourceSha256": "8f4a605be504cd1d1ffbc1a17b0a8501f5ad25c07401131ee7f35cbd710ba3dc",
+      "canonicalLfSha256": "eb2a95f48bce7e54bdfe20f8c418f340ccfd709bf7adc8db6f33e300188be470",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "cc05eaeb4659b048c39c68db5bde2e98c70276e0a50e0c7c9da1a1ab314c43d1"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/glazing.mjs",
+      "bytes": 1101,
+      "servedSha256": "7d3b65b590b95e6573afa709f7caedba06f10c380d3783125a10db55c63e063d",
+      "sourceSha256": "1ed856c97059df3dda43e814c22277fd4dea3cee0266ee57fc7425bc96d8a60e",
+      "canonicalLfSha256": "9b40829d4161d523b6279d95537f0e533641df1b2a9061001c47247c5098050f",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "7d3b65b590b95e6573afa709f7caedba06f10c380d3783125a10db55c63e063d"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/steam-volume.mjs",
+      "bytes": 8895,
+      "servedSha256": "0d975f7fc25dda08685e67f2f5f209ea5f6ee4bdb7690b81dacb7a207a7f8e98",
+      "sourceSha256": "9f79e594ed509574066a543a3dc9c65079189b4718b198fb7f8510eb67d9af44",
+      "canonicalLfSha256": "60a69e73d43d39f1c5fe1b6f33a1405377af5d3e2ae17150cf0131432d107e5e",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "0d975f7fc25dda08685e67f2f5f209ea5f6ee4bdb7690b81dacb7a207a7f8e98"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/steam-density.mjs",
+      "bytes": 7552,
+      "servedSha256": "8c89be68e15223ce2c34afb822f281d891d85725df51522327df61c393b66b00",
+      "sourceSha256": "cf80a561790534bab1f3cf525062f7cc10fd11f5077323b919eb05850f3b2c1e",
+      "canonicalLfSha256": "6fe80291f0af0f301b72e1be7fee0e70587c2c7c65366d75fb952e3aac3136f5",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "8c89be68e15223ce2c34afb822f281d891d85725df51522327df61c393b66b00"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/static-light-field.mjs",
+      "bytes": 21778,
+      "servedSha256": "c1a8aaa27fafb1397c3889fdc0797a28b109bb69e77d82c01994490e8dff011f",
+      "sourceSha256": "98b215e8347a997261afb4dbda8a392e7e353f5c0cd62551276464a8ddbc3301",
+      "canonicalLfSha256": "5d8ce1dc46748ee4faba1dbe409c93de48ccb8f4713799dae3b5f0c29781fd09",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "c1a8aaa27fafb1397c3889fdc0797a28b109bb69e77d82c01994490e8dff011f"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/curtain-rig.mjs",
+      "bytes": 7821,
+      "servedSha256": "9b9153258ace9b8d60cdc81090108b9db7198aa51a2817119a7c0d6f13da743e",
+      "sourceSha256": "56b3a1e0358a7fc656a81ed2bfddf5d913a2c1730dfe86651e1ad655b18ca87c",
+      "canonicalLfSha256": "abff32c7d301cf3be99b6c29290c14f6afe1796d15afa5f398d3187841c8596c",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "9b9153258ace9b8d60cdc81090108b9db7198aa51a2817119a7c0d6f13da743e"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/furniture.mjs",
+      "bytes": 12236,
+      "servedSha256": "a6bbb06c0cd8f710e5f147f1f84c6c985f88448c7dd735089e1d2e830cd02e2d",
+      "sourceSha256": "bfd591bdde64976079778cbeaee8c3591f0b2f48fca9e9c4c18f5d29af28a8f5",
+      "canonicalLfSha256": "62ef2d9076037bf08f85771080af7fbcda8d641d227f5446eacd0851e4a4410a",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "a6bbb06c0cd8f710e5f147f1f84c6c985f88448c7dd735089e1d2e830cd02e2d"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/world-fullscreen.mjs",
+      "bytes": 4392,
+      "servedSha256": "5ace8724b2f08e721b40dd995c74c2c3a080048273d2b01ddfb4fab64c04d914",
+      "sourceSha256": "f9048c1d5981c4c9be23b267ad9f22a1b3621a7818b360e91a0470e162acb2ec",
+      "canonicalLfSha256": "c7864698a9d4136a4ec4e68796d216f6968b647344673b21d984a0b433aa1198",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "5ace8724b2f08e721b40dd995c74c2c3a080048273d2b01ddfb4fab64c04d914"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/light-installations.mjs",
+      "bytes": 22357,
+      "servedSha256": "1041af70e50134a38ae791b248f85034d168e48f3746506ed666e6adb9d3e9d9",
+      "sourceSha256": "414605362a2f37e306bcf9d3628f375420ca42f9fd78934b59fd6f81e74eb20c",
+      "canonicalLfSha256": "e468bff8682920094c504f27dd34cdfbe287bbcfaef2afa4a480e572cec4ebc4",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "1041af70e50134a38ae791b248f85034d168e48f3746506ed666e6adb9d3e9d9"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/walk-controls.mjs",
+      "bytes": 15717,
+      "servedSha256": "7ae50ed34b6679377457735d18ce22f6082fc2f202c3342326c00387ad58e84b",
+      "sourceSha256": "88d84b0eb6b538baf1303bb1e7eee2b17547c07c4bc3e2e5ff5c9307a1609852",
+      "canonicalLfSha256": "bf61a6e6c444bbcf546965b73c21f80722434493debd93737fb18db9b862c251",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "7ae50ed34b6679377457735d18ce22f6082fc2f202c3342326c00387ad58e84b"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/dining.mjs",
+      "bytes": 36214,
+      "servedSha256": "52e386205a8df09a774b8278958c09068c1d7fda19be05d506a94f8ea7b52032",
+      "sourceSha256": "04b62c87fcee701eb1e87cfd0a4402315f6e7d319db8c257f70dbe1e6b35e6d6",
+      "canonicalLfSha256": "2c99409679c8281c5884a402816e572edf252e6e583aef2d368f8cacc1c8063c",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "52e386205a8df09a774b8278958c09068c1d7fda19be05d506a94f8ea7b52032"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/infinity-pool.mjs",
+      "bytes": 1785,
+      "servedSha256": "35e7570e208fc6a955b20944d84fc894debe43f645a974afd521cea0a537b509",
+      "sourceSha256": "32584f24b18b95e168fe12c604b06e94ec76d9071713cad83779072010a86c26",
+      "canonicalLfSha256": "a98ffcd35880c16d1023cad6205bd91e2c6471da42fe5917c5d45565cb315546",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "35e7570e208fc6a955b20944d84fc894debe43f645a974afd521cea0a537b509"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/haze.mjs",
+      "bytes": 12231,
+      "servedSha256": "50b97c6b758b2681f940166dfa6bd67e5cf601cb1e8a4c25eeb93984e1a1ef83",
+      "sourceSha256": "342155b9d3fa4e2c8aff34d2765fe3f2770437302ee8fafbc54e22df193bf2eb",
+      "canonicalLfSha256": "6bb178778add2b91cc89d19b9afed9f6a0b85df28a32d86f6e0fd19bfa9fc281",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "50b97c6b758b2681f940166dfa6bd67e5cf601cb1e8a4c25eeb93984e1a1ef83"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/estate-doors.mjs",
+      "bytes": 2719,
+      "servedSha256": "ba94e9be9b6795303ea50bdafa94fed9a4097ea861eee05db7adda0d793882d8",
+      "sourceSha256": "174d227c50a8e39c68a897249bbc3224a819b6b2a12b1b1fa065f8a9a9fb2fc7",
+      "canonicalLfSha256": "31fdcebcb2a55f71362e0e352ac18acb7b3e1620622b162e8be7bb040b5380f0",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "ba94e9be9b6795303ea50bdafa94fed9a4097ea861eee05db7adda0d793882d8"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/atmosphere.mjs",
+      "bytes": 30073,
+      "servedSha256": "5a40f5b45cb73346d17f5b293eca96953cbc8253b8f503f294f8a40af030b12a",
+      "sourceSha256": "cfa818a532f5a747fa46bbff0b88c86f707c9e94809043ec02cf4ffbe7de75ed",
+      "canonicalLfSha256": "cfa818a532f5a747fa46bbff0b88c86f707c9e94809043ec02cf4ffbe7de75ed",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "5a40f5b45cb73346d17f5b293eca96953cbc8253b8f503f294f8a40af030b12a"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/interior-reflections.mjs",
+      "bytes": 9857,
+      "servedSha256": "be8001855046175aa5d56c45bc38a5262233b7cbf8a4db3caeb36d987e069f21",
+      "sourceSha256": "86e794cb5dbb0430d0e2776f1f4bc94aa3ecbe7055d72daa336dd7fb46ca29fa",
+      "canonicalLfSha256": "16e3340336891ab1e4e4a976e79b79bdcf13f087ebc353b209aef6e6bccff0b4",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "be8001855046175aa5d56c45bc38a5262233b7cbf8a4db3caeb36d987e069f21"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/rain-roof-field.mjs",
+      "bytes": 2352,
+      "servedSha256": "e099f20eda9e6f029fa1947dd48d38117dfdb1520f5d047db21c31dc98283176",
+      "sourceSha256": "a0abe07c736c8e7a77d131bee00e8246571301fe872ccb24d767e2c16ee19469",
+      "canonicalLfSha256": "a0abe07c736c8e7a77d131bee00e8246571301fe872ccb24d767e2c16ee19469",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "e099f20eda9e6f029fa1947dd48d38117dfdb1520f5d047db21c31dc98283176"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/library-ladder.mjs",
+      "bytes": 4233,
+      "servedSha256": "192d790b17b4a1ef3c592040103f971c4f4d94e57d18f221a9110223cd39e694",
+      "sourceSha256": "e1b3983a00ef45b9d70b24bdc9b7acc3031ce0206a4aa87fc0c7cae5c0983716",
+      "canonicalLfSha256": "0f28a5c6ff38c4d28b8ff275396662dfe70b75a8a8eea7fd18eaddbe4254b626",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "192d790b17b4a1ef3c592040103f971c4f4d94e57d18f221a9110223cd39e694"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/walk-presence.mjs",
+      "bytes": 8953,
+      "servedSha256": "afa1eeba4617f0cbcf51252408e6c1691e855aba9fc8fc45d757d7c1918ffb04",
+      "sourceSha256": "fc592879e415d65a724b5c80fa9f721b9abd58c82f03acbb7b7d7daec0b13eab",
+      "canonicalLfSha256": "c8887a7a758872e9ebd0ae0e3424238a5e8bab48e5443657cc9cd731e6c46962",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "afa1eeba4617f0cbcf51252408e6c1691e855aba9fc8fc45d757d7c1918ffb04"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "bytes": 26588,
+      "servedSha256": "94000276d3963e435d869c992295ecbc3188a4dc1acf9a9de8a23961874c4977",
+      "sourceSha256": "d54121ea026938d27733aad91542ebbc722de01885c06495f3b1ad6065b32c6c",
+      "canonicalLfSha256": "03f0e3355f05f84b1c3e09c642d01cbc855136b0ba7535d0a9c57a17d471dcd7",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "94000276d3963e435d869c992295ecbc3188a4dc1acf9a9de8a23961874c4977"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/coastal-rain.mjs",
+      "bytes": 2943,
+      "servedSha256": "de17c66d88941bd6195e554cf9eacc3bb33e196135a97d00b0110e9884323eda",
+      "sourceSha256": "a7869767476e7c4c7b082e7ae665c6c32b26919017ee0927ea1531e6b9151417",
+      "canonicalLfSha256": "a7869767476e7c4c7b082e7ae665c6c32b26919017ee0927ea1531e6b9151417",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "de17c66d88941bd6195e554cf9eacc3bb33e196135a97d00b0110e9884323eda"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/duvet-solver.mjs",
+      "bytes": 2662,
+      "servedSha256": "c07960b895d065c11a6d2dce0b3b0e174fdb7fea89b363ecf96538902ee7f7e6",
+      "sourceSha256": "66a87ca9fe9097f3177a68a34cf6618eb1b50c511d9e57279e62c28e50ca6202",
+      "canonicalLfSha256": "40adfe36ae2b6de8c79f2e26ee68c9ae1fe6dee467d8e4f8a549c82f0a3731c0",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "c07960b895d065c11a6d2dce0b3b0e174fdb7fea89b363ecf96538902ee7f7e6"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/bathymetry.mjs",
+      "bytes": 6862,
+      "servedSha256": "bf0f5f7810bd904b4758dc68d507ced6276c84a82da8cff285c09c8443744069",
+      "sourceSha256": "5951056c3e782fe5380bcd6f17c6c2f028de80dff1667dde7829cd3eaef80b3e",
+      "canonicalLfSha256": "7505f4976c4b7bcd987f1112473a32e1ab572979e25bcbc8be53e87207efbf8e",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "bf0f5f7810bd904b4758dc68d507ced6276c84a82da8cff285c09c8443744069"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/plant-motion.mjs",
+      "bytes": 11298,
+      "servedSha256": "931b8ce2de1eb6c85beb049d8a3375917c7f6520848e9f92dd159a7f2b019656",
+      "sourceSha256": "a4450da3a0df5186ff6d3da57f82abddbda40f498e5272c7c81d433e3acb0b28",
+      "canonicalLfSha256": "b0df4e774b9ab35ca990406eaa6e6c9a425174fc8a4f72935ddbf86aab3ae863",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "931b8ce2de1eb6c85beb049d8a3375917c7f6520848e9f92dd159a7f2b019656"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/shore.mjs",
+      "bytes": 1210,
+      "servedSha256": "a1444a3ccb209498f364ceebc67b1ecc6d80785d2b51e859316b748f4f7f0613",
+      "sourceSha256": "b79050a2604f52b38c6c940cfbaca14ecd26d5c4a6ace6ab37b0890e758f19f9",
+      "canonicalLfSha256": "b79050a2604f52b38c6c940cfbaca14ecd26d5c4a6ace6ab37b0890e758f19f9",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "a1444a3ccb209498f364ceebc67b1ecc6d80785d2b51e859316b748f4f7f0613"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/sea-optics.mjs",
+      "bytes": 10982,
+      "servedSha256": "3966857c674468f0a10b28ab77306d53ab1a18f24c4b13a3d13db1bcb40c1df8",
+      "sourceSha256": "068d87ce6f8717e00ade27eeb58c0dbe903eb2f47aa9be5d0ce69e804a2dda48",
+      "canonicalLfSha256": "1e48256ec9d0517a6d825c1c86680c51b6db566a2b4293233cb40ecb7aebb44f",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "3966857c674468f0a10b28ab77306d53ab1a18f24c4b13a3d13db1bcb40c1df8"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/wind-particles.mjs",
+      "bytes": 3361,
+      "servedSha256": "7129472e87c0903674ffe35cb6abb5f9f4a977cbe55e62ba807e11d2d5b74c63",
+      "sourceSha256": "e2f44bfd9d0174f0cd94cc2c1f23cd9b5578902542837e87d8c24062b757bcfe",
+      "canonicalLfSha256": "712b158ace698f05db5c855560bbe6812de56296c392081b2a65ecd21ca14bcf",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "7129472e87c0903674ffe35cb6abb5f9f4a977cbe55e62ba807e11d2d5b74c63"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/stars.mjs",
+      "bytes": 12991,
+      "servedSha256": "1b2f394e3b7c7fa9da75de79f3e92ca37966fda946797f19826fef47e0f1e592",
+      "sourceSha256": "77b0c0ae0bb357c96d5908af8d4f1803b81a6a476eee3ba1728d1ce504720483",
+      "canonicalLfSha256": "dc8f5382171825d20ceacee69cd62ec7f7acb742acf48d7254661575f3d4d6dc",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "1b2f394e3b7c7fa9da75de79f3e92ca37966fda946797f19826fef47e0f1e592"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/volume-depth.mjs",
+      "bytes": 1922,
+      "servedSha256": "76328ff5c288ea9111083a23f023c38053da111135f335150e17cfc7a31b6eed",
+      "sourceSha256": "d10141dd8f84269cda38ea55c72f2e4186a43163fa86f724207b1ddc0efe84e6",
+      "canonicalLfSha256": "163ed2d3c90bee95794e7d98e1d9c63f3a591b7f1265eb2d5fb8c02a44a4aa25",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "76328ff5c288ea9111083a23f023c38053da111135f335150e17cfc7a31b6eed"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/gpu-timer.mjs",
+      "bytes": 1036,
+      "servedSha256": "0b467c9a26b81e41632131605a249b566e698ea3f69578303683a149b8bf2f50",
+      "sourceSha256": "04fee0377ba3d1d7c709a0c8fa8d1a555d3a3b0c07a82cb34bdc5092d805257e",
+      "canonicalLfSha256": "8a82985618e1d256e5e79b2ecac8b109b32e058e40bca085651eefe0c919b27d",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "0b467c9a26b81e41632131605a249b566e698ea3f69578303683a149b8bf2f50"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/far-field.mjs",
+      "bytes": 15624,
+      "servedSha256": "86a83d897305338d7482e1b7547ac8f0aad42d171481f518a5d13148ea57c67c",
+      "sourceSha256": "14b31d034f9d811526ec8f7c3bdacd315c99cc4333ed213d18101b35e2b4a834",
+      "canonicalLfSha256": "12455f34ae5752265fd22ce53e72d09cd036e34ac5e88aa475b74331e6bb70f8",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "86a83d897305338d7482e1b7547ac8f0aad42d171481f518a5d13148ea57c67c"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/sheer-fabric.mjs",
+      "bytes": 18639,
+      "servedSha256": "7d76d94c1fbfdda27db04e6de4d71baae9885cd809580aefd12e07a508599663",
+      "sourceSha256": "5985ed6ac2a947d153fff4d894a1e4ddd6469401f04659f53d8cc5348d54ed4e",
+      "canonicalLfSha256": "b590e45fdaa2e32db2e11615ff768469a057a3e414e67d7fecedd0b70cd2919d",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "7d76d94c1fbfdda27db04e6de4d71baae9885cd809580aefd12e07a508599663"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/local-scene-frame.mjs",
+      "bytes": 376,
+      "servedSha256": "d55104651bd8a178018d027e75f91eb0b15a80ff692517f8102227ac19ac7902",
+      "sourceSha256": "97e01ed6ffcd4f6a8fc7efcc36a0df70743c58b95341b5b0f196c99a81239f48",
+      "canonicalLfSha256": "3692acf5ff0e7efd6f9e03aaf0f7b820331cfc6f4f3fd454638bdecf948a4d40",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "d55104651bd8a178018d027e75f91eb0b15a80ff692517f8102227ac19ac7902"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/skin-diffusion-profile.mjs",
+      "bytes": 4323,
+      "servedSha256": "d425d8361f453c2173eee892a120c9e838154b5493d9f8b2da74cac768918c29",
+      "sourceSha256": "295dcf78d23eed1bd3176e972e2c6243ad7079c976209dfcdd025347dc0a7d4b",
+      "canonicalLfSha256": "9210b231421bbc0ef82efbe09e2c3914f80f7dc4c888be57750e3231628f0df0",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "d425d8361f453c2173eee892a120c9e838154b5493d9f8b2da74cac768918c29"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/loading-sketch-core.mjs",
+      "bytes": 8760,
+      "servedSha256": "52667af31543f33b0eba18516e772c0de1d0283267161eccde2653af1ed74f07",
+      "sourceSha256": "4364d9aa560ed054553d6dbc9e9d898ce651a23b9d1f7f1649eaa059e015092d",
+      "canonicalLfSha256": "20c3c7fa58f490bc4722110c22721f0b96a8b0697d3da850b5a0e433261d0982",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "52667af31543f33b0eba18516e772c0de1d0283267161eccde2653af1ed74f07"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/fft-ocean.mjs",
+      "bytes": 3682,
+      "servedSha256": "10b8dece0e5dc28429a9cee425c88a6cc25a23de2d536d9a2749fa73fcf51cb4",
+      "sourceSha256": "891c635c375328c10f1f7a34f0f81a7d0e038728c3f1b26741b7381c0ffcc765",
+      "canonicalLfSha256": "6b9a706dba28e83accc0770b2afcfabde126f1827165c4b1f5aa24a3fd3d9a0d",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "10b8dece0e5dc28429a9cee425c88a6cc25a23de2d536d9a2749fa73fcf51cb4"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/curtain-cloth.mjs",
+      "bytes": 17691,
+      "servedSha256": "2c299384829ecfeaf4e5667336ee572cdf2ea116b6863ede84e6f8bdfb82036a",
+      "sourceSha256": "a0efa83fe9415ba9d7da6c17625a1911f6bd01daf751304c43ec67f479b97b98",
+      "canonicalLfSha256": "22ac43a55e8072fde0a1b32d40045cc61c49dd5e1ae44dcfae1f0aecea740fb4",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "2c299384829ecfeaf4e5667336ee572cdf2ea116b6863ede84e6f8bdfb82036a"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/colliders.mjs",
+      "bytes": 11000,
+      "servedSha256": "4c977c97a46b0f6cfb66af3ea8560dad1b4d89d743d5f9890657e25956fccb1d",
+      "sourceSha256": "eb27df9e3c5a9be1a304cd7390a05b8c710a6d6d643a9b8def4540b40a7bc79b",
+      "canonicalLfSha256": "6fb6c0878d5d3d0f914ef54272b75022fcb38deca4ab1350c11205846a3bcb41",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "4c977c97a46b0f6cfb66af3ea8560dad1b4d89d743d5f9890657e25956fccb1d"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/furniture-fire.mjs",
+      "bytes": 1842,
+      "servedSha256": "aee81595e7247068c3b5c0273e36dba4409f7464c6c1b418842cb6eed44e4d34",
+      "sourceSha256": "8744a7a780dce9548b2ecc334aabe0d7dbeef910b2595599ff010918e9e1a5b9",
+      "canonicalLfSha256": "9834cd765a143d13be3bf2f776cf87b8b78acd1a9b745071e453919c5895c999",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "aee81595e7247068c3b5c0273e36dba4409f7464c6c1b418842cb6eed44e4d34"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/virtual-joysticks.mjs",
+      "bytes": 2240,
+      "servedSha256": "1e2652ae849a9e18b4fef6cea4d4bf9be232b782de8a55a230002121c28defe4",
+      "sourceSha256": "4757ee3dbb65650fcfd6d2049fbd39e9265c772b9f0faa69db7f284518b78954",
+      "canonicalLfSha256": "1a26f8f91af66eb8e4e92c6e2b9b7eb2664704220966a6aac985bd3872479dfe",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "1e2652ae849a9e18b4fef6cea4d4bf9be232b782de8a55a230002121c28defe4"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/light-trace-core.mjs",
+      "bytes": 5529,
+      "servedSha256": "8f2370a2bc09cf71e6188c5affd2d4b33350eef0518034d019d6addd6460bbe3",
+      "sourceSha256": "d5784d99ddf33371f9dda5c642bd035864251c90770bc7032ac0dd58e6a3de8a",
+      "canonicalLfSha256": "d5784d99ddf33371f9dda5c642bd035864251c90770bc7032ac0dd58e6a3de8a",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "8f2370a2bc09cf71e6188c5affd2d4b33350eef0518034d019d6addd6460bbe3"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/heightfield-water.mjs",
+      "bytes": 7909,
+      "servedSha256": "b35af7b5d462fc6047e70f8723ad3ab79de45d280d942ee5478874c989c1c4f1",
+      "sourceSha256": "53fab41b33a65e75a4d9195f968fc1ebce83ec136cb428337bc96984a32a5ade",
+      "canonicalLfSha256": "73ec3561671839383bfc035e500be62a6cca239bfc64100b71625459743038d2",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "b35af7b5d462fc6047e70f8723ad3ab79de45d280d942ee5478874c989c1c4f1"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/gamepad.mjs",
+      "bytes": 1116,
+      "servedSha256": "9551952b11695b867cf0c79fe2eac2e13816163565ee04425a25fbc02b2b8a55",
+      "sourceSha256": "c78c65e02431b6e84ce165253c5f0da5abc7381a67f1b4328c7a952d3b73c2fe",
+      "canonicalLfSha256": "015cf1aeaa1e69178c509d7acf5e0345c5d14f4cb50296d43519705c70f0c20b",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "9551952b11695b867cf0c79fe2eac2e13816163565ee04425a25fbc02b2b8a55"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/laundry-rig.mjs",
+      "bytes": 7936,
+      "servedSha256": "91239bb74dfb60aa1073fee7e5d04e9ae4950b0bc0b5cda85a88bdedc4269056",
+      "sourceSha256": "f182c3b83987bdb5304d7a766b7ea36c6b9ca4f6128ee0b36a86a63a26f1aa90",
+      "canonicalLfSha256": "1300fa2096489a9b32ee61a0de235b8081eb47c45b10215d6f2d5d4111fa24c0",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "91239bb74dfb60aa1073fee7e5d04e9ae4950b0bc0b5cda85a88bdedc4269056"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/dining-menu.mjs",
+      "bytes": 4426,
+      "servedSha256": "4771256f0228ed4f3a6905369dea9cd3a802099cadce3844251f2bfe4c651b38",
+      "sourceSha256": "48f076799f411989538912a32c2cb09b780a144c7089b0b9b21b86bb1630934b",
+      "canonicalLfSha256": "ceba6ac372648c3e6403e35762b70a1f87b2d48d7f03620b1fe96b90328ca64f",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "4771256f0228ed4f3a6905369dea9cd3a802099cadce3844251f2bfe4c651b38"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/detail-levels.mjs",
+      "bytes": 1602,
+      "servedSha256": "ed688ca952f0b30a447fb43cb2950c24d9ad189ad09162d011aec565aa084f66",
+      "sourceSha256": "deb681dddd3ad965474bcc1d537e5348f16c522e2074a25a41866aeef26be838",
+      "canonicalLfSha256": "c882cb774b0ab43c23ec480e11cf0046827c301e24d5e19f66f6dcc4c5c10cec",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "ed688ca952f0b30a447fb43cb2950c24d9ad189ad09162d011aec565aa084f66"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/dining-motion.mjs",
+      "bytes": 21089,
+      "servedSha256": "800f386dc5c645074b0d4065d3276e3ec695b338701f7b7d02229296c1fe5aec",
+      "sourceSha256": "07aacd05d8a8485dc1a53707edb7ecc857e0e70f6eeea72f08ab4f94dfe5e313",
+      "canonicalLfSha256": "83303c2c4b5105194dc4087fd519e3b400cd10fbc6e3c0945fae1255c4199a5e",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "800f386dc5c645074b0d4065d3276e3ec695b338701f7b7d02229296c1fe5aec"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/atmosphere-model.mjs",
+      "bytes": 10796,
+      "servedSha256": "2370b372cabfbf04ad30aca00a13151f24de06d899e89ae1dad6a8d0b820dffb",
+      "sourceSha256": "4a7ef726dd098efd5736e92ef63cb5a974a5ec783bbbfdcfc5383051c0bc2efb",
+      "canonicalLfSha256": "ac77ce46d2bb9b7236e29800e1f86e5427aa39ad76e5a6145d27cafb5ed0120f",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "2370b372cabfbf04ad30aca00a13151f24de06d899e89ae1dad6a8d0b820dffb"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/walk-collar-liner.mjs",
+      "bytes": 6792,
+      "servedSha256": "f20dde45ff44637ab9336ee416c222f3b318b54f810408dd21357cbf680d1486",
+      "sourceSha256": "84dfa3a3c7cc10db7318b738cd7b999858b852359c100b87f91bf89271675730",
+      "canonicalLfSha256": "89284abbdde4b4208bd55871ae76977bd074e6de880ffc269b933c09305b0291",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "f20dde45ff44637ab9336ee416c222f3b318b54f810408dd21357cbf680d1486"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/coastal-weather.mjs",
+      "bytes": 4305,
+      "servedSha256": "bc5817f20cf60f67cc8515338d77e097b54ed576dfe2779f15d224c8997ff69e",
+      "sourceSha256": "100e90505ac86641b47f2d6d9cc9e78e9a492fbec795c5fa55017779ed1a8b19",
+      "canonicalLfSha256": "67dac6fda1a3a82afbd03ae0c8d61fc7219ab1487c5f312e673181dcc78929f1",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "bc5817f20cf60f67cc8515338d77e097b54ed576dfe2779f15d224c8997ff69e"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-motion.mjs",
+      "bytes": 12160,
+      "servedSha256": "235b57e8535c41408c52e7a4974707a3d2ceed195d74663c4c2d129e967df1e0",
+      "sourceSha256": "e5ee5af0f0f2197ecc0478ffa6641aafedd1c201499340eafa1ec2c444a92088",
+      "canonicalLfSha256": "301981fc85bf43b4c3faf0ca2d79d43872bf6d397d3e7bd6032865f3a3405a40",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "235b57e8535c41408c52e7a4974707a3d2ceed195d74663c4c2d129e967df1e0"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-seabird-motion.mjs",
+      "bytes": 8262,
+      "servedSha256": "70c683375a04892865164255f7db087f233a7e72e7d47da53c40c5fd70e7b43a",
+      "sourceSha256": "3f44269d3f17a0515574fdb72f56d4b2586500825b023bf32a4a62822ba28718",
+      "canonicalLfSha256": "d9d2f44f0280e24c004b8578c18baa439ef0570162538c6717e9d3e6963a4af3",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "70c683375a04892865164255f7db087f233a7e72e7d47da53c40c5fd70e7b43a"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-ground-contact.mjs",
+      "bytes": 4425,
+      "servedSha256": "e4f82bbe10444accb4056092b8eb7a793b451e65b27ef4d66a44c042e095a1b0",
+      "sourceSha256": "1e4aabf10658a9217d90f45ca819c69f9ae1a6a86c3d7605e55a9d265b1713cf",
+      "canonicalLfSha256": "9fabbbc4b1e457236088843e5698f180699759ff372fa164a651197838d061bf",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "e4f82bbe10444accb4056092b8eb7a793b451e65b27ef4d66a44c042e095a1b0"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/planets.mjs",
+      "bytes": 3221,
+      "servedSha256": "81a03c608f772c46992188e8fa4cf91a97761ba3aabef6ec1245e425c4802a18",
+      "sourceSha256": "014a3665e111a7dad70bce7d63123149b0821e37e4c774078aa22e55d92a07aa",
+      "canonicalLfSha256": "3502c6f2c8896e11f60eb1a8bed3d9caec1bf44fd3660c608183503bd669ac7f",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "81a03c608f772c46992188e8fa4cf91a97761ba3aabef6ec1245e425c4802a18"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-perch-contact.mjs",
+      "bytes": 3573,
+      "servedSha256": "8cdd5e534f51f27df72f1288dcf33ef4e615be2062fd232311dfe7ad440c732e",
+      "sourceSha256": "aa83f828c94157d4d6ba2f76c8d2e85de2c1227c02edc1c2f3f7b92fb3cd9d17",
+      "canonicalLfSha256": "628d3f68f57ecd69ff484e99d692e5977d5a188a0abccbc5028fb41f09247dfe",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "8cdd5e534f51f27df72f1288dcf33ef4e615be2062fd232311dfe7ad440c732e"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-neighbor-motion.mjs",
+      "bytes": 19733,
+      "servedSha256": "904f49739629a9e0a479e7423e8426115d12981f54e97b7705935e9e14900227",
+      "sourceSha256": "491c646f829f13e815d7301b93f5ba587faba7ab0e92841727e233364235513c",
+      "canonicalLfSha256": "8cd97aa53ebacb42bb53890596bf4922184e6fbf35c1a826dd73fad1cc7bf387",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "904f49739629a9e0a479e7423e8426115d12981f54e97b7705935e9e14900227"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/star-catalogue.mjs",
+      "bytes": 35615,
+      "servedSha256": "c0c1a28de7cf746c28fe8c4fc47b2046e6d02fdd7b3bcf1f93872998e7eec481",
+      "sourceSha256": "31ff8991dab2003e57dcce3202118d3197f8674a0ff79fbe3ea09e887a0baf11",
+      "canonicalLfSha256": "cceac74333781d74a80d7775ed9605d1772f3bfb2afc559b73958cedc90f25a7",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "c0c1a28de7cf746c28fe8c4fc47b2046e6d02fdd7b3bcf1f93872998e7eec481"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/cloth-solver.mjs",
+      "bytes": 22099,
+      "servedSha256": "5b8eb7b934b53a5962a5b4272662b743a5ba64bc4dae921c97a5aa244d56011f",
+      "sourceSha256": "5aa51d5e64e8a9c2c01f986a80895e021b13966e0af7d99d9b73fd69a50292f4",
+      "canonicalLfSha256": "1ba4e846a3d094a961c1817b21330b1076373188b5897cc7065f776f211b190f",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "5b8eb7b934b53a5962a5b4272662b743a5ba64bc4dae921c97a5aa244d56011f"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/laundry-line.mjs",
+      "bytes": 8304,
+      "servedSha256": "dbfc988bc1a26f107ca2244122cc7989a80b0487f58dae1f1899b869e992d82c",
+      "sourceSha256": "d2db48f521b967221242a3806ddaa63fe155ce4988a04ccd2258ccd19eaff689",
+      "canonicalLfSha256": "e67dc0d9b1404157e5ca4c4c26e2c118dd7460c1fce72fa53ec1d17c70122445",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "dbfc988bc1a26f107ca2244122cc7989a80b0487f58dae1f1899b869e992d82c"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/weather-data.mjs",
+      "bytes": 12866,
+      "servedSha256": "ed9378ff67af72ffe08a1915ea5273aaeba9d66ef58343b02c0a381eaf155d04",
+      "sourceSha256": "c7a7b767b6e878fba489cc9a2dc65e7a9b449dbc8c4b51b24c17d7c0680fce0a",
+      "canonicalLfSha256": "b4942645eb661357118016d28b52d0f32ce62d9f559fdd0090639d110234dd6a",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "ed9378ff67af72ffe08a1915ea5273aaeba9d66ef58343b02c0a381eaf155d04"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-acting.mjs",
+      "bytes": 3285,
+      "servedSha256": "869875cf17dead5b3373dd98e55b41beb60d316cc9d234eabbe16f025c2f3ee3",
+      "sourceSha256": "ca0eb1fcf8023b24828bbd9f37fc27f588b2657aec3881bd45ce3324a146966f",
+      "canonicalLfSha256": "e41c900d307308912fb70799a0d6e7841606a2fc448094ebed95b42d591c4d11",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "869875cf17dead5b3373dd98e55b41beb60d316cc9d234eabbe16f025c2f3ee3"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "bytes": 191390,
+      "servedSha256": "1966a6cf62ecd6e848484207591ed91a555b502cbba7fe3aff4505ba042b860f",
+      "sourceSha256": "5aef4a11bd6b21c6b65cbff6197c5df4088de8c3c5ab103dabc026e0d8a0158e",
+      "canonicalLfSha256": "5aef4a11bd6b21c6b65cbff6197c5df4088de8c3c5ab103dabc026e0d8a0158e",
+      "match": "JSON-format-only normalization"
+    },
+    {
+      "path": "assets/js/home-scene/camera-field-worker.mjs",
+      "bytes": 579,
+      "servedSha256": "46a76bff8deb2be38205fcf16e3d2cf6b78e17defffe023a3be69dcf34e7eeb5",
+      "sourceSha256": "5325474f837ad1e6410d53466bdef26e62ce6ab59506fd56e7935273f157a5cf",
+      "canonicalLfSha256": "79c0e07ff962e66e91db471eeb8f365f6e467e20bc10c87d2ab2a8448b952ddb",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "46a76bff8deb2be38205fcf16e3d2cf6b78e17defffe023a3be69dcf34e7eeb5"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/models/home/coast.glb",
+      "bytes": 215792,
+      "servedSha256": "d1c9ecd1bc25fb2f6c070cb3f2eb1081a5d52efffa7f5c1ab9303aa658956162",
+      "sourceSha256": "d1c9ecd1bc25fb2f6c070cb3f2eb1081a5d52efffa7f5c1ab9303aa658956162",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/room-study.glb",
+      "bytes": 164564,
+      "servedSha256": "6f16bcde6c44cafcac0d3e3c9ba92c2852f0f2584ead1c67223c11f901cce988",
+      "sourceSha256": "6f16bcde6c44cafcac0d3e3c9ba92c2852f0f2584ead1c67223c11f901cce988",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "bytes": 763180,
+      "servedSha256": "67fca6f64fa4192e09a0c3760aabb2beb54c6f4dd64aec376e760961ba4460b3",
+      "sourceSha256": "67fca6f64fa4192e09a0c3760aabb2beb54c6f4dd64aec376e760961ba4460b3",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/room-gym.glb",
+      "bytes": 222576,
+      "servedSha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
+      "sourceSha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/room-kitchen.glb",
+      "bytes": 244696,
+      "servedSha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+      "sourceSha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/room-onsen.glb",
+      "bytes": 94408,
+      "servedSha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
+      "sourceSha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/index.json",
+      "bytes": 8815,
+      "servedSha256": "8d6aaccf9a7efc4ef2b226d3da8b97f44f3f4076b040f41381b0fe100ceb4f22",
+      "sourceSha256": "7c8e61168fded60891fef92e74d7244cbb8b80a3124d604441c09ffa556892f8",
+      "canonicalLfSha256": "7c8e61168fded60891fef92e74d7244cbb8b80a3124d604441c09ffa556892f8",
+      "match": "JSON-format-only normalization"
+    },
+    {
+      "path": "assets/models/home/room-lounge.glb",
+      "bytes": 239052,
+      "servedSha256": "7f98056c77046dfb33aeb180124a4f74b475cf64f16cb78dc91e7f6b710477f3",
+      "sourceSha256": "7f98056c77046dfb33aeb180124a4f74b475cf64f16cb78dc91e7f6b710477f3",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/room-library.glb",
+      "bytes": 201928,
+      "servedSha256": "9c7a0869f02cceb04118373b8aacd4fb02e750673cc661172708341f982f1bde",
+      "sourceSha256": "9c7a0869f02cceb04118373b8aacd4fb02e750673cc661172708341f982f1bde",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/room-library-upper.glb",
+      "bytes": 22272,
+      "servedSha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
+      "sourceSha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/room-bath-living.glb",
+      "bytes": 96300,
+      "servedSha256": "e84ed849b1c557ccde0a722c1161912d82d29752afe14f099418b098be4282f8",
+      "sourceSha256": "e84ed849b1c557ccde0a722c1161912d82d29752afe14f099418b098be4282f8",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/room-sleep.glb",
+      "bytes": 277792,
+      "servedSha256": "72e5433b2d65ecb5e6451506d4b78da48647fc882916205e16267b2d03100790",
+      "sourceSha256": "72e5433b2d65ecb5e6451506d4b78da48647fc882916205e16267b2d03100790",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/room-bath-bedroom.glb",
+      "bytes": 97508,
+      "servedSha256": "1df8358f8c7dae4cf81ef8f7d9aa7393bcb0c70984ec31e1963537178a1a55e9",
+      "sourceSha256": "1df8358f8c7dae4cf81ef8f7d9aa7393bcb0c70984ec31e1963537178a1a55e9",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "bytes": 742847,
+      "servedSha256": "743ad935736b5279ec427f63cb1530743d4440971a84aacb48a89a60541fe7f4",
+      "sourceSha256": "743ad935736b5279ec427f63cb1530743d4440971a84aacb48a89a60541fe7f4",
+      "canonicalLfSha256": "743ad935736b5279ec427f63cb1530743d4440971a84aacb48a89a60541fe7f4",
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/BrushRabbit.glb",
+      "bytes": 51116,
+      "servedSha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4",
+      "sourceSha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/HarborSeal.glb",
+      "bytes": 35632,
+      "servedSha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6",
+      "sourceSha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/Sandpiper.glb",
+      "bytes": 20696,
+      "servedSha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381",
+      "sourceSha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/WesternGull.glb",
+      "bytes": 22912,
+      "servedSha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29",
+      "sourceSha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/CaliforniaSeaLion.glb",
+      "bytes": 34376,
+      "servedSha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103",
+      "sourceSha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/Raccoon.glb",
+      "bytes": 49332,
+      "servedSha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808",
+      "sourceSha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/BrownPelican.glb",
+      "bytes": 34440,
+      "servedSha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c",
+      "sourceSha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/BrandtsCormorant.glb",
+      "bytes": 31040,
+      "servedSha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a",
+      "sourceSha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/wildlife-perch-support.json",
+      "bytes": 27543,
+      "servedSha256": "78b82e77d14f73e83c6e8a0f6610c668bffd46ebda7dd6a7ea420f381b11fab9",
+      "sourceSha256": "31c5b162d8147f5a39e673fdc0f41fe463dc37032ecff56b7ac5f9e2b8f07d93",
+      "canonicalLfSha256": "bc604310ffde6ec2b059ed061761a26795b0d70b7929355424c206466ff80bde",
+      "match": "JSON-format-only normalization"
+    },
+    {
+      "path": "assets/models/home/sirui-rick-and-morty.glb",
+      "bytes": 663812,
+      "servedSha256": "06d8f41e0740929fef63a90e71a2bca8976ac2adb7c54bb69992eedc58a88e91",
+      "sourceSha256": "06d8f41e0740929fef63a90e71a2bca8976ac2adb7c54bb69992eedc58a88e91",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/aeron-lod1.glb",
+      "bytes": 82404,
+      "servedSha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54",
+      "sourceSha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/italian-range-lod1.glb",
+      "bytes": 32936,
+      "servedSha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a",
+      "sourceSha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/range-hood-lod1.glb",
+      "bytes": 7520,
+      "servedSha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195",
+      "sourceSha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/pot-filler-lod1.glb",
+      "bytes": 7340,
+      "servedSha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d",
+      "sourceSha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/glass-fridge-lod1.glb",
+      "bytes": 33380,
+      "servedSha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e",
+      "sourceSha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/dining-table-lod1.glb",
+      "bytes": 6880,
+      "servedSha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884",
+      "sourceSha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/dining-chair-lod1.glb",
+      "bytes": 17196,
+      "servedSha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6",
+      "sourceSha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/dumbbell-lod1.glb",
+      "bytes": 4676,
+      "servedSha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e",
+      "sourceSha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/banquette-lod1.glb",
+      "bytes": 31432,
+      "servedSha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708",
+      "sourceSha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/cast-iron-pan-lod1.glb",
+      "bytes": 9488,
+      "servedSha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d",
+      "sourceSha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/floating-fireplace-lod1.glb",
+      "bytes": 12588,
+      "servedSha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36",
+      "sourceSha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/eames-lounge-lod1.glb",
+      "bytes": 66616,
+      "servedSha256": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4",
+      "sourceSha256": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/cloud-sofa-lod1.glb",
+      "bytes": 55376,
+      "servedSha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0",
+      "sourceSha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-loveseat-lod1.glb",
+      "bytes": 14860,
+      "servedSha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d",
+      "sourceSha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-ottoman-lod1.glb",
+      "bytes": 7924,
+      "servedSha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e",
+      "sourceSha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-side-table-lod1.glb",
+      "bytes": 35292,
+      "servedSha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e",
+      "sourceSha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-bottles-lod1.glb",
+      "bytes": 31808,
+      "servedSha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af",
+      "sourceSha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/table-setting/index.json",
+      "bytes": 17974,
+      "servedSha256": "2f110ad7f7782286097ccbf4857ee74a6e704deaae536829b27225fcba2e8e56",
+      "sourceSha256": "d5a1b00ec3815b30d1e969cecda54ce24923ed7bce1fcf6c79cc41dbd0d01abd",
+      "canonicalLfSha256": "dab21ee2622d81fa0b8cef6e91414ba3b4c5badae7467ff32982a55ac55af612",
+      "match": "JSON-format-only normalization"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-avocado-toast-lod1.glb",
+      "bytes": 26132,
+      "servedSha256": "527efe9f7db3a9290536276d4995e56a15ec44388c4e42bc78f5f93aed704a34",
+      "sourceSha256": "527efe9f7db3a9290536276d4995e56a15ec44388c4e42bc78f5f93aed704a34",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/table-setting/tableware-lod1.glb",
+      "bytes": 84140,
+      "servedSha256": "ba3dfb80225f3a819ea61e47087b73922d9a815ff7fc1f3d4d18deab4dfbdb41",
+      "sourceSha256": "ba3dfb80225f3a819ea61e47087b73922d9a815ff7fc1f3d4d18deab4dfbdb41",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/banquette-lod0.glb",
+      "bytes": 107644,
+      "servedSha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027",
+      "sourceSha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/js/home-scene/walk-field-worker.mjs",
+      "bytes": 330,
+      "servedSha256": "e633b3ecac3274e15e661fa48dd8352a84cbe9523434715d8229abf0e259fe5b",
+      "sourceSha256": "e3ac54eca52e4b2584ba479d19dbf57dc161d83bbe0f98ad4d4549867636ac05",
+      "canonicalLfSha256": "a27085c3740112afdff5ff24985f166debfb3d493f9601fb20e8a1f19ddc11b5",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "e633b3ecac3274e15e661fa48dd8352a84cbe9523434715d8229abf0e259fe5b"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-avocado-toast-lod0.glb",
+      "bytes": 30136,
+      "servedSha256": "eb64e7c9e32fec230ae7f09e074c4438767b7e8adf509ef29b49a020472f13bd",
+      "sourceSha256": "eb64e7c9e32fec230ae7f09e074c4438767b7e8adf509ef29b49a020472f13bd",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/table-setting/tableware-lod0.glb",
+      "bytes": 119736,
+      "servedSha256": "0a8c3528848e98bd96e84e269d188a45b050d4ec0ad3ea837eb7293bf8560e62",
+      "sourceSha256": "0a8c3528848e98bd96e84e269d188a45b050d4ec0ad3ea837eb7293bf8560e62",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-loveseat-lod0.glb",
+      "bytes": 91396,
+      "servedSha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd",
+      "sourceSha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-french-toast-lod1.glb",
+      "bytes": 16032,
+      "servedSha256": "ff5ddfdf85e844db8068b5f4021bd48dd8faafa951b84abaa4f67cf11aff3996",
+      "sourceSha256": "ff5ddfdf85e844db8068b5f4021bd48dd8faafa951b84abaa4f67cf11aff3996",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-french-toast-lod0.glb",
+      "bytes": 25204,
+      "servedSha256": "dcc64dbf909d3226718df4e86687218f25f8d096d61d9be2a9ba861c5f993c97",
+      "sourceSha256": "dcc64dbf909d3226718df4e86687218f25f8d096d61d9be2a9ba861c5f993c97",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/js/home-scene/hinterland.mjs",
+      "bytes": 1982,
+      "servedSha256": "accb6534acb11d53e39750705ca0cfb82da7363f2395b7525b71dd28cce7908e",
+      "sourceSha256": "512d3e1e83c4e2f87fd8528a1c09c0e1893499e87d2c6dc1aa12deae6d13049d",
+      "canonicalLfSha256": "384f91f5641e0ece830493f95d36c09de1ff31246a16f6a3b77f44972b229172",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "accb6534acb11d53e39750705ca0cfb82da7363f2395b7525b71dd28cce7908e"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/models/home/flora.glb",
+      "bytes": 2057092,
+      "servedSha256": "997cba7c8bfecc0e9ca29e39a51a4b9e2a5e337c622d9a97774e3c8759b86698",
+      "sourceSha256": "997cba7c8bfecc0e9ca29e39a51a4b9e2a5e337c622d9a97774e3c8759b86698",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/hinterland.glb",
+      "bytes": 1465588,
+      "servedSha256": "bef9e5588f58d1475eead6ee7e41a90981d7f8d366f6317da0f9d4912aad2922",
+      "sourceSha256": "bef9e5588f58d1475eead6ee7e41a90981d7f8d366f6317da0f9d4912aad2922",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/js/home-scene/gliders.mjs",
+      "bytes": 2717,
+      "servedSha256": "9f191cbebd7018e7bfbfaeb3cbaeb7d00595a44f6d9e066abccd16619b61ab11",
+      "sourceSha256": "b6c4c5c3055d5462214b4f37d54ae6fa14c7102f873c89fb9f745c519f80115b",
+      "canonicalLfSha256": "9ac8b67ab7f160ddc2e8c9dd9cccfc16d08399f82c25f50af2c1074916d9b417",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "9f191cbebd7018e7bfbfaeb3cbaeb7d00595a44f6d9e066abccd16619b61ab11"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/js/home-scene/water-garden.mjs",
+      "bytes": 4211,
+      "servedSha256": "a3a63bc5668eaf1ecd4609be67f7d3d73ac12af01c41e3a074953c1b77459fdd",
+      "sourceSha256": "8a092dfb3f3a10230b5940c9b432ed3a989d12901f90d5f55504f304e56349bc",
+      "canonicalLfSha256": "c20535a1dd982fa2ce2788d2948768e6450b4a83610f0cc56e4b75f422377548",
+      "buildBinding": {
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3",
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "outputSha256": "a3a63bc5668eaf1ecd4609be67f7d3d73ac12af01c41e3a074953c1b77459fdd"
+      },
+      "match": "source-bound module build"
+    },
+    {
+      "path": "assets/models/home/sirui-ghibli.glb",
+      "bytes": 861208,
+      "servedSha256": "47167029b02671063a509aa9f1c0bd36a7ea1b18ac37a5884a9365377615c7ce",
+      "sourceSha256": "47167029b02671063a509aa9f1c0bd36a7ea1b18ac37a5884a9365377615c7ce",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    },
+    {
+      "path": "assets/models/home/sirui-lizard.glb",
+      "bytes": 539072,
+      "servedSha256": "8c0e6a54e936000cd647c0b54d9ab93e6a2f7a4d5ba567853878409850689f47",
+      "sourceSha256": "8c0e6a54e936000cd647c0b54d9ab93e6a2f7a4d5ba567853878409850689f47",
+      "canonicalLfSha256": null,
+      "match": "exact"
+    }
+  ],
+  "states": [
+    {
+      "viewport": "desktop",
+      "case": "clear",
+      "time": "2026-10-24T12:30:00-07:00",
+      "expectedWeather": {
+        "marine": 0,
+        "eveningMarine": false,
+        "cirrus": 0.7320761564187706,
+        "seed": 0.7877795656677336,
+        "source": "seasonal-simulation",
+        "dateKey": "2026-10-24",
+        "cloudCover": 0,
+        "rainChance": 0.052642445929504206,
+        "rainAmountMm": 0,
+        "rainWindows": [],
+        "forecastIssued": null,
+        "forecastValidThrough": null,
+        "rain": 0
+      },
+      "graphics": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "clock": {
+        "raf": true,
+        "performance": true,
+        "timeout": true,
+        "interval": true,
+        "date": "2026-10-24T19:30:00.000Z"
+      },
+      "errors": [],
+      "failedRequests": [],
+      "failedResponses": [],
+      "roof": null,
+      "passed": true,
+      "holds": [
+        {
+          "label": "Pause actual rain position buffer",
+          "before": {
+            "positionSha256": "de676bae28a480011d3d012db14bef539324e62a841a9627863c689bea168af3",
+            "fieldTime": 7.616466666666681
+          },
+          "after": {
+            "positionSha256": "de676bae28a480011d3d012db14bef539324e62a841a9627863c689bea168af3",
+            "fieldTime": 7.616466666666681
+          }
+        },
+        {
+          "label": "Reduced actual rain position buffer",
+          "before": {
+            "positionSha256": "de676bae28a480011d3d012db14bef539324e62a841a9627863c689bea168af3",
+            "fieldTime": 7.649833333333345
+          },
+          "after": {
+            "positionSha256": "de676bae28a480011d3d012db14bef539324e62a841a9627863c689bea168af3",
+            "fieldTime": 7.649833333333345
+          }
+        }
+      ],
+      "controlActivations": [
+        {
+          "label": "Pause rain diagnostic activation",
+          "activation": "Diagnostic activation of the existing DOM button handler while fullscreen; pointer access is not claimed.",
+          "pointerVisible": false
+        },
+        {
+          "label": "Resume rain diagnostic activation",
+          "activation": "Diagnostic activation of the existing DOM button handler while fullscreen; pointer access is not claimed.",
+          "pointerVisible": false
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "case": "rain",
+      "time": "2026-10-31T12:30:00-07:00",
+      "expectedWeather": {
+        "marine": 0,
+        "eveningMarine": false,
+        "cirrus": 0.45,
+        "seed": 0.36370647163130343,
+        "source": "nws-forecast",
+        "dateKey": "2026-10-31",
+        "cloudCover": 0.95,
+        "rainChance": 0.37,
+        "rainAmountMm": null,
+        "rainWindows": [[660, 1440, 0.28000000000000014]],
+        "forecastIssued": "2026-10-26T08:20:39+00:00",
+        "forecastValidThrough": "2026-11-01T20:00:00-08:00",
+        "forecastHourUtc": 1793473200,
+        "rain": 0.28000000000000014
+      },
+      "graphics": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "clock": {
+        "raf": true,
+        "performance": true,
+        "timeout": true,
+        "interval": true,
+        "date": "2026-10-31T19:30:00.000Z"
+      },
+      "errors": [],
+      "failedRequests": [],
+      "failedResponses": [],
+      "roof": {
+        "actualRoofMeshes": 17,
+        "checked": 16,
+        "toleranceMetres": 0.2,
+        "witnesses": [
+          {
+            "drop": 2,
+            "bottom": 10.883797645568848,
+            "roof": 10.809233818139667,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 13,
+            "bottom": 10.500055313110352,
+            "roof": 10.39836308071726,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 17,
+            "bottom": 7.356797695159912,
+            "roof": 7.265040489288467,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 26,
+            "bottom": 8.033058166503906,
+            "roof": 7.948954119866599,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 27,
+            "bottom": 11.407940864562988,
+            "roof": 11.340980091297055,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 31,
+            "bottom": 9.826796531677246,
+            "roof": 9.744953619061235,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 37,
+            "bottom": 7.077054023742676,
+            "roof": 7.029522243514599,
+            "mesh": "core_liftaway_cave_ceiling_rear",
+            "landed": true
+          },
+          {
+            "drop": 44,
+            "bottom": 9.113126754760742,
+            "roof": 9.01114218071912,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 48,
+            "bottom": 7.310531139373779,
+            "roof": 7.248776460752872,
+            "mesh": "core_liftaway_cave_ceiling_rear",
+            "landed": true
+          },
+          {
+            "drop": 50,
+            "bottom": 10.321980476379395,
+            "roof": 10.206000454582906,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 53,
+            "bottom": 10.445880889892578,
+            "roof": 10.397115418680372,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 60,
+            "bottom": 11.217246055603027,
+            "roof": 11.175502965818652,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 66,
+            "bottom": 8.27582836151123,
+            "roof": 8.201263581688586,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 70,
+            "bottom": 7.039384841918945,
+            "roof": 6.9501386515474834,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 74,
+            "bottom": 10.614097595214844,
+            "roof": 10.543473101857167,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 75,
+            "bottom": 7.006399154663086,
+            "roof": 6.930325272366609,
+            "mesh": "core_carved_mainland001",
+            "landed": true
+          }
+        ],
+        "failed": []
+      },
+      "passed": true,
+      "holds": [
+        {
+          "label": "Pause actual rain position buffer",
+          "before": {
+            "positionSha256": "416a37c4fedd836caa1333722084f70c8aa4adb4ea9b452d81a14d1848215c92",
+            "fieldTime": 6.982966666666677
+          },
+          "after": {
+            "positionSha256": "416a37c4fedd836caa1333722084f70c8aa4adb4ea9b452d81a14d1848215c92",
+            "fieldTime": 6.982966666666677
+          }
+        },
+        {
+          "label": "Reduced actual rain position buffer",
+          "before": {
+            "positionSha256": "3726a3a8435ae5e7bd4022be4f416df308c0d2ee97ec4b52a374a0c35623a379",
+            "fieldTime": 7.116233333333347
+          },
+          "after": {
+            "positionSha256": "3726a3a8435ae5e7bd4022be4f416df308c0d2ee97ec4b52a374a0c35623a379",
+            "fieldTime": 7.116233333333347
+          }
+        }
+      ],
+      "controlActivations": [
+        {
+          "label": "Pause rain diagnostic activation",
+          "activation": "Diagnostic activation of the existing DOM button handler while fullscreen; pointer access is not claimed.",
+          "pointerVisible": false
+        },
+        {
+          "label": "Resume rain diagnostic activation",
+          "activation": "Diagnostic activation of the existing DOM button handler while fullscreen; pointer access is not claimed.",
+          "pointerVisible": false
+        }
+      ],
+      "openAir": {
+        "room": "outside",
+        "frames": 223,
+        "rain": {
+          "method": "active-time seeded exterior line field in a world-stable camera box, clipped to terrain and covered volumes",
+          "intensity": 0.28000000000000014,
+          "drops": 287,
+          "maximum": 1024,
+          "sheltered": 0,
+          "nearCamera": 3,
+          "fieldExtent": 30,
+          "fieldTime": 8.016200000000016,
+          "extraPasses": 0,
+          "shadowCasters": 0,
+          "roofClip": {
+            "method": "conservative swept XZ footprint over actual static roof triangles",
+            "built": true,
+            "cellSize": 1,
+            "triangles": 23712,
+            "cells": 485,
+            "sources": [
+              {
+                "name": "core_carved_mainland001",
+                "triangles": 479
+              },
+              {
+                "name": "core_carved_mainland001_1",
+                "triangles": 954
+              },
+              {
+                "name": "core_lightwell_rim",
+                "triangles": 1120
+              },
+              {
+                "name": "core_facade_lunette_frame",
+                "triangles": 342
+              },
+              {
+                "name": "core_facade_lunette_glass",
+                "triangles": 110
+              },
+              {
+                "name": "core_liftaway_cave_ceiling_rear",
+                "triangles": 918
+              },
+              {
+                "name": "core_fireplace_cap__blackened_steel_flue",
+                "triangles": 44
+              },
+              {
+                "name": "core_fireplace_cap__golden_coastal_sandstone",
+                "triangles": 2240
+              },
+              {
+                "name": "core_bathwing_liftaway_roof_1",
+                "triangles": 98
+              },
+              {
+                "name": "core_bathwing_liftaway_roof_2",
+                "triangles": 389
+              },
+              {
+                "name": "core_estate_library_liftaway_roof_1",
+                "triangles": 473
+              },
+              {
+                "name": "core_estate_library_liftaway_roof_2",
+                "triangles": 1730
+              },
+              {
+                "name": "core_estate_pavilion__pale_oak",
+                "triangles": 6380
+              },
+              {
+                "name": "core_estate_pavilion__brushed_brass",
+                "triangles": 566
+              },
+              {
+                "name": "core_estate_pavilion__warm_cut_stone",
+                "triangles": 468
+              },
+              {
+                "name": "core_estate_pavilion__honey_ash002",
+                "triangles": 1744
+              },
+              {
+                "name": "core_estate_pavilion__honey_ash002_1",
+                "triangles": 30
+              },
+              {
+                "name": "core_estate_pavilion__festoon_bulb_glass",
+                "triangles": 212
+              },
+              {
+                "name": "core_estate_pavilion__travertine_paving_stone002",
+                "triangles": 400
+              },
+              {
+                "name": "core_estate_pavilion__polished_nickel",
+                "triangles": 804
+              },
+              {
+                "name": "core_estate_pavilion__charcoal",
+                "triangles": 280
+              },
+              {
+                "name": "core_estate_pavilion__linen",
+                "triangles": 936
+              },
+              {
+                "name": "core_estate_pavilion__facade_low-iron_glass",
+                "triangles": 220
+              },
+              {
+                "name": "core_bathwing_lower_ceiling__chalk_limestone",
+                "triangles": 156
+              },
+              {
+                "name": "core_bathwing_upper_slab__warm_cut_stone",
+                "triangles": 156
+              },
+              {
+                "name": "core_bathwing_upper_ceiling__chalk_limestone",
+                "triangles": 156
+              },
+              {
+                "name": "core_retreat_library_ceiling__chalk_limestone",
+                "triangles": 156
+              },
+              {
+                "name": "core_retreat_liftaway_roof_1",
+                "triangles": 1586
+              },
+              {
+                "name": "core_retreat_liftaway_roof_2",
+                "triangles": 21
+              },
+              {
+                "name": "core_arrival_lid__golden_coastal_sandstone",
+                "triangles": 544
+              }
+            ]
+          },
+          "positionSha256": "e10bcce896c0160f184b8dff3cb30febff58d0e69c3e5c757bcaa8dce7858b3c",
+          "drawCount": 574,
+          "visible": true,
+          "isLineSegments": true,
+          "castShadow": false,
+          "noContactOcclusion": true,
+          "count": 1
+        }
+      }
+    },
+    {
+      "viewport": "mobile",
+      "case": "clear",
+      "time": "2026-10-24T12:30:00-07:00",
+      "expectedWeather": {
+        "marine": 0,
+        "eveningMarine": false,
+        "cirrus": 0.7320761564187706,
+        "seed": 0.7877795656677336,
+        "source": "seasonal-simulation",
+        "dateKey": "2026-10-24",
+        "cloudCover": 0,
+        "rainChance": 0.052642445929504206,
+        "rainAmountMm": 0,
+        "rainWindows": [],
+        "forecastIssued": null,
+        "forecastValidThrough": null,
+        "rain": 0
+      },
+      "graphics": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "clock": {
+        "raf": true,
+        "performance": true,
+        "timeout": true,
+        "interval": true,
+        "date": "2026-10-24T19:30:00.000Z"
+      },
+      "errors": [],
+      "failedRequests": [],
+      "failedResponses": [],
+      "roof": null,
+      "passed": true,
+      "holds": [
+        {
+          "label": "Pause actual rain position buffer",
+          "before": {
+            "positionSha256": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0",
+            "fieldTime": 6.516366666666673
+          },
+          "after": {
+            "positionSha256": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0",
+            "fieldTime": 6.516366666666673
+          }
+        },
+        {
+          "label": "Reduced actual rain position buffer",
+          "before": {
+            "positionSha256": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0",
+            "fieldTime": 6.549633333333338
+          },
+          "after": {
+            "positionSha256": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0",
+            "fieldTime": 6.549633333333338
+          }
+        }
+      ],
+      "controlActivations": [
+        {
+          "label": "Pause rain diagnostic activation",
+          "activation": "Diagnostic activation of the existing DOM button handler while fullscreen; pointer access is not claimed.",
+          "pointerVisible": false
+        },
+        {
+          "label": "Resume rain diagnostic activation",
+          "activation": "Diagnostic activation of the existing DOM button handler while fullscreen; pointer access is not claimed.",
+          "pointerVisible": false
+        }
+      ]
+    },
+    {
+      "viewport": "mobile",
+      "case": "rain",
+      "time": "2026-10-31T12:30:00-07:00",
+      "expectedWeather": {
+        "marine": 0,
+        "eveningMarine": false,
+        "cirrus": 0.45,
+        "seed": 0.36370647163130343,
+        "source": "nws-forecast",
+        "dateKey": "2026-10-31",
+        "cloudCover": 0.95,
+        "rainChance": 0.37,
+        "rainAmountMm": null,
+        "rainWindows": [[660, 1440, 0.28000000000000014]],
+        "forecastIssued": "2026-10-26T08:20:39+00:00",
+        "forecastValidThrough": "2026-11-01T20:00:00-08:00",
+        "forecastHourUtc": 1793473200,
+        "rain": 0.28000000000000014
+      },
+      "graphics": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      },
+      "clock": {
+        "raf": true,
+        "performance": true,
+        "timeout": true,
+        "interval": true,
+        "date": "2026-10-31T19:30:00.000Z"
+      },
+      "errors": [],
+      "failedRequests": [],
+      "failedResponses": [],
+      "roof": {
+        "actualRoofMeshes": 17,
+        "checked": 15,
+        "toleranceMetres": 0.2,
+        "witnesses": [
+          {
+            "drop": 2,
+            "bottom": 10.602773666381836,
+            "roof": 10.518985312193934,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 5,
+            "bottom": 10.338600158691406,
+            "roof": 10.285338505621475,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 13,
+            "bottom": 10.240342140197754,
+            "roof": 10.137516443796684,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 17,
+            "bottom": 7.238580226898193,
+            "roof": 7.164397555759109,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 26,
+            "bottom": 7.768717288970947,
+            "roof": 7.690868828282923,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 27,
+            "bottom": 11.227807998657227,
+            "roof": 11.141186435659513,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 31,
+            "bottom": 9.571417808532715,
+            "roof": 9.47983080485512,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 37,
+            "bottom": 7.050495147705078,
+            "roof": 7.008971343342736,
+            "mesh": "core_liftaway_cave_ceiling_rear",
+            "landed": true
+          },
+          {
+            "drop": 44,
+            "bottom": 8.913877487182617,
+            "roof": 8.819483548128488,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 48,
+            "bottom": 7.225159168243408,
+            "roof": 7.173498272870624,
+            "mesh": "core_liftaway_cave_ceiling_rear",
+            "landed": true
+          },
+          {
+            "drop": 50,
+            "bottom": 10.055655479431152,
+            "roof": 9.936573312818652,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 53,
+            "bottom": 10.386886596679688,
+            "roof": 10.33914683845952,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 57,
+            "bottom": 11.041496276855469,
+            "roof": 10.998721444111425,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 60,
+            "bottom": 11.075485229492188,
+            "roof": 11.017829496624564,
+            "mesh": "core_estate_library_liftaway_roof_1",
+            "landed": true
+          },
+          {
+            "drop": 66,
+            "bottom": 8.064361572265625,
+            "roof": 7.990877981207014,
+            "mesh": "core_retreat_liftaway_roof_1",
+            "landed": true
+          }
+        ],
+        "failed": []
+      },
+      "passed": true,
+      "holds": [
+        {
+          "label": "Pause actual rain position buffer",
+          "before": {
+            "positionSha256": "3afb4d93ab2b991b4fdb2ea77bf85b00aa3c80302f0c770a6927cb8e7713ca13",
+            "fieldTime": 6.749766666666681
+          },
+          "after": {
+            "positionSha256": "3afb4d93ab2b991b4fdb2ea77bf85b00aa3c80302f0c770a6927cb8e7713ca13",
+            "fieldTime": 6.749766666666681
+          }
+        },
+        {
+          "label": "Reduced actual rain position buffer",
+          "before": {
+            "positionSha256": "c627207eee1f971313429172778183e890586f5695f5742ba5dcd822c645d014",
+            "fieldTime": 6.916533333333351
+          },
+          "after": {
+            "positionSha256": "c627207eee1f971313429172778183e890586f5695f5742ba5dcd822c645d014",
+            "fieldTime": 6.916533333333351
+          }
+        }
+      ],
+      "controlActivations": [
+        {
+          "label": "Pause rain diagnostic activation",
+          "activation": "Diagnostic activation of the existing DOM button handler while fullscreen; pointer access is not claimed.",
+          "pointerVisible": false
+        },
+        {
+          "label": "Resume rain diagnostic activation",
+          "activation": "Diagnostic activation of the existing DOM button handler while fullscreen; pointer access is not claimed.",
+          "pointerVisible": false
+        }
+      ],
+      "openAir": {
+        "room": "outside",
+        "frames": 224,
+        "rain": {
+          "method": "active-time seeded exterior line field in a world-stable camera box, clipped to terrain and covered volumes",
+          "intensity": 0.28000000000000014,
+          "drops": 72,
+          "maximum": 256,
+          "sheltered": 0,
+          "nearCamera": 0,
+          "fieldExtent": 30,
+          "fieldTime": 7.633100000000019,
+          "extraPasses": 0,
+          "shadowCasters": 0,
+          "roofClip": {
+            "method": "conservative swept XZ footprint over actual static roof triangles",
+            "built": true,
+            "cellSize": 1,
+            "triangles": 23712,
+            "cells": 485,
+            "sources": [
+              {
+                "name": "core_carved_mainland001",
+                "triangles": 479
+              },
+              {
+                "name": "core_carved_mainland001_1",
+                "triangles": 954
+              },
+              {
+                "name": "core_lightwell_rim",
+                "triangles": 1120
+              },
+              {
+                "name": "core_facade_lunette_frame",
+                "triangles": 342
+              },
+              {
+                "name": "core_facade_lunette_glass",
+                "triangles": 110
+              },
+              {
+                "name": "core_liftaway_cave_ceiling_rear",
+                "triangles": 918
+              },
+              {
+                "name": "core_fireplace_cap__blackened_steel_flue",
+                "triangles": 44
+              },
+              {
+                "name": "core_fireplace_cap__golden_coastal_sandstone",
+                "triangles": 2240
+              },
+              {
+                "name": "core_bathwing_liftaway_roof_1",
+                "triangles": 98
+              },
+              {
+                "name": "core_bathwing_liftaway_roof_2",
+                "triangles": 389
+              },
+              {
+                "name": "core_estate_library_liftaway_roof_1",
+                "triangles": 473
+              },
+              {
+                "name": "core_estate_library_liftaway_roof_2",
+                "triangles": 1730
+              },
+              {
+                "name": "core_estate_pavilion__pale_oak",
+                "triangles": 6380
+              },
+              {
+                "name": "core_estate_pavilion__brushed_brass",
+                "triangles": 566
+              },
+              {
+                "name": "core_estate_pavilion__warm_cut_stone",
+                "triangles": 468
+              },
+              {
+                "name": "core_estate_pavilion__honey_ash002",
+                "triangles": 1744
+              },
+              {
+                "name": "core_estate_pavilion__honey_ash002_1",
+                "triangles": 30
+              },
+              {
+                "name": "core_estate_pavilion__festoon_bulb_glass",
+                "triangles": 212
+              },
+              {
+                "name": "core_estate_pavilion__travertine_paving_stone002",
+                "triangles": 400
+              },
+              {
+                "name": "core_estate_pavilion__polished_nickel",
+                "triangles": 804
+              },
+              {
+                "name": "core_estate_pavilion__charcoal",
+                "triangles": 280
+              },
+              {
+                "name": "core_estate_pavilion__linen",
+                "triangles": 936
+              },
+              {
+                "name": "core_estate_pavilion__facade_low-iron_glass",
+                "triangles": 220
+              },
+              {
+                "name": "core_bathwing_lower_ceiling__chalk_limestone",
+                "triangles": 156
+              },
+              {
+                "name": "core_bathwing_upper_slab__warm_cut_stone",
+                "triangles": 156
+              },
+              {
+                "name": "core_bathwing_upper_ceiling__chalk_limestone",
+                "triangles": 156
+              },
+              {
+                "name": "core_retreat_library_ceiling__chalk_limestone",
+                "triangles": 156
+              },
+              {
+                "name": "core_retreat_liftaway_roof_1",
+                "triangles": 1586
+              },
+              {
+                "name": "core_retreat_liftaway_roof_2",
+                "triangles": 21
+              },
+              {
+                "name": "core_arrival_lid__golden_coastal_sandstone",
+                "triangles": 544
+              }
+            ]
+          },
+          "positionSha256": "dad45aa5cffcd0f48eab1f2caabb1ab3c082328bb734a5c3448d1a8d1153f0f5",
+          "drawCount": 144,
+          "visible": true,
+          "isLineSegments": true,
+          "castShadow": false,
+          "noContactOcclusion": true,
+          "count": 1
+        }
+      }
+    }
+  ],
+  "failedAttempts": [
+    "weather-final: actual phone rain penetrated a native library roof",
+    "weather-roof-fixed: local transport connection failure before rain initialized",
+    "weather-roof-keepalive: all phone-study rain correctly clipped but the probe required falling-only roof witnesses; now also verifies exposed rain outside"
+  ]
+}

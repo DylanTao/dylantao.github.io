@@ -74,11 +74,13 @@
   {% include plugins/al_icons_styles.liquid %}
 {% endif %}
 <link
-  defer
-  rel="stylesheet"
+  rel="preload"
+  as="style"
   type="text/css"
   href="{{ site.third_party_libraries.google_fonts.url.fonts }}"
+  onload="this.onload=null;this.rel='stylesheet'"
 >
+<noscript><link rel="stylesheet" href="{{ site.third_party_libraries.google_fonts.url.fonts }}"></noscript>
 
 <!-- Code Syntax Highlighting -->
 <link

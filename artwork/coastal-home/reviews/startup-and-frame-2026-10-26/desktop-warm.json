@@ -1,0 +1,766 @@
+{
+  "summary": {
+    "label": "desktop-warm",
+    "firstFrameMs": 8398,
+    "wallMs": 8947,
+    "stages": {
+      "home": 0,
+      "coast": 456,
+      "room": 1032,
+      "lighting": 1716,
+      "first-frame": 4200,
+      "ready": 8398
+    },
+    "lightCache": "restored",
+    "links": {
+      "linksToReady": 118,
+      "linksAfterReady": 0,
+      "longTaskCount": 13,
+      "longTaskMs": 1320,
+      "longestTaskMs": 204
+    },
+    "idle": {
+      "p50": 16.69999999999891,
+      "p95": 33.30000000000109,
+      "frames": 210
+    },
+    "canvas": [544, 460],
+    "env": {
+      "coarse": false,
+      "dpr": 1,
+      "inner": [1440, 900],
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "parallelCompile": true,
+      "maxSamples": 8,
+      "cores": 20
+    },
+    "prime": {
+      "firstFrameMs": 12506,
+      "wallMs": 13100
+    },
+    "errors": []
+  },
+  "result": {
+    "label": "desktop-warm",
+    "url": "http://127.0.0.1:4104/al-folio/",
+    "engine": "chromium",
+    "device": "desktop",
+    "throttle": 0,
+    "warm": true,
+    "lab": false,
+    "at": "2026-10-26T22:07:46.728Z",
+    "prime": {
+      "loadMs": 2201,
+      "wallMs": 13100,
+      "env": {
+        "coarse": false,
+        "dpr": 1,
+        "inner": [1440, 900],
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "parallelCompile": true,
+        "maxSamples": 8,
+        "cores": 20
+      },
+      "evidence": {
+        "loading": {
+          "stages": [
+            {
+              "stage": "home",
+              "milliseconds": 0.09999999403953552
+            },
+            {
+              "stage": "coast",
+              "milliseconds": 421.40000000596046
+            },
+            {
+              "stage": "room",
+              "milliseconds": 1335.5
+            },
+            {
+              "stage": "lighting",
+              "milliseconds": 2375.9000000059605
+            },
+            {
+              "stage": "first-frame",
+              "milliseconds": 5416.4000000059605
+            },
+            {
+              "stage": "ready",
+              "milliseconds": 12505.800000011921
+            }
+          ],
+          "firstFrameMilliseconds": 12505.699999988079,
+          "models": [
+            {
+              "asset": "home-shell.glb",
+              "startMilliseconds": 15.5,
+              "prefetched": true,
+              "headersMilliseconds": 99,
+              "downloadedMilliseconds": 105.09999999403954,
+              "bytes": 763180,
+              "parseStartMilliseconds": 234.80000001192093,
+              "parsedMilliseconds": 388.90000000596046
+            },
+            {
+              "asset": "coast.glb",
+              "startMilliseconds": 18,
+              "prefetched": true,
+              "headersMilliseconds": 117.80000001192093,
+              "downloadedMilliseconds": 121.90000000596046,
+              "bytes": 215792,
+              "parseStartMilliseconds": 560.8000000119209,
+              "parsedMilliseconds": 643.9000000059605
+            },
+            {
+              "asset": "sirui-simpsons.glb",
+              "startMilliseconds": 1336,
+              "headersMilliseconds": 1469.199999988079,
+              "bytes": 669956,
+              "downloadedMilliseconds": 1746,
+              "parsedMilliseconds": 2214.5999999940395
+            },
+            {
+              "asset": "aeron-lod1.glb",
+              "startMilliseconds": 1347.4000000059605,
+              "headersMilliseconds": 1660.5,
+              "bytes": 82404,
+              "downloadedMilliseconds": 1869.5999999940395,
+              "parsedMilliseconds": 1940.4000000059605
+            },
+            {
+              "asset": "italian-range-lod1.glb",
+              "startMilliseconds": 1347.699999988079,
+              "headersMilliseconds": 1661.9000000059605,
+              "bytes": 32936,
+              "downloadedMilliseconds": 1875.300000011921,
+              "parsedMilliseconds": 2173.300000011921
+            },
+            {
+              "asset": "range-hood-lod1.glb",
+              "startMilliseconds": 1347.800000011921,
+              "headersMilliseconds": 1662.0999999940395,
+              "bytes": 7520,
+              "downloadedMilliseconds": 1876.0999999940395,
+              "parsedMilliseconds": 1947.5999999940395
+            },
+            {
+              "asset": "pot-filler-lod1.glb",
+              "startMilliseconds": 1347.9000000059605,
+              "headersMilliseconds": 1661.199999988079,
+              "bytes": 7340,
+              "downloadedMilliseconds": 1873.199999988079,
+              "parsedMilliseconds": 1945.800000011921
+            },
+            {
+              "asset": "glass-fridge-lod1.glb",
+              "startMilliseconds": 1348,
+              "headersMilliseconds": 1661.699999988079,
+              "bytes": 33380,
+              "downloadedMilliseconds": 1874.199999988079,
+              "parsedMilliseconds": 2172.199999988079
+            },
+            {
+              "asset": "dining-table-lod1.glb",
+              "startMilliseconds": 1348,
+              "headersMilliseconds": 1662.4000000059605,
+              "bytes": 6880,
+              "downloadedMilliseconds": 1876.5,
+              "parsedMilliseconds": 1948.9000000059605
+            },
+            {
+              "asset": "dining-chair-lod1.glb",
+              "startMilliseconds": 1348.0999999940395,
+              "headersMilliseconds": 1702.5,
+              "bytes": 17196,
+              "downloadedMilliseconds": 1877.300000011921,
+              "parsedMilliseconds": 2173.9000000059605
+            },
+            {
+              "asset": "banquette-lod1.glb",
+              "startMilliseconds": 1348.0999999940395,
+              "headersMilliseconds": 1703.800000011921,
+              "bytes": 31432,
+              "downloadedMilliseconds": 1878,
+              "parsedMilliseconds": 2174.4000000059605
+            },
+            {
+              "asset": "cast-iron-pan-lod1.glb",
+              "startMilliseconds": 1348.300000011921,
+              "headersMilliseconds": 1703.9000000059605,
+              "bytes": 9488,
+              "downloadedMilliseconds": 1878.5999999940395,
+              "parsedMilliseconds": 2181.800000011921
+            },
+            {
+              "asset": "dumbbell-lod1.glb",
+              "startMilliseconds": 1348.300000011921,
+              "headersMilliseconds": 1704.0999999940395,
+              "bytes": 4676,
+              "downloadedMilliseconds": 1909.4000000059605,
+              "parsedMilliseconds": 2190.9000000059605
+            },
+            {
+              "asset": "floating-fireplace-lod1.glb",
+              "startMilliseconds": 1348.5,
+              "headersMilliseconds": 1704.5999999940395,
+              "bytes": 12588,
+              "downloadedMilliseconds": 1911.5999999940395,
+              "parsedMilliseconds": 2196
+            },
+            {
+              "asset": "eames-lounge-lod1.glb",
+              "startMilliseconds": 1348.5,
+              "headersMilliseconds": 1704.9000000059605,
+              "bytes": 66616,
+              "downloadedMilliseconds": 1913,
+              "parsedMilliseconds": 2197.9000000059605
+            },
+            {
+              "asset": "cloud-sofa-lod1.glb",
+              "startMilliseconds": 1348.5,
+              "headersMilliseconds": 1706,
+              "bytes": 55376,
+              "downloadedMilliseconds": 1921.699999988079,
+              "parsedMilliseconds": 2196.9000000059605
+            },
+            {
+              "asset": "whiskey-loveseat-lod1.glb",
+              "startMilliseconds": 1348.9000000059605,
+              "headersMilliseconds": 1706.199999988079,
+              "bytes": 14860,
+              "downloadedMilliseconds": 1922.800000011921,
+              "parsedMilliseconds": 2206.699999988079
+            },
+            {
+              "asset": "whiskey-ottoman-lod1.glb",
+              "startMilliseconds": 1349.0999999940395,
+              "headersMilliseconds": 1708.199999988079,
+              "bytes": 7924,
+              "downloadedMilliseconds": 1923.4000000059605,
+              "parsedMilliseconds": 2208.800000011921
+            },
+            {
+              "asset": "whiskey-side-table-lod1.glb",
+              "startMilliseconds": 1349.300000011921,
+              "headersMilliseconds": 1742.4000000059605,
+              "bytes": 35292,
+              "downloadedMilliseconds": 1923.800000011921,
+              "parsedMilliseconds": 2341.5999999940395
+            },
+            {
+              "asset": "whiskey-bottles-lod1.glb",
+              "startMilliseconds": 1349.300000011921,
+              "headersMilliseconds": 1785.5999999940395,
+              "bytes": 31808,
+              "downloadedMilliseconds": 1928.199999988079,
+              "parsedMilliseconds": 2342.5999999940395
+            },
+            {
+              "asset": "room-study.glb",
+              "startMilliseconds": 18.400000005960464,
+              "prefetched": true,
+              "headersMilliseconds": 118.09999999403954,
+              "downloadedMilliseconds": 125.40000000596046,
+              "bytes": 164564,
+              "parseStartMilliseconds": 1349.4000000059605,
+              "parsedMilliseconds": 1425.199999988079
+            },
+            {
+              "asset": "room-kitchen.glb",
+              "startMilliseconds": 18.5,
+              "prefetched": true,
+              "headersMilliseconds": 118,
+              "downloadedMilliseconds": 125.40000000596046,
+              "bytes": 244696,
+              "parseStartMilliseconds": 1350,
+              "parsedMilliseconds": 1431.4000000059605
+            },
+            {
+              "asset": "room-gym.glb",
+              "startMilliseconds": 18.599999994039536,
+              "prefetched": true,
+              "headersMilliseconds": 125.19999998807907,
+              "downloadedMilliseconds": 127.30000001192093,
+              "bytes": 222576,
+              "parseStartMilliseconds": 1350.699999988079,
+              "parsedMilliseconds": 1467.4000000059605
+            },
+            {
+              "asset": "room-onsen.glb",
+              "startMilliseconds": 18.599999994039536,
+              "prefetched": true,
+              "headersMilliseconds": 125.40000000596046,
+              "downloadedMilliseconds": 127.30000001192093,
+              "bytes": 94408,
+              "parseStartMilliseconds": 1351.0999999940395,
+              "parsedMilliseconds": 1513.300000011921
+            },
+            {
+              "asset": "room-lounge.glb",
+              "startMilliseconds": 18.80000001192093,
+              "prefetched": true,
+              "headersMilliseconds": 129.09999999403954,
+              "downloadedMilliseconds": 145.69999998807907,
+              "bytes": 239052,
+              "parseStartMilliseconds": 1351.699999988079,
+              "parsedMilliseconds": 1669.300000011921
+            },
+            {
+              "asset": "room-sleep.glb",
+              "startMilliseconds": 18.900000005960464,
+              "prefetched": true,
+              "headersMilliseconds": 131.09999999403954,
+              "downloadedMilliseconds": 146.09999999403954,
+              "bytes": 277792,
+              "parseStartMilliseconds": 1352.0999999940395,
+              "parsedMilliseconds": 1708.9000000059605
+            },
+            {
+              "asset": "room-library.glb",
+              "startMilliseconds": 19.19999998807907,
+              "prefetched": true,
+              "headersMilliseconds": 139.90000000596046,
+              "downloadedMilliseconds": 144.09999999403954,
+              "bytes": 201928,
+              "parseStartMilliseconds": 1352.4000000059605,
+              "parsedMilliseconds": 1787.5
+            },
+            {
+              "asset": "room-library-upper.glb",
+              "startMilliseconds": 19.19999998807907,
+              "prefetched": true,
+              "headersMilliseconds": 145.80000001192093,
+              "downloadedMilliseconds": 249.69999998807907,
+              "bytes": 22272,
+              "parseStartMilliseconds": 1353,
+              "parsedMilliseconds": 1791.300000011921
+            },
+            {
+              "asset": "room-bath-living.glb",
+              "startMilliseconds": 19.400000005960464,
+              "prefetched": true,
+              "headersMilliseconds": 146,
+              "downloadedMilliseconds": 249.69999998807907,
+              "bytes": 96300,
+              "parseStartMilliseconds": 1353.199999988079,
+              "parsedMilliseconds": 1794
+            },
+            {
+              "asset": "room-bath-bedroom.glb",
+              "startMilliseconds": 19.599999994039536,
+              "prefetched": true,
+              "headersMilliseconds": 146.40000000596046,
+              "downloadedMilliseconds": 249.69999998807907,
+              "bytes": 97508,
+              "parseStartMilliseconds": 1353.5,
+              "parsedMilliseconds": 1802.0999999940395
+            }
+          ],
+          "progress": {
+            "house": 1,
+            "coast": 1,
+            "room": 1,
+            "sirui": 1,
+            "view": 1
+          },
+          "lightCache": {
+            "state": "restored",
+            "reason": null
+          }
+        },
+        "canvas": [544, 460],
+        "resolution": {
+          "profile": "embed",
+          "compact": false,
+          "css": [545, 461],
+          "density": 1,
+          "cap": 1,
+          "factor": 1,
+          "adaptive": false,
+          "pixels": 251069,
+          "budget": 2100000,
+          "minFactor": 0.7,
+          "failedProbes": 0,
+          "history": []
+        },
+        "detail": {
+          "samples": 4,
+          "contactLongSide": 480,
+          "shadowMapSize": 2048,
+          "reflection": [384, 384],
+          "anisotropy": 1,
+          "shadowMap": 2048
+        },
+        "room": "study",
+        "drawCalls": 864
+      },
+      "perf": {
+        "linksToReady": 117,
+        "linksAfterReady": 0,
+        "longTaskCount": 15,
+        "longTaskMs": 2042,
+        "longestTaskMs": 538
+      },
+      "idle": null,
+      "errors": []
+    },
+    "loadMs": 1806,
+    "wallMs": 8947,
+    "env": {
+      "coarse": false,
+      "dpr": 1,
+      "inner": [1440, 900],
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "parallelCompile": true,
+      "maxSamples": 8,
+      "cores": 20
+    },
+    "evidence": {
+      "loading": {
+        "stages": [
+          {
+            "stage": "home",
+            "milliseconds": 0.09999999403953552
+          },
+          {
+            "stage": "coast",
+            "milliseconds": 455.90000000596046
+          },
+          {
+            "stage": "room",
+            "milliseconds": 1032.4000000059605
+          },
+          {
+            "stage": "lighting",
+            "milliseconds": 1715.9000000059605
+          },
+          {
+            "stage": "first-frame",
+            "milliseconds": 4200.300000011921
+          },
+          {
+            "stage": "ready",
+            "milliseconds": 8398.199999988079
+          }
+        ],
+        "firstFrameMilliseconds": 8398.09999999404,
+        "models": [
+          {
+            "asset": "home-shell.glb",
+            "startMilliseconds": 19.69999998807907,
+            "prefetched": true,
+            "headersMilliseconds": 95.69999998807907,
+            "downloadedMilliseconds": 123.40000000596046,
+            "bytes": 763180,
+            "parseStartMilliseconds": 244.30000001192093,
+            "parsedMilliseconds": 417.5
+          },
+          {
+            "asset": "coast.glb",
+            "startMilliseconds": 21.19999998807907,
+            "prefetched": true,
+            "headersMilliseconds": 106.59999999403954,
+            "downloadedMilliseconds": 119.19999998807907,
+            "bytes": 215792,
+            "parseStartMilliseconds": 605.0999999940395,
+            "parsedMilliseconds": 682.5999999940395
+          },
+          {
+            "asset": "sirui-south-park.glb",
+            "startMilliseconds": 1032.9000000059605,
+            "headersMilliseconds": 1230.9000000059605,
+            "bytes": 716452,
+            "downloadedMilliseconds": 1373.5,
+            "parsedMilliseconds": 1545.800000011921
+          },
+          {
+            "asset": "aeron-lod1.glb",
+            "startMilliseconds": 1048.300000011921,
+            "headersMilliseconds": 1232.0999999940395,
+            "bytes": 82404,
+            "downloadedMilliseconds": 1428.4000000059605,
+            "parsedMilliseconds": 1494.5
+          },
+          {
+            "asset": "italian-range-lod1.glb",
+            "startMilliseconds": 1049,
+            "headersMilliseconds": 1232.699999988079,
+            "bytes": 32936,
+            "downloadedMilliseconds": 1431.199999988079,
+            "parsedMilliseconds": 1484.800000011921
+          },
+          {
+            "asset": "range-hood-lod1.glb",
+            "startMilliseconds": 1049.5,
+            "headersMilliseconds": 1232.5999999940395,
+            "bytes": 7520,
+            "downloadedMilliseconds": 1430.9000000059605,
+            "parsedMilliseconds": 1482.300000011921
+          },
+          {
+            "asset": "pot-filler-lod1.glb",
+            "startMilliseconds": 1049.5999999940395,
+            "headersMilliseconds": 1232.4000000059605,
+            "bytes": 7340,
+            "downloadedMilliseconds": 1430.300000011921,
+            "parsedMilliseconds": 1480.4000000059605
+          },
+          {
+            "asset": "glass-fridge-lod1.glb",
+            "startMilliseconds": 1049.800000011921,
+            "headersMilliseconds": 1292.300000011921,
+            "bytes": 33380,
+            "downloadedMilliseconds": 1433.4000000059605,
+            "parsedMilliseconds": 1490.5
+          },
+          {
+            "asset": "dining-table-lod1.glb",
+            "startMilliseconds": 1049.9000000059605,
+            "headersMilliseconds": 1311.0999999940395,
+            "bytes": 6880,
+            "downloadedMilliseconds": 1434.4000000059605,
+            "parsedMilliseconds": 1491.699999988079
+          },
+          {
+            "asset": "dining-chair-lod1.glb",
+            "startMilliseconds": 1050,
+            "headersMilliseconds": 1311.5999999940395,
+            "bytes": 17196,
+            "downloadedMilliseconds": 1434.800000011921,
+            "parsedMilliseconds": 1493.699999988079
+          },
+          {
+            "asset": "banquette-lod1.glb",
+            "startMilliseconds": 1050.0999999940395,
+            "headersMilliseconds": 1312,
+            "bytes": 31432,
+            "downloadedMilliseconds": 1435.0999999940395,
+            "parsedMilliseconds": 1503.300000011921
+          },
+          {
+            "asset": "cast-iron-pan-lod1.glb",
+            "startMilliseconds": 1050.300000011921,
+            "headersMilliseconds": 1312.199999988079,
+            "bytes": 9488,
+            "downloadedMilliseconds": 1435.4000000059605,
+            "parsedMilliseconds": 1499.0999999940395
+          },
+          {
+            "asset": "dumbbell-lod1.glb",
+            "startMilliseconds": 1050.300000011921,
+            "headersMilliseconds": 1312.4000000059605,
+            "bytes": 4676,
+            "downloadedMilliseconds": 1435.5,
+            "parsedMilliseconds": 1498.4000000059605
+          },
+          {
+            "asset": "floating-fireplace-lod1.glb",
+            "startMilliseconds": 1050.5,
+            "headersMilliseconds": 1312.5,
+            "bytes": 12588,
+            "downloadedMilliseconds": 1435.699999988079,
+            "parsedMilliseconds": 1502.800000011921
+          },
+          {
+            "asset": "eames-lounge-lod1.glb",
+            "startMilliseconds": 1050.5999999940395,
+            "headersMilliseconds": 1359.300000011921,
+            "bytes": 66616,
+            "downloadedMilliseconds": 1440.0999999940395,
+            "parsedMilliseconds": 1691.699999988079
+          },
+          {
+            "asset": "cloud-sofa-lod1.glb",
+            "startMilliseconds": 1050.800000011921,
+            "headersMilliseconds": 1359.5,
+            "bytes": 55376,
+            "downloadedMilliseconds": 1442.4000000059605,
+            "parsedMilliseconds": 1522
+          },
+          {
+            "asset": "whiskey-loveseat-lod1.glb",
+            "startMilliseconds": 1051,
+            "headersMilliseconds": 1359,
+            "bytes": 14860,
+            "downloadedMilliseconds": 1439.800000011921,
+            "parsedMilliseconds": 1517
+          },
+          {
+            "asset": "whiskey-ottoman-lod1.glb",
+            "startMilliseconds": 1051,
+            "headersMilliseconds": 1358.699999988079,
+            "bytes": 7924,
+            "downloadedMilliseconds": 1439.0999999940395,
+            "parsedMilliseconds": 1502
+          },
+          {
+            "asset": "whiskey-side-table-lod1.glb",
+            "startMilliseconds": 1051.0999999940395,
+            "headersMilliseconds": 1359.4000000059605,
+            "bytes": 35292,
+            "downloadedMilliseconds": 1441.5999999940395,
+            "parsedMilliseconds": 1517.9000000059605
+          },
+          {
+            "asset": "whiskey-bottles-lod1.glb",
+            "startMilliseconds": 1051.199999988079,
+            "headersMilliseconds": 1359.5999999940395,
+            "bytes": 31808,
+            "downloadedMilliseconds": 1443.199999988079,
+            "parsedMilliseconds": 1518.9000000059605
+          },
+          {
+            "asset": "room-study.glb",
+            "startMilliseconds": 21.400000005960464,
+            "prefetched": true,
+            "headersMilliseconds": 124.09999999403954,
+            "downloadedMilliseconds": 129.19999998807907,
+            "bytes": 164564,
+            "parseStartMilliseconds": 1051.199999988079,
+            "parsedMilliseconds": 1150.5999999940395
+          },
+          {
+            "asset": "room-kitchen.glb",
+            "startMilliseconds": 21.599999994039536,
+            "prefetched": true,
+            "headersMilliseconds": 124.19999998807907,
+            "downloadedMilliseconds": 129.19999998807907,
+            "bytes": 244696,
+            "parseStartMilliseconds": 1051.699999988079,
+            "parsedMilliseconds": 1156.0999999940395
+          },
+          {
+            "asset": "room-gym.glb",
+            "startMilliseconds": 21.900000005960464,
+            "prefetched": true,
+            "headersMilliseconds": 124.30000001192093,
+            "downloadedMilliseconds": 129.19999998807907,
+            "bytes": 222576,
+            "parseStartMilliseconds": 1052.199999988079,
+            "parsedMilliseconds": 1179.4000000059605
+          },
+          {
+            "asset": "room-onsen.glb",
+            "startMilliseconds": 22.19999998807907,
+            "prefetched": true,
+            "headersMilliseconds": 124.40000000596046,
+            "downloadedMilliseconds": 129.19999998807907,
+            "bytes": 94408,
+            "parseStartMilliseconds": 1052.5,
+            "parsedMilliseconds": 1181.199999988079
+          },
+          {
+            "asset": "room-lounge.glb",
+            "startMilliseconds": 22.599999994039536,
+            "prefetched": true,
+            "headersMilliseconds": 141.40000000596046,
+            "downloadedMilliseconds": 146.5,
+            "bytes": 239052,
+            "parseStartMilliseconds": 1052.5999999940395,
+            "parsedMilliseconds": 1286.300000011921
+          },
+          {
+            "asset": "room-sleep.glb",
+            "startMilliseconds": 22.69999998807907,
+            "prefetched": true,
+            "headersMilliseconds": 146.30000001192093,
+            "downloadedMilliseconds": 155.5,
+            "bytes": 277792,
+            "parseStartMilliseconds": 1052.9000000059605,
+            "parsedMilliseconds": 1295
+          },
+          {
+            "asset": "room-library.glb",
+            "startMilliseconds": 22.900000005960464,
+            "prefetched": true,
+            "headersMilliseconds": 146.5,
+            "downloadedMilliseconds": 153,
+            "bytes": 201928,
+            "parseStartMilliseconds": 1053.300000011921,
+            "parsedMilliseconds": 1314.9000000059605
+          },
+          {
+            "asset": "room-library-upper.glb",
+            "startMilliseconds": 23.5,
+            "prefetched": true,
+            "headersMilliseconds": 141.59999999403954,
+            "downloadedMilliseconds": 145.80000001192093,
+            "bytes": 22272,
+            "parseStartMilliseconds": 1053.5999999940395,
+            "parsedMilliseconds": 1317.300000011921
+          },
+          {
+            "asset": "room-bath-living.glb",
+            "startMilliseconds": 23.80000001192093,
+            "prefetched": true,
+            "headersMilliseconds": 146.59999999403954,
+            "downloadedMilliseconds": 151.59999999403954,
+            "bytes": 96300,
+            "parseStartMilliseconds": 1053.699999988079,
+            "parsedMilliseconds": 1355.5999999940395
+          },
+          {
+            "asset": "room-bath-bedroom.glb",
+            "startMilliseconds": 23.900000005960464,
+            "prefetched": true,
+            "headersMilliseconds": 154.30000001192093,
+            "downloadedMilliseconds": 289.09999999403954,
+            "bytes": 97508,
+            "parseStartMilliseconds": 1053.9000000059605,
+            "parsedMilliseconds": 1359.9000000059605
+          }
+        ],
+        "progress": {
+          "house": 1,
+          "coast": 1,
+          "room": 1,
+          "sirui": 1,
+          "view": 1
+        },
+        "lightCache": {
+          "state": "restored",
+          "reason": null
+        }
+      },
+      "canvas": [544, 460],
+      "resolution": {
+        "profile": "embed",
+        "compact": false,
+        "css": [545, 461],
+        "density": 1,
+        "cap": 1,
+        "factor": 1,
+        "adaptive": false,
+        "pixels": 251069,
+        "budget": 2100000,
+        "minFactor": 0.7,
+        "failedProbes": 0,
+        "history": []
+      },
+      "detail": {
+        "samples": 4,
+        "contactLongSide": 480,
+        "shadowMapSize": 2048,
+        "reflection": [384, 384],
+        "anisotropy": 1,
+        "shadowMap": 2048
+      },
+      "room": "study",
+      "drawCalls": 829
+    },
+    "perf": {
+      "linksToReady": 118,
+      "linksAfterReady": 0,
+      "longTaskCount": 13,
+      "longTaskMs": 1320,
+      "longestTaskMs": 204
+    },
+    "idle": {
+      "frames": 210,
+      "p50": 16.69999999999891,
+      "p95": 33.30000000000109,
+      "max": 33.399999999999636
+    },
+    "errors": []
+  }
+}

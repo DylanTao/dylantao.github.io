@@ -1,0 +1,13 @@
+# Module and icon delivery, October 26
+
+The local production Jekyll plugin minifies authored `.mjs` files with the existing pinned Ruby Terser. Compression transforms are disabled, function/class names and copyright notices are retained, and properties are not renamed. A parser failure stops the build. The compiled-module receipt binds every raw module, served output, compiler version, plugin and lockfile; verification tools reject stale or substituted tuples.
+
+Font Awesome moves from the reading stylesheet to its own local icon sheet. That sheet, Academicons, Scholar icons and the search's Material Icons stylesheet preload without blocking reading, with ordinary stylesheet fallbacks for JavaScript-disabled pages. The local icon fonts use `font-display: swap`. Icons and semantic labels remain present.
+
+`delivery-size.json` records measured bytes and independent gzip-9 sizes from the complete production build. These sizes are not network or device speed measurements. The Ruby gate checks exported behavior, Unicode, GLSL, license retention, extreme floating-point values and parser failure. The custody unit rejects changed raw source, recipe, lockfile, compiled bytes and escaped paths.
+
+The complete production build and publication-output validator pass. Twenty affected-route checks cover blog, projects, publications, CV and home at four widths, including light and dark inspection. The phone homepage and desktop publications screenshots were inspected locally. The three intentional overrides were reviewed and acknowledged in the override manifest.
+
+An attempted reuse of the common shader warmup was withdrawn. One exploratory CPU ×4 phone trace measured 117.4 ms in the original mirror preparation and zero in the reuse path, but the later bathroom sweep linked two additional programs on the second bathroom visit. The reflection capture uses a different visible-light set, which is not covered by the main frame's warmup. The original per-mirror preparation remains. Both versions pass the existing day/night, reflection, cutaway and drag checks; their actual link counts remain in `bathroom-warmup/`. This is a retained failed optimization, not a startup improvement.
+
+Reduced study captures match raw/minified modules exactly. Some outside/coast same-version captures change between repeats, so global exact image parity is not claimed. The earlier exploratory Lighthouse candidate also contained a subsequently withdrawn shader experiment and is not evidence of a clean minifier speedup. New matched startup measurements belong after the final house and character inputs are frozen.

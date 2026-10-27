@@ -147,6 +147,16 @@ test("provenance and forecast interpretation preserve the distinction from obser
 // change re-draws the seasonal days: keep every pinned 3D-home state dry so CI stays deterministic.
 // Only spec blocks that open the coastal home count; the record player alone never samples weather.
 const OPENS_HOME = /data-home-desk-mode="3d"|data-home-desk-scene|getSceneEvidence|openHome\(|openClockedHome\(/;
+test("the rain renderer fixture retains an actual wet public NWS interval independently of rolling refreshes", () => {
+  const fixture = JSON.parse(readFileSync(new URL("./fixtures/coastal-rain-nws-oct26.json", import.meta.url), "utf8"));
+  assert.match(fixture.forecast.source, /^NWS /);
+  const rows = fixture.forecast.days[fixture.instant.slice(0, 10)],
+    minute = Number(fixture.instant.slice(11, 13)) * 60 + Number(fixture.instant.slice(14, 16)),
+    row = forecastHourAt(rows, minute, { utcMilliseconds: Date.parse(fixture.instant) });
+  assert.ok(row, "the actual retained interval covers the pinned instant in both UTC and Pacific time");
+  assert.equal(row[2], 0.95, "retained NWS cloud fraction");
+  assert.equal(row[4], 0.28, "retained nonzero rain display amplitude");
+});
 test("every instant pinned by a 3D-home spec stays dry and outside the rolling forecast", () => {
   const folder = new URL("./visual/", import.meta.url),
     pacific = new Intl.DateTimeFormat("en-CA", {

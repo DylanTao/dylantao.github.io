@@ -1,0 +1,12 @@
+---
+# Existing local Font Awesome delivery, separate from the page's critical reading styles.
+---
+
+@charset "utf-8";
+@use "font-awesome/variables" with (
+  $font-display: swap
+);
+@use "font-awesome/fontawesome";
+@use "font-awesome/brands";
+@use "font-awesome/solid";
+@use "font-awesome/regular";

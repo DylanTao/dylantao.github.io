@@ -1,0 +1,26 @@
+{
+  "scope": "Observed PC baseline, not a causal cold/warm comparison or physical-phone benchmark",
+  "sourceControllerCommit": "c843cbf2465f48c0bdb840fcf4389e9cad5b07d2",
+  "controllerNormalizedSha256": "dd34e2634bc303627368114035966cc0958236be6cd4c56387f1391233ee1766",
+  "sourceReadback": "The unchanged baseline server controller matches that Git blob; global site chrome was the earlier PC checkpoint.",
+  "rawIgnoredFileSha256": {
+    "baseline/desktop-cpu-profile.cpuprofile": "0b30b387db13a55e5009bf9f0896b91fa5ab5854a6fd028875e515c5eebe53a8",
+    "baseline/desktop-cpu-profile.json": "94938211fbd3dc1a465888589c4ec63b5db8351a93e4b3e5f91251b87c61d5c3",
+    "baseline/lighthouse-mobile.report.json": "aad70c6fdf7c8ea786ed1afd095b2d7937ff73626c2c0942b61f3da1465b775f"
+  },
+  "baselineReports": [
+    "desktop-cold.json",
+    "desktop-warm.json",
+    "phone-cold-cpu4.json",
+    "phone-warm-cpu4-fixed.json",
+    "webkit-phone-cold.json",
+    "webkit-phone-warm.json"
+  ],
+  "limitations": [
+    "Original arrival avatars differ between visits and are retained in each model timing; no speedup is inferred from cold vs warm.",
+    "WebKit Windows phone profile reports Apple GPU as a privacy label, not actual Apple hardware.",
+    "WebKit has no Long Tasks API; reported zero entries mean unsupported, not no long tasks.",
+    "Flicker captures read back and downsample actual frames; their intervals are not clean FPS measurements.",
+    "Physical iPhone numbers remain pending from Sirui."
+  ]
+}

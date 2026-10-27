@@ -1,0 +1,98 @@
+[
+  {
+    "id": "bath-living",
+    "period": "day",
+    "camera": [-4.943082816455403, 1.5464685588931675, 13.40634362079222],
+    "lights": {
+      "festoon": 0,
+      "fire": 0,
+      "soffit": 0.18,
+      "steps": 0,
+      "pool": 0,
+      "gym": 0,
+      "pendant": 0.22,
+      "dining": 0.22,
+      "entrance": 0.6,
+      "downlights": 0,
+      "shelf": 0,
+      "libraryHearth": 0,
+      "room:library": 0,
+      "room:bath-living": 0.75,
+      "room:bath-bedroom": 0
+    },
+    "programs": 118,
+    "programsAtArrival": 117
+  },
+  {
+    "id": "bath-living",
+    "period": "night",
+    "camera": [-4.943082816455403, 1.5464685588931675, 13.40634362079222],
+    "lights": {
+      "festoon": 1,
+      "fire": 1,
+      "soffit": 1,
+      "steps": 0.45,
+      "pool": 0.4,
+      "gym": 0.18,
+      "pendant": 1,
+      "dining": 1,
+      "entrance": 1,
+      "downlights": 1,
+      "shelf": 1,
+      "libraryHearth": 0.75,
+      "room:library": 0.26,
+      "room:bath-living": 1,
+      "room:bath-bedroom": 0.26
+    },
+    "programs": 118,
+    "programsAtArrival": 117
+  },
+  {
+    "id": "bath-bedroom",
+    "period": "day",
+    "camera": [-4.943082816455403, 4.146468558893167, 13.40634362079222],
+    "lights": {
+      "festoon": 0,
+      "fire": 0,
+      "soffit": 0.18,
+      "steps": 0,
+      "pool": 0,
+      "gym": 0,
+      "pendant": 0.22,
+      "dining": 0.22,
+      "entrance": 0.6,
+      "downlights": 0,
+      "shelf": 0,
+      "libraryHearth": 0,
+      "room:library": 0,
+      "room:bath-living": 0,
+      "room:bath-bedroom": 0.75
+    },
+    "programs": 118,
+    "programsAtArrival": 117
+  },
+  {
+    "id": "bath-bedroom",
+    "period": "night",
+    "camera": [-4.943082816455403, 4.146468558893167, 13.40634362079222],
+    "lights": {
+      "festoon": 1,
+      "fire": 1,
+      "soffit": 1,
+      "steps": 0.45,
+      "pool": 0.4,
+      "gym": 0.18,
+      "pendant": 1,
+      "dining": 1,
+      "entrance": 1,
+      "downlights": 1,
+      "shelf": 1,
+      "libraryHearth": 0.75,
+      "room:library": 0.26,
+      "room:bath-living": 0.26,
+      "room:bath-bedroom": 1
+    },
+    "programs": 118,
+    "programsAtArrival": 117
+  }
+]

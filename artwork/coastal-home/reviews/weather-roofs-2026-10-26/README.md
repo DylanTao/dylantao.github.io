@@ -1,0 +1,9 @@
+# Rain and overcast follow-up, October 26
+
+The original full-scene phone check reproduced a falling segment below the real library roof. The old shelter box ended below that roof. Rain now clips its whole wind-slanted footprint against the delivered static roof triangles, including physical roofs lifted for a section view. The field is built lazily on the first wet query, adds no draw or shadow pass, and leaves uncovered gaps open. Unit controls cover sloped roofs, world transforms and a thin roof crossed between the segment's endpoints.
+
+The source-bound native Chromium checks pass clear/rain at desktop and phone widths, with the real NWS wet interval retained in the report. Both rain states have 16 actual roof witnesses and no penetration under the unchanged 0.2 m gate. Endpoints of landed, degenerate drops also count as roof witnesses. A separate public outside visit proves nondegenerate falling segments and supplies the visible rain captures. Pause and reduced motion hold the actual position buffer; resuming advances it. No weather override or additional renderer pass is used.
+
+The overcast direct-light model uses an authored Beer–Lambert attenuation, `exp(-8 × cloudCover²)`, and redistributes part of the removed direct light into broad irradiance. A nearly closed cloud deck suppresses the sharp direct shadow. This is a bounded visual approximation, not a cloud transport solver or a new forecast model. Clear-sky behavior is preserved by its zero-cloud endpoint and unit controls.
+
+`verification.json` retains the served/source/build hashes, actual roof witnesses, public weather provenance, engine, captures and failure history. The candidate uses the previously accepted house geometry; the final architecture requires the same checks again. The new registered scene case retains a published NWS interval explicitly, so a daily forecast refresh cannot make its renderer test randomly dry.

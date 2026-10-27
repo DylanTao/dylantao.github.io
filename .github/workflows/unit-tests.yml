@@ -121,6 +121,9 @@ jobs:
       - name: Run JavaScript unit tests
         run: node --test test/*.test.mjs
 
+      - name: Check authored ES module compilation
+        run: bundle exec ruby test/site_module_assets_test.rb
+
       - name: Install build prerequisites 🔧
         run: |
           sudo apt-get update && sudo apt-get install -y imagemagick

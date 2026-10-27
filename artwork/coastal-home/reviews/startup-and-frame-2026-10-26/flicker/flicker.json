@@ -1,0 +1,74 @@
+{
+  "zoomOutside": {
+    "frames": 29,
+    "medianIntervalMs": 216.6,
+    "motion": 12.51,
+    "accel": 22.406,
+    "accelMedian": 20.29,
+    "flipPerMille": 140.929,
+    "spikes": 0,
+    "spikeFrames": [],
+    "shadowRebuilds": 10,
+    "resolutionChanges": 0,
+    "factor": 1
+  },
+  "walkOutside": {
+    "frames": 77,
+    "medianIntervalMs": 33.4,
+    "motion": 3.958,
+    "accel": 6.886,
+    "accelMedian": 5.628,
+    "flipPerMille": 18.405,
+    "spikes": 7,
+    "spikeFrames": ["49:17.94", "53:26.87", "54:25.92", "57:20.39", "58:19.47", "61:19.21", "62:18.13"],
+    "shadowRebuilds": 9,
+    "resolutionChanges": 0,
+    "factor": 1
+  },
+  "evidence": {
+    "resolution": {
+      "profile": "embed",
+      "compact": false,
+      "css": [545, 461],
+      "density": 1,
+      "cap": 1,
+      "factor": 1,
+      "adaptive": false,
+      "pixels": 251069,
+      "budget": 2100000,
+      "minFactor": 0.7,
+      "failedProbes": 0,
+      "history": []
+    },
+    "detail": {
+      "samples": 4,
+      "contactLongSide": 480,
+      "shadowMapSize": 2048,
+      "reflection": [384, 384],
+      "anisotropy": 1,
+      "shadowMap": 2048
+    },
+    "shadowCache": {
+      "frames": 730,
+      "cachedFrames": 700,
+      "rebuilds": 45,
+      "copies": 700,
+      "skippedCopies": 0,
+      "bypassFrames": 30,
+      "enabled": true,
+      "staticCasters": 578,
+      "dynamicCasters": 98,
+      "stillFrames": 30
+    },
+    "frameTiming": {
+      "samples": 120,
+      "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+      "medianFrameMs": 33.400000000001455,
+      "p95FrameMs": 66.70000000000073,
+      "maximumFrameMs": 66.79999999999927,
+      "medianSubmitMs": 37.10000002384186,
+      "p95SubmitMs": 58.5,
+      "maximumSubmitMs": 69.10000002384186
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "lighthouseVersion": "13.5.0",
+  "fetchTime": "2026-10-26T23:06:10.793Z",
+  "requestedUrl": "http://127.0.0.1:4104/al-folio/",
+  "finalDisplayedUrl": "http://127.0.0.1:4104/al-folio/",
+  "runWarnings": [],
+  "configSettings": {
+    "output": ["json", "html"],
+    "maxWaitForFcp": 30000,
+    "maxWaitForLoad": 45000,
+    "pauseAfterFcpMs": 1000,
+    "pauseAfterLoadMs": 1000,
+    "networkQuietThresholdMs": 1000,
+    "cpuQuietThresholdMs": 1000,
+    "formFactor": "mobile",
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "throttlingMethod": "simulate",
+    "screenEmulation": {
+      "mobile": true,
+      "width": 412,
+      "height": 823,
+      "deviceScaleFactor": 1.75,
+      "disabled": false
+    },
+    "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+    "auditMode": false,
+    "gatherMode": false,
+    "clearStorageTypes": ["file_systems", "shader_cache", "service_workers", "cache_storage"],
+    "disableStorageReset": false,
+    "debugNavigation": false,
+    "channel": "cli",
+    "usePassiveGathering": false,
+    "disableFullPageScreenshot": false,
+    "skipAboutBlank": false,
+    "blankPage": "about:blank",
+    "ignoreStatusCode": false,
+    "locale": "en-US",
+    "blockedUrlPatterns": null,
+    "additionalTraceCategories": null,
+    "extraHeaders": null,
+    "precomputedLanternData": null,
+    "onlyAudits": null,
+    "onlyCategories": ["performance", "accessibility", "best-practices"],
+    "skipAudits": null
+  },
+  "categories": {
+    "performance": {
+      "title": "Performance",
+      "score": 0.49
+    },
+    "accessibility": {
+      "title": "Accessibility",
+      "score": 1
+    },
+    "best-practices": {
+      "title": "Best Practices",
+      "score": 1
+    }
+  },
+  "audits": {
+    "first-contentful-paint": {
+      "title": "First Contentful Paint",
+      "score": 0,
+      "displayValue": "11.2\u00a0s",
+      "numericValue": 11204.1123,
+      "numericUnit": "millisecond"
+    },
+    "largest-contentful-paint": {
+      "title": "Largest Contentful Paint",
+      "score": 0,
+      "displayValue": "12.9\u00a0s",
+      "numericValue": 12929.112299999999,
+      "numericUnit": "millisecond"
+    },
+    "total-blocking-time": {
+      "title": "Total Blocking Time",
+      "score": 0.79,
+      "displayValue": "300\u00a0ms",
+      "numericValue": 300,
+      "numericUnit": "millisecond"
+    },
+    "cumulative-layout-shift": {
+      "title": "Cumulative Layout Shift",
+      "score": 1,
+      "displayValue": "0.026",
+      "numericValue": 0.026141460748879627,
+      "numericUnit": "unitless"
+    },
+    "speed-index": {
+      "title": "Speed Index",
+      "score": 0.05,
+      "displayValue": "11.2\u00a0s",
+      "numericValue": 11204.1123,
+      "numericUnit": "millisecond"
+    }
+  }
+}

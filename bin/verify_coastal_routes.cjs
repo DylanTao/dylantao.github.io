@@ -287,7 +287,7 @@ function validateRoute(name, definition) {
   return definition;
 }
 
-async function sourceRecord(sourceRoot, relative, bytes) {
+async function sourceRecord(sourceRoot, relative, bytes, { compiledRoot = process.env.COASTAL_COMPILED_ROOT } = {}) {
   const file = path.resolve(sourceRoot, relative);
   assert.ok(file.startsWith(sourceRoot + path.sep), `Source path escapes root: ${relative}`);
   const expected = await fs.readFile(file),
@@ -295,13 +295,50 @@ async function sourceRecord(sourceRoot, relative, bytes) {
     rawMatch = expected.equals(bytes),
     lfMatch = text && expected.toString("utf8").replaceAll("\r\n", "\n") === bytes.toString("utf8").replaceAll("\r\n", "\n"),
     jsonMatch = relative.endsWith(".json") && isDeepStrictEqual(JSON.parse(expected), JSON.parse(bytes));
+  let compiledMatch = false,
+    buildBinding = null;
+  if (!rawMatch && !lfMatch && relative.endsWith(".mjs") && compiledRoot) {
+    const built = path.resolve(compiledRoot),
+      output = path.resolve(built, relative);
+    assert.ok(output.startsWith(built + path.sep), `Compiled path escapes root: ${relative}`);
+    const receipt = JSON.parse(await fs.readFile(path.join(built, "assets/js/module-build.json"), "utf8"));
+    const normalizedSha = async (name) => sha(Buffer.from((await fs.readFile(path.join(sourceRoot, name), "utf8")).replaceAll("\r\n", "\n")));
+    const record = receipt.modules?.[relative];
+    const pluginSha256 = await normalizedSha("_plugins/site_module_assets.rb"),
+      lockSha256 = await normalizedSha("Gemfile.lock");
+    compiledMatch =
+      receipt.schema === "sirui-site-module-build-v1" &&
+      record?.sourceSha256 === sha(Buffer.from(expected.toString("utf8").replaceAll("\r\n", "\n"))) &&
+      receipt.pipeline?.pluginSha256 === pluginSha256 &&
+      receipt.pipeline?.lockSha256 === lockSha256 &&
+      record.outputSha256 === sha(bytes) &&
+      record.bytes === bytes.length &&
+      (await fs.readFile(output)).equals(bytes);
+    if (compiledMatch)
+      buildBinding = {
+        compiler: receipt.pipeline.compiler,
+        compilerKey: receipt.pipeline.compilerKey,
+        pluginSha256,
+        lockSha256,
+        outputSha256: record.outputSha256,
+      };
+  }
   return {
     path: relative,
     bytes: bytes.length,
     servedSha256: sha(bytes),
     sourceSha256: sha(expected),
     canonicalLfSha256: text ? sha(Buffer.from(expected.toString("utf8").replaceAll("\r\n", "\n"))) : null,
-    match: rawMatch ? "exact" : lfMatch ? "LF-only normalization" : jsonMatch ? "JSON-format-only normalization" : "MISMATCH",
+    ...(buildBinding ? { buildBinding } : {}),
+    match: rawMatch
+      ? "exact"
+      : lfMatch
+        ? "LF-only normalization"
+        : jsonMatch
+          ? "JSON-format-only normalization"
+          : compiledMatch
+            ? "source-bound module build"
+            : "MISMATCH",
   };
 }
 

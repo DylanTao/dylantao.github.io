@@ -1,0 +1,17 @@
+{% comment %}
+  Site delivery override: Font Awesome already ships here with its licensed fonts. Keep it out of
+  the reading stylesheet and avoid downloading another full copy from the CDN. Icon sheets preload
+  without blocking the page; the ordinary stylesheet fallback works when JavaScript is disabled.
+{% endcomment %}
+{% assign local_icon_styles = 'site-icons.css,academicons.min.css,scholar-icons.css' | split: ',' %}
+{% for icon_style in local_icon_styles %}
+  {% assign icon_path = icon_style | prepend: '/assets/css/' | relative_url %}
+  {% if icon_style == 'site-icons.css' %}
+    {% assign icon_version = site.time | date: '%Y%m%d%H%M%S' %}
+    {% assign icon_path = icon_path | append: '?v=' | append: icon_version %}
+  {% else %}
+    {% assign icon_path = icon_path | bust_file_cache %}
+  {% endif %}
+  <link rel="preload" as="style" href="{{ icon_path }}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ icon_path }}"></noscript>
+{% endfor %}

@@ -7,9 +7,11 @@
 //
 // PowerShell: $env:COASTAL_STILLS_URL = "http://127.0.0.1:4136/al-folio/"; node bin/compare_coastal_stills.cjs
 const { chromium } = require("playwright");
+const { pinArrivalAvatar } = require("./coastal_probe_avatar.cjs");
 const fs = require("node:fs");
 const path = require("node:path");
 const { execFileSync } = require("node:child_process");
+const { createHash } = require("node:crypto");
 const { PNG } = require("pngjs");
 const pixelmatchModule = require("pixelmatch");
 const pixelmatch = pixelmatchModule.default || pixelmatchModule;
@@ -18,11 +20,14 @@ const repo = path.resolve(__dirname, "..");
 const outputDir = path.resolve(process.argv[2] || ".jekyll-cache/visual-qa/coastal-stills");
 const baseURL = process.env.COASTAL_STILLS_URL || "http://127.0.0.1:4136/al-folio/";
 const abRef = process.env.COASTAL_STILLS_AB || "HEAD";
+const buildRoot = process.env.COASTAL_STILLS_BUILD_ROOT ? path.resolve(process.env.COASTAL_STILLS_BUILD_ROOT) : null;
 const views = (process.env.COASTAL_STILLS_VIEWS || "study,outside,coast160").split(",").filter(Boolean);
 const width = Number(process.env.COASTAL_STILLS_WIDTH || 1440);
 const height = Number(process.env.COASTAL_STILLS_HEIGHT || 1000);
 const dpr = Number(process.env.COASTAL_STILLS_DPR || 1);
+const fullscreen = process.env.COASTAL_STILLS_FULLSCREEN === "1";
 const seed = Number(process.env.COASTAL_STILLS_SEED || 7);
+const pinnedAvatar = process.env.COASTAL_STILLS_AVATAR || "lizard";
 const fixedTime = process.env.COASTAL_STILLS_TIME || "2026-10-02T13:20:00-07:00";
 
 // Files the work variant still serves from the base ref, to isolate one change from another (for
@@ -41,6 +46,36 @@ const changed = new Set(
     .filter(Boolean)
 );
 const bodies = new Map();
+let moduleBuild = null;
+if (buildRoot) {
+  moduleBuild = JSON.parse(fs.readFileSync(path.join(buildRoot, "assets/js/module-build.json"), "utf8"));
+  const sha = (body) => createHash("sha256").update(body).digest("hex");
+  const lf = (filename) => fs.readFileSync(filename, "utf8").replaceAll("\r\n", "\n");
+  if (
+    moduleBuild.schema !== "sirui-site-module-build-v1" ||
+    moduleBuild.pipeline?.pluginSha256 !== sha(lf(path.join(repo, "_plugins/site_module_assets.rb"))) ||
+    moduleBuild.pipeline?.lockSha256 !== sha(lf(path.join(repo, "Gemfile.lock")))
+  )
+    throw new Error("Module build recipe differs from current source");
+  changed.clear();
+  for (const [rel, record] of Object.entries(moduleBuild.modules)) {
+    const authored = path.resolve(repo, rel),
+      built = path.resolve(buildRoot, rel);
+    if (!rel.startsWith("assets/js/") || !rel.endsWith(".mjs") || !authored.startsWith(repo + path.sep) || !built.startsWith(buildRoot + path.sep))
+      throw new Error("Module receipt path escapes its source/build root");
+    const source = fs.readFileSync(authored),
+      output = fs.readFileSync(built);
+    if (
+      sha(Buffer.from(source.toString("utf8").replaceAll("\r\n", "\n"))) !== record.sourceSha256 ||
+      sha(output) !== record.outputSha256 ||
+      output.length !== record.bytes
+    )
+      throw new Error(`Module build has stale source or output: ${rel}`);
+    changed.add(rel);
+    bodies.set(`base:${rel}`, source);
+    bodies.set(`work:${rel}`, output);
+  }
+}
 function variantBody(variant, rel) {
   const key = `${variant}:${rel}`;
   if (!bodies.has(key)) {
@@ -98,6 +133,7 @@ async function settle(page) {
 async function capture(variant, round) {
   const args = process.platform === "win32" ? ["--use-angle=d3d11", "--ignore-gpu-blocklist"] : [];
   const browser = await chromium.launch({ headless: true, args });
+  let identity;
   const shots = {},
     errors = [];
   try {
@@ -121,12 +157,15 @@ async function capture(variant, round) {
         const body = variantBody(variant, rel);
         if (!body) return request.fulfill({ status: 404, body: "" });
         let text = body.toString("utf8");
+        if (rel.endsWith("home-scene/routine.mjs")) text = pinArrivalAvatar(text, pinnedAvatar);
         if (rel.endsWith("three.module.min.js")) text = text.replaceAll("4294967295*Math.random()|0", "4294967295*__profileUuidRandom()|0");
         return request.fulfill({ status: 200, body: text, contentType: "text/javascript; charset=utf-8" });
       }
-      if (rel.endsWith("three.module.min.js")) {
+      if (rel.endsWith("three.module.min.js") || rel.endsWith("home-scene/routine.mjs")) {
         const response = await request.fetch();
-        const text = (await response.text()).replaceAll("4294967295*Math.random()|0", "4294967295*__profileUuidRandom()|0");
+        let text = await response.text();
+        if (rel.endsWith("home-scene/routine.mjs")) text = pinArrivalAvatar(text, pinnedAvatar);
+        else text = text.replaceAll("4294967295*Math.random()|0", "4294967295*__profileUuidRandom()|0");
         return request.fulfill({ response, body: text });
       }
       return request.continue();
@@ -150,6 +189,15 @@ async function capture(variant, round) {
       null,
       { timeout: 180000 }
     );
+    if (fullscreen) {
+      await page.locator("[data-world-fullscreen]").click();
+      await page.waitForFunction(() => Boolean(document.querySelector("[data-home-desk-scene]").getSceneEvidence().fullscreen));
+    }
+    identity = await host.evaluate((el) => {
+      const e = el.getSceneEvidence();
+      return { avatarId: e.avatarId, roomCount: e.roomCount, loading: e.loading, camera: e.cameraOrbit, rendering: e.rendering };
+    });
+    if (identity.avatarId !== pinnedAvatar) throw new Error(`Arrival identity ${identity.avatarId} differs from pinned ${pinnedAvatar}`);
     for (const view of views) {
       if (view === "outside") {
         await page.locator("[data-world-view]").click();
@@ -176,7 +224,7 @@ async function capture(variant, round) {
   } finally {
     await browser.close();
   }
-  return { variant, round, shots, errors };
+  return { variant, round, shots, identity, errors };
 }
 
 function compare(a, b) {
@@ -232,8 +280,12 @@ function compare(a, b) {
     width,
     height,
     dpr,
+    fullscreen,
     seed,
+    pinnedAvatar,
     fixedTime,
+    sourceMode: buildRoot ? "current raw modules vs source-bound minified build; abRef unused" : "git ref vs working tree",
+    moduleBuild: moduleBuild && { schema: moduleBuild.schema, pipeline: moduleBuild.pipeline, modules: Object.keys(moduleBuild.modules).length },
     comparisons,
     captures,
   };
