@@ -21,6 +21,17 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### October 28: an orange floating in ocean
+
+- **Hypothesis:** Sirui rejected K, the separate dot-on-waves and monochrome reflection N. His clarification keeps a round orange partly submerged behind blue waves, with tiny warm highlights. Shared sky color and sun position give both a subtle variation through the day. A personal discovery turns the serious name into a floating phrase and lets “Sirui” drift away.
+- **Route:** The navbar on human routes; the browser and home-screen icons share the still silhouette. The home link and the AI profile route keep their accessible identity and destination.
+- **Reference and licensing:** Sirui's own floating-orange story, developed with the existing Susan Kare study. Original SVG, Liquid, Sass and JavaScript; no imported art or font.
+- **Visitor benefit:** A composed first impression with a small personal surprise on discovery, and a clear return to the name through the native home action or refresh.
+- **Budget:** No new request or dependency. CSS-only motion after a 120 ms pointer dwell or keyboard focus; pause when hidden. Fixed name bounds, no navigation movement or glyph scaling. Touch remains a native home link. Reduced motion shows the complete phrase without motion, and no JavaScript keeps the serious identity.
+- **Status:** Authored candidate under rendered verification. Earlier K evidence does not establish acceptance of this appearance.
+- **Sirui decision:** The October 28 instruction authorizes this concept and persistent drift behavior. Final appearance feedback is separate from functional evidence.
+- **Revisit trigger:** Sirui's rendered review, any name/story clipping, a navigation collision, a reload that immediately replays the story, or an accessibility regression.
+
 ### Final October 23 reconciliation
 
 The earlier decisions below retain their original measurements and reasons. The final continuation implements an opt-in moving-TAA study with actual geometry/bone/CPU motion, depth rejection, reactive coverage and measured moving-pose improvement; see [method and limits](../assets/js/home-scene/TEMPORAL-AA.md). Its public spatial default remains in place. The former TAA revisit gate is met for this bounded experiment, rather than silently extending the result to every water, lighting or device case.

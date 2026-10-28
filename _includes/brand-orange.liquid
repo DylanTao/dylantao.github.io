@@ -1,18 +1,29 @@
 {% comment %}
-  An orange sun above the Pacific current. Sirui asked for an abstract mark with less literal
-  fruit detail. The same two shapes are shared with the favicon on a 32-unit grid. The sun dips
-  behind the level horizon on focus/hover; reduced motion holds it still. The 404 fruit is separate.
+  A round orange floats partly behind the blue waterline. The same moving curve clips the fruit
+  and draws its foreground wave. Small warm reflections inherit the page's sky and sun position.
 {% endcomment %}
 <span class="site-brand-mark brand-orange" data-brand-orange aria-hidden="true">
   <svg class="brand-orange-svg" viewBox="0 0 32 32" focusable="false" aria-hidden="true">
     <defs>
-      <clipPath id="brand-orange-horizon"><path d="M0 0H32V19H0Z"></path></clipPath>
+      <linearGradient id="brand-orange-light" x1="0.15" y1="0" x2="0.85" y2="1">
+        <stop class="brand-float-stop-light" offset="0" stop-color="#f79c55"></stop>
+        <stop class="brand-float-stop-body" offset="0.58" stop-color="#f07a38"></stop>
+        <stop class="brand-float-stop-deep" offset="1" stop-color="#e77332"></stop>
+      </linearGradient>
+      <clipPath id="brand-orange-waterline" clipPathUnits="userSpaceOnUse"><path class="brand-orange-current" d="M-20 19Q-15 17-10 19T0 19T10 19T20 19T30 19T40 19T50 19T60 19V-20H-20Z"></path></clipPath>
+      <clipPath id="brand-orange-wave-window"><path d="M1 15H31V29H1Z"></path></clipPath>
+      <clipPath id="brand-orange-glint-window"><path class="brand-orange-glint-zone" d="M14 15H18V29H14Z"></path></clipPath>
     </defs>
-    <g clip-path="url(#brand-orange-horizon)">
-      <g class="brand-orange-sun">
-        <path class="brand-orange-body" d="M3 17C3 9.268 8.82 3 16 3S29 9.268 29 17C29 17.7 28.95 18.4 28.85 19H3.15C3.05 18.4 3 17.7 3 17Z"></path>
+    <g clip-path="url(#brand-orange-waterline)">
+      <g class="brand-orange-sun"><circle class="brand-orange-body" cx="16" cy="13.2" r="9.5" fill="url(#brand-orange-light)"></circle></g>
+    </g>
+    <g clip-path="url(#brand-orange-wave-window)">
+      <g class="brand-orange-current"><path class="brand-orange-sea" d="M-20 19Q-15 17-10 19T0 19T10 19T20 19T30 19T40 19T50 19T60 19" fill="none" stroke="#3d7eb8" stroke-width="1.25" stroke-linecap="round"></path></g>
+      <g class="brand-orange-ripple"><path class="brand-orange-sea-back" d="M6 24.7Q10.5 23.5 15 24.7T26 24.7" fill="none" stroke="#3d7eb8" stroke-width="0.95" stroke-linecap="round" opacity="0.65"></path></g>
+      <g clip-path="url(#brand-orange-glint-window)">
+        <g class="brand-orange-current"><path class="brand-orange-glint" d="M-20 19Q-15 17-10 19T0 19T10 19T20 19T30 19T40 19T50 19T60 19" fill="none" stroke="#f6a866" stroke-width="0.65" stroke-linecap="round" opacity="0.6"></path></g>
+        <g class="brand-orange-ripple"><path class="brand-orange-glint brand-orange-glint-back" d="M6 24.7Q10.5 23.5 15 24.7T26 24.7" fill="none" stroke="#f6a866" stroke-width="0.55" stroke-linecap="round" opacity="0.45"></path></g>
       </g>
     </g>
-    <path class="brand-orange-sea" d="M1 21H31C24 21 24 28 16 28H5C12 28 12 24 19 24H1Z"></path>
   </svg>
 </span>

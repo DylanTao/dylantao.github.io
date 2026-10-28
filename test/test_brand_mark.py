@@ -16,7 +16,7 @@ class BrandMarkTest(unittest.TestCase):
         self.assertIn('<svg class="brand-orange-svg"', mark)
         self.assertNotIn("data-orange-specimen", mark)
 
-        # Only the 404 specimen is grown per visit; the script never touches the navbar mark.
+        # Only the 404 specimen is grown per visit. Navbar discovery changes motion, not geometry.
         script = (REPO_ROOT / "assets" / "js" / "brand-orange.js").read_text(encoding="utf-8")
         self.assertIn('querySelectorAll("[data-orange-specimen]")', script)
         self.assertNotIn('querySelectorAll("[data-brand-orange]")', script)

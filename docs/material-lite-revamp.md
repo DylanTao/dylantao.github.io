@@ -87,19 +87,25 @@ The October 18 pass gave cards and their controls one frosted glass material: a 
 
 ## Brand Mark
 
-The mark is an orange sun going down into the Pacific below the house: an inline SVG in `_includes/brand-orange.liquid`, the same on every visit. Sirui chose the underlying concept on 2026-10-26, after a study of Susan Kare's icon lessons (credited in `WEBSITE_DESIGN_HEURISTICS.md`): meaningful and memorable first. His latest PC direction is **more abstract and distinctive, with less literal fruit detail**. The current K candidate draws two shapes: an orange sun above a level horizon, and a Pacific current that turns back beneath it. The stem, leaf, rind facets and smile-like cut are removed. On hover or keyboard focus the sun dips behind the horizon; the current stays still. There is no motion at rest. This implements the requested direction; taste acceptance is recorded separately from rendering checks.
+The mark is **an orange floating in ocean**, Sirui's October 28 refinement of the orange-sun/Pacific idea. K's heavy silhouette and greenish current, the separate dot-on-waves candidate and the monochrome reflection N were rejected. His clarified direction keeps **two colors**: a recognizable round orange, slightly submerged in blue water, with tiny warm reflections. The inline SVG in `_includes/brand-orange.liquid` clips the orange with the same curve that draws the foreground wave. There is no leaf, stem or filled blue base. The existing Susan Kare study (credited in `WEBSITE_DESIGN_HEURISTICS.md`) still guides the native-size silhouette.
+
+The palette shares the page's existing `--site-sky` and `--site-sun-x`: its orange, blue and tiny warm glints change subtly with the selected hour, and the reflection shifts with the sun arc. This reuses the site's clock and theme system rather than introducing a second timer. The browser/home-screen icons use the same geometry in the noon still. On discovery, the shared water curve travels, the orange bobs by about one drawing unit with a 1.5% scale variation, and its visible area changes as the wave conceals it. This is a small authored buoyancy gesture, not a fluid or optical simulation.
+
+The first view is composed: a still mark and **Sirui Tao** in Inter. Moving a fine pointer over the brand for 120 ms, or focusing its home link with a keyboard, starts one discovery. “Tao” dissolves and the complete phrase **Sirui, an orange floating in ocean** appears on the same baseline on wide screens. “Sirui,” gently drifts and fades; the remaining phrase flows into its place. The mark's reflections and individual letters keep a slow, small wave. Leaving the brand does not rewind the story. The state belongs only to the current document; following the icon home or refreshing restores the name, even if the pointer is still over it. A stationary pointer over a newly loaded page does not trigger discovery.
+
+The story stays inside a fixed name viewport. Wide layouts carry it on one line; compact layouts use a shorter dissolve into complete wrapped words. Navigation does not move, and letters translate without scaling or stretching. The native home link keeps its accessible name throughout. Touch keeps the composed mark and ordinary home action. The AI profile keeps a still brand. Reduced motion reveals the complete final phrase on discovery without animating it. Hidden documents pause the CSS animations. No new dependency, render loop, font or 3D asset is needed. Appearance acceptance remains separate from these functional checks.
 
 The browser tab and home screen show the same mark. `assets/img/favicon.svg` and the navbar use identical geometry on a 32-unit drawing grid, two drawing units per pixel at the 16 px tab size. `node bin/build_brand_icons.cjs` rasterizes the SVG into `favicon.ico` (16, 32 and 48 px) and the 180 px `apple-touch-icon.png`. Edit both SVG sources, rerun the script, inspect the actual 16 px entry at native size and magnified in light and dark, and commit all three icon assets. Review 24/32/40 px silhouettes beside the actual Inter name as well.
 
 The procedural orange that used to change in the navbar on every load now grows on the 404 page (`_includes/orange-specimen.liquid`, driven by `assets/js/brand-orange.js`). Add `?orangeSeed=...` there when one generated orange needs repeatable inspection.
 
-Sirui's latest abstract direction supersedes the earlier requirement to keep the stem and leaf. Keep the orange-sun/Pacific relationship and a distinctive silhouette at native icon size. Do not engrave `ST` into the sun at navbar size. The retained I/J/K study and the rejected literal G mark are in `artwork/site-fidelity/reviews/abstract-sunset-2026-10-26/`.
+The latest floating direction supersedes K's level sunset and filled current; the earlier stem/leaf requirement also remains retired. Keep the orange/Pacific relationship and a distinctive silhouette at native icon size. Do not engrave `ST` into it. The retained I/J/K study and rejected literal G mark remain in `artwork/site-fidelity/reviews/abstract-sunset-2026-10-26/`.
 
 Keep these behaviors intact:
 
 - no layout shift: the mark is static markup and needs no script;
-- the orange sun and separate Pacific swell stay readable in all four themes;
-- the dip and press motion stop under `prefers-reduced-motion: reduce`;
+- the orange and blue water stay readable in all four themes and the 16 px icon, with only small warm reflection marks;
+- discovery and press motion stop under `prefers-reduced-motion: reduce`, while the complete phrase remains available;
 - clicking the logo still navigates home;
 - no heavy animation or 3D dependency for the navbar mark.
 

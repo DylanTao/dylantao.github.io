@@ -18,9 +18,21 @@
         class="navbar-brand title site-brand"
         href="{{ brand_href }}"
         aria-label="{{ brand_name }}{% if page.ai_profile %} AI profile{% else %} home{% endif %}"
+        {% if page.ai_profile %}
+          data-brand-static
+        {% endif %}
       >
         {% include brand-orange.liquid initials=brand_initials %}
-        <span class="site-brand-name">{{ brand_name }}</span>
+        <span class="site-brand-name" aria-hidden="true">
+          <span class="brand-name-identity">
+            <span class="brand-name-first">
+              {{- site.first_name -}}
+              <span class="brand-name-comma">,</span></span
+            >
+            <span class="brand-name-last">{{ site.last_name }}</span>
+          </span>
+          <span class="brand-name-story"><span>an orange</span><span>floating in ocean</span></span>
+        </span>
       </a>
       <div class="navbar-actions" role="group" aria-label="Site actions">
         {% include site_format_switch.liquid %}

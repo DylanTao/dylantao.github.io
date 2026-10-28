@@ -386,7 +386,68 @@
     link.addEventListener("pointercancel", resetTilt);
   }
 
+  function initFloatingBrand() {
+    const link = document.querySelector("#navbar .site-brand:not([data-brand-static])");
+    if (!link) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    let dwell = null;
+
+    // Preserve the accessible home-link name. Only this visible, decorative story drifts.
+    link.querySelectorAll(".brand-name-story > span").forEach(function (line) {
+      const words = line.textContent.split(" ");
+      line.textContent = "";
+      let phase = 0;
+      words.forEach(function (word, index) {
+        if (index) line.append(document.createTextNode(" "));
+        const group = document.createElement("span");
+        group.className = "brand-wave-word";
+        Array.from(word).forEach(function (letter) {
+          const span = document.createElement("span");
+          span.className = "brand-wave-letter";
+          span.style.setProperty("--brand-letter", phase++);
+          span.textContent = letter;
+          group.append(span);
+        });
+        line.append(group);
+      });
+    });
+
+    function discover() {
+      if (link.dataset.brandState) return;
+      link.dataset.brandState = reduceMotion.matches || window.siteMotion?.paused ? "adrift" : "discovering";
+    }
+
+    link.addEventListener("pointermove", function (event) {
+      if (event.pointerType === "touch" || !finePointer.matches) return;
+      // A page appearing beneath a stationary pointer is not a new discovery. In particular,
+      // refreshing or following this home link must bring back the composed name first.
+      if ((!event.movementX && !event.movementY) || dwell || link.dataset.brandState) return;
+      dwell = window.setTimeout(discover, 120);
+    });
+    link.addEventListener("pointerleave", function () {
+      window.clearTimeout(dwell);
+      dwell = null;
+    });
+    link.addEventListener("focus", function () {
+      if (link.matches(":focus-visible")) discover();
+    });
+    link.addEventListener("animationend", function (event) {
+      if (event.animationName === "brand-name-drift" || event.animationName === "brand-compact-name-drift") link.dataset.brandState = "adrift";
+    });
+    reduceMotion.addEventListener("change", function () {
+      if (reduceMotion.matches && link.dataset.brandState) link.dataset.brandState = "adrift";
+    });
+    function syncMotion() {
+      link.classList.toggle("brand-motion-paused", document.hidden || Boolean(window.siteMotion?.paused));
+    }
+    document.addEventListener("visibilitychange", syncMotion);
+    window.addEventListener("siteMotionChange", syncMotion);
+    syncMotion();
+  }
+
   function init() {
+    initFloatingBrand();
     const marks = Array.from(document.querySelectorAll("[data-orange-specimen]"));
     if (!marks.length) return;
 

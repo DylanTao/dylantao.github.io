@@ -1,0 +1,144 @@
+{
+  "scope": "Complete compiled UI preview at4114, real Liquid/Jekyll markup and all assets present. Its complete home model/cache family is the verified759a3b58b family, restored together after a v84 staging build revealed the still-unbaked descriptor. The final integrated scene has a separate canonical bake and publication gate; these are UI checks, not new-house admission.",
+  "sourceHashPolicy": "UTF8 text normalized toLF; binary icons exact bytes",
+  "sourceSha256": {
+    "_includes/brand-orange.liquid": "3875f4787430660612e628e18f74f04a48d638558a329a31951d793fc4337ec9",
+    "_includes/header.liquid": "4608e7b2a76ef83581d6f4032c093b6aa7d69d822ec996feb5dedc27f50ad24d",
+    "_sass/_brand-orange.scss": "5d2f33f9f8e3ef25ee38b5c01b91eeb8bced7fdba6a803b35d9263f5a7ca7b06",
+    "assets/js/brand-orange.js": "997549222c17dcc58f5672a46fa9e783e7cc83385d047b5490fe18da233a575b",
+    "assets/img/favicon.svg": "0803b8207e6d929b644cd80b7103146aa5379adee2f7c3fe6aca82b3e6cb66b0",
+    "assets/img/favicon.ico": "ad9897fc9431c6f85ad17442411b59e2136d0d08a3d0b9906918335f1c121695",
+    "assets/img/apple-touch-icon.png": "16d3f13daf3f20a5d9719fcf903e7fa53ddcd6fe53a175ecf97bbad746f9c3d6"
+  },
+  "builtSha256": {
+    "index.html": "f552d87a56ba2fbda499bbd9048f24cbb5227dd5deda91e3b34c563ea0d195b2",
+    "blog/index.html": "b70fbe2d1775753acc504b9b3cc7116a8a697603e86cca90bad37b1b9f68cc9c",
+    "assets/css/main.css": "396416888f430a3b9b0a4483bdc244956e459fadaaf60d40d32ad94a8a33d67f",
+    "assets/js/brand-orange.js": "b98f6f9d78454cba1e994123d974b2104f7c10ce90cf9d75c53488458d3f18c9"
+  },
+  "captures": [
+    {
+      "path": "motion-desktop-1440.json",
+      "sha256": "d6592388f9ce0dba9c84b33f129e532343e54742ceba251ab3eb0c652d1fb2cc",
+      "bytes": 2840
+    },
+    {
+      "path": "navbar-desktop-1440-adrift.png",
+      "sha256": "b5ed3866950648fd0cccfc3759c8be8dba46b619ebe937c9fea7dc2659cf609b",
+      "bytes": 16483
+    },
+    {
+      "path": "navbar-desktop-1440-discovery.png",
+      "sha256": "fbd20f14a1948f3896e7fb28b38984eeda49468f5d3363017fde3faa6101a48d",
+      "bytes": 16208
+    },
+    {
+      "path": "navbar-morning.png",
+      "sha256": "19c36ec9acc8fcc1b4bf9744af273e8c49e55b7656eb8573ddb21c88e0eb93c8",
+      "bytes": 11244
+    },
+    {
+      "path": "navbar-noon.png",
+      "sha256": "fea27f4d7f89cfc272837a5d91f38a4cb0b7b425c033f926e186276a1dc29f37",
+      "bytes": 12551
+    },
+    {
+      "path": "navbar-afternoon.png",
+      "sha256": "474f843b69602819b29cbf8e906dd28668f3ed6c70c40e30d58e67e2ec87855c",
+      "bytes": 12462
+    },
+    {
+      "path": "navbar-evening.png",
+      "sha256": "ba4719017546e06d140f6b83faa778e4f030c833c3472db58238b5eb5800ba28",
+      "bytes": 13356
+    },
+    {
+      "path": "motion-laptop-1280.json",
+      "sha256": "def77a4eb952a79e3a3e52c9a42af3d4b8d1bea0a7f7ce3b22d225180db5f21e",
+      "bytes": 2837
+    },
+    {
+      "path": "navbar-laptop-1280-adrift.png",
+      "sha256": "9703f82bec0171613b9d6078253855940ac18699aa7a36a6c3e8b34524dde5d5",
+      "bytes": 16062
+    },
+    {
+      "path": "motion-tablet-768.json",
+      "sha256": "b14de00ac577e0777fb004e41576feabc06921ca5fdde3d591b66caf3ba9c1fc",
+      "bytes": 2906
+    },
+    {
+      "path": "navbar-tablet-768-adrift.png",
+      "sha256": "f598d956b637b1732ea536ee51a0fcbede1f3a55db1def9616249575bf3604fc",
+      "bytes": 14145
+    },
+    {
+      "path": "motion-mobile-390.json",
+      "sha256": "0ab654d9f9b2388347ad2cc202e418255d45896e4e1e8e30bbaa43d447c18cc3",
+      "bytes": 2877
+    },
+    {
+      "path": "navbar-mobile-390-adrift.png",
+      "sha256": "11b7d993714c37c9ebbb0be1d782b919906e9748815e29aabd60b6911dce327e",
+      "bytes": 7412
+    },
+    {
+      "path": "navbar-mobile-390-discovery.png",
+      "sha256": "57d4fe4972d6383c9a0465de86d5b18c6b99fcdb9ffe9f5eaaef110c600c48af",
+      "bytes": 7548
+    },
+    {
+      "path": "native-icon-family.png",
+      "sha256": "72852b142c2fd59b043b4bf5d9b2b13dc9480acf4c7cbbf6edef275e7ddf507e",
+      "bytes": 35240
+    },
+    {
+      "path": "production-rest.png",
+      "sha256": "b6b246413f75c5061f0d731a53faadb3796ee525bd830d15517d06d8e09ced0e",
+      "bytes": 2583
+    },
+    {
+      "path": "production-phrase.png",
+      "sha256": "bc05eff1398f1d86c9c8fee66a21ef1cb405848839f15276715b7483e878c65d",
+      "bytes": 5721
+    },
+    {
+      "path": "production-adrift.png",
+      "sha256": "3bdd8e0b447123404af03f3c04e242cf9fc4a8c59954f4ad34fc5a513dec196e",
+      "bytes": 4682
+    },
+    {
+      "path": "rejected-monochrome-rest.png",
+      "sha256": "092ca214a285ee5652e84195d49554c771d89d477ae2fbd80c47fff9eab96c82",
+      "bytes": 2418
+    },
+    {
+      "path": "rejected-monochrome-adrift.png",
+      "sha256": "fdb8d847331e6ecdfd6faacbaaf9e2a6287428ce60ad26506b4ab581aa4cb586",
+      "bytes": 5078
+    }
+  ],
+  "checks": {
+    "chromiumCompleteSuite": {
+      "passed": 13,
+      "intentionalSkips": 7
+    },
+    "chromiumFinalGlobalPause": 4,
+    "webkitCompleteSuite": {
+      "passed": 4,
+      "intentionalSkips": 1
+    },
+    "webkitFinalGlobalPause": 1,
+    "fourWidthHomeBlogRoutes": 8,
+    "fourWidthTwoThemeReadingGeometry": 8,
+    "brandPython": 2,
+    "styleContract": "passed",
+    "overridesAudit": "reviewed only header acknowledgement; unrelated baseline local overrides retained"
+  },
+  "limitations": [
+    "Sirui has not accepted this latest appearance.",
+    "Phone captures are host emulation, not physical iPhone performance.",
+    "Monochrome N and earlier K are rejected history.",
+    "No physical buoyancy or optical simulation is claimed."
+  ]
+}
