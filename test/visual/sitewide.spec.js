@@ -2850,36 +2850,56 @@ test("the desk's coffee ring rests on the top slip clear of its words, stays who
   await preparePage(page, "light");
   const stack = page.locator(".home-artifact-stack.has-coffee-stain");
   const read = () =>
-    stack.evaluate((node) => {
+    stack.evaluate(async (node) => {
       const stain = getComputedStyle(node, "::before");
       const wet = getComputedStyle(node, "::after");
       const card = node.querySelector(".home-artifact-card");
       const box = node.getBoundingClientRect();
       const column = node.parentElement.getBoundingClientRect();
-      // The ring lies within an annulus around the stain box's centre (the painted radius is 30-32% of the
-      // box, its band up to about a sixth of that inward, the placement scale at most 6% larger). No line of
-      // the top slip's words may reach into it.
+      // Inspect the actual generated alpha mask, including deposits and drops, rather
+      // than assuming an annulus. Transparent padding is not a clipping boundary.
       const size = parseFloat(stain.width);
       const left = box.right - parseFloat(stain.right) - size,
         top = box.top + parseFloat(stain.top);
       const matrix = new DOMMatrixReadOnly(stain.transform === "none" ? undefined : stain.transform);
       const cx = left + size / 2 + matrix.e,
         cy = top + size / 2 + matrix.f;
-      const outer = size * 0.34,
-        inner = size * 0.22;
       const words = [];
-      for (const text of card.querySelectorAll(".home-artifact-copy > *")) {
+      for (const text of node.querySelectorAll(".home-artifact-copy > *")) {
         const range = document.createRange();
         range.selectNodeContents(text);
         words.push(...range.getClientRects());
       }
-      const crossed = words.some((rect) => {
-        const nx = Math.max(rect.left, Math.min(cx, rect.right)),
-          ny = Math.max(rect.top, Math.min(cy, rect.bottom));
-        const nearest = Math.hypot(nx - cx, ny - cy);
-        const farthest = Math.max(...[rect.left, rect.right].flatMap((x) => [rect.top, rect.bottom].map((y) => Math.hypot(x - cx, y - cy))));
-        return nearest < outer && farthest > inner;
-      });
+      const image = new Image();
+      image.src = stain.backgroundImage.slice(5, -2);
+      await image.decode();
+      const canvas = document.createElement("canvas");
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const context = canvas.getContext("2d");
+      context.drawImage(image, 0, 0);
+      const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      let crossed = false,
+        minX = Infinity,
+        maxX = -Infinity,
+        inside = 0,
+        clear = 0;
+      for (let y = 0; y < canvas.height; y++)
+        for (let x = 0; x < canvas.width; x++) {
+          const alpha = pixels[(y * canvas.width + x) * 4 + 3];
+          if (Math.hypot(x - canvas.width / 2, y - canvas.height / 2) < canvas.width * 0.22) {
+            inside++;
+            if (alpha < 8) clear++;
+          }
+          if (alpha < 8) continue;
+          const lx = ((x + 0.5) / canvas.width) * size - size / 2,
+            ly = ((y + 0.5) / canvas.height) * size - size / 2;
+          const px = cx + matrix.a * lx + matrix.c * ly,
+            py = cy + matrix.b * lx + matrix.d * ly;
+          minX = Math.min(minX, px);
+          maxX = Math.max(maxX, px);
+          if (words.some((r) => px >= r.left - 1 && px <= r.right + 1 && py >= r.top - 1 && py <= r.bottom + 1)) crossed = true;
+        }
       return {
         painted: stain.backgroundImage.startsWith('url("data:image/png'),
         onTop: Number(stain.zIndex) > Number(getComputedStyle(card).zIndex),
@@ -2889,10 +2909,14 @@ test("the desk's coffee ring rests on the top slip clear of its words, stays who
         multiplied: stain.mixBlendMode === "multiply",
         clearOfWords: words.length > 0 && !crossed,
         animation: stain.animationName,
+        pointerEvents: stain.pointerEvents,
+        iterations: stain.animationIterationCount,
         drying: node.getAttribute("data-coffee-stain-drying"),
         seed: node.dataset.coffeeStainSeed,
-        // The stain box ends inside the hero column, which clips at its edge.
-        insideColumn: box.right - parseFloat(stain.right) <= column.right + 1,
+        insideColumn: minX >= column.left - 1 && maxX <= column.right + 1,
+        clearCenter: clear / inside,
+        rasterSize: canvas.width,
+        source: node.dataset.coffeeStainSource,
       };
     });
   await page.goto(publicRouteUrl("/?coffeeSeed=52"));
@@ -2909,13 +2933,78 @@ test("the desk's coffee ring rests on the top slip clear of its words, stays who
     seed: "52",
     drying: null,
     animation: "none",
+    pointerEvents: "none",
+    source: "raster",
   });
+  expect((await read()).clearCenter).toBeGreaterThan(0.98);
+  expect((await read()).rasterSize).toBeLessThanOrEqual(512);
+  const placementNames = ["--home-coffee-stain-rotation", "--home-coffee-stain-x", "--home-coffee-stain-y", "--home-coffee-stain-scale"];
+  const placement = await stack.evaluate((node, names) => names.map((n) => node.style.getPropertyValue(n)), placementNames);
+  for (const rotation of [-24, 0, 24])
+    for (const x of [-0.3, 0.45]) {
+      await stack.evaluate(
+        (node, { rotation, x }) => {
+          node.style.setProperty("--home-coffee-stain-rotation", rotation + "deg");
+          node.style.setProperty("--home-coffee-stain-x", x + "rem");
+          node.style.setProperty("--home-coffee-stain-y", ".2rem");
+          node.style.setProperty("--home-coffee-stain-scale", "1.06");
+        },
+        { rotation, x }
+      );
+      expect(await read()).toMatchObject({ clearOfWords: true, insideColumn: true });
+    }
+  await stack.evaluate((node, { names, values }) => names.forEach((name, i) => node.style.setProperty(name, values[i])), {
+    names: placementNames,
+    values: placement,
+  });
+  const replay = await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"));
+  await page.waitForTimeout(350);
+  expect(await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"))).toBe(replay);
+  await page.reload();
+  await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
+  expect(await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"))).toBe(replay);
+  for (const seed of ["7", "31", "103"]) {
+    await page.goto(publicRouteUrl("/?coffeeSeed=" + seed));
+    await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
+    expect(await read()).toMatchObject({ clearOfWords: true, insideColumn: true });
+    expect((await read()).clearCenter).toBeGreaterThan(0.98);
+    expect(await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"))).not.toBe(replay);
+  }
+  await page.goto(publicRouteUrl("/?coffeeSeed=52"));
+  await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
   await attachScreenshot(page, testInfo, `home-coffee-ring-${testInfo.project.name}`, { locator: stack });
+  const pigmentRequest = await page.evaluate(
+    () => performance.getEntriesByType("resource").find((entry) => entry.name.includes("/coffee-deposit-"))?.name
+  );
+  expect(pigmentRequest).toContain(new URL(publicRouteUrl("/assets/img/home/"), page.url()).pathname);
+  // An undecodable preferred asset must retain a deterministic, safe fallback.
+  await page.route("**/coffee-deposit-*.webp", (route) => route.fulfill({ contentType: "image/webp", body: "invalid image fixture" }));
+  await page.goto(publicRouteUrl("/?coffeeSeed=52"));
+  await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
+  expect(await read()).toMatchObject({ source: "procedural", clearOfWords: true, insideColumn: true });
+  await page.unroute("**/coffee-deposit-*.webp");
+  let releasePigment;
+  const pigmentHeld = new Promise((resolve) => (releasePigment = resolve));
+  await page.route("**/coffee-deposit-*.webp", async (route) => {
+    await pigmentHeld;
+    await route.continue();
+  });
+  await page.goto(publicRouteUrl("/?coffeeSeed=52"), { waitUntil: "domcontentloaded" });
+  await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
+  expect(await read()).toMatchObject({ source: "procedural", clearOfWords: true, insideColumn: true });
+  const heldFallback = await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"));
+  releasePigment();
+  await page.waitForTimeout(350);
+  expect(await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"))).toBe(heldFallback);
+  expect((await read()).source).toBe("procedural");
+  await page.unroute("**/coffee-deposit-*.webp");
   // A person sees the mark settle in once the slips are in view...
   await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));
   await stack.scrollIntoViewIfNeeded();
   await expect(stack).toHaveAttribute("data-coffee-stain-drying", "true", { timeout: 20000 });
-  expect(await read()).toMatchObject({ animation: "home-coffee-stain-settle", wetLayer: false });
+  expect(await read()).toMatchObject({ animation: "home-coffee-stain-settle", iterations: "1", wetLayer: false });
+  await page.waitForTimeout(3400);
+  expect(await stack.evaluate((node) => node.getAnimations().every((a) => a.playState === "finished"))).toBe(true);
   // ...unless they prefer stillness; a theme change repaints it for the evening desk.
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));

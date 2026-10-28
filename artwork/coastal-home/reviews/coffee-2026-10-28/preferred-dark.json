@@ -1,0 +1,44 @@
+{
+  "width": 1440,
+  "dpr": 1,
+  "theme": "evening",
+  "seed": "52",
+  "rasterOverride": null,
+  "detail": {
+    "source": "raster",
+    "size": 214.391,
+    "strength": "0.7332",
+    "transform": "matrix(1.04999, 0.00384844, -0.00384844, 1.04999, 7.04, -3.52)",
+    "top": "-118.4px",
+    "right": "6.4px",
+    "stack": {
+      "x": 850.171875,
+      "y": 623.28125,
+      "width": 524.796875,
+      "height": 153.25
+    },
+    "pngBytes": 53213,
+    "pngSha256": "ac2fca706b56b884bf1d473c06676c94cad2a3db4174411f061aa234f9b51930"
+  },
+  "bindings": [
+    {
+      "url": "http://127.0.0.1:4115/al-folio/assets/css/main.css?v=20261028023804",
+      "status": 200,
+      "bytes": 545564,
+      "sha256": "dea3201619c8468a1068ed150aa7a14e98698e23d3d425aafb05d5fa855d4ee0"
+    },
+    {
+      "url": "http://127.0.0.1:4115/al-folio/assets/js/home-coffee-stain.js?v=7e19568e612ef62db28146fbb57ff82d",
+      "status": 200,
+      "bytes": 7661,
+      "sha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45"
+    },
+    {
+      "url": "http://127.0.0.1:4115/al-folio/assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+      "status": 200,
+      "bytes": 50038,
+      "sha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9"
+    }
+  ],
+  "errors": []
+}

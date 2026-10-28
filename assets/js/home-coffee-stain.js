@@ -1,6 +1,8 @@
 (function () {
   const stacks = Array.from(document.querySelectorAll(".home-artifact-stack.has-coffee-stain"));
   if (!stacks.length) return;
+  const scriptUrl = document.currentScript?.src || new URL("assets/js/home-coffee-stain.js", document.baseURI).href;
+  const pigmentUrl = new URL("../img/home/coffee-deposit-20261028-c91b57ee8c.webp", scriptUrl).href;
 
   const hashSeed = (input) => {
     let hash = 2166136261;
@@ -38,15 +40,12 @@
     return t * t * (3 - 2 * t);
   };
 
-  // The ring a mug leaves on a desk once the coffee has dried (Sirui found the brushed ensō heavy and
-  // rigid on 2026-10-19, and the dried-drop version a pale disc on 2026-10-24). A mug does not leave a
-  // dried drop: coffee runs down its side onto the foot, and the foot prints a band a few millimetres
-  // wide, a clean circle inside where it never touched (as in photographs of real mug rings). Both
-  // edges of that band are pinned contact lines, so the coffee-ring effect (Deegan et al., Nature
-  // 1997) gathers the coffee at both, most at the outer one, with grainy solids between. The band is
-  // wider and darker where the mug leaned and the coffee pooled, thins to a ghost where the foot sat
-  // dry, and sometimes the mug was set down twice. Low, irregular wobble, never a perfect circle or a
-  // brush stroke. New on every visit; ?coffeeSeed= reproduces one.
+  // Sirui's dried mug-ring reference: a coherent translucent wash, a dark pinned outer
+  // edge, a few pooled deposits and a torn dry arc. Fine paper wicking is secondary to
+  // the body of the stain; its centre stays transparent. Perimeter concentration
+  // (Deegan et al., Nature 1997) and pigment granulation (Curtis et al., SIGGRAPH 1997)
+  // inform this authored density field, not a fluid simulation. New on every visit;
+  // ?coffeeSeed= reproduces one, including its small group of dried drops.
 
   // A periodic function of angle with a soft spectrum, roughly in [-1, 1].
   const periodic = (random, kMin, terms, slope) => {
@@ -83,7 +82,7 @@
     const ring = {
       cx: size * rand(0.485, 0.515),
       cy: size * rand(0.485, 0.515),
-      radius: size * rand(0.3, 0.32),
+      radius: size * rand(0.385, 0.4),
       squash: rand(0.965, 1),
       outline: periodic(random, 2, 5, 1.1),
       roughness: periodic(random, 13, 12, 0.55),
@@ -91,30 +90,29 @@
       depthNoise: periodic(random, 1, 5, 0.8),
       beads: periodic(random, 40, 24, 0.35),
       // The foot's band, at its median; it widens where the mug leaned.
-      rim: u * rand(7.5, 10.5),
+      rim: u * rand(12, 15),
       pool: rand(0, TAU),
       // Where the foot sat dry the rim thins to a ghost, as a soft gap rather than a cut.
-      gap: random() < 0.75 ? { from: rand(0, TAU), span: rand(0.45, 0.95) } : null,
+      gap: { from: rand(1.9, 2.2), span: rand(0.62, 0.95) },
+      deposits: Array.from({ length: 3 }, (_, i) => ({ at: (i * TAU) / 3 + rand(-0.4, 0.4), width: rand(0.23, 0.45), amount: rand(0.5, 1) })),
       // One or two places where the coffee crept a little further before it pinned.
       creeps: Array.from({ length: 1 + Math.floor(random() * 2) }, () => ({ at: rand(0, TAU), width: rand(0.25, 0.55), reach: rand(0.015, 0.04) })),
     };
-    // Set down twice: a fainter, partial ring a little off the first.
-    const turn = rand(0, TAU);
-    const second =
-      random() < 0.5
-        ? {
-            dx: Math.cos(turn) * ring.radius * rand(0.16, 0.3),
-            dy: Math.sin(turn) * ring.radius * rand(0.16, 0.3),
-            scale: rand(0.97, 1.03),
-            from: turn + rand(-0.6, 0.6),
-            span: rand(1.6, 2.8),
-            strength: rand(0.3, 0.45),
-          }
-        : null;
-    return { size, u, ring, second, brew: random(), grainSeed: Math.floor(random() * 1e9) };
+    const drops = [
+      // A couple of small drips inside the footprint; the centre remains clear paper.
+      { x: ring.cx + ring.radius * rand(0.1, 0.3), y: ring.cy + ring.radius * rand(0.3, 0.5), r: size * rand(0.009, 0.014) },
+      { x: ring.cx - ring.radius * rand(0.2, 0.4), y: ring.cy + ring.radius * rand(0.1, 0.35), r: size * rand(0.007, 0.011) },
+      // The lifted mug leaves one small group below its rim, with varied size and spacing.
+      ...Array.from({ length: 3 }, (_, i) => ({
+        x: size * (0.44 + i * 0.11 + rand(-0.018, 0.018)),
+        y: size * rand(0.925, 0.955),
+        r: size * (i === 1 ? rand(0.017, 0.022) : rand(0.008, 0.013)),
+      })),
+    ].map((d) => ({ ...d, squash: rand(0.72, 1.06), phase: rand(0, TAU), strength: rand(0.55, 1.1) }));
+    return { size, u, ring, drops, brew: random(), grainSeed: Math.floor(random() * 1e9) };
   };
 
-  // Smooth value noise on a coarse lattice, for the paper's tooth (no visible fibres or hatching).
+  // Smooth value noise for pooled colour and paper tooth, not a texture over the whole page.
   const noiseField = (seed, size, cell) => {
     const random = makeRandom(seed);
     const cols = Math.ceil(size / cell) + 2;
@@ -151,13 +149,18 @@
       }
       radius[b] = ring.radius * scale * (1 + 0.034 * ring.outline(a) + 0.005 * ring.roughness(a) + creep);
       const pooled = 0.5 + 0.5 * Math.cos(a - ring.pool);
+      let deposit = 0;
+      for (const lobe of ring.deposits) {
+        const off = Math.atan2(Math.sin(a - lobe.at), Math.cos(a - lobe.at));
+        deposit += lobe.amount * Math.exp(-((off / lobe.width) ** 2));
+      }
+      radius[b] += deposit * 2.5 * (ring.radius / 156);
       // Wider on the side where the mug leaned and the coffee pooled, narrower on the far side.
-      width[b] = ring.rim * (0.65 + 0.9 * Math.pow(pooled, 1.3) + 0.2 * ring.widthNoise(a));
+      width[b] = ring.rim * Math.max(0.45, Math.min(1.5, 0.65 + 0.35 * pooled + 0.6 * deposit + 0.2 * ring.widthNoise(a)));
       // Darker where the liquid pooled, nearly gone on the far side, and beaded along the line where
       // the particles piled up unevenly.
-      let d = (0.5 + 0.75 * Math.pow(pooled, 1.6) + 0.22 * ring.depthNoise(a)) * (0.8 + 0.3 * ring.beads(a));
-      if (ring.gap) d *= 1 - 0.78 * arcWeight(a, ring.gap.from, ring.gap.span, 0.18);
-      depth[b] = Math.max(0.04, d);
+      const d = (0.65 + 0.3 * pooled + 1.25 * deposit + 0.3 * ring.depthNoise(a)) * (0.93 + 0.1 * ring.beads(a));
+      depth[b] = Math.max(0, d);
       pool[b] = pooled;
     }
     return { radius, width, depth, pool };
@@ -165,13 +168,14 @@
 
   // Deposited coffee per pixel (roughly 0 to 1) once the ring has dried.
   const densityField = (plan) => {
-    const { size, u, ring, second, grainSeed } = plan;
+    const { size, u, ring, drops, grainSeed } = plan;
     const field = new Float32Array(size * size);
     const main = profile(ring);
     const grain = noiseField(grainSeed, size, Math.max(2, 5 * u));
     const mottle = noiseField(grainSeed ^ 0x5bd1e995, size, Math.max(4, 26 * u));
     // Granulation: the coffee's fine solids settle into the paper's tooth, unevenly (Curtis et al. 1997).
     const settle = noiseField(grainSeed ^ 0x27d4eb2d, size, Math.max(1.5, 2.6 * u));
+    const tooth = noiseField(grainSeed ^ 0x1b873593, size, Math.max(0.8, 1.6 * u));
     const sample = (x, y, cx, cy, table) => {
       const dx = x - cx,
         dy = (y - cy) / ring.squash;
@@ -180,38 +184,53 @@
       const b = Math.min(BINS - 1, Math.floor((a / TAU) * BINS));
       return { d, a, r: table.radius[b], w: table.width[b], k: table.depth[b] };
     };
-    // Coffee at distance s inside a band's outer edge, for a band of width w and darkness k: sharp at
-    // both contact lines, gathered most at the outer one and a little at the inner, grainy between.
+    // A sharp outer deposit over a coherent wash, softer at its irregular inner edge.
     const band = (s, w, k) => {
       const outer = smooth(-0.55 * u, 0.4 * u, s),
-        inner = smooth(-0.55 * u, 0.4 * u, w - s);
+        inner = 1 - smooth(w - 1.8 * u, w + 1.1 * u, s);
       if (outer <= 0 || inner <= 0) return 0;
       const t = Math.min(1, Math.max(0, s / w));
-      return outer * inner * k * (0.42 + 0.62 * Math.exp(-t / 0.2) + 0.3 * Math.exp(-(1 - t) / 0.14));
+      return outer * inner * k * (0.52 + 0.72 * Math.exp(-t / 0.17));
     };
-    const secondTable = second ? profile(ring, second.scale) : null;
-    for (let y = 0; y < size; y += 1)
-      for (let x = 0; x < size; x += 1) {
-        const px = x + 0.5,
-          py = y + 0.5;
-        const m = sample(px, py, ring.cx, ring.cy, main);
-        const s = m.r - m.d; // distance inside the band's outer edge
-        if ((s < -2 * u || s > m.w + 14 * u) && !second) continue;
-        let value = band(s, m.w, m.k) * (0.7 + 0.6 * mottle(px, py)) * (0.72 + 0.56 * settle(px, py));
-        // A little coffee wicked past each edge into the paper: a faint, soft halo, so the clean
-        // circle inside meets the band without a hard pale edge.
-        if (s > m.w) value += 0.014 * m.k * Math.exp(-(s - m.w) / (5 * u));
-        else if (s < 0) value += 0.012 * m.k * Math.exp(s / (2.5 * u));
-        if (second) {
-          const n = sample(px, py, ring.cx + second.dx, ring.cy + second.dy, secondTable);
-          value += second.strength * band(n.r - n.d, n.w * 0.8, n.k) * arcWeight(n.a, second.from, second.span, 0.7);
+    let row = 0;
+    const step = () => {
+      const end = Math.min(size, row + 8),
+        started = performance.now();
+      while (row < end) {
+        const y = row++;
+        for (let x = 0; x < size; x += 1) {
+          const px = x + 0.5,
+            py = y + 0.5;
+          const m = sample(px, py, ring.cx, ring.cy, main);
+          const texture = settle(px, py),
+            fine = tooth(px, py);
+          const s = m.r - m.d + (texture - 0.5) * u * 0.65 + (fine - 0.5) * u * 0.4;
+          // The wash is continuous. Broad pooled colour carries the material; fine
+          // granulation only modulates it and the capillary fringe lies outside it.
+          let value = band(s, m.w + (texture - 0.5) * 1.5 * u, m.k) * (0.55 + 0.9 * mottle(px, py)) * (0.72 + 0.5 * texture);
+          // Short capillary fingers outside the band; never a pale filled interior.
+          if (s < 0 && s > -3 * u) value += 0.12 * m.k * Math.exp(s / (1.2 * u)) * smooth(0.43, 0.78, texture);
+          value *= 1 - arcWeight(m.a + (texture - 0.5) * 0.12 + (mottle(px, py) - 0.5) * 0.12, ring.gap.from, ring.gap.span, 0.1);
+          for (const drop of drops) {
+            const dx = px - drop.x,
+              dy = (py - drop.y) / drop.squash;
+            if (Math.abs(dx) > drop.r * 1.4 || Math.abs(dy) > drop.r * 1.4) continue;
+            const a = Math.atan2(dy, dx),
+              r = drop.r * (1 + 0.09 * Math.sin(a * 3 + drop.phase) + 0.045 * Math.sin(a * 7 - drop.phase));
+            const q = Math.hypot(dx, dy) / r;
+            const cover = 1 - smooth(0.85, 1.1, q);
+            value += cover * drop.strength * (0.34 + 0.7 * Math.exp(-(((q - 0.8) / 0.18) ** 2))) * (0.9 + 0.2 * texture);
+          }
+          if (value <= 0) continue;
+          // The paper's tooth, kept quiet.
+          value *= 0.88 + 0.2 * grain(px, py);
+          field[y * size + x] = value;
         }
-        if (value <= 0) continue;
-        // The paper's tooth, kept quiet.
-        value *= 0.88 + 0.2 * grain(px, py);
-        field[y * size + x] = value;
+        if (performance.now() - started > 4) break;
       }
-    return field;
+      return row === size;
+    };
+    return { field, step };
   };
 
   // Dried coffee is warm amber where it is thin and espresso brown at the rim. Light themes multiply
@@ -221,13 +240,13 @@
     const { size, brew } = plan;
     const pixels = new Uint8ClampedArray(size * size * 4);
     const light = palette !== "dark";
-    const thin = light ? [208 - 10 * brew, 152 - 12 * brew, 82 - 12 * brew] : [112 + 6 * brew, 86 + 4 * brew, 58];
-    const thick = light ? [146 - 18 * brew, 90 - 12 * brew, 36 - 6 * brew] : [168 - 8 * brew, 124 - 8 * brew, 74 - 6 * brew];
-    const strength = light ? 2.8 : 1.9;
+    const thin = light ? [181 - 12 * brew, 118 - 10 * brew, 56 - 8 * brew] : [117 + 6 * brew, 78 + 4 * brew, 43];
+    const thick = light ? [76 - 12 * brew, 36 - 8 * brew, 13 - 4 * brew] : [184 - 8 * brew, 126 - 8 * brew, 68 - 6 * brew];
+    const strength = light ? 3.8 : 2.1;
     for (let i = 0; i < field.length; i += 1) {
       const d = field[i];
       if (!d) continue;
-      const t = smooth(0.06, 0.75, d),
+      const t = smooth(0.06, 1.25, d),
         o = i * 4;
       pixels[o] = thin[0] + (thick[0] - thin[0]) * t;
       pixels[o + 1] = thin[1] + (thick[1] - thin[1]) * t;
@@ -247,9 +266,9 @@
     stack.dataset.coffeeStainSeed = index === 0 ? seed : `${seed}-${index}`;
   });
 
-  // The stain's box at device resolution (at most 2x; it is a quiet desk cue).
+  // Supersample fine edges, bounded to 512 square pixels even on high-DPR screens.
   const box = parseFloat(window.getComputedStyle(stacks[0], "::before").width) || 220;
-  const size = Math.max(160, Math.min(512, Math.round(box * Math.min(2, window.devicePixelRatio || 1))));
+  const size = Math.max(160, Math.min(512, Math.round(box * Math.max(1.5, Math.min(2, window.devicePixelRatio || 1)))));
   const paletteFor = () => (document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
   const plan = design(seed, size);
   // Once painted, the mark settles in once as it comes into view: a slow, soft bloom whose edge
@@ -258,11 +277,13 @@
   const forceLive = /[?&]cinematic=live(?:&|$)/.test(window.location.search);
   const dryIn = !window.matchMedia("(prefers-reduced-motion: reduce)").matches && (!navigator.webdriver || forceLive);
   let field = null,
+    pigment = null,
+    densityJob = null,
     painted = null,
     dried = false;
 
-  // The page's Content-Security-Policy admits data: images but not blob: ones, so each PNG is
-  // encoded off the main thread (toBlob) and read back as a data URL.
+  // The page's Content-Security-Policy admits data: images but not blob: ones, so each PNG
+  // uses the asynchronous toBlob API and is read back as a data URL.
   const encode = (imageData, done) => {
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = size;
@@ -300,30 +321,93 @@
   const show = () => {
     const palette = paletteFor();
     painted = palette;
-    encode(paint(plan, field, palette), (url) => {
+    let imageData;
+    if (pigment) {
+      const pixels = new Uint8ClampedArray(pigment.data),
+        tint = 0.96 + plan.brew * 0.08;
+      for (let i = 0; i < pixels.length; i += 4) {
+        if (!pixels[i + 3]) continue;
+        pixels[i] *= tint;
+        pixels[i + 1] *= 0.98 + plan.brew * 0.04;
+        pixels[i + 3] *= (palette === "dark" ? 0.94 : 1) * (0.97 + plan.brew * 0.06);
+      }
+      imageData = new ImageData(pixels, size, size);
+    } else imageData = paint(plan, field, palette);
+    encode(imageData, (url) => {
       if (painted !== palette) return;
       stacks.forEach((stack) => {
         stack.style.setProperty("--home-coffee-stain-image", `url("${url}")`);
         stack.setAttribute("data-coffee-stain-ready", "true");
+        stack.setAttribute("data-coffee-stain-source", pigment ? "raster" : "procedural");
       });
       if (dryIn && !dried) watchForView();
     });
   };
 
-  // Painting a stain is tens of milliseconds of arithmetic, so it runs in idle slices (the ring,
-  // then the paint) and never holds up the page.
+  // Decoration yields between at most eight scanlines, aiming for four milliseconds of
+  // arithmetic per idle turn. This is a work budget, not a device timing guarantee.
   const later = (callback) => (window.requestIdleCallback ? window.requestIdleCallback(callback, { timeout: 800 }) : window.setTimeout(callback, 32));
   const work = () => {
     if (!field) {
-      field = densityField(plan);
+      densityJob ||= densityField(plan);
+      if (densityJob.step()) field = densityJob.field;
       later(work);
       return;
     }
     show();
   };
-  later(work);
+  // The original generated pigment is the preferred material. It decodes lazily
+  // from this classic script's own baseurl; a failed or stalled load uses the
+  // deterministic procedural version. No late texture swap or perpetual redraw.
+  const image = new Image();
+  image.decoding = "async";
+  let selected = false,
+    loadTimer = 0;
+  const fallback = () => {
+    if (selected) return;
+    selected = true;
+    window.clearTimeout(loadTimer);
+    later(work);
+  };
+  image.onerror = fallback;
+  image.onload = async () => {
+    try {
+      await image.decode();
+    } catch {
+      return fallback();
+    }
+    if (selected) return;
+    selected = true;
+    window.clearTimeout(loadTimer);
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = size;
+    const context = canvas.getContext("2d"),
+      variant = makeRandom(hashSeed("pigment-" + seed));
+    context.translate(size / 2, size / 2);
+    context.scale(between(variant, 0.98, 1.02), between(variant, 0.98, 1.02));
+    // Inset the real alpha mask, including the irregular satellite drops, so
+    // the seeded outer placement can turn without clipping against the column.
+    context.drawImage(image, -size * 0.43, -size * 0.43, size * 0.86, size * 0.86);
+    pigment = context.getImageData(0, 0, size, size);
+    later(show);
+  };
+  const load = () => {
+    loadTimer = window.setTimeout(fallback, 1500);
+    image.src = pigmentUrl;
+  };
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        load();
+      },
+      { rootMargin: "320px 0px" }
+    );
+    stacks.forEach((stack) => observer.observe(stack));
+  } else load();
 
   window.addEventListener("siteThemeChange", () => {
-    if (field && paletteFor() !== painted) show();
+    if ((field || pigment) && paletteFor() !== painted) show();
   });
 })();

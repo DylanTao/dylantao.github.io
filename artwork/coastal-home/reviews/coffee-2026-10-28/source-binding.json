@@ -1,0 +1,138 @@
+{
+  "source": {
+    "assets/js/home-coffee-stain.js": {
+      "bytes": 16007,
+      "sha256": "8cd9b47a4261b880db613ddd3712e5797967e56df128f441dbfa64aa31cb2434"
+    },
+    "_sass/_home.scss": {
+      "bytes": 86752,
+      "sha256": "38e19a93a1f7ddecd98916fe30e26d8437ba3faf9ed11223adefae51beb4d04c"
+    },
+    "test/visual/sitewide.spec.js": {
+      "bytes": 164355,
+      "sha256": "724190804dcb1e1e8f75bc7964a1e2be42851a1b6436048678b36070441c0ff6"
+    }
+  },
+  "built": {
+    "assets/js/home-coffee-stain.js": {
+      "bytes": 6528,
+      "gzipBytes": 3148,
+      "sha256": "36501bee01bf5b201621e3a33c66ddd57c14a362d05e4d3af6bfcdec71985e28"
+    },
+    "assets/css/main.css": {
+      "bytes": 545566,
+      "gzipBytes": 89960,
+      "sha256": "26d462b75c8c08ab6574a4f45efbd37133274ea28c47a91fa939a73bdd1aa096"
+    }
+  },
+  "captures": {
+    "after-dark": {
+      "raster": [322, 322],
+      "pngBytes": 34915,
+      "clearCenterFraction": 0.9957533117829752,
+      "bindings": [
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/css/main.css?v=20261028014734",
+          "httpBuiltSha256": "26d462b75c8c08ab6574a4f45efbd37133274ea28c47a91fa939a73bdd1aa096",
+          "browserBOMRemoved": true
+        },
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/js/home-coffee-stain.js?v=22e4363f9c7acfa46b4cdb011b65ffb1",
+          "httpBuiltSha256": "36501bee01bf5b201621e3a33c66ddd57c14a362d05e4d3af6bfcdec71985e28",
+          "browserBOMRemoved": false
+        }
+      ],
+      "errors": []
+    },
+    "after-desktop": {
+      "raster": [322, 322],
+      "pngBytes": 36032,
+      "clearCenterFraction": 0.9956265449705267,
+      "bindings": [
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/css/main.css?v=20261028014734",
+          "httpBuiltSha256": "26d462b75c8c08ab6574a4f45efbd37133274ea28c47a91fa939a73bdd1aa096",
+          "browserBOMRemoved": true
+        },
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/js/home-coffee-stain.js?v=22e4363f9c7acfa46b4cdb011b65ffb1",
+          "httpBuiltSha256": "36501bee01bf5b201621e3a33c66ddd57c14a362d05e4d3af6bfcdec71985e28",
+          "browserBOMRemoved": false
+        }
+      ],
+      "errors": []
+    },
+    "after-laptop": {
+      "raster": [305, 305],
+      "pngBytes": 32807,
+      "clearCenterFraction": 0.9954738330975955,
+      "bindings": [
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/css/main.css?v=20261028014734",
+          "httpBuiltSha256": "26d462b75c8c08ab6574a4f45efbd37133274ea28c47a91fa939a73bdd1aa096",
+          "browserBOMRemoved": true
+        },
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/js/home-coffee-stain.js?v=22e4363f9c7acfa46b4cdb011b65ffb1",
+          "httpBuiltSha256": "36501bee01bf5b201621e3a33c66ddd57c14a362d05e4d3af6bfcdec71985e28",
+          "browserBOMRemoved": false
+        }
+      ],
+      "errors": []
+    },
+    "after-phone-dark": {
+      "raster": [246, 246],
+      "pngBytes": 21933,
+      "clearCenterFraction": 0.9955400848471663,
+      "bindings": [
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/css/main.css?v=20261028014734",
+          "httpBuiltSha256": "26d462b75c8c08ab6574a4f45efbd37133274ea28c47a91fa939a73bdd1aa096",
+          "browserBOMRemoved": true
+        },
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/js/home-coffee-stain.js?v=22e4363f9c7acfa46b4cdb011b65ffb1",
+          "httpBuiltSha256": "36501bee01bf5b201621e3a33c66ddd57c14a362d05e4d3af6bfcdec71985e28",
+          "browserBOMRemoved": false
+        }
+      ],
+      "errors": []
+    },
+    "after-phone": {
+      "raster": [246, 246],
+      "pngBytes": 22668,
+      "clearCenterFraction": 0.9955400848471663,
+      "bindings": [
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/css/main.css?v=20261028014734",
+          "httpBuiltSha256": "26d462b75c8c08ab6574a4f45efbd37133274ea28c47a91fa939a73bdd1aa096",
+          "browserBOMRemoved": true
+        },
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/js/home-coffee-stain.js?v=22e4363f9c7acfa46b4cdb011b65ffb1",
+          "httpBuiltSha256": "36501bee01bf5b201621e3a33c66ddd57c14a362d05e4d3af6bfcdec71985e28",
+          "browserBOMRemoved": false
+        }
+      ],
+      "errors": []
+    },
+    "after-tablet": {
+      "raster": [322, 322],
+      "pngBytes": 36032,
+      "clearCenterFraction": 0.9956265449705267,
+      "bindings": [
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/css/main.css?v=20261028014734",
+          "httpBuiltSha256": "26d462b75c8c08ab6574a4f45efbd37133274ea28c47a91fa939a73bdd1aa096",
+          "browserBOMRemoved": true
+        },
+        {
+          "url": "http://127.0.0.1:4115/al-folio/assets/js/home-coffee-stain.js?v=22e4363f9c7acfa46b4cdb011b65ffb1",
+          "httpBuiltSha256": "36501bee01bf5b201621e3a33c66ddd57c14a362d05e4d3af6bfcdec71985e28",
+          "browserBOMRemoved": false
+        }
+      ],
+      "errors": []
+    }
+  }
+}

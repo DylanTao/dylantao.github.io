@@ -1,0 +1,279 @@
+{
+  "base": "http://127.0.0.1:4115/al-folio",
+  "productionBaseurl": "/al-folio",
+  "completeProductionBuild": true,
+  "imageOrRouteOmissions": false,
+  "sourceScript": {
+    "bytes": 18606,
+    "sha256": "7f0f6ad2de171953c0d7a3cf869555a75952ec81dae796ede780f5f428e53aae",
+    "htmlVersionMD5": "7e19568e612ef62db28146fbb57ff82d"
+  },
+  "compiledScript": {
+    "bytes": 7661,
+    "sha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+    "computedGzipBytes": 3619,
+    "previewServesUncompressed": true
+  },
+  "captures": [
+    {
+      "capture": "preferred-dark.json",
+      "width": 1440,
+      "dpr": 1,
+      "theme": "evening",
+      "source": "raster",
+      "nativeSize": [322, 322],
+      "nativeBytes": 53213,
+      "centerClearFractionAlphaBelow8": 0.9937884261900235,
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 545567,
+          "rawHTTPSha256": "73492caeac0c18f9d6b976a294c1a231328e17de95d9082d3fd7b6d400e2f01d",
+          "browserBytes": 545564,
+          "browserSha256": "dea3201619c8468a1068ed150aa7a14e98698e23d3d425aafb05d5fa855d4ee0",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 7661,
+          "rawHTTPSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "browserBytes": 7661,
+          "browserSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "normalization": null
+        },
+        {
+          "path": "assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+          "rawHTTPBytes": 50038,
+          "rawHTTPSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "browserBytes": 50038,
+          "browserSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "preferred-desktop.json",
+      "width": 1440,
+      "dpr": 1,
+      "theme": "noon",
+      "source": "raster",
+      "nativeSize": [322, 322],
+      "nativeBytes": 53209,
+      "centerClearFractionAlphaBelow8": 0.993661659377575,
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 545567,
+          "rawHTTPSha256": "73492caeac0c18f9d6b976a294c1a231328e17de95d9082d3fd7b6d400e2f01d",
+          "browserBytes": 545564,
+          "browserSha256": "dea3201619c8468a1068ed150aa7a14e98698e23d3d425aafb05d5fa855d4ee0",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 7661,
+          "rawHTTPSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "browserBytes": 7661,
+          "browserSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "normalization": null
+        },
+        {
+          "path": "assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+          "rawHTTPBytes": 50038,
+          "rawHTTPSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "browserBytes": 50038,
+          "browserSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "preferred-laptop.json",
+      "width": 1280,
+      "dpr": 1,
+      "theme": "noon",
+      "source": "raster",
+      "nativeSize": [305, 305],
+      "nativeBytes": 48475,
+      "centerClearFractionAlphaBelow8": 0.9936350777934936,
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 545567,
+          "rawHTTPSha256": "73492caeac0c18f9d6b976a294c1a231328e17de95d9082d3fd7b6d400e2f01d",
+          "browserBytes": 545564,
+          "browserSha256": "dea3201619c8468a1068ed150aa7a14e98698e23d3d425aafb05d5fa855d4ee0",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 7661,
+          "rawHTTPSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "browserBytes": 7661,
+          "browserSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "normalization": null
+        },
+        {
+          "path": "assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+          "rawHTTPBytes": 50038,
+          "rawHTTPSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "browserBytes": 50038,
+          "browserSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "preferred-phone-dark.json",
+      "width": 390,
+      "dpr": 1,
+      "theme": "evening",
+      "source": "raster",
+      "nativeSize": [246, 246],
+      "nativeBytes": 34463,
+      "centerClearFractionAlphaBelow8": 0.9924942891330361,
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 545567,
+          "rawHTTPSha256": "73492caeac0c18f9d6b976a294c1a231328e17de95d9082d3fd7b6d400e2f01d",
+          "browserBytes": 545564,
+          "browserSha256": "dea3201619c8468a1068ed150aa7a14e98698e23d3d425aafb05d5fa855d4ee0",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 7661,
+          "rawHTTPSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "browserBytes": 7661,
+          "browserSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "normalization": null
+        },
+        {
+          "path": "assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+          "rawHTTPBytes": 50038,
+          "rawHTTPSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "browserBytes": 50038,
+          "browserSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "preferred-phone-dpr3.json",
+      "width": 390,
+      "dpr": 3,
+      "theme": "noon",
+      "source": "raster",
+      "nativeSize": [328, 328],
+      "nativeBytes": 55018,
+      "centerClearFractionAlphaBelow8": 0.9935838680109991,
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 545567,
+          "rawHTTPSha256": "73492caeac0c18f9d6b976a294c1a231328e17de95d9082d3fd7b6d400e2f01d",
+          "browserBytes": 545564,
+          "browserSha256": "dea3201619c8468a1068ed150aa7a14e98698e23d3d425aafb05d5fa855d4ee0",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 7661,
+          "rawHTTPSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "browserBytes": 7661,
+          "browserSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "normalization": null
+        },
+        {
+          "path": "assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+          "rawHTTPBytes": 50038,
+          "rawHTTPSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "browserBytes": 50038,
+          "browserSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "preferred-phone.json",
+      "width": 390,
+      "dpr": 1,
+      "theme": "noon",
+      "source": "raster",
+      "nativeSize": [246, 246],
+      "nativeBytes": 34385,
+      "centerClearFractionAlphaBelow8": 0.9922767322963124,
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 545567,
+          "rawHTTPSha256": "73492caeac0c18f9d6b976a294c1a231328e17de95d9082d3fd7b6d400e2f01d",
+          "browserBytes": 545564,
+          "browserSha256": "dea3201619c8468a1068ed150aa7a14e98698e23d3d425aafb05d5fa855d4ee0",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 7661,
+          "rawHTTPSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "browserBytes": 7661,
+          "browserSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "normalization": null
+        },
+        {
+          "path": "assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+          "rawHTTPBytes": 50038,
+          "rawHTTPSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "browserBytes": 50038,
+          "browserSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "preferred-tablet.json",
+      "width": 768,
+      "dpr": 1,
+      "theme": "noon",
+      "source": "raster",
+      "nativeSize": [322, 322],
+      "nativeBytes": 53209,
+      "centerClearFractionAlphaBelow8": 0.993661659377575,
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 545567,
+          "rawHTTPSha256": "73492caeac0c18f9d6b976a294c1a231328e17de95d9082d3fd7b6d400e2f01d",
+          "browserBytes": 545564,
+          "browserSha256": "dea3201619c8468a1068ed150aa7a14e98698e23d3d425aafb05d5fa855d4ee0",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 7661,
+          "rawHTTPSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "browserBytes": 7661,
+          "browserSha256": "3fd2bfdbe03a57ff39b31258d9cb6dcf209f5daa47e868f44049ef929fdebe45",
+          "normalization": null
+        },
+        {
+          "path": "assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+          "rawHTTPBytes": 50038,
+          "rawHTTPSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "browserBytes": 50038,
+          "browserSha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "scope": "Artifact and source binding, transparency and functional renders; no exclusive hardware timing or physical-phone measurements."
+}

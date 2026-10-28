@@ -1,0 +1,35 @@
+{
+  "width": 390,
+  "theme": "noon",
+  "seed": "52",
+  "detail": {
+    "size": 163.797,
+    "strength": "0.8084",
+    "transform": "matrix(1.04999, 0.00384844, -0.00384844, 1.04999, 7.04, -3.52)",
+    "top": "-128px",
+    "right": "8px",
+    "stack": {
+      "x": 20,
+      "y": 1140.234375,
+      "width": 350,
+      "height": 149.046875
+    },
+    "pngBytes": 22668,
+    "pngSha256": "c1c9a73fe6ee2352d9d838c87aaa34e0f3b6f788ea7683654cfacfa9903007a5"
+  },
+  "bindings": [
+    {
+      "url": "http://127.0.0.1:4115/al-folio/assets/css/main.css?v=20261028014734",
+      "status": 200,
+      "bytes": 545563,
+      "sha256": "9d09e84d5a40756de198636de9a236bb821ccf436eb188df59782ae0b189589d"
+    },
+    {
+      "url": "http://127.0.0.1:4115/al-folio/assets/js/home-coffee-stain.js?v=22e4363f9c7acfa46b4cdb011b65ffb1",
+      "status": 200,
+      "bytes": 6528,
+      "sha256": "36501bee01bf5b201621e3a33c66ddd57c14a362d05e4d3af6bfcdec71985e28"
+    }
+  ],
+  "errors": []
+}

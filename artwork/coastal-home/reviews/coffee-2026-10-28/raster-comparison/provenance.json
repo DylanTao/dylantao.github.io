@@ -1,0 +1,27 @@
+{
+  "generator": "built-in image_gen",
+  "modelSelector": "not exposed by the tool",
+  "sourceFile": "exec-6082f9be-f3ea-474b-8272-3a234cb94e40.png",
+  "sha256": "48872c235b1d98fc37d01b8fdea341d65883287a08a3c2d596c6d775bb12a364",
+  "bytes": 811991,
+  "mode": "RGBA",
+  "size": [1254, 1254],
+  "metadataKeys": [],
+  "alphaExtrema": [0, 255],
+  "fullyTransparentPixels": 1262636,
+  "partiallyTransparentPixels": 309409,
+  "opaquePixels": 471,
+  "centerSquareClearFraction": 0.993410384819184,
+  "derivative": {
+    "file": "assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+    "bytes": 50038,
+    "sha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+    "mode": "RGBA",
+    "size": [512, 512],
+    "alphaExtrema": [0, 255],
+    "preparation": "ImageMagick resize to512x512, WebPquality90, alpha-quality100, method6; no pigment shape or marks removed",
+    "command": "magick source.png -resize 512x512 -quality 90 -define webp:alpha-quality=100 -define webp:method=6 derivative.webp"
+  },
+  "prompt": "PROMPT.txt",
+  "interpretation": "Built-in generated pigment, not a photograph or fluid simulation"
+}

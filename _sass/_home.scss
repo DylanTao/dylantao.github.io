@@ -1679,12 +1679,12 @@ html[data-theme="dark"] .home-record-card-link {
 // shows dull brown residue. For people it settles once as it comes into view: a slow, soft bloom
 // whose edge sharpens as the liquid pins, without a wet-to-dry play (the same review).
 .home-artifact-stack.has-coffee-stain {
-  --home-coffee-stain-strength: calc(var(--home-coffee-stain-opacity) * 0.8);
+  --home-coffee-stain-strength: calc(var(--home-coffee-stain-opacity) * 0.94);
 }
 
 .home-artifact-stack.has-coffee-stain::before {
   position: absolute;
-  top: -6.2rem;
+  top: -7.4rem;
   // Inside the column: the hero clips at its edge, and the ring should stay whole.
   right: 0.4rem;
   width: min(13.4rem, 42%);
@@ -3340,8 +3340,8 @@ html.home-motion-ready .home-reveal.home-visible {
   }
 
   .home-artifact-stack.has-coffee-stain::before {
-    top: -6.4rem;
-    right: 0.5rem;
+    top: -8rem;
+    right: 1.1rem;
     width: min(10.5rem, 42vw);
   }
 
