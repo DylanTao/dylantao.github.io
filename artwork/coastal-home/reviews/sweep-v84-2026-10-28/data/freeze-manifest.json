@@ -1,0 +1,1258 @@
+{
+  "source": "finish-room-runtime frozen source family",
+  "siteCodeBase": "cdb6bb7c4",
+  "sourceStableDuringCopy": true,
+  "rejectedF6Used": false,
+  "files": [
+    {
+      "file": "assets/js/home-scene/activities.mjs",
+      "bytes": 6219,
+      "sha256": "d90e1ba8005765ad07a6b9c5afbbef9e0252fef2be3daee2c1c09aadb7dcc96c"
+    },
+    {
+      "file": "assets/js/home-scene/atmosphere-model.mjs",
+      "bytes": 27002,
+      "sha256": "4a7ef726dd098efd5736e92ef63cb5a974a5ec783bbbfdcfc5383051c0bc2efb"
+    },
+    {
+      "file": "assets/js/home-scene/atmosphere.mjs",
+      "bytes": 45196,
+      "sha256": "42895cfc9f3bfcad65a4957ecfafd4e6952cda4b8eec80da9dee247695a719ec"
+    },
+    {
+      "file": "assets/js/home-scene/bathymetry.mjs",
+      "bytes": 13806,
+      "sha256": "5951056c3e782fe5380bcd6f17c6c2f028de80dff1667dde7829cd3eaef80b3e"
+    },
+    {
+      "file": "assets/js/home-scene/bedding-breath.mjs",
+      "bytes": 5434,
+      "sha256": "9e56728edcb89e1d10ba29130cd0dde1bf02ec3cf8ab9ee7b7959d5cdc8f9c47"
+    },
+    {
+      "file": "assets/js/home-scene/camera-field-worker.mjs",
+      "bytes": 1396,
+      "sha256": "5325474f837ad1e6410d53466bdef26e62ce6ab59506fd56e7935273f157a5cf"
+    },
+    {
+      "file": "assets/js/home-scene/camera-field.mjs",
+      "bytes": 9452,
+      "sha256": "a483225e04ac1a5cf45f45857136af57b94ea5fb6bf06f5d6ff7dc2a82280cac"
+    },
+    {
+      "file": "assets/js/home-scene/camera-motion.mjs",
+      "bytes": 3562,
+      "sha256": "bb40c1289d623def704511f76514e05471ff6d3362ab5a4cfe6b4c978dcacb0e"
+    },
+    {
+      "file": "assets/js/home-scene/camera.mjs",
+      "bytes": 36303,
+      "sha256": "b1734f40fa3d3dfd21538911f99a19840d6b0cbfb5c2221fa54c56055f4069eb"
+    },
+    {
+      "file": "assets/js/home-scene/character-contacts.mjs",
+      "bytes": 917,
+      "sha256": "2badda050309c0f797a52fa0c46a881ac4a90470602e5b89f45cd2c3e3577f94"
+    },
+    {
+      "file": "assets/js/home-scene/character-performance.mjs",
+      "bytes": 10042,
+      "sha256": "ca4ead9aac7ab222436befbd7cbc8f409571f46ae060019dac4a288de582b7ff"
+    },
+    {
+      "file": "assets/js/home-scene/cloth-solver.mjs",
+      "bytes": 55857,
+      "sha256": "5aa51d5e64e8a9c2c01f986a80895e021b13966e0af7d99d9b73fd69a50292f4"
+    },
+    {
+      "file": "assets/js/home-scene/coastal-rain.mjs",
+      "bytes": 6650,
+      "sha256": "c9058e2909041000eec130568dc21f86eb8ad458d79bd542c6bc7c02d61a948a"
+    },
+    {
+      "file": "assets/js/home-scene/coastal-weather.mjs",
+      "bytes": 8710,
+      "sha256": "100e90505ac86641b47f2d6d9cc9e78e9a492fbec795c5fa55017779ed1a8b19"
+    },
+    {
+      "file": "assets/js/home-scene/coastal-wind.mjs",
+      "bytes": 7029,
+      "sha256": "596984bb7d46d2dc92c2d25d7888b5b5ec560b8faab64e5f09d9ce933cea022f"
+    },
+    {
+      "file": "assets/js/home-scene/colliders.mjs",
+      "bytes": 29024,
+      "sha256": "eb27df9e3c5a9be1a304cd7390a05b8c710a6d6d643a9b8def4540b40a7bc79b"
+    },
+    {
+      "file": "assets/js/home-scene/companion.mjs",
+      "bytes": 21280,
+      "sha256": "7fb11dd5f9726fd3ecc23068d424fdefd4873043b0025032d59e1d43af63eb4f"
+    },
+    {
+      "file": "assets/js/home-scene/contact-lab.html",
+      "bytes": 3878,
+      "sha256": "b3e99d1eb60aa00eeacf52fd8045f7ac390926f0771c522d7996eeff989ff44c"
+    },
+    {
+      "file": "assets/js/home-scene/contact-lab.mjs",
+      "bytes": 4753,
+      "sha256": "586f0cd46c0ae909cbede86f2ef5456541378bcdcf2d565525e0fb6d8882a3be"
+    },
+    {
+      "file": "assets/js/home-scene/CONTACT-LIGHTING.md",
+      "bytes": 12766,
+      "sha256": "1a0513489e0878eeced25a85c36f284859923517839175e4eae198306cfea72f"
+    },
+    {
+      "file": "assets/js/home-scene/contact-occlusion.mjs",
+      "bytes": 8135,
+      "sha256": "588296c04101a8b068d920553af3e126273ea45309368063af36f34443eef03b"
+    },
+    {
+      "file": "assets/js/home-scene/controller.mjs",
+      "bytes": 204524,
+      "sha256": "f97c4d44a9952e3dc3a66bb8edcfbe2a1116b024d5c0e1339f6654fb441232fd"
+    },
+    {
+      "file": "assets/js/home-scene/curtain-cloth.mjs",
+      "bytes": 45890,
+      "sha256": "a0efa83fe9415ba9d7da6c17625a1911f6bd01daf751304c43ec67f479b97b98"
+    },
+    {
+      "file": "assets/js/home-scene/curtain-rig.mjs",
+      "bytes": 17535,
+      "sha256": "56b3a1e0358a7fc656a81ed2bfddf5d913a2c1730dfe86651e1ad655b18ca87c"
+    },
+    {
+      "file": "assets/js/home-scene/daylight.mjs",
+      "bytes": 2277,
+      "sha256": "e88eacd50abce6436ba973acde205f82c0a7a95a1862a9002172dfe2c14241f7"
+    },
+    {
+      "file": "assets/js/home-scene/detail-levels.mjs",
+      "bytes": 5030,
+      "sha256": "deb681dddd3ad965474bcc1d537e5348f16c522e2074a25a41866aeef26be838"
+    },
+    {
+      "file": "assets/js/home-scene/dining-menu.mjs",
+      "bytes": 6988,
+      "sha256": "48f076799f411989538912a32c2cb09b780a144c7089b0b9b21b86bb1630934b"
+    },
+    {
+      "file": "assets/js/home-scene/dining-motion.mjs",
+      "bytes": 41831,
+      "sha256": "07aacd05d8a8485dc1a53707edb7ecc857e0e70f6eeea72f08ab4f94dfe5e313"
+    },
+    {
+      "file": "assets/js/home-scene/dining.mjs",
+      "bytes": 69921,
+      "sha256": "04b62c87fcee701eb1e87cfd0a4402315f6e7d319db8c257f70dbe1e6b35e6d6"
+    },
+    {
+      "file": "assets/js/home-scene/draw-order.mjs",
+      "bytes": 1560,
+      "sha256": "85690ebf60dde4f85f6a1cbde7aed28b0b33b7b2c48cc258a6446dd831a0892e"
+    },
+    {
+      "file": "assets/js/home-scene/duvet-solver.mjs",
+      "bytes": 6072,
+      "sha256": "66a87ca9fe9097f3177a68a34cf6618eb1b50c511d9e57279e62c28e50ca6202"
+    },
+    {
+      "file": "assets/js/home-scene/environment.mjs",
+      "bytes": 46552,
+      "sha256": "201e1fcaadbad4e55c28ca84b6f68721309e3d1bf8930eceef77b801d6bba209"
+    },
+    {
+      "file": "assets/js/home-scene/estate-doors.mjs",
+      "bytes": 5418,
+      "sha256": "174d227c50a8e39c68a897249bbc3224a819b6b2a12b1b1fa065f8a9a9fb2fc7"
+    },
+    {
+      "file": "assets/js/home-scene/far-field.mjs",
+      "bytes": 25514,
+      "sha256": "14b31d034f9d811526ec8f7c3bdacd315c99cc4333ed213d18101b35e2b4a834"
+    },
+    {
+      "file": "assets/js/home-scene/FFT-OCEAN.md",
+      "bytes": 4789,
+      "sha256": "3eb64f97ea538deb3dd38e2a9d22e9807b0de2f887cdc2d6d48bb1743874fc66"
+    },
+    {
+      "file": "assets/js/home-scene/fft-ocean.mjs",
+      "bytes": 7028,
+      "sha256": "891c635c375328c10f1f7a34f0f81a7d0e038728c3f1b26741b7381c0ffcc765"
+    },
+    {
+      "file": "assets/js/home-scene/furniture-fire.mjs",
+      "bytes": 2994,
+      "sha256": "8744a7a780dce9548b2ecc334aabe0d7dbeef910b2595599ff010918e9e1a5b9"
+    },
+    {
+      "file": "assets/js/home-scene/furniture.mjs",
+      "bytes": 25547,
+      "sha256": "bfd591bdde64976079778cbeaee8c3591f0b2f48fca9e9c4c18f5d29af28a8f5"
+    },
+    {
+      "file": "assets/js/home-scene/gamepad.mjs",
+      "bytes": 2718,
+      "sha256": "c78c65e02431b6e84ce165253c5f0da5abc7381a67f1b4328c7a952d3b73c2fe"
+    },
+    {
+      "file": "assets/js/home-scene/glazing.mjs",
+      "bytes": 2492,
+      "sha256": "1ed856c97059df3dda43e814c22277fd4dea3cee0266ee57fc7425bc96d8a60e"
+    },
+    {
+      "file": "assets/js/home-scene/gliders.mjs",
+      "bytes": 5958,
+      "sha256": "b6c4c5c3055d5462214b4f37d54ae6fa14c7102f873c89fb9f745c519f80115b"
+    },
+    {
+      "file": "assets/js/home-scene/gpu-timer.mjs",
+      "bytes": 2068,
+      "sha256": "04fee0377ba3d1d7c709a0c8fa8d1a555d3a3b0c07a82cb34bdc5092d805257e"
+    },
+    {
+      "file": "assets/js/home-scene/grip-targets.mjs",
+      "bytes": 716,
+      "sha256": "b8bbfc150f4a8187998d09d442b55bb6a8523ba1fa3fe93f481843f231a149eb"
+    },
+    {
+      "file": "assets/js/home-scene/gym-props.mjs",
+      "bytes": 17333,
+      "sha256": "d2fe5bdd66b08e310d3124aa9c32dbbe6c6254da611a8680f602b915bcb27fc0"
+    },
+    {
+      "file": "assets/js/home-scene/gym-session.mjs",
+      "bytes": 33922,
+      "sha256": "703b7b2143bd17e79cafdcec481ba0b5ad41411a3c94f50f6fada26f9e7f5b93"
+    },
+    {
+      "file": "assets/js/home-scene/haze.mjs",
+      "bytes": 19672,
+      "sha256": "342155b9d3fa4e2c8aff34d2765fe3f2770437302ee8fafbc54e22df193bf2eb"
+    },
+    {
+      "file": "assets/js/home-scene/heightfield-water.mjs",
+      "bytes": 16977,
+      "sha256": "53fab41b33a65e75a4d9195f968fc1ebce83ec136cb428337bc96984a32a5ade"
+    },
+    {
+      "file": "assets/js/home-scene/hinterland.mjs",
+      "bytes": 4475,
+      "sha256": "512d3e1e83c4e2f87fd8528a1c09c0e1893499e87d2c6dc1aa12deae6d13049d"
+    },
+    {
+      "file": "assets/js/home-scene/infinity-pool.mjs",
+      "bytes": 3191,
+      "sha256": "32584f24b18b95e168fe12c604b06e94ec76d9071713cad83779072010a86c26"
+    },
+    {
+      "file": "assets/js/home-scene/ink-study.mjs",
+      "bytes": 2966,
+      "sha256": "b176273adaf443519aed230386d08f3b4791ba166f8d2103a7b655dd8c4e9e61"
+    },
+    {
+      "file": "assets/js/home-scene/interior-reflections.mjs",
+      "bytes": 18574,
+      "sha256": "86e794cb5dbb0430d0e2776f1f4bc94aa3ecbe7055d72daa336dd7fb46ca29fa"
+    },
+    {
+      "file": "assets/js/home-scene/laundry-line.mjs",
+      "bytes": 20285,
+      "sha256": "d2db48f521b967221242a3806ddaa63fe155ce4988a04ccd2258ccd19eaff689"
+    },
+    {
+      "file": "assets/js/home-scene/laundry-rig.mjs",
+      "bytes": 16205,
+      "sha256": "f182c3b83987bdb5304d7a766b7ea36c6b9ca4f6128ee0b36a86a63a26f1aa90"
+    },
+    {
+      "file": "assets/js/home-scene/library-ladder.mjs",
+      "bytes": 8296,
+      "sha256": "e1b3983a00ef45b9d70b24bdc9b7acc3031ce0206a4aa87fc0c7cae5c0983716"
+    },
+    {
+      "file": "assets/js/home-scene/lift-rig.mjs",
+      "bytes": 33806,
+      "sha256": "04ec8f9befa98b0fc2e67667dc06bb66332eab1e61a4a9d089bde947237d2344"
+    },
+    {
+      "file": "assets/js/home-scene/light-installations.mjs",
+      "bytes": 41242,
+      "sha256": "414605362a2f37e306bcf9d3628f375420ca42f9fd78934b59fd6f81e74eb20c"
+    },
+    {
+      "file": "assets/js/home-scene/light-trace-core.mjs",
+      "bytes": 11694,
+      "sha256": "787271d05f2143026a37ab6653bc938a7ed5d704ab4b81086627646df0ca61c3"
+    },
+    {
+      "file": "assets/js/home-scene/light-well.mjs",
+      "bytes": 18694,
+      "sha256": "28091da2cd529362e737114741ae04d3bb1f622976b56fa4ecc3be55902dbc44"
+    },
+    {
+      "file": "assets/js/home-scene/loading-sketch-core.mjs",
+      "bytes": 22760,
+      "sha256": "4364d9aa560ed054553d6dbc9e9d898ce651a23b9d1f7f1649eaa059e015092d"
+    },
+    {
+      "file": "assets/js/home-scene/loading-sketch-worker.mjs",
+      "bytes": 3015,
+      "sha256": "47034647bdd542511376805b8dca4301d6f695c71ba75b93c35031498cb29858"
+    },
+    {
+      "file": "assets/js/home-scene/loading-sketch.mjs",
+      "bytes": 10103,
+      "sha256": "59755084f7e9b5b2a385bcef6e413e3dbef8680dc58b0f0de39080746b62f3f1"
+    },
+    {
+      "file": "assets/js/home-scene/local-scene-frame.mjs",
+      "bytes": 842,
+      "sha256": "97e01ed6ffcd4f6a8fc7efcc36a0df70743c58b95341b5b0f196c99a81239f48"
+    },
+    {
+      "file": "assets/js/home-scene/locomotion.mjs",
+      "bytes": 2905,
+      "sha256": "94d1f9035ae8eae3f66995fa16408cd8f2b3e83ba6d8e8344ec1aed8aa6f0854"
+    },
+    {
+      "file": "assets/js/home-scene/look.mjs",
+      "bytes": 1491,
+      "sha256": "1d5184320a900a2caf724a58cc56efa57df1c93cf82c8d274d577deca04762f2"
+    },
+    {
+      "file": "assets/js/home-scene/materials.mjs",
+      "bytes": 8504,
+      "sha256": "5b2b53bc74bec3e3e4d6b286ae16e1e40fcc8f482ae5f1ec5ebc0b83cd1fcf87"
+    },
+    {
+      "file": "assets/js/home-scene/model-loader.mjs",
+      "bytes": 3055,
+      "sha256": "2442bd5a59f8fe927ecc0c415600a0d6af256fe07538d64f47891c5d570d466b"
+    },
+    {
+      "file": "assets/js/home-scene/navigation.mjs",
+      "bytes": 6939,
+      "sha256": "6f0884c0692969d6cda736972df644c7952ca949c8a7ff594d9eacee4cfc17e3"
+    },
+    {
+      "file": "assets/js/home-scene/occlusion-region.mjs",
+      "bytes": 3801,
+      "sha256": "28425bb513e639ae8d4d9c0699e5d9ba417c95dae938496d49fe583f606b774b"
+    },
+    {
+      "file": "assets/js/home-scene/ocean-spectrum.mjs",
+      "bytes": 17140,
+      "sha256": "e04caba220c4daa5f64db2226c943c1a7478e13bcce8fffd127955d3f9669e7b"
+    },
+    {
+      "file": "assets/js/home-scene/ONSEN-WATER.md",
+      "bytes": 16211,
+      "sha256": "fd0526f454e6a8880fb7282262dc4fce39b039a80b9f5b80095384f031d5d0ed"
+    },
+    {
+      "file": "assets/js/home-scene/onsen-water.mjs",
+      "bytes": 26222,
+      "sha256": "bcfc491176ce2e0ad88d0f67f7791fa391fe54da2fb5cfd3111b271bd8593399"
+    },
+    {
+      "file": "assets/js/home-scene/perf-overlay.mjs",
+      "bytes": 4711,
+      "sha256": "51d49b80183882f9dfe9033a2a43b094eedbd07a61f5dac9896e38a607f1d67b"
+    },
+    {
+      "file": "assets/js/home-scene/PHYSICS.md",
+      "bytes": 74845,
+      "sha256": "2e8d4f5e6f3246bc12c1d51f40ca2d68a956fe44f1f814b51a70065a8f38f053"
+    },
+    {
+      "file": "assets/js/home-scene/PLANETS.md",
+      "bytes": 2417,
+      "sha256": "9f62d0cb976598750c45f7d43a807c67e810dfcad54c14c4440accffd64c5afe"
+    },
+    {
+      "file": "assets/js/home-scene/planets.mjs",
+      "bytes": 5512,
+      "sha256": "014a3665e111a7dad70bce7d63123149b0821e37e4c774078aa22e55d92a07aa"
+    },
+    {
+      "file": "assets/js/home-scene/plant-motion.mjs",
+      "bytes": 19987,
+      "sha256": "a4450da3a0df5186ff6d3da57f82abddbda40f498e5272c7c81d433e3acb0b28"
+    },
+    {
+      "file": "assets/js/home-scene/planted-feet.mjs",
+      "bytes": 4705,
+      "sha256": "59490889f54c4f3ee6f6a68339a1c08c367b927736ee5cd99d5986934a84cb52"
+    },
+    {
+      "file": "assets/js/home-scene/pool-activity.mjs",
+      "bytes": 4314,
+      "sha256": "6bbe50976cd24d03ce6a772f7c5bf4b472245ffd86f2dfdf094424fc0640d726"
+    },
+    {
+      "file": "assets/js/home-scene/pool-geometry.mjs",
+      "bytes": 1920,
+      "sha256": "c9f96f1ed7ad7e1b00ec770dcc7b7bce744423dc648122d6f491f29abf7da664"
+    },
+    {
+      "file": "assets/js/home-scene/pool-stroke.mjs",
+      "bytes": 7247,
+      "sha256": "a54e9a489e7980822a652fab80d106cd738b441d27e588679b1a13b2b1d5b5b1"
+    },
+    {
+      "file": "assets/js/home-scene/program-warmup.mjs",
+      "bytes": 14704,
+      "sha256": "d374ad59331c622e8c490f1928f00c9cce5a66e1dd9e5db2b934dcdb947f7fea"
+    },
+    {
+      "file": "assets/js/home-scene/quality.mjs",
+      "bytes": 10272,
+      "sha256": "2cf236812344738cc900b1192be8a58342bca880d83283ab3d10da2f2319d400"
+    },
+    {
+      "file": "assets/js/home-scene/rain-roof-field.mjs",
+      "bytes": 4820,
+      "sha256": "7df871570af91bafd2d9b0387e914e2de678f010bf7377c0e3ec37b38782cd02"
+    },
+    {
+      "file": "assets/js/home-scene/realism.mjs",
+      "bytes": 43348,
+      "sha256": "d29206aa0ce59c4aff490b3fe2ff9f1ccf84cb25a068673a1a64d9e67c42e5e4"
+    },
+    {
+      "file": "assets/js/home-scene/record-motion.mjs",
+      "bytes": 4395,
+      "sha256": "90a6df17ca9b6300b6c75311f6ac648daf5e9284ece38cff7058d5cea7d5368d"
+    },
+    {
+      "file": "assets/js/home-scene/reflection.mjs",
+      "bytes": 7579,
+      "sha256": "41642a95574e98706e368efd1627006ebab47057aa3304537a67d9d1668244d3"
+    },
+    {
+      "file": "assets/js/home-scene/resolution.mjs",
+      "bytes": 13974,
+      "sha256": "15babc9b765fbc253819ee985d6690c2bdfe1537271459ad881024f17009a194"
+    },
+    {
+      "file": "assets/js/home-scene/room-journey.mjs",
+      "bytes": 6166,
+      "sha256": "dcba76b28e65b57527a44d6da4a4f108758deac71656f23179a80c5a32570047"
+    },
+    {
+      "file": "assets/js/home-scene/routine.mjs",
+      "bytes": 4615,
+      "sha256": "4a7f2b0130be102d1f4b7ecc9c8fdfd0cc211b2dfff71b377d522949a9ec8340"
+    },
+    {
+      "file": "assets/js/home-scene/sea-optics.mjs",
+      "bytes": 20250,
+      "sha256": "068d87ce6f8717e00ade27eeb58c0dbe903eb2f47aa9be5d0ce69e804a2dda48"
+    },
+    {
+      "file": "assets/js/home-scene/seat-surface.mjs",
+      "bytes": 1729,
+      "sha256": "37b69e69d227e2522edb3563934fc52d52d3af493d8e09ef4a97e36893a6e216"
+    },
+    {
+      "file": "assets/js/home-scene/shadow-cache.mjs",
+      "bytes": 12828,
+      "sha256": "27f4617053df08be14b8b00054089f739c90d68b529846dbb97d665c2ba5551e"
+    },
+    {
+      "file": "assets/js/home-scene/shadow-fit.mjs",
+      "bytes": 2074,
+      "sha256": "65eb1da2425fa525fa0cb22e41b5115ae5206c800f9b420b9ca7f454c3102fea"
+    },
+    {
+      "file": "assets/js/home-scene/sheer-fabric.mjs",
+      "bytes": 32559,
+      "sha256": "5985ed6ac2a947d153fff4d894a1e4ddd6469401f04659f53d8cc5348d54ed4e"
+    },
+    {
+      "file": "assets/js/home-scene/shore.mjs",
+      "bytes": 2060,
+      "sha256": "3872a5c53af372451b048ed7f0667d66fa0359e26a4b9770f2152e96fbef043f"
+    },
+    {
+      "file": "assets/js/home-scene/skin-diffusion-profile.mjs",
+      "bytes": 7888,
+      "sha256": "295dcf78d23eed1bd3176e972e2c6243ad7079c976209dfcdd025347dc0a7d4b"
+    },
+    {
+      "file": "assets/js/home-scene/SKIN-DIFFUSION.md",
+      "bytes": 14806,
+      "sha256": "c5950f5b41a75d0f79530787e17ece9b3407a54b966b2ff0a0f0da7a175fca3f"
+    },
+    {
+      "file": "assets/js/home-scene/skin-diffusion.mjs",
+      "bytes": 8321,
+      "sha256": "e4af05566bdd28c91279e71c801c8be79fd30f9c0b0814cc991680897c99e3af"
+    },
+    {
+      "file": "assets/js/home-scene/star-catalogue.mjs",
+      "bytes": 37165,
+      "sha256": "31ff8991dab2003e57dcce3202118d3197f8674a0ff79fbe3ea09e887a0baf11"
+    },
+    {
+      "file": "assets/js/home-scene/stars.mjs",
+      "bytes": 24057,
+      "sha256": "77b0c0ae0bb357c96d5908af8d4f1803b81a6a476eee3ba1728d1ce504720483"
+    },
+    {
+      "file": "assets/js/home-scene/static-light-field.mjs",
+      "bytes": 38099,
+      "sha256": "aa6cc8a38f45cfbb4b9ab61e4ea5ec805a40551675d8951931088ec22b454c77"
+    },
+    {
+      "file": "assets/js/home-scene/steam-density.mjs",
+      "bytes": 15935,
+      "sha256": "cf80a561790534bab1f3cf525062f7cc10fd11f5077323b919eb05850f3b2c1e"
+    },
+    {
+      "file": "assets/js/home-scene/steam-volume.mjs",
+      "bytes": 13024,
+      "sha256": "9f79e594ed509574066a543a3dc9c65079189b4718b198fb7f8510eb67d9af44"
+    },
+    {
+      "file": "assets/js/home-scene/still-photo.mjs",
+      "bytes": 3804,
+      "sha256": "c3e588bfe7d3d0452efc9a6f0f1875ce252459d85ce0e213ad5a5b4e0bcb3c35"
+    },
+    {
+      "file": "assets/js/home-scene/TEMPORAL-AA.md",
+      "bytes": 3033,
+      "sha256": "7681f4f8cc3045db2bfc40dd8377cca22c9ab8917a9aad21404c048e3f878846"
+    },
+    {
+      "file": "assets/js/home-scene/temporal-aa.mjs",
+      "bytes": 24848,
+      "sha256": "f67d081175e927099df47fa9ccf83b2940836d7151c5a468a3c53cf5be326193"
+    },
+    {
+      "file": "assets/js/home-scene/THERMAL-STEAM.md",
+      "bytes": 8731,
+      "sha256": "2896234a75bcba46c1c32d4366cbd598ea47e10986b2502911179b70bd6996c0"
+    },
+    {
+      "file": "assets/js/home-scene/training.mjs",
+      "bytes": 14436,
+      "sha256": "ee9b9741952ae0b7932c69fc0af141deadb26fdc8add92b7ee699fb351d74125"
+    },
+    {
+      "file": "assets/js/home-scene/virtual-joysticks.mjs",
+      "bytes": 4677,
+      "sha256": "4757ee3dbb65650fcfd6d2049fbd39e9265c772b9f0faa69db7f284518b78954"
+    },
+    {
+      "file": "assets/js/home-scene/volume-depth.mjs",
+      "bytes": 4048,
+      "sha256": "d10141dd8f84269cda38ea55c72f2e4186a43163fa86f724207b1ddc0efe84e6"
+    },
+    {
+      "file": "assets/js/home-scene/walk-collar-liner.mjs",
+      "bytes": 12931,
+      "sha256": "84dfa3a3c7cc10db7318b738cd7b999858b852359c100b87f91bf89271675730"
+    },
+    {
+      "file": "assets/js/home-scene/walk-controls.mjs",
+      "bytes": 35087,
+      "sha256": "88d84b0eb6b538baf1303bb1e7eee2b17547c07c4bc3e2e5ff5c9307a1609852"
+    },
+    {
+      "file": "assets/js/home-scene/walk-field-worker.mjs",
+      "bytes": 868,
+      "sha256": "e3ac54eca52e4b2584ba479d19dbf57dc161d83bbe0f98ad4d4549867636ac05"
+    },
+    {
+      "file": "assets/js/home-scene/walk-presence.mjs",
+      "bytes": 22332,
+      "sha256": "fc592879e415d65a724b5c80fa9f721b9abd58c82f03acbb7b7d7daec0b13eab"
+    },
+    {
+      "file": "assets/js/home-scene/warm-practicals.mjs",
+      "bytes": 7788,
+      "sha256": "8f4a605be504cd1d1ffbc1a17b0a8501f5ad25c07401131ee7f35cbd710ba3dc"
+    },
+    {
+      "file": "assets/js/home-scene/WATER-GARDEN.md",
+      "bytes": 3747,
+      "sha256": "10cf05ab57c53c68fb4adfb9c34b5c854ae4a6d5a0744528f991f1cfc4f952a2"
+    },
+    {
+      "file": "assets/js/home-scene/water-garden.mjs",
+      "bytes": 7229,
+      "sha256": "8a092dfb3f3a10230b5940c9b432ed3a989d12901f90d5f55504f304e56349bc"
+    },
+    {
+      "file": "assets/js/home-scene/weather-data.mjs",
+      "bytes": 13771,
+      "sha256": "5338fb72a6cf0698f126ad24342f4e4a85aeb7c23180868607b6b95f65270f4f"
+    },
+    {
+      "file": "assets/js/home-scene/wildlife-acting.mjs",
+      "bytes": 7690,
+      "sha256": "ca0eb1fcf8023b24828bbd9f37fc27f588b2657aec3881bd45ce3324a146966f"
+    },
+    {
+      "file": "assets/js/home-scene/wildlife-ground-contact.mjs",
+      "bytes": 7977,
+      "sha256": "1e4aabf10658a9217d90f45ca819c69f9ae1a6a86c3d7605e55a9d265b1713cf"
+    },
+    {
+      "file": "assets/js/home-scene/wildlife-motion.mjs",
+      "bytes": 23924,
+      "sha256": "e5ee5af0f0f2197ecc0478ffa6641aafedd1c201499340eafa1ec2c444a92088"
+    },
+    {
+      "file": "assets/js/home-scene/wildlife-neighbor-motion.mjs",
+      "bytes": 41240,
+      "sha256": "491c646f829f13e815d7301b93f5ba587faba7ab0e92841727e233364235513c"
+    },
+    {
+      "file": "assets/js/home-scene/wildlife-perch-contact.mjs",
+      "bytes": 6875,
+      "sha256": "aa83f828c94157d4d6ba2f76c8d2e85de2c1227c02edc1c2f3f7b92fb3cd9d17"
+    },
+    {
+      "file": "assets/js/home-scene/wildlife-seabird-motion.mjs",
+      "bytes": 17007,
+      "sha256": "3f44269d3f17a0515574fdb72f56d4b2586500825b023bf32a4a62822ba28718"
+    },
+    {
+      "file": "assets/js/home-scene/wildlife.mjs",
+      "bytes": 52651,
+      "sha256": "d54121ea026938d27733aad91542ebbc722de01885c06495f3b1ad6065b32c6c"
+    },
+    {
+      "file": "assets/js/home-scene/wind-field.mjs",
+      "bytes": 21956,
+      "sha256": "8a17b900e26f0fa4e55c9459b59bb53d251d917e759317c35dfd3f0bf55763dc"
+    },
+    {
+      "file": "assets/js/home-scene/wind-particles.mjs",
+      "bytes": 6669,
+      "sha256": "e2f44bfd9d0174f0cd94cc2c1f23cd9b5578902542837e87d8c24062b757bcfe"
+    },
+    {
+      "file": "assets/js/home-scene/world-fullscreen.mjs",
+      "bytes": 9136,
+      "sha256": "f9048c1d5981c4c9be23b267ad9f22a1b3621a7818b360e91a0470e162acb2ec"
+    },
+    {
+      "file": "assets/models/home/BrandtsCormorant.glb",
+      "bytes": 31040,
+      "sha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a"
+    },
+    {
+      "file": "assets/models/home/BrownPelican.glb",
+      "bytes": 34440,
+      "sha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c"
+    },
+    {
+      "file": "assets/models/home/BrushRabbit.glb",
+      "bytes": 51116,
+      "sha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4"
+    },
+    {
+      "file": "assets/models/home/CaliforniaSeaLion.glb",
+      "bytes": 34376,
+      "sha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103"
+    },
+    {
+      "file": "assets/models/home/character-contacts.json",
+      "bytes": 47570,
+      "sha256": "9437474859f95be31ffd4929e5ae6d930795568382b12b5affdafda12e13e48b"
+    },
+    {
+      "file": "assets/models/home/coast.glb",
+      "bytes": 241576,
+      "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf"
+    },
+    {
+      "file": "assets/models/home/flora.glb",
+      "bytes": 2203180,
+      "sha256": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2"
+    },
+    {
+      "file": "assets/models/home/HarborSeal.glb",
+      "bytes": 35632,
+      "sha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6"
+    },
+    {
+      "file": "assets/models/home/hinterland.glb",
+      "bytes": 1465588,
+      "sha256": "bef9e5588f58d1475eead6ee7e41a90981d7f8d366f6317da0f9d4912aad2922"
+    },
+    {
+      "file": "assets/models/home/home-shell.glb",
+      "bytes": 894112,
+      "sha256": "54733b6da084ced6949ef3b6cc2fd535e9ad1924887fe7d2766762c626aaca18"
+    },
+    {
+      "file": "assets/models/home/loading-sketch.json",
+      "bytes": 50494,
+      "sha256": "640ad0e8497181d223dc2bdaa1c0ee58e832624834151da0ac7ce8502e8b90d4"
+    },
+    {
+      "file": "assets/models/home/manifest.json",
+      "bytes": 572029,
+      "sha256": "a9b0563b64a6384a554099c62ee7adb4424f6d56473c8226c68b5689de3e414f"
+    },
+    {
+      "file": "assets/models/home/Raccoon.glb",
+      "bytes": 49332,
+      "sha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808"
+    },
+    {
+      "file": "assets/models/home/room-bath-bedroom.glb",
+      "bytes": 106412,
+      "sha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80"
+    },
+    {
+      "file": "assets/models/home/room-bath-living.glb",
+      "bytes": 104924,
+      "sha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72"
+    },
+    {
+      "file": "assets/models/home/room-gym.glb",
+      "bytes": 222576,
+      "sha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de"
+    },
+    {
+      "file": "assets/models/home/room-kitchen.glb",
+      "bytes": 244696,
+      "sha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e"
+    },
+    {
+      "file": "assets/models/home/room-library-upper.glb",
+      "bytes": 22272,
+      "sha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85"
+    },
+    {
+      "file": "assets/models/home/room-library.glb",
+      "bytes": 185640,
+      "sha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9"
+    },
+    {
+      "file": "assets/models/home/room-lounge.glb",
+      "bytes": 231300,
+      "sha256": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce"
+    },
+    {
+      "file": "assets/models/home/room-onsen.glb",
+      "bytes": 94408,
+      "sha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba"
+    },
+    {
+      "file": "assets/models/home/room-sleep.glb",
+      "bytes": 292636,
+      "sha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28"
+    },
+    {
+      "file": "assets/models/home/room-study.glb",
+      "bytes": 112436,
+      "sha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92"
+    },
+    {
+      "file": "assets/models/home/Sandpiper.glb",
+      "bytes": 20696,
+      "sha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381"
+    },
+    {
+      "file": "assets/models/home/sirui-ghibli.glb",
+      "bytes": 858356,
+      "sha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db"
+    },
+    {
+      "file": "assets/models/home/sirui-lizard.glb",
+      "bytes": 540496,
+      "sha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d"
+    },
+    {
+      "file": "assets/models/home/sirui-rick-and-morty.glb",
+      "bytes": 661616,
+      "sha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253"
+    },
+    {
+      "file": "assets/models/home/sirui-simpsons.glb",
+      "bytes": 666964,
+      "sha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f"
+    },
+    {
+      "file": "assets/models/home/sirui-south-park.glb",
+      "bytes": 714480,
+      "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63"
+    },
+    {
+      "file": "assets/models/home/static-light-field.json",
+      "bytes": 791700,
+      "sha256": "912695a66d4ca38b1a538c705c86c330c7718c3c87a129a92008c664279c5ddf"
+    },
+    {
+      "file": "assets/models/home/WesternGull.glb",
+      "bytes": 22912,
+      "sha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29"
+    },
+    {
+      "file": "assets/models/home/wildlife-perch-support.json",
+      "bytes": 37636,
+      "sha256": "a8d48dc5c5f320f3524976072231b3da9af60cb8cdb6b7078f35b10018c151c1"
+    },
+    {
+      "file": "assets/models/home/furniture/aeron-lod0.glb",
+      "bytes": 167488,
+      "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833"
+    },
+    {
+      "file": "assets/models/home/furniture/aeron-lod1.glb",
+      "bytes": 82404,
+      "sha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54"
+    },
+    {
+      "file": "assets/models/home/furniture/banquette-lod0.glb",
+      "bytes": 107644,
+      "sha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027"
+    },
+    {
+      "file": "assets/models/home/furniture/banquette-lod1.glb",
+      "bytes": 31432,
+      "sha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708"
+    },
+    {
+      "file": "assets/models/home/furniture/cast-iron-pan-lod0.glb",
+      "bytes": 45100,
+      "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c"
+    },
+    {
+      "file": "assets/models/home/furniture/cast-iron-pan-lod1.glb",
+      "bytes": 9488,
+      "sha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d"
+    },
+    {
+      "file": "assets/models/home/furniture/cloud-sofa-lod0.glb",
+      "bytes": 130840,
+      "sha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e"
+    },
+    {
+      "file": "assets/models/home/furniture/cloud-sofa-lod1.glb",
+      "bytes": 55376,
+      "sha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0"
+    },
+    {
+      "file": "assets/models/home/furniture/dining-chair-lod0.glb",
+      "bytes": 45364,
+      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+    },
+    {
+      "file": "assets/models/home/furniture/dining-chair-lod1.glb",
+      "bytes": 17196,
+      "sha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6"
+    },
+    {
+      "file": "assets/models/home/furniture/dining-table-lod0.glb",
+      "bytes": 8932,
+      "sha256": "78a97dbb32aaa76ac76eadc9c8b63a2cc2747eaeaa95fd496ed5693e496dc80a"
+    },
+    {
+      "file": "assets/models/home/furniture/dining-table-lod1.glb",
+      "bytes": 6880,
+      "sha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884"
+    },
+    {
+      "file": "assets/models/home/furniture/dumbbell-lod0.glb",
+      "bytes": 8564,
+      "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
+    },
+    {
+      "file": "assets/models/home/furniture/dumbbell-lod1.glb",
+      "bytes": 4676,
+      "sha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e"
+    },
+    {
+      "file": "assets/models/home/furniture/eames-lounge-lod0.glb",
+      "bytes": 444892,
+      "sha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691"
+    },
+    {
+      "file": "assets/models/home/furniture/eames-lounge-lod1.glb",
+      "bytes": 66616,
+      "sha256": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4"
+    },
+    {
+      "file": "assets/models/home/furniture/floating-fireplace-lod0.glb",
+      "bytes": 17264,
+      "sha256": "337540ca4ae878da0ea9160e0652b8e34ca15616722b92766339696e86d54496"
+    },
+    {
+      "file": "assets/models/home/furniture/floating-fireplace-lod1.glb",
+      "bytes": 12588,
+      "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36"
+    },
+    {
+      "file": "assets/models/home/furniture/glass-fridge-lod0.glb",
+      "bytes": 47092,
+      "sha256": "6f41c93fe08d8519669e47fee42c0a2390143a77019d98d1704b3d3d53fa11a9"
+    },
+    {
+      "file": "assets/models/home/furniture/glass-fridge-lod1.glb",
+      "bytes": 33380,
+      "sha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e"
+    },
+    {
+      "file": "assets/models/home/furniture/index.json",
+      "bytes": 12939,
+      "sha256": "7c8e61168fded60891fef92e74d7244cbb8b80a3124d604441c09ffa556892f8"
+    },
+    {
+      "file": "assets/models/home/furniture/italian-range-lod0.glb",
+      "bytes": 49312,
+      "sha256": "a91cd11a8889fa140e543a3471f8ca7b506929ee7ffdb9be8b70a4ce282b976a"
+    },
+    {
+      "file": "assets/models/home/furniture/italian-range-lod1.glb",
+      "bytes": 32936,
+      "sha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a"
+    },
+    {
+      "file": "assets/models/home/furniture/pot-filler-lod0.glb",
+      "bytes": 7812,
+      "sha256": "a4695554f61f983141a41f1554b4e854562847ba8c66a929003595248ac5088a"
+    },
+    {
+      "file": "assets/models/home/furniture/pot-filler-lod1.glb",
+      "bytes": 7340,
+      "sha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d"
+    },
+    {
+      "file": "assets/models/home/furniture/range-hood-lod0.glb",
+      "bytes": 8944,
+      "sha256": "3413e686faf5ac8e45125c5f59b09560a9ef19c3d347f7257159b5fa2f9db25d"
+    },
+    {
+      "file": "assets/models/home/furniture/range-hood-lod1.glb",
+      "bytes": 7520,
+      "sha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195"
+    },
+    {
+      "file": "assets/models/home/furniture/whiskey-bottles-lod0.glb",
+      "bytes": 45924,
+      "sha256": "b33a347333fb60c47f18c0df317117a8f94a1c47081af557bc4b99b1d5cb51bd"
+    },
+    {
+      "file": "assets/models/home/furniture/whiskey-bottles-lod1.glb",
+      "bytes": 31808,
+      "sha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af"
+    },
+    {
+      "file": "assets/models/home/furniture/whiskey-loveseat-lod0.glb",
+      "bytes": 91396,
+      "sha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd"
+    },
+    {
+      "file": "assets/models/home/furniture/whiskey-loveseat-lod1.glb",
+      "bytes": 14860,
+      "sha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d"
+    },
+    {
+      "file": "assets/models/home/furniture/whiskey-ottoman-lod0.glb",
+      "bytes": 62492,
+      "sha256": "878367c94474eb41f9cea3e41fcd052d85690f87037840eb6c444769c3037205"
+    },
+    {
+      "file": "assets/models/home/furniture/whiskey-ottoman-lod1.glb",
+      "bytes": 7924,
+      "sha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e"
+    },
+    {
+      "file": "assets/models/home/furniture/whiskey-side-table-lod0.glb",
+      "bytes": 52508,
+      "sha256": "ba32afceae5854ba441a22d15157282c218eb16bdc632034d4fdaa5989126b3b"
+    },
+    {
+      "file": "assets/models/home/furniture/whiskey-side-table-lod1.glb",
+      "bytes": 35292,
+      "sha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/gym.json",
+      "bytes": 33685,
+      "sha256": "cad38e645946dfdd959be1951e91781f2d9df404f20d60b2b297416b27768835"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/kitchen.json",
+      "bytes": 20169,
+      "sha256": "7a5f3ef17eb8bfd9a959655b665dab8aa620bb458d48178424e11096ad3e0e81"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/library.json",
+      "bytes": 45481,
+      "sha256": "49c70e5e8b725a30cc1573cde6676893de8e6f08a4fcdc02163cbdbb1a42c331"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/lounge.json",
+      "bytes": 6596,
+      "sha256": "f24a87036df9306e7f06a72b45e7babec9dfa1e890de05fadd494ac6ad78bb10"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/onsen.json",
+      "bytes": 57907,
+      "sha256": "5e49968f61bf2dfd0c4e6927530c9a4a4d264f44d6e91cd057ef3bcd3d0ce487"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/sleep.json",
+      "bytes": 33431,
+      "sha256": "6bfac0ca305c58006dc3f2711ec09955246678c14144fdabf602aaf104e8a7ca"
+    },
+    {
+      "file": "assets/models/home/loading-sketch/study.json",
+      "bytes": 69903,
+      "sha256": "f1744b71fa8f01d40e639584858a59d06eec91f8dfff0c9225f4f315bd735dfb"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-avocado-toast-lod0.glb",
+      "bytes": 30136,
+      "sha256": "eb64e7c9e32fec230ae7f09e074c4438767b7e8adf509ef29b49a020472f13bd"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-avocado-toast-lod1.glb",
+      "bytes": 26132,
+      "sha256": "527efe9f7db3a9290536276d4995e56a15ec44388c4e42bc78f5f93aed704a34"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-black-cod-lod0.glb",
+      "bytes": 24332,
+      "sha256": "34e3127fee6ca16db7a0c9b4ca1ca897666f0ae5b5b085e6ab34271981838014"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-black-cod-lod1.glb",
+      "bytes": 18704,
+      "sha256": "85e097053cb040d1aa3ab399ddbe52235f52a381c14f4df654b1a4af5c4d46da"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-burrata-lod0.glb",
+      "bytes": 28020,
+      "sha256": "f4a15190078a942fb653a8ec0d88161ecd722a0ea0795c5e7203fcc1adffa6b5"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-burrata-lod1.glb",
+      "bytes": 18104,
+      "sha256": "c85ed16ef4d3f80fe0a582ed93b663ee38b74682a9ef83cca268456aff4c8a3a"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-cacio-e-pepe-lod0.glb",
+      "bytes": 58060,
+      "sha256": "75d66e0a6e8f19fd4b021db176dd1364b50760f1c13782499428ff421f8bc5e0"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-cacio-e-pepe-lod1.glb",
+      "bytes": 26264,
+      "sha256": "427a75ad1921112a0e7bee227120f8075c79167f59f72e5588e12f270283e636"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-chocolate-fondant-lod0.glb",
+      "bytes": 20816,
+      "sha256": "bf06d7d29b5cb5ba7ca4d0a087f1522c44fd6ba848c33bc963fde002f0278cc6"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-chocolate-fondant-lod1.glb",
+      "bytes": 12784,
+      "sha256": "6291bf9ddf388a5fc1a51f30450f1c6fd696ad098e8b22c3f73afab757cd55d0"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-congee-lod0.glb",
+      "bytes": 61564,
+      "sha256": "64872cd60eff471eabd29db9fa79320c5eb26eaeb627fb0abf0c7caf9f925cbf"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-congee-lod1.glb",
+      "bytes": 40668,
+      "sha256": "94dfd2a407b5d4c0a553a6ef0f834ae19c5dc31fdcd72a2e009421299878487c"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-creme-brulee-lod0.glb",
+      "bytes": 13736,
+      "sha256": "09318e01d5f83468cec2360f4b7ff71e19fee113fe9904376082bf888485bd60"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-creme-brulee-lod1.glb",
+      "bytes": 8840,
+      "sha256": "14dde65e865446e62a326a7519060c0e6fd967998410ad34ddb3e09bc0769289"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-french-toast-lod0.glb",
+      "bytes": 25204,
+      "sha256": "dcc64dbf909d3226718df4e86687218f25f8d096d61d9be2a9ba861c5f993c97"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-french-toast-lod1.glb",
+      "bytes": 16032,
+      "sha256": "ff5ddfdf85e844db8068b5f4021bd48dd8faafa951b84abaa4f67cf11aff3996"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-matcha-cheesecake-lod0.glb",
+      "bytes": 14052,
+      "sha256": "fc8216180d1fd41fb1f509e0c5ae23cdf47f2052ef622ff1ac959c5de9c0ee80"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-matcha-cheesecake-lod1.glb",
+      "bytes": 9672,
+      "sha256": "c3824fd21c6e85932e4fa86c4adaab2e7d8a6f0f977479489006cf69b51aed8e"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-nicoise-lod0.glb",
+      "bytes": 38588,
+      "sha256": "b86eb6221506f2b89bfc4ba2476a089406159a5546708258432bad4966f6ca53"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-nicoise-lod1.glb",
+      "bytes": 23048,
+      "sha256": "5c219e3a5651280c3985cb7f456014922c5ca7c5661b6b3e2a97dc80000b9311"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-panna-cotta-lod0.glb",
+      "bytes": 19084,
+      "sha256": "f8006a559f5c3aff643dc3a3f97409813c364867d9cd30ab57c64fc219e0189f"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-panna-cotta-lod1.glb",
+      "bytes": 12216,
+      "sha256": "5fd8d77623936d0aa7ff8455fab7beed19e6adbd2d5131e9434736799a6b2008"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-poke-bowl-lod0.glb",
+      "bytes": 39232,
+      "sha256": "9532d73a2bbdbac5f9771c5b027a42ca6cd9cf9dd5658d8f948681507ae96ad8"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-poke-bowl-lod1.glb",
+      "bytes": 27408,
+      "sha256": "42f3c96b9a9c01e8599f3d3f5a6073be3931dfb1fc477dd1dc9502694f79a8e7"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-ramen-lod0.glb",
+      "bytes": 61932,
+      "sha256": "338728893743fde155d536dfa2d9859b388f6b8ccbc7649ef411513d42e5b0c1"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-ramen-lod1.glb",
+      "bytes": 34788,
+      "sha256": "ddee759881b24d40375677469d31d1d182cfcf9bf12d4dca8ef8db9647ce251b"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-ribeye-lod0.glb",
+      "bytes": 30980,
+      "sha256": "f265265f916fae4ab2966a0a6d9a202e0d519e69223e1e38435d484eec5f83a1"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-ribeye-lod1.glb",
+      "bytes": 20516,
+      "sha256": "2f7e13327343742917fd62f315d85e70d49eb3a1dcd5335fba320e6726eaa45e"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-ricotta-pancakes-lod0.glb",
+      "bytes": 27632,
+      "sha256": "4dcb7e8b666415a3aecfda2463b6d5f5b4e54e06be955c422a963a8f95d6f28f"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-ricotta-pancakes-lod1.glb",
+      "bytes": 16628,
+      "sha256": "5674da4bc0e982c53c4ef365ebc6a33af643c9c2c0ca717515811e309cc1f41c"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-risotto-lod0.glb",
+      "bytes": 33352,
+      "sha256": "669a03d2dfe80717dde73490576852b7dce69c6d9c17638aec6b0dab5eeecd81"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-risotto-lod1.glb",
+      "bytes": 25824,
+      "sha256": "c673063d68fb6afbb4689dd80dc07ab2470936eb1a1af5a4ceb18f3b3be0052a"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-salmon-lod0.glb",
+      "bytes": 24768,
+      "sha256": "7e7a59e1ef31a8cae0b0db2079339b33bf26d791ecb935a40a16d995788ec9dc"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-salmon-lod1.glb",
+      "bytes": 20948,
+      "sha256": "37e2daf2fb4528a1912a49d0452f6564c2f6926eaafe828087cd58b92567dcbf"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-scallops-lod0.glb",
+      "bytes": 35312,
+      "sha256": "955991970030712e587e9eb62d7b630993eee3f90d0f1ec93c85f0738a61836b"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-scallops-lod1.glb",
+      "bytes": 25076,
+      "sha256": "911d5e7a499cf42919ac178a1d2859bd33c0338349464ee695dbd9e784f9fb8c"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-shakshuka-lod0.glb",
+      "bytes": 26224,
+      "sha256": "50f7cc934817e2ab6f80579984f1800a50f44ccdb7879d945a1a0c8d7e7a3a15"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-shakshuka-lod1.glb",
+      "bytes": 20464,
+      "sha256": "b4eb6be44b4d464b3c0b7404070523412a0ea7149ef0b2eec819b59f36ff03e6"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-shrimp-bowl-lod0.glb",
+      "bytes": 31536,
+      "sha256": "49e675d613b9220d89f3e9a7c1213c6ac79390033a07d584b2e6776176f38a38"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-shrimp-bowl-lod1.glb",
+      "bytes": 26688,
+      "sha256": "c57fc06a3ceb10d5fd1403a210d738a553db8381ac6976e2be50f48b6b440ba6"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-tiramisu-lod0.glb",
+      "bytes": 18068,
+      "sha256": "e14db3109570e7e7434ba7fa832044246342dbf9f65989b87ac2d0b81e250c94"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-tiramisu-lod1.glb",
+      "bytes": 14776,
+      "sha256": "965b517d0447c8ad5df813731f1b0e916786280fbe74f8a5c74d4bd91b9261db"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-xiaolongbao-lod0.glb",
+      "bytes": 31336,
+      "sha256": "1e6b629ba1e26cc86aaff8f2cbf41ac9263a3447d1d9a3f5d9f91e986ce8c34e"
+    },
+    {
+      "file": "assets/models/home/table-setting/dish-xiaolongbao-lod1.glb",
+      "bytes": 19960,
+      "sha256": "2056e41327d935ceb1f6311b3f9e920f136bf3c2fb580ba9337d1d3ef4de0462"
+    },
+    {
+      "file": "assets/models/home/table-setting/index.json",
+      "bytes": 28976,
+      "sha256": "d5a1b00ec3815b30d1e969cecda54ce24923ed7bce1fcf6c79cc41dbd0d01abd"
+    },
+    {
+      "file": "assets/models/home/table-setting/tableware-lod0.glb",
+      "bytes": 119736,
+      "sha256": "0a8c3528848e98bd96e84e269d188a45b050d4ec0ad3ea837eb7293bf8560e62"
+    },
+    {
+      "file": "assets/models/home/table-setting/tableware-lod1.glb",
+      "bytes": 84140,
+      "sha256": "ba3dfb80225f3a819ea61e47087b73922d9a815ff7fc1f3d4d18deab4dfbdb41"
+    }
+  ],
+  "cacheDescriptor": {
+    "url": "static-light-field.json",
+    "signature": "50df38ed13ede47cd5eca13ef6807bb6433bdf85ce323d6c2642e57e801c7b09",
+    "sha256": "912695a66d4ca38b1a538c705c86c330c7718c3c87a129a92008c664279c5ddf"
+  }
+}

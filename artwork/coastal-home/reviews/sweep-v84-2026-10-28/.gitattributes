@@ -1,0 +1,4 @@
+* text=auto eol=lf
+images/* -text
+data/*.gz -text
+probes/*.gz -text

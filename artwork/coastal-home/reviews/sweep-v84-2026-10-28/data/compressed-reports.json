@@ -1,0 +1,66 @@
+[
+  {
+    "file": "data/living-blocker-1440.json.gz",
+    "compressedBytes": 140853,
+    "compressedSha256": "bee58b3677c8d47b845ebb252d6efe19413e7b720cbeba841dc0a8e8dad2983d",
+    "uncompressedBytes": 901988,
+    "uncompressedSha256": "f69056c2805417f471729f94741d05d6ff1ad4b5dc5c6d9e547575e8bd965419",
+    "source": "Unmodified raw browser report from the owned frozen QA run."
+  },
+  {
+    "file": "data/living-blocker-390.json.gz",
+    "compressedBytes": 141008,
+    "compressedSha256": "a0e0b928b752d6f89d0b083b9d30b96655d17ae6099a01f77c6f44610dba84b1",
+    "uncompressedBytes": 903362,
+    "uncompressedSha256": "e6d87a533bec08d81a0b84a5a330cc693896712cf0fdc45fc704fd792f4cf96a",
+    "source": "Unmodified raw browser report from the owned frozen QA run."
+  },
+  {
+    "file": "data/entrance-inbound-complete-route.json.gz",
+    "compressedBytes": 23979,
+    "compressedSha256": "f65725190712de5c89771f631045513cb9576ab284fb5f5fbcf7114e4d83cb13",
+    "uncompressedBytes": 475790,
+    "uncompressedSha256": "e84abe2e2e0dd3fb34d9f80d99b37372fcce3f1929b1a36149bd552cf9335306",
+    "source": "Unmodified raw browser report from the owned frozen QA run."
+  },
+  {
+    "file": "data/entrance-outbound-complete-route.json.gz",
+    "compressedBytes": 24368,
+    "compressedSha256": "6e5a6d662b08bdabe964b65e6c09a3853ed80d355944789938627e3be971d8c4",
+    "uncompressedBytes": 456966,
+    "uncompressedSha256": "2794d35b2c9a3a937dca8ba24065fd7a69f80f3e95db92052ecd8a555fa40469",
+    "source": "Unmodified raw browser report from the owned frozen QA run."
+  },
+  {
+    "file": "data/library-patio-outward-route.json.gz",
+    "compressedBytes": 1629,
+    "compressedSha256": "039f552c38e410ccd78224287f373cbb07e102c229aa8fab950a985f65720b48",
+    "uncompressedBytes": 28651,
+    "uncompressedSha256": "cbfb090274bbb9051961ed76f093f9d28ef58760c2e0ff66a5829f3710942505",
+    "source": "Unmodified raw browser report from the owned frozen QA run."
+  },
+  {
+    "file": "data/library-patio-return-route.json.gz",
+    "compressedBytes": 1854,
+    "compressedSha256": "a8e39d16439d2fa858578e195b804379007667167a4d79d4f3842a2bce84a922",
+    "uncompressedBytes": 38779,
+    "uncompressedSha256": "61de9a5d71336c7ac4153f11410c0d4931fcf16f14b03fe59ac190f7c3218dab",
+    "source": "Unmodified raw browser report from the owned frozen QA run."
+  },
+  {
+    "file": "data/bedroom-stairs-up-verified-route.json.gz",
+    "compressedBytes": 5463,
+    "compressedSha256": "c49d88374c58bccf866a81c0ad2438b7181bc75e5db956c086401a46ec31d08a",
+    "uncompressedBytes": 55805,
+    "uncompressedSha256": "de839ff2f605a15376475a49d8417405193ef3fec0cc27d62e0c6529cec50874",
+    "source": "Unmodified raw browser report from the owned frozen QA run."
+  },
+  {
+    "file": "data/bedroom-stairs-down-verified-route.json.gz",
+    "compressedBytes": 6632,
+    "compressedSha256": "aa15061e886baf459540246b1989f4e0197922c84263ae9a49c09b1e318b1c3d",
+    "uncompressedBytes": 83509,
+    "uncompressedSha256": "999d02d8c04c94190a9e97d51338f91cbd9cc6a77895ff7425f9a973ddca39cd",
+    "source": "Unmodified raw browser report from the owned frozen QA run."
+  }
+]

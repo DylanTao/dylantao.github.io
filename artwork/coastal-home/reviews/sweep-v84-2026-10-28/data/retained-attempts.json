@@ -1,0 +1,22 @@
+[
+  {
+    "rawFile": ".jekyll-cache/visual-qa/sweep-2026-10-28/entrance-inbound-day-route.json",
+    "sha256": "2c34ed2a59b13979236244c843cbd7d9876f0573e0ae5d547ef781424d4094a1",
+    "reason": "Old Arrow-key steering overshot; blockedFrames0/lastBlockednull. Superseded by complete continuous inbound/outbound traces."
+  },
+  {
+    "rawFile": ".jekyll-cache/visual-qa/sweep-2026-10-28/bedroom-stairs-bottom-clear-route.json",
+    "sha256": "0ac8fb067454e7da5639773ceb180fd5ef2b0f1f2e29552a28e233d37a1ccb2d",
+    "reason": "Tiny synthetic pointerup gestures captured the pointer; helper could not keep steering. Superseded stair cycle uses pointercancel and never locks. The attempted study actor destination was also not a free standing station."
+  },
+  {
+    "rawFile": ".jekyll-cache/visual-qa/sweep-2026-10-28/oblique-exterior-day-4k.png",
+    "sha256": "d48b46b2f433ea39ccdf1ec4c66b083a029531cd2f5ae874d0e198bd85e7d875",
+    "reason": "Free authoring camera was placed in terrain. Not counted as a product camera defect or a usable exterior comparison."
+  },
+  {
+    "rawFile": ".jekyll-cache/visual-qa/sweep-2026-10-28/bedroom-stairs-up.png",
+    "sha256": "93dcde1d82aa806463fe6b2baed0a3438dc2dbfd49c461151d945919b98af8b4",
+    "reason": "At top the forward view faces a nearby wall. A different look direction was captured; no actual geometry penetration established."
+  }
+]

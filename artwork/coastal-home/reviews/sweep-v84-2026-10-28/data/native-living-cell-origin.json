@@ -1,0 +1,123 @@
+{
+  "sourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681",
+  "blender": "4.5.9 LTS",
+  "readOnly": true,
+  "sourceSaved": false,
+  "contributors": [
+    {
+      "object": "lounge_placeholder_living-fireplace",
+      "mesh": "lounge_placeholder_living-fireplace.001",
+      "properties": {
+        "furniturePlaceholder": "living-fireplace",
+        "softened": true,
+        "bakedLighting": "Cycles AO + diffuse indirect, 24 samples, neutral modulation"
+      },
+      "sourceVertexCount": 784,
+      "sourceTriangleCount": 1544,
+      "boundsWeb": [
+        [0.5, 0.12999999523162842, 6.400000095367432],
+        [1.399999976158142, 1.7799999713897705, 7.300000190734863]
+      ],
+      "matches": [
+        {
+          "decodedTriangle": 1103,
+          "match": {
+            "sourceLoopTriangle": 440,
+            "polygon": 220,
+            "sourceIndices": [220, 221, 269],
+            "worldWeb": [
+              [0.5776090621948242, 0.4099999964237213, 7.065000057220459],
+              [0.608858048915863, 0.4099999964237213, 7.111767292022705],
+              [0.6643927693367004, 0.3100000023841858, 7.069154262542725]
+            ],
+            "maximumVertexErrorM": 4.678190070025333e-5
+          }
+        },
+        {
+          "decodedTriangle": 1104,
+          "match": {
+            "sourceLoopTriangle": 441,
+            "polygon": 220,
+            "sourceIndices": [220, 269, 268],
+            "worldWeb": [
+              [0.5776090621948242, 0.4099999964237213, 7.065000057220459],
+              [0.6643927693367004, 0.3100000023841858, 7.069154262542725],
+              [0.6382308602333069, 0.3100000023841858, 7.029999732971191]
+            ],
+            "maximumVertexErrorM": 6.414615344640244e-5
+          }
+        },
+        {
+          "decodedTriangle": 1105,
+          "match": {
+            "sourceLoopTriangle": 438,
+            "polygon": 219,
+            "sourceIndices": [219, 220, 268],
+            "worldWeb": [
+              [0.5527318120002747, 0.4099999964237213, 7.014554023742676],
+              [0.5776090621948242, 0.4099999964237213, 7.065000057220459],
+              [0.6382308602333069, 0.3100000023841858, 7.029999732971191]
+            ],
+            "maximumVertexErrorM": 6.414615344640244e-5
+          }
+        },
+        {
+          "decodedTriangle": 1199,
+          "match": {
+            "sourceLoopTriangle": 344,
+            "polygon": 172,
+            "sourceIndices": [172, 173, 221],
+            "worldWeb": [
+              [0.5602885484695435, 0.38999998569488525, 7.074999809265137],
+              [0.5929909944534302, 0.38999998569488525, 7.1239423751831055],
+              [0.608858048915863, 0.4099999964237213, 7.111767292022705]
+            ],
+            "maximumVertexErrorM": 6.040530821985564e-5
+          }
+        },
+        {
+          "decodedTriangle": 1200,
+          "match": {
+            "sourceLoopTriangle": 345,
+            "polygon": 172,
+            "sourceIndices": [172, 221, 220],
+            "worldWeb": [
+              [0.5602885484695435, 0.38999998569488525, 7.074999809265137],
+              [0.608858048915863, 0.4099999964237213, 7.111767292022705],
+              [0.5776090621948242, 0.4099999964237213, 7.065000057220459]
+            ],
+            "maximumVertexErrorM": 6.040530821985564e-5
+          }
+        },
+        {
+          "decodedTriangle": 1201,
+          "match": {
+            "sourceLoopTriangle": 342,
+            "polygon": 171,
+            "sourceIndices": [171, 172, 220],
+            "worldWeb": [
+              [0.5342541933059692, 0.38999998569488525, 7.022207736968994],
+              [0.5602885484695435, 0.38999998569488525, 7.074999809265137],
+              [0.5776090621948242, 0.4099999964237213, 7.065000057220459]
+            ],
+            "maximumVertexErrorM": 6.040530821985564e-5
+          }
+        },
+        {
+          "decodedTriangle": 1202,
+          "match": {
+            "sourceLoopTriangle": 343,
+            "polygon": 171,
+            "sourceIndices": [171, 220, 219],
+            "worldWeb": [
+              [0.5342541933059692, 0.38999998569488525, 7.022207736968994],
+              [0.5776090621948242, 0.4099999964237213, 7.065000057220459],
+              [0.5527318120002747, 0.4099999964237213, 7.014554023742676]
+            ],
+            "maximumVertexErrorM": 4.678190070025333e-5
+          }
+        }
+      ]
+    }
+  ]
+}

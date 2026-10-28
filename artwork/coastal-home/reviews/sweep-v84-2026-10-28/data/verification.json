@@ -1,0 +1,39 @@
+{
+  "scope": "Read-only frozen v84 baseline review. No model/runtime admission or release/performance claim.",
+  "reviewBaseCommit": "cdb6bb7c4d3fda46cd809ee84c3734a82b361282",
+  "frozenFiles": 249,
+  "frozenBytes": 17184326,
+  "frozenHashMismatches": 0,
+  "cameraSourceSnapshotByteHashMatchesFreeze": true,
+  "losslessImagesReopenedAndComparedPixelForPixel": 24,
+  "recordedRenders": 22,
+  "boundResponses": 177,
+  "responseHashMismatches": 0,
+  "selectedPageHttpErrors": 0,
+  "representativeUnexpectedConsoleErrors": 0,
+  "rawExpectedStubIntegrityErrors": 3,
+  "rawDriverWarningMessages": 5,
+  "physicalRoutesCompleted": 6,
+  "phonePadsVisibleAndMovedCapsule": true,
+  "nativeContributorMatches": 7,
+  "nativeMaximumVertexErrorMetres": 6.414615344640244e-5,
+  "nativeSourceSaved": false,
+  "commands": [
+    "node artwork/coastal-home/reviews/sweep-v84-2026-10-28/probes/replay-living-ray.mjs",
+    "node --check <each retained .cjs/.mjs probe>",
+    "python ast.parse <each retained Python probe>",
+    "targeted Prettier check",
+    "git diff --check",
+    "npm.cmd run lint:style-contract"
+  ],
+  "limitations": [
+    "Frozen overlay evidence, not a new compiled production build or deployed check.",
+    "Chromium desktop and phone emulation only; no WebKit/physical phone or performance comparison.",
+    "Ten public room views and seven activity previews; physical routes bounded to entrance, library patio, bedroom stair and phone first-flight sample.",
+    "Full five-rig contacts, every furniture surface and exhaustive flora/fauna topology were not audited.",
+    "D3D11 compiler warnings retained for runtime-owner follow-up."
+  ],
+  "checksPassed": true,
+  "compressedRawReportsVerified": 8,
+  "cameraSourceSnapshotFormat": "Deterministic gzip of the exact original module bytes, including CRLF; replay imports the decompressed bytes."
+}

@@ -1,0 +1,91 @@
+{
+  "scope": "Representative complete frozen family at desktop: normal collector filters only its documented external-stub errors; raw error/warning console is retained separately.",
+  "records": [
+    {
+      "room": "lounge",
+      "ready": true,
+      "arm": {
+        "active": true,
+        "distance": 0,
+        "wanted": 0,
+        "limited": true,
+        "minimum": 2.32,
+        "lift": 0
+      },
+      "cache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightField": true
+    },
+    {
+      "room": "library-upper",
+      "ready": true,
+      "arm": {
+        "active": true,
+        "distance": 0.14262950093537574,
+        "wanted": 0.14262950093537569,
+        "limited": true,
+        "minimum": 1.4400000000000002,
+        "lift": 0
+      },
+      "cache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightField": true
+    },
+    {
+      "room": "onsen",
+      "ready": true,
+      "arm": {
+        "active": true,
+        "distance": 1.1552264467413842,
+        "wanted": 1.1552264467413842,
+        "limited": true,
+        "minimum": 1.4800000000000002,
+        "lift": 0
+      },
+      "cache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightField": true
+    }
+  ],
+  "errors": [],
+  "rawConsole": [
+    {
+      "type": "error",
+      "text": "Failed to find a valid digest in the 'integrity' attribute for resource 'https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js' with computed SHA-256 integrity '47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='. The resource has been blocked."
+    },
+    {
+      "type": "error",
+      "text": "Failed to find a valid digest in the 'integrity' attribute for resource 'https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js' with computed SHA-256 integrity '47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='. The resource has been blocked."
+    },
+    {
+      "type": "error",
+      "text": "Failed to find a valid digest in the 'integrity' attribute for resource 'https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js' with computed SHA-256 integrity '47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='. The resource has been blocked."
+    },
+    {
+      "type": "warning",
+      "text": "THREE.WebGLProgram: Program Info Log: (295,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n(511,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n(512,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n\n\n\u0000"
+    },
+    {
+      "type": "warning",
+      "text": "THREE.WebGLProgram: Program Info Log: (273,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n\n\n\u0000"
+    },
+    {
+      "type": "warning",
+      "text": "THREE.WebGLProgram: Program Info Log: (295,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n(511,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n(512,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n\n\n\u0000"
+    },
+    {
+      "type": "warning",
+      "text": "THREE.WebGLProgram: Program Info Log: (93,1-6): warning X4000: use of potentially uninitialized variable (dyn_index_vec2_int)\n\n\n\u0000"
+    },
+    {
+      "type": "warning",
+      "text": "THREE.WebGLProgram: Program Info Log: (289,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n(505,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n\n\n\u0000"
+    }
+  ]
+}

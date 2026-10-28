@@ -1,0 +1,182 @@
+[
+  {
+    "id": "bath-bedroom",
+    "camera": [-4.943082816455403, 4.146468558893167, 13.40634362079222],
+    "target": [-6.7, 3.65, 11.7],
+    "arm": {
+      "active": true,
+      "distance": 2.4989693019367096,
+      "wanted": 2.4989693019367096,
+      "limited": true,
+      "minimum": 1.15,
+      "lift": 0
+    },
+    "activity": "lunch",
+    "avatar": "rick-and-morty",
+    "errors": [],
+    "rawEvidenceSha256": "a19822f2c0a694e709e592c24c486a84419b7a9db8af1a491c69debcc7d14e6a",
+    "rawImageSha256": "a3d056dfa8e3ec2e2e425a6077d0ba60383d8399c5d0a0f8579d0f57d63ea34d"
+  },
+  {
+    "id": "bath-living",
+    "camera": [-4.943082816455403, 1.5464685588931675, 13.40634362079222],
+    "target": [-6.7, 1.05, 11.7],
+    "arm": {
+      "active": true,
+      "distance": 2.4989693019367096,
+      "wanted": 2.4989693019367096,
+      "limited": true,
+      "minimum": 1.15,
+      "lift": 0
+    },
+    "activity": "lunch",
+    "avatar": "rick-and-morty",
+    "errors": [],
+    "rawEvidenceSha256": "4b0025ade57b77eb1a6602171561db04e2b5c67ac181d5d3c6f507c7fe3176f3",
+    "rawImageSha256": "24dfeaa06a7673d52598b5180c6c734abc4e5968db84840e9b99bb1b5157520b"
+  },
+  {
+    "id": "gym",
+    "camera": [9.164921010092488, 1.7460079923851834, 4.089224325304883],
+    "target": [8.75, 1.15, 7],
+    "arm": {
+      "active": true,
+      "distance": 3,
+      "wanted": 3,
+      "limited": false,
+      "minimum": 1.2000000000000002,
+      "lift": 0
+    },
+    "activity": "lunch",
+    "avatar": "rick-and-morty",
+    "errors": [],
+    "rawEvidenceSha256": "fc74b84f2912079edfca7586826505d82b3b0d85a599208916e49628afb3f644",
+    "rawImageSha256": "6bb5f22a046a9d4027fc0a122580b32507a9d28be24ec43a963e281c6034d003"
+  },
+  {
+    "id": "kitchen",
+    "camera": [-0.7514628545944304, 1.7106484045668306, 4.754070003513519],
+    "target": [-3.85, 0.95, 5],
+    "arm": {
+      "active": true,
+      "distance": 3.2,
+      "wanted": 3.2,
+      "limited": false,
+      "minimum": 1.2800000000000002,
+      "lift": 0
+    },
+    "activity": "lunch",
+    "avatar": "rick-and-morty",
+    "errors": [],
+    "rawEvidenceSha256": "fd1e15bf7d69ea2bd0c53a74a25977549995ea403c75488e96234cc877b4f3b5",
+    "rawImageSha256": "91c8af8eac29618e0be51afdbcbf99ec51562ed28ae8d05150011b03c5b82e88"
+  },
+  {
+    "id": "library",
+    "camera": [-11.150549603862016, 1.7845742649319238, 6.123591407598822],
+    "target": [-10.55, 1.3, 2.15],
+    "arm": {
+      "active": true,
+      "distance": 4.047826666184747,
+      "wanted": 4.047826666184747,
+      "limited": true,
+      "minimum": 1.8399999999999999,
+      "lift": 0
+    },
+    "activity": "lunch",
+    "avatar": "rick-and-morty",
+    "errors": [],
+    "rawEvidenceSha256": "55ba43a679e5abc48146dec8f6f3693c3bf379917ea8acc3fac9e38862d802b2",
+    "rawImageSha256": "5c616c77db9f643f812b0baa41d93b7df5c95a8507b390aba7d796030e51466b"
+  },
+  {
+    "id": "library-upper",
+    "camera": [-0.014079299633833562, 3.671314286255424, 11.840323373178942],
+    "target": [0, 3.65, 11.7],
+    "arm": {
+      "active": true,
+      "distance": 0.14262950093537574,
+      "wanted": 0.14262950093537569,
+      "limited": true,
+      "minimum": 1.4400000000000002,
+      "lift": 0
+    },
+    "activity": "lunch",
+    "avatar": "rick-and-morty",
+    "errors": [],
+    "rawEvidenceSha256": "61be125672b6cf5e23c80cf96f69b836b36d17b91bbe84d4645357d0015fb77c",
+    "rawImageSha256": "83bd77fe0c4fed00ed15532b4a41782d26701d1343be05fe595baea22ab0fe38"
+  },
+  {
+    "id": "lounge",
+    "camera": [0.55, 0.42, 7.45],
+    "target": [0.55, 0.42, 7.45],
+    "arm": {
+      "active": true,
+      "distance": 0,
+      "wanted": 0,
+      "limited": true,
+      "minimum": 2.32,
+      "lift": 0
+    },
+    "activity": "lunch",
+    "avatar": "rick-and-morty",
+    "errors": [],
+    "rawEvidenceSha256": "46a0703c762d5152d28803de32006b98a30ee9bb806f3de318621bf403d8cfe1",
+    "rawImageSha256": "500ff599e506b6ad0269f8a29740a932fa04bf475ee849bd5598f3eef4ae686d"
+  },
+  {
+    "id": "onsen",
+    "camera": [2.7907427288085307, 3.756956510784928, 9.837528536782946],
+    "target": [3.17, 3.35, 10.85],
+    "arm": {
+      "active": true,
+      "distance": 1.1552264467413842,
+      "wanted": 1.1552264467413842,
+      "limited": true,
+      "minimum": 1.4800000000000002,
+      "lift": 0
+    },
+    "activity": "lunch",
+    "avatar": "rick-and-morty",
+    "errors": [],
+    "rawEvidenceSha256": "3d63159685b62a363e97d783a7cb12e0d475dc40ea21cade603a3af33c754e8c",
+    "rawImageSha256": "4047455704ca8eca4f5749d9156577e612b2c92664b386fb7c07c1f6b3fbfac8"
+  },
+  {
+    "id": "sleep",
+    "camera": [-5.83415039943576, 3.7093929506421617, 2.682904788223815],
+    "target": [-6.8, 2.35, 6.97],
+    "arm": {
+      "active": true,
+      "distance": 4.6,
+      "wanted": 4.6,
+      "limited": false,
+      "minimum": 1.8399999999999999,
+      "lift": 0
+    },
+    "activity": "lunch",
+    "avatar": "rick-and-morty",
+    "errors": [],
+    "rawEvidenceSha256": "fff764f3ec00fc7402fcdf9e69ba3569fb28c589d85ba68337c1de22b75967fd",
+    "rawImageSha256": "e24705da69b281c2aa38f91d22633d766ed44c35dc3f207f7e9604c5a420cc5c"
+  },
+  {
+    "id": "study",
+    "camera": [-9.36816583188611, 2.8363571897323165, 1.7711223123753492],
+    "target": [-10.8, 1.8, 4.8],
+    "arm": {
+      "active": true,
+      "distance": 3.506891124098197,
+      "wanted": 3.506891124098197,
+      "limited": true,
+      "minimum": 1.6,
+      "lift": 0
+    },
+    "activity": "lunch",
+    "avatar": "rick-and-morty",
+    "errors": [],
+    "rawEvidenceSha256": "84a7bfb2b0ef05aebb84656dd5fe88c12097fcf2d9c52fa77626b1de4b1c2ab8",
+    "rawImageSha256": "511456ed399570243369871212d0dd6171e21a4d05130ef0cb70dae8289bf32a"
+  }
+]

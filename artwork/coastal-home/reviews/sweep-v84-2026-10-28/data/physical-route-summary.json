@@ -1,0 +1,368 @@
+[
+  {
+    "id": "entrance-inbound-complete",
+    "inputScope": "Public first-person W key held through Playwright; public pointer-drag input steers. Actual capsule solver only; no position, floor, camera target, or yaw setters are called.",
+    "failure": null,
+    "events": [
+      {
+        "index": 0,
+        "target": [-2.8, 8.3, 22.95],
+        "actual": [-2.8, 8.300078392028809, 22.95],
+        "heightError": 7.839202880788321e-5
+      },
+      {
+        "index": 1,
+        "target": [-2.8, 5.45, 17],
+        "actual": [-2.8, 5.4498820304870605, 17.091999999999945],
+        "heightError": -0.00011796951293963076
+      },
+      {
+        "index": 2,
+        "target": [2.65, 2.6, 17],
+        "actual": [2.563907539870689, 2.6001780033111572, 17.00050549701359],
+        "heightError": 0.00017800331115713774
+      },
+      {
+        "index": 3,
+        "target": [2.65, 0, 22.1],
+        "actual": [2.648667549154152, 6.669759750366211e-5, 21.993981949488056],
+        "heightError": 6.669759750366211e-5
+      },
+      {
+        "index": 4,
+        "target": [0.9, 0, 22.1],
+        "actual": [1.0183314948303992, 6.669759750366211e-5, 22.09553366034408],
+        "heightError": 6.669759750366211e-5
+      },
+      {
+        "index": 5,
+        "target": [0.195, 0, 18.2],
+        "actual": [0.21219973112607768, 6.669759750366211e-5, 18.28384039629423],
+        "heightError": 6.669759750366211e-5
+      },
+      {
+        "index": 6,
+        "target": [0.195, 0, 13.6],
+        "actual": [0.1950183296319095, 0.0026175621896982193, 13.559799393925452],
+        "heightError": 0.0026175621896982193
+      },
+      {
+        "index": 7,
+        "target": [3.27, 0, 13.6],
+        "actual": [3.270295066124956, 0.0026175621896982193, 13.600024776963437],
+        "heightError": 0.0026175621896982193
+      },
+      {
+        "index": 8,
+        "target": [3.27, 0, 9.2],
+        "actual": [3.270274153297982, 0.0026175621896982193, 9.208412158156147],
+        "heightError": 0.0026175621896982193
+      }
+    ],
+    "sampleCount": 481,
+    "startPosition": [-2.8, 8.300078392028809, 22.95],
+    "endPosition": [3.270274153297982, 0.0026175621896982193, 9.208412158156147],
+    "distanceMetres": 34.46600000000007,
+    "blockedFrameDelta": 0,
+    "finalPointerLocked": false,
+    "maximumEventNominalHeightDifferenceMetres": 0.0026175621896982193,
+    "artifact": "data/entrance-inbound-complete-route.json.gz"
+  },
+  {
+    "id": "entrance-outbound-complete",
+    "inputScope": "Public first-person W key held through Playwright; public pointer-drag input steers. Actual capsule solver only; no position, floor, camera target, or yaw setters are called.",
+    "failure": null,
+    "events": [
+      {
+        "index": 0,
+        "target": [3.27, 0, 13.6],
+        "actual": [3.2700040944474082, 0.0026175621896982193, 13.534412149726698],
+        "heightError": 0.0026175621896982193
+      },
+      {
+        "index": 1,
+        "target": [0.195, 0, 13.6],
+        "actual": [0.29804970991484364, 0.0026175621896982193, 13.599410594396366],
+        "heightError": 0.0026175621896982193
+      },
+      {
+        "index": 2,
+        "target": [0.195, 0, 18.2],
+        "actual": [0.19655748873394807, 6.669759750366211e-5, 18.093139246056822],
+        "heightError": 6.669759750366211e-5
+      },
+      {
+        "index": 3,
+        "target": [0.9, 0, 22.1],
+        "actual": [0.8872819833110319, 6.669759750366211e-5, 22.028300633646698],
+        "heightError": 6.669759750366211e-5
+      },
+      {
+        "index": 4,
+        "target": [2.65, 0, 22.1],
+        "actual": [2.6756842683833337, 6.669759750366211e-5, 22.098404821936214],
+        "heightError": 6.669759750366211e-5
+      },
+      {
+        "index": 5,
+        "target": [2.65, 2.6, 17],
+        "actual": [2.6476017401161407, 2.6001780033111572, 17.02798367985385],
+        "heightError": 0.00017800331115713774
+      },
+      {
+        "index": 6,
+        "target": [-2.8, 5.45, 17],
+        "actual": [-2.7411874180010027, 5.4498820304870605, 16.998991733729884],
+        "heightError": -0.00011796951293963076
+      },
+      {
+        "index": 7,
+        "target": [-2.8, 8.3, 22.95],
+        "actual": [-2.8002633269809634, 8.300078392028809, 22.8682982693099],
+        "heightError": 7.839202880788321e-5
+      }
+    ],
+    "sampleCount": 458,
+    "startPosition": [3.270274153297982, 0.0026175621896982193, 9.208412158156147],
+    "endPosition": [-2.8002633269809634, 8.300078392028809, 22.8682982693099],
+    "distanceMetres": 35.257999999999804,
+    "blockedFrameDelta": 0,
+    "finalPointerLocked": false,
+    "maximumEventNominalHeightDifferenceMetres": 0.0026175621896982193,
+    "artifact": "data/entrance-outbound-complete-route.json.gz"
+  },
+  {
+    "id": "library-patio-outward",
+    "inputScope": "Public first-person W key held through Playwright; public pointer-drag input steers. Actual capsule solver only; no position, floor, camera target, or yaw setters are called.",
+    "failure": null,
+    "events": [
+      {
+        "index": 0,
+        "target": [-8.5, 0, 2.55],
+        "actual": [-8.559999999999999, 0.005020751617848873, 2.55],
+        "heightError": 0.005020751617848873
+      },
+      {
+        "index": 1,
+        "target": [-7.95, 0, 2.55],
+        "actual": [-8.038000000000002, 0.0011761579662561417, 2.55],
+        "heightError": 0.0011761579662561417
+      }
+    ],
+    "sampleCount": 24,
+    "startPosition": [-9.41, -0.00020606815814971924, 2.55],
+    "endPosition": [-8.038000000000002, 0.0011761579662561417, 2.55],
+    "distanceMetres": 1.3719999999999857,
+    "blockedFrameDelta": 0,
+    "finalPointerLocked": false,
+    "maximumEventNominalHeightDifferenceMetres": 0.005020751617848873,
+    "artifact": "data/library-patio-outward-route.json.gz"
+  },
+  {
+    "id": "library-patio-return",
+    "inputScope": "Public first-person W key held through Playwright; public pointer-drag input steers. Actual capsule solver only; no position, floor, camera target, or yaw setters are called.",
+    "failure": null,
+    "events": [
+      {
+        "index": 0,
+        "target": [-8.5, 0, 2.55],
+        "actual": [-8.412000000000003, 0.005020751617848873, 2.55],
+        "heightError": 0.005020751617848873
+      },
+      {
+        "index": 1,
+        "target": [-9.41, 0, 2.55],
+        "actual": [-9.300000000000006, -0.00020606815814971924, 2.55],
+        "heightError": -0.00020606815814971924
+      }
+    ],
+    "sampleCount": 34,
+    "startPosition": [-8.038000000000002, 0.0011761579662561417, 2.55],
+    "endPosition": [-9.300000000000006, -0.00020606815814971924, 2.55],
+    "distanceMetres": 1.2620000000000005,
+    "blockedFrameDelta": 0,
+    "finalPointerLocked": false,
+    "maximumEventNominalHeightDifferenceMetres": 0.005020751617848873,
+    "artifact": "data/library-patio-return-route.json.gz"
+  },
+  {
+    "id": "bedroom-stairs-up-verified",
+    "inputScope": "Public first-person W key held through Playwright; public pointer-drag input steers. Actual capsule solver only; no position, floor, camera target, or yaw setters are called.",
+    "failure": null,
+    "events": [
+      {
+        "index": 0,
+        "target": [-9.68830822888628, 0.15, 5.428785594990311],
+        "actual": [-9.737009143206972, 0.14998579025268555, 5.365317327767016],
+        "heightError": -1.4209747314447574e-5
+      },
+      {
+        "index": 1,
+        "target": [-9.525532071302866, 0.3, 5.334806736591874],
+        "actual": [-9.536843797598, 0.2999503016471863, 5.3408707014613395],
+        "heightError": -4.96983528137096e-5
+      },
+      {
+        "index": 2,
+        "target": [-9.343978858398437, 0.45, 5.286159699810857],
+        "actual": [-9.44518375222481, 0.45003145933151245, 5.291733789855249],
+        "heightError": 3.145933151244007e-5
+      },
+      {
+        "index": 3,
+        "target": [-9.156021141601563, 0.6, 5.286159699810856],
+        "actual": [-9.259455502739772, 0.5999959707260132, 5.2606177372001275],
+        "heightError": -4.029273986794202e-6
+      },
+      {
+        "index": 4,
+        "target": [-8.974467928697136, 0.75, 5.334806736591874],
+        "actual": [-9.007815213559335, 0.7499604225158691, 5.325991082552981],
+        "heightError": -3.9577484130859375e-5
+      },
+      {
+        "index": 5,
+        "target": [-8.811691771113722, 0.9, 5.428785594990311],
+        "actual": [-8.883817286675386, 0.9000415802001953, 5.382735555352016],
+        "heightError": 4.1580200195290296e-5
+      },
+      {
+        "index": 6,
+        "target": [-8.67878559499031, 1.05, 5.561691771113721],
+        "actual": [-8.716970008716276, 1.0500061511993408, 5.524601429405771],
+        "heightError": 6.151199340775904e-6
+      },
+      {
+        "index": 7,
+        "target": [-8.584806736591874, 1.2, 5.724467928697136],
+        "actual": [-8.627428903972001, 1.1999706029891968, 5.645223341921263],
+        "heightError": -2.9397010803178247e-5
+      },
+      {
+        "index": 8,
+        "target": [-8.536159699810856, 1.35, 5.906021141601562],
+        "actual": [-8.565932547976816, 1.350051760673523, 5.809373885621604],
+        "heightError": 5.17606735228604e-5
+      },
+      {
+        "index": 9,
+        "target": [-8.536159699810856, 1.5, 6.093978858398437],
+        "actual": [-8.54369767168116, 1.350051760673523, 5.993276865543124],
+        "heightError": -0.14994823932647705
+      },
+      {
+        "index": 10,
+        "target": [-8.33208798397888, 1.5, 6.370860527481753],
+        "actual": [-8.371774636335676, 1.500015139579773, 6.308293678667323],
+        "heightError": 1.5139579772949219e-5
+      },
+      {
+        "index": 11,
+        "target": [-8.03, 1.5, 6.97],
+        "actual": [-8.046083688537369, 1.500102162361145, 6.867699189888084],
+        "heightError": 0.00010216236114501953
+      }
+    ],
+    "sampleCount": 40,
+    "startPosition": [-10.041389857711337, 0.011914730072021484, 4.968640657621394],
+    "endPosition": [-8.046083688537369, 1.500102162361145, 6.867699189888084],
+    "distanceMetres": 3.223962699826282,
+    "blockedFrameDelta": 2,
+    "finalPointerLocked": false,
+    "maximumEventNominalHeightDifferenceMetres": 0.14994823932647705,
+    "artifact": "data/bedroom-stairs-up-verified-route.json.gz"
+  },
+  {
+    "id": "bedroom-stairs-down-verified",
+    "inputScope": "Public first-person W key held through Playwright; public pointer-drag input steers. Actual capsule solver only; no position, floor, camera target, or yaw setters are called.",
+    "failure": null,
+    "events": [
+      {
+        "index": 0,
+        "target": [-8.33208798397888, 1.5, 6.370860527481753],
+        "actual": [-8.278773803148466, 1.500015139579773, 6.438630320234315],
+        "heightError": 1.5139579772949219e-5
+      },
+      {
+        "index": 1,
+        "target": [-8.536159699810856, 1.5, 6.093978858398437],
+        "actual": [-8.4776558400187, 1.5000163316726685, 6.172811729289597],
+        "heightError": 1.633167266845703e-5
+      },
+      {
+        "index": 2,
+        "target": [-8.536159699810856, 1.35, 5.906021141601562],
+        "actual": [-8.519970051016577, 1.5000163316726685, 6.00500328590653],
+        "heightError": 0.15001633167266837
+      },
+      {
+        "index": 3,
+        "target": [-8.584806736591874, 1.2, 5.724467928697136],
+        "actual": [-8.56184983448907, 1.350051760673523, 5.819758836423494],
+        "heightError": 0.150051760673523
+      },
+      {
+        "index": 4,
+        "target": [-8.67878559499031, 1.05, 5.561691771113721],
+        "actual": [-8.640829050300983, 1.1999706029891968, 5.639032251684173],
+        "heightError": 0.14997060298919673
+      },
+      {
+        "index": 5,
+        "target": [-8.811691771113722, 0.9, 5.428785594990311],
+        "actual": [-8.742732925036034, 1.0500061511993408, 5.506879879576947],
+        "heightError": 0.1500061511993408
+      },
+      {
+        "index": 6,
+        "target": [-8.974467928697136, 0.75, 5.334806736591874],
+        "actual": [-8.904192903471968, 0.7499604225158691, 5.3836525621933315],
+        "heightError": -3.9577484130859375e-5
+      },
+      {
+        "index": 7,
+        "target": [-9.156021141601563, 0.6, 5.286159699810856],
+        "actual": [-9.088477654535582, 0.7499604225158691, 5.309188955607878],
+        "heightError": 0.14996042251586916
+      },
+      {
+        "index": 8,
+        "target": [-9.343978858398437, 0.45, 5.286159699810857],
+        "actual": [-9.285243652405883, 0.5999959707260132, 5.287243448587947],
+        "heightError": 0.14999597072601317
+      },
+      {
+        "index": 9,
+        "target": [-9.525532071302866, 0.3, 5.334806736591874],
+        "actual": [-9.418577435007816, 0.45003145933151245, 5.307245439497522],
+        "heightError": 0.15003145933151246
+      },
+      {
+        "index": 10,
+        "target": [-9.68830822888628, 0.15, 5.428785594990311],
+        "actual": [-9.619399454004691, 0.2999503016471863, 5.395506410975955],
+        "heightError": 0.14995030164718628
+      },
+      {
+        "index": 11,
+        "target": [-10.041389857711337, 0, 4.968640657621394],
+        "actual": [-9.99383577164497, 0.11999289691448212, 5.0233764682768065],
+        "heightError": 0.11999289691448212
+      },
+      {
+        "index": 12,
+        "target": [-10.1, 0, 4.85],
+        "actual": [-10.043783947677886, 0.011914730072021484, 4.949011903037124],
+        "heightError": 0.011914730072021484
+      }
+    ],
+    "sampleCount": 57,
+    "startPosition": [-8.046083688537369, 1.500102162361145, 6.867699189888084],
+    "endPosition": [-10.043783947677886, 0.011914730072021484, 4.949011903037124],
+    "distanceMetres": 3.1694783951519647,
+    "blockedFrameDelta": 1,
+    "finalPointerLocked": false,
+    "maximumEventNominalHeightDifferenceMetres": 0.150051760673523,
+    "artifact": "data/bedroom-stairs-down-verified-route.json.gz"
+  }
+]

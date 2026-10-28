@@ -1,0 +1,297 @@
+{
+  "scope": "Portable review files; this manifest excludes itself. No production code or model is part of the patch.",
+  "fileCount": 58,
+  "bytes": 26313440,
+  "files": [
+    {
+      "file": ".gitattributes",
+      "bytes": 68,
+      "sha256": "9b120471fa47fe872cf132437dc60b3dd906ab86bf57ee99ee048f00151aa270"
+    },
+    {
+      "file": "data/bedroom-stairs-down-verified-route.json.gz",
+      "bytes": 6632,
+      "sha256": "aa15061e886baf459540246b1989f4e0197922c84263ae9a49c09b1e318b1c3d"
+    },
+    {
+      "file": "data/bedroom-stairs-up-verified-route.json.gz",
+      "bytes": 5463,
+      "sha256": "c49d88374c58bccf866a81c0ad2438b7181bc75e5db956c086401a46ec31d08a"
+    },
+    {
+      "file": "data/compressed-reports.json",
+      "bytes": 3120,
+      "sha256": "d6e35232221d82acf35235b9c1bea7bdee9fda67522672222d138903f78ebbc4"
+    },
+    {
+      "file": "data/console-check.json",
+      "bytes": 3600,
+      "sha256": "404763d1d26160c5935a435dbd2b56f9fef349df693f9b3b5cb9968179dae198"
+    },
+    {
+      "file": "data/entrance-inbound-complete-route.json.gz",
+      "bytes": 23979,
+      "sha256": "f65725190712de5c89771f631045513cb9576ab284fb5f5fbcf7114e4d83cb13"
+    },
+    {
+      "file": "data/entrance-outbound-complete-route.json.gz",
+      "bytes": 24368,
+      "sha256": "6e5a6d662b08bdabe964b65e6c09a3853ed80d355944789938627e3be971d8c4"
+    },
+    {
+      "file": "data/freeze-manifest.json",
+      "bytes": 44820,
+      "sha256": "5b8ff13569a71d4bdd2525ef0f0949a5a99490b0f2e0894aaf05175a62394773"
+    },
+    {
+      "file": "data/library-patio-outward-route.json.gz",
+      "bytes": 1629,
+      "sha256": "039f552c38e410ccd78224287f373cbb07e102c229aa8fab950a985f65720b48"
+    },
+    {
+      "file": "data/library-patio-return-route.json.gz",
+      "bytes": 1854,
+      "sha256": "a8e39d16439d2fa858578e195b804379007667167a4d79d4f3842a2bce84a922"
+    },
+    {
+      "file": "data/living-blocker-1440.json.gz",
+      "bytes": 140853,
+      "sha256": "bee58b3677c8d47b845ebb252d6efe19413e7b720cbeba841dc0a8e8dad2983d"
+    },
+    {
+      "file": "data/living-blocker-390.json.gz",
+      "bytes": 141008,
+      "sha256": "a0e0b928b752d6f89d0b083b9d30b96655d17ae6099a01f77c6f44610dba84b1"
+    },
+    {
+      "file": "data/living-cell-origin.json",
+      "bytes": 33557,
+      "sha256": "b8303defb3318a2a12f7aa663e36e9274c1f3f0eba2c3a7499d236c13dff7a4c"
+    },
+    {
+      "file": "data/living-ray-flags.json",
+      "bytes": 28320,
+      "sha256": "3a507635ed6332e24408aa1e624dce523a6cf3fad1e7552b4c9f89e54f81bfbc"
+    },
+    {
+      "file": "data/native-living-blocker.json",
+      "bytes": 8619,
+      "sha256": "ae9a878cacb3ef5328888d24fb1a79720061df02b40afb99a2c13d2da4ec5476"
+    },
+    {
+      "file": "data/native-living-cell-origin.json",
+      "bytes": 4415,
+      "sha256": "7e6e2f5f13c3b3acf939c6b86ca327467ae494adcffc91206403b8c1b98977e5"
+    },
+    {
+      "file": "data/phone-stick-input.json",
+      "bytes": 27010,
+      "sha256": "42597144d883278da387a55aeafca9ce521f84589a4c565427598be9f6e24ea4"
+    },
+    {
+      "file": "data/physical-route-summary.json",
+      "bytes": 13808,
+      "sha256": "3365446cafcff583ef92deb34543ba488824ed2a7c4e31b6f52354049d8029a7"
+    },
+    {
+      "file": "data/render-index.json",
+      "bytes": 73132,
+      "sha256": "cef8a58df64c2ce924cbbbe4cb3d7c448fa087af00105ea2c7e34c4bba1ac712"
+    },
+    {
+      "file": "data/retained-attempts.json",
+      "bytes": 1382,
+      "sha256": "fa39548162cf074d6bfcc5dd715b2f82634f2782cae04d8ad0d3c72c63a37877"
+    },
+    {
+      "file": "data/room-coverage.json",
+      "bytes": 5656,
+      "sha256": "3250a55a36e5e9cfcd1e74e8924fd577c31448f9dd7723ca50a805369af64afb"
+    },
+    {
+      "file": "data/source-readback.json",
+      "bytes": 68257,
+      "sha256": "b2148cab65ff6fe782991e342e3fb08c720cdd241798eec2373bf05183d74d96"
+    },
+    {
+      "file": "data/verification.json",
+      "bytes": 1852,
+      "sha256": "5b90e98606a81f5d1ade5bd3d1737bd09ec0810c9bbf81dba91f6679658799d2"
+    },
+    {
+      "file": "images/bedroom-stairs-return-verified.webp",
+      "bytes": 495120,
+      "sha256": "ca33eba7c751d98b16f3e0a4c63592081a3fd8ac77ef2daa2d9dc773c39f7509"
+    },
+    {
+      "file": "images/entrance-inbound-complete.webp",
+      "bytes": 820484,
+      "sha256": "3122dd0d0d76563fc2b339b9116411cb790ca65cf4b05bbf0fbb105d6ce3c6d7"
+    },
+    {
+      "file": "images/entrance-outbound-complete.webp",
+      "bytes": 482762,
+      "sha256": "b17d4dfdcfda583ea39c9e1d8607f84f11e26d5450c22c1cc01bc5eb046d5805"
+    },
+    {
+      "file": "images/entrance-phone-after-stick.webp",
+      "bytes": 333892,
+      "sha256": "ca2c6c254c646bef1a2068fef1dab06170f2b58f41d62bf2a4f6eeffdd46aafa"
+    },
+    {
+      "file": "images/entrance-phone-walk-start.webp",
+      "bytes": 404806,
+      "sha256": "2b0f8d75005511d0d2ff7b0ccd14f1e1f8a0101a0ba3c65b75bbece60e7cfce4"
+    },
+    {
+      "file": "images/exterior-east-day.webp",
+      "bytes": 1009366,
+      "sha256": "de7e69605ed155319ddbe8995bc9297c4de4aa7163d137228c017fb490c91bf2"
+    },
+    {
+      "file": "images/exterior-west-day.webp",
+      "bytes": 907998,
+      "sha256": "916ce80b2d9a35494da07a8d48de356611e2df5e9acbb550e927ead41c306c09"
+    },
+    {
+      "file": "images/library-patio-outward.webp",
+      "bytes": 612200,
+      "sha256": "0475c70d03c8e8b277905dfb740234f91844492f98352afb6e073d17095d8a24"
+    },
+    {
+      "file": "images/library-patio-return.webp",
+      "bytes": 338674,
+      "sha256": "2a42e9be2382bf44d6dab6d32a52fde83c7c573a59f13ef413d7ce65c80fb12e"
+    },
+    {
+      "file": "images/living-default-4k.webp",
+      "bytes": 2854052,
+      "sha256": "6557815157cdff009ba5e69913fba76fb129a0d92876c31d7d28efffb9303776"
+    },
+    {
+      "file": "images/living-default-phone.webp",
+      "bytes": 620866,
+      "sha256": "87e82bdb2f8066b4650765dedaecf5722c275a645bc90802b3fd32d6960c89ae"
+    },
+    {
+      "file": "images/onsen-activity-4k.webp",
+      "bytes": 1998086,
+      "sha256": "6728d74788ef0bb5e06df9d8144522114d83c376681c538532f361ba96f2e502"
+    },
+    {
+      "file": "images/onsen-activity-phone.webp",
+      "bytes": 482446,
+      "sha256": "7ee0ccb74eaafbf1f6455e06476e289ac6670bc417d47439c582b12e57d81629"
+    },
+    {
+      "file": "images/outside-day-default.webp",
+      "bytes": 1208590,
+      "sha256": "e36cd1049c2caa2cff67ea439ca628ef5edc5c077a732d536c1d392608a838a9"
+    },
+    {
+      "file": "images/outside-evening-4k.webp",
+      "bytes": 3297178,
+      "sha256": "4ee7704a067ceec963e01988f99914c6997d80475d3f8be42fa7ca37782f15ab"
+    },
+    {
+      "file": "images/overview-day-default.webp",
+      "bytes": 1058546,
+      "sha256": "b663b5523809a5a1c4f1fc50003a3f8282eb7bdb3068cdcd2930c8065c0ccb31"
+    },
+    {
+      "file": "images/private-living-default-4k.webp",
+      "bytes": 3900154,
+      "sha256": "5c1c787cec34d786fbc776cf0a7fac18dfcdd6ba42e809461e36cb9921f1bca9"
+    },
+    {
+      "file": "images/private-living-default-phone.webp",
+      "bytes": 700620,
+      "sha256": "c076f890a91eb092a3b0cef7fb34a28f5e14974e7a77e94171f956528bb9c633"
+    },
+    {
+      "file": "images/room-library-upper-desktop.webp",
+      "bytes": 804814,
+      "sha256": "2d8ee167d80f9ce75f2010832bd4fc815514815af9b65a1050226fd7f7dc0256"
+    },
+    {
+      "file": "images/room-lounge-desktop.webp",
+      "bytes": 571664,
+      "sha256": "162dbbeaaa00ebf1fb107326879a5f464a5735f59c17f12eaea1c32164b48a6d"
+    },
+    {
+      "file": "images/room-onsen-desktop.webp",
+      "bytes": 315986,
+      "sha256": "c4eaac8fe4ae2b0540398561ac642ef146285c31a36313b376a0fcee485033a6"
+    },
+    {
+      "file": "images/rooms-desktop-contact-sheet.webp",
+      "bytes": 982786,
+      "sha256": "901fa093a7974239a701f68692dd4f485edb02e82ae52d2a65ff34a253ccb077"
+    },
+    {
+      "file": "images/station-soak.webp",
+      "bytes": 535344,
+      "sha256": "462ce99fb04cd62f78bb2c2a46843d7297db2efb3830a2eba492614857ae8483"
+    },
+    {
+      "file": "images/stations-contact-sheet.webp",
+      "bytes": 833876,
+      "sha256": "e74748938ff7bdceee795fdf6925bddd897910affe191ea23b256ebe397b72ba"
+    },
+    {
+      "file": "probes/camera-source.mjs.gz",
+      "bytes": 11776,
+      "sha256": "6441cf2804b31eda27d5d6741fb8d2445898ee2a8ec32066166fbb3d698aea26"
+    },
+    {
+      "file": "probes/console-check.cjs",
+      "bytes": 2601,
+      "sha256": "319ec42b8bdc36c7c906f747c0da815d34246bd6c8585473293664e99722c47a"
+    },
+    {
+      "file": "probes/inspect-v3.cjs",
+      "bytes": 14962,
+      "sha256": "018e1c6f40737f283b7238621be84afc583bd46dbc442154e1a336cc74df1b17"
+    },
+    {
+      "file": "probes/living-blocker.cjs",
+      "bytes": 7894,
+      "sha256": "972c3f07da2d395350310d2e614e9da558abbffab4ba738df37b737318f62d94"
+    },
+    {
+      "file": "probes/living-flags.cjs",
+      "bytes": 7365,
+      "sha256": "178e27f4555fe4e664ddeb1eba11128c6aeb2537004620d04a690954fb5045e3"
+    },
+    {
+      "file": "probes/living-origin.cjs",
+      "bytes": 10831,
+      "sha256": "fc82db3bdda9ca0fdeeb834c319438cbe926fb27d52d165cc54e8e1478700560"
+    },
+    {
+      "file": "probes/native-living-blocker.py",
+      "bytes": 2493,
+      "sha256": "5e49d2fa2722a4534cdfef18e0f3a8159ab4957d24f7e52f729f286298b65537"
+    },
+    {
+      "file": "probes/native-living-origin.py",
+      "bytes": 1935,
+      "sha256": "6cd1fbfa27902e950497689e2ab58b583ceb23a0ef3a568106b76460bb1661c6"
+    },
+    {
+      "file": "probes/replay-living-ray.mjs",
+      "bytes": 1790,
+      "sha256": "9c1e3dfcf35d7a40c495ed9a9a0502880e054bae5e02d30d24f14aacabc729a7"
+    },
+    {
+      "file": "probes/serve.py",
+      "bytes": 1572,
+      "sha256": "866d98b7a18ea8804089437de9d71969a055a5897fc4c65a961746573d8de436"
+    },
+    {
+      "file": "README.md",
+      "bytes": 16509,
+      "sha256": "57895773b3be9d7517f1ea941219c2f3e31ddc081fbe2120c28d7a994f0e2884"
+    }
+  ]
+}

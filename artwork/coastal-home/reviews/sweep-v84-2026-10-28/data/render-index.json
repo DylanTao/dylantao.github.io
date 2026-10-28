@@ -1,0 +1,2533 @@
+{
+  "images": [
+    {
+      "file": "images/room-lounge-desktop.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 571664,
+      "sha256": "162dbbeaaa00ebf1fb107326879a5f464a5735f59c17f12eaea1c32164b48a6d",
+      "sourcePngSha256": "500ff599e506b6ad0269f8a29740a932fa04bf475ee849bd5598f3eef4ae686d",
+      "sourcePngBytes": 798368,
+      "rgbPixelSha256": "6984470b19545ffe34912f1ac806ab70d3fe699284daeb88984a91cff0761d5c",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/living-default-phone.webp",
+      "width": 780,
+      "height": 2000,
+      "bytes": 620866,
+      "sha256": "87e82bdb2f8066b4650765dedaecf5722c275a645bc90802b3fd32d6960c89ae",
+      "sourcePngSha256": "0fe2d03557674e7410c099b92a98c505839ee382588c9517915957e850965c0d",
+      "sourcePngBytes": 850041,
+      "rgbPixelSha256": "030eb98da66b90990e083ad3589c6384e5ce779414680faeeaa0395e6cbb7993",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/living-default-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 2854052,
+      "sha256": "6557815157cdff009ba5e69913fba76fb129a0d92876c31d7d28efffb9303776",
+      "sourcePngSha256": "b83ec6ff70d6dac809ccc96d5b543c4068d0317a2b8d94debf0a9898f735b650",
+      "sourcePngBytes": 3974525,
+      "rgbPixelSha256": "a68acafe9b04974b4020d17608a5364951e411556607b20ec7cd0ad7c4289f46",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/room-library-upper-desktop.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 804814,
+      "sha256": "2d8ee167d80f9ce75f2010832bd4fc815514815af9b65a1050226fd7f7dc0256",
+      "sourcePngSha256": "83bd77fe0c4fed00ed15532b4a41782d26701d1343be05fe595baea22ab0fe38",
+      "sourcePngBytes": 1122106,
+      "rgbPixelSha256": "c99a8d2ec662da96cb8394989bdcd0d3648ba7271e59818f911bac5ae740c6c6",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/private-living-default-phone.webp",
+      "width": 780,
+      "height": 2000,
+      "bytes": 700620,
+      "sha256": "c076f890a91eb092a3b0cef7fb34a28f5e14974e7a77e94171f956528bb9c633",
+      "sourcePngSha256": "896137798bae0d074b61c528a8f7f0c6566cf7c6903e5ff0c25bbfe63621cffe",
+      "sourcePngBytes": 904873,
+      "rgbPixelSha256": "f25b6215d51d40dca70d1a7e0f570dea03955c17e8a88f53983db74bea92a316",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/private-living-default-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 3900154,
+      "sha256": "5c1c787cec34d786fbc776cf0a7fac18dfcdd6ba42e809461e36cb9921f1bca9",
+      "sourcePngSha256": "fa56159e23ed146079495cd3206749fcc7efb10ca0b7bdfbc7d5278e820bde06",
+      "sourcePngBytes": 5423016,
+      "rgbPixelSha256": "8a252b79eca30888ab17dd49a5701dbb77f12d158bf435adcf2ff3f739e3909e",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/room-onsen-desktop.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 315986,
+      "sha256": "c4eaac8fe4ae2b0540398561ac642ef146285c31a36313b376a0fcee485033a6",
+      "sourcePngSha256": "4047455704ca8eca4f5749d9156577e612b2c92664b386fb7c07c1f6b3fbfac8",
+      "sourcePngBytes": 464678,
+      "rgbPixelSha256": "406159c972815d58c198bf879c71322472e3ed8e8771b4f941e27ce6523be0c0",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/station-soak.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 535344,
+      "sha256": "462ce99fb04cd62f78bb2c2a46843d7297db2efb3830a2eba492614857ae8483",
+      "sourcePngSha256": "2d45c8bc80728aa488bca2bf0708c7c39d3d82694cb7c1dd11931b7ce5fd9d78",
+      "sourcePngBytes": 782240,
+      "rgbPixelSha256": "09da2cd045ebc60a2980779cb5a301ca187c7363d0de86ad42109ed97faa16f8",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/onsen-activity-phone.webp",
+      "width": 780,
+      "height": 2000,
+      "bytes": 482446,
+      "sha256": "7ee0ccb74eaafbf1f6455e06476e289ac6670bc417d47439c582b12e57d81629",
+      "sourcePngSha256": "8fbb91da57fb4a92bd5dd8455863b0d4622db47cd82e53e68c60c4e05e234e61",
+      "sourcePngBytes": 676030,
+      "rgbPixelSha256": "17dc6c5784b1aad29c41180b0b565172994734119f3b04f8904162e1b3f35ee0",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/onsen-activity-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 1998086,
+      "sha256": "6728d74788ef0bb5e06df9d8144522114d83c376681c538532f361ba96f2e502",
+      "sourcePngSha256": "43b53d4510b92246258d8eec93aba23f5c35ec627b2c38e70ed8fac3d1d28c8e",
+      "sourcePngBytes": 2913443,
+      "rgbPixelSha256": "516ffed6977b8cc4a223d5d93db3a00909e35f170f89345baffea62203045f5d",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/entrance-inbound-complete.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 820484,
+      "sha256": "3122dd0d0d76563fc2b339b9116411cb790ca65cf4b05bbf0fbb105d6ce3c6d7",
+      "sourcePngSha256": "1c1e38be2ea63da1272262b803a8bcceae9a6436a892e846eed0c966a8828723",
+      "sourcePngBytes": 1161182,
+      "rgbPixelSha256": "16ce82d8b061435cf2a1ba3e657f43c992b3b6305087cd9a5739d2aa281ec44d",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/entrance-outbound-complete.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 482762,
+      "sha256": "b17d4dfdcfda583ea39c9e1d8607f84f11e26d5450c22c1cc01bc5eb046d5805",
+      "sourcePngSha256": "84f9306556d1ad24fcbd3d220a059918132a6079f2797701323526a19ac44530",
+      "sourcePngBytes": 678634,
+      "rgbPixelSha256": "a9dc77e0d37d6ce895f2a7135e1df812c03dc5658642473a0963d2d805ef3321",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/library-patio-outward.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 612200,
+      "sha256": "0475c70d03c8e8b277905dfb740234f91844492f98352afb6e073d17095d8a24",
+      "sourcePngSha256": "48d59700e5ee40588223a6d33d9dcb392700bd76e2746999b9dcb06655087520",
+      "sourcePngBytes": 897409,
+      "rgbPixelSha256": "9e217045afe890c2fb8b23ddf4b566eb7912a0aab73c922f0d976afbf94dcb54",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/library-patio-return.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 338674,
+      "sha256": "2a42e9be2382bf44d6dab6d32a52fde83c7c573a59f13ef413d7ce65c80fb12e",
+      "sourcePngSha256": "41818f8442ac4e6dee7d1474fd5396574a858deca57923565a12f45e93641168",
+      "sourcePngBytes": 488632,
+      "rgbPixelSha256": "3425987b5184e2b225b5f2a321971e97f89d70cec7460ec45c1f1d591033d168",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/bedroom-stairs-return-verified.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 495120,
+      "sha256": "ca33eba7c751d98b16f3e0a4c63592081a3fd8ac77ef2daa2d9dc773c39f7509",
+      "sourcePngSha256": "0be80628a9394a94b17791fbfbcc46a125a201eae50844029fd42a42b6659841",
+      "sourcePngBytes": 732734,
+      "rgbPixelSha256": "892fb4a8273a937324ff5535460be11f692243bc605c300173b22bb1c905f523",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/entrance-phone-walk-start.webp",
+      "width": 780,
+      "height": 2000,
+      "bytes": 404806,
+      "sha256": "2b0f8d75005511d0d2ff7b0ccd14f1e1f8a0101a0ba3c65b75bbece60e7cfce4",
+      "sourcePngSha256": "f387f6d830e90d535171224a7296245eb2ca54f2e1d9e97fe8eb338a8220b9b3",
+      "sourcePngBytes": 577847,
+      "rgbPixelSha256": "b101c9b8d6fb4e4c7d13888b59c63c707352298f120cc25eadbcd3f2d29442b1",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/entrance-phone-after-stick.webp",
+      "width": 780,
+      "height": 2000,
+      "bytes": 333892,
+      "sha256": "ca2c6c254c646bef1a2068fef1dab06170f2b58f41d62bf2a4f6eeffdd46aafa",
+      "sourcePngSha256": "1ce62eead5fac4f375901952ce2e07e2e92e0110c5882df42f5492558c3ff23f",
+      "sourcePngBytes": 475442,
+      "rgbPixelSha256": "c9eabdbe66e900c06f099f11719495b69533bf6b19516324d6608a0d4093dd3a",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/outside-day-default.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 1208590,
+      "sha256": "e36cd1049c2caa2cff67ea439ca628ef5edc5c077a732d536c1d392608a838a9",
+      "sourcePngSha256": "486c9e63b6d48228728c08201e490d7e05eda26c77c47f5e3000e39d417d8458",
+      "sourcePngBytes": 1686054,
+      "rgbPixelSha256": "e79e63bb57fb6756f9db8fba32cc7193a67dbe77bb9e7300b000647d1d27d807",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/outside-evening-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 3297178,
+      "sha256": "4ee7704a067ceec963e01988f99914c6997d80475d3f8be42fa7ca37782f15ab",
+      "sourcePngSha256": "4d9d91701721d65afdf485e46bbf7742bab830edb3e073a087665aabae91a31d",
+      "sourcePngBytes": 4672724,
+      "rgbPixelSha256": "09d757eb0bc6a05ba4c14f47ba770b48bdf75ff57b0785c7a0514d21fa461902",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/overview-day-default.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 1058546,
+      "sha256": "b663b5523809a5a1c4f1fc50003a3f8282eb7bdb3068cdcd2930c8065c0ccb31",
+      "sourcePngSha256": "04ba017dbcd9a3393bc77252cf36b4d656e3b71e0f9ede1996327881dc11fecf",
+      "sourcePngBytes": 1505801,
+      "rgbPixelSha256": "6f108e3b51b26b8b5ea53537a749f77722c4b9c7d2096fafbf37d83fbbfed1fe",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/exterior-east-day.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 1009366,
+      "sha256": "de7e69605ed155319ddbe8995bc9297c4de4aa7163d137228c017fb490c91bf2",
+      "sourcePngSha256": "7d9740c66c104ae9d6ea15154c4bf64c9df9a7f40a2eccacfc13e00a37751bd9",
+      "sourcePngBytes": 1447312,
+      "rgbPixelSha256": "9b0f5e510c0d9f90821d2a1b9f13508fd20c3c9d6de7547678685a6124b9904d",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/exterior-west-day.webp",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 907998,
+      "sha256": "916ce80b2d9a35494da07a8d48de356611e2df5e9acbb550e927ead41c306c09",
+      "sourcePngSha256": "21df13258496992224a452da67b35e06e1bee80c0197de2274b8203ece3f6a21",
+      "sourcePngBytes": 1314872,
+      "rgbPixelSha256": "981cf57d37b5cb35ff54d117e8314a5185f4d7246863bde85dcc60231e41d954",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/rooms-desktop-contact-sheet.webp",
+      "width": 1920,
+      "height": 1104,
+      "bytes": 982786,
+      "sha256": "901fa093a7974239a701f68692dd4f485edb02e82ae52d2a65ff34a253ccb077",
+      "sourcePngSha256": "611537b3bdffa77152c42aad1a7f7650d0c37329f84485b23053c4e6aaf995be",
+      "sourcePngBytes": 1390458,
+      "rgbPixelSha256": "b9e02db9056ae1b810ad725a3da26ed5d8762e9fc4aec8ef9511a39a759dc26f",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    },
+    {
+      "file": "images/stations-contact-sheet.webp",
+      "width": 1200,
+      "height": 1224,
+      "bytes": 833876,
+      "sha256": "e74748938ff7bdceee795fdf6925bddd897910affe191ea23b256ebe397b72ba",
+      "sourcePngSha256": "ed819d8faabcd83cd3e63c97dab11c1e9005bd778e56df2081e38e0074f8acc8",
+      "sourcePngBytes": 1149385,
+      "rgbPixelSha256": "149c024f9adf863c425e23690312d746f1d1600c0eb659fa055f42f42ee57112",
+      "derivation": "Lossless WebP; original dimensions and every RGB pixel preserved."
+    }
+  ],
+  "renders": [
+    {
+      "id": "room-lounge-desktop",
+      "image": "images/room-lounge-desktop.webp",
+      "originalEvidenceSha256": "46a0703c762d5152d28803de32006b98a30ee9bb806f3de318621bf403d8cfe1",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "lounge",
+      "activity": "lunch",
+      "avatar": "rick-and-morty",
+      "camera": [0.55, 0.42, 7.45],
+      "target": [0.55, 0.42, 7.45],
+      "cameraOrbit": {
+        "yaw": 3.18,
+        "pitch": 0.34,
+        "radius": 5.8
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 0,
+        "wanted": 0,
+        "limited": true,
+        "minimum": 2.32,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1647,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735332,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19740
+        }
+      },
+      "sourceReadbacks": 163,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "study"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "kitchen"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "gym"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "onsen"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "living-default-phone",
+      "image": "images/living-default-phone.webp",
+      "originalEvidenceSha256": "278049c56790791493dececb7fd9c5b6651c25c80cff6ca72a850c0f392cf02b",
+      "viewportPixels": [780, 2000],
+      "actualCanvasPixels": [780, 2000],
+      "room": "lounge",
+      "activity": "lunch",
+      "avatar": "south-park",
+      "camera": [0.55, 0.42, 7.45],
+      "target": [0.55, 0.42, 7.45],
+      "cameraOrbit": {
+        "yaw": 3.18,
+        "pitch": 0.34,
+        "radius": 5.8
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 0,
+        "wanted": 0,
+        "limited": true,
+        "minimum": 2.32,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1438,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735332,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19739
+        }
+      },
+      "sourceReadbacks": 162,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "living-default-4k",
+      "image": "images/living-default-4k.webp",
+      "originalEvidenceSha256": "c630f90f60100a7e7ee3ff4568f815721a73ec0d158d5076d99f0bebd9010d46",
+      "viewportPixels": [3840, 2160],
+      "actualCanvasPixels": [3840, 2160],
+      "room": "lounge",
+      "activity": "lunch",
+      "avatar": "ghibli",
+      "camera": [0.55, 0.42, 7.45],
+      "target": [0.55, 0.42, 7.45],
+      "cameraOrbit": {
+        "yaw": 3.18,
+        "pitch": 0.34,
+        "radius": 5.8
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 0,
+        "wanted": 0,
+        "limited": true,
+        "minimum": 2.32,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1625,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735331,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19739
+        }
+      },
+      "sourceReadbacks": 162,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "room-library-upper-desktop",
+      "image": "images/room-library-upper-desktop.webp",
+      "originalEvidenceSha256": "61be125672b6cf5e23c80cf96f69b836b36d17b91bbe84d4645357d0015fb77c",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "library-upper",
+      "activity": "lunch",
+      "avatar": "rick-and-morty",
+      "camera": [-0.014079299633833562, 3.671314286255424, 11.840323373178942],
+      "target": [0, 3.65, 11.7],
+      "cameraOrbit": {
+        "yaw": -0.1,
+        "pitch": 0.15,
+        "radius": 3.6
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 0.14262950093537574,
+        "wanted": 0.14262950093537569,
+        "limited": true,
+        "minimum": 1.4400000000000002,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1647,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735332,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19740
+        }
+      },
+      "sourceReadbacks": 164,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "study"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "kitchen"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "gym"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "onsen"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "sleep"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "library"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "library-upper"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "private-living-default-phone",
+      "image": "images/private-living-default-phone.webp",
+      "originalEvidenceSha256": "412b891aa7c8478ed4463b5c8e4c4e097f5780efe75a21a5c197b771795388dc",
+      "viewportPixels": [780, 2000],
+      "actualCanvasPixels": [780, 2000],
+      "room": "library-upper",
+      "activity": "lunch",
+      "avatar": "south-park",
+      "camera": [-0.014079299633833546, 3.671314286255424, 11.840323373178942],
+      "target": [0, 3.65, 11.7],
+      "cameraOrbit": {
+        "yaw": 6.183185307179587,
+        "pitch": 0.15,
+        "radius": 3.6
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 0.14262950093537574,
+        "wanted": 0.14262950093537569,
+        "limited": true,
+        "minimum": 1.4400000000000002,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1438,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735332,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19739
+        }
+      },
+      "sourceReadbacks": 162,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "library-upper"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "private-living-default-4k",
+      "image": "images/private-living-default-4k.webp",
+      "originalEvidenceSha256": "3a2a2c248d5c1402ab2ff56d2b99a33d658bdbfade6b923c959e6248a439d462",
+      "viewportPixels": [3840, 2160],
+      "actualCanvasPixels": [3840, 2160],
+      "room": "library-upper",
+      "activity": "lunch",
+      "avatar": "ghibli",
+      "camera": [-0.014079299633833546, 3.671314286255424, 11.840323373178942],
+      "target": [0, 3.65, 11.7],
+      "cameraOrbit": {
+        "yaw": 6.183185307179587,
+        "pitch": 0.15,
+        "radius": 3.6
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 0.14262950093537574,
+        "wanted": 0.14262950093537569,
+        "limited": true,
+        "minimum": 1.4400000000000002,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1625,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735331,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19739
+        }
+      },
+      "sourceReadbacks": 163,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "library-upper"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "room-onsen-desktop",
+      "image": "images/room-onsen-desktop.webp",
+      "originalEvidenceSha256": "3d63159685b62a363e97d783a7cb12e0d475dc40ea21cade603a3af33c754e8c",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "onsen",
+      "activity": "lunch",
+      "avatar": "rick-and-morty",
+      "camera": [2.7907427288085307, 3.756956510784928, 9.837528536782946],
+      "target": [3.17, 3.35, 10.85],
+      "cameraOrbit": {
+        "yaw": 3.5,
+        "pitch": 0.36,
+        "radius": 3.7
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 1.1552264467413842,
+        "wanted": 1.1552264467413842,
+        "limited": true,
+        "minimum": 1.4800000000000002,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1647,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735332,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19740
+        }
+      },
+      "sourceReadbacks": 161,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "study"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "kitchen"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "gym"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "onsen"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "station-soak",
+      "image": "images/station-soak.webp",
+      "originalEvidenceSha256": "646d4466054ef31678c083bee807598475f4bc41c5bbe4c416fab15c967f8fab",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "onsen",
+      "activity": "soak",
+      "avatar": "lizard",
+      "camera": [2.7907427288085307, 3.756956510784928, 9.837528536782946],
+      "target": [3.17, 3.35, 10.85],
+      "cameraOrbit": {
+        "yaw": 3.5,
+        "pitch": 0.36,
+        "radius": 3.7
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 1.1552264467413842,
+        "wanted": 1.1552264467413842,
+        "limited": true,
+        "minimum": 1.4800000000000002,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-8.03, 1.500102162361145, 6.97],
+        "eye": 3.100102162361145,
+        "yaw": 0.8987963267948966,
+        "pitch": -0.6719999999999999,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "sleep",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 80.23975967377183,
+        "blockedFrames": 333,
+        "lastBlocked": {
+          "at": [-10.759996901008686, 0.011914730072021484, 5.359999934188854],
+          "wanted": [-0.061986024316971214, 0.0013163545783157723]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 593,
+          "builtMilliseconds": 1668,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 754118,
+          "triangles": 884394,
+          "samples": 18490975,
+          "overflows": 20071
+        }
+      },
+      "sourceReadbacks": 186,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-walk-toggle"
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-inbound-complete",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-outbound-complete",
+          "failure": null
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-9.41, 0, 2.55],
+            "yaw": 1.5707963267948966,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "library-patio-outward",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "library-patio-return",
+          "failure": null
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-10.041389857711337, 0, 4.968640657621394],
+            "yaw": 1.57,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-up",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-down",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-bottom-clear",
+          "failure": {
+            "reason": "no movement under actual W input",
+            "index": 1,
+            "target": [-10.76, 0, 4.85],
+            "lastBlocked": {
+              "at": [-10.759996901008686, 0.011914730072021484, 5.359999934188854],
+              "wanted": [-0.061986024316971214, 0.0013163545783157723]
+            }
+          }
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-8.03, 1.5, 6.97],
+            "yaw": 1.5707963267948966,
+            "pitch": 0
+          },
+          "result": true
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "onsen-activity-phone",
+      "image": "images/onsen-activity-phone.webp",
+      "originalEvidenceSha256": "a1fd3c20175f3078af1c87985f73a9bb9280c607a6af752a43c272e355754f57",
+      "viewportPixels": [780, 2000],
+      "actualCanvasPixels": [780, 2000],
+      "room": "onsen",
+      "activity": "soak",
+      "avatar": "lizard",
+      "camera": [2.7907427288085307, 3.756956510784928, 9.837528536782946],
+      "target": [3.17, 3.35, 10.85],
+      "cameraOrbit": {
+        "yaw": 3.5,
+        "pitch": 0.36,
+        "radius": 3.7
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 1.1552264467413842,
+        "wanted": 1.1552264467413842,
+        "limited": true,
+        "minimum": 1.4800000000000002,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1438,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735332,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19739
+        }
+      },
+      "sourceReadbacks": 164,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "library-upper"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "onsen-activity-4k",
+      "image": "images/onsen-activity-4k.webp",
+      "originalEvidenceSha256": "3bac1fc74992499633c57b576dcd14a2bcf4fea3166bcb87aa70e64cfbc499c7",
+      "viewportPixels": [3840, 2160],
+      "actualCanvasPixels": [3840, 2160],
+      "room": "onsen",
+      "activity": "soak",
+      "avatar": "lizard",
+      "camera": [2.7907427288085307, 3.756956510784928, 9.837528536782946],
+      "target": [3.17, 3.35, 10.85],
+      "cameraOrbit": {
+        "yaw": 3.5,
+        "pitch": 0.36,
+        "radius": 3.7
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 1.1552264467413842,
+        "wanted": 1.1552264467413842,
+        "limited": true,
+        "minimum": 1.4800000000000002,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1625,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735331,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19739
+        }
+      },
+      "sourceReadbacks": 165,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "library-upper"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "entrance-inbound-complete",
+      "image": "images/entrance-inbound-complete.webp",
+      "originalEvidenceSha256": "2aebe857ecc8e6c8ebe07eb2c60e17ff63d452d12ae532acdc5336b76188fed0",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "lounge",
+      "activity": "lunch",
+      "avatar": "south-park",
+      "camera": [3.2657139566826587, 1.6026175621896983, 9.068486447127652],
+      "target": [-3.85, 0.95, 5],
+      "cameraOrbit": {
+        "yaw": 1.65,
+        "pitch": 0.24,
+        "radius": 3.8249999999999997
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 0
+      },
+      "walk": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.270274153297982, 0.0026175621896982193, 9.208412158156147],
+        "eye": 1.6026175621896983,
+        "yaw": -3.1090140579660783,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 34.46600000000007,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 593,
+          "builtMilliseconds": 1668,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 754118,
+          "triangles": 884394,
+          "samples": 18490975,
+          "overflows": 20071
+        }
+      },
+      "sourceReadbacks": 170,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-walk-toggle"
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-inbound-complete",
+          "failure": null
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "entrance-outbound-complete",
+      "image": "images/entrance-outbound-complete.webp",
+      "originalEvidenceSha256": "fb6323a2208d03a06f1864956da52317234222a5ed47844dc6f117051748d9fb",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "outside",
+      "activity": "lunch",
+      "avatar": "south-park",
+      "camera": [-2.7998121053783684, 9.900078392028808, 23.008297542161817],
+      "target": [-3.85, 0.95, 5],
+      "cameraOrbit": {
+        "yaw": 1.65,
+        "pitch": 0.24,
+        "radius": 12
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 4.998790650607808
+      },
+      "walk": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-2.8002633269809634, 8.300078392028809, 22.8682982693099],
+        "eye": 9.900078392028808,
+        "yaw": 6.28640832420672,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 69.72399999999988,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 593,
+          "builtMilliseconds": 1668,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 754118,
+          "triangles": 884394,
+          "samples": 18490975,
+          "overflows": 20071
+        }
+      },
+      "sourceReadbacks": 172,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-walk-toggle"
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-inbound-complete",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-outbound-complete",
+          "failure": null
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "library-patio-outward",
+      "image": "images/library-patio-outward.webp",
+      "originalEvidenceSha256": "a777feac74c0c5152638a87fedcc91a15be272270065af27f7ec5d575c16c1ce",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "outside",
+      "activity": "lunch",
+      "avatar": "south-park",
+      "camera": [-7.898000000000002, 1.6011761579662562, 2.55],
+      "target": [-3.85, 0.95, 5],
+      "cameraOrbit": {
+        "yaw": 1.65,
+        "pitch": 0.24,
+        "radius": 12
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 4.998790650607808
+      },
+      "walk": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-8.038000000000002, 0.0011761579662561417, 2.55],
+        "eye": 1.6011761579662562,
+        "yaw": 1.5707963267948966,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 71.09599999999986,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 593,
+          "builtMilliseconds": 1668,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 754118,
+          "triangles": 884394,
+          "samples": 18490975,
+          "overflows": 20071
+        }
+      },
+      "sourceReadbacks": 172,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-walk-toggle"
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-inbound-complete",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-outbound-complete",
+          "failure": null
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-9.41, 0, 2.55],
+            "yaw": 1.5707963267948966,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "library-patio-outward",
+          "failure": null
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "library-patio-return",
+      "image": "images/library-patio-return.webp",
+      "originalEvidenceSha256": "973b93e3996f259cf7f2ab46594a456f89c2e37508578de4b873d8c913346288",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "outside",
+      "activity": "lunch",
+      "avatar": "south-park",
+      "camera": [-9.440000000000007, 1.5997939318418504, 2.55],
+      "target": [-3.85, 0.95, 5],
+      "cameraOrbit": {
+        "yaw": 1.65,
+        "pitch": 0.24,
+        "radius": 12
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 4.998790650607808
+      },
+      "walk": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.300000000000006, -0.00020606815814971924, 2.55],
+        "eye": 1.5997939318418504,
+        "yaw": -1.5707963267948966,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 72.35799999999986,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 593,
+          "builtMilliseconds": 1668,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 754118,
+          "triangles": 884394,
+          "samples": 18490975,
+          "overflows": 20071
+        }
+      },
+      "sourceReadbacks": 177,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-walk-toggle"
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-inbound-complete",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-outbound-complete",
+          "failure": null
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-9.41, 0, 2.55],
+            "yaw": 1.5707963267948966,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "library-patio-outward",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "library-patio-return",
+          "failure": null
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "bedroom-stairs-return-verified",
+      "image": "images/bedroom-stairs-return-verified.webp",
+      "originalEvidenceSha256": "7a3d78b6512ed1328a088c30b8ea78d620324a7e356583d1965bbd2999c8cbd6",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "study",
+      "activity": "lunch",
+      "avatar": "ghibli",
+      "camera": [-10.089030199023306, 1.6119147300720216, 4.869320831431161],
+      "target": [-3.85, 0.95, 5],
+      "cameraOrbit": {
+        "yaw": 1.65,
+        "pitch": 0.24,
+        "radius": 6
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 0
+      },
+      "walk": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-10.043783947677886, 0.011914730072021484, 4.949011903037124],
+        "eye": 1.6119147300720216,
+        "yaw": -2.6252083959452768,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 6.393441094978247,
+        "blockedFrames": 3,
+        "lastBlocked": {
+          "at": [-8.060108520322574, 1.500102162361145, 6.792736431748157],
+          "wanted": [-0.0429048211462711, -0.07453305523327544]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 593,
+          "builtMilliseconds": 1301,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 754117,
+          "triangles": 884394,
+          "samples": 18490975,
+          "overflows": 20071
+        }
+      },
+      "sourceReadbacks": 169,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-walk-toggle"
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-10.041389857711337, 0, 4.968640657621394],
+            "yaw": 1.57,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-up-verified",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-down-verified",
+          "failure": null
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "entrance-phone-walk-start",
+      "image": "images/entrance-phone-walk-start.webp",
+      "originalEvidenceSha256": "70711ce7f23738519da52087a1661f3b9cc52326a83ceae5c77bb07ffa9094ba",
+      "viewportPixels": [780, 2000],
+      "actualCanvasPixels": [780, 2000],
+      "room": "outside",
+      "activity": "soak",
+      "avatar": "lizard",
+      "camera": [-2.8, 9.900078392028808, 22.81],
+      "target": [3.17, 3.35, 10.85],
+      "cameraOrbit": {
+        "yaw": 3.5,
+        "pitch": 0.36,
+        "radius": 12
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 0
+      },
+      "walk": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-2.8, 8.300078392028809, 22.95],
+        "eye": 9.900078392028808,
+        "yaw": 3.141592653589793,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": true,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 591,
+          "builtMilliseconds": 1438,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 752492,
+          "triangles": 880374,
+          "samples": 18438953,
+          "overflows": 19739
+        }
+      },
+      "sourceReadbacks": 169,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "library-upper"
+        },
+        {
+          "type": "public-walk-toggle"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "entrance-phone-after-stick",
+      "image": "images/entrance-phone-after-stick.webp",
+      "originalEvidenceSha256": "a12322de26fe72f6097d64b7a0ff431301a5f8d0c32c77e84d4d09dcd97b502c",
+      "viewportPixels": [780, 2000],
+      "actualCanvasPixels": [780, 2000],
+      "room": "outside",
+      "activity": "soak",
+      "avatar": "lizard",
+      "camera": [-2.7620071622941778, 8.474977111816406, 19.569478377153914],
+      "target": [3.17, 3.35, 10.85],
+      "cameraOrbit": {
+        "yaw": 3.5,
+        "pitch": 0.36,
+        "radius": 12
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 0
+      },
+      "walk": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-2.8, 6.874977111816406, 19.704224598930477],
+        "eye": 8.474977111816406,
+        "yaw": 2.866768792536074,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": true,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 3.2457754010695226,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 593,
+          "builtMilliseconds": 1438,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 754118,
+          "triangles": 884394,
+          "samples": 18490975,
+          "overflows": 20071
+        }
+      },
+      "sourceReadbacks": 169,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "library-upper"
+        },
+        {
+          "type": "public-walk-toggle"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "outside-day-default",
+      "image": "images/outside-day-default.webp",
+      "originalEvidenceSha256": "7e7d65791211013edebbdb5b2bcff180d980318ced356b1d7189bdb064f7915b",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "outside",
+      "activity": "pool",
+      "avatar": "lizard",
+      "camera": [-11.856905727089124, 17.157540734318175, -44.61360126633206],
+      "target": [3, -0.2, -2.4],
+      "cameraOrbit": {
+        "yaw": 3.48,
+        "pitch": 0.37,
+        "radius": 48
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-8.03, 1.500102162361145, 6.97],
+        "eye": 3.100102162361145,
+        "yaw": 0.8987963267948966,
+        "pitch": -0.6719999999999999,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "sleep",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 80.23975967377183,
+        "blockedFrames": 333,
+        "lastBlocked": {
+          "at": [-10.759996901008686, 0.011914730072021484, 5.359999934188854],
+          "wanted": [-0.061986024316971214, 0.0013163545783157723]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 593,
+          "builtMilliseconds": 1668,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 754118,
+          "triangles": 884394,
+          "samples": 18490975,
+          "overflows": 20071
+        }
+      },
+      "sourceReadbacks": 188,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-walk-toggle"
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-inbound-complete",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-outbound-complete",
+          "failure": null
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-9.41, 0, 2.55],
+            "yaw": 1.5707963267948966,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "library-patio-outward",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "library-patio-return",
+          "failure": null
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-10.041389857711337, 0, 4.968640657621394],
+            "yaw": 1.57,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-up",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-down",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-bottom-clear",
+          "failure": {
+            "reason": "no movement under actual W input",
+            "index": 1,
+            "target": [-10.76, 0, 4.85],
+            "lastBlocked": {
+              "at": [-10.759996901008686, 0.011914730072021484, 5.359999934188854],
+              "wanted": [-0.061986024316971214, 0.0013163545783157723]
+            }
+          }
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-8.03, 1.5, 6.97],
+            "yaw": 1.5707963267948966,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "public-room-visit",
+          "id": "outside"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "outside-evening-4k",
+      "image": "images/outside-evening-4k.webp",
+      "originalEvidenceSha256": "850fd7d2bb7a0840abba5ee6b8c2ffbdcd0552d7b6fd8fdc0ebb8000b242f6d2",
+      "viewportPixels": [3840, 2160],
+      "actualCanvasPixels": [3840, 2160],
+      "room": "outside",
+      "activity": "soak",
+      "avatar": "lizard",
+      "camera": [-11.856905727089124, 17.157540734318175, -44.61360126633206],
+      "target": [3, -0.2, -2.4],
+      "cameraOrbit": {
+        "yaw": 3.48,
+        "pitch": 0.37,
+        "radius": 48
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1625,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735331,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19739
+        }
+      },
+      "sourceReadbacks": 170,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "lounge"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "library-upper"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "outside"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "overview-day-default",
+      "image": "images/overview-day-default.webp",
+      "originalEvidenceSha256": "c3edc01b0b98b6610514fd4fb930a2afe6018b20b0b4fb94c328d889fd5124fb",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "overview",
+      "activity": "pool",
+      "avatar": "lizard",
+      "camera": [-2.6526305129957004, 9.362109844940399, -8.405327852863898],
+      "target": [0, 1.65, 8.2],
+      "cameraOrbit": {
+        "yaw": 3.3,
+        "pitch": 0.43,
+        "radius": 18.5
+      },
+      "cameraArm": {
+        "active": true,
+        "distance": 18.5,
+        "wanted": 18.5,
+        "limited": false,
+        "minimum": 7.4,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-8.03, 1.500102162361145, 6.97],
+        "eye": 3.100102162361145,
+        "yaw": 0.8987963267948966,
+        "pitch": -0.6719999999999999,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "sleep",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 80.23975967377183,
+        "blockedFrames": 333,
+        "lastBlocked": {
+          "at": [-10.759996901008686, 0.011914730072021484, 5.359999934188854],
+          "wanted": [-0.061986024316971214, 0.0013163545783157723]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 593,
+          "builtMilliseconds": 1668,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 754118,
+          "triangles": 884394,
+          "samples": 18490975,
+          "overflows": 20071
+        }
+      },
+      "sourceReadbacks": 188,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-walk-toggle"
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-inbound-complete",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "entrance-outbound-complete",
+          "failure": null
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-9.41, 0, 2.55],
+            "yaw": 1.5707963267948966,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "library-patio-outward",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "library-patio-return",
+          "failure": null
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-10.041389857711337, 0, 4.968640657621394],
+            "yaw": 1.57,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-up",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-down",
+          "failure": null
+        },
+        {
+          "type": "physical-route-public-pointer-steering",
+          "name": "bedroom-stairs-bottom-clear",
+          "failure": {
+            "reason": "no movement under actual W input",
+            "index": 1,
+            "target": [-10.76, 0, 4.85],
+            "lastBlocked": {
+              "at": [-10.759996901008686, 0.011914730072021484, 5.359999934188854],
+              "wanted": [-0.061986024316971214, 0.0013163545783157723]
+            }
+          }
+        },
+        {
+          "type": "lab-starting-station-placement",
+          "pose": {
+            "position": [-8.03, 1.5, 6.97],
+            "yaw": 1.5707963267948966,
+            "pitch": 0
+          },
+          "result": true
+        },
+        {
+          "type": "public-room-visit",
+          "id": "outside"
+        },
+        {
+          "type": "public-room-visit",
+          "id": "overview"
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "exterior-east-day",
+      "image": "images/exterior-east-day.webp",
+      "originalEvidenceSha256": "a71d78a81b68d4f5521e51fc16e64678b7c625332de82527c290e6cae13494e7",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "outside",
+      "activity": "lunch",
+      "avatar": "south-park",
+      "camera": [23.39698006544151, 15.573299142950763, -40.4941759112462],
+      "target": [3, -0.2, -2.4],
+      "cameraOrbit": {
+        "yaw": 2.65,
+        "pitch": 0.35,
+        "radius": 46
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1578,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735332,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19739
+        }
+      },
+      "sourceReadbacks": 165,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "outside"
+        },
+        {
+          "type": "lab-camera",
+          "pose": {
+            "target": [3, -0.2, -2.4],
+            "yaw": 2.65,
+            "pitch": 0.35,
+            "radius": 46,
+            "free": true
+          }
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    },
+    {
+      "id": "exterior-west-day",
+      "image": "images/exterior-west-day.webp",
+      "originalEvidenceSha256": "63099165a9a6d4b64495e060cd679cafa30773a6afcf25ebf3d2b9ef1e81136c",
+      "viewportPixels": [1440, 1000],
+      "actualCanvasPixels": [1440, 1000],
+      "room": "outside",
+      "activity": "lunch",
+      "avatar": "south-park",
+      "camera": [-29.702302202925416, 15.573299142950763, -30.644689142837596],
+      "target": [3, -0.2, -2.4],
+      "cameraOrbit": {
+        "yaw": 4,
+        "pitch": 0.35,
+        "radius": 46
+      },
+      "cameraArm": {
+        "active": false,
+        "distance": null,
+        "wanted": null,
+        "limited": false,
+        "minimum": null,
+        "lift": 0
+      },
+      "walk": {
+        "active": false,
+        "ready": true,
+        "placed": false,
+        "provisional": false,
+        "position": [0, 0, 0],
+        "eye": 1.6,
+        "yaw": 0,
+        "pitch": 0,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": null,
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 0,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 460,
+          "builtMilliseconds": 1578,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 174720,
+          "intervals": 735332,
+          "triangles": 744227,
+          "samples": 18340851,
+          "overflows": 19739
+        }
+      },
+      "sourceReadbacks": 165,
+      "sourceReadbackMismatchCount": 0,
+      "errors": [],
+      "lightCache": {
+        "state": "restored",
+        "reason": null
+      },
+      "lightFieldCacheHit": true,
+      "actions": [
+        {
+          "type": "public-room-visit",
+          "id": "outside"
+        },
+        {
+          "type": "lab-camera",
+          "pose": {
+            "target": [3, -0.2, -2.4],
+            "yaw": 2.65,
+            "pitch": 0.35,
+            "radius": 46,
+            "free": true
+          }
+        },
+        {
+          "type": "lab-camera",
+          "pose": {
+            "target": [3, -0.2, -2.4],
+            "yaw": 4,
+            "pitch": 0.35,
+            "radius": 46,
+            "free": true
+          }
+        }
+      ],
+      "ready": true,
+      "lightFieldTriangles": 619481
+    }
+  ]
+}
