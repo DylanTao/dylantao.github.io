@@ -1,0 +1,7 @@
+{
+  "state": "Rejected scalar/rim recipe retained only for review and negative controls; not a public runtime dependency",
+  "sourceCommit": "3109a5c4c2892bc3294b092388f975daa4a6f682",
+  "originalRepoPath": "assets/js/home-scene/tail-corrective.mjs",
+  "sha256Lf": "cb886b7182f0c1c3f4c143019430e49980ed88ef9c5413d27a1fa37c09958e17",
+  "bytesInGit": 1193
+}

@@ -74,7 +74,7 @@ export function roomRoute(config, from, to, start, { companion = false } = {}) {
   // Seated/bathing roots are pose offsets, and room.floor is the corridor storey. Neither is the
   // walking floor inside a sunken nook or conversation pit.
   const begin = ground(start);
-  const end = ground(to.actor);
+  const end = ground((!companion && to.walkActor) || to.actor);
   const exit = from?.egress || begin;
   const entry = to.egress;
   let points = [begin, ...(from?.exitPath || [exit])];

@@ -1,0 +1,92 @@
+{
+  "state": "Anatomical reconstruction trial only; full actual-contact and4K gates pending",
+  "originalActionsSha256": "3a4956b35d4d88693004acd9e639ce63fee148daed973e63f7614b9cd04c186b",
+  "originalFourteenClipChannelsExact": true,
+  "originalBoneBindMaximumComponentError": 0.0,
+  "newJoints": ["TailFinish0", "TailFinish1", "TailFinish2", "TailFinish3", "TailFinish4", "TailFinish5"],
+  "jointNativeHeads": [
+    [0.0, 0.054999999701976776, 0.925000011920929],
+    [-0.0008833287283778191, 0.09384669363498688, 0.9301550388336182],
+    [0.0062232729978859425, 0.1541261374950409, 0.8293251395225525],
+    [0.03696480020880699, 0.311238169670105, 0.6536738872528076],
+    [0.14378000795841217, 0.5299627184867859, 0.5823155641555786],
+    [0.2892719507217407, 0.6897674202919006, 0.7202275395393372],
+    [0.3746883273124695, 0.7501453757286072, 0.9737048745155334]
+  ],
+  "originalTailCenterlineM": 1.2003113039498514,
+  "newTailRestCenterlineM": 1.1999220096852428,
+  "skin": {
+    "vertices": 1872,
+    "faces": 1850,
+    "boundaryEdges": 0,
+    "nonmanifoldEdges": 0,
+    "signedVolumeM3": 0.016660402574642432
+  },
+  "rootPodRings": 3,
+  "clothCavityPrefixRings": 40,
+  "garmentPorts": [
+    {
+      "material": "Sirui shirt",
+      "vertices": 14770,
+      "faces": 28587,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "signedVolumeM3": 0.004449184624711994,
+      "sewnCutVertices": 224,
+      "skinMatchedVertices": 347,
+      "nativeLocalBox": [
+        [-0.20499999821186066, -0.06499999761581421, -0.5],
+        [0.20499999821186066, 0.35499998927116394, -0.02500000037252903]
+      ]
+    },
+    {
+      "material": "charcoal shorts",
+      "vertices": 1091,
+      "faces": 1155,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "signedVolumeM3": 0.042020076732434346,
+      "sewnCutVertices": 641,
+      "skinMatchedVertices": 651,
+      "nativeLocalBox": [
+        [-0.20499999821186066, -0.06499999761581421, -0.5],
+        [0.20499999821186066, 0.35499998927116394, -0.02500000037252903]
+      ]
+    }
+  ],
+  "sourceIntent": "Bounded new pelvic attachment and tail/cloth topology. Head, hands and rest of person untouched. Exact old tail counts/rings were not requirements.",
+  "sourceSha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6",
+  "candidateSha256": "8ea70c827443c262b79398d10b5918662efe9a0584971f0a4c70c61549be2a73",
+  "candidate": "C:\\dev\\site-takeover-worktrees\\finish-tail\\.jekyll-cache\\visual-qa\\tail-finish-2026-10-28\\v20\\character-finish.blend",
+  "exports": {
+    "blender": "4.5.9 LTS",
+    "masterSha256": "8ea70c827443c262b79398d10b5918662efe9a0584971f0a4c70c61549be2a73",
+    "avatars": {
+      "lizard": {
+        "glbSha256": "4a8a03fe1262cf34fe11c24e43a6cc637e5d20f3c528f943fcc99441df9b1f51",
+        "bytes": 640796,
+        "clips": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "pullup", "dip", "coffee-prep", "carry", "soak", "lounge", "sleep"]
+      },
+      "south-park": {
+        "glbSha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+        "bytes": 714480,
+        "clips": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "pullup", "dip", "coffee-prep", "carry", "soak", "lounge", "sleep"]
+      },
+      "simpsons": {
+        "glbSha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
+        "bytes": 666964,
+        "clips": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "pullup", "dip", "coffee-prep", "carry", "soak", "lounge", "sleep"]
+      },
+      "ghibli": {
+        "glbSha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
+        "bytes": 858356,
+        "clips": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "pullup", "dip", "coffee-prep", "carry", "soak", "lounge", "sleep"]
+      },
+      "rick-and-morty": {
+        "glbSha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
+        "bytes": 661616,
+        "clips": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "pullup", "dip", "coffee-prep", "carry", "soak", "lounge", "sleep"]
+      }
+    }
+  }
+}

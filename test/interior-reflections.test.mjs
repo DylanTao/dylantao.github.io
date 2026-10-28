@@ -57,8 +57,13 @@ function fixture(compact = false) {
       scissorTest = next;
     },
     clear: () => {},
-    compileAsync: async () => {
+    onCompile: () => {},
+    properties: { get: () => ({ currentProgram: renderer.program }) },
+    getContext: () => ({ isContextLost: () => false }),
+    compile: () => {
       compiles.push(currentTarget);
+      renderer.program = renderer.onCompile() || { program: {}, isReady: () => true };
+      return new Set(materials);
     },
     render: (source, camera) => {
       assert.equal(source, scene);
@@ -335,5 +340,28 @@ test("failed capture restores targets, enclosure visibility, lights and renderer
   f.restored();
   assert.equal(f.reflections.evidence().captures, 0);
   assert.equal(f.reflections.evidence().size, 256);
+  f.reflections.dispose();
+});
+
+test("a retired mirror warmup never polls the deleted handle or holds scene state while linking", async () => {
+  const f = fixture();
+  let ready = false,
+    attempts = 0;
+  const old = {
+    program: {},
+    isReady() {
+      assert.notEqual(this.program, undefined, "retired driver handle must never be polled");
+      return ready;
+    },
+  };
+  f.renderer.onCompile = () => (++attempts === 1 ? old : undefined);
+  const pending = f.reflections.prepare({ camera: f.camera });
+  f.restored();
+  old.program = undefined;
+  ready = true;
+  await pending;
+  assert.equal(attempts, 3, "retired first room retries once, then the second mirror warms normally");
+  assert.equal(f.reflections.evidence().prepared, true);
+  f.restored();
   f.reflections.dispose();
 });

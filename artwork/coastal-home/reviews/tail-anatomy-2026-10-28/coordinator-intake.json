@@ -1,0 +1,262 @@
+{
+  "tip": "31206d10993f051f05f3de05b478f62295e1366f",
+  "scope": "Explicit review/diagnostic paths only. No tail candidate geometry, active avatar GLB, contact data, controller, journey, manifest or public runtime helper is admitted. The existing Lizard transfer guard remains.",
+  "files": [
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/MANIFEST.json",
+      "sha256": "0a0fafef91b01c73cc5017dea33b7b7779bda882cf8b7e094fea87f79fea80f5"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/README.md",
+      "sha256": "effacfa07828eb319d33276ffe05f6a7b4902c64684d3300ece3383f73c1be3c"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/bed-control.glb",
+      "sha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/decoder-readback.json",
+      "sha256": "676821edb016feefe9d87b51b3873e7b12e4acc7cc63d5d1bc0f2d25d5f6bd53"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/coastal-contact-geometry.test.mjs.raw",
+      "sha256": "94ff4a71ec790adfb125ea9d62769ac0e239c324bdc94f6a2fb511ed4109e21d"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/coastal_contact_geometry.mjs.raw",
+      "sha256": "439dbee2f0003e9f06bab91be558c19144880c49e17dcb5bfc6be91b845810c8"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/contact-gate-summary.json",
+      "sha256": "5a2ccbf26b3785d233f8d502168be6c2300567b7320674f1e835190cbefec5fe"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/export-articulated-render.mjs.raw",
+      "sha256": "03aeb6b11571918ca1215c3c2fdf4615d3f0ed059c6cb032cd21159bc35cd396"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/failed-contact-geometry.json",
+      "sha256": "689d4a3fbdd44641974dae27ea3a38b901c045669c0c03a846b043488b9de212"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/failed-reconstruction.json",
+      "sha256": "073aae6f448fb4c42512071a17b0ba1332da43a71c6b84956af1c8d3a8178391"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/measure_coastal_character_contacts.mjs.raw",
+      "sha256": "cb57252db67a0cce3b3af0dcbf61fed9a9f5479b9ebaf0ef6d89ba3c39675cb2"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/measure_coastal_character_contacts.py",
+      "sha256": "02c287046dbf8c161b583b32923032b1eb927081ed1533b6d8d3301530d864d6"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/rejected-character-contacts.json",
+      "sha256": "cb0e4d45326de0a5aa39d9aa95639069e75e8852f5d889bab49efeaee1809f50"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/rejected-preview-manifest.json",
+      "sha256": "e945a6ea23687a5e3bcefa08f46228d4a282b9c300f643ad70cdd6b93287c475"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/diagnostics/render-articulated-4k.py",
+      "sha256": "6da67159823fbb868ff1b910d589d6ec6d776b59d632cda32be2450c5e35c560"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/frozen-native-export.json",
+      "sha256": "abdc149b87a237ac70fea07fab23d1743e2f05ccf1820f0cc94e7eaa79e74d4d"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/model-costs.json",
+      "sha256": "8e00328af5cc9b7eba656e5dd047985743ffb22c83b1706fce8fc90d58a59d9c"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/protected-inputs.json",
+      "sha256": "96dafe77a78c65432ea5dcb7a24c096432c20dc9d158f0afd5dc445b4f178db7"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/rejected-character-finish.blend",
+      "sha256": "1019ad96d921662c95fd305747ed7f959de0e5af3e3c0da5ad3dd05255e73325"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/rejected-lizard.glb",
+      "sha256": "c6a92386a8669679429a82642d18e69c5b4550796fbbc09ca6a7a3911e2eed58"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/rejected-roll-native-4k.png",
+      "sha256": "f2859050385eb231d202bef43c9b406d5e3c3311f34c8855b5315cf8542e1cd3"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/render-evidence.json",
+      "sha256": "3b17d9a8e4b561e26f36b811cc1ee3cd88d13ef3e385a1b76ba12a83bd481420"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/reproduce.py",
+      "sha256": "e74f27ce319cf5248f3c079a266029742470ba2c1b27b8afee21ffa67c6f1d14"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/retained-attempts.json",
+      "sha256": "760027f8b4054c5a0df61b26b25c7cb9be3538a633ff9441b03c8c06929704aa"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/review-node-tests.log",
+      "sha256": "1291600cddf8e216b048997e4c1ad5262ffde0ff6ad7f7d475a3c5d134382aa0"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/review-python-tests.log",
+      "sha256": "729d9295a6a92d1c324e5efd7869992af174812c956fe0e6a61be07c8141f768"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/runtime/load-articulation.mjs",
+      "sha256": "52432d6268ce5219e9f5909bb00ec694c757d74dfacddb2f52cc92d1208e47c0"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/runtime/manifest.json",
+      "sha256": "e4a734aaedb5c37a7bd024871282d8e3e219073c3555487a9d2a1a39d9e47270"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/runtime/tail-articulation-v21.mjs.raw",
+      "sha256": "e6a1ec9e9f99eaf1693f6abf2fa9908fbe523ad7d6e110ee7e2085a442eee14d"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/runtime/tail-articulation-v22.mjs.raw",
+      "sha256": "63cf1f7a709801fdb0a42405da70539a211ed7646f2c28288cf7b9ef5a862e6c"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/runtime/tail-articulation-v23.mjs.raw",
+      "sha256": "4e749ee18a0220afafe0ad8ff3a149902877e3e579fc1191480b61d9b34b7f02"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-audit.json",
+      "sha256": "0dfa3256880a0890cabe009f8108655a15aab04c82ab6a9f7eb36ef632f6cb74"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-fk-contact-controls.json",
+      "sha256": "cb1d70521650713d698b985d0430fbc1c2e7dec65ffa8a5ae7440b10b143f57b"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v20/coastal_tail_anatomy.py",
+      "sha256": "9744e03ceec5a4a38b4a50fafe16d38850421503175833ade901e044c4beb9e9"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v20/coastal_tail_port.py",
+      "sha256": "2e7ebc0c751d469d266741af4d3734042b9e59a1a8397d3d8ed401dcb7ccf0b5"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v20/receipt.json",
+      "sha256": "d91932773dc8d69bc93ecbbad2a29442e8c28bae9b86d5e2c6ab3881b91883e8"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v20/refresh_coastal_tail_anatomy.py",
+      "sha256": "935b7144b675507fdf41c3f243ecbeb8708786fdfb7b15e0cc59fcf94337e304"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v21/coastal_tail_anatomy.py",
+      "sha256": "09a91ccba0b328eaef7dec1a68d6645fc9ff399fe9fc1928de416d935ad07e76"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v21/coastal_tail_port.py",
+      "sha256": "2e7ebc0c751d469d266741af4d3734042b9e59a1a8397d3d8ed401dcb7ccf0b5"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v21/receipt.json",
+      "sha256": "871ff35c0acf6c6fd4395452c9259d6d5002354e64922e762f81ae56576c2776"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v21/refresh_coastal_tail_anatomy.py",
+      "sha256": "935b7144b675507fdf41c3f243ecbeb8708786fdfb7b15e0cc59fcf94337e304"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v22/coastal_tail_anatomy.py",
+      "sha256": "f2984d3b534b547c44b9fde31a2b7046e0169415b7189044469b53e75f7dbd10"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v22/coastal_tail_corrective.py",
+      "sha256": "fc28521136d48397ae6ace7c40e697342187895ff0da851c86e320f497197f7e"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v22/coastal_tail_port.py",
+      "sha256": "2e7ebc0c751d469d266741af4d3734042b9e59a1a8397d3d8ed401dcb7ccf0b5"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v22/receipt.json",
+      "sha256": "fce5972067d63e380b25d3f667ae6d204c2f5fa749f670dfbacddc3b77ee34b7"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/source-v22/refresh_coastal_tail_anatomy.py",
+      "sha256": "935b7144b675507fdf41c3f243ecbeb8708786fdfb7b15e0cc59fcf94337e304"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/three.module.min.js",
+      "sha256": "162bdc39094f8298e989401265b2135540fce80479fabb89cdeecda685a62233"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/v22-poses.json",
+      "sha256": "4dfb2fff47b5dc04b6aefe8d109357f2460c1c40bbafcb2be6aec27453bd38b6"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/v22-summary.json",
+      "sha256": "394bc56ee00771c38fce0a839deb3b76d10b563e7e0dc52446e5783dea8f214c"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/v23-poses.json",
+      "sha256": "7dbc0365f95b52abcb0bc2ae6b73d3d2b3506ee31d4b59209cc4b8f7fc8c3ff3"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/v23-summary.json",
+      "sha256": "d9ec8454c716c0709fd39d00930a3f3e2266235f87651189ae007084765f8cbd"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-anatomy-2026-10-28/verification.json",
+      "sha256": "25f2c9c6e26d0ca189b637813f09f10c0d253605ac0fadca9863ef4564413e07"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-socket-2026-10-28/runtime/INTEGRATION.md",
+      "sha256": "595763a459994a4eadf0beacb8757fcb684111db37b628b792409ba6ee373e7a"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-socket-2026-10-28/runtime/manifest.json",
+      "sha256": "595f8e97060ee37b560b754782f48a052fc6bdea5a6809cf20b22f05bb0a5a16"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/tail-socket-2026-10-28/runtime/tail-corrective.mjs",
+      "sha256": "cb886b7182f0c1c3f4c143019430e49980ed88ef9c5413d27a1fa37c09958e17"
+    },
+    {
+      "path": "bin/audit_coastal_tail_contacts.py",
+      "sha256": "26c3dddeae2a08cd4c9ae7e312b943108ca380d3eace70f381288ed7ce5df931"
+    },
+    {
+      "path": "bin/audit_coastal_tail_pose_geometry.py",
+      "sha256": "52271592d80afc07367c644ffafeff9dcf432a9bb0ca8543532d4ad24c508773"
+    },
+    {
+      "path": "bin/audit_coastal_tail_source.py",
+      "sha256": "c609a2c0cb68cd9bb480d1b3b754827cdd8095b6de7d2dfedabf2b6aa0e9bf84"
+    },
+    {
+      "path": "bin/probe_coastal_tail_transfer.mjs",
+      "sha256": "e6353d74ef11c88590bcdd0de48f067187cefd9e01371ba41ae0b4ff1569b611"
+    },
+    {
+      "path": "test/coastal-tail-articulation.test.mjs",
+      "sha256": "616b74894b301bf628458e0d67a9bee3160a1e1f137834248247243823fe9d9c"
+    },
+    {
+      "path": "test/helpers/coastal-tail-body.mjs",
+      "sha256": "09532a12ea57f1c6049b90653a688c8a678354dee7926b42ad537219b487c255"
+    },
+    {
+      "path": "test/helpers/coastal-tail-contact.mjs",
+      "sha256": "fa4d942489abc0ec471addb3521bb98a93266b835b26d4af71983f0393cd92c5"
+    },
+    {
+      "path": "test/helpers/coastal-triangle-parity.mjs",
+      "sha256": "c382ba79cda617d9baf642247980baa714a844199085c62e717fc6e339909be6"
+    },
+    {
+      "path": "test/tail-corrective.test.mjs",
+      "sha256": "5277d4e94b80807eccf7f96445b60da5c2bc6ae5551ff1aa3855807d61d2460e"
+    }
+  ]
+}

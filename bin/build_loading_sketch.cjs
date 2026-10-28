@@ -36,10 +36,12 @@ const RANGE = { u: 1.65, v: 1 };
 const MANIFEST = JSON.parse(fs.readFileSync(path.join(ROOT, "assets/models/home/manifest.json"), "utf8"));
 const ROOMS = [
   ...new Set(
-    Object.values(MANIFEST.activities).flatMap((activity) => [
-      activity.room,
-      ...(activity.whiskeyStation ? [MANIFEST.furniture.find((a) => a.id === activity.whiskeyStation)?.room].filter(Boolean) : []),
-    ])
+    Object.values(MANIFEST.activities)
+      .filter((activity) => !activity.previewOnly)
+      .flatMap((activity) => [
+        activity.room,
+        ...(activity.whiskeyStation ? [MANIFEST.furniture.find((a) => a.id === activity.whiskeyStation)?.room].filter(Boolean) : []),
+      ])
   ),
 ].sort();
 const VIEWS = ["outside", ...ROOMS];

@@ -74,7 +74,7 @@ export function routineRoom(config, routine) {
   if (routine?.sequence === "pool") return poolActivityRoom(config, routine.room);
   const room = config?.rooms?.find((r) => r.id === routine?.room);
   const station = routine?.station && config?.furniture?.find((a) => a.id === routine.station && a.room === room?.id);
-  return station ? { ...room, actor: [...station.position], facing: station.yaw || 0 } : room;
+  return station ? { ...room, actor: [...station.position], facing: station.yaw || 0, walkActor: undefined, bedTransfer: undefined } : room;
 }
 
 export function formatMinute(minute) {

@@ -1,6 +1,29 @@
 {
   "bakedColorQuantization": "32 grayscale steps, shared per vertex",
   "dracoColorBits": 6,
+  "sourceSha256": "92c06962eabe924b1e4cd91b32d06f23fa6407b63d83e64828c8309c03ce51ca",
+  "activeStaticGeologyAO": true,
+  "constantPlanarCompaction": [
+    {
+      "mesh": "core__golden coastal sandstone",
+      "method": "Interior constant-color, constant-split-normal, single-material coplanar stars only",
+      "before": {
+        "vertices": 57678,
+        "triangles": 115376
+      },
+      "after": {
+        "vertices": 47792,
+        "triangles": 95604
+      },
+      "removedVertices": 9886,
+      "removedVertexIdsSha256": "a2cafcea655999a138dcf2f82ccde0528efb37cba445ecad27ffffbd219af1c5",
+      "starPlanarityBoundM": 1e-6,
+      "splitNormalBound": 1e-7,
+      "emittedSplitNormalField": "Export exact split normal",
+      "nonmanifoldEdges": 0,
+      "contract": "No quantization or LOD change. Independent whole-surface3um and decoded/rendered controls remain required."
+    }
+  ],
   "meshes": [
     {
       "mesh": "sleep__honey ash",
@@ -129,8 +152,8 @@
     },
     {
       "mesh": "coast_shared_golden coastal sandstone",
-      "facesBefore": 55498,
-      "facesExported": 55498
+      "facesBefore": 109025,
+      "facesExported": 109025
     },
     {
       "mesh": "core_liftaway_cave_ceiling",
@@ -139,8 +162,8 @@
     },
     {
       "mesh": "core__golden coastal sandstone",
-      "facesBefore": 45896,
-      "facesExported": 45896
+      "facesBefore": 90031,
+      "facesExported": 90031
     },
     {
       "mesh": "coast_shared_dry beach sand",
@@ -308,181 +331,6 @@
       "facesExported": 1
     },
     {
-      "mesh": "core_flora_sage",
-      "facesBefore": 12410,
-      "facesExported": 12410
-    },
-    {
-      "mesh": "core_flora_dark_sage",
-      "facesBefore": 6410,
-      "facesExported": 6410
-    },
-    {
-      "mesh": "core_flora_stems",
-      "facesBefore": 10729,
-      "facesExported": 10729
-    },
-    {
-      "mesh": "core_flora_buckwheat",
-      "facesBefore": 1819,
-      "facesExported": 1819
-    },
-    {
-      "mesh": "core_flora_torrey_bark",
-      "facesBefore": 1624,
-      "facesExported": 1624
-    },
-    {
-      "mesh": "core_flora_torrey_needles",
-      "facesBefore": 32256,
-      "facesExported": 20321
-    },
-    {
-      "mesh": "core_flora_dry_grass",
-      "facesBefore": 6220,
-      "facesExported": 6220
-    },
-    {
-      "mesh": "core_flora_iceplant",
-      "facesBefore": 7966,
-      "facesExported": 7966
-    },
-    {
-      "mesh": "core_flora_iceplant_flowers",
-      "facesBefore": 1328,
-      "facesExported": 1328
-    },
-    {
-      "mesh": "core_flora_sagebrush",
-      "facesBefore": 14058,
-      "facesExported": 8856
-    },
-    {
-      "mesh": "core_flora_lemonade_berry",
-      "facesBefore": 13966,
-      "facesExported": 13966
-    },
-    {
-      "mesh": "core_flora_lemonade_berry_shade",
-      "facesBefore": 665,
-      "facesExported": 665
-    },
-    {
-      "mesh": "core_flora_lemonade_berry_fruit",
-      "facesBefore": 2925,
-      "facesExported": 2925
-    },
-    {
-      "mesh": "core_flora_prickly_pear",
-      "facesBefore": 3640,
-      "facesExported": 3640
-    },
-    {
-      "mesh": "core_flora_prickly_pear_fruit",
-      "facesBefore": 1296,
-      "facesExported": 1296
-    },
-    {
-      "mesh": "core_flora_yucca",
-      "facesBefore": 736,
-      "facesExported": 736
-    },
-    {
-      "mesh": "core_flora_yucca_skirt",
-      "facesBefore": 352,
-      "facesExported": 352
-    },
-    {
-      "mesh": "core_flora_wild_oats",
-      "facesBefore": 9368,
-      "facesExported": 9368
-    },
-    {
-      "mesh": "core_flora_daisy_leaves",
-      "facesBefore": 600,
-      "facesExported": 600
-    },
-    {
-      "mesh": "core_flora_daisy_flowers",
-      "facesBefore": 930,
-      "facesExported": 930
-    },
-    {
-      "mesh": "core_flora_red_iceplant",
-      "facesBefore": 3873,
-      "facesExported": 3873
-    },
-    {
-      "mesh": "core_flora_palm_trunk",
-      "facesBefore": 302,
-      "facesExported": 302
-    },
-    {
-      "mesh": "core_flora_palm_fronds",
-      "facesBefore": 11072,
-      "facesExported": 11072
-    },
-    {
-      "mesh": "sleep_pillow_empty",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_empty",
-      "facesBefore": 6991,
-      "facesExported": 6991
-    },
-    {
-      "mesh": "sleep_pillow_lizard",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_lizard",
-      "facesBefore": 6685,
-      "facesExported": 6685
-    },
-    {
-      "mesh": "sleep_pillow_south-park",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_south-park",
-      "facesBefore": 7145,
-      "facesExported": 7145
-    },
-    {
-      "mesh": "sleep_pillow_simpsons",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_simpsons",
-      "facesBefore": 7007,
-      "facesExported": 7007
-    },
-    {
-      "mesh": "sleep_pillow_ghibli",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_ghibli",
-      "facesBefore": 7604,
-      "facesExported": 7604
-    },
-    {
-      "mesh": "sleep_pillow_rick-and-morty",
-      "facesBefore": 2080,
-      "facesExported": 2080
-    },
-    {
-      "mesh": "sleep_duvet_rick-and-morty",
-      "facesBefore": 7039,
-      "facesExported": 7039
-    },
-    {
       "mesh": "core_gym_floor",
       "facesBefore": 6,
       "facesExported": 6
@@ -629,8 +477,8 @@
     },
     {
       "mesh": "core_liftaway_cave_ceiling_rear",
-      "facesBefore": 389,
-      "facesExported": 389
+      "facesBefore": 1071,
+      "facesExported": 1071
     },
     {
       "mesh": "core_reno_slab_ground",
@@ -658,19 +506,14 @@
       "facesExported": 301
     },
     {
-      "mesh": "study__milky veined marble",
-      "facesBefore": 420,
-      "facesExported": 420
-    },
-    {
       "mesh": "study__pale oak",
-      "facesBefore": 3724,
-      "facesExported": 3724
+      "facesBefore": 686,
+      "facesExported": 686
     },
     {
       "mesh": "study__honey ash",
-      "facesBefore": 3972,
-      "facesExported": 3972
+      "facesBefore": 542,
+      "facesExported": 542
     },
     {
       "mesh": "study__polished nickel",
@@ -709,8 +552,8 @@
     },
     {
       "mesh": "study__indigo textile",
-      "facesBefore": 1804,
-      "facesExported": 1804
+      "facesBefore": 122,
+      "facesExported": 122
     },
     {
       "mesh": "study__oatmeal keycap",
@@ -719,8 +562,8 @@
     },
     {
       "mesh": "study__ochre textile",
-      "facesBefore": 1372,
-      "facesExported": 1372
+      "facesBefore": 294,
+      "facesExported": 294
     },
     {
       "mesh": "study__black magnesium laptop",
@@ -759,13 +602,13 @@
     },
     {
       "mesh": "study__linen",
-      "facesBefore": 5730,
-      "facesExported": 5730
+      "facesBefore": 422,
+      "facesExported": 422
     },
     {
       "mesh": "study__sage textile",
-      "facesBefore": 1262,
-      "facesExported": 1262
+      "facesBefore": 0,
+      "facesExported": 0
     },
     {
       "mesh": "study__cork board",
@@ -1144,8 +987,8 @@
     },
     {
       "mesh": "core_bathwing_liftaway_roof",
-      "facesBefore": 293,
-      "facesExported": 293
+      "facesBefore": 744,
+      "facesExported": 744
     },
     {
       "mesh": "core_estate_library_liftaway_roof",
@@ -1164,8 +1007,8 @@
     },
     {
       "mesh": "core_estate_terrace__brushed brass",
-      "facesBefore": 336,
-      "facesExported": 336
+      "facesBefore": 338,
+      "facesExported": 338
     },
     {
       "mesh": "core_estate_terrace__charcoal",
@@ -1179,8 +1022,8 @@
     },
     {
       "mesh": "core_estate_pool__warm cut stone",
-      "facesBefore": 268,
-      "facesExported": 268
+      "facesBefore": 276,
+      "facesExported": 276
     },
     {
       "mesh": "core_estate_pool__sea glass pool mosaic",
@@ -1359,8 +1202,8 @@
     },
     {
       "mesh": "bath-living__bathroom warm mineral grout",
-      "facesBefore": 6,
-      "facesExported": 6
+      "facesBefore": 3886,
+      "facesExported": 3886
     },
     {
       "mesh": "bath-living__bathroom honed travertine ivory",
@@ -1459,8 +1302,8 @@
     },
     {
       "mesh": "bath-bedroom__bathroom warm mineral grout",
-      "facesBefore": 6,
-      "facesExported": 6
+      "facesBefore": 3886,
+      "facesExported": 3886
     },
     {
       "mesh": "bath-bedroom__bathroom honed travertine oat",
@@ -1564,8 +1407,8 @@
     },
     {
       "mesh": "core_retreat_library__chalk limestone",
-      "facesBefore": 396,
-      "facesExported": 396
+      "facesBefore": 1163,
+      "facesExported": 1163
     },
     {
       "mesh": "core_retreat_library__brushed brass",
@@ -1579,23 +1422,23 @@
     },
     {
       "mesh": "core_retreat_gallery__warm cut stone",
-      "facesBefore": 254,
-      "facesExported": 254
+      "facesBefore": 58,
+      "facesExported": 58
     },
     {
       "mesh": "core_retreat_gallery__pale oak",
-      "facesBefore": 1612,
-      "facesExported": 1612
+      "facesBefore": 572,
+      "facesExported": 572
     },
     {
       "mesh": "core_retreat_gallery__brushed brass",
-      "facesBefore": 84,
-      "facesExported": 84
+      "facesBefore": 0,
+      "facesExported": 0
     },
     {
       "mesh": "core_retreat_gallery__honey ash",
-      "facesBefore": 28,
-      "facesExported": 28
+      "facesBefore": 0,
+      "facesExported": 0
     },
     {
       "mesh": "core_retreat_gallery__estate warm opal diffuser",
@@ -1604,33 +1447,33 @@
     },
     {
       "mesh": "library__honey ash",
-      "facesBefore": 3528,
-      "facesExported": 3528
+      "facesBefore": 2646,
+      "facesExported": 2646
     },
     {
       "mesh": "library__library warm paper edges",
-      "facesBefore": 6360,
-      "facesExported": 6360
+      "facesBefore": 5268,
+      "facesExported": 5268
     },
     {
       "mesh": "library__library slate cloth",
-      "facesBefore": 5112,
-      "facesExported": 5112
+      "facesBefore": 4032,
+      "facesExported": 4032
     },
     {
       "mesh": "library__library ochre cloth",
-      "facesBefore": 4482,
-      "facesExported": 4482
+      "facesBefore": 3888,
+      "facesExported": 3888
     },
     {
       "mesh": "library__library olive cloth",
-      "facesBefore": 4410,
-      "facesExported": 4410
+      "facesBefore": 3744,
+      "facesExported": 3744
     },
     {
       "mesh": "library__library clay cloth",
-      "facesBefore": 5076,
-      "facesExported": 5076
+      "facesBefore": 4140,
+      "facesExported": 4140
     },
     {
       "mesh": "core_estate_library_facade__brushed brass",
@@ -1646,21 +1489,6 @@
       "mesh": "core_retreat_library_ceiling__chalk limestone",
       "facesBefore": 98,
       "facesExported": 98
-    },
-    {
-      "mesh": "core_retreat_spiral__brushed brass",
-      "facesBefore": 172,
-      "facesExported": 172
-    },
-    {
-      "mesh": "core_retreat_spiral__pale oak",
-      "facesBefore": 220,
-      "facesExported": 220
-    },
-    {
-      "mesh": "core_retreat_spiral__honey ash",
-      "facesBefore": 196,
-      "facesExported": 196
     },
     {
       "mesh": "library-upper__honey ash",
@@ -1849,8 +1677,8 @@
     },
     {
       "mesh": "core_retreat_gym_threshold__warm cut stone",
-      "facesBefore": 98,
-      "facesExported": 98
+      "facesBefore": 76,
+      "facesExported": 76
     },
     {
       "mesh": "core_arrival_wall__golden coastal sandstone",
@@ -1909,8 +1737,8 @@
     },
     {
       "mesh": "core_arrival_court__warm cut stone",
-      "facesBefore": 1136,
-      "facesExported": 1136
+      "facesBefore": 1082,
+      "facesExported": 1082
     },
     {
       "mesh": "core_arrival_court__golden coastal sandstone",
@@ -1939,8 +1767,8 @@
     },
     {
       "mesh": "core_arrival_lid__golden coastal sandstone",
-      "facesBefore": 322,
-      "facesExported": 322
+      "facesBefore": 2362,
+      "facesExported": 2362
     },
     {
       "mesh": "core_arrival_paths__travertine paving stone",
@@ -2031,6 +1859,456 @@
       "mesh": "library_placeholder_study-whiskey-bottles",
       "facesBefore": 36,
       "facesExported": 36
+    },
+    {
+      "mesh": "study_wall_record_ledge__honey ash",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "library_patio_book_bay__honey ash",
+      "facesBefore": 882,
+      "facesExported": 882
+    },
+    {
+      "mesh": "library_patio_book_bay__library warm paper edges",
+      "facesBefore": 132,
+      "facesExported": 132
+    },
+    {
+      "mesh": "library_patio_book_bay__library clay cloth",
+      "facesBefore": 90,
+      "facesExported": 90
+    },
+    {
+      "mesh": "library_patio_book_bay__library olive cloth",
+      "facesBefore": 72,
+      "facesExported": 72
+    },
+    {
+      "mesh": "library_patio_book_bay__library slate cloth",
+      "facesBefore": 108,
+      "facesExported": 108
+    },
+    {
+      "mesh": "library_patio_book_bay__library ochre cloth",
+      "facesBefore": 126,
+      "facesExported": 126
+    },
+    {
+      "mesh": "library_patio_frame__brushed brass",
+      "facesBefore": 294,
+      "facesExported": 294
+    },
+    {
+      "mesh": "core_library_patio_door__facade low-iron glass",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "core_library_patio_door__brushed brass",
+      "facesBefore": 406,
+      "facesExported": 406
+    },
+    {
+      "mesh": "library_patio_threshold__honed travertine",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "core_finish_hall_daylight_0__brushed brass",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "core_finish_hall_daylight_0__estate warm opal diffuser",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "core_finish_hall_daylight_1__brushed brass",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "core_finish_hall_daylight_1__estate warm opal diffuser",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "study__milky veined marble",
+      "facesBefore": 420,
+      "facesExported": 420
+    },
+    {
+      "mesh": "core_finish_bedroom_spiral_base__warm cut stone",
+      "facesBefore": 52,
+      "facesExported": 52
+    },
+    {
+      "mesh": "core_finish_bedroom_spiral_base__pale oak",
+      "facesBefore": 51,
+      "facesExported": 51
+    },
+    {
+      "mesh": "core_finish_bedchamber_rock_fin__La Jolla bluff sandstone",
+      "facesBefore": 79,
+      "facesExported": 79
+    },
+    {
+      "mesh": "core_finish_bedchamber_slab__warm cut stone",
+      "facesBefore": 185,
+      "facesExported": 185
+    },
+    {
+      "mesh": "core_finish_bedchamber_floor__pale oak",
+      "facesBefore": 429,
+      "facesExported": 429
+    },
+    {
+      "mesh": "core_finish_bedchamber_wall_west__chalk limestone",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "core_finish_bedchamber_wall_east__chalk limestone",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "core_finish_bedchamber_wall_inland__chalk limestone",
+      "facesBefore": 38,
+      "facesExported": 38
+    },
+    {
+      "mesh": "core_finish_bedchamber_vault__chalk limestone",
+      "facesBefore": 72,
+      "facesExported": 72
+    },
+    {
+      "mesh": "sleep_fin_window__brushed brass",
+      "facesBefore": 776,
+      "facesExported": 776
+    },
+    {
+      "mesh": "sleep_fin_window__facade low-iron glass",
+      "facesBefore": 37,
+      "facesExported": 37
+    },
+    {
+      "mesh": "core_finish_bedroom_spiral__brushed brass",
+      "facesBefore": 182,
+      "facesExported": 182
+    },
+    {
+      "mesh": "core_finish_bedroom_spiral__pale oak",
+      "facesBefore": 160,
+      "facesExported": 160
+    },
+    {
+      "mesh": "core_finish_bedroom_spiral__honey ash",
+      "facesBefore": 168,
+      "facesExported": 168
+    },
+    {
+      "mesh": "core_finish_bedchamber_cove__brushed brass",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "core_finish_bedchamber_cove__estate warm opal diffuser",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "core_finish_pool_entry_coping__honed travertine",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+      "facesBefore": 448,
+      "facesExported": 448
+    },
+    {
+      "mesh": "core_finish_pavilion_planted_roof__pavilion mineral roof soil",
+      "facesBefore": 366,
+      "facesExported": 366
+    },
+    {
+      "mesh": "core_finish_pavilion_planted_roof__pavilion native succulent le",
+      "facesBefore": 140,
+      "facesExported": 140
+    },
+    {
+      "mesh": "core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+      "facesBefore": 460,
+      "facesExported": 460
+    },
+    {
+      "mesh": "core_finish_pavilion_rock_shoulder_east__La Jolla bluff sandsto",
+      "facesBefore": 964,
+      "facesExported": 964
+    },
+    {
+      "mesh": "core_finish_pavilion_rock_shoulder_sea__La Jolla bluff sandston",
+      "facesBefore": 102,
+      "facesExported": 102
+    },
+    {
+      "mesh": "core_finish_cantilever_wash__estate warm opal diffuser",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "core_finish_terrace_structure__warm board-formed concrete",
+      "facesBefore": 196,
+      "facesExported": 196
+    },
+    {
+      "mesh": "core_flora_sage",
+      "facesBefore": 16564,
+      "facesExported": 10435
+    },
+    {
+      "mesh": "core_flora_dark_sage",
+      "facesBefore": 8180,
+      "facesExported": 8180
+    },
+    {
+      "mesh": "core_flora_stems",
+      "facesBefore": 12514,
+      "facesExported": 12514
+    },
+    {
+      "mesh": "core_flora_buckwheat",
+      "facesBefore": 2400,
+      "facesExported": 2400
+    },
+    {
+      "mesh": "core_flora_torrey_bark",
+      "facesBefore": 1624,
+      "facesExported": 1624
+    },
+    {
+      "mesh": "core_flora_torrey_needles",
+      "facesBefore": 32256,
+      "facesExported": 20321
+    },
+    {
+      "mesh": "core_flora_dry_grass",
+      "facesBefore": 7710,
+      "facesExported": 7710
+    },
+    {
+      "mesh": "core_flora_iceplant",
+      "facesBefore": 9492,
+      "facesExported": 9492
+    },
+    {
+      "mesh": "core_flora_iceplant_flowers",
+      "facesBefore": 1472,
+      "facesExported": 1472
+    },
+    {
+      "mesh": "core_flora_sagebrush",
+      "facesBefore": 14498,
+      "facesExported": 9133
+    },
+    {
+      "mesh": "core_flora_lemonade_berry",
+      "facesBefore": 13908,
+      "facesExported": 13908
+    },
+    {
+      "mesh": "core_flora_lemonade_berry_shade",
+      "facesBefore": 728,
+      "facesExported": 728
+    },
+    {
+      "mesh": "core_flora_lemonade_berry_fruit",
+      "facesBefore": 3525,
+      "facesExported": 3525
+    },
+    {
+      "mesh": "core_flora_prickly_pear",
+      "facesBefore": 4320,
+      "facesExported": 4320
+    },
+    {
+      "mesh": "core_flora_prickly_pear_fruit",
+      "facesBefore": 1272,
+      "facesExported": 1272
+    },
+    {
+      "mesh": "core_flora_yucca",
+      "facesBefore": 828,
+      "facesExported": 828
+    },
+    {
+      "mesh": "core_flora_yucca_skirt",
+      "facesBefore": 396,
+      "facesExported": 396
+    },
+    {
+      "mesh": "core_flora_wild_oats",
+      "facesBefore": 10156,
+      "facesExported": 10156
+    },
+    {
+      "mesh": "core_flora_daisy_leaves",
+      "facesBefore": 2118,
+      "facesExported": 2118
+    },
+    {
+      "mesh": "core_flora_daisy_flowers",
+      "facesBefore": 3160,
+      "facesExported": 3160
+    },
+    {
+      "mesh": "core_flora_red_iceplant",
+      "facesBefore": 3914,
+      "facesExported": 3914
+    },
+    {
+      "mesh": "core_flora_palm_trunk",
+      "facesBefore": 302,
+      "facesExported": 302
+    },
+    {
+      "mesh": "core_flora_palm_fronds",
+      "facesBefore": 11072,
+      "facesExported": 11072
+    },
+    {
+      "mesh": "core_finish_corridor_niche_wall__chalk limestone",
+      "facesBefore": 264,
+      "facesExported": 264
+    },
+    {
+      "mesh": "core_finish_niche_plinth_0__honed travertine",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "core_finish_niche_loop_0",
+      "facesBefore": 480,
+      "facesExported": 480
+    },
+    {
+      "mesh": "core_finish_niche_light_0__estate warm opal diffuser",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "core_finish_niche_plinth_1__honed travertine",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "core_finish_niche_lean_1",
+      "facesBefore": 242,
+      "facesExported": 242
+    },
+    {
+      "mesh": "core_finish_niche_light_1__estate warm opal diffuser",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "core_finish_niche_plinth_2__honed travertine",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "core_finish_niche_counterpoise_2",
+      "facesBefore": 168,
+      "facesExported": 168
+    },
+    {
+      "mesh": "core_finish_niche_light_2__estate warm opal diffuser",
+      "facesBefore": 150,
+      "facesExported": 150
+    },
+    {
+      "mesh": "core_finish_pool_front_box_girder",
+      "facesBefore": 34,
+      "facesExported": 34
+    },
+    {
+      "mesh": "core_finish_bedroom_spiral_landing__pale oak",
+      "facesBefore": 28,
+      "facesExported": 28
+    },
+    {
+      "mesh": "sleep_pillow_empty",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_empty",
+      "facesBefore": 6689,
+      "facesExported": 6689
+    },
+    {
+      "mesh": "sleep_pillow_lizard",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_lizard",
+      "facesBefore": 6734,
+      "facesExported": 6734
+    },
+    {
+      "mesh": "sleep_pillow_south-park",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_south-park",
+      "facesBefore": 7053,
+      "facesExported": 7053
+    },
+    {
+      "mesh": "sleep_pillow_simpsons",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_simpsons",
+      "facesBefore": 7013,
+      "facesExported": 7013
+    },
+    {
+      "mesh": "sleep_pillow_ghibli",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_ghibli",
+      "facesBefore": 7582,
+      "facesExported": 7582
+    },
+    {
+      "mesh": "sleep_pillow_rick-and-morty",
+      "facesBefore": 2080,
+      "facesExported": 2080
+    },
+    {
+      "mesh": "sleep_duvet_rick-and-morty",
+      "facesBefore": 6923,
+      "facesExported": 6923
+    },
+    {
+      "mesh": "study_wall_record_backrail__honey ash",
+      "facesBefore": 392,
+      "facesExported": 392
+    },
+    {
+      "mesh": "core_laundry_frame_posts",
+      "facesBefore": 172,
+      "facesExported": 172
     }
   ]
 }

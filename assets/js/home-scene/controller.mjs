@@ -40,6 +40,9 @@ import { sessionPose } from "./gym-session.mjs";
 import { sessionState, trainingAt } from "./training.mjs";
 import { resolveWristTargets } from "./grip-targets.mjs";
 import { roomRoute, sampleRoute } from "./navigation.mjs";
+import { roomTransfer, createRoomJourney, verifiedRoomTransfer } from "./room-journey.mjs";
+import { createPlantedFeet } from "./planted-feet.mjs";
+import { fitSeatToSurface } from "./seat-surface.mjs";
 import { createWorldCompanion } from "./companion.mjs";
 import { companion, pipProjectUrl } from "../companion/bridge.mjs";
 import { createRecordMotion } from "./record-motion.mjs";
@@ -64,6 +67,7 @@ import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
 import { createStaticLightField, staticLightRegions } from "./static-light-field.mjs";
 import { prepareFramePrograms } from "./program-warmup.mjs";
+import { retireCompiledMaterials } from "./program-lifetime.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs";
 import { createWalkMode } from "./walk-controls.mjs";
@@ -237,6 +241,11 @@ export function createCoastalHome(container, records, artifacts) {
     animalFocus = null,
     travel = null,
     footContacts,
+    plantedFeet,
+    avatarContacts = null,
+    transferSourceError = null,
+    bedSeatFit = null,
+    transferPoseActive = false,
     handContacts,
     poolStroke,
     poolVisit,
@@ -481,6 +490,13 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   async function loadModel(url, step = null) {
+    const bindAvatar = async (model, bytes) => {
+      if (config?.rooms.some((room) => room.bedTransfer) && /\/sirui-[^/]+\.glb$/.test(new URL(url).pathname) && crypto.subtle)
+        model.coastalSourceSha256 = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))]
+          .map((value) => value.toString(16).padStart(2, "0"))
+          .join("");
+      return model;
+    };
     const early = prefetched.get(url);
     prefetched.delete(url);
     const bytes = early ? await early.bytes.catch(() => null) : null;
@@ -493,7 +509,7 @@ export function createCoastalHome(container, records, artifacts) {
       const model = await loader.parseAsync(bytes, new URL(".", url).href);
       timing.parsedMilliseconds = performance.now() - startupStart;
       if (step) progress(step, 1);
-      return model;
+      return bindAvatar(model, bytes);
     }
     const abort = new AbortController();
     const timing = { asset: new URL(url).pathname.split("/").pop(), startMilliseconds: performance.now() - startupStart };
@@ -511,7 +527,7 @@ export function createCoastalHome(container, records, artifacts) {
       const model = await loader.parseAsync(bytes, new URL(".", url).href);
       timing.parsedMilliseconds = performance.now() - startupStart;
       if (step) progress(step, 1);
-      return model;
+      return bindAvatar(model, bytes);
     } finally {
       modelRequests.delete(abort);
     }
@@ -1007,6 +1023,7 @@ export function createCoastalHome(container, records, artifacts) {
           root.visible = true;
         }
         rooms.set(id, root);
+        if (id === "sleep") refreshBedSeat();
         cameraField?.addRoot(root);
         requestFrame();
         prepareStaticLight();
@@ -1080,21 +1097,22 @@ export function createCoastalHome(container, records, artifacts) {
 
   function release(root) {
     art.forget(root);
-    const skeletons = new Set();
+    const skeletons = new Set(),
+      retiredMaterials = new Set();
     root.traverse((o) => {
       if (o.isSkinnedMesh && o.skeleton) skeletons.add(o.skeleton);
       if (!o.isMesh || o.userData.outline) return;
       o.geometry.dispose();
       resources.delete(o.geometry);
       const materials = [o.userData.baseMaterial || o.material, ...Object.values(o.userData.styleMaterials || {})].flat();
-      new Set(materials).forEach((m) => {
-        m.dispose();
-        resources.delete(m);
-      });
-      o.userData.inkOutline?.material.dispose();
+      for (const material of materials) retiredMaterials.add(material);
+      if (o.userData.inkOutline) retiredMaterials.add(o.userData.inkOutline.material);
     });
     skeletons.forEach((skeleton) => skeleton.dispose());
     root.removeFromParent();
+    retireCompiledMaterials(renderer, retiredMaterials, { isDisposed: () => disposed, onDispose: (material) => resources.delete(material) }).catch(
+      (error) => console.error("Could not retire a model material", error)
+    );
   }
 
   async function setAvatar(id, step = null) {
@@ -1104,6 +1122,23 @@ export function createCoastalHome(container, records, artifacts) {
     ui.setAttribute("aria-busy", "true");
     try {
       const gltf = await loadModel(new URL(entry.file, manifestUrl).href, step);
+      let contact = null,
+        bindingError = null;
+      if (config.rooms.some((room) => room.bedTransfer)) {
+        try {
+          const response = await fetch(new URL("character-contacts.json", manifestUrl));
+          if (!response.ok) throw new Error("Character support unavailable");
+          const measured = (await response.json()).avatars[entry.id],
+            native = config.rooms.find((room) => room.bedTransfer).bedTransfer.footSourceGlbSha256?.[entry.id];
+          if (!gltf.coastalSourceSha256 || measured?.lounge.sourceGlbSha256 !== gltf.coastalSourceSha256 || native !== gltf.coastalSourceSha256)
+            throw new Error("Character support does not match the delivered model");
+          contact = measured;
+        } catch (error) {
+          bindingError = error.message;
+          // Preserve the ordinary still and room controls when a support source
+          // cannot be bound. An unverified bed transfer is never attempted.
+        }
+      }
       if (disposed || ticket !== avatarTicket) {
         release(gltf.scene);
         return;
@@ -1132,6 +1167,10 @@ export function createCoastalHome(container, records, artifacts) {
       currentAction = null;
       selectedProp = null;
       avatarId = entry.id;
+      avatarContacts = contact;
+      transferSourceError = bindingError;
+      plantedFeet = contact ? createPlantedFeet(actor, contact.lounge.legs) : null;
+      refreshBedSeat();
       container.dataset.avatar = avatarId;
       syncBedding();
       remember("sirui-scene-avatar", avatarId);
@@ -1156,6 +1195,11 @@ export function createCoastalHome(container, records, artifacts) {
 
   function playClip(name, walkingSpeed = 1.5) {
     characterPerformance?.restore();
+    if (transferPoseActive) {
+      mixer.stopAllAction();
+      transferPoseActive = false;
+      currentAction = null;
+    }
     const next = actions?.get(name) || actions?.get("idle");
     if (!next) return;
     const timeScale = name === "walk" ? (3.6 * Math.max(0.1, walkingSpeed)) / 1.5 : 1;
@@ -1175,6 +1219,54 @@ export function createCoastalHome(container, records, artifacts) {
     currentAction = next;
     container.dataset.animation = name;
     syncBedding();
+  }
+
+  function refreshBedSeat() {
+    bedSeatFit = null;
+    const room = config?.rooms.find((entry) => entry.bedTransfer),
+      root = room && rooms.get(room.id),
+      meshes = [];
+    if (!root || !avatarContacts) return;
+    root.traverse((object) => {
+      if (object.isMesh && object.userData.bedding === "empty" && /duvet/i.test(object.name)) meshes.push(object);
+    });
+    try {
+      bedSeatFit = fitSeatToSurface({
+        contact: avatarContacts.lounge,
+        seat: room.bedTransfer.seat.position,
+        facing: room.bedTransfer.seat.facing,
+        meshes,
+      });
+    } catch {
+      // No center-plane or nominal-offset fallback can establish cloth support.
+    }
+  }
+
+  function transferFor(room, clip) {
+    return roomTransfer(room, clip, { seatedRoot: bedSeatFit?.position, avatarId });
+  }
+
+  function poseTransfer(pose) {
+    characterPerformance?.restore();
+    mixer.stopAllAction();
+    const blend = pose.blend,
+      weights = blend
+        ? [
+            [blend.from, 1 - blend.weight],
+            [blend.to, blend.weight],
+          ]
+        : [[pose.clip, 1]];
+    for (const [name, weight] of weights) {
+      const action = actions.get(name);
+      action.reset().play().setEffectiveWeight(weight).setEffectiveTimeScale(0);
+      action.time = 0;
+    }
+    mixer.update(0);
+    transferPoseActive = true;
+    currentAction = null;
+    container.dataset.animation = blend ? (blend.weight < 0.5 ? blend.from : blend.to) : pose.clip;
+    syncBedding();
+    if (pose.feet) plantedFeet?.apply(pose.feet, pose.plantedWeight || 0);
   }
 
   function propFor(kind) {
@@ -1590,20 +1682,28 @@ export function createCoastalHome(container, records, artifacts) {
       loadRoom(room.id).catch(() => {
         if (!disposed) status.textContent = "Room detail unavailable. You can still explore.";
       });
-      if (actorGoal && !compose && actor.position.distanceTo(goal) > 0.5 && !reduced && !paused && visible && inViewport) {
-        const priorRoom = routineRoom(config, priorRoutine);
-        const route = roomRoute(config, priorRoom, room, actor.position.toArray());
+      const priorRoom = routineRoom(config, priorRoutine),
+        transferEnabled = config.rooms.some((entry) => entry.bedTransfer),
+        bedMove = priorRoom?.bedTransfer || room.bedTransfer,
+        supportedTransfer =
+          !bedMove || (bedSeatFit && plantedFeet && verifiedRoomTransfer(priorRoom, avatarId) && verifiedRoomTransfer(room, avatarId));
+      if (actorGoal && !compose && actor.position.distanceTo(goal) > 0.5 && !reduced && !paused && visible && inViewport && supportedTransfer) {
+        const departure = transferEnabled && priorRoom ? transferFor(priorRoom, priorRoutine.clip) : null,
+          arrival = transferEnabled ? transferFor(room, routine.clip) : null,
+          route = roomRoute(config, priorRoom, room, departure ? priorRoom.walkActor : actor.position.toArray()),
+          journey = transferEnabled ? createRoomJourney({ route, departure, arrival }) : null;
         travel = {
           route,
+          journey,
           // Start between rendered frames without counting time before this
           // routine changed as part of the new walk.
           start: elapsed + (lastFrame ? Math.max(0, (performance.now() - lastFrame) / 1000) : 0),
-          duration: Math.max(2.5, route.length / 1.5),
+          duration: journey?.duration || Math.max(2.5, route.length / 1.5),
           goal,
           facing: room.facing,
         };
         propFor(null);
-        playClip("walk");
+        if (!departure) playClip("walk");
       } else {
         travel = null;
         actor.position.copy(goal);
@@ -3039,16 +3139,28 @@ export function createCoastalHome(container, records, artifacts) {
     }
     if (travel && moving) {
       const t = clamp((elapsed - travel.start) / travel.duration, 0, 1);
-      const sample = sampleRoute(travel.route, t);
+      const sample = travel.journey ? travel.journey.pose(elapsed - travel.start) : sampleRoute(travel.route, t);
       actor.position.fromArray(sample.position);
-      actor.rotation.y +=
-        Math.atan2(Math.sin(sample.facing - actor.rotation.y), Math.cos(sample.facing - actor.rotation.y)) * Math.min(1, delta * 12);
-      footContacts?.(sample.onStairs);
+      if (sample.transfer) {
+        actor.rotation.y = sample.facing;
+        poseTransfer(sample);
+      } else {
+        if (travel.journey) playClip("walk", sample.walkingSpeed);
+        actor.rotation.y +=
+          Math.atan2(Math.sin(sample.facing - actor.rotation.y), Math.cos(sample.facing - actor.rotation.y)) * Math.min(1, delta * 12);
+        footContacts?.(sample.onStairs);
+      }
+      travel.phase = sample.phase;
+      container.dataset.activityPhase = sample.phase || "walking to the next room";
       if (t === 1) {
         actor.position.copy(travel.goal);
         actor.rotation.y = travel.facing;
         travel = null;
         playClip(routine.clip);
+        // Starting the destination action restores its bindings before the
+        // next animation tick. Evaluate now so that frame never shows the
+        // standing bind pose under the sleeper's newly selected duvet.
+        mixer.update(0);
         propFor(routine.prop);
         sequenceStart = elapsed;
       }
@@ -3778,7 +3890,7 @@ export function createCoastalHome(container, records, artifacts) {
       applyTierDetail();
       loadingStage("first-frame", "Preparing the view.");
       // The mirrors draw the beauty pass's own programs (their hooks are installed above), so the
-      // batched warmup prepares them too; each mirror's whole-scene compileAsync then finds them
+      // batched warmup prepares them too; each mirror's owned compilation snapshot then finds them
       // ready. Run first, it submitted every program of the house at once, starving the page.
       await compilePrograms((fraction) => progress("view", 0.9 * fraction));
       if (disposed) return;
@@ -3961,8 +4073,24 @@ export function createCoastalHome(container, records, artifacts) {
     activityOffset: config?.rooms.find((r) => r.id === routine?.room)?.offset,
     traveling: Boolean(travel),
     navigation: travel
-      ? { progress: clamp((elapsed - travel.start) / travel.duration, 0, 1), duration: travel.duration, position: actor.position.toArray() }
+      ? {
+          progress: clamp((elapsed - travel.start) / travel.duration, 0, 1),
+          duration: travel.duration,
+          length: travel.journey?.length || travel.route.length,
+          phase: travel.phase || null,
+          position: actor.position.toArray(),
+          plantedFeet: plantedFeet?.evidence(),
+        }
       : null,
+    bedTransfer: {
+      bound: Boolean(avatarContacts && plantedFeet),
+      enabled: verifiedRoomTransfer(
+        config?.rooms.find((room) => room.bedTransfer),
+        avatarId
+      ),
+      error: transferSourceError,
+      clothFit: bedSeatFit,
+    },
     animationSeconds: elapsed,
     fullscreen: fullscreen.mode,
     palette: routine?.palette,

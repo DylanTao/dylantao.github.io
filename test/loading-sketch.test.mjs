@@ -296,9 +296,9 @@ test("the shipped drawings cover the coast and every room an activity opens in, 
   const rooms = [
     ...new Set(
       Array.from({ length: 7 }, (_, day) =>
-        Object.entries(manifest.activities).map(
-          ([activity, spec]) => resolveRoutine(manifest, new Date(`2026-10-0${day + 1}T12:00:00-07:00`), { activity, minute: spec.minute }).room
-        )
+        Object.entries(manifest.activities)
+          .filter(([, spec]) => !spec.previewOnly)
+          .map(([activity, spec]) => resolveRoutine(manifest, new Date(`2026-10-0${day + 1}T12:00:00-07:00`), { activity, minute: spec.minute }).room)
       ).flat()
     ),
   ].sort();

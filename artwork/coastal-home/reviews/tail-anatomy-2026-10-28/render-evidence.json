@@ -1,0 +1,14 @@
+{
+  "scope": "Exact actual decoded candidate meshes in the retained249-phase pose. Native diagnostic render, not public WebGL material/light admission.",
+  "image": "rejected-roll-native-4k.png",
+  "actualRenderPixels": [3840, 2160],
+  "renderer": "Blender4.5.9 Cycles CPU12samples, diagnostic studio light",
+  "sourceGlbSha256": "c6a92386a8669679429a82642d18e69c5b4550796fbbc09ca6a7a3911e2eed58",
+  "roomSha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+  "poseGeometrySha256": "03b566d57e88d8a141a37462ea4bb38d06940920581d28d1945f12fe5d7c621e",
+  "phase": 64,
+  "seconds": 1.6,
+  "camera": [-5.599999904632568, -8.5, 3.200000047683716],
+  "target": [-7.050000190734863, -6.980000019073486, 2.3499999046325684],
+  "omission": "Wardrobe and room-shell obstructions omitted for diagnostic cross-section only; bed, made cover and all person/tail meshes retained. Not a public full-scene admission image."
+}

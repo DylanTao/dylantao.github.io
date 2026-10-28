@@ -7,11 +7,13 @@ The web portrait mirrors this silhouette with analytic surfaces at icon size.
 
 from pathlib import Path
 import math
+import sys
 
 import bpy
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "bin"))
 SOURCE = ROOT / "artwork" / "pip"
 OUTPUT = ROOT / "assets" / "models" / "pip"
 SOURCE.mkdir(parents=True, exist_ok=True)
@@ -245,18 +247,8 @@ bpy.context.scene.render.resolution_percentage = 100
 bpy.context.scene.render.film_transparent = True
 bpy.context.preferences.filepaths.save_version = 0
 bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE / "pip.blend"))
-bpy.ops.object.select_all(action="DESELECT")
-body.select_set(True)
-for obj in body.children_recursive:
-    obj.select_set(True)
-bpy.ops.export_scene.gltf(
-    filepath=str(OUTPUT / "pip.glb"),
-    export_format="GLB",
-    use_selection=True,
-    export_animations=False,
-    export_cameras=False,
-    export_lights=False,
-)
+from pip_model_export import export_model
+export_model(OUTPUT / "pip.glb")
 bpy.context.scene.render.filepath = str(SOURCE / "pip-model.png")
 bpy.ops.render.render(write_still=True)
 print("Pip model:", OUTPUT / "pip.glb")

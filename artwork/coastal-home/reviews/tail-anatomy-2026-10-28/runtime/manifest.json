@@ -1,0 +1,20 @@
+{
+  "tail-articulation-v21.mjs.raw": {
+    "originalRepoPath": "assets/js/home-scene/tail-articulation.mjs",
+    "sha256Lf": "e6a1ec9e9f99eaf1693f6abf2fa9908fbe523ad7d6e110ee7e2085a442eee14d",
+    "originalRawBytes": 8869,
+    "state": "Rejected recipe; node-only review loader resolves unchanged Three.js import, no public runtime dependency"
+  },
+  "tail-articulation-v22.mjs.raw": {
+    "originalRepoPath": "assets/js/home-scene/tail-articulation.mjs",
+    "sha256Lf": "63cf1f7a709801fdb0a42405da70539a211ed7646f2c28288cf7b9ef5a862e6c",
+    "originalRawBytes": 8871,
+    "state": "Rejected recipe; node-only review loader resolves unchanged Three.js import, no public runtime dependency"
+  },
+  "tail-articulation-v23.mjs.raw": {
+    "originalRepoPath": "assets/js/home-scene/tail-articulation.mjs",
+    "sha256Lf": "4e749ee18a0220afafe0ad8ff3a149902877e3e579fc1191480b61d9b34b7f02",
+    "originalRawBytes": 9341,
+    "state": "Rejected recipe; node-only review loader resolves unchanged Three.js import, no public runtime dependency"
+  }
+}

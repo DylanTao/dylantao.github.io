@@ -1,0 +1,154 @@
+import { Vector3, Quaternion, Matrix4, Box3, CatmullRomCurve3 } from "../three.module.min.js";
+
+// Source-authored six-joint anatomy. Apply after mixer, ritual pose and feet.
+// The public controller does not import this experimental helper yet.
+const states = new WeakMap();
+const clamp = (value) => Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0;
+const up = new Vector3(0, 1, 0);
+const materialName = (mesh) => mesh.material?.name?.replace(/\.\d{3}$/, "").replaceAll("_", " ");
+
+function bodyBounds(model, tail) {
+  const groups = new Map();
+  model.traverse((mesh) => {
+    if (!mesh.isSkinnedMesh || mesh === tail || materialName(mesh) !== "skin") return;
+    const index = mesh.geometry.attributes.skinIndex, weights = mesh.geometry.attributes.skinWeight;
+    for (let i = 0; i < index.count; i++) {
+      let best = 0;
+      for (let k = 1; k < 4; k++) if (weights.getComponent(i, k) > weights.getComponent(i, best)) best = k;
+      const joint = index.getComponent(i, best), bone = mesh.skeleton.bones[joint];
+      const rigid = weights.getComponent(i, best) >= 1 - 1e-7 && !mesh.geometry.morphAttributes.position?.length;
+      const key = bone.uuid + (rigid ? ":rigid" : ":dynamic");
+      let group = groups.get(key);
+      if (!group) groups.set(key, group = { bone, points: [], rigid: true, local: new Box3() });
+      group.rigid &&= rigid;
+      const point = new Vector3().fromBufferAttribute(mesh.geometry.attributes.position, i).applyMatrix4(mesh.bindMatrix).applyMatrix4(mesh.skeleton.boneInverses[joint]);
+      group.local.expandByPoint(point);
+      group.points.push({ mesh, vertex: i });
+    }
+  });
+  return [...groups.values()];
+}
+
+function find(model) {
+  let tail;
+  model.traverse((mesh) => { if (mesh.isSkinnedMesh && mesh.userData.tailArticulation?.version === 1) tail = mesh; });
+  if (!tail) return null;
+  const definition = tail.userData.tailArticulation;
+  const names = JSON.parse(definition.jointNamesJSON);
+  const bones = names.map((name) => model.getObjectByName(name));
+  const tip = model.getObjectByName(definition.tipName);
+  if (bones.length !== 6 || bones.some((bone) => !bone?.isBone) || !tip) throw new Error("Incomplete source-bound anatomical tail chain");
+  return { tail, bones, tip, body: bodyBounds(model, tail), baseline: null, last: null };
+}
+
+function colliders(state) {
+  return state.body.map((group) => {
+    if (group.rigid) return { box: group.local, world: group.bone.matrixWorld, inverse: group.bone.matrixWorld.clone().invert() };
+    const box = new Box3();
+    for (const { mesh, vertex } of group.points) box.expandByPoint(mesh.getVertexPosition(vertex, new Vector3()).applyMatrix4(mesh.matrixWorld));
+    return { box, world: new Matrix4(), inverse: new Matrix4() };
+  });
+}
+
+function pushOut(point, radius, collider) {
+  const local = point.clone().applyMatrix4(collider.inverse);
+  const scale = new Vector3().setFromMatrixScale(collider.world);
+  const padding = (radius + 0.006) / Math.max(1e-6, Math.min(scale.x, scale.y, scale.z));
+  const box = collider.box.clone().expandByScalar(padding);
+  if (!box.containsPoint(local)) return new Vector3();
+  const choices = [];
+  for (const axis of ["x", "y", "z"]) for (const boundary of [box.min[axis], box.max[axis]]) choices.push({ axis, value: boundary - local[axis] });
+  choices.sort((a, b) => Math.abs(a.value) - Math.abs(b.value));
+  local[choices[0].axis] += choices[0].value;
+  return local.applyMatrix4(collider.world).sub(point);
+}
+
+function guide(root, actor, lengths, mode, progress, facing) {
+  const side = mode === "bed" ? new Vector3(Math.sin(facing), 0, Math.cos(facing)) : new Vector3(1, 0, 0).applyQuaternion(actor.getWorldQuaternion(new Quaternion()));
+  const back = mode === "bed" ? side.clone().applyAxisAngle(up, progress * Math.PI / 2) : new Vector3(0, 0, -1).applyQuaternion(actor.getWorldQuaternion(new Quaternion()));
+  const at = (sideAmount, backAmount, height) => root.clone().addScaledVector(side, sideAmount).addScaledVector(back, backAmount).addScaledVector(up, height);
+  const knots = mode === "bed"
+    ? [root, at(0, 0.10, 0.065), at(0.30, 0.12, 0.15), at(0.60, -0.06, 0.13), at(0.90, -0.15, 0.08)]
+    : [root, at(0.03, 0.02, 0.018), at(0.14, -0.02, 0.07), at(0.40, -0.10, 0.14), at(0.70, -0.25, 0.12), at(0.93, -0.40, 0.04)];
+  const curve = new CatmullRomCurve3(knots, false, "centripetal");
+  const total = lengths.reduce((sum, value) => sum + value, 0);
+  const points = [root.clone()];
+  let distance = 0;
+  for (const length of lengths) {
+    distance += length;
+    const target = curve.getPointAt(distance / total);
+    points.push(points.at(-1).clone().add(target.sub(points.at(-1)).normalize().multiplyScalar(length)));
+  }
+  return points;
+}
+
+function constrain(points, lengths, bounds) {
+  const anchor = points[0].clone();
+  const radii = [0.08, 0.08, 0.085, 0.075, 0.05, 0.03, 0.012];
+  let overlap = false;
+  for (let i = 0; i < lengths.length && !overlap; i++) for (const fraction of [0.25, 0.5, 0.75, 1]) {
+    const point = points[i].clone().lerp(points[i + 1], fraction);
+    const radius = radii[i] + (radii[i + 1] - radii[i]) * fraction;
+    if (bounds.some((box) => pushOut(point, radius, box).lengthSq() > 0)) { overlap = true; break; }
+  }
+  if (!overlap) return points;
+  for (let iteration = 0; iteration < 56; iteration++) {
+    for (let i = 0; i < lengths.length; i++) for (const fraction of [0.25, 0.5, 0.75, 1]) {
+      const radius = radii[i] + (radii[i + 1] - radii[i]) * fraction;
+      for (const box of bounds) {
+        const point = points[i].clone().lerp(points[i + 1], fraction);
+        const delta = pushOut(point, radius, box);
+        if (!delta.lengthSq()) continue;
+        const left = i === 0 ? 0 : 1 - fraction;
+        const right = fraction;
+        const denominator = left * left + right * right;
+        if (left) points[i].addScaledVector(delta, left / denominator);
+        points[i + 1].addScaledVector(delta, right / denominator);
+      }
+    }
+    for (let i = lengths.length - 1; i >= 0; i--) {
+      const direction = points[i + 1].clone().sub(points[i]);
+      const error = direction.length() - lengths[i];
+      if (!direction.lengthSq()) continue;
+      direction.normalize();
+      if (i === 0) points[i + 1].addScaledVector(direction, -error);
+      else { points[i].addScaledVector(direction, error / 2); points[i + 1].addScaledVector(direction, -error / 2); }
+    }
+    points[0].copy(anchor);
+  }
+  // Exact final link lengths. This constraint is geometric, never a claim
+  // that an approximate body box proves final triangle clearance.
+  for (let i = 0; i < lengths.length; i++) points[i + 1].sub(points[i]).normalize().multiplyScalar(lengths[i]).add(points[i]);
+  return points;
+}
+
+export function updateTailArticulation(model, { seatedWeight = 0, bedWeight = 0, bedProgress = 0, bedFacing = 0 } = {}) {
+  if (!model?.traverse) return { active: false, joints: 0, weight: 0 };
+  let state = states.get(model);
+  if (state === undefined) { state = find(model); states.set(model, state); }
+  const weight = Math.max(clamp(seatedWeight), clamp(bedWeight));
+  if (!state) return { active: false, joints: 0, weight };
+  const current = state.bones.map((bone) => bone.quaternion.clone());
+  const fromMixer = !state.last || current.some((q, i) => 1 - Math.abs(q.dot(state.last[i])) > 1e-12);
+  if (!state.baseline || fromMixer) state.baseline = current;
+  for (let i = 0; i < 6; i++) state.bones[i].quaternion.copy(state.baseline[i]);
+  model.updateMatrixWorld(true);
+  if (!weight) { state.last = state.bones.map((bone) => bone.quaternion.clone()); return { active: true, joints: 6, weight, mode: "source" }; }
+  const nodes = [...state.bones, state.tip];
+  const positions = nodes.map((node) => node.getWorldPosition(new Vector3()));
+  const lengths = positions.slice(1).map((point, i) => point.distanceTo(positions[i]));
+  const mode = clamp(bedWeight) ? "bed" : "seated";
+  const points = constrain(guide(positions[0], model, lengths, mode, clamp(bedProgress), Number.isFinite(bedFacing) ? bedFacing : 0), lengths, colliders(state));
+  for (let i = 0; i < 6; i++) {
+    const bone = state.bones[i];
+    const root = bone.getWorldPosition(new Vector3());
+    const direction = nodes[i + 1].getWorldPosition(new Vector3()).sub(root).normalize();
+    const target = points[i + 1].clone().sub(root).normalize();
+    const desiredWorld = new Quaternion().setFromUnitVectors(direction, target).multiply(bone.getWorldQuaternion(new Quaternion()));
+    const local = bone.parent.getWorldQuaternion(new Quaternion()).invert().multiply(desiredWorld);
+    bone.quaternion.copy(state.baseline[i]).slerp(local, weight);
+    model.updateMatrixWorld(true);
+  }
+  state.last = state.bones.map((bone) => bone.quaternion.clone());
+  return { active: true, joints: 6, weight, mode, bodyBounds: state.body.length, root: positions[0].toArray() };
+}

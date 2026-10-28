@@ -1,0 +1,34 @@
+// Exact point-cloud geometry checks for authoring receipts. Envelope selection
+// is deliberately separate: a quantized point can cross a band edge while its
+// actual corresponding geometry remains within the unchanged distance gate.
+export function createPointIndex(points) {
+  if (!points.length || points.some((point) => point.length !== 3 || point.some((value) => !Number.isFinite(value)))) throw new TypeError("Finite three-dimensional geometry is required");
+  function build(values, depth = 0) {
+    if (values.length <= 16) return { points: values };
+    const axis = depth % 3;
+    values.sort((a, b) => a[axis] - b[axis]);
+    const at = values.length >> 1;
+    return { axis, point: values[at], left: build(values.slice(0, at), depth + 1), right: build(values.slice(at + 1), depth + 1) };
+  }
+  const tree = build(points.slice());
+  return (point) => {
+    let best = Infinity;
+    function visit(node) {
+      if (node.points) {
+        for (const target of node.points) best = Math.min(best, (point[0] - target[0]) ** 2 + (point[1] - target[1]) ** 2 + (point[2] - target[2]) ** 2);
+        return;
+      }
+      best = Math.min(best, (point[0] - node.point[0]) ** 2 + (point[1] - node.point[1]) ** 2 + (point[2] - node.point[2]) ** 2);
+      const delta = point[node.axis] - node.point[node.axis];
+      visit(delta < 0 ? node.left : node.right);
+      if (delta * delta < best) visit(delta < 0 ? node.right : node.left);
+    }
+    visit(tree);
+    return Math.sqrt(best);
+  };
+}
+
+export function cloudDistance(a, b) {
+  const nearestA = createPointIndex(a), nearestB = createPointIndex(b);
+  return Math.max(...a.map(nearestB), ...b.map(nearestA));
+}

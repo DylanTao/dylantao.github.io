@@ -30,16 +30,19 @@ test("all room pairs begin and end on their actual supports and cross the correc
     for (const to of config.rooms) {
       const name = `${from.id} to ${to.id}`;
       pairs++;
-      const route = roomRoute(config, from, to, from.actor);
+      const start = from.walkActor || from.actor,
+        end = to.walkActor || to.actor,
+        route = roomRoute(config, from, to, start);
       assert.ok(route.length > 0);
-      assert.deepEqual(sampleRoute(route, 0).position, supported(from.actor), name);
-      sampleRoute(route, 1).position.forEach((v, i) => assert.ok(Math.abs(v - supported(to.actor)[i]) < 1e-8, name));
+      assert.deepEqual(sampleRoute(route, 0).position, supported(start), name);
+      sampleRoute(route, 1).position.forEach((v, i) => assert.ok(Math.abs(v - supported(end)[i]) < 1e-8, name));
       const changes = slopes(route),
-        central = changes.filter(interstorey),
+        central = changes.filter(mainStair),
+        privateChanges = changes.filter(privateStair),
         local = changes.filter((pair) => !interstorey(pair));
       if (from.egress[1] === to.egress[1]) assert.equal(central.length, 0, `${name}: same corridor level never visits the main stair`);
       else {
-        const expected = route.connection === "bedroom-study" ? privateRisers : mainRisers;
+        const expected = route.connection === "bedroom-study" ? 0 : mainRisers;
         assert.equal(central.length, expected, `${name}: all exact authored interstorey risers`);
         const direction = Math.sign(to.egress[1] - from.egress[1]);
         central.forEach(([a, b]) => {
@@ -47,9 +50,16 @@ test("all room pairs begin and end on their actual supports and cross the correc
           assert.ok(Math.abs(a[1] - b[1]) < 0.175);
           assert.equal(Math.sign(b[1] - a[1]), direction);
         });
-        assert.equal(central[0][0][1], from.egress[1]);
-        assert.equal(central.at(-1)[1][1], to.egress[1]);
+        if (central.length) {
+          assert.equal(central[0][0][1], from.egress[1]);
+          assert.equal(central.at(-1)[1][1], to.egress[1]);
+        }
       }
+      assert.equal(
+        privateChanges.length,
+        privateRisers * (Number(from.id === "sleep") + Number(to.id === "sleep")),
+        `${name}: retain every adjacent-chamber riser`
+      );
       // Local stairs are independent of the 15-riser inter-storey stair. Each sunken endpoint
       // contributes the two 21 cm risers actually authored in the nook/pit, including return trips.
       assert.equal(local.length, 2 * (Number(sunken.has(from.id)) + Number(sunken.has(to.id))), `${name}: local risers`);
@@ -73,7 +83,7 @@ test("sunken departures retain the authored pit path and use the crossed native 
     kitchen = room("kitchen"),
     gym = room("gym");
   const pit = roomRoute(config, lounge, gym, lounge.actor);
-  assert.deepEqual(pit.points[0], [-0.15, -0.42, 0.61 + setback], "the seated root at -.495 stands on the -.42 floor");
+  assert.deepEqual(pit.points[0], supported(lounge.actor), "the inward sofa station stands on the actual -.42 floor");
   assert.deepEqual(pit.points.slice(1, 1 + lounge.exitPath.length), lounge.exitPath, "the authored pit circulation remains exact");
   assert.deepEqual(
     slopes(pit).map(([a, b]) => [a[1], b[1]]),
@@ -149,8 +159,8 @@ test("retreat bedroom/study uses the whole compact spiral and library destinatio
   const sleep = room("sleep"),
     study = room("study"),
     reading = room("library");
-  const down = roomRoute(config, sleep, study, sleep.actor),
-    up = roomRoute(config, study, sleep, study.actor);
+  const down = roomRoute(config, sleep, study, sleep.walkActor || sleep.actor),
+    up = roomRoute(config, study, sleep, study.walkActor || study.actor);
   assert.equal(down.connection, "bedroom-study");
   assert.equal(slopes(down).filter(privateStair).length, privateRisers);
   assert.equal(slopes(down).filter(mainStair).length, 0);

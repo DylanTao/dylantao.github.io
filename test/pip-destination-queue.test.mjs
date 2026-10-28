@@ -2,14 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import * as THREE from "../assets/js/three.module.min.js";
-import { GLTFLoader } from "../assets/js/vendor/three-r164/loaders/GLTFLoader.js";
+import { loadNativeModel } from "./helpers/coastal-native-avatar.mjs";
 import { createWorldCompanion } from "../assets/js/home-scene/companion.mjs";
 import { companion } from "../assets/js/companion/bridge.mjs";
 import { createPipMotion } from "../assets/js/companion/motion.mjs";
 
 async function rig(t) {
-  const bytes = readFileSync(new URL("../assets/models/pip/pip.glb", import.meta.url)),
-    body = (await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), "")).scene,
+  const body = (await loadNativeModel("../pip/pip.glb")).scene,
     config = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8")),
     camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100),
     container = new EventTarget();

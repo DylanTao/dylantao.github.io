@@ -1,0 +1,330 @@
+{
+  "v20": {
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/character-contacts.json": {
+      "bytes": 73055,
+      "sha256": "be9b64e0c67d352868e4158f0a560592429a58aeb9b4556a11248ff9facb43ae"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/character-finish.blend": {
+      "bytes": 18252494,
+      "sha256": "8ea70c827443c262b79398d10b5918662efe9a0584971f0a4c70c61549be2a73"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/coastal_tail_anatomy.py": {
+      "bytes": 15634,
+      "sha256": "9744e03ceec5a4a38b4a50fafe16d38850421503175833ade901e044c4beb9e9"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/coastal_tail_port.py": {
+      "bytes": 9696,
+      "sha256": "2e7ebc0c751d469d266741af4d3734042b9e59a1a8397d3d8ed401dcb7ccf0b5"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/decoded-seat-contacts.json": {
+      "bytes": 709145,
+      "sha256": "30295fb2ed0de68183f9927f6fedeaae468b70b11f5a3ef33f49647b0a7c59be"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/native-seat-contacts.json": {
+      "bytes": 577267,
+      "sha256": "68084d2e5fd8301c6b8cb4144753f93f7bce58010f397b27b7737f55fd3300cd"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/native-source-fk.json": {
+      "bytes": 84141,
+      "sha256": "f7c4f1447b2ec774e5a52da819bd0738770b38641b9e80ec8f216ab5b77c840b"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/person-controls.json": {
+      "bytes": 11690,
+      "sha256": "f967564dea06b3005b4199f527cbeda6fc4523861e5dea0c2e03d1c15c2db8e4"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/receipt.json": {
+      "bytes": 5491,
+      "sha256": "02a09b8257bb0086ffe5f5a60056aab8a8751cb8c4ca9d4d965dcc2f741b47c1"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/refresh_coastal_tail_anatomy.py": {
+      "bytes": 2533,
+      "sha256": "935b7144b675507fdf41c3f243ecbeb8708786fdfb7b15e0cc59fcf94337e304"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/short-cap-witness.json": {
+      "bytes": 1407,
+      "sha256": "91eb7bb75e32573946c52610823c038854408ac22f4af42df7fd2e8cc1f14a73"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/sirui-ghibli.glb": {
+      "bytes": 858356,
+      "sha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/sirui-lizard.glb": {
+      "bytes": 640796,
+      "sha256": "4a8a03fe1262cf34fe11c24e43a6cc637e5d20f3c528f943fcc99441df9b1f51"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/sirui-rick-and-morty.glb": {
+      "bytes": 661616,
+      "sha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/sirui-simpsons.glb": {
+      "bytes": 666964,
+      "sha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v20/sirui-south-park.glb": {
+      "bytes": 714480,
+      "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63"
+    }
+  },
+  "v21": {
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/articulated-transfer-first.json": {
+      "bytes": 269195,
+      "sha256": "ba9e41119bca808b71233ae26a9101723d9624959991e1dc4fdc22ab1abf7e93"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/character-contacts.json": {
+      "bytes": 73054,
+      "sha256": "7b576f43b7538e989bbe64d6e435ca144508ba88b5f5ac3515a6f55632f414ee"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/character-finish.blend": {
+      "bytes": 18246802,
+      "sha256": "cdcf174b7d6fbf2ef432d80a4f817389644af1c9bf3b3352abdb769499416351"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/coastal_tail_anatomy.py": {
+      "bytes": 16898,
+      "sha256": "09a91ccba0b328eaef7dec1a68d6645fc9ff399fe9fc1928de416d935ad07e76"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/coastal_tail_port.py": {
+      "bytes": 9696,
+      "sha256": "2e7ebc0c751d469d266741af4d3734042b9e59a1a8397d3d8ed401dcb7ccf0b5"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/cover-first-full-witnesses.json": {
+      "bytes": 173799,
+      "sha256": "5121812224150f20d18b3173384688c646f91dce3114d6e6ba6da1cdd57c2fc0"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/decoded-bed-feet.json": {
+      "bytes": 1061142,
+      "sha256": "fabd8d0912a4ed5140c970e9e8fa3aed6e0b475ef9493b4cebb5652105deb9d1"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/decoded-seat-contacts.json": {
+      "bytes": 709144,
+      "sha256": "f2e015782e64055866b856ff0ae633d5660d237438b5413b68b2bcc6b7925e88"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/manifest.json": {
+      "bytes": 607117,
+      "sha256": "c856dc109f956594df7b4ef5ae19a5ddcc523d8bbb6ef52f6a6bafcd96e9ff60"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/native-seat-contacts.json": {
+      "bytes": 577267,
+      "sha256": "abdfdc9c34aa3455d2c802b044a21b3a4238fea5f2d077501c91548d210e94e4"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/native-source-fk.json": {
+      "bytes": 64469,
+      "sha256": "f1ed9de0f5ecb0149aa28e38c8e05490f6ce892e884e8d537116935183c07cc8"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/native-tail-binding.json": {
+      "bytes": 931567,
+      "sha256": "8cb4a5e5c1ee646255b0d7760db6629e5bce10bfe74dcf4e2757355e9286d521"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/receipt.json": {
+      "bytes": 6038,
+      "sha256": "de3337fbb3265a7e24107d2b83eeaa92727f46bcaa1a046da062978dbb6685af"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/refresh_coastal_tail_anatomy.py": {
+      "bytes": 2533,
+      "sha256": "935b7144b675507fdf41c3f243ecbeb8708786fdfb7b15e0cc59fcf94337e304"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/sirui-ghibli.glb": {
+      "bytes": 858356,
+      "sha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/sirui-lizard.glb": {
+      "bytes": 640796,
+      "sha256": "3ef31e192619dffa461415ef08e5aa21e730bad743908ea226cf637a1c4c0010"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/sirui-rick-and-morty.glb": {
+      "bytes": 661616,
+      "sha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/sirui-simpsons.glb": {
+      "bytes": 666964,
+      "sha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/sirui-south-park.glb": {
+      "bytes": 714480,
+      "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/tail-articulation-first.mjs": {
+      "bytes": 8869,
+      "sha256": "e6a1ec9e9f99eaf1693f6abf2fa9908fbe523ad7d6e110ee7e2085a442eee14d"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v21/tail-binding-readback.json": {
+      "bytes": 18416,
+      "sha256": "4560bf8d6f7d1a3fd4315960a105adfc28c2bcb6593ea78f74adbba1130975e9"
+    }
+  },
+  "v22": {
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/articulated-transfer-diagnostic.json": {
+      "bytes": 237119,
+      "sha256": "9a2537e7c5c39d8c7d1ca3d750aba2de0cbd86dee2436e9d8055560895437764"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/articulated-transfer-full.json": {
+      "bytes": 3487656,
+      "sha256": "deec07cef47c04c2104cd65045708be7f6b7a1c10e1328029fb4edfea3c77b8d"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/character-contacts.json": {
+      "bytes": 74758,
+      "sha256": "2dcfb85335fec7e6a1cb5218f98dd753553e5361564e88a5f2b137e1f9d88593"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/character-finish.blend": {
+      "bytes": 18252336,
+      "sha256": "1019ad96d921662c95fd305747ed7f959de0e5af3e3c0da5ad3dd05255e73325"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/coastal_tail_anatomy.py": {
+      "bytes": 17205,
+      "sha256": "f2984d3b534b547c44b9fde31a2b7046e0169415b7189044469b53e75f7dbd10"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/coastal_tail_port.py": {
+      "bytes": 9696,
+      "sha256": "2e7ebc0c751d469d266741af4d3734042b9e59a1a8397d3d8ed401dcb7ccf0b5"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/contact-geometry-diagnostic.json": {
+      "bytes": 16439,
+      "sha256": "f7de5c41a9d10860b4f8a832df030d9e9ee15bc7865ebdaa9cb43acefcddb9f5"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/decoded-bed-feet.json": {
+      "bytes": 1061142,
+      "sha256": "32e54e8c8826fe59aa5dfb4d75fc8a781e2167e23b7cbe2c22f55bb7127f5bb4"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/decoded-seat-contacts-fullpatch-REJECTED.json": {
+      "bytes": 43053768,
+      "sha256": "87361eaedb6bdf3ffc93ee1095596afe68ecf799b7df90dd8965c97615b4959a"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/decoded-seat-patch-diagnostic.json": {
+      "bytes": 840539,
+      "sha256": "573a523f7c9deda3a116ff62d48a54e87bfdc4ee4a5594a09811b9ca92926e4e"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/manifest.json": {
+      "bytes": 607117,
+      "sha256": "190eadde22887338b9d1fcf8160b7d461e1f23028847e20b6b974d5d1a23f49a"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/native-readback.log": {
+      "bytes": 566,
+      "sha256": "eb6151c29145c896350d83e900a7f72712a17113e04e3a8c37206d23a6de9ea6"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/native-seat-contacts-fullpatch.json": {
+      "bytes": 43730410,
+      "sha256": "f901b7a077375b57e9ca2df89d8ad54bfa6c19023e3722bcd3f08bdf183a3afe"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/native-seat-contacts.json": {
+      "bytes": 577272,
+      "sha256": "d6cfe28fac05020ddba54c936dc84cd6e8001863522f4cd4a23e9539d119c83e"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/native-tail-binding.json": {
+      "bytes": 941767,
+      "sha256": "e1dc00cdfeaef18713b92b903c8281841a648c3ab61b91c21869fc85504ac014"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/receipt.json": {
+      "bytes": 6021,
+      "sha256": "68c1846548a038adf0eb673be4f7ad277bc184f140e58771b0663023b570fd2b"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/refresh_coastal_tail_anatomy.py": {
+      "bytes": 2533,
+      "sha256": "935b7144b675507fdf41c3f243ecbeb8708786fdfb7b15e0cc59fcf94337e304"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/rejected-roll-native-4k.png": {
+      "bytes": 7935381,
+      "sha256": "f2859050385eb231d202bef43c9b406d5e3c3311f34c8855b5315cf8542e1cd3"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/render-4k.log": {
+      "bytes": 34326,
+      "sha256": "00d69e9588f96e4e1406713fa487a675891b6d02c95238959ee3bdc476ded948"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/render-evidence.json": {
+      "bytes": 1001,
+      "sha256": "faf6563a6d493f936c02a6ec774f16d4422bf7b1338b036f0783a877cb9e3b2b"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/render-geometry.json": {
+      "bytes": 5744519,
+      "sha256": "03b566d57e88d8a141a37462ea4bb38d06940920581d28d1945f12fe5d7c621e"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/sirui-ghibli.glb": {
+      "bytes": 858356,
+      "sha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/sirui-lizard.glb": {
+      "bytes": 641240,
+      "sha256": "c6a92386a8669679429a82642d18e69c5b4550796fbbc09ca6a7a3911e2eed58"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/sirui-rick-and-morty.glb": {
+      "bytes": 661616,
+      "sha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/sirui-simpsons.glb": {
+      "bytes": 666964,
+      "sha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/sirui-south-park.glb": {
+      "bytes": 714480,
+      "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/source-audit.json": {
+      "bytes": 11690,
+      "sha256": "bf69bdb10ab6e014941a9de1801eb123d20edc07daf82104721591976a6f389d"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/source-audit.log": {
+      "bytes": 15690,
+      "sha256": "46db1d703199bebc7bbf63d5498141974597915f940a681199941dd82ab9759f"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/tail-articulation.mjs": {
+      "bytes": 8871,
+      "sha256": "63cf1f7a709801fdb0a42405da70539a211ed7646f2c28288cf7b9ef5a862e6c"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/tail-binding-readback.json": {
+      "bytes": 18412,
+      "sha256": "802596ef11b8e8f00e14b3b567ba3e85b92362007d41ae1222fa2de3772ce7a2"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/transfer-diagnostic.log": {
+      "bytes": 2976,
+      "sha256": "c27bf39f75bc7a1032d25a18280f1e39880212ea9d318c73dc1d07cddb7d3302"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/transfer-full.log": {
+      "bytes": 2962,
+      "sha256": "d6c9f6218e0cfc4991e021f3e97e125e0821ffb967b9903a0ff1a523fd884209"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/whole-body/topology.json": {
+      "bytes": 1581293,
+      "sha256": "52ade5a0acae472088591def207721241d7f045f625b2632d059d64b09089d80"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/whole-body-audit.json": {
+      "bytes": 1445774,
+      "sha256": "682ea55d8a8ee71c110ef0a3ee7b22c40c45b1f7d1277a5ac4961d14c6cb9ed2"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v22/whole-body-audit.log": {
+      "bytes": 99040,
+      "sha256": "6523832eb1c43a26c0664a622fa1d4436a8df7161c5518cbddb8d766d77d9d4c"
+    }
+  },
+  "v23": {
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v23/character-contacts.json": {
+      "bytes": 74758,
+      "sha256": "2dcfb85335fec7e6a1cb5218f98dd753553e5361564e88a5f2b137e1f9d88593"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v23/manifest.json": {
+      "bytes": 607117,
+      "sha256": "190eadde22887338b9d1fcf8160b7d461e1f23028847e20b6b974d5d1a23f49a"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v23/sirui-lizard.glb": {
+      "bytes": 641240,
+      "sha256": "c6a92386a8669679429a82642d18e69c5b4550796fbbc09ca6a7a3911e2eed58"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v23/transfer.json": {
+      "bytes": 3750956,
+      "sha256": "6cd2a2fbe56b4735ba7fdd5c98ed6764f37c4562bc4d278b428e25732d2e6ae3"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v23/transfer.log": {
+      "bytes": 2946,
+      "sha256": "7e85f448913db7a6595a08f31f4955d27dcc50aa848962478b81aa554d0988b6"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v23/whole-body/topology.json": {
+      "bytes": 1581293,
+      "sha256": "52ade5a0acae472088591def207721241d7f045f625b2632d059d64b09089d80"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v23/whole-body-audit.json": {
+      "bytes": 793859,
+      "sha256": "1535251bf27d6993d31415edd60c0a2abbaf8a6493f99c709628c192086b8ccf"
+    },
+    ".jekyll-cache/visual-qa/tail-finish-2026-10-28/v23/whole-body-audit.log": {
+      "bytes": 54608,
+      "sha256": "d07035daadb7ada43cf12e26dbd972e37d8e626f2f502a9b85e8c56528b9d8eb"
+    }
+  }
+}

@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import * as THREE from "../assets/js/three.module.min.js";
-import { GLTFLoader } from "../assets/js/vendor/three-r164/loaders/GLTFLoader.js";
+import { loadNativeModel } from "./helpers/coastal-native-avatar.mjs";
 import { createPipClearanceFlight, samplePipClearanceFlight } from "../assets/js/companion/clearance.mjs";
 import { createWorldCompanion } from "../assets/js/home-scene/companion.mjs";
 import { roomRoute } from "../assets/js/home-scene/navigation.mjs";
@@ -11,8 +11,7 @@ import { createPipMotion } from "../assets/js/companion/motion.mjs";
 
 const config = JSON.parse(readFileSync(process.env.COASTAL_MANIFEST_PATH || new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
 async function nativeP() {
-  const bytes = readFileSync(new URL("../assets/models/pip/pip.glb", import.meta.url));
-  return (await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), "")).scene;
+  return (await loadNativeModel("../pip/pip.glb")).scene;
 }
 const room = (id) => config.rooms.find((r) => r.id === id);
 const route = (from, to) => [
@@ -49,7 +48,7 @@ test("P's upper and stair detours preserve all source points and the human route
   assert.deepEqual(air.points.at(-1), source.at(-1));
   if (config.retreat) {
     assert.ok(
-      air.points.some((p) => p[1] === 2.6),
+      air.points.some((p) => p[1] === room("sleep").floor),
       "the actual bedroom connection reaches the upper floor"
     );
     assert.equal(roomRoute(config, room("study"), room("sleep"), source[0]).connection, "bedroom-study");

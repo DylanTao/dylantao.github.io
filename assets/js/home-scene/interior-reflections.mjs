@@ -1,4 +1,5 @@
 import * as THREE from "../three.module.min.js";
+import { compileOwnedPrograms } from "./program-lifetime.mjs";
 
 const MIRROR = "bathroom satin mirror";
 const FRAME_INTERVAL = 1000 / 15;
@@ -166,15 +167,8 @@ export function createInteriorReflections({
     });
   }
 
-  // Every temporary mutation, including an aborted asynchronous warmup, uses this custody.
-  async function inRoomAsync(record, context, draw) {
-    const restore = captureState(record, context);
-    try {
-      return await draw();
-    } finally {
-      restore();
-    }
-  }
+  // Restore all shared draw state immediately after submitting work. Driver
+  // completion must not hold a room, target or clipping state between frames.
   function inRoom(record, context, draw) {
     const restore = captureState(record, context);
     try {
@@ -286,10 +280,18 @@ export function createInteriorReflections({
         lightRoom(record.id);
         const view = reflectInteriorCamera(camera, record.plane, reflected);
         if (!view) continue;
-        await inRoomAsync(record, reflectionContext(record, view), async () => {
-          clearReflection();
-          await renderer.compileAsync(scene, view.camera);
-        });
+        let complete = false;
+        for (let attempt = 0; attempt < 2 && !complete; attempt++) {
+          if (disposed || !shouldContinue()) return;
+          const pending = inRoom(record, reflectionContext(record, view), () => {
+            clearReflection();
+            return compileOwnedPrograms(renderer, scene, view.camera, scene, () => !disposed && shouldContinue());
+          });
+          complete = await pending;
+        }
+        // A streamed avatar can retire one snapshot while the driver links it.
+        // Retry once with the current scene; never poll the retired GL handle.
+        if (!complete) return;
       }
       prepared = !disposed && shouldContinue();
     } finally {

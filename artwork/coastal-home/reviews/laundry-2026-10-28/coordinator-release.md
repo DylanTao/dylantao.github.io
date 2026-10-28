@@ -1,0 +1,13 @@
+# Coordinator admission - October 28
+
+The coordinator admitted only native source `92c06962eabe924b1e4cd91b32d06f23fa6407b63d83e64828c8309c03ce51ca` and the reviewed shell `9cb7746437d43c6e8c40651d3b26994f81d1893186d7933626adfcad71a5998f`, alongside the three laundry modules. Newer room cameras, labels, transfers, Lizard guard and other model families remain in the combined build.
+
+The complete native and decoded overlap audits were rerun against the actual canonical source path and all thirteen current exports. Both full reports are retained under `evidence/`; the canonical compact report is produced by `bin/summarize_coastal_overlaps.py`, with the previous before-repair record retained. All five overlap tests pass without raising any threshold. Native visible z-fighting is 0.7289 square metres; decoded is 1.1715. The current canonical export receipt contains the actual 457 native mesh records, including the new mast.
+
+The official light baker produced a 792,090-byte cache, source signature `ab6b6b787d90c14aea70de6a8a4145e7c90ad3daab60400a49d06fd680a8876a`, SHA `44f3bbc4da3f63d1f57d9663fc9753fb4e9a661601423b607c77575b382da077`. It traces 619,809 triangles; total potential geometry is 735,932, below the unchanged 750,000 cap. The loading sketch was recaptured from the actual source; index plus largest room totals 69,243 normalized gzip bytes. Perch support was regenerated from the admitted master and decoded shell, rather than hand-rebinding its hashes.
+
+Combined Chromium checks retain all four room/cloth viewport widths and the actual bedroom/pool journeys, with a separate native 4K inspection. Linux WebKit passes the same room sweep and both journeys on a localhost origin. The first bridge-host run correctly refused the SHA-based character binding because plain nonlocal HTTP has no secure-context WebCrypto; the final proxy preserves a real localhost browser origin. No assertion was relaxed. The mobile architecture case uses the existing public zoom button because mobile WebKit has no mouse-wheel API; the dedicated pinch case remains separate.
+
+The later [program-lifetime packet](../program-lifetime-2026-10-28/README.md) records a separate shader retirement repair and official re-bake: final signature `446cb58634c9d9c6d2e8a3c4d076c41fed18dfb1ff0bac95397d886e46411b39`, 792,217 bytes. It repeats the compiled room/journey gates in Chromium and Linux WebKit and preserves the earlier cache/proof scope above. Native geometry and the laundry admission hashes are unchanged.
+
+This local admission does not claim publication, physical-iPhone performance or smooth high-resolution wide views. Release/live verification is recorded separately after the coordinator pushes the verified checkpoint.

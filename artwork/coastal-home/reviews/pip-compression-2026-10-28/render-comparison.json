@@ -1,0 +1,14 @@
+{
+  "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "bounds": {
+    "min": [-0.4561328708591974, -0.5499999970197678, -0.2529999911785126],
+    "max": [0.45613284879294813, 0.9470000248402357, 0.3700000047683716]
+  },
+  "width": 3840,
+  "height": 2160,
+  "changedAbove3Levels": 344,
+  "changedShare": 0.00004147376543209877,
+  "meanMaxChannelDelta": 0.009600212191358025,
+  "maximumChannelDelta": 55,
+  "scope": "Real pinned Three/WebGL materials in a neutral standalone studio. Geometry compression qualification; whole-home motion/loading and device timing are separate gates."
+}

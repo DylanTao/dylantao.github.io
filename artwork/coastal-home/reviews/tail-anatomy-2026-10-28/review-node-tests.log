@@ -1,0 +1,39 @@
+(node:24296) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/finish-tail/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\finish-tail\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ seat offsets follow the actual decoded proximal patch across each complete lounge clip (2962.8001ms)
+✔ zero-compression placements use the measured witness offsets in the actual seat frame (1.6482ms)
+(node:50276) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/finish-tail/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\finish-tail\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ rejected v22 replays all249 source-bound whole-tail furniture phases and its actual cloth/body failure (5460.7546ms)
+ℹ {"phases":249,"vertices":1872,"centroids":3740,"hard":0,"soft":0,"bodyFailurePhase":64,"skin":205,"shirt":79,"shorts":817}
+✔ rejected v23 replays all249 source-bound whole-tail furniture phases and its actual cloth/body failure (12162.0652ms)
+ℹ {"phases":249,"vertices":1872,"centroids":3740,"hard":1178,"soft":629,"bodyFailurePhase":248,"skin":0,"shirt":0,"shorts":64}
+(node:63320) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/finish-tail/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\finish-tail\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ the source-bound independent roll control fails whole-tail body clearance despite clearing bed furniture (2378.0563ms)
+ℹ {"seconds":1.525,"vertices":416,"centroids":828,"skin":50,"shirt":6,"shorts":62,"witness":{"kind":"skin","obstacle":"Sphere002","vertex":96,"position":[-6.775894446596821,2.5412687009732324,6.989073191879115]}}
+✔ the body probe rejects missing actual skin and clothes (1.6268ms)
+(node:62848) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/finish-tail/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\finish-tail\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual source-bound unsafe Lizard control fails hard-bed clearance at the captured rolling phase (994.1887ms)
+ℹ {"seconds":0.475,"vertices":416,"triangleCentroids":828,"hard":44,"soft":34,"hardMeshes":["sleep__honey_ash","sleep__pale_oak","sleep__charcoal","sleep_reno_wardrobe__pale_oak","sleep_reno_wardrobe__honey_ash","sleep_reno_wardrobe__polished_nickel"]}
+✔ tail contact evidence fails closed when the real bed or its made cover is absent (1.5004ms)
+✔ tail corrective holds exact zero for standing, preserves Blink and follows reversible seated weights (2.0151ms)
+✔ tail corrective clamps invalid blend inputs without changing public rigs or other models (0.4277ms)
+✔ a coupled garment rim follows the same reversible weight while its other morphs stay intact (0.3052ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18549.2206

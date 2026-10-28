@@ -1,5 +1,5 @@
 {
-  "head": "a0cbf867736141314ba823e143a2d7489ef11c2c",
+  "head": "e91430e5d85c86607750a351ed7739d184a0c2be",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -9,7 +9,9 @@
     "estate-redesign.spec.js",
     "footer-dusk.spec.js",
     "coastal-finish.spec.js",
-    "loading-drawing.spec.js"
+    "loading-drawing.spec.js",
+    "architecture-finish.spec.js",
+    "room-journeys.spec.js"
   ],
   "groups": {
     "scene-core-1": [
@@ -356,6 +358,10 @@
       {
         "file": "coastal-finish.spec.js",
         "title": "coastal weather: retained natural rain clears the actual roofs, falls outside and holds when motion stops"
+      },
+      {
+        "file": "architecture-finish.spec.js",
+        "title": "finished house: adjacent bedchamber, library patio leaf and composed exterior remain visible through public room visits"
       }
     ],
     "scene-gym": [
@@ -386,6 +392,14 @@
       {
         "file": "desk-scene.spec.js",
         "title": "coastal home: recovery preserves a stair journey and composes a changed clock activity"
+      },
+      {
+        "file": "room-journeys.spec.js",
+        "title": "coastal journeys: the real routine crosses the adjacent bedroom stairs in both directions"
+      },
+      {
+        "file": "room-journeys.spec.js",
+        "title": "coastal journeys: the pool visit uses real entry steps, holds on its floor and returns dry"
       }
     ],
     "scene-live": [

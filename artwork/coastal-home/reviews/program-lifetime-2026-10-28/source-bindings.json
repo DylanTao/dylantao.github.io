@@ -1,0 +1,23 @@
+{
+  "pinnedThree": "assets/js/three.module.min.js",
+  "pinnedThreeSha256": "d08334115492bd88100491499f9dc9c830759154e524ec536739d1dacb2bce18",
+  "files": [
+    {
+      "path": "assets/js/home-scene/program-lifetime.mjs",
+      "lfSha256": "62ae3d6367b06a4181bd0df200ac6444240b2e4270e008d7d0834eb14cb17c9c"
+    },
+    {
+      "path": "assets/js/home-scene/program-warmup.mjs",
+      "lfSha256": "fd05e71eb639b5d1d90445c89ee39ce8ef32835e43bf4cf74b3b879a43c93eb4"
+    },
+    {
+      "path": "assets/js/home-scene/walk-presence.mjs",
+      "lfSha256": "1c06f6464a3bccc74bbfa41dd322894014fe927fc96c9b70915069f593811156"
+    },
+    {
+      "path": "test/program-lifetime.test.mjs",
+      "lfSha256": "10e242d50f215a15226849e3af274338a65724d7081b0f1230ed03df3cf274ff"
+    }
+  ],
+  "scope": "Initial guard draft, before mirror preparation and deferred material-retirement follow-ups. Exact reconstructed authored drafts are retained under initial-source only where their recorded LF SHA matches. Final current bindings are recorded separately after qualification."
+}

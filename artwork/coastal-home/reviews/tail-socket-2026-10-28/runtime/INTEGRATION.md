@@ -1,0 +1,3 @@
+The exact scalar/rim runtime recipe from commit `3109a5c4c2892bc3294b092388f975daa4a6f682` is retained here with its original path and LF hash in `manifest.json`. The sealed earlier commits are unchanged. Negative controls and the old-morph authoring probe import this review copy, so selective integration does not require unused scalar code in public runtime assets.
+
+The later articulated anatomy is a separate worker candidate. Its helper may become active only after source-bound body, cloth, furniture, transfer and 4K gates pass and the coordinator integrates it. This review recipe remains rejected.

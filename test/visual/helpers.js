@@ -126,7 +126,8 @@ function collectRuntimeErrors(page) {
   page.on("pageerror", (error) => errors.push(`pageerror: ${error.message}`));
   page.on("console", (message) => {
     const text = message.text();
-    if (message.type() === "error" && !NON_ACTIONABLE_CONSOLE_ERRORS.has(text) && !isExpectedExternalStubIntegrityError(text)) {
+    const invalidProgram = /INVALID_(?:VALUE|OPERATION)/i.test(text) && /getProgramParameter|glGetProgramiv/i.test(text);
+    if ((message.type() === "error" || invalidProgram) && !NON_ACTIONABLE_CONSOLE_ERRORS.has(text) && !isExpectedExternalStubIntegrityError(text)) {
       errors.push(`console.error: ${text}`);
     }
   });

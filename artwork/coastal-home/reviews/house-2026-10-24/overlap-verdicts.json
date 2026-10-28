@@ -1,5 +1,5 @@
 {
-  "description": "Reviewed verdicts for the October 24 overlap audit's ranked pairs. Each bound is about 25% above the measured value, so a reviewed pair that grows is ranked for review again. Verdicts: designed (an intended joint, inlay or soft compression), hidden (faces no camera reaches), built-into-rock, planting, deferred (to a named item), follow-up (a recorded small defect).",
+  "description": "Reviewed verdicts for the October 24 overlap audit's ranked pairs. Each bound is about 25% above the measured value, so a reviewed pair that grows is ranked for review again. Verdicts: designed (an intended joint, inlay or soft compression), hidden (faces no camera reaches), built-into-rock, planting, deferred (to a named item), follow-up (a recorded small defect). October28 v84 additions were reviewed separately against exact native/decoded source, visible room/exterior/rail sections and actual supported routes. Three existing seam refreshes use tightly rounded observed values, and the rail depth uses1mm; no global threshold changed.",
   "pairs": {
     "bath-bedroom__bathroom celadon ceramic | bath-bedroom__chalk limestone": {
       "verdict": "designed",
@@ -99,9 +99,14 @@
     },
     "core__golden coastal sandstone | core_arrival_court__travertine paving stone": {
       "verdict": "designed",
-      "reason": "The forecourt's paving is bedded in the ground along its edges.",
+      "reason": "The forecourt's paving is bedded in the ground along its edges. Complete v84 source readback measures 2.329 m of seam. Coordinator review keeps the same joint disposition with a tightly rounded local bound; the larger proposed 25% refresh was not adopted.",
       "maxDepthM": 0.061,
-      "maxSeamM": 2.3
+      "maxSeamM": 2.35,
+      "previousMaxSeamM": 2.3,
+      "observedSeamM": 2.329,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
     },
     "core__golden coastal sandstone | core_arrival_court__warm cut stone": {
       "verdict": "built-into-rock",
@@ -149,9 +154,14 @@
     },
     "core__golden coastal sandstone | core_flora_lemonade_berry_shade": {
       "verdict": "planting",
-      "reason": "Lemonade berry shrub masses on the slope: the uphill side of each mass sits in the ground, the downhill side is exposed, as on a real hillside.",
+      "reason": "Lemonade berry shrub masses on the slope: the uphill side of each mass sits in the ground, the downhill side is exposed, as on a real hillside. Complete v84 source readback measures 10.9647 m of seam. Coordinator review keeps the same joint disposition with a tightly rounded local bound; the larger proposed 25% refresh was not adopted.",
       "maxDepthM": 0.391,
-      "maxSeamM": 10.59
+      "maxSeamM": 11.0,
+      "previousMaxSeamM": 10.59,
+      "observedSeamM": 10.9647,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
     },
     "core__golden coastal sandstone | core_flora_sage": {
       "verdict": "planting",
@@ -221,9 +231,14 @@
     },
     "core_bathwing_lower_slab__warm cut stone | core_retreat_gallery__warm cut stone": {
       "verdict": "hidden",
-      "reason": "The corridor floor bed meets the bathroom wing's lower slab under the corridor floor.",
+      "reason": "The corridor floor bed meets the bathroom wing's lower slab under the corridor floor. Complete v84 source readback measures 7.6085 m of seam. Coordinator review keeps the same joint disposition with a tightly rounded local bound; the larger proposed 25% refresh was not adopted.",
       "maxDepthM": 0.088,
-      "maxSeamM": 5.26
+      "maxSeamM": 7.65,
+      "previousMaxSeamM": 5.26,
+      "observedSeamM": 7.6085,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
     },
     "core_bathwing_upper_slab__warm cut stone | core_retreat_gallery__warm cut stone": {
       "verdict": "deferred",
@@ -514,6 +529,127 @@
       "reason": "Retained sofa/limestone crossing near native [2.768,-6.077,-0.119]. The delivered sofa and lounge meshes are unchanged by this cliff/plant repair. Removing the chimney/agave interference exposes this formerly lower-ranked pair in the top 60; no repair of it is claimed. Inspect the sofa base and floor before moving either.",
       "maxDepthM": 0.04,
       "maxSeamM": 9.6
+    },
+    "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling": {
+      "verdict": "hidden",
+      "reason": "The new bounded stair/bedchamber excavation leaves these two retained liftaway cliff-roof solids intersecting inside the rock above the bathroom; no occupied support top is changed.",
+      "maxDepthM": 0.3489,
+      "maxSeamM": 11.419,
+      "observedDepthM": 0.2783,
+      "observedSeamM": 9.126900000000003,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "core_liftaway_cave_ceiling | core_retreat_liftaway_roof": {
+      "verdict": "hidden",
+      "reason": "Retained cliff roof and upper retreat closure overlap within the hidden roof mass; both retain their cutaway and physical support ownership.",
+      "maxDepthM": 0.3514,
+      "maxSeamM": 9.804,
+      "observedDepthM": 0.2803,
+      "observedSeamM": 7.8353,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "bath-living__chalk limestone | core_finish_corridor_niche_wall__chalk limestone": {
+      "verdict": "designed",
+      "reason": "The rounded corridor niche liner embeds into the original bathroom partition. Its public face and recess remain in the corridor; measured body routes stay clear.",
+      "maxDepthM": 0.0729,
+      "maxSeamM": 10.263,
+      "observedDepthM": 0.0575,
+      "observedSeamM": 8.2028,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "core_finish_bedchamber_rock_fin__La Jolla bluff sandstone | core_retreat_gallery__pale oak": {
+      "verdict": "built-into-rock",
+      "reason": "The fitted bedchamber rock return bears on the original gallery floor layers. The embed is local and the original upward oak walking surface remains authoritative.",
+      "maxDepthM": 0.1043,
+      "maxSeamM": 1.963,
+      "observedDepthM": 0.0826,
+      "observedSeamM": 1.5625,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "core_finish_bedchamber_rock_fin__La Jolla bluff sandstone | core_retreat_gallery__warm cut stone": {
+      "verdict": "built-into-rock",
+      "reason": "Stone under the gallery oak supports the bedchamber return; this is the same local floor/rock bearing, below the unchanged walking top.",
+      "maxDepthM": 0.132,
+      "maxSeamM": 1.028,
+      "observedDepthM": 0.1048,
+      "observedSeamM": 0.8148,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "core_estate_pool__sea glass pool mosaic | core_finish_pool_front_box_girder": {
+      "verdict": "designed",
+      "reason": "The concrete is15mm behind the retained wet mosaic face, leaving no same-facing coplanar area. Remaining crossings are the retained lining/footer corners into their backing; overflow trough and bearing stay fixed.",
+      "maxDepthM": 0.0435,
+      "maxSeamM": 13.502,
+      "observedDepthM": 0.034,
+      "observedSeamM": 10.7939,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "core_estate_garden__warm cut stone | core_flora_iceplant": {
+      "verdict": "planting",
+      "reason": "The existing iceplant foliage is bedded into the retained stone/soil edge; the recorded maximum is43.1mm. This does not substitute for individual root contact evidence.",
+      "maxDepthM": 0.0549,
+      "maxSeamM": 9.673,
+      "observedDepthM": 0.0431,
+      "observedSeamM": 7.7305,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "core_finish_bedroom_spiral__honey ash | sleep_reno_wardrobe__pale oak": {
+      "verdict": "designed",
+      "reason": "Four capped rail ends terminate on the actual beveled closed wardrobe faces after an exact Boolean difference. Actual source probes show no interior rail penetration; source cap gap is at most 0.954 micrometres and the decoded contact error is 31.95 micrometres. The cabinet rises 0.864m above the rail and fills the guard interval. The former 96.7mm burial is removed. Coordinator depth ratchet is 1 mm, rather than the proposed 4 mm; exact native/decoded cap controls are the governing evidence.",
+      "maxDepthM": 0.001,
+      "maxSeamM": 0.25,
+      "observedInteriorDepthM": 0,
+      "evidence": "rail-and-roof-controls.json; rail-sections.png; decoded-node.log retained in QA",
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "core_flora_dry_grass | core_retreat_clifftop__warm cut stone": {
+      "verdict": "planting",
+      "reason": "The retained grass cards cross the edge of the clifftop stone where the planting bed meets the deck; no new hard collider or unsupported root is admitted by this verdict.",
+      "maxDepthM": 0.083,
+      "maxSeamM": 0.44,
+      "observedDepthM": 0.0656,
+      "observedSeamM": 0.34430000000000005,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "core_reno_floorboards_lower | lounge__chalk limestone": {
+      "verdict": "hidden",
+      "reason": "The local floorboard/retained lounge stone embed lies below the walking floor. Its14.3mm depth stays under the board thickness; no exposed coplanar top is doubled.",
+      "maxDepthM": 0.0189,
+      "maxSeamM": 13.311,
+      "observedDepthM": 0.0143,
+      "observedSeamM": 10.641099999999998,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "bath-living__bathroom celadon ceramic | core_finish_corridor_niche_wall__chalk limestone": {
+      "verdict": "designed",
+      "reason": "The retained celadon tile backing meets the new solid corridor niche partition at its back face. The measured 30mm embed is the tile/backing thickness inside that partition, away from the niche opening and occupied floor route.",
+      "maxDepthM": 0.04,
+      "maxSeamM": 2.25,
+      "observedDepthM": 0.03,
+      "observedSeamM": 1.7772,
+      "reviewState": "coordinator-reviewed v84",
+      "reviewedAt": "2026-10-28",
+      "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
     }
   }
 }

@@ -133,10 +133,12 @@ test("the home delivers two distinct bathrooms attached to its existing inhabite
     manifest.walk.mainEntryRoute.some((point) => distance(point, guest.route[0]) < 0.08),
     "the guest bathroom route starts on the real living-floor entrance circulation"
   );
-  const sleep = manifest.rooms.find((room) => room.id === "sleep");
+  // The bedroom moved beside the library at1.5m. The retained upper bathroom
+  // stays on its actual2.6m circulation; it is no longer a bedroom en suite.
   assert.ok(
-    [sleep.egress, ...sleep.exitPath].some((point) => distance(point, ensuite.route[0]) < 0.08),
-    "the en suite route starts on the bedroom's current usable circulation"
+    Math.abs(ensuite.route[0][1] - manifest.navigation.stairs.at(-1)[1]) < 0.01 &&
+      Math.abs(ensuite.route[0][2] - manifest.navigation.upperAisleZ) < 0.01,
+    "the upper bathroom route starts on the retained stair landing's actual upper aisle"
   );
   const house = await deliveredHouse();
   for (const room of [guest, ensuite]) {

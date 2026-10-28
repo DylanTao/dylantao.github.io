@@ -1,0 +1,59 @@
+{
+  "source": "artwork/pip/pip.blend",
+  "sourceSha256": "b9d6a60e9942e9f4f8bcad7c84a506ca30d51eb29847690f39accd10f4f33c38",
+  "blender": "4.5.9 LTS",
+  "previousGlbGitPath": "e91430e5d85c86607750a351ed7739d184a0c2be:assets/models/pip/pip.glb",
+  "recipe": ["bin/export_pip.py", "bin/pip_model_export.py"],
+  "settings": {
+    "level": 6,
+    "positionBits": 16,
+    "normalBits": 10,
+    "uvBits": 14,
+    "colorBits": 8,
+    "genericBits": 12,
+    "exportTexcoords": false
+  },
+  "nativeSourceModified": false,
+  "limits": [
+    "The tiny normal/UV/position quantization error is measured, not bitwise losslessness.",
+    "Standalone4K comparison is a geometry/render gate; whole-home loading, WebKit and phone timing remain separate."
+  ],
+  "files": [
+    {
+      "path": "after-4k.webp",
+      "bytes": 190718,
+      "sha256": "2d4b0a9f94fb2b86100f416969a3d976c0845fb42a08220c646a3bac50e13f59"
+    },
+    {
+      "path": "arrival-retirement-bound.json.gz",
+      "bytes": 761,
+      "sha256": "90106fb27447b5a683fdd4a51c43e22b48d0ddecc87c21b23c3c2eac3ad38e22"
+    },
+    {
+      "path": "arrival-retirement-lunch.json.gz",
+      "bytes": 12229,
+      "sha256": "b2eb8f581650798d9f82b4fac893b894ac14dfefc88f3ac7078d12db8df6722b"
+    },
+    {
+      "path": "before-4k.webp",
+      "bytes": 190682,
+      "sha256": "c68c819b3fe39b2994731b624345a48031033a58045d9d32204a534d057e398c"
+    },
+    {
+      "path": "geometry-comparison.json",
+      "bytes": 7135,
+      "sha256": "62653fed9bfe4c742d3a97bb950e04cf82083bc09b28ebeb995c53785dba72df"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2338,
+      "sha256": "ea024e584bcf766d3260ed6dac1b6f6b392fdf36f8ee45dce2842536d9f60432"
+    },
+    {
+      "path": "render-comparison.json",
+      "bytes": 639,
+      "sha256": "862ec36536fb2bcaa11c833291d387148700304e183ad87a1051529d55546a8e"
+    }
+  ],
+  "attributeScope": "No source textures, and no UV-driven P runtime materials; delivered UV omitted, nativeUVs retained. Positions/normals unchanged from the first compressed candidate."
+}

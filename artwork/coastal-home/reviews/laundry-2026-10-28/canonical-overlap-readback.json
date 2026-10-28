@@ -1,0 +1,41 @@
+{
+  "sourceAfterSha256": "92c06962eabe924b1e4cd91b32d06f23fa6407b63d83e64828c8309c03ce51ca",
+  "reports": [
+    {
+      "file": "C:\\dev\\site-takeover-worktrees\\finish-laundry\\.jekyll-cache\\visual-qa\\laundry-2026-10-28\\canonical-native-overlap.json",
+      "bytes": 28630130,
+      "sha256": "3dfc8aef6d1e7843484f03319ad6c089a4e3a1b0b30f0327979aaa6a46e1f4a1",
+      "source": "artwork/coastal-home/coastal-home.blend",
+      "sourceSha256": "92c06962eabe924b1e4cd91b32d06f23fa6407b63d83e64828c8309c03ce51ca",
+      "toolSha256": "925eaee2e04132dd7d1dbbd909d144b060af783352bf586452e7e6228350e5fe",
+      "manifestSha256": "b556f9732db18d094b0c8246e23028bd37bbd49aebc08e71004174bdac44ae54",
+      "delivered": false,
+      "models": 13,
+      "modelHashMismatches": [],
+      "deepSitesOver5cm": 288,
+      "deepSeverity": 33574.0,
+      "zFightingVisibleAreaM2": 0.7289,
+      "zFightingLargestPairM2": 0.201617,
+      "grazingSeamM": 3.257,
+      "newHardwareOffenders": 0
+    },
+    {
+      "file": "C:\\dev\\site-takeover-worktrees\\finish-laundry\\.jekyll-cache\\visual-qa\\laundry-2026-10-28\\canonical-delivered-overlap.json",
+      "bytes": 29267361,
+      "sha256": "05a674380d161a1f375e396d08219ffd5df64a31cddb6028adf0549c39454502",
+      "source": "artwork/coastal-home/coastal-home.blend",
+      "sourceSha256": "92c06962eabe924b1e4cd91b32d06f23fa6407b63d83e64828c8309c03ce51ca",
+      "toolSha256": "925eaee2e04132dd7d1dbbd909d144b060af783352bf586452e7e6228350e5fe",
+      "manifestSha256": "b556f9732db18d094b0c8246e23028bd37bbd49aebc08e71004174bdac44ae54",
+      "delivered": true,
+      "models": 13,
+      "modelHashMismatches": [],
+      "deepSitesOver5cm": 58,
+      "deepSeverity": 9958.2,
+      "zFightingVisibleAreaM2": 1.1715,
+      "zFightingLargestPairM2": 0.371003,
+      "grazingSeamM": 3.321,
+      "newHardwareOffenders": 0
+    }
+  ]
+}

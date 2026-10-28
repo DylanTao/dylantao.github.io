@@ -49,7 +49,7 @@ node artwork/la-jolla/reviews/surfer-2026-10-28/close-review.cjs
 # Pass --baseline to the close-review script for the retained pre-change view.
 ```
 
-This checkpoint is local and ready for coordinator integration. Publication and the combined release checks belong to the coordinator.
+The coordinator published the implementation in `8c6f4d018`, followed by the sampling repair in `da0c549a7`. [The release receipt](release-receipt.json) records all 41 green visual jobs and every triggered workflow's result. [Live readback](live-readback.json) binds 21 served files to Pages commit `682676355`, including both scene GLBs, the changed poster family, five compiled modules and both rendered routes. Minified JSON is checked against source data and its exact published blob; compiled modules bind raw source and build recipe. This proves publication, not physical-phone performance.
 
 ## Rendered-cycle test follow-up
 

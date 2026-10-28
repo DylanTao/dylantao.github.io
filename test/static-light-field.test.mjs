@@ -278,8 +278,8 @@ test("four bounded cove channels add occluded indirect bounce to closed bathroom
     "opaque geometry blocks every practical transport path"
   );
   assert.throws(
-    () => createStaticLightField({ ...options, practicalSources: Array.from({ length: 27 }, (_, i) => sources[i % sources.length]) }),
-    /at most 26 practicals/
+    () => createStaticLightField({ ...options, practicalSources: Array.from({ length: 29 }, (_, i) => sources[i % sources.length]) }),
+    /at most 28 practicals/
   );
   for (const item of [field, restored, incompatible, blocked]) item.dispose();
   scene.traverse((object) => {

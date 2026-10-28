@@ -1,0 +1,69 @@
+{
+  "checkedAtUtc": "2026-10-28T12:35:44.109610+00:00",
+  "sourceCommit": "f91cb61a703066f6182d58968528969bb8d6e06d",
+  "pagesCommit": "168280bdcf55105495b6c132b3165ae785ef2e9d",
+  "pagesSubject": "Deploying to gh-pages from @ DylanTao/dylantao.github.io@f91cb61a703066f6182d58968528969bb8d6e06d \u00f0\u0178\u0161\u20ac",
+  "scope": "Exact deployed homepage/blog HTML, compiled CSS/classic JS, three identity icons and the preferred coffee texture. Compiled files match the Pages Git blobs for this source commit; binary/source icons match main. This proves publication, not user taste acceptance or physical-phone performance.",
+  "modulePipeline": {
+    "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+    "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+    "compiler": "1.2.7",
+    "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3"
+  },
+  "files": [
+    {
+      "path": "assets/img/favicon.svg",
+      "bytes": 2122,
+      "sha256": "0803b8207e6d929b644cd80b7103146aa5379adee2f7c3fe6aca82b3e6cb66b0",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/img/favicon.ico",
+      "bytes": 4412,
+      "sha256": "ad9897fc9431c6f85ad17442411b59e2136d0d08a3d0b9906918335f1c121695",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/img/apple-touch-icon.png",
+      "bytes": 10368,
+      "sha256": "16d3f13daf3f20a5d9719fcf903e7fa53ddcd6fe53a175ecf97bbad746f9c3d6",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+      "bytes": 50038,
+      "sha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "index.html",
+      "bytes": 106251,
+      "sha256": "c8b066ed5ba56d3c9309a86e9e7d29d296cf85766a5e676977ffe5c884bedcd8",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "blog/index.html",
+      "bytes": 89674,
+      "sha256": "6097d9086b3bd6d63c0f37bb73c07ffa816c3315337a0b2c5e3a3e4462eb9b2c",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/css/main.css",
+      "bytes": 525029,
+      "sha256": "099bc3be0946e4a3d38664145c86fbe3a2ac869b64dcf1596608bdad5c44a17b",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/js/brand-orange.js",
+      "bytes": 9362,
+      "sha256": "b98f6f9d78454cba1e994123d974b2104f7c10ce90cf9d75c53488458d3f18c9",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/js/home.js",
+      "bytes": 36701,
+      "sha256": "e16be08b9abce6da3583bc73034e650b528ed9505b630de21d16266ec7db6f14",
+      "matches": "published Git blob"
+    }
+  ]
+}

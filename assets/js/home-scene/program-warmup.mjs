@@ -1,4 +1,5 @@
 import * as THREE from "../three.module.min.js";
+import { programAlive } from "./program-lifetime.mjs";
 
 // Three.js compiles a material's shader program the first time it draws it, and the draw then
 // blocks until the driver finishes. On ANGLE/D3D11 each of this scene's programs takes 0.1-1.8 s,
@@ -244,6 +245,12 @@ function createCompileQueue(renderer, timeout) {
     // timeout (counted in polls) has run out.
     async drain(limit, onResolved) {
       while (compiling.size > limit && waited <= timeout) {
+        for (const program of compiling) {
+          if (programAlive(program)) continue;
+          compiling.delete(program);
+          resolved++;
+          onResolved?.();
+        }
         const ready = [...compiling].find((program) => program.isReady());
         if (ready) {
           compiling.delete(ready);

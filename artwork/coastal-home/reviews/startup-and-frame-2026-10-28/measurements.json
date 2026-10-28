@@ -1,0 +1,94 @@
+{
+  "scope": "Measurements of the complete frozen scene-compact build on this host, after coordinator/worker heavy jobs were held. Six startup probes have no module/model/avatar/randomness overrides and fix only the authored Date. View attribution pins South Park and seeds UUID/random order through the existing harness; no geometry/material/quality substitutions. Later UV omission is not this measured delivery.",
+  "nativeMasterSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681",
+  "measuredPipSha256": "834773c910216f35316937e0e8dc917a86db102b09f928e1c4fcf2449eeb9d12",
+  "moduleBuildSha256": "6d4a6be68ed71a68b937d7060ae17eb34a8c19558b30823b8c3c5043e156db4d",
+  "staticLightCache": {
+    "url": "static-light-field.json",
+    "signature": "e4a9087e4e0bf781e820a4f307d3c6052512400c736b95612722692a1f7b0e50",
+    "sha256": "06bbbbabdc95749daa6f6495013780c1078fefabed846d587bb15dc972d4c2b3"
+  },
+  "startup": [
+    {
+      "case": "desktop-cold",
+      "readyMs": 12311,
+      "wallMs": 12793,
+      "avatar": "rick-and-morty",
+      "idleP50": 16.700000000000728,
+      "idleP95": 16.80000000000109,
+      "cache": "restored",
+      "linkedToReady": 123,
+      "errors": []
+    },
+    {
+      "case": "desktop-warm",
+      "readyMs": 8763,
+      "wallMs": 9139,
+      "avatar": "simpsons",
+      "idleP50": 16.69999999999891,
+      "idleP95": 33.29999999999927,
+      "cache": "restored",
+      "linkedToReady": 124,
+      "errors": []
+    },
+    {
+      "case": "phone-cpu4-cold",
+      "readyMs": 18313,
+      "wallMs": 19253,
+      "avatar": "lizard",
+      "idleP50": 83.29999999999927,
+      "idleP95": 133.29999999999927,
+      "cache": "restored",
+      "linkedToReady": 124,
+      "errors": []
+    },
+    {
+      "case": "phone-cpu4-warm",
+      "readyMs": 17610,
+      "wallMs": 19012,
+      "avatar": "lizard",
+      "idleP50": 66.70000000000073,
+      "idleP95": 116.59999999999854,
+      "cache": "restored",
+      "linkedToReady": 124,
+      "errors": []
+    },
+    {
+      "case": "webkit-phone-cold",
+      "readyMs": 18959,
+      "wallMs": 19836,
+      "avatar": "ghibli",
+      "idleP50": 103,
+      "idleP95": 145,
+      "cache": "restored",
+      "linkedToReady": 123,
+      "errors": []
+    },
+    {
+      "case": "webkit-phone-warm",
+      "readyMs": 18681,
+      "wallMs": 19946,
+      "avatar": "simpsons",
+      "idleP50": 100,
+      "idleP95": 170,
+      "cache": "restored",
+      "linkedToReady": 123,
+      "errors": []
+    }
+  ],
+  "lighthouse": {
+    "version": "13.5.0",
+    "scores": {
+      "performance": 0.55,
+      "accessibility": 1,
+      "best-practices": 1
+    },
+    "audits": {
+      "first-contentful-paint": 11633.384907554177,
+      "largest-contentful-paint": 13583.384907554173,
+      "total-blocking-time": 93.40377311144948,
+      "cumulative-layout-shift": 0.014892043084695739
+    },
+    "scope": "Default mobile simulated audit of the opt-in-3D homepage; it audits the initial2D state, not a 3D activation or a physical phone."
+  }
+}

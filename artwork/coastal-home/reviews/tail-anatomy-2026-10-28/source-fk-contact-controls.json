@@ -1,0 +1,2235 @@
+{
+  "sourceSha256": "1019ad96d921662c95fd305747ed7f959de0e5af3e3c0da5ad3dd05255e73325",
+  "scope": "Every native tail/component triangle against complete posed other Skin/shirt/shorts at3frames of all14clips; no attachment exclusion. Anatomical source FK only; no runtime chain correction applied. Actual finest v84 furniture solids use every component vertex and triangle centroid in explicitly retained seating fixtures. Those offsets are diagnostic; actual final controller/contact placement remains a separate required gate. Finite sampled controls, not continuous or public runtime admission.",
+  "anatomicalSourceFK": true,
+  "furnitureBindings": {
+    "whiskey": {
+      "nativeAvatarOffset": [0.2800000011920929, -0.018699999898672104, -0.053300000727176666],
+      "file": "C:\\dev\\site-takeover-worktrees\\finish-house\\.jekyll-cache\\visual-qa\\finish-house-2026-10-26\\models-v84\\furniture\\whiskey-loveseat-lod0.glb",
+      "sha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd"
+    },
+    "banquette": {
+      "nativeAvatarOffset": [-0.3165000081062317, 0.43790000677108765, -0.053300000727176666],
+      "file": "C:\\dev\\site-takeover-worktrees\\finish-house\\.jekyll-cache\\visual-qa\\finish-house-2026-10-26\\models-v84\\furniture\\banquette-lod0.glb",
+      "sha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027"
+    },
+    "cloud": {
+      "nativeAvatarOffset": [1.0449999570846558, 1.1541999578475952, -0.07329999655485153],
+      "file": "C:\\dev\\site-takeover-worktrees\\finish-house\\.jekyll-cache\\visual-qa\\finish-house-2026-10-26\\models-v84\\furniture\\cloud-sofa-lod0.glb",
+      "sha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e"
+    },
+    "dining": {
+      "nativeAvatarOffset": [0, -0.005400000140070915, -0.043299999088048935],
+      "file": "C:\\dev\\site-takeover-worktrees\\finish-house\\.jekyll-cache\\visual-qa\\finish-house-2026-10-26\\models-v84\\furniture\\dining-chair-lod0.glb",
+      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+    }
+  },
+  "toolLfSha256": "26c3dddeae2a08cd4c9ae7e312b943108ca380d3eace70f381288ed7ce5df931",
+  "rows": [
+    {
+      "clip": "idle",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "idle",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "idle",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "walk",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "walk",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "walk",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "typing",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "typing",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "typing",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "reading",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "reading",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "reading",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "eat",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "eat",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "eat",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "drink",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "drink",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "drink",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "workout",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "workout",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "workout",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "pullup",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007094191150396119,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "pullup",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007094732806996004,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "pullup",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007094191150396119,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "dip",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "dip",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007096040423780802,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "dip",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "coffee-prep",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "coffee-prep",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "coffee-prep",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "carry",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "carry",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "carry",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.0007095611601549856,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "soak",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "soak",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "soak",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "lounge",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "lounge",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "lounge",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 0.19072999517503614,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0.0961085991454855,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        }
+      },
+      "furniture": {
+        "whiskey": {
+          "soft": {
+            "insideSurfaceProbes": 1407,
+            "maximumDepthM": 0.08097510039806366,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "banquette": {
+          "soft": {
+            "insideSurfaceProbes": 849,
+            "maximumDepthM": 0.05176927149295807,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 4,
+            "maximumDepthM": 0.00490115862339735,
+            "rootRingInside": 0
+          }
+        },
+        "cloud": {
+          "soft": {
+            "insideSurfaceProbes": 878,
+            "maximumDepthM": 0.06393695622682571,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 0,
+            "maximumDepthM": 0,
+            "rootRingInside": 0
+          }
+        },
+        "dining": {
+          "soft": {
+            "insideSurfaceProbes": 594,
+            "maximumDepthM": 0.040639933198690414,
+            "rootRingInside": 0
+          },
+          "hard": {
+            "insideSurfaceProbes": 109,
+            "maximumDepthM": 0.007802307605743408,
+            "rootRingInside": 0
+          }
+        }
+      }
+    },
+    {
+      "clip": "sleep",
+      "frame": 1,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0.6136952756369021,
+          "inside": 42,
+          "maxDepthM": 0.06680183112621307,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": [
+            {
+              "vertex": 1289,
+              "position": [0.05954751744866371, -0.1397390365600586, 0.7057149410247803],
+              "depthM": 0.0005783640081062913
+            },
+            {
+              "vertex": 1290,
+              "position": [0.07902029156684875, -0.13232624530792236, 0.7091524004936218],
+              "depthM": 0.01046475488692522
+            },
+            {
+              "vertex": 1291,
+              "position": [0.09802990406751633, -0.12331017851829529, 0.7073357105255127],
+              "depthM": 0.017822353169322014
+            },
+            {
+              "vertex": 1292,
+              "position": [0.11528089642524719, -0.11330544948577881, 0.7003886699676514],
+              "depthM": 0.020721090957522392
+            }
+          ]
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 4.2671500695672915,
+          "inside": 487,
+          "maxDepthM": 0.09168340265750885,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 2,
+          "witnesses": [
+            {
+              "vertex": 41,
+              "position": [-0.02717600017786026, 0.3273852467536926, 0.6749999523162842],
+              "depthM": 0.0044268355704844
+            },
+            {
+              "vertex": 43,
+              "position": [0.02717600017786026, 0.3273852467536926, 0.6749999523162842],
+              "depthM": 0.0044268229976296425
+            },
+            {
+              "vertex": 182,
+              "position": [-0.06581616401672363, 0.3554133176803589, 0.6057124137878418],
+              "depthM": 0.001358018722385168
+            },
+            {
+              "vertex": 183,
+              "position": [-0.0538802333176136, 0.34478625655174255, 0.605742871761322],
+              "depthM": 0.00010466972889844328
+            }
+          ]
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "sleep",
+      "frame": 49,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0.6137859324930632,
+          "inside": 42,
+          "maxDepthM": 0.06671786308288574,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": [
+            {
+              "vertex": 1289,
+              "position": [0.05954751744866371, -0.1397390365600586, 0.7057149410247803],
+              "depthM": 0.0005783640081062913
+            },
+            {
+              "vertex": 1290,
+              "position": [0.07902029156684875, -0.13232624530792236, 0.7091524004936218],
+              "depthM": 0.01046475488692522
+            },
+            {
+              "vertex": 1291,
+              "position": [0.09802990406751633, -0.12331017851829529, 0.7073357105255127],
+              "depthM": 0.017822353169322014
+            },
+            {
+              "vertex": 1292,
+              "position": [0.11528089642524719, -0.11330544948577881, 0.7003886699676514],
+              "depthM": 0.020721090957522392
+            }
+          ]
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 4.267176887063682,
+          "inside": 487,
+          "maxDepthM": 0.09168340265750885,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 2,
+          "witnesses": [
+            {
+              "vertex": 41,
+              "position": [-0.02717600017786026, 0.3273852467536926, 0.6749999523162842],
+              "depthM": 0.0044268355704844
+            },
+            {
+              "vertex": 43,
+              "position": [0.02717600017786026, 0.3273852467536926, 0.6749999523162842],
+              "depthM": 0.0044268229976296425
+            },
+            {
+              "vertex": 182,
+              "position": [-0.06581616401672363, 0.3554133176803589, 0.6057124137878418],
+              "depthM": 0.001358018722385168
+            },
+            {
+              "vertex": 183,
+              "position": [-0.0538802333176136, 0.34478625655174255, 0.605742871761322],
+              "depthM": 0.00010466972889844328
+            }
+          ]
+        }
+      },
+      "furniture": {}
+    },
+    {
+      "clip": "sleep",
+      "frame": 97,
+      "weight": 0,
+      "cloth": {
+        "skin": {
+          "crossingM": 0.6136952756369021,
+          "inside": 42,
+          "maxDepthM": 0.06680183112621307,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": [
+            {
+              "vertex": 1289,
+              "position": [0.05954751744866371, -0.1397390365600586, 0.7057149410247803],
+              "depthM": 0.0005783640081062913
+            },
+            {
+              "vertex": 1290,
+              "position": [0.07902029156684875, -0.13232624530792236, 0.7091524004936218],
+              "depthM": 0.01046475488692522
+            },
+            {
+              "vertex": 1291,
+              "position": [0.09802990406751633, -0.12331017851829529, 0.7073357105255127],
+              "depthM": 0.017822353169322014
+            },
+            {
+              "vertex": 1292,
+              "position": [0.11528089642524719, -0.11330544948577881, 0.7003886699676514],
+              "depthM": 0.020721090957522392
+            }
+          ]
+        },
+        "Sirui shirt": {
+          "crossingM": 0,
+          "inside": 0,
+          "maxDepthM": 0,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 0,
+          "witnesses": []
+        },
+        "charcoal shorts": {
+          "crossingM": 4.2671500695672915,
+          "inside": 487,
+          "maxDepthM": 0.09168340265750885,
+          "firstThreeRingsCrossingM": 0,
+          "firstThreeRingsInside": 2,
+          "witnesses": [
+            {
+              "vertex": 41,
+              "position": [-0.02717600017786026, 0.3273852467536926, 0.6749999523162842],
+              "depthM": 0.0044268355704844
+            },
+            {
+              "vertex": 43,
+              "position": [0.02717600017786026, 0.3273852467536926, 0.6749999523162842],
+              "depthM": 0.0044268229976296425
+            },
+            {
+              "vertex": 182,
+              "position": [-0.06581616401672363, 0.3554133176803589, 0.6057124137878418],
+              "depthM": 0.001358018722385168
+            },
+            {
+              "vertex": 183,
+              "position": [-0.0538802333176136, 0.34478625655174255, 0.605742871761322],
+              "depthM": 0.00010466972889844328
+            }
+          ]
+        }
+      },
+      "furniture": {}
+    }
+  ]
+}

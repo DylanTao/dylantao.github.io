@@ -1,0 +1,258 @@
+{
+  "scope": "Pinned Three r164/CPU Draco decode of old delivery and retained-source compression. All27 mesh names, parent names, world transforms and materials match; triangle counts remain unchanged. Attribute errors compare actual decoded vertices, including normal seams. P has no image textures; native UVs remain in the .blend while the unused deliveredUV attribute is omitted. This is geometric qualification, not rendered or phone performance proof.",
+  "old": {
+    "bytes": 848688,
+    "gzipBytes": 420393,
+    "sha256": "f48b00aa90b4a82fc9a633ea2c4be240214f827635c20f1f3cb861ec9e8af9aa"
+  },
+  "candidate": {
+    "bytes": 139108,
+    "gzipBytes": 101144,
+    "sha256": "ffdc3263bbcf05731309ba3d8708c234ae076cc2f8839b43478ef92c7f5e1001"
+  },
+  "rows": [
+    {
+      "name": "Continuous_tapered_shell",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.000008976895346610502,
+      "maxNormal": 0.0036702146159566648,
+      "uvOmitted": true
+    },
+    {
+      "name": "Hover_glow",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.0000014601457721052146,
+      "maxNormal": 0.002474055375552091,
+      "uvOmitted": true
+    },
+    {
+      "name": "Hover_outlet",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.0000019187507655835123,
+      "maxNormal": 0.003859707974873109,
+      "uvOmitted": true
+    },
+    {
+      "name": "Neck_gimbal",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.000002235897389276267,
+      "maxNormal": 0.0032043994738022836,
+      "uvOmitted": true
+    },
+    {
+      "name": "Orange_identity_dot",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 6.108696979947798e-7,
+      "maxNormal": 0.0033566235066894547,
+      "uvOmitted": true
+    },
+    {
+      "name": "Sculpted_floating_flipper_L",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.000004947471987936506,
+      "maxNormal": 0.003681027612371835,
+      "uvOmitted": true
+    },
+    {
+      "name": "Sculpted_floating_flipper_R",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.000004947471987936506,
+      "maxNormal": 0.003681027612371835,
+      "uvOmitted": true
+    },
+    {
+      "name": "Convex_optical_lens_L",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.0000033037992396128033,
+      "maxNormal": 0.0033769291818593365,
+      "uvOmitted": true
+    },
+    {
+      "name": "Convex_optical_lens_R",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.000003206333403020111,
+      "maxNormal": 0.00298694209657884,
+      "uvOmitted": true
+    },
+    {
+      "name": "Lens_bevel_L",
+      "triangles": 960,
+      "oldVertices": 539,
+      "newVertices": 480,
+      "maxPosition": 0.0000035702748700117056,
+      "maxNormal": 0.0032942183506992685,
+      "uvOmitted": true
+    },
+    {
+      "name": "Lens_bevel_R",
+      "triangles": 960,
+      "oldVertices": 539,
+      "newVertices": 480,
+      "maxPosition": 0.0000030521919253477443,
+      "maxNormal": 0.0032942183506992685,
+      "uvOmitted": true
+    },
+    {
+      "name": "Lens_bridge",
+      "triangles": 972,
+      "oldVertices": 534,
+      "newVertices": 488,
+      "maxPosition": 0.0000022313923323714007,
+      "maxNormal": 0.0033113849551317273,
+      "uvOmitted": true
+    },
+    {
+      "name": "Lens_housing_L",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.000004012827080750663,
+      "maxNormal": 0.0036651669583284757,
+      "uvOmitted": true
+    },
+    {
+      "name": "Lens_housing_R",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.0000037518389737057526,
+      "maxNormal": 0.003667019151442719,
+      "uvOmitted": true
+    },
+    {
+      "name": "Optical_catchlight_L",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 2.631909449661814e-7,
+      "maxNormal": 0.003213685069069777,
+      "uvOmitted": true
+    },
+    {
+      "name": "Optical_catchlight_R",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 2.534027582084033e-7,
+      "maxNormal": 0.0037910475937326707,
+      "uvOmitted": true
+    },
+    {
+      "name": "Pebble_head_shell",
+      "triangles": 972,
+      "oldVertices": 534,
+      "newVertices": 488,
+      "maxPosition": 0.000010483906785282642,
+      "maxNormal": 0.0033113849551317273,
+      "uvOmitted": true
+    },
+    {
+      "name": "Antenna_hinge_L",
+      "triangles": 60,
+      "oldVertices": 66,
+      "newVertices": 32,
+      "maxPosition": 5.110305381945901e-7,
+      "maxNormal": 0.0027354208786717496,
+      "uvOmitted": true
+    },
+    {
+      "name": "Antenna_stalk_L",
+      "triangles": 60,
+      "oldVertices": 66,
+      "newVertices": 32,
+      "maxPosition": 7.434527091378578e-7,
+      "maxNormal": 0.0027354208786717496,
+      "uvOmitted": true
+    },
+    {
+      "name": "Antenna_tip_L",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 5.85056107522817e-7,
+      "maxNormal": 0.0034022232563142023,
+      "uvOmitted": true
+    },
+    {
+      "name": "Flexible_antenna_end_L",
+      "triangles": 60,
+      "oldVertices": 66,
+      "newVertices": 32,
+      "maxPosition": 0.0000013775741375201484,
+      "maxNormal": 0.0027354208786717496,
+      "uvOmitted": true
+    },
+    {
+      "name": "Antenna_hinge_R",
+      "triangles": 60,
+      "oldVertices": 66,
+      "newVertices": 32,
+      "maxPosition": 5.110305381945901e-7,
+      "maxNormal": 0.0027354208786717496,
+      "uvOmitted": true
+    },
+    {
+      "name": "Antenna_stalk_R",
+      "triangles": 60,
+      "oldVertices": 66,
+      "newVertices": 32,
+      "maxPosition": 7.434527091378578e-7,
+      "maxNormal": 0.0027354208786717496,
+      "uvOmitted": true
+    },
+    {
+      "name": "Antenna_tip_R",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 5.85056107522817e-7,
+      "maxNormal": 0.0034022232563142023,
+      "uvOmitted": true
+    },
+    {
+      "name": "Flexible_antenna_end_R",
+      "triangles": 60,
+      "oldVertices": 66,
+      "newVertices": 32,
+      "maxPosition": 0.0000013775741375201484,
+      "maxNormal": 0.0027354208786717496,
+      "uvOmitted": true
+    },
+    {
+      "name": "Soft_luminous_pupil_L",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.0000017162555658158495,
+      "maxNormal": 0.003203402239237434,
+      "uvOmitted": true
+    },
+    {
+      "name": "Soft_luminous_pupil_R",
+      "triangles": 1840,
+      "oldVertices": 1023,
+      "newVertices": 922,
+      "maxPosition": 0.0000016816973633616767,
+      "maxNormal": 0.0026555153554318244,
+      "uvOmitted": true
+    }
+  ]
+}

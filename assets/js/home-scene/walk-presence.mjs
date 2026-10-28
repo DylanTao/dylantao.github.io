@@ -1,5 +1,6 @@
 import * as THREE from "../three.module.min.js";
 import { createWalkCollarLiner } from "./walk-collar-liner.mjs";
+import { compileOwnedPrograms } from "./program-lifetime.mjs";
 
 // The bone correspondence follows SkeletonUtils.clone from three.js r164 (MIT):
 // https://github.com/mrdoob/three.js/blob/r164/examples/jsm/utils/SkeletonUtils.js
@@ -447,12 +448,12 @@ export function createWalkPresence({ renderer, excludeHead = true }) {
           // not on the material's planes, and a real draw of the body links its programs on the
           // main thread: 25 s of one frozen task on the Intel Arc laptop (2026-10-24 profile).
           // An empty draw sets that state (one plane for the head cut, none otherwise) without
-          // drawing anything, so compileAsync then creates the very variants the walk's draws
+          // drawing anything, so owned compilation then creates the very variants the walk's draws
           // request and the driver compiles them on its worker threads.
           primeClippingState(clipped ? 1 : 0);
-          // A plain holder restores withoutHead immediately; compileAsync's promise only
+          // A plain holder restores withoutHead immediately; the completion promise only
           // polls readiness after its synchronous compile(body,camera,scene) submission.
-          return { pending: renderer.compileAsync(expectedBody, camera, scene) };
+          return { pending: compileOwnedPrograms(renderer, expectedBody, camera, scene, shouldContinue) };
         };
         return (clipped ? withoutHead(submit, true) : submit()).pending;
       } finally {
@@ -472,9 +473,9 @@ export function createWalkPresence({ renderer, excludeHead = true }) {
       }
     }
     try {
-      await queueVariant(false);
+      if (!(await queueVariant(false))) return;
       if (disposed || body !== expectedBody || !shouldContinue()) return;
-      await queueVariant(true);
+      if (!(await queueVariant(true))) return;
       prepared = !disposed && body === expectedBody && shouldContinue();
     } finally {
       probe.dispose();

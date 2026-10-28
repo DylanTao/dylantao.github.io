@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-28",
+  "workerCommit": "a3c019762265165695f00bf2b7770c664e723bea",
+  "rule": "Only the exact reviewed native candidate and shell replace v84. All newer coordinator runtime, camera and manifest changes are retained. Final official cache and loading sketch remain to be regenerated.",
+  "files": [
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "before": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681",
+      "after": "92c06962eabe924b1e4cd91b32d06f23fa6407b63d83e64828c8309c03ce51ca",
+      "bytes": 28955526
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "before": "54733b6da084ced6949ef3b6cc2fd535e9ad1924887fe7d2766762c626aaca18",
+      "after": "9cb7746437d43c6e8c40651d3b26994f81d1893186d7933626adfcad71a5998f",
+      "bytes": 896520
+    }
+  ]
+}

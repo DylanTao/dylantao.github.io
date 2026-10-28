@@ -1,0 +1,11 @@
+import fs from 'node:fs';import {createHash} from 'node:crypto';
+import {loadNativeModel,THREE} from '../../../test/helpers/coastal-native-avatar.mjs';
+const folder=new URL('./v22/',import.meta.url),source=new URL('sirui-lizard.glb',folder);
+const probe=JSON.parse(fs.readFileSync(new URL('articulated-transfer-full.json',folder),'utf8'));
+const phase=64,row=probe.samples[phase],model=await loadNativeModel('sirui-lizard.glb',folder),actor=model.scene;
+actor.position.fromArray(row.actualPose.position);actor.rotation.y=row.actualPose.facing;
+for(const data of row.bodyFrame){const bone=actor.getObjectByName(data.name);bone.position.fromArray(data.position);bone.quaternion.fromArray(data.quaternion);bone.scale.fromArray(data.scale);}
+actor.updateMatrixWorld(true);const meshes=[];
+actor.traverse(mesh=>{if(!mesh.isMesh)return;const points=[];for(let i=0;i<mesh.geometry.attributes.position.count;i++)points.push(mesh.getVertexPosition(i,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld).toArray());const faces=[];for(let i=0;i<mesh.geometry.index.count;i+=3)faces.push([0,1,2].map(k=>mesh.geometry.index.getX(i+k)));meshes.push({name:mesh.name,material:mesh.material.name,color:mesh.material.color.toArray(),roughness:mesh.material.roughness,points,faces});});
+fs.writeFileSync(new URL('render-geometry.json',folder),JSON.stringify({scope:'Exact actual decoded candidate meshes in the retained249-phase pose. Native diagnostic render, not public WebGL material/light admission.',sourceGlbSha256:createHash('sha256').update(fs.readFileSync(source)).digest('hex'),phase,seconds:row.seconds,pose:row.actualPose,meshes}));
+console.log(JSON.stringify({phase,seconds:row.seconds,meshes:meshes.length}));

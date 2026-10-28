@@ -1223,6 +1223,8 @@ def bed_transfer_contacts(scene,config,final=False):
            *config["estateLibrary"]["privateConnection"],study["actor"]]
     length=sum(math.dist(a,b) for a,b in zip(route,route[1:]))
     result={"lyingActor":room["actor"],"seat":seat,"mattressReference":mattress_reference,
+            "verifiedTransferAvatars":["south-park","simpsons","ghibli","rick-and-morty"],
+            "transferAdmission":"Four human rigs pass the decoded249phase body/sole/bed controls. Lizard tail still crosses hard bed geometry during roll; retain composed activity changes until a rebuilt tail passes body, furniture and cloth gates. Avatar contacts and floor witnesses must also bind the actual GLB bytes.",
             "seatStatus":"final shown made-bed surface" if final else "provisional until fresh bedding is fitted",
             "feet":feet,"standingActor":room["walkActor"],
             "supportSurfaces":surfaces,"nominalSeatedRoot":nominal_root,"nominalRootRoute":route,
@@ -1403,7 +1405,11 @@ def pool_activity_contacts(scene, config):
 def finish_activity_routes(scene, config):
     """Native activity journeys and camera metadata; no synthetic outdoor room."""
     import copy
+    from coastal_camera import finish_room_arrivals
+    finish_room_arrivals(config)
     rooms={room["id"]:room for room in config["rooms"]}
+    rooms["bath-bedroom"]["label"] = "Upper bathroom"
+    rooms["bath-bedroom"]["bathroom"]["kind"] = "upper"
     # The 1.5m-high landing is not headroom for a standing person below it.
     # Keep the original inland gallery and move only its local approach turn
     # onto the existing lower floor, away from the landing's actual underside.

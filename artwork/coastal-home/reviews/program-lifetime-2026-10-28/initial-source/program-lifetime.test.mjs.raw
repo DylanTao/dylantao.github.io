@@ -1,0 +1,46 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { compileOwnedPrograms } from "../assets/js/home-scene/program-lifetime.mjs";
+
+function fixture(program) {
+  const material = {};
+  return {
+    compile: () => new Set([material]),
+    properties: { get: () => ({ currentProgram: program }) },
+    getContext: () => ({ isContextLost: () => false }),
+  };
+}
+
+test("an avatar's retired shader handle is never queried after material disposal", async () => {
+  let polls = 0;
+  const program = {
+    program: {},
+    isReady() {
+      assert.ok(this.program, "a deleted WebGL program must not be polled");
+      polls++;
+      return false;
+    },
+  };
+  const pending = compileOwnedPrograms(fixture(program), {}, {}, {});
+  program.program = undefined;
+  assert.equal(await pending, false);
+  assert.equal(polls, 1);
+});
+
+test("live programs finish and an interrupted avatar prepare stops polling", async () => {
+  let ready = false,
+    current = true,
+    polls = 0;
+  const program = { program: {}, isReady: () => (polls++, ready) };
+  const pending = compileOwnedPrograms(fixture(program), {}, {}, {});
+  ready = true;
+  assert.equal(await pending, true);
+  const canceled = compileOwnedPrograms(fixture(program), {}, {}, {}, () => current);
+  assert.equal(await canceled, true);
+  ready = false;
+  const interrupted = compileOwnedPrograms(fixture(program), {}, {}, {}, () => current);
+  const before = polls;
+  current = false;
+  assert.equal(await interrupted, false);
+  assert.equal(polls, before);
+});

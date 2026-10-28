@@ -2,6 +2,27 @@
 import math
 
 
+def finish_room_arrivals(config):
+    """Frame three rooms above nearby coarse furniture collision cells.
+
+    These are authored look points, not collider exemptions. The 12 cm camera
+    field and its clearance stay intact. A ray grazing the hidden fireplace
+    proxy used to collapse Living's arm to zero; Private living and Onsen also
+    stopped below their minimum useful arm. A 25 cm higher look point keeps
+    the original yaw, pitch, lens and requested distance in each room.
+    """
+    heights = {"lounge": .67, "library-upper": 3.90, "onsen": 3.60}
+    changes = []
+    for room in config["rooms"]:
+        if room["id"] not in heights:
+            continue
+        before = list(room["target"])
+        room["target"][1] = heights[room["id"]]
+        changes.append({"room": room["id"], "before": before,
+                        "after": list(room["target"])})
+    return changes
+
+
 def camera_support_meshes(objects):
     """Finished physical coast, including retained material-batched sources.
 

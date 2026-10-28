@@ -1,0 +1,63 @@
+{
+  "at": "2026-10-28",
+  "stage": "Locally verified; main CI/live still pending",
+  "cache": {
+    "url": "static-light-field.json",
+    "signature": "446cb58634c9d9c6d2e8a3c4d076c41fed18dfb1ff0bac95397d886e46411b39",
+    "sha256": "1f4713405d8ef0ce03471a675831f47a51bfbba89b31580d53c61b640d42482e"
+  },
+  "files": [
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "lfSha256": "f16b75875257919658941d1c607b170a132c1ffca6d8835edd582449d554bccc"
+    },
+    {
+      "path": "assets/js/home-scene/program-lifetime.mjs",
+      "lfSha256": "a5a9fa46b99e26b9854926ff69d91300e48221b8a1058f1de5880b73588e7f3b"
+    },
+    {
+      "path": "assets/js/home-scene/program-warmup.mjs",
+      "lfSha256": "fd05e71eb639b5d1d90445c89ee39ce8ef32835e43bf4cf74b3b879a43c93eb4"
+    },
+    {
+      "path": "assets/js/home-scene/walk-presence.mjs",
+      "lfSha256": "db390bd95ee09ad26a41bd9903b2cfcc8b3b18037ae4e106b8f423e39cf09173"
+    },
+    {
+      "path": "assets/js/home-scene/interior-reflections.mjs",
+      "lfSha256": "d24b2f8249d955bde81c476334037466c02335fef66ba06cb7be4f81b623c27d"
+    },
+    {
+      "path": "test/program-lifetime.test.mjs",
+      "lfSha256": "eb222f51a1c82f7b955a315aae87ff3cd0fced55d973e81c39ce096fdb787a6a"
+    },
+    {
+      "path": "test/interior-reflections.test.mjs",
+      "lfSha256": "3f4ef7db3406a6a13237136759c5b94fec6de8bc12148ac71fbaaf3f35e1d3b1"
+    },
+    {
+      "path": "test/visual/helpers.js",
+      "lfSha256": "64f1acf2b692b5b4d5b6375c567a0b9f5427e7dfbe5b6a8e35f6eb1b5edda942"
+    }
+  ],
+  "gates": {
+    "python": 314,
+    "node": {
+      "total": 872,
+      "pass": 865,
+      "skip": 7
+    },
+    "chromiumRoomJourneys": 6,
+    "chromiumQualityAvatarMemoryAnd4K": 4,
+    "linuxWebKitRoomJourneys": 3,
+    "compiledLifetime": {
+      "invalidProgramWarnings": 0,
+      "errors": 0
+    },
+    "liveLifetime": {
+      "invalidProgramWarnings": 0,
+      "errors": 0,
+      "cachedFramesAtEnd": 625
+    }
+  }
+}

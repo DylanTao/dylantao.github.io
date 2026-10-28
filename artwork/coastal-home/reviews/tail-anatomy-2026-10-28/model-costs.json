@@ -1,0 +1,42 @@
+{
+  "scope": "Raw decoded-source payload delta only; no actual scene arrival, program, warm-variant or FPS pass is claimed",
+  "files": {
+    "assets\\models\\home": {
+      "bytes": 540496,
+      "gzip6Bytes": 340805,
+      "sha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d"
+    },
+    ".jekyll-cache\\visual-qa\\tail-finish-2026-10-28\\v22": {
+      "bytes": 641240,
+      "gzip6Bytes": 400236,
+      "sha256": "c6a92386a8669679429a82642d18e69c5b4550796fbbc09ca6a7a3911e2eed58"
+    }
+  },
+  "baseline": {
+    "meshes": 10,
+    "triangles": 112428,
+    "vertices": 58663,
+    "clips": 14,
+    "channels": 840
+  },
+  "rejected": {
+    "meshes": 11,
+    "triangles": 118142,
+    "vertices": 63750,
+    "clips": 14,
+    "channels": 1134
+  },
+  "delta": {
+    "meshes": 1,
+    "triangles": 5714,
+    "vertices": 5087,
+    "clips": 0,
+    "channels": 294
+  },
+  "fourHumanGlbsExact": {
+    "south-park": true,
+    "simpsons": true,
+    "ghibli": true,
+    "rick-and-morty": true
+  }
+}

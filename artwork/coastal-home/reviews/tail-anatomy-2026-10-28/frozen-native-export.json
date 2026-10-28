@@ -1,0 +1,36 @@
+{
+  "mode": "Exact frozen native master export, not Boolean reconstruction",
+  "exports": {
+    "blender": "4.5.9 LTS",
+    "masterSha256": "1019ad96d921662c95fd305747ed7f959de0e5af3e3c0da5ad3dd05255e73325",
+    "avatars": {
+      "lizard": {
+        "glbSha256": "c6a92386a8669679429a82642d18e69c5b4550796fbbc09ca6a7a3911e2eed58",
+        "bytes": 641240,
+        "clips": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "pullup", "dip", "coffee-prep", "carry", "soak", "lounge", "sleep"]
+      },
+      "south-park": {
+        "glbSha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+        "bytes": 714480,
+        "clips": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "pullup", "dip", "coffee-prep", "carry", "soak", "lounge", "sleep"]
+      },
+      "simpsons": {
+        "glbSha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
+        "bytes": 666964,
+        "clips": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "pullup", "dip", "coffee-prep", "carry", "soak", "lounge", "sleep"]
+      },
+      "ghibli": {
+        "glbSha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
+        "bytes": 858356,
+        "clips": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "pullup", "dip", "coffee-prep", "carry", "soak", "lounge", "sleep"]
+      },
+      "rick-and-morty": {
+        "glbSha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
+        "bytes": 661616,
+        "clips": ["idle", "walk", "typing", "reading", "eat", "drink", "workout", "pullup", "dip", "coffee-prep", "carry", "soak", "lounge", "sleep"]
+      }
+    }
+  },
+  "lizardExportByteExact": true,
+  "state": "Rejected native anatomy reproduction; not admission"
+}

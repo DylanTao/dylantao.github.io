@@ -1,0 +1,1195 @@
+{
+  "scope": "Bounded current-source outside view in the reserved GPU window. Geometry/material scene rendering dominates measured command intervals; this does not split fragment work from CPU/driver gaps inside those intervals. Not a clean-shadow baseline or before/after optimization benchmark.",
+  "profiles": [
+    {
+      "label": "2k",
+      "receipt": "C:\\dev\\site-takeover-worktrees\\finish-laundry\\.jekyll-cache\\visual-qa\\wide-view-diagnostic-2026-10-28\\2k-complete\\receipt.json",
+      "receiptSha256": "12bd2f3195e04e25988c3315153008dde9f93af9748f272d51425f58935b858e",
+      "controls": [
+        {
+          "name": "2k-before",
+          "wallMs": 3883.100000023842,
+          "frames": 60,
+          "fps": 15.45157219737622,
+          "shadowCache": {
+            "frames": 883,
+            "cachedFrames": 0,
+            "rebuilds": 1,
+            "copies": 1,
+            "skippedCopies": 0,
+            "bypassFrames": 882,
+            "enabled": false,
+            "staticCasters": 507,
+            "dynamicCasters": 95,
+            "stillFrames": 30
+          }
+        },
+        {
+          "name": "2k-after",
+          "wallMs": 3880.399999976158,
+          "frames": 62,
+          "fps": 15.977734254298769,
+          "shadowCache": {
+            "frames": 1706,
+            "cachedFrames": 0,
+            "rebuilds": 1,
+            "copies": 1,
+            "skippedCopies": 0,
+            "bypassFrames": 1705,
+            "enabled": false,
+            "staticCasters": 507,
+            "dynamicCasters": 95,
+            "stillFrames": 30
+          }
+        }
+      ],
+      "canvas": [2560, 1440],
+      "camera": [-11.856905727089124, 17.157540734318175, -44.61360126633206],
+      "target": [3, -0.2, -2.4],
+      "radius": 48,
+      "avatar": "south-park",
+      "quality": "high",
+      "resolution": {
+        "profile": "fullscreen",
+        "compact": false,
+        "css": [2560, 1440],
+        "density": 1,
+        "cap": 1,
+        "factor": 1,
+        "adaptive": false,
+        "pixels": 3686400,
+        "budget": 8300000,
+        "minFactor": 0.8,
+        "failedProbes": 0,
+        "history": []
+      },
+      "gpuQuerySamples": 6310,
+      "queryExclusions": 858,
+      "pendingExclusions": 0,
+      "disjointEvents": 0,
+      "rows": [
+        {
+          "mode": "render",
+          "role": "main-scene|target2|2560x1440|samples2",
+          "samples": 154,
+          "medianMs": 52.31872,
+          "meanMs": 53.27847625974026,
+          "p95Ms": 63.904768,
+          "medianCpuIntervalMs": 27.200000017881393,
+          "meanDraws": 2127.6623376623374,
+          "phaseMediansMs": {
+            "2k-0-render": 51.789823999999996,
+            "2k-7-render": 52.534272
+          }
+        },
+        {
+          "mode": "render",
+          "role": "main-scene|target1|1280x720|samples0",
+          "samples": 176,
+          "medianMs": 4.973056,
+          "meanMs": 7.409231818181818,
+          "p95Ms": 16.106496,
+          "medianCpuIntervalMs": 21.899999976158142,
+          "meanDraws": 740.0227272727273,
+          "phaseMediansMs": {
+            "2k-0-render": 5.27616,
+            "2k-7-render": 4.8609279999999995
+          }
+        },
+        {
+          "mode": "ocean",
+          "role": "ocean|{\"id\":3,\"size\":[2560,1440],\"samples\":4,\"name\":\"\"}",
+          "samples": 151,
+          "medianMs": 1.610752,
+          "meanMs": 1.7006266490066224,
+          "p95Ms": 1.636352,
+          "medianCpuIntervalMs": 0.09999996423721313,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-1-ocean": 1.60768,
+            "2k-6-ocean": 1.614848
+          }
+        },
+        {
+          "mode": "ocean",
+          "role": "ocean|{\"id\":2,\"size\":[2560,1440],\"samples\":2,\"name\":\"EffectComposer.rt2\"}",
+          "samples": 151,
+          "medianMs": 1.552384,
+          "meanMs": 1.5676558410596027,
+          "p95Ms": 1.581056,
+          "medianCpuIntervalMs": 0.09999996423721313,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-1-ocean": 1.553408,
+            "2k-6-ocean": 1.550336
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:main-scene|target2|2560x1440|samples2",
+          "samples": 152,
+          "medianMs": 1.053696,
+          "meanMs": 1.4603991578947368,
+          "p95Ms": 6.25152,
+          "medianCpuIntervalMs": 4.0,
+          "meanDraws": 671.9605263157895,
+          "phaseMediansMs": {
+            "2k-2-shadow": 1.0849280000000001,
+            "2k-5-shadow": 0.929792
+          }
+        },
+        {
+          "mode": "render",
+          "role": "haze-composite|target4|2560x1440|samples2",
+          "samples": 154,
+          "medianMs": 0.233472,
+          "meanMs": 0.4075896103896104,
+          "p95Ms": 0.658432,
+          "medianCpuIntervalMs": 0.10000002384185791,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.234496,
+            "2k-7-render": 0.232448
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target4|2560x1440|samples2",
+          "samples": 154,
+          "medianMs": 0.21760000000000002,
+          "meanMs": 0.32646254545454545,
+          "p95Ms": 0.59568,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.21862399999999999,
+            "2k-7-render": 0.216064
+          }
+        },
+        {
+          "mode": "blit",
+          "role": "blit|2560x1440|mask16640",
+          "samples": 456,
+          "medianMs": 0.167936,
+          "meanMs": 0.3455220350877193,
+          "p95Ms": 0.714752,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-3-blit": 0.168448,
+            "2k-4-blit": 0.167936
+          }
+        },
+        {
+          "mode": "blit",
+          "role": "blit|2560x1440|mask16384",
+          "samples": 304,
+          "medianMs": 0.100352,
+          "meanMs": 0.20366484210526314,
+          "p95Ms": 0.4608,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-3-blit": 0.100352,
+            "2k-4-blit": 0.099328
+          }
+        },
+        {
+          "mode": "render",
+          "role": "output|target0|2560x1440|samples0",
+          "samples": 154,
+          "medianMs": 0.038912,
+          "meanMs": 0.0450587012987013,
+          "p95Ms": 0.04608,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.037888,
+            "2k-7-render": 0.038912
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target5|1280x720|samples0",
+          "samples": 154,
+          "medianMs": 0.022528,
+          "meanMs": 0.02212903896103896,
+          "p95Ms": 0.023552,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.022528,
+            "2k-7-render": 0.022528
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target6|1280x720|samples0",
+          "samples": 308,
+          "medianMs": 0.012288,
+          "meanMs": 0.020292571428571427,
+          "p95Ms": 0.014336,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.012288,
+            "2k-7-render": 0.012288
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target7|1280x720|samples0",
+          "samples": 154,
+          "medianMs": 0.011264,
+          "meanMs": 0.01192374025974026,
+          "p95Ms": 0.013312,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.012288,
+            "2k-7-render": 0.011264
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target8|640x360|samples0",
+          "samples": 154,
+          "medianMs": 0.007168,
+          "meanMs": 0.007620155844155844,
+          "p95Ms": 0.009216,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.007168,
+            "2k-7-render": 0.007168
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target9|640x360|samples0",
+          "samples": 154,
+          "medianMs": 0.006144,
+          "meanMs": 0.044643740259740265,
+          "p95Ms": 0.007168,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.006144,
+            "2k-7-render": 0.006144
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target10|320x180|samples0",
+          "samples": 154,
+          "medianMs": 0.00512,
+          "meanMs": 0.004847376623376623,
+          "p95Ms": 0.006144,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.00512,
+            "2k-7-render": 0.00512
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target11|320x180|samples0",
+          "samples": 154,
+          "medianMs": 0.004096,
+          "meanMs": 0.004082701298701298,
+          "p95Ms": 0.00512,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.004096,
+            "2k-7-render": 0.004096
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target15|80x45|samples0",
+          "samples": 154,
+          "medianMs": 0.003072,
+          "meanMs": 0.003067012987012987,
+          "p95Ms": 0.00512,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.003072,
+            "2k-7-render": 0.003072
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target14|80x45|samples0",
+          "samples": 154,
+          "medianMs": 0.003072,
+          "meanMs": 0.003352935064935065,
+          "p95Ms": 0.004096,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.003072,
+            "2k-7-render": 0.003072
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target13|160x90|samples0",
+          "samples": 154,
+          "medianMs": 0.003072,
+          "meanMs": 0.008617558441558442,
+          "p95Ms": 0.004096,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.003072,
+            "2k-7-render": 0.003072
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target12|160x90|samples0",
+          "samples": 154,
+          "medianMs": 0.003072,
+          "meanMs": 0.0034643116883116883,
+          "p95Ms": 0.004096,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "2k-0-render": 0.003072,
+            "2k-7-render": 0.003072
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:main-scene|target1|1280x720|samples0",
+          "samples": 174,
+          "medianMs": 0.001024,
+          "meanMs": 0.0009180689655172413,
+          "p95Ms": 0.002048,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.001024,
+            "2k-5-shadow": 0.001024
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target7|1280x720|samples0",
+          "samples": 152,
+          "medianMs": 0.001024,
+          "meanMs": 0.0009856842105263157,
+          "p95Ms": 0.002048,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.001024,
+            "2k-5-shadow": 0.001024
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:output|target0|2560x1440|samples0",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 0.00019536842105263158,
+          "p95Ms": 0.002048,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target4|2560x1440|samples2",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 0.000128,
+          "p95Ms": 0.001024,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target6|1280x720|samples0",
+          "samples": 304,
+          "medianMs": 0.0,
+          "meanMs": 0.00013821052631578947,
+          "p95Ms": 0.001024,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target15|80x45|samples0",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 6.0631578947368415e-5,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target14|80x45|samples0",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 0.00020210526315789473,
+          "p95Ms": 0.001024,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target13|160x90|samples0",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 5.389473684210526e-5,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target12|160x90|samples0",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 8.757894736842105e-5,
+          "p95Ms": 0.001024,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target11|320x180|samples0",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 9.43157894736842e-5,
+          "p95Ms": 0.001024,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target10|320x180|samples0",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 9.43157894736842e-5,
+          "p95Ms": 0.001024,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target9|640x360|samples0",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 0.00011452631578947368,
+          "p95Ms": 0.001024,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target8|640x360|samples0",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 6.736842105263157e-5,
+          "p95Ms": 0.001024,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target5|1280x720|samples0",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 0.0002694736842105263,
+          "p95Ms": 0.002048,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:haze-composite|target4|2560x1440|samples2",
+          "samples": 152,
+          "medianMs": 0.0,
+          "meanMs": 0.00014147368421052632,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "2k-2-shadow": 0.0,
+            "2k-5-shadow": 0.0
+          }
+        }
+      ],
+      "hazeVolume": {
+        "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+        "enabled": true,
+        "marching": false,
+        "plan": {
+          "exterior": true,
+          "fog": 0,
+          "dust": false,
+          "shafts": false
+        },
+        "size": [854, 480],
+        "steps": 23,
+        "quality": {
+          "steps": 1.25,
+          "divisor": -1
+        },
+        "fog": [0, -5.35, 0, 0],
+        "draws": 19
+      },
+      "rawConsoleFirstLines": {
+        "THREE.WebGLProgram: Program Info Log: (295,1): warning X4000: use of potentially uninitialized variable (f_farSurface)": 2,
+        "THREE.WebGLProgram: Program Info Log: (273,1): warning X4000: use of potentially uninitialized variable (f_farSurface)": 1,
+        "THREE.WebGLProgram: Program Info Log: (93,1-6): warning X4000: use of potentially uninitialized variable (dyn_index_vec2_int)": 1,
+        "THREE.WebGLProgram: Program Info Log: (289,1): warning X4000: use of potentially uninitialized variable (f_farSurface)": 1,
+        "[.WebGL-0x432c02949b00] GL_INVALID_VALUE: glGetProgramiv: Program object expected.": 48
+      },
+      "pageOrHttpErrors": [],
+      "sourceBodies": 301
+    },
+    {
+      "label": "4k",
+      "receipt": "C:\\dev\\site-takeover-worktrees\\finish-laundry\\.jekyll-cache\\visual-qa\\wide-view-diagnostic-2026-10-28\\receipt.json",
+      "receiptSha256": "1932554c199aedefae549206696f455d121b7665d683c34ec30c90a1f5ba1e81",
+      "controls": [
+        {
+          "name": "4k-before",
+          "wallMs": 3941.7000000476837,
+          "frames": 48,
+          "fps": 12.177486870999653,
+          "shadowCache": {
+            "frames": 774,
+            "cachedFrames": 0,
+            "rebuilds": 1,
+            "copies": 1,
+            "skippedCopies": 0,
+            "bypassFrames": 773,
+            "enabled": false,
+            "staticCasters": 507,
+            "dynamicCasters": 95,
+            "stillFrames": 30
+          }
+        },
+        {
+          "name": "4k-after",
+          "wallMs": 3972.600000023842,
+          "frames": 48,
+          "fps": 12.082766953559867,
+          "shadowCache": {
+            "frames": 1428,
+            "cachedFrames": 0,
+            "rebuilds": 1,
+            "copies": 1,
+            "skippedCopies": 0,
+            "bypassFrames": 1427,
+            "enabled": false,
+            "staticCasters": 507,
+            "dynamicCasters": 95,
+            "stillFrames": 30
+          }
+        }
+      ],
+      "canvas": [3840, 2160],
+      "camera": [-11.856905727089124, 17.157540734318175, -44.61360126633206],
+      "target": [3, -0.2, -2.4],
+      "radius": 48,
+      "avatar": "south-park",
+      "quality": "high",
+      "resolution": {
+        "profile": "fullscreen",
+        "compact": false,
+        "css": [3840, 2160],
+        "density": 1,
+        "cap": 1,
+        "factor": 1,
+        "adaptive": false,
+        "pixels": 8294400,
+        "budget": 8300000,
+        "minFactor": 0.8,
+        "failedProbes": 0,
+        "history": []
+      },
+      "gpuQuerySamples": 4522,
+      "queryExclusions": 612,
+      "pendingExclusions": 0,
+      "disjointEvents": 0,
+      "rows": [
+        {
+          "mode": "render",
+          "role": "main-scene|target2|3840x2160|samples0",
+          "samples": 119,
+          "medianMs": 72.358912,
+          "meanMs": 72.38438292436975,
+          "p95Ms": 78.537728,
+          "medianCpuIntervalMs": 14.699999988079071,
+          "meanDraws": 2128.3949579831933,
+          "phaseMediansMs": {
+            "4k-0-render": 72.554496,
+            "4k-7-render": 72.2688
+          }
+        },
+        {
+          "mode": "render",
+          "role": "main-scene|target1|1536x864|samples0",
+          "samples": 136,
+          "medianMs": 6.802944,
+          "meanMs": 7.031642117647059,
+          "p95Ms": 11.117568,
+          "medianCpuIntervalMs": 56.75,
+          "meanDraws": 739.9779411764706,
+          "phaseMediansMs": {
+            "4k-0-render": 6.66624,
+            "4k-7-render": 6.905856
+          }
+        },
+        {
+          "mode": "ocean",
+          "role": "ocean|{\"id\":3,\"size\":[3840,2160],\"samples\":4,\"name\":\"\"}",
+          "samples": 120,
+          "medianMs": 3.436032,
+          "meanMs": 3.5136768,
+          "p95Ms": 3.884032,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-1-ocean": 3.42272,
+            "4k-6-ocean": 3.4411519999999998
+          }
+        },
+        {
+          "mode": "ocean",
+          "role": "ocean|{\"id\":2,\"size\":[3840,2160],\"samples\":0,\"name\":\"EffectComposer.rt2\"}",
+          "samples": 120,
+          "medianMs": 3.300864,
+          "meanMs": 3.3242368,
+          "p95Ms": 3.407872,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-1-ocean": 3.293184,
+            "4k-6-ocean": 3.3105919999999998
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:main-scene|target2|3840x2160|samples0",
+          "samples": 117,
+          "medianMs": 0.73216,
+          "meanMs": 0.860991452991453,
+          "p95Ms": 1.57184,
+          "medianCpuIntervalMs": 2,
+          "meanDraws": 670.0854700854701,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0.738304,
+            "4k-5-shadow": 0.699392
+          }
+        },
+        {
+          "mode": "render",
+          "role": "haze-composite|target4|3840x2160|samples0",
+          "samples": 119,
+          "medianMs": 0.57856,
+          "meanMs": 0.5575550924369748,
+          "p95Ms": 1.39264,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.576512,
+            "4k-7-render": 0.582656
+          }
+        },
+        {
+          "mode": "blit",
+          "role": "blit|3840x2160|mask16384",
+          "samples": 236,
+          "medianMs": 0.212992,
+          "meanMs": 0.472576,
+          "p95Ms": 1.389568,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-3-blit": 0.212992,
+            "4k-4-blit": 0.212992
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target4|3840x2160|samples0",
+          "samples": 119,
+          "medianMs": 0.10752,
+          "meanMs": 0.11781055462184874,
+          "p95Ms": 0.111616,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.10752,
+            "4k-7-render": 0.108544
+          }
+        },
+        {
+          "mode": "render",
+          "role": "output|target0|3840x2160|samples0",
+          "samples": 119,
+          "medianMs": 0.072704,
+          "meanMs": 0.07900289075630253,
+          "p95Ms": 0.075776,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.072704,
+            "4k-7-render": 0.072704
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target5|1920x1080|samples0",
+          "samples": 119,
+          "medianMs": 0.045056,
+          "meanMs": 0.044617142857142855,
+          "p95Ms": 0.04608,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.045056,
+            "4k-7-render": 0.045056
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target6|1920x1080|samples0",
+          "samples": 238,
+          "medianMs": 0.024576,
+          "meanMs": 0.026632605042016807,
+          "p95Ms": 0.026624,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.024576,
+            "4k-7-render": 0.0256
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target7|1920x1080|samples0",
+          "samples": 119,
+          "medianMs": 0.024576,
+          "meanMs": 0.024464134453781514,
+          "p95Ms": 0.0256,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.024576,
+            "4k-7-render": 0.024576
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target8|960x540|samples0",
+          "samples": 119,
+          "medianMs": 0.012288,
+          "meanMs": 0.011883563025210084,
+          "p95Ms": 0.013312,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.012288,
+            "4k-7-render": 0.012288
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target9|960x540|samples0",
+          "samples": 119,
+          "medianMs": 0.011264,
+          "meanMs": 0.011066084033613446,
+          "p95Ms": 0.011264,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.011264,
+            "4k-7-render": 0.011264
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target10|480x270|samples0",
+          "samples": 119,
+          "medianMs": 0.007168,
+          "meanMs": 0.0075724369747899156,
+          "p95Ms": 0.008192,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.007168,
+            "4k-7-render": 0.007168
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target11|480x270|samples0",
+          "samples": 119,
+          "medianMs": 0.006144,
+          "meanMs": 0.006557042016806723,
+          "p95Ms": 0.007168,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.006144,
+            "4k-7-render": 0.006144
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target12|240x135|samples0",
+          "samples": 119,
+          "medianMs": 0.00512,
+          "meanMs": 0.004973714285714286,
+          "p95Ms": 0.006144,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.00512,
+            "4k-7-render": 0.00512
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target14|120x68|samples0",
+          "samples": 119,
+          "medianMs": 0.004096,
+          "meanMs": 0.003751798319327731,
+          "p95Ms": 0.00512,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.003072,
+            "4k-7-render": 0.004096
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target13|240x135|samples0",
+          "samples": 119,
+          "medianMs": 0.004096,
+          "meanMs": 0.007176605042016807,
+          "p95Ms": 0.00512,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.004096,
+            "4k-7-render": 0.004096
+          }
+        },
+        {
+          "mode": "render",
+          "role": "ShaderMaterial|target15|120x68|samples0",
+          "samples": 119,
+          "medianMs": 0.003072,
+          "meanMs": 0.0030031596638655463,
+          "p95Ms": 0.004096,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 1,
+          "phaseMediansMs": {
+            "4k-0-render": 0.003072,
+            "4k-7-render": 0.003072
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:main-scene|target1|1536x864|samples0",
+          "samples": 134,
+          "medianMs": 0.001024,
+          "meanMs": 0.0010545671641791045,
+          "p95Ms": 0.002048,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0.001024,
+            "4k-5-shadow": 0.001024
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target8|960x540|samples0",
+          "samples": 117,
+          "medianMs": 0.001024,
+          "meanMs": 0.0006826666666666666,
+          "p95Ms": 0.002048,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.001024
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:output|target0|3840x2160|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 1.7504273504273503e-5,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target4|3840x2160|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 8.752136752136752e-6,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target6|1920x1080|samples0",
+          "samples": 234,
+          "medianMs": 0.0,
+          "meanMs": 4.376068376068376e-5,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0.0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0.0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target15|120x68|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 2.6256410256410255e-5,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target14|120x68|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 8.752136752136752e-6,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target13|240x135|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 5.251282051282051e-5,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target12|240x135|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 7.001709401709401e-5,
+          "p95Ms": 0.001024,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target11|480x270|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 0.00011377777777777778,
+          "p95Ms": 0.001024,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target10|480x270|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 3.500854700854701e-5,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target9|960x540|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 4.376068376068376e-5,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target7|1920x1080|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 0.0002538119658119658,
+          "p95Ms": 0.002048,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:ShaderMaterial|target5|1920x1080|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 5.251282051282051e-5,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        },
+        {
+          "mode": "shadow",
+          "role": "shadow|from:haze-composite|target4|3840x2160|samples0",
+          "samples": 117,
+          "medianMs": 0,
+          "meanMs": 1.7504273504273503e-5,
+          "p95Ms": 0,
+          "medianCpuIntervalMs": 0,
+          "meanDraws": 0,
+          "phaseMediansMs": {
+            "4k-2-shadow": 0,
+            "4k-5-shadow": 0.0
+          }
+        }
+      ],
+      "hazeVolume": {
+        "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+        "enabled": true,
+        "marching": false,
+        "plan": {
+          "exterior": true,
+          "fog": 0,
+          "dust": false,
+          "shafts": false
+        },
+        "size": [1280, 720],
+        "steps": 23,
+        "quality": {
+          "steps": 1.25,
+          "divisor": -1
+        },
+        "fog": [0, -5.35, 0, 0],
+        "draws": 25
+      },
+      "rawConsoleFirstLines": {
+        "THREE.WebGLProgram: Program Info Log: (295,1): warning X4000: use of potentially uninitialized variable (f_farSurface)": 2,
+        "THREE.WebGLProgram: Program Info Log: (273,1): warning X4000: use of potentially uninitialized variable (f_farSurface)": 1,
+        "THREE.WebGLProgram: Program Info Log: (93,1-6): warning X4000: use of potentially uninitialized variable (dyn_index_vec2_int)": 1,
+        "THREE.WebGLProgram: Program Info Log: (289,1): warning X4000: use of potentially uninitialized variable (f_farSurface)": 1,
+        "[.WebGL-0x423c03e54600] GL_INVALID_VALUE: glGetProgramiv: Program object expected.": 48
+      },
+      "pageOrHttpErrors": [],
+      "sourceBodies": 302
+    }
+  ],
+  "warningTimestamps": "Not retained; console order/text only. No pre-avatar-selection state capture. First uninstrumented control already has disabled shadow cache. Cause is unproven.",
+  "nextHypothesis": "Scissor only the full-size transmission offscreen capture to a conservative refractive screen-footprint union, preserving dimensions,MSAA,draw order,materials,projection and final complete beauty pass. Include thickness/displacement/roughness mip support; fall back to full capture when uncertain. First clear the independent program-lifetime warnings and verify shadow cache, then prove static pixel parity with same-version controls before adoption."
+}

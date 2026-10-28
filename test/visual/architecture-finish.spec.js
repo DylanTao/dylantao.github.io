@@ -104,7 +104,7 @@ test("finished house: adjacent bedchamber, library patio leaf and composed exter
       snapshotGzipBytesBeforeSourceInputs: compressed.byteLength,
       statistics: snapshot.statistics,
       configuration: snapshot.configuration,
-      scope: "Actual new field, no saved cache; final source inputs and cache publication belong to the coordinator",
+      scope: "Actual delivered field, including source-bound cache restoration when available; exported snapshot size excludes source inputs",
     };
   });
   await retain(testInfo, "architecture-first-ready", {
@@ -125,16 +125,28 @@ test("finished house: adjacent bedchamber, library patio leaf and composed exter
   expect(native.some((node) => node.name.includes("pavilion"))).toBe(true);
   const lab = ui.locator("[data-world-lab]");
   if (!(await lab.evaluate((element) => element.open))) await lab.locator("summary").first().click();
-  for (const id of ["sleep", "study", "library", "onsen", "overview", "outside"]) {
+  await expect.poll(async () => Boolean((await evidence(scene)).cameraCollision?.ready), { timeout: 90000 }).toBe(true);
+  for (const id of [...config.rooms.map((room) => room.id), "overview", "outside"]) {
     const frames = (await evidence(scene)).frames;
     await ui.locator(`[data-world-room="${id}"]`).click();
     await expect.poll(async () => (await evidence(scene)).currentRoom, { timeout: 60000 }).toBe(id);
     await expect.poll(async () => (await evidence(scene)).frames, { timeout: 60000 }).toBeGreaterThan(frames);
     if (await lab.evaluate((element) => element.open)) await lab.locator("summary").first().click();
+    // Inspect a held frame after the controls have composited away too. A
+    // newly submitted WebGL frame alone does not prove idle presentation.
+    await page.waitForTimeout(250);
     const state = await evidence(scene),
       bytes = await canvas.screenshot();
-    nonblank(bytes);
+    if (config.rooms.some((room) => room.id === id)) {
+      // A textured close-up can pass nonblank while a room's actual camera
+      // arm has collapsed to zero. Keep every public arrival usable with the
+      // delivered collision field enabled, including Living/Private living.
+      expect(state.cameraCollision.ready).toBe(true);
+      expect(state.cameraArm.distance).toBeGreaterThanOrEqual(state.cameraArm.minimum);
+    }
     await retain(testInfo, `architecture-${id}`, { body: bytes, contentType: "image/png" });
+    await retain(testInfo, `architecture-${id}-state`, { body: Buffer.from(JSON.stringify(state, null, 2)), contentType: "application/json" });
+    nonblank(bytes);
     records.push({ id, state });
     if (!(await lab.evaluate((element) => element.open))) await lab.locator("summary").first().click();
   }
@@ -244,7 +256,13 @@ test("finished house: adjacent bedchamber, library patio leaf and composed exter
   await retain(testInfo, "architecture-drag-before", { body: dragBefore, contentType: "image/png" });
   await retain(testInfo, "architecture-drag-after", { body: dragAfter, contentType: "image/png" });
   const beforeZoom = await evidence(scene);
-  await page.mouse.wheel(0, -360);
+  if (testInfo.project.use.isMobile) {
+    // Mobile WebKit has no mouse-wheel API. Exercise its public zoom control;
+    // the dedicated touch-pinch case covers the two-pointer gesture separately.
+    if (!(await lab.evaluate((element) => element.open))) await lab.locator("summary").first().click();
+    await ui.locator('[data-world-zoom="in"]').click();
+    await lab.locator("summary").first().click();
+  } else await page.mouse.wheel(0, -360);
   await expect
     .poll(async () => Math.hypot(...(await evidence(scene)).camera.map((value, i) => value - beforeZoom.camera[i])), { timeout: 15000 })
     .toBeGreaterThan(0.1);

@@ -1,0 +1,35 @@
+// Pinned r164 clears WebGLProgram.program on destruction, while its isReady
+// closure still holds the deleted GL handle. Never poll that retired handle.
+export function programAlive(program) {
+  return program?.program !== undefined;
+}
+
+export function compileOwnedPrograms(renderer, object, camera, scene, shouldContinue = () => true) {
+  const materials = renderer.compile(object, camera, scene);
+  const programs = new Set();
+  let missing = false;
+  for (const material of materials) {
+    const program = renderer.properties.get(material).currentProgram;
+    if (program) programs.add(program);
+    else missing = true;
+  }
+  return new Promise((resolve, reject) => {
+    let retired = false;
+    const poll = () => {
+      try {
+        if (!shouldContinue() || renderer.getContext().isContextLost()) return resolve(false);
+        for (const program of programs) {
+          if (!programAlive(program)) {
+            programs.delete(program);
+            retired = true;
+          } else if (program.isReady()) programs.delete(program);
+        }
+        if (!programs.size) return resolve(!retired && !missing);
+        setTimeout(poll, 10);
+      } catch (error) {
+        reject(error);
+      }
+    };
+    poll();
+  });
+}

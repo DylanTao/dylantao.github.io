@@ -1,0 +1,115 @@
+{
+  "scope": "Complete scene-qualified production build, not source/model substitution. The routine motion test uses a disclosed controlled Date/cadence and a lab camera only for close inspection; physical walks belong to the independent native/sweep packet.",
+  "nativeMasterSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681",
+  "cache": {
+    "url": "static-light-field.json",
+    "signature": "e4a9087e4e0bf781e820a4f307d3c6052512400c736b95612722692a1f7b0e50",
+    "sha256": "06bbbbabdc95749daa6f6495013780c1078fefabed846d587bb15dc972d4c2b3"
+  },
+  "compiledModuleBuildSha256": "6d4a6be68ed71a68b937d7060ae17eb34a8c19558b30823b8c3c5043e156db4d",
+  "pipSha256": "ffdc3263bbcf05731309ba3d8708c234ae076cc2f8839b43478ef92c7f5e1001",
+  "deliveredHomeFiles": {
+    "BrandtsCormorant.glb": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a",
+    "BrownPelican.glb": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c",
+    "BrushRabbit.glb": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4",
+    "CaliforniaSeaLion.glb": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103",
+    "character-contacts.json": "1271ea2e98ee632fc6ea658ab82e9c7f67bdde41e8e9d156e1ac39ce4037090d",
+    "coast.glb": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+    "flora.glb": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
+    "HarborSeal.glb": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6",
+    "hinterland.glb": "bef9e5588f58d1475eead6ee7e41a90981d7f8d366f6317da0f9d4912aad2922",
+    "home-shell.glb": "54733b6da084ced6949ef3b6cc2fd535e9ad1924887fe7d2766762c626aaca18",
+    "loading-sketch.json": "fef2576a77db149d93cc6cf0322b293e9992eb18faf48dd7c5d58a06f721ee1c",
+    "manifest.json": "6df6742dc3f61f050b7e6c093d8df4a00bcd7c4bdf7705c9544cfe1c1e47b05b",
+    "Raccoon.glb": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808",
+    "room-bath-bedroom.glb": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
+    "room-bath-living.glb": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
+    "room-gym.glb": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
+    "room-kitchen.glb": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+    "room-library-upper.glb": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
+    "room-library.glb": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+    "room-lounge.glb": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce",
+    "room-onsen.glb": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
+    "room-sleep.glb": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+    "room-study.glb": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+    "Sandpiper.glb": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381",
+    "sirui-ghibli.glb": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
+    "sirui-lizard.glb": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d",
+    "sirui-rick-and-morty.glb": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
+    "sirui-simpsons.glb": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
+    "sirui-south-park.glb": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+    "static-light-field.json": "06bbbbabdc95749daa6f6495013780c1078fefabed846d587bb15dc972d4c2b3",
+    "WesternGull.glb": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29",
+    "wildlife-perch-support.json": "8acd61162f048d22a21d17944a86cd0795981b9b58a845e3a7093cbd4d16870d"
+  },
+  "images": [
+    {
+      "path": "images/bedroom-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "source": "Playwright scene-qualified-4k-proof/architecture-finish-finish-22272--through-public-room-visits-desktop-1440/architecture-sleep.png",
+      "sha256": "fbb0b816a910f766a8f41201dead2f4de4b54a0dbf27aec53540fc8f6d9c84b4"
+    },
+    {
+      "path": "images/living-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "source": "Playwright scene-qualified-4k-proof/architecture-finish-finish-22272--through-public-room-visits-desktop-1440/architecture-lounge.png",
+      "sha256": "97174542bbea792d14a0d686824358284308e7f550cd57f421ef50b7e77dac1f"
+    },
+    {
+      "path": "images/private-living-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "source": "Playwright scene-qualified-4k-proof/architecture-finish-finish-22272--through-public-room-visits-desktop-1440/architecture-library-upper.png",
+      "sha256": "a562d8d72eed74b4f0dce0841883a1c0da8902f34355b3509163e21b5325d33d"
+    },
+    {
+      "path": "images/outside-4k.webp",
+      "width": 3840,
+      "height": 2160,
+      "source": "Playwright scene-qualified-4k-proof/architecture-finish-finish-22272--through-public-room-visits-desktop-1440/architecture-outside.png",
+      "sha256": "384e1b70c9dee4c8e0fd3ad75aaec227cb90ba3076a4787520174e3e9429d83b"
+    },
+    {
+      "path": "images/pool-returned-desktop.webp",
+      "width": 1440,
+      "height": 1000,
+      "source": "Playwright scene-qualified-proof/room-journeys-coastal-jour-357e6-n-its-floor-and-returns-dry-desktop-1440/pool-returned.png",
+      "sha256": "07ee52608416dc62d8528c0691670aabf4f148baa255418c48d3b9a4b958af5e"
+    },
+    {
+      "path": "images/bed-departure-phone.webp",
+      "width": 390,
+      "height": 1000,
+      "source": "Playwright scene-qualified-proof/room-journeys-coastal-jour-2ff6a-m-stairs-in-both-directions-mobile-390/bed-departure-finished.png",
+      "sha256": "eb357df0c030ad7c718813178ecb0909493b565ae1ad676b646c7ef2f70fcce6"
+    }
+  ],
+  "gates": {
+    "python": {
+      "pass": 314
+    },
+    "nodeFullBeforeFinalCodecAttributeChange": {
+      "pass": 849,
+      "intentionalSkip": 7
+    },
+    "companionAndPerchFocused": {
+      "pass": 48
+    },
+    "compiledDesktopPhone": {
+      "pass": 6
+    },
+    "compiledLaptopTablet": {
+      "pass": 2
+    },
+    "compiledNative4K": {
+      "pass": 1
+    }
+  },
+  "limits": [
+    "Lizard bed roll has252 hard-bed probes and is disabled. Four human rigs havezero hard-bed probes; five-rig sole/reach diagnostics are a separate result.",
+    "Organic cliff F6 remains rejected and open.",
+    "Rendered composition and functional checks do not establish physical-phone performance or user taste acceptance."
+  ]
+}

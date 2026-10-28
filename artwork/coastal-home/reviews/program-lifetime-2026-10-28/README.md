@@ -1,0 +1,21 @@
+# Shader lifetime and safe material retirement - October 28
+
+Avatar replacement exposed two related lifetime defects. The pinned Three r164 program clears `.program` when destroyed, while its readiness closure can still hold the retired GL handle. Local owned-program polling discards that handle instead of querying it. The main warmup queue, walking preparation and mirror preparation now share the lifetime rule. Mirror preparation also restores its temporary room/target/render state immediately after submitting compilation, rather than holding it through an asynchronous wait. The vendor library is unchanged.
+
+That polling repair alone did **not** eliminate Chromium's driver warnings. The compiled mirror-only control still reported 48 invalid-program warnings during public avatar changes. A renderer-state reset control also retained 48. A diagnostic that watched deleted JavaScript handles found no such late direct query; a separate GL error-attribution probe was explicitly invasive and is not clean rendering evidence.
+
+The successful control retains an old model's materials until **all** their queued shader variants have finished linking. Geometry, skeletons and the old scene node leave immediately. The production helper deduplicates materials, polls through the browser scheduler where available and keeps resource ownership until disposal; component teardown/context loss ends the wait. It does not block the new character on the old links. Focused tests cover pending noncurrent variants, cancellation, resource release and safe mirror restoration.
+
+The source-only retirement control reports zero warnings across three public selections. The complete compiled build repeats that result with native scheduling: no module/model/identity substitution, fixed routine time, then public South Park/Lizard/South Park selection. Both reduced-motion and live runs have zero invalid-program warnings and zero collected runtime errors. The live run records an enabled shadow cache with 625 cached frames at the end. Initial identities differ across observations; these controls establish the exercised lifetime behavior, not a causal FPS gain or a universal driver diagnosis. The stricter browser error collector now includes invalid-program GL warnings, which earlier functional runs did not reject.
+
+The final local gates pass: 314 Python cases;865 Node passes with 7 intentional skips (872 total); six Chromium room/journey cases; four additional native 4K, quality, all-avatar and bone-texture cases; and three Linux WebKit room/journey cases. One earlier Node invocation overlapped the official bake and correctly caught the temporarily stale signature; the final suite runs after the producer completes. Both logs are retained.
+
+`release-bindings.json` records the actual final source/cache and counts. `source-bindings.json` and `initial-source/` preserve the earlier exact guard draft: every reconstructed source is admitted there only after its recorded SHA matches. `evidence/` retains failed controls, raw program diagnostics, source-only controller variants, final logs and the compiled module receipt. These intermediate controls are not relabeled as release proofs.
+
+## Windows WebKit control
+
+The dependency-free red-canvas control reproduces a separate Windows WebKit 26.0 defect: red at 390 x 664, white after its drawing buffer resizes to 390 x 844. [Playwright issue 42885](https://github.com/microsoft/playwright/issues/42885) documents the Windows non-composited WebGL resize problem and upstream repair. That explanation is consistent with the local reproduction; it does not establish physical-iPhone behavior.
+
+Preserved drawing buffers, extra redraws, compositor transforms, GL flush/finish and delayed captures did not establish a reliable product fix and are not admitted. The canonical renderer keeps normal buffer settings. Linux WebKit runs the unchanged nonblank, camera and pixel-change gates over a localhost TCP bridge; mobile zoom uses the public zoom button because that engine has no mouse-wheel API. Physical iPhone comparison remains separate.
+
+This packet is local qualification. Main CI, exact deployed-byte readback and publication are recorded separately.

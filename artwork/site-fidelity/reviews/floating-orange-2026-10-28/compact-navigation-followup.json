@@ -1,0 +1,221 @@
+{
+  "sourceCommit": "e91430e5d85c86607750a351ed7739d184a0c2be",
+  "visualRun": 40694192026,
+  "visualJobs": [
+    {
+      "id": 122836486153,
+      "name": "Visual checkpoints (desktop-1440, scene-core-1)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486394,
+      "name": "Visual checkpoints (tablet-768, scene-journey)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486424,
+      "name": "Visual checkpoints (laptop-1280, scene-choreography)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486451,
+      "name": "Visual checkpoints (tablet-768, scene-exploration)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486459,
+      "name": "Visual checkpoints (laptop-1280, scene-footer-light)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486477,
+      "name": "Visual checkpoints (desktop-1440, scene-core-2)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486506,
+      "name": "Visual checkpoints (desktop-1440, scene-held-stairs)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486524,
+      "name": "Visual checkpoints (desktop-1440, scene-journey)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486530,
+      "name": "Visual checkpoints (laptop-1280, site)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486551,
+      "name": "Visual checkpoints (laptop-1280, scene-held-stairs)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486558,
+      "name": "Visual checkpoints (desktop-1440, scene-choreography)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486570,
+      "name": "Visual checkpoints (mobile-390, scene-exploration)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486573,
+      "name": "Visual checkpoints (laptop-1280, scene-core-2)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486597,
+      "name": "Visual checkpoints (laptop-1280, scene-live)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486599,
+      "name": "Visual checkpoints (laptop-1280, scene-exploration)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486610,
+      "name": "Visual checkpoints (desktop-1440, scene-gym)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486615,
+      "name": "Visual checkpoints (laptop-1280, scene-journey)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486622,
+      "name": "Visual checkpoints (desktop-1440, site)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486625,
+      "name": "Visual checkpoints (laptop-1280, scene-gym)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486668,
+      "name": "Visual checkpoints (tablet-768, scene-core-2)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486700,
+      "name": "Visual checkpoints (laptop-1280, scene-core-1)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486732,
+      "name": "Visual checkpoints (tablet-768, scene-core-1)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486734,
+      "name": "Visual checkpoints (desktop-1440, scene-live)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486738,
+      "name": "Visual checkpoints (mobile-390, scene-live)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486763,
+      "name": "Visual checkpoints (tablet-768, scene-live)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486783,
+      "name": "Visual checkpoints (desktop-1440, legacy)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486849,
+      "name": "Visual checkpoints (tablet-768, scene-footer-light)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486850,
+      "name": "Visual checkpoints (mobile-390, scene-core-2)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486884,
+      "name": "Visual checkpoints (mobile-390, scene-choreography)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486929,
+      "name": "Visual checkpoints (mobile-390, site)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486948,
+      "name": "Visual checkpoints (tablet-768, scene-gym)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486953,
+      "name": "Visual checkpoints (mobile-390, scene-held-stairs)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486979,
+      "name": "Visual checkpoints (tablet-768, scene-choreography)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836486998,
+      "name": "Visual checkpoints (tablet-768, site)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836487005,
+      "name": "Visual checkpoints (mobile-390, scene-footer-light)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836487015,
+      "name": "Visual checkpoints (mobile-390, scene-gym)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836487029,
+      "name": "Visual checkpoints (mobile-390, scene-journey)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836487051,
+      "name": "Visual checkpoints (desktop-1440, scene-exploration)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836487075,
+      "name": "Visual checkpoints (mobile-390, scene-core-1)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836487103,
+      "name": "Visual checkpoints (tablet-768, scene-held-stairs)",
+      "conclusion": "success"
+    },
+    {
+      "id": 122836487202,
+      "name": "Visual checkpoints (desktop-1440, scene-footer-light)",
+      "conclusion": "success"
+    }
+  ],
+  "local": {
+    "productionBuildSeconds": 117.049,
+    "targetedCase": "Human and AI formats keep stable, auditable route counterparts",
+    "pass": 1,
+    "widths": [320, 350, 375, 384, 390],
+    "javascriptAndNoJavascript": true
+  },
+  "reason": "The first UI checkpoint allowed its new name display rule to override the existing sub389px compact navigation rule. At320px it overlapped format controls; at350px it could wrap the toggler. Restore the compact name rule and assert brand/control separation. The mark and hover story at standard widths remain unchanged.",
+  "liveReadback": "compact-navigation-live.json",
+  "appearanceAccepted": false
+}

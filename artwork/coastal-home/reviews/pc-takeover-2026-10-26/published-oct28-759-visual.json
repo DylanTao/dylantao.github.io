@@ -1,0 +1,256 @@
+{
+  "head": "759a3b58bd8f0aaa7c76d0742f8f32891931fd64",
+  "visualRun": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40650604541",
+  "verifiedAtUtc": "2026-10-28 08:42:43 UTC",
+  "total": 41,
+  "success": 41,
+  "jobs": [
+    {
+      "id": 122689522798,
+      "name": "Visual checkpoints (desktop-1440, scene-exploration)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T08:08:15Z"
+    },
+    {
+      "id": 122689523128,
+      "name": "Visual checkpoints (mobile-390, scene-held-stairs)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:40:25Z"
+    },
+    {
+      "id": 122689523152,
+      "name": "Visual checkpoints (desktop-1440, scene-core-2)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:54:14Z"
+    },
+    {
+      "id": 122689523159,
+      "name": "Visual checkpoints (desktop-1440, scene-footer-light)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:44:14Z"
+    },
+    {
+      "id": 122689523182,
+      "name": "Visual checkpoints (desktop-1440, scene-choreography)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:40:41Z"
+    },
+    {
+      "id": 122689523193,
+      "name": "Visual checkpoints (desktop-1440, site)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:58:44Z"
+    },
+    {
+      "id": 122689523209,
+      "name": "Visual checkpoints (desktop-1440, scene-live)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:38:39Z"
+    },
+    {
+      "id": 122689523215,
+      "name": "Visual checkpoints (desktop-1440, scene-held-stairs)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:43:06Z"
+    },
+    {
+      "id": 122689523243,
+      "name": "Visual checkpoints (desktop-1440, scene-gym)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:36:14Z"
+    },
+    {
+      "id": 122689523270,
+      "name": "Visual checkpoints (desktop-1440, scene-journey)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:57:04Z"
+    },
+    {
+      "id": 122689523276,
+      "name": "Visual checkpoints (desktop-1440, scene-core-1)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:44:29Z"
+    },
+    {
+      "id": 122689523305,
+      "name": "Visual checkpoints (mobile-390, scene-journey)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:34:51Z"
+    },
+    {
+      "id": 122689523321,
+      "name": "Visual checkpoints (tablet-768, site)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:50:32Z"
+    },
+    {
+      "id": 122689523324,
+      "name": "Visual checkpoints (laptop-1280, scene-gym)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:37:21Z"
+    },
+    {
+      "id": 122689523327,
+      "name": "Visual checkpoints (laptop-1280, scene-choreography)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:42:22Z"
+    },
+    {
+      "id": 122689523328,
+      "name": "Visual checkpoints (laptop-1280, scene-footer-light)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:41:35Z"
+    },
+    {
+      "id": 122689523337,
+      "name": "Visual checkpoints (tablet-768, scene-core-1)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:38:23Z"
+    },
+    {
+      "id": 122689523351,
+      "name": "Visual checkpoints (tablet-768, scene-live)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:37:44Z"
+    },
+    {
+      "id": 122689523363,
+      "name": "Visual checkpoints (mobile-390, scene-core-1)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:42:13Z"
+    },
+    {
+      "id": 122689523370,
+      "name": "Visual checkpoints (tablet-768, scene-gym)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:39:23Z"
+    },
+    {
+      "id": 122689523372,
+      "name": "Visual checkpoints (laptop-1280, scene-core-1)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:40:14Z"
+    },
+    {
+      "id": 122689523384,
+      "name": "Visual checkpoints (laptop-1280, site)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:49:55Z"
+    },
+    {
+      "id": 122689523389,
+      "name": "Visual checkpoints (tablet-768, scene-core-2)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:52:23Z"
+    },
+    {
+      "id": 122689523401,
+      "name": "Visual checkpoints (mobile-390, scene-footer-light)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:43:11Z"
+    },
+    {
+      "id": 122689523428,
+      "name": "Visual checkpoints (tablet-768, scene-exploration)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:58:20Z"
+    },
+    {
+      "id": 122689523431,
+      "name": "Visual checkpoints (tablet-768, scene-choreography)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:41:00Z"
+    },
+    {
+      "id": 122689523433,
+      "name": "Visual checkpoints (mobile-390, scene-live)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:38:18Z"
+    },
+    {
+      "id": 122689523457,
+      "name": "Visual checkpoints (tablet-768, scene-journey)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:35:24Z"
+    },
+    {
+      "id": 122689523464,
+      "name": "Visual checkpoints (mobile-390, scene-gym)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:42:00Z"
+    },
+    {
+      "id": 122689523471,
+      "name": "Visual checkpoints (laptop-1280, scene-journey)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:35:44Z"
+    },
+    {
+      "id": 122689523472,
+      "name": "Visual checkpoints (desktop-1440, legacy)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:44:12Z"
+    },
+    {
+      "id": 122689523479,
+      "name": "Visual checkpoints (laptop-1280, scene-held-stairs)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:42:16Z"
+    },
+    {
+      "id": 122689523484,
+      "name": "Visual checkpoints (laptop-1280, scene-live)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:37:11Z"
+    },
+    {
+      "id": 122689523506,
+      "name": "Visual checkpoints (mobile-390, site)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:46:11Z"
+    },
+    {
+      "id": 122689523525,
+      "name": "Visual checkpoints (mobile-390, scene-choreography)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:41:15Z"
+    },
+    {
+      "id": 122689523537,
+      "name": "Visual checkpoints (laptop-1280, scene-core-2)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:43:51Z"
+    },
+    {
+      "id": 122689523545,
+      "name": "Visual checkpoints (tablet-768, scene-footer-light)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:38:29Z"
+    },
+    {
+      "id": 122689523549,
+      "name": "Visual checkpoints (laptop-1280, scene-exploration)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:59:42Z"
+    },
+    {
+      "id": 122689523567,
+      "name": "Visual checkpoints (mobile-390, scene-exploration)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:46:58Z"
+    },
+    {
+      "id": 122689523613,
+      "name": "Visual checkpoints (mobile-390, scene-core-2)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:47:15Z"
+    },
+    {
+      "id": 122689523619,
+      "name": "Visual checkpoints (tablet-768, scene-held-stairs)",
+      "conclusion": "success",
+      "completedAt": "2026-10-28T07:45:22Z"
+    }
+  ],
+  "scope": "Published pre-revision checkpoint. The new reflecting-orange and coffee changes are not part of this commit."
+}

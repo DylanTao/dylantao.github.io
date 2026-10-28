@@ -1,0 +1,141 @@
+{
+  "checkedAtUtc": "2026-10-28T11:11:53.857742+00:00",
+  "sourceCommit": "da0c549a7a4446e53f3c57f3ce9e43d34b497e66",
+  "pagesCommit": "68267635599218b652ca962b9348abf4b8b85491",
+  "pagesSubject": "Deploying to gh-pages from @ DylanTao/dylantao.github.io@da0c549a7a4446e53f3c57f3ce9e43d34b497e66 \ud83d\ude80",
+  "scope": "Exact live HTML, both GLBs, manifest, all changed posters and five compiled surfer modules. Readback proves deployed bytes, not a physical-phone or performance result.",
+  "modulePipeline": {
+    "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+    "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+    "compiler": "1.2.7",
+    "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3"
+  },
+  "files": [
+    {
+      "path": "assets/js/footer-coast/surfer-motion.mjs",
+      "bytes": 2051,
+      "sha256": "ff127b47610edd92d6beb2ce70dd16e6cc94902689b503933fccf5bcb88430ed",
+      "matches": "compiled source/recipe"
+    },
+    {
+      "path": "assets/js/footer-coast/scene.mjs",
+      "bytes": 20304,
+      "sha256": "aaa6a487a3b4e781189cf666ae4c61c40336301dd96e67d033d36c2db56d28be",
+      "matches": "compiled source/recipe"
+    },
+    {
+      "path": "assets/js/footer-coast/people.mjs",
+      "bytes": 6433,
+      "sha256": "0323daea0e4f53e25a1063818913f40b5a142e949487a38fdc11e27ace4b13c6",
+      "matches": "compiled source/recipe"
+    },
+    {
+      "path": "assets/js/footer-coast/people-pose.mjs",
+      "bytes": 28320,
+      "sha256": "2d9a595e6b8c630ff70baee4850168ff27fd77415f00193ab8a5225c3cac5227",
+      "matches": "compiled source/recipe"
+    },
+    {
+      "path": "assets/js/footer-coast/water.mjs",
+      "bytes": 30253,
+      "sha256": "c05b49dc7fe60559ff1ae5ad71aac7fe5a6198c78e6b2a28d93381ab115f66b5",
+      "matches": "compiled source/recipe"
+    },
+    {
+      "path": "assets/models/la-jolla/la-jolla.glb",
+      "bytes": 1290720,
+      "sha256": "8b18f608c2cada56eafa7b1ddea3e7a052a2e9c811e4f475dea44a0239ac6725",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/miniature.glb",
+      "bytes": 367520,
+      "sha256": "64588d747fc7b7231fff46ce05fb6ce1164cb084765d093a37b67ac50f7e38c9",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/manifest.json",
+      "bytes": 6817,
+      "sha256": "1ce882cdb317d30b91435edcd750fe54fac3e77e64a68e0fc2f16f72f43de410",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-afternoon.webp",
+      "bytes": 165480,
+      "sha256": "64391abccdbecfa44035dc71e7cb18427d28f86a8207500530179598808d96b2",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-evening.webp",
+      "bytes": 115158,
+      "sha256": "7ee3d14c66d9ce10efaed254bf4cbdf3a2feeddef3db0783d22addea1604cc1c",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-mobile-afternoon.webp",
+      "bytes": 26116,
+      "sha256": "60b7219e85efeef5525a2cfcb19530d403e62dd67ba521ac908213878220a447",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-mobile-noon.webp",
+      "bytes": 25636,
+      "sha256": "7bcfd9b8fa8b4145365b6f0e08296435aad9a80545bc7a7e3c54994d7bcd71d6",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-morning.webp",
+      "bytes": 158256,
+      "sha256": "4d3a965514a47517bfe4dd8c8d6e99cb568de3858ee0e78db950862b279c55d5",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-noon.webp",
+      "bytes": 162452,
+      "sha256": "6b81805bff2069a511eed3596115a84556927b711f9841e88bb4ab960d7433b8",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/miniature-afternoon.webp",
+      "bytes": 40862,
+      "sha256": "413bbfe46a70c8a1adc529bf6feb1d31de35448494b218e39b4ce0c7a9e6fa20",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/miniature-evening.webp",
+      "bytes": 37812,
+      "sha256": "15e9393e805a5945ed6086eeb31d6eafbf80ec15f9f13e66c5a4a55f11cc490d",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/miniature-morning.webp",
+      "bytes": 38724,
+      "sha256": "8d30af2ea0368a5a185cef5ad96d6a7d0d0a8c2c81fa591513b38905d3c9e1dc",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/miniature-noon.webp",
+      "bytes": 41852,
+      "sha256": "a1bbc804d483e6d7e4ad214b185887112ff15b6ee4c572b10c84825055cdde75",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/version.txt",
+      "bytes": 65,
+      "sha256": "ef3ffaa29b72c4a65cf9cd86501b363b0e68805d8437f08971c60ffc5fb8a7e9",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "index.html",
+      "bytes": 104491,
+      "sha256": "b81a7fb1a9c77e607f8cc77f358c1c94a50b63f82e633c5d7d6d719666698483",
+      "matches": "published Git blob"
+    },
+    {
+      "path": "projects/la-jolla/index.html",
+      "bytes": 62448,
+      "sha256": "6ee5a2dd2aaf5f1e14517ed9593dbfc6a82c9b988c0f6f4be3ac0820e6ab2e85",
+      "matches": "published Git blob"
+    }
+  ]
+}

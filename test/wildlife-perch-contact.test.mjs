@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
+import { gzipSync } from "node:zlib";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import * as THREE from "../assets/js/three.module.min.js";
@@ -46,13 +47,17 @@ test("perch contact metadata matches retained geometry and stays bounded", async
     );
     assert.equal(data.patches[index].contactGeometry, "decoded delivered shell/coast");
   }
-  assert.ok(file.byteLength < 32 * 1024);
+  // The finer retained cliff supplies50 triangles at the west perch. Keep
+  // their actual delivered/native support instead of discarding contact faces
+  // to fit the older32KiB fixture. The transport cap remains explicit too.
+  assert.ok(file.byteLength < 40 * 1024);
+  assert.ok(gzipSync(file, { level: 9 }).byteLength < 8 * 1024);
   // Three coast perches and the gallery rail for the gulls, four rock roosts for the cormorants.
   assert.deepEqual(
     data.patches.map((patch) => patch.kind),
     ["coast", "coast", "coast", "rail", "rock", "rock", "rock", "rock"]
   );
-  assert.ok(data.patches.every((patch) => patch.triangles.length > 0 && patch.triangles.length < (patch.kind === "rock" ? 64 : 32)));
+  assert.ok(data.patches.every((patch) => patch.triangles.length > 0 && patch.triangles.length < 64));
   for (let index = 0; index < 3; index++) assert.deepEqual(data.patches[index].original, manifest.terrain.perches[index]);
   assert.deepEqual(data.patches[3].original, manifest.retreat.galleryPerch);
   for (const foot of Object.values(data.feet))

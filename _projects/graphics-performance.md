@@ -59,7 +59,7 @@ A CPU profile then found the largest single cost where the draw counts did not p
 
 ## Five changes, each measured
 
-Each change ran against the same code without it, base and change alternating, so a busy laptop slowed both sides alike. Taking one change back out at a time shows what each one carries.
+This section records the October 18–19 laptop experiments. Each change ran against the same code without it, base and change alternating, so a busy laptop slowed both sides alike. Taking one change back out at a time shows what each one carries. The later PC quality settings are described below.
 
 <figure class="performance-chart" aria-labelledby="performance-chart-title">
   <p class="performance-chart-title" id="performance-chart-title">Script per frame from outside, in milliseconds (two runs each)</p>
@@ -219,19 +219,23 @@ The portrait is the homepage's largest paint (1.85 s), so it now loads with `fet
 - **Merging static meshes.** Only 12 of the 390 drawn meshes are static, opaque and share a material, which would save 3 draws. Everything else can be clicked, moves, sways in the wind or is skinned.
 - **Temporal antialiasing.** Every character, animal, plant and wave moves, and without motion vectors for each object it would trade a little shimmer for ghosting. 4× multisampling already holds the edges; 8× looked the same and cost about 3 ms of GPU time.
 
-## Why not WebGPU yet
+## What changed on the PC
 
-WebGPU is the obvious next renderer, so I priced the move in October. Not yet:
+The October 26–28 follow-up puts visual quality back into the full-screen budget. The high tier allows up to 8.3 megapixels at a density of 2; the moving desktop view has a 0.8 resolution floor, and a still restores its full profile within the pixel and memory budget. The phone has its own smaller profile. These are fidelity settings, not a claim that the outside view reaches 60 frames a second.
 
-- Three.js r186, from September 2026, still calls its [WebGPU renderer](https://threejs.org/manual/pages/webgpurenderer.html) experimental and recommends the WebGL renderer for WebGL 2 work. It runs neither the string patches in my materials nor the post-processing passes, so the procedural surfaces, the light field, contact lighting, skin, the light installations, the light well, the plant and ocean motion, and the contact, bloom and output passes would all be rewritten in three's shading language, TSL.
-- Its per-object uniform buffers run several times slower than the WebGL renderer when a scene has many distinct objects, about 15 frames a second against 60 for 20,000 cubes ([three.js issue 30560](https://github.com/mrdoob/three.js/issues/30560), open since February 2025). Many distinct objects is exactly this scene.
-- Visitors without WebGPU would get its WebGL 2 fallback, which a September 2026 comment on that issue measured at 31% more render time on the CPU and 80% more GL calls in a draw-heavy app.
+Production ES modules are now minified with identifier and whitespace changes, without compression rewrites. The source-bound [delivery receipt](https://github.com/DylanTao/dylantao.github.io/blob/main/artwork/coastal-home/reviews/module-delivery-2026-10-26/delivery-size.json) records the byte comparison. Smaller downloads do not, on their own, prove faster shader compilation. The [PC performance review](https://github.com/DylanTao/dylantao.github.io/blob/main/artwork/coastal-home/reviews/startup-and-frame-2026-10-26/README.md) keeps the measured starts, flicker recordings and rejected attempts separate. Sirui's physical iPhone baseline took 16.673 seconds to become ready, with 35/44 ms frame p50/p95; a comparable finished-build device visit is still needed.
 
-What WebGPU would buy is render bundles, which replay static draws without per-draw script, and culling on the GPU. Both aim at the per-draw cost this scene is bound by. I will look again when that issue is fixed and the scene has moved from three.js r164 to a current release on the WebGL renderer. Then the materials can move one at a time, and the renderer switches only if an A/B wins on both backends.
+## The WebGPU decision
+
+Rechecked October 28: the home still uses the pinned three.js r164 WebGL renderer. Current three.js documentation describes [WebGPURenderer](https://threejs.org/docs/pages/WebGPURenderer.html) as an alternative that selects WebGPU when available and otherwise falls back to WebGL 2. The older description here calling it experimental was not a sound reason to postpone a comparison.
+
+There is a concrete porting boundary. The home uses GLSL materials and shader patches; the current [ShaderMaterial documentation](https://threejs.org/docs/pages/ShaderMaterial.html) restricts that material to WebGLRenderer, and the [Material documentation](https://threejs.org/docs/pages/Material.html#onBeforeCompile) restricts `onBeforeCompile` to it too, recommending node materials and TSL for the newer renderer. Preserving the lighting, water, moving skins and output therefore needs a tested material/pass port before a renderer comparison is meaningful.
+
+The reports in [three.js issue 30560](https://github.com/mrdoob/three.js/issues/30560) concern other scenes and releases. They do not predict this home's speed. A switch needs matched pictures and paired measurements of the complete home on WebGPU, its WebGL 2 fallback and a real phone. No WebGPU speedup has been demonstrated here.
 
 ## What I would try next
 
-In priority order, with the expected win and the effort for one agent, estimated from these measurements. The [technical record]({{ '/projects/graphics-lab/record/' | relative_url }}#problem-next-performance) keeps the numbers behind each one and the sources I checked.
+The list below preserves the October 19 hypotheses and estimates, not measured wins. Module minification has since shipped. The PC follow-up rejected several material-sharing, shader-loop and mirror-update attempts when they changed the picture or failed to save time; their retained evidence takes precedence over an older estimate. The [technical record]({{ '/projects/graphics-lab/record/' | relative_url }}#problem-next-performance) keeps the original reasoning.
 
 1. **Share identical materials between meshes**, so grouped draws skip three.js's material refresh: a further 20 to 40% of outside script time, in half a day. It touches the renovation's materials, so it needs my decision.
 2. **Stand in for distant refraction.** A non-refracting material for the hopper glass and the onsen water seen from outside removes three's opaque copy, about a quarter of the frame's draws, in hours. A look change of a few dozen pixels.
@@ -267,7 +271,7 @@ In priority order, with the expected win and the effort for one agent, estimated
 - Kevin Myers, [Shadows of Cold War: A Scalable Approach to Shadowing](https://research.activision.com/publications/2021/10/shadows-of-cold-war--a-scalable-approach-to-shadowing), GDC 2021: the two-stage shadow cache, the same split as [Unity HDRP's cached shadows](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@14.0/manual/Shadows-in-HDRP.html) and [Unreal Engine's virtual shadow map cache](https://dev.epicgames.com/documentation/en-us/unreal-engine/virtual-shadow-maps-in-unreal-engine).
 - Doug Binks, [Dynamic Resolution Rendering](https://www.intel.com/content/dam/develop/external/us/en/documents/dynamicresolutionrendering-183334.pdf), Intel, GDC 2011, and the hysteresis of drei's [PerformanceMonitor](https://drei.docs.pmnd.rs/performances/performance-monitor): the pixel budget's adaptive step.
 - Khronos, [KHR_parallel_shader_compile](https://registry.khronos.org/webgl/extensions/KHR_parallel_shader_compile/): compiling on the driver's threads. Brendan Gregg's off-CPU analysis in _Systems Performance_ (2nd edition, 2020) explained the stutter: a starved thread, not slow code.
-- Three.js's [WebGPURenderer manual](https://threejs.org/manual/pages/webgpurenderer.html) and [issue 30560](https://github.com/mrdoob/three.js/issues/30560): the WebGPU decision.
+- Three.js's [WebGPURenderer](https://threejs.org/docs/pages/WebGPURenderer.html), [ShaderMaterial](https://threejs.org/docs/pages/ShaderMaterial.html), [Material](https://threejs.org/docs/pages/Material.html#onBeforeCompile) and [issue 30560](https://github.com/mrdoob/three.js/issues/30560): the WebGPU porting boundary and limits of outside benchmarks.
 - Philip Walton, [Web Vitals](https://web.dev/articles/vitals), and Addy Osmani and colleagues, [Optimize resource loading with the Fetch Priority API](https://web.dev/articles/fetch-priority), on web.dev.
 
 <details class="resource-folder project-story-disclosure">

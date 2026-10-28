@@ -114,8 +114,8 @@ export function createStaticLightField({
   if (!Number.isInteger(skyRaysPerHit) || skyRaysPerHit < 1 || skyRaysPerHit > 16) throw new RangeError("sky rays per hit must be 1..16");
   if (!Number.isFinite(maxTraceDistance) || maxTraceDistance <= 0 || !Number.isInteger(maxTriangles) || maxTriangles < 1)
     throw new RangeError("invalid trace bounds");
-  if (!regions.length || regions.length > 16 || practicalSources.length > 26)
-    throw new RangeError("field supports 1..16 regions and at most 26 practicals");
+  if (!regions.length || regions.length > 16 || practicalSources.length > 28)
+    throw new RangeError("field supports 1..16 regions and at most 28 practicals");
   regions = regions.map((r) => {
     if (r.min.length !== 3 || r.max.length !== 3 || !r.min.every((x, i) => Number.isFinite(x) && Number.isFinite(r.max[i]) && x < r.max[i]))
       throw new RangeError("invalid region bounds");
@@ -265,12 +265,12 @@ export function createStaticLightField({
           return;
         }
         const triangles = accepted.reduce((s, g) => s + Math.floor(g.count / 3), 0);
-        if (potential + triangles > maxTriangles)
-          throw new RangeError(`static geometry exceeds explicit ${maxTriangles} triangle budget; native indirect is retained`);
         potential += triangles;
         meshes.push({ mesh, position, geometry, materials, groups: accepted });
       });
     }
+    if (potential > maxTriangles)
+      throw new RangeError(`static geometry exceeds explicit ${maxTriangles} triangle budget (${potential} collected); native indirect is retained`);
     const positions = new Float32Array(potential * 9),
       albedo = new Float32Array(potential * 3),
       point = new THREE.Vector3();

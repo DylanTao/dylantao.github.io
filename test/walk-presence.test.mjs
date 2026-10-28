@@ -43,15 +43,43 @@ function avatar() {
   return { source, hips, head, mesh, eyelids, geometry, material, skeleton, clips: [idle, walk] };
 }
 
+function deferredProgram(releases) {
+  let ready = false;
+  releases.push(() => {
+    ready = true;
+  });
+  return { program: {}, isReady: () => ready };
+}
+
+async function until(condition) {
+  const deadline = Date.now() + 1000;
+  while (!condition()) {
+    assert.ok(Date.now() < deadline, "deferred driver poll did not progress");
+    await new Promise((resolve) => setTimeout(resolve, 1));
+  }
+}
+
 function fixture() {
   let target = { original: true },
     probeDisposals = 0;
-  const knownProbes = new WeakSet();
+  const knownProbes = new WeakSet(),
+    compiled = new WeakMap();
   const model = avatar(),
     draws = [],
     renderer = {
       localClippingEnabled: false,
-      compileAsync: async () => {},
+      onCompile: () => {},
+      properties: { get: (material) => compiled.get(material) },
+      getContext: () => ({ isContextLost: () => false }),
+      compile: (object, camera, scene) => {
+        const program = renderer.onCompile(object, camera, scene) || { program: {}, isReady: () => true },
+          materials = new Set();
+        object.traverseVisible((part) => {
+          if (part.isMesh) for (const material of [part.material].flat()) materials.add(material);
+        });
+        for (const material of materials) compiled.set(material, { currentProgram: program });
+        return materials;
+      },
       shadowMap: { autoUpdate: true, needsUpdate: true },
       autoClear: false,
       xr: { enabled: true },
@@ -276,7 +304,7 @@ test("a failed or asynchronous primary draw always restores clipping custody", a
 test("warmup compiles full and primary-clipped variants before Walk, then restores the hidden presence", async () => {
   const f = fixture(),
     variants = [];
-  f.renderer.compileAsync = async () => {
+  f.renderer.onCompile = () => {
     variants.push(Boolean(f.material.clippingPlanes));
     assert.equal(f.source.visible, false);
     assert.equal(f.presence.object.visible, true);
@@ -294,7 +322,7 @@ test("warmup compiles full and primary-clipped variants before Walk, then restor
 
 test("warmup primes the renderer's clipping state with empty draws instead of drawing the body", async () => {
   // A real body draw links its programs on the main thread (25 s frozen on ANGLE/D3D11). The
-  // prime draws an empty scene so r164's clipping state holds 0, then 1, planes for compileAsync.
+  // prime draws an empty scene so r164's clipping state holds 0, then 1, planes for nonblocking compile submission.
   const f = fixture(),
     primed = [],
     render = f.renderer.render;
@@ -316,7 +344,7 @@ test("warmup primes the renderer's clipping state with empty draws instead of dr
 
 test("warmup failure and disposal during warmup do not reveal a body or leave the routine hidden", async () => {
   const f = fixture();
-  f.renderer.compileAsync = async () => {
+  f.renderer.onCompile = () => {
     throw new Error("compile failed");
   };
   await assert.rejects(f.presence.prepare({ scene: f.scene, camera: f.camera }), /compile failed/);
@@ -324,7 +352,7 @@ test("warmup failure and disposal during warmup do not reveal a body or leave th
   assert.equal(f.presence.object.visible, false);
   assert.equal(f.presence.evidence().prepared, false);
   assert.equal(f.probeDisposals(), 1, "failed warmup releases its temporary target too");
-  f.renderer.compileAsync = async () => f.presence.dispose();
+  f.renderer.onCompile = () => f.presence.dispose();
   await f.presence.prepare({ scene: f.scene, camera: f.camera });
   assert.equal(f.source.visible, true);
   assert.equal(f.presence.object.visible, false);
@@ -388,11 +416,10 @@ test("an obsolete asynchronous warmup cannot steal visibility or clipping from a
     next = avatar(),
     releases = [],
     variants = [];
-  f.renderer.compileAsync = () =>
-    new Promise((resolve) => {
-      variants.push(Boolean(next.material.clippingPlanes));
-      releases.push(resolve);
-    });
+  f.renderer.onCompile = () => {
+    variants.push(Boolean(next.material.clippingPlanes));
+    return deferredProgram(releases);
+  };
   const obsolete = f.presence.prepare({ scene: f.scene, camera: f.camera });
   f.presence.setSource(next.source, next.clips);
   f.scene.add(next.source);
@@ -402,8 +429,7 @@ test("an obsolete asynchronous warmup cannot steal visibility or clipping from a
   assert.equal(f.source.visible, true);
   assert.equal(next.source.visible, true, "driver polling never hides the current routine between frames");
   releases.shift()();
-  await Promise.resolve();
-  await Promise.resolve();
+  await until(() => releases.length > 0);
   assert.equal(variants.at(-1), true, "the replacement warms its primary clipped program too");
   releases.shift()();
   await current;
@@ -418,11 +444,11 @@ test("driver polling retains no render target, visibility, clipping or shadow mu
   const f = fixture(),
     releases = [],
     originalTarget = f.renderer.getRenderTarget();
-  f.renderer.compileAsync = (body, camera, lightingScene) => {
+  f.renderer.onCompile = (body, camera, lightingScene) => {
     assert.equal(body, f.presence.object.children[0], "compile only the avatar while using real scene lighting");
     assert.equal(lightingScene, f.scene);
     assert.equal(camera, f.camera);
-    return new Promise((resolve) => releases.push(resolve));
+    return deferredProgram(releases);
   };
   const pending = f.presence.prepare({ scene: f.scene, camera: f.camera });
   function restored() {
@@ -439,8 +465,7 @@ test("driver polling retains no render target, visibility, clipping or shadow mu
   restored();
   f.presence.withoutHead(() => assert.equal(f.material.clippingPlanes, null, "ordinary frames stay unclipped during inactive warmup"));
   releases.shift()();
-  await Promise.resolve();
-  await Promise.resolve();
+  await until(() => releases.length > 0);
   restored();
   assert.deepEqual(
     f.draws.map((d) => d.clipped),

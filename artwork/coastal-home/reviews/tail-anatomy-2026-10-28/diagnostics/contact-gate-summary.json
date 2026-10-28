@@ -1,0 +1,45 @@
+{
+  "state": "REJECTED: strict0.5mm source/decoded binding not met; diagnostic full-patch selection is also inconsistent on an unchanged human, so the attempted alternative metrology was not admitted",
+  "avatars": {
+    "lizard": {
+      "offset": 0.503206895249065,
+      "sourceGlbSha256": "c6a92386a8669679429a82642d18e69c5b4550796fbbc09ca6a7a3911e2eed58",
+      "sourceNativeSha256": "1019ad96d921662c95fd305747ed7f959de0e5af3e3c0da5ad3dd05255e73325",
+      "yError": 0.000001953499492279853,
+      "legacyWitnessCloudDistanceM": 0.0005284288655782393,
+      "diagnosticFullPatchDistanceM": 0.0005994251006192837
+    },
+    "south-park": {
+      "offset": 0.5368913573616145,
+      "sourceGlbSha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+      "sourceNativeSha256": "1019ad96d921662c95fd305747ed7f959de0e5af3e3c0da5ad3dd05255e73325",
+      "yError": 5.525940058870304e-7,
+      "legacyWitnessCloudDistanceM": 0.000036738325484733634,
+      "diagnosticFullPatchDistanceM": 0.0126042437579841
+    },
+    "simpsons": {
+      "offset": 0.5369150513046368,
+      "sourceGlbSha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
+      "sourceNativeSha256": "1019ad96d921662c95fd305747ed7f959de0e5af3e3c0da5ad3dd05255e73325",
+      "yError": 0.00002341207200129425,
+      "legacyWitnessCloudDistanceM": 0.00004091468618951099,
+      "diagnosticFullPatchDistanceM": 0.00004194088222975339
+    },
+    "ghibli": {
+      "offset": 0.5369150513046368,
+      "sourceGlbSha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
+      "sourceNativeSha256": "1019ad96d921662c95fd305747ed7f959de0e5af3e3c0da5ad3dd05255e73325",
+      "yError": 0.00002341207200129425,
+      "legacyWitnessCloudDistanceM": 0.00004091468618951099,
+      "diagnosticFullPatchDistanceM": 0.00004194088222975339
+    },
+    "rick-and-morty": {
+      "offset": 0.5368863668724049,
+      "sourceGlbSha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
+      "sourceNativeSha256": "1019ad96d921662c95fd305747ed7f959de0e5af3e3c0da5ad3dd05255e73325",
+      "yError": 0.0000044378952037682495,
+      "legacyWitnessCloudDistanceM": 0.000038535713802642085,
+      "diagnosticFullPatchDistanceM": 0.000043207640847264715
+    }
+  }
+}
