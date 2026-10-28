@@ -1,0 +1,43 @@
+﻿const fs = require('node:fs');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const { chromium, expect } = require('@playwright/test');
+const { preparePage } = require(path.resolve('test/visual/helpers.js'));
+const q = path.resolve('.jekyll-cache/visual-qa/finish-todos-2026-10-26/normal-coffee-live');
+fs.mkdirSync(q, { recursive: true });
+(async () => {
+ const browser = await chromium.launch({ headless: true, args: ['--use-angle=d3d11', '--ignore-gpu-blocklist'] });
+ try {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: 'en-US', timezoneId: 'America/Los_Angeles' });
+  const page = await context.newPage();
+  await preparePage(page, 'light');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const rows = [];
+  for (let visit = 1; visit <= 2; visit++) {
+   if (visit === 1) await page.goto('https://dylantao.github.io/?check=6445e0b00-normal', { waitUntil: 'domcontentloaded' });
+   else await page.reload({ waitUntil: 'domcontentloaded' });
+   const stack = page.locator('.home-artifact-stack.has-coffee-stain');
+   await expect(stack).toHaveAttribute('data-coffee-stain-ready', 'true', { timeout: 20000 });
+   await stack.evaluate(node => { for (const [key, value] of Object.entries({ '--home-coffee-stain-rotation': '0deg', '--home-coffee-stain-x': '0rem', '--home-coffee-stain-y': '0rem', '--home-coffee-stain-scale': '1' })) node.style.setProperty(key, value); });
+   const sample = await stack.evaluate(async node => {
+    const value = getComputedStyle(node).getPropertyValue('--home-coffee-stain-image');
+    const image = new Image(); image.src = value.slice(5, -2); await image.decode();
+    const canvas = document.createElement('canvas'); canvas.width = image.naturalWidth; canvas.height = image.naturalHeight;
+    const context = canvas.getContext('2d'); context.drawImage(image, 0, 0);
+    const rgba = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    const alpha = new Uint8Array(rgba.length / 4), mask = new Uint8Array(alpha.length);
+    let visible = 0;
+    for (let i = 0; i < alpha.length; i++) { alpha[i] = rgba[4 * i + 3]; mask[i] = alpha[i] >= 8 ? 1 : 0; visible += mask[i]; }
+    const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(v => v.toString(16).padStart(2, '0')).join('');
+    return { source: node.dataset.coffeeStainSource, width: canvas.width, height: canvas.height, rgbaSha256: await digest(rgba), alphaSha256: await digest(alpha), alphaMask8Sha256: await digest(mask), alphaMask8Pixels: visible, png: canvas.toDataURL('image/png').split(',')[1], legacyPigmentRequests: performance.getEntriesByType('resource').filter(r => r.name.includes('/coffee-deposit-')).map(r => r.name), page: location.href };
+   });
+   expect(sample.source).toBe('procedural'); expect(sample.width).toBeGreaterThanOrEqual(1024); expect(sample.legacyPigmentRequests).toHaveLength(0);
+   const png = Buffer.from(sample.png, 'base64'); delete sample.png; const file = 'visit-' + visit + '-intrinsic.png'; fs.writeFileSync(path.join(q, file), png);
+   await stack.screenshot({ path: path.join(q, 'visit-' + visit + '-page-stack.png') });
+   rows.push({ visit, ...sample, file, fileBytes: png.length, fileSha256: crypto.createHash('sha256').update(png).digest('hex') });
+  }
+  expect(rows[0].rgbaSha256).not.toBe(rows[1].rgbaSha256); expect(rows[0].alphaSha256).not.toBe(rows[1].alphaSha256); expect(rows[0].alphaMask8Sha256).not.toBe(rows[1].alphaMask8Sha256);
+  fs.writeFileSync(path.join(q, 'readback.json'), JSON.stringify({ sourceCommit: '6445e0b00730e440d3a6a2cd2339028d2903cef9', scope: 'Actual public ordinary URL, one document reload, no coffeeSeed parameter or generation override; same explicit CSS placement both visits. Reduced motion for stable inspection. Hashes are decoded intrinsic RGBA, alpha and threshold-eight opacity geometry.', rows }, null, 2) + '\n');
+  process.stdout.write(JSON.stringify({ visits: 2, sizes: rows.map(r => [r.width, r.height]), decodedPigmentAndOpacityGeometryDiffer: true, legacyImageRequests: 0 }) + '\n');
+ } finally { await browser.close(); }
+})().catch(error => { console.error(error); process.exitCode = 1; });

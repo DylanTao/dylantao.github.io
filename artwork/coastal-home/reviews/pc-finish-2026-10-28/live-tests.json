@@ -1,0 +1,38 @@
+{
+  "sourceCommit": "6445e0b00730e440d3a6a2cd2339028d2903cef9",
+  "pagesCommit": "7c78972fcfd106730648aeb3b8966583db61eb5c",
+  "scope": "Actual public website in independent headless browser processes. Desktop/phone Chromium coffee, DPR3 WebKit coffee, native Chromium exterior and public-room camera behavior. Device performance remains separate.",
+  "checks": [
+    {
+      "engine": "Chromium",
+      "file": "sitewide.spec.js",
+      "case": "the desk coffee ring",
+      "projects": ["desktop-1440", "mobile-390"],
+      "passed": 2,
+      "reportedElapsed": "2.0m"
+    },
+    {
+      "engine": "WebKit",
+      "file": "sitewide.spec.js",
+      "case": "the desk coffee ring",
+      "projects": ["mobile-390"],
+      "deviceScaleFactor": 3,
+      "passed": 1,
+      "reportedElapsed": "2.1m"
+    },
+    {
+      "engine": "Chromium native D3D11",
+      "file": "desk-scene.spec.js",
+      "case": "full exterior orbit and guided interior camera boundaries",
+      "projects": ["desktop-1440"],
+      "passed": 1,
+      "reportedElapsed": "49.9s"
+    }
+  ],
+  "normalVisits": "normal-visits/readback.json",
+  "normalVisitAppearanceScope": "Intrinsic unstyled pigment/opacity fields; these PNGs are not the final CSS composite or whole-hero captures. Compiled and public browser checks cover appearance and clearance separately.",
+  "initialCiFailure": {
+    "job": 123108215052,
+    "scope": "Browser launch timed out before any scene tests/site code; retained and rerun once after the matrix completed."
+  }
+}

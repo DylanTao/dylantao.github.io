@@ -1,0 +1,36 @@
+{
+  "sourceCommit": "6445e0b00730e440d3a6a2cd2339028d2903cef9",
+  "scope": "Actual public ordinary URL, one document reload, no coffeeSeed parameter or generation override; same explicit CSS placement both visits. Reduced motion for stable inspection. Hashes are decoded intrinsic RGBA, alpha and threshold-eight opacity geometry.",
+  "rows": [
+    {
+      "visit": 1,
+      "source": "procedural",
+      "width": 1024,
+      "height": 1024,
+      "rgbaSha256": "b5e1b5d4b929be52165245bc584ab6093531826f5b140bfbdc97b0fc8ab1cf4c",
+      "alphaSha256": "53db087833a00943eada129204e1d50f838562ba6a27fab96ab0e4ca8656b596",
+      "alphaMask8Sha256": "f5f25b85fde085724d78492fffe33d7ad2358826f08523a11f5b373dd0dc2cc1",
+      "alphaMask8Pixels": 98200,
+      "legacyPigmentRequests": [],
+      "page": "https://dylantao.github.io/?check=6445e0b00-normal",
+      "file": "visit-1-intrinsic.png",
+      "fileBytes": 300654,
+      "fileSha256": "b66a598146fd1e8a6224589df941dd16c5c2aac87b989c9b652542dbbcbfdbb5"
+    },
+    {
+      "visit": 2,
+      "source": "procedural",
+      "width": 1024,
+      "height": 1024,
+      "rgbaSha256": "701f316d362b8d9d79114a4760975704ef8dbdd210ab1e2b7e04fd54636e344d",
+      "alphaSha256": "ed1da3f6bff9a2acbcd4109cbbdb28c355cd0ba7f31f7566bd588d284ed66c70",
+      "alphaMask8Sha256": "3f09c141b577379322283d10365454430e4a27fb01473a2ed7a76fe2482ab6c3",
+      "alphaMask8Pixels": 120734,
+      "legacyPigmentRequests": [],
+      "page": "https://dylantao.github.io/?check=6445e0b00-normal",
+      "file": "visit-2-intrinsic.png",
+      "fileBytes": 342409,
+      "fileSha256": "3638ea4ae33db610c7c512ffe140550bc7ac3074385bf5756180d020b2064b27"
+    }
+  ]
+}

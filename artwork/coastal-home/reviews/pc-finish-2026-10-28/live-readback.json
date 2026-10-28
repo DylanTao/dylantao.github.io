@@ -1,0 +1,225 @@
+{
+  "checkedAtUtc": "2026-10-28T21:28:33.780536+00:00",
+  "sourceCommit": "6445e0b00730e440d3a6a2cd2339028d2903cef9",
+  "pagesCommit": "7c78972fcfd106730648aeb3b8966583db61eb5c",
+  "pagesSubject": "Deploying to gh-pages from @ DylanTao/dylantao.github.io@6445e0b00730e440d3a6a2cd2339028d2903cef9 \u00f0\u0178\u0161\u20ac",
+  "scope": "Exact served generated-coffee script, fallback, identity icons, source-bound scene modules, geometry, P delivery, cache/loading/perch data, homepage/blog HTML and compiled CSS/classic scripts. This proves publication of the exercised source; CI, appearance and physical-device performance remain separate.",
+  "pipeline": {
+    "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+    "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+    "compiler": "1.2.7",
+    "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3"
+  },
+  "files": [
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "bytes": 95906,
+      "sha256": "612fd60b74786c5cfd30a37a41e6006de811b1132d6c7c32156aad30d0354e4b",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/js/home-scene/program-lifetime.mjs",
+      "bytes": 1190,
+      "sha256": "9bb021e248d08d582af88ca99787d25589f44138e7786ae0d2c33d8b89bec19e",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/js/home-scene/program-warmup.mjs",
+      "bytes": 5300,
+      "sha256": "9697e2a80adfe9fda930ed7966e26a0c3339a97cc16687ce4544388b7b842497",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/js/home-scene/walk-presence.mjs",
+      "bytes": 9028,
+      "sha256": "619b0b17484d72690edd89909f56b62d57daf8d9bb9c9011e5c02af338efc5bc",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/js/home-scene/interior-reflections.mjs",
+      "bytes": 9899,
+      "sha256": "10b201a7af6423192ccc6da90d5cca407dbcba6f94a96951927460f4e0bde786",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/js/home-scene/room-journey.mjs",
+      "bytes": 3375,
+      "sha256": "fb644b080e45b61d72932065ff87c030b4926abb5745baad90cbcdb7aea36a6e",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/js/home-scene/planted-feet.mjs",
+      "bytes": 2538,
+      "sha256": "d09f46ab43b5da746947177d7eb0d959642f5356d2f6206c6b38b48ce2823afb",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/js/home-scene/seat-surface.mjs",
+      "bytes": 1015,
+      "sha256": "f398c04569a0708991a92e16121b016759a9fa7cfc3750cdd24de55e81793134",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/js/home-scene/laundry-frame.mjs",
+      "bytes": 2253,
+      "sha256": "32887b8d87c31132ddc573dee90c228480cf6675bee1aff5ad8012266a3e038e",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/js/home-scene/laundry-line.mjs",
+      "bytes": 8346,
+      "sha256": "9e37750c9014e3746c6e477f66b7f6418e40c7b6895a851e38573dd0fe581c11",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/js/home-scene/weather-data.mjs",
+      "bytes": 12940,
+      "sha256": "e050549bc6db516ea12be73724b88f261514ece24677c381d020f90dfc2d90c4",
+      "matches": "compiled source and recipe"
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "bytes": 232732,
+      "sha256": "494db072e494d2d39389fca304dcab3e803019ad3278eae58e88f77806fe5c21",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "bytes": 792217,
+      "sha256": "1f4713405d8ef0ce03471a675831f47a51bfbba89b31580d53c61b640d42482e",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "bytes": 896520,
+      "sha256": "9cb7746437d43c6e8c40651d3b26994f81d1893186d7933626adfcad71a5998f",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/coast.glb",
+      "bytes": 241576,
+      "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/flora.glb",
+      "bytes": 2203180,
+      "sha256": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/room-sleep.glb",
+      "bytes": 292636,
+      "sha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/room-study.glb",
+      "bytes": 112436,
+      "sha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/room-library.glb",
+      "bytes": 185640,
+      "sha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/room-lounge.glb",
+      "bytes": 231300,
+      "sha256": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/room-bath-bedroom.glb",
+      "bytes": 106412,
+      "sha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/room-bath-living.glb",
+      "bytes": 104924,
+      "sha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/loading-sketch.json",
+      "bytes": 49561,
+      "sha256": "8996b89c45c4a8058a7b017b78110e5482f54315d099ff046cf69baedd25ba13",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/home/wildlife-perch-support.json",
+      "bytes": 37635,
+      "sha256": "57712a5b351aa6410070d5fc827098b8e9cf88f58aa0eab009550409f6071d19",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/models/pip/pip.glb",
+      "bytes": 139108,
+      "sha256": "ffdc3263bbcf05731309ba3d8708c234ae076cc2f8839b43478ef92c7f5e1001",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/img/home/coffee-deposit-20261028-c91b57ee8c.webp",
+      "bytes": 50038,
+      "sha256": "c91b57ee8cb7d0818f7d93e46e917a8e59ceae87e71369e0c5a1f43a2e1210a9",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/img/favicon.svg",
+      "bytes": 2122,
+      "sha256": "0803b8207e6d929b644cd80b7103146aa5379adee2f7c3fe6aca82b3e6cb66b0",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/img/favicon.ico",
+      "bytes": 4412,
+      "sha256": "ad9897fc9431c6f85ad17442411b59e2136d0d08a3d0b9906918335f1c121695",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/img/apple-touch-icon.png",
+      "bytes": 10368,
+      "sha256": "16d3f13daf3f20a5d9719fcf903e7fa53ddcd6fe53a175ecf97bbad746f9c3d6",
+      "matches": "main data and Pages blob"
+    },
+    {
+      "path": "assets/js/home-coffee-stain.js",
+      "bytes": 10927,
+      "sha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+      "matches": "Pages blob"
+    },
+    {
+      "path": "index.html",
+      "bytes": 106251,
+      "sha256": "7bd9133d1a33cfc861a3c3a5fac901ff3b6b718c2f985bc1ad020ab16e3aa450",
+      "matches": "Pages blob"
+    },
+    {
+      "path": "blog/index.html",
+      "bytes": 89674,
+      "sha256": "59ed39b48a5b7334359c318183f14563a132ff2d8e46253ad6a1774e0dee3100",
+      "matches": "Pages blob"
+    },
+    {
+      "path": "assets/css/main.css",
+      "bytes": 525884,
+      "sha256": "5cc8b455c2e5be77e305c99f2e273a7e83c16d8513fe20ca298954ecffbf1e99",
+      "matches": "Pages blob"
+    },
+    {
+      "path": "assets/js/home.js",
+      "bytes": 36701,
+      "sha256": "e16be08b9abce6da3583bc73034e650b528ed9505b630de21d16266ec7db6f14",
+      "matches": "Pages blob"
+    },
+    {
+      "path": "assets/js/brand-orange.js",
+      "bytes": 9362,
+      "sha256": "b98f6f9d78454cba1e994123d974b2104f7c10ce90cf9d75c53488458d3f18c9",
+      "matches": "Pages blob"
+    }
+  ]
+}

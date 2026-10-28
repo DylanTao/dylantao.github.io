@@ -1,6 +1,6 @@
 # PC continuation release, October 28
 
-The [release receipt](release-receipt.json) records the final main/Pages/CI binding. Its pending state must not be read as a green release. This checkpoint finishes the procedural coffee request, qualifies the adjacent bedroom and pool journeys, and closes the task-owned PC worktrees. The remaining visual and performance limits stay explicit in the current handoff.
+The [release receipt](release-receipt.json) records the final main/Pages/CI binding. Source `6445e0b00` now passes all 41 visual jobs and every triggered blocking workflow; Pages `7c78972fc` and 35 exact live bodies match. The recorded retry is a pre-test browser startup failure, with the laptop cases intentionally scoped out. This checkpoint finishes the procedural coffee request, qualifies the adjacent bedroom and pool journeys, and closes the task-owned PC worktrees. The remaining visual and performance limits stay explicit in the current handoff.
 
 ## Kept and integrated
 
@@ -27,3 +27,5 @@ The complete archive is outside Git at `C:/dev/site-takeover-backup-2026-10-26/w
 The [CI observation packet](../ci-observations-2026-10-28/README.md) retains the original failures and the final local qualification. Desktop/phone bedroom and pool cases pass on the native GPU and qualified Mesa. The fixture uses the real routine timer, actual delivered geometry/contacts and public controls, with an authored lab inspection camera. It records 4 Hz native and 1 Hz software samples, alongside the separate dense 249-phase four-human contact gate. Both moving and composed-end pixels must be nonblank. These are functional checks, not FPS measurements.
 
 The current baseline still exceeds the 10/15-second startup targets and native high-quality wide views remain costly. The F6 exterior, continuous character contacts and tail, physical-iPhone comparison, footer device cost and Sirui's appearance review remain open. The laptop-only metrics refresh and exact October 22 archive-tag transfer are deferred under Sirui's PC exception. The [current checklist](../../../../docs/october-2026-handoff.md#opus-continuation-checklist-started-2026-10-24) owns their evidence and next steps.
+
+Two [ordinary public refreshes](normal-visits/readback.json) at identical CSS placement produce different decoded pigment, alpha and opacity-geometry hashes at 1024?1024, with zero legacy-image requests. The [intrinsic fields](normal-visits/) are technical generation evidence before the site's final CSS opacity/composite. Actual public Chromium desktop/phone, WebKit phone and 3D camera checks pass in [the live test receipt](live-tests.json). This does not substitute for Sirui's appearance or physical-device review.
