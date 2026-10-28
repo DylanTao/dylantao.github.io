@@ -1,0 +1,4 @@
+const path = require("node:path");
+const base = require(path.resolve(".jekyll-cache/visual-qa/finish-todos-2026-10-26/room-journeys-final-native.config.cjs"));
+const { sceneBrowserUse } = require(path.resolve("bin/visual_scene_environment.cjs"));
+module.exports = { ...base, use: sceneBrowserUse({ ...base.use, launchOptions: {} }), outputDir: path.resolve(".jekyll-cache/visual-qa/finish-todos-2026-10-26/room-journeys-final-mesa-proof") };

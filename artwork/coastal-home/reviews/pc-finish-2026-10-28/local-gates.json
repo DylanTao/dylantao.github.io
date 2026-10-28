@@ -1,0 +1,180 @@
+{
+  "sourceBase": "d9fa2a04e962b30f2b062038ac4720d243a1f8a0",
+  "scope": "Final complete production source/build and post-documentation source gates. Separate journey-local-qualification.json binds actual rendered native/Mesa cases.",
+  "productionBuild": {
+    "passed": true,
+    "seconds": 244.94,
+    "validator": "passed",
+    "bindings": {
+      "scope": "Complete final production build; every normalized current module source and compiled body matches its actual receipt. Coffee and full CSS match the exercised and already-published candidate.",
+      "modules": 173,
+      "pipeline": {
+        "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+        "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+        "compiler": "1.2.7",
+        "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3"
+      },
+      "coffeeSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+      "cssSha256": "66924c64d2fa5aba5bfb7fec62f62911672a9c9f1684503d3b1d550a92fd4fda",
+      "unresolvedInitialBrandLiquid": false
+    }
+  },
+  "python": {
+    "cases": 314,
+    "passed": true
+  },
+  "node": {
+    "total": 876,
+    "passed": 869,
+    "intentionalSkips": 7,
+    "failed": 0
+  },
+  "prettier": {
+    "changedFiles": "passed",
+    "wholeCheckoutWithNativeLineEndings": "passed using --end-of-line auto",
+    "note": "The untouched Windows checkout uses CRLF; no mass line-ending rewrite."
+  },
+  "styleContract": "passed",
+  "sceneRegistry": {
+    "reviewedManifestHead": "e91430e5d85c86607750a351ed7739d184a0c2be",
+    "coverage": [
+      {
+        "project": "desktop-1440",
+        "completeCaseCount": 129,
+        "groupCounts": {
+          "scene-core-1": 37,
+          "scene-core-2": 26,
+          "scene-exploration": 23,
+          "scene-gym": 1,
+          "scene-choreography": 2,
+          "scene-held-stairs": 5,
+          "scene-live": 2,
+          "scene-journey": 3,
+          "scene-footer-light": 30
+        },
+        "missing": 0,
+        "extra": 0,
+        "duplicates": 0
+      },
+      {
+        "project": "laptop-1280",
+        "completeCaseCount": 129,
+        "groupCounts": {
+          "scene-core-1": 37,
+          "scene-core-2": 26,
+          "scene-exploration": 23,
+          "scene-gym": 1,
+          "scene-choreography": 2,
+          "scene-held-stairs": 5,
+          "scene-live": 2,
+          "scene-journey": 3,
+          "scene-footer-light": 30
+        },
+        "missing": 0,
+        "extra": 0,
+        "duplicates": 0
+      },
+      {
+        "project": "tablet-768",
+        "completeCaseCount": 129,
+        "groupCounts": {
+          "scene-core-1": 37,
+          "scene-core-2": 26,
+          "scene-exploration": 23,
+          "scene-gym": 1,
+          "scene-choreography": 2,
+          "scene-held-stairs": 5,
+          "scene-live": 2,
+          "scene-journey": 3,
+          "scene-footer-light": 30
+        },
+        "missing": 0,
+        "extra": 0,
+        "duplicates": 0
+      },
+      {
+        "project": "mobile-390",
+        "completeCaseCount": 129,
+        "groupCounts": {
+          "scene-core-1": 37,
+          "scene-core-2": 26,
+          "scene-exploration": 23,
+          "scene-gym": 1,
+          "scene-choreography": 2,
+          "scene-held-stairs": 5,
+          "scene-live": 2,
+          "scene-journey": 3,
+          "scene-footer-light": 30
+        },
+        "missing": 0,
+        "extra": 0,
+        "duplicates": 0
+      }
+    ],
+    "workerCount": 1,
+    "selection": "Exact file/title membership; actual Playwright registry",
+    "inventoryFolder": "C:\\dev\\dylantao.github.io\\test-results\\scene-group-inventory\\all-scene-core-1-51520"
+  },
+  "sourcePaths": [
+    {
+      "file": "test/visual/room-journeys.spec.js",
+      "normalizedSha256": "37843e7f535e560bfefe944cbb1c42a2b34321dcfda6e41296a1a3a29147e5b7",
+      "gitBlob": "8b392861794882350d48f6c1e491160930ed82c4"
+    },
+    {
+      "file": "docs/october-2026-handoff.md",
+      "normalizedSha256": "10fd886d846d1c91c886e458f9bbd8a286b9f9041ba6e495073e1410c46437ab",
+      "gitBlob": "7dadfb5fe18b5a08956201e8219d2a8108321324"
+    },
+    {
+      "file": "docs/performance-notes.md",
+      "normalizedSha256": "6a6d03cef960e075463a90f6a7caf1ffb8ebd71eea8ba0c4d9302e123a7cc958",
+      "gitBlob": "aac90795cd3f5431576582b7f5a27591373d8f85"
+    }
+  ],
+  "cacheRebake": "No scene/cache signature input changed in this test/documentation checkpoint. Existing source-bound delivered cache remains exact.",
+  "logs": [
+    {
+      "file": "logs/build.log.gz",
+      "uncompressedSha256": "6cef6363dca39612e37f6d437b676ada4aa8ed9b122890aebdd49ec5107f1d56",
+      "bytes": 317726,
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "logs/build-validator.log.gz",
+      "uncompressedSha256": "b162d924702936044bcff9eaead6db99798b2fdb11a53420eeeaf0a39f480331",
+      "bytes": 112,
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "logs/python.log.gz",
+      "uncompressedSha256": "a669c4c9ee448b0deaa038f7004f8df0cc736a550e56931641ada0c402c03ba3",
+      "bytes": 1526,
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "logs/node.log.gz",
+      "uncompressedSha256": "3ece2bc870d6b85208ba516e81d99d4deca6132e504df8191b22ab7a3082c7b6",
+      "bytes": 293292,
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "logs/registry.log.gz",
+      "uncompressedSha256": "cfe395306fb92bd2bcf6b456d5db8496a20d938433f4163e36965891d6b147c3",
+      "bytes": 2778,
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "logs/prettier-portable.log.gz",
+      "uncompressedSha256": "fbdd37869c73ce85afb11ffefa058e0181874c073fdfee7d7a4b5086b7ea3b1b",
+      "bytes": 138,
+      "encoding": "UTF-16 with BOM"
+    }
+  ],
+  "setupFailure": {
+    "file": "logs/build-initial-setup-failure.log.gz",
+    "accepted": false,
+    "cause": "ImageMagick generator needed the owned destination parent to exist; it was created before the passing build."
+  },
+  "newMainCi": "pending at commit; read release-receipt.json for the final status"
+}

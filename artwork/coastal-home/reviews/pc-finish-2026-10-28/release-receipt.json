@@ -1,0 +1,6 @@
+{
+  "status": "pending-new-main-ci",
+  "sourceBase": "d9fa2a04e962b30f2b062038ac4720d243a1f8a0",
+  "localQualification": "../ci-observations-2026-10-28/journey-local-qualification.json",
+  "sourceAndRuntimeReadback": "The d9 deployed product was verified across 35 exact served bodies; final commit and Pages bindings will replace this pending receipt after CI."
+}

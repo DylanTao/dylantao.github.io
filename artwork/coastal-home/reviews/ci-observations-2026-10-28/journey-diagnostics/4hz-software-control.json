@@ -1,0 +1,73 @@
+{
+  "scope": "Interrupted diagnostic, not acceptance. Qualified backend and unchanged full scene; used to choose functional sampling cadence.",
+  "traces": [
+    {
+      "trace": ".playwright-artifacts-0\\traces\\6d547cc14f3cba5c80f6-a4a522e037cb79781586.trace",
+      "calls": [
+        {
+          "method": "clockRunFor",
+          "ticks": 100,
+          "durationMs": 107.74
+        },
+        {
+          "method": "clockRunFor",
+          "ticks": 100,
+          "durationMs": 4.16
+        },
+        {
+          "method": "clockRunFor",
+          "ticks": 100,
+          "durationMs": 9879.69
+        },
+        {
+          "method": "clockRunFor",
+          "ticks": 200,
+          "durationMs": 5500.71
+        },
+        {
+          "method": "clockRunFor",
+          "ticks": 500,
+          "durationMs": 4402.07
+        },
+        {
+          "method": "clockFastForward",
+          "ticks": 32000,
+          "durationMs": 2300.99
+        },
+        {
+          "method": "clockRunFor",
+          "ticks": 250,
+          "durationMs": 1949.14
+        },
+        {
+          "method": "clockRunFor",
+          "ticks": 1000,
+          "durationMs": 8499.76
+        },
+        {
+          "method": "clockRunFor",
+          "ticks": 20000,
+          "durationMs": 174214.48
+        },
+        {
+          "method": "clockFastForward",
+          "ticks": 32000,
+          "durationMs": 428.36
+        },
+        {
+          "method": "clockRunFor",
+          "ticks": 250,
+          "durationMs": 1980.15
+        }
+      ],
+      "pending": [
+        {
+          "method": "clockRunFor",
+          "params": {
+            "ticksNumber": 1000
+          }
+        }
+      ]
+    }
+  ]
+}

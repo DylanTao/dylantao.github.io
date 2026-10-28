@@ -1,0 +1,131 @@
+{
+  "baseMain": "d9fa2a04e962b30f2b062038ac4720d243a1f8a0",
+  "scope": "Actual compiled complete site at 4138; public room/activity/avatar/Pause controls, real routine heartbeat and authored lab inspection camera. No model, contact, pose, resolution or quality substitution. Functional controlled-clock proof; no FPS claim.",
+  "spec": {
+    "file": "test/visual/room-journeys.spec.js",
+    "sha256": "37843e7f535e560bfefe944cbb1c42a2b34321dcfda6e41296a1a3a29147e5b7",
+    "gitBlob": "8b392861794882350d48f6c1e491160930ed82c4"
+  },
+  "native": {
+    "casesPassed": 4,
+    "cadenceHz": 4,
+    "projects": ["desktop-1440", "mobile-390"],
+    "elapsedReported": "2.3m"
+  },
+  "qualifiedMesa": {
+    "casesPassed": 4,
+    "cadenceHz": 1,
+    "projects": ["desktop-1440", "mobile-390"],
+    "elapsedReported": "6.4m",
+    "certificate": "journey-mesa-backend.json"
+  },
+  "assertions": "Both route directions, <=6 m, actual heartbeat, all stair/seated/transfer phases, planted-foot reach and drift, public Pause requested draw, nonblank moving and composed-end pixels, pool supports/entry/hold/exit/dry recovery and no runtime errors. Pixel threshold remains >300 unique sampled colors.",
+  "additionalGates": {
+    "pythonCases": 314,
+    "nodeTotal": 876,
+    "nodePassed": 869,
+    "nodeIntentionalSkips": 7,
+    "styleContract": "passed",
+    "sceneRegistry": {
+      "casesPerProject": 129,
+      "projects": 4,
+      "missing": 0,
+      "extra": 0,
+      "duplicates": 0
+    }
+  },
+  "sceneInputChanges": [],
+  "frames": [
+    {
+      "file": "journey-captures/native-bed-arrival-transfer.png",
+      "bytes": 648829,
+      "sha256": "e5c81999f7d623f0cb3e82531fa60350bdbea9728bd188a55b6d2ed4b8e25e2a"
+    },
+    {
+      "file": "journey-captures/native-bed-arrival-finished.png",
+      "bytes": 662768,
+      "sha256": "ab15b35c213205ad3f7f5a55e820a375f1610714305b122bd540a4f19c0093ca"
+    },
+    {
+      "file": "journey-captures/native-bed-departure-finished.png",
+      "bytes": 670445,
+      "sha256": "8cfac3dfbe8f0dfee444f5e811628c30ad08f63bd3ba0133342fca43f4bf9700"
+    },
+    {
+      "file": "journey-captures/native-pool-returned.png",
+      "bytes": 769108,
+      "sha256": "638c7bdb8333af2475ecff89ef8c2468d972d765675d63be75b9d33fb0e46da8"
+    },
+    {
+      "file": "journey-captures/mesa-bed-arrival-transfer.png",
+      "bytes": 647638,
+      "sha256": "e0e1970a9bfc40ef2024d08e51f3bc7bb8b1f83f3745bca79bcb7b4f7e2982f2"
+    },
+    {
+      "file": "journey-captures/mesa-bed-arrival-finished.png",
+      "bytes": 660675,
+      "sha256": "798515f52a62320bbf25dbc7b8662b729179fdef903c96ac257edb4c44f88b2d"
+    },
+    {
+      "file": "journey-captures/mesa-bed-departure-finished.png",
+      "bytes": 667994,
+      "sha256": "f6a10870d2272a64939326c2b7a2193b507fdd5031c6dfffed482eb9f9cdd17e"
+    },
+    {
+      "file": "journey-captures/mesa-pool-returned.png",
+      "bytes": 773399,
+      "sha256": "ba872cc2223154f9d396c03ce8a6720ab61bcdf8aa01d32c76b8bba29d1d2864"
+    }
+  ],
+  "logs": [
+    {
+      "file": "journey-diagnostics/d9-desktop-stairs.log.gz",
+      "sourceBytes": 483394,
+      "sourceSha256": "6270b05d3847c266077e2359455f50daad615f38ce559ab94388ac26034dfcc1",
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "journey-diagnostics/interrupted-4hz-mesa.log.gz",
+      "sourceBytes": 1108,
+      "sourceSha256": "42a8d7549cfd6695b1694882378d446845703f0aad57045d75bd6c517b6e62b2",
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "journey-diagnostics/failed-unpaused-still-mesa.log.gz",
+      "sourceBytes": 6536,
+      "sourceSha256": "fd5763e3900a50f813ad316767fe477618052d3a78e8eef4e99c1ceaae58d9e9",
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "journey-native-pass.log.gz",
+      "sourceBytes": 3536,
+      "sourceSha256": "0d3612661a5040e41e60845ef6cba849600456e766b9929931014bebec50db62",
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "journey-mesa-pass.log.gz",
+      "sourceBytes": 2140,
+      "sourceSha256": "f83f1b0ef4d2ceb1f0863c0c141a4ec2572f8b5d8a4f146df83982bb8f9af507",
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "journey-node-pass.log.gz",
+      "sourceBytes": 293264,
+      "sourceSha256": "bd0d37d9e0f9dc9eaf5262051f609397bc32897bd2716d0230c6eb6f163b444a",
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "journey-python-pass.log.gz",
+      "sourceBytes": 1526,
+      "sourceSha256": "fca167b232e936d122c19fab6ff231a40dea63a7e63b88f05e667542d2e17911",
+      "encoding": "UTF-16 with BOM"
+    },
+    {
+      "file": "journey-style-pass.log.gz",
+      "sourceBytes": 194,
+      "sourceSha256": "9e989d1546129dda71fd1d273cc588c8ce9db27e890ac5045b1c933699c548ec",
+      "encoding": "UTF-16 with BOM"
+    }
+  ],
+  "newMainCi": "pending; the separate release receipt will bind the final published commit and CI results"
+}

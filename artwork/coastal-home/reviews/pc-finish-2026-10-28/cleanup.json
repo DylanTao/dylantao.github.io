@@ -1,0 +1,174 @@
+{
+  "at": "2026-10-28T20:42:08Z",
+  "scope": "Only these 16 task-owned temporary PC worktrees and 11 local worker branches. Complete current file hashes matched verified v3 custody before deletion; Git history remains under exact local tags and verified bundles. No archive tags pushed.",
+  "complete": true,
+  "worktreesRemoved": 16,
+  "localWorkerBranchesRemoved": 11,
+  "filesPreserved": 98308,
+  "uniqueFileBytesPreserved": 10642668469,
+  "archiveIndexSha256": "b0394b07ab92575c2d0f7b9954e8066a1975c60a5b27d5c7dd8db2ce17459bdd",
+  "bundle": {
+    "bytes": 186597703,
+    "sha256": "e413691fa79e1e5382698b668c55d5eb4c848983ce33184d890d41a0b034c71b",
+    "scope": "Non-main-contained worker history; prerequisites retained in the main checkout and prior bundles."
+  },
+  "exactLocalArchiveTagPrefix": "archive/pc-finish-2026-10-28/",
+  "archiveTagsPushed": false,
+  "rootDependenciesIntact": true,
+  "oldOwnedPreviewsStopped": 5,
+  "residualEmptyTrees": [],
+  "stash": {
+    "sha": "c17c0e7502586bcae0f5ab3a5732205b08a9a6ed",
+    "action": "Dropped task-created top stash after exact tag/bundle and current intent readback; never restored obsolete source."
+  },
+  "remoteHeadsAtCleanup": {
+    "main": "d9fa2a04e962b30f2b062038ac4720d243a1f8a0",
+    "gh-pages": "ab204d63020f348e2326d4848da8ceb0de354ce6"
+  },
+  "removed": [
+    {
+      "name": "finish-brand-footer",
+      "tip": "4058016c0856a9ce6f726d1785c1623dbc76ec72",
+      "tag": "archive/pc-finish-2026-10-28/finish-brand-footer",
+      "branch": "codex/finish-brand-footer",
+      "files": 8100,
+      "junctionEntriesRemoved": 0,
+      "reason": "All seven commits are patch-equivalent on main, including sleeve fitting, support metrology, dusk and loading contours."
+    },
+    {
+      "name": "finish-cliff",
+      "tip": "7c69e0e8ddf7e797ba1953d6100ebb2c309e1334",
+      "tag": "archive/pc-finish-2026-10-28/finish-cliff",
+      "branch": "codex/finish-cliff",
+      "files": 4092,
+      "junctionEntriesRemoved": 1,
+      "reason": "House checkpoint, coffee and F6 rejection review are patch-equivalent. Rejected contour geometry remains archived and is not admitted."
+    },
+    {
+      "name": "finish-coffee",
+      "tip": "2299fc3b7f3a4dd24bd9511e2f71d1d49537e7df",
+      "tag": "archive/pc-finish-2026-10-28/finish-coffee",
+      "branch": "codex/finish-coffee",
+      "files": 8193,
+      "junctionEntriesRemoved": 1,
+      "reason": "Pigment texture checkpoint is patch-equivalent, retained as the explicit failure fallback. The integrated per-visit generator supersedes its primary use."
+    },
+    {
+      "name": "finish-house",
+      "tip": "75f621ad6e8fcecd333c29d6d4ed7eaae63f1368",
+      "tag": "archive/pc-finish-2026-10-28/finish-house",
+      "branch": "codex/finish-house",
+      "files": 5361,
+      "junctionEntriesRemoved": 0,
+      "reason": "Native house checkpoint is patch-equivalent; later canonical source saves, exports, guards and official cache replace its older deliveries."
+    },
+    {
+      "name": "finish-room-runtime",
+      "tip": "da99560785f4ddb90e9d6c774f59241665e2e8d2",
+      "tag": "archive/pc-finish-2026-10-28/finish-room-runtime",
+      "branch": "codex/finish-room-runtime",
+      "files": 3341,
+      "junctionEntriesRemoved": 0,
+      "reason": "Native intake is patch-equivalent; the final room routes, public controls and guarded choreography are integrated."
+    },
+    {
+      "name": "finish-surfer",
+      "tip": "da0c549a7a4446e53f3c57f3ce9e43d34b497e66",
+      "tag": "archive/pc-finish-2026-10-28/finish-surfer",
+      "branch": "codex/finish-surfer",
+      "files": 6769,
+      "junctionEntriesRemoved": 1,
+      "reason": "Tip is contained in main; surfer acting and red-board intent are retained."
+    },
+    {
+      "name": "finish-sweep",
+      "tip": "016e49673a1f5f1426cf188f6b90cd4aab6b8b3f",
+      "tag": "archive/pc-finish-2026-10-28/finish-sweep",
+      "branch": "codex/finish-sweep",
+      "files": 3864,
+      "junctionEntriesRemoved": 1,
+      "reason": "All commits are patch-equivalent, including source-bound walkthrough findings and per-frame surfer observations."
+    },
+    {
+      "name": "finish-tail",
+      "tip": "31206d10993f051f05f3de05b478f62295e1366f",
+      "tag": "archive/pc-finish-2026-10-28/finish-tail",
+      "branch": "codex/finish-tail",
+      "files": 4928,
+      "junctionEntriesRemoved": 0,
+      "reason": "Five commits remain non-equivalent as a whole. Their explicitly selected 64 review/diagnostic paths are integrated. Tail candidates fail body/cloth/furniture/decoder gates and are excluded from production; full branch and all ignored attempts are archived. The existing Lizard guard remains."
+    },
+    {
+      "name": "finish-ui",
+      "tip": "e91430e5d85c86607750a351ed7739d184a0c2be",
+      "tag": "archive/pc-finish-2026-10-28/finish-ui",
+      "branch": "codex/finish-ui",
+      "files": 8216,
+      "junctionEntriesRemoved": 0,
+      "reason": "Tip is contained in main; current floating-orange UI is published, with appearance acceptance still open."
+    },
+    {
+      "name": "life",
+      "tip": "469867750f5da500e343737f27804359d26ea590",
+      "tag": "archive/pc-finish-2026-10-28/life",
+      "branch": null,
+      "files": 3661,
+      "junctionEntriesRemoved": 0,
+      "reason": "All five commits are patch-equivalent. Full furniture export and exact fireplace restoration were integrated; later official cache supersedes this older one."
+    },
+    {
+      "name": "release-verify",
+      "tip": "ee6371781710702e04aaf68a2d2d4775b447448f",
+      "tag": "archive/pc-finish-2026-10-28/release-verify",
+      "branch": null,
+      "files": 6172,
+      "junctionEntriesRemoved": 0,
+      "reason": "Tip is contained in main; release evidence is retained."
+    },
+    {
+      "name": "story",
+      "tip": "e5895e0ebb0f8da47b67a5312521a4b5bb5717f6",
+      "tag": "archive/pc-finish-2026-10-28/story",
+      "branch": null,
+      "files": 8791,
+      "junctionEntriesRemoved": 0,
+      "reason": "Both remaining commits are patch-equivalent; reviewed diary and later footer/header work are integrated."
+    },
+    {
+      "name": "whiskey",
+      "tip": "37b174632d1381070f82fc367976daec26947975",
+      "tag": "archive/pc-finish-2026-10-28/whiskey",
+      "branch": null,
+      "files": 5393,
+      "junctionEntriesRemoved": 0,
+      "reason": "All four commits are patch-equivalent; placed corner, evening routine and contact review are retained. Later official cache supersedes this older one."
+    },
+    {
+      "name": "wildlife",
+      "tip": "dff458064cb9a51238b8888d5cea1b28822d8e5a",
+      "tag": "archive/pc-finish-2026-10-28/wildlife",
+      "branch": null,
+      "files": 4293,
+      "junctionEntriesRemoved": 0,
+      "reason": "All ten commits are patch-equivalent; actual paw support, active-time wingbeats and rendered review are integrated."
+    },
+    {
+      "name": "finish-laundry",
+      "tip": "978650e4935f5b6041d0b66acf07d4dcb12bea2a",
+      "tag": "archive/pc-finish-2026-10-28/finish-laundry",
+      "branch": "codex/finish-laundry",
+      "files": 7618,
+      "junctionEntriesRemoved": 1,
+      "reason": "All three commits are patch-equivalent. Supported complete service bay is integrated; rejected transmission crop is retained as evidence only."
+    },
+    {
+      "name": "generative-coffee",
+      "tip": "3412fda4f90f2552f713ae365ff3eed1070ae7e1",
+      "tag": "archive/pc-finish-2026-10-28/generative-coffee",
+      "branch": "codex/generative-coffee",
+      "files": 9516,
+      "junctionEntriesRemoved": 0,
+      "reason": "Generator commit is patch-equivalent; higher-resolution per-visit contour, deposits and drops are integrated. Read-only tablet diagnostic packet was also retained."
+    }
+  ]
+}

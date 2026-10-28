@@ -1,0 +1,236 @@
+{
+  "source": "d9fa2a04e962b30f2b062038ac4720d243a1f8a0",
+  "run": 40755299325,
+  "job": 123052495254,
+  "artifact": 12847137996,
+  "traceBytes": 11965224,
+  "traceSha256": "b0f3dcb6a640f5e8f87845aa4caa72f0978b3b949e97d5da6c94fad89c4ee420",
+  "longestCompletedCalls": [
+    {
+      "method": "pw:api",
+      "durationMs": 28290.87,
+      "params": {
+        "ticksNumber": "1000",
+        "ticksString": "undefined"
+      },
+      "error": null,
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/room-journeys.spec.js",
+          "line": 104,
+          "column": 24
+        }
+      ]
+    },
+    {
+      "method": "clockRunFor",
+      "durationMs": 28290.43,
+      "params": {
+        "ticksNumber": 1000
+      },
+      "error": null,
+      "stack": null
+    },
+    {
+      "method": "pw:api",
+      "durationMs": 27932.45,
+      "params": {
+        "ticksNumber": "1000",
+        "ticksString": "undefined"
+      },
+      "error": null,
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/room-journeys.spec.js",
+          "line": 104,
+          "column": 24
+        }
+      ]
+    },
+    {
+      "method": "clockRunFor",
+      "durationMs": 27932.04,
+      "params": {
+        "ticksNumber": 1000
+      },
+      "error": null,
+      "stack": null
+    },
+    {
+      "method": "pw:api",
+      "durationMs": 27567.85,
+      "params": {
+        "ticksNumber": "1000",
+        "ticksString": "undefined"
+      },
+      "error": null,
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/room-journeys.spec.js",
+          "line": 104,
+          "column": 24
+        }
+      ]
+    },
+    {
+      "method": "clockRunFor",
+      "durationMs": 27565.19,
+      "params": {
+        "ticksNumber": 1000
+      },
+      "error": null,
+      "stack": null
+    },
+    {
+      "method": "pw:api",
+      "durationMs": 27553.47,
+      "params": {
+        "ticksNumber": "1000",
+        "ticksString": "undefined"
+      },
+      "error": null,
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/room-journeys.spec.js",
+          "line": 104,
+          "column": 24
+        }
+      ]
+    },
+    {
+      "method": "clockRunFor",
+      "durationMs": 27552.11,
+      "params": {
+        "ticksNumber": 1000
+      },
+      "error": null,
+      "stack": null
+    },
+    {
+      "method": "pw:api",
+      "durationMs": 27544.23,
+      "params": {
+        "ticksNumber": "1000",
+        "ticksString": "undefined"
+      },
+      "error": null,
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/room-journeys.spec.js",
+          "line": 104,
+          "column": 24
+        }
+      ]
+    },
+    {
+      "method": "clockRunFor",
+      "durationMs": 27543.75,
+      "params": {
+        "ticksNumber": 1000
+      },
+      "error": null,
+      "stack": null
+    },
+    {
+      "method": "pw:api",
+      "durationMs": 27541.38,
+      "params": {
+        "ticksNumber": "1000",
+        "ticksString": "undefined"
+      },
+      "error": null,
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/room-journeys.spec.js",
+          "line": 104,
+          "column": 24
+        }
+      ]
+    },
+    {
+      "method": "clockRunFor",
+      "durationMs": 27541.0,
+      "params": {
+        "ticksNumber": 1000
+      },
+      "error": null,
+      "stack": null
+    },
+    {
+      "method": "pw:api",
+      "durationMs": 27490.68,
+      "params": {
+        "ticksNumber": "1000",
+        "ticksString": "undefined"
+      },
+      "error": null,
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/room-journeys.spec.js",
+          "line": 104,
+          "column": 24
+        }
+      ]
+    },
+    {
+      "method": "clockRunFor",
+      "durationMs": 27484.98,
+      "params": {
+        "ticksNumber": 1000
+      },
+      "error": null,
+      "stack": null
+    },
+    {
+      "method": "pw:api",
+      "durationMs": 27482.86,
+      "params": {
+        "ticksNumber": "1000",
+        "ticksString": "undefined"
+      },
+      "error": null,
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/room-journeys.spec.js",
+          "line": 104,
+          "column": 24
+        }
+      ]
+    },
+    {
+      "method": "clockRunFor",
+      "durationMs": 27478.67,
+      "params": {
+        "ticksNumber": 1000
+      },
+      "error": null,
+      "stack": null
+    },
+    {
+      "method": "pw:api",
+      "durationMs": 27458.13,
+      "params": {
+        "ticksNumber": "1000",
+        "ticksString": "undefined"
+      },
+      "error": null,
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/room-journeys.spec.js",
+          "line": 104,
+          "column": 24
+        }
+      ]
+    },
+    {
+      "method": "clockRunFor",
+      "durationMs": 27457.24,
+      "params": {
+        "ticksNumber": 1000
+      },
+      "error": null,
+      "stack": null
+    }
+  ],
+  "unfinishedCalls": []
+}

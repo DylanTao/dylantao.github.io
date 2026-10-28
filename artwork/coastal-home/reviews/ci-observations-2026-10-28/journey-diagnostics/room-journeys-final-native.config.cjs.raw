@@ -1,0 +1,3 @@
+const path = require("node:path");
+const base = require(path.resolve("test/visual/public.config.js"));
+module.exports = { ...base, testDir: path.resolve("test/visual"), testMatch: ["room-journeys.spec.js"], workers: 1, projects: base.projects.filter(p => ["desktop-1440", "mobile-390"].includes(p.name)), outputDir: path.resolve(".jekyll-cache/visual-qa/finish-todos-2026-10-26/room-journeys-final-native-proof") };

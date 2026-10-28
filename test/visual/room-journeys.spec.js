@@ -5,7 +5,19 @@ const { preparePage, collectRuntimeErrors, screenshotMetrics } = require("./help
 const { publicRouteUrl } = require("./public-routes");
 const { pauseSceneClock, useSoftwareSceneCadence } = require("./scene-clock");
 const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../assets/models/home/manifest.json"), "utf8"));
-const state = (scene) => scene.evaluate((element) => element.getSceneEvidence());
+const journeyCadenceHz = process.env.VISUAL_SCENE_BACKEND === "llvmpipe" ? 1 : 4;
+// The host is already checked as ready. Read from its main-world element so
+// polling a controlled clock does not wait for locator adoption on another RAF.
+const state = (scene) => scene.page().evaluate(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence());
+
+async function setLabOpen(page, open) {
+  const actual = await page.evaluate((open) => {
+    const lab = document.querySelector("[data-home-world-controls] [data-world-lab]");
+    if (lab.open !== open) lab.querySelector(":scope > summary").click();
+    return lab.open;
+  }, open);
+  expect(actual).toBe(open);
+}
 
 async function open(page, avatarId = "south-park") {
   await preparePage(page, "light");
@@ -19,12 +31,13 @@ async function open(page, avatarId = "south-park") {
   await scene.scrollIntoViewIfNeeded();
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 150000 });
   await pauseSceneClock(page, { advanceDate: false });
-  // Functional geometry/clock proof at a disclosed 4 Hz. Dense skin/contact
-  // sweeps are separate CPU gates; this fixture makes no frame-rate claim.
-  await useSoftwareSceneCadence(page, { force: true, continuousHz: 4 });
+  // Functional geometry/clock proof: 1 Hz on qualified software WebGL and 4 Hz
+  // on the native GPU. The dense 249-phase skin/contact sweep is a separate
+  // gate; neither this cadence nor the idle jump is a frame-rate measurement.
+  await useSoftwareSceneCadence(page, { force: true, continuousHz: journeyCadenceHz });
   await ui.locator("[data-world-fullscreen]").click();
   await page.clock.runFor(100);
-  await ui.locator("[data-world-lab] > summary").click();
+  await setLabOpen(page, true);
   await page.clock.runFor(100);
   await ui.locator("[data-world-avatar]").selectOption(avatarId);
   for (let i = 0; i < 100; i++) {
@@ -38,7 +51,8 @@ async function open(page, avatarId = "south-park") {
 }
 
 async function record(scene) {
-  await scene.evaluate((element) => {
+  await scene.page().evaluate(() => {
+    const element = document.querySelector("[data-home-desk-scene]");
     const recorder = (window.roomJourneyRecorder = { frames: [], stopped: false });
     let previous = -1;
     const sample = () => {
@@ -67,7 +81,7 @@ async function finishRecord(page, testInfo, name) {
   });
   await testInfo.attach(name, {
     body: JSON.stringify({
-      cadenceHz: 4,
+      cadenceHz: journeyCadenceHz,
       scope: "Functional controlled clock, actual delivered models and public controls; no source substitution",
       rows,
     }),
@@ -86,10 +100,12 @@ test("coastal journeys: the real routine crosses the adjacent bedroom stairs in 
   const fitted = (await state(scene)).bedTransfer.clothFit;
   expect(fitted.compression).toBe(0);
   expect(fitted.samples.every((point) => point.clearance >= -1e-8)).toBe(true);
-  await ui.locator("[data-world-lab] > summary").click();
+  await setLabOpen(page, false);
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.clock.runFor(200);
-  await scene.evaluate((element) => element.setLabCamera({ target: [-7.25, 2.35, 6.97], yaw: 2.92, pitch: 0.3, radius: 4.6, free: true }));
+  await page.evaluate(() =>
+    document.querySelector("[data-home-desk-scene]").setLabCamera({ target: [-7.25, 2.35, 6.97], yaw: 2.92, pitch: 0.3, radius: 4.6, free: true })
+  );
   await page.clock.runFor(500);
   for (const [label, clock, activity] of [
     ["arrival", "2026-10-23T03:00:00-07:00", "sleep"],
@@ -99,20 +115,16 @@ test("coastal journeys: the real routine crosses the adjacent bedroom stairs in 
     // neither the pose nor the routine module is replaced by a test fixture.
     await record(scene);
     await page.clock.setFixedTime(new Date(clock));
-    let started = false;
-    for (let i = 0; i < 32; i++) {
-      await page.clock.runFor(1000);
-      if ((await state(scene)).traveling) {
-        started = true;
-        break;
-      }
-    }
-    expect(started, `${label}: the ordinary 30 s heartbeat must start a journey`).toBe(true);
+    // Fire the real heartbeat once without rendering 32 s of idle frames on
+    // software WebGL. The journey still renders at the disclosed cadence.
+    await page.clock.fastForward(32000);
+    await page.clock.runFor(250);
+    expect((await state(scene)).traveling, `${label}: the ordinary 30 s heartbeat must start a journey`).toBe(true);
     const journey = (await state(scene)).navigation;
     expect(journey.length).toBeLessThanOrEqual(6);
     expect(journey.duration).toBeGreaterThan(15);
     await page.clock.runFor(1000);
-    await canvas.screenshot({ path: testInfo.outputPath(`bed-${label}-transfer.png`) });
+    expect(screenshotMetrics(await canvas.screenshot({ path: testInfo.outputPath(`bed-${label}-transfer.png`) })).uniqueColors).toBeGreaterThan(300);
     await page.clock.runFor(20000);
     const end = await state(scene);
     expect(end.traveling).toBe(false);
@@ -128,7 +140,20 @@ test("coastal journeys: the real routine crosses the adjacent bedroom stairs in 
         expect(foot.reachViolation).toBeLessThan(1e-6);
         expect(foot.drift).toBeLessThan(1e-6);
       }
+    // Compose the completed pose through the public Pause control. A paused
+    // controlled clock must include its requested draw before capturing pixels.
+    await setLabOpen(page, true);
+    const beforePause = (await state(scene)).frames;
+    await ui.locator("[data-world-pause]").click();
+    await setLabOpen(page, false);
+    await page.clock.runFor(1000 / journeyCadenceHz + 20);
+    expect(await page.evaluate(() => document.querySelector("[data-world-pause]").getAttribute("aria-pressed"))).toBe("true");
+    expect((await state(scene)).frames).toBeGreaterThan(beforePause);
     expect(screenshotMetrics(await canvas.screenshot({ path: testInfo.outputPath(`bed-${label}-finished.png`) })).uniqueColors).toBeGreaterThan(300);
+    await setLabOpen(page, true);
+    await ui.locator("[data-world-pause]").click();
+    await setLabOpen(page, false);
+    await page.clock.runFor(1000 / journeyCadenceHz + 20);
   }
   expect(errors).toEqual([]);
 });
@@ -155,7 +180,7 @@ test("coastal journeys: the pool visit uses real entry steps, holds on its floor
   await page.clock.runFor(1000);
   expect((await state(scene)).actorPosition).toEqual(held);
   await ui.locator("[data-world-pause]").click();
-  await ui.locator("[data-world-lab] > summary").click();
+  await setLabOpen(page, false);
   await page.clock.runFor(100);
   const duration = (await state(scene)).simulation.infinityPool.activity.duration;
   await page.clock.runFor((duration + 1) * 1000);
@@ -168,7 +193,7 @@ test("coastal journeys: the pool visit uses real entry steps, holds on its floor
   const supports = new Set(config.infinityPool.activity.supportSurfaces.map((surface) => surface.id));
   for (const row of rows) if (row.pool) for (const id of row.pool.supportIds) expect(supports.has(id)).toBe(true);
   expect(screenshotMetrics(await canvas.screenshot({ path: testInfo.outputPath("pool-returned.png") })).uniqueColors).toBeGreaterThan(300);
-  await ui.locator("[data-world-lab] > summary").click();
+  await setLabOpen(page, true);
   await ui.locator("[data-world-activity]").selectOption("coding");
   await page.clock.runFor(500);
   expect((await state(scene)).simulation.infinityPool.activity).toBeNull();
