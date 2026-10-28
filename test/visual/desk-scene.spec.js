@@ -3747,10 +3747,21 @@ test("facade cloth: linen curtains move in the doorway breeze, the terrace laund
   expect(later.laundry.out).toBe(true);
   await capture(testInfo, "curtains-kitchen-1530", await canvas.screenshot());
 
-  // The laundry from inside the parapet: it steps in the open wind, and its pixels move.
-  const laundryTarget = [-1.0, 1.5, -7.25 + (homeManifest().retreat?.setbackMetres ?? 0)];
+  // Inspect the actual installation. A native bay carries the whole line and
+  // its wind frame; legacy sources keep their original parapet camera.
+  const anchors = later.laundry.anchorsWorld,
+    nativeBay = later.laundry.frame?.native,
+    laundryTarget = nativeBay
+      ? anchors[0].map((v, i) => (v + anchors[1][i]) / 2 - (i === 1 ? 0.45 : 0))
+      : [-1.0, 1.5, -7.25 + (homeManifest().retreat?.setbackMetres ?? 0)],
+    laundryYaw = nativeBay ? Math.atan2(anchors[1][2] - anchors[0][2], anchors[0][0] - anchors[1][0]) : 0.15;
   await sceneInputFrame(page, view, () =>
-    scene.evaluate((e, target) => e.setLabCamera({ target, yaw: 0.15, pitch: 0.06, radius: 2.0 }), laundryTarget)
+    scene.evaluate((e, pose) => e.setLabCamera(pose), {
+      target: laundryTarget,
+      yaw: laundryYaw,
+      pitch: 0.06,
+      radius: nativeBay ? 2.4 : 2.0,
+    })
   );
   await page.clock.runFor(1500);
   await expect.poll(async () => (await cloth()).laundry.stepping).toBe(true);

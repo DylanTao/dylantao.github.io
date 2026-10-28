@@ -1,0 +1,74 @@
+[
+  {
+    "file": "captures/baseline-pool-4k.webp",
+    "width": 3840,
+    "height": 2160,
+    "bytes": 3934326,
+    "sha256": "e6769a7895148aa4f98b23e3663abcd92ae869f969ad43eb5657e1d414d93e6d",
+    "sourcePngSha256": "b8b117d205c77f21342528fb58204f81f8e9e1d0d4b3cce9629aad6082badd34",
+    "pixelExact": true
+  },
+  {
+    "file": "captures/final-pool-4k.webp",
+    "width": 3840,
+    "height": 2160,
+    "bytes": 3926200,
+    "sha256": "befa8aefb1023f4b3d117a1923fc8481eeced4e1206f11c41a9b01cffac4eed5",
+    "sourcePngSha256": "d73cdff988ca0bd38d513fba4f4494631b887f327afadb97a2db91f6de5d989e",
+    "pixelExact": true
+  },
+  {
+    "file": "captures/baseline-private-living-4k.webp",
+    "width": 3840,
+    "height": 2160,
+    "bytes": 3629260,
+    "sha256": "a562d8d72eed74b4f0dce0841883a1c0da8902f34355b3509163e21b5325d33d",
+    "sourcePngSha256": "01260e1b47c0f27e22f3a78c697e422a7d2a3d01a52ca410f932b0fd1d668188",
+    "pixelExact": true
+  },
+  {
+    "file": "captures/final-private-living-4k.webp",
+    "width": 3840,
+    "height": 2160,
+    "bytes": 3637638,
+    "sha256": "c12859e7c0344b5ab638fe3c374236cc33d70e6d2a11c93e2bdcb329a356cd0b",
+    "sourcePngSha256": "bfb36c025aca8b42dfffcd37b2a0d480a033dc87c47668c0da9c392c181fc2b8",
+    "pixelExact": true
+  },
+  {
+    "file": "captures/final-supported-bay-4k.webp",
+    "width": 3840,
+    "height": 2160,
+    "bytes": 2336560,
+    "sha256": "75a345e4446df59e3d96ccc3aa4ace2b10c684b468263405b34595ef442c4e84",
+    "sourcePngSha256": "8e8b326459cb1d079cdb2d5a0b795e59cec3525701f1aab07dc2f30a36511ead",
+    "pixelExact": true
+  },
+  {
+    "file": "captures/final-supported-bay-phone.webp",
+    "width": 780,
+    "height": 2000,
+    "bytes": 609642,
+    "sha256": "e50a8db1b46615d15e35311dd5c83ec55733033493b7f8acc58e6389b36d123d",
+    "sourcePngSha256": "7106b03dde19e5dcf23f554f58891db46d4b018523bf362235ea9f31afe33f72",
+    "pixelExact": true
+  },
+  {
+    "file": "captures/final-pool-phone.webp",
+    "width": 780,
+    "height": 2000,
+    "bytes": 818972,
+    "sha256": "b03bd38178a37402867c7c86763d327a16c8aa2e57ce25e803e3791c80889eb0",
+    "sourcePngSha256": "7f6dd5680205f35b49181812fd9cfb357718bb6c7c57a3529b682ba423fe459b",
+    "pixelExact": true
+  },
+  {
+    "file": "captures/final-private-living-phone.webp",
+    "width": 780,
+    "height": 2000,
+    "bytes": 631538,
+    "sha256": "d38fc524a70f3068dc2ee30ad47f3479100c516ff00087a606dab87df80eea1c",
+    "sourcePngSha256": "fc5ddcabbb9a5e79b554c11a98957dbf38457f54061dac6374f564b12bd9e76d",
+    "pixelExact": true
+  }
+]

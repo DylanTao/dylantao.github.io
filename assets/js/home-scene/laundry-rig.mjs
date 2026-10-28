@@ -2,6 +2,7 @@ import * as THREE from "../three.module.min.js";
 import { LAUNDRY_LINE, createLaundryLine, createTerraceDraft, laundryOut } from "./laundry-line.mjs";
 import { createSheerFabric } from "./sheer-fabric.mjs";
 import { localSceneOffset, localSceneWind } from "./local-scene-frame.mjs";
+import { frameFromScene, framePoint, windInFrame } from "./laundry-frame.mjs";
 
 // The laundry on the terrace in the live scene (Sirui, 2026-10-18): laundry-line.mjs's line, towels
 // and shirt, drawn in sheer-fabric.mjs's linen (opaque here: a towel lets light through its yarn, not
@@ -14,14 +15,20 @@ import { localSceneOffset, localSceneWind } from "./local-scene-frame.mjs";
 // sphere around its own cloth, one for the line and one instanced mesh for the pegs: six in all, plus
 // their shadows. Dense linen casts an ordinary shadow, which the shadow cache keeps while it sleeps.
 export function createLaundryRig({ scene, coast, reduced = false, bindMaterial = () => {}, offset = [0, 0, 0] }) {
-  const translation = new THREE.Vector3(...localSceneOffset(offset));
-  const draft = createTerraceDraft({ coast: localSceneWind(coast, translation.toArray()) });
-  const laundry = createLaundryLine({ wind: draft });
+  const frame = frameFromScene(scene, localSceneOffset(offset));
+  const translation = new THREE.Vector3(...frame.translation);
+  const draft = frame.native
+    ? windInFrame(createTerraceDraft({ coast }), frame)
+    : createTerraceDraft({ coast: localSceneWind(coast, translation.toArray()) });
+  const laundry = createLaundryLine({ wind: draft, rail: frame.rail, floorY: frame.floorY, postBaseY: frame.postBaseY, postTopY: frame.postTopY });
   const { island, model, pieces, line } = laundry;
   const N = island.count;
   const group = new THREE.Group();
   group.name = "Terrace laundry";
   group.position.copy(translation);
+  group.rotation.y = frame.yaw;
+  group.updateMatrix();
+  const frameMatrix = group.matrix.clone();
   const position = new THREE.BufferAttribute(new Float32Array(3 * N), 3).setUsage(THREE.DynamicDrawUsage),
     normal = new THREE.BufferAttribute(new Float32Array(3 * N), 3).setUsage(THREE.DynamicDrawUsage),
     tangent = new THREE.BufferAttribute(new Float32Array(3 * N), 3).setUsage(THREE.DynamicDrawUsage),
@@ -231,8 +238,9 @@ export function createLaundryRig({ scene, coast, reduced = false, bindMaterial =
     let any = false;
     for (const group of pieces) {
       island.bounds(extent, 0.15, group.particles);
-      box.min.set(extent[4], extent[5], extent[6]).add(translation);
-      box.max.set(extent[7], extent[8], extent[9]).add(translation);
+      box.min.set(extent[4], extent[5], extent[6]);
+      box.max.set(extent[7], extent[8], extent[9]);
+      box.applyMatrix4(frameMatrix);
       if (frustum.intersectsBox(box)) {
         any = true;
         break;
@@ -240,7 +248,7 @@ export function createLaundryRig({ scene, coast, reduced = false, bindMaterial =
     }
     if (!any) return false;
     island.bounds(extent, 0.15);
-    sphere.center.set(extent[0], extent[1], extent[2]).add(translation);
+    sphere.center.set(extent[0], extent[1], extent[2]).applyMatrix4(frameMatrix);
     sphere.radius = extent[3];
     const pixels = canvasHeight / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
     return frustum.intersectsSphere(sphere) && (0.8 / Math.max(0.1, camera.position.distanceTo(sphere.center))) * pixels > 40;
@@ -322,6 +330,8 @@ export function createLaundryRig({ scene, coast, reduced = false, bindMaterial =
       return {
         out,
         offset: translation.toArray(),
+        frame: { native: frame.native, node: frame.node, yaw: frame.yaw, translation: frame.translation, rail: frame.rail, floorY: frame.floorY },
+        anchorsWorld: [line.start, line.end].map((p) => framePoint(frame, [p[0], LAUNDRY_LINE.height, p[1]])),
         inView,
         stepping,
         sleeping: island.state.sleeping,

@@ -1,0 +1,18 @@
+{
+  "nodeTests": {
+    "passed": 15,
+    "failed": 0,
+    "command": "node --test test/laundry-frame.test.mjs test/laundry-line.test.mjs test/local-scene-frame.test.mjs"
+  },
+  "browserTests": {
+    "passed": 4,
+    "failed": 0,
+    "titleUnchanged": true,
+    "command": "NO_WEBSERVER=1 VISUAL_PORT=4123 VISUAL_BASE_URL=http://127.0.0.1:4123/al-folio npx playwright test --config test/visual/public.config.js desk-scene.spec.js --grep \"facade cloth:\" --workers=1",
+    "projects": ["desktop-1440", "laptop-1280", "tablet-768", "mobile-390"]
+  },
+  "styleContract": "passed",
+  "portableRecipeReplay": "byte-exact exported shell",
+  "productionAdmission": "coordinator pending",
+  "noPerformanceBenchmark": true
+}

@@ -215,6 +215,9 @@ export function createLaundryLine({
   substeps = 6,
   seed = 3,
   floorY = 0,
+  rail = null,
+  postBaseY = 0.4,
+  postTopY = 2.5,
 } = {}) {
   const [p0, p1] = posts,
     dx = p1[0] - p0[0],
@@ -434,8 +437,11 @@ export function createLaundryLine({
       builder.addMass(node, PEG_MASS);
       pegs.push({ node, item: item.id });
     }
+    // The unpegged shoulder/collar row also needs a reach to its nearest peg.
+    // Without it, the stiff yoke can pull the edge beside a peg beyond its
+    // pattern length even though the hanging body has long-range attachments.
     for (const grid of [front, back])
-      for (let r = 1; r < R; r++)
+      for (let r = 0; r < R; r++)
         for (let c = 0; c < C; c++) {
           const best = Math.abs(c - pegColumns[0]) < Math.abs(c - pegColumns[1]) ? pegColumns[0] : pegColumns[1];
           builder.tether(grid.index(c, r), grid.index(best, 0), Math.hypot((c - best) * hx, r * vy));
@@ -446,12 +452,12 @@ export function createLaundryLine({
   const model = b0.build();
   // Contacts: the posts, the cap rail and the glass below it (capsules along the parapet's curve), the
   // paving.
-  const rail = parapetPath(),
+  const railPoints = rail ?? parapetPath(),
     capsules = [];
-  for (const p of posts) capsules.push({ a: [p[0], 0.4, p[1]], b: [p[0], 2.5, p[1]], radius: line.postRadius });
-  for (let k = 0; k < rail.length - 1; k++) {
-    capsules.push({ a: [rail[k][0], 1.1, rail[k][1]], b: [rail[k + 1][0], 1.1, rail[k + 1][1]], radius: 0.021 });
-    capsules.push({ a: [rail[k][0], 0.8, rail[k][1]], b: [rail[k + 1][0], 0.8, rail[k + 1][1]], radius: 0.012 });
+  for (const p of posts) capsules.push({ a: [p[0], postBaseY, p[1]], b: [p[0], postTopY, p[1]], radius: line.postRadius });
+  for (let k = 0; k < railPoints.length - 1; k++) {
+    capsules.push({ a: [railPoints[k][0], 1.1, railPoints[k][1]], b: [railPoints[k + 1][0], 1.1, railPoints[k + 1][1]], radius: 0.021 });
+    capsules.push({ a: [railPoints[k][0], 0.8, railPoints[k][1]], b: [railPoints[k + 1][0], 0.8, railPoints[k + 1][1]], radius: 0.012 });
   }
   const island = createClothIsland(model, {
     id: "laundry",
