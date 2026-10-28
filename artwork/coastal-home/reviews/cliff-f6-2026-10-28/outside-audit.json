@@ -1,0 +1,455 @@
+{
+  "sourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681",
+  "candidateSha256": "1dcebe7f64f324ffbd8ac4e28aa993854635990d36968bb0d80b6bb48b5363d4",
+  "changedObjects": [
+    "core__golden coastal sandstone",
+    "core_bathwing_liftaway_roof",
+    "core_estate_library_liftaway_roof",
+    "core_retreat_liftaway_roof"
+  ],
+  "unrelatedExact": true,
+  "objectRosterExact": true,
+  "materialsExact": true,
+  "outsideBoundsNative": [
+    [-22.0, -12.0, 5.900000095367432],
+    [17.0, 19.0, 14.350000381469727]
+  ],
+  "targets": {
+    "core__golden coastal sandstone": {
+      "nonmanifold": [0, 0],
+      "activeColor": ["Baked contact and bounce", "Baked contact and bounce"],
+      "outsideSourceToCandidate": {
+        "triangles": 111911,
+        "samples": 783377,
+        "exactPositionTriangles": 106565,
+        "maximumProbedBVHSurfaceDistanceM": 0.062071845002377855,
+        "failureCount": 144,
+        "failures": [
+          {
+            "point": [-12.759999752044678, 12.179999351501465, 5.7900004386901855],
+            "distanceToBVHNearestM": 0.004115959225245534
+          },
+          {
+            "point": [-12.746666272481281, 12.179999351501465, 5.786667188008626],
+            "distanceToBVHNearestM": 0.0027439728168306
+          },
+          {
+            "point": [-12.759999752044678, 12.179999351501465, 5.7900004386901855],
+            "distanceToBVHNearestM": 0.004115959225245534
+          },
+          {
+            "point": [-12.770079567074276, 12.198064650050668, 5.826666990915934],
+            "distanceToBVHNearestM": 0.0027441131906870957
+          },
+          {
+            "point": [-12.713680785432372, 12.225372029510035, 5.900000095367432],
+            "distanceToBVHNearestM": 0.007845679977402714
+          },
+          {
+            "point": [-12.716840049393433, 12.20268569050575, 5.8500001430511475],
+            "distanceToBVHNearestM": 0.00418006629881456
+          },
+          {
+            "point": [-12.751959991282925, 12.229783638329558, 5.900000095367432],
+            "distanceToBVHNearestM": 0.003923065288710633
+          },
+          {
+            "point": [-12.741306431973447, 12.213188876053525, 5.866666793823242],
+            "distanceToBVHNearestM": 0.0027868462797736113
+          },
+          {
+            "point": [-12.08904504776001, 12.192456245422363, 5.813904047012329],
+            "distanceToBVHNearestM": 0.0009076019549765887
+          },
+          {
+            "point": [-11.877748489379883, 12.195339838663735, 5.814950784047444],
+            "distanceToBVHNearestM": 0.0006050679699867538
+          },
+          {
+            "point": [-12.08904504776001, 12.192456245422363, 5.813904047012329],
+            "distanceToBVHNearestM": 0.0009076019549765887
+          },
+          {
+            "point": [-12.086129570261177, 12.200079259836249, 5.8500001430511475],
+            "distanceToBVHNearestM": 0.011606146322287545
+          }
+        ]
+      },
+      "outsideCandidateToSource": {
+        "triangles": 111915,
+        "samples": 783405,
+        "exactPositionTriangles": 106558,
+        "maximumProbedBVHSurfaceDistanceM": 0.016213177487729515,
+        "failureCount": 15,
+        "failures": [
+          {
+            "point": [-12.121249675750732, 12.227177619934082, 5.900000095367432],
+            "distanceToBVHNearestM": 0.010534941574118512
+          },
+          {
+            "point": [-12.124165058135986, 12.219554424285889, 5.863903999328613],
+            "distanceToBVHNearestM": 0.016104228456489945
+          },
+          {
+            "point": [-11.90019671122233, 12.219756126403809, 5.875936031341553],
+            "distanceToBVHNearestM": 0.011175704307272018
+          },
+          {
+            "point": [-12.755119323730469, 12.20709753036499, 5.84000039100647],
+            "distanceToBVHNearestM": 0.004163973756412984
+          },
+          {
+            "point": [-12.770079612731934, 12.198064804077148, 5.8200004895528155],
+            "distanceToBVHNearestM": 0.0027759825042756106
+          },
+          {
+            "point": [-12.755119323730469, 12.20709753036499, 5.84000039100647],
+            "distanceToBVHNearestM": 0.004163973756412984
+          },
+          {
+            "point": [-12.743412653605143, 12.198064804077148, 5.826666990915934],
+            "distanceToBVHNearestM": 0.002775982504274376
+          },
+          {
+            "point": [-12.124165058135986, 12.219554424285889, 5.863903999328613],
+            "distanceToBVHNearestM": 0.016104228456489945
+          },
+          {
+            "point": [-12.123041152954102, 12.218368530273438, 5.8604514598846436],
+            "distanceToBVHNearestM": 0.016213177487729515
+          },
+          {
+            "point": [-11.90139102935791, 12.213883399963379, 5.849570274353027],
+            "distanceToBVHNearestM": 0.010863773714192927
+          },
+          {
+            "point": [-12.122697353363037, 12.2176513671875, 5.858522176742554],
+            "distanceToBVHNearestM": 0.015985188536716197
+          },
+          {
+            "point": [-12.321798006693522, 12.205100695292154, 5.839014848073323],
+            "distanceToBVHNearestM": 0.010656792357812035
+          }
+        ]
+      },
+      "outsideExactTriangleFields": {
+        "exactPositionTriangles": 107886,
+        "maximumNormalError": 1.9899833521250265,
+        "maximumColorError": 0.04505878686904907,
+        "fieldFailures": 40998,
+        "witnesses": [
+          {
+            "point": [-7.5, -16.15795135498047, 9.32078742980957],
+            "normalError": 1.0304648749891324e-5,
+            "colorError": 0.0
+          },
+          {
+            "point": [-12.719999313354492, 13.312938690185547, 5.554733753204346],
+            "normalError": 3.951028208536279e-6,
+            "colorError": 0.0
+          },
+          {
+            "point": [-12.0, 12.533517837524414, 5.800000190734863],
+            "normalError": 8.310146609232826e-6,
+            "colorError": 0.0
+          },
+          {
+            "point": [5.098280429840088, -4.684999942779541, 2.9482932090759277],
+            "normalError": 2.4001539758863013e-6,
+            "colorError": 0.0
+          },
+          {
+            "point": [5.098280429840088, -4.684999942779541, 2.9482932090759277],
+            "normalError": 2.4001539758863013e-6,
+            "colorError": 0.0
+          }
+        ]
+      }
+    },
+    "core_bathwing_liftaway_roof": {
+      "nonmanifold": [0, 0],
+      "activeColor": ["Baked contact and bounce", "Baked contact and bounce"],
+      "outsideSourceToCandidate": {
+        "triangles": 420,
+        "samples": 2940,
+        "exactPositionTriangles": 296,
+        "maximumProbedBVHSurfaceDistanceM": 4.787676462416856e-7,
+        "failureCount": 0,
+        "failures": []
+      },
+      "outsideCandidateToSource": {
+        "triangles": 419,
+        "samples": 2933,
+        "exactPositionTriangles": 294,
+        "maximumProbedBVHSurfaceDistanceM": 4.876830740570656e-7,
+        "failureCount": 0,
+        "failures": []
+      },
+      "outsideExactTriangleFields": {
+        "exactPositionTriangles": 294,
+        "maximumNormalError": 0.0003355424179396143,
+        "maximumColorError": 0.0,
+        "fieldFailures": 208,
+        "witnesses": [
+          {
+            "point": [-8.057558059692383, -6.078156471252441, 5.199999809265137],
+            "normalError": 7.462253962545034e-6,
+            "colorError": 0.0
+          },
+          {
+            "point": [-8.057558059692383, -6.078156471252441, 5.199999809265137],
+            "normalError": 8.807841334220191e-6,
+            "colorError": 0.0
+          },
+          {
+            "point": [-8.055000305175781, -6.0, 5.199999809265137],
+            "normalError": 8.807841334220191e-6,
+            "colorError": 0.0
+          },
+          {
+            "point": [-8.055000305175781, -6.0, 5.199999809265137],
+            "normalError": 8.807841334220191e-6,
+            "colorError": 0.0
+          },
+          {
+            "point": [-8.057558059692383, -5.9218430519104, 5.199999809265137],
+            "normalError": 6.914566137271535e-6,
+            "colorError": 0.0
+          }
+        ]
+      }
+    },
+    "core_estate_library_liftaway_roof": {
+      "nonmanifold": [0, 0],
+      "activeColor": ["Baked contact and bounce", "Baked contact and bounce"],
+      "outsideSourceToCandidate": {
+        "triangles": 321,
+        "samples": 2247,
+        "exactPositionTriangles": 124,
+        "maximumProbedBVHSurfaceDistanceM": 6.433171249628881e-7,
+        "failureCount": 0,
+        "failures": []
+      },
+      "outsideCandidateToSource": {
+        "triangles": 315,
+        "samples": 2205,
+        "exactPositionTriangles": 122,
+        "maximumProbedBVHSurfaceDistanceM": 6.383661950485663e-7,
+        "failureCount": 0,
+        "failures": []
+      },
+      "outsideExactTriangleFields": {
+        "exactPositionTriangles": 122,
+        "maximumNormalError": 0.00013109995210920552,
+        "maximumColorError": 0.0,
+        "fieldFailures": 63,
+        "witnesses": [
+          {
+            "point": [-11.4556884765625, 12.19394588470459, 5.800000190734863],
+            "normalError": 5.580677444868369e-5,
+            "colorError": 0.0
+          },
+          {
+            "point": [-11.19343376159668, 11.887426376342773, 5.800000190734863],
+            "normalError": 3.8512269476511126e-5,
+            "colorError": 0.0
+          },
+          {
+            "point": [-11.19343376159668, 11.887426376342773, 5.800000190734863],
+            "normalError": 3.8512269476511126e-5,
+            "colorError": 0.0
+          },
+          {
+            "point": [-11.0, 11.653315544128418, 5.800000190734863],
+            "normalError": 2.86700819722525e-5,
+            "colorError": 0.0
+          },
+          {
+            "point": [-11.01000690460205, 11.666444778442383, 5.800000190734863],
+            "normalError": 2.86700819722525e-5,
+            "colorError": 0.0
+          }
+        ]
+      }
+    },
+    "core_liftaway_cave_ceiling": {
+      "nonmanifold": [0, 0],
+      "activeColor": [null, null],
+      "outsideSourceToCandidate": {
+        "triangles": 851,
+        "samples": 5957,
+        "exactPositionTriangles": 482,
+        "maximumProbedBVHSurfaceDistanceM": 5.028096017023512e-13,
+        "failureCount": 0,
+        "failures": []
+      },
+      "outsideCandidateToSource": {
+        "triangles": 851,
+        "samples": 5957,
+        "exactPositionTriangles": 482,
+        "maximumProbedBVHSurfaceDistanceM": 5.028096017023512e-13,
+        "failureCount": 0,
+        "failures": []
+      },
+      "outsideExactTriangleFields": {
+        "exactPositionTriangles": 482,
+        "maximumNormalError": 0.0,
+        "maximumColorError": 0.0,
+        "fieldFailures": 0,
+        "witnesses": []
+      }
+    },
+    "core_liftaway_cave_ceiling_rear": {
+      "nonmanifold": [0, 0],
+      "activeColor": ["Baked contact and bounce", "Baked contact and bounce"],
+      "outsideSourceToCandidate": {
+        "triangles": 995,
+        "samples": 6965,
+        "exactPositionTriangles": 825,
+        "maximumProbedBVHSurfaceDistanceM": 2.3398900802683123e-6,
+        "failureCount": 0,
+        "failures": []
+      },
+      "outsideCandidateToSource": {
+        "triangles": 995,
+        "samples": 6965,
+        "exactPositionTriangles": 825,
+        "maximumProbedBVHSurfaceDistanceM": 2.3398900802683123e-6,
+        "failureCount": 0,
+        "failures": []
+      },
+      "outsideExactTriangleFields": {
+        "exactPositionTriangles": 825,
+        "maximumNormalError": 0.0,
+        "maximumColorError": 0.0,
+        "fieldFailures": 0,
+        "witnesses": []
+      }
+    },
+    "core_retreat_liftaway_roof": {
+      "nonmanifold": [0, 0],
+      "activeColor": ["Baked contact and bounce", "Baked contact and bounce"],
+      "outsideSourceToCandidate": {
+        "triangles": 1726,
+        "samples": 12082,
+        "exactPositionTriangles": 990,
+        "maximumProbedBVHSurfaceDistanceM": 0.025500165238017843,
+        "failureCount": 104,
+        "failures": [
+          {
+            "point": [11.221501242607284, -3.372067745398778, 5.900000095367432],
+            "distanceToBVHNearestM": 0.00044552987209095133
+          },
+          {
+            "point": [11.23575062130364, -3.40103402528728, 5.865000009536743],
+            "distanceToBVHNearestM": 0.0002002400507606095
+          },
+          {
+            "point": [11.22435608023384, -3.372433378145815, 5.900000095367432],
+            "distanceToBVHNearestM": 0.0002227240989481932
+          },
+          {
+            "point": [11.232904053489225, -3.3916223538224703, 5.876666704813639],
+            "distanceToBVHNearestM": 0.0001334688952724637
+          },
+          {
+            "point": [10.395084827511731, -3.3493563468923195, 5.900000095367432],
+            "distanceToBVHNearestM": 0.006358425948362842
+          },
+          {
+            "point": [8.013144804102128, -3.2547965375442423, 5.900000095367432],
+            "distanceToBVHNearestM": 0.00317916860632096
+          },
+          {
+            "point": [10.822542413755865, -3.3896783260340504, 5.865000009536743],
+            "distanceToBVHNearestM": 0.003179212974181327
+          },
+          {
+            "point": [9.092096536068086, -3.3131977934214216, 5.876666704813639],
+            "distanceToBVHNearestM": 0.002119445737546576
+          },
+          {
+            "point": [10.395084827511731, -3.3493563468923195, 5.900000095367432],
+            "distanceToBVHNearestM": 0.006358425948362842
+          },
+          {
+            "point": [10.796829419143734, -3.3288864503226616, 5.900000095367432],
+            "distanceToBVHNearestM": 0.023879165141298956
+          },
+          {
+            "point": [10.822542413755865, -3.3896783260340504, 5.865000009536743],
+            "distanceToBVHNearestM": 0.003179212974181327
+          },
+          {
+            "point": [10.595957123327732, -3.3391213986074906, 5.900000095367432],
+            "distanceToBVHNearestM": 0.00840274180289206
+          }
+        ]
+      },
+      "outsideCandidateToSource": {
+        "triangles": 1709,
+        "samples": 11963,
+        "exactPositionTriangles": 968,
+        "maximumProbedBVHSurfaceDistanceM": 0.00398716865964572,
+        "failureCount": 2,
+        "failures": [
+          {
+            "point": [8.429207801818848, -3.2665178775787354, 5.900000095367432],
+            "distanceToBVHNearestM": 0.00398716865964572
+          },
+          {
+            "point": [9.36947186787923, -3.321012020111084, 5.876666704813639],
+            "distanceToBVHNearestM": 0.002658112439764269
+          }
+        ]
+      },
+      "outsideExactTriangleFields": {
+        "exactPositionTriangles": 1023,
+        "maximumNormalError": 0.0004164332809923139,
+        "maximumColorError": 0.0,
+        "fieldFailures": 783,
+        "witnesses": [
+          {
+            "point": [-12.799999237060547, -15.8859281539917, 11.220839500427246],
+            "normalError": 3.196814496602674e-5,
+            "colorError": 0.0
+          },
+          {
+            "point": [-12.5, -16.100000381469727, 11.182695388793945],
+            "normalError": 4.080140266320701e-5,
+            "colorError": 0.0
+          },
+          {
+            "point": [-12.5, -16.100000381469727, 11.182695388793945],
+            "normalError": 4.080140266320701e-5,
+            "colorError": 0.0
+          },
+          {
+            "point": [-12.5, -16.100000381469727, 11.182695388793945],
+            "normalError": 9.907345947575431e-5,
+            "colorError": 0.0
+          },
+          {
+            "point": [-12.0, -16.100000381469727, 11.062845230102539],
+            "normalError": 2.1773370534078134e-5,
+            "colorError": 0.0
+          }
+        ]
+      }
+    }
+  },
+  "objectCount": 467,
+  "materialCount": 148,
+  "unrelatedFingerprints": {
+    "baseline": {
+      "objects": 461,
+      "sha256": "cbbc74b57222cf29574ade78e783cc4c575392b50122e9b2e00594fe2b6d3709",
+      "materialsSha256": "2ca79c08d98f11378ab293757403c15506aa8d791b4bb75bff94866ef172a4ff"
+    },
+    "candidate": {
+      "objects": 461,
+      "sha256": "cbbc74b57222cf29574ade78e783cc4c575392b50122e9b2e00594fe2b6d3709",
+      "materialsSha256": "2ca79c08d98f11378ab293757403c15506aa8d791b4bb75bff94866ef172a4ff"
+    }
+  }
+}

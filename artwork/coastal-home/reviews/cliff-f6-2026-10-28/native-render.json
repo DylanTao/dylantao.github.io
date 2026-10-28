@@ -1,0 +1,12 @@
+{
+  "candidate-2-finite": {
+    "sourceSha256": "1dcebe7f64f324ffbd8ac4e28aa993854635990d36968bb0d80b6bb48b5363d4",
+    "views": {
+      "overview": [[-18, 27, 14], [-1, -4, 2.8], 58],
+      "close": [[-14, 19, 12], [0, -3, 5.5], 42]
+    },
+    "engine": "BLENDER_EEVEE_NEXT",
+    "samples": 32,
+    "size": [3840, 2160]
+  }
+}

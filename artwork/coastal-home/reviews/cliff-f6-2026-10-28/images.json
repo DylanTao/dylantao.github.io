@@ -1,0 +1,114 @@
+[
+  {
+    "file": "native-before-overview.webp",
+    "bytes": 298656,
+    "sha256": "fabdc768d069e1f8609fc9619d6fad412050a6c0602b870f522bda5d2d8a5884",
+    "size": [3840, 2160],
+    "sourcePNG": {
+      "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/baseline/native-4k/overview.png",
+      "bytes": 9445051,
+      "sha256": "a4940a355534ce92fd15fca0a727fed34e0a38e9b7b3f6f61240aac479b8a1fc"
+    },
+    "decodedRGBASha256": "edd5ac18a3dc25a6db8f7a373a018a09df91d98a5f6cc6c22f62fab5037050ae",
+    "losslessPixelEquality": false,
+    "encoding": "WebP quality90 review derivative, unchanged3840x2160 dimensions"
+  },
+  {
+    "file": "native-before-close.webp",
+    "bytes": 4707146,
+    "sha256": "b82dbcc557e05d48f5a6a48dae91f8c261d257bf5c1dde10fced2593e44a8af2",
+    "size": [3840, 2160],
+    "sourcePNG": {
+      "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/baseline/native-4k/close.png",
+      "bytes": 9939353,
+      "sha256": "c9f6cd057aac03ee465103d648e5dd520d78dd8bb14809362b4db9af494e9ae5"
+    },
+    "decodedRGBASha256": "ad9f827fbf6445e012014fb122982288b48f6f079f062da93d37ef52f7809108",
+    "losslessPixelEquality": true,
+    "encoding": "Lossless WebP, unchanged full3840x2160 pixels"
+  },
+  {
+    "file": "native-timid-overview.webp",
+    "bytes": 298554,
+    "sha256": "2b08ab19286a6a25b483b34f64083d2349a59146d27382630474249b3f084812",
+    "size": [3840, 2160],
+    "sourcePNG": {
+      "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/candidate/native-4k/overview.png",
+      "bytes": 9446693,
+      "sha256": "2d41fa3b676a19dc73269804b5eca010393428ce931fd876f3c479a5f80a924c"
+    },
+    "decodedRGBASha256": "f7983c65255daf43361c5ea95a259135b3525dcc8087e449366f9e8ddafbceb2",
+    "losslessPixelEquality": false,
+    "encoding": "WebP quality90 review derivative, unchanged3840x2160 dimensions"
+  },
+  {
+    "file": "native-strong-overview.webp",
+    "bytes": 311016,
+    "sha256": "acf8acd1bbe5067cd3aa9fcec1f235a6dd8afa7a07f6809b5cc197a431c85a03",
+    "size": [3840, 2160],
+    "sourcePNG": {
+      "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/candidate-2/native-4k/overview.png",
+      "bytes": 9529917,
+      "sha256": "d5bf7fa34e59aedef0feaa451e8a895dcb98f1569349d806fd142eea5969887c"
+    },
+    "decodedRGBASha256": "3af94af52b6a4f1f5ac9b1669b2a565b56d2486f5950958229b2ab9a6424b7ad",
+    "losslessPixelEquality": false,
+    "encoding": "WebP quality90 review derivative, unchanged3840x2160 dimensions"
+  },
+  {
+    "file": "native-finite-overview.webp",
+    "bytes": 311072,
+    "sha256": "a9d62daf1f311448e5a2a516c52fac90bfaae4ec87a1665dd17899b1fc814179",
+    "size": [3840, 2160],
+    "sourcePNG": {
+      "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/candidate-2-finite/native-4k/overview.png",
+      "bytes": 9529642,
+      "sha256": "d0c903975ffc8613482aec8bba9a3c016d4ba848f6a3cbac834814bf28d46453"
+    },
+    "decodedRGBASha256": "d74d44e0d0884625952c71683aa15a12e849557d3d690bc41fe4ad8d995654ca",
+    "losslessPixelEquality": false,
+    "encoding": "WebP quality90 review derivative, unchanged3840x2160 dimensions"
+  },
+  {
+    "file": "native-finite-close.webp",
+    "bytes": 4917900,
+    "sha256": "3fbb7614cdb29b8a526f0af722f533c4f1d133f1bb25ce282398cb41f9075c47",
+    "size": [3840, 2160],
+    "sourcePNG": {
+      "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/candidate-2-finite/native-4k/close.png",
+      "bytes": 10234776,
+      "sha256": "ec8761571284c1e4ddf15a51e351365f4b6b0767c1f760253c4aba2cebd399b4"
+    },
+    "decodedRGBASha256": "1d129ee983e3a9f5f7ee00c1413d18d1884b477436c88315c6f49561957c5f98",
+    "losslessPixelEquality": true,
+    "encoding": "Lossless WebP, unchanged full3840x2160 pixels"
+  },
+  {
+    "file": "web-before-4k.webp",
+    "bytes": 915434,
+    "sha256": "81da79283dfc42ca439c92722c19cddd3309540e037c9d15e4620a162a130de6",
+    "size": [3840, 2160],
+    "sourcePNG": {
+      "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/browser-baseline-28-4k/architecture-finish-finish-22272--through-public-room-visits-desktop-1440/architecture-4k-actual-ao.png",
+      "bytes": 7804492,
+      "sha256": "9ec5ebacb0725468babaf641ce038f6ab2a6ee11e76d858b70aea42fe3f5b75d"
+    },
+    "decodedRGBASha256": "a24f33d6ed41a31121171d8f5eceb427a24ab473cc4f327265745168b67dc0d3",
+    "losslessPixelEquality": false,
+    "encoding": "WebP quality90 review derivative, unchanged3840x2160 dimensions"
+  },
+  {
+    "file": "web-finite-4k.webp",
+    "bytes": 959550,
+    "sha256": "84d1793dabcf571e1f68de99ad2da5cd5f2c668db46ac6cf527f600f50d18e9f",
+    "size": [3840, 2160],
+    "sourcePNG": {
+      "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/browser-candidate-finite-28-4k/architecture-finish-finish-22272--through-public-room-visits-desktop-1440/architecture-4k-actual-ao.png",
+      "bytes": 7872509,
+      "sha256": "bead4845be52a94b95d8eccf0008a719c440926a1a6f8da14d8769e32d3a58fc"
+    },
+    "decodedRGBASha256": "b55862b5adee9946f9e82f19e9afe441a293153084f555d5acc0723a805b8461",
+    "losslessPixelEquality": false,
+    "encoding": "WebP quality90 review derivative, unchanged3840x2160 dimensions"
+  }
+]

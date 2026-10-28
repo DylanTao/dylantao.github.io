@@ -1,0 +1,418 @@
+{
+  "baseline": {
+    "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/baseline/source.blend",
+    "bytes": 28949910,
+    "sha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+  },
+  "blender": "4.5.9 LTS 8bf95cbd38d1",
+  "attempts": [
+    {
+      "id": "attempt-1",
+      "source": {
+        "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/attempt-1/candidate.blend",
+        "bytes": 29117530,
+        "sha256": "f5edef0c17133b5c145a4250b2a0a628994552db07a52b92f77a83297f616016"
+      },
+      "recipe": "recipe-throat.py",
+      "recipeSha256": "d902612e3782350d309c7aa6ca6bdb911a9d921692b260ca3b18262cd56d60ee",
+      "boundsNative": [
+        [-14.800000190734863, -9.0, 5.900000095367432],
+        [14.0, 6.5, 12.399999618530273]
+      ],
+      "addedNativeTriangles": 2488,
+      "meshes": [
+        {
+          "mesh": "core_liftaway_cave_ceiling",
+          "beforeTriangles": 1574,
+          "afterTriangles": 1696,
+          "addedTriangles": 122,
+          "explicitLocalSourcePolygons": 388,
+          "subdividedEdges": 61,
+          "movedVertices": 74,
+          "maximumDisplacementM": 0.2709143575488573,
+          "minimumSampledJacobian": 0.9984713196754456,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": null
+        },
+        {
+          "mesh": "core__golden coastal sandstone",
+          "beforeTriangles": 115376,
+          "afterTriangles": 116094,
+          "addedTriangles": 718,
+          "explicitLocalSourcePolygons": 90,
+          "subdividedEdges": 359,
+          "movedVertices": 351,
+          "maximumDisplacementM": 1.1618639903293337,
+          "minimumSampledJacobian": 0.2686545252799988,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_liftaway_cave_ceiling_rear",
+          "beforeTriangles": 1422,
+          "afterTriangles": 1668,
+          "addedTriangles": 246,
+          "explicitLocalSourcePolygons": 16,
+          "subdividedEdges": 123,
+          "movedVertices": 88,
+          "maximumDisplacementM": 0.3093264639235084,
+          "minimumSampledJacobian": 0.9516195058822632,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_bathwing_liftaway_roof",
+          "beforeTriangles": 998,
+          "afterTriangles": 1408,
+          "addedTriangles": 410,
+          "explicitLocalSourcePolygons": 102,
+          "subdividedEdges": 205,
+          "movedVertices": 274,
+          "maximumDisplacementM": 1.0398965514066343,
+          "minimumSampledJacobian": 0.999782383441925,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_estate_library_liftaway_roof",
+          "beforeTriangles": 2342,
+          "afterTriangles": 2918,
+          "addedTriangles": 576,
+          "explicitLocalSourcePolygons": 284,
+          "subdividedEdges": 288,
+          "movedVertices": 332,
+          "maximumDisplacementM": 1.137742803671133,
+          "minimumSampledJacobian": 0.2759770154953003,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_retreat_liftaway_roof",
+          "beforeTriangles": 2202,
+          "afterTriangles": 2618,
+          "addedTriangles": 416,
+          "explicitLocalSourcePolygons": 212,
+          "subdividedEdges": 208,
+          "movedVertices": 174,
+          "maximumDisplacementM": 1.0242652021243135,
+          "minimumSampledJacobian": 0.39151808619499207,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        }
+      ],
+      "protectedPatchKinds": {},
+      "status": "rejected; do not admit"
+    },
+    {
+      "id": "attempt-2",
+      "source": {
+        "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/attempt-2/candidate.blend",
+        "bytes": 29350717,
+        "sha256": "10210df3dac43831fa369785ee1492b0bf15bed790690c3de61598ec1091498b"
+      },
+      "recipe": "recipe-strong.py",
+      "recipeSha256": "85821a29027f3c42dc296845e456b5aff0769f61edf3be967796e614160de2fe",
+      "boundsNative": [
+        [-22.0, -12.0, 5.900000095367432],
+        [17.0, 19.0, 14.350000381469727]
+      ],
+      "addedNativeTriangles": 8676,
+      "meshes": [
+        {
+          "mesh": "core_liftaway_cave_ceiling",
+          "beforeTriangles": 1574,
+          "afterTriangles": 1574,
+          "addedTriangles": 0,
+          "movedVertices": 0,
+          "unchangedNativeMesh": true
+        },
+        {
+          "mesh": "core__golden coastal sandstone",
+          "beforeTriangles": 115376,
+          "afterTriangles": 120006,
+          "addedTriangles": 4630,
+          "explicitLocalSourcePolygons": 194,
+          "subdividedEdges": 2315,
+          "movedVertices": 5059,
+          "maximumDisplacementM": 1.979424331021404,
+          "minimumSampledJacobian": 0.025816097855567932,
+          "tightCompressionNeedsReview": true,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_liftaway_cave_ceiling_rear",
+          "beforeTriangles": 1422,
+          "afterTriangles": 1422,
+          "addedTriangles": 0,
+          "movedVertices": 0,
+          "unchangedNativeMesh": true
+        },
+        {
+          "mesh": "core_bathwing_liftaway_roof",
+          "beforeTriangles": 998,
+          "afterTriangles": 1504,
+          "addedTriangles": 506,
+          "explicitLocalSourcePolygons": 102,
+          "subdividedEdges": 253,
+          "movedVertices": 461,
+          "maximumDisplacementM": 0.700525065262321,
+          "minimumSampledJacobian": 0.2651146352291107,
+          "tightCompressionNeedsReview": false,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_estate_library_liftaway_roof",
+          "beforeTriangles": 2342,
+          "afterTriangles": 4720,
+          "addedTriangles": 2378,
+          "explicitLocalSourcePolygons": 855,
+          "subdividedEdges": 1189,
+          "movedVertices": 2127,
+          "maximumDisplacementM": 1.9902739890576358,
+          "minimumSampledJacobian": 0.036509230732917786,
+          "tightCompressionNeedsReview": true,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_retreat_liftaway_roof",
+          "beforeTriangles": 2202,
+          "afterTriangles": 3364,
+          "addedTriangles": 1162,
+          "explicitLocalSourcePolygons": 380,
+          "subdividedEdges": 581,
+          "movedVertices": 661,
+          "maximumDisplacementM": 0.8878041149308724,
+          "minimumSampledJacobian": 0.06513510644435883,
+          "tightCompressionNeedsReview": true,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        }
+      ],
+      "protectedPatchKinds": {
+        "complete-rosette-root": 26,
+        "retained-flora-root": 13059,
+        "retained-wildlife-patch": 3,
+        "retained-chimney-cap": 1
+      },
+      "status": "rejected; do not admit"
+    },
+    {
+      "id": "attempt-2-diagonals",
+      "source": {
+        "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/attempt-2-diagonals/candidate.blend",
+        "bytes": 29469214,
+        "sha256": "f0e6a7cb619d8aa3055dc29176e87b1b3939ec64917dd824db669cd8abb67feb"
+      },
+      "recipe": "recipe-diagonals.py",
+      "recipeSha256": "2664757a3bdc92b28e0e35460f5a3b76ec9deedbfbb5c4492d9736af113e441d",
+      "boundsNative": [
+        [-22.0, -12.0, 5.900000095367432],
+        [17.0, 19.0, 14.350000381469727]
+      ],
+      "addedNativeTriangles": 8676,
+      "meshes": [
+        {
+          "mesh": "core_liftaway_cave_ceiling",
+          "beforeTriangles": 1574,
+          "afterTriangles": 1574,
+          "addedTriangles": 0,
+          "movedVertices": 0,
+          "unchangedNativeMesh": true
+        },
+        {
+          "mesh": "core__golden coastal sandstone",
+          "beforeTriangles": 115376,
+          "afterTriangles": 120006,
+          "addedTriangles": 4630,
+          "explicitLocalSourcePolygons": 4781,
+          "subdividedEdges": 2315,
+          "movedVertices": 5059,
+          "maximumDisplacementM": 1.979424331021404,
+          "minimumSampledJacobian": 0.025816097855567932,
+          "tightCompressionNeedsReview": true,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_liftaway_cave_ceiling_rear",
+          "beforeTriangles": 1422,
+          "afterTriangles": 1422,
+          "addedTriangles": 0,
+          "movedVertices": 0,
+          "unchangedNativeMesh": true
+        },
+        {
+          "mesh": "core_bathwing_liftaway_roof",
+          "beforeTriangles": 998,
+          "afterTriangles": 1504,
+          "addedTriangles": 506,
+          "explicitLocalSourcePolygons": 187,
+          "subdividedEdges": 253,
+          "movedVertices": 461,
+          "maximumDisplacementM": 0.700525065262321,
+          "minimumSampledJacobian": 0.2651146352291107,
+          "tightCompressionNeedsReview": false,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_estate_library_liftaway_roof",
+          "beforeTriangles": 2342,
+          "afterTriangles": 4720,
+          "addedTriangles": 2378,
+          "explicitLocalSourcePolygons": 870,
+          "subdividedEdges": 1189,
+          "movedVertices": 2127,
+          "maximumDisplacementM": 1.9902739890576358,
+          "minimumSampledJacobian": 0.036509230732917786,
+          "tightCompressionNeedsReview": true,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_retreat_liftaway_roof",
+          "beforeTriangles": 2202,
+          "afterTriangles": 3364,
+          "addedTriangles": 1162,
+          "explicitLocalSourcePolygons": 672,
+          "subdividedEdges": 581,
+          "movedVertices": 661,
+          "maximumDisplacementM": 0.8878041149308724,
+          "minimumSampledJacobian": 0.06513510644435883,
+          "tightCompressionNeedsReview": true,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        }
+      ],
+      "protectedPatchKinds": {
+        "complete-rosette-root": 26,
+        "retained-flora-root": 13059,
+        "retained-wildlife-patch": 3,
+        "retained-chimney-cap": 1
+      },
+      "status": "rejected; do not admit"
+    },
+    {
+      "id": "attempt-2-finite",
+      "source": {
+        "file": ".jekyll-cache/visual-qa/cliff-2026-10-28/attempt-2-finite/candidate.blend",
+        "bytes": 30983457,
+        "sha256": "1dcebe7f64f324ffbd8ac4e28aa993854635990d36968bb0d80b6bb48b5363d4"
+      },
+      "recipe": "recipe-finite.py",
+      "recipeSha256": "4e51d558e3cdf30232846abd001aea2abd8a1138890d5b4147fedd45ff8adcae",
+      "boundsNative": [
+        [-22.0, -12.0, 5.900000095367432],
+        [17.0, 19.0, 14.350000381469727]
+      ],
+      "addedNativeTriangles": 10556,
+      "meshes": [
+        {
+          "mesh": "core_liftaway_cave_ceiling",
+          "beforeTriangles": 1574,
+          "afterTriangles": 1574,
+          "addedTriangles": 0,
+          "movedVertices": 0,
+          "unchangedNativeMesh": true
+        },
+        {
+          "mesh": "core__golden coastal sandstone",
+          "beforeTriangles": 115376,
+          "afterTriangles": 120858,
+          "addedTriangles": 5482,
+          "explicitLocalSourcePolygons": 4781,
+          "subdividedEdges": 2288,
+          "movedVertices": 5034,
+          "maximumDisplacementM": 1.9855176384285753,
+          "minimumSampledJacobian": 0.025816097855567932,
+          "tightCompressionNeedsReview": true,
+          "maximumNativeVsIntendedSplitNormalError": 1.0,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_liftaway_cave_ceiling_rear",
+          "beforeTriangles": 1422,
+          "afterTriangles": 1422,
+          "addedTriangles": 0,
+          "movedVertices": 0,
+          "unchangedNativeMesh": true
+        },
+        {
+          "mesh": "core_bathwing_liftaway_roof",
+          "beforeTriangles": 998,
+          "afterTriangles": 1626,
+          "addedTriangles": 628,
+          "explicitLocalSourcePolygons": 187,
+          "subdividedEdges": 226,
+          "movedVertices": 434,
+          "maximumDisplacementM": 0.6963358860353398,
+          "minimumSampledJacobian": 0.2651146352291107,
+          "tightCompressionNeedsReview": false,
+          "maximumNativeVsIntendedSplitNormalError": 0.21239902559516718,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_estate_library_liftaway_roof",
+          "beforeTriangles": 2342,
+          "afterTriangles": 5018,
+          "addedTriangles": 2676,
+          "explicitLocalSourcePolygons": 870,
+          "subdividedEdges": 1197,
+          "movedVertices": 2135,
+          "maximumDisplacementM": 1.9890796130239048,
+          "minimumSampledJacobian": 0.036163218319416046,
+          "tightCompressionNeedsReview": true,
+          "maximumNativeVsIntendedSplitNormalError": 0.09639043839455604,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        },
+        {
+          "mesh": "core_retreat_liftaway_roof",
+          "beforeTriangles": 2202,
+          "afterTriangles": 3972,
+          "addedTriangles": 1770,
+          "explicitLocalSourcePolygons": 672,
+          "subdividedEdges": 550,
+          "movedVertices": 630,
+          "maximumDisplacementM": 0.8888927646310738,
+          "minimumSampledJacobian": 0.07758631557226181,
+          "tightCompressionNeedsReview": true,
+          "maximumNativeVsIntendedSplitNormalError": 0.004123619626937843,
+          "nonmanifoldBefore": 0,
+          "nonmanifoldAfter": 0,
+          "activeColor": "Baked contact and bounce"
+        }
+      ],
+      "protectedPatchKinds": {
+        "complete-rosette-root": 26,
+        "retained-flora-root": 13059,
+        "retained-wildlife-patch": 3,
+        "retained-chimney-cap": 1
+      },
+      "status": "rejected; do not admit"
+    }
+  ],
+  "ordinaryFloraClusterMovement": "None. Ground-adjacent component supports were conservatively retained; these were not positive botanical cluster IDs."
+}

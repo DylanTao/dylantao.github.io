@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "1dcebe7f64f324ffbd8ac4e28aa993854635990d36968bb0d80b6bb48b5363d4",
+  "passed": true,
+  "routes": 420,
+  "samples": 3629951,
+  "radiusM": 0.42,
+  "minimumConservativeClearanceM": 0.4419359970092773,
+  "minimumWitnessRoute": {
+    "id": "gym:0->kitchen:0",
+    "samples": 6536,
+    "minimum": 0.44631099700927734,
+    "maxSpatialStride": 0.008000016360788873,
+    "conservativeClearance": 0.4419359970092773,
+    "passed": true,
+    "minimumWitness": {
+      "sample": 2330,
+      "center": [3.722195561899489, 1.65, 9.506151276420237],
+      "clearance": 0.44631099700927734,
+      "mesh": "core__chalk limestone",
+      "surface": [3.8802006244659424, 2.066706895828247, 9.482000350952148]
+    }
+  },
+  "fullReportSha256": "d9ab8a13165f9aefc4209b783d5e0f6684ca651c06eb1d7a664124239bad659d",
+  "actualRuntimeTrace": {
+    "bytes": 136949370,
+    "sha256": "d5b8998a67e91699e860832d7d347cc7f4d4d50721ae60d058055491ab1ccf47",
+    "file": "finish-house QA/attempts/v84/companion-flights.jsonl"
+  },
+  "presetSha256": "331f7b9d73c74aebc2dac1c3d84af7616d3557fde7769aff24ace5832b34124e"
+}

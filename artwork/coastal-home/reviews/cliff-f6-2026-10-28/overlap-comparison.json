@@ -1,0 +1,4428 @@
+{
+  "baseline": {
+    "sourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681",
+    "rawReportSha256": "7e6583861d56b0ee962a51801fb12cd2a21219c748725e0e7697f96873513f77",
+    "toolSha256": "925eaee2e04132dd7d1dbbd909d144b060af783352bf586452e7e6228350e5fe",
+    "totals": {
+      "zFightingPairs": 31,
+      "zFightingVisibleAreaM2": 0.7289,
+      "grazingSites": 25,
+      "grazingSeamM": 3.257,
+      "deepSites": 859,
+      "deepSitesOver5cm": 288,
+      "deepSeverity": 33574.0,
+      "maxDeepSeverity": 1327.6
+    },
+    "counts": {
+      "meshes": 505,
+      "triangles": 1280239,
+      "closedMeshes": 373,
+      "pairsTested": 4013,
+      "crossingPairs": 893,
+      "sites": 17638,
+      "offenders": 884,
+      "coplanarPairs": 360,
+      "zFightingPairs": 31,
+      "coplanarTrianglePairsTested": 77459
+    },
+    "changedRockPairSummary": [
+      {
+        "pair": "core__golden coastal sandstone | core_flora_lemonade_berry_shade",
+        "sites": 203,
+        "seamM": 39.74250000000005,
+        "deepSitesOver5cm": 51,
+        "maximumDepthM": 0.2885,
+        "severity": 4513.340000000001,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_lemonade_berry_shade",
+          "center": [28.213, 8.017, 11.906],
+          "bounds": [
+            [28.157, 7.992, 11.884],
+            [28.269, 8.041, 11.928]
+          ],
+          "depth": 0.2885,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_court__warm cut stone",
+        "sites": 22,
+        "seamM": 43.26980000000001,
+        "deepSitesOver5cm": 5,
+        "maximumDepthM": 0.2015,
+        "severity": 2464.7799999999997,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_court__warm cut stone",
+          "center": [0.468, -20.791, 8.359],
+          "bounds": [
+            [-0.134, -21.452, 8.291],
+            [1.07, -20.13, 8.428]
+          ],
+          "depth": 0.2015,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling",
+        "sites": 20,
+        "seamM": 13.639200000000002,
+        "deepSitesOver5cm": 11,
+        "maximumDepthM": 0.2783,
+        "severity": 2045.094,
+        "maximumDepthWitness": {
+          "a": "core_liftaway_cave_ceiling",
+          "b": "core_bathwing_liftaway_roof",
+          "center": [-4.78, -1.005, 7.731],
+          "bounds": [
+            [-4.806, -1.062, 7.569],
+            [-4.755, -0.949, 7.892]
+          ],
+          "depth": 0.2783,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_liftaway_cave_ceiling | core_retreat_liftaway_roof",
+        "sites": 18,
+        "seamM": 9.115599999999999,
+        "deepSitesOver5cm": 15,
+        "maximumDepthM": 0.2803,
+        "severity": 2021.4649999999997,
+        "maximumDepthWitness": {
+          "a": "core_liftaway_cave_ceiling",
+          "b": "core_retreat_liftaway_roof",
+          "center": [5.625, -3.159, 5.921],
+          "bounds": [
+            [5.604, -3.228, 5.841],
+            [5.647, -3.091, 6.002]
+          ],
+          "depth": 0.2803,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_lemonade_berry_shade",
+        "sites": 41,
+        "seamM": 8.6002,
+        "deepSitesOver5cm": 21,
+        "maximumDepthM": 0.2357,
+        "severity": 1553.732,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_lemonade_berry_shade",
+          "center": [-10.766, 7.212, 10.19],
+          "bounds": [
+            [-10.918, 7.194, 10.149],
+            [-10.615, 7.23, 10.231]
+          ],
+          "depth": 0.2357,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__chalk limestone | core__golden coastal sandstone",
+        "sites": 10,
+        "seamM": 2.3699000000000003,
+        "deepSitesOver5cm": 10,
+        "maximumDepthM": 0.3772,
+        "severity": 1530.158,
+        "maximumDepthWitness": {
+          "a": "core__chalk limestone",
+          "b": "core__golden coastal sandstone",
+          "center": [-4.793, -15.459, 3.96],
+          "bounds": [
+            [-4.797, -15.536, 3.953],
+            [-4.79, -15.381, 3.967]
+          ],
+          "depth": 0.3772,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_paths__travertine paving stone",
+        "sites": 240,
+        "seamM": 45.943,
+        "deepSitesOver5cm": 25,
+        "maximumDepthM": 0.1248,
+        "severity": 1331.9250000000002,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_paths__travertine paving stone",
+          "center": [1.012, -24.199, 8.328],
+          "bounds": [
+            [0.962, -24.205, 8.322],
+            [1.061, -24.194, 8.335]
+          ],
+          "depth": 0.1248,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_facade__warm_cut_stone",
+        "sites": 31,
+        "seamM": 8.562299999999999,
+        "deepSitesOver5cm": 10,
+        "maximumDepthM": 0.2643,
+        "severity": 1213.9959999999999,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_facade__warm_cut_stone",
+          "center": [5.8, -4.236, 1.043],
+          "bounds": [
+            [5.8, -4.38, 0.966],
+            [5.8, -4.091, 1.12]
+          ],
+          "depth": 0.2643,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_arrival_paths__travertine paving stone | core_retreat_liftaway_roof",
+        "sites": 18,
+        "seamM": 6.1726,
+        "deepSitesOver5cm": 6,
+        "maximumDepthM": 0.1179,
+        "severity": 492.765,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_arrival_paths__travertine paving stone",
+          "center": [-4.975, -15.997, 8.994],
+          "bounds": [
+            [-5.0, -16.0, 8.988],
+            [-4.95, -15.993, 9.0]
+          ],
+          "depth": 0.1179,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_hall__warm cut stone",
+        "sites": 84,
+        "seamM": 67.54109999999999,
+        "deepSitesOver5cm": 10,
+        "maximumDepthM": 0.0849,
+        "severity": 468.462,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_hall__warm cut stone",
+          "center": [2.604, -15.95, 4.9],
+          "bounds": [
+            [2.316, -15.95, 4.9],
+            [2.892, -15.95, 4.9]
+          ],
+          "depth": 0.0849,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_yucca_skirt",
+        "sites": 10,
+        "seamM": 4.5853,
+        "deepSitesOver5cm": 3,
+        "maximumDepthM": 0.1837,
+        "severity": 432.475,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_yucca_skirt",
+          "center": [31.348, 4.803, 11.18],
+          "bounds": [
+            [31.221, 4.666, 11.127],
+            [31.475, 4.939, 11.234]
+          ],
+          "depth": 0.1837,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_sage",
+        "sites": 123,
+        "seamM": 9.451400000000003,
+        "deepSitesOver5cm": 13,
+        "maximumDepthM": 0.0816,
+        "severity": 275.106,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_sage",
+          "center": [-19.154, 2.685, 10.337],
+          "bounds": [
+            [-19.181, 2.617, 10.319],
+            [-19.128, 2.753, 10.356]
+          ],
+          "depth": 0.0816,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_gym_passage_floor",
+        "sites": 13,
+        "seamM": 2.5394,
+        "deepSitesOver5cm": 5,
+        "maximumDepthM": 0.12,
+        "severity": 208.92099999999996,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_gym_passage_floor",
+          "center": [5.211, -6.7, -0.015],
+          "bounds": [
+            [5.167, -6.7, -0.015],
+            [5.255, -6.7, -0.015]
+          ],
+          "depth": 0.12,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_estate_garden__warm cut stone",
+        "sites": 12,
+        "seamM": 4.1482,
+        "deepSitesOver5cm": 2,
+        "maximumDepthM": 0.1083,
+        "severity": 158.713,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_estate_garden__warm cut stone",
+          "center": [-0.402, -16.644, 7.863],
+          "bounds": [
+            [-0.454, -16.702, 7.851],
+            [-0.35, -16.586, 7.876]
+          ],
+          "depth": 0.1083,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_living__warm cut stone",
+        "sites": 7,
+        "seamM": 2.4541,
+        "deepSitesOver5cm": 3,
+        "maximumDepthM": 0.0915,
+        "severity": 149.24599999999998,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_living__warm cut stone",
+          "center": [5.25, -14.924, 2.4],
+          "bounds": [
+            [5.25, -14.946, 2.4],
+            [5.25, -14.903, 2.4]
+          ],
+          "depth": 0.0915,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_court__travertine paving stone",
+        "sites": 70,
+        "seamM": 13.405,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0449,
+        "severity": 133.32799999999997,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_court__travertine paving stone",
+          "center": [-3.897, -24.018, 8.28],
+          "bounds": [
+            [-3.9, -24.075, 8.279],
+            [-3.894, -23.962, 8.281]
+          ],
+          "depth": 0.0449,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_garden__warm cut stone | core_retreat_liftaway_roof",
+        "sites": 20,
+        "seamM": 27.855799999999995,
+        "deepSitesOver5cm": 1,
+        "maximumDepthM": 0.1081,
+        "severity": 95.373,
+        "maximumDepthWitness": {
+          "a": "core_estate_garden__warm cut stone",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-0.54, -15.828, 7.734],
+          "bounds": [
+            [-0.605, -15.946, 7.713],
+            [-0.476, -15.709, 7.755]
+          ],
+          "depth": 0.1081,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_arrival_paths_roof__travertine paving stone | core_retreat_liftaway_roof",
+        "sites": 45,
+        "seamM": 7.9007000000000005,
+        "deepSitesOver5cm": 2,
+        "maximumDepthM": 0.1213,
+        "severity": 80.722,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_arrival_paths_roof__travertine paving stone",
+          "center": [-4.525, -13.504, 8.748],
+          "bounds": [
+            [-4.55, -13.508, 8.744],
+            [-4.5, -13.5, 8.752]
+          ],
+          "depth": 0.1213,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+        "sites": 66,
+        "seamM": 13.500100000000003,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0248,
+        "severity": 80.33000000000001,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+          "center": [-3.58, -22.559, 8.315],
+          "bounds": [
+            [-3.58, -22.748, 8.312],
+            [-3.58, -22.37, 8.318]
+          ],
+          "depth": 0.0248,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_sage",
+        "sites": 31,
+        "seamM": 2.4034,
+        "deepSitesOver5cm": 2,
+        "maximumDepthM": 0.085,
+        "severity": 52.805,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_sage",
+          "center": [-11.234, -2.736, 11.076],
+          "bounds": [
+            [-11.291, -2.798, 11.056],
+            [-11.178, -2.675, 11.096]
+          ],
+          "depth": 0.085,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_dark_sage | core_retreat_liftaway_roof",
+        "sites": 44,
+        "seamM": 2.4437,
+        "deepSitesOver5cm": 2,
+        "maximumDepthM": 0.0691,
+        "severity": 52.356,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_dark_sage",
+          "center": [5.311, -8.453, 7.646],
+          "bounds": [
+            [5.27, -8.505, 7.637],
+            [5.352, -8.402, 7.655]
+          ],
+          "depth": 0.0691,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_east__La Jolla bluff sandsto",
+        "sites": 41,
+        "seamM": 10.883199999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0326,
+        "severity": 50.116,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_pavilion_rock_shoulder_east__La Jolla bluff sandsto",
+          "center": [-1.565, -17.874, 8.113],
+          "bounds": [
+            [-2.0, -18.135, 8.051],
+            [-1.13, -17.614, 8.176]
+          ],
+          "depth": 0.0326,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_sea__La Jolla bluff sandston",
+        "sites": 5,
+        "seamM": 4.0657,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0232,
+        "severity": 48.75,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_pavilion_rock_shoulder_sea__La Jolla bluff sandston",
+          "center": [-2.329, -17.115, 8.188],
+          "bounds": [
+            [-2.658, -17.18, 8.103],
+            [-2.0, -17.05, 8.273]
+          ],
+          "depth": 0.0232,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_flora_sage | core_retreat_liftaway_roof",
+        "sites": 55,
+        "seamM": 3.4770000000000008,
+        "deepSitesOver5cm": 2,
+        "maximumDepthM": 0.0625,
+        "severity": 41.132000000000005,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_sage",
+          "center": [-2.21, -10.801, 7.795],
+          "bounds": [
+            [-2.216, -10.824, 7.79],
+            [-2.204, -10.777, 7.799]
+          ],
+          "depth": 0.0625,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_dark_sage",
+        "sites": 70,
+        "seamM": 3.9511999999999987,
+        "deepSitesOver5cm": 1,
+        "maximumDepthM": 0.0522,
+        "severity": 26.856,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_dark_sage",
+          "center": [14.088, 1.404, 8.938],
+          "bounds": [
+            [14.087, 1.352, 8.932],
+            [14.088, 1.456, 8.944]
+          ],
+          "depth": 0.0522,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_garden_flora_leaf | core_retreat_liftaway_roof",
+        "sites": 7,
+        "seamM": 0.9632000000000001,
+        "deepSitesOver5cm": 1,
+        "maximumDepthM": 0.0646,
+        "severity": 25.351,
+        "maximumDepthWitness": {
+          "a": "core_estate_garden_flora_leaf",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-3.086, -14.839, 8.398],
+          "bounds": [
+            [-3.165, -14.878, 8.368],
+            [-3.007, -14.801, 8.429]
+          ],
+          "depth": 0.0646,
+          "contactRule": null,
+          "closedA": false,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_yucca_skirt",
+        "sites": 3,
+        "seamM": 2.6498999999999997,
+        "deepSitesOver5cm": 1,
+        "maximumDepthM": 0.2085,
+        "severity": 19.859,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_yucca_skirt",
+          "center": [-9.288, 5.675, 9.856],
+          "bounds": [
+            [-9.481, 5.397, 9.749],
+            [-9.095, 5.953, 9.962]
+          ],
+          "depth": 0.2085,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_lemonade_berry",
+        "sites": 84,
+        "seamM": 3.9756,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0468,
+        "severity": 11.281,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_lemonade_berry",
+          "center": [-23.546, 2.454, 7.77],
+          "bounds": [
+            [-23.56, 2.429, 7.768],
+            [-23.531, 2.479, 7.772]
+          ],
+          "depth": 0.0468,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_dark_sage",
+        "sites": 14,
+        "seamM": 0.7848000000000002,
+        "deepSitesOver5cm": 1,
+        "maximumDepthM": 0.0526,
+        "severity": 8.627,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_dark_sage",
+          "center": [-9.151, -0.808, 10.218],
+          "bounds": [
+            [-9.16, -0.818, 10.215],
+            [-9.143, -0.798, 10.222]
+          ],
+          "depth": 0.0526,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "coast_shared_golden coastal sandstone | core__golden coastal sandstone",
+        "sites": 28,
+        "seamM": 12.094100000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "coast_shared_golden coastal sandstone",
+          "b": "core__golden coastal sandstone",
+          "center": [11.2, -8.517, -0.26],
+          "bounds": [
+            [11.2, -8.66, -0.26],
+            [11.2, -8.375, -0.26]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_liftaway_cave_ceiling",
+        "sites": 11,
+        "seamM": 6.916999999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0029,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_liftaway_cave_ceiling",
+          "b": "core__golden coastal sandstone",
+          "center": [5.264, -2.269, 6.651],
+          "bounds": [
+            [5.189, -2.444, 6.549],
+            [5.338, -2.094, 6.753]
+          ],
+          "depth": 0.0029,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__blue sage agave leaf | core__golden coastal sandstone",
+        "sites": 19,
+        "seamM": 4.857100000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0216,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core__blue sage agave leaf",
+          "center": [6.807, 2.325, 7.699],
+          "bounds": [
+            [6.795, 2.312, 7.696],
+            [6.819, 2.337, 7.701]
+          ],
+          "depth": 0.0216,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | lounge_decor tenmoku glaze",
+        "sites": 1,
+        "seamM": 0.1249,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0038,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "lounge_decor tenmoku glaze",
+          "center": [5.196, -11.83, 0.99],
+          "bounds": [
+            [5.196, -11.857, 0.976],
+            [5.196, -11.803, 1.003]
+          ],
+          "depth": 0.0038,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_facade__dark_bronze",
+        "sites": 16,
+        "seamM": 6.4657,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.032,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_facade__dark_bronze",
+          "center": [5.105, -3.52, 2.656],
+          "bounds": [
+            [5.029, -3.58, 2.022],
+            [5.18, -3.46, 3.29]
+          ],
+          "depth": 0.032,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_facade_lunette_frame",
+        "sites": 1,
+        "seamM": 1.5726,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0021,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_facade_lunette_frame",
+          "center": [4.921, -3.52, 3.611],
+          "bounds": [
+            [4.821, -3.58, 3.322],
+            [5.021, -3.46, 3.9]
+          ],
+          "depth": 0.0021,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_gym_ledge",
+        "sites": 4,
+        "seamM": 1.1682000000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_gym_ledge",
+          "center": [11.0, -0.068, -0.137],
+          "bounds": [
+            [11.0, -0.068, -0.26],
+            [11.0, -0.068, -0.015]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_liftaway_cave_ceiling_rear",
+        "sites": 13,
+        "seamM": 2.4768999999999997,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_liftaway_cave_ceiling_rear",
+          "center": [5.65, -7.194, 5.83],
+          "bounds": [
+            [5.65, -7.315, 5.83],
+            [5.65, -7.073, 5.83]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | kitchen__chalk limestone",
+        "sites": 8,
+        "seamM": 3.7796,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.1082,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "kitchen__chalk limestone",
+          "center": [-5.106, -4.055, -0.23],
+          "bounds": [
+            [-5.19, -4.06, -0.26],
+            [-5.023, -4.05, -0.2]
+          ],
+          "depth": 0.1082,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_bathwing_liftaway_roof",
+        "sites": 1,
+        "seamM": 0.03,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_bathwing_liftaway_roof",
+          "center": [-8.38, -6.45, 5.815],
+          "bounds": [
+            [-8.38, -6.45, 5.8],
+            [-8.38, -6.45, 5.83]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_estate_library_liftaway_roof",
+        "sites": 49,
+        "seamM": 67.05279999999998,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.3187,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_estate_library_liftaway_roof",
+          "center": [-12.791, -6.679, 11.291],
+          "bounds": [
+            [-12.792, -6.74, 11.251],
+            [-12.79, -6.619, 11.331]
+          ],
+          "depth": 0.3187,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_estate_terrace__warm cut stone",
+        "sites": 25,
+        "seamM": 8.4978,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_estate_terrace__warm cut stone",
+          "center": [5.765, -3.42, -0.043],
+          "bounds": [
+            [5.73, -3.42, -0.043],
+            [5.8, -3.42, -0.043]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_estate_garden__honey ash",
+        "sites": 2,
+        "seamM": 0.41000000000000003,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0101,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_estate_garden__honey ash",
+          "center": [-3.867, -16.72, 8.676],
+          "bounds": [
+            [-3.887, -16.757, 8.669],
+            [-3.847, -16.682, 8.682]
+          ],
+          "depth": 0.0101,
+          "contactRule": "support-rest",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_estate_garden_flora_grass",
+        "sites": 17,
+        "seamM": 1.1200999999999997,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0409,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_estate_garden_flora_grass",
+          "center": [6.494, -19.041, 7.593],
+          "bounds": [
+            [6.353, -19.163, 7.549],
+            [6.635, -18.92, 7.636]
+          ],
+          "depth": 0.0409,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_retreat_gallery__warm cut stone",
+        "sites": 35,
+        "seamM": 9.034,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.06,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_retreat_gallery__warm cut stone",
+          "center": [-5.133, -8.326, -0.21],
+          "bounds": [
+            [-5.231, -8.332, -0.24],
+            [-5.035, -8.32, -0.18]
+          ],
+          "depth": 0.06,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
+        "sites": 94,
+        "seamM": 54.59329999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.3331,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_retreat_liftaway_roof",
+          "center": [6.472, -1.116, 8.034],
+          "bounds": [
+            [6.133, -1.385, 7.978],
+            [6.811, -0.848, 8.089]
+          ],
+          "depth": 0.3331,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_retreat_gym_threshold__warm cut stone",
+        "sites": 4,
+        "seamM": 1.2666,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_retreat_gym_threshold__warm cut stone",
+          "center": [5.8, -6.7, -0.014],
+          "bounds": [
+            [5.8, -6.7, -0.015],
+            [5.8, -6.7, -0.014]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_wall__golden coastal sandstone",
+        "sites": 65,
+        "seamM": 23.1249,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0568,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_wall__golden coastal sandstone",
+          "center": [-4.038, -15.72, 4.866],
+          "bounds": [
+            [-4.324, -15.72, 4.634],
+            [-3.753, -15.72, 5.099]
+          ],
+          "depth": 0.0568,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_hall__golden coastal sandstone",
+        "sites": 270,
+        "seamM": 248.15029999999996,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0693,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_hall__golden coastal sandstone",
+          "center": [3.28, -18.64, 5.979],
+          "bounds": [
+            [3.179, -18.793, 5.878],
+            [3.38, -18.486, 6.08]
+          ],
+          "depth": 0.0693,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_court__golden coastal sandstone",
+        "sites": 318,
+        "seamM": 81.30739999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.2044,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_court__golden coastal sandstone",
+          "center": [-3.484, -17.508, 8.518],
+          "bounds": [
+            [-3.58, -17.575, 8.486],
+            [-3.388, -17.44, 8.55]
+          ],
+          "depth": 0.2044,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_lid__golden coastal sandstone",
+        "sites": 85,
+        "seamM": 18.603400000000008,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.389,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_lid__golden coastal sandstone",
+          "center": [4.33, -16.235, 7.225],
+          "bounds": [
+            [4.28, -16.37, 7.216],
+            [4.38, -16.1, 7.235]
+          ],
+          "depth": 0.389,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_living__golden coastal sandstone",
+        "sites": 14,
+        "seamM": 4.8275,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.12,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_living__golden coastal sandstone",
+          "center": [3.746, -15.64, 5.18],
+          "bounds": [
+            [3.644, -15.64, 5.18],
+            [3.848, -15.64, 5.18]
+          ],
+          "depth": 0.12,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | onsen_privacy__cedar wood",
+        "sites": 1,
+        "seamM": 3.4342,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.1049,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "onsen_privacy__cedar wood",
+          "center": [4.892, -9.4, 3.719],
+          "bounds": [
+            [4.834, -9.5, 3.569],
+            [4.95, -9.3, 3.87]
+          ],
+          "depth": 0.1049,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | library_whiskey_niche__honed travertine",
+        "sites": 8,
+        "seamM": 2.0432,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "library_whiskey_niche__honed travertine",
+          "center": [-12.786, -0.89, 1.55],
+          "bounds": [
+            [-12.85, -0.89, 1.53],
+            [-12.723, -0.89, 1.57]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedroom_spiral_base__warm cut stone",
+        "sites": 3,
+        "seamM": 3.2289,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0006,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedroom_spiral_base__warm cut stone",
+          "center": [-8.222, -6.543, -0.091],
+          "bounds": [
+            [-8.35, -6.786, -0.16],
+            [-8.094, -6.3, -0.022]
+          ],
+          "depth": 0.0006,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedroom_spiral_base__pale oak",
+        "sites": 1,
+        "seamM": 1.267,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0006,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedroom_spiral_base__pale oak",
+          "center": [-8.221, -6.542, -0.011],
+          "bounds": [
+            [-8.349, -6.785, -0.022],
+            [-8.094, -6.3, 0.0]
+          ],
+          "depth": 0.0006,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedchamber_rock_fin__La Jolla bluff sandstone",
+        "sites": 18,
+        "seamM": 2.3903999999999996,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedchamber_rock_fin__La Jolla bluff sandstone",
+          "center": [-5.25, -3.873, -0.2],
+          "bounds": [
+            [-5.25, -4.095, -0.2],
+            [-5.25, -3.65, -0.2]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedchamber_slab__warm cut stone",
+        "sites": 14,
+        "seamM": 4.5736,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedchamber_slab__warm cut stone",
+          "center": [-5.273, -6.366, 1.34],
+          "bounds": [
+            [-5.352, -6.433, 1.34],
+            [-5.195, -6.3, 1.34]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedchamber_wall_east__chalk limestone",
+        "sites": 23,
+        "seamM": 4.2725,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedchamber_wall_east__chalk limestone",
+          "center": [-5.15, -6.3, 3.842],
+          "bounds": [
+            [-5.15, -6.3, 3.785],
+            [-5.15, -6.3, 3.9]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedchamber_vault__chalk limestone",
+        "sites": 4,
+        "seamM": 0.67,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedchamber_vault__chalk limestone",
+          "center": [-5.15, -7.75, 5.1],
+          "bounds": [
+            [-5.15, -7.75, 5.06],
+            [-5.15, -7.75, 5.14]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_stems",
+        "sites": 120,
+        "seamM": 60.558299999999996,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0656,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_stems",
+          "center": [-21.031, 0.865, 9.13],
+          "bounds": [
+            [-21.081, 0.811, 9.099],
+            [-20.981, 0.919, 9.161]
+          ],
+          "depth": 0.0656,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_torrey_bark",
+        "sites": 9,
+        "seamM": 4.2810999999999995,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.2673,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_torrey_bark",
+          "center": [-13.271, 8.909, 10.681],
+          "bounds": [
+            [-13.449, 8.776, 10.62],
+            [-13.092, 9.042, 10.741]
+          ],
+          "depth": 0.2673,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_dry_grass",
+        "sites": 369,
+        "seamM": 15.519300000000007,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0577,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_dry_grass",
+          "center": [-19.8, 4.644, 9.913],
+          "bounds": [
+            [-19.84, 4.616, 9.882],
+            [-19.759, 4.673, 9.944]
+          ],
+          "depth": 0.0577,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_iceplant",
+        "sites": 130,
+        "seamM": 34.100500000000004,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0434,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_iceplant",
+          "center": [24.588, 1.46, 13.514],
+          "bounds": [
+            [24.5, 1.435, 13.494],
+            [24.676, 1.485, 13.534]
+          ],
+          "depth": 0.0434,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_lemonade_berry_fruit",
+        "sites": 1,
+        "seamM": 0.0623,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.006,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_lemonade_berry_fruit",
+          "center": [14.848, -2.462, 9.496],
+          "bounds": [
+            [14.839, -2.472, 9.493],
+            [14.858, -2.452, 9.499]
+          ],
+          "depth": 0.006,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_prickly_pear",
+        "sites": 17,
+        "seamM": 8.536200000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0631,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_prickly_pear",
+          "center": [-22.282, 7.223, 8.502],
+          "bounds": [
+            [-22.368, 7.183, 8.469],
+            [-22.195, 7.263, 8.535]
+          ],
+          "depth": 0.0631,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_wild_oats",
+        "sites": 169,
+        "seamM": 15.545399999999994,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0577,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_wild_oats",
+          "center": [-19.846, 6.536, 9.849],
+          "bounds": [
+            [-19.887, 6.484, 9.82],
+            [-19.804, 6.588, 9.878]
+          ],
+          "depth": 0.0577,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_daisy_leaves",
+        "sites": 20,
+        "seamM": 0.8903,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0027,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_daisy_leaves",
+          "center": [-2.084, -16.397, 8.089],
+          "bounds": [
+            [-2.155, -16.457, 8.067],
+            [-2.012, -16.336, 8.11]
+          ],
+          "depth": 0.0027,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_red_iceplant",
+        "sites": 13,
+        "seamM": 0.7128000000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0135,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_red_iceplant",
+          "center": [15.601, 5.756, 9.728],
+          "bounds": [
+            [15.599, 5.745, 9.726],
+            [15.602, 5.767, 9.729]
+          ],
+          "depth": 0.0135,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_lightwell_rim | core_retreat_liftaway_roof",
+        "sites": 2,
+        "seamM": 5.9826,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0713,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_lightwell_rim",
+          "b": "core_retreat_liftaway_roof",
+          "center": [2.055, -11.216, 6.968],
+          "bounds": [
+            [1.842, -11.591, 6.898],
+            [2.268, -10.84, 7.039]
+          ],
+          "depth": 0.0713,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling_rear",
+        "sites": 3,
+        "seamM": 0.8128000000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_liftaway_cave_ceiling_rear",
+          "b": "core_bathwing_liftaway_roof",
+          "center": [-5.646, -6.078, 8.211],
+          "bounds": [
+            [-5.647, -6.099, 8.209],
+            [-5.646, -6.058, 8.212]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_liftaway_cave_ceiling_rear | core_retreat_liftaway_roof",
+        "sites": 20,
+        "seamM": 8.526900000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_liftaway_cave_ceiling_rear",
+          "b": "core_retreat_liftaway_roof",
+          "center": [5.65, -6.895, 7.788],
+          "bounds": [
+            [5.65, -7.101, 7.781],
+            [5.65, -6.688, 7.796]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
+        "sites": 15,
+        "seamM": 8.6829,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.1912,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_estate_library_liftaway_roof",
+          "center": [-6.732, 0.465, 8.456],
+          "bounds": [
+            [-6.801, 0.461, 8.353],
+            [-6.663, 0.469, 8.56]
+          ],
+          "depth": 0.1912,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_retreat_liftaway_roof",
+        "sites": 7,
+        "seamM": 2.8802000000000003,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-5.745, -6.45, 8.297],
+          "bounds": [
+            [-5.84, -6.45, 8.236],
+            [-5.65, -6.45, 8.358]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_sage",
+        "sites": 10,
+        "seamM": 0.6320999999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.067,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_sage",
+          "center": [-7.253, -4.232, 9.267],
+          "bounds": [
+            [-7.257, -4.236, 9.265],
+            [-7.249, -4.229, 9.268]
+          ],
+          "depth": 0.067,
+          "contactRule": "structural-joint",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_stems",
+        "sites": 3,
+        "seamM": 1.1368,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0275,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_stems",
+          "center": [-7.04, -4.216, 9.155],
+          "bounds": [
+            [-7.063, -4.239, 9.141],
+            [-7.017, -4.194, 9.169]
+          ],
+          "depth": 0.0275,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_dry_grass",
+        "sites": 12,
+        "seamM": 0.45409999999999995,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0394,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_dry_grass",
+          "center": [-6.401, -4.918, 8.726],
+          "bounds": [
+            [-6.431, -4.944, 8.708],
+            [-6.371, -4.892, 8.743]
+          ],
+          "depth": 0.0394,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_iceplant",
+        "sites": 14,
+        "seamM": 4.206,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.1097,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_iceplant",
+          "center": [-7.03, -1.137, 9.064],
+          "bounds": [
+            [-7.08, -1.25, 8.968],
+            [-6.981, -1.024, 9.16]
+          ],
+          "depth": 0.1097,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_prickly_pear",
+        "sites": 2,
+        "seamM": 0.8452999999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0601,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_prickly_pear",
+          "center": [-7.088, 0.215, 9.093],
+          "bounds": [
+            [-7.118, 0.142, 9.059],
+            [-7.059, 0.288, 9.126]
+          ],
+          "depth": 0.0601,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_wild_oats",
+        "sites": 3,
+        "seamM": 0.3077,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0427,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_wild_oats",
+          "center": [-6.406, -3.119, 8.931],
+          "bounds": [
+            [-6.443, -3.171, 8.909],
+            [-6.369, -3.066, 8.953]
+          ],
+          "depth": 0.0427,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_daisy_leaves",
+        "sites": 14,
+        "seamM": 0.631,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0056,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_daisy_leaves",
+          "center": [-6.319, -2.607, 8.923],
+          "bounds": [
+            [-6.332, -2.625, 8.916],
+            [-6.306, -2.589, 8.931]
+          ],
+          "depth": 0.0056,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_facade__brushed brass | core_estate_library_liftaway_roof",
+        "sites": 1,
+        "seamM": 2.1916,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.029,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_estate_library_facade__brushed brass",
+          "center": [-10.55, -0.82, 5.8],
+          "bounds": [
+            [-10.945, -0.855, 5.8],
+            [-10.155, -0.785, 5.8]
+          ],
+          "depth": 0.029,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_retreat_liftaway_roof",
+        "sites": 11,
+        "seamM": 2.9644,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-8.38, -6.61, 9.874],
+          "bounds": [
+            [-8.38, -6.732, 9.862],
+            [-8.38, -6.489, 9.886]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_retreat_roof_planting__core_estate_library_liftaway_roof",
+        "sites": 5,
+        "seamM": 1.6514000000000002,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0638,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_retreat_roof_planting__core_estate_library_liftaway_roof",
+          "center": [-8.215, -2.047, 9.858],
+          "bounds": [
+            [-8.256, -2.086, 9.84],
+            [-8.175, -2.007, 9.876]
+          ],
+          "depth": 0.0638,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_stems",
+        "sites": 18,
+        "seamM": 9.8303,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0597,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_stems",
+          "center": [-11.037, 4.576, 10.738],
+          "bounds": [
+            [-11.113, 4.502, 10.712],
+            [-10.961, 4.65, 10.764]
+          ],
+          "depth": 0.0597,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_torrey_bark",
+        "sites": 2,
+        "seamM": 1.6517,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.2848,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_torrey_bark",
+          "center": [-7.649, 3.131, 9.032],
+          "bounds": [
+            [-7.897, 2.894, 8.869],
+            [-7.4, 3.367, 9.194]
+          ],
+          "depth": 0.2848,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_dry_grass",
+        "sites": 51,
+        "seamM": 1.8150000000000006,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0362,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_dry_grass",
+          "center": [-7.915, -2.664, 9.714],
+          "bounds": [
+            [-7.94, -2.718, 9.706],
+            [-7.891, -2.61, 9.721]
+          ],
+          "depth": 0.0362,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_iceplant",
+        "sites": 53,
+        "seamM": 4.65,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0289,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_iceplant",
+          "center": [-8.245, -2.11, 9.871],
+          "bounds": [
+            [-8.251, -2.12, 9.869],
+            [-8.239, -2.099, 9.874]
+          ],
+          "depth": 0.0289,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_lemonade_berry",
+        "sites": 31,
+        "seamM": 1.3463,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0431,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_lemonade_berry",
+          "center": [-12.089, 4.317, 11.063],
+          "bounds": [
+            [-12.117, 4.316, 11.057],
+            [-12.061, 4.318, 11.069]
+          ],
+          "depth": 0.0431,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_wild_oats",
+        "sites": 17,
+        "seamM": 1.2828,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0426,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_wild_oats",
+          "center": [-7.886, 6.177, 9.021],
+          "bounds": [
+            [-7.922, 6.107, 8.997],
+            [-7.85, 6.248, 9.044]
+          ],
+          "depth": 0.0426,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_daisy_leaves",
+        "sites": 10,
+        "seamM": 1.2456999999999998,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.033,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_daisy_leaves",
+          "center": [-7.805, -2.379, 9.677],
+          "bounds": [
+            [-7.852, -2.406, 9.663],
+            [-7.758, -2.353, 9.692]
+          ],
+          "depth": 0.033,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_garden_flora_stem | core_retreat_liftaway_roof",
+        "sites": 3,
+        "seamM": 1.0746,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0369,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_garden_flora_stem",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-2.836, -15.166, 8.31],
+          "bounds": [
+            [-2.871, -15.196, 8.296],
+            [-2.801, -15.136, 8.324]
+          ],
+          "depth": 0.0369,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_garden_flora_grass | core_retreat_liftaway_roof",
+        "sites": 27,
+        "seamM": 2.3741000000000003,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0424,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_garden_flora_grass",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-5.027, -10.051, 8.349],
+          "bounds": [
+            [-5.099, -10.183, 8.317],
+            [-4.955, -9.92, 8.38]
+          ],
+          "depth": 0.0424,
+          "contactRule": "planting-root",
+          "closedA": false,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_retreat_liftaway_roof | core_retreat_roof_planting__core_retreat_liftaway_roof",
+        "sites": 5,
+        "seamM": 1.1079999999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.022,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_retreat_roof_planting__core_retreat_liftaway_roof",
+          "center": [3.032, -9.296, 7.049],
+          "bounds": [
+            [3.019, -9.309, 7.045],
+            [3.044, -9.284, 7.052]
+          ],
+          "depth": 0.022,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_arrival_wall__golden coastal sandstone | core_retreat_liftaway_roof",
+        "sites": 56,
+        "seamM": 8.353100000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0511,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_arrival_wall__golden coastal sandstone",
+          "center": [1.994, -15.67, 5.83],
+          "bounds": [
+            [1.959, -15.72, 5.83],
+            [2.029, -15.62, 5.83]
+          ],
+          "depth": 0.0511,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_arrival_court__golden coastal sandstone | core_retreat_liftaway_roof",
+        "sites": 57,
+        "seamM": 21.2243,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.09,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_arrival_court__golden coastal sandstone",
+          "center": [7.664, -14.703, 7.663],
+          "bounds": [
+            [7.626, -14.814, 7.616],
+            [7.702, -14.591, 7.71]
+          ],
+          "depth": 0.09,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_arrival_lid__golden coastal sandstone | core_retreat_liftaway_roof",
+        "sites": 33,
+        "seamM": 16.1766,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.5133,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_arrival_lid__golden coastal sandstone",
+          "center": [2.62, -15.499, 5.919],
+          "bounds": [
+            [2.62, -15.677, 5.83],
+            [2.62, -15.32, 6.009]
+          ],
+          "depth": 0.5133,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_flora_stems | core_retreat_liftaway_roof",
+        "sites": 47,
+        "seamM": 18.762999999999998,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0455,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_stems",
+          "center": [4.881, -9.109, 7.53],
+          "bounds": [
+            [4.835, -9.154, 7.52],
+            [4.928, -9.064, 7.54]
+          ],
+          "depth": 0.0455,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_flora_dry_grass | core_retreat_liftaway_roof",
+        "sites": 170,
+        "seamM": 7.863600000000002,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0394,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_dry_grass",
+          "center": [-2.681, -9.093, 7.694],
+          "bounds": [
+            [-2.756, -9.133, 7.674],
+            [-2.606, -9.054, 7.713]
+          ],
+          "depth": 0.0394,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_iceplant | core_retreat_liftaway_roof",
+        "sites": 21,
+        "seamM": 1.7395999999999998,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0053,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_iceplant",
+          "center": [-1.801, -9.13, 7.508],
+          "bounds": [
+            [-1.808, -9.135, 7.507],
+            [-1.794, -9.124, 7.509]
+          ],
+          "depth": 0.0053,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_lemonade_berry | core_retreat_liftaway_roof",
+        "sites": 1,
+        "seamM": 0.0985,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0098,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_lemonade_berry",
+          "center": [-8.559, -8.753, 10.086],
+          "bounds": [
+            [-8.583, -8.777, 10.082],
+            [-8.535, -8.73, 10.091]
+          ],
+          "depth": 0.0098,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_wild_oats | core_retreat_liftaway_roof",
+        "sites": 39,
+        "seamM": 3.6722,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0505,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_wild_oats",
+          "center": [-7.37, -9.529, 9.413],
+          "bounds": [
+            [-7.41, -9.585, 9.388],
+            [-7.33, -9.472, 9.438]
+          ],
+          "depth": 0.0505,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_daisy_leaves | core_retreat_liftaway_roof",
+        "sites": 74,
+        "seamM": 3.9812000000000007,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0122,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_daisy_leaves",
+          "center": [-2.818, -10.01, 7.87],
+          "bounds": [
+            [-2.865, -10.047, 7.856],
+            [-2.77, -9.972, 7.883]
+          ],
+          "depth": 0.0122,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_palm_trunk | core_retreat_liftaway_roof",
+        "sites": 10,
+        "seamM": 3.4679999999999995,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0759,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_palm_trunk",
+          "center": [3.089, -12.377, 7.253],
+          "bounds": [
+            [2.9, -12.482, 7.229],
+            [3.278, -12.272, 7.278]
+          ],
+          "depth": 0.0759,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      }
+    ]
+  },
+  "candidate": {
+    "sourceSha256": "1dcebe7f64f324ffbd8ac4e28aa993854635990d36968bb0d80b6bb48b5363d4",
+    "rawReportSha256": "a366ce719eee493758cc49e01a4084a68c7be0c9c496bebad91079a44218f774",
+    "toolSha256": "925eaee2e04132dd7d1dbbd909d144b060af783352bf586452e7e6228350e5fe",
+    "totals": {
+      "zFightingPairs": 30,
+      "zFightingVisibleAreaM2": 0.7205,
+      "grazingSites": 25,
+      "grazingSeamM": 3.257,
+      "deepSites": 886,
+      "deepSitesOver5cm": 313,
+      "deepSeverity": 38284.8,
+      "maxDeepSeverity": 1084.9
+    },
+    "counts": {
+      "meshes": 505,
+      "triangles": 1290795,
+      "closedMeshes": 373,
+      "pairsTested": 4014,
+      "crossingPairs": 895,
+      "sites": 18330,
+      "offenders": 911,
+      "coplanarPairs": 360,
+      "zFightingPairs": 30,
+      "coplanarTrianglePairsTested": 78025
+    },
+    "changedRockPairSummary": [
+      {
+        "pair": "core__golden coastal sandstone | core_flora_lemonade_berry_shade",
+        "sites": 200,
+        "seamM": 39.63310000000004,
+        "deepSitesOver5cm": 51,
+        "maximumDepthM": 0.2885,
+        "severity": 4505.406000000001,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_lemonade_berry_shade",
+          "center": [28.213, 8.017, 11.906],
+          "bounds": [
+            [28.157, 7.992, 11.884],
+            [28.269, 8.041, 11.928]
+          ],
+          "depth": 0.2885,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_retreat_clifftop__warm cut stone | core_retreat_liftaway_roof",
+        "sites": 17,
+        "seamM": 6.623100000000002,
+        "deepSitesOver5cm": 17,
+        "maximumDepthM": 0.3393,
+        "severity": 3234.5609999999997,
+        "maximumDepthWitness": {
+          "a": "core_retreat_clifftop__warm cut stone",
+          "b": "core_retreat_liftaway_roof",
+          "center": [7.254, -9.02, 7.128],
+          "bounds": [
+            [7.177, -9.04, 7.059],
+            [7.33, -9.0, 7.197]
+          ],
+          "depth": 0.3393,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_court__warm cut stone",
+        "sites": 22,
+        "seamM": 43.26980000000001,
+        "deepSitesOver5cm": 5,
+        "maximumDepthM": 0.2015,
+        "severity": 2463.957,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_court__warm cut stone",
+          "center": [0.468, -20.791, 8.359],
+          "bounds": [
+            [-0.134, -21.452, 8.291],
+            [1.07, -20.13, 8.428]
+          ],
+          "depth": 0.2015,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_liftaway_cave_ceiling | core_retreat_liftaway_roof",
+        "sites": 20,
+        "seamM": 9.178,
+        "deepSitesOver5cm": 17,
+        "maximumDepthM": 0.2803,
+        "severity": 2167.701,
+        "maximumDepthWitness": {
+          "a": "core_liftaway_cave_ceiling",
+          "b": "core_retreat_liftaway_roof",
+          "center": [5.625, -3.159, 5.921],
+          "bounds": [
+            [5.604, -3.228, 5.841],
+            [5.647, -3.091, 6.002]
+          ],
+          "depth": 0.2803,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling",
+        "sites": 20,
+        "seamM": 13.639100000000001,
+        "deepSitesOver5cm": 11,
+        "maximumDepthM": 0.2787,
+        "severity": 1800.2509999999995,
+        "maximumDepthWitness": {
+          "a": "core_liftaway_cave_ceiling",
+          "b": "core_bathwing_liftaway_roof",
+          "center": [-5.631, -4.621, 5.988],
+          "bounds": [
+            [-5.633, -4.634, 5.9],
+            [-5.628, -4.609, 6.076]
+          ],
+          "depth": 0.2787,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_retreat_clifftop__pale oak | core_retreat_liftaway_roof",
+        "sites": 9,
+        "seamM": 7.472799999999999,
+        "deepSitesOver5cm": 7,
+        "maximumDepthM": 0.3633,
+        "severity": 1748.543,
+        "maximumDepthWitness": {
+          "a": "core_retreat_clifftop__pale oak",
+          "b": "core_retreat_liftaway_roof",
+          "center": [9.569, -9.267, 7.208],
+          "bounds": [
+            [9.039, -9.45, 7.197],
+            [10.099, -9.084, 7.219]
+          ],
+          "depth": 0.3633,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_lemonade_berry_shade",
+        "sites": 39,
+        "seamM": 8.409400000000002,
+        "deepSitesOver5cm": 22,
+        "maximumDepthM": 0.3027,
+        "severity": 1690.8350000000003,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_lemonade_berry_shade",
+          "center": [-8.923, -8.085, 10.21],
+          "bounds": [
+            [-9.023, -8.117, 10.163],
+            [-8.823, -8.052, 10.257]
+          ],
+          "depth": 0.3027,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__chalk limestone | core__golden coastal sandstone",
+        "sites": 10,
+        "seamM": 2.3699000000000003,
+        "deepSitesOver5cm": 10,
+        "maximumDepthM": 0.3772,
+        "severity": 1530.158,
+        "maximumDepthWitness": {
+          "a": "core__chalk limestone",
+          "b": "core__golden coastal sandstone",
+          "center": [-4.793, -15.459, 3.96],
+          "bounds": [
+            [-4.797, -15.536, 3.953],
+            [-4.79, -15.381, 3.967]
+          ],
+          "depth": 0.3772,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_paths__travertine paving stone",
+        "sites": 240,
+        "seamM": 45.943,
+        "deepSitesOver5cm": 25,
+        "maximumDepthM": 0.1248,
+        "severity": 1331.9250000000002,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_paths__travertine paving stone",
+          "center": [1.012, -24.199, 8.328],
+          "bounds": [
+            [0.962, -24.205, 8.322],
+            [1.061, -24.194, 8.335]
+          ],
+          "depth": 0.1248,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_facade__warm_cut_stone",
+        "sites": 31,
+        "seamM": 8.562299999999999,
+        "deepSitesOver5cm": 10,
+        "maximumDepthM": 0.2643,
+        "severity": 1213.9959999999999,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_facade__warm_cut_stone",
+          "center": [5.8, -4.236, 1.043],
+          "bounds": [
+            [5.8, -4.38, 0.966],
+            [5.8, -4.091, 1.12]
+          ],
+          "depth": 0.2643,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_arrival_paths__travertine paving stone | core_retreat_liftaway_roof",
+        "sites": 18,
+        "seamM": 6.1726,
+        "deepSitesOver5cm": 6,
+        "maximumDepthM": 0.1179,
+        "severity": 492.765,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_arrival_paths__travertine paving stone",
+          "center": [-4.975, -15.997, 8.994],
+          "bounds": [
+            [-5.0, -16.0, 8.988],
+            [-4.95, -15.993, 9.0]
+          ],
+          "depth": 0.1179,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_hall__warm cut stone",
+        "sites": 84,
+        "seamM": 67.54109999999999,
+        "deepSitesOver5cm": 10,
+        "maximumDepthM": 0.0849,
+        "severity": 468.462,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_hall__warm cut stone",
+          "center": [2.604, -15.95, 4.9],
+          "bounds": [
+            [2.316, -15.95, 4.9],
+            [2.892, -15.95, 4.9]
+          ],
+          "depth": 0.0849,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_yucca_skirt",
+        "sites": 10,
+        "seamM": 4.6127,
+        "deepSitesOver5cm": 3,
+        "maximumDepthM": 0.1837,
+        "severity": 341.39399999999995,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_yucca_skirt",
+          "center": [31.348, 4.803, 11.18],
+          "bounds": [
+            [31.221, 4.666, 11.127],
+            [31.475, 4.939, 11.234]
+          ],
+          "depth": 0.1837,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_sage",
+        "sites": 123,
+        "seamM": 9.398100000000005,
+        "deepSitesOver5cm": 12,
+        "maximumDepthM": 0.0816,
+        "severity": 271.591,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_sage",
+          "center": [-19.154, 2.685, 10.337],
+          "bounds": [
+            [-19.181, 2.617, 10.319],
+            [-19.128, 2.753, 10.356]
+          ],
+          "depth": 0.0816,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_gym_passage_floor",
+        "sites": 13,
+        "seamM": 2.5394,
+        "deepSitesOver5cm": 5,
+        "maximumDepthM": 0.12,
+        "severity": 208.92099999999996,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_gym_passage_floor",
+          "center": [5.211, -6.7, -0.015],
+          "bounds": [
+            [5.167, -6.7, -0.015],
+            [5.255, -6.7, -0.015]
+          ],
+          "depth": 0.12,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_estate_garden__warm cut stone",
+        "sites": 12,
+        "seamM": 4.1482,
+        "deepSitesOver5cm": 2,
+        "maximumDepthM": 0.1083,
+        "severity": 158.713,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_estate_garden__warm cut stone",
+          "center": [-0.402, -16.644, 7.863],
+          "bounds": [
+            [-0.454, -16.702, 7.851],
+            [-0.35, -16.586, 7.876]
+          ],
+          "depth": 0.1083,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_living__warm cut stone",
+        "sites": 7,
+        "seamM": 2.4541,
+        "deepSitesOver5cm": 3,
+        "maximumDepthM": 0.0915,
+        "severity": 149.24599999999998,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_living__warm cut stone",
+          "center": [5.25, -14.924, 2.4],
+          "bounds": [
+            [5.25, -14.946, 2.4],
+            [5.25, -14.903, 2.4]
+          ],
+          "depth": 0.0915,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_court__travertine paving stone",
+        "sites": 70,
+        "seamM": 13.405,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0449,
+        "severity": 133.32799999999997,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_court__travertine paving stone",
+          "center": [-3.897, -24.018, 8.28],
+          "bounds": [
+            [-3.9, -24.075, 8.279],
+            [-3.894, -23.962, 8.281]
+          ],
+          "depth": 0.0449,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_retreat_clifftop__brushed brass | core_retreat_liftaway_roof",
+        "sites": 1,
+        "seamM": 0.2254,
+        "deepSitesOver5cm": 1,
+        "maximumDepthM": 0.2554,
+        "severity": 121.254,
+        "maximumDepthWitness": {
+          "a": "core_retreat_clifftop__brushed brass",
+          "b": "core_retreat_liftaway_roof",
+          "center": [9.95, -9.15, 8.284],
+          "bounds": [
+            [9.915, -9.185, 8.27],
+            [9.985, -9.115, 8.297]
+          ],
+          "depth": 0.2554,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_garden__warm cut stone | core_retreat_liftaway_roof",
+        "sites": 20,
+        "seamM": 27.855799999999995,
+        "deepSitesOver5cm": 1,
+        "maximumDepthM": 0.1081,
+        "severity": 95.373,
+        "maximumDepthWitness": {
+          "a": "core_estate_garden__warm cut stone",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-0.54, -15.828, 7.734],
+          "bounds": [
+            [-0.605, -15.946, 7.713],
+            [-0.476, -15.709, 7.755]
+          ],
+          "depth": 0.1081,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_arrival_paths_roof__travertine paving stone | core_retreat_liftaway_roof",
+        "sites": 45,
+        "seamM": 7.9007000000000005,
+        "deepSitesOver5cm": 2,
+        "maximumDepthM": 0.1213,
+        "severity": 80.722,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_arrival_paths_roof__travertine paving stone",
+          "center": [-4.525, -13.504, 8.748],
+          "bounds": [
+            [-4.55, -13.508, 8.744],
+            [-4.5, -13.5, 8.752]
+          ],
+          "depth": 0.1213,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+        "sites": 66,
+        "seamM": 13.500100000000003,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0248,
+        "severity": 80.33000000000001,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+          "center": [-3.58, -22.559, 8.315],
+          "bounds": [
+            [-3.58, -22.748, 8.312],
+            [-3.58, -22.37, 8.318]
+          ],
+          "depth": 0.0248,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_sage",
+        "sites": 31,
+        "seamM": 2.403,
+        "deepSitesOver5cm": 2,
+        "maximumDepthM": 0.085,
+        "severity": 52.805,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_sage",
+          "center": [-11.234, -2.736, 11.076],
+          "bounds": [
+            [-11.291, -2.798, 11.056],
+            [-11.178, -2.675, 11.096]
+          ],
+          "depth": 0.085,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_dark_sage | core_retreat_liftaway_roof",
+        "sites": 44,
+        "seamM": 2.4435000000000007,
+        "deepSitesOver5cm": 2,
+        "maximumDepthM": 0.0691,
+        "severity": 52.336999999999996,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_dark_sage",
+          "center": [5.311, -8.453, 7.646],
+          "bounds": [
+            [5.27, -8.505, 7.637],
+            [5.352, -8.402, 7.655]
+          ],
+          "depth": 0.0691,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_east__La Jolla bluff sandsto",
+        "sites": 41,
+        "seamM": 10.883199999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0327,
+        "severity": 50.116,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_pavilion_rock_shoulder_east__La Jolla bluff sandsto",
+          "center": [-1.565, -17.874, 8.113],
+          "bounds": [
+            [-2.0, -18.135, 8.051],
+            [-1.13, -17.614, 8.176]
+          ],
+          "depth": 0.0327,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_sea__La Jolla bluff sandston",
+        "sites": 5,
+        "seamM": 4.0657,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0232,
+        "severity": 48.75,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_pavilion_rock_shoulder_sea__La Jolla bluff sandston",
+          "center": [-2.329, -17.115, 8.188],
+          "bounds": [
+            [-2.658, -17.18, 8.103],
+            [-2.0, -17.05, 8.273]
+          ],
+          "depth": 0.0232,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_flora_sage | core_retreat_liftaway_roof",
+        "sites": 56,
+        "seamM": 3.4808000000000012,
+        "deepSitesOver5cm": 2,
+        "maximumDepthM": 0.0625,
+        "severity": 41.132000000000005,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_sage",
+          "center": [-2.21, -10.801, 7.795],
+          "bounds": [
+            [-2.216, -10.824, 7.79],
+            [-2.204, -10.777, 7.799]
+          ],
+          "depth": 0.0625,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_dark_sage",
+        "sites": 70,
+        "seamM": 3.9523999999999986,
+        "deepSitesOver5cm": 1,
+        "maximumDepthM": 0.0522,
+        "severity": 26.856,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_dark_sage",
+          "center": [14.088, 1.404, 8.938],
+          "bounds": [
+            [14.087, 1.352, 8.932],
+            [14.088, 1.456, 8.944]
+          ],
+          "depth": 0.0522,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_yucca_skirt",
+        "sites": 4,
+        "seamM": 2.6588999999999996,
+        "deepSitesOver5cm": 1,
+        "maximumDepthM": 0.1702,
+        "severity": 19.532,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_yucca_skirt",
+          "center": [-9.287, 5.675, 9.849],
+          "bounds": [
+            [-9.481, 5.397, 9.736],
+            [-9.092, 5.954, 9.962]
+          ],
+          "depth": 0.1702,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_lemonade_berry",
+        "sites": 84,
+        "seamM": 4.0769,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0468,
+        "severity": 11.281,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_lemonade_berry",
+          "center": [-23.546, 2.454, 7.77],
+          "bounds": [
+            [-23.56, 2.429, 7.768],
+            [-23.531, 2.479, 7.772]
+          ],
+          "depth": 0.0468,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_dark_sage",
+        "sites": 14,
+        "seamM": 0.7846,
+        "deepSitesOver5cm": 1,
+        "maximumDepthM": 0.0526,
+        "severity": 8.627,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_dark_sage",
+          "center": [-9.151, -0.808, 10.218],
+          "bounds": [
+            [-9.16, -0.818, 10.215],
+            [-9.143, -0.798, 10.222]
+          ],
+          "depth": 0.0526,
+          "contactRule": null,
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_wild_oats",
+        "sites": 170,
+        "seamM": 15.507699999999996,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0824,
+        "severity": 1.17,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_wild_oats",
+          "center": [-17.345, -1.318, 10.766],
+          "bounds": [
+            [-17.448, -1.436, 10.722],
+            [-17.243, -1.2, 10.81]
+          ],
+          "depth": 0.0824,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "coast_shared_golden coastal sandstone | core__golden coastal sandstone",
+        "sites": 28,
+        "seamM": 12.094100000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "coast_shared_golden coastal sandstone",
+          "b": "core__golden coastal sandstone",
+          "center": [11.2, -8.517, -0.26],
+          "bounds": [
+            [11.2, -8.66, -0.26],
+            [11.2, -8.375, -0.26]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_liftaway_cave_ceiling",
+        "sites": 10,
+        "seamM": 6.916999999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0029,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_liftaway_cave_ceiling",
+          "b": "core__golden coastal sandstone",
+          "center": [5.264, -2.269, 6.651],
+          "bounds": [
+            [5.189, -2.444, 6.549],
+            [5.338, -2.094, 6.753]
+          ],
+          "depth": 0.0029,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__blue sage agave leaf | core__golden coastal sandstone",
+        "sites": 19,
+        "seamM": 4.857100000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0216,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core__blue sage agave leaf",
+          "center": [6.807, 2.325, 7.699],
+          "bounds": [
+            [6.795, 2.312, 7.696],
+            [6.819, 2.337, 7.701]
+          ],
+          "depth": 0.0216,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | lounge_decor tenmoku glaze",
+        "sites": 1,
+        "seamM": 0.1249,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0038,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "lounge_decor tenmoku glaze",
+          "center": [5.196, -11.83, 0.99],
+          "bounds": [
+            [5.196, -11.857, 0.976],
+            [5.196, -11.803, 1.003]
+          ],
+          "depth": 0.0038,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_facade__dark_bronze",
+        "sites": 16,
+        "seamM": 6.4657,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.032,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_facade__dark_bronze",
+          "center": [5.105, -3.52, 2.656],
+          "bounds": [
+            [5.029, -3.58, 2.022],
+            [5.18, -3.46, 3.29]
+          ],
+          "depth": 0.032,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_facade_lunette_frame",
+        "sites": 1,
+        "seamM": 1.5726,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0021,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_facade_lunette_frame",
+          "center": [4.921, -3.52, 3.611],
+          "bounds": [
+            [4.821, -3.58, 3.322],
+            [5.021, -3.46, 3.9]
+          ],
+          "depth": 0.0021,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_gym_ledge",
+        "sites": 4,
+        "seamM": 1.1682000000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_gym_ledge",
+          "center": [11.0, -0.068, -0.137],
+          "bounds": [
+            [11.0, -0.068, -0.26],
+            [11.0, -0.068, -0.015]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_liftaway_cave_ceiling_rear",
+        "sites": 13,
+        "seamM": 2.4768999999999997,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_liftaway_cave_ceiling_rear",
+          "center": [5.65, -7.194, 5.83],
+          "bounds": [
+            [5.65, -7.315, 5.83],
+            [5.65, -7.073, 5.83]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | kitchen__chalk limestone",
+        "sites": 8,
+        "seamM": 3.7796,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.1082,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "kitchen__chalk limestone",
+          "center": [-5.106, -4.055, -0.23],
+          "bounds": [
+            [-5.19, -4.06, -0.26],
+            [-5.023, -4.05, -0.2]
+          ],
+          "depth": 0.1082,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_bathwing_liftaway_roof",
+        "sites": 1,
+        "seamM": 0.03,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_bathwing_liftaway_roof",
+          "center": [-8.38, -6.45, 5.815],
+          "bounds": [
+            [-8.38, -6.45, 5.8],
+            [-8.38, -6.45, 5.83]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_estate_library_liftaway_roof",
+        "sites": 347,
+        "seamM": 192.89659999999975,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.2598,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_estate_library_liftaway_roof",
+          "center": [-14.164, 4.627, 10.14],
+          "bounds": [
+            [-14.212, 4.533, 10.053],
+            [-14.116, 4.721, 10.227]
+          ],
+          "depth": 0.2598,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_estate_terrace__warm cut stone",
+        "sites": 25,
+        "seamM": 8.4978,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_estate_terrace__warm cut stone",
+          "center": [5.765, -3.42, -0.043],
+          "bounds": [
+            [5.73, -3.42, -0.043],
+            [5.8, -3.42, -0.043]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_estate_garden__honey ash",
+        "sites": 2,
+        "seamM": 0.41000000000000003,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0101,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_estate_garden__honey ash",
+          "center": [-3.867, -16.72, 8.676],
+          "bounds": [
+            [-3.887, -16.757, 8.669],
+            [-3.847, -16.682, 8.682]
+          ],
+          "depth": 0.0101,
+          "contactRule": "support-rest",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_estate_garden_flora_grass",
+        "sites": 17,
+        "seamM": 1.1200999999999997,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0352,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_estate_garden_flora_grass",
+          "center": [6.302, -19.246, 7.578],
+          "bounds": [
+            [6.271, -19.304, 7.567],
+            [6.333, -19.187, 7.59]
+          ],
+          "depth": 0.0352,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_retreat_gallery__warm cut stone",
+        "sites": 35,
+        "seamM": 9.034,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.06,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_retreat_gallery__warm cut stone",
+          "center": [-5.133, -8.326, -0.21],
+          "bounds": [
+            [-5.231, -8.332, -0.24],
+            [-5.035, -8.32, -0.18]
+          ],
+          "depth": 0.06,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
+        "sites": 183,
+        "seamM": 89.89899999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.2406,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_retreat_liftaway_roof",
+          "center": [11.59, -9.662, 8.639],
+          "bounds": [
+            [11.579, -9.755, 8.628],
+            [11.601, -9.57, 8.65]
+          ],
+          "depth": 0.2406,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_retreat_gym_threshold__warm cut stone",
+        "sites": 4,
+        "seamM": 1.2666,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_retreat_gym_threshold__warm cut stone",
+          "center": [5.8, -6.7, -0.014],
+          "bounds": [
+            [5.8, -6.7, -0.015],
+            [5.8, -6.7, -0.014]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_wall__golden coastal sandstone",
+        "sites": 65,
+        "seamM": 23.1249,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0568,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_wall__golden coastal sandstone",
+          "center": [-4.038, -15.72, 4.866],
+          "bounds": [
+            [-4.324, -15.72, 4.634],
+            [-3.753, -15.72, 5.099]
+          ],
+          "depth": 0.0568,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_hall__golden coastal sandstone",
+        "sites": 270,
+        "seamM": 248.15029999999996,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0693,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_hall__golden coastal sandstone",
+          "center": [3.28, -18.64, 5.979],
+          "bounds": [
+            [3.179, -18.793, 5.878],
+            [3.38, -18.486, 6.08]
+          ],
+          "depth": 0.0693,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_court__golden coastal sandstone",
+        "sites": 318,
+        "seamM": 81.30739999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.2044,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_court__golden coastal sandstone",
+          "center": [-3.484, -17.508, 8.518],
+          "bounds": [
+            [-3.58, -17.575, 8.486],
+            [-3.388, -17.44, 8.55]
+          ],
+          "depth": 0.2044,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_lid__golden coastal sandstone",
+        "sites": 85,
+        "seamM": 18.603400000000008,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.389,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_lid__golden coastal sandstone",
+          "center": [4.33, -16.235, 7.225],
+          "bounds": [
+            [4.28, -16.37, 7.216],
+            [4.38, -16.1, 7.235]
+          ],
+          "depth": 0.389,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_arrival_living__golden coastal sandstone",
+        "sites": 14,
+        "seamM": 4.8275,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.12,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_arrival_living__golden coastal sandstone",
+          "center": [3.746, -15.64, 5.18],
+          "bounds": [
+            [3.644, -15.64, 5.18],
+            [3.848, -15.64, 5.18]
+          ],
+          "depth": 0.12,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | onsen_privacy__cedar wood",
+        "sites": 1,
+        "seamM": 3.4342,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.1049,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "onsen_privacy__cedar wood",
+          "center": [4.892, -9.4, 3.719],
+          "bounds": [
+            [4.834, -9.5, 3.569],
+            [4.95, -9.3, 3.87]
+          ],
+          "depth": 0.1049,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | library_whiskey_niche__honed travertine",
+        "sites": 8,
+        "seamM": 2.0432,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "library_whiskey_niche__honed travertine",
+          "center": [-12.786, -0.89, 1.55],
+          "bounds": [
+            [-12.85, -0.89, 1.53],
+            [-12.723, -0.89, 1.57]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedroom_spiral_base__warm cut stone",
+        "sites": 3,
+        "seamM": 3.2289,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0006,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedroom_spiral_base__warm cut stone",
+          "center": [-8.222, -6.543, -0.091],
+          "bounds": [
+            [-8.35, -6.786, -0.16],
+            [-8.094, -6.3, -0.022]
+          ],
+          "depth": 0.0006,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedroom_spiral_base__pale oak",
+        "sites": 1,
+        "seamM": 1.267,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0006,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedroom_spiral_base__pale oak",
+          "center": [-8.221, -6.542, -0.011],
+          "bounds": [
+            [-8.349, -6.785, -0.022],
+            [-8.094, -6.3, 0.0]
+          ],
+          "depth": 0.0006,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedchamber_rock_fin__La Jolla bluff sandstone",
+        "sites": 18,
+        "seamM": 2.3903999999999996,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedchamber_rock_fin__La Jolla bluff sandstone",
+          "center": [-5.25, -3.873, -0.2],
+          "bounds": [
+            [-5.25, -4.095, -0.2],
+            [-5.25, -3.65, -0.2]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedchamber_slab__warm cut stone",
+        "sites": 14,
+        "seamM": 4.5736,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedchamber_slab__warm cut stone",
+          "center": [-5.273, -6.366, 1.34],
+          "bounds": [
+            [-5.352, -6.433, 1.34],
+            [-5.195, -6.3, 1.34]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedchamber_wall_east__chalk limestone",
+        "sites": 23,
+        "seamM": 4.2725,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedchamber_wall_east__chalk limestone",
+          "center": [-5.15, -6.3, 3.842],
+          "bounds": [
+            [-5.15, -6.3, 3.785],
+            [-5.15, -6.3, 3.9]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_finish_bedchamber_vault__chalk limestone",
+        "sites": 4,
+        "seamM": 0.67,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_finish_bedchamber_vault__chalk limestone",
+          "center": [-5.15, -7.75, 5.1],
+          "bounds": [
+            [-5.15, -7.75, 5.06],
+            [-5.15, -7.75, 5.14]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_stems",
+        "sites": 119,
+        "seamM": 59.552499999999995,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0908,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_stems",
+          "center": [-18.804, 7.375, 10.609],
+          "bounds": [
+            [-18.877, 7.318, 10.564],
+            [-18.731, 7.431, 10.655]
+          ],
+          "depth": 0.0908,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_torrey_bark",
+        "sites": 6,
+        "seamM": 2.8215000000000003,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.255,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_torrey_bark",
+          "center": [19.324, 8.982, 11.995],
+          "bounds": [
+            [19.225, 8.894, 11.966],
+            [19.424, 9.07, 12.024]
+          ],
+          "depth": 0.255,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_dry_grass",
+        "sites": 365,
+        "seamM": 15.004500000000005,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0616,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_dry_grass",
+          "center": [-21.564, 2.683, 8.665],
+          "bounds": [
+            [-21.668, 2.644, 8.599],
+            [-21.461, 2.722, 8.731]
+          ],
+          "depth": 0.0616,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_iceplant",
+        "sites": 139,
+        "seamM": 36.93970000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0483,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_iceplant",
+          "center": [-17.07, -1.36, 10.846],
+          "bounds": [
+            [-17.087, -1.404, 10.844],
+            [-17.054, -1.315, 10.848]
+          ],
+          "depth": 0.0483,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_lemonade_berry_fruit",
+        "sites": 1,
+        "seamM": 0.0565,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.003,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_lemonade_berry_fruit",
+          "center": [14.85, -2.462, 9.494],
+          "bounds": [
+            [14.841, -2.472, 9.491],
+            [14.858, -2.452, 9.496]
+          ],
+          "depth": 0.003,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_prickly_pear",
+        "sites": 16,
+        "seamM": 8.3413,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0819,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_prickly_pear",
+          "center": [-23.868, 5.237, 7.793],
+          "bounds": [
+            [-24.005, 5.107, 7.75],
+            [-23.731, 5.367, 7.835]
+          ],
+          "depth": 0.0819,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_daisy_leaves",
+        "sites": 20,
+        "seamM": 0.8903,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0026,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_daisy_leaves",
+          "center": [-2.053, -16.827, 8.107],
+          "bounds": [
+            [-2.061, -16.832, 8.104],
+            [-2.046, -16.823, 8.109]
+          ],
+          "depth": 0.0026,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core__golden coastal sandstone | core_flora_red_iceplant",
+        "sites": 9,
+        "seamM": 0.5473,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0135,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core__golden coastal sandstone",
+          "b": "core_flora_red_iceplant",
+          "center": [15.601, 5.756, 9.728],
+          "bounds": [
+            [15.599, 5.745, 9.726],
+            [15.602, 5.767, 9.729]
+          ],
+          "depth": 0.0135,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_lightwell_rim | core_retreat_liftaway_roof",
+        "sites": 2,
+        "seamM": 5.9826,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0569,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_lightwell_rim",
+          "b": "core_retreat_liftaway_roof",
+          "center": [1.179, -11.46, 6.971],
+          "bounds": [
+            [0.837, -11.872, 6.924],
+            [1.52, -11.047, 7.017]
+          ],
+          "depth": 0.0569,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling_rear",
+        "sites": 4,
+        "seamM": 1.3528,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_liftaway_cave_ceiling_rear",
+          "b": "core_bathwing_liftaway_roof",
+          "center": [-5.646, -6.078, 8.211],
+          "bounds": [
+            [-5.647, -6.099, 8.209],
+            [-5.646, -6.058, 8.212]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_liftaway_cave_ceiling_rear | core_retreat_liftaway_roof",
+        "sites": 23,
+        "seamM": 10.4224,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_liftaway_cave_ceiling_rear",
+          "b": "core_retreat_liftaway_roof",
+          "center": [5.65, -6.895, 7.788],
+          "bounds": [
+            [5.65, -7.101, 7.781],
+            [5.65, -6.688, 7.796]
+          ],
+          "depth": 0.0,
+          "contactRule": "shallow-seam",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
+        "sites": 62,
+        "seamM": 24.773800000000005,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.174,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_estate_library_liftaway_roof",
+          "center": [-8.449, -1.444, 5.916],
+          "bounds": [
+            [-8.513, -1.463, 5.864],
+            [-8.386, -1.425, 5.968]
+          ],
+          "depth": 0.174,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_retreat_liftaway_roof",
+        "sites": 56,
+        "seamM": 18.135199999999998,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.1371,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-7.419, -6.616, 7.559],
+          "bounds": [
+            [-7.463, -6.625, 7.488],
+            [-7.376, -6.607, 7.629]
+          ],
+          "depth": 0.1371,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_sage",
+        "sites": 10,
+        "seamM": 0.6977999999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.067,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_sage",
+          "center": [-7.253, -4.232, 9.267],
+          "bounds": [
+            [-7.257, -4.236, 9.265],
+            [-7.249, -4.229, 9.268]
+          ],
+          "depth": 0.067,
+          "contactRule": "structural-joint",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_stems",
+        "sites": 3,
+        "seamM": 1.1368,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0271,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_stems",
+          "center": [-8.17, -4.372, 9.707],
+          "bounds": [
+            [-8.191, -4.392, 9.699],
+            [-8.15, -4.351, 9.715]
+          ],
+          "depth": 0.0271,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_dry_grass",
+        "sites": 12,
+        "seamM": 0.43609999999999993,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0378,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_dry_grass",
+          "center": [-7.898, -4.218, 9.584],
+          "bounds": [
+            [-7.937, -4.265, 9.563],
+            [-7.858, -4.171, 9.606]
+          ],
+          "depth": 0.0378,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_iceplant",
+        "sites": 13,
+        "seamM": 4.1307,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.1091,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_iceplant",
+          "center": [-7.041, -1.128, 9.077],
+          "bounds": [
+            [-7.081, -1.251, 8.993],
+            [-7.0, -1.004, 9.161]
+          ],
+          "depth": 0.1091,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_prickly_pear",
+        "sites": 2,
+        "seamM": 0.863,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0496,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_prickly_pear",
+          "center": [-7.09, 0.216, 9.084],
+          "bounds": [
+            [-7.121, 0.141, 9.046],
+            [-7.06, 0.291, 9.121]
+          ],
+          "depth": 0.0496,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_wild_oats",
+        "sites": 3,
+        "seamM": 0.3063,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0379,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_wild_oats",
+          "center": [-6.406, -3.119, 8.931],
+          "bounds": [
+            [-6.443, -3.171, 8.909],
+            [-6.369, -3.066, 8.953]
+          ],
+          "depth": 0.0379,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_bathwing_liftaway_roof | core_flora_daisy_leaves",
+        "sites": 14,
+        "seamM": 0.6272,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0056,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_bathwing_liftaway_roof",
+          "b": "core_flora_daisy_leaves",
+          "center": [-6.319, -2.607, 8.923],
+          "bounds": [
+            [-6.332, -2.625, 8.916],
+            [-6.306, -2.589, 8.931]
+          ],
+          "depth": 0.0056,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_facade__brushed brass | core_estate_library_liftaway_roof",
+        "sites": 1,
+        "seamM": 2.1916,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0288,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_estate_library_facade__brushed brass",
+          "center": [-10.55, -0.82, 5.8],
+          "bounds": [
+            [-10.945, -0.855, 5.8],
+            [-10.155, -0.785, 5.8]
+          ],
+          "depth": 0.0288,
+          "contactRule": "one-sided-embed",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_retreat_liftaway_roof",
+        "sites": 213,
+        "seamM": 74.29629999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0826,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-8.492, -6.857, 9.881],
+          "bounds": [
+            [-8.547, -7.029, 9.868],
+            [-8.437, -6.686, 9.895]
+          ],
+          "depth": 0.0826,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_retreat_roof_planting__core_estate_library_liftaway_roof",
+        "sites": 5,
+        "seamM": 1.6514000000000002,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0638,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_retreat_roof_planting__core_estate_library_liftaway_roof",
+          "center": [-8.215, -2.047, 9.858],
+          "bounds": [
+            [-8.256, -2.086, 9.84],
+            [-8.175, -2.007, 9.876]
+          ],
+          "depth": 0.0638,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_stems",
+        "sites": 16,
+        "seamM": 7.8221,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0464,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_stems",
+          "center": [-10.748, 0.718, 10.961],
+          "bounds": [
+            [-10.813, 0.689, 10.932],
+            [-10.683, 0.747, 10.991]
+          ],
+          "depth": 0.0464,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_dry_grass",
+        "sites": 49,
+        "seamM": 1.7472000000000005,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0362,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_dry_grass",
+          "center": [-7.915, -2.664, 9.714],
+          "bounds": [
+            [-7.94, -2.718, 9.706],
+            [-7.891, -2.61, 9.721]
+          ],
+          "depth": 0.0362,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_iceplant",
+        "sites": 53,
+        "seamM": 4.5611,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0289,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_iceplant",
+          "center": [-8.245, -2.11, 9.871],
+          "bounds": [
+            [-8.251, -2.12, 9.869],
+            [-8.239, -2.099, 9.874]
+          ],
+          "depth": 0.0289,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_lemonade_berry",
+        "sites": 27,
+        "seamM": 1.2616,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0431,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_lemonade_berry",
+          "center": [-12.089, 4.317, 11.063],
+          "bounds": [
+            [-12.117, 4.316, 11.057],
+            [-12.061, 4.318, 11.069]
+          ],
+          "depth": 0.0431,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_wild_oats",
+        "sites": 13,
+        "seamM": 0.7975,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0511,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_wild_oats",
+          "center": [-10.945, -3.967, 10.832],
+          "bounds": [
+            [-11.01, -4.021, 10.807],
+            [-10.88, -3.913, 10.857]
+          ],
+          "depth": 0.0511,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_library_liftaway_roof | core_flora_daisy_leaves",
+        "sites": 10,
+        "seamM": 1.2456999999999998,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.033,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_library_liftaway_roof",
+          "b": "core_flora_daisy_leaves",
+          "center": [-7.805, -2.379, 9.677],
+          "bounds": [
+            [-7.852, -2.406, 9.663],
+            [-7.758, -2.353, 9.692]
+          ],
+          "depth": 0.033,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_estate_garden_flora_leaf | core_retreat_liftaway_roof",
+        "sites": 7,
+        "seamM": 0.9632000000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0595,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_garden_flora_leaf",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-3.086, -14.839, 8.398],
+          "bounds": [
+            [-3.165, -14.878, 8.368],
+            [-3.007, -14.801, 8.429]
+          ],
+          "depth": 0.0595,
+          "contactRule": "one-sided-embed",
+          "closedA": false,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_garden_flora_stem | core_retreat_liftaway_roof",
+        "sites": 3,
+        "seamM": 1.0746,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0417,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_garden_flora_stem",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-2.836, -15.166, 8.31],
+          "bounds": [
+            [-2.871, -15.196, 8.296],
+            [-2.801, -15.136, 8.324]
+          ],
+          "depth": 0.0417,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_estate_garden_flora_grass | core_retreat_liftaway_roof",
+        "sites": 27,
+        "seamM": 2.3741000000000003,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0438,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_estate_garden_flora_grass",
+          "b": "core_retreat_liftaway_roof",
+          "center": [-5.467, -10.742, 8.568],
+          "bounds": [
+            [-5.586, -10.803, 8.525],
+            [-5.348, -10.68, 8.611]
+          ],
+          "depth": 0.0438,
+          "contactRule": "planting-root",
+          "closedA": false,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_retreat_liftaway_roof | core_retreat_roof_planting__core_retreat_liftaway_roof",
+        "sites": 5,
+        "seamM": 1.1079999999999999,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.022,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_retreat_roof_planting__core_retreat_liftaway_roof",
+          "center": [3.032, -9.296, 7.049],
+          "bounds": [
+            [3.019, -9.309, 7.045],
+            [3.044, -9.284, 7.052]
+          ],
+          "depth": 0.022,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_arrival_wall__golden coastal sandstone | core_retreat_liftaway_roof",
+        "sites": 51,
+        "seamM": 8.353600000000002,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0511,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_arrival_wall__golden coastal sandstone",
+          "center": [1.994, -15.67, 5.83],
+          "bounds": [
+            [1.959, -15.72, 5.83],
+            [2.029, -15.62, 5.83]
+          ],
+          "depth": 0.0511,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_arrival_court__golden coastal sandstone | core_retreat_liftaway_roof",
+        "sites": 56,
+        "seamM": 21.224199999999996,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.09,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_arrival_court__golden coastal sandstone",
+          "center": [7.664, -14.703, 7.663],
+          "bounds": [
+            [7.626, -14.814, 7.616],
+            [7.702, -14.591, 7.71]
+          ],
+          "depth": 0.09,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_arrival_lid__golden coastal sandstone | core_retreat_liftaway_roof",
+        "sites": 34,
+        "seamM": 16.1767,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.522,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_arrival_lid__golden coastal sandstone",
+          "center": [2.62, -15.499, 5.919],
+          "bounds": [
+            [2.62, -15.677, 5.83],
+            [2.62, -15.32, 6.009]
+          ],
+          "depth": 0.522,
+          "contactRule": "terrain-landform",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_flora_stems | core_retreat_liftaway_roof",
+        "sites": 47,
+        "seamM": 18.708099999999998,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0414,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_stems",
+          "center": [4.881, -9.109, 7.53],
+          "bounds": [
+            [4.835, -9.154, 7.52],
+            [4.928, -9.064, 7.54]
+          ],
+          "depth": 0.0414,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      },
+      {
+        "pair": "core_flora_dry_grass | core_retreat_liftaway_roof",
+        "sites": 171,
+        "seamM": 7.843800000000002,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0388,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_dry_grass",
+          "center": [-2.681, -9.093, 7.694],
+          "bounds": [
+            [-2.756, -9.133, 7.674],
+            [-2.606, -9.054, 7.713]
+          ],
+          "depth": 0.0388,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_iceplant | core_retreat_liftaway_roof",
+        "sites": 21,
+        "seamM": 1.7482999999999997,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0053,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_iceplant",
+          "center": [-1.801, -9.13, 7.508],
+          "bounds": [
+            [-1.808, -9.135, 7.507],
+            [-1.794, -9.124, 7.509]
+          ],
+          "depth": 0.0053,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_lemonade_berry | core_retreat_liftaway_roof",
+        "sites": 1,
+        "seamM": 0.0985,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0042,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_lemonade_berry",
+          "center": [-8.559, -8.748, 10.085],
+          "bounds": [
+            [-8.583, -8.766, 10.082],
+            [-8.535, -8.73, 10.089]
+          ],
+          "depth": 0.0042,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_wild_oats | core_retreat_liftaway_roof",
+        "sites": 39,
+        "seamM": 3.545900000000001,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0423,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_wild_oats",
+          "center": [8.715, -15.789, 8.154],
+          "bounds": [
+            [8.665, -15.819, 8.134],
+            [8.765, -15.758, 8.173]
+          ],
+          "depth": 0.0423,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_daisy_leaves | core_retreat_liftaway_roof",
+        "sites": 75,
+        "seamM": 4.077300000000002,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0141,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_daisy_leaves",
+          "center": [-2.818, -10.01, 7.87],
+          "bounds": [
+            [-2.865, -10.047, 7.856],
+            [-2.77, -9.972, 7.883]
+          ],
+          "depth": 0.0141,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": false
+        }
+      },
+      {
+        "pair": "core_flora_palm_trunk | core_retreat_liftaway_roof",
+        "sites": 9,
+        "seamM": 3.4681,
+        "deepSitesOver5cm": 0,
+        "maximumDepthM": 0.0759,
+        "severity": 0.0,
+        "maximumDepthWitness": {
+          "a": "core_retreat_liftaway_roof",
+          "b": "core_flora_palm_trunk",
+          "center": [3.089, -12.377, 7.253],
+          "bounds": [
+            [2.9, -12.482, 7.229],
+            [3.278, -12.272, 7.278]
+          ],
+          "depth": 0.0759,
+          "contactRule": "planting-root",
+          "closedA": true,
+          "closedB": true
+        }
+      }
+    ]
+  }
+}
