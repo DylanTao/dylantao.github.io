@@ -1,0 +1,73 @@
+{
+  "width": 1440,
+  "dpr": 1,
+  "theme": "noon",
+  "seed": "31",
+  "browser": "145.0.7632.6",
+  "platform": "win32",
+  "fixedPlacement": true,
+  "scriptOverride": {
+    "sha256": "780572397c3e5f2eddb0fe6c431de974f0783c8fa650f1cff12757d5b570dba5",
+    "scope": "Compiled coffee-only prototype over complete own site; not final full build"
+  },
+  "baselineScope": "Retained pinned-only pre-safety material control over identical complete frozen candidate CSS; explicitly source-intercepted, not final route acceptance",
+  "rasterOverride": null,
+  "detail": {
+    "source": "procedural",
+    "generation": {
+      "version": 2,
+      "seed": "31",
+      "size": 1024,
+      "fieldBytes": 4194304,
+      "rgbaBytes": 4194304,
+      "density": {
+        "chunks": 62,
+        "cpuMs": 110.90000003576279,
+        "maxChunkMs": 4.5,
+        "rows": 1024,
+        "sampledPixels": 190200
+      },
+      "palette": {
+        "chunks": 32,
+        "cpuMs": 13.300000131130219,
+        "maxChunkMs": 1.5
+      },
+      "encodedBytes": 299915,
+      "morphology": "seeded wash and pinned pigment; authored deposition, not fluid simulation",
+      "readyAfterMs": 2055.300000011921
+    },
+    "size": 214.391,
+    "strength": "0.8084",
+    "filter": "none",
+    "animation": "none",
+    "drying": null,
+    "settled": null,
+    "wetContent": "none",
+    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+    "top": "-118.4px",
+    "right": "6.4px",
+    "stack": {
+      "x": 850.171875,
+      "y": 623.28125,
+      "width": 524.796875,
+      "height": 153.25
+    },
+    "pngBytes": 299915,
+    "pngSha256": "864f56c824d8b7153a4883be19961a93b9920867c8873a9525e4f0bd928b6355"
+  },
+  "bindings": [
+    {
+      "url": "http://127.0.0.1:4132/al-folio/assets/css/main.css?v=20261028103342",
+      "status": 200,
+      "bytes": 550733,
+      "sha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532"
+    },
+    {
+      "url": "http://127.0.0.1:4132/al-folio/assets/js/home-coffee-stain.js?v=f3e4aa29ce2a9f6c1fcefd16d647f6e4",
+      "status": 200,
+      "bytes": 10202,
+      "sha256": "780572397c3e5f2eddb0fe6c431de974f0783c8fa650f1cff12757d5b570dba5"
+    }
+  ],
+  "errors": []
+}

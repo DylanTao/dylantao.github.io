@@ -1,0 +1,21 @@
+{
+  "state": "Runtime JS/CSS frozen unchanged; final motion assertion additionally verifies the actual settled marker and removed wet layer. Sirui appearance acceptance open.",
+  "files": {
+    "assets/js/home-coffee-stain.js": {
+      "sha256Lf": "1b25425562d142a2fec52c3facd1abc00a499494be60c67d38c5f81590957dc6",
+      "workingBytes": 23407
+    },
+    "_sass/_home.scss": {
+      "sha256Lf": "7f74f4136491fdca70ab6c078de7dbf3174ee62151d40e6ee160d53493ec02b7",
+      "workingBytes": 87609
+    },
+    "test/visual/sitewide.spec.js": {
+      "sha256Lf": "8340a6415764da1659ce5b9e449eea7e1e39794b7e71b69c2706e35f38ac467e",
+      "workingBytes": 169110
+    },
+    "test/home-coffee-stain.test.mjs": {
+      "sha256Lf": "653d51240dd88bd4669d1bb58bd2cb642bf18be2a3fc58b54f14e848192b7d3c",
+      "workingBytes": 4505
+    }
+  }
+}

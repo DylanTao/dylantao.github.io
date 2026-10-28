@@ -1676,13 +1676,14 @@ html[data-theme="dark"] .home-record-card-link {
 // where the mug stood on the top one: about half the ring lies over the slip's empty right side and
 // the rest on the desk above it, never across their words (Sirui, 2026-10-24: "I thought the stain
 // will be on top of cards"). Light themes multiply it into the slip and the page; the evening desk
-// shows dull brown residue. For people it settles once as it comes into view: a slow, soft bloom
-// whose edge sharpens as the liquid pins, without a wet-to-dry play (the same review).
+// shows dull brown residue. Two seeded fields share a fixed footprint: a thin wash settles into
+// localized pinned pigment once. This is authored deposition, with no whole-ring motion.
 .home-artifact-stack.has-coffee-stain {
   --home-coffee-stain-strength: calc(var(--home-coffee-stain-opacity) * 0.94);
 }
 
-.home-artifact-stack.has-coffee-stain::before {
+.home-artifact-stack.has-coffee-stain::before,
+.home-artifact-stack.has-coffee-stain::after {
   position: absolute;
   top: -7.4rem;
   // Inside the column: the hero clips at its edge, and the ring should stay whole.
@@ -1691,8 +1692,6 @@ html[data-theme="dark"] .home-record-card-link {
   aspect-ratio: 1 / 1;
   // Above the slips (z-index 2) inside the stack's isolated group, so the multiply reaches the slip.
   z-index: 4;
-  background: var(--home-coffee-stain-image, none) center / contain no-repeat;
-  content: "";
   mix-blend-mode: var(--home-coffee-stain-blend);
   opacity: 0;
   pointer-events: none;
@@ -1702,36 +1701,68 @@ html[data-theme="dark"] .home-record-card-link {
   transition: opacity 420ms ease;
 }
 
+.home-artifact-stack.has-coffee-stain::before {
+  background: var(--home-coffee-stain-image, none) center / contain no-repeat;
+  content: "";
+}
+
+.home-artifact-stack.has-coffee-stain::after {
+  content: none;
+}
+
+.home-artifact-stack.has-coffee-stain[data-coffee-stain-wash]::after {
+  background: var(--home-coffee-stain-wash-image, none) center / contain no-repeat;
+  content: "";
+  opacity: var(--home-coffee-stain-strength);
+}
+
 .home-artifact-stack.has-coffee-stain[data-coffee-stain-ready]::before {
   opacity: var(--home-coffee-stain-strength);
 }
 
 .home-artifact-stack.has-coffee-stain[data-coffee-stain-drying="pending"]::before {
-  opacity: 0;
+  opacity: calc(var(--home-coffee-stain-strength) * 0.15);
 }
 
 .home-artifact-stack.has-coffee-stain[data-coffee-stain-drying="true"]::before {
   animation: home-coffee-stain-settle 3200ms var(--md-lite-easing-decelerate, ease-out) both;
 }
 
+.home-artifact-stack.has-coffee-stain[data-coffee-stain-drying="true"]::after {
+  animation: home-coffee-wash-settle 3200ms var(--md-lite-easing-decelerate, ease-out) both;
+}
+
+@keyframes home-coffee-wash-settle {
+  0% {
+    opacity: var(--home-coffee-stain-strength);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes home-coffee-stain-settle {
   0% {
-    opacity: 0;
-    filter: blur(1.1px);
-    transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, 0deg))
-      scale(calc(var(--home-coffee-stain-scale, 1) * 0.985));
-  }
-
-  55% {
-    filter: blur(0);
+    opacity: calc(var(--home-coffee-stain-strength) * 0.15);
   }
 
   100% {
     opacity: var(--home-coffee-stain-strength);
-    filter: blur(0);
-    transform: translate(var(--home-coffee-stain-x, 0), var(--home-coffee-stain-y, 0)) rotate(var(--home-coffee-stain-rotation, 0deg))
-      scale(var(--home-coffee-stain-scale, 1));
   }
+}
+
+html[data-motion="paused"] .home-artifact-stack.has-coffee-stain::before,
+.home-artifact-stack.has-coffee-stain[data-coffee-stain-settled]::before {
+  animation: none;
+  transition: none;
+  opacity: var(--home-coffee-stain-strength);
+}
+
+html[data-motion="paused"] .home-artifact-stack.has-coffee-stain::after,
+.home-artifact-stack.has-coffee-stain[data-coffee-stain-settled]::after {
+  animation: none;
+  transition: none;
+  content: none;
 }
 
 html[data-theme="dark"] .home-artifact-stack {
@@ -3339,7 +3370,8 @@ html.home-motion-ready .home-reveal.home-visible {
     transform: none;
   }
 
-  .home-artifact-stack.has-coffee-stain::before {
+  .home-artifact-stack.has-coffee-stain::before,
+  .home-artifact-stack.has-coffee-stain::after {
     top: -8rem;
     right: 1.1rem;
     width: min(10.5rem, 42vw);
@@ -3478,6 +3510,7 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-card::after,
   .home-artifact-stack,
   .home-artifact-stack.has-coffee-stain::before,
+  .home-artifact-stack.has-coffee-stain::after,
   .home-artifact-card,
   .home-artifact-thumb img,
   html.home-motion-ready .home-reveal {

@@ -2886,10 +2886,12 @@ test("the desk's coffee ring rests on the top slip clear of its words, stays who
         minX = Infinity,
         maxX = -Infinity,
         inside = 0,
-        clear = 0;
+        clear = 0,
+        alphaFingerprint = 2166136261;
       for (let y = 0; y < canvas.height; y++)
         for (let x = 0; x < canvas.width; x++) {
           const alpha = pixels[(y * canvas.width + x) * 4 + 3];
+          alphaFingerprint = Math.imul(alphaFingerprint ^ alpha, 16777619);
           if (Math.hypot(x - canvas.width / 2, y - canvas.height / 2) < canvas.width * 0.22) {
             inside++;
             if (alpha < 8) clear++;
@@ -2919,6 +2921,8 @@ test("the desk's coffee ring rests on the top slip clear of its words, stays who
         insideColumn: minX >= column.left - 1 && maxX <= column.right + 1,
         clearCenter: clear / inside,
         rasterSize: canvas.width,
+        alphaFingerprint: alphaFingerprint >>> 0,
+        transform: stain.transform,
         source: node.dataset.coffeeStainSource,
       };
     });
@@ -2937,10 +2941,11 @@ test("the desk's coffee ring rests on the top slip clear of its words, stays who
     drying: null,
     animation: "none",
     pointerEvents: "none",
-    source: "raster",
+    source: "procedural",
   });
   expect((await read()).clearCenter).toBeGreaterThan(0.98);
-  expect((await read()).rasterSize).toBeLessThanOrEqual(512);
+  expect((await read()).rasterSize).toBeGreaterThanOrEqual(1024);
+  expect((await read()).rasterSize).toBeLessThanOrEqual(1536);
   const placementNames = ["--home-coffee-stain-rotation", "--home-coffee-stain-x", "--home-coffee-stain-y", "--home-coffee-stain-scale"];
   const placement = await stack.evaluate((node, names) => names.map((n) => node.style.getPropertyValue(n)), placementNames);
   for (const rotation of [-24, 0, 24])
@@ -2979,44 +2984,73 @@ test("the desk's coffee ring rests on the top slip clear of its words, stays who
   const pigmentRequest = await page.evaluate(
     () => performance.getEntriesByType("resource").find((entry) => entry.name.includes("/coffee-deposit-"))?.name
   );
-  expect(pigmentRequest).toContain(new URL(publicRouteUrl("/assets/img/home/"), page.url()).pathname);
-  // An undecodable preferred asset must retain a deterministic, safe fallback.
-  await page.route("**/coffee-deposit-*.webp", (route) => route.fulfill({ contentType: "image/webp", body: "invalid image fixture" }));
+  expect(pigmentRequest).toBeUndefined();
+  // Failed or indefinitely delayed legacy images cannot affect the primary
+  // pigment: ordinary visits do not request them at all.
+  let legacyRequests = 0;
+  await page.route("**/coffee-deposit-*.webp", (route) => {
+    legacyRequests++;
+    return route.abort();
+  });
   await page.goto(publicRouteUrl("/?coffeeSeed=52"));
   await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
   expect(await read()).toMatchObject({ source: "procedural", clearOfWords: true, insideColumn: true });
+  expect(legacyRequests).toBe(0);
   await page.unroute("**/coffee-deposit-*.webp");
-  let releasePigment;
-  const pigmentHeld = new Promise((resolve) => (releasePigment = resolve));
-  await page.route("**/coffee-deposit-*.webp", async (route) => {
-    await pigmentHeld;
-    await route.continue();
+  // The timer backstop services a starved idle scheduler. A null async encoder
+  // also retains the same locally generated pigment via the Canvas PNG path.
+  await page.addInitScript(() => {
+    if (location.search.includes("coffeeIdleFixture")) {
+      window.requestIdleCallback = () => 1;
+      window.cancelIdleCallback = () => {};
+      HTMLCanvasElement.prototype.toBlob = function (done) {
+        done(null);
+      };
+    }
+    if (location.search.includes("coffeeCanvasFixture"))
+      HTMLCanvasElement.prototype.toBlob = function () {
+        throw new Error("retained Canvas failure fixture");
+      };
   });
-  await page.goto(publicRouteUrl("/?coffeeSeed=52"), { waitUntil: "domcontentloaded" });
+  await page.goto(publicRouteUrl("/?coffeeSeed=52&coffeeIdleFixture=1"));
   await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
   expect(await read()).toMatchObject({ source: "procedural", clearOfWords: true, insideColumn: true });
-  const heldFallback = await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"));
-  releasePigment();
-  await page.waitForTimeout(350);
-  expect(await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"))).toBe(heldFallback);
-  expect((await read()).source).toBe("procedural");
-  await page.unroute("**/coffee-deposit-*.webp");
+  // A failed Canvas encoder can still use the retained complete raster as a
+  // last resort; that path is explicit and is not counted as generation.
+  await page.goto(publicRouteUrl("/?coffeeSeed=52&coffeeCanvasFixture=1"));
+  await expect(stack).toHaveAttribute("data-coffee-stain-source", "raster-fallback", { timeout: 20000 });
+  expect(await read()).toMatchObject({ source: "raster-fallback", rasterSize: 512, clearOfWords: true, insideColumn: true });
   // A person sees the mark settle in once the slips are in view...
   await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));
   await stack.scrollIntoViewIfNeeded();
   await expect(stack).toHaveAttribute("data-coffee-stain-drying", "true", { timeout: 20000 });
-  expect(await read()).toMatchObject({ animation: "home-coffee-stain-settle", iterations: "1", wetLayer: false });
+  expect(await read()).toMatchObject({ animation: "home-coffee-stain-settle", iterations: "1", wetLayer: true });
+  const footprint = (await read()).transform;
+  await page.waitForTimeout(100);
+  expect((await read()).transform).toBe(footprint);
   await page.waitForTimeout(3400);
-  expect(await stack.evaluate((node) => node.getAnimations().every((a) => a.playState === "finished"))).toBe(true);
+  await expect(stack).toHaveAttribute("data-coffee-stain-settled", "true");
+  expect(await read()).toMatchObject({ animation: "none", wetLayer: false });
+  // Global pause settles the deposit immediately and resume must not replay it.
+  await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));
+  await stack.scrollIntoViewIfNeeded();
+  await expect(stack).toHaveAttribute("data-coffee-stain-drying", "true", { timeout: 20000 });
+  await page.evaluate(() => window.siteMotion.setPaused(true));
+  await expect(stack).toHaveAttribute("data-coffee-stain-settled", "true");
+  expect(await read()).toMatchObject({ animation: "none", wetLayer: false });
+  await page.evaluate(() => window.siteMotion.setPaused(false));
+  expect(await read()).toMatchObject({ animation: "none", wetLayer: false });
   // ...unless they prefer stillness; a theme change repaints it for the evening desk.
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(publicRouteUrl("/?coffeeSeed=52&cinematic=live"));
   await expect(stack).toHaveAttribute("data-coffee-stain-ready", "true", { timeout: 20000 });
   expect(await read()).toMatchObject({ drying: null, animation: "none" });
   const light = await stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"));
+  const lightAlpha = (await read()).alphaFingerprint;
   // theme.js declares setThemeSetting as a top-level binding, not a window property.
   await page.evaluate(() => setThemeSetting("evening"));
   await expect.poll(() => stack.evaluate((node) => getComputedStyle(node).getPropertyValue("--home-coffee-stain-image"))).not.toBe(light);
+  expect((await read()).alphaFingerprint).toBe(lightAlpha);
   expect(errors).toEqual([]);
 });
 

@@ -1,0 +1,73 @@
+{
+  "width": 1440,
+  "dpr": 1,
+  "theme": "noon",
+  "seed": "52",
+  "browser": "145.0.7632.6",
+  "platform": "win32",
+  "fixedPlacement": true,
+  "scriptOverride": {
+    "sha256": "780572397c3e5f2eddb0fe6c431de974f0783c8fa650f1cff12757d5b570dba5",
+    "scope": "Compiled coffee-only prototype over complete own site; not final full build"
+  },
+  "baselineScope": "Retained pinned-only pre-safety material control over identical complete frozen candidate CSS; explicitly source-intercepted, not final route acceptance",
+  "rasterOverride": null,
+  "detail": {
+    "source": "procedural",
+    "generation": {
+      "version": 2,
+      "seed": "52",
+      "size": 1024,
+      "fieldBytes": 4194304,
+      "rgbaBytes": 4194304,
+      "density": {
+        "chunks": 63,
+        "cpuMs": 109.89999997615814,
+        "maxChunkMs": 4.699999988079071,
+        "rows": 1024,
+        "sampledPixels": 174715
+      },
+      "palette": {
+        "chunks": 32,
+        "cpuMs": 12.199999928474426,
+        "maxChunkMs": 1.399999976158142
+      },
+      "encodedBytes": 296345,
+      "morphology": "seeded wash and pinned pigment; authored deposition, not fluid simulation",
+      "readyAfterMs": 2028.5
+    },
+    "size": 214.391,
+    "strength": "0.8084",
+    "filter": "none",
+    "animation": "none",
+    "drying": null,
+    "settled": null,
+    "wetContent": "none",
+    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+    "top": "-118.4px",
+    "right": "6.4px",
+    "stack": {
+      "x": 850.171875,
+      "y": 623.28125,
+      "width": 524.796875,
+      "height": 153.25
+    },
+    "pngBytes": 296345,
+    "pngSha256": "df42fe6b56ffa8a582312bd5991914cc3df3ac36bd4c66cec245b0be97ca71e8"
+  },
+  "bindings": [
+    {
+      "url": "http://127.0.0.1:4132/al-folio/assets/css/main.css?v=20261028103342",
+      "status": 200,
+      "bytes": 550733,
+      "sha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532"
+    },
+    {
+      "url": "http://127.0.0.1:4132/al-folio/assets/js/home-coffee-stain.js?v=f3e4aa29ce2a9f6c1fcefd16d647f6e4",
+      "status": 200,
+      "bytes": 10202,
+      "sha256": "780572397c3e5f2eddb0fe6c431de974f0783c8fa650f1cff12757d5b570dba5"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,174 @@
+{
+  "scope": "Frozen complete compiled candidate. Explicitly sought visual samples of authored deposition, not elapsed-time, a simulation or a performance measurement. The functional public case waits for actual once-only completion.",
+  "browser": "145.0.7632.6",
+  "seed": "31",
+  "bitmaps": {
+    "dry": {
+      "bytes": 304202,
+      "sha256": "2d22a763466054d7d769276aff151cee7b191edcb06e386e538f1d09e83cb30e"
+    },
+    "wash": {
+      "bytes": 246850,
+      "sha256": "e7a2f70d9a281a6e116fab660ff325f907315615755508316e55fa8741fc9f13"
+    }
+  },
+  "phases": [
+    {
+      "authoredAnimationTimeMs": 0,
+      "filename": "phase-0ms.png",
+      "dryOpacity": "0.12126",
+      "washOpacity": "0.8084",
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "filter": "none",
+      "animations": [
+        {
+          "name": "home-coffee-stain-settle",
+          "currentTime": 0,
+          "playState": "paused"
+        },
+        {
+          "name": "home-coffee-wash-settle",
+          "currentTime": 0,
+          "playState": "paused"
+        }
+      ],
+      "generation": {
+        "version": 2,
+        "seed": "31",
+        "size": 1024,
+        "fieldBytes": 8388608,
+        "rgbaBytes": 4194304,
+        "profileBytes": 81920,
+        "planMs": 0.3999999761581421,
+        "setupMs": 0.2999999523162842,
+        "rgbaAllocationMs": 0.19999998807907104,
+        "canvasPutMs": 3.199999988079071,
+        "pngAndReadWallMs": 64.59999996423721,
+        "density": {
+          "chunks": 61,
+          "cpuMs": 94.60000020265579,
+          "maxChunkMs": 4.100000023841858,
+          "rows": 1024,
+          "sampledPixels": 190200
+        },
+        "palette": {
+          "chunks": 32,
+          "cpuMs": 13.399999976158142,
+          "maxChunkMs": 3.899999976158142
+        },
+        "encodedBytes": 304202,
+        "morphology": "seeded wash and pinned pigment; authored deposition, not fluid simulation",
+        "readyAfterMs": 2523,
+        "paintedPalette": "light"
+      },
+      "size": 214.391,
+      "x": 1154.1777499999998,
+      "y": 504.88125
+    },
+    {
+      "authoredAnimationTimeMs": 1600,
+      "filename": "phase-1600ms.png",
+      "dryOpacity": "0.774213",
+      "washOpacity": "0.0402199",
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "filter": "none",
+      "animations": [
+        {
+          "name": "home-coffee-stain-settle",
+          "currentTime": 1600,
+          "playState": "paused"
+        },
+        {
+          "name": "home-coffee-wash-settle",
+          "currentTime": 1600,
+          "playState": "paused"
+        }
+      ],
+      "generation": {
+        "version": 2,
+        "seed": "31",
+        "size": 1024,
+        "fieldBytes": 8388608,
+        "rgbaBytes": 4194304,
+        "profileBytes": 81920,
+        "planMs": 0.3999999761581421,
+        "setupMs": 0.2999999523162842,
+        "rgbaAllocationMs": 0.19999998807907104,
+        "canvasPutMs": 3.199999988079071,
+        "pngAndReadWallMs": 64.59999996423721,
+        "density": {
+          "chunks": 61,
+          "cpuMs": 94.60000020265579,
+          "maxChunkMs": 4.100000023841858,
+          "rows": 1024,
+          "sampledPixels": 190200
+        },
+        "palette": {
+          "chunks": 32,
+          "cpuMs": 13.399999976158142,
+          "maxChunkMs": 3.899999976158142
+        },
+        "encodedBytes": 304202,
+        "morphology": "seeded wash and pinned pigment; authored deposition, not fluid simulation",
+        "readyAfterMs": 2523,
+        "paintedPalette": "light"
+      },
+      "size": 214.391,
+      "x": 1154.1777499999998,
+      "y": 504.88125
+    },
+    {
+      "authoredAnimationTimeMs": 3199,
+      "filename": "phase-3199ms.png",
+      "dryOpacity": "0.8084",
+      "washOpacity": "9.74857e-09",
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "filter": "none",
+      "animations": [
+        {
+          "name": "home-coffee-stain-settle",
+          "currentTime": 3199,
+          "playState": "paused"
+        },
+        {
+          "name": "home-coffee-wash-settle",
+          "currentTime": 3199,
+          "playState": "paused"
+        }
+      ],
+      "generation": {
+        "version": 2,
+        "seed": "31",
+        "size": 1024,
+        "fieldBytes": 8388608,
+        "rgbaBytes": 4194304,
+        "profileBytes": 81920,
+        "planMs": 0.3999999761581421,
+        "setupMs": 0.2999999523162842,
+        "rgbaAllocationMs": 0.19999998807907104,
+        "canvasPutMs": 3.199999988079071,
+        "pngAndReadWallMs": 64.59999996423721,
+        "density": {
+          "chunks": 61,
+          "cpuMs": 94.60000020265579,
+          "maxChunkMs": 4.100000023841858,
+          "rows": 1024,
+          "sampledPixels": 190200
+        },
+        "palette": {
+          "chunks": 32,
+          "cpuMs": 13.399999976158142,
+          "maxChunkMs": 3.899999976158142
+        },
+        "encodedBytes": 304202,
+        "morphology": "seeded wash and pinned pigment; authored deposition, not fluid simulation",
+        "readyAfterMs": 2523,
+        "paintedPalette": "light"
+      },
+      "size": 214.391,
+      "x": 1154.1777499999998,
+      "y": 504.88125
+    }
+  ],
+  "errors": []
+}

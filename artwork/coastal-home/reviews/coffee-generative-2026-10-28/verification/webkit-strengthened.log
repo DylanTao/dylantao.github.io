@@ -1,0 +1,13 @@
+
+Running 1 test using 1 worker
+
+
+
+
+
+[1A[2K[1/1] [mobile-390] › test\visual\sitewide.spec.js:2850:1 › the desk's coffee ring rests on the top slip clear of its words, stays whole, and settles in only for people
+[1A[2K  1 passed (1.8m)
+[1A[2K(node:51360) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K(node:51360) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -1,0 +1,497 @@
+Configuration file: C:/dev/site-takeover-worktrees/generative-coffee/_config.yml
+bundle : C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_citations-1.0.1/lib/al_citations/google_scholar.rb:7: warning:
+already initialized constant Jekyll::GoogleScholarCitationsTag::Citations
+At line:2 char:741
++ ... roduction'; bundle exec jekyll build --baseurl /al-folio --destinatio ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:/tools/site-g...sTag::Citations:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+C:/dev/site-takeover-worktrees/generative-coffee/_plugins/google-scholar-citations.rb:11: warning: previous definition
+of Citations was here
+C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_citations-1.0.1/lib/al_citations/google_scholar.rb:8: warning: already
+initialized constant Jekyll::GoogleScholarCitationsTag::CITED_BY_REGEX
+C:/dev/site-takeover-worktrees/generative-coffee/_plugins/google-scholar-citations.rb:12: warning: previous definition
+of CITED_BY_REGEX was here
+C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_citations-1.0.1/lib/al_citations/inspirehep.rb:7: warning: already
+initialized constant Jekyll::InspireHEPCitationsTag::Citations
+C:/dev/site-takeover-worktrees/generative-coffee/_plugins/inspirehep-citations.rb:12: warning: previous definition of
+Citations was here
+[33m     al_folio_core: jekyll-jupyter-notebook is enabled but `jupyter-nbconvert` is not on PATH.[0m
+[33m     al_folio_core: Notebook rendering will be skipped for Jupyter posts until Python deps are installed.[0m
+[33m     al_folio_core: Install with `python3 -m pip install --user jupyter nbconvert`[0m
+[33m     al_folio_core: or run starter helper `./bin/setup-python-deps` if available.[0m
+            Source: C:/dev/site-takeover-worktrees/generative-coffee
+       Destination: C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio
+ Incremental build: disabled. Enable with --incremental
+      Generating...
+DEPRECATION WARNING: to_time will always preserve the timezone offset of the receiver in Rails 8.0. To opt in to the
+new behavior, set `ActiveSupport.to_time_preserves_timezone = true`. (called from load at
+C:/tools/site-gems-ruby33/ruby/3.3.0/bin/jekyll:25)
+al_folio_bootstrap_compat: enabled (supported through v1.2, deprecated in v1.3, removed in v2.0)
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/ai-view.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/bibsearch.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/blog-post.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/blog-read-counter.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/blog-secret.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/brand-orange.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/calendar-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/chartjs-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/cinematic.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/common.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/copy_code.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/diff2html-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/echarts-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/github-activity.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/heuristics-preview.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/highlight-search-term.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/home-coffee-stain.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/home.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/jupyter_new_tab.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/leaflet-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/liquid-glass.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/masonry.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/mathjax-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/mermaid-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/newsletter.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/no_defer.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/openai-build-week.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/paper-constellation.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/paper-research-field.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/plotly-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/progress-bar.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/project-cards.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/pseudocode-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/publication-lens.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/random-teasers.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/research-motion.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/search-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/secret-globe.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/section-reading-aid.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/seo-optimization.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/shortcut-key.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/spooder-project.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/theme.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/tooltips-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/typograms.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vega-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/libs/draco/draco-worker.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/libs/draco/draco_wasm_wrapper.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/loaders/DRACOLoader.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/loaders/GLTFLoader.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/math/SimplexNoise.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/postprocessing/EffectComposer.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/postprocessing/MaskPass.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/postprocessing/OutputPass.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/postprocessing/Pass.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/postprocessing/RenderPass.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/postprocessing/SSAOPass.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/postprocessing/ShaderPass.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/postprocessing/UnrealBloomPass.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/shaders/CopyShader.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/shaders/LuminosityHighPassShader.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/shaders/OutputShader.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/shaders/SSAOShader.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/vendor/three-r164/utils/BufferGeometryUtils.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/venobox-setup.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/wall-of-rejection.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/wechat.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/js/zoom.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/vendor/paper-shaders/0.0.80/dist/get-shader-color-from-string.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/vendor/paper-shaders/0.0.80/dist/get-shader-noise-texture.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/vendor/paper-shaders/0.0.80/dist/shader-mount.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/vendor/paper-shaders/0.0.80/dist/shader-sizing.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/vendor/paper-shaders/0.0.80/dist/shader-utils.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/vendor/paper-shaders/0.0.80/dist/shaders/dot-orbit.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/vendor/paper-shaders/0.0.80/dist/shaders/paper-texture.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/vendor/paper-shaders/0.0.80/dist/shaders/static-mesh-gradient.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/vendor/paper-shaders/0.0.80/dist/shaders/waves.js
+Terser: Minifying C:/dev/site-takeover-worktrees/generative-coffee/assets/vendor/paper-shaders/0.0.80/dist/vertex-shader.js
+       Imagemagick: Searching files in C:/dev/site-takeover-worktrees/generative-coffee/assets/img/
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/blowin_in_the_wind-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/blowin_in_the_wind-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/blowin_in_the_wind-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/hey_jude-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/hey_jude-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/hey_jude-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/sunday_bloody_sunday-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/sunday_bloody_sunday-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/sunday_bloody_sunday-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/yellow_submarine-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/yellow_submarine-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/album_covers/yellow_submarine-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/apple-touch-icon-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/apple-touch-icon-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/apple-touch-icon-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/cindy_peng-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/cindy_peng-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/cindy_peng-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/ivan_liang-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/ivan_liang-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/ivan_liang-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/sirui_tao-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/sirui_tao-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/sirui_tao-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/srishti_palani-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/srishti_palani-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/srishti_palani-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/steven_dow-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/steven_dow-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/steven_dow-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/william_mccarthy-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/william_mccarthy-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/william_mccarthy-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/zhiqing_wang-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/zhiqing_wang-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/authors/zhiqing_wang-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/book_covers/the_godfather-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/book_covers/the_godfather-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/book_covers/the_godfather-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/design-lab-retreat-2026/sirui-holding-emmy-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/design-lab-retreat-2026/sirui-holding-emmy-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/design-lab-retreat-2026/sirui-holding-emmy-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/don-norman-talk-2026/book-cover-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/don-norman-talk-2026/book-cover-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/don-norman-talk-2026/book-cover-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/don-norman-talk-2026/selfie-with-don-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/don-norman-talk-2026/selfie-with-don-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/don-norman-talk-2026/selfie-with-don-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/don-norman-talk-2026/signed-title-page-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/don-norman-talk-2026/signed-title-page-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/don-norman-talk-2026/signed-title-page-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_al_paca-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_al_paca-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_al_paca-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_bird-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_bird-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_bird-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_capybara1-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_capybara1-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_capybara1-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_capybara2-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_capybara2-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_capybara2-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_capybara3-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_capybara3-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_capybara3-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat1-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat1-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat1-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat2-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat2-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat2-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat3-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat3-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat3-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat4-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat4-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat4-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat5-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat5-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat5-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat6-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat6-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cat6-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cow-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cow-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cow-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cube-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cube-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_cube-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_dog-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_dog-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_dog-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_monkey-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_monkey-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_monkey-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_owl-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_owl-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_owl-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_panda-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_panda-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_panda-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_paper-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_paper-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_paper-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_parrot-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_parrot-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_parrot-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_penguin-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_penguin-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_penguin-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_planet1-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_planet1-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_planet1-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_planet2-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_planet2-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_planet2-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_sloth-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_sloth-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_sloth-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_snake-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_snake-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_snake-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_spiderman-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_spiderman-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_spiderman-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_whale-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_whale-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/genai_pics/facesoft_whale-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/home/sirui_capy-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/home/sirui_capy-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/home/sirui_capy-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/home/sirui_dog-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/home/sirui_dog-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/home/sirui_dog-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/home/sirui_lizard-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/home/sirui_lizard-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/home/sirui_lizard-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/meme_dog-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/meme_dog-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/meme_dog-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/cat-sculptures-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/cat-sculptures-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/cat-sculptures-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/ellens_piglet-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/ellens_piglet-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/ellens_piglet-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/pooh-pot-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/pooh-pot-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/pooh-pot-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/psyduck-cup-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/psyduck-cup-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/pottery/psyduck-cup-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/context-aware-encoding/context-aware-encoding-teaser-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/context-aware-encoding/context-aware-encoding-teaser-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/context-aware-encoding/context-aware-encoding-teaser-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/DesignWeaver_teaser-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/DesignWeaver_teaser-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/DesignWeaver_teaser-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/finding_image_similarity_scores_distribution-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/finding_image_similarity_scores_distribution-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/finding_image_similarity_scores_distribution-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/finding_novelty_gallery_-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/finding_novelty_gallery_-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/finding_novelty_gallery_-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/finding_survey_average_ratings_comparison-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/finding_survey_average_ratings_comparison-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/finding_survey_average_ratings_comparison-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/tool_design_all_features-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/tool_design_all_features-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/tool_design_all_features-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/tool_design_system_diagram-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/tool_design_system_diagram-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/tool_design_system_diagram-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/user_study_baseline-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/user_study_baseline-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/user_study_baseline-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/user_study_workflow-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/user_study_workflow-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/designweaver/user_study_workflow-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphhscn/graphhscn-teaser-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphhscn/graphhscn-teaser-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphhscn/graphhscn-teaser-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-lab/teaser-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-lab/teaser-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-lab/teaser-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-performance/draw-order-outside-after-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-performance/draw-order-outside-after-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-performance/draw-order-outside-after-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-performance/draw-order-outside-diff-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-performance/draw-order-outside-diff-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-performance/draw-order-outside-diff-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-performance/teaser-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-performance/teaser-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/graphics-performance/teaser-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/hci-spooder-man-teaser-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-alley-car-scramble-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-alley-car-scramble-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-alley-car-scramble-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-alley-standoff-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-alley-standoff-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-alley-standoff-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-closeup-dialogue-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-closeup-dialogue-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-closeup-dialogue-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-crosswalk-soft-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-crosswalk-soft-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-crosswalk-soft-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-jet-chaos-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-jet-chaos-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-jet-chaos-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-man-title-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-man-title-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-man-title-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-rooftop-lineup-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-rooftop-lineup-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-rooftop-lineup-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-verse-title-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-verse-title-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/hci-spooder-man/spooder-verse-title-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/homepage-desk-scene/house-in-the-cliff-teaser-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/homepage-desk-scene/house-in-the-cliff-teaser-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/homepage-desk-scene/house-in-the-cliff-teaser-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/mlt-05s-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/mlt-05s-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/mlt-05s-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/mlt-60s-pool-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/mlt-60s-pool-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/mlt-60s-pool-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/mlt-60s-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/mlt-60s-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/mlt-60s-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/pt-05s-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/pt-05s-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/pt-05s-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/pt-60s-pool-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/pt-60s-pool-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/pt-60s-pool-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/pt-60s-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/pt-60s-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/pt-60s-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/reference-pool-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/reference-pool-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/reference-pool-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/reference-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/reference-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/reference-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/teaser-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/teaser-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/light-paths/teaser-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/not-a-good-driver/not-a-good-driver-teaser-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/not-a-good-driver/not-a-good-driver-teaser-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/not-a-good-driver/not-a-good-driver-teaser-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/paper-constellation/paper-constellation-desktop-surface-6832a6a05-1440-light-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/paper-constellation/paper-constellation-mobile-trail-390-light-2026-07-16-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/paper-constellation/paper-constellation-teaser-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/paper-constellation/paper-constellation-teaser-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/paper-constellation/paper-constellation-teaser-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-1440-light-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-390-light-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-390-light-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/scholar-lens/scholar-lens-designweaver-497b22266-390-light-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/build-rhythm-code-history-2026-09-08-1440-light-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/build-rhythm-code-history-2026-09-08-1440-light-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/build-rhythm-code-history-2026-09-08-1440-light-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/build-rhythm-commits-2026-09-27-1440-light-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/build-rhythm-commits-2026-09-27-1440-light-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/build-rhythm-commits-2026-09-27-1440-light-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/build-rhythm-commits-2026-09-29-1440-light-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/build-rhythm-commits-2026-09-29-1440-light-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/build-rhythm-commits-2026-09-29-1440-light-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-2d-2026-07-16-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-2d-2026-07-16-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-2d-2026-07-16-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-3d-2026-07-16-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-3d-2026-07-16-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-3d-2026-07-16-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-588e36509-2d-2026-07-16-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-588e36509-2d-2026-07-16-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-588e36509-2d-2026-07-16-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-588e36509-3d-2026-07-16-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-588e36509-3d-2026-07-16-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-588e36509-3d-2026-07-16-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-coast-2026-10-19-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-coast-2026-10-19-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/homepage-desk-coast-2026-10-19-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/ikea-card-expanded-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/ikea-card-expanded-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/site-experiments/ikea-card-expanded-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/wall-of-rejection/wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/wall-of-rejection/wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/project_pics/wall-of-rejection/wall-of-rejection-dd801b99ca-700-noon-highlights-chi-open-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/designweaver-transparent-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/designweaver-transparent-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/designweaver-transparent-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/designweaver-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/designweaver-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/designweaver-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/herding_cats_why_what-transparent-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/herding_cats_why_what-transparent-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/herding_cats_why_what-transparent-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/herding_cats_why_what-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/herding_cats_why_what-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/herding_cats_why_what-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/hotspot-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/hotspot-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/hotspot-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion++-poster-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion++-poster-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion++-poster-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion++-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion++-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion++-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion-poster-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion-poster-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion-poster-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/publication_preview/physion-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/rhino-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/rhino-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/rhino-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui/earth-bmng-nov-5400-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui/earth-bmng-nov-5400-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui/earth-bmng-nov-5400-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_ghbili-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_ghbili-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_ghbili-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_rick_and_morty-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_rick_and_morty-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_rick_and_morty-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_simpsons-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_simpsons-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_simpsons-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_south_park-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_south_park-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/sirui_pic_south_park-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/template_error-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/template_error-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/template_error-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/blog-polish-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/blog-polish-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/blog-polish-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/current-home-desktop-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/current-home-desktop-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/current-home-desktop-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/current-home-mobile-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/current-home-mobile-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/current-home-mobile-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/focus-section-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/focus-section-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/focus-section-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/home-2026-10-12-1440-noon-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/home-2026-10-12-1440-noon-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/home-2026-10-12-1440-noon-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/old-home-wayback-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/old-home-wayback-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/old-home-wayback-1400.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/wall-of-rejection-steam-reference-480.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/wall-of-rejection-steam-reference-800.webp
+       Imagemagick: Adding static file C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/img/website-revamp/wall-of-rejection-steam-reference-1400.webp
+       Imagemagick: Generated 0 file(s)
+         AutoPages: Disabled/Not configured in site.config.
+        Pagination: Complete, processed 1 pagination page(s)
+       Jekyll Feed: Generating feed for posts
+[NbConvertApp] Converting notebook
+C:/Users/dylan/AppData/Local/Temp/jekyll-jupyter-notebook20261028-30784-lttdk9.ipynb to html
+C:\Users\dylan\AppData\Local\Programs\Python\Python313\Lib\site-packages\nbconvert\filters\highlight.py:71:
+UserWarning: IPython3 lexer unavailable, falling back on Python 3
+  return _pygments_highlight(
+        AlImgTools: Successfully copied lightbox2-adapter.css from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/css/lightbox2-adapter.css to C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/al_img_tools/css/lightbox2-adapter.css
+        AlImgTools: Successfully copied lightbox2-adapter.js from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/js/lightbox2-adapter.js to C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/al_img_tools/js/lightbox2-adapter.js
+        AlImgTools: Successfully copied venobox-setup.js from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/js/venobox-setup.js to C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/al_img_tools/js/venobox-setup.js
+        AlImgTools: Successfully copied zoom.js from C:/tools/site-gems-ruby33/ruby/3.3.0/gems/al_img_tools-1.0.2/lib/assets/al_img_tools/js/zoom.js to C:/dev/site-takeover-worktrees/generative-coffee/.jekyll-cache/visual-qa/generative-coffee-2026-10-28/site-candidate/al-folio/assets/al_img_tools/js/zoom.js
+                    done in 115.924 seconds.
+ Auto-regeneration: disabled. Use --watch to enable.

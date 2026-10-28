@@ -1,0 +1,46 @@
+
+Running 4 tests using 1 worker
+
+
+
+npx.cmd : [1A[2K(node:19252) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:199
++ ... e_modules'; npx.cmd playwright test --config C:/dev/site-takeover-wor ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([1A[2K(node:1... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K(node:19252) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/4] [desktop-1440] › ..\site-takeover-worktrees\generative-coffee\test\visual\sitewide.spec.js:1466:3 › public route: home
+[1A[2K(node:31700) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:31700) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[2/4] [laptop-1280] › ..\site-takeover-worktrees\generative-coffee\test\visual\sitewide.spec.js:1466:3 › public route: home
+[1A[2K(node:63384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:63384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[3/4] [tablet-768] › ..\site-takeover-worktrees\generative-coffee\test\visual\sitewide.spec.js:1466:3 › public route: home
+
+
+[1A[2K(node:63560) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:63560) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K[4/4] [mobile-390] › ..\site-takeover-worktrees\generative-coffee\test\visual\sitewide.spec.js:1466:3 › public route: home
+[1A[2K  4 passed (30.2s)

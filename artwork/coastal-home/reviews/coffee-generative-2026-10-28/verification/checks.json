@@ -1,0 +1,96 @@
+{
+  "state": "Verified bounded generative coffee candidate; Sirui appearance acceptance open; not integrated or pushed by worker",
+  "baseCommit": "e91430e5d85c86607750a351ed7739d184a0c2be",
+  "observedChecks": [
+    {
+      "command": "bundle exec jekyll build --baseurl /al-folio --destination <QA>/site-candidate/al-folio",
+      "result": "exit0, complete own production build;115.924 seconds observed under shared load",
+      "log": "build-candidate.log"
+    },
+    {
+      "command": "python -m unittest discover -s test -p test_*.py",
+      "result": "314 tests, OK;12.993 seconds observed"
+    },
+    {
+      "command": "node --test test/home-coffee-stain.test.mjs",
+      "result": "4 passed,0 failed"
+    },
+    {
+      "command": "python test/validate_publication_outputs.py <QA>/site-candidate/al-folio",
+      "result": "Publication and AI-readable output validation passed"
+    },
+    {
+      "command": "node test/style_contract.js with NODE_PATH set to installed root dependencies",
+      "result": "Starter style contract check passed"
+    },
+    {
+      "command": "targeted Prettier check on four owned code/test inputs and review helper files",
+      "result": "All matched files use Prettier code style"
+    },
+    {
+      "command": "home checkpoint1440/1280/768/390, light and dark",
+      "result": "4 cases passed, each covers both themes;30.2 seconds observed",
+      "log": "checkpoint-final.log"
+    },
+    {
+      "command": "final focused Chromium desktop/phone with actual settled marker/no-wet/no-animation assertion",
+      "result": "2 passed,0 failed",
+      "log": "chromium-strengthened.log"
+    },
+    {
+      "command": "final focused WebKit touch/DPR3 with actual settled marker/no-wet/no-animation assertion",
+      "result": "1 passed,0 failed",
+      "log": "webkit-strengthened.log"
+    },
+    {
+      "command": "64-seed actual alpha/extreme placement sweep",
+      "result": "64 passed; maximum normalizedx0.9511157542235631 <=1.0009",
+      "report": "../family-bounds.json"
+    },
+    {
+      "command": "same sweep against frozen pre-safety control",
+      "result": "Expected nonzero rejection atseed45; normalizedx1.002358529298921 >1.0009",
+      "report": "../controls/reproduced-pre-safety-bounds.json"
+    },
+    {
+      "command": "verify-binding.py against complete frozen candidate",
+      "result": "7 captures bound;1024px;minimum centre clear0.999241136664388;168 modules;JS10927B/gzip4886B",
+      "report": "../source-binding.json"
+    }
+  ],
+  "costBoundary": "Shared-load observations, including coordinator build/readback. No exclusive hardware timing, total-memory, FPS, physical-phone or overall startup-win claim.",
+  "rawDiagnosticArtifactsRetainedInIgnoredWorkerQA": [
+    {
+      "path": ".jekyll-cache/visual-qa/generative-coffee-2026-10-28/build.log",
+      "bytes": 29874,
+      "sha256": "f930b169833464b3dfa23c3047d1c06cecacdfa11042dd2309a19c70f2f6b8f1"
+    },
+    {
+      "path": ".jekyll-cache/visual-qa/generative-coffee-2026-10-28/build-02.log",
+      "bytes": 259892,
+      "sha256": "01f50901980f04bdc07e9c239e409eac5fd60acf1f5a1f85f64d132c0054907b"
+    },
+    {
+      "path": ".jekyll-cache/visual-qa/generative-coffee-2026-10-28/build-candidate.log",
+      "bytes": 192358,
+      "sha256": "b3f69f0de7c605548dbdc77b5b0ff00c6d3ab2e0dd617fd7f80d288f6589878c"
+    },
+    {
+      "path": ".jekyll-cache/visual-qa/generative-coffee-2026-10-28/retained-mobile-font-failure/error-context.md",
+      "bytes": 30663,
+      "sha256": "ef2d6ac5b07e33563b6358ca307c8b5eed17e901d8bc8f0ef455e3a9f460b14f"
+    },
+    {
+      "path": ".jekyll-cache/visual-qa/generative-coffee-2026-10-28/retained-mobile-font-failure/test-failed-1.png",
+      "bytes": 242536,
+      "sha256": "b19b63636e9f4e3cc5038299a28df461bbced43b3b0d76e7760f3594761731aa"
+    },
+    {
+      "path": ".jekyll-cache/visual-qa/generative-coffee-2026-10-28/retained-mobile-font-failure/trace.zip",
+      "bytes": 30211236,
+      "sha256": "b3138e3a5e55ef04ac48a7f4942cf59e033b6f9cd281215e780355f58d8725b8"
+    }
+  ],
+  "logNormalization": "Portable logs are UTF-8 with normalized line endings and trailing whitespace removed; original build/diagnostic hashes above identify raw retained bytes.",
+  "metrics": "Not run: coordinator confirmed current laptop-only instruction; valid existing Build Rhythm untouched."
+}

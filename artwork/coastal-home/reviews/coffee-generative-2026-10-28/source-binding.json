@@ -1,0 +1,284 @@
+{
+  "scope": "Complete own compiled base e91430e5d; no source overlays or route/image omissions. Functional shared-load evidence; no isolated device performance or final taste acceptance claim.",
+  "base": "http://127.0.0.1:4132/al-folio",
+  "inputs": {
+    "assets/js/home-coffee-stain.js": {
+      "sha256Lf": "1b25425562d142a2fec52c3facd1abc00a499494be60c67d38c5f81590957dc6",
+      "workingBytes": 23407
+    },
+    "_sass/_home.scss": {
+      "sha256Lf": "7f74f4136491fdca70ab6c078de7dbf3174ee62151d40e6ee160d53493ec02b7",
+      "workingBytes": 87609
+    },
+    "test/visual/sitewide.spec.js": {
+      "sha256Lf": "8340a6415764da1659ce5b9e449eea7e1e39794b7e71b69c2706e35f38ac467e",
+      "workingBytes": 169110
+    },
+    "test/home-coffee-stain.test.mjs": {
+      "sha256Lf": "653d51240dd88bd4669d1bb58bd2cb642bf18be2a3fc58b54f14e848192b7d3c",
+      "workingBytes": 4505
+    }
+  },
+  "sourceScript": {
+    "rawBytes": 23407,
+    "rawSha256": "1b25425562d142a2fec52c3facd1abc00a499494be60c67d38c5f81590957dc6",
+    "htmlVersionMD5": "f3e4aa29ce2a9f6c1fcefd16d647f6e4"
+  },
+  "compiledScript": {
+    "bytes": 10927,
+    "sha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+    "computedGzipBytes": 4886,
+    "previewServesUncompressed": true
+  },
+  "moduleReceipt": {
+    "sha256": "fe9a689995bc3d2149dc941078489cf4630882f566126100b369cd5dd7f75c7c",
+    "modules": 168
+  },
+  "captures": [
+    {
+      "capture": "candidate-dark-31.json",
+      "seed": "31",
+      "width": 1440,
+      "dpr": 1,
+      "theme": "evening",
+      "nativeSize": [1024, 1024],
+      "nativeBytes": 296320,
+      "nativeSha256": "5ac17691bf3ed2fe21b51821808c11cb3b06047a6f491537305208aaaf219459",
+      "centerClearFractionAlphaBelow8": 1.0,
+      "renderFiles": {
+        "-detail.png": "d0df5443f4b468211ab1c4a1c5ad9c461872b3781a56882fec84e8eb0d23c8c2",
+        "-hero.png": "c9c916fa207784aef20db678b56b9642773587e431c44ebcfa4cb1a12e6b6675",
+        "-native.png": "5ac17691bf3ed2fe21b51821808c11cb3b06047a6f491537305208aaaf219459"
+      },
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 550736,
+          "rawHTTPSha256": "66924c64d2fa5aba5bfb7fec62f62911672a9c9f1684503d3b1d550a92fd4fda",
+          "browserBytes": 550733,
+          "browserSha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 10927,
+          "rawHTTPSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "browserBytes": 10927,
+          "browserSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "candidate-desktop-103.json",
+      "seed": "103",
+      "width": 1440,
+      "dpr": 1,
+      "theme": "noon",
+      "nativeSize": [1024, 1024],
+      "nativeBytes": 319105,
+      "nativeSha256": "3323ae84e091f9cb11b7b47e1c05e9a9f15efc51dc41480ec54b7c7263c004ed",
+      "centerClearFractionAlphaBelow8": 1.0,
+      "renderFiles": {
+        "-detail.png": "7aeb9776b7282967e47f38854b73b9c889597b4ed1ebb3db31972665bc9e7676",
+        "-hero.png": "40f0bd5eb0d57b36ccf75ad1f4a4ec254e26604babb49214de7ed906b5aff14c",
+        "-native.png": "3323ae84e091f9cb11b7b47e1c05e9a9f15efc51dc41480ec54b7c7263c004ed"
+      },
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 550736,
+          "rawHTTPSha256": "66924c64d2fa5aba5bfb7fec62f62911672a9c9f1684503d3b1d550a92fd4fda",
+          "browserBytes": 550733,
+          "browserSha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 10927,
+          "rawHTTPSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "browserBytes": 10927,
+          "browserSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "candidate-desktop-31.json",
+      "seed": "31",
+      "width": 1440,
+      "dpr": 1,
+      "theme": "noon",
+      "nativeSize": [1024, 1024],
+      "nativeBytes": 304202,
+      "nativeSha256": "2d22a763466054d7d769276aff151cee7b191edcb06e386e538f1d09e83cb30e",
+      "centerClearFractionAlphaBelow8": 1.0,
+      "renderFiles": {
+        "-detail.png": "34797c2ab69f97fd4311fdea47e793592dcba03b694cf30bdd07b9559f0caae8",
+        "-hero.png": "cc0146389811aef58d572d59a9831ab52660392e750dbb43be6bd34c559a4e1f",
+        "-native.png": "2d22a763466054d7d769276aff151cee7b191edcb06e386e538f1d09e83cb30e"
+      },
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 550736,
+          "rawHTTPSha256": "66924c64d2fa5aba5bfb7fec62f62911672a9c9f1684503d3b1d550a92fd4fda",
+          "browserBytes": 550733,
+          "browserSha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 10927,
+          "rawHTTPSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "browserBytes": 10927,
+          "browserSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "candidate-desktop-52.json",
+      "seed": "52",
+      "width": 1440,
+      "dpr": 1,
+      "theme": "noon",
+      "nativeSize": [1024, 1024],
+      "nativeBytes": 299732,
+      "nativeSha256": "29131239832b142f7a609c079e6b401516822b3172be831eace082312d106e95",
+      "centerClearFractionAlphaBelow8": 1.0,
+      "renderFiles": {
+        "-detail.png": "36dcf445b6ddde48a8c79747aa3c069711baa203a18ec2dbe729665691d0653f",
+        "-hero.png": "b5085f49656a5e8bc3966f2a94cddb7af5fc42aea77a26789738655177583b7d",
+        "-native.png": "29131239832b142f7a609c079e6b401516822b3172be831eace082312d106e95"
+      },
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 550736,
+          "rawHTTPSha256": "66924c64d2fa5aba5bfb7fec62f62911672a9c9f1684503d3b1d550a92fd4fda",
+          "browserBytes": 550733,
+          "browserSha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 10927,
+          "rawHTTPSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "browserBytes": 10927,
+          "browserSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "candidate-desktop-7.json",
+      "seed": "7",
+      "width": 1440,
+      "dpr": 1,
+      "theme": "noon",
+      "nativeSize": [1024, 1024],
+      "nativeBytes": 306718,
+      "nativeSha256": "6e862c2ce1aef9962f7d50da39fb0fa74b70a469ea554f02194555da8d14f10f",
+      "centerClearFractionAlphaBelow8": 0.999241136664388,
+      "renderFiles": {
+        "-detail.png": "3b4ea490a210cd3c7b9ad1ed1e71a15f81b0d564794eadcbcc6cf68a64e67de5",
+        "-hero.png": "e425369c2e312aa2fd897646e7d8b3d0569318b8ff9a899c532d1661097059df",
+        "-native.png": "6e862c2ce1aef9962f7d50da39fb0fa74b70a469ea554f02194555da8d14f10f"
+      },
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 550736,
+          "rawHTTPSha256": "66924c64d2fa5aba5bfb7fec62f62911672a9c9f1684503d3b1d550a92fd4fda",
+          "browserBytes": 550733,
+          "browserSha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 10927,
+          "rawHTTPSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "browserBytes": 10927,
+          "browserSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "candidate-phone-31.json",
+      "seed": "31",
+      "width": 390,
+      "dpr": 3,
+      "theme": "noon",
+      "nativeSize": [1024, 1024],
+      "nativeBytes": 304202,
+      "nativeSha256": "2d22a763466054d7d769276aff151cee7b191edcb06e386e538f1d09e83cb30e",
+      "centerClearFractionAlphaBelow8": 1.0,
+      "renderFiles": {
+        "-detail.png": "84cb0f776f260a6bead9bcab170b53cd1c8ac83386a0e7c532afca28b1090400",
+        "-hero.png": "de4fdf969b28075489f47a7304d1bcdc3d7dbf0e77bf889eac516a4f301ae229",
+        "-native.png": "2d22a763466054d7d769276aff151cee7b191edcb06e386e538f1d09e83cb30e"
+      },
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 550736,
+          "rawHTTPSha256": "66924c64d2fa5aba5bfb7fec62f62911672a9c9f1684503d3b1d550a92fd4fda",
+          "browserBytes": 550733,
+          "browserSha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 10927,
+          "rawHTTPSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "browserBytes": 10927,
+          "browserSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    },
+    {
+      "capture": "candidate-phone-dark-31.json",
+      "seed": "31",
+      "width": 390,
+      "dpr": 3,
+      "theme": "evening",
+      "nativeSize": [1024, 1024],
+      "nativeBytes": 296320,
+      "nativeSha256": "5ac17691bf3ed2fe21b51821808c11cb3b06047a6f491537305208aaaf219459",
+      "centerClearFractionAlphaBelow8": 1.0,
+      "renderFiles": {
+        "-detail.png": "52c94e3e56a5d94edba4d1a3a37f7d30059f58f8d17607c4a2ec615718da70cf",
+        "-hero.png": "90c03f4c959a6879ae6c8f668ca8a36812401daa838738b37629cdaaad140149",
+        "-native.png": "5ac17691bf3ed2fe21b51821808c11cb3b06047a6f491537305208aaaf219459"
+      },
+      "responses": [
+        {
+          "path": "assets/css/main.css",
+          "rawHTTPBytes": 550736,
+          "rawHTTPSha256": "66924c64d2fa5aba5bfb7fec62f62911672a9c9f1684503d3b1d550a92fd4fda",
+          "browserBytes": 550733,
+          "browserSha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532",
+          "normalization": "CSS UTF-8 BOM removed by browser response API"
+        },
+        {
+          "path": "assets/js/home-coffee-stain.js",
+          "rawHTTPBytes": 10927,
+          "rawHTTPSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "browserBytes": 10927,
+          "browserSha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7",
+          "normalization": null
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

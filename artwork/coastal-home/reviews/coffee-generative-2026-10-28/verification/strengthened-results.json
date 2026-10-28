@@ -1,0 +1,44 @@
+[
+  {
+    "name": "chromium-strengthened",
+    "startedAtUTC": "2026-10-28T17:53:38.346657+00:00",
+    "command": [
+      "node",
+      "C:\\dev\\dylantao.github.io\\node_modules\\playwright\\cli.js",
+      "test",
+      "--config",
+      "C:\\dev\\site-takeover-worktrees\\generative-coffee\\test\\visual\\public.config.js",
+      "sitewide.spec.js",
+      "--grep",
+      "coffee ring rests",
+      "--workers",
+      "1",
+      "--project",
+      "desktop-1440",
+      "--project",
+      "mobile-390"
+    ],
+    "returncode": 0,
+    "log": "chromium-strengthened.log"
+  },
+  {
+    "name": "webkit-strengthened",
+    "startedAtUTC": "2026-10-28T17:55:17.851822+00:00",
+    "command": [
+      "node",
+      "C:\\dev\\dylantao.github.io\\node_modules\\playwright\\cli.js",
+      "test",
+      "--config",
+      "C:\\dev\\site-takeover-worktrees\\generative-coffee\\artwork\\coastal-home\\reviews\\coffee-generative-2026-10-28\\webkit.config.cjs",
+      "sitewide.spec.js",
+      "--grep",
+      "coffee ring rests",
+      "--workers",
+      "1",
+      "--project",
+      "mobile-390"
+    ],
+    "returncode": 0,
+    "log": "webkit-strengthened.log"
+  }
+]

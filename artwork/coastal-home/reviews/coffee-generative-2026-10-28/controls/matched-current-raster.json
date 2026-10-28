@@ -1,0 +1,80 @@
+{
+  "width": 1440,
+  "dpr": 1,
+  "theme": "noon",
+  "seed": "52",
+  "browser": "145.0.7632.6",
+  "platform": "win32",
+  "fixedPlacement": true,
+  "scriptOverride": null,
+  "baselineScope": "Image-only control: previously published fixed raster over identical frozen candidate CSS/placement; not generation or final route acceptance",
+  "rasterOverride": {
+    "path": "C:\\dev\\site-takeover-worktrees\\generative-coffee\\artwork\\coastal-home\\reviews\\coffee-2026-10-28\\preferred-desktop-native.png",
+    "sha256": "a82d1acb574a7321147182d2513f664a6c90513697a5948b52e19154c80e3d7f"
+  },
+  "detail": {
+    "source": "procedural",
+    "generation": {
+      "version": 2,
+      "seed": "52",
+      "size": 1024,
+      "fieldBytes": 4194304,
+      "rgbaBytes": 4194304,
+      "profileBytes": 81920,
+      "planMs": 0.5,
+      "setupMs": 0.20000004768371582,
+      "rgbaAllocationMs": 0.09999996423721313,
+      "canvasPutMs": 1.5999999642372131,
+      "pngAndReadWallMs": 42.5,
+      "density": {
+        "chunks": 62,
+        "cpuMs": 109.29999989271164,
+        "maxChunkMs": 4.699999988079071,
+        "rows": 1024,
+        "sampledPixels": 174715
+      },
+      "palette": {
+        "chunks": 32,
+        "cpuMs": 14.899999916553497,
+        "maxChunkMs": 1.899999976158142
+      },
+      "encodedBytes": 299732,
+      "morphology": "seeded wash and pinned pigment; authored deposition, not fluid simulation",
+      "readyAfterMs": 1935.5999999642372,
+      "paintedPalette": "light"
+    },
+    "size": 214.391,
+    "strength": "0.8084",
+    "filter": "none",
+    "animation": "none",
+    "drying": null,
+    "settled": null,
+    "wetContent": "none",
+    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+    "top": "-118.4px",
+    "right": "6.4px",
+    "stack": {
+      "x": 850.171875,
+      "y": 623.28125,
+      "width": 524.796875,
+      "height": 153.25
+    },
+    "pngBytes": 53209,
+    "pngSha256": "a82d1acb574a7321147182d2513f664a6c90513697a5948b52e19154c80e3d7f"
+  },
+  "bindings": [
+    {
+      "url": "http://127.0.0.1:4132/al-folio/assets/css/main.css?v=20261028103342",
+      "status": 200,
+      "bytes": 550733,
+      "sha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532"
+    },
+    {
+      "url": "http://127.0.0.1:4132/al-folio/assets/js/home-coffee-stain.js?v=f3e4aa29ce2a9f6c1fcefd16d647f6e4",
+      "status": 200,
+      "bytes": 10927,
+      "sha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7"
+    }
+  ],
+  "errors": []
+}

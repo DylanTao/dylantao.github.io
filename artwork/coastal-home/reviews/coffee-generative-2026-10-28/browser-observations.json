@@ -1,0 +1,22 @@
+{
+  "scope": "Seven actual full-compiled candidate captures under shared load, including coordinator build/readback activity. Observed costs only; no isolated timing, FPS or physical-phone claim.",
+  "resolution": [1024],
+  "observedRanges": {
+    "planMs": [0.30000001192092896, 0.6000000238418579],
+    "setupMs": [0.09999996423721313, 0.30000001192092896],
+    "rgbaAllocationMs": [0, 0.10000002384185791],
+    "canvasPutMs": [1.5, 2],
+    "pngAndReadWallMs": [39.80000001192093, 45.80000001192093],
+    "readyAfterMs": [1833.1000000238419, 1948.699999988079],
+    "encodedBytes": [296320, 319105],
+    "density.cpuMs": [98.59999996423721, 111.3999999165535],
+    "palette.cpuMs": [11.300000190734863, 13.400000154972076],
+    "density.maxChunkMs": [4, 4.699999988079071],
+    "palette.maxChunkMs": [1.300000011920929, 1.9000000357627869],
+    "density.chunks": [60, 63],
+    "palette.chunks": [32, 32]
+  },
+  "typedArrayMaximum1536LiveBytes": 28311552,
+  "typedArrayMaximum1536DryBytes": 18874368,
+  "profileBytes": 81920
+}

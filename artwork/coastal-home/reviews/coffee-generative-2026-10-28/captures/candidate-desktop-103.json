@@ -1,0 +1,77 @@
+{
+  "width": 1440,
+  "dpr": 1,
+  "theme": "noon",
+  "seed": "103",
+  "browser": "145.0.7632.6",
+  "platform": "win32",
+  "fixedPlacement": true,
+  "scriptOverride": null,
+  "baselineScope": "Frozen complete own compiled base e91430e5d; no source overlay; Sirui appearance acceptance open",
+  "rasterOverride": null,
+  "detail": {
+    "source": "procedural",
+    "generation": {
+      "version": 2,
+      "seed": "103",
+      "size": 1024,
+      "fieldBytes": 4194304,
+      "rgbaBytes": 4194304,
+      "profileBytes": 81920,
+      "planMs": 0.30000001192092896,
+      "setupMs": 0.19999998807907104,
+      "rgbaAllocationMs": 0.10000002384185791,
+      "canvasPutMs": 2,
+      "pngAndReadWallMs": 40.90000003576279,
+      "density": {
+        "chunks": 61,
+        "cpuMs": 109.19999992847443,
+        "maxChunkMs": 4.699999988079071,
+        "rows": 1024,
+        "sampledPixels": 196787
+      },
+      "palette": {
+        "chunks": 32,
+        "cpuMs": 13.399999976158142,
+        "maxChunkMs": 1.699999988079071
+      },
+      "encodedBytes": 319105,
+      "morphology": "seeded wash and pinned pigment; authored deposition, not fluid simulation",
+      "readyAfterMs": 1833.1000000238419,
+      "paintedPalette": "light"
+    },
+    "size": 214.391,
+    "strength": "0.8084",
+    "filter": "none",
+    "animation": "none",
+    "drying": null,
+    "settled": null,
+    "wetContent": "none",
+    "transform": "matrix(1, 0, 0, 1, 0, 0)",
+    "top": "-118.4px",
+    "right": "6.4px",
+    "stack": {
+      "x": 850.171875,
+      "y": 623.28125,
+      "width": 524.796875,
+      "height": 153.25
+    },
+    "pngBytes": 319105,
+    "pngSha256": "3323ae84e091f9cb11b7b47e1c05e9a9f15efc51dc41480ec54b7c7263c004ed"
+  },
+  "bindings": [
+    {
+      "url": "http://127.0.0.1:4132/al-folio/assets/css/main.css?v=20261028103342",
+      "status": 200,
+      "bytes": 550733,
+      "sha256": "5c9a0cb9fa1dd2ce193342d7909de3ec5edccf52f01169fb24e425f363f76532"
+    },
+    {
+      "url": "http://127.0.0.1:4132/al-folio/assets/js/home-coffee-stain.js?v=f3e4aa29ce2a9f6c1fcefd16d647f6e4",
+      "status": 200,
+      "bytes": 10927,
+      "sha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7"
+    }
+  ],
+  "errors": []
+}
