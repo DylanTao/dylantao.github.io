@@ -1,0 +1,19 @@
+{
+  "decision": "Rejected representative screenshot: distant flora had not completed visible load. Replaced by guarded complete-scene2K capture; raw files retained. Final footprint/LOD readback repeats unchanged.",
+  "rawJson": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\retained-early-2k\\baseline-2k-outside.json",
+  "rawJsonSha256": "22c544bc57fbab5b0bd3f271763d54591b4edd185ee44f56f0c8a30fed1d3f12",
+  "rawPng": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\retained-early-2k\\baseline-2k-outside.png",
+  "rawPngSha256": "0d52a58e2dc620770fd370cee29741043f74bd87b5f9ae0085857b4a3cfa2130",
+  "earlyShadowCache": {
+    "frames": 10,
+    "cachedFrames": 0,
+    "rebuilds": 0,
+    "copies": 0,
+    "skippedCopies": 0,
+    "bypassFrames": 10,
+    "enabled": true,
+    "staticCasters": 0,
+    "dynamicCasters": 602,
+    "stillFrames": 30
+  }
+}

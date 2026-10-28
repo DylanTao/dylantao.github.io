@@ -1,0 +1,237 @@
+[
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\2k-complete-loading-guard.json",
+    "bytes": 815,
+    "sha256": "5d8ca7fdfbf28488f212f3645ed6f50503516dee1d9117c59b934a2591123a25"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\2k-public-south-park-selection.json",
+    "bytes": 94,
+    "sha256": "04d79aba136df74fc8f90b79c12a7278ba5f42a16630a06878bb38972ccf7245"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\4k-public-south-park-selection.json",
+    "bytes": 119,
+    "sha256": "260d29a1efabb0c5c941f0947630e1f7a5590996391934c91fb3058472a80ef4"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\baseline-2k-initial.json",
+    "bytes": 299035,
+    "sha256": "0947e751cad889f0091827d1255c3ff97f6f205be34bb7d1ff0f6f4afa0a76f6"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\baseline-2k-initial.png",
+    "bytes": 1821591,
+    "sha256": "02994eeeb0788fae4d394aee095ae853d4b86d2ae1f55d86e92eb113fac05e60"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\baseline-2k-outside.json",
+    "bytes": 297266,
+    "sha256": "90c376f9e0c929f0a6eee0cc5e95ef96bacb56840e4c52d50bfa35ce0c5ef062"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\baseline-2k-outside.png",
+    "bytes": 3940782,
+    "sha256": "2af60df3c09f9a7491f6fc656f9699238534c3e8972e47acdf5ceed61f80e056"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\baseline-4k-arrival.json",
+    "bytes": 299490,
+    "sha256": "2c341e2eef230d5b7d57cb01507382008110d01405415a576f0373be3f818096"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\baseline-4k-arrival.png",
+    "bytes": 3289568,
+    "sha256": "a282649167ca109a61a0e4b3b34dae4105dfee98c0f784340eec26bc5c47f6fd"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\baseline-4k-outside.json",
+    "bytes": 297774,
+    "sha256": "64ee31bbaa2f0925a284d4192f567dcccfbef5ac4c277348176ea00db58084fb"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\baseline-4k-outside.png",
+    "bytes": 7788944,
+    "sha256": "a0f7d4e6e9dbb29930f8c3c8577581a199c841db691b4ef7f60510058d84f42d"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\bound-roughness.js",
+    "bytes": 3449,
+    "sha256": "1f5f1dfc08b5a50ceaf82bc06b6443de7027ee727f3b9cfb324323c4b0d658ce"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\capture-footprint.js",
+    "bytes": 4199,
+    "sha256": "1004f299753f0b101a58b374e811a66f2a8d188da6233502cc8b1b689317d002"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\complete-2k-arrival.json",
+    "bytes": 298979,
+    "sha256": "48d8bcaca360a7a0d0a315ad34de03da99493f53d656da0058067c58134e6e97"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\complete-2k-arrival.png",
+    "bytes": 1821591,
+    "sha256": "02994eeeb0788fae4d394aee095ae853d4b86d2ae1f55d86e92eb113fac05e60"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\complete-bounds-2k.json",
+    "bytes": 8795,
+    "sha256": "38202ddbe429a682a43940f86fae7e1bd84ec10c8d0a6dc30dbb68c2f564c031"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\complete-bounds-4k.json",
+    "bytes": 8802,
+    "sha256": "9877da1ff899616886ca0e1626c457f09ddc9e1fb7c401873df591ee45b2a957"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\complete-bounds.js",
+    "bytes": 5184,
+    "sha256": "ef32b228e4c15b4e9eed68023ee769db36ad2b00bb701c2f6e480771831bffb1"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\css-raw-http-readback.json",
+    "bytes": 806,
+    "sha256": "167d71877b8faba0572e40a5fa0fd2b6a1059a2c509ec5508f20c1ad98209d3a"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\diagnose-mips.js",
+    "bytes": 4576,
+    "sha256": "f5393d5a17f3ca3d81e043228734324e507b51a335d34cb650ccd93889225c21"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\filter-and-roughness-source.json",
+    "bytes": 15022,
+    "sha256": "d83413360e1915721228a69bc2e34819d0a183c70ae3f13310832b3866d26689"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\footprint-2k.json",
+    "bytes": 171471,
+    "sha256": "a32a2eea863e6b8b94d37b72bbb0730466ba46aa7f9f7fe0447a228241f3fac0"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\footprint-4k.json",
+    "bytes": 171727,
+    "sha256": "7b3d209228e7f7dcc9d51b2adcc0b7ec03de0199c2a6e1afe0efc0052015f116"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\host-gpu.json",
+    "bytes": 340,
+    "sha256": "723772dcffac7846078d54756ed8f5a2467bc2f1e255baf6637553c43078cc6a"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\initial-state.json",
+    "bytes": 149205,
+    "sha256": "1966fa79333d395a67a7011a57d911b6a90f9433a5c37406b6f998b95f791901"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\inspect.cjs",
+    "bytes": 13058,
+    "sha256": "954d61185c886667bfa9ae9900c3b1b88498c6c5ea6f390a264bc04185428692"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\intake.json",
+    "bytes": 247795,
+    "sha256": "1bad6db86143e89b8fb7c81e64b5e282344972609f0daff49fb8fef2e192f3cd"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\mip-diagnostic-2k.json",
+    "bytes": 1780,
+    "sha256": "d4b3d8d3068170156cd40a65994964293f4f93774ec960c1d45b513bc2b16324"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\mip-diagnostic-4k.json",
+    "bytes": 1778,
+    "sha256": "b0e007b334abff0f70215bbe0a0c072dc61dc143fb7d721012ca3f9de7027251"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\restored-2k-outside.json",
+    "bytes": 297045,
+    "sha256": "bcb888646e151d4c7e45f9769bdb58683a537520d90eb14ed779b602124c0dc7"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\restored-2k-outside.png",
+    "bytes": 3940783,
+    "sha256": "e9abfdb6d7ec606f228f1b64c8de4906823e815e2dbe1078047c4b0ddae29a88"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\restored-2k-provenance.json",
+    "bytes": 24685,
+    "sha256": "d9923159930454ec6352d89649bf29b6f8881ca54e27a708828336920eb4cd28"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\restored-4k-outside.json",
+    "bytes": 297554,
+    "sha256": "ba8ceb6d5cc9debca84f176888946984735b1739cfecf0a82dc78c1f85626985"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\restored-4k-outside.png",
+    "bytes": 7788941,
+    "sha256": "f958b7d88e6eff007e115fa57b5439fb0e04747b9511c28dcada4d3fc8b17991"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\restored-4k-provenance.json",
+    "bytes": 24703,
+    "sha256": "346970205b770b2fe251884edd39a4675773eb5bceadafe578f6c86a5e6dccaf"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\retained-early-2k\\baseline-2k-initial.json",
+    "bytes": 299035,
+    "sha256": "0947e751cad889f0091827d1255c3ff97f6f205be34bb7d1ff0f6f4afa0a76f6"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\retained-early-2k\\baseline-2k-initial.png",
+    "bytes": 1821591,
+    "sha256": "02994eeeb0788fae4d394aee095ae853d4b86d2ae1f55d86e92eb113fac05e60"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\retained-early-2k\\baseline-2k-outside.json",
+    "bytes": 297317,
+    "sha256": "22c544bc57fbab5b0bd3f271763d54591b4edd185ee44f56f0c8a30fed1d3f12"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\retained-early-2k\\baseline-2k-outside.png",
+    "bytes": 3360025,
+    "sha256": "0d52a58e2dc620770fd370cee29741043f74bd87b5f9ae0085857b4a3cfa2130"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\retained-early-2k\\footprint-2k.json",
+    "bytes": 171478,
+    "sha256": "4f1866f370989023b640cd962f225a768213a280a12dc53e6559185623a083c2"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\retained-early-2k\\mip-diagnostic-2k.json",
+    "bytes": 1780,
+    "sha256": "d4b3d8d3068170156cd40a65994964293f4f93774ec960c1d45b513bc2b16324"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\retained-early-2k\\roughness-bound-2k.json",
+    "bytes": 4396,
+    "sha256": "11d8b5d4b5fc127b6a34b60e3879fd14a41d8f68c71178bf24b10c151b6b4720"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\roughness-bound-2k.json",
+    "bytes": 4396,
+    "sha256": "11d8b5d4b5fc127b6a34b60e3879fd14a41d8f68c71178bf24b10c151b6b4720"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\roughness-bound-4k.json",
+    "bytes": 4396,
+    "sha256": "b86c4ba1dd473a4cf6ab95298e950ab472c533475722e0bcfac97a78b0425772"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\seal.py",
+    "bytes": 11606,
+    "sha256": "cfa42f7e955fbe2d3f8c09eb4fadd36dd3a42b40873a288e01b7f65cc101dd52"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\serve.py",
+    "bytes": 1252,
+    "sha256": "8513e15a3397cc75dba5c6aab6805cb9b9de704e42a02414e1b948f0f01e60eb"
+  },
+  {
+    "file": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\transmission-implementation.json",
+    "bytes": 8166,
+    "sha256": "cf754349f885bc54b09729b0f70443ee4d7991609afeb4aa089ae1ff1b6611aa"
+  }
+]

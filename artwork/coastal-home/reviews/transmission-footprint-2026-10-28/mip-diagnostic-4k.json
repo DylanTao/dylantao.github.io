@@ -1,0 +1,59 @@
+{
+  "width": 3840,
+  "height": 2160,
+  "requestedSamples": 4,
+  "actualSamples": 4,
+  "maxMip": 11,
+  "flagLodInterval": [10.25, 10.95],
+  "flaggedPixels": 0,
+  "coveredPixels": 78928,
+  "maximumResolvedRoughness": 0.5009765625,
+  "maximumResolvedLod": 5.9609375,
+  "witnesses": [],
+  "materials": [
+    {
+      "name": "infinity pool water",
+      "roughness": 0.09,
+      "ior": 1.333,
+      "transmission": 0.72,
+      "thickness": 1.13
+    },
+    {
+      "name": "coffee hopper glass",
+      "roughness": 0.18000000715255737,
+      "ior": 1.5,
+      "transmission": 0.96,
+      "thickness": 0.008
+    },
+    {
+      "name": "onsen turquoise",
+      "roughness": 0.065,
+      "ior": 1.333,
+      "transmission": 0.86,
+      "thickness": 0.12746548978611827
+    },
+    {
+      "name": "garden translucent celadon",
+      "roughness": 0.13,
+      "ior": 1.3329999446868896,
+      "transmission": 0.2800000011920929,
+      "thickness": 0
+    },
+    {
+      "name": "garden translucent celadon",
+      "roughness": 0.13,
+      "ior": 1.3329999446868896,
+      "transmission": 0.2800000011920929,
+      "thickness": 0
+    },
+    {
+      "name": "garden translucent celadon",
+      "roughness": 0.11999999731779099,
+      "ior": 1.3329999446868896,
+      "transmission": 0.2800000011920929,
+      "thickness": 0
+    }
+  ],
+  "method": "A separate half-float 4xMSAA data render keeps actual geometry, vertex/normal and roughness shader paths and opaque depth occlusion. Non-transmissive objects write depth but no color. A positive red coverage proves a visible transmissive fragment mixes the valid final 1x1 global mip; it is not an optimization or a displayed candidate. Resolved roughness/LOD values are averages at MSAA edges, not strict maxima.",
+  "glError": 0
+}

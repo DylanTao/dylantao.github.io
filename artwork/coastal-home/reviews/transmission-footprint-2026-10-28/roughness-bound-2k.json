@@ -1,0 +1,127 @@
+{
+  "width": 2560,
+  "height": 1440,
+  "rows": [
+    {
+      "object": "hinterland_garden_spring_water",
+      "material": "garden translucent celadon",
+      "normalConstant": true,
+      "geometryDerivativeUpper": 0,
+      "roundingMargin": "1% plus0.002; numerical/near-plane fallback is full capture",
+      "effectiveRoughnessUpper": 0.12199999731779099,
+      "lodUpper": 0.9199291285355932,
+      "fallBack": null,
+      "worst": null
+    },
+    {
+      "object": "hinterland_garden_creek_water",
+      "material": "garden translucent celadon",
+      "normalConstant": false,
+      "geometryDerivativeUpper": 0.0008411515683361399,
+      "roundingMargin": "1% plus0.002; numerical/near-plane fallback is full capture",
+      "effectiveRoughnessUpper": 0.13284956308401952,
+      "lodUpper": 1.0017392252548392,
+      "fallBack": null,
+      "worst": {
+        "triangle": 2,
+        "ids": [1, 4, 3],
+        "projected": [
+          {
+            "x": 2307.5429861200737,
+            "y": 1352.9408807969307,
+            "w": 88.80699850771946,
+            "z": 0.9992071638131278
+          },
+          {
+            "x": 2250.821412101961,
+            "y": 1360.5907684672338,
+            "w": 92.06913938280952,
+            "z": 0.9992470675735955
+          },
+          {
+            "x": 2292.3589905615336,
+            "y": 1352.8108531934574,
+            "w": 88.74220699603663,
+            "z": 0.9992063415457061
+          }
+        ],
+        "lowerNormalMagnitude": 0.0107554723665213,
+        "dxNorm": 1.1555664305882013e-7,
+        "dyNorm": 0.00005354076980739289,
+        "bound": 0.0008411515683361399
+      }
+    },
+    {
+      "object": "hinterland_garden_koi_water",
+      "material": "garden translucent celadon",
+      "normalConstant": true,
+      "geometryDerivativeUpper": 0,
+      "roundingMargin": "1% plus0.002; numerical/near-plane fallback is full capture",
+      "effectiveRoughnessUpper": 0.132,
+      "lodUpper": 0.9953331773474584,
+      "fallBack": null,
+      "worst": null
+    },
+    {
+      "object": "onsen_water",
+      "material": "onsen turquoise",
+      "normalConstant": true,
+      "geometryDerivativeUpper": 0,
+      "roundingMargin": "1% plus0.002; numerical/near-plane fallback is full capture",
+      "effectiveRoughnessUpper": 0.067,
+      "lodUpper": 0.5052070754500638,
+      "fallBack": null,
+      "worst": null
+    },
+    {
+      "object": "kitchen__coffee_hopper_glass",
+      "material": "coffee hopper glass",
+      "normalConstant": false,
+      "geometryDerivativeUpper": "unbounded",
+      "roundingMargin": "1% plus0.002; numerical/near-plane fallback is full capture",
+      "effectiveRoughnessUpper": 1,
+      "lodUpper": 11.321928094887362,
+      "fallBack": null,
+      "worst": {
+        "triangle": 49,
+        "ids": [11, 6, 39],
+        "projected": [
+          {
+            "x": 1664.6156431226495,
+            "y": 873.9862418741319,
+            "w": 53.39520192767002,
+            "z": 0.9984602492557456
+          },
+          {
+            "x": 1664.681321458406,
+            "y": 874.2483177007344,
+            "w": 53.41650809713417,
+            "z": 0.9984609963923906
+          },
+          {
+            "x": 1663.198230496472,
+            "y": 865.0203688323078,
+            "w": 53.48462319763976,
+            "z": 0.9984633809694163
+          }
+        ],
+        "lowerNormalMagnitude": -0.02245029852826332,
+        "dxNorm": 0.10757075744934232,
+        "dyNorm": 0.018029919118900763,
+        "bound": null
+      }
+    },
+    {
+      "object": "core_infinity_water",
+      "material": "infinity pool water",
+      "normalConstant": true,
+      "geometryDerivativeUpper": 0,
+      "roundingMargin": "1% plus0.002; numerical/near-plane fallback is full capture",
+      "effectiveRoughnessUpper": 0.092,
+      "lodUpper": 0.6937171782299384,
+      "fallBack": null,
+      "worst": null
+    }
+  ],
+  "method": "For each projected triangle, perspective-correct normalized normals equal normalize(sum barycentric*n_i/w_i). This numerator is affine in screen x/y. Bound |d(normalize Q)/dx| by max|Q cross A|/min|Q|^2 over the triangle expanded2pixels for helper lanes; likewise y. All triangles are included, including hidden/back-facing triangles. This is a conservative analytic envelope, not the sampled visible maximum."
+}

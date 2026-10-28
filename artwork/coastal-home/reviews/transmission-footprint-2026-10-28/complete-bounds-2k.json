@@ -1,0 +1,143 @@
+{
+  "width": 2560,
+  "height": 1440,
+  "rows": [
+    {
+      "object": "hinterland_garden_spring_water",
+      "material": "garden translucent celadon",
+      "thickness": 0,
+      "modelColumnLengths": [1, 1, 1],
+      "baseRectangle": [2126.7229324012715, 1388.5481010255635, 2147.28681165798, 1390.05660668817],
+      "displacement": {
+        "worldAxis": [0, 0, 0],
+        "range": [0, 0],
+        "source": "No vertex displacement in the inspected water-garden/infinity/standard hopper path."
+      },
+      "displacedRectangle": [2126.7229324012715, 1388.5481010255635, 2147.28681165798, 1390.05660668817],
+      "thicknessExtension": [0, 0, 0],
+      "refractedRectangle": [2126.7229324012715, 1388.5481010255635, 2147.28681165798, 1390.05660668817],
+      "roughnessEnvelope": 0.12199999731779099,
+      "lodEnvelope": 0.9199291285355932,
+      "upperMip": 1,
+      "bicubicAndMipPadding": [10, 10],
+      "samplingRectangle": [2116, 1378, 2158, 1401],
+      "fallbackReason": null
+    },
+    {
+      "object": "hinterland_garden_creek_water",
+      "material": "garden translucent celadon",
+      "thickness": 0,
+      "modelColumnLengths": [1, 1, 1],
+      "baseRectangle": [2108.207930770058, 1346.6599139840234, 2328.7577908828853, 1389.9463576286946],
+      "displacement": {
+        "worldAxis": [0, 0, 0],
+        "range": [0, 0],
+        "source": "No vertex displacement in the inspected water-garden/infinity/standard hopper path."
+      },
+      "displacedRectangle": [2108.207930770058, 1346.6599139840234, 2328.7577908828853, 1389.9463576286946],
+      "thicknessExtension": [0, 0, 0],
+      "refractedRectangle": [2108.207930770058, 1346.6599139840234, 2328.7577908828853, 1389.9463576286946],
+      "roughnessEnvelope": 0.13284956308401952,
+      "lodEnvelope": 1.0017392252548392,
+      "upperMip": 2,
+      "bicubicAndMipPadding": [16, 16],
+      "samplingRectangle": [2092, 1330, 2345, 1406],
+      "fallbackReason": null
+    },
+    {
+      "object": "hinterland_garden_koi_water",
+      "material": "garden translucent celadon",
+      "thickness": 0,
+      "modelColumnLengths": [1, 1, 1],
+      "baseRectangle": [2245.8638887705156, 1331.2497057267979, 2441.6048940016376, 1350.0083262622798],
+      "displacement": {
+        "worldAxis": [0, 0, 0],
+        "range": [0, 0],
+        "source": "No vertex displacement in the inspected water-garden/infinity/standard hopper path."
+      },
+      "displacedRectangle": [2245.8638887705156, 1331.2497057267979, 2441.6048940016376, 1350.0083262622798],
+      "thicknessExtension": [0, 0, 0],
+      "refractedRectangle": [2245.8638887705156, 1331.2497057267979, 2441.6048940016376, 1350.0083262622798],
+      "roughnessEnvelope": 0.132,
+      "lodEnvelope": 0.9953331773474584,
+      "upperMip": 1,
+      "bicubicAndMipPadding": [10, 10],
+      "samplingRectangle": [2235, 1321, 2452, 1361],
+      "fallbackReason": null
+    },
+    {
+      "object": "onsen_water",
+      "material": "onsen turquoise",
+      "thickness": 0.12746548978611827,
+      "modelColumnLengths": [1, 1, 1],
+      "baseRectangle": [1396.521465617657, 982.0967510436216, 1471.908212889157, 1000.8509370717892],
+      "displacement": {
+        "worldAxis": [0, 1, 0],
+        "range": [-0.000001, 0.000001],
+        "wetCells": 1264,
+        "solidElevation": 0,
+        "textureSize": [40, 40],
+        "source": "Actual current float texture, all wet texels plus solid-elevation fallback; positive normalized bilinear weights. One micrometre numerical margin. Recompute every capture; not an all-time amplitude claim."
+      },
+      "displacedRectangle": [1396.521464895477, 982.0967156830789, 1471.9082140589176, 1000.850971337554],
+      "thicknessExtension": [0.12746548978611827, 0.12746548978611827, 0.12746548978611827],
+      "refractedRectangle": [1390.746169852996, 976.1396049646381, 1477.5492286684566, 1006.5509810785555],
+      "roughnessEnvelope": 0.067,
+      "lodEnvelope": 0.5052070754500638,
+      "upperMip": 1,
+      "bicubicAndMipPadding": [10, 10],
+      "samplingRectangle": [1380, 966, 1488, 1017],
+      "fallbackReason": null
+    },
+    {
+      "object": "kitchen__coffee_hopper_glass",
+      "material": "coffee hopper glass",
+      "thickness": 0.008,
+      "modelColumnLengths": [1, 1, 1],
+      "baseRectangle": [1662.339235425379, 862.7095334157948, 1675.7854672558417, 875.8340789291842],
+      "displacement": {
+        "worldAxis": [0, 0, 0],
+        "range": [0, 0],
+        "source": "No vertex displacement in the inspected water-garden/infinity/standard hopper path."
+      },
+      "displacedRectangle": [1662.339235425379, 862.7095334157948, 1675.7854672558417, 875.8340789291842],
+      "thicknessExtension": [0.008, 0.008, 0.008],
+      "refractedRectangle": [1661.9515613686694, 862.2898541999859, 1676.1721701224428, 876.2501034543208],
+      "roughnessEnvelope": 1,
+      "lodEnvelope": 11.321928094887362,
+      "upperMip": null,
+      "bicubicAndMipPadding": null,
+      "samplingRectangle": [0, 0, 2560, 1440],
+      "fallbackReason": "Curved hopper helper-lane normal envelope cannot certify finite subglobal support"
+    },
+    {
+      "object": "core_infinity_water",
+      "material": "infinity pool water",
+      "thickness": 1.13,
+      "modelColumnLengths": [1, 1, 1],
+      "baseRectangle": [1261.4826637256733, 642.141367549092, 1777.5732695787187, 773.1144683279206],
+      "displacement": {
+        "worldAxis": [0, 0, 0],
+        "range": [0, 0],
+        "source": "No vertex displacement in the inspected water-garden/infinity/standard hopper path."
+      },
+      "displacedRectangle": [1261.4826637256733, 642.141367549092, 1777.5732695787187, 773.1144683279206],
+      "thicknessExtension": [1.13, 1.13, 1.13],
+      "refractedRectangle": [1195.2766203062936, 563.1100051070182, 1837.997026130836, 835.511235492011],
+      "roughnessEnvelope": 0.092,
+      "lodEnvelope": 0.6937171782299384,
+      "upperMip": 1,
+      "bicubicAndMipPadding": [10, 10],
+      "samplingRectangle": [1185, 553, 1848, 846],
+      "fallbackReason": null
+    }
+  ],
+  "preFilterRectangle": [1195, 563, 2442, 1391],
+  "preFilterFraction": 0.280087890625,
+  "waterOnlyRectangle": [1185, 553, 2452, 1406],
+  "waterOnlyFraction": 0.29317247178819444,
+  "finalRectangle": [0, 0, 2560, 1440],
+  "finalFraction": 1,
+  "admission": "Rejected before a renderer prototype: no certified cropped support for the unchanged hopper shader.",
+  "method": "World AABB includes actual onsen GPU displacement. Expand every component by thickness times the corresponding model-column length: refracted ray is normalized before this scale. Project eight corners, fail closed at the near plane. Apply a broad bicubic/generated-mip envelope for finite analytic normal bounds; unknown support is the full frame. No scissor or beauty change is applied."
+}

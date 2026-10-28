@@ -1,0 +1,262 @@
+{
+  "date": "2026-10-28",
+  "decision": "Reject this bounded scissor attempt before a renderer prototype. No source change or claimed performance gain.",
+  "quietTiming": false,
+  "timings": null,
+  "browserClosed": true,
+  "prototypeCount": 0,
+  "pixelParity": "Not applicable: no cropped renderer candidate was made. The diagnostic data render is not a beauty/parity comparison.",
+  "publicSourceChanges": [],
+  "hostVideoControllers": [
+    {
+      "Name": "NVIDIA GeForce RTX 3080 Ti",
+      "DriverVersion": "32.0.16.2101",
+      "DriverDate": "2026-10-18T17:00:00.0000000-07:00"
+    },
+    {
+      "Name": "Intel(R) UHD Graphics 770",
+      "DriverVersion": "31.0.101.3616",
+      "DriverDate": "2022-09-01T17:00:00.0000000-07:00"
+    }
+  ],
+  "controls": {
+    "completeFrozenSite": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\finish-todos-2026-10-26\\scene-lifetime\\al-folio",
+    "nativeDpr": 1,
+    "reducedMotion": "reduce",
+    "date": "2026-10-28T13:20:00-07:00",
+    "quality": "high",
+    "resolution": "fixed",
+    "selection": "Public avatar select south-park; public authoring-lab Outside visit; fullscreen.",
+    "nativeRafAndTimers": true,
+    "random": "No global Math.random override; this is a footprint diagnostic, not interleaved pixel parity.",
+    "networkRoutes": "Only analytics endpoints fulfilled empty. No scene, model, texture, module, CSS, font or quality asset omitted.",
+    "notes": "Fresh Chromium process per final resolution. Native D3D11-backed headless Chromium is a functional renderer, not a native visible-browser performance benchmark."
+  },
+  "rows": [
+    {
+      "label": "2k",
+      "canvas": [2560, 1440],
+      "backend": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+      "glVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)",
+      "camera": [-11.856905727089124, 17.157540734318175, -44.61360126633206],
+      "target": [3, -0.2, -2.4],
+      "transmissiveEntries": 6,
+      "preFilterFraction": 0.280087890625,
+      "waterOnlyAnalyticEnvelopeFraction": 0.29317247178819444,
+      "finalConservativeFraction": 1,
+      "maximumResolvedRoughness": 0.56591796875,
+      "maximumResolvedLod": 6.40234375,
+      "globalMipInteriorFlaggedPixels": 0,
+      "coveredPixels": 35484,
+      "hopperWorst": {
+        "triangle": 49,
+        "ids": [11, 6, 39],
+        "projected": [
+          {
+            "x": 1664.6156431226495,
+            "y": 873.9862418741319,
+            "w": 53.39520192767002,
+            "z": 0.9984602492557456
+          },
+          {
+            "x": 1664.681321458406,
+            "y": 874.2483177007344,
+            "w": 53.41650809713417,
+            "z": 0.9984609963923906
+          },
+          {
+            "x": 1663.198230496472,
+            "y": 865.0203688323078,
+            "w": 53.48462319763976,
+            "z": 0.9984633809694163
+          }
+        ],
+        "lowerNormalMagnitude": -0.02245029852826332,
+        "dxNorm": 0.10757075744934232,
+        "dyNorm": 0.018029919118900763,
+        "bound": null
+      },
+      "hopperRoughnessEnvelope": 1,
+      "hopperLodEnvelope": 11.321928094887362,
+      "shadowCacheBefore": {
+        "frames": 19,
+        "cachedFrames": 0,
+        "rebuilds": 0,
+        "copies": 0,
+        "skippedCopies": 0,
+        "bypassFrames": 19,
+        "enabled": true,
+        "staticCasters": 0,
+        "dynamicCasters": 741,
+        "stillFrames": 30
+      },
+      "shadowCacheAfter": {
+        "frames": 22,
+        "cachedFrames": 0,
+        "rebuilds": 0,
+        "copies": 0,
+        "skippedCopies": 0,
+        "bypassFrames": 22,
+        "enabled": true,
+        "staticCasters": 0,
+        "dynamicCasters": 741,
+        "stillFrames": 30
+      },
+      "glErrorAfterDiagnostic": 0,
+      "glErrorAfterRestoration": 0,
+      "pageOrHttpErrors": [],
+      "retiredProgramWarnings": 0,
+      "consoleWarnings": [
+        {
+          "type": "warning",
+          "text": "THREE.WebGLProgram: Program Info Log: (295,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n(511,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n(512,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n\n\n\u0000",
+          "wallDate": 1793211582594
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLProgram: Program Info Log: (273,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n\n\n\u0000",
+          "wallDate": 1793211590347
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLProgram: Program Info Log: (295,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n(511,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n(512,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n\n\n\u0000",
+          "wallDate": 1793211591295
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLProgram: Program Info Log: (93,1-6): warning X4000: use of potentially uninitialized variable (dyn_index_vec2_int)\n\n\n\u0000",
+          "wallDate": 1793211591425
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLProgram: Program Info Log: (289,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n(505,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n\n\n\u0000",
+          "wallDate": 1793211592494
+        }
+      ],
+      "servedResponseCount": 316,
+      "exactBodyResponses": 314,
+      "bomStrippedTextResponses": 2,
+      "sceneModulesAndAssetsByteBound": true
+    },
+    {
+      "label": "4k",
+      "canvas": [3840, 2160],
+      "backend": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+      "glVersion": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "shadingLanguage": "WebGL GLSL ES 3.00 (OpenGL ES GLSL ES 3.0 Chromium)",
+      "camera": [-11.856905727089124, 17.157540734318175, -44.61360126633206],
+      "target": [3, -0.2, -2.4],
+      "transmissiveEntries": 6,
+      "preFilterFraction": 0.28016276041666666,
+      "waterOnlyAnalyticEnvelopeFraction": 0.28977370273919756,
+      "finalConservativeFraction": 1,
+      "maximumResolvedRoughness": 0.5009765625,
+      "maximumResolvedLod": 5.9609375,
+      "globalMipInteriorFlaggedPixels": 0,
+      "coveredPixels": 78928,
+      "hopperWorst": {
+        "triangle": 49,
+        "ids": [11, 6, 39],
+        "projected": [
+          {
+            "x": 2496.923464683974,
+            "y": 1310.979362811198,
+            "w": 53.39520192767002,
+            "z": 0.9984602492557456
+          },
+          {
+            "x": 2497.021982187609,
+            "y": 1311.3724765511017,
+            "w": 53.41650809713417,
+            "z": 0.9984609963923906
+          },
+          {
+            "x": 2494.797345744708,
+            "y": 1297.5305532484617,
+            "w": 53.48462319763976,
+            "z": 0.9984633809694163
+          }
+        ],
+        "lowerNormalMagnitude": -0.011927436258395013,
+        "dxNorm": 0.07171383829933078,
+        "dyNorm": 0.012019946079230522,
+        "bound": null
+      },
+      "hopperRoughnessEnvelope": 1,
+      "hopperLodEnvelope": 11.906890595608518,
+      "shadowCacheBefore": {
+        "frames": 17,
+        "cachedFrames": 0,
+        "rebuilds": 0,
+        "copies": 0,
+        "skippedCopies": 0,
+        "bypassFrames": 17,
+        "enabled": true,
+        "staticCasters": 0,
+        "dynamicCasters": 741,
+        "stillFrames": 30
+      },
+      "shadowCacheAfter": {
+        "frames": 25,
+        "cachedFrames": 0,
+        "rebuilds": 0,
+        "copies": 0,
+        "skippedCopies": 0,
+        "bypassFrames": 25,
+        "enabled": true,
+        "staticCasters": 0,
+        "dynamicCasters": 741,
+        "stillFrames": 30
+      },
+      "glErrorAfterDiagnostic": 0,
+      "glErrorAfterRestoration": 0,
+      "pageOrHttpErrors": [],
+      "retiredProgramWarnings": 0,
+      "consoleWarnings": [
+        {
+          "type": "warning",
+          "text": "THREE.WebGLProgram: Program Info Log: (295,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n(511,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n(512,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n\n\n\u0000",
+          "wallDate": 1793211278971
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLProgram: Program Info Log: (273,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n\n\n\u0000",
+          "wallDate": 1793211287332
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLProgram: Program Info Log: (295,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n(511,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n(512,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n\n\n\u0000",
+          "wallDate": 1793211288945
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLProgram: Program Info Log: (93,1-6): warning X4000: use of potentially uninitialized variable (dyn_index_vec2_int)\n\n\n\u0000",
+          "wallDate": 1793211289065
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLProgram: Program Info Log: (289,1): warning X4000: use of potentially uninitialized variable (f_farSurface)\n(505,1): warning X4000: use of potentially uninitialized variable (f_atmoBackground)\n\n\n\u0000",
+          "wallDate": 1793211289245
+        }
+      ],
+      "servedResponseCount": 317,
+      "exactBodyResponses": 315,
+      "bomStrippedTextResponses": 2,
+      "sceneModulesAndAssetsByteBound": true
+    }
+  ],
+  "limitations": [
+    "The full-frame fallback is certified safe; the inability to certify a smaller bound is not proof that actual rendering samples a global mip.",
+    "The expanded-triangle normal bound includes hidden/back-facing triangles and more helper positions than the real rasterized quads. It is deliberately loose.",
+    "One-percent plus0.002 normal rounding margin and the finite-water mip padding are analytic envelopes, not a cross-driver floating-point or mip-generation proof. Any prototype would still need exact controlled beauty parity.",
+    "Data-render roughness and LOD maxima are half-float values after four-sample resolve. They are not strict maxima of individual covered samples.",
+    "The positive-red test flags only the valid interior LOD interval10.25..10.95 that mixes the final1x1 mip. Zero flags do not prove absence of every possible out-of-chain or endpoint LOD.",
+    "Actual current onsen texture extrema are one-state bounds. A running implementation must recompute or derive an all-time bound; it cannot reuse these flat reduced-motion values.",
+    "The scene shadow cache is enabled but not warmed: reduced-motion demand rendering has fewer than its30 still frames. No cache timing attribution is made.",
+    "No isolated GPU timing window was available. Existing scene timers in evidence are uncontrolled observations and are excluded from conclusions."
+  ],
+  "nextHypothesis": "Tighten only the hopper derivative envelope using the actual clipped primitive and2x2 raster helper quads, with a finite numerical/near-plane/unknown-path fallback to full capture. First determine whether it excludes the false near-zero normal region of triangle49 without changing the material. If a bounded sampler support remains useful, retain the existing full-size4xMSAA transmission target, mips and full beauty, then require same-state pixel parity and quiet interleaved GPU timings. Stop if certification remains full-frame."
+}

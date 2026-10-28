@@ -1,0 +1,175 @@
+{
+  "hashBasis": "Git index blob bytes; text line endings are normalized by repository attributes. This is separate from the raw frozen-source/served hashes.",
+  "files": [
+    {
+      "file": "analysis.json",
+      "bytes": 12203,
+      "sha256": "361797f95222b549ae4facd6d43cc5236c526a709cb4fdd7a710bb1ff2ff057e",
+      "gitBlobOid": "7778941623ca1867ec12a9836d7a66d3d330c185"
+    },
+    {
+      "file": "baseline-2k-outside.webp",
+      "bytes": 2775994,
+      "sha256": "0cde1f68428954b872d1f34122d4a70b7aba7817b9898381b5ea146ffe32b588",
+      "gitBlobOid": "cc24dec78e14aae200493432a196d621e2b6a51d"
+    },
+    {
+      "file": "baseline-4k-outside.webp",
+      "bytes": 5500762,
+      "sha256": "b48e18da593d29e2a452547bf31a05a9954f77f88a6f598ac753982849dbebda",
+      "gitBlobOid": "7f1aa0498bc372ee664cb6848f8f97429ce48cd8"
+    },
+    {
+      "file": "complete-bounds-2k.json",
+      "bytes": 6821,
+      "sha256": "7af9e43a161e87edb747f26b53abb0a6bd7d81b019881023d53e3353e812c568",
+      "gitBlobOid": "39ecd99fc1ad3d92cf1ece6d8f0b0580d899dadc"
+    },
+    {
+      "file": "complete-bounds-4k.json",
+      "bytes": 6828,
+      "sha256": "3ddaf13fb37247bbad03155cf5a13a29624bdef71d3de3b58416832808ee1acb",
+      "gitBlobOid": "da0fd4560fde6dc366a71bd0330717d87bc15285"
+    },
+    {
+      "file": "css-raw-http-readback.json",
+      "bytes": 786,
+      "sha256": "b13dfdba062305436ee38f4e20f190a624dc65a2e320dce59e0001f8abf550af",
+      "gitBlobOid": "d0abd3153957f76133a58ae1fd57a2743cb4c34e"
+    },
+    {
+      "file": "filter-and-roughness-source.json",
+      "bytes": 14991,
+      "sha256": "401b0d3f9b808457d7fede14a05883d83d74f76436634ee0d897bb06a658178e",
+      "gitBlobOid": "4a8965a04d45b763edd76df73c737f51afad526b"
+    },
+    {
+      "file": "footprint-2k.json",
+      "bytes": 60771,
+      "sha256": "3b9b93a9884c2bd670ef77302b1debb74fe618338ef5bbfc8746153d564f647d",
+      "gitBlobOid": "d007ef3bb9d673ca52fa3342e8fa2af4432ad4ec"
+    },
+    {
+      "file": "footprint-4k.json",
+      "bytes": 60788,
+      "sha256": "659a59dc50b6ce9e8f33e0ba4f4b63c50d31b7ba204b5c452e6bda8e9eb0466e",
+      "gitBlobOid": "585f69c3133120f3e52ec5c35a6787d8f594d960"
+    },
+    {
+      "file": "images.json",
+      "bytes": 1011,
+      "sha256": "fb5a914a49cc2a0e1d6fbd4af80f7d8988e1eda780e9c18746a42c8a698c43d9",
+      "gitBlobOid": "0da1a7d0e7a42981b0fca71bbf87d6368909f0a1"
+    },
+    {
+      "file": "mip-diagnostic-2k.json",
+      "bytes": 1768,
+      "sha256": "52767be2a9c77a6a89a03e6ea3cfaa2ecc2e77c12351b09b5b951705c9c1ecc6",
+      "gitBlobOid": "5111b6af8b728f97efb88dcbc1f024fd27374f59"
+    },
+    {
+      "file": "mip-diagnostic-4k.json",
+      "bytes": 1766,
+      "sha256": "a6ba7af8c0ef9ac221afe144366a19dbb6c6bc5572d27d7c1d6793adc2ac4afd",
+      "gitBlobOid": "171e2f56a0f39baf8dc00b6face068a5e328ec57"
+    },
+    {
+      "file": "qa/bound-roughness.js",
+      "bytes": 4335,
+      "sha256": "99c1d1962ac2e9c0c4656eabdd352ec97c46fdbb923e06103d80f9c60fb84d3b",
+      "gitBlobOid": "52a6c5021c3f3984d58ff3bb7eb636748b1969d2"
+    },
+    {
+      "file": "qa/capture-footprint.js",
+      "bytes": 5467,
+      "sha256": "f3e105c848b5e91a24641358cea3e14fae64ab90e14e92de6dbcbed8ca80aedf",
+      "gitBlobOid": "9b107db93d91fd49903c93d501eb2dedef7c12d9"
+    },
+    {
+      "file": "qa/complete-bounds.js",
+      "bytes": 6125,
+      "sha256": "ac5eb7547b541f32683ad3599b72c0f027f6ee55349327fcaf328a1c8f0899d2",
+      "gitBlobOid": "7d5b1e182ab9f31b1ad92dc0f8822666aff4d592"
+    },
+    {
+      "file": "qa/diagnose-mips.js",
+      "bytes": 5378,
+      "sha256": "470678a1918aadd57898a23fd040b774325f2c37eb9c90712a4ea3fb1d2f5188",
+      "gitBlobOid": "ce608fdae36f5d19a91b395f2824d101887ba81b"
+    },
+    {
+      "file": "qa/inspect.cjs",
+      "bytes": 15789,
+      "sha256": "2fabc79fe882ddb041e8830225acc5f6b0d948d3655dbd600cba5b4348beca54",
+      "gitBlobOid": "71a2281d02ff6474c2279d5e3ed48cf363103898"
+    },
+    {
+      "file": "qa/seal.py",
+      "bytes": 11606,
+      "sha256": "cfa42f7e955fbe2d3f8c09eb4fadd36dd3a42b40873a288e01b7f65cc101dd52",
+      "gitBlobOid": "d378e181c151440b5102b8baad86cc8fd005079a"
+    },
+    {
+      "file": "qa/serve.py",
+      "bytes": 1252,
+      "sha256": "8513e15a3397cc75dba5c6aab6805cb9b9de704e42a02414e1b948f0f01e60eb",
+      "gitBlobOid": "4a2021cab2ec1b30c822429344d868245c7fe0b8"
+    },
+    {
+      "file": "raw-roster.json",
+      "bytes": 9689,
+      "sha256": "9b3f162062fd51f8d3ed847245b8e0f2c347fc8f8c5b4c05ccbdc895698184e7",
+      "gitBlobOid": "a7fa3b07afd9bb56a4bdf9242315849c5f5b5425"
+    },
+    {
+      "file": "README.md",
+      "bytes": 9411,
+      "sha256": "616001e5ea3065af5d5037d6d49c7ce1b29ece23e864461e7f4aea5889d5d363",
+      "gitBlobOid": "f1810f97f65a372c3bc3252a4f2c5e48ce82ba6b"
+    },
+    {
+      "file": "retained-early-state.json",
+      "bytes": 865,
+      "sha256": "16eb4e873bf3e7485af6205b9dd1aeef50884597fb1428896791f9832c208633",
+      "gitBlobOid": "1038c0aab22ca4d2c6daed158694d76795a83b0f"
+    },
+    {
+      "file": "roughness-bound-2k.json",
+      "bytes": 4316,
+      "sha256": "e08b981596e72d3f8bccad84c5b6e549fd3dbae395dcc94e101c424fe29376ab",
+      "gitBlobOid": "14c544c3f09bd88c61af68362528b411d6921d02"
+    },
+    {
+      "file": "roughness-bound-4k.json",
+      "bytes": 4316,
+      "sha256": "f2661ca41990c7e11fe001e8c5eec4f26777f28455af5196a8c8285aa644a1a4",
+      "gitBlobOid": "c0b5e801d27b12d2c00fc4ba9831b8d3d182fd80"
+    },
+    {
+      "file": "served-2k.json",
+      "bytes": 165561,
+      "sha256": "0731a862df766b104abd5d097955d0f55820fb60983869186a5dbead20a04abc",
+      "gitBlobOid": "f68cbf6b17036a1d57ddfd7fe3d868bd585c09e1"
+    },
+    {
+      "file": "served-4k.json",
+      "bytes": 166129,
+      "sha256": "958baa9c72301599f890c640e0b8a1cf3f3a3e640b574363ef98c8efd0cc20f2",
+      "gitBlobOid": "4b7dd3ddb9e6fea87ca8e6a844aa5a9a86cfd5b3"
+    },
+    {
+      "file": "source-roster.json",
+      "bytes": 248005,
+      "sha256": "9e0c843eb6f4699734e6795ef3ebf1e5d38fa9ea50e8283751a6c4b878eca35c",
+      "gitBlobOid": "69e762147d5713673219f06cbf517b5177ec2aa5"
+    },
+    {
+      "file": "transmission-implementation.json",
+      "bytes": 8166,
+      "sha256": "cf754349f885bc54b09729b0f70443ee4d7991609afeb4aa089ae1ff1b6611aa",
+      "gitBlobOid": "d8b46b02b4f219ba14d10a4f568729cc88c61809"
+    }
+  ],
+  "bytes": 9110899,
+  "scope": "Only this review folder; the roster excludes itself."
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "file": "baseline-2k-outside.webp",
+    "bytes": 2775994,
+    "sha256": "0cde1f68428954b872d1f34122d4a70b7aba7817b9898381b5ea146ffe32b588",
+    "dimensions": [2560, 1440],
+    "sourcePng": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\baseline-2k-outside.png",
+    "sourcePngSha256": "2af60df3c09f9a7491f6fc656f9699238534c3e8972e47acdf5ceed61f80e056",
+    "decodedRgbaSha256": "d361c467ba2773b2e3d93c2970bf0b3073f81d41148d9063117c28cdba7e63b7",
+    "losslessReadbackMatches": true
+  },
+  {
+    "file": "baseline-4k-outside.webp",
+    "bytes": 5500762,
+    "sha256": "b48e18da593d29e2a452547bf31a05a9954f77f88a6f598ac753982849dbebda",
+    "dimensions": [3840, 2160],
+    "sourcePng": ".jekyll-cache\\visual-qa\\transmission-roi-2026-10-28\\baseline-4k-outside.png",
+    "sourcePngSha256": "a0f7d4e6e9dbb29930f8c3c8577581a199c841db691b4ef7f60510058d84f42d",
+    "decodedRgbaSha256": "0b2e0e3c63e89a5d415b9baa9b9805fb4dbc8ba3169ed8f5e8b84caa3a706cf2",
+    "losslessReadbackMatches": true
+  }
+]
