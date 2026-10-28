@@ -340,6 +340,14 @@ html[data-theme-mode="evening"] .site-brand {
   }
 }
 
+// Retain the compact navigation contract below389px. Showing the name here
+// overlaps the Human/AI format controls at320px and wraps the toggler at350px.
+@media (max-width: 388px) {
+  .navbar.navbar-light .site-brand-name {
+    display: none;
+  }
+}
+
 .orange-specimen {
   position: relative;
   display: block;
