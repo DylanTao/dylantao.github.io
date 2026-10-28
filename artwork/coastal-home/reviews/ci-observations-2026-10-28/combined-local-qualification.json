@@ -1,0 +1,55 @@
+{
+  "scope": "Local combined-build qualification. Main CI/live publication of coffee and repaired fixtures remain pending. The scene runtime/model family is unchanged from12e; no renderer optimization is admitted.",
+  "coffeeSourceLfSha256": "1b25425562d142a2fec52c3facd1abc00a499494be60c67d38c5f81590957dc6",
+  "compiledCoffee": {
+    "bytes": 10927,
+    "sha256": "835d6fa04d6a1260cbf93a1f5e9f29b527f2b3f200fc141ccbee090ac712b4c7"
+  },
+  "compiledCssSha256": "66924c64d2fa5aba5bfb7fec62f62911672a9c9f1684503d3b1d550a92fd4fda",
+  "tests": [
+    {
+      "path": "test/visual/architecture-finish.spec.js",
+      "lfSha256": "4e1da77037860f2a15ebb0a9b0d710081c7c75b31195810b4c29e113c0bfb840"
+    },
+    {
+      "path": "test/visual/desk-scene.spec.js",
+      "lfSha256": "917098abde8261536b098faab202a2085078e3cc5d3ff35ef16275a989f5cc2c"
+    },
+    {
+      "path": "test/visual/coastal-finish.spec.js",
+      "lfSha256": "adcc2cd8afca4f8985634813b5ce0712aef9fe950f8318d7ec86f6dfc436e9e1"
+    },
+    {
+      "path": "test/visual/estate-redesign.spec.js",
+      "lfSha256": "20ff8f5d5d6b1055c0210751ce3312ada2a1392b2c01a213ba98765d6d79d976"
+    }
+  ],
+  "gates": {
+    "nativeRepairedCases": 6,
+    "qualifiedMesaRepairedCases": 6,
+    "coffeeChromium": 2,
+    "coffeeWebKit": 1,
+    "homeViewportCases": 4,
+    "themes": ["light", "dark"],
+    "python": 314,
+    "node": {
+      "total": 876,
+      "passed": 869,
+      "skipped": 7
+    }
+  },
+  "backend": {
+    "webgl2": true,
+    "renderer": "ANGLE (Mesa, llvmpipe (LLVM 20.1.2 256 bits), OpenGL 4.5)",
+    "maxSamples": 4,
+    "floatColorBuffer": true,
+    "attempts": 1,
+    "browserVersion": "145.0.7632.6",
+    "headless": true,
+    "channel": "chromium",
+    "args": ["--use-gl=angle", "--use-angle=gl", "--ignore-gpu-blocklist"],
+    "softwareFunctionalProof": true,
+    "performanceBenchmark": false
+  },
+  "excluded": "The earlier default-headless Docker controls bypassed sceneBrowserUse/startSceneEnvironment. Their timeouts and interrupted runs are retained as diagnostics, not qualified release or CI-equivalent proof."
+}

@@ -123,9 +123,9 @@
     },
     {
       "file": "README.md",
-      "bytes": 9411,
-      "sha256": "616001e5ea3065af5d5037d6d49c7ce1b29ece23e864461e7f4aea5889d5d363",
-      "gitBlobOid": "f1810f97f65a372c3bc3252a4f2c5e48ce82ba6b"
+      "bytes": 9371,
+      "sha256": "a7fac2623bab5e61d6abce3fd4e06fac6a00a373b1c9f03b8c79dbe3c8d2c995",
+      "gitBlobOid": "7203e213a9522de88826340d712a35579e6ee38c"
     },
     {
       "file": "retained-early-state.json",
@@ -171,5 +171,6 @@
     }
   ],
   "bytes": 9110899,
-  "scope": "Only this review folder; the roster excludes itself."
+  "scope": "Only this review folder; the roster excludes itself.",
+  "coordinatorNote": "Only the README link to the earlier diagnostic was made portable; all diagnostic payloads and source hashes remain exact. Original worker README remains at commit978650e4935f5b6041d0b66acf07d4dcb12bea2a."
 }

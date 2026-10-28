@@ -1,0 +1,118 @@
+{
+  "sourceCommit": "12e724a1c069199007dd975c2833898c7a05c26b",
+  "sourceTree": "a2dfa17182fa31924f739a5a21c2144fed5afdc1",
+  "baseurl": "/al-folio",
+  "at": "2026-10-28",
+  "pipeline": {
+    "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+    "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+    "compiler": "1.2.7",
+    "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3"
+  },
+  "files": [
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "sourceSha256": "f16b75875257919658941d1c607b170a132c1ffca6d8835edd582449d554bccc",
+      "outputSha256": "612fd60b74786c5cfd30a37a41e6006de811b1132d6c7c32156aad30d0354e4b"
+    },
+    {
+      "path": "assets/js/home-scene/program-lifetime.mjs",
+      "sourceSha256": "a5a9fa46b99e26b9854926ff69d91300e48221b8a1058f1de5880b73588e7f3b",
+      "outputSha256": "9bb021e248d08d582af88ca99787d25589f44138e7786ae0d2c33d8b89bec19e"
+    },
+    {
+      "path": "assets/js/home-scene/program-warmup.mjs",
+      "sourceSha256": "fd05e71eb639b5d1d90445c89ee39ce8ef32835e43bf4cf74b3b879a43c93eb4",
+      "outputSha256": "9697e2a80adfe9fda930ed7966e26a0c3339a97cc16687ce4544388b7b842497"
+    },
+    {
+      "path": "assets/js/home-scene/walk-presence.mjs",
+      "sourceSha256": "db390bd95ee09ad26a41bd9903b2cfcc8b3b18037ae4e106b8f423e39cf09173",
+      "outputSha256": "619b0b17484d72690edd89909f56b62d57daf8d9bb9c9011e5c02af338efc5bc"
+    },
+    {
+      "path": "assets/js/home-scene/interior-reflections.mjs",
+      "sourceSha256": "d24b2f8249d955bde81c476334037466c02335fef66ba06cb7be4f81b623c27d",
+      "outputSha256": "10b201a7af6423192ccc6da90d5cca407dbcba6f94a96951927460f4e0bde786"
+    },
+    {
+      "path": "assets/js/home-scene/room-journey.mjs",
+      "sourceSha256": "925ffe8efda1f100efd5dbe7375dd26a21730c4db48c4cde02642bf1859f01c8",
+      "outputSha256": "fb644b080e45b61d72932065ff87c030b4926abb5745baad90cbcdb7aea36a6e"
+    },
+    {
+      "path": "assets/js/home-scene/planted-feet.mjs",
+      "sourceSha256": "59490889f54c4f3ee6f6a68339a1c08c367b927736ee5cd99d5986934a84cb52",
+      "outputSha256": "d09f46ab43b5da746947177d7eb0d959642f5356d2f6206c6b38b48ce2823afb"
+    },
+    {
+      "path": "assets/js/home-scene/seat-surface.mjs",
+      "sourceSha256": "37b69e69d227e2522edb3563934fc52d52d3af493d8e09ef4a97e36893a6e216",
+      "outputSha256": "f398c04569a0708991a92e16121b016759a9fa7cfc3750cdd24de55e81793134"
+    },
+    {
+      "path": "assets/js/home-scene/laundry-frame.mjs",
+      "sourceSha256": "559c08eb81109ea647a2c764ccdc703b2dc5f7f0bdc348bd9e164c76b1957b40",
+      "outputSha256": "32887b8d87c31132ddc573dee90c228480cf6675bee1aff5ad8012266a3e038e"
+    },
+    {
+      "path": "assets/js/home-scene/laundry-line.mjs",
+      "sourceSha256": "524c4a7b1c83c6f5e8abccd11081dc22984cbfa6920a19260fa6b2c7a2246fc8",
+      "outputSha256": "9e37750c9014e3746c6e477f66b7f6418e40c7b6895a851e38573dd0fe581c11"
+    },
+    {
+      "path": "assets/js/home-scene/weather-data.mjs",
+      "sourceSha256": "934c6513565b0b86e0813ee88a0cae307d4d265e6f77deed517ef1f4c41da9db",
+      "outputSha256": "e050549bc6db516ea12be73724b88f261514ece24677c381d020f90dfc2d90c4"
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "sourceSha256": "1ff41121e9fc8be5512f0b448d03a50b8ad742653eb2cd1fce3f2a1eac85036f",
+      "outputSha256": "494db072e494d2d39389fca304dcab3e803019ad3278eae58e88f77806fe5c21",
+      "semanticMatch": true
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "sourceSha256": "1f4713405d8ef0ce03471a675831f47a51bfbba89b31580d53c61b640d42482e",
+      "outputSha256": "1f4713405d8ef0ce03471a675831f47a51bfbba89b31580d53c61b640d42482e",
+      "semanticMatch": true
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "sourceSha256": "9cb7746437d43c6e8c40651d3b26994f81d1893186d7933626adfcad71a5998f",
+      "outputSha256": "9cb7746437d43c6e8c40651d3b26994f81d1893186d7933626adfcad71a5998f",
+      "semanticMatch": false
+    },
+    {
+      "path": "assets/models/home/room-library.glb",
+      "sourceSha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+      "outputSha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+      "semanticMatch": false
+    },
+    {
+      "path": "assets/models/home/room-sleep.glb",
+      "sourceSha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+      "outputSha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+      "semanticMatch": false
+    },
+    {
+      "path": "assets/models/home/loading-sketch.json",
+      "sourceSha256": "7680a9b32a6e9da9cb0f6b8c616a1d07c4e4deb4a2452c0586eb84a104c0b519",
+      "outputSha256": "8996b89c45c4a8058a7b017b78110e5482f54315d099ff046cf69baedd25ba13",
+      "semanticMatch": true
+    },
+    {
+      "path": "assets/models/home/wildlife-perch-support.json",
+      "sourceSha256": "517ce8737305057fcb3fff25c268876d7304d3337db0b7f88ab17df89b8533a8",
+      "outputSha256": "57712a5b351aa6410070d5fc827098b8e9cf88f58aa0eab009550409f6071d19",
+      "semanticMatch": true
+    },
+    {
+      "path": "assets/models/pip/pip.glb",
+      "sourceSha256": "ffdc3263bbcf05731309ba3d8708c234ae076cc2f8839b43478ef92c7f5e1001",
+      "outputSha256": "ffdc3263bbcf05731309ba3d8708c234ae076cc2f8839b43478ef92c7f5e1001",
+      "semanticMatch": false
+    }
+  ],
+  "cache": "descriptor checked by whole manifest semantic match"
+}

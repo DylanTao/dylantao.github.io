@@ -1,0 +1,396 @@
+{
+  "scope": "Native12e724a1c CI tablet scene-live trace; monotonic trace milliseconds, not device benchmark timings.",
+  "githubRun": 40739790466,
+  "job": 122997968617,
+  "artifact": 12839291828,
+  "artifactBytes": 17367876,
+  "artifactSha256": "99c6a9e5b4391d3c8d762c63840981a86d5ad833c67e34355e68a19bc300524b",
+  "visibilityRestore": {
+    "startMs": 95197.916,
+    "endMs": 95245.96
+  },
+  "sleepAttributeObservedMs": 95348.991,
+  "lastFrameObservation": 27,
+  "locatorWaitPendingAtTimeout": {
+    "call": "call@859",
+    "startedMs": 95944.222,
+    "assertionEndedMs": 110371.823,
+    "minimumPendingMs": 14427.601,
+    "afterEventPresent": false
+  },
+  "firstSelectedSleepRoomPixels": {
+    "timestampMs": 104790.497,
+    "sinceVisibilityRestoreMs": 9592.581,
+    "file": "page@d0ae850551f5d277410f85cb2d77d4c6-1793210325497.jpeg"
+  },
+  "laterSleepRoomPixels": {
+    "timestampMs": 109533.703,
+    "sinceVisibilityRestoreMs": 14335.787,
+    "file": "page@d0ae850551f5d277410f85cb2d77d4c6-1793210330240.jpeg"
+  },
+  "frames": [
+    {
+      "type": "screencast-frame",
+      "pageId": "page@d0ae850551f5d277410f85cb2d77d4c6",
+      "sha1": "page@d0ae850551f5d277410f85cb2d77d4c6-1793210318699.jpeg",
+      "width": 768,
+      "height": 1024,
+      "timestamp": 97992.983,
+      "frameSwapWallTime": 1793210318694.109
+    },
+    {
+      "type": "screencast-frame",
+      "pageId": "page@d0ae850551f5d277410f85cb2d77d4c6",
+      "sha1": "page@d0ae850551f5d277410f85cb2d77d4c6-1793210325497.jpeg",
+      "width": 768,
+      "height": 1024,
+      "timestamp": 104790.497,
+      "frameSwapWallTime": 1793210325491.311
+    },
+    {
+      "type": "screencast-frame",
+      "pageId": "page@d0ae850551f5d277410f85cb2d77d4c6",
+      "sha1": "page@d0ae850551f5d277410f85cb2d77d4c6-1793210330240.jpeg",
+      "width": 768,
+      "height": 1024,
+      "timestamp": 109533.703,
+      "frameSwapWallTime": 1793210330234.959
+    }
+  ],
+  "events": [
+    {
+      "type": "before",
+      "callId": "call@833",
+      "startTime": 94427.971,
+      "class": "Frame",
+      "method": "evaluateExpression",
+      "params": {
+        "expression": "() => {\n    Object.defineProperty(document, \"hidden\", {\n      configurable: true,\n      get: () => true\n    });\n    document.dispatchEvent(new Event(\"visibilitychange\"));\n  }",
+        "isFunction": true,
+        "arg": {
+          "value": {
+            "v": "undefined"
+          },
+          "handles": []
+        }
+      },
+      "stepId": "pw:api@433",
+      "pageId": "page@d0ae850551f5d277410f85cb2d77d4c6",
+      "beforeSnapshot": "before@call@833"
+    },
+    {
+      "type": "after",
+      "callId": "call@833",
+      "endTime": 94443.348,
+      "result": {
+        "value": {
+          "v": "undefined"
+        }
+      },
+      "afterSnapshot": "after@call@833"
+    },
+    {
+      "type": "before",
+      "callId": "call@845",
+      "startTime": 95191.238,
+      "class": "BrowserContext",
+      "method": "clockSetSystemTime",
+      "params": {
+        "timeNumber": 1789239600000
+      },
+      "stepId": "pw:api@438"
+    },
+    {
+      "type": "after",
+      "callId": "call@845",
+      "endTime": 95196.291
+    },
+    {
+      "type": "before",
+      "callId": "call@847",
+      "startTime": 95197.916,
+      "class": "Frame",
+      "method": "evaluateExpression",
+      "params": {
+        "expression": "() => {\n    delete document.hidden;\n    document.dispatchEvent(new Event(\"visibilitychange\"));\n  }",
+        "isFunction": true,
+        "arg": {
+          "value": {
+            "v": "undefined"
+          },
+          "handles": []
+        }
+      },
+      "stepId": "pw:api@439",
+      "pageId": "page@d0ae850551f5d277410f85cb2d77d4c6",
+      "beforeSnapshot": "before@call@847"
+    },
+    {
+      "type": "after",
+      "callId": "call@847",
+      "endTime": 95245.96,
+      "result": {
+        "value": {
+          "v": "undefined"
+        }
+      },
+      "afterSnapshot": "after@call@847"
+    },
+    {
+      "type": "before",
+      "callId": "call@849",
+      "startTime": 95269.642,
+      "title": "Expect \"toHaveAttribute\"",
+      "class": "Frame",
+      "method": "expect",
+      "params": {
+        "selector": "[data-home-desk-scene]",
+        "expression": "to.have.attribute.value",
+        "expressionArg": "data-activity",
+        "expectedText": [
+          {
+            "string": "sleep"
+          }
+        ],
+        "expectedValue": {
+          "value": {
+            "v": "undefined"
+          },
+          "handles": []
+        },
+        "isNot": false,
+        "timeout": 15000
+      },
+      "stepId": "expect@440",
+      "pageId": "page@d0ae850551f5d277410f85cb2d77d4c6",
+      "beforeSnapshot": "before@call@849"
+    },
+    {
+      "type": "log",
+      "callId": "call@849",
+      "time": 95323.392,
+      "message": "Expect \"toHaveAttribute\" with timeout 15000ms"
+    },
+    {
+      "type": "log",
+      "callId": "call@849",
+      "time": 95323.43,
+      "message": "waiting for locator('[data-home-desk-scene]')"
+    },
+    {
+      "type": "log",
+      "callId": "call@849",
+      "time": 95348.874,
+      "message": "  locator resolved to <div data-prop=\"none\" data-room=\"sleep\" aria-hidden=\"false\" data-avatar=\"lizard\" data-activity=\"sleep\" data-clock-mode=\"now\" data-desk-view=\"room\" data-animation=\"sleep\" data-home-desk-scene=\"\" data-dropped-records=\"\" data-scene-state=\"ready\" data-scene-palette=\"noon\" data-loading-stage=\"ready\" data-active-desk-record=\"0\" data-record-spinning=\"false\" data-render-style=\"realistic\" class=\"home-desk-corner-scene is-visible\">\u2026</div>"
+    },
+    {
+      "type": "after",
+      "callId": "call@849",
+      "endTime": 95348.991,
+      "result": {
+        "matches": true,
+        "received": {
+          "s": "sleep"
+        }
+      },
+      "afterSnapshot": "after@call@849"
+    },
+    {
+      "type": "before",
+      "callId": "call@851",
+      "startTime": 95374.333,
+      "title": "Evaluate",
+      "class": "Frame",
+      "method": "waitForSelector",
+      "params": {
+        "selector": "[data-home-desk-scene]",
+        "strict": true,
+        "timeout": 0,
+        "state": "attached"
+      },
+      "stepId": "pw:api@442",
+      "pageId": "page@d0ae850551f5d277410f85cb2d77d4c6",
+      "beforeSnapshot": "before@call@851"
+    },
+    {
+      "type": "log",
+      "callId": "call@851",
+      "time": 95388.098,
+      "message": "waiting for locator('[data-home-desk-scene]')"
+    },
+    {
+      "type": "log",
+      "callId": "call@851",
+      "time": 95392.136,
+      "message": "  locator resolved to visible <div data-prop=\"none\" data-room=\"sleep\" aria-hidden=\"false\" data-avatar=\"lizard\" data-activity=\"sleep\" data-clock-mode=\"now\" data-desk-view=\"room\" data-animation=\"sleep\" data-home-desk-scene=\"\" data-dropped-records=\"\" data-scene-state=\"ready\" data-scene-palette=\"noon\" data-loading-stage=\"ready\" data-active-desk-record=\"0\" data-record-spinning=\"false\" data-render-style=\"realistic\" class=\"home-desk-corner-scene is-visible\">\u2026</div>"
+    },
+    {
+      "type": "after",
+      "callId": "call@851",
+      "endTime": 95395.077,
+      "result": {
+        "element": "<ElementHandle>"
+      },
+      "afterSnapshot": "after@call@851"
+    },
+    {
+      "type": "before",
+      "callId": "call@855",
+      "startTime": 95584.858,
+      "title": "Evaluate",
+      "class": "Frame",
+      "method": "waitForSelector",
+      "params": {
+        "selector": "[data-home-desk-scene]",
+        "strict": true,
+        "timeout": 0,
+        "state": "attached"
+      },
+      "stepId": "pw:api@444",
+      "pageId": "page@d0ae850551f5d277410f85cb2d77d4c6",
+      "beforeSnapshot": "before@call@855"
+    },
+    {
+      "type": "log",
+      "callId": "call@855",
+      "time": 95598.261,
+      "message": "waiting for locator('[data-home-desk-scene]')"
+    },
+    {
+      "type": "log",
+      "callId": "call@855",
+      "time": 95601.775,
+      "message": "  locator resolved to visible <div data-prop=\"none\" data-room=\"sleep\" aria-hidden=\"false\" data-avatar=\"lizard\" data-activity=\"sleep\" data-clock-mode=\"now\" data-desk-view=\"room\" data-animation=\"sleep\" data-home-desk-scene=\"\" data-dropped-records=\"\" data-scene-state=\"ready\" data-scene-palette=\"noon\" data-loading-stage=\"ready\" data-active-desk-record=\"0\" data-record-spinning=\"false\" data-render-style=\"realistic\" class=\"home-desk-corner-scene is-visible\">\u2026</div>"
+    },
+    {
+      "type": "after",
+      "callId": "call@855",
+      "endTime": 95604.462,
+      "result": {
+        "element": "<ElementHandle>"
+      },
+      "afterSnapshot": "after@call@855"
+    },
+    {
+      "type": "before",
+      "callId": "call@859",
+      "startTime": 95944.222,
+      "title": "Evaluate",
+      "class": "Frame",
+      "method": "waitForSelector",
+      "params": {
+        "selector": "[data-home-desk-scene]",
+        "strict": true,
+        "timeout": 0,
+        "state": "attached"
+      },
+      "stepId": "pw:api@446",
+      "pageId": "page@d0ae850551f5d277410f85cb2d77d4c6",
+      "beforeSnapshot": "before@call@859"
+    },
+    {
+      "type": "log",
+      "callId": "call@859",
+      "time": 104597.752,
+      "message": "waiting for locator('[data-home-desk-scene]')"
+    },
+    {
+      "type": "log",
+      "callId": "call@859",
+      "time": 109894.256,
+      "message": "  locator resolved to visible <div data-prop=\"none\" data-room=\"sleep\" aria-hidden=\"false\" data-avatar=\"lizard\" data-activity=\"sleep\" data-clock-mode=\"now\" data-desk-view=\"room\" data-animation=\"sleep\" data-home-desk-scene=\"\" data-dropped-records=\"\" data-scene-state=\"ready\" data-scene-palette=\"noon\" data-loading-stage=\"ready\" data-active-desk-record=\"0\" data-record-spinning=\"false\" data-render-style=\"realistic\" class=\"home-desk-corner-scene is-visible\">\u2026</div>"
+    },
+    {
+      "type": "before",
+      "callId": "expect@441",
+      "stepId": "expect@441",
+      "startTime": 95371.874,
+      "class": "Test",
+      "method": "expect",
+      "title": "Expect \"poll toBeGreaterThan\"",
+      "params": {
+        "expected": "27"
+      },
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/desk-scene.spec.js",
+          "line": 3481,
+          "column": 65
+        }
+      ]
+    },
+    {
+      "type": "before",
+      "callId": "expect@443",
+      "stepId": "expect@443",
+      "parentId": "expect@441",
+      "startTime": 95479.702,
+      "class": "Test",
+      "method": "expect",
+      "title": "Expect \"toBeGreaterThan\"",
+      "params": {
+        "expected": "27"
+      },
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/desk-scene.spec.js",
+          "line": 3481,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "type": "after",
+      "callId": "expect@443",
+      "endTime": 95482.436,
+      "annotations": [],
+      "error": {
+        "name": "",
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m27\u001b[39m\nReceived:   \u001b[31m27\u001b[39m",
+        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m27\u001b[39m\nReceived:   \u001b[31m27\u001b[39m\n    at /home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/desk-scene.spec.js:3481:3"
+      }
+    },
+    {
+      "type": "before",
+      "callId": "expect@445",
+      "stepId": "expect@445",
+      "parentId": "expect@441",
+      "startTime": 95689.927,
+      "class": "Test",
+      "method": "expect",
+      "title": "Expect \"toBeGreaterThan\"",
+      "params": {
+        "expected": "27"
+      },
+      "stack": [
+        {
+          "file": "/home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/desk-scene.spec.js",
+          "line": 3481,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "type": "after",
+      "callId": "expect@445",
+      "endTime": 95692.442,
+      "annotations": [],
+      "error": {
+        "name": "",
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m27\u001b[39m\nReceived:   \u001b[31m27\u001b[39m",
+        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m27\u001b[39m\nReceived:   \u001b[31m27\u001b[39m\n    at /home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/desk-scene.spec.js:3481:3"
+      }
+    },
+    {
+      "type": "after",
+      "callId": "expect@441",
+      "endTime": 110371.823,
+      "annotations": [],
+      "error": {
+        "name": "",
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m27\u001b[39m\nReceived:   \u001b[31m27\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate",
+        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m27\u001b[39m\nReceived:   \u001b[31m27\u001b[39m\n\nCall Log:\n- Timeout 15000ms exceeded while waiting on the predicate\n    at /home/runner/work/dylantao.github.io/dylantao.github.io/test/visual/desk-scene.spec.js:3481:3"
+      }
+    }
+  ]
+}

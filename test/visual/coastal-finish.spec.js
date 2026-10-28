@@ -8,7 +8,7 @@ const { pauseSceneClock, useSoftwareSceneCadence } = require("./scene-clock");
 const { pathToFileURL } = require("node:url");
 
 const readyTimeout = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 120000 : 90000;
-const sceneEvidence = (scene) => scene.evaluate((element) => element.getSceneEvidence());
+const sceneEvidence = (scene) => scene.page().evaluate(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence());
 
 test("coastal quality: a lost graphics context returns to the desk and retries a complete lower tier", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "Graphics lifecycle is checked at desktop and phone widths.");
@@ -16,6 +16,10 @@ test("coastal quality: a lost graphics context returns to the desk and retries a
   const errors = collectRuntimeErrors(page);
   const manifest = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../assets/models/home/manifest.json"), "utf8"));
   await preparePage(page);
+  // This gate exercises an allocated context and its recovery. Hold motion so
+  // software WebGL can service the driver-loss input between complete frames;
+  // native live-motion/offscreen recovery has its own registered case.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(publicRouteUrl("/?scene-lab=1&quality=auto&perf=1"), { waitUntil: "domcontentloaded" });
   await page.locator("[data-home-record-next]").click();
   await page.locator('[data-home-desk-mode="3d"]').click();

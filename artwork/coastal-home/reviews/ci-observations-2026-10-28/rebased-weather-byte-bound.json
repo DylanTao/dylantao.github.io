@@ -1,0 +1,17 @@
+{
+  "scope": "Holding the measured 180-resource lunch family fixed, substituting only the latest weather module. Cohort byte arithmetic, not a new network visit or latency measurement.",
+  "producer": "Node v24.13.0 zlib.gzipSync level9, matching the actual arrival producer",
+  "oldWeather": {
+    "bytes": 12847,
+    "gzipBytes": 4499,
+    "sha256": "b9de40cfcb89ef8783c7091a49fb8c5f078fba2d572c82686aad4f04049cabd4"
+  },
+  "newWeather": {
+    "bytes": 12940,
+    "gzipBytes": 4508,
+    "sha256": "e050549bc6db516ea12be73724b88f261514ece24677c381d020f90dfc2d90c4"
+  },
+  "delta": 9,
+  "conditionalLargestAvatarDishBytes": 4188023,
+  "marginBelow4MiB": 6281
+}

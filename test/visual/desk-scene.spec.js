@@ -1002,7 +1002,9 @@ async function openHome(
   await canvas.scrollIntoViewIfNeeded();
   return { stage, scene, canvas, ui: page.locator("[data-home-world-controls]") };
 }
-const evidence = (scene) => scene.evaluate((e) => e.getSceneEvidence());
+// The scene is attached before these observations. Read its actual state in
+// the page without repeating the locator's utility-world/RAF adoption wait.
+const evidence = (scene) => scene.page().evaluate(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence());
 async function settleRoomModels(scene) {
   // Readiness now includes all interior base rooms; keep this assertion for callers that switch
   // models or enter through an alternate loading fixture before measuring pause/orbit behavior.
@@ -3307,10 +3309,17 @@ test("coastal home: recovery preserves a stair journey and composes a changed cl
   expect(boundary.clockMode).toBe("now");
   expect(boundary.traveling).toBe(true);
   let walking = await evidence(scene);
-  for (let i = 0; i < 40 && !(walking.navigation?.position[1] > 0.45 && walking.navigation.position[1] < 2); i++) {
+  // The supported gait now reaches this staircase after about 27 seconds.
+  // Observe within the actual journey duration instead of assuming the old
+  // 20-second window covers a stair. Keep the same on-stair recovery proof.
+  const samples = [walking],
+    journeySteps = Math.ceil(walking.navigation.duration / 0.5) + 2;
+  for (let i = 0; i < journeySteps && !(walking.navigation?.position[1] > 0.45 && walking.navigation.position[1] < 2); i++) {
     await page.clock.fastForward(500);
     walking = await evidence(scene);
+    samples.push(walking);
   }
+  fs.writeFileSync(testInfo.outputPath("stair-approach.json"), JSON.stringify({ departure, boundary, samples }, null, 2));
   expect(walking.traveling).toBe(true);
   expect(walking.navigation.position[1]).toBeGreaterThan(0.45);
   expect(walking.navigation.position[1]).toBeLessThan(2);
@@ -3375,6 +3384,10 @@ test("coastal home: live animation pauses offscreen and recovers after a hidden 
   // Keep genuine live observation windows without fake RAF catch-up on a
   // slow renderer. Date/timers still support the original 30-second refresh.
   const { scene, canvas, ui } = await openHome(page, { motion: "reduce", nativeFrames: true });
+  // The CI trace shows the recovered sleep view drawing while a fresh
+  // locator wait remains pending. Read this primitive from the known scene
+  // directly, without adding another selector/RAF wait to every observation.
+  const frameCount = () => page.evaluate(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence().frames);
   // A newly streamed room legitimately requests one still redraw while paused.
   // Settle those loads before using frame counts to detect ongoing animation.
   await settleRoomModels(scene);
@@ -3478,12 +3491,12 @@ test("coastal home: live animation pauses offscreen and recovers after a hidden 
     document.dispatchEvent(new Event("visibilitychange"));
   });
   await expect(scene).toHaveAttribute("data-activity", "sleep");
-  await expect.poll(async () => (await evidence(scene)).frames).toBeGreaterThan(hiddenFrames);
+  await expect.poll(frameCount, { timeout: 60000 }).toBeGreaterThan(hiddenFrames);
   await page.evaluate(() => {
     window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: true }));
     window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true }));
   });
-  await expect.poll(async () => (await evidence(scene)).frames).toBeGreaterThan(hiddenFrames + 1);
+  await expect.poll(frameCount, { timeout: 60000 }).toBeGreaterThan(hiddenFrames + 1);
 });
 
 test("coastal home: touch pinch zoom changes the projection and returns to Now", async ({ browser }, testInfo) => {

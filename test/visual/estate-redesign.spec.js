@@ -8,7 +8,7 @@ const { pauseSceneClock, useSoftwareSceneCadence } = require("./scene-clock");
 const ROOT = path.resolve(__dirname, "../..");
 const manifest = () => JSON.parse(fs.readFileSync(path.join(ROOT, "assets/models/home/manifest.json"), "utf8"));
 const software = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
-const stateOf = (scene) => scene.evaluate((element) => element.getSceneEvidence());
+const stateOf = (scene) => scene.page().evaluate(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence());
 
 async function inputFrame(page, scene, canvas, input) {
   const frames = (await stateOf(scene)).frames;
@@ -100,9 +100,9 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
   await page.clock.runFor(800);
   const initial = await stateOf(scene);
   // The arrival's sandstone pivot leaf and the stair hall's oak pocket leaf onto the upper floor
-  // are real moving leaves. The discreet onsen approach deliberately has no intrusive glass leaf
-  // across the bathing room's view.
-  expect(initial.simulation.estateDoors.doors.map((door) => door.id).sort()).toEqual(["main", "upper"]);
+  // and the library's east patio pivot are real moving leaves. The discreet
+  // onsen approach deliberately has no intrusive leaf across the bathing view.
+  expect(initial.simulation.estateDoors.doors.map((door) => door.id).sort()).toEqual(["library-patio", "main", "upper"]);
   const receipts = [];
   const pose = async () => (await stateOf(scene)).walk;
   const door = async (id) => (await stateOf(scene)).simulation.estateDoors.doors.find((entry) => entry.id === id);
@@ -122,19 +122,19 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
   async function place(position, yaw) {
     expect(await scene.evaluate((element, value) => element.setLabWalk(value), { position, yaw, pitch: 0 })).toBe(true);
   }
-  async function walkAcross(id, definition, destinationZ) {
+  async function walkAcross(id, definition, destination, axis) {
     for (let step = 0; step < 16; step++) {
       const before = await pose();
-      if (Math.abs(before.position[2] - destinationZ) < 0.13) return before;
+      if (Math.abs(before.position[axis] - destination) < 0.13) return before;
       await page.keyboard.down("KeyW");
-      await page.clock.runFor(Math.min(150, Math.max(50, (Math.abs(before.position[2] - destinationZ) / 2) * 1000)));
+      await page.clock.runFor(Math.min(150, Math.max(50, (Math.abs(before.position[axis] - destination) / 2) * 1000)));
       await page.keyboard.up("KeyW");
       await page.clock.runFor(50);
       const current = await pose();
       expect(Math.abs(current.position[1] - definition.floor), `${id}: the body stays on its actual storey`).toBeLessThan(0.15);
       expect((await door(id)).open, `${id}: never closes on a body crossing its threshold`).toBe(true);
     }
-    throw new Error(`${id}: keyboard stopped at ${JSON.stringify(await pose())}, targetZ=${destinationZ}`);
+    throw new Error(`${id}: keyboard stopped at ${JSON.stringify(await pose())}, target[${axis}]=${destination}`);
   }
   try {
     for (const definition of config.estateDoors) {
@@ -144,8 +144,17 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
       expect((await door(id)).fraction, `${id}: closed while the visitor is outside`).toBe(0);
       const resting = await doorParts(scene, id, definition.pivot);
       expect(resting.length).toBeGreaterThanOrEqual(2);
-      const [x, , z] = definition.center;
-      await inputFrame(page, scene, canvas, () => place([x, definition.floor, z + 0.8], Math.PI));
+      // Cross the thin dimension of the actual opening: the library's east
+      // wall faces X, while the arrival and upper leaves face Z.
+      const span = (axis) => definition.opening.max[axis] - definition.opening.min[axis],
+        axis = span(0) < span(2) ? 0 : 2,
+        center = definition.center[axis],
+        approach = [...definition.center],
+        inwardYaw = axis === 0 ? -Math.PI / 2 : Math.PI,
+        outwardYaw = axis === 0 ? Math.PI / 2 : 0;
+      approach[1] = definition.floor;
+      approach[axis] += 0.8;
+      await inputFrame(page, scene, canvas, () => place(approach, inwardYaw));
       const partial = await door(id);
       expect(partial.fraction, `${id}: the actual leaf begins moving on approach`).toBeGreaterThan(0);
       expect(partial.fraction, `${id}: respects its bounded opening animation`).toBeLessThan(1);
@@ -170,17 +179,17 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
         } else expect(part.x - rest.x).toBeCloseTo(definition.slideX, 3);
       }
       const before = await pose();
-      const inside = await walkAcross(id, definition, z - 0.8);
-      expect(inside.position[2]).toBeLessThan(z - 0.6);
+      const inside = await walkAcross(id, definition, center - 0.8, axis);
+      expect(inside.position[axis]).toBeLessThan(center - 0.6);
       await page.screenshot({ path: testInfo.outputPath(`estate-${id}-door-open.png`) });
       const stood = [...inside.position];
-      await inputFrame(page, scene, canvas, () => place(stood, 0));
+      await inputFrame(page, scene, canvas, () => place(stood, outwardYaw));
       expect(
         Math.hypot(...(await pose()).position.map((value, axis) => value - stood[axis])),
         "turning back does not teleport across a threshold"
       ).toBeLessThan(0.02);
-      const outside = await walkAcross(id, definition, z + 0.8);
-      expect(outside.position[2]).toBeGreaterThan(z + 0.6);
+      const outside = await walkAcross(id, definition, center + 0.8, axis);
+      expect(outside.position[axis]).toBeGreaterThan(center + 0.6);
       expect(outside.distance - before.distance, `${id}: complete physical round trip`).toBeGreaterThan(2.6);
       await inputFrame(page, scene, canvas, () => place(config.walk.start.position, config.walk.start.yaw));
       await settleDoor(id, 0);

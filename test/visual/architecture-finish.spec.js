@@ -8,7 +8,9 @@ const { publicRouteUrl } = require("./public-routes");
 const ROOT = path.resolve(__dirname, "../..");
 const models = path.resolve(process.env.COASTAL_MODELS_ROOT || path.join(ROOT, "assets/models/home"));
 const config = JSON.parse(fs.readFileSync(path.join(models, "manifest.json"), "utf8"));
-const evidence = (scene) => scene.evaluate((element) => element.getSceneEvidence());
+// This scene is already attached before observation begins. Re-resolving a
+// locator for every state field adds a utility-world/RAF wait on software GL.
+const evidence = (scene) => scene.page().evaluate(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence());
 
 async function retain(testInfo, name, { body, contentType }) {
   const suffix = contentType === "image/png" ? ".png" : ".json";
@@ -74,7 +76,7 @@ function pixelDifference(a, b) {
 test("finished house: adjacent bedchamber, library patio leaf and composed exterior remain visible through public room visits", async ({
   page,
 }, testInfo) => {
-  test.setTimeout(600000);
+  test.setTimeout(process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 900000 : 600000);
   const errors = collectRuntimeErrors(page),
     records = [];
   await preparePage(page, "light");
@@ -124,14 +126,15 @@ test("finished house: adjacent bedchamber, library patio leaf and composed exter
   expect(native.some((node) => node.name.includes("bedchamber"))).toBe(true);
   expect(native.some((node) => node.name.includes("pavilion"))).toBe(true);
   const lab = ui.locator("[data-world-lab]");
-  if (!(await lab.evaluate((element) => element.open))) await lab.locator("summary").first().click();
+  const labOpen = () => page.evaluate(() => document.querySelector("[data-world-lab]").open);
+  if (!(await labOpen())) await lab.locator("summary").first().click();
   await expect.poll(async () => Boolean((await evidence(scene)).cameraCollision?.ready), { timeout: 90000 }).toBe(true);
   for (const id of [...config.rooms.map((room) => room.id), "overview", "outside"]) {
     const frames = (await evidence(scene)).frames;
     await ui.locator(`[data-world-room="${id}"]`).click();
     await expect.poll(async () => (await evidence(scene)).currentRoom, { timeout: 60000 }).toBe(id);
     await expect.poll(async () => (await evidence(scene)).frames, { timeout: 60000 }).toBeGreaterThan(frames);
-    if (await lab.evaluate((element) => element.open)) await lab.locator("summary").first().click();
+    if (await labOpen()) await lab.locator("summary").first().click();
     // Inspect a held frame after the controls have composited away too. A
     // newly submitted WebGL frame alone does not prove idle presentation.
     await page.waitForTimeout(250);
@@ -148,11 +151,11 @@ test("finished house: adjacent bedchamber, library patio leaf and composed exter
     await retain(testInfo, `architecture-${id}-state`, { body: Buffer.from(JSON.stringify(state, null, 2)), contentType: "application/json" });
     nonblank(bytes);
     records.push({ id, state });
-    if (!(await lab.evaluate((element) => element.open))) await lab.locator("summary").first().click();
+    if (!(await labOpen())) await lab.locator("summary").first().click();
   }
   // The open authoring panel covers the canvas centre at ordinary widths.
   // Close it before testing actual canvas gestures.
-  if (await lab.evaluate((element) => element.open)) await lab.locator("summary").first().click();
+  if (await labOpen()) await lab.locator("summary").first().click();
   if (process.env.VISUAL_ARCHITECTURE_4K === "1") {
     const controls = await scene.evaluate(async (element) => {
       element.labScene.setTemporalEnabled(false);
@@ -259,25 +262,28 @@ test("finished house: adjacent bedchamber, library patio leaf and composed exter
   if (testInfo.project.use.isMobile) {
     // Mobile WebKit has no mouse-wheel API. Exercise its public zoom control;
     // the dedicated touch-pinch case covers the two-pointer gesture separately.
-    if (!(await lab.evaluate((element) => element.open))) await lab.locator("summary").first().click();
+    if (!(await labOpen())) await lab.locator("summary").first().click();
     await ui.locator('[data-world-zoom="in"]').click();
     await lab.locator("summary").first().click();
   } else await page.mouse.wheel(0, -360);
+  // The retained Linux trace spends 21.7 s in a single observation after this
+  // real input. Allow a complete software frame, as for the drag above; the
+  // camera-distance and changed-pixel assertions remain the same.
   await expect
-    .poll(async () => Math.hypot(...(await evidence(scene)).camera.map((value, i) => value - beforeZoom.camera[i])), { timeout: 15000 })
+    .poll(async () => Math.hypot(...(await evidence(scene)).camera.map((value, i) => value - beforeZoom.camera[i])), { timeout: 60000 })
     .toBeGreaterThan(0.1);
   const zoomAfter = await canvas.screenshot(),
     zoomPixels = pixelDifference(dragAfter, zoomAfter);
   expect(zoomPixels.changedPixels).toBeGreaterThan(zoomPixels.width * zoomPixels.height * 0.01);
   await retain(testInfo, "architecture-zoom-after", { body: zoomAfter, contentType: "image/png" });
-  if (!(await lab.evaluate((element) => element.open))) await lab.locator("summary").first().click();
+  if (!(await labOpen())) await lab.locator("summary").first().click();
   await ui.locator("[data-world-time]").evaluate((input) => {
     input.value = "1230";
     input.dispatchEvent(new Event("input", { bubbles: true }));
   });
   await ui.locator('[data-world-room="sleep"]').click();
   await expect.poll(async () => (await evidence(scene)).currentRoom, { timeout: 60000 }).toBe("sleep");
-  if (await lab.evaluate((element) => element.open)) await lab.locator("summary").first().click();
+  if (await labOpen()) await lab.locator("summary").first().click();
   const evening = await canvas.screenshot();
   nonblank(evening);
   await retain(testInfo, "architecture-evening-bedroom", { body: evening, contentType: "image/png" });

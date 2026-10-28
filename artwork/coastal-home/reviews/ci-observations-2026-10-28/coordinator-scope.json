@@ -1,0 +1,18 @@
+{
+  "source": "12e724a1c069199007dd975c2833898c7a05c26b",
+  "visualRun": 40739790466,
+  "status": "Original32/41 run failed; all six repaired cases now pass native GPU and qualified Mesa against the combined compiled build. A new complete CI run remains pending.",
+  "tabletPacket": {
+    "bytes": 9117017,
+    "sha256": "93b9433a5e86f2d27bf2227f8132655cb9a9989f7a4f9f5339621084192b923f"
+  },
+  "publicRuntimeChangedForRepairs": false,
+  "localProofs": {
+    "nativeRepairedCases": 6,
+    "qualifiedMesaRepairedCases": 6,
+    "coffeeChromium": 2,
+    "coffeeWebKit": 1,
+    "fourWidthThemeCases": 4
+  },
+  "linuxProof": "Qualified Mesa llvmpipe WebGL2, four-sample targets and floatColorBuffer; all six cases pass."
+}

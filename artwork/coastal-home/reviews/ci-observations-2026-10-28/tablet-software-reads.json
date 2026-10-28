@@ -1,0 +1,167 @@
+{
+  "scope": "Isolated hidden work-to-sleep transition using the same installed Date/timer clock and native RAF. Concurrent protocol observation diagnostic, not an isolated benchmark, official test pass or pixel proof.",
+  "softwareFunctionalProof": true,
+  "browser": "145.0.7632.6",
+  "width": 768,
+  "height": 1024,
+  "reads": [
+    {
+      "method": "directPrimitive",
+      "index": 0,
+      "startedMs": 0.2519999999967695,
+      "completedMs": 9.123999999999796,
+      "callMs": 8.882900000000518,
+      "frames": 21,
+      "advanced": false
+    },
+    {
+      "method": "locatorPrimitive",
+      "index": 0,
+      "startedMs": 0.4353999999984808,
+      "completedMs": 38.49519999999757,
+      "callMs": 38.060600000000704,
+      "frames": 21,
+      "advanced": false
+    },
+    {
+      "method": "locatorFullEvidence",
+      "index": 0,
+      "startedMs": 0.5428999999967346,
+      "completedMs": 89.502199999999,
+      "callMs": 88.96010000000024,
+      "frames": 21,
+      "serializedBytes": 81817,
+      "advanced": false
+    },
+    {
+      "method": "directPrimitive",
+      "index": 1,
+      "startedMs": 270.0248999999967,
+      "completedMs": 291.59469999999783,
+      "callMs": 21.571600000002945,
+      "frames": 22,
+      "advanced": true
+    },
+    {
+      "method": "locatorPrimitive",
+      "index": 1,
+      "startedMs": 291.21169999999984,
+      "completedMs": 39741.08529999999,
+      "callMs": 39449.875499999995,
+      "frames": 27,
+      "advanced": true
+    },
+    {
+      "method": "locatorFullEvidence",
+      "index": 1,
+      "startedMs": 348.11749999999665,
+      "completedMs": 49277.792499999996,
+      "callMs": 48929.6773,
+      "frames": 28,
+      "serializedBytes": 82241,
+      "advanced": true
+    },
+    {
+      "method": "directPrimitive",
+      "index": 2,
+      "startedMs": 549.9463999999971,
+      "completedMs": 9341.692899999998,
+      "callMs": 8791.748200000002,
+      "frames": 23,
+      "advanced": true
+    },
+    {
+      "method": "directPrimitive",
+      "index": 3,
+      "startedMs": 9594.439699999999,
+      "completedMs": 13209.936700000002,
+      "callMs": 3615.4997000000003,
+      "frames": 24,
+      "advanced": true
+    },
+    {
+      "method": "locatorPrimitive",
+      "index": 2,
+      "startedMs": 40006.375700000004,
+      "error": "locator.evaluate: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - waiting for locator('[data-home-desk-scene]')\u001b[22m\n"
+    },
+    {
+      "method": "locatorFullEvidence",
+      "index": 2,
+      "startedMs": 49573.2868,
+      "error": "locator.evaluate: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - waiting for locator('[data-home-desk-scene]')\u001b[22m\n"
+    }
+  ],
+  "phases": [
+    {
+      "label": "ready-reduced",
+      "hostSinceOriginMs": 5993.2863,
+      "frames": 2,
+      "framePending": false,
+      "seconds": 0,
+      "activity": "work",
+      "room": "study",
+      "hidden": false,
+      "rect": {
+        "x": 48,
+        "y": 590.984375,
+        "width": 672,
+        "height": 416,
+        "top": 590.984375,
+        "right": 720,
+        "bottom": 1006.984375,
+        "left": 48
+      }
+    },
+    {
+      "label": "live-before-hidden",
+      "hostSinceOriginMs": 18701.980000000003,
+      "frames": 21,
+      "framePending": true,
+      "seconds": 0.3666666666666668,
+      "activity": "work",
+      "room": "study",
+      "hidden": false,
+      "rect": {
+        "x": 48,
+        "y": 590.984375,
+        "width": 672,
+        "height": 416,
+        "top": 590.984375,
+        "right": 720,
+        "bottom": 1006.984375,
+        "left": 48
+      }
+    },
+    {
+      "label": "hidden",
+      "hostSinceOriginMs": 18712.357500000002,
+      "frames": 21,
+      "framePending": false,
+      "seconds": 0.3666666666666668,
+      "activity": "work",
+      "room": "study",
+      "hidden": true,
+      "rect": {
+        "x": 48,
+        "y": 590.984375,
+        "width": 672,
+        "height": 416,
+        "top": 590.984375,
+        "right": 720,
+        "bottom": 1006.984375,
+        "left": 48
+      }
+    }
+  ],
+  "errors": [],
+  "moduleReceipt": {
+    "sha256": "e0c20e6c7dd21ec12b70dc3106fc2784ab4bc7c6e5e8edfc0ef51f8ca626edf5",
+    "controller": {
+      "sourceSha256": "f16b75875257919658941d1c607b170a132c1ffca6d8835edd582449d554bccc",
+      "outputSha256": "612fd60b74786c5cfd30a37a41e6006de811b1132d6c7c32156aad30d0354e4b",
+      "bytes": 95906
+    }
+  },
+  "observationFinished": false
+}
