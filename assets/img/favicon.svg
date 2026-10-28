@@ -1,14 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- The navbar's orange sun setting into the Pacific; two drawing units per pixel at 16 px. -->
+  <!-- The navbar's abstract orange sun above a Pacific current; two drawing units per 16px icon pixel. -->
   <defs>
-    <clipPath id="horizon"><path transform="translate(0 .5)" d="M0 0H32V21.5H31C26.7 23.2 21.6 25.3 15.8 24C11 23 6.5 20.8 1 24.5H0Z" /></clipPath>
+    <clipPath id="horizon"><path d="M0 0H32V19H0Z" /></clipPath>
   </defs>
-  <path d="M15.4 10.2C14.9 8.4 14.8 6.6 15.5 5.1" fill="none" stroke="#3d714b" stroke-width="2.2" stroke-linecap="round" />
-  <path d="M15.2 6.6C16 2.8 20.6 1.5 25.1 3C24.5 6.7 20.4 8.8 15.2 6.6Z" fill="#568b60" />
-  <path d="M15.5 6.5C18.6 6.4 21.2 5.3 23.4 3.9C21.4 6.8 18.7 7.6 15.5 6.5Z" fill="#3d714b" />
   <g clip-path="url(#horizon)">
-    <path d="M15.2 8.9C11.3 7 6.9 8.5 4.6 12.1C1.7 16.9 3.1 23.4 7.6 26.4C12.1 29.5 20.5 29.5 25.1 25.4C29.1 21.7 29.5 15.4 26.2 11.5C23.5 8.3 19.6 7.4 17 8.8C16.4 9.2 15.8 9.3 15.2 8.9Z" fill="#f07a38" />
-    <path d="M7.5 10.2C4.3 16.4 6.2 23.6 11.2 27.7C5.4 26.1 2.5 21.3 3.1 16.6C3.4 14 4.9 11.5 7.5 10.2Z" fill="#df692e" />
+    <path d="M3 17C3 9.268 8.82 3 16 3S29 9.268 29 17C29 17.7 28.95 18.4 28.85 19H3.15C3.05 18.4 3 17.7 3 17Z" fill="#f07a38" />
   </g>
-  <path d="M1 24.5C6.5 20.8 11 23 15.8 24C21.6 25.3 26.7 23.2 31 21.5C27.4 26.9 21.4 29 15.1 27.7C9.6 26.5 5.8 24.4 1 24.5Z" fill="#4f96a7" />
+  <path d="M1 21H31C24 21 24 28 16 28H5C12 28 12 24 19 24H1Z" fill="#4f96a7" />
 </svg>

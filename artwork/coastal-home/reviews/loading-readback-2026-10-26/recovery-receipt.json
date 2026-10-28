@@ -1,0 +1,17 @@
+{
+  "scope": "Reconstructed original CI byte-array comparison and independent held-canvas controls; no movement/performance inference beyond recorded observations.",
+  "workflowRun": 40452172173,
+  "job": 122017192644,
+  "artifact": 12711952694,
+  "artifactZipSha256": "00b2c85ad406aceb3c2c7a20fea1871459714d93325ebbadce934bdc667908f2",
+  "traceZipSha256": "3295cb5656a0e73ff517a8e011a9411aa99f9669a736cff212f53f4db2426518",
+  "recoveredBeforeSha256": "6149dac33989823774b8a6071c7f8ebd580fcef162f5eb862e1e468a2d712c79",
+  "receivedAfterSha256": "ace272f43055531b5e4cff286c8c10824f240a451ce97bea9a8952f0271da4ba",
+  "pixelSize": [545, 462],
+  "changedPixels": 24210,
+  "maximumChannelDifference": 3,
+  "nativeFinalCommand": "npx.cmd playwright test --config test/visual/public.config.js test/visual/loading-drawing.spec.js --project desktop-1440 --grep 'page fallback' --workers 1 --output .jekyll-cache/visual-qa/finish-todos-2026-10-26/loading-native-final --reporter line",
+  "nativeFinalLogSha256": "1cd5d2bd97059d4728970edd47b58bec046983c3f1f76c56b12578c41b9c27a0",
+  "nativeFinalSourceBackup": "backup/pc-resume-2026-10-28:test/visual/loading-drawing.spec.js",
+  "qualifiedLogSha256": "82d4d8cf06b9a9cc45c98130992369994fbf62b49b4f42fed19709eaadc07163"
+}

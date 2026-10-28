@@ -63,44 +63,18 @@
   pointer-events: none;
 }
 
-// The sun sets a little while the pointer rests on the mark. The horizon clip and positive
-// Pacific foreground stay level while the fruit and its connected crown sink behind them.
-.site-brand-mark .brand-orange-crown,
-.site-brand-mark .brand-orange-body-shell {
+// The sun sets a little behind a level horizon; the Pacific current stays still.
+.site-brand-mark .brand-orange-sun {
   transition: transform var(--motion-standard);
 }
 
-.site-brand:hover .site-brand-mark .brand-orange-crown,
-.site-brand:hover .site-brand-mark .brand-orange-body-shell,
-.site-brand:focus-visible .site-brand-mark .brand-orange-crown,
-.site-brand:focus-visible .site-brand-mark .brand-orange-body-shell {
+.site-brand:hover .site-brand-mark .brand-orange-sun,
+.site-brand:focus-visible .site-brand-mark .brand-orange-sun {
   transform: translateY(0.65px);
 }
 
 .site-brand-mark .brand-orange-body {
   fill: var(--brand-orange-rind);
-}
-
-.site-brand-mark .brand-orange-stem {
-  stroke: #3d714b;
-  stroke-width: 2.2;
-}
-
-.site-brand-mark .brand-orange-leaf-group {
-  animation: none;
-}
-
-.site-brand-mark .brand-orange-leaf {
-  fill: #568b60;
-  stroke: none;
-}
-
-.site-brand-mark .brand-orange-leaf-fold {
-  fill: #3d714b;
-}
-
-.site-brand-mark .brand-orange-rind-plane {
-  fill: #df692e;
 }
 
 .site-brand-mark .brand-orange-sea {
@@ -272,17 +246,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .navbar.navbar-light .site-brand .site-brand-mark.brand-orange,
-  .site-brand-mark .brand-orange-crown,
-  .site-brand-mark .brand-orange-body-shell,
+  .site-brand-mark .brand-orange-sun,
   .orange-specimen,
   .orange-specimen .brand-orange-body-shell {
     transition-duration: 0.001ms !important;
   }
 
-  .site-brand:hover .site-brand-mark .brand-orange-crown,
-  .site-brand:hover .site-brand-mark .brand-orange-body-shell,
-  .site-brand:focus-visible .site-brand-mark .brand-orange-crown,
-  .site-brand:focus-visible .site-brand-mark .brand-orange-body-shell {
+  .site-brand:hover .site-brand-mark .brand-orange-sun,
+  .site-brand:focus-visible .site-brand-mark .brand-orange-sun {
     transform: none;
   }
 

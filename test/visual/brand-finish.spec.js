@@ -10,7 +10,7 @@ const artworkDifference = (a, b) => {
     second = PNG.sync.read(b);
   const ink = (data, i) => {
     const [r, g, blue] = data.slice(i, i + 3);
-    return (r > g * 1.2 && g > blue * 1.2) || (g > r * 1.14 && g > blue * 1.15);
+    return r > g * 1.2 && g > blue * 1.2;
   };
   let changed = 0,
     painted = 0;
@@ -49,16 +49,16 @@ test("brand mark: the orange sun keeps its silhouette, focus and small-screen ho
   }
   await page.mouse.move(0, 100);
   const resting = await mark.screenshot();
-  const crown = await mark.locator(".brand-orange-crown").boundingBox();
+  const sun = await mark.locator(".brand-orange-sun").boundingBox();
   const sea = await mark.locator(".brand-orange-sea").boundingBox();
   await page.keyboard.press("Tab");
   await brand.focus();
   await page.waitForTimeout(350);
   const focused = await mark.screenshot({ path: testInfo.outputPath("brand-focused.png") });
   expect(screenshotDiffRatio(resting, focused, { threshold: 0.03 }), "the sun responds to keyboard focus").toBeGreaterThan(0.001);
-  const focusedCrown = await mark.locator(".brand-orange-crown").boundingBox();
-  expect(focusedCrown.y - crown.y, "the sun dips slightly behind the level sea").toBeGreaterThan(0.2);
-  expect(focusedCrown.y - crown.y).toBeLessThan(1.5);
+  const focusedSun = await mark.locator(".brand-orange-sun").boundingBox();
+  expect(focusedSun.y - sun.y, "the sun dips slightly behind the level sea").toBeGreaterThan(0.2);
+  expect(focusedSun.y - sun.y).toBeLessThan(1.5);
   expect(await mark.locator(".brand-orange-sea").boundingBox()).toEqual(sea);
   expect(await brand.evaluate((e) => getComputedStyle(e.querySelector(".brand-orange")).outlineStyle)).not.toBe("none");
   expect(await brand.boundingBox()).toEqual(box);
@@ -67,17 +67,20 @@ test("brand mark: the orange sun keeps its silhouette, focus and small-screen ho
   await twoFrames(page);
   const still = await mark.screenshot({ path: testInfo.outputPath("brand-reduced-rest.png") });
   const bounds = await artworkBounds(mark);
+  const seaFill = await mark.locator(".brand-orange-sea").evaluate((path) => getComputedStyle(path).fill);
   await brand.focus();
   await twoFrames(page);
   const reduced = await mark.screenshot({ path: testInfo.outputPath("brand-reduced-focus.png") });
   // Keyboard focus adds a ring/shadow around the drawing. Preserve that accessible paint while
-  // comparing the orange/green silhouette itself and its actual on-screen path coordinates.
+  // comparing the orange silhouette itself. The Pacific shares the focus
+  // ring's cyan hue, so verify its path coordinates and fill separately.
   const difference = artworkDifference(still, reduced);
-  expect(difference, "reduced motion keeps the fruit and leaf silhouette still").toBeLessThan(0.01);
+  expect(difference, "reduced motion keeps the sun and current silhouette still").toBeLessThan(0.01);
   expect(await artworkBounds(mark)).toEqual(bounds);
+  expect(await mark.locator(".brand-orange-sea").evaluate((path) => getComputedStyle(path).fill)).toEqual(seaFill);
   await writeFile(
     testInfo.outputPath("brand-motion.json"),
-    JSON.stringify({ reducedArtworkDifference: difference, focusCrownShift: focusedCrown.y - crown.y, seaBounds: sea, bounds }, null, 2)
+    JSON.stringify({ reducedArtworkDifference: difference, focusSunShift: focusedSun.y - sun.y, seaBounds: sea, bounds }, null, 2)
   );
   expect(errors).toEqual([]);
 });
@@ -119,7 +122,7 @@ test("brand mark: the recovery specimen varies while the home identity stays fix
   expect(errors).toEqual([]);
 });
 
-test("brand mark: browser and home-screen icons keep the sun, leaf and Pacific at native sizes", async ({ page }, testInfo) => {
+test("brand mark: browser and home-screen icons keep the sun and Pacific at native sizes", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440");
   const errors = collectRuntimeErrors(page);
   const response = await page.request.get(publicRouteUrl("/assets/img/favicon.ico"));
@@ -133,12 +136,11 @@ test("brand mark: browser and home-screen icons keep the sun, leaf and Pacific a
       offset = ico.readUInt32LE(at + 12),
       bytes = ico.subarray(offset, offset + length);
     const png = PNG.sync.read(bytes);
-    const colors = { orange: 0, leaf: 0, sea: 0 };
+    const colors = { orange: 0, sea: 0 };
     for (let p = 0; p < png.data.length; p += 4) {
       const [r, g, b, a] = png.data.subarray(p, p + 4);
       if (a < 128) continue;
       if (r > g * 1.2 && g > b * 1.2) colors.orange++;
-      if (g > r * 1.14 && g > b * 1.15) colors.leaf++;
       if (b > r * 1.2 && g > r * 1.2) colors.sea++;
     }
     for (const name of Object.keys(colors)) expect(colors[name], `${name} remains legible in the ${size}px icon`).toBeGreaterThan(1);

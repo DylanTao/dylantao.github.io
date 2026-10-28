@@ -37,6 +37,26 @@ const sketchState = (scene) =>
       : null;
   });
 
+const bitmapState = async (sketch) => {
+  const state = await sketch.evaluate((canvas) => {
+    const context = canvas.getContext("2d"),
+      pixels = context.getImageData(0, 0, canvas.width, canvas.height).data,
+      rect = canvas.getBoundingClientRect(),
+      style = getComputedStyle(canvas);
+    return {
+      pixels: Array.from(pixels),
+      size: [canvas.width, canvas.height],
+      rect: [rect.x, rect.y, rect.width, rect.height],
+      transform: style.transform,
+      opacity: style.opacity,
+      filter: style.filter,
+      paints: canvas.__paintJournal || [],
+    };
+  });
+  const { pixels, ...placement } = state;
+  return { ...placement, rgbaSha256: createHash("sha256").update(Buffer.from(pixels)).digest("hex") };
+};
+
 const rendererEvidence = (scene) =>
   scene.locator("canvas:not(.home-world-sketch)").evaluate((canvas) => {
     const gl = canvas.getContext("webgl2"),
@@ -187,17 +207,42 @@ test("coastal loading drawing: reduced-motion page fallback stays still while un
       )
       .toBe(true);
     await page.waitForTimeout(600);
-    const before = await sketch.screenshot(),
+    await sketch.evaluate((canvas) => {
+      const context = canvas.getContext("2d"),
+        clear = context.clearRect;
+      canvas.__paintJournal = [];
+      context.clearRect = function (...args) {
+        canvas.__paintJournal.push({ at: performance.now(), args, state: { ...canvas.dataset } });
+        return clear.apply(this, args);
+      };
+    });
+    // Acquire the canvas readback before comparing. On native Chromium the
+    // first two immediate reads differed without any paint, resize or progress
+    // change; later reads were identical. The original CI PNG difference was
+    // only1–3 levels. Keep exact RGBA and PNG equality after acquisition, plus
+    // unchanged placement and an empty paint journal; no tolerance is added.
+    const initial = await bitmapState(sketch),
+      repeated = await bitmapState(sketch);
+    await sketch.screenshot({ path: testInfo.outputPath("drawing-reduced-page-fallback-prime.png") });
+    const before = await bitmapState(sketch),
       state = await sketchState(scene);
+    const beforePng = await sketch.screenshot({ path: testInfo.outputPath("drawing-reduced-page-fallback-before.png") });
     await page.waitForTimeout(700);
-    expect(await sketch.screenshot({ path: testInfo.outputPath("drawing-reduced-page-fallback.png") })).toEqual(before);
+    const after = await bitmapState(sketch);
+    const afterPng = await sketch.screenshot({ path: testInfo.outputPath("drawing-reduced-page-fallback.png") });
+    fs.writeFileSync(
+      testInfo.outputPath("bitmap-hold-diagnostic.json"),
+      JSON.stringify({ initial, repeated, before, after, state, end: await sketchState(scene) }, null, 2)
+    );
+    expect(after).toEqual(before);
+    expect(afterPng).toEqual(beforePng);
     expect(state.drawn).toBeLessThanOrEqual(state.allowed);
     release();
     await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: readyTimeout });
     await expect(sketch).toHaveCount(0);
     fs.writeFileSync(
       testInfo.outputPath("drawing-page-fallback.json"),
-      JSON.stringify({ state, backend: await rendererEvidence(scene), errors }, null, 2)
+      JSON.stringify({ state, before, after, backend: await rendererEvidence(scene), errors }, null, 2)
     );
     expect(errors).toEqual([]);
   } finally {

@@ -1,0 +1,34 @@
+{
+  "state": {
+    "drawing": "study",
+    "allowed": 0.5111,
+    "drawn": 0.5111,
+    "strokes": 1952,
+    "pending": "",
+    "stage": "room"
+  },
+  "before": {
+    "size": [545, 461],
+    "rect": [840.140625, 189.59375, 544.859375, 460.796875],
+    "transform": "none",
+    "opacity": "1",
+    "filter": "none",
+    "paints": [],
+    "rgbaSha256": "b059251f080f4e29892e8a352808f76907b3ddc569a865afa4c44c06ce454040"
+  },
+  "after": {
+    "size": [545, 461],
+    "rect": [840.140625, 189.59375, 544.859375, 460.796875],
+    "transform": "none",
+    "opacity": "1",
+    "filter": "none",
+    "paints": [],
+    "rgbaSha256": "b059251f080f4e29892e8a352808f76907b3ddc569a865afa4c44c06ce454040"
+  },
+  "backend": {
+    "buffer": [544, 460],
+    "css": [545, 461],
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "errors": []
+}

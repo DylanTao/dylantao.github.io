@@ -1,0 +1,34 @@
+{
+  "state": {
+    "drawing": "study",
+    "allowed": 0.5111,
+    "drawn": 0.5111,
+    "strokes": 1952,
+    "pending": "",
+    "stage": "room"
+  },
+  "before": {
+    "size": [545, 461],
+    "rect": [840.140625, 189.59375, 544.859375, 460.796875],
+    "transform": "none",
+    "opacity": "1",
+    "filter": "none",
+    "paints": [],
+    "rgbaSha256": "e9d10bd6747e79ae79a19a37f51bd99483f73c71a1c0235065bf05a1de4193d3"
+  },
+  "after": {
+    "size": [545, 461],
+    "rect": [840.140625, 189.59375, 544.859375, 460.796875],
+    "transform": "none",
+    "opacity": "1",
+    "filter": "none",
+    "paints": [],
+    "rgbaSha256": "e9d10bd6747e79ae79a19a37f51bd99483f73c71a1c0235065bf05a1de4193d3"
+  },
+  "backend": {
+    "buffer": [544, 460],
+    "css": [545, 461],
+    "renderer": "ANGLE (Mesa, llvmpipe (LLVM 20.1.2 256 bits), OpenGL 4.5)"
+  },
+  "errors": []
+}

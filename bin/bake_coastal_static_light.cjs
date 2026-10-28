@@ -53,7 +53,17 @@ const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
     await page.locator('[data-home-desk-mode="3d"]').click();
     const scene = page.locator("[data-home-desk-scene]");
     await scene.scrollIntoViewIfNeeded();
-    await page.waitForFunction(() => document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.().simulation?.lightField?.ready);
+    await page.waitForFunction(() => {
+      const scene = document.querySelector("[data-home-desk-scene]"),
+        field = scene?.getSceneEvidence?.().simulation?.lightField;
+      return field?.ready || field?.error || scene?.dataset.sceneState === "failed";
+    });
+    const state = await scene.evaluate((element) => element.getSceneEvidence?.()),
+      field = state?.simulation?.lightField;
+    if (!field?.ready)
+      throw new Error(
+        `Bake could not initialize: ${JSON.stringify({ stage: state?.loading?.stage, error: field?.error, triangles: field?.triangles, errors })}`
+      );
     const snapshot = await scene.evaluate((element, signature) => element.labScene.exportStaticLightSnapshot(signature), signature);
     if (snapshot.signature !== signature || errors.length) throw new Error(`Bake failed: ${JSON.stringify(errors)}`);
     snapshot.inputs = inputs;

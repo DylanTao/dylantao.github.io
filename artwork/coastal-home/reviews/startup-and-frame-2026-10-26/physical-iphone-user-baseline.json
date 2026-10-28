@@ -1,0 +1,28 @@
+{
+  "scope": "User-provided reading from a physical iPhone. Model name, exact deployed module receipt, lighting state and other applications were not recorded. This is a field baseline, not a controlled before/after benchmark.",
+  "reportedBy": "Sirui, in this PC continuation session",
+  "reading": {
+    "readyMs": 16673,
+    "stage": "ready",
+    "tier": "low",
+    "frameP50": 35,
+    "frameP95": 44,
+    "frameSamples": 120,
+    "gpuMs": null,
+    "buffer": [487, 440],
+    "factor": 1,
+    "samples": 2,
+    "shadowMap": 1024,
+    "memoryMB": 46,
+    "programs": 128,
+    "draws": 1237,
+    "view": "overview",
+    "dpr": 3,
+    "cores": 4,
+    "parallelCompile": true,
+    "renderer": "Apple GPU",
+    "at": "2026-10-27T05:23:16.499Z",
+    "page": "https://dylantao.github.io/?perf=1",
+    "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 27_2_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/156.0.8078.54 Mobile/15E148 Safari/604.1"
+  }
+}

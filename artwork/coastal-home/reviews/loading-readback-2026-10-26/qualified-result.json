@@ -1,0 +1,249 @@
+{
+  "config": {
+    "configFile": "/workspace/.jekyll-cache/visual-qa/finish-todos-2026-10-26/loading-still-llvmpipe/qualified.config.cjs",
+    "rootDir": "/workspace/test/visual",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/.jekyll-cache/visual-qa/finish-todos-2026-10-26/loading-still-llvmpipe/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-1440",
+        "name": "desktop-1440",
+        "testDir": "/workspace/test/visual",
+        "testIgnore": [],
+        "testMatch": [
+          "sitewide.spec.js",
+          "paper-constellation.spec.js",
+          "build-rhythm-story.spec.js",
+          "desk-scene.spec.js",
+          "estate-redesign.spec.js",
+          "coastal-finish.spec.js",
+          "loading-drawing.spec.js",
+          "static-light-field.spec.js",
+          "companion.spec.js",
+          "duh.spec.js",
+          "footer-coast.spec.js",
+          "footer-dusk.spec.js",
+          "brand-finish.spec.js",
+          "reading-effects.spec.js",
+          "navigation-motion.spec.js"
+        ],
+        "timeout": 300000
+      },
+      {
+        "outputDir": "/workspace/.jekyll-cache/visual-qa/finish-todos-2026-10-26/loading-still-llvmpipe/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "laptop-1280",
+        "name": "laptop-1280",
+        "testDir": "/workspace/test/visual",
+        "testIgnore": [],
+        "testMatch": [
+          "sitewide.spec.js",
+          "paper-constellation.spec.js",
+          "build-rhythm-story.spec.js",
+          "desk-scene.spec.js",
+          "estate-redesign.spec.js",
+          "coastal-finish.spec.js",
+          "loading-drawing.spec.js",
+          "static-light-field.spec.js",
+          "companion.spec.js",
+          "duh.spec.js",
+          "footer-coast.spec.js",
+          "footer-dusk.spec.js",
+          "brand-finish.spec.js",
+          "reading-effects.spec.js",
+          "navigation-motion.spec.js"
+        ],
+        "timeout": 300000
+      },
+      {
+        "outputDir": "/workspace/.jekyll-cache/visual-qa/finish-todos-2026-10-26/loading-still-llvmpipe/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "tablet-768",
+        "name": "tablet-768",
+        "testDir": "/workspace/test/visual",
+        "testIgnore": [],
+        "testMatch": [
+          "sitewide.spec.js",
+          "paper-constellation.spec.js",
+          "build-rhythm-story.spec.js",
+          "desk-scene.spec.js",
+          "estate-redesign.spec.js",
+          "coastal-finish.spec.js",
+          "loading-drawing.spec.js",
+          "static-light-field.spec.js",
+          "companion.spec.js",
+          "duh.spec.js",
+          "footer-coast.spec.js",
+          "footer-dusk.spec.js",
+          "brand-finish.spec.js",
+          "reading-effects.spec.js",
+          "navigation-motion.spec.js"
+        ],
+        "timeout": 300000
+      },
+      {
+        "outputDir": "/workspace/.jekyll-cache/visual-qa/finish-todos-2026-10-26/loading-still-llvmpipe/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-390",
+        "name": "mobile-390",
+        "testDir": "/workspace/test/visual",
+        "testIgnore": [],
+        "testMatch": [
+          "sitewide.spec.js",
+          "paper-constellation.spec.js",
+          "build-rhythm-story.spec.js",
+          "desk-scene.spec.js",
+          "estate-redesign.spec.js",
+          "coastal-finish.spec.js",
+          "loading-drawing.spec.js",
+          "static-light-field.spec.js",
+          "companion.spec.js",
+          "duh.spec.js",
+          "footer-coast.spec.js",
+          "footer-dusk.spec.js",
+          "brand-finish.spec.js",
+          "reading-effects.spec.js",
+          "navigation-motion.spec.js"
+        ],
+        "timeout": 300000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      ["line", null],
+      [
+        "json",
+        {
+          "outputFile": "/workspace/.jekyll-cache/visual-qa/finish-todos-2026-10-26/loading-still-llvmpipe/result.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "loading-drawing.spec.js",
+      "file": "loading-drawing.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "coastal loading drawing: reduced-motion page fallback stays still while unfinished work is held",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop-1440",
+              "projectName": "desktop-1440",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 67651,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T05:49:16.867Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f70da83ec34031b150b9-fc67680d0d67c346f96b",
+          "file": "loading-drawing.spec.js",
+          "line": 170,
+          "column": 1
+        },
+        {
+          "title": "coastal loading drawing: reduced-motion page fallback stays still while unfinished work is held",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 300000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 23791,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-27T05:50:56.840Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f70da83ec34031b150b9-48e8a9e1a934294c87a5",
+          "file": "loading-drawing.spec.js",
+          "line": 170,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-27T05:48:49.500Z",
+    "duration": 152383.66499999998,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

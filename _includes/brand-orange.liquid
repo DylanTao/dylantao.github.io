@@ -1,28 +1,18 @@
 {% comment %}
-  The orange sun setting into the Pacific: a shouldered mandarin and connected crown above a swell.
-  The drawing is shared with the favicon, with two drawing units to each pixel at 16 px. A bounded
-  dip on hover/focus lowers the fruit while the tide stays level. The 404 specimen remains separate.
+  An orange sun above the Pacific current. Sirui asked for an abstract mark with less literal
+  fruit detail. The same two shapes are shared with the favicon on a 32-unit grid. The sun dips
+  behind the level horizon on focus/hover; reduced motion holds it still. The 404 fruit is separate.
 {% endcomment %}
 <span class="site-brand-mark brand-orange" data-brand-orange aria-hidden="true">
   <svg class="brand-orange-svg" viewBox="0 0 32 32" focusable="false" aria-hidden="true">
     <defs>
-      <clipPath id="brand-orange-horizon">
-        <path transform="translate(0 .5)" d="M0 0H32V21.5H31C26.7 23.2 21.6 25.3 15.8 24C11 23 6.5 20.8 1 24.5H0Z"></path>
-      </clipPath>
+      <clipPath id="brand-orange-horizon"><path d="M0 0H32V19H0Z"></path></clipPath>
     </defs>
-    <g class="brand-orange-crown">
-      <path class="brand-orange-stem" d="M15.4 10.2C14.9 8.4 14.8 6.6 15.5 5.1"></path>
-      <g class="brand-orange-leaf-group">
-        <path class="brand-orange-leaf" d="M15.2 6.6C16 2.8 20.6 1.5 25.1 3C24.5 6.7 20.4 8.8 15.2 6.6Z"></path>
-        <path class="brand-orange-leaf-fold" d="M15.5 6.5C18.6 6.4 21.2 5.3 23.4 3.9C21.4 6.8 18.7 7.6 15.5 6.5Z"></path>
-      </g>
-    </g>
     <g clip-path="url(#brand-orange-horizon)">
-      <g class="brand-orange-body-shell">
-        <path class="brand-orange-body" d="M15.2 8.9C11.3 7 6.9 8.5 4.6 12.1C1.7 16.9 3.1 23.4 7.6 26.4C12.1 29.5 20.5 29.5 25.1 25.4C29.1 21.7 29.5 15.4 26.2 11.5C23.5 8.3 19.6 7.4 17 8.8C16.4 9.2 15.8 9.3 15.2 8.9Z"></path>
-        <path class="brand-orange-rind-plane" d="M7.5 10.2C4.3 16.4 6.2 23.6 11.2 27.7C5.4 26.1 2.5 21.3 3.1 16.6C3.4 14 4.9 11.5 7.5 10.2Z"></path>
+      <g class="brand-orange-sun">
+        <path class="brand-orange-body" d="M3 17C3 9.268 8.82 3 16 3S29 9.268 29 17C29 17.7 28.95 18.4 28.85 19H3.15C3.05 18.4 3 17.7 3 17Z"></path>
       </g>
     </g>
-    <path class="brand-orange-sea" d="M1 24.5C6.5 20.8 11 23 15.8 24C21.6 25.3 26.7 23.2 31 21.5C27.4 26.9 21.4 29 15.1 27.7C9.6 26.5 5.8 24.4 1 24.5Z"></path>
+    <path class="brand-orange-sea" d="M1 21H31C24 21 24 28 16 28H5C12 28 12 24 19 24H1Z"></path>
   </svg>
 </span>
