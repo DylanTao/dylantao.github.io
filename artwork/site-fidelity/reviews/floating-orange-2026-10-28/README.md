@@ -24,6 +24,7 @@ The [source/output receipt](review-inputs.json) binds the actual Liquid/Jekyll m
 - The browser asserts the exact rendered Sirui/Tao name and rejects residual Liquid. The earlier iteration proxy's string substitution was replaced with the real Liquid renderer. Raw-proxy passes did not establish production correctness.
 - Actual native-size orange pixels vary by more than 4% over a complete wave cycle, beyond the scale-only area change. Computed sky-dependent colors/glint positions differ across four stops. Full word bounds, unchanged navigation and unit letter scale are retained in the four motion receipts.
 - The header override was reviewed and its acknowledgement updated. Unrelated baseline overrides were preserved.
+- The palette unit gate retains the fixed source-orange and independence from mode accents. Its older blanket ban on any theme selector was replaced because Sirui explicitly requested changing sunlight/reflection tints; the four-stop browser gate checks that behavior in rendered output.
 
 [Morning](navbar-morning.png), [noon](navbar-noon.png), [afternoon](navbar-afternoon.png) and [evening](navbar-evening.png) retain the full navbar. The compact results are [1280](navbar-laptop-1280-adrift.png), [768](navbar-tablet-768-adrift.png) and [390](navbar-mobile-390-adrift.png). These are host browser checks, not physical-iPhone performance evidence.
 

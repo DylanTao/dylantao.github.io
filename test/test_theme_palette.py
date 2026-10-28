@@ -348,7 +348,7 @@ class CoastalThemePaletteTests(unittest.TestCase):
                     self.assertLessEqual(rgb_distance(surface, anchors["bg"]), 0.2)
                     self.assertNotEqual(surface, anchors["container"])
 
-    def test_brand_orange_is_constant_and_not_derived_from_mode_accent(self) -> None:
+    def test_brand_orange_identity_source_is_fixed_and_not_derived_from_mode_accent(self) -> None:
         root_start = self.themes.index(":root {") + len(":root {")
         root_end = self.themes.index("\n  .only-light", root_start)
         root = self.themes[root_start:root_end]
@@ -364,7 +364,10 @@ class CoastalThemePaletteTests(unittest.TestCase):
         self.assertIn("--brand-orange-rind: var(--global-brand-orange-color);", brand)
         self.assertIn("rgba(var(--global-brand-orange-rgb)", brand)
         self.assertNotIn("rgba(var(--global-accent-rgb)", brand)
-        self.assertNotIn('[data-theme-mode="', brand)
+        self.assertNotIn("var(--global-accent-color)", brand)
+        # Sirui's October28 direction keeps this identity source fixed while
+        # allowing small sky-dependent orange/reflection tints and blue water.
+        # The rendered four-stop brand case checks those actual colors/glints.
 
     def test_global_chrome_uses_theme_owned_nav_shadow_and_focus_roles(self) -> None:
         navbar = NAVBAR_PATH.read_text(encoding="utf-8")
