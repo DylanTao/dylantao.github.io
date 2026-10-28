@@ -5,7 +5,7 @@
 //
 // The footer looks at the land from La Jolla Bay (skyline.mjs): the setting sun is behind the
 // viewer, raking the coast and Mount Soledad with golden light, and the rising sun comes up over the
-// hills ahead. The four theme looks the site always had stay exact anchors (a manual theme and its
+// hills ahead. The four authored theme looks stay exact anchors (a manual theme and its
 // still show them); dawn, golden hour, sunset, afterglow and the blue hour blend between them by
 // solar altitude.
 
@@ -34,7 +34,7 @@ const COLOR_KEYS = [
 // while it shows); night: windows, lamps, the fire and the hillside houses; sunDisk, rays and
 // glitter: the rising sun's glitter path and its shafts through the marine layer; fog: the marine
 // layer's wisps; halo*/glow*: the credit. Colors are display colors; the four theme anchors keep
-// the values the site always had.
+// their current authored values, shared with the still renderer.
 const base = {
   env: 1,
   rimColor: 0xd3e7ec,
@@ -221,9 +221,9 @@ export const LOOKS = Object.freeze({
     sky: 0x6a82a4,
     ground: 0x3a4654,
     sun: 0xb2c9ed,
-    key: 0.55,
-    env: 0.8,
-    fill: 0.62,
+    key: 0.35,
+    env: 0.3,
+    fill: 0.3,
     exposure: 0.88,
     water: 0x26506e,
     deep: 0x223f66,
@@ -251,8 +251,9 @@ export const LOOKS = Object.freeze({
     sky: 0x829bb4,
     ground: 0x3b4854,
     sun: 0xb4caff,
-    key: 0.85,
-    fill: 0.55,
+    key: 0.3,
+    env: 0.24,
+    fill: 0.28,
     exposure: 0.85,
     water: 0x234b68,
     deep: 0x1f4462,
@@ -277,9 +278,9 @@ export const LOOKS = Object.freeze({
     sky: 0x7389a2,
     ground: 0x3a4651,
     sun: 0xb2c9ec,
-    key: 0.6,
-    env: 0.85,
-    fill: 0.6,
+    key: 0.32,
+    env: 0.32,
+    fill: 0.32,
     exposure: 0.88,
     water: 0x2a5070,
     deep: 0x264466,

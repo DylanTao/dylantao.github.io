@@ -546,6 +546,22 @@
       {
         "file": "loading-drawing.spec.js",
         "title": "coastal loading drawing: reduced-motion page fallback stays still while unfinished work is held"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal view: pointer glide stays bounded and settles without rolling the horizon"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal tilt: explicit permission, screen rotation and pause keep a calibrated view"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal tilt: denied permission preserves the coast and native scrolling"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal sky: a completed atmosphere relights the reflected sea in the same clock step"
       }
     ]
   }

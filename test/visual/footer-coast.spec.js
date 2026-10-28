@@ -257,7 +257,11 @@ for (const theme of process.env.COAST_THEME ? [process.env.COAST_THEME] : ["morn
     expect(info.landmarks).toEqual(expect.arrayContaining(["GeiselCoast", "SalkCoast", "BrocktonVilla", "LaValencia"]));
     if (theme === "morning") expect(info.office).toBe(false);
     if (theme === "noon" || theme === "afternoon") expect(info.office).toBe(true);
-    await expect(host.locator("button")).toHaveCount(0);
+    await expect(host.locator("button:not([data-coast-tilt])")).toHaveCount(0);
+    if (theme !== "evening") {
+      expect(info.sky.weight).toBeGreaterThan(0.3);
+      expect(info.sky.lights).toBe(0);
+    }
     await expect(page.getByRole("link", { name: "al-folio", exact: true })).toHaveCount(0);
     const box = await host.boundingBox();
     expect(box.x).toBe(0);
@@ -817,4 +821,193 @@ test("coastal scenes: missing model and no JavaScript retain real rendered fallb
   await context.close();
   await page.goto(publicRouteUrl("/ai/"));
   await expect(page.locator("[data-footer-coast]")).toHaveCount(0);
+});
+
+async function openTiltCoast(page, permission = "granted") {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await preparePage(page, "noon");
+  // Simulated permission and sensor samples exercise the real controller/camera.
+  // This does not claim physical iPhone sensor or permission-dialog verification.
+  await page.addInitScript((result) => {
+    Object.defineProperty(navigator, "maxTouchPoints", { value: 1, configurable: true });
+    const orientation = new EventTarget();
+    orientation.angle = 0;
+    Object.defineProperty(screen, "orientation", { value: orientation, configurable: true });
+    const Sensor = window.DeviceOrientationEvent ?? class extends Event {};
+    window.coastPermissionCalls = 0;
+    Object.defineProperty(Sensor, "requestPermission", {
+      configurable: true,
+      value: () => {
+        window.coastPermissionCalls++;
+        return Promise.resolve(result);
+      },
+    });
+    window.DeviceOrientationEvent = Sensor;
+    let held = null;
+    const emit = () => {
+      if (!held) return;
+      const event = new Event("deviceorientation");
+      Object.defineProperties(event, { beta: { value: held.beta }, gamma: { value: held.gamma } });
+      dispatchEvent(event);
+    };
+    window.coastSensorSample = (beta, gamma, angle = screen.orientation.angle) => {
+      held = { beta, gamma };
+      if (angle !== screen.orientation.angle) {
+        screen.orientation.angle = angle;
+        screen.orientation.dispatchEvent(new Event("change"));
+      }
+      emit();
+    };
+    // Real sensors continue reporting a held pose, including after a screen
+    // resize. A one-shot fixture incorrectly timed out during slow captures.
+    setInterval(emit, 100);
+  }, permission);
+  await page.goto(publicRouteUrl("/blog/?cinematic=live"), { waitUntil: "domcontentloaded" });
+  const host = page.locator("footer [data-footer-coast]");
+  await host.scrollIntoViewIfNeeded();
+  await expect(host).toHaveAttribute("data-state", "ready", { timeout: 60000 });
+  await expect(host).toHaveAttribute("data-running", "true");
+  return host;
+}
+
+test("coastal sky: a completed atmosphere relights the reflected sea in the same clock step", async ({ page }, testInfo) => {
+  await page.clock.setFixedTime(new Date("2026-10-19T12:30:00-07:00"));
+  const host = await openTiltCoast(page);
+  await page.evaluate(() => {
+    window.siteTime = { preview: 18 * 60 + 30 };
+    setThemeSetting("evening");
+    dispatchEvent(new CustomEvent("siteTimeChange"));
+  });
+  await expect
+    .poll(async () => {
+      const info = await evidence(host);
+      return Math.abs(info.sky.tableAltitude - info.sun.altitude);
+    })
+    .toBeLessThan(0.01);
+  const result = await host.evaluate(async (element) => {
+    const { lookAt, mixHex } = await import(new URL("./sky-look.mjs?v=coast-daylight-20261028", new URL(element.dataset.coastModule, location.href)));
+    const { sunState } = await import(new URL("../la-jolla-sun.mjs?v=coast-sky-20261019", new URL(element.dataset.coastModule, location.href)));
+    const info = element.getCoastEvidence();
+    const look = lookAt(sunState("2026-10-19", 18 * 60 + 30));
+    return {
+      actual: info.water.skyColors,
+      expected: {
+        near: mixHex(look.mirror, info.sky.samples.near, info.sky.weight),
+        far: mixHex(look.mirrorFar, info.sky.samples.far, info.sky.weight),
+      },
+      sky: info.sky,
+    };
+  });
+  // Evidence rounds weight to three decimals; allow one display code value per channel.
+  for (const side of ["near", "far"])
+    for (const shift of [0, 8, 16])
+      expect(Math.abs(((result.actual[side] >> shift) & 255) - ((result.expected[side] >> shift) & 255))).toBeLessThanOrEqual(1);
+  await testInfo.attach("one-clock-sky-and-sea", { body: JSON.stringify(result), contentType: "application/json" });
+});
+
+test("coastal view: pointer glide stays bounded and settles without rolling the horizon", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const host = await openTiltCoast(page);
+  const surface = host.locator(".footer-coast__scene");
+  const box = await surface.boundingBox();
+  const before = await evidence(host);
+  const clip = { x: box.x, y: box.y, width: box.width, height: box.height * 0.72 };
+  const still = await page.screenshot({ clip });
+  // The independent companion can pass over the footer. Find actual exposed
+  // scene pixels so this camera check does not accidentally hover its hit target.
+  const point = await surface.evaluate((element) => {
+    const r = element.getBoundingClientRect();
+    for (const x of [0.92, 0.96, 0.9])
+      for (const y of [0.4, 0.55, 0.7, 0.1]) {
+        const point = { x: r.x + r.width * x, y: r.y + r.height * y };
+        if (document.elementFromPoint(point.x, point.y)?.closest(".footer-coast__scene") === element) return point;
+      }
+    throw new Error("The scene's pointer test area is covered");
+  });
+  await page.mouse.move(point.x, point.y);
+  await expect.poll(async () => (await evidence(host)).viewMotion.x).toBeGreaterThan(0.78);
+  const moved = await evidence(host);
+  expect(moved.viewMotion.up).toEqual([0, 1, 0]);
+  expect(moved.viewMotion.camera[0] - before.viewMotion.camera[0]).toBeGreaterThan(0.23);
+  expect(moved.viewMotion.camera[0] - before.viewMotion.camera[0]).toBeLessThan(0.33);
+  expect(moved.viewMotion.camera[1] - before.viewMotion.camera[1]).toBeLessThan(0.16);
+  expect(screenshotDiffRatio(still, await page.screenshot({ clip }), { threshold: 0.01 })).toBeGreaterThan(0.001);
+  await page.mouse.move(box.x + box.width / 2, box.y - 20);
+  await expect.poll(async () => Math.abs((await evidence(host)).viewMotion.x)).toBeLessThan(0.02);
+  expect(await page.evaluate(() => window.coastPermissionCalls)).toBe(0);
+  await testInfo.attach("pointer-camera", {
+    body: JSON.stringify({ before: before.viewMotion, moved: moved.viewMotion }),
+    contentType: "application/json",
+  });
+  expect(errors).toEqual([]);
+});
+
+test("coastal tilt: explicit permission, screen rotation and pause keep a calibrated view", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const host = await openTiltCoast(page);
+  const button = host.locator("[data-coast-tilt]");
+  await expect(button).toBeEnabled();
+  expect(await page.evaluate(() => window.coastPermissionCalls)).toBe(0);
+  await button.focus();
+  await button.press("Enter");
+  await expect(button).toHaveAttribute("aria-pressed", "true");
+  expect(await page.evaluate(() => window.coastPermissionCalls)).toBe(1);
+  await page.evaluate(() => coastSensorSample(55, 0));
+  expect((await evidence(host)).viewMotion.tilt.state).toBe("on");
+  const canvas = host.locator("canvas");
+  const box = await canvas.boundingBox();
+  const clip = { x: box.x, y: box.y, width: box.width, height: box.height * 0.72 };
+  const neutralPixels = await page.screenshot({ clip });
+  await page.evaluate(() => coastSensorSample(55, 30));
+  await expect.poll(async () => (await evidence(host)).viewMotion.x).toBeLessThan(-0.65);
+  const moving = await evidence(host);
+  expect(moving.viewMotion.up).toEqual([0, 1, 0]);
+  expect(screenshotDiffRatio(neutralPixels, await page.screenshot({ clip }), { threshold: 0.01 })).toBeGreaterThan(0.001);
+  await page.evaluate(() => coastSensorSample(55, 30, 90));
+  let neutral = (await evidence(host)).viewMotion.tilt;
+  expect(neutral.state).toBe("on");
+  expect(Math.hypot(neutral.x, neutral.y)).toBeLessThan(1e-8);
+  await expect.poll(async () => Math.abs((await evidence(host)).viewMotion.x)).toBeLessThan(0.02);
+  if (testInfo.project.name === "mobile-390") {
+    await page.setViewportSize({ width: 844, height: 390 });
+    await host.scrollIntoViewIfNeeded();
+    await expect.poll(async () => (await evidence(host)).framing.width).toBeGreaterThan(40);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+    await attachScreenshot(page, testInfo, "tilt-landscape", { locator: host });
+  }
+  await page.evaluate(() => window.siteMotion.setPaused(true));
+  await expect(host).toHaveAttribute("data-running", "false");
+  await expect(button).toBeDisabled();
+  expect((await evidence(host)).viewMotion).toMatchObject({ x: 0, y: 0, tilt: { state: "suspended", listening: false } });
+  await page.evaluate(() => {
+    coastSensorSample(40, 12, 90);
+    window.siteMotion.setPaused(false);
+  });
+  await expect(button).toBeEnabled();
+  await page.evaluate(() => coastSensorSample(40, 12, 90));
+  neutral = (await evidence(host)).viewMotion.tilt;
+  expect(neutral.state).toBe("on");
+  expect(Math.hypot(neutral.x, neutral.y)).toBeLessThan(1e-8);
+  expect(await page.evaluate(() => window.coastPermissionCalls)).toBe(1);
+  await button.click();
+  expect((await evidence(host)).viewMotion.tilt).toMatchObject({ state: "off", listening: false });
+  await testInfo.attach("simulated-tilt-camera", { body: JSON.stringify(moving.viewMotion), contentType: "application/json" });
+  expect(errors).toEqual([]);
+});
+
+test("coastal tilt: denied permission preserves the coast and native scrolling", async ({ page }) => {
+  const errors = collectRuntimeErrors(page);
+  const host = await openTiltCoast(page, "denied");
+  const button = host.locator("[data-coast-tilt]");
+  await button.click();
+  await expect(button).toBeDisabled();
+  await expect(host.locator("[data-coast-tilt-status]")).toContainText("not allowed");
+  expect((await evidence(host)).viewMotion.tilt).toMatchObject({ state: "denied", listening: false, enabled: false });
+  expect(await host.locator(".footer-coast__scene").evaluate((e) => getComputedStyle(e).touchAction)).toBe("pan-y");
+  const before = await page.evaluate(() => scrollY);
+  await page.evaluate(() => scrollBy({ top: -120, behavior: "instant" }));
+  expect(await page.evaluate(() => scrollY)).toBeLessThan(before - 100);
+  await expect(host).toHaveAttribute("data-state", "ready");
+  expect(screenshotMetrics(await host.locator("canvas").screenshot()).uniqueColors).toBeGreaterThan(300);
+  expect(errors).toEqual([]);
 });

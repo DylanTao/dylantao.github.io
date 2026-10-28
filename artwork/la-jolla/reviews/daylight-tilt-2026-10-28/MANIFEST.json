@@ -1,0 +1,55 @@
+{
+  "schema": "sirui-coast-daylight-review-v1",
+  "files": [
+    {
+      "path": "captures.json",
+      "bytes": 29721,
+      "sha256": "a31c38f1b447dd3609ba6ff739f88bdaee8e68d990e788df066730e3b94e5722"
+    },
+    {
+      "path": "evening-after-2560.png",
+      "bytes": 660422,
+      "sha256": "d2676b807c1ed41cbd57b6d41fcfbe8845fa55e2c9455297eb068cd37fc8983b"
+    },
+    {
+      "path": "evening-before-2560.png",
+      "bytes": 713012,
+      "sha256": "037eebfae0e64a90dcc33a3e4209740207925addd43d5db27a828c7d9d7de7a5"
+    },
+    {
+      "path": "noon-after-2560.png",
+      "bytes": 865416,
+      "sha256": "719c65531e4bcbce6c32981b6f9d29452b3838a4f1fa3c8aadcdc1cf80719a2f"
+    },
+    {
+      "path": "noon-before-2560.png",
+      "bytes": 838974,
+      "sha256": "73dcfb0c94092d809899ed37241d10b2f9a3855557481516bbc04afda1cdb2fd"
+    },
+    {
+      "path": "phone-landscape.png",
+      "bytes": 210692,
+      "sha256": "c2027e85aee28d7aa9c06175b65ea82b0c1b2db3651e65ea3cfd222c74276b9d"
+    },
+    {
+      "path": "phone-noon.png",
+      "bytes": 134778,
+      "sha256": "854ebfe62e1e04650b1b7d9fd7b8a5fe26bf99f9229a40e5510d02e23beb6c41"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5007,
+      "sha256": "c6c73ea57854468eacb8486003ab4e2eefba55516a1d9d07913e40018310daca"
+    },
+    {
+      "path": "source-build-proof.json",
+      "bytes": 2004,
+      "sha256": "3619f90ab9b0dce075b53ffdaf35def10218e081aa08ee76f10eb4029e1c0e1d"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 5462,
+      "sha256": "093c36fdd8523657e55cc20147925ff1a2aaa18e4f04c152c16ff961bdcaf73a"
+    }
+  ]
+}

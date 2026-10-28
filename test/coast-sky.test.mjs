@@ -105,15 +105,16 @@ test("the sun arc keeps La Jolla's day: dusk on the horizon, solar noon at the c
   }
 });
 
-test("the four theme anchors keep the looks the site always had", () => {
+test("the four theme anchors keep the current still looks and night has less presentation fill", () => {
   for (const [mode, look] of Object.entries(ANCHORS)) {
     const anchor = anchorLook(mode);
     assert.deepEqual(anchor, { ...LOOKS[look] });
-    // No reflected sky gradient and full studio light: the stills stay valid.
+    // Each regenerated still uses the same anchor as the runtime.
     assert.equal(anchor.mirrorFar, anchor.mirror);
-    assert.equal(anchor.env, 1);
     assert.equal(anchor.fog, 0);
   }
+  assert.ok(LOOKS.night.env < LOOKS.noon.env * 0.3);
+  assert.ok(LOOKS.night.key < LOOKS.noon.key * 0.15);
   // The rim light of the earlier hourly blend: 0.65 at noon, less by 0.45 per unit of night.
   for (const mode of ["morning", "noon", "afternoon"]) assert.ok(Math.abs(LOOKS[mode].rim - (0.65 - LOOKS[mode].night * 0.45)) < 0.001, mode);
 });
@@ -136,8 +137,10 @@ test("the coast's light moves continuously through the day and returns to the an
     assert.deepEqual(lookAt(sunState(key, 0)), anchorLook("evening"));
     const noon = lookAt(sunState(key, events.solarNoon));
     for (const name of ["key", "fill", "exposure"]) assert.ok(Math.abs(noon[name] - LOOKS.noon[name]) < 1e-9, `${key} noon ${name}`);
-    // By day the page is the sky; a chosen theme's anchor shows none.
-    assert.equal(skyWeight(sunState(key, events.solarNoon)), 0);
+    // The daytime horizon carries pale atmosphere and blends into the page above.
+    const weight = skyWeight(sunState(key, events.solarNoon));
+    assert.ok(weight > 0.3 && weight < 0.5);
+    assert.equal(skyWeight(sunState(key, 0)), 0);
   }
 });
 

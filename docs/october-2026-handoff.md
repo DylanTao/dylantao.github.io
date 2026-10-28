@@ -31,7 +31,7 @@ From October 24 to 26, 2026, Claude Opus coordinated this site with up to six pa
   - sit in furniture you would stay in for hours (the dining armchairs are done);
   - enjoy whiskey evenings in the study.
 - **Performance** (items 4–7 and 24). Push strong GPUs, such as a 4K PC with an RTX 3080, without lag or crashes. Keep phones smooth and load fast: the targets are ready in 10 s or less on the laptop and 15 s or less in phone emulation. Never flicker while zooming or walking. The quality tiers and `?perf=1` are on `main`; real-device numbers are the missing evidence.
-- **Footer and miniature** (items 19–20). An honest, physically based dusk over measured hills with lit houses. It is not yet photoreal; the sky notes say why and what to try next.
+- **Footer and miniature** (items 19–20). An honest, physically based dusk over measured hills with lit houses. It is not yet photoreal; the sky notes say why and what to try next. The [October 28 daylight/tilt revision](../artwork/la-jolla/reviews/daylight-tilt-2026-10-28/README.md) adds a pale daytime horizon, ground-cover shading, consistent sky/sea relighting, gentler camera motion and optional phone tilt. Native, WebKit and Linux browser checks pass; physical iPhone feel and the appearance decision remain separate.
 - **Build diary** (item 25). A scrollable timeline on the 3D world's project page, like a construction team's record of a house going up, with sub-pages that show how human and AI iterations polished the world. Use the before and after captures the workers left in the review folders.
 - **Loading sketch** (item 21). A line drawing that grows more intricate as loading really progresses.
 

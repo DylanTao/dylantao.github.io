@@ -138,7 +138,8 @@ test("the physical sky shows from sunset through the blue hour, continuously", (
       if (previous !== null) assert.ok(Math.abs(w - previous) < 0.12, `${key} ${minute}: ${previous} -> ${w}`);
       previous = w;
     }
-    assert.equal(skyWeight(sunState(key, day.solarNoon)), 0, "by day the page is the sky");
+    const noon = skyWeight(sunState(key, day.solarNoon));
+    assert.ok(noon > 0.3 && noon < 0.5, "a pale daytime horizon dissolves into the page above");
     assert.ok(skyWeight(sunState(key, day.sunset + 1)) > 0.95, "sunset");
     assert.ok(skyWeight(sunState(key, day.civilDusk)) > 0.95, "civil dusk");
   }

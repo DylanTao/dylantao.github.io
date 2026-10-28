@@ -762,6 +762,7 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     evidence() {
       return {
         sea: sea.name,
+        skyColors: { near: uniforms.coastSkyNear.value.getHex(), far: uniforms.coastSkyFar.value.getHex() },
         proof: uniforms.coastProof.value.toArray(),
         bottom: {
           vertices: bottom.relief.depths.length,

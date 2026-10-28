@@ -1,0 +1,168 @@
+{
+  "status": "local gates passed; CI and deployed readback pending",
+  "browserStats": {
+    "nativeFull": {
+      "startTime": "2026-10-28T23:07:19.321Z",
+      "duration": 359040.07399999996,
+      "expected": 79,
+      "skipped": 45,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "nativeMotionFinal": {
+      "startTime": "2026-10-28T23:32:32.870Z",
+      "duration": 53904.87899999999,
+      "expected": 16,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "webkitFull": {
+      "startTime": "2026-10-28T23:14:33.641Z",
+      "duration": 117439.234,
+      "expected": 13,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "webkitMotionFinal": {
+      "startTime": "2026-10-28T23:34:37.439Z",
+      "duration": 25413.276,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "linuxSoftwareFinal": {
+      "startTime": "2026-10-28T23:34:27.059Z",
+      "duration": 361193.54199999996,
+      "expected": 14,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "nativeContrast": [
+    {
+      "file": "footer-coast-coastal-foote-10aab--and-full-width-composition-desktop-1440/credit-contrast-afternoon.json",
+      "samples": 1129,
+      "median": 6.287553056369694,
+      "worst": 2.7047947742537666
+    },
+    {
+      "file": "footer-coast-coastal-foote-10aab--and-full-width-composition-laptop-1280/credit-contrast-afternoon.json",
+      "samples": 1128,
+      "median": 6.277184437119651,
+      "worst": 2.9245727292793253
+    },
+    {
+      "file": "footer-coast-coastal-foote-10aab--and-full-width-composition-mobile-390/credit-contrast-afternoon.json",
+      "samples": 1964,
+      "median": 6.061500006861692,
+      "worst": 2.56294934776805
+    },
+    {
+      "file": "footer-coast-coastal-foote-10aab--and-full-width-composition-tablet-768/credit-contrast-afternoon.json",
+      "samples": 1133,
+      "median": 5.90907736401446,
+      "worst": 2.837473062923258
+    },
+    {
+      "file": "footer-coast-coastal-foote-39394--and-full-width-composition-desktop-1440/credit-contrast-evening.json",
+      "samples": 1076,
+      "median": 16.61033327839092,
+      "worst": 15.483415017991927
+    },
+    {
+      "file": "footer-coast-coastal-foote-39394--and-full-width-composition-laptop-1280/credit-contrast-evening.json",
+      "samples": 1054,
+      "median": 16.57788297456249,
+      "worst": 14.870977102582087
+    },
+    {
+      "file": "footer-coast-coastal-foote-39394--and-full-width-composition-mobile-390/credit-contrast-evening.json",
+      "samples": 1904,
+      "median": 16.773767418144796,
+      "worst": 16.494722465697244
+    },
+    {
+      "file": "footer-coast-coastal-foote-39394--and-full-width-composition-tablet-768/credit-contrast-evening.json",
+      "samples": 1054,
+      "median": 16.744112670000362,
+      "worst": 16.208948351905775
+    },
+    {
+      "file": "footer-coast-coastal-foote-95e3b--and-full-width-composition-desktop-1440/credit-contrast-morning.json",
+      "samples": 1132,
+      "median": 7.094647537422143,
+      "worst": 3.0370954292653853
+    },
+    {
+      "file": "footer-coast-coastal-foote-95e3b--and-full-width-composition-laptop-1280/credit-contrast-morning.json",
+      "samples": 1128,
+      "median": 7.090089516824936,
+      "worst": 3.3125972101445447
+    },
+    {
+      "file": "footer-coast-coastal-foote-95e3b--and-full-width-composition-mobile-390/credit-contrast-morning.json",
+      "samples": 1961,
+      "median": 6.736752684228781,
+      "worst": 2.803413938123312
+    },
+    {
+      "file": "footer-coast-coastal-foote-95e3b--and-full-width-composition-tablet-768/credit-contrast-morning.json",
+      "samples": 1132,
+      "median": 6.6547791171672355,
+      "worst": 3.175234958030226
+    },
+    {
+      "file": "footer-coast-coastal-foote-d133f--and-full-width-composition-desktop-1440/credit-contrast-noon.json",
+      "samples": 1130,
+      "median": 7.6866092260668415,
+      "worst": 3.463086138643674
+    },
+    {
+      "file": "footer-coast-coastal-foote-d133f--and-full-width-composition-laptop-1280/credit-contrast-noon.json",
+      "samples": 1129,
+      "median": 7.646633525192262,
+      "worst": 3.7255247821367874
+    },
+    {
+      "file": "footer-coast-coastal-foote-d133f--and-full-width-composition-mobile-390/credit-contrast-noon.json",
+      "samples": 1968,
+      "median": 7.1080339030015764,
+      "worst": 3.096250919957665
+    },
+    {
+      "file": "footer-coast-coastal-foote-d133f--and-full-width-composition-tablet-768/credit-contrast-noon.json",
+      "samples": 1127,
+      "median": 7.159565712874799,
+      "worst": 3.48563376545194
+    }
+  ],
+  "node": {
+    "pass": 877,
+    "skip": 7,
+    "fail": 0
+  },
+  "python": {
+    "pass": 314,
+    "fail": 0
+  },
+  "routeCheckpoint": {
+    "pass": 12,
+    "routes": ["blog-index", "project-la-jolla", "home"],
+    "viewports": ["1440x1000", "1280x800", "768x1024", "390x1000"],
+    "themes": ["light", "dark"]
+  },
+  "staticHomeCacheSignature": "446cb58634c9d9c6d2e8a3c4d076c41fed18dfb1ff0bac95397d886e46411b39",
+  "physicalIPhone": "not yet verified",
+  "appearanceDecision": "awaiting Sirui review",
+  "linuxContext": {
+    "url": "https://host.docker.internal:4141/al-folio",
+    "secureContextVerified": true,
+    "certificate": "local self-signed test certificate accepted only by the test context",
+    "image": "mcr.microsoft.com/playwright:v1.58.2-noble",
+    "hardwarePhone": false
+  }
+}

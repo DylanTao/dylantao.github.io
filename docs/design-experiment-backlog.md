@@ -21,6 +21,18 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### October 28: daylight coast and optional phone tilt
+
+- **Hypothesis:** A pale atmospheric horizon and terrain-colored distance will read as daylight more clearly than the gray backdrop. A small shared camera movement will make the coast respond coherently to mouse movement or an explicitly enabled phone tilt.
+- **Route:** Human-page footer, with the existing shared coastal light on the Connect/project miniature. Phone tilt is confined to the footer. The house, research diagrams, reading surfaces and locked copy are outside this experiment.
+- **Reference and licensing:** Existing USGS 3DEP relief and OSM footprints retain their recorded provenance. New world-coordinate ground-cover shading is authored, not surveyed. Device input follows the W3C orientation specification and WebKit's user-activation permission requirement.
+- **Visitor benefit:** A more coherent hour of light, a steady horizon and an optional tactile way to explore the miniature without interrupting scrolling.
+- **Budget:** No new downloaded texture, model, dependency, render target or animation loop. The camera is bounded to 0.32/0.15 scene units. Sensor listeners are opt-in and detach offscreen, in hidden pages, during drags, reduced motion and Pause motion. Denied/no-data cases retain swipe controls.
+- **Status:** Implemented and verified in native Chromium, WebKit/iPhone emulation and Linux software Chromium; physical iPhone verification remains separate.
+- **Evidence:** [Daylight/motion review](../artwork/la-jolla/reviews/daylight-tilt-2026-10-28/README.md), including native before/after images, source/served-byte bindings and browser results.
+- **Sirui decision:** The October 28 request authorizes this attempt. Appearance and physical-device feel remain open to his review.
+- **Revisit trigger:** A mismatched hour, visible background jump, distracting parallax, lost native scroll, a permission prompt without a tap, or actual phone feedback.
+
 ### October 28: an orange floating in ocean
 
 - **Hypothesis:** Sirui rejected K, the separate dot-on-waves and monochrome reflection N. His clarification keeps a round orange partly submerged behind blue waves, with tiny warm highlights. Shared sky color and sun position give both a subtle variation through the day. A personal discovery turns the serious name into a floating phrase and lets “Sirui” drift away.

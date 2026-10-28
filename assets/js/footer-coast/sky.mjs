@@ -28,7 +28,7 @@ import {
   DEG,
 } from "./atmosphere.mjs?v=coast-hills-20261024";
 import { HEADLAND, bearingAt, houseLights, skylineAt, skylineStrip, xAtBearing } from "./skyline.mjs?v=coast-hills-20261026";
-import { VIEW_BEARING, lookAt } from "./sky-look.mjs?v=coast-dusk-20261026";
+import { VIEW_BEARING, lookAt } from "./sky-look.mjs?v=coast-daylight-20261028";
 
 // three's ACES input and output matrices, row-major, and their inverses.
 const ACES_IN = [0.59719, 0.35458, 0.04823, 0.076, 0.90834, 0.01566, 0.0284, 0.13383, 0.83777];
@@ -93,7 +93,7 @@ const fragmentShader = `
   uniform float uDiskWeight; // how strongly the disk shows over the page by day
   uniform float uAspect;
   uniform vec3 uPage;        // the page behind the canvas, a linear display color
-  uniform float uSkyWeight;  // how much of the physical sky shows (0 by day: the page is the sky)
+  uniform float uSkyWeight;  // physical horizon: pale by day, full at twilight, page at deep night
   uniform vec2 uFade;        // screen v where the sky starts to dissolve into the page, and the top
   uniform vec3 uAlbedo;
   uniform vec3 uHillLight;   // the coast's key light (scene units, over pi)
@@ -156,6 +156,21 @@ const fragmentShader = `
     return balanced * (dot(display, Y) / max(dot(balanced, Y), 1e-7));
   }
 
+  float groundHash(vec2 p) {
+    vec3 q = fract(vec3(p.xyx) * .1031);
+    q += dot(q, q.yzx + 33.33);
+    return fract((q.x + q.y) * q.z);
+  }
+  float groundNoise(vec2 p) {
+    vec2 i = floor(p), f = fract(p);
+    f = f * f * (3. - 2. * f);
+    return mix(mix(groundHash(i), groundHash(i + vec2(1., 0.)), f.x),
+      mix(groundHash(i + vec2(0., 1.)), groundHash(i + 1.), f.x), f.y);
+  }
+  float groundCover(vec2 km) {
+    return smoothstep(.28, .72, .7 * groundNoise(km * 9.) + .3 * groundNoise(km * 31.));
+  }
+
   void main() {
     vec3 q = vec3(vScreen, 1.);
     float x = dot(uMapX, q), elevation = dot(uMapE, q);
@@ -202,7 +217,13 @@ const fragmentShader = `
       // Sunlight follows the measured ground normal. The coast's presentation studio does not
       // illuminate hills kilometres away; canyons retain shade instead of becoming a flat band.
       float sun = max(dot(normal, uKey), 0.);
-      vec3 surface = uAlbedo * (key * sun + uHillSky * (.55 + .45 * normal.z));
+      // Small, stationary patches of dry grass and chaparral follow world position,
+      // never the pointer or screen pixels. Relief remains the measured USGS surface;
+      // this is authored ground cover, not a land-cover survey.
+      vec2 groundAt = vec2(sin(radians(more.y)), cos(radians(more.y))) * km;
+      float cover = groundCover(groundAt);
+      vec3 albedo = mix(uAlbedo * vec3(1.15, 1.06, .82), uAlbedo * vec3(.61, .82, .73), cover);
+      vec3 surface = albedo * (key * sun + uHillSky * (.55 + .45 * normal.z));
       vec3 ground = aces(surface * uSceneExposure);
       // The air between: lit haze along a level path, whose limit is the sky at the horizon.
       vec3 air = mixLab(uPage, skyDisplay(skyAt(fromSun, .6), .6, fromSun), uSkyWeight);
@@ -318,14 +339,17 @@ const smooth = (a, b, x) => {
   return t * t * (3 - 2 * t);
 };
 
-// How much of the physical sky shows for a sun state: none by day (the page is the sky), all of it
-// from sunset through the blue hour, fading into the night theme's page by nautical dusk.
+// Physical horizon weight: a pale sky by day, full twilight, then the night reading palette.
 export function skyWeight(state) {
   if (!state) return 0;
   const a = state.altitude;
-  // Golden hour keeps the page as its sky, so the lit hills stand against it; the twilight colors
-  // gather as the sun reaches the horizon. At dawn the glow behind the hills comes earlier.
-  return (state.rising ? smooth(9, 2, a) : smooth(7, 0, a)) * smooth(-15, -9, a);
+  // Twilight colors gather as the sun reaches the horizon. At dawn the glow behind the hills
+  // comes earlier. The top of every sky dissolves into the page in the shader.
+  const twilight = (state.rising ? smooth(9, 2, a) : smooth(7, 0, a)) * smooth(-15, -9, a);
+  // A pale atmospheric horizon by day, dissolving into the reading page above.
+  // Keeping only the page color here made the hazed hills a flat gray strip.
+  const daylight = 0.38 * smooth(-8, 12, a);
+  return twilight + daylight * (1 - twilight);
 }
 
 // The eye's adaptation as the light fails: exposure for the sky's reference radiance (120 degrees
@@ -409,7 +433,7 @@ export function createSky({ relief, onLate = null }) {
     uFade: { value: new THREE.Vector2(0.8, 1) },
     // Late-October hills: dry golden grass and chaparral, pale stucco and tile roofs.
     // Chaparral, dry grass and eucalyptus between the houses.
-    uAlbedo: { value: new THREE.Color(0.18, 0.145, 0.095) },
+    uAlbedo: { value: new THREE.Color(0x8c9275) },
     uHillLight: { value: new THREE.Color(1, 1, 1) },
     uHillCrest: { value: new THREE.Color(1, 1, 1) },
     uHillSky: { value: new THREE.Color(0.3, 0.3, 0.3) },
@@ -566,8 +590,8 @@ export function createSky({ relief, onLate = null }) {
     // page color behind the canvas (linear display) and the coast's exposure and key direction.
     set(look, state, { page, keyDir, anchor = "noon" }) {
       sunState = state;
-      weight = skyWeight(state);
       const altitude = state ? state.altitude : (ANCHOR_SUN[anchor] ?? 55);
+      weight = skyWeight(state ?? { altitude, rising: anchor === "morning" });
       build(altitude);
       uniforms.uSkyWeight.value = weight;
       // The midday haze over the hills thins toward evening as the sea breeze dies.
@@ -661,6 +685,8 @@ export function createSky({ relief, onLate = null }) {
     evidence() {
       return {
         visible: mesh.visible,
+        tableAltitude: built,
+        samples: { near: this.skyColor(24).getHex(), far: this.skyColor(7).getHex() },
         weight: +weight.toFixed(3),
         exposure: +exposure.toFixed(2),
         lights: +lightUniforms.uOn.value.toFixed(3),

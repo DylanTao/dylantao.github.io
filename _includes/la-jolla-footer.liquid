@@ -14,6 +14,12 @@
       {% include la-jolla-poster.liquid %}
       <canvas class="footer-coast__canvas" aria-hidden="true"></canvas>
     </div>
+    <div class="footer-coast__tilt-controls">
+      <button type="button" class="footer-coast__tilt" data-coast-tilt aria-pressed="false" aria-describedby="coast-tilt-status" hidden>
+        Enable tilt
+      </button>
+      <span class="sr-only" id="coast-tilt-status" data-coast-tilt-status role="status"></span>
+    </div>
     <figcaption class="sr-only">
       La Jolla: a coastal vignette that follows the site theme and the sun over the bay. Hills from USGS 3DEP elevation (public domain); house
       positions from map data © OpenStreetMap contributors (ODbL).

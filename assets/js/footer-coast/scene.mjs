@@ -5,10 +5,11 @@ import { createCameraMotion } from "../home-scene/camera-motion.mjs";
 import { sampleCoastWave } from "./wave-motion.mjs";
 import { sampleSurferRide, sampleRideShoulder, surferBoardFrame, surferRideTrail } from "./surfer-motion.mjs?v=hollan-20261028";
 import { createPeople } from "./people.mjs?v=hollan-20261028";
-import { createCoastWater } from "./water.mjs?v=hollan-20261028";
-import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-dusk-20261026";
+import { createCoastWater } from "./water.mjs?v=coast-daylight-20261028";
+import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-daylight-20261028";
 import { createMarineLayer } from "./marine-layer.mjs?v=coast-sky-20261019";
-import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-dusk-20261026";
+import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-daylight-20261028";
+import { createViewTilt } from "./view-tilt.mjs?v=coast-daylight-20261028";
 import { localDateKey, sunState } from "../la-jolla-sun.mjs?v=coast-sky-20261019";
 
 // People keep a composed still pose under reduced motion and under automation, as the
@@ -169,7 +170,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   const lamps = miniature ? null : createPierLamps(model.scene);
   let lampsOn = 0;
   // The hills and the sky behind the coast (sky.mjs); the miniature sits on its map.
-  const sky = miniature ? null : createSky({ relief: await relief, onLate: () => draw() });
+  // A completed atmospheric table also changes horizon haze and the sea's reflected
+  // sky. Relight them together; a draw alone left those colors one clock step behind.
+  const sky = miniature ? null : createSky({ relief: await relief, onLate: () => syncTheme() });
   if (!miniature) scene.add(water.mesh);
   if (lamps) scene.add(...lamps.objects);
   if (sky) {
@@ -239,7 +242,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   let revealOnScroll = false,
     mounted = false;
   let pointerX = 0,
+    pointerY = 0,
     currentX = 0,
+    currentY = 0,
     cameraWidth = 45,
     frameCount = 0;
   const target = new THREE.Vector3(0, 1.3, 0);
@@ -251,6 +256,18 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   let renderedOrbitX = 0,
     renderedOrbitY = 0;
   let drag = null;
+  let tiltInput = { x: 0, y: 0 };
+  const tiltButton = host.querySelector("[data-coast-tilt]");
+  const tilt =
+    !miniature && tiltButton
+      ? createViewTilt({
+          button: tiltButton,
+          status: host.querySelector("[data-coast-tilt-status]"),
+          onChange: (value) => {
+            tiltInput = value;
+          },
+        })
+      : null;
   let orbitY = 0,
     orbitX = 0;
   const buildings = [];
@@ -590,7 +607,10 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     // Nothing draws while the programs compile in the background (observers may ask before then).
     if (disposed || lost || warming) return;
     camera.position.copy(cameraBase);
-    camera.position.x += currentX * 0.6;
+    // A shallow eye movement, with a fixed world-up and no roll. The measured
+    // hills, foreground and water mirror share this camera; no sliding bitmap.
+    camera.position.x += currentX * 0.32;
+    camera.position.y += currentY * 0.15;
     if (miniature) {
       if (stopped || reduced.matches) {
         renderedOrbitX = orbitX;
@@ -648,7 +668,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     reveal = clamp(motion.step("reveal", reveal, targetReveal, dt, false, 8));
     if (reveal === 0 || reveal === 1) motion.stop("reveal");
     revealBuildings(reveal);
-    currentX = motion.step("parallax", currentX, pointerX, dt, false, 5);
+    const tiltOn = tilt?.evidence().enabled;
+    currentX = motion.step("parallaxX", currentX, tiltOn ? tiltInput.x : pointerX, dt, false, 8);
+    currentY = motion.step("parallaxY", currentY, tiltOn ? tiltInput.y : pointerY, dt, false, 8);
     renderedOrbitX = clamp(motion.step("orbitX", renderedOrbitX, orbitX, dt, false, drag ? 28 : 16), -Math.PI / 6, Math.PI / 6);
     renderedOrbitY = clamp(motion.step("orbitY", renderedOrbitY, orbitY, dt, false, drag ? 28 : 16), -Math.PI / 18, Math.PI / 18);
     sky?.tick(elapsed, peopleLive());
@@ -660,6 +682,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
 
   function syncRunning() {
     running = visible && !document.hidden && !stopped && !reduced.matches && !disposed && !lost;
+    tilt?.setActive(running && !drag);
     cancelAnimationFrame(raf);
     host.dataset.running = String(running);
     if (running) {
@@ -668,6 +691,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     } else {
       motion.stop();
       if (stopped || reduced.matches) {
+        currentX = currentY = pointerX = pointerY = 0;
         reveal = targetReveal = 1;
         canvas.style.transform = "none";
       }
@@ -697,6 +721,10 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   };
   const onDown = (event) => {
     if (miniature || narrowViewport.matches) drag = { x: event.clientX, y: event.clientY, id: event.pointerId };
+    if (drag) {
+      pointerX = pointerY = 0;
+      tilt?.setActive(false);
+    }
   };
   const onPointer = (event) => {
     if (drag && drag.id === event.pointerId) {
@@ -719,10 +747,12 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     if (reduced.matches || stopped || event.pointerType === "touch") return;
     const r = surface.getBoundingClientRect();
     pointerX = clamp((event.clientX - r.left) / r.width) * 2 - 1;
+    pointerY = 1 - clamp((event.clientY - r.top) / r.height) * 2;
   };
   const onLeave = () => {
-    pointerX = 0;
+    pointerX = pointerY = 0;
     drag = null;
+    tilt?.setActive(running);
   };
   const onKey = (event) => {
     if (miniature && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home"].includes(event.key)) {
@@ -787,6 +817,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   };
   canvas.addEventListener("webglcontextrestored", contextRestored);
   window.addEventListener("pagehide", (event) => {
+    tilt?.setActive(false);
     if (event.persisted) {
       running = false;
       cancelAnimationFrame(raf);
@@ -797,6 +828,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     observer.disconnect();
     resizer.disconnect();
     themeObserver.disconnect();
+    tilt?.dispose();
     window.removeEventListener("siteTimeChange", syncTheme);
     window.clearInterval(clockTimer);
     host.removeEventListener("coast:place", draw);
@@ -914,6 +946,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     sun: sunNow ? { altitude: +sunNow.altitude.toFixed(2), azimuth: +sunNow.azimuth.toFixed(1), rising: sunNow.rising } : null,
     resources: renderer.info.memory,
     framing: { width: cameraWidth, height: camera.top - camera.bottom, center: target.toArray() },
+    viewMotion: { x: currentX, y: currentY, camera: camera.position.toArray(), up: camera.up.toArray(), tilt: tilt?.evidence() ?? null },
     landmarkFrames: projectLandmarks
       ? Object.fromEntries(
           ["GeiselCoast", "SalkCoast", "BrocktonVilla", "LaValencia", "ChildrensPool", "Surfer1"].map((name) => [name, landmarkFrame(name)])

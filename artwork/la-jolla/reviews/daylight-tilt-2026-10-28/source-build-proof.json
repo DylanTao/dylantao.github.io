@@ -1,0 +1,51 @@
+{
+  "pipeline": {
+    "pluginSha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75",
+    "lockSha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46",
+    "compiler": "1.2.7",
+    "compilerKey": "3ec79d619e3f0a9a11b19d56ffa41505f526372358f5cd87fc425bbd1f9ab8c3"
+  },
+  "modules": [
+    {
+      "path": "assets/js/footer-coast/scene.mjs",
+      "sourceMatch": true,
+      "outputMatch": true,
+      "sourceSha256": "bc8a1a62e3b831cd9b6fe08f1cf482bd0485c90642cbd29100478f273506829e",
+      "outputSha256": "fa27a5c38431b9fc5d5395dc104ec26e142bf769c412872d0723abd21fe3375d",
+      "bytes": 20957
+    },
+    {
+      "path": "assets/js/footer-coast/sky.mjs",
+      "sourceMatch": true,
+      "outputMatch": true,
+      "sourceSha256": "b9384a571101b6f3d3ff1f82798e4a307bfc1d2e4b4acc04dbf0c79e4dbc059f",
+      "outputSha256": "cb04e8ac39dbd19708567fe32f1fb521e8266dab37d34397397ba2363da23e86",
+      "bytes": 23022
+    },
+    {
+      "path": "assets/js/footer-coast/sky-look.mjs",
+      "sourceMatch": true,
+      "outputMatch": true,
+      "sourceSha256": "e1119f16c252b432366181232ec2317f7cb68c7d525ff5737a250f26477ca27f",
+      "outputSha256": "48cee06f1c98d0c49d3a8c92690c3a46576c572060d784892655611719541cd7",
+      "bytes": 6299
+    },
+    {
+      "path": "assets/js/footer-coast/water.mjs",
+      "sourceMatch": true,
+      "outputMatch": true,
+      "sourceSha256": "457bb987d228213ccb88c2475f66ff45b7a9b5a7e2a2b35620189646476a4157",
+      "outputSha256": "e6631f0129afbd3c26deece89ec4d133bd4dc600cba08dff38b38adfa2d4e5b4",
+      "bytes": 30333
+    },
+    {
+      "path": "assets/js/footer-coast/view-tilt.mjs",
+      "sourceMatch": true,
+      "outputMatch": true,
+      "sourceSha256": "1128ccf8df458155ca36bbd27608492f61f3d69c779570a1419831e0d3d5715f",
+      "outputSha256": "f04a3b1a3ca34bbd2ed7ceb38a16d9b807dd79038d86f40005adab2ab22fdc36",
+      "bytes": 3942
+    }
+  ],
+  "cssSha256": "778a779dfbd492170f832be115f386e7563e43cb6fba6b91732157a379d367d7"
+}
